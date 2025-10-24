@@ -5,6 +5,8 @@ import {
   VaAlert,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { createTransaction, fetchTransactions } from '@@vap-svc/actions';
+import { FIELD_NAMES, API_ROUTES } from '@@vap-svc/constants';
 import {
   dismissAlertViaCookie,
   selectContactEmailAddress,
@@ -16,13 +18,6 @@ import {
   AlertSystemResponseSkipSuccess,
 } from './AlertSystemResponse';
 import { recordAlertLoadEvent } from './recordAlertLoadEvent';
-
-// vap-svc imports
-import {
-  createTransaction,
-  fetchTransactions,
-} from 'src/platform/user/profile/vap-svc/actions';
-import { FIELD_NAMES, API_ROUTES } from 'src/platform/user/profile/vap-svc/constants';
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7032-45235&t=t55H62nbe7HYOvFq-4
 const AlertConfirmContactEmail = ({ recordEvent, onClick }) => {
@@ -108,7 +103,7 @@ AlertAddContactEmail.propTypes = {
  *
  * @returns {JSX.Element|null}
  */
-export const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
+const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const dispatch = useDispatch();
   const renderAlert = useSelector(showAlert);
   const emailAddress = useSelector(selectContactEmailAddress);
@@ -117,31 +112,17 @@ export const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent })
   const [confirmError, setConfirmError] = useState(false);
   const [skipSuccess, setSkipSuccess] = useState(false);
 
-  /**
-   * Use vap-svc createTransaction to update the confirmation date for the email.
-   *
-   * createTransaction(route, method, fieldName, payload, analyticsSectionName)
-   * The vap API expects snake_case attribute names: email_address, confirmation_date
-   *
-   * Note: If your backend requires the email id in the URL (e.g. /profile/email_addresses/{id}),
-   * you should change the route accordingly and remove the id from the payload.
-   */
   const putConfirmationDate = (confirmationDate = new Date().toISOString()) => {
-    // Build payload in the shape the vap API expects
     const payload = {
       emailAddress,
       confirmationDate,
     };
 
-    // Use the vap-svc constants for route and field name
-    const route = API_ROUTES.EMAILS; // '/profile/email_addresses'
-    const method = 'PUT'; // original implementation used PUT
-
     // Dispatch the vap-svc transaction. createTransaction returns the transaction (or null).
     return dispatch(
       createTransaction(
-        route,
-        method,
+        API_ROUTES.EMAILS,
+        'PUT',
         FIELD_NAMES.EMAIL,
         payload,
         'contact-information',
@@ -170,7 +151,6 @@ export const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent })
         return response;
       })
       .catch(() => {
-        // Fallback error handling similar to original
         setConfirmError(true);
       });
   };

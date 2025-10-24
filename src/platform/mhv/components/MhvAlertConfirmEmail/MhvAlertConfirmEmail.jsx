@@ -53,34 +53,42 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
 
   if (!renderAlert) return null;
 
-  return emailAddress ? (
-    <>
-      {confirmSuccess && (
-        <AlertSystemResponseConfirmSuccess recordEvent={recordEvent} />
-      )}
-      {confirmError && (
-        <AlertSystemResponseConfirmError recordEvent={recordEvent} />
-      )}
-      {!confirmSuccess && (
-        <AlertConfirmContactEmail
-          emailAddress={emailAddress}
-          onConfirmClick={putConfirmationDate}
-          recordEvent={recordEvent}
-        />
-      )}
-    </>
-  ) : (
-    <>
-      {skipSuccess && (
-        <AlertSystemResponseSkipSuccess recordEvent={recordEvent} />
-      )}
-      {!skipSuccess && (
-        <AlertAddContactEmail
-          onSkipClick={onSkipClick}
-          recordEvent={recordEvent}
-        />
-      )}
-    </>
+  return (
+    <div className="vads-grid-container">
+      <div className="vads-grid-row">
+        <div className="vads-grid-col--4">
+          {emailAddress ? (
+            <>
+              {confirmSuccess && (
+                <AlertSystemResponseConfirmSuccess recordEvent={recordEvent} />
+              )}
+              {confirmError && (
+                <AlertSystemResponseConfirmError recordEvent={recordEvent} />
+              )}
+              {!confirmSuccess && (
+                <AlertConfirmContactEmail
+                  emailAddress={emailAddress}
+                  onConfirmClick={putConfirmationDate}
+                  recordEvent={recordEvent}
+                />
+              )}
+            </>
+          ) : (
+            <>
+              {skipSuccess && (
+                <AlertSystemResponseSkipSuccess recordEvent={recordEvent} />
+              )}
+              {!skipSuccess && (
+                <AlertAddContactEmail
+                  onSkipClick={onSkipClick}
+                  recordEvent={recordEvent}
+                />
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 
