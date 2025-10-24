@@ -407,8 +407,7 @@ export function selectClinicLocationInfo(appointment) {
     returningInfo.location = appointment.location?.clinicPhysicalLocation;
   }
 
-  returningInfo.name =
-    appointment.location?.clinicName || appointment.vaos?.apiData?.serviceName; // I found one appointment in mocks that this was needed for, it may be an exception
+  returningInfo.name = appointment.location?.clinicName;
   return returningInfo;
 }
 

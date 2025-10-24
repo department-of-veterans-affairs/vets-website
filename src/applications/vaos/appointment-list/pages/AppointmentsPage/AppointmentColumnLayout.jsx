@@ -140,14 +140,13 @@ export default function AppointmentColumnLayout({
         size="1"
       >
         <AppointmentRow
-          className={
-            classNames(
-              'vaos-appts__column--alignItems',
-              'mobile-lg:vads-u-flex-direction--row',
-              'small-screen:vaos-appts__column-gap--3',
-              'medium-screen:vads-u-padding-y--2',
-            ) // padding below determines the appointment row height
-          }
+          className={classNames(
+            'vaos-appts__column--alignItems',
+            'mobile-lg:vads-u-flex-direction--row',
+            'small-screen:vaos-appts__column-gap--3',
+            // padding below determines the appointment row height
+            'medium-screen:vads-u-padding-y--2',
+          )}
         >
           <AppointmentColumn
             size="1"
@@ -239,7 +238,7 @@ export default function AppointmentColumnLayout({
                 featureListViewClinicInfo && !showClinicLocationInfo,
             })}
             padding="0"
-            size={featureListViewClinicInfo ? '3' : '2'}
+            size={featureListViewClinicInfo ? '3' : '1'}
           >
             {featureListViewClinicInfo ? (
               <AppointmentClinicInfo
