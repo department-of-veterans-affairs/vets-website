@@ -12,7 +12,6 @@ export default function WarningBanner({ uiSchema }) {
 
   const mainInstitution = formData?.institutionDetails;
 
-  // Get institution details from appropriate path
   const details = isArrayItem
     ? formData?.[dataPath]?.[index] || {}
     : formData?.[dataPath] || {};
@@ -22,7 +21,6 @@ export default function WarningBanner({ uiSchema }) {
 
   const message = createBannerMessage(details, isArrayItem, mainInstitution);
 
-  // Only show banner if not loading
   if (message && code?.length === 8 && !isLoading) {
     return (
       <va-alert
@@ -30,8 +28,11 @@ export default function WarningBanner({ uiSchema }) {
         status="error"
         visible
         background-only
+        data-testid="warning-banner-alert"
       >
-        <p className="vads-u-margin--0">{message}</p>
+        <p className="vads-u-margin--0" data-testid="warning-banner-message">
+          {message}
+        </p>
       </va-alert>
     );
   }

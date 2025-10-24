@@ -17,7 +17,6 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
       const fetchInstitutionInfo = async () => {
         setLoader(true);
 
-        // Set loading state in formData
         const updatedDetailsLoading = [
           ...(formData.additionalInstitutionDetails || []),
         ];
@@ -53,7 +52,8 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
           const programTypes = Array.isArray(attrs.programTypes)
             ? attrs.programTypes
             : [];
-          const ihlEligible = programTypes.includes('IHL');
+          const ihlEligible =
+            attrs.programTypes === null ? null : programTypes.includes('IHL');
           const institutionAddress = {
             street: attrs.address1 || '',
             street2: attrs.address2 || '',
@@ -67,7 +67,6 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
           setInstitutionData(response?.data);
           setLoader(false);
 
-          // Update the specific item in the additionalInstitutionDetails array
           const updatedDetails = [
             ...(formData.additionalInstitutionDetails || []),
           ];

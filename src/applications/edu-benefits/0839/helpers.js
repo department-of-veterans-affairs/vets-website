@@ -204,11 +204,11 @@ export const createBannerMessage = (
       return message;
     }
     if (
-      !mainInstitution?.facilityMap?.branches?.includes(code) ||
+      !mainInstitution?.facilityMap?.branches?.includes(code) &&
       !mainInstitution?.facilityMap?.extensions?.includes(code)
     ) {
       message =
-        'This facility code can’t be accepted because it’s not associated with your main campus. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.';
+        "This facility code can't be accepted because it's not associated with your main campus. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
     }
   }
 
@@ -222,5 +222,5 @@ export const createBannerMessage = (
       'This institution is unable to participate in the Yellow Ribbon Program.';
   }
 
-  return message;
+  return message || null;
 };

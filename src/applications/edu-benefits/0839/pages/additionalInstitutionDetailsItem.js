@@ -10,11 +10,9 @@ import InstitutionAddress from '../containers/InstitutionAddress';
 import WarningBanner from '../containers/WarningBanner';
 
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
-  // In array builder item pages, formData is scoped to the current item
   const code = (fieldData || '').trim();
   const isLoading = formData?.isLoading;
 
-  // Don't show validation errors while loading
   if (isLoading) {
     return;
   }
@@ -41,7 +39,7 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
   }
 
   if (
-    !mainInstitution?.facilityMap?.branches?.includes(code) ||
+    !mainInstitution?.facilityMap?.branches?.includes(code) &&
     !mainInstitution?.facilityMap?.extensions?.includes(code)
   ) {
     errors.addError(
@@ -85,6 +83,7 @@ const uiSchema = {
         required:
           'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
       },
+      useAllFormData: true,
     }),
     'ui:validations': [facilityCodeUIValidation],
   },
@@ -144,7 +143,7 @@ const schema = {
         state: addressSchema().properties.state,
         postalCode: addressSchema().properties.postalCode,
       },
-      // required: ['street', 'city', 'state', 'postalCode', 'country'], // TODO:
+      required: ['street', 'city', 'state', 'postalCode', 'country'],
     },
     'view:warningBanner': {
       type: 'object',
