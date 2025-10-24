@@ -85,6 +85,65 @@ describe('SM Medications Renewal Request', () => {
       cy.url().should('include', decodeURIComponent(redirectPath));
     });
 
+    it('verify med renewal request flow when medication is not found', () => {
+      cy.intercept('GET', `${Paths.INTERCEPT.PRESCRIPTIONS}/24654491`, req => {
+        req.reply({
+          body: medicationNotFoundResponse,
+          statusCode: 404,
+        });
+      }).as('medicationById');
+      const prescriptionId = '24654491';
+      const redirectPath = encodeURIComponent('/my-health/medications');
+
+      cy.visit(
+        `${
+          Paths.UI_MAIN
+        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+      );
+      cy.wait('@medicationById');
+      PatientInterstitialPage.getContinueButton().click();
+      PatientComposePage.selectComboBoxRecipient(
+        mockRecipients.data[0].attributes.name,
+      );
+      cy.findByTestId(`continue-button`).click();
+
+      PatientComposePage.validateAddYourMedicationWarningBanner(true);
+      PatientComposePage.validateRecipientTitle(
+        `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
+      );
+
+      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateMessageSubjectField('Renewal Needed');
+
+      const expectedMessageBodyText = [
+        `Medication name, strength, and form: `,
+        `Prescription number: `,
+        `Provider who prescribed it: `,
+        `Number of refills left: `,
+        `Prescription expiration date: `,
+        `Reason for use: `,
+        `Quantity: `,
+      ].join('\n');
+
+      PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+
+      cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
+      PatientComposePage.sendMessageButton().click();
+      cy.wait('@sentMessage')
+        .its('request')
+        .then(req => {
+          const request = req.body;
+          expect(request.body).to.contain(
+            'Medication name, strength, and form:',
+          );
+          expect(request.category).to.eq('MEDICATIONS');
+          expect(request.subject).to.eq('Renewal Needed');
+          expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
+        });
+      cy.url().should('include', decodeURIComponent(redirectPath));
+    });
+
     it('verify med renewal request flow without redirectPath', () => {
       cy.intercept(
         'GET',
@@ -137,64 +196,6 @@ describe('SM Medications Renewal Request', () => {
           expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
         });
       cy.url().should('include', '/my-health/secure-messages/inbox/');
-    });
-
-    it('verify med renewal request flow when medication is not found', () => {
-      cy.intercept(
-        'GET',
-        `${Paths.INTERCEPT.PRESCRIPTIONS}/24654491`,
-        medicationNotFoundResponse,
-      ).as('medicationById');
-      const prescriptionId = '24654491';
-      const redirectPath = encodeURIComponent('/my-health/medications');
-
-      cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
-      );
-      cy.wait('@medicationById');
-      PatientInterstitialPage.getContinueButton().click();
-      PatientComposePage.selectComboBoxRecipient(
-        mockRecipients.data[0].attributes.name,
-      );
-      cy.findByTestId(`continue-button`).click();
-
-      PatientComposePage.validateAddYourMedicationWarningBanner(true);
-      PatientComposePage.validateRecipientTitle(
-        `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
-      );
-
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
-      PatientComposePage.validateMessageSubjectField('Renewal Needed');
-
-      const expectedMessageBodyText = [
-        `Medication name, strength, and form: `,
-        `Prescription number: `,
-        `Provider who prescribed it: `,
-        `Number of refills left: `,
-        `Prescription expiration date: `,
-        `Reason for use: `,
-        `Quantity: `,
-      ].join('\n');
-
-      PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
-      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-
-      cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
-      PatientComposePage.sendMessageButton().click();
-      cy.wait('@sentMessage')
-        .its('request')
-        .then(req => {
-          const request = req.body;
-          expect(request.body).to.contain(
-            'Medication name, strength, and form:',
-          );
-          expect(request.category).to.eq('MEDICATIONS');
-          expect(request.subject).to.eq('Renewal Needed');
-          expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
-        });
-      cy.url().should('include', decodeURIComponent(redirectPath));
     });
   });
   describe('not in curated list flow', () => {
@@ -267,6 +268,58 @@ describe('SM Medications Renewal Request', () => {
       cy.url().should('include', decodeURIComponent(redirectPath));
     });
 
+    it('verify med renewal request flow when medication is not found', () => {
+      cy.intercept('GET', `${Paths.INTERCEPT.PRESCRIPTIONS}/24654491`, req => {
+        req.reply({
+          body: medicationNotFoundResponse,
+          statusCode: 404,
+        });
+      }).as('medicationById');
+      const prescriptionId = '24654491';
+      const redirectPath = encodeURIComponent('/my-health/medications');
+
+      cy.visit(
+        `${
+          Paths.UI_MAIN
+        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+      );
+      cy.wait('@medicationById');
+      PatientInterstitialPage.getContinueButton().click();
+      PatientComposePage.validateAddYourMedicationWarningBanner(true);
+
+      PatientComposePage.selectRecipient(3);
+      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateMessageSubjectField('Renewal Needed');
+
+      const expectedMessageBodyText = [
+        `Medication name, strength, and form: `,
+        `Prescription number: `,
+        `Provider who prescribed it: `,
+        `Number of refills left: `,
+        `Prescription expiration date: `,
+        `Reason for use: `,
+        `Quantity: `,
+      ].join('\n');
+
+      PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+
+      cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
+      PatientComposePage.sendMessageButton().click();
+      cy.wait('@sentMessage')
+        .its('request')
+        .then(req => {
+          const request = req.body;
+          expect(request.body).to.contain(
+            'Medication name, strength, and form:',
+          );
+          expect(request.category).to.eq('MEDICATIONS');
+          expect(request.subject).to.eq('Renewal Needed');
+          expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
+        });
+      cy.url().should('include', decodeURIComponent(redirectPath));
+    });
+
     it('verify med renewal request flow without redirectPath', () => {
       cy.intercept(
         'GET',
@@ -312,57 +365,6 @@ describe('SM Medications Renewal Request', () => {
           expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
         });
       cy.url().should('include', '/my-health/secure-messages/inbox/');
-    });
-
-    it('verify med renewal request flow when medication is not found', () => {
-      cy.intercept(
-        'GET',
-        `${Paths.INTERCEPT.PRESCRIPTIONS}/24654491`,
-        medicationNotFoundResponse,
-      ).as('medicationById');
-      const prescriptionId = '24654491';
-      const redirectPath = encodeURIComponent('/my-health/medications');
-
-      cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
-      );
-      cy.wait('@medicationById');
-      PatientInterstitialPage.getContinueButton().click();
-      PatientComposePage.validateAddYourMedicationWarningBanner(true);
-
-      PatientComposePage.selectRecipient(3);
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
-      PatientComposePage.validateMessageSubjectField('Renewal Needed');
-
-      const expectedMessageBodyText = [
-        `Medication name, strength, and form: `,
-        `Prescription number: `,
-        `Provider who prescribed it: `,
-        `Number of refills left: `,
-        `Prescription expiration date: `,
-        `Reason for use: `,
-        `Quantity: `,
-      ].join('\n');
-
-      PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
-      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-
-      cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
-      PatientComposePage.sendMessageButton().click();
-      cy.wait('@sentMessage')
-        .its('request')
-        .then(req => {
-          const request = req.body;
-          expect(request.body).to.contain(
-            'Medication name, strength, and form:',
-          );
-          expect(request.category).to.eq('MEDICATIONS');
-          expect(request.subject).to.eq('Renewal Needed');
-          expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
-        });
-      cy.url().should('include', decodeURIComponent(redirectPath));
     });
   });
 });
