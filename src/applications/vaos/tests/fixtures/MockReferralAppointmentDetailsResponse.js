@@ -37,6 +37,8 @@ class MockReferralAppointmentDetailsResponse {
       ).toISOString(), // 30 days in future
       isLatest: true,
       lastRetrieved: new Date().toISOString(),
+      referralId: '123abc',
+      past: false,
     };
 
     // Only include modality and provider when status is 'booked'
