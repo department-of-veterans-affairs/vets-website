@@ -112,6 +112,10 @@ export const IntroductionPage = ({ route }) => {
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the application"
+          hideUnauthedStartLink
+          devOnly={{
+            forceShowFormControls: true,
+          }}
         />
       )}
 

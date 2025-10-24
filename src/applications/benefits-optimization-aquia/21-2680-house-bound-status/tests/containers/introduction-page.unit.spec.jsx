@@ -110,20 +110,26 @@ describe('IntroductionPage', () => {
     expect(processItems[1].getAttribute('header')).to.equal(
       'Fill out the form',
     );
-    expect(processItems[2].getAttribute('header')).to.equal('VA Review');
-    expect(processItems[3].getAttribute('header')).to.equal('Decision');
+    expect(processItems[2].getAttribute('header')).to.equal(
+      'Send your form to a medical examiner',
+    );
+    expect(processItems[3].getAttribute('header')).to.equal(
+      'Submit your application',
+    );
   });
 
   it('should display SaveInProgressIntro when user is not logged in', () => {
     const mockStore = createMockStore();
 
-    const { getByText } = render(
+    const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...defaultProps} />
       </Provider>,
     );
 
-    expect(getByText(/Start your/)).to.exist;
+    const alertSignIn = container.querySelector('va-alert-sign-in');
+    expect(alertSignIn).to.exist;
+    expect(alertSignIn.getAttribute('variant')).to.equal('signInRequired');
   });
 
   it('should display verify identity message when user is logged in but not verified', () => {
@@ -144,14 +150,14 @@ describe('IntroductionPage', () => {
       },
     });
 
-    const { queryByText } = render(
+    const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...defaultProps} />
       </Provider>,
     );
 
-    const startButton = queryByText(/Start your/);
-    expect(startButton).to.not.exist;
+    const alertSignIn = container.querySelector('va-alert-sign-in');
+    expect(alertSignIn).to.not.exist;
   });
 
   it('should scroll to top and focus h1 on mount', () => {
