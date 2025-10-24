@@ -6,6 +6,14 @@ import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-li
 
 /**
  * Get the claimant's full name based on relationship
+ * @param {Object} formData - The form data object
+ * @param {Object} formData.claimantRelationship - Claimant relationship data
+ * @param {string} formData.claimantRelationship.claimantRelationship - Relationship type ('veteran' or other)
+ * @param {Object} formData.veteranIdentification - Veteran identification data
+ * @param {Object} formData.veteranIdentification.veteranFullName - Veteran's full name
+ * @param {Object} formData.claimantInformation - Claimant information data
+ * @param {Object} formData.claimantInformation.claimantFullName - Claimant's full name
+ * @returns {string} The full name (first middle last) or empty string if not found
  */
 const getClaimantFullName = formData => {
   const isVeteranClaimant =
@@ -33,6 +41,8 @@ const getClaimantFullName = formData => {
 
 /**
  * Normalize names for comparison: trim, lowercase, remove extra spaces
+ * @param {string} name - The name to normalize
+ * @returns {string} The normalized name or empty string if invalid input
  */
 const normalizeName = name => {
   if (!name || typeof name !== 'string') return '';
@@ -46,6 +56,11 @@ const normalizeName = name => {
  * PreSubmitSignature component
  * Displays federal law notice, statement of truth, and signature validation
  * Uses VaStatementOfTruth web component
+ * @param {Object} props - Component props
+ * @param {Object} props.formData - The form data object
+ * @param {boolean} props.showError - Whether to show validation errors
+ * @param {Function} props.onSectionComplete - Callback when section validation changes
+ * @returns {JSX.Element} The signature validation component
  */
 export const PreSubmitSignature = ({
   formData,

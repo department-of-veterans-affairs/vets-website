@@ -219,7 +219,6 @@ describe('PreSubmitSignature', () => {
       );
 
       expect(container.querySelector('va-statement-of-truth')).to.exist;
-      // Full name should be "John M Doe"
     });
 
     it('should build full name correctly without middle name', () => {
@@ -248,7 +247,6 @@ describe('PreSubmitSignature', () => {
       );
 
       expect(container.querySelector('va-statement-of-truth')).to.exist;
-      // Full name should be "John Doe"
     });
   });
 
