@@ -6,27 +6,15 @@ import {
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-function IntroAlert() {
-  return (
-    <div className="vads-u-margin-bottom--3">
-      <va-alert>
-        <h4 slot="headline" className="vads-u-font-size--h4">
-          We’ll use this bank account for all your VA benefit payments
-        </h4>
-        <p className="vads-u-margin-y--0">
-          If we approve your application for pension benefits, we’ll update
-          direct deposit information for all your VA benefit payments. We’ll
-          deposit any payments you may receive for pension or education benefits
-          directly into the bank account you provide here.
-        </p>
-        <p>
-          We’re making this change to help protect you from fraud and to make
-          sure we can pay you on time, every time, without error.
-        </p>
-      </va-alert>
-    </div>
-  );
-}
+// Simple page to collect whether applicant has a bank account for direct deposit
+const Description = () => (
+  <div>
+    <p>
+      Enter the details of the bank account where you want to get your VA
+      benefit payments.
+    </p>
+  </div>
+);
 
 function dependsIfHasBankAccount(formData) {
   return (
@@ -38,15 +26,15 @@ function dependsIfHasBankAccount(formData) {
 
 const uiSchema = {
   'ui:title': 'Account information for direct deposit',
-  'ui:description': IntroAlert,
+  'ui:description': Description,
   accountType: radioUI({
     title: 'Account type',
     classNames: 'vads-u-margin-bottom--2',
     labels: { CHECKING: 'Checking', SAVINGS: 'Savings' },
   }),
   bankName: textUI('Bank name'),
-  accountNumber: textUI('Account number'),
-  routingNumber: textUI('Routing number'),
+  accountNumber: textUI('Bank account number'),
+  routingNumber: textUI("Bank's 9-digit routing number"),
 };
 
 const schema = {
