@@ -14,9 +14,12 @@ import ReviewPage from '../../../../components/complex-claims/pages/ReviewPage';
 import reducer from '../../../../redux/reducer';
 
 describe('Travel Pay – ReviewPage', () => {
+  const apptId = '12345';
+  const claimId = '45678';
+
   const defaultClaim = [
     {
-      claimId: '12345',
+      claimId,
       expenses: [
         {
           id: 'expense1',
@@ -52,7 +55,9 @@ describe('Travel Pay – ReviewPage', () => {
 
   it('renders the review page with expenses and alert', () => {
     const { getByTestId, getByRole, container } = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/file-new-claim/12345/12345/review']}>
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
         <ReviewPage claim={defaultClaim} />
       </MemoryRouter>,
       {
@@ -86,7 +91,9 @@ describe('Travel Pay – ReviewPage', () => {
 
   it('calls onNext when Sign Agreement button is clicked', () => {
     const { container, getByTestId } = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/file-new-claim/12345/12345/review']}>
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
         <Routes>
           <Route
             path="/file-new-claim/:apptId/:claimId/review"
@@ -109,13 +116,15 @@ describe('Travel Pay – ReviewPage', () => {
 
     // Check that the location updated
     expect(getByTestId('location-display').textContent).to.equal(
-      '/file-new-claim/12345/12345/travel-agreement',
+      `/file-new-claim/${apptId}/${claimId}/travel-agreement`,
     );
   });
 
   it('hides alert when close button is clicked', () => {
     const { container } = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/file-new-claim/12345/12345/review']}>
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
         <ReviewPage claim={defaultClaim} />
       </MemoryRouter>,
       {
@@ -137,7 +146,9 @@ describe('Travel Pay – ReviewPage', () => {
 
   it('renders multiple expenses correctly', () => {
     const { container } = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/file-new-claim/12345/12345/review']}>
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
         <ReviewPage claim={defaultClaim} />
       </MemoryRouter>,
       {
@@ -157,10 +168,12 @@ describe('Travel Pay – ReviewPage', () => {
 
   it('calls addMoreExpenses when Add More Expenses button is clicked', () => {
     const { container, getByTestId } = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/file-new-claim/12345/12345/review']}>
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/review"
+            path="/file-new-claim/:apptId/:claimId/review"
             element={<ReviewPage claim={defaultClaim} />}
           />
         </Routes>
@@ -180,7 +193,7 @@ describe('Travel Pay – ReviewPage', () => {
 
     // Check that the location updated
     expect(getByTestId('location-display').textContent).to.equal(
-      '/file-new-claim/complex/12345/choose-expense',
+      `/file-new-claim/${apptId}/${claimId}/choose-expense`,
     );
   });
 });
