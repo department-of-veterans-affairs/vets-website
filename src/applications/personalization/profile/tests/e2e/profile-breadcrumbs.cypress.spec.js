@@ -4,8 +4,9 @@ import disabilityRating from '@@profile/tests/fixtures/disability-rating-success
 import error500 from '@@profile/tests/fixtures/500.json';
 
 import { mockUser } from '../fixtures/users/user';
-import { PROFILE_PATH_NAMES, PROFILE_PATHS_WITH_NAMES } from '../../constants';
+import { PROFILE_PATH_NAMES } from '../../constants';
 import { generateFeatureToggles } from '../../mocks/endpoints/feature-toggles';
+import { getRoutesForNav } from '../../routesForNav';
 
 describe('Profile Breadcrumbs', () => {
   beforeEach(() => {
@@ -18,6 +19,11 @@ describe('Profile Breadcrumbs', () => {
       '/v0/disability_compensation_form/rating_info',
       disabilityRating,
     );
+  });
+
+  const routes = getRoutesForNav({
+    profile2Enabled: true,
+    profileHealthCareSettingsPage: true,
   });
 
   const skippedPageTitles = [
@@ -34,21 +40,21 @@ describe('Profile Breadcrumbs', () => {
     PROFILE_PATH_NAMES.SIGNIN_INFORMATION,
   ];
 
-  PROFILE_PATHS_WITH_NAMES.forEach(({ path, name }) => {
+  routes.forEach(({ path, name }) => {
     // skip the edit path
     if (skippedPageTitles.includes(name)) {
       return;
     }
     it('render the active page name in the breadcrumbs', () => {
-      cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          features: [
-            { name: 'representative_status_enable_v2_features', value: true },
-            { name: 'profile_2_enabled', value: true },
-          ],
-        },
-      });
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          representativeStatusEnableV2Features: true,
+          profile2Enabled: true,
+          profileHealthCareSettingsPage: true,
+        }),
+      );
       cy.visit(`${path}/`);
       cy.get('va-breadcrumbs')
         .shadow()

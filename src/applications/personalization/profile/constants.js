@@ -10,6 +10,7 @@ export const PROFILE_TOGGLES = {
   profileShowEmailNotificationSettings: false,
   profileShowPaperlessDelivery: false,
   profile2Enabled: false,
+  profileHealthCareSettingsPage: false,
 };
 
 // The values of these constants map to the possible values that come back from
