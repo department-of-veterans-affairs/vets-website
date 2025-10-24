@@ -3,28 +3,37 @@ import { useDispatch } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-export const useValidateFacilityCode = formData => {
+export const useValidateAdditionalFacilityCode = (formData, index) => {
   const [loader, setLoader] = useState(false);
   const [institutionData, setInstitutionData] = useState(null);
   const dispatch = useDispatch();
+
+  // Get the current item from the additionalInstitutionDetails array
+  const currentItem = formData?.additionalInstitutionDetails?.[index] || {};
+  const facilityCode = currentItem?.facilityCode;
 
   useEffect(
     () => {
       const fetchInstitutionInfo = async () => {
         setLoader(true);
-        // Set loading state in formData
+
+        const updatedDetailsLoading = [
+          ...(formData.additionalInstitutionDetails || []),
+        ];
+        updatedDetailsLoading[index] = {
+          ...updatedDetailsLoading[index],
+          isLoading: true,
+        };
         dispatch(
           setData({
             ...formData,
-            institutionDetails: {
-              ...formData.institutionDetails,
-              isLoading: true,
-            },
+            additionalInstitutionDetails: updatedDetailsLoading,
           }),
         );
+
         try {
           const response = await apiRequest(
-            `/gi/institutions/${formData?.institutionDetails.facilityCode}`,
+            `/gi/institutions/${facilityCode}`,
             {
               method: 'GET',
               headers: {
@@ -33,10 +42,9 @@ export const useValidateFacilityCode = formData => {
             },
           );
           const attrs = response.data.attributes;
-          const firstDigit = formData.institutionDetails.facilityCode.charAt(0);
-          const secondDigit = formData.institutionDetails.facilityCode.charAt(
-            1,
-          );
+
+          const firstDigit = facilityCode.charAt(0);
+          const secondDigit = facilityCode.charAt(1);
           const yrEligible =
             ['1', '2', '3'].includes(firstDigit) &&
             ['1', '2', '3', '4'].includes(secondDigit);
@@ -44,7 +52,8 @@ export const useValidateFacilityCode = formData => {
           const programTypes = Array.isArray(attrs.programTypes)
             ? attrs.programTypes
             : [];
-          const ihlEligible = programTypes.includes('IHL');
+          const ihlEligible =
+            attrs.programTypes === null ? null : programTypes.includes('IHL');
           const institutionAddress = {
             street: attrs.address1 || '',
             street2: attrs.address2 || '',
@@ -57,44 +66,55 @@ export const useValidateFacilityCode = formData => {
 
           setInstitutionData(response?.data);
           setLoader(false);
+
+          const updatedDetails = [
+            ...(formData.additionalInstitutionDetails || []),
+          ];
+          updatedDetails[index] = {
+            ...updatedDetails[index],
+            institutionName: response?.data?.attributes?.name,
+            institutionAddress,
+            ihlEligible,
+            yrEligible,
+            isLoading: false,
+          };
+
           dispatch(
             setData({
               ...formData,
-              institutionDetails: {
-                ...formData.institutionDetails,
-                institutionName: response?.data?.attributes?.name,
-                institutionAddress,
-                ihlEligible,
-                yrEligible,
-                isLoading: false,
-                isUsaSchool:
-                  response?.data?.attributes?.physicalCountry === 'USA',
-              },
+              additionalInstitutionDetails: updatedDetails,
             }),
           );
         } catch (error) {
           setInstitutionData({});
           setLoader(false);
+
+          const updatedDetails = [
+            ...(formData.additionalInstitutionDetails || []),
+          ];
+          updatedDetails[index] = {
+            ...updatedDetails[index],
+            institutionName: 'not found',
+            institutionAddress: {},
+            ihlEligible: null,
+            isLoading: false,
+          };
+
           dispatch(
             setData({
               ...formData,
-              institutionDetails: {
-                ...formData.institutionDetails,
-                institutionName: 'not found',
-                institutionAddress: {},
-                ihlEligible: null,
-                isLoading: false,
-              },
+              additionalInstitutionDetails: updatedDetails,
             }),
           );
         }
       };
-      if (formData?.institutionDetails?.facilityCode?.length === 8) {
+      if (facilityCode?.length === 8 && index !== undefined) {
         fetchInstitutionInfo();
       }
     },
-    [formData?.institutionDetails?.facilityCode],
+    [facilityCode, index],
   );
+
   const attrs = institutionData?.attributes || {};
   const institutionAddress = {
     street: attrs.address1 || '',
