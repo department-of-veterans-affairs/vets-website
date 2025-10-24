@@ -22,12 +22,12 @@ const IntroductionRouter = props => {
     );
   }
 
-  if (isProductionOfTestProdEnv()) {
-    return <IntroductionPage {...props} />;
-  }
-
   if (rerouteEnabled) {
     return <IntroductionPageRedirect {...props} />;
+  }
+
+  if (isProductionOfTestProdEnv()) {
+    return <IntroductionPage {...props} />;
   }
 
   return <IntroductionPageUpdate {...props} />;
