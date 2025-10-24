@@ -4,7 +4,7 @@ import {
   element,
   func,
   number,
-  oneOf,
+  oneOfType,
   shape,
   string,
 } from 'prop-types';
@@ -12,25 +12,35 @@ import {
 import { SELECTED } from './constants';
 import { PRIMARY_PHONE } from '../995/constants';
 
+const contestedIssue = {
+  ratingIssueSubjectText: string,
+  description: string,
+  ratingIssuePercentNumber: string,
+  approxDecisionDate: string,
+};
+
+const additionalIssue = {
+  issue: string,
+  decisionDate: string,
+  [SELECTED]: bool,
+};
+
+const evidence = {
+  name: string,
+  confirmationCode: string,
+  attachmentId: string,
+  size: number,
+  isEncrypted: bool,
+};
+
 const common = {
   contestedIssues: arrayOf(
     shape({
-      attributes: shape({
-        ratingIssueSubjectText: string,
-        description: string,
-        ratingIssuePercentNumber: string,
-        approxDecisionDate: string,
-      }),
+      attributes: shape(contestedIssue),
       [SELECTED]: bool,
     }),
   ),
-  additionalIssues: arrayOf(
-    shape({
-      issue: string,
-      decisionDate: string,
-      [SELECTED]: bool,
-    }),
-  ),
+  additionalIssues: arrayOf(shape(additionalIssue)),
   veteran: shape({
     ssnLastFour: string,
     vaFileLastFour: string,
@@ -62,20 +72,43 @@ const common = {
   }),
 };
 
+export const areaOfDisagreement = arrayOf(
+  oneOfType([
+    shape({
+      ...contestedIssue,
+      disagreementOptions: shape({
+        serviceConnection: bool,
+        effectiveDate: bool,
+        evaluation: bool,
+      }),
+      otherEntry: string,
+    }),
+    shape({
+      ...additionalIssue,
+      disagreementOptions: shape({
+        serviceConnection: bool,
+        effectiveDate: bool,
+        evaluation: bool,
+      }),
+      otherEntry: string,
+    }),
+  ]),
+);
+
 export const customPageProps = {
   contentAfterButtons: element,
   contentBeforeButtons: element,
   goBack: func,
   goForward: func,
   goToPath: func,
-  pagePerItemIndex: number,
+  pagePerItemIndex: string,
   setFormData: func,
   testingIndex: number,
   updatePage: func,
   onReviewPage: bool,
 };
 
-export const data995 = shape({
+export const data995 = {
   ...common,
   benefitType: string,
   legacyCount: number,
@@ -113,23 +146,15 @@ export const data995 = shape({
   privacyAgreementAccepted: bool,
   form5103Acknowledged: bool,
   socOptIn: bool,
-  additionalDocuments: arrayOf(
-    shape({
-      name: string,
-      confirmationCode: string,
-      attachmentId: string,
-      size: number,
-      isEncrypted: bool,
-    }),
-  ),
-});
+  additionalDocuments: arrayOf(shape(evidence)),
+};
 
 export const customPageProps995 = {
   ...customPageProps,
   ...data995,
 };
 
-export const data996 = shape({
+export const data996 = {
   ...common,
   benefitType: string,
   legacyCount: number,
@@ -137,28 +162,7 @@ export const data996 = shape({
   privacyAgreementAccepted: bool,
   socOptIn: bool,
   informalConference: string,
-  areaOfDisagreement: arrayOf(
-    oneOf([
-      shape({
-        ...common.contestedIssues,
-        disagreementOptions: shape({
-          serviceConnection: bool,
-          effectiveDate: bool,
-          evaluation: bool,
-        }),
-        otherEntry: string,
-      }),
-      shape({
-        ...common.additionalIssues,
-        disagreementOptions: shape({
-          serviceConnection: bool,
-          effectiveDate: bool,
-          evaluation: bool,
-        }),
-        otherEntry: string,
-      }),
-    ]),
-  ),
+  areaOfDisagreement,
   informalConferenceRep: shape({
     firstName: string,
     lastName: string,
@@ -167,17 +171,24 @@ export const data996 = shape({
     email: string,
   }),
   informalConferenceTime: string,
-});
+};
 
 export const customPageProps996 = {
   ...customPageProps,
   ...data996,
 };
 
-// TODO
-export const data10182 = shape({
+export const data10182 = {
   ...common,
-});
+  appealingVHADenial: bool,
+  areaOfDisagreement,
+  boardReviewOption: string,
+  evidence: shape(evidence),
+  extensionReason: string,
+  hearingTypePreference: string,
+  homeless: bool,
+  requestingExtension: bool,
+};
 
 export const customPageProps10182 = {
   ...customPageProps,
