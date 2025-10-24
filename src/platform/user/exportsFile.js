@@ -278,9 +278,6 @@ export {
   MVIError,
 } from './profile/vap-svc/components/base/VAPServiceTransactionErrorBanner';
 export {
-  default as VAPServiceTransactionInlineErrorMessage,
-} from './profile/vap-svc/components/base/VAPServiceTransactionInlineErrorMessage';
-export {
   default as VAPServiceTransactionPending,
 } from './profile/vap-svc/components/base/VAPServiceTransactionPending';
 
@@ -300,6 +297,9 @@ export {
 export {
   default as ContactInfoForm,
 } from './profile/vap-svc/components/ContactInfoForm';
+export {
+  default as GenericErrorAlert,
+} from './profile/vap-svc/components/GenericErrorAlert';
 
 export {
   default as ProfileInformationFieldController,

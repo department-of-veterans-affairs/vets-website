@@ -1,5 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+import { waitForElementToBeRemoved } from '@testing-library/react';
+
 import { expect } from 'chai';
 import { setupServer } from 'platform/testing/unit/msw-adapter';
 
@@ -11,7 +13,6 @@ import ContactInformation from '@@profile/components/contact-information/Contact
 import {
   createBasicInitialState,
   renderWithProfileReducers,
-  wait,
 } from '../../unit-test-helpers';
 
 const ui = (
@@ -32,15 +33,10 @@ function getVaButton(action, addressName) {
 function deleteAddress(addressName) {
   // delete
   getVaButton('Remove', addressName).click();
-  const confirmDeleteButton = view.getByText('Yes, remove my information', {
-    selector: 'button',
-  });
-
+  const confirmDeleteButton = view.getByTestId('confirm-remove-button');
   confirmDeleteButton.click();
 
-  return {
-    confirmDeleteButton,
-  };
+  return { confirmDeleteButton };
 }
 
 // When the update happens but not until after the delete modal has exited and the
@@ -48,23 +44,18 @@ function deleteAddress(addressName) {
 async function testSlowSuccess(addressName) {
   server.use(...mocks.transactionPending);
 
-  deleteAddress(addressName);
+  const { confirmDeleteButton } = deleteAddress(addressName);
 
-  // check that the "we're deleting your..." message appears
-  const deletingMessage = await view.findByText(
-    new RegExp(
-      `We’re in the process of deleting your ${addressName}. We’ll remove this information soon.`,
-      'i',
-    ),
-  );
-  expect(deletingMessage).to.exist;
+  // wait for the confirm removal modal to close
+  await waitForElementToBeRemoved(confirmDeleteButton);
+
+  // the va-loading-indicator should display
+  await view.findByTestId('loading-indicator');
 
   server.use(...mocks.transactionSucceeded);
 
-  await wait(100);
-
   // update saved alert should appear
-  await view.findByText('Update saved.');
+  await view.findByTestId('update-success-alert');
 
   // the edit button should exist
   expect(getVaButton('Edit', addressName)).to.exist;
@@ -73,14 +64,10 @@ async function testSlowSuccess(addressName) {
 // When the initial transaction creation request fails
 async function testTransactionCreationFails(addressName) {
   server.use(...mocks.createTransactionFailure);
-
   deleteAddress(addressName);
 
-  // expect an error to be shown
-  await view.findByText(
-    /We couldn’t save your recent home address update. Please try again later./i,
-    { exact: false },
-  );
+  // the error alert should appear
+  await view.findByTestId('generic-error-alert');
 
   expect(getVaButton('Edit', addressName)).to.exist;
 }
@@ -90,27 +77,18 @@ async function testTransactionCreationFails(addressName) {
 async function testSlowFailure(addressName) {
   server.use(...mocks.transactionPending);
 
-  deleteAddress(addressName);
+  const { confirmDeleteButton } = deleteAddress(addressName);
 
-  // check that the "we're deleting your..." message appears
-  const deletingMessage = await view.findByText(
-    new RegExp(
-      `We’re in the process of deleting your ${addressName}. We’ll remove this information soon.`,
-      'i',
-    ),
-  );
-  expect(deletingMessage).to.exist;
+  // wait for the confirm removal modal to close
+  await waitForElementToBeRemoved(confirmDeleteButton);
+
+  // the va-loading-indicator should display
+  await view.findByTestId('loading-indicator');
 
   server.use(...mocks.transactionFailed);
 
-  await wait(1500);
-
-  // make sure the error message appears
-  expect(
-    view.getByText(
-      /We couldn’t save your recent .* update. Please try again later/i,
-    ),
-  ).to.exist;
+  // the error alert should appear
+  await view.findByTestId('generic-error-alert');
 
   // and the edit button should be back
   expect(getVaButton('Edit', addressName)).to.exist;
