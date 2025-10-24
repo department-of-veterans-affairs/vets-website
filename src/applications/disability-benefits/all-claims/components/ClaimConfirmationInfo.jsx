@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { capitalizeEachWord, formatDate, formatFullName } from '../utils';
+import { capitalizeEachWord, formatFullName } from '../utils';
+import { formatDate } from '../utils/dates/formatting';
 import { NULL_CONDITION_STRING } from '../constants';
 
 export function ClaimConfirmationInfo({

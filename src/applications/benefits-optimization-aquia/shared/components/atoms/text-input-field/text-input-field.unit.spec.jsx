@@ -48,10 +48,10 @@ describe('TextInputField', () => {
     });
 
     it('shows current value', () => {
-      const props = { ...defaultProps, value: 'Test Value' };
+      const props = { ...defaultProps, value: 'Rogue Squadron' };
       const { container } = render(<TextInputField {...props} />);
       const input = container.querySelector('va-text-input');
-      expect(input).to.have.attribute('value', 'Test Value');
+      expect(input).to.have.attribute('value', 'Rogue Squadron');
     });
 
     it('displays empty string for null value', () => {

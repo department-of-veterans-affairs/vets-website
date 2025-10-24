@@ -34,6 +34,7 @@ import { getLabsAndTestsDateRanges, formatDateRange } from '../util/helpers';
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import DateRangeDropdown from '../components/shared/DateRangeDropdown';
@@ -152,17 +153,14 @@ const LabsAndTests = () => {
     dispatch,
   });
 
-  useEffect(
-    /**
-     * @returns a callback to automatically load any new records when unmounting this component
-     */
-    () => {
-      return () => {
-        dispatch(reloadRecords());
-      };
-    },
-    [dispatch],
-  );
+  // On Unmount: reload any newly updated records and normalize the FETCHING state.
+  useReloadResetListOnUnmount({
+    listState,
+    dispatch,
+    updateListActionType: Actions.LabsAndTests.UPDATE_LIST_STATE,
+    reloadRecordsAction: reloadRecords,
+  });
+
   const isLoadingAcceleratedData =
     isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
 

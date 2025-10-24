@@ -1,4 +1,3 @@
-// @ts-check
 import {
   dateOfBirthSchema,
   currentOrPastDateUI,
@@ -10,6 +9,10 @@ import {
   vaFileNumberUI,
   vaFileNumberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  VaTextInputField,
+  VaSelectField,
+} from 'platform/forms-system/src/js/web-component-fields';
 import { parse, isValid, startOfDay, subYears } from 'date-fns';
 import { isSameOrAfter } from '../../../utils/helpers';
 
@@ -46,7 +49,7 @@ export default {
   uiSchema: {
     ...titleUI(
       ({ formData }) =>
-        formData.claimantNotVeteran
+        formData?.claimantNotVeteran
           ? 'Veteran information'
           : 'Your information',
     ),
@@ -54,9 +57,10 @@ export default {
       ...fullNameUI(),
       first: {
         'ui:title': 'First name',
+        'ui:webComponentField': VaTextInputField,
         'ui:required': formData => formData.claimantNotVeteran === true,
         'ui:errorMessages': {
-          required: 'Enter a first name',
+          required: 'Please enter a first name',
         },
         'ui:options': {
           hideIf: formData => formData.claimantNotVeteran === false,
@@ -64,15 +68,17 @@ export default {
       },
       middle: {
         'ui:title': 'Middle name',
+        'ui:webComponentField': VaTextInputField,
         'ui:options': {
           hideIf: formData => formData.claimantNotVeteran === false,
         },
       },
       last: {
         'ui:title': 'Last name',
+        'ui:webComponentField': VaTextInputField,
         'ui:required': formData => formData.claimantNotVeteran === true,
         'ui:errorMessages': {
-          required: 'Enter a last name',
+          required: 'Please enter a last name',
         },
         'ui:options': {
           hideIf: formData => formData.claimantNotVeteran === false,
@@ -80,19 +86,13 @@ export default {
       },
       suffix: {
         'ui:title': 'Suffix',
+        'ui:webComponentField': VaSelectField,
         'ui:options': {
           hideIf: formData => formData.claimantNotVeteran === false,
         },
       },
     },
-    veteranSocialSecurityNumber: {
-      ...ssnUI('Social Security number'),
-      'ui:errorMessages': {
-        pattern:
-          'Please enter a valid 9 digit Social Security number (dashes allowed)',
-        required: 'Enter a Social Security number',
-      },
-    },
+    veteranSocialSecurityNumber: ssnUI(),
     vaFileNumber: {
       ...vaFileNumberUI('VA file number'),
       'ui:options': {
@@ -102,9 +102,6 @@ export default {
     veteranDateOfBirth: currentOrPastDateUI({
       title: 'Date of birth',
       monthSelect: false,
-      errorMessages: {
-        required: 'Enter a date of birth',
-      },
     }),
   },
   schema: {

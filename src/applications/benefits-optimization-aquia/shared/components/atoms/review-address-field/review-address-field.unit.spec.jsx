@@ -8,86 +8,88 @@ describe('ReviewAddressField', () => {
   describe('Complete address', () => {
     it('should render complete US address', () => {
       const address = {
-        street: '123 Main St',
-        street2: 'Apt 4',
-        city: 'Springfield',
-        state: 'IL',
-        postalCode: '62701',
+        street: 'Great Temple, Massassi Station',
+        street2: 'Briefing Room 4',
+        city: 'Yavin 4',
+        state: 'NC',
+        postalCode: '00004',
       };
 
       const { container } = render(<ReviewAddressField value={address} />);
 
-      expect(container.textContent).to.include('123 Main St');
-      expect(container.textContent).to.include('Apt 4');
-      expect(container.textContent).to.include('Springfield, IL 62701');
+      expect(container.textContent).to.include(
+        'Great Temple, Massassi Station',
+      );
+      expect(container.textContent).to.include('Briefing Room 4');
+      expect(container.textContent).to.include('Yavin 4, NC 00004');
     });
 
     it('should render address with street3', () => {
       const address = {
-        street: '123 Main St',
-        street2: 'Building A',
-        street3: 'Suite 100',
-        city: 'Springfield',
-        state: 'IL',
-        postalCode: '62701',
+        street: 'Echo Base Command Center',
+        street2: 'North Passage',
+        street3: 'Ice Cavern 7',
+        city: 'Hoth',
+        state: 'AK',
+        postalCode: '99501',
       };
 
       const { container } = render(<ReviewAddressField value={address} />);
 
-      expect(container.textContent).to.include('123 Main St');
-      expect(container.textContent).to.include('Building A');
-      expect(container.textContent).to.include('Suite 100');
+      expect(container.textContent).to.include('Echo Base Command Center');
+      expect(container.textContent).to.include('North Passage');
+      expect(container.textContent).to.include('Ice Cavern 7');
     });
   });
 
   describe('Partial address', () => {
     it('should render address without street2', () => {
       const address = {
-        street: '123 Main St',
-        city: 'Springfield',
-        state: 'IL',
-        postalCode: '62701',
+        street: 'Bright Tree Village',
+        city: 'Endor',
+        state: 'CA',
+        postalCode: '90210',
       };
 
       const { container } = render(<ReviewAddressField value={address} />);
 
-      expect(container.textContent).to.include('123 Main St');
-      expect(container.textContent).to.include('Springfield, IL 62701');
+      expect(container.textContent).to.include('Bright Tree Village');
+      expect(container.textContent).to.include('Endor, CA 90210');
     });
 
     it('should render address with only street and city', () => {
       const address = {
-        street: '123 Main St',
-        city: 'Springfield',
+        street: 'Shipyard District, Home One',
+        city: 'Mon Calamari',
       };
 
       const { container } = render(<ReviewAddressField value={address} />);
 
-      expect(container.textContent).to.include('123 Main St');
+      expect(container.textContent).to.include('Shipyard District, Home One');
     });
   });
 
   describe('International address', () => {
     it('should render international address with country', () => {
       const address = {
-        street: '10 Downing Street',
-        city: 'London',
-        postalCode: 'SW1A 2AA',
-        country: 'United Kingdom',
+        street: 'Rebel Outpost Delta',
+        city: 'Dantooine',
+        postalCode: 'DA-001',
+        country: 'Outer Rim Territories',
       };
 
       const { container } = render(<ReviewAddressField value={address} />);
 
-      expect(container.textContent).to.include('10 Downing Street');
-      expect(container.textContent).to.include('United Kingdom');
+      expect(container.textContent).to.include('Rebel Outpost Delta');
+      expect(container.textContent).to.include('Outer Rim Territories');
     });
 
     it('should not render USA as country', () => {
       const address = {
-        street: '123 Main St',
-        city: 'Springfield',
-        state: 'IL',
-        postalCode: '62701',
+        street: 'Great Temple, Massassi Station',
+        city: 'Yavin 4',
+        state: 'NC',
+        postalCode: '00004',
         country: 'USA',
       };
 
@@ -101,26 +103,26 @@ describe('ReviewAddressField', () => {
   describe('Military address', () => {
     it('should render military address', () => {
       const address = {
-        militaryAddress: 'PSC 123 Box 456',
+        militaryAddress: 'Rogue Squadron Hangar Bay',
         city: 'APO',
         state: 'AE',
-        postalCode: '09123',
+        postalCode: '09004',
       };
 
       const { container } = render(<ReviewAddressField value={address} />);
 
-      expect(container.textContent).to.include('PSC 123 Box 456');
-      expect(container.textContent).to.include('APO, AE 09123');
+      expect(container.textContent).to.include('Rogue Squadron Hangar Bay');
+      expect(container.textContent).to.include('APO, AE 09004');
     });
   });
 
   describe('Label', () => {
     it('should use default label "Address"', () => {
       const address = {
-        street: '123 Main St',
-        city: 'Springfield',
-        state: 'IL',
-        postalCode: '62701',
+        street: 'Great Temple, Massassi Station',
+        city: 'Yavin 4',
+        state: 'NC',
+        postalCode: '00004',
       };
 
       const { container } = render(<ReviewAddressField value={address} />);
@@ -130,10 +132,10 @@ describe('ReviewAddressField', () => {
 
     it('should use custom label', () => {
       const address = {
-        street: '123 Main St',
-        city: 'Springfield',
-        state: 'IL',
-        postalCode: '62701',
+        street: 'Echo Base Command Center',
+        city: 'Hoth',
+        state: 'AK',
+        postalCode: '99501',
       };
 
       const { container } = render(
@@ -183,10 +185,10 @@ describe('ReviewAddressField', () => {
   describe('Structure', () => {
     it('should have proper review-row structure', () => {
       const address = {
-        street: '123 Main St',
-        city: 'Springfield',
-        state: 'IL',
-        postalCode: '62701',
+        street: 'Bright Tree Village',
+        city: 'Endor',
+        state: 'CA',
+        postalCode: '90210',
       };
 
       const { container } = render(<ReviewAddressField value={address} />);
@@ -198,10 +200,10 @@ describe('ReviewAddressField', () => {
 
     it('should use va-address-block class', () => {
       const address = {
-        street: '123 Main St',
-        city: 'Springfield',
-        state: 'IL',
-        postalCode: '62701',
+        street: 'Shipyard District, Home One',
+        city: 'Mon Calamari',
+        state: 'FL',
+        postalCode: '33101',
       };
 
       const { container } = render(<ReviewAddressField value={address} />);

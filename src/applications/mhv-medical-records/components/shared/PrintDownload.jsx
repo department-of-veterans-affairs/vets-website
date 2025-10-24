@@ -4,13 +4,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { sendDataDogAction } from '../../util/helpers';
 
 const PrintDownload = props => {
-  const {
-    downloadPdf,
-    downloadTxt,
-    list,
-    allowTxtDownloads,
-    description,
-  } = props;
+  const { downloadPdf, downloadTxt, list, description } = props;
   const menu = useRef(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -40,11 +34,11 @@ const PrintDownload = props => {
 
     if (printIndex > 0 && e.keyCode === 38) {
       e.preventDefault();
-      document.getElementById(`printButton-${printIndex - 2}`).focus();
+      document.getElementById(`printButton-${printIndex - 2}`)?.focus();
       setPrintIndex(printIndex - 1);
     } else if (printIndex < 3 && e.keyCode === 40) {
       e.preventDefault();
-      document.getElementById(`printButton-${printIndex}`).focus();
+      document.getElementById(`printButton-${printIndex}`)?.focus();
       setPrintIndex(printIndex + 1);
     } else if (e.keyCode === 27) {
       setMenuOpen(false);
@@ -134,24 +128,22 @@ const PrintDownload = props => {
             Download PDF of this {listOrPage}
           </button>
         </li>
-        {allowTxtDownloads && (
-          <li>
-            <button
-              className="vads-u-padding-x--2"
-              type="button"
-              id="printButton-2"
-              data-testid="printButton-2"
-              onClick={() => {
-                handleTxtDownload();
-                sendDataDogAction(
-                  `Download TXT of this ${listOrPage} option - ${description}`,
-                );
-              }}
-            >
-              Download a text file (.txt) of this {listOrPage}
-            </button>
-          </li>
-        )}
+        <li>
+          <button
+            className="vads-u-padding-x--2"
+            type="button"
+            id="printButton-2"
+            data-testid="printButton-2"
+            onClick={() => {
+              handleTxtDownload();
+              sendDataDogAction(
+                `Download TXT of this ${listOrPage} option - ${description}`,
+              );
+            }}
+          >
+            Download a text file (.txt) of this {listOrPage}
+          </button>
+        </li>
       </ul>
     </div>
   );
@@ -160,7 +152,6 @@ const PrintDownload = props => {
 export default PrintDownload;
 
 PrintDownload.propTypes = {
-  allowTxtDownloads: PropTypes.bool,
   description: PropTypes.string,
   downloadPdf: PropTypes.any,
   downloadTxt: PropTypes.any,

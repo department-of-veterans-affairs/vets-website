@@ -1,7 +1,5 @@
-// import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../utils/constants';
@@ -9,7 +7,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FormSavedPage from '../containers/FormSavedPage';
-import { submit } from './submit';
+import { submit, transform } from './submit';
 // import { defaultDefinitions } from './definitions';
 import reportingPeriod from './chapters/02-expenses/reportingPeriod';
 import claimantRelationship from './chapters/01-applicant-information/claimantRelationship';
@@ -22,7 +20,9 @@ import { medicalExpensesPages } from './chapters/02-expenses/medicalExpensesPage
 import { mileageExpensesPages } from './chapters/02-expenses/mileageExpensesPage';
 import supportingDocuments from './chapters/03-additional-information/supportingDocuments';
 import uploadDocuments from './chapters/03-additional-information/uploadDocuments';
+import expensesReview from './chapters/02-expenses/expensesReview';
 import GetFormHelp from '../components/GetFormHelp';
+import { hasNoExpenses, hasCareExpenses } from './chapters/02-expenses/helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -30,6 +30,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/medical_expense_reports/v0/form8416`,
   submit,
+  transformForSubmit: transform,
   trackingPrefix: 'med-expense-8416',
   v3SegmentedProgressBar: true,
   dev: {
@@ -127,6 +128,13 @@ const formConfig = {
         ...careExpensesPages,
         ...medicalExpensesPages,
         ...mileageExpensesPages,
+        expensesReview: {
+          title: 'Review expenses',
+          path: 'expenses/review',
+          depends: formData => hasNoExpenses(formData),
+          uiSchema: expensesReview.uiSchema,
+          schema: expensesReview.schema,
+        },
       },
     },
     additionalInformation: {
@@ -135,6 +143,7 @@ const formConfig = {
         supportingDocuments: {
           title: 'Supporting documents',
           path: 'expenses/additional-information/supporting-documents',
+          depends: formData => hasCareExpenses(formData),
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },
