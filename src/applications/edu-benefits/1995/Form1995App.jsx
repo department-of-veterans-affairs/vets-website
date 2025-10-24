@@ -1,24 +1,48 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { setData } from 'platform/forms-system/src/js/actions';
 import {
   selectMerge1995And5490,
   selectShowEduBenefits1995Wizard,
   selectMeb1995Reroute,
 } from './selectors/featureToggles';
 import { useSetToggleParam } from '../hooks/useSetToggleParam';
-import { buildFormConfig } from './config/form';
+import formConfig from './config/form';
 
-export default function Form1995Entry({ location, children }) {
+function Form1995Entry({
+  children,
+  formData,
+  location,
+  mergeFlag,
+  rerouteFlag,
+  rudisillFlag,
+  setFormData,
+}) {
   const { useToggleLoadingValue } = useFeatureToggle();
   const isLoadingToggles = useToggleLoadingValue();
-  const mergeFlag = useSelector(selectMerge1995And5490);
-  const rudisillFlag = useSelector(selectShowEduBenefits1995Wizard);
-  const rerouteFlag = useSelector(selectMeb1995Reroute);
 
   useSetToggleParam(mergeFlag, rudisillFlag);
+
+  useEffect(
+    () => {
+      if (rerouteFlag === undefined || !formData) {
+        return;
+      }
+
+      if (formData.isMeb1995Reroute === rerouteFlag) {
+        return;
+      }
+
+      setFormData({
+        ...formData,
+        isMeb1995Reroute: rerouteFlag,
+      });
+    },
+    [formData, rerouteFlag, setFormData],
+  );
 
   if (isLoadingToggles || rerouteFlag === undefined) {
     return (
@@ -29,14 +53,12 @@ export default function Form1995Entry({ location, children }) {
     );
   }
 
-  const dynamicFormConfig = buildFormConfig(rerouteFlag);
-
   const formKey = rerouteFlag ? 'reroute' : 'legacy';
 
   return (
     <RoutedSavableApp
       key={formKey}
-      formConfig={dynamicFormConfig}
+      formConfig={formConfig}
       currentLocation={location}
     >
       {children}
@@ -49,5 +71,26 @@ Form1995Entry.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+  formData: PropTypes.object,
   location: PropTypes.object,
+  mergeFlag: PropTypes.bool,
+  rerouteFlag: PropTypes.bool,
+  rudisillFlag: PropTypes.bool,
+  setFormData: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = state => ({
+  formData: state.form?.data,
+  mergeFlag: selectMerge1995And5490(state),
+  rerouteFlag: selectMeb1995Reroute(state),
+  rudisillFlag: selectShowEduBenefits1995Wizard(state),
+});
+
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Form1995Entry);

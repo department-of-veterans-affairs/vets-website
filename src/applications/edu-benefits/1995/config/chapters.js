@@ -37,6 +37,8 @@ import {
   fryResultPage,
 } from '../pages/mebQuestionnaire';
 
+const isRerouteEnabledOnForm = formData => formData?.isMeb1995Reroute === true;
+
 export const applicantInformationField = (automatedTest = false) => {
   if (isProductionOfTestProdEnv(automatedTest)) {
     return {
@@ -261,6 +263,7 @@ export const mebChapters = {
     pages: {
       introductionPage: {
         path: 'introduction',
+        depends: formData => isRerouteEnabledOnForm(formData),
         uiSchema: {
           'ui:title': 'Change your education benefits',
           'ui:description': introductionPageContent,
@@ -278,30 +281,38 @@ export const mebChapters = {
       mebYourInformation: {
         path: 'questionnaire/your-information',
         title: 'Your information',
+        depends: formData => isRerouteEnabledOnForm(formData),
         ...yourInformationPage(),
       },
       mebBenefitSelection: {
         path: 'questionnaire/benefit-selection',
         title: 'Benefit you want to change to',
-        depends: formData => formData.mebWhatDoYouWantToDo === 'switch-benefit',
+        depends: formData =>
+          isRerouteEnabledOnForm(formData) &&
+          formData.mebWhatDoYouWantToDo === 'switch-benefit',
         ...benefitSwitchPage(),
       },
       sameBenefitResult: {
         path: 'results/same-benefit',
         title: 'Application for VA Education Benefits (VA Form 22-1990)',
-        depends: formData => formData.mebWhatDoYouWantToDo === 'same-benefit',
+        depends: formData =>
+          isRerouteEnabledOnForm(formData) &&
+          formData.mebWhatDoYouWantToDo === 'same-benefit',
         ...sameBenefitResultPage(),
       },
       foreignSchoolResult: {
         path: 'results/foreign-school',
         title: 'Ask VA',
-        depends: formData => formData.mebWhatDoYouWantToDo === 'foreign-school',
+        depends: formData =>
+          isRerouteEnabledOnForm(formData) &&
+          formData.mebWhatDoYouWantToDo === 'foreign-school',
         ...foreignSchoolResultPage(),
       },
       mgibAdResult: {
         path: 'results/mgib-ad',
         title: 'Application for VA Education Benefits (VA Form 22-1990)',
         depends: formData =>
+          isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'mgib-ad',
         ...mgibAdResultPage(),
@@ -310,6 +321,7 @@ export const mebChapters = {
         path: 'results/mgib-sr',
         title: 'Application for VA Education Benefits (VA Form 22-1990)',
         depends: formData =>
+          isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'mgib-sr',
         ...mgibSrResultPage(),
@@ -318,6 +330,7 @@ export const mebChapters = {
         path: 'results/toe',
         title: 'Application for VA Education Benefits (VA Form 22-1990e)',
         depends: formData =>
+          isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'toe',
         ...toeResultPage(),
@@ -326,6 +339,7 @@ export const mebChapters = {
         path: 'results/dea',
         title: 'Application for VA Education Benefits (VA Form 22-5490)',
         depends: formData =>
+          isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'dea',
         ...deaResultPage(),
@@ -334,10 +348,16 @@ export const mebChapters = {
         path: 'results/fry',
         title: 'Application for VA Education Benefits (VA Form 22-5490)',
         depends: formData =>
+          isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'fry',
         ...fryResultPage(),
       },
     },
   },
+};
+
+export const allChapters = {
+  ...chapters,
+  ...mebChapters,
 };

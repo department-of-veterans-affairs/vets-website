@@ -13,7 +13,7 @@ import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { chapters, mebChapters } from './chapters';
+import { allChapters } from './chapters';
 
 import manifest from '../manifest.json';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
@@ -72,16 +72,10 @@ const baseConfig = {
   getHelp: GetFormHelp,
   errorText: ErrorText,
   // Always render the wrapper; it decides which intro component to show once
-  // feature toggles finish loading
   introduction: IntroductionRouter,
 };
 
-export const buildFormConfig = rerouteEnabled => ({
-  ...baseConfig,
-  chapters: rerouteEnabled ? mebChapters : chapters,
-});
-
 export default {
-  ...buildFormConfig(false),
-  introduction: IntroductionRouter,
+  ...baseConfig,
+  chapters: allChapters,
 };
