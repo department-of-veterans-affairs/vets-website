@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { scrollToTop } from 'platform/utilities/scroll';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import set from 'platform/utilities/data/set';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
@@ -26,7 +27,13 @@ const PicklistRemoveDependentFollowup = ({
   const scrollAndFocus = () => {
     setTimeout(() => {
       scrollToTop();
-      focusElement('h3');
+      const radio = $('va-radio[label-header-level]');
+      if (radio) {
+        // va-radio content doesn't immediately render
+        waitForRenderThenFocus('h3', radio.shadowRoot);
+      } else {
+        focusElement('h3');
+      }
     });
   };
 
@@ -34,9 +41,6 @@ const PicklistRemoveDependentFollowup = ({
     setFormSubmitted(false);
     scrollAndFocus();
   };
-
-  // Page change state to force scroll & focus on page change
-  useEffect(scrollAndFocus);
 
   // Dynamically updated picklist paths to help with navigating backward
   const paths = data[PICKLIST_PATHS] || getPicklistRoutes(data);
@@ -60,6 +64,9 @@ const PicklistRemoveDependentFollowup = ({
   const currentPage =
     page === '' ? 0 : dependentGroup?.findIndex(item => item.path === page);
   const pageToRender = dependentGroup?.[currentPage];
+
+  // Page change state to force scroll & focus on page change
+  useEffect(scrollAndFocus, [page, index]);
 
   const returnToMainPage = () => {
     goToPath('options-selection/remove-active-dependents');
