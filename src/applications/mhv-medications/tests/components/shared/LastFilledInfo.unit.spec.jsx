@@ -6,6 +6,7 @@ import prescriptionsListItemNonVA from '../../fixtures/prescriptionsListItemNonV
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import LastFilledInfo from '../../../components/shared/LastFilledInfo';
 import { dateFormat } from '../../../util/helpers';
+import { DATETIME_FORMATS } from '../../../util/constants';
 
 describe('Medications Medications List Card Last Filled Info', () => {
   const setup = (rx = prescriptionsListItemNonVA) => {
@@ -25,7 +26,10 @@ describe('Medications Medications List Card Last Filled Info', () => {
     const screen = setup(rx);
 
     expect(screen.getByTestId('rx-last-filled-info')).to.have.text(
-      `Documented on ${dateFormat(rx.orderedDate, 'MMMM D, YYYY')}`,
+      `Documented on ${dateFormat(
+        rx.orderedDate,
+        DATETIME_FORMATS.longMonthDate,
+      )}`,
     );
   });
 
@@ -45,7 +49,10 @@ describe('Medications Medications List Card Last Filled Info', () => {
     const screen = setup(rx);
     expect(
       screen.getByText(
-        `Last filled on ${dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')}`,
+        `Last filled on ${dateFormat(
+          rx.sortedDispensedDate,
+          DATETIME_FORMATS.longMonthDate,
+        )}`,
       ),
     ).to.exist;
   });
@@ -56,7 +63,10 @@ describe('Medications Medications List Card Last Filled Info', () => {
     const screen = setup(rx);
     expect(
       screen.queryByText(
-        `Last filled on ${dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')}`,
+        `Last filled on ${dateFormat(
+          rx.sortedDispensedDate,
+          DATETIME_FORMATS.longMonthDate,
+        )}`,
       ),
     ).to.not.exist;
   });
