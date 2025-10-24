@@ -117,10 +117,11 @@ const ProcessList = () => {
  * @param {Object} props - Component properties
  * @param {Object} props.route - Route configuration from react-router
  * @param {Object} props.route.formConfig - Form configuration object
+ * @param {Object} props.router - Router object for navigation
  * @param {Object} props.location - Location object from react-router
  * @returns {React.ReactElement} Introduction page component
  */
-export const IntroductionPage = ({ route }) => {
+export const IntroductionPage = ({ route, router }) => {
   const { formConfig } = route;
 
   useEffect(() => {
@@ -128,10 +129,13 @@ export const IntroductionPage = ({ route }) => {
     focusElement('h1');
   }, []);
 
-  const firstPage =
-    formConfig.chapters.organizationInformationChapter.pages
-      .organizationInformation.path;
-  const startUrl = `${formConfig.urlPrefix}${firstPage}`;
+  const startForm = event => {
+    event.preventDefault();
+    const firstPage =
+      formConfig.chapters.organizationInformationChapter.pages
+        .organizationInformation.path;
+    router.push(`${formConfig.urlPrefix}${firstPage}`);
+  };
 
   return (
     <article className="schemaform-intro">
@@ -141,8 +145,9 @@ export const IntroductionPage = ({ route }) => {
       </h2>
       <ProcessList />
       <a
-        href={startUrl}
+        href="#start"
         className="vads-c-action-link--green vads-u-margin-top--2"
+        onClick={startForm}
       >
         Start the state and tribal organization burial allowance benefits
         application
@@ -163,5 +168,8 @@ IntroductionPage.propTypes = {
       chapters: PropTypes.object.isRequired,
       urlPrefix: PropTypes.string.isRequired,
     }).isRequired,
+  }).isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
 };
