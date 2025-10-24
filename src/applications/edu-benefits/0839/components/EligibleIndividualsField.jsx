@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   VaTextInput,
   VaCheckbox,
@@ -16,6 +16,7 @@ export default function EligibleIndividualsField({
   childrenProps,
 }) {
   const { formData = {}, onChange } = childrenProps || {};
+  const [shouldShowTextFields, setShouldShowTextFields] = useState(true);
   const handleTextInputChange = event => {
     const { value } = event.target;
     const newFormData = {
@@ -40,6 +41,9 @@ export default function EligibleIndividualsField({
 
     if (isUnlimited) {
       newFormData.eligibleIndividuals = '';
+      setShouldShowTextFields(false);
+    } else {
+      setShouldShowTextFields(true);
     }
 
     onChange(newFormData);
@@ -52,17 +56,28 @@ export default function EligibleIndividualsField({
 
   return (
     <div className="eligible-individuals-field container">
-      <VaTextInput
-        label="How many eligible individuals will your school support through Yellow Ribbon contributions?"
-        hint="Note: The number of individuals must match the maximum number of students in the contribution details later in the form"
-        value={textValue}
-        onInput={handleTextInputChange}
-        disabled={isUnlimited}
-        {...errorMessage && { error: errorMessage }}
-        className="vads-u-margin-bottom--2"
-        required={required && !isUnlimited}
-      />
-
+      {!shouldShowTextFields && (
+        <div>
+          <p>
+            How many eligible individuals will your school support through
+            Yellow Ribbon contributions?{' '}
+            <span className="vads-u-color--secondary-dark">(*Required)</span>
+          </p>
+        </div>
+      )}
+      {shouldShowTextFields && (
+        <VaTextInput
+          label="How many eligible individuals will your school support through Yellow Ribbon contributions?"
+          hint="Note: The number of individuals must match the maximum number of students in the contribution details later in the form."
+          value={textValue}
+          onInput={handleTextInputChange}
+          disabled={isUnlimited}
+          {...errorMessage && { error: errorMessage }}
+          className="vads-u-margin-bottom--2"
+          required={required && !isUnlimited}
+          type="number"
+        />
+      )}
       <VaCheckbox
         label="My school will support an unlimited number of individuals"
         checked={isUnlimited}

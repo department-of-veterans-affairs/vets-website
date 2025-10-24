@@ -6,6 +6,7 @@ import {
 
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
 import SpecificContributionAmount from '../components/SpecificContributionAmount';
+import DegreeLevelDescription from '../components/DegreeLevelDescription';
 
 const uiSchema = {
   'ui:title': () => <YellowRibbonProgramTitle text="Provide your" />,
@@ -70,7 +71,7 @@ const uiSchema = {
   degreeLevel: {
     ...textUI({
       title: 'Degree level',
-      description: `Provide a degree level such as undergraduate, graduate, doctoral, or all. If you'd like to specify a school, you can do so in the "College or professional school" field below.`,
+      description: <DegreeLevelDescription />,
       errorMessages: {
         required: 'Please enter a degree level',
       },

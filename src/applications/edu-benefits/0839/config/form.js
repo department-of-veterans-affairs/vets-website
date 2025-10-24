@@ -147,9 +147,6 @@ const formConfig = {
               path: 'yellow-ribbon-program-request/summary',
               uiSchema: yellowRibbonProgramRequestSummary.uiSchema,
               schema: yellowRibbonProgramRequestSummary.schema,
-              onNavBack: ({ _, goPath }) => {
-                goPath('/review-and-submit');
-              },
             }),
             yellowRibbonProgramContribution: pageBuilder.itemPage({
               title: 'Add a Yellow Ribbon Program contribution',
