@@ -14,7 +14,6 @@ import {
   dateOfBirthSchema,
   dateOfDeathSchema,
   placeOfBirthSchema,
-  serviceNumberSchema,
   ssnSchema,
   vaFileNumberSchema,
   veteranIdentificationSchema,
@@ -66,7 +65,6 @@ export const VeteranIdentificationPage = ({
           last: '',
         },
         ssn: '',
-        serviceNumber: '',
         vaFileNumber: '',
         dateOfBirth: '',
         placeOfBirth: {
@@ -102,17 +100,6 @@ export const VeteranIdentificationPage = ({
             required
             error={errors.ssn}
             forceShowError={formSubmitted}
-          />
-
-          <TextInputField
-            name="serviceNumber"
-            label="Veteran's service number (if different from SSN)"
-            value={localData.serviceNumber}
-            onChange={handleFieldChange}
-            error={errors.serviceNumber}
-            forceShowError={formSubmitted}
-            hint="Leave blank if the same as Social Security Number"
-            schema={serviceNumberSchema}
           />
 
           <TextInputField

@@ -23,6 +23,3 @@ export { VeteranPreviousNamesPage } from './veteran-previous-names';
 
 // Chapter 4: Additional remarks
 export { AdditionalRemarksPage } from './additional-remarks';
-
-// Not yet configured in form
-export { VeteranServicePage } from './veteran-service';
