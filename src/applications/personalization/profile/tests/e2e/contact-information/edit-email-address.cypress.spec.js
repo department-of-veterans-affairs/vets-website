@@ -118,11 +118,11 @@ describe('Edit email address', () => {
     editEmailAddress(newEmail);
     // Confirm the Save button is in a loading state while the transaction is pending
     cy.get('[data-testid="save-edit-button"]').should('have.attr', 'loading');
-    // Confirm edit view exits & update success alert appears
+    // Confirm edit view exits & update success alert appears with focus
     cy.get('[data-field-name="email"]')
       .find('va-button[text="Edit"]')
       .should('exist');
-    cy.get('[data-testid="update-success-alert"]').should('be.visible');
+    cy.get('[data-testid="update-success-alert"]').should('be.focused');
 
     cy.injectAxeThenAxeCheck();
   });

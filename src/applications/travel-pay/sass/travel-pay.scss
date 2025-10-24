@@ -7,6 +7,34 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "../../../platform/mhv/secondary-nav/sass/mhv-sec-nav";
 
+// Complex claim review page styles for the buttons and links
+.review-button-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  va-button-icon {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .review-edit-button {
+    padding-inline: 20px;
+    padding-block: 8px;
+    line-height: 25px;
+    align-items: center;
+    font-weight: bold;
+
+    .active-va-link {
+      align-items: middle;
+      height: 25px;
+      width: 75px;
+      display: inline-block;
+      text-align: center;
+    }
+  }
+}
+
 .btsss-claims-sort-and-filter-container {
   min-width: fit-content;
   max-width: 35rem;
@@ -79,6 +107,13 @@ h2#pagination-info {
   va-icon {
     margin-right: 0.2rem;
     vertical-align: middle;
+  }
+}
+
+.travel-pay-complex-expense-cancel-btn {
+  @media (max-width: 479px) {
+    margin: 4px;
+    width: 100%;
   }
 }
 
