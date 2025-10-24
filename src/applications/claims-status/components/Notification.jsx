@@ -32,7 +32,7 @@ export default function Notification({
       visible
     >
       <h2 slot="headline">{title}</h2>
-      <p className="vads-u-margin-y--0">{body}</p>
+      <div className="vads-u-margin-y--0">{body}</div>
     </VaAlert>
   );
 }
