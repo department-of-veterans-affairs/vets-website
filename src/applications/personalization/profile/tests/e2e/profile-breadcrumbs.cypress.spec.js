@@ -54,14 +54,14 @@ describe('Profile Breadcrumbs', () => {
           profile2Enabled: true,
           profileHealthCareSettingsPage: true,
         }),
-      );
-      cy.visit(`${path}/`);
+      ).as('featureToggles');
+      cy.visit(path);
       cy.get('va-breadcrumbs')
         .shadow()
         .findByText(name)
         .should('exist');
 
-      cy.url().should('eq', `${Cypress.config('baseUrl')}${path}/`);
+      cy.url().should('eq', `${Cypress.config('baseUrl')}${path}`);
       cy.injectAxeThenAxeCheck();
     });
   });
