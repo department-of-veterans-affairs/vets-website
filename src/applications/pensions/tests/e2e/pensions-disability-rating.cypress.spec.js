@@ -107,20 +107,19 @@ describe('Pensions — Disability Rating Alert', () => {
           },
         ],
       },
-    });
+    }).as('rating');
 
     cypressSetup();
 
-    cy.get('va-alert')
-      .should('be.visible')
-      .then($el => {
-        cy.wrap($el)
-          .find('h2')
-          .should(
-            'contain',
-            'Consider your disability rating before you apply',
-          );
-      });
+    cy.wait('@rating');
+
+    cy.get('va-alert', { timeout: 10000 }).should('be.visible');
+
+    cy.get('va-alert').then($el => {
+      cy.wrap($el)
+        .find('h2')
+        .should('contain', 'Consider your disability rating before you apply');
+    });
 
     cy.injectAxe();
     cy.axeCheck();
