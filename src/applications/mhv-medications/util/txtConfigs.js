@@ -275,6 +275,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}${newLine()}`
   let previousRxSection = '';
   if (prescription?.groupedMedications?.length > 0) {
     const previousRxHeader = joinBlocks(
+      newLine(),
       'Previous prescriptions',
       `Showing ${prescription.groupedMedications.length} prescription${
         prescription.groupedMedications.length > 1
@@ -311,5 +312,5 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}${newLine()}`
 
   return `${header}${mostRecentRxSection}${newLine(
     3,
-  )}${refillHistorySection}${newLine(2)}${previousRxSection}${newLine()}`;
+  )}${refillHistorySection}${previousRxSection}${newLine()}`;
 };
