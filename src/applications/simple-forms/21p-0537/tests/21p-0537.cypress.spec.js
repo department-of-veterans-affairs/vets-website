@@ -42,7 +42,7 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'veteran-info/name': ({ afterHook }) => {
+      'veteran-name': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.injectAxeThenAxeCheck();
@@ -55,7 +55,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      'veteran-info/identifier': ({ afterHook }) => {
+      'veteran-identifier': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -73,7 +73,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      'screening/remarriage-status': ({ afterHook }) => {
+      'remarriage-status': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -84,7 +84,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      'marital/marriage-info': ({ afterHook }) => {
+      'marriage-info': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -110,7 +110,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      'marital/spouse-veteran': ({ afterHook }) => {
+      'spouse-veteran-status': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -124,7 +124,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      'marital/spouse-veteran-id': ({ afterHook }) => {
+      'spouse-veteran-id': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -142,7 +142,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      'marital/termination-status': ({ afterHook }) => {
+      'remarriage-end-status': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -156,7 +156,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      'marital/termination-details': ({ afterHook }) => {
+      'remarriage-end-details': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -174,17 +174,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      'marital/marriage-recognition': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(_data => {
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'contact/phone-email': ({ afterHook }) => {
+      'contact-info': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -230,6 +220,9 @@ const testConfig = createTestConfig(
 
       cy.login(mockUser);
     },
+    // Skip tests in CI until the form is released.
+    // Remove this setting when the form has a content page in production.
+    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
