@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   VaAlert,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { createTransaction, fetchTransactions } from '@@vap-svc/actions';
+import { FIELD_NAMES, API_ROUTES } from '@@vap-svc/constants';
 import {
   dismissAlertViaCookie,
   selectContactEmailAddress,
@@ -103,6 +104,7 @@ AlertAddContactEmail.propTypes = {
  * @returns {JSX.Element|null}
  */
 const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
+  const dispatch = useDispatch();
   const renderAlert = useSelector(showAlert);
   const emailAddress = useSelector(selectContactEmailAddress);
 
@@ -110,17 +112,48 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const [confirmError, setConfirmError] = useState(false);
   const [skipSuccess, setSkipSuccess] = useState(false);
 
-  const putConfirmationDate = (confirmationDate = new Date().toISOString()) =>
-    apiRequest('/profile/email_addresses', {
-      method: 'PUT',
-      body: JSON.stringify({ confirmationDate, emailAddress }),
-    })
-      .then(() => {
+  const putConfirmationDate = (confirmationDate = new Date().toISOString()) => {
+    const payload = {
+      emailAddress,
+      confirmationDate,
+    };
+
+    // Dispatch the vap-svc transaction. createTransaction returns the transaction (or null).
+    return dispatch(
+      createTransaction(
+        API_ROUTES.EMAILS,
+        'PUT',
+        FIELD_NAMES.EMAIL,
+        payload,
+        'contact-information',
+      ),
+    )
+      .then(response => {
+        // createTransaction may return null (on failure), { formOnlyUpdate: true }, or a transaction object
+        if (!response) {
+          setConfirmError(true);
+          return null;
+        }
+
+        // form-only update path: treat as success for the UI
+        if (response.formOnlyUpdate) {
+          setConfirmError(false);
+          setConfirmSuccess(true);
+          dismissAlertViaCookie();
+          return response;
+        }
+
+        // Successful transaction creation (RECEIVED). Show success state and trigger a transactions fetch.
         setConfirmError(false);
         setConfirmSuccess(true);
+        dismissAlertViaCookie();
+        dispatch(fetchTransactions());
+        return response;
       })
-      .then(() => dismissAlertViaCookie())
-      .catch(() => setConfirmError(true));
+      .catch(() => {
+        setConfirmError(true);
+      });
+  };
 
   const onSkipClick = () => {
     setSkipSuccess(true);
