@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import relativesOverview from '../../pages/relativesOverview';
-import relativesDetails from '../../pages/relativesDetails';
+import { relativesPages, relativesOptions } from '../../pages/relativesDetails';
 
 describe('21P-601 relatives page configurations', () => {
   describe('relativesOverview', () => {
@@ -29,68 +29,132 @@ describe('21P-601 relatives page configurations', () => {
     });
   });
 
-  describe('relativesDetails', () => {
-    it('exports uiSchema and schema', () => {
-      expect(relativesDetails).to.have.property('uiSchema');
-      expect(relativesDetails).to.have.property('schema');
+  describe('relativesDetails (array builder)', () => {
+    it('exports array builder pages object', () => {
+      expect(relativesPages).to.be.an('object');
+      expect(relativesPages).to.have.property('relativesSummary');
+      expect(relativesPages).to.have.property('relativeNamePage');
+      expect(relativesPages).to.have.property('relativeAddressPage');
     });
 
-    it('has survivingRelatives field', () => {
-      expect(relativesDetails.uiSchema).to.have.property('survivingRelatives');
-      expect(relativesDetails.schema.properties).to.have.property(
-        'survivingRelatives',
+    it('summary page has correct structure', () => {
+      expect(relativesPages.relativesSummary).to.have.property('path');
+      expect(relativesPages.relativesSummary.path).to.equal(
+        'relatives-information',
+      );
+      expect(relativesPages.relativesSummary).to.have.property('uiSchema');
+      expect(relativesPages.relativesSummary).to.have.property('schema');
+    });
+
+    it('summary page has required schema property', () => {
+      expect(
+        relativesPages.relativesSummary.schema.properties,
+      ).to.have.property('view:hasRelatives');
+      expect(relativesPages.relativesSummary.schema.required).to.include(
+        'view:hasRelatives',
       );
     });
 
-    it('has viewField function', () => {
-      const { viewField } = relativesDetails.uiSchema.survivingRelatives[
-        'ui:options'
-      ];
-      expect(viewField).to.be.a('function');
-      const result = viewField({
-        formData: {
-          fullName: { first: 'John', middle: 'A', last: 'Doe' },
-          relationship: 'spouse',
-          dateOfBirth: '1980-01-01',
-        },
-      });
-      expect(result).to.exist;
+    it('summary page has array builder UI', () => {
+      expect(relativesPages.relativesSummary.uiSchema).to.have.property(
+        'view:hasRelatives',
+      );
     });
 
-    it('viewField handles missing data', () => {
-      const { viewField } = relativesDetails.uiSchema.survivingRelatives[
-        'ui:options'
-      ];
-      const result = viewField({
-        formData: {
-          fullName: null,
-          relationship: null,
-        },
-      });
-      expect(result).to.exist;
+    it('relativeNamePage has correct path with index', () => {
+      expect(relativesPages.relativeNamePage.path).to.include(':index');
+      expect(relativesPages.relativeNamePage.path).to.include('details');
     });
 
-    it('viewField formats known relationships', () => {
-      const { viewField } = relativesDetails.uiSchema.survivingRelatives[
-        'ui:options'
-      ];
-      const result = viewField({
-        formData: {
-          fullName: { first: 'Jane' },
-          relationship: 'child',
-        },
-      });
-      expect(result).to.exist;
+    it('relativeNamePage has proper schema structure', () => {
+      expect(
+        relativesPages.relativeNamePage.schema.properties,
+      ).to.have.property('survivingRelatives');
+      const itemSchema =
+        relativesPages.relativeNamePage.schema.properties.survivingRelatives
+          .items;
+      expect(itemSchema.properties).to.have.property('fullName');
+      expect(itemSchema.properties).to.have.property('relationship');
+      expect(itemSchema.properties).to.have.property('dateOfBirth');
     });
 
-    it('has updateSchema function', () => {
-      const { updateSchema } = relativesDetails.uiSchema.survivingRelatives[
-        'ui:options'
-      ];
-      expect(updateSchema).to.be.a('function');
-      const schema = { minItems: 1 };
-      const result = updateSchema({ hasNone: true }, schema);
-      expect(result.minItems).to.equal(0);
+    it('relativeNamePage requires fullName and relationship', () => {
+      const itemSchema =
+        relativesPages.relativeNamePage.schema.properties.survivingRelatives
+          .items;
+      expect(itemSchema.required).to.include('fullName');
+      expect(itemSchema.required).to.include('relationship');
+    });
+
+    it('relativeAddressPage has correct path with index', () => {
+      expect(relativesPages.relativeAddressPage.path).to.include(':index');
+      expect(relativesPages.relativeAddressPage.path).to.include('address');
+    });
+
+    it('relativeAddressPage has address field', () => {
+      expect(
+        relativesPages.relativeAddressPage.schema.properties,
+      ).to.have.property('survivingRelatives');
+      const itemSchema =
+        relativesPages.relativeAddressPage.schema.properties.survivingRelatives
+          .items;
+      expect(itemSchema.properties).to.have.property('address');
+    });
+
+    it('all pages have title property', () => {
+      expect(relativesPages.relativesSummary).to.have.property('title');
+      expect(relativesPages.relativeNamePage).to.have.property('title');
+      expect(relativesPages.relativeAddressPage).to.have.property('title');
+    });
+
+    it('calls getItemName with full name', () => {
+      const result = relativesOptions.text.getItemName({
+        fullName: { first: 'John', middle: 'A', last: 'Doe' },
+      });
+      expect(result).to.equal('John A Doe');
+    });
+
+    it('calls getItemName with no name', () => {
+      const result = relativesOptions.text.getItemName({ fullName: null });
+      expect(result).to.equal('Unknown relative');
+    });
+
+    it('calls getItemName with partial name', () => {
+      const result = relativesOptions.text.getItemName({
+        fullName: { first: 'Jane', last: 'Smith' },
+      });
+      expect(result).to.equal('Jane Smith');
+    });
+
+    it('calls cardDescription with relationship and dob', () => {
+      const result = relativesOptions.text.cardDescription({
+        relationship: 'child',
+        dateOfBirth: '1990-01-01',
+      });
+      expect(result).to.equal('Child • Born: 1990-01-01');
+    });
+
+    it('calls cardDescription without dob', () => {
+      const result = relativesOptions.text.cardDescription({
+        relationship: 'spouse',
+      });
+      expect(result).to.equal('Spouse');
+    });
+
+    it('calls isItemIncomplete with incomplete item', () => {
+      const result = relativesOptions.isItemIncomplete({
+        fullName: null,
+        relationship: 'spouse',
+      });
+      expect(result).to.be.true;
+    });
+
+    it('calls isItemIncomplete with complete item', () => {
+      const result = relativesOptions.isItemIncomplete({
+        fullName: { first: 'John' },
+        relationship: 'child',
+      });
+      expect(result).to.be.false;
     });
   });
 });

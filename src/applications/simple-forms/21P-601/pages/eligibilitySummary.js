@@ -9,7 +9,7 @@ function EligibilitySummary({ formData }) {
   if (formData.hasAlreadyFiled === true) {
     reason = "You've already filed for survivor benefits";
     explanation =
-      "Your accrued benefits claim is already included in your VA Form 21P-534EZ or 21P-535 application. You don't need to file this form separately.";
+      'Your accrued benefits claim is already included in your application for survivors benefits. You don’t need to fill out this form separately.';
   } else if (formData.hasUnpaidCreditors === true) {
     reason = 'You have unpaid creditors';
     explanation =
@@ -35,7 +35,7 @@ function EligibilitySummary({ formData }) {
   return (
     <>
       <va-alert status="error" uswds>
-        <h3 slot="headline">You can't submit this form online</h3>
+        <h3 slot="headline">You already applied for survivors benefits</h3>
         <p>
           <strong>{reason}</strong>
         </p>
@@ -47,8 +47,8 @@ function EligibilitySummary({ formData }) {
 
         {formData.hasAlreadyFiled === true ? (
           <p>
-            Check the status of your existing survivor benefits claim. You don't
-            need to take any additional action for accrued benefits.
+            Check the status of your existing survivors benefits claim. You
+            don't need to take any additional action for accrued benefits.
           </p>
         ) : (
           <>
