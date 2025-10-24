@@ -61,11 +61,35 @@ describe('HospitalizationFacilityPage', () => {
       );
     });
 
-    it('should render page title with claimant first name', () => {
+    it('should render page title with claimant full name', () => {
       const data = {
-        claimantFullName: {
-          first: 'Ahsoka',
-          last: 'Tano',
+        claimantInformation: {
+          claimantFullName: {
+            first: 'Ahsoka',
+            last: 'Tano',
+          },
+        },
+      };
+
+      const { container } = render(
+        <HospitalizationFacilityPage
+          goForward={mockGoForward}
+          data={data}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.textContent).to.include(
+        "What's the name and address of the hospital where Ahsoka Tano is admitted?",
+      );
+    });
+
+    it('should render page title with only first name when last name is missing', () => {
+      const data = {
+        claimantInformation: {
+          claimantFullName: {
+            first: 'Ahsoka',
+          },
         },
       };
 
@@ -79,6 +103,32 @@ describe('HospitalizationFacilityPage', () => {
 
       expect(container.textContent).to.include(
         "What's the name and address of the hospital where Ahsoka is admitted?",
+      );
+    });
+
+    it('should render page title for veteran relationship', () => {
+      const data = {
+        claimantRelationship: {
+          claimantRelationship: 'veteran',
+        },
+        claimantInformation: {
+          claimantFullName: {
+            first: 'John',
+            last: 'Doe',
+          },
+        },
+      };
+
+      const { container } = render(
+        <HospitalizationFacilityPage
+          goForward={mockGoForward}
+          data={data}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.textContent).to.include(
+        "What's the name and address of the hospital where you are admitted?",
       );
     });
   });
@@ -108,7 +158,7 @@ describe('HospitalizationFacilityPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Hospital address');
+      expect(container.textContent).to.include('Address of hospital');
     });
 
     it('should render street address field', async () => {
@@ -196,9 +246,11 @@ describe('HospitalizationFacilityPage', () => {
           postalCode: '98101',
           country: 'USA',
         },
-        claimantFullName: {
-          first: 'Ahsoka',
-          last: 'Tano',
+        claimantInformation: {
+          claimantFullName: {
+            first: 'Ahsoka',
+            last: 'Tano',
+          },
         },
       };
 

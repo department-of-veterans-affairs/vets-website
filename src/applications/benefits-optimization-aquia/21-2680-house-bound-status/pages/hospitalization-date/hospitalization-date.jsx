@@ -5,7 +5,10 @@ import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { MemorableDateField } from '@bio-aquia/shared/components/atoms';
 import { transformDates } from '@bio-aquia/shared/forms';
 
-import { hospitalizationDatePageSchema } from '@bio-aquia/21-2680-house-bound-status/schemas';
+import {
+  hospitalizationDatePageSchema,
+  admissionDateFieldSchema,
+} from '@bio-aquia/21-2680-house-bound-status/schemas';
 
 /**
  * Data processor to ensure date values are properly formatted strings
@@ -30,12 +33,27 @@ export const HospitalizationDatePage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
-  // Get claimant name from previous pages
-  const claimantName = formDataToUse.claimantFullName?.first || 'the claimant';
+  // Get claimant information for dynamic title
+  const relationship =
+    formDataToUse?.claimantRelationship?.claimantRelationship;
+  const isVeteran = relationship === 'veteran';
+  const claimantName = formDataToUse?.claimantInformation?.claimantFullName;
+  const firstName = claimantName?.first || '';
+  const lastName = claimantName?.last || '';
+
+  // Format the name for display
+  const formattedName =
+    firstName && lastName
+      ? `${firstName} ${lastName}`
+      : firstName || 'the claimant';
+
+  const pageTitle = isVeteran
+    ? 'When were you admitted to the hospital?'
+    : `When was ${formattedName} admitted to the hospital?`;
 
   return (
     <PageTemplate
-      title={`When was ${claimantName} admitted to the hospital?`}
+      title={pageTitle}
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -56,6 +74,7 @@ export const HospitalizationDatePage = ({
             name="admissionDate"
             value={localData.admissionDate || ''}
             onChange={handleFieldChange}
+            schema={admissionDateFieldSchema}
             error={errors.admissionDate}
             forceShowError={formSubmitted}
             required
@@ -67,10 +86,10 @@ export const HospitalizationDatePage = ({
 };
 
 HospitalizationDatePage.propTypes = {
+  goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
-  goForward: PropTypes.func.isRequired,
-  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };

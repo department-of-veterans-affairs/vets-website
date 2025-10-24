@@ -115,7 +115,7 @@ describe('Claimant SSN Schemas', () => {
   describe('claimantSSNPageSchema', () => {
     it('should validate complete page data with SSN', () => {
       const validData = {
-        claimantSSN: '123-45-6789',
+        claimantSsn: '123-45-6789',
       };
       const result = claimantSSNPageSchema.safeParse(validData);
       expect(result.success).to.be.true;
@@ -123,7 +123,7 @@ describe('Claimant SSN Schemas', () => {
 
     it('should validate page data with SSN without dashes', () => {
       const validData = {
-        claimantSSN: '123456789',
+        claimantSsn: '123456789',
       };
       const result = claimantSSNPageSchema.safeParse(validData);
       expect(result.success).to.be.true;
@@ -137,7 +137,7 @@ describe('Claimant SSN Schemas', () => {
 
     it('should reject empty claimantSSN', () => {
       const invalidData = {
-        claimantSSN: '',
+        claimantSsn: '',
       };
       const result = claimantSSNPageSchema.safeParse(invalidData);
       expect(result.success).to.be.false;
@@ -145,7 +145,7 @@ describe('Claimant SSN Schemas', () => {
 
     it('should reject invalid claimantSSN format', () => {
       const invalidData = {
-        claimantSSN: '12345',
+        claimantSsn: '12345',
       };
       const result = claimantSSNPageSchema.safeParse(invalidData);
       expect(result.success).to.be.false;
@@ -153,7 +153,7 @@ describe('Claimant SSN Schemas', () => {
 
     it('should reject null claimantSSN', () => {
       const invalidData = {
-        claimantSSN: null,
+        claimantSsn: null,
       };
       const result = claimantSSNPageSchema.safeParse(invalidData);
       expect(result.success).to.be.false;
@@ -161,12 +161,12 @@ describe('Claimant SSN Schemas', () => {
 
     it('should strip dashes from valid SSN', () => {
       const validData = {
-        claimantSSN: '987-65-4321',
+        claimantSsn: '987-65-4321',
       };
       const result = claimantSSNPageSchema.safeParse(validData);
       expect(result.success).to.be.true;
       if (result.success) {
-        expect(result.data.claimantSSN).to.equal('987654321');
+        expect(result.data.claimantSsn).to.equal('987654321');
       }
     });
   });

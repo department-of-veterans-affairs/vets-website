@@ -28,13 +28,22 @@ export const ClaimantContactPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
-  // Get claimant's first name for dynamic labels
-  const claimantFirstName =
-    formDataToUse?.claimantInformation?.claimantFullName?.first || 'Claimant';
+  // Get claimant's name from form data
+  const claimantName = formDataToUse?.claimantInformation?.claimantFullName;
+  const firstName = claimantName?.first || '';
+  const lastName = claimantName?.last || '';
+
+  // Format the name for display
+  const formattedName =
+    firstName && lastName
+      ? `${firstName} ${lastName}`
+      : firstName || 'Claimant';
+
+  const pageTitle = `${formattedName}'s phone number and email address`;
 
   return (
     <PageTemplate
-      title="Claimant contact information"
+      title={pageTitle}
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -52,12 +61,12 @@ export const ClaimantContactPage = ({
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
           <p>
-            Enter your contact information as the person filing on behalf of the
-            Veteran.
+            We may use their contact information to contact them if we have
+            questions about their application or if we need more information.
           </p>
 
           <PhoneField
-            label={`${claimantFirstName}'s home phone number`}
+            label={`${formattedName}'s home phone number`}
             name="claimantPhoneNumber"
             value={localData.claimantPhoneNumber || ''}
             onChange={handleFieldChange}
@@ -68,18 +77,17 @@ export const ClaimantContactPage = ({
           />
 
           <PhoneField
-            label={`${claimantFirstName}'s mobile phone number`}
+            label={`${formattedName}'s mobile phone number`}
             name="claimantMobilePhone"
             value={localData.claimantMobilePhone || ''}
             onChange={handleFieldChange}
             error={errors.claimantMobilePhone}
             forceShowError={formSubmitted}
-            hint="Optional"
             schema={claimantMobilePhoneSchema}
           />
 
           <TextInputField
-            label={`${claimantFirstName}'s email address`}
+            label={`${formattedName}'s email address`}
             name="claimantEmail"
             type="email"
             value={localData.claimantEmail || ''}
@@ -96,9 +104,9 @@ export const ClaimantContactPage = ({
 };
 
 ClaimantContactPage.propTypes = {
+  goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   onReviewPage: PropTypes.bool,
-  goForward: PropTypes.func.isRequired,
   goBack: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,

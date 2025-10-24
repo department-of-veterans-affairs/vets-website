@@ -8,7 +8,7 @@ export const isCurrentlyHospitalizedSchema = z.enum(['yes', 'no'], {
 });
 
 /**
- * Schema for admission date
+ * Schema for admission date (optional, used in combined hospitalization form)
  */
 export const admissionDateSchema = z
   .string()
@@ -19,6 +19,43 @@ export const admissionDateSchema = z
   }, 'Please enter a valid date')
   .optional()
   .or(z.literal(''));
+
+/**
+ * Schema for required admission date field (used in date-specific page)
+ */
+export const admissionDateFieldSchema = z
+  .string()
+  .min(1, 'Admission date is required')
+  .refine(val => {
+    if (!val || typeof val !== 'string') return false;
+
+    const parts = val.split('-');
+    if (parts.length !== 3) return true;
+
+    const month = parseInt(parts[1], 10);
+
+    return month >= 1 && month <= 12;
+  }, 'Please enter a month between 1 and 12')
+  .refine(val => {
+    const date = new Date(val);
+    if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+      return false;
+    }
+
+    const [year, month, day] = val.split('-').map(Number);
+    const utcDate = new Date(Date.UTC(year, month - 1, day));
+
+    return (
+      utcDate.getUTCFullYear() === year &&
+      utcDate.getUTCMonth() === month - 1 &&
+      utcDate.getUTCDate() === day
+    );
+  }, 'Please enter a valid date')
+  .refine(val => {
+    const date = new Date(val);
+    const today = new Date();
+    return date <= today;
+  }, 'Admission date cannot be in the future');
 
 /**
  * Schema for facility name

@@ -9,16 +9,6 @@ import { expect } from 'chai';
 import { HospitalizationStatusPage } from './hospitalization-status';
 
 /**
- * Helper function to find web component by tag and label attribute
- * Works around Node 22 limitation with CSS attribute selectors on custom elements
- */
-const findByLabel = (container, tagName, labelText) => {
-  return Array.from(container.querySelectorAll(tagName)).find(
-    el => el.getAttribute('label') === labelText,
-  );
-};
-
-/**
  * Helper function to find web component by tag and text attribute
  * Works around Node 22 limitation with CSS attribute selectors on custom elements
  */
@@ -59,11 +49,33 @@ describe('HospitalizationStatusPage', () => {
       expect(container.textContent).to.include('Is the claimant hospitalized?');
     });
 
-    it('should render page title with claimant first name', () => {
+    it('should render page title with claimant full name', () => {
       const data = {
-        claimantFullName: {
-          first: 'Ahsoka',
-          last: 'Tano',
+        claimantInformation: {
+          claimantFullName: {
+            first: 'Ahsoka',
+            last: 'Tano',
+          },
+        },
+      };
+
+      const { container } = render(
+        <HospitalizationStatusPage
+          goForward={mockGoForward}
+          data={data}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.textContent).to.include('Is Ahsoka Tano hospitalized?');
+    });
+
+    it('should render page title with only first name when last name is missing', () => {
+      const data = {
+        claimantInformation: {
+          claimantFullName: {
+            first: 'Ahsoka',
+          },
         },
       };
 
@@ -76,6 +88,30 @@ describe('HospitalizationStatusPage', () => {
       );
 
       expect(container.textContent).to.include('Is Ahsoka hospitalized?');
+    });
+
+    it('should render page title for veteran relationship', () => {
+      const data = {
+        claimantRelationship: {
+          claimantRelationship: 'veteran',
+        },
+        claimantInformation: {
+          claimantFullName: {
+            first: 'John',
+            last: 'Doe',
+          },
+        },
+      };
+
+      const { container } = render(
+        <HospitalizationStatusPage
+          goForward={mockGoForward}
+          data={data}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.textContent).to.include('Are you hospitalized?');
     });
   });
 
@@ -119,9 +155,11 @@ describe('HospitalizationStatusPage', () => {
 
     it('should render radio label with claimant name', async () => {
       const data = {
-        claimantFullName: {
-          first: 'Jane',
-          last: 'Doe',
+        claimantInformation: {
+          claimantFullName: {
+            first: 'Jane',
+            last: 'Doe',
+          },
         },
       };
 
@@ -134,8 +172,7 @@ describe('HospitalizationStatusPage', () => {
       );
 
       await waitFor(() => {
-        expect(findByLabel(container, 'va-radio', 'Is Jane hospitalized?')).to
-          .exist;
+        expect(container.textContent).to.include('Is Jane Doe hospitalized?');
       });
     });
   });
@@ -144,8 +181,10 @@ describe('HospitalizationStatusPage', () => {
     it('should render with hospitalized status yes', () => {
       const existingData = {
         isCurrentlyHospitalized: 'yes',
-        claimantFullName: {
-          first: 'Ahsoka',
+        claimantInformation: {
+          claimantFullName: {
+            first: 'Ahsoka',
+          },
         },
       };
 
@@ -171,8 +210,10 @@ describe('HospitalizationStatusPage', () => {
     it('should render with hospitalized status no', () => {
       const existingData = {
         isCurrentlyHospitalized: 'no',
-        claimantFullName: {
-          first: 'Ahsoka',
+        claimantInformation: {
+          claimantFullName: {
+            first: 'Ahsoka',
+          },
         },
       };
 

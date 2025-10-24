@@ -63,6 +63,7 @@ export {
 export {
   isCurrentlyHospitalizedSchema,
   admissionDateSchema,
+  admissionDateFieldSchema,
   facilityNameSchema,
   facilityAddressSchema,
   hospitalizationStatusPageSchema,

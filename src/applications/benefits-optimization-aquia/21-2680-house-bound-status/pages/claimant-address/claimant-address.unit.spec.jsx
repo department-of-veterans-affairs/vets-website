@@ -35,7 +35,7 @@ describe('ClaimantAddressPage', () => {
       );
 
       expect(container).to.exist;
-      expect(container.textContent).to.include('Claimant address');
+      expect(container.textContent).to.include('mailing address');
     });
 
     it('should render page title', () => {
@@ -47,7 +47,7 @@ describe('ClaimantAddressPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Claimant address');
+      expect(container.textContent).to.include('mailing address');
     });
 
     it('should render description text', () => {
@@ -60,9 +60,7 @@ describe('ClaimantAddressPage', () => {
       );
 
       expect(container.textContent).to.include("Claimant's mailing address");
-      expect(container.textContent).to.include(
-        'Enter your mailing address as the person filing on behalf of the Veteran',
-      );
+      expect(container.textContent).to.include('important information');
     });
   });
 

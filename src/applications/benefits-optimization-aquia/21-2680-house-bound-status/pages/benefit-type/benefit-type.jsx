@@ -34,13 +34,27 @@ export const BenefitTypePage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
-  // Determine if claimant is veteran or someone else
-  const isVeteran = formDataToUse.claimantRelationship === 'veteran';
-  const claimantName = formDataToUse.claimantFullName?.first || 'the claimant';
+  // Get claimant information for dynamic label
+  const relationship =
+    formDataToUse?.claimantRelationship?.claimantRelationship;
+  const isVeteran = relationship === 'veteran';
+  const claimantName = formDataToUse?.claimantInformation?.claimantFullName;
+  const firstName = claimantName?.first || '';
+  const lastName = claimantName?.last || '';
+
+  // Format the name for display
+  const formattedName =
+    firstName && lastName
+      ? `${firstName} ${lastName}`
+      : firstName || 'the claimant';
+
+  const questionText = isVeteran
+    ? 'Select which benefit you are applying for'
+    : `Select which benefit ${formattedName} is applying for`;
 
   return (
     <PageTemplate
-      title="Choose your benefit type"
+      title={questionText}
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -55,36 +69,58 @@ export const BenefitTypePage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <h3>
-            Select which benefit {isVeteran ? 'you are' : `${claimantName} is`}{' '}
-            applying for.
-          </h3>
+          <style>
+            {`
+            va-radio[tile] va-radio-option {
+              border: 1px solid #d6d7d9;
+              border-radius: 4px;
+              padding: 16px;
+              margin-bottom: 8px;
+              display: block;
+            }
+
+            va-radio[tile] va-radio-option:hover {
+              border-color: #565c65;
+            }
+
+            va-radio[tile] va-radio-option[checked] {
+              border-color: #005ea2;
+              border-width: 2px;
+              background-color: #f0f9ff;
+            }
+          `}
+          </style>
 
           <p>
-            <strong>Special Monthly Compensation (SMC)</strong> is paid in
-            addition to compensation or Dependency Indemnity Compensation (DIC)
-            for a service-related disability.
-          </p>
-
-          <p>
-            <strong>Special Monthly Pension (SMP)</strong> is an increased
-            monthly amount paid to a Veteran or survivor who is eligible for
-            Veterans Pension or Survivors benefits.
+            <a
+              href="https://www.va.gov/pension/aid-attendance-housebound/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Find out more about the difference between Special Monthly
+              Compensation (SMC) and Special Monthly Pension (SMP).
+            </a>
           </p>
 
           <RadioField
             name="benefitType"
+            label="Select benefit type"
             value={localData.benefitType || ''}
             onChange={handleFieldChange}
             schema={benefitTypeSchema}
+            tile
             options={[
               {
                 label: 'Special Monthly Compensation (SMC)',
                 value: BENEFIT_TYPES.SMC,
+                description:
+                  'is paid in addition to compensation or Dependency Indemnity Compensation (DIC) for a service-related disability.',
               },
               {
                 label: 'Special Monthly Pension (SMP)',
                 value: BENEFIT_TYPES.SMP,
+                description:
+                  'is an increased monthly amount paid to a Veteran or survivor who is eligible for Veterans Pension or Survivors benefits.',
               },
             ]}
             error={errors.benefitType}
@@ -98,10 +134,10 @@ export const BenefitTypePage = ({
 };
 
 BenefitTypePage.propTypes = {
-  data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  onReviewPage: PropTypes.bool,
   goForward: PropTypes.func.isRequired,
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };

@@ -25,29 +25,42 @@ export const ClaimantSSNPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Get claimant's name from form data
+  const claimantName = formDataToUse?.claimantInformation?.claimantFullName;
+  const firstName = claimantName?.first || '';
+  const lastName = claimantName?.last || '';
+
+  // Format the name for display
+  const formattedName =
+    firstName && lastName
+      ? `${firstName} ${lastName}`
+      : firstName || 'Claimant';
+
+  const pageTitle = `${formattedName}'s Social Security number`;
+
   return (
     <PageTemplate
-      title="Claimant Social Security number"
+      title={pageTitle}
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
       schema={claimantSSNPageSchema}
-      sectionName="claimantSSN"
+      sectionName="claimantSsn"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       defaultData={{
-        claimantSSN: '',
+        claimantSsn: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
           <SSNField
             label="Social Security number"
-            name="claimantSSN"
-            value={localData.claimantSSN || ''}
+            name="claimantSsn"
+            value={localData.claimantSsn || ''}
             onChange={handleFieldChange}
-            error={errors.claimantSSN}
+            error={errors.claimantSsn}
             forceShowError={formSubmitted}
             required
             schema={claimantSSNSchema}
@@ -59,10 +72,10 @@ export const ClaimantSSNPage = ({
 };
 
 ClaimantSSNPage.propTypes = {
-  data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  onReviewPage: PropTypes.bool,
   goForward: PropTypes.func.isRequired,
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };

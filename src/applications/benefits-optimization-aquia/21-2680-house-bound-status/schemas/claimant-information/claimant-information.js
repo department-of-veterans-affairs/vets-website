@@ -8,6 +8,18 @@ export const claimantDOBSchema = z
   .string()
   .min(1, 'Date of birth is required')
   .refine(val => {
+    // Check format first
+    if (!val || typeof val !== 'string') return false;
+
+    const parts = val.split('-');
+    if (parts.length !== 3) return true; // Let web component handle format errors
+
+    const month = parseInt(parts[1], 10);
+
+    // Check for invalid month specifically
+    return month >= 1 && month <= 12;
+  }, 'Please enter a month between 1 and 12')
+  .refine(val => {
     // First check if it's a valid date
     const date = new Date(val);
     if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
@@ -46,5 +58,5 @@ export const claimantDOBSchema = z
  */
 export const claimantInformationPageSchema = z.object({
   claimantFullName: fullNameSchema,
-  claimantDOB: claimantDOBSchema,
+  claimantDob: claimantDOBSchema,
 });

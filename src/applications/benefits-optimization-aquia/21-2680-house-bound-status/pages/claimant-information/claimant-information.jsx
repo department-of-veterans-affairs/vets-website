@@ -15,7 +15,7 @@ import {
  * Data processor to ensure date values are properly formatted strings
  */
 const ensureDateStrings = formData => {
-  return transformDates(formData, ['claimantDOB']);
+  return transformDates(formData, ['claimantDob']);
 };
 
 /**
@@ -33,6 +33,45 @@ export const ClaimantInformationPage = ({
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
+
+  const relationship =
+    formDataToUse?.claimantRelationship?.claimantRelationship;
+
+  /**
+   * Get the appropriate label text based on relationship
+   */
+  const getNameLabel = () => {
+    switch (relationship) {
+      case 'veteran':
+        return 'Your full name';
+      case 'spouse':
+        return "Your spouse's full name";
+      case 'child':
+        return "Your child's full name";
+      case 'parent':
+        return "Your parent's full name";
+      default:
+        return "Claimant's full name";
+    }
+  };
+
+  /**
+   * Get the appropriate description text based on relationship
+   */
+  const getDescription = () => {
+    switch (relationship) {
+      case 'veteran':
+        return 'Enter your information.';
+      case 'spouse':
+        return "Enter your spouse's information.";
+      case 'child':
+        return "Enter your child's information.";
+      case 'parent':
+        return "Enter your parent's information.";
+      default:
+        return 'Enter your information as the person filing on behalf of the Veteran.';
+    }
+  };
 
   return (
     <PageTemplate
@@ -52,15 +91,12 @@ export const ClaimantInformationPage = ({
           middle: '',
           last: '',
         },
-        claimantDOB: '',
+        claimantDob: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <p>
-            Enter your information as the person filing on behalf of the
-            Veteran.
-          </p>
+          <p>{getDescription()}</p>
 
           <FullnameField
             fieldPrefix="claimant"
@@ -69,16 +105,16 @@ export const ClaimantInformationPage = ({
             errors={errors.claimantFullName || {}}
             forceShowError={formSubmitted}
             required
-            label="Claimant's full name"
+            label={getNameLabel()}
             showSuffix={false}
           />
 
           <MemorableDateField
             label="Date of birth"
-            name="claimantDOB"
-            value={localData.claimantDOB || ''}
+            name="claimantDob"
+            value={localData.claimantDob || ''}
             onChange={handleFieldChange}
-            error={errors.claimantDOB}
+            error={errors.claimantDob}
             forceShowError={formSubmitted}
             required
             schema={claimantDOBSchema}
@@ -90,9 +126,9 @@ export const ClaimantInformationPage = ({
 };
 
 ClaimantInformationPage.propTypes = {
+  goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   onReviewPage: PropTypes.bool,
-  goForward: PropTypes.func.isRequired,
   goBack: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,

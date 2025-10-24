@@ -114,7 +114,7 @@ describe('Claimant Information Schemas', () => {
           middle: 'Fulcrum',
           last: 'Tano',
         },
-        claimantDOB: '1990-05-15',
+        claimantDob: '1990-05-15',
       };
       const result = claimantInformationPageSchema.safeParse(validData);
       expect(result.success).to.be.true;
@@ -127,7 +127,7 @@ describe('Claimant Information Schemas', () => {
           middle: '',
           last: 'Tano',
         },
-        claimantDOB: '1990-05-15',
+        claimantDob: '1990-05-15',
       };
       const result = claimantInformationPageSchema.safeParse(validData);
       expect(result.success).to.be.true;
@@ -135,7 +135,7 @@ describe('Claimant Information Schemas', () => {
 
     it('should reject missing claimantFullName', () => {
       const invalidData = {
-        claimantDOB: '1990-05-15',
+        claimantDob: '1990-05-15',
       };
       const result = claimantInformationPageSchema.safeParse(invalidData);
       expect(result.success).to.be.false;
@@ -160,7 +160,7 @@ describe('Claimant Information Schemas', () => {
           middle: '',
           last: 'Tano',
         },
-        claimantDOB: '1990-05-15',
+        claimantDob: '1990-05-15',
       };
       const result = claimantInformationPageSchema.safeParse(invalidData);
       expect(result.success).to.be.false;
@@ -173,7 +173,7 @@ describe('Claimant Information Schemas', () => {
           middle: '',
           last: '',
         },
-        claimantDOB: '1990-05-15',
+        claimantDob: '1990-05-15',
       };
       const result = claimantInformationPageSchema.safeParse(invalidData);
       expect(result.success).to.be.false;
@@ -188,7 +188,7 @@ describe('Claimant Information Schemas', () => {
           middle: '',
           last: 'Tano',
         },
-        claimantDOB: futureDate.toISOString().split('T')[0],
+        claimantDob: futureDate.toISOString().split('T')[0],
       };
       const result = claimantInformationPageSchema.safeParse(invalidData);
       expect(result.success).to.be.false;
@@ -201,7 +201,7 @@ describe('Claimant Information Schemas', () => {
           middle: '',
           last: 'Tano',
         },
-        claimantDOB: '',
+        claimantDob: '',
       };
       const result = claimantInformationPageSchema.safeParse(invalidData);
       expect(result.success).to.be.false;
@@ -220,7 +220,7 @@ describe('Claimant Information Schemas', () => {
           middle: '',
           last: 'Organa-Solo',
         },
-        claimantDOB: '1990-05-15',
+        claimantDob: '1990-05-15',
       };
       const result = claimantInformationPageSchema.safeParse(validData);
       expect(result.success).to.be.true;

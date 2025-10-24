@@ -25,9 +25,23 @@ export const ClaimantAddressPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Get claimant's name from form data
+  const claimantName = formDataToUse?.claimantInformation?.claimantFullName;
+  const firstName = claimantName?.first || '';
+  const lastName = claimantName?.last || '';
+
+  // Format the name for display
+  const formattedName =
+    firstName && lastName
+      ? `${firstName} ${lastName}`
+      : firstName || 'Claimant';
+
+  const addressLabel = `${formattedName}'s mailing address`;
+  const addressDescription = `We'll send any important information about ${formattedName}'s application to this address.`;
+
   return (
     <PageTemplate
-      title="Claimant address"
+      title=""
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -53,8 +67,8 @@ export const ClaimantAddressPage = ({
         <>
           <AddressField
             name="claimantAddress"
-            label="Claimant's mailing address"
-            description="Enter your mailing address as the person filing on behalf of the Veteran."
+            label={addressLabel}
+            description={addressDescription}
             value={localData.claimantAddress}
             onChange={handleFieldChange}
             schema={claimantAddressSchema}

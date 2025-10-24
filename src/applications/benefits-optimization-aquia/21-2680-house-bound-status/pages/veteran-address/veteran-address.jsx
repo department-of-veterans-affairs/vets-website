@@ -102,10 +102,10 @@ export const VeteranAddressPage = ({
 };
 
 VeteranAddressPage.propTypes = {
-  data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  onReviewPage: PropTypes.bool,
   goForward: PropTypes.func.isRequired,
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };

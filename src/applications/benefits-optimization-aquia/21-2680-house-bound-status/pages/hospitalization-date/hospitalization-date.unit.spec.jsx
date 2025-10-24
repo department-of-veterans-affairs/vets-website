@@ -61,11 +61,35 @@ describe('HospitalizationDatePage', () => {
       );
     });
 
-    it('should render page title with claimant first name', () => {
+    it('should render page title with claimant full name', () => {
       const data = {
-        claimantFullName: {
-          first: 'Michael',
-          last: 'Johnson',
+        claimantInformation: {
+          claimantFullName: {
+            first: 'Michael',
+            last: 'Johnson',
+          },
+        },
+      };
+
+      const { container } = render(
+        <HospitalizationDatePage
+          goForward={mockGoForward}
+          data={data}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.textContent).to.include(
+        'When was Michael Johnson admitted to the hospital?',
+      );
+    });
+
+    it('should render page title with only first name when last name is missing', () => {
+      const data = {
+        claimantInformation: {
+          claimantFullName: {
+            first: 'Michael',
+          },
         },
       };
 
@@ -79,6 +103,32 @@ describe('HospitalizationDatePage', () => {
 
       expect(container.textContent).to.include(
         'When was Michael admitted to the hospital?',
+      );
+    });
+
+    it('should render page title for veteran relationship', () => {
+      const data = {
+        claimantRelationship: {
+          claimantRelationship: 'veteran',
+        },
+        claimantInformation: {
+          claimantFullName: {
+            first: 'John',
+            last: 'Doe',
+          },
+        },
+      };
+
+      const { container } = render(
+        <HospitalizationDatePage
+          goForward={mockGoForward}
+          data={data}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.textContent).to.include(
+        'When were you admitted to the hospital?',
       );
     });
   });
@@ -118,9 +168,11 @@ describe('HospitalizationDatePage', () => {
     it('should render with existing admission date', () => {
       const existingData = {
         admissionDate: '2024-01-15',
-        claimantFullName: {
-          first: 'Sarah',
-          last: 'Williams',
+        claimantInformation: {
+          claimantFullName: {
+            first: 'Sarah',
+            last: 'Williams',
+          },
         },
       };
 

@@ -45,7 +45,7 @@ describe('ClaimantContactPage', () => {
       );
 
       expect(container).to.exist;
-      expect(container.textContent).to.include('Claimant contact information');
+      expect(container.textContent).to.include('phone number and email');
     });
 
     it('should render page title', () => {
@@ -57,7 +57,7 @@ describe('ClaimantContactPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Claimant contact information');
+      expect(container.textContent).to.include('phone number and email');
     });
 
     it('should render instruction text', () => {
@@ -70,7 +70,7 @@ describe('ClaimantContactPage', () => {
       );
 
       expect(container.textContent).to.include(
-        'Enter your contact information as the person filing on behalf of the Veteran',
+        'contact them if we have questions',
       );
     });
   });
@@ -148,7 +148,7 @@ describe('ClaimantContactPage', () => {
           "Claimant's mobile phone number",
         );
         expect(mobileField).to.exist;
-        expect(mobileField.getAttribute('hint')).to.include('Optional');
+        expect(mobileField.getAttribute('required')).to.equal('false');
       });
     });
   });

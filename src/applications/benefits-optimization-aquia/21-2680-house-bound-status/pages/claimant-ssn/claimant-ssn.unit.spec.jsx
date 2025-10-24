@@ -45,9 +45,7 @@ describe('ClaimantSSNPage', () => {
       );
 
       expect(container).to.exist;
-      expect(container.textContent).to.include(
-        'Claimant Social Security number',
-      );
+      expect(container.textContent).to.include('Social Security number');
     });
 
     it('should render page title', () => {
@@ -59,9 +57,7 @@ describe('ClaimantSSNPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include(
-        'Claimant Social Security number',
-      );
+      expect(container.textContent).to.include('Social Security number');
     });
   });
 

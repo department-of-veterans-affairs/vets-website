@@ -19,7 +19,7 @@ import {
  * Data processor to ensure date values are properly formatted strings
  */
 const ensureDateStrings = formData => {
-  return transformDates(formData, ['veteranDOB']);
+  return transformDates(formData, ['veteranDob']);
 };
 
 /**
@@ -56,13 +56,13 @@ export const VeteranIdentityPage = ({
           middle: '',
           last: '',
         },
-        veteranSSN: '',
-        veteranDOB: '',
+        veteranSsn: '',
+        veteranDob: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <p>
+          <p className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--lg vads-u-line-height--1">
             Confirm the personal information we have on file for the Veteran.
           </p>
 
@@ -79,10 +79,10 @@ export const VeteranIdentityPage = ({
 
           <SSNField
             label="Social Security number"
-            name="veteranSSN"
-            value={localData.veteranSSN || ''}
+            name="veteranSsn"
+            value={localData.veteranSsn || ''}
             onChange={handleFieldChange}
-            error={errors.veteranSSN}
+            error={errors.veteranSsn}
             forceShowError={formSubmitted}
             required
             schema={veteranSSNSchema}
@@ -90,10 +90,10 @@ export const VeteranIdentityPage = ({
 
           <MemorableDateField
             label="Date of birth"
-            name="veteranDOB"
-            value={localData.veteranDOB || ''}
+            name="veteranDob"
+            value={localData.veteranDob || ''}
             onChange={handleFieldChange}
-            error={errors.veteranDOB}
+            error={errors.veteranDob}
             forceShowError={formSubmitted}
             required
             schema={veteranDOBSchema}
@@ -107,8 +107,8 @@ export const VeteranIdentityPage = ({
 VeteranIdentityPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  onReviewPage: PropTypes.bool,
   goBack: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
