@@ -7,7 +7,7 @@ import { DATETIME_FORMATS, FIELD_NONE_NOTED } from '../constants';
  * Normalizes a datetime string into ISO format.
  *
  * Primarily supports RFC 2822-style dates (e.g. `"Mon, 24 Feb 2025 03:39:11 EST"`)
- * returned in `prescription.trackingList`, but will also handle any string
+ * returned in `prescription.trackingList`, but will also handle any value
  * that the native `Date` constructor can parse.
  *
  * @see {@link https://datatracker.ietf.org/doc/html/rfc2822#section-3.3}
@@ -16,10 +16,6 @@ import { DATETIME_FORMATS, FIELD_NONE_NOTED } from '../constants';
  * @returns {string|null} ISO string if parsed successfully, otherwise `null`.
  */
 const convertToISO = dateString => {
-  if (typeof dateString !== 'string') {
-    return null;
-  }
-
   // Regular expression to match the expected date format
   const regex = /^\w{3}, \d{2} \w{3} \d{4} \d{2}:\d{2}:\d{2} [A-Z]{3}$/;
   // Return null if the format is invalid
@@ -41,8 +37,8 @@ const convertToISO = dateString => {
  * @param {string|Date} timestamp The datetime value to format.
  *   Accepts:
  *   - a JavaScript `Date` object,
- *   - an ISO 8601 date or datetime string (e.g. `"2022-06-02"` or `"2022-06-02T14:30:00Z"`),
- *   - or an RFC 2822 / RFC 1123 string (e.g. `"Mon, 24 Feb 2025 03:39:11 EST"`).
+ *   - an RFC 2822 string (e.g. `"Mon, 24 Feb 2025 03:39:11 EST"`),
+ *   - or any other value that the native `Date` constructor can parse
  *
  *   If `timestamp` is falsy, the function returns the `noDateMessage` (if provided) or `FIELD_NONE_NOTED` if not.
  *
