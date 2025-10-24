@@ -1,15 +1,15 @@
 import 'cypress-axe';
 import fixtureData from '../fixtures/mocks/user.json';
-import { 
-  checkAxeAndClickContinueButton, 
-  checkVisibleElementContent 
+import {
+  checkAxeAndClickContinueButton,
+  checkVisibleElementContent,
 } from '../utils';
 
 const loginWithLocalStorage = () => {
-  cy.injectAxeThenAxeCheck()
+  cy.injectAxeThenAxeCheck();
   cy.window().then(win => {
-     win.localStorage.setItem('hasSession', true);
-   });
+    win.localStorage.setItem('hasSession', true);
+  });
 };
 
 /**
