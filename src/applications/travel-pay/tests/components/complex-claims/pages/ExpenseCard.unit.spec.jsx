@@ -11,7 +11,7 @@ import {
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import ExpenseCard from '../../../../components/complex-claims/pages/ExpenseCard';
 import reducer from '../../../../redux/reducer';
-import AgreementPage from '../../../../components/complex-claims/pages/AgreementPage';
+import Mileage from '../../../../components/complex-claims/pages/Mileage';
 
 describe('ExpenseCard', () => {
   const LocationDisplay = () => {
@@ -19,7 +19,7 @@ describe('ExpenseCard', () => {
     return <div data-testid="location-display">{location.pathname}</div>;
   };
 
-  const editRoute = '../travel-agreement'; // TODO: Update route once mileage route exists
+  const editRoute = '../mileage';
 
   const defaultExpense = {
     id: 'expense1',
@@ -40,7 +40,7 @@ describe('ExpenseCard', () => {
   // Helper to render the component with router + store
   const renderExpenseCard = (
     expense = defaultExpense,
-    editToRoute = '/travel-agreement',
+    editToRoute = editRoute,
   ) =>
     renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/review']}>
@@ -145,7 +145,7 @@ describe('ExpenseCard', () => {
               />
             }
           />
-          <Route path="/travel-agreement" element={<AgreementPage />} />
+          <Route path="/mileage" element={<Mileage />} />
         </Routes>
         <LocationDisplay />
       </MemoryRouter>,
@@ -158,8 +158,6 @@ describe('ExpenseCard', () => {
     fireEvent.click(editLink);
 
     // Assert navigation happened
-    expect(getByTestId('location-display').textContent).to.equal(
-      '/travel-agreement',
-    );
+    expect(getByTestId('location-display').textContent).to.equal('/mileage');
   });
 });
