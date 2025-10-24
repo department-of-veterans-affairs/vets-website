@@ -570,6 +570,7 @@ describe('getRefillHistory function', () => {
       frontImprint: 'front123',
       prescriptionId: '123456',
       prescriptionName: 'Test Medication',
+      prescriptionSource: 'RX',
       shape: 'round',
     };
 

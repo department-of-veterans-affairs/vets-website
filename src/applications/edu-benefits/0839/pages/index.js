@@ -4,6 +4,7 @@ import * as acknowledgements from './acknowledgements';
 import * as institutionDetailsFacility from './institutionDetailsFacility';
 import * as additionalInstitutionDetailsSummary from './additionalInstitutionDetailsSummary';
 import * as additionalInstitutionDetailsItem from './additionalInstitutionDetailsItem';
+import * as yellowRibbonProgramRequest from './yellowRibbonProgramRequest';
 
 export {
   authorizedOfficial,
@@ -12,4 +13,5 @@ export {
   institutionDetailsFacility,
   additionalInstitutionDetailsSummary,
   additionalInstitutionDetailsItem,
+  yellowRibbonProgramRequest,
 };

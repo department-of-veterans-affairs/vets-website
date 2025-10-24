@@ -67,6 +67,8 @@ export const useValidateFacilityCode = formData => {
                 ihlEligible,
                 yrEligible,
                 isLoading: false,
+                isUsaSchool:
+                  response?.data?.attributes?.physicalCountry === 'USA',
               },
             }),
           );

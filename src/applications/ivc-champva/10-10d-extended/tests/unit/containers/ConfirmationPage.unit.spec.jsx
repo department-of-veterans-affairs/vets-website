@@ -1,67 +1,65 @@
 import React from 'react';
-import { expect } from 'chai';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { cleanup, render } from '@testing-library/react';
-import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
-import formConfig from '../../../config/form';
+import { fireEvent, render } from '@testing-library/react';
+import { expect } from 'chai';
+import sinon from 'sinon-v20';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
-import mockData from '../../e2e/fixtures/data/maximal-test.json';
 
-const mockStore = state => createStore(() => state);
-
-const initConfirmationPage = ({ formData } = {}) => {
-  const store = mockStore({
-    form: {
-      ...createInitialState(formConfig),
-      submission: {
-        response: {
-          confirmationNumber: '1234567890',
-        },
-        timestamp: new Date(),
-      },
-      data: { ...formData, statementOfTruthSignature: 'Lorem ipsum' },
-    },
-  });
-
-  return render(
-    <Provider store={store}>
-      <ConfirmationPage route={{ formConfig }} />
-    </Provider>,
-  );
+const MOCK_FORM_DATA = {
+  applicantName: { first: 'Jack', middle: 'W', last: 'Smith' },
+  signature: 'Jack W Smith',
 };
 
-describe('ConfirmationPage', () => {
-  afterEach(() => {
-    cleanup();
-  });
+const MOCK_SUBMISSION = {
+  timestamp: Date.UTC(2010, 0, 1, 12, 0, 0),
+  id: '3702390024',
+};
 
-  it('should render', () => {
-    const { container } = initConfirmationPage({ formData: mockData });
-    expect(container).to.exist;
-  });
+describe('10-10d ConfirmationPage', () => {
+  let printSpy;
 
-  it('should gracefully handle missing props', () => {
-    // Rather than using initConfirmationPages(), which includes
-    // a submission, response, etc, just instantiate it with nothing
-    const minimalStore = mockStore({
-      form: {
-        data: {},
-      },
-    });
+  const subject = ({ submission = MOCK_SUBMISSION } = {}) => {
+    const mockStore = {
+      getState: () => ({ form: { submission, data: MOCK_FORM_DATA } }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
     const { container } = render(
-      <Provider store={minimalStore}>
-        <ConfirmationPage route={{ formConfig }} />
+      <Provider store={mockStore}>
+        <ConfirmationPage />
       </Provider>,
     );
+    const getPrintBtn = () => container.querySelector('va-button');
+    const getSubmissionDate = () => container.querySelector('.submission-date');
+    return { getPrintBtn, getSubmissionDate };
+  };
 
-    expect(container).to.exist;
+  beforeEach(() => {
+    printSpy = sinon.spy();
+    Object.defineProperty(window, 'print', {
+      value: printSpy,
+      configurable: true,
+    });
   });
 
-  it('should show success alert, h2, and confirmation number if present', () => {
-    const { container } = initConfirmationPage({ formData: mockData });
-    const alert = container.querySelector('va-alert');
-    expect(alert).to.have.attribute('status', 'success');
-    expect(alert.querySelector('h2')).to.contain.text("You've submitted");
+  afterEach(() => {
+    printSpy.resetHistory();
+  });
+
+  it('should not render submission date container when there is no response data', () => {
+    const { getSubmissionDate } = subject({ submission: { timestamp: false } });
+    expect(getSubmissionDate()).to.not.exist;
+  });
+
+  it('should render application date container when there is response data', () => {
+    const { getSubmissionDate } = subject();
+    const expectedResult = 'January 1, 2010';
+    expect(getSubmissionDate()).to.contain.text(expectedResult);
+  });
+
+  it('should fire the correct event when the print button is clicked', () => {
+    const { getPrintBtn } = subject();
+    fireEvent.click(getPrintBtn());
+    sinon.assert.calledOnce(printSpy);
   });
 });

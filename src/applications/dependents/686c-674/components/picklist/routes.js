@@ -5,8 +5,13 @@ import spouseMarriageEnded from './spouseMarriageEnded';
 import spouseDeath from './spouseDeath';
 
 import childIsStepChild from './childIsStepchild';
+import childReasonToRemove from './childReasonToRemove';
+import childMarriage from './childMarriage';
 
 import parentReasonToRemove from './parentReasonToRemove';
+import parentDeath from './parentDeath';
+import parentOther from './parentOther';
+import parentOtherExit from './parentOtherExit';
 
 /**
  * Picklist routing object - routing to remove dependent followup pages based on
@@ -23,9 +28,18 @@ export const routing = {
     { path: 'marriage-death', page: spouseDeath },
   ],
 
-  Child: [{ path: 'is-stepchild', page: childIsStepChild }],
+  Child: [
+    { path: 'is-stepchild', page: childIsStepChild },
+    { path: 'child-reason-to-remove', page: childReasonToRemove },
+    { path: 'child-marriage', page: childMarriage },
+  ],
 
-  Parent: [{ path: 'parent-reason-to-remove', page: parentReasonToRemove }],
+  Parent: [
+    { path: 'parent-reason-to-remove', page: parentReasonToRemove },
+    { path: 'parent-death', page: parentDeath },
+    { path: 'parent-other', page: parentOther },
+    { path: 'parent-exit', page: parentOtherExit },
+  ],
 };
 
 /**
