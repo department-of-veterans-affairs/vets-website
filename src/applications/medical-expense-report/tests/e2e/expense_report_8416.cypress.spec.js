@@ -2,13 +2,13 @@ import 'cypress-axe';
 import fixtureData from '../fixtures/mocks/user.json';
 import { checkAxeAndClickContinueButton, checkVisibleElementContent } from '../utils';
 
-// const loginWithLocalStorage = () => {
-//   //cy.visit('pension/medical-expense-report-form-21p-8416/introduction');
-//   cy.injectAxeThenAxeCheck()
-//   cy.window().then((win) => {
-//      win.localStorage.setItem('hasSession', true)
-//    });
-// };
+const loginWithLocalStorage = () => {
+  //cy.visit('pension/medical-expense-report-form-21p-8416/introduction');
+  cy.injectAxeThenAxeCheck()
+  cy.window().then((win) => {
+     win.localStorage.setItem('hasSession', true)
+   });
+};
 
 /**
  * Start the application process while not logged in.
@@ -174,6 +174,9 @@ const checkContentAnonymousCareExpenses = () => {
   );
 }
 
+/**
+ * Check the content on the Care Expenses Add page.
+ */
 const checkContentAnonymousCareExpensesAdd = () => {
   checkVisibleElementContent(
     'h1', 
@@ -189,6 +192,9 @@ const checkContentAnonymousCareExpensesAdd = () => {
   );
 }
 
+/**
+ * Check the content on the Care Expenses Type of Care page
+ */
 const checkContentAnonymousCareExpensesTypeOfCare = () => {
   checkVisibleElementContent(
     'h1', 
@@ -204,6 +210,9 @@ const checkContentAnonymousCareExpensesTypeOfCare = () => {
   );
 }
 
+/**
+ * Check the content on the Care Expenses Recipient and Provider Name page
+ */
 const checkContentAnonymousCareExpensesRecipientAndProviderName = () => {
   checkVisibleElementContent(
     'h1', 
@@ -219,6 +228,9 @@ const checkContentAnonymousCareExpensesRecipientAndProviderName = () => {
   );
 }
 
+/**
+ * Check the content on the Care Expenses Care Dates page
+ */
 const checkContentAnonymousCareExpensesCareDates = () => {
   checkVisibleElementContent(
     'h1', 
@@ -242,6 +254,9 @@ const checkContentAnonymousCareExpensesCareDates = () => {
   );
 }
 
+/**
+ * Check the content on the Care Expenses Care Costs page
+ */
 checkContentAnonymousCareExpensesCareCosts = () => {
   checkVisibleElementContent(
     'h1', 
@@ -257,6 +272,9 @@ checkContentAnonymousCareExpensesCareCosts = () => {
   );
 }
 
+/**
+ * Check the content on the Care Expenses Review page
+ */
 checkContentAnonymousCareExpensesReview = () => {
   checkVisibleElementContent(
     'h1', 
@@ -272,6 +290,9 @@ checkContentAnonymousCareExpensesReview = () => {
   );
 }
 
+/**
+ * Check the content on the Medical Expenses intro page
+ */
 const checkContentAnonymousMedicalExpenses = () => {
 checkVisibleElementContent(
     'h1', 
@@ -287,6 +308,9 @@ checkVisibleElementContent(
   );
 }
 
+/**
+ * Check the content on the Medical Expenses Recipient and Provider Name page
+ */
 const checkContentAnonymousMedicalExpensesRecipientAndProviderName = () => {
   checkVisibleElementContent(
     'h1', 
@@ -306,6 +330,9 @@ const checkContentAnonymousMedicalExpensesRecipientAndProviderName = () => {
   );
 } 
 
+/**
+ * Check the content on the Medical Expenses Reason page
+ */
 const checkContentAnonymousMedicalExpensesReason = () => {
   checkVisibleElementContent(
     'h1', 
@@ -329,6 +356,9 @@ const checkContentAnonymousMedicalExpensesReason = () => {
   );
 } 
 
+/**
+ * Check the content on the Medical Expenses Frequency page
+ */
 const checkContentAnonymousMedicalExpensesFrequency = () => {
   checkVisibleElementContent(
     'h1', 
@@ -352,6 +382,9 @@ const checkContentAnonymousMedicalExpensesFrequency = () => {
   );
 }
 
+/**
+ * Check the content on the Medical Expenses Review page
+ */
 const checkContentAnonymousMedicalExpensesReview = () => {
   checkVisibleElementContent(
     'h1', 
@@ -372,6 +405,9 @@ const checkContentAnonymousMedicalExpensesReview = () => {
 
 }
 
+/**
+ * Check the content on the Milage Expenses intro page
+ */
 const checkContentAnonymousMilageExpenses = () => {
   checkVisibleElementContent(
     'h1', 
@@ -387,6 +423,9 @@ const checkContentAnonymousMilageExpenses = () => {
   );
 }
 
+/**
+ * Check the content on the Milage Expenses Traveler Infro page
+ */
 const checkContentAnonymousMilageExpensesTravelerInfo = () => {
   checkVisibleElementContent(
     'h1', 
@@ -406,7 +445,9 @@ const checkContentAnonymousMilageExpensesTravelerInfo = () => {
   );
 
 }
-
+/**
+ * Check the content on the Milage Expenses Destination page
+ */
 const checkContentAnonymousMilageExpensesDestination = () => {
   checkVisibleElementContent(
     'h1', 
@@ -434,6 +475,9 @@ const checkContentAnonymousMilageExpensesDestination = () => {
   );
 }
 
+/**
+ * Check the content on the Milage Expenses Reimbursement page
+ */
 const checkContentAnonymousMilageExpensesReimbursement = () => {
   checkVisibleElementContent(
     'h1', 
@@ -453,6 +497,9 @@ const checkContentAnonymousMilageExpensesReimbursement = () => {
   );
 }
 
+/**
+ * Check the content on the Milage Expenses Review page
+ */
 const checkContentAnonymousMilageExpensesReview = () => {
   checkVisibleElementContent(
     'h1', 
@@ -469,6 +516,9 @@ const checkContentAnonymousMilageExpensesReview = () => {
   );
 }
 
+/**
+ * Check the content on the Statement of Truth page
+ */
 const checkContentAnonymousStatementOfTruth = () => {
   checkVisibleElementContent(
     'h1', 
@@ -646,9 +696,11 @@ const fillInVetInfoWithoutNameSSNFromFixture = () => {
   checkAxeAndClickContinueButton();
 };
 
+/**
+ * Fill in the Care Expenses from the Fixture data.
+ */
 const fillInCareExpensesFromFixture = () => {
   // care expenses
-  //checkContentAnonymousCareExpenses();
   checkAxeAndClickContinueButton();
 
   checkContentAnonymousCareExpensesAdd();
@@ -734,6 +786,9 @@ const fillInCareExpensesFromFixture = () => {
   checkAxeAndClickContinueButton();
 };
 
+/**
+ * Fill in the Medical Expenses from the Fixture data.
+ */
 const fillInMedicalExpensesFromFixture = () => {
   cy.contains('Add medical expenses');
   checkAxeAndClickContinueButton();
@@ -810,6 +865,9 @@ const fillInMedicalExpensesFromFixture = () => {
   checkAxeAndClickContinueButton();
 };
 
+/**
+ * Fill in the Milage/Travel Expenses from the Fixture data.
+ */
 const fillInMilageExpensesFromFixture = () => {
   cy.contains('Add mileage expenses');
   checkAxeAndClickContinueButton();
@@ -883,6 +941,9 @@ const fillInMilageExpensesFromFixture = () => {
   checkAxeAndClickContinueButton();
 };
 
+/**
+ * Fill in the Statement of Truth from the Fixture data.
+ */
 const fillInStatementOfTruthFromFixture = () => {
   cy.get('va-statement-of-truth')
     .shadow()
@@ -907,6 +968,9 @@ const fillInStatementOfTruthFromFixture = () => {
     .click();
 };
 
+/**
+ * Upload a test file.
+ */
 const uploadTestFiles = () => {
   cy.get('va-file-input-multiple')
     .shadow()
@@ -920,7 +984,7 @@ describe('Medical Expense Report Form 8416', () => {
     before(() => {
       startApplicationWithoutLogin();
     });
-    it.only('tests Veteran reporting medical expenses path', () => {
+    it('tests Veteran reporting medical expenses path', () => {
 
       // Applicant Information identity
       checkContentAnonymousApplicantInformationIdentity();
@@ -938,7 +1002,7 @@ describe('Medical Expense Report Form 8416', () => {
       checkContentAnonymousApplicantInformationSSN();
       fillInVetInfoWithoutNameSSNFromFixture();
 
-      // reporting period
+      // Reporting period
       checkContentAnonymousReportingPeriod();
       cy.selectRadio('root_firstTimeReporting', 'Y');
       checkAxeAndClickContinueButton();
@@ -965,7 +1029,6 @@ describe('Medical Expense Report Form 8416', () => {
 
       cy.contains('Submit your supporting documents');
       // No supporting documents yet
-      //uploadTestFiles();
       checkAxeAndClickContinueButton();
 
       // Statement of Truth
@@ -989,7 +1052,7 @@ describe('Medical Expense Report Form 8416', () => {
 
       fillInVetInfoWithNameSSNFromFixture();
 
-      // reporting period
+      // Reporting period
       cy.selectRadio('root_firstTimeReporting', 'Y');
       checkAxeAndClickContinueButton();
 
@@ -1037,7 +1100,7 @@ describe('Medical Expense Report Form 8416', () => {
 
       fillInVetInfoWithNameSSNFromFixture();
 
-      // reporting period
+      // Reporting period
       cy.selectRadio('root_firstTimeReporting', 'Y');
       checkAxeAndClickContinueButton();
 
