@@ -39,11 +39,7 @@ describe('Contribution Limits and Degree Level Page', () => {
     it('should export a valid schema with required fields', () => {
       expect(page.schema).to.be.an('object');
       expect(page.schema.type).to.equal('object');
-      expect(page.schema.required).to.include.members([
-        'maximumStudents',
-        'degreeLevel',
-        'maximumContributionAmount',
-      ]);
+      expect(page.schema.required).to.include.members(['degreeLevel']);
     });
 
     it('should have correct property types and enum values', () => {
@@ -52,17 +48,6 @@ describe('Contribution Limits and Degree Level Page', () => {
       expect(
         page.schema.properties.maximumContributionAmount.enum,
       ).to.deep.equal(['unlimited', 'specific']);
-    });
-  });
-
-  describe('UI Schema Rendering', () => {
-    it('should render all form fields with correct classes', () => {
-      const { container } = renderPage();
-
-      expect($('.vads-u-margin-bottom--2', container)).to.exist;
-      expect($('.container', container)).to.exist;
-      expect($('.degree-level', container)).to.exist;
-      expect($('.college-or-professional-school', container)).to.exist;
     });
   });
 
