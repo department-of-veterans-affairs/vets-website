@@ -3,27 +3,5 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "21-2680-house-bound-status",
   "rootUrl": "/pension/aid-attendance-housebound/apply-form-21-2680",
-  "productId": "803cc23f-a627-4ea7-a3ea-0f5595d0dfd3",
-  "template": {
-    "layout": "page-react.html",
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "name": "Pension benefits",
-        "path": "/pension/"
-      },
-      {
-        "name": "VA Aid and Attendance benefits and Housebound allowance",
-        "path": "/pension/aid-attendance-housebound/"
-      },
-      {
-        "name": "Apply for Aid and Attendance benefits or Housebound allowance",
-        "path": "/pension/aid-attendance-housebound/apply-form-21-2680"
-      }
-    ],
-    "minimalHeader": {
-      "title": "Apply for housebound status or aid and attendance",
-      "subtitle": "(VA Form 21-2680)"
-    }
-  }
+  "productId": "803cc23f-a627-4ea7-a3ea-0f5595d0dfd3"
 }

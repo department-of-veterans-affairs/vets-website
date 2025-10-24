@@ -71,7 +71,23 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  ...minimalHeaderFormConfigOptions(),
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      { href: '/', label: 'VA.gov home' },
+      {
+        href: '/pension/',
+        label: 'Pension benefits',
+      },
+      {
+        href: '/pension/aid-attendance-housebound/',
+        label: 'VA Aid and Attendance benefits and Housebound allowance',
+      },
+      {
+        href: '/pension/aid-attendance-housebound/apply-form-21-2680',
+        label: 'Apply for Aid and Attendance benefits or Housebound allowance',
+      },
+    ],
+  }),
   formId: VA_FORM_IDS.FORM_21_2680,
   saveInProgress: {
     // messages: {

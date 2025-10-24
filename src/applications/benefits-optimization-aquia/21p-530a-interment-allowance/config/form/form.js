@@ -64,7 +64,23 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  ...minimalHeaderFormConfigOptions(),
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      { href: '/', label: 'VA.gov home' },
+      {
+        href: '/burials-memorials/',
+        label: 'Burials and memorials',
+      },
+      {
+        href: '/burials-memorials/veterans-burial-allowance/',
+        label: 'Burial allowance',
+      },
+      {
+        href: '/21p-530a-interment-allowance',
+        label: 'Apply for burial benefits',
+      },
+    ],
+  }),
   formId: VA_FORM_IDS.FORM_21P_530A,
   saveInProgress: {
     messages: {

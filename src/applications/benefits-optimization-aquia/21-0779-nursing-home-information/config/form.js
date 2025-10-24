@@ -89,7 +89,20 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  ...minimalHeaderFormConfigOptions(),
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      { href: '/', label: 'VA.gov home' },
+      {
+        href: '/supporting-forms-for-claims/',
+        label: 'Supporting forms for claims',
+      },
+      {
+        href:
+          '/supporting-forms-for-claims/nursing-home-information-form-21-0779',
+        label: 'Submit nursing home information to support a claim',
+      },
+    ],
+  }),
   formId: VA_FORM_IDS.FORM_21_0779,
   saveInProgress: {
     messages: {

@@ -3,23 +3,5 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "21-0779-nursing-home-information",
   "rootUrl": "/supporting-forms-for-claims/nursing-home-information-form-21-0779",
-  "productId": "0383a035-c37c-4875-ad1d-5f85c59025fe",
-  "template": {
-    "layout": "page-react.html",
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "name": "Supporting forms for claims",
-        "path": "/supporting-forms-for-claims/"
-      },
-      {
-        "name": "Submit nursing home information to support a claim",
-        "path": "/supporting-forms-for-claims/nursing-home-information-form-21-0779"
-      }
-    ],
-    "minimalHeader": {
-      "title": "Submit nursing home information to support a claim",
-      "subtitle": "(VA Form 21-0779)"
-    }
-  }
+  "productId": "0383a035-c37c-4875-ad1d-5f85c59025fe"
 }
