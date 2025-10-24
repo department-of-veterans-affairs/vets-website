@@ -35,14 +35,6 @@ RequestFormAlert.propTypes = {
   children: PropTypes.node,
 };
 
-RequestFormAlert.propTypes = {
-  formLink: PropTypes.string.isRequired,
-  formName: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  advisory: PropTypes.string,
-  children: PropTypes.node,
-};
-
 export const RequestNursingHomeInformationAlert = () => (
   <RequestFormAlert
     title="Nursing Home Information in Connection with Claim
