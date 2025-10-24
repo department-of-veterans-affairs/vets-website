@@ -23,7 +23,6 @@ import AppointmentsCardLegacy from './AppointmentsCardLegacy';
 
 const HealthCareContent = ({
   appointments,
-  authenticatedWithSSOe,
   shouldFetchUnreadMessages,
   fetchConfirmedFutureAppointments,
   fetchUnreadMessages,
@@ -149,7 +148,6 @@ const HealthCareContent = ({
               <HealthCareCTA
                 viewMhvLink={viewMhvLink}
                 hasInboxError={hasInboxError}
-                authenticatedWithSSOe={authenticatedWithSSOe}
                 hasUpcomingAppointment={hasUpcomingAppointment}
                 unreadMessagesCount={unreadMessagesCount}
                 isVAPatient={isVAPatient}
@@ -167,7 +165,6 @@ const HealthCareContent = ({
               <HealthCareCTA
                 viewMhvLink={viewMhvLink}
                 hasInboxError={hasInboxError}
-                authenticatedWithSSOe={authenticatedWithSSOe}
                 hasUpcomingAppointment={hasUpcomingAppointment}
                 unreadMessagesCount={unreadMessagesCount}
                 isVAPatient={isVAPatient}
@@ -233,7 +230,6 @@ HealthCareContent.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ),
-  authenticatedWithSSOe: PropTypes.bool,
   dataLoadingDisabled: PropTypes.bool,
   fetchConfirmedFutureAppointments: PropTypes.func,
   fetchUnreadMessages: PropTypes.func,

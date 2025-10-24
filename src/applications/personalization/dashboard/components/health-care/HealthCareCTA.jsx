@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import IconCTALink from '../IconCTALink';
 
 const HealthCareCTA = ({
-  authenticatedWithSSOe,
   hasAppointmentsError,
   hasUpcomingAppointment,
   isVAPatient,
@@ -24,25 +22,12 @@ const HealthCareCTA = ({
   let urls = {
     applyForVAHealthcare: '/health-care/apply-for-health-care-form-10-10ez/',
     myHealthEVet: '/my-health/',
-    inbox: mhvUrl(authenticatedWithSSOe, 'secure-messaging'),
+    inbox: '/my-health/secure-messages/inbox/',
     appointments: '/my-health/appointments/',
-    refillPrescriptions: mhvUrl(
-      authenticatedWithSSOe,
-      'web/myhealthevet/refill-prescriptions',
-    ),
-    travelReimbursement: '/health-care/get-reimbursed-for-travel-pay/',
-    medicalRecords: mhvUrl(authenticatedWithSSOe, 'download-my-data'),
+    refillPrescriptions: '/my-health/medications/refill/',
+    travelReimbursement: 'https://dvagov-btsss.dynamics365portals.us/signin',
+    medicalRecords: '/my-health/medical-records',
   };
-
-  if (useToggleValue(TOGGLE_NAMES.myVaNewMhvUrls)) {
-    urls = {
-      ...urls,
-      inbox: '/my-health/secure-messages/inbox/',
-      refillPrescriptions: '/my-health/medications/refill/',
-      medicalRecords: '/my-health/medical-records',
-      travelReimbursement: 'https://dvagov-btsss.dynamics365portals.us/signin',
-    };
-  }
 
   if (smocEnabled) {
     urls = {
@@ -180,7 +165,6 @@ const HealthCareCTA = ({
 };
 
 HealthCareCTA.propTypes = {
-  authenticatedWithSSOe: PropTypes.bool,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
   hasUpcomingAppointment: PropTypes.bool,
