@@ -9,10 +9,6 @@
     "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
-        "name": "Home",
-        "path": "/"
-      },
-      {
         "name": "Disability benefits",
         "path": "/disability/"
       },

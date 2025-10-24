@@ -13,10 +13,6 @@
     "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
-        "name": "Home",
-        "path": "/"
-      },
-      {
         "name": "Burials and memorials",
         "path": "/burials-memorials/"
       },

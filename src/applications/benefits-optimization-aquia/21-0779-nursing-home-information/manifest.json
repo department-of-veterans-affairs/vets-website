@@ -9,10 +9,6 @@
     "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
-        "name": "Home",
-        "path": "/"
-      },
-      {
         "name": "Supporting forms for claims",
         "path": "/supporting-forms-for-claims/"
       },
