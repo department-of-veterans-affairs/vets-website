@@ -133,8 +133,9 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
         <va-table
           table-title={getStatementDateRange()}
           scrollable={false}
-          mono-font-cols="1"
           table-type="bordered"
+          full-width
+          unobunded
         >
           <va-table-row>
             {columns.map((col, index) => (
