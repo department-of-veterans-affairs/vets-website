@@ -1,11 +1,11 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
+import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'platform/forms-system/src/js/patterns/array-builder';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import transformForSubmit from './submit-transformer';
 import prefillTransformer from './prefill-transformer';
-import { pageFocusScroll } from '../helpers';
 import {
   hasAlreadyFiled,
   hasUnpaidCreditors,
@@ -106,14 +106,14 @@ const formConfig = {
           title: "Veteran's name",
           uiSchema: veteranFullName.uiSchema,
           schema: veteranFullName.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         veteranIdentifiers: {
           path: 'veteran-identifiers',
           title: "Veteran's identification numbers",
           uiSchema: veteranIdentifiers.uiSchema,
           schema: veteranIdentifiers.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },
@@ -128,7 +128,7 @@ const formConfig = {
           title: 'Is the beneficiary the veteran?',
           uiSchema: beneficiaryIsVeteran.uiSchema,
           schema: beneficiaryIsVeteran.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         beneficiaryFullName: {
           path: 'beneficiary-name',
@@ -136,14 +136,14 @@ const formConfig = {
           depends: formData => formData.beneficiaryIsVeteran === false,
           uiSchema: beneficiaryFullName.uiSchema,
           schema: beneficiaryFullName.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         beneficiaryDateOfDeath: {
           path: 'beneficiary-date-of-death',
           title: 'Date of death',
           uiSchema: beneficiaryDateOfDeath.uiSchema,
           schema: beneficiaryDateOfDeath.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },
@@ -158,21 +158,21 @@ const formConfig = {
           title: 'Your personal information',
           uiSchema: claimantIdentification.uiSchema,
           schema: claimantIdentification.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         claimantContact: {
           path: 'your-contact-information',
           title: 'Your contact information',
           uiSchema: claimantContact.uiSchema,
           schema: claimantContact.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         claimantRelationship: {
           path: 'your-relationship',
           title: 'Your relationship to the deceased',
           uiSchema: claimantRelationship.uiSchema,
           schema: claimantRelationship.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },
@@ -187,14 +187,14 @@ const formConfig = {
           title: 'Surviving relatives',
           uiSchema: relativesOverview.uiSchema,
           schema: relativesOverview.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         relativesDetails: {
           path: 'relatives-information',
           title: 'Information about surviving relatives',
           uiSchema: relativesDetails.uiSchema,
           schema: relativesDetails.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
           depends: formData =>
             formData.survivors.hasNone !== true &&
             (formData.survivors.hasSpouse === true ||
@@ -214,7 +214,7 @@ const formConfig = {
           title: 'Reimbursement claim',
           uiSchema: expensesClaim.uiSchema,
           schema: expensesClaim.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         expensesList: {
           path: 'expenses-list',
@@ -222,7 +222,7 @@ const formConfig = {
           depends: formData => formData.claimingReimbursement === true,
           uiSchema: expensesList.uiSchema,
           schema: expensesList.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         otherDebts: {
           path: 'other-debts',
@@ -230,7 +230,7 @@ const formConfig = {
           depends: formData => formData.claimingReimbursement === true,
           uiSchema: otherDebts.uiSchema,
           schema: otherDebts.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         otherDebtsList: {
           path: 'other-debts-list',
@@ -240,7 +240,7 @@ const formConfig = {
             formData.hasOtherDebts === true,
           uiSchema: otherDebtsList.uiSchema,
           schema: otherDebtsList.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },
@@ -255,7 +255,7 @@ const formConfig = {
           title: 'Additional remarks (optional)',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },
