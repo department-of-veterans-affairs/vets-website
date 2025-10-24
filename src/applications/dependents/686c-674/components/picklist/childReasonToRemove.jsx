@@ -63,10 +63,11 @@ const childReasonToRemove = {
       switch (itemData.removalReason) {
         case 'childMarried':
           return 'child-marriage';
+        case 'childDied':
+          return 'child-death';
         case 'childNotInSchool':
         case 'stepchildNotMember':
         case 'childAdopted':
-        case 'childDied':
           return 'DONE';
         default:
           return 'DONE';
