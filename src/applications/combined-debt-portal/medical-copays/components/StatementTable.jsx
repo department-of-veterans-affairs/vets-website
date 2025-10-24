@@ -53,13 +53,19 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
       !selectedCopay?.statementStartDate ||
       !selectedCopay?.statementEndDate
     ) {
-      return `This statement shows your current charges. ${pageText}.`;
+      if (charges.length > MAX_ROWS) {
+        return `This statement shows your current charges. ${pageText}.`;
+      }
+      return 'This statement shows your current charges.';
     }
 
     const startDate = formatDate(selectedCopay.statementStartDate);
     const endDate = formatDate(selectedCopay.statementEndDate);
 
-    return `This statement shows charges you received between ${startDate} and ${endDate}. ${pageText}.`;
+    if (charges.length > MAX_ROWS) {
+      return `This statement shows charges you received between ${startDate} and ${endDate}. ${pageText}.`;
+    }
+    return `This statement shows charges you received between ${startDate} and ${endDate}.`;
   };
   const renderDescription = charge => (
     <div>
@@ -148,11 +154,14 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
             ))}
         </va-table>
       </div>
-      <VaPagination
-        onPageSelect={e => onPageChange(e.detail.page)}
-        page={currentPage}
-        pages={numPages}
-      />
+
+      {charges.length > MAX_ROWS ? (
+        <VaPagination
+          onPageSelect={e => onPageChange(e.detail.page)}
+          page={currentPage}
+          pages={numPages}
+        />
+      ) : null}
     </>
   );
 };
