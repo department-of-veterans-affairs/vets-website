@@ -42,6 +42,7 @@ const ContestableIssuesWidget = props => {
 
 ContestableIssuesWidget.propTypes = {
   formData: PropTypes.array,
+  name: PropTypes.string,
   options: PropTypes.object,
   schema: PropTypes.object,
   uiSchema: PropTypes.object,
