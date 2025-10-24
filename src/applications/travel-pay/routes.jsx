@@ -34,7 +34,7 @@ const getRoutes = () => {
         <Route index element={<>Intro</>} />
         <Route path=":claimId">
           <Route path="choose-expense" element={<ChooseExpenseType />} />
-          <Route path="mileage" element={<Mileage />} />
+          <Route path="mileage/:expenseId?" element={<Mileage />} />
           <Route path="review" element={<ReviewPage />} />
           <Route path="travel-agreement" element={<AgreementPage />} />
           <Route path="confirmation" element={<ConfirmationPage />} />
