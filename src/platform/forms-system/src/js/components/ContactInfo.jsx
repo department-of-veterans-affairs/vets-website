@@ -70,6 +70,7 @@ const ContactInfo = ({
   contactInfoPageKey,
   disableMockContactInfo = false,
   contactSectionHeadingLevel,
+  useWebComponentForNavigation,
 }) => {
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
@@ -335,6 +336,7 @@ const ContactInfo = ({
       <FormNavButtons
         goBack={handlers.onGoBack}
         goForward={handlers.onGoForward}
+        useWebComponents={useWebComponentForNavigation}
       />
       {contentAfterButtons}
     </>
@@ -438,6 +440,7 @@ ContactInfo.propTypes = {
     'ui:validations': PropTypes.array,
   }),
   updatePage: PropTypes.func,
+  useWebComponentForNavigation: PropTypes.bool,
   onReviewPage: PropTypes.bool,
 };
 

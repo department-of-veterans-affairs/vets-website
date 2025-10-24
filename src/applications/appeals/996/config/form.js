@@ -93,12 +93,7 @@ const formConfig = {
   prefillEnabled: true,
   verifyRequiredPrefill: true,
   transformForSubmit: transform,
-
   onFormLoaded,
-  // onFormLoaded: ({ formData, savedForms, returnUrl, formConfig, router }) => {
-  //   console.log('form loaded', formData, savedForms, returnUrl, formConfig, router);
-  // },
-
   savedFormMessages: {
     notFound: errorMessages.savedFormNotFound,
     noAuth: errorMessages.savedFormNoAuth,
@@ -122,6 +117,7 @@ const formConfig = {
 
   formOptions: {
     focusOnAlertRole: true,
+    useWebComponentForNavigation: true,
   },
 
   additionalRoutes: [

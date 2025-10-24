@@ -68,7 +68,11 @@ const Notice5103 = ({
         {!onReviewPage && (
           <>
             {contentBeforeButtons}
-            <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
+            <FormNavButtons
+              goBack={goBack}
+              goForward={handlers.onGoForward}
+              useWebComponents
+            />
             {contentAfterButtons}
           </>
         )}
