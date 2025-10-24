@@ -557,7 +557,7 @@ export function selectIsEligibleForTravelClaim(appointment) {
 export function selectConfirmedAppointmentData(state, appointment) {
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
-
+  const isCerner = appointment?.vaos?.isCerner;
   const isVideo = appointment?.vaos?.isVideo;
   const isVA = !isVideo && !isCommunityCare;
 
@@ -622,6 +622,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
     isVA,
     isVideo,
     isPhone,
+    isCerner,
     locationId,
     phone,
     practitionerName,
