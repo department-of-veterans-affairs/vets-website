@@ -40,7 +40,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'a' })
+          cy.findAllByText(/Apply for accrued benefits/i, { selector: 'a' })
             .first()
             .click();
         });
@@ -368,10 +368,7 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            reviewAndSubmitPageFlow(
-              data.claimantFullName,
-              'Submit application',
-            );
+            reviewAndSubmitPageFlow(data.claimantFullName, 'Submit form');
           });
         });
       },
