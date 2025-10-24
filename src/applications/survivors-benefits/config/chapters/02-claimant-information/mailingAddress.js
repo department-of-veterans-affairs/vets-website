@@ -10,7 +10,7 @@ export default {
   path: 'claimant/mailing-address',
   uiSchema: {
     ...titleUI('Your mailing address'),
-    veteranAddress: addressUI({
+    claimantAddress: addressUI({
       labels: {
         militaryCheckbox:
           'I receive mail outside of the United States on a U.S. military base',
@@ -20,9 +20,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['veteranAddress'],
+    required: ['claimantAddress'],
     properties: {
-      veteranAddress: addressSchema({ omit: ['street3'] }),
+      claimantAddress: addressSchema({ omit: ['street3'] }),
     },
   },
 };

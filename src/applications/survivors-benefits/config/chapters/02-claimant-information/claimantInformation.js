@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   fullNameSchema,
   fullNameUI,
@@ -8,8 +9,23 @@ import {
   dateOfBirthUI,
   yesNoSchema,
   yesNoUI,
+  radioUI,
+  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { seriouslyDisabledDescription } from '../../../components/formDescriptons/index';
+import { claimantRelationshipOptions } from '../../../utils/labels';
+
+const seriouslyDisabledDescription = (
+  <>
+    <va-additional-info
+      trigger="What we consider a seriously disabled adult child"
+      class="vads-u-margin-bottom--4"
+    >
+      A child is seriously disabled if they developed a permanent physical or
+      mental disability before they turned 18 years old. A seriously disabled
+      child can’t support or care for themselves.
+    </va-additional-info>
+  </>
+);
 
 /** @type {PageSchema} */
 export default {
@@ -17,23 +33,13 @@ export default {
   path: 'claimant/information',
   uiSchema: {
     ...titleUI("Claimant's relationship to the Veteran"),
-    claimantRelationship: {
-      'ui:title': "What is the claimant's relationship to the Veteran?",
-      'ui:widget': 'radio',
-      'ui:options': {
-        labels: {
-          SPOUSE: 'Surviving spouse',
-          CUSTODIAN: 'Custodian filing for child under 18',
-          ADULT_CHILD_STILL_IN_SCHOOL:
-            'Adult child who is 18-23 years old and still in school',
-          ADULT_CHILD_SERIOUSLY_DISABLED:
-            'Adult child who is seriously disabled',
-        },
-      },
-      'ui:errorMessages': {
+    claimantRelationship: radioUI({
+      title: "What is the claimant's relationship to the Veteran?",
+      labels: claimantRelationshipOptions,
+      errorMessages: {
         required: 'Select what your relationship is to the Veteran',
       },
-    },
+    }),
     seriouslyDisabled: {
       'ui:description': seriouslyDisabledDescription,
     },
@@ -56,15 +62,9 @@ export default {
       'claimantDateOfBirth',
     ],
     properties: {
-      claimantRelationship: {
-        type: 'string',
-        enum: [
-          'SPOUSE',
-          'CUSTODIAN',
-          'ADULT_CHILD_STILL_IN_SCHOOL',
-          'ADULT_CHILD_SERIOUSLY_DISABLED',
-        ],
-      },
+      claimantRelationship: radioSchema(
+        Object.keys(claimantRelationshipOptions),
+      ),
       seriouslyDisabled: {
         type: 'object',
         properties: {},
