@@ -216,6 +216,7 @@ describe('mapStateToProps', () => {
       'isLOA3',
       'shouldFetchDirectDeposit',
       'shouldShowAccreditedRepTab',
+      'shouldShowHealthCareSettingsPage',
       'shouldShowProfile2',
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
