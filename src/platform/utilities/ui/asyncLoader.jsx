@@ -1,8 +1,16 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-console */
 // Adapted from https://gist.github.com/acdlite/a68433004f9d6b4cbc83b5cc3990c194
 import React from 'react';
 // import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 export default function asyncLoader(getComponent, message) {
+  if (process.env.NODE_ENV !== 'production' && !window.vaAsyncLoaderWarned) {
+    console.warn(
+      'DEPRECATION: asyncLoader is being phased out. Please migrate to React.lazy + Suspense or lazyRoute().',
+    );
+    window.vaAsyncLoaderWarned = true;
+  }
   return class AsyncComponent extends React.Component {
     static Component = null;
 
@@ -11,7 +19,6 @@ export default function asyncLoader(getComponent, message) {
       this.state = { Component: AsyncComponent.Component };
     }
 
-    /* eslint-disable-next-line camelcase */
     UNSAFE_componentWillMount() {
       if (!this.state.Component) {
         this.componentPromise = getComponent()
