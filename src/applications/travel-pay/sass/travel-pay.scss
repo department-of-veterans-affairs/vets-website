@@ -35,6 +35,44 @@
   }
 }
 
+.complex-claim-help-heading {
+  border-bottom: 3px solid var(--vads-color-primary);
+  padding-bottom: 9px;
+  font-size: 1.35em;
+  line-height: 1.2;
+  font-weight: bold;
+}
+
+@media (max-width: $small-screen) {
+  va-button {
+    width: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  va-button-pair {
+    width: 100%;
+
+    ::part(button-pair) {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 1rem;
+    }
+
+    ::part(button-container) {
+      flex: 1;
+      width: 50%;
+      margin: 0;
+    }
+
+    ::part(primary-button),
+    ::part(secondary-button) {
+      width: 100%;
+      margin: 0;
+    }
+  }
+}
+
 .btsss-claims-sort-and-filter-container {
   min-width: fit-content;
   max-width: 35rem;
