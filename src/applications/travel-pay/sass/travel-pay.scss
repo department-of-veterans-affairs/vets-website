@@ -35,17 +35,17 @@
   }
 }
 
-.complex-claim-help-heading {
-  border-bottom: 3px solid var(--vads-color-primary);
-  padding-bottom: 9px;
-  font-size: 1.35em;
-  line-height: 1.2;
-  font-weight: bold;
-}
+.complex-claim-help-section {
+  border-bottom: 1px solid var(--vads-color-gray-medium);
+  padding-bottom: 16px;
 
-.complex-claim-feedback {
-  border-top: 1px solid var(--vads-color-gray-medium);
-  padding-top: 16px;
+  .complex-claim-help-heading {
+    border-bottom: 3px solid var(--vads-color-primary);
+    padding-bottom: 9px;
+    font-size: 1.35em;
+    line-height: 1.2;
+    font-weight: bold;
+  }
 }
 
 @media (max-width: $small-screen) {

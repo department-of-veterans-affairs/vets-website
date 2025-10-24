@@ -131,7 +131,7 @@ const IntroductionPage = ({ appointment }) => {
           onClick={viewPrivacyAct}
         />
       </div>
-      <div className="vads-u-margin--2">
+      <div className="complex-claim-help-section vads-u-margin--2">
         <h2 className="complex-claim-help-heading">Need help?</h2>
         <p className="vads-u-margin-top--0">
           You can call the BTSSS call center at{' '}
@@ -146,12 +146,9 @@ const IntroductionPage = ({ appointment }) => {
           text="Find the travel contact for your facility"
         />
       </div>
-      <VaButton
-        className="complex-claim-feedback"
-        secondary
-        text="Feedback"
-        onClick={viewFeedback}
-      />
+      <div className="vads-u-margin--2">
+        <VaButton secondary text="Feedback" onClick={viewFeedback} />
+      </div>
     </div>
   );
 };
