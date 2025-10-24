@@ -188,8 +188,11 @@ const profileContactInfo = ({
     [contactInfoPageKey]: {
       title: content.title,
       path: contactPath,
-      CustomPage: props =>
-        ContactInfo({
+      CustomPage: props => {
+        const useWebComponentForNavigation =
+          props?.formOptions?.useWebComponentForNavigation;
+
+        return ContactInfo({
           ...props,
           content,
           contactPath,
@@ -199,7 +202,9 @@ const profileContactInfo = ({
           disableMockContactInfo,
           contactSectionHeadingLevel,
           editContactInfoHeadingLevel,
-        }),
+          useWebComponentForNavigation,
+        });
+      },
       CustomPageReview: props =>
         ContactInfoReview({
           ...props,
