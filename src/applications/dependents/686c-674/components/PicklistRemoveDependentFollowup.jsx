@@ -23,16 +23,20 @@ const PicklistRemoveDependentFollowup = ({
 }) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const resetState = () => {
-    setFormSubmitted(false);
+  const scrollAndFocus = () => {
     setTimeout(() => {
       scrollToTop();
       focusElement('h3');
-    }, 250);
+    });
+  };
+
+  const resetState = () => {
+    setFormSubmitted(false);
+    scrollAndFocus();
   };
 
   // Page change state to force scroll & focus on page change
-  useEffect(resetState);
+  useEffect(scrollAndFocus);
 
   // Dynamically updated picklist paths to help with navigating backward
   const paths = data[PICKLIST_PATHS] || getPicklistRoutes(data);
@@ -98,9 +102,23 @@ const PicklistRemoveDependentFollowup = ({
 
     goBack: () => {
       resetState();
-      const selectedIndex = paths.findIndex(
-        path => path.index === index && path.path === page,
-      );
+      let selectedIndex = 0;
+      if (page === '') {
+        const pathsLength = paths.length;
+        const prevPageIndex = index - 1;
+        // Find the last page of the index, then include an extra 1 because the
+        // selectedIndex is expecting the current page index in paths
+        while (
+          paths[selectedIndex].index === prevPageIndex &&
+          selectedIndex <= pathsLength
+        ) {
+          selectedIndex += 1;
+        }
+      } else {
+        selectedIndex = paths.findIndex(
+          path => path.index === index && path.path === page,
+        );
+      }
 
       if (selectedIndex - 1 >= 0) {
         const path = paths[selectedIndex - 1];
