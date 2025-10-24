@@ -59,7 +59,7 @@ const DisabilityRatingAlert = () => {
   }
 
   return (
-    <va-alert status="info" visible>
+    <va-alert status="warning" visible>
       <h2 slot="headline">
         This benefit is unlikely to increase your payments
       </h2>

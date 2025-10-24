@@ -66,7 +66,7 @@ describe('Pensions — Disability Rating Alert', () => {
 
     cypressSetup();
 
-    cy.get('va-alert[status="info"]')
+    cy.get('va-alert[status="warning"]')
       .should('be.visible')
       .then($el => {
         cy.wrap($el)
