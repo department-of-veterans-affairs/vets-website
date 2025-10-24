@@ -2,6 +2,7 @@ import React from 'react';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import spouseInformationSummaryPage from '../../../definitions/spouseInformationSummary';
 import spousePersonalInformationPage from '../../../definitions/spousePersonalInformation';
+import spouseAdditionalInformationPage from '../../../definitions/spouseAdditionalInformation';
 
 import content from '../../../locales/en/content.json';
 import SpouseSummaryCardDescription from '../../../components/FormDescriptions/SpouseSummaryCardDescription';
@@ -61,6 +62,15 @@ const spousePersonalInformationPageSchema = spousePersonalInformationPage(
   options,
 );
 
+/**
+ * Schemas for spouse additional information page.
+ *
+ * @returns {PageSchema}
+ */
+const spouseAdditionalInformationPageSchema = spouseAdditionalInformationPage(
+  options,
+);
+
 const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
   spouseInformationSummaryPage: pageBuilder.summaryPage({
     title: content['household-spouse-information-summary-title'],
@@ -74,6 +84,13 @@ const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
       'household-information/spouse-information/:index/spouse-personal-information',
     uiSchema: spousePersonalInformationPageSchema.uiSchema,
     schema: spousePersonalInformationPageSchema.schema,
+  }),
+  spouseAdditionalInformationPage: pageBuilder.itemPage({
+    title: content['household-spouse-addtl-info-title'],
+    path:
+      'household-information/spouse-information/:index/spouse-additional-information',
+    uiSchema: spouseAdditionalInformationPageSchema.uiSchema,
+    schema: spouseAdditionalInformationPageSchema.schema,
   }),
 }));
 
