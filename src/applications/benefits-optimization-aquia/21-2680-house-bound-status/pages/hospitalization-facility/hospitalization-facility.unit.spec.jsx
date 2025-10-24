@@ -189,10 +189,13 @@ describe('HospitalizationFacilityPage', () => {
     it('should render with existing facility data', () => {
       const existingData = {
         facilityName: 'Lothal Medical Center',
-        facilityStreetAddress: '123 Medical Center Dr',
-        facilityCity: 'Lothal',
-        facilityState: 'WA',
-        facilityZip: '98101',
+        facilityAddress: {
+          street: '123 Medical Center Dr',
+          city: 'Lothal',
+          state: 'WA',
+          postalCode: '98101',
+          country: 'USA',
+        },
         claimantFullName: {
           first: 'Ahsoka',
           last: 'Tano',
@@ -214,10 +217,12 @@ describe('HospitalizationFacilityPage', () => {
     it('should render with partial facility data', () => {
       const existingData = {
         facilityName: 'Coruscant General Hospital',
-        facilityStreetAddress: '',
-        facilityCity: '',
-        facilityState: '',
-        facilityZip: '',
+        facilityAddress: {
+          street: '',
+          city: '',
+          state: '',
+          postalCode: '',
+        },
       };
 
       const { container } = render(
@@ -259,10 +264,13 @@ describe('HospitalizationFacilityPage', () => {
     it('should handle 9-digit ZIP code', () => {
       const existingData = {
         facilityName: 'Lothal Medical Center',
-        facilityStreetAddress: '789 Veterans Blvd',
-        facilityCity: 'Lothal',
-        facilityState: 'OR',
-        facilityZip: '97201-1234',
+        facilityAddress: {
+          street: '789 Veterans Blvd',
+          city: 'Lothal',
+          state: 'OR',
+          postalCode: '97201-1234',
+          country: 'USA',
+        },
       };
 
       const { container } = render(

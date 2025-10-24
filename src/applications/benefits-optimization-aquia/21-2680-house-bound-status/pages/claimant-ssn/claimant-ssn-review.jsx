@@ -7,6 +7,7 @@ import { ReviewField } from '@bio-aquia/shared/components/atoms';
 /**
  * Review page component for claimant SSN.
  * Displays the claimant's Social Security number.
+ * When veteran is the claimant, displays veteran SSN.
  *
  * @component
  * @param {Object} props - Component props
@@ -16,7 +17,18 @@ import { ReviewField } from '@bio-aquia/shared/components/atoms';
  * @returns {JSX.Element} Review page content
  */
 export const ClaimantSSNReviewPage = ({ data, editPage, title }) => {
-  const sectionData = data?.claimantSSN || {};
+  // Check if veteran is the claimant
+  const isVeteranClaimant =
+    data?.claimantRelationship?.claimantRelationship === 'veteran';
+
+  // Display veteran SSN if veteran is claimant, otherwise show claimant SSN
+  const displaySSN = isVeteranClaimant
+    ? data?.veteranIdentification?.veteranSSN
+    : data?.claimantSSN?.claimantSSN;
+
+  const label = isVeteranClaimant
+    ? "Veteran's Social Security number (claimant)"
+    : 'Claimant Social Security number';
 
   return (
     <ReviewPageTemplate
@@ -25,11 +37,7 @@ export const ClaimantSSNReviewPage = ({ data, editPage, title }) => {
       editPage={editPage}
       sectionName="claimantSSN"
     >
-      <ReviewField
-        label="Claimant Social Security number"
-        value={sectionData.claimantSSN}
-        hideWhenEmpty
-      />
+      <ReviewField label={label} value={displaySSN} hideWhenEmpty />
     </ReviewPageTemplate>
   );
 };

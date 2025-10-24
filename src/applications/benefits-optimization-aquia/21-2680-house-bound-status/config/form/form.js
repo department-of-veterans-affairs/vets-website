@@ -143,6 +143,9 @@ const formConfig = {
           title: 'Claimant information',
           CustomPage: ClaimantInformationPage,
           CustomPageReview: ClaimantInformationReviewPage,
+          // Hidden when veteran is claimant (both edit and review pages)
+          // Veteran reviews their info in veteran sections instead
+          // Submit transformer copies veteran data to claimant fields at submission
           depends: formData =>
             formData?.claimantRelationship?.claimantRelationship !== 'veteran',
           uiSchema: {},
@@ -153,6 +156,8 @@ const formConfig = {
           title: 'Claimant Social Security number',
           CustomPage: ClaimantSSNPage,
           CustomPageReview: ClaimantSSNReviewPage,
+          // Hidden when veteran is claimant (both edit and review pages)
+          // Submit transformer copies veteran SSN to claimant fields at submission
           depends: formData =>
             formData?.claimantRelationship?.claimantRelationship !== 'veteran',
           uiSchema: {},
@@ -163,6 +168,8 @@ const formConfig = {
           title: 'Claimant address',
           CustomPage: ClaimantAddressPage,
           CustomPageReview: ClaimantAddressReviewPage,
+          // Hidden when veteran is claimant (both edit and review pages)
+          // Submit transformer copies veteran address to claimant fields at submission
           depends: formData =>
             formData?.claimantRelationship?.claimantRelationship !== 'veteran',
           uiSchema: {},
@@ -173,6 +180,8 @@ const formConfig = {
           title: 'Claimant contact information',
           CustomPage: ClaimantContactPage,
           CustomPageReview: ClaimantContactReviewPage,
+          // Hidden when veteran is claimant (both edit and review pages)
+          // Contact info not collected for veterans, remains empty for veteran claimants
           depends: formData =>
             formData?.claimantRelationship?.claimantRelationship !== 'veteran',
           uiSchema: {},

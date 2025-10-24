@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { POSTAL_PATTERNS } from '@bio-aquia/shared/schemas/regex-patterns';
 
 /**
  * Schema for hospitalization status
@@ -31,32 +30,39 @@ export const facilityNameSchema = z
   .or(z.literal(''));
 
 /**
- * Schema for facility address
+ * Schema for facility address (follows AddressField component structure)
  */
-export const facilityStreetAddressSchema = z
-  .string()
-  .max(50, 'Street address must be less than 50 characters')
-  .optional()
-  .or(z.literal(''));
-
-export const facilityCitySchema = z
-  .string()
-  .max(30, 'City must be less than 30 characters')
-  .optional()
-  .or(z.literal(''));
-
-export const facilityStateSchema = z
-  .string()
-  .optional()
-  .or(z.literal(''));
-
-export const facilityZipSchema = z
-  .string()
-  .refine(val => !val || POSTAL_PATTERNS.USA.test(val), {
-    message: 'Please enter a valid 5 or 9 digit ZIP code',
-  })
-  .optional()
-  .or(z.literal(''));
+export const facilityAddressSchema = z.object({
+  street: z
+    .string()
+    .min(1, 'Street address is required')
+    .max(50, 'Street address must be less than 50 characters'),
+  street2: z
+    .string()
+    .max(50, 'Street address line 2 must be less than 50 characters')
+    .optional(),
+  street3: z
+    .string()
+    .max(50, 'Street address line 3 must be less than 50 characters')
+    .optional(),
+  city: z
+    .string()
+    .min(1, 'City is required')
+    .max(50, 'City must be less than 50 characters'),
+  state: z
+    .string()
+    .min(1, 'State is required')
+    .length(2, 'State must be a 2-letter code'),
+  country: z.string().min(1, 'Country is required'),
+  postalCode: z
+    .string()
+    .min(1, 'Postal code is required')
+    .regex(
+      /^\d{5}(-\d{4})?$/,
+      'Postal code must be in format 12345 or 12345-6789',
+    ),
+  isMilitary: z.boolean().optional(),
+});
 
 /**
  * Page schemas for split hospitalization flow
@@ -74,18 +80,7 @@ export const hospitalizationFacilityPageSchema = z.object({
     .string()
     .min(1, 'Please enter the name of the hospital')
     .max(100, 'Facility name must be less than 100 characters'),
-  facilityStreetAddress: z
-    .string()
-    .min(1, 'Street address is required')
-    .max(50, 'Street address must be less than 50 characters'),
-  facilityCity: z
-    .string()
-    .min(1, 'City is required')
-    .max(30, 'City must be less than 30 characters'),
-  facilityState: z.string().min(1, 'Please select a state'),
-  facilityZip: z.string().refine(val => POSTAL_PATTERNS.USA.test(val), {
-    message: 'Please enter a valid 5 or 9 digit ZIP code',
-  }),
+  facilityAddress: facilityAddressSchema,
 });
 
 /**
@@ -96,10 +91,7 @@ export const hospitalizationSchema = z
     isCurrentlyHospitalized: isCurrentlyHospitalizedSchema,
     admissionDate: admissionDateSchema,
     facilityName: facilityNameSchema,
-    facilityStreetAddress: facilityStreetAddressSchema,
-    facilityCity: facilityCitySchema,
-    facilityState: facilityStateSchema,
-    facilityZip: facilityZipSchema,
+    facilityAddress: facilityAddressSchema.optional(),
   })
   .refine(
     data => {
@@ -107,10 +99,10 @@ export const hospitalizationSchema = z
         return !!(
           data.admissionDate &&
           data.facilityName &&
-          data.facilityStreetAddress &&
-          data.facilityCity &&
-          data.facilityState &&
-          data.facilityZip
+          data.facilityAddress?.street &&
+          data.facilityAddress?.city &&
+          data.facilityAddress?.state &&
+          data.facilityAddress?.postalCode
         );
       }
       return true;

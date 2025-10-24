@@ -7,6 +7,7 @@ import { ReviewAddressField } from '@bio-aquia/shared/components/atoms/review-ad
 /**
  * Review page component for claimant address.
  * Displays the claimant's mailing address.
+ * When veteran is the claimant, displays veteran address.
  *
  * @component
  * @param {Object} props - Component props
@@ -16,7 +17,18 @@ import { ReviewAddressField } from '@bio-aquia/shared/components/atoms/review-ad
  * @returns {JSX.Element} Review page content
  */
 export const ClaimantAddressReviewPage = ({ data, editPage, title }) => {
-  const sectionData = data?.claimantAddress || {};
+  // Check if veteran is the claimant
+  const isVeteranClaimant =
+    data?.claimantRelationship?.claimantRelationship === 'veteran';
+
+  // Display veteran address if veteran is claimant, otherwise show claimant address
+  const displayAddress = isVeteranClaimant
+    ? data?.veteranAddress?.veteranAddress
+    : data?.claimantAddress?.claimantAddress;
+
+  const label = isVeteranClaimant
+    ? "Veteran's address (claimant)"
+    : 'Claimant address';
 
   return (
     <ReviewPageTemplate
@@ -25,11 +37,7 @@ export const ClaimantAddressReviewPage = ({ data, editPage, title }) => {
       editPage={editPage}
       sectionName="claimantAddress"
     >
-      <ReviewAddressField
-        label="Claimant address"
-        value={sectionData.claimantAddress}
-        hideWhenEmpty
-      />
+      <ReviewAddressField label={label} value={displayAddress} hideWhenEmpty />
     </ReviewPageTemplate>
   );
 };

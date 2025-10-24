@@ -14,6 +14,7 @@ import {
 /**
  * Claimant Contact Page
  * Collects claimant's contact information (phone, mobile, email)
+ * Labels dynamically include claimant's first name
  * @module pages/claimant-contact
  */
 export const ClaimantContactPage = ({
@@ -26,6 +27,10 @@ export const ClaimantContactPage = ({
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
+
+  // Get claimant's first name for dynamic labels
+  const claimantFirstName =
+    formDataToUse?.claimantInformation?.claimantFullName?.first || 'Claimant';
 
   return (
     <PageTemplate
@@ -52,7 +57,7 @@ export const ClaimantContactPage = ({
           </p>
 
           <PhoneField
-            label="Phone number"
+            label={`${claimantFirstName}'s home phone number`}
             name="claimantPhoneNumber"
             value={localData.claimantPhoneNumber || ''}
             onChange={handleFieldChange}
@@ -63,7 +68,7 @@ export const ClaimantContactPage = ({
           />
 
           <PhoneField
-            label="Mobile phone number"
+            label={`${claimantFirstName}'s mobile phone number`}
             name="claimantMobilePhone"
             value={localData.claimantMobilePhone || ''}
             onChange={handleFieldChange}
@@ -74,7 +79,7 @@ export const ClaimantContactPage = ({
           />
 
           <TextInputField
-            label="Email address"
+            label={`${claimantFirstName}'s email address`}
             name="claimantEmail"
             type="email"
             value={localData.claimantEmail || ''}

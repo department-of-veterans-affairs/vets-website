@@ -3,17 +3,22 @@
  * @module config/submit-transformer
  *
  * This module transforms form data before submission to the backend API.
- * When the claimant is the veteran, this transformer copies the veteran's
- * information to the claimant fields to ensure the backend receives complete data.
+ *
+ * Key transformations:
+ * 1. When the claimant is the veteran, copies veteran information to claimant fields
+ *    to ensure the backend receives complete data
+ * 2. When not currently hospitalized, removes any stale hospitalization details
+ *    (handles case where user entered details then changed answer to 'no')
  */
 
 /**
  * Transforms form data before submission
  *
- * When the veteran is filing for themselves (claimantRelationship === 'veteran'),
- * this function copies the veteran's information to the claimant fields. This allows
- * the form to skip showing claimant-specific pages while still providing the backend
- * with the required claimant data.
+ * This transformer performs two key transformations:
+ * 1. When the veteran is filing for themselves (claimantRelationship === 'veteran'),
+ *    copies veteran information to claimant fields
+ * 2. When hospitalization status is 'no', removes any stale hospitalization details
+ *    (handles case where user entered details then changed answer to 'no')
  *
  * @param {Object} formConfig - The form configuration object
  * @param {Object} formData - The form data collected from the user
@@ -29,9 +34,14 @@
  *   },
  *   veteranAddress: {
  *     veteranAddress: { street: '123 Main St', city: 'Springfield', ... }
- *   }
+ *   },
+ *   hospitalizationStatus: {
+ *     isCurrentlyHospitalized: 'no'
+ *   },
+ *   hospitalizationDate: { date: '2024-01-01' } // Will be removed
  * });
  * // transformed.claimantInformation will be populated with veteran's data
+ * // transformed.hospitalizationDate and hospitalizationFacility will be removed
  */
 export function submitTransformer(_formConfig, formData) {
   const transformedData = { ...formData };
@@ -81,6 +91,19 @@ export function submitTransformer(_formConfig, formData) {
     // Note: claimantContact (phone/email) intentionally left as-is
     // The veteran pages don't collect contact information, so if the veteran
     // is the claimant, contact info should come from claimantContact if present
+  }
+
+  // If not currently hospitalized, remove any stale hospitalization details
+  // This handles the case where the user entered hospital information,
+  // then went back and changed their answer to 'no'
+  const isCurrentlyHospitalized =
+    transformedData.hospitalizationStatus?.isCurrentlyHospitalized === 'yes';
+
+  if (!isCurrentlyHospitalized) {
+    // Keep hospitalizationStatus (contains the 'no' answer)
+    // Remove hospitalizationDate and hospitalizationFacility
+    delete transformedData.hospitalizationDate;
+    delete transformedData.hospitalizationFacility;
   }
 
   return transformedData;

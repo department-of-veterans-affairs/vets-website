@@ -56,10 +56,13 @@ describe('HospitalizationFacilityReviewPage', () => {
       const data = {
         hospitalizationFacility: {
           facilityName: 'Lothal Medical Center',
-          facilityStreetAddress: '123 Medical Plaza',
-          facilityCity: 'Boston',
-          facilityState: 'MA',
-          facilityZip: '02101',
+          facilityAddress: {
+            street: '123 Medical Plaza',
+            city: 'Boston',
+            state: 'MA',
+            postalCode: '02101',
+            country: 'USA',
+          },
         },
       };
 
@@ -98,10 +101,13 @@ describe('HospitalizationFacilityReviewPage', () => {
       const data = {
         hospitalizationFacility: {
           facilityName: 'Coruscant General Hospital',
-          facilityStreetAddress: '456 Healthcare Drive',
-          facilityCity: 'Coruscant',
-          facilityState: 'NY',
-          facilityZip: '10001',
+          facilityAddress: {
+            street: '456 Healthcare Drive',
+            city: 'Coruscant',
+            state: 'NY',
+            postalCode: '10001',
+            country: 'USA',
+          },
         },
       };
 
@@ -122,9 +128,12 @@ describe('HospitalizationFacilityReviewPage', () => {
       const data = {
         hospitalizationFacility: {
           facilityName: 'Naboo Royal Medical Center',
-          facilityStreetAddress: '789 Health Ave',
-          facilityCity: 'Naboo',
-          facilityState: 'WA',
+          facilityAddress: {
+            street: '789 Health Ave',
+            city: 'Naboo',
+            state: 'WA',
+            country: 'USA',
+          },
         },
       };
 
@@ -145,9 +154,12 @@ describe('HospitalizationFacilityReviewPage', () => {
       const data = {
         hospitalizationFacility: {
           facilityName: 'Hoth Rebel Base Medical',
-          facilityCity: 'Hoth',
-          facilityState: 'OR',
-          facilityZip: '97201',
+          facilityAddress: {
+            city: 'Hoth',
+            state: 'OR',
+            postalCode: '97201',
+            country: 'USA',
+          },
         },
       };
 
@@ -167,7 +179,9 @@ describe('HospitalizationFacilityReviewPage', () => {
       const data = {
         hospitalizationFacility: {
           facilityName: 'Kamino Cloning Facility',
-          facilityCity: 'Kamino',
+          facilityAddress: {
+            city: 'Kamino',
+          },
         },
       };
 
@@ -231,10 +245,12 @@ describe('HospitalizationFacilityReviewPage', () => {
       const data = {
         hospitalizationFacility: {
           facilityName: 'Dagobah Swamp Clinic',
-          facilityStreetAddress: null,
-          facilityCity: null,
-          facilityState: null,
-          facilityZip: null,
+          facilityAddress: {
+            street: null,
+            city: null,
+            state: null,
+            postalCode: null,
+          },
         },
       };
 

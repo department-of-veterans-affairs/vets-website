@@ -21,17 +21,20 @@ export const HospitalizationFacilityReviewPage = ({
   title,
 }) => {
   const sectionData = data?.hospitalizationFacility || {};
+  const address = sectionData?.facilityAddress || {};
 
   const formatAddress = () => {
-    if (!sectionData.facilityStreetAddress && !sectionData.facilityCity) {
+    if (!address.street && !address.city) {
       return null;
     }
 
     const parts = [
-      sectionData.facilityStreetAddress,
-      sectionData.facilityCity,
-      sectionData.facilityState,
-      sectionData.facilityZip,
+      address.street,
+      address.street2,
+      address.street3,
+      address.city,
+      address.state,
+      address.postalCode,
     ].filter(Boolean);
 
     return parts.join(', ');

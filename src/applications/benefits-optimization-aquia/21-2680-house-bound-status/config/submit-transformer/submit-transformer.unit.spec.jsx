@@ -316,4 +316,117 @@ describe('Submit Transformer', () => {
       expect(result.claimantContact.claimantEmail).to.equal('test@example.com');
     });
   });
+
+  describe('Hospitalization Data Cleanup', () => {
+    it('should remove hospitalization details when status is no', () => {
+      const formData = {
+        hospitalizationStatus: {
+          isCurrentlyHospitalized: 'no',
+        },
+        hospitalizationDate: {
+          admissionDate: '2024-01-15',
+        },
+        hospitalizationFacility: {
+          facilityName: 'VA Medical Center',
+          facilityAddress: {
+            street: '123 Hospital St',
+            city: 'Springfield',
+            state: 'IL',
+          },
+        },
+      };
+      const result = submitTransformer(mockFormConfig, formData);
+
+      // Status should remain
+      expect(result.hospitalizationStatus.isCurrentlyHospitalized).to.equal(
+        'no',
+      );
+
+      // Details should be removed
+      expect(result.hospitalizationDate).to.be.undefined;
+      expect(result.hospitalizationFacility).to.be.undefined;
+    });
+
+    it('should keep hospitalization details when status is yes', () => {
+      const formData = {
+        hospitalizationStatus: {
+          isCurrentlyHospitalized: 'yes',
+        },
+        hospitalizationDate: {
+          admissionDate: '2024-01-15',
+        },
+        hospitalizationFacility: {
+          facilityName: 'VA Medical Center',
+        },
+      };
+      const result = submitTransformer(mockFormConfig, formData);
+
+      // Everything should remain
+      expect(result.hospitalizationStatus.isCurrentlyHospitalized).to.equal(
+        'yes',
+      );
+      expect(result.hospitalizationDate.admissionDate).to.equal('2024-01-15');
+      expect(result.hospitalizationFacility.facilityName).to.equal(
+        'VA Medical Center',
+      );
+    });
+
+    it('should remove hospitalization details when status is missing', () => {
+      const formData = {
+        hospitalizationDate: {
+          admissionDate: '2024-01-15',
+        },
+        hospitalizationFacility: {
+          facilityName: 'VA Medical Center',
+        },
+      };
+      const result = submitTransformer(mockFormConfig, formData);
+
+      // Details should be removed when status is undefined
+      expect(result.hospitalizationDate).to.be.undefined;
+      expect(result.hospitalizationFacility).to.be.undefined;
+    });
+
+    it('should handle empty hospitalization status object', () => {
+      const formData = {
+        hospitalizationStatus: {},
+        hospitalizationDate: {
+          admissionDate: '2024-01-15',
+        },
+      };
+      const result = submitTransformer(mockFormConfig, formData);
+
+      // Details should be removed
+      expect(result.hospitalizationDate).to.be.undefined;
+    });
+
+    it('should work correctly with veteran claimant and hospitalization cleanup', () => {
+      const formData = {
+        claimantRelationship: {
+          claimantRelationship: 'veteran',
+        },
+        veteranIdentification: {
+          veteranFullName: { first: 'John', last: 'Doe' },
+          veteranDOB: '1980-01-01',
+          veteranSSN: '123-45-6789',
+        },
+        hospitalizationStatus: {
+          isCurrentlyHospitalized: 'no',
+        },
+        hospitalizationDate: {
+          admissionDate: '2024-01-15',
+        },
+      };
+      const result = submitTransformer(mockFormConfig, formData);
+
+      // Veteran data should be copied to claimant
+      expect(result.claimantInformation.claimantFullName.first).to.equal(
+        'John',
+      );
+      expect(result.claimantInformation.claimantDOB).to.equal('1980-01-01');
+
+      // Hospitalization details should be removed
+      expect(result.hospitalizationDate).to.be.undefined;
+    });
+  });
 });

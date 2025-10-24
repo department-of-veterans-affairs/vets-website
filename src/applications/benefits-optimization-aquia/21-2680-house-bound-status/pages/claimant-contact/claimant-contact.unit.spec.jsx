@@ -86,8 +86,13 @@ describe('ClaimantContactPage', () => {
       );
 
       await waitFor(() => {
-        expect(findByLabel(container, 'va-telephone-input', 'Phone number')).to
-          .exist;
+        expect(
+          findByLabel(
+            container,
+            'va-telephone-input',
+            "Claimant's home phone number",
+          ),
+        ).to.exist;
       });
     });
 
@@ -102,7 +107,11 @@ describe('ClaimantContactPage', () => {
 
       await waitFor(() => {
         expect(
-          findByLabel(container, 'va-telephone-input', 'Mobile phone number'),
+          findByLabel(
+            container,
+            'va-telephone-input',
+            "Claimant's mobile phone number",
+          ),
         ).to.exist;
       });
     });
@@ -117,8 +126,9 @@ describe('ClaimantContactPage', () => {
       );
 
       await waitFor(() => {
-        expect(findByLabel(container, 'va-text-input', 'Email address')).to
-          .exist;
+        expect(
+          findByLabel(container, 'va-text-input', "Claimant's email address"),
+        ).to.exist;
       });
     });
 
@@ -135,7 +145,7 @@ describe('ClaimantContactPage', () => {
         const mobileField = findByLabel(
           container,
           'va-telephone-input',
-          'Mobile phone number',
+          "Claimant's mobile phone number",
         );
         expect(mobileField).to.exist;
         expect(mobileField.getAttribute('hint')).to.include('Optional');

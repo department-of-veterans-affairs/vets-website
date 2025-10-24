@@ -10,6 +10,7 @@ import {
 /**
  * Review page component for claimant information.
  * Displays the claimant's name and date of birth.
+ * When veteran is the claimant, displays veteran information.
  *
  * @component
  * @param {Object} props - Component props
@@ -19,7 +20,21 @@ import {
  * @returns {JSX.Element} Review page content
  */
 export const ClaimantInformationReviewPage = ({ data, editPage, title }) => {
-  const sectionData = data?.claimantInformation || {};
+  // Check if veteran is the claimant
+  const isVeteranClaimant =
+    data?.claimantRelationship?.claimantRelationship === 'veteran';
+
+  // Display veteran data if veteran is claimant, otherwise show claimant data
+  const displayData = isVeteranClaimant
+    ? {
+        claimantFullName: data?.veteranIdentification?.veteranFullName,
+        claimantDOB: data?.veteranIdentification?.veteranDOB,
+      }
+    : data?.claimantInformation || {};
+
+  const nameLabel = isVeteranClaimant
+    ? "Veteran's full name (claimant)"
+    : "Claimant's full name";
 
   return (
     <ReviewPageTemplate
@@ -29,13 +44,13 @@ export const ClaimantInformationReviewPage = ({ data, editPage, title }) => {
       sectionName="claimantInformation"
     >
       <ReviewFullnameField
-        label="Claimant's full name"
-        value={sectionData.claimantFullName}
+        label={nameLabel}
+        value={displayData.claimantFullName}
         hideWhenEmpty
       />
       <ReviewDateField
         label="Date of birth"
-        value={sectionData.claimantDOB}
+        value={displayData.claimantDOB}
         hideWhenEmpty
       />
     </ReviewPageTemplate>

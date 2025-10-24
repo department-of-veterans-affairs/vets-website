@@ -8,6 +8,9 @@ import { ReviewField } from '@bio-aquia/shared/components/atoms';
  * Review page component for claimant contact information.
  * Displays the claimant's phone number, mobile phone, and email.
  *
+ * Note: When veteran is the claimant, contact information is not collected
+ * in veteran pages, so these fields will not display (hideWhenEmpty handles this).
+ *
  * @component
  * @param {Object} props - Component props
  * @param {Object} props.data - Full form data
