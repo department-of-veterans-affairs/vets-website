@@ -14,7 +14,7 @@ import reducer from '../../../../redux/reducer';
 
 describe('Travel Pay – AgreementPage', () => {
   const apptId = '12345';
-  const claimId = '12345';
+  const claimId = '45678';
 
   const LocationDisplay = () => {
     const location = useLocation();
