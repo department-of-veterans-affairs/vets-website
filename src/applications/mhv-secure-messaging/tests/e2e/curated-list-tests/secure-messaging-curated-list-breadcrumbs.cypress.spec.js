@@ -89,6 +89,28 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       GeneralFunctionsPage.verifyPageHeader('Select care team');
       cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
     });
+
+    it('navigates from select care team to contact list page and back', () => {
+      // Navigate to select care team page
+      PilotEnvPage.navigateToSelectCareTeamPage();
+      GeneralFunctionsPage.verifyPageHeader('Select care team');
+      cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
+
+      // Click "Update your contact list" link
+      cy.findByText('Update your contact list').click();
+
+      // Verify contact list page loads
+      GeneralFunctionsPage.verifyPageHeader('Messages: Contact list');
+      cy.location('pathname').should('equal', Data.LINKS.CONTACT_LIST);
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+
+      // Click back button
+      SharedComponents.clickBackBreadcrumb();
+
+      // Verify return to select care team page
+      GeneralFunctionsPage.verifyPageHeader('Select care team');
+      cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
+    });
   });
 
   describe('Entry point preservation', () => {
@@ -241,7 +263,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       PatientInterstitialPage.continueToRecentRecipients(
         searchSentFolderResponse,
       );
-      GeneralFunctionsPage.verifyPageHeader('Recent care teams');
+      GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
       // Navigate forward to select care team
       cy.findByLabelText('A different care team').click();
@@ -250,7 +272,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
 
       // Navigate back through the flow
       SharedComponents.clickBackBreadcrumb();
-      GeneralFunctionsPage.verifyPageHeader('Recent care teams');
+      GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
       SharedComponents.clickBackBreadcrumb();
       GeneralFunctionsPage.verifyPageHeader(
@@ -283,7 +305,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       PatientInterstitialPage.continueToRecentRecipients(
         searchSentFolderResponse,
       );
-      GeneralFunctionsPage.verifyPageHeader('Recent care teams');
+      GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
       cy.location('pathname').should(
         'equal',
         `${Paths.UI_MAIN}${Paths.COMPOSE}${Paths.RECENT_CARE_TEAMS}`,
@@ -319,7 +341,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
 
       // Backward: Select care team → Recent care teams
       SharedComponents.clickBackBreadcrumb();
-      GeneralFunctionsPage.verifyPageHeader('Recent care teams');
+      GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
       cy.location('pathname').should(
         'equal',
         `${Paths.UI_MAIN}${Paths.COMPOSE}${Paths.RECENT_CARE_TEAMS}`,
