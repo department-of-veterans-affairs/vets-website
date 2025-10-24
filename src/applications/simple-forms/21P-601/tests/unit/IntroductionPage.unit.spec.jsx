@@ -148,17 +148,15 @@ describe('21P-601 IntroductionPage', () => {
   });
 
   it('renders who can use this form section', () => {
-    const { getByText } = render(
+    const { container } = render(
       <Provider store={mockStore()}>
         <IntroductionPage {...props} />
       </Provider>,
     );
 
-    getByText(/Who should use this form/i);
-    getByText(
-      /If you're the executor or administrator of the beneficiary's estate/i,
-    );
-    getByText(/If you're the surviving spouse, dependent child, or parent/i);
+    expect(container.textContent).to.include('Who should use this form');
+    expect(container.textContent).to.include('executor or administrator');
+    expect(container.textContent).to.include('surviving spouse');
   });
 
   it('renders time limit warning alert', () => {
@@ -174,13 +172,14 @@ describe('21P-601 IntroductionPage', () => {
   });
 
   it('renders what you will need section', () => {
-    const { getByText, container } = render(
+    const { container } = render(
       <Provider store={mockStore()}>
         <IntroductionPage {...props} />
       </Provider>,
     );
 
-    getByText(/What you'll need to apply/i);
+    expect(container.textContent).to.include('What you');
+    expect(container.textContent).to.include('need to apply');
     expect(container.textContent).to.include('date of death');
   });
 

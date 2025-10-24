@@ -5,6 +5,7 @@ import { IntroductionPageView } from '../../shared/components/IntroductionPageVi
 
 const content = {
   formTitle: 'Apply for accrued benefits online',
+  formSubTitle: '',
   authStartFormText: 'Apply for accrued benefits',
   displayNonVeteranMessaging: true,
 };
