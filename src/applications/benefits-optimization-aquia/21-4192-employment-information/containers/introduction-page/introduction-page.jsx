@@ -3,13 +3,9 @@
  * @description Introduction page component for VA Form 21-4192
  */
 
-import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import {
@@ -21,12 +17,7 @@ import {
  * Introduction page component for VA Form 21-4192
  * @returns {React.ReactElement} Introduction page component
  */
-export const IntroductionPage = ({ route }) => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
-  const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
-
+export const IntroductionPage = () => {
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
@@ -36,97 +27,92 @@ export const IntroductionPage = ({ route }) => {
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
       <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-        Follow these steps to apply for a burial allowance
+        Follow these steps to apply for disability compensation benefits
       </h2>
 
       <va-process-list>
         <va-process-list-item header="Check your eligibility">
           <p>
-            Make sure you meet our eligibility requirements before you apply.{' '}
-            <a href="/burials-memorials/veterans-burial-allowance/">
-              Find out if you’re eligible for a Veterans burial allowance and
-              transportation benefits
+            This form is used by the Department of Veterans Affairs (VA) to
+            request employment information from an employer to help verify a
+            Veteran’s employment status in connection with a disability benefits
+            claim. Generally, the Veteran must have filed a claim for disability
+            compensation, and this form aids in obtaining necessary evidence
+            related to employment and earnings.
+          </p>
+          <p>
+            <strong>Helpful link:</strong>{' '}
+            <a href="https://www.va.gov/disability/how-to-file-claim/">
+              Eligibility requirements for VA disability compensation
             </a>
-            .
           </p>
         </va-process-list-item>
 
         <va-process-list-item header="Gather your information">
-          <p>You’ll need this information about the deceased Veteran:</p>
+          <p>You’ll need this information about the Veteran:</p>
           <ul>
-            <li>Social Security number or VA file number</li>
-            <li>Date and place of birth</li>
-            <li>Date of death</li>
-            <li>Military service history</li>
-            <li>Date of burial</li>
-            <li>Final resting place</li>
+            <li>
+              Full name, Social Security number, and VA file number (if
+              applicable)
+            </li>
+            <li>Employer’s name and address</li>
+            <li>
+              Employment start and end dates, type of work, and hours worked
+            </li>
           </ul>
-          <p>
-            And we’ll ask for your organization’s information. This includes
-            your organization’s cemetery name, location, mailing address, and
-            contact information.
-          </p>
           <p>You may also need to provide copies of these documents:</p>
           <ul>
+            <li>Records of earnings or wages for the past 12 months</li>
             <li>
-              The Veteran’s death certificate including the cause of death
-            </li>
-            <li>
-              An itemized receipt for transportation costs (only if you paid
-              transportation costs for the Veteran’s remains)
+              Documentation of any employment-related disability or concessions
             </li>
           </ul>
           <p>
-            We also recommend providing a copy of the Veteran’s DD214 or other
-            separation documents including all their service periods.
-          </p>
-          <p>
-            If you don’t have their DD214 or other separation documents, you can
-            request these documents now.{' '}
-            <a href="/records/get-military-service-records/">
-              Learn more about requesting military service records
+            <strong>Optional:</strong> If you need assistance obtaining
+            employment records, contact your employer directly or reach out to
+            your local VA regional office for guidance.{' '}
+            <a href="https://www.va.gov/resources/how-to-get-your-military-service-records/">
+              VA assistance with records and claims
             </a>
-            .
           </p>
           <h4>What if I need help with my application?</h4>
           <p>
-            An accredited representative, like a Veterans Service Organization
-            (VSO), can help you fill out your application.{' '}
-            <a href="/disability/get-help-filing-claim/">
-              Learn more about getting help from an accredited representative
+            You can get help with completing this form from a Veteran Service
+            Officer (VSO), accredited representatives, or by contacting your
+            local VA regional office.
+          </p>
+          <p>
+            <strong>Helpful link:</strong>{' '}
+            <a href="https://www.benefits.va.gov/vso/">
+              Find assistance with VA benefits
             </a>
-            .
           </p>
         </va-process-list-item>
 
         <va-process-list-item header="Apply">
           <p>
-            We’ll take you through each step of the process. This application
-            should take about 30 minutes.
+            Complete VA Form 21-4192 with the required employment information.
+            The employer or authorized personnel should fill out and return the
+            form directly to the VA as instructed. The form typically takes
+            about 15 minutes to complete once the relevant information is
+            gathered.
+          </p>
+          <p>
+            Submit the completed form as directed by the VA claims process,
+            usually to the VA regional office handling the claim.
           </p>
         </va-process-list-item>
 
         <va-process-list-item header="After you apply">
           <p>
-            We’ll contact you by mail if we need more information. Once we
-            process your application, we’ll mail you a letter with our decision.
+            After the form is received, the VA will review the information to
+            assess the Veteran’s employment history and any impact on their
+            disability claim. You may be contacted for clarification or
+            additional information during the review, which can take several
+            weeks depending on case complexity.
           </p>
         </va-process-list-item>
       </va-process-list>
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the state and tribal organization burial allowance benefits application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
-      )}
       <va-omb-info
         res-burden="15"
         omb-number="2900-0065"
@@ -134,19 +120,6 @@ export const IntroductionPage = ({ route }) => {
       />
     </article>
   );
-};
-
-IntroductionPage.propTypes = {
-  route: PropTypes.shape({
-    formConfig: PropTypes.shape({
-      prefillEnabled: PropTypes.bool.isRequired,
-      savedFormMessages: PropTypes.object.isRequired,
-    }).isRequired,
-    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
-  location: PropTypes.shape({
-    basename: PropTypes.string,
-  }),
 };
 
 export default IntroductionPage;

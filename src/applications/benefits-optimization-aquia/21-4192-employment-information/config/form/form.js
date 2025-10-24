@@ -79,20 +79,7 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   formId: VA_FORM_IDS.FORM_21_4192,
-  saveInProgress: {
-    messages: {
-      inProgress: 'Your employment information form (21-4192) is in progress.',
-      expired:
-        'Your saved employment information form (21-4192) has expired. If you want to submit your information, please start a new form.',
-      saved: 'Your employment information form has been saved.',
-    },
-  },
   version: 0,
-  prefillEnabled: false,
-  savedFormMessages: {
-    notFound: 'Please start over to submit your employment information.',
-    noAuth: 'Please sign in again to continue your form.',
-  },
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},

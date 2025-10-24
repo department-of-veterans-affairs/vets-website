@@ -118,7 +118,7 @@ describe('IntroductionPage', () => {
     expect(processItems[3].getAttribute('header')).to.equal('After you apply');
   });
 
-  it('should display sign-in alert when user is not logged in', () => {
+  it('should not display sign-in alert', () => {
     const mockStore = createMockStore();
 
     const { container } = render(
@@ -128,35 +128,20 @@ describe('IntroductionPage', () => {
     );
 
     const signInAlert = container.querySelector('va-alert-sign-in');
-    expect(signInAlert).to.exist;
+    expect(signInAlert).to.not.exist;
   });
 
-  it('should display verify identity message when user is logged in but not verified', () => {
-    const mockStore = createMockStore({
-      user: {
-        login: {
-          currentlyLoggedIn: true,
-        },
-        profile: {
-          savedForms: [],
-          prefillsAvailable: [],
-          loa: {
-            current: 1,
-            highest: 1,
-          },
-          verified: false,
-        },
-      },
-    });
+  it('should not display save in progress intro', () => {
+    const mockStore = createMockStore();
 
-    const { queryByText } = render(
+    const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...defaultProps} />
       </Provider>,
     );
 
-    const startButton = queryByText(/Start your/);
-    expect(startButton).to.not.exist;
+    const saveInProgress = container.querySelector('.schemaform-save-links');
+    expect(saveInProgress).to.not.exist;
   });
 
   it('should scroll to top and focus h1 on mount', () => {
