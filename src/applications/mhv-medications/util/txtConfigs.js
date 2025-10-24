@@ -12,7 +12,11 @@ import {
   validateIfAvailable,
   prescriptionMedAndRenewalStatus,
 } from './helpers';
-import { FIELD_NOT_AVAILABLE, medStatusDisplayTypes } from './constants';
+import {
+  DATETIME_FORMATS,
+  FIELD_NOT_AVAILABLE,
+  medStatusDisplayTypes,
+} from './constants';
 
 const newLine = (n = 1) => '\n'.repeat(n);
 const joinLines = (...lines) => lines.filter(Boolean).join(newLine(2));
@@ -48,7 +52,7 @@ export const buildNonVAPrescriptionTXT = (prescription, options) => {
     joinLines(
       `When you started taking this medication: ${dateFormat(
         prescription.dispensedDate,
-        'MMMM D, YYYY',
+        DATETIME_FORMATS.longMonthDate,
         'Date not available',
       )}`,
       `Documented by: ${
@@ -76,7 +80,7 @@ export const buildPrescriptionsTXT = prescriptions => {
 
     const filledDate = dateFormat(
       newest.sortedDispensedDate,
-      'MMMM D, YYYY',
+      DATETIME_FORMATS.longMonthDate,
       'Date not available',
     );
 
@@ -105,7 +109,7 @@ export const buildPrescriptionsTXT = prescriptions => {
       ? joinLines(
           `Last filled on: ${dateFormat(
             rx.sortedDispensedDate,
-            'MMMM D, YYYY',
+            DATETIME_FORMATS.longMonthDate,
             'Date not available',
           )}`,
           `Prescription number: ${rx.prescriptionNumber}`,
@@ -120,7 +124,7 @@ export const buildPrescriptionsTXT = prescriptions => {
       fieldLine('Refills left', rx.refillRemaining),
       `Request refills by this prescription expiration date: ${dateFormat(
         rx.expirationDate,
-        'MMMM D, YYYY',
+        DATETIME_FORMATS.longMonthDate,
         'Date not available',
       )}`,
       fieldLine('Facility', rx.facilityName),
@@ -130,7 +134,7 @@ export const buildPrescriptionsTXT = prescriptions => {
       fieldLine('Quantity', rx.quantity),
       `Prescribed on: ${dateFormat(
         rx.orderedDate,
-        'MMMM D, YYYY',
+        DATETIME_FORMATS.longMonthDate,
         'Date not available',
       )}`,
       `Prescribed by: ${displayProviderName(
@@ -222,7 +226,7 @@ ${
       : `
 Last filled on: ${dateFormat(
           prescription.sortedDispensedDate,
-          'MMMM D, YYYY',
+          DATETIME_FORMATS.longMonthDate,
           'Date not available',
         )}
 `
@@ -246,7 +250,7 @@ Refills left: ${validateIfAvailable(
 
 Request refills by this prescription expiration date: ${dateFormat(
     prescription.expirationDate,
-    'MMMM D, YYYY',
+    DATETIME_FORMATS.longMonthDate,
     'Date not available',
   )}
 
@@ -268,7 +272,7 @@ Quantity: ${validateIfAvailable('Quantity', prescription.quantity)}
 
 Prescribed on: ${dateFormat(
     prescription.orderedDate,
-    'MMMM D, YYYY',
+    DATETIME_FORMATS.longMonthDate,
     'Date not available',
   )}
 
@@ -309,7 +313,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
       result += `
 ${refillLabel}: ${dateFormat(
         entry.dispensedDate,
-        'MMMM D, YYYY',
+        DATETIME_FORMATS.longMonthDate,
         'Date not available',
       )}
 ${
@@ -325,7 +329,7 @@ ${
           ? `
 Shipped on: ${dateFormat(
               prescription?.trackingList?.[0]?.completeDateTime,
-              'MMMM D, YYYY',
+              DATETIME_FORMATS.longMonthDate,
               'Date not available',
             )}
 `
@@ -355,7 +359,7 @@ Prescription number: ${previousPrescription.prescriptionNumber}
 
 Last filled: ${dateFormat(
         previousPrescription.sortedDispensedDate,
-        'MMMM D, YYYY',
+        DATETIME_FORMATS.longMonthDate,
         'Date not available',
       )}
 
@@ -363,7 +367,7 @@ Quantity: ${validateIfAvailable('Quantity', previousPrescription.quantity)}
 
 Prescribed on: ${dateFormat(
         previousPrescription.orderedDate,
-        'MMMM D, YYYY',
+        DATETIME_FORMATS.longMonthDate,
         'Date not available',
       )}
 

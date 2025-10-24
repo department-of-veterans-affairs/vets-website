@@ -4,6 +4,7 @@ import {
   displayHeaderPrefaceText,
   displayMedicationsListHeader,
 } from './helpers';
+import { DATETIME_FORMATS } from './constants';
 
 export function buildPdfData({
   userName,
@@ -26,7 +27,10 @@ export function buildPdfData({
     headerLeft: userName.first
       ? `${userName.last}, ${userName.first}`
       : `${userName.last || ' '}`,
-    headerRight: `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}`,
+    headerRight: `Date of birth: ${dateFormat(
+      dob,
+      DATETIME_FORMATS.longMonthDate,
+    )}`,
     footerLeft: reportGeneratedBy,
     footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
     title: 'Medications',
