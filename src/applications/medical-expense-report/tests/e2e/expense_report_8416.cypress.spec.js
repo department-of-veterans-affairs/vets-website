@@ -1,31 +1,15 @@
 import 'cypress-axe';
 import fixtureData from '../fixtures/mocks/user.json';
-import { checkAxeAndClickContinueButton, checkVisibleElementContent } from '../utils';
+import { 
+  checkAxeAndClickContinueButton, 
+  checkVisibleElementContent 
+} from '../utils';
 
 const loginWithLocalStorage = () => {
-  //cy.visit('pension/medical-expense-report-form-21p-8416/introduction');
   cy.injectAxeThenAxeCheck()
-  cy.window().then((win) => {
-     win.localStorage.setItem('hasSession', true)
+  cy.window().then(win => {
+     win.localStorage.setItem('hasSession', true);
    });
-};
-
-/**
- * Start the application process while not logged in.
- */
-const startApplicationWithoutLogin = () => {
-
-  cy.visit(
-    '/supporting-forms-for-claims/submit-medical-expense-report-form-21p-8416',
-  );
-
-  cy.injectAxeThenAxeCheck();
-  checkContentAnonymousIntroPageContent();
-
-  cy.get('va-alert-sign-in')
-    .get('a[class="schemaform-start-button"]')
-    .click();
-    
 };
 
 /**
@@ -257,7 +241,7 @@ const checkContentAnonymousCareExpensesCareDates = () => {
 /**
  * Check the content on the Care Expenses Care Costs page
  */
-checkContentAnonymousCareExpensesCareCosts = () => {
+const checkContentAnonymousCareExpensesCareCosts = () => {
   checkVisibleElementContent(
     'h1', 
     'Submit medical expenses to support a pension or DIC claim'
@@ -275,7 +259,7 @@ checkContentAnonymousCareExpensesCareCosts = () => {
 /**
  * Check the content on the Care Expenses Review page
  */
-checkContentAnonymousCareExpensesReview = () => {
+const checkContentAnonymousCareExpensesReview = () => {
   checkVisibleElementContent(
     'h1', 
     'Submit medical expenses to support a pension or DIC claim'
@@ -547,6 +531,23 @@ const checkContentAnonymousStatementOfTruth = () => {
 }
 
 /**
+ * Start the application process while not logged in
+ */
+const startApplicationWithoutLogin = () => {
+  cy.visit(
+    '/supporting-forms-for-claims/submit-medical-expense-report-form-21p-8416',
+  );
+
+  cy.injectAxeThenAxeCheck();
+  checkContentAnonymousIntroPageContent();
+
+  cy.get('va-alert-sign-in')
+    .get('a[class="schemaform-start-button"]')
+    .click();
+    
+};
+
+/**
  * Fill in the name fields from the fixture data.
  */
 const fillInNameFromFixture = () => {
@@ -724,6 +725,7 @@ const fillInCareExpensesFromFixture = () => {
   checkContentAnonymousCareExpensesCareDates();
   // cypress can be a little too fast and not wait for these fields to be exposed.
   cy.wait(1000);
+
   cy.fillDate(
     'root_careDate_from',
     fixtureData.data.attributes.veteran_care_provider_1.fromDate,
