@@ -155,10 +155,16 @@ describe('Travel Pay – ReviewPage', () => {
     expect(mileageCard).to.exist;
   });
 
-  it('calls addMoreExpenses when add more expenses button is clicked', () => {
-    const { container } = renderWithStoreAndRouter(
+  it('calls addMoreExpenses when Add More Expenses button is clicked', () => {
+    const { container, getByTestId } = renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
-        <ReviewPage claim={defaultClaim} />
+        <Routes>
+          <Route
+            path="/file-new-claim/complex/:apptId/review"
+            element={<ReviewPage claim={defaultClaim} />}
+          />
+        </Routes>
+        <LocationDisplay />
       </MemoryRouter>,
       {
         initialState: getData(),
@@ -169,9 +175,12 @@ describe('Travel Pay – ReviewPage', () => {
     const addButton = $('#add-expense-button', container);
     expect(addButton).to.exist;
 
-    // Currently the function is empty, so we just fire the click to ensure no crash
+    // Click the Add more expenses button
     fireEvent.click(addButton);
 
-    expect(true).to.be.true; // ensures click did not throw
+    // Check that the location updated
+    expect(getByTestId('location-display').textContent).to.equal(
+      '/file-new-claim/complex/12345/choose-expense',
+    );
   });
 });
