@@ -93,9 +93,9 @@ function buildTestCommand(testPaths) {
     ? `--include 'src/applications/${options['app-folder']}/**'`
     : '';
 
-  const reporterOption = options.reporter
-    ? `--reporter ${options.reporter}`
-    : '';
+  // Always produce JSON outputs via mocha-multi-reporters
+  const defaultMochaReporters =
+    '--reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
   const coverageReporter = options['coverage-html']
     ? '--reporter=html -- mocha --retries 5'
     : '--reporter=json-summary -- mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
@@ -104,7 +104,7 @@ function buildTestCommand(testPaths) {
 
   const testRunner = options.coverage
     ? `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter} --`
-    : `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
+    : `BABEL_ENV=test NODE_ENV=test mocha ${defaultMochaReporters}`;
 
   return `${baseEnv} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
     options.config
