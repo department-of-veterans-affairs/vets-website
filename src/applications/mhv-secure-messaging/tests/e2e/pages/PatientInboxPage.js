@@ -76,6 +76,11 @@ class PatientInboxPage {
     ).as('inboxMessages');
     cy.intercept(
       'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/-1/threads*`,
+      mockSentThreads,
+    ).as('sentThreads');
+    cy.intercept(
+      'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0*`,
       mockInboxFolder,
     ).as('inboxFolderMetaData');
