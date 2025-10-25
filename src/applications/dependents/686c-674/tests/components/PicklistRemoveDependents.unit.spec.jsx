@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import { sub, format } from 'date-fns';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { slugifyText } from 'platform/forms-system/src/js/patterns/array-builder';
@@ -10,18 +9,15 @@ import { slugifyText } from 'platform/forms-system/src/js/patterns/array-builder
 import PicklistRemoveDependents from '../../components/PicklistRemoveDependents';
 
 import { PICKLIST_DATA } from '../../config/constants';
+import { createDoB } from '../test-helpers';
 
 describe('PicklistRemoveDependents', () => {
-  const createDoB = (yearsAgo = 0, monthsAgo = 0) =>
-    format(
-      sub(new Date(), { years: yearsAgo, months: monthsAgo }),
-      'yyyy-MM-dd',
-    );
   const defaultData = (checked = false) => ({
     dependents: {
       hasDependents: true,
       awarded: [
         {
+          key: 'spousy-1234',
           fullName: {
             first: 'SPOUSY',
             last: 'FOSTER',
@@ -33,6 +29,7 @@ describe('PicklistRemoveDependents', () => {
           awardIndicator: 'Y',
         },
         {
+          key: 'penny-1234',
           fullName: {
             first: 'PENNY',
             last: 'FOSTER',
@@ -44,6 +41,7 @@ describe('PicklistRemoveDependents', () => {
           awardIndicator: 'Y',
         },
         {
+          key: 'stacy-1234',
           fullName: {
             first: 'STACY',
             last: 'FOSTER',
@@ -55,6 +53,7 @@ describe('PicklistRemoveDependents', () => {
           awardIndicator: 'Y',
         },
         {
+          key: 'peter-1234',
           fullName: {
             first: 'PETER',
             last: 'FOSTER',

@@ -33,36 +33,32 @@
  * @param {Object} [state.user.profile.userFullName] - Full name object with first, middle, last, suffix
  * @param {string} [state.user.profile.dob] - Date of birth in various formats
  * @param {string} [state.user.profile.birthDate] - Alternative date of birth field
- * @param {string} [state.user.profile.ssn] - Social Security Number (may include formatting)
- * @param {string} [state.user.profile.vaFileNumber] - VA file number identifier
- * @param {string} [state.user.profile.homePhone] - Home phone number
- * @param {string} [state.user.profile.mobilePhone] - Mobile phone number
- * @param {string} [state.user.profile.email] - Email address
  * @param {Object} [state.user.profile.mailingAddress] - Mailing address object
  * @param {Object} [state.user.profile.vaProfile] - VA-specific profile information
+ * @param {Object} [state.user.profile.vapContactInfo] - VA contact information (primary source for address)
  *
  * @returns {Object} The transformed data object containing:
  * @returns {Array<Object>} returns.pages - The original pages configuration (passed through)
  * @returns {Object} returns.formData - The merged form data object
- * @returns {Object} returns.formData.personalInfo - Personal information section
- * @returns {Object} returns.formData.personalInfo.fullName - Structured name object
- * @returns {string} returns.formData.personalInfo.fullName.first - First name
- * @returns {string} returns.formData.personalInfo.fullName.middle - Middle name
- * @returns {string} returns.formData.personalInfo.fullName.last - Last name
- * @returns {string} returns.formData.personalInfo.fullName.suffix - Name suffix
- * @returns {string} returns.formData.personalInfo.dateOfBirth - Formatted date of birth (YYYY-MM-DD)
- * @returns {string} returns.formData.personalInfo.ssn - Formatted SSN (XXX-XX-XXXX)
- * @returns {string} returns.formData.personalInfo.vaFileNumber - VA file number
- * @returns {Object} returns.formData.contactInfo - Contact information section
- * @returns {string} returns.formData.contactInfo.phone - Phone number (home or mobile)
- * @returns {string} returns.formData.contactInfo.email - Email address
- * @returns {Object} returns.formData.contactInfo.mailingAddress - Structured address object
- * @returns {string} returns.formData.contactInfo.mailingAddress.street - Street address line 1
- * @returns {string} returns.formData.contactInfo.mailingAddress.street2 - Street address line 2
- * @returns {string} returns.formData.contactInfo.mailingAddress.city - City
- * @returns {string} returns.formData.contactInfo.mailingAddress.state - State code
- * @returns {string} returns.formData.contactInfo.mailingAddress.postalCode - ZIP code
+ * @returns {Object} returns.formData.veteranIdentification - Veteran identification section
+ * @returns {Object} returns.formData.veteranIdentification.veteranFullName - Structured name object
+ * @returns {string} returns.formData.veteranIdentification.veteranFullName.first - First name
+ * @returns {string} returns.formData.veteranIdentification.veteranFullName.middle - Middle name
+ * @returns {string} returns.formData.veteranIdentification.veteranFullName.last - Last name
+ * @returns {string} returns.formData.veteranIdentification.veteranFullName.suffix - Name suffix
+ * @returns {string} returns.formData.veteranIdentification.veteranDOB - Formatted date of birth (YYYY-MM-DD)
+ * @returns {string} returns.formData.veteranIdentification.veteranSSN - Empty string (SSN not prefilled for security)
+ * @returns {Object} returns.formData.veteranAddress - Veteran address section
+ * @returns {Object} returns.formData.veteranAddress.veteranAddress - Structured address object
+ * @returns {string} returns.formData.veteranAddress.veteranAddress.street - Street address line 1
+ * @returns {string} returns.formData.veteranAddress.veteranAddress.street2 - Street address line 2
+ * @returns {string} returns.formData.veteranAddress.veteranAddress.city - City
+ * @returns {string} returns.formData.veteranAddress.veteranAddress.state - State code
+ * @returns {string} returns.formData.veteranAddress.veteranAddress.postalCode - ZIP code
  * @returns {Object} returns.metadata - The original metadata object (passed through)
+ *
+ * @note SSN is NOT prefilled for security reasons - not available in user profile API.
+ * @note Phone and email are NOT prefilled for the veteran - only collected on claimant pages.
  *
  * @example
  * // Example usage in form configuration
@@ -75,15 +71,19 @@
  *       profile: {
  *         userFullName: { first: 'Jane', last: 'Smith' },
  *         dob: '19750312',
- *         ssn: '987654321',
- *         email: 'jane.smith@email.com'
+ *         mailingAddress: {
+ *           addressLine1: '123 Main St',
+ *           city: 'Springfield',
+ *           stateCode: 'IL',
+ *           zipCode: '62701'
+ *         }
  *       }
  *     }
  *   }
  * );
- * // Result includes prefilled personalInfo and contactInfo sections
+ * // Result includes prefilled veteranIdentification and veteranAddress sections
  */
-export default function prefillTransformer(pages, formData, metadata, state) {
+export function prefillTransformer(pages, formData, metadata, state) {
   const profile = state?.user?.profile || {};
   const vaProfile = profile?.vaProfile || {};
 
@@ -100,64 +100,109 @@ export default function prefillTransformer(pages, formData, metadata, state) {
   // Format date of birth from profile
   // Handles multiple date formats and converts YYYYMMDD to YYYY-MM-DD
   let dateOfBirth = '';
-  if (profile.dob || profile.birthDate) {
-    const dobString = profile.dob || profile.birthDate || vaProfile.birthDate;
-    if (dobString) {
-      // Convert YYYYMMDD format to YYYY-MM-DD format for form compatibility
-      if (/^\d{8}$/.test(dobString)) {
-        dateOfBirth = `${dobString.slice(0, 4)}-${dobString.slice(
-          4,
-          6,
-        )}-${dobString.slice(6, 8)}`;
-      } else {
-        dateOfBirth = dobString;
-      }
+  const dobString = profile.dob || profile.birthDate || vaProfile.birthDate;
+  if (dobString) {
+    // Convert YYYYMMDD format to YYYY-MM-DD format for form compatibility
+    if (/^\d{8}$/.test(dobString)) {
+      dateOfBirth = `${dobString.slice(0, 4)}-${dobString.slice(
+        4,
+        6,
+      )}-${dobString.slice(6, 8)}`;
+    } else {
+      dateOfBirth = dobString;
     }
   }
 
-  // Extract and clean SSN - remove any existing formatting (dashes, spaces, etc.)
-  const ssn = profile.ssn ? profile.ssn.replace(/[^\d]/g, '') : '';
-
-  // Format SSN with dashes for display in XXX-XX-XXXX format
-  const formattedSsn = ssn
-    ? `${ssn.slice(0, 3)}-${ssn.slice(3, 5)}-${ssn.slice(5, 9)}`
-    : '';
-
-  // Get VA file number if available
-  const vaFileNumber = profile.vaFileNumber || '';
-
-  // Build contact information - prioritize home phone over mobile
-  const phone = profile.homePhone || profile.mobilePhone || '';
-  const email = profile.email || '';
+  // SSN is not prefilled for security reasons - users must enter manually
+  const formattedSsn = '';
 
   // Build mailing address from profile data
   // Maps profile address fields to form address structure
+  // Check multiple possible locations for address
+  // Note: Backend sends vet360ContactInformation, but Redux stores it as vapContactInfo
+  const addressSource =
+    profile.vapContactInfo?.mailingAddress ||
+    profile.vet360ContactInformation?.mailingAddress ||
+    profile.mailingAddress ||
+    vaProfile?.vet360ContactInformation?.mailingAddress ||
+    {};
+
   const mailingAddress = {};
-  if (profile.mailingAddress) {
-    const addr = profile.mailingAddress;
+  if (Object.keys(addressSource).length > 0) {
+    const addr = addressSource;
     mailingAddress.street = addr.addressLine1 || '';
     mailingAddress.street2 = addr.addressLine2 || '';
+    mailingAddress.street3 = addr.addressLine3 || '';
     mailingAddress.city = addr.city || '';
-    mailingAddress.state = addr.stateCode || addr.state || ''; // Prefer state code over full state name
-    mailingAddress.postalCode = addr.zipCode || '';
+    mailingAddress.state = addr.stateCode || addr.state || '';
+    mailingAddress.country = addr.countryCodeIso3 || addr.countryName || 'USA';
+    // Handle zipCode with optional suffix (e.g., "30033-4032")
+    const zipCode = addr.zipCode || addr.postalCode || '';
+    const zipSuffix = addr.zipCodeSuffix || '';
+    mailingAddress.postalCode = zipSuffix ? `${zipCode}-${zipSuffix}` : zipCode;
+    mailingAddress.isMilitary = false;
   }
 
+  // Migrate old field names to new field names for backward compatibility
+  // This handles save-in-progress data that used old camelCase field names
+  // Priority: saved data with new name > saved data with old name > profile data
+  const migrateVeteranIdentification = existingData => {
+    return {
+      veteranFullName: existingData?.veteranFullName || fullName,
+      // Map old camelCase names to new uppercase names, fallback to profile
+      veteranDOB:
+        existingData?.veteranDOB || existingData?.veteranDob || dateOfBirth,
+      veteranSSN:
+        existingData?.veteranSSN || existingData?.veteranSsn || formattedSsn,
+    };
+  };
+
+  const migrateClaimantSSN = existingData => {
+    // Handle both old section name (claimantSsn) and old field name (claimantSsn)
+    const oldSectionData = formData?.claimantSsn;
+    return {
+      claimantSSN:
+        existingData?.claimantSSN ||
+        existingData?.claimantSsn ||
+        oldSectionData?.claimantSSN ||
+        oldSectionData?.claimantSsn ||
+        '',
+    };
+  };
+
+  const migrateClaimantInformation = existingData => {
+    return {
+      claimantFullName: existingData?.claimantFullName,
+      claimantDOB: existingData?.claimantDOB || existingData?.claimantDob || '',
+    };
+  };
+
+  // Clean up the form data by removing duplicate/unnecessary fields
+  // Remove the 'veteran' object added by platform (duplicates veteranIdentification)
+  const cleanedFormData = { ...formData };
+  delete cleanedFormData.veteran; // Remove platform-added duplicate data
+
   // Return the transformed data structure
+  // Map profile data to form's section structure matching actual page schemas
+  // Note: This form only collects veteran's name, DOB, and address during prefill
+  // SSN is not prefilled for security reasons
+  // Phone/email are not collected for the veteran (only for claimant)
   return {
     pages,
     formData: {
-      ...formData, // Preserve any existing form data
-      personalInfo: {
-        fullName,
-        dateOfBirth,
-        ssn: formattedSsn,
-        vaFileNumber,
+      ...cleanedFormData, // Use cleaned data without 'veteran' object
+      veteranIdentification: migrateVeteranIdentification(
+        cleanedFormData?.veteranIdentification,
+      ),
+      veteranAddress: {
+        veteranAddress:
+          cleanedFormData?.veteranAddress?.veteranAddress || mailingAddress,
       },
-      contactInfo: {
-        phone,
-        email,
-        mailingAddress,
-      },
+      // Migrate claimant data if it exists, handling old section names
+      claimantSSN: migrateClaimantSSN(cleanedFormData?.claimantSSN),
+      claimantInformation: migrateClaimantInformation(
+        cleanedFormData?.claimantInformation,
+      ),
     },
     metadata,
   };

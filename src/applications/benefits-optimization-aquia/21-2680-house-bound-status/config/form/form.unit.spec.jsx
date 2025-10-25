@@ -4,7 +4,7 @@
  */
 
 import { expect } from 'chai';
-import formConfig from './form';
+import { formConfig } from './form';
 
 describe('Form Configuration', () => {
   describe('Basic Structure', () => {
@@ -42,24 +42,24 @@ describe('Form Configuration', () => {
       expect(formConfig.chapters).to.be.an('object');
     });
 
-    it('should have benefitSelectionChapter', () => {
-      expect(formConfig.chapters.benefitSelectionChapter).to.exist;
-      expect(formConfig.chapters.benefitSelectionChapter.title).to.equal(
-        'Benefit selection',
-      );
-    });
-
     it('should have veteranInformationChapter', () => {
       expect(formConfig.chapters.veteranInformationChapter).to.exist;
       expect(formConfig.chapters.veteranInformationChapter.title).to.include(
-        'Veteran information',
+        'Veteran',
       );
     });
 
     it('should have claimantInformationChapter', () => {
       expect(formConfig.chapters.claimantInformationChapter).to.exist;
       expect(formConfig.chapters.claimantInformationChapter.title).to.include(
-        'Claimant information',
+        'Claimant',
+      );
+    });
+
+    it('should have claimInformationChapter', () => {
+      expect(formConfig.chapters.claimInformationChapter).to.exist;
+      expect(formConfig.chapters.claimInformationChapter.title).to.include(
+        'Claim information',
       );
     });
 
@@ -69,40 +69,12 @@ describe('Form Configuration', () => {
         'Hospitalization',
       );
     });
-
-    it('should have claimantSignatureChapter', () => {
-      expect(formConfig.chapters.claimantSignatureChapter).to.exist;
-      expect(formConfig.chapters.claimantSignatureChapter.title).to.include(
-        'certification',
-      );
-    });
-
-    it('should have examinerInformationChapter', () => {
-      expect(formConfig.chapters.examinerInformationChapter).to.exist;
-      expect(formConfig.chapters.examinerInformationChapter.title).to.include(
-        'examiner',
-      );
-    });
-
-    it('should have functionalAssessmentChapter', () => {
-      expect(formConfig.chapters.functionalAssessmentChapter).to.exist;
-      expect(formConfig.chapters.functionalAssessmentChapter.title).to.include(
-        'assessment',
-      );
-    });
-
-    it('should have narrativeAssessmentChapter', () => {
-      expect(formConfig.chapters.narrativeAssessmentChapter).to.exist;
-      expect(formConfig.chapters.narrativeAssessmentChapter.title).to.include(
-        'narrative',
-      );
-    });
   });
 
   describe('Page Configuration', () => {
     it('should have benefit type page', () => {
       const page =
-        formConfig.chapters.benefitSelectionChapter.pages.benefitType;
+        formConfig.chapters.claimInformationChapter.pages.benefitType;
       expect(page).to.exist;
       expect(page.path).to.equal('benefit-type');
       expect(page.CustomPage).to.exist;
@@ -112,82 +84,32 @@ describe('Form Configuration', () => {
       const page =
         formConfig.chapters.veteranInformationChapter.pages.veteranIdentity;
       expect(page).to.exist;
-      expect(page.path).to.equal('veteran-identity');
+      expect(page.path).to.equal('veteran-information');
       expect(page.CustomPage).to.exist;
     });
 
-    it('should have claimant identity page', () => {
+    it('should have veteran address page', () => {
       const page =
-        formConfig.chapters.claimantInformationChapter.pages.claimantIdentity;
+        formConfig.chapters.veteranInformationChapter.pages.veteranAddress;
       expect(page).to.exist;
-      expect(page.path).to.equal('claimant-identity');
+      expect(page.path).to.equal('veteran-address');
       expect(page.CustomPage).to.exist;
     });
 
-    it('should have hospitalization page', () => {
+    it('should have claimant relationship page', () => {
       const page =
-        formConfig.chapters.hospitalizationChapter.pages.hospitalization;
+        formConfig.chapters.claimantInformationChapter.pages
+          .claimantRelationship;
       expect(page).to.exist;
-      expect(page.path).to.equal('hospitalization');
+      expect(page.path).to.equal('claimant-relationship');
       expect(page.CustomPage).to.exist;
     });
 
-    it('should have claimant signature page', () => {
+    it('should have hospitalization status page', () => {
       const page =
-        formConfig.chapters.claimantSignatureChapter.pages.claimantSignature;
+        formConfig.chapters.hospitalizationChapter.pages.hospitalizationStatus;
       expect(page).to.exist;
-      expect(page.path).to.equal('claimant-signature');
-      expect(page.CustomPage).to.exist;
-    });
-
-    it('should have examiner identification page', () => {
-      const page =
-        formConfig.chapters.examinerInformationChapter.pages
-          .examinerIdentification;
-      expect(page).to.exist;
-      expect(page.path).to.equal('examiner-identification');
-      expect(page.CustomPage).to.exist;
-    });
-
-    it('should have medical diagnosis page', () => {
-      const page =
-        formConfig.chapters.examinerInformationChapter.pages.medicalDiagnosis;
-      expect(page).to.exist;
-      expect(page.path).to.equal('medical-diagnosis');
-      expect(page.CustomPage).to.exist;
-    });
-
-    it('should have ADL assessment page', () => {
-      const page =
-        formConfig.chapters.functionalAssessmentChapter.pages.adlAssessment;
-      expect(page).to.exist;
-      expect(page.path).to.equal('adl-assessment');
-      expect(page.CustomPage).to.exist;
-    });
-
-    it('should have functional limitations page', () => {
-      const page =
-        formConfig.chapters.functionalAssessmentChapter.pages
-          .functionalLimitations;
-      expect(page).to.exist;
-      expect(page.path).to.equal('functional-limitations');
-      expect(page.CustomPage).to.exist;
-    });
-
-    it('should have narrative assessment page', () => {
-      const page =
-        formConfig.chapters.narrativeAssessmentChapter.pages
-          .narrativeAssessment;
-      expect(page).to.exist;
-      expect(page.path).to.equal('narrative-assessment');
-      expect(page.CustomPage).to.exist;
-    });
-
-    it('should have examiner signature page', () => {
-      const page =
-        formConfig.chapters.narrativeAssessmentChapter.pages.examinerSignature;
-      expect(page).to.exist;
-      expect(page.path).to.equal('examiner-signature');
+      expect(page.path).to.equal('hospitalization-status');
       expect(page.CustomPage).to.exist;
     });
   });
@@ -242,6 +164,12 @@ describe('Form Configuration', () => {
 
     it('should have prefill transformer', () => {
       expect(formConfig.prefillTransformer).to.exist;
+      expect(formConfig.prefillTransformer).to.be.a('function');
+    });
+
+    it('should have submit transformer', () => {
+      expect(formConfig.transformForSubmit).to.exist;
+      expect(formConfig.transformForSubmit).to.be.a('function');
     });
 
     it('should have dev configuration', () => {
@@ -265,6 +193,166 @@ describe('Form Configuration', () => {
     it('should have save in progress configuration', () => {
       expect(formConfig.saveInProgress).to.exist;
       expect(formConfig.saveInProgress).to.be.an('object');
+    });
+  });
+
+  describe('Conditional Page Logic', () => {
+    describe('Claimant Information Conditional Pages', () => {
+      it('should show claimant pages when claimantRelationship is not veteran', () => {
+        const formData = {
+          claimantRelationship: {
+            claimantRelationship: 'spouse',
+          },
+        };
+
+        const claimantInfoPage =
+          formConfig.chapters.claimantInformationChapter.pages
+            .claimantInformation;
+        const claimantSSNPage =
+          formConfig.chapters.claimantInformationChapter.pages.claimantSSN;
+        const claimantAddressPage =
+          formConfig.chapters.claimantInformationChapter.pages.claimantAddress;
+        const claimantContactPage =
+          formConfig.chapters.claimantInformationChapter.pages.claimantContact;
+
+        expect(claimantInfoPage.depends(formData)).to.be.true;
+        expect(claimantSSNPage.depends(formData)).to.be.true;
+        expect(claimantAddressPage.depends(formData)).to.be.true;
+        expect(claimantContactPage.depends(formData)).to.be.true;
+      });
+
+      it('should hide claimant pages when claimantRelationship is veteran', () => {
+        const formData = {
+          claimantRelationship: {
+            claimantRelationship: 'veteran',
+          },
+        };
+
+        const claimantInfoPage =
+          formConfig.chapters.claimantInformationChapter.pages
+            .claimantInformation;
+        const claimantSSNPage =
+          formConfig.chapters.claimantInformationChapter.pages.claimantSSN;
+        const claimantAddressPage =
+          formConfig.chapters.claimantInformationChapter.pages.claimantAddress;
+        const claimantContactPage =
+          formConfig.chapters.claimantInformationChapter.pages.claimantContact;
+
+        expect(claimantInfoPage.depends(formData)).to.be.false;
+        expect(claimantSSNPage.depends(formData)).to.be.false;
+        expect(claimantAddressPage.depends(formData)).to.be.false;
+        expect(claimantContactPage.depends(formData)).to.be.false;
+      });
+    });
+
+    describe('Hospitalization Conditional Pages', () => {
+      it('should show hospitalization date page when currently hospitalized is yes', () => {
+        const formData = {
+          hospitalizationStatus: {
+            isCurrentlyHospitalized: 'yes',
+          },
+        };
+
+        const hospitalizationDatePage =
+          formConfig.chapters.hospitalizationChapter.pages.hospitalizationDate;
+
+        expect(hospitalizationDatePage.depends).to.exist;
+        expect(hospitalizationDatePage.depends(formData)).to.be.true;
+      });
+
+      it('should show hospitalization facility page when currently hospitalized is yes', () => {
+        const formData = {
+          hospitalizationStatus: {
+            isCurrentlyHospitalized: 'yes',
+          },
+        };
+
+        const hospitalizationFacilityPage =
+          formConfig.chapters.hospitalizationChapter.pages
+            .hospitalizationFacility;
+
+        expect(hospitalizationFacilityPage.depends).to.exist;
+        expect(hospitalizationFacilityPage.depends(formData)).to.be.true;
+      });
+
+      it('should hide hospitalization date page when currently hospitalized is no', () => {
+        const formData = {
+          hospitalizationStatus: {
+            isCurrentlyHospitalized: 'no',
+          },
+        };
+
+        const hospitalizationDatePage =
+          formConfig.chapters.hospitalizationChapter.pages.hospitalizationDate;
+
+        expect(hospitalizationDatePage.depends(formData)).to.be.false;
+      });
+
+      it('should hide hospitalization facility page when currently hospitalized is no', () => {
+        const formData = {
+          hospitalizationStatus: {
+            isCurrentlyHospitalized: 'no',
+          },
+        };
+
+        const hospitalizationFacilityPage =
+          formConfig.chapters.hospitalizationChapter.pages
+            .hospitalizationFacility;
+
+        expect(hospitalizationFacilityPage.depends(formData)).to.be.false;
+      });
+
+      it('should hide hospitalization pages when isCurrentlyHospitalized is undefined', () => {
+        const formData = {
+          hospitalizationStatus: {},
+        };
+
+        const hospitalizationDatePage =
+          formConfig.chapters.hospitalizationChapter.pages.hospitalizationDate;
+        const hospitalizationFacilityPage =
+          formConfig.chapters.hospitalizationChapter.pages
+            .hospitalizationFacility;
+
+        expect(hospitalizationDatePage.depends(formData)).to.be.false;
+        expect(hospitalizationFacilityPage.depends(formData)).to.be.false;
+      });
+
+      it('should hide hospitalization pages when hospitalizationStatus section is missing', () => {
+        const formData = {};
+
+        const hospitalizationDatePage =
+          formConfig.chapters.hospitalizationChapter.pages.hospitalizationDate;
+        const hospitalizationFacilityPage =
+          formConfig.chapters.hospitalizationChapter.pages
+            .hospitalizationFacility;
+
+        expect(hospitalizationDatePage.depends(formData)).to.be.false;
+        expect(hospitalizationFacilityPage.depends(formData)).to.be.false;
+      });
+
+      it('should use correct data path for hospitalization conditional (formData.hospitalizationStatus.isCurrentlyHospitalized)', () => {
+        // This test ensures the bug fix is working correctly
+        const formDataWithCorrectPath = {
+          hospitalizationStatus: {
+            isCurrentlyHospitalized: 'yes',
+          },
+        };
+
+        const formDataWithIncorrectPath = {
+          isCurrentlyHospitalized: 'yes', // Wrong - at root level
+        };
+
+        const hospitalizationDatePage =
+          formConfig.chapters.hospitalizationChapter.pages.hospitalizationDate;
+
+        // Should work with correct nested path
+        expect(hospitalizationDatePage.depends(formDataWithCorrectPath)).to.be
+          .true;
+
+        // Should NOT work with incorrect root-level path
+        expect(hospitalizationDatePage.depends(formDataWithIncorrectPath)).to.be
+          .false;
+      });
     });
   });
 });
