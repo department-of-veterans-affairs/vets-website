@@ -1,7 +1,7 @@
 /**
  * @module personalInformation
  * @description Redux actions for fetching and updating Veteran information managed by va.gov/profile and VA Profile.
- * @see {@link https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile|VA Profile API Documentation}
+ * @see {@link https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile|VA.gov OpenAPI: Profile}
  */
 
 import appendQuery from 'append-query';
@@ -69,7 +69,7 @@ const captureAndRecordError = ({
 /**
  * Fetches the /profile/personal_information resource from the VA Profile Service API.
  *
- * @see {@link https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile/getPersonalInformation|VA.gov OpenAPI Documentation}
+ * @see {@link https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile/getPersonalInformation|VA.gov OpenAPI: Profile - Get Personal Information}
  *
  * The function handles several data transformations:
  * - Capitalizes preferred names (API returns ALL CAPS)
@@ -226,7 +226,7 @@ export function fetchPersonalInformation(
  *   value: 'John Doe'
  * }));
  *
- * @see {@link https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile} VA Profile API Documentation
+ * @see {@link https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile|VA.gov OpenAPI: Profile}
  */
 export function createPersonalInfoUpdate({
   route,
