@@ -1,3 +1,16 @@
+/**
+ * @module ProfileInformationEditView
+ * @description Class component that renders an editable form for contact information fields.
+ * Handles form state, validation, submission, and transaction status. Supports both
+ * VA Profile contact info and personal information fields.
+ *
+ * @example
+ * import { ProfileInformationEditView } from '@@vap-svc/components/ProfileInformationEditView';
+ *
+ * // Typically used internally by ProfileInformationFieldController
+ * // Not commonly imported directly in applications
+ */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';

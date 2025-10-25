@@ -1,3 +1,9 @@
+/**
+ * @module formValues
+ * @description Utilities for managing initial form values for contact information fields.
+ * Transforms data from VA Profile Service format to form-ready format.
+ */
+
 import pickBy from 'lodash/pickBy';
 import set from 'lodash/set';
 
@@ -44,6 +50,25 @@ export const transformInitialFormValues = initialFormValues => {
   return transformedData;
 };
 
+/**
+ * Gets initial form values for a contact information field based on field type.
+ * Transforms API data into form-ready format with appropriate defaults.
+ *
+ * @param {Object} options - Configuration options
+ * @param {string} options.fieldName - Field name from FIELD_NAMES constants
+ * @param {Object} options.data - Existing field data from VA Profile
+ * @param {Object} options.modalData - Optional override data for the form
+ * @returns {Object} Initial form values ready for RJSF form
+ *
+ * @example
+ * import { getInitialFormValues } from '@@vap-svc/util/contact-information/formValues';
+ * import { FIELD_NAMES } from '@@vap-svc/constants';
+ *
+ * const initialValues = getInitialFormValues({
+ *   fieldName: FIELD_NAMES.MOBILE_PHONE,
+ *   data: mobilePhoneData
+ * });
+ */
 export const getInitialFormValues = options => {
   const { fieldName, data, modalData } = options;
 

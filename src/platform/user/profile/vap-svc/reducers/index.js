@@ -1,3 +1,11 @@
+/**
+ * @module vapService
+ * @description Redux reducer for managing VA Profile Service state, including
+ * contact information fields, transactions, address validation, and UI modals.
+ * This reducer handles the asynchronous transaction-based data flow required
+ * by VA Profile Service APIs.
+ */
+
 import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
 
 import { isEmpty, isEqual, pickBy } from 'lodash';
