@@ -1,3 +1,9 @@
+/**
+ * @module personalInformation
+ * @description Actions for fetching and updating personal information fields
+ * including pronouns, gender identity, sexual orientation, and preferred name.
+ */
+
 import appendQuery from 'append-query';
 import set from 'lodash/set';
 import capitalize from 'lodash/capitalize';

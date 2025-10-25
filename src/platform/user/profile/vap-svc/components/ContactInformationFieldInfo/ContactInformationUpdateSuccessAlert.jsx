@@ -1,3 +1,18 @@
+/**
+ * @module ContactInformationUpdateSuccessAlert
+ * @description Success alert component displayed after successfully updating a contact information field.
+ * Shows a slim green alert banner with "Update saved." message.
+ *
+ * @param {Object} props
+ * @param {string} props.fieldName - Field name used to generate unique alert ID
+ * @returns {JSX.Element} Success alert banner
+ *
+ * @example
+ * import ContactInformationUpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
+ *
+ * <ContactInformationUpdateSuccessAlert fieldName="mobilePhone" />
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 

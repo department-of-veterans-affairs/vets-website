@@ -5,12 +5,31 @@ export const OPEN_MODAL = 'OPEN_MODAL';
 export const UPDATE_SELECTED_ADDRESS = 'UPDATE_SELECTED_ADDRESS';
 export const COPY_ADDRESS_MODAL = 'COPY_ADDRESS_MODAL';
 
+/**
+ * Opens a modal for editing a contact information field.
+ * Used to trigger edit mode for email, phone, or address fields.
+ *
+ * @param {string|null} modal - Field name to edit (from FIELD_NAMES constants), or null to close modal
+ * @param {Object|null} modalData - Optional additional data to pass to the modal
+ * @returns {Object} Redux action
+ *
+ * @example
+ * import { openModal } from '@@vap-svc/actions';
+ * import { FIELD_NAMES } from '@@vap-svc/constants';
+ *
+ * dispatch(openModal(FIELD_NAMES.MOBILE_PHONE));
+ */
 export const openModal = (modal, modalData = null) => ({
   type: OPEN_MODAL,
   modal,
   modalData,
 });
 
+/**
+ * Closes the currently open contact information edit modal.
+ *
+ * @returns {Object} Redux action
+ */
 export const closeModal = () => ({ type: OPEN_MODAL });
 
 export const updateCopyAddressModal = status => ({
@@ -18,6 +37,21 @@ export const updateCopyAddressModal = status => ({
   value: status,
 });
 
+/**
+ * Updates a form field value along with its JSON schema and UI schema.
+ * Used to update form state when field values change during editing.
+ *
+ * @param {string} fieldName - Field name to update
+ * @param {*} value - New field value
+ * @param {Object|null} [schema=null] - JSON schema for the field
+ * @param {Object|null} [uiSchema=null] - UI schema for the field
+ * @returns {Object} Redux action with updated form data and schemas
+ *
+ * @example
+ * import { updateFormFieldWithSchema } from '@@vap-svc/actions';
+ *
+ * dispatch(updateFormFieldWithSchema('mobilePhone', phoneValue, schema, uiSchema));
+ */
 export const updateFormFieldWithSchema = (
   fieldName,
   value,

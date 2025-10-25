@@ -1,3 +1,21 @@
+/**
+ * @module ContactInfoFormAppConfigContext
+ * @description React Context, Provider, and hook for passing configuration from form schemas
+ * to vap-svc components. Used within form system integrations (not required for Profile pages).
+ * Enables contact information editing within forms while syncing with VA Profile.
+ *
+ * @example
+ * import {
+ *   ContactInfoFormAppConfigProvider,
+ *   useContactInfoFormAppConfig
+ * } from '@@vap-svc/components/ContactInfoFormAppConfigContext';
+ *
+ * // In form app:
+ * <ContactInfoFormAppConfigProvider value={config}>
+ *   <EditContactInfo />
+ * </ContactInfoFormAppConfigProvider>
+ */
+
 import React, { createContext, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';

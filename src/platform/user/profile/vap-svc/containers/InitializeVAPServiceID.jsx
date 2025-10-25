@@ -1,3 +1,21 @@
+/**
+ * @module InitializeVAPServiceID
+ * @description Container component that ensures a user has a VA Profile Service ID
+ * before rendering child components. Handles initialization states, shows loading
+ * indicators during initialization, and displays errors if initialization fails.
+ * This component must wrap any components that display or edit VA Profile contact information.
+ *
+ * @returns {JSX.Element} Children when initialized, loading indicator when initializing,
+ *                        or error alert when initialization fails
+ *
+ * @example
+ * import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
+ *
+ * <InitializeVAPServiceID>
+ *   <ContactInformationSection />
+ * </InitializeVAPServiceID>
+ */
+
 import React from 'react';
 import { connect } from 'react-redux';
 

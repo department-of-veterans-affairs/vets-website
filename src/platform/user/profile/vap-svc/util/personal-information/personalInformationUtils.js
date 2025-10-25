@@ -63,6 +63,22 @@ const allLabels = {
 
 const signatureErrorMessage = 'Both fields are required to save a signature.';
 
+/**
+ * JSON schemas for personal information form fields.
+ * Includes schemas for preferred name, pronouns, gender identity, sexual orientation, and messaging signature.
+ *
+ * @type {Object}
+ * @property {Object} preferredName - Schema for preferred name field
+ * @property {Object} pronouns - Schema for pronouns checkboxes
+ * @property {Object} genderIdentity - Schema for gender identity radio buttons
+ * @property {Object} sexualOrientation - Schema for sexual orientation checkboxes
+ * @property {Object} messagingSignature - Schema for MHV messaging signature
+ *
+ * @example
+ * import { personalInformationFormSchemas } from '@@vap-svc/util/personal-information/personalInformationUtils';
+ *
+ * const schema = personalInformationFormSchemas.preferredName;
+ */
 export const personalInformationFormSchemas = {
   preferredName: {
     type: 'object',
@@ -227,5 +243,16 @@ export const formatMultiSelectAndText = (data, fieldName) => {
   return null;
 };
 
+/**
+ * Formats a date of birth for display in the profile.
+ *
+ * @param {string|Date} dob - Date of birth as string or Date object
+ * @returns {string} Formatted date (e.g., "January 15, 1980") or NOT_SET_TEXT if no date
+ *
+ * @example
+ * import { renderDOB } from '@@vap-svc/util/personal-information/personalInformationUtils';
+ *
+ * const formatted = renderDOB('1980-01-15'); // Returns "January 15, 1980"
+ */
 export const renderDOB = dob =>
   dob ? format(parseStringOrDate(dob), 'MMMM d, yyyy') : NOT_SET_TEXT;

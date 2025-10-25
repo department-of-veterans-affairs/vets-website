@@ -1,3 +1,10 @@
+/**
+ * @module getProfileInfoFieldAttributes
+ * @description Central utility for retrieving field-specific configuration including
+ * API routes, schemas, UI schemas, and data transformation functions for all
+ * contact information and personal information fields.
+ */
+
 import { cloneDeep } from 'lodash';
 import { API_ROUTES, FIELD_TITLES, FIELD_NAMES } from '../constants';
 
@@ -42,6 +49,27 @@ export const personalInformation = [
   FIELD_NAMES.MESSAGING_SIGNATURE,
 ];
 
+/**
+ * Returns comprehensive field configuration for a given contact or personal information field.
+ * Includes API routes, form schemas, UI schemas, titles, and data transformation functions.
+ *
+ * @param {string} fieldName - Field name from FIELD_NAMES constants
+ * @param {Object} [options={}] - Optional configuration
+ * @param {boolean} [options.allowInternationalPhones=false] - Enable international phone number support
+ * @returns {Object} Field attributes object
+ * @returns {string} return.apiRoute - API endpoint for this field
+ * @returns {Function} return.convertCleanDataToPayload - Function to transform form data to API payload
+ * @returns {string} return.title - Display title for the field
+ * @returns {Object} return.uiSchema - RJSF UI schema
+ * @returns {Object} return.formSchema - RJSF JSON schema
+ *
+ * @example
+ * import getProfileInfoFieldAttributes from '@@vap-svc/util/getProfileInfoFieldAttributes';
+ * import { FIELD_NAMES } from '@@vap-svc/constants';
+ *
+ * const attrs = getProfileInfoFieldAttributes(FIELD_NAMES.MOBILE_PHONE);
+ * // Returns { apiRoute, convertCleanDataToPayload, title, uiSchema, formSchema }
+ */
 export const getProfileInfoFieldAttributes = (fieldName, options = {}) => {
   const { allowInternationalPhones } = options;
 

@@ -86,6 +86,17 @@ export const addressConvertCleanDataToPayload = (data, fieldName) => {
   );
 };
 
+/**
+ * Formats an address field title by removing the word "address" and trimming whitespace.
+ *
+ * @param {string} title - Original title (e.g., "Mailing address")
+ * @returns {string} Formatted title (e.g., "Mailing")
+ *
+ * @example
+ * import { formatAddressTitle } from '@@vap-svc/util/contact-information/addressUtils';
+ *
+ * const title = formatAddressTitle('Mailing address'); // Returns "Mailing"
+ */
 export const formatAddressTitle = title => title.replace('address', '').trim();
 
 export const getErrorsFromDom = () => $$('.usa-input-error-message, [error]');

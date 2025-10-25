@@ -1,3 +1,18 @@
+/**
+ * @module ProfileInformationFieldController
+ * @description Redux-connected container component that orchestrates the display and editing
+ * of a single VA Profile contact information field (email, phone, address, etc.).
+ * Manages view/edit mode switching, transaction status display, validation, and error handling.
+ *
+ * @example
+ * import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
+ * import { FIELD_NAMES } from '@@vap-svc/constants';
+ *
+ * <ProfileInformationFieldController
+ *   fieldName={FIELD_NAMES.MOBILE_PHONE}
+ * />
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';

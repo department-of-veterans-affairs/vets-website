@@ -1,3 +1,26 @@
+/**
+ * @module VAPServicePendingTransactionCategory
+ * @description Container that displays a pending transaction alert when any transaction
+ * of a specific category (email, phone, address) is in progress. Shows a warning banner
+ * and allows refreshing all pending transactions of that category.
+ *
+ * @param {Object} props
+ * @param {string} props.categoryType - Transaction category type from TRANSACTION_CATEGORY_TYPES
+ * @param {Function} props.refreshTransaction - Action to refresh transaction status
+ * @param {Array<Object>} props.transactions - Array of pending transactions
+ * @param {boolean} props.hasPendingCategoryTransaction - Whether category has pending transactions
+ * @param {JSX.Element} props.children - Child components to render when no pending transactions
+ * @returns {JSX.Element} Pending alert or children
+ *
+ * @example
+ * import VAPServicePendingTransactionCategory from '@@vap-svc/containers/VAPServicePendingTransactionCategory';
+ * import { TRANSACTION_CATEGORY_TYPES } from '@@vap-svc/constants';
+ *
+ * <VAPServicePendingTransactionCategory categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}>
+ *   <AddressFields />
+ * </VAPServicePendingTransactionCategory>
+ */
+
 import React from 'react';
 import { connect } from 'react-redux';
 
