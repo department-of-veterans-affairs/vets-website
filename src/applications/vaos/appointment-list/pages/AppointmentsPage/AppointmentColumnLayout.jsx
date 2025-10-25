@@ -140,13 +140,14 @@ export default function AppointmentColumnLayout({
         size="1"
       >
         <AppointmentRow
-          className={classNames(
-            'vaos-appts__column--alignItems',
-            'mobile-lg:vads-u-flex-direction--row',
-            'small-screen:vaos-appts__column-gap--3',
-            // padding below determines the appointment row height
-            'medium-screen:vads-u-padding-y--2',
-          )}
+          className={
+            classNames(
+              'vaos-appts__column--alignItems',
+              'mobile-lg:vads-u-flex-direction--row',
+              'small-screen:vaos-appts__column-gap--3',
+              'medium-screen:vads-u-padding-y--2',
+            ) // padding determines the appointment row height
+          }
         >
           <AppointmentColumn
             size="1"
