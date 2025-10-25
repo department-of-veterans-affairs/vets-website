@@ -1,7 +1,7 @@
 /**
  * @module personalInformation
- * @description Actions for fetching and updating personal information fields
- * including pronouns, gender identity, sexual orientation, and preferred name.
+ * @description Actions for fetching and updating the personal information resource.
+ * @see {@link https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile/getPersonalInformation}
  */
 
 import appendQuery from 'append-query';
