@@ -213,7 +213,7 @@ div[id^="vaos-appts__detail-"] {
     align-items: center;
     text-align: right;
     min-width: fit-content;
-    max-width: max-content;
+    max-width: fit-content;
   }
   @include media($small-desktop-screen) {
     justify-content: right;

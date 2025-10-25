@@ -3,15 +3,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 function AppointmentClinicInfo({
-  show,
   clinicLocationInfo,
   apptId,
   isCanceled = false,
 }) {
-  // The show prop allows us to conditionally render this component - not leaving empty divs in the DOM
-  if (!show) {
-    return null;
-  }
   return (
     <div
       id={`vaos-appts__clinic-namelocation-${apptId}`}
@@ -49,7 +44,6 @@ AppointmentClinicInfo.propTypes = {
     location: PropTypes.string,
   }).isRequired,
   isCanceled: PropTypes.bool,
-  show: PropTypes.bool,
 };
 
 export default AppointmentClinicInfo;

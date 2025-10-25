@@ -16,36 +16,18 @@ describe('VAOS Component: AppointmentClinicInfo', () => {
     // Act
     axeCheck(
       <AppointmentClinicInfo
-        show
         apptId="123"
         clinicLocationInfo={clinicLocationInfo}
       />,
     );
   });
-  it('should not show appointment clinic info', async () => {
+  it('renders clinic name and location', async () => {
     // Act
     const screen = renderWithStoreAndRouter(
       <AppointmentClinicInfo
-        show={false}
         apptId="123"
         clinicLocationInfo={clinicLocationInfo}
-      />,
-      {
-        initialState,
-      },
-    );
-
-    // Assert
-    expect(screen.queryByTestId(`vaos-appts__clinic-namelocation-${apptId}`))
-      .not.to.exist;
-  });
-  it('should not show', async () => {
-    // Act
-    const screen = renderWithStoreAndRouter(
-      <AppointmentClinicInfo
-        show
-        apptId="123"
-        clinicLocationInfo={clinicLocationInfo}
+        isCanceled={false}
       />,
       {
         initialState,
@@ -62,12 +44,10 @@ describe('VAOS Component: AppointmentClinicInfo', () => {
       screen.getByTestId(`vaos-appts__clinic-location-${apptId}`),
     ).to.have.text('Location: East Hallway, 3rd Floor, Room 301');
   });
-
-  it('should show with line-through all text when canceled', async () => {
+  it('cancelled has line through all displayed text', async () => {
     // Act
     const screen = renderWithStoreAndRouter(
       <AppointmentClinicInfo
-        show
         apptId="123"
         clinicLocationInfo={clinicLocationInfo}
         isCanceled
@@ -93,14 +73,13 @@ describe('VAOS Component: AppointmentClinicInfo', () => {
       screen.getByTestId(`vaos-appts__clinic-location-${apptId}`),
     ).to.have.attribute('style', 'text-decoration: line-through;');
   });
-  it('should show without name when not provided, but show location when it is', async () => {
+  it('does not have name, but does have location', async () => {
     // Arrange
     const locationModified = { ...clinicLocationInfo };
     locationModified.name = undefined;
     // Act
     const screen = renderWithStoreAndRouter(
       <AppointmentClinicInfo
-        show
         apptId="123"
         clinicLocationInfo={locationModified}
         isCanceled={false}
@@ -122,14 +101,13 @@ describe('VAOS Component: AppointmentClinicInfo', () => {
       screen.getByTestId(`vaos-appts__clinic-location-${apptId}`),
     ).to.have.attribute('style', 'text-decoration: none;');
   });
-  it('should show without location when not provided, but show clinic name when it is', async () => {
+  it('does not have location, but does have clinic name', async () => {
     // Arrange
     const locationModified = { ...clinicLocationInfo };
     locationModified.location = undefined;
     // Act
     const screen = renderWithStoreAndRouter(
       <AppointmentClinicInfo
-        show
         apptId="123"
         clinicLocationInfo={locationModified}
         isCanceled={false}

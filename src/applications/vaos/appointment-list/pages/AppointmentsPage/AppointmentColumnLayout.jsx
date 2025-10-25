@@ -242,7 +242,6 @@ export default function AppointmentColumnLayout({
           >
             {featureListViewClinicInfo ? (
               <AppointmentClinicInfo
-                show={showClinicLocationInfo}
                 clinicLocationInfo={clinicLocationInfo}
                 apptId={data.id}
                 isCanceled={isCanceled}
