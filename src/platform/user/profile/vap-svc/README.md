@@ -1,3 +1,5 @@
+# VA Profile Service (vap-svc) Library
+
 This directory contains the React components and state management for interfacing with VA Profile Service (AKA vap, vap-svc, vapService, VAPService in the application), a VA service that processes updates by updating the field in multiple data sources. The work here has been extracted from the Profile application to be easily imported into other applications, and is warranted because the VA Profile Service data flow operates via "transactions", which is more complex than the more common model of an API responding directly to a request with the updated record or errors.
 
 Currently, VA Profile Service's scope is limited to veteran contact information, which consists of the following fields:
