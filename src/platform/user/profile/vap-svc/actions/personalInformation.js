@@ -1,7 +1,7 @@
 /**
  * @module personalInformation
- * @description Actions for fetching and updating the personal information resource.
- * @see {@link https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile/getPersonalInformation}
+ * @description Redux actions for fetching and updating Veteran information managed by va.gov/profile and VA Profile.
+ * @see {@link https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile|VA Profile API Documentation}
  */
 
 import appendQuery from 'append-query';
@@ -12,7 +12,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 
 import { captureError, createApiEvent, ERROR_SOURCES } from '../util/analytics';
-import { PERSONAL_INFO_FIELD_NAMES } from '../constants';
+import { PERSONAL_INFO_FIELD_NAMES, FIELD_NAMES } from '../constants'; // eslint-disable-line no-unused-vars
 
 import {
   VAP_SERVICE_TRANSACTION_REQUESTED,
@@ -66,6 +66,45 @@ const captureAndRecordError = ({
   captureError(error, { eventName: apiEventName, code, title, detail, status });
 };
 
+/**
+ * Fetches the /profile/personal_information resource from the VA Profile Service API.
+ *
+ * @see {@link https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile/getPersonalInformation|VA.gov OpenAPI Documentation}
+ *
+ * The function handles several data transformations:
+ * - Capitalizes preferred names (API returns ALL CAPS)
+ * - Normalizes null gender identity codes to empty strings for validation
+ * - Dispatches appropriate Redux actions for loading/success/failure states
+ *
+ * @param {boolean} [forceCacheClear=false] - Whether to bypass browser cache by appending timestamp
+ * @param {Function} [recordAnalyticsEvent=recordEvent] - Analytics recording function for tracking API calls
+ *
+ * @returns {Function} Redux thunk function that dispatches actions and makes API call
+ *
+ * @dispatches {Object} FETCH_PERSONAL_INFORMATION - Indicates fetch has started (loading state)
+ * @dispatches {Object} FETCH_PERSONAL_INFORMATION_SUCCESS - Contains fetched personal information data
+ * @dispatches {Object} FETCH_PERSONAL_INFORMATION_FAILED - Contains error information if fetch fails
+ *
+ * @example
+ * // Basic usage - fetch with default caching behavior
+ * dispatch(fetchPersonalInformation());
+ *
+ * @example
+ * // Force cache clear (useful for refreshing stale data)
+ * dispatch(fetchPersonalInformation(true));
+ *
+ * @example
+ * // With custom analytics tracking
+ * dispatch(fetchPersonalInformation(false, customAnalyticsFunc));
+ *
+ * @description Common usage contexts:
+ * - Profile application
+ * - Personal information form prefilling
+ * - Display of user preferences in messaging and communication
+ *
+ * @throws {Error} Captures and handles API errors, server errors, and network failures
+ *
+ */
 export function fetchPersonalInformation(
   forceCacheClear = false,
   recordAnalyticsEvent = recordEvent,
@@ -141,9 +180,54 @@ export function fetchPersonalInformation(
   };
 }
 
-// since the personal information api requests do no fall into a transactional life cylce
-// we need to treat them differently than contact information, but also still fall within
-// the state update paradigm so that the UI reacts correctly
+/**
+ * Creates a Redux thunk action for updating personal information fields.
+ *
+ * Unlike contact information updates (email, phone, address) which use VA Profile Service's
+ * transaction-based lifecycle, personal information updates are processed immediately
+ * but still need to integrate with the existing state management and UI patterns.
+ *
+ * This function handles the complete update flow:
+ * 1. Dispatches transaction requested action (for UI loading states)
+ * 2. Makes API request to update the field
+ * 3. Handles success/error responses, reports events to analytics
+ * 4. Updates Redux state optimistically
+ * 5. Clears the transaction from state
+ *
+ * @param {Object} params - Configuration object for the update
+ * @param {string} params.route - API endpoint route for the update. Possible values:
+ *   - '/profile/preferred_names' - For preferred name updates
+ *   - '/profile/gender_identities' - For gender identity updates
+ * @param {string} [params.method='PUT'] - HTTP method for the request
+ * @param {keyof typeof FIELD_NAMES} params.fieldName - Field identifier for Redux state management
+ * @param {Object} params.payload - Request payload data to send to the API
+ * @param {string} [params.analyticsSectionName] - Analytics section name for tracking. Possible values:
+ *   - 'personal-information' - General personal info section
+ *   - 'contact-information' - Contact info section
+ *   - 'account-security' - Security-related updates
+ *   - Defaults to 'unknown-profile-section' if not provided
+ * @param {*} params.value - The new field value for optimistic UI updates
+ * @param {Function} [params.recordAnalyticsEvent=recordEvent] - Analytics recording function
+ *
+ * @returns {Function} Redux thunk function that dispatches actions and makes API calls
+ *
+ * @dispatches {Object} VAP_SERVICE_TRANSACTION_REQUESTED - Indicates update request has started
+ * @dispatches {Object} VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED - Contains successful transaction data
+ * @dispatches {Object} VAP_SERVICE_TRANSACTION_REQUEST_FAILED - Contains error information if update fails
+ *
+ * @example
+ * // Update preferred name
+ * dispatch(createPersonalInfoUpdate({
+ *   route: '/profile/preferred_names',
+ *   method: 'PUT',
+ *   fieldName: 'preferredName',
+ *   payload: { text: 'John Doe' },
+ *   analyticsSectionName: 'personal-information',
+ *   value: 'John Doe'
+ * }));
+ *
+ * @see {@link https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile} VA Profile API Documentation
+ */
 export function createPersonalInfoUpdate({
   route,
   method = 'PUT',
