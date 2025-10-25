@@ -5,7 +5,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
-import SpecificContributionAmount from '../components/SpecificContributionAmount';
 import DegreeLevelDescription from '../components/DegreeLevelDescription';
 
 const uiSchema = {
@@ -36,16 +35,20 @@ const uiSchema = {
         required: 'Enter the maximum number of students',
       },
     }),
-    'ui:required': (formData, index) =>
-      !formData.yellowRibbonProgramRequest?.[index]?.eligibleIndividualsGroup
-        ?.unlimitedIndividuals,
+    'ui:required': (formData, index) => {
+      const currentItem =
+        formData.yellowRibbonProgramRequest?.[index] || formData;
+      return !currentItem?.eligibleIndividualsGroup?.unlimitedIndividuals;
+    },
     'ui:options': {
       inputType: 'number',
       classNames:
         'vads-u-margin-bottom--2 contribution-degree-school container',
-      hideIf: (formData, index) =>
-        formData.yellowRibbonProgramRequest?.[index]?.eligibleIndividualsGroup
-          ?.unlimitedIndividuals,
+      hideIf: (formData, index) => {
+        const currentItem =
+          formData.yellowRibbonProgramRequest?.[index] || formData;
+        return currentItem?.eligibleIndividualsGroup?.unlimitedIndividuals;
+      },
     },
     'ui:validations': [
       (errors, fieldData, formData) => {
@@ -63,9 +66,11 @@ const uiSchema = {
     'ui:title': 'Maximum number of students',
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 unlimited-students-display',
-      hideIf: (formData, index) =>
-        !formData.yellowRibbonProgramRequest?.[index]?.eligibleIndividualsGroup
-          ?.unlimitedIndividuals,
+      hideIf: (formData, index) => {
+        const currentItem =
+          formData.yellowRibbonProgramRequest?.[index] || formData;
+        return !currentItem?.eligibleIndividualsGroup?.unlimitedIndividuals;
+      },
     },
   },
   degreeLevel: {
@@ -93,7 +98,12 @@ const uiSchema = {
     'ui:options': {
       classNames:
         'vads-u-margin-bottom--2 contribution-degree-school container',
-      hideIf: formData => !formData.institutionDetails?.isUsaSchool,
+      hideIf: (formData, index, fullData) => {
+        if (index !== undefined) {
+          return !fullData.institutionDetails?.isUsaSchool;
+        }
+        return !formData.institutionDetails?.isUsaSchool;
+      },
     },
   },
   maximumContributionAmount: {
@@ -114,25 +124,45 @@ const uiSchema = {
         required: 'Please make a selection',
       },
     }),
-    'ui:required': (formData, index) =>
-      !formData.yellowRibbonProgramRequest?.[index]?.eligibleIndividualsGroup
-        ?.unlimitedIndividuals,
+    'ui:required': (formData, index) => {
+      const currentItem =
+        formData.yellowRibbonProgramRequest?.[index] || formData;
+      return !currentItem?.eligibleIndividualsGroup?.unlimitedIndividuals;
+    },
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 container',
-      hideIf: (formData, index) =>
-        formData.yellowRibbonProgramRequest?.[index]?.eligibleIndividualsGroup
-          ?.unlimitedIndividuals,
+      hideIf: (formData, index) => {
+        const currentItem =
+          formData.yellowRibbonProgramRequest?.[index] || formData;
+        return currentItem?.eligibleIndividualsGroup?.unlimitedIndividuals;
+      },
     },
   },
   specificContributionAmount: {
-    'ui:widget': SpecificContributionAmount,
+    ...textUI({
+      title: 'Maximum annual contribution amount',
+      description: (formData, index) => {
+        const currentItem =
+          formData?.yellowRibbonProgramRequest?.[index] || formData;
+        const unlimitedIndividuals =
+          currentItem?.eligibleIndividualsGroup?.unlimitedIndividuals;
+        if (unlimitedIndividuals) {
+          return 'Enter the total annual amount per student, not per term or credit hour. Amounts over $99,999 are treated as unlimited by the system.';
+        }
+        return '';
+      },
+      errorMessages: {
+        required: 'Enter the maximum annual contribution amount',
+      },
+    }),
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 container',
       inputPrefix: '$',
       inputType: 'text',
       inputmode: 'decimal',
       hideIf: (formData, index) => {
-        const currentItem = formData?.yellowRibbonProgramRequest?.[index];
+        const currentItem =
+          formData?.yellowRibbonProgramRequest?.[index] || formData;
         const maximumContributionAmount =
           currentItem?.maximumContributionAmount;
         if (maximumContributionAmount) {
@@ -142,11 +172,9 @@ const uiSchema = {
         return !currentItem?.eligibleIndividualsGroup?.unlimitedIndividuals;
       },
     },
-    'ui:errorMessages': {
-      required: 'Enter the maximum annual contribution amount',
-    },
     'ui:required': (formData, index) => {
-      const currentItem = formData?.yellowRibbonProgramRequest?.[index];
+      const currentItem =
+        formData?.yellowRibbonProgramRequest?.[index] || formData;
       const maximumContributionAmount = currentItem?.maximumContributionAmount;
 
       if (maximumContributionAmount) {
