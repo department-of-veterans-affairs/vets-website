@@ -86,6 +86,10 @@
           ]
         }
       },
+      "modality": "vaInPerson",
+      "pending": false,
+      "past": true,
+      "future": false,
       "travelPayClaim": {
         "metadata": {
           "status": 200,
