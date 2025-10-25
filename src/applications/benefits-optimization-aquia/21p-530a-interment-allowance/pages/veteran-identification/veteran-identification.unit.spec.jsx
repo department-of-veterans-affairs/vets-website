@@ -73,14 +73,6 @@ describe('VeteranIdentificationPage', () => {
         ).to.exist;
 
         expect(
-          findByLabel(
-            container,
-            'va-text-input',
-            "Veteran's service number (if different from SSN)",
-          ),
-        ).to.exist;
-
-        expect(
           findByLabel(container, 'va-text-input', "Veteran's VA file number"),
         ).to.exist;
 

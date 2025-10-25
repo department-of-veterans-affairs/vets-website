@@ -12,7 +12,6 @@ import { IntroductionPage } from '@bio-aquia/21p-530a-interment-allowance/contai
 import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
 import { GetHelp as GetHelpFooter } from '@bio-aquia/21p-530a-interment-allowance/components/get-help';
 import PreSubmitInfo from '@bio-aquia/21p-530a-interment-allowance/components/pre-submit-info';
-import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
 import {
   AdditionalRemarksPage,
   BurialBenefitsRecipientPage,
@@ -59,28 +58,14 @@ const formConfig = {
   footerContent,
   getHelp: GetHelpFooter,
   preSubmitInfo: PreSubmitInfo,
+  saveInProgress: {},
+  prefillEnabled: false,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
   formId: VA_FORM_IDS.FORM_21P_530A,
-  saveInProgress: {
-    messages: {
-      inProgress:
-        'Your state or tribal organization interment allowance application (21P-530a) is in progress.',
-      expired:
-        'Your saved interment allowance application (21P-530a) has expired. If you want to submit your application, please start a new one.',
-      saved: 'Your interment allowance application has been saved.',
-    },
-  },
   version: 0,
-  prefillEnabled: true,
-  prefillTransformer,
-  savedFormMessages: {
-    notFound:
-      'Please start over to submit your interment allowance application.',
-    noAuth: 'Please sign in again to continue your application.',
-  },
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},

@@ -8,7 +8,7 @@
 /**
  * Veteran identification schemas
  * @description Exports schemas for validating veteran personal information including
- * name components, SSN, service number, VA file number, dates, and place of birth
+ * name components, SSN, VA file number, dates, and place of birth
  */
 export {
   dateOfBirthSchema,
@@ -18,7 +18,6 @@ export {
   lastNameSchema,
   middleNameSchema,
   placeOfBirthSchema,
-  serviceNumberSchema,
   ssnSchema,
   vaFileNumberSchema,
   veteranIdentificationSchema,

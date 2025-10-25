@@ -4,13 +4,11 @@
  * form overview, process steps, and save-in-progress functionality
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import recordEvent from 'platform/monitoring/record-event';
 
 import {
   TITLE,
@@ -34,8 +32,8 @@ const ProcessList = () => {
   return (
     <va-process-list>
       <va-process-list-item header="Check your eligibility">
+        <p>Make sure you meet our eligibility requirements before you apply.</p>
         <p>
-          Make sure you meet our eligibility requirements before you apply.{' '}
           <a href="/burials-memorials/veterans-burial-allowance/">
             Find out if you’re eligible for a Veterans burial allowance and
             transportation benefits
@@ -79,7 +77,9 @@ const ProcessList = () => {
         </p>
         <p>
           If you don’t have their DD214 or other separation documents, you can
-          request these documents now.{' '}
+          request these documents now.
+        </p>
+        <p>
           <a href="/records/get-military-service-records/">
             Learn more about requesting military service records
           </a>
@@ -89,7 +89,9 @@ const ProcessList = () => {
         </p>
         <p>
           An accredited representative, like a Veterans Service Organization
-          (VSO), can help you fill out your application.{' '}
+          (VSO), can help you fill out your application.
+        </p>
+        <p>
           <a href="/get-help-from-accredited-representative/">
             Learn more about getting help from an accredited representative
           </a>
@@ -115,21 +117,37 @@ const ProcessList = () => {
  * Introduction page for VA Form 21P-530A Application for Interment Allowance
  * @param {Object} props - Component properties
  * @param {Object} props.route - Route configuration from react-router
- * @param {Object} props.route.formConfig - Form configuration object
- * @param {Array} props.route.pageList - List of form pages
- * @param {Object} props.location - Location object from react-router
+ * @param {Object} props.route.pageList - List of form pages
+ * @param {Object} props.router - Router object for navigation
  * @returns {React.ReactElement} Introduction page component
  */
-export const IntroductionPage = ({ route }) => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
-  const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
+export const IntroductionPage = ({ route, router }) => {
+  const { pageList } = route;
 
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
   }, []);
+
+  const startButton = useMemo(
+    () => {
+      const startForm = () => {
+        recordEvent({ event: '21p-530a-start-form' });
+        return router.push(pageList[1].path);
+      };
+      return (
+        <a
+          href="#start"
+          className="vads-c-action-link--green"
+          onClick={startForm}
+        >
+          Start the state and tribal organization burial allowance benefits
+          application
+        </a>
+      );
+    },
+    [pageList, router],
+  );
 
   return (
     <article className="schemaform-intro">
@@ -138,21 +156,7 @@ export const IntroductionPage = ({ route }) => {
         Follow these steps to apply for a burial allowance
       </h2>
       <ProcessList />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the state and tribal organization burial allowance benefits application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
-      )}
-      <p />
+      {startButton}
       <va-omb-info
         res-burden={OMB_RES_BURDEN}
         omb-number={OMB_NUMBER}
@@ -164,13 +168,9 @@ export const IntroductionPage = ({ route }) => {
 
 IntroductionPage.propTypes = {
   route: PropTypes.shape({
-    formConfig: PropTypes.shape({
-      prefillEnabled: PropTypes.bool.isRequired,
-      savedFormMessages: PropTypes.object.isRequired,
-    }).isRequired,
     pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  location: PropTypes.shape({
-    basename: PropTypes.string,
-  }),
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
