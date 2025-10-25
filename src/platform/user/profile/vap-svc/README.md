@@ -474,8 +474,31 @@ Mock VA Profile Service for local development:
 
 Run unit tests:
 ```bash
+# Run all vap-svc unit tests
 yarn test:unit src/platform/user/profile/vap-svc/**/*.unit.spec.js
+
+# Run with coverage analysis
+yarn test:unit --coverage src/platform/user/profile/vap-svc/**/*.unit.spec.js*
+
+# Run specific test file
+yarn test:unit src/platform/user/profile/vap-svc/tests/selectors.unit.spec.jsx
+
+# Run tests with detailed stack traces
+yarn test:unit --log-level trace src/platform/user/profile/vap-svc/**/*.unit.spec.js
 ```
+
+**Coverage Reports:**
+After running tests with `--coverage`, view the detailed HTML report:
+```bash
+# Open coverage report in browser
+open coverage/index.html  # macOS
+xdg-open coverage/index.html  # Linux
+
+# Or view JSON summary with jq
+cat coverage/coverage-summary.json | jq 'with_entries(select(.key | contains("vap-svc")))'
+```
+
+Current vap-svc coverage: **~49% lines, ~42% functions**
 
 ### E2E Tests (`tests/e2e/`)
 Cypress tests covering full user flows:
