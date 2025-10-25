@@ -81,7 +81,7 @@ const ComposeForm = props => {
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(
-    draftInProgress?.recipientId || null,
+    draft?.recipientId || draftInProgress?.recipientId || null,
   );
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [checkboxMarked, setCheckboxMarked] = useState(false);
@@ -116,6 +116,47 @@ const ComposeForm = props => {
     [largeAttachmentsEnabled, cernerPilotSmFeatureFlag, ohTriageGroup],
   );
 
+  const initializeDraftInProgress = useCallback(
+    () => {
+      const careTeam =
+        recipients?.allowedRecipients?.find(
+          team => draft?.recipientId === team.id,
+        ) || null;
+      const careSystem = ehrDataByVhaId[(careTeam?.stationNumber)] || null;
+
+      if (recipientExists(draft?.recipientId)) {
+        return {
+          careSystemVhaId: careSystem?.vhaId,
+          careSystemName: careSystem?.vamcSystemName,
+          recipientId: draft.recipientId,
+          recipientName: draft.suggestedNameDisplay || draft.recipientName,
+          ohTriageGroup: ohTriageGroup(draft.recipientId),
+          category: draft.category,
+          subject: draft.subject,
+          body: draft.body,
+          messageId: draft.messageId,
+        };
+      }
+      return {
+        careSystemVhaId: null,
+        careSystemName: null,
+        recipientId: null,
+        recipientName: null,
+        category: draft.category,
+        subject: draft.subject,
+        body: draft.body,
+        messageId: draft.messageId,
+      };
+    },
+    [
+      draft,
+      recipients?.allowedRecipients,
+      ehrDataByVhaId,
+      recipientExists,
+      ohTriageGroup,
+    ],
+  );
+
   useEffect(
     () => {
       // Consider draftInProgress "empty" if it has no recipientId
@@ -128,57 +169,12 @@ const ComposeForm = props => {
           !draftInProgress.recipientName);
 
       if (isDraftInProgressEmpty && draft && !sendMessageFlag) {
-        const careTeam =
-          recipients?.allowedRecipients?.find(
-            team => draft?.recipientId === team.id,
-          ) || null;
-        const careSystem = ehrDataByVhaId[(careTeam?.stationNumber)] || null;
-
-        if (recipientExists(draft?.recipientId)) {
-          dispatch(
-            updateDraftInProgress({
-              careSystemVhaId:
-                draftInProgress?.careSystemVhaId || careSystem?.vhaId,
-              careSystemName:
-                draftInProgress?.careSystemName || careSystem?.vamcSystemName,
-              recipientId: draftInProgress?.recipientId || draft.recipientId,
-              recipientName:
-                draftInProgress?.recipientName ||
-                draft.suggestedNameDisplay ||
-                draft.recipientName,
-              ohTriageGroup: ohTriageGroup(draft.recipientId),
-              category: draftInProgress?.category || draft.category,
-              subject: draftInProgress?.subject || draft.subject,
-              body: draftInProgress?.body || draft.body,
-              messageId: draftInProgress?.messageId || draft.messageId,
-            }),
-          );
-        } else {
-          dispatch(
-            updateDraftInProgress({
-              careSystemVhaId: null,
-              careSystemName: null,
-              recipientId: null,
-              recipientName: null,
-              category: draftInProgress?.category || draft.category,
-              subject: draftInProgress?.subject || draft.subject,
-              body: draftInProgress?.body || draft.body,
-              messageId: draftInProgress.messageId || draft.messageId,
-            }),
-          );
-        }
+        const draftData = initializeDraftInProgress();
+        dispatch(updateDraftInProgress(draftData));
       }
     },
-    [
-      draft,
-      dispatch,
-      ehrDataByVhaId,
-      recipients?.allowedRecipients,
-      recipientExists,
-      ohTriageGroup,
-      draftInProgress,
-      sendMessageFlag,
-    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [draft, dispatch, initializeDraftInProgress, sendMessageFlag],
   );
 
   useEffect(
@@ -550,6 +546,39 @@ const ComposeForm = props => {
     ],
   );
 
+  const constructFormData = useMemo(
+    () => {
+      return {
+        recipientId: draftInProgress.recipientId,
+        category: draftInProgress.category,
+        subject: draftInProgress.subject,
+        body: draftInProgress.body,
+      };
+    },
+    [draftInProgress],
+  );
+
+  const constructNewFieldsString = useMemo(
+    () => {
+      return JSON.stringify({
+        rec: parseInt(debouncedRecipient || draftInProgress.recipientId, 10),
+        cat: debouncedCategory || category,
+        sub: debouncedSubject || subject,
+        bod: debouncedMessageBody || messageBody,
+      });
+    },
+    [
+      category,
+      debouncedCategory,
+      debouncedMessageBody,
+      debouncedRecipient,
+      debouncedSubject,
+      draftInProgress.recipientId,
+      messageBody,
+      subject,
+    ],
+  );
+
   const saveDraftHandler = useCallback(
     async (type, e) => {
       const {
@@ -613,19 +642,9 @@ const ComposeForm = props => {
       }
 
       const draftId = draft?.messageId;
-      const formData = {
-        recipientId: draftInProgress.recipientId,
-        category: draftInProgress.category,
-        subject: draftInProgress.subject,
-        body: draftInProgress.body,
-      };
+      const formData = constructFormData;
 
-      const newFieldsString = JSON.stringify({
-        rec: parseInt(debouncedRecipient || draftInProgress.recipientId, 10),
-        cat: debouncedCategory || category,
-        sub: debouncedSubject || subject,
-        bod: debouncedMessageBody || messageBody,
-      });
+      const newFieldsString = constructNewFieldsString;
 
       if (type === 'auto') {
         if (!messageValid || newFieldsString === fieldsString) {
@@ -645,22 +664,19 @@ const ComposeForm = props => {
       }
     },
     [
+      attachments.length,
       checkMessageValidity,
-      validMessageType.SAVE,
+      constructFormData,
+      constructNewFieldsString,
+      dispatch,
       draft?.messageId,
-      selectedRecipientId,
-      category,
-      subject,
-      messageBody,
-      debouncedRecipient,
-      debouncedCategory,
-      debouncedSubject,
-      debouncedMessageBody,
-      attachments,
-      isSignatureRequired,
       electronicSignature,
       fieldsString,
-      dispatch,
+      isSignatureRequired,
+      setNavigationError,
+      setSavedDraft,
+      setSaveError,
+      validMessageType.SAVE,
     ],
   );
 
@@ -828,7 +844,7 @@ const ComposeForm = props => {
     recipient => {
       setSelectedRecipientId(recipient?.id ? recipient.id.toString() : '0');
 
-      if (recipient.id !== '0') {
+      if (recipient?.id && recipient.id !== '0') {
         if (recipient.id) setRecipientError('');
         setUnsavedNavigationError();
       }
