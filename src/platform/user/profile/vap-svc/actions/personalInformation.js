@@ -85,23 +85,6 @@ const captureAndRecordError = ({
  * @dispatches {Object} FETCH_PERSONAL_INFORMATION_SUCCESS - Contains fetched personal information data
  * @dispatches {Object} FETCH_PERSONAL_INFORMATION_FAILED - Contains error information if fetch fails
  *
- * @example
- * // Basic usage - fetch with default caching behavior
- * dispatch(fetchPersonalInformation());
- *
- * @example
- * // Force cache clear (useful for refreshing stale data)
- * dispatch(fetchPersonalInformation(true));
- *
- * @example
- * // With custom analytics tracking
- * dispatch(fetchPersonalInformation(false, customAnalyticsFunc));
- *
- * @description Common usage contexts:
- * - Profile application
- * - Personal information form prefilling
- * - Display of user preferences in messaging and communication
- *
  * @throws {Error} Captures and handles API errors, server errors, and network failures
  *
  */
