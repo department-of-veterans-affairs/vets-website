@@ -15,6 +15,66 @@ const possibleUsers = {
 // in memory db
 const memDb = {
   user: possibleUsers.loa3User,
+  inProgressForm: {
+    formData: {},
+    metadata: {},
+  },
+};
+
+const updateInProgressForm = payload => {
+  const metadata = { ...memDb.inProgressForm.metadata, ...payload.metadata };
+  memDb.inProgressForm = {
+    formData: { ...memDb.inProgressForm.formData, ...payload.formData },
+    metadata,
+  };
+
+  const formIndex = memDb.user.data.attributes.inProgressForms.findIndex(
+    form => form.form === '20-10206',
+  );
+
+  // get the current time in seconds
+  const lastUpdated = Math.floor(Date.now() / 1000);
+  const expiresAt = Math.floor(Date.now() / 1000) + 5184000;
+
+  const updatedMetadata = {
+    ...memDb.inProgressForm.metadata,
+    expiresAt,
+    lastUpdated,
+    createdAt: lastUpdated - 100,
+  };
+
+  // if the form exists, update it
+  if (formIndex !== -1) {
+    memDb.user.data.attributes.inProgressForms = memDb.user.data.attributes.inProgressForms.map(
+      form => {
+        if (form.form === '20-10206') {
+          return {
+            ...form,
+            metadata: updatedMetadata,
+            expiresAt,
+            lastUpdated,
+          };
+        }
+        return form;
+      },
+    );
+  } else {
+    // if the form does not exist, add it
+    memDb.user.data.attributes.inProgressForms.push({
+      form: '20-10206',
+      metadata: updatedMetadata,
+      lastUpdated,
+    });
+  }
+};
+
+const deleteInProgressForm = () => {
+  memDb.inProgressForm = {
+    formData: {},
+    metadata: {},
+  };
+  // reset the inProgressForms to an empty array
+  memDb.user.data.attributes.inProgressForms = [];
 };
 
 // sanitize user input
@@ -165,6 +225,13 @@ const updateMemDb = (req, res = null) => {
     return memDb.user;
   }
 
+  if (
+    key.includes('GET /v0/in_progress_forms') ||
+    key.includes('DELETE /v0/in_progress_forms')
+  ) {
+    return memDb.inProgressForm;
+  }
+
   if (!res) {
     throw new Error(
       `updateMemDB: Response object is required. or key ${key} not found`,
@@ -177,4 +244,6 @@ const updateMemDb = (req, res = null) => {
 module.exports = {
   memDb,
   updateMemDb,
+  updateInProgressForm,
+  deleteInProgressForm,
 };

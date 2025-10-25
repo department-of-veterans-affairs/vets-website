@@ -38,7 +38,7 @@ import { Servers } from './vadx/app/pages/servers/Servers';
 import { FeatureToggles } from './vadx/app/pages/feature-toggles/FeatureToggles';
 
 // Higher order component to wrap routes in the PatternConfigProvider and other common components
-const routeHoc = Component => props => (
+export const routeHoc = Component => props => (
   <PatternConfigProvider {...props}>
     <VADX plugin={plugin} featureToggleName={Toggler.TOGGLE_NAMES.aedpVADX}>
       <Component {...props} />

@@ -394,12 +394,14 @@ class FormPage extends React.Component {
             <div />
           ) : (
             <>
-              {contentBeforeNavButtons}
               <NavButtons
                 goBack={!isFirstRoutePage && this.goBack}
                 goForward={this.onContinue}
                 submitToContinue
                 useWebComponents={formOptions.useWebComponentForNavigation}
+                route={route}
+                router={this.props.router}
+                locationPathname={this.props.location.pathname}
               />
               {contentAfterNavButtons}
             </>
