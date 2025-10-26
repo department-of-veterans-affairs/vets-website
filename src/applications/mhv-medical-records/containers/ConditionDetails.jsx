@@ -213,6 +213,7 @@ Provider Notes: ${processList(record.comments)}\n`;
               downloadPdf={generateConditionDetailsPdf}
               downloadTxt={generateConditionTxt}
             />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px" />
           </HeaderSection>
         </>
       );

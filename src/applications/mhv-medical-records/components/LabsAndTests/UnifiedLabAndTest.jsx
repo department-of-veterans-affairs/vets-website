@@ -134,6 +134,7 @@ const UnifiedLabsAndTests = props => {
               downloadPdf={generatePdf}
               downloadTxt={generateTxt}
             />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
           </HeaderSection>
         </div>
         {/*         RESULTS CARDS            */}

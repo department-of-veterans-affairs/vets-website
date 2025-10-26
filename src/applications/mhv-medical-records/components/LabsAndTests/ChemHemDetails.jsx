@@ -199,6 +199,7 @@ Lab comments: ${entry.labComments}\n`,
           downloadPdf={generateChemHemPdf}
           downloadTxt={generateChemHemTxt}
         />
+        <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
       </HeaderSection>
     </div>
   );

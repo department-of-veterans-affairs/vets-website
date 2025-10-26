@@ -232,6 +232,7 @@ const VaccineDetails = props => {
               downloadPdf={generateVaccinePdf}
               downloadTxt={generateVaccineTxt}
             />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px" />
           </HeaderSection>
         </>
       );

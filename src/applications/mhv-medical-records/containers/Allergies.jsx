@@ -227,6 +227,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
               downloadPdf={generateAllergiesPdf}
               downloadTxt={generateAllergiesTxt}
             />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
           </>
         ) : (
           <NoRecordsMessage type={recordType.ALLERGIES} />

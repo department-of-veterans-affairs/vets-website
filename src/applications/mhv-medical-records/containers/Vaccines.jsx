@@ -313,6 +313,7 @@ const Vaccines = props => {
               downloadPdf={generateVaccinesPdf}
               downloadTxt={generateVaccinesTxt}
             />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
           </>
         ) : (
           <NoRecordsMessage type={recordType.VACCINES} />

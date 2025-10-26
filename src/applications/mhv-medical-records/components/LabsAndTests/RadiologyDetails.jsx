@@ -490,6 +490,7 @@ ${record.results}`;
           downloadPdf={downloadPdf}
           downloadTxt={generateRadiologyTxt}
         />
+        <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
       </HeaderSection>
     </div>
   );

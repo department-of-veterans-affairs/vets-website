@@ -244,6 +244,10 @@ Provider notes: ${allergyData.notes} \n`;
               downloadPdf={generateAllergyPdf}
               downloadTxt={generateAllergyTxt}
             />
+            <br />
+            <br />
+            <br />
+            <div className="vads-u-margin-bottom--300 vads-u-border-top--1px vads-u-border-color--white" />
           </HeaderSection>
         </>
       );
