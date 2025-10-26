@@ -17,6 +17,24 @@ const { data: testData } = maxTestData;
 
 describe('EZR Next Of Kin flow', () => {
   beforeEach(() => {
+    /*  RM put here to disable "Leave Site?" confirmation dialogs */
+    /* TODO: hoist to  cypress/support/e2e.js ? */
+    cy.on('window:before:load', win => {
+      Object.defineProperty(win, 'onbeforeunload', {
+        configurable: true,
+        writable: true,
+        value: null,
+      });
+
+      const orig = win.addEventListener;
+      cy.stub(win, 'addEventListener').callsFake(
+        (e, h, o) =>
+          e === 'beforeunload' ? undefined : orig.call(win, e, h, o),
+      );
+    });
+
+    // RM end of disable "Leave Site?" confirmation dialogs
+
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
