@@ -5,12 +5,13 @@ import {
   checkVisibleElementContent,
 } from '../utils';
 
-const loginWithLocalStorage = () => {
-  cy.injectAxeThenAxeCheck();
-  cy.window().then(win => {
-    win.localStorage.setItem('hasSession', true);
-  });
-};
+// Commenting this out as it may be used in the next version.
+// const loginWithLocalStorage = () => {
+//   cy.injectAxeThenAxeCheck();
+//   cy.window().then(win => {
+//     win.localStorage.setItem('hasSession', true);
+//   });
+// };
 
 /**
  * Check the content on the intro page for anonymous users.
@@ -18,19 +19,16 @@ const loginWithLocalStorage = () => {
 const checkContentAnonymousIntroPageContent = () => {
   checkVisibleElementContent(
     'h1',
-    'Submit medical expenses to support a pension or DIC claim'
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'h2', 
-    'Follow these steps to get started:'
-  );
+  checkVisibleElementContent('h2', 'Follow these steps to get started:');
   checkVisibleElementContent(
     'va-process-list',
-    'Check that your expenses qualify'
+    'What to know before you fill out this form',
   );
   checkVisibleElementContent(
     'va-alert-sign-in',
-    'Sign in with a verified account'
+    'Sign in with a verified account',
   );
 };
 
@@ -40,495 +38,337 @@ const checkContentAnonymousIntroPageContent = () => {
 const checkContentAnonymousApplicantInformationIdentity = () => {
   checkVisibleElementContent(
     'h1',
-    'Submit medical expenses to support a pension or DIC claim'
+    'Submit medical expenses to support a pension or DIC claim',
   );
   checkVisibleElementContent(
     'va-segmented-progress-bar',
-    'Applicant information'
+    'Applicant information',
   );
-  checkVisibleElementContent(
-    'legend',
-    'Your identity'
-  );
-}
+  checkVisibleElementContent('legend', 'Your identity');
+};
 
 /**
  * Check Content for Applicant Information Name for anonymous users
  */
 const checkContentAnonymousApplicantInformationName = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
   checkVisibleElementContent(
     'va-segmented-progress-bar',
-    'Applicant information'
+    'Applicant information',
   );
-  checkVisibleElementContent(
-    'legend',
-    'Your name'
-  );
-}
+  checkVisibleElementContent('legend', 'Your name');
+};
 
 /**
  * Check Content for Applicant Information SSN for anonymous users
  */
 const checkContentAnonymousApplicantInformationSSN = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
   checkVisibleElementContent(
     'va-segmented-progress-bar',
-    'Applicant information'
+    'Applicant information',
   );
-  checkVisibleElementContent(
-    'legend',
-    'Your information'
-  );
-}
+  checkVisibleElementContent('legend', 'Your information');
+};
+
 /**
  * Check Content for Applicant Information Mailing Address for anonymous users
  */
 const checkContentAnonymousApplicantInformationMailingAddress = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
   checkVisibleElementContent(
     'va-segmented-progress-bar',
-    'Applicant information'
+    'Applicant information',
   );
-  checkVisibleElementContent(
-    'legend',
-    'Your mailing address'
-  );
-}
+  checkVisibleElementContent('legend', 'Your mailing address');
+};
 
 /**
  * Check Content for Applicant Information Email Address and Phone for anonymous users
  */
 const checkContentAnonymousApplicantInformationEmail = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
   checkVisibleElementContent(
     'va-segmented-progress-bar',
-    'Applicant information'
+    'Applicant information',
   );
-  checkVisibleElementContent(
-    'legend',
-    'Your email address and phone number'
-  );
-}
-/**
- * Check Reporting Period page for anonymous users
- */
-const checkContentAnonymousReportingPeriod = () => {
-checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
-  );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Reporting Period'
-  );
-}
+  checkVisibleElementContent('legend', 'Your email address and phone number');
+};
 
 /**
  * Check Reporting Period page for anonymous users
  */
-const checkContentAnonymousCareExpenses = () => {
+const checkContentAnonymousReportingPeriod = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Care expenses'
-  );
-}
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Reporting Period');
+};
+
+/**
+ * Check Reporting Period page for anonymous users
+ */
+// const checkContentAnonymousCareExpenses = () => {
+//   checkVisibleElementContent(
+//     'h1',
+//     'Submit medical expenses to support a pension or DIC claim'
+//   );
+//   checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+//   checkVisibleElementContent('legend', 'Care expenses');
+// };
 
 /**
  * Check the content on the Care Expenses Add page.
  */
 const checkContentAnonymousCareExpensesAdd = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Do you have a care expense to add?'
-  );
-}
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Do you have a care expense to add?');
+};
 
 /**
  * Check the content on the Care Expenses Type of Care page
  */
 const checkContentAnonymousCareExpensesTypeOfCare = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Select the type of care.'
-  );
-}
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Select the type of care.');
+};
 
 /**
  * Check the content on the Care Expenses Recipient and Provider Name page
  */
 const checkContentAnonymousCareExpensesRecipientAndProviderName = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Care recipient and provider name'
-  );
-}
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Care recipient and provider name');
+};
 
 /**
  * Check the content on the Care Expenses Care Dates page
  */
 const checkContentAnonymousCareExpensesCareDates = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Dates of care'
-  );
-  checkVisibleElementContent(
-    'va-memorable-date',
-    'Care start date'
-  );
-  checkVisibleElementContent(
-    'va-memorable-date',
-    'Care end date'
-  );
-}
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Dates of care');
+  cy.wait(1000);
+  checkVisibleElementContent('va-memorable-date', 'Care start date');
+  checkVisibleElementContent('va-memorable-date', 'Care end date');
+};
 
 /**
  * Check the content on the Care Expenses Care Costs page
  */
 const checkContentAnonymousCareExpensesCareCosts = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Cost of care'
-  );
-}
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Cost of care');
+};
 
 /**
  * Check the content on the Care Expenses Review page
  */
 const checkContentAnonymousCareExpensesReview = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Review your care expenses'
-  );
-}
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Review your care expenses');
+};
 
 /**
  * Check the content on the Medical Expenses intro page
  */
 const checkContentAnonymousMedicalExpenses = () => {
-checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
-  );
   checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'legend',
-    'Do you have a medical expense to add?'
-  );
-}
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Do you have a medical expense to add?');
+};
 
 /**
  * Check the content on the Medical Expenses Recipient and Provider Name page
  */
 const checkContentAnonymousMedicalExpensesRecipientAndProviderName = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Medical recipient and provider name'
-  );
-  checkVisibleElementContent(
-    'va-radio',
-    'Who is the expense for? '
-  );
-} 
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Medical recipient and provider name');
+  checkVisibleElementContent('va-radio', 'Who is the expense for? ');
+};
 
 /**
  * Check the content on the Medical Expenses Reason page
  */
 const checkContentAnonymousMedicalExpensesReason = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Expense purpose and date'
-  );
-  checkVisibleElementContent(
-    'va-text-input',
-    'What is the payment for?'
-  );
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Expense purpose and date');
+  checkVisibleElementContent('va-text-input', 'What is the payment for?');
   checkVisibleElementContent(
     'va-memorable-date',
-    'What’s the date of the payment?'
+    'What’s the date of the payment?',
   );
-} 
+};
 
 /**
  * Check the content on the Medical Expenses Frequency page
  */
 const checkContentAnonymousMedicalExpensesFrequency = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Frequency and cost of care'
-  );
-  checkVisibleElementContent(
-    'va-radio',
-    'How often are the payments?'
-  );
-  checkVisibleElementContent(
-    'va-text-input',
-    'How much is each payment?'
-  );
-}
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Frequency and cost of care');
+  checkVisibleElementContent('va-radio', 'How often are the payments?');
+  checkVisibleElementContent('va-text-input', 'How much is each payment?');
+};
 
 /**
  * Check the content on the Medical Expenses Review page
  */
 const checkContentAnonymousMedicalExpensesReview = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Review your medical expenses'
-  );
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Review your medical expenses');
   checkVisibleElementContent(
     'va-radio',
-    'Do you have another medical expense to add?'
+    'Do you have another medical expense to add?',
   );
-
-}
+};
 
 /**
  * Check the content on the Milage Expenses intro page
  */
 const checkContentAnonymousMilageExpenses = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
   checkVisibleElementContent(
     'va-radio',
-    'Do you have a mileage expense to add?'
+    'Do you have a mileage expense to add?',
   );
-}
+};
 
 /**
  * Check the content on the Milage Expenses Traveler Infro page
  */
 const checkContentAnonymousMilageExpensesTravelerInfo = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Traveler information'
-  );
-  checkVisibleElementContent(
-    'va-radio',
-    'Who needed to travel?'
-  );
-
-}
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Traveler information');
+  checkVisibleElementContent('va-radio', 'Who needed to travel?');
+};
 /**
  * Check the content on the Milage Expenses Destination page
  */
 const checkContentAnonymousMilageExpensesDestination = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Expense destination and date'
-  );
-  checkVisibleElementContent(
-    'va-radio',
-    'Who is the expense for?'
-  );
-  checkVisibleElementContent(
-    'va-text-input',
-    'How many miles did you travel?'
-  );
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Expense destination and date');
+  checkVisibleElementContent('va-radio', 'What was the destination?');
+  checkVisibleElementContent('va-text-input', 'How many miles were travelled?');
   checkVisibleElementContent(
     'va-memorable-date',
-    'What’s the date of your travel?'
+    'What was the date of travel?',
   );
-}
+};
 
 /**
  * Check the content on the Milage Expenses Reimbursement page
  */
 const checkContentAnonymousMilageExpensesReimbursement = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'legend',
-    'Expense reimbursement'
-  );
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Expense reimbursement');
   checkVisibleElementContent(
     'va-radio',
-    'Were you reimbursed from another source?'
+    'Has this mileage been reimbursed by any other source?',
   );
-}
+};
 
 /**
  * Check the content on the Milage Expenses Review page
  */
 const checkContentAnonymousMilageExpensesReview = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Expenses'
-  );
-  
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+
   checkVisibleElementContent(
     'va-radio',
-    'Do you have another mileage expense to add?'
+    'Do you have another mileage expense to add?',
   );
-}
+};
 
 /**
  * Check the content on the Statement of Truth page
  */
 const checkContentAnonymousStatementOfTruth = () => {
   checkVisibleElementContent(
-    'h1', 
-    'Submit medical expenses to support a pension or DIC claim'
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Review application'
-  );
-  checkVisibleElementContent(
-    'va-accordion-item',
-    'Applicant information'
-  );
-  checkVisibleElementContent(
-    'va-accordion-item',
-    'Expenses'
-  );
-  checkVisibleElementContent(
-    'va-accordion-item',
-    'Additional information'
-  );
-  checkVisibleElementContent(
-    'va-statement-of-truth',
-    'Statement of truth'
-  );
-}
+  checkVisibleElementContent('va-segmented-progress-bar', 'Review application');
+  checkVisibleElementContent('va-accordion-item', 'Applicant information');
+  checkVisibleElementContent('va-accordion-item', 'Expenses');
+  checkVisibleElementContent('va-accordion-item', 'Additional information');
+  checkVisibleElementContent('va-statement-of-truth', 'Statement of truth');
+};
 
 /**
  * Start the application process while not logged in
@@ -544,7 +384,6 @@ const startApplicationWithoutLogin = () => {
   cy.get('va-alert-sign-in')
     .get('a[class="schemaform-start-button"]')
     .click();
-    
 };
 
 /**
@@ -598,10 +437,7 @@ const fillInFullAddressFromFixture = () => {
  * Fill in the Military Base address data from Fixture data and some ad hoc data.
  */
 const fillInMilBaseAddressFromFixture = () => {
-  cy.get('select[name="root_veteranAddress_country"]').should(
-    'have.value',
-    '',
-  );
+  cy.get('select[name="root_veteranAddress_country"]').should('have.value', '');
   cy.get('input[name="root_veteranAddress_isMilitary"]').check();
   cy.get('select[name="root_veteranAddress_country"]').should(
     'have.value',
@@ -670,6 +506,7 @@ const fillInVetInfoWithNameSSNFromFixture = () => {
     'root_vaFileNumber',
     fixtureData.data.attributes.va_profile.vaFileNumber,
   );
+  cy.wait(1000);
   cy.fillDate(
     'root_veteranDateOfBirth',
     fixtureData.data.attributes.profile.birth_date,
@@ -744,7 +581,6 @@ const fillInCareExpensesFromFixture = () => {
   );
   checkAxeAndClickContinueButton();
 
-  
   // care expenses
   checkContentAnonymousCareExpensesReview();
   cy.selectRadio('root_view:careExpensesList', 'Y');
@@ -809,8 +645,8 @@ const fillInMedicalExpensesFromFixture = () => {
   );
   checkAxeAndClickContinueButton();
 
-  checkContentAnonymousMedicalExpensesReason(); 
-  
+  checkContentAnonymousMedicalExpensesReason();
+
   cy.fillVaTextInput(
     'root_purpose',
     fixtureData.data.attributes.veteran_med_provider_1.medPurpose,
@@ -821,7 +657,6 @@ const fillInMedicalExpensesFromFixture = () => {
   );
   checkAxeAndClickContinueButton();
 
-  
   checkContentAnonymousMedicalExpensesFrequency();
   cy.selectRadio('root_paymentFrequency', 'ONCE_MONTH');
   cy.fillVaTextInput(
@@ -871,7 +706,7 @@ const fillInMedicalExpensesFromFixture = () => {
  * Fill in the Milage/Travel Expenses from the Fixture data.
  */
 const fillInMilageExpensesFromFixture = () => {
-  cy.contains('Add mileage expenses');
+  cy.contains('Mileage expenses');
   checkAxeAndClickContinueButton();
 
   checkContentAnonymousMilageExpenses();
@@ -896,13 +731,10 @@ const fillInMilageExpensesFromFixture = () => {
     fixtureData.data.attributes.veteran_milage_1.dateTraveled,
   );
   checkAxeAndClickContinueButton();
-  
+
   checkContentAnonymousMilageExpensesReimbursement();
   cy.selectRadio('root_travelReimbursed', 'Y');
-  checkVisibleElementContent(
-    'va-text-input',
-    'How much were you reimbursed?'
-  );
+  checkVisibleElementContent('va-text-input', 'How much money was reimbursed?');
   cy.fillVaTextInput(
     'root_travelReimbursementAmount',
     fixtureData.data.attributes.veteran_milage_1.reimbursementAmount,
@@ -954,20 +786,22 @@ const fillInStatementOfTruthFromFixture = () => {
     .get('input[type="checkbox"]')
     .check();
 
-  const fullName = fixtureData.data.attributes.profile.first_name +
-       " " + fixtureData.data.attributes.profile.middle_name +
-       " " + fixtureData.data.attributes.profile.last_name;
+  const fullName =
+    fixtureData.data.attributes.profile.first_name +
+    ' ' +
+    fixtureData.data.attributes.profile.middle_name +
+    ' ' +
+    fixtureData.data.attributes.profile.last_name;
   cy.get('va-statement-of-truth')
     .shadow()
     .get('#veteran-signature')
     .shadow()
     .get('input[name="veteran-signature"')
     .type(fullName);
-  
+
   checkContentAnonymousStatementOfTruth();
   cy.injectAxeThenAxeCheck();
-  cy.get('button[class="usa-button-primary"]')
-    .click();
+  cy.get('button[class="usa-button-primary"]').click();
 };
 
 /**
@@ -978,7 +812,9 @@ const uploadTestFiles = () => {
     .shadow()
     .get('va-file-input')
     .get('input[id="fileInputField"][type="file"]')
-    .selectFile('src/applications/medical-expense-report/tests/fixtures/data/TestBlankPDF.pdf');
+    .selectFile(
+      'src/applications/medical-expense-report/tests/fixtures/data/TestBlankPDF.pdf',
+    );
 };
 
 describe('Medical Expense Report Form 8416', () => {
@@ -987,7 +823,6 @@ describe('Medical Expense Report Form 8416', () => {
       startApplicationWithoutLogin();
     });
     it('tests Veteran reporting medical expenses path', () => {
-
       // Applicant Information identity
       checkContentAnonymousApplicantInformationIdentity();
       cy.selectRadio('root_claimantNotVeteran', 'Y');
@@ -999,7 +834,7 @@ describe('Medical Expense Report Form 8416', () => {
       checkContentAnonymousApplicantInformationMailingAddress();
       fillInFullAddressFromFixture();
       checkContentAnonymousApplicantInformationEmail();
-      
+
       fillInEmailAndPhoneFromFixture();
       checkContentAnonymousApplicantInformationSSN();
       fillInVetInfoWithoutNameSSNFromFixture();
