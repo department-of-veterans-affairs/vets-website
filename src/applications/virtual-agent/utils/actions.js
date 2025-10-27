@@ -190,7 +190,7 @@ export const processIncomingActivity = ({
         setLoggedInFlow('true');
         if (appDispatch)
           appDispatch(toggleLoginModal(true, 'va-chatbot', true));
-      }, 2000);
+      }, 2000); // delay before opening the modal
     } else if (isNewAuthedConversation) {
       resetUtterances(dispatch);
     }
