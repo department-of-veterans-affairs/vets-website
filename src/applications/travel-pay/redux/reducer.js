@@ -1,16 +1,22 @@
 import {
-  FETCH_TRAVEL_CLAIMS_STARTED,
-  FETCH_TRAVEL_CLAIMS_SUCCESS,
-  FETCH_TRAVEL_CLAIMS_FAILURE,
-  FETCH_CLAIM_DETAILS_STARTED,
-  FETCH_CLAIM_DETAILS_SUCCESS,
-  FETCH_CLAIM_DETAILS_FAILURE,
+  UPDATE_EXPENSE_STARTED,
+  UPDATE_EXPENSE_SUCCESS,
+  UPDATE_EXPENSE_FAILURE,
+  FETCH_APPOINTMENT_FAILURE,
   FETCH_APPOINTMENT_STARTED,
   FETCH_APPOINTMENT_SUCCESS,
-  FETCH_APPOINTMENT_FAILURE,
+  FETCH_CLAIM_DETAILS_FAILURE,
+  FETCH_CLAIM_DETAILS_STARTED,
+  FETCH_CLAIM_DETAILS_SUCCESS,
+  FETCH_TRAVEL_CLAIMS_FAILURE,
+  FETCH_TRAVEL_CLAIMS_STARTED,
+  FETCH_TRAVEL_CLAIMS_SUCCESS,
+  SUBMIT_CLAIM_FAILURE,
   SUBMIT_CLAIM_STARTED,
   SUBMIT_CLAIM_SUCCESS,
-  SUBMIT_CLAIM_FAILURE,
+  CREATE_COMPLEX_CLAIM_STARTED,
+  CREATE_COMPLEX_CLAIM_SUCCESS,
+  CREATE_COMPLEX_CLAIM_FAILURE,
 } from './actions';
 
 const initialState = {
@@ -32,6 +38,15 @@ const initialState = {
     isSubmitting: false,
     error: null,
     data: null,
+  },
+  complexClaimCreation: {
+    isLoading: false,
+    error: null,
+    data: null,
+  },
+  expense: {
+    isLoading: false,
+    error: null,
   },
 };
 
@@ -156,6 +171,103 @@ function travelPayReducer(state = initialState, action) {
         claimSubmission: {
           ...state.claimSubmission,
           isSubmitting: false,
+          error: action.error,
+        },
+      };
+    case CREATE_COMPLEX_CLAIM_STARTED:
+      return {
+        ...state,
+        complexClaimCreation: {
+          ...state.complexClaimCreation,
+          isLoading: true,
+        },
+      };
+    case CREATE_COMPLEX_CLAIM_SUCCESS:
+      return {
+        ...state,
+        complexClaimCreation: {
+          error: null,
+          isLoading: false,
+          data: action.payload,
+        },
+        // Also add the newly created claim to claimDetails for immediate access
+        claimDetails: {
+          ...state.claimDetails,
+          data: {
+            ...state.claimDetails.data,
+            [action.payload.claimId]: action.payload,
+          },
+        },
+      };
+    case CREATE_COMPLEX_CLAIM_FAILURE:
+      return {
+        ...state,
+        complexClaimCreation: {
+          ...state.complexClaimCreation,
+          isLoading: false,
+          error: action.error,
+        },
+      };
+    case UPDATE_EXPENSE_STARTED:
+      return {
+        ...state,
+        expense: {
+          ...state.expense,
+          isLoading: true,
+        },
+      };
+    case UPDATE_EXPENSE_SUCCESS:
+      // Expense delete
+      if (action.expenseId) {
+        return {
+          ...state,
+          expense: {
+            error: null,
+            isLoading: false,
+          },
+          claimDetails: {
+            ...state.claimDetails,
+            data: {
+              ...state.claimDetails.data,
+              [action.claimId]: {
+                ...state.claimDetails.data[action.claimId],
+                expenses: state.claimDetails.data[
+                  action.claimId
+                ].expenses.filter(expense => expense.id !== action.expenseId),
+              },
+            },
+          },
+        };
+      }
+      // Create/Update expense
+      return {
+        ...state,
+        expense: {
+          error: null,
+          isLoading: false,
+        },
+        claimDetails: {
+          ...state.claimDetails,
+          data: {
+            ...state.claimDetails.data,
+            [action.claimId]: {
+              ...state.claimDetails.data[action.claimId],
+              expenses: [
+                ...state.claimDetails.data[action.claimId].expenses.filter(
+                  expense => expense.id !== action.payload.id,
+                ),
+                action.payload,
+              ],
+            },
+          },
+        },
+      };
+    case UPDATE_EXPENSE_FAILURE:
+      return {
+        ...state,
+        expense: {
+          ...state.expense,
+          isLoading: false,
           error: action.error,
         },
       };
