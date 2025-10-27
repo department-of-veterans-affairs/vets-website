@@ -193,7 +193,30 @@ const formConfig = {
           schema: relativesOverview.schema,
           scrollAndFocusTarget,
         },
-        ...relativesPages,
+        relativesSummary: {
+          ...relativesPages.relativesSummary,
+          depends: formData =>
+            formData.survivors?.hasNone !== true &&
+            (formData.survivors?.hasSpouse === true ||
+              formData.survivors?.hasChildren === true ||
+              formData.survivors?.hasParents === true),
+        },
+        relativeNamePage: {
+          ...relativesPages.relativeNamePage,
+          depends: formData =>
+            formData.survivors?.hasNone !== true &&
+            (formData.survivors?.hasSpouse === true ||
+              formData.survivors?.hasChildren === true ||
+              formData.survivors?.hasParents === true),
+        },
+        relativeAddressPage: {
+          ...relativesPages.relativeAddressPage,
+          depends: formData =>
+            formData.survivors?.hasNone !== true &&
+            (formData.survivors?.hasSpouse === true ||
+              formData.survivors?.hasChildren === true ||
+              formData.survivors?.hasParents === true),
+        },
       },
     },
     expensesAndDebtsChapter: {
