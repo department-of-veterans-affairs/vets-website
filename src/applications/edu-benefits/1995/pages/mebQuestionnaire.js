@@ -15,23 +15,6 @@ const ResultDescription = ({ body, linkHref, linkText, answers }) => (
   </div>
 );
 
-export const introductionPageContent = () => (
-  <div>
-    <va-alert status="info" visible uswds>
-      <h3 slot="headline">Update your benefits without VA Form 22-1995</h3>
-      <p>
-        If you need to change or update your benefit for a new Certificate of
-        Eligibility (COE), you’re in the right place. We’ll help you find the
-        right form.
-      </p>
-    </va-alert>
-    <h2 className="vads-u-font-size--h3 vads-u-margin-top--4">
-      Determine which form to use
-    </h2>
-    <p>Answer a few questions to determine which form you need.</p>
-  </div>
-);
-
 export const yourInformationPage = () => ({
   uiSchema: {
     'ui:title': 'Your information',

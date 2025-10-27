@@ -25,7 +25,6 @@ import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
 import guardianInformation from '../pages/guardianInformation';
 import { updateApplicantInformationPage } from '../../utils/helpers';
 import {
-  introductionPageContent,
   yourInformationPage,
   benefitSwitchPage,
   sameBenefitResultPage,
@@ -171,6 +170,7 @@ if (isProductionOfTestProdEnv()) {
   militaryService.pages.militaryHistory = {
     title: 'Military history',
     path: 'military/history',
+    depends: isLegacyFlow,
     uiSchema: militaryHistory.uiSchema,
     schema: militaryHistory.schema,
   };
@@ -228,6 +228,7 @@ export const chapters = {
     title: isProductionOfTestProdEnv()
       ? 'School selection'
       : 'School/training facility selection',
+    depends: isLegacyFlow,
     pages: {
       newSchool: {
         path: 'school-selection/new-school',
@@ -273,23 +274,6 @@ if (isProductionOfTestProdEnv()) {
 }
 
 export const mebChapters = {
-  introduction: {
-    title: 'Introduction',
-    pages: {
-      introductionPage: {
-        path: 'introduction',
-        depends: formData => isRerouteEnabledOnForm(formData),
-        uiSchema: {
-          'ui:title': 'Change your education benefits',
-          'ui:description': introductionPageContent,
-        },
-        schema: {
-          type: 'object',
-          properties: {},
-        },
-      },
-    },
-  },
   questionnaire: {
     title: 'Determine your path',
     pages: {
