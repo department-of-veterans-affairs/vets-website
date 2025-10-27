@@ -5,10 +5,14 @@
       "type": "claim",
       "attributes": {
         "claimDate": "2008-09-23",
+        "claimType": "Compensation",
+        "claimTypeCode": "020",
         "closeDate": null,
         "claimPhaseDates": {
           "phaseChangeDate": "2016-10-31"
         },
+        "displayTitle": "Claim for compensation",
+        "claimTypeBase": "compensation claim",
         "evidenceWaiverSubmitted5103": false,
         "documentsNeeded": true,
         "developmentLetterSent": true,
@@ -21,10 +25,14 @@
       "type": "claim",
       "attributes": {
         "claimDate": "2008-09-23",
+        "claimType": "Compensation",
+        "claimTypeCode": "020",
         "closeDate": "2012-10-31",
         "claimPhaseDates": {
           "phaseChangeDate": "2012-10-31"
         },
+        "displayTitle": "Claim for compensation",
+        "claimTypeBase": "compensation claim",
         "evidenceWaiverSubmitted5103": false,
         "documentsNeeded": true,
         "developmentLetterSent": true,

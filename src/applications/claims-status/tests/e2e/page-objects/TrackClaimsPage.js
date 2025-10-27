@@ -70,7 +70,7 @@ class TrackClaimsPage {
     );
     cy.get('.claim-list-item-header')
       .first()
-      .should('contain', `Claim for disability compensation`);
+      .should('contain', `Claim for compensation`);
     cy.get('.card-status')
       .first()
       .should('contain', `Moved to this step on October 31, 2016`);
