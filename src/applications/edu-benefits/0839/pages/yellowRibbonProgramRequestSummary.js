@@ -4,12 +4,21 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 export const arrayBuilderOptions = {
-  arrayPath: 'yellowRibbonProgramRequest.contributions',
+  arrayPath: 'yellowRibbonProgramRequest',
   nounSingular: 'contribution',
   nounPlural: 'contributions',
   required: false,
   text: {
-    getItemName: item => item.contributionName || 'Contribution',
+    getItemName: item => {
+      // Use degree level as the primary identifier, fallback to college/school name
+      if (item.degreeLevel) {
+        return item.degreeLevel;
+      }
+      if (item.collegeOrProfessionalSchool) {
+        return item.collegeOrProfessionalSchool;
+      }
+      return 'Contribution';
+    },
   },
 };
 
