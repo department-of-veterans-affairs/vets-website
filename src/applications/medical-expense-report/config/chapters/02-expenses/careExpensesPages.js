@@ -94,7 +94,7 @@ function introDescription() {
 }
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'careExpenses',
   nounSingular: 'care expense',
   nounPlural: 'care expenses',
