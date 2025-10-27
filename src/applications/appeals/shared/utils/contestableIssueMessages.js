@@ -149,12 +149,14 @@ export const formatIssueList = names => {
 /**
  * Extracts display names from contestable issue objects
  * @param {Object[]} blockedIssues - Array of contestable issue objects
- * @returns {string[]} Array of issue display names
+ * @returns {string[]} Array of issue display names (lowercase)
  */
 export const extractIssueNames = blockedIssues =>
-  blockedIssues.map(
-    issue => issue.issue || issue.ratingIssueSubjectText || 'Unknown condition',
-  );
+  blockedIssues.map(issue => {
+    const name =
+      issue.issue || issue.ratingIssueSubjectText || 'unknown condition';
+    return name.toLowerCase();
+  });
 
 /**
  * Determines which validation is blocking based on decision tree logic
@@ -190,6 +192,8 @@ export const getBlockedMessage = blockedIssues => {
   const availableAfter = getAvailableAfterDate(decisionDate, blockingType);
 
   return `We're sorry. Your ${formatIssueList(issues)} ${
+    isSingle ? 'issue' : 'issues'
+  } ${
     isSingle ? "isn't" : "aren't"
   } available to add to your appeal yet. You can come back and select ${
     isSingle ? 'it' : 'them'
