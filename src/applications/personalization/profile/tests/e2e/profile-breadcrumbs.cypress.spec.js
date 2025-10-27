@@ -1,7 +1,7 @@
-import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
-import fullName from '@@profile/tests/fixtures/full-name-success.json';
-import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
-import error500 from '@@profile/tests/fixtures/500.json';
+import serviceHistory from '../fixtures/service-history-success.json';
+import fullName from '../fixtures/full-name-success.json';
+import disabilityRating from '../fixtures/disability-rating-success.json';
+import error500 from '../fixtures/500.json';
 
 import { mockUser } from '../fixtures/users/user';
 import { PROFILE_PATH_NAMES } from '../../constants';

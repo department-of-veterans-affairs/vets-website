@@ -230,10 +230,12 @@ const routesForProfile2Nav = [
   },
 ];
 
-export const getRoutesForNav = ({
-  profile2Enabled = false,
-  profileHealthCareSettingsPage = false,
-}) => {
+export const getRoutesForNav = (
+  { profile2Enabled = false, profileHealthCareSettingsPage = false } = {
+    profile2Enabled: false,
+    profileHealthCareSettingsPage: false,
+  },
+) => {
   if (profile2Enabled) {
     return routesForProfile2Nav.filter(route => {
       // filter out routes based on feature flags
