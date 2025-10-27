@@ -20,14 +20,18 @@ const uiSchema = {
     'ui:options': {
       classNames: 'eligible-individuals-note container',
     },
-    'ui:required': formData =>
-      !formData.eligibleIndividualsGroup?.unlimitedIndividuals,
+    'ui:required': (formData, index, _fullData) => {
+      if (index !== undefined) {
+        return !formData.eligibleIndividualsGroup?.unlimitedIndividuals;
+      }
+      return !formData.eligibleIndividualsGroup?.unlimitedIndividuals;
+    },
     'ui:validations': [
       (errors, fieldData) => {
         const isUnlimited = fieldData?.unlimitedIndividuals;
         const hasValue =
           fieldData?.eligibleIndividuals &&
-          fieldData.eligibleIndividuals.trim() !== '';
+          fieldData?.eligibleIndividuals.trim() !== '';
 
         if (!isUnlimited && !hasValue) {
           errors.addError(
@@ -46,16 +50,24 @@ const uiSchema = {
         required: `Enter the academic year, such as ${getAcademicYearDisplay()}`,
       },
     }),
-    'ui:required': formData =>
-      formData.agreementType !== 'startNewOpenEndedAgreement',
+    'ui:required': (formData, index, fullData) => {
+      if (index !== undefined) {
+        return fullData?.agreementType !== 'startNewOpenEndedAgreement';
+      }
+      return formData?.agreementType !== 'startNewOpenEndedAgreement';
+    },
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 eligible-individuals-note container',
-      hideIf: formData =>
-        formData.agreementType === 'startNewOpenEndedAgreement',
+      hideIf: (formData, index, fullData) => {
+        if (index !== undefined) {
+          return fullData?.agreementType === 'startNewOpenEndedAgreement';
+        }
+        return formData?.agreementType === 'startNewOpenEndedAgreement';
+      },
     },
     'ui:validations': [
       (errors, fieldData) => {
-        if (fieldData !== getAcademicYearDisplay()) {
+        if (fieldData && fieldData !== getAcademicYearDisplay()) {
           errors.addError(
             `Enter the upcoming academic year this agreement applies to`,
           );
@@ -68,8 +80,12 @@ const uiSchema = {
     'ui:widget': 'text',
     'ui:readonly': true,
     'ui:options': {
-      hideIf: formData =>
-        formData.agreementType !== 'startNewOpenEndedAgreement',
+      hideIf: (formData, index, fullData) => {
+        if (index !== undefined) {
+          return fullData?.agreementType !== 'startNewOpenEndedAgreement';
+        }
+        return formData?.agreementType !== 'startNewOpenEndedAgreement';
+      },
       classNames: 'eligible-individuals-note',
     },
   },
