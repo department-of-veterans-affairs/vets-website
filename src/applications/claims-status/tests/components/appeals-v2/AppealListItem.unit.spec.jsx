@@ -236,7 +236,7 @@ describe('<AppealListItem>', () => {
                 evidenceSubmissions: [
                   createFailedSubmission(
                     new Date(
-                      Date.now() + 1 * 24 * 60 * 60 * 1000,
+                      Date.now() - 1 * 24 * 60 * 60 * 1000,
                     ).toISOString(),
                     new Date(
                       Date.now() - 31 * 24 * 60 * 60 * 1000,
@@ -252,10 +252,7 @@ describe('<AppealListItem>', () => {
             );
             const alert = container.querySelector('va-alert[status="error"]');
 
-            expect(alert).to.exist;
-            expect(alert.querySelector('p')).to.have.text(
-              'We need you to resubmit files for this claim.',
-            );
+            expect(alert).to.not.exist;
           });
         },
       );

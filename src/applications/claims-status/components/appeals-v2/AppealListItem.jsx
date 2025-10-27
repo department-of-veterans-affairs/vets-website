@@ -65,7 +65,7 @@ export default function AppealListItem({ appeal, name }) {
     }
   }
 
-  const { evidenceSubmissions } = appeal.attributes || [];
+  const evidenceSubmissions = appeal.attributes?.evidenceSubmissions || [];
   const failedSubmissionsWithinLast30Days = getFailedSubmissionsWithinLast30Days(
     evidenceSubmissions,
   );
@@ -137,6 +137,7 @@ AppealListItem.propTypes = {
       active: PropTypes.bool.isRequired,
       issues: PropTypes.array.isRequired,
       description: PropTypes.string.isRequired,
+      evidenceSubmissions: PropTypes.array,
     }),
     type: PropTypes.string,
   }),

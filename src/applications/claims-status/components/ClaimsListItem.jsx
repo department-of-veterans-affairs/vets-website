@@ -61,8 +61,8 @@ export default function ClaimsListItem({ claim }) {
     developmentLetterSent,
     documentsNeeded,
     status,
-    evidenceSubmissions,
-  } = claim.attributes;
+    evidenceSubmissions = [],
+  } = claim.attributes || {};
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);

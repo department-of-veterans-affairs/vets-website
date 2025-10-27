@@ -16,7 +16,7 @@ export default function StemClaimListItem({ claim }) {
     automatedDenial,
     deniedAt,
     submittedAt,
-    evidenceSubmissions,
+    evidenceSubmissions = [],
   } = claim.attributes;
 
   if (!automatedDenial) {
