@@ -3,8 +3,6 @@
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
 .layout-wrapper {
-  padding-inline: var(--vads-spacing-1);
-
   @media (min-width: $medium-screen) {
     padding-inline: 0;
     padding-left: calc(var(--vads-spacing-1) * 2);
@@ -60,10 +58,6 @@ legend.yellow-ribbon-title {
   }
 }
 .yellow-program-list {
-  p {
-    margin-bottom: calc(var(--vads-spacing-1) * 2);
-  }
-
   ul {
     width: 100%;
     padding-left: 0;
@@ -76,10 +70,7 @@ legend.yellow-ribbon-title {
       width: 100%;
       max-width: 100%;
       box-sizing: border-box;
-      padding-left: calc(var(--vads-spacing-1) + 12px);
-      margin-bottom: var(--vads-spacing-1);
       position: relative;
-      margin-left: var(--vads-spacing-1);
       &::before {
         content: "•";
         position: absolute;
