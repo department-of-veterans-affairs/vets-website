@@ -56,6 +56,8 @@ const SelectCareTeam = () => {
 
   const MAX_RADIO_OPTIONS = 6;
 
+  const h1Ref = useRef(null);
+
   useEffect(
     () => {
       if (!acceptInterstitial && !validDraft) {
@@ -77,15 +79,6 @@ const SelectCareTeam = () => {
     },
     [draftInProgress.recipientId],
   );
-
-  // useEffect(() => {
-  //   document.title = `Select care team ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
-  // }, []);
-
-  useEffect(() => {
-    const headerText = document.querySelector('h1')?.textContent;
-    document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
-  }, []);
 
   const careTeamHandler = useCallback(
     recipient => {
@@ -147,6 +140,14 @@ const SelectCareTeam = () => {
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
+
+  useEffect(
+    () => {
+      const headerText = h1Ref.current?.textContent;
+      document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+    },
+    [allowedRecipients],
+  );
 
   // Send DataDog RUM action on component unmount with the count of care system switches
   // Should call addAction even if the count is zero
@@ -406,7 +407,9 @@ const SelectCareTeam = () => {
 
   return (
     <div className="choose-va-health-care-system">
-      <h1 className="vads-u-margin-bottom--2">Select care team</h1>
+      <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
+        Select care team
+      </h1>
       <EmergencyNote dropDownFlag />
       <RouteLeavingGuard
         saveDraftHandler={saveDraftHandler}

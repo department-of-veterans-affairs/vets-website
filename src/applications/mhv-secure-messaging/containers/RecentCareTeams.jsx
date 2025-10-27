@@ -51,16 +51,6 @@ const RecentCareTeams = () => {
     [acceptInterstitial, history],
   );
 
-  const headerText = document.querySelector('h1')?.textContent;
-  useEffect(
-    () => {
-      document.title = `${headerText} ${
-        Constants.PageTitles.DEFAULT_PAGE_TITLE_TAG
-      }`;
-    },
-    [headerText],
-  );
-
   useEffect(
     () => {
       if (allRecipients?.length > 0) {
@@ -100,6 +90,16 @@ const RecentCareTeams = () => {
       if (h1Ref.current && recentRecipients !== undefined) {
         h1Ref.current.focus();
       }
+    },
+    [recentRecipients],
+  );
+
+  useEffect(
+    () => {
+      const headerText = h1Ref.current?.textContent;
+      document.title = `${headerText} ${
+        Constants.PageTitles.DEFAULT_PAGE_TITLE_TAG
+      }`;
     },
     [recentRecipients],
   );
@@ -156,7 +156,12 @@ const RecentCareTeams = () => {
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--3" tabIndex="-1" ref={h1Ref}>
+      <h1
+        id="test01"
+        className="vads-u-margin-bottom--3"
+        tabIndex="-1"
+        ref={h1Ref}
+      >
         Care teams you recently sent messages to
       </h1>
       <EmergencyNote dropDownFlag />

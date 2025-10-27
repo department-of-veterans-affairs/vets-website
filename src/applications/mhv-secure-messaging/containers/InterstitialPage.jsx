@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropType from 'prop-types';
 import { useDispatch } from 'react-redux';
@@ -20,11 +20,13 @@ const InterstitialPage = props => {
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
   const dispatch = useDispatch();
 
+  const h1Ref = useRef(null);
+
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
 
-  const headerText = document.querySelector('h1')?.textContent;
+  const headerText = h1Ref.current?.textContent;
   useEffect(
     () => {
       document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
@@ -76,7 +78,7 @@ const InterstitialPage = props => {
 
   return (
     <div className="interstitial-page">
-      <h1 className="vads-u-margin-bottom--2">
+      <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
         Only use messages for <span className="no-word-wrap">non-urgent</span>{' '}
         needs
       </h1>
