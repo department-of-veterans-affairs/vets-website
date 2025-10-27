@@ -4,7 +4,7 @@ import { parse, parseISO, isValid } from 'date-fns';
 import omit from 'platform/utilities/data/omit';
 
 import {
-  filterInactivePageData,
+  filterInactiveNestedPageData,
   getActivePages,
   getInactivePages,
   stringifyFormReplacer,
@@ -143,7 +143,6 @@ export function buildSubmissionData(payload) {
         enabledAddOptions[option] = true;
         copyDataFields(sourceData, cleanData, fields);
       }
-      // If option is not true, the data is NOT copied (not in payload submission)
     });
   }
 
@@ -201,13 +200,16 @@ export function customTransformForSubmit(formConfig, form) {
   );
   const activePages = getActivePages(expandedPages, payload.data);
   const inactivePages = getInactivePages(expandedPages, payload.data);
-  const withoutInactivePages = filterInactivePageData(
+
+  const cleanedData = filterInactiveNestedPageData(
     inactivePages,
     activePages,
     payload,
   );
 
-  const cleanedPayload = buildSubmissionData(withoutInactivePages);
+  payload.data = cleanedData;
+
+  const cleanedPayload = buildSubmissionData(payload);
 
   return JSON.stringify(cleanedPayload, customFormReplacer) || '{}';
 }
