@@ -8,10 +8,7 @@ import {
   isCurrentlyHospitalizedSchema,
   admissionDateSchema,
   facilityNameSchema,
-  facilityStreetAddressSchema,
-  facilityCitySchema,
-  facilityStateSchema,
-  facilityZipSchema,
+  facilityAddressSchema,
   hospitalizationSchema,
 } from './hospitalization';
 
@@ -117,111 +114,146 @@ describe('Hospitalization Information Validation Schemas', () => {
     });
   });
 
-  describe('facilityStreetAddressSchema', () => {
-    it('should validate valid street address', () => {
-      const result = facilityStreetAddressSchema.safeParse('123 Hospital St');
+  describe('facilityAddressSchema', () => {
+    it('should validate complete address', () => {
+      const address = {
+        street: '123 Hospital St',
+        city: 'Springfield',
+        state: 'IL',
+        country: 'USA',
+        postalCode: '62701',
+      };
+      const result = facilityAddressSchema.safeParse(address);
       expect(result.success).to.be.true;
     });
 
-    it('should validate empty street address', () => {
-      const result = facilityStreetAddressSchema.safeParse('');
+    it('should validate address with street2 and street3', () => {
+      const address = {
+        street: '123 Hospital St',
+        street2: 'Building A',
+        street3: 'Floor 3',
+        city: 'Springfield',
+        state: 'IL',
+        country: 'USA',
+        postalCode: '62701',
+      };
+      const result = facilityAddressSchema.safeParse(address);
       expect(result.success).to.be.true;
     });
 
-    it('should validate undefined street address', () => {
-      const result = facilityStreetAddressSchema.safeParse(undefined);
+    it('should validate address with 9-digit ZIP', () => {
+      const address = {
+        street: '123 Hospital St',
+        city: 'Springfield',
+        state: 'IL',
+        country: 'USA',
+        postalCode: '62701-1234',
+      };
+      const result = facilityAddressSchema.safeParse(address);
       expect(result.success).to.be.true;
     });
 
-    it('should validate street address at max length', () => {
-      const result = facilityStreetAddressSchema.safeParse('A'.repeat(50));
+    it('should validate address with isMilitary flag', () => {
+      const address = {
+        street: 'APO',
+        city: 'New York',
+        state: 'NY',
+        country: 'USA',
+        postalCode: '09012',
+        isMilitary: true,
+      };
+      const result = facilityAddressSchema.safeParse(address);
       expect(result.success).to.be.true;
+    });
+
+    it('should reject address without street', () => {
+      const address = {
+        city: 'Springfield',
+        state: 'IL',
+        country: 'USA',
+        postalCode: '62701',
+      };
+      const result = facilityAddressSchema.safeParse(address);
+      expect(result.success).to.be.false;
+    });
+
+    it('should reject address without city', () => {
+      const address = {
+        street: '123 Hospital St',
+        state: 'IL',
+        country: 'USA',
+        postalCode: '62701',
+      };
+      const result = facilityAddressSchema.safeParse(address);
+      expect(result.success).to.be.false;
+    });
+
+    it('should reject address without state', () => {
+      const address = {
+        street: '123 Hospital St',
+        city: 'Springfield',
+        country: 'USA',
+        postalCode: '62701',
+      };
+      const result = facilityAddressSchema.safeParse(address);
+      expect(result.success).to.be.false;
+    });
+
+    it('should reject address without country', () => {
+      const address = {
+        street: '123 Hospital St',
+        city: 'Springfield',
+        state: 'IL',
+        postalCode: '62701',
+      };
+      const result = facilityAddressSchema.safeParse(address);
+      expect(result.success).to.be.false;
+    });
+
+    it('should reject address without postal code', () => {
+      const address = {
+        street: '123 Hospital St',
+        city: 'Springfield',
+        state: 'IL',
+        country: 'USA',
+      };
+      const result = facilityAddressSchema.safeParse(address);
+      expect(result.success).to.be.false;
+    });
+
+    it('should reject invalid postal code format', () => {
+      const address = {
+        street: '123 Hospital St',
+        city: 'Springfield',
+        state: 'IL',
+        country: 'USA',
+        postalCode: '123',
+      };
+      const result = facilityAddressSchema.safeParse(address);
+      expect(result.success).to.be.false;
     });
 
     it('should reject street address over 50 characters', () => {
-      const result = facilityStreetAddressSchema.safeParse('A'.repeat(51));
+      const address = {
+        street: 'A'.repeat(51),
+        city: 'Springfield',
+        state: 'IL',
+        country: 'USA',
+        postalCode: '62701',
+      };
+      const result = facilityAddressSchema.safeParse(address);
       expect(result.success).to.be.false;
     });
-  });
 
-  describe('facilityCitySchema', () => {
-    it('should validate valid city', () => {
-      const result = facilityCitySchema.safeParse('Mos Eisley');
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate empty city', () => {
-      const result = facilityCitySchema.safeParse('');
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate undefined city', () => {
-      const result = facilityCitySchema.safeParse(undefined);
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate city at max length', () => {
-      const result = facilityCitySchema.safeParse('A'.repeat(30));
-      expect(result.success).to.be.true;
-    });
-
-    it('should reject city over 30 characters', () => {
-      const result = facilityCitySchema.safeParse('A'.repeat(31));
-      expect(result.success).to.be.false;
-    });
-  });
-
-  describe('facilityStateSchema', () => {
-    it('should validate valid state code', () => {
-      const result = facilityStateSchema.safeParse('CA');
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate empty state', () => {
-      const result = facilityStateSchema.safeParse('');
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate undefined state', () => {
-      const result = facilityStateSchema.safeParse(undefined);
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate another state code', () => {
-      const result = facilityStateSchema.safeParse('NY');
-      expect(result.success).to.be.true;
-    });
-  });
-
-  describe('facilityZipSchema', () => {
-    it('should validate 5-digit ZIP code', () => {
-      const result = facilityZipSchema.safeParse('94102');
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate 9-digit ZIP code', () => {
-      const result = facilityZipSchema.safeParse('94102-1234');
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate empty ZIP code', () => {
-      const result = facilityZipSchema.safeParse('');
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate undefined ZIP code', () => {
-      const result = facilityZipSchema.safeParse(undefined);
-      expect(result.success).to.be.true;
-    });
-
-    it('should reject invalid ZIP code', () => {
-      const result = facilityZipSchema.safeParse('123');
-      expect(result.success).to.be.false;
-      expect(result.error.errors[0].message).to.include('valid 5 or 9 digit');
-    });
-
-    it('should reject ZIP code with letters', () => {
-      const result = facilityZipSchema.safeParse('ABCDE');
+    it('should reject city over 50 characters', () => {
+      const address = {
+        street: '123 Hospital St',
+        city: 'A'.repeat(51),
+        state: 'IL',
+        country: 'USA',
+        postalCode: '62701',
+      };
+      const result = facilityAddressSchema.safeParse(address);
       expect(result.success).to.be.false;
     });
   });
@@ -232,10 +264,6 @@ describe('Hospitalization Information Validation Schemas', () => {
         isCurrentlyHospitalized: 'no',
         admissionDate: '',
         facilityName: '',
-        facilityStreetAddress: '',
-        facilityCity: '',
-        facilityState: '',
-        facilityZip: '',
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.true;
@@ -245,11 +273,14 @@ describe('Hospitalization Information Validation Schemas', () => {
       const data = {
         isCurrentlyHospitalized: 'yes',
         admissionDate: '2023-01-15',
-        facilityName: 'VA Medical Center',
-        facilityStreetAddress: '123 Hospital St',
-        facilityCity: 'Mos Eisley',
-        facilityState: 'CA',
-        facilityZip: '94102',
+        facilityName: 'Lothal Medical Center',
+        facilityAddress: {
+          street: '123 Capital Tower Way',
+          city: 'Mos Eisley',
+          state: 'CA',
+          country: 'USA',
+          postalCode: '94102',
+        },
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.true;
@@ -259,11 +290,14 @@ describe('Hospitalization Information Validation Schemas', () => {
       const data = {
         isCurrentlyHospitalized: 'yes',
         admissionDate: '2023-01-15',
-        facilityName: 'VA Medical Center',
-        facilityStreetAddress: '123 Hospital St',
-        facilityCity: 'Mos Eisley',
-        facilityState: 'CA',
-        facilityZip: '94102-1234',
+        facilityName: 'Lothal Medical Center',
+        facilityAddress: {
+          street: '123 Capital Tower Way',
+          city: 'Mos Eisley',
+          state: 'CA',
+          country: 'USA',
+          postalCode: '94102-1234',
+        },
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.true;
@@ -273,11 +307,14 @@ describe('Hospitalization Information Validation Schemas', () => {
       const data = {
         isCurrentlyHospitalized: 'yes',
         admissionDate: '',
-        facilityName: 'VA Medical Center',
-        facilityStreetAddress: '123 Hospital St',
-        facilityCity: 'Mos Eisley',
-        facilityState: 'CA',
-        facilityZip: '94102',
+        facilityName: 'Lothal Medical Center',
+        facilityAddress: {
+          street: '123 Capital Tower Way',
+          city: 'Mos Eisley',
+          state: 'CA',
+          country: 'USA',
+          postalCode: '94102',
+        },
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.false;
@@ -291,10 +328,13 @@ describe('Hospitalization Information Validation Schemas', () => {
         isCurrentlyHospitalized: 'yes',
         admissionDate: '2023-01-15',
         facilityName: '',
-        facilityStreetAddress: '123 Hospital St',
-        facilityCity: 'Mos Eisley',
-        facilityState: 'CA',
-        facilityZip: '94102',
+        facilityAddress: {
+          street: '123 Capital Tower Way',
+          city: 'Mos Eisley',
+          state: 'CA',
+          country: 'USA',
+          postalCode: '94102',
+        },
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.false;
@@ -304,11 +344,14 @@ describe('Hospitalization Information Validation Schemas', () => {
       const data = {
         isCurrentlyHospitalized: 'yes',
         admissionDate: '2023-01-15',
-        facilityName: 'VA Medical Center',
-        facilityStreetAddress: '',
-        facilityCity: 'Mos Eisley',
-        facilityState: 'CA',
-        facilityZip: '94102',
+        facilityName: 'Lothal Medical Center',
+        facilityAddress: {
+          street: '',
+          city: 'Mos Eisley',
+          state: 'CA',
+          country: 'USA',
+          postalCode: '94102',
+        },
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.false;
@@ -318,11 +361,14 @@ describe('Hospitalization Information Validation Schemas', () => {
       const data = {
         isCurrentlyHospitalized: 'yes',
         admissionDate: '2023-01-15',
-        facilityName: 'VA Medical Center',
-        facilityStreetAddress: '123 Hospital St',
-        facilityCity: '',
-        facilityState: 'CA',
-        facilityZip: '94102',
+        facilityName: 'Lothal Medical Center',
+        facilityAddress: {
+          street: '123 Capital Tower Way',
+          city: '',
+          state: 'CA',
+          country: 'USA',
+          postalCode: '94102',
+        },
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.false;
@@ -332,11 +378,14 @@ describe('Hospitalization Information Validation Schemas', () => {
       const data = {
         isCurrentlyHospitalized: 'yes',
         admissionDate: '2023-01-15',
-        facilityName: 'VA Medical Center',
-        facilityStreetAddress: '123 Hospital St',
-        facilityCity: 'Mos Eisley',
-        facilityState: '',
-        facilityZip: '94102',
+        facilityName: 'Lothal Medical Center',
+        facilityAddress: {
+          street: '123 Capital Tower Way',
+          city: 'Mos Eisley',
+          state: '',
+          country: 'USA',
+          postalCode: '94102',
+        },
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.false;
@@ -346,11 +395,14 @@ describe('Hospitalization Information Validation Schemas', () => {
       const data = {
         isCurrentlyHospitalized: 'yes',
         admissionDate: '2023-01-15',
-        facilityName: 'VA Medical Center',
-        facilityStreetAddress: '123 Hospital St',
-        facilityCity: 'Mos Eisley',
-        facilityState: 'CA',
-        facilityZip: '',
+        facilityName: 'Lothal Medical Center',
+        facilityAddress: {
+          street: '123 Capital Tower Way',
+          city: 'Mos Eisley',
+          state: 'CA',
+          country: 'USA',
+          postalCode: '',
+        },
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.false;
@@ -360,10 +412,6 @@ describe('Hospitalization Information Validation Schemas', () => {
       const data = {
         admissionDate: '',
         facilityName: '',
-        facilityStreetAddress: '',
-        facilityCity: '',
-        facilityState: '',
-        facilityZip: '',
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.false;
@@ -373,11 +421,14 @@ describe('Hospitalization Information Validation Schemas', () => {
       const data = {
         isCurrentlyHospitalized: 'yes',
         admissionDate: 'invalid-date',
-        facilityName: 'VA Medical Center',
-        facilityStreetAddress: '123 Hospital St',
-        facilityCity: 'Mos Eisley',
-        facilityState: 'CA',
-        facilityZip: '94102',
+        facilityName: 'Lothal Medical Center',
+        facilityAddress: {
+          street: '123 Capital Tower Way',
+          city: 'Mos Eisley',
+          state: 'CA',
+          country: 'USA',
+          postalCode: '94102',
+        },
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.false;
@@ -387,11 +438,14 @@ describe('Hospitalization Information Validation Schemas', () => {
       const data = {
         isCurrentlyHospitalized: 'yes',
         admissionDate: '2023-01-15',
-        facilityName: 'VA Medical Center',
-        facilityStreetAddress: '123 Hospital St',
-        facilityCity: 'Mos Eisley',
-        facilityState: 'CA',
-        facilityZip: '123',
+        facilityName: 'Lothal Medical Center',
+        facilityAddress: {
+          street: '123 Capital Tower Way',
+          city: 'Mos Eisley',
+          state: 'CA',
+          country: 'USA',
+          postalCode: '123',
+        },
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.false;
@@ -402,10 +456,13 @@ describe('Hospitalization Information Validation Schemas', () => {
         isCurrentlyHospitalized: 'yes',
         admissionDate: '2023-01-15',
         facilityName: 'A'.repeat(101),
-        facilityStreetAddress: '123 Hospital St',
-        facilityCity: 'Mos Eisley',
-        facilityState: 'CA',
-        facilityZip: '94102',
+        facilityAddress: {
+          street: '123 Capital Tower Way',
+          city: 'Mos Eisley',
+          state: 'CA',
+          country: 'USA',
+          postalCode: '94102',
+        },
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.false;
@@ -415,11 +472,14 @@ describe('Hospitalization Information Validation Schemas', () => {
       const data = {
         isCurrentlyHospitalized: 'yes',
         admissionDate: '2023-01-15',
-        facilityName: 'VA Medical Center',
-        facilityStreetAddress: 'A'.repeat(51),
-        facilityCity: 'Mos Eisley',
-        facilityState: 'CA',
-        facilityZip: '94102',
+        facilityName: 'Lothal Medical Center',
+        facilityAddress: {
+          street: 'A'.repeat(51),
+          city: 'Mos Eisley',
+          state: 'CA',
+          country: 'USA',
+          postalCode: '94102',
+        },
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.false;
@@ -429,11 +489,14 @@ describe('Hospitalization Information Validation Schemas', () => {
       const data = {
         isCurrentlyHospitalized: 'yes',
         admissionDate: '2023-01-15',
-        facilityName: 'VA Medical Center',
-        facilityStreetAddress: '123 Hospital St',
-        facilityCity: 'A'.repeat(31),
-        facilityState: 'CA',
-        facilityZip: '94102',
+        facilityName: 'Lothal Medical Center',
+        facilityAddress: {
+          street: '123 Capital Tower Way',
+          city: 'A'.repeat(51),
+          state: 'CA',
+          country: 'USA',
+          postalCode: '94102',
+        },
       };
       const result = hospitalizationSchema.safeParse(data);
       expect(result.success).to.be.false;

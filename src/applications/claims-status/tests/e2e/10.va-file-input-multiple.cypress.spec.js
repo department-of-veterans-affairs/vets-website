@@ -581,7 +581,10 @@ describe('VA File Input Multiple', () => {
         'contain.text',
         `Error uploading ${fileName}`,
       );
-      cy.get('va-alert[status="error"] p').should('contain.text', errorMessage);
+      cy.get('va-alert[status="error"] div').should(
+        'contain.text',
+        errorMessage,
+      );
 
       cy.axeCheck();
     });
