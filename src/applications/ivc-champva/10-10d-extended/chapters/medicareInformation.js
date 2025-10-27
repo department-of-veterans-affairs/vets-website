@@ -29,6 +29,7 @@ import {
   privWrapper,
 } from '../../shared/utilities';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
+import { replaceStrValues } from '../helpers/formatting';
 import { validateMedicarePartDDates } from '../helpers/validations';
 import {
   selectMedicareParticipantPage,
@@ -36,6 +37,7 @@ import {
 } from './SelectMedicareParticipantsPage';
 import MedicarePartCAddtlInfo from '../components/FormDescriptions/MedicarePartCAddtlInfo';
 import ProofOfMedicareAlert from '../components/FormAlerts/ProofOfMedicareAlert';
+import content from '../locales/en/content.json';
 
 // declare static content constants
 const MEDICARE_TYPE_LABELS = {
@@ -144,23 +146,58 @@ export const medicareOptions = {
         </li>
       </ul>
     ),
+    cancelAddTitle: () => content['medicare--cancel-add-title'],
+    cancelAddDescription: () => content['medicare--cancel-add-description'],
+    cancelAddNo: () => content['arraybuilder--button-cancel-no'],
+    cancelAddYes: () => content['arraybuilder--button-cancel-yes'],
+    cancelEditTitle: props => {
+      const itemName = props.getItemName(
+        props.itemData,
+        props.index,
+        props.formData,
+      );
+      return itemName
+        ? replaceStrValues(
+            content['medicare--cancel-edit-item-title'],
+            itemName,
+          )
+        : content['medicare--cancel-edit-noun-title'];
+    },
+    cancelEditDescription: () => content['medicare--cancel-edit-description'],
+    cancelEditNo: () => content['arraybuilder--button-delete-no'],
+    cancelEditYes: () => content['arraybuilder--button-cancel-yes'],
+    deleteDescription: props => {
+      const itemName = props.getItemName(
+        props.itemData,
+        props.index,
+        props.formData,
+      );
+      return itemName
+        ? replaceStrValues(
+            content['medicare--delete-item-description'],
+            itemName,
+          )
+        : content['medicare--delete-noun-description'];
+    },
+    deleteNo: () => content['arraybuilder--button-delete-no'],
+    deleteYes: () => content['arraybuilder--button-delete-yes'],
+    summaryTitle: () => content['medicare--summary-title'],
+    summaryTitleWithoutItems: () => content['medicare--summary-title-no-items'],
   },
 };
 
 // Summary page options
 const yesNoOptions = {
-  title: 'Do any applicants have Medicare plans?',
+  title: content['medicare--yes-no-title'],
+  hint: null,
   labelHeaderLevel: '2',
-  labelHeaderLevelStyle: '5',
-  hint:
-    'If so, you must report this information for us to process your application for CHAMPVA benefits.',
+  labelHeaderLevelStyle: '4',
 };
 const yesNoOptionsMore = {
-  title: 'Report Medicare',
+  title: content['medicare--yes-no-title'],
+  hint: content['medicare--yes-no-hint'],
   labelHeaderLevel: '2',
-  labelHeaderLevelStyle: '5',
-  hint:
-    'Do any applicants have Medicare plans? If so, you must report this information for us to process your application for CHAMPVA benefits.',
+  labelHeaderLevelStyle: '4',
 };
 
 // declare page schemas
