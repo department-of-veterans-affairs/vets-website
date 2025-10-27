@@ -48,8 +48,7 @@ const formConfig = {
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
-    notFound:
-      'Please start over to apply for Application for Apply for accrued benefits online.',
+    notFound: 'Please start over to apply for accrued benefits online.',
     noAuth: 'Please sign in again to continue your application.',
   },
   preSubmitInfo: {

@@ -27,7 +27,7 @@ const options = {
   nounPlural: 'relatives',
   required: false,
   isItemIncomplete: item => !item?.fullName || !item?.relationship,
-  maxItems: 10,
+  maxItems: 4,
   text: {
     getItemName: item => {
       const name = item?.fullName;
