@@ -1,20 +1,12 @@
-import React from 'react';
 import {
+  bankAccountSchema,
   radioUI,
-  textUI,
   radioSchema,
-  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { bankAccountUI } from 'platform/forms-system/src/js/web-component-patterns/bankPattern';
+import { bankAccountTypeOptions } from '../../../utils/labels';
 
-// Simple page to collect whether applicant has a bank account for direct deposit
-const Description = () => (
-  <div>
-    <p>
-      Enter the details of the bank account where you want to get your VA
-      benefit payments.
-    </p>
-  </div>
-);
+const { CHECKING, SAVINGS } = bankAccountTypeOptions;
 
 function dependsIfHasBankAccount(formData) {
   return (
@@ -24,29 +16,31 @@ function dependsIfHasBankAccount(formData) {
   );
 }
 
+const baseBankUI = bankAccountUI({
+  labels: {
+    routingNumberLabel: "Bank's 9-digit routing number",
+  },
+});
+
 const uiSchema = {
   'ui:title': 'Account information for direct deposit',
-  'ui:description': Description,
+  ...baseBankUI,
   accountType: radioUI({
     title: 'Account type',
     classNames: 'vads-u-margin-bottom--2',
-    labels: { CHECKING: 'Checking', SAVINGS: 'Savings' },
+    labels: {
+      CHECKING,
+      SAVINGS,
+    },
   }),
-  bankName: textUI('Bank name'),
-  accountNumber: textUI('Bank account number'),
-  routingNumber: textUI("Bank's 9-digit routing number"),
 };
 
-const schema = {
-  type: 'object',
-  required: ['accountType', 'accountNumber', 'routingNumber'],
-  properties: {
-    accountType: radioSchema(['CHECKING', 'SAVINGS']),
-    bankName: textSchema,
-    accountNumber: textSchema,
-    routingNumber: textSchema,
-  },
-};
+const baseBankSchema = bankAccountSchema();
+baseBankSchema.properties.accountType = radioSchema(
+  Object.keys(bankAccountTypeOptions),
+);
+
+const schema = baseBankSchema;
 
 export default {
   depends: dependsIfHasBankAccount,

@@ -28,7 +28,7 @@ export default {
       fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
       maxFileSize: 103809024, // 99 MB for PDFs
       accept: '.pdf,.jpg,.jpeg,.bmp,.txt',
-      formNumber: '21-534EZ',
+      formNumber: '21P-534EZ',
     }),
     'view:uploadMessage': {
       'ui:description': UploadMessage,
