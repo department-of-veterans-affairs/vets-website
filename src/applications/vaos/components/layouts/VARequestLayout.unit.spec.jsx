@@ -185,6 +185,70 @@ describe('VAOS Component: VARequestLayout', () => {
         ...nullAttributes,
       });
     });
+
+    describe('And appointment is Cerner', () => {
+      it('should not display reason and other details', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
+        const appointment = {
+          type: 'REQUEST',
+          modality: 'vaInPerson',
+          // reasonForAppointment: 'This is a test',
+          patientComments: 'Additional information:colon',
+          created: new Date().toISOString(),
+          contact: {
+            telecom: [
+              {
+                type: 'email',
+                value: 'user@va.gov',
+              },
+              {
+                type: 'phone',
+                value: '1234567890',
+              },
+            ],
+          },
+          location: {
+            stationId: '983',
+            clinicName: 'Clinic 1',
+            clinicPhysicalLocation: 'CHEYENNE',
+          },
+          preferredDates: [],
+          videoData: {},
+          vaos: {
+            isCommunityCare: false,
+            isCompAndPenAppointment: false,
+            isCOVIDVaccine: false,
+            isPendingAppointment: true,
+            isUpcomingAppointment: false,
+            isCerner: true,
+            apiData: {
+              serviceType: 'primaryCare',
+            },
+          },
+          status: 'proposed',
+        };
+
+        // Act
+        const screen = renderWithStoreAndRouter(
+          <VARequestLayout data={appointment} />,
+          {
+            store,
+          },
+        );
+
+        // Assert
+        expect(
+          screen.queryByText(/Details you’d like to share with your provider/i),
+        ).not.to.exist;
+
+        expect(screen.queryByText(/Details you shared with your provider'/i))
+          .not.to.exist;
+
+        expect(screen.queryByText(/Reason:/i)).not.to.exist;
+        expect(screen.queryByText(/Other details:/i)).not.to.exist;
+      });
+    });
   });
 
   describe('When viewing canceled appointment details', () => {
