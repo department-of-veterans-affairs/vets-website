@@ -6,7 +6,9 @@
     "src/platform/testing/unit/blob-polyfill-setup.js",
     "isomorphic-fetch",
     "mocha-snapshots",
-    "src/platform/testing/unit/mocha-setup.js"
+    "src/platform/testing/unit/mocha-setup.js",
+    "src/platform/testing/unit/enzyme-setup-conditional.js",
+    "src/platform/testing/unit/dd-trace-setup.js"
   ],
   "reporter": "progress",
   "timeout": 10000,
