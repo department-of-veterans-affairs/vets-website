@@ -4,13 +4,10 @@ import { format, subDays, addDays } from 'date-fns';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { renderWithStoreAndRouter } from '../../tests/mocks/setup';
 import ReferralList from './ReferralList';
-import MockReferralListResponse from '../../tests/fixtures/MockReferralListResponse';
+import { createReferrals } from '../utils/referrals';
 
 describe('VAOS Component: ReferralList', () => {
-  const referralsResponse = new MockReferralListResponse({
-    numberOfReferrals: 2,
-  }).toJSON();
-  const referrals = referralsResponse.data;
+  const referrals = createReferrals(2);
   const emptyReferrals = [];
 
   it('should render the referral list with referrals', () => {

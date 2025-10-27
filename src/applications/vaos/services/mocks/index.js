@@ -67,11 +67,9 @@ const requestsV2 = require('./v2/requests.json');
 // const meta = require('./v2/meta_failures.json');
 
 // CC Direct Scheduling mocks
-const MockReferralListResponse = require('../../tests/fixtures/MockReferralListResponse');
-const MockReferralDetailResponse = require('../../tests/fixtures/MockReferralDetailResponse');
-const MockReferralDraftAppointmentResponse = require('../../tests/fixtures/MockReferralDraftAppointmentResponse');
-const MockReferralAppointmentDetailsResponse = require('../../tests/fixtures/MockReferralAppointmentDetailsResponse');
-const MockReferralSubmitAppointmentResponse = require('../../tests/fixtures/MockReferralSubmitAppointmentResponse');
+const referralUtils = require('../../referral-appointments/utils/referrals');
+const providerUtils = require('../../referral-appointments/utils/provider');
+const epsAppointmentUtils = require('../../referral-appointments/utils/appointment');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -80,6 +78,8 @@ const features = require('./featureFlags');
 const mockAppts = [];
 let currentMockId = 1;
 const draftAppointmentPollCount = {};
+
+const referrals = referralUtils.createReferrals(4, null, null, true, true);
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -460,11 +460,9 @@ const responses = {
     return res.json(patientProviderRelationships);
   },
   'GET /vaos/v2/referrals': (req, res) => {
-    return res.json(
-      new MockReferralListResponse({
-        predefined: true,
-      }),
-    );
+    return res.json({
+      data: referrals,
+    });
   },
   'GET /vaos/v2/referrals/:referralId': (req, res) => {
     if (req.params.referralId === 'error') {
@@ -472,112 +470,136 @@ const responses = {
     }
 
     if (req.params.referralId === 'scheduled-referral') {
-      return res.json(
-        new MockReferralDetailResponse({
-          id: req.params.referralId,
-          expirationDate: '2024-12-02',
-          hasAppointments: true,
-        }),
+      const scheduledReferral = referralUtils.createReferralById(
+        '2024-12-02',
+        'scheduled-referral',
       );
+      // Set hasAppointments to true to test redirect
+      scheduledReferral.attributes.hasAppointments = true;
+      return res.json({
+        data: scheduledReferral,
+      });
+    }
+
+    if (req.params.referralId?.startsWith(referralUtils.expiredUUIDBase)) {
+      const expiredReferral = referralUtils.createReferralById(
+        '2024-12-02',
+        req.params.referralId,
+      );
+      return res.json({
+        data: expiredReferral,
+      });
     }
 
     if (req.params.referralId === 'referral-without-provider-error') {
-      return res.json(
-        new MockReferralDetailResponse({
-          id: req.params.referralId,
-          provider: null,
-        }),
+      const expiredReferral = referralUtils.createReferralById(
+        '2024-12-02',
+        req.params.referralId,
+        undefined,
+        undefined,
+        false, // hasProvider
       );
+      return res.json({
+        data: expiredReferral,
+      });
     }
 
-    return res.json(
-      new MockReferralDetailResponse({
-        id: req.params.referralId,
-        referralNumber: req.params.referralId,
-      }),
+    // Ensure the out of pilot station returns a station id that is not in the pilot
+    if (req.params.referralId === 'out-of-pilot-station') {
+      const referral = referralUtils.createReferralById(
+        '2024-12-02',
+        req.params.referralId,
+        null,
+        'OPTOMETRY',
+        true,
+        '123',
+      );
+      return res.json({
+        data: referral,
+      });
+    }
+
+    const originalReferral = referrals.find(
+      ref => ref.id === req.params.referralId,
     );
+    const referral = referralUtils.createReferralById(
+      '2024-12-02',
+      req.params.referralId,
+      null,
+      originalReferral.attributes.categoryOfCare || 'OPTOMETRY',
+    );
+
+    return res.json({
+      data: referral,
+    });
   },
   'POST /vaos/v2/appointments/draft': (req, res) => {
     const { referral_number: referralNumber } = req.body;
     // empty referral number throws error
     if (referralNumber === '') {
-      return res.status(500).json(
-        new MockReferralDraftAppointmentResponse({
-          referralNumber,
-          serverError: true,
-        }),
-      );
-    }
-    if (referralNumber === 'draft-no-slots-error') {
-      return res.json(
-        new MockReferralDraftAppointmentResponse({
-          referralNumber,
-          categoryOfCare: 'OPTOMETRY',
-          startDate: new Date(),
-          noSlotsError: true,
-        }),
-      );
+      return res.status(500).json({ error: true });
     }
 
-    return res.json(
-      new MockReferralDraftAppointmentResponse({
-        referralNumber,
-        categoryOfCare: 'OPTOMETRY',
-        startDate: new Date(),
-      }),
+    const draftAppointment = providerUtils.createDraftAppointmentInfo(
+      referralNumber,
     );
+
+    if (referralNumber !== 'draft-no-slots-error') {
+      draftAppointment.attributes.slots = getMockSlots({
+        existingAppointments: confirmedAppointmentsV3.data,
+        futureMonths: 2,
+        pastMonths: 0,
+        slotsPerDay: 3,
+        conflictRate: 0,
+        forceConflictWithAppointments: nextBusinessDayAppointments,
+        communityCareSlots: true,
+      }).data;
+    }
+
+    return res.json({
+      data: draftAppointment,
+    });
   },
   'GET /vaos/v2/eps_appointments/:appointmentId': (req, res) => {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
-
     // create a mock appointment in draft state for polling simulation
-    let mockAppointment = new MockReferralAppointmentDetailsResponse({
+    const mockAppointment = epsAppointmentUtils.createMockEpsAppointment(
       appointmentId,
-      status: 'draft',
-    });
+      'draft',
+      epsAppointmentUtils.appointmentData,
+    );
 
-    const mockBookedAppointment = new MockReferralAppointmentDetailsResponse({
-      appointmentId,
-      status: 'booked',
-    });
-
-    const serverError = new MockReferralAppointmentDetailsResponse({
-      appointmentId,
-      serverError: true,
-    });
-
-    const notFoundError = new MockReferralAppointmentDetailsResponse({
-      appointmentId,
-      notFound: true,
-    });
-
-    if (appointmentId === 'appointment-for-poll-retry-error') {
+    if (appointmentId === 'details-retry-error') {
       // Set a very high poll count to simulate a timeout
       successPollCount = 1000;
     }
 
-    if (appointmentId === 'appointment-for-poll-error') {
-      return res.status(500).json(serverError);
+    if (appointmentId === 'EEKoGzEf-appointment-details-error') {
+      return res.status(500).json({ error: true });
+    }
+
+    if (appointmentId === 'eps-error-appointment-id') {
+      return res.status(400).json({ error: true });
+    }
+
+    if (appointmentId === 'details-error') {
+      return res.status(500).json({ error: true });
     }
 
     // Check if the request is coming from the details page
-    const isDetailsView = req.headers['x-page-type'] === 'details'; // 'details' or 'review-confirm'
-
-    if (
-      isDetailsView &&
-      appointmentId === 'appointment-for-details-not-found-error'
-    ) {
-      return res.status(400).json(notFoundError);
-    }
-
-    if (isDetailsView && appointmentId === 'appointment-for-details-error') {
-      return res.status(500).json(serverError);
-    }
+    // We can determine this by checking the referer header or request path
+    const refererHeader = req.headers.referer || '';
+    const isDetailsView =
+      refererHeader.includes(`/${appointmentId}`) ||
+      req.query.view === 'details';
 
     if (isDetailsView) {
       // For details view, immediately return appointment in booked state
-      return res.json(mockBookedAppointment);
+      mockAppointment.attributes.status = 'booked';
+      return res.json({
+        data: mockAppointment,
+      });
     }
 
     // Continue with normal polling behavior for ReviewAndConfirm component
@@ -588,14 +610,13 @@ const responses = {
       draftAppointmentPollCount[appointmentId] = count + 1;
     } else {
       // reassign status of mocked appointment to booked to simulate success
+      mockAppointment.attributes.status = 'booked';
       draftAppointmentPollCount[appointmentId] = 0;
-      mockAppointment = new MockReferralAppointmentDetailsResponse({
-        appointmentId,
-        status: 'booked',
-      });
     }
 
-    return res.json(mockAppointment);
+    return res.json({
+      data: mockAppointment,
+    });
   },
   'POST /vaos/v2/appointments/submit': (req, res) => {
     const {
@@ -607,29 +628,18 @@ const responses = {
     } = req.body;
 
     if (!id || !referralNumber || !slotId || !networkId || !providerServiceId) {
-      return res.status(400).json(
-        new MockReferralSubmitAppointmentResponse({
-          appointmentId: id,
-          notFound: true,
-        }),
-      );
+      return res.status(400).json({ error: true });
     }
 
     if (referralNumber === 'appointment-submit-error') {
-      return res.status(500).json(
-        new MockReferralSubmitAppointmentResponse({
-          appointmentId: id,
-          serverError: true,
-        }),
-      );
+      return res.status(500).json({ error: true });
     }
 
     draftAppointmentPollCount[id] = 1;
-    return res.json(
-      new MockReferralSubmitAppointmentResponse({
-        appointmentId: id,
-      }),
-    );
+
+    return res.status(201).json({
+      data: { id },
+    });
   },
   'GET /data/cms/vamc-ehr.json': (req, res) => {
     return res.json(vamcEhr);

@@ -6,8 +6,7 @@ import { waitFor } from '@testing-library/react';
 import ReferralAppointments from './index';
 import { renderWithStoreAndRouter } from '../tests/mocks/setup';
 import { FETCH_STATUS } from '../utils/constants';
-import { createReferralById } from './utils/referrals';
-import MockReferralListResponse from '../tests/fixtures/MockReferralListResponse';
+import { createReferrals, createReferralById } from './utils/referrals';
 import * as useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import * as useIsInPilotUserStations from './hooks/useIsInPilotUserStations';
 import * as vaosApi from '../redux/api/vaosApi';
@@ -118,14 +117,10 @@ describe('ReferralAppointments', () => {
       isLoading: true,
     });
 
-    const referralsResponse = new MockReferralListResponse({
-      numberOfReferrals: 3,
-    }).toJSON();
-
     const initialState = {
       ...initialStateVAOSService,
       referral: {
-        referrals: referralsResponse.data,
+        referrals: createReferrals(3),
         referralsFetchStatus: FETCH_STATUS.succeeded,
       },
     };

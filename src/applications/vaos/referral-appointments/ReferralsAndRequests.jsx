@@ -10,7 +10,7 @@ import {
   selectFeatureCCDirectSchedulingChiropractic,
 } from '../redux/selectors';
 import RequestList from './components/RequestsList';
-import { useGetPatientReferralsQuery, vaosApi } from '../redux/api/vaosApi';
+import { useGetPatientReferralsQuery } from '../redux/api/vaosApi';
 import { FETCH_STATUS } from '../utils/constants';
 import { filterReferrals } from './utils/referrals';
 
@@ -24,8 +24,6 @@ export default function ReferralsAndRequests() {
   useEffect(
     () => {
       dispatch(setFormCurrentPage('referralsAndRequests'));
-      // Reset API state to ensure fresh data when visiting this page
-      dispatch(vaosApi.util.resetApiState());
     },
     [location, dispatch],
   );

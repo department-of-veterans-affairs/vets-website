@@ -39,14 +39,12 @@ export default function EpsAppointmentDetailsPage() {
         <div aria-atomic="true" aria-live="assertive">
           <va-alert
             status="error"
+            level={1}
+            headline="We’re sorry, we can’t find your appointment"
             data-testid="error-alert"
-            class="vads-u-margin-bottom--2"
           >
-            <h3>We’re sorry, we can’t find your appointment</h3>
-            <p>
-              Try searching this appointment on your appointment list or call
-              your your facility.
-            </p>
+            Try searching this appointment on your appointment list or call your
+            facility.
             <p className="vads-u-margin-y--0p5">
               <va-link
                 data-testid="view-claim-link"

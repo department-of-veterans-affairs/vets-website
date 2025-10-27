@@ -34,12 +34,11 @@ class AppointmentDetails {
    * Asserts error state is shown correctly
    */
   assertApiError() {
-    cy.get('va-alert[status="error"][data-testid="error-alert"]').should(
-      'exist',
-    );
-    cy.contains(
-      'Try searching this appointment on your appointment list or call your your facility.',
-    ).should('exist');
+    cy.get('va-alert')
+      .contains(
+        'Try searching this appointment on your appointment list or call your facility',
+      )
+      .should('exist');
     return this;
   }
 

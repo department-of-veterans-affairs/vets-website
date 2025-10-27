@@ -150,4 +150,4 @@ class MockReferralAppointmentDetailsResponse {
   }
 }
 
-module.exports = MockReferralAppointmentDetailsResponse;
+export default MockReferralAppointmentDetailsResponse;

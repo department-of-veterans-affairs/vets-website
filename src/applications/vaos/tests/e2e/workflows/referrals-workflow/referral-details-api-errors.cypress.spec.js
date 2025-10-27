@@ -11,8 +11,6 @@ describe('Referral Appointment Details API Errors', () => {
     { errorType: 'serverError', responseCode: 500 },
   ];
 
-  const appointmentId = 'EEKoGzEf';
-
   // Set up the base app state before each test
   beforeEach(() => {
     // Set required feature flags
@@ -26,11 +24,16 @@ describe('Referral Appointment Details API Errors', () => {
     // vaosSetup();
     // mockVamcEhrApi();
     cy.login(new MockUser());
+
+    // Visit the appointments page
+    cy.visit('/my-health/appointments/EEKoGzEf?eps=true');
   });
+
+  const appointmentId = 'EEKoGzEf';
 
   errorCases.forEach(({ errorType, responseCode }) => {
     it(`should display an error message when appointment details returns ${responseCode}`, () => {
-      // Mock error response - MUST be set up BEFORE visiting the page
+      // Mock error response
       const appointmentDetailsResponse = new MockReferralAppointmentDetailsResponse(
         {
           appointmentId,
@@ -43,13 +46,10 @@ describe('Referral Appointment Details API Errors', () => {
         responseCode,
       });
 
-      // Visit the appointments page AFTER setting up the mock
-      cy.visit('/my-health/appointments/EEKoGzEf?eps=true');
-
       // Wait for appointment details API call
       cy.wait('@v2:get:appointmentDetails');
-      epsAppointmentDetails.assertApiError();
       cy.injectAxeThenAxeCheck();
+      epsAppointmentDetails.assertApiError();
     });
   });
 });
