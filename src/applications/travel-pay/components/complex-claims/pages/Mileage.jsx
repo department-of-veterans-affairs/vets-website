@@ -1,26 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   VaModal,
   VaButton,
-  VaButtonPair,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { createExpense, updateExpense } from '../../../redux/actions';
+import {
+  selectAppointment,
+  selectClaimDetails,
+} from '../../../redux/selectors';
+import { formatDateTime } from '../../../util/dates';
+import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 
 const Mileage = () => {
   const navigate = useNavigate();
-  const { apptId, claimId } = useParams();
+  const dispatch = useDispatch();
+  const { apptId, claimId, expenseId } = useParams();
 
-  // TODO: Remove placeholder data
-  const address = {
-    addressLine1: '345 Home Address St.',
-    addressLine2: 'Apt. 123',
-    addressLine3: '#67',
-    city: 'San Francisco',
-    countryName: 'United States',
-    stateCode: 'CA',
-    zipCode: '94118',
-  };
+  const isLoadingExpense = useSelector(
+    state => state.travelPay.expense?.isLoading,
+  );
+
+  const appointmentData = useSelector(selectAppointment);
+  const { data: claimDetails } = useSelector(state =>
+    selectClaimDetails(state, claimId),
+  );
+
+  const address = useSelector(selectVAPResidentialAddress);
 
   const [departureAddress, setDepartureAddress] = useState('');
   const [tripType, setTripType] = useState('');
@@ -42,15 +51,37 @@ const Mileage = () => {
     setIsModalVisible(false);
   };
 
-  const handleContinue = () => {
+  const handleCancelModal = () => {
+    handleCloseModal();
+    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+  };
+
+  const handleContinue = async () => {
+    // Create mileage expense data
+    const expenseData = {
+      departureAddress: departureAddress === 'home-address' ? address : 'other',
+      tripType,
+      expenseType: 'mileage',
+    };
+
     // Check if user selected "another-address" or "one-way"
     if (departureAddress === 'another-address' || tripType === 'one-way') {
-      // TODO: Replace with actual redirect logic for special cases
-      // Example: navigate('/address-input-page') or navigate('/one-way-confirmation')
-      // For now, just prevent default continue action
       // eslint-disable-next-line no-console
       console.log('Special case detected - would redirect to different page');
     } else {
+      try {
+        if (expenseId) {
+          await dispatch(
+            updateExpense(claimId, 'mileage', expenseId, expenseData),
+          );
+        } else {
+          await dispatch(createExpense(claimId, 'mileage', expenseData));
+        }
+      } catch (error) {
+        // Handle error
+        // eslint-disable-next-line no-console
+        console.error('Error creating expense:', error);
+      }
       navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     }
   };
@@ -59,9 +90,48 @@ const Mileage = () => {
     navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
   };
 
+  useEffect(
+    () => {
+      const hasMileageExpense = (claimDetails?.expenses ?? []).some(
+        e => e.expenseType === 'mileage',
+      );
+      if (expenseId ?? hasMileageExpense) {
+        setDepartureAddress('home-address');
+        setTripType('round-trip');
+      }
+    },
+    [claimId, claimDetails, expenseId],
+  );
+
   return (
     <>
       <h1>Mileage</h1>
+
+      {appointmentData && (
+        <div className="vads-u-margin-bottom--3">
+          <p className="vads-u-font-weight--bold vads-u-margin-bottom--1">
+            Appointment information
+          </p>
+          <p className="vads-u-margin-y--0">
+            {(() => {
+              if (!appointmentData.localStartTime) {
+                return 'Appointment information not available';
+              }
+              const [formattedDate, formattedTime] = formatDateTime(
+                appointmentData.localStartTime,
+                true,
+              );
+              return `${formattedDate} at ${formattedTime} appointment`;
+            })()}
+          </p>
+          {appointmentData.location?.attributes?.name && (
+            <p className="vads-u-margin-y--0">
+              {appointmentData.location.attributes.name}
+            </p>
+          )}
+        </div>
+      )}
+
       <va-additional-info
         class="vads-u-margin-y--3"
         trigger="How we calculate mileage"
@@ -132,33 +202,36 @@ const Mileage = () => {
           checked={tripType === 'one-way'}
         />
       </VaRadio>
-      <VaModal
-        modalTitle="Cancel adding this expense"
-        onCloseEvent={handleCloseModal}
-        onPrimaryButtonClick={handleCloseModal}
-        onSecondaryButtonClick={handleCloseModal}
-        primaryButtonText="Yes, cancel"
-        secondaryButtonText="No, continue adding this expense"
-        status="warning"
-        visible={isModalVisible}
-      >
-        <p>
-          If you cancel, you’ll lose the information you entered about this
-          expense and will be returned to the review page.
-        </p>
-      </VaModal>
-      <VaButton
-        secondary
-        text="Cancel adding this expense"
-        onClick={handleOpenModal}
-        className="vads-u-display--flex vads-u-margin-y--2 travel-pay-complex-expense-cancel-btn"
-      />
-      <VaButtonPair
-        class="vads-u-margin-y--2"
-        continue
-        disable-analytics
-        onPrimaryClick={handleContinue}
-        onSecondaryClick={handleBack}
+      {!expenseId && (
+        <>
+          <VaModal
+            modalTitle="Cancel adding this expense"
+            onCloseEvent={handleCloseModal}
+            onPrimaryButtonClick={handleCancelModal}
+            onSecondaryButtonClick={handleCloseModal}
+            primaryButtonText="Yes, cancel"
+            secondaryButtonText="No, continue adding this expense"
+            status="warning"
+            visible={isModalVisible}
+          >
+            <p>
+              If you cancel, you’ll lose the information you entered about this
+              expense and will be returned to the review page.
+            </p>
+          </VaModal>
+          <VaButton
+            secondary
+            text="Cancel adding this expense"
+            onClick={handleOpenModal}
+            className="vads-u-display--flex vads-u-margin-y--2 travel-pay-complex-expense-cancel-btn"
+          />
+        </>
+      )}
+      <TravelPayButtonPair
+        className={expenseId && 'vads-u-margin-top--2'}
+        onBack={handleBack}
+        onContinue={handleContinue}
+        loading={isLoadingExpense}
       />
     </>
   );
