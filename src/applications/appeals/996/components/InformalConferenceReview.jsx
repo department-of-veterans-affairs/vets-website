@@ -48,7 +48,7 @@ const InformalConferenceReview = ({ data, editPage }) => {
 };
 
 InformalConferenceReview.propTypes = {
-  data: data996,
+  data: PropTypes.shape(data996),
   editPage: PropTypes.func,
 };
 
