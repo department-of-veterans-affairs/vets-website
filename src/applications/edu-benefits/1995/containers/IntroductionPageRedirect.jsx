@@ -9,9 +9,6 @@ import { selectMeb1995Reroute } from '../selectors/featureToggles';
 
 export const IntroductionPageRedirect = ({ route }) => {
   const dispatch = useDispatch();
-  const claimant = useSelector(
-    state => state.data?.claimantInfo?.data?.attributes?.claimant,
-  );
   const rerouteFlag = useSelector(selectMeb1995Reroute);
 
   useEffect(() => {
@@ -43,22 +40,6 @@ export const IntroductionPageRedirect = ({ route }) => {
       }
     },
     [dispatch, rerouteFlag],
-  );
-
-  useEffect(
-    () => {
-      if (!rerouteFlag) {
-        return;
-      }
-
-      const lastBenefitUsed = claimant?.benefitUsage?.lastBenefitType;
-      if (lastBenefitUsed) {
-        sessionStorage.setItem('meb1995LastBenefitUsed', lastBenefitUsed);
-      } else {
-        sessionStorage.removeItem('meb1995LastBenefitUsed');
-      }
-    },
-    [rerouteFlag, claimant?.benefitUsage?.lastBenefitType],
   );
 
   if (!rerouteFlag) {

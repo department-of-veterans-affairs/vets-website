@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { getLastBenefitUsed } from '../helpers';
-
 const ResultDescription = ({ body, linkHref, linkText, answers }) => (
   <div>
     <h2>Change your education benefits</h2>
@@ -37,24 +35,21 @@ export const introductionPageContent = () => (
 export const yourInformationPage = () => ({
   uiSchema: {
     'ui:title': 'Your information',
-    'ui:description': () => {
-      const lastBenefitUsed = getLastBenefitUsed();
-
-      return (
-        <div className="vads-u-margin-bottom--4">
-          <va-summary-box headline="Your current benefit">
-            <p className="vads-u-margin--0">
-              {lastBenefitUsed || 'We couldn’t load your current benefit.'}
-            </p>
-          </va-summary-box>
-          <p className="vads-u-margin-top--2">
-            <strong>Note:</strong> If this information is incorrect, call us at
-            800-827-1000 (TTY: 711). We’re here Monday through Friday, 8:00 a.m.
-            to 9:00 p.m. ET.
+    'ui:description': ({ formData }) => (
+      <div className="vads-u-margin-bottom--4">
+        <va-summary-box headline="Your current benefit">
+          <p className="vads-u-margin--0">
+            {formData?.currentBenefitType ||
+              'We couldn’t load your current benefit.'}
           </p>
-        </div>
-      );
-    },
+        </va-summary-box>
+        <p className="vads-u-margin-top--2">
+          <strong>Note:</strong> If this information is incorrect, call us at
+          800-827-1000 (TTY: 711). We’re here Monday through Friday, 8:00 a.m.
+          to 9:00 p.m. ET.
+        </p>
+      </div>
+    ),
     mebWhatDoYouWantToDo: {
       'ui:title': 'What do you want to do? (Required)',
       'ui:widget': 'radio',

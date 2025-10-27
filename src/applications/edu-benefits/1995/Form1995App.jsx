@@ -14,6 +14,7 @@ import formConfig from './config/form';
 
 function Form1995Entry({
   children,
+  claimantCurrentBenefit,
   formData,
   location,
   mergeFlag,
@@ -32,16 +33,23 @@ function Form1995Entry({
         return;
       }
 
-      if (formData.isMeb1995Reroute === rerouteFlag) {
+      if (!rerouteFlag) {
+        if (formData.isMeb1995Reroute) {
+          const nextFormData = { ...formData };
+          delete nextFormData.isMeb1995Reroute;
+          delete nextFormData.currentBenefitType;
+          setFormData(nextFormData);
+        }
         return;
       }
 
       setFormData({
         ...formData,
         isMeb1995Reroute: rerouteFlag,
+        currentBenefitType: claimantCurrentBenefit,
       });
     },
-    [formData, rerouteFlag, setFormData],
+    [claimantCurrentBenefit, formData, rerouteFlag, setFormData],
   );
 
   if (isLoadingToggles || rerouteFlag === undefined) {
@@ -71,6 +79,7 @@ Form1995Entry.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+  claimantCurrentBenefit: PropTypes.string,
   formData: PropTypes.object,
   location: PropTypes.object,
   mergeFlag: PropTypes.bool,
@@ -80,6 +89,8 @@ Form1995Entry.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  claimantCurrentBenefit:
+    state.data?.claimantInfo?.data?.attributes?.claimant?.currentBenefitType,
   formData: state.form?.data || {},
   mergeFlag: selectMerge1995And5490(state),
   rerouteFlag: selectMeb1995Reroute(state),

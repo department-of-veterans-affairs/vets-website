@@ -266,9 +266,10 @@ export const chapters = {
   },
 };
 if (isProductionOfTestProdEnv()) {
-  chapters.schoolSelection.pages.oldSchool = createOldSchoolPage(
-    fullSchema1995,
-  );
+  chapters.schoolSelection.pages.oldSchool = {
+    ...createOldSchoolPage(fullSchema1995),
+    depends: isLegacyFlow,
+  };
 }
 
 export const mebChapters = {
