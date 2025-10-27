@@ -103,7 +103,7 @@ function buildTestCommand(testPaths) {
   const mochaExtra = '';
 
   const testRunner = options.coverage
-    ? `NODE_ENV=test c8 --all ${coverageInclude} ${coverageReporter}`
+    ? `NODE_ENV=test BABEL_ENV=test c8 --all ${coverageInclude} ${coverageReporter}`
     : `BABEL_ENV=test NODE_ENV=test mocha ${defaultMochaReporters}`;
 
   return `${baseEnv} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
