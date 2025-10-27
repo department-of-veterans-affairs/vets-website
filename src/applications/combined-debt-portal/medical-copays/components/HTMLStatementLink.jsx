@@ -16,9 +16,9 @@ const HTMLStatementLink = ({ id, statementDate }) => {
         onClick={event => {
           event.preventDefault();
           recordEvent({ event: 'cta-link-click-copay-statement-link' });
-          history.push(`/copay-balances/${id}/detail/statement`);
+          history.push(`/copay-balances/${id}/statement`);
         }}
-        href={`/copay-balances/${id}/detail/statement`}
+        href={`/copay-balances/${id}/statement`}
         text={`${formatDate(statementDate)} statement`}
       />
     </li>

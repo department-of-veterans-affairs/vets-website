@@ -1,66 +1,29 @@
-import {
-  validateNameSymbols,
-  validateEmpty,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  VaTextInputField,
-  VaSelectField,
-} from 'platform/forms-system/src/js/web-component-fields';
+import { parse, isValid, startOfDay, subYears } from 'date-fns';
+import { isSameOrAfter } from '../../../utils/helpers';
 
-export const conditionalVeteranNameUI = (formatTitle, uiOptions = {}) => {
-  return {
-    'ui:validations': [validateEmpty],
-    first: {
-      'ui:title': formatTitle ? formatTitle('first name') : 'First name',
-      'ui:autocomplete': 'given-name',
-      'ui:webComponentField': VaTextInputField,
-      'ui:validations': [validateNameSymbols],
-      'ui:errorMessages': {
-        required: 'Please enter a first name',
-      },
-      'ui:required': formData => formData?.claimantNotVeteran === true,
-      'ui:options': {
-        uswds: true,
-        hideIf: formData => formData.claimantNotVeteran === false,
-        ...uiOptions,
-      },
-    },
-    middle: {
-      'ui:title': formatTitle ? formatTitle('middle name') : 'Middle name',
-      'ui:webComponentField': VaTextInputField,
-      'ui:autocomplete': 'additional-name',
-      'ui:validations': [validateNameSymbols],
-      'ui:options': {
-        uswds: true,
-        hideIf: formData => formData.claimantNotVeteran === false,
-        ...uiOptions,
-      },
-    },
-    last: {
-      'ui:title': formatTitle ? formatTitle('last name') : 'Last name',
-      'ui:autocomplete': 'family-name',
-      'ui:webComponentField': VaTextInputField,
-      'ui:validations': [validateNameSymbols],
-      'ui:errorMessages': {
-        required: 'Please enter a last name',
-      },
-      'ui:required': formData => formData?.claimantNotVeteran === true,
-      'ui:options': {
-        uswds: true,
-        hideIf: formData => formData.claimantNotVeteran === false,
-        ...uiOptions,
-      },
-    },
-    suffix: {
-      'ui:title': formatTitle ? formatTitle('suffix') : 'Suffix',
-      'ui:autocomplete': 'honorific-suffix',
-      'ui:webComponentField': VaSelectField,
-      'ui:options': {
-        widgetClassNames: 'form-select-medium',
-        uswds: true,
-        hideIf: formData => formData.claimantNotVeteran === false,
-        ...uiOptions,
-      },
-    },
-  };
-};
+export function isOver65(formData, currentDate) {
+  const today = currentDate || new Date();
+  const veteranDateOfBirth = parse(
+    formData.veteranDateOfBirth,
+    'yyyy-MM-dd',
+    new Date(),
+  );
+
+  if (!isValid(veteranDateOfBirth)) return undefined;
+
+  return isSameOrAfter(
+    startOfDay(subYears(today, 65)),
+    startOfDay(veteranDateOfBirth),
+  );
+}
+
+export function setDefaultIsOver65(oldData, newData, currentDate) {
+  if (oldData.veteranDateOfBirth !== newData.veteranDateOfBirth) {
+    const today = currentDate || new Date();
+    return {
+      ...newData,
+      isOver65: isOver65(newData, today),
+    };
+  }
+  return newData;
+}

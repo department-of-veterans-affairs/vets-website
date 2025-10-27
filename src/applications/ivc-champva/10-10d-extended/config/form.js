@@ -32,11 +32,14 @@ import {
   sponsorIntroSchema,
 } from '../chapters/sponsorInformation';
 import { applicantPages } from '../chapters/applicantInformation';
+import ohiIntroduction from '../chapters/medicareInformation/ohiIntroduction';
+import medicareIntroduction from '../chapters/medicareInformation/medicareIntroduction';
 import {
   medicarePages,
   medicareStatusPage,
   medicareProofOfIneligibilityPage,
 } from '../chapters/medicareInformation';
+import healthInsuranceIntroduction from '../chapters/healthInsuranceInformation/healthInsuranceIntroduction';
 import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
 import AddressSelectionPage, {
   NOT_SHARED,
@@ -218,16 +221,34 @@ const formConfig = {
       pages: applicantPages,
     },
     medicareInformation: {
-      title: 'Medicare information',
+      title: 'Other Health Insurance Certification: Medicare information',
       pages: {
+        ohiIntro: {
+          path: 'medicare-and-other-health-insurance',
+          title: 'Report Medicare and other health insurance',
+          ...ohiIntroduction,
+        },
+        medicareIntro: {
+          path: 'report-medicare',
+          title: 'Report Medicare',
+          ...medicareIntroduction,
+        },
         ...medicarePages,
         page22: medicareStatusPage,
         page23: medicareProofOfIneligibilityPage,
       },
     },
     healthInsuranceInformation: {
-      title: 'Health insurance information',
-      pages: healthInsurancePages,
+      title:
+        'Other Health Insurance Certification: Health insurance information',
+      pages: {
+        healthInsuranceIntro: {
+          path: 'report-other-health-insurance',
+          title: 'Report other health insurance',
+          ...healthInsuranceIntroduction,
+        },
+        ...healthInsurancePages,
+      },
     },
   },
 };

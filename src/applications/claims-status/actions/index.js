@@ -12,10 +12,12 @@ import {
   roundToNearest,
   buildDateFormatter,
   getUploadErrorMessage,
+  getDocTypeDescription,
 } from '../utils/helpers';
+import { setPageFocus } from '../utils/page';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
-import { canUseMocks } from '../constants';
+import { canUseMocks, ANCHOR_LINKS } from '../constants';
 import {
   BACKEND_SERVICE_ERROR,
   CANCEL_UPLOAD,
@@ -46,6 +48,7 @@ import {
   SET_LAST_PAGE,
   SET_NOTIFICATION,
   SET_PROGRESS,
+  SET_TYPE1_UNKNOWN_ERRORS,
   SET_UNAUTHORIZED,
   SET_UPLOAD_ERROR,
   SET_UPLOADER,
@@ -71,6 +74,60 @@ export function setAdditionalEvidenceNotification(message) {
     type: SET_ADDITIONAL_EVIDENCE_NOTIFICATION,
     message,
   };
+}
+
+export function setType1UnknownErrors(errorFiles) {
+  return {
+    type: SET_TYPE1_UNKNOWN_ERRORS,
+    errorFiles,
+  };
+}
+
+// Helper function to handle Type 1 error classification and dispatching
+function handleType1Errors(
+  dispatch,
+  errorFiles,
+  hasError,
+  claimId,
+  showDocumentUploadStatus,
+) {
+  if (!showDocumentUploadStatus || errorFiles.length === 0) {
+    // Old behavior for single file or feature flag off
+    const errorMessage = getUploadErrorMessage(hasError, claimId);
+    dispatch(setAdditionalEvidenceNotification(errorMessage));
+    return;
+  }
+
+  // Separate known vs unknown errors
+  const unknownErrors = errorFiles.filter(
+    err =>
+      err?.errors?.[0]?.detail !== 'DOC_UPLOAD_DUPLICATE' &&
+      err?.errors?.[0]?.detail !== 'DOC_UPLOAD_INVALID_CLAIMANT',
+  );
+
+  const knownErrors = errorFiles.filter(
+    err =>
+      err?.errors?.[0]?.detail === 'DOC_UPLOAD_DUPLICATE' ||
+      err?.errors?.[0]?.detail === 'DOC_UPLOAD_INVALID_CLAIMANT',
+  );
+
+  // If there are unknown errors, store them separately
+  if (unknownErrors.length > 0) {
+    dispatch(
+      setType1UnknownErrors(
+        unknownErrors.map(err => ({
+          fileName: err.fileName,
+          docType: err.docType,
+        })),
+      ),
+    );
+  }
+
+  // If there are known errors, show the first one in additionalEvidenceMessage
+  if (knownErrors.length > 0) {
+    const errorMessage = getUploadErrorMessage(knownErrors[0], claimId);
+    dispatch(setAdditionalEvidenceNotification(errorMessage));
+  }
 }
 
 function fetchAppealsSuccess(response) {
@@ -293,10 +350,16 @@ export function clearAdditionalEvidenceNotification() {
 }
 
 // Document upload function using Lighthouse endpoint
-export function submitFiles(claimId, trackedItem, files) {
+export function submitFiles(
+  claimId,
+  trackedItem,
+  files,
+  showDocumentUploadStatus = false,
+) {
   let filesComplete = 0;
   let bytesComplete = 0;
   let hasError = false;
+  const errorFiles = []; // Collect all failed files
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
   const trackedItemId = trackedItem ? trackedItem.id : null;
@@ -349,18 +412,41 @@ export function submitFiles(claimId, trackedItem, files) {
                 dispatch({
                   type: DONE_UPLOADING,
                 });
-                dispatch(
-                  setNotification({
-                    title: `We received your file upload on ${uploadDate}`,
-                    body: (
-                      <span>
-                        If your uploaded file doesn’t appear in the Documents
-                        Filed section on this page, please try refreshing the
-                        page.
-                      </span>
-                    ),
-                  }),
-                );
+
+                // Show different notification based on feature toggle
+                const notificationMessage = showDocumentUploadStatus
+                  ? {
+                      title: `Document submission started on ${uploadDate}`,
+                      body: (
+                        <>
+                          <span>
+                            Your submission is in progress. It can take up to 2
+                            days for us to receive your files.
+                          </span>
+                          <va-link
+                            class="vads-u-display--block"
+                            href={`#${ANCHOR_LINKS.fileSubmissionsInProgress}`}
+                            text="Check the status of your submission"
+                            onClick={e => {
+                              e.preventDefault();
+                              setPageFocus(e.target.href);
+                            }}
+                          />
+                        </>
+                      ),
+                    }
+                  : {
+                      title: `We received your file upload on ${uploadDate}`,
+                      body: (
+                        <span>
+                          If your uploaded file doesn’t appear in the Documents
+                          Filed section on this page, please try refreshing the
+                          page.
+                        </span>
+                      ),
+                    };
+
+                dispatch(setNotification(notificationMessage));
               } else {
                 recordEvent({
                   event: 'claims-upload-failure',
@@ -368,10 +454,14 @@ export function submitFiles(claimId, trackedItem, files) {
                 dispatch({
                   type: SET_UPLOAD_ERROR,
                 });
-                dispatch(
-                  setAdditionalEvidenceNotification(
-                    getUploadErrorMessage(hasError, claimId),
-                  ),
+
+                // Handle Type 1 errors (known vs unknown classification)
+                handleType1Errors(
+                  dispatch,
+                  errorFiles,
+                  hasError,
+                  claimId,
+                  showDocumentUploadStatus,
                 );
               }
             },
@@ -399,15 +489,36 @@ export function submitFiles(claimId, trackedItem, files) {
                 ),
               });
             },
-            onError: (_id, fileName, _reason, { response, status }) => {
+            onError: (id, fileName, _reason, { response, status }) => {
               if (status === 401) {
                 dispatch({
                   type: SET_UNAUTHORIZED,
                 });
               }
               if (status < 200 || status > 299) {
-                hasError = JSON.parse(response || '{}');
-                hasError.fileName = fileName;
+                const error = JSON.parse(response || '{}');
+                error.fileName = fileName;
+
+                // Get docType from the matching file (only if feature flag enabled)
+                if (showDocumentUploadStatus) {
+                  const fileIndex = id;
+                  const matchingFile = files[fileIndex];
+                  if (matchingFile && matchingFile.docType) {
+                    try {
+                      error.docType = getDocTypeDescription(
+                        matchingFile.docType.value,
+                      );
+                    } catch (e) {
+                      error.docType = matchingFile.docType.value || 'Unknown';
+                    }
+                  } else {
+                    error.docType = 'Unknown';
+                  }
+
+                  errorFiles.push(error);
+                }
+
+                hasError = error;
               }
             },
           },

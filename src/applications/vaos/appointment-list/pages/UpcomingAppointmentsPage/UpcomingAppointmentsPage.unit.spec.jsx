@@ -46,7 +46,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start,
       end,
       response: [appointment],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     // Act
@@ -93,7 +93,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start,
       end,
       response: responses,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     // Act
@@ -131,7 +131,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start,
       end,
       response: responses,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     // Act
@@ -169,7 +169,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start,
       end,
       response: responses,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     // Act
@@ -208,7 +208,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start,
       end,
       response: responses,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
@@ -248,7 +248,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start,
       end,
       response: responses,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
