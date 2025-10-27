@@ -287,7 +287,10 @@ describe('<AppealListItem>', () => {
             );
             const alert = container.querySelector('va-alert[status="error"]');
 
-            expect(alert).to.not.exist;
+            expect(alert).to.exist;
+            expect(alert.querySelector('p')).to.have.text(
+              'We need you to resubmit files for this claim.',
+            );
           });
         },
       );
