@@ -37,7 +37,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
   function onPageChange(page) {
     setCurrentData(paginate(charges, MAX_ROWS, page));
     setCurrentPage(page);
-    setPageFocus(`va-table`, true);
+    setPageFocus(`va-table`);
   }
 
   const numPages = Math.ceil(charges.length / MAX_ROWS);
