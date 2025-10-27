@@ -50,6 +50,17 @@ describe('childIsStepchild', () => {
     expect(radio.getAttribute('required')).to.equal('true');
   });
 
+  it('should render age in months', () => {
+    const data = { ...defaultData, dateOfBirth: createDoB(0, 5) };
+    const { container } = renderComponent({ data });
+    const radio = $('va-radio', container);
+    expect(radio).to.exist;
+    expect(radio.getAttribute('label')).to.equal(
+      'Is PENNY FOSTER (age 5 months) your stepchild?',
+    );
+    expect(radio.getAttribute('required')).to.equal('true');
+  });
+
   it('should show error message if submitted without selecting an option', async () => {
     const goForward = sinon.spy();
     const { container } = renderComponent({

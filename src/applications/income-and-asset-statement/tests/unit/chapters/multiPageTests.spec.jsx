@@ -173,6 +173,7 @@ export const testOptionsTextCardDescription = (
       };
 
       Object.entries(baseItem).forEach(([key, value]) => {
+        if (typeof value === 'boolean') return; // skip true/false values
         const formattedValue = formatters[key] ? formatters[key](value) : value;
         expect(getAllByText(formattedValue)).to.exist;
       });

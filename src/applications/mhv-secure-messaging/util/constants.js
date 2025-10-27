@@ -479,6 +479,10 @@ export const PageTitles = {
     'Can’t find your care team? - Messages | Veterans Affairs',
 };
 
+export const PageHeaders = {
+  RECENT_RECIPIENTS: 'Care teams you recently sent messages to',
+};
+
 export const Recipients = {
   CARE_TEAM: 'Care Team',
   FACILITY: 'Facility',
