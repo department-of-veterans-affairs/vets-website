@@ -36,3 +36,7 @@ export const validateInitials = (inputValue, firstName, lastName) => {
 
   return '';
 };
+export const getAcademicYearDisplay = () => {
+  const currentYear = new Date().getFullYear();
+  return `${currentYear}-${currentYear + 1}`;
+};

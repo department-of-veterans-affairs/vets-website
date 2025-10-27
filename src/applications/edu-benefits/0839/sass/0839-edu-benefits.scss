@@ -3,11 +3,11 @@
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
 .layout-wrapper {
-  padding-inline: 8px;
+  padding-inline: var(--vads-spacing-1);
 
   @media (min-width: $medium-screen) {
     padding-inline: 0;
-    padding-left: 16px;
+    padding-left: calc(var(--vads-spacing-1) * 2);
   }
   @media (min-width: $large-screen) {
     padding-inline: 0;
@@ -22,12 +22,12 @@
 
 @media (max-width: $small-screen) {
   .form-22-0839-container {
-    padding-inline: 0.5rem;
-     fieldset{
-      min-width: 100%
-     }
-    .yellow-ribbon-program-description{
-      padding-inline: 0.5rem;
+    padding-inline: var(--vads-spacing-1);
+    fieldset {
+      min-width: 100%;
+    }
+    .yellow-ribbon-program-description {
+      padding-inline: var(--vads-spacing-1);
     }
   }
 
@@ -53,15 +53,15 @@
   padding: 0;
 }
 legend.yellow-ribbon-title {
-  width: 698px !important;
+  width: 43.6rem !important;
   @media (max-width: $small-screen) {
     width: 100%;
-    padding-inline: 0.5rem;
+    padding-inline: var(--vads-spacing-1);
   }
 }
 .yellow-program-list {
   p {
-    margin-bottom: 16px;
+    margin-bottom: calc(var(--vads-spacing-1) * 2);
   }
 
   ul {
@@ -76,15 +76,14 @@ legend.yellow-ribbon-title {
       width: 100%;
       max-width: 100%;
       box-sizing: border-box;
-      padding-left: 20px;
-      margin-bottom: 8px;
-      position: relative ;
-      margin-left: 10px;
-
+      padding-left: calc(var(--vads-spacing-1) + 12px);
+      margin-bottom: var(--vads-spacing-1);
+      position: relative;
+      margin-left: var(--vads-spacing-1);
       &::before {
-        content: "•" ;
-        position: absolute ;
-        left: 0 ;
+        content: "•";
+        position: absolute;
+        left: 0;
         top: 0;
         color: rgb(0, 0, 0);
         font-weight: bold;
@@ -95,8 +94,7 @@ legend.yellow-ribbon-title {
 
 .eligible-individuals-note p {
   color: hsl(0, 0%, 46%) !important;
-  width: 332px;
-  @media (max-width: $small-screen){
+  @media (max-width: $small-screen) {
     width: 100%;
     padding-inline: 0.5rem;
   }
@@ -110,12 +108,30 @@ legend.yellow-ribbon-title {
 }
 legend:has(.academic-year-title) {
   width: 389px;
-  @media (max-width: $small-screen){
+  @media (max-width: $small-screen) {
     width: 100%;
-    padding-inline: 0.5rem;
+    padding-inline: var(--vads-spacing-1);
   }
 }
 label[id="root_unlimitedIndividuals-label"] {
-display: none !important;
+  display: none !important;
+}
+.contribution-degree-school {
+  p {
+    color: hsl(0, 0%, 46%);
+  }
+}
+.eligible-individuals-note input,
+.unlimited-students-display input {
+  border: 0;
+  font-weight: bold;
+  pointer-events: none;
+  margin-left: -10px;
 }
 
+.container {
+  width: 20.75rem;
+}
+[id="root_specificContributionAmount-label"]{
+  display: none !important;
+}
