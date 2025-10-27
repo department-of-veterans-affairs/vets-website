@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { isYes } from '../../../../config/chapters/04-claim-information/helpers';
+import { isYes } from '../../../../config/chapters/05-claim-information/helpers';
 
 describe('isYes', () => {
   it('should return true for boolean true', () => {
