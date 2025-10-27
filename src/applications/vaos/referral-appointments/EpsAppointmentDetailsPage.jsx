@@ -24,7 +24,9 @@ export default function EpsAppointmentDetailsPage() {
   const [, appointmentId] = pathname.split('/');
   const history = useHistory();
   const dispatch = useDispatch();
-  const featureCommunityCareCancellations = useSelector(selectFeatureCommunityCareCancellations);
+  const featureCommunityCareCancellations = useSelector(
+    selectFeatureCommunityCareCancellations,
+  );
 
   useEffect(
     () => {
