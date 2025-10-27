@@ -12,7 +12,7 @@ const getStore = (
 ) =>
   createStore(() => ({
     featureToggles: {
-      // eslint-disable-next-line camelcase, camelcase
+      // eslint-disable-next-line camelcase
       cst_claim_phases: cstClaimPhasesEnabled,
       // eslint-disable-next-line camelcase
       cst_show_document_upload_status: cstShowDocumentUploadStatus,
