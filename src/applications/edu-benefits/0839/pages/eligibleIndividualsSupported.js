@@ -1,7 +1,7 @@
 import React from 'react';
 import { textUI } from 'platform/forms-system/src/js/web-component-patterns';
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
-import EligibleIndividualsField from '../components/EligibleIndividualsField';
+// import EligibleIndividualsField from '../components/EligibleIndividualsField';
 import { getAcademicYearDisplay } from '../helpers';
 
 const uiSchema = {
@@ -15,32 +15,32 @@ const uiSchema = {
       />
     </p>
   ),
-  eligibleIndividualsGroup: {
-    'ui:webComponentField': EligibleIndividualsField,
-    'ui:options': {
-      classNames: 'eligible-individuals-note container',
-    },
-    'ui:required': (formData, index, _fullData) => {
-      if (index !== undefined) {
-        return !formData.eligibleIndividualsGroup?.unlimitedIndividuals;
-      }
-      return !formData.eligibleIndividualsGroup?.unlimitedIndividuals;
-    },
-    'ui:validations': [
-      (errors, fieldData) => {
-        const isUnlimited = fieldData?.unlimitedIndividuals;
-        const hasValue =
-          fieldData?.eligibleIndividuals &&
-          fieldData?.eligibleIndividuals.trim() !== '';
+  // eligibleIndividualsGroup: {
+  //   'ui:webComponentField': EligibleIndividualsField,
+  //   'ui:options': {
+  //     classNames: 'eligible-individuals-note container',
+  //   },
+  //   'ui:required': (formData, index, _fullData) => {
+  //     if (index !== undefined) {
+  //       return !formData.eligibleIndividualsGroup?.unlimitedIndividuals;
+  //     }
+  //     return !formData.eligibleIndividualsGroup?.unlimitedIndividuals;
+  //   },
+  //   'ui:validations': [
+  //     (errors, fieldData) => {
+  //       const isUnlimited = fieldData?.unlimitedIndividuals;
+  //       const hasValue =
+  //         fieldData?.eligibleIndividuals &&
+  //         fieldData?.eligibleIndividuals.trim() !== '';
 
-        if (!isUnlimited && !hasValue) {
-          errors.addError(
-            'Enter the number of eligible individuals or select the checkbox below ',
-          );
-        }
-      },
-    ],
-  },
+  //       if (!isUnlimited && !hasValue) {
+  //         errors.addError(
+  //           'Enter the number of eligible individuals or select the checkbox below ',
+  //         );
+  //       }
+  //     },
+  //   ],
+  // },
 
   academicYear: {
     ...textUI({
@@ -94,17 +94,17 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    eligibleIndividualsGroup: {
-      type: 'object',
-      properties: {
-        eligibleIndividuals: {
-          type: 'string',
-        },
-        unlimitedIndividuals: {
-          type: 'boolean',
-        },
-      },
-    },
+    // eligibleIndividualsGroup: {
+    //   type: 'object',
+    //   properties: {
+    //     eligibleIndividuals: {
+    //       type: 'string',
+    //     },
+    //     unlimitedIndividuals: {
+    //       type: 'boolean',
+    //     },
+    //   },
+    // },
     academicYear: {
       type: 'string',
     },
@@ -113,7 +113,7 @@ const schema = {
       default: getAcademicYearDisplay(),
     },
   },
-  required: ['eligibleIndividualsGroup'],
+  // required: ['eligibleIndividualsGroup'],
   definitions: {},
 };
 
