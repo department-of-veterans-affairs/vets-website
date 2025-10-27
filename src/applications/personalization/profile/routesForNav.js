@@ -12,6 +12,7 @@ import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
 import BlankPageTemplate from './components/BlankPageTemplate';
 import FinancialInformation from './components/FinancialInformation';
+import HealthCareSettings from './components/HealthCareSettings';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -130,7 +131,7 @@ const routesForProfile2Nav = [
     subnavParent: PROFILE_PATH_NAMES.FINANCIAL_INFORMATION,
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: HealthCareSettings,
     name: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
     path: PROFILE_PATHS.HEALTH_CARE_SETTINGS,
     requiresLOA3: true,
