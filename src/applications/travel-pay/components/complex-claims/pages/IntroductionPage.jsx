@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useNavigate } from 'react-router-dom-v5-compat';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
   BTSSS_PORTAL_URL,
@@ -34,12 +33,7 @@ const IntroductionPage = ({ appointment }) => {
     navigate(`/file-new-claim/complex/${apptId}/choose-expense`);
     // TODO Add logic to add a claim here
   };
-  const viewPrivacyAct = () => {
-    // TODO Add logic to navigate to view privacy act statement
-  };
-  const viewFeedback = () => {
-    // TODO Add logic to navigate to view feedback
-  };
+
   return (
     <div data-testid="introduction-page">
       <h1>File a travel reimbursement claim</h1>
@@ -116,19 +110,10 @@ const IntroductionPage = ({ appointment }) => {
       </div>
 
       <div className="vads-u-margin--2">
-        <p>
-          Respondent burden: <strong>10 minutes</strong>
-        </p>
-        <p>
-          OMB Control #: <strong>2900-0798</strong>
-        </p>
-        <p>
-          Expiration date: <strong>11/30/2027</strong>
-        </p>
-        <VaButton
-          secondary
-          text="View Privacy Act Statement"
-          onClick={viewPrivacyAct}
+        <va-omb-info
+          res-burden={15}
+          omb-number="2900-0798"
+          exp-date="11/30/2027"
         />
       </div>
       <div className="complex-claim-help-section vads-u-margin--2">
@@ -145,9 +130,6 @@ const IntroductionPage = ({ appointment }) => {
           href={FIND_FACILITY_TP_CONTACT_LINK}
           text="Find the travel contact for your facility"
         />
-      </div>
-      <div className="vads-u-margin--2">
-        <VaButton secondary text="Feedback" onClick={viewFeedback} />
       </div>
     </div>
   );
