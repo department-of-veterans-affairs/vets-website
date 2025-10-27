@@ -85,9 +85,10 @@ function getTestPaths() {
 
 // Helper function to build test command
 function buildTestCommand(testPaths) {
-  const baseEnv = `STEP=unit-tests LOG_LEVEL=${options[
-    'log-level'
-  ].toLowerCase()}`;
+  const baseEnv = `NODE_OPTIONS='--require ${path.join(
+    __dirname,
+    '../../babel-register.cjs',
+  )}' STEP=unit-tests LOG_LEVEL=${options['log-level'].toLowerCase()}`;
 
   const coverageInclude = options['app-folder']
     ? `--include 'src/applications/${options['app-folder']}/**'`
