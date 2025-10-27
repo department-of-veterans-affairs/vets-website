@@ -66,7 +66,10 @@ describe('Eligible Individuals Supported Page', () => {
     });
 
     it('should render eligibleIndividualsGroup field with correct configuration', () => {
-      const { container } = renderPage();
+      const formData = {
+        agreementType: 'newAgreement',
+      };
+      const { container } = renderPage(formData);
 
       expect($('.eligible-individuals-note', container)).to.exist;
       expect($('.container', container)).to.exist;
@@ -103,6 +106,7 @@ describe('Eligible Individuals Supported Page', () => {
   describe('Form Validation', () => {
     it('should require eligibleIndividuals when unlimitedIndividuals is false', () => {
       const formData = {
+        agreementType: 'newAgreement',
         eligibleIndividualsGroup: {
           unlimitedIndividuals: false,
           eligibleIndividuals: '',
