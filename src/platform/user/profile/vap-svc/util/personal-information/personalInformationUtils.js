@@ -65,13 +65,12 @@ const signatureErrorMessage = 'Both fields are required to save a signature.';
 
 /**
  * JSON schemas for personal information form fields.
- * Includes schemas for preferred name, pronouns, gender identity, sexual orientation, and messaging signature.
+ * Includes schemas for preferred name, pronouns, gender identity, and messaging signature.
  *
  * @type {Object}
  * @property {Object} preferredName - Schema for preferred name field
  * @property {Object} pronouns - Schema for pronouns checkboxes
  * @property {Object} genderIdentity - Schema for gender identity radio buttons
- * @property {Object} sexualOrientation - Schema for sexual orientation checkboxes
  * @property {Object} messagingSignature - Schema for MHV messaging signature
  *
  * @example
