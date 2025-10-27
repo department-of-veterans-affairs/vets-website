@@ -8,3 +8,22 @@ export const dicOptions = {
   DIC_REEVALUATION:
     'D.I.C. due to claimant election of a re-evaluation of a previously denied claim based on expanded eligibility under PL 117-168 (PACT Act)',
 };
+
+export const servicesOptions = {
+  ARMY: 'Army',
+  NAVY: 'Navy',
+  AIR_FORCE: 'Air Force',
+  COAST_GUARD: 'Coast Guard',
+  MARINE_CORPS: 'Marine Corps',
+  SPACE_FORCE: 'Space Force',
+  USPHS: 'USPHS',
+  NOAA: 'NOAA',
+};
+
+export const claimantRelationshipOptions = {
+  SPOUSE: 'Surviving spouse',
+  CUSTODIAN: 'Custodian filing for child under 18',
+  ADULT_CHILD_STILL_IN_SCHOOL:
+    'Adult child who is 18-23 years old and still in school',
+  ADULT_CHILD_SERIOUSLY_DISABLED: 'Adult child who is seriously disabled',
+};

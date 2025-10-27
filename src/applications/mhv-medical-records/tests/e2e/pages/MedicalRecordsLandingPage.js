@@ -1,5 +1,4 @@
 import sessionStatus from '../fixtures/session-status.json';
-import mockUumResponse from '../fixtures/unique-user-metrics-response.json';
 
 class MedicalRecordsLandingPage {
   handleSession = () => {
@@ -11,16 +10,6 @@ class MedicalRecordsLandingPage {
       statusCode: 200,
       body: sessionStatus, // status response copied from staging
     }).as('status');
-    this.uumIntercept();
-  };
-
-  uumIntercept = () => {
-    // Note that we don't need specific event names in the response
-    cy.intercept(
-      'POST',
-      '/my_health/v1/unique_user_metrics',
-      mockUumResponse,
-    ).as('uum');
   };
 
   clickExpandAllAccordionButton = () => {
