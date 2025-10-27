@@ -27,3 +27,8 @@ export const claimantRelationshipOptions = {
     'Adult child who is 18-23 years old and still in school',
   ADULT_CHILD_SERIOUSLY_DISABLED: 'Adult child who is seriously disabled',
 };
+
+export const bankAccountTypeOptions = {
+  CHECKING: 'Checking',
+  SAVINGS: 'Savings',
+};
