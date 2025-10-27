@@ -107,7 +107,7 @@ export function Details({
   level = 2,
   isCerner = false,
 }) {
-  // Do not display details for Oracle appointments
+  // Do not display details for Oracle (Cerner) appointments
   if (isCerner) return null;
 
   const heading = request
