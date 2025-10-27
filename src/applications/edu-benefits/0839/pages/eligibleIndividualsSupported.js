@@ -31,7 +31,7 @@ const uiSchema = {
         const isUnlimited = fieldData?.unlimitedIndividuals;
         const hasValue =
           fieldData?.eligibleIndividuals &&
-          fieldData.eligibleIndividuals.trim() !== '';
+          fieldData?.eligibleIndividuals.trim() !== '';
 
         if (!isUnlimited && !hasValue) {
           errors.addError(
@@ -52,22 +52,22 @@ const uiSchema = {
     }),
     'ui:required': (formData, index, fullData) => {
       if (index !== undefined) {
-        return fullData.agreementType !== 'startNewOpenEndedAgreement';
+        return fullData?.agreementType !== 'startNewOpenEndedAgreement';
       }
-      return formData.agreementType !== 'startNewOpenEndedAgreement';
+      return formData?.agreementType !== 'startNewOpenEndedAgreement';
     },
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 eligible-individuals-note container',
       hideIf: (formData, index, fullData) => {
         if (index !== undefined) {
-          return fullData.agreementType === 'startNewOpenEndedAgreement';
+          return fullData?.agreementType === 'startNewOpenEndedAgreement';
         }
-        return formData.agreementType === 'startNewOpenEndedAgreement';
+        return formData?.agreementType === 'startNewOpenEndedAgreement';
       },
     },
     'ui:validations': [
       (errors, fieldData) => {
-        if (fieldData !== getAcademicYearDisplay()) {
+        if (fieldData && fieldData !== getAcademicYearDisplay()) {
           errors.addError(
             `Enter the upcoming academic year this agreement applies to`,
           );
@@ -82,9 +82,9 @@ const uiSchema = {
     'ui:options': {
       hideIf: (formData, index, fullData) => {
         if (index !== undefined) {
-          return fullData.agreementType !== 'startNewOpenEndedAgreement';
+          return fullData?.agreementType !== 'startNewOpenEndedAgreement';
         }
-        return formData.agreementType !== 'startNewOpenEndedAgreement';
+        return formData?.agreementType !== 'startNewOpenEndedAgreement';
       },
       classNames: 'eligible-individuals-note',
     },

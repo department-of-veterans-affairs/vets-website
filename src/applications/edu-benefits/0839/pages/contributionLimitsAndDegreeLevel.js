@@ -100,9 +100,9 @@ const uiSchema = {
         'vads-u-margin-bottom--2 contribution-degree-school container',
       hideIf: (formData, index, fullData) => {
         if (index !== undefined) {
-          return !fullData.institutionDetails?.isUsaSchool;
+          return !fullData?.institutionDetails?.isUsaSchool;
         }
-        return !formData.institutionDetails?.isUsaSchool;
+        return !formData?.institutionDetails?.isUsaSchool;
       },
     },
   },
