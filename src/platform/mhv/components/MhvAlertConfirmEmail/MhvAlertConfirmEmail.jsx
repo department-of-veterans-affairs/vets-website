@@ -29,6 +29,7 @@ import { recordAlertLoadEvent } from './recordAlertLoadEvent';
 const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const renderAlert = useSelector(showAlert);
   const emailAddress = useSelector(selectContactEmailAddress);
+  const emailAddressId = useSelector(selectContactEmailAddress);
 
   const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [confirmError, setConfirmError] = useState(false);
@@ -41,7 +42,13 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-      body: JSON.stringify({ confirmationDate, emailAddress }),
+      body: JSON.stringify({
+        id: emailAddressId,
+        // eslint-disable-next-line camelcase
+        confirmation_date: confirmationDate,
+        // eslint-disable-next-line camelcase
+        email_address: emailAddress,
+      }),
     })
       .then(() => {
         setConfirmError(false);
