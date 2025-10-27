@@ -6,6 +6,8 @@ import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
 import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
+
+import { disableConfirmationOnLocal } from './helpers/disableConfirmationOnLocal';
 import {
   fillAddressWithKeyboard,
   fillNameWithKeyboard,
@@ -22,23 +24,7 @@ describe('Form 10-10EZR Keyboard Only', () => {
   beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
 
-    /*  RM put here to disable "Leave Site?" confirmation dialogs */
-    /* TODO: hoist to  cypress/support/e2e.js ? */
-    cy.on('window:before:load', win => {
-      Object.defineProperty(win, 'onbeforeunload', {
-        configurable: true,
-        writable: true,
-        value: null,
-      });
-
-      const orig = win.addEventListener;
-      cy.stub(win, 'addEventListener').callsFake(
-        (e, h, o) =>
-          e === 'beforeunload' ? undefined : orig.call(win, e, h, o),
-      );
-    });
-
-    // RM end of disable "Leave Site?" confirmation dialogs
+    disableConfirmationOnLocal();
 
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -449,23 +435,7 @@ describe("Form 10-10EZR Keyboard Only, with the 'ezrProvidersAndDependentsPrefil
   beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
 
-    /*  RM put here to disable "Leave Site?" confirmation dialogs */
-    /* TODO: hoist to  cypress/support/e2e.js ? */
-    cy.on('window:before:load', win => {
-      Object.defineProperty(win, 'onbeforeunload', {
-        configurable: true,
-        writable: true,
-        value: null,
-      });
-
-      const orig = win.addEventListener;
-      cy.stub(win, 'addEventListener').callsFake(
-        (e, h, o) =>
-          e === 'beforeunload' ? undefined : orig.call(win, e, h, o),
-      );
-    });
-
-    // RM end of disable "Leave Site?" confirmation dialogs
+    disableConfirmationOnLocal();
 
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', updatedFeatureToggles).as(
