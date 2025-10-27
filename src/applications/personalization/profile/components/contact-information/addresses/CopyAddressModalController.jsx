@@ -105,14 +105,15 @@ const CopyAddressModal = props => {
     },
     onCloseModal() {
       updateCopyAddressModalAction(null);
+      focusElement('#home-address [data-testid=update-success-alert]');
     },
     onCloseSuccessModal() {
-      handlers.onCloseModal();
+      updateCopyAddressModalAction(null);
       focusElement('#mailing-address [data-testid=update-success-alert]');
     },
     onCloseFailureModal() {
-      handlers.onCloseModal();
-      focusElement('#mailing-address .usa-input-error-message');
+      updateCopyAddressModalAction(null);
+      focusElement('#mailing-address [data-testid=generic-error-alert]');
     },
   };
 

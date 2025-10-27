@@ -379,13 +379,6 @@ export const keyboardTestPage = (page, data) => {
   return [page.path];
 };
 
-export const startForm = () => {
-  cy.url().should('include', '/introduction');
-
-  cy.tabToElement('va-link-action');
-  cy.realPress('Enter');
-};
-
 export const fillReviewPage = data => {
   cy.url().should('include', '/review-and-submit');
   cy.tabToElement('[name="veteran-signature"]');

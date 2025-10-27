@@ -6,8 +6,11 @@ import claimDetailsOpenOneEvidenceSubmissionNoSupportingDocs from './fixtures/mo
 import claimDetailsOpenNoEvidenceSubmissionsOneSupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-no-evidence-submissions-one-supporting-docs.json';
 import claimDetailsOpenOneEvidenceSubmissionOneSupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-one-evidence-submission-one-supporting-docs.json';
 import featureToggleDocumentUploadStatusEnabled from './fixtures/mocks/lighthouse/feature-toggle-document-upload-status-enabled.json';
+import featureToggleDisabled from './fixtures/mocks/lighthouse/feature-toggle-disabled.json';
 import claimDetailsOpenManySupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-many-supporting-docs.json';
 import claimDetailsOpenManyEvidenceSubmissions from './fixtures/mocks/lighthouse/claim-detail-open-many-evidence-submissions.json';
+import claimDetailsOpenWithFailedSubmissions from './fixtures/mocks/lighthouse/claim-detail-open-with-failed-submissions.json';
+import { SUBMIT_FILES_FOR_REVIEW_TEXT, SUBMIT_TEXT } from '../../constants';
 
 describe('Claim Files Test', () => {
   it('Gets files properly - C30822', () => {
@@ -240,5 +243,359 @@ describe('Claim Files Test - Show Document Upload Status Enabled', () => {
       trackClaimsPage.verifyShowMoreFilesInProgressButtonNotExists();
       cy.axeCheck();
     });
+  });
+});
+
+describe('Upload Type 2 Error Alert', () => {
+  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+  const twoDaysAgo = new Date(
+    Date.now() - 2 * 24 * 60 * 60 * 1000,
+  ).toISOString();
+  const fiveDaysAgo = new Date(
+    Date.now() - 5 * 24 * 60 * 60 * 1000,
+  ).toISOString();
+  const tenDaysAgo = new Date(
+    Date.now() - 10 * 24 * 60 * 60 * 1000,
+  ).toISOString();
+
+  context(
+    "when the 'cst_show_document_upload_status' feature toggle is disabled",
+    () => {
+      it('should NOT display the alert', () => {
+        const claimDetailsWithTwoFailures = {
+          ...claimDetailsOpenWithFailedSubmissions,
+          data: {
+            ...claimDetailsOpenWithFailedSubmissions.data,
+            attributes: {
+              ...claimDetailsOpenWithFailedSubmissions.data.attributes,
+              evidenceSubmissions: claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
+                .slice(0, 2)
+                .map(submission => ({
+                  ...submission,
+                  failedDate: fiveDaysAgo,
+                  acknowledgementDate: tomorrow,
+                })),
+            },
+          },
+        };
+        const trackClaimsPage = new TrackClaimsPageV2();
+
+        trackClaimsPage.loadPage(
+          claimsList,
+          claimDetailsWithTwoFailures,
+          false,
+          false,
+          featureToggleDisabled,
+        );
+        trackClaimsPage.verifyInProgressClaim(false);
+        trackClaimsPage.navigateToFilesTab();
+        // Verify alert is NOT present when toggle is disabled
+        trackClaimsPage.verifyUploadType2ErrorAlertNotPresent();
+        cy.axeCheck();
+      });
+    },
+  );
+
+  context(
+    "when the 'cst_show_document_upload_status' feature toggle is enabled",
+    () => {
+      it('should display the alert when there are failed submissions within last 30 days', () => {
+        const claimDetailsWithTwoFailures = {
+          ...claimDetailsOpenWithFailedSubmissions,
+          data: {
+            ...claimDetailsOpenWithFailedSubmissions.data,
+            attributes: {
+              ...claimDetailsOpenWithFailedSubmissions.data.attributes,
+              evidenceSubmissions: claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
+                .slice(0, 2)
+                .map((submission, index) => ({
+                  ...submission,
+                  failedDate: index === 0 ? fiveDaysAgo : twoDaysAgo,
+                  acknowledgementDate: tomorrow,
+                })),
+            },
+          },
+        };
+        const trackClaimsPage = new TrackClaimsPageV2();
+
+        trackClaimsPage.loadPage(
+          claimsList,
+          claimDetailsWithTwoFailures,
+          false,
+          false,
+          featureToggleDocumentUploadStatusEnabled,
+        );
+        trackClaimsPage.verifyInProgressClaim(false);
+        trackClaimsPage.navigateToFilesTab();
+        // Verify alert is visible
+        trackClaimsPage.verifyUploadType2ErrorAlert();
+        // Verify files are displayed in chronological order (most recent first)
+        trackClaimsPage.verifyUploadType2ErrorAlertFileOrder([
+          'medical-records.pdf',
+          'authorization-form-signed.pdf',
+        ]);
+        // Verify link to files we couldn't receive page
+        trackClaimsPage.verifyUploadType2ErrorAlertLink();
+        cy.axeCheck();
+      });
+
+      it('should display only first item (sorted by most recent failedDate) and count for remaining failed submissions', () => {
+        const claimDetailsWithSortedFailures = {
+          ...claimDetailsOpenWithFailedSubmissions,
+          data: {
+            ...claimDetailsOpenWithFailedSubmissions.data,
+            attributes: {
+              ...claimDetailsOpenWithFailedSubmissions.data.attributes,
+              evidenceSubmissions: [
+                {
+                  ...claimDetailsOpenWithFailedSubmissions.data.attributes
+                    .evidenceSubmissions[0],
+                  fileName: 'file-1.pdf',
+                  failedDate: twoDaysAgo,
+                  acknowledgementDate: tomorrow,
+                },
+                {
+                  ...claimDetailsOpenWithFailedSubmissions.data.attributes
+                    .evidenceSubmissions[1],
+                  fileName: 'file-3.pdf',
+                  failedDate: tenDaysAgo,
+                  acknowledgementDate: tomorrow,
+                },
+                {
+                  ...claimDetailsOpenWithFailedSubmissions.data.attributes
+                    .evidenceSubmissions[2],
+                  fileName: 'file-2.pdf',
+                  failedDate: fiveDaysAgo,
+                  acknowledgementDate: tomorrow,
+                },
+              ],
+            },
+          },
+        };
+
+        const trackClaimsPage = new TrackClaimsPageV2();
+
+        trackClaimsPage.loadPage(
+          claimsList,
+          claimDetailsWithSortedFailures,
+          false,
+          false,
+          featureToggleDocumentUploadStatusEnabled,
+        );
+        trackClaimsPage.verifyInProgressClaim(false);
+        trackClaimsPage.navigateToFilesTab();
+        // Verify alert is visible
+        trackClaimsPage.verifyUploadType2ErrorAlert();
+        // Verify the most recent file (by failedDate) is displayed
+        trackClaimsPage.verifyUploadType2ErrorAlertFileName('file-1.pdf');
+        // Verify "And X more" message
+        trackClaimsPage.verifyUploadType2ErrorAlertMultipleFilesMessage(2);
+        cy.axeCheck();
+      });
+    },
+  );
+});
+
+describe('Type 1 Unknown Upload Errors', () => {
+  const setupTest = () => {
+    const trackClaimsPage = new TrackClaimsPageV2();
+    trackClaimsPage.loadPage(
+      claimsList,
+      claimDetailsOpen,
+      false,
+      false,
+      featureToggleDocumentUploadStatusEnabled,
+    );
+    trackClaimsPage.verifyInProgressClaim(true);
+    trackClaimsPage.navigateToFilesTab();
+    cy.injectAxe();
+  };
+
+  const clickSubmitButton = buttonText => {
+    cy.get(`va-button[text="${buttonText}"]`)
+      .shadow()
+      .find('button')
+      .click();
+  };
+
+  const getFileInputElement = (fileIndex = 0) =>
+    cy
+      .get('va-file-input-multiple')
+      .shadow()
+      .find('va-file-input')
+      .eq(fileIndex);
+
+  const getFileInput = (fileIndex = 0) =>
+    getFileInputElement(fileIndex).shadow();
+
+  const uploadFile = (fileName, fileIndex = 0) => {
+    getFileInput(fileIndex)
+      .find('input[type="file"]')
+      .selectFile({
+        contents: Cypress.Buffer.from('test content'),
+        fileName,
+      });
+  };
+
+  const selectDocumentType = (fileIndex, docTypeCode) => {
+    getFileInputElement(fileIndex)
+      .find('va-select')
+      .should('be.visible')
+      .shadow()
+      .find('select')
+      .should('not.be.disabled')
+      .should('be.visible')
+      .wait(100) // Small wait to ensure stability
+      .select(docTypeCode);
+  };
+
+  const setupUnknownErrorMock = () => {
+    cy.intercept('POST', '/v0/benefits_claims/*/benefits_documents', {
+      statusCode: 500,
+      body: {
+        errors: [
+          {
+            title: 'Internal Server Error',
+            code: '500',
+            status: '500',
+          },
+        ],
+      },
+    }).as('uploadRequest');
+  };
+
+  const uploadFileAndSubmit = () => {
+    uploadFile('test-document.txt');
+    getFileInputElement(0)
+      .find('va-select')
+      .should('be.visible');
+    selectDocumentType(0, 'L034');
+    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+    cy.wait('@uploadRequest');
+  };
+
+  const verifyType1UnknownAlert = () => {
+    cy.get('.claims-alert')
+      .should('be.visible')
+      .and('contain.text', 'We need you to submit files by mail or in person');
+  };
+
+  it('should display Type 1 Unknown error alert when upload fails with unknown error', () => {
+    setupTest();
+    setupUnknownErrorMock();
+    uploadFileAndSubmit();
+    verifyType1UnknownAlert();
+    cy.axeCheck();
+  });
+
+  it('should not display Type 1 Unknown error alert for known errors', () => {
+    setupTest();
+
+    cy.intercept('POST', '/v0/benefits_claims/*/benefits_documents', {
+      statusCode: 422,
+      body: {
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'DOC_UPLOAD_DUPLICATE',
+            code: '422',
+            status: '422',
+            source: 'BenefitsDocuments::Service',
+          },
+        ],
+      },
+    }).as('uploadRequest');
+
+    uploadFile('test-document.txt');
+    getFileInputElement(0)
+      .find('va-select')
+      .should('be.visible');
+    selectDocumentType(0, 'L034');
+
+    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+    cy.wait('@uploadRequest');
+
+    cy.get('.claims-alert').should(
+      'not.contain.text',
+      'We need you to submit files by mail or in person',
+    );
+
+    cy.get('.claims-alert')
+      .should('be.visible')
+      .and('contain.text', "You've already uploaded");
+
+    cy.axeCheck();
+  });
+
+  it('should not display Type 1 Unknown error alert when feature flag is disabled', () => {
+    const trackClaimsPage = new TrackClaimsPageV2();
+    trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
+    trackClaimsPage.verifyInProgressClaim(true);
+    trackClaimsPage.navigateToFilesTab();
+    cy.injectAxe();
+
+    cy.intercept('POST', '/v0/benefits_claims/*/benefits_documents', {
+      statusCode: 500,
+      body: {
+        errors: [
+          {
+            title: 'Internal Server Error',
+            code: '500',
+            status: '500',
+          },
+        ],
+      },
+    }).as('uploadRequest');
+
+    uploadFile('test-document.txt');
+    getFileInputElement(0)
+      .find('va-select')
+      .should('be.visible');
+    selectDocumentType(0, 'L034');
+
+    clickSubmitButton(SUBMIT_TEXT);
+    cy.wait('@uploadRequest');
+
+    cy.get('.claims-alert').should(
+      'not.contain.text',
+      'We need you to submit files by mail or in person',
+    );
+
+    cy.get('.claims-alert')
+      .should('be.visible')
+      .and('contain.text', 'Error uploading');
+
+    cy.axeCheck();
+  });
+
+  it('should persist Type 1 Unknown error alert when navigating between Files and Status tabs', () => {
+    setupTest();
+    setupUnknownErrorMock();
+    uploadFileAndSubmit();
+    verifyType1UnknownAlert();
+
+    cy.get('a[href*="/status"]').click();
+    verifyType1UnknownAlert();
+
+    cy.get('.claims-alert')
+      .find('va-link-action')
+      .click();
+
+    cy.url().should('include', '/files');
+    cy.get('#other-ways-to-send').should('be.visible');
+
+    cy.axeCheck();
+  });
+
+  it('should not display Type 1 Unknown error alert on Overview tab', () => {
+    setupTest();
+    setupUnknownErrorMock();
+    uploadFileAndSubmit();
+    verifyType1UnknownAlert();
+
+    cy.get('a[href*="/overview"]').click();
+    cy.get('.claims-alert').should('not.exist');
+
+    cy.axeCheck();
   });
 });
