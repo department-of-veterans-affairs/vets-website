@@ -2,6 +2,7 @@
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
 import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
@@ -21,9 +22,7 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 
-const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
-  TYPE_OF_CARE_IDS.PRIMARY_CARE,
-);
+const { cceType } = getTypeOfCareById(TYPE_OF_CARE_IDS.PRIMARY_CARE);
 
 describe('VAOS direct schedule flow - Single facility dead ends', () => {
   beforeEach(() => {
@@ -45,6 +44,10 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
           response: MockFacilityResponse.createResponses({
             facilityIds: ['983'],
           }),
+        });
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 1 }),
         });
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
@@ -79,19 +82,24 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
       it('should display warning', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-        const mockEligibilityResponse = new MockEligibilityResponse({
-          facilityId: '983',
-          typeOfCareId,
-          type: 'direct',
-          isEligible: true,
-        });
 
         mockClinicsApi({
           locationId: '983',
           response: [],
         });
-        mockEligibilityApi({ response: mockEligibilityResponse });
+        mockEligibilityDirectApi({
+          response: new MockFacilityResponse(),
+        });
+        mockEligibilityRequestApi({
+          response: MockEligibilityResponse.createEligibilityDisabledResponse({
+            type: 'request',
+          }),
+        });
         mockEligibilityCCApi({ cceType, isEligible: false });
+        mockClinicsApi({
+          locationId: '983',
+          response: [],
+        });
         mockFacilitiesApi({ response: [new MockFacilityResponse()] });
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
@@ -124,9 +132,15 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
     describe('And no past appointments and request only', () => {
       it('should display warning', () => {
         // Arrange
+
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
         mockEligibilityCCApi({ cceType, isEligible: false });
+        mockEligibilityDirectApi({
+          response: MockEligibilityResponse.createEligibilityDisabledResponse(
+            {},
+          ),
+        });
         mockEligibilityRequestApi({
           response: MockEligibilityResponse.createPatientHistoryInsufficientResponse(
             {
@@ -134,6 +148,11 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
             },
           ),
         });
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 1 }),
+        });
+
         mockFacilitiesApi({ response: [new MockFacilityResponse()] });
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
@@ -173,6 +192,7 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
           typeOfCareId: 'primaryCare',
           type: 'request',
           isEligible: false,
+          ineligibilityReason: MockEligibilityResponse.REQUEST_DISABLED,
         });
 
         mockClinicsApi({
@@ -226,6 +246,11 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
         mockEligibilityCCApi({ cceType, isEligible: false });
+        mockEligibilityDirectApi({
+          response: MockEligibilityResponse.createEligibilityDisabledResponse(
+            {},
+          ),
+        });
         mockEligibilityRequestApi({
           response: MockEligibilityResponse.createFacilityRequestLimitExceededResponse(
             {
@@ -234,7 +259,10 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
           ),
         });
         mockFacilitiesApi({ response: [new MockFacilityResponse()] });
-
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 1 }),
+        });
         // Configure facility 983 to accept request schedule appointments for
         // primary care.
         mockSchedulingConfigurationApi({

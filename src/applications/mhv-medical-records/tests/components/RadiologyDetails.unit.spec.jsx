@@ -27,10 +27,6 @@ describe('RadiologyDetails component', () => {
         },
         images,
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medical_records_allow_txt_downloads: true,
-      },
     };
 
     let screen;
@@ -140,10 +136,6 @@ describe('RadiologyDetails component', () => {
           notificationStatus: true,
         },
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medical_records_allow_txt_downloads: true,
-      },
     };
 
     let screen;
@@ -200,10 +192,6 @@ describe('RadiologyDetails component', () => {
           notificationStatus: true,
         },
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medical_records_allow_txt_downloads: true,
-      },
     };
 
     let screen;
@@ -234,10 +222,6 @@ describe('RadiologyDetails component', () => {
         labsAndTests: {
           labsAndTestsDetails: radiologyRecord,
         },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medical_records_allow_txt_downloads: true,
       },
     };
 
@@ -381,10 +365,6 @@ describe('RadiologyDetails component', () => {
           ...threeImageRequestInProgress,
           studyRequestLimitReached: true, // simulating request limit reached
         },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medical_records_allow_txt_downloads: true,
       },
     };
 

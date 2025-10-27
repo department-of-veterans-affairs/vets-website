@@ -3,16 +3,36 @@
  * @description Barrel export file for form page configurations
  */
 
-/** @exports {PageSchema} identificationInformation - SSN/VA file number page */
+// Page components
+export { BenefitTypePage } from './benefit-type';
+export { VeteranIdentityPage } from './veteran-identity';
+export { VeteranAddressPage } from './veteran-address';
+export { ClaimantRelationshipPage } from './claimant-relationship';
+export { ClaimantInformationPage } from './claimant-information';
+export { ClaimantSSNPage } from './claimant-ssn';
+export { ClaimantAddressPage } from './claimant-address';
+export { ClaimantContactPage } from './claimant-contact';
+export { HospitalizationStatusPage } from './hospitalization-status';
+export { HospitalizationDatePage } from './hospitalization-date';
+export { HospitalizationFacilityPage } from './hospitalization-facility';
+
+// Review components
+export { BenefitTypeReviewPage } from './benefit-type/benefit-type-review';
 export {
-  default as identificationInformation,
-} from './identification-information';
-
-/** @exports {PageSchema} mailingAddress - Mailing address page */
-export { default as mailingAddress } from './mailing-address';
-
-/** @exports {PageSchema} nameAndDateOfBirth - Name and DOB page */
-export { default as nameAndDateOfBirth } from './name-and-date-of-birth';
-
-/** @exports {PageSchema} phoneAndEmailAddress - Contact information page */
-export { default as phoneAndEmailAddress } from './phone-and-email-address';
+  VeteranIdentityReviewPage,
+} from './veteran-identity/veteran-identity-review';
+export {
+  VeteranAddressReviewPage,
+} from './veteran-address/veteran-address-review';
+export {
+  ClaimantInformationReviewPage,
+} from './claimant-information/claimant-information-review';
+export {
+  HospitalizationStatusReviewPage,
+} from './hospitalization-status/hospitalization-status-review';
+export {
+  HospitalizationDateReviewPage,
+} from './hospitalization-date/hospitalization-date-review';
+export {
+  HospitalizationFacilityReviewPage,
+} from './hospitalization-facility/hospitalization-facility-review';

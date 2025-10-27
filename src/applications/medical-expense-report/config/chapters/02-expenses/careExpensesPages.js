@@ -19,43 +19,72 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { recipientTypeLabels, careTypeLabels } from '../../../utils/labels';
+import { transformDate } from './helpers';
 
 function introDescription() {
   return (
     <div>
       <p className="vads-u-margin-top--0">
-        In the next few questions, we’ll ask you about recurring care expenses
-        that aren’t reimbursed. You’ll need to add at least one care expense.
+        Next we’ll ask you about unreimbursed care expenses that you, your
+        spouse, or your dependents pay for.
       </p>
       <p>
-        Examples of unreimbursed care expenses include payments to in-home care
-        providers, nursing homes, or other care facilities that insurance won’t
-        cover.
+        Examples of unreimbursed care expenses include payments to in-home care,
+        nursing homes, or other care facilities that insurance won’t cover.
       </p>
-      <va-additional-info trigger="You need to submit supporting documents">
+      <va-additional-info trigger="Additional documents you may need to submit">
         <p>
-          If you are claiming in-home care, nursing home, or other care facility
-          expenses, you may need to submit proof for these claimed expenses and
-          other documents with your application.
+          If you’re reporting in-home care, nursing home, or other care facility
+          expenses, you may need to submit proof for these expenses with your
+          form.
         </p>
         <p>
-          In addition, if you are claiming any of these expense types, you may
-          need to attach one or more of these VA forms that have been signed by
-          a provider:
+          You may also need to submit 1 or more of these VA forms signed by a
+          provider:
         </p>
         <ul>
           <li>
-            Residential Care, Adult Daycare, or a Similar Facility worksheet
-            (opens in a new tab)
+            Worksheet for a Residential Care, Adult Daycare, or Similar Facility
+            from VA Form 21P-8416
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21p-8416/"
+                text="Get VA Form 21P-8416 to download"
+                external
+              />
+            </span>
           </li>
-          <li>In-Home Attendant Expenses worksheet (opens in a new tab)</li>
+          <li>
+            Worksheet for In-Home Attendant from VA Form 21P-8416
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21p-8416/"
+                text="Get VA Form 21P-8416 to download"
+                external
+              />
+            </span>
+          </li>
           <li>
             Request for Nursing Home Information in Connection with Claim for
-            Aid and Attendance (VA Form 21-0779 (opens in a new tab))
+            Aid and Attendance (VA Form 21-0779)
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21-0779/"
+                text="Get VA Form 21-0779 to download"
+                external
+              />
+            </span>
           </li>
           <li>
             Examination for Housebound Status or Permanent Need for Regular Aid
-            and Attendance form (VA Form 21-2680 (opens in a new tab))
+            and Attendance form (VA Form 21-2680)
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21-2680/"
+                text="Get VA Form 21-2680 to download"
+                external
+              />
+            </span>
           </li>
         </ul>
         <p>
@@ -67,11 +96,6 @@ function introDescription() {
   );
 }
 
-const transformTypeOfCare = type =>
-  type === 'residential'
-    ? 'Residential care facility'
-    : 'In-home care attendant';
-
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'careExpenses',
@@ -80,19 +104,19 @@ const options = {
   required: false,
   isItemIncomplete: item =>
     !item?.typeOfCare ||
-    !item?.recipients ||
-    ((item.recipients === 'DEPENDENT' || item.recipients === 'OTHER') &&
-      !item?.childName) ||
+    !item?.recipient ||
+    ((item.recipient === 'DEPENDENT' || item.recipient === 'OTHER') &&
+      !item?.recipientName) ||
     !item?.provider ||
     !item?.careDate?.from ||
-    !item?.monthlyPayment ||
+    !item?.monthlyAmount ||
     (item?.typeOfCare === 'IN_HOME_CARE_ATTENDANT' &&
-      (!item?.hourlyRate || !item?.hoursPerWeek)),
+      (!item?.hourlyRate || !item?.weeklyHours)),
   maxItems: 5,
   text: {
     getItemName: item =>
-      transformTypeOfCare(item?.typeOfCare) || 'New care expense',
-    cardDescription: item => item?.careDate?.from || '',
+      careTypeLabels[(item?.typeOfCare)] || 'New care expense',
+    cardDescription: item => transformDate(item?.careDate?.from) || '',
   },
 };
 
@@ -159,29 +183,32 @@ const recipientPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Care recipient and provider name',
     ),
-    recipients: radioUI({
+    recipient: radioUI({
       title: 'Who is the expense for?',
       labels: recipientTypeLabels,
     }),
-    childName: textUI({
+    recipientName: textUI({
       title: 'Full name of the person who received care',
-      expandUnder: 'recipients',
+      expandUnder: 'recipient',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
-      required: (formData, index) =>
-        ['DEPENDENT', 'OTHER'].includes(
-          formData?.careExpenses?.[index]?.recipients,
-        ),
+      required: (formData, index, fullData) => {
+        // Adding a check for formData and fullData since formData is sometimes undefined on load
+        // and we can't rely on fullData for testing
+        const careExpenses = formData.careExpenses ?? fullData.careExpenses;
+        const careExpense = careExpenses?.[index];
+        return ['DEPENDENT', 'OTHER'].includes(careExpense?.recipient);
+      },
     }),
     provider: textUI('What’s the name of the care provider?'),
   },
   schema: {
     type: 'object',
     properties: {
-      recipients: radioSchema(Object.keys(recipientTypeLabels)),
-      childName: textSchema,
+      recipient: radioSchema(Object.keys(recipientTypeLabels)),
+      recipientName: textSchema,
       provider: textSchema,
     },
-    required: ['recipients', 'provider'],
+    required: ['recipient', 'provider'],
   },
 };
 /** @returns {PageSchema} */
@@ -217,41 +244,46 @@ const datePage = {
 const costPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Cost of care'),
-    monthlyPayment: currencyUI('How much is each monthly payment?'),
+    monthlyAmount: currencyUI('How much is each monthly payment?'),
     hourlyRate: {
       ...currencyUI({
         title: 'What is the care provider’s hourly rate?',
-        hideIf: (formData, index, fullData) =>
-          fullData?.careExpenses?.[index]?.typeOfCare !==
-          'IN_HOME_CARE_ATTENDANT',
+        hideIf: (formData, index, fullData) => {
+          const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+          const careExpense = careExpenses?.[index];
+          return careExpense?.typeOfCare !== 'IN_HOME_CARE_ATTENDANT';
+        },
       }),
-      'ui:required': (formData, index, fullData) =>
-        fullData?.careExpenses?.[index]?.typeOfCare ===
-        'IN_HOME_CARE_ATTENDANT',
+      'ui:required': (formData, index, fullData) => {
+        const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+        const careExpense = careExpenses?.[index];
+        return careExpense?.typeOfCare === 'IN_HOME_CARE_ATTENDANT';
+      },
     },
-    hoursPerWeek: {
+    weeklyHours: {
       ...numberUI({
         title: 'How many hours per week does the care provider work?',
         hideIf: (formData, index, fullData) => {
-          return (
-            fullData?.careExpenses?.[index]?.typeOfCare !==
-            'IN_HOME_CARE_ATTENDANT'
-          );
+          const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+          const careExpense = careExpenses?.[index];
+          return careExpense?.typeOfCare !== 'IN_HOME_CARE_ATTENDANT';
         },
       }),
-      'ui:required': (formData, index, fullData) =>
-        fullData?.careExpenses?.[index]?.typeOfCare ===
-        'IN_HOME_CARE_ATTENDANT',
+      'ui:required': (formData, index, fullData) => {
+        const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+        const careExpense = careExpenses?.[index];
+        return careExpense?.typeOfCare === 'IN_HOME_CARE_ATTENDANT';
+      },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      monthlyPayment: currencySchema,
+      monthlyAmount: currencySchema,
       hourlyRate: currencySchema,
-      hoursPerWeek: numberSchema,
+      weeklyHours: numberSchema,
     },
-    required: ['monthlyPayment'],
+    required: ['monthlyAmount'],
   },
 };
 

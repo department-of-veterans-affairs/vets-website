@@ -142,6 +142,7 @@ const spouseMarriageEnded = {
           onVaChange={onChange}
         />
         <VaTextInput
+          class="vads-u-margin-top--4"
           name="marriageEndCity"
           label={itemData.marriageEndOutsideUS ? 'City' : 'City or county'}
           error={
@@ -156,6 +157,7 @@ const spouseMarriageEnded = {
         {itemData.marriageEndOutsideUS ? (
           <>
             <VaTextInput
+              class="vads-u-margin-top--4"
               name="marriageEndProvince"
               label="Province, region or territory"
               value={itemData.marriageEndProvince || ''}

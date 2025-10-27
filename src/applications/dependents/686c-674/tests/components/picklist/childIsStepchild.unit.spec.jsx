@@ -45,7 +45,18 @@ describe('childIsStepchild', () => {
     const radio = $('va-radio', container);
     expect(radio).to.exist;
     expect(radio.getAttribute('label')).to.equal(
-      'Is PENNY FOSTER (age 11 years old) a stepchild?',
+      'Is PENNY FOSTER (age 11) your stepchild?',
+    );
+    expect(radio.getAttribute('required')).to.equal('true');
+  });
+
+  it('should render age in months', () => {
+    const data = { ...defaultData, dateOfBirth: createDoB(0, 5) };
+    const { container } = renderComponent({ data });
+    const radio = $('va-radio', container);
+    expect(radio).to.exist;
+    expect(radio.getAttribute('label')).to.equal(
+      'Is PENNY FOSTER (age 5 months) your stepchild?',
     );
     expect(radio.getAttribute('required')).to.equal('true');
   });
@@ -87,9 +98,11 @@ describe('childIsStepchild', () => {
   });
 
   context('childIsStepchild handlers', () => {
-    it('should return "DONE" on goForward', () => {
+    it('should return "child-reason-to-remove" on goForward', () => {
       // This will change once more child pages are added
-      expect(childIsStepchild.handlers.goForward()).to.equal('DONE');
+      expect(childIsStepchild.handlers.goForward()).to.equal(
+        'child-reason-to-remove',
+      );
     });
 
     it('should call goForward when stepchild value is set on submit', () => {

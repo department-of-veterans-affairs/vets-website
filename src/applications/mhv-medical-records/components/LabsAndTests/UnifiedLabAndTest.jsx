@@ -80,9 +80,8 @@ const UnifiedLabsAndTests = props => {
           description="L&TR Detail"
           downloadPdf={generatePdf}
           downloadTxt={generateTxt}
-          allowTxtDownloads
         />
-        <DownloadingRecordsInfo description="L&TR Detail" allowTxtDownloads />
+        <DownloadingRecordsInfo description="L&TR Detail" />
 
         {/*                   TEST DETAILS                          */}
         <div className="test-details-container max-80">

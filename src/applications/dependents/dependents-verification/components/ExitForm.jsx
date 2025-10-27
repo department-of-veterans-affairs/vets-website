@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { deleteInProgressForm } from '../util';
+import { deleteInProgressForm } from '../../shared/utils/api';
 
 export const form686Url = getAppUrl('686C-674');
 

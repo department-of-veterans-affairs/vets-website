@@ -89,7 +89,7 @@ const DebtLettersSummary = () => {
   const { statements: mcpStatements, error: mcpError } = mcp;
   const allDebtsEmpty =
     !debtError && debts.length === 0 && debtLinks.length === 0;
-  const title = 'Current overpayment balances';
+  const title = 'Overpayment balances';
   useHeaderPageTitle(title);
 
   useEffect(() => {
@@ -163,7 +163,7 @@ const DebtLettersSummary = () => {
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current overpayment balances',
+            label: 'Overpayment balances',
           },
         ]}
         label="Breadcrumb"

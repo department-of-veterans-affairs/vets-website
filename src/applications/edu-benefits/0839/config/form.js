@@ -1,6 +1,8 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import submitForm from './submitForm';
+import transform from './transform';
 import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
 
@@ -13,8 +15,11 @@ import {
   agreementType,
   acknowledgements,
   institutionDetailsFacility,
+  yellowRibbonProgramRequest,
+  eligibleIndividualsSupported,
+  yellowRibbonProgramRequestSummary,
+  contributionLimitsAndDegreeLevel,
 } from '../pages';
-import transform from './transform';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -117,6 +122,46 @@ const formConfig = {
             }
           },
         },
+      },
+    },
+    yellowRibbonProgramRequestChapter: {
+      title: 'Yellow Ribbon Program contributions',
+      pages: {
+        ...arrayBuilderPages(
+          {
+            arrayPath: 'yellowRibbonProgramRequest',
+            itemName: 'Yellow Ribbon Program contributions',
+            nounSingular: 'Yellow Ribbon Program contribution',
+            nounPlural: 'Yellow Ribbon Program contributions',
+            required: true,
+          },
+          pageBuilder => ({
+            yellowRibbonProgramRequestIntro: pageBuilder.introPage({
+              title: 'Yellow Ribbon Program contributions',
+              path: 'yellow-ribbon-program-request',
+              uiSchema: yellowRibbonProgramRequest.uiSchema,
+              schema: yellowRibbonProgramRequest.schema,
+            }),
+            yellowRibbonProgramRequestSummary: pageBuilder.summaryPage({
+              title: 'Yellow Ribbon Program contributions',
+              path: 'yellow-ribbon-program-request/summary',
+              uiSchema: yellowRibbonProgramRequestSummary.uiSchema,
+              schema: yellowRibbonProgramRequestSummary.schema,
+            }),
+            yellowRibbonProgramContribution: pageBuilder.itemPage({
+              title: 'Add a Yellow Ribbon Program contribution',
+              path: 'yellow-ribbon-program-request/:index',
+              uiSchema: eligibleIndividualsSupported.uiSchema,
+              schema: eligibleIndividualsSupported.schema,
+            }),
+            contributionLimitsAndDegreeLevel: pageBuilder.itemPage({
+              title: 'Contribution limits and degree level',
+              path: 'yellow-ribbon-program-request/:index/contribution-limits',
+              uiSchema: contributionLimitsAndDegreeLevel.uiSchema,
+              schema: contributionLimitsAndDegreeLevel.schema,
+            }),
+          }),
+        ),
       },
     },
   },
