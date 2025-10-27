@@ -19,7 +19,7 @@ const ReviewPage = ({ claim, message }) => {
       claimNumber: '12345',
       appointmentDate: '2025-10-01',
       facilityName: 'Cheyenne VA Medical Center',
-      totalCostRequested: 130.0,
+      totalCostRequested: 150.0,
       reimbursementAmount: 0,
       createdOn: '2025-10-04',
       modifiedOn: '2025-10-04',
@@ -79,6 +79,15 @@ const ReviewPage = ({ claim, message }) => {
           costSubmitted: 0,
         },
         {
+          id: '3fa85f64-5717-4562-b3fc-2c963f66afa9',
+          expenseType: 'Toll',
+          name: 'string',
+          dateIncurred: '2025-10-17T21:32:16.531Z',
+          description: 'string',
+          costRequested: 20,
+          costSubmitted: 0,
+        },
+        {
           id: '3fa85f64-5717-4562-b3fc-2c963f66afa8',
           expenseType: 'Parking',
           name: 'string',
@@ -86,6 +95,29 @@ const ReviewPage = ({ claim, message }) => {
           description: 'string',
           costRequested: 20,
           costSubmitted: 0,
+        },
+      ],
+      documents: [
+        {
+          documentId: '9c63737a-f29e-f011-b4cc-001dd806c742',
+          filename: 'test.pdf',
+          mimetype: 'application/pdf',
+          createdon: '2025-10-01T18:14:37Z',
+          expenseId: '3fa85f64-5717-4562-b3fc-2c963f66afa7',
+        },
+        {
+          documentId: '9c63737a-f29e-f011-b4cc-001dd806c742',
+          filename: 'test3.pdf',
+          mimetype: 'application/pdf',
+          createdon: '2025-10-17T18:14:37Z',
+          expenseId: '3fa85f64-5717-4562-b3fc-2c963f66afa9',
+        },
+        {
+          documentId: '9c63737a-f29e-f011-b4cc-001dd806c742',
+          filename: 'test2.pdf',
+          mimetype: 'application/pdf',
+          createdon: '2025-10-18T18:14:37Z',
+          expenseId: '3fa85f64-5717-4562-b3fc-2c963f66afa8',
         },
       ],
     },
@@ -98,11 +130,24 @@ const ReviewPage = ({ claim, message }) => {
 
   // Create a grouped version of expenses by expenseType
   const groupedExpenses = overriddenClaim[0].expenses.reduce((acc, expense) => {
-    const { expenseType } = expense;
+    const { expenseType, id: expenseId } = expense;
+
+    // Find document associated with this expense
+    const expenseDocument =
+      overriddenClaim[0].documents?.find(doc => doc.expenseId === expenseId) ||
+      null;
+
+    // Add documents to the expense object
+    const expenseWithDocuments = {
+      ...expense,
+      document: expenseDocument,
+    };
+
     if (!acc[expenseType]) {
       acc[expenseType] = [];
     }
-    acc[expenseType].push(expense);
+
+    acc[expenseType].push(expenseWithDocuments);
     return acc;
   }, {});
 
@@ -112,6 +157,12 @@ const ReviewPage = ({ claim, message }) => {
     title: '',
     body: 'Your mileage expense was successfully added.',
     type: 'success',
+  };
+
+  const getOrdinalLabel = n => {
+    const s = ['th', 'st', 'nd', 'rd'];
+    const v = n % 100;
+    return `${n}${s[(v - 20) % 10] || s[v] || s[0]}`;
   };
 
   const [visible, setVisible] = useState(true);
@@ -146,17 +197,42 @@ const ReviewPage = ({ claim, message }) => {
       <va-accordion>
         {Object.entries(groupedExpenses).map(([type, expenses]) => (
           <va-accordion-item key={type} header={`${type} (${expenses.length})`}>
-            {expenses.map(expense => (
-              <div key={expense.id}>
-                {expense.expenseType === 'Mileage' && (
+            {expenses.map((expense, index) => {
+              if (type === 'Mileage') {
+                return (
                   <ExpenseCard
+                    key={expense.id}
                     expense={expense}
                     editToRoute="../mileage"
                     header="Mileage expense"
                   />
-                )}
-              </div>
-            ))}
+                );
+              }
+              if (type !== 'Mileage') {
+                const orderLabel = getOrdinalLabel(index + 1); // e.g., 1st, 2nd, 3rd
+                const header = `${orderLabel} ${type} expense`;
+
+                return (
+                  <ExpenseCard
+                    key={expense.id}
+                    expense={expense}
+                    editToRoute={`../${type}`}
+                    header={header}
+                  />
+                );
+              }
+              return null;
+            })}
+            {/* Only show button when expense type is NOT Mileage */}
+            {type !== 'Mileage' && (
+              <VaButton
+                id={`add-${type.toLowerCase()}-expense-button`}
+                className="vads-u-display--flex vads-u-margin-y--2"
+                text={`Add another ${type.toLowerCase()} expense`}
+                secondary
+                onClick={addMoreExpenses}
+              />
+            )}
           </va-accordion-item>
         ))}
       </va-accordion>

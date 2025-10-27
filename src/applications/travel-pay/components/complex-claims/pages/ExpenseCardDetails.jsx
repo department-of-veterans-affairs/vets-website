@@ -5,7 +5,7 @@ const ExpenseCardDetails = ({ items }) => {
   return (
     <>
       {items.map(({ label, value }) => (
-        <div key={label} className="vads-u-margin-top--2">
+        <div key={label} className="expense-card-details vads-u-margin-top--2">
           <p className="vads-u-font-weight--bold">{label}</p>
           <p>{value}</p>
         </div>

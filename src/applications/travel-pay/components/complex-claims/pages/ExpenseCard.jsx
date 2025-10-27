@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
 import ExpenseCardDetails from './ExpenseCardDetails';
 import DeleteExpenseModal from './DeleteExpenseModal';
+import { formatDateTime } from '../../../util/dates';
 
 const TripTypeLabels = {
   OneWay: 'One way',
@@ -22,8 +23,10 @@ const ExpenseCard = ({ expense, editToRoute, header }) => {
     setShowDeleteModal(false);
   };
 
+  const [formattedDate] = formatDateTime(expense.dateIncurred);
+
   return (
-    <>
+    <div className="vads-u-margin-top--2">
       <va-card>
         <h3 className="vads-u-margin-top--1">{header}</h3>
         {expenseType === 'Mileage' && (
@@ -33,12 +36,12 @@ const ExpenseCard = ({ expense, editToRoute, header }) => {
                 label: 'Which address did you depart from?',
                 value: (
                   <>
-                    {address.addressLine1}
+                    {address.addressLine1}{' '}
                     {address.addressLine2 && (
-                      <span>{address.addressLine2}</span>
+                      <span>{address.addressLine2} </span>
                     )}
                     {address.addressLine3 && (
-                      <span>{address.addressLine3}</span>
+                      <span>{address.addressLine3} </span>
                     )}
                     {address.city}, {address.stateCode} {address.zipCode}
                   </>
@@ -47,6 +50,28 @@ const ExpenseCard = ({ expense, editToRoute, header }) => {
               {
                 label: 'Was your trip round trip or one way?',
                 value: TripTypeLabels[tripType] || tripType,
+              },
+            ]}
+          />
+        )}
+        {expenseType !== 'Mileage' && (
+          <ExpenseCardDetails
+            items={[
+              {
+                label: 'Date',
+                value: formattedDate,
+              },
+              {
+                label: 'Amount',
+                value: `$${expense.costRequested}`,
+              },
+              {
+                label: 'Description',
+                value: expense.description,
+              },
+              {
+                label: 'File name',
+                value: expense.document.filename,
               },
             ]}
           />
@@ -85,7 +110,7 @@ const ExpenseCard = ({ expense, editToRoute, header }) => {
         onPrimaryButtonClick={() => deleteExpense(expense.id)}
         onSecondaryButtonClick={() => setShowDeleteModal(false)}
       />
-    </>
+    </div>
   );
 };
 
