@@ -1,6 +1,19 @@
 {
   "reporter": ["text", "lcov", "json-summary"],
-  "include": ["src/**/*.js", "src/**/*.jsx"],
-  "exclude": ["**/*.unit.spec.js", "**/*.unit.spec.jsx", "node_modules/**"],
-  "all": true
+  "include": [
+    "src/**/*.js",
+    "src/**/*.jsx"
+  ],
+  "exclude": [
+    "src/platform/testing/**",
+    "**/*.spec.js",
+    "**/*.spec.jsx",
+    "**/*.unit.spec.js",
+    "**/*.unit.spec.jsx",
+    "**/*.d.ts",
+    "node_modules/**"
+  ],
+  "all": true,
+  "sourceMap": false,
+  "excludeAfterRemap": false
 }
