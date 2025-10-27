@@ -51,12 +51,15 @@ const formatDatePart = date =>
  * @param {Date} date - Date to format
  * @returns {string} Formatted time (e.g., "3:45 p.m.")
  */
-const formatTimePart = date =>
-  date.toLocaleTimeString('en-US', {
+const formatTimePart = date => {
+  const timeString = date.toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
     hour12: true,
   });
+  // Convert "AM" to "a.m." and "PM" to "p.m."
+  return timeString.replace(/AM/g, 'a.m.').replace(/PM/g, 'p.m.');
+};
 
 /**
  * Helper: Format date with midnight in local timezone
