@@ -28,14 +28,12 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
       closeable
       onCloseEvent={onCloseEvent}
     >
-      {variant === 'name-and-zip-code' ? (
+      {variant === 'nameAndZipCodePage' ? (
         <h3 slot="headline">
           Veteran’s name and postal code must match your PDF
         </h3>
       ) : (
-        <h3 slot="headline">
-          Veteran’s identification information must match your PDF
-        </h3>
+        <h3 slot="headline">This information must match your form</h3>
       )}
       {isLoa3 ? (
         <p>
@@ -43,15 +41,16 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
           application based on your account details.
         </p>
       ) : null}
-      {variant === 'name-and-zip-code' ? (
+      {variant === 'nameAndZipCodePage' ? (
         <p>
-          If the Veteran’s name and postal code here don’t match your uploaded
-          PDF, it will cause processing delays.
+          Since you’re signed in to your account, we prefilled this page based
+          on your account details.
         </p>
       ) : (
         <p>
-          If the Veteran’s identification information you enter here doesn’t
-          match your uploaded PDF, it will cause processing delays.
+          Since you’re signed in, we prefilled this information based on your VA
+          profile. <br /> If this information doesn’t match what’s on your form,
+          it’ll cause processing delays.
         </p>
       )}
     </VaAlert>
