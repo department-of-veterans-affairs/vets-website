@@ -234,7 +234,7 @@ const informationPage = {
     }),
     establishedDate: currentOrPastDateUI('When was the annuity created?'),
     marketValueAtEstablishment: currencyUI(
-      'What was the fair market value of the asset when the annui ty was purchased?',
+      'What was the fair market value of the asset when the annuity was purchased?',
     ),
   },
   schema: {
