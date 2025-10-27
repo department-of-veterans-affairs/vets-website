@@ -6,7 +6,7 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { treatmentPages } from '../../../../config/chapters/04-claim-information/treatmentPages';
+import { treatmentPages } from '../../../../config/chapters/05-claim-information/treatmentPages';
 
 const arrayPath = 'vaMedicalCenters';
 
