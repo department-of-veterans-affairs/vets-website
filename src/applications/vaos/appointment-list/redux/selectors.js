@@ -222,6 +222,15 @@ export function selectTypeOfCareName(appointment) {
     const { displayName } = getTypeOfCareById(serviceCategoryName);
     return displayName;
   }
+
+  if (
+    !name &&
+    appointment.vaos?.isCerner &&
+    appointment.vaos.apiData?.description
+  ) {
+    return appointment.vaos.apiData.description;
+  }
+
   return name;
 }
 
