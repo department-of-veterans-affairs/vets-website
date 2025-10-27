@@ -495,6 +495,9 @@ describe('Failed Submissions in Progress Empty State', () => {
       );
       cy.axeCheck();
     });
+  });
+});
+
 describe('Type 1 Unknown Upload Errors', () => {
   const setupTest = () => {
     const trackClaimsPage = new TrackClaimsPageV2();
