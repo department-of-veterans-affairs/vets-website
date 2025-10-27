@@ -13,6 +13,7 @@ import PersonalHealthCareContacts from './components/personal-health-care-contac
 import BlankPageTemplate from './components/BlankPageTemplate';
 import FinancialInformation from './components/FinancialInformation';
 import HealthCareSettings from './components/HealthCareSettings';
+import LettersAndDocuments from './components/LettersAndDocuments';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -179,7 +180,7 @@ const routesForProfile2Nav = [
     subnavParent: PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: LettersAndDocuments,
     name: PROFILE_PATH_NAMES.LETTERS_AND_DOCUMENTS,
     path: PROFILE_PATHS.LETTERS_AND_DOCUMENTS,
     requiresLOA3: true,
