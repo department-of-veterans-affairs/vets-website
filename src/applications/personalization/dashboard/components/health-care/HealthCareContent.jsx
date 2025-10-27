@@ -31,7 +31,7 @@ const HealthCareContent = ({
       <p>You don’t have any upcoming appointments.</p>
       <va-link
         text="Manage health appointments"
-        href="/my-health/appointments/"
+        href="/my-health/appointments"
         active
       />
     </va-card>
@@ -65,7 +65,7 @@ const HealthCareContent = ({
   const NoHealthcareText = () => (
     <div data-testid="no-health-care-notice">
       <p>We can’t find any VA health care for you.</p>
-      <va-link text="Go to My HealtheVet" href="/my-health/" />
+      <va-link text="Go to My HealtheVet" href="/my-health" />
     </div>
   );
 
