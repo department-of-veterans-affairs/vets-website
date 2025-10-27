@@ -12,9 +12,11 @@ import { submit } from './submit';
 import { defaultDefinitions } from './definitions';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
-import dicBenefits from './chapters/04-claim-information/dicBenefits';
-import nursingHome from './chapters/04-claim-information/nursingHome';
-import { treatmentPages } from './chapters/04-claim-information/treatmentPages';
+
+import {
+  vetIdentification,
+  vetIdentificationAdditional,
+} from './chapters/01-veteran-information/veteranInformation';
 import veteranName from './chapters/01-veteran-information/veteranName';
 import claimantInformationPage from './chapters/02-claimant-information/claimantInformation';
 import mailingAddress from './chapters/02-claimant-information/mailingAddress';
@@ -28,10 +30,15 @@ import nationalGuardUnitAddress from './chapters/03-military-history/nationalGua
 import { otherServiceNamesPages } from './chapters/03-military-history/serviceNames';
 import prisonerOfWarPage from './chapters/03-military-history/prisonerOfWar';
 import powPeriodOfTimePage from './chapters/03-military-history/powPeriodOfTime';
-import {
-  vetIdentification,
-  vetIdentificationAdditional,
-} from './chapters/01-veteran-information/veteranInformation';
+import dicBenefits from './chapters/05-claim-information/dicBenefits';
+import nursingHome from './chapters/05-claim-information/nursingHome';
+import { treatmentPages } from './chapters/05-claim-information/treatmentPages';
+import directDeposit from './chapters/07-additional-information/directDeposit';
+import directDepositAccount from './chapters/07-additional-information/directDepositAccount';
+import otherPaymentOptions from './chapters/07-additional-information/otherPaymentOptions';
+import supportingDocuments from './chapters/07-additional-information/supportingDocuments';
+import uploadDocuments from './chapters/07-additional-information/uploadDocuments';
+import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -197,7 +204,7 @@ const formConfig = {
         },
       },
     },
-    // Chapter 4
+    // Chapter 5 - Claim Information
     claimInformation: {
       title: 'Claim information',
       pages: {
@@ -213,6 +220,50 @@ const formConfig = {
           path: 'claim-information/nursing-home',
           uiSchema: nursingHome.uiSchema,
           schema: nursingHome.schema,
+        },
+      },
+    },
+    // Chapter 7 - Additional Information
+    additionalInformation: {
+      title: 'Additional information',
+      pages: {
+        directDeposit: {
+          title: 'Direct deposit for survivor benefits',
+          path: 'additional-information/direct-deposit',
+          uiSchema: directDeposit.uiSchema,
+          schema: directDeposit.schema,
+        },
+        directDepositAccount: {
+          title: 'Account information for direct deposit',
+          path: 'additional-information/direct-deposit/account',
+          depends: directDepositAccount.depends,
+          uiSchema: directDepositAccount.uiSchema,
+          schema: directDepositAccount.schema,
+        },
+        otherPaymentOptions: {
+          title: 'Other payment options',
+          path: 'additional-information/other-payment-options',
+          depends: otherPaymentOptions.depends,
+          uiSchema: otherPaymentOptions.uiSchema,
+          schema: otherPaymentOptions.schema,
+        },
+        supportingDocuments: {
+          title: 'Supporting documents',
+          path: 'additional-information/supporting-documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
+        },
+        uploadDocuments: {
+          title: 'Upload documents',
+          path: 'additional-information/upload-documents',
+          uiSchema: uploadDocuments.uiSchema,
+          schema: uploadDocuments.schema,
+        },
+        reviewDocuments: {
+          title: 'Review supporting documents',
+          path: 'additional-information/review-documents',
+          uiSchema: reviewDocuments.uiSchema,
+          schema: reviewDocuments.schema,
         },
       },
     },
