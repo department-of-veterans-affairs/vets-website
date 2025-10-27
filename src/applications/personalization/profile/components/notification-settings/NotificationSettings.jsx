@@ -235,6 +235,7 @@ const NotificationSettings = ({
               if (
                 id === NOTIFICATION_GROUPS.PAYMENTS &&
                 !toggles.profileShowNewHealthCareCopayBillNotificationSetting &&
+                !emailAddress &&
                 !mobilePhoneNumber
               ) {
                 return null;
