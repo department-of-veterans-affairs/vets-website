@@ -3,6 +3,9 @@ import * as agreementType from './agreementType';
 import * as acknowledgements from './acknowledgements';
 import * as institutionDetailsFacility from './institutionDetailsFacility';
 import * as yellowRibbonProgramRequest from './yellowRibbonProgramRequest';
+import * as eligibleIndividualsSupported from './eligibleIndividualsSupported';
+import * as contributionLimitsAndDegreeLevel from './contributionLimitsAndDegreeLevel';
+import * as yellowRibbonProgramRequestSummary from './yellowRibbonProgramRequestSummary';
 
 export {
   authorizedOfficial,
@@ -10,4 +13,7 @@ export {
   acknowledgements,
   institutionDetailsFacility,
   yellowRibbonProgramRequest,
+  eligibleIndividualsSupported,
+  contributionLimitsAndDegreeLevel,
+  yellowRibbonProgramRequestSummary,
 };
