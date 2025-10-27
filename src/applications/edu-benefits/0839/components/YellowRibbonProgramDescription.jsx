@@ -45,7 +45,9 @@ const YellowRibbonProgramDescription = () => {
             <li className="vads-u-margin-bottom--1 vads-u-margin-left--1 vads-u-padding-left--2p5">
               The degree level
             </li>
-            <li>The currency your school uses for billing</li>
+            <li className="vads-u-margin-bottom--1 vads-u-margin-left--1 vads-u-padding-left--2p5">
+              The currency your school uses for billing
+            </li>
             <li className="vads-u-margin-bottom--1 vads-u-margin-left--1 vads-u-padding-left--2p5">
               The maximum annual contribution amount per student. Enter the
               total amount your school plans to contribute each year in your
