@@ -1,5 +1,5 @@
 /**
- * @module vapService
+ * @module vapServiceReducer
  * @description Redux reducer for managing VA Profile Service state, including
  * contact information fields, transactions, address validation, and UI modals.
  * This reducer handles the asynchronous transaction-based data flow required
