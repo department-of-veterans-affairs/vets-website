@@ -164,7 +164,7 @@ export const additionalInstitutionDetailsArrayOptions = {
     summaryDescriptionWithoutItems: (
       <>
         <h3 className="vads-u-margin-top--0">
-          You can add more locations to this agreement.
+          You can add more locations to this agreement
         </h3>
         <p>
           If you have any more campuses or additional locations to add to this
