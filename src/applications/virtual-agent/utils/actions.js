@@ -188,9 +188,9 @@ export const processIncomingActivity = ({
       setTimeout(() => {
         setInAuthExp('true');
         setLoggedInFlow('true');
-        // if (typeof appDispatch === 'function') {
-        appDispatch(toggleLoginModal(true, 'va-chatbot', true));
-        // }
+        if (typeof appDispatch === 'function') {
+          appDispatch(toggleLoginModal(true, 'va-chatbot', true));
+        }
       }, 2000); // delay before opening
     } else if (isNewAuthedConversation) {
       resetUtterances(dispatch);
