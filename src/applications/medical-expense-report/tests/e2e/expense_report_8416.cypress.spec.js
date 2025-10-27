@@ -786,12 +786,9 @@ const fillInStatementOfTruthFromFixture = () => {
     .get('input[type="checkbox"]')
     .check();
 
-  const fullName =
-    fixtureData.data.attributes.profile.first_name +
-    ' ' +
-    fixtureData.data.attributes.profile.middle_name +
-    ' ' +
-    fixtureData.data.attributes.profile.last_name;
+  const fullName = `${fixtureData.data.attributes.profile.first_name} ${
+    fixtureData.data.attributes.profile.middle_name
+  } ${fixtureData.data.attributes.profile.last_name}`;
   cy.get('va-statement-of-truth')
     .shadow()
     .get('#veteran-signature')
@@ -805,17 +802,17 @@ const fillInStatementOfTruthFromFixture = () => {
 };
 
 /**
- * Upload a test file.
+ * Upload a test file. To be used later.
  */
-const uploadTestFiles = () => {
-  cy.get('va-file-input-multiple')
-    .shadow()
-    .get('va-file-input')
-    .get('input[id="fileInputField"][type="file"]')
-    .selectFile(
-      'src/applications/medical-expense-report/tests/fixtures/data/TestBlankPDF.pdf',
-    );
-};
+// const uploadTestFiles = () => {
+//   cy.get('va-file-input-multiple')
+//     .shadow()
+//     .get('va-file-input')
+//     .get('input[id="fileInputField"][type="file"]')
+//     .selectFile(
+//       'src/applications/medical-expense-report/tests/fixtures/data/TestBlankPDF.pdf',
+//     );
+// };
 
 describe('Medical Expense Report Form 8416', () => {
   describe('Veteran reporting medical expenses', () => {
