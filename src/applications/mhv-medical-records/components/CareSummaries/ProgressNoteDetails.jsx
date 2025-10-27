@@ -150,15 +150,15 @@ ${record.note}`;
             monospace
           />
         </div>
-        <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
-        <DownloadingRecordsInfo description="CS&N Detail" />
-        <PrintDownload
-          description="CS&N Detail"
-          downloadPdf={generateCareNotesPDF}
-          downloadTxt={generateCareNotesTxt}
-        />
-        <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
       </HeaderSection>
+      <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+      <DownloadingRecordsInfo description="CS&N Detail" />
+      <PrintDownload
+        description="CS&N Detail"
+        downloadPdf={generateCareNotesPDF}
+        downloadTxt={generateCareNotesTxt}
+      />
+      <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
     </div>
   );
 };
