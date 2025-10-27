@@ -33,6 +33,10 @@ export const uiSchema = {
       },
     ),
     'ui:description': manualUploadRequirementsText,
+    'ui:confirmationField': ({ formData }) => ({
+      data: formData?.map(item => item.name || item.fileName),
+      label: 'Uploaded file(s)',
+    }),
   },
 };
 
