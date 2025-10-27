@@ -29,7 +29,7 @@ describe('Date Format function', () => {
   it('should return a formatted date (provided format)', () => {
     expect(
       dateFormat(
-        '2023-10-26T22:18:00-05:00',
+        '2023-10-26T12:18:00-05:00',
         "~~   QQQQ: 'literal text:M' M d *yy*~~",
       ),
     ).to.equal('~~   4th quarter: literal text:M 10 26 *23*~~');
