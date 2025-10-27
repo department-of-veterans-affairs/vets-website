@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { formatDate } from '../../combined/utils/helpers';
+import { formatDate, setPageFocus } from '../../combined/utils/helpers';
 
 const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
   const columns = ['Date', 'Description', 'Billing Reference', 'Amount'];
@@ -37,6 +37,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
   function onPageChange(page) {
     setCurrentData(paginate(charges, MAX_ROWS, page));
     setCurrentPage(page);
+    setPageFocus(`va-table`, true);
   }
 
   const numPages = Math.ceil(charges.length / MAX_ROWS);
