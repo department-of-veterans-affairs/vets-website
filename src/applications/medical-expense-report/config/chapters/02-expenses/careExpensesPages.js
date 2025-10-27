@@ -46,7 +46,7 @@ function introDescription() {
           <li>
             Worksheet for a Residential Care, Adult Daycare, or Similar Facility
             from VA Form 21P-8416
-            <span className="vads-u-display--inline-block">
+            <span className="vads-u-display--block">
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21p-8416/"
                 text="Get VA Form 21P-8416 to download"
@@ -56,7 +56,7 @@ function introDescription() {
           </li>
           <li>
             Worksheet for In-Home Attendant from VA Form 21P-8416
-            <span className="vads-u-display--inline-block">
+            <span className="vads-u-display--block">
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21p-8416/"
                 text="Get VA Form 21P-8416 to download"
@@ -67,7 +67,7 @@ function introDescription() {
           <li>
             Request for Nursing Home Information in Connection with Claim for
             Aid and Attendance (VA Form 21-0779)
-            <span className="vads-u-display--inline-block">
+            <span className="vads-u-display--block">
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21-0779/"
                 text="Get VA Form 21-0779 to download"
@@ -78,7 +78,7 @@ function introDescription() {
           <li>
             Examination for Housebound Status or Permanent Need for Regular Aid
             and Attendance form (VA Form 21-2680)
-            <span className="vads-u-display--inline-block">
+            <span className="vads-u-display--block">
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21-2680/"
                 text="Get VA Form 21-2680 to download"
