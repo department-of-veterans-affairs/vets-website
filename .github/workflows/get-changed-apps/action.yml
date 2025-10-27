@@ -3,55 +3,55 @@ description: Get application details for branches/commits with changes to single
 
 inputs:
   delimiter:
-    description: 'Delimiter to use for string output. Does not apply to `changed_files`.'
+    description: "Delimiter to use for string output. Does not apply to `changed_files`."
     required: false
-    default: ' '
+    default: " "
 
   output-type:
-    description: 'Comma delimited list of changed application details to retrieve. Output types include: `entry_name`, `folder`, `slack_group`, `slack_channel`, `url`, `continuous_deployment`.'
+    description: "Comma delimited list of changed application details to retrieve. Output types include: `entry_name`, `folder`, `slack_group`, `slack_channel`, `url`, `continuous_deployment`."
     required: false
-    default: ''
+    default: ""
 
 outputs:
   changed_files:
-    description: 'Space delimited list of paths for changed files that differ from `main` branch.'
+    description: "Space delimited list of paths for changed files that differ from `main` branch."
     value: ${{ steps.get-changed-files.outputs.changed_files }}
-  
+
   continuous_deployment:
-    description: 'Whether all changed applications have continuous deployment enabled.'
+    description: "Whether all changed applications have continuous deployment enabled."
     value: ${{ steps.check-continuous-deployment.outputs.is_enabled }}
 
   entry_names:
-    description: 'Entry names of changed applications.'
+    description: "Entry names of changed applications."
     value: ${{ steps.get-entry-names.outputs.entry_names }}
 
   folders:
-    description: 'Root folder paths of changed applications.'
+    description: "Root folder paths of changed applications."
     value: ${{ steps.get-folders.outputs.folders }}
 
   slack_groups:
-    description: 'Slack user groups of changed applications.'
+    description: "Slack user groups of changed applications."
     value: ${{ steps.get-slack-groups.outputs.slack_groups }}
 
   slack_channels:
-    description: 'Slack channel IDs of changed applications.'
+    description: "Slack channel IDs of changed applications."
     value: ${{ steps.get-slack-channels.outputs.slack_channels }}
 
   urls:
-    description: 'Root URLs of changed applications.'
+    description: "Root URLs of changed applications."
     value: ${{ steps.get-urls.outputs.urls }}
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Get paths of changed files
       id: get-changed-files
       shell: bash
       run: |
-        if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+        if [[ ${{ github.ref }} == 'refs/heads/production-bypass' ]]; then
             echo changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }}) >> $GITHUB_OUTPUT
         else
-          echo changed_files=$(git diff --name-only origin/main...) >> $GITHUB_OUTPUT
+          echo changed_files=$(git diff --name-only origin/production-bypass...) >> $GITHUB_OUTPUT
         fi
 
     - name: Get entry names
