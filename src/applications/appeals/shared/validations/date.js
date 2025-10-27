@@ -1,4 +1,4 @@
-import { isValid } from 'date-fns';
+import { isValid, isToday } from 'date-fns';
 
 import { parseISODate } from '~/platform/forms-system/src/js/helpers';
 
@@ -10,7 +10,7 @@ import { fixDateFormat } from '../utils/replace';
  * Get current UTC date at start of day (midnight)
  * @returns {Date} - Current UTC date at start of day
  */
-const getCurrentUTCStartOfDay = () => {
+export const getCurrentUTCStartOfDay = () => {
   const now = new Date();
   return new Date(
     Date.UTC(
@@ -30,21 +30,32 @@ const getCurrentUTCStartOfDay = () => {
  * @param {Date} date - The date to convert
  * @returns {Date} - UTC date at start of day
  */
-const toUTCStartOfDay = date => {
+export const toUTCStartOfDay = date => {
   return new Date(
     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
   );
 };
 
 /**
- * Check if a date is today or in the future relative to UTC
- * Used for both API-pulled and manual issues: blocks today and future dates
- * This ensures consistency with backend validation which uses UTC
+ * Main validation method: Check if a date should be blocked from appeal submission
+ * Uses dual validation approach combining local timezone and UTC validation
+ * This prevents same-day submissions globally while maintaining backend consistency
+ *
+ * Decision tree:
+ * 1. If decision date is same as current local calendar day → Block (return true)
+ * 2. If different local calendar day but same UTC day → Block (return true)
+ * 3. If both different → Allow (return false)
+ *
  * @param {Date} date - The date to check
- * @returns {boolean} - True if the date is today or future in UTC
+ * @returns {boolean} - True if the date should be blocked from appeal submission
  */
 export const isTodayOrInFuture = date => {
   if (!date || !isValid(date)) return false;
+
+  const isSameLocalDay = isToday(date);
+  if (isSameLocalDay) {
+    return true;
+  }
 
   const utcToday = getCurrentUTCStartOfDay();
   const inputDateUTC = toUTCStartOfDay(date);

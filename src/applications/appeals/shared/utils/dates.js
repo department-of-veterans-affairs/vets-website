@@ -2,18 +2,6 @@ import { parse, parseISO, add, format, isValid } from 'date-fns';
 
 import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from '../constants';
 
-// Common timezone abbreviations for VA.gov users
-const TIMEZONE_ABBREVIATIONS = {
-  'Asia/Tokyo': 'JST',
-  'America/New_York': 'EST',
-  'America/Chicago': 'CST',
-  'America/Denver': 'MST',
-  'America/Los_Angeles': 'PST',
-  'Europe/London': 'GMT',
-  'Europe/Paris': 'CET',
-  'Australia/Sydney': 'AEDT',
-};
-
 /**
  * parseDateToDateObj from ISO8601 or JS number date (not unix time)
  * @param {string, number, Date} date - date to format
@@ -85,38 +73,3 @@ export const parseDateWithOffset = (
  */
 export const getReadableDate = dateString =>
   parseDate(dateString, FORMAT_READABLE_DATE_FNS, FORMAT_YMD_DATE_FNS);
-
-/**
- * Get tomorrow's date formatted for display to users
- * @returns {string} Tomorrow's date in "Month Day, Year" format
- */
-export const getTomorrowFormatted = () => {
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  return tomorrow.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  });
-};
-
-/**
- * Get the current timezone abbreviation (e.g., "PST", "EST")
- * @returns {string} Timezone abbreviation or empty string if not available
- */
-export const getCurrentTimeZoneAbbr = () => {
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const date = new Date();
-
-  if (TIMEZONE_ABBREVIATIONS[timezone]) {
-    return TIMEZONE_ABBREVIATIONS[timezone];
-  }
-
-  // Fall back to browser's native abbreviation
-  return (
-    new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' })
-      .formatToParts(date)
-      .find(part => part.type === 'timeZoneName')?.value || ''
-  );
-};

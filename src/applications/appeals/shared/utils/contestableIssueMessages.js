@@ -1,4 +1,139 @@
-import { getTomorrowFormatted, getCurrentTimeZoneAbbr } from './dates';
+import { isToday, add } from 'date-fns';
+import { parseDateToDateObj } from './dates';
+import { FORMAT_YMD_DATE_FNS } from '../constants';
+
+// Common timezone abbreviations for VA.gov users
+const TIMEZONE_ABBREVIATIONS = {
+  'Asia/Tokyo': 'JST',
+  'America/New_York': 'EST',
+  'America/Chicago': 'CST',
+  'America/Denver': 'MST',
+  'America/Los_Angeles': 'PST',
+  'Europe/London': 'GMT',
+  'Europe/Paris': 'CET',
+  'Australia/Sydney': 'AEDT',
+};
+
+/**
+ * Get the current timezone abbreviation (e.g., "PST", "EST", "JST")
+ * @returns {string} Timezone abbreviation or empty string if not available
+ */
+const getCurrentTimeZoneAbbr = () => {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const date = new Date();
+
+  if (TIMEZONE_ABBREVIATIONS[timezone]) {
+    return TIMEZONE_ABBREVIATIONS[timezone];
+  }
+
+  // Fall back to browser's native abbreviation
+  return (
+    new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' })
+      .formatToParts(date)
+      .find(part => part.type === 'timeZoneName')?.value || ''
+  );
+};
+
+/**
+ * Helper: Format date part in readable format
+ * @param {Date} date - Date to format
+ * @returns {string} Formatted date (e.g., "January 15, 2024")
+ */
+const formatDatePart = date =>
+  date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+/**
+ * Helper: Format time part in readable format
+ * @param {Date} date - Date to format
+ * @returns {string} Formatted time (e.g., "3:45 p.m.")
+ */
+const formatTimePart = date =>
+  date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
+
+/**
+ * Helper: Format date with midnight in local timezone
+ * E.g., in California (UTC-8), if decision was today, UTC midnight tomorrow converts to 5:00 p.m. today
+ * Rather than confusing users with "available after 5:00 p.m. today", show stable "12:00 a.m. tomorrow"
+ * @param {Date} date - Date to format
+ * @param {string} timezone - Timezone abbreviation
+ * @returns {string} Formatted date with midnight time
+ */
+const formatDateWithMidnight = (date, timezone) =>
+  `${formatDatePart(date)}, 12:00 a.m. ${timezone}`;
+
+/**
+ * Helper: Format date with specific time in local timezone
+ * Used for showing UTC conversion times, e.g., in Japan (UTC+9), UTC midnight becomes 9:00 a.m. JST
+ * @param {Date} date - Date to format
+ * @param {string} timezone - Timezone abbreviation
+ * @returns {string} Formatted date with specific time
+ */
+const formatDateWithTime = (date, timezone) =>
+  `${formatDatePart(date)}, ${formatTimePart(date)} ${timezone}`;
+
+/**
+ * Helper: Create UTC midnight for a given date
+ * @param {Date} date - Date to create UTC midnight for
+ * @returns {Date} UTC midnight of the given date
+ */
+const createUTCMidnight = date => {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
+  );
+};
+
+/**
+ * Helper: Extract decision date from issue object
+ * @param {Object} issue - Contestable issue object
+ * @returns {string} Decision date string
+ */
+const getDecisionDate = issue => issue.approxDecisionDate || issue.decisionDate;
+
+/**
+ * Helper: Check if UTC midnight falls on the same local day as decision date
+ * @param {Date} decisionDate - The original decision date
+ * @param {Date} utcMidnight - UTC midnight converted to local time
+ * @returns {boolean} True if they fall on the same local day
+ */
+const isSameDayAsDecision = (decisionDate, utcMidnight) => {
+  const decisionLocalDay = formatDatePart(decisionDate);
+  const utcMidnightLocalDay = formatDatePart(utcMidnight);
+  return decisionLocalDay === utcMidnightLocalDay;
+};
+
+/**
+ * Calculate "available after" time based on blocking type
+ * Single function that handles both local and UTC blocking scenarios
+ * @param {string} decisionDate - The decision date in YYYY-MM-DD format
+ * @param {string} blockingType - Either 'local' or 'utc'
+ * @returns {string} Complete formatted datetime when available
+ */
+const getAvailableAfterDate = (decisionDate, blockingType) => {
+  const parsedDate = parseDateToDateObj(decisionDate, FORMAT_YMD_DATE_FNS);
+  const timezone = getCurrentTimeZoneAbbr();
+  const nextLocalDay = add(parsedDate, { days: 1 });
+
+  if (blockingType === 'local') {
+    return formatDateWithMidnight(nextLocalDay, timezone);
+  }
+
+  const utcMidnight = createUTCMidnight(nextLocalDay);
+
+  if (isSameDayAsDecision(parsedDate, utcMidnight)) {
+    return formatDateWithMidnight(nextLocalDay, timezone);
+  }
+
+  // Otherwise, show the actual UTC conversion time
+  return formatDateWithTime(utcMidnight, timezone);
+};
 
 /**
  * Formats an array of issue names into a natural language list
@@ -22,26 +157,41 @@ export const extractIssueNames = blockedIssues =>
   );
 
 /**
- * Generates blocked issue alert message with specific condition names
+ * Determines which validation is blocking based on decision tree logic
  * @param {Object[]} blockedIssues - Array of blocked contestable issue objects
- * @param {Object} dateOverrides - Optional date overrides for testing
- * @param {string} dateOverrides.tomorrow - Override tomorrow's formatted date
- * @param {string} dateOverrides.timezone - Override timezone abbreviation
+ * @returns {boolean} - True if blocked by local day validation, false if blocked by UTC validation
+ */
+export const isBlockedByLocalDay = blockedIssues => {
+  return blockedIssues.some(issue => {
+    const decisionDate = new Date(getDecisionDate(issue));
+    return isToday(decisionDate);
+  });
+};
+
+/**
+ * Generates blocked issue alert message based on dual validation decision tree
+ * - If blocked by local "same day": Show "wait until next day local time"
+ * - If blocked by UTC validation: Show "wait until next day UTC time (in local time)"
+ * @param {Object[]} blockedIssues - Array of blocked contestable issue objects
  * @returns {string} Formatted blocked message or empty string if no blocked issues
  */
-export const getBlockedMessage = (blockedIssues, dateOverrides = {}) => {
+export const getBlockedMessage = blockedIssues => {
   if (!blockedIssues?.length) {
     return '';
   }
 
   const issues = extractIssueNames(blockedIssues);
-  const tomorrow = dateOverrides.tomorrow || getTomorrowFormatted();
-  const timezone = dateOverrides.timezone || getCurrentTimeZoneAbbr();
   const isSingle = issues.length === 1;
+  const decisionDate = getDecisionDate(blockedIssues[0]);
 
-  return `We're sorry. ${formatIssueList(issues)} ${
+  const isLocalDayBlocking = isBlockedByLocalDay(blockedIssues);
+
+  const blockingType = isLocalDayBlocking ? 'local' : 'utc';
+  const availableAfter = getAvailableAfterDate(decisionDate, blockingType);
+
+  return `We're sorry. Your ${formatIssueList(issues)} ${
     isSingle ? "isn't" : "aren't"
   } available to add to your appeal yet. You can come back and select ${
     isSingle ? 'it' : 'them'
-  } after ${tomorrow}, 12:00 a.m. ${timezone}.`;
+  } after ${availableAfter}.`;
 };
