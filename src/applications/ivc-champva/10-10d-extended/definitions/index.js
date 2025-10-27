@@ -25,7 +25,7 @@ export const fileUploadWithMetadataSchema = ({
   minItems = 1,
 } = {}) => {
   const options = Array.isArray(enumNames) ? enumNames : [];
-  const normalized = options.map(opt => opt.trim()).filter(v => v.length);
+  const normalized = options.map(opt => opt.trim()).filter(Boolean);
 
   // de-duplicate while preserving first-seen order
   const enumValues = [...new Set(normalized)];
