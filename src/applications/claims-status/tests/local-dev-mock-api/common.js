@@ -1590,31 +1590,66 @@ const responses = {
   },
 
   // Mock POST handler for file upload
-  'POST /v0/benefits_claims/:claimId/benefits_documents': (req, res) => {
-    // Simulate successful file upload
-    // In a real scenario, this would process the multipart form data
-    const { claimId } = req.params;
+  'POST /v0/benefits_claims/:claimId/benefits_documents': (() => {
+    let uploadCount = 0;
 
-    // Extract form data if available (for more realistic mocking)
-    const fileName = req.body?.file?.name || 'uploaded_document.pdf';
-    const documentType = req.body?.document_type || 'Medical records';
-
-    // Simulate a slight delay like a real upload
-    setTimeout(() => {
-      res.status(200).json({
-        data: {
-          success: true,
-          jobId: `job-${Date.now()}`,
-          claimId,
-          document: {
-            fileName,
-            documentType,
-            uploadDate: new Date().toISOString(),
+    const errorResponses = {
+      duplicate: {
+        status: 422,
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'DOC_UPLOAD_DUPLICATE',
+            code: '422',
+            status: '422',
+            source: 'BenefitsDocuments::Service',
           },
-        },
-      });
-    }, 500); // 500ms delay to simulate upload processing
-  },
+        ],
+      },
+      invalidClaimant: {
+        status: 422,
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'DOC_UPLOAD_INVALID_CLAIMANT',
+            code: '422',
+            status: '422',
+            source: 'BenefitsDocuments::Service',
+          },
+        ],
+      },
+      unknown: {
+        status: 500,
+        errors: [
+          {
+            title: 'Internal Server Error',
+            code: '500',
+            status: '500',
+          },
+        ],
+      },
+    };
+
+    // Configuration for testing different scenarios
+    const errorPattern = ['duplicate', 'unknown', 'invalidClaimant']; // Change this to test different scenarios
+    // const errorPattern = [null]; // for success only
+
+    return (_req, res) => {
+      uploadCount += 1;
+      const mockError = errorPattern[(uploadCount - 1) % errorPattern.length];
+
+      // Simulate upload processing delay
+      setTimeout(() => {
+        if (mockError && errorResponses[mockError]) {
+          const response = errorResponses[mockError];
+          return res.status(response.status).json({ errors: response.errors });
+        }
+
+        // Success response
+        return res.status(200).json({ jobId: `job-${Date.now()}` });
+      }, 500);
+    };
+  })(),
 };
 
 module.exports = responses;

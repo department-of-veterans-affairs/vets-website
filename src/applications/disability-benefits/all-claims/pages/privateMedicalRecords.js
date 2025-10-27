@@ -10,6 +10,7 @@ import {
   patientAcknowledgmentError,
   recordsConfirmAlertBanner,
   authorizationNotes,
+  privateRecordsChoiceHelpTitle,
 } from '../content/privateMedicalRecords';
 import { standardTitle } from '../content/form0781';
 import { isCompletingModern4142 } from '../utils';
@@ -34,7 +35,7 @@ export const uiSchema = {
       'ui:description': authorizationNotes,
     },
     'view:privateRecordsChoiceHelp': {
-      'ui:title': 'What else to know about these options',
+      'ui:title': privateRecordsChoiceHelpTitle,
       'ui:description': privateRecordsChoiceHelp,
     },
   },

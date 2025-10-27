@@ -13,8 +13,5 @@ export const GetHelp = () => (
       <va-telephone contact="711" tty />
       ). We’re here 24/7.
     </p>
-    <div className="vads-u-text-align--right">
-      <va-button text="Feedback" secondary uswds />
-    </div>
   </div>
 );
