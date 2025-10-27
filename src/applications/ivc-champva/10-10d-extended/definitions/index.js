@@ -25,12 +25,7 @@ export const fileUploadWithMetadataSchema = ({
   minItems = 1,
 } = {}) => {
   const options = Array.isArray(enumNames) ? enumNames : [];
-
-  // normalize to strings: prefer `text` if it's an object, else the string itself.
-  const normalized = options
-    .map(opt => (typeof opt === 'string' ? opt : opt?.text))
-    .filter(v => typeof v === 'string' && v.trim().length)
-    .map(v => v.trim());
+  const normalized = options.map(opt => opt.trim()).filter(v => v.length);
 
   // de-duplicate while preserving first-seen order
   const enumValues = [...new Set(normalized)];

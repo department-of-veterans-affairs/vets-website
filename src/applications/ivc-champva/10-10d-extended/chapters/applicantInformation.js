@@ -53,7 +53,7 @@ import sectionOverview from './applicantInformation/sectionOverview';
 import personalInformation from './applicantInformation/personalInformation';
 import remarriageProof from './applicantInformation/remarriageProof';
 import schoolEnrollmentProof from './applicantInformation/schoolEnrollmentProof';
-import dateOfMarriage from './applicantInformation/dateOfMarriage';
+import marriageDate from './applicantInformation/marriageDate';
 import stepchildMarriageProof from './applicantInformation/stepchildMarriageProof';
 
 /**
@@ -584,7 +584,7 @@ export const applicantPages = arrayBuilderPages(
           'applicantRelationshipToSponsor.relationshipToVeteran',
           formData?.applicants?.[index],
         ) === 'spouse',
-      ...dateOfMarriage,
+      ...marriageDate,
     }),
     page18f4: pageBuilder.itemPage({
       path: 'applicant-marriage-status/:index',
