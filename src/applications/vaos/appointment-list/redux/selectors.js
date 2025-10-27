@@ -643,6 +643,7 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
 }
 export function selectRequestedAppointmentData(state, appointment) {
   const { facilityData } = state?.appointments || [];
+  const isCerner = appointment?.vaos?.isCerner;
 
   const cancelInfo = getCancelInfo(state);
   const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
@@ -692,6 +693,7 @@ export function selectRequestedAppointmentData(state, appointment) {
     status,
     typeOfCare,
     typeOfCareName,
+    isCerner,
   };
 }
 export function selectRequestedAppointmentDetails(state, id) {
