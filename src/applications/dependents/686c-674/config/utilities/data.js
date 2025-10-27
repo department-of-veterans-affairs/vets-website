@@ -134,14 +134,16 @@ export function buildSubmissionData(payload) {
     reportChild18OrOlderIsNotAttendingSchool: ['childStoppedAttendingSchool'],
   };
 
-  // Add options
+  // Add options - these only copy data if option is true
   const enabledAddOptions = {};
   if (addEnabled) {
     Object.entries(addDataMappings).forEach(([option, fields]) => {
+      // Only include data if this specific option is true
       if (addOptions[option] === true) {
         enabledAddOptions[option] = true;
         copyDataFields(sourceData, cleanData, fields);
       }
+      // If option is not true, the data is NOT copied (not in payload submission)
     });
   }
 
@@ -156,6 +158,7 @@ export function buildSubmissionData(payload) {
     });
   }
 
+  // Only add these control fields if there are enabled options
   if (Object.keys(enabledAddOptions).length > 0) {
     cleanData['view:addDependentOptions'] = enabledAddOptions;
   }
