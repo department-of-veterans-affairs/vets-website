@@ -242,7 +242,6 @@ describe('<MhvAlertConfirmEmail />', () => {
         confirmationDate: null,
       });
 
-      // const initialState = stateFn({ confirmationDate: null });
       const { container, getByTestId } = render(<MhvAlertConfirmEmail />, {
         initialState,
       });
