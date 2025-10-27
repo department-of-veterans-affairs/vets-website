@@ -5,6 +5,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import {
   dismissAlertViaCookie,
   selectContactEmailAddress,
+  selectContactEmailAddressId,
   showAlert,
 } from './selectors';
 import {
@@ -29,7 +30,7 @@ import { recordAlertLoadEvent } from './recordAlertLoadEvent';
 const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const renderAlert = useSelector(showAlert);
   const emailAddress = useSelector(selectContactEmailAddress);
-  const emailAddressId = useSelector(selectContactEmailAddress);
+  const emailAddressId = useSelector(selectContactEmailAddressId);
 
   const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [confirmError, setConfirmError] = useState(false);
