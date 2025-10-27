@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import {
   dismissAlertViaCookie,
   selectContactEmailAddress,
@@ -34,17 +33,13 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const [confirmError, setConfirmError] = useState(false);
   const [skipSuccess, setSkipSuccess] = useState(false);
 
-  const putConfirmationDate = (confirmationDate = new Date().toISOString()) =>
-    apiRequest('/profile/email_addresses', {
-      method: 'PUT',
-      body: JSON.stringify({ confirmationDate, emailAddress }),
-    })
-      .then(() => {
-        setConfirmError(false);
-        setConfirmSuccess(true);
-      })
-      .then(() => dismissAlertViaCookie())
-      .catch(() => setConfirmError(true));
+  const handleConfirmSuccess = () => {
+    setConfirmError(false);
+    setConfirmSuccess(true);
+    dismissAlertViaCookie();
+  };
+
+  const handleConfirmError = () => setConfirmError(true);
 
   const onSkipClick = () => {
     setSkipSuccess(true);
@@ -64,7 +59,8 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
       {!confirmSuccess && (
         <AlertConfirmContactEmail
           emailAddress={emailAddress}
-          onConfirmClick={putConfirmationDate}
+          onConfirmSuccess={handleConfirmSuccess}
+          onConfirmError={handleConfirmError}
           recordEvent={recordEvent}
         />
       )}
