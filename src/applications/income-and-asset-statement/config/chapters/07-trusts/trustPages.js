@@ -343,8 +343,7 @@ const trustTypePage = {
     trustType: radioUI({
       title: 'What type of trust is it?',
       labels: trustTypeLabels,
-      labelHeaderLevel: '2',
-      labelHeaderLevelStyle: '3',
+      ...sharedYesNoOptionsBase,
     }),
   },
   schema: {
@@ -362,8 +361,7 @@ const incomePage = {
     ...arrayBuilderItemSubsequentPageTitleUI('Income from trust'),
     receivingIncomeFromTrust: yesNoUI({
       title: 'Did you receive income from this trust?',
-      labelHeaderLevel: '2',
-      labelHeaderLevelStyle: '3',
+      ...sharedYesNoOptionsBase,
     }),
     annualReceivedIncome: {
       ...currencyUI({
@@ -394,8 +392,7 @@ const veteransChildPage = {
     trustEstablishedForVeteransChild: yesNoUI({
       title:
         'Was this trust created for a Veteran’s child who was seriously disabled before age 18?',
-      labelHeaderLevel: '2',
-      labelHeaderLevelStyle: '3',
+      ...sharedYesNoOptionsBase,
     }),
   },
   schema: {
@@ -416,8 +413,7 @@ const medicalExpensePage = {
     trustUsedForMedicalExpenses: yesNoUI({
       title:
         'Do you use this trust to pay for or reimburse someone for your medical expenses?',
-      labelHeaderLevel: '2',
-      labelHeaderLevelStyle: '3',
+      ...sharedYesNoOptionsBase,
     }),
     monthlyMedicalReimbursementAmount: {
       ...currencyUI({
@@ -448,8 +444,7 @@ const controlPage = {
     ...arrayBuilderItemSubsequentPageTitleUI('Control of trust'),
     haveAuthorityOrControlOfTrust: yesNoUI({
       title: 'Do you have any additional authority or control over this trust?',
-      labelHeaderLevel: '2',
-      labelHeaderLevelStyle: '3',
+      ...sharedYesNoOptionsBase,
     }),
   },
   schema: {
@@ -467,8 +462,7 @@ const hasAddedFundsPage = {
     ...arrayBuilderItemSubsequentPageTitleUI('Money added to trust'),
     addedFundsAfterEstablishment: yesNoUI({
       title: 'Has money been added to this trust since it was created?',
-      labelHeaderLevel: '2',
-      labelHeaderLevelStyle: '3',
+      ...sharedYesNoOptionsBase,
     }),
   },
   schema: {
