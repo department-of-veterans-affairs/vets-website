@@ -73,7 +73,7 @@ export function generateParticipantNames(item) {
  */
 const yesNoOptions = {
   title: content['health-insurance--yes-no-title'],
-  hint: content['health-insurance--yes-no-hint'],
+  hint: null,
   labelHeaderLevel: '2',
   labelHeaderLevelStyle: '4',
 };
@@ -151,7 +151,7 @@ export const healthInsuranceOptions = {
     },
     deleteNo: () => content['arraybuilder--button-delete-no'],
     deleteYes: () => content['arraybuilder--button-delete-yes'],
-    summaryTitle: () => content['health-insurance--intro-title'],
+    summaryTitle: () => content['health-insurance--summary-title'],
     summaryTitleWithoutItems: () => content['health-insurance--intro-title'],
   },
 };
