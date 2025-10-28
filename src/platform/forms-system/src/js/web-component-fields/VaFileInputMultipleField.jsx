@@ -1,9 +1,8 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import debounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
 import {
   MISSING_PASSWORD_ERROR,
@@ -12,9 +11,9 @@ import {
 } from '../validation';
 import {
   useFileUpload,
-  DEBOUNCE_WAIT,
   getFileError,
   simulateUploadMultiple,
+  getMockFileData,
 } from './vaFileInputFieldHelpers';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 
@@ -26,6 +25,10 @@ const VaFileInputMultipleField = props => {
   const [errors, setErrors] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [percentsUploaded, setPercentsUploaded] = useState([]);
+  const [
+    passwordSubmissionSuccessArray,
+    setPasswordSubmissionSuccessArray,
+  ] = useState([]);
   const [initPoll, setInitPoll] = useState(true);
   const dispatch = useDispatch();
   const { percentUploaded, handleUpload } = useFileUpload(
@@ -185,13 +188,30 @@ const VaFileInputMultipleField = props => {
     childrenProps.onChange(files);
   };
 
-  const handleFileProcessing = (uploadedFile, index) => {
-    if (!uploadedFile || !uploadedFile.file) return;
-
+  // set errors and related statuses based on upload result
+  const handleUploadErrors = ({ errorMessage, isEncrypted }, index) => {
     const _errors = [...errors];
-    const _error = uploadedFile.errorMessage || null;
+    const _error = errorMessage || null;
     _errors[index] = _error;
     setErrors(_errors);
+    // file was encrypted
+    if (isEncrypted) {
+      const _passwordSubmissionSuccessArray = [
+        ...passwordSubmissionSuccessArray,
+      ];
+      _passwordSubmissionSuccessArray[index] = !errorMessage;
+      setPasswordSubmissionSuccessArray(_passwordSubmissionSuccessArray);
+      // file was successfully decrypted
+      // if (!errorMessage) {
+      //   passwordErrorManager.setHasPassword(true);
+      //   passwordError = null;
+      // }
+    }
+  };
+
+  const handleFileProcessing = (uploadedFile, index) => {
+    if (!uploadedFile || !uploadedFile.file) return;
+    handleUploadErrors(uploadedFile, index);
     assignFileUploadToStore(uploadedFile, index);
   };
 
@@ -261,30 +281,6 @@ const VaFileInputMultipleField = props => {
     childrenProps.onChange(formData);
   };
 
-  // upload after debounce
-  const debouncePassword = useMemo(
-    () =>
-      debounce(DEBOUNCE_WAIT, ({ file, password }, index) => {
-        if (password && password.length > 0) {
-          errorManager.resetInstance(index);
-          const _encrypted = [...encrypted];
-          _encrypted[index] = null;
-          setEncrypted(_encrypted);
-          // eslint-disable-next-line no-unused-expressions
-          uiOptions.skipUpload
-            ? simulateUploadMultiple(
-                setPercentsUploaded,
-                percentsUploaded,
-                index,
-                childrenProps,
-                file,
-              )
-            : handleUpload(file, handleFileProcessing, password, index);
-        }
-      }),
-    [handleUpload],
-  );
-
   const handleChange = e => {
     const { detail } = e;
     const { action, state, file, mockFormData } = detail;
@@ -312,7 +308,22 @@ const VaFileInputMultipleField = props => {
         const index = findFileIndex(state, file);
         setCurrentIndex(index);
         const passwordFile = state[index];
-        debouncePassword(passwordFile, index);
+        errorManager.resetInstance(index);
+        if (uiOptions.skipUpload) {
+          const formData = [
+            ...childrenProps.formData,
+            getMockFileData(passwordFile),
+          ];
+          setTimeout(() => {
+            childrenProps.onChange(formData);
+            handleUploadErrors(
+              { errorMessage: null, isEncrypted: true },
+              index,
+            );
+          }, 500);
+        } else {
+          handleUpload(passwordFile, handleFileProcessing, null, index);
+        }
         break;
       }
       case 'FILE_REMOVED':
@@ -368,7 +379,6 @@ const VaFileInputMultipleField = props => {
       : null;
   });
 
-  const resetVisualState = errors.map(error => (error ? true : null));
   return (
     <VaFileInputMultiple
       {...mappedProps}
@@ -378,7 +388,7 @@ const VaFileInputMultipleField = props => {
       onVaMultipleChange={handleChange}
       onVaFileInputError={handleInternalFileInputError}
       errors={errors}
-      resetVisualState={resetVisualState}
+      passwordSubmissionSuccessList={passwordSubmissionSuccessArray}
       percentUploaded={percentsUploaded}
       passwordErrors={passwordErrors}
       onVaSelect={handleAdditionalInput}
