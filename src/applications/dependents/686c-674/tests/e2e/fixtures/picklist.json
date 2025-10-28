@@ -442,7 +442,15 @@
       "awardIndicator": "Y",
       "key": "penny-3479",
       "selected": true,
-      "isStepchild": "N"
+      "isStepchild": "N",
+      "removalReason": "childMarried",
+      "marriageDate": "2025-06-05",
+      "childDeathDate": "2020-01-01",
+      "childDeathOutsideUS": false,
+      "childDeathCity": "Test",
+      "childDeathProvince": "Prov",
+      "childDeathCountry": "AGO",
+      "childDeathState": "AK"
     },
     {
       "fullName": {
@@ -455,7 +463,15 @@
       "awardIndicator": "Y",
       "key": "stacy-3232",
       "selected": true,
-      "isStepchild": "N"
+      "isStepchild": "N",
+      "removalReason": "childDied",
+      "marriageDate": "2025-06-05",
+      "childDeathDate": "2020-01-01",
+      "childDeathOutsideUS": false,
+      "childDeathCity": "Test",
+      "childDeathProvince": "Prov",
+      "childDeathCountry": "AGO",
+      "childDeathState": "AK"
     },
     {
       "fullName": {
@@ -509,7 +525,32 @@
       "awardIndicator": "Y",
       "key": "peter-0104",
       "selected": true,
-      "removalReason": "parentOther"
+      "removalReason": "parentOther",
+      "parentDeathDate": "2020-01-01",
+      "parentDeathOutsideUS": false,
+      "parentDeathCity": "Test",
+      "parentDeathProvince": "Prov",
+      "parentDeathCountry": "AGO",
+      "parentDeathState": "AK"
+    },
+        {
+      "fullName": {
+        "first": "MARY",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "1940-03-01",
+      "ssn": "997010155",
+      "relationshipToVeteran": "Parent",
+      "awardIndicator": "Y",
+      "key": "mary-0155",
+      "selected": true,
+      "removalReason": "parentDied",
+      "parentDeathDate": "2020-01-01",
+      "parentDeathOutsideUS": false,
+      "parentDeathCity": "Test",
+      "parentDeathProvince": "Prov",
+      "parentDeathCountry": "AGO",
+      "parentDeathState": "AK"
     }
   ]
 }
