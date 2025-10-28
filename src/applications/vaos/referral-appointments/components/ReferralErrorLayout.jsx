@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReferralLayout from './ReferralLayout';
 import FindCommunityCareOfficeLink from './FindCCFacilityLink';
-import InfoAlert from '../../components/InfoAlert';
 
 /**
  * Common error layout component for referral appointment pages
@@ -10,17 +9,15 @@ import InfoAlert from '../../components/InfoAlert';
  */
 
 const ReferralErrorLayout = ({
-  message = "We're having trouble getting your appointment information. Please try again later or call your facility's community care office.",
+  message = 'Something went wrong on our end. Please try again later.',
   showFindLink = true,
 }) => {
   return (
     <ReferralLayout hasEyebrow heading="Referral Error">
-      <InfoAlert
-        status="error"
-        headline="We’re sorry. We’ve run into a problem"
-      >
-        {message}
-      </InfoAlert>
+      <va-alert data-testid="error" status="error">
+        <h2>We’re sorry. We’ve run into a problem.</h2>
+        <p data-testid="error-body">{message}</p>
+      </va-alert>
       {showFindLink && <FindCommunityCareOfficeLink />}
     </ReferralLayout>
   );

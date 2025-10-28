@@ -45,7 +45,11 @@ export const CompleteReferral = () => {
   const params = new URLSearchParams(search);
   const id = params.get('id');
 
-  const { data: referral, error: referralError } = useGetReferralByIdQuery(id);
+  const {
+    data: referral,
+    error: referralError,
+    isLoading: isReferralLoading,
+  } = useGetReferralByIdQuery(id);
 
   const currentReferral = referral?.attributes;
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
@@ -111,10 +115,14 @@ export const CompleteReferral = () => {
     ],
   );
 
-  if (referralError || !currentReferral) {
+  if (isReferralLoading) {
     return (
-      <ReferralErrorLayout message="We're having trouble getting your appointment confirmation. Please try again later or call your facility's community care office." />
+      <ReferralLayout loadingMessage="Loading your appointment confirmation" />
     );
+  }
+
+  if (referralError || !currentReferral) {
+    return <ReferralErrorLayout />;
   }
 
   if (appointmentInfoError || appointmentInfoTimeout) {
