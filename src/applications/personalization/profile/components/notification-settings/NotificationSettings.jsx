@@ -7,11 +7,7 @@ import { scrollToTop } from 'platform/utilities/scroll';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import {
-  NOTIFICATION_GROUPS,
-  PROFILE_PATH_NAMES,
-  PROFILE_PATHS,
-} from '@@profile/constants';
+import { PROFILE_PATH_NAMES, PROFILE_PATHS } from '@@profile/constants';
 import {
   fetchCommunicationPreferenceGroups,
   selectGroups,
@@ -61,11 +57,7 @@ const NotificationSettings = ({
     returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
   });
 
-  const {
-    showEmail,
-    useAvailableGroups,
-    toggles,
-  } = useNotificationSettingsUtils();
+  const { showEmail, useAvailableGroups } = useNotificationSettingsUtils();
 
   const requiredContactInfoOnFile = useMemo(
     () => {
@@ -227,19 +219,6 @@ const NotificationSettings = ({
             </va-additional-info>
             <hr aria-hidden="true" />
             {availableGroups.map(({ id }) => {
-              // we handle the health care group a little differently
-              if (id === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
-                return <NotificationGroup groupId={id} key={id} />;
-              }
-              // this will hide the Payments header when there are no items to display
-              if (
-                id === NOTIFICATION_GROUPS.PAYMENTS &&
-                !toggles.profileShowNewHealthCareCopayBillNotificationSetting &&
-                !emailAddress &&
-                !mobilePhoneNumber
-              ) {
-                return null;
-              }
               return <NotificationGroup groupId={id} key={id} />;
             })}
           </>
