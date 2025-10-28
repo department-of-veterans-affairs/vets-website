@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
 import ExpenseCardDetails from './ExpenseCardDetails';
 import DeleteExpenseModal from './DeleteExpenseModal';
-import { formatDateTime } from '../../../util/dates';
 
 const TripTypeLabels = {
   OneWay: 'One way',
@@ -22,8 +21,6 @@ const ExpenseCard = ({ expense, editToRoute, header }) => {
     console.log(`Delete clicked for expense id: ${expenseId}`);
     setShowDeleteModal(false);
   };
-
-  const [formattedDate] = formatDateTime(expense.dateIncurred);
 
   return (
     <div className="vads-u-margin-top--2">
@@ -57,14 +54,6 @@ const ExpenseCard = ({ expense, editToRoute, header }) => {
         {expenseType !== 'Mileage' && (
           <ExpenseCardDetails
             items={[
-              {
-                label: 'Date',
-                value: formattedDate,
-              },
-              {
-                label: 'Amount',
-                value: `$${expense.costRequested}`,
-              },
               {
                 label: 'Description',
                 value: expense.description,
