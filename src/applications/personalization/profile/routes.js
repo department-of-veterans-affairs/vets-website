@@ -4,12 +4,13 @@ import { getRoutesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
 
 const getRoutes = (
-  { profile2Enabled = false } = {
+  { profile2Enabled = false, profileHealthCareSettingsPage = false } = {
     profile2Enabled: false,
+    profileHealthCareSettingsPage: false,
   },
 ) => {
   return [
-    ...getRoutesForNav({ profile2Enabled }),
+    ...getRoutesForNav({ profile2Enabled, profileHealthCareSettingsPage }),
     {
       component: Edit,
       name: PROFILE_PATH_NAMES.EDIT,
