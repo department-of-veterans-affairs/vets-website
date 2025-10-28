@@ -117,6 +117,9 @@ export const selectFeatureMentalHealthHistoryFiltering = state =>
 export const selectFeatureSubstanceUseDisorder = state =>
   toggleValues(state).vaOnlineSchedulingAddSubstanceUseDisorder;
 
+export const selectFeaturePCMHI = state =>
+  toggleValues(state).vaOnlineSchedulingAddPrimaryCareMentalHealthInitiative;
+
 export const selectFeatureListViewClinicInfo = state =>
   toggleValues(state).vaOnlineSchedulingListViewClinicInfo;
 

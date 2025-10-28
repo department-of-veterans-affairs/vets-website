@@ -334,6 +334,7 @@
   "vaOnlineSchedulingImmediateCareAlert": "va_online_scheduling_immediate_care_alert",
   "vaOnlineSchedulingRemoveFacilityConfigCheck": "va_online_scheduling_remove_facility_config_check",
   "vaOnlineSchedulingUseBrowserTimezone": "va_online_scheduling_use_browser_timezone",
+  "vaOnlineSchedulingAddPrimaryCareMentalHealthInitiative": "va_online_scheduling_add_primary_care_mental_health_initiative",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
   "vetStatusPdfLogging": "vet_status_pdf_logging",
   "veteranOnboardingShowWelcomeMessageToNewUsers": "veteran_onboarding_show_welcome_message_to_new_users",
