@@ -29,6 +29,7 @@ import {
   SEND_YOUR_DOCUMENTS_TEXT,
   ANCHOR_LINKS,
 } from '../../constants';
+import { setPageFocus } from '../../utils/page';
 
 // File encryption utilities
 const checkFileEncryption = async file => {
@@ -355,7 +356,8 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
           accept={FILE_TYPES.map(type => `.${type}`).join(',')}
           ref={fileInputRef}
           hint={HINT_TEXT}
-          label={toggleValue ? '' : LABEL_TEXT}
+          label={LABEL_TEXT}
+          labelClass={toggleValue ? 'vads-u-visibility--screen-reader' : ''}
           onVaMultipleChange={handleFileChange}
           errors={errors}
           encrypted={encrypted}
@@ -391,6 +393,10 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
               <va-link
                 href={`#${ANCHOR_LINKS.otherWaysToSendDocuments}`}
                 text={SEND_YOUR_DOCUMENTS_TEXT}
+                onClick={e => {
+                  e.preventDefault();
+                  setPageFocus(e.target.href);
+                }}
               />
             </div>
           </>

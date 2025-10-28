@@ -168,7 +168,7 @@ describe('<MyEligibilityAndBenefits> recommendation branches', () => {
     const { getByText, container } = renderPage(makeState({ attrs }));
 
     getByText(
-      /Our records indicate you do not meet the basic eligibility criteria/i,
+      /Our records indicate you don’t meet the basic eligibility criteria/i,
     );
     expect(container.querySelector('va-alert[status="warning"]')).to.exist;
   });
@@ -206,9 +206,9 @@ describe('<MyEligibilityAndBenefits> content details', () => {
       makeState({ attrs }),
     );
 
-    getByRole('heading', { name: /^Basic Eligibility Criteria$/i });
+    getByRole('heading', { name: /^Basic eligibility criteria$/i });
 
-    getByText(/Character of discharge:\s+Honorable/);
+    getByText(/Character of Discharge:\s+Honorable/);
     getByText(/1234 - Knee - 30%/);
     getByText(/5678 - Back - 60%/);
     getByText(/^Result$/);
@@ -216,8 +216,8 @@ describe('<MyEligibilityAndBenefits> content details', () => {
     const resultRow = getByText('Result').closest('div');
     expect(resultRow && resultRow.textContent).to.match(/eligible to apply/i);
 
-    getByText(/^Initial rating Notification Date:/);
-    getByText(/^Eligibility Termination Date:/);
+    getByText(/^Initial rating notification date:/);
+    getByText(/^Eligibility termination date:/);
 
     const rudisill = container.querySelector(
       'va-link[href="https://benefits.va.gov/GIBILL/rudisill.asp"]',
