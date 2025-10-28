@@ -156,5 +156,10 @@
     "appName": "Dependents Verification How To Verify",
     "rootUrl": "/manage-dependents/dependents-verification-how-to-verify",
     "widgetType": "dependents-verification-how-to-verify"
+  },
+  {
+    "appName": "Submit Medical Expenses To Support A Pension or DIC Claim",
+    "rootUrl": "/supporting-forms-for-claims/submit-medical-expense-report-form-21p-8416",
+    "widgetType": "medical-expense-report-21p-8416"
   }
 ]
