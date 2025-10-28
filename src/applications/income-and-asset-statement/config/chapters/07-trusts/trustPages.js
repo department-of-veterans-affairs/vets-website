@@ -1,5 +1,5 @@
 import React from 'react';
-
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -9,6 +9,8 @@ import {
   currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  fileInputMultipleUI,
+  fileInputMultipleSchema,
   radioUI,
   radioSchema,
   yesNoUI,
@@ -17,8 +19,17 @@ import {
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatDateLong } from 'platform/utilities/date';
 import { trustTypeLabels } from '../../../labels';
+import {
+  FILE_UPLOAD_URL,
+  FORM_NUMBER,
+  MAX_FILE_SIZE_BYTES,
+} from '../../../constants';
 import { TrustSupplementaryFormsAlert } from '../../../components/FormAlerts';
-
+import MailingAddress from '../../../components/MailingAddress';
+import {
+  DocumentUploadGuidelines,
+  SupportingDocumentsNeededList,
+} from '../../../components/OwnedAssetsDescriptions';
 import {
   annualReceivedIncomeFromTrustRequired,
   formatCurrency,
@@ -26,6 +37,8 @@ import {
   isDefined,
   monthlyMedicalReimbursementAmountRequired,
   requireExpandedArrayField,
+  sharedYesNoOptionsBase,
+  showUpdatedContent,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -34,34 +47,91 @@ export const options = {
   nounSingular: 'trust',
   nounPlural: 'trusts',
   required: false,
-  isItemIncomplete: item =>
-    !isDefined(item?.establishedDate) ||
-    !isDefined(item.marketValueAtEstablishment) ||
-    !isDefined(item.trustType) ||
-    typeof item.addedFundsAfterEstablishment !== 'boolean' ||
-    typeof item.trustUsedForMedicalExpenses !== 'boolean' ||
-    typeof item.trustEstablishedForVeteransChild !== 'boolean' ||
-    typeof item.haveAuthorityOrControlOfTrust !== 'boolean', // include all required fields here
+  isItemIncomplete: item => {
+    const needsDocs =
+      showUpdatedContent() && item?.['view:addFormQuestion'] === true;
+
+    const hasDocs =
+      Array.isArray(item?.uploadedDocuments) &&
+      item.uploadedDocuments.length > 0;
+
+    const needsAddedFunds =
+      item?.addedFundsAfterEstablishment === true &&
+      (!isDefined(item?.addedFundsDate) || !isDefined(item?.addedFundsAmount));
+
+    return (
+      !isDefined(item?.establishedDate) ||
+      !isDefined(item?.marketValueAtEstablishment) ||
+      !isDefined(item?.trustType) ||
+      typeof item?.addedFundsAfterEstablishment !== 'boolean' ||
+      typeof item?.trustUsedForMedicalExpenses !== 'boolean' ||
+      typeof item?.trustEstablishedForVeteransChild !== 'boolean' ||
+      typeof item?.haveAuthorityOrControlOfTrust !== 'boolean' ||
+      needsAddedFunds ||
+      (needsDocs && !hasDocs)
+    );
+  },
   text: {
+    summaryTitle: 'Review trusts',
     summaryDescription: TrustSupplementaryFormsAlert,
     getItemName: item =>
       isDefined(item?.establishedDate) &&
-      `Trust established on ${formatDateLong(item.establishedDate)}`,
+      `Trust created on ${formatDateLong(item.establishedDate)}`,
     cardDescription: item =>
       isDefined(item?.marketValueAtEstablishment) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Type:{' '}
             <span className="vads-u-font-weight--bold">
-              {trustTypeLabels[item.trustType]}
+              {trustTypeLabels[(item?.trustType)]}
             </span>
           </li>
           <li>
-            Market value when established:{' '}
+            Fair market value when created:{' '}
             <span className="vads-u-font-weight--bold">
-              {formatCurrency(item.marketValueAtEstablishment)}
+              {formatCurrency(item?.marketValueAtEstablishment)}
             </span>
           </li>
+          {item?.receivingIncomeFromTrust && (
+            <li>
+              Yearly income:{' '}
+              <span className="vads-u-font-weight--bold">
+                {formatCurrency(item?.annualReceivedIncome)}
+              </span>
+            </li>
+          )}
+          {item?.addedFundsAfterEstablishment && (
+            <li>
+              Money added to trust:{' '}
+              <span className="vads-u-font-weight--bold">
+                {formatCurrency(item?.addedFundsAmount)}
+              </span>
+            </li>
+          )}
+          {showUpdatedContent() && (
+            <li>
+              Supporting documents uploaded:{' '}
+              <span className="vads-u-font-weight--bold">
+                {item?.['view:addFormQuestion'] === true &&
+                Array.isArray(item?.uploadedDocuments) &&
+                item?.uploadedDocuments?.length > 0
+                  ? ''
+                  : 'No'}
+              </span>
+              {Array.isArray(item?.uploadedDocuments) &&
+                item?.uploadedDocuments?.length > 0 && (
+                  <ul className="vads-u-margin-top--1">
+                    {item.uploadedDocuments.map((doc, i) => (
+                      <li key={i}>
+                        <span className="vads-u-font-weight--bold">
+                          {doc?.name}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+            </li>
+          )}
         </ul>
       ),
     reviewAddButtonText: 'Add another trust',
@@ -80,6 +150,19 @@ export const options = {
     deleteDescription: props =>
       generateDeleteDescription(props, options.text.getItemName),
   },
+};
+
+// We support multiple summary pages (one per claimant type).
+// These constants centralize shared text so each summary page stays consistent.
+// Important: only one summary page should ever be displayed at a time.
+
+// Shared summary page text
+const updatedTitleNoItems = 'Do you or your dependents have access to a trust?';
+const updatedTitleWithItems = 'Do you have another trust to report?';
+const summaryPageTitle = 'Trusts';
+const yesNoOptionLabels = {
+  Y: 'Yes, I have a trust to report',
+  N: 'No, I don’t have a trust to report',
 };
 
 /**
@@ -102,10 +185,7 @@ const summaryPage = {
       },
       {
         title: 'Do you have more trusts to report?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
+        ...sharedYesNoOptionsBase,
       },
     ),
   },
@@ -119,6 +199,103 @@ const summaryPage = {
       'view:isAddingTrusts': arrayBuilderYesNoSchema,
     },
     required: ['view:isAddingTrusts'],
+  },
+};
+
+/** @returns {PageSchema} */
+const veteranSummaryPage = {
+  uiSchema: {
+    'view:isAddingTrusts': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const spouseSummaryPage = {
+  uiSchema: {
+    'view:isAddingTrusts': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint: 'Your dependents include children who you financially support. ',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const childSummaryPage = {
+  uiSchema: {
+    'view:isAddingTrusts': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint: null,
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const parentSummaryPage = {
+  uiSchema: {
+    'view:isAddingTrusts': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const custodianSummaryPage = {
+  uiSchema: {
+    'view:isAddingTrusts': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
   },
 };
 
@@ -290,10 +467,197 @@ const addedFundsPage = {
   },
 };
 
+/** @returns {PageSchema} */
+const supportingDocumentsNeeded = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Supporting documents needed'),
+    'view:addFormDescription': {
+      'ui:description': (
+        <>
+          {' '}
+          <p>
+            Since you added a trust, you’ll need to submit supporting documents
+            to show the following:
+          </p>
+          <SupportingDocumentsNeededList />
+        </>
+      ),
+    },
+    'view:addFormQuestion': yesNoUI({
+      title: 'Do you want to upload the supporting documents now?',
+    }),
+    'ui:options': {
+      updateSchema: (formData, schema, _uiSchema, index) => {
+        const itemData = formData?.trusts?.[index] || formData;
+
+        if (itemData?.['view:addFormQuestion'] === false) {
+          itemData.uploadedDocuments = [];
+        }
+
+        return schema;
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:addFormDescription': {
+        type: 'object',
+        properties: {},
+      },
+      'view:addFormQuestion': yesNoSchema,
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+const supportingDocumentUpload = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Upload supporting documents'),
+    'view:uploadedDocumentsDescription': {
+      'ui:description': (
+        <>
+          <DocumentUploadGuidelines formDescription="documents" />
+          <va-additional-info trigger="What supporting documents should show">
+            <SupportingDocumentsNeededList />
+          </va-additional-info>
+        </>
+      ),
+    },
+    uploadedDocuments: {
+      ...fileInputMultipleUI({
+        title: 'Upload supporting documents',
+        required: true,
+        fileUploadUrl: FILE_UPLOAD_URL,
+        accept: '.pdf,.jpeg,.png',
+        errorMessages: { required: 'Upload a supporting document' },
+        maxFileSize: MAX_FILE_SIZE_BYTES,
+        formNumber: FORM_NUMBER,
+        skipUpload: environment.isLocalhost(),
+        // server response triggers required validation.
+        // skipUpload needed to bypass in local environment
+      }),
+      'ui:validations': [
+        (errors, fieldData /* files array or single file */) => {
+          let files = [];
+
+          if (Array.isArray(fieldData)) {
+            files = fieldData;
+          } else if (fieldData) {
+            files = [fieldData];
+          }
+
+          // Required check: no files at all
+          if (files.length === 0) {
+            errors.addError('Upload a supporting document');
+            return;
+          }
+
+          files.forEach(file => {
+            if (file?.isEncrypted && !file?.confirmationCode) {
+              return;
+            }
+
+            if (!file || !file.name) {
+              errors.addError('Upload a supporting document');
+            }
+          });
+        },
+      ],
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['uploadedDocuments'],
+    properties: {
+      'view:uploadedDocumentsDescription': {
+        type: 'object',
+        properties: {},
+      },
+      uploadedDocuments: fileInputMultipleSchema(),
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+const documentMailingAddressPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Submit supporting documents by mail',
+    ),
+    'view:documentMailingAddress': {
+      'ui:description': (
+        <>
+          {' '}
+          <p>
+            Because you chose not to upload the supporting documents now, you’ll
+            need to mail them to this address:
+          </p>
+          <MailingAddress />
+          <va-additional-info trigger="What supporting documents should show">
+            <SupportingDocumentsNeededList />
+          </va-additional-info>
+        </>
+      ),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:documentMailingAddress': {
+        type: 'object',
+        properties: {},
+      },
+    },
+  },
+};
+
 export const trustPages = arrayBuilderPages(options, pageBuilder => ({
+  trustPagesVeteranSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'trusts-summary-veteran',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'VETERAN',
+    uiSchema: veteranSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  trustPagesUpdatedSpouseSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'trusts-summary-spouse',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'SPOUSE',
+    uiSchema: spouseSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  trustPagesUpdatedChildSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'trusts-summary-child',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'CHILD',
+    uiSchema: childSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  trustPagesUpdatedCustodianSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'trusts-summary-custodian',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+    uiSchema: custodianSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  trustPagesUpdatedParentSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'trusts-summary-parent',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'PARENT',
+    uiSchema: parentSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
   trustPagesSummary: pageBuilder.summaryPage({
-    title: 'Income not associated with accounts or assets',
+    title: summaryPageTitle,
     path: 'trusts-summary',
+    depends: () => !showUpdatedContent(),
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
@@ -346,5 +710,30 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
       formData?.[options.arrayPath]?.[index]?.addedFundsAfterEstablishment,
     uiSchema: addedFundsPage.uiSchema,
     schema: addedFundsPage.schema,
+  }),
+  trustSupportingDocumentsNeededNeededPage: pageBuilder.itemPage({
+    title: 'Supporting documents needed',
+    path: 'trusts/:index/supporting-documents-needed',
+    depends: () => showUpdatedContent(),
+    uiSchema: supportingDocumentsNeeded.uiSchema,
+    schema: supportingDocumentsNeeded.schema,
+  }),
+  trustDocumentUploadPage: pageBuilder.itemPage({
+    title: 'Upload supporting documents',
+    path: 'trusts/:index/document-upload',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      formData?.trusts[index]?.['view:addFormQuestion'] === true,
+    uiSchema: supportingDocumentUpload.uiSchema,
+    schema: supportingDocumentUpload.schema,
+  }),
+  trustDocumentMailingAddressPage: pageBuilder.itemPage({
+    title: 'Supporting documents needed',
+    path: 'trusts/:index/document-mailing-address',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      formData?.trusts[index]?.['view:addFormQuestion'] === false,
+    uiSchema: documentMailingAddressPage.uiSchema,
+    schema: documentMailingAddressPage.schema,
   }),
 }));

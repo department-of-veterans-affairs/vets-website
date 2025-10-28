@@ -1,6 +1,8 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
+import submitForm from './submitForm';
+import transform from './submit-transformer';
+import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -10,15 +12,39 @@ import {
   agreementType,
   institutionDetailsFacility,
   authorizingOfficial,
+  poeCommitment,
+  newAuthorizingOfficial,
+  newPrinciplesOfExcellence,
+  newSchoolCertifyingOfficial,
 } from '../pages';
+
+/**
+ * Returns *true* if the newCommitment -
+ * Principles of Excellence point of contact page should be displayed
+ * @param {*} data form data
+ * @returns {boolean}
+ */
+const canDisplayNewPOC = data =>
+  data?.agreementType === 'newCommitment' &&
+  data?.authorizedOfficial?.['view:isPOC'] === false;
+
+/**
+ * Returns *true* if the newCommitment -
+ * School certifying official page should be displayed
+ * @param {*} data form data
+ * @returns {boolean}
+ */
+const canDisplayNewSCO = data =>
+  data?.agreementType === 'newCommitment' &&
+  data?.authorizedOfficial?.['view:isSCO'] === false &&
+  !data?.newCommitment?.principlesOfExcellencePointOfContact?.['view:isSCO'];
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
   trackingPrefix: 'edu-10275-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -38,7 +64,7 @@ const formConfig = {
       heading: 'Certification statement',
       body: PrivacyPolicy,
       messageAriaDescribedby: 'I have read and accept the privacy policy.',
-      fullNamePath: 'authorizingOfficial.fullName',
+      fullNamePath: 'authorizedOfficial.fullName',
     },
   },
   savedFormMessages: {
@@ -56,6 +82,7 @@ const formConfig = {
     submitButtonText: 'Continue',
   },
   defaultDefinitions: {},
+  transformForSubmit: transform,
   chapters: {
     agreementTypeChapter: {
       title: 'Agreement type',
@@ -95,6 +122,34 @@ const formConfig = {
         },
       },
     },
+    associatedOfficialsChapter: {
+      title: 'Associated officials',
+      pages: {
+        authorizedOfficialNew: {
+          path: 'new-commitment-authorizing-official',
+          title: 'Your information',
+          depends: data => data?.agreementType === 'newCommitment',
+          uiSchema: newAuthorizingOfficial.uiSchema,
+          schema: newAuthorizingOfficial.schema,
+          updateFormData: newAuthorizingOfficial.updateFormData,
+        },
+        principlesOfExcellenceNew: {
+          path: 'new-commitment-principles-of-excellence',
+          title: 'Principles of Excellence point of contact',
+          depends: data => canDisplayNewPOC(data),
+          uiSchema: newPrinciplesOfExcellence.uiSchema,
+          schema: newPrinciplesOfExcellence.schema,
+          updateFormData: newPrinciplesOfExcellence.updateFormData,
+        },
+        schoolCertifyingOfficialNew: {
+          path: 'new-commitment-school-certifying-official',
+          title: 'School certifying official',
+          depends: data => canDisplayNewSCO(data),
+          uiSchema: newSchoolCertifyingOfficial.uiSchema,
+          schema: newSchoolCertifyingOfficial.schema,
+        },
+      },
+    },
     withdrawalChapter: {
       title: 'Institution details',
       pages: {
@@ -107,10 +162,22 @@ const formConfig = {
         },
       },
     },
-    authorizingOfficialChapter: {
+    principlesOfExcellenceCommitmentChapter: {
+      title: 'The Principles of Excellence',
+      pages: {
+        poeCommitment: {
+          path: 'principles-of-excellence',
+          title: 'The Principles of Excellence',
+          depends: data => data?.agreementType === 'newCommitment',
+          uiSchema: poeCommitment.uiSchema,
+          schema: poeCommitment.schema,
+        },
+      },
+    },
+    authorizedOfficialChapter: {
       title: 'Authorizing official',
       pages: {
-        authorizingOfficial: {
+        authorizedOfficial: {
           path: 'authorizing-official',
           title: 'Authorizing official',
           depends: data => data?.agreementType === 'withdrawal',

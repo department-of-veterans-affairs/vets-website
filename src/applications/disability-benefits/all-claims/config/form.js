@@ -21,6 +21,7 @@ import { standardTitle } from '../content/form0781';
 
 import {
   capitalizeEachWord,
+  claimingNew,
   getPageTitle,
   hasGuardOrReservePeriod,
   hasNewPtsdDisability,
@@ -28,7 +29,6 @@ import {
   hasPrivateEvidence,
   hasRatedDisabilities,
   hasVAEvidence,
-  increaseOnly,
   isAnswering781aQuestions,
   isAnswering781Questions,
   isBDD,
@@ -135,6 +135,7 @@ import reviewErrors from '../reviewErrors';
 import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import getPreSubmitInfo from '../content/preSubmitInfo';
+import ConfirmationAncillaryFormsWizard from '../components/ConfirmationAncillaryFormsWizard';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -484,7 +485,7 @@ const formConfig = {
         prisonerOfWar: {
           title: 'Prisoner of war (POW)',
           path: 'pow',
-          depends: formData => !increaseOnly(formData) && !isBDD(formData),
+          depends: formData => !isBDD(formData) && claimingNew(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
           appStateSelector: state => ({
@@ -503,6 +504,7 @@ const formConfig = {
                 'Do you want to answer questions to determine if you may be eligible for additional benefits?',
               'ui:widget': 'yesNo',
             },
+            'ui:confirmationField': ConfirmationAncillaryFormsWizard,
           },
           schema: {
             type: 'object',

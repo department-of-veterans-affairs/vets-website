@@ -114,6 +114,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_0537: '21P-0537',
   FORM_21P_8416: '21P-8416',
   FORM_21P_534EZ: '21P-534EZ',
+  FORM_21P_601: '21P-601',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -299,6 +300,7 @@ export const getAllFormLinks = getAppUrlImpl => {
       'form-upload-flow',
     )}/21P-4185/introduction/`,
     [VA_FORM_IDS.FORM_21P_534EZ]: `${tryGetAppUrl('survivors-benefits')}/`,
+    [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
   };
 };
 
@@ -867,7 +869,7 @@ export const MY_VA_SIP_FORMS = [
   {
     id: VA_FORM_IDS.FORM_21_4140,
     benefit: 'Employment Questionnaire (VA Form 21-4140)',
-    title: 'Income Verification for Disability Benefits',
+    title: 'Submit Employment Questionnaire',
     description: 'Employment Questionnaire (VA Form 21-4140)',
     trackingPrefix: '21-4140-income-verification-',
   },
@@ -930,6 +932,15 @@ export const MY_VA_SIP_FORMS = [
     title: '534EZ Survivors benefits',
     description: 'benefits',
     trackingPrefix: 'survivors-534ez',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_601,
+    benefit: 'accrued benefits',
+    title:
+      'Application for Accrued Amounts Due a Deceased Beneficiary (21P-601)',
+    description:
+      'Application for Accrued Amounts Due a Deceased Beneficiary (21P-601)',
+    trackingPrefix: '21p-601-accrued-benefits-',
   },
 ];
 

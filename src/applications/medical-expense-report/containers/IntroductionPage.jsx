@@ -12,45 +12,96 @@ const OMB_NUMBER = '2900-0161';
 const OMB_EXP_DATE = '10/31/2026';
 
 const exampleExpenses = [
-  { id: 1, name: 'Hospital expenses' },
-  { id: 2, name: 'Doctor’s office fees' },
-  { id: 3, name: 'Dental fees' },
-  { id: 4, name: 'Nursing home costs' },
-  { id: 5, name: 'Hearing aid costs' },
-  { id: 6, name: 'Home health service expenses' },
-  { id: 7, name: 'Prescription/non-prescription drug costs' },
-  {
-    id: 8,
-    name:
-      'Expenses related to transportation to a hospital, doctor or other medical facility',
-  },
-  { id: 9, name: 'Vision care costs' },
-  { id: 10, name: 'Medical insurance premiums' },
-  { id: 11, name: 'Monthly Medicare deduction' },
+  { id: 1, name: 'Hospital and office visits' },
+  { id: 2, name: 'Nursing homes and home health services' },
+  { id: 3, name: 'Medical supplies' },
+  { id: 4, name: 'Prescription and non-prescription drugs' },
+  { id: 5, name: 'Insurance premiums and Medicare deductions' },
+  { id: 6, name: 'Mileage and transportation to a medical facility' },
 ];
 
 const ProcessList = () => {
   return (
     <va-process-list>
-      <va-process-list-item header="Check that your expenses qualify">
-        <h4>Here are some examples of expenses you may include:</h4>
-        <ul>
+      <va-process-list-item header="What to know before you fill out this form">
+        {/* <ul>
+          {exampleExpenses.map(item => (
+            <li key={item.id}>{item.name}</li>
+          ))}
+        </ul> */}
+        <ul className="vads-u-padding-top--1p5">
+          <li>
+            You can report expenses that you’ve paid for yourself or for a
+            family member living in your household.
+          </li>
+          <li>
+            Don’t report expenses that were already reimbursed or will be
+            reimbursed.
+          </li>
+          <li>
+            You don’t need to provide receipts for your expenses. But you should
+            keep your receipts for your own records.
+          </li>
+        </ul>
+      </va-process-list-item>
+      <va-process-list-item header="Types of expenses you may report">
+        <ul className="vads-u-padding-top--1p5">
           {exampleExpenses.map(item => (
             <li key={item.id}>{item.name}</li>
           ))}
         </ul>
-      </va-process-list-item>
-      <va-process-list-item header="Gather your information">
-        <h4>Here’s what you’ll need to apply:</h4>
-        <ul>
-          <li>Veteran Social Security number or VA file number</li>
-        </ul>
-        <h4>You’ll also need this medical expense information:</h4>
-        <ul>
-          <li>The date of each of each expense</li>
-          <li>The amount you paid for each expense</li>
-          <li>The name of the provider</li>
-        </ul>
+        <va-additional-info trigger="Additional documents we may ask for">
+          <p>
+            If you’re reporting in-home care, nursing home, or other care
+            facility expenses, you may need to submit proof for these expenses
+            with your form.
+          </p>
+          <p>
+            You may also need to submit 1 or more of these VA forms signed by a
+            provider:
+          </p>
+          <ul>
+            <li>
+              Worksheet for a Residential Care, Adult Daycare, or Similar
+              Facility from VA Form 21P-8416
+              <span className="vads-u-display--block">
+                <va-link
+                  href="https://www.va.gov/find-forms/about-form-21p-8416/"
+                  text="Get VA Form 21P-8416 to download"
+                />
+              </span>
+            </li>
+            <li>
+              Worksheet for In-Home Attendant from VA Form 21P-8416
+              <span className="vads-u-display--block">
+                <va-link
+                  href="https://www.va.gov/find-forms/about-form-21p-8416/"
+                  text="Get VA Form 21P-8416 to download"
+                />
+              </span>
+            </li>
+            <li>
+              Request for Nursing Home Information in Connection with Claim for
+              Aid and Attendance (VA Form 21-0779)
+              <span className="vads-u-display--block">
+                <va-link
+                  href="https://www.va.gov/find-forms/about-form-21-0779/"
+                  text="Get VA Form 21-0779 to download"
+                />
+              </span>
+            </li>
+            <li>
+              Examination for Housebound Status or Permanent Need for Regular
+              Aid and Attendance form (VA Form 21-2680)
+              <span className="vads-u-display--block">
+                <va-link
+                  href="https://www.va.gov/find-forms/about-form-21-2680/"
+                  text="Get VA Form 21-2680 to download"
+                />
+              </span>
+            </li>
+          </ul>
+        </va-additional-info>
       </va-process-list-item>
       <va-process-list-item header="Start your application">
         <p>
@@ -60,6 +111,18 @@ const ProcessList = () => {
           supporting documents are required for you as you fill out the
           application.
         </p>
+        <va-additional-info trigger="What happens after you apply">
+          <p>
+            We’ll process your application and send you a letter in the mail
+            with our decision.
+          </p>
+          <p>
+            We may request more information from you to make a decision about
+            your medical expense reimbursement. If we request more information,
+            you’ll need to respond within 30 days. If you don’t, we may decide
+            your expenses with the evidence that’s available to us.
+          </p>
+        </va-additional-info>
       </va-process-list-item>
     </va-process-list>
   );
@@ -76,18 +139,16 @@ export const IntroductionPage = props => {
     scrollToTop();
     focusElement('h1');
   }, []);
-
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <p>
-        Use our online tool to report medical or dental expenses that you have
-        paid for yourself or for a family member living in your household. These
-        must be expenses you weren’t reimbursed for and don’t expect to be
-        reimbursed for.
+      <p className="va-introtext">
+        Use this form to report medical or dental expenses. These expenses are
+        deducted from your reported income to determine if you should receive a
+        higher benefit rate.
       </p>
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for medical expense.
+      <h2 className="vad-u-margin-top--0">
+        Follow these steps to get started:
       </h2>
       <ProcessList />
       {showVerifyIdentify ? (
@@ -98,7 +159,7 @@ export const IntroductionPage = props => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the application"
+          startText="Report your medical expenses"
           devOnly={{
             forceShowFormControls: true,
           }}

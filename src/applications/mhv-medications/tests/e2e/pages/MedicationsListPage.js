@@ -3,7 +3,6 @@ import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
 import tooltip from '../fixtures/tooltip-for-filtering-list-page.json';
-import mockUumResponse from '../fixtures/unique-user-metrics-response.json';
 import { Paths } from '../utils/constants';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
@@ -35,8 +34,6 @@ class MedicationsListPage {
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
-    // Note that we don't need specific event names in the response
-    cy.intercept('POST', Paths.UUM_API_BASE, mockUumResponse).as('uum');
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
     if (waitForMeds) {
       cy.wait('@medicationsList');
@@ -1118,6 +1115,14 @@ class MedicationsListPage {
       expect(fileContent).to.contain('not available');
       expect(fileContent).to.not.contain('None noted');
     });
+  };
+
+  verifyFilterAriaRegionText = text => {
+    cy.findByTestId('filter-aria-live-region').should('have.text', text);
+  };
+
+  verifySortScreenReaderActionText = text => {
+    cy.findByTestId('sort-action-sr-text').should('have.text', text);
   };
 }
 

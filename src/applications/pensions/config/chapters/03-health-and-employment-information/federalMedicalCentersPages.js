@@ -24,10 +24,10 @@ const options = {
     alertItemDeleted:
       'Your federal medical facility information has been deleted',
     cancelAddTitle: 'Cancel adding this federal medical facility',
-    cancelAddYes: 'Yes, Cancel adding this federal medical facility',
+    cancelAddYes: 'Yes, cancel adding this federal medical facility',
     cancelAddNo: 'No',
     cancelEditTitle: 'Cancel editing this federal medical facility',
-    cancelEditYes: 'Yes, Cancel editing this federal medical facility',
+    cancelEditYes: 'Yes, cancel editing this federal medical facility',
     cancelEditNo: 'No',
     cancelNo: 'No',
     deleteTitle: 'Delete this federal medical facility',

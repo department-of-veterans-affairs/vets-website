@@ -9,10 +9,10 @@ import {
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import OtherWaysToSendYourDocuments from './claim-files-tab-v2/OtherWaysToSendYourDocuments';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
-import useScrollToElement from '../hooks/useScrollToElement';
 import { usePagination } from '../hooks/usePagination';
 import { fetchFailedUploads } from '../actions';
 import { buildDateFormatter } from '../utils/helpers';
+import { setPageFocus } from '../utils/page';
 import NeedHelp from './NeedHelp';
 
 const FilesWeCouldntReceive = () => {
@@ -22,10 +22,6 @@ const FilesWeCouldntReceive = () => {
   );
 
   const dispatch = useDispatch();
-  const scrollToOtherWays = useScrollToElement('#other-ways-to-send-documents');
-  const scrollToFilesSection = useScrollToElement(
-    '#files-not-received-section',
-  );
 
   const { data: failedFiles, loading, error } = useSelector(
     state => state.disability.status.failedUploads,
@@ -52,11 +48,9 @@ const FilesWeCouldntReceive = () => {
     onPageSelect,
   } = usePagination(sortedFailedFiles);
 
-  // Custom page select handler that scrolls to files section
   const handlePageSelect = page => {
     onPageSelect(page);
-    // Scroll to the files section
-    scrollToFilesSection();
+    setPageFocus('#files-not-received-section');
   };
 
   useEffect(
@@ -87,7 +81,7 @@ const FilesWeCouldntReceive = () => {
         text="Learn about other ways to send your documents."
         onClick={e => {
           e.preventDefault();
-          scrollToOtherWays();
+          setPageFocus('#other-ways-to-send-documents');
         }}
       />
       {(() => {
@@ -140,14 +134,14 @@ const FilesWeCouldntReceive = () => {
                           className="vads-u-margin-y--3"
                           data-testid={`failed-file-${file.id}`}
                         >
-                          <h4
+                          <h3
                             className="filename-title vads-u-margin-y--0 vads-u-margin-bottom--2"
                             data-dd-privacy="mask"
                             data-dd-action-name="document filename"
                           >
                             File name:
                             {file.fileName}
-                          </h4>
+                          </h3>
                           <div>Request type: {file.trackedItemDisplayName}</div>
                           <div>Date failed: {formatDate(file.failedDate)}</div>
                           <div>File type: {file.documentType}</div>
@@ -157,6 +151,9 @@ const FilesWeCouldntReceive = () => {
                               file.claimId
                             }/status`}
                             text="Go to claim this file was uploaded for"
+                            label={`Go to the claim this file was uploaded for: ${
+                              file.fileName
+                            }`}
                           />
                         </VaCard>
                       </li>

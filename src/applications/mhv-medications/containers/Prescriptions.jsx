@@ -13,8 +13,6 @@ import PropTypes from 'prop-types';
 import {
   usePrintTitle,
   updatePageTitle,
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
@@ -22,6 +20,8 @@ import MedicationsListSort from '../components/MedicationsList/MedicationsListSo
 import MedsByMailContent from '../components/MedicationsList/MedsByMailContent';
 import {
   dateFormat,
+  displayHeaderPrefaceText,
+  displayMedicationsListHeader,
   generateTextFile,
   getErrorTypeFromFormat,
 } from '../util/helpers';
@@ -46,10 +46,10 @@ import Alert from '../components/shared/Alert';
 import { selectRefillProgressFlag } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
-import RefillAlert from '../components/shared/RefillAlert';
+import DelayedRefillAlert from '../components/shared/DelayedRefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import InProductionEducationFiltering from '../components/MedicationsList/InProductionEducationFiltering';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
@@ -75,6 +75,7 @@ import {
 } from '../selectors/selectPreferences';
 import { buildPdfData } from '../util/buildPdfData';
 import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
+import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -304,26 +305,6 @@ const Prescriptions = () => {
     [currentPage],
   );
 
-  // Log when prescriptions are successfully displayed to the user
-  useEffect(
-    () => {
-      if (
-        !isPrescriptionsLoading &&
-        !isPrescriptionsFetching &&
-        !prescriptionsApiError &&
-        prescriptionsData
-      ) {
-        logUniqueUserMetricsEvents(EVENT_REGISTRY.PRESCRIPTIONS_ACCESSED);
-      }
-    },
-    [
-      isPrescriptionsLoading,
-      isPrescriptionsFetching,
-      prescriptionsApiError,
-      prescriptionsData,
-    ],
-  );
-
   // Update loading state based on RTK Query states
   useEffect(
     () => {
@@ -376,16 +357,23 @@ const Prescriptions = () => {
           Date.now(),
           'MMMM D, YYYY',
         )}\n\n` +
-        `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.\n\n\n` +
-        `Medications list\n\n` +
-        `Showing ${
-          prescriptionsExportList?.length
-        } records, ${rxListSortingOptions[
-          selectedSortOption
-        ].LABEL.toLowerCase()}\n\n${rxList}${allergiesList ?? ''}`
+        `${displayHeaderPrefaceText(
+          selectedFilterOption,
+          selectedSortOption,
+          prescriptionsExportList?.length,
+          false,
+        )}\n\n\n` +
+        `${displayMedicationsListHeader(selectedFilterOption)}\n\n` +
+        `${rxList}${allergiesList ?? ''}`
       );
     },
-    [userName, dob, selectedSortOption, prescriptionsExportList],
+    [
+      userName,
+      dob,
+      selectedFilterOption,
+      selectedSortOption,
+      prescriptionsExportList,
+    ],
   );
 
   const generatePDF = useCallback(
@@ -393,6 +381,7 @@ const Prescriptions = () => {
       const pdfDataObj = buildPdfData({
         userName,
         dob,
+        selectedFilterOption,
         selectedSortOption,
         rxList,
         allergiesList,
@@ -400,7 +389,13 @@ const Prescriptions = () => {
       await generateMedicationsPdfFile({ userName, pdfData: pdfDataObj });
       setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
     },
-    [userName, dob, selectedSortOption, setPdfTxtGenerateStatus],
+    [
+      userName,
+      dob,
+      selectedFilterOption,
+      selectedSortOption,
+      setPdfTxtGenerateStatus,
+    ],
   );
 
   const generateTXT = useCallback(
@@ -598,11 +593,12 @@ const Prescriptions = () => {
     );
   };
 
-  const renderRefillAlert = () => {
+  const renderDelayedRefillAlert = () => {
     if (!showRefillProgressContent) return null;
+    if (!refillAlertList?.length) return null;
 
     return (
-      <RefillAlert
+      <DelayedRefillAlert
         dataDogActionName={
           dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
         }
@@ -711,9 +707,11 @@ const Prescriptions = () => {
           {isLoading && renderLoadingIndicator()}
           {hasMedications && (
             <>
-              {!isLoading && (
-                <MedicationsListSort sortRxList={updateFilterAndSort} />
-              )}
+              <FilterAriaRegion filterOption={selectedFilterOption} />
+              <MedicationsListSort
+                sortRxList={updateFilterAndSort}
+                shouldShowSelect={!isLoading}
+              />
               <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               {!isLoading && renderMedicationsList()}
               <BeforeYouDownloadDropdown page={pageType.LIST} />
@@ -746,12 +744,12 @@ const Prescriptions = () => {
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <CernerFacilityAlert />
+            <DisplayCernerFacilityAlert />
           </>
         ) : (
           <>
-            <CernerFacilityAlert />
-            {renderRefillAlert()}
+            <DisplayCernerFacilityAlert />
+            {renderDelayedRefillAlert()}
             {renderMedicationsContent()}
           </>
         )}
