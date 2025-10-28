@@ -390,6 +390,7 @@
     "yargs-parser": "^21.1.1",
     "**/yargs-parser": "13.1.2",
     "@babel/runtime": "^7.15.4",
+    "babel-plugin-istanbul/test-exclude": "6.0.0",
     "canvas": "Automattic/node-canvas#master",
     "punycode": "1.4.1",
     "**/cached-path-relative": "1.1.0",
