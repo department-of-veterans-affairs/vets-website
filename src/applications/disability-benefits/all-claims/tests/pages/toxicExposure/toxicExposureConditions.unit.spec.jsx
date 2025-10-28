@@ -21,12 +21,30 @@ describe('Toxic Exposure Conditions', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.toxicExposureConditions;
 
-  it('expect that nothing shows up when no toxic exposure conditions are selected', () => {
+  it('expect that nothing shows up when user selects "I am not claiming any conditions related to toxic exposure " checkbox', () => {
     const formData = {
       toxicExposure: {
         conditions: {
           none: true,
         },
+      },
+      newDisabilities: [{ condition: 'Asthma' }, { condition: 'COPD' }],
+    };
+    const { queryByText } = render(
+      <ConfirmationToxicExposureConditions formData={formData} />,
+    );
+    // const element = document.getElementById('nonExistentElement'); // Attempt to find an element that shouldn't be there
+
+    expect(queryByText(/toxic exposure/i)).to.be.null;
+    expect(queryByText(/none claimed/i)).to.be.null;
+    expect(queryByText(/asthma/i)).to.be.null;
+    expect(queryByText(/copd/i)).to.be.null;
+  });
+
+  it('expect that nothing shows up when no toxic exposure selection is made (the page is optional)', () => {
+    const formData = {
+      toxicExposure: {
+        conditions: {},
       },
       newDisabilities: [{ condition: 'Asthma' }, { condition: 'COPD' }],
     };
