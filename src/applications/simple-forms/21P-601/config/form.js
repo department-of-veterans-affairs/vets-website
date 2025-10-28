@@ -23,6 +23,7 @@ import {
   waiverOfSubstitution,
   relativesOverview,
   relativesPages,
+  supportingDocuments,
   expensesClaim,
   expensesPages,
   otherDebts,
@@ -273,6 +274,12 @@ const formConfig = {
         formData?.hasAlreadyFiled === false &&
         formData?.hasUnpaidCreditors === false,
       pages: {
+        supportingDocuments: {
+          title: 'Supporting documents',
+          path: 'supporting-documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
+        },
         remarks: {
           path: 'additional-info/remarks',
           title: 'Additional remarks (optional)',
