@@ -14,6 +14,7 @@ import BlankPageTemplate from './components/BlankPageTemplate';
 import FinancialInformation from './components/FinancialInformation';
 import HealthCareSettings from './components/HealthCareSettings';
 import LettersAndDocuments from './components/LettersAndDocuments';
+import AccountSecurityPage from './components/AccountSecurity';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -203,7 +204,7 @@ const routesForProfile2Nav = [
     requiresMVI: true,
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: AccountSecurityPage,
     name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
     path: PROFILE_PATHS.ACCOUNT_SECURITY,
     requiresLOA3: false,
