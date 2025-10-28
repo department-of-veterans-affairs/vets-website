@@ -3,14 +3,7 @@ import { parse, parseISO, isValid } from 'date-fns';
 
 import omit from 'platform/utilities/data/omit';
 
-import {
-  filterInactiveNestedPageData,
-  getActivePages,
-  getInactivePages,
-  stringifyFormReplacer,
-  expandArrayPages,
-  createFormPageList,
-} from 'platform/forms-system/src/js/helpers';
+import { stringifyFormReplacer } from 'platform/forms-system/src/js/helpers';
 import { validateWhiteSpace } from 'platform/forms/validations';
 
 import { MARRIAGE_TYPES, PICKLIST_DATA } from '../constants';
@@ -79,11 +72,12 @@ export function buildSubmissionData(payload) {
   const sourceData = payload.data;
   const cleanData = {};
 
+  // Get the main toggles
   const addEnabled = sourceData['view:addOrRemoveDependents']?.add === true;
   const removeEnabled =
     sourceData['view:addOrRemoveDependents']?.remove === true;
-  const addOptions = sourceData['view:addDependentOptions'] || {};
-  const removeOptions = sourceData['view:removeDependentOptions'] || {};
+
+  const selectableOptions = sourceData['view:selectable686Options'] || {};
 
   // Always include these - needed for BE
   Object.assign(cleanData, {
@@ -91,42 +85,39 @@ export function buildSubmissionData(payload) {
     daysTillExpires: 365,
   });
 
+  // Essential fields that should always be included
   const essentialFields = [
     'veteranInformation',
     'veteranContactInformation',
     'statementOfTruthSignature',
     'statementOfTruthCertified',
     'metadata',
+    // 'dependents',
+    // 'vaDependentsDuplicateModals', // Verify these?
+    // 'vaDependentsV3',
   ];
 
   essentialFields.forEach(field => {
-    if (sourceData[field]) {
-      cleanData[field] = sourceData[field];
-    }
-  });
-
-  // Handle fields that can be undefined/false - vaDependentsNetWorthAndPension recently added to formData
-  ['householdIncome', 'vaDependentsNetWorthAndPension'].forEach(field => {
     if (sourceData[field] !== undefined) {
       cleanData[field] = sourceData[field];
     }
   });
 
-  const addDataMappings = {
-    addSpouse: [
-      'currentMarriageInformation',
-      'doesLiveWithSpouse',
-      'spouseInformation',
-      'spouseSupportingDocuments',
-      'spouseMarriageHistory',
-      'veteranMarriageHistory',
-    ],
-    addChild: ['childrenToAdd', 'childSupportingDocuments'],
-    addDisabledChild: ['childrenToAdd', 'childSupportingDocuments'],
-    report674: ['studentInformation'],
-  };
+  // Define the field mappings for each option
+  const addSpouseFields = [
+    'currentMarriageInformation',
+    'doesLiveWithSpouse',
+    'spouseInformation',
+    'spouseSupportingDocuments',
+    'spouseMarriageHistory',
+    'veteranMarriageHistory',
+  ];
 
-  const removeDataMappings = {
+  const childFields = ['childrenToAdd', 'childSupportingDocuments'];
+
+  const report674Fields = ['studentInformation'];
+
+  const removeFields = {
     reportDivorce: ['reportDivorce'],
     reportDeath: ['deaths'],
     reportStepchildNotInHousehold: ['stepChildren'],
@@ -134,30 +125,60 @@ export function buildSubmissionData(payload) {
     reportChild18OrOlderIsNotAttendingSchool: ['childStoppedAttendingSchool'],
   };
 
-  // Add options - these only copy data if option is true
+  // Process ADD section
   const enabledAddOptions = {};
-  if (addEnabled) {
-    Object.entries(addDataMappings).forEach(([option, fields]) => {
-      // Only include data if this specific option is true
-      if (addOptions[option] === true) {
-        enabledAddOptions[option] = true;
-        copyDataFields(sourceData, cleanData, fields);
+
+  if (addEnabled === true) {
+    if (selectableOptions.addSpouse === true) {
+      enabledAddOptions.addSpouse = true;
+      copyDataFields(sourceData, cleanData, addSpouseFields);
+    }
+
+    const shouldIncludeChildData =
+      selectableOptions.addChild === true ||
+      selectableOptions.addDisabledChild === true;
+
+    if (shouldIncludeChildData) {
+      if (selectableOptions.addChild === true) {
+        enabledAddOptions.addChild = true;
       }
-    });
+      if (selectableOptions.addDisabledChild === true) {
+        enabledAddOptions.addDisabledChild = true;
+      }
+      copyDataFields(sourceData, cleanData, childFields);
+    }
+
+    if (selectableOptions.report674 === true) {
+      enabledAddOptions.report674 = true;
+      copyDataFields(sourceData, cleanData, report674Fields);
+    }
   }
 
-  // Remove options
+  // Process REMOVE section
   const enabledRemoveOptions = {};
-  if (removeEnabled) {
-    Object.entries(removeDataMappings).forEach(([option, fields]) => {
-      if (removeOptions[option] === true) {
+
+  if (removeEnabled === true) {
+    Object.entries(removeFields).forEach(([option, fields]) => {
+      if (selectableOptions[option] === true) {
         enabledRemoveOptions[option] = true;
         copyDataFields(sourceData, cleanData, fields);
       }
     });
   }
 
-  // Only add these control fields if there are enabled options
+  // Include pension fields if there are active sections
+  const hasActiveOptions =
+    Object.keys(enabledAddOptions).length > 0 ||
+    Object.keys(enabledRemoveOptions).length > 0;
+
+  if (hasActiveOptions) {
+    ['householdIncome', 'vaDependentsNetWorthAndPension'].forEach(field => {
+      if (sourceData[field] !== undefined) {
+        cleanData[field] = sourceData[field];
+      }
+    });
+  }
+
   if (Object.keys(enabledAddOptions).length > 0) {
     cleanData['view:addDependentOptions'] = enabledAddOptions;
   }
@@ -178,12 +199,38 @@ export function buildSubmissionData(payload) {
     cleanData['view:addOrRemoveDependents'] = mainControl;
   }
 
-  const selectableOptions = { ...enabledAddOptions, ...enabledRemoveOptions };
-  if (Object.keys(selectableOptions).length > 0) {
-    cleanData['view:selectable686Options'] = selectableOptions;
+  // Build the selectable options for backward compatibility
+  const enabledSelectableOptions = {
+    ...enabledAddOptions,
+    ...enabledRemoveOptions,
+  };
+  if (Object.keys(enabledSelectableOptions).length > 0) {
+    cleanData['view:selectable686Options'] = enabledSelectableOptions;
   }
 
-  return { ...payload, data: cleanData };
+  // Copy any remaining view: fields that aren't part of our managed fields
+  const managedViewFields = [
+    'view:addOrRemoveDependents',
+    'view:addDependentOptions',
+    'view:removeDependentOptions',
+    'view:selectable686Options',
+  ];
+
+  Object.keys(sourceData).forEach(key => {
+    if (
+      key.startsWith('view:') &&
+      !managedViewFields.some(field => key.startsWith(field)) &&
+      cleanData[key] === undefined
+    ) {
+      cleanData[key] = sourceData[key];
+    }
+  });
+
+  return {
+    metadata: payload.metadata,
+    data: cleanData,
+    formData: cleanData,
+  };
 }
 
 export function customTransformForSubmit(formConfig, form) {
@@ -193,21 +240,6 @@ export function customTransformForSubmit(formConfig, form) {
   }
   payload.data.useV2 = true;
   payload.data.daysTillExpires = 365;
-
-  const expandedPages = expandArrayPages(
-    createFormPageList(formConfig),
-    payload.data,
-  );
-  const activePages = getActivePages(expandedPages, payload.data);
-  const inactivePages = getInactivePages(expandedPages, payload.data);
-
-  const cleanedData = filterInactiveNestedPageData(
-    inactivePages,
-    activePages,
-    payload,
-  );
-
-  payload.data = cleanedData;
 
   const cleanedPayload = buildSubmissionData(payload);
 
