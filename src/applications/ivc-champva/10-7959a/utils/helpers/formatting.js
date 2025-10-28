@@ -67,11 +67,81 @@ export const personalizeTitleByRole = (
     roleKey = 'certifierRole',
     matchRole = 'applicant',
     placeholder = '%s',
-    self = content['page-title--your'],
-    other = content['page-title--beneficiary-plural'],
+    self = content['noun--your'],
+    other = content['noun--beneficiary-possessive'],
   } = {},
 ) => {
   if (!formData || !title) return '';
   const target = formData[roleKey] === matchRole ? self : other;
+  return replaceStrValues(title, target, placeholder);
+};
+
+/**
+ * Personalizes a title by inserting the applicant's name.
+ *
+ * Builds a display name from `formData[nameKey]` (e.g., `{ first, middle, last, suffix }`),
+ * optionally using only the first name and/or adding a possessive form, then replaces the
+ * first occurrence of `placeholder` in `title` with that result.
+ *
+ * @param {Object} formData - Source data containing the applicant's name object.
+ * @param {string} title - Title template containing a placeholder token (e.g., "Confirm %s information").
+ * @param {Object} [options] - Configuration options.
+ * @param {string} [options.nameKey='applicantName'] - Path/key in `formData` where the name object is stored.
+ * @param {string} [options.placeholder='%s'] - Placeholder string in `title` to replace.
+ * @param {boolean} [options.firstNameOnly=false] - If true, uses only the first name.
+ * @param {boolean} [options.possessive=true] - If true, appends a possessive suffix to the name.
+ * @param {'auto'|'apostropheOnly'|'apostropheS'} [options.possessiveStyle='auto']
+ *   - Possessive style: auto-detect for names ending in "s", force apostrophe-only, or force apostrophe+s.
+ * @param {boolean} [options.capitalize=true] - If true, capitalizes the first letter of the final string.
+ * @returns {string} The title with the applicant’s name inserted (or empty string if inputs are invalid).
+ *
+ * @example
+ * // "Confirm Alex information"
+ * personalizeTitleByName(formData, 'Confirm %s information', { firstNameOnly: true, possessive: false });
+ *
+ * @example
+ * // "Review Johnson’s documents"
+ * personalizeTitleByName(formData, 'Review %s documents', { firstNameOnly: false, possessive: true });
+ */
+export const personalizeTitleByName = (
+  formData,
+  title,
+  {
+    capitalize = true,
+    firstNameOnly = false,
+    nameKey = 'applicantName',
+    placeholder = '%s',
+    possessive = true,
+    possessiveStyle = 'auto', // 'auto' | 'apostropheOnly' | 'apostropheS'
+  } = {},
+) => {
+  if (!formData || !title) return '';
+
+  const nameObj = formData?.[nameKey] || {};
+  const baseName = firstNameOnly
+    ? nameObj.first || content['noun--beneficiary']
+    : Object.values(nameObj)
+        .filter(Boolean)
+        .join(' ');
+
+  const addPossessive = str => {
+    if (!str || !possessive) return str;
+    const endsWithS = /s$/i.test(str.trim());
+    if (
+      possessiveStyle === 'apostropheOnly' ||
+      (possessiveStyle === 'auto' && endsWithS)
+    ) {
+      return `${str}\u2019`;
+    }
+    // default 'apostropheS' or auto for non-s endings
+    return `${str}\u2019s`;
+  };
+
+  let target = addPossessive(baseName);
+
+  if (capitalize && target) {
+    target = target.charAt(0).toUpperCase() + target.slice(1);
+  }
+
   return replaceStrValues(title, target, placeholder);
 };

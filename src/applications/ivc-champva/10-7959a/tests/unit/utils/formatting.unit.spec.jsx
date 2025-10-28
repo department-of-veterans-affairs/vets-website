@@ -2,8 +2,12 @@ import { expect } from 'chai';
 import {
   replaceStrValues,
   personalizeTitleByRole,
+  personalizeTitleByName,
 } from '../../../utils/helpers/formatting';
 import content from '../../../locales/en/content.json';
+
+const PAGE_TITLE_YOUR = content['noun--your'];
+const PAGE_TITLE_BENEFICIARY = content['noun--beneficiary-possessive'];
 
 describe('10-7959a `replaceStrValues` util', () => {
   it('should return empty string when src is falsy', () => {
@@ -66,7 +70,7 @@ describe('10-7959a `personalizeTitleByRole` util', () => {
   it('should use defaults (roleKey, matchRole, placeholder, self/other via content) when opts not provided', () => {
     const title = '%s contact information';
     const out = personalizeTitleByRole({ certifierRole: 'applicant' }, title);
-    expect(out).to.equal(`${content['page-title--your']} contact information`);
+    expect(out).to.equal(`${PAGE_TITLE_YOUR} contact information`);
   });
 
   it('should insert "other" default when role does not match', () => {
@@ -75,9 +79,7 @@ describe('10-7959a `personalizeTitleByRole` util', () => {
       { certifierRole: 'representative' },
       title,
     );
-    expect(out).to.equal(
-      `${content['page-title--beneficiary-plural']} contact information`,
-    );
+    expect(out).to.equal(`${PAGE_TITLE_BENEFICIARY} contact information`);
   });
 
   it('should support custom roleKey and matchRole', () => {
@@ -87,22 +89,134 @@ describe('10-7959a `personalizeTitleByRole` util', () => {
       roleKey: 'role',
       matchRole: 'powerOfAttorney',
     });
-    expect(out).to.equal(`${content['page-title--your']} mailing address`);
+    expect(out).to.equal(`${PAGE_TITLE_YOUR} mailing address`);
   });
 
   it('should use custom placeholder token', () => {
     const formData = { certifierRole: 'applicant' };
     const title = '%% contact information';
     const out = personalizeTitleByRole(formData, title, { placeholder: '%%' });
-    expect(out).to.equal(`${content['page-title--your']} contact information`);
+    expect(out).to.equal(`${PAGE_TITLE_YOUR} contact information`);
   });
 
   it('should fall back to "other" when roleKey is missing in formData', () => {
     const formData = {}; // no certifierRole
     const title = '%s contact information';
     const out = personalizeTitleByRole(formData, title);
-    expect(out).to.equal(
-      `${content['page-title--beneficiary-plural']} contact information`,
-    );
+    expect(out).to.equal(`${PAGE_TITLE_BENEFICIARY} contact information`);
+  });
+});
+
+describe('10-7959a `personalizeTitleByName` util', () => {
+  const apostrophe = '\u2019';
+
+  const makeFormData = (name = {}) => ({
+    applicantName: {
+      first: 'Alex',
+      middle: 'M',
+      last: 'Johnson',
+      suffix: '',
+      ...name,
+    },
+  });
+
+  it('should return empty string when `formData` is falsy', () => {
+    const result = personalizeTitleByName(null, 'Confirm %s information');
+    expect(result).to.equal('');
+  });
+
+  it('should return empty string when title is falsy', () => {
+    const result = personalizeTitleByName(makeFormData(), '');
+    expect(result).to.equal('');
+  });
+
+  it('should insert full name by default and add possessive with smart apostrophe', () => {
+    const formData = makeFormData();
+    const result = personalizeTitleByName(formData, '%s contact information');
+    expect(result).to.equal(`Alex M Johnson${apostrophe}s contact information`);
+  });
+
+  it('should render only the first name when `firstNameOnly` is `true`', () => {
+    const formData = makeFormData();
+    const result = personalizeTitleByName(formData, '%s contact information', {
+      firstNameOnly: true,
+    });
+    expect(result).to.equal(`Alex${apostrophe}s contact information`);
+  });
+
+  it('should omit possessive when `possessive` is `false`', () => {
+    const formData = makeFormData();
+    const result = personalizeTitleByName(formData, '%s contact information', {
+      possessive: false,
+    });
+    expect(result).to.equal('Alex M Johnson contact information');
+  });
+
+  it('should capitalize first letter of final string by default', () => {
+    const formData = makeFormData({ first: 'alex' });
+    const result = personalizeTitleByName(formData, '%s contact information', {
+      firstNameOnly: true,
+      possessive: false,
+    });
+    expect(result).to.equal('Alex contact information');
+  });
+
+  it('should respect capitalize=false (does not change casing)', () => {
+    const formData = makeFormData({ first: 'alex' });
+    const result = personalizeTitleByName(formData, 'Confirm %s info', {
+      firstNameOnly: true,
+      possessive: false,
+      capitalize: false,
+    });
+    expect(result).to.equal('Confirm alex info');
+  });
+
+  it('should apply possessive style `auto`: adds apostrophe-only for names ending with `s`', () => {
+    const formData = makeFormData({ first: 'James', middle: '', last: '' });
+    const result = personalizeTitleByName(formData, 'Review %s docs', {
+      firstNameOnly: true,
+      possessive: true,
+      possessiveStyle: 'auto',
+    });
+    expect(result).to.equal(`Review James${apostrophe} docs`);
+  });
+
+  it('should force apostrophe-only when possessiveStyle="apostropheOnly"', () => {
+    const formData = makeFormData({ first: 'Alex', middle: '', last: '' });
+    const result = personalizeTitleByName(formData, 'Review %s docs', {
+      firstNameOnly: true,
+      possessive: true,
+      possessiveStyle: 'apostropheOnly',
+    });
+    expect(result).to.equal(`Review Alex${apostrophe} docs`);
+  });
+
+  it('should force apostrophe+s when possessiveStyle="apostropheS" even if name ends with "s"', () => {
+    const formData = makeFormData({ first: 'James', middle: '', last: '' });
+    const result = personalizeTitleByName(formData, 'Review %s docs', {
+      firstNameOnly: true,
+      possessive: true,
+      possessiveStyle: 'apostropheS',
+    });
+    expect(result).to.equal(`Review James${apostrophe}s docs`);
+  });
+
+  it('should support custom nameKey', () => {
+    const formData = {
+      someoneElse: { first: 'Taylor', last: 'Reed' },
+    };
+    const result = personalizeTitleByName(formData, 'Confirm %s info', {
+      nameKey: 'someoneElse',
+      possessive: false,
+    });
+    expect(result).to.equal('Confirm Taylor Reed info');
+  });
+
+  it('should build full name by concatenating only truthy parts', () => {
+    const formData = makeFormData({ middle: '', suffix: null });
+    const result = personalizeTitleByName(formData, 'Review %s docs', {
+      possessive: false,
+    });
+    expect(result).to.equal('Review Alex Johnson docs');
   });
 });
