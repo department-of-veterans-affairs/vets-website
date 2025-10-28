@@ -45,7 +45,7 @@ export const DownloadTsaLetter = ({ letter }) => {
           });
       };
       const checkOpenState = () => {
-        const isOpen = ref.current.hasAttribute('open');
+        const isOpen = ref.current?.hasAttribute('open');
         if (isOpen && !hasFetched) {
           getTsaLetterData();
         }
