@@ -13,10 +13,10 @@ const mockMaxData = require('./e2e/fixtures/picklist.json');
 
 const returnUrl = '/options-selection/remove-active-dependents'; // '/review-and-submit';
 
-const createDoB = (yearsAgo = 0, monthsAgo = 0) =>
+const createDate = (yearsAgo = 0, monthsAgo = 0, formatDate = 'MM/dd/yyyy') =>
   dateFns.format(
     dateFns.sub(new Date(), { years: yearsAgo, months: monthsAgo }),
-    'MM/dd/yyyy',
+    formatDate,
   );
 
 const submission = {
@@ -62,7 +62,7 @@ const mockDependents = {
         {
           firstName: 'PENNY',
           lastName: 'FOSTER',
-          dateOfBirth: createDoB(11),
+          dateOfBirth: createDate(17),
           ssn: '793473479',
           relationshipToVeteran: 'Child',
           awardIndicator: 'Y',
@@ -70,7 +70,7 @@ const mockDependents = {
         {
           firstName: 'STACY',
           lastName: 'FOSTER',
-          dateOfBirth: createDoB(0, 4),
+          dateOfBirth: createDate(0, 4),
           ssn: '798703232',
           relationshipToVeteran: 'Child',
           awardIndicator: 'Y',
@@ -78,7 +78,7 @@ const mockDependents = {
         {
           firstName: 'SPOUSY',
           lastName: 'FOSTER',
-          dateOfBirth: createDoB(45),
+          dateOfBirth: createDate(45),
           ssn: '702023332',
           relationshipToVeteran: 'Spouse',
           awardIndicator: 'Y',
@@ -86,7 +86,7 @@ const mockDependents = {
         {
           firstName: 'PREVIOUS',
           lastName: 'FOSTER',
-          dateOfBirth: createDoB(44),
+          dateOfBirth: createDate(44),
           ssn: '702023331',
           relationshipToVeteran: 'Spouse',
           awardIndicator: 'Y',
@@ -94,7 +94,7 @@ const mockDependents = {
         {
           firstName: 'PETER',
           lastName: 'FOSTER',
-          dateOfBirth: createDoB(82),
+          dateOfBirth: createDate(82),
           ssn: '997010104',
           relationshipToVeteran: 'Parent',
           awardIndicator: 'Y',
@@ -102,7 +102,7 @@ const mockDependents = {
         {
           firstName: 'MARY',
           lastName: 'FOSTER',
-          dateOfBirth: createDoB(85),
+          dateOfBirth: createDate(85),
           ssn: '997010155',
           relationshipToVeteran: 'Parent',
           awardIndicator: 'Y',
