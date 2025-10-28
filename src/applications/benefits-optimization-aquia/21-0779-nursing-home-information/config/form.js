@@ -1,6 +1,5 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
@@ -89,19 +88,6 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      {
-        href: '/supporting-forms-for-claims/',
-        label: 'Supporting forms for claims',
-      },
-      {
-        href: '/supporting-forms-for-claims/aid-attendance-housebound',
-        label: 'Aid and Attendance or Housebound benefits',
-      },
-    ],
-  }),
   formId: VA_FORM_IDS.FORM_21_0779,
   saveInProgress: {
     messages: {

@@ -6,7 +6,6 @@
 
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import {
   createPageValidator,
   createValidationErrorHandler,
@@ -79,33 +78,6 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      {
-        href: '/disability/',
-        label: 'Disability benefits',
-      },
-      {
-        href: '/disability/eligibility/',
-        label: 'Eligibility',
-      },
-      {
-        href: '/disability/eligibility/special-claims/',
-        label: 'Special claims',
-      },
-      {
-        href: '/disability/eligibility/special-claims/unemployability/',
-        label: "Individual Unemployability if you can't work",
-      },
-      {
-        href:
-          '/disability/eligibility/special-claims/unemployability/submit-employment-information-form-21-4192/',
-        label:
-          'Submit employment information in connection with claim for Individual Unemployability',
-      },
-    ],
-  }),
   formId: VA_FORM_IDS.FORM_21_4192,
   saveInProgress: {
     messages: {
