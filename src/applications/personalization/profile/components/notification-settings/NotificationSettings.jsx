@@ -7,6 +7,8 @@ import { scrollToTop } from 'platform/utilities/scroll';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
+import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
+
 import {
   NOTIFICATION_GROUPS,
   PROFILE_PATH_NAMES,
@@ -159,90 +161,96 @@ const NotificationSettings = ({
           />
         )}
         {shouldShowAPIError && <LoadFail />}
-        {showMissingContactInfoAlert && (
-          <MissingContactInfoAlert
-            missingMobilePhone={
-              mobilePhoneNumber || !mobilePhoneNumber?.isInternational
-            }
-            missingEmailAddress={!emailAddress}
-            showEmailNotificationSettings={showEmail}
-          />
-        )}
-        {shouldShowNotificationGroups && (
-          <>
-            <FieldHasBeenUpdatedAlert />
-            <ContactInfoOnFile
-              emailAddress={emailAddress}
-              mobilePhoneNumber={mobilePhoneNumber}
-              showEmailNotificationSettings={showEmail}
-            />
-            {isInternationalMobile && (
-              <va-alert-expandable
-                status="info"
-                trigger="You won’t receive text notifications"
-                class="vads-u-margin-top--3"
-                data-testid="international-mobile-number-info-alert"
-              >
-                <p className="vads-u-padding-bottom--2">
-                  We can’t send text notifications to international phone
-                  numbers. Add a U.S. mobile phone number if you want to receive
-                  these text notifications:
-                </p>
-                <ul className="vads-u-padding-bottom--2">
-                  <li>Health appointment reminders</li>
-                  <li>Prescription shipping notifications</li>
-                  <li>Appeal status updates</li>
-                  <li>Appeal hearing reminders</li>
-                  <li>Disability and pension deposit notifications</li>
-                </ul>
-                <p>
-                  <va-link
-                    href={updateMobileNumberHref}
-                    text="Update your mobile phone number"
-                  />
-                </p>
-              </va-alert-expandable>
-            )}
-            <MissingContactInfoExpandable
-              showEmailNotificationSettings={showEmail}
-            />
-            <va-additional-info
-              data-testid="data-encryption-notice"
-              trigger="By setting up notifications, you agree to receive unsecure emails and texts"
-              class="vads-u-margin-top--3"
-            >
-              <p>
-                Data encryption is a way of making data hard to read by people
-                other than the intended recipient. SMS text messaging and email
-                aren’t encrypted. This means they’re not secure. Other people
-                could read your appointment information if they get access to
-                the messages when sent, received, or on your phone or computer.
-              </p>
-              <p className="vads-u-padding-top--2">
-                <va-link
-                  href="/privacy-policy/digital-notifications-terms-and-conditions/"
-                  text="Read more about privacy and security for digital notifications"
+        {!shouldShowLoadingIndicator &&
+          !shouldShowAPIError && (
+            <InitializeVAPServiceID>
+              {showMissingContactInfoAlert && (
+                <MissingContactInfoAlert
+                  missingMobilePhone={
+                    mobilePhoneNumber || !mobilePhoneNumber?.isInternational
+                  }
+                  missingEmailAddress={!emailAddress}
+                  showEmailNotificationSettings={showEmail}
                 />
-              </p>
-            </va-additional-info>
-            <hr aria-hidden="true" />
-            {availableGroups.map(({ id }) => {
-              // we handle the health care group a little differently
-              if (id === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
-                return <NotificationGroup groupId={id} key={id} />;
-              }
-              // this will hide the Payments header when there are no items to display
-              if (
-                id === NOTIFICATION_GROUPS.PAYMENTS &&
-                !toggles.profileShowNewHealthCareCopayBillNotificationSetting &&
-                !mobilePhoneNumber
-              ) {
-                return null;
-              }
-              return <NotificationGroup groupId={id} key={id} />;
-            })}
-          </>
-        )}
+              )}
+              {shouldShowNotificationGroups && (
+                <>
+                  <FieldHasBeenUpdatedAlert />
+                  <ContactInfoOnFile
+                    emailAddress={emailAddress}
+                    mobilePhoneNumber={mobilePhoneNumber}
+                    showEmailNotificationSettings={showEmail}
+                  />
+                  {isInternationalMobile && (
+                    <va-alert-expandable
+                      status="info"
+                      trigger="You won't receive text notifications"
+                      class="vads-u-margin-top--3"
+                      data-testid="international-mobile-number-info-alert"
+                    >
+                      <p className="vads-u-padding-bottom--2">
+                        We can’t send text notifications to international phone
+                        numbers. Add a U.S. mobile phone number if you want to
+                        receive these text notifications:
+                      </p>
+                      <ul className="vads-u-padding-bottom--2">
+                        <li>Health appointment reminders</li>
+                        <li>Prescription shipping notifications</li>
+                        <li>Appeal status updates</li>
+                        <li>Appeal hearing reminders</li>
+                        <li>Disability and pension deposit notifications</li>
+                      </ul>
+                      <p>
+                        <va-link
+                          href={updateMobileNumberHref}
+                          text="Update your mobile phone number"
+                        />
+                      </p>
+                    </va-alert-expandable>
+                  )}
+                  <MissingContactInfoExpandable
+                    showEmailNotificationSettings={showEmail}
+                  />
+                  <va-additional-info
+                    data-testid="data-encryption-notice"
+                    trigger="By setting up notifications, you agree to receive unsecure emails and texts"
+                    class="vads-u-margin-top--3"
+                  >
+                    <p>
+                      Data encryption is a way of making data hard to read by
+                      people other than the intended recipient. SMS text
+                      messaging and email aren’t encrypted. This means they’re
+                      not secure. Other people could read your appointment
+                      information if they get access to the messages when sent,
+                      received, or on your phone or computer.
+                    </p>
+                    <p className="vads-u-padding-top--2">
+                      <va-link
+                        href="/privacy-policy/digital-notifications-terms-and-conditions/"
+                        text="Read more about privacy and security for digital notifications"
+                      />
+                    </p>
+                  </va-additional-info>
+                  <hr aria-hidden="true" />
+                  {availableGroups.map(({ id }) => {
+                    // we handle the health care group a little differently
+                    if (id === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
+                      return <NotificationGroup groupId={id} key={id} />;
+                    }
+                    // this will hide the Payments header when there are no items to display
+                    if (
+                      id === NOTIFICATION_GROUPS.PAYMENTS &&
+                      !toggles.profileShowNewHealthCareCopayBillNotificationSetting &&
+                      !mobilePhoneNumber
+                    ) {
+                      return null;
+                    }
+                    return <NotificationGroup groupId={id} key={id} />;
+                  })}
+                </>
+              )}
+            </InitializeVAPServiceID>
+          )}
       </DowntimeNotification>
     </>
   );
