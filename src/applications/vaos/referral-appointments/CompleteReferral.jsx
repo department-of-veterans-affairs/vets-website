@@ -22,6 +22,7 @@ import {
 } from './redux/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
 import FindCommunityCareOfficeLink from './components/FindCCFacilityLink';
+import ReferralErrorLayout from './components/ReferralErrorLayout';
 
 function handleScheduleClick(dispatch) {
   return () => {
@@ -44,11 +45,7 @@ export const CompleteReferral = () => {
   const params = new URLSearchParams(search);
   const id = params.get('id');
 
-  const {
-    data: referral,
-    error: referralError,
-    isLoading: isReferralLoading,
-  } = useGetReferralByIdQuery(id);
+  const { data: referral, error: referralError } = useGetReferralByIdQuery(id);
 
   const currentReferral = referral?.attributes;
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
@@ -114,31 +111,9 @@ export const CompleteReferral = () => {
     ],
   );
 
-  // Handle referral loading and error states
-  if (isReferralLoading) {
-    return (
-      <ReferralLayout
-        loadingMessage="Loading your appointment confirmation..."
-        hasEyebrow
-        heading="Appointment confirmed"
-      />
-    );
-  }
-
   if (referralError || !currentReferral) {
     return (
-      <ReferralLayout
-        hasEyebrow
-        heading="We're sorry. We've run into a problem"
-      >
-        <div>
-          <p>
-            We’re having trouble getting your appointment confirmation. Please
-            try again later or call your facility’s community care office.
-          </p>
-          <FindCommunityCareOfficeLink />
-        </div>
-      </ReferralLayout>
+      <ReferralErrorLayout message="We're having trouble getting your appointment confirmation. Please try again later or call your facility's community care office." />
     );
   }
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import ReferralLayout from './components/ReferralLayout';
+import ReferralErrorLayout from './components/ReferralErrorLayout';
 // eslint-disable-next-line import/no-restricted-paths
 import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/selectors';
 import { setFormCurrentPage } from './redux/actions';
@@ -22,11 +23,7 @@ export const ChooseDateAndTime = () => {
   const params = new URLSearchParams(search);
   const id = params.get('id');
 
-  const {
-    data: referral,
-    error: referralError,
-    isLoading: isReferralLoading,
-  } = useGetReferralByIdQuery(id);
+  const { data: referral, error: referralError } = useGetReferralByIdQuery(id);
 
   const currentReferral = referral?.attributes;
 
@@ -90,31 +87,8 @@ export const ChooseDateAndTime = () => {
     [location, dispatch],
   );
 
-  // Handle referral loading and error states
-  if (isReferralLoading) {
-    return (
-      <ReferralLayout
-        loadingMessage="Loading your appointment information..."
-        hasEyebrow
-        heading="Schedule an appointment with your provider"
-      />
-    );
-  }
-
   if (referralError || !currentReferral) {
-    return (
-      <ReferralLayout
-        hasEyebrow
-        heading="We're sorry. We've run into a problem"
-      >
-        <div>
-          <p>
-            We’re having trouble getting your appointment information. Please
-            try again later or call your facility’s community care office.
-          </p>
-        </div>
-      </ReferralLayout>
-    );
+    return <ReferralErrorLayout showFindLink={false} />;
   }
 
   if (loading || isDraftLoading) {
