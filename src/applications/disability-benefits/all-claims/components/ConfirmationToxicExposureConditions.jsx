@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { reviewEntry } from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
-import { sippableId, capitalizeEachWord } from '../../utils';
+import { sippableId, capitalizeEachWord } from '../utils';
 
-const ToxicExposureConditions = ({ formData }) => {
+const ConfirmationToxicExposureConditions = ({ formData }) => {
   // first, get list of toxic exposure conditions the user has claimed
   // return null if no TE conditions
   // then, cross-check that with the list of conditions they checked
@@ -36,7 +36,7 @@ const ToxicExposureConditions = ({ formData }) => {
   );
 };
 
-ToxicExposureConditions.propTypes = {
+ConfirmationToxicExposureConditions.propTypes = {
   formData: PropTypes.object,
 };
-export default ToxicExposureConditions;
+export default ConfirmationToxicExposureConditions;

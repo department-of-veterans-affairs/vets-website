@@ -8,7 +8,7 @@ import {
   validateTEConditions,
 } from '../../content/toxicExposure';
 import { formTitle, makeConditionsUI } from '../../utils';
-import ToxicExposureConditions from '../../components/ConfirmationFields/ToxicExposureConditions';
+import ConfirmationToxicExposureConditions from '../../components/ConfirmationToxicExposureConditions';
 
 export const uiSchema = {
   'ui:title': formTitle(conditionsPageTitle),
@@ -21,7 +21,7 @@ export const uiSchema = {
     }),
   },
   'ui:validations': [validateTEConditions],
-  'ui:confirmationField': ToxicExposureConditions,
+  'ui:confirmationField': ConfirmationToxicExposureConditions,
 };
 
 export const schema = {

@@ -13,7 +13,7 @@ import {
   noneAndConditionError,
 } from '../../../content/toxicExposure';
 import formConfig from '../../../config/form';
-import ToxicExposureConditions from '../../../components/ConfirmationFields/ToxicExposureConditions';
+import ConfirmationToxicExposureConditions from '../../../components/ConfirmationToxicExposureConditions';
 
 describe('Toxic Exposure Conditions', () => {
   const {
@@ -31,7 +31,7 @@ describe('Toxic Exposure Conditions', () => {
       newDisabilities: [{ condition: 'Asthma' }, { condition: 'COPD' }],
     };
     const { queryByText } = render(
-      <ToxicExposureConditions formData={formData} />,
+      <ConfirmationToxicExposureConditions formData={formData} />,
     );
     // const element = document.getElementById('nonExistentElement'); // Attempt to find an element that shouldn't be there
 
@@ -56,7 +56,7 @@ describe('Toxic Exposure Conditions', () => {
       ],
     };
     const { getByRole, queryByText, getByText } = render(
-      <ToxicExposureConditions formData={formData} />,
+      <ConfirmationToxicExposureConditions formData={formData} />,
     );
     expect(getByRole('heading', { name: /toxic exposure/i })).to.exist;
     expect(getByText(/asthma/i)).to.exist;
@@ -155,7 +155,7 @@ describe('Toxic Exposure Conditions', () => {
   });
 
   describe('ui:confirmationField', () => {
-    it('should render the custom ToxicExposureConditions confirmation component', () => {
+    it('should render the custom ConfirmationToxicExposureConditions confirmation component', () => {
       const formData = {
         toxicExposure: {
           conditions: {
