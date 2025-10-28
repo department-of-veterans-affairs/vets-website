@@ -10,7 +10,7 @@ import {
   fillFullNameWebComponentPattern,
   fillDateWebComponentPattern,
   fillTextAreaWebComponent,
-  selectDropdownWebComponent,
+  selectRadioWebComponent,
   selectCheckboxGroupWebComponent,
   reviewAndSubmitPageFlow,
 } from '../../shared/tests/e2e/helpers';
@@ -149,17 +149,13 @@ const testConfig = createTestConfig(
         });
       },
 
-      'your-personal-information': ({ afterHook }) => {
+      'your-name-and-date-of-birth': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillFullNameWebComponentPattern(
               'claimantFullName',
               data.claimantFullName,
-            );
-            fillTextWebComponent(
-              'claimantIdentification_ssn',
-              data.claimantIdentification.ssn,
             );
             fillDateWebComponentPattern(
               'claimantDateOfBirth',
@@ -171,7 +167,21 @@ const testConfig = createTestConfig(
         });
       },
 
-      'your-contact-information': ({ afterHook }) => {
+      'your-ssn': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillTextWebComponent(
+              'claimantIdentification_ssn',
+              data.claimantIdentification.ssn,
+            );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+
+      'your-mailing-address': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -179,7 +189,16 @@ const testConfig = createTestConfig(
               'claimantAddress',
               data.claimantAddress,
             );
-            // Fill contact info
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+
+      'your-phone-and-email': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
             fillTextWebComponent('claimantPhone', data.claimantPhone);
             if (data.claimantEmail) {
               fillTextWebComponent('claimantEmail', data.claimantEmail);
@@ -194,10 +213,20 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            selectDropdownWebComponent(
+            selectRadioWebComponent(
               'relationshipToDeceased',
               data.relationshipToDeceased,
             );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+
+      'waiver-of-substitution': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
             if (data.wantsToWaiveSubstitution !== undefined) {
               selectYesNoWebComponent(
                 'wantsToWaiveSubstitution',
