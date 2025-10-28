@@ -25,6 +25,7 @@ export {
   lastNameSchema,
   middleNameSchema,
   placeOfBirthSchema,
+  serviceNumberSchema,
   ssnSchema,
   vaFileNumberSchema,
   veteranIdentificationSchema,
