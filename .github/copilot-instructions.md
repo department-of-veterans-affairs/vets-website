@@ -89,7 +89,6 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 ## Code Review and Quality
 - Always run linters before committing: `yarn lint:js:working:fix`.
 - Test changes frequently and iteratively.
-- For accessibility, ensure all code meets WCAG 2.2 AA and Section 508 standards.
 - Use existing patterns and components from the design system rather than creating new ones.
 - Keep changes minimal and focused on the specific issue being addressed.
 
