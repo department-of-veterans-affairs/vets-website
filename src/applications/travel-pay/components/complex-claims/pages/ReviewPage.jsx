@@ -112,7 +112,7 @@ const ReviewPage = ({ claim, message }) => {
                 const cardHeader = `${formatDate(
                   expense.dateIncurred,
                 )}, $${formatAmount(expense.costRequested)}`;
-                if (type === expenseTypes.Mileage) {
+                if (type === 'Mileage') {
                   return (
                     <ExpenseCard
                       key={expense.id}
@@ -122,7 +122,7 @@ const ReviewPage = ({ claim, message }) => {
                     />
                   );
                 }
-                if (type !== expenseTypes.Mileage) {
+                if (type !== 'Mileage') {
                   return (
                     <ExpenseCard
                       key={expense.id}
@@ -135,7 +135,7 @@ const ReviewPage = ({ claim, message }) => {
                 return null;
               })}
               {/* Only show button when expense type is NOT Mileage */}
-              {type !== expenseTypes.Mileage && (
+              {type !== 'Mileage' && (
                 <VaButton
                   id={`add-${type.toLowerCase()}-expense-button`}
                   className="vads-u-display--flex vads-u-margin-y--2"
