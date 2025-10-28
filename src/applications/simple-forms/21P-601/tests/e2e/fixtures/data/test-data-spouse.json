@@ -29,7 +29,7 @@
   },
   "claimantPhone": "7035551234",
   "claimantEmail": "robert.johnson@email.com",
-  "relationshipToDeceased": "spouse",
+  "relationshipToDeceased": "executor",
   "wantsToWaiveSubstitution": false,
   "survivors": {
     "hasSpouse": false,
