@@ -2,13 +2,24 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 function AddressInputError({ showError }) {
-  if (!showError) {
-    return null;
+  function ErrorContent() {
+    if (!showError) {
+      return null;
+    }
+
+    return (
+      <>
+        <span className="usa-sr-only sr-only">Error</span>
+        <span className="usa-error-message">
+          Enter a zip code or a city and state in the search box
+        </span>
+      </>
+    );
   }
+
   return (
     <span className="usa-input-error-message" role="alert">
-      <span className="sr-only">Error</span>
-      Enter a zip code or a city and state in the search box
+      <ErrorContent />
     </span>
   );
 }

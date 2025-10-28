@@ -10,6 +10,9 @@ $surface-secondary: rgba(223, 225, 226, 1);
 $text-color: rgba(27, 27, 27, 1);
 
 .facility-locator {
+
+
+
   @media (max-width: $large-screen) {
     margin: 0 12px;
   }
@@ -132,7 +135,7 @@ $text-color: rgba(27, 27, 27, 1);
   }
 
   @media screen and (max-width: $small-screen) {
-    .facility-result + .facility-result {
+    .facility-result+.facility-result {
       border-top: solid 1px var(--vads-color-base-light);
     }
   }
@@ -188,7 +191,7 @@ $text-color: rgba(27, 27, 27, 1);
     padding: 0;
   }
 
-  .react-tabs__tab + .react-tabs__tab {
+  .react-tabs__tab+.react-tabs__tab {
     border-left: none;
   }
 

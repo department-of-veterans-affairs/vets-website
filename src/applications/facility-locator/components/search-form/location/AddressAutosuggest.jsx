@@ -97,6 +97,21 @@ function AddressAutosuggest({
     updateSearch,
   ]);
 
+  // address errors with aria-describedby on input for screen readers
+  const handleError = () => {
+    const addressInput = document.getElementById('street-city-state-zip');
+    addressInput?.setAttribute('aria-describedby', 'input-error-message');
+    addressInput?.focus();
+  };
+
+  // remove aria-describedby if error resolved
+  const resolveError = () => {
+    const addressInput = document.getElementById('street-city-state-zip');
+    if (addressInput?.hasAttribute('aria-describedby')) {
+      addressInput.removeAttribute('aria-describedby');
+    }
+  };
+
   const onBlur = () => {
     const value = inputValue?.trimStart() || '';
     onChange({ searchString: ' ' });
@@ -143,6 +158,17 @@ function AddressAutosuggest({
       }
     },
     [searchString, geolocationInProgress],
+  );
+
+  useEffect(
+    () => {
+      if (showAddressError) {
+        handleError();
+      } else {
+        resolveError();
+      }
+    },
+    [showAddressError],
   );
 
   return (
