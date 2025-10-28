@@ -7,7 +7,9 @@ import mockPatchAllowed from '@@profile/tests/fixtures/paperless-delivery/paperl
 import { PROFILE_PATHS } from '@@profile/constants';
 import { mockNotificationSettingsAPIs } from '../helpers';
 
-describe('Paperless Delivery', () => {
+// Skipping as Paperless Delivery is delayed and
+// this code might be removed before it goes live.
+describe.skip('Paperless Delivery', () => {
   beforeEach(() => {
     mockNotificationSettingsAPIs(
       generateFeatureToggles({

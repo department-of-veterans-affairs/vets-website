@@ -27,6 +27,11 @@ import {
 } from 'platform/forms-system/src/js/utilities/file';
 import { usePreviousValue } from 'platform/forms-system/src/js/helpers';
 import { MISSING_PASSWORD_ERROR } from 'platform/forms-system/src/js/validation';
+import {
+  createOpenRemoveModal,
+  createCloseRemoveModal,
+  createCancelUpload,
+} from '../utils/helpers2';
 
 /**
  * Modal content callback
@@ -359,34 +364,20 @@ const FileField = props => {
     }
   };
 
-  const openRemoveModal = index => {
-    setRemoveIndex(index);
-    setShowRemoveModal(true);
-  };
+  const openRemoveModal = createOpenRemoveModal(
+    setRemoveIndex,
+    setShowRemoveModal,
+  );
 
-  const closeRemoveModal = ({ remove = false } = {}) => {
-    const idx = removeIndex;
-    setRemoveIndex(null);
-    setShowRemoveModal(false);
-    if (remove) {
-      removeFile(idx);
-    } else {
-      setTimeout(() => {
-        focusElement(
-          'button, .delete-upload',
-          {},
-          $(`#${getFileListId(idx)} .delete-upload`)?.shadowRoot,
-        );
-      });
-    }
-  };
+  const closeRemoveModal = createCloseRemoveModal(
+    removeIndex,
+    setRemoveIndex,
+    setShowRemoveModal,
+    removeFile,
+    getFileListId,
+  );
 
-  const cancelUpload = index => {
-    if (uploadRequest) {
-      uploadRequest.abort();
-    }
-    removeFile(index);
-  };
+  const cancelUpload = createCancelUpload(uploadRequest, removeFile);
 
   const retryLastUpload = (index, file) => {
     onAddFile({ target: { files: [file] } }, index);
