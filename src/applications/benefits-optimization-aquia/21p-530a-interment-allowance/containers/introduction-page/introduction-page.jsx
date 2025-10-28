@@ -34,8 +34,8 @@ const ProcessList = () => {
   return (
     <va-process-list>
       <va-process-list-item header="Check your eligibility">
+        <p>Make sure you meet our eligibility requirements before you apply.</p>
         <p>
-          Make sure you meet our eligibility requirements before you apply.{' '}
           <a href="/burials-memorials/veterans-burial-allowance/">
             Find out if you’re eligible for a Veterans burial allowance and
             transportation benefits
@@ -62,34 +62,13 @@ const ProcessList = () => {
           information.
         </p>
         <p>
-          <strong>
-            You may also need to provide copies of these documents:
-          </strong>
-        </p>
-        <ul>
-          <li>The Veteran’s death certificate including the cause of death</li>
-          <li>
-            An itemized receipt for transportation costs (only if you paid
-            transportation costs for the Veteran’s remains)
-          </li>
-        </ul>
-        <p>
-          We also recommend providing a copy of the Veteran’s DD214 or other
-          separation documents including all their service periods.
-        </p>
-        <p>
-          If you don’t have their DD214 or other separation documents, you can
-          request these documents now.{' '}
-          <a href="/records/get-military-service-records/">
-            Learn more about requesting military service records
-          </a>
-        </p>
-        <p>
           <strong>What if I need help with my application?</strong>
         </p>
         <p>
           An accredited representative, like a Veterans Service Organization
-          (VSO), can help you fill out your application.{' '}
+          (VSO), can help you fill out your application.
+        </p>
+        <p>
           <a href="/get-help-from-accredited-representative/">
             Learn more about getting help from an accredited representative
           </a>
@@ -134,6 +113,11 @@ export const IntroductionPage = ({ route }) => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
+      <p>
+        Use this form if you’re a state or tribal organization to apply for a VA
+        interment allowance for a Veteran buried in a State or Tribal Veterans'
+        cemetery.
+      </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow these steps to apply for a burial allowance
       </h2>

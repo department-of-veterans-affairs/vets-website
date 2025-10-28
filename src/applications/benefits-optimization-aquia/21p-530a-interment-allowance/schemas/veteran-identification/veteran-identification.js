@@ -133,7 +133,6 @@ export const veteranIdentificationSchema = z
   .object({
     fullName: fullNameSchema,
     ssn: ssnSchema,
-    serviceNumber: serviceNumberSchema,
     vaFileNumber: vaFileNumberSchema,
     dateOfBirth: dateOfBirthSchema,
     placeOfBirth: placeOfBirthSchema,

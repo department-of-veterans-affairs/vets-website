@@ -1,13 +1,22 @@
 import PropTypes from 'prop-types';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 /**
  * Error messages for statement of truth validation
  */
 const ERROR_MSG_CHECKBOX = 'You must certify this statement is correct';
-const ERROR_MSG_INPUT_OFFICIAL =
-  'Please sign your full name as the state or tribal official';
+
+/**
+ * Normalize names for comparison: trim, lowercase, remove extra spaces
+ */
+const normalizeName = name => {
+  if (!name || typeof name !== 'string') return '';
+  return name
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, ' ');
+};
 
 /**
  * Statement of Truth Item component
@@ -17,6 +26,7 @@ const ERROR_MSG_INPUT_OFFICIAL =
  * @param {boolean} props.hasCheckboxError - Whether checkbox has validation error
  * @param {boolean} props.hasInputError - Whether input has validation error
  * @param {string} props.label - Label for this signature item
+ * @param {string} props.expectedName - Expected name to validate signature against
  * @param {Function} props.setSignatures - Function to update signatures state
  * @param {Object} props.signature - Current signature state
  * @param {Array} props.statementText - Text paragraphs for the statement
@@ -27,6 +37,7 @@ export const StatementOfTruthItem = props => {
     hasCheckboxError,
     hasInputError,
     label,
+    expectedName,
     setSignatures,
     signature,
     statementText,
@@ -36,8 +47,11 @@ export const StatementOfTruthItem = props => {
   const inputLabel = `${label}'s signature`;
 
   const inputError = useMemo(
-    () => (hasInputError ? ERROR_MSG_INPUT_OFFICIAL : null),
-    [hasInputError],
+    () =>
+      hasInputError
+        ? `Your signature must match the burial benefits recipient full name: ${expectedName}`
+        : null,
+    [hasInputError, expectedName],
   );
 
   const checkboxError = useMemo(
@@ -59,18 +73,22 @@ export const StatementOfTruthItem = props => {
 
   const handleInputChange = useCallback(
     event => {
-      const value = event.detail.value.trim();
+      const { value } = event.detail;
+      const trimmedValue = value.trim();
+      const normalizedSignature = normalizeName(trimmedValue);
+      const normalizedExpectedName = normalizeName(expectedName);
+      const matches = normalizedSignature === normalizedExpectedName;
+
       setSignatures(prev => ({
         ...prev,
         [label]: {
           ...prev[label],
-          // For officials, just need a non-empty signature
-          matches: value.length > 0,
-          value,
+          matches,
+          value, // Store the raw value so user can type spaces
         },
       }));
     },
-    [label, setSignatures],
+    [label, expectedName, setSignatures],
   );
 
   const handleCheckboxChange = useCallback(
@@ -81,6 +99,29 @@ export const StatementOfTruthItem = props => {
       }));
     },
     [label, setSignatures],
+  );
+
+  // Re-validate signature when expectedName changes
+  useEffect(
+    () => {
+      if (signature.value) {
+        const trimmedValue = signature.value.trim();
+        const normalizedSignature = normalizeName(trimmedValue);
+        const normalizedExpectedName = normalizeName(expectedName);
+        const matches = normalizedSignature === normalizedExpectedName;
+
+        if (signature.matches !== matches) {
+          setSignatures(prev => ({
+            ...prev,
+            [label]: {
+              ...prev[label],
+              matches,
+            },
+          }));
+        }
+      }
+    },
+    [expectedName, signature.value, signature.matches, label, setSignatures],
   );
 
   return (
@@ -109,6 +150,7 @@ StatementOfTruthItem.propTypes = {
   hasCheckboxError: PropTypes.bool,
   hasInputError: PropTypes.bool,
   label: PropTypes.string,
+  expectedName: PropTypes.string,
   setSignatures: PropTypes.func,
   signature: PropTypes.shape({
     checked: PropTypes.bool,

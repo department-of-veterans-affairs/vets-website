@@ -18,12 +18,14 @@ import {
   BurialBenefitsRecipientPage,
   MailingAddressPage,
   OrganizationInformationPage,
+  RelationshipToVeteranPage,
   ServicePeriodsPage,
-  VeteranBirthInformationPage,
+  VeteranBirthDeathInformationPage,
   VeteranBurialInformationPage,
   VeteranIdentificationPage,
   VeteranPreviousNamesPage,
   VeteranServedUnderDifferentNamePage,
+  VeteranSsnFileNumberPage,
 } from '@bio-aquia/21p-530a-interment-allowance/pages';
 
 // Import review pages
@@ -31,12 +33,14 @@ import { AdditionalRemarksReviewPage } from '@bio-aquia/21p-530a-interment-allow
 import { BurialBenefitsRecipientReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/burial-benefits-recipient/burial-benefits-recipient-review';
 import { MailingAddressReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/mailing-address/mailing-address-review';
 import { OrganizationInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/organization-information/organization-information-review';
+import { RelationshipToVeteranReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/relationship-to-veteran/relationship-to-veteran-review';
 import { ServicePeriodsReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/service-periods/service-periods-review';
-import { VeteranBirthInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-birth-information/veteran-birth-information-review';
+import { VeteranBirthDeathInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-birth-death-information/veteran-birth-death-information-review';
 import { VeteranBurialInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-burial-information/veteran-burial-information-review';
 import { VeteranIdentificationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-identification/veteran-identification-review';
 import { VeteranPreviousNamesReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-previous-names/veteran-previous-names-review';
 import { VeteranServedUnderDifferentNameReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-served-under-different-name/veteran-served-under-different-name-review';
+import { VeteranSsnFileNumberReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-ssn-file-number/veteran-ssn-file-number-review';
 
 const defaultSchema = {
   type: 'object',
@@ -85,6 +89,20 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
+    relationshipToVeteranChapter: {
+      title: 'Relationship to the Veteran',
+      pages: {
+        relationshipToVeteran: {
+          path: 'relationship-to-veteran',
+          title: 'Relationship to the Veteran',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: RelationshipToVeteranPage,
+          CustomPageReview: RelationshipToVeteranReviewPage,
+          pagePerItemIndex: 0,
+        },
+      },
+    },
     organizationInformationChapter: {
       title: "Your organization's information",
       pages: {
@@ -129,13 +147,22 @@ const formConfig = {
           CustomPageReview: VeteranIdentificationReviewPage,
           pagePerItemIndex: 0,
         },
-        veteranBirthInformation: {
-          path: 'birth-information',
-          title: 'Birth information',
+        veteranSsnFileNumber: {
+          path: 'ssn-file-number',
+          title: 'Identification numbers',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: VeteranBirthInformationPage,
-          CustomPageReview: VeteranBirthInformationReviewPage,
+          CustomPage: VeteranSsnFileNumberPage,
+          CustomPageReview: VeteranSsnFileNumberReviewPage,
+          pagePerItemIndex: 0,
+        },
+        veteranBirthDeathInformation: {
+          path: 'birth-death-information',
+          title: 'Birth and death information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranBirthDeathInformationPage,
+          CustomPageReview: VeteranBirthDeathInformationReviewPage,
           pagePerItemIndex: 0,
         },
         veteranBurialInformation: {

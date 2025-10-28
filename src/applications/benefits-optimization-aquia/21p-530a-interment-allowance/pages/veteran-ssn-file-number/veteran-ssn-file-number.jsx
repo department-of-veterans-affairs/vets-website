@@ -1,52 +1,35 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { TextInputField, SSNField } from '@bio-aquia/shared/components/atoms';
-import { FullnameField } from '@bio-aquia/shared/components/molecules';
+import { SSNField, TextInputField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import { z } from 'zod';
 import {
-  fullNameSchema,
-  serviceNumberSchema,
   ssnSchema,
   vaFileNumberSchema,
+  serviceNumberSchema,
 } from '../../schemas';
 
 /**
- * Schema for veteran personal information page
+ * Schema for veteran SSN, service number, and file number page
  */
-const veteranPersonalInformationSchema = z.object({
-  fullName: fullNameSchema,
+const veteranSsnFileNumberSchema = z.object({
   ssn: ssnSchema,
   serviceNumber: serviceNumberSchema,
   vaFileNumber: vaFileNumberSchema,
 });
 
 /**
- * Veteran Personal Information page component for the interment allowance form.
- * Collects the deceased Veteran's name, Social Security number, VA service number, and VA file number.
- * This is the first page in the "Deceased Veteran information" chapter.
- *
- * @component
+ * Veteran SSN and File Number page component for the interment allowance form
+ * This page collects deceased veteran's SSN, service number, and VA file number
  * @param {Object} props - Component props
- * @param {Object} [props.data] - Initial form data from the form system
- * @param {Function} [props.goBack] - Function to navigate to the previous page
- * @param {Function} props.goForward - Function to navigate to the next page
- * @param {Function} [props.setFormData] - Function to update the form data in the form system
- * @returns {JSX.Element} Veteran personal information form page
- *
- * @example
- * ```jsx
- * <VeteranPersonalInformationPage
- *   data={formData}
- *   goForward={handleGoForward}
- *   goBack={handleGoBack}
- *   setFormData={setFormData}
- * />
- * ```
+ * @param {Object} props.data - Initial form data
+ * @param {Function} props.setFormData - Function to update form data
+ * @param {Function} props.goForward - Function to proceed to next page
+ * @returns {JSX.Element} Veteran SSN and file number form page
  */
-export const VeteranPersonalInformationPage = ({
+export const VeteranSsnFileNumberPage = ({
   data,
   setFormData,
   goForward,
@@ -59,22 +42,16 @@ export const VeteranPersonalInformationPage = ({
 
   return (
     <PageTemplate
-      title="Personal information"
+      title="Veteran's identification information"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
-      schema={veteranPersonalInformationSchema}
-      sectionName="veteranPersonalInformation"
+      schema={veteranSsnFileNumberSchema}
+      sectionName="veteranIdentification"
       defaultData={{
-        fullName: {
-          first: '',
-          middle: '',
-          last: '',
-          suffix: '',
-        },
         ssn: '',
         serviceNumber: '',
         vaFileNumber: '',
@@ -82,24 +59,15 @@ export const VeteranPersonalInformationPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <FullnameField
-            value={localData.fullName}
-            onChange={handleFieldChange}
-            errors={errors.fullName}
-            required
-            legend="Full name"
-            forceShowError={formSubmitted}
-          />
-
           <SSNField
             name="ssn"
             label="Social Security number"
+            schema={ssnSchema}
             value={localData.ssn}
             onChange={handleFieldChange}
             required
             error={errors.ssn}
             forceShowError={formSubmitted}
-            schema={ssnSchema}
           />
 
           <TextInputField
@@ -109,8 +77,8 @@ export const VeteranPersonalInformationPage = ({
             onChange={handleFieldChange}
             error={errors.serviceNumber}
             forceShowError={formSubmitted}
-            schema={serviceNumberSchema}
             hint="Enter this number only if it's different than their Social Security number"
+            schema={serviceNumberSchema}
           />
 
           <TextInputField
@@ -128,11 +96,11 @@ export const VeteranPersonalInformationPage = ({
   );
 };
 
-VeteranPersonalInformationPage.propTypes = {
+VeteranSsnFileNumberPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
+  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
 };
