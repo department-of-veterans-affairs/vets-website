@@ -240,24 +240,6 @@ const ContestableIssues = props => {
     return hideCard ? null : <IssueCard {...cardProps} />;
   });
 
-  const content = (
-    <>
-      {hasBlockedIssues && (
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="warning"
-          visible
-          class="vads-u-margin-top--3 vads-u-margin-bottom--2"
-          id="blocked-issues-alert"
-          role="alert"
-        >
-          <p className="vads-u-margin-y--0">{blockedMessage}</p>
-        </va-alert>
-      )}
-      {issueCards}
-    </>
-  );
-
   return (
     <>
       <div name="eligibleScrollElement" />
@@ -308,9 +290,21 @@ const ContestableIssues = props => {
               : null}
           </p>
         </VaModal>
-        <ul className="issues remove-bullets vads-u-border-top--1px vads-u-border-color--gray-light">
-          {content}
-        </ul>
+        <div className="issues-container vads-u-border-top--1px vads-u-border-color--gray-light">
+          {hasBlockedIssues && (
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="warning"
+              visible
+              class="vads-u-margin-top--3 vads-u-margin-bottom--2"
+              id="blocked-issues-alert"
+              role="alert"
+            >
+              <p className="vads-u-margin-y--0">{blockedMessage}</p>
+            </va-alert>
+          )}
+          <ul className="issues remove-bullets">{issueCards}</ul>
+        </div>
         {onReviewPage && inReviewMode ? null : (
           <ActionLink
             className="add-new-issue"

@@ -168,7 +168,11 @@ export const extractIssueNames = blockedIssues =>
  */
 export const isBlockedByLocalDay = blockedIssues => {
   return blockedIssues.some(issue => {
-    const decisionDate = new Date(getDecisionDate(issue));
+    const decisionDateString = getDecisionDate(issue);
+    const decisionDate = parseDateToDateObj(
+      decisionDateString,
+      FORMAT_YMD_DATE_FNS,
+    );
     return isToday(decisionDate);
   });
 };
