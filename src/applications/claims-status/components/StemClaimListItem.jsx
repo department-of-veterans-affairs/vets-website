@@ -12,12 +12,8 @@ import UploadType2ErrorAlertSlim from './UploadType2ErrorAlertSlim';
 const formatDate = buildDateFormatter();
 
 export default function StemClaimListItem({ claim }) {
-  const {
-    automatedDenial,
-    deniedAt,
-    submittedAt,
-    evidenceSubmissions = [],
-  } = claim.attributes;
+  const { automatedDenial, deniedAt, submittedAt, evidenceSubmissions = [] } =
+    claim.attributes || {};
 
   if (!automatedDenial) {
     return null;
