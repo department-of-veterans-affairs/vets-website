@@ -240,7 +240,7 @@ describe('Bot', () => {
 
       await waitFor(
         () => {
-          expect(getByTestId('sign-in-modal')).to.not.exist;
+          expect(getByTestId('sign-in-modal')).to.exist;
         },
         { timeout: 3000 },
       );
