@@ -7,6 +7,8 @@ import {
 
 import { scrollToFirstError } from 'platform/utilities/ui';
 
+import { labels } from './utils';
+
 import { calculateAge } from '../../../shared/utils';
 
 /**
@@ -23,35 +25,35 @@ const getChildRemovalOptions = (isStepchild, age, _firstName) => {
   if (age >= 18) {
     options.push({
       value: 'childNotInSchool',
-      label: 'They’re no longer enrolled in school',
+      label: labels.Child.childNotInSchool,
     });
   }
 
   if (isStepchild) {
     options.push({
       value: 'stepchildNotMember',
-      label: 'They no longer live with you',
+      label: labels.Child.stepchildNotMember,
     });
   }
 
   // Child got adopted (all ages, both child and stepchild)
   options.push({
     value: 'childAdopted',
-    label: 'They were adopted by another family',
+    label: labels.Child.childAdopted,
   });
 
   // Child got married (ages 15+)
   if (age >= 15) {
     options.push({
       value: 'childMarried',
-      label: 'They got married',
+      label: labels.Child.childMarried,
     });
   }
 
   // Child died (all ages, both child and stepchild)
   options.push({
     value: 'childDied',
-    label: 'They died',
+    label: labels.Child.childDied,
   });
 
   return options;
@@ -126,15 +128,17 @@ const childReasonToRemove = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Reason for removing {fullName}
+          {labels.Child.removalReasonTitle(fullName)}
         </h3>
         <VaRadio
           class="vads-u-margin-bottom--2"
           error={
-            formSubmitted && !itemData.removalReason ? 'Select an option' : null
+            formSubmitted && !itemData.removalReason
+              ? labels.Child.removalReasonError
+              : null
           }
-          label="Why do you need to remove this dependent?"
-          hint="If more than one applies, select what happened first."
+          label={labels.Child.removalReason}
+          hint={labels.Child.removalReasonHint}
           onVaValueChange={onChange}
           required
         >

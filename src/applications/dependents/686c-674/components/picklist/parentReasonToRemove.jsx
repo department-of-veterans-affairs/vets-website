@@ -9,7 +9,7 @@ import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { CancelButton } from '../../config/helpers';
 import { PICKLIST_DATA } from '../../config/constants';
-import { calculateAge } from '../../../shared/utils';
+import { labels } from './utils';
 
 const parentReasonToRemove = {
   handlers: {
@@ -87,7 +87,6 @@ const parentReasonToRemove = {
     itemData,
     fullName,
     formSubmitted,
-    firstName,
     handlers,
     returnToMainPage,
   }) => {
@@ -103,33 +102,32 @@ const parentReasonToRemove = {
       handlers.onChange({ ...itemData, removalReason: value });
     };
 
-    const { labeledAge } = calculateAge(itemData.dateOfBirth, {
-      dateInFormat: 'yyyy-MM-dd',
-    });
-
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Reason for removing {fullName}
+          {labels.Parent.removalReasonTitle(fullName)}
         </h3>
         <VaRadio
           class="vads-u-margin-bottom--2"
           error={
-            formSubmitted && !itemData.removalReason ? 'Select an option' : null
+            formSubmitted && !itemData.removalReason
+              ? labels.Parent.removalReasonError
+              : null
           }
-          label={`Do any of these apply to ${fullName} (age ${labeledAge})?`}
+          label={labels.Parent.removalReason}
+          hint={labels.Parent.removalReasonHint}
           onVaValueChange={onChange}
           required
         >
           <VaRadioOption
             name="removalReason"
-            label={`${firstName} died`}
+            label={labels.Parent.parentDied}
             checked={itemData.removalReason === 'parentDied'}
             value="parentDied"
           />
           <VaRadioOption
             name="removalReason"
-            label={`Something else happened to ${firstName}`}
+            label={labels.Parent.parentOther}
             checked={itemData.removalReason === 'parentOther'}
             value="parentOther"
           />

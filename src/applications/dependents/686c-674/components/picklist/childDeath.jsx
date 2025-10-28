@@ -69,9 +69,7 @@ const childDeath = {
           name="endDate"
           label="Date of death"
           error={
-            formSubmitted && !itemData.endDate
-              ? 'Provide a date of death'
-              : null
+            formSubmitted && !itemData.endDate ? 'Enter a date of death' : null
           }
           monthSelect
           value={itemData.endDate || ''}

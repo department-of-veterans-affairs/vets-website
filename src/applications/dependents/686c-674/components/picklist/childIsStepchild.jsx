@@ -8,6 +8,7 @@ import {
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { getValue } from './helpers';
+import { labels } from './utils';
 import { CancelButton } from '../../config/helpers';
 import { calculateAge } from '../../../shared/utils';
 
@@ -71,22 +72,24 @@ const childIsStepchild = {
           class="vads-u-margin-bottom--2"
           name="isStepchild"
           error={
-            formSubmitted && !itemData.isStepchild ? 'Select an option' : null
+            formSubmitted && !itemData.isStepchild
+              ? labels.Child.isStepChildError
+              : null
           }
-          label={`Is ${fullName} (age ${cleanAge}) your stepchild?`}
+          label={labels.Child.isStepChildTitle(fullName, cleanAge)}
           labelHeaderLevel="3"
           onVaValueChange={onChange}
           required
         >
           <VaRadioOption
             name="isStepchild"
-            label="Yes"
+            label={labels.Child.isStepChildYes}
             checked={itemData.isStepchild === 'Y'}
             value="Y"
           />
           <VaRadioOption
             name="isStepchild"
-            label="No"
+            label={labels.Child.isStepChildNo}
             checked={itemData.isStepchild === 'N'}
             value="N"
           />

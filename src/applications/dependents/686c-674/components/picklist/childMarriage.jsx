@@ -5,7 +5,6 @@ import { VaMemorableDate } from '@department-of-veterans-affairs/component-libra
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { getValue } from './helpers';
-import { makeNamePossessive } from '../../../shared/utils';
 
 const childMarried = {
   handlers: {
@@ -54,7 +53,7 @@ const childMarried = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          {`Details about ${makeNamePossessive(firstName)} marriage`}
+          {`When did ${firstName} get married?`}
         </h3>
 
         <VaMemorableDate
@@ -67,14 +66,6 @@ const childMarried = {
           onDateBlur={onChange}
           required
         />
-
-        <va-additional-info
-          class="vads-u-margin-y--4"
-          trigger="What if the marriage ends?"
-        >
-          If the marriage ends, you can add the dependent back if they’re under
-          18 or between 18 and 23 attending school.
-        </va-additional-info>
       </>
     );
   },

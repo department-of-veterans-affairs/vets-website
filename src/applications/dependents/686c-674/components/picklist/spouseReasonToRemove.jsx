@@ -7,6 +7,7 @@ import {
 
 import { scrollToFirstError } from 'platform/utilities/ui';
 
+import { labels } from './utils';
 import { CancelButton } from '../../config/helpers';
 
 const spouseReasonToRemove = {
@@ -54,7 +55,6 @@ const spouseReasonToRemove = {
     itemData,
     fullName,
     formSubmitted,
-    firstName,
     handlers,
     returnToMainPage,
   }) => {
@@ -72,27 +72,29 @@ const spouseReasonToRemove = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Reason for removing {fullName}
+          {labels.Spouse.removalReasonTitle(fullName)}
         </h3>
         <VaRadio
           class="vads-u-margin-bottom--2"
           error={
-            formSubmitted && !itemData.removalReason ? 'Select an option' : null
+            formSubmitted && !itemData.removalReason
+              ? labels.Spouse.removalReasonError
+              : null
           }
-          label={`Do any of these apply to ${firstName}?`}
-          hint="Select the event that happened first"
+          label={labels.Spouse.removalReason}
+          hint={labels.Spouse.removalReasonHint}
           onVaValueChange={onChange}
           required
         >
           <VaRadioOption
             name="removalReason"
-            label={`Your marriage to ${firstName} ended`}
+            label={labels.Spouse.marriageEnded}
             checked={itemData.removalReason === 'marriageEnded'}
             value="marriageEnded"
           />
           <VaRadioOption
             name="removalReason"
-            label={`${firstName} died`}
+            label={labels.Spouse.death}
             checked={itemData.removalReason === 'death'}
             value="death"
           />
