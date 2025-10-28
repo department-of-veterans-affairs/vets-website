@@ -50,9 +50,13 @@ const ProfileWrapper = ({
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const profile2Toggle = useToggleValue(TOGGLE_NAMES.profile2Enabled);
+  const profileHealthCareSettingsPage = useToggleValue(
+    TOGGLE_NAMES.profileHealthCareSettingsPage,
+  );
 
   const routesForNav = getRoutesForNav({
     profile2Enabled: profile2Toggle,
+    profileHealthCareSettingsPage,
   });
 
   const layout = useMemo(
