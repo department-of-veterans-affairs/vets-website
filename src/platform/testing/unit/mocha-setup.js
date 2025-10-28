@@ -4,6 +4,15 @@
  * If you're looking to add polyfills for all unit tests, this is the place.
  */
 
+// Testing stopgap fix
+(function setNavigatorPlatform(defaultValue = 'MacIntel') {
+  const proto = Object.getPrototypeOf(window.navigator);
+  Object.defineProperty(proto, 'platform', {
+    configurable: true,
+    get() { return defaultValue; },
+  });
+})();
+
 import os from 'os';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
