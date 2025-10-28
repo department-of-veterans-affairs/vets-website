@@ -14,7 +14,6 @@ import {
   createPageValidator,
   createValidationErrorHandler,
 } from '@bio-aquia/shared/utils';
-import prefillTransformer from '@bio-aquia/21-0779-nursing-home-information/config/prefill-transformer';
 import GetHelpFooter from '@bio-aquia/21-0779-nursing-home-information/components/get-help';
 import PreSubmitInfo from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-info';
 import {
@@ -85,8 +84,8 @@ const formConfig = {
   getHelp: GetHelpFooter,
   preSubmitInfo: PreSubmitInfo,
   dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
+    showNavLinks: false,
+    collapsibleNavLinks: false,
   },
   formId: VA_FORM_IDS.FORM_21_0779,
   saveInProgress: {
@@ -99,12 +98,8 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
-  prefillTransformer,
-  savedFormMessages: {
-    notFound: 'Please start over to submit your nursing home information.',
-    noAuth: 'Please sign in again to continue your request.',
-  },
+  prefillEnabled: false,
+  savedFormMessages: {},
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
