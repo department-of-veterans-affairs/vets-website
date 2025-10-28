@@ -246,6 +246,7 @@ export function getFailedSubmissionsWithinLast30Days(evidenceSubmissions) {
   return evidenceSubmissions.filter(
     submission =>
       submission.uploadStatus === 'FAILED' &&
+      submission.acknowledgementDate &&
       new Date().toISOString() <= submission.acknowledgementDate,
   );
 }
