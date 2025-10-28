@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
+
+import { deleteExpense as deleteExpenseAction } from '../../../redux/actions';
 import ExpenseCardDetails from './ExpenseCardDetails';
 import DeleteExpenseModal from './DeleteExpenseModal';
 
@@ -10,15 +13,18 @@ const TripTypeLabels = {
   RoundTrip: 'Round trip',
 };
 
-const ExpenseCard = ({ expense, editToRoute, header }) => {
+const ExpenseCard = ({ apptId, claimId, expense, address }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const dispatch = useDispatch();
 
-  const { address = {}, expenseType, tripType } = expense;
+  const { id: expenseId, expenseType, tripType } = expense;
 
-  const deleteExpense = expenseId => {
-    // TODO Add logic for this function, it will delete the expense once the delete modal is confirmed
-    // eslint-disable-next-line no-console
-    console.log(`Delete clicked for expense id: ${expenseId}`);
+  const header = `${expenseType} expense`;
+
+  const deleteExpense = async () => {
+    await dispatch(
+      deleteExpenseAction(claimId, expenseType.toLowerCase(), expenseId),
+    );
     setShowDeleteModal(false);
   };
 
@@ -57,7 +63,7 @@ const ExpenseCard = ({ expense, editToRoute, header }) => {
             <Link
               data-testid={`${expense.id}-edit-expense-link`}
               className="active-va-link"
-              to={editToRoute}
+              to={`/file-new-claim/${apptId}/${claimId}/${expenseType.toLowerCase()}/${expenseId}`}
             >
               EDIT
               <va-icon
@@ -82,7 +88,7 @@ const ExpenseCard = ({ expense, editToRoute, header }) => {
         expenseType={expenseType}
         visible={showDeleteModal}
         onCloseEvent={() => setShowDeleteModal(false)}
-        onPrimaryButtonClick={() => deleteExpense(expense.id)}
+        onPrimaryButtonClick={deleteExpense}
         onSecondaryButtonClick={() => setShowDeleteModal(false)}
       />
     </>
@@ -91,8 +97,9 @@ const ExpenseCard = ({ expense, editToRoute, header }) => {
 
 ExpenseCard.propTypes = {
   expense: PropTypes.object.isRequired,
-  editToRoute: PropTypes.string,
-  header: PropTypes.string,
+  address: PropTypes.object,
+  apptId: PropTypes.string,
+  claimId: PropTypes.string,
 };
 
 export default ExpenseCard;

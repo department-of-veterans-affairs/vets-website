@@ -1,110 +1,41 @@
 import React, { useState } from 'react';
-
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
-
 import PropTypes from 'prop-types';
+
+import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
+
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpenseCard from './ExpenseCard';
+import { selectClaimDetails } from '../../../redux/selectors';
 
-const ReviewPage = ({ claim, message }) => {
+const ReviewPage = ({ message }) => {
   const navigate = useNavigate();
   const { apptId, claimId } = useParams();
 
-  // For now, we will override the claim to have some expenses
-  // If message is not provided, use default values
-  const overriddenClaim = claim || [
-    {
-      claimId: '12345',
-      claimNumber: '12345',
-      appointmentDate: '2025-10-01',
-      facilityName: 'Cheyenne VA Medical Center',
-      totalCostRequested: 130.0,
-      reimbursementAmount: 0,
-      createdOn: '2025-10-04',
-      modifiedOn: '2025-10-04',
-      appointment: {
-        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        appointmentSource: 'API',
-        appointmentDateTime: '2025-10-17T21:32:16.531Z',
-        appointmentName: 'string',
-        appointmentType: 'EnvironmentalHealth',
-        facilityId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        facilityName: 'Cheyenne VA Medical Center',
-        serviceConnectedDisability: 0,
-        currentStatus: 'Pending',
-        appointmentStatus: 'Complete',
-        externalAppointmentId: '12345',
-        associatedClaimId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        associatedClaimNumber: '',
-        isCompleted: true,
-      },
-      rejectionReason: {
-        rejectionReasonId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        rejectionReasonName: '',
-        rejectionReasonTitle: '',
-        rejectionReasonDescription: '',
-      },
-      expenses: [
-        {
-          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          expenseType: 'Mileage',
-          name: 'string',
-          dateIncurred: '2025-10-17T21:32:16.531Z',
-          description: 'string',
-          costRequested: 100,
-          costSubmitted: 0,
-          tripType: 'OneWay',
-          requestedMileage: 100,
-          challengeMileage: false,
-          challengeRequestedMileage: 0,
-          challengeReason: '',
-          address: {
-            addressLine1: '345 Home Address St.',
-            addressLine2: 'Apt. 123',
-            addressLine3: '#67',
-            city: 'San Francisco',
-            countryName: 'United States',
-            stateCode: 'CA',
-            zipCode: '94118',
-          },
-        },
-        {
-          id: '3fa85f64-5717-4562-b3fc-2c963f66afa7',
-          expenseType: 'Parking',
-          name: 'string',
-          dateIncurred: '2025-10-17T21:32:16.531Z',
-          description: 'string',
-          costRequested: 10,
-          costSubmitted: 0,
-        },
-        {
-          id: '3fa85f64-5717-4562-b3fc-2c963f66afa8',
-          expenseType: 'Parking',
-          name: 'string',
-          dateIncurred: '2025-10-18T21:32:16.531Z',
-          description: 'string',
-          costRequested: 20,
-          costSubmitted: 0,
-        },
-      ],
-    },
-  ];
+  const address = useSelector(selectVAPResidentialAddress);
+  const { data: claimDetails } = useSelector(state =>
+    selectClaimDetails(state, claimId),
+  );
 
   // Get the Mileage expense from the overriddenClaim
   const mileageExpense =
-    overriddenClaim[0].expenses.find(exp => exp.expenseType === 'Mileage') ||
-    null;
+    claimDetails?.expenses?.find(exp => exp.expenseType === 'Mileage') || null;
 
   // Create a grouped version of expenses by expenseType
-  const groupedExpenses = overriddenClaim[0].expenses.reduce((acc, expense) => {
-    const { expenseType } = expense;
-    if (!acc[expenseType]) {
-      acc[expenseType] = [];
-    }
-    acc[expenseType].push(expense);
-    return acc;
-  }, {});
+  const groupedExpenses = (claimDetails?.expenses ?? []).reduce(
+    (acc, expense) => {
+      const { expenseType } = expense;
+      if (!acc[expenseType]) {
+        acc[expenseType] = [];
+      }
+      acc[expenseType].push(expense);
+      return acc;
+    },
+    {},
+  );
 
   // For now, we will override the message to have a title, body, and type
   // If message is not provided, use default values
@@ -118,11 +49,9 @@ const ReviewPage = ({ claim, message }) => {
   const onClose = () => setVisible(false);
   const addMoreExpenses = () => {
     navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
-    // TODO Add logic to add more expenses
   };
 
   const signAgreement = () => {
-    // TODO Add logic to sign the agreement
     navigate(`/file-new-claim/${apptId}/${claimId}/travel-agreement`);
   };
 
@@ -148,13 +77,12 @@ const ReviewPage = ({ claim, message }) => {
           <va-accordion-item key={type} header={`${type} (${expenses.length})`}>
             {expenses.map(expense => (
               <div key={expense.id}>
-                {expense.expenseType === 'Mileage' && (
-                  <ExpenseCard
-                    expense={expense}
-                    editToRoute="../mileage"
-                    header="Mileage expense"
-                  />
-                )}
+                <ExpenseCard
+                  claimId={claimId}
+                  apptId={apptId}
+                  expense={expense}
+                  address={address}
+                />
               </div>
             ))}
           </va-accordion-item>
@@ -168,7 +96,7 @@ const ReviewPage = ({ claim, message }) => {
           </li>
         </ul>
         <p>
-          <strong>Total:</strong> ${overriddenClaim?.totalCostRequested ?? 0}
+          <strong>Total:</strong> ${claimDetails?.totalCostRequested ?? 0}
         </p>
         <p>
           This estimated reimbursement doesn’t account for the $6 per trip
