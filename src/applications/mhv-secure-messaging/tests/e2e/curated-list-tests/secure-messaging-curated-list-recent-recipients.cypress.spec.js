@@ -137,7 +137,9 @@ describe('SM CURATED LIST MAIN FLOW', () => {
   it('validate selecting a recent care team and continuing to compose message', () => {
     PatientInboxPage.clickCreateNewMessage();
     PatientInterstitialPage.continueToRecentRecipients();
-    GeneralFunctionsPage.verifyPageHeader(`Recent care teams`);
+    GeneralFunctionsPage.verifyPageHeader(
+      `Care teams you recently sent messages to`,
+    );
 
     // Select the first recent care team
     cy.get(`[label="${recentCareTeams[0]}"]`).click();
