@@ -42,7 +42,7 @@ export const VeteranPersonalInfoPage = ({
 
   return (
     <PageTemplate
-      title="Name and date of birth"
+      title="Veteran’s name and date of birth"
       subtitle={
         veteranIsPatient
           ? 'Tell us about the veteran in the nursing home'

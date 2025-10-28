@@ -25,8 +25,9 @@ export const IntroductionPage = ({ router }) => {
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
 
       <p className="vads-u-font-size--lg">
-        Use this form to verify a Veteran or someone connected to a Veteran is a
-        patient in a qualifying extended care facility.
+        Use this form if you’re a nursing home official to verify a Veteran or
+        someone connected to a Veteran is a patient in a qualifying extended
+        care facility.
       </p>
 
       <h2 className="vads-u-margin-top--3">

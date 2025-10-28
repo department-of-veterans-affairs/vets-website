@@ -38,7 +38,7 @@ export const ClaimantPersonalInfoPage = ({
 
   return (
     <PageTemplate
-      title="Name and date of birth"
+      title="Patient’s name and date of birth"
       subtitle="Tell us about the patient in the nursing home"
       data={formDataToUse}
       setFormData={setFormData}
