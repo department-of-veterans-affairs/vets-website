@@ -23,7 +23,11 @@ export const ChooseDateAndTime = () => {
   const params = new URLSearchParams(search);
   const id = params.get('id');
 
-  const { data: referral, error: referralError } = useGetReferralByIdQuery(id);
+  const {
+    data: referral,
+    error: referralError,
+    isLoading: isReferralLoading,
+  } = useGetReferralByIdQuery(id);
 
   const currentReferral = referral?.attributes;
 
@@ -86,6 +90,16 @@ export const ChooseDateAndTime = () => {
     },
     [location, dispatch],
   );
+
+  if (isReferralLoading) {
+    return (
+      <ReferralLayout
+        hasEyebrow
+        heading="Choose a date and time"
+        loadingMessage="Loading your appointment information"
+      />
+    );
+  }
 
   if (referralError || !currentReferral) {
     return <ReferralErrorLayout showFindLink={false} />;
