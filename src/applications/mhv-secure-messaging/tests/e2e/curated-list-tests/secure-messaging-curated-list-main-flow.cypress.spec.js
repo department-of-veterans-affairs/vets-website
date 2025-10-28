@@ -29,6 +29,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
 
   it('verify page title', () => {
     GeneralFunctionsPage.verifyPageTitle('Select care team | Veterans Affairs');
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify navigating to compose page', () => {
