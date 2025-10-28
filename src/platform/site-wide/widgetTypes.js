@@ -67,6 +67,7 @@ export default {
   MAINTENANCE_BANNER: 'maintenance-banner',
   MANAGE_VA_DEBT_CTA: 'manage-va-debt-cta',
   MEDICAL_COPAYS_CTA: 'medical-copays-cta',
+  MEDICAL_EXPENSE_REPORT: 'medical-expense-report-21p-8416',
   MHV_SIGNIN_CTA: 'mhv-signin-cta',
   MHV_PORTAL_LANDING_PAGE: 'mhv-portal-landing-page',
   MODERN_GET_MEDICAL_RECORDS_PAGE: 'modern-get-medical-records-page',
