@@ -1,10 +1,12 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import {
   fileInputUI,
   fileInputSchema,
+  fileInputMultipleUI,
+  fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import FileField from 'platform/forms-system/src/js/fields/FileField';
 import { UPLOAD_TITLE, UPLOAD_DESCRIPTION } from '../config/constants';
 import {
   getAlert,
@@ -12,7 +14,11 @@ import {
   createPayload,
   parseResponse,
 } from '../helpers';
-import { emptyObjectSchema, uploadTitleAndDescription } from './helpers';
+import {
+  emptyObjectSchema,
+  uploadTitleAndDescription,
+  supportingEvidenceTitleAndDescription,
+} from './helpers';
 import SupportingEvidenceViewField from '../components/SupportingEvidenceViewField';
 
 const { formNumber, title, message } = getFormContent();
@@ -73,48 +79,43 @@ export const uploadPage = {
       ],
     },
     'ui:objectViewField': SupportingEvidenceViewField,
+    ...supportingEvidenceTitleAndDescription,
     supportingDocuments: {
-      'ui:title': (
-        <div className="vads-u-font-size--h3 vads-u-font-weight--bold">
-          Upload supporting evidence
-        </div>
-      ),
-      'ui:description': Object.freeze(
-        <>
-          <p className="form-21-686c__upload-text">
-            Select supporting documents to upload.
-          </p>
-          <p className="form-21-686c__upload-hint">
-            You can upload one file at a time no larger than 100MB.
-            <br />
-            Your file can be .pdf, .png, or .jpg.
-          </p>
-        </>,
-      ),
-      'ui:field': FileField,
-      'ui:confirmationField': ({ formData }) => ({
-        data: formData?.map(item => item.name || item.fileName),
-        label: UPLOAD_TITLE,
+      ...fileInputMultipleUI({
+        errorMessages: { required: `Upload a completed VA Form ${formNumber}` },
+        name: 'form-upload-file-input',
+        fileUploadUrl,
+        title,
+        hint:
+          'You can upload only one file no larger than 25MB.\nYour file can be .pdf, .png, or .jpg.',
+        formNumber,
+        required: () => false,
+        // Disallow uploads greater than 25 MB
+        maxFileSize: 25000000,
+        'ui:confirmationField': ({ formData }) => ({
+          data: formData?.map(item => item.name || item.fileName),
+          label: UPLOAD_TITLE,
+        }),
+        'ui:options': {
+          hideLabelText: false,
+          showFieldLabel: true,
+          buttonText: 'Upload file',
+          addAnotherLabel: 'Upload another file',
+          ariaLabelAdditionalText: `${UPLOAD_TITLE}. ${UPLOAD_DESCRIPTION}`,
+          attachmentType: {
+            'ui:title': 'File type',
+          },
+          attachmentDescription: {
+            'ui:title': 'Document description',
+          },
+          fileUploadUrl: `${baseURL}/upload_supporting_documents`,
+          fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+          createPayload,
+          parseResponse,
+          keepInPageOnReview: true,
+          classNames: 'schemaform-file-upload',
+        },
       }),
-      'ui:options': {
-        hideLabelText: false,
-        showFieldLabel: true,
-        buttonText: 'Upload file',
-        addAnotherLabel: 'Upload another file',
-        ariaLabelAdditionalText: `${UPLOAD_TITLE}. ${UPLOAD_DESCRIPTION}`,
-        attachmentType: {
-          'ui:title': 'File type',
-        },
-        attachmentDescription: {
-          'ui:title': 'Document description',
-        },
-        fileUploadUrl: `${baseURL}/upload_supporting_documents`,
-        fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-        createPayload,
-        parseResponse,
-        keepInPageOnReview: true,
-        classNames: 'schemaform-file-upload',
-      },
     },
   },
   schema: {
@@ -124,30 +125,9 @@ export const uploadPage = {
       'view:uploadFormNumberDescription': emptyObjectSchema,
       'view:uploadDescription': emptyObjectSchema,
       uploadedFile: fileInputSchema(),
-      supportingDocuments: {
-        type: 'array',
-        minItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            fileName: {
-              type: 'string',
-            },
-            fileSize: {
-              type: 'integer',
-            },
-            confirmationNumber: {
-              type: 'string',
-            },
-            errorMessage: {
-              type: 'string',
-            },
-            uploading: {
-              type: 'boolean',
-            },
-          },
-        },
-      },
+      'view:supportingEvidenceTitle': emptyObjectSchema,
+      'view:supportingEvidenceDescription': emptyObjectSchema,
+      supportingDocuments: fileInputMultipleSchema(),
     },
     required: ['uploadedFile'],
   },
