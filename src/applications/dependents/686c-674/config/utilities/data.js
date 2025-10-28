@@ -72,7 +72,6 @@ export function buildSubmissionData(payload) {
   const sourceData = payload.data;
   const cleanData = {};
 
-  // Get the main toggles
   const addEnabled = sourceData['view:addOrRemoveDependents']?.add === true;
   const removeEnabled =
     sourceData['view:addOrRemoveDependents']?.remove === true;
@@ -85,7 +84,7 @@ export function buildSubmissionData(payload) {
     daysTillExpires: 365,
   });
 
-  // Essential fields that should always be included
+  // Essential fields
   const essentialFields = [
     'veteranInformation',
     'veteranContactInformation',
@@ -93,7 +92,7 @@ export function buildSubmissionData(payload) {
     'statementOfTruthCertified',
     'metadata',
     // 'dependents',
-    // 'vaDependentsDuplicateModals', // Verify these?
+    // 'vaDependentsDuplicateModals', // Verify these are essential?
     // 'vaDependentsV3',
   ];
 
@@ -103,7 +102,6 @@ export function buildSubmissionData(payload) {
     }
   });
 
-  // Define the field mappings for each option
   const addSpouseFields = [
     'currentMarriageInformation',
     'doesLiveWithSpouse',
@@ -125,7 +123,6 @@ export function buildSubmissionData(payload) {
     reportChild18OrOlderIsNotAttendingSchool: ['childStoppedAttendingSchool'],
   };
 
-  // Process ADD section
   const enabledAddOptions = {};
 
   if (addEnabled === true) {
@@ -154,7 +151,6 @@ export function buildSubmissionData(payload) {
     }
   }
 
-  // Process REMOVE section
   const enabledRemoveOptions = {};
 
   if (removeEnabled === true) {
@@ -166,7 +162,6 @@ export function buildSubmissionData(payload) {
     });
   }
 
-  // Include pension fields if there are active sections
   const hasActiveOptions =
     Object.keys(enabledAddOptions).length > 0 ||
     Object.keys(enabledRemoveOptions).length > 0;
@@ -199,7 +194,6 @@ export function buildSubmissionData(payload) {
     cleanData['view:addOrRemoveDependents'] = mainControl;
   }
 
-  // Build the selectable options for backward compatibility
   const enabledSelectableOptions = {
     ...enabledAddOptions,
     ...enabledRemoveOptions,
@@ -208,7 +202,6 @@ export function buildSubmissionData(payload) {
     cleanData['view:selectable686Options'] = enabledSelectableOptions;
   }
 
-  // Copy any remaining view: fields that aren't part of our managed fields
   const managedViewFields = [
     'view:addOrRemoveDependents',
     'view:addDependentOptions',
