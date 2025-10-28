@@ -1,150 +1,214 @@
-// @ts-check
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import footerContent from 'platform/forms/components/FormFooter';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
-import manifest from '../manifest.json';
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-import transformForSubmit from '../../shared/config/submit-transformer';
-import getHelp from '../../shared/components/GetFormHelp';
+import environment from 'platform/utilities/environment';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import identificationInformation from '../pages/identificationInformation';
-import address from '../pages/address';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
-import { employersPages } from '../pages/employers';
-import unemployed from '../pages/unemployed';
-import evidence from '../pages/evidence';
+import footerContent from 'platform/forms/components/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import manifest from '../manifest.json';
+
+import IntroductionPage from '../containers/IntroductionPage';
+
+import PreSectionOnePage from '../containers/PreSectionOnePage';
+import RequiredInformationPage from '../containers/RequiredInformationPage';
+import BeforeYouBeginPage from '../containers/BeforeYouBeginPage';
+import WhatYouNeedPage from '../containers/WhatYouNeedPage';
+
+import SectionOnePage from '../containers/SectionOnePage';
+import EmploymentCheckPage from '../containers/EmploymentCheckPage';
+import EmploymentCheckReview from '../containers/EmploymentCheckReview';
+import SectionThreePage from '../containers/SectionThreePage';
+
+import ConfirmationPage from '../containers/ConfirmationPage';
+import getHelp from '../../shared/components/GetFormHelp';
+import transformForSubmit from './submit-transformer';
+
+import personalInformation1 from '../pages/personalInformation1';
+import contactInformation1 from '../pages/contactInformation1';
+
+import sectionTwo from '../pages/sectionTwo';
+
+import sectionTwoSignature from '../pages/sectionTwoSignature';
+import sectionThreeSignature from '../pages/sectionThreeSignature';
+import {
+  shouldShowEmploymentSection,
+  shouldShowUnemploymentSection,
+} from '../utils/employment';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
-  trackingPrefix: '21-4140-income-verification-',
+  submitUrl: `${environment.API_URL}/employment_questionairres/v0/form4140`,
+  trackingPrefix: 'ss-4140-',
+  dev: {
+    collapsibleNavLinks: true,
+    showNavLinks: true,
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  transformForSubmit,
   preSubmitInfo: {
     statementOfTruth: {
       body:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
-      fullNamePath: 'fullName',
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteran.fullName',
     },
   },
-  dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
-    disableWindowUnloadInCI: true,
-  },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      {
-        href: '/disability',
-        label: 'Disability benefits',
-      },
-      {
-        href:
-          '/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140',
-        label: 'Submit Employment Questionnaire',
-      },
-    ],
-    wrapping: true,
-  }),
-  formId: VA_FORM_IDS.FORM_21_4140,
+  formId: '21-4140',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your Employment Questionnaire (VA Form 21-4140) application (21-4140) is in progress.',
-    //   expired: 'Your saved Employment Questionnaire (VA Form 21-4140) application (21-4140) has expired. If you want to apply for Employment Questionnaire (VA Form 21-4140), please start a new application.',
-    //   saved: 'Your Employment Questionnaire (VA Form 21-4140) application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your authorization to release non-VA medical information to VA (21-4140) is in progress.',
+      expired:
+        'Your saved employment questionnaire (21-4140) has expired.',
+      saved:
+        'Your employment questionnaire has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
+  transformForSubmit,
   savedFormMessages: {
     notFound:
-      'Please start over to apply for Employment Questionnaire (VA Form 21-4140).',
+      'Please start over to complete your employment questionnaire.',
     noAuth:
-      'Please sign in again to continue your application for Employment Questionnaire (VA Form 21-4140).',
+      'Please sign in again to continue your employment questionnaire',
   },
-  title: TITLE,
-  subTitle: SUBTITLE,
+  hideUnauthedStartLink: true,
+  title: 'Employee Questionnaire for VA Disability Benefits',
+  subTitle:
+    'Please take your time to complete this form as accurately as you can.',
+  customText: {
+    appType: 'medical release authorization',
+  },
   defaultDefinitions: {},
+  additionalRoutes: [
+    {
+      path: 'form-verification',
+      pageKey: 'form-verification',
+      component: PreSectionOnePage,
+      depends: () => true,
+    },
+    {
+      path: 'required-information',
+      pageKey: 'required-information',
+      component: RequiredInformationPage,
+      depends: () => true,
+    },
+    {
+      path: 'before-you-begin',
+      pageKey: 'before-you-begin',
+      component: BeforeYouBeginPage,
+      depends: () => true,
+    },
+    {
+      path: 'what-you-need',
+      pageKey: 'what-you-need',
+      component: WhatYouNeedPage,
+      depends: () => true,
+    },
+  ],
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    personalAndContactInformation: {
+      title: 'Personal and contact information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Your name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        sectionOneIntro: {
+          path: 'section-one',
+          title: 'Section 1 introduction',
+          CustomPage: SectionOnePage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Your identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
+        personalInformation1: {
+          path: 'personal-information-1',
+          title: 'Personal Information',
+          uiSchema: personalInformation1.uiSchema,
+          schema: personalInformation1.schema,
         },
-      },
-    },
-    mailingInformationChapter: {
-      title: 'Your mailing information',
-      pages: {
-        address: {
-          path: 'address',
-          title: 'Your mailing address',
-          uiSchema: address.uiSchema,
-          schema: address.schema,
-        },
-      },
-    },
-    contactInformationChapter: {
-      title: 'Your contact information',
-      pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Your phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+        contactInformation1: {
+          path: 'contact-information-1',
+          title: 'Contact Information',
+          uiSchema: contactInformation1.uiSchema,
+          schema: contactInformation1.schema,
         },
       },
     },
-    employmentHistoryChapter: {
-      title: 'Your employment history',
-      pages: employersPages,
-    },
-    unemployedChapter: {
-      title: 'Unemployed',
+    employmentInformation: {
+      title: 'Section 2 – Employment information',
       pages: {
-        unemployed: {
-          path: 'unemployed',
-          title: 'Unemployed',
-          uiSchema: unemployed.uiSchema,
-          schema: unemployed.schema,
-          depends: formData => !formData?.employers?.length,
+        employmentCheck: {
+          path: 'employment-check',
+          title: 'Employment in the past 12 months',
+          CustomPage: EmploymentCheckPage,
+          CustomPageReview: EmploymentCheckReview,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        // Spread the array builder pages for employers
+        ...Object.fromEntries(
+          Object.entries(sectionTwo).map(([key, page]) => [
+            key,
+            {
+              ...page,
+              depends: formData => {
+                if (!shouldShowEmploymentSection(formData)) {
+                  return false;
+                }
+
+                if (typeof page.depends === 'function') {
+                  return page.depends(formData);
+                }
+
+                return true;
+              },
+            },
+          ]),
+        ),
+        sectionTwoSignature: {
+          path: 'section-2-signature',
+          title: 'Section 2 – Certification Signature',
+          uiSchema: sectionTwoSignature.uiSchema,
+          schema: sectionTwoSignature.schema,
+          depends: shouldShowEmploymentSection,
         },
       },
     },
-    evidenceChapter: {
-      title: 'Evidence',
+    unemploymentCertification: {
+      title: 'Section 3 – Unemployment certification',
       pages: {
-        evidence: {
-          path: 'evidence',
-          title: 'Upload your supporting evidence',
-          uiSchema: evidence.uiSchema,
-          schema: evidence.schema,
+        sectionThreeIntro: {
+          path: 'section-three',
+          title: 'Section 3 introduction',
+          CustomPage: SectionThreePage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+          depends: shouldShowUnemploymentSection,
+        },
+        sectionThreeSignature: {
+          path: 'section-3-signature',
+          title: 'Section 3 – Certification Signature',
+          uiSchema: sectionThreeSignature.uiSchema,
+          schema: sectionThreeSignature.schema,
+          depends: shouldShowUnemploymentSection,
         },
       },
     },
   },
-  getHelp,
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
+  },
   footerContent,
+  getHelp,
 };
 
 export default formConfig;

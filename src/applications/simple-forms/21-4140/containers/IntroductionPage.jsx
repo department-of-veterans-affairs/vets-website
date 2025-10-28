@@ -1,95 +1,60 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { scrollToTop } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
+
+import { connect } from 'react-redux';
+
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
-import { TITLE, SUBTITLE } from '../constants';
+import IdNotVerifiedAlert from '../../shared/components/IdNotVerified';
+import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
-const OMB_RES_BURDEN = 5;
-const OMB_NUMBER = '2900-0079';
-const OMB_EXP_DATE = '8/31/2027';
-
-const IntroContent = () => {
-  return (
-    <>
-      <p className="va-introtext">
-        Use this form if we asked you to verify your income and employment
-        status for your Individual Unemployment (IU) benefits.
-      </p>
-
-      <h2>What to know before you fill out this form</h2>
-      <ul>
-        <li>
-          You need to complete this form within <strong>65 days</strong> of the
-          notice you received
-        </li>
-        <li>
-          You’ll need to provide information about any employers and employment
-          you’ve had in the past 12 months
-        </li>
-        <li>You’ll need your Social Security number or your VA file number</li>
-        <li>
-          After you submit this form, we’ll review it and advise you of our
-          decision and your options
-        </li>
-      </ul>
-    </>
-  );
+const ombInfo = {
+  resBurden: '10',
+  ombNumber: '2900-0079',
+  expDate: '08/31/2027',
 };
 
-export const IntroductionPage = props => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
-  const { route } = props;
-  const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
-
-  useEffect(() => {
-    scrollToTop();
-  }, []);
+export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
+  const content = {
+    formTitle: 'Employment Questionnaire (VA 21-4140)',
+    formSubTitle:
+      'Hi there! We want to make sure you use VA Form 21-4140 if we asked you to verify your employment status because you currently receive Individual Unemployability disability benefits for a service-connected condition. you’re in the right place',
+    authStartFormText: 'Start the employment questionnaire',
+    saveInProgressText:
+      'Please complete the 21-4140 form to provide information about your employment.',
+    displayNonVeteranMessaging: true,
+    hideSipIntro: userLoggedIn && !userIdVerified,
+  };
+  const childContent = (
+    <>
+    </>
+  );
 
   return (
-    <article className="schemaform-intro">
-      <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <IntroContent />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-          hideUnauthedStartLink
-        />
-      )}
-      <p />
-      <va-omb-info
-        res-burden={OMB_RES_BURDEN}
-        omb-number={OMB_NUMBER}
-        exp-date={OMB_EXP_DATE}
-      />
-    </article>
+    <IntroductionPageView
+      route={route}
+      content={content}
+      ombInfo={ombInfo}
+      childContent={childContent}
+      devOnly={{
+        forceShowFormControls: true,
+      }}
+    />
   );
 };
 
 IntroductionPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
-      prefillEnabled: PropTypes.bool.isRequired,
-      savedFormMessages: PropTypes.object.isRequired,
-    }).isRequired,
-    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
-  location: PropTypes.shape({
-    basename: PropTypes.string,
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.array,
   }),
 };
 
-export default IntroductionPage;
+const mapStateToProps = state => ({
+  userIdVerified: isLOA3(state),
+  userLoggedIn: isLoggedIn(state),
+});
+
+export default connect(mapStateToProps)(IntroductionPage);
