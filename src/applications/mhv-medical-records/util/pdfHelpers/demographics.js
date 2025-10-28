@@ -65,52 +65,52 @@ export const generateDemographicsContent = record => {
           items: [
             {
               title: 'Street address',
-              value: record.permanentAddress.street,
+              value: record.permanentAddress?.street,
               inline: true,
             },
             {
               title: 'City',
-              value: record.permanentAddress.city,
+              value: record.permanentAddress?.city,
               inline: true,
             },
             {
               title: 'State',
-              value: record.permanentAddress.state,
+              value: record.permanentAddress?.state,
               inline: true,
             },
             {
               title: 'Zip code',
-              value: record.permanentAddress.zipcode,
+              value: record.permanentAddress?.zipcode,
               inline: true,
             },
             {
               title: 'County',
-              value: record.permanentAddress.county,
+              value: record.permanentAddress?.county,
               inline: true,
             },
             {
               title: 'Country',
-              value: record.permanentAddress.country,
+              value: record.permanentAddress?.country,
               inline: true,
             },
             {
               title: 'Home phone number',
-              value: record.contactInfo.homePhone,
+              value: record.contactInfo?.homePhone,
               inline: true,
             },
             {
               title: 'Work phone number',
-              value: record.contactInfo.workPhone,
+              value: record.contactInfo?.workPhone,
               inline: true,
             },
             {
               title: 'Cell phone number',
-              value: record.contactInfo.cellPhone,
+              value: record.contactInfo?.cellPhone,
               inline: true,
             },
             {
               title: 'Email address',
-              value: record.contactInfo.emailAddress,
+              value: record.contactInfo?.emailAddress,
               inline: true,
             },
           ],
@@ -121,17 +121,17 @@ export const generateDemographicsContent = record => {
           items: [
             {
               title: 'Service connected percentage',
-              value: record.eligibility.serviceConnectedPercentage,
+              value: record.eligibility?.serviceConnectedPercentage,
               inline: true,
             },
             {
               title: 'Means test status',
-              value: record.eligibility.meansTestStatus,
+              value: record.eligibility?.meansTestStatus,
               inline: true,
             },
             {
               title: 'Primary eligibility code',
-              value: record.eligibility.primaryEligibilityCode,
+              value: record.eligibility?.primaryEligibilityCode,
               inline: true,
             },
           ],
@@ -142,17 +142,17 @@ export const generateDemographicsContent = record => {
           items: [
             {
               title: 'Occupation',
-              value: record.employment.occupation,
+              value: record.employment?.occupation,
               inline: true,
             },
             {
               title: 'Means test status',
-              value: record.employment.meansTestStatus,
+              value: record.employment?.meansTestStatus,
               inline: true,
             },
             {
               title: 'Employer name',
-              value: record.employment.employerName,
+              value: record.employment?.employerName,
               inline: true,
             },
           ],
@@ -163,37 +163,37 @@ export const generateDemographicsContent = record => {
           items: [
             {
               title: 'Name',
-              value: record.primaryNextOfKin.name,
+              value: record.primaryNextOfKin?.name,
               inline: true,
             },
             {
               title: 'Street address',
-              value: record.primaryNextOfKin.address.street,
+              value: record.primaryNextOfKin?.address?.street,
               inline: true,
             },
             {
               title: 'City',
-              value: record.primaryNextOfKin.address.city,
+              value: record.primaryNextOfKin?.address?.city,
               inline: true,
             },
             {
               title: 'State',
-              value: record.primaryNextOfKin.address.state,
+              value: record.primaryNextOfKin?.address?.state,
               inline: true,
             },
             {
               title: 'Zip code',
-              value: record.primaryNextOfKin.address.zipcode,
+              value: record.primaryNextOfKin?.address?.zipcode,
               inline: true,
             },
             {
               title: 'Home phone number',
-              value: record.primaryNextOfKin.homePhone,
+              value: record.primaryNextOfKin?.homePhone,
               inline: true,
             },
             {
               title: 'Work phone number',
-              value: record.primaryNextOfKin.workPhone,
+              value: record.primaryNextOfKin?.workPhone,
               inline: true,
             },
           ],
@@ -204,37 +204,37 @@ export const generateDemographicsContent = record => {
           items: [
             {
               title: 'Name',
-              value: record.emergencyContact.name,
+              value: record.emergencyContact?.name,
               inline: true,
             },
             {
               title: 'Street address',
-              value: record.emergencyContact.address.street,
+              value: record.emergencyContact?.address?.street,
               inline: true,
             },
             {
               title: 'City',
-              value: record.emergencyContact.address.city,
+              value: record.emergencyContact?.address?.city,
               inline: true,
             },
             {
               title: 'State',
-              value: record.emergencyContact.address.state,
+              value: record.emergencyContact?.address?.state,
               inline: true,
             },
             {
               title: 'Zip code',
-              value: record.emergencyContact.address.zipcode,
+              value: record.emergencyContact?.address?.zipcode,
               inline: true,
             },
             {
               title: 'Home phone number',
-              value: record.emergencyContact.homePhone,
+              value: record.emergencyContact?.homePhone,
               inline: true,
             },
             {
               title: 'Work phone number',
-              value: record.emergencyContact.workPhone,
+              value: record.emergencyContact?.workPhone,
               inline: true,
             },
           ],
@@ -245,37 +245,37 @@ export const generateDemographicsContent = record => {
           items: [
             {
               title: 'Name',
-              value: record.vaGuardian.name,
+              value: record.vaGuardian?.name,
               inline: true,
             },
             {
               title: 'Street address',
-              value: record.vaGuardian.address.street,
+              value: record.vaGuardian?.address?.street,
               inline: true,
             },
             {
               title: 'City',
-              value: record.vaGuardian.address.city,
+              value: record.vaGuardian?.address?.city,
               inline: true,
             },
             {
               title: 'State',
-              value: record.vaGuardian.address.state,
+              value: record.vaGuardian?.address?.state,
               inline: true,
             },
             {
               title: 'Zip code',
-              value: record.vaGuardian.address.zipcode,
+              value: record.vaGuardian?.address?.zipcode,
               inline: true,
             },
             {
               title: 'Home phone number',
-              value: record.vaGuardian.homePhone,
+              value: record.vaGuardian?.homePhone,
               inline: true,
             },
             {
               title: 'Work phone number',
-              value: record.vaGuardian.workPhone,
+              value: record.vaGuardian?.workPhone,
               inline: true,
             },
           ],
@@ -286,37 +286,37 @@ export const generateDemographicsContent = record => {
           items: [
             {
               title: 'Name',
-              value: record.civilGuardian.name,
+              value: record.civilGuardian?.name,
               inline: true,
             },
             {
               title: 'Street address',
-              value: record.civilGuardian.address.street,
+              value: record.civilGuardian?.address?.street,
               inline: true,
             },
             {
               title: 'City',
-              value: record.civilGuardian.address.city,
+              value: record.civilGuardian?.address?.city,
               inline: true,
             },
             {
               title: 'State',
-              value: record.civilGuardian.address.state,
+              value: record.civilGuardian?.address?.state,
               inline: true,
             },
             {
               title: 'Zip code',
-              value: record.civilGuardian.address.zipcode,
+              value: record.civilGuardian?.address?.zipcode,
               inline: true,
             },
             {
               title: 'Home phone number',
-              value: record.civilGuardian.homePhone,
+              value: record.civilGuardian?.homePhone,
               inline: true,
             },
             {
               title: 'Work phone number',
-              value: record.civilGuardian.workPhone,
+              value: record.civilGuardian?.workPhone,
               inline: true,
             },
           ],
@@ -327,42 +327,42 @@ export const generateDemographicsContent = record => {
           items: [
             {
               title: 'Insurance company',
-              value: record.activeInsurance.company,
+              value: record.activeInsurance?.company,
               inline: true,
             },
             {
               title: 'Effective date',
-              value: record.activeInsurance.effectiveDate,
+              value: record.activeInsurance?.effectiveDate,
               inline: true,
             },
             {
               title: 'Expiration date',
-              value: record.activeInsurance.expirationDate,
+              value: record.activeInsurance?.expirationDate,
               inline: true,
             },
             {
               title: 'Group name',
-              value: record.activeInsurance.groupName,
+              value: record.activeInsurance?.groupName,
               inline: true,
             },
             {
               title: 'Group number',
-              value: record.activeInsurance.groupNumber,
+              value: record.activeInsurance?.groupNumber,
               inline: true,
             },
             {
               title: 'Subscriber ID',
-              value: record.activeInsurance.subscriberId,
+              value: record.activeInsurance?.subscriberId,
               inline: true,
             },
             {
               title: 'Subscriber name',
-              value: record.activeInsurance.subscriberName,
+              value: record.activeInsurance?.subscriberName,
               inline: true,
             },
             {
               title: 'Subscriber relationship',
-              value: record.activeInsurance.relationship,
+              value: record.activeInsurance?.relationship,
               inline: true,
             },
           ],
@@ -372,7 +372,7 @@ export const generateDemographicsContent = record => {
   };
 
   results.results.items = results.results.items.map(item => {
-    if (item.items.every(i => i.value === NONE_RECORDED)) {
+    if (item.items.every(i => !i.value || i.value === NONE_RECORDED)) {
       return {
         ...item,
         items: [
