@@ -8,7 +8,6 @@ import * as poeCommitment from './poeCommitment';
 import * as pointOfContactForThisLocation from './pointOfContactForThisLocation';
 import * as previouslyEnteredPointOfContact from './previouslyEnteredPointOfContact';
 import * as additionalLocationSummary from './additionalLocationSummary';
-import * as addMoreLocations from './addMoreLocations';
 import * as additionalInstitutionDetailsItem from './additionalInstitutionDetailsItem';
 
 export {
@@ -22,6 +21,5 @@ export {
   pointOfContactForThisLocation,
   previouslyEnteredPointOfContact,
   additionalLocationSummary,
-  addMoreLocations,
   additionalInstitutionDetailsItem,
 };

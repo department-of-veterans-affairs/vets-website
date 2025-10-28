@@ -20,7 +20,6 @@ import {
   institutionDetailsFacility,
   additionalLocationSummary,
   pointOfContactForThisLocation,
-  addMoreLocations,
   previouslyEnteredPointOfContact,
   additionalInstitutionDetailsItem,
 } from '../pages';
@@ -198,11 +197,17 @@ const formConfig = {
               uiSchema: additionalInstitutionDetailsItem.uiSchema,
               schema: additionalInstitutionDetailsItem.schema,
             }),
-            pointOfContactForThisLocation: pageBuilder.itemPage({
+            previouslyEnteredPointOfContact: pageBuilder.itemPage({
               title: 'Point of contact for this location',
               path: 'additional-locations/:index/point-of-contact',
               uiSchema: previouslyEnteredPointOfContact.uiSchema,
               schema: previouslyEnteredPointOfContact.schema,
+            }),
+            pointOfContactForThisLocation: pageBuilder.itemPage({
+              title: 'point Of ContactFor This Location',
+              path: 'additional-locations/:index/point-of-contact-2',
+              uiSchema: pointOfContactForThisLocation.uiSchema,
+              schema: pointOfContactForThisLocation.schema,
             }),
           }),
         ),

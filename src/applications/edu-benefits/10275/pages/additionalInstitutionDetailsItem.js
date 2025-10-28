@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   addressSchema,
   arrayBuilderItemFirstPageTitleUI,
@@ -65,13 +64,13 @@ const uiSchema = {
       isArrayItem: true,
     },
   },
-//   'view:warningBanner': {
-//     'ui:field': WarningBanner,
-//     'ui:options': {
-//       dataPath: 'additionalInstitutionDetails',
-//       isArrayItem: true,
-//     },
-//   },
+  //   'view:warningBanner': {
+  //     'ui:field': WarningBanner,
+  //     'ui:options': {
+  //       dataPath: 'additionalInstitutionDetails',
+  //       isArrayItem: true,
+  //     },
+  //   },
 };
 
 const schema = {
