@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import PicklistRemoveDependentsReview from '../../../components/PicklistRemoveDependentsReview';
+import PicklistRemoveDependentsReview from '../../../components/picklist/PicklistRemoveDependentsReview';
 
 import { PICKLIST_DATA } from '../../../config/constants';
 import { createDoB } from '../../test-helpers';

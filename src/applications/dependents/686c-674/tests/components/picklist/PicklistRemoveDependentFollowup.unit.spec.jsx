@@ -5,10 +5,11 @@ import sinon from 'sinon';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import PicklistRemoveDependentFollowup from '../../components/PicklistRemoveDependentFollowup';
+import PicklistRemoveDependentFollowup from '../../../components/picklist/PicklistRemoveDependentFollowup';
+import { labels } from '../../../components/picklist/utils';
 
-import { PICKLIST_DATA } from '../../config/constants';
-import { createDoB } from '../test-helpers';
+import { PICKLIST_DATA } from '../../../config/constants';
+import { createDoB } from '../../test-helpers';
 
 describe('PicklistRemoveDependentFollowup', () => {
   const defaultData = (options = {}, parentSelected = true) => ({
@@ -95,13 +96,13 @@ describe('PicklistRemoveDependentFollowup', () => {
     const radioWrap = $('va-radio', container);
     expect(radioWrap).to.exist;
     expect(radioWrap.getAttribute('label')).to.equal(
-      'Do any of these apply to SPOUSY?',
+      labels.Spouse.removalReason,
     );
     const options = $$('va-radio-option', container);
     expect(options.length).to.equal(2);
     expect(options.map(cb => cb.getAttribute('label'))).to.deep.equal([
-      'Your marriage to SPOUSY ended',
-      'SPOUSY died',
+      labels.Spouse.marriageEnded,
+      labels.Spouse.death,
     ]);
     expect(radioWrap).to.exist;
     expect($('.form-progress-buttons', container)).to.exist;

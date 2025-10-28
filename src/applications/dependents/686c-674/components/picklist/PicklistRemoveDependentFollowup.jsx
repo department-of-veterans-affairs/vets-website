@@ -7,10 +7,14 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import set from 'platform/utilities/data/set';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
-import { getFullName } from '../../shared/utils';
+import { getFullName } from '../../../shared/utils';
 
-import { PICKLIST_DATA, PICKLIST_PATHS } from '../config/constants';
-import { routing, getPicklistRoutes } from './picklist/routes';
+import {
+  PICKLIST_DATA,
+  PICKLIST_PATHS,
+  PICKLIST_EDIT_REVIEW_FLAG,
+} from '../../config/constants';
+import { routing, getPicklistRoutes } from './routes';
 
 const PicklistRemoveDependentFollowup = ({
   data = {},
@@ -87,11 +91,18 @@ const PicklistRemoveDependentFollowup = ({
         goToPath,
       });
       if (nextPage === 'DONE') {
+        const reviewPageFlag = sessionStorage.getItem(
+          PICKLIST_EDIT_REVIEW_FLAG,
+        );
+
         // Find next selected dependent
         const nextSelectedIndex = data[PICKLIST_DATA].findIndex(
           (dep, indx) => indx > index && dep.selected,
         );
-        if (nextSelectedIndex === -1) {
+        if (reviewPageFlag === currentDependent.key) {
+          sessionStorage.removeItem(PICKLIST_EDIT_REVIEW_FLAG);
+          goToPath('/review-and-submit');
+        } else if (nextSelectedIndex === -1) {
           // Done with removing dependents, go to review & submit page
           goForward(data);
         } else {
@@ -110,13 +121,15 @@ const PicklistRemoveDependentFollowup = ({
     goBack: () => {
       resetState();
       let selectedIndex = 0;
+      // Page is empty when navigating back from first page of an index back to
+      // the last page of the previous index
       if (page === '') {
         const pathsLength = paths.length;
         const prevPageIndex = index - 1;
         // Find the last page of the index, then include an extra 1 because the
         // selectedIndex is expecting the current page index in paths
         while (
-          paths[selectedIndex].index === prevPageIndex &&
+          paths[selectedIndex].index <= prevPageIndex &&
           selectedIndex <= pathsLength
         ) {
           selectedIndex += 1;
