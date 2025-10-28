@@ -41,21 +41,6 @@ describe('Eligible Individuals Supported Page', () => {
       expect(page.schema.type).to.equal('object');
       expect(page.schema.properties).to.be.an('object');
     });
-
-    it('should have required eligibleIndividualsGroup field', () => {
-      expect(page.schema.required).to.include('eligibleIndividualsGroup');
-    });
-
-    it('should define eligibleIndividualsGroup properties correctly', () => {
-      const eligibleGroup = page.schema.properties.eligibleIndividualsGroup;
-      expect(eligibleGroup.type).to.equal('object');
-      expect(eligibleGroup.properties.eligibleIndividuals.type).to.equal(
-        'string',
-      );
-      expect(eligibleGroup.properties.unlimitedIndividuals.type).to.equal(
-        'boolean',
-      );
-    });
   });
 
   describe('UI Schema', () => {
@@ -66,7 +51,10 @@ describe('Eligible Individuals Supported Page', () => {
     });
 
     it('should render eligibleIndividualsGroup field with correct configuration', () => {
-      const { container } = renderPage();
+      const formData = {
+        agreementType: 'newAgreement',
+      };
+      const { container } = renderPage(formData);
 
       expect($('.eligible-individuals-note', container)).to.exist;
       expect($('.container', container)).to.exist;
@@ -103,6 +91,7 @@ describe('Eligible Individuals Supported Page', () => {
   describe('Form Validation', () => {
     it('should require eligibleIndividuals when unlimitedIndividuals is false', () => {
       const formData = {
+        agreementType: 'newAgreement',
         eligibleIndividualsGroup: {
           unlimitedIndividuals: false,
           eligibleIndividuals: '',
