@@ -1530,35 +1530,6 @@ export const ApplicantDetailsHeader = () => {
   );
 };
 
-// Helper functions to check authentication status for veteran applicant details pages
-export const isLoggedInVeteran = formData => {
-  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
-  const isVet = isVeteran(formData);
-  const isAgent = isAuthorizedAgent(formData);
-  return !isAgent && isVet && isLoggedIn;
-};
-
-export const isNotLoggedInVeteran = formData => {
-  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
-  const isVet = isVeteran(formData);
-  const isAgent = isAuthorizedAgent(formData);
-  return !isAgent && isVet && !isLoggedIn;
-};
-
-export const isLoggedInVeteranPreparer = formData => {
-  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
-  const isVet = isVeteran(formData);
-  const isAgent = isAuthorizedAgent(formData);
-  return isAgent && isVet && isLoggedIn;
-};
-
-export const isNotLoggedInVeteranPreparer = formData => {
-  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
-  const isVet = isVeteran(formData);
-  const isAgent = isAuthorizedAgent(formData);
-  return isAgent && isVet && !isLoggedIn;
-};
-
 // Helper function to check if user is logged in and not an authorized agent
 export const isLoggedInUser = formData => {
   const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { MemoryRouter } from 'react-router-dom';
+import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import { ProfileBreadcrumbs } from '../../components/ProfileBreadcrumbs';
 import { PROFILE_PATHS } from '../../constants';
-import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 const setup = path => {
   const view = renderInReduxProvider(

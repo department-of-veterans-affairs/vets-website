@@ -10,12 +10,13 @@ import {
   processList,
   validateField,
   validateIfAvailable,
+  prescriptionMedAndRenewalStatus,
 } from './helpers';
 import {
-  pdfStatusDefinitions,
-  pdfDefaultStatusDefinition,
+  medStatusDisplayTypes,
   FIELD_NOT_AVAILABLE,
   ACTIVE_NON_VA,
+  pdfStatusDefinitions,
 } from './constants';
 
 /**
@@ -131,8 +132,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
     const pendingRenewal =
       rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
     const isPending = pendingMed || pendingRenewal;
-    const pdfStatusDefinition =
-      pdfStatusDefinitions?.[rx.refillStatus] ?? pdfDefaultStatusDefinition;
+
     const mostRecentRxRefillLine = () => {
       const newest = getMostRecentRxRefill(rx);
 
@@ -172,16 +172,21 @@ export const buildPrescriptionsPDFList = prescriptions => {
               : []),
             {
               title: 'Status',
-              value: `${validateField(rx.dispStatus)} - ${
-                pdfStatusDefinition?.[0]?.value
-              }`,
+              value: validateField(
+                prescriptionMedAndRenewalStatus(
+                  rx,
+                  medStatusDisplayTypes.PRINT,
+                ),
+              ),
               inline: true,
             },
             {
               isRich: true,
               value:
-                pdfStatusDefinition?.length > 1
-                  ? pdfStatusDefinition.slice(1)
+                !pendingMed &&
+                !pendingRenewal &&
+                pdfStatusDefinitions?.[rx.refillStatus]?.length > 1
+                  ? pdfStatusDefinitions[rx.refillStatus].slice(1)
                   : [],
             },
             {
@@ -382,14 +387,22 @@ export const buildVAPrescriptionPDFList = prescription => {
               : []),
             {
               title: 'Status',
-              value: prescription.dispStatus || 'Unknown',
+              value: validateField(
+                prescriptionMedAndRenewalStatus(
+                  prescription,
+                  medStatusDisplayTypes.PRINT,
+                ),
+              ),
               inline: true,
             },
             {
               isRich: true,
               value:
-                pdfStatusDefinitions[prescription.refillStatus] ||
-                pdfDefaultStatusDefinition,
+                !pendingMed &&
+                !pendingRenewal &&
+                pdfStatusDefinitions?.[prescription.refillStatus]?.length > 1
+                  ? pdfStatusDefinitions[prescription.refillStatus].slice(1)
+                  : [],
             },
             {
               title: 'Refills left',
@@ -494,9 +507,9 @@ export const buildVAPrescriptionPDFList = prescription => {
                     ? `* Shape: ${shape[0].toUpperCase()}${shape
                         .slice(1)
                         .toLowerCase()}
-    * Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
-    * Front marking: ${frontImprint}
-    ${backImprint ? `* Back marking: ${backImprint}` : ''}`
+* Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
+* Front marking: ${frontImprint}
+${backImprint ? `* Back marking: ${backImprint}` : ''}`
                     : createNoDescriptionText(phone);
                   return {
                     header: `${refillLabel}: ${dateFormat(

@@ -949,6 +949,60 @@ const baseClaims = [
       },
     ],
   }),
+  // Claim with one supporting document and one failed evidence submission
+  createClaim(
+    '11',
+    {
+      baseEndProductCode: '020',
+      claimDate: '2024-10-07',
+      phaseType: 'GATHERING_OF_EVIDENCE',
+      claimType: 'Compensation',
+      claimTypeCode: '020CPHLP',
+      status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+      closeDate: null,
+      documentsNeeded: false,
+      developmentLetterSent: true,
+      evidenceWaiverSubmitted5103: true,
+      issues: [],
+      evidence: [],
+      evidenceSubmissions: [
+        {
+          acknowledgementDate: new Date(
+            Date.now() + 30 * 24 * 60 * 60 * 1000,
+          ).toISOString(),
+          claimId: 11,
+          createdAt: new Date(
+            Date.now() - 2 * 24 * 60 * 60 * 1000,
+          ).toISOString(),
+          deleteDate: null,
+          documentType: 'Medical Treatment Records',
+          failedDate: new Date().toISOString(),
+          fileName: 'medical-records-hospital-b.pdf',
+          id: 301,
+          lighthouseUpload: true,
+          trackedItemId: null,
+          trackedItemDisplayName: null,
+          uploadStatus: 'FAILED',
+          vaNotifyStatus: 'SENT',
+        },
+      ],
+      supportingDocuments: [
+        createSupportingDocument(
+          '{11-SUPPORTING-DOC-1}',
+          'Photographs',
+          'evidence_photos.pdf',
+          null,
+          '2024-10-14',
+        ),
+      ],
+      contentions: [
+        {
+          name: 'Service connection for hearing loss',
+        },
+      ],
+    },
+    false,
+  ),
   // Claim with 12 evidence submissions in progress to exercise FileSubmissionsInProgress component
   createClaim(
     '10',
@@ -1526,6 +1580,7 @@ const responses = {
   'GET /v0/benefits_claims/8': getClaimDataById('8'),
   'GET /v0/benefits_claims/9': getClaimDataById('9'),
   'GET /v0/benefits_claims/10': getClaimDataById('10'),
+  'GET /v0/benefits_claims/11': getClaimDataById('11'),
 
   'GET /v0/appeals': (_req, res) => {
     return res.status(200).json(appealData);
@@ -1568,31 +1623,66 @@ const responses = {
   },
 
   // Mock POST handler for file upload
-  'POST /v0/benefits_claims/:claimId/benefits_documents': (req, res) => {
-    // Simulate successful file upload
-    // In a real scenario, this would process the multipart form data
-    const { claimId } = req.params;
+  'POST /v0/benefits_claims/:claimId/benefits_documents': (() => {
+    let uploadCount = 0;
 
-    // Extract form data if available (for more realistic mocking)
-    const fileName = req.body?.file?.name || 'uploaded_document.pdf';
-    const documentType = req.body?.document_type || 'Medical records';
-
-    // Simulate a slight delay like a real upload
-    setTimeout(() => {
-      res.status(200).json({
-        data: {
-          success: true,
-          jobId: `job-${Date.now()}`,
-          claimId,
-          document: {
-            fileName,
-            documentType,
-            uploadDate: new Date().toISOString(),
+    const errorResponses = {
+      duplicate: {
+        status: 422,
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'DOC_UPLOAD_DUPLICATE',
+            code: '422',
+            status: '422',
+            source: 'BenefitsDocuments::Service',
           },
-        },
-      });
-    }, 500); // 500ms delay to simulate upload processing
-  },
+        ],
+      },
+      invalidClaimant: {
+        status: 422,
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'DOC_UPLOAD_INVALID_CLAIMANT',
+            code: '422',
+            status: '422',
+            source: 'BenefitsDocuments::Service',
+          },
+        ],
+      },
+      unknown: {
+        status: 500,
+        errors: [
+          {
+            title: 'Internal Server Error',
+            code: '500',
+            status: '500',
+          },
+        ],
+      },
+    };
+
+    // Configuration for testing different scenarios
+    const errorPattern = ['duplicate', 'unknown', 'invalidClaimant']; // Change this to test different scenarios
+    // const errorPattern = [null]; // for success only
+
+    return (_req, res) => {
+      uploadCount += 1;
+      const mockError = errorPattern[(uploadCount - 1) % errorPattern.length];
+
+      // Simulate upload processing delay
+      setTimeout(() => {
+        if (mockError && errorResponses[mockError]) {
+          const response = errorResponses[mockError];
+          return res.status(response.status).json({ errors: response.errors });
+        }
+
+        // Success response
+        return res.status(200).json({ jobId: `job-${Date.now()}` });
+      }, 500);
+    };
+  })(),
 };
 
 module.exports = responses;

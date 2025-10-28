@@ -180,7 +180,7 @@ App.propTypes = {
     issues: PropTypes.array,
     legacyCount: PropTypes.number,
   }),
-  formData: data995,
+  formData: PropTypes.shape(data995),
   inProgressFormId: PropTypes.number,
   legacyCount: PropTypes.number,
   location: PropTypes.shape({
