@@ -15,6 +15,7 @@ import FinancialInformation from './components/FinancialInformation';
 import HealthCareSettings from './components/HealthCareSettings';
 import LettersAndDocuments from './components/LettersAndDocuments';
 import AccountSecurityPage from './components/AccountSecurity';
+import AppointmentPreferences from './components/health-care-settings/AppointmentPreferences';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -139,14 +140,16 @@ const routesForProfile2Nav = [
     requiresLOA3: true,
     requiresMVI: true,
     hasSubnav: true,
+    featureFlag: 'profileHealthCareSettingsPage',
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: AppointmentPreferences,
     name: PROFILE_PATH_NAMES.APPOINTMENT_PREFERENCES,
     path: PROFILE_PATHS.APPOINTMENT_PREFERENCES,
     requiresLOA3: true,
     requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
+    featureFlag: 'profileHealthCareSettingsPage',
   },
   {
     component: PersonalHealthCareContacts,
@@ -155,6 +158,7 @@ const routesForProfile2Nav = [
     requiresLOA3: true,
     requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
+    featureFlag: 'profileHealthCareSettingsPage',
   },
   {
     component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
@@ -163,6 +167,7 @@ const routesForProfile2Nav = [
     requiresLOA3: true,
     requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
+    featureFlag: 'profileHealthCareSettingsPage',
   },
   {
     component: DependentsAndContacts,
@@ -230,9 +235,20 @@ const routesForProfile2Nav = [
 ];
 
 export const getRoutesForNav = (
-  { profile2Enabled = false } = {
+  { profile2Enabled = false, profileHealthCareSettingsPage = false } = {
     profile2Enabled: false,
+    profileHealthCareSettingsPage: false,
   },
 ) => {
-  return profile2Enabled ? routesForProfile2Nav : routesForNav;
+  if (profile2Enabled) {
+    return routesForProfile2Nav.filter(route => {
+      // filter out routes based on feature flags
+      if (route.featureFlag === 'profileHealthCareSettingsPage') {
+        return profileHealthCareSettingsPage;
+      }
+      return true;
+    });
+  }
+
+  return routesForNav;
 };
