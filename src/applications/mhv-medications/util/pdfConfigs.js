@@ -508,9 +508,9 @@ export const buildVAPrescriptionPDFList = prescription => {
                     ? `* Shape: ${shape[0].toUpperCase()}${shape
                         .slice(1)
                         .toLowerCase()}
-    * Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
-    * Front marking: ${frontImprint}
-    ${backImprint ? `* Back marking: ${backImprint}` : ''}`
+* Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
+* Front marking: ${frontImprint}
+${backImprint ? `* Back marking: ${backImprint}` : ''}`
                     : createNoDescriptionText(phone);
                   return {
                     header: `${refillLabel}: ${dateFormat(
