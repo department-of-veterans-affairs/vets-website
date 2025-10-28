@@ -15,7 +15,7 @@ import {
   createValidationErrorHandler,
 } from '@bio-aquia/shared/utils';
 import GetHelpFooter from '@bio-aquia/21-0779-nursing-home-information/components/get-help';
-import PreSubmitInfo from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-info';
+import PreSubmitSignature from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-signature';
 import {
   CertificationLevelOfCarePage,
   ClaimantQuestionPage,
@@ -82,7 +82,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   footerContent,
   getHelp: GetHelpFooter,
-  preSubmitInfo: PreSubmitInfo,
+  preSubmitInfo: PreSubmitSignature,
   dev: {
     showNavLinks: false,
     collapsibleNavLinks: false,
