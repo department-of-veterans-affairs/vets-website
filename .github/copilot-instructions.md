@@ -72,3 +72,29 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 ## Forms
 - For understanding valid uiSchema and schema web component patterns, reference `src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json`.
 - For understanding a form's name, directory path, entryName and rootUrl, reference `src/applications/manifest-catalog.json`.
+
+## Tool Calling and Efficiency
+- When performing multiple independent operations, call tools simultaneously rather than sequentially for maximum efficiency.
+- Examples of parallel operations: reading multiple files, viewing different directories, running git status and git diff together.
+- Only call tools sequentially when one depends on the output of another.
+- Batch file edits to the same file in a single response when possible.
+
+## Repository Structure
+- `src/platform/` - Shared platform code and utilities used across all applications.
+- `src/applications/` - Individual React applications, each with their own `manifest.json`.
+- `config/` - Webpack and build configuration files.
+- `.github/workflows/` - GitHub Actions CI/CD pipelines.
+- Each application should be self-contained with its own tests, components, and routes.
+
+## Code Review and Quality
+- Always run linters before committing: `yarn lint:js:working:fix`.
+- Test changes frequently and iteratively.
+- For accessibility, ensure all code meets WCAG 2.2 AA and Section 508 standards.
+- Use existing patterns and components from the design system rather than creating new ones.
+- Keep changes minimal and focused on the specific issue being addressed.
+
+## Documentation
+- Update README.md if adding new commands or changing workflows.
+- Document complex logic with comments that explain "why" not "what".
+- Keep API documentation up to date when changing endpoints or data structures.
+- Follow existing documentation patterns in the repository.
