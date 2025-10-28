@@ -55,7 +55,7 @@ export const DownloadTsaLetter = ({ letter }) => {
     [hasFetched, letter],
   );
 
-  const loading = ref.current.hasAttribute('open') && !hasFetched;
+  const loading = ref.current?.hasAttribute('open') && !hasFetched;
   const letterTitle = 'TSA PreCheck Letter';
 
   return (
