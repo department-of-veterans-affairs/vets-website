@@ -70,9 +70,9 @@ const uiSchema = {
   degreeLevel: {
     ...textUI({
       title: 'Degree level',
-      description: `If you'd like to specify a school, you can do so in the "College or professional school" field below.`,
+      description: `Provide a degree level such as undergraduate, graduate, doctoral, or all.`,
       errorMessages: {
-        required: 'Enter the degree level',
+        required: 'Please enter a degree level',
       },
     }),
     'ui:options': {
