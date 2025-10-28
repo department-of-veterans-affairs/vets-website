@@ -1,6 +1,5 @@
 import React from 'react';
 import { fireEvent, waitFor } from '@testing-library/react';
-import sinon from 'sinon';
 import { expect } from 'chai';
 import {
   MemoryRouter,
@@ -11,7 +10,6 @@ import {
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import ExpenseCard from '../../../../components/complex-claims/pages/ExpenseCard';
 import reducer from '../../../../redux/reducer';
-import Mileage from '../../../../components/complex-claims/pages/Mileage';
 
 describe('ExpenseCard', () => {
   const LocationDisplay = () => {
@@ -35,7 +33,14 @@ describe('ExpenseCard', () => {
     expenseType: 'Mileage',
   };
 
-  const getData = () => ({});
+  const getData = () => ({
+    travelPay: {
+      expense: {
+        isLoading: false,
+        error: null,
+      },
+    },
+  });
 
   // Helper to render the component with router + store
   const renderExpenseCard = (
@@ -46,8 +51,11 @@ describe('ExpenseCard', () => {
       <MemoryRouter initialEntries={['/review']}>
         <ExpenseCard
           expense={expense}
+          address={expense.address}
           header="Mileage expense"
           editToRoute={editToRoute}
+          apptId="test-appt-id"
+          claimId="test-claim-id"
         />
       </MemoryRouter>,
       { initialState: getData(), reducers: reducer },
@@ -104,7 +112,6 @@ describe('ExpenseCard', () => {
   });
 
   it('opens the delete modal and calls deleteExpense on confirm', async () => {
-    const consoleSpy = sinon.spy(console, 'log');
     const { container } = renderExpenseCard();
 
     // Click delete button to open modal
@@ -115,19 +122,15 @@ describe('ExpenseCard', () => {
     // The modal should now be visible
     const modal = container.querySelector('va-modal');
     expect(modal).to.exist;
+    expect(modal.getAttribute('visible')).to.equal('true');
 
     // Simulate confirm (primary button) click on modal
     modal.__events.primaryButtonClick();
 
     await waitFor(() => {
-      expect(
-        consoleSpy.calledWith(
-          `Delete clicked for expense id: ${defaultExpense.id}`,
-        ),
-      ).to.be.true;
+      // After delete action, modal should be hidden
+      expect(modal.getAttribute('visible')).to.equal('false');
     });
-
-    consoleSpy.restore();
   });
 
   it('navigates to the edit route when Edit link is clicked', () => {
@@ -140,16 +143,23 @@ describe('ExpenseCard', () => {
               // eslint-disable-next-line react/jsx-wrap-multilines
               <ExpenseCard
                 expense={defaultExpense}
+                address={defaultExpense.address}
                 header="Mileage expense"
                 editToRoute={editRoute}
+                apptId="test-appt-id"
+                claimId="test-claim-id"
               />
             }
           />
-          <Route path="/mileage" element={<Mileage />} />
+          <Route path="/mileage" element={<div>Mileage Page</div>} />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseType/:expenseId"
+            element={<div>Edit Expense Page</div>}
+          />
         </Routes>
         <LocationDisplay />
       </MemoryRouter>,
-      { initialState: {}, reducers: reducer },
+      { initialState: getData(), reducers: reducer },
     );
 
     const editLink = getByTestId(`${defaultExpense.id}-edit-expense-link`);
@@ -158,6 +168,8 @@ describe('ExpenseCard', () => {
     fireEvent.click(editLink);
 
     // Assert navigation happened
-    expect(getByTestId('location-display').textContent).to.equal('/mileage');
+    expect(getByTestId('location-display').textContent).to.equal(
+      '/file-new-claim/test-appt-id/test-claim-id/mileage/expense1',
+    );
   });
 });
