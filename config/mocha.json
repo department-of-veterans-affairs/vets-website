@@ -9,7 +9,7 @@
     "src/platform/testing/unit/enzyme-setup.js",
     "dd-trace/ci/init"
   ],
-  "import": ["src/platform/testing/unit/mocha-setup.js"],
+  "import": ["./src/platform/testing/unit/mocha-setup.js"],
   "reporter": "progress",
   "extension": ["js", "jsx"],
   "timeout": 10000,
