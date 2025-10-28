@@ -71,6 +71,29 @@ describe('PhoneField', () => {
       const phoneInput = container.querySelector('va-telephone-input');
       expect(phoneInput).to.have.attribute('required', 'false');
     });
+
+    it('sets required to true when required prop is true', () => {
+      const props = { ...defaultProps, required: true };
+      const { container } = render(<PhoneField {...props} />);
+      const phoneInput = container.querySelector('va-telephone-input');
+      expect(phoneInput).to.have.attribute('required', 'true');
+    });
+
+    it('sets required to false when required prop is false', () => {
+      const props = { ...defaultProps, required: false };
+      const { container } = render(<PhoneField {...props} />);
+      const phoneInput = container.querySelector('va-telephone-input');
+      expect(phoneInput).to.have.attribute('required', 'false');
+    });
+
+    it('properly passes through required attribute for form validation', () => {
+      const props = { ...defaultProps, required: true };
+      const { container } = render(<PhoneField {...props} />);
+      const phoneInput = container.querySelector('va-telephone-input');
+      // Verify the required attribute is present and set correctly
+      expect(phoneInput.hasAttribute('required')).to.be.true;
+      expect(phoneInput.getAttribute('required')).to.equal('true');
+    });
   });
 
   describe('rendering in display mode', () => {

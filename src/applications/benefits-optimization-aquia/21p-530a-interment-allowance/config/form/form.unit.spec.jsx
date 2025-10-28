@@ -31,8 +31,8 @@ describe('Form Configuration', () => {
       expect(formConfig.v3SegmentedProgressBar).to.be.true;
     });
 
-    it('should not have prefill enabled (unauthenticated form)', () => {
-      expect(formConfig.prefillEnabled).to.not.exist;
+    it('should have prefill enabled', () => {
+      expect(formConfig.prefillEnabled).to.be.true;
     });
   });
 
@@ -58,13 +58,17 @@ describe('Form Configuration', () => {
     });
   });
 
-  describe('Unauthenticated Form', () => {
-    it('should not have save in progress configuration', () => {
-      expect(formConfig.saveInProgress).to.not.exist;
+  describe('Save in Progress', () => {
+    it('should have save in progress configuration', () => {
+      expect(formConfig.saveInProgress).to.exist;
+      expect(formConfig.saveInProgress).to.be.an('object');
     });
 
-    it('should not have saved form messages', () => {
-      expect(formConfig.savedFormMessages).to.not.exist;
+    it('should have save in progress messages', () => {
+      expect(formConfig.saveInProgress.messages).to.exist;
+      expect(formConfig.saveInProgress.messages.inProgress).to.be.a('string');
+      expect(formConfig.saveInProgress.messages.expired).to.be.a('string');
+      expect(formConfig.saveInProgress.messages.saved).to.be.a('string');
     });
   });
 
@@ -112,8 +116,9 @@ describe('Form Configuration', () => {
   });
 
   describe('Prefill', () => {
-    it('should not have prefill transformer (unauthenticated form)', () => {
-      expect(formConfig.prefillTransformer).to.not.exist;
+    it('should have prefill transformer', () => {
+      expect(formConfig.prefillTransformer).to.exist;
+      expect(formConfig.prefillTransformer).to.be.a('function');
     });
   });
 });

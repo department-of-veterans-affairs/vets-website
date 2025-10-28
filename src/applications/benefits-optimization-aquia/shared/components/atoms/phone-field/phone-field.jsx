@@ -20,7 +20,7 @@ import { useFieldValidation } from '../../../hooks/use-field-validation';
  * @param {import('zod').ZodSchema} props.schema - Zod schema for validation
  * @param {string} props.value - Current phone number value
  * @param {Function} props.onChange - Change handler function (name, value) => void
- * @param {boolean} [props.required=false] - Whether the field is required (unused, kept for API compatibility)
+ * @param {boolean} [props.required=false] - Whether the field is required
  * @param {string} [props.hint] - Additional help text for the user
  * @param {boolean} [props.displayOnly=false] - Show as formatted telephone link instead of input
  * @param {string} [props.extension] - Phone extension number for display mode
@@ -35,7 +35,7 @@ export const PhoneField = ({
   schema,
   value,
   onChange,
-  required: _required = false,
+  required = false,
   hint,
   displayOnly = false,
   extension,
@@ -124,7 +124,7 @@ export const PhoneField = ({
       label={label}
       value={value || ''}
       contact={value || ''}
-      required={false}
+      required={required}
       hint={hint || 'Enter 10-digit phone number'}
       no-country="true"
       country="US"

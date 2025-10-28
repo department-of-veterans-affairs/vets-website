@@ -4,11 +4,13 @@
  * form overview, process steps, and save-in-progress functionality
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import recordEvent from 'platform/monitoring/record-event';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { useSelector } from 'react-redux';
+import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 
 import {
   TITLE,
@@ -60,31 +62,6 @@ const ProcessList = () => {
           information.
         </p>
         <p>
-          <strong>
-            You may also need to provide copies of these documents:
-          </strong>
-        </p>
-        <ul>
-          <li>The Veteran’s death certificate including the cause of death</li>
-          <li>
-            An itemized receipt for transportation costs (only if you paid
-            transportation costs for the Veteran’s remains)
-          </li>
-        </ul>
-        <p>
-          We also recommend providing a copy of the Veteran’s DD214 or other
-          separation documents including all their service periods.
-        </p>
-        <p>
-          If you don’t have their DD214 or other separation documents, you can
-          request these documents now.
-        </p>
-        <p>
-          <a href="/records/get-military-service-records/">
-            Learn more about requesting military service records
-          </a>
-        </p>
-        <p>
           <strong>What if I need help with my application?</strong>
         </p>
         <p>
@@ -117,46 +94,49 @@ const ProcessList = () => {
  * Introduction page for VA Form 21P-530A Application for Interment Allowance
  * @param {Object} props - Component properties
  * @param {Object} props.route - Route configuration from react-router
- * @param {Object} props.route.pageList - List of form pages
- * @param {Object} props.router - Router object for navigation
+ * @param {Object} props.route.formConfig - Form configuration object
+ * @param {Array} props.route.pageList - List of form pages
+ * @param {Object} props.location - Location object from react-router
  * @returns {React.ReactElement} Introduction page component
  */
-export const IntroductionPage = ({ route, router }) => {
-  const { pageList } = route;
+export const IntroductionPage = ({ route }) => {
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
+  const userIdVerified = useSelector(state => isLOA3(state));
+  const { formConfig, pageList } = route;
+  const showVerifyIdentify = userLoggedIn && !userIdVerified;
 
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
   }, []);
 
-  const startButton = useMemo(
-    () => {
-      const startForm = () => {
-        recordEvent({ event: '21p-530a-start-form' });
-        return router.push(pageList[1].path);
-      };
-      return (
-        <a
-          href="#start"
-          className="vads-c-action-link--green"
-          onClick={startForm}
-        >
-          Start the state and tribal organization burial allowance benefits
-          application
-        </a>
-      );
-    },
-    [pageList, router],
-  );
-
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
+      <p>
+        Use this form if you’re a state or tribal organization to apply for a VA
+        interment allowance for a Veteran buried in a State or Tribal Veterans'
+        cemetery.
+      </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow these steps to apply for a burial allowance
       </h2>
       <ProcessList />
-      {startButton}
+      {showVerifyIdentify ? (
+        <div>{/* add verify identity alert if applicable */}</div>
+      ) : (
+        <SaveInProgressIntro
+          headingLevel={2}
+          prefillEnabled={formConfig.prefillEnabled}
+          messages={formConfig.savedFormMessages}
+          pageList={pageList}
+          startText="Start the state and tribal organization burial allowance benefits application"
+          devOnly={{
+            forceShowFormControls: true,
+          }}
+        />
+      )}
+      <p />
       <va-omb-info
         res-burden={OMB_RES_BURDEN}
         omb-number={OMB_NUMBER}
@@ -168,9 +148,13 @@ export const IntroductionPage = ({ route, router }) => {
 
 IntroductionPage.propTypes = {
   route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool.isRequired,
+      savedFormMessages: PropTypes.object.isRequired,
+    }).isRequired,
     pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  router: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  location: PropTypes.shape({
+    basename: PropTypes.string,
+  }),
 };

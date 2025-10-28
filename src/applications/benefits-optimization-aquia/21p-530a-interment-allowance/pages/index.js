@@ -4,6 +4,9 @@
  * Pages are organized by chapter for better code organization and maintainability.
  */
 
+// Relationship to the Veteran
+export { RelationshipToVeteranPage } from './relationship-to-veteran';
+
 // Chapter 1: Your organization's information
 export { OrganizationInformationPage } from './organization-information';
 export { BurialBenefitsRecipientPage } from './burial-benefits-recipient';
