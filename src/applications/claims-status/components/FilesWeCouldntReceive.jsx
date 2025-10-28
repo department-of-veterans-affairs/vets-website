@@ -50,7 +50,7 @@ const FilesWeCouldntReceive = () => {
 
   const handlePageSelect = page => {
     onPageSelect(page);
-    setPageFocus('#files-not-received-section');
+    setPageFocus('#pagination-info');
   };
 
   useEffect(
@@ -121,6 +121,18 @@ const FilesWeCouldntReceive = () => {
                     by mail or in person, by you or by others, don’t appear in
                     this tool.
                   </p>
+
+                  {shouldPaginate &&
+                    (() => {
+                      const start = (currentPage - 1) * 10 + 1;
+                      const end = Math.min(
+                        currentPage * 10,
+                        sortedFailedFiles.length,
+                      );
+                      const listLen = sortedFailedFiles.length;
+                      const txt = `Showing ${start} \u2012 ${end} of ${listLen} items`;
+                      return <p id="pagination-info">{txt}</p>;
+                    })()}
 
                   {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
                   <ul
