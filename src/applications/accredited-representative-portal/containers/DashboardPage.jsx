@@ -11,7 +11,7 @@ const DashboardPage = props => {
   const { title } = props || {};
   const location = useLocation();
   const loaderData = useLoaderData();
-  const params = new URLSearchParams(location.search);
+  const params = new URLSearchParams(location?.search);
   const unauthorizedParam = (params.get('unauthorized') || '').toLowerCase();
   const isUnauthorizedQuery = ['1', 'true', 'yes'].includes(unauthorizedParam);
   const isAuthorized = loaderData?.authorized === true;

@@ -1,5 +1,8 @@
 import footerContent from 'platform/forms/components/FormFooter';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { focusElement } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
 import submitForm from './submitForm';
 import transform from './submit-transformer';
 import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
@@ -7,17 +10,25 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PrivacyPolicy from '../components/PrivacyPolicy';
-
 import {
   agreementType,
-  institutionDetailsFacility,
   authorizingOfficial,
   poeCommitment,
   newAuthorizingOfficial,
   newPrinciplesOfExcellence,
   newSchoolCertifyingOfficial,
+  institutionDetailsFacility,
+  additionalLocationSummary,
+  pointOfContactForThisLocation,
+  addMoreLocations,
+  previouslyEnteredPointOfContact,
+  additionalInstitutionDetailsItem,
 } from '../pages';
 
+const scrollAndFocusTarget = () => {
+  scrollToTop('topScrollElement');
+  focusElement('h3');
+};
 /**
  * Returns *true* if the newCommitment -
  * Principles of Excellence point of contact page should be displayed
@@ -162,6 +173,41 @@ const formConfig = {
         },
       },
     },
+    additionalLocationsChapter: {
+      title: 'Additional locations',
+      pages: {
+        ...arrayBuilderPages(
+          {
+            arrayPath: 'additionalLocations',
+            nounSingular: 'location',
+            nounPlural: 'locations',
+            required: false,
+          },
+          pageBuilder => ({
+            additionalLocationSummary: pageBuilder.summaryPage({
+              title: 'Additional locations',
+              path: 'additional-locations',
+              uiSchema: additionalLocationSummary.uiSchema,
+              schema: additionalLocationSummary.schema,
+              scrollAndFocusTarget,
+            }),
+            additionalLocation: pageBuilder.itemPage({
+              title: 'Additional location',
+              path: 'additional-locations/:index',
+              showPagePerItem: true,
+              uiSchema: additionalInstitutionDetailsItem.uiSchema,
+              schema: additionalInstitutionDetailsItem.schema,
+            }),
+            pointOfContactForThisLocation: pageBuilder.itemPage({
+              title: 'Point of contact for this location',
+              path: 'additional-locations/:index/point-of-contact',
+              uiSchema: previouslyEnteredPointOfContact.uiSchema,
+              schema: previouslyEnteredPointOfContact.schema,
+            }),
+          }),
+        ),
+      },
+    },
     principlesOfExcellenceCommitmentChapter: {
       title: 'The Principles of Excellence',
       pages: {
@@ -180,7 +226,10 @@ const formConfig = {
         authorizedOfficial: {
           path: 'authorizing-official',
           title: 'Authorizing official',
-          depends: data => data?.agreementType === 'withdrawal',
+          depends: data => {
+            console.log('data', data);
+            return data?.agreementType === 'withdrawal';
+          },
           uiSchema: authorizingOfficial.uiSchema,
           schema: authorizingOfficial.schema,
         },
