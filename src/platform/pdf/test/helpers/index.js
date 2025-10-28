@@ -1,25 +1,3 @@
-// Testing a fix to accomodate
-(() => {
-  try {
-    const originalNavigator = globalThis.navigator;
-
-    // If it doesn't already return the expected platform string,
-    // or if it's not configurable, redefine it.
-    const desc = Object.getOwnPropertyDescriptor(originalNavigator, 'platform');
-    if (!desc || !desc.configurable) {
-      Object.defineProperty(globalThis, 'navigator', {
-        value: Object.create(originalNavigator, {
-          platform: { get: () => 'MacIntel' },
-        }),
-        configurable: true,
-      });
-    }
-  } catch (err) {
-    // Swallow errors if navigator isn't defined in this context.
-    // This helper is meant to run in Node test environments only.
-  }
-})();
-
 import getStream from 'get-stream';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf';
 // import fs from 'fs';

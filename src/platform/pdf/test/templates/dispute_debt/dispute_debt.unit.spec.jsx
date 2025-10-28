@@ -1,3 +1,57 @@
+// --- local navigator.platform shim for this spec ---
+// Runs before any imports in this file.
+let __restoreNavigator;
+
+(function setupNavigatorPlatformShim() {
+  try {
+    const win = globalThis.window || globalThis;
+    const original = win.navigator;
+
+    // Mutable backing store so `navigator.platform = '...'` won't throw
+    let _platform = (original && original.platform) || 'MacIntel';
+
+    const shadow = Object.create(original || Object.prototype, {
+      platform: {
+        get() {
+          return _platform;
+        },
+        set(v) {
+          _platform = String(v);
+        },
+        enumerable: true,
+        configurable: true,
+      },
+    });
+
+    // Replace on window and globalThis (covers both access paths)
+    Object.defineProperty(win, 'navigator', {
+      value: shadow,
+      configurable: true,
+    });
+    if (globalThis !== win) {
+      Object.defineProperty(globalThis, 'navigator', {
+        value: shadow,
+        configurable: true,
+      });
+    }
+
+    __restoreNavigator = () => {
+      Object.defineProperty(win, 'navigator', {
+        value: original,
+        configurable: true,
+      });
+      if (globalThis !== win) {
+        Object.defineProperty(globalThis, 'navigator', {
+          value: original,
+          configurable: true,
+        });
+      }
+    };
+  } catch {
+    // Non-DOM environment; ignore.
+  }
+})();
+
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { MissingFieldsException } from '../../../utils/exceptions/MissingFieldsException';
@@ -16,6 +70,7 @@ describe('Dispute Debt PDF template', () => {
   let fetchStub;
 
   before(() => {
+    navigator.platform = 'MacIntel';
     // Mock fetch for the logo with a proper absolute URL
     fetchStub = sinon.stub(global, 'fetch');
     const mockArrayBuffer = new ArrayBuffer(8);
@@ -31,6 +86,7 @@ describe('Dispute Debt PDF template', () => {
   });
 
   after(() => {
+    if (typeof __restoreNavigator === 'function') __restoreNavigator();
     navigator.platform = originalPlatform;
     fetchStub.restore();
   });
