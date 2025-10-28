@@ -702,7 +702,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     APPOINTMENT_TYPES.request,
     APPOINTMENT_TYPES.ccRequest,
   ]);
-
+  const isCerner = appointment?.vaos?.isCerner;
   const cancelInfo = getCancelInfo(state);
   const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
   const email = getPatientTelecom(appointment, 'email');
@@ -752,5 +752,6 @@ export function selectRequestedAppointmentDetails(state, id) {
     typeOfCare,
     typeOfCareName,
     preferredModality,
+    isCerner,
   };
 }
