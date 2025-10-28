@@ -32,7 +32,7 @@ const App = ({ formEnabled }) => {
           <va-link-action
             href={rootUrl}
             text="Submit medical expenses to support a pension or DIC claim"
-            type="primary"
+            type="secondary"
           />
         </>
       ) : (
