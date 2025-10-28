@@ -14,7 +14,7 @@ const ReferralErrorLayout = ({
   showFindLink = true,
 }) => {
   return (
-    <ReferralLayout>
+    <ReferralLayout hasEyebrow heading="Referral Error">
       <InfoAlert
         status="error"
         headline="We’re sorry. We’ve run into a problem"
