@@ -15,11 +15,14 @@ import {
   agreementType,
   acknowledgements,
   institutionDetailsFacility,
+  additionalInstitutionDetailsSummary,
+  additionalInstitutionDetailsItem,
   yellowRibbonProgramRequest,
   eligibleIndividualsSupported,
   yellowRibbonProgramRequestSummary,
   contributionLimitsAndDegreeLevel,
 } from '../pages';
+import { additionalInstitutionDetailsArrayOptions } from '../helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -122,6 +125,25 @@ const formConfig = {
             }
           },
         },
+        ...arrayBuilderPages(
+          additionalInstitutionDetailsArrayOptions,
+          pageBuilder => ({
+            additionalInstitutionDetailsSummary: pageBuilder.summaryPage({
+              path: 'additional-institution-details',
+              title: 'Additional institution details',
+              uiSchema: additionalInstitutionDetailsSummary.uiSchema,
+              schema: additionalInstitutionDetailsSummary.schema,
+            }),
+            additionalInstitutionDetailsItem: pageBuilder.itemPage({
+              path: 'additional-institution-details/:index',
+              title:
+                "Enter the VA facility code for the additional location you'd like to add",
+              showPagePerItem: true,
+              uiSchema: additionalInstitutionDetailsItem.uiSchema,
+              schema: additionalInstitutionDetailsItem.schema,
+            }),
+          }),
+        ),
       },
     },
     yellowRibbonProgramRequestChapter: {

@@ -164,7 +164,7 @@ const PrescriptionDetails = () => {
             list: prescriptionPdfList,
           },
           {
-            header: 'Allergies',
+            header: 'Allergies and reactions',
             ...(allergiesPdfList &&
               allergiesPdfList.length > 0 && {
                 preface: [
