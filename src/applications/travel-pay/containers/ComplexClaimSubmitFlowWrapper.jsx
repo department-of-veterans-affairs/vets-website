@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  useParams,
-  Outlet,
-  // useNavigate
-} from 'react-router-dom-v5-compat';
+import { useParams, Outlet } from 'react-router-dom-v5-compat';
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -14,7 +10,6 @@ import { getAppointmentData, getClaimDetails } from '../redux/actions';
 
 const ComplexClaimSubmitFlowWrapper = () => {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
   const { apptId, claimId } = useParams();
   const {
     useToggleValue,
@@ -48,19 +43,6 @@ const ComplexClaimSubmitFlowWrapper = () => {
     },
     [dispatch, apptData, claimData, claimId, apptId, claimError, apptError],
   );
-
-  //   useEffect(
-  //     () => {
-  //       if (claimData) {
-  //         if (claimData.expenses?.length > 0) {
-  //           navigate(`/file-new-claim/${apptId}/${claimId}/review`);
-  //         } else {
-  //           navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
-  //         }
-  //       }
-  //     },
-  //     [claimData, navigate, apptId, claimId],
-  //   );
 
   if (isLoading) {
     return (
