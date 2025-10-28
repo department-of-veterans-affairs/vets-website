@@ -8,9 +8,9 @@ process.env.BABEL_ENV = process.env.BABEL_ENV || 'test';
 // require('babel-register');
 require("@babel/register");
 require('babel-polyfill');
-// require mocha setup files
-require('../src/platform/testing/unit/mocha-setup.js');
-require('../src/platform/testing/unit/enzyme-setup.js');
+// potentially causing ESM rule trouble so being commented out require mocha setup files
+// require('../src/platform/testing/unit/mocha-setup.js');
+// require('../src/platform/testing/unit/enzyme-setup.js');
 
 let showErrors = false;
 // keys for current require.cache
