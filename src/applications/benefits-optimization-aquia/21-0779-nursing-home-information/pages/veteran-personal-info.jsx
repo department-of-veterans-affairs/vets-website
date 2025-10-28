@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { MemorableDateField } from '@bio-aquia/shared/components/atoms';
+import { DateField } from '@bio-aquia/shared/components/atoms';
 import { FullnameField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
@@ -78,7 +78,7 @@ export const VeteranPersonalInfoPage = ({
             forceShowError={formSubmitted}
           />
 
-          <MemorableDateField
+          <DateField
             name="dateOfBirth"
             label="Date of birth"
             schema={dateOfBirthSchema}
