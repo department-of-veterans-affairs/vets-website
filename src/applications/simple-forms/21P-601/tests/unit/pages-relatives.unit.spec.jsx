@@ -460,8 +460,8 @@ describe('21P-601 relatives page configurations', () => {
       expect(relativesOptions.arrayPath).to.equal('survivingRelatives');
     });
 
-    it('verifies required is true', () => {
-      expect(relativesOptions.required).to.equal(true);
+    it('verifies required is false', () => {
+      expect(relativesOptions.required).to.equal(false);
     });
   });
 });
