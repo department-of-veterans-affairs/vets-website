@@ -26,6 +26,11 @@ const PrintDownload = props => {
       setMenuOpen(false);
     }
   };
+  const handleBlur = e => {
+    if (menu.current && !menu.current.contains(e.relatedTarget)) {
+      setMenuOpen(false);
+    }
+  };
 
   document.addEventListener('mousedown', closeMenu);
 
@@ -71,6 +76,7 @@ const PrintDownload = props => {
       onKeyDown={handleUserKeyPress}
       ref={menu}
       onFocus={handleFocus}
+      onBlur={handleBlur}
     >
       <button
         className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}

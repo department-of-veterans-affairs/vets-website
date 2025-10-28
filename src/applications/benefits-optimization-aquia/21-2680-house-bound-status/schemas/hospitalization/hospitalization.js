@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { POSTAL_PATTERNS } from '@bio-aquia/shared/schemas/regex-patterns';
 
 /**
  * Schema for hospitalization status
@@ -9,7 +8,7 @@ export const isCurrentlyHospitalizedSchema = z.enum(['yes', 'no'], {
 });
 
 /**
- * Schema for admission date
+ * Schema for admission date (optional, used in combined hospitalization form)
  */
 export const admissionDateSchema = z
   .string()
@@ -22,6 +21,43 @@ export const admissionDateSchema = z
   .or(z.literal(''));
 
 /**
+ * Schema for required admission date field (used in date-specific page)
+ */
+export const admissionDateFieldSchema = z
+  .string()
+  .min(1, 'Admission date is required')
+  .refine(val => {
+    if (!val || typeof val !== 'string') return false;
+
+    const parts = val.split('-');
+    if (parts.length !== 3) return true;
+
+    const month = parseInt(parts[1], 10);
+
+    return month >= 1 && month <= 12;
+  }, 'Please enter a month between 1 and 12')
+  .refine(val => {
+    const date = new Date(val);
+    if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+      return false;
+    }
+
+    const [year, month, day] = val.split('-').map(Number);
+    const utcDate = new Date(Date.UTC(year, month - 1, day));
+
+    return (
+      utcDate.getUTCFullYear() === year &&
+      utcDate.getUTCMonth() === month - 1 &&
+      utcDate.getUTCDate() === day
+    );
+  }, 'Please enter a valid date')
+  .refine(val => {
+    const date = new Date(val);
+    const today = new Date();
+    return date <= today;
+  }, 'Admission date cannot be in the future');
+
+/**
  * Schema for facility name
  */
 export const facilityNameSchema = z
@@ -31,32 +67,58 @@ export const facilityNameSchema = z
   .or(z.literal(''));
 
 /**
- * Schema for facility address
+ * Schema for facility address (follows AddressField component structure)
  */
-export const facilityStreetAddressSchema = z
-  .string()
-  .max(50, 'Street address must be less than 50 characters')
-  .optional()
-  .or(z.literal(''));
+export const facilityAddressSchema = z.object({
+  street: z
+    .string()
+    .min(1, 'Street address is required')
+    .max(50, 'Street address must be less than 50 characters'),
+  street2: z
+    .string()
+    .max(50, 'Street address line 2 must be less than 50 characters')
+    .optional(),
+  street3: z
+    .string()
+    .max(50, 'Street address line 3 must be less than 50 characters')
+    .optional(),
+  city: z
+    .string()
+    .min(1, 'City is required')
+    .max(50, 'City must be less than 50 characters'),
+  state: z
+    .string()
+    .min(1, 'State is required')
+    .length(2, 'State must be a 2-letter code'),
+  country: z.string().min(1, 'Country is required'),
+  postalCode: z
+    .string()
+    .min(1, 'Postal code is required')
+    .regex(
+      /^\d{5}(-\d{4})?$/,
+      'Postal code must be in format 12345 or 12345-6789',
+    ),
+  isMilitary: z.boolean().optional(),
+});
 
-export const facilityCitySchema = z
-  .string()
-  .max(30, 'City must be less than 30 characters')
-  .optional()
-  .or(z.literal(''));
+/**
+ * Page schemas for split hospitalization flow
+ */
+export const hospitalizationStatusPageSchema = z.object({
+  isCurrentlyHospitalized: isCurrentlyHospitalizedSchema,
+});
 
-export const facilityStateSchema = z
-  .string()
-  .optional()
-  .or(z.literal(''));
+export const hospitalizationDatePageSchema = z.object({
+  admissionDate: z.string().min(1, 'Please enter the admission date'),
+});
 
-export const facilityZipSchema = z
-  .string()
-  .refine(val => !val || POSTAL_PATTERNS.USA.test(val), {
-    message: 'Please enter a valid 5 or 9 digit ZIP code',
-  })
-  .optional()
-  .or(z.literal(''));
+export const hospitalizationFacilityPageSchema = z.object({
+  facilityName: z
+    .string()
+    .min(1, 'Please enter the name of the hospital')
+    .max(100, 'Facility name must be less than 100 characters'),
+  facilityAddress: facilityAddressSchema,
+});
 
 /**
  * Complete hospitalization schema with conditional validation
@@ -66,10 +128,7 @@ export const hospitalizationSchema = z
     isCurrentlyHospitalized: isCurrentlyHospitalizedSchema,
     admissionDate: admissionDateSchema,
     facilityName: facilityNameSchema,
-    facilityStreetAddress: facilityStreetAddressSchema,
-    facilityCity: facilityCitySchema,
-    facilityState: facilityStateSchema,
-    facilityZip: facilityZipSchema,
+    facilityAddress: facilityAddressSchema.optional(),
   })
   .refine(
     data => {
@@ -77,10 +136,10 @@ export const hospitalizationSchema = z
         return !!(
           data.admissionDate &&
           data.facilityName &&
-          data.facilityStreetAddress &&
-          data.facilityCity &&
-          data.facilityState &&
-          data.facilityZip
+          data.facilityAddress?.street &&
+          data.facilityAddress?.city &&
+          data.facilityAddress?.state &&
+          data.facilityAddress?.postalCode
         );
       }
       return true;

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import FormStartControls from 'platform/forms/save-in-progress/FormStartControls';
 import {
   fetchInProgressForm,
@@ -109,12 +110,12 @@ const SaveInProgress = ({
     return (
       <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
         {breadcrumbsElement}
-        <div className="usa-content vads-u-padding-y--2">
+        <article className="schemaform-intro">
           <va-loading-indicator
             label="Loading"
             message="Checking for saved application..."
           />
-        </div>
+        </article>
       </div>
     );
   }
@@ -127,12 +128,12 @@ const SaveInProgress = ({
     return (
       <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
         {breadcrumbsElement}
-        <div className="usa-content vads-u-padding-y--2">
+        <article className="schemaform-intro">
           <va-loading-indicator
             label="Loading"
             message="Loading your saved application..."
           />
-        </div>
+        </article>
       </div>
     );
   }
@@ -160,30 +161,26 @@ const SaveInProgress = ({
     return (
       <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
         {breadcrumbsElement}
-        <div className="usa-content vads-u-padding-y--2">
-          <h1 className="vads-u-margin-bottom--2">
-            {formConfig.title || 'VA Form'}
-          </h1>
+        <article className="schemaform-intro">
+          <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
 
-          <div className="schemaform-intro">
-            <p className="vads-u-margin-bottom--3">{message}</p>
+          <p className="vads-u-margin-bottom--3">{message}</p>
 
-            <FormStartControls
-              formId={currentForm}
-              migrations={formConfig.migrations}
-              startPage={formConfig.urlPrefix || '/'}
-              prefillAvailable={false}
-              prefillTransformer={formConfig.prefillTransformer}
-              formSaved
-              isExpired={isExpired}
-              fetchInProgressForm={fetchInProgressFormAction}
-              removeInProgressForm={removeInProgressFormAction}
-              router={router}
-              routes={router?.routes || [{}, { formConfig }]}
-              formConfig={formConfig}
-            />
-          </div>
-        </div>
+          <FormStartControls
+            formId={currentForm}
+            migrations={formConfig.migrations}
+            startPage={formConfig.urlPrefix || '/'}
+            prefillAvailable={false}
+            prefillTransformer={formConfig.prefillTransformer}
+            formSaved
+            isExpired={isExpired}
+            fetchInProgressForm={fetchInProgressFormAction}
+            removeInProgressForm={removeInProgressFormAction}
+            router={router}
+            routes={router?.routes || [{}, { formConfig }]}
+            formConfig={formConfig}
+          />
+        </article>
       </div>
     );
   }

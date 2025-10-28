@@ -7,14 +7,18 @@ import {
   firstNameLastNameNoSuffixUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { MUST_MATCH_ALERT } from '../config/constants';
-import { onCloseAlert } from '../helpers';
 import { CustomAlertPage } from './helpers';
+import { getAlert } from '../helpers';
 
 /** @type {PageSchema} */
 export const nameAndZipCodePage = {
   uiSchema: {
-    ...titleUI('Veteran’s name and postal code'),
+    ...titleUI(
+      'Veteran’s name and postal code',
+      <div className="vads-u-margin-top--3">
+        {getAlert({ name: 'nameAndZipCodePage' }, false)}
+      </div>,
+    ),
     fullName: firstNameLastNameNoSuffixUI(),
     address: addressUI({
       labels: {
@@ -53,8 +57,7 @@ export const nameAndZipCodePage = {
 
 /** @type {CustomPageType} */
 export function NameAndZipCodePage(props) {
-  const alert = MUST_MATCH_ALERT('name-and-zip-code', onCloseAlert, props.data);
-  return <CustomAlertPage {...props} alert={alert} />;
+  return <CustomAlertPage {...props} />;
 }
 
 NameAndZipCodePage.propTypes = {

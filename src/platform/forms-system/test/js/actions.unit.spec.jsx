@@ -752,7 +752,7 @@ describe('Schemaform actions:', () => {
       expect(onChange.secondCall.args[0]).to.eql({
         name: '1.jpg',
         errorMessage:
-          'We\u2019re sorry. We had a connection problem. Please try again.',
+          'We couldn’t upload your file due to a connection problem. Try again in a few moments.',
         file: {
           name: '1.jpg',
           size: 0,
@@ -920,7 +920,7 @@ describe('Schemaform actions:', () => {
       expect(onChange.secondCall.args[0]).to.eql({
         name: '1.jpg',
         errorMessage:
-          'We\u2019re sorry. We had a connection problem. Please try again.',
+          'We couldn’t upload your file due to a connection problem. Try again in a few moments.',
         alert: {
           header: 'Alert header',
           body: ['body text'],

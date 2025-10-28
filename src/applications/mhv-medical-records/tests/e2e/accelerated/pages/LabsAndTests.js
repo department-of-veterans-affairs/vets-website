@@ -1,5 +1,4 @@
 import sessionStatus from '../fixtures/session/default.json';
-import MedicalRecordsLandingPage from '../../pages/MedicalRecordsLandingPage';
 
 class LabsAndTests {
   setIntercepts = ({ labsAndTestData, useOhData = true }) => {
@@ -39,7 +38,6 @@ class LabsAndTests {
       }
       req.reply(labsAndTestData);
     }).as('labs-and-test-list');
-    MedicalRecordsLandingPage.uumIntercept();
   };
 
   checkLandingPageLinks = () => {

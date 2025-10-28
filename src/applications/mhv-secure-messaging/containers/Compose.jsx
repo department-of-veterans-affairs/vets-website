@@ -54,10 +54,13 @@ const Compose = () => {
 
   useEffect(
     () => {
-      if (location.pathname.startsWith(Paths.COMPOSE)) {
+      const composePathNoSlash = Paths.COMPOSE.endsWith('/')
+        ? Paths.COMPOSE.slice(0, -1)
+        : Paths.COMPOSE;
+      if (location.pathname.startsWith(composePathNoSlash)) {
         dispatch(clearThread());
         setDraftType('compose');
-      } else {
+      } else if (draftId) {
         dispatch(retrieveMessageThread(draftId));
       }
 

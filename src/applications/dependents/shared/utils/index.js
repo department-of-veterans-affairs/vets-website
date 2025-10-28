@@ -20,6 +20,16 @@ export const getFullName = ({ first, middle, last, suffix } = {}) =>
   (suffix ? `, ${suffix}` : '');
 
 /**
+ * Make a name possessive by adding an apostrophe
+ * @param {String} name - The name to make possessive
+ * @returns {String} - The possessive form of the name
+ * @example makeNamePossessive('Alex') => "Alex's"
+ * @example makeNamePossessive('Chris') => "Chris'"
+ */
+export const makeNamePossessive = name =>
+  `${name}’${name.toLowerCase().endsWith('s') ? '' : 's'}`;
+
+/**
  * Separate each number so the screen reader reads "number ending with 1 2 3 4"
  * instead of "number ending with 1,234"
  * @param {String} id - The last four digits of a Social Security Number

@@ -15,7 +15,7 @@ const OtherWaysToSendYourDocuments = () => {
   return (
     <div
       id="other-ways-to-send-documents"
-      className="other-ways-to-send-your-documents"
+      className="other-ways-to-send-your-documents scroll-anchor"
       data-testid="other-ways-to-send-documents"
     >
       <h2

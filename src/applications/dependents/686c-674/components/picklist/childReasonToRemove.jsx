@@ -59,7 +59,20 @@ const getChildRemovalOptions = (isStepchild, age, _firstName) => {
 
 const childReasonToRemove = {
   handlers: {
-    goForward: (/* { itemData, index, fullData } */) => 'DONE',
+    goForward: ({ itemData /* , index, fullData */ }) => {
+      switch (itemData.removalReason) {
+        case 'childMarried':
+          return 'child-marriage';
+        case 'childDied':
+          return 'child-death';
+        case 'childNotInSchool':
+        case 'stepchildNotMember':
+        case 'childAdopted':
+          return 'DONE';
+        default:
+          return 'DONE';
+      }
+    },
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called

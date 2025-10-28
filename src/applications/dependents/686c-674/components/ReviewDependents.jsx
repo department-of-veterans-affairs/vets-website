@@ -1,18 +1,41 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export const ReviewDependents = () => {
-  const formData = useSelector(state => {
-    return state?.form?.data || {};
-  });
+import { scrollToTop } from 'platform/utilities/scroll';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+
+import { showV3Picklist } from '../config/utilities';
+
+const ReviewDependents = ({
+  data = {},
+  setFormData,
+  goBack,
+  goForward,
+  contentBeforeButtons,
+  contentAfterButtons,
+}) => {
   const hasApiError = useSelector(state => state.dependents?.error || false);
 
-  const dependents = formData?.dependents?.awarded;
+  const dependents = data?.dependents?.awarded;
   const isDependentsArray = Array.isArray(dependents);
   const hasDependents = isDependentsArray && dependents.length > 0;
-
   // Check for API error or if dependents from prefill has an error
   const hasDependentError = hasApiError || !isDependentsArray;
+  const showPicklist = showV3Picklist(data);
+
+  useEffect(
+    () => {
+      scrollToTop();
+      if (showPicklist && (hasApiError || !hasDependents)) {
+        // Only allow adding dependents, not removing if dependents array is
+        // empty
+        setFormData({ ...data, 'view:addOrRemoveDependents': { add: true } });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [showPicklist, hasApiError, hasDependents],
+  );
 
   const renderDependentCard = (dependent, index) => {
     const { fullName, relationshipToVeteran, age } = dependent;
@@ -102,6 +125,21 @@ export const ReviewDependents = () => {
         </li>
         <li>Your child over age 18 is enrolled in school full-time</li>
       </ul>
+
+      {contentBeforeButtons}
+      <FormNavButtons goBack={goBack} goForward={goForward} useWebComponents />
+      {contentAfterButtons}
     </>
   );
 };
+
+ReviewDependents.propTypes = {
+  data: PropTypes.object.isRequired,
+  goBack: PropTypes.func.isRequired,
+  goForward: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
+};
+
+export default ReviewDependents;

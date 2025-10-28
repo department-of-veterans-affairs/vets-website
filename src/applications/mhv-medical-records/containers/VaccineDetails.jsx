@@ -167,13 +167,7 @@ const VaccineDetails = props => {
               id="vaccine-date"
             />
             {downloadStarted && <DownloadSuccessAlert />}
-            <PrintDownload
-              description="Vaccines Detail"
-              downloadPdf={generateVaccinePdf}
-              downloadTxt={generateVaccineTxt}
-            />
-            <DownloadingRecordsInfo description="Vaccines Detail" />
-            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+
             <div>
               {isAcceleratingVaccines && (
                 <LabelValue
@@ -231,6 +225,14 @@ const VaccineDetails = props => {
                 />
               )}
             </div>
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            <DownloadingRecordsInfo description="Vaccines Detail" />
+            <PrintDownload
+              description="Vaccines Detail"
+              downloadPdf={generateVaccinePdf}
+              downloadTxt={generateVaccineTxt}
+            />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px" />
           </HeaderSection>
         </>
       );

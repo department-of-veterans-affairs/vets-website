@@ -10,6 +10,7 @@ import reducer from '../../redux/reducer';
 import ComplexClaimSubmitFlowWrapper from '../../containers/ComplexClaimSubmitFlowWrapper';
 import ReviewPage from '../../components/complex-claims/pages/ReviewPage';
 import AgreementPage from '../../components/complex-claims/pages/AgreementPage';
+import ConfirmationPage from '../../components/complex-claims/pages/ConfirmationPage';
 
 describe('ComplexClaimSubmitFlowWrapper', () => {
   const oldLocation = global.window.location;
@@ -37,12 +38,18 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     initialState = {},
   ) => {
     return renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={[`/confirmation/${appointmentId}`]}>
+      <MemoryRouter
+        initialEntries={[
+          `/file-new-claim/complex/${appointmentId}/confirmation`,
+        ]}
+      >
         <Routes>
           <Route
-            path="/confirmation/:apptId/"
+            path="/file-new-claim/complex/:apptId/confirmation"
             element={<ComplexClaimSubmitFlowWrapper />}
-          />
+          >
+            <Route path="confirmation" element={<ConfirmationPage />} />
+          </Route>
         </Routes>
       </MemoryRouter>,
       {

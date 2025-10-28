@@ -1,6 +1,15 @@
 import { parseDateWithOffset } from '../utils/dates';
 import { SELECTED } from '../constants';
 
+export const tabToContinue = () => {
+  // Tabbing to keyboard-press buttons often doesn't work because they take
+  // a moment to load. The added wait may help.
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(100);
+  cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
+  cy.realPress('Space');
+};
+
 export const getRandomDate = (offset = Math.random() * 6) =>
   parseDateWithOffset({
     months: -Math.floor(3 + offset),

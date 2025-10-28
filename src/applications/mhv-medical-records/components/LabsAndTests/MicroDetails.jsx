@@ -120,12 +120,6 @@ ${record.results}`;
         />
 
         {downloadStarted && <DownloadSuccessAlert />}
-        <PrintDownload
-          description="L&TR Detail"
-          downloadPdf={generateMicrobiologyPdf}
-          downloadTxt={generateMicroTxt}
-        />
-        <DownloadingRecordsInfo description="L&TR Detail" />
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
@@ -183,6 +177,14 @@ ${record.results}`;
             </p>
           </HeaderSection>
         </div>
+        <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+        <DownloadingRecordsInfo description="L&TR Detail" />
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={generateMicrobiologyPdf}
+          downloadTxt={generateMicroTxt}
+        />
+        <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
       </HeaderSection>
     </div>
   );

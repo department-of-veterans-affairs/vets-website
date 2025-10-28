@@ -8,11 +8,27 @@
         "email": "john.doe@example.com",
         "loa": { "current": 3 },
         "first_name": "John",
-        "middle_name": "",
+        "middle_name": "Michael",
         "last_name": "Doe",
+        "user_full_name": {
+          "first": "John",
+          "middle": "Michael",
+          "last": "Doe",
+          "suffix": ""
+        },
         "gender": "M",
         "birth_date": "1985-01-01",
-        "verified": true
+        "dob": "19850101",
+        "ssn": "123456789",
+        "verified": true,
+        "mailing_address": {
+          "address_line1": "123 Main Street",
+          "address_line2": "Apt 4B",
+          "city": "Springfield",
+          "state_code": "IL",
+          "zip_code": "62701",
+          "country_code_iso3": "USA"
+        }
       },
       "veteran_status": {
         "status": "OK",
@@ -20,7 +36,7 @@
         "served_in_military": true
       },
       "in_progress_forms": [],
-      "prefills_available": [],
+      "prefills_available": ["21-2680"],
       "services": [
         "facilities",
         "hca",

@@ -117,6 +117,7 @@ const ReviewPage = ({ claim, message }) => {
   const [visible, setVisible] = useState(true);
   const onClose = () => setVisible(false);
   const addMoreExpenses = () => {
+    navigate(`/file-new-claim/complex/${apptId}/choose-expense`);
     // TODO Add logic to add more expenses
   };
 
@@ -150,7 +151,7 @@ const ReviewPage = ({ claim, message }) => {
                 {expense.expenseType === 'Mileage' && (
                   <ExpenseCard
                     expense={expense}
-                    editToRoute="../travel-agreement"
+                    editToRoute="../mileage"
                     header="Mileage expense"
                   />
                 )}

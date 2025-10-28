@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import {
@@ -11,7 +11,7 @@ import {
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import ExpenseCard from '../../../../components/complex-claims/pages/ExpenseCard';
 import reducer from '../../../../redux/reducer';
-import AgreementPage from '../../../../components/complex-claims/pages/AgreementPage';
+import Mileage from '../../../../components/complex-claims/pages/Mileage';
 
 describe('ExpenseCard', () => {
   const LocationDisplay = () => {
@@ -19,7 +19,7 @@ describe('ExpenseCard', () => {
     return <div data-testid="location-display">{location.pathname}</div>;
   };
 
-  const editRoute = '../travel-agreement'; // TODO: Update route once mileage route exists
+  const editRoute = '../mileage';
 
   const defaultExpense = {
     id: 'expense1',
@@ -40,7 +40,7 @@ describe('ExpenseCard', () => {
   // Helper to render the component with router + store
   const renderExpenseCard = (
     expense = defaultExpense,
-    editToRoute = '/travel-agreement',
+    editToRoute = editRoute,
   ) =>
     renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/review']}>
@@ -103,21 +103,29 @@ describe('ExpenseCard', () => {
     expect(getByText('Round trip')).to.exist;
   });
 
-  it('delete button calls deleteExpense function', () => {
+  it('opens the delete modal and calls deleteExpense on confirm', async () => {
     const consoleSpy = sinon.spy(console, 'log');
-
     const { container } = renderExpenseCard();
 
+    // Click delete button to open modal
     const deleteButton = container.querySelector('va-button-icon');
     expect(deleteButton).to.exist;
-
     fireEvent.click(deleteButton);
 
-    expect(
-      consoleSpy.calledWith(
-        `Delete clicked for expense id: ${defaultExpense.id}`,
-      ),
-    ).to.be.true;
+    // The modal should now be visible
+    const modal = container.querySelector('va-modal');
+    expect(modal).to.exist;
+
+    // Simulate confirm (primary button) click on modal
+    modal.__events.primaryButtonClick();
+
+    await waitFor(() => {
+      expect(
+        consoleSpy.calledWith(
+          `Delete clicked for expense id: ${defaultExpense.id}`,
+        ),
+      ).to.be.true;
+    });
 
     consoleSpy.restore();
   });
@@ -137,7 +145,7 @@ describe('ExpenseCard', () => {
               />
             }
           />
-          <Route path="/travel-agreement" element={<AgreementPage />} />
+          <Route path="/mileage" element={<Mileage />} />
         </Routes>
         <LocationDisplay />
       </MemoryRouter>,
@@ -150,8 +158,6 @@ describe('ExpenseCard', () => {
     fireEvent.click(editLink);
 
     // Assert navigation happened
-    expect(getByTestId('location-display').textContent).to.equal(
-      '/travel-agreement',
-    );
+    expect(getByTestId('location-display').textContent).to.equal('/mileage');
   });
 });

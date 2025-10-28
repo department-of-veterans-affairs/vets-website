@@ -11,12 +11,12 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.associatedOfficialsChapter.pages.authorizingOfficialNew;
+} = formConfig.chapters.associatedOfficialsChapter.pages.authorizedOfficialNew;
 
 const mockStore = configureStore();
 
 describe('New Commitment Chapter = Authorized Official Page', () => {
-  const renderPage = (formData = { authorizingOfficial: {} }) => {
+  const renderPage = (formData = { authorizedOfficial: {} }) => {
     const store = mockStore({ form: { data: formData } });
     return render(
       <Provider store={store}>

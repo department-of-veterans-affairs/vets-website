@@ -1,19 +1,8 @@
-import { ReviewDependents } from '../../../components/ReviewDependents';
-
 export default {
-  uiSchema: {
-    'view:reviewDependents': {
-      'ui:description': ReviewDependents,
-    },
-  },
+  uiSchema: {},
 
   schema: {
     type: 'object',
-    properties: {
-      'view:reviewDependents': {
-        type: 'object',
-        properties: {},
-      },
-    },
+    properties: {},
   },
 };

@@ -40,6 +40,12 @@ describe('<OtherWaysToSendYourDocuments>', () => {
         ),
       ).to.exist;
     });
+
+    it('should have the scroll-anchor class for accessibility', () => {
+      const mainDiv = container.querySelector('#other-ways-to-send-documents');
+      expect(mainDiv).to.exist;
+      expect(mainDiv).to.have.class('scroll-anchor');
+    });
   });
 
   describe('Mail Section', () => {
