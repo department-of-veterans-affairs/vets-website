@@ -77,6 +77,7 @@ export const IntroductionPage = ({ router }) => {
       </p>
 
       <VaLinkAction
+        data-testid="start-nursing-home-info-link"
         onClick={e => {
           e.preventDefault();
           router.push('/nursing-official-information');
