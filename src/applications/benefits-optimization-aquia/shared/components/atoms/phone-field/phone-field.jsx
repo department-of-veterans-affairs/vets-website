@@ -6,7 +6,7 @@ import { useFieldValidation } from '../../../hooks/use-field-validation';
  * Phone number input field with specialized VA telephone web component.
  * Simplified to leverage native VA component validation.
  * Uses native va-telephone-input for editing and va-telephone for display.
- * Defaults to US phone numbers without country selector.
+ * Defaults to US phone numbers with country selector shown.
  *
  * @caution va-telephone-input is currently v1 and marked "Use with Caution" in VA Design System - v3 migration pending
  *
@@ -26,7 +26,7 @@ import { useFieldValidation } from '../../../hooks/use-field-validation';
  * @param {string} [props.extension] - Phone extension number for display mode
  * @param {string} [props.error] - External error message to display
  * @param {boolean} [props.forceShowError=false] - Force display of validation errors even if untouched
- * @param {boolean} [props.showCountrySelector=false] - Show country code selector (defaults to US +1)
+ * @param {boolean} [props.showCountrySelector=true] - Show country code selector (defaults to US +1)
  * @returns {JSX.Element} VA telephone web component for input or display
  */
 export const PhoneField = ({
@@ -41,7 +41,7 @@ export const PhoneField = ({
   extension,
   error: externalError,
   forceShowError = false,
-  showCountrySelector: _showCountrySelector = false,
+  showCountrySelector = true,
   ..._props
 }) => {
   const phoneRef = useRef(null);
@@ -116,6 +116,8 @@ export const PhoneField = ({
     );
   }
 
+  const noCountry = showCountrySelector ? undefined : 'true';
+
   return (
     <va-telephone-input
       {..._props}
@@ -126,7 +128,7 @@ export const PhoneField = ({
       contact={value || ''}
       required={required}
       hint={hint || 'Enter 10-digit phone number'}
-      no-country="true"
+      no-country={noCountry}
       country="US"
       error={shouldShowError ? displayError : null}
       onBlur={handleBlur}

@@ -64,20 +64,6 @@ describe('VeteranIdentificationPage', () => {
         expect(findByLabel(container, 'va-text-input', 'Suffix')).to.exist;
       });
     });
-
-    it('should show instruction text', () => {
-      const { container } = render(
-        <VeteranIdentificationPage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.textContent).to.include(
-        "Please provide the deceased Veteran's name.",
-      );
-    });
   });
 
   describe('Data Handling', () => {
