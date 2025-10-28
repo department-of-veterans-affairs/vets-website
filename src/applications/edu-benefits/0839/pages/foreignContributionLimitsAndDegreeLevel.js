@@ -3,9 +3,11 @@ import {
   textUI,
   radioUI,
   currencyUI,
+  selectUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
-import DegreeLevelDescription from '../components/DegreeLevelDescription';
+import { CURRENCY_ENUM, CURRENCY_LABELS } from '../constants';
 
 const uiSchema = {
   'ui:title': () => <YellowRibbonProgramTitle text="Provide your" />,
@@ -65,32 +67,28 @@ const uiSchema = {
       expandUnderCondition: 'specific',
     },
   },
-
   degreeLevel: {
     ...textUI({
       title: 'Degree level',
-      description: <DegreeLevelDescription />,
+      description: `Provide a degree level such as undergraduate, graduate, doctoral, or all.`,
       errorMessages: {
         required: 'Please enter a degree level',
       },
     }),
     'ui:options': {
-      classNames:
-        'vads-u-margin-bottom--2 contribution-degree-school container',
+      classNames: 'vads-u-margin-bottom--2 degree-level',
     },
   },
-  collegeOrProfessionalSchool: {
-    ...textUI({
-      title: 'College or professional school',
+  schoolCurrency: {
+    ...selectUI({
+      title: 'Select the official currency used for school billing',
       description:
-        'Do not list specific degree programs (such as Master of Business Administration, Juris Doctorate, Bachelor of Science in Nursing).',
-      errorMessages: {
-        required: 'Enter the college or professional school name',
-      },
+        "We'll convert this to U.S. dollars using the official exchange rate.",
+      errorMessages: { required: 'Please make a selection' },
     }),
+
     'ui:options': {
-      classNames:
-        'vads-u-margin-bottom--2 contribution-degree-school container',
+      labels: CURRENCY_LABELS,
     },
   },
   maximumContributionAmount: {
@@ -112,7 +110,7 @@ const uiSchema = {
       },
     }),
     'ui:options': {
-      classNames: 'vads-u-margin-bottom--2 container',
+      classNames: 'vads-u-margin-bottom--2',
     },
   },
   specificContributionAmount: {
@@ -133,6 +131,7 @@ const uiSchema = {
       classNames: 'vads-u-margin-bottom--2 container',
       expandUnder: 'maximumContributionAmount',
       expandUnderCondition: 'specific',
+      currencySymbol: ' ',
     },
   },
 };
@@ -155,8 +154,9 @@ const schema = {
     degreeLevel: {
       type: 'string',
     },
-    collegeOrProfessionalSchool: {
+    schoolCurrency: {
       type: 'string',
+      enum: CURRENCY_ENUM,
     },
     maximumContributionAmount: {
       type: 'string',
@@ -167,14 +167,14 @@ const schema = {
       ],
     },
     specificContributionAmount: {
-      type: 'string',
-      pattern: '^\\d*(\\.\\d{1,2})?$',
+      type: 'number',
+      minimum: 0,
     },
   },
   required: [
     'degreeLevel',
     'maximumContributionAmount',
-    'collegeOrProfessionalSchool',
+    'schoolCurrency',
     'maximumStudentsOption',
     'specificContributionAmount',
   ],
