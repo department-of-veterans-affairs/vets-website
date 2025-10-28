@@ -25,7 +25,7 @@ const options = {
   arrayPath: 'survivingRelatives',
   nounSingular: 'relative',
   nounPlural: 'relatives',
-  required: false,
+  required: true,
   isItemIncomplete: item => !item?.fullName || !item?.relationship,
   maxItems: 4,
   text: {
