@@ -24,7 +24,7 @@ const HealthCareSettings = () => {
       <va-card background>
         <h3 slot="headline">Looking for your full health care information?</h3>
         <p>
-          Visit the <va-link href="/my-health/">My HealtheVet</va-link> page for
+          Visit the <va-link href="/my-health/" text="My HealtheVet" /> page for
           all your health care needs.
         </p>
       </va-card>
