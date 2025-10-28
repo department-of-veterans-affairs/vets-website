@@ -48,9 +48,7 @@ export const CompleteReferral = () => {
     data: referral,
     error: referralError,
     isLoading: isReferralLoading,
-  } = useGetReferralByIdQuery(id, {
-    skip: !id,
-  });
+  } = useGetReferralByIdQuery(id);
 
   const currentReferral = referral?.attributes;
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);

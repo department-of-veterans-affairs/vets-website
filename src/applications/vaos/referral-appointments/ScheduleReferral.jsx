@@ -24,9 +24,7 @@ export default function ScheduleReferral() {
   const params = new URLSearchParams(search);
   const id = params.get('id');
 
-  const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
-    skip: !id,
-  });
+  const { data: referral, error, isLoading } = useGetReferralByIdQuery(id);
 
   const currentReferral = referral?.attributes;
   const selectedSlotKey = currentReferral
