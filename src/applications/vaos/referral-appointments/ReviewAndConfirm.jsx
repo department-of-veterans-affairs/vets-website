@@ -24,6 +24,7 @@ import { getReferralSlotKey } from './utils/referrals';
 import { getSlotByDate } from './utils/provider';
 import { stripDST } from '../utils/timezone';
 import FindCommunityCareOfficeLink from './components/FindCCFacilityLink';
+import ReferralErrorLayout from './components/ReferralErrorLayout';
 import { titleCase } from '../utils/formatters';
 
 const ReviewAndConfirm = () => {
@@ -35,11 +36,7 @@ const ReviewAndConfirm = () => {
   const params = new URLSearchParams(search);
   const id = params.get('id');
 
-  const {
-    data: referral,
-    error: referralError,
-    isLoading: isReferralLoading,
-  } = useGetReferralByIdQuery(id);
+  const { data: referral, error: referralError } = useGetReferralByIdQuery(id);
 
   const currentReferral = referral?.attributes;
   const selectedSlot = useSelector(state => getSelectedSlotStartTime(state));
@@ -177,31 +174,9 @@ const ReviewAndConfirm = () => {
     ],
   );
 
-  // Handle referral loading and error states
-  if (isReferralLoading) {
-    return (
-      <ReferralLayout
-        loadingMessage="Loading your appointment details..."
-        hasEyebrow
-        heading="Review your appointment details"
-      />
-    );
-  }
-
   if (referralError || !currentReferral) {
     return (
-      <ReferralLayout
-        hasEyebrow
-        heading="We're sorry. We've run into a problem"
-      >
-        <div>
-          <p>
-            We’re having trouble getting your appointment details. Please try
-            again later or call your facility’s community care office.
-          </p>
-          <FindCommunityCareOfficeLink />
-        </div>
-      </ReferralLayout>
+      <ReferralErrorLayout message="We're having trouble getting your appointment details. Please try again later or call your facility's community care office." />
     );
   }
 
