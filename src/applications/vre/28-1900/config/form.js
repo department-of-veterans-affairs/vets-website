@@ -65,7 +65,7 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
-  useCustomScrollAndFocus: true,
+  // useCustomScrollAndFocus: true,
   preSubmitInfo,
   chapters: {
     yourInformationChapter: {
