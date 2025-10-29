@@ -85,7 +85,6 @@ describe('Pensions — Disability Rating Alert', () => {
 
   it('renders no alert when rating is less than 100', () => {
     cy.intercept('GET', DISABILITY_RATING_URL, {
-      // eslint-disable-next-line camelcase
       combinedDisabilityRating: 70,
     });
 
