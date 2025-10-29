@@ -61,3 +61,14 @@ export const IncomeAssetStatementFormAlert = () => (
     formLink="https://www.va.gov/find-forms/about-form-21p-0969/"
   />
 );
+
+export const CourtOrderSeparationAlert = () => (
+  <va-alert-expandable
+    status="warning"
+    trigger="You'll need to submit a copy of the court order."
+    disable-border="true"
+  >
+    We’ll ask you to upload this document at the end of this application. Or you
+    can send it to us by mail.
+  </va-alert-expandable>
+);

@@ -21,6 +21,7 @@ import {
   eligibleIndividualsSupported,
   yellowRibbonProgramRequestSummary,
   contributionLimitsAndDegreeLevel,
+  foreignContributionLimitsAndDegreeLevel,
 } from '../pages';
 import { additionalInstitutionDetailsArrayOptions } from '../helpers';
 
@@ -181,6 +182,18 @@ const formConfig = {
               path: 'yellow-ribbon-program-request/:index/contribution-limits',
               uiSchema: contributionLimitsAndDegreeLevel.uiSchema,
               schema: contributionLimitsAndDegreeLevel.schema,
+              depends: formData => !!formData?.institutionDetails?.isUsaSchool,
+              pageClass: 'ypr-no-expander-border',
+            }),
+            foreignContributionLimitsAndDegreeLevel: pageBuilder.itemPage({
+              title: 'Contribution limits and degree level',
+              path:
+                'yellow-ribbon-program-request/:index/contribution-limits-foreign',
+              uiSchema: foreignContributionLimitsAndDegreeLevel.uiSchema,
+              schema: foreignContributionLimitsAndDegreeLevel.schema,
+              depends: formData =>
+                formData?.institutionDetails?.isUsaSchool === false,
+              pageClass: 'ypr-no-expander-border',
             }),
           }),
         ),
