@@ -79,13 +79,13 @@ Form1995Entry.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+  setFormData: PropTypes.func.isRequired,
   claimantCurrentBenefit: PropTypes.string,
   formData: PropTypes.object,
   location: PropTypes.object,
   mergeFlag: PropTypes.bool,
   rerouteFlag: PropTypes.bool,
   rudisillFlag: PropTypes.bool,
-  setFormData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

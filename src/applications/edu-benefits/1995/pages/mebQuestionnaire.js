@@ -1,4 +1,43 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+// Map benefit type codes to full descriptions
+const BENEFIT_TYPE_LABELS = {
+  // Post-9/11 GI Bill variants
+  chapter33: 'Post-9/11 GI Bill (PGIB, Chapter 33)',
+  CH33: 'Post-9/11 GI Bill (PGIB, Chapter 33)',
+  CH33_TOE:
+    'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
+  CH33_FRY: 'Fry Scholarship (Chapter 33)',
+
+  // Montgomery GI Bill Active Duty
+  chapter30: 'Montgomery GI Bill (MGIB-AD, Chapter 30)',
+  CH30: 'Montgomery GI Bill (MGIB-AD, Chapter 30)',
+
+  // Montgomery GI Bill Selected Reserve
+  chapter1606: 'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
+  CH1606: 'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
+
+  // Dependents' Education Assistance
+  chapter35: "Dependents' Education Assistance (DEA, Chapter 35)",
+  CH35: "Dependents' Education Assistance (DEA, Chapter 35)",
+  DEA: "Dependents' Education Assistance (DEA, Chapter 35)",
+
+  // Legacy mappings (for backward compatibility)
+  transferOfEntitlement:
+    'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
+  TOE:
+    'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
+  fryScholarship: 'Fry Scholarship (Chapter 33)',
+  FRY: 'Fry Scholarship (Chapter 33)',
+};
+
+const getBenefitLabel = benefitType => {
+  if (!benefitType) {
+    return "We couldn't load your current benefit.";
+  }
+  return BENEFIT_TYPE_LABELS[benefitType] || benefitType;
+};
 
 const ResultDescription = ({ body, linkHref, linkText, answers }) => (
   <div>
@@ -22,8 +61,7 @@ export const yourInformationPage = () => ({
       <div className="vads-u-margin-bottom--4">
         <va-summary-box headline="Your current benefit">
           <p className="vads-u-margin--0">
-            {formData?.currentBenefitType ||
-              'We couldn’t load your current benefit.'}
+            {getBenefitLabel(formData?.currentBenefitType)}
           </p>
         </va-summary-box>
         <p className="vads-u-margin-top--2">
@@ -240,3 +278,10 @@ export const fryResultPage = () =>
       'You want to change your current benefit to the Fry Scholarship (Chapter 33)',
     ],
   });
+
+ResultDescription.propTypes = {
+  body: PropTypes.string.isRequired,
+  linkHref: PropTypes.string,
+  linkText: PropTypes.string,
+  answers: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
