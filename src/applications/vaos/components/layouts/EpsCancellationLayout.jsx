@@ -29,16 +29,20 @@ export default function EpsCancellationLayout({
           />
         </Section>
         {/* Is it possible to get typeOfCare? Maybe from Referral? */}
-        {appointment.typeOfCare && (
-          <Section heading="What">
+        <Section heading="What">
+          {appointment.typeOfCare ? (
             <p
               className="vads-u-margin-top--0 vads-u-margin-bottom--0"
               data-dd-privacy="mask"
             >
               {appointment.typeOfCare}
             </p>
-          </Section>
-        )}
+          ) : (
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              Type of care not available
+            </p>
+          )}
+        </Section>
         <Section heading="Who">
           {appointment.provider?.name ? (
             <p
