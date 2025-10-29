@@ -142,8 +142,8 @@ describe('Travel Pay – IntroductionPage', () => {
     );
   });
 
-  it('renders respondent burden, OMB info, and VA buttons', () => {
-    const { getByText } = renderWithStoreAndRouter(
+  it('renders OMB info', () => {
+    const { container } = renderWithStoreAndRouter(
       <MemoryRouter initialEntries={[initialRoute]}>
         <IntroductionPage />
       </MemoryRouter>,
@@ -153,14 +153,9 @@ describe('Travel Pay – IntroductionPage', () => {
       },
     );
 
-    expect(getByText(/Respondent burden/i)).to.exist;
-    expect(getByText(/OMB Control/i)).to.exist;
-    expect(getByText(/Expiration date/i)).to.exist;
-
-    const privacyButton = $('va-button[text="View Privacy Act Statement"]');
-    const feedbackButton = $('va-button[text="Feedback"]');
-    expect(privacyButton).to.exist;
-    expect(feedbackButton).to.exist;
+    expect($('va-omb-info[exp-date="11/30/2027"]'), container).to.exist;
+    expect($('va-omb-info[omb-number="2900-0798"]'), container).to.exist;
+    expect($('va-omb-info[res-burden="15"]'), container).to.exist;
   });
 
   it('renders the Need help section with contact info', () => {
