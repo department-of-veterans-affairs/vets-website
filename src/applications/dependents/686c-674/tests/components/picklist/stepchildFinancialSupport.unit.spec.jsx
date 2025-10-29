@@ -169,8 +169,28 @@ describe('stepchildFinancialSupport', () => {
   });
 
   context('stepchildFinancialSupport handlers', () => {
-    it('should return "DONE" on goForward', () => {
-      expect(stepchildFinancialSupport.handlers.goForward()).to.equal('DONE');
+    it('should return "stepchild-financial-support-exit" when providing financial support', () => {
+      expect(
+        stepchildFinancialSupport.handlers.goForward({
+          itemData: { stepchildFinancialSupport: 'Y' },
+        }),
+      ).to.equal('stepchild-financial-support-exit');
+    });
+
+    it('should return "DONE" when not providing financial support', () => {
+      expect(
+        stepchildFinancialSupport.handlers.goForward({
+          itemData: { stepchildFinancialSupport: 'N' },
+        }),
+      ).to.equal('DONE');
+    });
+
+    it('should return "DONE" when financial support value is not set', () => {
+      expect(
+        stepchildFinancialSupport.handlers.goForward({
+          itemData: {},
+        }),
+      ).to.equal('DONE');
     });
 
     it('should call goForward when financial support value is set on submit', () => {

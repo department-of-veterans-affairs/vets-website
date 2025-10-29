@@ -7,6 +7,7 @@ import spouseDeath from './spouseDeath';
 import childIsStepChild from './childIsStepchild';
 import childReasonToRemove from './childReasonToRemove';
 import stepchildFinancialSupport from './stepchildFinancialSupport';
+import stepchildFinancialSupportExit from './stepchildFinancialSupportExit';
 import childMarriage from './childMarriage';
 import childDeath from './childDeath';
 
@@ -34,6 +35,10 @@ export const routing = {
     { path: 'is-stepchild', page: childIsStepChild },
     { path: 'child-reason-to-remove', page: childReasonToRemove },
     { path: 'stepchild-financial-support', page: stepchildFinancialSupport },
+    {
+      path: 'stepchild-financial-support-exit',
+      page: stepchildFinancialSupportExit,
+    },
     { path: 'child-marriage', page: childMarriage },
     { path: 'child-death', page: childDeath },
   ],

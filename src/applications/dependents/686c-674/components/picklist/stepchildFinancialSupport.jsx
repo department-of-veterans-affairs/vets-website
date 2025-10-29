@@ -11,7 +11,14 @@ import { CancelButton } from '../../config/helpers';
 
 const stepchildFinancialSupport = {
   handlers: {
-    goForward: (/* { itemData, index, fullData } */) => 'DONE',
+    goForward: ({ itemData /* , index, fullData */ }) => {
+      // If providing financial support, stepchild remains eligible
+      if (itemData.stepchildFinancialSupport === 'Y') {
+        return 'stepchild-financial-support-exit';
+      }
+      // If not providing financial support, proceed with removal
+      return 'DONE';
+    },
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
@@ -51,7 +58,6 @@ const stepchildFinancialSupport = {
    */
   Component: ({
     itemData,
-    _fullName,
     formSubmitted,
     firstName,
     handlers,
