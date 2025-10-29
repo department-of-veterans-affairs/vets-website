@@ -4,11 +4,8 @@
  */
 
 import { expect } from 'chai';
+import { fullNameSchema } from '@bio-aquia/shared/schemas/name';
 import {
-  veteranFirstNameSchema,
-  veteranMiddleNameSchema,
-  veteranLastNameSchema,
-  veteranFullNameSchema,
   veteranSSNSchema,
   veteranFileNumberSchema,
   veteranServiceNumberSchema,
@@ -18,117 +15,6 @@ import {
 } from './veteran-identification';
 
 describe('Veteran Identification Validation Schemas', () => {
-  describe('veteranFirstNameSchema', () => {
-    it('should validate valid first name', () => {
-      const result = veteranFirstNameSchema.safeParse('Rex');
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate first name with hyphen', () => {
-      const result = veteranFirstNameSchema.safeParse('Obi-Wan');
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate first name with apostrophe', () => {
-      const result = veteranFirstNameSchema.safeParse("Ka'haral");
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate first name with space', () => {
-      const result = veteranFirstNameSchema.safeParse('Ahsoka Tano');
-      expect(result.success).to.be.true;
-    });
-
-    it('should reject empty first name', () => {
-      const result = veteranFirstNameSchema.safeParse('');
-      expect(result.success).to.be.false;
-      expect(result.error.errors[0].message).to.equal('First name is required');
-    });
-
-    it('should reject first name over 30 characters', () => {
-      const result = veteranFirstNameSchema.safeParse('A'.repeat(31));
-      expect(result.success).to.be.false;
-      expect(result.error.errors[0].message).to.include(
-        'must be less than 30 characters',
-      );
-    });
-
-    it('should reject first name with numbers', () => {
-      const result = veteranFirstNameSchema.safeParse('John123');
-      expect(result.success).to.be.false;
-    });
-
-    it('should reject first name with special characters', () => {
-      const result = veteranFirstNameSchema.safeParse('John@Doe');
-      expect(result.success).to.be.false;
-    });
-  });
-
-  describe('veteranMiddleNameSchema', () => {
-    it('should validate valid middle name', () => {
-      const result = veteranMiddleNameSchema.safeParse('Fives');
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate empty middle name', () => {
-      const result = veteranMiddleNameSchema.safeParse('');
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate undefined middle name', () => {
-      const result = veteranMiddleNameSchema.safeParse(undefined);
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate middle name with hyphen', () => {
-      const result = veteranMiddleNameSchema.safeParse('Anne-Marie');
-      expect(result.success).to.be.true;
-    });
-
-    it('should reject middle name over 30 characters', () => {
-      const result = veteranMiddleNameSchema.safeParse('A'.repeat(31));
-      expect(result.success).to.be.false;
-    });
-
-    it('should reject middle name with numbers', () => {
-      const result = veteranMiddleNameSchema.safeParse('Middle123');
-      expect(result.success).to.be.false;
-    });
-  });
-
-  describe('veteranLastNameSchema', () => {
-    it('should validate valid last name', () => {
-      const result = veteranLastNameSchema.safeParse('Fett');
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate last name with hyphen', () => {
-      const result = veteranLastNameSchema.safeParse('Smith-Jones');
-      expect(result.success).to.be.true;
-    });
-
-    it('should validate last name with apostrophe', () => {
-      const result = veteranLastNameSchema.safeParse("O'Connor");
-      expect(result.success).to.be.true;
-    });
-
-    it('should reject empty last name', () => {
-      const result = veteranLastNameSchema.safeParse('');
-      expect(result.success).to.be.false;
-      expect(result.error.errors[0].message).to.equal('Last name is required');
-    });
-
-    it('should reject last name over 30 characters', () => {
-      const result = veteranLastNameSchema.safeParse('A'.repeat(31));
-      expect(result.success).to.be.false;
-    });
-
-    it('should reject last name with numbers', () => {
-      const result = veteranLastNameSchema.safeParse('Smith123');
-      expect(result.success).to.be.false;
-    });
-  });
-
   describe('veteranSSNSchema', () => {
     it('should validate valid SSN', () => {
       const result = veteranSSNSchema.safeParse('123456789');
@@ -324,14 +210,14 @@ describe('Veteran Identification Validation Schemas', () => {
     });
   });
 
-  describe('veteranFullNameSchema', () => {
+  describe('fullNameSchema (used as veteranFullName)', () => {
     it('should validate complete name', () => {
       const data = {
         first: 'Boba',
         middle: 'Tiberius',
         last: 'Fett',
       };
-      const result = veteranFullNameSchema.safeParse(data);
+      const result = fullNameSchema.safeParse(data);
       expect(result.success).to.be.true;
     });
 
@@ -341,7 +227,7 @@ describe('Veteran Identification Validation Schemas', () => {
         middle: '',
         last: 'Fett',
       };
-      const result = veteranFullNameSchema.safeParse(data);
+      const result = fullNameSchema.safeParse(data);
       expect(result.success).to.be.true;
     });
 
@@ -351,7 +237,7 @@ describe('Veteran Identification Validation Schemas', () => {
         middle: 'Middle',
         last: 'Last',
       };
-      const result = veteranFullNameSchema.safeParse(data);
+      const result = fullNameSchema.safeParse(data);
       expect(result.success).to.be.false;
     });
 
@@ -361,7 +247,7 @@ describe('Veteran Identification Validation Schemas', () => {
         middle: 'Middle',
         last: '',
       };
-      const result = veteranFullNameSchema.safeParse(data);
+      const result = fullNameSchema.safeParse(data);
       expect(result.success).to.be.false;
     });
   });
@@ -369,9 +255,11 @@ describe('Veteran Identification Validation Schemas', () => {
   describe('veteranIdentificationSchema', () => {
     it('should validate complete veteran identification', () => {
       const data = {
-        veteranFirstName: 'Boba',
-        veteranMiddleName: 'Tiberius',
-        veteranLastName: 'Fett',
+        veteranFullName: {
+          first: 'Boba',
+          middle: 'Tiberius',
+          last: 'Fett',
+        },
         veteranSSN: '123-45-6789',
         veteranFileNumber: '12345678',
         veteranServiceNumber: 'SVC123456',
@@ -384,9 +272,11 @@ describe('Veteran Identification Validation Schemas', () => {
 
     it('should validate without optional fields', () => {
       const data = {
-        veteranFirstName: 'Boba',
-        veteranMiddleName: '',
-        veteranLastName: 'Fett',
+        veteranFullName: {
+          first: 'Boba',
+          middle: '',
+          last: 'Fett',
+        },
         veteranSSN: '123456789',
         veteranFileNumber: '',
         veteranServiceNumber: '',
@@ -399,9 +289,11 @@ describe('Veteran Identification Validation Schemas', () => {
 
     it('should reject missing first name', () => {
       const data = {
-        veteranFirstName: '',
-        veteranMiddleName: '',
-        veteranLastName: 'Fett',
+        veteranFullName: {
+          first: '',
+          middle: '',
+          last: 'Fett',
+        },
         veteranSSN: '123456789',
         veteranFileNumber: '',
         veteranServiceNumber: '',
@@ -414,9 +306,11 @@ describe('Veteran Identification Validation Schemas', () => {
 
     it('should reject missing last name', () => {
       const data = {
-        veteranFirstName: 'Boba',
-        veteranMiddleName: '',
-        veteranLastName: '',
+        veteranFullName: {
+          first: 'Boba',
+          middle: '',
+          last: '',
+        },
         veteranSSN: '123456789',
         veteranFileNumber: '',
         veteranServiceNumber: '',
@@ -429,9 +323,11 @@ describe('Veteran Identification Validation Schemas', () => {
 
     it('should reject missing SSN', () => {
       const data = {
-        veteranFirstName: 'Boba',
-        veteranMiddleName: '',
-        veteranLastName: 'Fett',
+        veteranFullName: {
+          first: 'Boba',
+          middle: '',
+          last: 'Fett',
+        },
         veteranSSN: '',
         veteranFileNumber: '',
         veteranServiceNumber: '',
@@ -444,9 +340,11 @@ describe('Veteran Identification Validation Schemas', () => {
 
     it('should reject missing DOB', () => {
       const data = {
-        veteranFirstName: 'Boba',
-        veteranMiddleName: '',
-        veteranLastName: 'Fett',
+        veteranFullName: {
+          first: 'Boba',
+          middle: '',
+          last: 'Fett',
+        },
         veteranSSN: '123456789',
         veteranFileNumber: '',
         veteranServiceNumber: '',
@@ -459,9 +357,11 @@ describe('Veteran Identification Validation Schemas', () => {
 
     it('should reject missing claimant status', () => {
       const data = {
-        veteranFirstName: 'Boba',
-        veteranMiddleName: '',
-        veteranLastName: 'Fett',
+        veteranFullName: {
+          first: 'Boba',
+          middle: '',
+          last: 'Fett',
+        },
         veteranSSN: '123456789',
         veteranFileNumber: '',
         veteranServiceNumber: '',
@@ -473,9 +373,11 @@ describe('Veteran Identification Validation Schemas', () => {
 
     it('should reject invalid SSN format', () => {
       const data = {
-        veteranFirstName: 'Boba',
-        veteranMiddleName: '',
-        veteranLastName: 'Fett',
+        veteranFullName: {
+          first: 'Boba',
+          middle: '',
+          last: 'Fett',
+        },
         veteranSSN: '12345',
         veteranFileNumber: '',
         veteranServiceNumber: '',
@@ -490,9 +392,11 @@ describe('Veteran Identification Validation Schemas', () => {
       const futureDate = new Date();
       futureDate.setFullYear(futureDate.getFullYear() + 1);
       const data = {
-        veteranFirstName: 'Boba',
-        veteranMiddleName: '',
-        veteranLastName: 'Fett',
+        veteranFullName: {
+          first: 'Boba',
+          middle: '',
+          last: 'Fett',
+        },
         veteranSSN: '123456789',
         veteranFileNumber: '',
         veteranServiceNumber: '',
@@ -505,9 +409,11 @@ describe('Veteran Identification Validation Schemas', () => {
 
     it('should reject multiple invalid fields and provide all errors', () => {
       const data = {
-        veteranFirstName: '',
-        veteranMiddleName: '',
-        veteranLastName: '',
+        veteranFullName: {
+          first: '',
+          middle: '',
+          last: '',
+        },
         veteranSSN: '123',
         veteranFileNumber: '123',
         veteranServiceNumber: 'A'.repeat(30),

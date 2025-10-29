@@ -54,20 +54,201 @@ The first page a Veteran sees when they enter the form from the introduction pag
 
 The way we do this in the code is by using the `depends` attribute for the optional chapters inside `/config/form.js` along with a helper method called [isChapterFieldRequired](https://github.com/department-of-veterans-affairs/vets-website/blob/a4babda01dac9cbb30feded94e92ea8f557b69be/src/applications/disability-benefits/686c-674/config/helpers.js#L7) and passing in the `formData` object and the name of that respective chapter. The `isChapterFieldRequired` function then checks if the Veteran selected the task in the wizard associated with that chapter, which we hold in the `formData["view:selectable686Options"]` array in the form data and returns `true` and shows that chapter if it corresponds to a task the Veteran selected.
 
-### Array Builder Implementation
+## Array Builder Implementation
 
-This version of the form relies heavily on the latest List and Loop pattern, known to engineering as the Array Builder. There are 7 total arrays built by this pattern and used in this form. They are built into the following sections:
+### Overview
 
-- addSpouse > veteranMarriageHistory
-- addSpouse > spouseMarriageHistory
-- addChildren
-- addStudents
-- removeStepchild (or child who no longer lives w/ Veteran)
-- removeDeceased
-- removeMarriedChild
-- removeChildNoLongerInSchool
+This form implementation uses the Array Builder pattern (also known as the List and Loop pattern). The form contains seven distinct arrays across the following sections:
 
-Note: This pattern is a work in progress and some features from previous patterns aren't supported here. This can include RJSF helpers like 'expandUnder'. These features and others will be supported in the near future, as the Veteran Facing Forms teams rolls out updates.
+- `addSpouse > veteranMarriageHistory`
+- `addSpouse > spouseMarriageHistory`
+- `addChildren`
+- `addStudents`
+- `removeStepchild` (child no longer living with veteran)
+- `removeDeceased`
+- `removeMarriedChild`
+- `removeChildNoLongerInSchool`
+
+**Note:** The Array Builder pattern is actively evolving. Some features from previous patterns (such as RJSF helpers like `expandUnder`) are not yet fully supported but will be added in upcoming releases by the Veteran Facing Forms team.
+
+### Best Practices
+
+#### 1. Form Data Structure in Add vs. Edit Mode
+
+The data structure differs between Add and Edit modes:
+
+**Add Mode** (initial iteration)
+- Access to complete `formData` including all fields and arrays
+- Example structure:
+```javascript
+formData: {
+  ...everyOtherFieldAndArrayData,
+  childrenToAdd: [
+    {
+      ...childData,
+    },
+  ],
+}
+```
+
+**Edit Mode** (modifying existing items)
+- Access limited to the specific array item being edited
+- Example structure:
+```javascript
+formData: {
+  ...childData,
+}
+```
+
+This distinction is critical when implementing functions that rely on `formData`. For instance, conditional logic using `hideIf` must account for both modes:
+
+```javascript
+'view:adoptedAdditionalEvidenceDescription': {
+  'ui:description': AdoptedAdditionalEvidence,
+  'ui:options': {
+    hideIf: (formData, index) => {
+      const addMode = formData?.childrenToAdd?.[index]?.relationshipToChild;
+      const editMode = formData?.relationshipToChild;
+      return !(addMode?.adopted || editMode?.adopted);
+    },
+  },
+},
+```
+
+#### 2. Conditionally Required Fields
+
+Array Builder requires a different approach for conditionally required fields compared to standard form pages. The standard method of using `ui:required` with a function can cause inconsistent validation behavior across Add and Edit modes.
+
+**Standard approach (unreliable with Array Builder):**
+
+```javascript
+uiSchema: {
+  reasonMarriageEnded: radioUI({
+    title: 'How did your spouse's previous marriage end?',
+    labels: spouseFormerMarriageLabels,
+  }),
+  otherReasonMarriageEnded: {
+    'ui:title': 'Briefly describe how your spouse's previous marriage ended',
+    'ui:webComponentField': VaTextInputField,
+    'ui:required': formData => formData?.reasonMarriageEnded === 'Other', // ❌ Unreliable
+    'ui:options': {
+      expandUnder: 'reasonMarriageEnded',
+      expandUnderCondition: 'Other',
+      expandedContentFocus: true,
+      preserveHiddenData: true,
+    },
+  },
+},
+schema: {
+  type: 'object',
+  properties: {
+    reasonMarriageEnded: radioSchema(marriageEnums),
+    otherReasonMarriageEnded: {
+      type: 'string',
+    },
+  },
+},
+```
+
+**Recommended approach for Array Builder:**
+
+Use the `updateSchema` function within `ui:options` to handle conditional validation consistently:
+
+```javascript
+uiSchema: {
+  ...arrayBuilderItemSubsequentPageTitleUI(() => {
+    return 'Spouse's former marriage end details';
+  }),
+  reasonMarriageEnded: radioUI({
+    title: 'How did your spouse's previous marriage end?',
+    labels: spouseFormerMarriageLabels,
+  }),
+  otherReasonMarriageEnded: {
+    'ui:title': 'Briefly describe how your spouse's previous marriage ended',
+    'ui:webComponentField': VaTextInputField,
+    'ui:options': {
+      expandUnder: 'reasonMarriageEnded',
+      expandUnderCondition: 'Other',
+      expandedContentFocus: true,
+      preserveHiddenData: true,
+    },
+  },
+  'ui:options': {
+    // Define updateSchema at the top level
+    updateSchema: (formData, formSchema) => {
+      // Check if field is collapsed (hidden)
+      if (formSchema.properties.otherReasonMarriageEnded['ui:collapsed']) {
+        return { ...formSchema, required: ['reasonMarriageEnded'] };
+      }
+      // Add conditional field to required array when visible
+      return {
+        ...formSchema,
+        required: ['reasonMarriageEnded', 'otherReasonMarriageEnded'],
+      };
+    },
+  },
+},
+schema: {
+  type: 'object',
+  required: ['reasonMarriageEnded'], // ✅ Set default required fields in schema
+  properties: {
+    reasonMarriageEnded: radioSchema(marriageEnums),
+    otherReasonMarriageEnded: {
+      type: 'string',
+    },
+  },
+},
+```
+
+#### 3. Custom Field Validations
+
+Platform UI helper functions (located in `src/platform/form-system/src/js/web-component-patterns`) are continuously being updated for Array Builder compatibility. However, you may occasionally encounter validation issues. In these cases, you can supplement the built-in validations with custom validators:
+
+```javascript
+uiSchema: {
+  ...arrayBuilderItemSubsequentPageTitleUI(() => {
+    return 'Spouse's former marriage';
+  }),
+  endDate: {
+    ...currentOrPastDateUI({
+      title: 'When did your spouse's former marriage end?',
+      required: () => true,
+    }),
+    // Add custom validation using ui:validations array
+    'ui:validations': [
+      {
+        validator: (errors, _field, formData) => {
+          const { startDate, endDate } = formData;
+
+          if (!startDate || !endDate) return;
+
+          const start = new Date(startDate);
+          const end = new Date(endDate);
+
+          if (end < start) {
+            errors.addError(
+              'Marriage end date must be on or after the marriage start date',
+            );
+          }
+        },
+      },
+    ],
+  },
+},
+schema: {
+  type: 'object',
+  required: ['endDate'],
+  properties: {
+    endDate: currentOrPastDateSchema,
+  },
+},
+```
+
+---
+
+### Additional Resources
+
+For questions or issues related to the Array Builder pattern, contact the Veteran Facing Forms team.
 
 ## The back end code
 

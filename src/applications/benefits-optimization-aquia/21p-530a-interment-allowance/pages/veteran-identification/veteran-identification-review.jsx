@@ -40,11 +40,6 @@ export const VeteranIdentificationReviewPage = ({ data, editPage, title }) => {
         hideWhenEmpty
       />
       <ReviewField
-        label="Veteran's service number"
-        value={sectionData.serviceNumber}
-        hideWhenEmpty
-      />
-      <ReviewField
         label="Veteran's VA file number"
         value={sectionData.vaFileNumber}
         hideWhenEmpty
