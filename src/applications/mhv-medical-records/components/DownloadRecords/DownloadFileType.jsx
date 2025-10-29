@@ -387,7 +387,9 @@ const DownloadFileType = props => {
         }
       } catch (error) {
         logAal(0);
-        datadogRum.addError(error, 'Download Report Error - PDF');
+        datadogRum.addError(error, {
+          feature: 'Blue Button report - download_report_pdf',
+        });
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
@@ -437,7 +439,9 @@ const DownloadFileType = props => {
         }
       } catch (error) {
         logAal(0);
-        datadogRum.addError(error, 'Download Report Error - TXT');
+        datadogRum.addError(error, {
+          feature: 'Blue Button report - download_report_txt',
+        });
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
