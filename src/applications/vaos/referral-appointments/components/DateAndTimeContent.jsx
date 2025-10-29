@@ -168,7 +168,7 @@ export const DateAndTimeContent = props => {
           <p>Please call this provider to schedule an appointment</p>
           <va-telephone
             contact={currentReferral.provider.phone}
-            data-testid="provider-phone"
+            data-testid="no-slots-provider-phone"
           />
         </va-alert>
       );

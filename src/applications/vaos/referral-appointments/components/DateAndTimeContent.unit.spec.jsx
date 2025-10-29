@@ -155,8 +155,8 @@ describe('VAOS Component: DateAndTimeContent', () => {
       },
     );
     expect(screen.getByTestId('no-slots-alert')).to.exist;
-    expect(screen.getByTestId('provider-phone')).to.exist;
-    expect(screen.getByTestId('provider-phone')).to.contain.text(
+    expect(screen.getByTestId('no-slots-provider-phone')).to.exist;
+    expect(screen.getByTestId('no-slots-provider-phone')).to.contain.text(
       referral.provider.phone,
     );
   });
