@@ -157,10 +157,10 @@ export const EmploymentDatesDetailsPage = ({
 EmploymentDatesDetailsPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  onReviewPage: PropTypes.bool,
   goBack: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
 
 export default EmploymentDatesDetailsPage;

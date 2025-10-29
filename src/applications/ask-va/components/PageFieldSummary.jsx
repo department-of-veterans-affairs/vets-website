@@ -1,9 +1,42 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import formConfig from '../config/form';
 import { noEditBtn } from '../constants';
 import { setupPages } from '../utils/reviewPageHelper';
+
+const UpdateAlert = ({ title }) => {
+  const alertRef = useRef(null);
+
+  useEffect(() => {
+    if (alertRef.current) {
+      setTimeout(() => {
+        alertRef.current?.focus();
+      }, 100);
+    }
+  }, []);
+
+  return (
+    <va-alert
+      ref={alertRef}
+      role="alert"
+      tabindex="-1"
+      className="vads-u-margin-bottom--1"
+      close-btn-aria-label="Close notification"
+      disable-analytics="false"
+      full-width="false"
+      slim
+      status="success"
+      visible="true"
+    >
+      <p className="vads-u-margin-y--0">{title} has been updated</p>
+    </va-alert>
+  );
+};
+
+UpdateAlert.propTypes = {
+  title: PropTypes.string.isRequired,
+};
 
 const PageFieldSummary = props => {
   const { renderedProperties, defaultEditButton, title, updatedPage } = props;
@@ -18,17 +51,7 @@ const PageFieldSummary = props => {
   return (
     <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
       {currentPage[0]?.chapterTitle === alertPage[0]?.chapterTitle && (
-        <va-alert
-          className="vads-u-margin-bottom--1"
-          close-btn-aria-label="Close notification"
-          disable-analytics="false"
-          full-width="false"
-          slim
-          status="success"
-          visible="true"
-        >
-          <p className="vads-u-margin-y--0">{title} has been updated</p>
-        </va-alert>
+        <UpdateAlert title={title} />
       )}
       {!noEditBtn.includes(title) && (
         <div className="form-review-panel-page-header-row">

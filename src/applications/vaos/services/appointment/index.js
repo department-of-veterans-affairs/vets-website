@@ -83,7 +83,7 @@ export async function fetchAppointments({
     const allAppointments = await getAppointments({
       startDate,
       endDate,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       avs,
       fetchClaimStatus,
       includeEPS,
@@ -576,7 +576,7 @@ export function getCalendarData({ appointment, facility }) {
       summary =
         appointment.version === 1
           ? `Appointment at ${providerName || practiceName}`
-          : `Appointment at ${providerName[0] || practiceName}`;
+          : `Appointment at ${(providerName || [])[0] || practiceName}`;
     }
     data = {
       summary,

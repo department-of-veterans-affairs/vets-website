@@ -232,6 +232,25 @@ export function getFilesNeeded(trackedItems, useLighthouse = true) {
   );
 }
 
+/**
+ * Filter evidence submissions for failed uploads within the last 30 days
+ * acknowledgementDate is set to 30 days after the submission failed (backend logic)
+ * @param {Array} evidenceSubmissions - Array of evidence submission objects
+ * @returns {Array} Filtered array of failed submissions within last 30 days
+ */
+export function getFailedSubmissionsWithinLast30Days(evidenceSubmissions) {
+  if (!evidenceSubmissions || !Array.isArray(evidenceSubmissions)) {
+    return [];
+  }
+
+  return evidenceSubmissions.filter(
+    submission =>
+      submission.uploadStatus === 'FAILED' &&
+      submission.acknowledgementDate &&
+      new Date().toISOString() <= submission.acknowledgementDate,
+  );
+}
+
 export function getFilesOptional(trackedItems, useLighthouse = true) {
   // trackedItems are different between lighthouse and evss
   // Therefore we have to filter them differntly
