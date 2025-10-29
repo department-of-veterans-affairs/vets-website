@@ -1,16 +1,5 @@
 import * as utils from '../utils';
 
-const checkContentAnonymousApplicantInformationIdentity = () => {
-  utils.checkVisibleElementContent(
-    'h1',
-    'Submit medical expenses to support a pension or DIC claim',
-  );
-  utils.checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Applicant information',
-  );
-  utils.checkVisibleElementContent('legend', 'Your identity');
-};
 describe('Medical Expense Report Form 8416', () => {
   describe('Veteran reporting medical expenses', () => {
     before(() => {
@@ -23,7 +12,6 @@ describe('Medical Expense Report Form 8416', () => {
       utils.checkAxeAndClickContinueButton();
 
       // Applicant Information name
-
       utils.checkContentAnonymousApplicantInformationName();
       utils.fillInNameFromFixture();
       utils.checkContentAnonymousApplicantInformationMailingAddress();
