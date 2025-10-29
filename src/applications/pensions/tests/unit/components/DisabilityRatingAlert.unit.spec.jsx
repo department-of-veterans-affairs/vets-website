@@ -32,8 +32,7 @@ describe('DisabilityRatingAlert component', () => {
   it('renders info alert when rating is 100%', async () => {
     apiStub = sinon
       .stub(api, 'apiRequest')
-      // eslint-disable-next-line camelcase
-      .resolves({ user_percent_of_disability: 100 });
+      .resolves({ combinedDisabilityRating: 100 });
 
     const { container, getByText } = render(<DisabilityRatingAlert />);
 
@@ -52,8 +51,7 @@ describe('DisabilityRatingAlert component', () => {
   it('renders nothing when rating is less than 100%', async () => {
     apiStub = sinon
       .stub(api, 'apiRequest')
-      // eslint-disable-next-line camelcase
-      .resolves({ user_percent_of_disability: 70 });
+      .resolves({ combinedDisabilityRating: 70 });
 
     const { container } = render(<DisabilityRatingAlert />);
 

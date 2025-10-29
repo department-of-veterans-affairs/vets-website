@@ -14,7 +14,7 @@ const FORM_ID = '21P-527EZ';
 const TEST_URL =
   '/pension/apply-for-veteran-pension-form-21p-527ez/introduction';
 const IN_PROGRESS_URL = `/v0/in_progress_forms/${FORM_ID}`;
-const DISABILITY_RATING_URL = '/v0/disability_compensation_form/rating_info';
+const DISABILITY_RATING_URL = '/v0/rated_disabilities';
 
 const isCI = Cypress.env('CI') || Cypress.env('CYPRESS_CI');
 
@@ -63,7 +63,7 @@ describe('Pensions — Disability Rating Alert', () => {
 
   it('shows 100% disability rating info alert', () => {
     cy.intercept('GET', DISABILITY_RATING_URL, {
-      user_percent_of_disability: 100,
+      combinedDisabilityRating: 100,
     });
 
     cypressSetup();
@@ -85,8 +85,7 @@ describe('Pensions — Disability Rating Alert', () => {
 
   it('renders no alert when rating is less than 100', () => {
     cy.intercept('GET', DISABILITY_RATING_URL, {
-      // eslint-disable-next-line camelcase
-      user_percent_of_disability: 70,
+      combinedDisabilityRating: 70,
     });
 
     cypressSetup();
