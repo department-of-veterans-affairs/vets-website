@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
@@ -8,6 +7,7 @@ import {
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { labels } from './utils';
+import propTypes from './types';
 
 import { calculateAge } from '../../../shared/utils';
 
@@ -86,31 +86,7 @@ const childReasonToRemove = {
     },
   },
 
-  /**
-   * Dependent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} isStepchild Whether the child is a stepchild ('Y' or 'N')
-   * @property {string} removalReason Dependent's removal reason
-   */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} returnToMainPage Function to return to the main remove
-   * dependents page
-   * @returns React component
-   */
+  /** @type {PicklistComponentProps} */
   Component: ({ itemData, fullName, formSubmitted, firstName, handlers }) => {
     const onChange = event => {
       const { value } = event.detail;
@@ -182,25 +158,7 @@ const childReasonToRemove = {
   },
 };
 
-childReasonToRemove.propTypes = {
-  Component: PropTypes.func,
-};
-
-childReasonToRemove.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    dateOfBirth: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-    isStepchild: PropTypes.string,
-    removalReason: PropTypes.string,
-  }),
-  returnToMainPage: PropTypes.func,
-};
+childReasonToRemove.propTypes = propTypes.Page;
+childReasonToRemove.Component.propTypes = propTypes.Component;
 
 export default childReasonToRemove;

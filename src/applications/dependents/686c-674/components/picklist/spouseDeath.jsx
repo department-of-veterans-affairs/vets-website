@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   VaCheckbox,
   VaMemorableDate,
@@ -9,6 +8,7 @@ import {
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { SelectCountry, SelectState, getValue } from './helpers';
+import propTypes from './types';
 
 const spouseDeath = {
   handlers: {
@@ -30,29 +30,7 @@ const spouseDeath = {
     },
   },
 
-  /**
-   * Depedent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} endType Dependent's removal reason
-   */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} goBack Function to go back to the previous page
-   * @returns React component
-   */
+  /** @type {PicklistComponentProps} */
   Component: ({ itemData, firstName, handlers, formSubmitted }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
@@ -137,29 +115,7 @@ const spouseDeath = {
   },
 };
 
-spouseDeath.propTypes = {
-  Component: PropTypes.func,
-};
-
-spouseDeath.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  goBack: PropTypes.func,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    endCity: PropTypes.string,
-    endCountry: PropTypes.string,
-    endDate: PropTypes.string,
-    endOutsideUS: PropTypes.bool,
-    endProvince: PropTypes.string,
-    endState: PropTypes.string,
-    endType: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-  }),
-};
+spouseDeath.propTypes = propTypes.Page;
+spouseDeath.Component.propTypes = propTypes.Component;
 
 export default spouseDeath;

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
@@ -7,8 +6,10 @@ import {
 
 import { scrollToFirstError } from 'platform/utilities/ui';
 
-import { labels } from './utils';
 import { CancelButton } from '../../config/helpers';
+
+import { labels } from './utils';
+import propTypes from './types';
 
 const spouseReasonToRemove = {
   handlers: {
@@ -27,30 +28,7 @@ const spouseReasonToRemove = {
     },
   },
 
-  /**
-   * Depedent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} removalReason Dependent's removal reason
-   */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} returnToMainPage Function to return to the main remove
-   * dependents page
-   * @returns React component
-   */
+  /** @type {PicklistComponentProps} */
   Component: ({
     itemData,
     fullName,
@@ -109,24 +87,7 @@ const spouseReasonToRemove = {
   },
 };
 
-spouseReasonToRemove.propTypes = {
-  Component: PropTypes.func,
-};
-
-spouseReasonToRemove.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    dateOfBirth: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-    removalReason: PropTypes.string,
-  }),
-  returnToMainPage: PropTypes.func,
-};
+spouseReasonToRemove.propTypes = propTypes.Page;
+spouseReasonToRemove.Component.propTypes = propTypes.Component;
 
 export default spouseReasonToRemove;
