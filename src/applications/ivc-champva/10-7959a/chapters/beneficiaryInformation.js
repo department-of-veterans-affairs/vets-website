@@ -90,7 +90,7 @@ export const applicantAddressSchema = {
             content['page-title--mailing-address'],
           ),
         ),
-      content['address-selection--page-description'],
+      content['beneficiary--mailing-address-desc'],
     ),
     applicantAddress: addressUI({
       labels: {
@@ -99,8 +99,8 @@ export const applicantAddressSchema = {
     }),
     applicantNewAddress: {
       ...radioUI({
-        title: content['beneficairy--address-change-label'],
-        hint: content['beneficairy--address-change-hint'],
+        title: content['beneficiary--address-change-label'],
+        hint: content['beneficiary--address-change-hint'],
         labels: {
           yes: content['form-input--option--yes'],
           no: content['form-input--option--no'],
