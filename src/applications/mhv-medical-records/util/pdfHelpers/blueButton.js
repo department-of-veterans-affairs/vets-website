@@ -125,7 +125,7 @@ export const generateBlueButtonData = (
     ],
     selected:
       recordFilter.includes('allergies') ||
-      (recordFilter.includes('medications') && isArrayAndHasItems(medications)),
+      (recordFilter.includes('medications') && medications?.length > 0),
     records: isArrayAndHasItems(allergies)
       ? generateAllergiesContent(allergies)
       : [],
@@ -230,7 +230,7 @@ export const generateBlueButtonData = (
       : [],
   });
 
-  const militaryServiceContent = isArrayAndHasItems(militaryService)
+  const militaryServiceContent = militaryService?.length
     ? generateMilitaryServiceContent(militaryService)
     : {};
   data.push({
