@@ -557,7 +557,7 @@ export function selectIsEligibleForTravelClaim(appointment) {
 export function selectConfirmedAppointmentData(state, appointment) {
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
-
+  const isCerner = appointment?.vaos?.isCerner;
   const isVideo = appointment?.vaos?.isVideo;
   const isVA = !isVideo && !isCommunityCare;
 
@@ -622,6 +622,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
     isVA,
     isVideo,
     isPhone,
+    isCerner,
     locationId,
     phone,
     practitionerName,
@@ -642,6 +643,7 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
 }
 export function selectRequestedAppointmentData(state, appointment) {
   const { facilityData } = state?.appointments || [];
+  const isCerner = appointment?.vaos?.isCerner;
 
   const cancelInfo = getCancelInfo(state);
   const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
@@ -691,6 +693,7 @@ export function selectRequestedAppointmentData(state, appointment) {
     status,
     typeOfCare,
     typeOfCareName,
+    isCerner,
   };
 }
 export function selectRequestedAppointmentDetails(state, id) {
@@ -699,7 +702,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     APPOINTMENT_TYPES.request,
     APPOINTMENT_TYPES.ccRequest,
   ]);
-
+  const isCerner = appointment?.vaos?.isCerner;
   const cancelInfo = getCancelInfo(state);
   const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
   const email = getPatientTelecom(appointment, 'email');
@@ -749,5 +752,6 @@ export function selectRequestedAppointmentDetails(state, id) {
     typeOfCare,
     typeOfCareName,
     preferredModality,
+    isCerner,
   };
 }
