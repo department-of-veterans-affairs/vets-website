@@ -81,8 +81,6 @@
             }
           ]
         },
-        "patientComments": "Test",
-        "reasonForAppointment": "Routine/Follow-up",
         "preferredDates": [
           "Wednesday, March 26, 2025 in the morning",
           "Wednesday, March 12, 2025 in the morning"
