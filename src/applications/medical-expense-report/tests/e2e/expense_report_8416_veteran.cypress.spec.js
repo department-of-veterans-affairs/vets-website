@@ -1,0 +1,71 @@
+import * as utils from '../utils';
+
+const checkContentAnonymousApplicantInformationIdentity = () => {
+  utils.checkVisibleElementContent(
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
+  );
+  utils.checkVisibleElementContent(
+    'va-segmented-progress-bar',
+    'Applicant information',
+  );
+  utils.checkVisibleElementContent('legend', 'Your identity');
+};
+describe('Medical Expense Report Form 8416', () => {
+  describe('Veteran reporting medical expenses', () => {
+    before(() => {
+      utils.startApplicationWithoutLogin();
+    });
+    it('tests Veteran reporting medical expenses path', () => {
+      // Applicant Information identity
+      utils.checkContentAnonymousApplicantInformationIdentity();
+      cy.selectRadio('root_claimantNotVeteran', 'Y');
+      utils.checkAxeAndClickContinueButton();
+
+      // Applicant Information name
+
+      utils.checkContentAnonymousApplicantInformationName();
+      utils.fillInNameFromFixture();
+      utils.checkContentAnonymousApplicantInformationMailingAddress();
+      utils.fillInFullAddressFromFixture();
+      utils.checkContentAnonymousApplicantInformationEmail();
+
+      utils.fillInEmailAndPhoneFromFixture();
+      utils.checkContentAnonymousApplicantInformationSSN();
+      utils.fillInVetInfoWithoutNameSSNFromFixture();
+
+      // Reporting period
+      utils.checkContentAnonymousReportingPeriod();
+      cy.selectRadio('root_firstTimeReporting', 'Y');
+      utils.checkAxeAndClickContinueButton();
+
+      utils.checkAxeAndClickContinueButton();
+
+      // Care Expenses
+      utils.fillInCareExpensesFromFixture();
+      cy.selectRadio('root_view:careExpensesList', 'N');
+      utils.checkAxeAndClickContinueButton();
+
+      // Medical Expenses
+      utils.fillInMedicalExpensesFromFixture();
+      cy.selectRadio('root_view:medicalExpensesList', 'N');
+      utils.checkAxeAndClickContinueButton();
+
+      // Milage Expenses
+      utils.fillInMilageExpensesFromFixture();
+      cy.selectRadio('root_view:mileageExpensesList', 'N');
+
+      utils.checkAxeAndClickContinueButton();
+      cy.contains('Supporting documents');
+      utils.checkAxeAndClickContinueButton();
+
+      cy.contains('Submit your supporting documents');
+      // No supporting documents yet
+      utils.checkAxeAndClickContinueButton();
+
+      // Statement of Truth
+      utils.fillInStatementOfTruthFromFixture();
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+});
