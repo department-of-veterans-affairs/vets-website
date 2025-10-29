@@ -29,6 +29,7 @@ import {
   SEND_YOUR_DOCUMENTS_TEXT,
   ANCHOR_LINKS,
 } from '../../constants';
+import { setPageFocus } from '../../utils/page';
 
 // File encryption utilities
 const checkFileEncryption = async file => {
@@ -392,6 +393,10 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
               <va-link
                 href={`#${ANCHOR_LINKS.otherWaysToSendDocuments}`}
                 text={SEND_YOUR_DOCUMENTS_TEXT}
+                onClick={e => {
+                  e.preventDefault();
+                  setPageFocus(e.target.href);
+                }}
               />
             </div>
           </>

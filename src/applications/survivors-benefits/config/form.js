@@ -30,6 +30,11 @@ import nationalGuardUnitAddress from './chapters/03-military-history/nationalGua
 import { otherServiceNamesPages } from './chapters/03-military-history/serviceNames';
 import prisonerOfWarPage from './chapters/03-military-history/prisonerOfWar';
 import powPeriodOfTimePage from './chapters/03-military-history/powPeriodOfTime';
+import marriageToVeteran from './chapters/04-household-information/marriageToVeteran';
+import legalStatusOfMarriage from './chapters/04-household-information/legalStatusOfMarriage';
+import marriageStatus from './chapters/04-household-information/marriageStatus';
+import reasonForSeparation from './chapters/04-household-information/reasonForSeparation';
+import separationDetails from './chapters/04-household-information/separationDetails';
 import dicBenefits from './chapters/05-claim-information/dicBenefits';
 import nursingHome from './chapters/05-claim-information/nursingHome';
 import { treatmentPages } from './chapters/05-claim-information/treatmentPages';
@@ -201,6 +206,52 @@ const formConfig = {
           depends: formData => formData?.prisonerOfWar === true,
           uiSchema: powPeriodOfTimePage.uiSchema,
           schema: powPeriodOfTimePage.schema,
+        },
+      },
+    },
+    // Chapter 4 - Household Information
+    householdInformation: {
+      title: 'Household information',
+      pages: {
+        marriageToVeteran: {
+          path: 'household/marriage-to-veteran',
+          title: 'Marriage to Veteran',
+          depends: formData => formData.claimantRelationship === 'SPOUSE',
+          uiSchema: marriageToVeteran.uiSchema,
+          schema: marriageToVeteran.schema,
+        },
+        legalStatusOfMarriage: {
+          path: 'household/legal-status-of-marriage',
+          title: 'Legal status of marriage',
+          depends: formData => formData.claimantRelationship === 'SPOUSE',
+          uiSchema: legalStatusOfMarriage.uiSchema,
+          schema: legalStatusOfMarriage.schema,
+        },
+        marriageStatus: {
+          path: 'household/marriage-status',
+          title: 'Marriage status',
+          depends: formData => formData.claimantRelationship === 'SPOUSE',
+          uiSchema: marriageStatus.uiSchema,
+          schema: marriageStatus.schema,
+        },
+        reasonForSeparation: {
+          path: 'household/reason-for-separation',
+          title: 'Reason for separation',
+          depends: formData =>
+            formData.claimantRelationship === 'SPOUSE' &&
+            formData.livedContinuouslyWithVeteran === false,
+          uiSchema: reasonForSeparation.uiSchema,
+          schema: reasonForSeparation.schema,
+        },
+        separationDetails: {
+          path: 'household/separation-details',
+          title: 'Separation details',
+          depends: formData =>
+            formData.claimantRelationship === 'SPOUSE' &&
+            (formData.separationReason === 'RELATIONSHIP_DIFFERENCES' ||
+              formData.separationReason === 'OTHER'),
+          uiSchema: separationDetails.uiSchema,
+          schema: separationDetails.schema,
         },
       },
     },
