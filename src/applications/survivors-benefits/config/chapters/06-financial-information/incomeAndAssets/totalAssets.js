@@ -15,7 +15,6 @@ const uiSchema = {
   ...titleUI('Total assets', Description),
   totalAssets: currencyUI({
     title: 'Estimate the total value of your assets',
-    'ui:required': true,
   }),
 };
 

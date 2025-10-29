@@ -112,7 +112,6 @@ const uiSchema = {
   'ui:description': WhatWeConsiderAsset,
   hasAssetsOverThreshold: yesNoUI({
     title: 'Do you and your dependents have over $75,000 in assets?',
-    'ui:required': true,
   }),
 };
 

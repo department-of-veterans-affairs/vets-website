@@ -10,13 +10,13 @@ const Description = () => (
     </p>
 
     <p>
-      <a
+      <va-link
         href="https://www.va.gov/find-forms/about-form-21p-0969/"
         target="_blank"
         rel="noopener noreferrer"
       >
         Get VA Form 21P-0969 to download (opens in new tab)
-      </a>
+      </va-link>
     </p>
 
     <p>
