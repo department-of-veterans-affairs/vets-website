@@ -82,7 +82,7 @@ describe('spouseMarriageEnded', () => {
 
   it('should render country & province fields when outside US checkbox is checked', () => {
     const { container } = renderComponent({
-      data: { ...defaultData, marriageEndOutsideUS: true },
+      data: { ...defaultData, endOutsideUS: true },
     });
 
     expect($('va-checkbox', container).checked).to.be.true;
@@ -125,13 +125,13 @@ describe('spouseMarriageEnded', () => {
   it('should show error messages if submitted without filling in fields (non-US)', async () => {
     const goForward = sinon.spy();
     const { container } = renderComponent({
-      data: { ...defaultData, marriageEndOutsideUS: true },
+      data: { ...defaultData, endOutsideUS: true },
       formSubmitted: true,
       goForward,
     });
 
     $('va-checkbox', container).__events.vaChange({
-      target: { name: 'marriageEndOutsideUS', tagName: 'VA-CHECKBOX' },
+      target: { name: 'endOutsideUS', tagName: 'VA-CHECKBOX' },
       detail: { checked: true },
     });
 
@@ -157,8 +157,8 @@ describe('spouseMarriageEnded', () => {
     const { container } = renderComponent({
       data: {
         ...defaultData,
-        marriageEndType: 'annulmentOrVoid',
-        marriageEndOutsideUS: true,
+        endType: 'annulmentOrVoid',
+        endOutsideUS: true,
       },
       formSubmitted: true,
       goForward,
@@ -187,10 +187,10 @@ describe('spouseMarriageEnded', () => {
       onSubmit,
       data: {
         ...defaultData,
-        marriageEndType: 'divorce',
-        marriageEndDate: '2000-01-01',
-        marriageEndCity: 'Test',
-        marriageEndState: 'TT',
+        endType: 'divorce',
+        endDate: '2000-01-01',
+        endCity: 'Test',
+        endState: 'TT',
       },
     });
 
@@ -202,7 +202,7 @@ describe('spouseMarriageEnded', () => {
   });
 
   context('spouseMarriageEnded handlers', () => {
-    it('should return "marriage-ended" on goForward', () => {
+    it('should return "DONE" on goForward', () => {
       expect(spouseMarriageEnded.handlers.goForward()).to.equal('DONE');
     });
 
@@ -210,10 +210,10 @@ describe('spouseMarriageEnded', () => {
       const goForward = sinon.spy();
       spouseMarriageEnded.handlers.onSubmit({
         itemData: {
-          marriageEndType: 'divorce',
-          marriageEndDate: '2000-01-01',
-          marriageEndCity: 'Test',
-          marriageEndState: 'TT',
+          endType: 'divorce',
+          endDate: '2000-01-01',
+          endCity: 'Test',
+          endState: 'TT',
         },
         goForward,
       });
@@ -224,12 +224,12 @@ describe('spouseMarriageEnded', () => {
       const goForward = sinon.spy();
       spouseMarriageEnded.handlers.onSubmit({
         itemData: {
-          marriageEndOutsideUS: true,
-          marriageEndType: 'annulmentOrVoid',
-          marriageEndDate: '2000-01-01',
-          marriageEndCity: 'Test',
-          marriageEndCountry: 'TTT',
-          marriageEndAnnulmentOrVoidDescription: 'Test description',
+          endOutsideUS: true,
+          endType: 'annulmentOrVoid',
+          endDate: '2000-01-01',
+          endCity: 'Test',
+          endCountry: 'TTT',
+          endAnnulmentOrVoidDescription: 'Test description',
         },
         goForward,
       });
