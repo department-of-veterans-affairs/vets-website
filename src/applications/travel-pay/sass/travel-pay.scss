@@ -35,6 +35,26 @@
   }
 }
 
+.complex-claim-help-section {
+  border-bottom: 1px solid var(--vads-color-gray-medium);
+  padding-bottom: 16px;
+
+  .complex-claim-help-heading {
+    border-bottom: 3px solid var(--vads-color-primary);
+    padding-bottom: 9px;
+    font-size: 1.35em;
+    line-height: 1.2;
+    font-weight: bold;
+  }
+}
+
+@media (max-width: $small-screen) {
+  .travel-pay-complex-expense-cancel-btn {
+    margin: 4px;
+    width: 100%;
+  }
+}
+
 .btsss-claims-sort-and-filter-container {
   min-width: fit-content;
   max-width: 35rem;
@@ -107,13 +127,6 @@ h2#pagination-info {
   va-icon {
     margin-right: 0.2rem;
     vertical-align: middle;
-  }
-}
-
-.travel-pay-complex-expense-cancel-btn {
-  @media (max-width: 479px) {
-    margin: 4px;
-    width: 100%;
   }
 }
 

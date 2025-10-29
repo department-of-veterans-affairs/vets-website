@@ -66,11 +66,6 @@ const mockDependents = {
           ssn: '793473479',
           relationshipToVeteran: 'Child',
           awardIndicator: 'Y',
-          isStepchild: 'N',
-          // options: 'childMarried', 'childNotInSchool', 'stepchildNotMember',
-          // 'childAdopted', 'childDied'
-          removalReason: 'childMarried',
-          marriageDate: createDate(0, 4, 'yyyy-MM-dd'),
         },
         {
           firstName: 'STACY',

@@ -8,3 +8,45 @@ export const dicOptions = {
   DIC_REEVALUATION:
     'D.I.C. due to claimant election of a re-evaluation of a previously denied claim based on expanded eligibility under PL 117-168 (PACT Act)',
 };
+
+export const servicesOptions = {
+  ARMY: 'Army',
+  NAVY: 'Navy',
+  AIR_FORCE: 'Air Force',
+  COAST_GUARD: 'Coast Guard',
+  MARINE_CORPS: 'Marine Corps',
+  SPACE_FORCE: 'Space Force',
+  USPHS: 'USPHS',
+  NOAA: 'NOAA',
+};
+
+export const claimantRelationshipOptions = {
+  SPOUSE: 'Surviving spouse',
+  CUSTODIAN: 'Custodian filing for child under 18',
+  ADULT_CHILD_STILL_IN_SCHOOL:
+    'Adult child who is 18-23 years old and still in school',
+  ADULT_CHILD_SERIOUSLY_DISABLED: 'Adult child who is seriously disabled',
+};
+
+export const marriageEndOptions = {
+  SPOUSE_DEATH: "Spouse's death",
+  DIVORCE: 'Divorce',
+  OTHER: 'Other',
+};
+
+export const marriageTypeOptions = {
+  CIVIL_RELIGIOUS:
+    'In a civil or religious ceremony with an officiant who signed me marriage license',
+  OTHER_WAY: 'Some other way',
+};
+
+export const separationReasonOptions = {
+  MEDICAL_FINANCIAL: 'Medical or financial reasons',
+  RELATIONSHIP_DIFFERENCES: 'Relationship differences or problems',
+  OTHER: 'Other',
+};
+
+export const bankAccountTypeOptions = {
+  CHECKING: 'Checking',
+  SAVINGS: 'Savings',
+};

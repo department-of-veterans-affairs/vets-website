@@ -16,6 +16,7 @@ import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPag
 import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
 import ComplexClaimSubmitFlowWrapper from './containers/ComplexClaimSubmitFlowWrapper';
 import ReviewPage from './components/complex-claims/pages/ReviewPage';
+import IntroductionPage from './components/complex-claims/pages/IntroductionPage';
 import App from './containers/App';
 
 // Function that returns routes based on feature toggle
@@ -31,7 +32,7 @@ const getRoutes = () => {
         path="/file-new-claim/:apptId"
         element={<ComplexClaimSubmitFlowWrapper />}
       >
-        <Route index element={<>Intro</>} />
+        <Route index element={<IntroductionPage />} />
         <Route path=":claimId">
           <Route path="choose-expense" element={<ChooseExpenseType />} />
           <Route path="mileage/:expenseId?" element={<Mileage />} />

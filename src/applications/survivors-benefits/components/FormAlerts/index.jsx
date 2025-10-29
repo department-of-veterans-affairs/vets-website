@@ -35,14 +35,6 @@ RequestFormAlert.propTypes = {
   children: PropTypes.node,
 };
 
-RequestFormAlert.propTypes = {
-  formLink: PropTypes.string.isRequired,
-  formName: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  advisory: PropTypes.string,
-  children: PropTypes.node,
-};
-
 export const RequestNursingHomeInformationAlert = () => (
   <RequestFormAlert
     title="Nursing Home Information in Connection with Claim
@@ -60,4 +52,15 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
     formLink="https://www.va.gov/find-forms/about-form-21-2680/"
     advisory="A licensed medical professional must complete this form."
   />
+);
+
+export const CourtOrderSeparationAlert = () => (
+  <va-alert-expandable
+    status="warning"
+    trigger="You'll need to submit a copy of the court order."
+    disable-border="true"
+  >
+    We’ll ask you to upload this document at the end of this application. Or you
+    can send it to us by mail.
+  </va-alert-expandable>
 );

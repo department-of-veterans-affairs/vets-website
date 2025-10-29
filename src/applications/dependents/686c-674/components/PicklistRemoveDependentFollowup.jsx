@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { scrollToTop } from 'platform/utilities/scroll';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import set from 'platform/utilities/data/set';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
@@ -23,16 +24,23 @@ const PicklistRemoveDependentFollowup = ({
 }) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const resetState = () => {
-    setFormSubmitted(false);
+  const scrollAndFocus = () => {
     setTimeout(() => {
       scrollToTop();
-      focusElement('h3');
-    }, 250);
+      const radio = $('va-radio[label-header-level]');
+      if (radio) {
+        // va-radio content doesn't immediately render
+        waitForRenderThenFocus('h3', radio.shadowRoot);
+      } else {
+        focusElement('h3');
+      }
+    });
   };
 
-  // Page change state to force scroll & focus on page change
-  useEffect(resetState);
+  const resetState = () => {
+    setFormSubmitted(false);
+    scrollAndFocus();
+  };
 
   // Dynamically updated picklist paths to help with navigating backward
   const paths = data[PICKLIST_PATHS] || getPicklistRoutes(data);
@@ -56,6 +64,9 @@ const PicklistRemoveDependentFollowup = ({
   const currentPage =
     page === '' ? 0 : dependentGroup?.findIndex(item => item.path === page);
   const pageToRender = dependentGroup?.[currentPage];
+
+  // Page change state to force scroll & focus on page change
+  useEffect(scrollAndFocus, [page, index]);
 
   const returnToMainPage = () => {
     goToPath('options-selection/remove-active-dependents');
@@ -98,9 +109,23 @@ const PicklistRemoveDependentFollowup = ({
 
     goBack: () => {
       resetState();
-      const selectedIndex = paths.findIndex(
-        path => path.index === index && path.path === page,
-      );
+      let selectedIndex = 0;
+      if (page === '') {
+        const pathsLength = paths.length;
+        const prevPageIndex = index - 1;
+        // Find the last page of the index, then include an extra 1 because the
+        // selectedIndex is expecting the current page index in paths
+        while (
+          paths[selectedIndex].index === prevPageIndex &&
+          selectedIndex <= pathsLength
+        ) {
+          selectedIndex += 1;
+        }
+      } else {
+        selectedIndex = paths.findIndex(
+          path => path.index === index && path.path === page,
+        );
+      }
 
       if (selectedIndex - 1 >= 0) {
         const path = paths[selectedIndex - 1];
