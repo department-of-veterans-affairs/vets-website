@@ -54,12 +54,22 @@ const createCheckboxSchema = (schema, disabilityName) => {
  * New claim type
  */
 export const makeSchemaForNewDisabilities = createSelector(
-  formData => (isClaimingNew(formData) ? formData.newDisabilities : []),
-  (newDisabilities = []) => ({
-    properties: newDisabilities
-      .map(disability => disability.condition)
-      .reduce(createCheckboxSchema, {}),
-  }),
+  formData =>
+    isClaimingNew(formData) && Array.isArray(formData?.newDisabilities)
+      ? formData.newDisabilities
+      : [],
+
+  (newDisabilities = []) => {
+    const raw = newDisabilities
+      .map(d => (typeof d?.condition === 'string' ? d.condition.trim() : ''))
+      .filter(s => s.length > 0);
+
+    const normalized = raw.map(s => s[0].toUpperCase() + s.slice(1));
+    const unique = [...new Set(normalized)];
+    const properties = unique.reduce(createCheckboxSchema, {});
+
+    return { properties };
+  },
 );
 
 /**

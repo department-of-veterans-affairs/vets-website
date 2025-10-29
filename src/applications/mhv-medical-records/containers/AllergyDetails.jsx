@@ -188,12 +188,6 @@ Provider notes: ${allergyData.notes} \n`;
             />
 
             {downloadStarted && <DownloadSuccessAlert />}
-            <PrintDownload
-              description="Allergies Detail"
-              downloadPdf={generateAllergyPdf}
-              downloadTxt={generateAllergyTxt}
-            />
-            <DownloadingRecordsInfo description="Allergy Detail" />
 
             <div
               className="max-80 vads-u-margin-top--4"
@@ -243,6 +237,17 @@ Provider notes: ${allergyData.notes} \n`;
                 actionName="[allergy provider notes]"
               />
             </div>
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            <DownloadingRecordsInfo description="Allergy Detail" />
+            <PrintDownload
+              description="Allergies Detail"
+              downloadPdf={generateAllergyPdf}
+              downloadTxt={generateAllergyTxt}
+            />
+            <br />
+            <br />
+            <br />
+            <div className="vads-u-margin-bottom--300 vads-u-border-top--1px vads-u-border-color--white" />
           </HeaderSection>
         </>
       );

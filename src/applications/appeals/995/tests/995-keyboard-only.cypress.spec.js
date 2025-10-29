@@ -18,7 +18,10 @@ import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 import * as h from './995.cypress.helpers';
 import mockData from './fixtures/data/pre-api-comprehensive-test.json';
-import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
+import {
+  fixDecisionDates,
+  tabToContinue,
+} from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
 
 describe('Supplemental Claim keyboard only navigation', () => {
@@ -60,44 +63,37 @@ describe('Supplemental Claim keyboard only navigation', () => {
 
       // *** Veteran information page
       h.verifyUrl(h.VETERAN_INFO_PATH);
-      cy.tabToContinueForm();
+      tabToContinue();
 
-      // This test is flaky and sometimes the button clicks don't work
-      // Adding this here as it's not clear why it's not working yet
-      cy.url().then(url => {
-        if (url.includes(h.HOMELESSNESS_PATH)) {
-          // *** Homelessness page
-          h.verifyUrl(h.HOMELESSNESS_PATH);
-          cy.tabToElement('[name="root_housingRisk"]');
-          cy.chooseRadio('Y');
-          cy.tabToContinueForm();
+      // *** Homelessness page
+      h.verifyUrl(h.HOMELESSNESS_PATH);
+      cy.tabToElement('[name="root_housingRisk"]');
+      cy.chooseRadio('Y');
+      tabToContinue();
 
-          // *** Living situation page
-          h.verifyUrl(h.LIVING_SITUATION_PATH);
-          cy.setCheckboxFromData(h.LIVING_SITUATION_SHELTER_CHECKBOX, true);
-          cy.setCheckboxFromData(h.LIVING_SITUATION_OTHER_CHECKBOX, true);
-          cy.tabToContinueForm(h.POINT_OF_CONTACT_NAME_INPUT);
+      // *** Living situation page
+      h.verifyUrl(h.LIVING_SITUATION_PATH);
+      cy.setCheckboxFromData(h.LIVING_SITUATION_SHELTER_CHECKBOX, true);
+      cy.setCheckboxFromData(h.LIVING_SITUATION_OTHER_CHECKBOX, true);
+      cy.tabToContinueForm(h.POINT_OF_CONTACT_NAME_INPUT);
 
-          // ** Other Housing Risk page
-          h.verifyUrl(h.OTHER_HOUSING_RISK_PATH);
-          cy.tabToElement(h.OTHER_HOUSING_RISK_INPUT);
-          cy.realType('Testing content');
-          cy.tabToContinueForm();
+      // ** Other Housing Risk page
+      h.verifyUrl(h.OTHER_HOUSING_RISK_PATH);
+      cy.tabToElement(h.OTHER_HOUSING_RISK_INPUT);
+      cy.realType('Testing content');
+      tabToContinue();
 
-          // ** Point of contact page
-          h.verifyUrl(h.HOUSING_CONTACT_PATH);
-          cy.tabToElement(h.POINT_OF_CONTACT_NAME_INPUT);
-          cy.realType('Ted Mosby');
-          cy.tabToElement(h.POINT_OF_CONTACT_PHONE_INPUT);
-          cy.realType('2105550123');
-          cy.tabToContinueForm();
-        }
-      });
+      // ** Point of contact page
+      h.verifyUrl(h.HOUSING_CONTACT_PATH);
+      cy.tabToElement(h.POINT_OF_CONTACT_NAME_INPUT);
+      cy.realType('Ted Mosby');
+      cy.tabToElement(h.POINT_OF_CONTACT_PHONE_INPUT);
+      cy.realType('2105550123');
+      tabToContinue();
 
       // *** Contact info page
       h.verifyUrl(CONTACT_INFO_URL);
-      cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
-      cy.realPress('Space');
+      tabToContinue();
 
       // *** Primary phone page
       h.verifyUrl(h.PRIMARY_PHONE_PATH);
@@ -105,7 +101,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.wait(100); // wait for focus on header
       cy.tabToElement('[value="home"]');
       cy.chooseRadio('home'); // make sure we're choosing home (either is fine)
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Contestable issues page - select an existing issue
       h.verifyUrl(CONTESTABLE_ISSUES_PATH);
@@ -135,15 +131,15 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.tabToElement('button:not(.usa-button--outline)');
       cy.realPress('Enter');
       h.verifyUrl(CONTESTABLE_ISSUES_PATH);
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Issue summary page
       h.verifyUrl(h.ISSUES_SUMMARY_PATH);
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Opt-in page - seen when there are legacy or added issues
       h.verifyUrl(h.OPT_IN_PATH);
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Presumptive conditions page
       h.verifyUrl(h.NOTICE_5103_PATH);
@@ -151,13 +147,13 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.wait(100);
       cy.tabToElement('#checkbox-element'); // certify reviewed
       cy.realPress('Space');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Facility types page
       h.verifyUrl(h.FACILITY_TYPES_PATH);
       cy.setCheckboxFromData(h.VA_EVIDENCE_CHECKBOX, true);
       cy.setCheckboxFromData(h.NON_VA_EVIDENCE_CHECKBOX, true);
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** VA evidence request (y/n) question page
       h.verifyUrl(EVIDENCE_VA_PROMPT_URL);
@@ -165,7 +161,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.wait(100);
       cy.tabToElement('[name="root_view:hasVaEvidence"]'); // Yes radio
       cy.chooseRadio('Y');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** VA evidence location details page
       h.verifyUrl(h.EVIDENCE_VA_RECORDS_DETAILS_PATH);
@@ -181,13 +177,13 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.tabToElement(h.VA_EVIDENCE_TREATMENT_YEAR);
       cy.realType('2001'); // fill out year
       cy.realPress('Space');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Private evidence request (y/n) question page
       h.verifyUrl(EVIDENCE_PRIVATE_PROMPT_URL);
       cy.tabToElement('[name="private"]'); // Yes radio
       cy.chooseRadio('y'); // make sure we're choosing yes
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Private evidence authorization page
       h.verifyUrl(EVIDENCE_PRIVATE_AUTHORIZATION_URL);
@@ -213,7 +209,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       });
 
       cy.setCheckboxFromData(h.PRIVACY_AGREEMENT_CHECKBOX, true);
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Limited consent prompt page
       h.verifyUrl(LIMITED_CONSENT_PROMPT_URL);
@@ -221,7 +217,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.wait(100);
       cy.tabToElement(h.LIMITED_CONSENT_RADIOS); // Yes radio
       cy.chooseRadio('Y');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Limited consent details page
       h.verifyUrl(LIMITED_CONSENT_DETAILS_URL);
@@ -229,7 +225,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.wait(100);
       cy.tabToElement(h.LIMITED_CONSENT_TEXTAREA);
       cy.realType('Testing');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Private evidence facility page
       h.verifyUrl(EVIDENCE_PRIVATE_DETAILS_URL);
@@ -275,29 +271,29 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.realType(privateToDate[2]); // day
       cy.realPress('Tab');
       cy.realType(privateToDate[0]); // year
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Upload evidence (y/n) - skipping since we can't test uploads
       h.verifyUrl(EVIDENCE_ADDITIONAL_URL);
       cy.tabToElement(h.ADDTL_EVIDENCE_RADIO); // No radio
       cy.chooseRadio('N');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Evidence summary
       h.verifyUrl(h.EVIDENCE_SUMMARY_PATH);
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** MST page
       h.verifyUrl(h.MST_PATH);
       cy.tabToElement(h.MST_RADIO); // No radio
       cy.chooseRadio('Y');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Add indicator page
       h.verifyUrl(h.MST_OPTION_PATH);
       cy.tabToElement(h.MST_OPTION_RADIO);
       cy.chooseRadio('yes');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Review & submit page
       cy.url().should('include', h.REVIEW_PATH);

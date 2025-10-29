@@ -90,7 +90,7 @@ describe('Edit Contact List container', async () => {
     await waitFor(() => {
       expect(
         screen.getByText(
-          'Select the teams you want to show in your contact list. You must select at least one team.',
+          'Select and save the care teams you want to send messages to. You must select at least one care team.',
         ),
       ).to.exist;
 
@@ -109,13 +109,11 @@ describe('Edit Contact List container', async () => {
 
     const facilityGroups = await screen.findAllByTestId(/-facility-group$/);
     expect(facilityGroups.length).to.equal(2);
-    expect(facilityGroups[0]).to.have.attribute('label', 'Test Facility 2');
-    expect(facilityGroups[1]).to.have.attribute('label', 'Test Facility 1');
 
     await waitFor(() => {
       expect(
         screen.getByText(
-          'Select the teams you want to show in your contact list. You must select at least one team from one of your facilities.',
+          'Select and save the care teams you want to send messages to. You must select at least one care team from one of your facilities.',
         ),
       ).to.exist;
       const selectAllTeams = screen.getAllByTestId(/select-all-/);

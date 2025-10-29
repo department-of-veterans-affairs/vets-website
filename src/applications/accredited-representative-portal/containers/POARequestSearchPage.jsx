@@ -29,6 +29,14 @@ import Pagination from '../components/Pagination';
 import PaginationMeta from '../components/PaginationMeta';
 import POARequestSearchPageResults from '../components/POARequestSearchPageResults';
 
+const NoResultsText = searchStatus => (
+  <div className="no-poa-requests-text">
+    {searchStatus.searchStatus === STATUSES.PENDING
+      ? 'No pending representation requests.'
+      : 'No processed representation requests.'}
+  </div>
+);
+
 const StatusTabLink = ({
   tabStatus,
   searchStatus,
@@ -252,10 +260,10 @@ const POARequestSearchPage = title => {
               }
             })()}
 
-            {meta.page.total === 0 &&
-              (searchStatus === STATUSES.PENDING
-                ? 'No pending representation requests.'
-                : 'No processed representation requests.')}
+            {meta.page.total === 0 && (
+              <NoResultsText searchStatus={searchStatus} />
+            )}
+
             {meta.page.total >= 1 && (
               <>
                 <POARequestSearchPageResults poaRequests={poaRequests} />

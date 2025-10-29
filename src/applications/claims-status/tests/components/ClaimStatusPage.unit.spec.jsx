@@ -27,6 +27,11 @@ const getStore = (decisionRequested = false) =>
         claimAsk: {
           decisionRequested, // Added since WhatYouNeedToDo section looks for this
         },
+        notifications: {
+          message: null,
+          additionalEvidenceMessage: null,
+          type1UnknownErrors: null,
+        },
       },
     },
   }));

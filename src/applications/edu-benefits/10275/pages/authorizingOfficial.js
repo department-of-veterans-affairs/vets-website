@@ -19,7 +19,7 @@ const phoneLabels = {
 };
 
 const uiSchema = {
-  authorizingOfficial: {
+  authorizedOfficial: {
     ...titleUI('Your information'),
     'ui:description': (
       <p className="vads-u-margin-top--2">
@@ -70,13 +70,13 @@ const uiSchema = {
 
     'ui:options': {
       updateSchema: (formData, formSchema) => {
-        if (formData.authorizingOfficial?.phoneType === 'us') {
+        if (formData.authorizedOfficial?.phoneType === 'us') {
           return {
             ...formSchema,
             required: ['fullName', 'title', 'phoneType', 'phoneNumber'],
           };
         }
-        if (formData.authorizingOfficial?.phoneType === 'intl') {
+        if (formData.authorizedOfficial?.phoneType === 'intl') {
           return {
             ...formSchema,
             required: [
@@ -97,7 +97,7 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    authorizingOfficial: {
+    authorizedOfficial: {
       type: 'object',
       properties: {
         fullName: fullNameNoSuffixSchema,

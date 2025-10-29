@@ -1,29 +1,35 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import Headline from '../ProfileSectionHeadline';
 
 import AccountSecurityContent from './AccountSecurityContent';
 
-// using a class instead of functional component + useEffect hook since we would
-// have to do a full mount (vs shallow mount) of the component for tests to
-// work, and that would mount the connected DowntimeNotification component,
-// which would require mocking the redux store and honestly seems like more
-// trouble than it's worth
-class AccountSecurity extends Component {
-  componentDidMount() {
-    focusElement('[data-focus-target]');
-    document.title = `Account Security | Veterans Affairs`;
-  }
+const AccountSecurity = () => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const profile2Enabled = useToggleValue(TOGGLE_NAMES.profile2Enabled);
+  const headlineText = profile2Enabled
+    ? 'Sign-in information'
+    : 'Account security';
 
-  render() {
-    return (
-      <>
-        <Headline>Account security</Headline>
-        <AccountSecurityContent />
-      </>
-    );
-  }
-}
+  useEffect(() => {
+    focusElement('[data-focus-target]');
+  }, []);
+
+  useEffect(
+    () => {
+      document.title = `${headlineText} | Veterans Affairs`;
+    },
+    [headlineText],
+  );
+
+  return (
+    <>
+      <Headline>{headlineText}</Headline>
+      <AccountSecurityContent />
+    </>
+  );
+};
 
 export default AccountSecurity;

@@ -5,11 +5,17 @@ import MilitaryInformation from './components/military-information/MilitaryInfor
 import VeteranStatus from './components/veteran-status-card/VeteranStatus';
 import AccreditedRepresentative from './components/accredited-representative/AccreditedRepresentative';
 import { DirectDeposit } from './components/direct-deposit/DirectDeposit';
+import DependentsAndContacts from './components/DependentsAndContacts';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
 import BlankPageTemplate from './components/BlankPageTemplate';
+import FinancialInformation from './components/FinancialInformation';
+import HealthCareSettings from './components/HealthCareSettings';
+import LettersAndDocuments from './components/LettersAndDocuments';
+import AccountSecurityPage from './components/AccountSecurity';
+import AppointmentPreferences from './components/health-care-settings/AppointmentPreferences';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -112,7 +118,7 @@ const routesForProfile2Nav = [
     requiresMVI: true,
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: FinancialInformation,
     name: PROFILE_PATH_NAMES.FINANCIAL_INFORMATION,
     path: PROFILE_PATHS.FINANCIAL_INFORMATION,
     requiresLOA3: true,
@@ -128,20 +134,22 @@ const routesForProfile2Nav = [
     subnavParent: PROFILE_PATH_NAMES.FINANCIAL_INFORMATION,
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: HealthCareSettings,
     name: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
     path: PROFILE_PATHS.HEALTH_CARE_SETTINGS,
     requiresLOA3: true,
     requiresMVI: true,
     hasSubnav: true,
+    featureFlag: 'profileHealthCareSettingsPage',
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: AppointmentPreferences,
     name: PROFILE_PATH_NAMES.APPOINTMENT_PREFERENCES,
     path: PROFILE_PATHS.APPOINTMENT_PREFERENCES,
     requiresLOA3: true,
     requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
+    featureFlag: 'profileHealthCareSettingsPage',
   },
   {
     component: PersonalHealthCareContacts,
@@ -150,6 +158,7 @@ const routesForProfile2Nav = [
     requiresLOA3: true,
     requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
+    featureFlag: 'profileHealthCareSettingsPage',
   },
   {
     component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
@@ -158,9 +167,10 @@ const routesForProfile2Nav = [
     requiresLOA3: true,
     requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
+    featureFlag: 'profileHealthCareSettingsPage',
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: DependentsAndContacts,
     name: PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
     path: PROFILE_PATHS.DEPENDENTS_AND_CONTACTS,
     requiresLOA3: true,
@@ -176,7 +186,7 @@ const routesForProfile2Nav = [
     subnavParent: PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: LettersAndDocuments,
     name: PROFILE_PATH_NAMES.LETTERS_AND_DOCUMENTS,
     path: PROFILE_PATHS.LETTERS_AND_DOCUMENTS,
     requiresLOA3: true,
@@ -199,7 +209,7 @@ const routesForProfile2Nav = [
     requiresMVI: true,
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: AccountSecurityPage,
     name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
     path: PROFILE_PATHS.ACCOUNT_SECURITY,
     requiresLOA3: false,
@@ -225,9 +235,20 @@ const routesForProfile2Nav = [
 ];
 
 export const getRoutesForNav = (
-  { profile2Enabled = false } = {
+  { profile2Enabled = false, profileHealthCareSettingsPage = false } = {
     profile2Enabled: false,
+    profileHealthCareSettingsPage: false,
   },
 ) => {
-  return profile2Enabled ? routesForProfile2Nav : routesForNav;
+  if (profile2Enabled) {
+    return routesForProfile2Nav.filter(route => {
+      // filter out routes based on feature flags
+      if (route.featureFlag === 'profileHealthCareSettingsPage') {
+        return profileHealthCareSettingsPage;
+      }
+      return true;
+    });
+  }
+
+  return routesForNav;
 };

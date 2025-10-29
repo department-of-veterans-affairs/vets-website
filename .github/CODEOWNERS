@@ -278,6 +278,9 @@ src/applications/simple-forms/21p-0537 @department-of-veterans-affairs/bio-heart
 # Transition Experience
 src/applications/discover-your-benefits @department-of-veterans-affairs/transition-experience @department-of-veterans-affairs/va-platform-cop-frontend
 
+# Travel Pay
+src/applications/travel-pay @department-of-veterans-affairs/travel-pay-integration @department-of-veterans-affairs/va-platform-cop-frontend
+
 # Need more specific owners
 src/applications/ask-a-question @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/e-folders @department-of-veterans-affairs/va-platform-cop-frontend
@@ -288,7 +291,6 @@ src/applications/static-pages/analytics @department-of-veterans-affairs/va-platf
 src/applications/static-pages/download-1095b @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/benefit-eligibility-questionnaire @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/office-directory @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/travel-pay @department-of-veterans-affairs/va-platform-cop-frontend
 
 # BIO Huntridge Labs
 src/applications/medical-expense-report @department-of-veterans-affairs/bio-huntridge @department-of-veterans-affairs/va-platform-cop-frontend

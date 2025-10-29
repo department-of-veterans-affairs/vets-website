@@ -57,9 +57,13 @@ const childIsStepchild = {
       const { field, value } = getValue(event);
       handlers.onChange({ ...itemData, [field]: value });
     };
-    const { age } = calculateAge(itemData.dateOfBirth, {
+    const { labeledAge } = calculateAge(itemData.dateOfBirth, {
       dateInFormat: 'yyyy-MM-dd',
     });
+
+    // remove ' years' and ' old':
+    // 'age 11 years old' -> 'age 11' & 'age 5 months old' -> 'age 5 months'
+    const cleanAge = labeledAge.replace(' years', '').replace(' old', '');
 
     return (
       <>
@@ -69,7 +73,7 @@ const childIsStepchild = {
           error={
             formSubmitted && !itemData.isStepchild ? 'Select an option' : null
           }
-          label={`Is ${fullName} (age ${age}) your stepchild?`}
+          label={`Is ${fullName} (age ${cleanAge}) your stepchild?`}
           labelHeaderLevel="3"
           onVaValueChange={onChange}
           required

@@ -51,40 +51,6 @@ describe('GetHelp Component', () => {
     });
   });
 
-  describe('Feedback Button', () => {
-    it('should render feedback button', () => {
-      const { container } = render(<GetHelp />);
-      const feedbackButton = container.querySelector(
-        'va-button[text="Feedback"]',
-      );
-      expect(feedbackButton).to.exist;
-    });
-
-    it('should have secondary styling', () => {
-      const { container } = render(<GetHelp />);
-      const feedbackButton = container.querySelector(
-        'va-button[text="Feedback"]',
-      );
-      expect(feedbackButton.hasAttribute('secondary')).to.be.true;
-    });
-
-    it('should have uswds attribute', () => {
-      const { container } = render(<GetHelp />);
-      const feedbackButton = container.querySelector(
-        'va-button[text="Feedback"]',
-      );
-      expect(feedbackButton.hasAttribute('uswds')).to.be.true;
-    });
-
-    it('should be right-aligned', () => {
-      const { container } = render(<GetHelp />);
-      const buttonContainer = container.querySelector(
-        '.vads-u-text-align--right',
-      );
-      expect(buttonContainer).to.exist;
-    });
-  });
-
   describe('Layout and Styling', () => {
     it('should have proper margin classes on help text', () => {
       const { container } = render(<GetHelp />);

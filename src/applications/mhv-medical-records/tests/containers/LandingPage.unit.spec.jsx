@@ -5,7 +5,6 @@ import { fireEvent } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { addHours, format } from 'date-fns';
-import * as uniqueUserMetrics from '~/platform/mhv/unique_user_metrics';
 import LandingPage, {
   ALLERGIES_AND_REACTIONS_LABEL,
   CARE_SUMMARIES_AND_NOTES_LABEL,
@@ -98,7 +97,6 @@ describe('Landing Page', () => {
 
   describe('Landing Page without downtime', () => {
     let postCreateAALStub;
-    let logUniqueUserMetricsEventsStub;
     let sandbox;
     let getByTestId;
     let screen;
@@ -130,10 +128,6 @@ describe('Landing Page', () => {
       sandbox = sinon.createSandbox();
       // stub out postCreateAAL so it doesn't actually fire network requests
       postCreateAALStub = sandbox.stub(MrApi, 'postCreateAAL');
-      logUniqueUserMetricsEventsStub = sandbox.stub(
-        uniqueUserMetrics,
-        'logUniqueUserMetricsEvents',
-      );
       renderPage();
     });
 
@@ -299,64 +293,6 @@ describe('Landing Page', () => {
     linkTests.forEach(({ testId, activityType }) => {
       it(`calls postCreateAAL when ${activityType} link is clicked`, () => {
         clickAndAssert(testId, activityType);
-      });
-    });
-
-    it('should log medical records accessed event when landing page loads', () => {
-      expect(
-        logUniqueUserMetricsEventsStub.calledWith(
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_ACCESSED,
-        ),
-      ).to.be.true;
-    });
-
-    const uniqueUserMetricsLinkTests = [
-      {
-        testId: 'labs-and-tests-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_LABS_ACCESSED,
-        description: 'labs and tests',
-      },
-      {
-        testId: 'notes-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_NOTES_ACCESSED,
-        description: 'care summaries and notes',
-      },
-      {
-        testId: 'vaccines-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_VACCINES_ACCESSED,
-        description: 'vaccines',
-      },
-      {
-        testId: 'allergies-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_ALLERGIES_ACCESSED,
-        description: 'allergies and reactions',
-      },
-      {
-        testId: 'conditions-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_CONDITIONS_ACCESSED,
-        description: 'health conditions',
-      },
-      {
-        testId: 'vitals-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_VITALS_ACCESSED,
-        description: 'vitals',
-      },
-    ];
-
-    uniqueUserMetricsLinkTests.forEach(({ testId, eventType, description }) => {
-      it(`should log unique user metrics event when ${description} link is clicked`, () => {
-        // Reset the stub to clear previous calls
-        logUniqueUserMetricsEventsStub.resetHistory();
-
-        fireEvent.click(getByTestId(testId));
-
-        expect(logUniqueUserMetricsEventsStub.calledWith(eventType)).to.be.true;
       });
     });
   });

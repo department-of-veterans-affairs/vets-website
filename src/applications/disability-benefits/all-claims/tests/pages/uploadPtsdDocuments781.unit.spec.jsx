@@ -95,4 +95,30 @@ describe('781 record upload', () => {
     });
     form.unmount();
   });
+
+  describe('ui:confirmationField', () => {
+    it('should correctly display file names and label for confirmation field', () => {
+      const testData = [
+        {
+          name: 'Test.pdf',
+          attachmentId: 'L450',
+          confirmationCode: '1234',
+        },
+        {
+          name: 'Test2.pdf',
+          confirmationCode: 'L451',
+          attachmentId: '4321',
+        },
+      ];
+
+      const result = uiSchema.form781Upload['ui:confirmationField']({
+        formData: testData,
+      });
+
+      expect(result).to.deep.equal({
+        data: ['Test.pdf', 'Test2.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
+  });
 });

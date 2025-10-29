@@ -6,7 +6,7 @@ const POARequestSearchPageResults = ({ poaRequests }) => {
   if (poaRequests.length === 0) {
     return (
       <p data-testid="poa-requests-table-fetcher-no-poa-requests">
-        No POA requests found
+        No representation requests found.
       </p>
     );
   }

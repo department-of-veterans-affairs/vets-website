@@ -1,10 +1,37 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import set from 'platform/utilities/data/set'; // it doesn't look like this is exported by platform-utilities
 
 import AppealListItem from '../../../components/appeals-v2/AppealListItem';
 import { STATUS_TYPES, EVENT_TYPES } from '../../../utils/appeals-v2-helpers';
+import { renderWithRouter } from '../../utils';
+
+const getStore = (cstShowDocumentUploadStatus = false) =>
+  createStore(() => ({
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      cst_show_document_upload_status: cstShowDocumentUploadStatus,
+    },
+  }));
+
+const createFailedSubmission = (acknowledgementDate, failedDate) => ({
+  acknowledgementDate,
+  id: 1,
+  claimId: 1234,
+  createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+  deleteDate: null,
+  documentType: 'Appeal Supporting Documents',
+  failedDate,
+  fileName: 'appeal-documents.pdf',
+  lighthouseUpload: true,
+  trackedItemId: null,
+  trackedItemDisplayName: null,
+  uploadStatus: 'FAILED',
+  vaNotifyStatus: 'SENT',
+});
 
 describe('<AppealListItem>', () => {
   const defaultProps = {
@@ -166,4 +193,104 @@ describe('<AppealListItem>', () => {
     ).to.equal('mask');
     wrapper.unmount();
   });
+
+  context(
+    'when the cst_show_document_upload_status feature toggle is disabled',
+    () => {
+      it('should not render a slim alert', () => {
+        const appeal = {
+          ...defaultProps.appeal,
+          attributes: {
+            ...defaultProps.appeal.attributes,
+            evidenceSubmissions: [
+              createFailedSubmission(
+                new Date(Date.now() + 28 * 24 * 60 * 60 * 1000).toISOString(),
+                new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+              ),
+            ],
+          },
+        };
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <AppealListItem appeal={appeal} />
+          </Provider>,
+        );
+        const alert = container.querySelector('va-alert[status="error"]');
+
+        expect(alert).to.not.exist;
+      });
+    },
+  );
+
+  context(
+    'when the cst_show_document_upload_status feature toggle is enabled',
+    () => {
+      context(
+        'when there are no failed evidence submissions within the last 30 days',
+        () => {
+          it('should not render a slim alert', () => {
+            const appeal = {
+              ...defaultProps.appeal,
+              attributes: {
+                ...defaultProps.appeal.attributes,
+                evidenceSubmissions: [
+                  createFailedSubmission(
+                    new Date(
+                      Date.now() - 1 * 24 * 60 * 60 * 1000,
+                    ).toISOString(),
+                    new Date(
+                      Date.now() - 31 * 24 * 60 * 60 * 1000,
+                    ).toISOString(),
+                  ),
+                ],
+              },
+            };
+            const { container } = renderWithRouter(
+              <Provider store={getStore(true)}>
+                <AppealListItem appeal={appeal} />
+              </Provider>,
+            );
+            const alert = container.querySelector('va-alert[status="error"]');
+
+            expect(alert).to.not.exist;
+          });
+        },
+      );
+
+      context(
+        'when there are failed evidence submissions within the last 30 days',
+        () => {
+          it('should render a slim alert', () => {
+            const appeal = {
+              ...defaultProps.appeal,
+              attributes: {
+                ...defaultProps.appeal.attributes,
+                evidenceSubmissions: [
+                  createFailedSubmission(
+                    new Date(
+                      Date.now() + 28 * 24 * 60 * 60 * 1000,
+                    ).toISOString(),
+                    new Date(
+                      Date.now() - 2 * 24 * 60 * 60 * 1000,
+                    ).toISOString(),
+                  ),
+                ],
+              },
+            };
+            const { container } = renderWithRouter(
+              <Provider store={getStore(true)}>
+                <AppealListItem appeal={appeal} />
+              </Provider>,
+            );
+            const alert = container.querySelector('va-alert[status="error"]');
+
+            expect(alert).to.exist;
+            expect(alert.querySelector('p')).to.have.text(
+              'We need you to resubmit files for this claim.',
+            );
+          });
+        },
+      );
+    },
+  );
 });

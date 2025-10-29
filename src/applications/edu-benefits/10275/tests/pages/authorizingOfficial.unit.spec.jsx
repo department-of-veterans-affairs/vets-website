@@ -9,7 +9,7 @@ describe('Authorizing official page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.authorizingOfficialChapter.pages.authorizingOfficial;
+  } = formConfig.chapters.authorizedOfficialChapter.pages.authorizedOfficial;
 
   it('Renders the page with the correct number of inputs', async () => {
     const { container, getByRole } = render(

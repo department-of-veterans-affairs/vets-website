@@ -38,7 +38,7 @@ describe('Benefit Type Selection Form', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Choose your benefit type');
+      expect(container.textContent).to.include('Select which benefit');
     });
 
     it('should render benefit type radio buttons', () => {

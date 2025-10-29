@@ -1,3 +1,4 @@
+import { datadogRum } from '@datadog/browser-rum';
 import { Actions } from '../util/actionTypes';
 import {
   getConditions,
@@ -33,7 +34,11 @@ export const getConditionsList = (
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    datadogRum.addError(error, {
+      relativePath:
+        'src/applications/mhv-medical-records/actions/conditions.js',
+      functionName: 'getConditionsList',
+    });
   }
 };
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 import { mfa } from '~/platform/user/authentication/utilities';
 import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import SignInServiceUpdateLink from '../contact-information/email-addresses/SignInServiceUpdateLink';
 import { ProfileInfoSection } from '../ProfileInfoSection';
@@ -71,6 +72,9 @@ export const AccountSecurityTables = ({
   isIdentityVerified,
   isMultifactorEnabled,
 }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const profile2Enabled = useToggleValue(TOGGLE_NAMES.profile2Enabled);
+
   const data = (
     <AccountSetupList
       {...{
@@ -79,16 +83,23 @@ export const AccountSecurityTables = ({
       }}
     />
   );
+
   return (
     <>
-      <ProfileInfoSection
-        title="Sign-in information"
-        level={2}
-        data={
-          <SignInServiceUpdateLink isIdentityVerified={isIdentityVerified} />
-        }
-        className="vads-u-margin-bottom--2"
-      />
+      {!profile2Enabled && (
+        <ProfileInfoSection
+          title="Sign-in information"
+          level={2}
+          data={
+            <SignInServiceUpdateLink isIdentityVerified={isIdentityVerified} />
+          }
+          className="vads-u-margin-bottom--2"
+        />
+      )}
+
+      {profile2Enabled && (
+        <SignInServiceUpdateLink isIdentityVerified={isIdentityVerified} />
+      )}
 
       <ProfileInfoSection level={2} title="Account setup" data={data} />
     </>

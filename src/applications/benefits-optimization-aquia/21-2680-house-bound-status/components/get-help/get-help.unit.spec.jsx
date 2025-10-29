@@ -39,29 +39,6 @@ describe('GetHelp Component', () => {
     expect(text).to.include('24/7');
   });
 
-  it('should have feedback button', () => {
-    const { container } = render(<GetHelp />);
-    const button = container.querySelector('va-button');
-    expect(button).to.exist;
-    expect(button.getAttribute('text')).to.equal('Feedback');
-  });
-
-  it('should have secondary styled feedback button', () => {
-    const { container } = render(<GetHelp />);
-    const button = container.querySelector('va-button');
-    expect(button.hasAttribute('secondary')).to.be.true;
-    expect(button.hasAttribute('uswds')).to.be.true;
-  });
-
-  it('should align feedback button to the right', () => {
-    const { container } = render(<GetHelp />);
-    const buttonContainer = container.querySelector(
-      '.vads-u-text-align--right',
-    );
-    expect(buttonContainer).to.exist;
-    expect(buttonContainer.querySelector('va-button')).to.exist;
-  });
-
   it('should have appropriate paragraph spacing', () => {
     const { container } = render(<GetHelp />);
     const paragraph = container.querySelector('p.vads-u-margin-top--0');

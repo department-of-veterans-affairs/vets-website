@@ -2,7 +2,7 @@ import React from 'react';
 
 const NeedHelp = () => {
   return (
-    <div className="vads-u-margin-top--6 usa-width-two-thirds layout-wrapper">
+    <div className="vads-u-margin-top--6 usa-width-two-thirds vads-u-padding-x--1">
       <va-need-help>
         <div slot="content">
           <p>

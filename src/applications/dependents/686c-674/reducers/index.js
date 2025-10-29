@@ -8,6 +8,8 @@ import {
   VERIFY_VA_FILE_NUMBER_FAILED,
 } from '../actions';
 
+import dependents from '../../shared/reducers/dependents';
+
 const initialState = {
   hasVaFileNumber: null,
   isLoading: true,
@@ -30,5 +32,6 @@ const vaFileNumber = (state = initialState, action) => {
 
 export default {
   vaFileNumber,
+  dependents,
   form: createSaveInProgressFormReducer(formConfig),
 };

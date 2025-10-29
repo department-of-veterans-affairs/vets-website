@@ -1,5 +1,4 @@
 import sessionStatus from '../fixtures/session/default.json';
-import MedicalRecordsLandingPage from '../../pages/MedicalRecordsLandingPage';
 
 class CareSummaryAndNotes {
   setIntercepts = ({ careSummaryAndNotesData }) => {
@@ -32,7 +31,6 @@ class CareSummaryAndNotes {
         req.reply(careSummaryAndNotesData);
       },
     ).as('clinical_notes-list');
-    MedicalRecordsLandingPage.uumIntercept();
   };
 
   checkLandingPageLinks = () => {

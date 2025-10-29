@@ -8,7 +8,6 @@ import {
 import { scrollToTop } from 'platform/utilities/scroll';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from '~/platform/utilities/ui';
-import { slugifyText } from 'platform/forms-system/src/js/patterns/array-builder';
 
 import { PICKLIST_DATA, PICKLIST_PATHS } from '../config/constants';
 import { getPicklistRoutes } from './picklist/routes';
@@ -33,17 +32,13 @@ const RemoveDependentsPicklist = ({
   // Get current spouse from dependents list from API (added via prefill)
   const dependents =
     (data?.dependents?.hasDependents && data.dependents?.awarded) || [];
-  const slugifyKey = dependent =>
-    slugifyText(`${dependent.fullName.first}-${dependent.ssn.slice(-4)}`);
-  const keys = dependents.map(slugifyKey);
 
   // picklistChoices is an array so we can use the followup page pattern (using
   // arrayPath, showPagePerItem & itemFilter)
   const picklistChoices = dependents.reduce((acc, dependent, index) => {
-    const key = keys[index];
     // Set initial value to false if not set
     // This ensures the checkbox is unchecked on initial render
-    acc[index] = { ...dependent, ...acc[index], key };
+    acc[index] = { ...dependent, ...acc[index] };
     return acc;
   }, data[PICKLIST_DATA] || []);
   const atLeastOneChecked = (list = picklistChoices) =>

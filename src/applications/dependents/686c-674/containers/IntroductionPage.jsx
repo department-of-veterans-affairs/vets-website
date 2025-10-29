@@ -29,6 +29,7 @@ const IntroductionPage = props => {
     }
     waitForRenderThenFocus('.schemaform-title > h1');
     scrollTo('topContentElement');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getStatus = () => {

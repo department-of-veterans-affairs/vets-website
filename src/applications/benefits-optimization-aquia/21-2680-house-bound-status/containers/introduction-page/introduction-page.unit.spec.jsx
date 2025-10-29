@@ -7,7 +7,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import formConfig from '@bio-aquia/21-2680-house-bound-status/config/form';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 import { IntroductionPage } from './introduction-page';
 
 const props = {

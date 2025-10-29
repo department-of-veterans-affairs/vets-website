@@ -37,7 +37,7 @@ const uiSchema = {
       authorizing official.
     </>,
   ),
-  authorizingOfficial: {
+  authorizedOfficial: {
     fullName: fullNameNoSuffixUI(),
     title: textUI({
       title: 'Your title',
@@ -97,11 +97,11 @@ const uiSchema = {
         let updateRequiredSchema = [...requiredSchema];
 
         // US phone number selected
-        if (formData.authorizingOfficial['view:phoneType'] === 'us') {
+        if (formData.authorizedOfficial['view:phoneType'] === 'us') {
           updateRequiredSchema = [...updateRequiredSchema, 'usPhone'];
         }
         // International phone number selected
-        if (formData.authorizingOfficial['view:phoneType'] === 'intl') {
+        if (formData.authorizedOfficial['view:phoneType'] === 'intl') {
           updateRequiredSchema = [
             ...updateRequiredSchema,
             'internationalPhone',
@@ -117,7 +117,7 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    authorizingOfficial: {
+    authorizedOfficial: {
       type: 'object',
       properties: {
         fullName: fullNameNoSuffixSchema,
@@ -131,7 +131,48 @@ const schema = {
       },
       required: [...requiredSchema],
     },
+    // newCommitment object created in schema to be populated even if Pages 2-3 are skipped in this Step
+    newCommitment: {
+      type: 'object',
+      properties: {},
+    },
   },
 };
 
-export { uiSchema, schema };
+/**
+ * Resets the corresponding *newCommitment* object if the POC or SCO question is toggled.
+ * Only one toggle can trigger this at a time so one condition - *if* - will be satisfied at a time.
+ * @param {*} oldData old form data
+ * @param {*} formData new form data
+ * @returns updated form data
+ */
+const updateFormData = (oldData, formData) => {
+  const prevPOC = oldData?.authorizedOfficial?.['view:isPOC'];
+  const currPOC = formData?.authorizedOfficial?.['view:isPOC'];
+  const prevSCO = oldData?.authorizedOfficial?.['view:isSCO'];
+  const currSCO = formData?.authorizedOfficial?.['view:isSCO'];
+
+  if (prevPOC !== currPOC) {
+    return {
+      ...formData,
+      newCommitment: {
+        ...formData.newCommitment,
+        principlesOfExcellencePointOfContact: {},
+      },
+    };
+  }
+
+  if (prevSCO !== currSCO) {
+    return {
+      ...formData,
+      newCommitment: {
+        ...formData.newCommitment,
+        schoolCertifyingOfficial: {},
+      },
+    };
+  }
+
+  return formData;
+};
+
+export { uiSchema, schema, updateFormData };
