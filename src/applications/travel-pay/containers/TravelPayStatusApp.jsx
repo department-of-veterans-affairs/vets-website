@@ -21,13 +21,8 @@ export default function TravelPayStatusApp() {
 
   const toggleIsLoading = useToggleLoadingValue();
   const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
-  const smocEnabled = useToggleValue(
-    TOGGLE_NAMES.travelPaySubmitMileageExpense,
-  );
 
-  const title = smocEnabled
-    ? 'Travel reimbursement claims'
-    : 'Check your travel reimbursement claim status';
+  const title = 'Travel reimbursement claims';
 
   if (toggleIsLoading) {
     return (
