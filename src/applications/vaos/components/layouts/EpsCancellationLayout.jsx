@@ -16,7 +16,7 @@ export default function EpsCancellationLayout({
     <div>
       <va-card
         className="vaos-appts__appointment-details--container vads-u-margin-top--4 vads-u-border--2px vads-u-border-color--gray-medium vads-u-padding-x--2p5 vads-u-padding-top--5 vads-u-padding-bottom--3"
-        data-testid="appointment-card"
+        data-testid="cancel-appointment-card"
         icon-name="location_city"
       >
         <h3 data-testid="cc-appointment-card-header" data-dd-privacy="mask">

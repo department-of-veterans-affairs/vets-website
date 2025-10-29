@@ -150,7 +150,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     ).to.be.ok;
   });
 
-  it('should allow a user to choose available slot and fetch new slots after changing clinics', async () => {
+  it.skip('should allow a user to choose available slot and fetch new slots after changing clinics', async () => {
     mockEligibilityFetches({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,

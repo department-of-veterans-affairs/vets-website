@@ -9,10 +9,31 @@ describe('EpsCancellationLayout', () => {
   const sandbox = sinon.createSandbox();
   let onConfirmCancellation;
   let onAbortCancellation;
+  let mockAppointment;
 
   beforeEach(() => {
     onConfirmCancellation = sandbox.spy();
     onAbortCancellation = sandbox.spy();
+    mockAppointment = {
+      start: '2024-11-15T10:00:00Z',
+      typeOfCare: 'Primary Care',
+      reason: 'Routine checkup',
+      comments: 'Please bring medical records',
+      provider: {
+        name: 'Dr. John Smith',
+        phone: '555-123-4567',
+        location: {
+          name: 'Community Medical Center',
+          timezone: 'America/New_York',
+          address: {
+            street: '123 Main St',
+            city: 'Springfield',
+            state: 'MA',
+            zipCode: '01101',
+          },
+        },
+      },
+    };
   });
 
   afterEach(() => {
@@ -25,6 +46,7 @@ describe('EpsCancellationLayout', () => {
         cancellationConfirmed={false}
         onConfirmCancellation={onConfirmCancellation}
         onAbortCancellation={onAbortCancellation}
+        appointment={mockAppointment}
       />,
     );
 
@@ -38,6 +60,7 @@ describe('EpsCancellationLayout', () => {
         cancellationConfirmed
         onConfirmCancellation={onConfirmCancellation}
         onAbortCancellation={onAbortCancellation}
+        appointment={mockAppointment}
       />,
     );
 
@@ -51,6 +74,7 @@ describe('EpsCancellationLayout', () => {
         cancellationConfirmed={false}
         onConfirmCancellation={onConfirmCancellation}
         onAbortCancellation={onAbortCancellation}
+        appointment={mockAppointment}
       />,
     );
 
@@ -67,6 +91,7 @@ describe('EpsCancellationLayout', () => {
         cancellationConfirmed={false}
         onConfirmCancellation={onConfirmCancellation}
         onAbortCancellation={onAbortCancellation}
+        appointment={mockAppointment}
       />,
     );
 
@@ -83,6 +108,7 @@ describe('EpsCancellationLayout', () => {
         cancellationConfirmed={false}
         onConfirmCancellation={onConfirmCancellation}
         onAbortCancellation={onAbortCancellation}
+        appointment={mockAppointment}
       />,
     );
 
@@ -96,6 +122,7 @@ describe('EpsCancellationLayout', () => {
         cancellationConfirmed={false}
         onConfirmCancellation={onConfirmCancellation}
         onAbortCancellation={onAbortCancellation}
+        appointment={mockAppointment}
       />,
     );
 
