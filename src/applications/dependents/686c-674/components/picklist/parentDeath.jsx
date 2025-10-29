@@ -31,7 +31,7 @@ const parentDeath = {
   },
 
   /** @type {PicklistComponentProps} */
-  Component: ({ itemData, firstName, handlers, formSubmitted }) => {
+  Component: ({ itemData, firstName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
       handlers.onChange({ ...itemData, [field]: value });
@@ -40,7 +40,9 @@ const parentDeath = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Information about the death of {firstName}
+          {`${
+            isEditing ? 'Edit information' : 'Information'
+          } about the death of ${firstName}`}
         </h3>
         <h4>When was the death?</h4>
         <VaMemorableDate

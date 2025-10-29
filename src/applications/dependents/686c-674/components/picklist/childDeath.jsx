@@ -8,7 +8,7 @@ import {
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { SelectCountry, SelectState, getValue } from './helpers';
-import { propTypes } from './types';
+import propTypes from './types';
 
 const childDeath = {
   handlers: {
@@ -41,7 +41,7 @@ const childDeath = {
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
           {`${
-            isEditing ? 'Editing information' : 'Information'
+            isEditing ? 'Edit information' : 'Information'
           } about the death of ${firstName}`}
         </h3>
         <h4>When was the death?</h4>

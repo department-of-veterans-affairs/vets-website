@@ -87,7 +87,14 @@ const childReasonToRemove = {
   },
 
   /** @type {PicklistComponentProps} */
-  Component: ({ itemData, fullName, formSubmitted, firstName, handlers }) => {
+  Component: ({
+    itemData,
+    fullName,
+    formSubmitted,
+    firstName,
+    handlers,
+    isEditing,
+  }) => {
     const onChange = event => {
       const { value } = event.detail;
       // Pass updated itemData to handler.onChange
@@ -104,7 +111,7 @@ const childReasonToRemove = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          {labels.Child.removalReasonTitle(fullName)}
+          {labels.Child.removalReasonTitle(fullName, isEditing)}
         </h3>
         <VaRadio
           class="vads-u-margin-bottom--2"

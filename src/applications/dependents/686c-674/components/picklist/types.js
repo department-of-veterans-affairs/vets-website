@@ -69,7 +69,7 @@ import PropTypes from 'prop-types';
  * @returns React component
  */
 
-export const propTypes = {
+export default {
   Page: {
     Component: PropTypes.func,
   },

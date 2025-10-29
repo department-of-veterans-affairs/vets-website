@@ -34,6 +34,7 @@ const spouseReasonToRemove = {
     fullName,
     formSubmitted,
     handlers,
+    isEditing,
     returnToMainPage,
   }) => {
     if (!itemData.dateOfBirth || itemData.relationshipToVeteran !== 'Spouse') {
@@ -50,7 +51,7 @@ const spouseReasonToRemove = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          {labels.Spouse.removalReasonTitle(fullName)}
+          {labels.Spouse.removalReasonTitle(fullName, isEditing)}
         </h3>
         <VaRadio
           class="vads-u-margin-bottom--2"

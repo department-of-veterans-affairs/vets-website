@@ -66,6 +66,7 @@ const parentReasonToRemove = {
     formSubmitted,
     handlers,
     returnToMainPage,
+    isEditing,
   }) => {
     // Not in the design, but added in case the dependent data is invalid
     if (!itemData.dateOfBirth || itemData.relationshipToVeteran !== 'Parent') {
@@ -82,7 +83,7 @@ const parentReasonToRemove = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          {labels.Parent.removalReasonTitle(fullName)}
+          {labels.Parent.removalReasonTitle(fullName, isEditing)}
         </h3>
         <VaRadio
           class="vads-u-margin-bottom--2"

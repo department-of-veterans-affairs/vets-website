@@ -37,7 +37,7 @@ const spouseMarriageEnded = {
   },
 
   /** @type {PicklistComponentProps} */
-  Component: ({ itemData, firstName, handlers, formSubmitted }) => {
+  Component: ({ itemData, firstName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
       handlers.onChange({ ...itemData, [field]: value });
@@ -46,7 +46,9 @@ const spouseMarriageEnded = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Information about the end of your marriage to {firstName}
+          {`${
+            isEditing ? 'Edit information' : 'Information'
+          } about the end of your marriage to ${firstName}`}
         </h3>
 
         <div className="vads-u-margin-bottom--2">

@@ -19,10 +19,10 @@ const parentOtherExit = {
   hasExitLink: true,
 
   /** @type {PicklistComponentProps} */
-  Component: ({ firstName }) => (
+  Component: ({ firstName, isEditing }) => (
     <>
       <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-        Changes to {firstName}
+        {`${isEditing ? 'Edit changes' : 'Changes'} to ${firstName}`}
       </h3>
 
       <p>
