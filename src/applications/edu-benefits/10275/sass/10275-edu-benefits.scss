@@ -46,3 +46,59 @@ va-checkbox[error]::part(checkbox) {
     }
   }
 }
+
+ .contact-option-card {
+   background: hsl(0, 0%, 100%);
+   border: 1px solid hsl(0, 0%, 80%);
+   border-radius: 4px;
+   margin-bottom: 0.75rem;
+   padding: 0 1rem 1rem;
+   box-shadow: none;
+   display: flex;
+   align-items: center;
+ }
+
+ .contact-option-card :global(.va-radio-option input[type="radio"]) {
+   margin-right: 0.75rem;
+   margin-top: 0.125rem;
+   flex-shrink: 0;
+ }
+
+ .contact-option-card :global(.va-radio-option label) {
+   display: flex;
+   align-items: flex-start;
+   margin: 0;
+   flex: 1;
+ }
+
+ .contact-info {
+   flex: 1;
+ }
+ .contact-info:has(.contact-email) > .contact-name {
+  margin-top: 1rem;
+ }
+
+// VaRadio styling to ensure radio buttons are visible
+va-radio {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+va-radio-option {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+va-radio-option::part(radio) {
+  margin-right: 0.75rem;
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+}
+
+va-radio-option::part(label) {
+  display: flex;
+  align-items: flex-start;
+  margin: 0;
+  flex: 1;
+  white-space: pre-line;
+}

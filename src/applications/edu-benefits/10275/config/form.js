@@ -208,6 +208,12 @@ const formConfig = {
               path: 'additional-locations/:index/point-of-contact-2',
               uiSchema: pointOfContactForThisLocation.uiSchema,
               schema: pointOfContactForThisLocation.schema,
+              depends: (fromData, index) => {
+                return (
+                  fromData?.additionalLocations?.[index]
+                    ?.previouslyEnteredPointOfContact === 'none'
+                );
+              },
             }),
           }),
         ),
