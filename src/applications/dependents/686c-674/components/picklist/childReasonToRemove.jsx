@@ -65,8 +65,9 @@ const childReasonToRemove = {
           return 'child-marriage';
         case 'childDied':
           return 'child-death';
-        case 'childNotInSchool':
         case 'stepchildNotMember':
+          return 'stepchild-financial-support';
+        case 'childNotInSchool':
         case 'childAdopted':
           return 'DONE';
         default:
