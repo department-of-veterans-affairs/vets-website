@@ -1,0 +1,25 @@
+{
+  "veteran": {
+    "fullName": { "first": "John", "last": "Doe" },
+    "dateOfBirth": "1980-01-01"
+  },
+  "contactInformation1": {
+    "veteran": {
+      "address": {
+        "street": "123 Main St",
+        "city": "Springfield",
+        "state": "IL",
+        "postalCode": "62701"
+      }
+    }
+  },
+  "sectionTwoP1": { "disabilityDescription": "Lower back pain" },
+  "sectionThree": {
+    "disabilityDate": "2020-01-01",
+    "lastWorkedDate": "2021-06-01",
+    "disabledWorkDate": "2021-06-15",
+    "maxYearlyEarnings": 55000,
+    "yearEarned": 2019,
+    "occupation": "Technician"
+  }
+}

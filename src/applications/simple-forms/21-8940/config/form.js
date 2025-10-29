@@ -1,261 +1,520 @@
-// @ts-check
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
+import React from 'react';
+import environment from 'platform/utilities/environment';
+
 import footerContent from 'platform/forms/components/FormFooter';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import manifest from '../manifest.json';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import getHelp from '../../shared/components/GetFormHelp';
+import transformForSubmit from './submit-transformer';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import identificationInformation from '../pages/identificationInformation';
-import mailingAddress from '../pages/mailingAddress';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
-import serviceConnectedDisabilities from '../pages/serviceConnectedDisabilities';
-import { medicalCareProvidersPages } from '../pages/medicalCareProviders';
-import { hospitalizationsPages } from '../pages/hospitalizations';
-import disabilityDates from '../pages/disabilityDates';
-import incomeDetails from '../pages/incomeDetails';
-import { employmentHistoryPages } from '../pages/employmentHistory';
-import militaryService from '../pages/militaryService';
-import currentIncome from '../pages/currentIncome';
-import jobLeavingReason from '../pages/jobLeavingReason';
-import reasonForLeavingJob from '../pages/reasonForLeavingJob';
-import disabilityRetirement from '../pages/disabilityRetirement';
-import workersCompensation from '../pages/workersCompensation';
-import { jobSearchPages } from '../pages/jobSearch';
-import educationLevel from '../pages/educationLevel';
-import pastEducationTraining from '../pages/pastEducationTraining';
-import pastTrainingDetails from '../pages/pastTrainingDetails';
-import recentEducationTraining from '../pages/recentEducationTraining';
-import recentTrainingDetails from '../pages/recentTrainingDetails';
-import additionalInformation from '../pages/additionalInformation';
+import confirmationQuestion from '../pages/confirmationQuestion';
+import personalInformation1 from '../pages/personalInformation1';
+import personalInformation2 from '../pages/personalInformation2';
+import contactInformation1 from '../pages/contactInformation1';
+import contactInformation2 from '../pages/contactInformation2';
+
+import sectionTwoP1 from '../pages/sectionTwoP1';
+import sectionThree from '../pages/sectionThree';
+
+
+/*import doctorDates from '../pages/doctorDates';
+import doctorsAndHospitals from '../pages/doctorsAndHospitals';
+import hospitalDates from '../pages/hospitalDates';*/
+import employmentHistory from '../pages/employmentHistory';
+import doctorInformation from '../pages/doctorInformation';
+import hospitalInformation from '../pages/hospitalInformation';
+
+import BeforeDisability from '../pages/BeforeDisability';
+import AfterDisability from '../pages/AfterDisability';
+
+/*import employmentStatement from '../pages/employmentStatement';*/
+import employmentStatementHistory from '../pages/employmentStatementHistory';
+import sectionFour from '../pages/sectionFour';
+import additionalRemarks from '../pages/additionalRemarks';
+import sectionSix from '../pages/sectionSix';
+
+import doctorCareQuestion from '../pages/doctorCareQuestion';
+import hospitalQuestion from '../pages/hospitalQuestion';
+
+import { doctorCareQuestionFields, hospitalizationQuestionFields } from '../definitions/constants';
+/*import medicalTreatmentRecordsPages from '../pages/medicalTreatmentRecords';*/
+
+/** @returns {PageSchema} */
+const sectionOneBannerPage = {
+  path: 'section-1-banner',
+  title: 'Section 1 - Veteran Identification Information',
+  uiSchema: {
+    'ui:title': 'Section 1 - Veteran Identification Information',
+    'ui:description': (
+      <div>
+        <p>We'll start by confirming your identity and how to reach you.</p>
+        <div
+          style={{
+            backgroundColor: '#e7f4f7',
+            border: '1px solid #b3d4fc',
+            borderRadius: '5px',
+            padding: '16px',
+            margin: '16px 0',
+          }}
+        >
+          <h4 style={{ marginTop: 0, color: '#1b4480' }}>
+            What to expect:
+          </h4>
+          <ul style={{ marginBottom: 0, color: '#1b4480' }}>
+            <li>Your name and identification numbers</li>
+            <li>Your contact information (address, email, phone number)</li>
+            <li>Takes about 5–7 minutes</li>
+          </ul>
+        </div>
+      </div>
+    ),
+
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
+
+/** @returns {PageSchema} */
+const sectionTwoBannerPage = {
+  path: 'section-2-banner',
+  title: 'Section 2 - Disability And Medical Treatment',
+  uiSchema: {
+    'ui:title': 'Section 2 - Disability And Medical Treatment',
+    'ui:description': (
+      <div>
+        <p>We'll start by confirming your identity and how to reach you.</p>
+        <div
+          style={{
+            backgroundColor: '#e7f4f7',
+            border: '1px solid #b3d4fc',
+            borderRadius: '5px',
+            padding: '16px',
+            margin: '16px 0',
+          }}
+        >
+          <h4 style={{ marginTop: 0, color: '#1b4480' }}>
+            What to expect:
+          </h4>
+          <ul style={{ marginBottom: 0, color: '#1b4480' }}>
+            <li>Which disabilities prevent you from working</li>
+            <li>Doctors and hospitals you've visited in the past 12 months</li>
+            <li>Treatment dates and provider information</li>
+            <li>Takes about 7-10 minutes</li>
+          </ul>
+        </div>
+      </div>
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
+
+/** @returns {PageSchema} */
+const sectionThreeBannerPage = {
+  path: 'section-3-banner',
+  title: 'Section 3 - Employment Statement',
+  uiSchema: {
+    'ui:title': 'Section 3 - Employment Statement',
+    'ui:description': (
+      <div>
+        <p>We'll start by confirming your identity and how to reach you.</p>
+        <div
+          style={{
+            backgroundColor: '#e7f4f7',
+            border: '1px solid #b3d4fc',
+            borderRadius: '5px',
+            padding: '16px',
+            margin: '16px 0',
+          }}
+        >
+          <h4 style={{ marginTop: 0, color: '#1b4480' }}>
+            What to expect:
+          </h4>
+          <ul style={{ marginBottom: 0, color: '#1b4480' }}>
+            <li>When your disability began affecting your work</li>
+            <li>Employment details for the past 5 years</li>
+            <li>Your highest earnings and current income</li>
+            <li>Whether you've tried to find work since becoming disabled</li>
+            <li>Takes about 20-25 minutes (longest section)</li>
+          </ul>
+        </div>
+      </div>
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
+
+/** @returns {PageSchema} */
+const sectionFourBannerPage = {
+  path: 'section-4-banner',
+  title: 'Section 4 - Schooling and Other Training',
+  uiSchema: {
+    'ui:title': 'Section 4 - Schooling and Other Training',
+    'ui:description': (
+      <div>
+        <p>We'll start by confirming your identity and how to reach you.</p>
+        <div
+          style={{
+            backgroundColor: '#e7f4f7',
+            border: '1px solid #b3d4fc',
+            borderRadius: '5px',
+            padding: '16px',
+            margin: '16px 0',
+          }}
+        >
+          <h4 style={{ marginTop: 0, color: '#1b4480' }}>
+            What to expect:
+          </h4>
+          <ul style={{ marginBottom: 0, color: '#1b4480' }}>
+            <li>Highest level of education completed</li>
+            <li>Training before and after becoming too disabled to work</li>
+            <li>Takes about 3-5 minutes</li>
+          </ul>
+        </div>
+      </div>
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
+
+const sectionFiveBannerPage = {
+  path: 'section-5-banner',
+  title: 'Section 5 - Remarks',
+  uiSchema: {
+    'ui:title': 'Section 5 - Remarks',
+    'ui:description': (
+      <div>
+        <p>We'll start by confirming your identity and how to reach you.</p>
+        <div
+          style={{
+            backgroundColor: '#e7f4f7',
+            border: '1px solid #b3d4fc',
+            borderRadius: '5px',
+            padding: '16px',
+            margin: '16px 0',
+          }}
+        >
+          <h4 style={{ marginTop: 0, color: '#1b4480' }}>
+            What to expect:
+          </h4>
+          <ul style={{ marginBottom: 0, color: '#1b4480' }}>
+            <li>Space for any additional details about your situation</li>
+            <li>Upload any supporting documentation</li>
+            <li>This section is optional</li>
+          </ul>
+        </div>
+      </div>
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
+
+const sectionSixBannerPage = {
+  path: 'section-6-banner',
+  title: 'Section 6 - Authorization, Certification, and Signature',
+  uiSchema: {
+    'ui:title': 'Section 6 - Authorization, Certification, and Signature',
+    'ui:description': (
+      <div>
+        <p>We'll start by confirming your identity and how to reach you.</p>
+        <div
+          style={{
+            backgroundColor: '#e7f4f7',
+            border: '1px solid #b3d4fc',
+            borderRadius: '5px',
+            padding: '16px',
+            margin: '16px 0',
+          }}
+        >
+          <h4 style={{ marginTop: 0, color: '#1b4480' }}>
+            What to expect:
+          </h4>
+          <ul style={{ marginBottom: 0, color: '#1b4480' }}>
+            <li>Review all your information</li>
+            <li>Electronically sign and submit</li>
+            <li>Takes about 2-5 minutes</li>
+
+          </ul>
+        </div>
+      </div>
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'disability-21-8940-',
+  submitUrl: `${environment.API_URL}/increase_compensation/v0/form8940`,
+  trackingPrefix: 'ss-8940-',
+  // Provide an empty definitions object so shared page test helpers expecting this prop won't fail
+  defaultDefinitions: {},
+  dev: {
+    collapsibleNavLinks: true,
+    showNavLinks: true,
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
-    disableWindowUnloadInCI: true,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteran.fullName',
+    },
   },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      {
-        href: '/disability',
-        label: 'Disability',
-      },
-      {
-        href: '/disability/eligibility',
-        label: 'Eligibility',
-      },
-      {
-        href: '/disability/eligibility/special-claims',
-        label: 'Special claims',
-      },
-      {
-        href: '/disability/eligibility/special-claims/unemployability',
-        label: 'Unemployability',
-      },
-      {
-        href:
-          '/disability/eligibility/special-claims/unemployability/apply-form-21-8940',
-        label: 'Apply form 21 8940',
-      },
-    ],
-  }),
-  formId: VA_FORM_IDS.FORM_21_8940,
+  formId: '21-8940',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your increased compensation based on unemployability application (21-8940) is in progress.',
-    //   expired: 'Your saved increased compensation based on unemployability application (21-8940) has expired. If you want to apply for increased compensation based on unemployability, please start a new application.',
-    //   saved: 'Your increased compensation based on unemployability application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        "Your veteran's application for increased compensation based on unemployability is in progress.",
+      expired:
+        "Your saved veteran's application for increased compensation based on unemployability has expired.",
+      saved:
+        "Your veteran's application for increased compensation based on unemployability has been saved.",
+    },
   },
   version: 0,
+  // Note: this is enabled for Save In Progress functionality. We are not using prefill and thus do not have a prefill transformer
   prefillEnabled: true,
+  transformForSubmit,
   savedFormMessages: {
     notFound:
-      'Please start over to apply for increased compensation based on unemployability.',
+      'Please start over to authorize the release of non-VA medical information to VA.',
     noAuth:
-      'Please sign in again to continue your application for increased compensation based on unemployability.',
+      'Please sign in again to continue your authorization to release non-VA medical information to VA.',
   },
-  title: TITLE,
-  subTitle: SUBTITLE,
-  defaultDefinitions: {},
+  hideUnauthedStartLink: true,
+  title:
+    "Veteran's application for increased compensation based on unemployability",
+  subTitle:
+    'Please take your time to complete this form as accurately as you can.',
+  customText: {
+    appType: 'medical release authorization',
+  },
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    confirmationQuestionChapter: {
+      title: 'Correct Form Confirmation',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Your name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Your identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
+        confirmationQuestion: {
+          path: 'confirmation-required',
+          title: 'Confirmation Required',
+          uiSchema: confirmationQuestion.uiSchema,
+          schema: confirmationQuestion.schema,
         },
       },
     },
-    contactInformationChapter: {
-      title: 'Your contact information',
+    personalInformation1Chapter: {
+      title: "Veteran's personal information",
       pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Your mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-        },
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Your phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+        sectionOneBannerPage,
+        personalInformation1: {
+          path: 'personal-information-1',
+          title: 'Personal Information',
+          uiSchema: personalInformation1.uiSchema,
+          schema: personalInformation1.schema,
         },
       },
     },
-    disabilityAndMedicalTreatmentChapter: {
-      title: 'Disability and medical treatment',
+    personalInformation2Chapter: {
+      title: "Veteran's identification information",
       pages: {
-        serviceConnectedDisabilities: {
-          path: 'service-connected-disabilities',
-          title: 'Service-connected disabilities that affect your work',
-          uiSchema: serviceConnectedDisabilities.uiSchema,
-          schema: serviceConnectedDisabilities.schema,
+        personalInformation2: {
+          path: 'personal-information-2',
+          title: "Personal Information (cont'd)",
+          uiSchema: personalInformation2.uiSchema,
+          schema: personalInformation2.schema,
         },
-        ...medicalCareProvidersPages,
-        ...hospitalizationsPages,
       },
     },
-    disabilityImpactOnEmploymentChapter: {
-      title: 'Disability impact on employment',
+    contactInformation1Chapter: {
+      title: "Veteran's mailing address",
       pages: {
-        disabilityDates: {
-          path: 'disability-dates',
-          title: 'Disability dates',
-          uiSchema: disabilityDates.uiSchema,
-          schema: disabilityDates.schema,
+        contactInformation1: {
+          path: 'contact-information-1',
+          title: 'Contact Information',
+          uiSchema: contactInformation1.uiSchema,
+          schema: contactInformation1.schema,
         },
-        incomeDetails: {
-          path: 'income-details',
-          title: 'Income details',
-          uiSchema: incomeDetails.uiSchema,
-          schema: incomeDetails.schema,
+      },
+    },
+    contactInformation2Chapter: {
+      title: "Veteran's contact information",
+      pages: {
+        contactInformation2: {
+          path: 'contact-information-2',
+          title: 'Additional contact information',
+          uiSchema: contactInformation2.uiSchema,
+          schema: contactInformation2.schema,
+        },
+      },
+    },
+    sectionTwoP1Chapter: {
+      title: 'Disability and Medical Information',
+      pages: {
+        sectionTwoBannerPage,
+        sectionTwoP1: {
+          path: 'disability-and-medical-information',
+          title: 'Disability and Medical Information',
+          uiSchema: sectionTwoP1.uiSchema,
+          schema: sectionTwoP1.schema,
+        },
+      },
+    },
+    sectionTwoP2Chapter: {
+      title: 'Recent Medical Care',
+      pages: {
+        doctorCareQuestionPage: {
+          path: 'doctor-care-question',
+          title: "Doctor's Care Question",
+          uiSchema: doctorCareQuestion.uiSchema,
+          schema: doctorCareQuestion.schema,
+        },
+        doctorInformationPage:
+        {
+          path: 'doctor-information',
+          title: 'Doctor Information',
+          uiSchema: doctorInformation.uiSchema,
+          schema: doctorInformation.schema,
+          depends: formData=>
+            formData[doctorCareQuestionFields.parentObject][doctorCareQuestionFields.hasReceivedDoctorCare]
+        },
+        
+          hospitalCareQuestionPage: {
+          path: 'hospital-care-question',
+          title: "Hospital Care Question",
+          uiSchema: hospitalQuestion.uiSchema,
+          schema: hospitalQuestion.schema,
+        },
+        hospitalInformationPage:
+        {
+          path: 'hospital-information',
+          title: 'Hospitalization Information',
+          uiSchema: hospitalInformation.uiSchema,
+          schema: hospitalInformation.schema,
+          depends: formData=>
+            formData[hospitalizationQuestionFields.parentObject][hospitalizationQuestionFields.hasBeenHospitalized]
+        },
+
+      },
+    },
+    sectionThreeChapter: {
+      title: 'Employment Statement',
+      pages: {
+        sectionThreeBannerPage,
+        sectionThree: {
+          path: 'employment-statement',
+          title: 'Employment Statement',
+          uiSchema: sectionThree.uiSchema,
+          schema: sectionThree.schema,
         },
       },
     },
     employmentHistoryChapter: {
-      title: 'Employment history',
+      title: 'Employment History',
       pages: {
-        ...employmentHistoryPages,
-      },
-    },
-    currentEmploymentChapter: {
-      title: 'Current employment',
-      pages: {
-        militaryService: {
-          path: 'military-service',
-          title: 'Military service',
-          uiSchema: militaryService.uiSchema,
-          schema: militaryService.schema,
-        },
-        currentIncome: {
-          path: 'current-income',
-          title: 'Current income',
-          uiSchema: currentIncome.uiSchema,
-          schema: currentIncome.schema,
-        },
-        jobLeavingReason: {
-          path: 'leaving-work-due-to-disability',
-          title: 'Job leaving reason',
-          uiSchema: jobLeavingReason.uiSchema,
-          schema: jobLeavingReason.schema,
-        },
-        reasonForLeavingJob: {
-          path: 'reason-for-leaving-job',
-          title: 'Reason for leaving your last job',
-          depends: formData => formData.leftJobDueToDisability === true,
-          uiSchema: reasonForLeavingJob.uiSchema,
-          schema: reasonForLeavingJob.schema,
-        },
-        disabilityRetirement: {
-          path: 'disability-retirement',
-          title: 'Disability retirement benefits',
-          uiSchema: disabilityRetirement.uiSchema,
-          schema: disabilityRetirement.schema,
-        },
-        workersCompensation: {
-          path: 'workers-compensation',
-          title: 'Workers’ compensation benefits',
-          uiSchema: workersCompensation.uiSchema,
-          schema: workersCompensation.schema,
-        },
-        ...jobSearchPages,
-      },
-    },
-    educationAndTrainingChapter: {
-      title: 'Education and training',
-      pages: {
-        educationLevel: {
-          path: 'education-level',
-          title: 'Education level',
-          uiSchema: educationLevel.uiSchema,
-          schema: educationLevel.schema,
-        },
-        pastEducationTraining: {
-          path: 'past-education-training',
-          title: 'Past education and training',
-          uiSchema: pastEducationTraining.uiSchema,
-          schema: pastEducationTraining.schema,
-        },
-        pastTrainingDetails: {
-          path: 'past-training-details',
-          title: 'Details of your past training',
-          depends: formData => formData.pastEducationTraining === true,
-          uiSchema: pastTrainingDetails.uiSchema,
-          schema: pastTrainingDetails.schema,
-        },
-        recentEducationTraining: {
-          path: 'recent-education-training',
-          title: 'Recent education and training',
-          uiSchema: recentEducationTraining.uiSchema,
-          schema: recentEducationTraining.schema,
-        },
-        recentTrainingDetails: {
-          path: 'recent-training-details',
-          title: 'Details of your recent training',
-          depends: formData => formData.recentEducationTraining === true,
-          uiSchema: recentTrainingDetails.uiSchema,
-          schema: recentTrainingDetails.schema,
+        employmentHistory: {
+          title: 'Employment History',
+          path: 'section-3-employment',
+          uiSchema: employmentHistory.uiSchema,
+          schema: employmentHistory.schema,
         },
       },
     },
-    additionalInformationChapter: {
-      title: 'Additional information',
+
+    employmentAppliedChapter: {
+      title: 'Employment Application Records',
+      pages: employmentStatementHistory,
+    },
+    sectionFourChapter: {
+      title: 'Education and Training Information',
       pages: {
-        additionalInformation: {
-          path: 'additional-information',
-          title: 'Additional information',
-          uiSchema: additionalInformation.uiSchema,
-          schema: additionalInformation.schema,
+        sectionFourBannerPage,
+        sectionFour: {
+          path: 'education-and-training',
+          title: 'Education and Training Information',
+          uiSchema: sectionFour.uiSchema,
+          schema: sectionFour.schema,
+        },
+      },
+    },
+
+    beforeDisabilityChapter:
+    {
+       title: 'Education and Training Information (cont.)',
+      pages: {
+        beforeDisabilityPage: {
+          path: 'education-and-training-before-disability',
+          title: 'Education and Training Information (cont.)',
+          uiSchema: BeforeDisability.uiSchema,
+          schema: BeforeDisability.schema,
+        },
+      },
+    },
+     afterDisabilityChapter:
+    {
+       title: 'Education and Training Information (cont.)',
+      pages: {
+        afterDisabilityPage: {
+          path: 'education-and-training-after-disability',
+          title: 'Education and Training Information (cont.)',
+          uiSchema: AfterDisability.uiSchema,
+          schema: AfterDisability.schema,
+        },
+      },
+    },
+
+    sectionFiveChapter: {
+      title: 'Remarks',
+      pages: {
+        sectionFiveBannerPage,
+        additionalRemarks: {
+          path: 'additional-remarks',
+          title: 'Additional Remarks',
+          uiSchema: additionalRemarks.uiSchema,
+          schema: additionalRemarks.schema,
+        },
+      },
+    },
+    sectionSixChapter: {
+      title: 'Authorization and Certification',
+      pages: {
+        sectionSixBannerPage,
+        sectionSix: {
+          path: 'authorization-and-certification',
+          title: 'Authorization and Certification',
+          uiSchema: sectionSix.uiSchema,
+          schema: sectionSix.schema,
         },
       },
     },
   },
-  // getHelp,
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
+  },
   footerContent,
+  getHelp,
 };
 
 export default formConfig;
