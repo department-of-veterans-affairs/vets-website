@@ -18,13 +18,16 @@ export const mebUser = {
         lastName: 'Harber',
         gender: 'F',
         birthDate: '1985-01-01',
-        // dateOfBirth: '1990-01-01',
         verified: true,
         authnContext: 'dslogon',
         multifactor: true,
         zip: '21076',
         lastSignedIn: '2022-05-18T22:02:02.188Z',
       },
+      // eslint-disable-next-line camelcase
+      in_progress_forms: [],
+      // eslint-disable-next-line camelcase
+      prefills_available: [],
       veteranStatus: {
         status: 'OK',
         isVeteran: true,
