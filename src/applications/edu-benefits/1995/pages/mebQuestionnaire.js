@@ -67,8 +67,9 @@ export const yourInformationPage = () => ({
           aria-labelledby="summary-box-current-benefit"
           style={{
             backgroundColor: 'white',
-            border: '2px solid #71767a',
+            border: '2px solid #919191',
             borderRadius: '8px',
+            padding: '1.5rem',
           }}
         >
           <div className="usa-summary-box__body">
