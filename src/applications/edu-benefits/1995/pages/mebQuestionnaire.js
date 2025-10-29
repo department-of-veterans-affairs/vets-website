@@ -41,7 +41,9 @@ const getBenefitLabel = benefitType => {
 
 const ResultDescription = ({ body, linkHref, linkText, answers }) => (
   <div>
-    <h2>Change your education benefits</h2>
+    <h2 className="vads-u-white-space--nowrap">
+      Change your education benefits
+    </h2>
     <p>{body}</p>
     {linkHref && linkText && <va-link href={linkHref} text={linkText} />}
     <va-summary-box headline="Your answers">
@@ -59,15 +61,29 @@ export const yourInformationPage = () => ({
     'ui:title': 'Your information',
     'ui:description': ({ formData }) => (
       <div className="vads-u-margin-bottom--4">
-        <va-summary-box
-          uswds
-          style={{ '--va-summary-box-background-color': 'white' }}
+        <div
+          className="usa-summary-box"
+          role="region"
+          aria-labelledby="current-benefit-heading"
+          style={{
+            '--summary-box-background-color': 'white',
+            '--summary-box-border-color': 'black',
+          }}
         >
-          <h3 slot="headline">Your current benefit</h3>
-          <p className="vads-u-margin--0">
-            {getBenefitLabel(formData?.currentBenefitType)}
-          </p>
-        </va-summary-box>
+          <div className="usa-summary-box__body">
+            <h3
+              className="usa-summary-box__heading"
+              id="current-benefit-heading"
+            >
+              Your current benefit
+            </h3>
+            <div className="usa-summary-box__text">
+              <p className="vads-u-margin--0">
+                {getBenefitLabel(formData?.currentBenefitType)}
+              </p>
+            </div>
+          </div>
+        </div>
         <p className="vads-u-margin-top--2">
           <strong>Note:</strong> If this information is incorrect, call us at
           800-827-1000 (TTY: 711). We’re here Monday through Friday, 8:00 a.m.
