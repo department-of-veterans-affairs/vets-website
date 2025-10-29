@@ -14,9 +14,7 @@ import { NULL_CONDITION_STRING, CHAR_LIMITS } from '../constants';
 
 const getNewDisabilitiesProps = schema => {
   const nd = schema?.definitions?.newDisabilities?.items;
-  // New (refactored)526 schema shape: items.anyOf[0] = “full NEW/SECONDARY/WORSENED/VA” branch
   if (nd?.anyOf?.[0]?.properties) return nd.anyOf[0].properties;
-  // Original 526EZ shape (pre-refactor)
   if (nd?.properties) return nd.properties;
   return {};
 };
@@ -66,12 +64,14 @@ const causesWithoutSecondary = allCauses.filter(
 export const uiSchema = {
   'ui:title': 'Disability details',
   'ui:confirmationField': null,
+
   newDisabilities: {
     items: {
       'ui:title': disabilityNameTitle,
       'ui:options': {
         itemAriaLabel: data => `${data.condition} followup questions`,
       },
+
       cause: {
         'ui:title': 'What caused your condition?',
         'ui:widget': 'radio',
@@ -86,13 +86,14 @@ export const uiSchema = {
             VA:
               'My condition was caused by an injury or event that happened when I was receiving VA care.',
           },
-          updateSchema: (formData, causeSchema, causeUISchema, index) => ({
+          updateSchema: (formData, causeSchema, _ui, index) => ({
             enum: getDisabilitiesList(formData, index).length
               ? allCauses
               : causesWithoutSecondary,
           }),
         },
       },
+
       primaryDescription: {
         'ui:title':
           'Please briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the service, and this caused me to lose my hearing. (400 characters maximum)',
@@ -106,113 +107,106 @@ export const uiSchema = {
         },
         'ui:validations': [validateLength(CHAR_LIMITS.primaryDescription)],
       },
-      'view:secondaryFollowUp': {
+
+      causedByDisability: {
+        'ui:title':
+          'Please choose the disability that caused the new disability you’re claiming here.',
+        'ui:required': (formData, index) =>
+          formData.newDisabilities[index]?.cause === 'SECONDARY' &&
+          getDisabilitiesList(formData, index).length > 0,
+        'ui:options': {
+          labels: getDisabilityLabels(),
+          expandUnder: 'cause',
+          expandUnderCondition: 'SECONDARY',
+          updateSchema: (formData, _s, _u, index) => {
+            const list = getDisabilitiesList(formData, index);
+            return list.length ? { enum: list } : { 'ui:hidden': true };
+          },
+        },
+      },
+      causedByDisabilityDescription: {
+        'ui:title':
+          'Please briefly describe how the disability you selected caused your new disability. (400 characters maximum)',
+        'ui:widget': 'textarea',
+        'ui:required': (formData, index) =>
+          !isBDD(formData) &&
+          formData.newDisabilities[index]?.cause === 'SECONDARY' &&
+          getDisabilitiesList(formData, index).length > 0,
         'ui:options': {
           expandUnder: 'cause',
           expandUnderCondition: 'SECONDARY',
+          hideIf: isBDD,
         },
-        causedByDisability: {
-          'ui:title':
-            'Please choose the disability that caused the new disability you’re claiming here.',
-          'ui:required': (formData, index) =>
-            formData.newDisabilities[index]?.cause === 'SECONDARY' &&
-            getDisabilitiesList(formData, index).length > 0,
-          'ui:options': {
-            labels: getDisabilityLabels(),
-            updateSchema: (formData, primarySchema, primaryUISchema, index) => {
-              const disabilitiesList = getDisabilitiesList(formData, index);
-              if (!disabilitiesList.length) {
-                return {
-                  'ui:hidden': true,
-                };
-              }
-              return {
-                enum: disabilitiesList,
-              };
-            },
-          },
-        },
-        causedByDisabilityDescription: {
-          'ui:title':
-            'Please briefly describe how the disability you selected caused your new disability. (400 characters maximum)',
-          'ui:widget': 'textarea',
-          'ui:required': (formData, index) =>
-            !isBDD(formData) &&
-            formData.newDisabilities[index]?.cause === 'SECONDARY' &&
-            getDisabilitiesList(formData, index).length > 0,
-          'ui:options': {
-            hideIf: isBDD,
-          },
-          'ui:validations': [
-            validateLength(CHAR_LIMITS.causedByDisabilityDescription),
-          ],
-        },
+        'ui:validations': [
+          validateLength(CHAR_LIMITS.causedByDisabilityDescription),
+        ],
       },
-      'view:worsenedFollowUp': {
+
+      worsenedDescription: {
+        'ui:title':
+          'Please briefly describe the injury or exposure during your military service that caused your existing disability to get worse. (50 characters maximum)',
+        'ui:required': (formData, index) =>
+          !isBDD(formData) &&
+          formData.newDisabilities[index]?.cause === 'WORSENED' &&
+          getDisabilitiesList(formData, index).length > 0,
         'ui:options': {
           expandUnder: 'cause',
           expandUnderCondition: 'WORSENED',
           hideIf: isBDD,
         },
-        worsenedDescription: {
-          'ui:title':
-            'Please briefly describe the injury or exposure during your military service that caused your existing disability to get worse. (50 characters maximum)',
-          'ui:required': (formData, index) =>
-            !isBDD(formData) &&
-            formData.newDisabilities[index]?.cause === 'WORSENED' &&
-            getDisabilitiesList(formData, index).length > 0,
-          'ui:validations': [validateLength(CHAR_LIMITS.worsenedDescription)],
-        },
-        worsenedEffects: {
-          'ui:title':
-            'Please tell us how the disability affected you before your service, and how it affects you now after your service. (350 characters maximum)',
-          'ui:widget': 'textarea',
-          'ui:required': (formData, index) =>
-            !isBDD(formData) &&
-            formData.newDisabilities[index]?.cause === 'WORSENED' &&
-            getDisabilitiesList(formData, index).length > 0,
-          'ui:validations': [validateLength(CHAR_LIMITS.worsenedEffects)],
-        },
+        'ui:validations': [validateLength(CHAR_LIMITS.worsenedDescription)],
       },
-      'view:vaFollowUp': {
+      worsenedEffects: {
+        'ui:title':
+          'Please tell us how the disability affected you before your service, and how it affects you now after your service. (350 characters maximum)',
+        'ui:widget': 'textarea',
+        'ui:required': (formData, index) =>
+          !isBDD(formData) &&
+          formData.newDisabilities[index]?.cause === 'WORSENED' &&
+          getDisabilitiesList(formData, index).length > 0,
+        'ui:options': {
+          expandUnder: 'cause',
+          expandUnderCondition: 'WORSENED',
+        },
+        'ui:validations': [validateLength(CHAR_LIMITS.worsenedEffects)],
+      },
+
+      vaMistreatmentDescription: {
+        'ui:title':
+          'Please briefly describe the injury or event while you were under VA care that caused your disability. (350 characters maximum)',
+        'ui:widget': 'textarea',
+        'ui:required': (formData, index) =>
+          !isBDD(formData) &&
+          formData.newDisabilities[index]?.cause === 'VA' &&
+          getDisabilitiesList(formData, index).length > 0,
         'ui:options': {
           expandUnder: 'cause',
           expandUnderCondition: 'VA',
+          hideIf: isBDD,
         },
-        vaMistreatmentDescription: {
-          'ui:title':
-            'Please briefly describe the injury or event while you were under VA care that caused your disability. (350 characters maximum)',
-          'ui:widget': 'textarea',
-          'ui:required': (formData, index) =>
-            !isBDD(formData) &&
-            formData.newDisabilities[index]?.cause === 'VA' &&
-            getDisabilitiesList(formData, index).length > 0,
-          'ui:options': {
-            hideIf: isBDD,
-          },
-          'ui:validations': [
-            validateLength(CHAR_LIMITS.vaMistreatmentDescription),
-          ],
-        },
-        vaMistreatmentLocation: {
-          'ui:title':
-            'Please tell us where this happened. (25 characters maximum)',
-          'ui:required': (formData, index) =>
-            formData.newDisabilities[index]?.cause === 'VA' &&
-            getDisabilitiesList(formData, index).length > 0,
-          'ui:validations': [
-            validateLength(CHAR_LIMITS.vaMistreatmentLocation),
-          ],
-        },
-        vaMistreatmentDate: {
-          'ui:title':
-            'Please tell us when this happened. If you’re having trouble remembering the exact date you can provide a year. (25 characters maximum)',
-          'ui:required': (formData, index) =>
-            formData.newDisabilities[index]?.cause === 'VA' &&
-            getDisabilitiesList(formData, index).length > 0,
-          'ui:validations': [validateLength(CHAR_LIMITS.vaMistreatmentDate)],
-        },
+        'ui:validations': [
+          validateLength(CHAR_LIMITS.vaMistreatmentDescription),
+        ],
       },
+      vaMistreatmentLocation: {
+        'ui:title':
+          'Please tell us where this happened. (25 characters maximum)',
+        'ui:required': (formData, index) =>
+          formData.newDisabilities[index]?.cause === 'VA' &&
+          getDisabilitiesList(formData, index).length > 0,
+        'ui:options': { expandUnder: 'cause', expandUnderCondition: 'VA' },
+        'ui:validations': [validateLength(CHAR_LIMITS.vaMistreatmentLocation)],
+      },
+      vaMistreatmentDate: {
+        'ui:title':
+          'Please tell us when this happened. If you’re having trouble remembering the exact date you can provide a year. (25 characters maximum)',
+        'ui:required': (formData, index) =>
+          formData.newDisabilities[index]?.cause === 'VA' &&
+          getDisabilitiesList(formData, index).length > 0,
+        'ui:options': { expandUnder: 'cause', expandUnderCondition: 'VA' },
+        'ui:validations': [validateLength(CHAR_LIMITS.vaMistreatmentDate)],
+      },
+
       'view:serviceConnectedDisability': {
         'ui:description': ServiceConnectedDisabilityDescription,
       },
@@ -229,34 +223,18 @@ export const schema = {
         type: 'object',
         required: ['cause'],
         properties: {
+          // NOTE: these property defs came from getNewDisabilitiesProps(fullSchema)
           cause,
           primaryDescription,
-          'view:secondaryFollowUp': {
-            type: 'object',
-            properties: {
-              causedByDisability,
-              causedByDisabilityDescription,
-            },
-          },
-          'view:worsenedFollowUp': {
-            type: 'object',
-            properties: {
-              worsenedDescription,
-              worsenedEffects,
-            },
-          },
-          'view:vaFollowUp': {
-            type: 'object',
-            properties: {
-              vaMistreatmentDescription,
-              vaMistreatmentLocation,
-              vaMistreatmentDate,
-            },
-          },
-          'view:serviceConnectedDisability': {
-            type: 'object',
-            properties: {},
-          },
+          causedByDisability,
+          causedByDisabilityDescription,
+          worsenedDescription,
+          worsenedEffects,
+          vaMistreatmentDescription,
+          vaMistreatmentLocation,
+          vaMistreatmentDate,
+
+          'view:serviceConnectedDisability': { type: 'object', properties: {} },
         },
       },
     },
