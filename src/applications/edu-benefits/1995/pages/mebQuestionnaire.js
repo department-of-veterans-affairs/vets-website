@@ -59,7 +59,8 @@ export const yourInformationPage = () => ({
     'ui:title': 'Your information',
     'ui:description': ({ formData }) => (
       <div className="vads-u-margin-bottom--4">
-        <va-summary-box headline="Your current benefit">
+        <va-summary-box class="vads-u-background-color--transparent" uswds>
+          <h3 slot="headline">Your current benefit</h3>
           <p className="vads-u-margin--0">
             {getBenefitLabel(formData?.currentBenefitType)}
           </p>
