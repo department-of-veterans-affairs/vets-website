@@ -74,8 +74,9 @@ const MyEligibilityAndBenefits = () => {
               We can’t load the eligibility details right now
             </h2>
             <p>
-              We’re sorry. There’s a problem with our system. You are still
-              encouraged to proceed and apply for the VA Form 28-1900.
+              We’re sorry. There’s a problem with our system. Please wait a few
+              minutes and try again or apply for benefits using the VA Form
+              28-1900.
             </p>
             <va-link-action
               href="/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/#"
