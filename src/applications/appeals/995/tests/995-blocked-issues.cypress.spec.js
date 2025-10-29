@@ -6,6 +6,7 @@ import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-te
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { setupPerTest, pageHooks } from './995.cypress.helpers';
+import { parseDateWithOffset } from '../../shared/utils/dates';
 
 import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
@@ -13,7 +14,7 @@ import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 const setupPerTestBlockedIssues = (testData, toggles = []) => {
   setupPerTest(testData, toggles);
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = parseDateWithOffset({});
   const mockBlockedIssues = {
     data: [
       {

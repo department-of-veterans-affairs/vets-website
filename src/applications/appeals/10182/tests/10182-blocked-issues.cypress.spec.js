@@ -22,13 +22,15 @@ import {
   SELECTED,
 } from '../../shared/constants';
 import cypressSetup from '../../shared/tests/cypress.setup';
+import { parseDateWithOffset } from '../../shared/utils/dates';
+
 import {
   fixDecisionDates,
   getRandomDate,
   areaOfDisagreementPageHook,
 } from '../../shared/tests/cypress.helpers';
 
-const today = new Date().toISOString().split('T')[0];
+const today = parseDateWithOffset({});
 
 const mockBlockedIssuesData = [
   {

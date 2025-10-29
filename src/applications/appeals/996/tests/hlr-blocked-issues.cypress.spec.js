@@ -15,9 +15,10 @@ import { CONTESTABLE_ISSUES_API, SUBMIT_URL } from '../constants/apis';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 
 import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
+import { parseDateWithOffset } from '../../shared/utils/dates';
 import cypressSetup from '../../shared/tests/cypress.setup';
 
-const today = new Date().toISOString().split('T')[0];
+const today = parseDateWithOffset({});
 
 const mockBlockedIssuesData = [
   {
