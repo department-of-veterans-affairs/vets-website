@@ -159,7 +159,7 @@ const DebtLettersSummary = () => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
@@ -180,9 +180,10 @@ const DebtLettersSummary = () => {
           {title}
         </h1>
         <p className="va-introtext">
-          Check the details of debt you might have from VA education, disability
-          compensation, or pension programs. Find out how to pay your debt and
-          what to do if you need financial assistance.
+          Check the details of benefit overpayments you might have from VA
+          education, disability compensation, or pension programs. Find out how
+          to resolve overpayments and what to do if you need financial
+          assistance.
         </p>
         <p>
           Please note that payments may take up to 4 business days to reflect
