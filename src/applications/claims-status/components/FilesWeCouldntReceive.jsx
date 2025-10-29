@@ -13,6 +13,7 @@ import { usePagination } from '../hooks/usePagination';
 import { fetchFailedUploads } from '../actions';
 import { buildDateFormatter } from '../utils/helpers';
 import { setPageFocus } from '../utils/page';
+import { ITEMS_PER_PAGE } from '../constants';
 import NeedHelp from './NeedHelp';
 
 const FilesWeCouldntReceive = () => {
@@ -124,12 +125,12 @@ const FilesWeCouldntReceive = () => {
 
                   {shouldPaginate &&
                     (() => {
-                      const start = (currentPage - 1) * 10 + 1;
-                      const end = Math.min(
-                        currentPage * 10,
-                        sortedFailedFiles.length,
-                      );
                       const listLen = sortedFailedFiles.length;
+                      const start = (currentPage - 1) * ITEMS_PER_PAGE + 1;
+                      const end = Math.min(
+                        currentPage * ITEMS_PER_PAGE,
+                        listLen,
+                      );
                       const txt = `Showing ${start} \u2012 ${end} of ${listLen} items`;
                       return <p id="pagination-info">{txt}</p>;
                     })()}
