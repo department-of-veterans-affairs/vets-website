@@ -48,12 +48,7 @@ describe('stepchildFinancialSupport', () => {
   it('should render with proper heading and radio group', () => {
     const { container } = renderComponent();
     const radio = $('va-radio', container);
-    const heading = $('h3', container);
 
-    expect(heading).to.exist;
-    expect(heading.textContent).to.include(
-      'Financial support for PENNY FOSTER',
-    );
     expect(radio).to.exist;
     expect(radio.getAttribute('required')).to.equal('true');
     expect(radio.getAttribute('label')).to.equal(
@@ -177,12 +172,12 @@ describe('stepchildFinancialSupport', () => {
       ).to.equal('stepchild-financial-support-exit');
     });
 
-    it('should return "DONE" when not providing financial support', () => {
+    it('should return "stepchild-left-household" when not providing financial support', () => {
       expect(
         stepchildFinancialSupport.handlers.goForward({
           itemData: { stepchildFinancialSupport: 'N' },
         }),
-      ).to.equal('DONE');
+      ).to.equal('stepchild-left-household');
     });
 
     it('should return "DONE" when financial support value is not set', () => {

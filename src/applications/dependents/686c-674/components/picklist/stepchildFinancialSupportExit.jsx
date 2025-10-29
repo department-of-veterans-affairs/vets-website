@@ -51,8 +51,7 @@ const stepchildFinancialSupportExit = {
 
       <p>
         Because you provide at least half of {firstName}
-        's financial support,{' '}
-        <strong>{firstName} is an eligible dependent.</strong>
+        's financial support, {firstName} is an eligible dependent.
       </p>
 
       <p>{firstName} will remain on your benefits.</p>
