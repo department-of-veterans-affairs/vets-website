@@ -18,7 +18,7 @@ describe('generateDemographicsContent', () => {
         homePhone: null,
         workPhone: NONE_RECORDED,
         address: {
-          street: '',
+          street: undefined,
           city: undefined,
           state: null,
           zipcode: NONE_RECORDED,
