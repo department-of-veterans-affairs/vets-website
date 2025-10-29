@@ -15,6 +15,8 @@ import {
   reviewAndSubmitPageFlow,
 } from '../../shared/tests/e2e/helpers';
 
+import { fillDateDigitsWebComponentPattern } from './e2e/helpers';
+
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
@@ -139,7 +141,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillDateWebComponentPattern(
+            fillDateDigitsWebComponentPattern(
               'beneficiaryDateOfDeath',
               data.beneficiaryDateOfDeath,
             );
