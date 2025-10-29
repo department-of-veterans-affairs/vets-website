@@ -11,6 +11,10 @@ import NotificationSettings from './components/notification-settings/Notificatio
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
 import BlankPageTemplate from './components/BlankPageTemplate';
+import FinancialInformation from './components/FinancialInformation';
+import HealthCareSettings from './components/HealthCareSettings';
+import LettersAndDocuments from './components/LettersAndDocuments';
+import AccountSecurityPage from './components/AccountSecurity';
 import AppointmentPreferences from './components/health-care-settings/AppointmentPreferences';
 
 // the routesForNav array is used in the routes file to build the routes
@@ -114,7 +118,7 @@ const routesForProfile2Nav = [
     requiresMVI: true,
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: FinancialInformation,
     name: PROFILE_PATH_NAMES.FINANCIAL_INFORMATION,
     path: PROFILE_PATHS.FINANCIAL_INFORMATION,
     requiresLOA3: true,
@@ -130,7 +134,7 @@ const routesForProfile2Nav = [
     subnavParent: PROFILE_PATH_NAMES.FINANCIAL_INFORMATION,
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: HealthCareSettings,
     name: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
     path: PROFILE_PATHS.HEALTH_CARE_SETTINGS,
     requiresLOA3: true,
@@ -182,7 +186,7 @@ const routesForProfile2Nav = [
     subnavParent: PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: LettersAndDocuments,
     name: PROFILE_PATH_NAMES.LETTERS_AND_DOCUMENTS,
     path: PROFILE_PATHS.LETTERS_AND_DOCUMENTS,
     requiresLOA3: true,
@@ -205,7 +209,7 @@ const routesForProfile2Nav = [
     requiresMVI: true,
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: AccountSecurityPage,
     name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
     path: PROFILE_PATHS.ACCOUNT_SECURITY,
     requiresLOA3: false,
