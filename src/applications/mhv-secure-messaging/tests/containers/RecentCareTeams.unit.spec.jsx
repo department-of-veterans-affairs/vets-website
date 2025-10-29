@@ -90,6 +90,10 @@ describe('RecentCareTeams component', () => {
     it('should render the component with heading and radio options', () => {
       const screen = renderComponent();
 
+      expect(document.title).to.contain(
+        document.querySelector('h1').textContent,
+      );
+
       expect(
         screen.getByText(Constants.PageHeaders.RECENT_RECIPIENTS, {
           selector: 'h1',

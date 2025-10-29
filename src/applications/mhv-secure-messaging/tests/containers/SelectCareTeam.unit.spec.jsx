@@ -101,6 +101,8 @@ describe('SelectCareTeam', () => {
         name: /Select care team/i,
       }),
     ).to.exist;
+
+    expect(document.title).to.contain(document.querySelector('h1').textContent);
     const vaRadio = screen.container.querySelector('va-radio');
     expect(vaRadio).to.exist;
     expect(vaRadio.getAttribute('label')).to.equal(
