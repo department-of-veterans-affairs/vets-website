@@ -7,7 +7,8 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FormSavedPage from '../containers/FormSavedPage';
-import { submit, transform } from './submit';
+// import prefillTransformer from './prefill-transformer';
+import { transform } from './transform';
 // import { defaultDefinitions } from './definitions';
 import reportingPeriod from './chapters/02-expenses/reportingPeriod';
 import claimantRelationship from './chapters/01-applicant-information/claimantRelationship';
@@ -29,7 +30,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/medical_expense_reports/v0/form8416`,
-  submit,
   transformForSubmit: transform,
   trackingPrefix: 'med-expense-8416',
   v3SegmentedProgressBar: true,
@@ -45,6 +45,7 @@ const formConfig = {
   // useCustomScrollAndFocus: false,
   defaultDefinitions: commonDefinitions,
   prefillEnabled: true,
+  // prefillTransformer,
   saveInProgress: {
     messages: {
       inProgress: 'Your medical expense report is in progress.',
