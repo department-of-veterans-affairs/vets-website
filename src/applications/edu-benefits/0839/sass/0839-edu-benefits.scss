@@ -3,8 +3,6 @@
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
 .layout-wrapper {
-  padding-inline: var(--vads-spacing-1);
-
   @media (min-width: $medium-screen) {
     padding-inline: 0;
     padding-left: calc(var(--vads-spacing-1) * 2);
@@ -18,6 +16,12 @@
   va-text-input::part(label) {
     margin-top: 0;
   }
+}
+
+.ypr-no-expander-border .form-expanding-group-open {
+  border-left: 0 !important;
+  margin-left: -1.25rem;
+  padding-left: 1.25rem;
 }
 
 @media (max-width: $small-screen) {
@@ -60,10 +64,6 @@ legend.yellow-ribbon-title {
   }
 }
 .yellow-program-list {
-  p {
-    margin-bottom: calc(var(--vads-spacing-1) * 2);
-  }
-
   ul {
     width: 100%;
     padding-left: 0;
@@ -76,10 +76,7 @@ legend.yellow-ribbon-title {
       width: 100%;
       max-width: 100%;
       box-sizing: border-box;
-      padding-left: calc(var(--vads-spacing-1) + 12px);
-      margin-bottom: var(--vads-spacing-1);
       position: relative;
-      margin-left: var(--vads-spacing-1);
       &::before {
         content: "•";
         position: absolute;
@@ -132,6 +129,6 @@ label[id="root_unlimitedIndividuals-label"] {
 .container {
   width: 20.75rem;
 }
-[id="root_specificContributionAmount-label"]{
+[id="root_specificContributionAmount-label"] {
   display: none !important;
 }

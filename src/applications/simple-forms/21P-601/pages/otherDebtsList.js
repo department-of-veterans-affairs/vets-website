@@ -78,7 +78,7 @@ const debtDetailsPage = {
 
 export const otherDebtsPages = arrayBuilderPages(options, pageBuilder => ({
   otherDebtsSummary: pageBuilder.summaryPage({
-    title: 'Other debts the deceased owed',
+    title: 'Beneficiary’s other debts',
     path: 'other-debts-list',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,

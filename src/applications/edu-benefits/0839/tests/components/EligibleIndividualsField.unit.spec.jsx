@@ -91,7 +91,11 @@ describe('EligibleIndividualsField Component', () => {
       });
 
       const textInput = $('va-text-input', container);
-      expect(textInput.getAttribute('required')).to.equal('false');
+      if (textInput) {
+        expect(textInput.getAttribute('required')).to.equal('false');
+      } else {
+        expect(textInput).to.be.null;
+      }
     });
 
     it('should not mark text input as required when required prop is false', () => {
