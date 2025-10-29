@@ -222,3 +222,23 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'toll',
   },
 });
+
+export const TRANSPORTATION_OPTIONS = Object.freeze([
+  'Bus',
+  'Subway',
+  'Train',
+  'Other',
+]);
+
+export const TRANSPORTATION_REASONS = Object.freeze({
+  PrivatelyOwnedVehicleNotAvailable: {
+    label:
+      "I don't own a private vehicle, or it wasn't available when I needed it",
+  },
+  MedicallyIndicated: {
+    label: 'Medical reasons',
+  },
+  Other: {
+    label: 'Other',
+  },
+});
