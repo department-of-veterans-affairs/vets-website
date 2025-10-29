@@ -142,7 +142,7 @@ const ProfileWrapper = ({
       )}
 
       {layout === LAYOUTS.FULL_WIDTH && (
-        <ProfileFullWidthContainer>
+        <ProfileFullWidthContainer profile2Enabled={profile2Enabled}>
           <>
             {children}
             <ProfilePrivacyPolicy />

@@ -2,10 +2,12 @@ import React from 'react';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 import Tier2PageContent from '../Tier2PageContent';
 import { ProfileHubItem } from './ProfileHubItem';
+import NameTag from './NameTag';
 
 const ProfileHub = () => {
   return (
     <Tier2PageContent pageHeader="Profile">
+      <NameTag />
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.PERSONAL_INFORMATION}
         content="Legal name, date of birth, preferred name, and disability rating"
