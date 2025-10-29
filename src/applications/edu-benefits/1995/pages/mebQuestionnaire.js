@@ -41,7 +41,9 @@ const getBenefitLabel = benefitType => {
 
 const ResultDescription = ({ body, linkHref, linkText, answers }) => (
   <div>
-    <h2>Change your education benefits</h2>
+    <h2 className="vads-u-white-space--nowrap vads-u-display--block">
+      Change your education benefits
+    </h2>
     <p>{body}</p>
     {linkHref && linkText && <va-link href={linkHref} text={linkText} />}
     <va-summary-box headline="Your answers">
