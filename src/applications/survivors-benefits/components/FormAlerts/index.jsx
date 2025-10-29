@@ -53,3 +53,11 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
     advisory="A licensed medical professional must complete this form."
   />
 );
+
+export const IncomeAssetStatementFormAlert = () => (
+  <RequestFormAlert
+    title="Income and Asset Statement in Support of Claim for Pension or Parents' Dependency and Indemnity Compensation"
+    formName="VA Form 21P-0969"
+    formLink="https://www.va.gov/find-forms/about-form-21p-0969/"
+  />
+);
