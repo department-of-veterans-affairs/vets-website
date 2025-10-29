@@ -63,7 +63,10 @@ describe('Pensions — Disability Rating Alert', () => {
 
   it('shows 100% disability rating info alert', () => {
     cy.intercept('GET', DISABILITY_RATING_URL, {
-      combinedDisabilityRating: 100,
+      data: {
+        type: 'disability_ratings',
+        attributes: { combinedDisabilityRating: 100 },
+      },
     });
 
     cypressSetup();
@@ -85,7 +88,10 @@ describe('Pensions — Disability Rating Alert', () => {
 
   it('renders no alert when rating is less than 100', () => {
     cy.intercept('GET', DISABILITY_RATING_URL, {
-      combinedDisabilityRating: 70,
+      data: {
+        type: 'disability_ratings',
+        attributes: { combinedDisabilityRating: 70 },
+      },
     });
 
     cypressSetup();

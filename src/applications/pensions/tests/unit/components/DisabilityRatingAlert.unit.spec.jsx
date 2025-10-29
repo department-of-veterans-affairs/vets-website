@@ -30,9 +30,12 @@ describe('DisabilityRatingAlert component', () => {
   });
 
   it('renders info alert when rating is 100%', async () => {
-    apiStub = sinon
-      .stub(api, 'apiRequest')
-      .resolves({ combinedDisabilityRating: 100 });
+    apiStub = sinon.stub(api, 'apiRequest').resolves({
+      data: {
+        type: 'disability_ratings',
+        attributes: { combinedDisabilityRating: 100 },
+      },
+    });
 
     const { container, getByText } = render(<DisabilityRatingAlert />);
 
@@ -49,9 +52,12 @@ describe('DisabilityRatingAlert component', () => {
   });
 
   it('renders nothing when rating is less than 100%', async () => {
-    apiStub = sinon
-      .stub(api, 'apiRequest')
-      .resolves({ combinedDisabilityRating: 70 });
+    apiStub = sinon.stub(api, 'apiRequest').resolves({
+      data: {
+        type: 'disability_ratings',
+        attributes: { combinedDisabilityRating: 70 },
+      },
+    });
 
     const { container } = render(<DisabilityRatingAlert />);
 
