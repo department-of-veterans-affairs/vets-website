@@ -125,7 +125,7 @@ export const personalizeTitleByName = (
   const nameObj = formData?.[nameKey] || {};
   const baseName = firstNameOnly
     ? nameObj.first || content['noun--beneficiary']
-    : Object.values(nameObj)
+    : [nameObj.first, nameObj.middle, nameObj.last, nameObj.suffix]
         .filter(Boolean)
         .join(' ');
 
