@@ -28,19 +28,19 @@ function introDescription() {
   return (
     <div>
       <p className="vads-u-margin-top--0">
-        In the next few questions, we’ll ask you about mileage that wasn’t
-        reimbursed. You’ll need to add at least one mileage.
+        Next we’ll ask you about unreimbursed mileage that you, your spouse, or
+        your dependents paid for.
       </p>
       <p>
-        Report miles traveled for medical purposes in a privately owned vehicle
-        such as a car, truck or motorcycle.
+        You can report miles that you traveled for medical purposes in a
+        privately owned vehicle such as a car, truck, or motorcycle.
       </p>
     </div>
   );
 }
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'mileageExpenses',
   nounSingular: 'mileage expense',
   nounPlural: 'mileage expenses',
@@ -57,7 +57,7 @@ const options = {
 const introPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Add mileage expenses',
+      title: 'Mileage expenses',
       nounSingular: options.nounSingular,
       nounPlural: options.nounPlural,
     }),
@@ -100,21 +100,25 @@ const travelerPage = {
       title: 'Who needed to travel?',
       labels: recipientTypeLabels,
     }),
-    childName: textUI({
+    travelerName: textUI({
       title: 'Full name of the person who traveled',
       expandUnder: 'traveler',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
-      required: (formData, index) =>
-        ['DEPENDENT', 'OTHER'].includes(
-          formData?.mileageExpenses?.[index]?.traveler,
-        ),
+      required: (formData, index, fullData) => {
+        // Adding a check for formData and fullData since formData is sometimes undefined on load
+        // and we can't rely on fullData for testing
+        const mileageExpenses =
+          formData?.mileageExpenses ?? fullData?.mileageExpenses;
+        const mileageExpense = mileageExpenses?.[index];
+        return ['DEPENDENT', 'OTHER'].includes(mileageExpense?.traveler);
+      },
     }),
   },
   schema: {
     type: 'object',
     properties: {
       traveler: radioSchema(Object.keys(recipientTypeLabels)),
-      childName: textSchema,
+      travelerName: textSchema,
     },
     required: ['traveler'],
   },
@@ -124,7 +128,7 @@ const destinationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Expense destination and date'),
     travelLocation: radioUI({
-      title: 'Who is the expense for?',
+      title: 'What was the destination?',
       labels: travelLocationLabels,
       descriptions: {
         CLINIC:
@@ -132,15 +136,19 @@ const destinationPage = {
       },
     }),
     travelLocationOther: textUI({
-      title: 'Tell us where you traveled',
+      title: 'Describe the destination',
       expandUnder: 'travelLocation',
       expandUnderCondition: field => field === 'OTHER',
-      required: (formData, index) =>
-        formData?.mileageExpenses?.[index]?.travelLocation === 'OTHER',
+      required: (formData, index, fullData) => {
+        const mileageExpenses =
+          formData?.mileageExpenses ?? fullData?.mileageExpenses;
+        const mileageExpense = mileageExpenses?.[index];
+        return mileageExpense?.travelLocation === 'OTHER';
+      },
     }),
-    travelMilesTraveled: numberUI('How many miles did you travel?'),
+    travelMilesTraveled: numberUI('How many miles were travelled?'),
     travelDate: currentOrPastDateUI({
-      title: 'What’s the date of your travel?',
+      title: 'What was the date of travel?',
       monthSelect: false,
     }),
   },
@@ -160,16 +168,23 @@ const destinationPage = {
 const reimbursementPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Expense reimbursement'),
-    travelReimbursed: yesNoUI('Were you reimbursed from another source?'),
+    travelReimbursed: yesNoUI({
+      title: 'Has this mileage been reimbursed by any other source?',
+      hint: 'For example: a VA Medical Center',
+    }),
     // Required doesn't seem to work set directly on currencyUI.
     travelReimbursementAmount: {
       ...currencyUI({
-        title: 'How much were you reimbursed?',
+        title: 'How much money was reimbursed?',
         expandUnder: 'travelReimbursed',
         expandUnderCondition: field => field === true,
       }),
-      'ui:required': (formData, index) =>
-        formData?.mileageExpenses?.[index]?.travelReimbursed === true,
+      'ui:required': (formData, index, fullData) => {
+        const mileageExpenses =
+          formData?.mileageExpenses ?? fullData?.mileageExpenses;
+        const mileageExpense = mileageExpenses?.[index];
+        return mileageExpense?.travelReimbursed === true;
+      },
     },
   },
   schema: {
@@ -190,7 +205,7 @@ export const mileageExpensesPages = arrayBuilderPages(options, pageBuilder => ({
     schema: introPage.schema,
   }),
   mileageExpensesSummary: pageBuilder.summaryPage({
-    title: 'Mileage expenses',
+    title: 'Do you have a mileage expense to add?',
     path: 'expenses/mileage/add',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,

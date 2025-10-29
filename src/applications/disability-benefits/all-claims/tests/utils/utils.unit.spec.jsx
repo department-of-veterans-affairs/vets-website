@@ -3,7 +3,6 @@ import { shallow } from 'enzyme';
 import { maxYear, minYear } from 'platform/forms-system/src/js/helpers';
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 import { daysFromToday } from './dates/dateHelper';
-import { parseDate } from '../../utils/dates';
 
 import {
   CHAR_LIMITS,
@@ -15,10 +14,7 @@ import {
   baseDoNew4142Logic,
   capitalizeEachWord,
   fieldsHaveInput,
-  formatDate,
-  formatDateRange,
   formatFullName,
-  formatMonthYearDate,
   hasGuardOrReservePeriod,
   hasHospitalCare,
   hasNewPtsdDisability,
@@ -50,12 +46,17 @@ import {
   showPtsdNonCombat,
   showSeparationLocation,
   showToxicExposureDestructionModal,
-  showToxicExposureOptOutDataPurge,
   skip781,
   truncateDescriptions,
   validateConditions,
   viewifyFields,
 } from '../../utils';
+import {
+  formatDateRange,
+  formatDate,
+  parseDate,
+  formatMonthYearDate,
+} from '../../utils/dates/formatting';
 import { testBranches } from '../../utils/serviceBranches';
 
 describe('526 helpers', () => {
@@ -1090,27 +1091,6 @@ describe('526 v2 depends functions', () => {
     it('should get wizard feature flag value of false', () => {
       expect(show526Wizard({ featureToggles: { show526Wizard: false } })).to.be
         .false;
-    });
-  });
-
-  describe('showToxicExposureOptOutDataPurge', () => {
-    it('should get toxic exposure opt out data purge feature flag value of true', () => {
-      expect(
-        showToxicExposureOptOutDataPurge({
-          featureToggles: {
-            disability526ToxicExposureOptOutDataPurge: true,
-          },
-        }),
-      ).to.be.true;
-    });
-    it('should get toxic exposure opt out data purge feature flag value of false', () => {
-      expect(
-        showToxicExposureOptOutDataPurge({
-          featureToggles: {
-            disability526ToxicExposureOptOutDataPurge: false,
-          },
-        }),
-      ).to.be.false;
     });
   });
 

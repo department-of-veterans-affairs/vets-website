@@ -5,7 +5,6 @@ import mockSignature from '../fixtures/signature-response.json';
 import { Locators, Paths, Data, Alerts } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
-import mockUumResponse from '../fixtures/unique-user-metrics-response.json';
 import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
 import SharedComponents from './SharedComponents';
 
@@ -14,12 +13,14 @@ class PatientComposePage {
 
   messageBodyText = 'testBody';
 
+  sendMessageButton = () => {
+    return cy.findByTestId(Locators.BUTTONS.SEND_TEST_ID);
+  };
+
   sendMessage = (mockRequest, mockResponse = mockDraftMessage) => {
     cy.intercept('POST', `${Paths.SM_API_EXTENDED}*`, mockResponse).as(
       'message',
     );
-    // Note that we don't need specific event names in the response
-    cy.intercept('POST', Paths.UUM_API_BASE, mockUumResponse).as('uum');
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click({ force: true });
@@ -106,19 +107,27 @@ class PatientComposePage {
     comboBox.type('{enter}');
   };
 
-  categorySelect = () => {
-    return cy.findByTestId(Locators.FIELDS.MESSAGE_CATEGORY_DATA_TEST_ID);
+  recipientTitle = () => {
+    return cy.findByTestId(Locators.COMPOSE_RECIPIENT_TITLE);
+  };
+
+  validateRecipientTitle = expectedText => {
+    this.recipientTitle().should('contain.text', expectedText);
+  };
+
+  categoryDropdown = () => {
+    return cy.findByTestId(Locators.COMPOSE_CATEGORY_DROPDOWN);
   };
 
   selectCategory = (category = 'OTHER') => {
-    this.categorySelect()
+    this.categoryDropdown()
       .shadow()
       .find('select')
       .select(category, { force: true });
   };
 
-  validateCategorySelectValue = expectedValue => {
-    this.categorySelect().should('have.value', expectedValue);
+  validateCategorySelection = category => {
+    this.categoryDropdown().should('have.value', category);
   };
 
   getMessageSubjectField = () => {
@@ -128,11 +137,19 @@ class PatientComposePage {
       .find(`#inPutField`);
   };
 
+  validateMessageSubjectField = expectedText => {
+    this.getMessageSubjectField().should('have.value', expectedText);
+  };
+
   getMessageBodyField = () => {
     return cy
       .get(Locators.FIELDS.MESSAGE_BODY)
       .shadow()
       .find(`#input-type-textarea`);
+  };
+
+  validateMessageBodyField = expectedText => {
+    this.getMessageBodyField().should('have.value', expectedText);
   };
 
   getElectronicSignatureField = () => {
@@ -644,6 +661,17 @@ class PatientComposePage {
       `my_health/v1/messaging/folders/-1/threads*`,
       mockThreadResponse,
     ).as('sentFolder');
+  };
+
+  validateAddYourMedicationWarningBanner = beVisible => {
+    const bannerText =
+      'To submit your renewal request, you should fill in as many of the medication details as possible. You can find this information on your prescription label or in your prescription details page.';
+    cy.findByTestId(Locators.ALERTS.ADD_MEDICATION_INFO_WARNING)
+      .findByText('Add your medication information to this message')
+      .should(beVisible ? 'be.visible' : 'not.be.visible');
+    cy.findByTestId(Locators.ALERTS.ADD_MEDICATION_INFO_WARNING)
+      .findByText(bannerText)
+      .should(beVisible ? 'be.visible' : 'not.be.visible');
   };
 }
 

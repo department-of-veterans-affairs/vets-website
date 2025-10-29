@@ -49,12 +49,14 @@ const ProfileWrapper = ({
   const location = useLocation();
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const paperlessDeliveryToggle = useToggleValue(
-    TOGGLE_NAMES.profileShowPaperlessDelivery,
+  const profile2Toggle = useToggleValue(TOGGLE_NAMES.profile2Enabled);
+  const profileHealthCareSettingsPage = useToggleValue(
+    TOGGLE_NAMES.profileHealthCareSettingsPage,
   );
 
   const routesForNav = getRoutesForNav({
-    profileShowPaperlessDelivery: paperlessDeliveryToggle,
+    profile2Enabled: profile2Toggle,
+    profileHealthCareSettingsPage,
   });
 
   const layout = useMemo(
@@ -69,7 +71,7 @@ const ProfileWrapper = ({
   const mobileWrapperClassnames = classNames(
     'medium-screen:vads-u-display--none',
     {
-      'vads-u-margin--1 vads-u-margin-bottom--2': paperlessDeliveryToggle,
+      'vads-u-margin--1 vads-u-margin-bottom--2': profile2Toggle,
     },
   );
 
@@ -85,7 +87,7 @@ const ProfileWrapper = ({
       {layout === LAYOUTS.SIDEBAR && (
         <>
           <div className={mobileWrapperClassnames}>
-            {paperlessDeliveryToggle ? (
+            {profile2Toggle ? (
               <ProfileSubNav
                 routes={routesForNav}
                 isLOA3={isLOA3}
@@ -107,7 +109,7 @@ const ProfileWrapper = ({
             />
             <div className="vads-l-row">
               <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--3 vads-u-padding-left--2">
-                {paperlessDeliveryToggle ? (
+                {profile2Toggle ? (
                   <ProfileSubNav
                     routes={routesForNav}
                     isLOA3={isLOA3}

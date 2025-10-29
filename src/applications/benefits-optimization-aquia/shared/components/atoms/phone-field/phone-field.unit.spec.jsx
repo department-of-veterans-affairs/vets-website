@@ -44,11 +44,11 @@ describe('PhoneField', () => {
     });
 
     it('shows current phone value', () => {
-      const props = { ...defaultProps, value: '555-123-4567' };
+      const props = { ...defaultProps, value: '977-227-5000' };
       const { container } = render(<PhoneField {...props} />);
       const phoneInput = container.querySelector('va-telephone-input');
-      expect(phoneInput).to.have.attribute('value', '555-123-4567');
-      expect(phoneInput).to.have.attribute('contact', '555-123-4567');
+      expect(phoneInput).to.have.attribute('value', '977-227-5000');
+      expect(phoneInput).to.have.attribute('contact', '977-227-5000');
     });
 
     it('shows empty string for no value', () => {
@@ -59,10 +59,10 @@ describe('PhoneField', () => {
       expect(phoneInput).to.have.attribute('contact', '');
     });
 
-    it('defaults to US country with no country selector', () => {
+    it('defaults to US country with country selector shown', () => {
       const { container } = render(<PhoneField {...defaultProps} />);
       const phoneInput = container.querySelector('va-telephone-input');
-      expect(phoneInput).to.have.attribute('no-country', 'true');
+      expect(phoneInput).to.not.have.attribute('no-country');
       expect(phoneInput).to.have.attribute('country', 'US');
     });
 
@@ -71,6 +71,29 @@ describe('PhoneField', () => {
       const phoneInput = container.querySelector('va-telephone-input');
       expect(phoneInput).to.have.attribute('required', 'false');
     });
+
+    it('sets required to true when required prop is true', () => {
+      const props = { ...defaultProps, required: true };
+      const { container } = render(<PhoneField {...props} />);
+      const phoneInput = container.querySelector('va-telephone-input');
+      expect(phoneInput).to.have.attribute('required', 'true');
+    });
+
+    it('sets required to false when required prop is false', () => {
+      const props = { ...defaultProps, required: false };
+      const { container } = render(<PhoneField {...props} />);
+      const phoneInput = container.querySelector('va-telephone-input');
+      expect(phoneInput).to.have.attribute('required', 'false');
+    });
+
+    it('properly passes through required attribute for form validation', () => {
+      const props = { ...defaultProps, required: true };
+      const { container } = render(<PhoneField {...props} />);
+      const phoneInput = container.querySelector('va-telephone-input');
+      // Verify the required attribute is present and set correctly
+      expect(phoneInput.hasAttribute('required')).to.be.true;
+      expect(phoneInput.getAttribute('required')).to.equal('true');
+    });
   });
 
   describe('rendering in display mode', () => {
@@ -78,12 +101,12 @@ describe('PhoneField', () => {
       const props = {
         ...defaultProps,
         displayOnly: true,
-        value: '555-123-4567',
+        value: '977-227-5000',
       };
       const { container } = render(<PhoneField {...props} />);
       const phoneDisplay = container.querySelector('va-telephone');
       expect(phoneDisplay).to.exist;
-      expect(phoneDisplay).to.have.attribute('contact', '555-123-4567');
+      expect(phoneDisplay).to.have.attribute('contact', '977-227-5000');
       expect(phoneDisplay).to.have.attribute('not-clickable', 'false');
     });
 
@@ -91,7 +114,7 @@ describe('PhoneField', () => {
       const props = {
         ...defaultProps,
         displayOnly: true,
-        value: '555-123-4567',
+        value: '977-227-5000',
         label: 'Primary Phone',
       };
       const { container } = render(<PhoneField {...props} />);
@@ -106,7 +129,7 @@ describe('PhoneField', () => {
       const props = {
         ...defaultProps,
         displayOnly: true,
-        value: '555-123-4567',
+        value: '977-227-5000',
         extension: '123',
       };
       const { container } = render(<PhoneField {...props} />);
@@ -149,14 +172,14 @@ describe('PhoneField', () => {
       // Wait for useEffect to set up event listeners
       await waitFor(() => {
         const event = new CustomEvent('vaContact', {
-          detail: { contact: '555-987-6543' },
+          detail: { contact: '977-312-7000' },
         });
         phoneInput.dispatchEvent(event);
       });
 
       expect(onChange.calledOnce).to.be.true;
       expect(onChange.firstCall.args[0]).to.equal('testPhone');
-      expect(onChange.firstCall.args[1]).to.equal('555-987-6543');
+      expect(onChange.firstCall.args[1]).to.equal('977-312-7000');
     });
 
     it('handles onChange with detail value', async () => {
@@ -167,13 +190,13 @@ describe('PhoneField', () => {
 
       await waitFor(() => {
         const event = new CustomEvent('vaContact', {
-          detail: { value: '555-111-2222' },
+          detail: { value: '977-501-1000' },
         });
         phoneInput.dispatchEvent(event);
       });
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('555-111-2222');
+      expect(onChange.firstCall.args[1]).to.equal('977-501-1000');
     });
 
     it('handles onBlur events', async () => {
@@ -281,7 +304,7 @@ describe('PhoneField', () => {
 
       await waitFor(() => {
         const event = new CustomEvent('vaContact', {
-          detail: { contact: '555-123-4567' },
+          detail: { contact: '977-227-5000' },
         });
         phoneInput.dispatchEvent(event);
       });
@@ -293,7 +316,7 @@ describe('PhoneField', () => {
       const props = {
         ...defaultProps,
         displayOnly: true,
-        value: '555-123-4567',
+        value: '977-227-5000',
       };
       const { container } = render(<PhoneField {...props} />);
       const phoneDisplay = container.querySelector('va-telephone');
@@ -325,7 +348,7 @@ describe('PhoneField', () => {
 
       await waitFor(() => {
         const event = new CustomEvent('vaContact', {
-          detail: { contact: '555-123-4567' },
+          detail: { contact: '977-227-5000' },
         });
         expect(() => phoneInput.dispatchEvent(event)).to.not.throw();
       });
@@ -373,43 +396,43 @@ describe('PhoneField', () => {
 
       await waitFor(() => {
         const event = new CustomEvent('vaContact', {
-          detail: { contact: '+1-555-123-4567' },
+          detail: { contact: '+1-977-227-5000' },
         });
         phoneInput.dispatchEvent(event);
       });
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('+1-555-123-4567');
+      expect(onChange.firstCall.args[1]).to.equal('+1-977-227-5000');
     });
   });
 
   describe('phone number formatting', () => {
     it('accepts standard US format', () => {
-      const props = { ...defaultProps, value: '555-123-4567' };
+      const props = { ...defaultProps, value: '977-227-5000' };
       const { container } = render(<PhoneField {...props} />);
       const phoneInput = container.querySelector('va-telephone-input');
-      expect(phoneInput).to.have.attribute('value', '555-123-4567');
+      expect(phoneInput).to.have.attribute('value', '977-227-5000');
     });
 
     it('accepts digits only format', () => {
-      const props = { ...defaultProps, value: '5551234567' };
+      const props = { ...defaultProps, value: '9774158000' };
       const { container } = render(<PhoneField {...props} />);
       const phoneInput = container.querySelector('va-telephone-input');
-      expect(phoneInput).to.have.attribute('value', '5551234567');
+      expect(phoneInput).to.have.attribute('value', '9774158000');
     });
 
     it('accepts parentheses format', () => {
-      const props = { ...defaultProps, value: '(555) 123-4567' };
+      const props = { ...defaultProps, value: '(977) 138-0000' };
       const { container } = render(<PhoneField {...props} />);
       const phoneInput = container.querySelector('va-telephone-input');
-      expect(phoneInput).to.have.attribute('value', '(555) 123-4567');
+      expect(phoneInput).to.have.attribute('value', '(977) 138-0000');
     });
 
     it('accepts extension format in display mode', () => {
       const props = {
         ...defaultProps,
         displayOnly: true,
-        value: '555-123-4567',
+        value: '977-227-5000',
         extension: 'ext. 123',
       };
       const { container } = render(<PhoneField {...props} />);
@@ -419,19 +442,27 @@ describe('PhoneField', () => {
   });
 
   describe('country handling', () => {
-    it('defaults to US with no country selector', () => {
+    it('defaults to US with country selector shown', () => {
       const { container } = render(<PhoneField {...defaultProps} />);
+      const phoneInput = container.querySelector('va-telephone-input');
+      expect(phoneInput).to.not.have.attribute('no-country');
+      expect(phoneInput).to.have.attribute('country', 'US');
+    });
+
+    it('hides country selector when showCountrySelector is false', () => {
+      const props = { ...defaultProps, showCountrySelector: false };
+      const { container } = render(<PhoneField {...props} />);
       const phoneInput = container.querySelector('va-telephone-input');
       expect(phoneInput).to.have.attribute('no-country', 'true');
       expect(phoneInput).to.have.attribute('country', 'US');
     });
 
-    it('respects showCountrySelector prop (unused)', () => {
+    it('shows country selector when showCountrySelector is true', () => {
       const props = { ...defaultProps, showCountrySelector: true };
       const { container } = render(<PhoneField {...props} />);
       const phoneInput = container.querySelector('va-telephone-input');
-      // Component ignores this prop but should still render
-      expect(phoneInput).to.exist;
+      expect(phoneInput).to.not.have.attribute('no-country');
+      expect(phoneInput).to.have.attribute('country', 'US');
     });
   });
 
@@ -440,7 +471,7 @@ describe('PhoneField', () => {
       const props = {
         ...defaultProps,
         displayOnly: true,
-        value: '555-123-4567',
+        value: '977-227-5000',
         label: 'Emergency Contact',
       };
       const { container } = render(<PhoneField {...props} />);
@@ -454,7 +485,7 @@ describe('PhoneField', () => {
       const props = {
         ...defaultProps,
         displayOnly: true,
-        value: '555-123-4567',
+        value: '977-227-5000',
         label: null,
       };
       const { container } = render(<PhoneField {...props} />);
@@ -468,13 +499,13 @@ describe('PhoneField', () => {
       const props = {
         ...defaultProps,
         displayOnly: true,
-        value: '+1-555-123-4567-ext-9999',
+        value: '+1-977-227-5000-ext-9999',
       };
       const { container } = render(<PhoneField {...props} />);
       const phoneDisplay = container.querySelector('va-telephone');
       expect(phoneDisplay).to.have.attribute(
         'contact',
-        '+1-555-123-4567-ext-9999',
+        '+1-977-227-5000-ext-9999',
       );
     });
   });
@@ -488,7 +519,7 @@ describe('PhoneField', () => {
 
       // Re-render to trigger useEffect again
       const { rerender } = render(<PhoneField {...defaultProps} />);
-      rerender(<PhoneField {...defaultProps} value="555-123-4567" />);
+      rerender(<PhoneField {...defaultProps} value="977-227-5000" />);
 
       addEventListenerSpy.restore();
     });

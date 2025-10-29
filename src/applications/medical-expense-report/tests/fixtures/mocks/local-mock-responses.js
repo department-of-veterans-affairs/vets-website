@@ -61,7 +61,7 @@ const responses = {
       },
     });
   },
-  'POST /v0/api/medical_expense_reports': (req, res) => {
+  'POST /medical_expense_reports/v0/form8416': (req, res) => {
     return res.json({
       formSubmissionId: '123fake-submission-id-567',
       confirmationNumber: '123fake-submission-id-567',
