@@ -12,11 +12,13 @@ const DisabilityRatingAlert = () => {
 
     const fetchDisabilityRating = async () => {
       try {
-        const data = await apiRequest(
+        const response = await apiRequest(
           `${environment.API_URL}/v0/rated_disabilities`,
         );
         if (isMounted) {
-          setRating(data?.combinedDisabilityRating ?? 0);
+          const combinedDisabilityRating =
+            response?.data?.attributes?.combinedDisabilityRating;
+          setRating(combinedDisabilityRating ?? 0);
         }
       } catch (err) {
         if (isMounted) {
