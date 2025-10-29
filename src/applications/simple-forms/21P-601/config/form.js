@@ -124,7 +124,7 @@ const formConfig = {
       },
     },
     deceasedBeneficiaryChapter: {
-      title: 'Information about the deceased',
+      title: 'Beneficiary information',
       depends: formData =>
         formData?.hasAlreadyFiled === false &&
         formData?.hasUnpaidCreditors === false,
