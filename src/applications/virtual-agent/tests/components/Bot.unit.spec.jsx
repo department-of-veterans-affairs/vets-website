@@ -10,7 +10,6 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import * as SignInModalModule from '@department-of-veterans-affairs/platform-user/SignInModal';
 
 import * as SessionStorageModule from '../../utils/sessionStorage';
-import * as WebAuthActivityEventListenerModule from '../../event-listeners/webAuthActivityEventListener';
 import * as ChatboxDisclaimerModule from '../../components/ChatboxDisclaimer';
 import * as AppModule from '../../components/App';
 import Bot from '../../components/Bot';
@@ -39,19 +38,6 @@ describe('Bot', () => {
   });
 
   describe('Bot', () => {
-    it('should setup the webAuthActivityEventListener', () => {
-      sandbox.stub(ReactReduxModule, 'useSelector');
-      const webAuthActivityEventListenerStub = sandbox.stub(
-        WebAuthActivityEventListenerModule,
-        'default',
-      );
-      render(
-        <Provider store={mockStore}>
-          <Bot />
-        </Provider>,
-      );
-      expect(webAuthActivityEventListenerStub.calledOnce).to.be.true;
-    });
     it('should set inAuthexp to true and loggedInFlow to false if user is logged in', () => {
       sandbox
         .stub(ReactReduxModule, 'useSelector')
@@ -110,11 +96,11 @@ describe('Bot', () => {
         </Provider>,
       );
 
-      await act(async () => {
-        window.dispatchEvent(new Event('webchat-auth-activity'));
-      });
+      // await act(async () => {
+      //   window.dispatchEvent(new Event('webchat-auth-activity'));
+      // });
 
-      // Wait for the 2-second timeout in webAuthActivityEventListener
+      // Wait for the 2-second timeout
       await waitFor(
         () => {
           expect(getByTestId('sign-in-modal')).to.exist;

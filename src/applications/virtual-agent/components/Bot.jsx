@@ -21,9 +21,6 @@ import {
   setLoggedInFlow,
 } from '../utils/sessionStorage';
 
-// Event Listeners
-import webAuthActivityEventListener from '../event-listeners/webAuthActivityEventListener';
-
 // Selectors
 import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedIn';
 import selectVirtualAgentDataTermsAccepted from '../selectors/selectVirtualAgentDataTermsAccepted';
@@ -38,8 +35,6 @@ function Bot({
   const isAccepted = useSelector(selectVirtualAgentDataTermsAccepted);
   const [isAuthTopic, setIsAuthTopic] = useState(false);
   const loggedInFlow = getLoggedInFlow();
-
-  webAuthActivityEventListener(isLoggedIn, setIsAuthTopic);
 
   useLoginModal(isLoggedIn, isAuthTopic, virtualAgentUseStsAuthentication);
 
