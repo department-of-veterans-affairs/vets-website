@@ -59,7 +59,7 @@ export const transferMethodLabels = {
 
 export const transferMethodDescriptions = {
   SOLD: 'Original owner received money for the asset',
-  TRADED: 'Original owner swapped the asset for the other property',
+  TRADED: 'Original owner swapped the asset for other property',
   GIFTED: 'Original owner gave away the asset',
   CONVEYED:
     'The title or ownership of an asset was legally transferred to someone else by using contracts, leases, titles, or deeds.',
