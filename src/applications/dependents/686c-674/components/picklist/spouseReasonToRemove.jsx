@@ -13,8 +13,8 @@ const spouseReasonToRemove = {
   handlers: {
     goForward: ({ itemData /* , _index, _fullData */ }) =>
       itemData.removalReason === 'marriageEnded'
-        ? 'marriage-ended'
-        : 'marriage-death',
+        ? 'spouse-marriage-ended'
+        : 'spouse-death',
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called

@@ -14,7 +14,7 @@ const childMarried = {
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
-      if (!itemData.marriageDate) {
+      if (!itemData.endDate) {
         setTimeout(scrollToFirstError);
       } else {
         goForward();
@@ -27,7 +27,7 @@ const childMarried = {
    * @typedef {object} ItemData
    * @property {string} dateOfBirth - Dependent's date of birth
    * @property {string} relationshipToVeteran - Dependent's relationship
-   * @property {string} marriageDate - child's marriage date
+   * @property {string} endDate - child's marriage date (end of unmarried status)
    */
   /**
    * handlers object
@@ -60,11 +60,9 @@ const childMarried = {
         <VaMemorableDate
           name="marriageDate"
           label="Date of marriage"
-          error={
-            formSubmitted && !itemData.marriageDate ? 'Enter a date' : null
-          }
+          error={formSubmitted && !itemData.endDate ? 'Enter a date' : null}
           monthSelect
-          value={itemData.marriageDate || ''}
+          value={itemData.endDate || ''}
           // use onDateBlur to ensure month & day are zero-padded
           onDateBlur={onChange}
           required
@@ -98,7 +96,7 @@ childMarried.Component.propTypes = {
   itemData: PropTypes.shape({
     dateOfBirth: PropTypes.string,
     relationshipToVeteran: PropTypes.string,
-    marriageDate: PropTypes.string,
+    endDate: PropTypes.string,
   }),
 };
 

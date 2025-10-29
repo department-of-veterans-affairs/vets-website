@@ -34,7 +34,7 @@ const childIsStepchild = {
    * @typedef {object} ItemData
    * @property {string} dateOfBirth Dependent's date of birth
    * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} marriageEndType Dependent's removal reason
+   * @property {string} endType Dependent's removal reason
    */
   /**
    * handlers object

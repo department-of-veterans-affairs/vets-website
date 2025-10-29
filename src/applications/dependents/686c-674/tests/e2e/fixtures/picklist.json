@@ -445,12 +445,12 @@
       "isStepchild": "N",
       "removalReason": "childMarried",
       "marriageDate": "2025-06-05",
-      "childDeathDate": "2020-01-01",
-      "childDeathOutsideUS": false,
-      "childDeathCity": "Test",
-      "childDeathProvince": "Prov",
-      "childDeathCountry": "AGO",
-      "childDeathState": "AK"
+      "endDate": "2020-01-01",
+      "endOutsideUS": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
     },
     {
       "fullName": {
@@ -465,13 +465,12 @@
       "selected": true,
       "isStepchild": "N",
       "removalReason": "childDied",
-      "marriageDate": "2025-06-05",
-      "childDeathDate": "2020-01-01",
-      "childDeathOutsideUS": false,
-      "childDeathCity": "Test",
-      "childDeathProvince": "Prov",
-      "childDeathCountry": "AGO",
-      "childDeathState": "AK"
+      "endDate": "2025-06-05",
+      "endOutsideUS": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
     },
     {
       "fullName": {
@@ -485,13 +484,14 @@
       "key": "spousy-3332",
       "selected": true,
       "removalReason": "marriageEnded",
-      "marriageEndType": "divorce",
-      "marriageEndDate": "2020-01-01",
-      "marriageEndOutsideUS": false,
-      "marriageEndCity": "Test",
-      "marriageEndProvince": "Prov",
-      "marriageEndCountry": "AGO",
-      "marriageEndState": "AK"
+      "endType": "divorce",
+      "endAnnulmentOrVoidDescription": "",
+      "endDate": "2020-01-01",
+      "endOutsideUS": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
     },
     {
       "fullName": {
@@ -505,14 +505,14 @@
       "key": "previous-3331",
       "selected": true,
       "removalReason": "death",
-      "marriageEndType": "divorce",
-      "marriageEndDate": "2020-01-01",
-      "marriageEndDeathDate": "2000-01-01",
-      "marriageEndOutsideUS": false,
-      "marriageEndCity": "Test",
-      "marriageEndProvince": "Prov",
-      "marriageEndCountry": "AGO",
-      "marriageEndState": "AK"
+      "endType": "divorce",
+      "endDate": "2020-01-01",
+      "endDeathDate": "2000-01-01",
+      "endOutsideUS": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
     },
     {
       "fullName": {
@@ -526,12 +526,12 @@
       "key": "peter-0104",
       "selected": true,
       "removalReason": "parentOther",
-      "parentDeathDate": "2020-01-01",
-      "parentDeathOutsideUS": false,
-      "parentDeathCity": "Test",
-      "parentDeathProvince": "Prov",
-      "parentDeathCountry": "AGO",
-      "parentDeathState": "AK"
+      "endDate": "2020-01-01",
+      "endOutsideUS": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
     },
         {
       "fullName": {
@@ -545,12 +545,12 @@
       "key": "mary-0155",
       "selected": true,
       "removalReason": "parentDied",
-      "parentDeathDate": "2020-01-01",
-      "parentDeathOutsideUS": false,
-      "parentDeathCity": "Test",
-      "parentDeathProvince": "Prov",
-      "parentDeathCountry": "AGO",
-      "parentDeathState": "AK"
+      "endDate": "2020-01-01",
+      "endOutsideUS": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
     }
   ]
 }

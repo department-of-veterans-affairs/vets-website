@@ -149,7 +149,7 @@ describe('PicklistRemoveDependentFollowup', () => {
 
     expect(goToPath.calledOnce).to.be.true;
     expect(goToPath.firstCall.args[0]).to.equal(
-      'remove-dependent?index=2&page=marriage-ended',
+      'remove-dependent?index=2&page=spouse-marriage-ended',
     );
   });
 
@@ -164,7 +164,7 @@ describe('PicklistRemoveDependentFollowup', () => {
 
     expect(goToPath.calledOnce).to.be.true;
     expect(goToPath.firstCall.args[0]).to.equal(
-      'remove-dependent?index=2&page=marriage-death',
+      'remove-dependent?index=2&page=spouse-death',
     );
   });
 
@@ -172,7 +172,7 @@ describe('PicklistRemoveDependentFollowup', () => {
     const goToPath = sinon.spy();
     const { container } = renderComponent({
       goToPath,
-      testUrl: '?index=2&page=marriage-reason-to-remove',
+      testUrl: '?index=2&page=spouse-reason-to-remove',
       data: defaultData({
         removalReason: 'marriageEnded',
       }),
@@ -182,7 +182,7 @@ describe('PicklistRemoveDependentFollowup', () => {
 
     expect(goToPath.calledOnce).to.be.true;
     expect(goToPath.firstCall.args[0]).to.equal(
-      'remove-dependent?index=2&page=marriage-ended',
+      'remove-dependent?index=2&page=spouse-marriage-ended',
     );
   });
 
@@ -192,14 +192,14 @@ describe('PicklistRemoveDependentFollowup', () => {
     const { container } = renderComponent({
       goToPath,
       goForward,
-      testUrl: '?index=2&page=marriage-ended',
+      testUrl: '?index=2&page=spouse-marriage-ended',
       data: defaultData(
         {
           removalReason: 'marriageEnded',
-          marriageEndType: 'divorce',
-          marriageEndDate: '2020-1-1',
-          marriageEndCity: 'Test',
-          marriageEndState: 'AK',
+          endType: 'divorce',
+          endDate: '2020-1-1',
+          endCity: 'Test',
+          endState: 'AK',
         },
         false, // unselect parent
       ),
@@ -215,13 +215,13 @@ describe('PicklistRemoveDependentFollowup', () => {
     const goToPath = sinon.spy();
     const { container } = renderComponent({
       goToPath,
-      testUrl: '?index=2&page=marriage-ended',
+      testUrl: '?index=2&page=spouse-marriage-ended',
       data: defaultData({
         removalReason: 'marriageEnded',
-        marriageEndType: 'divorce',
-        marriageEndDate: '2020-1-1',
-        marriageEndCity: 'Test',
-        marriageEndState: 'AK',
+        endType: 'divorce',
+        endDate: '2020-1-1',
+        endCity: 'Test',
+        endState: 'AK',
       }),
     });
 
@@ -235,13 +235,13 @@ describe('PicklistRemoveDependentFollowup', () => {
     const goToPath = sinon.spy();
     const { container } = renderComponent({
       goToPath,
-      testUrl: '?index=2&page=marriage-ended',
+      testUrl: '?index=2&page=spouse-marriage-ended',
       data: defaultData({
         removalReason: 'marriageEnded',
-        marriageEndType: 'divorce',
-        marriageEndDate: '2020-1-1',
-        marriageEndCity: 'Test',
-        marriageEndState: 'AK',
+        endType: 'divorce',
+        endDate: '2020-1-1',
+        endCity: 'Test',
+        endState: 'AK',
       }),
     });
 
@@ -277,7 +277,7 @@ describe('PicklistRemoveDependentFollowup', () => {
 
     expect(goToPath.calledOnce).to.be.true;
     expect(goToPath.firstCall.args[0]).to.equal(
-      'remove-dependent?index=2&page=marriage-death',
+      'remove-dependent?index=2&page=spouse-death',
     );
   });
 
@@ -285,14 +285,14 @@ describe('PicklistRemoveDependentFollowup', () => {
     const goToPath = sinon.spy();
     const { container } = renderComponent({
       goToPath,
-      testUrl: '?index=2&page=marriage-death',
+      testUrl: '?index=2&page=spouse-death',
     });
 
     fireEvent.click($('va-button[back]', container));
 
     expect(goToPath.calledOnce).to.be.true;
     expect(goToPath.firstCall.args[0]).to.equal(
-      'remove-dependent?index=2&page=marriage-reason-to-remove',
+      'remove-dependent?index=2&page=spouse-reason-to-remove',
     );
   });
 
@@ -306,10 +306,10 @@ describe('PicklistRemoveDependentFollowup', () => {
       data: defaultData(
         {
           removalReason: 'marriageEnded',
-          marriageEndType: 'divorce',
-          marriageEndDate: '2020-1-1',
-          marriageEndCity: 'Test',
-          marriageEndState: 'AK',
+          endType: 'divorce',
+          endDate: '2020-1-1',
+          endCity: 'Test',
+          endState: 'AK',
         },
         false, // unselect parent
       ),
