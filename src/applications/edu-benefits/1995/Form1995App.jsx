@@ -43,11 +43,17 @@ function Form1995Entry({
         return;
       }
 
-      setFormData({
-        ...formData,
-        isMeb1995Reroute: rerouteFlag,
-        currentBenefitType: claimantCurrentBenefit,
-      });
+      // Only update if the values have actually changed
+      if (
+        formData.isMeb1995Reroute !== rerouteFlag ||
+        formData.currentBenefitType !== claimantCurrentBenefit
+      ) {
+        setFormData({
+          ...formData,
+          isMeb1995Reroute: rerouteFlag,
+          currentBenefitType: claimantCurrentBenefit,
+        });
+      }
     },
     [claimantCurrentBenefit, formData, rerouteFlag, setFormData],
   );
