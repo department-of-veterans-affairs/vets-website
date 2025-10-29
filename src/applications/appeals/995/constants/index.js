@@ -47,11 +47,6 @@ export const EVIDENCE_OTHER = 'view:hasOtherEvidence';
 export const LIMITED_CONSENT_RESPONSE = 'view:hasPrivateLimitation';
 export const MST_OPTION = 'mstOption';
 
-// Including a default until we determine how to get around the user restarting
-// the application after using the "Finish this application later" link
-// See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
-export const DEFAULT_BENEFIT_TYPE = 'compensation';
-
 export const errorMessages = {
   evidence: {
     // VA evidence
