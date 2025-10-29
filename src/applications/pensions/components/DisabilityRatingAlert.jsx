@@ -13,10 +13,10 @@ const DisabilityRatingAlert = () => {
     const fetchDisabilityRating = async () => {
       try {
         const data = await apiRequest(
-          `${environment.API_URL}/v0/disability_compensation_form/rating_info`,
+          `${environment.API_URL}/v0/rated_disabilities`,
         );
         if (isMounted) {
-          setRating(data?.userPercentOfDisability ?? 0);
+          setRating(data?.combinedDisabilityRating ?? 0);
         }
       } catch (err) {
         if (isMounted) {
