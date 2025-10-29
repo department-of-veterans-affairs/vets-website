@@ -1,85 +1,117 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
-import { connect } from 'react-redux';
-
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
-import IdNotVerifiedAlert from '../../shared/components/IdNotVerified';
-import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
+import { TITLE, SUBTITLE } from '../constants';
 
-const ombInfo = {
-  resBurden: '10',
-  ombNumber: '2900-0404',
-  expDate: '08/31/2027',
-};
+const OMB_RES_BURDEN = 45;
+const OMB_NUMBER = '2900-0404';
+const OMB_EXP_DATE = '07/31/2027';
 
-export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
-  const content = {
-    formTitle: 'VETERAN\'S APPLICATION FOR INCREASED COMPENSATION BASED ON UNEMPLOYABILITY',
-    formSubTitle:
-      'Please take your time to complete this form as accurately as you can.',
-    authStartFormText: 'Start the veteran\'s application',
-    saveInProgressText:
-      'Please complete the 21-8940 form to provide information about your employment.',
-    displayNonVeteranMessaging: true,
-    hideSipIntro: userLoggedIn && !userIdVerified,
-  };
-  const childContent = (
-    <>
-      <p>
-       IMPORTANT: You are receiving compensation at the 100 percent rate based on being unable to secure or follow a substantially gainful occupation as a result of your service-connected disabilities. Section I needs to be completed in order to identify the person filling out the form. If you were self-employed or employed by others, including the Department of Veterans Affairs, at any time during the past 12 months, complete Section II of this form. If you have not been employed during the past 12 months, complete Section III of this form. After completing the form, mail to: Department of Veterans Affairs, Evidence Intake Center, P.O. Box 4444, Janesville, WI 53547-4444.
-      </p>
-    {/**   <h2 className="vads-u-font-size--h3">
-        What to know before you submit this form
-      </h2>
-      <ul className="vads-u-margin-bottom--4">
+const WhatToKnowSection = () => {
+  return (
+    <div className="vads-u-margin-bottom--4">
+      <h3>What to know before you fill out this form</h3>
+      <ul>
         <li>
-          If you already provided your private, non-VA medical records to us, or
-          if you intended to get them yourself, you don’t need to submit this
-          form. Submitting the form in this case will add time to your claim
-          process.
+          This form is for Veterans who can’t keep a steady job that supports
+          them financially (known as substantially gainful employment) because
+          of their service-connected disability.
         </li>
         <li>
-          You don’t need to submit this form to request VA medical records.
-        </li>
-        <li>
-          By law, we can’t pay any fees that may come from requesting your
-          medical records.
+          When you complete this form, you’re claiming total disability because
+          of a service-connected disability. And you’re claiming that your
+          service-connected disability prevents you from keeping substantially
+          gainful employment.
         </li>
       </ul>
-      {userLoggedIn &&
-      !userIdVerified /* If User's signed-in but not identity-verified [not LOA3]  && (
-          <IdNotVerifiedAlert formNumber="21-4140" formType="authorization" />
-        )*/}
-    </>
+    </div>
   );
+};
+
+const InformationNeededSection = () => {
+  return (
+    <div className="vads-u-margin-bottom--4">
+      <h3>Information you’ll need to fill out this form</h3>
+      <ul>
+        <li>
+          Names, addresses, and dates of care for doctor and hospital visits
+          over the past 12 months
+        </li>
+        <li>
+          Information about employers and employment you’ve had over the past 5
+          years
+        </li>
+        <li>
+          Contact information and application dates for any jobs you’ve applied
+          to over the past 12 months
+        </li>
+        <li>Your Social Security number or your VA file number</li>
+      </ul>
+    </div>
+  );
+};
+
+export const IntroductionPage = props => {
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
+  const userIdVerified = useSelector(state => isLOA3(state));
+  const { route } = props;
+  const { formConfig, pageList } = route;
+  const showVerifyIdentify = userLoggedIn && !userIdVerified;
+
+  useEffect(() => {
+    scrollToTop();
+    focusElement('h1');
+  }, []);
 
   return (
-    <IntroductionPageView
-      route={route}
-      content={content}
-      ombInfo={ombInfo}
-      childContent={childContent}
-      devOnly={{
-        forceShowFormControls: true,
-      }}
-    />
+    <article className="schemaform-intro">
+      <FormTitle title={TITLE} subTitle={SUBTITLE} />
+      <p>
+        Use this form if you want to apply for Individual Unemployability
+        disability benefits for a service-connected condition that prevents you
+        from keeping a steady job.
+      </p>
+      <WhatToKnowSection />
+      <InformationNeededSection />
+      {showVerifyIdentify ? (
+        <div>{/* add verify identity alert if applicable */}</div>
+      ) : (
+        <SaveInProgressIntro
+          headingLevel={2}
+          prefillEnabled={formConfig.prefillEnabled}
+          messages={formConfig.savedFormMessages}
+          pageList={pageList}
+          startText="Start the application"
+          devOnly={{
+            forceShowFormControls: true,
+          }}
+        />
+      )}
+      <p />
+      <va-omb-info
+        res-burden={OMB_RES_BURDEN}
+        omb-number={OMB_NUMBER}
+        exp-date={OMB_EXP_DATE}
+      />
+    </article>
   );
 };
 
 IntroductionPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
-      prefillEnabled: PropTypes.bool,
-      savedFormMessages: PropTypes.shape({}),
-    }),
-    pageList: PropTypes.array,
+      prefillEnabled: PropTypes.bool.isRequired,
+      savedFormMessages: PropTypes.object.isRequired,
+    }).isRequired,
+    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    basename: PropTypes.string,
   }),
 };
 
-const mapStateToProps = state => ({
-  userIdVerified: isLOA3(state),
-  userLoggedIn: isLoggedIn(state),
-});
-
-export default connect(mapStateToProps)(IntroductionPage);
+export default IntroductionPage;
