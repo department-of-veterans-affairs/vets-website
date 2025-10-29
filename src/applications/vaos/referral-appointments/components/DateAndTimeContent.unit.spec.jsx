@@ -156,9 +156,11 @@ describe('VAOS Component: DateAndTimeContent', () => {
     );
     expect(screen.getByTestId('no-slots-alert')).to.exist;
     expect(screen.getByTestId('no-slots-provider-phone')).to.exist;
-    expect(screen.getByTestId('no-slots-provider-phone')).to.contain.text(
-      referral.provider.phone,
-    );
+    expect(
+      screen.container.querySelector(
+        `va-telephone[contact="${referral.provider.phone}"]`,
+      ),
+    ).to.be.ok;
   });
   describe('when not in pilot station', () => {
     it('should show an alert and a link to find a community care office', () => {
