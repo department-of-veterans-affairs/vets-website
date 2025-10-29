@@ -170,7 +170,7 @@ describe('VAOS ChooseDateAndTime component', () => {
 
     sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
       data: referral,
-      error: false,
+      error: null,
       isLoading: false,
     });
 
@@ -189,7 +189,7 @@ describe('VAOS ChooseDateAndTime component', () => {
 
     sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
       data: referral,
-      error: false,
+      error: null,
       isLoading: false,
     });
 
@@ -225,7 +225,7 @@ describe('VAOS ChooseDateAndTime component', () => {
 
     sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
       data: referral,
-      error: false,
+      error: null,
       isLoading: false,
     });
 

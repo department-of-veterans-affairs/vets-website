@@ -31,7 +31,7 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
         '2025-12-12',
         'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
-      error: false,
+      error: null,
       isLoading: false,
     });
 
@@ -70,7 +70,7 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
         '2024-01-01',
         'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
-      error: false,
+      error: null,
       isLoading: false,
     });
 
@@ -92,7 +92,7 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
 
     getReferallByIdStub.returns({
       data: referral,
-      error: false,
+      error: null,
       isLoading: false,
     });
 
@@ -108,7 +108,7 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
     const store = createTestStore();
     getReferallByIdStub.returns({
       data: null,
-      error: false,
+      error: null,
       isLoading: true,
     });
 
