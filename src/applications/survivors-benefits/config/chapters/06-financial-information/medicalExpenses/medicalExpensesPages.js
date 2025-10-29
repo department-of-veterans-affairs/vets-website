@@ -14,19 +14,7 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-
-const recipientTypeLabels = {
-  VETERAN: 'Veteran (only select if a last or burial expense)',
-  SURVIVING_SPOUSE: 'Surviving spouse',
-  VETERANS_CHILD: 'Veteran’s child',
-  OTHER: 'Other',
-};
-
-const frequencyLabels = {
-  MONTHLY: 'Once a month',
-  YEARLY: 'Once a year',
-  ONE_TIME: 'One-time',
-};
+import { recipientTypeLabels, frequencyLabels } from '../../../../utils/labels';
 
 function introDescription() {
   return (

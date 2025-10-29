@@ -16,19 +16,7 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-
-// Labels for this form
-const recipientTypeLabels = {
-  SURVIVING_SPOUSE: 'Surviving spouse',
-  OTHER: 'Other',
-};
-
-const careTypeLabels = {
-  RESIDENTIAL_CARE_FACILITY: 'Residential care facility',
-  IN_HOME_CARE_ATTENDANT: 'In-home care attendant',
-  NURSING_HOME: 'Nursing home',
-  ADULT_DAYCARE: 'Adult daycare',
-};
+import { recipientTypeLabels, careTypeLabels } from '../../../../utils/labels';
 
 function introDescription() {
   return (
@@ -86,10 +74,10 @@ const options = {
     !item?.recipient ||
     !item?.provider ||
     !item?.careDate?.from ||
-    !item?.monthlyAmount,
+    !item?.paymentAmount,
   text: {
     getItemName: item => careTypeLabels[(item?.typeOfCare)] || 'Care expense',
-    cardDescription: () => 'Monthly amount',
+    cardDescription: () => 'Payment amount',
     summaryTitle: () => 'Review your care expenses',
     yesNoBlankReviewQuestion: () => 'Do you have another care expense to add?',
   },
@@ -206,14 +194,14 @@ const datePage = {
 const costPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Cost of care'),
-    monthlyAmount: currencyUI('How much is each payment?'),
+    paymentAmount: currencyUI('How much is each payment?'),
   },
   schema: {
     type: 'object',
     properties: {
-      monthlyAmount: currencySchema,
+      paymentAmount: currencySchema,
     },
-    required: ['monthlyAmount'],
+    required: ['paymentAmount'],
   },
 };
 

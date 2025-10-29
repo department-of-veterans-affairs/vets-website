@@ -11,21 +11,24 @@ import {
   arrayBuilderYesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import {
+  recipientTypeLabels,
+  typeOfIncomeLabels,
+} from '../../../../utils/labels';
 
-const recipientTypeLabels = {
-  SURVIVING_SPOUSE: 'Surviving spouse',
-  VETERANS_CHILD: 'Veteran’s child',
-  CUSTODIAN: 'Custodian',
-  CUSTODIAN_SPOUSE: 'Custodian’s spouse',
-  OTHER: 'Other',
-};
+const {
+  SURVIVING_SPOUSE,
+  VETERANS_CHILD,
+  CUSTODIAN,
+  CUSTODIAN_SPOUSE,
+} = recipientTypeLabels;
 
-const typeOfIncomeLabels = {
-  SOCIAL_SECURITY: 'Social Security',
-  INTEREST_DIVIDEND: 'Interest or dividend income',
-  CIVIL_SERVICE: 'Civil Service',
-  PENSION_RETIREMENT: 'Pension or retirement income',
-  OTHER: 'Other income',
+// specific income recipient labels for gross income per figma design
+const incomeRecipients = {
+  SURVIVING_SPOUSE,
+  VETERANS_CHILD,
+  CUSTODIAN,
+  CUSTODIAN_SPOUSE,
 };
 
 const grossDescription = () => (
@@ -115,13 +118,13 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
       },
     }),
     monthlyIncomeDetails: pageBuilder.itemPage({
-      title: 'Monthly gross income details',
+      title: 'Gross monthly income details',
       path: 'financial-information/:index/monthly-income-details',
       uiSchema: {
-        ...titleUI('Monthly gross income details'),
+        ...titleUI('Gross monthly income details'),
         whoReceives: radioUI({
           title: 'Who receives this income?',
-          labels: recipientTypeLabels,
+          labels: incomeRecipients,
         }),
         fullName: textUI({
           title: 'Full name of the person who receives this income',
@@ -154,7 +157,7 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
         type: 'object',
         required: ['whoReceives', 'typeOfIncome', 'payer', 'amount'],
         properties: {
-          whoReceives: radioSchema(Object.keys(recipientTypeLabels)),
+          whoReceives: radioSchema(Object.keys(incomeRecipients)),
           fullName: { type: 'string' },
           typeOfIncome: radioSchema(Object.keys(typeOfIncomeLabels)),
           payer: { type: 'string' },
