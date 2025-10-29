@@ -241,14 +241,14 @@ describe('VAOS Referral Appointments', () => {
   });
 
   describe('Referral with no slots available', () => {
-    const referralId = 'ref-id-no-slots';
-    const referralNumber = 'draft-no-slots-error';
-
     beforeEach(() => {
       // Mock referrals list response
       const referralsResponse = new MockReferralListResponse({
-        predefined: true,
+        numberOfReferrals: 1,
       }).toJSON();
+      const referralId = referralsResponse.data[0].id;
+      const { referralNumber } = referralsResponse.data[0].attributes;
+
       mockReferralsGetApi({ response: referralsResponse });
 
       // Mock referral detail response
@@ -260,7 +260,6 @@ describe('VAOS Referral Appointments', () => {
         id: referralId,
         response: referralDetailResponse,
       });
-
       // Mock draft referral appointment response
       const draftReferralAppointment = new MockReferralDraftAppointmentResponse(
         {
@@ -283,7 +282,7 @@ describe('VAOS Referral Appointments', () => {
       cy.wait('@v2:get:referrals');
 
       // Select the referral
-      referralsAndRequests.selectReferral(6);
+      referralsAndRequests.selectReferral(0);
 
       // Wait for referral detail to load
       cy.wait('@v2:get:referral:detail');
@@ -304,14 +303,13 @@ describe('VAOS Referral Appointments', () => {
   });
 
   describe('Referral without provider information', () => {
-    const referralId = 'referral-without-provider-error';
-
     beforeEach(() => {
       // Mock referrals list response
       const referralsResponse = new MockReferralListResponse({
-        predefined: true,
+        numberOfReferrals: 1,
       }).toJSON();
       mockReferralsGetApi({ response: referralsResponse });
+      const referralId = referralsResponse.data[0].id;
 
       // Mock referral detail response
       const referralDetailResponse = new MockReferralDetailResponse({
@@ -333,7 +331,7 @@ describe('VAOS Referral Appointments', () => {
       cy.wait('@v2:get:referrals');
 
       // Select the referral without provider information
-      referralsAndRequests.selectReferral(7);
+      referralsAndRequests.selectReferral(0);
 
       // Wait for referral detail to load
       cy.wait('@v2:get:referral:detail');
