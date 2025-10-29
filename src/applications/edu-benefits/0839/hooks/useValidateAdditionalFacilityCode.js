@@ -42,7 +42,6 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             },
           );
           const attrs = response.data.attributes;
-
           const firstDigit = facilityCode.charAt(0);
           const secondDigit = facilityCode.charAt(1);
           const yrEligible =

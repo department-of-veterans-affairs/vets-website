@@ -19,9 +19,19 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
 
   const mainInstitution = formData?.institutionDetails;
 
+  const branches = mainInstitution?.facilityMap?.branches.map(
+    branch => branch?.institution?.facilityCode,
+  );
+
+  const extensions = mainInstitution?.facilityMap?.extensions.map(
+    extension => extension?.institution?.facilityCode,
+  );
+
+  const branchList = [...branches, ...extensions];
+
   const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
   const notFound = formData?.institutionName === 'not found';
-  const notIHL = formData?.ihlEligible === false;
+  const notIHL = !formData?.ihlEligible;
   const notYR = formData?.yrEligible === false;
   const thirdChar = code?.charAt(2).toUpperCase();
 
@@ -38,10 +48,7 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
     errors.addError('Codes with an "X" in the third position are not eligible');
   }
 
-  if (
-    !mainInstitution?.facilityMap?.branches?.includes(code) &&
-    !mainInstitution?.facilityMap?.extensions?.includes(code)
-  ) {
+  if (!branchList.includes(code)) {
     errors.addError(
       "This facility code isn't linked to your school's main campus",
     );
