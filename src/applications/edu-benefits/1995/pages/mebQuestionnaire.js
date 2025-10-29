@@ -64,23 +64,21 @@ export const yourInformationPage = () => ({
         <div
           className="usa-summary-box"
           role="region"
-          aria-labelledby="current-benefit-heading"
+          aria-labelledby="summary-box-current-benefit"
           style={{
-            '--summary-box-background-color': 'white',
-            '--summary-box-border-color': 'black',
+            backgroundColor: 'white',
+            borderColor: '#565c65',
           }}
         >
           <div className="usa-summary-box__body">
             <h3
               className="usa-summary-box__heading"
-              id="current-benefit-heading"
+              id="summary-box-current-benefit"
             >
               Your current benefit
             </h3>
             <div className="usa-summary-box__text">
-              <p className="vads-u-margin--0">
-                {getBenefitLabel(formData?.currentBenefitType)}
-              </p>
+              {getBenefitLabel(formData?.currentBenefitType)}
             </div>
           </div>
         </div>
