@@ -96,9 +96,9 @@ export const getTxtContent = (data, user, dateRange, failedDomains) => {
   ];
 
   // ––– appointment counts & expander helper ––––––––––––––––––––––––––––––––––––
-  const apptData = Array.isArray(data?.appointments) ? data.appointments : [];
-  const pastCount = apptData.filter(a => !a?.isUpcoming).length;
-  const upcomingCount = apptData.filter(a => a?.isUpcoming).length;
+  const apptData = data?.appointments ?? [];
+  const pastCount = apptData.filter(a => !a.isUpcoming).length;
+  const upcomingCount = apptData.filter(a => a.isUpcoming).length;
 
   /**
    * Expand “Appointments” or “VA appointments” into Past/Upcoming
