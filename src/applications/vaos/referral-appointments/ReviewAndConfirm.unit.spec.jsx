@@ -104,7 +104,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       path: '/?id=UUID',
     });
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('referral-layout-heading')).to.exist;
       expect(screen.getByTestId('slot-day-time')).to.contain.text(
         'Monday, September 9, 2024',
@@ -130,7 +130,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       store: createTestStore(noSelectState),
       path: '/schedule-referral/review-and-confirm?id=UUID',
     });
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
         .true;
     });
@@ -150,9 +150,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       path: '/schedule-referral/review-and-confirm?id=UUID',
     });
     await screen.findByTestId('continue-button');
-    waitFor(() => {
-      userEvent.click(screen.queryByTestId('continue-button'));
-    });
+    await userEvent.click(screen.queryByTestId('continue-button'));
     sandbox.assert.calledOnce(
       requestStub.withArgs('/vaos/v2/appointments/draft'),
     );
