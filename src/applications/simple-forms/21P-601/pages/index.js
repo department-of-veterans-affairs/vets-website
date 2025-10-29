@@ -23,6 +23,7 @@ import { expensesPages } from './expensesList';
 import otherDebts from './otherDebts';
 import { otherDebtsPages } from './otherDebtsList';
 import remarks from './remarks';
+import supportingDocuments from './supportingDocuments';
 
 export {
   introduction,
@@ -50,4 +51,5 @@ export {
   otherDebts,
   otherDebtsPages,
   remarks,
+  supportingDocuments,
 };
