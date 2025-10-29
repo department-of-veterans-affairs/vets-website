@@ -158,19 +158,6 @@ const CombinedStatements = () => {
     return <VaLoadingIndicator message="Loading features and data..." />;
   }
 
-  // If the feature flag is not enabled or there are errors, redirect to the summary page
-  if (!showOneVADebtLetterDownload || debtError || billError) {
-    window.location.replace('/manage-va-debt/summary');
-    return (
-      <div className="vads-u-margin--5">
-        <va-loading-indicator
-          label="Loading"
-          message="Please wait while we load the application for you."
-        />
-      </div>
-    );
-  }
-
   const copayTotalRow = copay => {
     return (
       <va-table-row>
