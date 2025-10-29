@@ -213,13 +213,6 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
 
         {allergies?.length ? (
           <>
-            <PrintDownload
-              description="Allergies - List"
-              list
-              downloadPdf={generateAllergiesPdf}
-              downloadTxt={generateAllergiesTxt}
-            />
-            <DownloadingRecordsInfo description="Allergies" />
             <RecordList
               records={allergies?.map(allergy => ({
                 ...allergy,
@@ -227,6 +220,14 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
               }))}
               type={recordType.ALLERGIES}
             />
+            <DownloadingRecordsInfo description="Allergies" />
+            <PrintDownload
+              description="Allergies - List"
+              list
+              downloadPdf={generateAllergiesPdf}
+              downloadTxt={generateAllergiesTxt}
+            />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
           </>
         ) : (
           <NoRecordsMessage type={recordType.ALLERGIES} />

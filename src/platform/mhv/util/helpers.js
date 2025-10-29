@@ -252,7 +252,7 @@ export const makePdf = async (
   } catch (error) {
     // Reset the pdfModulePromise so subsequent calls can try again
     pdfModulePromise = null;
-    datadogRum.addError(error, sentryErrorLabel);
+    datadogRum.addError(error, { feature: sentryErrorLabel });
     sendErrorToSentry(error, sentryErrorLabel);
   }
 };
