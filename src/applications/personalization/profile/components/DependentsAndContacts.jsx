@@ -8,7 +8,7 @@ const DependentsAndContacts = () => {
     <Tier2PageContent pageHeader="Dependents and contacts">
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE}
-        content="View contact information for your current accredited attorney, claims agent, or Veterans Service Organization (VSO)"
+        content="Review contact information for your current accredited attorney, claims agent, or Veterans Service Organization (VSO)"
         href={PROFILE_PATHS.ACCREDITED_REPRESENTATIVE}
       />
       <ProfileHubItem

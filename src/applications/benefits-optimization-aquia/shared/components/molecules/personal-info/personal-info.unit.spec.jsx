@@ -454,7 +454,7 @@ describe('PersonalInfo', () => {
       expect(lastNameInput).to.have.attribute('required', 'true');
       expect(ssnInput).to.have.attribute('required', 'true');
       expect(dobInput).to.have.attribute('required', 'true');
-      expect(phoneInput).to.have.attribute('required', 'false');
+      expect(phoneInput).to.have.attribute('required', 'true');
       expect(emailInput).to.have.attribute('required', 'true');
     });
 
