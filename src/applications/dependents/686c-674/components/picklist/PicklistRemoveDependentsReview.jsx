@@ -37,6 +37,12 @@ const PicklistRemoveDependentsReview = ({ data = {}, goToPath }) => {
         />
       </div>
 
+      {selectedDependents.length === 0 && (
+        <p className="usa-input-error-message">
+          No dependents selected for removal.
+        </p>
+      )}
+
       {selectedDependents.map(item => {
         const dependentFullName = getFullName(item.fullName);
         return (
