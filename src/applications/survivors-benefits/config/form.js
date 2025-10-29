@@ -313,7 +313,6 @@ const formConfig = {
         transferredAssets: {
           title: 'Transferred assets',
           path: 'financial-information/transferred-assets',
-          // depends: formData => formData?.hasAssetsOverThreshold === false,
           uiSchema: transferredAssets.uiSchema,
           schema: transferredAssets.schema,
         },
