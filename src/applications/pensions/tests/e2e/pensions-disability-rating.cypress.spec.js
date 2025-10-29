@@ -63,7 +63,7 @@ describe('Pensions — Disability Rating Alert', () => {
 
   it('shows 100% disability rating info alert', () => {
     cy.intercept('GET', DISABILITY_RATING_URL, {
-      user_percent_of_disability: 100,
+      userPercentOfDisability: 100,
     });
 
     cypressSetup();
@@ -86,7 +86,7 @@ describe('Pensions — Disability Rating Alert', () => {
   it('renders no alert when rating is less than 100', () => {
     cy.intercept('GET', DISABILITY_RATING_URL, {
       // eslint-disable-next-line camelcase
-      user_percent_of_disability: 70,
+      userPercentOfDisability: 70,
     });
 
     cypressSetup();

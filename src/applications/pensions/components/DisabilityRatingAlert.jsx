@@ -16,7 +16,7 @@ const DisabilityRatingAlert = () => {
           `${environment.API_URL}/v0/disability_compensation_form/rating_info`,
         );
         if (isMounted) {
-          setRating(data?.user_percent_of_disability ?? 0);
+          setRating(data?.userPercentOfDisability ?? 0);
         }
       } catch (err) {
         if (isMounted) {
