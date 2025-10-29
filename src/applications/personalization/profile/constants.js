@@ -62,7 +62,7 @@ export const PROFILE_PATHS = Object.freeze({
   EMAIL_AND_TEXT_NOTIFICATIONS: '/profile/notifications',
   ACCOUNT_SECURITY: '/profile/account-security',
   CONNECTED_APPLICATIONS: '/profile/connected-applications',
-  SIGNIN_INFORMATION: '/profile/sign-in-information',
+  SIGNIN_INFORMATION: '/profile/account-security/sign-in-information',
   EDIT: '/profile/edit',
   PAPERLESS_DELIVERY: '/profile/paperless-delivery',
 });
