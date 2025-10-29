@@ -87,7 +87,11 @@ const Mileage = () => {
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+    if (expenseId) {
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else {
+      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+    }
   };
 
   useEffect(
@@ -228,6 +232,8 @@ const Mileage = () => {
         </>
       )}
       <TravelPayButtonPair
+        continueText={expenseId ? 'Save and continue' : 'Continue'}
+        backText={expenseId ? 'Cancel' : 'Back'}
         className={expenseId && 'vads-u-margin-top--2'}
         onBack={handleBack}
         onContinue={handleContinue}

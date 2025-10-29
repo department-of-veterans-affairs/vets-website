@@ -24,7 +24,7 @@ const TravelPayButtonPair = ({
       </li>
       <li className="travel-pay-button-group__item">
         <VaButton
-          continue={!continueText}
+          continue
           text={continueText}
           onClick={onContinue}
           loading={loading}
