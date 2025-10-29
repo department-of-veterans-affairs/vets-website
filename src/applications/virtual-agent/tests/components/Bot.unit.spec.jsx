@@ -8,7 +8,7 @@ import { act } from 'react-dom/test-utils';
 
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import * as SignInModalModule from '@department-of-veterans-affairs/platform-user/SignInModal';
-import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
+// Removed toggleLoginModal import; Bot renders SignInModal based on local isAuthTopic state in non-STS flow
 
 import * as SessionStorageModule from '../../utils/sessionStorage';
 import * as ChatboxDisclaimerModule from '../../components/ChatboxDisclaimer';
@@ -91,24 +91,20 @@ describe('Bot', () => {
         .stub(SignInModalModule, 'default')
         .callsFake(() => <div data-testid="sign-in-modal" />);
 
+      // Simulate being in an auth-related topic to trigger the SignInModal branch
+      sandbox.stub(React, 'useState').returns([true, sandbox.stub()]);
+
       const { getByTestId } = render(
         <Provider store={mockStore}>
           <Bot />
         </Provider>,
       );
 
-      // await act(async () => {
-      //   window.dispatchEvent(new Event('webchat-auth-activity'));
-      // });
-
-      toggleLoginModal(true, 'va-chatbot', true);
-
-      // Wait for the 2-second timeout
       await waitFor(
         () => {
           expect(getByTestId('sign-in-modal')).to.exist;
         },
-        { timeout: 4000 },
+        { timeout: 3000 },
       );
     });
     it('should return the App if user accepts disclaimer and does not need to sign in', () => {
