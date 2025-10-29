@@ -6,7 +6,6 @@ import {
 
 import { scrollToFirstError } from 'platform/utilities/ui';
 
-import { labels } from './utils';
 import { CancelButton } from '../../config/helpers';
 
 import { labels } from './utils';
