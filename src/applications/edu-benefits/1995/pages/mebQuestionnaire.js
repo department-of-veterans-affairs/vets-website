@@ -41,9 +41,7 @@ const getBenefitLabel = benefitType => {
 
 const ResultDescription = ({ body, linkHref, linkText, answers }) => (
   <div>
-    <h2 className="vads-u-white-space--nowrap vads-u-display--block">
-      Change your education benefits
-    </h2>
+    <h2>Change your education benefits</h2>
     <p>{body}</p>
     {linkHref && linkText && <va-link href={linkHref} text={linkText} />}
     <va-summary-box headline="Your answers">
@@ -61,7 +59,10 @@ export const yourInformationPage = () => ({
     'ui:title': 'Your information',
     'ui:description': ({ formData }) => (
       <div className="vads-u-margin-bottom--4">
-        <va-summary-box class="vads-u-background-color--transparent" uswds>
+        <va-summary-box
+          uswds
+          style={{ '--va-summary-box-background-color': 'white' }}
+        >
           <h3 slot="headline">Your current benefit</h3>
           <p className="vads-u-margin--0">
             {getBenefitLabel(formData?.currentBenefitType)}
