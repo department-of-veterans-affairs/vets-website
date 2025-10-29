@@ -41,6 +41,7 @@ export const replaceStrValues = (src, val, char = '%s') => {
  * @param {object} formData - Data containing a role field (e.g., certifierRole).
  * @param {string} title - Title string containing a placeholder (e.g., "%s mailing address").
  * @param {object} [opts]
+ * @param {boolean} [opts.capitalize=true]        - If true, capitalizes the first letter of the final string.
  * @param {string} [opts.roleKey='certifierRole'] - Key in formData holding the role.
  * @param {string} [opts.matchRole='applicant']   - Role to treat as "self".
  * @param {string} [opts.placeholder='%s']        - Placeholder token to replace.
@@ -64,6 +65,7 @@ export const personalizeTitleByRole = (
   formData,
   title,
   {
+    capitalize = true,
     roleKey = 'certifierRole',
     matchRole = 'applicant',
     placeholder = '%s',
@@ -72,7 +74,10 @@ export const personalizeTitleByRole = (
   } = {},
 ) => {
   if (!formData || !title) return '';
-  const target = formData[roleKey] === matchRole ? self : other;
+  let target = formData[roleKey] === matchRole ? self : other;
+  if (capitalize && target) {
+    target = target.charAt(0).toUpperCase() + target.slice(1);
+  }
   return replaceStrValues(title, target, placeholder);
 };
 
@@ -85,14 +90,14 @@ export const personalizeTitleByRole = (
  *
  * @param {Object} formData - Source data containing the applicant's name object.
  * @param {string} title - Title template containing a placeholder token (e.g., "Confirm %s information").
- * @param {Object} [options] - Configuration options.
- * @param {string} [options.nameKey='applicantName'] - Path/key in `formData` where the name object is stored.
- * @param {string} [options.placeholder='%s'] - Placeholder string in `title` to replace.
- * @param {boolean} [options.firstNameOnly=false] - If true, uses only the first name.
- * @param {boolean} [options.possessive=true] - If true, appends a possessive suffix to the name.
- * @param {'auto'|'apostropheOnly'|'apostropheS'} [options.possessiveStyle='auto']
+ * @param {Object} [opts] - Configuration options.
+ * @param {string} [opts.nameKey='applicantName'] - Path/key in `formData` where the name object is stored.
+ * @param {string} [opts.placeholder='%s'] - Placeholder string in `title` to replace.
+ * @param {boolean} [opts.firstNameOnly=false] - If true, uses only the first name.
+ * @param {boolean} [opts.possessive=true] - If true, appends a possessive suffix to the name.
+ * @param {'auto'|'apostropheOnly'|'apostropheS'} [opts.possessiveStyle='auto']
  *   - Possessive style: auto-detect for names ending in "s", force apostrophe-only, or force apostrophe+s.
- * @param {boolean} [options.capitalize=true] - If true, capitalizes the first letter of the final string.
+ * @param {boolean} [opts.capitalize=true] - If true, capitalizes the first letter of the final string.
  * @returns {string} The title with the applicant’s name inserted (or empty string if inputs are invalid).
  *
  * @example

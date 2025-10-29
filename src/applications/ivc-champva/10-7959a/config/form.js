@@ -115,7 +115,6 @@ const formConfig = {
           path: 'signer-type',
           title: 'Your information',
           // initialData: mockData.data,
-          // Placeholder data so that we display "beneficiary" in title when `fnp` is used
           ...certifierRoleSchema,
         },
         page1a1: {
@@ -125,7 +124,6 @@ const formConfig = {
         },
         page1a2: {
           path: 'not-enrolled-champva',
-          title: 'Wait until you receive CHAMPVA packet',
           depends: formData => !get('certifierReceivedPacket', formData),
           CustomPage: NotEnrolledPage,
           CustomPageReview: null,
@@ -157,8 +155,7 @@ const formConfig = {
         },
         page1e: {
           path: 'is-resubmit',
-          title: 'Your CHAMPVA claim status',
-          // If the feature toggle is enabled, show this page:
+          title: 'CHAMPVA claim status',
           depends: formData =>
             formData['view:champvaEnableClaimResubmitQuestion'],
           ...certifierClaimStatusSchema,
@@ -176,7 +173,7 @@ const formConfig = {
         },
         page1e2: {
           path: 'resubmission-letter-upload',
-          title: 'Upload CHAMPVA resubmission letter',
+          title: 'CHAMPVA resubmission letter',
           depends: formData => get('claimStatus', formData) === 'resubmission',
           CustomPage: FileFieldCustomSimple,
           CustomPageReview: null,
@@ -184,7 +181,7 @@ const formConfig = {
         },
         page1e3: {
           path: 'resubmission-supporting-docs-upload',
-          title: 'Upload supporting documents for your claim',
+          title: 'Supporting documents for claim',
           depends: formData => get('claimStatus', formData) === 'resubmission',
           CustomPage: FileFieldCustomSimple,
           CustomPageReview: null,
@@ -224,13 +221,12 @@ const formConfig = {
         },
         page2b: {
           path: 'beneficiary-identification-info',
-          title: 'Beneficiary’s CHAMPVA member number',
+          title: 'Beneficiary CHAMPVA member number',
           ...applicantMemberNumberSchema,
         },
         page2c: {
           path: 'beneficiary-address',
-          title: 'Beneficiary’s address',
-          // Only show if we have addresses to pull from:
+          title: 'Beneficiary address',
           depends: formData =>
             get('certifierRole', formData) !== 'applicant' &&
             (get('street', formData?.certifierAddress) ||
@@ -245,12 +241,12 @@ const formConfig = {
         },
         page2d: {
           path: 'beneficiary-mailing-address',
-          title: 'Beneficiary’s  mailing address',
+          title: 'Beneficiary mailing address',
           ...applicantAddressSchema,
         },
         page2e: {
           path: 'beneficiary-contact-info',
-          title: 'Beneficiary’s contact information',
+          title: 'Beneficiary contact information',
           ...applicantContactSchema,
         },
       },
@@ -260,11 +256,11 @@ const formConfig = {
       pages: {
         page3: {
           path: 'insurance-status',
-          title: 'Beneficiary’s health insurance status',
+          title: 'Beneficiary health insurance status',
           depends: formData => get('claimStatus', formData) !== 'resubmission',
           ...insuranceStatusSchema,
         },
-        ...insurancePages, // Array builder/list loop pages
+        ...insurancePages,
       },
     },
     claimInformation: {
@@ -298,14 +294,14 @@ const formConfig = {
         },
         page8: {
           path: 'eob-upload',
-          title: 'Upload explanation of benefits',
+          title: 'Explanation of benefits',
           depends: formData =>
             get('hasOhi', formData) && get('claimType', formData) === 'medical',
           ...eobUploadSchema(true),
         },
         page9: {
           path: 'additional-eob-upload',
-          title: 'Upload additional explanation of benefits',
+          title: 'Additional explanation of benefits',
           depends: formData =>
             get('hasOhi', formData) &&
             get('claimType', formData) === 'medical' &&
@@ -315,7 +311,7 @@ const formConfig = {
         },
         page10: {
           path: 'pharmacy-claim-upload',
-          title: 'Upload supporting document for prescription medication claim',
+          title: 'Supporting document for prescription medication claim',
           depends: formData =>
             get('claimType', formData) === 'pharmacy' &&
             get('claimStatus', formData) !== 'resubmission',

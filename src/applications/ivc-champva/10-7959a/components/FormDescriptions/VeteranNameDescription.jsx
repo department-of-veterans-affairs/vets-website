@@ -17,7 +17,7 @@ const VeteranNameDescription = ({ formData }) => {
       </p>
     </div>
   ) : (
-    content['veteran--name-description']
+    content['veteran--name-desc']
   );
 };
 
