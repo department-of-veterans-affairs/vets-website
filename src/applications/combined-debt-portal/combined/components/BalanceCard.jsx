@@ -6,13 +6,13 @@ import { APP_TYPES, currency, formatDate } from '../utils/helpers';
 const BalanceCard = ({ amount, count, date, appType }) => {
   const cardHeader =
     appType === APP_TYPES.DEBT
-      ? `for ${count} outstanding debt${count > 1 ? 's' : ''}`
+      ? `for ${count} benefit overpayment${count > 1 ? 's' : ''}`
       : `for ${count} copay bill${count > 1 ? 's' : ''}`;
 
   const linkText =
     appType === APP_TYPES.DEBT
-      ? 'Review details and resolve your debt'
-      : 'Review details and resolve your bill';
+      ? 'Review details and resolve overpayments'
+      : 'Review details and resolve copay bills';
 
   // Linking to existing applications
   // TODO: update a tag with Link component after merge
