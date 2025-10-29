@@ -50,11 +50,7 @@ describe('<HealthCareCTA />', () => {
       const tree = renderWithStoreAndRouter(
         <HealthCareCTA isVAPatient noCerner />,
         {
-          initialState: {
-            featureToggles: {
-              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
-            },
-          },
+          initialState,
         },
       );
 
@@ -83,7 +79,6 @@ describe('<HealthCareCTA />', () => {
         {
           initialState: {
             featureToggles: {
-              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
               [Toggler.TOGGLE_NAMES.travelPaySubmitMileageExpense]: true,
             },
           },

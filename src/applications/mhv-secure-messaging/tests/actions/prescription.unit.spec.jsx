@@ -2,6 +2,8 @@ import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import { datadogRum } from '@datadog/browser-rum';
 import { Actions } from '../../util/actionTypes';
 import {
   getPrescriptionById,
@@ -11,6 +13,15 @@ import {
 describe('prescription actions', () => {
   const middlewares = [thunk];
   const mockStore = configureStore(middlewares);
+  let datadogSpy;
+
+  beforeEach(() => {
+    datadogSpy = sinon.spy(datadogRum, 'addError');
+  });
+
+  afterEach(() => {
+    datadogSpy.restore();
+  });
 
   describe('getPrescriptionById', () => {
     it('should dispatch success action on successful API call', async () => {
@@ -53,6 +64,16 @@ describe('prescription actions', () => {
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
         payload: 'Prescription ID is required',
       });
+
+      // Verify Datadog error logging
+      expect(datadogSpy.called).to.be.true;
+      expect(datadogSpy.firstCall.args[0].message).to.include(
+        'Error fetching medication data for Secure Messaging Rx renewal request',
+      );
+      expect(datadogSpy.firstCall.args[1]).to.deep.include({
+        source: 'prescription_action',
+        context: 'Secure Messaging - Medication Renewal Request',
+      });
     });
 
     it('should dispatch error action when prescriptionId is "undefined"', async () => {
@@ -70,6 +91,10 @@ describe('prescription actions', () => {
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
         payload: 'Prescription ID is required',
       });
+
+      // Verify Datadog error logging
+      expect(datadogSpy.called).to.be.true;
+      expect(datadogSpy.firstCall.args[1].prescriptionId).to.equal('undefined');
     });
 
     it('should dispatch error action on API error', async () => {
@@ -93,6 +118,13 @@ describe('prescription actions', () => {
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
         payload: 'Internal Server Error',
       });
+
+      // Verify Datadog error logging
+      expect(datadogSpy.called).to.be.true;
+      expect(datadogSpy.firstCall.args[0].message).to.include(
+        'Internal Server Error',
+      );
+      expect(datadogSpy.firstCall.args[1].errorStatus).to.equal('500');
     });
 
     it('should dispatch error action on 404 error', async () => {
@@ -116,6 +148,14 @@ describe('prescription actions', () => {
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
         payload: 'Record not found',
       });
+
+      // Verify Datadog error logging with 404 status
+      expect(datadogSpy.called).to.be.true;
+      expect(datadogSpy.firstCall.args[0].message).to.include(
+        'Record not found',
+      );
+      expect(datadogSpy.firstCall.args[1].errorStatus).to.equal('404');
+      expect(datadogSpy.firstCall.args[1].prescriptionId).to.equal('123');
     });
   });
 
