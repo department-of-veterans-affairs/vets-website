@@ -3,19 +3,10 @@ import PropTypes from 'prop-types';
 import { shallowEqual, useSelector } from 'react-redux';
 import { isProfileLoading } from 'platform/user/selectors';
 import { Toggler } from 'platform/utilities/feature-toggles';
-import {
-  DowntimeNotification,
-  externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import WIP from '../../shared/components/WIP';
 import formConfig from '../config/form';
-
-// declare static constants
-const DOWNTIME_DEPENDENCIES = [
-  externalServices.pega,
-  externalServices.form107959f2,
-];
 
 const App = ({ location, children }) => {
   const isAppLoading = useSelector(
@@ -40,7 +31,7 @@ const App = ({ location, children }) => {
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         <DowntimeNotification
           appTitle="File a Foreign Medical Program (FMP) claim"
-          dependencies={DOWNTIME_DEPENDENCIES}
+          dependencies={formConfig.downtime.dependencies}
         >
           {children}
         </DowntimeNotification>

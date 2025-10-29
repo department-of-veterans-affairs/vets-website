@@ -3,10 +3,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  DowntimeNotification,
-  externalServices,
-} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { DowntimeNotification } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
@@ -77,10 +74,7 @@ export default function App({ location, children }) {
           <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
             <DowntimeNotification
               appTitle={`CHAMPVA Form ${formConfig.formId}`}
-              dependencies={[
-                externalServices.pega,
-                externalServices.form107959c,
-              ]}
+              dependencies={formConfig.downtime.dependencies}
             >
               {children}
             </DowntimeNotification>
