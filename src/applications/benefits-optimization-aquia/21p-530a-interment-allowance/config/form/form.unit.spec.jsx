@@ -101,6 +101,43 @@ describe('Form Configuration', () => {
     });
   });
 
+  describe('Veteran Information Pages', () => {
+    it('should have veteranIdentification page', () => {
+      expect(
+        formConfig.chapters.veteranInformationChapter.pages
+          .veteranIdentification,
+      ).to.exist;
+    });
+
+    it('should have veteranSsnFileNumber page', () => {
+      expect(
+        formConfig.chapters.veteranInformationChapter.pages
+          .veteranSsnFileNumber,
+      ).to.exist;
+    });
+
+    it('should have veteranBirthDeathInformation page', () => {
+      expect(
+        formConfig.chapters.veteranInformationChapter.pages
+          .veteranBirthDeathInformation,
+      ).to.exist;
+    });
+
+    it('should NOT have duplicate veteranBirthInformation page', () => {
+      expect(
+        formConfig.chapters.veteranInformationChapter.pages
+          .veteranBirthInformation,
+      ).to.not.exist;
+    });
+
+    it('should have veteranBurialInformation page', () => {
+      expect(
+        formConfig.chapters.veteranInformationChapter.pages
+          .veteranBurialInformation,
+      ).to.exist;
+    });
+  });
+
   describe('Submit Configuration', () => {
     it('should have submit URL', () => {
       expect(formConfig.submitUrl).to.be.a('string');

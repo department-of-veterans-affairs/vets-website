@@ -11,11 +11,11 @@ import claimantIdentification from './claimantIdentification';
 import claimantContact from './claimantContact';
 import claimantRelationship from './claimantRelationship';
 import relativesOverview from './relativesOverview';
-import relativesDetails from './relativesDetails';
+import { relativesPages } from './relativesDetails';
 import expensesClaim from './expensesClaim';
-import expensesList from './expensesList';
+import { expensesPages } from './expensesList';
 import otherDebts from './otherDebts';
-import otherDebtsList from './otherDebtsList';
+import { otherDebtsPages } from './otherDebtsList';
 import remarks from './remarks';
 
 export {
@@ -32,10 +32,10 @@ export {
   claimantContact,
   claimantRelationship,
   relativesOverview,
-  relativesDetails,
+  relativesPages,
   expensesClaim,
-  expensesList,
+  expensesPages,
   otherDebts,
-  otherDebtsList,
+  otherDebtsPages,
   remarks,
 };

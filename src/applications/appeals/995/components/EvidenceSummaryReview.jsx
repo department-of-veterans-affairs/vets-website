@@ -91,7 +91,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
 };
 
 EvidenceSummaryReview.propTypes = {
-  data: data995,
+  data: PropTypes.shape(data995),
   editPage: PropTypes.func,
 };
 
