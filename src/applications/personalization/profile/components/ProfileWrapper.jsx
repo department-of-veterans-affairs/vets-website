@@ -106,6 +106,7 @@ const ProfileWrapper = ({
           <div className="vads-l-grid-container vads-u-padding-x--0">
             <ProfileBreadcrumbs
               className={`medium-screen:vads-u-padding-left--2 vads-u-padding-left--1 ${isLOA3 &&
+                !profile2Enabled &&
                 'vads-u-margin-top--neg2'}`}
             />
             <div className="vads-l-row">
