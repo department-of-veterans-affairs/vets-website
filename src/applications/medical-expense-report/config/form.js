@@ -8,7 +8,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FormSavedPage from '../containers/FormSavedPage';
 // import prefillTransformer from './prefill-transformer';
-import { transform } from './transform';
+import { transform } from './submit-transformer';
 // import { defaultDefinitions } from './definitions';
 import reportingPeriod from './chapters/02-expenses/reportingPeriod';
 import claimantRelationship from './chapters/01-applicant-information/claimantRelationship';
