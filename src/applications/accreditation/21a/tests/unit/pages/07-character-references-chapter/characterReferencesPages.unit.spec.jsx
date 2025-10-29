@@ -10,7 +10,7 @@ import characterReferencesPages, {
 } from '../../../../pages/07-character-references-chapter/characterReferencesPages';
 import CharacterReferencesIntro from '../../../../components/07-character-references-chapter/CharacterReferencesIntro';
 
-describe('educationalInstitutionsPages', () => {
+describe('characterReferencesPages', () => {
   const formData = {
     relationship: 'Friend',
     phone: {
@@ -86,6 +86,136 @@ describe('educationalInstitutionsPages', () => {
       expect($('va-text-input[label="Middle name"]'), container).to.exist;
       expect($('va-text-input[label="Last name"]'), container).to.exist;
       expect($('va-select[label="Suffix"]'), container).to.exist;
+    });
+  });
+
+  describe('characterReferences count validation', () => {
+    const { characterReferencesSummary } = characterReferencesPages;
+
+    const buildRef = (idx = 0) => ({
+      relationship: 'Friend',
+      phone: { callingCode: 1, contact: `555-000${idx}` },
+      email: `ref${idx}@mail.test`,
+      address: {
+        country: 'USA',
+        street: `${idx} Main Street`,
+        street2: '',
+        city: 'Test',
+        state: 'AK',
+        postalCode: '23423',
+        isMilitary: false,
+      },
+      fullName: { first: `Ref${idx}`, last: 'Person' },
+    });
+
+    const renderSummaryWithRefs = (refs, hasRefsValue) =>
+      render(
+        <SchemaForm
+          name="characterReferencesSummary"
+          title={characterReferencesSummary.title}
+          schema={characterReferencesSummary.schema}
+          uiSchema={characterReferencesSummary.uiSchema}
+          data={{
+            characterReferences: refs,
+            'view:hasCharacterReferences': hasRefsValue,
+          }}
+          onChange={() => {}}
+          onSubmit={() => {}}
+        />,
+      );
+
+    it('shows a min error when there are 0 references', () => {
+      const { container } = renderSummaryWithRefs([], false);
+      container
+        .querySelector('form')
+        .dispatchEvent(new Event('submit', { bubbles: true }));
+
+      const group = container.querySelector('va-radio');
+      expect(group.getAttribute('error')).to.contain(
+        'You must add at least 3 character references. You currently have 0.',
+      );
+    });
+
+    it('shows a min error when there are 1 or 2 references', () => {
+      const one = [buildRef(0)];
+      const two = [buildRef(0), buildRef(1)];
+
+      let utils = renderSummaryWithRefs(one, false);
+      utils.container
+        .querySelector('form')
+        .dispatchEvent(new Event('submit', { bubbles: true }));
+      expect(
+        utils.container.querySelector('va-radio').getAttribute('error'),
+      ).to.contain(
+        'You must add at least 3 character references. You currently have 1.',
+      );
+
+      utils = renderSummaryWithRefs(two, false);
+      utils.container
+        .querySelector('form')
+        .dispatchEvent(new Event('submit', { bubbles: true }));
+      expect(
+        utils.container.querySelector('va-radio').getAttribute('error'),
+      ).to.contain(
+        'You must add at least 3 character references. You currently have 2.',
+      );
+    });
+
+    it('has no count error when there are exactly 3 references', () => {
+      const three = [buildRef(0), buildRef(1), buildRef(2)];
+      const { container } = renderSummaryWithRefs(three, false);
+      container
+        .querySelector('form')
+        .dispatchEvent(new Event('submit', { bubbles: true }));
+
+      const group = container.querySelector('va-radio');
+      expect(group.getAttribute('error')).to.satisfy(
+        v => v === null || v === '',
+      );
+    });
+
+    it('has no count error when there are exactly 4 references', () => {
+      const four = [buildRef(0), buildRef(1), buildRef(2), buildRef(3)];
+      const { container } = renderSummaryWithRefs(four, false);
+      container
+        .querySelector('form')
+        .dispatchEvent(new Event('submit', { bubbles: true }));
+
+      const group = container.querySelector('va-radio');
+      expect(group.getAttribute('error')).to.satisfy(
+        v => v === null || v === '',
+      );
+    });
+
+    it('shows a max error when there are more than 4 references', () => {
+      const five = [
+        buildRef(0),
+        buildRef(1),
+        buildRef(2),
+        buildRef(3),
+        buildRef(4),
+      ];
+      const { container } = renderSummaryWithRefs(five, false);
+      container
+        .querySelector('form')
+        .dispatchEvent(new Event('submit', { bubbles: true }));
+
+      const group = container.querySelector('va-radio');
+      expect(group.getAttribute('error')).to.contain(
+        'You can add no more than 4 character references. You currently have 5.',
+      );
+    });
+
+    it('still shows the required radio error when no selection is made', () => {
+      const { container } = renderSummaryWithRefs([], undefined);
+      container
+        .querySelector('form')
+        .dispatchEvent(new Event('submit', { bubbles: true }));
+
+      const group = container.querySelector('va-radio');
+      expect(group.getAttribute('error')).to.contain(
+        'Select yes to confirm your character references.',
+      );
     });
   });
 
