@@ -344,6 +344,7 @@ export async function fetchFlowEligibilityAndClinics({
   };
 
   // Call not added above if removeFacilityConfigCheck is true, but requires resolved eligibility status to determine if needed
+  // When removing feature toggle, remove just the removeFacilityConfigCheck variable, not the other booleans.
   if (
     typeOfCareRequiresPastHistory &&
     removeFacilityConfigCheck &&
@@ -430,15 +431,15 @@ export async function fetchFlowEligibilityAndClinics({
       );
     }
     // When removeFacilityConfigCheck is removed, remove the entire condition inside the parens (2nd set of nested parens) with
-    // keepFacilityConfigCheck because we no longer will no longer be doing determination off the server (eligibility endpoint)
+    // keepFacilityConfigCheck because we no longer will no longer be doing determination on the client side.
     if (
       !isCerner &&
       typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
       (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
         featurePastVisitMHFilter) &&
       (keepFacilityConfigCheck &&
-        directTypeOfCareSettings.patientHistoryRequired &&
-        !hasMatchingClinics(results.clinics, results.pastAppointments))
+        directTypeOfCareSettings.patientHistoryRequired) &&
+      !hasMatchingClinics(results.clinics, results.pastAppointments)
     ) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);

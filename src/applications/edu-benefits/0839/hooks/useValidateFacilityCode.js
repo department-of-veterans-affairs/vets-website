@@ -12,6 +12,16 @@ export const useValidateFacilityCode = formData => {
     () => {
       const fetchInstitutionInfo = async () => {
         setLoader(true);
+        // Set loading state in formData
+        dispatch(
+          setData({
+            ...formData,
+            institutionDetails: {
+              ...formData.institutionDetails,
+              isLoading: true,
+            },
+          }),
+        );
         try {
           const response = await apiRequest(
             `/gi/institutions/${formData?.institutionDetails.facilityCode}`,
@@ -56,6 +66,9 @@ export const useValidateFacilityCode = formData => {
                 institutionAddress,
                 ihlEligible,
                 yrEligible,
+                isLoading: false,
+                isUsaSchool:
+                  response?.data?.attributes?.physicalCountry === 'USA',
               },
             }),
           );
@@ -70,6 +83,7 @@ export const useValidateFacilityCode = formData => {
                 institutionName: 'not found',
                 institutionAddress: {},
                 ihlEligible: null,
+                isLoading: false,
               },
             }),
           );

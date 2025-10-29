@@ -64,10 +64,10 @@ describe('Personal Info Schemas - Validation rules', () => {
   describe('ssnSchema', () => {
     it('validate valid SSNs', () => {
       const validSSNs = [
-        '234567890',
-        '234-56-7890',
-        '234 56 7890',
-        '987654321',
+        '227501138',
+        '227-501-138',
+        '227 501 138',
+        '312415800',
       ];
 
       validSSNs.forEach(ssn => {
@@ -78,9 +78,9 @@ describe('Personal Info Schemas - Validation rules', () => {
 
     it('transform formatted SSNs to digits only', () => {
       const formattedSSNs = [
-        { input: '234-56-7890', expected: '234567890' },
-        { input: '234 56 7890', expected: '234567890' },
-        { input: '234567890', expected: '234567890' },
+        { input: '227-501-138', expected: '227501138' },
+        { input: '227 501 138', expected: '227501138' },
+        { input: '227501138', expected: '227501138' },
       ];
 
       formattedSSNs.forEach(({ input, expected }) => {
@@ -93,7 +93,7 @@ describe('Personal Info Schemas - Validation rules', () => {
     it('reject invalid SSNs', () => {
       const invalidSSNs = [
         '12345678', // too short
-        '1234567890', // too long
+        '1227501138', // too long
         '12345678a', // contains letter
         '000000000', // all zeros (invalid SSN)
         '999999999', // all nines (invalid SSN)
@@ -148,7 +148,7 @@ describe('Personal Info Schemas - Validation rules', () => {
     it('reject invalid VA file numbers', () => {
       const invalidNumbers = [
         '1234567', // too short
-        '1234567890', // too long
+        '1227501138', // too long
         '1234567a', // contains letter
         '12-345678', // contains dash
       ];
@@ -172,7 +172,7 @@ describe('Personal Info Schemas - Validation rules', () => {
     it('validate complete personal info', () => {
       const validInfo = {
         dateOfBirth: '1990-01-01',
-        ssn: '234567890',
+        ssn: '227501138',
         vaFileNumber: '12345678',
       };
 
@@ -183,7 +183,7 @@ describe('Personal Info Schemas - Validation rules', () => {
     it('validate personal info without optional VA file number', () => {
       const validInfo = {
         dateOfBirth: '1990-01-01',
-        ssn: '234567890',
+        ssn: '227501138',
       };
 
       const result = personalInfoSchema.safeParse(validInfo);
@@ -206,28 +206,28 @@ describe('Personal Info Schemas - Validation rules', () => {
     it('transform formatted values', () => {
       const formattedInfo = {
         dateOfBirth: '1990-01-01',
-        ssn: '234-56-7890',
+        ssn: '227-501-138',
         vaFileNumber: '',
       };
 
       const result = personalInfoSchema.safeParse(formattedInfo);
       expect(result.success).to.be.true;
-      expect(result.data.ssn).to.equal('234567890');
+      expect(result.data.ssn).to.equal('227501138');
       expect(result.data.vaFileNumber).to.be.undefined;
     });
 
     it('validate all fields together', () => {
       const info = {
         dateOfBirth: '1985-06-15',
-        ssn: '987-65-4321',
-        vaFileNumber: '987654321',
+        ssn: '312-415-800',
+        vaFileNumber: '312415800',
       };
 
       const result = personalInfoSchema.safeParse(info);
       expect(result.success).to.be.true;
       expect(result.data.dateOfBirth).to.equal('1985-06-15');
-      expect(result.data.ssn).to.equal('987654321');
-      expect(result.data.vaFileNumber).to.equal('987654321');
+      expect(result.data.ssn).to.equal('312415800');
+      expect(result.data.vaFileNumber).to.equal('312415800');
     });
   });
 });

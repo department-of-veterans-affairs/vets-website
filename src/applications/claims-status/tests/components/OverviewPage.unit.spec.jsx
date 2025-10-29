@@ -169,6 +169,15 @@ describe('<OverviewPage>', () => {
         // eslint-disable-next-line camelcase
         cst_claim_phases: cstClaimPhasesEnabled,
       },
+      disability: {
+        status: {
+          notifications: {
+            message: null,
+            additionalEvidenceMessage: null,
+            type1UnknownErrors: null,
+          },
+        },
+      },
     }));
 
   it('should render null when claim empty', () => {

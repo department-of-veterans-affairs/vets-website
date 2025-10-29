@@ -24,6 +24,9 @@ describe('Medications List Page Sort Alphabetically By Name', () => {
       10,
       listLength,
     );
+    listPage.verifySortScreenReaderActionText(
+      'Sorting: Alphabetically by name',
+    );
     cy.injectAxe();
     cy.axeCheck('main');
   });
