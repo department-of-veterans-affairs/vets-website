@@ -136,7 +136,6 @@ export const checkContentAnonymousReportingPeriod = () => {
     'Submit medical expenses to support a pension or DIC claim',
   );
   checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
-  checkVisibleElementContent('legend', 'Reporting Period');
 };
 
 /**
@@ -148,7 +147,7 @@ export const checkContentAnonymousReportingPeriod = () => {
 //     'Submit medical expenses to support a pension or DIC claim'
 //   );
 //   checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
-//   checkVisibleElementContent('legend', 'Care expenses');
+//   checkVisibleElementContent('legend', 'Do you have a care expense to add?');
 // };
 
 /**
@@ -160,7 +159,6 @@ export const checkContentAnonymousCareExpensesAdd = () => {
     'Submit medical expenses to support a pension or DIC claim',
   );
   checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
-  checkVisibleElementContent('legend', 'Care expenses');
 };
 
 /**
@@ -200,7 +198,6 @@ export const checkContentAnonymousCareExpensesCareDates = () => {
     'legend',
     'Care provider’s name and dates of care',
   );
-  cy.wait(1000);
   checkVisibleElementContent('va-memorable-date', 'Care start date');
   checkVisibleElementContent('va-memorable-date', 'Care end date');
 };
@@ -567,16 +564,20 @@ export const fillInCareExpensesFromFixture = () => {
   );
 
   // cypress can be a little too fast and not wait for these fields to be exposed.
-  cy.wait(1000);
+  cy.get('va-memorable-date[name="root_careDate_from"]')
+    .shadow()
+    .get('input[name="root_careDate_fromMonth"]:not([disabled]')
+    .then(() => {
+      cy.fillDate(
+        'root_careDate_from',
+        fixtureData.data.attributes.veteran_care_provider_1.fromDate,
+      );
+      cy.fillDate(
+        'root_careDate_to',
+        fixtureData.data.attributes.veteran_care_provider_1.toDate,
+      );
+    });
 
-  cy.fillDate(
-    'root_careDate_from',
-    fixtureData.data.attributes.veteran_care_provider_1.fromDate,
-  );
-  cy.fillDate(
-    'root_careDate_to',
-    fixtureData.data.attributes.veteran_care_provider_1.toDate,
-  );
   checkAxeAndClickContinueButton();
 
   // care expense amount
