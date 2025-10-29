@@ -78,6 +78,12 @@ describe('PicklistRemoveDependentsReview', () => {
   } = {}) =>
     render(<PicklistRemoveDependentsReview data={data} goToPath={goToPath} />);
 
+  it('should render an error message if no dependents are selected', () => {
+    const { container } = render(<PicklistRemoveDependentsReview />);
+
+    expect('.usa-input-error-message', container).to.exist;
+  });
+
   it('should render selected dependents from picklist', () => {
     const { container } = renderComponent();
     const cards = $$('va-card', container);
