@@ -1,52 +1,41 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import constants from 'vets-json-schema/dist/constants.json';
 
 import {
-  TextInputField,
   MemorableDateField,
-  SelectField,
+  TextInputField,
 } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { transformDates } from '@bio-aquia/shared/forms';
 
 import { z } from 'zod';
-import {
-  dateOfBirthSchema,
-  placeOfBirthSchema,
-} from '@bio-aquia/21p-530a-interment-allowance/schemas';
+import { dateOfBirthSchema, placeOfBirthSchema } from '../../schemas';
 
 /**
  * Schema for veteran birth information page
  */
-const veteranBirthInformationSchema = z.object({
+const veteranBirthDeathSchema = z.object({
   dateOfBirth: dateOfBirthSchema,
   placeOfBirth: placeOfBirthSchema,
 });
 
 /**
- * Veteran Birth Information page component for the interment allowance form.
- * Collects the deceased Veteran's date of birth and place of birth (city and state).
- * This is the second page in the "Deceased Veteran information" chapter.
- *
- * @component
- * @param {Object} props - Component props
- * @param {Object} [props.data] - Initial form data from the form system
- * @param {Function} [props.goBack] - Function to navigate to the previous page
- * @param {Function} props.goForward - Function to navigate to the next page
- * @param {Function} [props.setFormData] - Function to update the form data in the form system
- * @returns {JSX.Element} Veteran birth information form page
- *
- * @example
- * ```jsx
- * <VeteranBirthInformationPage
- *   data={formData}
- *   goForward={handleGoForward}
- *   goBack={handleGoBack}
- *   setFormData={setFormData}
- * />
- * ```
+ * Data processor to ensure date values are properly formatted strings
  */
-export const VeteranBirthInformationPage = ({
+const ensureDateStrings = formData => {
+  return transformDates(formData, ['dateOfBirth']);
+};
+
+/**
+ * Veteran Birth Information page component for the interment allowance form
+ * This page collects deceased veteran's birth information
+ * @param {Object} props - Component props
+ * @param {Object} props.data - Initial form data
+ * @param {Function} props.setFormData - Function to update form data
+ * @param {Function} props.goForward - Function to proceed to next page
+ * @returns {JSX.Element} Veteran birth information form page
+ */
+export const VeteranBirthDeathInformationPage = ({
   data,
   setFormData,
   goForward,
@@ -59,15 +48,16 @@ export const VeteranBirthInformationPage = ({
 
   return (
     <PageTemplate
-      title="Birth information"
+      title="Veteran's birth information"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
-      schema={veteranBirthInformationSchema}
-      sectionName="veteranBirthInformation"
+      schema={veteranBirthDeathSchema}
+      sectionName="veteranIdentification"
+      dataProcessor={ensureDateStrings}
       defaultData={{
         dateOfBirth: '',
         placeOfBirth: {
@@ -95,23 +85,20 @@ export const VeteranBirthInformationPage = ({
             value={localData.placeOfBirth?.city}
             onChange={handleFieldChange}
             required
-            error={errors.placeOfBirth?.city || errors['placeOfBirth.city']}
+            error={errors['placeOfBirth.city']}
             forceShowError={formSubmitted}
             schema={placeOfBirthSchema.shape.city}
           />
 
-          <SelectField
+          <TextInputField
             name="placeOfBirth.state"
             label="State of birth"
             value={localData.placeOfBirth?.state}
             onChange={handleFieldChange}
             required
-            error={errors.placeOfBirth?.state || errors['placeOfBirth.state']}
+            error={errors['placeOfBirth.state']}
             forceShowError={formSubmitted}
             schema={placeOfBirthSchema.shape.state}
-            options={constants.states.USA.filter(
-              state => !['AA', 'AE', 'AP'].includes(state.value),
-            )}
           />
         </>
       )}
@@ -119,7 +106,7 @@ export const VeteranBirthInformationPage = ({
   );
 };
 
-VeteranBirthInformationPage.propTypes = {
+VeteranBirthDeathInformationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
