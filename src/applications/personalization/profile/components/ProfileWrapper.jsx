@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import { useLocation } from 'react-router-dom';
-import classNames from 'classnames';
 import NameTag from '~/applications/personalization/components/NameTag';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
@@ -69,13 +68,6 @@ const ProfileWrapper = ({
     [location.pathname],
   );
 
-  const mobileWrapperClassnames = classNames(
-    'medium-screen:vads-u-display--none',
-    {
-      'vads-u-margin--1 vads-u-margin-bottom--2': profile2Enabled,
-    },
-  );
-
   return (
     <>
       {showNameTag && (
@@ -87,13 +79,17 @@ const ProfileWrapper = ({
 
       {layout === LAYOUTS.SIDEBAR && (
         <>
-          <div className={mobileWrapperClassnames}>
+          <div className="vads-u-padding-x--1 medium-screen:vads-u-display--none">
             {profile2Enabled ? (
-              <ProfileSubNav
-                routes={routesForNav}
-                isLOA3={isLOA3}
-                isInMVI={isInMVI}
-              />
+              <>
+                <ProfileBreadcrumbs />
+                <ProfileSubNav
+                  className="vads-u-margin-top--neg1 vads-u-margin-bottom--4"
+                  routes={routesForNav}
+                  isLOA3={isLOA3}
+                  isInMVI={isInMVI}
+                />
+              </>
             ) : (
               <ProfileMobileSubNav
                 routes={routesForNav}
@@ -135,7 +131,7 @@ const ProfileWrapper = ({
                   </nav>
                 )}
               </div>
-              <div className="vads-l-col--12 vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-l-col--9 medium-screen:vads-u-padding-x--2 small-desktop-screen:vads-l-col--8">
+              <div className="vads-l-col--12 vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-l-col--9 medium-screen:vads-u-padding-x--2 small-desktop-screen:vads-l-col--9">
                 {/* children will be passed in from React Router one level up */}
                 {children}
                 <ProfilePrivacyPolicy />
