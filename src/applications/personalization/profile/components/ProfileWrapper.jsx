@@ -15,6 +15,7 @@ import { normalizePath } from '../../common/helpers';
 import { ProfileBreadcrumbs } from './ProfileBreadcrumbs';
 import { ProfilePrivacyPolicy } from './ProfilePrivacyPolicy';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
+import { selectProfileToggles } from '../selectors';
 
 const LAYOUTS = {
   SIDEBAR: 'sidebar',
@@ -42,6 +43,7 @@ const ProfileWrapper = ({
   children,
   isLOA3,
   isInMVI,
+  profile2Enabled,
   totalDisabilityRating,
   totalDisabilityRatingError,
   showNameTag,
@@ -49,13 +51,12 @@ const ProfileWrapper = ({
   const location = useLocation();
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const profile2Toggle = useToggleValue(TOGGLE_NAMES.profile2Enabled);
   const profileHealthCareSettingsPage = useToggleValue(
     TOGGLE_NAMES.profileHealthCareSettingsPage,
   );
 
   const routesForNav = getRoutesForNav({
-    profile2Enabled: profile2Toggle,
+    profile2Enabled,
     profileHealthCareSettingsPage,
   });
 
@@ -71,7 +72,7 @@ const ProfileWrapper = ({
   const mobileWrapperClassnames = classNames(
     'medium-screen:vads-u-display--none',
     {
-      'vads-u-margin--1 vads-u-margin-bottom--2': profile2Toggle,
+      'vads-u-margin--1 vads-u-margin-bottom--2': profile2Enabled,
     },
   );
 
@@ -87,7 +88,7 @@ const ProfileWrapper = ({
       {layout === LAYOUTS.SIDEBAR && (
         <>
           <div className={mobileWrapperClassnames}>
-            {profile2Toggle ? (
+            {profile2Enabled ? (
               <ProfileSubNav
                 routes={routesForNav}
                 isLOA3={isLOA3}
@@ -109,7 +110,7 @@ const ProfileWrapper = ({
             />
             <div className="vads-l-row">
               <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--3 vads-u-padding-left--2">
-                {profile2Toggle ? (
+                {profile2Enabled ? (
                   <ProfileSubNav
                     routes={routesForNav}
                     isLOA3={isLOA3}
@@ -157,11 +158,14 @@ const ProfileWrapper = ({
 
 const mapStateToProps = (state, ownProps) => {
   const hero = state.vaProfile?.hero;
+  const profileToggles = selectProfileToggles(state);
+  const profile2Enabled = profileToggles?.profile2Enabled;
   return {
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
     totalDisabilityRatingError: hasTotalDisabilityError(state),
-    showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors),
+    showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors) && !profile2Enabled,
+    profile2Enabled,
   };
 };
 
@@ -174,6 +178,7 @@ ProfileWrapper.propTypes = {
   isInMVI: PropTypes.bool,
   isLOA3: PropTypes.bool,
   location: PropTypes.object,
+  profile2Enabled: PropTypes.bool,
   showNameTag: PropTypes.bool,
   totalDisabilityRating: PropTypes.oneOfType([
     PropTypes.string,
