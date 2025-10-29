@@ -28,6 +28,24 @@ export const claimantRelationshipOptions = {
   ADULT_CHILD_SERIOUSLY_DISABLED: 'Adult child who is seriously disabled',
 };
 
+export const marriageEndOptions = {
+  SPOUSE_DEATH: "Spouse's death",
+  DIVORCE: 'Divorce',
+  OTHER: 'Other',
+};
+
+export const marriageTypeOptions = {
+  CIVIL_RELIGIOUS:
+    'In a civil or religious ceremony with an officiant who signed me marriage license',
+  OTHER_WAY: 'Some other way',
+};
+
+export const separationReasonOptions = {
+  MEDICAL_FINANCIAL: 'Medical or financial reasons',
+  RELATIONSHIP_DIFFERENCES: 'Relationship differences or problems',
+  OTHER: 'Other',
+};
+
 export const bankAccountTypeOptions = {
   CHECKING: 'Checking',
   SAVINGS: 'Savings',
