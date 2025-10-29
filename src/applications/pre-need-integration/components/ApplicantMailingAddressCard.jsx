@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { VaCard } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectProfile } from 'platform/user/selectors';
 
-const ApplicantMailingAddressCard = ({ formData, onEdit, content = '' }) => {
+const ApplicantMailingAddressCard = ({ formData, onEdit }) => {
   const profile = useSelector(selectProfile);
   const { vapContactInfo } = profile || {};
   const { mailingAddress: profileAddress } = vapContactInfo || {};
@@ -46,20 +46,17 @@ const ApplicantMailingAddressCard = ({ formData, onEdit, content = '' }) => {
 
   return (
     <div className="vads-u-margin-bottom--3">
-      <h3>Confirm the mailing address we have on file for you</h3>
-      {content && (
-        <div className="vads-u-margin-bottom--2">
-          <p className="vads-u-margin--0">{content}</p>
-        </div>
-      )}
-
       <VaCard canEdit>
         <h4 className="vads-u-font-size--h3 vads-u-width--auto vads-u-margin-top--0 vads-u-margin-bottom--2">
           Your mailing address
         </h4>
         <div className="dd-privacy-hidden vads-u-margin-y--2">
           {hasAddress
-            ? addressLines.map((line, index) => <div key={index}>{line}</div>)
+            ? addressLines.map((line, index) => (
+                <div key={index} className="vads-u-margin-bottom--1">
+                  {line}
+                </div>
+              ))
             : 'Not provided'}
         </div>
         <div className="vads-u-margin-y--1">

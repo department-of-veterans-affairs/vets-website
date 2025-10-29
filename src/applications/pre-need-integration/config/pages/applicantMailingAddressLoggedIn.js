@@ -14,6 +14,7 @@ const ApplicantMailingAddressLoggedIn = ({
   onReviewPage,
   goBack,
   goForward,
+  goToPath,
   NavButtons,
   contentBeforeButtons,
   contentAfterButtons,
@@ -30,13 +31,18 @@ const ApplicantMailingAddressLoggedIn = ({
       };
       dispatch(setData(updatedFormData));
     }
+
+    // Clear return path if we've returned to this page
+    if (!onReviewPage) {
+      sessionStorage.removeItem('addressEditReturnPath');
+    }
   }, []);
 
   useEffect(
     () => {
       if (editState) {
         const [lastEdited, returnState] = editState.split(',');
-        if (returnState === 'updated') {
+        if (returnState === 'updated' || returnState === 'form-only') {
           setTimeout(() => {
             const target = `#updated-${lastEdited}`;
             scrollTo('topContentElement');
@@ -53,19 +59,40 @@ const ApplicantMailingAddressLoggedIn = ({
   const showSuccessAlert = (id, text) => {
     if (!editState) return null;
     const [lastEdited, returnState] = editState.split(',');
-    return (
-      <va-alert
-        id={`updated-${id}`}
-        visible={lastEdited === id && returnState === 'updated'}
-        class="vads-u-margin-y--1"
-        status="success"
-      >
-        <h2 slot="headline">We’ve updated your {text}</h2>
-        <p className="vads-u-margin-y--0">
-          We’ve made these changes to this form and your VA.gov profile.
-        </p>
-      </va-alert>
-    );
+
+    if (lastEdited === id && returnState === 'updated') {
+      return (
+        <va-alert
+          id={`updated-${id}`}
+          visible
+          class="vads-u-margin-y--2"
+          status="success"
+        >
+          <h2 slot="headline">We’ve updated your {text}</h2>
+          <p className="vads-u-margin-y--0">
+            We’ve made these changes to this form and your VA.gov profile.
+          </p>
+        </va-alert>
+      );
+    }
+
+    if (lastEdited === id && returnState === 'form-only') {
+      return (
+        <va-alert
+          id={`updated-${id}`}
+          visible
+          class="vads-u-margin-y--2"
+          status="success"
+        >
+          <h2 slot="headline">We’ve updated your {text}</h2>
+          <p className="vads-u-margin-y--0">
+            We’ve made these changes to only this form.
+          </p>
+        </va-alert>
+      );
+    }
+
+    return null;
   };
 
   const handleEdit = field => {
@@ -76,7 +103,21 @@ const ApplicantMailingAddressLoggedIn = ({
         'view:loggedInEditAddress': true,
       };
       dispatch(setData(updatedFormData));
-      goForward({ formData: updatedFormData });
+
+      // If on review page, store the return path
+      if (onReviewPage) {
+        sessionStorage.setItem('addressEditReturnPath', '/review-and-submit');
+      }
+
+      // Use goToPath to navigate to edit page
+      // The force: true option ensures navigation even from review page
+      if (goToPath) {
+        goToPath('/applicant-mailing-address-logged-in/edit-address', {
+          force: true,
+        });
+      } else if (goForward) {
+        goForward({ formData: updatedFormData });
+      }
     }
   };
 
@@ -97,25 +138,35 @@ const ApplicantMailingAddressLoggedIn = ({
     };
 
     return (
-      <div>
-        <div className="review-row">
-          <dt>Mailing address</dt>
-          <dd>{formatAddress(address)}</dd>
+      <div className="form-review-panel-page">
+        <div className="form-review-panel-page-header-row">
+          <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+            Mailing address
+          </h4>
         </div>
+        <dl className="review">
+          <div className="review-row">
+            <dt>Mailing address</dt>
+            <dd>{formatAddress(address)}</dd>
+          </div>
+        </dl>
       </div>
     );
   }
 
   return (
     <div>
+      <h3>Confirm the mailing address we have on file for you</h3>
+      <div className="vads-u-margin-bottom--2">
+        <p className="vads-u-margin--0">
+          We may mail information about your application to the address you
+          provide here.
+        </p>
+      </div>
       {showSuccessAlert('address', 'mailing address')}
-      <ApplicantMailingAddressCard
-        formData={data}
-        onEdit={handleEdit}
-        content="We'll send any important information about your application to this address."
-      />
+      <ApplicantMailingAddressCard formData={data} onEdit={handleEdit} />
       {contentBeforeButtons}
-      <NavButtons goBack={goBack} goForward={goForward} />
+      {NavButtons && <NavButtons goBack={goBack} goForward={goForward} />}
       {contentAfterButtons}
     </div>
   );

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import set from 'platform/utilities/data/set';
 import { setReturnState } from 'platform/forms-system/src/js/utilities/data/profile';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { createTransaction } from 'platform/user/profile/vap-svc/actions';
+import { ADDRESS_POU } from 'platform/user/profile/vap-svc/constants';
 import AddressConfirmation from '../../components/AddressConfirmation';
 import SuggestedAddressRadio from '../../components/SuggestedAddressRadio';
 import { fetchSuggestedAddress, isAuthorizedAgent } from '../../utils/helpers';
@@ -13,6 +16,7 @@ export const envUrl = environment.API_URL;
 function ApplicantSuggestedAddressLoggedIn({
   data,
   goToPath,
+  goBack,
   contentBeforeButtons,
   contentAfterButtons,
 }) {
@@ -85,9 +89,53 @@ function ApplicantSuggestedAddressLoggedIn({
     dispatch(setData(updatedFormData));
   };
 
-  const handleContinue = () => {
-    // Set return state to show success message
-    setReturnState('address,updated');
+  const handleContinue = async () => {
+    // Prepare address for VA Profile update
+    const formAddress = data?.application?.claimant?.address;
+    let profileUpdateSuccess = true;
+
+    if (formAddress) {
+      // Convert form address to VA Profile format
+      const vaProfileAddress = {
+        addressLine1: formAddress.street,
+        addressLine2: formAddress.street2 || null,
+        addressLine3: null,
+        addressPou: ADDRESS_POU.CORRESPONDENCE, // Mailing address
+        city: formAddress.city,
+        countryCodeIso3: formAddress.country || 'USA',
+        province: null,
+        stateCode: formAddress.state,
+        zipCode: formAddress.postalCode,
+      };
+
+      try {
+        // Update VA Profile with the new address
+        const result = await dispatch(
+          createTransaction(
+            '/profile/addresses',
+            'POST',
+            'mailingAddress',
+            vaProfileAddress,
+            'mailing-address',
+          ),
+        );
+
+        // Check if the transaction failed
+        if (!result || result.error || result.errors) {
+          profileUpdateSuccess = false;
+        }
+      } catch (error) {
+        // If VA Profile update fails, still update the form
+        profileUpdateSuccess = false;
+      }
+    }
+
+    // Set return state to show appropriate message
+    if (profileUpdateSuccess) {
+      setReturnState('address,updated');
+    } else {
+      setReturnState('address,form-only');
+    }
 
     // Clear the edit flag to return to normal flow
     const updatedFormData = {
@@ -101,8 +149,13 @@ function ApplicantSuggestedAddressLoggedIn({
   };
 
   const handleBack = () => {
-    // Go back to edit address page
-    goToPath('/applicant-mailing-address-logged-in/edit-address');
+    // Use goBack to go to previous page
+    if (goBack) {
+      goBack();
+    } else {
+      // Fallback to edit address page
+      goToPath('/applicant-mailing-address-logged-in/edit-address');
+    }
   };
 
   if (isLoading) {
@@ -124,16 +177,8 @@ function ApplicantSuggestedAddressLoggedIn({
         suggestedAddress={suggestedAddress}
         onChangeSelectedAddress={onChangeSelectedAddress}
       />
-      <div className="form-progress-buttons vads-u-margin-y--2">
-        <va-button text="Use this address" onClick={handleContinue} />
-        <va-button
-          text="Edit address"
-          onClick={handleBack}
-          secondary
-          className="vads-u-margin-left--1"
-        />
-      </div>
       {contentBeforeButtons}
+      <FormNavButtons goBack={handleBack} goForward={handleContinue} />
       {contentAfterButtons}
     </div>
   ) : (
@@ -146,16 +191,8 @@ function ApplicantSuggestedAddressLoggedIn({
         }
         userAddress={userAddress}
       />
-      <div className="form-progress-buttons vads-u-margin-y--2">
-        <va-button text="Continue" onClick={handleContinue} />
-        <va-button
-          text="Edit address"
-          onClick={handleBack}
-          secondary
-          className="vads-u-margin-left--1"
-        />
-      </div>
       {contentBeforeButtons}
+      <FormNavButtons goBack={handleBack} goForward={handleContinue} />
       {contentAfterButtons}
     </div>
   );

@@ -121,6 +121,8 @@ import {
   previousNameReviewHeader,
   addConditionalDependency,
   isLoggedInUser,
+  applicantEditAddressTitleLoggedIn,
+  applicantEditAddressDescriptionLoggedIn,
 } from '../utils/helpers';
 
 import {
@@ -398,7 +400,8 @@ const formConfig = {
           path: 'applicant-mailing-address-logged-in/edit-address',
           depends: formData => formData?.['view:loggedInEditAddress'] === true,
           uiSchema: applicantMailingAddress.uiSchema(
-            applicantContactInfoAddressTitle,
+            applicantEditAddressTitleLoggedIn,
+            applicantEditAddressDescriptionLoggedIn,
           ),
           schema: applicantMailingAddress.schema,
         },
