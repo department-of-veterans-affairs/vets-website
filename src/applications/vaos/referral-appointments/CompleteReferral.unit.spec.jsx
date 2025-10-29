@@ -61,7 +61,7 @@ describe('CompleteReferral', () => {
     // Mock the referral fetch hook that's now in each component
     sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
       data: currentReferral,
-      error: false,
+      error: null,
       isLoading: false,
     });
   });

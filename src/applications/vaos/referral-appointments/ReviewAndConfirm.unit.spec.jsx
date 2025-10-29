@@ -73,7 +73,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     // Mock the referral fetch hook that's now in each component
     sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
       data: createReferralById('2024-09-09', 'UUID'),
-      error: false,
+      error: null,
       isLoading: false,
     });
   });

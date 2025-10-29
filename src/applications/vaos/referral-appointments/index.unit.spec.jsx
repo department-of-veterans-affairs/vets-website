@@ -28,7 +28,7 @@ describe('ReferralAppointments', () => {
         '2024-11-29',
         'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
-      error: false,
+      error: null,
       isLoading: false,
     });
     sandbox.stub(useManualScrollRestoration, 'default');
@@ -44,7 +44,7 @@ describe('ReferralAppointments', () => {
   it('should render loading layout when referral is loading', async () => {
     vaosApi.useGetReferralByIdQuery.returns({
       data: null,
-      error: false,
+      error: null,
       isLoading: true,
     });
     const initialState = {
@@ -124,7 +124,7 @@ describe('ReferralAppointments', () => {
 
     vaosApi.useGetReferralByIdQuery.returns({
       data: referralWithAppointments,
-      error: false,
+      error: null,
       isLoading: true,
     });
 
