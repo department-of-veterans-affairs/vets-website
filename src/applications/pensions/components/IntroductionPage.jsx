@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import DisabilityRatingAlert from './DisabilityRatingAlert';
 import { FormReactivationAlert } from './FormAlerts';
 
 const IntroductionPage = props => {
@@ -19,6 +19,7 @@ const IntroductionPage = props => {
         title="Apply for Veterans Pension benefits"
         subTitle="Application for Veterans Pension (VA Form 21P-527EZ)"
       />
+      <DisabilityRatingAlert />
       <p className="va-introtext">
         Use our online tool to fill out and submit your application for Veterans
         Pension benefits. If you’re a wartime Veteran and you’re at least 65
