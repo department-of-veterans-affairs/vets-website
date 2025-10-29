@@ -67,18 +67,21 @@ export const yourInformationPage = () => ({
           aria-labelledby="summary-box-current-benefit"
           style={{
             backgroundColor: 'white',
-            border: '1px solid #565c65',
+            border: '2px solid #71767a',
+            borderRadius: '8px',
           }}
         >
           <div className="usa-summary-box__body">
             <h3
-              className="usa-summary-box__heading"
+              className="usa-summary-box__heading vads-u-margin-bottom--2"
               id="summary-box-current-benefit"
             >
               Your current benefit
             </h3>
             <div className="usa-summary-box__text">
-              {getBenefitLabel(formData?.currentBenefitType)}
+              <p className="vads-u-margin-y--0">
+                {getBenefitLabel(formData?.currentBenefitType)}
+              </p>
             </div>
           </div>
         </div>
