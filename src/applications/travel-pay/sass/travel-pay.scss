@@ -49,32 +49,9 @@
 }
 
 @media (max-width: $small-screen) {
-  va-button {
+  .travel-pay-complex-expense-cancel-btn {
+    margin: 4px;
     width: 100%;
-    display: flex !important;
-    flex-direction: column !important;
-  }
-
-  va-button-pair {
-    width: 100%;
-
-    ::part(button-pair) {
-      display: flex !important;
-      flex-direction: row !important;
-      gap: 1rem;
-    }
-
-    ::part(button-container) {
-      flex: 1;
-      width: 50%;
-      margin: 0;
-    }
-
-    ::part(primary-button),
-    ::part(secondary-button) {
-      width: 100%;
-      margin: 0;
-    }
   }
 }
 
@@ -150,13 +127,6 @@ h2#pagination-info {
   va-icon {
     margin-right: 0.2rem;
     vertical-align: middle;
-  }
-}
-
-.travel-pay-complex-expense-cancel-btn {
-  @media (max-width: 479px) {
-    margin: 4px;
-    width: 100%;
   }
 }
 
