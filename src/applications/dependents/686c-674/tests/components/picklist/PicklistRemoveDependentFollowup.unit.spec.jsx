@@ -370,10 +370,7 @@ describe('PicklistRemoveDependentFollowup', () => {
   });
 
   it('should navigate to the review & submit page after completing edit parent', () => {
-    global.window.sessionStorage.setItem(
-      PICKLIST_EDIT_REVIEW_FLAG,
-      'spousy-1234',
-    );
+    sessionStorage.setItem(PICKLIST_EDIT_REVIEW_FLAG, 'spousy-1234');
     const goToPath = sinon.spy();
     const { container } = renderComponent({
       goToPath,
