@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import recordEvent from 'platform/monitoring/record-event';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import DownloadLetterBlobLink from '../components/DownloadLetterBlobLink';
@@ -37,7 +38,9 @@ export class LetterList extends React.Component {
       // eslint-disable-next-line -- LH_MIGRATION
       LH_MIGRATION__options: LH_MIGRATION__getOptions(),
     });
-    this.getTsaLetter();
+    if (this.props.tsaSafeTravelLetter) {
+      this.getTsaLetter();
+    }
   }
 
   getTsaLetter() {
@@ -153,11 +156,7 @@ export class LetterList extends React.Component {
           <va-accordion data-test-id="letters-accordion" bordered>
             {letterItems}
             {hasTsaLetter && (
-              <Toggler toggleName={Toggler.TOGGLE_NAMES.tsaSafeTravelLetter}>
-                <Toggler.Enabled>
-                  <DownloadTsaLetter letter={this.state.tsaLetter} />
-                </Toggler.Enabled>
-              </Toggler>
+              <DownloadTsaLetter letter={this.state.tsaLetter} />
             )}
           </va-accordion>
         )}
@@ -202,6 +201,8 @@ function mapStateToProps(state) {
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
+    tsaSafeTravelLetter:
+      state.featureToggles[FEATURE_FLAG_NAMES.tsaSafeTravelLetter],
   };
 }
 
@@ -215,6 +216,7 @@ LetterList.propTypes = {
   ),
   lettersAvailability: PropTypes.string,
   optionsAvailable: PropTypes.bool,
+  tsaSafeTravelLetter: PropTypes.bool,
 };
 
 export default connect(
