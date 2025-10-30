@@ -199,10 +199,7 @@
   "mhvVaHealthChatEnabled": "mhv_va_health_chat_enabled",
   "mhvHeaderLinks": "mhv_header_links",
   "militaryBenefitEstimates": "military_benefit_estimates",
-  "myVaEnableMhvLink": "my_va_enable_mhv_link",
   "myVaFormSubmissionPdfLink": "my_va_form_submission_pdf_link",
-  "myVaNewMhvUrls": "my_va_new_mhv_urls",
-  "myVaMhvLinkDesignUpdate": "my_va_mhv_link_design_update",
   "myVaEnableNotificationComponent": "my_va_notification_component",
   "myVaHideNotificationsSection": "my_va_hide_notifications_section",
   "myVaLighthouseUploadsReport": "my_va_lighthouse_uploads_report",
@@ -321,6 +318,7 @@
   "vaOnlineSchedulingCCDirectScheduling": "va_online_scheduling_cc_direct_scheduling",
   "vaOnlineSchedulingCCDirectSchedulingChiropractic": "va_online_scheduling_cc_direct_scheduling_chiropractic",
   "vaOnlineSchedulingCommunityCare": "va_online_scheduling_community_care",
+  "vaOnlineSchedulingCommunityCareCancellations": "va_online_scheduling_community_care_cancellations",
   "vaOnlineSchedulingDirect": "va_online_scheduling_direct",
   "vaOnlineSchedulingOhDirectSchedule": "va_online_scheduling_OH_direct_schedule",
   "vaOnlineSchedulingOhRequest": "va_online_scheduling_OH_request",
@@ -374,5 +372,6 @@
   "form0779Enabled": "form_0779_enabled",
   "form530aEnabled": "form_530a_enabled",
   "form4192Enabled": "form_4192_enabled",
-  "form2680Enabled": "form_2680_enabled"
+  "form2680Enabled": "form_2680_enabled",
+  "vre_eligibility_status_phase_2_updates": "vre_eligibility_status_phase_2_updates"
 }
