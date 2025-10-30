@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-const libxmljs = require('libxmljs');
+const { XMLParser } = require('fast-xml-parser');
 const fetch = require('node-fetch');
 
 const SITEMAP_URL = `http://${process.env.WEB_HOST || 'localhost'}:${process.env
   .WEB_PORT || 3001}/sitemap.xml`;
-const SITEMAP_LOC_NS = 'http://www.sitemaps.org/schemas/sitemap/0.9';
+const parser = new XMLParser();
 
 const langs = ['espanol'];
 const langSuffixes = ['-esp/', '-tag/'];
@@ -19,7 +19,10 @@ const filterByLanguage = url => {
 };
 
 const getUrlsFromXMLDoc = doc => {
-  return doc.find('//xmlns:loc', SITEMAP_LOC_NS).map(n => n.text());
+  // Handle both single URL and multiple URLs
+  return Array.isArray(doc.urlset.url)
+    ? doc.urlset.url.map(u => u.loc)
+    : [doc.urlset.url.loc];
 };
 
 const parseNonEnglishContent = () => {
@@ -28,7 +31,7 @@ const parseNonEnglishContent = () => {
       return res.text();
     })
     .then(body => {
-      return libxmljs.parseXmlString(body);
+      return parser.parse(body);
     })
 
     .then(doc => {
@@ -36,10 +39,6 @@ const parseNonEnglishContent = () => {
         ...getUrlsFromXMLDoc(doc).filter(filterByLanguage),
         ...getUrlsFromXMLDoc(doc).filter(filterByLanguageSuffix),
       ];
-    })
-    .then(urls => {
-      console.log(urls, 'THE NON ENGLISH CONTENT');
-      console.log(urls.length, 'THE NUMBER OF PAGES');
     });
 };
 

@@ -6,8 +6,8 @@
     "blob-polyfill",
     "isomorphic-fetch",
     "mocha-snapshots",
-    "src/platform/testing/unit/mocha-setup.js",
-    "src/platform/testing/unit/enzyme-setup.js",
+    "src/platform/testing/unit/mocha-setup.cjs",
+    "src/platform/testing/unit/enzyme-setup.cjs",
     "dd-trace/ci/init"
   ],
   "reporter": "progress",
