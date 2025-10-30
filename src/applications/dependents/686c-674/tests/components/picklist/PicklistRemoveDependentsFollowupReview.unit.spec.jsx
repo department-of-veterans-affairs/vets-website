@@ -146,7 +146,7 @@ describe('PicklistRemoveDependentFollowupReview', () => {
     expect($('va-button.edit-page', container)).to.exist;
     expect(
       $$('dd.dd-privacy-hidden[data-dd-action-name]', container).length,
-    ).to.equal(5);
+    ).to.equal(3);
 
     const rows = $$('.review-row', container);
     expect(rows.length).to.equal(5);
@@ -169,7 +169,7 @@ describe('PicklistRemoveDependentFollowupReview', () => {
     expect($$('va-button.edit-page', container).length).to.equal(2);
     expect(
       $$('dd.dd-privacy-hidden[data-dd-action-name]', container).length,
-    ).to.equal(4);
+    ).to.equal(3);
 
     const rows = $$('.review-row', container);
     expect(rows.length).to.equal(4);

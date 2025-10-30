@@ -76,10 +76,14 @@ describe('pageDetails', () => {
         {
           label: 'Reason for removing SPOUSY',
           value: 'You’re no longer married to them',
+          action: 'reason for removing spouse',
+          hideLabel: true,
+          hideValue: false,
         },
         {
           label: 'How did the marriage end?',
           value: 'You got divorced',
+          hideValue: false,
         },
         null,
         {
@@ -108,10 +112,14 @@ describe('pageDetails', () => {
         {
           label: 'Reason for removing SPOUSY',
           value: 'You’re no longer married to them',
+          action: 'reason for removing spouse',
+          hideLabel: true,
+          hideValue: false,
         },
         {
           label: 'How did the marriage end?',
           value: 'Your marriage was annulled or declared void',
+          hideValue: false,
         },
         {
           label: 'Description of annulment or void',
@@ -141,6 +149,9 @@ describe('pageDetails', () => {
         {
           label: 'Reason for removing SPOUSY',
           value: 'They died',
+          action: 'reason for removing spouse',
+          hideLabel: true,
+          hideValue: false,
         },
         {
           label: 'When was the death?',
@@ -175,7 +186,13 @@ describe('pageDetails', () => {
         endState: 'TX',
       });
       expect(details).to.deep.equal([
-        { label: 'Reason for removing PETER', value: 'They died' },
+        {
+          label: 'Reason for removing PETER',
+          value: 'They died',
+          action: 'reason for removing parent',
+          hideLabel: true,
+          hideValue: false,
+        },
         { label: 'When was the death?', value: 'January 1, 2020' },
         { label: 'Where was the death?', value: 'Test City, TX' },
       ]);
@@ -217,8 +234,20 @@ describe('pageDetails', () => {
         endCountry: 'Text Country',
       });
       expect(details).to.deep.equal([
-        { label: 'PENNY is your stepchild?', value: 'Yes' },
-        { label: 'Reason for removing PENNY', value: 'They got married' },
+        {
+          label: 'PENNY is your stepchild?',
+          value: 'Yes',
+          action: 'is stepchild?',
+          hideLabel: true,
+          hideValue: false,
+        },
+        {
+          label: 'Reason for removing PENNY',
+          value: 'They got married',
+          action: 'reason for removing child',
+          hideLabel: true,
+          hideValue: false,
+        },
         { label: 'Date of marriage', value: 'January 1, 2025' },
       ]);
     });
@@ -234,8 +263,20 @@ describe('pageDetails', () => {
         endState: 'TX',
       });
       expect(details).to.deep.equal([
-        { label: 'PENNY is your stepchild?', value: 'No' },
-        { label: 'Reason for removing PENNY', value: 'They died' },
+        {
+          label: 'PENNY is your stepchild?',
+          value: 'No',
+          action: 'is stepchild?',
+          hideLabel: true,
+          hideValue: false,
+        },
+        {
+          label: 'Reason for removing PENNY',
+          value: 'They died',
+          action: 'reason for removing child',
+          hideLabel: true,
+          hideValue: false,
+        },
         { label: 'When was the death?', value: 'January 1, 2020' },
         { label: 'Where was the death?', value: 'Test City, TX' },
       ]);

@@ -61,17 +61,26 @@ const PicklistRemoveDependentsFollowupReview = ({ data = {}, goToPath }) => {
             </div>
 
             <dl className="review">
-              {details.filter(Boolean).map(({ label, value, action }) => (
-                <div className="review-row" key={label}>
-                  <dt>{label}</dt>
-                  <dd
-                    className="dd-privacy-hidden"
-                    data-dd-action-name={action || label}
-                  >
-                    <strong>{value}</strong>
-                  </dd>
-                </div>
-              ))}
+              {details
+                .filter(Boolean)
+                .map(
+                  ({ label, value, hideLabel, hideValue = true, action }) => (
+                    <div className="review-row" key={label}>
+                      <dt
+                        className={hideLabel ? 'dd-privacy-hidden' : ''}
+                        data-dd-action-name={action || label}
+                      >
+                        {label}
+                      </dt>
+                      <dd
+                        className={hideValue ? 'dd-privacy-hidden' : ''}
+                        data-dd-action-name={action || label}
+                      >
+                        <strong>{value}</strong>
+                      </dd>
+                    </div>
+                  ),
+                )}
             </dl>
           </div>
         );

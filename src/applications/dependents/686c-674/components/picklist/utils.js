@@ -57,6 +57,9 @@ export const pageDetails = {
     const reason = {
       label: `Reason for removing ${item.fullName.first}`,
       value: labels.Spouse[item.removalReason],
+      action: 'reason for removing spouse',
+      hideLabel: true, // Hide label because it includes first name
+      hideValue: false, // generic value
     };
 
     switch (item.removalReason) {
@@ -66,6 +69,7 @@ export const pageDetails = {
           {
             label: 'How did the marriage end?',
             value: labels.Spouse[item.endType],
+            hideValue: false, // generic value
           },
           item.endType === 'annulmentOrVoid'
             ? {
@@ -103,6 +107,9 @@ export const pageDetails = {
     const reason = {
       label: `Reason for removing ${item.fullName.first}`,
       value: labels.Parent[item.removalReason],
+      action: 'reason for removing parent',
+      hideLabel: true,
+      hideValue: false, // generic value
     };
     switch (item.removalReason) {
       case 'parentDied':
@@ -141,10 +148,16 @@ export const pageDetails = {
     const isStepchild = {
       label: `${item.fullName.first} is your stepchild?`,
       value: item.isStepchild === 'Y' ? 'Yes' : 'No',
+      action: 'is stepchild?',
+      hideLabel: true,
+      hideValue: false, // generic value
     };
     const reason = {
       label: `Reason for removing ${item.fullName.first}`,
       value: labels.Child[item.removalReason],
+      action: 'reason for removing child',
+      hideLabel: true,
+      hideValue: false, // generic value
     };
     switch (item.removalReason) {
       case 'childMarried':
