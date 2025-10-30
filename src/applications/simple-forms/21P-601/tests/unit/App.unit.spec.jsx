@@ -36,9 +36,9 @@ describe('21P-601 App', () => {
 
     const component = App(props);
     expect(component).to.exist;
-    expect(
-      component.props.children[0].props.children.props.currentLocation,
-    ).to.include(location);
+    // Account for Toggler wrapper
+    const routedApp = component.props.children[0].props.children;
+    expect(routedApp.props.currentLocation).to.include(location);
   });
 
   it('renders with children', () => {
@@ -59,8 +59,9 @@ describe('21P-601 App', () => {
     };
 
     const component = App(props);
-    const routedSavableApp = component.props.children[0].props.children;
-    const downtimeNotification = routedSavableApp.props.children;
+    // Account for Toggler wrapper - get Toggler.Enabled child, then RoutedSavableApp child, then DowntimeNotification
+    const routedApp = component.props.children[0].props.children;
+    const downtimeNotification = routedApp.props.children;
     expect(downtimeNotification.props.appTitle).to.equal(
       'Application for Accrued Amounts Due a Deceased Beneficiary',
     );
@@ -73,8 +74,9 @@ describe('21P-601 App', () => {
     };
 
     const component = App(props);
-    const routedSavableApp = component.props.children[0].props.children;
-    const downtimeNotification = routedSavableApp.props.children;
+    // Account for Toggler wrapper - get Toggler.Enabled child, then RoutedSavableApp child, then DowntimeNotification
+    const routedApp = component.props.children[0].props.children;
+    const downtimeNotification = routedApp.props.children;
     expect(downtimeNotification.props.dependencies).to.exist;
     expect(downtimeNotification.props.dependencies).to.be.an('array');
   });
