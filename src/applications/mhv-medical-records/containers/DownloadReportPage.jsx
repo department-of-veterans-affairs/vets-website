@@ -7,6 +7,7 @@ import {
   SEI_DOMAINS,
   ALERT_TYPE_SEI_ERROR,
   MissingRecordsError,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { add, compareAsc } from 'date-fns';
@@ -28,7 +29,7 @@ import {
   refreshExtractTypes,
   statsdFrontEndActions,
 } from '../util/constants';
-import { genAndDownloadCCD } from '../actions/downloads';
+import { genAndDownloadCCD, downloadCCDV2 } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
@@ -38,6 +39,7 @@ import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { postRecordDatadogAction } from '../api/MrApi';
 import CCDAccordionItemV1 from './ccdAccordionItem/ccdAccordionItemV1';
 import CCDAccordionItemV2 from './ccdAccordionItem/ccdAccordionItemV2';
+import CCDAccordionItemDual from './ccdAccordionItem/ccdAccordionItemDual';
 
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
@@ -57,6 +59,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     },
   } = useSelector(state => state);
 
+  // const ccdExtendedFileTypeFlag = true; // TEMP: Force false for testing V1
   const ccdExtendedFileTypeFlag = useSelector(
     state =>
       state.featureToggles[
@@ -69,9 +72,11 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const [failedSeiDomains, setFailedSeiDomains] = useState([]);
   const [seiPdfGenerationError, setSeiPdfGenerationError] = useState(null);
   const [expandSelfEntered, setExpandSelfEntered] = useState(false);
+  const [generatingCCDV2, setGeneratingCCDV2] = useState(false);
 
   const activeAlert = useAlerts(dispatch);
   const selfEnteredAccordionRef = useRef(null);
+  const { isCerner } = useAcceleratedData() || {};
 
   // Checks if CCD retry is needed and returns a formatted timestamp or null.
   const CCDRetryTimestamp = useMemo(
@@ -174,13 +179,31 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     e.preventDefault();
     dispatch(
       genAndDownloadCCD(
-        userProfile?.userFullName?.first,
-        userProfile?.userFullName?.last,
-        fileType, // 'xml' | 'html' | 'pdf'
+        userProfile?.userFullName?.first || 'Test',
+        userProfile?.userFullName?.last || 'User',
+        fileType,
       ),
     );
     postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
     sendDataDogAction(`Download Continuity of Care Document ${fileType} link`);
+  };
+
+  const handleDownloadCCDV2 = (e, fileType) => {
+    e.preventDefault();
+    setGeneratingCCDV2(true);
+
+    dispatch(
+      downloadCCDV2(
+        userProfile?.userFullName?.first || 'Test',
+        userProfile?.userFullName?.last || 'User',
+        fileType,
+      ),
+    ).finally(() => {
+      setGeneratingCCDV2(false);
+    });
+
+    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
+    sendDataDogAction(`Download CCD V2 ${fileType} link`);
   };
 
   const handleDownloadSelfEnteredPdf = e => {
@@ -306,17 +329,32 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </>
         )}
       <va-accordion bordered>
-        {ccdExtendedFileTypeFlag ? (
-          <CCDAccordionItemV2
-            generatingCCD={generatingCCD}
-            handleDownloadCCD={handleDownloadCCD}
-          />
-        ) : (
-          <CCDAccordionItemV1
-            generatingCCD={generatingCCD}
-            handleDownloadCCD={handleDownloadCCD}
-          />
-        )}
+        {(() => {
+          if (isCerner && ccdExtendedFileTypeFlag) {
+            return (
+              <CCDAccordionItemDual
+                generatingCCD={generatingCCD}
+                generatingCCDV2={generatingCCDV2}
+                handleDownloadCCD={handleDownloadCCD}
+                handleDownloadCCDV2={handleDownloadCCDV2}
+              />
+            );
+          }
+          if (ccdExtendedFileTypeFlag) {
+            return (
+              <CCDAccordionItemV2
+                generatingCCD={generatingCCD}
+                handleDownloadCCD={handleDownloadCCD}
+              />
+            );
+          }
+          return (
+            <CCDAccordionItemV1
+              generatingCCD={generatingCCD}
+              handleDownloadCCD={handleDownloadCCD}
+            />
+          );
+        })()}
         <va-accordion-item
           bordered
           data-testid="selfEnteredAccordionItem"

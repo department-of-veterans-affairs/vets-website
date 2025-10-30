@@ -149,6 +149,47 @@ const responses = {
     acceleratedVaccines.single,
   'GET /my_health/v1/medical_records/ccd/generate': downloads.generateCCD,
   'GET /my_health/v1/medical_records/ccd/download': downloads.downloadCCD,
+  'GET /my_health/v2/medical_records/ccd/download': downloads.downloadCCD,
+  'GET /my_health/v2/medical_records/ccd/download.xml': downloads.downloadCCD,
+  'GET /my_health/v2/medical_records/ccd/download.html': (req, res) => {
+    return res.type('text/html').send(`
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Continuity of Care Document - Oracle Health</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 2em; }
+            h1 { color: #003d7a; }
+            .section { margin: 1em 0; padding: 1em; background: #f5f5f5; }
+          </style>
+        </head>
+        <body>
+          <h1>VA Continuity of Care Document</h1>
+          <p><strong>Data Source:</strong> Oracle Health</p>
+          <div class="section">
+            <h2>Patient Information</h2>
+            <p><strong>Name:</strong> Test Patient</p>
+            <p><strong>DOB:</strong> January 1, 1950</p>
+            <p><strong>Gender:</strong> Male</p>
+          </div>
+          <div class="section">
+            <h2>Allergies</h2>
+            <p>No known allergies documented.</p>
+          </div>
+          <div class="section">
+            <h2>Medications</h2>
+            <p>Medication list from Oracle Health system.</p>
+          </div>
+        </body>
+      </html>
+    `);
+  },
+  'GET /my_health/v2/medical_records/ccd/download.pdf': (req, res) => {
+    const pdfMock = '%PDF-1.4\n%mock pdf content for local development\n%%EOF';
+    return res.type('application/pdf').send(pdfMock);
+  },
   'GET /my_health/v1/medical_records/vitals': (req, res) => {
     const { use_oh_data_path, from, to } = req.query;
     if (use_oh_data_path === '1') {
