@@ -232,7 +232,7 @@ describe('<MhvAlertConfirmEmail />', () => {
       });
     });
 
-    it('should call putConfirmationDate with id and email_address in payload', async () => {
+    it('calls putConfirmationDate with id and email_address in payload', async () => {
       mockApiRequest();
       const emailAddressId = 123;
       const emailAddress = 'test@example.com';
