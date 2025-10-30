@@ -22,7 +22,11 @@ import {
   recipientTypeLabels,
   travelLocationLabels,
 } from '../../../utils/labels';
-import { transformDate } from './helpers';
+import {
+  transformDate,
+  requiredIfMileageReimbursed,
+  requiredIfMileageLocationOther,
+} from './helpers';
 
 function introDescription() {
   return (
@@ -39,17 +43,38 @@ function introDescription() {
   );
 }
 
+function checkIsItemIncomplete(item) {
+  return (
+    !item?.traveler ||
+    ((item.traveler === 'DEPENDENT' || item.traveler === 'OTHER') &&
+      !item?.travelerName) ||
+    !item?.travelLocation ||
+    (item.travelLocation === 'OTHER' && !item?.travelLocationOther) ||
+    !item?.travelDate ||
+    !item?.travelMilesTraveled ||
+    !item?.travelReimbursed
+  );
+}
+
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'mileageExpenses',
   nounSingular: 'mileage expense',
   nounPlural: 'mileage expenses',
   required: false,
-  isItemIncomplete: item => !item?.travelLocation || !item?.travelDate,
-  maxItems: 5,
+  isItemIncomplete: item => checkIsItemIncomplete(item),
+  maxItems: 12,
   text: {
     getItemName: item => travelLocationLabels[(item?.travelLocation)] || '',
     cardDescription: item => transformDate(item?.travelDate) || '',
+    cancelAddTitle: 'Cancel adding this mileage expense?',
+    cancelEditTitle: 'Cancel editing this mileage expense?',
+    cancelAddDescription:
+      'If you cancel, we won’t add this expense to your list of mileage expenses. You’ll return to a page where you can add a new mileage expense.',
+    cancelAddYes: 'Yes, cancel adding',
+    cancelAddNo: 'No, continue adding',
+    cancelEditYes: 'Yes, cancel editing',
+    cancelEditNo: 'No, continue editing',
   },
 };
 
@@ -139,12 +164,8 @@ const destinationPage = {
       title: 'Describe the destination',
       expandUnder: 'travelLocation',
       expandUnderCondition: field => field === 'OTHER',
-      required: (formData, index, fullData) => {
-        const mileageExpenses =
-          formData?.mileageExpenses ?? fullData?.mileageExpenses;
-        const mileageExpense = mileageExpenses?.[index];
-        return mileageExpense?.travelLocation === 'OTHER';
-      },
+      required: (formData, index, fullData) =>
+        requiredIfMileageLocationOther(formData, index, fullData),
     }),
     travelMilesTraveled: numberUI('How many miles were travelled?'),
     travelDate: currentOrPastDateUI({
@@ -179,12 +200,8 @@ const reimbursementPage = {
         expandUnder: 'travelReimbursed',
         expandUnderCondition: field => field === true,
       }),
-      'ui:required': (formData, index, fullData) => {
-        const mileageExpenses =
-          formData?.mileageExpenses ?? fullData?.mileageExpenses;
-        const mileageExpense = mileageExpenses?.[index];
-        return mileageExpense?.travelReimbursed === true;
-      },
+      'ui:required': (formData, index, fullData) =>
+        requiredIfMileageReimbursed(formData, index, fullData),
     },
   },
   schema: {

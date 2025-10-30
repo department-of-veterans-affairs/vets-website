@@ -52,17 +52,37 @@ function introDescription() {
   );
 }
 
+function checkIsItemIncomplete(item) {
+  return (
+    !item?.recipient ||
+    ((item.recipient === 'DEPENDENT' || item.recipient === 'OTHER') &&
+      !item?.recipientName) ||
+    !item?.paymentDate ||
+    !item?.purpose ||
+    !item?.paymentFrequency ||
+    !item?.paymentAmount
+  );
+}
+
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'medicalExpenses',
   nounSingular: 'medical expense',
   nounPlural: 'medical expenses',
   required: false,
-  isItemIncomplete: item => !item?.recipient || !item?.paymentDate,
-  maxItems: 5,
+  isItemIncomplete: item => checkIsItemIncomplete(item),
+  maxItems: 14,
   text: {
     getItemName: item => item?.provider || 'Provider',
     cardDescription: item => ItemDescription(item),
+    cancelAddTitle: 'Cancel adding this medical expense?',
+    cancelEditTitle: 'Cancel editing this medical expense?',
+    cancelAddDescription:
+      'If you cancel, we won’t add this expense to your list of medical expenses. You’ll return to a page where you can add a new medical expense.',
+    cancelAddYes: 'Yes, cancel adding',
+    cancelAddNo: 'No, continue adding',
+    cancelEditYes: 'Yes, cancel editing',
+    cancelEditNo: 'No, continue editing',
   },
 };
 
@@ -134,7 +154,7 @@ const recipientPage = {
       recipient: radioSchema(Object.keys(recipientTypeLabels)),
       recipientName: textSchema,
     },
-    required: ['recipient', 'recipientName'],
+    required: ['recipient'],
   },
 };
 
