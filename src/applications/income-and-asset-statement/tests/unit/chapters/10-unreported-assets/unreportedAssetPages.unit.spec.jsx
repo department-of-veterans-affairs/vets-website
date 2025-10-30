@@ -91,10 +91,10 @@ describe('unreported asset list and loop pages', () => {
 
   describe('relationship page', () => {
     const schema =
-      unreportedAssetPages.unreportedAssetRelationshipPage.schema.properties
-        .unreportedAssets.items;
+      unreportedAssetPages.unreportedAssetNonVeteranRecipientPage.schema
+        .properties.unreportedAssets.items;
     const uiSchema =
-      unreportedAssetPages.unreportedAssetRelationshipPage.uiSchema
+      unreportedAssetPages.unreportedAssetNonVeteranRecipientPage.uiSchema
         .unreportedAssets.items;
 
     testNumberOfFieldsByType(
@@ -132,11 +132,11 @@ describe('unreported asset list and loop pages', () => {
 
   describe('type page', () => {
     const schema =
-      unreportedAssetPages.unreportedAssetTypePage.schema.properties
+      unreportedAssetPages.unreportedAssetInformationPage.schema.properties
         .unreportedAssets.items;
     const uiSchema =
-      unreportedAssetPages.unreportedAssetTypePage.uiSchema.unreportedAssets
-        .items;
+      unreportedAssetPages.unreportedAssetInformationPage.uiSchema
+        .unreportedAssets.items;
 
     testNumberOfFieldsByType(
       formConfig,
@@ -150,9 +150,9 @@ describe('unreported asset list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-text-input[label="What is the type of asset?"]',
-        'va-text-input[label="What is the value of your portion of the property?"]',
-        'va-text-input[label="Where is the asset located?"]',
+        'va-text-input[label="What type of asset is it?"]',
+        'va-text-input[label="How much is your portion of this asset worth?"]',
+        'va-text-input[label="Asset’s location?"]',
       ],
       'type',
     );
