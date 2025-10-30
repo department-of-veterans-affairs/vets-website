@@ -313,23 +313,8 @@ describe('Form Configuration', () => {
   });
 
   describe('Save In Progress', () => {
-    it('should have save in progress configuration', () => {
-      expect(formConfig.saveInProgress).to.exist;
-      expect(formConfig.saveInProgress.messages).to.be.an('object');
-    });
-
-    it('should have in progress message', () => {
-      expect(formConfig.saveInProgress.messages.inProgress).to.include(
-        '21-4192',
-      );
-    });
-
-    it('should have expired message', () => {
-      expect(formConfig.saveInProgress.messages.expired).to.include('21-4192');
-    });
-
-    it('should have saved message', () => {
-      expect(formConfig.saveInProgress.messages.saved).to.include('saved');
+    it('should not have save in progress configuration', () => {
+      expect(formConfig.saveInProgress).to.not.exist;
     });
   });
 
@@ -381,8 +366,8 @@ describe('Form Configuration', () => {
       expect(formConfig.version).to.be.a('number');
     });
 
-    it('should have prefill disabled', () => {
-      expect(formConfig.prefillEnabled).to.be.false;
+    it('should not have prefill enabled', () => {
+      expect(formConfig.prefillEnabled).to.not.exist;
     });
 
     it('should have dev configuration', () => {
@@ -393,12 +378,8 @@ describe('Form Configuration', () => {
   });
 
   describe('Saved Form Messages', () => {
-    it('should have not found message', () => {
-      expect(formConfig.savedFormMessages.notFound).to.exist;
-    });
-
-    it('should have no auth message', () => {
-      expect(formConfig.savedFormMessages.noAuth).to.exist;
+    it('should not have saved form messages', () => {
+      expect(formConfig.savedFormMessages).to.not.exist;
     });
   });
 });
