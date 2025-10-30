@@ -67,6 +67,8 @@ const BRANCHES = {
   other: OTHER_BRANCH_LABELS,
 };
 
+/** @typedef {'army' | 'navy' | 'air force' | 'coast guard' | 'space force' | 'other'} ServiceBranchGroup */
+
 /**
  * @param {string[]} groups the groups to include
  * @returns { Object } an object with the key/value for each option in a subset of valid groups
@@ -79,9 +81,18 @@ function getOptionsForGroups(groups) {
     throw new Error('Not a valid Service Branch group');
   }
 
-  return selectedGroups.reduce((acc, group) => {
+  const options = selectedGroups.reduce((acc, group) => {
     return Object.assign(acc, BRANCHES[group]);
   }, {});
+
+  // if there is only a single group remove the group property from each option so we don't render a redundant option group label
+  if (groups.length === 1) {
+    Object.keys(options).forEach(key => {
+      delete options[key].group;
+    });
+  }
+
+  return options;
 }
 
 /**
@@ -118,7 +129,7 @@ function getOptionsForGroups(groups) {
  *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
  *  hint?: string,
  *  placeholder?: string,
- *  groups?: string[]
+ *  groups?: ServiceBranchGroup[]
  * }} options
  * @returns {UISchemaOptions}
  */
@@ -152,7 +163,7 @@ export const serviceBranchUI = options => {
  */
 
 /**
- * @param {Array<string> } [groups] an array of valid groups, i.e. the keys in BRANCHES
+ * @param {ServiceBranchGroup[]} [groups] an array of valid groups, i.e. the keys in BRANCHES
  * @returns {SchemaOptions}
  */
 export const serviceBranchSchema = groups => {
