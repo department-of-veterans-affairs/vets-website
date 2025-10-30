@@ -132,10 +132,13 @@ describe('VAOS Component: TravelReimbursement', () => {
       'Yes, I want to file',
     );
     expect(visibleModal.getAttribute('secondary-button-text')).to.equal(
-      "No, I won't file",
+      'No, cancel filing',
     );
-    expect(screen.getByText(/Claims filed after 30 days are typically denied/))
-      .to.exist;
+    expect(
+      screen.getByText(
+        'Do you still want to file a travel reimbursement claim?',
+      ),
+    ).to.exist;
   });
   it('should display travel reimbursement section with link to view claim status', async () => {
     const appointment = {
