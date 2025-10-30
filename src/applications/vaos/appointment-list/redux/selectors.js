@@ -395,6 +395,22 @@ export function selectAppointmentLocality(
   return `${isCommunityCare ? 'Community care' : 'VA appointment'}`;
 }
 
+export function selectClinicLocationInfo(appointment) {
+  const returningInfo = { location: undefined, name: undefined };
+
+  if (!appointment || selectIsCommunityCare(appointment)) return returningInfo;
+
+  const inPersonVisit = isInPersonVisit(appointment); // also checks for COVID/In Person/and Claim & Pension Exam -- in transformer
+  const isVideoClinic = isClinicVideoAppointment(appointment); // Video at VA Facility
+
+  if (inPersonVisit || isVideoClinic) {
+    returningInfo.location = appointment.location?.clinicPhysicalLocation;
+  }
+
+  returningInfo.name = appointment.location?.clinicName;
+  return returningInfo;
+}
+
 export function selectVideoData(appointment) {
   return appointment?.videoData || {};
 }
@@ -454,8 +470,18 @@ export function selectModalityText(appointment, isPendingAppointment = false) {
 
   return '';
 }
-
-export function selectApptDetailAriaText(appointment, isRequest = false) {
+/**
+ *
+ * @param {*} appointment
+ * @param {*} isRequest
+ * @param {*} featureListViewClinicInfo
+ * @returns
+ */
+export function selectApptDetailAriaText(
+  appointment,
+  isRequest = false,
+  featureListViewClinicInfo = false,
+) {
   const appointmentDate = selectStartDate(appointment);
   const isCanceled = selectIsCanceled(appointment);
   const isCommunityCare = selectIsCommunityCare(appointment);
@@ -464,11 +490,13 @@ export function selectApptDetailAriaText(appointment, isRequest = false) {
   const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
   const typeOfCareName = selectTypeOfCareName(appointment);
   const modalityText = selectModalityText(appointment);
+  const practitioner = selectPractitionerName(appointment);
+
   const fillin1 = isCanceled ? `Details for canceled` : 'Details for';
   let fillin2 =
     typeOfCareName && typeof typeOfCareName !== 'undefined'
-      ? `${typeOfCareName} appointment on`
-      : 'appointment on';
+      ? `${typeOfCareName} appointment`
+      : 'appointment';
   const fillin3 = `${formatInTimeZone(
     appointmentDate,
     appointment.timezone,
@@ -488,12 +516,16 @@ export function selectApptDetailAriaText(appointment, isRequest = false) {
     )} appointment`;
   }
 
+  const fillinWithOn = `${
+    featureListViewClinicInfo && practitioner ? `with ${practitioner} on` : 'on'
+  }`;
+
   let modality = 'in-person';
   if (isCommunityCare) modality = 'community care';
   if (isPhone) modality = 'phone';
   if (isVideo) modality = 'video';
 
-  return `${fillin1} ${modality} ${fillin2} ${fillin3}`;
+  return `${fillin1} ${modality} ${fillin2} ${fillinWithOn} ${fillin3}`;
 }
 
 export function selectApptDateAriaText(appointment) {
@@ -503,7 +535,7 @@ export function selectApptDateAriaText(appointment) {
     appointmentDate,
     appointment.timezone,
     'EEEE, MMMM d h:mm aaaa',
-  )}, ${timezoneName}'}`;
+  )}, ${timezoneName}`;
 }
 
 export function selectTypeOfCareAriaText(appointment) {
