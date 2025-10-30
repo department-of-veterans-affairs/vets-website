@@ -352,7 +352,7 @@ describe('<DocumentRequestPage>', () => {
     expect(resetUploads.called).to.be.true;
   });
 
-  it('should set details and go to files page if complete', () => {
+  it('should set details and go to status page if complete', () => {
     const trackedItem = {
       status: 'NEEDED_FROM_YOU',
       displayName: 'Testing',
@@ -391,7 +391,7 @@ describe('<DocumentRequestPage>', () => {
     );
 
     expect(getClaim.calledWith(1)).to.be.true;
-    expect(navigate.calledWith('../files')).to.be.true;
+    expect(navigate.calledWith('../status')).to.be.true;
   });
 
   context('when friendlyName exists in track Item', () => {
