@@ -15,7 +15,6 @@ const Sentry = require('@sentry/browser');
 const { configure } = require('@testing-library/dom');
 const chaiAxe = require('./axe-plugin');
 const { sentryTransport } = require('./sentry.cjs');
-require('./mocha-setup.cjs');
 
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
