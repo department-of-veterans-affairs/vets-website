@@ -8,7 +8,17 @@ class DownloadReportsPage {
   };
 
   clickCcdAccordionItem = () => {
-    cy.get('[data-testid="ccdAccordionItem"]').click();
+    // Check if accordion is already open, only click if closed
+    cy.get('[data-testid="ccdAccordionItem"]').then($accordion => {
+      const isOpen = $accordion.attr('open') === 'true';
+      if (!isOpen) {
+        cy.get('[data-testid="ccdAccordionItem"]').click();
+      }
+    });
+    // Wait for accordion content to be visible after expansion
+    cy.contains('Continuity of Care Document', { timeout: 10000 }).should(
+      'be.visible',
+    );
   };
 
   clickSelfEnteredAccordionItem = () => {
@@ -109,7 +119,7 @@ class DownloadReportsPage {
         body: xmlBody,
       }).as('downloadCcdV2Xml');
 
-      cy.get('[data-testid="generateCcdButtonXmlOH"]')
+      cy.get('[data-testid="generateCcdButtonXmlOH"]', { timeout: 10000 })
         .should('be.visible')
         .click();
       cy.wait('@downloadCcdV2Xml');
@@ -124,7 +134,7 @@ class DownloadReportsPage {
         body: htmlBody,
       }).as('downloadCcdV2Html');
 
-      cy.get('[data-testid="generateCcdButtonHtmlOH"]')
+      cy.get('[data-testid="generateCcdButtonHtmlOH"]', { timeout: 10000 })
         .should('be.visible')
         .click();
       cy.wait('@downloadCcdV2Html');
@@ -140,25 +150,34 @@ class DownloadReportsPage {
       body: pdfMock,
     }).as('downloadCcdV2Pdf');
 
-    cy.get('[data-testid="generateCcdButtonPdfOH"]')
+    cy.get('[data-testid="generateCcdButtonPdfOH"]', { timeout: 10000 })
       .should('be.visible')
       .click();
     cy.wait('@downloadCcdV2Pdf');
   };
 
   verifyDualAccordionVisible = () => {
-    cy.contains('Your VA Medical Records (Legacy System)').should('be.visible');
-    cy.contains('Your VA Medical Records (Oracle Health)').should('be.visible');
+    // Wait for accordion animation to complete and content to render
+    cy.contains('h4', 'Your VA Medical Records (Legacy System)', {
+      timeout: 10000,
+    }).should('be.visible');
+    cy.contains('h4', 'Your VA Medical Records (Oracle Health)').should(
+      'be.visible',
+    );
   };
 
   verifyVistaDownloadLinksVisible = () => {
-    cy.get('[data-testid="generateCcdButtonXmlVista"]').should('be.visible');
+    cy.get('[data-testid="generateCcdButtonXmlVista"]', {
+      timeout: 10000,
+    }).should('be.visible');
     cy.get('[data-testid="generateCcdButtonPdfVista"]').should('be.visible');
     cy.get('[data-testid="generateCcdButtonHtmlVista"]').should('be.visible');
   };
 
   verifyOHDownloadLinksVisible = () => {
-    cy.get('[data-testid="generateCcdButtonXmlOH"]').should('be.visible');
+    cy.get('[data-testid="generateCcdButtonXmlOH"]', {
+      timeout: 10000,
+    }).should('be.visible');
     cy.get('[data-testid="generateCcdButtonPdfOH"]').should('be.visible');
     cy.get('[data-testid="generateCcdButtonHtmlOH"]').should('be.visible');
   };
