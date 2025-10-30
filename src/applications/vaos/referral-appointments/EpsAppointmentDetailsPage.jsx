@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation, useHistory } from 'react-router-dom';
 import AddToCalendarButton from '../components/AddToCalendarButton';
 import { useGetAppointmentInfoQuery } from '../redux/api/vaosApi';
 import { setFormCurrentPage } from './redux/actions';
 import { APPOINTMENT_STATUS } from '../utils/constants';
-// eslint-disable-next-line import/no-restricted-paths
+import { selectFeatureCommunityCareCancellations } from '../redux/selectors';
 
 // eslint-disable-next-line import/no-restricted-paths
 import PageLayout from '../appointment-list/components/PageLayout';
@@ -24,6 +24,9 @@ export default function EpsAppointmentDetailsPage() {
   const [, appointmentId] = pathname.split('/');
   const history = useHistory();
   const dispatch = useDispatch();
+  const featureCommunityCareCancellations = useSelector(
+    selectFeatureCommunityCareCancellations,
+  );
 
   useEffect(
     () => {
@@ -214,10 +217,10 @@ export default function EpsAppointmentDetailsPage() {
           </span>
         </Section>
         <div
-          className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print"
+          className="vads-u-display--flex vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row"
           style={{ rowGap: '16px' }}
         >
-          <div className="vads-u-display--auto vads-u-margin-right--2">
+          <div>
             <VaButton
               text="Print"
               secondary
@@ -226,6 +229,21 @@ export default function EpsAppointmentDetailsPage() {
               uswds
             />
           </div>
+          {featureCommunityCareCancellations && (
+            <div>
+              <VaButton
+                text="Cancel appointment"
+                secondary
+                onClick={e => {
+                  // Add cancel appointment flow:
+                  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/122917
+                  e.preventDefault();
+                }}
+                data-testid="cancel-button"
+                uswds
+              />
+            </div>
+          )}
         </div>
       </va-card>
     </PageLayout>

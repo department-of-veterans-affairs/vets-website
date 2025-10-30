@@ -73,6 +73,9 @@ export const selectFeatureCCDirectScheduling = state =>
 export const selectFeatureCCDirectSchedulingChiropractic = state =>
   toggleValues(state).vaOnlineSchedulingCCDirectSchedulingChiropractic;
 
+export const selectFeatureCommunityCareCancellations = state =>
+  toggleValues(state).vaOnlineSchedulingCommunityCareCancellations;
+
 export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
 
 export const selectFeatureRecentLocationsFilter = state =>
