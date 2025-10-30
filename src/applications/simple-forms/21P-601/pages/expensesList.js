@@ -78,7 +78,7 @@ const expenseDetailsPage = {
       hint: 'For example: doctor, hospital, burial, funeral service',
     }),
     amount: currencyUI({
-      title: 'Amount you paid',
+      title: 'Cost of the expense',
       required: () => true,
     }),
   },

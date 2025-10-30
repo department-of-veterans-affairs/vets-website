@@ -5,7 +5,7 @@ import reducers from '../../../reducers';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import ExtraDetails from '../../../components/shared/ExtraDetails';
 import { dateFormat } from '../../../util/helpers';
-import { dispStatusObj } from '../../../util/constants';
+import { DATETIME_FORMATS, dispStatusObj } from '../../../util/constants';
 
 describe('Medications List Card Extra Details', () => {
   const prescription = prescriptionsListItem;
@@ -36,7 +36,10 @@ describe('Medications List Card Extra Details', () => {
       ...prescription,
       dispStatus: dispStatusObj.refillinprocess,
     });
-    const expectedDate = dateFormat(prescription.refillDate, 'MMMM D, YYYY');
+    const expectedDate = dateFormat(
+      prescription.refillDate,
+      DATETIME_FORMATS.longMonthDate,
+    );
     expect(
       await screen.findByTestId('rx-refillinprocess-info'),
     ).to.contain.text(
@@ -51,7 +54,7 @@ describe('Medications List Card Extra Details', () => {
     });
     const expectedDate = dateFormat(
       prescription.refillSubmitDate,
-      'MMMM D, YYYY',
+      DATETIME_FORMATS.longMonthDate,
     );
     expect(
       await screen.findByTestId('submitted-refill-request'),

@@ -1,7 +1,38 @@
 import { expect } from 'chai';
 
+import React from 'react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
 import relativesOverview from '../../pages/relativesOverview';
 import { relativesPages, relativesOptions } from '../../pages/relativesDetails';
+
+const mockStore = state => createStore(() => state);
+const minimalStore = mockStore({
+  form: {
+    data: {},
+  },
+});
+
+/**
+ * Renders the title method contained in an array builder page.
+ * @param {Object} pages Pages object from the array builder
+ * @param {String} pageName Stringified keyname of a particular page property we want to inspect
+ * @param {String} arrayPath array path of this particular list loop
+ * @returns Boolean indicating whether or not the render produced > 0 characters
+ */
+function callInnerArrayBuilderTitleFunc(pages, pageName, arrayPath) {
+  const { container } = render(
+    <Provider store={minimalStore}>
+      {pages[pageName].uiSchema[arrayPath].items['ui:title']({
+        formData: {},
+        formContext: {},
+      })}
+    </Provider>,
+  );
+
+  return container.querySelector('h3').innerHTML.length > 0;
+}
 
 describe('21P-601 relatives page configurations', () => {
   describe('relativesOverview', () => {
@@ -105,6 +136,13 @@ describe('21P-601 relatives page configurations', () => {
       expect(relativesPages.relativesSummary).to.have.property('title');
       expect(relativesPages.relativeNamePage).to.have.property('title');
       expect(relativesPages.relativeAddressPage).to.have.property('title');
+      expect(
+        callInnerArrayBuilderTitleFunc(
+          relativesPages,
+          'relativeAddressPage',
+          'survivingRelatives',
+        ),
+      ).to.be.true;
     });
 
     it('calls getItemName with full name', () => {
@@ -112,6 +150,18 @@ describe('21P-601 relatives page configurations', () => {
         fullName: { first: 'John', middle: 'A', last: 'Doe' },
       });
       expect(result).to.equal('John A Doe');
+    });
+
+    it('calls getItemName with partial name', () => {
+      const result = relativesOptions.text.getItemName({
+        fullName: { middle: 'A', last: 'Doe' },
+      });
+      expect(result).to.equal('A Doe');
+
+      const result2 = relativesOptions.text.getItemName({
+        fullName: { first: 'John', middle: 'A' },
+      });
+      expect(result2).to.equal('John A');
     });
 
     it('calls getItemName with no name', () => {
