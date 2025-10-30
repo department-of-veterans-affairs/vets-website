@@ -76,6 +76,26 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       error: null,
       isLoading: false,
     });
+
+    // Mock the draft appointment hook
+    sandbox.stub(vaosApi, 'useGetDraftReferralAppointmentQuery').returns({
+      data: draftAppointmentInfo,
+      isLoading: false,
+      isError: false,
+      isSuccess: true,
+      isUninitialized: false,
+    });
+
+    // Mock the post appointment mutation
+    sandbox.stub(vaosApi, 'usePostReferralAppointmentMutation').returns([
+      sandbox.stub(), // postReferralAppointment function
+      {
+        data: null,
+        isError: false,
+        isLoading: false,
+        isSuccess: false,
+      },
+    ]);
   });
   afterEach(() => {
     sandbox.restore();
@@ -137,13 +157,19 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   });
   it('should call create appointment post when "continue" is pressed', async () => {
     const store = createTestStore(initialFullState);
-    // Stub the appointment creation function
-    requestStub
-      .withArgs('/vaos/v2/appointments/draft')
-      .resolves({ data: draftAppointmentInfo });
-    requestStub
-      .withArgs('/vaos/v2/appointments/submit')
-      .resolves({ data: { appointmentId: draftAppointmentInfo?.id } });
+    const postReferralAppointmentMock = sandbox.stub();
+
+    // Override the default mock for this specific test
+    vaosApi.usePostReferralAppointmentMutation.restore();
+    sandbox.stub(vaosApi, 'usePostReferralAppointmentMutation').returns([
+      postReferralAppointmentMock,
+      {
+        data: null,
+        isError: false,
+        isLoading: false,
+        isSuccess: false,
+      },
+    ]);
 
     const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
       store,
@@ -151,12 +177,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     });
     await screen.findByTestId('continue-button');
     await userEvent.click(screen.queryByTestId('continue-button'));
-    sandbox.assert.calledOnce(
-      requestStub.withArgs('/vaos/v2/appointments/draft'),
-    );
-    sandbox.assert.calledOnce(
-      requestStub.withArgs('/vaos/v2/appointments/submit'),
-    );
+
+    // Verify the mutation function was called
+    sandbox.assert.calledOnce(postReferralAppointmentMock);
   });
   it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
     const store = createTestStore(initialEmptyState);
