@@ -1,14 +1,16 @@
 import classNames from 'classnames';
 import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import AppointmentColumn from '../../../components/AppointmentColumn';
 import AppointmentRow from '../../../components/AppointmentRow';
+import AppointmentClinicInfo from '../../../components/AppointmentClinicInfo';
 import {
   selectAppointmentLocality,
   selectApptDateAriaText,
   selectApptDetailAriaText,
+  selectClinicLocationInfo,
   selectIsCanceled,
   selectIsCommunityCare,
   selectModalityIcon,
@@ -16,7 +18,10 @@ import {
   selectStartDate,
   selectTimeZoneAbbr,
 } from '../../redux/selectors';
-import { selectFeatureUseBrowserTimezone } from '../../../redux/selectors';
+import {
+  selectFeatureListViewClinicInfo,
+  selectFeatureUseBrowserTimezone,
+} from '../../../redux/selectors';
 
 export default function AppointmentColumnLayout({
   data,
@@ -39,8 +44,20 @@ export default function AppointmentColumnLayout({
     selectTimeZoneAbbr(data, featureUseBrowserTimezone),
   );
 
-  const detailAriaLabel = useSelector(() => selectApptDetailAriaText(data));
   const dateAriaLabel = useSelector(() => selectApptDateAriaText(data));
+
+  // If the clinic info feature flag is on, we want to show the clinic location info
+  const featureListViewClinicInfo = useSelector(state =>
+    selectFeatureListViewClinicInfo(state),
+  );
+  const detailAriaLabel = useSelector(() =>
+    selectApptDetailAriaText(data, false, featureListViewClinicInfo),
+  );
+  const clinicLocationInfo = useSelector(() => selectClinicLocationInfo(data));
+  const showClinicLocationInfo = useMemo(
+    () => !!(clinicLocationInfo?.name || clinicLocationInfo?.location),
+    [clinicLocationInfo],
+  );
 
   return (
     <>
@@ -93,14 +110,12 @@ export default function AppointmentColumnLayout({
               'xsmall-screen:margin-top--1',
             )}
             size="1"
-            style={{
-              minWidth: '30px',
-              maxWidth: '30px',
-              alignSelf: 'center',
-            }}
+            style={{ minWidth: '30px', maxWidth: '30px', alignSelf: 'center' }}
           >
             <span
-              className={classNames({ 'vads-u-display--none': !first })}
+              className={classNames({
+                'vads-u-display--none': !first,
+              })}
               aria-hidden="true"
               data-testid="day"
               data-dd-privacy="mask"
@@ -125,13 +140,14 @@ export default function AppointmentColumnLayout({
         size="1"
       >
         <AppointmentRow
-          className={classNames(
-            'vaos-appts__column--alignItems',
-            'mobile-lg:vads-u-flex-direction--row',
-            'small-screen:vaos-appts__column-gap--3',
-            // padding below determines the appointment row height
-            'medium-screen:vads-u-padding-y--2',
-          )}
+          className={
+            classNames(
+              'vaos-appts__column--alignItems',
+              'mobile-lg:vads-u-flex-direction--row',
+              'small-screen:vaos-appts__column-gap--3',
+              'medium-screen:vads-u-padding-y--2',
+            ) // padding determines the appointment row height
+          }
         >
           <AppointmentColumn
             size="1"
@@ -161,13 +177,21 @@ export default function AppointmentColumnLayout({
                 canceled={isCanceled}
               >
                 <span
-                  className={classNames(
-                    'vaos-appts__display--table-cell',
-                    'vaos-appts__text--truncate',
-                  )}
+                  className={classNames('vaos-appts__display--table-cell')}
                   data-dd-privacy="mask"
                 >
-                  {appointmentLocality}
+                  {featureListViewClinicInfo ? (
+                    <a
+                      href={link}
+                      aria-label={detailAriaLabel}
+                      className="vaos-appts__focus--hide-outline"
+                      onClick={e => e.preventDefault()}
+                    >
+                      {appointmentLocality}
+                    </a>
+                  ) : (
+                    appointmentLocality
+                  )}
                 </span>
               </AppointmentColumn>
 
@@ -204,19 +228,35 @@ export default function AppointmentColumnLayout({
           </AppointmentColumn>
 
           <AppointmentColumn
-            id={`vaos-appts__detail-${data.id}`}
-            className="vaos-hide-for-print"
+            id={
+              featureListViewClinicInfo
+                ? `vaos-appts__namelocation-${data.id}`
+                : `vaos-appts__detail-${data.id}`
+            }
+            className={classNames({
+              'vaos-hide-for-print': !featureListViewClinicInfo,
+              'vads-u-display--none':
+                featureListViewClinicInfo && !showClinicLocationInfo,
+            })}
             padding="0"
-            size="1"
+            size={featureListViewClinicInfo ? '3' : '1'}
           >
-            <a
-              className="vaos-appts__focus--hide-outline"
-              aria-label={detailAriaLabel}
-              href={link}
-              onClick={e => e.preventDefault()}
-            >
-              Details
-            </a>
+            {featureListViewClinicInfo ? (
+              <AppointmentClinicInfo
+                clinicLocationInfo={clinicLocationInfo}
+                apptId={data.id}
+                isCanceled={isCanceled}
+              />
+            ) : (
+              <a
+                className="vaos-appts__focus--hide-outline"
+                aria-label={detailAriaLabel}
+                href={link}
+                onClick={e => e.preventDefault()}
+              >
+                Details
+              </a>
+            )}
           </AppointmentColumn>
         </AppointmentRow>
       </AppointmentColumn>
