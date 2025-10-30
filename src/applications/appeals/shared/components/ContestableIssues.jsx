@@ -79,14 +79,13 @@ const ContestableIssues = props => {
   // inReviewMode = true (review page view, not in edit mode)
   // inReviewMode = false (in edit mode)
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
-  const showCheckbox = !onReviewPage || (onReviewPage && !inReviewMode);
   const { submitted } = formContext;
   const loadedIssues = useMemo(() => formData.contestedIssues || [], [
     formData.contestedIssues,
   ]);
 
-  // Mark issues with decision dates today or in the future as blocked (computed at render time)
-  const issuesWithBlocking = useMemo(
+  // Evaluate issues for same-day decision date blocking (computed at render time)
+  const issuesWithDateEvaluation = useMemo(
     () =>
       loadedIssues.map(issue => {
         const { approxDecisionDate } = issue?.attributes || {};
@@ -97,20 +96,17 @@ const ContestableIssues = props => {
         const isBlockedSameDay = isTodayOrInFuture(decisionDate);
 
         return {
-          ...issue,
+          ...issue?.attributes,
+          [SELECTED]: issue?.[SELECTED],
           isBlockedSameDay,
         };
       }),
     [loadedIssues],
   );
 
-  const items = issuesWithBlocking
-    .map(item => ({
-      ...item?.attributes,
-      [SELECTED]: item?.[SELECTED],
-      isBlockedSameDay: item?.isBlockedSameDay,
-    }))
-    .concat(formData.additionalIssues || []);
+  const items = issuesWithDateEvaluation.concat(
+    formData.additionalIssues || [],
+  );
 
   const hasIssues = items.length > 0;
   const hasSelected = hasIssues && someSelected(items);
@@ -219,8 +215,13 @@ const ContestableIssues = props => {
   const issueCards = items.map((item, index) => {
     const itemIsSelected = !!item?.[SELECTED];
     const hideCard = (inReviewMode && !itemIsSelected) || isEmptyObject(item);
+    // If the previous issue was blocked and the current one is not, `showSeparator` is true
     const showSeparator =
-      !item.isBlockedSameDay && index > 0 && items[index - 1]?.isBlockedSameDay;
+      index > 0 && !item.isBlockedSameDay && items[index - 1]?.isBlockedSameDay;
+
+    const showCheckbox =
+      !item?.isBlockedSameDay &&
+      (!onReviewPage || (onReviewPage && !inReviewMode));
 
     const cardProps = {
       id,

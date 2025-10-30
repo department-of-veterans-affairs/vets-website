@@ -53,12 +53,13 @@ export const IssueCard = ({
     'vads-u-padding-top--2',
     'vads-u-padding-right--3',
     'vads-u-margin-bottom--0',
-    // Remove bottom border for blocked issues to make them appear grouped
-    isBlocked ? '' : 'vads-u-border-bottom--1px',
-    isBlocked ? '' : 'vads-u-border-color--gray-light',
-    // Add top border to first non-blocked issue after blocked issues for visual separation
+    isBlocked && index > 0 ? 'vads-u-margin-top--5' : '',
+    // Remove border for blocked issues; add border for first selectable issues
+    isBlocked
+      ? ''
+      : 'vads-u-border-bottom--1px vads-u-border-color--gray-light',
     showSeparator
-      ? 'vads-u-border-top--1px vads-u-border-color--gray-medium vads-u-margin-top--2'
+      ? 'vads-u-border-top--1px vads-u-border-color--gray-medium vads-u-margin-top--5'
       : '',
   ].join(' ');
 
@@ -114,7 +115,7 @@ export const IssueCard = ({
   return (
     <li id={`issue-${index}`} name={`issue-${index}`} key={index}>
       <div className={wrapperClass}>
-        {showCheckbox && !isBlocked ? (
+        {showCheckbox ? (
           <VaCheckbox
             checked={itemIsSelected}
             data-dd-action-name="Issue Name"

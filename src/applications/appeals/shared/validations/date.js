@@ -58,9 +58,9 @@ export const isTodayOrInFuture = date => {
   }
 
   const utcToday = getCurrentUTCStartOfDay();
-  const inputDateUTC = toUTCStartOfDay(date);
+  const issueDateUtc = toUTCStartOfDay(date);
 
-  return inputDateUTC.getTime() >= utcToday.getTime();
+  return issueDateUtc.getTime() >= utcToday.getTime();
 };
 
 const buildDatePartErrors = (month, day, year) => {

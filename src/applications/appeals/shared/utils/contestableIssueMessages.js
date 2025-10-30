@@ -1,104 +1,86 @@
 import { isToday, add } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { parseDateToDateObj } from './dates';
 import { FORMAT_YMD_DATE_FNS } from '../constants';
-
-// Common timezone abbreviations for VA.gov users
-const TIMEZONE_ABBREVIATIONS = {
-  'Asia/Tokyo': 'JST',
-  'America/New_York': 'EST',
-  'America/Chicago': 'CST',
-  'America/Denver': 'MST',
-  'America/Los_Angeles': 'PST',
-  'Europe/London': 'GMT',
-  'Europe/Paris': 'CET',
-  'Australia/Sydney': 'AEDT',
-};
+import { toUTCStartOfDay } from '../validations/date';
 
 /**
  * Get the current timezone abbreviation (e.g., "PST", "EST", "JST")
- * @returns {string} Timezone abbreviation or empty string if not available
+ * Uses date-fns-tz to properly handle DST (EDT vs EST, PDT vs PST, etc.)
+ * @returns {string} Timezone abbreviation
  */
 const getCurrentTimeZoneAbbr = () => {
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const date = new Date();
+  const now = new Date();
 
-  if (TIMEZONE_ABBREVIATIONS[timezone]) {
-    return TIMEZONE_ABBREVIATIONS[timezone];
-  }
-
-  // Fall back to browser's native abbreviation
-  return (
-    new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' })
-      .formatToParts(date)
-      .find(part => part.type === 'timeZoneName')?.value || ''
-  );
+  return formatInTimeZone(now, timezone, 'zzz');
 };
 
 /**
  * Helper: Format date part in readable format
  * @param {Date} date - Date to format
+ * @param {string} timezone - Target timezone (defaults to user's current timezone)
  * @returns {string} Formatted date (e.g., "January 15, 2024")
  */
-const formatDatePart = date =>
-  date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+const formatDatePart = (
+  date,
+  timezone = Intl.DateTimeFormat().resolvedOptions().timeZone,
+) => {
+  return formatInTimeZone(date, timezone, 'MMMM d, yyyy');
+};
 
 /**
  * Helper: Format time part in readable format
  * @param {Date} date - Date to format
+ * @param {string} timezone - Target timezone (defaults to user's current timezone)
  * @returns {string} Formatted time (e.g., "3:45 p.m.")
  */
-const formatTimePart = date => {
-  const timeString = date.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
-  // Convert "AM" to "a.m." and "PM" to "p.m."
+const formatTimePart = (
+  date,
+  timezone = Intl.DateTimeFormat().resolvedOptions().timeZone,
+) => {
+  // Use date-fns-tz to format time with proper AM/PM formatting
+  const timeString = formatInTimeZone(date, timezone, 'h:mm a');
+  // Convert "AM" to "a.m." and "PM" to "p.m." to match VA style guide
   return timeString.replace(/AM/g, 'a.m.').replace(/PM/g, 'p.m.');
 };
 
 /**
  * Helper: Format date with midnight in local timezone
  * E.g., in California (UTC-8), if decision was today, UTC midnight tomorrow converts to 5:00 p.m. today
- * Rather than confusing users with "available after 5:00 p.m. today", show stable "12:00 a.m. tomorrow"
+ * Business decision: Don't allow same-day appeals, so we show stable "12:00 a.m. tomorrow" format
  * @param {Date} date - Date to format
- * @param {string} timezone - Timezone abbreviation
+ * @param {string} timezoneAbbr - Timezone abbreviation (optional, will be determined automatically)
  * @returns {string} Formatted date with midnight time
  */
-const formatDateWithMidnight = (date, timezone) =>
-  `${formatDatePart(date)}, 12:00 a.m. ${timezone}`;
+const formatDateWithMidnight = (date, timezoneAbbr) => {
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const abbr = timezoneAbbr || getCurrentTimeZoneAbbr();
+  return `${formatDatePart(date, userTimezone)}, 12:00 a.m. ${abbr}`;
+};
 
 /**
  * Helper: Format date with specific time in local timezone
  * Used for showing UTC conversion times, e.g., in Japan (UTC+9), UTC midnight becomes 9:00 a.m. JST
  * @param {Date} date - Date to format
- * @param {string} timezone - Timezone abbreviation
+ * @param {string} timezoneAbbr - Timezone abbreviation (optional, will be determined automatically)
  * @returns {string} Formatted date with specific time
  */
-const formatDateWithTime = (date, timezone) =>
-  `${formatDatePart(date)}, ${formatTimePart(date)} ${timezone}`;
-
-/**
- * Helper: Create UTC midnight for a given date
- * @param {Date} date - Date to create UTC midnight for
- * @returns {Date} UTC midnight of the given date
- */
-const createUTCMidnight = date => {
-  return new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
-  );
+const formatDateWithTime = (date, timezoneAbbr) => {
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const abbr = timezoneAbbr || getCurrentTimeZoneAbbr();
+  const datePart = formatDatePart(date, userTimezone);
+  const timePart = formatTimePart(date, userTimezone);
+  return `${datePart}, ${timePart} ${abbr}`;
 };
 
 /**
- * Helper: Extract decision date from issue object
- * @param {Object} issue - Contestable issue object
+ * Helper: Extract decision date from contestable issue object
+ * @param {Object} issue - Contestable issue object from API
  * @returns {string} Decision date string
+ * Note: Only used for API contestable issues (approxDecisionDate), not user-entered additional issues
  */
-const getDecisionDate = issue => issue.approxDecisionDate || issue.decisionDate;
+const getDecisionDate = issue => issue.approxDecisionDate;
 
 /**
  * Helper: Check if UTC midnight falls on the same local day as decision date
@@ -128,13 +110,14 @@ const getAvailableAfterDate = (decisionDate, blockingType) => {
     return formatDateWithMidnight(nextLocalDay, timezone);
   }
 
-  const utcMidnight = createUTCMidnight(nextLocalDay);
+  const utcMidnight = toUTCStartOfDay(nextLocalDay);
 
   if (isSameDayAsDecision(parsedDate, utcMidnight)) {
     return formatDateWithMidnight(nextLocalDay, timezone);
   }
 
-  // Otherwise, show the actual UTC conversion time
+  // UTC midnight falls on a different local day than the decision date,
+  // so show the actual converted time (e.g., "October 30, 2025, 5:00 p.m. PST")
   return formatDateWithTime(utcMidnight, timezone);
 };
 
@@ -189,8 +172,8 @@ export const getBlockedMessage = blockedIssues => {
     return '';
   }
 
-  const issues = extractIssueNames(blockedIssues);
-  const isSingle = issues.length === 1;
+  const issueNames = extractIssueNames(blockedIssues);
+  const isSingle = issueNames.length === 1;
   const decisionDate = getDecisionDate(blockedIssues[0]);
 
   const isLocalDayBlocking = isBlockedByLocalDay(blockedIssues);
@@ -198,7 +181,7 @@ export const getBlockedMessage = blockedIssues => {
   const blockingType = isLocalDayBlocking ? 'local' : 'utc';
   const availableAfter = getAvailableAfterDate(decisionDate, blockingType);
 
-  return `We're sorry. Your ${formatIssueList(issues)} ${
+  return `We're sorry. Your ${formatIssueList(issueNames)} ${
     isSingle ? 'issue' : 'issues'
   } ${
     isSingle ? "isn't" : "aren't"
