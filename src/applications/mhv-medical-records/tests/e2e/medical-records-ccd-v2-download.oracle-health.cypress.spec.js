@@ -48,7 +48,9 @@ describe('Medical Records CCD V2 Download for Oracle Health Patients', () => {
         },
         body: xmlBody,
       }).as('getXml');
-      cy.get('[data-testid="generateCcdButtonXmlVista"]').click();
+      cy.get('[data-testid="generateCcdButtonXmlVista"]')
+        .should('be.visible')
+        .click();
       cy.wait('@ccdGenerateResponse');
       cy.wait('@getXml');
     });

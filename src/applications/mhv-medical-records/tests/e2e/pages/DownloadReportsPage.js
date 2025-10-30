@@ -109,7 +109,9 @@ class DownloadReportsPage {
         body: xmlBody,
       }).as('downloadCcdV2Xml');
 
-      cy.get('[data-testid="generateCcdButtonXmlOH"]').click();
+      cy.get('[data-testid="generateCcdButtonXmlOH"]')
+        .should('be.visible')
+        .click();
       cy.wait('@downloadCcdV2Xml');
     });
   };
@@ -122,7 +124,9 @@ class DownloadReportsPage {
         body: htmlBody,
       }).as('downloadCcdV2Html');
 
-      cy.get('[data-testid="generateCcdButtonHtmlOH"]').click();
+      cy.get('[data-testid="generateCcdButtonHtmlOH"]')
+        .should('be.visible')
+        .click();
       cy.wait('@downloadCcdV2Html');
     });
   };
@@ -136,7 +140,9 @@ class DownloadReportsPage {
       body: pdfMock,
     }).as('downloadCcdV2Pdf');
 
-    cy.get('[data-testid="generateCcdButtonPdfOH"]').click();
+    cy.get('[data-testid="generateCcdButtonPdfOH"]')
+      .should('be.visible')
+      .click();
     cy.wait('@downloadCcdV2Pdf');
   };
 
