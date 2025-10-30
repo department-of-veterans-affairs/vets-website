@@ -76,7 +76,7 @@ export const scrollToTop = async (
  */
 export const scrollToFirstError = async (options = {}) => {
   return new Promise(resolve => {
-    const { focusOnAlertRole = false, errorContext } = options;
+    const { errorContext } = options;
     const selectors = ERROR_ELEMENTS.join(',');
     const timeout = 500;
     const observerConfig = { childList: true, subtree: true };
@@ -130,16 +130,12 @@ export const scrollToFirstError = async (options = {}) => {
         const position = getElementPosition(el);
         scrollTo(position - 10, options);
 
-        if (focusOnAlertRole) {
-          // Adding a delay so that the shadow DOM needs to render and attach
-          // before we try to focus on the element; without the setTimeout,
-          // focus ends up staying on the "Continue" button
-          requestAnimationFrame(() => {
-            focusElement('[role="alert"]', {}, el?.shadowRoot);
-          });
-        } else {
-          focusElement(el);
-        }
+        // Adding a delay so that the shadow DOM needs to render and attach
+        // before we try to focus on the element; without the setTimeout,
+        // focus ends up staying on the "Continue" button
+        requestAnimationFrame(() => {
+          focusElement('[role="alert"]', {}, el?.shadowRoot);
+        });
       }
 
       runCleanup(true);
@@ -166,8 +162,12 @@ export const scrollToFirstError = async (options = {}) => {
     });
     if (rootEl) observer.observe(rootEl, observerConfig);
 
-    // don't let the observer run forever
-    fallbackTimer = setTimeout(() => runCleanup(false), timeout);
+    // don't let the observer run forever, but call queryForErrors first
+    // to catch errors that already exist in the DOM (e.g., on subsequent submits)
+    fallbackTimer = setTimeout(() => {
+      queryForErrors();
+      runCleanup(false);
+    }, timeout);
 
     // run an initial check for any existing elements
     queryForErrors();
