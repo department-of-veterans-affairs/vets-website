@@ -53,7 +53,7 @@ const Mileage = () => {
 
   const handleCancelModal = () => {
     handleCloseModal();
-    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
   const handleContinue = async () => {
