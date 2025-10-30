@@ -125,7 +125,7 @@ describe('ReferralAppointments', () => {
     vaosApi.useGetReferralByIdQuery.returns({
       data: referralWithAppointments,
       error: null,
-      isLoading: true,
+      isLoading: false,
     });
 
     const referralsResponse = new MockReferralListResponse({
