@@ -6,7 +6,6 @@ import { scrollToTop } from 'platform/utilities/scroll';
 
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import Notification from '../components/Notification';
 import DefaultPage from '../components/claim-document-request-pages/DefaultPage';
 import {
   cancelUpload,
@@ -22,7 +21,7 @@ import {
   setPageTitle,
   getLabel,
 } from '../utils/helpers';
-import { setUpPage, setPageFocus, focusNotificationAlert } from '../utils/page';
+import { setUpPage, setPageFocus } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
 
@@ -60,19 +59,28 @@ class DocumentRequestPage extends React.Component {
   }
 
   getDefaultPage() {
+    const {
+      message,
+      type1UnknownErrors,
+      showDocumentUploadStatus,
+    } = this.props;
     return (
       <>
         <DefaultPage
           item={this.props.trackedItem}
+          message={message}
           onCancel={this.props.cancelUpload}
           onSubmit={files =>
             this.props.submitFiles(
               this.props.claim.id,
               this.props.trackedItem,
               files,
+              showDocumentUploadStatus,
             )
           }
           progress={this.props.progress}
+          showDocumentUploadStatus={showDocumentUploadStatus}
+          type1UnknownErrors={type1UnknownErrors}
           uploading={this.props.uploading}
         />
       </>
@@ -132,21 +140,8 @@ class DocumentRequestPage extends React.Component {
         </div>
       );
     } else {
-      const { message } = this.props;
-
       content = (
         <>
-          {message && (
-            <div>
-              <Notification
-                title={message.title}
-                body={message.body}
-                type={message.type}
-                onSetFocus={focusNotificationAlert}
-              />
-            </div>
-          )}
-
           {isAutomated5103Notice(trackedItem.displayName) ? (
             <Default5103EvidenceNotice item={trackedItem} />
           ) : (
@@ -188,7 +183,10 @@ function mapStateToProps(state, ownProps) {
     loading: claimDetail.loading,
     message: claimsState.notifications.additionalEvidenceMessage,
     progress: uploads.progress,
+    showDocumentUploadStatus:
+      state.featureToggles?.cst_show_document_upload_status || false,
     trackedItem,
+    type1UnknownErrors: claimsState.notifications.type1UnknownErrors,
     uploadComplete: uploads.uploadComplete,
     uploadError: uploads.uploadError,
     uploading: uploads.uploading,
@@ -221,8 +219,10 @@ DocumentRequestPage.propTypes = {
   params: PropTypes.object,
   progress: PropTypes.number,
   resetUploads: PropTypes.func,
+  showDocumentUploadStatus: PropTypes.bool,
   submitFiles: PropTypes.func,
   trackedItem: PropTypes.object,
+  type1UnknownErrors: PropTypes.array,
   uploadComplete: PropTypes.bool,
   uploading: PropTypes.bool,
 };

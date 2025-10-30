@@ -247,9 +247,62 @@ function initClaimDetailMocks(
     },
   });
 }
+// File upload utility functions for E2E tests
+function getFileInputElement(fileIndex = 0) {
+  return cy
+    .get('va-file-input-multiple')
+    .shadow()
+    .find('va-file-input')
+    .eq(fileIndex);
+}
+
+function getFileInput(fileIndex = 0) {
+  return getFileInputElement(fileIndex).shadow();
+}
+
+function uploadFile(fileName, fileIndex = 0) {
+  getFileInput(fileIndex)
+    .find('input[type="file"]')
+    .selectFile({
+      contents: Cypress.Buffer.from('test content'),
+      fileName,
+    });
+}
+
+function selectDocumentType(fileIndex, docTypeCode) {
+  getFileInputElement(fileIndex)
+    .find('va-select')
+    .should('be.visible')
+    .shadow()
+    .find('select')
+    .should('not.be.disabled')
+    .should('be.visible')
+    .select(docTypeCode);
+}
+
+function setupUnknownErrorMock() {
+  cy.intercept('POST', '/v0/benefits_claims/*/benefits_documents', {
+    statusCode: 500,
+    body: {
+      errors: [
+        {
+          title: 'Internal Server Error',
+          code: '500',
+          status: '500',
+        },
+      ],
+    },
+  }).as('uploadRequest');
+}
+
 module.exports = {
   initClaimsListEmptyMock,
   initClaimsListMock,
   initClaimDetailMocks,
   initAskVAMock,
+  getFileInputElement,
+  getFileInput,
+  uploadFile,
+  selectDocumentType,
+  setupUnknownErrorMock,
 };
