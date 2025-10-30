@@ -1,5 +1,6 @@
 import _ from 'platform/utilities/data';
 import some from 'lodash/some';
+import moment from 'moment';
 
 import {
   parseDate,
@@ -275,7 +276,7 @@ export const isInFuture = (err, fieldData) => {
 export const isLessThan180DaysInFuture = (errors, fieldData) => {
   const enteredDate = parseDate(fieldData);
   if (enteredDate && enteredDate.isValid()) {
-    const today = parseDate(new Date().toISOString().split('T')[0]);
+    const today = moment().startOf('day');
     const in180Days = today.clone().add(180, 'days');
 
     if (enteredDate.isBefore(today)) {
@@ -639,8 +640,8 @@ export const validateSeparationDate = (
     return;
   }
 
-  // Get today as a moment object by parsing the current date
-  const today = parseDate(new Date().toISOString().split('T')[0]);
+  // Get today using local timezone (not UTC)
+  const today = moment().startOf('day');
 
   // If a reservist is activated, they are considered to be active duty.
   // Inactive or active reserves may have a future separation date.
@@ -702,7 +703,7 @@ export const validateTitle10StartDate = (
       return b > a ? -1 : 1;
     });
   const activationDate = parseDate(dateString);
-  const today = parseDate(new Date().toISOString().split('T')[0]);
+  const today = moment().startOf('day');
   if (activationDate && activationDate.isAfter(today)) {
     errors.addError('Enter an activation date in the past');
   } else if (!startTimes[0] || dateString < startTimes[0]) {
