@@ -111,6 +111,6 @@ export default {
   validate: ({ benefitType } = {}) => validateBenefitType(benefitType),
   back: null,
   next: data => getNextPage(BASE_URL, data),
-  onContinue: benefitType =>
+  onContinue: ({ benefitType }) =>
     recordBenefitTypeEvent(benefitType, content.groupLabel),
 };
