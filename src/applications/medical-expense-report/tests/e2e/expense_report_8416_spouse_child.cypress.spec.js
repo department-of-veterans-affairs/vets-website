@@ -41,6 +41,7 @@ describe('Spouse or Child of Veteran medical expenses path', () => {
 
     cy.contains('Submit your supporting documents');
     // No supporting documents yet
+    // utils.uploadTestFiles();  TODO: Mock the response for file uploads
     utils.checkAxeAndClickContinueButton();
 
     // Statement of Truth

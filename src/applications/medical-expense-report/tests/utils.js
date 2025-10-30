@@ -820,12 +820,33 @@ export const fillInStatementOfTruthFromFixture = () => {
 /**
  * Upload a test file. To be used later.
  */
-// const uploadTestFiles = () => {
-//   cy.get('va-file-input-multiple')
-//     .shadow()
-//     .get('va-file-input')
-//     .get('input[id="fileInputField"][type="file"]')
-//     .selectFile(
-//       'src/applications/medical-expense-report/tests/fixtures/data/TestBlankPDF.pdf',
-//     );
-// };
+export const uploadTestFiles = () => {
+  cy.get('va-file-input-multiple')
+    .shadow()
+    .get('va-file-input[id="instance-0"]')
+    .get('input[id="fileInputField"][type="file"][name="root_files-0"]')
+    .selectFile(
+      'src/applications/medical-expense-report/tests/fixtures/data/TestBlankPDF.pdf',
+      { force: true },
+    );
+  cy.contains('TestBlankPDF.pdf');
+
+  cy.get('va-file-input-multiple')
+    .shadow()
+    .get('va-file-input[id="instance-1"]')
+    .get('input[id="fileInputField"][type="file"][name="root_files-1"]')
+    .selectFile(
+      'src/applications/medical-expense-report/tests/fixtures/data/TestBlankJPG.jpg',
+      { force: true },
+    );
+  cy.contains('TestBlankJPG.jpg');
+  cy.get('va-file-input-multiple')
+    .shadow()
+    .get('va-file-input[id="instance-2"]')
+    .get('input[id="fileInputField"][type="file"][name="root_files-2"]')
+    .selectFile(
+      'src/applications/medical-expense-report/tests/fixtures/data/TestBlankPNG.png',
+      { force: true },
+    );
+  cy.contains('TestBlankPNG.png');
+};
