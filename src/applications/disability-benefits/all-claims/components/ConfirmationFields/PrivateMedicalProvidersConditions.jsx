@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { sippableId, capitalizeEachWord } from '../../utils';
-import { uiSchema } from '../../pages/privateMedicalRecordsRelease';
 
 const PrivateMedicalProvidersConditions = ({ formData }) => {
   // formData here is the treatedDisabilityNames object from the specific provider facility
@@ -20,7 +19,7 @@ const PrivateMedicalProvidersConditions = ({ formData }) => {
 
   return {
     data: finalList,
-    label: uiSchema.providerFacility.items.treatedDisabilityNames['ui:title'],
+    label: 'What conditions were you treated for?',
   };
 };
 
