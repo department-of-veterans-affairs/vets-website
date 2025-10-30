@@ -61,7 +61,8 @@ const options = {
   maxItems: 5,
   isItemIncomplete: item =>
     !item?.recipient ||
-    !item?.recipientName ||
+    (['VETERANS_CHILD', 'OTHER'].includes(item?.recipient) &&
+      !item?.recipientName) ||
     !item?.purpose ||
     !item?.paymentDate ||
     !item?.frequency ||
@@ -151,7 +152,7 @@ const purposeDatePage = {
     }),
     paymentDate: currentOrPastDateUI({
       title: 'What’s the date of the payment?',
-      required: () => true,
+      monthSelect: false,
     }),
   },
   schema: {
