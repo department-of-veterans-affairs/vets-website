@@ -22,7 +22,7 @@
     ],
     "@babel/react"
   ],
-  "ignore": ["./src/platform/polyfills/preESModulesPolyfills.js", "**/mocha-setup.js"],
+  "ignore": ["./src/platform/polyfills/preESModulesPolyfills.js", "**/mocha-setup.cjs"],
   "plugins": [
     "lodash",
 
