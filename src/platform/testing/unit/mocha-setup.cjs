@@ -3,6 +3,18 @@
  *
  * If you're looking to add polyfills for all unit tests, this is the place.
  */
+if (globalThis.window?.navigator) {
+  Object.defineProperty(globalThis.window.navigator, 'userAgent', {
+    configurable: true,
+    get() { return 'Mozilla/5.0 (Node; HappyDOM)'; },
+  });
+  if (!('languages' in globalThis.window.navigator)) {
+    Object.defineProperty(globalThis.window.navigator, 'languages', {
+      configurable: true,
+      get() { return ['en-US', 'en']; },
+    });
+  }
+}
 
 const os = require('os');
 const chai = require('chai');
