@@ -97,9 +97,11 @@ const RecentCareTeams = () => {
   useEffect(
     () => {
       const headerText = h1Ref.current?.textContent;
-      document.title = `${headerText} ${
-        Constants.PageTitles.DEFAULT_PAGE_TITLE_TAG
-      }`;
+      if (headerText) {
+        document.title = `${headerText} ${
+          Constants.PageTitles.DEFAULT_PAGE_TITLE_TAG
+        }`;
+      }
     },
     [recentRecipients],
   );

@@ -67,6 +67,7 @@ describe('SM INTERSTITIAL PAGE', () => {
     GeneralFunctionsPage.verifyPageTitle(
       'Only use messages for non-urgent needs | Veterans Affairs',
     );
+    cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 });

@@ -29,7 +29,9 @@ const InterstitialPage = props => {
   const headerText = h1Ref.current?.textContent;
   useEffect(
     () => {
-      document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+      if (headerText) {
+        document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+      }
     },
     [headerText],
   );
