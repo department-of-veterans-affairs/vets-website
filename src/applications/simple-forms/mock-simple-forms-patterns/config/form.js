@@ -90,6 +90,9 @@ const formConfig = {
   saveInProgress: {},
   version: 0,
   prefillEnabled: true,
+  formOptions: {
+    focusOnAlertRole: true,
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for simple form patterns.',
     noAuth:

@@ -46,7 +46,16 @@ export function focusElement(selectorOrElement, options = {}, root) {
         }
       }
 
-      el.focus(options);
+      if (el.getAttribute('role') === 'alert') {
+        el.removeAttribute('role');
+
+        setTimeout(() => {
+          el.setAttribute('role', 'alert');
+          el.focus(options);
+        }, 200);
+      } else {
+        el.focus(options);
+      }
     }
   }
 
