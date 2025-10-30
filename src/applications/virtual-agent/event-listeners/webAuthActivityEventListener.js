@@ -6,6 +6,7 @@ function setIsLoggingIn(isLoggedIn, setIsAuthTopic) {
       setLoggedInFlow('false');
       setIsAuthTopic('false');
     }
+    // setLoggedInFlow('true');
     setIsAuthTopic(true);
     setTimeout(() => {
       setLoggedInFlow('true');
