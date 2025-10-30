@@ -4,13 +4,13 @@ import sinon from 'sinon';
 import { waitFor } from '@testing-library/dom';
 import * as utils from 'applications/vaos/services/utils';
 import EpsAppointmentDetailsPage from './EpsAppointmentDetailsPage';
-import * as actionsModule from './redux/actions';
+import * as actionsModule from '../../../referral-appointments/redux/actions';
 import {
   createTestStore,
   renderWithStoreAndRouter,
-} from '../tests/mocks/setup';
-import { createMockEpsAppointment } from './utils/appointment';
-import * as epsAppointmentUtils from './utils/appointment';
+} from '../../../tests/mocks/setup';
+import { createMockEpsAppointment } from '../../../referral-appointments/utils/appointment';
+import * as epsAppointmentUtils from '../../../referral-appointments/utils/appointment';
 
 describe('EpsAppointmentDetailsPage', () => {
   let requestStub;
