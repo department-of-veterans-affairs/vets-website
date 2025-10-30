@@ -12,7 +12,11 @@ import {
   validateIfAvailable,
   prescriptionMedAndRenewalStatus,
 } from './helpers';
-import { FIELD_NOT_AVAILABLE, medStatusDisplayTypes } from './constants';
+import {
+  DATETIME_FORMATS,
+  FIELD_NOT_AVAILABLE,
+  medStatusDisplayTypes,
+} from './constants';
 
 const newLine = (n = 1) => '\n'.repeat(n);
 const joinLines = (...lines) => lines.filter(Boolean).join(newLine(2));
@@ -37,7 +41,7 @@ const getLastFilledAndRxNumberBlock = rx => {
     : joinLines(
         `Last filled on: ${dateFormat(
           rx.sortedDispensedDate,
-          'MMMM D, YYYY',
+          DATETIME_FORMATS.longMonthDate,
           'Date not available',
         )}`,
         `Prescription number: ${rx.prescriptionNumber}`,
@@ -49,7 +53,7 @@ const getAttributes = rx =>
     fieldLine('Refills left', rx.refillRemaining),
     `Request refills by this prescription expiration date: ${dateFormat(
       rx.expirationDate,
-      'MMMM D, YYYY',
+      DATETIME_FORMATS.longMonthDate,
       'Date not available',
     )}`,
     fieldLine('Facility', rx.facilityName),
@@ -59,7 +63,7 @@ const getAttributes = rx =>
     fieldLine('Quantity', rx.quantity),
     `Prescribed on: ${dateFormat(
       rx.orderedDate,
-      'MMMM D, YYYY',
+      DATETIME_FORMATS.longMonthDate,
       'Date not available',
     )}`,
     `Prescribed by: ${displayProviderName(
@@ -89,7 +93,7 @@ export const buildNonVAPrescriptionTXT = (prescription, options) => {
     joinLines(
       `When you started taking this medication: ${dateFormat(
         prescription.dispensedDate,
-        'MMMM D, YYYY',
+        DATETIME_FORMATS.longMonthDate,
         'Date not available',
       )}`,
       `Documented by: ${
@@ -117,7 +121,7 @@ export const buildPrescriptionsTXT = prescriptions => {
 
     const filledDate = dateFormat(
       newest.sortedDispensedDate,
-      'MMMM D, YYYY',
+      DATETIME_FORMATS.longMonthDate,
       'Date not available',
     );
 
@@ -246,7 +250,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}${newLine()}`
         return joinBlocks(
           `${refillLabel}: ${dateFormat(
             record.dispensedDate,
-            'MMMM D, YYYY',
+            DATETIME_FORMATS.longMonthDate,
             'Date not available',
           )}`,
           isPartialFill
@@ -258,7 +262,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}${newLine()}`
           i === 0 && !isPartialFill
             ? `Shipped on: ${dateFormat(
                 prescription?.trackingList?.[0]?.completeDateTime,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
                 'Date not available',
               )}`
             : '',
@@ -290,13 +294,13 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}${newLine()}`
           `Prescription number: ${previousRx.prescriptionNumber}`,
           `Last filled: ${dateFormat(
             previousRx.sortedDispensedDate,
-            'MMMM D, YYYY',
+            DATETIME_FORMATS.longMonthDate,
             'Date not available',
           )}`,
           fieldLine('Quantity', previousRx.quantity),
           `Prescribed on: ${dateFormat(
             previousRx.orderedDate,
-            'MMMM D, YYYY',
+            DATETIME_FORMATS.longMonthDate,
             'Date not available',
           )}`,
           `Prescribed by: ${displayProviderName(
