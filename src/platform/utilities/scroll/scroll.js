@@ -131,12 +131,62 @@ export const scrollToFirstError = async (options = {}) => {
         scrollTo(position - 10, options);
 
         if (focusOnAlertRole) {
-          // Adding a delay so that the shadow DOM needs to render and attach
-          // before we try to focus on the element; without the setTimeout,
-          // focus ends up staying on the "Continue" button
-          requestAnimationFrame(() => {
-            focusElement('[role="alert"]', {}, el?.shadowRoot);
+          // Set up aria-describedby for all elements in error state
+          const allErrorElements = document.querySelectorAll(selectors);
+          allErrorElements.forEach(errorWebComponent => {
+            const errorElement = errorWebComponent?.shadowRoot?.querySelector(
+              '[role="alert"], #input-error-message',
+            );
+
+            if (errorElement) {
+              // Get or create a unique ID for the error element
+              let errorId = errorElement.id;
+              if (!errorId) {
+                errorId = `input-error-message-${Math.random()
+                  .toString(36)
+                  .substr(2, 9)}`;
+                errorElement.id = errorId;
+              }
+
+              // Remove role=alert to prevent interference with aria-describedby announcements
+              errorElement.removeAttribute('role');
+              errorElement.removeAttribute('aria-live');
+
+              // Find the corresponding input element
+              const inputElement = errorWebComponent?.shadowRoot?.querySelector(
+                'input, select, textarea',
+              );
+
+              if (inputElement) {
+                // Associate the error message with the input using aria-describedby
+                const existingDescribedBy = inputElement.getAttribute(
+                  'aria-describedby',
+                );
+                if (
+                  !existingDescribedBy ||
+                  !existingDescribedBy.includes(errorId)
+                ) {
+                  inputElement.setAttribute(
+                    'aria-describedby',
+                    existingDescribedBy
+                      ? `${existingDescribedBy} ${errorId}`
+                      : errorId,
+                  );
+                }
+              }
+            }
           });
+
+          // Now focus the first error's input
+          const firstErrorInput = el?.shadowRoot?.querySelector(
+            'input, select, textarea',
+          );
+          if (firstErrorInput) {
+            // Use { preventScroll: true } to ensure accessibility and prevent unwanted scrolling
+            setTimeout(() => {
+              firstErrorInput.focus({ preventScroll: true });
+            }, 100);
+          }
         } else {
           focusElement(el);
         }
