@@ -27,12 +27,13 @@ export default function EpsAppointmentDetailCard({
     timezone: appointment.provider.location.timezone,
     practiceName: appointment.provider.location.name,
   };
+  const defaultMinutesDuration = 30;
   const calendarData = {
     vaos: {
       isCommunityCare: true,
     },
     ...appointment,
-    minutesDuration: appointment.minutesDuration ?? 30,
+    minutesDuration: appointment.minutesDuration ?? defaultMinutesDuration,
     start: new Date(appointment.start),
     communityCareProvider: { ...facility },
   };
@@ -127,10 +128,7 @@ export default function EpsAppointmentDetailCard({
           appointment.
         </span>
       </Section>
-      <div
-        className="vads-u-display--flex vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row"
-        style={{ rowGap: '16px' }}
-      >
+      <div className="vads-u-display--flex vads-u-margin-top--4 vads-u-row-gap--2 vaos-appts__block-label vaos-hide-for-print vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vaos-form__button-container">
         <div>
           <VaButton
             text="Print"
