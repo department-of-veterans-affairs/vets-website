@@ -1,7 +1,10 @@
 const delay = require('mocker-api/lib/delay');
+// const {
+//   generateFeatureToggles,
+// } = require('../../common/mocks/feature-toggles');
 const {
   generateFeatureToggles,
-} = require('../../common/mocks/feature-toggles');
+} = require('../../profile/mocks/endpoints/feature-toggles');
 const user = require('../../common/mocks/users');
 const notifications = require('../../common/mocks/notifications');
 const {
@@ -38,18 +41,7 @@ const {
 
 /* eslint-disable camelcase */
 const responses = {
-  'GET /v0/feature_toggles': generateFeatureToggles(
-    {
-      authExpVbaDowntimeMessage: false,
-      myVaUseExperimental: false,
-      veteranOnboardingBetaFlow: false,
-      myVaFormSubmissionStatuses: true,
-      myVaFormPdfLink: true,
-      veteranOnboardingShowWelcomeMessageToNewUsers: true,
-      myVaAuthExpRedesignAvailableToOptIn: true,
-    },
-    true,
-  ),
+  'GET /v0/feature_toggles': generateFeatureToggles(),
   'GET /v0/user': (req, res) => {
     const userType = 'loa3'; // 'loa3', 'loa3NoHealth', 'loa3NoEmail', 'loa1', or 'loa1NoEmail'
     switch (userType) {

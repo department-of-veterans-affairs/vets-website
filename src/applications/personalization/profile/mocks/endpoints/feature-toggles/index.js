@@ -19,6 +19,7 @@ const profileToggles = {
   profileShowNoValidationKeyAddressAlert: false,
   profileShowPaperlessDelivery: false,
   profile2Enabled: false,
+  mhvEmailConfirmation: true,
 };
 
 const makeAllTogglesTrue = toggles => {
