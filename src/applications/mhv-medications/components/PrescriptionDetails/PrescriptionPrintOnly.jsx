@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
+  DATETIME_FORMATS,
   FIELD_NONE_NOTED,
   medStatusDisplayTypes,
   pdfStatusDefinitions,
@@ -72,7 +73,11 @@ const PrescriptionPrintOnly = props => {
       </ul>
       <p className="vads-u-margin-top--neg1p5">
         <strong>When you started taking this medication:</strong>{' '}
-        {dateFormat(pres.dispensedDate, 'MMMM D, YYYY', 'Date not available')}
+        {dateFormat(
+          pres.dispensedDate,
+          DATETIME_FORMATS.longMonthDate,
+          'Date not available',
+        )}
       </p>
       <p>
         <strong>Documented by: </strong>
@@ -107,7 +112,10 @@ const PrescriptionPrintOnly = props => {
               <p>
                 <strong>Last filled on:</strong>{' '}
                 {rx?.sortedDispensedDate
-                  ? dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')
+                  ? dateFormat(
+                      rx.sortedDispensedDate,
+                      DATETIME_FORMATS.longMonthDate,
+                    )
                   : 'Not filled yet'}
               </p>
             ) : null}
@@ -164,7 +172,7 @@ const PrescriptionPrintOnly = props => {
                 <strong>
                   Request refills by this prescription expiration date:
                 </strong>{' '}
-                {dateFormat(rx.expirationDate, 'MMMM D, YYYY')}
+                {dateFormat(rx.expirationDate, DATETIME_FORMATS.longMonthDate)}
               </p>
             )}
 
@@ -195,7 +203,7 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Prescribed on:</strong>{' '}
-              {dateFormat(rx.orderedDate, 'MMMM D, YYYY')}
+              {dateFormat(rx.orderedDate, DATETIME_FORMATS.longMonthDate)}
             </p>
             <p>
               <strong>Prescribed by:</strong>{' '}
@@ -300,7 +308,7 @@ const PrescriptionPrintOnly = props => {
                             {entry.sortedDispensedDate
                               ? dateFormat(
                                   entry.sortedDispensedDate,
-                                  'MMMM D, YYYY',
+                                  DATETIME_FORMATS.longMonthDate,
                                 )
                               : 'Not filled yet'}
                           </p>
@@ -310,7 +318,10 @@ const PrescriptionPrintOnly = props => {
                           </p>
                           <p>
                             <strong>Prescribed on:</strong>{' '}
-                            {dateFormat(entry.orderedDate, 'MMMM D, YYYY')}
+                            {dateFormat(
+                              entry.orderedDate,
+                              DATETIME_FORMATS.longMonthDate,
+                            )}
                           </p>
                           <p>
                             <strong>Prescribed by:</strong>{' '}

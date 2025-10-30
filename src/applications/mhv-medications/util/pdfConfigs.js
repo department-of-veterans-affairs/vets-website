@@ -13,9 +13,10 @@ import {
   prescriptionMedAndRenewalStatus,
 } from './helpers';
 import {
-  medStatusDisplayTypes,
-  FIELD_NOT_AVAILABLE,
   ACTIVE_NON_VA,
+  DATETIME_FORMATS,
+  FIELD_NOT_AVAILABLE,
+  medStatusDisplayTypes,
   pdfStatusDefinitions,
 } from './constants';
 
@@ -87,7 +88,7 @@ export const buildNonVAPrescriptionPDFList = prescription => {
               title: 'When you started taking this medication',
               value: dateFormat(
                 prescription.dispensedDate,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
                 'Date not available',
               ),
               inline: true,
@@ -140,7 +141,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
 
       const filledDate = dateFormat(
         newest.sortedDispensedDate,
-        'MMMM D, YYYY',
+        DATETIME_FORMATS.longMonthDate,
         'Date not available',
       );
 
@@ -158,7 +159,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
                     title: 'Last filled on',
                     value: dateFormat(
                       rx.sortedDispensedDate,
-                      'MMMM D, YYYY',
+                      DATETIME_FORMATS.longMonthDate,
                       'Date not available',
                     ),
                     inline: true,
@@ -201,7 +202,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
               title: 'Request refills by this prescription expiration date',
               value: dateFormat(
                 rx.expirationDate,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
                 'Date not available',
               ),
               inline: true,
@@ -233,7 +234,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
               title: 'Prescribed on',
               value: dateFormat(
                 rx.orderedDate,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
                 'Date not available',
               ),
               inline: true,
@@ -371,7 +372,7 @@ export const buildVAPrescriptionPDFList = prescription => {
                   title: 'Last filled on',
                   value: dateFormat(
                     prescription.sortedDispensedDate,
-                    'MMMM D, YYYY',
+                    DATETIME_FORMATS.longMonthDate,
                     'Date not available',
                   ),
                   inline: true,
@@ -416,7 +417,7 @@ export const buildVAPrescriptionPDFList = prescription => {
               title: 'Request refills by this prescription expiration date',
               value: dateFormat(
                 prescription.expirationDate,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
                 'Date not available',
               ),
               inline: true,
@@ -456,7 +457,7 @@ export const buildVAPrescriptionPDFList = prescription => {
               title: 'Prescribed on',
               value: dateFormat(
                 prescription.orderedDate,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
                 'Date not available',
               ),
               inline: true,
@@ -514,7 +515,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                   return {
                     header: `${refillLabel}: ${dateFormat(
                       entry.dispensedDate,
-                      'MMMM D, YYYY',
+                      DATETIME_FORMATS.longMonthDate,
                       'Date not available',
                     )}`,
                     indent: 32,
@@ -545,7 +546,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                               value: dateFormat(
                                 prescription?.trackingList?.[0]
                                   ?.completeDateTime,
-                                'MMMM D, YYYY',
+                                DATETIME_FORMATS.longMonthDate,
                                 'Date not available',
                               ),
                               inline: true,
@@ -622,7 +623,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                 title: 'Last filled',
                 value: dateFormat(
                   previousPrescription.sortedDispensedDate,
-                  'MMMM D, YYYY',
+                  DATETIME_FORMATS.longMonthDate,
                   'Date not available',
                 ),
                 inline: true,
@@ -641,7 +642,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                 title: 'Prescribed on',
                 value: dateFormat(
                   previousPrescription.orderedDate,
-                  'MMMM D, YYYY',
+                  DATETIME_FORMATS.longMonthDate,
                   'Date not available',
                 ),
                 inline: true,
