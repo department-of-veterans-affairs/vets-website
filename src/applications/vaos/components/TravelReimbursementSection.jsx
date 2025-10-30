@@ -59,8 +59,8 @@ export default function TravelReimbursementSection({ appointment }) {
           </p>
           <p className="vads-u-margin-y--0p5">
             You didn’t file a claim for this appointment within the 30 day
-            limit. You can still file, but claims filed after 30 days are
-            typically denied.
+            limit. You can still review and submit your claim. But claims
+            submitted after 30 days are usually denied.
           </p>
           <p className="vads-u-margin-y--0p5">
             <va-link
@@ -88,9 +88,10 @@ export default function TravelReimbursementSection({ appointment }) {
           uswds
         >
           <p>
-            Claims filed after 30 days are typically denied. Do you still want
-            to file a travel claim?
+            You can still review and submit your claim. But claims submitted
+            after 30 days are usually denied.
           </p>
+          <p>Do you still want to file a travel claim?</p>
         </VaModal>
       </>
     );

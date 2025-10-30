@@ -7,8 +7,9 @@ export default function OutOfBoundsAppointmentAlert() {
     <va-alert closeable="false" status="warning" role="status" visible>
       <h2 slot="headline">Your appointment is older than 30 days</h2>
       <p className="vads-u-margin-y--2">
-        We still encourage you to file now, but we may not be able to approve
-        your claim.
+        You didn’t submit a claim for this appointment within the 30 day limit.
+        You can still review and submit your claim. But claims submitted after
+        30 days are usually denied.
       </p>
       <p className="vads-u-font-weight--bold">
         How can I get help with my claim?
