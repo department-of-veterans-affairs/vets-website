@@ -123,7 +123,6 @@ export const IssueCard = ({
             label={issueName}
             name={elementId}
             onVaChange={handlers.onChange}
-            aria-label={issueName}
           >
             <div slot="internal-description">
               <IssueCardContent id={`issue-${index}-description`} {...item} />
