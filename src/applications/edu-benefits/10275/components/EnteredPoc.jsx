@@ -5,9 +5,9 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const EnteredPointOfContact = ({ value, onChange, options = [] }) => {
+const EnteredPoc = ({ value, onChange, options = [] }) => {
   // Controlled by key string in form data
-  const currentKey = typeof value === 'string' ? value : 'none';
+  const currentKey = typeof value === 'string' ? value : '';
 
   // Keep a local selection to avoid flicker/deselect during intermediate renders
   const [selectedKey, setSelectedKey] = useState(currentKey);
@@ -24,7 +24,6 @@ const EnteredPointOfContact = ({ value, onChange, options = [] }) => {
     setSelectedKey(k);
     onChange(k);
   };
-
   return (
     <div className="radio-container">
       <VaRadio
@@ -36,6 +35,7 @@ const EnteredPointOfContact = ({ value, onChange, options = [] }) => {
           <VaRadioOption
             key={o.key}
             value={o.key}
+            checked={!!o.key && selectedKey === o.key}
             label={o.label}
             description={o.email}
           />
@@ -45,7 +45,7 @@ const EnteredPointOfContact = ({ value, onChange, options = [] }) => {
   );
 };
 
-EnteredPointOfContact.propTypes = {
+EnteredPoc.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string,
@@ -58,4 +58,4 @@ EnteredPointOfContact.propTypes = {
   onChange: PropTypes.func,
 };
 
-export default EnteredPointOfContact;
+export default EnteredPoc;

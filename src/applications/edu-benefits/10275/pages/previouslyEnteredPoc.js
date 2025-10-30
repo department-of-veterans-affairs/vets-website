@@ -1,9 +1,8 @@
-// previouslyEnteredPointOfContact.js
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import EnteredPointOfContact from '../components/EnteredPoc';
+import EnteredPoc from '../components/EnteredPoc';
 
 const nameFrom = person =>
   [person?.fullName?.first, person?.fullName?.middle, person?.fullName?.last]
@@ -73,13 +72,9 @@ const PreviouslyEnteredPOCWidget = props => {
     email: '',
   });
 
-  const valueKey = typeof props.value === 'string' ? props.value : 'none';
+  const valueKey = typeof props.value === 'string' ? props.value : '';
   return (
-    <EnteredPointOfContact
-      value={valueKey}
-      onChange={props.onChange}
-      options={options}
-    />
+    <EnteredPoc value={valueKey} onChange={props.onChange} options={options} />
   );
 };
 
