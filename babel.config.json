@@ -44,6 +44,7 @@
         "extensions": [".js", ".jsx", ".json", ".ts", ".tsx"],
         "alias": {
           "~": "./src",
+          ".src": "./src",
           "platform": ".src/platform",
           "applications": "./src/applications",
           "@@vap-svc": "./src/platform/user/profile/vap-svc",
