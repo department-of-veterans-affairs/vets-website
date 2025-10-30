@@ -89,6 +89,15 @@ describe('characterReferencesPages', () => {
     });
   });
 
+  const getRadioError = container => {
+    const group = container.querySelector('va-radio');
+    if (group && group.hasAttribute('error')) {
+      return group.getAttribute('error') || '';
+    }
+    const fallback = container.querySelector('[error]');
+    return fallback ? fallback.getAttribute('error') || '' : '';
+  };
+
   describe('characterReferences count validation', () => {
     const { characterReferencesSummary } = characterReferencesPages;
 
@@ -129,9 +138,7 @@ describe('characterReferencesPages', () => {
       container
         .querySelector('form')
         .dispatchEvent(new Event('submit', { bubbles: true }));
-
-      const group = container.querySelector('va-radio');
-      expect(group.getAttribute('error')).to.contain(
+      expect(getRadioError(container)).to.include(
         'You must add at least 3 character references. You currently have 0.',
       );
     });
@@ -144,9 +151,7 @@ describe('characterReferencesPages', () => {
       utils.container
         .querySelector('form')
         .dispatchEvent(new Event('submit', { bubbles: true }));
-      expect(
-        utils.container.querySelector('va-radio').getAttribute('error'),
-      ).to.contain(
+      expect(getRadioError(utils.container)).to.include(
         'You must add at least 3 character references. You currently have 1.',
       );
 
@@ -154,9 +159,7 @@ describe('characterReferencesPages', () => {
       utils.container
         .querySelector('form')
         .dispatchEvent(new Event('submit', { bubbles: true }));
-      expect(
-        utils.container.querySelector('va-radio').getAttribute('error'),
-      ).to.contain(
+      expect(getRadioError(utils.container)).to.include(
         'You must add at least 3 character references. You currently have 2.',
       );
     });
@@ -167,11 +170,7 @@ describe('characterReferencesPages', () => {
       container
         .querySelector('form')
         .dispatchEvent(new Event('submit', { bubbles: true }));
-
-      const group = container.querySelector('va-radio');
-      expect(group.getAttribute('error')).to.satisfy(
-        v => v === null || v === '',
-      );
+      expect(getRadioError(container)).to.satisfy(v => v === '');
     });
 
     it('has no count error when there are exactly 4 references', () => {
@@ -180,11 +179,7 @@ describe('characterReferencesPages', () => {
       container
         .querySelector('form')
         .dispatchEvent(new Event('submit', { bubbles: true }));
-
-      const group = container.querySelector('va-radio');
-      expect(group.getAttribute('error')).to.satisfy(
-        v => v === null || v === '',
-      );
+      expect(getRadioError(container)).to.satisfy(v => v === '');
     });
 
     it('shows a max error when there are more than 4 references', () => {
@@ -199,9 +194,7 @@ describe('characterReferencesPages', () => {
       container
         .querySelector('form')
         .dispatchEvent(new Event('submit', { bubbles: true }));
-
-      const group = container.querySelector('va-radio');
-      expect(group.getAttribute('error')).to.contain(
+      expect(getRadioError(container)).to.include(
         'You can add no more than 4 character references. You currently have 5.',
       );
     });
@@ -211,9 +204,7 @@ describe('characterReferencesPages', () => {
       container
         .querySelector('form')
         .dispatchEvent(new Event('submit', { bubbles: true }));
-
-      const group = container.querySelector('va-radio');
-      expect(group.getAttribute('error')).to.contain(
+      expect(getRadioError(container)).to.include(
         'Select yes to confirm your character references.',
       );
     });
