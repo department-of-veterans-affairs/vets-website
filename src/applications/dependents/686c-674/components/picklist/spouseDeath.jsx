@@ -18,10 +18,10 @@ const spouseDeath = {
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (
-        !itemData.marriageEndDeathDate ||
-        !itemData.marriageEndCity ||
-        (!itemData.marriageEndOutsideUS && !itemData.marriageEndState) ||
-        (itemData.marriageEndOutsideUS && !itemData.marriageEndCountry)
+        !itemData.endDate ||
+        !itemData.endCity ||
+        (!itemData.endOutsideUS && !itemData.endState) ||
+        (itemData.endOutsideUS && !itemData.endCountry)
       ) {
         setTimeout(scrollToFirstError);
       } else {
@@ -35,7 +35,7 @@ const spouseDeath = {
    * @typedef {object} ItemData
    * @property {string} dateOfBirth Dependent's date of birth
    * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} marriageEndType Dependent's removal reason
+   * @property {string} endType Dependent's removal reason
    */
   /**
    * handlers object
@@ -66,15 +66,15 @@ const spouseDeath = {
         </h3>
         <h4>When was the death?</h4>
         <VaMemorableDate
-          name="marriageEndDeathDate"
+          name="endDate"
           label="Date of death"
           error={
-            formSubmitted && !itemData.marriageEndDeathDate
+            formSubmitted && !itemData.endDate
               ? 'Provide a date of death'
               : null
           }
           monthSelect
-          value={itemData.marriageEndDeathDate || ''}
+          value={itemData.endDate || ''}
           // use onDateBlur to ensure month & day are zero-padded
           onDateBlur={onChange}
           required
@@ -82,58 +82,54 @@ const spouseDeath = {
 
         <h4>Where did the death happen?</h4>
         <VaCheckbox
-          name="marriageEndOutsideUS"
+          name="endOutsideUS"
           label="The death happened outside the United States"
-          checked={itemData.marriageEndOutsideUS || false}
+          checked={itemData.endOutsideUS || false}
           onVaChange={onChange}
         />
         <VaTextInput
           class="vads-u-margin-top--4"
-          name="marriageEndCity"
-          label={`City${itemData.marriageEndOutsideUS ? '' : ' or county'}`}
+          name="endCity"
+          label={`City${itemData.endOutsideUS ? '' : ' or county'}`}
           error={
-            formSubmitted && !itemData.marriageEndCity
-              ? `Enter a city${
-                  itemData.marriageEndOutsideUS ? '' : ' or county'
-                }`
+            formSubmitted && !itemData.endCity
+              ? `Enter a city${itemData.endOutsideUS ? '' : ' or county'}`
               : null
           }
-          value={itemData.marriageEndCity || ''}
+          value={itemData.endCity || ''}
           onVaInput={onChange}
           required
         />
-        {itemData.marriageEndOutsideUS ? (
+        {itemData.endOutsideUS ? (
           <>
             <VaTextInput
               class="vads-u-margin-top--4"
-              name="marriageEndProvince"
+              name="endProvince"
               label="Province, region or territory"
               onVaInput={onChange}
-              value={itemData.marriageEndProvince || ''}
+              value={itemData.endProvince || ''}
             />
             <SelectCountry
-              name="marriageEndCountry"
+              name="endCountry"
               label="Country"
               error={
-                formSubmitted && !itemData.marriageEndCountry
+                formSubmitted && !itemData.endCountry
                   ? 'Select a country'
                   : null
               }
               onChange={onChange}
-              value={itemData.marriageEndCountry || ''}
+              value={itemData.endCountry || ''}
             />
           </>
         ) : (
           <SelectState
             label="State"
-            name="marriageEndState"
+            name="endState"
             error={
-              formSubmitted && !itemData.marriageEndState
-                ? 'Select a state'
-                : null
+              formSubmitted && !itemData.endState ? 'Select a state' : null
             }
             onChange={onChange}
-            value={itemData.marriageEndState || ''}
+            value={itemData.endState || ''}
           />
         )}
       </>
@@ -155,13 +151,13 @@ spouseDeath.Component.propTypes = {
     onSubmit: PropTypes.func,
   }),
   itemData: PropTypes.shape({
-    marriageEndCity: PropTypes.string,
-    marriageEndCountry: PropTypes.string,
-    marriageEndDeathDate: PropTypes.string,
-    marriageEndOutsideUS: PropTypes.bool,
-    marriageEndProvince: PropTypes.string,
-    marriageEndState: PropTypes.string,
-    marriageEndType: PropTypes.string,
+    endCity: PropTypes.string,
+    endCountry: PropTypes.string,
+    endDate: PropTypes.string,
+    endOutsideUS: PropTypes.bool,
+    endProvince: PropTypes.string,
+    endState: PropTypes.string,
+    endType: PropTypes.string,
     relationshipToVeteran: PropTypes.string,
   }),
 };
