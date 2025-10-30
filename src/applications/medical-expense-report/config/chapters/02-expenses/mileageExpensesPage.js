@@ -18,6 +18,7 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { getArrayUrlSearchParams } from '~/platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   recipientTypeLabels,
   travelLocationLabels,
@@ -52,7 +53,8 @@ function checkIsItemIncomplete(item) {
     (item.travelLocation === 'OTHER' && !item?.travelLocationOther) ||
     !item?.travelDate ||
     !item?.travelMilesTraveled ||
-    !item?.travelReimbursed
+    (item?.travelReimbursed !== false &&
+      (item.travelReimbursed === true && !item?.travelReimbursementAmount))
   );
 }
 
@@ -120,7 +122,14 @@ const summaryPage = {
 /** @returns {PageSchema} */
 const travelerPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Traveler information'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Traveler information', () => {
+      const search = getArrayUrlSearchParams();
+      const isEdit = search.get('edit');
+      if (isEdit) {
+        return 'We’ll take you through each of the sections of this mileage expense for you to review and edit.';
+      }
+      return null;
+    }),
     traveler: radioUI({
       title: 'Who needed to travel?',
       labels: recipientTypeLabels,

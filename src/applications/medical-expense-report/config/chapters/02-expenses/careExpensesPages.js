@@ -18,6 +18,7 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { getArrayUrlSearchParams } from '~/platform/forms-system/src/js/patterns/array-builder/helpers';
 import { recipientTypeLabels, careTypeLabels } from '../../../utils/labels';
 import {
   transformDate,
@@ -177,7 +178,14 @@ const summaryPage = {
 /** @returns {PageSchema} */
 const typeOfCarePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Type of care'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Type of care', () => {
+      const search = getArrayUrlSearchParams();
+      const isEdit = search.get('edit');
+      if (isEdit) {
+        return 'We’ll take you through each of the sections of this care expense for you to review and edit.';
+      }
+      return null;
+    }),
     typeOfCare: radioUI({
       title: 'Select the type of care.',
       labels: careTypeLabels,

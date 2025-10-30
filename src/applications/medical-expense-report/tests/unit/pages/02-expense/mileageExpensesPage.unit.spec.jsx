@@ -197,6 +197,7 @@ describe('Mileage Expense Pages', () => {
       travelDate: '2004-04-04',
       travelMilesTraveled: 100,
       travelReimbursed: true,
+      travelReimbursementAmount: 50,
     };
     const completeItem2 = {
       traveler: 'OTHER',
@@ -205,7 +206,7 @@ describe('Mileage Expense Pages', () => {
       travelLocationOther: 'Some other place',
       travelDate: '2004-04-04',
       travelMilesTraveled: 100,
-      travelReimbursed: true,
+      travelReimbursed: false,
     };
     const incompleteNoTravelLocation = {
       traveler: 'DEPENDENT',
@@ -220,7 +221,7 @@ describe('Mileage Expense Pages', () => {
       travelLocation: 'PHARMACY',
       travelDate: '2004-04-04',
       travelMilesTraveled: 100,
-      travelReimbursed: true,
+      travelReimbursed: false,
     };
     expect(options.isItemIncomplete(completeItem)).to.be.false;
     expect(options.isItemIncomplete(completeItem2)).to.be.false;

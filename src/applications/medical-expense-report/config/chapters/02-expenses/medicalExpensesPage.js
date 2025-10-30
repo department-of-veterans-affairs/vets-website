@@ -14,6 +14,7 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { getArrayUrlSearchParams } from '~/platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   careFrequencyLabels,
   recipientTypeLabels,
@@ -128,7 +129,14 @@ const summaryPage = {
 /** @returns {PageSchema} */
 const recipientPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Medical recipient'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Medical recipient', () => {
+      const search = getArrayUrlSearchParams();
+      const isEdit = search.get('edit');
+      if (isEdit) {
+        return 'We’ll take you through each of the sections of this medical expense for you to review and edit.';
+      }
+      return null;
+    }),
     recipient: radioUI({
       title: 'Who’s the expense for?',
       labels: recipientTypeLabels,
