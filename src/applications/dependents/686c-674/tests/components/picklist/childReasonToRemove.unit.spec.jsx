@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import childReasonToRemove from '../../../components/picklist/childReasonToRemove';
+import { labels } from '../../../components/picklist/utils';
 
 import { createDoB } from '../../test-helpers';
 
@@ -48,12 +49,12 @@ describe('childReasonToRemove', () => {
     const heading = $('h3', container);
 
     expect(heading).to.exist;
-    expect(heading.textContent).to.include('Reason for removing PENNY FOSTER');
+    expect(heading.textContent).to.include(
+      labels.Child.removalReasonTitle('PENNY FOSTER'),
+    );
     expect(radio).to.exist;
     expect(radio.getAttribute('required')).to.equal('true');
-    expect(radio.getAttribute('label')).to.equal(
-      'Why do you need to remove this dependent?',
-    );
+    expect(radio.getAttribute('label')).to.equal(labels.Child.removalReason);
     expect(radio.getAttribute('hint')).to.equal(
       'If more than one applies, select what happened first.',
     );
@@ -68,7 +69,7 @@ describe('childReasonToRemove', () => {
 
     await waitFor(() => {
       expect($('va-radio', container).getAttribute('error')).to.equal(
-        'Select an option',
+        labels.Child.removalReasonError,
       );
     });
   });

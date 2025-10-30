@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import spouseReasonToRemove from '../../../components/picklist/spouseReasonToRemove';
+import { labels } from '../../../components/picklist/utils';
 
 import { createDoB } from '../../test-helpers';
 
@@ -46,14 +47,12 @@ describe('spouseReasonToRemove', () => {
     const { container } = renderComponent();
 
     expect($('h3', container).textContent).to.equal(
-      'Reason for removing SPOUSY FOSTER',
+      labels.Spouse.removalReasonTitle('SPOUSY FOSTER'),
     );
 
     const radio = $('va-radio', container);
     expect(radio).to.exist;
-    expect(radio.getAttribute('label')).to.equal(
-      'Do any of these apply to SPOUSY?',
-    );
+    expect(radio.getAttribute('label')).to.equal(labels.Spouse.removalReason);
     expect(radio.getAttribute('required')).to.equal('true');
   });
 
@@ -68,7 +67,7 @@ describe('spouseReasonToRemove', () => {
 
     await waitFor(() => {
       expect($('va-radio', container).getAttribute('error')).to.equal(
-        'Select an option',
+        labels.Spouse.removalReasonError,
       );
       expect(goForward.notCalled).to.be.true;
     });

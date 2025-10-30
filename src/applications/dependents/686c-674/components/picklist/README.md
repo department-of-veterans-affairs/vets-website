@@ -75,8 +75,8 @@ While setting up the code, we were going to use `SchemaForm` to render each page
 
 Getting custom navigation to work within the form system isn't easy. Current known issues include:
 
-- Navigating back from the review & submit page points to the common `'remove-dependent'` route with no way to determine the previous page, so we instead redirect you back to the picklist page
-- Navigating back through the picklist pages will current go to the first dependent follow up page instead of the last. Calculating visible pages could be done and using that as a path backwards is possible, but we were running out of time.
+- ~Navigating back from the review & submit page points to the common `'remove-dependent'` route with no way to determine the previous page, so we instead redirect you back to the picklist page~ The routing has been updated to store paths and correctly navigate back through all the followup pages in reverse sequence.
+- ~Navigating back through the picklist pages will current go to the first dependent follow up page instead of the last. Calculating visible pages could be done and using that as a path backwards is possible, but we were running out of time.~ We found time to fix navigation.
 - If the selected dependent is missing a date of birth of relationship to the Veteran, then the picklist follow up page will redirect the Veteran back to the picklist page.
 
 ---

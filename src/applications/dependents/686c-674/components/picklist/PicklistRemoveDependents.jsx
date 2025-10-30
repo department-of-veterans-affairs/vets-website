@@ -9,10 +9,14 @@ import { scrollToTop } from 'platform/utilities/scroll';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from '~/platform/utilities/ui';
 
-import { PICKLIST_DATA, PICKLIST_PATHS } from '../config/constants';
-import { getPicklistRoutes } from './picklist/routes';
+import {
+  PICKLIST_DATA,
+  PICKLIST_PATHS,
+  PICKLIST_EDIT_REVIEW_FLAG,
+} from '../../config/constants';
+import { getPicklistRoutes } from './routes';
 
-import { getFullName, calculateAge } from '../../shared/utils';
+import { getFullName, calculateAge } from '../../../shared/utils';
 
 const RemoveDependentsPicklist = ({
   data = {},
@@ -28,6 +32,8 @@ const RemoveDependentsPicklist = ({
   useEffect(() => {
     scrollToTop();
   }, []);
+
+  sessionStorage.removeItem(PICKLIST_EDIT_REVIEW_FLAG);
 
   // Get current spouse from dependents list from API (added via prefill)
   const dependents =

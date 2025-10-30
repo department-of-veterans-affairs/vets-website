@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   VaCheckbox,
   VaMemorableDate,
@@ -9,6 +8,7 @@ import {
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { SelectCountry, SelectState, getValue } from './helpers';
+import propTypes from './types';
 
 const childDeath = {
   handlers: {
@@ -30,30 +30,8 @@ const childDeath = {
     },
   },
 
-  /**
-   * Depedent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} endType Dependent's removal reason
-   */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} goBack Function to go back to the previous page
-   * @returns React component
-   */
-  Component: ({ itemData, firstName, handlers, formSubmitted }) => {
+  /** @type {PicklistComponentProps} */
+  Component: ({ itemData, firstName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
       handlers.onChange({ ...itemData, [field]: value });
@@ -62,16 +40,16 @@ const childDeath = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Information about the death of {firstName}
+          {`${
+            isEditing ? 'Edit information' : 'Information'
+          } about the death of ${firstName}`}
         </h3>
         <h4>When was the death?</h4>
         <VaMemorableDate
           name="endDate"
           label="Date of death"
           error={
-            formSubmitted && !itemData.endDate
-              ? 'Provide a date of death'
-              : null
+            formSubmitted && !itemData.endDate ? 'Enter a date of death' : null
           }
           monthSelect
           value={itemData.endDate || ''}
@@ -137,29 +115,7 @@ const childDeath = {
   },
 };
 
-childDeath.propTypes = {
-  Component: PropTypes.func,
-};
-
-childDeath.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  goBack: PropTypes.func,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    endCity: PropTypes.string,
-    endCountry: PropTypes.string,
-    endDate: PropTypes.string,
-    endOutsideUS: PropTypes.bool,
-    endProvince: PropTypes.string,
-    endState: PropTypes.string,
-    endType: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-  }),
-};
+childDeath.propTypes = propTypes.Page;
+childDeath.Component.propTypes = propTypes.Component;
 
 export default childDeath;

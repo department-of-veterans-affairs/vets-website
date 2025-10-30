@@ -99,7 +99,7 @@ describe('childDeath', () => {
       const errors = $$('[error]', container);
       expect(errors.length).to.equal(3);
       expect(errors.map(el => el.getAttribute('error'))).to.deep.equal([
-        'Provide a date of death',
+        'Enter a date of death',
         'Enter a city or county',
         'Select a state',
       ]);
@@ -127,7 +127,7 @@ describe('childDeath', () => {
       // Still 3 errors because province is not required
       expect(errors.length).to.equal(3);
       expect(errors.map(el => el.getAttribute('error'))).to.deep.equal([
-        'Provide a date of death',
+        'Enter a date of death',
         'Enter a city',
         'Select a country',
       ]);

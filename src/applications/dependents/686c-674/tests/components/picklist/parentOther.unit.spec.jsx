@@ -25,6 +25,7 @@ describe('parentOther', () => {
     onSubmit = () => {},
     goForward = () => {},
     goBack = () => {},
+    isEditing = false,
   } = {}) =>
     render(
       <form onSubmit={onSubmit}>
@@ -34,6 +35,7 @@ describe('parentOther', () => {
           firstName="PETER"
           formSubmitted={formSubmitted}
           handlers={{ goForward, goBack, onChange, onSubmit }}
+          isEditing={isEditing}
         />
       </form>,
     );
@@ -48,6 +50,12 @@ describe('parentOther', () => {
     expect(info.getAttribute('trigger')).to.equal(
       'Why can I only remove a parent dependent if they have died?',
     );
+  });
+
+  it('should render edit text in header', () => {
+    const { container } = renderComponent({ isEditing: true });
+
+    expect($('h3', container).textContent).to.equal('Edit changes to PETER');
   });
 
   it('should go forward when form is submitted', async () => {

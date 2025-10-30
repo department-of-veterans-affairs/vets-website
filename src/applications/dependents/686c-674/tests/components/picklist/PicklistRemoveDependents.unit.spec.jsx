@@ -6,10 +6,10 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { slugifyText } from 'platform/forms-system/src/js/patterns/array-builder';
 
-import PicklistRemoveDependents from '../../components/PicklistRemoveDependents';
+import PicklistRemoveDependents from '../../../components/picklist/PicklistRemoveDependents';
 
-import { PICKLIST_DATA } from '../../config/constants';
-import { createDoB } from '../test-helpers';
+import { PICKLIST_DATA } from '../../../config/constants';
+import { createDoB } from '../../test-helpers';
 
 describe('PicklistRemoveDependents', () => {
   const defaultData = (checked = false) => ({

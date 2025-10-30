@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getFullName } from '../../shared/utils';
+import { getFullName } from '../../../shared/utils';
 
-import { PICKLIST_DATA } from '../config/constants';
+import {
+  PICKLIST_DATA,
+  PICKLIST_EDIT_REVIEW_FLAG,
+} from '../../config/constants';
 
 const PicklistRemoveDependentsReview = ({ data = {}, goToPath }) => {
   const selectedDependents =
@@ -12,7 +15,9 @@ const PicklistRemoveDependentsReview = ({ data = {}, goToPath }) => {
   const handlers = {
     onEdit: event => {
       event.preventDefault();
-      sessionStorage.setItem('fromReviewPage', 'true');
+      // Go to picklist page, but we'll force them to navigate through all the
+      // followup pages again
+      sessionStorage.removeItem(PICKLIST_EDIT_REVIEW_FLAG);
       goToPath('/options-selection/remove-active-dependents');
     },
   };
@@ -31,6 +36,12 @@ const PicklistRemoveDependentsReview = ({ data = {}, goToPath }) => {
           text="Edit"
         />
       </div>
+
+      {selectedDependents.length === 0 && (
+        <p className="usa-input-error-message">
+          No dependents selected for removal.
+        </p>
+      )}
 
       {selectedDependents.map(item => {
         const dependentFullName = getFullName(item.fullName);
