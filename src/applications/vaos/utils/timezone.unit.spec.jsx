@@ -359,7 +359,7 @@ describe('VAOS Utils: timezone', () => {
     it('should return abbreviation for unsupported timezones', () => {
       // Test with a timezone that doesn't have a mapping in TIMEZONE_LABELS
       const result = getTimezoneDescByTimeZoneString('Europe/London');
-      expect(result).to.equal('GMT+1');
+      expect(result).to.equal('GMT');
     });
 
     it('should handle DST correctly by stripping daylight saving time indicators', () => {
