@@ -18,10 +18,10 @@ const childDeath = {
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (
-        !itemData.childDeathDate ||
-        !itemData.childDeathCity ||
-        (!itemData.childDeathOutsideUS && !itemData.childDeathState) ||
-        (itemData.childDeathOutsideUS && !itemData.childDeathCountry)
+        !itemData.endDate ||
+        !itemData.endCity ||
+        (!itemData.endOutsideUS && !itemData.endState) ||
+        (itemData.endOutsideUS && !itemData.endCountry)
       ) {
         setTimeout(scrollToFirstError);
       } else {
@@ -35,7 +35,7 @@ const childDeath = {
    * @typedef {object} ItemData
    * @property {string} dateOfBirth Dependent's date of birth
    * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} childDeathType Dependent's removal reason
+   * @property {string} endType Dependent's removal reason
    */
   /**
    * handlers object
@@ -66,15 +66,15 @@ const childDeath = {
         </h3>
         <h4>When was the death?</h4>
         <VaMemorableDate
-          name="childDeathDate"
+          name="endDate"
           label="Date of death"
           error={
-            formSubmitted && !itemData.childDeathDate
+            formSubmitted && !itemData.endDate
               ? 'Provide a date of death'
               : null
           }
           monthSelect
-          value={itemData.childDeathDate || ''}
+          value={itemData.endDate || ''}
           // use onDateBlur to ensure month & day are zero-padded
           onDateBlur={onChange}
           required
@@ -82,58 +82,54 @@ const childDeath = {
 
         <h4>Where was the death?</h4>
         <VaCheckbox
-          name="childDeathOutsideUS"
+          name="endOutsideUS"
           label="The death happened outside the United States"
-          checked={itemData.childDeathOutsideUS || false}
+          checked={itemData.endOutsideUS || false}
           onVaChange={onChange}
         />
         <VaTextInput
           class="vads-u-margin-top--4"
-          name="childDeathCity"
-          label={`City${itemData.childDeathOutsideUS ? '' : ' or county'}`}
+          name="endCity"
+          label={`City${itemData.endOutsideUS ? '' : ' or county'}`}
           error={
-            formSubmitted && !itemData.childDeathCity
-              ? `Enter a city${
-                  itemData.childDeathOutsideUS ? '' : ' or county'
-                }`
+            formSubmitted && !itemData.endCity
+              ? `Enter a city${itemData.endOutsideUS ? '' : ' or county'}`
               : null
           }
-          value={itemData.childDeathCity || ''}
+          value={itemData.endCity || ''}
           onVaInput={onChange}
           required
         />
-        {itemData.childDeathOutsideUS ? (
+        {itemData.endOutsideUS ? (
           <>
             <VaTextInput
               class="vads-u-margin-top--4"
-              name="childDeathProvince"
+              name="endProvince"
               label="Province, region or territory"
               onVaInput={onChange}
-              value={itemData.childDeathProvince || ''}
+              value={itemData.endProvince || ''}
             />
             <SelectCountry
-              name="childDeathCountry"
+              name="endCountry"
               label="Country"
               error={
-                formSubmitted && !itemData.childDeathCountry
+                formSubmitted && !itemData.endCountry
                   ? 'Select a country'
                   : null
               }
               onChange={onChange}
-              value={itemData.childDeathCountry || ''}
+              value={itemData.endCountry || ''}
             />
           </>
         ) : (
           <SelectState
             label="State"
-            name="childDeathState"
+            name="endState"
             error={
-              formSubmitted && !itemData.childDeathState
-                ? 'Select a state'
-                : null
+              formSubmitted && !itemData.endState ? 'Select a state' : null
             }
             onChange={onChange}
-            value={itemData.childDeathState || ''}
+            value={itemData.endState || ''}
           />
         )}
       </>
@@ -155,13 +151,13 @@ childDeath.Component.propTypes = {
     onSubmit: PropTypes.func,
   }),
   itemData: PropTypes.shape({
-    childDeathCity: PropTypes.string,
-    childDeathCountry: PropTypes.string,
-    childDeathDate: PropTypes.string,
-    childDeathOutsideUS: PropTypes.bool,
-    childDeathProvince: PropTypes.string,
-    childDeathState: PropTypes.string,
-    childDeathType: PropTypes.string,
+    endCity: PropTypes.string,
+    endCountry: PropTypes.string,
+    endDate: PropTypes.string,
+    endOutsideUS: PropTypes.bool,
+    endProvince: PropTypes.string,
+    endState: PropTypes.string,
+    endType: PropTypes.string,
     relationshipToVeteran: PropTypes.string,
   }),
 };

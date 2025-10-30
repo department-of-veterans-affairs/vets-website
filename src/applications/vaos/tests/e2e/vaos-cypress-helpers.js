@@ -18,6 +18,7 @@ export function mockFeatureToggles(
     vaOnlineSchedulingRecentLocationsFilter: false,
     vaOnlineSchedulingCCDirectScheduling: false,
     vaOnlineSchedulingCCDirectSchedulingChiropractic: false,
+    vaOnlineSchedulingCommunityCareCancellations: false,
     vaOnlineSchedulingImmediateCareAlert: false,
   },
 ) {

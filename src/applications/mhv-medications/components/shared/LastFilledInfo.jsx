@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
+import { DATETIME_FORMATS } from '../../util/constants';
 
 const LastFilledInfo = rx => {
   const { orderedDate, sortedDispensedDate } = rx;
@@ -14,7 +15,7 @@ const LastFilledInfo = rx => {
         <p data-testid="rx-last-filled-info" data-dd-privacy="mask">
           {dateFormat(
             orderedDate,
-            'MMMM D, YYYY',
+            DATETIME_FORMATS.longMonthDate,
             'Documented on: Date not available',
             'Documented on ',
           )}
@@ -24,7 +25,7 @@ const LastFilledInfo = rx => {
         <p data-testid="rx-last-filled-date" data-dd-privacy="mask">
           {dateFormat(
             sortedDispensedDate,
-            'MMMM D, YYYY',
+            DATETIME_FORMATS.longMonthDate,
             'Last filled date not available',
             'Last filled on ',
           )}

@@ -67,13 +67,7 @@ describe('<UnconnectedHealthCareContent />', () => {
     it('but show only Apply for VA health care and Visit MHV links for a non-patient', () => {
       const tree = renderWithStoreAndRouter(
         <UnconnectedHealthCareContent isVAPatient={false} isLOA1={false} />,
-        {
-          initialState: {
-            featureToggles: {
-              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
-            },
-          },
-        },
+        { initialState },
       );
 
       tree.getByTestId('apply-va-healthcare-link-from-cta');
@@ -92,13 +86,7 @@ describe('<UnconnectedHealthCareContent />', () => {
           shouldFetchUnreadMessages
           unreadMessagesCount={2}
         />,
-        {
-          initialState: {
-            featureToggles: {
-              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
-            },
-          },
-        },
+        { initialState },
       );
 
       tree.getByTestId('visit-mhv-on-va-gov');

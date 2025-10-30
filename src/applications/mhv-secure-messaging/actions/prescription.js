@@ -1,3 +1,4 @@
+import { datadogRum } from '@datadog/browser-rum';
 import { Actions } from '../util/actionTypes';
 import { getPrescriptionById as apiGetPrescriptionById } from '../api/RxApi';
 
@@ -10,7 +11,11 @@ export const getPrescriptionById = prescriptionId => async dispatch => {
     }
     const response = await apiGetPrescriptionById(prescriptionId);
     if (response?.errors) {
-      throw new Error(response.errors[0]?.title || 'API returned errors');
+      const error = new Error(
+        response.errors[0]?.title || 'API returned errors',
+      );
+      error.errors = response.errors; // Preserve the original errors array
+      throw error;
     }
     dispatch({
       type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
@@ -22,6 +27,17 @@ export const getPrescriptionById = prescriptionId => async dispatch => {
       error?.status === '404'
         ? error.title
         : error.title || error.detail || error.message || error;
+
+    // Log error to Datadog with context
+    const errorMessage = `Error fetching medication data for Secure Messaging Rx renewal request: ${errorPayload}`;
+    datadogRum.addError(new Error(errorMessage), {
+      source: 'prescription_action',
+      prescriptionId,
+      originalError: errorPayload,
+      errorStatus: error?.status,
+      context: 'Secure Messaging - Medication Renewal Request',
+    });
+
     dispatch({
       type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
       payload: errorPayload,

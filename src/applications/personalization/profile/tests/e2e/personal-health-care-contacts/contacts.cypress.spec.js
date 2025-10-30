@@ -27,11 +27,12 @@ describe('Personal health care contacts', () => {
         '/v0/feature_toggles*',
         generateFeatureToggles({
           profile2Enabled: true,
+          profileHealthCareSettingsPage: true,
         }),
       );
       cy.intercept('GET', '/v0/profile/contacts', contacts);
       cy.login(loa3User72);
-      cy.visit(PROFILE_PATHS.CONTACTS);
+      cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
       cy.get('va-sidenav-item[href="/profile/contacts"').should('exist');
       cy.injectAxeThenAxeCheck();
     });

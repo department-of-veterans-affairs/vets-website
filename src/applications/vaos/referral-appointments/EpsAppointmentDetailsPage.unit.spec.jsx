@@ -29,6 +29,9 @@ describe('EpsAppointmentDetailsPage', () => {
       appointmentInfoLoading: false,
       referralAppointmentInfo,
     },
+    featureToggles: {
+      vaOnlineSchedulingCommunityCareCancellations: false,
+    },
   };
 
   const preFetchedState = {
@@ -344,5 +347,53 @@ describe('EpsAppointmentDetailsPage', () => {
     const description = container.getByTestId('appointment-time-description');
     expect(description).to.exist;
     expect(description.textContent).to.include('Eastern time (ET)'); // Full timezone description
+  });
+
+  it('should not show cancel appointment button when community care cancellations flipper is disabled', async () => {
+    requestStub.resolves({ data: referralAppointmentInfo });
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingCommunityCareCancellations: false,
+      },
+    });
+    const { getByTestId, queryByTestId } = renderWithStoreAndRouter(
+      <EpsAppointmentDetailsPage />,
+      {
+        store,
+        path: `/${appointmentId}`,
+      },
+    );
+    await waitFor(() => {
+      expect(getByTestId('appointment-card')).to.exist;
+    });
+    await waitFor(() => {
+      expect(queryByTestId('cancel-button')).not.to.exist;
+    });
+  });
+
+  it('should show cancel appointment button when community care cancellations flipper is enabled', async () => {
+    requestStub.resolves({ data: referralAppointmentInfo });
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingCommunityCareCancellations: true,
+      },
+    });
+    const { getByTestId } = renderWithStoreAndRouter(
+      <EpsAppointmentDetailsPage />,
+      {
+        store,
+        path: `/${appointmentId}`,
+      },
+    );
+    await waitFor(() => {
+      expect(getByTestId('appointment-card')).to.exist;
+    });
+    await waitFor(() => {
+      expect(getByTestId('cancel-button')).to.exist;
+    });
   });
 });

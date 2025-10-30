@@ -1,6 +1,6 @@
 export const generateAppointmentsContent = records => ({
   results: {
-    preface: `Showing ${records.length} appointments, sorted by date`,
+    preface: `Showing ${records?.length} appointments, sorted by date`,
     sectionSeparators: false,
     items: records.map(item => ({
       header: item.date,
