@@ -7,28 +7,32 @@ import {
   currencyUI,
   currencySchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  recipientTypeLabels,
+  typeOfIncomeLabels,
+} from '../../../../utils/labels';
 
-const recipientTypeLabels = {
-  SURVIVING_SPOUSE: 'Surviving spouse',
-  VETERANS_CHILD: 'Veteran’s child',
-  CUSTODIAN: 'Custodian',
-  CUSTODIAN_SPOUSE: 'Custodian’s spouse',
-  OTHER: 'Other',
-};
+const {
+  SURVIVING_SPOUSE,
+  VETERANS_CHILD,
+  CUSTODIAN,
+  CUSTODIAN_SPOUSE,
+  OTHER,
+} = recipientTypeLabels;
 
-const typeOfIncomeLabels = {
-  SOCIAL_SECURITY: 'Social Security',
-  INTEREST_DIVIDEND: 'Interest or dividend income',
-  CIVIL_SERVICE: 'Civil Service',
-  PENSION_RETIREMENT: 'Pension or retirement income',
-  OTHER: 'Other income',
+const incomeRecipients = {
+  SURVIVING_SPOUSE,
+  VETERANS_CHILD,
+  CUSTODIAN,
+  CUSTODIAN_SPOUSE,
+  OTHER,
 };
 
 const uiSchema = {
   ...titleUI('Monthly gross income details'),
   whoReceives: radioUI({
     title: 'Who receives this income?',
-    labels: recipientTypeLabels,
+    labels: incomeRecipients,
   }),
   fullName: textUI({
     title: 'Full name of the person who receives this income',

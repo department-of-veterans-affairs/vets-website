@@ -56,6 +56,8 @@ export const recipientTypeLabels = {
   SURVIVING_SPOUSE: 'Surviving spouse',
   VETERANS_CHILD: 'Veteran’s child',
   OTHER: 'Other',
+  CUSTODIAN: 'Custodian',
+  CUSTODIAN_SPOUSE: 'Custodian’s spouse',
 };
 
 export const careTypeLabels = {
