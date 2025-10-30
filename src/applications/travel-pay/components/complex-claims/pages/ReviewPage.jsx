@@ -96,47 +96,57 @@ const ReviewPage = ({ claim, message }) => {
         text="Add more expenses"
         onClick={addMoreExpenses}
       />
-      <p>The expenses you’ve added are listed here.</p>
-      <va-accordion>
-        {Object.entries(groupedExpenses).map(([type, expenses]) => {
-          const expenseFields = getExpenseType(type);
-          return (
-            <va-accordion-item
-              key={type}
-              header={`${expenseFields.title} (${expenses.length})`}
-            >
-              {expenses.map(expense => {
-                const cardHeader = `${formatDate(
-                  expense.dateIncurred,
-                )}, $${formatAmount(expense.costRequested)}`;
-                const editRoute =
-                  type === 'Mileage'
-                    ? '../mileage'
-                    : `../${type.toLowerCase()}`;
+      {Object.keys(groupedExpenses).length === 0 && (
+        <p>No expenses have been added to this claim.</p>
+      )}
+      {Object.keys(groupedExpenses).length > 0 && (
+        <>
+          <p>The expenses you’ve added are listed here.</p>
+          <va-accordion>
+            {Object.entries(groupedExpenses).map(([type, expenses]) => {
+              const expenseFields = getExpenseType(type);
+              return (
+                <va-accordion-item
+                  key={type}
+                  header={`${expenseFields.title} (${expenses.length})`}
+                >
+                  {expenses.map(expense => {
+                    const cardHeader = `${formatDate(
+                      expense.dateIncurred,
+                    )}, $${formatAmount(expense.costRequested)}`;
+                    const editRoute =
+                      type === 'Mileage'
+                        ? '../mileage'
+                        : `../${type.toLowerCase()}`;
 
-                return (
-                  <ExpenseCard
-                    key={expense.id}
-                    expense={expense}
-                    editToRoute={editRoute}
-                    header={`${cardHeader}`}
-                  />
-                );
-              })}
-              {/* Only show button when expense type is NOT Mileage */}
-              {type !== 'Mileage' && (
-                <VaButton
-                  id={`add-${type.toLowerCase()}-expense-button`}
-                  className="vads-u-display--flex vads-u-margin-y--2"
-                  text={`Add another ${expenseFields.addButtonText} expense`}
-                  secondary
-                  onClick={() => addAnExpense(expenseFields.route)}
-                />
-              )}
-            </va-accordion-item>
-          );
-        })}
-      </va-accordion>
+                    return (
+                      <ExpenseCard
+                        key={expense.id}
+                        expense={expense}
+                        editToRoute={editRoute}
+                        header={`${cardHeader}`}
+                      />
+                    );
+                  })}
+                  {/* Only show button when expense type is NOT Mileage */}
+                  {type !== 'Mileage' && (
+                    <VaButton
+                      id={`add-${type.toLowerCase()}-expense-button`}
+                      className="vads-u-display--flex vads-u-margin-y--2"
+                      text={`Add another ${
+                        expenseFields.addButtonText
+                      } expense`}
+                      secondary
+                      onClick={() => addAnExpense(expenseFields.route)}
+                    />
+                  )}
+                </va-accordion-item>
+              );
+            })}
+          </va-accordion>
+        </>
+      )}
+
       <va-summary-box>
         <h3 slot="headline">Estimated reimbursement</h3>
         <ul>

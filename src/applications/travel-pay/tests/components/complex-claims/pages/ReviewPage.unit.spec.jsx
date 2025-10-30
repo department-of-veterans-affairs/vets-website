@@ -183,6 +183,31 @@ describe('Travel Pay – ReviewPage', () => {
     expect(expenseCards.length).to.equal(defaultClaim.expenses.length);
   });
 
+  it('renders "No expenses have been added to this claim." when there are no expenses', () => {
+    const emptyClaim = {
+      claimId: '67890',
+      totalCostRequested: 0,
+      expenses: [],
+      documents: [],
+    };
+
+    const { getByText } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={['/file-new-claim/complex/67890/review']}>
+        <ReviewPage claim={emptyClaim} />
+      </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
+
+    // The "no expenses" message should be visible
+    expect(getByText('No expenses have been added to this claim.')).to.exist;
+
+    // The "Add more expenses" button should still exist
+    expect(document.querySelector('#add-expense-button')).to.exist;
+  });
+
   it('calls addMoreExpenses when Add More Expenses button is clicked', () => {
     const { container, getByTestId } = renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
