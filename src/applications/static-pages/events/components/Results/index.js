@@ -80,6 +80,7 @@ export const Results = ({
       <p
         className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1"
         data-testid="events-results-none-found"
+        tabIndex="-1"
       >
         {queryId === 'custom-date-range' ? (
           <span>No results found for Custom date range</span>
@@ -103,6 +104,7 @@ export const Results = ({
         <h2
           className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1 vads-u-font-size--base vads-u-font-weight--normal"
           data-events-focus="true"
+          tabIndex="-1"
         >
           <span>Displaying {resultsStartNumber}</span>
           <span className="vads-u-visibility--screen-reader">through</span>
