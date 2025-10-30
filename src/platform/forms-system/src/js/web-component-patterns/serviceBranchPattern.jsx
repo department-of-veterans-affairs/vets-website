@@ -15,11 +15,13 @@ export const ARMY_BRANCH_LABELS = {
 export const NAVY_BRANCH_LABELS = {
   NAVY: { label: 'Navy', group: 'Navy' },
   NR: { label: 'Navy Reserves', group: 'Navy' },
-  MM: { label: 'Merchant Marine', group: 'Navy' },
-  MC: { label: 'Marine Corps', group: 'Navy' },
-  MCR: { label: 'Marine Corps Reserves', group: 'Navy' },
   'N ACAD': { label: 'Naval Academy', group: 'Navy' },
   PN: { label: 'Philippine Navy', group: 'Navy' },
+};
+
+export const MARINE_BRANCH_LABELS = {
+  MC: { label: 'Marine Corps', group: 'Marine Corps' },
+  MCR: { label: 'Marine Corps Reserves', group: 'Marine Corps' },
 };
 
 export const AIR_FORCE_BRANCH_LABELS = {
@@ -47,11 +49,13 @@ export const OTHER_BRANCH_LABELS = {
     group: 'Other',
   },
   USMA: { label: 'US Military Academy', group: 'Other' },
+  MM: { label: 'Merchant Marine', group: 'Other' },
 };
 
 export const DEFAULT_BRANCH_LABELS = {
   ...ARMY_BRANCH_LABELS,
   ...NAVY_BRANCH_LABELS,
+  ...MARINE_BRANCH_LABELS,
   ...AIR_FORCE_BRANCH_LABELS,
   ...SPACE_FORCE_BRANCH_LABELS,
   ...COAST_GUARD_BRANCH_LABELS,
@@ -61,13 +65,14 @@ export const DEFAULT_BRANCH_LABELS = {
 const BRANCHES = {
   army: ARMY_BRANCH_LABELS,
   navy: NAVY_BRANCH_LABELS,
+  'marine corps': MARINE_BRANCH_LABELS,
   'air force': AIR_FORCE_BRANCH_LABELS,
   'coast guard': COAST_GUARD_BRANCH_LABELS,
   'space force': SPACE_FORCE_BRANCH_LABELS,
   other: OTHER_BRANCH_LABELS,
 };
 
-/** @typedef {'army' | 'navy' | 'air force' | 'coast guard' | 'space force' | 'other'} ServiceBranchGroup */
+/** @typedef {'army' | 'navy' | 'marine corps' | 'air force' | 'coast guard' | 'space force' | 'other'} ServiceBranchGroup */
 
 /**
  * @param {string[]} groups the groups to include
