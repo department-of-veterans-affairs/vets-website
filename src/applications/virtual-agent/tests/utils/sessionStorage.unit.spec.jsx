@@ -9,12 +9,14 @@ import {
   getLoggedInFlow,
   getRecentUtterances,
   getTokenKey,
+  getCodeKey,
   setConversationIdKey,
   setInAuthExp,
   setIsTrackingUtterances,
   setLoggedInFlow,
   setRecentUtterances,
   setTokenKey,
+  setCodeKey,
   storeUtterances,
 } from '../../utils/sessionStorage';
 
@@ -107,6 +109,18 @@ describe('sessionStorage', () => {
       expect(result).to.equal('def');
     });
   });
+  describe('codeKey', () => {
+    it('should get code key', () => {
+      sessionStorage.setItem('va-bot.code', 'ghi');
+      const result = getCodeKey();
+      expect(result).to.equal('ghi');
+    });
+    it('should set code key', () => {
+      setCodeKey('ghi');
+      const result = sessionStorage.getItem('va-bot.code');
+      expect(result).to.equal('ghi');
+    });
+  });
   describe('clearBotSessionStorage', () => {
     it('should clear bot session storage items with prefixed keys when forceClear is true', () => {
       // Set up the sessionStorage mock with the desired values
@@ -158,7 +172,7 @@ describe('sessionStorage', () => {
       expect(itemToNotClear).to.be.equal('strawberry');
     });
 
-    it('should preserve firstConnection (raw), conversationId and token by default and clear other keys', () => {
+    it('should preserve firstConnection (raw), conversationId, token, and code by default and clear other keys', () => {
       // Ensure default clearing path triggers (both not 'true')
       sessionStorage.removeItem('va-bot.loggedInFlow');
       sessionStorage.removeItem('va-bot.inAuthExperience');
@@ -167,6 +181,7 @@ describe('sessionStorage', () => {
       sessionStorage.setItem('va-bot.firstConnection', 'false');
       setConversationIdKey('abc');
       setTokenKey('def');
+      setCodeKey('ghi');
 
       // Set other bot-prefixed keys (should be cleared)
       sessionStorage.setItem('va-bot.itemToClear', 'banana');
@@ -180,6 +195,7 @@ describe('sessionStorage', () => {
       );
       expect(getConversationIdKey()).to.equal('abc');
       expect(getTokenKey()).to.equal('def');
+      expect(getCodeKey()).to.equal('ghi');
 
       // Others cleared
       expect(sessionStorage.getItem('va-bot.itemToClear')).to.be.null;
