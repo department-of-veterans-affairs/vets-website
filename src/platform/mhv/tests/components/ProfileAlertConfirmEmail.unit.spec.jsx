@@ -247,7 +247,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
       });
     });
 
-    it('calls putConfirmationDate with id and email_address in payload', async () => {
+    it('calls putConfirmationDate with id and email_address in request body', async () => {
       mockApiRequest();
       const initialState = stateFn({
         emailAddress: 'veteran1729@example.com',
@@ -265,9 +265,9 @@ describe('<ProfileAlertConfirmEmail />', () => {
       await waitFor(() => {
         expect(global.fetch.calledOnce).to.be.true;
         const [, options] = global.fetch.firstCall.args;
-        const payload = JSON.parse(options.body);
-        expect(payload).to.have.property('id', 1729);
-        expect(payload).to.have.property(
+        const requestBody = JSON.parse(options.body);
+        expect(requestBody).to.have.property('id', 1729);
+        expect(requestBody).to.have.property(
           'email_address',
           'veteran1729@example.com',
         );

@@ -251,9 +251,9 @@ describe('<MhvAlertConfirmEmail />', () => {
       await waitFor(() => {
         expect(global.fetch.calledOnce).to.be.true;
         const [, options] = global.fetch.firstCall.args;
-        const payload = JSON.parse(options.body);
-        expect(payload).to.have.property('id', emailAddressId);
-        expect(payload).to.have.property('email_address', emailAddress);
+        const requestBody = JSON.parse(options.body);
+        expect(requestBody).to.have.property('id', emailAddressId);
+        expect(requestBody).to.have.property('email_address', emailAddress);
       });
     });
   });
