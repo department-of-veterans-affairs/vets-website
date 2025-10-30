@@ -82,7 +82,7 @@ describe('childMarriage', () => {
     const { container } = renderComponent({ formSubmitted: true, goForward });
 
     $('va-memorable-date', container).__events.dateBlur({
-      target: { name: 'marriageDate', tagName: 'VA-MEMORABLE-DATE', value: '' },
+      target: { name: 'endDate', tagName: 'VA-MEMORABLE-DATE', value: '' },
     });
 
     await fireEvent.submit($('form', container));
@@ -101,7 +101,7 @@ describe('childMarriage', () => {
       onSubmit,
       data: {
         ...defaultData,
-        marriageDate: '2000-01-01',
+        endDate: '2000-01-01',
       },
     });
 
@@ -121,7 +121,7 @@ describe('childMarriage', () => {
       const goForward = sinon.spy();
       childMarriage.handlers.onSubmit({
         itemData: {
-          marriageDate: '2000-01-01',
+          endDate: '2000-01-01',
         },
         goForward,
       });

@@ -82,3 +82,24 @@ export const AssetTransfersSummaryDescription = () => {
     </>
   );
 };
+
+export const UnreportedAssetsSummaryDescription = () => {
+  return (
+    <>
+      <p>
+        Here are some examples of other assets you may not have reported yet:
+      </p>
+      <ul>
+        <li>Accounts that don’t accrue interest</li>
+        <li>Collectible valuables</li>
+        <li>Real estate that doesn’t generate an income</li>
+        <li>Cash</li>
+      </ul>
+      <p>
+        <strong>Note:</strong> If you reported receiving money from an asset
+        transfer and spent part of it, only include the amount you haven’t
+        spent.
+      </p>
+    </>
+  );
+};

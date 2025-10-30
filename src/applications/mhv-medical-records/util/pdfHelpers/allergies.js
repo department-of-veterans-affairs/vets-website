@@ -5,13 +5,13 @@ export const generateAllergiesIntro = (records, lastUpdated) => {
     subtitles: [
       'This list includes all allergies, reactions, and side effects in your VA medical records. If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
       lastUpdated,
-      `Showing ${records.length} records from newest to oldest`,
+      `Showing ${records?.length} records from newest to oldest`,
     ],
   };
 };
 
 export const generateAllergyItem = record => {
-  const multipleReactions = record.reaction.length > 1;
+  const multipleReactions = record.reaction?.length > 1;
 
   if (record.isOracleHealthData) {
     return {

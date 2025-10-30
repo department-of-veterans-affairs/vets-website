@@ -69,7 +69,7 @@ describe('childDeath', () => {
 
   it('should render country & province fields when outside US checkbox is checked', () => {
     const { container } = renderComponent({
-      data: { ...defaultData, childDeathOutsideUS: true },
+      data: { ...defaultData, endOutsideUS: true },
     });
 
     expect($('va-checkbox', container).checked).to.be.true;
@@ -110,13 +110,13 @@ describe('childDeath', () => {
   it('should show error messages if submitted without filling in fields (non-US)', async () => {
     const goForward = sinon.spy();
     const { container } = renderComponent({
-      data: { ...defaultData, childDeathOutsideUS: true },
+      data: { ...defaultData, endOutsideUS: true },
       formSubmitted: true,
       goForward,
     });
 
     $('va-checkbox', container).__events.vaChange({
-      target: { name: 'childDeathOutsideUS', tagName: 'VA-CHECKBOX' },
+      target: { name: 'endOutsideUS', tagName: 'VA-CHECKBOX' },
       detail: { checked: true },
     });
 
@@ -141,9 +141,9 @@ describe('childDeath', () => {
       onSubmit,
       data: {
         ...defaultData,
-        childDeathDate: '2000-01-01',
-        childDeathCity: 'Test',
-        childDeathState: 'AK',
+        endDate: '2000-01-01',
+        endCity: 'Test',
+        endState: 'AK',
       },
     });
 
@@ -163,9 +163,9 @@ describe('childDeath', () => {
       const goForward = sinon.spy();
       childDeath.handlers.onSubmit({
         itemData: {
-          childDeathDate: '2000-01-01',
-          childDeathCity: 'Test',
-          childDeathState: 'AK',
+          endDate: '2000-01-01',
+          endCity: 'Test',
+          endState: 'AK',
         },
         goForward,
       });
@@ -176,10 +176,10 @@ describe('childDeath', () => {
       const goForward = sinon.spy();
       childDeath.handlers.onSubmit({
         itemData: {
-          childDeathOutsideUS: true,
-          childDeathDate: '2000-01-01',
-          childDeathCity: 'Test',
-          childDeathCountry: 'TTT',
+          endOutsideUS: true,
+          endDate: '2000-01-01',
+          endCity: 'Test',
+          endCountry: 'TTT',
         },
         goForward,
       });

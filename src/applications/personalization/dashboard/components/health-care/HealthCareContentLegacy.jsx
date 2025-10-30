@@ -23,7 +23,6 @@ import AppointmentsCardLegacy from './AppointmentsCardLegacy';
 
 const HealthCareContent = ({
   appointments,
-  authenticatedWithSSOe,
   shouldFetchUnreadMessages,
   fetchConfirmedFutureAppointments,
   fetchUnreadMessages,
@@ -64,9 +63,6 @@ const HealthCareContent = ({
   );
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-
-  // viewMhvLink will be true if toggle is on
-  const viewMhvLink = useToggleValue(TOGGLE_NAMES.myVaEnableMhvLink);
 
   const shouldShowOnOneColumn =
     !isVAPatient || !hasUpcomingAppointment || isLOA1;
@@ -147,9 +143,7 @@ const HealthCareContent = ({
           <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
             <Toggler.Disabled>
               <HealthCareCTA
-                viewMhvLink={viewMhvLink}
                 hasInboxError={hasInboxError}
-                authenticatedWithSSOe={authenticatedWithSSOe}
                 hasUpcomingAppointment={hasUpcomingAppointment}
                 unreadMessagesCount={unreadMessagesCount}
                 isVAPatient={isVAPatient}
@@ -165,9 +159,7 @@ const HealthCareContent = ({
           <Toggler.Disabled>
             <DashboardWidgetWrapper>
               <HealthCareCTA
-                viewMhvLink={viewMhvLink}
                 hasInboxError={hasInboxError}
-                authenticatedWithSSOe={authenticatedWithSSOe}
                 hasUpcomingAppointment={hasUpcomingAppointment}
                 unreadMessagesCount={unreadMessagesCount}
                 isVAPatient={isVAPatient}
@@ -233,7 +225,6 @@ HealthCareContent.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ),
-  authenticatedWithSSOe: PropTypes.bool,
   dataLoadingDisabled: PropTypes.bool,
   fetchConfirmedFutureAppointments: PropTypes.func,
   fetchUnreadMessages: PropTypes.func,

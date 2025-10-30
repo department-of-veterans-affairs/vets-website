@@ -24,9 +24,9 @@ import parentOtherExit from './parentOtherExit';
  */
 export const routing = {
   Spouse: [
-    { path: 'marriage-reason-to-remove', page: spouseReasonToRemove },
-    { path: 'marriage-ended', page: spouseMarriageEnded },
-    { path: 'marriage-death', page: spouseDeath },
+    { path: 'spouse-reason-to-remove', page: spouseReasonToRemove },
+    { path: 'spouse-marriage-ended', page: spouseMarriageEnded },
+    { path: 'spouse-death', page: spouseDeath },
   ],
 
   Child: [

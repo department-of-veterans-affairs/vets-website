@@ -7,6 +7,7 @@ import {
 
 import PicklistRemoveDependents from '../../components/PicklistRemoveDependents';
 import PicklistRemoveDependentFollowup from '../../components/PicklistRemoveDependentFollowup';
+import PicklistRemoveDependentFollowupReview from '../../components/PicklistRemoveDependentsReview';
 
 // Remove dependents picklist page in optionSelection chapter
 export const removeDependentsPicklistOptions = {
@@ -15,7 +16,7 @@ export const removeDependentsPicklistOptions = {
   uiSchema: {},
   schema: { type: 'object', properties: {} },
   CustomPage: PicklistRemoveDependents,
-  CustomPageReview: null,
+  CustomPageReview: PicklistRemoveDependentFollowupReview,
   depends: formData =>
     showV3Picklist(formData) &&
     hasAwardedDependents(formData) &&
