@@ -18,15 +18,16 @@ export const DownloadTsaLetter = ({ letter }) => {
 
   useEffect(
     () => {
-      if (hasFetched) return;
+      if (hasFetched) return undefined;
       const getTsaLetterData = () => {
-        return apiRequest(DOWNLOAD_TSA_LETTER_ENDPOINT(letter.document_id))
+        return apiRequest(
+          DOWNLOAD_TSA_LETTER_ENDPOINT(letter.attributes.document_id),
+        )
           .then(response => {
             response.blob().then(blob => {
               window.URL = window.URL || window.webkitURL;
               const downloadUrl = window.URL.createObjectURL(blob);
               setLetterData(downloadUrl);
-              setHasFetched(true);
               recordEvent({
                 event: 'api_call',
                 'api-name': 'GET /v0/tsa_letter/:id',
@@ -35,7 +36,6 @@ export const DownloadTsaLetter = ({ letter }) => {
             });
           })
           .catch(() => {
-            setHasFetched(true);
             setError(true);
             recordEvent({
               event: 'api_call',
@@ -48,19 +48,42 @@ export const DownloadTsaLetter = ({ letter }) => {
         const isOpen = ref.current?.hasAttribute('open');
         if (isOpen && !hasFetched) {
           getTsaLetterData();
+          setHasFetched(true);
         }
       };
       checkOpenState();
+
+      const observer = new MutationObserver(checkOpenState);
+      observer.observe(ref.current, {
+        attributes: true,
+        attributeFilter: ['open'],
+      });
+
+      return () => {
+        if (letterData) {
+          window.URL.revokeObjectURL(letterData);
+        }
+        observer.disconnect();
+      };
     },
-    [hasFetched, letter],
+    [hasFetched, letter, letterData],
   );
 
-  const loading = ref.current?.hasAttribute('open') && !hasFetched;
-  const letterTitle = 'TSA PreCheck Letter';
+  const loading = !hasFetched;
+  const letterTitle = 'TSA PreCheck Application Fee Waiver Letter';
 
   return (
     <va-accordion-item key="tsa-letter" ref={ref}>
       <h3 slot="headline">{letterTitle}</h3>
+      <p>
+        The {letterTitle} shows you’re eligible for free enrollment in
+        Transportation Security Administration (TSA) PreCheck.
+      </p>
+      <p>
+        You’ll need to print this letter and bring it with you when completing
+        your TSA PreCheck application.
+      </p>
+      {loading && <VaLoadingIndicator message="Loading your letter..." />}
       {error && (
         <VaAlert class="vads-u-margin-top--2" status="error" role="alert">
           <h4 slot="headline">{`Your ${letterTitle} is currently unavailable`}</h4>
@@ -69,26 +92,16 @@ export const DownloadTsaLetter = ({ letter }) => {
           </p>
         </VaAlert>
       )}
-      {loading && <VaLoadingIndicator message="Loading your letter..." />}
       {letterData && (
-        <>
-          <div>
-            The TSA PreCheck Letter for Veterans shows that you qualify for free
-            TSA PreCheck for life. You can use this letter instead of paying the
-            application fee when you apply. The application process includes
-            filling out an online form, going to an in-person appointment,
-            getting fingerprinted, and passing a background check.
-          </div>
-          <div className="vads-u-margin-top--1">
-            <VaLink
-              href={letterData}
-              filetype="PDF"
-              filename={`${letterTitle}.pdf`}
-              text={`Download ${letterTitle}`}
-              download
-            />
-          </div>
-        </>
+        <div className="vads-u-margin-top--1">
+          <VaLink
+            href={letterData}
+            filetype="PDF"
+            filename={`${letterTitle}.pdf`}
+            text={`Download ${letterTitle}`}
+            download
+          />
+        </div>
       )}
     </va-accordion-item>
   );

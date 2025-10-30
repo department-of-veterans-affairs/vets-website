@@ -2,25 +2,32 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Toggler } from 'platform/utilities/feature-toggles';
-
+import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import DownloadLetterBlobLink from '../components/DownloadLetterBlobLink';
+import { DownloadTsaLetter } from '../components/DownloadTsaLetter';
 import VeteranBenefitSummaryOptions from './VeteranBenefitSummaryOptions';
-
 import {
+  apiRequest,
   //  eslint-disable-next-line -- LH_MIGRATION
   LH_MIGRATION__getOptions,
   newLetterContent,
 } from '../utils/helpers';
-import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
+import {
+  AVAILABILITY_STATUSES,
+  GET_TSA_LETTER_ELIGIBILITY_ENDPOINT,
+  LETTER_TYPES,
+} from '../utils/constants';
 
 export class LetterList extends React.Component {
   constructor(props) {
     super(props);
-    // eslint-disable-next-line -- LH_MIGRATION
-    this.state = { LH_MIGRATION__options: LH_MIGRATION__getOptions(false) };
+    this.state = {
+      tsaLetter: null,
+      // eslint-disable-next-line -- LH_MIGRATION
+      LH_MIGRATION__options: LH_MIGRATION__getOptions(false),
+    };
     this.accordionRefs = {};
   }
 
@@ -30,10 +37,42 @@ export class LetterList extends React.Component {
       // eslint-disable-next-line -- LH_MIGRATION
       LH_MIGRATION__options: LH_MIGRATION__getOptions(),
     });
+    this.getTsaLetter();
+  }
+
+  getTsaLetter() {
+    return apiRequest(GET_TSA_LETTER_ELIGIBILITY_ENDPOINT)
+      .then(response => {
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          const tsaLetters = response.data.filter(
+            letter => letter?.attributes?.received_at,
+          );
+          const latestLetter = tsaLetters.reduce((latest, current) => {
+            return current.attributes.received_at >
+              latest.attributes.received_at
+              ? current
+              : latest;
+          });
+          this.setState({ tsaLetter: latestLetter });
+        }
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'GET /v0/tsa_letter',
+          'api-status': 'successful',
+        });
+      })
+      .catch(() => {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'GET /v0/tsa_letter',
+          'api-status': 'error',
+        });
+      });
   }
 
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
+    const hasTsaLetter = Boolean(this.state.tsaLetter?.attributes?.document_id);
     const letterItems = (this.props.letters || []).map((letter, index) => {
       if (!this.accordionRefs[index]) {
         this.accordionRefs[index] = React.createRef();
@@ -110,9 +149,16 @@ export class LetterList extends React.Component {
 
     return (
       <div className="step-content">
-        {letterItems.length !== 0 && (
+        {(letterItems.length !== 0 || hasTsaLetter) && (
           <va-accordion data-test-id="letters-accordion" bordered>
             {letterItems}
+            {hasTsaLetter && (
+              <Toggler toggleName={Toggler.TOGGLE_NAMES.tsaSafeTravelLetter}>
+                <Toggler.Enabled>
+                  <DownloadTsaLetter letter={this.state.tsaLetter} />
+                </Toggler.Enabled>
+              </Toggler>
+            )}
           </va-accordion>
         )}
         <Toggler toggleName={Toggler.TOGGLE_NAMES.emptyStateBenefitLetters}>
@@ -142,7 +188,16 @@ export class LetterList extends React.Component {
               )}
           </Toggler.Enabled>
         </Toggler>
-        {eligibilityMessage}
+        <div className="vads-u-margin-top--2">
+          <va-alert status="warning" visible>
+            <h4 slot="headline">Some letters may not be available</h4>
+            <p>
+              One of our systems appears to be down. If you believe you’re
+              missing a letter or document from the list above, please try again
+              later.
+            </p>
+          </va-alert>
+        </div>
       </div>
     );
   }
