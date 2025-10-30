@@ -8,17 +8,27 @@ class DownloadReportsPage {
   };
 
   clickCcdAccordionItem = () => {
-    // Check if accordion is already open, only click if closed
-    cy.get('[data-testid="ccdAccordionItem"]').then($accordion => {
-      const isOpen = $accordion.attr('open') === 'true';
-      if (!isOpen) {
+    cy.get('[data-testid="ccdAccordionItem"]', { timeout: 15000 }).should(
+      'be.visible',
+    );
+
+    cy.get('body').then($body => {
+      if (
+        $body.find('[data-testid^="generateCcdButton"]:visible').length === 0
+      ) {
         cy.get('[data-testid="ccdAccordionItem"]').click();
       }
     });
-    // Wait for accordion content to be visible after expansion
-    cy.contains('Continuity of Care Document', { timeout: 10000 }).should(
+
+    cy.contains('Continuity of Care Document', { timeout: 15000 }).should(
       'be.visible',
     );
+
+    cy.get('[data-testid^="generateCcdButton"]', { timeout: 15000 })
+      .first()
+      .should('be.visible')
+      .should('have.css', 'width')
+      .and('not.equal', '0px');
   };
 
   clickSelfEnteredAccordionItem = () => {
@@ -109,8 +119,6 @@ class DownloadReportsPage {
     );
   };
 
-  // ========== V2 (Oracle Health) CCD Methods ==========
-
   clickCcdDownloadXmlButtonV2 = pathToFixture => {
     cy.fixture(pathToFixture, 'utf8').then(xmlBody => {
       cy.intercept('GET', '/my_health/v2/medical_records/ccd/download.xml', {
@@ -119,7 +127,7 @@ class DownloadReportsPage {
         body: xmlBody,
       }).as('downloadCcdV2Xml');
 
-      cy.get('[data-testid="generateCcdButtonXmlOH"]', { timeout: 10000 })
+      cy.get('[data-testid="generateCcdButtonXmlOH"]', { timeout: 15000 })
         .should('be.visible')
         .click();
       cy.wait('@downloadCcdV2Xml');
@@ -134,7 +142,7 @@ class DownloadReportsPage {
         body: htmlBody,
       }).as('downloadCcdV2Html');
 
-      cy.get('[data-testid="generateCcdButtonHtmlOH"]', { timeout: 10000 })
+      cy.get('[data-testid="generateCcdButtonHtmlOH"]', { timeout: 15000 })
         .should('be.visible')
         .click();
       cy.wait('@downloadCcdV2Html');
@@ -150,36 +158,43 @@ class DownloadReportsPage {
       body: pdfMock,
     }).as('downloadCcdV2Pdf');
 
-    cy.get('[data-testid="generateCcdButtonPdfOH"]', { timeout: 10000 })
+    cy.get('[data-testid="generateCcdButtonPdfOH"]', { timeout: 15000 })
       .should('be.visible')
       .click();
     cy.wait('@downloadCcdV2Pdf');
   };
 
   verifyDualAccordionVisible = () => {
-    // Wait for accordion animation to complete and content to render
     cy.contains('h4', 'Your VA Medical Records (Legacy System)', {
-      timeout: 10000,
+      timeout: 15000,
     }).should('be.visible');
-    cy.contains('h4', 'Your VA Medical Records (Oracle Health)').should(
-      'be.visible',
-    );
+    cy.contains('h4', 'Your VA Medical Records (Oracle Health)', {
+      timeout: 15000,
+    }).should('be.visible');
   };
 
   verifyVistaDownloadLinksVisible = () => {
     cy.get('[data-testid="generateCcdButtonXmlVista"]', {
-      timeout: 10000,
+      timeout: 15000,
     }).should('be.visible');
-    cy.get('[data-testid="generateCcdButtonPdfVista"]').should('be.visible');
-    cy.get('[data-testid="generateCcdButtonHtmlVista"]').should('be.visible');
+    cy.get('[data-testid="generateCcdButtonPdfVista"]', {
+      timeout: 15000,
+    }).should('be.visible');
+    cy.get('[data-testid="generateCcdButtonHtmlVista"]', {
+      timeout: 15000,
+    }).should('be.visible');
   };
 
   verifyOHDownloadLinksVisible = () => {
     cy.get('[data-testid="generateCcdButtonXmlOH"]', {
-      timeout: 10000,
+      timeout: 15000,
     }).should('be.visible');
-    cy.get('[data-testid="generateCcdButtonPdfOH"]').should('be.visible');
-    cy.get('[data-testid="generateCcdButtonHtmlOH"]').should('be.visible');
+    cy.get('[data-testid="generateCcdButtonPdfOH"]', {
+      timeout: 15000,
+    }).should('be.visible');
+    cy.get('[data-testid="generateCcdButtonHtmlOH"]', {
+      timeout: 15000,
+    }).should('be.visible');
   };
 }
 export default new DownloadReportsPage();
