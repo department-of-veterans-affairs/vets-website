@@ -144,9 +144,7 @@ const SelectCareTeam = () => {
   useEffect(
     () => {
       const headerText = h1Ref.current?.textContent;
-      if (headerText) {
-        document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
-      }
+      document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
     },
     [allowedRecipients],
   );
