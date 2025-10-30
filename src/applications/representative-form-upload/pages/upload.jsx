@@ -7,13 +7,7 @@ import {
   fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { UPLOAD_TITLE, UPLOAD_DESCRIPTION } from '../config/constants';
-import {
-  getAlert,
-  getFormContent,
-  createPayload,
-  parseResponse,
-} from '../helpers';
+import { getAlert, getFormContent } from '../helpers';
 import {
   emptyObjectSchema,
   uploadTitleAndDescription,
@@ -82,39 +76,17 @@ export const uploadPage = {
     ...supportingEvidenceTitleAndDescription,
     supportingDocuments: {
       ...fileInputMultipleUI({
+        title: 'Upload supporting evidence',
+        required: false,
+        skipUpload: false,
+        fileUploadUrl: `${baseURL}/upload_supporting_documents`,
+        // Disallow uploads greater than 25 MB
+        maxFileSize: 26214400, // 25MB in bytes
+        accept: '.pdf,jpg,.jpeg,.png',
         errorMessages: { required: `Upload a completed VA Form ${formNumber}` },
-        name: 'form-upload-file-input',
-        fileUploadUrl,
-        title,
         hint:
           'You can upload only one file no larger than 25MB.\nYour file can be .pdf, .png, or .jpg.',
         formNumber,
-        required: () => false,
-        // Disallow uploads greater than 25 MB
-        maxFileSize: 25000000,
-        'ui:confirmationField': ({ formData }) => ({
-          data: formData?.map(item => item.name || item.fileName),
-          label: UPLOAD_TITLE,
-        }),
-        'ui:options': {
-          hideLabelText: false,
-          showFieldLabel: true,
-          buttonText: 'Upload file',
-          addAnotherLabel: 'Upload another file',
-          ariaLabelAdditionalText: `${UPLOAD_TITLE}. ${UPLOAD_DESCRIPTION}`,
-          attachmentType: {
-            'ui:title': 'File type',
-          },
-          attachmentDescription: {
-            'ui:title': 'Document description',
-          },
-          fileUploadUrl: `${baseURL}/upload_supporting_documents`,
-          fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-          createPayload,
-          parseResponse,
-          keepInPageOnReview: true,
-          classNames: 'schemaform-file-upload',
-        },
       }),
     },
   },
