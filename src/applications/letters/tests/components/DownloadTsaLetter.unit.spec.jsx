@@ -213,4 +213,27 @@ describe('DownloadTsaLetter', () => {
     accordion.setAttribute('open', '');
     expect(apiRequestStub.calledOnce).to.be.true;
   });
+
+  it('uses window.webkitURL as fallback when window.URL is not available', async () => {
+    const originalWindowURL = window.URL;
+    window.URL = undefined;
+    apiRequestStub.resolves(mockResponse);
+    const { container } = render(<DownloadTsaLetter letter={mockLetter} />);
+    const accordion = container.querySelector('va-accordion-item');
+    accordion.setAttribute('open', '');
+    if (observerCallback) {
+      observerCallback();
+    }
+    await waitFor(() => {
+      expect(apiRequestStub.calledOnce).to.be.true;
+    });
+    await waitFor(() => {
+      expect(createObjectURLStub.calledOnce).to.be.true;
+      expect(createObjectURLStub.firstCall.args[0]).to.equal(mockBlob);
+    });
+    const link = container.querySelector('va-link');
+    expect(link).to.exist;
+    expect(link.getAttribute('href')).to.equal('blob:mock-url');
+    window.URL = originalWindowURL;
+  });
 });
