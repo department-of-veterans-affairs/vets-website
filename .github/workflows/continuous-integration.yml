@@ -403,6 +403,7 @@ jobs:
           CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
           APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
           IS_STRESS_TEST: false
+          NODE_PATH: src
       
       - name: Archive unit test results
         if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
