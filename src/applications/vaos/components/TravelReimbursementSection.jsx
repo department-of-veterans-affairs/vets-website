@@ -58,9 +58,9 @@ export default function TravelReimbursementSection({ appointment }) {
             Days left to file: {daysRemainingToFileClaim}
           </p>
           <p className="vads-u-margin-y--0p5">
-            You didn’t file a claim for this appointment within the 30 day
-            limit. You can still review and submit your claim. But claims
-            submitted after 30 days are usually denied.
+            You didn’t file a claim for this appointment within the 30-day
+            limit. You can still review and file your claim. But claims filed
+            after 30 days are usually denied.
           </p>
           <p className="vads-u-margin-y--0p5">
             <va-link
@@ -83,15 +83,15 @@ export default function TravelReimbursementSection({ appointment }) {
           onSecondaryButtonClick={() => setShowModal(false)}
           modalTitle="Filing after 30 days"
           primaryButtonText="Yes, I want to file"
-          secondaryButtonText="No, I won't file"
+          secondaryButtonText="No, cancel filing"
           status="warning"
           uswds
         >
           <p>
-            You can still review and submit your claim. But claims submitted
-            after 30 days are usually denied.
+            You can still review and file your claim. But claims filed after 30
+            days are usually denied.
           </p>
-          <p>Do you still want to file a travel claim?</p>
+          <p>Do you still want to file a travel reimbursement claim?</p>
         </VaModal>
       </>
     );
