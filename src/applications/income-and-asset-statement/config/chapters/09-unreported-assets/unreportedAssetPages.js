@@ -19,12 +19,21 @@ import {
   generateDeleteDescription,
   isDefined,
   otherAssetOwnerRelationshipExplanationRequired,
+  otherRecipientRelationshipExplanationRequired,
   requireExpandedArrayField,
+  sharedRecipientRelationshipBase,
   showUpdatedContent,
   sharedYesNoOptionsBase,
 } from '../../../helpers';
-import { relationshipLabels } from '../../../labels';
+import {
+  custodianRelationshipLabels,
+  parentRelationshipLabels,
+  relationshipLabels,
+  relationshipLabelDescriptions,
+  spouseRelationshipLabels,
+} from '../../../labels';
 import { UnreportedAssetsSummaryDescription } from '../../../components/SummaryDescriptions';
+import { DependentDescription } from '../../../components/DependentDescription';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -88,6 +97,7 @@ const updatedTitleNoItems =
   'Did you or your dependents have any assets you haven’t already reported?';
 const updatedTitleWithItems = 'Do you have more assets to report?';
 const summaryPageTitle = 'Other Assets';
+const incomeRecipientPageTitle = 'Unreported asset relationship information';
 const yesNoOptionLabels = {
   Y: 'Yes, I have an asset to report',
   N: 'No, I don’t have an asset to report',
@@ -219,8 +229,162 @@ const parentSummaryPage = {
   },
 };
 
+const updatedSharedRecipientRelationshipBase = {
+  ...sharedRecipientRelationshipBase,
+  title: 'What’s the relationship of the original asset owner to the Veteran?',
+};
+
+const otherRecipientRelationshipTypeUI = {
+  'ui:title':
+    'Describe who owned the asset and how are they related to the Veteran',
+  'ui:webComponentField': VaTextInputField,
+  'ui:options': {
+    expandUnder: 'assetOwnerRelationship',
+    expandUnderCondition: 'OTHER',
+    expandedContentFocus: true,
+  },
+  'ui:required': (formData, index) =>
+    otherRecipientRelationshipExplanationRequired(
+      formData,
+      index,
+      'unreportedAssets',
+    ),
+};
+
 /** @returns {PageSchema} */
-const relationshipPage = {
+const veteranIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Asset owner relationship',
+      nounSingular: options.nounSingular,
+    }),
+    assetOwnerRelationship: radioUI({
+      ...updatedSharedRecipientRelationshipBase,
+      labels: Object.fromEntries(
+        Object.entries(relationshipLabels).filter(
+          ([key]) => key !== 'PARENT' && key !== 'CUSTODIAN',
+        ),
+      ),
+      descriptions: relationshipLabelDescriptions,
+    }),
+    otherAssetOwnerRelationshipType: otherRecipientRelationshipTypeUI,
+    'ui:options': {
+      ...requireExpandedArrayField('otherAssetOwnerRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      assetOwnerRelationship: radioSchema(
+        Object.keys(relationshipLabels).filter(
+          key => key !== 'PARENT' && key !== 'CUSTODIAN',
+        ),
+      ),
+      otherAssetOwnerRelationshipType: { type: 'string' },
+    },
+    required: ['assetOwnerRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const spouseIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Asset owner relationship',
+      nounSingular: options.nounSingular,
+    }),
+    assetOwnerRelationship: radioUI({
+      ...updatedSharedRecipientRelationshipBase,
+      labels: spouseRelationshipLabels,
+      descriptions: Object.fromEntries(
+        Object.entries(relationshipLabelDescriptions).filter(
+          ([key]) => key === 'CHILD',
+        ),
+      ),
+    }),
+    otherAssetOwnerRelationshipType: otherRecipientRelationshipTypeUI,
+    'ui:options': {
+      ...requireExpandedArrayField('otherAssetOwnerRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      assetOwnerRelationship: radioSchema(
+        Object.keys(spouseRelationshipLabels),
+      ),
+      otherAssetOwnerRelationshipType: { type: 'string' },
+    },
+    required: ['assetOwnerRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const custodianIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Asset owner relationship',
+      nounSingular: options.nounSingular,
+    }),
+    assetOwnerRelationship: radioUI({
+      ...updatedSharedRecipientRelationshipBase,
+      labels: custodianRelationshipLabels,
+      descriptions: Object.fromEntries(
+        Object.entries(relationshipLabelDescriptions).filter(
+          ([key]) => key !== 'CHILD',
+        ),
+      ),
+    }),
+    otherAssetOwnerRelationshipType: otherRecipientRelationshipTypeUI,
+    'ui:options': {
+      ...requireExpandedArrayField('otherAssetOwnerRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      assetOwnerRelationship: radioSchema(
+        Object.keys(custodianRelationshipLabels),
+      ),
+      otherAssetOwnerRelationshipType: { type: 'string' },
+    },
+    required: ['assetOwnerRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const parentIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Asset owner relationship',
+      nounSingular: options.nounSingular,
+    }),
+    assetOwnerRelationship: radioUI({
+      ...updatedSharedRecipientRelationshipBase,
+      labels: parentRelationshipLabels,
+      descriptions: {
+        SPOUSE: 'The Veteran’s other parent should file a separate claim',
+      },
+    }),
+    otherAssetOwnerRelationshipType: otherRecipientRelationshipTypeUI,
+    'ui:options': {
+      ...requireExpandedArrayField('otherAssetOwnerRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      assetOwnerRelationship: radioSchema(
+        Object.keys(parentRelationshipLabels),
+      ),
+      otherAssetOwnerRelationshipType: { type: 'string' },
+    },
+    required: ['assetOwnerRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const nonVeteranIncomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Unreported asset owner relationship',
@@ -256,19 +420,20 @@ const relationshipPage = {
 };
 
 /** @returns {PageSchema} */
-const assetTypePage = {
+const informationPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Unreported asset type'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Asset information'),
     assetType: textUI({
-      title: 'What is the type of asset?',
-      hint: 'Cash, art, etc',
+      title: 'What type of asset is it?',
+      hint: 'Examples: Cash, art',
     }),
     ownedPortionValue: currencyUI(
-      'What is the value of your portion of the property?',
+      'How much is your portion of this asset worth?',
     ),
     assetLocation: textUI({
-      title: 'Where is the asset located?',
-      hint: 'Financial institution, property address, etc.',
+      title: 'Asset’s location?',
+      hint:
+        'Name of the financial institution or the property address of the asset location',
     }),
   },
   schema: {
@@ -331,16 +496,77 @@ export const unreportedAssetPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
-  unreportedAssetRelationshipPage: pageBuilder.itemPage({
-    title: 'Unreported asset owner relationship',
-    path: 'unreported-assets/:index/relationship',
-    uiSchema: relationshipPage.uiSchema,
-    schema: relationshipPage.schema,
+  unreportedAssetVeteranRecipientPage: pageBuilder.itemPage({
+    ContentBeforeButtons: showUpdatedContent() ? (
+      <DependentDescription claimantType="VETERAN" />
+    ) : null,
+    title: incomeRecipientPageTitle,
+    path: 'unreported-assets/:index/veteran-income-recipient',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'VETERAN',
+    uiSchema: veteranIncomeRecipientPage.uiSchema,
+    schema: veteranIncomeRecipientPage.schema,
   }),
-  unreportedAssetTypePage: pageBuilder.itemPage({
-    title: 'Unreported asset type',
-    path: 'unreported-assets/:index/asset-type',
-    uiSchema: assetTypePage.uiSchema,
-    schema: assetTypePage.schema,
+  unreportedAssetSpouseRecipientPage: pageBuilder.itemPage({
+    ContentBeforeButtons: showUpdatedContent() ? (
+      <DependentDescription claimantType="SPOUSE" />
+    ) : null,
+    title: incomeRecipientPageTitle,
+    path: 'unreported-assets/:index/spouse-income-recipient',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'SPOUSE',
+    uiSchema: spouseIncomeRecipientPage.uiSchema,
+    schema: spouseIncomeRecipientPage.schema,
+  }),
+  unreportedAssetCustodianRecipientPage: pageBuilder.itemPage({
+    ContentBeforeButtons: showUpdatedContent() ? (
+      <DependentDescription claimantType="CUSTODIAN" />
+    ) : null,
+    title: incomeRecipientPageTitle,
+    path: 'unreported-assets/:index/custodian-income-recipient',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+    uiSchema: custodianIncomeRecipientPage.uiSchema,
+    schema: custodianIncomeRecipientPage.schema,
+  }),
+  unreportedAssetParentRecipientPage: pageBuilder.itemPage({
+    ContentBeforeButtons: showUpdatedContent() ? (
+      <DependentDescription claimantType="PARENT" />
+    ) : null,
+    title: incomeRecipientPageTitle,
+    path: 'unreported-assets/:index/parent-income-recipient',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'PARENT',
+    uiSchema: parentIncomeRecipientPage.uiSchema,
+    schema: parentIncomeRecipientPage.schema,
+  }),
+  unreportedAssetNonVeteranRecipientPage: pageBuilder.itemPage({
+    title: incomeRecipientPageTitle,
+    path: 'unreported-assets/:index/income-recipient',
+    depends: () => !showUpdatedContent(),
+    uiSchema: nonVeteranIncomeRecipientPage.uiSchema,
+    schema: nonVeteranIncomeRecipientPage.schema,
+  }),
+  // When claimantType is 'CHILD' we skip showing the recipient page entirely
+  // To preserve required data, we auto-set assetOwnerRelationship to 'CHILD'
+  unreportedAssetInformationPage: pageBuilder.itemPage({
+    title: 'Unreported asset information',
+    path: 'unreported-assets/:index/information',
+    uiSchema: {
+      ...informationPage.uiSchema,
+      'ui:options': {
+        updateSchema: (formData, formSchema, _uiSchema, index) => {
+          const arrayData = formData?.unreportedAssets || [];
+          const item = arrayData[index];
+          if (formData.claimantType === 'CHILD' && item) {
+            item.assetOwnerRelationship = 'CHILD';
+          }
+          return {
+            ...formSchema,
+          };
+        },
+      },
+    },
+    schema: informationPage.schema,
   }),
 }));
