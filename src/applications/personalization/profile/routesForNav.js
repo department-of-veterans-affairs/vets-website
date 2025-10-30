@@ -101,24 +101,28 @@ const routesForProfile2Nav = [
     name: PROFILE_PATH_NAMES.PERSONAL_INFORMATION,
     path: PROFILE_PATHS.PERSONAL_INFORMATION,
     requiresLOA3: true,
+    requiresMVI: true,
   },
   {
     component: ContactInformation,
     name: PROFILE_PATH_NAMES.CONTACT_INFORMATION,
     path: PROFILE_PATHS.CONTACT_INFORMATION,
     requiresLOA3: true,
+    requiresMVI: true,
   },
   {
     component: MilitaryInformation,
     name: PROFILE_PATH_NAMES.SERVICE_HISTORY_INFORMATION,
     path: PROFILE_PATHS.SERVICE_HISTORY_INFORMATION,
     requiresLOA3: true,
+    requiresMVI: true,
   },
   {
     component: FinancialInformation,
     name: PROFILE_PATH_NAMES.FINANCIAL_INFORMATION,
     path: PROFILE_PATHS.FINANCIAL_INFORMATION,
     requiresLOA3: true,
+    requiresMVI: true,
     hasSubnav: true,
   },
   {
@@ -126,6 +130,7 @@ const routesForProfile2Nav = [
     name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
     path: PROFILE_PATHS.DIRECT_DEPOSIT,
     requiresLOA3: true,
+    requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.FINANCIAL_INFORMATION,
   },
   {
@@ -133,6 +138,7 @@ const routesForProfile2Nav = [
     name: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
     path: PROFILE_PATHS.HEALTH_CARE_SETTINGS,
     requiresLOA3: true,
+    requiresMVI: true,
     hasSubnav: true,
     featureFlag: 'profileHealthCareSettingsPage',
   },
@@ -141,6 +147,7 @@ const routesForProfile2Nav = [
     name: PROFILE_PATH_NAMES.APPOINTMENT_PREFERENCES,
     path: PROFILE_PATHS.APPOINTMENT_PREFERENCES,
     requiresLOA3: true,
+    requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
     featureFlag: 'profileHealthCareSettingsPage',
   },
@@ -149,6 +156,7 @@ const routesForProfile2Nav = [
     name: PROFILE_PATH_NAMES.HEALTH_CARE_CONTACTS,
     path: PROFILE_PATHS.HEALTH_CARE_CONTACTS,
     requiresLOA3: true,
+    requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
     featureFlag: 'profileHealthCareSettingsPage',
   },
@@ -157,6 +165,7 @@ const routesForProfile2Nav = [
     name: PROFILE_PATH_NAMES.SECURE_MESSAGES_SIGNATURE,
     path: PROFILE_PATHS.SECURE_MESSAGES_SIGNATURE,
     requiresLOA3: true,
+    requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
     featureFlag: 'profileHealthCareSettingsPage',
   },
@@ -165,6 +174,7 @@ const routesForProfile2Nav = [
     name: PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
     path: PROFILE_PATHS.DEPENDENTS_AND_CONTACTS,
     requiresLOA3: true,
+    requiresMVI: true,
     hasSubnav: true,
   },
   {
@@ -172,6 +182,7 @@ const routesForProfile2Nav = [
     name: PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE,
     path: PROFILE_PATHS.ACCREDITED_REPRESENTATIVE,
     requiresLOA3: true,
+    requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
   },
   {
@@ -179,6 +190,7 @@ const routesForProfile2Nav = [
     name: PROFILE_PATH_NAMES.LETTERS_AND_DOCUMENTS,
     path: PROFILE_PATHS.LETTERS_AND_DOCUMENTS,
     requiresLOA3: true,
+    requiresMVI: true,
     hasSubnav: true,
   },
   {
@@ -186,6 +198,7 @@ const routesForProfile2Nav = [
     name: PROFILE_PATH_NAMES.VETERAN_STATUS_CARD,
     path: PROFILE_PATHS.VETERAN_STATUS_CARD,
     requiresLOA3: true,
+    requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.LETTERS_AND_DOCUMENTS,
   },
   {
@@ -193,6 +206,7 @@ const routesForProfile2Nav = [
     name: PROFILE_PATH_NAMES.EMAIL_AND_TEXT_NOTIFICATIONS,
     path: PROFILE_PATHS.EMAIL_AND_TEXT_NOTIFICATIONS,
     requiresLOA3: true,
+    requiresMVI: true,
   },
   {
     component: AccountSecurityPage,
@@ -206,6 +220,7 @@ const routesForProfile2Nav = [
     name: PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS,
     path: PROFILE_PATHS.CONNECTED_APPLICATIONS,
     requiresLOA3: true,
+    requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
   },
   {
