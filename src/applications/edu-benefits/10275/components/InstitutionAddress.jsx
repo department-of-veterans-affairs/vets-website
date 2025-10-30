@@ -40,9 +40,21 @@ const InstitutionAddress = ({ uiSchema }) => {
         <>
           <p className="va-address-block" id="institutionAddress">
             {street}
-            {street2 && <>{street2}</>}
-            {street3 && <>{street3}</>}
+            {street2 && (
+              <>
+                <br />
+                {street2}
+              </>
+            )}
+            {street3 && (
+              <>
+                <br />
+                {street3}
+              </>
+            )}
+            <br />
             {city}, {state} {postalCode}
+            <br />
             {country}
           </p>
 
