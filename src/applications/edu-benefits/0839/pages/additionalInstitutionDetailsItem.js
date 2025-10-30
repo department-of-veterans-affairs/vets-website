@@ -11,11 +11,6 @@ import WarningBanner from '../containers/WarningBanner';
 
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const code = (fieldData || '').trim();
-  const isLoading = formData?.isLoading;
-
-  if (isLoading) {
-    return;
-  }
 
   const mainInstitution = formData?.institutionDetails;
 
@@ -43,32 +38,36 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const hasXInThirdPosition =
     code.length === 8 && !badFormat && thirdChar === 'X';
 
-  if (badFormat || notFound) {
-    errors.addError(
-      'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
-    );
-  }
+  if (!currentItem?.isLoading) {
+    if (badFormat || notFound) {
+      errors.addError(
+        'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+      );
+    }
 
-  if (hasXInThirdPosition) {
-    errors.addError('Codes with an "X" in the third position are not eligible');
-  }
+    if (hasXInThirdPosition) {
+      errors.addError(
+        'Codes with an "X" in the third position are not eligible',
+      );
+    }
 
-  if (!branchList.includes(code)) {
-    errors.addError(
-      "This facility code isn't linked to your school's main campus",
-    );
-  }
+    if (!branchList.includes(code)) {
+      errors.addError(
+        "This facility code isn't linked to your school's main campus",
+      );
+    }
 
-  if (notYR) {
-    errors.addError(
-      "The institution isn't eligible for the Yellow Ribbon Program.",
-    );
-  }
+    if (notYR) {
+      errors.addError(
+        "The institution isn't eligible for the Yellow Ribbon Program.",
+      );
+    }
 
-  if (!notYR && !ihlEligible) {
-    errors.addError(
-      'This institution is not an IHL. Please see information below.',
-    );
+    if (!notYR && !ihlEligible) {
+      errors.addError(
+        'This institution is not an IHL. Please see information below.',
+      );
+    }
   }
 };
 
