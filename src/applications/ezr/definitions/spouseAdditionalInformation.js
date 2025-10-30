@@ -9,8 +9,7 @@ import { replaceStrValues } from '../utils/helpers/general';
 import { LAST_YEAR } from '../utils/constants';
 import content from '../locales/en/content.json';
 
-/** @returns {PageSchema} */
-const spouseAdditionalInformationPage = () => ({
+export const spouseAdditionalInformationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       content['household-spouse-addtl-info-title'],
@@ -31,6 +30,4 @@ const spouseAdditionalInformationPage = () => ({
     },
     required: ['sameAddress', 'cohabitedLastYear'],
   },
-});
-
-export default spouseAdditionalInformationPage;
+};
