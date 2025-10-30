@@ -93,15 +93,15 @@ describe('The 21A Character References Page', () => {
 
   it('allows the user to move forward with 3 references', () => {
     cy.visit('/representative');
-    cy.location('pathname').should('eq', '/representative/');
+    cy.location('pathname', { timeout: 1000 }).should('eq', '/representative/');
     cy.visit(baseUrl);
-    cy.location('pathname').should('eq', introUrl);
+    cy.location('pathname', { timeout: 1000 }).should('eq', introUrl);
 
     cy.injectAxe();
     cy.axeCheck();
 
     cy.findByRole('link', { name: /start your application/i }).click();
-    cy.location('pathname').should('eq', personalInfoUrl);
+    cy.location('pathname', { timeout: 1000 }).should('eq', personalInfoUrl);
     cy.visit(characterReferencesUrl);
 
     cy.injectAxe();
@@ -115,7 +115,10 @@ describe('The 21A Character References Page', () => {
     cy.createCharacterReference('Hermione', 'Granger');
     cy.goToNextPage();
 
-    cy.location('pathname').should('eq', supplementaryStatementsIntroUrl);
+    cy.location('pathname', { timeout: 1000 }).should(
+      'eq',
+      supplementaryStatementsIntroUrl,
+    );
 
     cy.injectAxe();
     cy.axeCheck();
@@ -123,15 +126,15 @@ describe('The 21A Character References Page', () => {
 
   it('allows the user to move forward with 4 references', () => {
     cy.visit('/representative');
-    cy.location('pathname').should('eq', '/representative/');
+    cy.location('pathname', { timeout: 1000 }).should('eq', '/representative/');
     cy.visit(baseUrl);
-    cy.location('pathname').should('eq', introUrl);
+    cy.location('pathname', { timeout: 1000 }).should('eq', introUrl);
 
     cy.injectAxe();
     cy.axeCheck();
 
     cy.findByRole('link', { name: /start your application/i }).click();
-    cy.location('pathname').should('eq', personalInfoUrl);
+    cy.location('pathname', { timeout: 1000 }).should('eq', personalInfoUrl);
     cy.visit(characterReferencesUrl);
     cy.findByRole('button', { name: /^Continue$/ }).click();
     cy.createCharacterReference('Harry', 'Potter');
@@ -142,7 +145,10 @@ describe('The 21A Character References Page', () => {
     cy.addNewCharacterReference();
     cy.createCharacterReference('Severus', 'Snape');
     cy.findByRole('button', { name: /^Continue$/i }).click();
-    cy.location('pathname').should('eq', supplementaryStatementsIntroUrl);
+    cy.location('pathname', { timeout: 1000 }).should(
+      'eq',
+      supplementaryStatementsIntroUrl,
+    );
 
     cy.injectAxe();
     cy.axeCheck();
@@ -150,15 +156,15 @@ describe('The 21A Character References Page', () => {
 
   it('shows error if there are only 2 references', () => {
     cy.visit('/representative');
-    cy.location('pathname').should('eq', '/representative/');
+    cy.location('pathname', { timeout: 1000 }).should('eq', '/representative/');
     cy.visit(baseUrl);
-    cy.location('pathname').should('eq', introUrl);
+    cy.location('pathname', { timeout: 1000 }).should('eq', introUrl);
 
     cy.injectAxe();
     cy.axeCheck();
 
     cy.findByRole('link', { name: /start your application/i }).click();
-    cy.location('pathname').should('eq', personalInfoUrl);
+    cy.location('pathname', { timeout: 1000 }).should('eq', personalInfoUrl);
     cy.visit(characterReferencesUrl);
     cy.findByRole('button', { name: /^Continue$/ }).click();
     cy.createCharacterReference('Harry', 'Potter');
@@ -173,20 +179,23 @@ describe('The 21A Character References Page', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.location('pathname').should('eq', characterReferencesSummaryUrl);
+    cy.location('pathname', { timeout: 1000 }).should(
+      'eq',
+      characterReferencesSummaryUrl,
+    );
   });
 
   it('shows error if there is only 1 reference', () => {
     cy.visit('/representative');
-    cy.location('pathname').should('eq', '/representative/');
+    cy.location('pathname', { timeout: 1000 }).should('eq', '/representative/');
     cy.visit(baseUrl);
-    cy.location('pathname').should('eq', introUrl);
+    cy.location('pathname', { timeout: 1000 }).should('eq', introUrl);
 
     cy.injectAxe();
     cy.axeCheck();
 
     cy.findByRole('link', { name: /start your application/i }).click();
-    cy.location('pathname').should('eq', personalInfoUrl);
+    cy.location('pathname', { timeout: 1000 }).should('eq', personalInfoUrl);
     cy.visit(characterReferencesUrl);
     cy.findByRole('button', { name: /^Continue$/ }).click();
     cy.createCharacterReference('Harry', 'Potter');
@@ -200,6 +209,9 @@ describe('The 21A Character References Page', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.location('pathname').should('eq', characterReferencesSummaryUrl);
+    cy.location('pathname', { timeout: 1000 }).should(
+      'eq',
+      characterReferencesSummaryUrl,
+    );
   });
 });
