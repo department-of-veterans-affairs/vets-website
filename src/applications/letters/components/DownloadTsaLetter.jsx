@@ -18,7 +18,8 @@ export const DownloadTsaLetter = ({ letter }) => {
 
   useEffect(
     () => {
-      if (hasFetched) return undefined;
+      let hasFetchedLocal = false;
+
       const getTsaLetterData = () => {
         return apiRequest(
           DOWNLOAD_TSA_LETTER_ENDPOINT(letter.attributes.document_id),
@@ -44,13 +45,16 @@ export const DownloadTsaLetter = ({ letter }) => {
             });
           });
       };
-      const checkOpenState = () => {
+
+      const checkOpenState = async () => {
         const isOpen = ref.current?.hasAttribute('open');
-        if (isOpen && !hasFetched) {
-          getTsaLetterData();
+        if (isOpen && !hasFetchedLocal) {
+          hasFetchedLocal = true;
+          await getTsaLetterData();
           setHasFetched(true);
         }
       };
+
       checkOpenState();
 
       const observer = new MutationObserver(checkOpenState);
@@ -60,13 +64,21 @@ export const DownloadTsaLetter = ({ letter }) => {
       });
 
       return () => {
-        if (letterData) {
-          window.URL.revokeObjectURL(letterData);
-        }
         observer.disconnect();
       };
     },
-    [hasFetched, letter, letterData],
+    [letter],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        if (letterData) {
+          window.URL.revokeObjectURL(letterData);
+        }
+      };
+    },
+    [letterData],
   );
 
   const loading = !hasFetched;
