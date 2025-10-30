@@ -1,6 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+export const AdditionalMarriagesAlert = () => (
+  <va-alert-expandable
+    status="warning"
+    trigger="You'll need to submit VA Form 21-4138"
+    disable-border="true"
+  >
+    <p>
+      You’ll need to submit a Statement in Support of Claim (VA Form 21-4138) as
+      needed to provide the information for each additional marriage.
+    </p>
+    <p>
+      We’ll ask you to upload these documents at the end of this application. Or
+      you can send it to us by mail.
+    </p>
+    <p>
+      <va-link
+        href="/find-forms/about-form-21-4138/"
+        external
+        text="Get VA Form 21-4138 to download"
+      />
+    </p>
+  </va-alert-expandable>
+);
+
 const RequestFormAlert = ({
   title,
   formName,

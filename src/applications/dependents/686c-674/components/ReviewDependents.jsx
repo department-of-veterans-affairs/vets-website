@@ -38,7 +38,7 @@ const ReviewDependents = ({
   );
 
   const renderDependentCard = (dependent, index) => {
-    const { fullName, relationshipToVeteran, age } = dependent;
+    const { fullName, relationshipToVeteran, labeledAge } = dependent;
     const name = `${fullName?.first || ''} ${fullName?.last || ''}`.trim();
     const relationship = relationshipToVeteran || '';
 
@@ -49,7 +49,7 @@ const ReviewDependents = ({
       >
         <h4 className="vads-u-margin-top--0">{name}</h4>
         <span>
-          {relationship} | {age}
+          {relationship}, {labeledAge}
         </span>
       </div>
     );

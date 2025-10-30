@@ -4,13 +4,13 @@ import sinon from 'sinon';
 import { waitFor } from '@testing-library/dom';
 import * as utils from 'applications/vaos/services/utils';
 import EpsAppointmentDetailsPage from './EpsAppointmentDetailsPage';
-import * as actionsModule from './redux/actions';
+import * as actionsModule from '../../../referral-appointments/redux/actions';
 import {
   createTestStore,
   renderWithStoreAndRouter,
-} from '../tests/mocks/setup';
-import { createMockEpsAppointment } from './utils/appointment';
-import * as epsAppointmentUtils from './utils/appointment';
+} from '../../../tests/mocks/setup';
+import { createMockEpsAppointment } from '../../../referral-appointments/utils/appointment';
+import * as epsAppointmentUtils from '../../../referral-appointments/utils/appointment';
 
 describe('EpsAppointmentDetailsPage', () => {
   let requestStub;
@@ -28,6 +28,9 @@ describe('EpsAppointmentDetailsPage', () => {
       appointmentInfoError: false,
       appointmentInfoLoading: false,
       referralAppointmentInfo,
+    },
+    featureToggles: {
+      vaOnlineSchedulingCommunityCareCancellations: false,
     },
   };
 
@@ -344,5 +347,53 @@ describe('EpsAppointmentDetailsPage', () => {
     const description = container.getByTestId('appointment-time-description');
     expect(description).to.exist;
     expect(description.textContent).to.include('Eastern time (ET)'); // Full timezone description
+  });
+
+  it('should not show cancel appointment button when community care cancellations flipper is disabled', async () => {
+    requestStub.resolves({ data: referralAppointmentInfo });
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingCommunityCareCancellations: false,
+      },
+    });
+    const { getByTestId, queryByTestId } = renderWithStoreAndRouter(
+      <EpsAppointmentDetailsPage />,
+      {
+        store,
+        path: `/${appointmentId}`,
+      },
+    );
+    await waitFor(() => {
+      expect(getByTestId('appointment-card')).to.exist;
+    });
+    await waitFor(() => {
+      expect(queryByTestId('cancel-button')).not.to.exist;
+    });
+  });
+
+  it('should show cancel appointment button when community care cancellations flipper is enabled', async () => {
+    requestStub.resolves({ data: referralAppointmentInfo });
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingCommunityCareCancellations: true,
+      },
+    });
+    const { getByTestId } = renderWithStoreAndRouter(
+      <EpsAppointmentDetailsPage />,
+      {
+        store,
+        path: `/${appointmentId}`,
+      },
+    );
+    await waitFor(() => {
+      expect(getByTestId('appointment-card')).to.exist;
+    });
+    await waitFor(() => {
+      expect(getByTestId('cancel-button')).to.exist;
+    });
   });
 });

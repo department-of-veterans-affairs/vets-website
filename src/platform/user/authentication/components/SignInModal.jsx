@@ -34,6 +34,7 @@ export default function SignInModal() {
       visible={visible}
       onCloseEvent={onClose}
       id="signin-signup-modal"
+      label="sign-in"
     >
       <LoginContainer />
     </VaModal>
