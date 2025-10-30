@@ -27,34 +27,19 @@ const NameTag = ({
 
   const fullName = formatFullName({ first, middle, last, suffix });
 
-  const updatedWrapperClasses = prefixUtilityClasses([
-    'margin-bottom--0',
-    'padding-y--2',
-  ]);
-
-  const wrapperClassesMedium = prefixUtilityClasses(
-    ['padding-y--2p5', 'margin-bottom--2'],
-    'medium',
-  );
-
-  // the inner content of the header banner
-  const innerWrapperClasses = prefixUtilityClasses([
+  const wrapperClasses = prefixUtilityClasses([
     'align-items--center',
     'display--flex',
-    'flex-direction--column',
+    'flex-direction--row',
     'width--full',
-    'padding-x--2',
+    'padding--2',
   ]);
-  const innerWrapperClassesMedium = prefixUtilityClasses(
-    ['flex-direction--row'],
-    'medium',
-  );
 
-  const serviceBadgeClasses = prefixUtilityClasses(['display--none']);
-  const serviceBadgeClassesMedium = prefixUtilityClasses(
-    ['display--flex', 'justify-content--flex-end', 'margin-bottom--0'],
-    'medium',
-  );
+  const serviceBadgeClasses = prefixUtilityClasses([
+    'display--flex',
+    'justify-content--flex-end',
+    'margin-bottom--0',
+  ]);
 
   const titleClasses = prefixUtilityClasses([
     'display--none',
@@ -64,7 +49,6 @@ const NameTag = ({
     'margin-bottom--2',
     'margin-top--0',
   ]);
-  const titleClassesMedium = prefixUtilityClasses(['display--flex'], 'medium');
 
   const fullNameClasses = prefixUtilityClasses([
     'font-family--serif',
@@ -72,12 +56,7 @@ const NameTag = ({
     'font-weight--bold',
     'line-height--3',
     'margin-top--0',
-    'text-align--center',
   ]);
-  const fullNameClassesMedium = prefixUtilityClasses(
-    ['text-align--left'],
-    'medium',
-  );
 
   const latestBranchClasses = prefixUtilityClasses([
     'font-family--sans',
@@ -85,29 +64,14 @@ const NameTag = ({
     'font-weight--normal',
     'line-height--3',
     'margin--0',
-    'text-align--center',
   ]);
-  const latestBranchClassesMedium = prefixUtilityClasses(
-    ['text-align--left'],
-    'medium',
-  );
 
   const classes = {
-    wrapper: [...updatedWrapperClasses, ...wrapperClassesMedium].join(' '),
-    innerWrapper: [
-      ...innerWrapperClasses,
-      ...innerWrapperClassesMedium,
-      'usa-grid',
-      'usa-grid-full',
-    ].join(' '),
-    serviceBadge: [...serviceBadgeClasses, ...serviceBadgeClassesMedium].join(
-      ' ',
-    ),
-    title: [...titleClasses, ...titleClassesMedium].join(' '),
-    fullName: [...fullNameClasses, ...fullNameClassesMedium].join(' '),
-    latestBranch: [...latestBranchClasses, ...latestBranchClassesMedium].join(
-      ' ',
-    ),
+    wrapper: [...wrapperClasses, 'usa-grid', 'usa-grid-full'].join(' '),
+    serviceBadge: [...serviceBadgeClasses].join(' '),
+    title: [...titleClasses].join(' '),
+    fullName: [...fullNameClasses].join(' '),
+    latestBranch: [...latestBranchClasses].join(' '),
   };
 
   const ariaLabel = 'My information';
@@ -115,41 +79,39 @@ const NameTag = ({
   return (
     <VaCard
       aria-label={ariaLabel}
-      className={classes.wrapper}
       data-testid="name-tag"
+      className={classes.wrapper}
     >
-      <div className={classes.innerWrapper}>
-        <div className={classes.serviceBadge}>
-          {showBadgeImage && (
-            <img
-              src={SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService)}
-              alt={`${latestBranchOfService} seal`}
-              className="vads-u-padding-right--3"
-              style={{ maxHeight: '75px' }}
-            />
-          )}
-        </div>
-        <div>
-          <dl className="vads-u-margin-y--0">
-            <dt className="sr-only">Name: </dt>
-            <dd className={classes.fullName}>{fullName}</dd>
-            {latestBranchOfService && (
-              <>
-                <dt className="sr-only">Branch of service: </dt>
-                <dd className={classes.latestBranch}>
-                  {getServiceBranchDisplayName(latestBranchOfService)}
-                </dd>
-              </>
-            )}
-          </dl>
-          <VaLink
-            active
-            className="vads-u-display--block vads-u-margin-top--2"
-            href={PROFILE_PATHS.VETERAN_STATUS_CARD}
-            text={PROFILE_PATH_NAMES.VETERAN_STATUS_CARD}
-            onClick={event => handleRouteChange(event, history)}
+      <div className={classes.serviceBadge}>
+        {showBadgeImage && (
+          <img
+            src={SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService)}
+            alt={`${latestBranchOfService} seal`}
+            className="vads-u-padding-right--3"
+            style={{ maxHeight: '75px' }}
           />
-        </div>
+        )}
+      </div>
+      <div>
+        <dl className="vads-u-margin-y--0">
+          <dt className="sr-only">Name: </dt>
+          <dd className={classes.fullName}>{fullName}</dd>
+          {latestBranchOfService && (
+            <>
+              <dt className="sr-only">Branch of service: </dt>
+              <dd className={classes.latestBranch}>
+                {getServiceBranchDisplayName(latestBranchOfService)}
+              </dd>
+            </>
+          )}
+        </dl>
+        <VaLink
+          active
+          className="vads-u-display--block vads-u-margin-top--2"
+          href={PROFILE_PATHS.VETERAN_STATUS_CARD}
+          text={PROFILE_PATH_NAMES.VETERAN_STATUS_CARD}
+          onClick={event => handleRouteChange(event, history)}
+        />
       </div>
     </VaCard>
   );
