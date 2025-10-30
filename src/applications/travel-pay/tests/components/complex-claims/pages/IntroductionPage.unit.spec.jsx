@@ -122,7 +122,7 @@ describe('Travel Pay – IntroductionPage', () => {
             element={<IntroductionPage appointment={mockAppointment} />}
           />
           <Route
-            path="/file-new-claim/complex/:apptId/choose-expense"
+            path="/file-new-claim/:apptId/:claimId/choose-expense"
             element={<ChooseExpenseType />}
           />
         </Routes>
@@ -138,7 +138,7 @@ describe('Travel Pay – IntroductionPage', () => {
     fireEvent.click(linkAction);
 
     expect(getByTestId('location-display').textContent).to.equal(
-      '/file-new-claim/complex/12345/choose-expense',
+      '/file-new-claim/12345/45678/choose-expense',
     );
   });
 
