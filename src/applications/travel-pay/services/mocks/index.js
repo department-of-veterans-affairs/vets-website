@@ -1,6 +1,15 @@
 const fs = require('fs');
 const delay = require('mocker-api/lib/delay');
 
+// Generate a UUID v4
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.floor(Math.random() * 16);
+    const v = c === 'x' ? r : (r % 4) + 8;
+    return v.toString(16);
+  });
+}
+
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
 const travelClaims = require('./travel-claims-31.json');
 
@@ -122,6 +131,41 @@ const responses = {
   //     ],
   //   });
   // },
+
+  // Creating a new complex claim
+  'POST /travel_pay/v0/complex_claims': {
+    claimId: generateUUID(),
+    claimNumber: 'TC0000000002',
+    status: 'InProgress',
+    appointmentDateTime: '2024-01-15T10:00:00Z',
+  },
+
+  // Submitting a complex claim
+  'PATCH /travel_pay/v0/complex_claims': {
+    claimId: 'a1f33265-014a-4dc6-93ae-66a29b94675b',
+    claimNumber: 'TC0000000002',
+    status: 'Submitted',
+    submittedOn: '2024-01-15T15:30:00Z',
+  },
+
+  // Creating expenses
+  'POST /travel_pay/v0/expenses/mileage': {
+    id: generateUUID(),
+  },
+
+  // Updating expense
+  'PATCH /travel_pay/v0/expenses/mileage/:expenseId': (req, res) => {
+    return res.json({
+      id: req.params.expenseId,
+    });
+  },
+
+  // Deleting expenses
+  'DELETE /travel_pay/v0/expenses/:expenseType/:expenseId': (req, res) => {
+    return res.status(200).json({
+      id: req.params.expenseId,
+    });
+  },
 
   // Get travel-pay appointment
   'GET /vaos/v2/appointments/:id': (req, res) => {

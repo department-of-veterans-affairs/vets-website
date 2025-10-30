@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import {
@@ -17,30 +17,28 @@ describe('Travel Pay – ReviewPage', () => {
   const apptId = '12345';
   const claimId = '45678';
 
-  const defaultClaim = [
-    {
-      claimId,
-      expenses: [
-        {
-          id: 'expense1',
-          expenseType: 'Mileage',
-          tripType: 'OneWay',
-          address: {
-            addressLine1: '123 Main St',
-            addressLine2: 'Suite 100',
-            city: 'Denver',
-            stateCode: 'CO',
-            zipCode: '80202',
-          },
+  const defaultClaim = {
+    claimId,
+    expenses: [
+      {
+        id: 'expense1',
+        expenseType: 'Mileage',
+        tripType: 'OneWay',
+        address: {
+          addressLine1: '123 Main St',
+          addressLine2: 'Suite 100',
+          city: 'Denver',
+          stateCode: 'CO',
+          zipCode: '80202',
         },
-        {
-          id: 'expense2',
-          expenseType: 'Parking',
-          tripType: 'OneWay',
-        },
-      ],
-    },
-  ];
+      },
+      {
+        id: 'expense2',
+        expenseType: 'Parking',
+        tripType: 'OneWay',
+      },
+    ],
+  };
 
   const LocationDisplay = () => {
     const location = useLocation();
@@ -50,15 +48,38 @@ describe('Travel Pay – ReviewPage', () => {
   const getData = () => ({
     travelPay: {
       claimSubmission: { isSubmitting: false, error: null, data: null },
+      claimDetails: {
+        data: {
+          [claimId]: defaultClaim,
+        },
+      },
+    },
+    user: {
+      profile: {
+        vapContactInfo: {
+          residentialAddress: {
+            addressLine1: '123 Test St',
+            addressLine2: '',
+            city: 'Test City',
+            stateCode: 'CO',
+            zipCode: '80202',
+          },
+        },
+      },
     },
   });
 
-  it('renders the review page with expenses and alert', () => {
+  it('renders the review page with expenses and alert', async () => {
     const { getByTestId, getByRole, container } = renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
       >
-        <ReviewPage claim={defaultClaim} />
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+        </Routes>
       </MemoryRouter>,
       {
         initialState: getData(),
@@ -82,8 +103,10 @@ describe('Travel Pay – ReviewPage', () => {
     // Sign agreement button
     expect($('#sign-agreement-button', container)).to.exist;
 
-    // ExpenseCard should render
-    expect($('va-accordion-item', container)).to.exist;
+    // Wait for expenses to load and render accordion items
+    await waitFor(() => {
+      expect($('va-accordion-item', container)).to.exist;
+    });
 
     // SummaryBox should render
     expect($('va-summary-box', container)).to.exist;
@@ -97,7 +120,7 @@ describe('Travel Pay – ReviewPage', () => {
         <Routes>
           <Route
             path="/file-new-claim/:apptId/:claimId/review"
-            element={<ReviewPage claim={defaultClaim} />}
+            element={<ReviewPage />}
           />
         </Routes>
         <LocationDisplay />
@@ -125,7 +148,12 @@ describe('Travel Pay – ReviewPage', () => {
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
       >
-        <ReviewPage claim={defaultClaim} />
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+        </Routes>
       </MemoryRouter>,
       {
         initialState: getData(),
@@ -144,12 +172,17 @@ describe('Travel Pay – ReviewPage', () => {
     expect(alert).to.exist;
   });
 
-  it('renders multiple expenses correctly', () => {
+  it('renders multiple expenses correctly', async () => {
     const { container } = renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
       >
-        <ReviewPage claim={defaultClaim} />
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+        </Routes>
       </MemoryRouter>,
       {
         initialState: getData(),
@@ -157,9 +190,12 @@ describe('Travel Pay – ReviewPage', () => {
       },
     );
 
-    // Check that each expense type has an accordion item
-    const accordionItems = container.querySelectorAll('va-accordion-item');
-    expect(accordionItems.length).to.equal(2);
+    // Wait for expenses to load and render
+    await waitFor(() => {
+      // Check that each expense type has an accordion item
+      const accordionItems = container.querySelectorAll('va-accordion-item');
+      expect(accordionItems.length).to.equal(2);
+    });
 
     // ExpenseCard rendered
     const mileageCard = container.querySelector('va-accordion-item div');
@@ -174,7 +210,7 @@ describe('Travel Pay – ReviewPage', () => {
         <Routes>
           <Route
             path="/file-new-claim/:apptId/:claimId/review"
-            element={<ReviewPage claim={defaultClaim} />}
+            element={<ReviewPage />}
           />
         </Routes>
         <LocationDisplay />
