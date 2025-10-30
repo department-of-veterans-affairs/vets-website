@@ -12,10 +12,7 @@ export default function EpsCancellationLayout({
       {/* TODO: https://github.com/department-of-veterans-affairs/va.gov-team/issues/122972 */}
       <p>Cancellation appointment detail card goes here</p>
       {!cancellationConfirmed && (
-        <div
-          className="vads-u-display--flex vads-u-margin-top--4 vaos-appts__block-label vads-u-flex-direction--column  vaos-hide-for-print"
-          style={{ rowGap: '16px' }}
-        >
+        <div className="vads-u-display--flex vads-u-margin-top--4 vaos-appts__block-label vads-u-flex-direction--column  vaos-hide-for-print  vaos-form__button-container">
           <VaButton
             text="Yes, cancel appointment"
             onClick={() => {
