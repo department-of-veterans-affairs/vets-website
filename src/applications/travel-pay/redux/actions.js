@@ -303,7 +303,7 @@ export function deleteExpense(claimId, expenseType, expenseId) {
 
       const expenseUrl = `${
         environment.API_URL
-      }/travel_pay/v0/expenses/${expenseType}/${expenseId}`;
+      }/travel_pay/v0/expenses/${expenseType.toLowerCase()}/${expenseId}`;
       await apiRequest(expenseUrl, options);
       dispatch(deleteExpenseSuccess(claimId, expenseId));
     } catch (error) {

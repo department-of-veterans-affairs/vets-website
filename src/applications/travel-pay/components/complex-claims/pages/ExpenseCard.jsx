@@ -24,10 +24,8 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
   const header = `${expenseType} expense`;
 
   const deleteExpense = async () => {
-    setShowDeleteModal(false); // Close modal immediately
-    await dispatch(
-      deleteExpenseAction(claimId, expenseType.toLowerCase(), expenseId),
-    );
+    setShowDeleteModal(false);
+    await dispatch(deleteExpenseAction(claimId, expenseType, expenseId));
   };
 
   return (
