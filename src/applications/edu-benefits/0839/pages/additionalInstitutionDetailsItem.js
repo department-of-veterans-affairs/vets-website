@@ -29,10 +29,15 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
 
   const branchList = [...branches, ...extensions];
 
+  // Find the current item in the additionalInstitutionDetails array
+  const currentItem = formData?.additionalInstitutionDetails?.find(
+    item => item?.facilityCode === code,
+  );
+
   const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
-  const notFound = formData?.institutionName === 'not found';
-  const notIHL = !formData?.ihlEligible;
-  const notYR = formData?.yrEligible === false;
+  const notFound = currentItem?.institutionName === 'not found';
+  const ihlEligible = currentItem?.ihlEligible;
+  const notYR = currentItem?.yrEligible === false;
   const thirdChar = code?.charAt(2).toUpperCase();
 
   const hasXInThirdPosition =
@@ -60,7 +65,7 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
     );
   }
 
-  if (!notYR && notIHL) {
+  if (!notYR && !ihlEligible) {
     errors.addError(
       'This institution is not an IHL. Please see information below.',
     );

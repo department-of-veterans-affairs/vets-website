@@ -52,7 +52,8 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             ? attrs.programTypes
             : [];
           const ihlEligible =
-            attrs.programTypes === null ? null : programTypes.includes('IHL');
+            attrs.programTypes === null ? false : programTypes.includes('IHL');
+
           const institutionAddress = {
             street: attrs.address1 || '',
             street2: attrs.address2 || '',
