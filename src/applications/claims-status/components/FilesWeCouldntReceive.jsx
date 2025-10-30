@@ -13,6 +13,7 @@ import { usePagination } from '../hooks/usePagination';
 import { fetchFailedUploads } from '../actions';
 import { buildDateFormatter } from '../utils/helpers';
 import { setPageFocus } from '../utils/page';
+import { ITEMS_PER_PAGE } from '../constants';
 import NeedHelp from './NeedHelp';
 
 const FilesWeCouldntReceive = () => {
@@ -50,7 +51,7 @@ const FilesWeCouldntReceive = () => {
 
   const handlePageSelect = page => {
     onPageSelect(page);
-    setPageFocus('#files-not-received-section');
+    setPageFocus('#pagination-info');
   };
 
   useEffect(
@@ -121,6 +122,18 @@ const FilesWeCouldntReceive = () => {
                     by mail or in person, by you or by others, don’t appear in
                     this tool.
                   </p>
+
+                  {shouldPaginate &&
+                    (() => {
+                      const listLen = sortedFailedFiles.length;
+                      const start = (currentPage - 1) * ITEMS_PER_PAGE + 1;
+                      const end = Math.min(
+                        currentPage * ITEMS_PER_PAGE,
+                        listLen,
+                      );
+                      const txt = `Showing ${start} \u2012 ${end} of ${listLen} items`;
+                      return <p id="pagination-info">{txt}</p>;
+                    })()}
 
                   {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
                   <ul
