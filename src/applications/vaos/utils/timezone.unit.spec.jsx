@@ -356,7 +356,7 @@ describe('VAOS Utils: timezone', () => {
       );
     });
 
-    it.skip('should return abbreviation for unsupported timezones', () => {
+    it('should return abbreviation for unsupported timezones', () => {
       // Test with a timezone without DST that doesn't have a mapping in
       // TIMEZONE_LABELS and is not in GMT_TABLE_MAPPING
       const result = getTimezoneDescByTimeZoneString('Asia/Dubai');
