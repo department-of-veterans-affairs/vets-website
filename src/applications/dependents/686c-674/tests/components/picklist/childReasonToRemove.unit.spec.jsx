@@ -251,6 +251,14 @@ describe('childReasonToRemove', () => {
       ).to.equal('child-death');
     });
 
+    it('should return "stepchild-financial-support" on goForward', () => {
+      expect(
+        childReasonToRemove.handlers.goForward({
+          itemData: { removalReason: 'stepchildNotMember' },
+        }),
+      ).to.equal('stepchild-financial-support');
+    });
+
     it('should call goForward when removal reason is set on submit', () => {
       const goForward = sinon.spy();
       childReasonToRemove.handlers.onSubmit({
