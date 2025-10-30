@@ -21,15 +21,13 @@ describe('21-4140 utils/skipToContent', () => {
     window.focusContent = originalFocusContent;
     window.scrollTo = originalScrollTo;
     if (originalPageYOffsetDescriptor) {
-      Object.defineProperty(
-        window,
-        'pageYOffset',
-        originalPageYOffsetDescriptor,
-      );
+      Object.defineProperty(window, 'pageYOffset', originalPageYOffsetDescriptor);
     } else {
       delete window.pageYOffset;
     }
-    document.body.innerHTML = '';
+    if (typeof document !== 'undefined') {
+      document.body.innerHTML = '';
+    }
   });
 
   it('delegates to window.focusContent when available', () => {
@@ -54,7 +52,7 @@ describe('21-4140 utils/skipToContent', () => {
     main.focus = focusSpy;
 
     let blurHandler;
-    const addEventListener = sinon.spy((name, handler) => {
+    const addEventListener = sinon.spy((name, handler, useCapture) => {
       if (name === 'blur') {
         blurHandler = handler;
       }
@@ -79,11 +77,7 @@ describe('21-4140 utils/skipToContent', () => {
     expect(main.getAttribute('tabindex')).to.equal('-1');
     expect(blurHandler).to.be.a('function');
     expect(addEventListener.calledOnce).to.be.true;
-    expect(addEventListener.firstCall.args).to.deep.equal([
-      'blur',
-      blurHandler,
-      true,
-    ]);
+    expect(addEventListener.firstCall.args).to.deep.equal(['blur', blurHandler, true]);
     expect(scrollToStub.calledOnce).to.be.true;
     expect(scrollToStub.firstCall.args).to.deep.equal([0, 175]);
     expect(focusSpy.calledOnce).to.be.true;
@@ -91,11 +85,7 @@ describe('21-4140 utils/skipToContent', () => {
     blurHandler();
 
     expect(removeEventListener.calledOnce).to.be.true;
-    expect(removeEventListener.firstCall.args).to.deep.equal([
-      'blur',
-      blurHandler,
-      true,
-    ]);
+    expect(removeEventListener.firstCall.args).to.deep.equal(['blur', blurHandler, true]);
     expect(main.hasAttribute('tabindex')).to.be.false;
 
     getBoundingClientRectStub.restore();
@@ -120,9 +110,74 @@ describe('21-4140 utils/skipToContent', () => {
 
     expect(event.preventDefault.calledOnce).to.be.true;
     expect(scrollIntoViewSpy.calledOnce).to.be.true;
-    expect(scrollIntoViewSpy.firstCall.args).to.deep.equal([
-      { block: 'start' },
-    ]);
+    expect(scrollIntoViewSpy.firstCall.args).to.deep.equal([{ block: 'start' }]);
     expect(focusSpy.calledOnce).to.be.true;
+  });
+
+  it('gracefully handles environments without document', () => {
+    const event = { preventDefault: sinon.spy() };
+    const originalDocument = global.document;
+    // eslint-disable-next-line no-undef
+    delete global.document;
+
+    try {
+      skipToContent(event);
+    } finally {
+      global.document = originalDocument;
+    }
+
+    expect(event.preventDefault.calledOnce).to.be.true;
+  });
+
+  it('exits early when the main content target is missing', () => {
+    const event = { preventDefault: sinon.spy() };
+    const querySelectorStub = sinon
+      .stub(document, 'querySelector')
+      .returns(null);
+    window.focusContent = undefined;
+
+    skipToContent(event);
+
+    expect(event.preventDefault.calledOnce).to.be.true;
+    expect(querySelectorStub.calledOnceWithExactly('#main-content')).to.be.true;
+
+    querySelectorStub.restore();
+  });
+
+  it('leaves an existing tabindex untouched while wiring blur cleanup', () => {
+    const event = { preventDefault: sinon.spy() };
+    const main = document.createElement('div');
+    main.id = 'main-content';
+    main.setAttribute('tabindex', '0');
+    document.body.appendChild(main);
+
+    window.focusContent = undefined;
+
+    let blurHandler;
+    main.addEventListener = sinon.spy((name, handler, useCapture) => {
+      if (name === 'blur') {
+        blurHandler = handler;
+      }
+      return { name, handler, useCapture };
+    });
+    main.removeEventListener = sinon.spy();
+    main.focus = sinon.spy();
+
+    const scrollToStub = sinon.stub(window, 'scrollTo');
+
+    skipToContent(event);
+
+    expect(event.preventDefault.calledOnce).to.be.true;
+    expect(main.getAttribute('tabindex')).to.equal('0');
+    expect(typeof blurHandler).to.equal('function');
+    expect(scrollToStub.calledOnce).to.be.true;
+
+    blurHandler();
+
+    expect(main.getAttribute('tabindex')).to.equal('0');
+    expect(main.removeEventListener.calledWith('blur', blurHandler, true)).to.be
+      .true;
+
+    scrollToStub.restore();
   });
 });
