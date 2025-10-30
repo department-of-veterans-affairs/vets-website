@@ -178,6 +178,7 @@ export const Form526Entry = ({
     // Current recommendation is to record 100% and filter in DD retention filters, since swap to unlimited plan?
     // Will confirm
     sessionReplaySampleRate: 100,
+    // sessionReplaySampleRate: environment.vspEnvironment() === 'staging' ? 100 : 10,
   });
 
   if (!loggedIn) {
