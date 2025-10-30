@@ -9,7 +9,7 @@ import { replaceStrValues } from '../utils/helpers/general';
 import { LAST_YEAR } from '../utils/constants';
 import content from '../locales/en/content.json';
 
-const spouseFinancialSupportPage = () => ({
+export const spouseFinancialSupportPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       content['household-spouse-support-title'],
@@ -28,6 +28,4 @@ const spouseFinancialSupportPage = () => ({
     },
     required: ['provideSupportLastYear'],
   },
-});
-
-export default spouseFinancialSupportPage;
+};
