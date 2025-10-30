@@ -41,9 +41,11 @@
       "module-resolver",
       {
         "root": "./src",
-        "extensions": [".js", ".jsx", ".json"],
+        "extensions": [".js", ".jsx", ".json", ".ts", ".tsx"],
         "alias": {
           "~": "./src",
+          "platform": ".src/platform",
+          "applications": "./src/applications",
           "@@vap-svc": "./src/platform/user/profile/vap-svc",
           "@@profile": "./src/applications/personalization/profile",
           "@bio-aquia": "./src/applications/benefits-optimization-aquia",
