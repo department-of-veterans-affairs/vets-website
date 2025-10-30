@@ -4,66 +4,44 @@ import { useSelector } from 'react-redux';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import EnteredPointOfContact from '../components/EnteredPointOfContact';
 
-const nameFrom = person => {
-  const fn = person?.fullName || {};
-  return [fn?.first, fn?.middle, fn?.last].filter(Boolean).join(' ');
-};
+const nameFrom = person =>
+  [person?.fullName?.first, person?.fullName?.middle, person?.fullName?.last]
+    .filter(Boolean)
+    .join(' ');
 
-const toKey = obj => `k_${btoa(JSON.stringify(obj)).slice(0, 12)}`;
+const buildContacts = full => {
+  const items = [];
 
-export const buildContactOptions = formData => {
-  const contacts = [];
-  if (!formData?.newCommitment) {
-    return [
-      {
-        key: 'none',
-        label: 'None of the above, I will enter a new point of contact',
-        data: 'none',
-      },
-    ];
-  }
+  // School Certifying Official
+  const sco = full?.newCommitment?.schoolCertifyingOfficial;
+  const scoName = sco && nameFrom(sco);
+  if (scoName)
+    items.push({
+      value: 'sco',
+      label: `${scoName}\n${sco?.email || ''}`,
+    });
 
-  const poe = formData.newCommitment?.principlesOfExcellencePointOfContact;
-  const sco = formData.newCommitment?.schoolCertifyingOfficial;
-
-  const pushContact = c => {
-    // Multiple safety checks to prevent undefined access
-    if (!c) return;
-    if (!c.fullName) return;
-    if (typeof c.fullName !== 'object') return;
-    if (!c.fullName.first) return;
-
-    try {
-      const fullName = nameFrom(c);
-      if (!fullName) return;
-      const data = {
-        fullName: c.fullName,
-        title: c?.title || '',
-        email: c?.email || '',
-      };
-      contacts.push({
-        key: toKey(data),
-        label: fullName,
-        email: data.email,
-        data,
-      });
-    } catch (error) {
-      console.warn('Error processing contact:', error);
-    }
+  const poe = full?.newCommitment?.principlesOfExcellencePointOfContact;
+  const poeName = poe && nameFrom(poe);
+  if (poeName)
+    items.push({
+      value: 'poe',
+      label: `${poeName}\n${poe?.email || ''}`,
+    });
+  full?.additionalLocations?.forEach((location, idx) => {
+    const fn = location?.fullName || {};
+    const name = [fn.first, fn.middle, fn.last].filter(Boolean).join(' ');
+    const email = location?.email || '';
+    if (!name && !email) return;
+    items.push({
+      value: `new-${idx}`,
+      label: `${name}\n${email}`,
+    });
+  });
+  return {
+    enum: ['none', ...items.map(i => i.value)],
+    enumNames: ['None of the above', ...items.map(i => i.label)],
   };
-
-  pushContact(sco);
-  pushContact(poe);
-
-  return [
-    ...contacts,
-    {
-      key: 'none',
-      label: 'None of the above, I will enter a new point of contact',
-      email: null,
-      data: 'none',
-    },
-  ];
 };
 
 export const uiSchema = {
@@ -76,36 +54,48 @@ export const uiSchema = {
     'ui:title':
       'Select a name below to use them as the point of contact for this additional location.',
     'ui:widget': props => {
-      const WidgetComponent = () => {
-        const formData = useSelector(state => state.form.data);
-        const options = buildContactOptions(formData);
-        let parsedValue = props.value;
-        if (typeof props.value === 'string' && props.value !== 'none') {
-          try {
-            parsedValue = JSON.parse(props.value);
-          } catch (e) {
-            parsedValue = props.value;
-          }
-        }
-        const handleChange = value => {
-          if (value === 'none') {
-            props.onChange('none');
-          } else if (typeof value === 'object') {
-            props.onChange(JSON.stringify(value));
-          } else {
-            props.onChange(value);
-          }
+      const Widget = () => {
+        const full = useSelector(state => state.form.data);
+        // Build options for the custom widget
+        const options = [];
+        const sco = full?.newCommitment?.schoolCertifyingOfficial;
+        const poe = full?.newCommitment?.principlesOfExcellencePointOfContact;
+        const push = (key, contact) => {
+          const nm = contact && nameFrom(contact);
+          if (!nm) return;
+          options.push({ key, label: nm, email: contact?.email || '' });
         };
+        push('sco', sco);
+        push('poe', poe);
+        // Also include any additionalLocations entries (new POCs captured earlier)
+        full?.additionalLocations?.forEach((loc, idx) => {
+          const fn = loc?.fullName || {};
+          const name = [fn.first, fn.middle, fn.last].filter(Boolean).join(' ');
+          const email = loc?.email || '';
+          if (!name && !email) return;
+          options.push({ key: `new-${idx}`, label: name, email });
+        });
+        options.push({
+          key: 'none',
+          label: 'None of the above, I will enter a new point of contact',
+          email: '',
+        });
 
+        const valueKey = typeof props.value === 'string' ? props.value : 'none';
         return (
           <EnteredPointOfContact
-            value={parsedValue}
-            onChange={handleChange}
+            value={valueKey}
+            onChange={props.onChange}
             options={options}
           />
         );
       };
-      return <WidgetComponent />;
+      return <Widget />;
+    },
+    'ui:options': {
+      // On array item pages use the full form data argument
+      updateSchema: (_itemData, _itemSchema, _ui, _idx, _path, fullFormData) =>
+        buildContacts(fullFormData),
     },
   },
 };
@@ -115,6 +105,9 @@ export const schema = {
   properties: {
     previouslyEnteredPointOfContact: {
       type: 'string',
+      enum: ['none'],
+      enumNames: ['None of the above'],
     },
   },
+  required: ['previouslyEnteredPointOfContact'],
 };

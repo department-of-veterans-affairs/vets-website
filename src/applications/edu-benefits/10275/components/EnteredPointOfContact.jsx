@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaRadio,
@@ -6,29 +6,29 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const EnteredPointOfContact = ({ value, onChange, options = [] }) => {
-  const byKey = Object.fromEntries(options.map(o => [o.key, o]));
-  const keyByData = new Map(options.map(o => [JSON.stringify(o.data), o.key]));
-  const currentKey = (() => {
-    if (value === 'none') return 'none';
-    if (value && typeof value === 'object') {
-      const k = keyByData.get(JSON.stringify(value));
-      return k || 'none';
-    }
-    return 'none';
-  })();
+  // Controlled by key string in form data
+  const currentKey = typeof value === 'string' ? value : 'none';
+
+  // Keep a local selection to avoid flicker/deselect during intermediate renders
+  const [selectedKey, setSelectedKey] = useState(currentKey);
+  useEffect(
+    () => {
+      setSelectedKey(currentKey);
+    },
+    [currentKey],
+  );
 
   const handleChange = e => {
     const k = e?.detail?.value;
     if (!k) return;
-    const opt = byKey[k];
-    if (!opt) return;
-    onChange(opt.data);
+    setSelectedKey(k);
+    onChange(k);
   };
 
   return (
     <VaRadio
       name="previouslyEnteredPointOfContact"
-      value={currentKey}
+      value={selectedKey}
       onVaValueChange={handleChange}
     >
       {options.map(o => (
@@ -46,12 +46,13 @@ const EnteredPointOfContact = ({ value, onChange, options = [] }) => {
 EnteredPointOfContact.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+      key: PropTypes.string,
       label: PropTypes.string,
       email: PropTypes.string,
+      data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     }),
   ).isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  value: PropTypes.string,
   onChange: PropTypes.func,
 };
 

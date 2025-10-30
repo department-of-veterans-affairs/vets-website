@@ -202,6 +202,36 @@ const formConfig = {
               path: 'additional-locations/:index/point-of-contact',
               uiSchema: previouslyEnteredPointOfContact.uiSchema,
               schema: previouslyEnteredPointOfContact.schema,
+              // updateFormData: (oldData, formData) => {
+              //   const selToObj = (data, key) => {
+              //     if (!key || key === 'none') return undefined;
+              //     const sco = data?.newCommitment?.schoolCertifyingOfficial;
+              //     const poe =
+              //       data?.newCommitment?.principlesOfExcellencePointOfContact;
+              //     let source = null;
+              //     if (key === 'sco') source = sco;
+              //     else if (key === 'poe') source = poe;
+              //     if (!source) return undefined;
+              //     return {
+              //       fullName: source?.fullName || {},
+              //       title: source?.title || '',
+              //       email: source?.email || '',
+              //     };
+              //   };
+
+              //   return {
+              //     ...formData,
+              //     additionalLocations: (
+              //       formData?.additionalLocations || []
+              //     ).map(loc => ({
+              //       ...loc,
+              //       resolvedPointOfContact: selToObj(
+              //         formData,
+              //         loc?.previouslyEnteredPointOfContact,
+              //       ),
+              //     })),
+              //   };
+              // },
             }),
             pointOfContactForThisLocation: pageBuilder.itemPage({
               title: 'point Of ContactFor This Location',
