@@ -26,13 +26,17 @@ function introDescription() {
       <p>These types of expenses can include:</p>
       <ul>
         <li>
-          <strong>Recurring medical expenses</strong> that insurance doesn’t
-          cover
+          <span className="vads-u-font-weight--bold">
+            Recurring medical expenses{' '}
+          </span>
+          that insurance doesn’t cover
         </li>
         <li>
-          <strong>One-time medical expenses</strong> that insurance doesn’t
-          cover that occurred after you started this form or after you submitted
-          an Intent to File
+          <span className="vads-u-font-weight--bold">
+            One-time medical expenses{' '}
+          </span>
+          that insurance doesn’t cover that occurred after you started this form
+          or after you submitted an Intent to File
         </li>
       </ul>
 
