@@ -63,6 +63,24 @@ export const options = {
               {formatCurrency(item.marketValueAtEstablishment)}
             </span>
           </li>
+          {item?.receivingIncomeFromAnnuity &&
+            item?.annualReceivedIncome && (
+              <li>
+                Annual income:{' '}
+                <span className="vads-u-font-weight--bold">
+                  {formatCurrency(item.annualReceivedIncome)}
+                </span>
+              </li>
+            )}
+          {item?.addedFundsAfterEstablishment &&
+            item?.addedFundsAmount && (
+              <li>
+                Money added:{' '}
+                <span className="vads-u-font-weight--bold">
+                  {formatCurrency(item.addedFundsAmount)}
+                </span>
+              </li>
+            )}
         </ul>
       ),
     reviewAddButtonText: 'Add another annuity',
@@ -274,7 +292,7 @@ const incomePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Income from annuity'),
     receivingIncomeFromAnnuity: yesNoUI({
-      title: 'Did you receive income from this annuity?',
+      title: 'Do you receive income from this annuity?',
       ...sharedYesNoOptionsBase,
     }),
     annualReceivedIncome: {
