@@ -1,3 +1,4 @@
+import 'cypress-axe';
 import user from './fixtures/mocks/user.json';
 import { setFeatureToggles } from './intercepts/feature-toggles';
 import inProgressFormsResponse from './fixtures/mocks/in-progress-forms-response.json';
@@ -38,13 +39,12 @@ Cypress.Commands.add(
     cy.get('select[name="root_address_state"]').select('NY');
     cy.findByRole('button', { name: /^Continue$/i }).click();
 
-    cy.get('va-telephone-input[label*="phone" i]')
-      .should('exist')
+    cy.get('va-telephone-input').as('phoneField');
+    cy.get('@phoneField')
       .shadow()
       .find('input[type="tel"]')
       .clear()
       .type('5551234567');
-
     cy.fillVaTextInput('root_email', 'test@example.com');
     cy.findByRole('button', { name: /^Continue$/i }).click();
 
@@ -76,7 +76,7 @@ const setUpIntercepts = (
   setFeatureToggles(featureToggles);
 };
 
-describe('21A smoke: ARP user can reach introduction page', () => {
+describe('The 21A Character References Page', () => {
   beforeEach(() => {
     cy.loginArpUser();
     setUpIntercepts({
@@ -96,9 +96,17 @@ describe('21A smoke: ARP user can reach introduction page', () => {
     cy.location('pathname').should('eq', '/representative/');
     cy.visit(baseUrl);
     cy.location('pathname').should('eq', introUrl);
+
+    cy.injectAxe();
+    cy.axeCheck();
+
     cy.findByRole('link', { name: /start your application/i }).click();
-    cy.location('pathname', { timeout: 1500 }).should('eq', personalInfoUrl);
+    cy.location('pathname').should('eq', personalInfoUrl);
     cy.visit(characterReferencesUrl);
+
+    cy.injectAxe();
+    cy.axeCheck();
+
     cy.findByRole('button', { name: /^Continue$/ }).click();
     cy.createCharacterReference('Harry', 'Potter');
     cy.addNewCharacterReference();
@@ -106,10 +114,11 @@ describe('21A smoke: ARP user can reach introduction page', () => {
     cy.addNewCharacterReference();
     cy.createCharacterReference('Hermione', 'Granger');
     cy.goToNextPage();
-    cy.location('pathname', { timeout: 1500 }).should(
-      'eq',
-      supplementaryStatementsIntroUrl,
-    );
+
+    cy.location('pathname').should('eq', supplementaryStatementsIntroUrl);
+
+    cy.injectAxe();
+    cy.axeCheck();
   });
 
   it('allows the user to move forward with 4 references', () => {
@@ -117,8 +126,12 @@ describe('21A smoke: ARP user can reach introduction page', () => {
     cy.location('pathname').should('eq', '/representative/');
     cy.visit(baseUrl);
     cy.location('pathname').should('eq', introUrl);
+
+    cy.injectAxe();
+    cy.axeCheck();
+
     cy.findByRole('link', { name: /start your application/i }).click();
-    cy.location('pathname', { timeout: 1500 }).should('eq', personalInfoUrl);
+    cy.location('pathname').should('eq', personalInfoUrl);
     cy.visit(characterReferencesUrl);
     cy.findByRole('button', { name: /^Continue$/ }).click();
     cy.createCharacterReference('Harry', 'Potter');
@@ -129,10 +142,10 @@ describe('21A smoke: ARP user can reach introduction page', () => {
     cy.addNewCharacterReference();
     cy.createCharacterReference('Severus', 'Snape');
     cy.findByRole('button', { name: /^Continue$/i }).click();
-    cy.location('pathname', { timeout: 1500 }).should(
-      'eq',
-      supplementaryStatementsIntroUrl,
-    );
+    cy.location('pathname').should('eq', supplementaryStatementsIntroUrl);
+
+    cy.injectAxe();
+    cy.axeCheck();
   });
 
   it('shows error if there are only 2 references', () => {
@@ -140,8 +153,12 @@ describe('21A smoke: ARP user can reach introduction page', () => {
     cy.location('pathname').should('eq', '/representative/');
     cy.visit(baseUrl);
     cy.location('pathname').should('eq', introUrl);
+
+    cy.injectAxe();
+    cy.axeCheck();
+
     cy.findByRole('link', { name: /start your application/i }).click();
-    cy.location('pathname', { timeout: 1500 }).should('eq', personalInfoUrl);
+    cy.location('pathname').should('eq', personalInfoUrl);
     cy.visit(characterReferencesUrl);
     cy.findByRole('button', { name: /^Continue$/ }).click();
     cy.createCharacterReference('Harry', 'Potter');
@@ -152,30 +169,37 @@ describe('21A smoke: ARP user can reach introduction page', () => {
       'span.usa-error-message',
       'You must add at least 3 character references. You currently have 2.',
     ).should('be.visible');
-    cy.location('pathname', { timeout: 1500 }).should(
-      'eq',
-      characterReferencesSummaryUrl,
-    );
+
+    cy.injectAxe();
+    cy.axeCheck();
+
+    cy.location('pathname').should('eq', characterReferencesSummaryUrl);
   });
 
-  it('shows error if there is only 1 references', () => {
+  it('shows error if there is only 1 reference', () => {
     cy.visit('/representative');
     cy.location('pathname').should('eq', '/representative/');
     cy.visit(baseUrl);
     cy.location('pathname').should('eq', introUrl);
+
+    cy.injectAxe();
+    cy.axeCheck();
+
     cy.findByRole('link', { name: /start your application/i }).click();
-    cy.location('pathname', { timeout: 1500 }).should('eq', personalInfoUrl);
+    cy.location('pathname').should('eq', personalInfoUrl);
     cy.visit(characterReferencesUrl);
     cy.findByRole('button', { name: /^Continue$/ }).click();
     cy.createCharacterReference('Harry', 'Potter');
     cy.goToNextPage();
+
     cy.contains(
       'span.usa-error-message',
       'You must add at least 3 character references. You currently have 1.',
     ).should('be.visible');
-    cy.location('pathname', { timeout: 1500 }).should(
-      'eq',
-      characterReferencesSummaryUrl,
-    );
+
+    cy.injectAxe();
+    cy.axeCheck();
+
+    cy.location('pathname').should('eq', characterReferencesSummaryUrl);
   });
 });
