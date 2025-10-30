@@ -8,17 +8,19 @@ class DownloadReportsPage {
   };
 
   clickCcdAccordionItem = () => {
-    cy.get('[data-testid="ccdAccordionItem"]', { timeout: 15000 })
-      .should('be.visible')
-      .click();
+    cy.get('[data-testid="ccdAccordionItem"]', { timeout: 15000 }).should(
+      'be.visible',
+    );
+    cy.get('[data-testid="ccdAccordionItem"]').click();
 
     cy.contains('Continuity of Care Document', { timeout: 15000 }).should(
       'be.visible',
     );
 
     cy.get('[data-testid^="generateCcdButton"]', { timeout: 15000 })
+      .should('have.length.greaterThan', 0)
       .first()
-      .should('be.visible');
+      .should('be.visible', { timeout: 15000 });
   };
 
   clickSelfEnteredAccordionItem = () => {

@@ -33,7 +33,7 @@ describe('Medical Records CCD V2 Download for Oracle Health Patients', () => {
     cy.fixture(pathToV1Fixture, 'utf8').then(xmlBody => {
       cy.intercept('GET', '/my_health/v1/medical_records/ccd/generate', [
         {
-          dateGenerated: new Date().toISOString(),
+          dateGenerated: '2024-10-30T10:00:00.000Z',
           status: 'COMPLETE',
           patientId: '1013704789V992505',
         },
