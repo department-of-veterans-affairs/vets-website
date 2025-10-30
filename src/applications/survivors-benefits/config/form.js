@@ -35,6 +35,11 @@ import legalStatusOfMarriage from './chapters/04-household-information/legalStat
 import marriageStatus from './chapters/04-household-information/marriageStatus';
 import reasonForSeparation from './chapters/04-household-information/reasonForSeparation';
 import separationDetails from './chapters/04-household-information/separationDetails';
+import remarriage from './chapters/04-household-information/remarriage';
+import remarriageDetails from './chapters/04-household-information/remarriageDetails';
+import additionalMarriages from './chapters/04-household-information/additionalMarriages';
+import previousMarriages from './chapters/04-household-information/previousMarriages';
+import { previousMarriagesPages } from './chapters/04-household-information/previousMarriagesPages';
 import dicBenefits from './chapters/05-claim-information/dicBenefits';
 import nursingHome from './chapters/05-claim-information/nursingHome';
 import { treatmentPages } from './chapters/05-claim-information/treatmentPages';
@@ -253,6 +258,39 @@ const formConfig = {
           uiSchema: separationDetails.uiSchema,
           schema: separationDetails.schema,
         },
+        remarriage: {
+          path: 'household/remarriage',
+          title: 'Remarriage',
+          depends: formData => formData.claimantRelationship === 'SPOUSE',
+          uiSchema: remarriage.uiSchema,
+          schema: remarriage.schema,
+        },
+        remarriageDetails: {
+          path: 'household/remarriage-details',
+          title: 'Remarriage details',
+          depends: formData =>
+            formData.claimantRelationship === 'SPOUSE' &&
+            formData.remarried === true,
+          uiSchema: remarriageDetails.uiSchema,
+          schema: remarriageDetails.schema,
+        },
+        additionalMarriages: {
+          path: 'household/additional-marriages',
+          title: 'Additional marriages',
+          depends: formData =>
+            formData.claimantRelationship === 'SPOUSE' &&
+            formData.remarried === true,
+          uiSchema: additionalMarriages.uiSchema,
+          schema: additionalMarriages.schema,
+        },
+        previousMarriages: {
+          path: 'household/previous-marriage-question',
+          title: 'Previous marriages',
+          depends: formData => formData.claimantRelationship === 'SPOUSE',
+          uiSchema: previousMarriages.uiSchema,
+          schema: previousMarriages.schema,
+        },
+        ...previousMarriagesPages,
       },
     },
     // Chapter 5 - Claim Information

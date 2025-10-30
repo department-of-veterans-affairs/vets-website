@@ -46,6 +46,19 @@ export const separationReasonOptions = {
   OTHER: 'Other',
 };
 
+export const previousMarriageEndOptions = {
+  DEATH: 'Death',
+  DIVORCE: 'Divorce',
+  OTHER: 'Other',
+};
+
+export const remarriageEndOptions = {
+  DID_NOT_END: 'Did not end',
+  SPOUSE_DEATH: "Spouse's death",
+  DIVORCE: 'Divorce',
+  OTHER: 'Other',
+};
+
 export const bankAccountTypeOptions = {
   CHECKING: 'Checking',
   SAVINGS: 'Savings',
