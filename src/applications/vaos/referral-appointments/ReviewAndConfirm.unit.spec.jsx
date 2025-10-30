@@ -12,7 +12,6 @@ import {
 import { createReferralById, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
-import * as flow from './flow';
 import {
   generateSlotsForDay,
   transformSlotsForCommunityCare,
@@ -178,20 +177,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     // Verify the mutation function was called
     sandbox.assert.calledOnce(postReferralAppointmentMock);
   });
-  it.skip('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
-    // This test requires complex RTK Query state management which is hard to mock
-    // The functionality is tested in integration tests
-    const store = createTestStore(initialEmptyState);
-    sandbox.spy(flow, 'routeToNextReferralPage');
-
-    const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
-      store,
-      path: '/schedule-referral/review-and-confirm?id=UUID',
-    });
-
-    await screen.findByTestId('continue-button');
-    expect(screen.getByTestId('continue-button')).to.exist;
-  });
   it('should display an error message when appointment creation fails', async () => {
     // Override the mutation mock to return error state
     vaosApi.usePostReferralAppointmentMutation.restore();
@@ -220,16 +205,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       'schedule this appointment',
     );
     expect(screen.getByTestId('referral-community-care-office')).to.exist;
-  });
-  it.skip('should fetch draft appointment info on mount if not in store', async () => {
-    // This test is no longer applicable since we use RTK Query hooks
-    // which handle fetching automatically
-    const store = createTestStore(initialEmptyState);
-    const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
-      store,
-      path: '/schedule-referral/review-and-confirm?id=UUID',
-    });
-    await screen.findByTestId('continue-button');
   });
   it('should display an error message when new draft appointment creation fails', async () => {
     const store = createTestStore(initialEmptyState);
