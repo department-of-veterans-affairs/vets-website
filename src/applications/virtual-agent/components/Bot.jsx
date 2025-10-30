@@ -6,9 +6,6 @@ import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide
 import SignInModal from '@department-of-veterans-affairs/platform-user/SignInModal';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
-// Event Listeners
-import webAuthActivityEventListener from '../event-listeners/webAuthActivityEventListener';
-
 // Components
 import App from './App';
 import ChatboxDisclaimer from './ChatboxDisclaimer';
@@ -23,6 +20,9 @@ import {
   setInAuthExp,
   setLoggedInFlow,
 } from '../utils/sessionStorage';
+
+// Event Listeners
+import webAuthActivityEventListener from '../event-listeners/webAuthActivityEventListener';
 
 // Selectors
 import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedIn';
