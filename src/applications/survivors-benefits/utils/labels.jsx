@@ -63,3 +63,33 @@ export const bankAccountTypeOptions = {
   CHECKING: 'Checking',
   SAVINGS: 'Savings',
 };
+
+export const recipientTypeLabels = {
+  VETERAN: 'Veteran (only select if a last or burial expense)',
+  SURVIVING_SPOUSE: 'Surviving spouse',
+  VETERANS_CHILD: 'Veteran’s child',
+  OTHER: 'Other',
+  CUSTODIAN: 'Custodian',
+  CUSTODIAN_SPOUSE: 'Custodian’s spouse',
+};
+
+export const careTypeLabels = {
+  RESIDENTIAL_CARE_FACILITY: 'Residential care facility',
+  IN_HOME_CARE_ATTENDANT: 'In-home care attendant',
+  NURSING_HOME: 'Nursing home',
+  ADULT_DAYCARE: 'Adult daycare',
+};
+
+export const frequencyLabels = {
+  MONTHLY: 'Once a month',
+  YEARLY: 'Once a year',
+  ONE_TIME: 'One-time',
+};
+
+export const typeOfIncomeLabels = {
+  SOCIAL_SECURITY: 'Social Security',
+  INTEREST_DIVIDEND: 'Interest or dividend income',
+  CIVIL_SERVICE: 'Civil Service',
+  PENSION_RETIREMENT: 'Pension or retirement income',
+  OTHER: 'Other income',
+};

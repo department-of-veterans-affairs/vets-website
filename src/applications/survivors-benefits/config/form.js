@@ -43,6 +43,18 @@ import { previousMarriagesPages } from './chapters/04-household-information/prev
 import dicBenefits from './chapters/05-claim-information/dicBenefits';
 import nursingHome from './chapters/05-claim-information/nursingHome';
 import { treatmentPages } from './chapters/05-claim-information/treatmentPages';
+import incomeAndAssets from './chapters/06-financial-information/incomeAndAssets/incomeAndAssets';
+import incomeSources from './chapters/06-financial-information/incomeAndAssets/incomeSources';
+import { grossMonthlyIncomePages } from './chapters/06-financial-information/incomeAndAssets/grossMonthlyIncomePages';
+import { careExpensesPages } from './chapters/06-financial-information/careFacilityExpenses/careExpensesPages';
+import { medicalExpensesPages } from './chapters/06-financial-information/medicalExpenses/medicalExpensesPages';
+import totalAssets from './chapters/06-financial-information/incomeAndAssets/totalAssets';
+import submitSupportingDocs from './chapters/06-financial-information/incomeAndAssets/submitSupportingDocs';
+import transferredAssets from './chapters/06-financial-information/incomeAndAssets/transferredAssets';
+import homeOwnership from './chapters/06-financial-information/incomeAndAssets/homeOwnership';
+import landLotSize from './chapters/06-financial-information/incomeAndAssets/landLotSize';
+import additionalLandValue from './chapters/06-financial-information/incomeAndAssets/additionalLandValue';
+import marketableLand from './chapters/06-financial-information/incomeAndAssets/marketableLand';
 import directDeposit from './chapters/07-additional-information/directDeposit';
 import directDepositAccount from './chapters/07-additional-information/directDepositAccount';
 import otherPaymentOptions from './chapters/07-additional-information/otherPaymentOptions';
@@ -312,6 +324,74 @@ const formConfig = {
         },
       },
     },
+    // Chapter 6 - Financial Information
+    financialInformation: {
+      title: 'Financial information',
+      pages: {
+        incomeAndAssets: {
+          title: 'Income and assets',
+          path: 'financial-information/income-and-assets',
+          uiSchema: incomeAndAssets.uiSchema,
+          schema: incomeAndAssets.schema,
+        },
+        submitSupportingDocs: {
+          title: 'Submit supporting documents',
+          path: 'financial-information/submit-supporting-documents',
+          depends: formData => formData?.hasAssetsOverThreshold === true,
+          uiSchema: submitSupportingDocs.uiSchema,
+          schema: submitSupportingDocs.schema,
+        },
+        totalAssets: {
+          title: 'Total assets',
+          path: 'financial-information/total-assets',
+          depends: formData => formData?.hasAssetsOverThreshold === false,
+          uiSchema: totalAssets.uiSchema,
+          schema: totalAssets.schema,
+        },
+        transferredAssets: {
+          title: 'Transferred assets',
+          path: 'financial-information/transferred-assets',
+          uiSchema: transferredAssets.uiSchema,
+          schema: transferredAssets.schema,
+        },
+        homeOwnership: {
+          title: 'Homeownership',
+          path: 'financial-information/homeownership',
+          uiSchema: homeOwnership.uiSchema,
+          schema: homeOwnership.schema,
+        },
+        landLotSize: {
+          title: 'Land lot size',
+          path: 'financial-information/land-lot-size',
+          depends: formData => formData?.homeOwnership === true,
+          uiSchema: landLotSize.uiSchema,
+          schema: landLotSize.schema,
+        },
+        additionalLandValue: {
+          title: 'Value of additional land',
+          path: 'financial-information/additional-land-value',
+          depends: formData => formData?.landLotSize === true,
+          uiSchema: additionalLandValue.uiSchema,
+          schema: additionalLandValue.schema,
+        },
+        marketableLand: {
+          title: 'Marketable land',
+          path: 'financial-information/marketable-land',
+          depends: formData => formData?.landLotSize === true,
+          uiSchema: marketableLand.uiSchema,
+          schema: marketableLand.schema,
+        },
+        incomeSources: {
+          title: 'Income sources',
+          path: 'financial-information/income-sources',
+          uiSchema: incomeSources.uiSchema,
+          schema: incomeSources.schema,
+        },
+        ...grossMonthlyIncomePages,
+        ...careExpensesPages,
+        ...medicalExpensesPages,
+      },
+    },
     // Chapter 7 - Additional Information
     additionalInformation: {
       title: 'Additional information',
@@ -339,6 +419,7 @@ const formConfig = {
         supportingDocuments: {
           title: 'Supporting documents',
           path: 'additional-information/supporting-documents',
+          depends: formData => formData?.hasAssetsOverThreshold !== true,
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },

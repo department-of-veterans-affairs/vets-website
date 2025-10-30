@@ -7,7 +7,7 @@ import {
   SpecialMonthlyPensionEvidenceAlert,
   RequestNursingHomeInformationAlert,
 } from '../../../components/FormAlerts';
-import { isYes } from './helpers';
+import { isYes } from '../../../utils/helpers';
 
 const uiSchema = {
   ...arrayBuilderItemFirstPageTitleUI({

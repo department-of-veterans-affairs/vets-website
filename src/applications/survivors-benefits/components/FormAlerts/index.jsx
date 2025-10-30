@@ -1,17 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const CourtOrderSeparationAlert = () => (
-  <va-alert-expandable
-    status="warning"
-    trigger="You'll need to submit a copy of the court order."
-    disable-border="true"
-  >
-    We’ll ask you to upload this document at the end of this application. Or you
-    can send it to us by mail.
-  </va-alert-expandable>
-);
-
 export const AdditionalMarriagesAlert = () => (
   <va-alert-expandable
     status="warning"
@@ -87,4 +76,23 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
     formLink="https://www.va.gov/find-forms/about-form-21-2680/"
     advisory="A licensed medical professional must complete this form."
   />
+);
+
+export const IncomeAssetStatementFormAlert = () => (
+  <RequestFormAlert
+    title="Income and Asset Statement in Support of Claim for Pension or Parents' Dependency and Indemnity Compensation"
+    formName="VA Form 21P-0969"
+    formLink="https://www.va.gov/find-forms/about-form-21p-0969/"
+  />
+);
+
+export const CourtOrderSeparationAlert = () => (
+  <va-alert-expandable
+    status="warning"
+    trigger="You'll need to submit a copy of the court order."
+    disable-border="true"
+  >
+    We’ll ask you to upload this document at the end of this application. Or you
+    can send it to us by mail.
+  </va-alert-expandable>
 );
