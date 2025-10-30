@@ -308,9 +308,6 @@ describe('OwnedAssetsDescriptions Components', () => {
     it('should render complete summary content', () => {
       const { container } = renderWithProvider(<SummaryDescription />);
 
-      expect(container.innerHTML).to.include(
-        'Income and net worth from owned assets',
-      );
       expect(container.innerHTML).to.include('Types of property to report');
       expect(container.innerHTML).to.include('Establish the asset’s value');
       expect(container.innerHTML).to.include(
@@ -359,20 +356,15 @@ describe('OwnedAssetsDescriptions Components', () => {
       const h1 = container.querySelector('h1');
       const h2s = container.querySelectorAll('h2');
 
-      expect(h1).to.not.be.null;
-      expect(h1.textContent).to.include(
-        'Income and net worth from owned assets',
-      );
+      expect(h1).to.be.null;
       expect(h2s.length).to.equal(3);
     });
 
     it('should use correct CSS classes', () => {
       const { container } = renderWithProvider(<SummaryDescription />);
 
-      const h1 = container.querySelector('h1');
       const h2s = container.querySelectorAll('h2');
 
-      expect(h1.className).to.include('vads-u-font-size--h2');
       h2s.forEach(h2 => {
         expect(h2.className).to.include('vads-u-font-size--h3');
         expect(h2.className).to.include('vads-u-margin-top--0');

@@ -4,21 +4,24 @@ import mockPrefill from './fixtures/mocks/prefill.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import {
-  ADD_ISSUE_PATH,
-  CONTACT_INFO_PATH,
-  EVIDENCE_ADDITIONAL_PATH,
-  EVIDENCE_PRIVATE_AUTHORIZATION_PATH,
-  EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_PRIVATE_REQUEST_PATH,
-  EVIDENCE_VA_REQUEST_PATH,
-  LIMITED_CONSENT_DETAILS_PATH,
-  LIMITED_CONSENT_PROMPT_PATH,
+  ADD_ISSUE_URL,
+  CONTACT_INFO_URL,
+  EVIDENCE_ADDITIONAL_URL,
+  EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+  EVIDENCE_PRIVATE_DETAILS_URL,
+  EVIDENCE_PRIVATE_PROMPT_URL,
+  EVIDENCE_VA_PROMPT_URL,
+  LIMITED_CONSENT_DETAILS_URL,
+  LIMITED_CONSENT_PROMPT_URL,
 } from '../constants';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 import * as h from './995.cypress.helpers';
-import mockData from './fixtures/data/keyboard-test.json';
-import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
+import mockData from './fixtures/data/pre-api-comprehensive-test.json';
+import {
+  fixDecisionDates,
+  tabToContinue,
+} from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
 
 describe('Supplemental Claim keyboard only navigation', () => {
@@ -31,11 +34,6 @@ describe('Supplemental Claim keyboard only navigation', () => {
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     cy.intercept('GET', ITF_API, h.fetchItf());
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [{ name: 'sc_new_form', value: true }],
-      },
-    });
 
     cy.get('@testData').then(data => {
       cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
@@ -65,19 +63,13 @@ describe('Supplemental Claim keyboard only navigation', () => {
 
       // *** Veteran information page
       h.verifyUrl(h.VETERAN_INFO_PATH);
-      cy.tabToContinueForm();
+      tabToContinue();
 
-      // Feature toggles are flaky in the Cypress env for some reason
-      // Adding this here until we completely remove the SC new toggle (as this page depends on it)
-      cy.url().then(url => {
-        if (url.includes(h.HOMELESSNESS_PATH)) {
-          // *** Homelessness page
-          h.verifyUrl(h.HOMELESSNESS_PATH);
-          cy.tabToElement('[name="root_housingRisk"]');
-          cy.chooseRadio('Y');
-          cy.tabToContinueForm();
-        }
-      });
+      // *** Homelessness page
+      h.verifyUrl(h.HOMELESSNESS_PATH);
+      cy.tabToElement('[name="root_housingRisk"]');
+      cy.chooseRadio('Y');
+      tabToContinue();
 
       // *** Living situation page
       h.verifyUrl(h.LIVING_SITUATION_PATH);
@@ -89,7 +81,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       h.verifyUrl(h.OTHER_HOUSING_RISK_PATH);
       cy.tabToElement(h.OTHER_HOUSING_RISK_INPUT);
       cy.realType('Testing content');
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // ** Point of contact page
       h.verifyUrl(h.HOUSING_CONTACT_PATH);
@@ -97,12 +89,11 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.realType('Ted Mosby');
       cy.tabToElement(h.POINT_OF_CONTACT_PHONE_INPUT);
       cy.realType('2105550123');
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Contact info page
-      h.verifyUrl(CONTACT_INFO_PATH);
-      cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
-      cy.realPress('Space');
+      h.verifyUrl(CONTACT_INFO_URL);
+      tabToContinue();
 
       // *** Primary phone page
       h.verifyUrl(h.PRIMARY_PHONE_PATH);
@@ -110,7 +101,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.wait(100); // wait for focus on header
       cy.tabToElement('[value="home"]');
       cy.chooseRadio('home'); // make sure we're choosing home (either is fine)
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Contestable issues page - select an existing issue
       h.verifyUrl(CONTESTABLE_ISSUES_PATH);
@@ -122,15 +113,15 @@ describe('Supplemental Claim keyboard only navigation', () => {
       // Add one issue
       cy.tabToElement('.add-new-issue');
       cy.realPress('Enter');
-      h.verifyUrl(ADD_ISSUE_PATH);
+      h.verifyUrl(ADD_ISSUE_URL);
 
       const newIssue = data.additionalIssues[0];
       cy.tabToElement('[name="issue-name"]');
       cy.realType(newIssue.issue);
 
-      const issueDate = newIssue.decisionDate
-        .split('-')
-        .map(v => parseInt(v, 10).toString());
+      // Simplified date because Cypress keyboard typing converts to key "codes"
+      // and was confused by a double-digit number for the date
+      const issueDate = ['2024', '1', '1'];
       cy.tabToElement('[name="decision-dateMonth"]');
       cy.realPress(issueDate[1]); // month
       cy.realPress('Tab');
@@ -140,15 +131,15 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.tabToElement('button:not(.usa-button--outline)');
       cy.realPress('Enter');
       h.verifyUrl(CONTESTABLE_ISSUES_PATH);
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Issue summary page
       h.verifyUrl(h.ISSUES_SUMMARY_PATH);
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Opt-in page - seen when there are legacy or added issues
       h.verifyUrl(h.OPT_IN_PATH);
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Presumptive conditions page
       h.verifyUrl(h.NOTICE_5103_PATH);
@@ -156,21 +147,21 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.wait(100);
       cy.tabToElement('#checkbox-element'); // certify reviewed
       cy.realPress('Space');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Facility types page
       h.verifyUrl(h.FACILITY_TYPES_PATH);
       cy.setCheckboxFromData(h.VA_EVIDENCE_CHECKBOX, true);
       cy.setCheckboxFromData(h.NON_VA_EVIDENCE_CHECKBOX, true);
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** VA evidence request (y/n) question page
-      h.verifyUrl(EVIDENCE_VA_REQUEST_PATH);
+      h.verifyUrl(EVIDENCE_VA_PROMPT_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement('[name="root_view:hasVaEvidence"]'); // Yes radio
       cy.chooseRadio('Y');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** VA evidence location details page
       h.verifyUrl(h.EVIDENCE_VA_RECORDS_DETAILS_PATH);
@@ -186,16 +177,16 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.tabToElement(h.VA_EVIDENCE_TREATMENT_YEAR);
       cy.realType('2001'); // fill out year
       cy.realPress('Space');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Private evidence request (y/n) question page
-      h.verifyUrl(EVIDENCE_PRIVATE_REQUEST_PATH);
+      h.verifyUrl(EVIDENCE_PRIVATE_PROMPT_URL);
       cy.tabToElement('[name="private"]'); // Yes radio
       cy.chooseRadio('y'); // make sure we're choosing yes
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Private evidence authorization page
-      h.verifyUrl(EVIDENCE_PRIVATE_AUTHORIZATION_PATH);
+      h.verifyUrl(EVIDENCE_PRIVATE_AUTHORIZATION_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
 
@@ -218,26 +209,26 @@ describe('Supplemental Claim keyboard only navigation', () => {
       });
 
       cy.setCheckboxFromData(h.PRIVACY_AGREEMENT_CHECKBOX, true);
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Limited consent prompt page
-      h.verifyUrl(LIMITED_CONSENT_PROMPT_PATH);
+      h.verifyUrl(LIMITED_CONSENT_PROMPT_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement(h.LIMITED_CONSENT_RADIOS); // Yes radio
       cy.chooseRadio('Y');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Limited consent details page
-      h.verifyUrl(LIMITED_CONSENT_DETAILS_PATH);
+      h.verifyUrl(LIMITED_CONSENT_DETAILS_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement(h.LIMITED_CONSENT_TEXTAREA);
       cy.realType('Testing');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Private evidence facility page
-      h.verifyUrl(EVIDENCE_PRIVATE_PATH);
+      h.verifyUrl(EVIDENCE_PRIVATE_DETAILS_URL);
 
       const facilityData = data.providerFacility[0];
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -280,29 +271,29 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.realType(privateToDate[2]); // day
       cy.realPress('Tab');
       cy.realType(privateToDate[0]); // year
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Upload evidence (y/n) - skipping since we can't test uploads
-      h.verifyUrl(EVIDENCE_ADDITIONAL_PATH);
+      h.verifyUrl(EVIDENCE_ADDITIONAL_URL);
       cy.tabToElement(h.ADDTL_EVIDENCE_RADIO); // No radio
       cy.chooseRadio('N');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Evidence summary
       h.verifyUrl(h.EVIDENCE_SUMMARY_PATH);
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** MST page
       h.verifyUrl(h.MST_PATH);
       cy.tabToElement(h.MST_RADIO); // No radio
       cy.chooseRadio('Y');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Add indicator page
       h.verifyUrl(h.MST_OPTION_PATH);
       cy.tabToElement(h.MST_OPTION_RADIO);
       cy.chooseRadio('yes');
-      cy.tabToSubmitForm();
+      tabToContinue();
 
       // *** Review & submit page
       cy.url().should('include', h.REVIEW_PATH);

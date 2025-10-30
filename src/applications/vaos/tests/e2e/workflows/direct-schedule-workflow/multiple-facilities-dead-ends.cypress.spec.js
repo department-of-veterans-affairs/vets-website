@@ -3,6 +3,8 @@ import { getTypeOfCareById } from '../../../../utils/appointment';
 import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+
 import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
@@ -110,19 +112,29 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
       it('should display warning', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-        const mockEligibilityResponse = new MockEligibilityResponse({
+        const mockEligibilityResponseDirect = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCareId,
-          type: 'direct',
           isEligible: true,
+          type: 'direct',
+        });
+        const mockEligibilityResponseRequest = new MockEligibilityResponse({
+          facilityId: '983',
+          typeOfCareId,
+          isEligible: false,
+          type: 'request',
+          ineligibilityReason:
+            MockEligibilityResponse.FACILITY_REQUEST_LIMIT_EXCEEDED,
+        });
+        mockEligibilityDirectApi({
+          response: mockEligibilityResponseDirect,
+        });
+        mockEligibilityRequestApi({
+          response: mockEligibilityResponseRequest,
         });
 
         mockClinicsApi({ locationId: '983', response: [] });
         mockEligibilityCCApi({ cceType, isEligible: false });
-        mockEligibilityDirectApi({
-          response: mockEligibilityResponse,
-        });
-        mockEligibilityRequestApi({ response: {} });
         mockFacilitiesApi({
           response: MockFacilityResponse.createResponses({
             facilityIds: ['983', '984'],
@@ -169,15 +181,29 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           ineligibilityReason:
             MockEligibilityResponse.FACILITY_REQUEST_LIMIT_EXCEEDED,
         });
+        const mockDirectEligibilityResponse = new MockEligibilityResponse({
+          facilityId: '983',
+          typeOfCareId,
+          isEligible: false,
+          type: 'direct',
+          ineligibilityReason: MockEligibilityResponse.DIRECT_DISABLED,
+        });
 
         mockEligibilityRequestApi({
           response: mockEligibilityResponse,
+        });
+        mockEligibilityDirectApi({
+          response: mockDirectEligibilityResponse,
         });
         mockEligibilityCCApi({ cceType, isEligible: false });
         mockFacilitiesApi({
           response: MockFacilityResponse.createResponses({
             facilityIds: ['983', '984'],
           }),
+        });
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 1 }),
         });
 
         mockSchedulingConfigurationApi({
@@ -213,14 +239,17 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
       it('should display warning', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-        const mockEligibilityResponse = new MockEligibilityResponse({
+        const mockEligibilityResponseDirect = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCareId,
-          type: 'direct',
           isEligible: false,
+          type: 'direct',
           ineligibilityReason:
             MockEligibilityResponse.PATIENT_HISTORY_INSUFFICIENT,
         });
+        const mockEligibilityResponseRequest = MockEligibilityResponse.createEligibilityDisabledResponse(
+          { type: 'request' },
+        );
 
         mockClinicsApi({
           locationId: '983',
@@ -228,11 +257,12 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
         });
         mockEligibilityCCApi({ cceType, isEligible: false });
         mockEligibilityDirectApi({
-          response: mockEligibilityResponse,
+          response: mockEligibilityResponseDirect,
         });
         mockEligibilityRequestApi({
-          response: {},
+          response: mockEligibilityResponseRequest,
         });
+
         mockFacilitiesApi({
           response: MockFacilityResponse.createResponses({
             facilityIds: ['983', '984'],
@@ -271,11 +301,19 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
       it('should display warning', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-        const mockEligibilityResponse = new MockEligibilityResponse({
+
+        const mockEligibilityResponseDirect = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCareId,
-          type: 'request',
           isEligible: false,
+          type: 'direct',
+          ineligibilityReason: MockEligibilityResponse.DIRECT_DISABLED,
+        });
+        const mockEligibilityResponseRequest = new MockEligibilityResponse({
+          facilityId: '983',
+          typeOfCareId,
+          isEligible: false,
+          type: 'request',
           ineligibilityReason:
             MockEligibilityResponse.PATIENT_HISTORY_INSUFFICIENT,
         });
@@ -286,10 +324,10 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
         });
         mockEligibilityCCApi({ cceType, isEligible: false });
         mockEligibilityDirectApi({
-          response: {},
+          response: mockEligibilityResponseDirect,
         });
         mockEligibilityRequestApi({
-          response: mockEligibilityResponse,
+          response: mockEligibilityResponseRequest,
         });
         mockFacilitiesApi({
           response: MockFacilityResponse.createResponses({

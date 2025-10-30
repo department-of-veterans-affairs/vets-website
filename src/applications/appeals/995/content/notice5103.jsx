@@ -1,65 +1,4 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import recordEvent from 'platform/monitoring/record-event';
-import { Toggler } from 'platform/utilities/feature-toggles';
-
-import { focusH3AfterAlert } from '../utils/focus';
-
-export const Notice5103Description = ({ onReviewPage }) => {
-  const [visibleAlert, setVisibleAlert] = useState(true);
-  const Header = onReviewPage ? 'h4' : 'h3';
-
-  const analyticsEvent = {
-    'alert-box-type': 'info',
-    'alert-box-heading': 'If you have a presumptive condition',
-    'alert-box-full-width': false,
-    'alert-box-background-only': false,
-    'alert-box-closeable': true,
-    'reason-for-alert': 'presumptive condition details',
-  };
-
-  const hideAlert = () => {
-    setVisibleAlert(false);
-    recordEvent({ ...analyticsEvent, event: 'int-alert-box-close' });
-    setTimeout(() => focusH3AfterAlert({ name: 'notice5103', onReviewPage }));
-  };
-  if (visibleAlert) {
-    recordEvent({ ...analyticsEvent, event: 'visible-alert-box' });
-  }
-
-  return (
-    <>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.scNewForm}>
-        <Toggler.Disabled>
-          <VaAlert
-            status="info"
-            closeBtnAriaLabel="Close notification"
-            closeable
-            onCloseEvent={hideAlert}
-            showIcon
-            visible={visibleAlert}
-          >
-            <Header slot="headline">If you have a presumptive condition</Header>
-            <p>
-              If you’re filing a claim for a condition that we now consider
-              presumptive under a new law or regulation (like the PACT Act), you
-              can submit this form for review.
-            </p>
-          </VaAlert>
-        </Toggler.Disabled>
-      </Toggler>
-      <Header id="header">
-        Review and acknowledge the notice of evidence needed.
-      </Header>
-    </>
-  );
-};
-
-Notice5103Description.propTypes = {
-  onReviewPage: PropTypes.bool,
-};
+import React from 'react';
 
 export const Notice5103Details = () => (
   <va-additional-info
@@ -75,6 +14,7 @@ export const Notice5103Details = () => (
 );
 
 export const content = {
+  header: 'Review and acknowledge the notice of evidence needed.',
   error:
     'You need to certify that you have reviewed the notice of evidence needed.',
   label:

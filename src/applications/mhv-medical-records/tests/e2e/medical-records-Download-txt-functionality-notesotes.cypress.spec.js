@@ -5,9 +5,9 @@ import NotesListPage from './pages/NotesListPage';
 describe('Medical Records Care summaries and notes', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
+    // cy.visit('my-health/medical-records');
     NotesListPage.gotoNotesList();
   });
 

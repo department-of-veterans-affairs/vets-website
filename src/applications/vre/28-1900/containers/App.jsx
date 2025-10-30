@@ -5,8 +5,10 @@ import formConfig from '../config/form';
 
 export default function App({ location, children }) {
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <>
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    </>
   );
 }

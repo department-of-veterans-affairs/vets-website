@@ -2,14 +2,15 @@ import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
+import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'platform/forms-system/src/js/patterns/array-builder';
 
+import { PersonalInformation } from 'platform/forms-system/src/js/components/PersonalInformation/PersonalInformation';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 import transformForSubmit from './submit-transformer';
 import prefillTransformer from './prefill-transformer';
-import { pageFocusScroll } from '../helpers';
 
 // Import page configurations
 import recipientIdentifier from '../pages/recipientIdentifier';
@@ -21,7 +22,6 @@ import spouseVeteranId from '../pages/spouseVeteranId';
 import terminationStatus from '../pages/terminationStatus';
 import terminationDetails from '../pages/terminationDetails';
 import phoneAndEmail from '../pages/phoneAndEmail';
-import marriageRecognition from '../pages/marriageRecognition';
 
 // Statement of truth body for the review page
 const statementOfTruthBody = (
@@ -45,6 +45,7 @@ const formConfig = {
   trackingPrefix: '21p-0537-dic-marital-status-',
   useCustomScrollAndFocus: true,
   v3SegmentedProgressBar: true,
+  hideUnauthedStartLink: true,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -74,114 +75,119 @@ const formConfig = {
       messageAriaDescribedby:
         'I certify that the information provided is true and correct to the best of my knowledge.',
       fullNamePath: 'recipientName',
+      useProfileFullName: true,
     },
   },
-  title: 'Marital Status Questionnaire for DIC Recipients',
-  subTitle: 'VA Form 21P-0537',
+  title: 'Verify your marital status for DIC benefits',
+  subTitle: 'Marital Status Questionnaire (VA Form 21P-0537)',
   customText: {
     appType: 'form',
   },
   defaultDefinitions: {},
   footerContent,
   chapters: {
+    contactInfoChapter: {
+      title: 'Your contact information',
+      pages: {
+        personalInformation: {
+          path: 'name',
+          title: 'Your name',
+          CustomPage: props => <PersonalInformation {...props} />,
+          CustomPageReview: null,
+          hideOnReview: true,
+          scrollAndFocusTarget,
+          schema: {
+            type: 'object',
+            properties: {}, // Must be present even if empty
+          },
+          uiSchema: {},
+        },
+        phoneAndEmail: {
+          path: 'contact-info',
+          title: 'Your phone number and email address',
+          uiSchema: phoneAndEmail.uiSchema,
+          schema: phoneAndEmail.schema,
+          scrollAndFocusTarget,
+        },
+      },
+    },
     veteranInfoChapter: {
       title: 'Deceased Veteran information',
       pages: {
         veteranName: {
-          path: 'veteran-info/name',
+          path: 'veteran-name',
           title: "Deceased Veteran's name",
           uiSchema: recipientName.uiSchema,
           schema: recipientName.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         veteranIdentifier: {
-          path: 'veteran-info/identifier',
-          title: "Deceased Veteran's identification",
+          path: 'veteran-identifier',
+          title: "Deceased Veteran's identification information",
           uiSchema: recipientIdentifier.uiSchema,
           schema: recipientIdentifier.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },
     eligibilityScreeningChapter: {
-      title: 'Marital status screening',
+      title: 'Marital status',
       pages: {
         remarriageQuestion: {
-          path: 'screening/remarriage-status',
+          path: 'remarriage-status',
           title: 'Have you remarried?',
           uiSchema: remarriageQuestion.uiSchema,
           schema: remarriageQuestion.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },
     maritalDetailsChapter: {
-      title: 'Marriage information',
+      title: 'Remarriage information',
       pages: {
         marriageInfo: {
-          path: 'marital/marriage-info',
+          path: 'marriage-info',
           title: 'Details about your remarriage',
           depends: formData => formData.hasRemarried === true,
           uiSchema: marriageInfo.uiSchema,
           schema: marriageInfo.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         spouseVeteranStatus: {
-          path: 'marital/spouse-veteran',
+          path: 'spouse-veteran-status',
           title: 'Is your spouse a Veteran?',
           depends: formData => formData.hasRemarried === true,
           uiSchema: spouseVeteranStatus.uiSchema,
           schema: spouseVeteranStatus.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         spouseVeteranId: {
-          path: 'marital/spouse-veteran-id',
-          title: 'Spouse Veteran information',
+          path: 'spouse-veteran-id',
+          title: "Spouse's identification information",
           depends: formData =>
             formData.hasRemarried === true &&
             formData.remarriage?.spouseIsVeteran === true,
           uiSchema: spouseVeteranId.uiSchema,
           schema: spouseVeteranId.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         terminationStatus: {
-          path: 'marital/termination-status',
+          path: 'remarriage-end-status',
           title: 'Has your remarriage ended?',
           depends: formData => formData.hasRemarried === true,
           uiSchema: terminationStatus.uiSchema,
           schema: terminationStatus.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         terminationDetails: {
-          path: 'marital/termination-details',
-          title: 'End of marriage details',
+          path: 'remarriage-end-details',
+          title: 'Details on end of remarriage',
           depends: formData =>
             formData.hasRemarried === true &&
             formData.remarriage?.hasTerminated === true,
           uiSchema: terminationDetails.uiSchema,
           schema: terminationDetails.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
-        },
-        marriageRecognition: {
-          path: 'marital/marriage-recognition',
-          title: 'Important information about marriage recognition',
-          depends: formData => formData.hasRemarried === true,
-          hideOnReview: true,
-          uiSchema: marriageRecognition.uiSchema,
-          schema: marriageRecognition.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
-        },
-      },
-    },
-    contactInfoChapter: {
-      title: 'Contact information',
-      pages: {
-        phoneAndEmail: {
-          path: 'contact/phone-email',
-          title: 'How can we reach you?',
-          uiSchema: phoneAndEmail.uiSchema,
-          schema: phoneAndEmail.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },

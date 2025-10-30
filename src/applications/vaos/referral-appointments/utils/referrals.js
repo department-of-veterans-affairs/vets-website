@@ -13,6 +13,9 @@ const errorUUIDs = [
   'eps-error-appointment-id',
 ];
 
+const ALLOWED_CATEGORIES_OF_CARE = ['optometry'];
+const CHIRO_FEATURE_ALLOWED_CATEGORY = ['chiropractic'];
+
 /**
  * Creates a referral list object relative to a start date.
  *
@@ -56,11 +59,12 @@ const errorReferralsList = (errorUUIDs || []).map(uuid => {
 /**
  * Creates a referral object with specified uuid and expiration date.
  *
+ * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} uuid The UUID for the referral
  * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
- * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} categoryOfCare The category of care for the referral
  * @param {Boolean} hasProvider Whether the referral has a provider
+ * @param {String} stationId The station id for the referral
  * @returns {Object} Referral object
  */
 const createReferralById = (
@@ -69,6 +73,7 @@ const createReferralById = (
   expirationDate,
   categoryOfCare = 'OPTOMETRY',
   hasProvider = true,
+  stationId = '659BY',
 ) => {
   const [year, month, day] = startDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
@@ -96,7 +101,7 @@ const createReferralById = (
     attributes: {
       uuid,
       referralDate: '2023-01-01',
-      stationId: '659BY',
+      stationId,
       expirationDate:
         expirationDate || format(addMonths(relativeDate, 6), mydFormat),
       referralNumber: uuid.includes('error') ? uuid : 'VA0000007241',
@@ -204,18 +209,19 @@ const filterReferrals = (
   referrals,
   featureCCDirectSchedulingChiropractic = false,
 ) => {
+  let allowedCategories = ALLOWED_CATEGORIES_OF_CARE;
   if (!referrals?.length) {
     return [];
   }
-
-  const scheduleableCategories = ['optometry'];
-
   if (featureCCDirectSchedulingChiropractic) {
-    scheduleableCategories.push('chiropractic');
+    // Add chiropractic to allowed categories if feature is on
+    allowedCategories = [
+      ...allowedCategories,
+      ...CHIRO_FEATURE_ALLOWED_CATEGORY,
+    ];
   }
-
   return referrals.filter(referral =>
-    scheduleableCategories.includes(
+    allowedCategories.includes(
       referral.attributes.categoryOfCare?.toLowerCase(),
     ),
   );

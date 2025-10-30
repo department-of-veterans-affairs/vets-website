@@ -84,9 +84,15 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       schema: relationshipPartTwo.schema,
     }),
     addChildStepchild: pages.itemPage({
-      depends: (formData, index) =>
-        shouldIncludePage(formData) &&
-        formData?.childrenToAdd?.[index]?.relationshipToChild?.stepchild,
+      depends: (formData, index) => {
+        if (!shouldIncludePage(formData)) {
+          return false;
+        }
+        return (
+          formData?.childrenToAdd?.[index]?.isBiologicalChild === false &&
+          formData?.childrenToAdd?.[index]?.relationshipToChild?.stepchild
+        );
+      },
       title: "Child's biological parents",
       path: '686-report-add-child/:index/stepchild',
       uiSchema: stepchild.uiSchema,
@@ -156,7 +162,7 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
   };
 });
 
-export const chapter = {
+export default {
   title: 'Add one or more children',
   pages: {
     ...chapterPages,

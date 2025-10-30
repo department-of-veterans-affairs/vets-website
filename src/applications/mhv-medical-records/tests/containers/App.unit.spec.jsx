@@ -382,10 +382,6 @@ describe.skip('App', () => {
         {
           initialState: {
             ...initialState,
-            featureToggles: {
-              // eslint-disable-next-line camelcase
-              mhv_medical_records_display_sidenav: false,
-            },
           },
           path: `/`,
           reducers: reducer,
@@ -402,10 +398,6 @@ describe.skip('App', () => {
         {
           initialState: {
             ...initialState,
-            featureToggles: {
-              // eslint-disable-next-line camelcase
-              mhv_medical_records_display_sidenav: true,
-            },
             ...noDowntime,
           },
           reducers: reducer,

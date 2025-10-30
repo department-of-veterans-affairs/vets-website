@@ -9,7 +9,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 
 import formConfig from '../../config/form';
-import maximalData from '../fixtures/data/maximal-test.json';
+import comprehensiveData from '../fixtures/data/pre-api-comprehensive-test.json';
 import errorMessages from '../../../shared/content/errorMessages';
 
 const mockStore = data => ({
@@ -55,15 +55,16 @@ describe('contestable issues page', () => {
 
     expect($('.add-new-issue', container)).to.exist;
   });
+
   it('should continue with valid data', () => {
     const { container } = render(
       <div>
-        <Provider store={mockStore(maximalData.data)}>
+        <Provider store={mockStore(comprehensiveData.data)}>
           <DefinitionTester
             definitions={{}}
             schema={schema}
             uiSchema={uiSchema}
-            data={maximalData.data}
+            data={comprehensiveData.data}
           />
         </Provider>
       </div>,
@@ -72,8 +73,9 @@ describe('contestable issues page', () => {
     fireEvent.submit($('form', container));
     expect($('.usa-input-error-message', container)).to.not.exist;
   });
+
   it('should show error with invalid date', () => {
-    const data = cloneDeep(maximalData.data);
+    const data = cloneDeep(comprehensiveData.data);
     data.additionalIssues[0].decisionDate = null;
 
     const { container } = render(
@@ -88,6 +90,7 @@ describe('contestable issues page', () => {
         </Provider>
       </div>,
     );
+
     fireEvent.submit($('form', container));
 
     expect($('.usa-input-error-message', container).textContent).to.contain(

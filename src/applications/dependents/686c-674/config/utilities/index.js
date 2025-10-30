@@ -19,6 +19,14 @@ import {
   spouseEvidence,
   childEvidence,
   showDupeModalIfEnabled,
+  isAddingDependents,
+  isRemovingDependents,
+  showV3Picklist,
+  noV3Picklist,
+  showOptionsSelection,
+  hasAwardedDependents,
+  isVisiblePicklistPage,
+  hasSelectedPicklistItems,
 } from './data';
 
 export {
@@ -42,4 +50,12 @@ export {
   spouseEvidence,
   childEvidence,
   showDupeModalIfEnabled,
+  isAddingDependents,
+  isRemovingDependents,
+  showV3Picklist,
+  noV3Picklist,
+  showOptionsSelection,
+  hasAwardedDependents,
+  isVisiblePicklistPage,
+  hasSelectedPicklistItems,
 };

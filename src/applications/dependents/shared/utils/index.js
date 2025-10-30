@@ -1,6 +1,10 @@
-import { parse, isValid, format } from 'date-fns';
-
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
+
+import { getFormatedDate, calculateAge } from './dates';
+
+export { getFormatedDate, calculateAge };
+
+const VIEW_DEPENDENTS_WARNING_KEY = 'viewDependentsWarningClosedAt';
 
 /**
  * Return formatted full name from name object
@@ -16,20 +20,14 @@ export const getFullName = ({ first, middle, last, suffix } = {}) =>
   (suffix ? `, ${suffix}` : '');
 
 /**
- *
- * @param {String} date - date string that matches the `startFormat`
- * @param {String} startFormat - input date string format using Date-fn patterns
- * @param {String} endFormat - output date string format using Date-fn patterns
- * @returns {String} - formatted date string, or 'Unknown date' if invalid
+ * Make a name possessive by adding an apostrophe
+ * @param {String} name - The name to make possessive
+ * @returns {String} - The possessive form of the name
+ * @example makeNamePossessive('Alex') => "Alex's"
+ * @example makeNamePossessive('Chris') => "Chris'"
  */
-export const getFormatedDate = (
-  date,
-  startFormat = 'yyyy-MM-dd',
-  endFormat = 'MMMM d, yyyy',
-) => {
-  const dobObj = parse(date, startFormat, new Date());
-  return isValid(dobObj) ? format(dobObj, endFormat) : date || 'Unknown date';
-};
+export const makeNamePossessive = name =>
+  `${name}’${name.toLowerCase().endsWith('s') ? '' : 's'}`;
 
 /**
  * Separate each number so the screen reader reads "number ending with 1 2 3 4"
@@ -67,3 +65,17 @@ export function isEmptyObject(obj) {
 }
 
 export const getRootParentUrl = rootUrl => rootUrl.split(/\b\//)[0];
+
+export function getIsDependentsWarningHidden() {
+  const rawStoredDate = localStorage.getItem(VIEW_DEPENDENTS_WARNING_KEY);
+  if (!rawStoredDate) {
+    return false;
+  }
+
+  const dateClosed = new Date(rawStoredDate);
+  return !Number.isNaN(dateClosed.getTime());
+}
+
+export function hideDependentsWarning() {
+  localStorage.setItem(VIEW_DEPENDENTS_WARNING_KEY, new Date().toISOString());
+}

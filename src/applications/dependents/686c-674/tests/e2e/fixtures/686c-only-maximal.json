@@ -49,6 +49,7 @@
       "isEncrypted": false
     }
   ],
+  "view:householdIncome": true,
   "view:completedChildStoppedAttendingSchool": false,
   "view:completedMarriedChild": false,
   "view:completedDependent": false,
@@ -246,7 +247,7 @@
       "tuitionIsPaidByGovAgency": false,
       "view:programExamples": {},
       "ssn": "800662233",
-      "isParent": false,
+      "relationshipToStudent": "biological",
       "wasMarried": false,
       "address": {
         "view:militaryBaseDescription": {},

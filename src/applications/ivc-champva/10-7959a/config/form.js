@@ -9,7 +9,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import transformForSubmit from './submitTransformer';
 import { nameWording, privWrapper } from '../../shared/utilities';
 import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
-import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
+import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
+import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
 import {
   certifierRoleSchema,
   certifierReceivedPacketSchema,
@@ -20,7 +21,6 @@ import {
   certifierRelationshipSchema,
   certifierClaimStatusSchema,
 } from '../chapters/signerInformation';
-import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import {
   insuranceStatusSchema,
   insurancePages,
@@ -39,7 +39,6 @@ import {
   applicantAddressSchema,
   applicantContactSchema,
 } from '../chapters/beneficiaryInformation';
-
 import {
   blankSchema,
   sponsorAddressSchema,
@@ -48,12 +47,9 @@ import {
 } from '../chapters/sponsorInformation';
 
 import {
-  claimIdentifyingNumber,
-  claimType,
-  medicalClaimDetails,
-  medicalUploadSupportingDocs,
-  pharmacyClaimDetails,
-  pharmacyClaimUploadDocs,
+  claimIdentificationNumber,
+  resubmissionLetterUpload,
+  resubmissionDocsUpload,
 } from '../chapters/resubmission';
 
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
@@ -115,6 +111,7 @@ const formConfig = {
   },
   title: 'File a CHAMPVA claim',
   subTitle: 'CHAMPVA Claim Form (VA Form 10-7959a)',
+  dev: { disableWindowUnloadInCI: true },
   defaultDefinitions: {},
   chapters: {
     signerInformation: {
@@ -168,61 +165,36 @@ const formConfig = {
           path: 'is-resubmit',
           title: 'Your CHAMPVA claim status',
           // If the feature toggle is enabled, show this page:
-          depends: formData => formData.champvaEnableClaimResubmitQuestion,
+          depends: formData =>
+            formData['view:champvaEnableClaimResubmitQuestion'],
           ...certifierClaimStatusSchema,
         },
       },
     },
     resubmissionInformation: {
-      title: 'Claim information',
+      title: 'Resubmission information',
       pages: {
         page1e1: {
           path: 'resubmission-claim-number',
           title: 'Claim ID number',
           depends: formData => get('claimStatus', formData) === 'resubmission',
-          ...claimIdentifyingNumber,
+          ...claimIdentificationNumber,
         },
-        page1f: {
-          path: 'resubmission-claim-type',
-          title: 'Claim type',
+        page1e2: {
+          path: 'resubmission-letter-upload',
+          title: 'Upload CHAMPVA resubmission letter',
           depends: formData => get('claimStatus', formData) === 'resubmission',
-          ...claimType,
-        },
-        page1g: {
-          path: 'resubmission-medical-claim-details',
-          title: 'Claim details',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'medical',
-          ...medicalClaimDetails,
-        },
-        page1h: {
-          path: 'resubmission-medical-supporting-docs',
-          title: 'claim details',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'medical',
           CustomPage: FileFieldCustomSimple,
           CustomPageReview: null,
-          ...medicalUploadSupportingDocs,
+          ...resubmissionLetterUpload,
         },
-        pageij: {
-          path: 'resubmission-pharmacy-claim-details',
-          title: 'claim details',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'pharmacy',
-          ...pharmacyClaimDetails,
-        },
-        page1k: {
-          path: 'resubmission-pharmacy-supporting-docs',
-          title: 'Upload support documents for your pharmacy claim',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'pharmacy',
+        page1e3: {
+          path: 'resubmission-supporting-docs-upload',
+          title: 'Upload supporting documents for your claim',
+          depends: formData => get('claimStatus', formData) === 'resubmission',
           CustomPage: FileFieldCustomSimple,
           CustomPageReview: null,
-          ...pharmacyClaimUploadDocs,
+          ...resubmissionDocsUpload,
         },
       },
     },
@@ -271,21 +243,8 @@ const formConfig = {
             (get('street', formData?.certifierAddress) ||
               get('street', formData?.sponsorAddress)),
           CustomPage: props => {
-            const extraProps = {
-              ...props,
-              customTitle: privWrapper(`${fnp(props.data)} address`),
-              customDescription:
-                'We’ll send any important information about this claim to this address.',
-              customSelectText: `Does ${nameWording(
-                props.data,
-                false,
-                false,
-                true,
-              )} have the same address as you?`,
-              positivePrefix: 'Yes, their address is',
-              negativePrefix: 'No, they have a different address',
-            };
-            return ApplicantAddressCopyPage(extraProps);
+            const opts = { ...props, dataKey: 'applicantAddress' };
+            return AddressSelectionPage(opts);
           },
           CustomPageReview: null,
           uiSchema: {},

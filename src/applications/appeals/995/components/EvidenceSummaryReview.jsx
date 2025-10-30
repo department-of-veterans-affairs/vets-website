@@ -1,29 +1,20 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-
 import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
 import {
   getVAEvidence,
   getPrivateEvidence,
   getOtherEvidence,
 } from '../utils/evidence';
-
 import { content } from '../content/evidenceSummary';
-
 import { EvidencePrivateContent } from './EvidencePrivateContent';
 import { EvidenceUploadContent } from './EvidenceUploadContent';
 import { EvidenceVaContent } from './EvidenceVaContent';
-import {
-  SUMMARY_EDIT,
-  SC_NEW_FORM_DATA,
-  LIMITED_CONSENT_RESPONSE,
-} from '../constants';
+import { SUMMARY_EDIT, LIMITED_CONSENT_RESPONSE } from '../constants';
 import { data995 } from '../../shared/props';
 
 const EvidenceSummaryReview = ({ data, editPage }) => {
   const { limitedConsent = '', privacyAgreementAccepted } = data;
-
   const editRef = useRef(null);
 
   useEffect(
@@ -45,8 +36,6 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   const privateEvidence = getPrivateEvidence(data);
   const otherEvidence = getOtherEvidence(data);
 
-  const showScNewForm = data[SC_NEW_FORM_DATA];
-
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
   const noEvidence = evidenceLength === 0;
@@ -60,7 +49,6 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   };
 
   const props = {
-    showScNewForm,
     isOnReviewPage: true,
     reviewMode: true,
   };
@@ -81,7 +69,6 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
           text={content.edit}
         />
       </div>
-
       {noEvidence ? (
         <dl className="review">
           <div className="review-row">
@@ -90,7 +77,6 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
           </div>
         </dl>
       ) : null}
-
       <EvidenceVaContent list={vaEvidence} {...props} />
       <EvidencePrivateContent
         list={privateEvidence}
@@ -105,7 +91,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
 };
 
 EvidenceSummaryReview.propTypes = {
-  data: data995,
+  data: PropTypes.shape(data995),
   editPage: PropTypes.func,
 };
 

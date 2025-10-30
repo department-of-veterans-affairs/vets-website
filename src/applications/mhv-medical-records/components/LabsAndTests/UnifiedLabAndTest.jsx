@@ -16,7 +16,7 @@ import PrintDownload from '../shared/PrintDownload';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 
-import { generateTextFile } from '../../util/helpers';
+import { generateTextFile, itemListWrapper } from '../../util/helpers';
 
 import {
   pageTitles,
@@ -76,14 +76,6 @@ const UnifiedLabsAndTests = props => {
 
         {downloadStarted && <DownloadSuccessAlert />}
 
-        <PrintDownload
-          description="L&TR Detail"
-          downloadPdf={generatePdf}
-          downloadTxt={generateTxt}
-          allowTxtDownloads
-        />
-        <DownloadingRecordsInfo description="L&TR Detail" allowTxtDownloads />
-
         {/*                   TEST DETAILS                          */}
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
@@ -124,10 +116,11 @@ const UnifiedLabsAndTests = props => {
             />
             <LabelValue
               label={LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}
-              ifEmpty=""
+              element={itemListWrapper(record?.comments)}
               testId="lab-and-test-comments"
-            />
-            <ItemList list={record.comments} />
+            >
+              <ItemList list={record.comments} />
+            </LabelValue>
             <LabelValue
               ifEmpty="None Noted"
               label={LABS_AND_TESTS_DISPLAY_LABELS.RESULTS}
@@ -163,6 +156,14 @@ const UnifiedLabsAndTests = props => {
           </div>
         )}
       </HeaderSection>
+      <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+      <DownloadingRecordsInfo description="L&TR Detail" />
+      <PrintDownload
+        description="L&TR Detail"
+        downloadPdf={generatePdf}
+        downloadTxt={generateTxt}
+      />
+      <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
     </div>
   );
 };
