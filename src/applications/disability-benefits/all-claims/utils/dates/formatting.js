@@ -300,6 +300,15 @@ export const isWithinServicePeriod = (date, servicePeriods = []) => {
 };
 
 /**
+ * Get current date/time as a moment object
+ * Uses local timezone, with time stripped to start of day for date-only comparisons
+ * @returns {moment.Moment} Current date at start of day (00:00:00)
+ */
+export const getCurrentDate = () => {
+  return moment().startOf('day');
+};
+
+/**
  * Parse a date string
  * @param {string} dateString - Date to parse
  * @param {string} format - Optional format

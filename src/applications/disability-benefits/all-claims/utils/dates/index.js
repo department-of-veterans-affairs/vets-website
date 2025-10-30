@@ -26,6 +26,7 @@ export {
   isWithinRange,
   isWithinServicePeriod,
   // Parsing functions
+  getCurrentDate,
   parseDate,
   parseDateWithTemplate,
   // BDD-specific functions
