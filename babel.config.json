@@ -322,6 +322,19 @@
           "babel-plugin-transform-import-ignore",
           { "patterns": [".scss", ".css", ".sass"] }
         ],
+        [
+          "module-resolver",
+          {
+            "root": "./src",
+            "extensions": [".js", ".jsx", ".json", ".ts", ".tsx"],
+            "alias": {
+              "~": "./src",
+              ".src": "./src",
+              "platform": "./src/platform",
+              "applications": "./src/applications",
+            }
+          }
+        ],
         ["istanbul", { "exclude": ["**/tests/**/*", "**/mocks/**/*"] }],
         "transform-class-properties",
         "dynamic-import-node",
