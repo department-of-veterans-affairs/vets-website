@@ -18,22 +18,19 @@ const ReviewPage = ({ claim, message }) => {
   const navigate = useNavigate();
   const { apptId } = useParams();
 
-  const expenseTypes = Object.keys(EXPENSE_TYPES);
-
   // For now, we will override the claim to have some expenses
   const overriddenClaim = claim || complexClaimAllExpenseTypes;
 
-  // Get total by expense type
-  const totalByExpenseType = expenseTypes.reduce((acc, type) => {
-    const filteredExpenses = overriddenClaim.expenses.filter(
-      expense => expense.expenseType === type,
-    );
-    acc[type] = filteredExpenses.reduce(
-      (sum, expense) => sum + (expense.costRequested || 0),
-      0,
-    );
-    return acc;
-  }, {});
+  // Get total by expense type and return expenses alphabetically
+  const totalByExpenseType = Object.fromEntries(
+    Object.entries(
+      overriddenClaim.expenses.reduce((acc, expense) => {
+        const type = expense.expenseType;
+        acc[type] = (acc[type] || 0) + (expense.costRequested || 0);
+        return acc;
+      }, {}),
+    ).sort(([a], [b]) => a.localeCompare(b)),
+  );
 
   // Create a grouped version of expenses by expenseType
   const groupedExpenses = overriddenClaim.expenses.reduce((acc, expense) => {
@@ -112,27 +109,19 @@ const ReviewPage = ({ claim, message }) => {
                 const cardHeader = `${formatDate(
                   expense.dateIncurred,
                 )}, $${formatAmount(expense.costRequested)}`;
-                if (type === 'Mileage') {
-                  return (
-                    <ExpenseCard
-                      key={expense.id}
-                      expense={expense}
-                      editToRoute="../mileage"
-                      header={`${cardHeader}`}
-                    />
-                  );
-                }
-                if (type !== 'Mileage') {
-                  return (
-                    <ExpenseCard
-                      key={expense.id}
-                      expense={expense}
-                      editToRoute={`../${type.toLowerCase()}`}
-                      header={`${cardHeader}`}
-                    />
-                  );
-                }
-                return null;
+                const editRoute =
+                  type === 'Mileage'
+                    ? '../mileage'
+                    : `../${type.toLowerCase()}`;
+
+                return (
+                  <ExpenseCard
+                    key={expense.id}
+                    expense={expense}
+                    editToRoute={editRoute}
+                    header={`${cardHeader}`}
+                  />
+                );
               })}
               {/* Only show button when expense type is NOT Mileage */}
               {type !== 'Mileage' && (
