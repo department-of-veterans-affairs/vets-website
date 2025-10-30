@@ -33,6 +33,7 @@ const defaultProps = {
   lettersAvailability: AVAILABILITY_STATUSES.available,
   letterDownloadStatus: {},
   optionsAvailable: true,
+  tsaSafeTravelLetter: true,
 };
 
 const getStore = () =>
@@ -59,10 +60,6 @@ const getStore = () =>
       },
     },
     shouldUseLighthouse: true,
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      tsa_safe_travel_letter: true,
-    },
   }));
 
 describe('<LetterList>', () => {
@@ -199,6 +196,21 @@ describe('<LetterList>', () => {
       'One of our systems appears to be down.',
     );
   });
+
+  it('renders eligibility error when TSA letter is not available', async () => {
+    apiRequestStub.resetBehavior();
+    apiRequestStub.rejects(new Error('API Error'));
+    const { findByText } = render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...defaultProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    const errorHeading = await findByText('Some letters may not be available');
+    expect(errorHeading).to.exist;
+  });
+
   it('renders VeteranBenefitSummaryOptions', () => {
     const { getByText } = render(
       <Provider store={getStore()}>
