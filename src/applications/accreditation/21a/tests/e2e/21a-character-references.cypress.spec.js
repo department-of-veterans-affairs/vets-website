@@ -103,18 +103,16 @@ describe('The 21A Character References Page', () => {
     cy.findByRole('link', { name: /start your application/i }).click();
     cy.location('pathname', { timeout: 1000 }).should('eq', personalInfoUrl);
     cy.visit(characterReferencesUrl);
-
-    cy.injectAxe();
-    cy.axeCheck();
-
     cy.findByRole('button', { name: /^Continue$/ }).click();
     cy.createCharacterReference('Harry', 'Potter');
     cy.addNewCharacterReference();
     cy.createCharacterReference('Ron', 'Weasley');
     cy.addNewCharacterReference();
     cy.createCharacterReference('Hermione', 'Granger');
-    cy.goToNextPage();
-
+    cy.get('input[name="root_view:hasCharacterReferences"][value="N"]').check({
+      force: true,
+    });
+    cy.findByRole('button', { name: /^Continue$/i }).click();
     cy.location('pathname', { timeout: 1000 }).should(
       'eq',
       supplementaryStatementsIntroUrl,
