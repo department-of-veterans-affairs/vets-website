@@ -8,7 +8,7 @@ import thunk from 'redux-thunk';
 import { isPlainObject } from 'lodash';
 import { render as rtlRender } from '@testing-library/react';
 
-import { commonReducer } from 'platform/startup/store';
+import { commonReducer } from '../../startup/store';
 import { createTestHistory } from './helpers';
 
 /**
