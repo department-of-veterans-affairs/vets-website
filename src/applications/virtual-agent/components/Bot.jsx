@@ -6,6 +6,9 @@ import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide
 import SignInModal from '@department-of-veterans-affairs/platform-user/SignInModal';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
+// Event Listeners
+import webAuthActivityEventListener from '../event-listeners/webAuthActivityEventListener';
+
 // Components
 import App from './App';
 import ChatboxDisclaimer from './ChatboxDisclaimer';
@@ -35,6 +38,8 @@ function Bot({
   const isAccepted = useSelector(selectVirtualAgentDataTermsAccepted);
   const [isAuthTopic, setIsAuthTopic] = useState(false);
   const loggedInFlow = getLoggedInFlow();
+
+  webAuthActivityEventListener(isLoggedIn, setIsAuthTopic);
 
   useLoginModal(isLoggedIn, isAuthTopic, virtualAgentUseStsAuthentication);
 

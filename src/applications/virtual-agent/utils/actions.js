@@ -1,7 +1,6 @@
 import * as _ from 'lodash';
 
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
 
 import {
   EVENT_API_CALL,
@@ -14,8 +13,6 @@ import {
   getInAuthExp,
   getIsTrackingUtterances,
   getRecentUtterances,
-  setInAuthExp,
-  setLoggedInFlow,
   setEventSkillValue,
   setIsTrackingUtterances,
   setRecentUtterances,
@@ -161,7 +158,6 @@ export const processSendMessageActivity = ({ action }) => () => {
 export const processIncomingActivity = ({
   action,
   dispatch,
-  appDispatch,
   isComponentToggleOn,
 }) => () => {
   const data = action.payload.activity;
@@ -185,13 +181,7 @@ export const processIncomingActivity = ({
 
     if (botWantsToSignInUser) {
       setIsTrackingUtterances(false);
-      setTimeout(() => {
-        setInAuthExp('true');
-        setLoggedInFlow('true');
-        if (typeof appDispatch === 'function') {
-          appDispatch(toggleLoginModal(true, 'va-chatbot', true));
-        }
-      }, 2000); // delay before opening
+      sendWindowEventWithActionPayload('webchat-auth-activity', action);
     } else if (isNewAuthedConversation) {
       resetUtterances(dispatch);
     }
