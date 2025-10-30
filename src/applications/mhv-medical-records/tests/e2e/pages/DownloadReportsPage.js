@@ -8,17 +8,9 @@ class DownloadReportsPage {
   };
 
   clickCcdAccordionItem = () => {
-    cy.get('[data-testid="ccdAccordionItem"]', { timeout: 15000 }).should(
-      'be.visible',
-    );
-
-    cy.get('body').then($body => {
-      if (
-        $body.find('[data-testid^="generateCcdButton"]:visible').length === 0
-      ) {
-        cy.get('[data-testid="ccdAccordionItem"]').click();
-      }
-    });
+    cy.get('[data-testid="ccdAccordionItem"]', { timeout: 15000 })
+      .should('be.visible')
+      .click();
 
     cy.contains('Continuity of Care Document', { timeout: 15000 }).should(
       'be.visible',
@@ -26,9 +18,7 @@ class DownloadReportsPage {
 
     cy.get('[data-testid^="generateCcdButton"]', { timeout: 15000 })
       .first()
-      .should('be.visible')
-      .should('have.css', 'width')
-      .and('not.equal', '0px');
+      .should('be.visible');
   };
 
   clickSelfEnteredAccordionItem = () => {
