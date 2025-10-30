@@ -59,10 +59,10 @@ describe('PhoneField', () => {
       expect(phoneInput).to.have.attribute('contact', '');
     });
 
-    it('defaults to US country with no country selector', () => {
+    it('defaults to US country with country selector shown', () => {
       const { container } = render(<PhoneField {...defaultProps} />);
       const phoneInput = container.querySelector('va-telephone-input');
-      expect(phoneInput).to.have.attribute('no-country', 'true');
+      expect(phoneInput).to.not.have.attribute('no-country');
       expect(phoneInput).to.have.attribute('country', 'US');
     });
 
@@ -70,6 +70,29 @@ describe('PhoneField', () => {
       const { container } = render(<PhoneField {...defaultProps} />);
       const phoneInput = container.querySelector('va-telephone-input');
       expect(phoneInput).to.have.attribute('required', 'false');
+    });
+
+    it('sets required to true when required prop is true', () => {
+      const props = { ...defaultProps, required: true };
+      const { container } = render(<PhoneField {...props} />);
+      const phoneInput = container.querySelector('va-telephone-input');
+      expect(phoneInput).to.have.attribute('required', 'true');
+    });
+
+    it('sets required to false when required prop is false', () => {
+      const props = { ...defaultProps, required: false };
+      const { container } = render(<PhoneField {...props} />);
+      const phoneInput = container.querySelector('va-telephone-input');
+      expect(phoneInput).to.have.attribute('required', 'false');
+    });
+
+    it('properly passes through required attribute for form validation', () => {
+      const props = { ...defaultProps, required: true };
+      const { container } = render(<PhoneField {...props} />);
+      const phoneInput = container.querySelector('va-telephone-input');
+      // Verify the required attribute is present and set correctly
+      expect(phoneInput.hasAttribute('required')).to.be.true;
+      expect(phoneInput.getAttribute('required')).to.equal('true');
     });
   });
 
@@ -419,19 +442,27 @@ describe('PhoneField', () => {
   });
 
   describe('country handling', () => {
-    it('defaults to US with no country selector', () => {
+    it('defaults to US with country selector shown', () => {
       const { container } = render(<PhoneField {...defaultProps} />);
+      const phoneInput = container.querySelector('va-telephone-input');
+      expect(phoneInput).to.not.have.attribute('no-country');
+      expect(phoneInput).to.have.attribute('country', 'US');
+    });
+
+    it('hides country selector when showCountrySelector is false', () => {
+      const props = { ...defaultProps, showCountrySelector: false };
+      const { container } = render(<PhoneField {...props} />);
       const phoneInput = container.querySelector('va-telephone-input');
       expect(phoneInput).to.have.attribute('no-country', 'true');
       expect(phoneInput).to.have.attribute('country', 'US');
     });
 
-    it('respects showCountrySelector prop (unused)', () => {
+    it('shows country selector when showCountrySelector is true', () => {
       const props = { ...defaultProps, showCountrySelector: true };
       const { container } = render(<PhoneField {...props} />);
       const phoneInput = container.querySelector('va-telephone-input');
-      // Component ignores this prop but should still render
-      expect(phoneInput).to.exist;
+      expect(phoneInput).to.not.have.attribute('no-country');
+      expect(phoneInput).to.have.attribute('country', 'US');
     });
   });
 
