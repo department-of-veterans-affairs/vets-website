@@ -54,7 +54,11 @@ describe('Interstitial page header', () => {
       ),
     ).to.exist;
 
-    expect(document.title).to.contain('Only use messages for non-urgent needs');
+    await waitFor(() => {
+      expect(document.title).to.contain(
+        'Only use messages for non-urgent needs',
+      );
+    });
   });
 
   it('renders "Continue to draft" on type draft', () => {
