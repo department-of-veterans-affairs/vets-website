@@ -5,9 +5,10 @@ import {
   hasSelectedPicklistItems,
 } from '../utilities';
 
-import PicklistRemoveDependents from '../../components/PicklistRemoveDependents';
-import PicklistRemoveDependentFollowup from '../../components/PicklistRemoveDependentFollowup';
-import PicklistRemoveDependentFollowupReview from '../../components/PicklistRemoveDependentsReview';
+import PicklistRemoveDependents from '../../components/picklist/PicklistRemoveDependents';
+import PicklistRemoveDependentFollowup from '../../components/picklist/PicklistRemoveDependentFollowup';
+import PicklistRemoveDependentsReview from '../../components/picklist/PicklistRemoveDependentsReview';
+import PicklistRemoveDependentFollowupReview from '../../components/picklist/PicklistRemoveDependentFollowupReview';
 
 // Remove dependents picklist page in optionSelection chapter
 export const removeDependentsPicklistOptions = {
@@ -16,7 +17,7 @@ export const removeDependentsPicklistOptions = {
   uiSchema: {},
   schema: { type: 'object', properties: {} },
   CustomPage: PicklistRemoveDependents,
-  CustomPageReview: PicklistRemoveDependentFollowupReview,
+  CustomPageReview: PicklistRemoveDependentsReview,
   depends: formData =>
     showV3Picklist(formData) &&
     hasAwardedDependents(formData) &&
@@ -33,7 +34,7 @@ export const removeDependentsPicklistFollowupPages = {
       uiSchema: {},
       schema: { type: 'object', properties: {} },
       CustomPage: PicklistRemoveDependentFollowup,
-      CustomPageReview: null,
+      CustomPageReview: PicklistRemoveDependentFollowupReview,
       depends: formData =>
         showV3Picklist(formData) &&
         hasAwardedDependents(formData) &&
