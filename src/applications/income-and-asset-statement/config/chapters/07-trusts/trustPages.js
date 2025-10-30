@@ -152,6 +152,21 @@ export const options = {
   },
 };
 
+const SeriouslyDisabledAdditionalInformation = () => (
+  <va-additional-info trigger="Who we consider seriously disabled?">
+    <p>
+      We consider a child seriously disabled if both these statements are true:
+    </p>
+    <ul>
+      <li>
+        They developed a permanent physical or mental disability before they
+        turned 18 years old, <strong>and</strong>
+      </li>
+      <li> They can’t support or care for themselves</li>
+    </ul>
+  </va-additional-info>
+);
+
 // We support multiple summary pages (one per claimant type).
 // These constants centralize shared text so each summary page stays consistent.
 // Important: only one summary page should ever be displayed at a time.
@@ -303,12 +318,12 @@ const custodianSummaryPage = {
 const informationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Trust establishment',
+      title: 'Trust creation',
       nounSingular: options.nounSingular,
     }),
-    establishedDate: currentOrPastDateUI('When was the trust established?'),
+    establishedDate: currentOrPastDateUI('When was the trust created?'),
     marketValueAtEstablishment: currencyUI(
-      'What was the market value of all assets within the trust at the time of establishment?',
+      'What was the total fair market value of the trust’s assets when created?',
     ),
   },
   schema: {
@@ -326,8 +341,9 @@ const trustTypePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Type of trust'),
     trustType: radioUI({
-      title: 'What is the type of trust established?',
+      title: 'What type of trust is it?',
       labels: trustTypeLabels,
+      ...sharedYesNoOptionsBase,
     }),
   },
   schema: {
@@ -343,12 +359,13 @@ const trustTypePage = {
 const incomePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Income from trust'),
-    receivingIncomeFromTrust: yesNoUI(
-      'Are you receiving income from the trust?',
-    ),
+    receivingIncomeFromTrust: yesNoUI({
+      title: 'Did you receive income from this trust?',
+      ...sharedYesNoOptionsBase,
+    }),
     annualReceivedIncome: {
       ...currencyUI({
-        title: 'How much is the annual amount received?',
+        title: 'How much annual income do you receive from this trust?',
         expandUnder: 'receivingIncomeFromTrust',
         expandUnderCondition: true,
       }),
@@ -369,17 +386,39 @@ const incomePage = {
 };
 
 /** @returns {PageSchema} */
+const veteransChildPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Trust for child'),
+    trustEstablishedForVeteransChild: yesNoUI({
+      title:
+        'Was this trust created for a Veteran’s child who was seriously disabled before age 18?',
+      ...sharedYesNoOptionsBase,
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      trustEstablishedForVeteransChild: yesNoSchema,
+    },
+    required: ['trustEstablishedForVeteransChild'],
+  },
+};
+
+/** @returns {PageSchema} */
 const medicalExpensePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Use of trust for medical expenses',
     ),
-    trustUsedForMedicalExpenses: yesNoUI(
-      'Is the trust being used to pay for or to reimburse someone else for your medical expenses?',
-    ),
+    trustUsedForMedicalExpenses: yesNoUI({
+      title:
+        'Do you use this trust to pay for or reimburse someone for your medical expenses?',
+      ...sharedYesNoOptionsBase,
+    }),
     monthlyMedicalReimbursementAmount: {
       ...currencyUI({
-        title: 'How much is the amount being reimbursed monthly?',
+        title:
+          'What’s the monthly amount you use from this trust for medical expenses?',
         expandUnder: 'trustUsedForMedicalExpenses',
         expandUnderCondition: true,
       }),
@@ -400,29 +439,13 @@ const medicalExpensePage = {
 };
 
 /** @returns {PageSchema} */
-const veteransChildPage = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Trust for child'),
-    trustEstablishedForVeteransChild: yesNoUI(
-      'Was the trust established for a child of the Veteran who was incapable of self-support prior to reaching age 18?',
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      trustEstablishedForVeteransChild: yesNoSchema,
-    },
-    required: ['trustEstablishedForVeteransChild'],
-  },
-};
-
-/** @returns {PageSchema} */
 const controlPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Control of trust'),
-    haveAuthorityOrControlOfTrust: yesNoUI(
-      'Do you have any additional authority or control of the trust?',
-    ),
+    haveAuthorityOrControlOfTrust: yesNoUI({
+      title: 'Do you have any additional authority or control over this trust?',
+      ...sharedYesNoOptionsBase,
+    }),
   },
   schema: {
     type: 'object',
@@ -436,10 +459,11 @@ const controlPage = {
 /** @returns {PageSchema} */
 const hasAddedFundsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Funds added to trust'),
-    addedFundsAfterEstablishment: yesNoUI(
-      'Have you added funds to the trust after it was established?',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI('Money added to trust'),
+    addedFundsAfterEstablishment: yesNoUI({
+      title: 'Has money been added to this trust since it was created?',
+      ...sharedYesNoOptionsBase,
+    }),
   },
   schema: {
     type: 'object',
@@ -454,8 +478,8 @@ const hasAddedFundsPage = {
 const addedFundsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Amount added to trust'),
-    addedFundsDate: currentOrPastDateUI('When did you add funds?'),
-    addedFundsAmount: currencyUI('How much did you add?'),
+    addedFundsDate: currentOrPastDateUI('When was money added?'),
+    addedFundsAmount: currencyUI('How much was added?'),
   },
   schema: {
     type: 'object',
@@ -679,17 +703,20 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: incomePage.uiSchema,
     schema: incomePage.schema,
   }),
+  trustVeteransChildPage: pageBuilder.itemPage({
+    ContentBeforeButtons: showUpdatedContent() ? (
+      <SeriouslyDisabledAdditionalInformation />
+    ) : null,
+    title: 'Trust for child',
+    path: 'trusts/:index/trust-veterans-child',
+    uiSchema: veteransChildPage.uiSchema,
+    schema: veteransChildPage.schema,
+  }),
   trustMedicalExpensePage: pageBuilder.itemPage({
     title: 'Trust medical expenses',
     path: 'trusts/:index/trust-medical-expenses',
     uiSchema: medicalExpensePage.uiSchema,
     schema: medicalExpensePage.schema,
-  }),
-  trustVeteransChildPage: pageBuilder.itemPage({
-    title: 'Trust established for child',
-    path: 'trusts/:index/trust-veterans-child',
-    uiSchema: veteransChildPage.uiSchema,
-    schema: veteransChildPage.schema,
   }),
   trustControlPage: pageBuilder.itemPage({
     title: 'Trust control',

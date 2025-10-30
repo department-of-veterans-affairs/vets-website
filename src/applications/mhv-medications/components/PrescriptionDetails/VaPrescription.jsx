@@ -20,7 +20,7 @@ import {
   validateIfAvailable,
   prescriptionMedAndRenewalStatus,
 } from '../../util/helpers';
-import { medStatusDisplayTypes } from '../../util/constants';
+import { medStatusDisplayTypes, DATETIME_FORMATS } from '../../util/constants';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
@@ -284,7 +284,7 @@ const VaPrescription = prescription => {
                   <p data-testid="expiration-date">
                     {dateFormat(
                       prescription.expirationDate,
-                      'MMMM D, YYYY',
+                      DATETIME_FORMATS.longMonthDate,
                       'Date not available',
                     )}
                   </p>
@@ -341,7 +341,7 @@ const VaPrescription = prescription => {
               <p data-testid="ordered-date">
                 {dateFormat(
                   prescription.orderedDate,
-                  'MMMM D, YYYY',
+                  DATETIME_FORMATS.longMonthDate,
                   'Date not available',
                 )}
               </p>
@@ -442,7 +442,7 @@ const VaPrescription = prescription => {
                               key={i}
                               subHeader={dateFormat(
                                 entry.dispensedDate,
-                                'MMMM D, YYYY',
+                                DATETIME_FORMATS.longMonthDate,
                                 'Date not available',
                                 'Filled on ',
                               )}
@@ -495,7 +495,7 @@ const VaPrescription = prescription => {
                                           ? prescription.trackingList[0]
                                               ?.completeDateTime
                                           : null,
-                                        'MMMM D, YYYY',
+                                        DATETIME_FORMATS.longMonthDate,
                                         'Date not available',
                                       )}
                                     </p>
