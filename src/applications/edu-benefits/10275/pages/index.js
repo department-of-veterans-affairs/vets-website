@@ -5,6 +5,10 @@ import * as newAuthorizingOfficial from './newAuthorizingOfficial';
 import * as newPrinciplesOfExcellence from './newPrinciplesOfExcellence';
 import * as newSchoolCertifyingOfficial from './newSchoolCertifyingOfficial';
 import * as poeCommitment from './poeCommitment';
+import * as additionalInstitutionDetailsItem from './additionalInstitutionDetailsItem';
+import * as additionalLocationSummary from './additionalLocationSummary';
+import * as poeLocation from './poeLocation';
+import * as previouslyEnteredPoc from './previouslyEnteredPoc';
 
 export {
   agreementType,
@@ -14,4 +18,8 @@ export {
   newPrinciplesOfExcellence,
   newSchoolCertifyingOfficial,
   poeCommitment,
+  additionalInstitutionDetailsItem,
+  additionalLocationSummary,
+  poeLocation,
+  previouslyEnteredPoc,
 };

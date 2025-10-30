@@ -1,5 +1,8 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { focusElement } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import submitForm from './submitForm';
 import transform from './submit-transformer';
 import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
@@ -16,7 +19,16 @@ import {
   newAuthorizingOfficial,
   newPrinciplesOfExcellence,
   newSchoolCertifyingOfficial,
+  additionalInstitutionDetailsItem,
+  additionalLocationSummary,
+  poeLocation,
+  previouslyEnteredPoc,
 } from '../pages';
+
+const scrollAndFocusTarget = () => {
+  scrollToTop('topScrollElement');
+  focusElement('h3');
+};
 
 /**
  * Returns *true* if the newCommitment -
@@ -160,6 +172,53 @@ const formConfig = {
           uiSchema: institutionDetailsFacility.uiSchema,
           schema: institutionDetailsFacility.schema,
         },
+      },
+    },
+    additionalLocationsChapter: {
+      title: 'Additional locations',
+      pages: {
+        ...arrayBuilderPages(
+          {
+            arrayPath: 'additionalLocations',
+            nounSingular: 'location',
+            nounPlural: 'locations',
+            required: false,
+          },
+          pageBuilder => ({
+            additionalLocationSummary: pageBuilder.summaryPage({
+              title: 'Additional locations',
+              path: 'additional-locations',
+              uiSchema: additionalLocationSummary.uiSchema,
+              schema: additionalLocationSummary.schema,
+              scrollAndFocusTarget,
+            }),
+            additionalLocation: pageBuilder.itemPage({
+              title: 'Additional location',
+              path: 'additional-locations/:index',
+              showPagePerItem: true,
+              uiSchema: additionalInstitutionDetailsItem.uiSchema,
+              schema: additionalInstitutionDetailsItem.schema,
+            }),
+            previouslyEnteredPointOfContact: pageBuilder.itemPage({
+              title: 'Point of contact for this location',
+              path: 'additional-locations/:index/point-of-contact',
+              uiSchema: previouslyEnteredPoc.uiSchema,
+              schema: previouslyEnteredPoc.schema,
+            }),
+            pointOfContactForThisLocation: pageBuilder.itemPage({
+              title: 'point Of ContactFor This Location',
+              path: 'additional-locations/:index/point-of-contact-2',
+              uiSchema: poeLocation.uiSchema,
+              schema: poeLocation.schema,
+              depends: (fromData, index) => {
+                return (
+                  fromData?.additionalLocations?.[index]
+                    ?.previouslyEnteredPointOfContact === 'none'
+                );
+              },
+            }),
+          }),
+        ),
       },
     },
     principlesOfExcellenceCommitmentChapter: {
