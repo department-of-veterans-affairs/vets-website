@@ -161,13 +161,14 @@ export const getTxtContent = (data, user, dateRange, failedDomains) => {
     .map(l => `  • ${l}`)
     .join('\n');
 
-  // build “failed” list
-  const failedList = failedDomains.length
-    ? failedDomains
-        .flatMap(d => expandAppt(d, 'failed'))
-        .map(l => `  • ${l}`)
-        .join('\n')
-    : '';
+  // build "failed" list
+  const failedList =
+    Array.isArray(failedDomains) && failedDomains.length
+      ? failedDomains
+          .flatMap(d => expandAppt(d, 'failed'))
+          .map(l => `  • ${l}`)
+          .join('\n')
+      : '';
 
   // assemble the records section
   const recordsParts = [
@@ -222,7 +223,7 @@ export const getTxtContent = (data, user, dateRange, failedDomains) => {
 VA Blue Button® report
 
 This report includes key information from your VA medical records.
-${userFullName.first} ${userFullName.last}
+${userFullName?.first} ${userFullName?.last}
 
 Date of birth: ${formatUserDob(user)}
 

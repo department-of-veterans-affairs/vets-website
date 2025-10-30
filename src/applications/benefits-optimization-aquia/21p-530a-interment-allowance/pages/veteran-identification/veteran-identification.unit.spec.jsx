@@ -45,12 +45,10 @@ describe('VeteranIdentificationPage', () => {
       );
 
       expect(container).to.exist;
-      expect(container.textContent).to.include(
-        "Deceased veteran's information",
-      );
+      expect(container.textContent).to.include("Deceased Veteran's name");
     });
 
-    it('should render all identification fields', async () => {
+    it('should render all name fields', async () => {
       const { container } = render(
         <VeteranIdentificationPage
           goForward={mockGoForward}
@@ -63,90 +61,20 @@ describe('VeteranIdentificationPage', () => {
         expect(findByLabel(container, 'va-text-input', 'First name')).to.exist;
         expect(findByLabel(container, 'va-text-input', 'Middle name')).to.exist;
         expect(findByLabel(container, 'va-text-input', 'Last name')).to.exist;
-
-        expect(
-          findByLabel(
-            container,
-            'va-text-input',
-            "Veteran's Social Security Number",
-          ),
-        ).to.exist;
-
-        expect(
-          findByLabel(
-            container,
-            'va-text-input',
-            "Veteran's service number (if different from SSN)",
-          ),
-        ).to.exist;
-
-        expect(
-          findByLabel(container, 'va-text-input', "Veteran's VA file number"),
-        ).to.exist;
-
-        expect(
-          findByLabel(
-            container,
-            'va-memorable-date',
-            "Veteran's date of birth",
-          ),
-        ).to.exist;
-        expect(
-          findByLabel(
-            container,
-            'va-memorable-date',
-            "Veteran's date of death",
-          ),
-        ).to.exist;
+        expect(findByLabel(container, 'va-text-input', 'Suffix')).to.exist;
       });
-    });
-
-    it('should render place of birth fields', () => {
-      const { container } = render(
-        <VeteranIdentificationPage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.textContent).to.include('Place of birth');
-      expect(findByLabel(container, 'va-text-input', 'City')).to.exist;
-      expect(findByLabel(container, 'va-text-input', 'State')).to.exist;
-    });
-
-    it('should show instruction text', () => {
-      const { container } = render(
-        <VeteranIdentificationPage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.textContent).to.include(
-        'Please provide the following information about the deceased veteran',
-      );
     });
   });
 
   describe('Data Handling', () => {
-    it('should render with existing veteran data', () => {
+    it('should render with existing veteran name data', () => {
       const existingData = {
         fullName: {
           first: 'Anakin',
           middle: '',
           last: 'Skywalker',
+          suffix: 'Jr.',
         },
-        ssn: '501-66-7138',
-        serviceNumber: 'JT87563',
-        vaFileNumber: '22387563',
-        dateOfBirth: '1941-05-04',
-        placeOfBirth: {
-          city: 'Mos Espa',
-          state: 'AZ',
-        },
-        dateOfDeath: '1984-05-04',
       };
 
       const { container } = render(

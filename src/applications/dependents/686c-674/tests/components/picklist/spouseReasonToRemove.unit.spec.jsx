@@ -100,19 +100,19 @@ describe('spouseReasonToRemove', () => {
   });
 
   context('spouseReasonToRemove handlers', () => {
-    it('should return "marriage-ended" on goForward', () => {
+    it('should return "spouse-marriage-ended" on goForward', () => {
       expect(
         spouseReasonToRemove.handlers.goForward({
           itemData: { removalReason: 'marriageEnded' },
         }),
-      ).to.equal('marriage-ended');
+      ).to.equal('spouse-marriage-ended');
     });
-    it('should return "marriage-death" on goForward', () => {
+    it('should return "spouse-death" on goForward', () => {
       expect(
         spouseReasonToRemove.handlers.goForward({
-          itemData: { removalReason: 'marriageEnded' },
+          itemData: { removalReason: 'marriageDeath' },
         }),
-      ).to.equal('marriage-ended');
+      ).to.equal('spouse-death');
     });
 
     it('should call goForward when reason to remove value is set on submit', () => {

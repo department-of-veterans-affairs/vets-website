@@ -9,12 +9,14 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import FormSavedPage from '../containers/FormSavedPage';
 import { submit, transform } from './submit';
 // import { defaultDefinitions } from './definitions';
-import reportingPeriod from './chapters/02-expenses/reportingPeriod';
 import claimantRelationship from './chapters/01-applicant-information/claimantRelationship';
 import claimantInformation from './chapters/01-applicant-information/claimantInformation';
 import contactInformation from './chapters/01-applicant-information/contactInformation';
 import mailingAddress from './chapters/01-applicant-information/mailingAddress';
 import veteranInformation from './chapters/01-applicant-information/veteranInformation';
+import firstTimeReporting from './chapters/02-expenses/firstTimeReporting';
+import effectiveDates from './chapters/02-expenses/effectiveDates';
+import reportingPeriod from './chapters/02-expenses/reportingPeriod';
 import { careExpensesPages } from './chapters/02-expenses/careExpensesPages';
 import { medicalExpensesPages } from './chapters/02-expenses/medicalExpensesPage';
 import { mileageExpensesPages } from './chapters/02-expenses/mileageExpensesPage';
@@ -119,9 +121,23 @@ const formConfig = {
     expenses: {
       title: 'Expenses',
       pages: {
-        reportingPeriod: {
-          title: 'Reporting period',
+        firstTimeReporting: {
+          title: 'Reporting expenses',
           path: 'expenses/reporting-period',
+          uiSchema: firstTimeReporting.uiSchema,
+          schema: firstTimeReporting.schema,
+        },
+        effectiveDates: {
+          title: 'Reporting period effective date',
+          path: 'expenses/reporting-period/effective-dates',
+          depends: formData => formData?.firstTimeReporting === true,
+          uiSchema: effectiveDates.uiSchema,
+          schema: effectiveDates.schema,
+        },
+        reportingPeriod: {
+          title: 'Reporting period dates',
+          path: 'expenses/reporting-period/dates',
+          depends: formData => formData?.firstTimeReporting === false,
           uiSchema: reportingPeriod.uiSchema,
           schema: reportingPeriod.schema,
         },

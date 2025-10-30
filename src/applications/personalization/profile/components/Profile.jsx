@@ -146,6 +146,8 @@ class Profile extends Component {
   mainContent = () => {
     let routes = getRoutes({
       profile2Enabled: this.props.shouldShowProfile2,
+      profileHealthCareSettingsPage: this.props
+        .shouldShowHealthCareSettingsPage,
     });
 
     // feature toggled route
@@ -256,6 +258,7 @@ Profile.propTypes = {
   shouldFetchDirectDeposit: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
   shouldShowAccreditedRepTab: PropTypes.bool.isRequired,
+  shouldShowHealthCareSettingsPage: PropTypes.bool.isRequired,
   shouldShowProfile2: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
@@ -284,6 +287,8 @@ const mapStateToProps = state => {
   const shouldShowAccreditedRepTab =
     profileToggles?.representativeStatusEnableV2Features;
   const shouldShowProfile2 = profileToggles?.profile2Enabled;
+  const shouldShowHealthCareSettingsPage =
+    profileToggles?.profileHealthCareSettingsPage;
   const shouldFetchDirectDeposit =
     isEligibleForDD &&
     isLighthouseAvailable &&
@@ -341,6 +346,7 @@ const mapStateToProps = state => {
     shouldFetchDirectDeposit,
     shouldShowAccreditedRepTab,
     shouldShowProfile2,
+    shouldShowHealthCareSettingsPage,
     shouldFetchTotalDisabilityRating,
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',

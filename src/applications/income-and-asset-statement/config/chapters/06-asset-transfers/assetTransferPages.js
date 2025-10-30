@@ -578,7 +578,7 @@ const valuePage = {
 };
 
 export const assetTransferPages = arrayBuilderPages(options, pageBuilder => ({
-  assetTransferVeteranSummary: pageBuilder.summaryPage({
+  assetTransferPagesVeteranSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'asset-transfers-summary-veteran',
     depends: formData =>

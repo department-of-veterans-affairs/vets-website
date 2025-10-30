@@ -296,6 +296,9 @@ describe('Compose container', () => {
       const alert = container.querySelector('va-alert');
       expect(alert).to.exist;
     });
-    expect(getByText('We’re sorry. Something went wrong on our end.')).to.exist;
+    await waitFor(() => {
+      expect(getByText('We’re sorry. Something went wrong on our end.')).to
+        .exist;
+    });
   });
 });

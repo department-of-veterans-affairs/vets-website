@@ -10,6 +10,7 @@ export const PROFILE_TOGGLES = {
   profileShowEmailNotificationSettings: false,
   profileShowPaperlessDelivery: false,
   profile2Enabled: false,
+  profileHealthCareSettingsPage: false,
 };
 
 // The values of these constants map to the possible values that come back from
@@ -48,7 +49,8 @@ export const PROFILE_PATHS = Object.freeze({
   FINANCIAL_INFORMATION: '/profile/financial-information',
   DIRECT_DEPOSIT: '/profile/direct-deposit',
   HEALTH_CARE_SETTINGS: '/profile/health-care-settings',
-  APPOINTMENT_PREFERENCES: '/profile/appointment-preferences',
+  APPOINTMENT_PREFERENCES:
+    '/profile/health-care-settings/appointment-preferences',
   HEALTH_CARE_CONTACTS: '/profile/contacts',
   SECURE_MESSAGES_SIGNATURE: '/profile/mhv-signature',
   DEPENDENTS_AND_CONTACTS: '/profile/dependents-and-contacts',
@@ -60,7 +62,7 @@ export const PROFILE_PATHS = Object.freeze({
   EMAIL_AND_TEXT_NOTIFICATIONS: '/profile/notifications',
   ACCOUNT_SECURITY: '/profile/account-security',
   CONNECTED_APPLICATIONS: '/profile/connected-applications',
-  SIGNIN_INFORMATION: '/profile/sign-in-information',
+  SIGNIN_INFORMATION: '/profile/account-security/sign-in-information',
   EDIT: '/profile/edit',
   PAPERLESS_DELIVERY: '/profile/paperless-delivery',
 });

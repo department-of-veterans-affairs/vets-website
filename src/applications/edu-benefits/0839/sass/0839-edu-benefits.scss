@@ -18,6 +18,12 @@
   }
 }
 
+.ypr-no-expander-border .form-expanding-group-open {
+  border-left: 0 !important;
+  margin-left: -1.25rem;
+  padding-left: 1.25rem;
+}
+
 @media (max-width: $small-screen) {
   .form-22-0839-container {
     padding-inline: var(--vads-spacing-1);
@@ -123,6 +129,6 @@ label[id="root_unlimitedIndividuals-label"] {
 .container {
   width: 20.75rem;
 }
-[id="root_specificContributionAmount-label"]{
+[id="root_specificContributionAmount-label"] {
   display: none !important;
 }

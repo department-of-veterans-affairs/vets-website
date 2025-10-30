@@ -12,7 +12,13 @@ import {
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { selectIsBlocked } from '../selectors';
 
-const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
+const ProfileSubNav = ({
+  isInMVI,
+  isLOA3,
+  routes,
+  clickHandler = null,
+  className,
+}) => {
   const mobileNavRef = useRef();
   const history = useHistory();
   const { pathname } = useLocation();
@@ -64,6 +70,7 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
         icon-background-color="vads-color-primary"
         icon-name="account_circle"
         ref={mobileNavRef}
+        className={className}
       >
         {filteredRoutes.map(route => {
           if (route.subnavParent) {
@@ -139,6 +146,7 @@ ProfileSubNav.propTypes = {
     }),
   ).isRequired,
   // Optional handler to fire when a nav item is clicked
+  className: PropTypes.string,
   clickHandler: PropTypes.func,
 };
 

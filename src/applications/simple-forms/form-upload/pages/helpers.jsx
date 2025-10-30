@@ -45,7 +45,7 @@ export const CustomAlertPage = props => {
 
   return (
     <div className="form-panel">
-      {getAlert(props, continueClicked)}
+      {props.name === 'uploadPage' && getAlert(props, continueClicked)}
       <SchemaForm {...props}>
         <>
           {props.contentBeforeButtons}
@@ -66,5 +66,6 @@ CustomAlertPage.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   goBack: PropTypes.func,
+  name: PropTypes.string,
   onContinue: PropTypes.func,
 };

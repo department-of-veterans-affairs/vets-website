@@ -4,6 +4,9 @@
  * Pages are organized by chapter for better code organization and maintainability.
  */
 
+// Relationship to the Veteran
+export { RelationshipToVeteranPage } from './relationship-to-veteran';
+
 // Chapter 1: Your organization's information
 export { OrganizationInformationPage } from './organization-information';
 export { BurialBenefitsRecipientPage } from './burial-benefits-recipient';
@@ -11,7 +14,10 @@ export { MailingAddressPage } from './mailing-address';
 
 // Chapter 2: Deceased Veteran information
 export { VeteranIdentificationPage } from './veteran-identification';
-export { VeteranBirthInformationPage } from './veteran-birth-information';
+export { VeteranSsnFileNumberPage } from './veteran-ssn-file-number';
+export {
+  VeteranBirthDeathInformationPage,
+} from './veteran-birth-death-information';
 export { VeteranBurialInformationPage } from './veteran-burial-information';
 
 // Chapter 3: Military history
@@ -23,6 +29,3 @@ export { VeteranPreviousNamesPage } from './veteran-previous-names';
 
 // Chapter 4: Additional remarks
 export { AdditionalRemarksPage } from './additional-remarks';
-
-// Not yet configured in form
-export { VeteranServicePage } from './veteran-service';

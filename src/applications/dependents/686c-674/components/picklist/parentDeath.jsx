@@ -18,10 +18,10 @@ const parentDeath = {
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (
-        !itemData.parentDeathDate ||
-        !itemData.parentDeathCity ||
-        (!itemData.parentDeathOutsideUS && !itemData.parentDeathState) ||
-        (itemData.parentDeathOutsideUS && !itemData.parentDeathCountry)
+        !itemData.endDate ||
+        !itemData.endCity ||
+        (!itemData.endOutsideUS && !itemData.endState) ||
+        (itemData.endOutsideUS && !itemData.endCountry)
       ) {
         setTimeout(scrollToFirstError);
       } else {
@@ -69,12 +69,12 @@ const parentDeath = {
           name="parentDeathDate"
           label="Date of death"
           error={
-            formSubmitted && !itemData.parentDeathDate
+            formSubmitted && !itemData.endDate
               ? 'Provide a date of death'
               : null
           }
           monthSelect
-          value={itemData.parentDeathDate || ''}
+          value={itemData.endDate || ''}
           // use onDateBlur to ensure month & day are zero-padded
           onDateBlur={onChange}
           required
@@ -82,58 +82,54 @@ const parentDeath = {
 
         <h4>Where was the death?</h4>
         <VaCheckbox
-          name="parentDeathOutsideUS"
+          name="endOutsideUS"
           label="The death happened outside the United States"
-          checked={itemData.parentDeathOutsideUS || false}
+          checked={itemData.endOutsideUS || false}
           onVaChange={onChange}
         />
         <VaTextInput
           class="vads-u-margin-top--4"
-          name="parentDeathCity"
-          label={`City${itemData.parentDeathOutsideUS ? '' : ' or county'}`}
+          name="endCity"
+          label={`City${itemData.endOutsideUS ? '' : ' or county'}`}
           error={
-            formSubmitted && !itemData.parentDeathCity
-              ? `Enter a city${
-                  itemData.parentDeathOutsideUS ? '' : ' or county'
-                }`
+            formSubmitted && !itemData.endCity
+              ? `Enter a city${itemData.endOutsideUS ? '' : ' or county'}`
               : null
           }
-          value={itemData.parentDeathCity || ''}
+          value={itemData.endCity || ''}
           onVaInput={onChange}
           required
         />
-        {itemData.parentDeathOutsideUS ? (
+        {itemData.endOutsideUS ? (
           <>
             <VaTextInput
               class="vads-u-margin-top--4"
-              name="parentDeathProvince"
+              name="endProvince"
               label="Province, region or territory"
               onVaInput={onChange}
-              value={itemData.parentDeathProvince || ''}
+              value={itemData.endProvince || ''}
             />
             <SelectCountry
-              name="parentDeathCountry"
+              name="endCountry"
               label="Country"
               error={
-                formSubmitted && !itemData.parentDeathCountry
+                formSubmitted && !itemData.endCountry
                   ? 'Select a country'
                   : null
               }
               onChange={onChange}
-              value={itemData.parentDeathCountry || ''}
+              value={itemData.endCountry || ''}
             />
           </>
         ) : (
           <SelectState
             label="State"
-            name="parentDeathState"
+            name="endState"
             error={
-              formSubmitted && !itemData.parentDeathState
-                ? 'Select a state'
-                : null
+              formSubmitted && !itemData.endState ? 'Select a state' : null
             }
             onChange={onChange}
-            value={itemData.parentDeathState || ''}
+            value={itemData.endState || ''}
           />
         )}
       </>
@@ -155,13 +151,13 @@ parentDeath.Component.propTypes = {
     onSubmit: PropTypes.func,
   }),
   itemData: PropTypes.shape({
-    parentDeathCity: PropTypes.string,
-    parentDeathCountry: PropTypes.string,
-    parentDeathDate: PropTypes.string,
-    parentDeathOutsideUS: PropTypes.bool,
-    parentDeathProvince: PropTypes.string,
-    parentDeathState: PropTypes.string,
-    parentDeathType: PropTypes.string,
+    endCity: PropTypes.string,
+    endCountry: PropTypes.string,
+    endDate: PropTypes.string,
+    endOutsideUS: PropTypes.bool,
+    endProvince: PropTypes.string,
+    endState: PropTypes.string,
+    endType: PropTypes.string,
     relationshipToVeteran: PropTypes.string,
   }),
 };

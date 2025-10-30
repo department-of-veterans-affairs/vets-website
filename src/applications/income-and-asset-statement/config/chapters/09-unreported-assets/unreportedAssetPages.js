@@ -20,8 +20,11 @@ import {
   isDefined,
   otherAssetOwnerRelationshipExplanationRequired,
   requireExpandedArrayField,
+  showUpdatedContent,
+  sharedYesNoOptionsBase,
 } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
+import { UnreportedAssetsSummaryDescription } from '../../../components/SummaryDescriptions';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -35,6 +38,11 @@ export const options = {
     !isDefined(item.assetType) ||
     !isDefined(item.assetLocation), // include all required fields here
   text: {
+    summaryTitle: 'Review assets',
+    summaryTitleWithoutItems: showUpdatedContent() ? 'Other assets' : null,
+    summaryDescriptionWithoutItems: showUpdatedContent()
+      ? UnreportedAssetsSummaryDescription
+      : null,
     getItemName: item => isDefined(item?.assetType) && `${item.assetType}`,
     cardDescription: item =>
       isDefined(item?.ownedPortionValue) && (
@@ -71,6 +79,20 @@ export const options = {
   },
 };
 
+// We support multiple summary pages (one per claimant type).
+// These constants centralize shared text so each summary page stays consistent.
+// Important: only one summary page should ever be displayed at a time.
+
+// Shared summary page text
+const updatedTitleNoItems =
+  'Did you or your dependents have any assets you haven’t already reported?';
+const updatedTitleWithItems = 'Do you have more assets to report?';
+const summaryPageTitle = 'Other Assets';
+const yesNoOptionLabels = {
+  Y: 'Yes, I have an asset to report',
+  N: 'No, I don’t have an asset to report',
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -91,10 +113,7 @@ const summaryPage = {
       },
       {
         title: 'Do you have more assets to report?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
+        ...sharedYesNoOptionsBase,
       },
     ),
   },
@@ -104,6 +123,99 @@ const summaryPage = {
       'view:isAddingUnreportedAssets': arrayBuilderYesNoSchema,
     },
     required: ['view:isAddingUnreportedAssets'],
+  },
+};
+
+const veteranSummaryPage = {
+  uiSchema: {
+    'view:isAddingUnreportedAssets': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const spouseSummaryPage = {
+  uiSchema: {
+    'view:isAddingUnreportedAssets': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint: 'Your dependents include children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const childSummaryPage = {
+  uiSchema: {
+    'view:isAddingUnreportedAssets': arrayBuilderYesNoUI(
+      options,
+      {
+        title: 'Did you have any assets you haven’t already reported?',
+        hint: null,
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const custodianSummaryPage = {
+  uiSchema: {
+    'view:isAddingUnreportedAssets': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const parentSummaryPage = {
+  uiSchema: {
+    'view:isAddingUnreportedAssets': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
   },
 };
 
@@ -171,9 +283,51 @@ const assetTypePage = {
 };
 
 export const unreportedAssetPages = arrayBuilderPages(options, pageBuilder => ({
+  unreportedAssetPagesVeteranSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'unreported-assets-summary-veteran',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'VETERAN',
+    uiSchema: veteranSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  unreportedAssetPagesSpouseSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'unreported-assets-summary-spouse',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'SPOUSE',
+    uiSchema: spouseSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  unreportedAssetPagesChildSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'unreported-assets-summary-child',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'CHILD',
+    uiSchema: childSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  unreportedAssetPagesCustodianSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'unreported-assets-summary-custodian',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+    uiSchema: custodianSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  unreportedAssetPagesParentSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'unreported-assets-summary-parent',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'PARENT',
+    uiSchema: parentSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
   unreportedAssetPagesSummary: pageBuilder.summaryPage({
     title: 'Unreported assets',
     path: 'unreported-assets-summary',
+    depends: () => !showUpdatedContent(),
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),

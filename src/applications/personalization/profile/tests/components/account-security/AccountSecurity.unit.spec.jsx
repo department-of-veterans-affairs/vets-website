@@ -24,7 +24,7 @@ describe('AccountSecurity Page', () => {
     renderWithProfileReducersAndRouter(<AccountSecurity />, {
       initialState: createCustomProfileState(),
     });
-    expect(document.title).to.equal('Account Security | Veterans Affairs');
+    expect(document.title).to.equal('Account security | Veterans Affairs');
   });
 
   it('renders main section headings of account security page', () => {

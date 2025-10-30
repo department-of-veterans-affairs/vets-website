@@ -284,4 +284,59 @@ describe('getMeasurement', () => {
     const measurement = getMeasurement(record, type);
     expect(measurement).to.equal('84%');
   });
+
+  it('should return EMPTY_FIELD for blood pressure when component is missing or empty', () => {
+    const type = 'BLOOD_PRESSURE';
+
+    expect(getMeasurement({}, type)).to.eq(EMPTY_FIELD);
+    expect(getMeasurement({ component: null }, type)).to.eq(EMPTY_FIELD);
+    expect(getMeasurement({ component: [] }, type)).to.eq(EMPTY_FIELD);
+  });
+
+  it('should return EMPTY_FIELD for blood pressure when systolic or diastolic is missing', () => {
+    const type = 'BLOOD_PRESSURE';
+
+    const onlyDiastolic = {
+      component: [
+        {
+          code: { coding: [{ code: '8462-4' }] },
+          valueQuantity: { value: 79 },
+        },
+      ],
+    };
+    expect(getMeasurement(onlyDiastolic, type)).to.eq(EMPTY_FIELD);
+
+    const onlySystolic = {
+      component: [
+        {
+          code: { coding: [{ code: '8480-6' }] },
+          valueQuantity: { value: 125 },
+        },
+      ],
+    };
+    expect(getMeasurement(onlySystolic, type)).to.eq(EMPTY_FIELD);
+  });
+
+  it('should return EMPTY_FIELD for blood pressure when component items are malformed', () => {
+    const type = 'BLOOD_PRESSURE';
+
+    const missingValueQuantity = {
+      component: [
+        { code: { coding: [{ code: '8480-6' }] } },
+        {
+          code: { coding: [{ code: '8462-4' }] },
+          valueQuantity: { value: 79 },
+        },
+      ],
+    };
+    expect(getMeasurement(missingValueQuantity, type)).to.eq(EMPTY_FIELD);
+
+    const missingCoding = {
+      component: [
+        { valueQuantity: { value: 125 } },
+        { code: {}, valueQuantity: { value: 79 } },
+      ],
+    };
+    expect(getMeasurement(missingCoding, type)).to.eq(EMPTY_FIELD);
+  });
 });

@@ -33,12 +33,12 @@ const ExpenseCard = ({ expense, editToRoute, header }) => {
                 label: 'Which address did you depart from?',
                 value: (
                   <>
-                    {address.addressLine1}
+                    {address.addressLine1}{' '}
                     {address.addressLine2 && (
-                      <span>{address.addressLine2}</span>
+                      <span>{address.addressLine2} </span>
                     )}
                     {address.addressLine3 && (
-                      <span>{address.addressLine3}</span>
+                      <span>{address.addressLine3} </span>
                     )}
                     {address.city}, {address.stateCode} {address.zipCode}
                   </>

@@ -155,6 +155,28 @@
             }
           },
           {
+            "id": "primaryCareMentalHealth",
+            "name": "Primary Care Mental Health",
+            "stopCodes": [
+              {
+                "primary": "534"
+              }
+            ],
+            "direct": {
+              "patientHistoryRequired": true,
+              "patientHistoryDuration": 730,
+              "canCancel": true,
+              "enabled": true
+            },
+            "request": {
+              "patientHistoryRequired": false,
+              "patientHistoryDuration": 365,
+              "submittedRequestLimit": 2,
+              "enterpriseSubmittedRequestLimit": 2,
+              "enabled": false
+            }
+          },
+          {
             "id": "audiology",
             "name": "Audiology",
             "stopCodes": [

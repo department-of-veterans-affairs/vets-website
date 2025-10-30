@@ -1,7 +1,6 @@
 import {
   serviceBranchUI,
   serviceBranchSchema,
-  ARMY_BRANCH_LABELS,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -11,18 +10,20 @@ export default {
     wcv3ServiceBranchCustom: serviceBranchUI({
       title: 'Service branches in the Army group',
       required: () => true,
-      hint: 'Choose from a custom list of service branches related to the Army',
+      hint:
+        'This component only includes service branches in the space force and coast guard groups',
       placeholder: 'Select a service branch',
-      labels: ARMY_BRANCH_LABELS,
+      groups: ['space force', 'coast guard'],
     }),
   },
   schema: {
     type: 'object',
     properties: {
       wcv3ServiceBranchDefault: serviceBranchSchema(),
-      wcv3ServiceBranchCustom: serviceBranchSchema(
-        Object.keys(ARMY_BRANCH_LABELS),
-      ),
+      wcv3ServiceBranchCustom: serviceBranchSchema([
+        'space force',
+        'coast guard',
+      ]),
     },
   },
 };

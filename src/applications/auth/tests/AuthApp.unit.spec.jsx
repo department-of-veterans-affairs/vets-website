@@ -421,7 +421,7 @@ describe('AuthApp', () => {
                 },
                 vet360ContactInformation: {
                   email: {
-                    updatedAt: '2018-04-21T20:09:50Z',
+                    confirmationDate: '2018-04-21T20:09:50Z',
                   },
                 },
               },
