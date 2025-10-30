@@ -59,6 +59,10 @@ const getStore = () =>
       },
     },
     shouldUseLighthouse: true,
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      tsa_safe_travel_letter: true,
+    },
   }));
 
 describe('<LetterList>', () => {
