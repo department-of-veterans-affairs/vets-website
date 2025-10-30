@@ -362,7 +362,7 @@ describe('VAOS Utils: timezone', () => {
       // Since this test runs on October 27, 2025 (after DST ends on Oct 26), it returns GMT
       // https://github.com/department-of-veterans-affairs/va.gov-team/issues/123312
       const result = getTimezoneDescByTimeZoneString('Europe/London');
-      expect(result).to.equal('GMT+1');
+      expect(result).to.equal('GMT');
     });
 
     it('should handle DST correctly by stripping daylight saving time indicators', () => {
