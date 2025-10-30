@@ -510,7 +510,9 @@ const newOwnerPage = {
     ...arrayBuilderItemSubsequentPageTitleUI('New asset owner’s information'),
     'view:newOwnerPageDescription': {
       'ui:description': (
-        <h2 className="vads-u-font-size--h3">Who owns the asset now?</h2>
+        <h2 className="vads-u-font-size--md mobile-lg:vads-u-font-size--h3">
+          Who owns the asset now?
+        </h2>
       ),
     },
     newOwnerName: fullNameUIHelper(),
@@ -576,7 +578,7 @@ const valuePage = {
 };
 
 export const assetTransferPages = arrayBuilderPages(options, pageBuilder => ({
-  assetTransferVeteranSummary: pageBuilder.summaryPage({
+  assetTransferPagesVeteranSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'asset-transfers-summary-veteran',
     depends: formData =>
@@ -676,7 +678,7 @@ export const assetTransferPages = arrayBuilderPages(options, pageBuilder => ({
     schema: nonVeteranIncomeRecipientPage.schema,
   }),
   // When claimantType is 'CHILD' we skip showing the recipient page entirely
-  // To preserve required data, we auto-set recipientRelationship to 'CHILD'
+  // To preserve required data, we auto-set originalOwnerRelationship to 'CHILD'
   assetTransferInformationPage: pageBuilder.itemPage({
     title: 'Asset transfer information',
     path: 'asset-transfers/:index/information',

@@ -25,6 +25,7 @@ describe('parentOtherExit', () => {
     onSubmit = () => {},
     goForward = () => {},
     goBack = () => {},
+    isEditing = false,
   } = {}) =>
     render(
       <form onSubmit={onSubmit}>
@@ -34,6 +35,7 @@ describe('parentOtherExit', () => {
           firstName="PETER"
           formSubmitted={formSubmitted}
           handlers={{ goForward, goBack, onChange, onSubmit }}
+          isEditing={isEditing}
         />
       </form>,
     );
@@ -53,6 +55,12 @@ describe('parentOtherExit', () => {
     expect(exitLink).to.exist;
     expect(exitLink.getAttribute('text')).to.equal('Exit application');
     expect(exitLink.getAttribute('href')).to.equal('/manage-dependents/view');
+  });
+
+  it('should render edit text in header', () => {
+    const { container } = renderComponent({ isEditing: true });
+
+    expect($('h3', container).textContent).to.equal('Edit changes to PETER');
   });
 
   it('should not go forward when form is submitted', async () => {

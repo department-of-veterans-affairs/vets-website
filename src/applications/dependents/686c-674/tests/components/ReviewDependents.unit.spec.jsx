@@ -3,18 +3,22 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import configureStore from 'redux-mock-store';
-import { ReviewDependents } from '../../components/ReviewDependents';
+import sinon from 'sinon';
+
+import ReviewDependents from '../../components/ReviewDependents';
 
 const mockStore = configureStore([]);
 
-const renderWithStore = (state = {}) => {
+const renderWithStore = (data = {}, error = null, setFormData = () => {}) => {
   const store = mockStore({
-    form: { data: state },
+    dependents: {
+      error,
+    },
   });
 
   return render(
     <Provider store={store}>
-      <ReviewDependents />
+      <ReviewDependents data={data} setFormData={setFormData} />
     </Provider>,
   );
 };
@@ -60,7 +64,7 @@ describe('ReviewDependents', () => {
           {
             fullName: { first: 'John', last: 'Doe' },
             relationshipToVeteran: 'Child',
-            age: '25 years old',
+            labeledAge: '25 years old',
           },
         ],
       },
@@ -75,12 +79,12 @@ describe('ReviewDependents', () => {
       {
         fullName: { first: 'Maya', last: 'Patel' },
         relationshipToVeteran: 'Spouse',
-        age: '47 years old',
+        labeledAge: '47 years old',
       },
       {
         fullName: { first: 'Naomi', last: 'Garcia' },
         relationshipToVeteran: 'Child',
-        age: '21 years old',
+        labeledAge: '21 years old',
       },
     ];
 
@@ -113,14 +117,14 @@ describe('ReviewDependents', () => {
           {
             fullName: { first: 'Maya', last: 'Patel' },
             relationshipToVeteran: 'Spouse',
-            age: '47 years old',
+            labeledAge: '47 years old',
           },
         ],
       },
     });
 
     const name = getByText('Maya Patel');
-    const details = getByText('Spouse | 47 years old');
+    const details = getByText('Spouse, 47 years old');
 
     expect(name).to.not.be.null;
     expect(details).to.not.be.null;
@@ -133,12 +137,12 @@ describe('ReviewDependents', () => {
           {
             fullName: { first: 'OnlyFirst' },
             relationshipToVeteran: 'Child',
-            age: '18 years old',
+            labeledAge: '18 years old',
           },
           {
             fullName: { last: 'OnlyLast' },
             relationshipToVeteran: 'Spouse',
-            age: '45 years old',
+            labeledAge: '45 years old',
           },
         ],
       },
@@ -149,6 +153,64 @@ describe('ReviewDependents', () => {
 
     expect(firstCardName).to.not.be.null;
     expect(secondCardName).to.not.be.null;
+  });
+
+  it('should set view:addOrRemoveDependents add value to true if no dependents are loaded', () => {
+    const setFormDataSpy = sinon.spy();
+    const error = null;
+    const { container } = renderWithStore(
+      {
+        vaDependentsV3: true,
+        dependents: { awarded: [] },
+      },
+      error,
+      setFormDataSpy,
+    );
+
+    expect(container.querySelector('va-alert[status="info"]')).to.exist;
+    expect(setFormDataSpy.called).to.be.true;
+    expect(setFormDataSpy.args[0][0]).to.deep.equal({
+      vaDependentsV3: true,
+      dependents: { awarded: [] },
+      'view:addOrRemoveDependents': { add: true },
+    });
+  });
+
+  it('should set view:addOrRemoveDependents add value to true if no dependents are loaded', () => {
+    const setFormDataSpy = sinon.spy();
+    const error = 'DOH';
+    const { container } = renderWithStore(
+      {
+        vaDependentsV3: true,
+        dependents: { awarded: [] },
+      },
+      error,
+      setFormDataSpy,
+    );
+
+    expect(container.querySelector('va-alert[status="error"]')).to.exist;
+    expect(setFormDataSpy.called).to.be.true;
+    expect(setFormDataSpy.args[0][0]).to.deep.equal({
+      vaDependentsV3: true,
+      dependents: { awarded: [] },
+      'view:addOrRemoveDependents': { add: true },
+    });
+  });
+
+  it('should not set view:addOrRemoveDependents add value if v3 feature toggle is off', () => {
+    const setFormDataSpy = sinon.spy();
+    const error = 'DOH';
+    const { container } = renderWithStore(
+      {
+        vaDependentsV3: false,
+        dependents: { awarded: [] },
+      },
+      error,
+      setFormDataSpy,
+    );
+
+    expect(container.querySelector('va-alert[status="error"]')).to.exist;
+    expect(setFormDataSpy.called).to.be.false;
   });
 
   it('should handle undefined form data gracefully', () => {

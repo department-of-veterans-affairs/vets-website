@@ -1,58 +1,6 @@
 import { z } from 'zod';
-import {
-  NAME_PATTERNS,
-  VALIDATION_MESSAGES,
-  ID_PATTERNS,
-} from '@bio-aquia/shared/schemas/regex-patterns';
-
-/**
- * Schema for veteran's first name
- */
-export const veteranFirstNameSchema = z
-  .string()
-  .min(1, 'First name is required')
-  .max(30, 'First name must be less than 30 characters')
-  .regex(
-    NAME_PATTERNS.STANDARD,
-    VALIDATION_MESSAGES.NAME_INVALID ||
-      'Must contain only letters, spaces, hyphens, and apostrophes',
-  );
-
-/**
- * Schema for veteran's middle name (optional)
- */
-export const veteranMiddleNameSchema = z
-  .string()
-  .max(30, 'Middle name must be less than 30 characters')
-  .regex(
-    NAME_PATTERNS.OPTIONAL,
-    VALIDATION_MESSAGES.NAME_INVALID ||
-      'Must contain only letters, spaces, hyphens, and apostrophes',
-  )
-  .optional()
-  .or(z.literal(''));
-
-/**
- * Schema for veteran's last name
- */
-export const veteranLastNameSchema = z
-  .string()
-  .min(1, 'Last name is required')
-  .max(30, 'Last name must be less than 30 characters')
-  .regex(
-    NAME_PATTERNS.STANDARD,
-    VALIDATION_MESSAGES.NAME_INVALID ||
-      'Must contain only letters, spaces, hyphens, and apostrophes',
-  );
-
-/**
- * Schema for veteran's full name
- */
-export const veteranFullNameSchema = z.object({
-  first: veteranFirstNameSchema,
-  middle: veteranMiddleNameSchema,
-  last: veteranLastNameSchema,
-});
+import { fullNameSchema } from '@bio-aquia/shared/schemas/name';
+import { ID_PATTERNS } from '@bio-aquia/shared/schemas/regex-patterns';
 
 /**
  * Schema for Social Security Number
@@ -92,8 +40,44 @@ export const veteranDOBSchema = z
   .string()
   .min(1, 'Date of birth is required')
   .refine(val => {
+    // Check format first
+    if (!val || typeof val !== 'string') return false;
+
+    const parts = val.split('-');
+    if (parts.length !== 3) return true; // Let web component handle format errors
+
+    const month = parseInt(parts[1], 10);
+
+    // Check for invalid month specifically
+    return month >= 1 && month <= 12;
+  }, 'Please enter a month between 1 and 12')
+  .refine(val => {
+    // First check if it's a valid date
     const date = new Date(val);
-    return date instanceof Date && !Number.isNaN(date.getTime());
+    if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+      return false;
+    }
+
+    // Check if the date parts match the input (catches invalid dates like 2023-02-30)
+    // Parse as UTC to avoid timezone issues
+    const parts = val.split('-');
+    if (parts.length === 3) {
+      const year = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10);
+      const day = parseInt(parts[2], 10);
+
+      // Create a UTC date to compare
+      const utcDate = new Date(Date.UTC(year, month - 1, day));
+
+      // Check if the UTC date parts match the input
+      return (
+        utcDate.getUTCFullYear() === year &&
+        utcDate.getUTCMonth() + 1 === month &&
+        utcDate.getUTCDate() === day
+      );
+    }
+
+    return true;
   }, 'Please enter a valid date')
   .refine(val => {
     const date = new Date(val);
@@ -108,12 +92,19 @@ export const isVeteranClaimantSchema = z.enum(['yes', 'no'], {
 });
 
 /**
+ * Page schema for veteran identity page (name, SSN, DOB only)
+ */
+export const veteranIdentificationPageSchema = z.object({
+  veteranFullName: fullNameSchema,
+  veteranSSN: veteranSSNSchema,
+  veteranDOB: veteranDOBSchema,
+});
+
+/**
  * Complete veteran identification schema
  */
 export const veteranIdentificationSchema = z.object({
-  veteranFirstName: veteranFirstNameSchema,
-  veteranMiddleName: veteranMiddleNameSchema,
-  veteranLastName: veteranLastNameSchema,
+  veteranFullName: fullNameSchema,
   veteranSSN: veteranSSNSchema,
   veteranFileNumber: veteranFileNumberSchema,
   veteranServiceNumber: veteranServiceNumberSchema,

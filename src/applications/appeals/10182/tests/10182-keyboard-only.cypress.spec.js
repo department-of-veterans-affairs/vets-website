@@ -1,12 +1,13 @@
 import formConfig from '../config/form';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
-
 import { CONTESTABLE_ISSUES_API, SUBMIT_URL } from '../constants/apis';
 import mockData from './fixtures/data/maximal-test.json';
-
 import { CONTACT_INFO_PATH } from '../../shared/constants';
-import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
+import {
+  fixDecisionDates,
+  tabToContinue,
+} from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
 
 describe('Notice of Disagreement keyboard only navigation', () => {
@@ -23,10 +24,12 @@ describe('Notice of Disagreement keyboard only navigation', () => {
 
       cy.intercept('GET', CONTESTABLE_ISSUES_API, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
-      }).as('getIssues');
+      });
+
       cy.visit(
         '/decision-reviews/board-appeal/request-board-appeal-form-10182',
       );
+
       cy.injectAxeThenAxeCheck();
 
       // *** Intro page
@@ -35,33 +38,29 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       cy.tabToElement('.vads-c-action-link--green');
       cy.realPress('Enter');
 
-      cy.wait('@getIssues');
-
       // *** Veteran details
       cy.url().should(
         'include',
         chapters.infoPages.pages.veteranInformation.path,
       );
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Homelessness radios
       cy.url().should('include', chapters.infoPages.pages.homeless.path);
       cy.tabToElement('input[name="root_homeless"]');
       cy.chooseRadio('N');
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Contact info
       cy.url().should('include', CONTACT_INFO_PATH);
-      // cy.tabToContinueForm();
-      cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
-      cy.realPress('Space');
+      tabToContinue();
 
       // *** Filing deadlines
       cy.url().should(
         'include',
         chapters.conditions.pages.filingDeadlines.path,
       );
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Request extension
       cy.url().should(
@@ -70,7 +69,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       );
       cy.tabToElement('[name="root_requestingExtension"]');
       cy.chooseRadio(data.requestingExtension ? 'Y' : 'N');
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Request reason
       cy.url().should(
@@ -79,7 +78,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       );
       cy.tabToElement('textarea');
       cy.realType(data.extensionReason);
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Denial of VHA benefits
       cy.url().should(
@@ -88,7 +87,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       );
       cy.tabToElement('[name="root_appealingVHADenial"]');
       cy.chooseRadio(data.appealingVHADenial ? 'Y' : 'N');
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Issues for review (sorted by random decision date) - only selecting
       // one, or more complex code is needed to find if the next checkbox is
@@ -99,7 +98,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       );
       cy.tabToElement('[name="root_contestedIssues_1"]'); // tinnitus
       cy.realPress('Space');
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Area of disagreement for tinnitus
       cy.url().should(
@@ -111,16 +110,12 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       );
       cy.tabToInputWithLabel('service connection');
       cy.realPress('Space');
-      // input typing is flaky
-      // cy.tabToElement('input[name="otherEntry"]');
-      // cy.typeInFocused('Few words');
-      // cy.tabToContinueForm();
       cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
       cy.realPress('Space');
 
       // *** Issue summary
       cy.url().should('include', chapters.conditions.pages.issueSummary.path);
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Board review option
       cy.url().should(
@@ -129,13 +124,13 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       );
       cy.tabToElement('[name="root_boardReviewOption"]');
       cy.chooseRadio('hearing');
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Hearing type
       cy.url().should('include', chapters.boardReview.pages.hearingType.path);
       cy.tabToElement('[name="root_hearingTypePreference"]');
       cy.chooseRadio('video_conference');
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Review & submit page
       cy.url().should('include', 'review-and-submit');

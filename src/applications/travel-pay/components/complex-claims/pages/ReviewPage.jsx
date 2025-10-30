@@ -19,7 +19,7 @@ const ReviewPage = ({ claim, message }) => {
       claimNumber: '12345',
       appointmentDate: '2025-10-01',
       facilityName: 'Cheyenne VA Medical Center',
-      totalCostRequested: 130.0,
+      totalCostRequested: 100.0,
       reimbursementAmount: 0,
       createdOn: '2025-10-04',
       modifiedOn: '2025-10-04',
@@ -69,24 +69,24 @@ const ReviewPage = ({ claim, message }) => {
             zipCode: '94118',
           },
         },
-        {
-          id: '3fa85f64-5717-4562-b3fc-2c963f66afa7',
-          expenseType: 'Parking',
-          name: 'string',
-          dateIncurred: '2025-10-17T21:32:16.531Z',
-          description: 'string',
-          costRequested: 10,
-          costSubmitted: 0,
-        },
-        {
-          id: '3fa85f64-5717-4562-b3fc-2c963f66afa8',
-          expenseType: 'Parking',
-          name: 'string',
-          dateIncurred: '2025-10-18T21:32:16.531Z',
-          description: 'string',
-          costRequested: 20,
-          costSubmitted: 0,
-        },
+        // {
+        //   id: '3fa85f64-5717-4562-b3fc-2c963f66afa7',
+        //   expenseType: 'Parking',
+        //   name: 'string',
+        //   dateIncurred: '2025-10-17T21:32:16.531Z',
+        //   description: 'string',
+        //   costRequested: 10,
+        //   costSubmitted: 0,
+        // },
+        // {
+        //   id: '3fa85f64-5717-4562-b3fc-2c963f66afa8',
+        //   expenseType: 'Parking',
+        //   name: 'string',
+        //   dateIncurred: '2025-10-18T21:32:16.531Z',
+        //   description: 'string',
+        //   costRequested: 20,
+        //   costSubmitted: 0,
+        // },
       ],
     },
   ];
@@ -117,6 +117,7 @@ const ReviewPage = ({ claim, message }) => {
   const [visible, setVisible] = useState(true);
   const onClose = () => setVisible(false);
   const addMoreExpenses = () => {
+    navigate(`/file-new-claim/complex/${apptId}/choose-expense`);
     // TODO Add logic to add more expenses
   };
 
@@ -150,7 +151,7 @@ const ReviewPage = ({ claim, message }) => {
                 {expense.expenseType === 'Mileage' && (
                   <ExpenseCard
                     expense={expense}
-                    editToRoute="../travel-agreement"
+                    editToRoute="../mileage"
                     header="Mileage expense"
                   />
                 )}
@@ -167,7 +168,7 @@ const ReviewPage = ({ claim, message }) => {
           </li>
         </ul>
         <p>
-          <strong>Total:</strong> ${overriddenClaim?.totalCostRequested ?? 0}
+          <strong>Total:</strong> ${overriddenClaim[0].totalCostRequested}
         </p>
         <p>
           This estimated reimbursement doesn’t account for the $6 per trip

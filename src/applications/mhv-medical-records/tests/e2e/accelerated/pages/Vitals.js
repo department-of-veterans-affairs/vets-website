@@ -1,5 +1,4 @@
 import sessionStatus from '../fixtures/session/default.json';
-import MedicalRecordsLandingPage from '../../pages/MedicalRecordsLandingPage';
 
 class Vitals {
   setIntercepts = ({ vitalData, useOhData = true }) => {
@@ -21,7 +20,6 @@ class Vitals {
       }
       req.reply(vitalData);
     }).as('vitals-list');
-    MedicalRecordsLandingPage.uumIntercept();
   };
 
   goToVitalPage = () => {
