@@ -9,12 +9,13 @@ import {
   VaCard,
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useHistory } from 'react-router-dom';
 import {
   PROFILE_PATH_NAMES,
   PROFILE_PATHS,
   SERVICE_BADGE_IMAGE_PATHS,
 } from '../../constants';
-import { getServiceBranchDisplayName } from '../../helpers';
+import { getServiceBranchDisplayName, handleRouteChange } from '../../helpers';
 import { formatFullName } from '../../../common/helpers';
 
 const NameTag = ({
@@ -22,6 +23,8 @@ const NameTag = ({
   latestBranchOfService,
   showBadgeImage,
 }) => {
+  const history = useHistory();
+
   const fullName = formatFullName({ first, middle, last, suffix });
 
   const updatedWrapperClasses = prefixUtilityClasses([
@@ -144,6 +147,7 @@ const NameTag = ({
             className="vads-u-display--block vads-u-margin-top--2"
             href={PROFILE_PATHS.VETERAN_STATUS_CARD}
             text={PROFILE_PATH_NAMES.VETERAN_STATUS_CARD}
+            onClick={event => handleRouteChange(event, history)}
           />
         </div>
       </div>
