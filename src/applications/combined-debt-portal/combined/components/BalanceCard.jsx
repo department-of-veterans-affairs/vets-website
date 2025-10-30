@@ -28,12 +28,12 @@ const BalanceCard = ({ amount, count, date, appType }) => {
       }`}
     >
       {/* aria-describedby={`copay-balance-${id}`} */}
-      <h3
-        className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
+      <h2
+        className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--h3"
         data-testid="card-amount"
       >
         {currency(amount)} {cardHeader}
-      </h3>
+      </h2>
       {date && (
         <p className="card-date vads-u-margin-top--0  vads-u-margin-bottom--1p5">
           Updated on
