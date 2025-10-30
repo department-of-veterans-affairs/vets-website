@@ -65,6 +65,7 @@ describe('preneed formConfig depends logic (isAuthorizedAgent & isVeteran)', () 
     stubs.isApplicantTheSponsor = sinon.stub(helpers, 'isApplicantTheSponsor');
     stubs.isSponsorDeceased = sinon.stub(helpers, 'isSponsorDeceased');
     stubs.buriedWSponsorsEligibility = sinon.stub(helpers, 'buriedWSponsorsEligibility');
+    stubs.isLoggedInUser = sinon.stub(helpers, 'isLoggedInUser');
 
     stubs.isApplicantTheSponsor.returns(false);
     stubs.isSponsorDeceased.returns(false);

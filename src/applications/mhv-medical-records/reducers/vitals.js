@@ -50,12 +50,23 @@ const getUnit = (type, unit) => {
 
 export const getMeasurement = (record, type) => {
   if (vitalTypes.BLOOD_PRESSURE.includes(type)) {
+    // Guard against missing component array (malformed FHIR data)
+    if (!isArrayAndHasItems(record.component)) {
+      return EMPTY_FIELD;
+    }
+
     const systolic = record.component.find(item =>
-      item.code.coding.some(coding => coding.code === loincCodes.SYSTOLIC),
+      item?.code?.coding?.some(coding => coding.code === loincCodes.SYSTOLIC),
     );
     const diastolic = record.component.find(item =>
-      item.code.coding.some(coding => coding.code === loincCodes.DIASTOLIC),
+      item?.code?.coding?.some(coding => coding.code === loincCodes.DIASTOLIC),
     );
+
+    // Ensure both components exist and have valid values before formatting
+    if (!systolic?.valueQuantity?.value || !diastolic?.valueQuantity?.value) {
+      return EMPTY_FIELD;
+    }
+
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
   }
 
@@ -63,8 +74,8 @@ export const getMeasurement = (record, type) => {
     vitalTypes.HEIGHT.includes(type) &&
     record.valueQuantity?.code === '[in_i]'
   ) {
-    const feet = Math.floor(record.valueQuantity.value / 12);
-    const inches = record.valueQuantity.value % 12;
+    const feet = Math.floor(record.valueQuantity?.value / 12);
+    const inches = record.valueQuantity?.value % 12;
     return `${feet}${vitalUnitDisplayText.HEIGHT_FT}, ${inches}${
       vitalUnitDisplayText.HEIGHT_IN
     }`;

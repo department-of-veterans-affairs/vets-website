@@ -158,10 +158,7 @@ describe('<UploadType2ErrorAlert>', () => {
     const link = container.querySelector('va-link-action');
 
     expect(link).to.exist;
-    expect(link).to.have.attr(
-      'href',
-      '/track-claims/your-claims/files-we-couldnt-receive',
-    );
+    expect(link).to.have.attr('href', '../files-we-couldnt-receive');
     expect(link).to.have.attr(
       'text',
       "Review files we couldn't process and learn other ways to send your documents",

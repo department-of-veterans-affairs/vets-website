@@ -9,8 +9,6 @@ import {
 import {
   updatePageTitle,
   usePrintTitle,
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -20,7 +18,11 @@ import {
 
 import { dateFormat } from '../util/helpers';
 import { selectRefillProgressFlag } from '../util/selectors';
-import { SESSION_SELECTED_PAGE_NUMBER, REFILL_STATUS } from '../util/constants';
+import {
+  DATETIME_FORMATS,
+  SESSION_SELECTED_PAGE_NUMBER,
+  REFILL_STATUS,
+} from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -116,9 +118,6 @@ const RefillPrescriptions = () => {
       } catch (error) {
         setRefillStatus(REFILL_STATUS.ERROR);
       }
-
-      // Log when user requests a refill (after the main refill logic)
-      logUniqueUserMetricsEvents(EVENT_REGISTRY.PRESCRIPTIONS_REFILL_REQUESTED);
 
       if (hasNoOptionSelectedError) setHasNoOptionSelectedError(false);
     } else {
@@ -303,7 +302,7 @@ const RefillPrescriptions = () => {
                             ? `Last filled on ${dateFormat(
                                 prescription.sortedDispensedDate ||
                                   prescription.dispensedDate,
-                                'MMMM D, YYYY',
+                                DATETIME_FORMATS.longMonthDate,
                               )}`
                             : 'Not filled yet'
                         }

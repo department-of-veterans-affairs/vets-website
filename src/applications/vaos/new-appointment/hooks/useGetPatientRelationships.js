@@ -3,7 +3,6 @@ import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { FETCH_STATUS } from '../../utils/constants';
 import { useOHDirectScheduling } from './useOHDirectScheduling';
 import { getPatientRelationships } from '../redux/actions';
-
 import { selectPatientProviderRelationships } from '../redux/selectors';
 
 export function useGetPatientRelationships() {
