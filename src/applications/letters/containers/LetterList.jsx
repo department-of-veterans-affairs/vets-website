@@ -188,16 +188,7 @@ export class LetterList extends React.Component {
               )}
           </Toggler.Enabled>
         </Toggler>
-        <div className="vads-u-margin-top--2">
-          <va-alert status="warning" visible>
-            <h4 slot="headline">Some letters may not be available</h4>
-            <p>
-              One of our systems appears to be down. If you believe you’re
-              missing a letter or document from the list above, please try again
-              later.
-            </p>
-          </va-alert>
-        </div>
+        {eligibilityMessage}
       </div>
     );
   }
