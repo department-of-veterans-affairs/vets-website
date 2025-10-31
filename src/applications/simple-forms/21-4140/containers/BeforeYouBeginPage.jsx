@@ -3,12 +3,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import {
+  getNextPagePath,
+  getPreviousPagePath,
+} from 'platform/forms-system/src/js/routing';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { scrollTo } from 'platform/utilities/scroll';
 import { VaSummaryBox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { skipToContent } from '../utils/skipToContent';
 
-const BeforeYouBeginPage = ({ formData, location, route, router }) => {
+const BeforeYouBeginPage = ({
+  formData,
+  location,
+  route,
+  router,
+  setFormData,
+}) => {
   useEffect(() => {
     scrollTo('topScrollElement');
   }, []);
@@ -17,14 +27,27 @@ const BeforeYouBeginPage = ({ formData, location, route, router }) => {
   const currentPath = location?.pathname || '';
 
   const goBack = () => {
-    if (router?.push) {
-      router.push('/introduction');
+    if (!router?.push) {
+      return;
     }
+
+    const previousPath = getPreviousPagePath(pageList, formData, currentPath);
+    router.push(previousPath || '/introduction');
   };
 
   const goForward = () => {
     if (!router?.push) {
       return;
+    }
+
+    if (setFormData) {
+      setFormData({
+        ...formData,
+        beforeYouBegin: {
+          ...formData?.beforeYouBegin,
+          visited: true,
+        },
+      });
     }
 
     const nextPath = getNextPagePath(pageList, formData, currentPath);
@@ -67,10 +90,15 @@ BeforeYouBeginPage.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
+  setFormData: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
 });
 
-export default connect(mapStateToProps)(BeforeYouBeginPage);
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BeforeYouBeginPage);

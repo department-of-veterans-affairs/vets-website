@@ -3,28 +3,42 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import {
+  getNextPagePath,
+  getPreviousPagePath,
+} from 'platform/forms-system/src/js/routing';
 import { scrollTo } from 'platform/utilities/scroll';
 import { skipToContent } from '../utils/skipToContent';
 import {
   VaSummaryBox,
   VaCheckbox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { setData } from 'platform/forms-system/src/js/actions';
 
-const RequiredInformationPage = ({ formData, location, route, router }) => {
+const RequiredInformationPage = ({
+  formData,
+  location,
+  route,
+  router,
+  setFormData,
+}) => {
   useEffect(() => {
     scrollTo('topScrollElement');
   }, []);
 
   const pageList = route?.pageList || [];
   const currentPath = location?.pathname || '';
-  const [acknowledged, setAcknowledged] = useState(false);
+  const initialAcknowledged = Boolean(formData?.requiredInformation?.acknowledged);
+  const [acknowledged, setAcknowledged] = useState(initialAcknowledged);
   const [attemptedSubmit, setAttemptedSubmit] = useState(false);
 
   const goBack = () => {
-    if (router?.push) {
-      router.push('/introduction');
+    if (!router?.push) {
+      return;
     }
+
+    const previousPath = getPreviousPagePath(pageList, formData, currentPath);
+    router.push(previousPath || '/introduction');
   };
 
   const goForward = () => {
@@ -45,8 +59,19 @@ const RequiredInformationPage = ({ formData, location, route, router }) => {
 
   const handleCheckboxChange = ({ detail } = {}) => {
     const { checked } = detail || {};
-    setAcknowledged(Boolean(checked));
+    const isChecked = Boolean(checked);
+    setAcknowledged(isChecked);
     setAttemptedSubmit(false);
+
+    if (setFormData) {
+      setFormData({
+        ...formData,
+        requiredInformation: {
+          ...formData?.requiredInformation,
+          acknowledged: isChecked,
+        },
+      });
+    }
   };
 
   const handleBlur = event => {
@@ -116,10 +141,15 @@ RequiredInformationPage.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
+  setFormData: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
 });
 
-export default connect(mapStateToProps)(RequiredInformationPage);
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RequiredInformationPage);

@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import WhatYouNeedPage from '../../../containers/WhatYouNeedPage';
+import BeforeYouBeginPage from '../../../containers/BeforeYouBeginPage';
 
 const createStore = (formData = {}) => ({
   getState: () => ({
@@ -17,7 +17,7 @@ const createStore = (formData = {}) => ({
   dispatch: () => {},
 });
 
-describe('21-4140 container/WhatYouNeedPage', () => {
+describe('21-4140 container/BeforeYouBeginPage', () => {
   let sandbox;
   let user;
   let hadScrollTo;
@@ -27,12 +27,12 @@ describe('21-4140 container/WhatYouNeedPage', () => {
   const defaultRoute = {
     pageList: [
       { path: 'introduction', pageKey: 'introduction' },
+      { path: 'before-you-begin', pageKey: 'beforeYouBegin' },
       { path: 'what-you-need', pageKey: 'whatYouNeed' },
-      { path: 'section-one', pageKey: 'sectionOne' },
     ],
   };
 
-  const defaultLocation = { pathname: 'what-you-need' };
+  const defaultLocation = { pathname: 'before-you-begin' };
 
   const renderPage = ({
     formData = {},
@@ -43,7 +43,7 @@ describe('21-4140 container/WhatYouNeedPage', () => {
     const store = createStore(formData);
     const utils = render(
       <Provider store={store}>
-        <WhatYouNeedPage location={location} route={route} router={router} />
+        <BeforeYouBeginPage location={location} route={route} router={router} />
       </Provider>,
     );
 
@@ -83,26 +83,22 @@ describe('21-4140 container/WhatYouNeedPage', () => {
     });
 
     expect(
-      getByRole('heading', { level: 1, name: 'What You Need to Get Started' }),
+      getByRole('heading', { level: 1, name: 'What to Expect' }),
     ).to.exist;
     expect(
       getByText(
-        "Review this checklist for what you'll need. Don't have everything? You can start now and save your progress as you go.",
+        "We'll be asking you questions about your employment status for the last 12 months.",
       ),
     ).to.exist;
-    expect(getByRole('heading', { level: 2, name: 'Basic Information' })).to.exist;
-    expect(getByRole('heading', { level: 2, name: 'Employment' })).to.exist;
-    expect(getByText("Veteran's Name")).to.exist;
-    expect(getByText('Date of Birth')).to.exist;
-    expect(getByText('Social Security Number')).to.exist;
-    expect(getByText('Veteran Service Number')).to.exist;
+    expect(getByText('Keep in mind')).to.exist;
+    expect(getByText('This form may take about 5 - 10 minutes to complete.')).to.exist;
+    expect(getByText('You must answer all questions fully and accurately.')).to.exist;
+    expect(getByText('You can save your progress and come back to this form later.')).to.exist;
     expect(
-      getByText('Contact Information (mailing address, email address, phone number)'),
+      getByText(
+        'This form is for you to verify your employment status when asked, because you currently receive Individual Unemployability disability benefits for a service-connected condition.',
+      ),
     ).to.exist;
-    expect(getByText('Employer names and addresses')).to.exist;
-    expect(getByText('Work dates and hours per week')).to.exist;
-    expect(getByText('Monthly earnings')).to.exist;
-    expect(getByText('Time lost due to illness')).to.exist;
 
     const backButton = await findByRole('button', { name: /back/i });
     await user.click(backButton);
@@ -112,6 +108,43 @@ describe('21-4140 container/WhatYouNeedPage', () => {
     const continueButton = await findByRole('button', { name: /continue/i });
     await user.click(continueButton);
     expect(routerPush.callCount).to.equal(2);
-    expect(routerPush.secondCall?.args?.[0]).to.equal('section-one');
+    expect(routerPush.secondCall?.args?.[0]).to.equal('what-you-need');
+  });
+
+  it('renders skip to content link', () => {
+    const { getByText } = renderPage();
+    const skipLink = getByText('Skip to Content');
+    
+    expect(skipLink).to.exist;
+    expect(skipLink.getAttribute('href')).to.equal('#main-content');
+  });
+
+  it('sets beforeYouBegin.visited when continuing forward', async () => {
+    const mockDispatch = sandbox.spy();
+    const store = {
+      getState: () => ({
+        form: {
+          data: {},
+        },
+      }),
+      subscribe: () => {},
+      dispatch: mockDispatch,
+    };
+
+    const router = { push: sandbox.spy() };
+    const { findByRole } = render(
+      <Provider store={store}>
+        <BeforeYouBeginPage 
+          location={defaultLocation} 
+          route={defaultRoute} 
+          router={router} 
+        />
+      </Provider>,
+    );
+
+    const continueButton = await findByRole('button', { name: /continue/i });
+    await user.click(continueButton);
+
+    expect(mockDispatch.called).to.be.true;
   });
 });

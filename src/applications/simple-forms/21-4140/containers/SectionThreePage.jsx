@@ -11,12 +11,12 @@ const SectionThreePage = ({ goBack, goForward, NavButtons }) => {
 
   return (
     <div className="schemaform-intro">
-      <h1 className="vads-u-margin-bottom--2">Section III: Unemployment Certification</h1>
-      <p className="vads-u-margin-bottom--3" style={{ fontSize: '20px' }}>
+      <h3 className="vads-u-margin-bottom--2">Section III: Unemployment Certification</h3>
+      <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>
         Complete this section if you did NOT work during the past 12 months.
       </p>
       <VaSummaryBox id="employment-section-summary" uswds class="vads-u-margin-bottom--3">
-        <h2 slot="headline">What to expect</h2>
+        <h4 slot="headline">What to expect</h4>
         <ul className="usa-list vads-u-margin--0">
           <li>Review the information you provided</li>
           <li>Read the unemployment certifications</li>

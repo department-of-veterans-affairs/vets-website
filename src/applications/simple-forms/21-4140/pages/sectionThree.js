@@ -27,6 +27,10 @@ export default {
       [employedByVAFields.hoursPerWeek]: numberUI({
         title: 'Hours per week',
         min: 0,
+        errorMessages: {
+          required: 'Enter the number of hours you worked per week. This field is required.',
+          pattern: 'Enter the hours you worked per week using numbers only.',
+        },
       }),
       [employedByVAFields.datesOfEmployment]: dateRangeUI(
         'Dates of Employment (Start Date)',
@@ -36,10 +40,18 @@ export default {
       [employedByVAFields.lostTime]: numberUI({
         title: 'Lost time',
         hint: 'Total hours lost from illness',
+        errorMessages: {
+          required: 'Enter the total hours you lost from illness. This field is required.',
+          pattern: 'Enter the total hours lost from illness using numbers only.',
+        },
       }),
       [employedByVAFields.highestIncome]: numberUI({
         title: 'Highest income',
         min: 0,
+        errorMessages: {
+          required: 'Enter the highest monthly income you earned before taxes. This field is required.',
+          pattern: 'Enter your highest monthly income using numbers only.',
+        },
       }),
     },
   },

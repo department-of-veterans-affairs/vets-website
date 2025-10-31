@@ -11,12 +11,12 @@ const SectionOnePage = ({ goBack, goForward, NavButtons }) => {
 
   return (
     <div className="schemaform-intro">
-      <h1 className="vads-u-margin-bottom--2">Section I: Veteran ID</h1>
-      <p className="vads-u-margin-bottom--3" style={{ fontSize: '20px' }}>
+      <h3 className="vads-u-margin-bottom--2">Section I: Veteran ID</h3>
+      <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>
         We'll start by confirming your identity and how to reach you.
       </p>
       <VaSummaryBox id="required-information-summary" uswds class="vads-u-margin-bottom--3">
-        <h2 slot="headline">What to expect</h2>
+        <h4 slot="headline">What to expect</h4>
         <ul className="usa-list vads-u-margin--0">
           <li>Your name and identification numbers</li>
           <li>Your contact information (address, email, phone)</li>

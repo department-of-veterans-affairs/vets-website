@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
@@ -11,23 +13,29 @@ import {
   vaFileNumberSchema,
   vaFileNumberUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+
+import { inlineTitleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+
 import { veteranFields } from '../definitions/constants';
 import { getFullNameLabels } from '../helpers';
-
-
-
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
-      ...titleUI({
+      /* ...titleUI({
         title: 'Basic Information',
-      }),
+      }),*/
+
+      ...inlineTitleUI('Basic Information'),
+      'ui:description': () => (
+        <div style={{ paddingTop: '2rem' }}>
+        We need to collect some basic information about you first.
+        </div>
+      ),
+
       [veteranFields.fullName]: {
-        ...fullNameUI(label =>
-          getFullNameLabels(label, false),
-        ),
+        ...fullNameUI(label => getFullNameLabels(label, false)),
       },
       [veteranFields.ssn]: ssnUI(),
       [veteranFields.vaFileNumber]: vaFileNumberUI(),

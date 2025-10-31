@@ -27,6 +27,7 @@ import sectionTwo from '../pages/sectionTwo';
 
 import sectionTwoSignature from '../pages/sectionTwoSignature';
 import sectionThreeSignature from '../pages/sectionThreeSignature';
+
 import {
   shouldShowEmploymentSection,
   shouldShowUnemploymentSection,
@@ -78,7 +79,8 @@ const formConfig = {
   subTitle:
     'Please take your time to complete this form as accurately as you can.',
   customText: {
-    appType: 'medical release authorization',
+    appType: 'employment questionnaire',
+    reviewPageTitle: 'Review your questionnaire',
   },
   defaultDefinitions: {},
   additionalRoutes: [

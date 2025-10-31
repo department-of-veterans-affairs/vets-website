@@ -7,6 +7,8 @@ import {
   checkboxUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
+import { inlineTitleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+
 import { employedByVAFields } from '../definitions/constants';
 
 /** @returns {PageSchema} */
@@ -20,16 +22,18 @@ export default {
         'view:sectionTwoPrivacyAlert',
         'view:sectionTwoBurdenAlert',
       ],
+
+      ...inlineTitleUI('Authorization and Certification'),
       [employedByVAFields.hasCertifiedSection2]: checkboxUI({
         title:
           'I certify that the statements made in this form are true and complete to the best of my knowledge and belief.',
         description: (
           <div>
             <h3 className="vads-u-font-weight--bold vads-u-font-size--h4 vads-u-margin-bottom--1 vads-u-margin-top--0">
-              I CERTIFY THAT I
+              I CERTIFY THAT
             </h3>
             <p className="vads-u-margin-top--0">
-              I have not been employed by VA, others or self-employed during the past
+              I have been employed by VA, others or self-employed during the past
               twelve months.
             </p>
           </div>

@@ -8,15 +8,15 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
+import { inlineTitleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+
 import { employedByVAFields } from '../definitions/constants';
 
 /** @returns {PageSchema} */
 export default {
   uiSchema: {
     [employedByVAFields.parentObject]: {
-      ...titleUI({
-        title: 'Signature confirmation',
-      }),
+      ...inlineTitleUI('Authorization and Certification'),
       'ui:order': [
         employedByVAFields.hasCertifiedSection3,
         employedByVAFields.hasUnderstoodSection3,
@@ -28,9 +28,9 @@ export default {
         title:
           'I certify that I have not been employed by VA, others, or self-employed during the past twelve months.',
         description: (
-          <div>
+          <div >
             <h3 className="vads-u-font-weight--bold vads-u-font-size--h4 vads-u-margin-bottom--1 vads-u-margin-top--0">
-              I CERTIFY THAT I
+              I CERTIFY THAT
             </h3>
             <p className="vads-u-margin-top--0">
               I have not been employed by VA, others or self-employed during the past twelve months.

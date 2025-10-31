@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { scrollTo } from 'platform/utilities/scroll';
 import {
   VaAlert,
@@ -12,14 +13,17 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { skipToContent } from '../utils/skipToContent';
 
-const PreSectionOnePage = ({ formData, location, route, router }) => {
+const PreSectionOnePage = ({ formData, location, route, router, setFormData }) => {
   useEffect(() => {
     scrollTo('topScrollElement');
   }, []);
 
   const pageList = route?.pageList || [];
   const currentPath = location?.pathname || '';
-  const [selection, setSelection] = useState();
+  const NO_SELECTION_MESSAGE = 'Oops, we hit a snag. You told us you are NOT applying for increased unemployability compensation benefits. Select the Find a VA Form link to find the right form, or to continue with this form, 21-8940, select "Yes" and continue.';
+
+  const initialSelection = formData?.preSectionOne?.selection;
+  const [selection, setSelection] = useState(initialSelection);
   const [attemptedSubmit, setAttemptedSubmit] = useState(false);
 
   const goBack = () => {
@@ -50,6 +54,16 @@ const PreSectionOnePage = ({ formData, location, route, router }) => {
     const { value } = detail || {};
     setSelection(value);
     setAttemptedSubmit(false);
+
+    if (setFormData) {
+      setFormData({
+        ...formData,
+        preSectionOne: {
+          ...formData?.preSectionOne,
+          selection: value,
+        },
+      });
+    }
   };
 
   const handleBlur = event => {
@@ -71,23 +85,35 @@ const PreSectionOnePage = ({ formData, location, route, router }) => {
     }, 0);
   };
 
+  const radioError = (() => {
+    if (!attemptedSubmit) {
+      return undefined;
+    }
+
+    if (!selection) {
+      return 'You must make a selection. This field is required.';
+    }
+
+    if (selection === 'no') {
+      return NO_SELECTION_MESSAGE;
+    }
+
+    return undefined;
+  })();
+
   return (
     <div className="schemaform-intro">
       <a className="show-on-focus" href="#main-content" onClick={skipToContent}>Skip to Content</a>
-      <h1 id="main-content" className="vads-u-margin-bottom--2">Let's confirm next steps</h1>
+      <h1 id="main-content" className="vads-u-margin-bottom--2">Let's get started!</h1>
       <p className="vads-u-margin-bottom--3">
-        We want to make sure you're in the right place.
+        We want to confirm you're in the right place.
       </p>
       <VaRadio
         name="employment-status-verification"
         label="Have we asked you to verify your employment status because you currently receive Individual Unemployability disability benefits for a service-connected condition?"
         required
         value={selection}
-        error={
-          attemptedSubmit && !selection
-            ? 'You must make a selection. This field is required.'
-            : undefined
-        }
+        error={radioError}
         onVaValueChange={handleValueChange}
         onBlur={handleBlur}
       >
@@ -125,10 +151,15 @@ PreSectionOnePage.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
+  setFormData: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
 });
 
-export default connect(mapStateToProps)(PreSectionOnePage);
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PreSectionOnePage);

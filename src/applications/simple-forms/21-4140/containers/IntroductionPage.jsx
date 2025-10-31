@@ -17,7 +17,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
   const content = {
     formTitle: 'Employment Questionnaire (VA 21-4140)',
     formSubTitle:
-      'Hi there! We want to make sure you use VA Form 21-4140 if we asked you to verify your employment status because you currently receive Individual Unemployability disability benefits for a service-connected condition. you’re in the right place',
+      'Hi there! We want to make sure you’re in the right place. Use this form—VA Form 21-4140—if we asked you to verify your employment status because you currently receive Individual Unemployability disability benefits for a service-connected condition.',
     authStartFormText: 'Start the employment questionnaire',
     saveInProgressText:
       'Please complete the 21-4140 form to provide information about your employment.',

@@ -11,7 +11,121 @@ import {
   employmentCheckFields,
   employedByVAFields,
 } from '../definitions/constants';
-import { skipToContent } from '../utils/skipToContent';
+
+const EMPLOYERS_PATH = 'employers';
+const SECTION_TWO_KEYS = [
+  employedByVAFields.hasCertifiedSection2,
+  employedByVAFields.hasUnderstoodSection2,
+  employedByVAFields.employerName,
+  employedByVAFields.employerAddress,
+  employedByVAFields.typeOfWork,
+  employedByVAFields.hoursPerWeek,
+  employedByVAFields.datesOfEmployment,
+  employedByVAFields.lostTime,
+  employedByVAFields.highestIncome,
+  employedByVAFields.isEmployedByVA,
+];
+const SECTION_THREE_KEYS = [
+  employedByVAFields.hasCertifiedSection3,
+  employedByVAFields.hasUnderstoodSection3,
+];
+
+const pruneNestedObject = (object, keysToRemove) => {
+  if (!object) {
+    return undefined;
+  }
+
+  const next = { ...object };
+  let changed = false;
+
+  keysToRemove.forEach(key => {
+    if (Object.prototype.hasOwnProperty.call(next, key)) {
+      delete next[key];
+      changed = true;
+    }
+  });
+
+  if (!changed) {
+    return object;
+  }
+
+  if (Object.keys(next).length === 0) {
+    return undefined;
+  }
+
+  return next;
+};
+
+const clearEmploymentFlowData = formData => {
+  if (!formData) {
+    return formData;
+  }
+
+  const updated = { ...formData };
+
+  if (Object.prototype.hasOwnProperty.call(updated, EMPLOYERS_PATH)) {
+    delete updated[EMPLOYERS_PATH];
+  }
+
+  const cleanedEmployedByVA = pruneNestedObject(
+    updated[employedByVAFields.parentObject],
+    SECTION_TWO_KEYS,
+  );
+
+  if (cleanedEmployedByVA === undefined) {
+    delete updated[employedByVAFields.parentObject];
+  } else if (cleanedEmployedByVA !== updated[employedByVAFields.parentObject]) {
+    updated[employedByVAFields.parentObject] = cleanedEmployedByVA;
+  }
+
+  return updated;
+};
+
+const clearUnemploymentFlowData = formData => {
+  if (!formData) {
+    return formData;
+  }
+
+  const updated = { ...formData };
+
+  const cleanedEmployedByVA = pruneNestedObject(
+    updated[employedByVAFields.parentObject],
+    SECTION_THREE_KEYS,
+  );
+
+  if (cleanedEmployedByVA === undefined) {
+    delete updated[employedByVAFields.parentObject];
+  } else if (cleanedEmployedByVA !== updated[employedByVAFields.parentObject]) {
+    updated[employedByVAFields.parentObject] = cleanedEmployedByVA;
+  }
+
+  return updated;
+};
+
+const applySelectionToFormData = (formData, selection) => {
+  if (!selection) {
+    return formData;
+  }
+
+  const employmentCheckData =
+    formData?.[employmentCheckFields.parentObject] || {};
+
+  let updated = {
+    ...formData,
+    [employmentCheckFields.parentObject]: {
+      ...employmentCheckData,
+      [employmentCheckFields.hasEmploymentInLast12Months]: selection,
+    },
+  };
+
+  if (selection === 'yes') {
+    updated = clearUnemploymentFlowData(updated);
+  } else if (selection === 'no') {
+    updated = clearEmploymentFlowData(updated);
+  }
+
+  return updated;
+};
 
 const EmploymentCheckPage = ({
   data,
@@ -70,21 +184,18 @@ const EmploymentCheckPage = ({
 
   const handleContinue = event => {
     event?.preventDefault();
-    setAttemptedSubmit(true);
-
+    
     const currentSelection = selectionState || selection;
 
     if (!currentSelection) {
+      setAttemptedSubmit(true);
       return;
     }
 
-    const updatedFormData = {
-      ...formData,
-      [employmentCheckFields.parentObject]: {
-        ...employmentCheckData,
-        [employmentCheckFields.hasEmploymentInLast12Months]: currentSelection,
-      },
-    };
+    const updatedFormData = applySelectionToFormData(
+      formData,
+      currentSelection,
+    );
 
     setFormData(updatedFormData);
     goForward({ formData: updatedFormData });
@@ -101,13 +212,9 @@ const EmploymentCheckPage = ({
 
     setSelectionState(value);
 
-    setFormData({
-      ...formData,
-      [employmentCheckFields.parentObject]: {
-        ...employmentCheckData,
-        [employmentCheckFields.hasEmploymentInLast12Months]: value,
-      },
-    });
+    const updatedFormData = applySelectionToFormData(formData, value);
+
+    setFormData(updatedFormData);
   };
 
   const handleBlur = event => {
@@ -131,9 +238,8 @@ const EmploymentCheckPage = ({
 
   return (
     <div className="schemaform-intro">
-      <a className="show-on-focus" href="#main-content" onClick={skipToContent}>Skip to Content</a>
-      <h1 id="main-content" className="vads-u-margin-bottom--2">Employment in the past 12 months</h1>
-      <p className="vads-u-margin-bottom--3" style={{ fontSize: '20px' }}>
+      <h3 className="vads-u-margin-bottom--2">Employment in the past 12 months</h3>
+      <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>
         This includes any work for VA, other employers, or self-employment.
       </p>
       <VaRadio
@@ -148,6 +254,7 @@ const EmploymentCheckPage = ({
         }
         onVaValueChange={handleValueChange}
         onBlur={handleBlur}
+        className="vads-u-margin-bottom--3"
         uswds
       >
         <VaRadioOption
@@ -163,7 +270,7 @@ const EmploymentCheckPage = ({
         id="required-information-summary"
         status="info"
         uswds
-        class="vads-u-margin-bottom--3"
+        className="vads-u-margin-bottom--3"
         visible
       >
         <h2 slot="headline">What counts as employment?</h2>

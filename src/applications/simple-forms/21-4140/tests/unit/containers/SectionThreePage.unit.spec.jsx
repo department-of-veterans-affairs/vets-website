@@ -3,9 +3,9 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import SectionOnePage from '../../../containers/SectionOnePage';
+import SectionThreePage from '../../../containers/SectionThreePage';
 
-describe('21-4140 container/SectionOnePage', () => {
+describe('21-4140 container/SectionThreePage', () => {
   let sandbox;
   let goBack;
   let goForward;
@@ -53,20 +53,23 @@ describe('21-4140 container/SectionOnePage', () => {
 
   it('renders the page content and wires navigation correctly', async () => {
     const { getByRole, getByText, getByTestId } = render(
-      <SectionOnePage goBack={goBack} goForward={goForward} NavButtons={TestNavButtons} />,
+      <SectionThreePage goBack={goBack} goForward={goForward} NavButtons={TestNavButtons} />,
     );
 
     await waitFor(() => {
       expect(bodyScrollStub.called).to.be.true;
     });
 
-    expect(getByRole('heading', { level: 3, name: 'Section I: Veteran ID' })).to.exist;
+    expect(getByRole('heading', { level: 3, name: 'Section III: Unemployment Certification' })).to.exist;
     expect(
-      getByText("We'll start by confirming your identity and how to reach you."),
+      getByText('Complete this section if you did NOT work during the past 12 months.'),
     ).to.exist;
-    expect(getByText('What to expect')).to.exist;
-    expect(getByText('Your name and identification numbers')).to.exist;
-    expect(getByText('Your contact information (address, email, phone)')).to.exist;
+    expect(getByRole('heading', { level: 4, name: 'What to expect' })).to.exist;
+    expect(getByText('Review the information you provided')).to.exist;
+    expect(getByText('Read the unemployment certifications')).to.exist;
+    expect(getByText('Confirm you had no employment in the last 12 months')).to.exist;
+    expect(getByText('Confirm your disability continues to prevent gainful employment')).to.exist;
+    expect(getByText('Sign and date your questionnaire')).to.exist;
     expect(getByText('Takes about 1-2 minutes')).to.exist;
 
     const navButtons = getByTestId('nav-buttons');

@@ -32,10 +32,10 @@ export const SectionTwoIntro = ({ goBack, goForward, NavButtons }) => {
 
   return (
     <div className="schemaform-intro">
-      <h1 className="vads-u-margin-bottom--2">
+      <h3 className="vads-u-margin-bottom--2">
         Section II: Employment Certification
-      </h1>
-      <p className="vads-u-margin-bottom--3" style={{ fontSize: '20px' }}>
+      </h3>
+      <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>
         Next we&apos;ll gather details about your current or recent employment.
       </p>
       <VaSummaryBox
@@ -43,11 +43,13 @@ export const SectionTwoIntro = ({ goBack, goForward, NavButtons }) => {
         uswds
         class="vads-u-margin-bottom--3"
       >
-        <h2 slot="headline">What to expect</h2>
+        <h4 slot="headline">What to expect</h4>
         <ul className="usa-list vads-u-margin--0">
-          <li>Answer if you&apos;re currently employed by VA</li>
-          <li>Add employers and employment details for the past 12 months</li>
-          <li>Have pay and employment dates handy</li>
+          <li>Provide details about your employment in the past 12 months</li>
+          <li>Review all the information you provided</li>
+          <li>Read the employment certifications</li>
+          <li>Sign and date your questionnaire</li>
+          <li>Takes about 2-4 minutes</li>
         </ul>
       </VaSummaryBox>
       <NavButtons goBack={goBack} goForward={goForward} submitToContinue />
@@ -64,6 +66,23 @@ SectionTwoIntro.propTypes = {
 
 const hasValue = value => value !== undefined && value !== null && value !== '';
 
+const isEmployerAddressIncomplete = address => {
+  if (!address) {
+    return true;
+  }
+
+  const { country } = address;
+  const requiresState = hasValue(country) && ['USA', 'CAN', 'MEX'].includes(country);
+
+  return (
+    !hasValue(address.street) ||
+    !hasValue(address.city) ||
+    !hasValue(country) ||
+    (requiresState && !hasValue(address.state)) ||
+    !hasValue(address.postalCode)
+  );
+};
+
 
 /** @type {ArrayBuilderOptions} */
 const employersOptions = {
@@ -72,15 +91,12 @@ const employersOptions = {
   nounPlural: 'employers',
   required: true,
   isItemIncomplete: item =>
-    !item?.employerName ||
-    !item?.typeOfWork ||
+    !hasValue(item?.employerName) ||
+    !hasValue(item?.typeOfWork) ||
     !hasValue(item?.hoursPerWeek) ||
     !item?.datesOfEmployment?.from ||
     !item?.datesOfEmployment?.to ||
-    !item?.employerAddress?.street ||
-    !item?.employerAddress?.city ||
-    !item?.employerAddress?.state ||
-    !item?.employerAddress?.postalCode ||
+    isEmployerAddressIncomplete(item?.employerAddress) ||
     !hasValue(item?.lostTime) ||
     !hasValue(item?.highestIncome),
   maxItems: 4,
@@ -142,11 +158,11 @@ const summaryPage = {
 const employerDetailsPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Employment certification information',
+      title: 'Employment details',
       nounSingular: employersOptions.nounSingular,
       hasMultipleItemPages: false,
       description:
-        'Provide details about this employer for your Section 2 certification.',
+        'Tell us about your employment or self-employment in the past 12 months.',
     }),
     'ui:order': [
       'employerName',
@@ -165,11 +181,15 @@ const employerDetailsPage = {
     }),
     employerAddress: addressUI({
       omit: ['street2', 'street3', 'isMilitary'],
+      labels: {
+        street: 'Employer street address',
+        postalCode: 'Zip/Postal Code',
+      },
       errorMessages: {
         street: 'Enter the employer\'s mailing address number and street or rural route. This field is required.',
         city: 'Enter the City. Use this field for APO, FPO, or DPO. This field is required.',
         state: 'Enter the State, Province, or Region, or use AA, AE, or AP. This field is required.',
-        postalCode: 'Enter the ZIP code or Postal code. For APO, FPO, or DPO addresses, use the postal code for the military base. This field is required for U.S. and APO, FPO, and DPO addresses.',
+        postalCode: 'Enter a Zip/Postal code',
       },
     }),
     datesOfEmployment: currentOrPastDateRangeUI(
@@ -189,6 +209,7 @@ const employerDetailsPage = {
       min: 0,
       errorMessages: {
         required: 'Enter your monthly gross income. Round to the nearest whole number. This field is required.',
+        pattern: 'Enter your monthly gross income using numbers only.',
       },
     }),
     hoursPerWeek: numberUI({
@@ -196,6 +217,7 @@ const employerDetailsPage = {
       min: 0,
       errorMessages: {
         required: 'Enter the number of hours worked per week. This field is required.',
+        pattern: 'Enter the hours worked per week using numbers only.',
       },
     }),
     lostTime: numberUI({
@@ -203,6 +225,7 @@ const employerDetailsPage = {
       min: 0,
       errorMessages: {
         required: 'Enter the number of days missed per month because of illness. This field is required.',
+        pattern: 'Enter the number of days missed per month using numbers only.',
       },
     }),
   },

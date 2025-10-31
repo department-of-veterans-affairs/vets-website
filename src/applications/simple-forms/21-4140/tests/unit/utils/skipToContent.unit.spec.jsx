@@ -139,7 +139,8 @@ describe('21-4140 utils/skipToContent', () => {
     skipToContent(event);
 
     expect(event.preventDefault.calledOnce).to.be.true;
-    expect(querySelectorStub.calledOnceWithExactly('#main-content')).to.be.true;
+    expect(querySelectorStub.calledOnce).to.be.true;
+    expect(querySelectorStub.calledWith('#main-content')).to.be.true;
 
     querySelectorStub.restore();
   });
