@@ -34,7 +34,7 @@ export const VeteranIdentificationInfoPage = ({
 
   return (
     <PageTemplate
-      title="Veteran identification"
+      title="Veteran’s identification information"
       subtitle={
         veteranIsPatient
           ? 'You must enter either a Social Security number or VA File number'

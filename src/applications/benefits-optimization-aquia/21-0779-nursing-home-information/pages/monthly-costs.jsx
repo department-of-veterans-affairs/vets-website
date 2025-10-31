@@ -40,6 +40,7 @@ export const MonthlyCostsPage = ({ data, setFormData, goForward, goBack }) => {
           <CurrencyField
             name="monthlyOutOfPocket"
             label="What is the amount the patient needs to pay out of their own pocket every month?"
+            hint="Include the patient’s Share of Cost Medicaid"
             schema={monthlyOutOfPocketSchema}
             value={localData.monthlyOutOfPocket}
             onChange={handleFieldChange}
