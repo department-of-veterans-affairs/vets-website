@@ -4,9 +4,8 @@ import { BASE_URL } from '../constants';
 import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 
 import mockV2Data from './fixtures/data/pre-api-comprehensive-test.json';
-import { fetchItf, errorItf, postItf } from './995.cypress.helpers';
-
-import { mockContestableIssues } from '../../shared/tests/cypress.helpers';
+import { errorItf, postItf } from './995.cypress.helpers';
+import * as h from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
 
 describe('995 ITF page', () => {
@@ -20,7 +19,7 @@ describe('995 ITF page', () => {
     cy.intercept(
       'GET',
       `${CONTESTABLE_ISSUES_API}/compensation`,
-      mockContestableIssues,
+      h.mockContestableIssues,
     ).as('getIssues');
     cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockV2Data);
@@ -33,11 +32,8 @@ describe('995 ITF page', () => {
   const postItfApi = `${ITF_API}/compensation`;
 
   it('should show ITF found alert', () => {
-    cy.intercept('GET', ITF_API, fetchItf());
-
-    cy.findAllByText(/start your claim/i, { selector: 'a' })
-      .first()
-      .click();
+    cy.intercept('GET', ITF_API, h.fetchItf());
+    h.startApp();
 
     cy.wait('@getIssues');
 
@@ -48,18 +44,16 @@ describe('995 ITF page', () => {
           .find('h2')
           .should('contain', 'You already have an Intent to File');
 
-        cy.axeCheck();
-        cy.get('va-button[continue]');
+        cy.injectAxeThenAxeCheck();
+        h.verifyElement('va-button[continue]');
       });
   });
 
   it('should show ITF created alert with too old active ITF', () => {
-    cy.intercept('GET', ITF_API, fetchItf({ years: -2 }));
+    cy.intercept('GET', ITF_API, h.fetchItf({ years: -2 }));
     cy.intercept('POST', postItfApi, postItf());
 
-    cy.findAllByText(/start your claim/i, { selector: 'a' })
-      .first()
-      .click();
+    h.startApp();
 
     cy.wait('@getIssues');
 
@@ -70,18 +64,16 @@ describe('995 ITF page', () => {
           .find('h2')
           .should('contain', 'You submitted an Intent to File');
 
-        cy.axeCheck();
-        cy.get('va-button[continue]');
+        cy.injectAxeThenAxeCheck();
+        h.verifyElement('va-button[continue]');
       });
   });
 
   it('should show ITF created alert if current ITF has already been used', () => {
-    cy.intercept('GET', ITF_API, fetchItf({ months: -6 }, 'claim_recieved'));
+    cy.intercept('GET', ITF_API, h.fetchItf({ months: -6 }, 'claim_recieved'));
     cy.intercept('POST', postItfApi, postItf());
 
-    cy.findAllByText(/start your claim/i, { selector: 'a' })
-      .first()
-      .click();
+    h.startApp();
 
     cy.wait('@getIssues');
 
@@ -92,18 +84,20 @@ describe('995 ITF page', () => {
           .find('h2')
           .should('contain', 'You submitted an Intent to File');
 
-        cy.axeCheck();
-        cy.get('va-button[continue]');
+        cy.injectAxeThenAxeCheck();
+        h.verifyElement('va-button[continue]');
       });
   });
 
   it('should show ITF created alert if current ITF is for pensions', () => {
-    cy.intercept('GET', ITF_API, fetchItf({ months: 6 }, 'active', 'pension'));
+    cy.intercept(
+      'GET',
+      ITF_API,
+      h.fetchItf({ months: 6 }, 'active', 'pension'),
+    );
     cy.intercept('POST', postItfApi, postItf());
 
-    cy.findAllByText(/start your claim/i, { selector: 'a' })
-      .first()
-      .click();
+    h.startApp();
 
     cy.wait('@getIssues');
 
@@ -114,18 +108,16 @@ describe('995 ITF page', () => {
           .find('h2')
           .should('contain', 'You submitted an Intent to File');
 
-        cy.axeCheck();
-        cy.get('va-button[continue]');
+        cy.injectAxeThenAxeCheck();
+        h.verifyElement('va-button[continue]');
       });
   });
 
   it('should show we can’t confirm error alert after creation error', () => {
-    cy.intercept('GET', ITF_API, fetchItf({ years: -2 }));
+    cy.intercept('GET', ITF_API, h.fetchItf({ years: -2 }));
     cy.intercept('POST', postItfApi, errorItf());
 
-    cy.findAllByText(/start your claim/i, { selector: 'a' })
-      .first()
-      .click();
+    h.startApp();
 
     cy.wait('@getIssues');
 
@@ -136,8 +128,8 @@ describe('995 ITF page', () => {
           .find('h2')
           .should('contain', 'We can’t confirm if we have an intent to file');
 
-        cy.axeCheck();
-        cy.get('va-button[continue]');
+        cy.injectAxeThenAxeCheck();
+        h.verifyElement('va-button[continue]');
       });
   });
 
@@ -145,9 +137,7 @@ describe('995 ITF page', () => {
     cy.intercept('GET', ITF_API, errorItf());
     cy.intercept('POST', postItfApi, errorItf());
 
-    cy.findAllByText(/start your claim/i, { selector: 'a' })
-      .first()
-      .click();
+    h.startApp();
 
     cy.wait('@getIssues');
 
@@ -158,8 +148,8 @@ describe('995 ITF page', () => {
           .find('h2')
           .should('contain', 'We can’t confirm if we have an intent to file');
 
-        cy.axeCheck();
-        cy.get('va-button[continue]');
+        cy.injectAxeThenAxeCheck();
+        h.verifyElement('va-button[continue]');
       });
   });
 });

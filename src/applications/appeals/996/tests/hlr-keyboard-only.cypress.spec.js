@@ -1,15 +1,15 @@
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
+import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 import mockV2Data from './fixtures/data/maximal-test-v2.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
-import {
-  fixDecisionDates,
-  tabToContinue,
-} from '../../shared/tests/cypress.helpers';
+import * as h from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
+
+const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
 
 describe('Higher-Level Review keyboard only navigation', () => {
   after(() => {
@@ -29,16 +29,15 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
     cy.get('@testData').then(data => {
       const { chapters } = formConfig;
+
       cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
-        data: fixDecisionDates(data.contestedIssues, { unselected: true }),
+        data: h.fixDecisionDates(data.contestedIssues, { unselected: true }),
       }).as('getIssues');
-      cy.visit(
-        '/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996/start',
-      );
+      cy.visit(manifest.rootUrl);
       cy.injectAxeThenAxeCheck();
 
       // *** Subtask
-      cy.url().should('include', '/start');
+      verifyUrl('/start');
       cy.tabToElement('input#compensationinput'); // ID of va-radio-option input
       cy.realPress('Space');
 
@@ -46,47 +45,36 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.realPress('Enter');
 
       // *** Intro page
-      cy.url().should('include', '/introduction');
-      cy.tabToElement('.vads-c-action-link--green');
-      cy.realPress('Enter');
+      verifyUrl('/introduction');
+      h.startAppKeyboard();
 
       // *** Veteran details
-      cy.url().should(
-        'include',
-        chapters.infoPages.pages.veteranInformation.path,
-      );
+      verifyUrl(chapters.infoPages.pages.veteranInformation.path);
       cy.wait('@getIssues');
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Homelessness radios
-      cy.url().should('include', chapters.infoPages.pages.homeless.path);
+      verifyUrl(chapters.infoPages.pages.homeless.path);
       cy.tabToElement('input#root_homelessYesinput');
       cy.chooseRadio(data.homeless ? 'Y' : 'N');
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Contact info
-      cy.url().should(
-        'include',
-        chapters.infoPages.pages.confirmContactInfo.path,
-      );
-      tabToContinue();
+      verifyUrl(chapters.infoPages.pages.confirmContactInfo.path);
+      h.tabToContinue();
 
       // *** Issues for review (sorted by random decision date) - only selecting one,
       // or more complex code is needed to find if the next checkbox is before or
       // after the first
-      cy.url().should(
-        'include',
-        chapters.conditions.pages.contestableIssues.path,
-      );
+      verifyUrl(chapters.conditions.pages.contestableIssues.path);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement('[name="root_contestedIssues_0"]'); // Tinnitus
       cy.realPress('Space');
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Area of disagreement for tinnitus
-      cy.url().should(
-        'include',
+      verifyUrl(
         chapters.conditions.pages.areaOfDisagreementFollowUp.path.replace(
           ':index',
           '',
@@ -99,43 +87,34 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.get(':focus')
         .find('input')
         .type('Few words', { delay: 0 });
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Authorization
-      cy.url().should('include', chapters.conditions.pages.authorization.path);
-      tabToContinue();
+      verifyUrl(chapters.conditions.pages.authorization.path);
+      h.tabToContinue();
 
       // *** Issue summary
-      cy.url().should('include', chapters.conditions.pages.issueSummary.path);
-      tabToContinue();
+      verifyUrl(chapters.conditions.pages.issueSummary.path);
+      h.tabToContinue();
 
       // *** Informal conference choice
-      cy.url().should(
-        'include',
-        chapters.informalConference.pages.requestConference.path,
-      );
+      verifyUrl(chapters.informalConference.pages.requestConference.path);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100); // wait for H3 focus before tabbing to radios
       cy.tabToElement('input[name="informalConferenceChoice"]');
       cy.chooseRadio('yes');
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Informal conference option
-      cy.url().should(
-        'include',
-        chapters.informalConference.pages.conferenceContact.path,
-      );
+      verifyUrl(chapters.informalConference.pages.conferenceContact.path);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100); // wait for H3 focus before tabbing to radios
       cy.tabToElement('input[name="informalConference"]');
       cy.chooseRadio('rep');
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Rep name & contact info
-      cy.url().should(
-        'include',
-        chapters.informalConference.pages.representativeInfoV2.path,
-      );
+      verifyUrl(chapters.informalConference.pages.representativeInfoV2.path);
       const rep = data.informalConferenceRep;
       const repPrefix = 'input[name="root_informalConferenceRep_';
       cy.typeInIfDataExists(`${repPrefix}firstName"]`, rep.firstName);
@@ -143,18 +122,15 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.typeInIfDataExists(`${repPrefix}phone"]`, rep.phone);
       cy.typeInIfDataExists(`${repPrefix}extension"]`, rep.extension);
       cy.typeInIfDataExists(`${repPrefix}email"]`, rep.email);
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Informal conference time
-      cy.url().should(
-        'include',
-        chapters.informalConference.pages.conferenceTimeRep.path,
-      );
+      verifyUrl(chapters.informalConference.pages.conferenceTimeRep.path);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement('[name="root_informalConferenceTime"]');
       cy.chooseRadio(data.informalConferenceTime);
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Review & submit page
       cy.url().should('include', 'review-and-submit');
