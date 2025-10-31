@@ -190,59 +190,47 @@ const ClaimsAndAppeals = ({
   return (
     <div data-testid="dashboard-section-claims-and-appeals">
       <h2>Claims and appeals</h2>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
-        <Toggler.Disabled>
-          <div className="vads-l-row">
-            <DashboardWidgetWrapper>
-              {hasAPIError && (
-                <ClaimsAndAppealsError
-                  hasAppealsError={hasAppealsError}
-                  hasClaimsError={hasClaimsError}
-                />
-              )}
-              {highlightedClaimOrAppeal && !isLOA1 ? (
+      <div className="vads-l-row">
+        <DashboardWidgetWrapper>
+          {hasAPIError && (
+            <ClaimsAndAppealsError
+              hasAppealsError={hasAppealsError}
+              hasClaimsError={hasClaimsError}
+            />
+          )}
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+            <Toggler.Disabled>
+              {highlightedClaimOrAppeal &&
+              !isLOA1 &&
+              !(hasAppealsError && hasClaimsError) &&
+              !(
+                (highlightedClaimOrAppeal.type === 'claim' && hasClaimsError) ||
+                (highlightedClaimOrAppeal.type === 'appeal' && hasAppealsError)
+              ) ? (
                 <HighlightedClaimAppeal
                   claimOrAppeal={highlightedClaimOrAppeal}
                 />
               ) : (
-                <>
-                  {!hasAPIError && !isLOA1 && <NoClaimsOrAppealsText />}
-                  <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
-                </>
+                <>{!hasAPIError && !isLOA1 && <NoClaimsOrAppealsText />}</>
               )}
-            </DashboardWidgetWrapper>
-            {highlightedClaimOrAppeal &&
-              !isLOA1 && (
-                <DashboardWidgetWrapper>
-                  <PopularActionsForClaimsAndAppeals />
-                </DashboardWidgetWrapper>
-              )}
-          </div>
-        </Toggler.Disabled>
-        <Toggler.Enabled>
-          <div className="vads-l-row">
-            <DashboardWidgetWrapper>
-              {hasAPIError && (
-                <ClaimsAndAppealsError
-                  hasAppealsError={hasAppealsError}
-                  hasClaimsError={hasClaimsError}
+            </Toggler.Disabled>
+            <Toggler.Enabled>
+              {highlightedClaimOrAppeal && !hasAPIError && !isLOA1 ? (
+                <HighlightedClaimAppeal
+                  claimOrAppeal={highlightedClaimOrAppeal}
                 />
+              ) : (
+                !hasAPIError && <NoClaimsOrAppealsText />
               )}
-              {!hasAPIError && (
-                <>
-                  {highlightedClaimOrAppeal && !isLOA1 ? (
-                    <HighlightedClaimAppeal
-                      claimOrAppeal={highlightedClaimOrAppeal}
-                    />
-                  ) : (
-                    <NoClaimsOrAppealsText />
-                  )}
-                </>
-              )}
-            </DashboardWidgetWrapper>
-          </div>
-        </Toggler.Enabled>
-      </Toggler>
+            </Toggler.Enabled>
+          </Toggler>
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+            <Toggler.Disabled>
+              <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
+            </Toggler.Disabled>
+          </Toggler>
+        </DashboardWidgetWrapper>
+      </div>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Enabled>
           <p className="vads-u-margin-top--0">
