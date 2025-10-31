@@ -28,7 +28,7 @@ const ConfirmationFullyDevelopedClaim = ({ formData }) => {
 ConfirmationFullyDevelopedClaim.propTypes = {
   formData: PropTypes.shape({
     standardClaim: PropTypes.bool,
-  }),
+  }).isRequired,
 };
 
 export default ConfirmationFullyDevelopedClaim;
