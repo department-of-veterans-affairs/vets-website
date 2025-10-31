@@ -245,8 +245,14 @@ describe('WarningBanner Component', () => {
     const mainInstitution = {
       facilityCode: '12345678',
       facilityMap: {
-        branches: ['11111111', '22222222'],
-        extensions: ['33333333', '44444444'],
+        branches: [
+          { institution: { facilityCode: '11111111' } },
+          { institution: { facilityCode: '22222222' } },
+        ],
+        extensions: [
+          { institution: { facilityCode: '33333333' } },
+          { institution: { facilityCode: '44444444' } },
+        ],
       },
     };
 

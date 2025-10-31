@@ -54,6 +54,7 @@ export const useValidateFacilityCode = formData => {
             postalCode: attrs.zip || '',
             country: attrs.country || '',
           };
+          const facilityMap = attrs.facilityMap.main;
 
           setInstitutionData(response?.data);
           setLoader(false);
@@ -64,6 +65,7 @@ export const useValidateFacilityCode = formData => {
                 ...formData.institutionDetails,
                 institutionName: response?.data?.attributes?.name,
                 institutionAddress,
+                facilityMap,
                 ihlEligible,
                 yrEligible,
                 isLoading: false,
