@@ -96,7 +96,7 @@ describe('Print download menu component', () => {
     expect(screen).to.exist;
   });
 
-  it('should close menu when Escape key is pressed', () => {
+  it('should close menu when Escape key is pressed, and focus on the toggle button', () => {
     const screen = render(<PrintDownload />);
     const toggleButton = screen.getByTestId('print-download-menu');
 
@@ -111,6 +111,8 @@ describe('Print download menu component', () => {
 
     // Menu should be closed
     expect(toggleButton).to.have.attribute('aria-expanded', 'false');
+    // Verify the toggle button is focused
+    expect(document.activeElement).to.equal(toggleButton);
   });
 
   it('should close menu when focus leaves the menu container', () => {

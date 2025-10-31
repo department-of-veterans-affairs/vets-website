@@ -47,6 +47,7 @@ const PrintDownload = props => {
       setPrintIndex(printIndex + 1);
     } else if (e.keyCode === 27) {
       setMenuOpen(false);
+      focusElement(document.querySelector('#print-download-menu'));
     }
   };
   const handleFocus = () => {
