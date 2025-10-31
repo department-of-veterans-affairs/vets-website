@@ -2,21 +2,7 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-
-const arrayBuilderOptions = {
-  arrayPath: 'additionalLocations',
-  nounSingular: 'location',
-  nounPlural: 'locations',
-  required: false,
-  text: {
-    getItemName: item => {
-      if (item.institutionName) {
-        return item.institutionName;
-      }
-      return 'Location';
-    },
-  },
-};
+import { additionalLocationArrayBuilderOptions } from '../helpers';
 
 const additionalLocationSummary = {
   uiSchema: {
@@ -25,7 +11,7 @@ const additionalLocationSummary = {
         'You can add more locations to this agreement. If you have any more campuses or additional locations to add to this agreement, you can do so now. You will need a facility code for each location you would like to add.',
     },
     addMoreLocations: arrayBuilderYesNoUI(
-      arrayBuilderOptions,
+      additionalLocationArrayBuilderOptions,
       {
         title:
           "Do you have any additional locations you'd like to add to this agreement?",

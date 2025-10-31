@@ -6,8 +6,13 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const EnteredPoc = ({ value, onChange, options = [] }) => {
-  // Controlled by key string in form data
-  const currentKey = typeof value === 'string' ? value : '';
+  // Controlled by key stored in form data object or simple string fallback
+  let currentKey = '';
+  if (typeof value === 'string') {
+    currentKey = value;
+  } else if (value && typeof value === 'object' && value.key) {
+    currentKey = value.key;
+  }
 
   // Keep a local selection to avoid flicker/deselect during intermediate renders
   const [selectedKey, setSelectedKey] = useState(currentKey);
@@ -22,7 +27,9 @@ const EnteredPoc = ({ value, onChange, options = [] }) => {
     const k = e?.detail?.value;
     if (!k) return;
     setSelectedKey(k);
-    onChange(k);
+    const selected = options.find(o => o.key === k);
+    // Pass the full data object to the form system
+    onChange(selected?.data ?? { key: k });
   };
   return (
     <div className="radio-container">
@@ -54,7 +61,7 @@ EnteredPoc.propTypes = {
       data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     }),
   ).isRequired,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   onChange: PropTypes.func,
 };
 

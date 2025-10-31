@@ -9,40 +9,7 @@ const nameFrom = person =>
     .filter(Boolean)
     .join(' ');
 
-const buildContacts = full => {
-  const items = [];
-
-  // School Certifying Official
-  const sco = full?.newCommitment?.schoolCertifyingOfficial;
-  const scoName = sco && nameFrom(sco);
-  if (scoName)
-    items.push({
-      value: 'sco',
-      label: `${scoName}\n${sco?.email || ''}`,
-    });
-
-  const poe = full?.newCommitment?.principlesOfExcellencePointOfContact;
-  const poeName = poe && nameFrom(poe);
-  if (poeName)
-    items.push({
-      value: 'poe',
-      label: `${poeName}\n${poe?.email || ''}`,
-    });
-  full?.additionalLocations?.forEach((location, idx) => {
-    const fn = location?.fullName || {};
-    const name = [fn.first, fn.middle, fn.last].filter(Boolean).join(' ');
-    const email = location?.email || '';
-    if (!name && !email) return;
-    items.push({
-      value: `new-${idx}`,
-      label: `${name}\n${email}`,
-    });
-  });
-  return {
-    enum: ['none', ...items.map(i => i.value)],
-    enumNames: ['None of the above', ...items.map(i => i.label)],
-  };
-};
+// Removed legacy enum builder (now returning full object via custom widget)
 
 // Stable, top-level widget component so hooks are valid and state isn't reset by remounts
 const PreviouslyEnteredPOCWidget = props => {
@@ -54,8 +21,50 @@ const PreviouslyEnteredPOCWidget = props => {
   const push = (key, contact) => {
     const nm = contact && nameFrom(contact);
     if (!nm) return;
-    options.push({ key, label: nm, email: contact?.email || '' });
+    const phone =
+      contact?.usPhone ||
+      contact?.internationalPhone ||
+      contact?.phoneNumber ||
+      contact?.internationalPhoneNumber ||
+      '';
+    const title = contact?.title || '';
+    options.push({
+      key,
+      label: nm,
+      email: contact?.email || '',
+      data: {
+        key,
+        fullName: nm,
+        title,
+        email: contact?.email || '',
+        phone,
+      },
+    });
   };
+  const authorizedOfficial = full?.authorizedOfficial;
+  const authorizedOfficialName =
+    authorizedOfficial && nameFrom(authorizedOfficial);
+  if (authorizedOfficialName) {
+    const phone =
+      authorizedOfficial?.usPhone ||
+      authorizedOfficial?.internationalPhone ||
+      authorizedOfficial?.phoneNumber ||
+      authorizedOfficial?.internationalPhoneNumber ||
+      '';
+    const title = authorizedOfficial?.title || '';
+    options.push({
+      key: 'authorizedOfficial',
+      label: authorizedOfficialName,
+      email: authorizedOfficial?.email || '',
+      data: {
+        key: 'authorizedOfficial',
+        fullName: authorizedOfficialName,
+        title,
+        email: authorizedOfficial?.email || '',
+        phone,
+      },
+    });
+  }
   push('sco', sco);
   push('poe', poe);
   // Also include any additionalLocations entries (new POCs captured earlier)
@@ -64,23 +73,36 @@ const PreviouslyEnteredPOCWidget = props => {
     const name = [fn.first, fn.middle, fn.last].filter(Boolean).join(' ');
     const email = loc?.email || '';
     if (!name && !email) return;
-    options.push({ key: `new-${idx}`, label: name, email });
+    const phone =
+      loc?.usPhone ||
+      loc?.internationalPhone ||
+      loc?.phoneNumber ||
+      loc?.internationalPhoneNumber ||
+      '';
+    options.push({
+      key: `new-${idx}`,
+      label: name,
+      email,
+      data: { key: `new-${idx}`, fullName: name, email, phone },
+    });
   });
   options.push({
     key: 'none',
     label: 'None of the above, I will enter a new point of contact',
     email: '',
+    data: { key: 'none' },
   });
 
-  const valueKey = typeof props.value === 'string' ? props.value : '';
+  const valueProp = props.value !== undefined ? props.value : props.formData;
   return (
-    <EnteredPoc value={valueKey} onChange={props.onChange} options={options} />
+    <EnteredPoc value={valueProp} onChange={props.onChange} options={options} />
   );
 };
 
 PreviouslyEnteredPOCWidget.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string,
+  formData: PropTypes.any,
+  value: PropTypes.any,
 };
 
 export const uiSchema = {
@@ -92,12 +114,8 @@ export const uiSchema = {
   previouslyEnteredPointOfContact: {
     'ui:title':
       'Select a name below to use them as the point of contact for this additional location.',
-    'ui:widget': PreviouslyEnteredPOCWidget,
-    'ui:options': {
-      // On array item pages use the full form data argument
-      updateSchema: (_itemData, _itemSchema, _ui, _idx, _path, fullFormData) =>
-        buildContacts(fullFormData),
-    },
+    'ui:field': PreviouslyEnteredPOCWidget,
+    'ui:options': {},
   },
 };
 
@@ -105,9 +123,14 @@ export const schema = {
   type: 'object',
   properties: {
     previouslyEnteredPointOfContact: {
-      type: 'string',
-      enum: ['none'],
-      enumNames: ['None of the above'],
+      type: 'object',
+      properties: {
+        key: { type: 'string' },
+        fullName: { type: 'string' },
+        title: { type: 'string' },
+        email: { type: 'string', format: 'email' },
+        phone: { type: 'string' },
+      },
     },
   },
   required: ['previouslyEnteredPointOfContact'],

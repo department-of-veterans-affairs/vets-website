@@ -10,6 +10,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PrivacyPolicy from '../components/PrivacyPolicy';
+import { additionalLocationArrayBuilderOptions } from '../helpers';
 
 import {
   agreementType,
@@ -179,10 +180,7 @@ const formConfig = {
       pages: {
         ...arrayBuilderPages(
           {
-            arrayPath: 'additionalLocations',
-            nounSingular: 'location',
-            nounPlural: 'locations',
-            required: false,
+            ...additionalLocationArrayBuilderOptions,
           },
           pageBuilder => ({
             additionalLocationSummary: pageBuilder.summaryPage({
@@ -211,10 +209,10 @@ const formConfig = {
               uiSchema: poeLocation.uiSchema,
               schema: poeLocation.schema,
               depends: (fromData, index) => {
-                return (
+                const sel =
                   fromData?.additionalLocations?.[index]
-                    ?.previouslyEnteredPointOfContact === 'none'
-                );
+                    ?.previouslyEnteredPointOfContact;
+                return sel === 'none' || sel?.key === 'none';
               },
             }),
           }),
