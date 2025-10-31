@@ -8,11 +8,13 @@ import EmailConfirmationInterstitial from '../containers/EmailConfirmationInters
 const generateStore = (email = 'test@test.com') => ({
   getState: () => ({
     user: {
-      vet360ContactInformation: {
-        email: {
-          id: 123,
-          emailAddress: email,
-          confirmationDate: new Date().toISOString(),
+      profile: {
+        vapContactInfo: {
+          email: {
+            id: 123,
+            emailAddress: email,
+            confirmationDate: new Date().toISOString(),
+          },
         },
       },
     },
