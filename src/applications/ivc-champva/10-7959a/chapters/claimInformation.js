@@ -1,7 +1,6 @@
 import {
   titleUI,
   descriptionUI,
-  titleSchema,
   radioUI,
   radioSchema,
   yesNoUI,
@@ -9,7 +8,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
-import { nameWording, privWrapper } from '../../shared/utilities';
 import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
 import { blankSchema } from './sponsorInformation';
 import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
@@ -18,6 +16,7 @@ import SubmittingClaimsAddtlInfo from '../components/FormDescriptions/Submitting
 import MedicalEobDescription from '../components/FormDescriptions/MedicalEobDescription';
 import PharmacyClaimsDescription from '../components/FormDescriptions/PharmacyClaimsDescription';
 import MedicalClaimsDescription from '../components/FormDescriptions/MedicalClaimsDescription';
+import content from '../locales/en/content.json';
 
 const addtlInfoNotes = {
   'view:notes': { ...descriptionUI(SubmittingClaimsAddtlInfo) },
@@ -38,7 +37,6 @@ export const claimTypeSchema = {
     type: 'object',
     required: ['claimType'],
     properties: {
-      titleSchema,
       claimType: radioSchema(['medical', 'pharmacy']),
     },
   },
@@ -46,30 +44,16 @@ export const claimTypeSchema = {
 
 export const claimWorkSchema = {
   uiSchema: {
-    ...titleUI('Claim relationship to work'),
+    ...titleUI(content['claim--work-title']),
     claimIsWorkRelated: yesNoUI({
-      type: 'radio',
-      title: 'Is this a claim for a work-related injury or condition?',
-      updateUiSchema: formData => {
-        return {
-          'ui:options': {
-            classNames: ['dd-privacy-hidden'],
-            hint: `Depending on your answer, we may contact ${nameWording(
-              formData,
-              true,
-              false,
-              true,
-            )} workers’ compensation insurance provider to determine if they paid any amount for this care.`,
-          },
-        };
-      },
+      title: content['claim--work-label'],
+      hint: content['claim--work-hint'],
     }),
   },
   schema: {
     type: 'object',
     required: ['claimIsWorkRelated'],
     properties: {
-      titleSchema,
       claimIsWorkRelated: yesNoSchema,
     },
   },
@@ -77,31 +61,16 @@ export const claimWorkSchema = {
 
 export const claimAutoSchema = {
   uiSchema: {
-    ...titleUI('Claim relationship to a car accident'),
+    ...titleUI(content['claim--auto-title']),
     claimIsAutoRelated: yesNoUI({
-      type: 'radio',
-      title:
-        'Is this a claim for an injury or condition caused by car accident?',
-      updateUiSchema: formData => {
-        return {
-          'ui:options': {
-            classNames: ['dd-privacy-hidden'],
-            hint: `Depending on your answer, we may contact ${nameWording(
-              formData,
-              true,
-              false,
-              true,
-            )} car insurance provider to determine if they paid any amount for this care.`,
-          },
-        };
-      },
+      title: content['claim--auto-label'],
+      hint: content['claim--auto-hint'],
     }),
   },
   schema: {
     type: 'object',
     required: ['claimIsAutoRelated'],
     properties: {
-      titleSchema,
       claimIsAutoRelated: yesNoSchema,
     },
   },
@@ -127,7 +96,6 @@ export const medicalClaimUploadSchema = {
     type: 'object',
     required: ['medicalUpload'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
       // schema for LLM message
@@ -157,11 +125,9 @@ export const eobUploadSchema = isPrimary => {
     uiSchema: {
       ...titleUI(({ formData }) => {
         // If `isPrimary`, show first health insurance co. name. Else, show 2nd.
-        return privWrapper(
-          `Upload explanation of benefits for this claim from ${
-            formData?.policies?.[isPrimary ? 0 : 1]?.name
-          }`,
-        );
+        return `Upload explanation of benefits for this claim from ${
+          formData?.policies?.[isPrimary ? 0 : 1]?.name
+        }`;
       }),
       ...descriptionUI(MedicalEobDescription),
       ...fileUploadBlurb,
@@ -178,7 +144,6 @@ export const eobUploadSchema = isPrimary => {
       type: 'object',
       required: [keyName],
       properties: {
-        titleSchema,
         'view:fileUploadBlurb': blankSchema,
         'view:notes': blankSchema,
         // schema for LLM message
@@ -221,7 +186,6 @@ export const pharmacyClaimUploadSchema = {
     type: 'object',
     required: ['pharmacyUpload'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
       // schema for LLM message

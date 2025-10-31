@@ -18,8 +18,9 @@ const NotEnrolledPage = ({ goBack }) => (
 
     <h3>If you already applied for CHAMPVA benefits</h3>
     <p>
-      You don’t need to do anything while you wait. If we need more information
-      from you during this time, we’ll contact you.
+      You don’t need to do anything while you wait. It currently takes us about
+      14 days to process an application. If we need more information from you
+      during this time, we’ll contact you.
     </p>
     <p>
       If you have questions about the status of your application, call us at{' '}

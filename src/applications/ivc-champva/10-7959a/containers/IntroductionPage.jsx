@@ -38,8 +38,8 @@ const IntroductionPage = ({ route }) => {
         title="File a CHAMPVA claim"
         subTitle="CHAMPVA Claim Form (VA Form 10-7959a)"
       />
-      <p>
-        Use this form if you’re currently enrolled in The Civilian Health and
+      <p className="va-introtext">
+        Use this form if you’re currently enrolled in the Civilian Health and
         Medical Program of the Department of Veterans Affairs (CHAMPVA) and want
         to file a claim for reimbursement.
       </p>
