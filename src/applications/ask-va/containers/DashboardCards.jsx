@@ -7,15 +7,11 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { compareDesc, parse } from 'date-fns';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import {
-  ServerErrorAlert,
-  formatDate,
-  getVAStatusFromCRM,
-} from '../config/helpers';
+import { ServerErrorAlert, getVAStatusFromCRM } from '../config/helpers';
 import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
+import InquiryCard from '../components/dashboard/InquiryCard';
 
 const DashboardCards = () => {
   const filterSummaryRef = useRef(null);
@@ -187,67 +183,8 @@ const DashboardCards = () => {
               : 'dashboard-cards-grid vads-u-padding--0'
           }
         >
-          {currentInquiries.map(card => (
-            <li key={card.id} className="dashboard-card-list">
-              <va-card class="vacard">
-                <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-                  <span className="vads-u-margin-bottom--1p5 vads-u-display--block">
-                    <span className="sr-only">Status</span>
-                    <span>
-                      <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
-                        {getVAStatusFromCRM(card.attributes.status)}
-                      </span>
-                    </span>
-                  </span>
-                  <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p">
-                    {`Submitted on ${formatDate(card.attributes.createdOn)}`}
-                  </span>
-                </h3>
-                <dl>
-                  <div className="vads-u-margin--0 vads-u-padding-bottom--1">
-                    <dt className="vads-u-font-weight--bold vads-u-display--inline">
-                      Last updated:
-                    </dt>{' '}
-                    <dd className="vads-u-display--inline">
-                      {formatDate(card.attributes.lastUpdate)}
-                    </dd>
-                  </div>
-                  <div className="vads-u-margin--0 vads-u-padding-bottom--1">
-                    <dt className="vads-u-font-weight--bold vads-u-display--inline">
-                      Reference number:
-                    </dt>{' '}
-                    <dd className="vads-u-display--inline">
-                      {card.attributes.inquiryNumber}
-                    </dd>
-                  </div>
-                  <div className="vads-u-margin-bottom--0 vacardCategory multiline-ellipsis-1">
-                    <dt className="vads-u-font-weight--bold vads-u-display--inline">
-                      Category:
-                    </dt>{' '}
-                    <dd className="vads-u-display--inline">
-                      {card.attributes.categoryName}
-                    </dd>
-                  </div>
-                </dl>
-                <div className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--1 vads-u-margin-top--1p5" />
-                <p className="vacardSubmitterQuestion">
-                  {card.attributes.submitterQuestion}
-                </p>
-                <Link
-                  to={`${URL.DASHBOARD_ID}${card.attributes.inquiryNumber}`}
-                  className="vads-u-margin-top--1p5"
-                >
-                  <va-link
-                    active
-                    text="Review conversation"
-                    label={`Review conversation for question submitted on ${formatDate(
-                      card.attributes.createdOn,
-                      'long',
-                    )}`}
-                  />
-                </Link>
-              </va-card>
-            </li>
+          {currentInquiries.map(inquiry => (
+            <InquiryCard key={inquiry.id} {...{ inquiry }} />
           ))}
         </ul>
 
