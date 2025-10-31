@@ -10,6 +10,7 @@ const FinancialInformation = () => {
         heading={PROFILE_PATH_NAMES.DIRECT_DEPOSIT}
         content="Manage direct deposit information for disability compensation, pension, and education benefits"
         href={PROFILE_PATHS.DIRECT_DEPOSIT}
+        reactLink
       />
       <ProfileHubItem
         heading="VA debt and bills"

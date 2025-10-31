@@ -2,6 +2,7 @@ import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import { Edit } from './components/edit/Edit';
 import { getRoutesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
+import ProfileHub from './components/hub/ProfileHub';
 
 const getRoutes = (
   { profile2Enabled = false, profileHealthCareSettingsPage = false } = {
@@ -19,7 +20,7 @@ const getRoutes = (
       requiresMVI: true,
     },
     {
-      component: Hub,
+      component: profile2Enabled ? ProfileHub : Hub,
       name: PROFILE_PATH_NAMES.PROFILE_ROOT,
       path: PROFILE_PATHS.PROFILE_ROOT,
       requiresLOA3: true,

@@ -49,6 +49,7 @@ const {
   generateStatusResponse,
 } = require('./endpoints/status');
 const handleUserUpdate = require('./endpoints/user/handleUserUpdate');
+const mhvSignature = require('./endpoints/my-health');
 
 // VA Profile initialization simulation setup
 // The loa3UserNeedsVapInit user has 'vet360' service available and will trigger initialization
@@ -136,10 +137,10 @@ const responses = {
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
     // return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
-    return res.json(user.loa3UserNeedsVapInit);
+    // return res.json(user.loa3UserNeedsVapInit);
     // return res.json(user.loa3UserNoVaProfile); // LOA3 user without VA Profile service
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
-    // return res.json(user.mvhUser); // user with mhv signIn.serviceName
+    return res.json(user.mvhUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
     // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
     // return res.json(user.loa1UserMHV); // LOA1 user w/mhv
@@ -158,6 +159,20 @@ const responses = {
     // data claim users
     // return res.json(user.loa3UserWithNoRatingInfoClaim);
     // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
+  },
+  'GET /my_health/v1/messaging/preferences/signature': (_req, res) => {
+    return res.json(mhvSignature.filledSignature);
+    // return res.json(mhvSignature.emptySignature);
+  },
+  'POST /my_health/v1/messaging/preferences/signature': (_req, res) => {
+    const secondsOfDelay = 2;
+    const responseBody = mhvSignature.filledSignature; // Simulate successful save
+    // const responseBody = mhvSignature.emptySignature; // Simulate successful deletion
+    delaySingleResponse(
+      () => res.status(200).json(responseBody),
+      secondsOfDelay,
+    );
+    // return res.status(500).json(genericErrors.error500);
   },
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {
