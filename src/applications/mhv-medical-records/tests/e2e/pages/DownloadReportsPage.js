@@ -17,10 +17,13 @@ class DownloadReportsPage {
       'be.visible',
     );
 
+    cy.get('[data-testid^="generateCcdButton"]', { timeout: 15000 }).should(
+      'have.length.greaterThan',
+      0,
+    );
     cy.get('[data-testid^="generateCcdButton"]', { timeout: 15000 })
-      .should('have.length.greaterThan', 0)
       .first()
-      .should('be.visible', { timeout: 15000 });
+      .should('be.visible');
   };
 
   clickSelfEnteredAccordionItem = () => {
