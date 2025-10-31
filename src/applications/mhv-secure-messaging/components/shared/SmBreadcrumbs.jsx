@@ -99,7 +99,7 @@ const SmBreadcrumbs = () => {
       mhvSecureMessagingRecentRecipients &&
       recentRecipients !== undefined &&
       recentRecipients?.length > 0 &&
-      recentRecipients !== 'error' &&
+      recentRecipients?.error !== 'error' &&
       recentRecipients !== null,
     [recentRecipients, mhvSecureMessagingRecentRecipients],
   );
