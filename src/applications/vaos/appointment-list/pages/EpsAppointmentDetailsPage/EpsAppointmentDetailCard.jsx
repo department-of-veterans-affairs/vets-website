@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import AddToCalendarButton from '../../../components/AddToCalendarButton';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import Section from '../../../components/Section';
-import AppointmentDate from '../../../components/AppointmentDate';
-import AppointmentTime from '../../../components/AppointmentTime';
 
 // eslint-disable-next-line import/no-restricted-paths
-import ProviderAddress from '../../../referral-appointments/components/ProviderAddress';
 import { Details } from '../../../components/layouts/DetailPageLayout';
-import FacilityPhone from '../../../components/FacilityPhone';
+import AppointmentDateTime from '../../../components/AppointmentDateTime';
+import AppointmentFacilityLocation from '../../../components/AppointmentFacilityLocation';
 
 export default function EpsAppointmentDetailCard({
   appointment,
@@ -47,21 +44,15 @@ export default function EpsAppointmentDetailCard({
         <span data-dd-privacy="mask">{pageTitle}</span>
       </h1>
       <Section heading="When">
-        <AppointmentDate
-          date={appointment.start}
+        <AppointmentDateTime
+          start={appointment.start}
           timezone={appointment.provider.location.timezone}
+          calendarData={calendarData}
+          showAddToCalendarButton={
+            APPOINTMENT_STATUS.cancelled !== appointment.status &&
+            !isPastAppointment
+          }
         />
-        <br />
-        <AppointmentTime
-          date={appointment.start}
-          timezone={appointment.provider.location.timezone}
-        />
-        {APPOINTMENT_STATUS.cancelled !== appointment.status &&
-          !isPastAppointment && (
-            <div className="vads-u-margin-top--1 vaos-hide-for-print">
-              <AddToCalendarButton appointment={calendarData} />
-            </div>
-          )}
       </Section>
       <Section heading="Provider">
         {appointment.provider?.name ? (
@@ -76,34 +67,10 @@ export default function EpsAppointmentDetailCard({
             Provider name not available
           </p>
         )}
-        {appointment.provider?.location?.name ? (
-          <p
-            className="vads-u-margin-top--0 vads-u-margin-bottom--0"
-            data-dd-privacy="mask"
-          >
-            {appointment.provider.location.name}
-          </p>
-        ) : (
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            Facility name not available
-          </p>
-        )}
-        {appointment.provider.location.address ? (
-          <ProviderAddress
-            address={appointment.provider.location.address}
-            showDirections
-            directionsName={appointment.provider.location.name}
-          />
-        ) : (
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            Address not available
-          </p>
-        )}
-        <FacilityPhone
-          // If provider phone is available, use it, otherwise VA 800 number
-          contact={appointment.provider.phone || undefined}
-          // If provider phone is available, hide extension
-          ccPhone={!!appointment.provider.phone}
+        <AppointmentFacilityLocation
+          locationName={appointment.provider.location.name}
+          locationAddress={appointment.provider.location.address}
+          locationPhone={appointment.provider.phone}
         />
       </Section>
       <Details

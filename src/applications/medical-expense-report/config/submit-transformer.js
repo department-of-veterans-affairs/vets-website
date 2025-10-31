@@ -2,32 +2,31 @@ import { format } from 'date-fns-tz';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 function swapNames(formData) {
-  const transformedValue = formData;
+  const parsedFormData = JSON.parse(formData);
+  const transformedValue = parsedFormData;
   if (
-    formData?.claimantNotVeteran === false &&
-    formData.claimantFullName.first &&
-    formData.claimantFullName.last &&
-    !formData.veteranFullName?.first &&
-    !formData.veteranFullName?.last
+    parsedFormData?.claimantNotVeteran === false &&
+    parsedFormData.claimantFullName?.first &&
+    parsedFormData.claimantFullName?.last &&
+    !parsedFormData.veteranFullName?.first &&
+    !parsedFormData.veteranFullName?.last
   ) {
-    transformedValue.veteranFullName = {
-      first: formData.claimantFullName.first,
-      middle: formData.claimantFullName.middle,
-      last: formData.claimantFullName.last,
-      suffix: formData.claimantFullName.suffix,
-    };
-    transformedValue.claimantFullName = {
-      first: undefined,
-      middle: undefined,
-      last: undefined,
-      suffix: undefined,
-    };
+    transformedValue.veteranFullName = {};
+    transformedValue.veteranFullName.first =
+      parsedFormData.claimantFullName?.first;
+    transformedValue.veteranFullName.middle =
+      parsedFormData.claimantFullName?.middle;
+    transformedValue.veteranFullName.last =
+      parsedFormData.claimantFullName?.last;
+    transformedValue.veteranFullName.suffix =
+      parsedFormData.claimantFullName?.suffix;
+    transformedValue.claimantFullName = {};
   }
-  return transformedValue;
+  return JSON.stringify(transformedValue);
 }
 
 export const transform = (formConfig, form) => {
-  let transformedData = JSON.parse(transformForSubmit(formConfig, form));
+  let transformedData = transformForSubmit(formConfig, form);
   transformedData = swapNames(transformedData);
   return JSON.stringify({
     medicalExpenseReportsClaim: {

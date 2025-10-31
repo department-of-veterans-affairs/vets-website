@@ -1,27 +1,40 @@
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import {
   labels,
   location,
   pageDetails,
+  showExitLink,
 } from '../../../components/picklist/utils';
+import { PICKLIST_DATA, PICKLIST_PATHS } from '../../../config/constants';
 
 describe('labels', () => {
-  it('should render title with and without "Edit"', () => {
-    expect(labels.Spouse.removalReasonTitle('SPOUSY FOSTER', false)).to.equal(
-      'Reason for removing SPOUSY FOSTER',
+  it('should render Spouse title with and without "Edit"', () => {
+    const spouseTitle = render(
+      labels.Spouse.removalReasonTitle('SPOUSY FOSTER', false),
     );
-    expect(labels.Spouse.removalReasonTitle('SPOUSY FOSTER', true)).to.equal(
-      'Edit reason for removing SPOUSY FOSTER',
+    expect(spouseTitle.getByText('Reason for removing')).to.exist;
+    expect(spouseTitle.getByText('SPOUSY FOSTER')).to.exist;
+    const editSpouseTitle = render(
+      labels.Spouse.removalReasonTitle('SPOUSY FOSTER', true),
     );
+    expect(editSpouseTitle.getByText('Edit reason for removing')).to.exist;
+  });
 
-    expect(labels.Parent.removalReasonTitle('PETER FOSTER', false)).to.equal(
-      'Reason for removing PETER FOSTER',
+  it('should render Parent title with and without "Edit"', () => {
+    const parentTitle = render(
+      labels.Parent.removalReasonTitle('PETER FOSTER', false),
     );
-    expect(labels.Parent.removalReasonTitle('PETER FOSTER', true)).to.equal(
-      'Edit reason for removing PETER FOSTER',
+    expect(parentTitle.getByText('Reason for removing')).to.exist;
+    expect(parentTitle.getByText('PETER FOSTER')).to.exist;
+    const editParentTitle = render(
+      labels.Parent.removalReasonTitle('PETER FOSTER', true),
     );
+    expect(editParentTitle.getByText('Edit reason for removing')).to.exist;
+  });
 
+  it('should return Child title with and without "Edit"', () => {
     expect(
       labels.Child.isStepChildTitle('PENNY FOSTER', '11 years', false),
     ).to.equal('Is PENNY FOSTER (age 11 years) your stepchild?');
@@ -29,12 +42,14 @@ describe('labels', () => {
       labels.Child.isStepChildTitle('PENNY FOSTER', '11 years', true),
     ).to.equal('Edit is PENNY FOSTER (age 11 years) your stepchild?');
 
-    expect(labels.Child.removalReasonTitle('PENNY FOSTER', false)).to.equal(
-      'Reason for removing PENNY FOSTER',
+    const childTitle = render(
+      labels.Child.removalReasonTitle('PENNY FOSTER', false),
     );
-    expect(labels.Child.removalReasonTitle('PENNY FOSTER', true)).to.equal(
-      'Edit reason for removing PENNY FOSTER',
+    expect(childTitle.getByText('Reason for removing')).to.exist;
+    const editChildTitle = render(
+      labels.Child.removalReasonTitle('PENNY FOSTER', true),
     );
+    expect(editChildTitle.getByText('Edit reason for removing')).to.exist;
   });
 });
 
@@ -47,6 +62,15 @@ describe('location', () => {
       endCountry: 'TST',
     };
     expect(location(item)).to.equal('Test City, Test Province, TST');
+  });
+
+  it('should format location for outside US with no province', () => {
+    const item = {
+      endCity: 'Test City',
+      endOutsideUS: true,
+      endCountry: 'TST',
+    };
+    expect(location(item)).to.equal('Test City, TST');
   });
 
   it('should format location for inside US', () => {
@@ -291,5 +315,87 @@ describe('pageDetails', () => {
         { label: 'Something went wrong', value: '' },
       ]);
     });
+  });
+});
+
+describe('showExitLink', () => {
+  it('should return false if there is no data', () => {
+    const data = { [PICKLIST_DATA]: [], [PICKLIST_PATHS]: [] };
+    expect(showExitLink({ data, index: 0 })).to.be.false;
+  });
+
+  it('should return false for no exit pages', () => {
+    const data = {
+      [PICKLIST_DATA]: [{ selected: true }, { selected: true }],
+      [PICKLIST_PATHS]: [
+        { path: 'test1', index: 0 },
+        { path: 'test2', index: 1 },
+      ],
+    };
+    expect(showExitLink({ data, index: 0 })).to.be.false;
+    expect(showExitLink({ data, index: 1 })).to.be.false;
+  });
+
+  it('should return false for a non-exit page with multiple exit page', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        { selected: true },
+        { selected: true },
+        { selected: true },
+        { selected: true },
+      ],
+      [PICKLIST_PATHS]: [
+        { path: 'test0-exit', index: 0 },
+        { path: 'test1', index: 1 },
+        { path: 'test2-exit', index: 2 },
+        { path: 'test3-exit', index: 3 },
+      ],
+    };
+    expect(showExitLink({ data, index: 0 })).to.be.false;
+    expect(showExitLink({ data, index: 1 })).to.be.false;
+    expect(showExitLink({ data, index: 2 })).to.be.false;
+    expect(showExitLink({ data, index: 3 })).to.be.false;
+  });
+
+  it('should return true for a single exit page', () => {
+    const data = {
+      [PICKLIST_DATA]: [{ selected: false }, { selected: true }],
+      [PICKLIST_PATHS]: [{ path: 'test1-exit', index: 1 }],
+    };
+    expect(showExitLink({ data, index: 0 })).to.be.false;
+    expect(showExitLink({ data, index: 1 })).to.be.true;
+  });
+
+  it('should return true for second of two exit page', () => {
+    const data = {
+      [PICKLIST_DATA]: [{ selected: true }, { selected: true }],
+      [PICKLIST_PATHS]: [
+        { path: 'test1-exit', index: 0 },
+        { path: 'test2-exit', index: 1 },
+      ],
+    };
+    expect(showExitLink({ data, index: 0 })).to.be.false;
+    expect(showExitLink({ data, index: 1 })).to.be.true;
+  });
+
+  it('should return true for third of two exit page', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        { selected: true },
+        { selected: true },
+        { selected: true },
+        { selected: true },
+      ],
+      [PICKLIST_PATHS]: [
+        { path: 'test0-exit', index: 0 },
+        { path: 'test1-exit', index: 1 },
+        { path: 'test2-exit', index: 2 },
+        { path: 'test3-exit', index: 3 },
+      ],
+    };
+    expect(showExitLink({ data, index: 0 })).to.be.false;
+    expect(showExitLink({ data, index: 1 })).to.be.false;
+    expect(showExitLink({ data, index: 2 })).to.be.false;
+    expect(showExitLink({ data, index: 3 })).to.be.true;
   });
 });
