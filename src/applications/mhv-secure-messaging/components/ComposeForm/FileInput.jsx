@@ -1,5 +1,6 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { VaFileInputMultiple } from '@department-of-veterans-affairs/web-components/react-bindings';
 import {
   acceptedFileTypes,
   acceptedFileTypesExtended,
@@ -20,9 +21,6 @@ const FileInput = props => {
     setAttachments,
   } = props;
 
-  const fileInputRef = useRef();
-  const errorRef = useRef(null);
-  const [selectedFileId, setSelectedFileId] = useState(null);
   const {
     largeAttachmentsEnabled,
     cernerPilotSmFeatureFlag,
@@ -81,92 +79,124 @@ const FileInput = props => {
     [useLargeAttachments],
   );
 
-  // Validation for files
-  const handleFiles = event => {
-    const currentTotalSize = attachments.reduce((currentSize, item) => {
-      return currentSize + item.size;
-    }, 0);
-    const selectedFile = event.target.files[0];
-
-    setSelectedFileId(selectedFile.lastModified);
-    // eslint disabled here to clear the input's stored value to allow a user to remove and re-add the same attachment
-    // https://stackoverflow.com/questions/42192346/how-to-reset-reactjs-file-input
-    // eslint-disable-next-line no-param-reassign
-    event.target.value = null;
-
-    if (!selectedFile) return;
-    const fileExtension =
-      selectedFile.name && selectedFile.name.split('.').pop();
-    setAttachFileError(null);
-
-    if (selectedFile.size === 0) {
-      setAttachFileError({
-        message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_EMPTY,
-      });
-      fileInputRef.current.value = null;
-      return;
-    }
-
-    if (
-      !fileExtension ||
-      !acceptedFileTypesToUse[fileExtension.toLowerCase()]
-    ) {
-      setAttachFileError({
-        message: invalidFileTypeError,
-      });
-      fileInputRef.current.value = null;
-      return;
-    }
-
-    if (attachments.filter(a => a.name === selectedFile.name).length > 0) {
-      setAttachFileError({
-        message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_DUPLICATE,
-      });
-      fileInputRef.current.value = null;
-      return;
-    }
-
-    if (selectedFile.size > maxFileSize) {
-      setAttachFileError({
-        message: maxFileSizeError,
-      });
-      fileInputRef.current.value = null;
-      return;
-    }
-
-    if (currentTotalSize + selectedFile.size > totalMaxFileSize) {
-      setAttachFileError({
-        message: totalMaxFileSizeError,
-      });
-      fileInputRef.current.value = null;
-      return;
-    }
-
-    if (attachments.length) {
-      setAttachments(prevFiles => {
-        setAttachFileSuccess(true);
-        return [...prevFiles, selectedFile];
-      });
-    } else {
-      setAttachFileSuccess(true);
-      setAttachments([selectedFile]);
-    }
-  };
-
-  useEffect(
+  // Convert file types object to accept string for input element
+  const acceptString = useMemo(
     () => {
-      const errorElement = document.getElementById(`error-${selectedFileId}`);
-      if (errorElement) {
-        errorElement.focus();
-      }
+      return Object.keys(acceptedFileTypesToUse)
+        .map(ext => `.${ext}`)
+        .join(',');
     },
-    [selectedFileId],
+    [acceptedFileTypesToUse],
   );
 
-  const useFileInput = () => {
-    fileInputRef.current.click();
-    setAttachFileSuccess(false);
-  };
+  // Handle file changes with VaFileInputMultiple events
+  const handleMultipleChange = useCallback(
+    event => {
+      const { detail } = event;
+      const { action, file } = detail;
+
+      switch (action) {
+        case 'FILE_ADDED': {
+          setAttachFileError(null);
+
+          // Validate file is not empty
+          if (file.size === 0) {
+            setAttachFileError({
+              message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_EMPTY,
+            });
+            return;
+          }
+
+          // Validate file extension
+          const fileExtension = file.name && file.name.split('.').pop();
+          if (
+            !fileExtension ||
+            !acceptedFileTypesToUse[fileExtension.toLowerCase()]
+          ) {
+            setAttachFileError({
+              message: invalidFileTypeError,
+            });
+            return;
+          }
+
+          // Check for duplicate files
+          if (attachments.filter(a => a.name === file.name).length > 0) {
+            setAttachFileError({
+              message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_DUPLICATE,
+            });
+            return;
+          }
+
+          // Validate individual file size
+          if (file.size > maxFileSize) {
+            setAttachFileError({
+              message: maxFileSizeError,
+            });
+            return;
+          }
+
+          // Validate total file size
+          const currentTotalSize = attachments.reduce((currentSize, item) => {
+            return currentSize + item.size;
+          }, 0);
+
+          if (currentTotalSize + file.size > totalMaxFileSize) {
+            setAttachFileError({
+              message: totalMaxFileSizeError,
+            });
+            return;
+          }
+
+          // All validations passed, add the file
+          setAttachFileSuccess(true);
+          if (attachments.length) {
+            setAttachments(prevFiles => {
+              return [...prevFiles, file];
+            });
+          } else {
+            setAttachments([file]);
+          }
+          break;
+        }
+        case 'FILE_REMOVED': {
+          setAttachments(prevFiles => {
+            return prevFiles.filter(f => f.name !== file.name);
+          });
+          setAttachFileSuccess(false);
+          break;
+        }
+        default:
+          break;
+      }
+    },
+    [
+      acceptedFileTypesToUse,
+      attachments,
+      invalidFileTypeError,
+      maxFileSize,
+      maxFileSizeError,
+      setAttachFileError,
+      setAttachFileSuccess,
+      setAttachments,
+      totalMaxFileSize,
+      totalMaxFileSizeError,
+    ],
+  );
+
+  // Focus on error message when it appears
+  useEffect(
+    () => {
+      if (attachFileError) {
+        const errorElement = document.querySelector(
+          `[data-testid="file-input-error-message"]`,
+        );
+        if (errorElement) {
+          errorElement.focus();
+        }
+      }
+    },
+    [attachFileError],
+  );
 
   const draftText = useMemo(
     () => {
@@ -177,79 +207,57 @@ const FileInput = props => {
     },
     [draftSequence],
   );
-  const attachText = useMemo(
+
+  const buttonText = useMemo(
     () => {
       if (attachments.length > 0) {
-        return 'Attach additional file';
+        return `Attach additional file${draftText}`;
       }
-      return 'Attach file';
+      return `Attach file${draftText}`;
     },
-    [attachments?.length],
+    [attachments?.length, draftText],
   );
 
+  const hintText = useMemo(
+    () => {
+      const fileTypes = Object.keys(acceptedFileTypesToUse)
+        .map(ext => ext.toUpperCase())
+        .join(', ');
+      const maxSize = useLargeAttachments ? '25 MB' : '6 MB';
+      const totalSize = useLargeAttachments ? '25 MB' : '10 MB';
+      return `You can upload up to ${totalMaxFileCount} files. Accepted file types: ${fileTypes}. Maximum file size: ${maxSize}. Maximum total size: ${totalSize}.`;
+    },
+    [acceptedFileTypesToUse, useLargeAttachments, totalMaxFileCount],
+  );
+
+  // Don't show file input if max files reached or attachment scan error
+  if (attachments?.length >= totalMaxFileCount || attachmentScanError) {
+    return null;
+  }
+
   return (
-    <div
-      className={`
-        file-input
-        vads-u-font-weight--bold
-        vads-u-color--secondary-dark
-        ${
-          attachFileError
-            ? 'vads-u-margin-left--neg2 vads-u-border-left--4px vads-u-border-color--secondary-dark vads-u-padding-left--2'
-            : ''
-        }`}
-    >
+    <div className="file-input vads-u-margin-top--2">
       {attachFileError && (
-        <label
-          htmlFor={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
-          id={`error-${selectedFileId}`}
-          role="alert"
+        <div
           data-testid="file-input-error-message"
-          ref={errorRef}
-          tabIndex="-1"
+          role="alert"
           aria-live="polite"
+          className="vads-u-margin-bottom--2"
         >
-          {attachFileError.message}
-        </label>
+          <span className="usa-error-message">{attachFileError.message}</span>
+        </div>
       )}
-
-      {attachments?.length < totalMaxFileCount &&
-        !attachmentScanError && (
-          <>
-            {/* Wave plugin addressed this as an issue, label required */}
-            <label
-              htmlFor={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
-              hidden
-            >
-              Attachments input
-            </label>
-            <input
-              ref={fileInputRef}
-              type="file"
-              id={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
-              name={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
-              data-testid={`attach-file-input${
-                draftSequence ? `-${draftSequence}` : ''
-              }`}
-              onChange={handleFiles}
-              hidden
-            />
-
-            <va-button
-              onClick={useFileInput}
-              secondary
-              text={`${attachText}${draftText}`}
-              class="attach-file-button"
-              data-testid={`attach-file-button${
-                draftSequence ? `-${draftSequence}` : ''
-              }`}
-              id={`attach-file-button${
-                draftSequence ? `-${draftSequence}` : ''
-              }`}
-              data-dd-action-name={`${attachText}${draftText} Button`}
-            />
-          </>
-        )}
+      <VaFileInputMultiple
+        label="Attachments"
+        name={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
+        buttonText={buttonText}
+        hint={hintText}
+        accept={acceptString}
+        onVaMultipleChange={handleMultipleChange}
+        data-testid={`attach-file-input${
+          draftSequence ? `-${draftSequence}` : ''
+        }`}
+      />
     </div>
   );
 };

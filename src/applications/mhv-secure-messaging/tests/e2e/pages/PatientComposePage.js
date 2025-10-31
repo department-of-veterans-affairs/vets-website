@@ -303,27 +303,81 @@ class PatientComposePage {
   };
 
   attachFileButton = () => {
-    return cy.findByTestId(Locators.BUTTONS.ATTACH_FILE);
+    // VaFileInputMultiple component - handle both compose and reply contexts
+    // In reply context, the testid might include a draft sequence number
+    return cy.get('[data-testid^="attach-file-input"]').first();
   };
 
   attachMessageFromFile = (filename = Data.TEST_IMAGE) => {
     const filepath = `src/applications/mhv-secure-messaging/tests/e2e/fixtures/mock-attachments/${filename}`;
-    cy.get(Locators.ATTACH_FILE_INPUT).selectFile(filepath, {
-      force: true,
-    });
+    // VaFileInputMultiple component - access the input inside shadow DOM
+    cy.get('[data-testid^="attach-file-input"]')
+      .first()
+      .then($component => {
+        cy.wrap($component)
+          .shadow()
+          .find('input[type="file"]')
+          .then($inputs => {
+            // Cypress sometimes finds multiple inputs, use the first one
+            cy.wrap($inputs[0]).selectFile(filepath, {
+              force: true,
+            });
+          })
+          .then(() => {
+            // Manually trigger the vaMultipleChange event since selectFile bypasses web component events
+            cy.readFile(filepath, null).then(fileContent => {
+              const file = new File([fileContent], filename.split('/').pop(), {
+                type: 'application/octet-stream',
+              });
+              const event = new CustomEvent('vaMultipleChange', {
+                detail: {
+                  action: 'FILE_ADDED',
+                  file,
+                },
+                bubbles: true,
+              });
+              $component[0].dispatchEvent(event);
+            });
+          });
+      });
   };
 
   attachFakeFile = (fileConfig, { verify = false } = {}) => {
     const content = 'x'.repeat(fileConfig.size);
 
-    cy.get(Locators.ATTACH_FILE_INPUT).selectFile(
-      {
-        contents: Cypress.Buffer.from(content),
-        fileName: fileConfig.fileName,
-        mimeType: fileConfig.mimeType,
-      },
-      { force: true },
-    );
+    // VaFileInputMultiple component - access the input inside shadow DOM
+    cy.get('[data-testid^="attach-file-input"]')
+      .first()
+      .then($component => {
+        cy.wrap($component)
+          .shadow()
+          .find('input[type="file"]')
+          .then($inputs => {
+            // Cypress sometimes finds multiple inputs, use the first one
+            cy.wrap($inputs[0]).selectFile(
+              {
+                contents: Cypress.Buffer.from(content),
+                fileName: fileConfig.fileName,
+                mimeType: fileConfig.mimeType,
+              },
+              { force: true },
+            );
+          })
+          .then(() => {
+            // Manually trigger the vaMultipleChange event
+            const file = new File([content], fileConfig.fileName, {
+              type: fileConfig.mimeType,
+            });
+            const event = new CustomEvent('vaMultipleChange', {
+              detail: {
+                action: 'FILE_ADDED',
+                file,
+              },
+              bubbles: true,
+            });
+            $component[0].dispatchEvent(event);
+          });
+      });
 
     // Wait for file processing
     if (verify) cy.findByText(fileConfig.fileName).should('exist');
@@ -333,15 +387,41 @@ class PatientComposePage {
     for (let i = 0; i < numberOfFiles; i += 1) {
       // const fileConfig = Data[`FAKE_FILE_${i + 1}KB`];
       const content = 'x'.repeat(100 * 1024);
+      const fileName = `FAKE_FILE_${i + 1}.pdf`;
 
-      cy.get(Locators.ATTACH_FILE_INPUT).selectFile(
-        {
-          contents: Cypress.Buffer.from(content),
-          fileName: `FAKE_FILE_${i + 1}.pdf`,
-          mimeType: 'application/pdf',
-        },
-        { force: true },
-      );
+      // VaFileInputMultiple component - access the input inside shadow DOM
+      cy.get('[data-testid^="attach-file-input"]')
+        .first()
+        .then($component => {
+          cy.wrap($component)
+            .shadow()
+            .find('input[type="file"]')
+            .then($inputs => {
+              // Cypress sometimes finds multiple inputs, use the first one
+              cy.wrap($inputs[0]).selectFile(
+                {
+                  contents: Cypress.Buffer.from(content),
+                  fileName,
+                  mimeType: 'application/pdf',
+                },
+                { force: true },
+              );
+            })
+            .then(() => {
+              // Manually trigger the vaMultipleChange event
+              const file = new File([content], fileName, {
+                type: 'application/pdf',
+              });
+              const event = new CustomEvent('vaMultipleChange', {
+                detail: {
+                  action: 'FILE_ADDED',
+                  file,
+                },
+                bubbles: true,
+              });
+              $component[0].dispatchEvent(event);
+            });
+        });
     }
 
     // Wait for file processing
@@ -359,15 +439,17 @@ class PatientComposePage {
 
   verifyAttachmentButtonText = (numberOfAttachments = 0) => {
     if (numberOfAttachments < 1) {
-      this.attachFileButton()
-        .shadow()
-        .find('[type="button"]')
-        .should('contain', Data.BUTTONS.ATTACH_FILE);
+      this.attachFileButton().should(
+        'have.attr',
+        'button-text',
+        Data.BUTTONS.ATTACH_FILE,
+      );
     } else {
-      this.attachFileButton()
-        .shadow()
-        .find('[type="button"]')
-        .should('contain', Data.ATTACH_ADDITIONAL_FILE);
+      this.attachFileButton().should(
+        'have.attr',
+        'button-text',
+        Data.ATTACH_ADDITIONAL_FILE,
+      );
     }
   };
 
@@ -383,7 +465,19 @@ class PatientComposePage {
   };
 
   verifyAttachButtonHasFocus = () => {
-    this.attachFileButton().should(`be.focused`);
+    // Wait for the component to exist and be ready, then check if the button inside the nested shadow DOM has focus
+    cy.get('[data-testid^="attach-file-input"]')
+      .first()
+      .should('exist')
+      .then($component => {
+        cy.wrap($component)
+          .shadow()
+          .find('va-file-input')
+          .shadow()
+          .find('button')
+          .should('exist')
+          .should('be.focused');
+      });
   };
 
   clickDeleteDraftModalButton = () => {

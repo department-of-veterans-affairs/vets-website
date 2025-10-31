@@ -57,16 +57,18 @@ describe('verify attach file button behaviour', () => {
   });
 
   it('verify attach file button label change', () => {
-    PatientComposePage.attachFileButton()
-      .shadow()
-      .find('button')
-      .should('have.text', 'Attach file');
+    PatientComposePage.attachFileButton().should(
+      'have.attr',
+      'button-text',
+      'Attach file',
+    );
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
 
-    PatientComposePage.attachFileButton()
-      .shadow()
-      .find('button')
-      .should('have.text', 'Attach additional file');
+    PatientComposePage.attachFileButton().should(
+      'have.attr',
+      'button-text',
+      'Attach additional file',
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -82,7 +84,8 @@ describe('verify attach file button behaviour', () => {
 
     PatientComposePage.attachFewFiles(fileList);
 
-    PatientComposePage.attachFileButton().should('not.exist');
+    // After 4 files, the FileInput component should not render at all
+    cy.get(Locators.ATTACH_FILE_INPUT).should('not.exist');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
