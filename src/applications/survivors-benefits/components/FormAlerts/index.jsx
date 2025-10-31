@@ -44,8 +44,8 @@ const RequestFormAlert = ({
     </p>
     <p>{children}</p>
     <p>
-      We’ll ask you to upload this form at the end of this application. Or you
-      can send it to us by mail.
+      We’ll ask you to upload this document at the end of this application. Or
+      you can send it to us by mail.
     </p>
     <p>
       <va-link href={formLink} external text={`Get ${formName} to download`} />
