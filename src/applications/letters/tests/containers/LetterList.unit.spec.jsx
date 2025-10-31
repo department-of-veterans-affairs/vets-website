@@ -6,8 +6,9 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
-
 import * as focusUtils from '~/platform/utilities/ui/focus';
+import * as apiModule from '~/platform/utilities/api';
+import * as recordEventModule from 'platform/monitoring/record-event';
 import { LetterList } from '../../containers/LetterList';
 import {
   AVAILABILITY_STATUSES,
@@ -32,6 +33,7 @@ const defaultProps = {
   lettersAvailability: AVAILABILITY_STATUSES.available,
   letterDownloadStatus: {},
   optionsAvailable: true,
+  tsaSafeTravelLetter: false,
 };
 
 const getStore = () =>
@@ -61,6 +63,24 @@ const getStore = () =>
   }));
 
 describe('<LetterList>', () => {
+  let sandbox;
+  // eslint-disable-next-line no-unused-vars
+  let apiRequestStub;
+  // eslint-disable-next-line no-unused-vars
+  let recordEventStub;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    apiRequestStub = sandbox
+      .stub(apiModule, 'apiRequest')
+      .resolves({ data: [] });
+    recordEventStub = sandbox.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('focus setting tests', () => {
     let focusElementSpy;
 
@@ -315,5 +335,31 @@ describe('<LetterList>', () => {
         'The Benefit Verification Letter shows your VA financial benefits.',
       ),
     ).to.exist;
+  });
+
+  it('does not fetch TSA letter if feature flag is disabled', () => {
+    render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...defaultProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(apiRequestStub.calledOnce).to.be.false;
+  });
+
+  it('fetches TSA letter if feature flag is enabled', () => {
+    const tsaLetterEnabledProps = {
+      ...defaultProps,
+      tsaSafeTravelLetter: true,
+    };
+    render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...tsaLetterEnabledProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(apiRequestStub.calledOnce).to.be.true;
   });
 });
