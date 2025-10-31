@@ -715,7 +715,7 @@
       "directoryPath": "src/applications/simple-forms/21-4140",
       "appName": "Submit Employment Questionnaire",
       "entryName": "21-4140-income-verification",
-      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
+      "rootUrl": "/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140"
     },
     {
       "directoryPath": "src/applications/simple-forms/21-4142",
@@ -796,11 +796,10 @@
       "rootUrl": "/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490"
     },
     {
+      "directoryPath": "src/applications/survivors-benefits",
       "appName": "Apply For DIC, Survivors Pension, Or Accrued Benefits Online",
-      "entryFile": "./survivors-benefits-entry.jsx",
       "entryName": "survivors-benefits",
-      "rootUrl": "/family-and-caregiver-benefits/survivor-compensation/apply-for-dic-survivors-pension-accrued-benefits-form-21p-534ez",
-      "productId": "51601cf6-a6ff-4621-ac50-f12c37e5193e"
+      "rootUrl": "/family-and-caregiver-benefits/survivor-compensation/apply-for-dic-survivors-pension-accrued-benefits-form-21p-534ez"
     },
     {
       "directoryPath": "src/applications/terms-of-use",
