@@ -189,8 +189,29 @@ export const pageDetails = {
           },
         ];
       case 'childNotInSchool':
-        // TO DO
-        return [isStepchild, reason];
+        return [
+          isStepchild,
+          reason,
+          {
+            label: 'Does child have a permanent disability?',
+            value: item.childHasPermanentDisability === 'Y' ? 'Yes' : 'No',
+          },
+          item.childHasPermanentDisability === 'Y'
+            ? {
+                // We can't leave a DT blank
+                label: (
+                  <div className="sr-only">
+                    This child is still an eligible dependent
+                  </div>
+                ),
+                action: 'This child is still an eligible dependent',
+                value: `${item.fullName.first} will remain on your benefits`,
+              }
+            : {
+                label: 'Date child stopped attending school',
+                value: getFormatedDate(item.endDate),
+              },
+        ];
       case 'stepchildNotMember':
         // TO DO
         return [isStepchild, reason];
