@@ -53,10 +53,14 @@ export const claimantTitleAndDescription = {
 
 export const supportingEvidenceTitleAndDescription = {
   'view:supportingEvidenceTitle': {
-    'ui:title': 'Upload supporting evidence',
+    'ui:title': Object.freeze(<h3>Upload supporting evidence</h3>),
   },
   'view:supportingEvidenceDescription': {
-    'ui:description': 'Select supporting documents to upload.',
+    'ui:description': Object.freeze(
+      <p className="vads-u-margin--0">
+        Select supporting documents to upload.
+      </p>,
+    ),
   },
 };
 
