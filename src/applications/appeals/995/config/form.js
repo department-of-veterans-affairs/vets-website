@@ -143,6 +143,7 @@ const formConfig = {
   onFormLoaded,
   formOptions: {
     focusOnAlertRole: true,
+    useWebComponentForNavigation: true,
   },
   additionalRoutes: [
     {
