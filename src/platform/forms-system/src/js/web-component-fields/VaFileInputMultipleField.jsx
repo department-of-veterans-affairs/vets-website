@@ -198,7 +198,7 @@ const VaFileInputMultipleField = props => {
     assignFileUploadToStore(uploadedFile, index);
   };
 
-  const handleFileAdded = async ({ file }, index, mockFormData) => {
+  const handleFileAdded = async (file, index, mockFormData) => {
     const { fileError, encryptedCheck } = await getFileError(file, uiOptions);
     const _errors = [...errors];
 
@@ -298,16 +298,15 @@ const VaFileInputMultipleField = props => {
     };
     switch (action) {
       case 'FILE_ADDED': {
-        const _file = state.at(-1);
         const _currentIndex = state.length - 1;
         errorManager.setInternalFileInputErrors(_currentIndex, false);
-        handleFileAdded(_file, _currentIndex, mockFormData);
+        handleFileAdded(file, _currentIndex, mockFormData);
         setCurrentIndex(_currentIndex);
         break;
       }
       case 'FILE_UPDATED': {
         const index = findFileIndex(state, file);
-        handleFileAdded({ file }, index);
+        handleFileAdded(file, index);
         setCurrentIndex(index);
         break;
       }
