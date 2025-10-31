@@ -182,8 +182,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     e.preventDefault();
     dispatch(
       genAndDownloadCCD(
-        userProfile?.userFullName?.first || 'Test',
-        userProfile?.userFullName?.last || 'User',
+        userProfile?.userFullName?.first || '',
+        userProfile?.userFullName?.last || '',
         fileType,
       ),
     );
@@ -197,8 +197,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
     dispatch(
       downloadCCDV2(
-        userProfile?.userFullName?.first || 'Test',
-        userProfile?.userFullName?.last || 'User',
+        userProfile?.userFullName?.first || '',
+        userProfile?.userFullName?.last || '',
         fileType,
       ),
     ).finally(() => {
