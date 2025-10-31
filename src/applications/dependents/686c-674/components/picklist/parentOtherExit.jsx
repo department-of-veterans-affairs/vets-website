@@ -34,8 +34,6 @@ const parentOtherExit = {
         will remain on your benefits.
       </p>
 
-      <p>If you exit now, we’ll cancel the application you started.</p>
-
       <va-additional-info trigger="Why can I only remove a parent dependent if they have died?">
         <p>
           The only removal option for a parent allowed in this form is due to
