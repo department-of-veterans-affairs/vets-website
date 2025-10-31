@@ -264,7 +264,7 @@ const childSummaryPage = {
     'view:isAddingTrusts': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: 'Do you have access to a trust?',
         hint: null,
         labelHeaderLevel: '1',
         labelHeaderLevelStyle: '2',
@@ -399,11 +399,18 @@ const veteransChildPage = {
         'Was this trust created for a Veteran’s child who was seriously disabled before age 18?',
       ...sharedYesNoOptionsBase,
     }),
+    'view:additionalInfo': {
+      'ui:description': SeriouslyDisabledAdditionalInformation,
+    },
   },
   schema: {
     type: 'object',
     properties: {
       trustEstablishedForVeteransChild: yesNoSchema,
+      'view:additionalInfo': {
+        type: 'object',
+        properties: {},
+      },
     },
     required: ['trustEstablishedForVeteransChild'],
   },
@@ -709,9 +716,6 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
     schema: incomePage.schema,
   }),
   trustVeteransChildPage: pageBuilder.itemPage({
-    ContentBeforeButtons: showUpdatedContent() ? (
-      <SeriouslyDisabledAdditionalInformation />
-    ) : null,
     title: 'Trust for child',
     path: 'trusts/:index/trust-veterans-child',
     uiSchema: veteransChildPage.uiSchema,
