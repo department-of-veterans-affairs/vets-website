@@ -24,15 +24,18 @@ describe('<SearchHelpSignIn>', () => {
 
   beforeEach(() => {
     oldWindow = global.window;
-    global.window = Object.create(global.window);
-    Object.assign(global.window, {
+
+    global.window = {
+      ...oldWindow,
       location: {
+        ...oldWindow.location,
         hostname: 'www.va.gov',
         origin: 'https://www.va.gov',
-        replace: () => {},
+        href: 'https://www.va.gov/',
         pathname: '/',
+        replace: () => {},
       },
-    });
+    };
   });
 
   afterEach(() => {
