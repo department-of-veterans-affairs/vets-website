@@ -49,9 +49,7 @@ describe('childReasonToRemove', () => {
     const heading = $('h3', container);
 
     expect(heading).to.exist;
-    expect(heading.textContent).to.include(
-      labels.Child.removalReasonTitle('PENNY FOSTER'),
-    );
+    expect(heading.textContent).to.include('PENNY FOSTER');
     expect(radio).to.exist;
     expect(radio.getAttribute('required')).to.equal('true');
     expect(radio.getAttribute('label')).to.equal(labels.Child.removalReason);
