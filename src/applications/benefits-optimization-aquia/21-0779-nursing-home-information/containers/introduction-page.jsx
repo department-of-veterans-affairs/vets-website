@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import {
@@ -16,12 +14,7 @@ const OMB_RES_BURDEN = 15;
 const OMB_NUMBER = '2900-0361';
 const OMB_EXP_DATE = '07/31/2027';
 
-export const IntroductionPage = ({ route }) => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
-  const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
-
+export const IntroductionPage = ({ router }) => {
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
@@ -32,8 +25,9 @@ export const IntroductionPage = ({ route }) => {
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
 
       <p className="vads-u-font-size--lg">
-        Use this form to verify a Veteran or someone connected to a Veteran is a
-        patient in a qualifying extended care facility.
+        Use this form if you’re a nursing home official to verify a Veteran or
+        someone connected to a Veteran is a patient in a qualifying extended
+        care facility.
       </p>
 
       <h2 className="vads-u-margin-top--3">
@@ -83,20 +77,14 @@ export const IntroductionPage = ({ route }) => {
         to.
       </p>
 
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
-      )}
+      <VaLinkAction
+        data-testid="start-nursing-home-info-link"
+        onClick={e => {
+          e.preventDefault();
+          router.push('/nursing-official-information');
+        }}
+        text="Start the nursing home information to support a claim request"
+      />
       <div className="vads-u-margin-top--4">
         <va-omb-info
           res-burden={OMB_RES_BURDEN}
@@ -109,15 +97,11 @@ export const IntroductionPage = ({ route }) => {
 };
 
 IntroductionPage.propTypes = {
-  route: PropTypes.shape({
-    formConfig: PropTypes.shape({
-      prefillEnabled: PropTypes.bool.isRequired,
-      savedFormMessages: PropTypes.object.isRequired,
-    }).isRequired,
-    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
   location: PropTypes.shape({
     basename: PropTypes.string,
+  }),
+  router: PropTypes.shape({
+    push: PropTypes.func,
   }),
 };
 

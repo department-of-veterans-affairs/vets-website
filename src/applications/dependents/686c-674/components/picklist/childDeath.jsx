@@ -42,7 +42,10 @@ const childDeath = {
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
           {`${
             isEditing ? 'Edit information' : 'Information'
-          } about the death of ${firstName}`}
+          } about the death of `}
+          <span className="dd-privacy-mask" data-dd-action-name="first name">
+            {firstName}
+          </span>
         </h3>
         <h4>When was the death?</h4>
         <VaMemorableDate
