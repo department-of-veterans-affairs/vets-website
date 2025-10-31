@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import vaDebounce from 'platform/utilities/data/debounce';
 import PropTypes from 'prop-types';
+import { $, focusElement } from 'platform/forms-system/src/js/utilities/ui';
+import { ERROR_ELEMENTS } from 'platform/utilities/constants';
 import UseMyLocation from './UseMyLocation';
 import AddressInputError from './AddressInputError';
 import { searchAddresses } from '../../../utils/mapHelpers';
@@ -101,7 +103,8 @@ function AddressAutosuggest({
   const handleError = () => {
     const addressInput = document.getElementById('street-city-state-zip');
     addressInput?.setAttribute('aria-describedby', 'input-error-message');
-    addressInput?.focus();
+    const error = $(ERROR_ELEMENTS.join(','));
+    focusElement(error);
   };
 
   // remove aria-describedby if error resolved
