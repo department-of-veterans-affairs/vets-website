@@ -70,7 +70,7 @@ describe('AppointmentDateTime', () => {
     const { container } = render(
       <AppointmentDateTime
         {...defaultProps}
-        calendarButton
+        showAddToCalendarButton
         calendarData={mockCalendarData}
       />,
     );
@@ -83,7 +83,7 @@ describe('AppointmentDateTime', () => {
     const { container } = render(
       <AppointmentDateTime
         {...defaultProps}
-        calendarButton
+        showAddToCalendarButton
         calendarData={mockCalendarData}
       />,
     );
