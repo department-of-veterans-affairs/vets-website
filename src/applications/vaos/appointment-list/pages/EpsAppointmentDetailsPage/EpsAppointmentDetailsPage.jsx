@@ -94,6 +94,7 @@ export default function EpsAppointmentDetailsPage() {
       />
       {cancelAppointment.id && featureCommunityCareCancellations ? (
         <EpsCancellationLayout
+          appointment={appointment}
           cancellationConfirmed={cancelAppointment.confirmed}
           onConfirmCancellation={() =>
             // TODO: Add API call to cancel appointment

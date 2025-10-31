@@ -161,8 +161,11 @@ describe('EpsAppointmentHeading', () => {
       );
 
       expect(getByText('You have canceled your appointment')).to.exist;
-      expect(getByText(/Go to your referral.*schedule a new appointment/)).to
-        .exist;
+      expect(
+        getByText(
+          'If you still need an appointment, call us or go to your referral to schedule a new appointment online.',
+        ),
+      ).to.exist;
     });
 
     it('should render "Go to your referral" link', () => {
@@ -178,7 +181,10 @@ describe('EpsAppointmentHeading', () => {
 
       const referralLink = getByTestId('go-to-referral-link');
       expect(referralLink).to.exist;
-      expect(referralLink).to.have.attribute('text', 'Go to your referral');
+      expect(referralLink).to.have.attribute(
+        'text',
+        'Go to your referral to schedule',
+      );
       expect(referralLink).to.have.attribute(
         'href',
         '/my-health/appointments/schedule-referral?id=test-referral-id',
