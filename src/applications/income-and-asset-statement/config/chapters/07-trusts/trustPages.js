@@ -226,7 +226,8 @@ const veteranSummaryPage = {
         title: updatedTitleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -245,7 +246,8 @@ const spouseSummaryPage = {
       {
         title: updatedTitleNoItems,
         hint: 'Your dependents include children who you financially support. ',
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -264,7 +266,8 @@ const childSummaryPage = {
       {
         title: updatedTitleNoItems,
         hint: null,
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -283,7 +286,8 @@ const parentSummaryPage = {
         title: updatedTitleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner.',
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -303,7 +307,8 @@ const custodianSummaryPage = {
         title: updatedTitleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -750,7 +755,7 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'trusts/:index/document-upload',
     depends: (formData, index) =>
       showUpdatedContent() &&
-      formData?.trusts[index]?.['view:addFormQuestion'] === true,
+      formData?.[options.arrayPath]?.[index]?.['view:addFormQuestion'] === true,
     uiSchema: supportingDocumentUpload.uiSchema,
     schema: supportingDocumentUpload.schema,
   }),
@@ -759,7 +764,8 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'trusts/:index/document-mailing-address',
     depends: (formData, index) =>
       showUpdatedContent() &&
-      formData?.trusts[index]?.['view:addFormQuestion'] === false,
+      formData?.[options.arrayPath]?.[index]?.['view:addFormQuestion'] ===
+        false,
     uiSchema: documentMailingAddressPage.uiSchema,
     schema: documentMailingAddressPage.schema,
   }),

@@ -494,7 +494,11 @@ const Authorization = ({
 
         <div className="vads-u-margin-top--5">
           {contentBeforeButtons}
-          <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
+          <FormNavButtons
+            goBack={goBack}
+            goForward={handlers.onGoForward}
+            useWebComponents
+          />
           {contentAfterButtons}
         </div>
       </form>
