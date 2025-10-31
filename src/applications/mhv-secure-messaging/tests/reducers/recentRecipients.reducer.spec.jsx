@@ -7,11 +7,11 @@ import { Actions } from '../../util/actionTypes';
 // Minimal smoke tests to ensure reducer tolerates new actions
 
 describe('reducers: recipients recent actions', () => {
-  const mockStore = (initialState = {}) =>
+  const mockStore = (initialState) =>
     createStore(recipientsReducer, initialState, applyMiddleware(thunk));
 
   it('ignores GET_RECENT by default (no state changes unless handled)', () => {
-    const store = mockStore();
+    const store = mockStore(); // Don't pass any parameter to use reducer's default initial state
     store.dispatch({
       type: Actions.AllRecipients.GET_RECENT,
       response: [1, 2],
@@ -23,7 +23,7 @@ describe('reducers: recipients recent actions', () => {
   });
 
   it('ignores GET_RECENT_ERROR by default', () => {
-    const store = mockStore();
+    const store = mockStore(); // Don't pass any parameter to use reducer's default initial state
     store.dispatch({ type: Actions.AllRecipients.GET_RECENT_ERROR });
     const state = store.getState();
     expect(state).to.be.an('object');
