@@ -18,6 +18,7 @@ const DATE_STRING = new Date(DATE_THRESHOLD).toLocaleDateString('en-US');
 const stateFn = ({
   confirmationDate = '2025-09-30T12:00:00.000+00:00',
   emailAddress = 'vet@va.gov',
+  emailAddressId = 42,
   featureTogglesLoading = false,
   mhvEmailConfirmation = true,
   updatedAt = '2025-09-30T12:00:00.000+00:00',
@@ -34,6 +35,7 @@ const stateFn = ({
       vaPatient,
       vapContactInfo: {
         email: {
+          id: emailAddressId,
           confirmationDate,
           emailAddress,
           updatedAt,
@@ -242,6 +244,33 @@ describe('<ProfileAlertConfirmEmail />', () => {
         getByTestId('profile-alert--confirm-contact-email');
         const headline = 'We couldn’t confirm your contact email';
         expect(props.recordEvent.calledWith(headline));
+      });
+    });
+
+    it('calls putConfirmationDate with id and email_address in request body', async () => {
+      mockApiRequest();
+      const initialState = stateFn({
+        emailAddress: 'veteran1729@example.com',
+        emailAddressId: 1729,
+        confirmationDate: null,
+      });
+
+      const { container, getByTestId } = render(<ProfileAlertConfirmEmail />, {
+        initialState,
+      });
+      await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
+      const buttonSelector = 'va-button[text="Confirm contact email"]';
+      fireEvent.click(container.querySelector(buttonSelector));
+
+      await waitFor(() => {
+        expect(global.fetch.calledOnce).to.be.true;
+        const [, options] = global.fetch.firstCall.args;
+        const requestBody = JSON.parse(options.body);
+        expect(requestBody).to.have.property('id', 1729);
+        expect(requestBody).to.have.property(
+          'email_address',
+          'veteran1729@example.com',
+        );
       });
     });
   });
