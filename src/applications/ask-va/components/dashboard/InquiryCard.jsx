@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { formatDate, getVAStatusFromCRM } from '../../config/helpers';
+import { getConversationLink } from '../../utils/links';
 
 export default function InquiryCard({ inquiry }) {
   return (
@@ -12,12 +12,12 @@ export default function InquiryCard({ inquiry }) {
             <span className="sr-only">Status</span>
             <span>
               <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
-                {getVAStatusFromCRM(inquiry.attributes.status)}
+                {getVAStatusFromCRM(inquiry.status)}
               </span>
             </span>
           </span>
           <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p">
-            {`Submitted on ${formatDate(inquiry.attributes.createdOn)}`}
+            {`Submitted on ${formatDate(inquiry.createdOn)}`}
           </span>
         </h3>
         <dl>
@@ -26,43 +26,35 @@ export default function InquiryCard({ inquiry }) {
               Last updated:
             </dt>{' '}
             <dd className="vads-u-display--inline">
-              {formatDate(inquiry.attributes.lastUpdate)}
+              {formatDate(inquiry.lastUpdate)}
             </dd>
           </div>
           <div className="vads-u-margin--0 vads-u-padding-bottom--1">
             <dt className="vads-u-font-weight--bold vads-u-display--inline">
               Reference number:
             </dt>{' '}
-            <dd className="vads-u-display--inline">
-              {inquiry.attributes.inquiryNumber}
-            </dd>
+            <dd className="vads-u-display--inline">{inquiry.inquiryNumber}</dd>
           </div>
           <div className="vads-u-margin-bottom--0 vacardCategory multiline-ellipsis-1">
             <dt className="vads-u-font-weight--bold vads-u-display--inline">
               Category:
             </dt>{' '}
-            <dd className="vads-u-display--inline">
-              {inquiry.attributes.categoryName}
-            </dd>
+            <dd className="vads-u-display--inline">{inquiry.categoryName}</dd>
           </div>
         </dl>
         <div className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--1 vads-u-margin-top--1p5" />
-        <p className="vacardSubmitterQuestion">
-          {inquiry.attributes.submitterQuestion}
-        </p>
-        <Link
-          to={`${URL.DASHBOARD_ID}${inquiry.attributes.inquiryNumber}`}
-          className="vads-u-margin-top--1p5"
-        >
+        <p className="vacardSubmitterQuestion">{inquiry.submitterQuestion}</p>
+        <div className="vads-u-margin-top--1p5">
           <va-link
             active
+            href={getConversationLink(inquiry.inquiryNumber)}
             text="Review conversation"
             label={`Review conversation for question submitted on ${formatDate(
-              inquiry.attributes.createdOn,
+              inquiry.createdOn,
               'long',
             )}`}
           />
-        </Link>
+        </div>
       </va-card>
     </li>
   );
@@ -70,13 +62,11 @@ export default function InquiryCard({ inquiry }) {
 
 InquiryCard.propTypes = {
   inquiry: PropTypes.shape({
-    attributes: PropTypes.shape({
-      status: PropTypes.string.isRequired,
-      createdOn: PropTypes.string.isRequired,
-      lastUpdate: PropTypes.string.isRequired,
-      inquiryNumber: PropTypes.string.isRequired,
-      categoryName: PropTypes.string.isRequired,
-      submitterQuestion: PropTypes.string.isRequired,
-    }),
+    status: PropTypes.string.isRequired,
+    createdOn: PropTypes.string.isRequired,
+    lastUpdate: PropTypes.string.isRequired,
+    inquiryNumber: PropTypes.string.isRequired,
+    categoryName: PropTypes.string.isRequired,
+    submitterQuestion: PropTypes.string.isRequired,
   }).isRequired,
 };

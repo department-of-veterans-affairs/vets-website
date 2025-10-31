@@ -183,8 +183,8 @@ const DashboardCards = () => {
               : 'dashboard-cards-grid vads-u-padding--0'
           }
         >
-          {currentInquiries.map(inquiry => (
-            <InquiryCard key={inquiry.id} {...{ inquiry }} />
+          {currentInquiries.map(({ id, attributes }) => (
+            <InquiryCard key={id} inquiry={attributes} />
           ))}
         </ul>
 
