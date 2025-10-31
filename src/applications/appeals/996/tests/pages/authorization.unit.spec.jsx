@@ -9,10 +9,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 describe('HLR authorization page', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.conditions.pages.authorization;
+  const { schema, uiSchema } = formConfig.chapters.issues.pages.authorization;
 
   it('should not render a checkbox when toggle is enabled', () => {
     const { container } = render(

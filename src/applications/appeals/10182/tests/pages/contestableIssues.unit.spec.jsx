@@ -1,10 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
-
+import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import formConfig from '../../config/form';
 
 const mockStore = data => ({
@@ -32,17 +31,14 @@ const mockStore = data => ({
   }),
 });
 
-// Skipping this test because its only assertion is checking that a plain link still exists
-// Since this has been changed to a web component and now uses the shadow DOM, we can't do this
-// Created a ticket to revisit this test later: https://github.com/department-of-veterans-affairs/va.gov-team/issues/110705
-xdescribe('add issue page', () => {
+describe('add issue page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.conditions.pages.contestableIssues;
+  } = formConfig.chapters.issues.pages.contestableIssues;
 
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <Provider store={mockStore()}>
         <DefinitionTester
           definitions={{}}
@@ -53,7 +49,6 @@ xdescribe('add issue page', () => {
       </Provider>,
     );
 
-    expect(form.find('.add-new-issue').length).to.equal(1);
-    form.unmount();
+    expect($('va-link-action[class="add-new-issue"]', container)).to.exist;
   });
 });
