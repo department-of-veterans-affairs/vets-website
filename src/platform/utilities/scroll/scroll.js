@@ -62,6 +62,81 @@ export const scrollToTop = async (
 ) => scrollTo(position, scrollOptions);
 
 /**
+ * Helper to check if a component has focusable inputs, checking nested shadow DOMs
+ * @param {Element} element - The element to check
+ * @returns {boolean} - True if any input/select/textarea found at any level
+ */
+const hasInputInShadowDOM = element => {
+  // Check direct shadow DOM
+  if (element?.shadowRoot?.querySelector('input, select, textarea')) {
+    return true;
+  }
+
+  // Check one level deeper (nested web components)
+  const childComponents = element?.shadowRoot?.querySelectorAll('*');
+  if (childComponents) {
+    for (const child of childComponents) {
+      if (child.shadowRoot?.querySelector('input, select, textarea')) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
+/**
+ * Clean up error annotations from web components that no longer have errors
+ */
+export const cleanupErrorAnnotations = () => {
+  // Find all web components that might have error attributes
+  const allComponents = document.querySelectorAll(
+    '[error], [input-error], [checkbox-error]',
+  );
+  allComponents.forEach(component => {
+    const errorMessage =
+      component.getAttribute('error') ||
+      component.getAttribute('input-error') ||
+      component.getAttribute('checkbox-error') ||
+      component.error;
+    if (!errorMessage) {
+      // No error - remove sr-only error span from legend if it exists
+      const legend = component.shadowRoot?.querySelector('legend');
+      if (legend) {
+        const errorSpan = legend.querySelector('.sr-only-error');
+        if (errorSpan) {
+          errorSpan.remove();
+        }
+      }
+    }
+  });
+};
+
+// Set up a MutationObserver to clean up errors when attributes change
+if (typeof window !== 'undefined') {
+  const observer = new MutationObserver(() => {
+    cleanupErrorAnnotations();
+  });
+
+  // Start observing when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['error'],
+        subtree: true,
+      });
+    });
+  } else {
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['error'],
+      subtree: true,
+    });
+  }
+}
+
+/**
  * scrollToFirstError options
  * @typedef scrollToFirstErrorOptions
  * @type {Object}
@@ -131,11 +206,14 @@ export const scrollToFirstError = async (options = {}) => {
         scrollTo(position - 10, options);
 
         if (focusOnAlertRole) {
+          // First, clean up any components that no longer have errors
+          cleanupErrorAnnotations();
+
           // Set up aria-describedby for all elements in error state
           const allErrorElements = document.querySelectorAll(selectors);
           allErrorElements.forEach(errorWebComponent => {
             const errorElement = errorWebComponent?.shadowRoot?.querySelector(
-              '[role="alert"], #input-error-message',
+              '[role="alert"], #input-error-message, #radio-error-message',
             );
 
             if (errorElement) {
@@ -152,39 +230,113 @@ export const scrollToFirstError = async (options = {}) => {
               errorElement.removeAttribute('role');
               errorElement.removeAttribute('aria-live');
 
-              // Find the corresponding input element
-              const inputElement = errorWebComponent?.shadowRoot?.querySelector(
-                'input, select, textarea',
-              );
+              // Check if there's a focusable input element (including nested shadow DOMs)
+              const hasInput = hasInputInShadowDOM(errorWebComponent);
 
-              if (inputElement) {
-                // Associate the error message with the input using aria-describedby
-                const existingDescribedBy = inputElement.getAttribute(
-                  'aria-describedby',
+              if (!hasInput) {
+                // No input found - add sr-only error to legend for components like radio/checkbox groups
+                const errorMessage =
+                  errorWebComponent.getAttribute('error') ||
+                  errorWebComponent.getAttribute('input-error') ||
+                  errorWebComponent.getAttribute('checkbox-error') ||
+                  errorWebComponent.error;
+                const legend = errorWebComponent.shadowRoot?.querySelector(
+                  'legend',
                 );
+
                 if (
-                  !existingDescribedBy ||
-                  !existingDescribedBy.includes(errorId)
+                  errorMessage &&
+                  legend &&
+                  !legend.querySelector('.sr-only-error')
                 ) {
-                  inputElement.setAttribute(
+                  const errorText = errorMessage
+                    .replace(/^Error\s*/i, '')
+                    .trim();
+                  const errorSpan = document.createElement('span');
+                  errorSpan.className = 'usa-sr-only sr-only-error';
+                  errorSpan.textContent = `Error: ${errorText}. `;
+                  legend.insertBefore(errorSpan, legend.firstChild);
+                }
+              } else {
+                // For other inputs, use aria-describedby
+                const inputElement = errorWebComponent?.shadowRoot?.querySelector(
+                  'input, select, textarea',
+                );
+
+                if (inputElement) {
+                  // Associate the error message with the input using aria-describedby
+                  const existingDescribedBy = inputElement.getAttribute(
                     'aria-describedby',
-                    existingDescribedBy
-                      ? `${existingDescribedBy} ${errorId}`
-                      : errorId,
                   );
+                  if (
+                    !existingDescribedBy ||
+                    !existingDescribedBy.includes(errorId)
+                  ) {
+                    inputElement.setAttribute(
+                      'aria-describedby',
+                      existingDescribedBy
+                        ? `${existingDescribedBy} ${errorId}`
+                        : errorId,
+                    );
+                  }
                 }
               }
             }
           });
 
           // Now focus the first error's input
-          const firstErrorInput = el?.shadowRoot?.querySelector(
-            'input, select, textarea',
-          );
-          if (firstErrorInput) {
-            // Use { preventScroll: true } to ensure accessibility and prevent unwanted scrolling
+          // Try to find a focusable element, fallback to legend if none found
+          let focusTarget;
+
+          // Try to find a focusable input element
+          // 1. First check if there's a child component with an error (for nested web components)
+          let childWithError = null;
+          if (el?.shadowRoot) {
+            childWithError = Array.from(el.shadowRoot.children).find(
+              child =>
+                child.hasAttribute('error') &&
+                child.getAttribute('error') !== '',
+            );
+          }
+          if (childWithError) {
+            focusTarget = childWithError.shadowRoot?.querySelector(
+              'input, select, textarea',
+            );
+          }
+
+          // 2. If not found, try direct input at current level
+          if (!focusTarget) {
+            focusTarget = el?.shadowRoot?.querySelector(
+              'input, select, textarea',
+            );
+          }
+
+          // 3. If still not found, search one level deeper in all child components
+          if (!focusTarget && el?.shadowRoot) {
+            const childComponents = el.shadowRoot.querySelectorAll('*');
+            for (const child of childComponents) {
+              const nestedInput = child.shadowRoot?.querySelector(
+                'input, select, textarea',
+              );
+              if (nestedInput) {
+                focusTarget = nestedInput;
+                break;
+              }
+            }
+          }
+
+          // 4. Fallback: focus legend if no inputs found (for radio/checkbox groups)
+          if (!focusTarget) {
+            const legend = el?.shadowRoot?.querySelector('legend');
+            if (legend) {
+              legend.setAttribute('tabindex', '-1');
+              focusTarget = legend;
+            }
+          }
+
+          if (focusTarget) {
             setTimeout(() => {
-              firstErrorInput.focus({ preventScroll: true });
+              focusTarget.focus({ preventScroll: true });
             }, 100);
           }
         } else {
