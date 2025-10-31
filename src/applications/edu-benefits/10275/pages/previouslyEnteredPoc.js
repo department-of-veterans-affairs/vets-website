@@ -115,7 +115,22 @@ export const uiSchema = {
     'ui:title':
       'Select a name below to use them as the point of contact for this additional location.',
     'ui:field': PreviouslyEnteredPOCWidget,
-    'ui:options': {},
+    'ui:required': () => true,
+    'ui:errorMessages': {
+      required: 'You must provide a response',
+    },
+    'ui:validations': [
+      (errors, formData, _uiSchema, _schema, errorMessages) => {
+        if (!formData || !formData.key) {
+          errors.addError(
+            errorMessages?.required || 'You must provide a response',
+          );
+        }
+      },
+    ],
+    'ui:options': {
+      showFieldLabel: true,
+    },
   },
 };
 
