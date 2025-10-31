@@ -51,7 +51,7 @@ import {
   MissingId,
   MissingServices,
 } from './containers/MissingServices';
-import ClaimFormSideNavWC from './components/ClaimFormSideNavWC';
+import ClaimFormSideNav from './components/ClaimFormSideNav';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -304,7 +304,7 @@ export const Form526Entry = ({
           <div className={flexWrapperClass}>
             {shouldHideNav ? null : (
               <div className="vads-u-margin-right--5">
-                <ClaimFormSideNavWC
+                <ClaimFormSideNav
                   enableAnalytics
                   formData={form?.data}
                   pathname={pathname}
