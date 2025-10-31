@@ -20,7 +20,7 @@ export default function Type1UnknownUploadError({ errorFiles }) {
     const isOnFilesPage = location.pathname.endsWith('/files');
 
     if (!isOnFilesPage) navigate('../files#other-ways-to-send');
-
+    // setTimeout needed for cross-tab navigation to allow target page content to render
     setTimeout(() => {
       scrollAndFocus('#other-ways-to-send');
     }, 100);
