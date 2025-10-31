@@ -6,18 +6,16 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Benefit type',
-  path: 'applicant/benefit-type',
   uiSchema: {
     ...titleUI('Benefit type'),
     claims: checkboxGroupUI({
       title: 'Select the benefits you want to file a claim for.',
+      required: true,
       labels: {
         dependencyIndemnityComp: 'Dependency and indemnity compensation (DIC)',
         survivorPension: 'Survivors Pension',
         accruedBenefits: 'Accrued benefits',
       },
-      required: false,
     }),
   },
   schema: {
