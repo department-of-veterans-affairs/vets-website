@@ -139,7 +139,7 @@ const formConfig = {
       title: 'Deceased Veteran information',
       pages: {
         veteranIdentification: {
-          path: 'identification',
+          path: 'veteran-identification',
           title: 'Identification',
           uiSchema: {},
           schema: defaultSchema,
@@ -148,7 +148,7 @@ const formConfig = {
           pagePerItemIndex: 0,
         },
         veteranSsnFileNumber: {
-          path: 'ssn-file-number',
+          path: 'veteran-ssn-file-number',
           title: 'Identification numbers',
           uiSchema: {},
           schema: defaultSchema,
