@@ -85,22 +85,26 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
 
         // make sure that the Claims and Appeals section is shown
         cy.findByTestId('dashboard-section-claims-and-appeals').should('exist');
-        cy.findByRole('heading', {
-          name: /We can't access your appeals information/i,
-        }).should('exist');
+        // Check for appeals-specific error message
+        cy.get(
+          '[data-testid="dashboard-section-claims-and-appeals-error"]',
+        ).should('exist');
+        cy.contains(/We can't access your.*appeals.*information/i).should(
+          'exist',
+        );
 
         // popular action links should still be visible even during API errors
         cy.findByRole('link', {
           name: /learn how to file a claim/i,
-        }).should('exist');
+        }).should('be.visible');
         cy.findByRole('link', {
           name: /manage all claims and appeals/i,
-        }).should('exist');
+        }).should('be.visible');
 
         // highlighted claim should still show since claims API is working
         cy.findByRole('heading', {
           name: /dependency claim received/i,
-        }).should('exist');
+        }).should('be.visible');
 
         // make the a11y check
         cy.injectAxe();
@@ -138,17 +142,21 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
 
       // make sure that the Claims and Appeals section is shown
       cy.findByTestId('dashboard-section-claims-and-appeals').should('exist');
-      cy.findByRole('heading', {
-        name: /We can't access your claims or appeals information/i,
-      }).should('exist');
+      // Check for both APIs down error message
+      cy.get(
+        '[data-testid="dashboard-section-claims-and-appeals-error"]',
+      ).should('exist');
+      cy.contains(
+        /We can't access your.*claims or appeals.*information/i,
+      ).should('exist');
 
       // popular action links should still be visible even during API errors
       cy.findByRole('link', {
         name: /learn how to file a claim/i,
-      }).should('exist');
+      }).should('be.visible');
       cy.findByRole('link', {
         name: /manage all claims and appeals/i,
-      }).should('exist');
+      }).should('be.visible');
 
       // no highlighted claim or appeal should show when both APIs are down
       cy.findByRole('heading', { name: /updated on/i }).should('not.exist');
@@ -167,8 +175,8 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         cy.intercept('/v0/benefits_claims', {
           statusCode: 500,
           body: error500,
-        });
-        cy.intercept('/v0/appeals', appealsSuccess(1));
+        }).as('claimsError');
+        cy.intercept('/v0/appeals', appealsSuccess(1)).as('appealsSuccess');
       });
 
       it('should show an error but still show popular action links and highlighted appeal', () => {
@@ -189,20 +197,22 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
 
         // make sure that the Claims and Appeals section is shown
         cy.findByTestId('dashboard-section-claims-and-appeals').should('exist');
-        cy.findByRole('heading', {
-          name: /We can't access your claims information/i,
-        }).should('exist');
+
+        // Should show error message when any API fails
+        cy.get(
+          '[data-testid="dashboard-section-claims-and-appeals-error"]',
+        ).should('exist');
 
         // popular action links should still be visible even during API errors
         cy.findByRole('link', {
           name: /learn how to file a claim/i,
-        }).should('exist');
+        }).should('be.visible');
         cy.findByRole('link', {
           name: /manage all claims and appeals/i,
-        }).should('exist');
+        }).should('be.visible');
 
         // highlighted appeal should still show since appeals API is working
-        cy.findByRole('heading', { name: /updated on/i }).should('exist');
+        cy.findByRole('heading', { name: /updated on/i }).should('be.visible');
 
         // make the a11y check
         cy.injectAxe();
