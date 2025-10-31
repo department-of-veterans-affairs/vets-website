@@ -27,6 +27,7 @@ function AddressAutosuggest({
   const [showAddressError, setShowAddressError] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
   const [isGeocoding, setIsGeocoding] = useState(false);
+  const errorRef = React.useRef(null);
 
   const inputClearClick = useCallback(
     () => {
@@ -145,6 +146,18 @@ function AddressAutosuggest({
     [searchString, geolocationInProgress],
   );
 
+  useEffect(
+    () => {
+      // Focus the error message when it appears so screen readers announce it
+      if (showAddressError && errorRef.current) {
+        errorRef.current.focus();
+      }
+    },
+    [showAddressError],
+  );
+
+  const errorMessageId = 'street-city-state-zip-error-message';
+
   return (
     <Autosuggest
       inputValue={inputValue || ''}
@@ -174,9 +187,16 @@ function AddressAutosuggest({
         },
       }}
       onClearClick={inputClearClick}
-      inputError={<AddressInputError showError={showAddressError || false} />}
+      inputError={
+        <AddressInputError
+          ref={errorRef}
+          showError={showAddressError || false}
+          errorId={errorMessageId}
+        />
+      }
       showError={showAddressError}
       inputId="street-city-state-zip"
+      errorMessageId={errorMessageId}
       inputRef={inputRef}
       /* eslint-disable prettier/prettier */
       labelSibling={(
