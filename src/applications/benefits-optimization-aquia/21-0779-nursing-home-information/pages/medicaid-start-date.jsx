@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { MemorableDateField } from '@bio-aquia/shared/components/atoms';
+import { DateField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
@@ -51,7 +51,7 @@ export const MedicaidStartDatePage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <MemorableDateField
+          <DateField
             name="medicaidStartDate"
             label="When did the patient's Medicaid plan begin?"
             schema={medicaidStartDateSchema}

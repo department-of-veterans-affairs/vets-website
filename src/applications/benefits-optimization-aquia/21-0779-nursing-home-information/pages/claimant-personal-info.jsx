@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { MemorableDateField } from '@bio-aquia/shared/components/atoms';
+import { DateField } from '@bio-aquia/shared/components/atoms';
 import { FullnameField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
@@ -38,7 +38,7 @@ export const ClaimantPersonalInfoPage = ({
 
   return (
     <PageTemplate
-      title="Name and date of birth"
+      title="Patient’s name and date of birth"
       subtitle="Tell us about the patient in the nursing home"
       data={formDataToUse}
       setFormData={setFormData}
@@ -72,7 +72,7 @@ export const ClaimantPersonalInfoPage = ({
             fieldPrefix="claimant"
           />
 
-          <MemorableDateField
+          <DateField
             name="claimantDateOfBirth"
             label="Date of birth"
             schema={dateOfBirthSchema}
