@@ -3,6 +3,7 @@ import environment from 'platform/utilities/environment';
 
 import footerContent from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { inlineTitleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -39,12 +40,13 @@ import sectionSix from '../pages/sectionSix';
 import doctorCareQuestion from '../pages/doctorCareQuestion';
 import hospitalQuestion from '../pages/hospitalQuestion';
 
-import { doctorCareQuestionFields, hospitalizationQuestionFields } from '../definitions/constants';
-/*import medicalTreatmentRecordsPages from '../pages/medicalTreatmentRecords';*/
+import {
+  doctorCareQuestionFields,
+  hospitalizationQuestionFields,
+} from '../definitions/constants';
+/* import medicalTreatmentRecordsPages from '../pages/medicalTreatmentRecords'; */
 
-import { inlineTitleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-
-import ImportantInformation from '../containers/ImportantInformation'
+import ImportantInformation from '../containers/ImportantInformation';
 import WhatYouNeed from '../containers/WhatYouNeed';
 
 /** @returns {PageSchema} */
@@ -54,7 +56,7 @@ const sectionOneBannerPage = {
   uiSchema: {
     ...inlineTitleUI('Section I - Veteran ID and Information'),
     'ui:description': (
-  <div className="vads-u-margin-top--8">
+      <div className="vads-u-margin-top--8">
         <div
           style={{
             backgroundColor: '#e7f4f7',
@@ -64,9 +66,7 @@ const sectionOneBannerPage = {
             margin: '16px 0',
           }}
         >
-          <h4 style={{ marginTop: 0, color: '#1b4480' }}>
-            What to expect:
-          </h4>
+          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
           <ul style={{ marginBottom: 0, color: '#1b4480' }}>
             <li>Your name and identification numbers</li>
             <li>Your contact information (address, email, phone number)</li>
@@ -75,7 +75,6 @@ const sectionOneBannerPage = {
         </div>
       </div>
     ),
-
   },
   schema: {
     type: 'object',
@@ -91,7 +90,10 @@ const sectionTwoBannerPage = {
     'ui:title': 'Disability And Medical Treatment',
     'ui:description': (
       <div>
-        <p>We need some information about your service-connected disabilities and recent medical care.</p>
+        <p>
+          We need some information about your service-connected disabilities and
+          recent medical care.
+        </p>
         <div
           style={{
             backgroundColor: '#e7f4f7',
@@ -101,12 +103,10 @@ const sectionTwoBannerPage = {
             margin: '16px 0',
           }}
         >
-          <h4 style={{ marginTop: 0, color: '#1b4480' }}>
-            What to expect:
-          </h4>
+          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
           <ul style={{ marginBottom: 0, color: '#1b4480' }}>
             <li>Which disabilities prevent you from working</li>
-            <li>Doctors and hospitals you've visited in the past 12 months</li>
+            <li>Doctors and hospitals you’ve visited in the past 12 months</li>
             <li>Treatment dates and provider information</li>
             <li>Takes about 7-10 minutes</li>
           </ul>
@@ -127,8 +127,8 @@ const sectionThreeBannerPage = {
   uiSchema: {
     ...inlineTitleUI('Section III - Employment'),
     'ui:description': (
-  <div className="vads-u-margin-top--8">
-        <p>We'll start by confirming your identity and how to reach you.</p>
+      <div className="vads-u-margin-top--8">
+        <p>We’ll start by confirming your identity and how to reach you.</p>
         <div
           style={{
             backgroundColor: '#e7f4f7',
@@ -138,14 +138,12 @@ const sectionThreeBannerPage = {
             margin: '16px 0',
           }}
         >
-          <h4 style={{ marginTop: 0, color: '#1b4480' }}>
-            What to expect:
-          </h4>
+          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
           <ul style={{ marginBottom: 0, color: '#1b4480' }}>
             <li>When your disability began affecting your work</li>
             <li>Employment details for the past 5 years</li>
             <li>Your highest earnings and current income</li>
-            <li>Whether you've tried to find work since becoming disabled</li>
+            <li>Whether you’ve tried to find work since becoming disabled</li>
             <li>Takes about 20-25 minutes (longest section)</li>
           </ul>
         </div>
@@ -165,8 +163,8 @@ const sectionFourBannerPage = {
   uiSchema: {
     ...inlineTitleUI('Section IV - Schooling and Other Training'),
     'ui:description': (
-  <div className="vads-u-margin-top--8">
-        <p>We'll start by confirming your identity and how to reach you.</p>
+      <div className="vads-u-margin-top--8">
+        <p>We’ll start by confirming your identity and how to reach you.</p>
         <div
           style={{
             backgroundColor: '#e7f4f7',
@@ -176,9 +174,7 @@ const sectionFourBannerPage = {
             margin: '16px 0',
           }}
         >
-          <h4 style={{ marginTop: 0, color: '#1b4480' }}>
-            What to expect:
-          </h4>
+          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
           <ul style={{ marginBottom: 0, color: '#1b4480' }}>
             <li>Highest level of education completed</li>
             <li>Training before and after becoming too disabled to work</li>
@@ -200,8 +196,8 @@ const sectionFiveBannerPage = {
   uiSchema: {
     ...inlineTitleUI('Section V - Remarks'),
     'ui:description': (
-  <div className="vads-u-margin-top--8">
-        <p>We'll start by confirming your identity and how to reach you.</p>
+      <div className="vads-u-margin-top--8">
+        <p>We’ll start by confirming your identity and how to reach you.</p>
         <div
           style={{
             backgroundColor: '#e7f4f7',
@@ -211,9 +207,7 @@ const sectionFiveBannerPage = {
             margin: '16px 0',
           }}
         >
-          <h4 style={{ marginTop: 0, color: '#1b4480' }}>
-            What to expect:
-          </h4>
+          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
           <ul style={{ marginBottom: 0, color: '#1b4480' }}>
             <li>Space for any additional details about your situation</li>
             <li>Upload any supporting documentation</li>
@@ -233,10 +227,12 @@ const sectionSixBannerPage = {
   path: 'section-6-banner',
   title: 'Section 6 - Authorization, Certification, and Signature',
   uiSchema: {
-    ...inlineTitleUI('Section VI - Authorization, Certification, and Signature'),
+    ...inlineTitleUI(
+      'Section VI - Authorization, Certification, and Signature',
+    ),
     'ui:description': (
-  <div className="vads-u-margin-top--8">
-        <p>We'll start by confirming your identity and how to reach you.</p>
+      <div className="vads-u-margin-top--8">
+        <p>We’ll start by confirming your identity and how to reach you.</p>
         <div
           style={{
             backgroundColor: '#e7f4f7',
@@ -246,14 +242,11 @@ const sectionSixBannerPage = {
             margin: '16px 0',
           }}
         >
-          <h4 style={{ marginTop: 0, color: '#1b4480' }}>
-            What to expect:
-          </h4>
+          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
           <ul style={{ marginBottom: 0, color: '#1b4480' }}>
             <li>Review all your information</li>
             <li>Electronically sign and submit</li>
             <li>Takes about 2-5 minutes</li>
-
           </ul>
         </div>
       </div>
@@ -305,9 +298,9 @@ const formConfig = {
   transformForSubmit,
   savedFormMessages: {
     notFound:
-      'Please start over to complete your veteran\'s application for increased compensation based on unemployability.',
+      "Please start over to complete your veteran's application for increased compensation based on unemployability.",
     noAuth:
-      'Please sign in again to continue your veteran\'s application for increased compensation based on unemployability.',
+      "Please sign in again to continue your veteran's application for increased compensation based on unemployability.",
   },
   hideUnauthedStartLink: true,
   title:
@@ -315,29 +308,27 @@ const formConfig = {
   subTitle:
     'Please take your time to complete this form as accurately as you can.',
   customText: {
-    appType: "veteran application",
+    appType: 'veteran application',
   },
 
-additionalRoutes: [
-  {
-    path: 'important-information',
-    pageKey: 'important-information',
-    component: ImportantInformation,
-    depends: () => true,
-  },
-  {
-    path: 'what-you-need',
-    pageKey: 'what-you-need',
-    component: WhatYouNeed,
-    depends: () => true,
-  },
-],
+  additionalRoutes: [
+    {
+      path: 'important-information',
+      pageKey: 'important-information',
+      component: ImportantInformation,
+      depends: () => true,
+    },
+    {
+      path: 'what-you-need',
+      pageKey: 'what-you-need',
+      component: WhatYouNeed,
+      depends: () => true,
+    },
+  ],
 
   chapters: {
-
-
     confirmationQuestionChapter: {
-      title: 'Let\'s get started',
+      title: "Let's get started",
       pages: {
         confirmationQuestion: {
           path: 'confirmation-required',
@@ -405,7 +396,9 @@ additionalRoutes: [
           uiSchema: doctorInformation.uiSchema,
           schema: doctorInformation.schema,
           depends: formData =>
-            formData[doctorCareQuestionFields.parentObject][doctorCareQuestionFields.hasReceivedDoctorCare],
+            formData[doctorCareQuestionFields.parentObject][
+              doctorCareQuestionFields.hasReceivedDoctorCare
+            ],
         },
         hospitalCareQuestionPage: {
           path: 'hospital-care-question',
@@ -419,7 +412,9 @@ additionalRoutes: [
           uiSchema: hospitalInformation.uiSchema,
           schema: hospitalInformation.schema,
           depends: formData =>
-            formData[hospitalizationQuestionFields.parentObject][hospitalizationQuestionFields.hasBeenHospitalized],
+            formData[hospitalizationQuestionFields.parentObject][
+              hospitalizationQuestionFields.hasBeenHospitalized
+            ],
         },
       },
     },
@@ -488,9 +483,8 @@ additionalRoutes: [
       },
     },
 
-    beforeDisabilityChapter:
-    {
-       title: 'Education and Training Information (cont.)',
+    beforeDisabilityChapter: {
+      title: 'Education and Training Information (cont.)',
       pages: {
         beforeDisabilityPage: {
           path: 'education-and-training-before-disability',
@@ -500,9 +494,8 @@ additionalRoutes: [
         },
       },
     },
-     afterDisabilityChapter:
-    {
-       title: 'Education and Training Information (cont.)',
+    afterDisabilityChapter: {
+      title: 'Education and Training Information (cont.)',
       pages: {
         afterDisabilityPage: {
           path: 'education-and-training-after-disability',

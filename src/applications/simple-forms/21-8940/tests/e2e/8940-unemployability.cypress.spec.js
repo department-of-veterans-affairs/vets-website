@@ -13,6 +13,7 @@ import {
   reviewAndSubmitPageFlow,
   selectRadioWebComponent,
   selectYesNoWebComponent,
+  selectCheckboxWebComponent,
 } from '../../../shared/tests/e2e/helpers';
 
 const testConfig = createTestConfig(
@@ -24,13 +25,40 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByRole('button', { name: /start/i }).then($buttons => {
-            if ($buttons.length) {
-              cy.wrap($buttons[0]).click({ force: true });
-            } else {
-              cy.findByRole('link', { name: /start/i }).click({ force: true });
-            }
-          });
+          // cy.findAllByRole('link', {
+          //   name: /Start the veteran's application/i,
+          // }).then($buttons => {
+          //   if ($buttons.length) {
+          //     cy.wrap($buttons[0]).click({ force: true });
+          //   } else {
+          cy.findByRole('link', {
+            name: /Start the veteran's application/i,
+          }).click({ force: true });
+          //   }
+          // });
+        });
+      },
+      'important-information': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
+      },
+      'what-you-need': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
+      },
+      'information-we-are-required-to-share': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          selectCheckboxWebComponent(
+            'acknowledgeFairInformationPractices',
+            true,
+          );
+          selectCheckboxWebComponent('acknowledgePrivacyActRights', true);
+          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
       'confirmation-required': ({ afterHook }) => {
@@ -140,7 +168,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const sectionThree = data.sectionThree;
+            const { sectionThree } = data;
             fillDateWebComponentPattern(
               'disabilityDate',
               sectionThree.disabilityDate,
@@ -180,10 +208,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const education = data.sectionFour;
-            selectRadioWebComponent(
-              'educationLevel',
-              education.educationLevel,
-            );
+            selectRadioWebComponent('educationLevel', education.educationLevel);
             if (education.gradeSchool) {
               selectRadioWebComponent('gradeSchool', education.gradeSchool);
             }
@@ -225,7 +250,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const sectionSix = data.sectionSix;
+            const { sectionSix } = data;
             fillTextWebComponent(
               'signatureOfClaimant',
               sectionSix.signatureOfClaimant,
