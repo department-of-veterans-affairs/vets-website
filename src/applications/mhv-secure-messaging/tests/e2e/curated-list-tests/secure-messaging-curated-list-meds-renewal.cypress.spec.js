@@ -53,7 +53,8 @@ describe('SM CURATED LIST MEDICATIONS RENEWAL REQUEST', () => {
     PatientComposePage.selectComboBoxRecipient(
       mockRecipients.data[0].attributes.name,
     );
-    cy.findByTestId('ce-button').click();
+    // leaving this as 'continue-button' for now as it's likely to change to an action link
+    cy.findByTestId('continue-button').click();
     PatientComposePage.validateAddYourMedicationWarningBanner(false);
     PatientComposePage.validateRecipientTitle(
       `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
