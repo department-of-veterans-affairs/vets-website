@@ -1,6 +1,25 @@
+/**
+ * @module utils/buildMajorStepsFromConfig
+ * @description Builds major navigation steps from form configuration for the 526EZ side navigation.
+ * Evaluates conditional pages based on form data to determine visible chapters and active state.
+ */
+
 import formConfig from '../config/form';
 
-// Configuration: which chapters to include and their labels (override chapter title if needed)
+/**
+ * @typedef {Object} MajorStep
+ * @property {number} idx - Index in the chapter list
+ * @property {string} key - Unique chapter key (e.g., 'veteranDetails', 'disabilities')
+ * @property {string} label - Display label for the chapter
+ * @property {string} primaryPath - Primary navigation path for the chapter (first visible page)
+ * @property {string[]} pathPrefixes - All page paths within this chapter (for active state matching)
+ * @property {boolean} [terminal] - Whether this is the final review step
+ */
+
+/**
+ * Mapping of form chapters to navigation labels
+ * @const {Array<{key: string, label: string}>}
+ */
 const CHAPTER_STEP_MAP = [
   { key: 'veteranDetails', label: 'Veteran Details' },
   { key: 'disabilities', label: 'Conditions' },
@@ -9,21 +28,29 @@ const CHAPTER_STEP_MAP = [
   { key: 'additionalInformation', label: 'Additional Information' },
 ];
 
-// Fallback final step
+/**
+ * Review and submit step configuration
+ * @const {MajorStep}
+ */
 const REVIEW_STEP = {
   key: 'reviewSubmit',
   label: 'Review and Submit',
-  // Usually the platform review page
   primaryPath: '/review-and-submit',
   pathPrefixes: ['/review-and-submit', '/review', '/submit'],
   terminal: true,
 };
 
-let _cached; // simple memo
-
+/**
+ * Builds list of major navigation steps from form configuration
+ *
+ * Evaluates each chapter's pages and determines:
+ * - All page paths within the chapter (pathPrefixes)
+ * - The primary navigation path (first visible page based on depends functions)
+ *
+ * @param {Object} formData - Current form data from Redux store
+ * @returns {MajorStep[]} Array of major navigation steps
+ */
 export function buildMajorSteps(formData) {
-  if (_cached) return _cached;
-
   const { chapters } = formConfig;
   const steps = [];
 
@@ -32,7 +59,8 @@ export function buildMajorSteps(formData) {
     if (!chapter) return;
 
     const pages = Object.values(chapter.pages || {});
-    // Collect all distinct paths (prefix them with slash for consistency)
+
+    /** Collect all distinct paths (prefix them with slash for consistency) */
     const pathPrefixes = pages
       .map(p => p.path)
       .filter(Boolean)
@@ -40,12 +68,14 @@ export function buildMajorSteps(formData) {
 
     if (pathPrefixes.length === 0) return;
 
-    // Heuristic for primary path:
-    // 1. First page with non-empty title (string) AND path AND valid depends (if any)
-    // 2. Else first page with path
+    /**
+     * Determine primary path using heuristic:
+     * 1. First page with non-empty title AND path AND valid depends (if any)
+     * 2. Fallback to first page with path
+     */
     const primaryCandidate =
       pages.find(p => {
-        // avoid hidden pages based on current formData
+        /** Avoid hidden pages based on current formData */
         if (typeof p.depends === 'function' && !p.depends(formData)) {
           return false;
         }
@@ -71,13 +101,23 @@ export function buildMajorSteps(formData) {
   });
 
   steps.push(REVIEW_STEP);
-  _cached = steps;
   return steps;
 }
 
-export function findActiveMajorStep(pathname) {
+/**
+ * Finds the active major step based on current pathname
+ *
+ * Matches the current URL against all chapter path prefixes to determine
+ * which chapter is currently active. Uses formData to rebuild steps with
+ * current conditional page visibility.
+ *
+ * @param {string} pathname - Current URL pathname from react-router
+ * @param {Object} formData - Current form data from Redux store
+ * @returns {MajorStep|undefined} The active major step, or undefined if no match
+ */
+export function findActiveMajorStep(pathname, formData) {
   const clean = pathname.replace(/\/+$/, '').toLowerCase();
-  return buildMajorSteps().find(step =>
+  return buildMajorSteps(formData).find(step =>
     step.pathPrefixes.some(prefix => clean.startsWith(prefix.toLowerCase())),
   );
 }
