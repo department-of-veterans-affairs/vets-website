@@ -9,7 +9,7 @@ export const ARMY_BRANCH_LABELS = {
   AR: { label: 'Army Reserves', group: 'Army' },
   ARNG: { label: 'Army National Guard', group: 'Army' },
   WAC: { label: "Women's Army Corps", group: 'Army' },
-  PA: { label: 'Philippine Air Force', group: 'Army' },
+  PA: { label: 'Philippine Army', group: 'Army' },
 };
 
 export const NAVY_BRANCH_LABELS = {
@@ -146,6 +146,11 @@ export const serviceBranchUI = options => {
     ? getOptionsForGroups(groups)
     : DEFAULT_BRANCH_LABELS;
 
+  // disable optgroups until bug in va-combo-box resolved. see https://github.com/orgs/department-of-veterans-affairs/projects/1643/views/1?filterQuery=+-category%3A%22Experimental+Design%22%2CEpic%2CInitiative+va-combo-box&pane=issue&itemId=136499540&issue=department-of-veterans-affairs%7Cvets-design-system-documentation%7C5113
+  Object.keys(labels).forEach(key => {
+    delete labels[key].group;
+  });
+
   return {
     'ui:title': title || 'Select your service branch',
     'ui:description': description,
@@ -172,10 +177,17 @@ export const serviceBranchUI = options => {
  * @returns {SchemaOptions}
  */
 export const serviceBranchSchema = groups => {
-  const labels = groups
-    ? Object.keys(getOptionsForGroups(groups))
-    : Object.keys(DEFAULT_BRANCH_LABELS);
+  // const labels = groups
+  //   ? Object.keys(getOptionsForGroups(groups))
+  //   : Object.keys(DEFAULT_BRANCH_LABELS);
 
+  // get the keys alphabetically sorted by their associated label
+  // remove this code when bug in va-combo-box resolved. see https://github.com/orgs/department-of-veterans-affairs/projects/1643/views/1?filterQuery=+-category%3A%22Experimental+Design%22%2CEpic%2CInitiative+va-combo-box&pane=issue&itemId=136499540&issue=department-of-veterans-affairs%7Cvets-design-system-documentation%7C5113
+  const labels = Object.entries(
+    groups ? getOptionsForGroups(groups) : DEFAULT_BRANCH_LABELS,
+  )
+    .sort((a, b) => a[1].label.localeCompare(b[1].label))
+    .map(branch => branch[0]);
   return {
     type: 'string',
     enum: labels,
