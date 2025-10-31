@@ -167,8 +167,14 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
   });
 
   it('validate selecting a recent care team and continuing to compose message', () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/folders/-1/search*',
+      searchSentFolderResponse,
+    ).as('recentRecipients');
     PatientInboxPage.clickCreateNewMessage();
-    PatientInterstitialPage.continueToRecentRecipients();
+    cy.wait('@recentRecipients');
+    PatientInterstitialPage.getStartMessageLink().click();
     GeneralFunctionsPage.verifyPageHeader(
       `Care teams you recently sent messages to`,
     );

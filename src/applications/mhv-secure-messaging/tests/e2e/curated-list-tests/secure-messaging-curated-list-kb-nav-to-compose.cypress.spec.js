@@ -3,7 +3,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientInterstitialPage from '../pages/PatientInterstitialPage';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Data } from '../utils/constants';
 import searchSentFolderResponse from '../fixtures/searchResponses/search-sent-folder-response.json';
 
 describe('SM CURATED LIST KEYBOARD NAVIGATION TO COMPOSE', () => {
@@ -43,11 +43,11 @@ describe('SM CURATED LIST KEYBOARD NAVIGATION TO COMPOSE', () => {
     cy.tabToElement(`[data-testid=${Locators.LINKS.START_NEW_MESSAGE}]`);
     cy.realPress(['Enter']);
 
-    GeneralFunctionsPage.verifyPageHeader('Recent care teams');
+    GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     cy.get('h1')
       .should('be.focused')
-      .and('have.text', 'Recent care teams');
+      .and('have.text', Data.RECENT_RECIPIENTS_HEADER);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

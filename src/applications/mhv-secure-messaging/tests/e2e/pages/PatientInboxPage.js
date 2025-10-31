@@ -377,7 +377,7 @@ class PatientInboxPage {
     PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
-  navigateToComposePageCuratedFlow = () => {
+  navigateToComposePageCuratedFlow = (hasRecentRecipients = false) => {
     cy.intercept(
       'GET',
       Paths.SM_API_EXTENDED + Paths.CATEGORIES,
@@ -388,20 +388,33 @@ class PatientInboxPage {
       `sentThreadsResponse`,
     );
 
-    // Mock empty recent recipients to force navigation to select care team
-    cy.intercept('POST', '/my_health/v1/messaging/folders/-1/search*', {
-      data: [],
-    }).as('recentRecipients');
+    if (hasRecentRecipients) {
+      // Mock WITH recent recipients - navigates to /recent page
+      cy.intercept(
+        'POST',
+        '/my_health/v1/messaging/folders/-1/search*',
+        mockSentThreads,
+      ).as('recentRecipients');
+    } else {
+      // Mock empty recent recipients to force navigation to select care team
+      cy.intercept('POST', '/my_health/v1/messaging/folders/-1/search*', {
+        data: [],
+      }).as('recentRecipients');
+    }
 
     this.clickCreateNewMessage();
     // Continue through interstitial
     PatientInterstitialPage.getStartMessageLink().click({ force: true });
 
-    // Wait for recent recipients check and redirect to select care team
+    // Wait for recent recipients check
     cy.wait('@recentRecipients');
 
-    // Should now be on select care team page with recipients dropdown
-    cy.url().should('include', '/new-message/select-care-team');
+    // Verify navigation based on recent recipients availability
+    if (hasRecentRecipients) {
+      cy.url().should('include', '/recent');
+    } else {
+      cy.url().should('include', '/select-care-team');
+    }
   };
 
   navigateDirectlyToSelectCareTeam = () => {

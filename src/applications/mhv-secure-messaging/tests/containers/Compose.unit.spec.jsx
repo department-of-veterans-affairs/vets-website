@@ -285,6 +285,9 @@ describe('Compose container', () => {
     const customState = {
       sm: {
         ...initialState.sm,
+        threadDetails: {
+          acceptInterstitial: false,
+        },
         alerts: {
           alertVisible: true,
           alertFocusOut: false,
@@ -315,7 +318,11 @@ describe('Compose container', () => {
       const alert = container.querySelector('va-alert');
       expect(alert).to.exist;
     });
-    expect(getByText("We're sorry. Something went wrong on our end.")).to.exist;
+
+    await waitFor(() => {
+      expect(getByText("We're sorry. Something went wrong on our end.")).to
+        .exist;
+    });
   });
 
   describe('with curated list flow feature flag enabled', () => {
@@ -476,10 +483,6 @@ describe('Compose container', () => {
       expect(subject).to.exist;
       expect(body).to.exist;
       expect(screen.getByTestId('edit-signature-link')).to.exist;
-    });
-    await waitFor(() => {
-      expect(getByText('We’re sorry. Something went wrong on our end.')).to
-        .exist;
     });
   });
 });

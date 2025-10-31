@@ -9,6 +9,7 @@ import reducer from '../../reducers';
 import InterstitialPage from '../../containers/InterstitialPage';
 import * as threadDetailsActions from '../../actions/threadDetails';
 import * as prescriptionActions from '../../actions/prescription';
+import { getByBrokenText } from '../../util/testUtils';
 
 describe('Interstitial page', () => {
   const initialState = (isNewFlow = false) => {
