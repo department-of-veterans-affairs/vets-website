@@ -13,7 +13,7 @@ const {
   spousePhone,
 } = ezrSchema.properties;
 
-const spouseContactInformationPage = () => ({
+export const spouseContactInformationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       content['household-spouse-contact-info-title'],
@@ -42,6 +42,4 @@ const spouseContactInformationPage = () => ({
     },
     required: ['spouseAddress', 'spousePhone'],
   },
-});
-
-export default spouseContactInformationPage;
+};
