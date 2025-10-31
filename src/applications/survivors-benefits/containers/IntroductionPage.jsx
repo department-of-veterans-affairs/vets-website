@@ -9,7 +9,7 @@ import { TITLE, SUBTITLE } from '../utils/constants';
 
 const OMB_RES_BURDEN = 40;
 const OMB_NUMBER = '2900-0004';
-const OMB_EXP_DATE = 'TBD';
+const OMB_EXP_DATE = '08/31/2028';
 
 const IntroductionText = () => {
   return (
