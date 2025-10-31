@@ -8,14 +8,17 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 
+function checkIsItemIncomplete(item) {
+  return !item?.otherServiceName?.first || !item?.otherServiceName?.last;
+}
+
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'otherServiceNames',
   nounSingular: 'name',
   nounPlural: 'names',
   required: false,
-  isItemIncomplete: item =>
-    !item?.otherServiceName?.first || !item?.otherServiceName?.last,
+  isItemIncomplete: item => checkIsItemIncomplete(item),
   maxItems: 2,
   text: {
     summaryTitle: 'Review the Veteran’s other service names',
@@ -119,7 +122,7 @@ export const otherServiceNamesPages = arrayBuilderPages(
   options,
   pageBuilder => ({
     otherServiceNamesIntro: pageBuilder.introPage({
-      title: 'test',
+      title: 'Service names',
       path: 'veteran/other-service-names-intro',
       depends: formData => formData.receivedBenefits === false,
       uiSchema: introPage.uiSchema,
