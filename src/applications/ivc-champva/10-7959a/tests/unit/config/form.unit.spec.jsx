@@ -6,7 +6,7 @@ import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/p
 
 import mockData from '../../e2e/fixtures/data/test-data.json';
 import { insuranceOptions } from '../../../chapters/healthInsuranceInformation';
-import { NotEnrolledChampvaPage } from '../../../chapters/NotEnrolledChampvaPage';
+import NotEnrolledPage from '../../../components/FormPages/NotEnrolledPage';
 
 describe('Certifier role page', () => {
   testNumberOfWebComponentFields(
@@ -41,9 +41,9 @@ describe('Certifier enrolled in CHAMPVA (role: other) page', () => {
   );
 });
 
-describe('NotEnrolledChampvaPage', () => {
+describe('NotEnrolledPage', () => {
   it('should render', () => {
-    const { container } = render(<NotEnrolledChampvaPage goBack={() => {}} />);
+    const { container } = render(<NotEnrolledPage goBack={() => {}} />);
     expect(container).to.exist;
   });
 });

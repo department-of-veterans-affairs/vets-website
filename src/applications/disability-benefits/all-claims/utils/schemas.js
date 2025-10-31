@@ -54,12 +54,22 @@ const createCheckboxSchema = (schema, disabilityName) => {
  * New claim type
  */
 export const makeSchemaForNewDisabilities = createSelector(
-  formData => (isClaimingNew(formData) ? formData.newDisabilities : []),
-  (newDisabilities = []) => ({
-    properties: newDisabilities
-      .map(disability => disability.condition)
-      .reduce(createCheckboxSchema, {}),
-  }),
+  formData =>
+    isClaimingNew(formData) && Array.isArray(formData?.newDisabilities)
+      ? formData.newDisabilities
+      : [],
+
+  (newDisabilities = []) => {
+    const raw = newDisabilities
+      .map(d => (typeof d?.condition === 'string' ? d.condition.trim() : ''))
+      .filter(s => s.length > 0);
+
+    const normalized = raw.map(s => s[0].toUpperCase() + s.slice(1));
+    const unique = [...new Set(normalized)];
+    const properties = unique.reduce(createCheckboxSchema, {});
+
+    return { properties };
+  },
 );
 
 /**
@@ -280,10 +290,9 @@ export const ancillaryFormUploadUi = (
   } = {},
 ) => {
   const findAndFocusLastSelect = () => {
-    const lastSelect = [...document.querySelectorAll('select')].slice(-1);
-    if (lastSelect.length) {
-      focusElement(lastSelect[0]);
-    }
+    const uploadList = document.getElementsByClassName('schemaform-file-list');
+    const deleteButton = uploadList[0]?.lastChild?.querySelector('va-button');
+    if (deleteButton) focusElement(deleteButton);
   };
 
   return fileUploadUI(label, {

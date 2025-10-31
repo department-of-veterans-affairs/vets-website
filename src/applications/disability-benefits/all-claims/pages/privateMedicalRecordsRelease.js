@@ -22,6 +22,7 @@ import { isCompletingModern4142 } from '../utils';
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 
 import { validateBooleanGroup, validateZIP } from '../validations';
+import PrivateMedicalProvidersConditions from '../components/ConfirmationFields/PrivateMedicalProvidersConditions';
 
 const { form4142 } = fullSchema.properties;
 
@@ -68,6 +69,13 @@ export const uiSchema = {
           hideIf: formData => !isCompletingForm0781(formData),
         },
         'ui:required': formData => isCompletingForm0781(formData),
+        'ui:confirmationField': value => {
+          return {
+            data: value.formData ? 'Yes' : 'No',
+            label:
+              'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
+          };
+        },
       },
       treatedDisabilityNames: {
         'ui:title': 'What conditions were you treated for?',
@@ -84,6 +92,7 @@ export const uiSchema = {
           required: 'Please select at least one condition',
         },
         'ui:required': formData => isCompletingModern4142(formData),
+        'ui:confirmationField': PrivateMedicalProvidersConditions,
       },
       'ui:validations': [validateDate],
       treatmentDateRange: dateRangeUI(

@@ -1,6 +1,8 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
+import submitForm from './submitForm';
+import transform from './submit-transformer';
+import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -10,25 +12,50 @@ import {
   agreementType,
   institutionDetailsFacility,
   authorizingOfficial,
+  poeCommitment,
+  newAuthorizingOfficial,
+  newPrinciplesOfExcellence,
+  newSchoolCertifyingOfficial,
 } from '../pages';
+
+/**
+ * Returns *true* if the newCommitment -
+ * Principles of Excellence point of contact page should be displayed
+ * @param {*} data form data
+ * @returns {boolean}
+ */
+const canDisplayNewPOC = data =>
+  data?.agreementType === 'newCommitment' &&
+  data?.authorizedOfficial?.['view:isPOC'] === false;
+
+/**
+ * Returns *true* if the newCommitment -
+ * School certifying official page should be displayed
+ * @param {*} data form data
+ * @returns {boolean}
+ */
+const canDisplayNewSCO = data =>
+  data?.agreementType === 'newCommitment' &&
+  data?.authorizedOfficial?.['view:isSCO'] === false &&
+  !data?.newCommitment?.principlesOfExcellencePointOfContact?.['view:isSCO'];
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
   trackingPrefix: 'edu-10275-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_10275,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your education benefits application (22-10275) is in progress.',
-    //   expired: 'Your saved education benefits application (22-10275) has expired. If you want to apply for education benefits, please start a new application.',
-    //   saved: 'Your education benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your form (22-10275) is in progress.',
+      expired:
+        'Your saved form (22-10275) has expired. Please start a new form.',
+      saved: 'Your form has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
@@ -37,17 +64,25 @@ const formConfig = {
       heading: 'Certification statement',
       body: PrivacyPolicy,
       messageAriaDescribedby: 'I have read and accept the privacy policy.',
-      fullNamePath: 'authorizingOfficial.fullName',
+      fullNamePath: 'authorizedOfficial.fullName',
     },
   },
   savedFormMessages: {
-    notFound: 'Please start over to apply for education benefits.',
-    noAuth:
-      'Please sign in again to continue your application for education benefits.',
+    notFound: 'Please start over.',
+    noAuth: 'Please sign in again to continue your form.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  customText: {
+    appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    startNewAppButtonText: 'Start a new form',
+    finishAppLaterMessage: 'Finish this form later',
+    appSavedSuccessfullyMessage: 'We’ve saved your form.',
+    submitButtonText: 'Continue',
+  },
   defaultDefinitions: {},
+  transformForSubmit: transform,
   chapters: {
     agreementTypeChapter: {
       title: 'Agreement type',
@@ -87,6 +122,34 @@ const formConfig = {
         },
       },
     },
+    associatedOfficialsChapter: {
+      title: 'Associated officials',
+      pages: {
+        authorizedOfficialNew: {
+          path: 'new-commitment-authorizing-official',
+          title: 'Your information',
+          depends: data => data?.agreementType === 'newCommitment',
+          uiSchema: newAuthorizingOfficial.uiSchema,
+          schema: newAuthorizingOfficial.schema,
+          updateFormData: newAuthorizingOfficial.updateFormData,
+        },
+        principlesOfExcellenceNew: {
+          path: 'new-commitment-principles-of-excellence',
+          title: 'Principles of Excellence point of contact',
+          depends: data => canDisplayNewPOC(data),
+          uiSchema: newPrinciplesOfExcellence.uiSchema,
+          schema: newPrinciplesOfExcellence.schema,
+          updateFormData: newPrinciplesOfExcellence.updateFormData,
+        },
+        schoolCertifyingOfficialNew: {
+          path: 'new-commitment-school-certifying-official',
+          title: 'School certifying official',
+          depends: data => canDisplayNewSCO(data),
+          uiSchema: newSchoolCertifyingOfficial.uiSchema,
+          schema: newSchoolCertifyingOfficial.schema,
+        },
+      },
+    },
     withdrawalChapter: {
       title: 'Institution details',
       pages: {
@@ -99,10 +162,22 @@ const formConfig = {
         },
       },
     },
-    authorizingOfficialChapter: {
+    principlesOfExcellenceCommitmentChapter: {
+      title: 'The Principles of Excellence',
+      pages: {
+        poeCommitment: {
+          path: 'principles-of-excellence',
+          title: 'The Principles of Excellence',
+          depends: data => data?.agreementType === 'newCommitment',
+          uiSchema: poeCommitment.uiSchema,
+          schema: poeCommitment.schema,
+        },
+      },
+    },
+    authorizedOfficialChapter: {
       title: 'Authorizing official',
       pages: {
-        authorizingOfficial: {
+        authorizedOfficial: {
           path: 'authorizing-official',
           title: 'Authorizing official',
           depends: data => data?.agreementType === 'withdrawal',

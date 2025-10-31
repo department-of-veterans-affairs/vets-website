@@ -116,11 +116,13 @@ const SchoolStateOrResidencyStateCustomPage = props => {
           </fieldset>
         </div>
 
-        <FormNavButtons
-          className="vads-u-margin-top--3"
-          goBack={goBack}
-          goForward={() => onContinue(formData)}
-        />
+        {!props.onReviewPage && (
+          <FormNavButtons
+            className="vads-u-margin-top--3"
+            goBack={goBack}
+            goForward={() => onContinue(formData)}
+          />
+        )}
       </form>
     </>
   );

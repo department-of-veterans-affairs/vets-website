@@ -3,35 +3,38 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 
 import recordEvent from 'platform/monitoring/record-event';
 import { pageNames } from './pageList';
-
-const options = [
-  {
-    value: pageNames.beginFormNow,
-    label: 'Yes',
-  },
-  {
-    value: pageNames.dischargeStatus,
-    label: 'No',
-  },
-];
+import { RELATIONSHIP_STORAGE_KEY } from '../../constants';
 
 const EducationBenefits = ({ setPageState, state = {} }) => {
+  const relationship = sessionStorage.getItem(RELATIONSHIP_STORAGE_KEY);
+  const isDependent = relationship === 'dependent';
+  const options = isDependent
+    ? [
+        { value: 'dependentYes', label: 'Yes' },
+        { value: 'dependentNo', label: 'No' },
+      ]
+    : [
+        { value: pageNames.beginFormNow, label: 'Yes' },
+        { value: pageNames.dischargeStatus, label: 'No' },
+      ];
+
   const handleValueChange = ({ detail } = {}) => {
     const { value } = detail;
     recordEvent({
       event: `howToWizard-formChange`,
       'form-field-type': 'form-radio-buttons',
       'form-field-label':
-        'Do you have VA education benefits available for school?',
+        'Are you currently eligible for VA education benefits?',
       'form-field-value': value,
     });
-    setPageState({ selected: value }, value);
+    const next = isDependent ? pageNames.beginFormNow : value;
+    setPageState({ selected: value }, next);
   };
   return (
     <VaRadio
       id="VAEducationBenefits"
       class="vads-u-margin-y--2"
-      label="Do you have VA education benefits available for school?"
+      label="Are you currently eligible for VA education benefits?"
       onVaValueChange={handleValueChange}
     >
       {options.map(option => (

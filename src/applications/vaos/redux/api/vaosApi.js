@@ -13,7 +13,6 @@ export const vaosApi = createApi({
   // Cache is normally 60 seconds by default, but it causes each test
   // to take an additional 60 seconds to run, so we set it to 0.
   keepUnusedDataFor: environment.isUnitTest() ? 0 : 60,
-  tagTypes: ['Referral'],
   endpoints: builder => ({
     getReferralById: builder.query({
       async queryFn(referralId) {
@@ -26,7 +25,6 @@ export const vaosApi = createApi({
           };
         }
       },
-      providesTags: ['Referral'],
     }),
     getPatientReferrals: builder.query({
       async queryFn() {
@@ -39,7 +37,6 @@ export const vaosApi = createApi({
           };
         }
       },
-      providesTags: ['Referral'],
       // Needs an argumant to be passed in to trigger the query.
       async onQueryStarted(id, { dispatch }) {
         dispatch(fetchPendingAppointments());
@@ -50,6 +47,34 @@ export const vaosApi = createApi({
         try {
           return await apiRequestWithUrl(
             `/vaos/v2/eps_appointments/${appointmentId}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Page-Type': 'details',
+              },
+            },
+          );
+        } catch (error) {
+          captureError(error, false, 'details fetch appointment info');
+          return {
+            error: { status: error.status || 500, message: error.message },
+          };
+        }
+      },
+    }),
+    pollAppointmentInfo: builder.query({
+      async queryFn(appointmentId) {
+        try {
+          return await apiRequestWithUrl(
+            `/vaos/v2/eps_appointments/${appointmentId}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Page-Type': 'polling',
+              },
+            },
           );
         } catch (error) {
           captureError(error, false, 'poll fetch appointment info');
@@ -81,7 +106,6 @@ export const vaosApi = createApi({
           };
         }
       },
-      providesTags: ['Referral'],
     }),
     postReferralAppointment: builder.mutation({
       async queryFn({
@@ -112,7 +136,6 @@ export const vaosApi = createApi({
           };
         }
       },
-      invalidatesTags: ['Referral'],
     }),
   }),
 });
@@ -121,6 +144,7 @@ export const {
   useGetReferralByIdQuery,
   useGetPatientReferralsQuery,
   useGetAppointmentInfoQuery,
+  usePollAppointmentInfoQuery,
   usePostReferralAppointmentMutation,
   useGetDraftReferralAppointmentQuery,
 } = vaosApi;

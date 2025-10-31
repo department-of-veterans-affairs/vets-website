@@ -3,6 +3,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import {
   selectFeatureOHDirectSchedule,
   selectFeatureOHRequest,
+  selectFeaturePCMHI,
   selectFeatureSubstanceUseDisorder,
   selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
@@ -299,7 +300,10 @@ export default function getNewAppointmentFlow(state) {
         }
         if (isMentalHealth(state)) {
           dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-          if (selectFeatureSubstanceUseDisorder(state)) {
+          if (
+            selectFeatureSubstanceUseDisorder(state) ||
+            selectFeaturePCMHI(state)
+          ) {
             return 'typeOfMentalHealth';
           }
           return VA_FACILITY_V2_KEY;
@@ -378,6 +382,11 @@ export default function getNewAppointmentFlow(state) {
         ? 'Your appointment location'
         : 'Which VA facility would you like to go to?',
       next: vaFacilityNext,
+    },
+    urgentCareInformation: {
+      url: '/schedule',
+      label: 'Only schedule appointments for non-urgent needs',
+      next: 'typeOfCare',
     },
     vaccineFlow: {
       url:

@@ -4,20 +4,16 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { focusElement } from 'platform/utilities/ui/focus';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { Element, scrollTo } from 'platform/utilities/scroll';
-
 import {
   getVAEvidence,
   getPrivateEvidence,
   getOtherEvidence,
 } from '../utils/evidence';
-
 import { content } from '../content/evidenceSummary';
-
 import { EvidencePrivateContent } from './EvidencePrivateContent';
 import { EvidenceUploadContent } from './EvidenceUploadContent';
 import { EvidenceVaContent } from './EvidenceVaContent';
-
-import { EVIDENCE_LIMIT, LIMITATION_KEY, SC_NEW_FORM_DATA } from '../constants';
+import { LIMITED_CONSENT_RESPONSE } from '../constants';
 import { customPageProps995 } from '../../shared/props';
 import { focusFirstError } from '../../shared/utils/focus';
 
@@ -38,11 +34,9 @@ const EvidenceSummary = ({
   const containerRef = useRef(null);
 
   const { limitedConsent = '', privacyAgreementAccepted } = data;
-  const showScNewForm = data[SC_NEW_FORM_DATA];
   const vaEvidence = getVAEvidence(data);
   const privateEvidence = getPrivateEvidence(data);
   const otherEvidence = getOtherEvidence(data);
-  const showLimitedConsentYN = showScNewForm && data[EVIDENCE_LIMIT];
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
@@ -98,20 +92,21 @@ const EvidenceSummary = ({
     showModal: event => {
       const { target } = event;
       const { type, index } = target.dataset;
-      const isLimitation = type === LIMITATION_KEY;
+
       setRemoveData({
         type,
-        index: isLimitation ? null : parseInt(index, 10),
-        name: isLimitation ? null : getName(type, index),
+        index: parseInt(index, 10),
+        name: getName(type, index),
       });
+
       setShowModal(true);
     },
     closeModal: () => {
       const { type, index } = removeData;
-      const focusTarget =
-        type === LIMITATION_KEY
-          ? $(`.remove-item[data-type="${LIMITATION_KEY}"]`)
-          : $(`.remove-item[data-type="${type}"][data-index="${index}"]`);
+      const focusTarget = $(
+        `.remove-item[data-type="${type}"][data-index="${index}"]`,
+      );
+
       setShowModal(false);
       scrollTo(focusTarget);
       focusElement('button', {}, focusTarget?.shadowRoot);
@@ -142,24 +137,17 @@ const EvidenceSummary = ({
   const visibleError = evidenceLength === 0;
   const H = onReviewPage ? 'h5' : 'h3';
   const Header = onReviewPage ? 'h4' : 'h3';
-
-  const modalTitle =
-    content.removeEvidence[
-      removeData.type === LIMITATION_KEY ? 'limitationTitle' : 'title'
-    ];
+  const modalTitle = content.removeEvidence.title;
 
   let modalPrimaryButtonText = content.removeEvidence.modalRemove;
 
-  if (removeData.type === 'limitation') {
-    modalPrimaryButtonText = content.removeEvidence.modalRemoveLimitation;
-  } else if (removeData.type === 'upload') {
+  if (removeData.type === 'upload') {
     modalPrimaryButtonText = content.removeEvidence.modalDelete;
   }
 
   const props = {
     handlers,
     isOnReviewPage: onReviewPage,
-    showScNewForm,
     testing: contentBeforeButtons === 'testing',
   };
 
@@ -205,13 +193,7 @@ const EvidenceSummary = ({
           onPrimaryButtonClick={handlers.removeEvidence}
           onSecondaryButtonClick={handlers.closeModal}
           primaryButtonText={modalPrimaryButtonText}
-          secondaryButtonText={
-            content.removeEvidence[
-              removeData.type === 'limitation'
-                ? 'modalNotRemoveLimitation'
-                : 'modalNotRemove'
-            ]
-          }
+          secondaryButtonText={content.removeEvidence.modalNotRemove}
         >
           <p>
             {content.removeEvidence[(removeData?.type)] || ''}
@@ -221,7 +203,7 @@ const EvidenceSummary = ({
         <EvidenceVaContent list={vaEvidence} {...props} />
         <EvidencePrivateContent
           list={privateEvidence}
-          showLimitedConsentYN={showLimitedConsentYN}
+          limitedConsentResponse={data?.[LIMITED_CONSENT_RESPONSE]}
           limitedConsent={limitedConsent}
           privacyAgreementAccepted={privacyAgreementAccepted}
           {...props}
@@ -244,6 +226,7 @@ const EvidenceSummary = ({
               <FormNavButtons
                 goBack={goBack}
                 goForward={handlers.onGoForward}
+                useWebComponents
               />
               {contentAfterButtons}
             </>

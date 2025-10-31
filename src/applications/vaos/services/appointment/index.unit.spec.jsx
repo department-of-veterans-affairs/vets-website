@@ -12,6 +12,7 @@ import {
   getLongTermAppointmentHistoryV2,
   getVAAppointmentLocationId,
   isValidPastAppointment,
+  getLink,
 } from '.';
 import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
 import {
@@ -352,7 +353,13 @@ describe('VAOS Services: Appointment ', () => {
           end: range.end,
           useRFC3339: false,
           response: [],
-          statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+          statuses: [
+            'booked',
+            'arrived',
+            'fulfilled',
+            'cancelled',
+            'checked-in',
+          ],
         });
       });
 
@@ -444,6 +451,51 @@ describe('VAOS Services: Appointment ', () => {
       const filtered = appointments.filter(isValidPastAppointment);
 
       expect(filtered.length).to.equal(3);
+    });
+  });
+
+  describe('getLink', () => {
+    it('should return the correct link for a past appointment', () => {
+      const appointment = {
+        vaos: {
+          isPastAppointment: true,
+        },
+        id: '123',
+        modality: 'vaInPerson',
+      };
+      expect(getLink({ appointment })).to.equal('past/123');
+    });
+
+    it('should return the correct link for a CC appointment', () => {
+      const appointment = {
+        id: '123',
+        vaos: {
+          isPastAppointment: true,
+        },
+        modality: 'communityCareEps',
+      };
+      expect(getLink({ appointment })).to.equal('/123?eps=true');
+      const futureAppointment = {
+        id: '1234',
+        vaos: {
+          isPastAppointment: false,
+        },
+        modality: 'communityCareEps',
+      };
+      expect(getLink({ appointment: futureAppointment })).to.equal(
+        '/1234?eps=true',
+      );
+    });
+
+    it('should return the correct link for a future appointment', () => {
+      const appointment = {
+        id: '123',
+        vaos: {
+          isPastAppointment: false,
+        },
+        modality: 'vaInPerson',
+      };
+      expect(getLink({ appointment })).to.equal('/123');
     });
   });
 });

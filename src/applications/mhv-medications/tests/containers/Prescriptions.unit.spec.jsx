@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import * as uniqueUserMetrics from '~/platform/mhv/unique_user_metrics';
 import reducer from '../../reducers';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
@@ -13,15 +12,21 @@ import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.jso
 import { MEDS_BY_MAIL_FACILITY_ID } from '../../util/constants';
 
 let sandbox;
-let logUniqueUserMetricsEventsStub;
+
+const refillAlertList = [
+  {
+    prescriptionId: 123456,
+    prescriptionName: 'Test name 1',
+  },
+  {
+    prescriptionId: 234567,
+    prescriptionName: 'Test name 2',
+  },
+];
 
 describe('Medications Prescriptions container', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    logUniqueUserMetricsEventsStub = sandbox.stub(
-      uniqueUserMetrics,
-      'logUniqueUserMetricsEvents',
-    );
     stubAllergiesApi({ sandbox });
     stubPrescriptionsListApi({ sandbox });
   });
@@ -31,7 +36,14 @@ describe('Medications Prescriptions container', () => {
   });
 
   const initialState = {
-    rx: {},
+    rx: {
+      prescriptionsList: [],
+      refillAlertList: [],
+    },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medications_display_refill_progress: false,
+    },
   };
 
   const setup = (state = initialState) => {
@@ -50,23 +62,6 @@ describe('Medications Prescriptions container', () => {
     expect(screen);
   });
 
-  it('should log prescriptions accessed event when prescriptions are successfully loaded', async () => {
-    const screen = setup();
-
-    // Wait for the medications list to be displayed
-    await waitFor(() => {
-      expect(screen.getByTestId('med-list')).to.exist;
-    });
-
-    await waitFor(() => {
-      expect(
-        logUniqueUserMetricsEventsStub.calledWith(
-          uniqueUserMetrics.EVENT_REGISTRY.PRESCRIPTIONS_ACCESSED,
-        ),
-      ).to.be.true;
-    });
-  });
-
   it('should display loading message when loading prescriptions', async () => {
     const screen = setup();
     waitFor(() => {
@@ -83,6 +78,90 @@ describe('Medications Prescriptions container', () => {
   it('shows title ', async () => {
     const screen = setup();
     expect(await screen.findByTestId('list-page-title')).to.exist;
+  });
+
+  it('should display delayed refill alert when showRefillProgressContent flag is true and refillAlertList has items', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsListApi({
+      sandbox,
+      data: {
+        prescriptions: emptyPrescriptionsList.data,
+        meta: emptyPrescriptionsList.meta,
+        pagination: emptyPrescriptionsList.meta.pagination,
+        refillAlertList,
+      },
+    });
+
+    const screen = setup({
+      ...initialState,
+      rx: {
+        ...initialState.rx,
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_refill_progress: true,
+      },
+    });
+
+    expect(await screen.findByTestId('mhv-rx--delayed-refill-alert')).to.exist;
+    expect(await screen.findByTestId('rxDelay-alert-message')).to.exist;
+  });
+
+  it('should not display delayed refill alert when showRefillProgressContent flag is false', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsListApi({
+      sandbox,
+      data: {
+        prescriptions: emptyPrescriptionsList.data,
+        meta: emptyPrescriptionsList.meta,
+        pagination: emptyPrescriptionsList.meta.pagination,
+        refillAlertList,
+      },
+    });
+
+    const screen = setup({
+      ...initialState,
+      rx: {
+        ...initialState.rx,
+      },
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('mhv-rx--delayed-refill-alert')).not.to.exist;
+      expect(screen.queryByTestId('rxDelay-alert-message')).not.to.exist;
+    });
+  });
+
+  it('should not display delayed refill alert when refillAlertList is empty', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsListApi({
+      sandbox,
+      data: {
+        prescriptions: emptyPrescriptionsList.data,
+        meta: emptyPrescriptionsList.meta,
+        pagination: emptyPrescriptionsList.meta.pagination,
+        refillAlertList: [],
+      },
+    });
+
+    const screen = setup({
+      ...initialState,
+      rx: {
+        ...initialState.rx,
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_refill_progress: true,
+      },
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('alert-banner')).not.to.exist;
+      expect(screen.queryByTestId('rxDelay-alert-message')).not.to.exist;
+    });
   });
 
   it('displays empty list alert', async () => {
@@ -146,22 +225,6 @@ describe('Medications Prescriptions container', () => {
     });
   });
 
-  it('should show the allergy error alert when printing all meds', async () => {
-    sandbox.restore();
-    stubAllergiesApi({ sandbox, error: true });
-    stubPrescriptionsListApi({ sandbox });
-    const screen = setup();
-    const pdfButton = screen.getByTestId('download-print-all-button');
-    await waitFor(() => {
-      fireEvent.click(pdfButton);
-    });
-    expect(screen);
-    waitFor(() => {
-      expect(screen.getByText('We can’t print your records right now')).to
-        .exist;
-    });
-  });
-
   it('should show the allergy error alert when downloading txt', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox, error: true });
@@ -185,16 +248,6 @@ describe('Medications Prescriptions container', () => {
     );
   });
 
-  it('Simulates print all button click', async () => {
-    const screen = setup();
-    const button = await screen.findByTestId('download-print-all-button');
-    expect(button).to.exist;
-    expect(button).to.have.text('Print all medications');
-    await waitFor(() => {
-      button.click();
-    });
-  });
-
   it('Simulates print button click', async () => {
     if (!window.print) {
       window.print = () => {};
@@ -203,7 +256,7 @@ describe('Medications Prescriptions container', () => {
     const screen = setup();
     const button = await screen.findByTestId('download-print-button');
     expect(button).to.exist;
-    expect(button).to.have.text('Print this page of the list');
+    expect(button).to.have.text('Print');
     fireEvent.click(button);
     await waitFor(() => {
       fireEvent.click(button);

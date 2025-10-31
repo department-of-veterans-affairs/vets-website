@@ -27,7 +27,6 @@ import {
   draftAutoSaveTimeout,
   Alerts,
 } from '../../util/constants';
-import featureToggles from '../../hooks/useFeatureToggles';
 import useDebounce from '../../hooks/use-debounce';
 import { saveReplyDraft } from '../../actions/draftDetails';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
@@ -59,10 +58,16 @@ const ReplyDraftItem = props => {
   const composeFormActionButtonsRef = useRef(null);
 
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
-  const { cernerPilotSmFeatureFlag } = featureToggles();
 
   const draftInProgress = useSelector(
     state => state.sm.threadDetails?.draftInProgress,
+  );
+
+  const isOhTriageGroup = useMemo(
+    () => {
+      return replyMessage?.isOhMessage;
+    },
+    [replyMessage],
   );
 
   const [category, setCategory] = useState(null);
@@ -351,7 +356,14 @@ const ReplyDraftItem = props => {
             : JSON.stringify(decodedMessageData);
 
         setIsSending(true);
-        dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
+        dispatch(
+          sendReply({
+            replyToId: replyToMessageId,
+            message: sendData,
+            attachments: attachments.length > 0,
+            ohTriageGroup: isOhTriageGroup,
+          }),
+        )
           .then(() => {
             setTimeout(() => {
               if (draftsCount > 1) {
@@ -534,6 +546,7 @@ const ReplyDraftItem = props => {
                 attachmentScanError={attachmentScanError}
                 attachFileError={attachFileError}
                 setAttachFileError={setAttachFileError}
+                isOhTriageGroup={isOhTriageGroup}
               />
 
               <FileInput
@@ -544,7 +557,7 @@ const ReplyDraftItem = props => {
                 attachmentScanError={attachmentScanError}
                 attachFileError={attachFileError}
                 setAttachFileError={setAttachFileError}
-                isPilot={cernerPilotSmFeatureFlag}
+                isOhTriageGroup={isOhTriageGroup}
               />
             </section>
           )}

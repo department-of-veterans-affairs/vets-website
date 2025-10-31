@@ -16,7 +16,7 @@ export const PRINT_RESULTS = (
       that may apply to you.
     </p>
     <va-button
-      class="vads-u-width--full"
+      class="print-button"
       onClick={window.print}
       text="Print this page"
     />

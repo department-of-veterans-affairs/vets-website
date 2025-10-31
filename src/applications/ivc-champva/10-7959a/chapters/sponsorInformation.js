@@ -1,6 +1,4 @@
-import React from 'react';
 import { cloneDeep } from 'lodash';
-import merge from 'lodash/merge';
 import {
   fullNameUI,
   fullNameSchema,
@@ -17,48 +15,19 @@ import {
   validAddressCharsOnly,
   validObjectCharsOnly,
 } from '../../shared/validations';
+import VeteranNameDescription from '../components/FormDescriptions/VeteranNameDescription';
 
 export const blankSchema = { type: 'object', properties: {} };
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 
-const sponsorHint = (
-  <>
-    You selected that you’re the Veteran filling out this form for your spouse
-    or dependent. This means that you’re their sponsor (this is the Veteran or
-    service member the beneficiary is connected to).
-    <br />
-    <br />
-    Enter your information here. We’ll use this information to confirm the
-    beneficiary’s eligibility.
-  </>
-);
-
-const otherHint = addressee =>
-  `Enter the information for the sponsor (this is the Veteran or service member ${
-    addressee[0]
-  } connected to). We’ll use the sponsor’s information to confirm ${
-    addressee[1]
-  } eligibility.`;
-
 export const sponsorNameSchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) => {
-        const isSponsor = formData?.certifierRole === 'sponsor';
-        return `${isSponsor ? 'Your' : 'Sponsor’s'} name`;
-      },
-      ({ formData }) => {
-        const isSponsor = formData?.certifierRole === 'sponsor';
-        const isBeneficiary = formData?.certifierRole === 'applicant';
-        const addressee = isBeneficiary
-          ? ['you are', 'your']
-          : ['the beneficiary is', 'the beneficiary’s'];
-
-        return <>{isSponsor ? sponsorHint : otherHint(addressee)}</>;
-      },
-    ),
+    ...titleUI(({ formData }) => {
+      const isSponsor = formData?.certifierRole === 'sponsor';
+      return `${isSponsor ? 'Your' : 'Veteran’s'} name`;
+    }, VeteranNameDescription),
     sponsorName: fullNameMiddleInitialUI,
     'ui:validations': [
       (errors, formData) =>
@@ -78,13 +47,12 @@ export const sponsorAddressSchema = {
   uiSchema: {
     ...titleUI(
       'Your mailing address',
-      'We’ll send any important information about this form to this address.',
+      'We’ll send any important information about this claim to this address.',
     ),
-    sponsorAddress: merge({}, addressUI(), {
-      state: {
-        'ui:errorMessages': {
-          required: 'Enter a valid State, Province, or Region',
-        },
+    sponsorAddress: addressUI({
+      labels: {
+        militaryCheckbox:
+          'Address is on military base outside of the United States.',
       },
     }),
     'ui:validations': [
@@ -105,7 +73,7 @@ export const sponsorContactSchema = {
   uiSchema: {
     ...titleUI(
       'Your phone number',
-      'We’ll use this information to contact you if we have more questions.',
+      'We may contact you if we have more questions about this claim.',
     ),
     sponsorPhone: phoneUI(),
     sponsorEmail: emailUI(),

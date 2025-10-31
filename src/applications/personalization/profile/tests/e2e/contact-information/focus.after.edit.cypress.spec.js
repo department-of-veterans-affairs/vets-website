@@ -26,7 +26,7 @@ describe('focus after editing fields', () => {
       cy.intercept('GET', '/v0/user*', loa3User72);
     });
 
-    it('should focus on mailing address button when editing is complete', () => {
+    it('should focus on mailing address update success alert when editing is complete', () => {
       cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
       // should show a loading indicator
       cy.get('va-loading-indicator')
@@ -48,7 +48,7 @@ describe('focus after editing fields', () => {
       cy.get('[data-testid="confirm-address-button"]').click({
         waitForAnimations: true,
       });
-      cy.get('#edit-mailing-address').should('be.focused');
+      cy.get('[data-testid="update-success-alert"]').should('be.focused');
     });
   });
   describe('Phone number fields with SCHEMA form system', () => {
@@ -64,7 +64,7 @@ describe('focus after editing fields', () => {
         req.reply(200, phoneNumber.transactions.successful);
       });
     });
-    it('should focus on edit phone number button when editing is complete', () => {
+    it('should focus on phone number update success alert when editing is complete', () => {
       cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
       // should show a loading indicator
       cy.get('va-loading-indicator')
@@ -84,8 +84,7 @@ describe('focus after editing fields', () => {
       cy.get('[data-testid="save-edit-button"]').click({
         waitForAnimations: true,
       });
-      cy.get('[data-testid="update-success-alert"]').should('exist');
-      cy.get('#edit-home-phone-number').should('be.focused');
+      cy.get('[data-testid="update-success-alert"]').should('be.focused');
     });
   });
 });

@@ -192,6 +192,38 @@ describe('vitalReducer', () => {
   });
 });
 
+describe('vitalReducer LOINC mapping', () => {
+  it('maps alternate weight LOINC 3141-9 to WEIGHT', () => {
+    const response = {
+      entry: [
+        { resource: { id: 'w1', code: { coding: [{ code: '3141-9' }] } } },
+      ],
+      resourceType: 'Observation',
+    };
+    const newState = vitalReducer(
+      {},
+      { type: Actions.Vitals.GET_LIST, response },
+    );
+    expect(newState.vitalsList[0].type).to.equal('WEIGHT');
+  });
+
+  it('maps pulse oximetry LOINCs to PULSE_OXIMETRY', () => {
+    const response = {
+      entry: [
+        { resource: { id: 'o1', code: { coding: [{ code: '59408-5' }] } } },
+        { resource: { id: 'o2', code: { coding: [{ code: '2708-6' }] } } },
+      ],
+      resourceType: 'Observation',
+    };
+    const newState = vitalReducer(
+      {},
+      { type: Actions.Vitals.GET_LIST, response },
+    );
+    expect(newState.vitalsList[0].type).to.equal('PULSE_OXIMETRY');
+    expect(newState.vitalsList[1].type).to.equal('PULSE_OXIMETRY');
+  });
+});
+
 describe('getMeasurement', () => {
   it('should return the correct measurement for a given type', () => {
     const record = {
@@ -239,5 +271,72 @@ describe('getMeasurement', () => {
     const type = 'HEART_RATE';
     const measurement = getMeasurement(record, type);
     expect(measurement).to.eq(EMPTY_FIELD);
+  });
+
+  it('formats pulse oximetry without a space before %', () => {
+    const record = {
+      valueQuantity: {
+        value: 84,
+        code: '%',
+      },
+    };
+    const type = 'PULSE_OXIMETRY';
+    const measurement = getMeasurement(record, type);
+    expect(measurement).to.equal('84%');
+  });
+
+  it('should return EMPTY_FIELD for blood pressure when component is missing or empty', () => {
+    const type = 'BLOOD_PRESSURE';
+
+    expect(getMeasurement({}, type)).to.eq(EMPTY_FIELD);
+    expect(getMeasurement({ component: null }, type)).to.eq(EMPTY_FIELD);
+    expect(getMeasurement({ component: [] }, type)).to.eq(EMPTY_FIELD);
+  });
+
+  it('should return EMPTY_FIELD for blood pressure when systolic or diastolic is missing', () => {
+    const type = 'BLOOD_PRESSURE';
+
+    const onlyDiastolic = {
+      component: [
+        {
+          code: { coding: [{ code: '8462-4' }] },
+          valueQuantity: { value: 79 },
+        },
+      ],
+    };
+    expect(getMeasurement(onlyDiastolic, type)).to.eq(EMPTY_FIELD);
+
+    const onlySystolic = {
+      component: [
+        {
+          code: { coding: [{ code: '8480-6' }] },
+          valueQuantity: { value: 125 },
+        },
+      ],
+    };
+    expect(getMeasurement(onlySystolic, type)).to.eq(EMPTY_FIELD);
+  });
+
+  it('should return EMPTY_FIELD for blood pressure when component items are malformed', () => {
+    const type = 'BLOOD_PRESSURE';
+
+    const missingValueQuantity = {
+      component: [
+        { code: { coding: [{ code: '8480-6' }] } },
+        {
+          code: { coding: [{ code: '8462-4' }] },
+          valueQuantity: { value: 79 },
+        },
+      ],
+    };
+    expect(getMeasurement(missingValueQuantity, type)).to.eq(EMPTY_FIELD);
+
+    const missingCoding = {
+      component: [
+        { valueQuantity: { value: 125 } },
+        { code: {}, valueQuantity: { value: 79 } },
+      ],
+    };
+    expect(getMeasurement(missingCoding, type)).to.eq(EMPTY_FIELD);
   });
 });

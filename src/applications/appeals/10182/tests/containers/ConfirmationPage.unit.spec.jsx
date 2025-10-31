@@ -117,12 +117,12 @@ describe('Confirmation page', () => {
     expect(v2Content.map(el => el.textContent)).to.deep.equal([
       'Foo Man Choo, Esq.',
       '', // DoB
-      'Not selected', // Homelessness
+      'Not answered', // Homelessness
       '', // Mobile phone
       '', // Email
       ',  ', // Address
-      'Not selected', // Extension
-      'Not selected', // VA health care benefits
+      'Not answered', // Extension
+      'Not answered', // VA health care benefits
       'test 543Decision date: ', // issues
       '', // Board review option
     ]);

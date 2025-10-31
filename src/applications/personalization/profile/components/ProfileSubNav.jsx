@@ -12,15 +12,19 @@ import {
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { selectIsBlocked } from '../selectors';
 
-const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
+const ProfileSubNav = ({
+  isInMVI,
+  isLOA3,
+  routes,
+  clickHandler = null,
+  className,
+}) => {
   const mobileNavRef = useRef();
   const history = useHistory();
   const { pathname } = useLocation();
   const isBlocked = useSelector(selectIsBlocked); // incompetent, fiduciary flag, deceased
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const showPaperlessDelivery = useToggleValue(
-    TOGGLE_NAMES.profileShowPaperlessDelivery,
-  );
+  const profile2Enabled = useToggleValue(TOGGLE_NAMES.profile2Enabled);
 
   // Filter out the routes the user cannot access due to
   // not being in MVI/MPI, not having a high enough LOA,
@@ -44,7 +48,7 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
     }
     const { href } = e.detail;
     history.push(href);
-    if (showPaperlessDelivery && mobileNavRef?.current) {
+    if (profile2Enabled && mobileNavRef?.current) {
       const accordionItem = mobileNavRef.current.shadowRoot?.querySelector(
         'va-accordion > va-accordion-item',
       );
@@ -59,46 +63,44 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
     focusElement('#subnav-header');
   }, []);
 
-  if (showPaperlessDelivery) {
+  if (profile2Enabled) {
     return (
       <VaSidenav
         header="Profile"
         icon-background-color="vads-color-primary"
         icon-name="account_circle"
         ref={mobileNavRef}
+        className={className}
       >
         {filteredRoutes.map(route => {
-          // Checks if route should be rendered inside a submenu by looking for a subnavParent
-          // If route has a subnavParent, checks for all other routes with the same subnavParent
-          // If there are 2 or more routes with the same subnavParent, render them inside a submenu
-          // If route is not the first child of a subnavParent, skip because it's rendered elsewhere
-          // If there is only 1 route for a subnavParent, render as individual route
           if (route.subnavParent) {
+            return false;
+          }
+          if (route.hasSubnav) {
             const subnavChildren = filteredRoutes.filter(
-              subnavRoute => subnavRoute.subnavParent === route.subnavParent,
+              subnavRoute => subnavRoute.subnavParent === route.name,
             );
-            const hasSubnavChildren = subnavChildren.length > 1;
-            const isFirstChild = subnavChildren[0]?.name === route.name;
-            if (!isFirstChild) return null;
-            if (hasSubnavChildren) {
-              return (
-                <VaSidenavSubmenu
-                  key={route.subnavParent}
-                  label={route.subnavParent}
-                >
-                  {subnavChildren.map(subnavChild => (
-                    <VaSidenavItem
-                      currentPage={isActive(subnavChild.path)}
-                      key={subnavChild.name}
-                      href={subnavChild.path}
-                      label={subnavChild.name}
-                      routerLink="true"
-                      onVaRouteChange={recordNavUserEvent}
-                    />
-                  ))}
-                </VaSidenavSubmenu>
-              );
-            }
+            return (
+              <VaSidenavSubmenu
+                currentPage={isActive(route.path)}
+                key={route.name}
+                label={route.name}
+                href={route.path}
+                routerLink="true"
+                onVaRouteChange={recordNavUserEvent}
+              >
+                {subnavChildren.map(subnavChild => (
+                  <VaSidenavItem
+                    currentPage={isActive(subnavChild.path)}
+                    key={subnavChild.name}
+                    href={subnavChild.path}
+                    label={subnavChild.name}
+                    routerLink="true"
+                    onVaRouteChange={recordNavUserEvent}
+                  />
+                ))}
+              </VaSidenavSubmenu>
+            );
           }
           return (
             <VaSidenavItem
@@ -144,6 +146,7 @@ ProfileSubNav.propTypes = {
     }),
   ).isRequired,
   // Optional handler to fire when a nav item is clicked
+  className: PropTypes.string,
   clickHandler: PropTypes.func,
 };
 

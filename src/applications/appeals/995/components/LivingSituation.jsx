@@ -8,7 +8,7 @@ import {
   pointOfContactNameLabel,
   pointOfContactPhoneLabel,
 } from '../content/livingSituation';
-import { showValueOrNotSelected } from '../../shared/utils/confirmation';
+import { convertBoolResponseToYesNo } from '../../shared/utils/form-data-display';
 
 export const LivingSituation = ({ data } = {}) => (
   <>
@@ -20,7 +20,7 @@ export const LivingSituation = ({ data } = {}) => (
         className="vads-u-margin-bottom--2 dd-privacy-hidden"
         data-dd-action-name="has housing risk"
       >
-        {showValueOrNotSelected(data.housingRisk)}
+        {convertBoolResponseToYesNo(data?.housingRisk)}
       </div>
     </li>
     {data.housingRisk && (
@@ -87,7 +87,15 @@ export const LivingSituation = ({ data } = {}) => (
 LivingSituation.propTypes = {
   data: PropTypes.shape({
     housingRisk: PropTypes.bool,
-    livingSituation: PropTypes.arrayOf(PropTypes.string),
+    livingSituation: PropTypes.shape({
+      facility30Days: PropTypes.bool,
+      friendOrFamily: PropTypes.bool,
+      home30Days: PropTypes.bool,
+      none: PropTypes.bool,
+      notRegular: PropTypes.bool,
+      other: PropTypes.bool,
+      shelter: PropTypes.bool,
+    }),
     otherHousingRisks: PropTypes.string,
     pointOfContactName: PropTypes.string,
     pointOfContactPhone: PropTypes.string,

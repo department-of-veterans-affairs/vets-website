@@ -240,21 +240,10 @@ describe('owned asset list and loop pages', () => {
     });
 
     describe('summaryTitle function', () => {
-      it('should show updated content', () => {
-        sandbox.stub(helpers, 'showUpdatedContent').returns(true);
-        expect(
-          options.text.summaryTitle({
-            nounPlural: 'custom',
-          }),
-        ).to.eql('Review property and business assets');
-      });
-      it('should show normal content', () => {
-        sandbox.stub(helpers, 'showUpdatedContent').returns(false);
-        expect(
-          options.text.summaryTitle({
-            nounPlural: 'custom assets',
-          }),
-        ).to.eql('Review your custom assets');
+      it('should show content', () => {
+        expect(options.text.summaryTitle).to.eql(
+          'Review property and business assets',
+        );
       });
     });
 
@@ -397,11 +386,11 @@ describe('owned asset list and loop pages', () => {
         const {
           schema,
           uiSchema,
-        } = ownedAssetPages.ownedAssetPagesUpdatedSummary;
+        } = ownedAssetPages.ownedAssetPagesVeteranSummary;
         const formData = { ...testData.data, claimantType: 'VETERAN' };
 
-        it('should display when showUpdatedContent is true and claimantType is not SPOUSE/CHILD/CUSTODIAN', () => {
-          const { depends } = ownedAssetPages.ownedAssetPagesUpdatedSummary;
+        it('should display when showUpdatedContent is true and claimantType is not SPOUSE/CHILD/CUSTODIAN/PARENT', () => {
+          const { depends } = ownedAssetPages.ownedAssetPagesVeteranSummary;
           expect(depends(formData)).to.be.true;
         });
 
@@ -427,13 +416,11 @@ describe('owned asset list and loop pages', () => {
         const {
           schema,
           uiSchema,
-        } = ownedAssetPages.ownedAssetPagesUpdatedSpouseSummary;
+        } = ownedAssetPages.ownedAssetPagesSpouseSummary;
         const formData = { ...testData.data, claimantType: 'SPOUSE' };
 
         it('should display when showUpdatedContent is true and claimantType is SPOUSE', () => {
-          const {
-            depends,
-          } = ownedAssetPages.ownedAssetPagesUpdatedSpouseSummary;
+          const { depends } = ownedAssetPages.ownedAssetPagesSpouseSummary;
           expect(depends(formData)).to.be.true;
         });
 
@@ -461,13 +448,11 @@ describe('owned asset list and loop pages', () => {
         const {
           schema,
           uiSchema,
-        } = ownedAssetPages.ownedAssetPagesUpdatedChildSummary;
+        } = ownedAssetPages.ownedAssetPagesChildSummary;
         const formData = { ...testData.data, claimantType: 'CHILD' };
 
         it('should display when showUpdatedContent is true and claimantType is CHILD', () => {
-          const {
-            depends,
-          } = ownedAssetPages.ownedAssetPagesUpdatedChildSummary;
+          const { depends } = ownedAssetPages.ownedAssetPagesChildSummary;
           expect(depends(formData)).to.be.true;
         });
 
@@ -516,14 +501,22 @@ describe('owned asset list and loop pages', () => {
         const {
           schema,
           uiSchema,
-        } = ownedAssetPages.ownedAssetPagesUpdatedCustodianSummary;
+        } = ownedAssetPages.ownedAssetPagesCustodianSummary;
         const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
 
         it('should display when showUpdatedContent is true and claimantType is CUSTODIAN', () => {
-          const {
-            depends,
-          } = ownedAssetPages.ownedAssetPagesUpdatedCustodianSummary;
+          const { depends } = ownedAssetPages.ownedAssetPagesCustodianSummary;
           expect(depends(formData)).to.be.true;
+        });
+
+        it('should have modified hint text for custodian', () => {
+          expect(
+            uiSchema['view:isAddingOwnedAssets']['ui:options'].updateUiSchema()[
+              'ui:options'
+            ].hint,
+          ).to.include(
+            'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+          );
         });
 
         testSubmitsWithoutErrors(
@@ -531,6 +524,38 @@ describe('owned asset list and loop pages', () => {
           schema,
           uiSchema,
           'custodian summary page',
+          formData,
+          { loggedIn: true },
+        );
+      });
+
+      describe('parent summary page', () => {
+        const {
+          schema,
+          uiSchema,
+        } = ownedAssetPages.ownedAssetPagesParentSummary;
+        const formData = { ...testData.data, claimantType: 'PARENT' };
+
+        it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
+          const { depends } = ownedAssetPages.ownedAssetPagesParentSummary;
+          expect(depends(formData)).to.be.true;
+        });
+
+        it('should have modified hint text for parent', () => {
+          expect(
+            uiSchema['view:isAddingOwnedAssets']['ui:options'].updateUiSchema()[
+              'ui:options'
+            ].hint,
+          ).to.include(
+            'Your dependents include your spouse, including a same-sex and common-law partner.',
+          );
+        });
+
+        testSubmitsWithoutErrors(
+          formConfig,
+          schema,
+          uiSchema,
+          'parent summary page',
           formData,
           { loggedIn: true },
         );
@@ -545,10 +570,11 @@ describe('owned asset list and loop pages', () => {
       });
 
       const schema =
-        ownedAssetPages.ownedAssetRecipientPage.schema.properties.ownedAssets
-          .items;
+        ownedAssetPages.ownedAssetNonVeteranRecipientPage.schema.properties
+          .ownedAssets.items;
       const uiSchema =
-        ownedAssetPages.ownedAssetRecipientPage.uiSchema.ownedAssets.items;
+        ownedAssetPages.ownedAssetNonVeteranRecipientPage.uiSchema.ownedAssets
+          .items;
 
       testNumberOfFieldsByType(
         formConfig,
@@ -591,10 +617,10 @@ describe('owned asset list and loop pages', () => {
 
       describe('default updated recipient page', () => {
         const schema =
-          ownedAssetPages.ownedAssetRecipientUpdatedPage.schema.properties
+          ownedAssetPages.ownedAssetNonVeteranRecipientPage.schema.properties
             .ownedAssets.items;
         const uiSchema =
-          ownedAssetPages.ownedAssetRecipientUpdatedPage.uiSchema.ownedAssets
+          ownedAssetPages.ownedAssetNonVeteranRecipientPage.uiSchema.ownedAssets
             .items;
         const formData = {
           ...testData.data.ownedAssets[0],
@@ -602,7 +628,7 @@ describe('owned asset list and loop pages', () => {
         };
 
         it('should display when showUpdatedContent is true and claimantType is not SPOUSE/CHILD/CUSTODIAN/PARENT', () => {
-          const { depends } = ownedAssetPages.ownedAssetRecipientUpdatedPage;
+          const { depends } = ownedAssetPages.ownedAssetVeteranRecipientPage;
           expect(depends({ claimantType: 'VETERAN' })).to.be.true;
         });
 
@@ -668,20 +694,18 @@ describe('owned asset list and loop pages', () => {
 
       describe('spouse recipient page', () => {
         const schema =
-          ownedAssetPages.ownedAssetRecipientUpdatedSpousePage.schema.properties
+          ownedAssetPages.ownedAssetSpouseRecipientPage.schema.properties
             .ownedAssets.items;
         const uiSchema =
-          ownedAssetPages.ownedAssetRecipientUpdatedSpousePage.uiSchema
-            .ownedAssets.items;
+          ownedAssetPages.ownedAssetSpouseRecipientPage.uiSchema.ownedAssets
+            .items;
         const formData = {
           ...testData.data.ownedAssets[0],
           claimantType: 'SPOUSE',
         };
 
         it('should display when showUpdatedContent is true and claimantType is SPOUSE', () => {
-          const {
-            depends,
-          } = ownedAssetPages.ownedAssetRecipientUpdatedSpousePage;
+          const { depends } = ownedAssetPages.ownedAssetSpouseRecipientPage;
           expect(depends({ claimantType: 'SPOUSE' })).to.be.true;
         });
 
@@ -707,57 +731,20 @@ describe('owned asset list and loop pages', () => {
         );
       });
 
-      describe('child recipient page', () => {
-        const schema =
-          ownedAssetPages.ownedAssetRecipientUpdatedChildPage.schema.properties
-            .ownedAssets.items;
-        const uiSchema =
-          ownedAssetPages.ownedAssetRecipientUpdatedChildPage.uiSchema
-            .ownedAssets.items;
-        const formData = {
-          ...testData.data.ownedAssets[0],
-          claimantType: 'CHILD',
-        };
-
-        it('should display when showUpdatedContent is true and claimantType is CHILD', () => {
-          const {
-            depends,
-          } = ownedAssetPages.ownedAssetRecipientUpdatedChildPage;
-          expect(depends({ claimantType: 'CHILD' })).to.be.true;
-        });
-
-        it('should use standard relationship labels for child', () => {
-          const radioLabels =
-            uiSchema.recipientRelationship['ui:options'].labels;
-          expect(radioLabels).to.equal(relationshipLabels);
-        });
-
-        testSubmitsWithoutErrors(
-          formConfig,
-          schema,
-          uiSchema,
-          'child recipient',
-          formData,
-          { loggedIn: true },
-        );
-      });
-
       describe('custodian recipient page', () => {
         const schema =
-          ownedAssetPages.ownedAssetRecipientUpdatedCustodianPage.schema
-            .properties.ownedAssets.items;
-        const uiSchema =
-          ownedAssetPages.ownedAssetRecipientUpdatedCustodianPage.uiSchema
+          ownedAssetPages.ownedAssetCustodianRecipientPage.schema.properties
             .ownedAssets.items;
+        const uiSchema =
+          ownedAssetPages.ownedAssetCustodianRecipientPage.uiSchema.ownedAssets
+            .items;
         const formData = {
           ...testData.data.ownedAssets[0],
           claimantType: 'CUSTODIAN',
         };
 
         it('should display when showUpdatedContent is true and claimantType is CUSTODIAN', () => {
-          const {
-            depends,
-          } = ownedAssetPages.ownedAssetRecipientUpdatedCustodianPage;
+          const { depends } = ownedAssetPages.ownedAssetCustodianRecipientPage;
           expect(depends({ claimantType: 'CUSTODIAN' })).to.be.true;
         });
 
@@ -785,20 +772,18 @@ describe('owned asset list and loop pages', () => {
 
       describe('parent recipient page', () => {
         const schema =
-          ownedAssetPages.ownedAssetRecipientUpdatedParentPage.schema.properties
+          ownedAssetPages.ownedAssetParentRecipientPage.schema.properties
             .ownedAssets.items;
         const uiSchema =
-          ownedAssetPages.ownedAssetRecipientUpdatedParentPage.uiSchema
-            .ownedAssets.items;
+          ownedAssetPages.ownedAssetParentRecipientPage.uiSchema.ownedAssets
+            .items;
         const formData = {
           ...testData.data.ownedAssets[0],
           claimantType: 'PARENT',
         };
 
         it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
-          const {
-            depends,
-          } = ownedAssetPages.ownedAssetRecipientUpdatedParentPage;
+          const { depends } = ownedAssetPages.ownedAssetParentRecipientPage;
           expect(depends({ claimantType: 'PARENT' })).to.be.true;
         });
 
@@ -836,10 +821,10 @@ describe('owned asset list and loop pages', () => {
 
       it('should display when recipientNameRequired returns true', () => {
         const recipientNameRequiredStub = sandbox
-          .stub(helpers, 'recipientNameRequired')
+          .stub(helpers, 'updatedRecipientNameRequired')
           .returns(true);
         const { depends } = ownedAssetPages.ownedAssetRecipientNamePage;
-        const formData = { ownedAssets: [{ recipientRelationship: 'SPOUSE' }] };
+        const formData = { ownedAssets: [{ recipientRelationship: 'CHILD' }] };
 
         expect(depends(formData, 0)).to.be.true;
         expect(recipientNameRequiredStub.calledWith(formData, 0, 'ownedAssets'))
@@ -848,11 +833,23 @@ describe('owned asset list and loop pages', () => {
 
       it('should not display when recipientNameRequired returns false', () => {
         const recipientNameRequiredStub = sandbox
-          .stub(helpers, 'recipientNameRequired')
+          .stub(helpers, 'updatedRecipientNameRequired')
           .returns(false);
         const { depends } = ownedAssetPages.ownedAssetRecipientNamePage;
         const formData = {
           ownedAssets: [{ recipientRelationship: 'VETERAN' }],
+        };
+
+        expect(depends(formData, 0)).to.be.false;
+      });
+
+      it('should not display when recipientNameRequired returns false', () => {
+        const recipientNameRequiredStub = sandbox
+          .stub(helpers, 'updatedRecipientNameRequired')
+          .returns(false);
+        const { depends } = ownedAssetPages.ownedAssetRecipientNamePage;
+        const formData = {
+          ownedAssets: [{ recipientRelationship: 'SPOUSE' }],
         };
 
         expect(depends(formData, 0)).to.be.false;
@@ -936,19 +933,23 @@ describe('owned asset list and loop pages', () => {
         const testCases = [
           {
             claimantType: 'VETERAN',
-            expectedPage: 'ownedAssetPagesUpdatedSummary',
+            expectedPage: 'ownedAssetPagesVeteranSummary',
           },
           {
             claimantType: 'SPOUSE',
-            expectedPage: 'ownedAssetPagesUpdatedSpouseSummary',
+            expectedPage: 'ownedAssetPagesSpouseSummary',
           },
           {
             claimantType: 'CHILD',
-            expectedPage: 'ownedAssetPagesUpdatedChildSummary',
+            expectedPage: 'ownedAssetPagesChildSummary',
           },
           {
             claimantType: 'CUSTODIAN',
-            expectedPage: 'ownedAssetPagesUpdatedCustodianSummary',
+            expectedPage: 'ownedAssetPagesCustodianSummary',
+          },
+          {
+            claimantType: 'PARENT',
+            expectedPage: 'ownedAssetPagesParentSummary',
           },
           {
             claimantType: undefined,
@@ -977,11 +978,11 @@ describe('owned asset list and loop pages', () => {
         const testCases = [
           {
             claimantType: 'VETERAN',
-            expectedPage: 'ownedAssetRecipientUpdatedPage',
+            expectedPage: 'ownedAssetVeteranRecipientPage',
           },
           {
             claimantType: 'SPOUSE',
-            expectedPage: 'ownedAssetRecipientUpdatedSpousePage',
+            expectedPage: 'ownedAssetSpouseRecipientPage',
           },
           {
             claimantType: 'CHILD',
@@ -989,11 +990,11 @@ describe('owned asset list and loop pages', () => {
           },
           {
             claimantType: 'CUSTODIAN',
-            expectedPage: 'ownedAssetRecipientUpdatedCustodianPage',
+            expectedPage: 'ownedAssetCustodianRecipientPage',
           },
           {
             claimantType: 'PARENT',
-            expectedPage: 'ownedAssetRecipientUpdatedParentPage',
+            expectedPage: 'ownedAssetParentRecipientPage',
           },
         ];
 
@@ -1078,30 +1079,6 @@ describe('owned asset list and loop pages', () => {
       it('should be a required field', () => {
         expect(uiSchema.uploadedDocuments['ui:required']()).to.be.true;
       });
-    });
-  });
-
-  describe('Helper function integration', () => {
-    it('should correctly determine when otherRecipientRelationshipType is required', () => {
-      const otherRequiredStub = sandbox.stub(
-        helpers,
-        'otherRecipientRelationshipExplanationRequired',
-      );
-      otherRequiredStub.returns(true);
-
-      const formData = {
-        ownedAssets: [{ recipientRelationship: 'OTHER' }],
-      };
-      const index = 0;
-
-      const mvpUiSchema =
-        ownedAssetPages.ownedAssetRecipientPage.uiSchema.ownedAssets.items;
-      const mvpIsRequired =
-        mvpUiSchema.otherRecipientRelationshipType['ui:required'];
-
-      expect(mvpIsRequired(formData, index)).to.be.true;
-      expect(otherRequiredStub.calledWith(formData, index, 'ownedAssets')).to.be
-        .true;
     });
   });
 
@@ -1473,8 +1450,8 @@ describe('owned asset list and loop pages', () => {
       };
 
       const pageChecks = [
-        { page: 'ownedAssetPagesUpdatedSummary', shouldShow: true },
-        { page: 'ownedAssetRecipientUpdatedPage', shouldShow: true },
+        { page: 'ownedAssetPagesVeteranSummary', shouldShow: true },
+        { page: 'ownedAssetRecipientPage', shouldShow: true },
         { page: 'ownedAssetTypePage', shouldShow: true }, // Always shows
         { page: 'ownedAssetAdditionalFormNeededPage', shouldShow: true },
         { page: 'ownedAssetDocumentUploadPage', shouldShow: true },

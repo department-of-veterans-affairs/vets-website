@@ -122,7 +122,7 @@ export const migrateCardUploadKeys = ({ formData, metadata, _formId }) => {
  *
  * Since much of the form's conditional flow depends on this property, this
  * migration just blows away the prior setting so that the user is directed to
- * choose a valid option and then correct any dependant pages down the line.
+ * choose a valid option and then correct any dependent pages down the line.
  *
  * @param {{formData: object, metadata: object, formId: string}} param0 - Object containing form data/metadata
  * @param {object} param0.formData - current formData from SIP interface

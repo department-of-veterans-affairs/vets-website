@@ -748,7 +748,8 @@ h1:focus {
   margin-top: 3px;
 }
 
-.claims-evidence-list {
+.claims-evidence-list,
+.failed-files-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -1163,6 +1164,14 @@ $marker-text-width: 5.625rem;
   position: relative;
   top: 4px;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-anchor {
+    animation: none; transition: none;
+  }
+}
+
+
 .tabs {
   list-style: none;
   margin-bottom: -1px;

@@ -187,6 +187,7 @@ const VaFileInputField = props => {
     }
 
     // file ok
+    setError(null);
     passwordErrorManager.setNeedsPassword(encryptedCheck);
     setEncrypted(encryptedCheck);
 

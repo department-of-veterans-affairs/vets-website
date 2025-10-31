@@ -5,6 +5,7 @@ import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
+import { DATETIME_FORMATS } from '../../util/constants';
 
 const MedicationsListCard = ({ rx }) => {
   const pendingMed =
@@ -49,7 +50,7 @@ const MedicationsListCard = ({ rx }) => {
         {rx && <LastFilledInfo {...rx} />}
         {latestTrackingStatus && (
           <p
-            className="vads-u-margin-top--1p5 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-lighter"
+            className="vads-u-margin-top--1p5 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray"
             data-testid="rx-card-details--shipped-on"
             data-dd-privacy="mask"
           >
@@ -62,7 +63,7 @@ const MedicationsListCard = ({ rx }) => {
               Shipped on{' '}
               {dateFormat(
                 latestTrackingStatus.completeDateTime,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
               )}
             </span>
           </p>

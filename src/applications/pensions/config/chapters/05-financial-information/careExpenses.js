@@ -20,12 +20,16 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import ListItemView from '../../../components/ListItemView';
 import {
   careTypeLabels,
+  careTypeLabelsOld,
   careFrequencyLabels,
   recipientTypeLabels,
 } from '../../../labels';
 import { doesHaveCareExpenses } from './helpers';
 import ArrayDescription from '../../../components/ArrayDescription';
-import { showMultiplePageResponse } from '../../../helpers';
+import {
+  showMultiplePageResponse,
+  showPdfFormAlignment,
+} from '../../../helpers';
 
 const {
   childName,
@@ -95,6 +99,19 @@ export default {
         careType: radioUI({
           title: 'Choose the type of care:',
           labels: careTypeLabels,
+          updateSchema: () => ({
+            type: 'string',
+            enum: Object.keys(
+              showPdfFormAlignment() ? careTypeLabels : careTypeLabelsOld,
+            ),
+          }),
+          updateUiSchema: () => ({
+            'ui:options': {
+              labels: showPdfFormAlignment()
+                ? careTypeLabels
+                : careTypeLabelsOld,
+            },
+          }),
         }),
         ratePerHour: currencyUI(
           'If this is an in-home provider, what is the rate per hour?',
@@ -141,7 +158,7 @@ export default {
             recipients: radioSchema(Object.keys(recipientTypeLabels)),
             childName,
             provider,
-            careType: radioSchema(Object.keys(careTypeLabels)),
+            careType: radioSchema(Object.keys(careTypeLabelsOld)),
             ratePerHour: currencySchema,
             hoursPerWeek: numberSchema,
             careDateRange: {

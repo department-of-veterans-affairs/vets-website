@@ -508,29 +508,55 @@ export function mockAppointmentSlotApi({
   facilityId,
   preferredDate,
   startDate,
+  typeOfCare,
+  provider,
   response: data = [],
   responseCode = 200,
 } = {}) {
   const start = startDate || startOfMonth(preferredDate);
   const end = endDate || lastDayOfMonth(addMonths(preferredDate, 1));
-  const baseUrl =
-    `${
-      environment.API_URL
-    }/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?` +
-    `start=${encodeURIComponent(start.toISOString())}` +
-    `&end=${encodeURIComponent(end.toISOString())}`;
 
-  if (responseCode === 200) {
-    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
-      data,
-    });
-  } else {
-    setFetchJSONFailure(global.fetch.withArgs(baseUrl), {
-      errors: [],
-    });
+  let clinicSegment = '';
+  let selectedClinicId;
+  if (clinicId) {
+    selectedClinicId = clinicId.includes('_')
+      ? clinicId.split('_')[1]
+      : clinicId;
+    clinicSegment = `/clinics/${selectedClinicId}`;
   }
 
-  return decodeURIComponent(baseUrl);
+  const extraParams = [];
+  if (typeOfCare) extraParams.push(`&clinical_service=${typeOfCare}`);
+  if (provider) extraParams.push(`&provider=${encodeURIComponent(provider)}`);
+
+  const providerSlotUrl = `${
+    environment.API_URL
+  }/vaos/v2/locations/${facilityId}${clinicSegment}/slots?start=${encodeURIComponent(
+    start.toISOString(),
+  )}&end=${encodeURIComponent(end.toISOString())}${extraParams.join('')}`;
+
+  let primaryUrl = null;
+  if (clinicId && clinicId.includes('_')) {
+    primaryUrl = `${
+      environment.API_URL
+    }/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${encodeURIComponent(
+      start.toISOString(),
+    )}&end=${encodeURIComponent(end.toISOString())}${extraParams.join('')}`;
+  }
+
+  if (responseCode === 200) {
+    setFetchJSONResponse(global.fetch.withArgs(providerSlotUrl), { data });
+    if (primaryUrl) {
+      setFetchJSONResponse(global.fetch.withArgs(primaryUrl), { data });
+    }
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(providerSlotUrl), { errors: [] });
+    if (primaryUrl) {
+      setFetchJSONFailure(global.fetch.withArgs(primaryUrl), { errors: [] });
+    }
+  }
+
+  return providerSlotUrl;
 }
 
 /**
@@ -556,13 +582,35 @@ export function mockEligibilityFetches({
   typeOfCareId,
   limit = false,
   requestPastVisits = false,
+  requestsDisabled = false,
   directPastVisits = false,
+  directDisabled = false,
   matchingClinics = null,
   clinics = [],
   pastClinics = false,
 }) {
   const directReasons = [];
   const requestReasons = [];
+
+  if (directDisabled) {
+    directReasons.push({
+      coding: [
+        {
+          code: 'facility-cs-direct-disabled',
+        },
+      ],
+    });
+  }
+
+  if (requestsDisabled) {
+    requestReasons.push({
+      coding: [
+        {
+          code: 'facility-cs-request-disabled',
+        },
+      ],
+    });
+  }
 
   if (!directPastVisits && typeOfCareId !== 'primaryCare') {
     directReasons.push({
@@ -653,7 +701,7 @@ export function mockEligibilityFetches({
       end: range.end,
       useRFC3339: false,
       response: pastClinics ? pastAppointments : [],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
   });
 }

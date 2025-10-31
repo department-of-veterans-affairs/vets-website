@@ -6,8 +6,9 @@ import { GA_PREFIX } from 'applications/vaos/utils/constants';
 import { startNewAppointmentFlow } from '../redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
+import { selectFeatureImmediateCareAlert } from '../../redux/selectors';
 
-function handleClick(history, dispatch, typeOfCare) {
+function handleClick(history, dispatch, pageKey) {
   return e => {
     // Stop default behavior for anchor tag since we are using React routing.
     e.preventDefault();
@@ -16,7 +17,7 @@ function handleClick(history, dispatch, typeOfCare) {
       event: `${GA_PREFIX}-start-scheduling-link`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(typeOfCare.url);
+    history.push(pageKey.url);
   };
 }
 
@@ -24,6 +25,21 @@ function ScheduleNewAppointmentButton() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { typeOfCare } = useSelector(getNewAppointmentFlow);
+  const { urgentCareInformation } = useSelector(getNewAppointmentFlow);
+  const featureImmediateCareAlert = useSelector(
+    selectFeatureImmediateCareAlert,
+  );
+
+  if (featureImmediateCareAlert)
+    return (
+      <a
+        className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--2p5"
+        href="/"
+        onClick={handleClick(history, dispatch, urgentCareInformation)}
+      >
+        Schedule a new appointment
+      </a>
+    );
 
   return (
     <a

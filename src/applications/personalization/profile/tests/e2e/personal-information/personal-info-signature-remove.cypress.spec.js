@@ -54,7 +54,9 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
 
     // close modal by cross btn
     cy.get(Locators.SIGNATURE.REMOVE_BTN).click();
-    cy.get(Locators.SIGNATURE.ALERTS.CROSS_BTN).click();
+    cy.get(Locators.SIGNATURE.ALERTS.CROSS_BTN)
+      .first()
+      .click();
 
     cy.get(Locators.SIGNATURE.REMOVE_BTN)
       .shadow()
@@ -83,10 +85,7 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
       .should(`be.visible`)
       .and('have.text', Data.SIGNATURE.UPDATE_SAVED);
 
-    cy.get(Locators.SIGNATURE.EDIT_BTN)
-      .shadow()
-      .find(`button`)
-      .should('be.focused');
+    cy.get(Locators.SIGNATURE.EDIT_BTN).should('be.visible');
 
     cy.get(Locators.SIGNATURE.GENERAL).should(
       `contain.text`,

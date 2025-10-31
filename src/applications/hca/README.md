@@ -10,7 +10,8 @@ Mission: Make it easier for Veterans to apply for enrollment in VA health-relate
 
 ## Approval Groups
 
-- [1010 Health Apps](https://github.com/orgs/department-of-veterans-affairs/teams/1010-health-apps-frontend)
+- [Health Apps Frontend](https://github.com/orgs/department-of-veterans-affairs/teams/health-apps-frontend)
+- [Health Apps Backend](https://github.com/orgs/department-of-veterans-affairs/teams/vfs-10-10)
 
 ## Project Documentation
 

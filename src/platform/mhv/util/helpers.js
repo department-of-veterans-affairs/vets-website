@@ -22,6 +22,51 @@ export const formatName = ({ first, middle, last, suffix }) => {
 };
 
 /**
+ * Formats a birth date string. We always expect to get this date in YYYY-MM-DD format. If the
+ * string is in a different format, fall back to the original formatDateLong function.
+ * @param {string} dateStr - The date string to format
+ * @param {function} fallback - The fallback function to call if the format is invalid
+ * @returns {string} The formatted date string
+ */
+export const formatBirthDate = (dateStr, fallback = formatDateLong) => {
+  // Regex check for YYYY-MM-DD
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    return fallback(dateStr); // Fall back to a date-handling function
+  }
+
+  const [year, month, day] = dateStr.split('-');
+
+  // Validate month range
+  if (month < '01' || month > '12') {
+    throw new Error('Invalid month in date string');
+  }
+
+  // Validate day range (01–31 only, no per-month/day-of-month checks)
+  if (day < '01' || day > '31') {
+    throw new Error('Invalid day in date string');
+  }
+  const months = {
+    '01': 'January',
+    '02': 'February',
+    '03': 'March',
+    '04': 'April',
+    '05': 'May',
+    '06': 'June',
+    '07': 'July',
+    '08': 'August',
+    '09': 'September',
+    '10': 'October',
+    '11': 'November',
+    '12': 'December',
+  };
+
+  // Strip leading zero from day (e.g. "01" -> "1")
+  const dayNum = day.startsWith('0') ? day.slice(1) : day;
+
+  return `${months[month]} ${dayNum}, ${year}`;
+};
+
+/**
  * @param {Object} user user profile object from redux store (state.user.profile)
  * @param {Object} title title of the doc (displayed at the top of the doc)
  * @param {Object} subject subject of the doc (metadata)
@@ -30,7 +75,7 @@ export const formatName = ({ first, middle, last, suffix }) => {
  */
 export const generatePdfScaffold = (user, title, subject, preface) => {
   const name = formatName(user.userFullName);
-  const dob = formatDateLong(user.dob);
+  const dob = formatBirthDate(user.dob);
   const scaffold = {
     headerLeft: name,
     headerRight: `Date of birth: ${dob}`,
@@ -158,7 +203,7 @@ export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
  * @returns {string} A formatted date string or "Not found" if the DOB is missing.
  */
 export const formatUserDob = userProfile => {
-  return userProfile?.dob ? formatDateLong(userProfile.dob) : 'Not found';
+  return userProfile?.dob ? formatBirthDate(userProfile.dob) : 'Not found';
 };
 
 /**
@@ -207,7 +252,7 @@ export const makePdf = async (
   } catch (error) {
     // Reset the pdfModulePromise so subsequent calls can try again
     pdfModulePromise = null;
-    datadogRum.addError(error, sentryErrorLabel);
+    datadogRum.addError(error, { feature: sentryErrorLabel });
     sendErrorToSentry(error, sentryErrorLabel);
   }
 };

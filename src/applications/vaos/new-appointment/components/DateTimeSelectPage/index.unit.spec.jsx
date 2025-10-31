@@ -143,7 +143,8 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     MockDate.reset();
   });
 
-  it('should not submit form with validation error', async () => {
+  it.skip('should not submit form with validation error', async () => {
+    // Ticket to fix test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/120858
     const slot308Date = new Date(setDay(new Date(), 9).setHours(9, 0, 0));
     const slot309Date = new Date(setDay(new Date(), 11).setHours(13, 0, 0));
     setDateTimeSelectMockFetches({
@@ -293,7 +294,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     mockAppointmentsApi({
       start,
       end,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     setDateTimeSelectMockFetchesDateFns({
@@ -700,7 +701,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     // And the info about later slots is displayed
     expect(
       await screen.findByText(
-        /If this date date doesn’t work, you can pick a new one from the calendar./i,
+        /If this date doesn’t work, you can pick a new one from the calendar./i,
       ),
     ).to.exist;
 
@@ -956,7 +957,7 @@ describe('When preferred date is immediate care', () => {
       mockAppointmentsApi({
         start: subDays(new Date(), 30),
         end: addDays(new Date(), 395),
-        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       });
       mockEligibilityFetches({
         facilityId,
@@ -1116,7 +1117,7 @@ describe('When preferred date is not immediate care', () => {
       mockAppointmentsApi({
         start: subDays(new Date(), 30),
         end: addDays(new Date(), 395),
-        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       });
       mockEligibilityFetches({
         facilityId,

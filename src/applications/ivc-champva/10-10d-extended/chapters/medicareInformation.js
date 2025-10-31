@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { memoize } from 'lodash';
 import set from 'platform/utilities/data/set';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
@@ -14,6 +15,7 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
@@ -27,13 +29,15 @@ import {
   privWrapper,
 } from '../../shared/utilities';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
+import { replaceStrValues } from '../helpers/formatting';
 import { validateMedicarePartDDates } from '../helpers/validations';
-
 import {
   selectMedicareParticipantPage,
   SelectMedicareParticipantPage,
 } from './SelectMedicareParticipantsPage';
 import MedicarePartCAddtlInfo from '../components/FormDescriptions/MedicarePartCAddtlInfo';
+import ProofOfMedicareAlert from '../components/FormAlerts/ProofOfMedicareAlert';
+import content from '../locales/en/content.json';
 
 // declare static content constants
 const MEDICARE_TYPE_LABELS = {
@@ -94,7 +98,7 @@ export const generateParticipantName = item => {
       app => item?.medicareParticipant === toHashMemoized(app.applicantSSN),
     );
     const name = applicantWording(match, false, false, false);
-    return name.length > 0 ? `${name}'s` : 'applicant';
+    return name.length > 0 ? `${name}’s` : 'Applicant';
   }
   return 'No participant';
 };
@@ -142,23 +146,58 @@ export const medicareOptions = {
         </li>
       </ul>
     ),
+    cancelAddTitle: () => content['medicare--cancel-add-title'],
+    cancelAddDescription: () => content['medicare--cancel-add-description'],
+    cancelAddNo: () => content['arraybuilder--button-cancel-no'],
+    cancelAddYes: () => content['arraybuilder--button-cancel-yes'],
+    cancelEditTitle: props => {
+      const itemName = props.getItemName(
+        props.itemData,
+        props.index,
+        props.formData,
+      );
+      return itemName
+        ? replaceStrValues(
+            content['medicare--cancel-edit-item-title'],
+            itemName,
+          )
+        : content['medicare--cancel-edit-noun-title'];
+    },
+    cancelEditDescription: () => content['medicare--cancel-edit-description'],
+    cancelEditNo: () => content['arraybuilder--button-delete-no'],
+    cancelEditYes: () => content['arraybuilder--button-cancel-yes'],
+    deleteDescription: props => {
+      const itemName = props.getItemName(
+        props.itemData,
+        props.index,
+        props.formData,
+      );
+      return itemName
+        ? replaceStrValues(
+            content['medicare--delete-item-description'],
+            itemName,
+          )
+        : content['medicare--delete-noun-description'];
+    },
+    deleteNo: () => content['arraybuilder--button-delete-no'],
+    deleteYes: () => content['arraybuilder--button-delete-yes'],
+    summaryTitle: () => content['medicare--summary-title'],
+    summaryTitleWithoutItems: () => content['medicare--summary-title-no-items'],
   },
 };
 
 // Summary page options
 const yesNoOptions = {
-  title: 'Do any applicants have Medicare plans?',
+  title: content['medicare--yes-no-title'],
+  hint: null,
   labelHeaderLevel: '2',
-  labelHeaderLevelStyle: '5',
-  hint:
-    'If so, you must report this information for us to process your application for CHAMPVA benefits.',
+  labelHeaderLevelStyle: '4',
 };
 const yesNoOptionsMore = {
-  title: 'Report Medicare',
+  title: content['medicare--yes-no-title'],
+  hint: content['medicare--yes-no-hint'],
   labelHeaderLevel: '2',
-  labelHeaderLevelStyle: '5',
-  hint:
-    'Do any applicants have Medicare plans? If so, you must report this information for us to process your application for CHAMPVA benefits.',
+  labelHeaderLevelStyle: '4',
 };
 
 // declare page schemas
@@ -181,8 +220,9 @@ const medicareSummaryPage = {
 
 const medicarePlanTypes = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(`${generateParticipantName(formData)} Medicare plan types`),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(formData)} Medicare plan types`,
     ),
     medicarePlanType: {
       ...radioUI({
@@ -207,10 +247,9 @@ const medicarePlanTypes = {
 
 const medicarePartAPartBEffectiveDatesPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
         `${generateParticipantName(formData)} Medicare effective dates`,
-      ),
     ),
     'view:medicarePartAEffectiveDate': {
       'ui:title': <h3>Medicare Part A</h3>,
@@ -307,10 +346,9 @@ const medicareABCardUploadPage = {
 
 const medicarePartAEffectiveDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
         `${generateParticipantName(formData)} Medicare Part A effective date`,
-      ),
     ),
     medicarePartAEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part A effective date',
@@ -375,10 +413,9 @@ const medicarePartACardUploadPage = {
 
 const medicarePartBEffectiveDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
         `${generateParticipantName(formData)} Medicare Part B effective date`,
-      ),
     ),
     medicarePartBEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part B Effective date',
@@ -442,43 +479,44 @@ const medicarePartBCardUploadPage = {
 };
 
 const medicarePartADenialPage = dataKey => {
-  const pageTitle = ({ formData }) => {
-    if (formData?.medicareParticipant)
-      return privWrapper(
-        `${generateParticipantName(formData)} Medicare status`,
-      );
+  const PageTitle = ({ formContext }) => {
+    const formData = useSelector(state => state.form.data);
+    const n = Number(formContext.pagePerItemIndex);
+    const itemIndex = Number.isFinite(n) && n >= 0 ? n : null;
+    if (formData?.medicare?.[itemIndex]?.medicareParticipant) {
+      return `${generateParticipantName(
+        formData?.medicare?.[itemIndex],
+      )} Medicare status`;
+    }
     const apps = getEligibleApplicantsWithoutMedicare(formData) ?? [];
     const item = apps.find(a => getAgeInYears(a.applicantDob) >= 65);
-    return privWrapper(
-      `${applicantWording(item, false, false, false)}’s Medicare status`,
-    );
+    return `${applicantWording(item, false, false, false)}’s Medicare status`;
   };
   return {
     uiSchema: {
-      ...arrayBuilderItemSubsequentPageTitleUI(
-        pageTitle,
-        <va-alert
-          status="info"
-          class="vads-u-margin-bottom--3"
-          background-color="true"
-        >
-          Applicants that don’t have Medicare Parts A and B or proof of
-          ineligibility may not be eligible for CHAMPVA.
-        </va-alert>,
-      ),
-      [dataKey]: {
-        ...yesNoUI({
-          title:
-            'Does the applicant have a notice of disallowance, denial, or other proof of ineligibility for Medicare Part A?',
-          hint: ADDITIONAL_FILES_HINT,
-        }),
+      'view:addtlInfo': { ...descriptionUI(ProofOfMedicareAlert) },
+      [`view:${dataKey}`]: {
+        ...arrayBuilderItemSubsequentPageTitleUI(PageTitle),
+        [dataKey]: {
+          ...yesNoUI({
+            title:
+              'Does the applicant have a notice of disallowance, denial, or other proof of ineligibility for Medicare Part A?',
+            hint: ADDITIONAL_FILES_HINT,
+          }),
+        },
       },
     },
     schema: {
       type: 'object',
-      required: [dataKey],
       properties: {
-        [dataKey]: yesNoSchema,
+        'view:addtlInfo': blankSchema,
+        [`view:${dataKey}`]: {
+          type: 'object',
+          required: [dataKey],
+          properties: {
+            [dataKey]: yesNoSchema,
+          },
+        },
       },
     },
   };
@@ -491,8 +529,8 @@ const medicarePartADenialProofUploadPage = dataKey => {
         return (
           <>
             <p>
-              {privWrapper(generateParticipantName(formData))} is 65 years old.
-              And you selected that they don’t have Medicare Part A.
+              {privWrapper(generateParticipantName(formData))} is age 65 or
+              older. And you selected that they don’t have Medicare Part A.
             </p>
             <p>
               You’ll need to submit a copy of a letter from the Social Security
@@ -551,12 +589,11 @@ const medicarePartADenialProofUploadPage = dataKey => {
 
 const medicarePartCCarrierEffectiveDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
         `${generateParticipantName(
           formData,
         )} Medicare Part C carrier and effective date`,
-      ),
     ),
     medicarePartCCarrier: textUI({
       title: 'Name of insurance carrier',
@@ -580,10 +617,9 @@ const medicarePartCCarrierEffectiveDatePage = {
 
 const medicarePartCPharmacyBenefitsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
         `${generateParticipantName(formData)} Medicare pharmacy benefits`,
-      ),
     ),
     hasPharmacyBenefits: {
       ...yesNoUI({
@@ -653,10 +689,9 @@ const medicarePartCCardUploadPage = {
 
 const medicarePartDStatusPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
         `${generateParticipantName(formData)} Medicare Part D status`,
-      ),
     ),
     hasMedicarePartD: {
       ...yesNoUI({
@@ -676,10 +711,9 @@ const medicarePartDStatusPage = {
 
 const medicarePartDCarrierEffectiveDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
         `${generateParticipantName(formData)} Medicare Part D effective date`,
-      ),
     ),
     medicarePartDEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part D effective date',
@@ -757,16 +791,14 @@ export const medicareStatusPage = {
     const excluded = getEligibleApplicantsWithoutMedicare(formData) ?? [];
     return excluded.some(a => getAgeInYears(a.applicantDob) >= 65);
   },
-  onNavBack: ({ goPath }) => {
-    goPath('/report-medicare-plans');
-  },
   ...medicarePartADenialPage('hasProofMultipleApplicants'),
 };
 
 export const medicareProofOfIneligibilityPage = {
   path: 'medicare-proof-of-ineligibility',
   title: 'Proof of Medicare ineligibility',
-  depends: formData => formData?.hasProofMultipleApplicants,
+  depends: formData =>
+    formData?.['view:hasProofMultipleApplicants']?.hasProofMultipleApplicants,
   CustomPage: FileFieldCustom,
   ...medicarePartADenialProofUploadPage('proofOfIneligibilityUpload'),
 };
@@ -776,8 +808,8 @@ export const medicarePages = arrayBuilderPages(
   medicareOptions,
   pageBuilder => ({
     medicareSummary: pageBuilder.summaryPage({
-      path: 'report-medicare-plans',
-      title: 'Report Medicare plans',
+      path: 'medicare-plans',
+      title: 'Medicare plans',
       uiSchema: medicareSummaryPage.uiSchema,
       schema: medicareSummaryPage.schema,
     }),
@@ -829,7 +861,8 @@ export const medicarePages = arrayBuilderPages(
       path: 'medicare-proof-of-part-a-denial/:index',
       title: 'Upload proof of Medicare ineligibility',
       depends: ({ applicants, medicare }, index) => {
-        const hasProof = medicare?.[index]?.hasPartADenial;
+        const hasProof =
+          medicare?.[index]?.['view:hasPartADenial']?.hasPartADenial;
         const over65 = !getIsUnder65(applicants, medicare, index);
         return hasPartB({ medicare }, index) && hasProof && over65;
       },
