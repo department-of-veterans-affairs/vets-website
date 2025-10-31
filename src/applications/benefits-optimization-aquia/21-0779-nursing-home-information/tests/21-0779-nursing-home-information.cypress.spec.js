@@ -5,27 +5,120 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import mockUser from './fixtures/mocks/user.json';
+
+const continueClick = () => {
+  cy.get('va-button')
+    .shadow()
+    .find('button:contains("Continue")')
+    .click();
+};
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataDir: path.join(__dirname, 'fixtures', 'data'),
-    dataSets: ['minimal-test'],
+    dataSets: ['minimal-test', 'maximal-test'],
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
-            .last()
-            .click({ force: true });
+          cy.findByTestId('start-nursing-home-info-link').click();
+        });
+      },
+      'nursing-official-information': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            cy.get('va-text-input[name="firstName"]')
+              .shadow()
+              .find('input')
+              .type(testData.nursingOfficialInformation.firstName);
+            cy.get('va-text-input[name="lastName"]')
+              .shadow()
+              .find('input')
+              .type(testData.nursingOfficialInformation.firstName);
+            cy.get('va-text-input[name="jobTitle"]')
+              .shadow()
+              .find('input')
+              .type(testData.nursingOfficialInformation.jobTitle);
+            cy.get('va-telephone-input[name="phoneNumber"]')
+              .shadow()
+              .find('input')
+              .type(testData.nursingOfficialInformation.phoneNumber);
+          });
+          continueClick();
+        });
+      },
+      'nursing-home-details': ({ afterHook }) => {
+        afterHook(() => {
+          continueClick();
+        });
+      },
+      'claimant-question': ({ afterHook }) => {
+        afterHook(() => {
+          continueClick();
+        });
+      },
+      // Conditional: only for spouse/parent
+      'claimant-personal-info': ({ afterHook }) => {
+        afterHook(() => {
+          continueClick();
+        });
+      },
+      // Conditional: only for spouse/parent
+      'claimant-identification-info': ({ afterHook }) => {
+        afterHook(() => {
+          continueClick();
+        });
+      },
+      'veteran-personal-info': ({ afterHook }) => {
+        afterHook(() => {
+          continueClick();
+        });
+      },
+      'veteran-identification-info': ({ afterHook }) => {
+        afterHook(() => {
+          continueClick();
+        });
+      },
+      'certification-level-of-care': ({ afterHook }) => {
+        afterHook(() => {
+          continueClick();
+        });
+      },
+      'admission-date': ({ afterHook }) => {
+        afterHook(() => {
+          continueClick();
+        });
+      },
+      'medicaid-facility': ({ afterHook }) => {
+        afterHook(() => {
+          continueClick();
+        });
+      },
+      'medicaid-application': ({ afterHook }) => {
+        afterHook(() => {
+          continueClick();
+        });
+      },
+      'medicaid-status': ({ afterHook }) => {
+        afterHook(() => {
+          continueClick();
+        });
+      },
+      // Conditional: only when currently covered by Medicaid
+      'medicaid-start-date': ({ afterHook }) => {
+        afterHook(() => {
+          continueClick();
+        });
+      },
+      'monthly-costs': ({ afterHook }) => {
+        afterHook(() => {
+          continueClick();
         });
       },
     },
 
     setupPerTest: () => {
-      cy.intercept('GET', '/v0/user', mockUser);
       cy.intercept('POST', formConfig.submitUrl, { status: 200 });
-      cy.login(mockUser);
     },
 
     // Skip tests in CI until the form is released.
