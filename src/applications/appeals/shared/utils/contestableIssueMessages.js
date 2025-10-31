@@ -175,9 +175,7 @@ export const getBlockedMessage = blockedIssues => {
   const isSingle = issueNames.length === 1;
   const decisionDate = getDecisionDate(blockedIssues[0]);
 
-  const isLocalDayBlocking = isBlockedByLocalDay(blockedIssues);
-
-  const blockingType = isLocalDayBlocking ? 'local' : 'utc';
+  const { blockingType } = blockedIssues[0];
   const availableAfter = getAvailableAfterDate(decisionDate, blockingType);
 
   return `We're sorry. Your ${formatIssueList(issueNames)} ${

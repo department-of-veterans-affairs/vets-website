@@ -30,7 +30,7 @@ import {
 } from '../utils/issues';
 import { isEmptyObject } from '../utils/helpers';
 import { isTodayOrInFuture } from '../validations/date';
-import { parseDateToDateObj } from '../utils/dates';
+import { parseDateToDateObj, isLocalToday } from '../utils/dates';
 
 /**
  * ContestableIssues - Form system parameters passed into this widget
@@ -93,12 +93,18 @@ const ContestableIssues = props => {
           approxDecisionDate,
           FORMAT_YMD_DATE_FNS,
         );
+        let blockingType = null;
+
         const isBlockedSameDay = isTodayOrInFuture(decisionDate);
+        if (isBlockedSameDay) {
+          blockingType = isLocalToday(decisionDate) ? 'local' : 'utc';
+        }
 
         return {
           ...issue?.attributes,
           [SELECTED]: issue?.[SELECTED],
           isBlockedSameDay,
+          blockingType,
         };
       }),
     [loadedIssues],
@@ -204,11 +210,7 @@ const ContestableIssues = props => {
     },
   };
 
-  const hasBlockedIssues = items.some(item => item.isBlockedSameDay);
-
-  const blockedIssues = hasBlockedIssues
-    ? items.filter(item => item.isBlockedSameDay)
-    : [];
+  const blockedIssues = items.filter(item => item.isBlockedSameDay);
 
   const blockedMessage = getBlockedMessage(blockedIssues);
 
@@ -295,7 +297,7 @@ const ContestableIssues = props => {
           <va-alert
             close-btn-aria-label="Close notification"
             status="warning"
-            visible={hasBlockedIssues}
+            visible={blockedIssues.length > 0}
             class="vads-u-margin-top--3 vads-u-margin-bottom--3"
             id="blocked-issues-alert"
             role="alert"
