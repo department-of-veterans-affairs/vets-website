@@ -94,22 +94,18 @@ export default function DefaultPage({
           </>
         )}
       </h1>
-      {message &&
-        !(
-          showDocumentUploadStatus &&
-          type1UnknownErrors &&
-          type1UnknownErrors.length > 0
-        ) && (
-          <div className="vads-u-margin-top--0">
-            <Notification
-              title={message.title}
-              body={message.body}
-              type={message.type}
-              onSetFocus={focusNotificationAlert}
-            />
-          </div>
-        )}
-
+      {/* For type 1 known errors, display an alert */}
+      {message && (
+        <div className="vads-u-margin-top--0">
+          <Notification
+            title={message.title}
+            body={message.body}
+            type={message.type}
+            onSetFocus={focusNotificationAlert}
+          />
+        </div>
+      )}
+      {/* For type 1 unknown errors, display the Type 1 Unknown Upload Error alert */}
       {showDocumentUploadStatus &&
         type1UnknownErrors &&
         type1UnknownErrors.length > 0 && (

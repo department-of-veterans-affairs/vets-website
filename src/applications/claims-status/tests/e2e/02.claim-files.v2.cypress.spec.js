@@ -16,7 +16,7 @@ import {
   uploadFile,
   selectDocumentType,
   setupUnknownErrorMock,
-} from './claims-status-helpers';
+} from './file-upload-helpers';
 
 describe('Claim Files Test', () => {
   it('Gets files properly - C30822', () => {

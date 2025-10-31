@@ -1,3 +1,4 @@
+import Timeouts from 'platform/testing/e2e/timeouts';
 import TrackClaimsPageV2 from './page-objects/TrackClaimsPageV2';
 import claimsList from './fixtures/mocks/lighthouse/claims-list.json';
 import claimDetailsOpen from './fixtures/mocks/lighthouse/claim-detail-open.json';
@@ -6,7 +7,64 @@ import {
   uploadFile,
   selectDocumentType,
   setupUnknownErrorMock,
-} from './claims-status-helpers';
+} from './file-upload-helpers';
+import { SUBMIT_TEXT, SUBMIT_FILES_FOR_REVIEW_TEXT } from '../../constants';
+
+const setDocumentUploadStatusToggle = enabled => ({
+  data: {
+    type: 'feature_toggles',
+    features: [
+      {
+        name: 'cst_show_document_upload_status',
+        value: enabled,
+      },
+    ],
+  },
+});
+
+// Helper function to set up page navigation and intercepts
+const setupPageAndIntercepts = featureToggleEnabled => {
+  cy.intercept('GET', `/v0/benefits_claims/189685`, claimDetailsOpen).as(
+    'detailRequest',
+  );
+  cy.intercept(
+    'GET',
+    '/v0/feature_toggles?*',
+    setDocumentUploadStatusToggle(featureToggleEnabled),
+  );
+  cy.intercept('GET', '/v0/benefits_claims', claimsList);
+
+  cy.login();
+  cy.visit('/track-claims/your-claims/189685/status');
+  cy.get('.claim-title', { timeout: Timeouts.slow }).should('be.visible');
+
+  const trackClaimsPage = new TrackClaimsPageV2();
+  trackClaimsPage.verifyPrimaryAlert();
+  trackClaimsPage.verifyDocRequestforDefaultPage();
+  cy.injectAxe();
+
+  return trackClaimsPage;
+};
+
+// Helper function to upload file and select document type
+const uploadFileWithDocType = (fileName, fileIndex = 0, docType = 'L034') => {
+  uploadFile(fileName, fileIndex);
+  getFileInputElement(fileIndex)
+    .find('va-select')
+    .should('be.visible');
+  selectDocumentType(fileIndex, docType);
+};
+
+// Helper function to click submit button
+const clickSubmitFilesButton = featureToggleEnabled => {
+  const buttonText = featureToggleEnabled
+    ? SUBMIT_FILES_FOR_REVIEW_TEXT
+    : SUBMIT_TEXT;
+  cy.get(`.add-files-form va-button[text="${buttonText}"]`)
+    .shadow()
+    .find('button')
+    .click();
+};
 
 describe('When feature toggle cst_5103_update_enabled enabled', () => {
   context('A user can view primary alert details from the status tab', () => {
@@ -96,52 +154,14 @@ describe('When feature toggle cst_5103_update_enabled enabled', () => {
 });
 
 describe('Type 1 Error Alert', () => {
-  const setDocumentUploadStatusToggle = enabled => ({
-    data: {
-      type: 'feature_toggles',
-      features: [
-        {
-          name: 'cst_show_document_upload_status',
-          value: enabled,
-        },
-      ],
-    },
-  });
-
   context('when cst_show_document_upload_status is disabled', () => {
     it('should not display the type 1 unknown error alert', () => {
-      const trackClaimsPage = new TrackClaimsPageV2();
-      trackClaimsPage.loadPage(
-        claimsList,
-        claimDetailsOpen,
-        false,
-        false,
-        false,
-        false,
-        setDocumentUploadStatusToggle(false),
-      );
-
-      // Navigate from status page to a document request page
-      trackClaimsPage.verifyPrimaryAlert();
-      trackClaimsPage.verifyDocRequestforDefaultPage();
-      cy.injectAxe();
-
+      setupPageAndIntercepts(false);
       setupUnknownErrorMock();
+      uploadFileWithDocType('test-document.txt');
+      clickSubmitFilesButton(false);
 
-      // Upload a file and select a document type
-      uploadFile('test-document.txt');
-      getFileInputElement(0)
-        .find('va-select')
-        .should('be.visible');
-      selectDocumentType(0, 'L034');
-
-      // Submit files
-      cy.get('.add-files-form va-button[text="Submit documents for review"]')
-        .shadow()
-        .find('button')
-        .click();
       cy.wait('@uploadRequest');
-
       // Verify Type 1 alert is not present
       cy.get('.claims-alert').should(
         'not.contain.text',
@@ -154,105 +174,76 @@ describe('Type 1 Error Alert', () => {
   });
 
   context('when cst_show_document_upload_status is enabled', () => {
-    it('should not display the type 1 unknown error alert for known errors', () => {
-      const trackClaimsPage = new TrackClaimsPageV2();
-      trackClaimsPage.loadPage(
-        claimsList,
-        claimDetailsOpen,
-        false,
-        false,
-        false,
-        false,
-        setDocumentUploadStatusToggle(true),
-      );
-
-      // Navigate from status page to a document request page
-      trackClaimsPage.verifyPrimaryAlert();
-      trackClaimsPage.verifyDocRequestforDefaultPage();
-      cy.injectAxe();
-
-      // Mock a known error (422 - duplicate file)
-      cy.intercept('POST', '/v0/benefits_claims/*/benefits_documents', {
-        statusCode: 422,
-        body: {
-          errors: [
-            {
-              title: 'Unprocessable Entity',
-              detail: 'DOC_UPLOAD_DUPLICATE',
-              code: '422',
-              status: '422',
-              source: 'BenefitsDocuments::Service',
-            },
-          ],
-        },
-      }).as('uploadRequest');
-
-      // Upload a file and select a document type
-      uploadFile('test-document.txt');
-      getFileInputElement(0)
-        .find('va-select')
-        .should('be.visible');
-      selectDocumentType(0, 'L034');
-
-      // Submit files
-      cy.get('.add-files-form va-button[text="Submit files for review"]')
-        .shadow()
-        .find('button')
-        .click();
-      cy.wait('@uploadRequest');
-
-      // Verify Type 1 alert is not present
-      cy.get('.claims-alert').should(
-        'not.contain.text',
-        'We need you to submit files by mail or in person',
-      );
-      cy.get('.claims-alert')
-        .should('be.visible')
-        .and('contain.text', "You've already uploaded");
-
-      cy.axeCheck();
-    });
-
     it('should display the type 1 unknown error alert for unknown errors', () => {
-      const trackClaimsPage = new TrackClaimsPageV2();
-      trackClaimsPage.loadPage(
-        claimsList,
-        claimDetailsOpen,
-        false,
-        false,
-        false,
-        false,
-        setDocumentUploadStatusToggle(true),
-      );
-
-      // Navigate from status page to the document request page
-      trackClaimsPage.verifyPrimaryAlert();
-      trackClaimsPage.verifyDocRequestforDefaultPage();
-      cy.injectAxe();
-
+      setupPageAndIntercepts(true);
       setupUnknownErrorMock();
+      uploadFileWithDocType('test-document.txt');
+      clickSubmitFilesButton(true);
 
-      // Upload a file and select a document type
-      uploadFile('test-document.txt');
-      getFileInputElement(0)
-        .find('va-select')
-        .should('be.visible');
-      selectDocumentType(0, 'L034');
-
-      // Submit files
-      cy.get('.add-files-form va-button[text="Submit files for review"]')
-        .shadow()
-        .find('button')
-        .click();
       cy.wait('@uploadRequest');
-
-      // Verify Type 1 Unknown error alert is visible
+      // Verify the type 1 unknown error alert is visible
       cy.get('.claims-alert')
         .should('be.visible')
         .and(
           'contain.text',
           'We need you to submit files by mail or in person',
         );
+
+      cy.axeCheck();
+    });
+
+    it('should display both the message alert and the type 1 unknown error alert when both error types exist', () => {
+      setupPageAndIntercepts(true);
+
+      let uploadCount = 0;
+      cy.intercept('POST', '/v0/benefits_claims/*/benefits_documents', req => {
+        uploadCount += 1;
+        if (uploadCount === 1) {
+          // First file: known error (duplicate)
+          req.reply({
+            statusCode: 422,
+            body: {
+              errors: [
+                {
+                  title: 'Unprocessable Entity',
+                  detail: 'DOC_UPLOAD_DUPLICATE',
+                  code: '422',
+                  status: '422',
+                  source: 'BenefitsDocuments::Service',
+                },
+              ],
+            },
+          });
+        } else {
+          // Second file: unknown error
+          req.reply({
+            statusCode: 500,
+            body: {
+              errors: [
+                {
+                  title: 'Internal Server Error',
+                  code: '500',
+                  status: '500',
+                },
+              ],
+            },
+          });
+        }
+      }).as('uploadRequests');
+
+      uploadFileWithDocType('test-document-duplicate.txt', 0);
+      uploadFileWithDocType('test-document-unknown.txt', 1);
+      clickSubmitFilesButton(true);
+
+      cy.wait('@uploadRequests');
+      cy.wait('@uploadRequests');
+      // Verify both alerts are visible
+      cy.get('.claims-alert').should('have.length.at.least', 2);
+      cy.get('.claims-alert').should('contain.text', "You've already uploaded");
+      cy.get('.claims-alert').should(
+        'contain.text',
+        'We need you to submit files by mail or in person',
+      );
 
       cy.axeCheck();
     });
