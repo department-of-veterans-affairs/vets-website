@@ -158,19 +158,30 @@ const collectAllErrorElements = selectors => {
 };
 
 /**
- * Add sr-only error text to a legend element for screen reader accessibility
+ * Add sr-only error text to a label or legend element for screen reader accessibility
  * @param {Element} errorWebComponent - The web component with an error
  * @param {string} errorMessage - The error message text to add
+ * @param {string} targetSelector - CSS selector for the target element ('legend' or 'label')
  */
-const addErrorToLegend = (errorWebComponent, errorMessage) => {
-  const legend = errorWebComponent.shadowRoot?.querySelector('legend');
+const addSROnlyErrorToElement = (
+  errorWebComponent,
+  errorMessage,
+  targetSelector = 'legend',
+) => {
+  const targetElement = errorWebComponent.shadowRoot?.querySelector(
+    targetSelector,
+  );
 
-  if (errorMessage && legend && !legend.querySelector('.sr-only-error')) {
+  if (
+    errorMessage &&
+    targetElement &&
+    !targetElement.querySelector('.sr-only-error')
+  ) {
     const errorText = errorMessage.replace(/^Error\s*/i, '').trim();
     const errorSpan = document.createElement('span');
     errorSpan.className = 'usa-sr-only sr-only-error';
     errorSpan.textContent = `Error: ${errorText}. `;
-    legend.insertBefore(errorSpan, legend.firstChild);
+    targetElement.insertBefore(errorSpan, targetElement.firstChild);
   }
 };
 
@@ -186,10 +197,21 @@ const associateErrorWithInput = (errorWebComponent, errorId) => {
 
   if (inputElement) {
     const existingDescribedBy = inputElement.getAttribute('aria-describedby');
-    if (!existingDescribedBy || !existingDescribedBy.includes(errorId)) {
+    if (!existingDescribedBy) {
+      // No existing aria-describedby, just set the error ID
+      inputElement.setAttribute('aria-describedby', errorId);
+    } else if (!existingDescribedBy.includes(errorId)) {
+      // Error ID not present, add it first
       inputElement.setAttribute(
         'aria-describedby',
-        existingDescribedBy ? `${existingDescribedBy} ${errorId}` : errorId,
+        `${errorId} ${existingDescribedBy}`,
+      );
+    } else if (!existingDescribedBy.startsWith(errorId)) {
+      // Error ID present but not first, reorder it
+      const ids = existingDescribedBy.split(' ').filter(id => id !== errorId);
+      inputElement.setAttribute(
+        'aria-describedby',
+        `${errorId} ${ids.join(' ')}`,
       );
     }
   }
@@ -230,7 +252,7 @@ const processErrorElement = errorWebComponent => {
       errorWebComponent.getAttribute('input-error') ||
       errorWebComponent.getAttribute('checkbox-error') ||
       errorWebComponent.error;
-    addErrorToLegend(errorWebComponent, errorMessage);
+    addSROnlyErrorToElement(errorWebComponent, errorMessage);
   } else {
     // For other inputs, use aria-describedby
     associateErrorWithInput(errorWebComponent, errorId);
@@ -306,7 +328,7 @@ const findFocusTarget = el => {
  */
 export const scrollToFirstError = async (options = {}) => {
   return new Promise(resolve => {
-    const { focusOnAlertRole = false, errorContext } = options;
+    const { focusOnAlertRole = true, errorContext } = options;
     const selectors = ERROR_ELEMENTS.join(',');
     const timeout = 500;
     const observerConfig = { childList: true, subtree: true };
