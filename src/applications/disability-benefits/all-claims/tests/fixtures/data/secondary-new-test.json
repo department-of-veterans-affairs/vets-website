@@ -117,19 +117,15 @@
     "newDisabilities": [
       {
         "cause": "SECONDARY",
-        "view:secondaryFollowUp": {
-          "causedByDisability": "Diabetes Mellitus0",
-          "causedByDisabilityDescription": "Again, this doesn't really make sense."
-        },
+        "causedByDisability": "Diabetes Mellitus0",
+        "causedByDisabilityDescription": "Again, this doesn't really make sense.",
         "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
         "view:descriptionInfo": {}
       },
       {
         "cause": "SECONDARY",
-        "view:secondaryFollowUp": {
-          "causedByDisability": "Diabetes Mellitus0",
-          "causedByDisabilityDescription": "Again, this doesn't really make sense."
-        },
+        "causedByDisability": "Diabetes Mellitus0",
+        "causedByDisabilityDescription": "Again, this doesn't really make sense.",
         "condition": "ankylosis in knee, bilateral",
         "view:descriptionInfo": {}
       }
