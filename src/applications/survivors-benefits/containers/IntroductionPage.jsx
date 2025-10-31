@@ -13,7 +13,7 @@ const OMB_EXP_DATE = '08/31/2028';
 
 const IntroductionText = () => {
   return (
-    <p>
+    <p className="va-introtext">
       Use this application if you’re the surviving spouse or child of a Veteran
       and want to apply for survivors benefits. You can also submit evidence
       with your application to get a faster decision.
