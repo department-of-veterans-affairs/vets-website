@@ -11,7 +11,7 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import { transformDate } from './helpers';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'vaMedicalCenters',
   nounSingular: 'VA medical center',
   nounPlural: 'VA medical centers',
