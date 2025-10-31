@@ -6,6 +6,7 @@ import {
   getCardDescription,
   getCardTitle,
   createBannerMessage,
+  facilityCodeUIValidation,
 } from '../helpers';
 
 describe('0839 Helpers', () => {
@@ -383,6 +384,648 @@ describe('0839 Helpers', () => {
         };
         const result = createBannerMessage(details, true, mainInstitution);
         expect(result).to.be.null;
+      });
+    });
+  });
+
+  describe('facilityCodeUIValidation', () => {
+    let errors;
+
+    beforeEach(() => {
+      errors = {
+        addError(message) {
+          this.message = message;
+        },
+      };
+    });
+
+    describe('loading state', () => {
+      it('does not add errors when item is loading', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: '12345678',
+              isLoading: true,
+              institutionName: 'not found',
+              yrEligible: false,
+              ihlEligible: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, '12345678', formData);
+        expect(errors.message).to.be.undefined;
+      });
+    });
+
+    describe('X in third position validation', () => {
+      it('adds error when facility code has uppercase X in third position', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: '12X45678' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: '12X45678',
+              isLoading: false,
+              institutionName: 'Test Institution',
+              yrEligible: true,
+              ihlEligible: true,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, '12X45678', formData);
+        expect(errors.message).to.equal(
+          'Codes with an "X" in the third position are not eligible',
+        );
+      });
+
+      it('does not add error when X is in another position', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: '1X345678' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: '1X345678',
+              isLoading: false,
+              institutionName: 'Test Institution',
+              yrEligible: true,
+              ihlEligible: true,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, '1X345678', formData);
+        expect(errors.message).to.be.undefined;
+      });
+    });
+
+    describe('format validation', () => {
+      it('adds error for facility code with less than 8 characters', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: '1234',
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, '1234', formData);
+        expect(errors.message).to.equal(
+          'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+        );
+      });
+
+      it('adds error for facility code with more than 8 characters', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: '123456789',
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, '123456789', formData);
+        expect(errors.message).to.equal(
+          'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+        );
+      });
+
+      it('adds error for facility code with special characters', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: '1234-678',
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, '1234-678', formData);
+        expect(errors.message).to.equal(
+          'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+        );
+      });
+
+      it('handles whitespace trimming', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: 'ABCD1234' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: '  ABCD1234  ',
+              isLoading: false,
+              institutionName: 'Test Institution',
+              yrEligible: true,
+              ihlEligible: true,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, '  ABCD1234  ', formData);
+        expect(errors.message).to.be.undefined;
+      });
+    });
+
+    describe('institution not found validation', () => {
+      it('adds error when institution name is "not found"', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: 'ABCD1234' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: 'ABCD1234',
+              institutionName: 'not found',
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, 'ABCD1234', formData);
+        expect(errors.message).to.equal(
+          'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+        );
+      });
+
+      it('does not add error when institution is found', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: 'ABCD1234' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: 'ABCD1234',
+              institutionName: 'Harvard University',
+              isLoading: false,
+              yrEligible: true,
+              ihlEligible: true,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, 'ABCD1234', formData);
+        expect(errors.message).to.be.undefined;
+      });
+    });
+
+    describe('branch list validation', () => {
+      it('adds error when facility code is not in branches or extensions', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: 'ABCD1234' } }],
+              extensions: [{ institution: { facilityCode: 'EFGH5678' } }],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: 'ZZZZ9999',
+              institutionName: 'Test Institution',
+              isLoading: false,
+              yrEligible: true,
+              ihlEligible: true,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, 'ZZZZ9999', formData);
+        expect(errors.message).to.equal(
+          "This facility code isn't linked to your school's main campus",
+        );
+      });
+
+      it('does not add error when facility code is in branches list', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: '11234567' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: '11234567',
+              institutionName: 'Test Branch Institution',
+              isLoading: false,
+              yrEligible: true,
+              ihlEligible: true,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, '11234567', formData);
+        expect(errors.message).to.be.undefined;
+      });
+
+      it('does not add error when facility code is in extensions list', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [],
+              extensions: [{ institution: { facilityCode: 'EFGH5678' } }],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: 'EFGH5678',
+              institutionName: 'Test Extension Institution',
+              isLoading: false,
+              yrEligible: true,
+              ihlEligible: true,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, 'EFGH5678', formData);
+        expect(errors.message).to.be.undefined;
+      });
+
+      it('handles empty branches and extensions arrays', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: 'ABCD1234',
+              institutionName: 'Test Institution',
+              isLoading: false,
+              yrEligible: true,
+              ihlEligible: true,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, 'ABCD1234', formData);
+        expect(errors.message).to.equal(
+          "This facility code isn't linked to your school's main campus",
+        );
+      });
+
+      it('handles missing facilityMap', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: 'ABCD1234',
+              institutionName: 'Test Institution',
+              isLoading: false,
+              yrEligible: true,
+              ihlEligible: true,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, 'ABCD1234', formData);
+        expect(errors.message).to.equal(
+          "This facility code isn't linked to your school's main campus",
+        );
+      });
+    });
+
+    describe('Yellow Ribbon eligibility validation', () => {
+      it('adds error when institution is not YR eligible', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: 'ABCD1234' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: 'ABCD1234',
+              institutionName: 'Test Institution',
+              yrEligible: false,
+              ihlEligible: true,
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, 'ABCD1234', formData);
+        expect(errors.message).to.equal(
+          "The institution isn't eligible for the Yellow Ribbon Program.",
+        );
+      });
+
+      it('does not add YR error when yrEligible is true', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: '21234567' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: '21234567',
+              institutionName: 'Test Institution',
+              yrEligible: true,
+              ihlEligible: true,
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, '21234567', formData);
+        expect(errors.message).to.be.undefined;
+      });
+
+      it('does not add YR error when yrEligible is undefined', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: 'ABCD1234' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: 'ABCD1234',
+              institutionName: 'Test Institution',
+              ihlEligible: true,
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, 'ABCD1234', formData);
+        expect(errors.message).to.be.undefined;
+      });
+    });
+
+    describe('IHL eligibility validation', () => {
+      it('adds error when institution is not IHL eligible but is YR eligible', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: '14234567' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: '14234567',
+              institutionName: 'Test Institution',
+              yrEligible: true,
+              ihlEligible: false,
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, '14234567', formData);
+        expect(errors.message).to.equal(
+          'This institution is not an IHL. Please see information below.',
+        );
+      });
+
+      it('does not add IHL error when institution is not YR eligible', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: 'ABCD1234' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: 'ABCD1234',
+              institutionName: 'Test Institution',
+              yrEligible: false,
+              ihlEligible: false,
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, 'ABCD1234', formData);
+        // Should fail with YR error, not IHL error
+        expect(errors.message).to.equal(
+          "The institution isn't eligible for the Yellow Ribbon Program.",
+        );
+      });
+
+      it('does not add error when both YR and IHL eligible', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: '31234567' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: '31234567',
+              institutionName: 'Test Institution',
+              yrEligible: true,
+              ihlEligible: true,
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, '31234567', formData);
+        expect(errors.message).to.be.undefined;
+      });
+
+      it('does not add IHL error when ihlEligible is undefined', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: 'ABCD1234' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: 'ABCD1234',
+              institutionName: 'Test Institution',
+              yrEligible: true,
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, 'ABCD1234', formData);
+        expect(errors.message).to.be.undefined;
+      });
+    });
+
+    describe('validation priority order', () => {
+      it('prioritizes X in third position over other errors', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: '12X45678',
+              institutionName: 'not found',
+              yrEligible: false,
+              ihlEligible: false,
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, '12X45678', formData);
+        expect(errors.message).to.equal(
+          'Codes with an "X" in the third position are not eligible',
+        );
+      });
+
+      it('prioritizes bad format over branch list check', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: '1234',
+              institutionName: 'Test',
+              yrEligible: false,
+              ihlEligible: false,
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, '1234', formData);
+        expect(errors.message).to.equal(
+          'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+        );
+      });
+
+      it('prioritizes branch list check over YR eligibility', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: 'ABCD1234' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: 'ZZZZ9999',
+              institutionName: 'Test Institution',
+              yrEligible: false,
+              ihlEligible: false,
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, 'ZZZZ9999', formData);
+        expect(errors.message).to.equal(
+          "This facility code isn't linked to your school's main campus",
+        );
+      });
+
+      it('prioritizes YR eligibility over IHL eligibility', () => {
+        const formData = {
+          institutionDetails: {
+            facilityCode: '12345678',
+            facilityMap: {
+              branches: [{ institution: { facilityCode: 'ABCD1234' } }],
+              extensions: [],
+            },
+          },
+          additionalInstitutionDetails: [
+            {
+              facilityCode: 'ABCD1234',
+              institutionName: 'Test Institution',
+              yrEligible: false,
+              ihlEligible: false,
+              isLoading: false,
+            },
+          ],
+        };
+
+        facilityCodeUIValidation(errors, 'ABCD1234', formData);
+        expect(errors.message).to.equal(
+          "The institution isn't eligible for the Yellow Ribbon Program.",
+        );
       });
     });
   });

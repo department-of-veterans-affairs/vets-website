@@ -236,3 +236,70 @@ export const getAcademicYearDisplay = () => {
   const currentYear = new Date().getFullYear();
   return `${currentYear}-${currentYear + 1}`;
 };
+
+export const facilityCodeUIValidation = (errors, fieldData, formData) => {
+  const code = (fieldData || '').trim();
+
+  const mainInstitution = formData?.institutionDetails;
+
+  const branches =
+    mainInstitution?.facilityMap?.branches?.map(
+      branch => branch?.institution?.facilityCode,
+    ) || [];
+
+  const extensions =
+    mainInstitution?.facilityMap?.extensions?.map(
+      extension => extension?.institution?.facilityCode,
+    ) || [];
+
+  const branchList = [...branches, ...extensions];
+
+  const currentItem = formData?.additionalInstitutionDetails?.find(
+    item => item?.facilityCode?.trim() === code,
+  );
+
+  const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
+  const notFound = currentItem?.institutionName === 'not found';
+  const ihlEligible = currentItem?.ihlEligible;
+  const notYR = currentItem?.yrEligible === false;
+  const thirdChar = code?.charAt(2).toUpperCase();
+
+  const hasXInThirdPosition =
+    code.length === 8 && !badFormat && thirdChar === 'X';
+
+  if (!currentItem?.isLoading) {
+    if (hasXInThirdPosition) {
+      errors.addError(
+        'Codes with an "X" in the third position are not eligible',
+      );
+      return;
+    }
+
+    if (badFormat || notFound) {
+      errors.addError(
+        'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+      );
+      return;
+    }
+
+    if (!branchList.includes(code)) {
+      errors.addError(
+        "This facility code isn't linked to your school's main campus",
+      );
+      return;
+    }
+
+    if (notYR) {
+      errors.addError(
+        "The institution isn't eligible for the Yellow Ribbon Program.",
+      );
+      return;
+    }
+
+    if (ihlEligible === false) {
+      errors.addError(
+        'This institution is not an IHL. Please see information below.',
+      );
+    }
+  }
+};
