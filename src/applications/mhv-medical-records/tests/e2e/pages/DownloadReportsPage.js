@@ -8,22 +8,27 @@ class DownloadReportsPage {
   };
 
   clickCcdAccordionItem = () => {
-    cy.get('[data-testid="ccdAccordionItem"]', { timeout: 15000 }).should(
-      'be.visible',
-    );
-    cy.get('[data-testid="ccdAccordionItem"]').click();
+    // Wait for accordion to be visible and clickable
+    cy.get('[data-testid="ccdAccordionItem"]', { timeout: 15000 })
+      .should('be.visible')
+      .click();
 
+    // Wait for the headline text to appear (confirms accordion expanded)
     cy.contains('Continuity of Care Document', { timeout: 15000 }).should(
       'be.visible',
     );
 
+    // Wait for buttons to be rendered
     cy.get('[data-testid^="generateCcdButton"]', { timeout: 15000 }).should(
       'have.length.greaterThan',
       0,
     );
+
+    // Wait for first button to be fully visible and interactable
     cy.get('[data-testid^="generateCcdButton"]', { timeout: 15000 })
       .first()
-      .should('be.visible');
+      .should('be.visible')
+      .should('not.be.disabled');
   };
 
   clickSelfEnteredAccordionItem = () => {
@@ -124,6 +129,7 @@ class DownloadReportsPage {
 
       cy.get('[data-testid="generateCcdButtonXmlOH"]', { timeout: 15000 })
         .should('be.visible')
+        .should('not.be.disabled')
         .click();
       cy.wait('@downloadCcdV2Xml');
     });

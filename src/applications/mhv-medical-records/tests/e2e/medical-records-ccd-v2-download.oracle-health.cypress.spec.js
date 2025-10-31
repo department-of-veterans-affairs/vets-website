@@ -14,12 +14,12 @@ describe('Medical Records CCD V2 Download for Oracle Health Patients', () => {
     });
 
     DownloadReportsPage.goToReportsPage();
-    DownloadReportsPage.clickCcdAccordionItem();
   });
 
   it('Shows dual CCD accordion for Cerner/Oracle Health patients', () => {
-    DownloadReportsPage.verifyDualAccordionVisible();
+    DownloadReportsPage.clickCcdAccordionItem();
 
+    DownloadReportsPage.verifyDualAccordionVisible();
     DownloadReportsPage.verifyVistaDownloadLinksVisible();
     DownloadReportsPage.verifyOHDownloadLinksVisible();
 
@@ -27,6 +27,8 @@ describe('Medical Records CCD V2 Download for Oracle Health Patients', () => {
   });
 
   it('Downloads VistA CCD XML successfully', () => {
+    DownloadReportsPage.clickCcdAccordionItem();
+
     const pathToV1Fixture =
       './applications/mhv-medical-records/tests/e2e/fixtures/ccd-download-response.xml';
 
@@ -45,7 +47,7 @@ describe('Medical Records CCD V2 Download for Oracle Health Patients', () => {
         },
         body: xmlBody,
       }).as('getXml');
-      cy.get('[data-testid="generateCcdButtonXmlVista"]')
+      cy.get('[data-testid="generateCcdButtonXmlVista"]', { timeout: 15000 })
         .should('be.visible')
         .click();
       cy.wait('@ccdGenerateResponse');
@@ -58,6 +60,8 @@ describe('Medical Records CCD V2 Download for Oracle Health Patients', () => {
   });
 
   it('Downloads Oracle Health CCD XML successfully', () => {
+    DownloadReportsPage.clickCcdAccordionItem();
+
     const pathToV2Fixture =
       './applications/mhv-medical-records/tests/e2e/fixtures/ccd-download-response-v2.xml';
     DownloadReportsPage.clickCcdDownloadXmlButtonV2(pathToV2Fixture);
@@ -68,6 +72,8 @@ describe('Medical Records CCD V2 Download for Oracle Health Patients', () => {
   });
 
   it('Downloads Oracle Health CCD HTML successfully', () => {
+    DownloadReportsPage.clickCcdAccordionItem();
+
     const pathToHtmlFixture =
       './applications/mhv-medical-records/tests/e2e/fixtures/ccd-download-response-v2.html';
     DownloadReportsPage.clickCcdDownloadHtmlButtonV2(pathToHtmlFixture);
@@ -78,6 +84,8 @@ describe('Medical Records CCD V2 Download for Oracle Health Patients', () => {
   });
 
   it('Downloads Oracle Health CCD PDF successfully', () => {
+    DownloadReportsPage.clickCcdAccordionItem();
+
     DownloadReportsPage.clickCcdDownloadPdfButtonV2();
 
     DownloadReportsPage.verifyCcdDownloadStartedAlert();

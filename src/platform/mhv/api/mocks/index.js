@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
 
-const commonResponses = require('../../../testing/local-dev-mock-api/common');
+// Note: commonResponses intentionally not imported to avoid conflicts with user/feature toggle mocks
+// const commonResponses = require('../../../testing/local-dev-mock-api/common');
 
 const featureToggles = require('./feature-toggles');
 const user = require('./user');
@@ -72,7 +73,9 @@ const {
 } = require('../../../../applications/mhv-medications/mocks/api/tooltips/index');
 
 const responses = {
-  ...commonResponses,
+  // Note: Not using commonResponses to avoid conflicts with user/feature toggle mocks
+  'OPTIONS /v0/maintenance_windows': 'OK',
+
   'GET /v0/user': user.acceleratedCernerUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvAcceleratedDeliveryEnabled: true,
@@ -82,6 +85,7 @@ const responses = {
     mhvAcceleratedDeliveryVitalSignsEnabled: true,
     mhvAcceleratedDeliveryVaccinesEnabled: true,
     mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
+    mhvMedicalRecordsCcdExtendedFileTypes: true,
   }),
 
   // VAMC facility data that apps query for on startup

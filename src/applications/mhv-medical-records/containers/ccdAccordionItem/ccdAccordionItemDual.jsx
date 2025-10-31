@@ -2,24 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TrackedSpinner from '../../components/shared/TrackedSpinner';
 
-/**
- * Dual CCD Accordion Component for Oracle Health Patients
- *
- * TEMPORARY SOLUTION - Awaiting final UX/design from design team
- *
- * Why this component exists:
- * - Oracle Health patients have TWO data sources:
- *   1. Legacy VistA data (historical records before migration)
- *   2. Oracle Health FHIR data (current records)
- *
- * - VistA CCD: Complete historical data, uses V1 generate->download flow
- * - OH CCD: Current FHIR data + partial VistA import, uses V2 direct download
- *
- * Data completeness note:
- * - Patients may need both CCDs for complete medical history
- * - VistA has pre-migration history, OH has post-migration records
- */
-
 const DownloadSection = ({
   isLoading,
   handleDownload,
@@ -88,7 +70,6 @@ const CCDAccordionItemDual = ({
 }) => (
   <va-accordion-item bordered data-testid="ccdAccordionItem">
     <h3 slot="headline">Continuity of Care Document for non-VA providers</h3>
-
     <p className="vads-u-margin-bottom--3">
       This Continuity of Care Document (CCD) is a summary of your VA medical
       records that you can share with non-VA providers in your community. It

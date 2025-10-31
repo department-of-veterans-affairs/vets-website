@@ -9,7 +9,6 @@ import {
   MissingRecordsError,
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { add, compareAsc } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
@@ -39,6 +38,7 @@ import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { postRecordDatadogAction } from '../api/MrApi';
 import CCDAccordionItemV1 from './ccdAccordionItem/ccdAccordionItemV1';
 import CCDAccordionItemV2 from './ccdAccordionItem/ccdAccordionItemV2';
+import CCDAccordionItemOH from './ccdAccordionItem/ccdAccordionItemOH';
 import CCDAccordionItemDual from './ccdAccordionItem/ccdAccordionItemDual';
 
 // --- Main component ---
@@ -59,12 +59,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     },
   } = useSelector(state => state);
 
-  // const ccdExtendedFileTypeFlag = true; // TEMP: Force false for testing V1
   const ccdExtendedFileTypeFlag = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes
-      ],
+    state => state.featureToggles?.mhv_medical_records_ccd_extended_file_types,
   );
 
   const [selfEnteredPdfLoading, setSelfEnteredPdfLoading] = useState(false);
@@ -76,7 +72,14 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const activeAlert = useAlerts(dispatch);
   const selfEnteredAccordionRef = useRef(null);
-  const { isCerner } = useAcceleratedData() || {};
+  useAcceleratedData();
+
+  // Determine user's data sources based on facility information
+  const facilities = userProfile?.facilities || [];
+  const hasOHFacilities = facilities.some(f => f.isCerner === true);
+  const hasVistAFacilities = facilities.some(f => f.isCerner === false);
+  const hasOHOnly = hasOHFacilities && !hasVistAFacilities;
+  const hasBothDataSources = hasOHFacilities && hasVistAFacilities;
 
   // Checks if CCD retry is needed and returns a formatted timestamp or null.
   const CCDRetryTimestamp = useMemo(
@@ -330,17 +333,25 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         )}
       <va-accordion bordered>
         {(() => {
-          if (isCerner && ccdExtendedFileTypeFlag) {
-            return (
-              <CCDAccordionItemDual
-                generatingCCD={generatingCCD}
-                generatingCCDV2={generatingCCDV2}
-                handleDownloadCCD={handleDownloadCCD}
-                handleDownloadCCDV2={handleDownloadCCDV2}
-              />
-            );
-          }
           if (ccdExtendedFileTypeFlag) {
+            if (hasBothDataSources) {
+              return (
+                <CCDAccordionItemDual
+                  generatingCCD={generatingCCD}
+                  generatingCCDV2={generatingCCDV2}
+                  handleDownloadCCD={handleDownloadCCD}
+                  handleDownloadCCDV2={handleDownloadCCDV2}
+                />
+              );
+            }
+            if (hasOHOnly) {
+              return (
+                <CCDAccordionItemOH
+                  generatingCCDV2={generatingCCDV2}
+                  handleDownloadCCDV2={handleDownloadCCDV2}
+                />
+              );
+            }
             return (
               <CCDAccordionItemV2
                 generatingCCD={generatingCCD}

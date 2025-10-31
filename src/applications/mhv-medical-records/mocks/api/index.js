@@ -64,6 +64,10 @@ const { getMockTooltips } = require('./tooltips/index');
 
 const responses = {
   ...commonResponses,
+  // TESTING CCD V2: Switch user type to test different facility scenarios
+  // - user.acceleratedCernerUser: Has BOTH VistA + Oracle Health facilities (shows dual accordion)
+  // - user.ohOnlyUser: Has ONLY Oracle Health facilities (shows OH-only accordion)
+  // - user.vistaOnlyUser: Has ONLY VistA facilities (shows VistA-only accordion)
   'GET /v0/user': user.acceleratedCernerUser,
   'GET /v0/feature_toggles': generateFeatureToggles(),
   // 'GET /v0/feature_toggles': generateFeatureToggles({ enableAll: true }),
