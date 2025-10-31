@@ -1,18 +1,22 @@
-import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientInboxPage from './pages/PatientInboxPage';
-import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
-import { AXE_CONTEXT, Paths } from './utils/constants';
-import PatientComposePage from './pages/PatientComposePage';
-import PatientInterstitialPage from './pages/PatientInterstitialPage';
-import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
-import medicationResponse from './fixtures/medicationResponses/single-medication-response.json';
-import medicationNotFoundResponse from './fixtures/medicationResponses/medication-not-found-response.json';
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import PatientInboxPage from '../pages/PatientInboxPage';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
+import { AXE_CONTEXT, Paths } from '../utils/constants';
+import PatientComposePage from '../pages/PatientComposePage';
+import PatientInterstitialPage from '../pages/PatientInterstitialPage';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
+import medicationResponse from '../fixtures/medicationResponses/single-medication-response.json';
+import medicationNotFoundResponse from '../fixtures/medicationResponses/medication-not-found-response.json';
 
-describe('SM Medications Renewal Request', () => {
+// Tests for medication renewal flow with curated list feature flag enabled.
+// The prescription data is loaded in the InterstitialPage and persists through
+// Redux state as the user navigates through the select care team flow.
+
+describe('SM CURATED LIST MEDICATIONS RENEWAL REQUEST', () => {
   const customFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
     {
       name: 'mhv_secure_messaging_curated_list_flow',
-      value: false,
+      value: true,
     },
   ]);
 
@@ -26,7 +30,7 @@ describe('SM Medications Renewal Request', () => {
     ).as('recipients');
   });
 
-  it('verify med renewal request flow', () => {
+  it('verify med renewal request flow with curated list', () => {
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.PRESCRIPTIONS}/24654491`,
@@ -41,11 +45,20 @@ describe('SM Medications Renewal Request', () => {
       }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
     );
     cy.wait('@medicationById');
-    PatientInterstitialPage.getContinueButton().click();
 
+    // InterstitialPage shows start-message-link with curated flow enabled
+    PatientInterstitialPage.getStartMessageLink().click();
+
+    // Navigate through select care team flow - prescription data persists via Redux
+    PatientComposePage.selectComboBoxRecipient(
+      mockRecipients.data[0].attributes.name,
+    );
+    cy.findByTestId('ce-button').click();
     PatientComposePage.validateAddYourMedicationWarningBanner(false);
+    PatientComposePage.validateRecipientTitle(
+      `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
+    );
 
-    PatientComposePage.selectRecipient(3);
     PatientComposePage.validateCategorySelection('MEDICATIONS');
     PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
@@ -94,10 +107,20 @@ describe('SM Medications Renewal Request', () => {
       }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
     );
     cy.wait('@medicationById');
-    PatientInterstitialPage.getContinueButton().click();
-    PatientComposePage.validateAddYourMedicationWarningBanner(true);
 
-    PatientComposePage.selectRecipient(3);
+    // Should show start-message-link with curated flow enabled
+    PatientInterstitialPage.getStartMessageLink().click();
+
+    PatientComposePage.selectComboBoxRecipient(
+      mockRecipients.data[0].attributes.name,
+    );
+    cy.findByTestId('continue-button').click();
+
+    PatientComposePage.validateAddYourMedicationWarningBanner(true);
+    PatientComposePage.validateRecipientTitle(
+      `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
+    );
+
     PatientComposePage.validateCategorySelection('MEDICATIONS');
     PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
@@ -138,11 +161,20 @@ describe('SM Medications Renewal Request', () => {
 
     cy.visit(`${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}`);
     cy.wait('@medicationById');
-    PatientInterstitialPage.getContinueButton().click();
+
+    // Should show start-message-link with curated flow enabled
+    PatientInterstitialPage.getStartMessageLink().click();
+
+    PatientComposePage.selectComboBoxRecipient(
+      mockRecipients.data[0].attributes.name,
+    );
+    cy.findByTestId('continue-button').click();
 
     PatientComposePage.validateAddYourMedicationWarningBanner(false);
+    PatientComposePage.validateRecipientTitle(
+      `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
+    );
 
-    PatientComposePage.selectRecipient(3);
     PatientComposePage.validateCategorySelection('MEDICATIONS');
     PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
