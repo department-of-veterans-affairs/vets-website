@@ -1,4 +1,12 @@
 /**
+ **** BENEFIT TYPES ****
+ */
+// Including a default until we determine how to get around the user restarting
+// the application after using the "Finish this application later" link
+// See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
+export const DEFAULT_BENEFIT_TYPE = 'compensation';
+
+/**
  **** KEYS ****
  */
 // key for contestableIssues to indicate that the user selected the issue

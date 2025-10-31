@@ -29,9 +29,18 @@ const mockStore = ({ data = {} } = {}) => {
       },
     }),
     subscribe: () => {},
-    dispatch: () => ({
-      setFormData: () => {},
-    }),
+    dispatch: action => {
+      if (action && typeof action === 'function') {
+        return action(mockStore.dispatch, mockStore.getState);
+      }
+
+      // Handle SET_DATA action to update storeData
+      if (action && action.type === 'SET_DATA') {
+        Object.assign(data, action.data);
+      }
+
+      return action;
+    },
   };
 };
 
@@ -47,112 +56,146 @@ describe('the Supplemental Claims Sub-task', () => {
       </Provider>,
     );
     const form = $('form[data-page="start"]', container);
+
     expect(form).to.exist;
     expect($('va-radio-option[value="compensation"]', form)).to.exist;
     expect($('va-radio-option[value="other"]', form)).to.exist;
     expect($('va-button[continue]', container)).to.exist;
   });
 
-  it('should go to the "other" SubTask page and back to "start"', () => {
-    const { container } = render(
-      <Provider store={mockStore({ data: { benefitType: 'other' } })}>
-        <SubTaskContainer />
-      </Provider>,
-    );
+  describe('when "disability compensation" is selected for type of claim', () => {
+    it('should log the correct event and go to the Introduction page when complete', () => {
+      global.window.dataLayer = [];
+      const router = { push: sinon.spy() };
+      const storeData = {};
 
-    expect($('form[data-page="start"]', container)).to.exist;
+      setStoredSubTask(storeData);
 
-    fireEvent.click($('va-button[continue]', container));
-    expect($('form[data-page="other"]', container)).to.exist;
-    expect($('va-link[download]', container)).to.exist;
+      const { container } = render(
+        <Provider store={mockStore(storeData)}>
+          <SubTask pages={pages} router={router} />
+        </Provider>,
+      );
 
-    fireEvent.click($('va-button[back]', container));
-    expect($('form[data-page="start"]', container)).to.exist;
-  });
-
-  it('should show an error when no selection is made', async () => {
-    const { container } = render(
-      <Provider store={mockStore()}>
-        <SubTaskContainer />
-      </Provider>,
-    );
-
-    expect($('form[data-page="start"]', container)).to.exist;
-    const vaRadio = $('va-radio', container);
-    expect(vaRadio).to.exist;
-    expect(vaRadio.error).to.be.null;
-
-    // testing empty value branch
-    $('va-radio', container).__events.vaValueChange({ detail: {} });
-
-    fireEvent.click($('va-button[continue]', container));
-
-    await waitFor(() => {
       expect($('form[data-page="start"]', container)).to.exist;
-      expect(vaRadio.error).to.contain('choose a claim type');
+
+      // Trigger the radio button change
+      $('va-radio', container).__events.vaValueChange({
+        detail: { value: 'compensation' },
+      });
+
+      fireEvent.click($('va-button[continue]', container));
+
+      const event = global.window.dataLayer[0];
+
+      expect(event).to.deep.equal({
+        event: 'howToWizard-formChange',
+        'form-field-type': 'form-radio-buttons',
+        'form-field-label':
+          'What type of claim are you filing a Supplemental Claim for?',
+        'form-field-value': 'compensation',
+      });
+
+      expect(router.push.args[0][0]).to.include('/introduction');
     });
   });
-  it('should go to the Introduction page when complete', () => {
-    global.window.dataLayer = [];
-    const router = { push: sinon.spy() };
-    // using SubTask here since SubTaskContainer isn't passing the router to the
-    // SubTask component
-    const { container } = render(
-      <Provider store={mockStore({ data: {} })}>
-        <SubTask pages={pages} router={router} />
-      </Provider>,
-    );
 
-    $('va-radio', container).__events.vaValueChange({
-      detail: { value: 'compensation' },
+  describe('when "other" is selected for type of claim', () => {
+    it('should log the correct events, go to the "other" SubTask page and back to "start"', () => {
+      const { container } = render(
+        <Provider store={mockStore({ data: { benefitType: 'other' } })}>
+          <SubTaskContainer />
+        </Provider>,
+      );
+
+      expect($('form[data-page="start"]', container)).to.exist;
+
+      fireEvent.click($('va-button[continue]', container));
+
+      const firstEvent = global.window.dataLayer[0];
+
+      expect(firstEvent).to.deep.equal({
+        event: 'howToWizard-formChange',
+        'form-field-type': 'form-radio-buttons',
+        'form-field-label':
+          'What type of claim are you filing a Supplemental Claim for?',
+        'form-field-value': 'other',
+      });
+
+      const secondEvent = global.window.dataLayer[1];
+
+      expect(secondEvent).to.deep.equal({
+        event: 'howToWizard-alert-displayed',
+        'reason-for-alert': 'veteran wants to submit an unsupported claim type',
+      });
+
+      expect($('form[data-page="other"]', container)).to.exist;
+      expect($('va-link[download]', container)).to.exist;
+
+      fireEvent.click($('va-button[back]', container));
+      expect($('form[data-page="start"]', container)).to.exist;
     });
 
-    expect($('form[data-page="start"]', container)).to.exist;
+    it('should record "other" page find benefit office link click', () => {
+      global.window.dataLayer = [];
+      const router = { push: () => {} };
+      // using SubTask here since SubTaskContainer isn't passing the router to the
+      // SubTask component
+      const { container } = render(
+        <Provider store={mockStore({ data: {} })}>
+          <SubTask pages={pages} router={router} />
+        </Provider>,
+      );
 
-    const event = global.window.dataLayer.slice(-1)[0];
-    expect(event).to.deep.equal({
-      event: 'howToWizard-formChange',
-      'form-field-type': 'form-radio-buttons',
-      'form-field-label':
-        'What type of claim are you filing a Supplemental Claim for?',
-      'form-field-value': 'compensation',
+      $('va-radio', container).__events.vaValueChange({
+        detail: { value: 'other' },
+      });
+
+      fireEvent.click($('va-button[continue]', container));
+      expect($('va-button[back]', container)).to.exist;
+
+      const anchor = BENEFIT_OFFICES_URL.split('#')[1];
+      fireEvent.click($(`[href$="#${anchor}"]`, container));
+
+      const event = global.window.dataLayer.slice(-1)[0];
+      expect(event).to.deep.equal({
+        event: 'howToWizard-alert-link-click',
+        'howToWizard-alert-link-click-label': 'benefit office',
+      });
     });
-
-    fireEvent.click($('va-button[continue]', container));
-    expect(router.push.args[0][0]).to.include('/introduction');
   });
 
-  it('should record "other" page find benefit office link click', () => {
-    global.window.dataLayer = [];
-    const router = { push: () => {} };
-    // using SubTask here since SubTaskContainer isn't passing the router to the
-    // SubTask component
-    const { container } = render(
-      <Provider store={mockStore({ data: {} })}>
-        <SubTask pages={pages} router={router} />
-      </Provider>,
-    );
+  describe('when no selection is made', () => {
+    it('should show an error', async () => {
+      const { container } = render(
+        <Provider store={mockStore()}>
+          <SubTaskContainer />
+        </Provider>,
+      );
 
-    $('va-radio', container).__events.vaValueChange({
-      detail: { value: 'other' },
-    });
+      expect($('form[data-page="start"]', container)).to.exist;
 
-    fireEvent.click($('va-button[continue]', container));
-    expect($('va-button[back]', container)).to.exist;
+      const vaRadio = $('va-radio', container);
 
-    const anchor = BENEFIT_OFFICES_URL.split('#')[1];
-    fireEvent.click($(`[href$="#${anchor}"]`, container));
+      expect(vaRadio).to.exist;
+      expect(vaRadio.error).to.be.null;
 
-    const event = global.window.dataLayer.slice(-1)[0];
-    expect(event).to.deep.equal({
-      event: 'howToWizard-alert-link-click',
-      'howToWizard-alert-link-click-label': 'benefit office',
+      // testing empty value branch
+      $('va-radio', container).__events.vaValueChange({ detail: {} });
+
+      fireEvent.click($('va-button[continue]', container));
+
+      await waitFor(() => {
+        expect($('form[data-page="start"]', container)).to.exist;
+        expect(vaRadio.error).to.contain('choose a claim type');
+      });
     });
   });
 
   it('should check validate fallback to default (checking branches)', () => {
     expect(pages[0].validate()).to.eq(false);
   });
+
   it('should check setBenefitType fallback', () => {
     const setPageDataSpy = sinon.spy();
     const StartPage = pages[0].component;
