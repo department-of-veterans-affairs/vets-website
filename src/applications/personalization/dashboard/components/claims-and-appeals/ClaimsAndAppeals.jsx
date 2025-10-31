@@ -200,19 +200,25 @@ const ClaimsAndAppeals = ({
           )}
           <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
             <Toggler.Disabled>
-              {highlightedClaimOrAppeal &&
-              !isLOA1 &&
-              !(hasAppealsError && hasClaimsError) &&
-              !(
-                (highlightedClaimOrAppeal.type === 'claim' && hasClaimsError) ||
-                (highlightedClaimOrAppeal.type === 'appeal' && hasAppealsError)
-              ) ? (
-                <HighlightedClaimAppeal
-                  claimOrAppeal={highlightedClaimOrAppeal}
-                />
-              ) : (
-                <>{!hasAPIError && !isLOA1 && <NoClaimsOrAppealsText />}</>
-              )}
+              {(() => {
+                if (isLOA1) {
+                  return null;
+                }
+
+                if (highlightedClaimOrAppeal) {
+                  return (
+                    <HighlightedClaimAppeal
+                      claimOrAppeal={highlightedClaimOrAppeal}
+                    />
+                  );
+                }
+
+                if (!hasAPIError) {
+                  return <NoClaimsOrAppealsText />;
+                }
+
+                return null;
+              })()}
             </Toggler.Disabled>
             <Toggler.Enabled>
               {highlightedClaimOrAppeal && !hasAPIError && !isLOA1 ? (
