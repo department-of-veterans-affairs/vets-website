@@ -73,24 +73,30 @@ describe('VA File Input Multiple', () => {
   const uploadFile = (fileName, fileIndex = 0) => {
     getFileInput(fileIndex)
       .find('input[type="file"]')
-      .selectFile({
-        contents: Cypress.Buffer.from('test content'),
-        fileName,
-      });
+      .selectFile(
+        {
+          contents: Cypress.Buffer.from('test content'),
+          fileName,
+        },
+        { force: true },
+      );
   };
 
   const uploadEncryptedPDF = (fileName, fileIndex = 0) => {
     getFileInput(fileIndex)
       .find('input[type="file"]')
-      .selectFile({
-        contents: Cypress.Buffer.from('%PDF-1.4\n/Encrypt\nsome content'),
-        fileName,
-        mimeType: 'application/pdf',
-      });
+      .selectFile(
+        {
+          contents: Cypress.Buffer.from('%PDF-1.4\n/Encrypt\nsome content'),
+          fileName,
+          mimeType: 'application/pdf',
+        },
+        { force: true },
+      );
   };
 
   const getAboveFileInputError = (fileIndex = 0) =>
-    getFileInput(fileIndex).find('#file-input-error-alert');
+    getFileInput(fileIndex).find('[role="alert"]');
 
   const getFileError = (fileIndex = 0) =>
     getFileInput(fileIndex).find('#input-error-message');
@@ -106,9 +112,9 @@ describe('VA File Input Multiple', () => {
   const clickDeleteButton = (fileIndex = 0, expectedFileName) => {
     getFileInput(fileIndex)
       .should('contain.text', expectedFileName)
-      .find('va-button-icon[aria-label*="delete file"]')
+      .find('va-button-icon')
       .shadow()
-      .find('button')
+      .find('button[aria-label*="delete file"]')
       .click();
   };
 
