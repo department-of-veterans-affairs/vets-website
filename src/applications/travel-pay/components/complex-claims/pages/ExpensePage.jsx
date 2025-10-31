@@ -78,16 +78,15 @@ const ExpensePage = () => {
     }
 
     const emptyFields = requiredFields.filter(field => !formState[field]);
-    if (emptyFields.length > 0) {
-      setShowError(true);
-      return; // stop navigation
-    }
+    const isValid = emptyFields.length === 0;
 
-    setShowError(false);
+    setShowError(!isValid);
+    return isValid;
   };
 
   const handleContinue = () => {
-    validatePage();
+    const isValid = validatePage();
+    if (!isValid) return; // stop navigation if validation fails
     navigate(`/file-new-claim/complex/${apptId}/review`);
   };
 
@@ -311,6 +310,8 @@ const ExpensePage = () => {
         class="vads-u-margin-y--2"
         continue
         disable-analytics
+        rightButtonText="Continue"
+        leftButtonText="Back"
         onPrimaryClick={handleContinue}
         onSecondaryClick={handleBack}
       />
