@@ -175,37 +175,37 @@ const formConfig = {
     },
     // Chapter 3 - Military History
     militaryHistory: {
-      title: "Veteran's military history",
+      title: 'Veteran’s military history',
       pages: {
         militaryHistory: {
-          path: 'veteran/va-benefits',
+          path: 'va-benefits',
           title: 'VA benefits',
           uiSchema: vaBenefits.uiSchema,
           schema: vaBenefits.schema,
         },
         servicePeriod: {
-          path: 'veteran/service-period',
+          path: 'service-period',
           title: 'Veteran information',
           depends: formData => formData.receivedBenefits === false,
           uiSchema: servicePeriod.uiSchema,
           schema: servicePeriod.schema,
         },
         nationalGuardService: {
-          path: 'veteran/national-guard-service',
+          path: 'national-guard-service',
           title: 'National Guard service',
           depends: formData => formData.receivedBenefits === false,
           uiSchema: nationalGuardService.uiSchema,
           schema: nationalGuardService.schema,
         },
         nationalGuardServicePeriod: {
-          path: 'veteran/national-guard-service-period',
+          path: 'national-guard-service-period',
           title: 'National Guard service period',
           depends: formData => formData.nationalGuardActivated === true,
           uiSchema: nationalGuardServicePeriod.uiSchema,
           schema: nationalGuardServicePeriod.schema,
         },
         nationalGuardUnitAddress: {
-          path: 'veteran/national-guard-unit-address',
+          path: 'national-guard-unit-address',
           title: 'National Guard unit address',
           depends: formData => formData.nationalGuardActivated === true,
           uiSchema: nationalGuardUnitAddress.uiSchema,

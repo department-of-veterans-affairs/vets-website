@@ -6,8 +6,6 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'National Guard service',
-  path: 'veteran/national-guard-service',
   uiSchema: {
     ...titleUI('National Guard service'),
     nationalGuardActivated: yesNoUI({

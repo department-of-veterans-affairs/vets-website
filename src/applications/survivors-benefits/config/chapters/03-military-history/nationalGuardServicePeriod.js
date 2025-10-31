@@ -10,8 +10,6 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'National Guard service period',
-  path: 'veteran/national-guard-service-period',
   uiSchema: {
     ...titleUI('National Guard service period'),
     dateOfActivation: currentOrPastDateUI({
