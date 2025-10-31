@@ -88,7 +88,7 @@ const ContestableIssues = props => {
   const issuesWithDateEvaluation = useMemo(
     () =>
       loadedIssues.map(issue => {
-        const { approxDecisionDate } = issue?.attributes || {};
+        const approxDecisionDate = issue?.attributes?.approxDecisionDate;
         const decisionDate = parseDateToDateObj(
           approxDecisionDate,
           FORMAT_YMD_DATE_FNS,
@@ -291,20 +291,21 @@ const ContestableIssues = props => {
               : null}
           </p>
         </VaModal>
-        <div className="issues-container vads-u-border-top--1px vads-u-border-color--gray-light">
-          {hasBlockedIssues && (
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="warning"
-              visible
-              class="vads-u-margin-top--3 vads-u-margin-bottom--2"
-              id="blocked-issues-alert"
-              role="alert"
-            >
-              <p className="vads-u-margin-y--0">{blockedMessage}</p>
-            </va-alert>
-          )}
-          <ul className="issues remove-bullets">{issueCards}</ul>
+        <div className="vads-u-border-top--1px vads-u-border-color--gray-light">
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="warning"
+            visible={hasBlockedIssues}
+            class="vads-u-margin-top--3 vads-u-margin-bottom--2"
+            id="blocked-issues-alert"
+            role="alert"
+          >
+            <p className="vads-u-margin-y--0">{blockedMessage}</p>
+          </va-alert>
+          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+          <ul className="issues remove-bullets" role="list">
+            {issueCards}
+          </ul>
         </div>
         {onReviewPage && inReviewMode ? null : (
           <ActionLink
