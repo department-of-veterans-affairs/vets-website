@@ -12,6 +12,7 @@ import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPag
 import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
 import ComplexClaimSubmitFlowWrapper from './containers/ComplexClaimSubmitFlowWrapper';
 import ReviewPage from './components/complex-claims/pages/ReviewPage';
+import ExpensePage from './components/complex-claims/pages/ExpensePage';
 import IntroductionPage from './components/complex-claims/pages/IntroductionPage';
 import App from './containers/App';
 
@@ -38,6 +39,7 @@ const routes = (
         <Route index element={<IntroductionPage />} />
         <Route path="choose-expense" element={<ChooseExpenseType />} />
         <Route path="mileage" element={<Mileage />} />
+        <Route path=":expenseTypeRoute" element={<ExpensePage />} />
         <Route path="review" element={<ReviewPage />} />
         <Route path="travel-agreement" element={<AgreementPage />} />
         <Route path="confirmation" element={<ConfirmationPage />} />
