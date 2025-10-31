@@ -1,8 +1,7 @@
 import { isToday, add } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
-import { parseDateToDateObj } from './dates';
+import { parseDateToDateObj, toUTCStartOfDay } from './dates';
 import { FORMAT_YMD_DATE_FNS } from '../constants';
-import { toUTCStartOfDay } from '../validations/date';
 
 /**
  * Get the current timezone abbreviation (e.g., "PST", "EST", "JST")

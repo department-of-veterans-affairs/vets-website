@@ -1,40 +1,14 @@
-import { isValid, isToday } from 'date-fns';
+import { isValid } from 'date-fns';
 
 import { parseISODate } from '~/platform/forms-system/src/js/helpers';
 
 import { FORMAT_YMD_DATE_FNS } from '../constants';
-import { parseDateToDateObj } from '../utils/dates';
+import {
+  parseDateToDateObj,
+  isLocalToday,
+  isUTCTodayOrFuture,
+} from '../utils/dates';
 import { fixDateFormat } from '../utils/replace';
-
-/**
- * Get current UTC date at start of day (midnight)
- * @returns {Date} - Current UTC date at start of day
- */
-export const getCurrentUTCStartOfDay = () => {
-  const now = new Date();
-  return new Date(
-    Date.UTC(
-      now.getUTCFullYear(),
-      now.getUTCMonth(),
-      now.getUTCDate(),
-      0,
-      0,
-      0,
-      0,
-    ),
-  );
-};
-
-/**
- * Convert any date to UTC start of day (preserving calendar date)
- * @param {Date} date - The date to convert
- * @returns {Date} - UTC date at start of day
- */
-export const toUTCStartOfDay = date => {
-  return new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
-  );
-};
 
 /**
  * Main validation method: Check if a date should be blocked from appeal submission
@@ -51,16 +25,7 @@ export const toUTCStartOfDay = date => {
  */
 export const isTodayOrInFuture = date => {
   if (!date || !isValid(date)) return false;
-
-  const isSameLocalDay = isToday(date);
-  if (isSameLocalDay) {
-    return true;
-  }
-
-  const utcToday = getCurrentUTCStartOfDay();
-  const issueDateUtc = toUTCStartOfDay(date);
-
-  return issueDateUtc.getTime() >= utcToday.getTime();
+  return isLocalToday(date) || isUTCTodayOrFuture(date);
 };
 
 const buildDatePartErrors = (month, day, year) => {
