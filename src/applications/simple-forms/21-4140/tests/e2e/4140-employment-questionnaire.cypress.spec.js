@@ -14,7 +14,7 @@ import {
   reviewAndSubmitPageFlow,
   selectCheckboxWebComponent,
   selectYesNoWebComponent,
-} from '../../shared/tests/e2e/helpers';
+} from '../../../shared/tests/e2e/helpers';
 
 const pagePaths = getPagePaths(formConfig);
 const employerDetailsPath = pagePaths.employerDetails?.replace(':index', '0');

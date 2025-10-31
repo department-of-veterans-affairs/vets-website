@@ -6,22 +6,18 @@ import {
 import {
   currentOrPastDateSchema,
   currentOrPastDateUI,
-  titleUI,
+  inlineTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import {
-  DoctorView,
-  HospitalView,
-  DateRangeView,
-} from '../components/viewElements';
+import { DoctorView, DateRangeView } from '../components/viewElements';
 import SafeArrayField from '../components/SafeArrayField';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI(
+    ...inlineTitleUI(
       'Recent Medical Care',
-      'Please provide information about doctors who have treated you and when. Additional dates can be added in Section 5 - Remarks.',
+      'Your recent medical treatment continued.',
     ),
     doctors: {
       'ui:field': SafeArrayField,
@@ -31,7 +27,7 @@ export default {
         customTitle: 'Your doctors',
         useDlWrap: true,
         keepInPageOnReview: true,
-      /*  showSave: true,
+        /*  showSave: true,
         reviewMode: true,*/
         doNotScroll: true,
         confirmRemove: true,
@@ -51,6 +47,10 @@ export default {
             militaryCheckbox: 'Doctor is on a military base',
           },
         }),
+        connectedDisabilities: {
+          'ui:title': 'Connected disabilities',
+          'ui:description': 'Enter disabilities separated by commas (e.g., PTSD, Hearing Loss, Back Pain)',
+        },
       },
     },
 
@@ -63,7 +63,7 @@ export default {
         customTitle: 'Your important treatment dates',
         useDlWrap: true,
         keepInPageOnReview: true,
-       /* showSave: true,
+        /* showSave: true,
         reviewMode: true,*/
         doNotScroll: true,
         confirmRemove: true,
@@ -75,10 +75,7 @@ export default {
           classNames: 'vads-u-margin-left--1p5',
         },
         startDate: currentOrPastDateUI('Start date'),
-        endDate: {
-          ...currentOrPastDateUI('End date (if applicable)'),
-          'ui:required': () => false,
-        },
+        endDate: currentOrPastDateUI('End date (if applicable)'),
       },
     },
   },
@@ -98,6 +95,10 @@ export default {
               maxLength: 100,
             },
             doctorAddress: addressSchema(),
+            connectedDisabilities: {
+              type: 'string',
+              maxLength: 500,
+            },
           },
           required: ['doctorName', 'doctorAddress'],
         },

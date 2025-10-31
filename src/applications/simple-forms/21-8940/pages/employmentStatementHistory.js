@@ -130,12 +130,12 @@ const employmentInformationPage = {
 };
 
 export default arrayBuilderPages(options, pageBuilder => ({
-  employmentHistoryIntro: pageBuilder.introPage({
+ /* employmentHistoryIntro: pageBuilder.introPage({
     title: 'Employment application records',
     path: 'employment-application-statement',
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
-  }),
+  }),*/
   employmentHistorySummary: pageBuilder.summaryPage({
     title: 'Review your employment application records',
     path: 'employment-application-records-summary',

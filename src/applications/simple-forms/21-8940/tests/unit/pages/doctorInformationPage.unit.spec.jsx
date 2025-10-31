@@ -9,10 +9,10 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.sectionTwoP2Chapter.pages.doctorInformationPage;
+} = formConfig.chapters.sectionTwoP1Chapter.pages.doctorInformationPage;
 const pageTitle = 'doctor information';
 
-const expectedNumberOfFields = 1;
+const expectedNumberOfFields = 2;
 testNumberOfFields(
   formConfig,
   schema,

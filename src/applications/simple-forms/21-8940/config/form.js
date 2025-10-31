@@ -18,12 +18,12 @@ import contactInformation2 from '../pages/contactInformation2';
 
 import sectionTwoP1 from '../pages/sectionTwoP1';
 import sectionThree from '../pages/sectionThree';
+import peakEarnings from '../pages/peakEarnings';
 
-
-/*import doctorDates from '../pages/doctorDates';
-import doctorsAndHospitals from '../pages/doctorsAndHospitals';
-import hospitalDates from '../pages/hospitalDates';*/
 import employmentHistory from '../pages/employmentHistory';
+import currentMilitaryService from '../pages/currentMilitaryService';
+import currentIncome from '../pages/currentIncome';
+import leavingLastPosition from '../pages/leavingLastPosition';
 import doctorInformation from '../pages/doctorInformation';
 import hospitalInformation from '../pages/hospitalInformation';
 
@@ -31,7 +31,6 @@ import BeforeDisability from '../pages/BeforeDisability';
 import AfterDisability from '../pages/AfterDisability';
 import informationRequiredPage from '../pages/informationRequired';
 
-/*import employmentStatement from '../pages/employmentStatement';*/
 import employmentStatementHistory from '../pages/employmentStatementHistory';
 import sectionFour from '../pages/sectionFour';
 import additionalRemarks from '../pages/additionalRemarks';
@@ -43,14 +42,19 @@ import hospitalQuestion from '../pages/hospitalQuestion';
 import { doctorCareQuestionFields, hospitalizationQuestionFields } from '../definitions/constants';
 /*import medicalTreatmentRecordsPages from '../pages/medicalTreatmentRecords';*/
 
+import { inlineTitleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+
+import ImportantInformation from '../containers/ImportantInformation'
+import WhatYouNeed from '../containers/WhatYouNeed';
+
 /** @returns {PageSchema} */
 const sectionOneBannerPage = {
   path: 'section-1-banner',
   title: 'Section 1 - Veteran ID and Information',
   uiSchema: {
-    'ui:title': 'Section 1 - Veteran ID and Information',
+    ...inlineTitleUI('Section I - Veteran ID and Information'),
     'ui:description': (
-      <div>
+  <div className="vads-u-margin-top--8">
         <div
           style={{
             backgroundColor: '#e7f4f7',
@@ -82,12 +86,12 @@ const sectionOneBannerPage = {
 /** @returns {PageSchema} */
 const sectionTwoBannerPage = {
   path: 'section-2-banner',
-  title: 'Section 2 - Disability And Medical Treatment',
+  title: 'Disability And Medical Treatment',
   uiSchema: {
-    'ui:title': 'Section 2 - Disability And Medical Treatment',
+    'ui:title': 'Disability And Medical Treatment',
     'ui:description': (
       <div>
-        <p>We'll start by confirming your identity and how to reach you.</p>
+        <p>We need some information about your service-connected disabilities and recent medical care.</p>
         <div
           style={{
             backgroundColor: '#e7f4f7',
@@ -121,9 +125,9 @@ const sectionThreeBannerPage = {
   path: 'section-3-banner',
   title: 'Section 3 - Employment Statement',
   uiSchema: {
-    'ui:title': 'Section 3 - Employment Statement',
+    ...inlineTitleUI('Section III - Employment'),
     'ui:description': (
-      <div>
+  <div className="vads-u-margin-top--8">
         <p>We'll start by confirming your identity and how to reach you.</p>
         <div
           style={{
@@ -159,9 +163,9 @@ const sectionFourBannerPage = {
   path: 'section-4-banner',
   title: 'Section 4 - Schooling and Other Training',
   uiSchema: {
-    'ui:title': 'Section 4 - Schooling and Other Training',
+    ...inlineTitleUI('Section IV - Schooling and Other Training'),
     'ui:description': (
-      <div>
+  <div className="vads-u-margin-top--8">
         <p>We'll start by confirming your identity and how to reach you.</p>
         <div
           style={{
@@ -194,9 +198,9 @@ const sectionFiveBannerPage = {
   path: 'section-5-banner',
   title: 'Section 5 - Remarks',
   uiSchema: {
-    'ui:title': 'Section 5 - Remarks',
+    ...inlineTitleUI('Section V - Remarks'),
     'ui:description': (
-      <div>
+  <div className="vads-u-margin-top--8">
         <p>We'll start by confirming your identity and how to reach you.</p>
         <div
           style={{
@@ -229,9 +233,9 @@ const sectionSixBannerPage = {
   path: 'section-6-banner',
   title: 'Section 6 - Authorization, Certification, and Signature',
   uiSchema: {
-    'ui:title': 'Section 6 - Authorization, Certification, and Signature',
+    ...inlineTitleUI('Section VI - Authorization, Certification, and Signature'),
     'ui:description': (
-      <div>
+  <div className="vads-u-margin-top--8">
         <p>We'll start by confirming your identity and how to reach you.</p>
         <div
           style={{
@@ -307,13 +311,31 @@ const formConfig = {
   },
   hideUnauthedStartLink: true,
   title:
-    "Veteran's application for increased compensation based on unemployability",
+    "Veteran's application for increased compensation based on unemployability (VA 21-8940) ",
   subTitle:
     'Please take your time to complete this form as accurately as you can.',
   customText: {
     appType: "veteran application",
   },
+
+additionalRoutes: [
+  {
+    path: 'important-information',
+    pageKey: 'important-information',
+    component: ImportantInformation,
+    depends: () => true,
+  },
+  {
+    path: 'what-you-need',
+    pageKey: 'what-you-need',
+    component: WhatYouNeed,
+    depends: () => true,
+  },
+],
+
   chapters: {
+
+
     confirmationQuestionChapter: {
       title: 'Let\'s get started',
       pages: {
@@ -411,6 +433,12 @@ const formConfig = {
           uiSchema: sectionThree.uiSchema,
           schema: sectionThree.schema,
         },
+        peakEarnings: {
+          path: 'peak-earnings',
+          title: 'Peak Earnings',
+          uiSchema: peakEarnings.uiSchema,
+          schema: peakEarnings.schema,
+        },
       },
     },
     employmentHistoryChapter: {
@@ -421,6 +449,24 @@ const formConfig = {
           path: 'section-3-employment',
           uiSchema: employmentHistory.uiSchema,
           schema: employmentHistory.schema,
+        },
+        currentMilitaryService: {
+          title: 'Current Military Service',
+          path: 'current-military-service',
+          uiSchema: currentMilitaryService.uiSchema,
+          schema: currentMilitaryService.schema,
+        },
+        currentIncome: {
+          title: 'Current Income',
+          path: 'current-income',
+          uiSchema: currentIncome.uiSchema,
+          schema: currentIncome.schema,
+        },
+        leavingLastPosition: {
+          title: 'Leaving Your Last Position',
+          path: 'leaving-last-position',
+          uiSchema: leavingLastPosition.uiSchema,
+          schema: leavingLastPosition.schema,
         },
       },
     },

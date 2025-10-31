@@ -1,5 +1,16 @@
 import React from 'react';
 
+export const DisabilityView = ({ formData }) => {
+  const disability =
+    typeof formData === 'string' ? formData : formData?.disability;
+
+  return (
+    <div className="vads-u-padding--2">
+      <strong>{disability || 'Disability not provided'}</strong>
+    </div>
+  );
+};
+
 export const DateRangeView = ({ formData }) => {
   
  /* const dateLabel = formData.startDate ? `Date range starting ${formData.startDate}` : 'Date range';*/
@@ -14,29 +25,45 @@ export const DateRangeView = ({ formData }) => {
   );
 };
 
-export const DoctorView = ({ formData }) => (
-  <div className="vads-u-padding--2">
-    <strong>{formData.doctorName || 'Doctor name not provided'}</strong>
-    <p>
-      Address: {formData.doctorAddress?.street || ''} {formData.doctorAddress?.street2 || ''}
-      {formData.doctorAddress?.city ? `, ${formData.doctorAddress.city}` : ''}
-      {formData.doctorAddress?.state ? `, ${formData.doctorAddress.state}` : ''}
-      {formData.doctorAddress?.postalCode ? ` ${formData.doctorAddress.postalCode}` : ''}
-    </p>
-  </div>
-);
+export const DoctorView = ({ formData }) => {
+  return (
+    <div className="vads-u-padding--2">
+      <strong>{formData.doctorName || 'Doctor name not provided'}</strong>
+      <p>
+        Address: {formData.doctorAddress?.street || ''}{' '}
+        {formData.doctorAddress?.street2 || ''}
+        {formData.doctorAddress?.city ? `, ${formData.doctorAddress.city}` : ''}
+        {formData.doctorAddress?.state ? `, ${formData.doctorAddress.state}` : ''}
+        {formData.doctorAddress?.postalCode ? ` ${formData.doctorAddress.postalCode}` : ''}
+      </p>
+      {formData.connectedDisabilities && (
+        <p>
+          Connected disabilities: {formData.connectedDisabilities}
+        </p>
+      )}
+    </div>
+  );
+};
 
-export const HospitalView = ({ formData }) => (
-  <div className="vads-u-padding--2">
-    <strong>{formData.hospitalName || 'Hospital name not provided'}</strong>
-    <p>
-      Address: {formData.hospitalAddress?.street || ''} {formData.hospitalAddress?.street2 || ''}
-      {formData.hospitalAddress?.city ? `, ${formData.hospitalAddress.city}` : ''}
-      {formData.hospitalAddress?.state ? `, ${formData.hospitalAddress.state}` : ''}
-      {formData.hospitalAddress?.postalCode ? ` ${formData.hospitalAddress.postalCode}` : ''}
-    </p>
-  </div>
-);
+export const HospitalView = ({ formData }) => {
+  return (
+    <div className="vads-u-padding--2">
+      <strong>{formData.hospitalName || 'Hospital name not provided'}</strong>
+      <p>
+        Address: {formData.hospitalAddress?.street || ''}{' '}
+        {formData.hospitalAddress?.street2 || ''}
+        {formData.hospitalAddress?.city ? `, ${formData.hospitalAddress.city}` : ''}
+        {formData.hospitalAddress?.state ? `, ${formData.hospitalAddress.state}` : ''}
+        {formData.hospitalAddress?.postalCode ? ` ${formData.hospitalAddress.postalCode}` : ''}
+      </p>
+      {formData.connectedDisabilities && (
+        <p>
+          Connected disabilities: {formData.connectedDisabilities}
+        </p>
+      )}
+    </div>
+  );
+};
 
 export const EmployerView = ({ formData }) => (
   <div className="vads-u-padding--2">

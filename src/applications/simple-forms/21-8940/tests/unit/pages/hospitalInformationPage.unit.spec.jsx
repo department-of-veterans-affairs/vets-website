@@ -9,7 +9,7 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.sectionTwoP2Chapter.pages.hospitalInformationPage;
+} = formConfig.chapters.sectionTwoP1Chapter.pages.hospitalInformationPage;
 const pageTitle = 'hospital information';
 
 const expectedNumberOfFields = 0;
@@ -30,7 +30,7 @@ testNumberOfErrorsOnSubmit(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentFields = 11;
+const expectedNumberOfWebComponentFields = 12;
 testNumberOfWebComponentFields(
   formConfig,
   schema,

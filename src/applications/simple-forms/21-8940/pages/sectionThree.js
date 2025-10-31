@@ -1,19 +1,13 @@
 import {
-  textUI,
-  numberUI,
-  textSchema,
-  yesNoUI,
-  yesNoSchema,
   currentOrPastDateSchema,
   currentOrPastDateUI,
-  numberSchema,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Employment Statement',
+    'ui:title': 'Employment Timeline',
+    'ui:description': ' When did your disability affect your work? ',
 
     disabilityDate: currentOrPastDateUI(
       'Date your disability affected full-time employment',
@@ -23,11 +17,6 @@ export default {
     disabledWorkDate: currentOrPastDateUI(
       'Date you became too disabled to work',
     ),
-    maxYearlyEarnings: numberUI(
-      'What is the most you ever earned in one year?',
-    ),
-    yearEarned: numberUI('What year?'),
-    occupation: textUI('Occupation during that year?'),
   },
   schema: {
     type: 'object',
@@ -35,17 +24,11 @@ export default {
       disabilityDate: currentOrPastDateSchema,
       lastWorkedDate: currentOrPastDateSchema,
       disabledWorkDate: currentOrPastDateSchema,
-      maxYearlyEarnings: numberSchema,
-      yearEarned: numberSchema,
-      occupation: textSchema,
     },
     required: [
       'disabilityDate',
       'lastWorkedDate',
       'disabledWorkDate',
-      'maxYearlyEarnings',
-      'yearEarned',
-      'occupation',
     ],
   },
 };

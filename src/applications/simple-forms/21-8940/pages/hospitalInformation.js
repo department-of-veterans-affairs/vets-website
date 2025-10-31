@@ -50,6 +50,10 @@ export default {
           }),
           'ui:required': () => true,
         },
+        connectedDisabilities: {
+          ...textUI('Connected disabilities'),
+          'ui:description': 'Enter disabilities separated by commas (e.g., PTSD, Hearing Loss, Back Pain)',
+        },
       },
     },
     treatmentDates: {
@@ -92,6 +96,10 @@ export default {
           properties: {
             hospitalName: textSchema,
             hospitalAddress: addressSchema(),
+            connectedDisabilities: {
+              type: 'string',
+              maxLength: 500,
+            },
           },
           required: ['hospitalName', 'hospitalAddress'],
         },

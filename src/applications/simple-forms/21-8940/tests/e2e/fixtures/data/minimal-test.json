@@ -14,7 +14,11 @@
     "homePhone": "5551234567",
     "email": "john.doe@example.com"
   },
-  "sectionTwoP1": { "disabilityDescription": "Lower back pain" },
+  "sectionTwoP1": {
+    "disabilityDescription": [
+      { "disability": "Lower back pain" }
+    ]
+  },
   "doctorCareQuestion": { "hasReceivedDoctorCare": false },
   "hospitalizationQuestion": { "hasBeenHospitalized": false },
   "sectionThree": {

@@ -14,7 +14,7 @@ const submitDate = new Date();
 const initialState = {
   form: {
     ...createInitialState(formConfig),
-    testData,
+  data: testData.data,
     submission: {
       response: {
         confirmationNumber: '1234567890',

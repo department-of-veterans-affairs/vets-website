@@ -8,7 +8,7 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.sectionTwoP2Chapter.pages.doctorCareQuestionPage;
+} = formConfig.chapters.sectionTwoP1Chapter.pages.doctorCareQuestionPage;
 const pageTitleTrue = "doctor's care question - has received doctor care";
 const pageTitleFalse = "doctor's care question - has not received doctor care";
 

@@ -1,9 +1,9 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import featureToggles from '../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
+import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import user from './fixtures/mocks/user.json';
-import mockSubmit from '../../shared/tests/e2e/fixtures/mocks/application-submit.json';
+import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import {
@@ -13,7 +13,7 @@ import {
   reviewAndSubmitPageFlow,
   selectRadioWebComponent,
   selectYesNoWebComponent,
-} from '../../shared/tests/e2e/helpers';
+} from '../../../shared/tests/e2e/helpers';
 
 const testConfig = createTestConfig(
   {
@@ -90,10 +90,18 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillTextWebComponent(
-              'disabilityDescription',
-              data.sectionTwoP1.disabilityDescription,
-            );
+            const disabilities = data.sectionTwoP1.disabilityDescription || [];
+
+            disabilities.forEach((entry, index) => {
+              cy.findByText(/add another disability/i, {
+                selector: 'button',
+              }).click();
+
+              fillTextWebComponent(
+                `disabilityDescription_${index}_disability`,
+                entry.disability,
+              );
+            });
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });

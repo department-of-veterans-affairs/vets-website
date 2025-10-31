@@ -62,7 +62,11 @@
       }
     },
     "sectionTwoP1": {
-      "disabilityDescription": "Chronic lumbar strain with radiculopathy and PTSD symptoms that prevent sustained employment."
+      "disabilityDescription": [
+        {
+          "disability": "Chronic lumbar strain with radiculopathy and PTSD symptoms that prevent sustained employment."
+        }
+      ]
     },
     "doctorCareQuestion": {
       "hasReceivedDoctorCare": true

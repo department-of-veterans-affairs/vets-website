@@ -8,16 +8,16 @@ import IdNotVerifiedAlert from '../../shared/components/IdNotVerified';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
 const ombInfo = {
-  resBurden: '10',
+  resBurden: '45',
   ombNumber: '2900-0404',
   expDate: '08/31/2027',
 };
 
 export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
   const content = {
-    formTitle: 'VETERAN\'S APPLICATION FOR INCREASED COMPENSATION BASED ON UNEMPLOYABILITY',
+    formTitle: 'VETERAN\'S APPLICATION FOR INCREASED COMPENSATION BASED ON UNEMPLOYABILITY (VA 21-8940) ',
     formSubTitle:
-      'Please take your time to complete this form as accurately as you can.',
+      '',
     authStartFormText: 'Start the veteran\'s application',
     saveInProgressText:
       'Please complete the 21-8940 form to provide information about your employment.',
@@ -27,7 +27,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
   const childContent = (
     <>
       <p>
-       IMPORTANT: You are receiving compensation at the 100 percent rate based on being unable to secure or follow a substantially gainful occupation as a result of your service-connected disabilities. Section I needs to be completed in order to identify the person filling out the form. If you were self-employed or employed by others, including the Department of Veterans Affairs, at any time during the past 12 months, complete Section II of this form. If you have not been employed during the past 12 months, complete Section III of this form. After completing the form, mail to: Department of Veterans Affairs, Evidence Intake Center, P.O. Box 4444, Janesville, WI 53547-4444.
+      Hi there, welcome to VA Form 21-8940. Please use this form if you want to apply for Individual Unemployability disability benefits for a service-connected condition that prevents you from keeping a steady job. 
       </p>
     {/**   <h2 className="vads-u-font-size--h3">
         What to know before you submit this form

@@ -1,8 +1,10 @@
 import React from 'react';
 import {
-  titleUI,
+  inlineTitleUI,
   yesNoSchema,
   yesNoUI,
+  radioUI,
+  radioSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import { hospitalizationQuestionFields } from '../definitions/constants';
@@ -11,24 +13,23 @@ import { hospitalizationQuestionFields } from '../definitions/constants';
 export default {
   uiSchema: {
     [hospitalizationQuestionFields.parentObject]: {
-      ...titleUI({
-        title: 'Your Recent Medical Treatment ',
-      }),
+      ...inlineTitleUI('Your Recent Medical Treatment '),
       [hospitalizationQuestionFields.hasBeenHospitalized]: yesNoUI({
         title: 'Have you been hospitalized in the past 12 months?',
         labels: {
-          Y: 'Yes, I confirm',
-          N: 'No, I do not confirm',
+          Y: 'Yes, I have been hospitalized in the past 12 months ',
+          N: 'No, I have NOT been hospitalized in the past 12 months ',
         },
       }),
-      'view:treatmentAtNonVA': yesNoUI({
-        title: 'Were you treated at a Non-VA hospital or VA hospital?',
+      'view:treatmentAtNonVA': radioUI({
+        title: 'Where were you treated?',
         labels: {
-          Y: 'Yes, I was treated at a Non-VA hospital',
-          N: 'No, I was not treated at a Non-VA hospital',
+          nonVa: 'Non-VA Hospital',
+          va: 'VA Hospital',
+          both: 'Both VA and Non-VA Hospital',
         },
         errorMessages: {
-          required: 'Please select if you were treated at a Non-VA hospital.',
+          required: 'Please select where you were treated.',
         },
       }),
       'view:nonVAAuthorizationInfo': {
@@ -58,7 +59,7 @@ export default {
         ),
         'ui:options': {
           expandUnder: 'view:treatmentAtNonVA',
-          expandUnderCondition: true,
+          expandUnderCondition: (val) => val === 'va' || val === 'both',
         },
       },
 
@@ -76,7 +77,7 @@ export default {
         required: [hospitalizationQuestionFields.hasBeenHospitalized],
         properties: {
           [hospitalizationQuestionFields.hasBeenHospitalized]: yesNoSchema,
-          'view:treatmentAtNonVA': yesNoSchema,
+          'view:treatmentAtNonVA': radioSchema(['nonVa', 'va', 'both']),
           'view:nonVAAuthorizationInfo': {
             type: 'object',
             properties: {}

@@ -4,12 +4,12 @@ import {
   yesNoUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
+
 const requireYesConfirmation = (errors, fieldData) => {
   if (fieldData !== true) {
-    errors.addError('You must select "Yes" to continue with this form.');
+    errors.addError('You must make a selection. This field is required.');
   }
 };
-
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -22,23 +22,44 @@ export default {
           Y: 'Yes, I confirm',
           N: 'No, I do not confirm',
         },
-      }),
-      'ui:validations': [requireYesConfirmation],
-      'ui:errorMessages': {
-        required: 'You must make a selection to proceed.',
-      },
-      'ui:options': {
+        errorMessages: {
+          required: 'You must make a selection to proceed.',
+        },
         showFieldLabel: true,
+      }),
+    },
+    newConditionQuestion: {
+      ...yesNoUI({
+        title: 'Are you applying for a new or secondary condition?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+        errorMessages: {
+          required: 'You must make a selection to proceed.',
+        },
+        showFieldLabel: true,
+      }),
+      'ui:options': {
+        expandUnder: 'confirmationQuestion',
+        expandUnderCondition: false,
       },
+      'ui:validations': [
+        (errors, fieldData) => {
+          if (fieldData === false) {
+            errors.addError('You must select "Yes" to continue with this form.');
+          }
+        },
+      ],
     },
     'view:yesNotification': {
       'ui:description': () => (
-        <div>
+        <va-alert status="info" uswds>
+          <h3 slot="headline">Important</h3>
           <p>
-            <strong>Important:</strong>
-          </p>
-          <p>
-            Please remember, if you are filing a claim for a new or secondary condition or for increased disability compensation, you will also need to complete the Form 21-526EZ if you haven't done so already.
+            Please remember, if you are filing a claim for a new or secondary
+            condition or for increased disability compensation, you will also
+            need to complete the Form 21-526EZ if you haven't done so already.
           </p>
           <p>
             <va-link
@@ -46,19 +67,18 @@ export default {
               text="VA Form 21-526EZ"
             />
           </p>
-        </div>
+        </va-alert>
       ),
       'ui:options': {
-        expandUnder: 'confirmationQuestion',
-        expandUnderCondition: true,
+        hideIf: formData =>
+          formData.confirmationQuestion !== false ||
+          formData.newConditionQuestion !== true,
       },
     },
     'view:noNotification': {
       'ui:description': () => (
-        <div>
-          <p>
-            <strong>Seems like you need a different form.</strong>
-          </p>
+        <va-alert status="warning" uswds>
+          <h3 slot="headline">Seems like you need a different form.</h3>
           <p>
             Let's get you to the right place! Visit our forms page to find the right one for your needs. Remember, you can always get help from a{' '}
             <va-link
@@ -73,11 +93,12 @@ export default {
               text="Find a VA Form"
             />
           </p>
-        </div>
+        </va-alert>
       ),
       'ui:options': {
-        expandUnder: 'confirmationQuestion',
-        expandUnderCondition: false,
+        hideIf: formData =>
+          formData.confirmationQuestion !== false ||
+          formData.newConditionQuestion !== false,
       },
     },
   },
@@ -85,6 +106,7 @@ export default {
     type: 'object',
     properties: {
       confirmationQuestion: yesNoSchema,
+      newConditionQuestion: yesNoSchema,
       'view:yesNotification': {
         type: 'object',
         properties: {}

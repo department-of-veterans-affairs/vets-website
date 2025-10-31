@@ -137,6 +137,32 @@ const isDeepEmpty = value => {
 const toArray = value =>
   Array.isArray(value) ? value.filter(item => !isDeepEmpty(item)) : [];
 
+const formatDisabilitiesList = value => {
+  if (typeof value === 'string') {
+    return truncateString(stringOrUndefined(value), MAX_LENGTHS.disabilities);
+  }
+
+  const entries = toArray(value)
+    .map(item => {
+      if (typeof item === 'string') {
+        return stringOrUndefined(item);
+      }
+
+      if (item && typeof item === 'object') {
+        return stringOrUndefined(item.disability);
+      }
+
+      return undefined;
+    })
+    .filter(Boolean);
+
+  if (!entries.length) {
+    return undefined;
+  }
+
+  return truncateString(entries.join(', '), MAX_LENGTHS.disabilities);
+};
+
 const toInteger = value => {
   if (typeof value === 'number' && Number.isFinite(value)) {
     return value;
@@ -445,9 +471,8 @@ const buildSubmissionPayload = data => {
     email: stringOrUndefined(veteran.email),
     veteranPhone: stringOrUndefined(veteran.homePhone),
     internationalPhone: stringOrUndefined(veteran.internationalPhone),
-    listOfDisabilities: truncateString(
-      stringOrUndefined(data?.disabilityDescription),
-      MAX_LENGTHS.disabilities,
+    listOfDisabilities: formatDisabilitiesList(
+      data?.disabilityDescription,
     ),
     doctorsCareInLastYTD:
       doctorCareAnswer !== undefined
