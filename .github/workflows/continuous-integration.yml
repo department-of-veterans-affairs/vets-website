@@ -390,8 +390,6 @@ jobs:
       - name: Run unit tests
         id: run-tests
         run: |
-          node -e "try{console.log('minimatch:',require('minimatch/package.json').version)}catch(e){console.log('minimatch not found',e?.message)}"
-          node -e "try{console.log('test-exclude:',require('test-exclude/package.json').version)}catch(e){console.log('test-exclude not found')}"
           if [[ -n "$APP_FOLDERS" ]]; then
             yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
           else
@@ -467,7 +465,7 @@ jobs:
           path: .
 
       - name: Run unit tests
-        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --reporter mocha-multi-reporters --coverage --log-level verbose
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
