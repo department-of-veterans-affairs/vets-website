@@ -46,6 +46,8 @@ va-checkbox-group va-text-input[error]::part(label) {
  * This could go in the schemaform css, it's used in form 526 & HLR
  */
  .issues {
+  margin: 0;
+
   .widget-wrapper {
     .edit-issue-link:visited {
       color: inherit;

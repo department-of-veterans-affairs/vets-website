@@ -59,7 +59,7 @@ export const IssueCard = ({
       ? ''
       : 'vads-u-border-bottom--1px vads-u-border-color--gray-light',
     showSeparator
-      ? 'vads-u-border-top--1px vads-u-border-color--gray-medium vads-u-margin-top--5'
+      ? 'vads-u-border-top--1px vads-u-border-color--gray-medium vads-u-margin-top--4'
       : '',
   ].join(' ');
 

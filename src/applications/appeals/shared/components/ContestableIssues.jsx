@@ -214,6 +214,12 @@ const ContestableIssues = props => {
 
   const blockedMessage = getBlockedMessage(blockedIssues);
 
+  // Use wrapper div with conditional classes to fix va-alert inconsistent CSS rendering
+  const alertClasses =
+    blockedIssues?.length > 0
+      ? 'vads-u-margin-top--3 vads-u-margin-bottom--2'
+      : 'vads-u-margin-top--0p5';
+
   const issueCards = items.map((item, index) => {
     const itemIsSelected = !!item?.[SELECTED];
     const hideCard = (inReviewMode && !itemIsSelected) || isEmptyObject(item);
@@ -293,17 +299,18 @@ const ContestableIssues = props => {
               : null}
           </p>
         </VaModal>
-        <div className="vads-u-border-top--1px vads-u-border-color--gray-light">
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="warning"
-            visible={blockedIssues.length > 0}
-            class="vads-u-margin-top--3 vads-u-margin-bottom--3"
-            id="blocked-issues-alert"
-            role="alert"
-          >
-            <p className="vads-u-margin-y--0">{blockedMessage}</p>
-          </va-alert>
+        <div className="vads-u-border-top--1px vads-u-border-color--gray-light vads-u-margin-top--4">
+          <div className={alertClasses}>
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="warning"
+              visible={blockedIssues.length > 0}
+              id="blocked-issues-alert"
+              role="alert"
+            >
+              <p className="vads-u-margin-y--0">{blockedMessage}</p>
+            </va-alert>
+          </div>
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul className="issues remove-bullets" role="list">
             {issueCards}
