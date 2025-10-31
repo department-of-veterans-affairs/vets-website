@@ -74,18 +74,6 @@ const ProcessList = () => {
             benefits claims
           </a>
         </p>
-        <p>
-          Note: What you’ll need to submit yourself depends on if you’re filing
-          a standard claim or participating in the Fully Developed Claims (FDC)
-          program. You can get a faster decision if you turn in all your
-          evidence at the same time as you file your claim through the FDC
-          program.
-        </p>
-        <p>
-          <a href="/pension/how-to-apply/fully-developed-claim/">
-            Learn more about fully developed claims
-          </a>
-        </p>
       </va-process-list-item>
       <va-process-list-item header="Start your application">
         <p>
