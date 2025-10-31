@@ -28,6 +28,7 @@ import {
   fixDecisionDates,
   getRandomDate,
   areaOfDisagreementPageHook,
+  startApp,
 } from '../../shared/tests/cypress.helpers';
 
 const today = parseDateWithOffset({});
@@ -60,20 +61,19 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'a' })
-            .first()
-            .click();
+          startApp();
         });
       },
 
       'veteran-information': () => {
         cy.wait('@getIssues');
-        cy.findByText('Continue', { selector: 'button' }).click();
+        cy.clickFormContinue();
       },
 
       [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
 
+        // E2E test: Verify blocked issues alert appears with correct content
         cy.get('#blocked-issues-alert').should('exist');
         cy.get('#blocked-issues-alert').should(
           'contain.text',
@@ -85,12 +85,11 @@ const testConfig = createTestConfig(
           .and('not.contain', '5:00 p.m.');
 
         cy.contains('blocked issue (today)').should('exist');
-
         cy.get('va-checkbox').should('exist');
 
         afterHook(() => {
           cy.get('@testData').then(testData => {
-            cy.findByText('Continue', { selector: 'button' }).click();
+            cy.clickFormContinue();
 
             cy.location('pathname').should(
               'eq',
@@ -112,7 +111,7 @@ const testConfig = createTestConfig(
               .first()
               .click();
 
-            cy.findByText('Continue', { selector: 'button' }).click();
+            cy.clickFormContinue();
           });
         });
       },
@@ -128,7 +127,7 @@ const testConfig = createTestConfig(
                 .find('textarea')
                 .type(extensionReason);
             }
-            cy.findByText('Continue', { selector: 'button' }).click();
+            cy.clickFormContinue();
           });
         });
       },

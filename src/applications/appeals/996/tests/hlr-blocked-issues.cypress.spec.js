@@ -14,7 +14,7 @@ import { CONTESTABLE_ISSUES_API, SUBMIT_URL } from '../constants/apis';
 
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 
-import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
+import { fixDecisionDates, startApp } from '../../shared/tests/cypress.helpers';
 import { parseDateWithOffset } from '../../shared/utils/dates';
 import cypressSetup from '../../shared/tests/cypress.setup';
 
@@ -58,9 +58,7 @@ const testConfig = createTestConfig(
 
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start the request/i, { selector: 'a' })
-            .first()
-            .click();
+          startApp();
         });
       },
 
@@ -87,7 +85,7 @@ const testConfig = createTestConfig(
             .first()
             .click();
 
-          cy.findByText('Continue', { selector: 'button' }).click();
+          cy.clickFormContinue();
         });
       },
 
@@ -97,7 +95,7 @@ const testConfig = createTestConfig(
           cy.get('va-checkbox')
             .first()
             .click();
-          cy.findByText('Continue', { selector: 'button' }).click();
+          cy.clickFormContinue();
         });
       },
 
@@ -110,8 +108,8 @@ const testConfig = createTestConfig(
                 ? 'yes'
                 : 'no';
             cy.get(`va-radio-option[value="${rep}"]`).click();
-            cy.axeCheck();
-            cy.findByText('Continue', { selector: 'button' }).click();
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
           });
         });
       },
@@ -121,8 +119,8 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(testData => {
             const rep = testData.informalConference;
             cy.get(`va-radio-option[value="${rep}"]`).click();
-            cy.axeCheck();
-            cy.findByText('Continue', { selector: 'button' }).click();
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
           });
         });
       },
