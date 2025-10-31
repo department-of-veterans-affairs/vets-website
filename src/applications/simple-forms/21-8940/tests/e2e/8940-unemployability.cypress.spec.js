@@ -127,9 +127,11 @@ const testConfig = createTestConfig(
             const disabilities = data.sectionTwoP1.disabilityDescription || [];
 
             disabilities.forEach((entry, index) => {
-              cy.findByText(/add another disability/i, {
-                selector: 'button',
-              }).click();
+              if (index > 0) {
+                cy.findByText(/add another disability/i, {
+                  selector: 'button',
+                }).click();
+              }
 
               fillTextWebComponent(
                 `disabilityDescription_${index}_disability`,
