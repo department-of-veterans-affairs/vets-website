@@ -2,5 +2,6 @@
   "appName": "Marital Status Questionnaire (21P-0537)",
   "entryFile": "./app-entry.jsx",
   "entryName": "21p-0537",
-  "rootUrl": "/supporting-forms-for-claims/marital-status-questionnaire-21p-0537"
+  "rootUrl": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/verify-marital-status-21p-0537",
+  "productId": "05ad9d11-65a6-4495-96c1-7100bcb87c78"
 }
