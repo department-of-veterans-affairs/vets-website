@@ -112,6 +112,7 @@ const formConfig = {
 
   formOptions: {
     focusOnAlertRole: true,
+    useWebComponentForNavigation: true,
   },
 
   chapters: {
