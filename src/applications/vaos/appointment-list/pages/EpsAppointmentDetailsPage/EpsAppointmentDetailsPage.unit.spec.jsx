@@ -4,13 +4,13 @@ import sinon from 'sinon';
 import { waitFor } from '@testing-library/dom';
 import * as utils from 'applications/vaos/services/utils';
 import EpsAppointmentDetailsPage from './EpsAppointmentDetailsPage';
-import * as actionsModule from './redux/actions';
+import * as actionsModule from '../../../referral-appointments/redux/actions';
 import {
   createTestStore,
   renderWithStoreAndRouter,
-} from '../tests/mocks/setup';
-import { createMockEpsAppointment } from './utils/appointment';
-import * as epsAppointmentUtils from './utils/appointment';
+} from '../../../tests/mocks/setup';
+import { createMockEpsAppointment } from '../../../referral-appointments/utils/appointment';
+import * as epsAppointmentUtils from '../../../referral-appointments/utils/appointment';
 
 describe('EpsAppointmentDetailsPage', () => {
   let requestStub;
@@ -28,6 +28,9 @@ describe('EpsAppointmentDetailsPage', () => {
       appointmentInfoError: false,
       appointmentInfoLoading: false,
       referralAppointmentInfo,
+    },
+    featureToggles: {
+      vaOnlineSchedulingCommunityCareCancellations: false,
     },
   };
 
@@ -344,5 +347,302 @@ describe('EpsAppointmentDetailsPage', () => {
     const description = container.getByTestId('appointment-time-description');
     expect(description).to.exist;
     expect(description.textContent).to.include('Eastern time (ET)'); // Full timezone description
+  });
+
+  it('should not show cancel appointment button when community care cancellations flipper is disabled', async () => {
+    requestStub.resolves({ data: referralAppointmentInfo });
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingCommunityCareCancellations: false,
+      },
+    });
+    const { getByTestId, queryByTestId } = renderWithStoreAndRouter(
+      <EpsAppointmentDetailsPage />,
+      {
+        store,
+        path: `/${appointmentId}`,
+      },
+    );
+    await waitFor(() => {
+      expect(getByTestId('appointment-card')).to.exist;
+    });
+    await waitFor(() => {
+      expect(queryByTestId('cancel-button')).not.to.exist;
+    });
+  });
+
+  it('should show cancel appointment button when community care cancellations flipper is enabled', async () => {
+    requestStub.resolves({ data: referralAppointmentInfo });
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingCommunityCareCancellations: true,
+      },
+    });
+    const { getByTestId } = renderWithStoreAndRouter(
+      <EpsAppointmentDetailsPage />,
+      {
+        store,
+        path: `/${appointmentId}`,
+      },
+    );
+    await waitFor(() => {
+      expect(getByTestId('appointment-card')).to.exist;
+    });
+    await waitFor(() => {
+      expect(getByTestId('cancel-button')).to.exist;
+    });
+  });
+
+  describe('Cancellation flow', () => {
+    it('should show cancellation layout when cancel button is clicked', async () => {
+      requestStub.resolves({ data: referralAppointmentInfo });
+      const store = createTestStore({
+        ...preFetchedState,
+        featureToggles: {
+          vaOnlineSchedulingCommunityCareCancellations: true,
+        },
+      });
+      const { getByTestId, queryByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentDetailsPage />,
+        {
+          store,
+          path: `/${appointmentId}`,
+        },
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      const cancelButton = getByTestId('cancel-button');
+      cancelButton.click();
+
+      await waitFor(() => {
+        expect(queryByTestId('appointment-card')).to.not.exist;
+      });
+    });
+
+    it('should render "Would you like to cancel this appointment?" heading when cancelling', async () => {
+      requestStub.resolves({ data: referralAppointmentInfo });
+      const store = createTestStore({
+        ...preFetchedState,
+        featureToggles: {
+          vaOnlineSchedulingCommunityCareCancellations: true,
+        },
+      });
+      const { getByTestId, getByText } = renderWithStoreAndRouter(
+        <EpsAppointmentDetailsPage />,
+        {
+          store,
+          path: `/${appointmentId}`,
+        },
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      const cancelButton = getByTestId('cancel-button');
+      cancelButton.click();
+
+      await waitFor(() => {
+        expect(getByText('Would you like to cancel this appointment?')).to
+          .exist;
+      });
+    });
+
+    it('should return to appointment details when "No, do not cancel" is clicked', async () => {
+      requestStub.resolves({ data: referralAppointmentInfo });
+      const store = createTestStore({
+        ...preFetchedState,
+        featureToggles: {
+          vaOnlineSchedulingCommunityCareCancellations: true,
+        },
+      });
+      const { getByTestId, queryByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentDetailsPage />,
+        {
+          store,
+          path: `/${appointmentId}`,
+        },
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      // Click cancel appointment button
+      const cancelButton = getByTestId('cancel-button');
+      cancelButton.click();
+
+      await waitFor(() => {
+        expect(getByTestId('do-not-cancel-button')).to.exist;
+      });
+
+      // Click "No, do not cancel"
+      const doNotCancelButton = getByTestId('do-not-cancel-button');
+      doNotCancelButton.click();
+
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+        expect(queryByTestId('do-not-cancel-button')).to.not.exist;
+      });
+    });
+
+    it('should return to appointment details when back link is clicked during cancellation', async () => {
+      requestStub.resolves({ data: referralAppointmentInfo });
+      const store = createTestStore({
+        ...preFetchedState,
+        featureToggles: {
+          vaOnlineSchedulingCommunityCareCancellations: true,
+        },
+      });
+      const { getByTestId, queryByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentDetailsPage />,
+        {
+          store,
+          path: `/${appointmentId}`,
+        },
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      // Click cancel appointment button
+      const cancelButton = getByTestId('cancel-button');
+      cancelButton.click();
+
+      await waitFor(() => {
+        expect(getByTestId('do-not-cancel-button')).to.exist;
+      });
+
+      // Click back link
+      const backLink = getByTestId('back-link');
+      backLink.click();
+
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+        expect(queryByTestId('do-not-cancel-button')).to.not.exist;
+      });
+    });
+
+    it('should show success message when "Yes, cancel appointment" is clicked', async () => {
+      requestStub.resolves({ data: referralAppointmentInfo });
+      const store = createTestStore({
+        ...preFetchedState,
+        featureToggles: {
+          vaOnlineSchedulingCommunityCareCancellations: true,
+        },
+      });
+      const {
+        getByTestId,
+        getByText,
+        queryByTestId,
+      } = renderWithStoreAndRouter(<EpsAppointmentDetailsPage />, {
+        store,
+        path: `/${appointmentId}`,
+      });
+
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      // Click cancel appointment button
+      const cancelButton = getByTestId('cancel-button');
+      cancelButton.click();
+
+      await waitFor(() => {
+        expect(getByTestId('cancel-button')).to.exist;
+      });
+
+      // Click "Yes, cancel appointment"
+      const confirmCancelButton = getByTestId('cancel-button');
+      confirmCancelButton.click();
+
+      await waitFor(() => {
+        expect(getByText('You have canceled your appointment')).to.exist;
+        expect(queryByTestId('cancel-button')).to.not.exist;
+        expect(queryByTestId('do-not-cancel-button')).to.not.exist;
+      });
+    });
+
+    it('should show "Go to your referral" link after cancellation is confirmed', async () => {
+      requestStub.resolves({ data: referralAppointmentInfo });
+      const store = createTestStore({
+        ...preFetchedState,
+        featureToggles: {
+          vaOnlineSchedulingCommunityCareCancellations: true,
+        },
+      });
+      const { getByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentDetailsPage />,
+        {
+          store,
+          path: `/${appointmentId}`,
+        },
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      // Click cancel appointment button
+      const cancelButton = getByTestId('cancel-button');
+      cancelButton.click();
+
+      await waitFor(() => {
+        expect(getByTestId('cancel-button')).to.exist;
+      });
+
+      // Click "Yes, cancel appointment"
+      const confirmCancelButton = getByTestId('cancel-button');
+      confirmCancelButton.click();
+
+      await waitFor(() => {
+        expect(getByTestId('go-to-referral-link')).to.exist;
+      });
+    });
+
+    it('should not show appointment detail card after cancellation is confirmed', async () => {
+      requestStub.resolves({ data: referralAppointmentInfo });
+      const store = createTestStore({
+        ...preFetchedState,
+        featureToggles: {
+          vaOnlineSchedulingCommunityCareCancellations: true,
+        },
+      });
+      const { getByTestId, queryByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentDetailsPage />,
+        {
+          store,
+          path: `/${appointmentId}`,
+        },
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('appointment-card')).to.exist;
+      });
+
+      // Click cancel appointment button
+      const cancelButton = getByTestId('cancel-button');
+      cancelButton.click();
+
+      await waitFor(() => {
+        expect(getByTestId('cancel-button')).to.exist;
+      });
+
+      // Click "Yes, cancel appointment"
+      const confirmCancelButton = getByTestId('cancel-button');
+      confirmCancelButton.click();
+
+      await waitFor(() => {
+        expect(queryByTestId('appointment-card')).to.not.exist;
+      });
+    });
   });
 });

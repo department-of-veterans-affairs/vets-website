@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
@@ -9,7 +8,8 @@ import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { CancelButton } from '../../config/helpers';
 import { PICKLIST_DATA } from '../../config/constants';
-import { calculateAge } from '../../../shared/utils';
+import { labels } from './utils';
+import propTypes from './types';
 
 const parentReasonToRemove = {
   handlers: {
@@ -59,37 +59,14 @@ const parentReasonToRemove = {
     },
   },
 
-  /**
-   * Depedent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} removalReason Dependent's removal reason
-   */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} returnToMainPage Function to return to the main remove
-   * dependents page
-   * @returns React component
-   */
+  /** @type {PicklistComponentProps} */
   Component: ({
     itemData,
     fullName,
     formSubmitted,
-    firstName,
     handlers,
     returnToMainPage,
+    isEditing,
   }) => {
     // Not in the design, but added in case the dependent data is invalid
     if (!itemData.dateOfBirth || itemData.relationshipToVeteran !== 'Parent') {
@@ -103,33 +80,32 @@ const parentReasonToRemove = {
       handlers.onChange({ ...itemData, removalReason: value });
     };
 
-    const { labeledAge } = calculateAge(itemData.dateOfBirth, {
-      dateInFormat: 'yyyy-MM-dd',
-    });
-
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Reason for removing {fullName}
+          {labels.Parent.removalReasonTitle(fullName, isEditing)}
         </h3>
         <VaRadio
           class="vads-u-margin-bottom--2"
           error={
-            formSubmitted && !itemData.removalReason ? 'Select an option' : null
+            formSubmitted && !itemData.removalReason
+              ? labels.Parent.removalReasonError
+              : null
           }
-          label={`Do any of these apply to ${fullName} (age ${labeledAge})?`}
+          label={labels.Parent.removalReason}
+          hint={labels.Parent.removalReasonHint}
           onVaValueChange={onChange}
           required
         >
           <VaRadioOption
             name="removalReason"
-            label={`${firstName} died`}
+            label={labels.Parent.parentDied}
             checked={itemData.removalReason === 'parentDied'}
             value="parentDied"
           />
           <VaRadioOption
             name="removalReason"
-            label={`Something else happened to ${firstName}`}
+            label={labels.Parent.parentOther}
             checked={itemData.removalReason === 'parentOther'}
             value="parentOther"
           />
@@ -144,24 +120,7 @@ const parentReasonToRemove = {
   },
 };
 
-parentReasonToRemove.propTypes = {
-  Component: PropTypes.func,
-};
-
-parentReasonToRemove.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    dateOfBirth: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-    removalReason: PropTypes.string,
-  }),
-  returnToMainPage: PropTypes.func,
-};
+parentReasonToRemove.propTypes = propTypes.Page;
+parentReasonToRemove.Component.propTypes = propTypes.Component;
 
 export default parentReasonToRemove;

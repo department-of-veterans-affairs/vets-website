@@ -318,6 +318,7 @@
   "vaOnlineSchedulingCCDirectScheduling": "va_online_scheduling_cc_direct_scheduling",
   "vaOnlineSchedulingCCDirectSchedulingChiropractic": "va_online_scheduling_cc_direct_scheduling_chiropractic",
   "vaOnlineSchedulingCommunityCare": "va_online_scheduling_community_care",
+  "vaOnlineSchedulingCommunityCareCancellations": "va_online_scheduling_community_care_cancellations",
   "vaOnlineSchedulingDirect": "va_online_scheduling_direct",
   "vaOnlineSchedulingOhDirectSchedule": "va_online_scheduling_OH_direct_schedule",
   "vaOnlineSchedulingOhRequest": "va_online_scheduling_OH_request",
@@ -371,5 +372,6 @@
   "form0779Enabled": "form_0779_enabled",
   "form530aEnabled": "form_530a_enabled",
   "form4192Enabled": "form_4192_enabled",
-  "form2680Enabled": "form_2680_enabled"
+  "form2680Enabled": "form_2680_enabled",
+  "vre_eligibility_status_phase_2_updates": "vre_eligibility_status_phase_2_updates"
 }

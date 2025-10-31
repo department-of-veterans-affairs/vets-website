@@ -7,7 +7,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { isYes } from '../05-claim-information/helpers';
+import { isYes } from '../../../utils/helpers';
 import { CourtOrderSeparationAlert } from '../../../components/FormAlerts';
 
 /** @type {PageSchema} */
