@@ -144,15 +144,6 @@ export const showToxicExposurePages = formData => {
   return isClaimingNew(formData) && hasRealNewDisabilities(formData);
 };
 
-// const hasSchemaNewDisabilities = formData =>
-//   Array.isArray(formData?.newDisabilities) &&
-//   formData.newDisabilities.some(d => d?.condition && d?.cause);
-
-// export function showToxicExposurePages(formData) {
-//   // Only show TE when there is at least one *schema-shaped* NEW/SECONDARY/WORSENED/VA row
-//   return isClaimingNew(formData) && hasSchemaNewDisabilities(formData);
-// }
-
 /**
  * Checks if
  * 1. TE pages should be showing
