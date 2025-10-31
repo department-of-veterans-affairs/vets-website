@@ -39,15 +39,15 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
     code.length === 8 && !badFormat && thirdChar === 'X';
 
   if (!currentItem?.isLoading) {
-    if (badFormat || notFound) {
-      errors.addError(
-        'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
-      );
-    }
-
     if (hasXInThirdPosition) {
       errors.addError(
         'Codes with an "X" in the third position are not eligible',
+      );
+    }
+
+    if (badFormat || notFound) {
+      errors.addError(
+        'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
       );
     }
 
