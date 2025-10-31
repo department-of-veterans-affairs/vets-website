@@ -3,7 +3,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
-import { Alerts, AXE_CONTEXT, Data, Locators } from './utils/constants';
+import { Alerts, AXE_CONTEXT, Data } from './utils/constants';
 
 describe('SM MESSAGING LARGE ATTACHMENT', () => {
   const { TEST_FILES } = Data;
@@ -56,7 +56,7 @@ describe('SM MESSAGING LARGE ATTACHMENT', () => {
     PatientComposePage.attachFakeFile(TEST_FILES.FAKE_FILE_1KB, {
       verify: true,
     });
-    cy.findByTestId(Locators.BUTTONS.ATTACH_FILE).should('not.exist');
+    cy.get('[data-testid^="attach-file-input"]').should('not.exist');
 
     PatientComposePage.sendMessage();
 
@@ -100,7 +100,7 @@ describe('SM MESSAGING LARGE ATTACHMENT', () => {
 
     PatientComposePage.attachFakeFile(TEST_FILES.FAKE_FILE_10KB);
     PatientComposePage.attachFakeFile(TEST_FILES.FAKE_FILE_1KB);
-    cy.findByTestId(Locators.BUTTONS.ATTACH_FILE).should('exist');
+    cy.get('[data-testid^="attach-file-input"]').should('exist');
     PatientComposePage.sendMessage();
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
@@ -121,7 +121,7 @@ describe('SM MESSAGING LARGE ATTACHMENT', () => {
     PatientComposePage.verifyAttachmentInfo(Data.LARGE_ATTACH_INFO);
 
     PatientComposePage.attachFakeFilesByCount(10, { verify: true });
-    cy.findByTestId(Locators.BUTTONS.ATTACH_FILE).should('not.exist');
+    cy.get('[data-testid^="attach-file-input"]').should('not.exist');
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
@@ -161,7 +161,7 @@ describe('SM MESSAGING LARGE ATTACHMENT', () => {
     PatientComposePage.attachFakeFile(TEST_FILES.FAKE_FILE_1KB, {
       verify: true,
     });
-    cy.findByTestId(Locators.BUTTONS.ATTACH_FILE).should('not.exist');
+    cy.get('[data-testid^="attach-file-input"]').should('not.exist');
 
     PatientComposePage.sendMessage().then(request => {
       expect(request.url).to.include('is_oh_triage_group=true');
@@ -208,7 +208,7 @@ describe('SM MESSAGING LARGE ATTACHMENT', () => {
 
     PatientComposePage.attachFakeFile(TEST_FILES.FAKE_FILE_10KB);
     PatientComposePage.attachFakeFile(TEST_FILES.FAKE_FILE_1KB);
-    cy.findByTestId(Locators.BUTTONS.ATTACH_FILE).should('exist');
+    cy.get('[data-testid^="attach-file-input"]').should('exist');
     PatientComposePage.sendMessage();
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
@@ -229,7 +229,7 @@ describe('SM MESSAGING LARGE ATTACHMENT', () => {
     PatientComposePage.verifyAttachmentInfo(Data.LARGE_ATTACH_INFO);
 
     PatientComposePage.attachFakeFilesByCount(10, { verify: true });
-    cy.findByTestId(Locators.BUTTONS.ATTACH_FILE).should('not.exist');
+    cy.get('[data-testid^="attach-file-input"]').should('not.exist');
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

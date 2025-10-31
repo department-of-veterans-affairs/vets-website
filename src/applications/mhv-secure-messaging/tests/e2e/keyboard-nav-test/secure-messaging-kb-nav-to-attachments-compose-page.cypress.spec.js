@@ -25,7 +25,7 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
 
     PatientComposePage.verifyAttachmentButtonText(0);
     PatientComposePage.attachMessageFromFile(Data.TEST_IMAGE);
-    cy.tabToElement(`[data-testid="attach-file-button"]`);
+    cy.tabToElement(`[data-testid^="attach-file-input"]`);
     PatientComposePage.verifyAttachButtonHasFocus();
 
     PatientComposePage.verifyAttachmentButtonText(1);
