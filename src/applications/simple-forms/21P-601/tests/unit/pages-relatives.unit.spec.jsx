@@ -48,6 +48,59 @@ describe('21P-601 relatives page configurations', () => {
 
     it('has checkbox group schema for survivors', () => {
       expect(relativesOverview.schema.properties.survivors).to.exist;
+      expect(relativesOverview.schema.properties.survivors).to.have.property(
+        'type',
+        'object',
+      );
+      expect(
+        relativesOverview.schema.properties.survivors.properties,
+      ).to.have.property('hasSpouse');
+      expect(
+        relativesOverview.schema.properties.survivors.properties,
+      ).to.have.property('hasChildren');
+      expect(
+        relativesOverview.schema.properties.survivors.properties,
+      ).to.have.property('hasParents');
+      expect(
+        relativesOverview.schema.properties.survivors.properties,
+      ).to.have.property('hasNone');
+    });
+
+    it('has correct schema structure', () => {
+      expect(relativesOverview.schema).to.have.property('type', 'object');
+      expect(relativesOverview.schema).to.have.property('properties');
+      expect(relativesOverview.schema.properties).to.have.property(
+        'view:noSurvivorsMessage',
+      );
+      expect(
+        relativesOverview.schema.properties['view:noSurvivorsMessage'],
+      ).to.have.property('type', 'object');
+    });
+
+    it('has title UI configuration', () => {
+      const titleConfig = relativesOverview.uiSchema['ui:title'];
+      expect(titleConfig).to.exist;
+      // titleUI returns a React component, not a string
+      expect(titleConfig).to.not.be.a('string');
+    });
+
+    it('has survivors checkbox group UI configuration', () => {
+      const survivorsUI = relativesOverview.uiSchema.survivors;
+      expect(survivorsUI).to.exist;
+      expect(survivorsUI['ui:title']).to.equal('Check all that apply');
+      expect(survivorsUI['ui:required']).to.be.a('function');
+      expect(survivorsUI['ui:required']()).to.be.true;
+      // checkboxGroupUI uses ui:webComponentField, not ui:widget
+      expect(survivorsUI['ui:webComponentField']).to.exist;
+    });
+
+    it('has correct checkbox labels', () => {
+      const survivorsUI = relativesOverview.uiSchema.survivors;
+      // The labels are spread directly into the survivorsUI object, not nested in ui:options
+      expect(survivorsUI.hasSpouse).to.exist;
+      expect(survivorsUI.hasChildren).to.exist;
+      expect(survivorsUI.hasParents).to.exist;
+      expect(survivorsUI.hasNone).to.exist;
     });
 
     it('has conditional message', () => {
@@ -57,6 +110,81 @@ describe('21P-601 relatives page configurations', () => {
       expect(hideIf).to.be.a('function');
       expect(hideIf({ survivors: { hasNone: true } })).to.be.false;
       expect(hideIf({ survivors: { hasNone: false } })).to.be.true;
+    });
+
+    it('shows message when hasNone is selected', () => {
+      const messageUI = relativesOverview.uiSchema['view:noSurvivorsMessage'];
+      expect(messageUI['ui:description']).to.include('no surviving relatives');
+      expect(messageUI['ui:description']).to.include(
+        'eligible for reimbursement',
+      );
+      expect(messageUI['ui:description']).to.include(
+        'last illness and burial expenses',
+      );
+    });
+
+    it('hides message when other options are selected', () => {
+      const { hideIf } = relativesOverview.uiSchema['view:noSurvivorsMessage'][
+        'ui:options'
+      ];
+      expect(hideIf({ survivors: { hasSpouse: true } })).to.be.true;
+      expect(hideIf({ survivors: { hasChildren: true } })).to.be.true;
+      expect(hideIf({ survivors: { hasParents: true } })).to.be.true;
+      expect(hideIf({ survivors: {} })).to.be.true;
+    });
+
+    it('validates required field function', () => {
+      const requiredFn = relativesOverview.uiSchema.survivors['ui:required'];
+      expect(requiredFn).to.be.a('function');
+      // Test with different contexts
+      expect(requiredFn({})).to.be.true;
+      expect(requiredFn({ formData: {} })).to.be.true;
+      expect(requiredFn({ formData: { survivors: {} } })).to.be.true;
+    });
+
+    it('has proper survivors schema properties', () => {
+      const survivorsSchema = relativesOverview.schema.properties.survivors;
+      expect(survivorsSchema.properties.hasSpouse).to.have.property(
+        'type',
+        'boolean',
+      );
+      expect(survivorsSchema.properties.hasChildren).to.have.property(
+        'type',
+        'boolean',
+      );
+      expect(survivorsSchema.properties.hasParents).to.have.property(
+        'type',
+        'boolean',
+      );
+      expect(survivorsSchema.properties.hasNone).to.have.property(
+        'type',
+        'boolean',
+      );
+    });
+
+    it('has view:noSurvivorsMessage with empty properties', () => {
+      const messageSchema =
+        relativesOverview.schema.properties['view:noSurvivorsMessage'];
+      expect(messageSchema).to.have.property('properties');
+      expect(messageSchema.properties).to.be.an('object');
+      expect(Object.keys(messageSchema.properties)).to.have.lengthOf(0);
+    });
+
+    it('handles multiple hasNone scenarios correctly', () => {
+      const { hideIf } = relativesOverview.uiSchema['view:noSurvivorsMessage'][
+        'ui:options'
+      ];
+      // When hasNone is true and others are false
+      expect(hideIf({ survivors: { hasNone: true, hasSpouse: false } })).to.be
+        .false;
+      // When hasNone is false explicitly
+      expect(hideIf({ survivors: { hasNone: false } })).to.be.true;
+      // When hasNone is undefined
+      expect(hideIf({ survivors: { hasSpouse: true } })).to.be.true;
+      // When survivors object is empty
+      expect(hideIf({ survivors: {} })).to.be.true;
+      // When survivors is undefined
+      expect(hideIf({})).to.be.true;
     });
   });
 
@@ -205,6 +333,135 @@ describe('21P-601 relatives page configurations', () => {
         relationship: 'child',
       });
       expect(result).to.be.false;
+    });
+
+    it('calls isItemIncomplete with missing relationship', () => {
+      const result = relativesOptions.isItemIncomplete({
+        fullName: { first: 'John', last: 'Doe' },
+        relationship: null,
+      });
+      expect(result).to.be.true;
+    });
+
+    it('calls isItemIncomplete with undefined item', () => {
+      const result = relativesOptions.isItemIncomplete(undefined);
+      expect(result).to.be.true;
+    });
+
+    it('calls isItemIncomplete with missing both fullName and relationship', () => {
+      const result = relativesOptions.isItemIncomplete({});
+      expect(result).to.be.true;
+    });
+
+    it('calls getItemName with undefined item', () => {
+      const result = relativesOptions.text.getItemName(undefined);
+      expect(result).to.equal('Unknown relative');
+    });
+
+    it('calls getItemName with empty fullName object', () => {
+      const result = relativesOptions.text.getItemName({
+        fullName: {},
+      });
+      expect(result).to.equal('');
+    });
+
+    it('calls getItemName with only first name', () => {
+      const result = relativesOptions.text.getItemName({
+        fullName: { first: 'John' },
+      });
+      expect(result).to.equal('John');
+    });
+
+    it('calls getItemName with only last name', () => {
+      const result = relativesOptions.text.getItemName({
+        fullName: { last: 'Doe' },
+      });
+      expect(result).to.equal('Doe');
+    });
+
+    it('calls getItemName with extra spaces', () => {
+      const result = relativesOptions.text.getItemName({
+        fullName: { first: '  John  ', middle: '', last: '  Doe  ' },
+      });
+      expect(result).to.equal('John Doe');
+    });
+
+    it('calls cardDescription with unknown relationship', () => {
+      const result = relativesOptions.text.cardDescription({
+        relationship: 'other',
+        dateOfBirth: '1980-05-15',
+      });
+      expect(result).to.equal('other • Born: 1980-05-15');
+    });
+
+    it('calls cardDescription with no relationship and no dob', () => {
+      const result = relativesOptions.text.cardDescription({});
+      expect(result).to.equal('');
+    });
+
+    it('calls cardDescription with parent relationship', () => {
+      const result = relativesOptions.text.cardDescription({
+        relationship: 'parent',
+      });
+      expect(result).to.equal('Parent');
+    });
+
+    it('relativeAddressPage title function returns title with full name', () => {
+      const titleFn =
+        relativesPages.relativeAddressPage.uiSchema.survivingRelatives.items[
+          'ui:title'
+        ];
+      expect(titleFn).to.be.a('function');
+      const result = titleFn({
+        formData: { fullName: { first: 'John', last: 'Smith' } },
+      });
+      expect(result).to.exist;
+    });
+
+    it('relativeAddressPage title function returns title with only first name', () => {
+      const titleFn =
+        relativesPages.relativeAddressPage.uiSchema.survivingRelatives.items[
+          'ui:title'
+        ];
+      expect(titleFn).to.be.a('function');
+      const result = titleFn({
+        formData: { fullName: { first: 'John' } },
+      });
+      expect(result).to.exist;
+    });
+
+    it('relativeAddressPage title function returns title with no name', () => {
+      const titleFn =
+        relativesPages.relativeAddressPage.uiSchema.survivingRelatives.items[
+          'ui:title'
+        ];
+      expect(titleFn).to.be.a('function');
+      const result = titleFn({ formData: {} });
+      expect(result).to.exist;
+    });
+
+    it('relativeAddressPage title function returns title with empty fullName object', () => {
+      const titleFn =
+        relativesPages.relativeAddressPage.uiSchema.survivingRelatives.items[
+          'ui:title'
+        ];
+      expect(titleFn).to.be.a('function');
+      const result = titleFn({
+        formData: { fullName: {} },
+      });
+      expect(result).to.exist;
+    });
+
+    it('verifies maxItems is set to 4', () => {
+      expect(relativesOptions.maxItems).to.equal(4);
+    });
+
+    it('verifies arrayPath is survivingRelatives', () => {
+      expect(relativesOptions.arrayPath).to.equal('survivingRelatives');
+    });
+
+    it('verifies required is false', () => {
+      expect(relativesOptions.required).to.equal(false);
     });
   });
 });

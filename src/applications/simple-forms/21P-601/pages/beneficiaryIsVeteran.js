@@ -6,10 +6,8 @@ import {
 
 export default {
   uiSchema: {
-    ...titleUI('About the deceased beneficiary'),
-    beneficiaryIsVeteran: yesNoUI(
-      'Is the deceased beneficiary the same as the veteran?',
-    ),
+    ...titleUI('Deceased beneficiary'),
+    beneficiaryIsVeteran: yesNoUI('Is the deceased beneficiary the Veteran?'),
   },
   schema: {
     type: 'object',

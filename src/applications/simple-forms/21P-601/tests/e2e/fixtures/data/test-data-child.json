@@ -30,7 +30,7 @@
   },
   "claimantPhone": "5405554567",
   "claimantEmail": "chris.anderson@university.edu",
-  "relationshipToDeceased": "child",
+  "relationshipToDeceased": "executor",
   "wantsToWaiveSubstitution": false,
   "survivors": {
     "hasSpouse": false,
