@@ -60,6 +60,7 @@ export default function useClinicFormState(pageTitle) {
     (selectedTypeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
       featurePastVisitMHFilter) &&
     selectedTypeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
+    selectedTypeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SUBSTANCE_USE_ID &&
     (!removeFacilityConfigCheck
       ? location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
           ?.patientHistoryRequired === true

@@ -173,6 +173,7 @@ function hasMatchingClinics(
   clinics,
   pastAppointments,
   removeFacilityConfigCheck = false,
+  pastHistoryRequired = true,
 ) {
   return clinics?.some(
     clinic =>
@@ -180,8 +181,9 @@ function hasMatchingClinics(
         const clinicIds = clinic.id.split('_');
         if (appt.version === 2) {
           return (
-            clinic.stationId === appt.location.stationId &&
-            clinicIds[1] === appt.location.clinicId &&
+            ((clinic.stationId === appt.location.stationId &&
+              clinicIds[1] === appt.location.clinicId) ||
+              !pastHistoryRequired) &&
             (removeFacilityConfigCheck ||
               clinic.patientDirectScheduling === true)
           );
