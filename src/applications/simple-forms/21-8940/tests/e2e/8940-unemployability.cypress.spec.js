@@ -24,7 +24,13 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findByText(/start/i, { selector: 'button' }).click({ force: true });
+          cy.findAllByRole('button', { name: /start/i }).then($buttons => {
+            if ($buttons.length) {
+              cy.wrap($buttons[0]).click({ force: true });
+            } else {
+              cy.findByRole('link', { name: /start/i }).click({ force: true });
+            }
+          });
         });
       },
       'confirmation-required': ({ afterHook }) => {
