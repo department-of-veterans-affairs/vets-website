@@ -226,6 +226,7 @@ const EvidenceSummary = ({
               <FormNavButtons
                 goBack={goBack}
                 goForward={handlers.onGoForward}
+                useWebComponents
               />
               {contentAfterButtons}
             </>
