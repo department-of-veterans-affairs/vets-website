@@ -13,16 +13,17 @@ const DISABLED_STYLE =
  * Side navigation component for the 526EZ disability claims form
  *
  * Displays major form chapters in a navigation menu and highlights the current chapter.
- * Rebuilds navigation when save-in-progress data loads and updates active state
- * when navigating between pages.
+ * Tracks the user's progress through chapters using 'view:sideNavChapterIndex' to disable
+ * future chapter links. Rebuilds navigation when save-in-progress data loads and updates
+ * active state when navigating between pages.
  *
  * @param {Object} props - Component props
  * @param {boolean} [props.enableAnalytics=false] - Whether to track navigation clicks in Google Analytics
  * @param {Object} props.formData - Current form data from Redux store, used to evaluate conditional pages
  * @param {string} props.pathname - Current URL pathname from react-router
  * @param {Object} props.router - React-router router object with push method
- * @param {boolean} [props.shouldHide=true] - Whether to hide the navigation (e.g., on intro/confirmation pages)
- * @returns {React.ReactElement|null} Side navigation component or null if hidden
+ * @param {Function} props.setFormData - Redux action to update form data
+ * @returns {React.ReactElement} Side navigation component
  */
 export default function ClaimFormSideNav({
   enableAnalytics = false,
@@ -32,7 +33,8 @@ export default function ClaimFormSideNav({
   setFormData,
 }) {
   /**
-   * Memoize major steps with formData dependency to rebuild when save-in-progress loads
+   * Memoize major steps with formData and pathname dependencies
+   * Rebuilds when save-in-progress loads or when navigating between pages
    * @type {import('../utils/buildMajorStepsFromConfig').MajorStep[]}
    */
   const landingPages = useMemo(() => buildMajorSteps(formData, pathname), [
@@ -40,8 +42,16 @@ export default function ClaimFormSideNav({
     pathname,
   ]);
 
-  // maxChapterIndex helps us disable future chapter links
+  /**
+   * Track the highest chapter index the user has reached
+   * Used to disable navigation links for future chapters
+   */
   const maxChapterIndex = formData['view:sideNavChapterIndex'] || 0;
+
+  /**
+   * Update maxChapterIndex when user progresses to a new chapter
+   * Uses functional update to avoid stale closure and prevent setState-in-render warnings
+   */
   useEffect(
     () => {
       const currentChapter = landingPages.find(page => page.current);
@@ -59,6 +69,7 @@ export default function ClaimFormSideNav({
 
   /**
    * Handle navigation item click
+   * Tracks analytics if enabled and navigates to the selected chapter
    * @param {Event} e - Click event
    * @param {Object} pageData - Page data including key, label, and path
    */

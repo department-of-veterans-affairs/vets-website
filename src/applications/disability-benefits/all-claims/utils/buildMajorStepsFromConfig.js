@@ -45,27 +45,37 @@ const REVIEW_STEP = {
 /**
  * Builds list of major navigation steps from form configuration
  *
- * Evaluates each chapter's pages and determines:
- * - All page paths within the chapter (pathPrefixes)
- * - The primary navigation path (first visible page based on depends functions)
+ * Evaluates each chapter's pages against form data to determine which pages are currently
+ * visible based on their 'depends' functions. Returns an array of major steps with:
+ * - Chapter index, key, and label
+ * - Primary navigation path (first visible page in the chapter)
+ * - Current state (whether the pathname matches this chapter)
  *
- * @param {Object} formData - Current form data from Redux store
- * @returns {MajorStep[]} Array of major navigation steps
+ * @param {Object} formData - Current form data from Redux store, used to evaluate conditional pages
+ * @param {string} pathname - Current URL pathname to determine active chapter
+ * @returns {MajorStep[]} Array of major navigation steps with current state
  */
 export function buildMajorSteps(formData, pathname) {
-  // This is converting the config into a list of pages with chapter keys,
-  // finding the current page, then getting the chapter name using the key
-  //  - borrowed from platform/forms-system/src/js/components/FormNav.jsx
+  /**
+   * Convert form config to page list and filter based on form data
+   * This logic is borrowed from platform/forms-system/src/js/components/FormNav.jsx
+   */
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
   const eligiblePageList = getActiveExpandedPages(pageList, formData);
 
-  // include current chapter as 'current-page' bool in the steps builder below
+  /**
+   * Determine current chapter by matching pathname to eligible pages
+   */
   const page = eligiblePageList.find(p => p.path === pathname);
   const currentChapter = page?.chapterKey || '';
 
   const steps = [];
 
+  /**
+   * Build navigation steps from chapter map
+   * Each step includes the first visible page path for that chapter
+   */
   CHAPTER_STEP_MAP.forEach(({ key, label }, idx) => {
     const pathPrefixes = eligiblePageList.filter(p => p.chapterKey === key);
     const primaryPage = pathPrefixes[0];
@@ -79,7 +89,6 @@ export function buildMajorSteps(formData, pathname) {
     });
   });
 
-  // add review page
   steps.push({
     ...REVIEW_STEP,
     current: currentChapter === 'review',
