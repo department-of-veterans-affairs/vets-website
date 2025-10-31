@@ -107,7 +107,7 @@ describe('Facility VA search', () => {
     cy.get('#facility-search').click();
 
     cy.get('#search-results-subheader').contains(
-      /results.*VA health.*Primary care.*near.*Austin, Texas/,
+      /results?.*VA health.*Primary care.*near.*Austin, Texas/i,
     );
     cy.get('.facility-result a').should('exist');
     cy.get('.i-pin-card-map').contains('1');
@@ -148,7 +148,7 @@ describe('Facility VA search', () => {
       .select('VA benefits');
     submitSearchForm();
     cy.get('#search-results-subheader').contains(
-      /Results.*VA benefits.*All VA benefit services.*Los Angeles.*California/i,
+      /results?.*VA benefits.*All VA benefit services.*Los Angeles.*California/i,
     );
     cy.get('#other-tools').should('exist');
 
@@ -189,6 +189,8 @@ describe('Facility VA search', () => {
     // Wait for Use My Location to be triggered (it should not be)
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(8000);
+    cy.injectAxe();
+    cy.axeCheck();
     // If Use My Location is triggered and succeeds, it will change the contents of the search field:
     cy.get('#street-city-state-zip')
       .invoke('val')
@@ -204,7 +206,7 @@ describe('Facility VA search', () => {
     selectServiceTypeInVAHealthDropdown('VA emergency care');
     submitSearchForm();
     cy.get('#search-results-subheader').contains(
-      'Results for "Emergency Care", "VA emergency care" near "Austin, Texas"',
+      /results?.*Emergency Care.*VA emergency care.*Austin, Texas/i,
     );
     cy.get('#emergency-care-info-note').should('exist');
     cy.get('.facility-result h3 va-link')

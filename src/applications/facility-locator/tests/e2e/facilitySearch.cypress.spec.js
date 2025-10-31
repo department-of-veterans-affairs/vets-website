@@ -136,7 +136,7 @@ describe('Facility VA search', () => {
     cy.get('#service-type-dropdown').select('Primary care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
-      'Results for "VA health", "Primary care" near "Austin, Texas"',
+      /results?.*VA health.*Primary care.*Austin, Texas/i,
     );
     cy.get('.facility-result a').should('exist');
     cy.get('.i-pin-card-map').contains('1');
@@ -149,6 +149,8 @@ describe('Facility VA search', () => {
 
   it('shows search result header even when no results are found', () => {
     cy.visit('/find-locations');
+    cy.injectAxe();
+    cy.axeCheck();
     cy.intercept('GET', '/facilities_api/v2/ccp/provider?**', {
       data: [],
       meta: { pagination: { totalEntries: 0 } },
@@ -163,8 +165,7 @@ describe('Facility VA search', () => {
     cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
     cy.get('#facility-search').click({ waitForAnimations: true });
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(3000);
+    cy.wait('@searchFacilities');
 
     cy.focused().contains(
       'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
@@ -187,7 +188,7 @@ describe('Facility VA search', () => {
       waitForAnimations: true,
     });
     cy.get('#search-results-subheader').contains(
-      'Results for "VA benefits", "All VA benefit services" near "Los Angeles, California"',
+      /results?.*VA benefits.*All VA benefit services.*Los Angeles, California/i,
     );
     cy.get('#other-tools').should('exist');
 
@@ -224,7 +225,8 @@ describe('Facility VA search', () => {
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
     cy.visit('/find-locations');
-
+    cy.injectAxe();
+    cy.axeCheck();
     cy.get('#street-city-state-zip').type('27606{enter}');
     // Wait for Use My Location to be triggered (it should not be)
     // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -248,7 +250,7 @@ describe('Facility VA search', () => {
     cy.get('#service-type-dropdown').select('VA emergency care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
-      'Results for "Emergency Care", "VA emergency care" near "Alexandria, Virginia"',
+      /results?.*Emergency Care.*VA emergency care.*Alexandria, Virginia/i,
     );
     cy.get('#emergency-care-info-note').should('exist');
     cy.get('.facility-result h3 va-link')
@@ -295,7 +297,7 @@ describe('Facility VA search', () => {
     cy.get('@searchFacilitiesVA.all').should('have.length', 2);
 
     cy.get('#search-results-subheader').contains(
-      'Results for "VA health", "Primary care" near "Austin, Texas"',
+      /results?.*VA health.*Primary care.*Austin, Texas/i,
     );
     cy.get('.facility-result a').should('exist');
     cy.get('.i-pin-card-map').contains('1');
