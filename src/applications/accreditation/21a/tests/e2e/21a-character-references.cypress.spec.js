@@ -89,7 +89,7 @@ describe('The 21A Character References Page', () => {
     ).as('saveInProgressForm');
   });
 
-  it('allows the user to move forward with 3 references', () => {
+  it('CHANGED NAME TO SEE IF UPDATES - allows the user to move forward with 3 references', () => {
     cy.visit(characterReferencesUrl);
     cy.location('pathname', { timeout: 1000 }).should(
       'eq',
