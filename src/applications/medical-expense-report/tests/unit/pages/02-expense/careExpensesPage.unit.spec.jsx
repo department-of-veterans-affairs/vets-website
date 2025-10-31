@@ -250,7 +250,7 @@ describe('Care Expenses Pages', () => {
   });
   it('should return the correct card description with paymentDate', () => {
     const item = {
-      careDate: {
+      careDateRange: {
         from: '2004-04-04',
       },
       typeOfCare: 'RESIDENTIAL',
@@ -261,5 +261,42 @@ describe('Care Expenses Pages', () => {
     );
     expect(nameText('Residential care facility')).to.exist;
     expect(descriptionText('04/04/2004')).to.exist;
+  });
+  it('should return default card description', () => {
+    const item = {
+      typeOfCare: 'BLAH',
+    };
+    const { getByText: nameText } = render(options.text.getItemName(item));
+    expect(nameText('New care expense')).to.exist;
+  });
+  it('should check if the item is incomplete', () => {
+    const completeItem = {
+      typeOfCare: 'RESIDENTIAL',
+      recipient: 'SPOUSE',
+      provider: 'Provider Name',
+      careDateRange: { from: '2004-04-04' },
+      monthlyAmount: 1200,
+    };
+    const incompleteNoHourlyItem = {
+      typeOfCare: 'IN_HOME_CARE_ATTENDANT',
+      recipient: 'DEPENDENT',
+      recipientName: 'John Doe',
+      provider: 'Provider Name',
+      careDateRange: { from: '2004-04-04' },
+      monthlyAmount: 800,
+      weeklyHours: 20,
+    };
+    const incompleteNoWeeklyItem = {
+      typeOfCare: 'IN_HOME_CARE_ATTENDANT',
+      recipient: 'DEPENDENT',
+      recipientName: 'John Doe',
+      provider: 'Provider Name',
+      careDateRange: { from: '2004-04-04' },
+      monthlyAmount: 800,
+      hourlyRate: 20,
+    };
+    expect(options.isItemIncomplete(completeItem)).to.be.false;
+    expect(options.isItemIncomplete(incompleteNoHourlyItem)).to.be.true;
+    expect(options.isItemIncomplete(incompleteNoWeeklyItem)).to.be.true;
   });
 });

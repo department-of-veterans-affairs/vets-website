@@ -198,4 +198,22 @@ describe('Medical Expenses Pages', () => {
     expect(queryByText('04/04/2004')).to.not.exist;
     expect(queryByText('Once a month')).to.not.exist;
   });
+  it('should check if the item is incomplete', () => {
+    const completeItem = {
+      recipient: 'SPOUSE',
+      paymentDate: '2004-04-04',
+      purpose: 'Medical supplies',
+      paymentFrequency: 'ONCE_MONTH',
+      paymentAmount: 200,
+    };
+    const incompleteItem = {
+      recipient: 'DEPENDENT',
+      paymentDate: '2004-04-04',
+      purpose: 'Medical supplies',
+      paymentFrequency: 'ONCE_MONTH',
+      paymentAmount: 200,
+    };
+    expect(options.isItemIncomplete(completeItem)).to.be.false;
+    expect(options.isItemIncomplete(incompleteItem)).to.be.true;
+  });
 });

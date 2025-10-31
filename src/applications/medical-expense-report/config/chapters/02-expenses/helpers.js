@@ -29,3 +29,62 @@ export const hasCareExpenses = formData => {
   const careExpenses = formData.careExpenses || [];
   return careExpenses.length > 0;
 };
+
+/**
+ * @param formData
+ * @param index
+ * @param fullData
+ * @returns boolean - false if in home attendant, true otherwise.
+ */
+export const hideIfInHomeCare = (formData, index, fullData) => {
+  const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+  const careExpense = careExpenses?.[index];
+  return careExpense?.typeOfCare !== 'IN_HOME_CARE_ATTENDANT';
+};
+
+/**
+ * @param formData
+ * @param index
+ * @param fullData
+ * @returns boolean - true if in home attendant, true otherwise.
+ */
+export const requiredIfInHomeCare = (formData, index, fullData) => {
+  const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+  const careExpense = careExpenses?.[index];
+  return careExpense?.typeOfCare === 'IN_HOME_CARE_ATTENDANT';
+};
+
+/**
+ * @param formData
+ * @returns string - cost page title.
+ */
+export const getCostPageTitle = formData => {
+  const provider = formData?.provider ?? '';
+  return provider ? `Cost of care for ${provider}` : 'Cost of care';
+};
+
+/**
+ * @param formData
+ * @param index
+ * @param fullData
+ * @returns boolean - true if in home attendant, true otherwise.
+ */
+export const requiredIfMileageReimbursed = (formData, index, fullData) => {
+  const mileageExpenses =
+    formData?.mileageExpenses ?? fullData?.mileageExpenses;
+  const mileageExpense = mileageExpenses?.[index];
+  return mileageExpense?.travelReimbursed === true;
+};
+
+/**
+ * @param formData
+ * @param index
+ * @param fullData
+ * @returns boolean - true if in home attendant, true otherwise.
+ */
+export const requiredIfMileageLocationOther = (formData, index, fullData) => {
+  const mileageExpenses =
+    formData?.mileageExpenses ?? fullData?.mileageExpenses;
+  const mileageExpense = mileageExpenses?.[index];
+  return mileageExpense?.travelLocation === 'OTHER';
+};
