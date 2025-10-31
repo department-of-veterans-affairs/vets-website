@@ -204,7 +204,6 @@ const ClaimsAndAppeals = ({
                 if (isLOA1) {
                   return null;
                 }
-
                 if (highlightedClaimOrAppeal) {
                   return (
                     <HighlightedClaimAppeal
@@ -212,11 +211,9 @@ const ClaimsAndAppeals = ({
                     />
                   );
                 }
-
                 if (!hasAPIError) {
                   return <NoClaimsOrAppealsText />;
                 }
-
                 return null;
               })()}
             </Toggler.Disabled>
