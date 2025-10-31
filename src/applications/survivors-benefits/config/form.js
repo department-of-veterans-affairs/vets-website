@@ -12,11 +12,8 @@ import { submit } from './submit';
 import { defaultDefinitions } from './definitions';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
-
-import {
-  vetIdentification,
-  vetIdentificationAdditional,
-} from './chapters/01-veteran-information/veteranInformation';
+import veteranIdentification from './chapters/01-veteran-information/veteranIdentification';
+import veteranAdditional from './chapters/01-veteran-information/veteranAdditional';
 import veteranName from './chapters/01-veteran-information/veteranName';
 import claimantInformationPage from './chapters/02-claimant-information/claimantInformation';
 import mailingAddress from './chapters/02-claimant-information/mailingAddress';
@@ -124,20 +121,25 @@ const formConfig = {
   chapters: {
     // Chapter 1 - Veteran Information
     veteranInformation: {
-      title: "Veteran's information",
+      title: 'Veteran’s information',
       pages: {
-        veteranName,
-        vetIdentification: {
-          title: "Veteran's identification information",
-          path: 'veteran/identification',
-          uiSchema: vetIdentification.uiSchema,
-          schema: vetIdentification.schema,
+        veteranName: {
+          title: 'Veteran’s name and date of birth',
+          path: 'veteran',
+          uiSchema: veteranName.uiSchema,
+          schema: veteranName.schema,
         },
-        vetIdentificationAdditional: {
-          title: 'Additional veteran information',
-          path: 'veteran/identification-additional',
-          uiSchema: vetIdentificationAdditional.uiSchema,
-          schema: vetIdentificationAdditional.schema,
+        veteranIdentification: {
+          title: 'Veteran’s identification information',
+          path: 'veteran-identification',
+          uiSchema: veteranIdentification.uiSchema,
+          schema: veteranIdentification.schema,
+        },
+        veteranIdentificationAdditional: {
+          title: 'Additional Veteran information',
+          path: 'veteran-additional-information',
+          uiSchema: veteranAdditional.uiSchema,
+          schema: veteranAdditional.schema,
         },
       },
     },
