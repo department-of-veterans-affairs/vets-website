@@ -11,6 +11,7 @@ import { labels } from '../../../components/picklist/utils';
 import {
   PICKLIST_DATA,
   PICKLIST_EDIT_REVIEW_FLAG,
+  PICKLIST_PATHS,
 } from '../../../config/constants';
 import { createDoB } from '../../test-helpers';
 
@@ -84,7 +85,6 @@ describe('PicklistRemoveDependentFollowup', () => {
         <div name="topScrollElement" />
         <PicklistRemoveDependentFollowup
           name="PicklistRemoveDependentFollowup"
-          title="Spouse info"
           data={data}
           goBack={goBack}
           goForward={goForward}
@@ -119,13 +119,19 @@ describe('PicklistRemoveDependentFollowup', () => {
     expect($('#after', container)).to.exist;
   });
 
-  it('should not render continue button on exit page', () => {
+  it('should render exit page continue button without content before or after', () => {
     const { container } = renderComponent({
+      data: {
+        ...defaultData({ selected: false }, true),
+        [PICKLIST_PATHS]: [{ path: 'parent-exit', index: 3 }],
+      },
       testUrl: '?index=3&page=parent-exit',
     });
 
+    expect($('#before', container)).to.not.exist;
     expect($('va-button[back]', container)).to.exist;
-    expect($('va-button[continue]', container)).to.not.exist;
+    expect($('va-button.exit-form', container)).to.exist;
+    expect($('#after', container)).to.not.exist;
   });
 
   it('should update PICKLIST_DATA in form data on change', () => {

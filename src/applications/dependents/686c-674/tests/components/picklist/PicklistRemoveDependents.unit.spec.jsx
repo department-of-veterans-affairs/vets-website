@@ -143,6 +143,23 @@ describe('PicklistRemoveDependents', () => {
     expect(setFormData.firstCall.args[0][PICKLIST_DATA]).to.deep.equal(result);
   });
 
+  it('should clear error message after form submitted with no checkboxes checked then one is checked', async () => {
+    const goToPath = sinon.spy();
+    const { container } = renderComponent({ goToPath });
+
+    fireEvent.submit($('form', container));
+
+    $('va-checkbox-group', container).__events.vaChange({
+      detail: { checked: true },
+      target: { getAttribute: () => 'penny-1234' },
+    });
+
+    await waitFor(() => {
+      expect(goToPath.called).to.be.false;
+      expect($('va-checkbox-group[error]', container)).to.not.exist;
+    });
+  });
+
   it('should show error message if form submitted with no checkboxes checked', async () => {
     const goToPath = sinon.spy();
     const { container } = renderComponent({ goToPath });

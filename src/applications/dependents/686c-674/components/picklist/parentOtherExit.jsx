@@ -1,36 +1,37 @@
 import React from 'react';
 
-import { VA_FORM_IDS } from 'platform/forms/constants';
-
 import propTypes from './types';
-
-import ExitForm from '../../../shared/components/ExitFormLink';
 
 const parentOtherExit = {
   handlers: {
     // Define goForward so the routing code doesn't break
     goForward: () => 'DONE',
 
-    // Submit shouldn't do anything; we're directing the user to exit the form
-    onSubmit: () => {},
+    // Submit is ignored if the exit form button is visible
+    onSubmit: ({ goForward }) => {
+      goForward();
+    },
   },
 
   // Flag to hide form navigation continue button
   hasExitLink: true,
 
   /** @type {PicklistComponentProps} */
-  Component: ({ firstName, isEditing }) => (
+  Component: ({ firstName }) => (
     <>
       <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-        {`${isEditing ? 'Edit changes' : 'Changes'} to ${firstName}`}
+        <span className="dd-privacy-mask" data-dd-action-name="first name">
+          {firstName}
+        </span>{' '}
+        can’t be removed using this application
       </h3>
 
       <p>
-        Since you can only remove a parent if they have died,{' '}
-        <strong>
-          we will not apply any changes to {firstName} and will remain on your
-          benefits.
-        </strong>
+        Since you can only remove a parent who has died,{' '}
+        <span className="dd-privacy-mask" data-dd-action-name="first name">
+          {firstName}
+        </span>{' '}
+        will remain on your benefits.
       </p>
 
       <va-additional-info trigger="Why can I only remove a parent dependent if they have died?">
@@ -42,13 +43,6 @@ const parentOtherExit = {
           ).
         </p>
       </va-additional-info>
-
-      <div className="vads-u-margin-top--4">
-        <ExitForm
-          formId={VA_FORM_IDS.FORM_21_686CV2}
-          href="/manage-dependents/view"
-        />
-      </div>
     </>
   ),
 };

@@ -1,11 +1,18 @@
 import React from 'react';
 
 import { getFormatedDate } from '../../../shared/utils';
+import { PICKLIST_DATA, PICKLIST_PATHS } from '../../config/constants';
 
 export const labels = {
   Spouse: {
-    removalReasonTitle: (fullName, isEditing) =>
-      `${isEditing ? 'Edit reason' : 'Reason'} for removing ${fullName}`,
+    removalReasonTitle: (fullName, isEditing) => (
+      <span>
+        {isEditing ? 'Edit reason' : 'Reason'} for removing{' '}
+        <span className="dd-privacy-mask" data-dd-action-name="first name">
+          {fullName}
+        </span>
+      </span>
+    ),
     removalReasonHint: 'If more than one applies, select what happened first.',
     removalReason: 'Why do you need to remove this dependent?',
     removalReasonError: 'Select a reason',
@@ -15,8 +22,14 @@ export const labels = {
     death: 'They died',
   },
   Parent: {
-    removalReasonTitle: (fullName, isEditing) =>
-      `${isEditing ? 'Edit reason' : 'Reason'} for removing ${fullName}`,
+    removalReasonTitle: (fullName, isEditing) => (
+      <span>
+        {isEditing ? 'Edit reason' : 'Reason'} for removing{' '}
+        <span className="dd-privacy-mask" data-dd-action-name="first name">
+          {fullName}
+        </span>
+      </span>
+    ),
     removalReasonHint: 'If more than one applies, select what happened first.',
     removalReason: 'Why do you need to remove this dependent?',
     removalReasonError: 'Select a reason',
@@ -32,8 +45,14 @@ export const labels = {
     isStepChildYes: 'Yes',
     isStepChildNo: 'No',
 
-    removalReasonTitle: (fullName, isEditing) =>
-      `${isEditing ? 'Edit reason' : 'Reason'} for removing ${fullName}`,
+    removalReasonTitle: (fullName, isEditing) => (
+      <span>
+        {isEditing ? 'Edit reason' : 'Reason'} for removing{' '}
+        <span className="dd-privacy-mask" data-dd-action-name="first name">
+          {fullName}
+        </span>
+      </span>
+    ),
     removalReasonHint: 'If more than one applies, select what happened first.',
     removalReason: 'Why do you need to remove this dependent?',
     removalReasonError: 'Select a reason',
@@ -48,7 +67,7 @@ export const labels = {
 export const location = item =>
   `${item.endCity}, ${
     item.endOutsideUS
-      ? `${item.endProvince ? `${item.endProvince},` : ''} ${item.endCountry}`
+      ? `${item.endProvince ? `${item.endProvince}, ` : ''}${item.endCountry}`
       : `${item.endState}`
   }`;
 
@@ -195,4 +214,15 @@ export const pageDetails = {
         return [{ label: 'Something went wrong', value: '' }];
     }
   },
+};
+
+export const showExitLink = ({ data, index }) => {
+  const selected = data[PICKLIST_DATA]?.filter(item => item.selected) || [];
+  const list = data[PICKLIST_PATHS] || [];
+  const exitPaths = list.filter(item => item.path.endsWith('-exit'));
+
+  return (
+    selected.length === exitPaths.length &&
+    exitPaths[exitPaths.length - 1]?.index === index
+  );
 };

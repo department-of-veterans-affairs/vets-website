@@ -44,17 +44,19 @@ describe('stepchildFinancialSupportExit', () => {
       </form>,
     );
 
+  it('should have "hasExitLink" set to true', () => {
+    expect(stepchildFinancialSupportExit.hasExitLink).to.be.true;
+  });
+
   it('should render with correct title and message', () => {
-    const { container } = renderComponent();
+    const { container, getByText } = renderComponent();
 
     expect($('h3', container).textContent).to.equal(
       'NAOMI still qualifies as your dependent',
     );
-
-    const exitLink = $('va-link-action', container);
-    expect(exitLink).to.exist;
-    expect(exitLink.getAttribute('text')).to.equal('Exit application');
-    expect(exitLink.getAttribute('href')).to.equal('/manage-dependents/view');
+    expect(
+      getByText('If you exit now, we’ll cancel the application you started.'),
+    ).to.exist;
   });
 
   it('should display message about financial support', () => {
@@ -89,12 +91,12 @@ describe('stepchildFinancialSupportExit', () => {
       expect(handlers.goForward()).to.equal('DONE');
     });
 
-    it('should not call goForward when page is submitted', () => {
+    it('should call goForward when page is submitted', () => {
       const goForward = sinon.spy();
       handlers.onSubmit({
         goForward,
       });
-      expect(goForward.called).to.be.false;
+      expect(goForward.called).to.be.true;
     });
   });
 });

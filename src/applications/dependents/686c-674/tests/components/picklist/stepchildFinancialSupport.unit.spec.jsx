@@ -52,7 +52,7 @@ describe('stepchildFinancialSupport', () => {
     expect(radio).to.exist;
     expect(radio.getAttribute('required')).to.equal('true');
     expect(radio.getAttribute('label')).to.equal(
-      "Do you provide at least half of PENNY's financial support?",
+      'Do you provide at least half of PENNY’s financial support?',
     );
   });
 
