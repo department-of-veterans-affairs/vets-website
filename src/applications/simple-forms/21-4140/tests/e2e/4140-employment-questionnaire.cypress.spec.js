@@ -30,14 +30,14 @@ const pageHooks = {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.findByText(/start the employment questionnaire/i, {
-        selector: 'button',
+        selector: 'a',
       }).click({ force: true });
     });
   },
   'form-verification': ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
-      cy.selectVaRadioOption('employment-status-verification', 'yes');
+      cy.selectVaRadioOption('', 'yes');
       cy.axeCheck();
       cy.findByText(/continue/i, { selector: 'button' }).click();
     });
@@ -218,14 +218,8 @@ if (pagePaths.sectionTwoSignature) {
         if (!isEmploymentFlow(data)) {
           return;
         }
-        selectCheckboxWebComponent(
-          'employedByVA_hasCertifiedSection2',
-          true,
-        );
-        selectCheckboxWebComponent(
-          'employedByVA_hasUnderstoodSection2',
-          true,
-        );
+        selectCheckboxWebComponent('employedByVA_hasCertifiedSection2', true);
+        selectCheckboxWebComponent('employedByVA_hasUnderstoodSection2', true);
       });
       cy.axeCheck();
       cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -256,14 +250,8 @@ if (pagePaths.sectionThreeSignature) {
         if (isEmploymentFlow(data)) {
           return;
         }
-        selectCheckboxWebComponent(
-          'employedByVA_hasCertifiedSection3',
-          true,
-        );
-        selectCheckboxWebComponent(
-          'employedByVA_hasUnderstoodSection3',
-          true,
-        );
+        selectCheckboxWebComponent('employedByVA_hasCertifiedSection3', true);
+        selectCheckboxWebComponent('employedByVA_hasUnderstoodSection3', true);
       });
       cy.axeCheck();
       cy.findByText(/continue/i, { selector: 'button' }).click();
