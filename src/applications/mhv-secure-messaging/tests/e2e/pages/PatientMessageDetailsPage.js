@@ -377,6 +377,17 @@ class PatientMessageDetailsPage {
     PatientInterstitialPage.getContinueButton().click();
   };
 
+  clickReplyButtonCuratedFlow = singleThreadData => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${singleThreadData.data[0].id}/thread*`,
+      singleThreadData,
+    ).as('replyThread');
+
+    cy.get(Locators.BUTTONS.REPLY).click({ force: true });
+    PatientInterstitialPage.getStartMessageLink().click();
+  };
+
   verifyMessageAttachment = (messageDetails, messageIndex = 0) => {
     if (messageDetails.data.at(messageIndex).attributes.hasAttachments) {
       cy.log('message has attachment... checking for image');
