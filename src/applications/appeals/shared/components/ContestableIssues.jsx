@@ -296,7 +296,7 @@ const ContestableIssues = props => {
             close-btn-aria-label="Close notification"
             status="warning"
             visible={hasBlockedIssues}
-            class="vads-u-margin-top--3 vads-u-margin-bottom--2"
+            class="vads-u-margin-top--3 vads-u-margin-bottom--3"
             id="blocked-issues-alert"
             role="alert"
           >
