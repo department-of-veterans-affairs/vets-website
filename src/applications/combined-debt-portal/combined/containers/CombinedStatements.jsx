@@ -206,7 +206,7 @@ const CombinedStatements = () => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
           {
             href: '#',
@@ -361,7 +361,7 @@ const CombinedStatements = () => {
                 result in you being paid more than you were owed.
               </p>
               <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
-                Resolve your overpayment
+                Resolve overpayments
               </h3>
               <p className="vads-u-margin-top--0">
                 You can pay your debt online, by phone, or by mail. Call us at{' '}
