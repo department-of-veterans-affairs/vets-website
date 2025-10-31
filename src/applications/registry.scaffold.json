@@ -27,6 +27,17 @@
     }
   },
   {
+    "appName": "Employment Questionnaire",
+    "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140",
+    "entryName": "21-4140"
+  },
+  {
+    "appName": "Veteran's Application for Increased Compensation Based on Unemployability",
+    "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-form-21-8940",
+    "entryName": "21-8940"
+  },
+
+  {
     "appName": "Eligibility For VA Health Care",
     "rootUrl": "/health-care/eligibility",
     "widgetType": "health-care-app-status"
