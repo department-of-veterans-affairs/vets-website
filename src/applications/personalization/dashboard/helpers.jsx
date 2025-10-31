@@ -158,24 +158,8 @@ export const getLatestCopay = statements => {
   }, null);
 };
 
-const SUBMISSION_STATUS_MAP = {
-  inProgress: 'Submission in Progress',
-  actionNeeded: 'Action Needed',
-  received: 'Received',
-};
-
-export const formatSubmissionDisplayStatus = status => {
-  return SUBMISSION_STATUS_MAP[status];
-};
-
 export const normalizeSubmissionStatus = apiStatusValue => {
-  // Return the value if it's already one of the keys in SUBMISSION_STATUS_MAP
-  if (Object.keys(SUBMISSION_STATUS_MAP).includes(apiStatusValue)) {
-    return apiStatusValue;
-  }
-
   const value = apiStatusValue.toLowerCase();
-
   switch (value) {
     case 'vbms':
       return 'received';
@@ -185,4 +169,14 @@ export const normalizeSubmissionStatus = apiStatusValue => {
     default:
       return 'inProgress';
   }
+};
+
+const SUBMISSION_STATUS_MAP = {
+  inProgress: 'Submission in Progress',
+  actionNeeded: 'Action Needed',
+  received: 'Received',
+};
+
+export const formatSubmissionDisplayStatus = status => {
+  return SUBMISSION_STATUS_MAP[status];
 };
