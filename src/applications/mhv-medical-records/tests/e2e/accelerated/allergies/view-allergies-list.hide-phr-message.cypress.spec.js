@@ -14,7 +14,7 @@ describe('Medical Records View Allergies', () => {
     });
 
     // set up intercepts
-    Allergies.setIntercepts({ allergiesData: allergies });
+    Allergies.setIntercepts({ allergiesData: allergies, useOhData: true });
   });
 
   it.skip('Hide all PHR messages', () => {

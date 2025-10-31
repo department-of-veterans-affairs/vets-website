@@ -7,7 +7,13 @@ const transformForSubmit = (formConfig, form) => {
   );
 
   const { formNumber, subTitle } = getFormContent();
-  const { idNumber = {}, address = {}, fullName = {}, email } = transformedData;
+  const {
+    idNumber = {},
+    address = {},
+    fullName = {},
+    email,
+    supportingDocuments,
+  } = transformedData;
   const { confirmationCode } = transformedData.uploadedFile;
 
   return JSON.stringify({
@@ -20,6 +26,11 @@ const transformForSubmit = (formConfig, form) => {
       email,
       formName: subTitle,
     },
+    ...(Array.isArray(supportingDocuments) && {
+      supportingDocuments: supportingDocuments.map(doc => ({
+        confirmationCode: doc.confirmationCode,
+      })),
+    }),
   });
 };
 

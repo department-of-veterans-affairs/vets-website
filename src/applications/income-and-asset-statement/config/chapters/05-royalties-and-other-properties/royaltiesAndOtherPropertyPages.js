@@ -1,4 +1,5 @@
 import React from 'react';
+import { lowercase } from 'lodash';
 
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -18,18 +19,32 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { RoyaltiesSummaryDescription } from '../../../components/SummaryDescriptions';
+import { DependentDescription } from '../../../components/DependentDescription';
 import {
   formatCurrency,
   formatPossessiveString,
+  fullNameUIHelper,
   generateDeleteDescription,
   isDefined,
-  isRecipientInfoIncomplete,
+  otherRecipientRelationshipTypeUI,
   otherGeneratedIncomeTypeExplanationRequired,
-  otherRecipientRelationshipExplanationRequired,
-  recipientNameRequired,
-  resolveRecipientFullName,
+  requireExpandedArrayField,
+  sharedRecipientRelationshipBase,
+  showUpdatedContent,
+  sharedYesNoOptionsBase,
+  updatedIsRecipientInfoIncomplete,
+  updatedRecipientNameRequired,
+  updatedResolveRecipientFullName,
 } from '../../../helpers';
-import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
+import {
+  custodianRelationshipLabels,
+  generatedIncomeTypeLabels,
+  parentRelationshipLabels,
+  relationshipLabelDescriptions,
+  relationshipLabels,
+  spouseRelationshipLabels,
+} from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -38,30 +53,33 @@ export const options = {
   nounPlural: 'royalties',
   required: false,
   isItemIncomplete: item =>
-    isRecipientInfoIncomplete(item) ||
+    updatedIsRecipientInfoIncomplete(item) ||
     typeof item.canBeSold !== 'boolean' ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.fairMarketValue) ||
     !isDefined(item.incomeGenerationMethod), // include all required fields here
   text: {
+    summaryTitle: 'Review income from royalties or other assets',
+    summaryTitleWithoutItems: showUpdatedContent()
+      ? 'Income and net worth from royalties and other assets'
+      : null,
+    summaryDescriptionWithoutItems: showUpdatedContent()
+      ? RoyaltiesSummaryDescription
+      : null,
     getItemName: (item, index, formData) => {
       if (!isDefined(item?.recipientRelationship)) {
         return undefined;
       }
-      const fullName = resolveRecipientFullName(item, formData);
+      const fullName = updatedResolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
-      return `${possessiveName} income`;
+      return `${possessiveName} income from ${lowercase(
+        generatedIncomeTypeLabels[item.incomeGenerationMethod],
+      )}`;
     },
     cardDescription: item =>
       isDefined(item?.grossMonthlyIncome) &&
       isDefined(item?.fairMarketValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
-          <li>
-            Income generation method:{' '}
-            <span className="vads-u-font-weight--bold">
-              {generatedIncomeTypeLabels[item.incomeGenerationMethod]}
-            </span>
-          </li>
           <li>
             Gross monthly income:{' '}
             <span className="vads-u-font-weight--bold">
@@ -94,6 +112,23 @@ export const options = {
   },
 };
 
+// We support multiple summary pages (one per claimant type).
+// These constants centralize shared text so each summary page stays consistent.
+// Important: only one summary page should ever be displayed at a time.
+
+// Shared summary page text
+const updatedTitleNoItems =
+  'Do you or your dependents receive or expect to receive any income from royalties or other assets?';
+const updatedTitleWithItems =
+  'Do you have more income from royalties or other assets to report?';
+const summaryPageTitle =
+  'Income and net worth from royalties and other properties';
+const incomeRecipientPageTitle = 'Royalty relationship';
+const yesNoOptionLabels = {
+  Y: 'Yes, I have income from an owned asset to report',
+  N: 'No, I don’t have income from an owned asset to report',
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -115,10 +150,7 @@ const summaryPage = {
       {
         title:
           'Do you have more income from royalties and other properties to report?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
+        ...sharedYesNoOptionsBase,
       },
     ),
   },
@@ -131,8 +163,238 @@ const summaryPage = {
   },
 };
 
+const veteranSummaryPage = {
+  uiSchema: {
+    'view:isAddingRoyalties': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const spouseSummaryPage = {
+  uiSchema: {
+    'view:isAddingRoyalties': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint: 'Your dependents include children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const childSummaryPage = {
+  uiSchema: {
+    'view:isAddingRoyalties': arrayBuilderYesNoUI(
+      options,
+      {
+        title:
+          'Do you receive or expect to receive any income from royalties or other assets?',
+        hint: null,
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const parentSummaryPage = {
+  uiSchema: {
+    'view:isAddingRoyalties': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const custodianSummaryPage = {
+  uiSchema: {
+    'view:isAddingRoyalties': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
 /** @returns {PageSchema} */
-const royaltyRecipientPage = {
+const veteranIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Royalty relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: Object.fromEntries(
+        Object.entries(relationshipLabels).filter(
+          ([key]) => key !== 'PARENT' && key !== 'CUSTODIAN',
+        ),
+      ),
+      descriptions: relationshipLabelDescriptions,
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'royaltiesAndOtherProperties',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(
+        Object.keys(relationshipLabels).filter(
+          key => key !== 'PARENT' && key !== 'CUSTODIAN',
+        ),
+      ),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const spouseIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Royalty relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: spouseRelationshipLabels,
+      descriptions: Object.fromEntries(
+        Object.entries(relationshipLabelDescriptions).filter(
+          ([key]) => key === 'CHILD',
+        ),
+      ),
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'royaltiesAndOtherProperties',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(Object.keys(spouseRelationshipLabels)),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const custodianIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Royalty relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: custodianRelationshipLabels,
+      descriptions: Object.fromEntries(
+        Object.entries(relationshipLabelDescriptions).filter(
+          ([key]) => key !== 'CHILD',
+        ),
+      ),
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'royaltiesAndOtherProperties',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(
+        Object.keys(custodianRelationshipLabels),
+      ),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const parentIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Royalty relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: parentRelationshipLabels,
+      descriptions: {
+        SPOUSE: 'The Veteran’s other parent should file a separate claim',
+      },
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'royaltiesAndOtherProperties',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(Object.keys(parentRelationshipLabels)),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const nonVeteranIncomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Royalty relationship',
@@ -140,21 +402,14 @@ const royaltyRecipientPage = {
     }),
     recipientRelationship: radioUI({
       title: 'Who receives the income?',
+      ...sharedYesNoOptionsBase,
       labels: relationshipLabels,
     }),
-    otherRecipientRelationshipType: {
-      'ui:title': 'Describe their relationship to the Veteran',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: 'OTHER',
-      },
-      'ui:required': (formData, index) =>
-        otherRecipientRelationshipExplanationRequired(
-          formData,
-          index,
-          'royaltiesAndOtherProperties',
-        ),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'royaltiesAndOtherProperties',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {
@@ -170,8 +425,14 @@ const royaltyRecipientPage = {
 /** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Royalty recipient'),
-    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      showUpdatedContent()
+        ? 'Person who receives this income'
+        : 'Financial account recipient',
+    ),
+    recipientName: showUpdatedContent()
+      ? fullNameUIHelper()
+      : fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
@@ -186,26 +447,42 @@ const generatedIncomeTypePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Royalty income information'),
     incomeGenerationMethod: radioUI({
-      title: 'How is the income generated from this asset?',
+      title: 'How is income generated from this asset?',
       labels: generatedIncomeTypeLabels,
     }),
     otherIncomeType: {
-      'ui:title': 'Tell us how the income is generated',
+      'ui:title': 'Describe how income is generated',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'incomeGenerationMethod',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
       },
       'ui:required': otherGeneratedIncomeTypeExplanationRequired,
     },
-    grossMonthlyIncome: currencyUI('Gross monthly income'),
-    fairMarketValue: currencyUI('Fair market value of this asset'),
+    grossMonthlyIncome: currencyUI({
+      title: 'What’s the gross monthly income from this asset?',
+      hint: 'Gross income is income before taxes and any other deductions.',
+    }),
+    fairMarketValue: currencyUI({
+      title: 'What’s the fair market value of this asset?',
+      hint:
+        'The market value is the dollar amount that an asset may be sold at.',
+    }),
     canBeSold: yesNoUI({
       title: 'Can the asset be sold?',
     }),
-    mitigatingCircumstances: textareaUI(
-      'Explain any mitigating circumstances that prevent the sale of this asset',
-    ),
+    mitigatingCircumstances: {
+      ...textareaUI('Explain why this asset can’t be sold'),
+      'ui:options': {
+        expandUnder: 'canBeSold',
+        expandUnderCondition: false,
+        expandedContentFocus: true,
+      },
+    },
+    'ui:options': {
+      ...requireExpandedArrayField('otherIncomeType'),
+    },
   },
   schema: {
     type: 'object',
@@ -235,24 +512,139 @@ const generatedIncomeTypePage = {
 export const royaltiesAndOtherPropertyPages = arrayBuilderPages(
   options,
   pageBuilder => ({
+    royaltyPagesVeteranSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'royalties-summary-veteran',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'VETERAN',
+      uiSchema: veteranSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    royaltyPagesSpouseSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'royalties-summary-spouse',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'SPOUSE',
+      uiSchema: spouseSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    royaltyPagesChildSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'royalties-summary-child',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CHILD',
+      uiSchema: childSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    royaltyPagesCustodianSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'royalties-summary-custodian',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+      uiSchema: custodianSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    royaltyPagesParentSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'royalties-summary-parent',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'PARENT',
+      uiSchema: parentSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
     royaltyPagesSummary: pageBuilder.summaryPage({
-      title:
-        'Income and net worth associated with royalties and other properties',
+      title: summaryPageTitle,
       path: 'royalties-summary',
+      depends: () => !showUpdatedContent(),
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    royaltyRecipientPage: pageBuilder.itemPage({
+    royaltyVeteranRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="VETERAN" />
+      ) : null,
+      title: incomeRecipientPageTitle,
+      path: 'royalties/:index/veteran-income-recipient',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'VETERAN',
+      uiSchema: veteranIncomeRecipientPage.uiSchema,
+      schema: veteranIncomeRecipientPage.schema,
+    }),
+    royaltySpouseRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="SPOUSE" />
+      ) : null,
+      title: incomeRecipientPageTitle,
+      path: 'royalties/:index/spouse-income-recipient',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'SPOUSE',
+      uiSchema: spouseIncomeRecipientPage.uiSchema,
+      schema: spouseIncomeRecipientPage.schema,
+    }),
+    royaltyCustodianRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="CUSTODIAN" />
+      ) : null,
+      title: incomeRecipientPageTitle,
+      path: 'royalties/:index/custodian-income-recipient',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+      uiSchema: custodianIncomeRecipientPage.uiSchema,
+      schema: custodianIncomeRecipientPage.schema,
+    }),
+    royaltyParentRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="PARENT" />
+      ) : null,
+      title: incomeRecipientPageTitle,
+      path: 'royalties/:index/parent-income-recipient',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'PARENT',
+      uiSchema: parentIncomeRecipientPage.uiSchema,
+      schema: parentIncomeRecipientPage.schema,
+    }),
+    royaltyNonVeteranRecipientPage: pageBuilder.itemPage({
       title: 'Royalty recipient',
       path: 'royalties/:index/income-recipient',
-      uiSchema: royaltyRecipientPage.uiSchema,
-      schema: royaltyRecipientPage.schema,
+      depends: () => !showUpdatedContent(),
+      uiSchema: nonVeteranIncomeRecipientPage.uiSchema,
+      schema: nonVeteranIncomeRecipientPage.schema,
+    }),
+    // When claimantType is 'CHILD' we skip showing the recipient page entirely
+    // To preserve required data, we auto-set recipientRelationship to 'CHILD'
+    royaltyChildRecipientNamePage: pageBuilder.itemPage({
+      title: incomeRecipientPageTitle,
+      path: 'royalties/:index/recipient-name-updated',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CHILD',
+      uiSchema: {
+        ...recipientNamePage.uiSchema,
+        'ui:options': {
+          updateSchema: (formData, formSchema, _uiSchema, index) => {
+            const arrayData = formData?.royaltiesAndOtherProperties || [];
+            const item = arrayData[index];
+            if (formData.claimantType === 'CHILD' && item) {
+              item.recipientRelationship = 'CHILD';
+            }
+            return {
+              ...formSchema,
+            };
+          },
+        },
+      },
+      schema: recipientNamePage.schema,
     }),
     royaltyRecipientNamePage: pageBuilder.itemPage({
       title: 'Royalty recipient',
       path: 'royalties/:index/recipient-name',
       depends: (formData, index) =>
-        recipientNameRequired(formData, index, 'royaltiesAndOtherProperties'),
+        (!showUpdatedContent() || formData.claimantType !== 'CHILD') &&
+        updatedRecipientNameRequired(
+          formData,
+          index,
+          'royaltiesAndOtherProperties',
+        ),
       uiSchema: recipientNamePage.uiSchema,
       schema: recipientNamePage.schema,
     }),

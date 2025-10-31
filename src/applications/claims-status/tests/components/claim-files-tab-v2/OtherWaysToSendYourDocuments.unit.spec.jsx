@@ -3,7 +3,12 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import OtherWaysToSendYourDocuments from '../../../components/claim-files-tab-v2/OtherWaysToSendYourDocuments';
-import { MAILING_ADDRESS, CONTACT_INFO, LINKS } from '../../../constants';
+import {
+  MAILING_ADDRESS,
+  CONTACT_INFO,
+  LINKS,
+  ANCHOR_LINKS,
+} from '../../../constants';
 
 describe('<OtherWaysToSendYourDocuments>', () => {
   let getByText;
@@ -20,12 +25,26 @@ describe('<OtherWaysToSendYourDocuments>', () => {
       expect(getByText('Other ways to send your documents')).to.exist;
     });
 
+    it('should render the main heading with correct id', () => {
+      const heading = container.querySelector('h2#other-ways-to-send');
+      expect(heading).to.exist;
+      expect(heading.getAttribute('id')).to.equal(
+        ANCHOR_LINKS.otherWaysToSendDocuments,
+      );
+    });
+
     it('should render the general instructions', () => {
       expect(
         getByText(
           'Print a copy of each document and write your Social Security number on the first page. Then resubmit by mail or in person.',
         ),
       ).to.exist;
+    });
+
+    it('should have the scroll-anchor class for accessibility', () => {
+      const mainDiv = container.querySelector('#other-ways-to-send-documents');
+      expect(mainDiv).to.exist;
+      expect(mainDiv).to.have.class('scroll-anchor');
     });
   });
 

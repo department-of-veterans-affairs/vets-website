@@ -57,12 +57,12 @@ describe('ConfirmationPageV2', () => {
       items.map((el, index) => el[index === 3 ? 'innerHTML' : 'textContent']),
     ).to.deep.equal([
       '',
-      'Not selected',
+      'Not answered',
       '',
       '',
       ',  ',
-      'Not selected',
-      'Not selected',
+      'Not answered',
+      'Not answered',
       '',
     ]);
     expect($('va-summary-box', container)).to.not.exist;

@@ -60,7 +60,7 @@ describe('ConfirmationPageV2', () => {
     expect(items.length).to.eq(6);
     expect(
       items.map((el, index) => el[index === 3 ? 'innerHTML' : 'textContent']),
-    ).to.deep.equal(['', 'Not selected', '', '', ',  ', '']);
+    ).to.deep.equal(['', 'Not answered', '', '', ',  ', '']);
   });
 
   it('should render the confirmation page with evidence', () => {

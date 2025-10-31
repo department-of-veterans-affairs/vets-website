@@ -1,5 +1,6 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+import { waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'platform/testing/unit/msw-adapter';
 
@@ -11,7 +12,6 @@ import ContactInformation from '@@profile/components/contact-information/Contact
 import {
   createBasicInitialState,
   renderWithProfileReducers,
-  wait,
 } from '../../unit-test-helpers';
 
 const ui = (
@@ -32,9 +32,7 @@ function getVaButton(action, numberName) {
 function deletePhoneNumber(numberName) {
   // delete
   getVaButton('Remove', numberName).click();
-  const confirmDeleteButton = view.getByText('Yes, remove my information', {
-    selector: 'button',
-  });
+  const confirmDeleteButton = view.getByTestId('confirm-remove-button');
   confirmDeleteButton.click();
 
   return { confirmDeleteButton };
@@ -45,21 +43,10 @@ async function testSuccess(numberName, shortNumberName) {
 
   deletePhoneNumber(numberName);
 
-  // check that the "we're deleting your..." message appears
-  const deletingMessage = await view.findByText(
-    new RegExp(
-      `We’re in the process of deleting your ${numberName}. We’ll remove this information soon.`,
-      'i',
-    ),
-  );
-  expect(deletingMessage).to.exist;
-
   server.use(...mocks.transactionSucceeded);
 
-  await wait(1500);
-
   // update saved alert should appear
-  await view.findByText('Update saved.');
+  await view.findByTestId('update-success-alert');
 
   // the edit phone number button should still exist
   expect(getVaButton('Edit', numberName)).to.exist;
@@ -73,11 +60,8 @@ async function testTransactionCreationFails(numberName) {
 
   deletePhoneNumber(numberName);
 
-  // expect an error to be shown
-  await view.findByText(
-    `We couldn’t save your recent ${numberName} update. Please try again later.`,
-    { exact: false },
-  );
+  // the error alert should appear
+  await view.findByTestId('generic-error-alert');
 
   expect(getVaButton('Edit', numberName)).to.exist;
 }
@@ -87,27 +71,18 @@ async function testTransactionCreationFails(numberName) {
 async function testSlowFailure(numberName) {
   server.use(...mocks.transactionPending);
 
-  deletePhoneNumber(numberName);
+  const { confirmDeleteButton } = deletePhoneNumber(numberName);
 
-  // check that the "we're deleting your..." message appears
-  const deletingMessage = await view.findByText(
-    new RegExp(
-      `We’re in the process of deleting your ${numberName}. We’ll remove this information soon.`,
-      'i',
-    ),
-  );
-  expect(deletingMessage).to.exist;
+  // wait for the confirm removal modal to close
+  await waitForElementToBeRemoved(confirmDeleteButton);
+
+  // the va-loading-indicator should display
+  await view.findByTestId('loading-indicator');
 
   server.use(...mocks.transactionFailed);
 
-  await wait(1500);
-
-  // make sure the error message appears
-  expect(
-    view.getByText(
-      /We couldn’t save your recent .* update. Please try again later/i,
-    ),
-  ).to.exist;
+  // the error alert should appear
+  await view.findByTestId('generic-error-alert');
 
   // and the add/edit button should be back
   expect(getVaButton('Edit', numberName)).to.exist;

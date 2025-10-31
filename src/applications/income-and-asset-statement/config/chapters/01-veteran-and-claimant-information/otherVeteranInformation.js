@@ -18,7 +18,7 @@ export default {
     ...titleUI('Veteran information'),
     otherVeteranFullName: fullNameNoSuffixUI(title => `Veteran’s ${title}`),
     otherVeteranSocialSecurityNumber: ssnUI('Veteran’s Social Security number'),
-    otherVaFileNumber: vaFileNumberUI('File number'),
+    otherVaFileNumber: vaFileNumberUI('VA File Number (if applicable)'),
   },
   schema: {
     type: 'object',

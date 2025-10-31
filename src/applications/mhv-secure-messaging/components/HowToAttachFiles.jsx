@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import useFeatureToggles from '../hooks/useFeatureToggles';
 
-const HowToAttachFiles = ({ isPilot }) => {
-  const { largeAttachmentsEnabled } = useFeatureToggles();
+const HowToAttachFiles = ({ useLargeAttachments = false }) => {
   const MAX_TOTAL_SIZE_DESCRIPTION = `The maximum total size for all files attached to 1 message is ${
-    isPilot ? '25 MB' : '10 MB'
+    useLargeAttachments ? '25 MB' : '10 MB'
+  }`;
+  const MAX_SINGLE_FILE_SIZE_DESCRIPTION = `The maximum size for each file is ${
+    useLargeAttachments ? '25 MB' : '6 MB'
   }`;
   return (
     <VaAdditionalInfo
@@ -14,10 +15,11 @@ const HowToAttachFiles = ({ isPilot }) => {
       disable-analytics={false}
       disable-border={false}
       data-dd-action-name="What to know about attaching files Expandable Info"
+      data-testid="how-to-attach-files"
     >
       <section className="how-to-attach-files">
         <ul className="vads-u-margin-y--0">
-          {largeAttachmentsEnabled ? (
+          {useLargeAttachments ? (
             <>
               <li>You can attach up to 10 files to each message</li>
               <li>
@@ -25,7 +27,7 @@ const HowToAttachFiles = ({ isPilot }) => {
                 png, rtf, txt, xls, xlxs, jpeg, jfif, pjpeg, pjp, bmp, tiff,
                 ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg
               </li>
-              <li>The maximum size for each file is 6 MB</li>
+              <li>{MAX_SINGLE_FILE_SIZE_DESCRIPTION}</li>
               <li>{MAX_TOTAL_SIZE_DESCRIPTION}</li>
             </>
           ) : (
@@ -35,7 +37,7 @@ const HowToAttachFiles = ({ isPilot }) => {
                 You can attach only these file types: doc, docx, gif, jpg, pdf,
                 png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp
               </li>
-              <li>The maximum size for each file is 6 MB</li>
+              <li>{MAX_SINGLE_FILE_SIZE_DESCRIPTION}</li>
               <li>
                 The maximum total size for all files attached to 1 message is 10
                 MB
@@ -49,7 +51,7 @@ const HowToAttachFiles = ({ isPilot }) => {
 };
 
 HowToAttachFiles.propTypes = {
-  isPilot: PropTypes.bool,
+  useLargeAttachments: PropTypes.bool,
 };
 
 export default HowToAttachFiles;

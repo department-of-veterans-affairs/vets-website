@@ -280,6 +280,11 @@
  */
 
 /**
+ * @typedef {string | { label?: string, group?: string }} LabelOption
+ * Label can be a string (for simple label) or an object with optional label and group properties if supported by the component.
+ */
+
+/**
  * @typedef {Object} UIOptions
  * @property {string} [ariaDescribedby] The id of the element that describes the field. Use `messageAriaDescribedby` for web components.
  * @property {boolean} [charcount] Whether a web-component should show a character count message. Has no effect without `maxLength` being set in the schema.
@@ -316,7 +321,7 @@
  * @property {string} [itemName] The name of the item - for arrays. For example a value of 'Child' will result in 'Add another child', 'New child', and if 'using confirmRemove', 'Are you sure you want to remove this child item?', 'Yes, remove this child item'.
  * @property {boolean} [invalid] For web components. Whether or not aria-invalid will be set on the inner input. Useful when composing the component into something larger, like a date component.
  * @property {boolean} [keepInPageOnReview] Used to keep a field on the review page. Often used with arrays or expandUnder fields. When used with arrays, removes the default editor box on the review page and shows view-only data with an edit button instead.
- * @property {Record<string, string>} [labels] Used to specify radio button or yes/no labels
+ * @property {Record<string, LabelOption>} [labels] Used to specify radio button, yes/no, or grouped labels. Label can be a string or an object with label/group.
  * @property {'' | '1' | '2' | '3' | '4' | '5'} [labelHeaderLevel] The header level for the label. For web components such as radio buttons or checkboxes.
  * @property {'' | '1' | '2' | '3' | '4' | '5'} [labelHeaderLevelStyle] The header style level for the label. For web components such as radio buttons or checkboxes.
  * @property {string} [messageAriaDescribedby] For web components. An optional message that will be read by screen readers when the input is focused.
@@ -385,7 +390,7 @@
  * @typedef {Object} WebComponentFieldProps
  * @property {string | JSX.Element | Function} description
  * @property {string} textDescription
- * @property {string | JSX.Element} label
+ * @property {string} label
  * @property {boolean} required
  * @property {string} error
  * @property {UIOptions} uiOptions
@@ -427,7 +432,7 @@
  *   cancelEditYes?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditNo?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditTitle?: (props: ArrayBuilderTextProps) => string,
- *   cardDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cardDescription?: (itemData: any, index: number, fullData: any) => string | React.ReactNode,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
  *   getItemName?: (itemData: any, index: number, fullData: any) => string,
@@ -444,10 +449,10 @@
  *   duplicateSummaryCardLabel?: (props: ArrayBuilderTextProps) => string,
  *   duplicateSummaryCardWarningOrErrorAlert?: (props: ArrayBuilderTextProps) => string,
  *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
- *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
- *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string,
- *   summaryDescription?: (props: ArrayBuilderTextProps) => string,
- *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string,
+ *   summaryTitle?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
+ *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
+ *   summaryDescription?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
+ *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
  *   summaryAddLinkText?: (props: ArrayBuilderTextProps) => string,
  *   summaryAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
@@ -478,7 +483,7 @@
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
- * @property {DuplicateChecks} duplicateChecks
+ * @property {DuplicateChecks} [duplicateChecks]
  * ```
  * // Example simple:
  * duplicateChecks: {
@@ -510,7 +515,7 @@
  * @typedef {Object} DuplicateChecks
  * @property {Array<String>} comparisons - The array paths to compare for
  * duplicates
- * @property {String} comparisonType - set as 'all', 'internal', or 'external'.
+ * @property {String} [comparisonType] - set as 'all', 'internal', or 'external'.
  *   - 'all' compares both internal and external data (default)
  *   - 'internal' compares only within the array data
  *   - 'external' compares unique internal data with external data (internal

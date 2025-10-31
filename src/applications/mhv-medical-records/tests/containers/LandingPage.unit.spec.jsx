@@ -5,8 +5,15 @@ import { fireEvent } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { addHours, format } from 'date-fns';
-import * as uniqueUserMetrics from '~/platform/mhv/unique_user_metrics';
-import LandingPage from '../../containers/LandingPage';
+import LandingPage, {
+  ALLERGIES_AND_REACTIONS_LABEL,
+  CARE_SUMMARIES_AND_NOTES_LABEL,
+  HEALTH_CONDITIONS_LABEL,
+  MEDICAL_RECORDS_REQUEST_LABEL,
+  MEDICAL_RECORDS_SETTINGS_LABEL,
+  VACCINES_LABEL,
+  VITALS_LABEL,
+} from '../../containers/LandingPage';
 import reducer from '../../reducers';
 import * as MrApi from '../../api/MrApi';
 
@@ -90,7 +97,6 @@ describe('Landing Page', () => {
 
   describe('Landing Page without downtime', () => {
     let postCreateAALStub;
-    let logUniqueUserMetricsEventsStub;
     let sandbox;
     let getByTestId;
     let screen;
@@ -104,7 +110,6 @@ describe('Landing Page', () => {
       /* eslint-disable camelcase */
       featureToggles: {
         loading: false,
-        mhv_medical_records_update_landing_page: true,
         mhv_landing_page_show_share_my_health_data_link: true,
       },
       /* eslint-enable camelcase */
@@ -123,10 +128,6 @@ describe('Landing Page', () => {
       sandbox = sinon.createSandbox();
       // stub out postCreateAAL so it doesn't actually fire network requests
       postCreateAALStub = sandbox.stub(MrApi, 'postCreateAAL');
-      logUniqueUserMetricsEventsStub = sandbox.stub(
-        uniqueUserMetrics,
-        'logUniqueUserMetricsEvents',
-      );
       renderPage();
     });
 
@@ -179,37 +180,64 @@ describe('Landing Page', () => {
         }),
       ).to.exist;
 
-      // links to features
+      const notesVaLinkAction = screen.getByTestId('notes-landing-page-link');
+      expect(notesVaLinkAction).to.exist;
+      expect(notesVaLinkAction).to.have.attribute(
+        'text',
+        CARE_SUMMARIES_AND_NOTES_LABEL,
+      );
+      const allergiesVaLinkAction = screen.getByTestId(
+        'allergies-landing-page-link',
+      );
+      expect(allergiesVaLinkAction).to.exist;
+      expect(allergiesVaLinkAction).to.have.attribute(
+        'text',
+        ALLERGIES_AND_REACTIONS_LABEL,
+      );
+      const vaccinesVaLinkAction = screen.getByTestId(
+        'vaccines-landing-page-link',
+      );
+      expect(vaccinesVaLinkAction).to.exist;
+      expect(vaccinesVaLinkAction).to.have.attribute('text', VACCINES_LABEL);
+      const reactionsVaLinkAction = screen.getByTestId(
+        'conditions-landing-page-link',
+      );
+      expect(reactionsVaLinkAction).to.exist;
+      expect(reactionsVaLinkAction).to.have.attribute(
+        'text',
+        HEALTH_CONDITIONS_LABEL,
+      );
+      const conditionsVaLinkAction = screen.getByTestId(
+        'conditions-landing-page-link',
+      );
+      expect(conditionsVaLinkAction).to.exist;
+      expect(conditionsVaLinkAction).to.have.attribute(
+        'text',
+        HEALTH_CONDITIONS_LABEL,
+      );
+      const vitalsVaLinkAction = screen.getByTestId('vitals-landing-page-link');
+      expect(vitalsVaLinkAction).to.exist;
+      expect(vitalsVaLinkAction).to.have.attribute('text', VITALS_LABEL);
+      const settingsVaLinkAction = screen.getByTestId(
+        'settings-landing-page-link',
+      );
+      expect(settingsVaLinkAction).to.exist;
+      expect(settingsVaLinkAction).to.have.attribute(
+        'text',
+        MEDICAL_RECORDS_SETTINGS_LABEL,
+      );
       expect(
-        screen.getByRole('link', {
-          name: 'Go to your care summaries and notes',
+        screen.getByText('What to do if you can’t find your medical records', {
+          selector: 'h2',
+          exact: true,
         }),
       ).to.exist;
-      expect(
-        screen.getByRole('link', {
-          name: 'Go to your vaccines',
-        }),
-      ).to.exist;
-      expect(
-        screen.getByRole('link', {
-          name: 'Go to your allergies and reactions',
-        }),
-      ).to.exist;
-      expect(
-        screen.getByRole('link', {
-          name: 'Go to your health conditions',
-        }),
-      ).to.exist;
-      expect(
-        screen.getByRole('link', {
-          name: 'Go to your vitals',
-        }),
-      ).to.exist;
-      expect(
-        screen.getByRole('link', {
-          name: 'Go to manage your electronic sharing settings',
-        }),
-      ).to.exist;
+      const gpsVaLinkAction = screen.getByTestId('gps-landing-page-link');
+      expect(gpsVaLinkAction).to.exist;
+      expect(gpsVaLinkAction).to.have.attribute(
+        'text',
+        MEDICAL_RECORDS_REQUEST_LABEL,
+      );
       expect(
         screen.getByText('Share personal health data with your care team', {
           selector: 'h2',
@@ -265,64 +293,6 @@ describe('Landing Page', () => {
     linkTests.forEach(({ testId, activityType }) => {
       it(`calls postCreateAAL when ${activityType} link is clicked`, () => {
         clickAndAssert(testId, activityType);
-      });
-    });
-
-    it('should log medical records accessed event when landing page loads', () => {
-      expect(
-        logUniqueUserMetricsEventsStub.calledWith(
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_ACCESSED,
-        ),
-      ).to.be.true;
-    });
-
-    const uniqueUserMetricsLinkTests = [
-      {
-        testId: 'labs-and-tests-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_LABS_ACCESSED,
-        description: 'labs and tests',
-      },
-      {
-        testId: 'notes-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_NOTES_ACCESSED,
-        description: 'care summaries and notes',
-      },
-      {
-        testId: 'vaccines-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_VACCINES_ACCESSED,
-        description: 'vaccines',
-      },
-      {
-        testId: 'allergies-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_ALLERGIES_ACCESSED,
-        description: 'allergies and reactions',
-      },
-      {
-        testId: 'conditions-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_CONDITIONS_ACCESSED,
-        description: 'health conditions',
-      },
-      {
-        testId: 'vitals-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_VITALS_ACCESSED,
-        description: 'vitals',
-      },
-    ];
-
-    uniqueUserMetricsLinkTests.forEach(({ testId, eventType, description }) => {
-      it(`should log unique user metrics event when ${description} link is clicked`, () => {
-        // Reset the stub to clear previous calls
-        logUniqueUserMetricsEventsStub.resetHistory();
-
-        fireEvent.click(getByTestId(testId));
-
-        expect(logUniqueUserMetricsEventsStub.calledWith(eventType)).to.be.true;
       });
     });
   });

@@ -45,15 +45,39 @@ export class ScheduleReferralPageObject extends PageObject {
   }
 
   /**
-   * Validates that referring facility information is displayed
+   * Validates that the community care office link is displayed
    */
-  assertreferringFacility() {
-    // Verify that the facility information is populated
-    cy.findByTestId('referral-facility')
-      .should('exist')
-      .and('contain.text', 'Referring VA facility:')
-      .and('contain.text', 'Phone:');
+  assertCommunityCareOfficeLink(numberOfLinks = 1) {
+    if (numberOfLinks > 1) {
+      cy.findAllByTestId('referral-community-care-office')
+        .should('have.length', numberOfLinks)
+        .and(
+          'have.attr',
+          'href',
+          '/COMMUNITYCARE/providers/Care-Coordination-Facilities.asp',
+        )
+        .and('have.attr', 'text', 'Find your community care office');
+    } else {
+      cy.findByTestId('referral-community-care-office')
+        .should('exist')
+        .and(
+          'have.attr',
+          'href',
+          '/COMMUNITYCARE/providers/Care-Coordination-Facilities.asp',
+        )
+        .and('have.attr', 'text', 'Find your community care office');
+    }
+    return this;
+  }
 
+  /**
+   * Validates that the online scheduling not available message is displayed
+   */
+  assertOnlineSchedulingNotAvailable() {
+    cy.findByTestId('referral-alert').should('exist');
+    cy.findByText(
+      /Online scheduling isn’t available for this referral right now. Call your community care provider or your facility’s community care office to schedule an appointment./i,
+    ).should('exist');
     return this;
   }
 

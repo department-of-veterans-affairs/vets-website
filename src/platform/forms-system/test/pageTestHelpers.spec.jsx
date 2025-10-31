@@ -1,14 +1,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
 
 const expectedFieldTypes = 'input, select, textarea';
 
 const expectedFieldTypesWebComponents =
-  'va-text-input, va-file-input, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date, va-telephone-input';
+  'va-text-input, va-file-input, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date, va-telephone-input, va-combo-box';
 
 const wrapperWebComponents = 'va-checkbox-group, va-memorable-date';
 
@@ -86,8 +86,10 @@ export const testNumberOfErrorsOnSubmit = (
       // Wait for the DOM to update after form validation
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      const errors = queryAllByRole('alert');
-      expect(errors).to.have.lengthOf(expectedNumberOfErrors);
+      await waitFor(() => {
+        const errors = queryAllByRole('alert');
+        expect(errors).to.have.lengthOf(expectedNumberOfErrors);
+      });
     });
   });
 };
@@ -154,13 +156,18 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
       // Wait for the DOM to update after form validation
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      const nodes = Array.from(
-        container.querySelectorAll(
-          `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
-        ),
+      await waitFor(
+        () => {
+          const nodes = Array.from(
+            container.querySelectorAll(
+              `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
+            ),
+          );
+          const errors = nodes.filter(node => node.error);
+          expect(errors).to.have.lengthOf(expectedNumberOfErrors);
+        },
+        { timeout: 1000 },
       );
-      const errors = nodes.filter(node => node.error);
-      expect(errors).to.have.lengthOf(expectedNumberOfErrors);
     });
   });
 };

@@ -8,6 +8,7 @@ import {
   vaFileNumberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { merge } from 'lodash';
 import { patientIdentificationFields } from '../definitions/constants';
 import { getFullNameLabels } from '../helpers';
 
@@ -19,8 +20,21 @@ export default {
         title:
           "Tell us about the person whose records you're authorizing the release of",
       }),
-      [patientIdentificationFields.patientFullName]: fullNameUI(label =>
-        getFullNameLabels(label, true),
+      [patientIdentificationFields.patientFullName]: merge(
+        {},
+        fullNameUI(label => getFullNameLabels(label, true)),
+        {
+          first: {
+            'ui:options': {
+              hint: '(Max. 12 characters)',
+            },
+          },
+          last: {
+            'ui:options': {
+              hint: '(Max. 18 characters)',
+            },
+          },
+        },
       ),
       [patientIdentificationFields.patientSsn]: ssnUI('Social Security number'),
       [patientIdentificationFields.patientVaFileNumber]: vaFileNumberUI(
@@ -35,7 +49,20 @@ export default {
         type: 'object',
         required: ['patientFullName', 'patientSsn'],
         properties: {
-          [patientIdentificationFields.patientFullName]: fullNameSchema,
+          [patientIdentificationFields.patientFullName]: merge(
+            {},
+            fullNameSchema,
+            {
+              properties: {
+                first: {
+                  maxLength: 12,
+                },
+                last: {
+                  maxLength: 18,
+                },
+              },
+            },
+          ),
           [patientIdentificationFields.patientSsn]: ssnSchema,
           [patientIdentificationFields.patientVaFileNumber]: vaFileNumberSchema,
         },

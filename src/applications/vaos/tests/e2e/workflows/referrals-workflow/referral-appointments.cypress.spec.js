@@ -81,7 +81,7 @@ describe('VAOS Referral Appointments', () => {
 
   describe('Creating an appointment from a referral', () => {
     const numberOfReferrals = 2;
-    const appointmentId = 'EEKoGzEf';
+    const appointmentId = 'appointment-for-VA9672';
 
     beforeEach(() => {
       // Mock referrals list response
@@ -108,6 +108,7 @@ describe('VAOS Referral Appointments', () => {
           referralNumber,
           categoryOfCare: 'Physical Therapy',
           numberOfSlots: 3,
+          currentDate: mockToday,
         },
       );
       mockDraftReferralAppointmentApi({
@@ -149,7 +150,7 @@ describe('VAOS Referral Appointments', () => {
       ).toJSON();
 
       mockAppointmentDetailsApiWithPolling({
-        id: appointmentId,
+        id: '*',
         firstResponse: proposedAppointmentResponse,
         secondResponse: bookedAppointmentResponse,
         switchAfterRequests: 2,
@@ -183,7 +184,7 @@ describe('VAOS Referral Appointments', () => {
       // Validate we've reached the Schedule Referral page
       scheduleReferral.validate();
       scheduleReferral.assertReferralDetails();
-      scheduleReferral.assertreferringFacility();
+      scheduleReferral.assertCommunityCareOfficeLink();
 
       // Click the schedule appointment button
       scheduleReferral.clickScheduleAppointment();
@@ -196,7 +197,7 @@ describe('VAOS Referral Appointments', () => {
       chooseDateAndTime.validate();
       chooseDateAndTime.assertProviderInfo();
       chooseDateAndTime.selectNextMonth();
-      chooseDateAndTime.assertAppointmentSlots(3);
+      chooseDateAndTime.assertAppointmentSlots(23);
 
       // Select the first appointment slot
       chooseDateAndTime.selectAppointmentSlot(0);
@@ -236,6 +237,109 @@ describe('VAOS Referral Appointments', () => {
       cy.injectAxeThenAxeCheck();
       epsAppointmentDetails.validate();
       epsAppointmentDetails.assertProviderInfo();
+    });
+  });
+
+  describe('Referral with no slots available', () => {
+    beforeEach(() => {
+      // Mock referrals list response
+      const referralsResponse = new MockReferralListResponse({
+        numberOfReferrals: 1,
+      }).toJSON();
+      const referralId = referralsResponse.data[0].id;
+      const { referralNumber } = referralsResponse.data[0].attributes;
+
+      mockReferralsGetApi({ response: referralsResponse });
+
+      // Mock referral detail response
+      const referralDetailResponse = new MockReferralDetailResponse({
+        id: referralId,
+        hasAppointments: false,
+      });
+      mockReferralDetailGetApi({
+        id: referralId,
+        response: referralDetailResponse,
+      });
+      // Mock draft referral appointment response
+      const draftReferralAppointment = new MockReferralDraftAppointmentResponse(
+        {
+          referralNumber,
+          categoryOfCare: 'Optometry',
+          noSlotsError: true,
+          currentDate: mockToday,
+        },
+      );
+      mockDraftReferralAppointmentApi({
+        response: draftReferralAppointment,
+      });
+    });
+
+    it('should show no slots available message', () => {
+      // Navigate to the Referrals and Requests page
+      appointmentList.navigateToReferralsAndRequests();
+
+      // Wait for referrals to load
+      cy.wait('@v2:get:referrals');
+
+      // Select the referral
+      referralsAndRequests.selectReferral(0);
+
+      // Wait for referral detail to load
+      cy.wait('@v2:get:referral:detail');
+
+      // Click the schedule appointment button
+      scheduleReferral.clickScheduleAppointment();
+
+      // Wait for draft referral appointment to load
+      cy.wait('@v2:post:draftReferralAppointment');
+      cy.injectAxeThenAxeCheck();
+
+      // Verify no slots available message is displayed
+      chooseDateAndTime.assertNoSlotsAvailable();
+
+      // Verify the calendar is not displayed
+      cy.findByTestId('cal-widget').should('not.exist');
+    });
+  });
+
+  describe('Referral without provider information', () => {
+    beforeEach(() => {
+      // Mock referrals list response
+      const referralsResponse = new MockReferralListResponse({
+        numberOfReferrals: 1,
+      }).toJSON();
+      mockReferralsGetApi({ response: referralsResponse });
+      const referralId = referralsResponse.data[0].id;
+
+      // Mock referral detail response
+      const referralDetailResponse = new MockReferralDetailResponse({
+        id: referralId,
+        hasAppointments: false,
+        provider: null,
+      });
+      mockReferralDetailGetApi({
+        id: referralId,
+        response: referralDetailResponse,
+      });
+    });
+
+    it('should show online scheduling not available message', () => {
+      // Navigate to the Referrals and Requests page
+      appointmentList.navigateToReferralsAndRequests();
+
+      // Wait for referrals to load
+      cy.wait('@v2:get:referrals');
+
+      // Select the referral without provider information
+      referralsAndRequests.selectReferral(0);
+
+      // Wait for referral detail to load
+      cy.wait('@v2:get:referral:detail');
+      cy.injectAxeThenAxeCheck();
+
+      // Verify online scheduling not available message is displayed
+      scheduleReferral.assertOnlineSchedulingNotAvailable();
+      scheduleReferral.assertCommunityCareOfficeLink(2);
     });
   });
 });

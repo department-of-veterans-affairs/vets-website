@@ -31,7 +31,10 @@ class NotificationSettingsFeature {
 
   confirmHearingReminderNotificationSanityCheck = () => {
     // check that hearing notification is rendering first
-    cy.findByText(this.APPEAL_HEARING_NOTIFICATION_TEXT).should('exist');
+    cy.get('[data-testid="checkbox-group-item1"]')
+      .shadow()
+      .findByText(this.APPEAL_HEARING_NOTIFICATION_TEXT)
+      .should('exist');
   };
 
   confirmAppealsStatusSetting = ({ exists }) => {

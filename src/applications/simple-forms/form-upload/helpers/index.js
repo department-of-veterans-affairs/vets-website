@@ -5,13 +5,15 @@ import {
   FORM_UPLOAD_FILE_UPLOADING_ALERT,
   FORM_UPLOAD_INSTRUCTION_ALERT,
   FORM_UPLOAD_OCR_ALERT,
+  MUST_MATCH_ALERT,
 } from '../config/constants';
 
-const formMappings = {
+export const formMappings = {
   '21-0779': {
     subTitle:
       'Request for Nursing Home Information in Connection with Claim for Aid and Attendance',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf',
+    showSupportingDocuments: true,
   },
   '21-4192': {
     subTitle:
@@ -157,7 +159,7 @@ export const getFormContent = (pathname = null) => {
     ombInfo,
     subTitle,
     pdfDownloadUrl,
-    title: `Upload form ${formNumber}`,
+    title: `Upload VA Form ${formNumber}`,
   };
 };
 
@@ -217,8 +219,11 @@ export const onClickContinue = (props, setContinueClicked) => {
 };
 
 export const getAlert = (props, continueClicked) => {
-  const warnings = props.data?.uploadedFile?.warnings;
-  const fileUploading = props.data?.uploadedFile?.name === 'uploading';
+  const warnings = props?.data?.uploadedFile?.warnings;
+  const fileUploading = props?.data?.uploadedFile?.name === 'uploading';
+  const veteranInformation =
+    props?.name === 'nameAndZipCodePage' ||
+    props?.name === 'veteranIdentificationInformationPage';
   const formNumber = getFormNumber();
 
   if (warnings?.length > 0) {
@@ -232,6 +237,10 @@ export const getAlert = (props, continueClicked) => {
 
   if (fileUploading && continueClicked) {
     return FORM_UPLOAD_FILE_UPLOADING_ALERT(onCloseAlert);
+  }
+
+  if (veteranInformation) {
+    return MUST_MATCH_ALERT(props?.name, onCloseAlert, props?.data);
   }
 
   return FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);

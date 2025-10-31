@@ -9,6 +9,10 @@ import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import { errorFragment } from '../../layouts/helpers';
 import { PAGE_TITLE } from '../../util';
+import {
+  getIsDependentsWarningHidden,
+  hideDependentsWarning,
+} from '../../../shared/utils';
 
 const dependentsVerificationUrl = getAppUrl('0538-dependents-verification');
 
@@ -19,20 +23,12 @@ const CALLSTATUS = {
   skip: 'skipped',
 };
 
-function getIsWarningHidden() {
-  const rawStoredDate = localStorage.getItem('viewDependentsWarningClosedAt');
-  if (!rawStoredDate) {
-    return false;
-  }
-
-  const dateClosed = new Date(rawStoredDate);
-  return !Number.isNaN(dateClosed.getTime());
-}
-
 function ViewDependentsHeader(props) {
   const { updateDiariesStatus, showAlert } = props;
 
-  const [warningHidden, setWarningHidden] = useState(getIsWarningHidden());
+  const [warningHidden, setWarningHidden] = useState(
+    getIsDependentsWarningHidden(),
+  );
 
   useEffect(() => {
     focusElement('h1');
@@ -41,10 +37,7 @@ function ViewDependentsHeader(props) {
 
   function handleWarningClose() {
     setWarningHidden(true);
-    localStorage.setItem(
-      'viewDependentsWarningClosedAt',
-      new Date().toISOString(),
-    );
+    hideDependentsWarning();
     scrollToTop();
     focusElement('.view-deps-header');
   }

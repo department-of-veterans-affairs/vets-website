@@ -3,11 +3,12 @@ import React, { useState, useMemo, useCallback, useRef } from 'react';
 import {
   VaFileInputMultiple,
   VaSelect,
+  VaTextInput,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { standardFileChecks } from 'platform/forms-system/src/js/utilities/file';
 import { debounce } from 'lodash';
 
-// Debounce wait time for password input
+// Debounce wait time for text inputs
 const DEBOUNCE_WAIT = 1000;
 
 export default function VaFileInputMultiplePage() {
@@ -217,6 +218,7 @@ export default function VaFileInputMultiplePage() {
         // Set file status to pending password
         setFiles(prevFiles => {
           const newFiles = [...prevFiles];
+          const existingAdditionalData = newFiles[index]?.additionalData || {};
           newFiles[index] = {
             name: file.name,
             size: file.size,
@@ -224,6 +226,7 @@ export default function VaFileInputMultiplePage() {
             status: 'pending_password',
             encrypted: true,
             _originalFile: file,
+            additionalData: existingAdditionalData,
           };
           return newFiles;
         });
@@ -234,14 +237,21 @@ export default function VaFileInputMultiplePage() {
         // Always set a file object to maintain array consistency
         setFiles(prevFiles => {
           const newFiles = [...prevFiles];
-          newFiles[index] = processedFile || {
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            status: 'error',
-            encrypted: false,
-            _originalFile: file,
-          };
+          const existingAdditionalData = newFiles[index]?.additionalData || {};
+          newFiles[index] = processedFile
+            ? {
+                ...processedFile,
+                additionalData: existingAdditionalData,
+              }
+            : {
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                status: 'error',
+                encrypted: false,
+                _originalFile: file,
+                additionalData: existingAdditionalData,
+              };
           return newFiles;
         });
       }
@@ -263,14 +273,21 @@ export default function VaFileInputMultiplePage() {
         // Always set a file object to maintain array consistency
         setFiles(prevFiles => {
           const newFiles = [...prevFiles];
-          newFiles[index] = processedFile || {
-            name: fileDetails.file.name,
-            size: fileDetails.file.size,
-            type: fileDetails.file.type,
-            status: 'error',
-            encrypted: true,
-            _originalFile: fileDetails.file,
-          };
+          const existingAdditionalData = newFiles[index]?.additionalData || {};
+          newFiles[index] = processedFile
+            ? {
+                ...processedFile,
+                additionalData: existingAdditionalData,
+              }
+            : {
+                name: fileDetails.file.name,
+                size: fileDetails.file.size,
+                type: fileDetails.file.type,
+                status: 'error',
+                encrypted: true,
+                _originalFile: fileDetails.file,
+                additionalData: existingAdditionalData,
+              };
           return newFiles;
         });
       } catch (error) {
@@ -317,6 +334,27 @@ export default function VaFileInputMultiplePage() {
         }
       }, DEBOUNCE_WAIT),
     [handleEncryptedFileUpload],
+  );
+
+  // Debounced text input processing to prevent focus loss on every keystroke
+  const debounceTextInput = useMemo(
+    () =>
+      debounce((value, index, fieldName) => {
+        setFiles(prevFiles => {
+          const newFiles = [...prevFiles];
+          if (newFiles[index]) {
+            newFiles[index] = {
+              ...newFiles[index],
+              additionalData: {
+                ...newFiles[index].additionalData,
+                [fieldName]: value,
+              },
+            };
+          }
+          return newFiles;
+        });
+      }, DEBOUNCE_WAIT),
+    [],
   );
 
   // Handle file removal
@@ -438,12 +476,40 @@ export default function VaFileInputMultiplePage() {
     }
   };
 
-  // Handle additional input (document status selection)
-  const handleAdditionalInput = event => {
+  const handleSlotInput = event => {
     const { detail } = event;
     const { value } = detail;
 
-    // Use the forms library approach to get the correct file index
+    // Get the file index
+    const fileIndex = getFileInputInstanceIndex(event);
+
+    // Get the field name from the event target - try multiple approaches
+    let fieldName = event.target.name;
+
+    // If name is not available on target, try getting it from the composed path
+    if (!fieldName) {
+      const vaTextInput = event
+        .composedPath()
+        .find(el => el.tagName === 'VA-TEXT-INPUT');
+      fieldName = vaTextInput?.name;
+    }
+
+    if (fileIndex >= 0 && files[fileIndex] && fieldName) {
+      // Use debounced update to prevent focus loss
+      debounceTextInput(value, fileIndex, fieldName);
+    } else {
+      console.warn(
+        `Could not find file at index ${fileIndex} or field name ${fieldName}`,
+      );
+    }
+  };
+
+  // Handle additional input (document status selection)
+  const handleSlotSelect = event => {
+    const { detail } = event;
+    const { value } = detail;
+
+    // Get the file index
     const fileIndex = getFileInputInstanceIndex(event);
 
     if (fileIndex >= 0 && files[fileIndex]) {
@@ -471,6 +537,7 @@ export default function VaFileInputMultiplePage() {
         newFiles[fileIndex] = {
           ...newFiles[fileIndex],
           additionalData: {
+            ...newFiles[fileIndex].additionalData,
             documentStatus: value,
           },
         };
@@ -555,9 +622,6 @@ export default function VaFileInputMultiplePage() {
     <div className="vads-grid-container">
       <div className="vads-grid-row">
         <div className="vads-grid-col-12 desktop:vads-grid-col-6">
-          {/* <h2 className="vads-grid-col font-ui-md">
-            File Input Multiple Component
-          </h2> */}
           <VaFileInputMultiple
             ref={componentRef}
             accept=".pdf,.jpeg,.png"
@@ -568,7 +632,8 @@ export default function VaFileInputMultiplePage() {
             resetVisualState={fileErrors.map(error => (error ? true : null))}
             onVaMultipleChange={handleMultipleChange}
             onVaFileInputError={handleComponentError}
-            onVaSelect={handleAdditionalInput}
+            onVaSelect={handleSlotSelect}
+            onVaInput={handleSlotInput}
             hint="Upload PDF, JPEG, or PNG files. Encrypted PDFs will require a password."
             label="Select files to upload"
           >
@@ -578,6 +643,11 @@ export default function VaFileInputMultiplePage() {
                 <option value="public">Public</option>
                 <option value="private">Private</option>
               </VaSelect>
+              <VaTextInput label="Document name" name="documentName" />
+              <VaTextInput
+                label="Document description"
+                name="documentDescription"
+              />
             </div>
           </VaFileInputMultiple>
         </div>
@@ -592,7 +662,7 @@ export default function VaFileInputMultiplePage() {
           </span>
 
           <div>
-            <h3>Files State</h3>
+            <h3>Files State Preview</h3>
             <pre
               className="vads-u-background-color--gray-lightest vads-u-padding--1p5 vads-u-border-radius--md vads-u-font-family--mono"
               style={{
@@ -606,60 +676,62 @@ export default function VaFileInputMultiplePage() {
           </div>
         </div>
       </div>
-      <div className="vads-grid-row">
-        {/* Error Testing Instructions */}
-        <div className="vads-u-margin-top--2 vads-u-padding--1p5 vads-u-background-color--primary-alt-lightest vads-u-border-radius--md vads-u-font-size--sm">
-          <h3>Error Testing & Visual State Reset:</h3>
-          <ul className="vads-u-margin-y--1 vads-u-padding-left--2p5">
-            <li>
-              <strong>Network Error:</strong> Upload file with "error" in
-              filename
-              <br />
-              <em>→ Watch progress bar reset when error occurs</em>
-            </li>
-            <li>
-              <strong>Server Error:</strong> Upload file with "server" in
-              filename
-              <br />
-              <em>→ Visual state clears on error for clean retry</em>
-            </li>
-            <li>
-              <strong>Rate Limit:</strong> Upload file with "limit" in filename
-              <br />
-              <em>→ Component resets to initial appearance</em>
-            </li>
-            <li>
-              <strong>File Size:</strong> Upload file larger than 1MB
-              <br />
-              <em>→ resetVisualState triggers immediately</em>
-            </li>
-            <li>
-              <strong>Password Error:</strong> Use password shorter than 8
-              characters
-              <br />
-              <em>→ Password field visual state resets</em>
-            </li>
-            <li>
-              <strong>Additional Input Error:</strong> Upload any file, then try
-              to select "Select status" option
-              <br />
-              <em>
-                → Document status field shows validation error (no visual state
-                reset)
-              </em>
-            </li>
-          </ul>
-          <p className="vads-u-margin-top--1 vads-u-margin-bottom--0 vads-u-font-size--xs vads-u-font-style--italic">
-            <strong>resetVisualState</strong> automatically triggers when errors
-            occur, providing visual feedback for error recovery.
-          </p>
-          <p className="vads-u-margin-top--1 vads-u-margin-bottom--0 vads-u-font-size--xs vads-u-color--primary">
-            <strong>Additional Input:</strong> Each uploaded file requires a
-            document status selection. Selecting "Select status" shows a
-            validation error. Valid selections are stored in{' '}
-            <code>file.additionalData.documentStatus</code>.
-          </p>
-        </div>
+      <div className="vads-grid-row vads-u-margin-top--2">
+        <va-additional-info trigger="Mock error scenarios">
+          <div className="vads-u-margin-top--2 vads-u-padding--1p5 vads-u-background-color--primary-alt-lightest vads-u-border-radius--md vads-u-font-size--sm">
+            <h3>Error Testing & Visual State Reset:</h3>
+            <ul className="vads-u-margin-y--1 vads-u-padding-left--2p5">
+              <li>
+                <strong>Network Error:</strong> Upload file with 'error' in
+                filename
+                <br />
+                <em>→ Watch progress bar reset when error occurs</em>
+              </li>
+              <li>
+                <strong>Server Error:</strong> Upload file with 'server' in
+                filename
+                <br />
+                <em>→ Visual state clears on error for clean retry</em>
+              </li>
+              <li>
+                <strong>Rate Limit:</strong> Upload file with 'limit' in
+                filename
+                <br />
+                <em>→ Component resets to initial appearance</em>
+              </li>
+              <li>
+                <strong>File Size:</strong> Upload file larger than 1MB
+                <br />
+                <em>→ resetVisualState triggers immediately</em>
+              </li>
+              <li>
+                <strong>Password Error:</strong> Use password shorter than 8
+                characters
+                <br />
+                <em>→ Password field visual state resets</em>
+              </li>
+              <li>
+                <strong>Additional Input Error:</strong> Upload any file, then
+                try to select 'Select status' option
+                <br />
+                <em>
+                  → Document status field shows validation error (no visual
+                  state reset)
+                </em>
+              </li>
+            </ul>
+            <p className="vads-u-margin-top--1 vads-u-margin-bottom--0 vads-u-font-size--xs vads-u-font-style--italic">
+              <strong>resetVisualState</strong> automatically triggers when
+              errors occur, providing visual feedback for error recovery.
+            </p>
+            <p className="vads-u-margin-top--1 vads-u-margin-bottom--0 vads-u-font-size--xs vads-u-color--primary">
+              <strong>Additional Input:</strong> Each uploaded file requires a
+              document status selection. Selecting 'Select status' shows a
+              validation error. Valid selections are stored in{' '}
+              <code>file.additionalData.documentStatus</code>.
+            </p>
+          </div>
+        </va-additional-info>
       </div>
     </div>
   );

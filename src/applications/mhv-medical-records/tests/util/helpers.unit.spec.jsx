@@ -13,6 +13,7 @@ import {
   dateFormat,
   dateFormatWithoutTimezone,
   dispatchDetails,
+  errorForUnequalBirthDates,
   extractContainedByRecourceType,
   extractContainedResource,
   formatDate,
@@ -31,6 +32,7 @@ import {
   removeTrailingSlash,
   formatDateAndTimeWithGenericZone,
   formatDateTime,
+  itemListWrapper,
 } from '../../util/helpers';
 import { refreshPhases, VALID_REFRESH_DURATION } from '../../util/constants';
 
@@ -127,6 +129,30 @@ describe('processList', () => {
     const list = [];
     const result = processList(list);
     expect(result).to.eq('None recorded');
+  });
+});
+
+describe('itemListWrapper', () => {
+  it('returns undefined for non-array input', () => {
+    expect(itemListWrapper('string')).to.be.undefined;
+    expect(itemListWrapper(null)).to.be.undefined;
+    expect(itemListWrapper(undefined)).to.be.undefined;
+  });
+
+  it('returns undefined for an empty array', () => {
+    expect(itemListWrapper([])).to.be.undefined;
+  });
+
+  it('returns undefined for a single-item array', () => {
+    expect(itemListWrapper(['only'])).to.be.undefined;
+  });
+
+  it('returns div for a multi-item array (2 items)', () => {
+    expect(itemListWrapper(['a', 'b'])).to.equal('div');
+  });
+
+  it('returns div for an array with more than two items', () => {
+    expect(itemListWrapper(['a', 'b', 'c'])).to.equal('div');
   });
 });
 
@@ -1049,5 +1075,64 @@ describe('formatDateTime', () => {
 
     expect(formattedDate).to.equal('January 5, 2025');
     expect(formattedTime).to.equal('12:00 AM');
+  });
+});
+
+describe('errorForUnequalBirthDates (no sinon)', () => {
+  it('does not throw when using default functions', () => {
+    expect(() => errorForUnequalBirthDates('2000-09-01')).to.not.throw();
+  });
+
+  it('does not throw when dates are equal', () => {
+    const deps = {
+      formatDateLong: () => 'September 1, 2000',
+      formatBirthDate: () => 'September 1, 2000',
+    };
+
+    expect(() => errorForUnequalBirthDates('anything', deps)).to.not.throw();
+  });
+
+  it('throws when formatDateLong is earlier than formatBirthDate', () => {
+    const deps = {
+      formatDateLong: () => 'September 1, 2000',
+      formatBirthDate: () => 'September 2, 2000',
+    };
+
+    expect(() => errorForUnequalBirthDates('anything', deps)).to.throw(
+      /formatDateLong is earlier than formatBirthDate/,
+    );
+  });
+
+  it('throws when formatBirthDate is earlier than formatDateLong', () => {
+    const deps = {
+      formatDateLong: () => 'September 2, 2000',
+      formatBirthDate: () => 'September 1, 2000',
+    };
+
+    expect(() => errorForUnequalBirthDates('anything', deps)).to.throw(
+      /formatBirthDate is earlier than formatDateLong/,
+    );
+  });
+
+  it('throws when formatDateLong returns an invalid date string', () => {
+    const deps = {
+      formatDateLong: () => 'not a date',
+      formatBirthDate: () => 'September 1, 2000',
+    };
+
+    expect(() => errorForUnequalBirthDates('anything', deps)).to.throw(
+      /Invalid birth date via formatDateLong/,
+    );
+  });
+
+  it('throws when formatBirthDate returns an invalid date string', () => {
+    const deps = {
+      formatDateLong: () => 'September 1, 2000',
+      formatBirthDate: () => 'not a date',
+    };
+
+    expect(() => errorForUnequalBirthDates('anything', deps)).to.throw(
+      /Invalid birth date via formatBirthDate/,
+    );
   });
 });

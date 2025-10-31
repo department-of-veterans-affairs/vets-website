@@ -1,5 +1,5 @@
 import React from 'react';
-import { EVIDENCE_VA_REQUEST } from '../constants';
+import { EVIDENCE_VA_PROMPT_URL } from '../constants';
 import { isOnReviewPage } from '../../shared/utils/helpers';
 import ActionLink from '../../shared/components/web-component-wrappers/ActionLink';
 
@@ -37,7 +37,8 @@ export const content = {
         <Header className="sr-only">Are you missing evidence?</Header>
         <p>
           <ActionLink
-            path={`/${EVIDENCE_VA_REQUEST}`}
+            data-testid="add-more-evidence-link"
+            path={`/${EVIDENCE_VA_PROMPT_URL}`}
             primary
             text="Add more evidence"
           />

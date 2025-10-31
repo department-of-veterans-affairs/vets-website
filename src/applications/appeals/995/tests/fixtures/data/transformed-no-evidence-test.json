@@ -23,6 +23,8 @@
         "email": "test@user.com"
       },
       "form5103Acknowledged": true,
+      "homeless": false,
+      "mstUpcomingEventDisclosure": "I REVOKE PRIOR CONSENT",
       "socOptIn": true,
       "evidenceSubmission": {
         "evidenceType": [

@@ -118,22 +118,22 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       </div>
       {showCDPOneThingPerPage ? (
         <div className="vads-u-display--flex vads-u-flex-direction--column">
-          <p>
+          <p className="vads-u-margin--0">
             <VaLink
               active
               data-testid={`detail-link-${id}`}
               onClick={event => {
                 event.preventDefault();
                 recordEvent({ event: 'cta-link-click-copay-balance-card' });
-                history.push(`/copay-balances/${id}/detail`);
+                history.push(`/copay-balances/${id}`);
               }}
-              href={`/copay-balances/${id}/detail`}
+              href={`/copay-balances/${id}`}
               text="Review details"
               label={`Review details for ${facility}`}
             />
           </p>
 
-          <p>
+          <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
             <VaLink
               active
               data-testid={`resolve-link-${id}`}
@@ -151,7 +151,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       ) : (
         <Link
           className="vads-u-font-weight--bold"
-          to={`/copay-balances/${id}/detail`}
+          to={`/copay-balances/${id}`}
           data-testid={`detail-link-${id}`}
           aria-label={`Check details and resolve this bill for ${facility}`}
           onClick={() => {

@@ -11,14 +11,16 @@ export default {
     ...titleUI({
       title: 'Do you want to limit the information we can request?',
     }),
-    [schemaFields.limitedConsent]: textareaUI(
-      'If you want to limit what we can request from the private medical providers, describe the limits here. For example, you want your provider to release only treatment dates or certain types of disabilities. If you limit consent, it may take us longer to get the private medical records.',
-    ),
+    [schemaFields.limitedConsent]: textareaUI({
+      title:
+        'If you want to limit what we can request from the private medical providers, describe the limits here. For example, you want your provider to release only treatment dates or certain types of disabilities. If you limit consent, it may take us longer to get the private medical records.',
+      hint: '(Max. 100 characters)',
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      [schemaFields.limitedConsent]: textareaSchema,
+      [schemaFields.limitedConsent]: { ...textareaSchema, maxLength: 100 },
     },
   },
 };

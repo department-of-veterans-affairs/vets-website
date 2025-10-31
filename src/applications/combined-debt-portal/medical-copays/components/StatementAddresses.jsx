@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const StatementAddresses = ({ copay }) => {
   return (
-    <article>
+    <section>
       <h2 data-testid="statement-address-head" id="statement-addresses">
         Statement Addresses
       </h2>
@@ -64,9 +64,12 @@ const StatementAddresses = ({ copay }) => {
           {copay.pHCity}, {copay.pHState} {copay.pHZipCde}
         </span>
       </p>
-
+      <p>
+        <strong>Note:</strong> If your address has changed, call{' '}
+        <va-telephone contact="8662602614" />.
+      </p>
       {/* TODO: Once https://github.com/department-of-veterans-affairs/va.gov-team/issues/102858 is complete, this code needs to be updated with the correct variables. */}
-    </article>
+    </section>
   );
 };
 

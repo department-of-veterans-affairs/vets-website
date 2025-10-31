@@ -1,8 +1,4 @@
 import moment from 'moment-timezone';
-import {
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
-} from '@department-of-veterans-affairs/mhv/exports';
 import { Actions } from '../util/actionTypes';
 import {
   getMessage,
@@ -162,9 +158,13 @@ export const moveMessageThread = (threadId, folderId) => async dispatch => {
   }
 };
 
-export const sendMessage = (message, attachments) => async dispatch => {
+export const sendMessage = (
+  message,
+  attachments,
+  ohTriageGroup = false,
+) => async dispatch => {
   try {
-    await createMessage(message, attachments);
+    await createMessage(message, attachments, ohTriageGroup);
 
     dispatch(
       addAlert(
@@ -208,9 +208,6 @@ export const sendMessage = (message, attachments) => async dispatch => {
         ),
       );
     throw e;
-  } finally {
-    // Log message sending even if failed for analytics
-    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };
 
@@ -219,13 +216,14 @@ export const sendMessage = (message, attachments) => async dispatch => {
  * @param {Object} message - contains "body" field. Add "draft_id" field if replying with a saved draft and pass messageId of the same draft message
  */
 
-export const sendReply = (
+export const sendReply = ({
   replyToId,
   message,
   attachments,
-) => async dispatch => {
+  ohTriageGroup = false,
+}) => async dispatch => {
   try {
-    await createReplyToMessage(replyToId, message, attachments);
+    await createReplyToMessage(replyToId, message, attachments, ohTriageGroup);
 
     dispatch(
       addAlert(
@@ -275,8 +273,5 @@ export const sendReply = (
       );
     }
     throw e;
-  } finally {
-    // Log message sending even if failed for analytics
-    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };

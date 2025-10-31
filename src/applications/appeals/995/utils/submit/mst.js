@@ -1,7 +1,5 @@
-import { MST_OPTION } from '../../constants';
 import { optionForMstChoices } from '../../content/optionIndicator';
-
-import { showScNewForm } from '../toggle';
+import { hasMstOption } from '../form-data-retrieval';
 
 /*
 
@@ -16,14 +14,16 @@ import { showScNewForm } from '../toggle';
   ]
 },
 */
-
 export const getMstData = formData => {
   const result = {};
-  if (showScNewForm(formData) && formData[MST_OPTION]) {
-    const value = optionForMstChoices[formData.optionIndicator] || '';
+
+  if (hasMstOption(formData)) {
+    const value = optionForMstChoices?.[formData.optionIndicator] || '';
+
     if (value) {
       result.mstUpcomingEventDisclosure = value;
     }
   }
+
   return result;
 };

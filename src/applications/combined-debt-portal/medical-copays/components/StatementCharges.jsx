@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import { subDays } from 'date-fns';
 import { formatDate } from '../../combined/utils/helpers';
 
-const StatementCharges = ({
-  copay,
-  showCurrentStatementHeader = false,
-  showOneThingPerPage = false,
-}) => {
+const StatementCharges = ({ copay, showCurrentStatementHeader = false }) => {
   const initialDate = new Date(copay.pSStatementDateOutput);
   const statementDate = formatDate(initialDate);
   const previousCopayStartDate = formatDate(subDays(initialDate, 30));
@@ -32,21 +28,24 @@ const StatementCharges = ({
       </va-table-row>
     );
   });
+  const transactionHistoryTableTitle = `This statement shows charges you received between 
+        ${previousCopayStartDate} and ${statementDate}.`;
 
   return (
-    <article className="vads-u-padding-x--0">
-      <h2 data-testid="statement-charges-head" id="statement-charges">
+    <>
+      <h2
+        data-testid="statement-charges-head"
+        id="statement-charges"
+        className="vads-u-margin-bottom--0"
+      >
         {showCurrentStatementHeader
           ? 'Most recent statement charges'
           : 'Statement Charges'}
       </h2>
-      <p className="vads-u-margin-bottom--0">
-        This statement shows charges you received between{' '}
-        {previousCopayStartDate} and {statementDate}.
-      </p>
+
       <va-table
         data-testid="statement-charges-table"
-        table-title={showOneThingPerPage ? null : 'Transaction history'}
+        table-title={transactionHistoryTableTitle}
         uswds
         table-type="bordered"
       >
@@ -57,7 +56,7 @@ const StatementCharges = ({
         </va-table-row>
         {tableData}
       </va-table>
-    </article>
+    </>
   );
 };
 

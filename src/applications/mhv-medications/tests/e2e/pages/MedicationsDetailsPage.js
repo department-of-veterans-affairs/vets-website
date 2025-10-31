@@ -5,6 +5,7 @@ import expiredRx from '../fixtures/expired-prescription-details.json';
 import medicationInformation from '../fixtures/patient-medications-information.json';
 import noMedicationInformation from '../fixtures/missing-patient-medication-information.json';
 import rxDetails from '../fixtures/active-submitted-prescription-details.json';
+import { DATETIME_FORMATS } from '../../../util/constants';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
@@ -69,7 +70,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsOrderedDate = () => {
-    cy.get('[datat-testid="ordered-date"]')
+    cy.get('[data-testid="ordered-date"]')
       .first()
       .should('have.text', 'April 14, 2023');
   };
@@ -489,7 +490,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
-      .should('have.attr', 'aria-expanded', 'false');
+      .should('have.attr', 'aria-pressed', 'false');
   };
 
   verifyAccordionExpandedOnDetailsPage = () => {
@@ -497,7 +498,7 @@ class MedicationsDetailsPage {
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
       .first()
-      .should('have.attr', 'aria-expanded', 'true');
+      .should('have.attr', 'aria-pressed', 'true');
   };
 
   verifyRefillHistoryInformationTextOnDetailsPage = text => {
@@ -670,7 +671,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescribedOnDateNoAvailableOnDetailsPage = text => {
-    cy.get('[data-testid="order-date"]').should('contain', text);
+    cy.get('[data-testid="ordered-date"]').should('contain', text);
   };
 
   verifyProviderNameNotAvailableOnDetailsPage = text => {
@@ -687,6 +688,10 @@ class MedicationsDetailsPage {
 
   verifyReasonForUseOnDetailsPage = text => {
     cy.get('[data-testid="rx-reason-for-use"]').should('contain', text);
+  };
+
+  verifyPrescriptionQuantityOnDetailsPage = text => {
+    cy.get('[data-testid="rx-quantity"]').should('have.text', text);
   };
 
   verifyInstructionsOnDetailsPage = text => {
@@ -757,7 +762,7 @@ class MedicationsDetailsPage {
     const timeZone = 'America/New_York';
     const zonedDate = utcToZonedTime(parsedDate, timeZone);
     // Format the date to match the UI format
-    const formattedDate = format(zonedDate, 'MMMM d, yyyy');
+    const formattedDate = format(zonedDate, DATETIME_FORMATS.longMonthDate);
     cy.get('[data-testid="active-step-two"] > .vads-u-color--gray-dark').should(
       'have.text',
       `Completed on ${expectedDate}`,

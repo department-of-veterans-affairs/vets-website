@@ -6,7 +6,6 @@ import {
   dispStatusObj,
 } from '../../util/constants';
 import {
-  dateFormat,
   extractContainedResource,
   generateMedicationsPDF,
   getImageUri,
@@ -25,17 +24,6 @@ import {
   displayProviderName,
   isRefillTakingLongerThanExpected,
 } from '../../util/helpers';
-
-describe('Date Format function', () => {
-  it("should return 'None noted' when no values are passed", () => {
-    expect(dateFormat()).to.equal(FIELD_NONE_NOTED);
-  });
-  it('should return a formatted date', () => {
-    expect(dateFormat('2023-10-26T20:18:00.000Z', 'MMMM D, YYYY')).to.equal(
-      'October 26, 2023',
-    );
-  });
-});
 
 describe('Generate PDF function', () => {
   it('should throw an error', () => {
@@ -485,6 +473,25 @@ describe('sanitizeKramesHtmlStr function', () => {
       '<ul><li>Item 1</li></ul><p>Paragraph inside list</p><ul><li>Item 2</li><li>Item 1.1</li><p>Paragraph inside nested list</p></ul>',
     );
   });
+
+  it('should remove all pilcrows (¶) from the HTML string', () => {
+    const inputHtml = `<div>
+                      <strong>
+                      <p>¶This branded product is no longer on the market.</p>
+                      </strong>
+                      <ul>
+                      <li>¶BrandName1</li>
+                      <li>¶BrandName2</li>
+                      </ul>
+                      </div>`;
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.not.include('¶');
+    expect(outputHtml).to.include(
+      'This branded product is no longer on the market.',
+    );
+    expect(outputHtml).to.include('BrandName1');
+    expect(outputHtml).to.include('BrandName2');
+  });
 });
 
 describe('hasCmopNdcNumber function', () => {
@@ -551,6 +558,7 @@ describe('getRefillHistory function', () => {
       frontImprint: 'front123',
       prescriptionId: '123456',
       prescriptionName: 'Test Medication',
+      prescriptionSource: 'RX',
       shape: 'round',
     };
 
