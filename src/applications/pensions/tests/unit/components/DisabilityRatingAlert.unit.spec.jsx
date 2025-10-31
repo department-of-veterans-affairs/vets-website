@@ -40,13 +40,16 @@ describe('DisabilityRatingAlert component', () => {
     const { container, getByText } = render(<DisabilityRatingAlert />);
 
     await waitFor(() => {
-      expect(getByText(/This benefit is unlikely to increase your payments/i))
-        .to.exist;
+      expect(
+        getByText(
+          /You’re unlikely to get a higher payment from a Veterans Pension/i,
+        ),
+      ).to.exist;
 
       const link = container.querySelector('va-link');
       expect(link).to.exist;
       expect(link.getAttribute('href')).to.include(
-        'disability/view-disability-rating/rating',
+        'pension/veterans-pension-rates',
       );
     });
   });
@@ -69,11 +72,20 @@ describe('DisabilityRatingAlert component', () => {
   it('renders fallback alert when request fails', async () => {
     apiStub = sinon.stub(api, 'apiRequest').rejects(new Error('Network error'));
 
-    const { getByText } = render(<DisabilityRatingAlert />);
+    const { container, getByText } = render(<DisabilityRatingAlert />);
 
     await waitFor(() => {
-      expect(getByText(/Consider your disability rating before you apply/i)).to
-        .exist;
+      expect(
+        getByText(
+          /A 100% disability rating pays more than a Veterans Pension/i,
+        ),
+      ).to.exist;
     });
+
+    const link = container.querySelector('va-link');
+    expect(link).to.exist;
+    expect(link.getAttribute('href')).to.include(
+      'pension/veterans-pension-rates',
+    );
   });
 });
