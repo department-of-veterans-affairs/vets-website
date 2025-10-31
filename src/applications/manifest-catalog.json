@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 147,
+  "totalApplications": 148,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -158,6 +158,12 @@
       "appName": "Claims Status",
       "entryName": "claims-status",
       "rootUrl": "/track-claims"
+    },
+    {
+      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
+      "appName": "N/A",
+      "entryName": "N/A",
+      "rootUrl": "N/A"
     },
     {
       "directoryPath": "src/applications/combined-debt-portal/combined",
@@ -745,7 +751,7 @@
       "directoryPath": "src/applications/simple-forms/21P-601",
       "appName": "Application for Accrued Amounts Due a Deceased Beneficiary",
       "entryName": "21P-601",
-      "rootUrl": "/supporting-forms-for-claims/accrued-benefits-application-21p-601"
+      "rootUrl": "/family-and-caregiver-benefits/survivor-compensation/apply-for-accrued-benefits-form-21p-601"
     },
     {
       "directoryPath": "src/applications/simple-forms/26-4555",
@@ -796,11 +802,10 @@
       "rootUrl": "/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490"
     },
     {
+      "directoryPath": "src/applications/survivors-benefits",
       "appName": "Apply For DIC, Survivors Pension, Or Accrued Benefits Online",
-      "entryFile": "./survivors-benefits-entry.jsx",
       "entryName": "survivors-benefits",
-      "rootUrl": "/family-and-caregiver-benefits/survivor-compensation/apply-for-dic-survivors-pension-accrued-benefits-form-21p-534ez",
-      "productId": "51601cf6-a6ff-4621-ac50-f12c37e5193e"
+      "rootUrl": "/family-and-caregiver-benefits/survivor-compensation/apply-for-dic-survivors-pension-accrued-benefits-form-21p-534ez"
     },
     {
       "directoryPath": "src/applications/terms-of-use",
