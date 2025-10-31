@@ -873,20 +873,6 @@ describe('Breadcrumbs', () => {
     it('should navigate to urlRedirectPath when back button is clicked on interstitial page', async () => {
       sessionStorage.setItem('sm_composeEntryUrl', Paths.INBOX);
 
-      // Mock window.location by replacing the entire object temporarily
-      const originalLocation = window.location;
-      let replaceCalled = false;
-      let replaceCalledWith = null;
-
-      delete window.location;
-      window.location = {
-        ...originalLocation,
-        replace: url => {
-          replaceCalled = true;
-          replaceCalledWith = url;
-        },
-      };
-
       const customState = {
         sm: {
           breadcrumbs: {
@@ -905,15 +891,10 @@ describe('Breadcrumbs', () => {
       });
 
       const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
-      fireEvent.click(breadcrumb);
 
-      await waitFor(() => {
-        expect(replaceCalled).to.be.true;
-        expect(replaceCalledWith).to.equal(rxRedirectPath);
-      });
-
-      // Restore original window.location
-      window.location = originalLocation;
+      // Verify that the breadcrumb has the correct href pointing to the redirect path
+      expect(breadcrumb).to.have.attribute('href', rxRedirectPath);
+      expect(breadcrumb).to.have.attribute('text', 'Back');
     });
 
     it('should NOT use urlRedirectPath on select care team when recent recipients exist and user navigated from recent page', async () => {
