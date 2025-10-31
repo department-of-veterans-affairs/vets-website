@@ -472,6 +472,18 @@ jobs:
           IS_STRESS_TEST: true
           STEP: ${{ matrix.runs }}
 
+      - name: Debug mocha report files
+        if: ${{ always() }}
+        run: |
+          echo "Searching for unit test results (JSON):"
+          find . -type f -name "*unit*.json" -print || echo "No JSON files found"
+
+          echo "Searching for unit test results (XML):"
+          find . -type f -name "*.xml" -print || echo "No XML files found"
+
+          echo "Listing mocha directory (if exists):"
+          ls -R mocha || echo "mocha/ directory not found"
+
       - name: Rename results directory to avoid merge collisions
         run: |
           mv mocha/results/unit-tests.json mocha/results/unit-tests-${{ matrix.runs }}.json
