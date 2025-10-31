@@ -56,7 +56,7 @@ Cypress.Commands.add(
 const baseUrl = '/representative/accreditation/attorney-claims-agent-form-21a/';
 const introUrl = `${baseUrl}introduction`;
 const personalInfoUrl = `${baseUrl}personal-information-intro`;
-// const characterReferencesUrl = `${baseUrl}character-references`;
+const characterReferencesUrl = `${baseUrl}character-references`;
 // const characterReferencesSummaryUrl = `${baseUrl}character-references-summary`;
 // const supplementaryStatementsIntroUrl = `${baseUrl}supplementary-statements-intro`;
 
@@ -102,8 +102,11 @@ describe('The 21A Character References Page', () => {
 
     cy.findByRole('link', { name: /start your application/i }).click();
     cy.location('pathname', { timeout: 1000 }).should('eq', personalInfoUrl);
-    // cy.visit(characterReferencesUrl);
-    // cy.findByRole('button', { name: /^Continue$/ }).click();
+    cy.visit(characterReferencesUrl);
+    cy.scrollTo('bottom');
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(1000);
+    cy.findByRole('button', { name: /^Continue$/ }).click();
     // cy.createCharacterReference('Harry', 'Potter');
     // cy.addNewCharacterReference();
     // cy.createCharacterReference('Ron', 'Weasley');
