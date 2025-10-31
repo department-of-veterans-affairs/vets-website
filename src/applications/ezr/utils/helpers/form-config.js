@@ -408,6 +408,6 @@ export function spouseAddressDoesNotMatchVeteransV2(formData) {
   // while transitioning to v2.
   const arraySameAddress = formData.spouseInformation?.[0]?.sameAddress;
   // Use array value if it exists, otherwise fall back to root value
-  const sameAddress = arraySameAddress || rootSameAddress;
+  const sameAddress = arraySameAddress ?? rootSameAddress;
   return includeSpousalInformationV2(formData) && !sameAddress;
 }

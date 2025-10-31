@@ -94,7 +94,7 @@ const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
   spousePersonalInformationPage: pageBuilder.itemPage({
     title: content['household-spouse-information-title'],
     path:
-      'household-information/spouse-information/:index/spouse-personal-information',
+      'household-information/spouse-information/:index/personal-information',
     uiSchema: spousePersonalInformationPageSchema.uiSchema,
     schema: spousePersonalInformationPageSchema.schema,
   }),
@@ -107,15 +107,13 @@ const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
   }),
   spouseFinancialSupportPage: pageBuilder.itemPage({
     title: content['household-spouse-support-title'],
-    path:
-      'household-information/spouse-information/:index/spouse-financial-support',
+    path: 'household-information/spouse-information/:index/financial-support',
     uiSchema: spouseFinancialSupportPageSchema.uiSchema,
     schema: spouseFinancialSupportPageSchema.schema,
   }),
   spouseContactInformationPage: pageBuilder.itemPage({
     title: content['household-spouse-contact-info-title'],
-    path:
-      'household-information/spouse-information/:index/spouse-contact-information',
+    path: 'household-information/spouse-information/:index/contact-information',
     uiSchema: spouseContactInformationPageSchema.uiSchema,
     schema: spouseContactInformationPageSchema.schema,
   }),
