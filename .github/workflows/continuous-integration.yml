@@ -450,7 +450,9 @@ jobs:
             node_modules
 
       - name: Create test results folder
-        run: mkdir -p test-results
+        run: |
+          mkdir -p test-results
+          mkdir -p mocha/results
 
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
@@ -484,9 +486,9 @@ jobs:
           echo "Listing mocha directory (if exists):"
           ls -R mocha || echo "mocha/ directory not found"
 
-      - name: Rename results directory to avoid merge collisions
-        run: |
-          mv mocha/results/unit-tests.json mocha/results/unit-tests-${{ matrix.runs }}.json
+      # - name: Rename results directory to avoid merge collisions
+      #   run: |
+      #     mv mocha/results/unit-tests.json mocha/results/unit-tests-${{ matrix.runs }}.json
     
       - name: Archive unit test results
         if: ${{ always() }}
