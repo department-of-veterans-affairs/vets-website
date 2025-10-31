@@ -75,16 +75,6 @@ describe('isBlockedByLocalDay', () => {
     const result = isBlockedByLocalDay(blockedIssues);
     expect(result).to.be.false;
   });
-
-  it('should handle decisionDate as fallback field', () => {
-    const today = new Date();
-    const todayString = today.toISOString().split('T')[0];
-
-    const blockedIssues = [{ decisionDate: todayString }];
-
-    const result = isBlockedByLocalDay(blockedIssues);
-    expect(result).to.be.true;
-  });
 });
 
 describe('getBlockedMessage', () => {

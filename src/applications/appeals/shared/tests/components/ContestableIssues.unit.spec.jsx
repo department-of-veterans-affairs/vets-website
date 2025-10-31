@@ -193,7 +193,9 @@ describe('<ContestableIssues>', () => {
   it('should show an error when submitted with no selections', async () => {
     const props = getProps({ submitted: true });
     const { container } = render(<ContestableIssues {...props} />);
-    expect($$('va-alert', container).length).to.equal(1);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(1);
     const alert = $('va-alert', container);
     expect(alert.innerHTML).to.contain(
       'at least 1 issue before you can continue',
@@ -294,7 +296,9 @@ describe('<ContestableIssues>', () => {
       <ContestableIssues {...props} contestedIssues={[]} />,
     );
 
-    expect($$('va-alert', container).length).to.equal(1);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(1);
     expect($('va-alert', container).innerHTML).to.contain(
       'We can’t load your issues right now',
     );
@@ -305,7 +309,9 @@ describe('<ContestableIssues>', () => {
     const { container } = render(
       <ContestableIssues {...props} formData={{}} />,
     );
-    expect($$('va-alert', container).length).to.equal(1);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(1);
     expect($('va-alert', container).innerHTML).to.contain(
       'we couldn’t find any eligible issues',
     );
@@ -320,7 +326,9 @@ describe('<ContestableIssues>', () => {
       <ContestableIssues {...props} contestedIssues={[]} />,
     );
 
-    expect($$('va-alert', container).length).to.equal(0);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(0);
   });
 
   it('should not show an alert when api is successful, and after adding an additional issues', async () => {
@@ -332,7 +340,9 @@ describe('<ContestableIssues>', () => {
       <ContestableIssues {...props} contestedIssues={[]} />,
     );
 
-    expect($$('va-alert', container).length).to.equal(0);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(0);
   });
 
   it('should not show an alert if no issues are loaded, and after all additional issues are removed', async () => {
@@ -351,7 +361,9 @@ describe('<ContestableIssues>', () => {
     rerender(<ContestableIssues {...newProps} />);
 
     await waitFor(() => {
-      expect($$('va-alert', container).length).to.eq(0);
+      expect($$('va-alert:not(#blocked-issues-alert)', container).length).to.eq(
+        0,
+      );
     });
   });
 
@@ -414,7 +426,8 @@ describe('<ContestableIssues>', () => {
       const { container } = render(<ContestableIssues {...props} />);
 
       const blockedAlert = $('#blocked-issues-alert', container);
-      expect(blockedAlert).to.not.exist;
+      expect(blockedAlert).to.exist;
+      expect(blockedAlert.getAttribute('visible')).to.equal('false');
     });
 
     it('should display separator between blocked and non-blocked issues', () => {
