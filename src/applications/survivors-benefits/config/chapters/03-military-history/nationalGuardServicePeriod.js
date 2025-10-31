@@ -25,7 +25,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['dateOfActivation', 'unitPhoneNumber'],
+    required: ['dateOfActivation', 'unitPhoneNumber', 'unitName'],
     properties: {
       dateOfActivation: currentOrPastDateSchema,
       unitName: textSchema,

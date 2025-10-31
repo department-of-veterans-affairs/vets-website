@@ -20,7 +20,7 @@ describe('National Guard service page', () => {
 
     expect(form.getByRole('heading')).to.have.text('National Guard service');
     expect(vaRadio.getAttribute('label')).to.equal(
-      'Was the Veteran activated to Federal or Active Duty under authority of title 10, U.S.C. (National Guard)?',
+      'Was the Veteran activated to Federal or active duty under authority of title 10, U.S.C. (National Guard)?',
     );
     expect(vaRadio.getAttribute('required')).to.equal('true');
 
