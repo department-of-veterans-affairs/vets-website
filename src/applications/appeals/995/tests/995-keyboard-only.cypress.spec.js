@@ -17,12 +17,15 @@ import {
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 import * as h from './995.cypress.helpers';
+import * as helpers from '../../shared/tests/cypress.helpers';
 import mockData from './fixtures/data/pre-api-comprehensive-test.json';
 import {
   fixDecisionDates,
   tabToContinue,
 } from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
+
+const verifyUrl = link => helpers.verifyCorrectUrl(manifest.rootUrl, link);
 
 describe('Supplemental Claim keyboard only navigation', () => {
   it('navigates through a maximal form', () => {
@@ -33,7 +36,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
     cy.intercept('GET', ' /v0/in_progress_forms/20-0995', mockPrefill);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
-    cy.intercept('GET', ITF_API, h.fetchItf());
+    cy.intercept('GET', ITF_API, helpers.fetchItf());
 
     cy.get('@testData').then(data => {
       cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
@@ -44,7 +47,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.injectAxeThenAxeCheck();
 
       // *** Start page - type of claim
-      h.verifyUrl('start');
+      verifyUrl('start');
       cy.tabToElement('input[value="compensation"]');
       cy.realPress('Space');
       cy.tabToElement('button[type="button"]');
@@ -55,36 +58,36 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.realPress('Enter');
 
       // *** Intent to file page
-      h.verifyUrl(h.VETERAN_INFO_PATH);
+      verifyUrl(h.VETERAN_INFO_PATH);
       cy.injectAxeThenAxeCheck();
       cy.tabToElement('button'); // targets secondary button
       cy.realPress('Tab'); // tab to primary "continue" button
       cy.realPress('Enter');
 
       // *** Veteran information page
-      h.verifyUrl(h.VETERAN_INFO_PATH);
+      verifyUrl(h.VETERAN_INFO_PATH);
       tabToContinue();
 
       // *** Homelessness page
-      h.verifyUrl(h.HOMELESSNESS_PATH);
+      verifyUrl(h.HOMELESSNESS_PATH);
       cy.tabToElement('[name="root_housingRisk"]');
       cy.chooseRadio('Y');
       tabToContinue();
 
       // *** Living situation page
-      h.verifyUrl(h.LIVING_SITUATION_PATH);
+      verifyUrl(h.LIVING_SITUATION_PATH);
       cy.setCheckboxFromData(h.LIVING_SITUATION_SHELTER_CHECKBOX, true);
       cy.setCheckboxFromData(h.LIVING_SITUATION_OTHER_CHECKBOX, true);
       cy.tabToContinueForm(h.POINT_OF_CONTACT_NAME_INPUT);
 
       // ** Other Housing Risk page
-      h.verifyUrl(h.OTHER_HOUSING_RISK_PATH);
+      verifyUrl(h.OTHER_HOUSING_RISK_PATH);
       cy.tabToElement(h.OTHER_HOUSING_RISK_INPUT);
       cy.realType('Testing content');
       tabToContinue();
 
       // ** Point of contact page
-      h.verifyUrl(h.HOUSING_CONTACT_PATH);
+      verifyUrl(h.HOUSING_CONTACT_PATH);
       cy.tabToElement(h.POINT_OF_CONTACT_NAME_INPUT);
       cy.realType('Ted Mosby');
       cy.tabToElement(h.POINT_OF_CONTACT_PHONE_INPUT);
@@ -92,11 +95,11 @@ describe('Supplemental Claim keyboard only navigation', () => {
       tabToContinue();
 
       // *** Contact info page
-      h.verifyUrl(CONTACT_INFO_URL);
+      verifyUrl(CONTACT_INFO_URL);
       tabToContinue();
 
       // *** Primary phone page
-      h.verifyUrl(h.PRIMARY_PHONE_PATH);
+      verifyUrl(h.PRIMARY_PHONE_PATH);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100); // wait for focus on header
       cy.tabToElement('[value="home"]');
@@ -104,7 +107,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       tabToContinue();
 
       // *** Contestable issues page - select an existing issue
-      h.verifyUrl(CONTESTABLE_ISSUES_PATH);
+      verifyUrl(CONTESTABLE_ISSUES_PATH);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement('[name="root_contestedIssues_0"]'); // tinnitus
@@ -113,7 +116,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       // Add one issue
       cy.tabToElement('.add-new-issue');
       cy.realPress('Enter');
-      h.verifyUrl(ADD_ISSUE_URL);
+      verifyUrl(ADD_ISSUE_URL);
 
       const newIssue = data.additionalIssues[0];
       cy.tabToElement('[name="issue-name"]');
@@ -130,19 +133,19 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.realType(issueDate[0]); // year
       cy.tabToElement('button:not(.usa-button--outline)');
       cy.realPress('Enter');
-      h.verifyUrl(CONTESTABLE_ISSUES_PATH);
+      verifyUrl(CONTESTABLE_ISSUES_PATH);
       tabToContinue();
 
       // *** Issue summary page
-      h.verifyUrl(h.ISSUES_SUMMARY_PATH);
+      verifyUrl(h.ISSUES_SUMMARY_PATH);
       tabToContinue();
 
       // *** Opt-in page - seen when there are legacy or added issues
-      h.verifyUrl(h.OPT_IN_PATH);
+      verifyUrl(h.OPT_IN_PATH);
       tabToContinue();
 
       // *** Presumptive conditions page
-      h.verifyUrl(h.NOTICE_5103_PATH);
+      verifyUrl(h.NOTICE_5103_PATH);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement('#checkbox-element'); // certify reviewed
@@ -150,13 +153,13 @@ describe('Supplemental Claim keyboard only navigation', () => {
       tabToContinue();
 
       // *** Facility types page
-      h.verifyUrl(h.FACILITY_TYPES_PATH);
+      verifyUrl(h.FACILITY_TYPES_PATH);
       cy.setCheckboxFromData(h.VA_EVIDENCE_CHECKBOX, true);
       cy.setCheckboxFromData(h.NON_VA_EVIDENCE_CHECKBOX, true);
       tabToContinue();
 
       // *** VA evidence request (y/n) question page
-      h.verifyUrl(EVIDENCE_VA_PROMPT_URL);
+      verifyUrl(EVIDENCE_VA_PROMPT_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement('[name="root_view:hasVaEvidence"]'); // Yes radio
@@ -164,7 +167,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       tabToContinue();
 
       // *** VA evidence location details page
-      h.verifyUrl(h.EVIDENCE_VA_RECORDS_DETAILS_PATH);
+      verifyUrl(h.EVIDENCE_VA_RECORDS_DETAILS_PATH);
       const locationData = data.locations[0];
 
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -180,13 +183,13 @@ describe('Supplemental Claim keyboard only navigation', () => {
       tabToContinue();
 
       // *** Private evidence request (y/n) question page
-      h.verifyUrl(EVIDENCE_PRIVATE_PROMPT_URL);
+      verifyUrl(EVIDENCE_PRIVATE_PROMPT_URL);
       cy.tabToElement('[name="private"]'); // Yes radio
       cy.chooseRadio('y'); // make sure we're choosing yes
       tabToContinue();
 
       // *** Private evidence authorization page
-      h.verifyUrl(EVIDENCE_PRIVATE_AUTHORIZATION_URL);
+      verifyUrl(EVIDENCE_PRIVATE_AUTHORIZATION_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
 
@@ -212,7 +215,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       tabToContinue();
 
       // *** Limited consent prompt page
-      h.verifyUrl(LIMITED_CONSENT_PROMPT_URL);
+      verifyUrl(LIMITED_CONSENT_PROMPT_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement(h.LIMITED_CONSENT_RADIOS); // Yes radio
@@ -220,7 +223,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       tabToContinue();
 
       // *** Limited consent details page
-      h.verifyUrl(LIMITED_CONSENT_DETAILS_URL);
+      verifyUrl(LIMITED_CONSENT_DETAILS_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement(h.LIMITED_CONSENT_TEXTAREA);
@@ -228,7 +231,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       tabToContinue();
 
       // *** Private evidence facility page
-      h.verifyUrl(EVIDENCE_PRIVATE_DETAILS_URL);
+      verifyUrl(EVIDENCE_PRIVATE_DETAILS_URL);
 
       const facilityData = data.providerFacility[0];
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -274,23 +277,23 @@ describe('Supplemental Claim keyboard only navigation', () => {
       tabToContinue();
 
       // *** Upload evidence (y/n) - skipping since we can't test uploads
-      h.verifyUrl(EVIDENCE_ADDITIONAL_URL);
+      verifyUrl(EVIDENCE_ADDITIONAL_URL);
       cy.tabToElement(h.ADDTL_EVIDENCE_RADIO); // No radio
       cy.chooseRadio('N');
       tabToContinue();
 
       // *** Evidence summary
-      h.verifyUrl(h.EVIDENCE_SUMMARY_PATH);
+      verifyUrl(h.EVIDENCE_SUMMARY_PATH);
       tabToContinue();
 
       // *** MST page
-      h.verifyUrl(h.MST_PATH);
+      verifyUrl(h.MST_PATH);
       cy.tabToElement(h.MST_RADIO); // No radio
       cy.chooseRadio('Y');
       tabToContinue();
 
       // *** Add indicator page
-      h.verifyUrl(h.MST_OPTION_PATH);
+      verifyUrl(h.MST_OPTION_PATH);
       cy.tabToElement(h.MST_OPTION_RADIO);
       cy.chooseRadio('yes');
       tabToContinue();
