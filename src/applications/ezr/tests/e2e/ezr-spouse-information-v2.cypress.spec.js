@@ -87,7 +87,7 @@ describe('EZR V2 spouse information flow', () => {
 
       // Click continue to advance to the spouse personal information page.
       goToNextPage(
-        'household-information/spouse-information/0/spouse-personal-information',
+        'household-information/spouse-information/0/personal-information',
       );
 
       // Fill the spouse personal information.
@@ -98,7 +98,7 @@ describe('EZR V2 spouse information flow', () => {
 
       // Continue to spouse additional information page.
       goToNextPage(
-        'household-information/spouse-information/0/spouse-additional-information',
+        'household-information/spouse-information/0/additional-information',
       );
 
       // Fill spouse additional information.
@@ -109,7 +109,7 @@ describe('EZR V2 spouse information flow', () => {
 
       // Continue to spouse financial support page.
       goToNextPage(
-        'household-information/spouse-information/0/spouse-financial-support',
+        'household-information/spouse-information/0/financial-support',
       );
 
       // Fill spouse financial support.
@@ -120,7 +120,7 @@ describe('EZR V2 spouse information flow', () => {
 
       // Continue to spouse contact information page.
       goToNextPage(
-        'household-information/spouse-information/0/spouse-contact-information',
+        'household-information/spouse-information/0/contact-information',
       );
 
       // Fill spouse contact information.
