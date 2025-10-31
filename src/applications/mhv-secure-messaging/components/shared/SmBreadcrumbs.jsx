@@ -221,7 +221,7 @@ const SmBreadcrumbs = () => {
         recentRecipients?.length > 0
       ) {
         // Don't use urlRedirectPath if recentRecipients are available (user is in compose flow)
-        // and the user is on the select care team page. This prevents navigating back to redirecPath
+        // and the user is on the select care team page. This prevents navigating back to redirectPath
         // when a user navigated from the /recent page to the select care team page,
         // which would cause them to lose their place in the compose flow.
         return false;
@@ -436,8 +436,8 @@ const SmBreadcrumbs = () => {
         manifest.rootUrl +
         (composeFlowMap[currentPath] ||
           (currentPath === Constants.Paths.CONTACT_LIST && previousUrl
-            ? `${manifest.rootUrl}${previousUrl}`
-            : `${fallbackUrl}`))
+            ? previousUrl
+            : fallbackUrl))
       );
     },
     [
