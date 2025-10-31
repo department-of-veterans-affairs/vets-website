@@ -1,14 +1,14 @@
+import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import { CONTESTABLE_ISSUES_API, SUBMIT_URL } from '../constants/apis';
 import mockData from './fixtures/data/maximal-test.json';
 import { CONTACT_INFO_PATH } from '../../shared/constants';
-import {
-  fixDecisionDates,
-  tabToContinue,
-} from '../../shared/tests/cypress.helpers';
+import * as h from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
+
+const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
 
 describe('Notice of Disagreement keyboard only navigation', () => {
   it('navigates through a maximal form', () => {
@@ -23,7 +23,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       const { chapters } = formConfig;
 
       cy.intercept('GET', CONTESTABLE_ISSUES_API, {
-        data: fixDecisionDates(data.contestedIssues, { unselected: true }),
+        data: h.fixDecisionDates(data.contestedIssues, { unselected: true }),
       });
 
       cy.visit(
@@ -33,114 +33,88 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       cy.injectAxeThenAxeCheck();
 
       // *** Intro page
-      // TODO: tabToStartForm Cypress function needs to be updated to only
-      // target action links
-      cy.tabToElement('.vads-c-action-link--green');
-      cy.realPress('Enter');
+      h.startAppKeyboard();
 
       // *** Veteran details
-      cy.url().should(
-        'include',
-        chapters.infoPages.pages.veteranInformation.path,
-      );
-      tabToContinue();
+      verifyUrl(chapters.infoPages.pages.veteranInformation.path);
+      h.tabToContinue();
 
       // *** Homelessness radios
-      cy.url().should('include', chapters.infoPages.pages.homeless.path);
+      verifyUrl(chapters.infoPages.pages.homeless.path);
       cy.tabToElement('input[name="root_homeless"]');
       cy.chooseRadio('N');
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Contact info
-      cy.url().should('include', CONTACT_INFO_PATH);
-      tabToContinue();
+      verifyUrl(CONTACT_INFO_PATH);
+      h.tabToContinue();
 
       // *** Filing deadlines
-      cy.url().should(
-        'include',
-        chapters.conditions.pages.filingDeadlines.path,
-      );
-      tabToContinue();
+      verifyUrl(chapters.conditions.pages.filingDeadlines.path);
+      h.tabToContinue();
 
       // *** Request extension
-      cy.url().should(
-        'include',
-        chapters.conditions.pages.extensionRequest.path,
-      );
+      verifyUrl(chapters.conditions.pages.extensionRequest.path);
       cy.tabToElement('[name="root_requestingExtension"]');
       cy.chooseRadio(data.requestingExtension ? 'Y' : 'N');
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Request reason
-      cy.url().should(
-        'include',
-        chapters.conditions.pages.extensionReason.path,
-      );
+      verifyUrl(chapters.conditions.pages.extensionReason.path);
       cy.tabToElement('textarea');
       cy.realType(data.extensionReason);
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Denial of VHA benefits
-      cy.url().should(
-        'include',
-        chapters.conditions.pages.appealingVhaDenial.path,
-      );
+      verifyUrl(chapters.conditions.pages.appealingVhaDenial.path);
       cy.tabToElement('[name="root_appealingVHADenial"]');
       cy.chooseRadio(data.appealingVHADenial ? 'Y' : 'N');
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Issues for review (sorted by random decision date) - only selecting
       // one, or more complex code is needed to find if the next checkbox is
       // before or after the first
-      cy.url().should(
-        'include',
-        chapters.conditions.pages.contestableIssues.path,
-      );
+      verifyUrl(chapters.conditions.pages.contestableIssues.path);
       cy.tabToElement('[name="root_contestedIssues_1"]'); // tinnitus
       cy.realPress('Space');
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Area of disagreement for tinnitus
-      cy.url().should(
-        'include',
+      verifyUrl(
         chapters.conditions.pages.areaOfDisagreementFollowUp.path.replace(
           ':index',
           '',
         ),
       );
-      cy.tabToInputWithLabel('service connection');
+      cy.tabToElement('[name="serviceConnection"]');
       cy.realPress('Space');
-      cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
-      cy.realPress('Space');
+      h.tabToContinue();
 
       // *** Issue summary
-      cy.url().should('include', chapters.conditions.pages.issueSummary.path);
-      tabToContinue();
+      verifyUrl(chapters.conditions.pages.issueSummary.path);
+      h.tabToContinue();
 
       // *** Board review option
-      cy.url().should(
-        'include',
-        chapters.boardReview.pages.boardReviewOption.path,
-      );
+      verifyUrl(chapters.boardReview.pages.boardReviewOption.path);
       cy.tabToElement('[name="root_boardReviewOption"]');
       cy.chooseRadio('hearing');
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Hearing type
-      cy.url().should('include', chapters.boardReview.pages.hearingType.path);
+      verifyUrl(chapters.boardReview.pages.hearingType.path);
       cy.tabToElement('[name="root_hearingTypePreference"]');
       cy.chooseRadio('video_conference');
-      tabToContinue();
+      h.tabToContinue();
 
       // *** Review & submit page
-      cy.url().should('include', 'review-and-submit');
+      verifyUrl('review-and-submit');
       cy.tabToElement('va-checkbox');
       cy.realPress('Space');
       cy.tabToSubmitForm();
 
       // *** Confirmation page
       // Check confirmation page print button
-      cy.url().should('include', 'confirmation');
+      verifyUrl('confirmation');
       cy.get('va-button[text="Print this page"]').should('exist');
     });
   });

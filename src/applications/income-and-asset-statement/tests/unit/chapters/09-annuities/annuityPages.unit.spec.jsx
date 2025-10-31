@@ -198,7 +198,7 @@ describe('annuity list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="Did you receive income from this annuity?"]'],
+      ['va-radio[label="Do you receive income from this annuity?"]'],
       'income',
     );
     testSubmitsWithoutErrors(

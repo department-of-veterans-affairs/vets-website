@@ -18,6 +18,7 @@ export default function VaMemorableDateField(props) {
   return (
     <VaMemorableDate
       {...mappedProps}
+      externalValidation
       monthSelect={props.uiOptions?.monthSelect ?? true}
       onDateChange={onDateChange}
       onDateBlur={onDateBlur}

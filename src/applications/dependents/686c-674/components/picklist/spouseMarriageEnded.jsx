@@ -1,6 +1,5 @@
 import React from 'react';
 // import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import PropTypes from 'prop-types';
 import {
   VaCheckbox,
   VaMemorableDate,
@@ -12,6 +11,7 @@ import {
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { SelectCountry, SelectState, getValue } from './helpers';
+import propTypes from './types';
 
 const spouseMarriageEnded = {
   handlers: {
@@ -36,30 +36,8 @@ const spouseMarriageEnded = {
     },
   },
 
-  /**
-   * Depedent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} endType Dependent's removal reason
-   */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} goBack Function to go back to the previous page
-   * @returns React component
-   */
-  Component: ({ itemData, firstName, handlers, formSubmitted }) => {
+  /** @type {PicklistComponentProps} */
+  Component: ({ itemData, firstName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
       handlers.onChange({ ...itemData, [field]: value });
@@ -68,7 +46,9 @@ const spouseMarriageEnded = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Information about the end of your marriage to {firstName}
+          {`${
+            isEditing ? 'Edit information' : 'Information'
+          } about the end of your marriage to ${firstName}`}
         </h3>
 
         <div className="vads-u-margin-bottom--2">
@@ -186,31 +166,7 @@ const spouseMarriageEnded = {
   },
 };
 
-spouseMarriageEnded.propTypes = {
-  Component: PropTypes.func,
-};
-
-spouseMarriageEnded.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  goBack: PropTypes.func,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    dateOfBirth: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-    endType: PropTypes.string,
-    endAnnulmentOrVoidDescription: PropTypes.string,
-    endDate: PropTypes.string,
-    endCity: PropTypes.string,
-    endState: PropTypes.string,
-    endCountry: PropTypes.string,
-    endProvince: PropTypes.string,
-    endOutsideUS: PropTypes.bool,
-  }),
-};
+spouseMarriageEnded.propTypes = propTypes.Page;
+spouseMarriageEnded.Component.propTypes = propTypes.Component;
 
 export default spouseMarriageEnded;

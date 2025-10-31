@@ -678,7 +678,7 @@ export const assetTransferPages = arrayBuilderPages(options, pageBuilder => ({
     schema: nonVeteranIncomeRecipientPage.schema,
   }),
   // When claimantType is 'CHILD' we skip showing the recipient page entirely
-  // To preserve required data, we auto-set recipientRelationship to 'CHILD'
+  // To preserve required data, we auto-set originalOwnerRelationship to 'CHILD'
   assetTransferInformationPage: pageBuilder.itemPage({
     title: 'Asset transfer information',
     path: 'asset-transfers/:index/information',

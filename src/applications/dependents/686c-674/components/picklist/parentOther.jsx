@@ -1,5 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import propTypes from './types';
 
 const parentOther = {
   handlers: {
@@ -10,34 +11,11 @@ const parentOther = {
     },
   },
 
-  /**
-   * Depedent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} removalReason Dependent's removal reason
-   */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} returnToMainPage Function to return to the main remove
-   * dependents page
-   * @returns React component
-   */
-  Component: ({ firstName }) => (
+  /** @type {PicklistComponentProps} */
+  Component: ({ firstName, isEditing }) => (
     <>
       <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-        Changes to {firstName}
+        {`${isEditing ? 'Edit changes' : 'Changes'} to ${firstName}`}
       </h3>
 
       <p>
@@ -66,24 +44,7 @@ const parentOther = {
   ),
 };
 
-parentOther.propTypes = {
-  Component: PropTypes.func,
-};
-
-parentOther.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    dateOfBirth: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-    removalReason: PropTypes.string,
-  }),
-  returnToMainPage: PropTypes.func,
-};
+parentOther.propTypes = propTypes.Page;
+parentOther.Component.propTypes = propTypes.Component;
 
 export default parentOther;

@@ -356,13 +356,11 @@ describe('VAOS Utils: timezone', () => {
       );
     });
 
-    it.skip('should return abbreviation for unsupported timezones', () => {
-      // Test with a timezone that doesn't have a mapping in TIMEZONE_LABELS
-      // Note: Europe/London returns GMT during winter (Nov-Mar) and GMT+1 during summer (Mar-Oct)
-      // Since this test runs on October 27, 2025 (after DST ends on Oct 26), it returns GMT
-      // https://github.com/department-of-veterans-affairs/va.gov-team/issues/123312
-      const result = getTimezoneDescByTimeZoneString('Europe/London');
-      expect(result).to.equal('GMT+1');
+    it('should return abbreviation for unsupported timezones', () => {
+      // Test with a timezone without DST that doesn't have a mapping in
+      // TIMEZONE_LABELS and is not in GMT_TABLE_MAPPING
+      const result = getTimezoneDescByTimeZoneString('Asia/Dubai');
+      expect(result).to.equal('GMT+4');
     });
 
     it('should handle DST correctly by stripping daylight saving time indicators', () => {

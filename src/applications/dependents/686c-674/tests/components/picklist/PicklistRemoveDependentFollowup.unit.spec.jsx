@@ -5,10 +5,14 @@ import sinon from 'sinon';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import PicklistRemoveDependentFollowup from '../../components/PicklistRemoveDependentFollowup';
+import PicklistRemoveDependentFollowup from '../../../components/picklist/PicklistRemoveDependentFollowup';
+import { labels } from '../../../components/picklist/utils';
 
-import { PICKLIST_DATA } from '../../config/constants';
-import { createDoB } from '../test-helpers';
+import {
+  PICKLIST_DATA,
+  PICKLIST_EDIT_REVIEW_FLAG,
+} from '../../../config/constants';
+import { createDoB } from '../../test-helpers';
 
 describe('PicklistRemoveDependentFollowup', () => {
   const defaultData = (options = {}, parentSelected = true) => ({
@@ -23,6 +27,7 @@ describe('PicklistRemoveDependentFollowup', () => {
         relationshipToVeteran: 'Child',
         selected: false,
         awardIndicator: 'Y',
+        key: 'penny-1234',
       },
       {
         fullName: {
@@ -34,6 +39,7 @@ describe('PicklistRemoveDependentFollowup', () => {
         relationshipToVeteran: 'Child',
         selected: false,
         awardIndicator: 'Y',
+        key: 'stacy-1234',
       },
       {
         fullName: {
@@ -45,6 +51,7 @@ describe('PicklistRemoveDependentFollowup', () => {
         relationshipToVeteran: 'Spouse',
         selected: true,
         awardIndicator: 'Y',
+        key: 'spousy-1234',
         ...options,
       },
       {
@@ -57,6 +64,7 @@ describe('PicklistRemoveDependentFollowup', () => {
         relationshipToVeteran: 'Parent',
         selected: parentSelected,
         awardIndicator: 'Y',
+        key: 'peter-1234',
       },
     ],
   });
@@ -95,13 +103,13 @@ describe('PicklistRemoveDependentFollowup', () => {
     const radioWrap = $('va-radio', container);
     expect(radioWrap).to.exist;
     expect(radioWrap.getAttribute('label')).to.equal(
-      'Do any of these apply to SPOUSY?',
+      labels.Spouse.removalReason,
     );
     const options = $$('va-radio-option', container);
     expect(options.length).to.equal(2);
     expect(options.map(cb => cb.getAttribute('label'))).to.deep.equal([
-      'Your marriage to SPOUSY ended',
-      'SPOUSY died',
+      labels.Spouse.marriageEnded,
+      labels.Spouse.death,
     ]);
     expect(radioWrap).to.exist;
     expect($('.form-progress-buttons', container)).to.exist;
@@ -326,5 +334,59 @@ describe('PicklistRemoveDependentFollowup', () => {
     expect(goToPath.firstCall.args[0]).to.equal(
       'options-selection/remove-active-dependents',
     );
+  });
+
+  it('should navigate back to the reason for removal page', () => {
+    const goToPath = sinon.spy();
+    const { container } = renderComponent({
+      goToPath,
+      data: defaultData({ removalReason: 'marriageEnded' }),
+      testUrl: '?index=2&page=spouse-marriage-ended',
+    });
+
+    fireEvent.click($('va-button[back]', container));
+
+    expect(goToPath.called).to.be.true;
+    expect(goToPath.firstCall.args[0]).to.equal(
+      'remove-dependent?index=2&page=spouse-reason-to-remove',
+    );
+  });
+
+  it('should navigate back to the previous dependent last page', () => {
+    const goToPath = sinon.spy();
+    const { container } = renderComponent({
+      goToPath,
+      data: defaultData({ removalReason: 'marriageEnded' }),
+      testUrl: '?index=3',
+      parentSelected: true,
+    });
+
+    fireEvent.click($('va-button[back]', container));
+
+    expect(goToPath.called).to.be.true;
+    expect(goToPath.firstCall.args[0]).to.equal(
+      'remove-dependent?index=2&page=spouse-marriage-ended',
+    );
+  });
+
+  it('should navigate to the review & submit page after completing edit parent', () => {
+    sessionStorage.setItem(PICKLIST_EDIT_REVIEW_FLAG, 'spousy-1234');
+    const goToPath = sinon.spy();
+    const { container } = renderComponent({
+      goToPath,
+      testUrl: '?index=2&page=spouse-marriage-ended',
+      data: defaultData({
+        removalReason: 'marriageEnded',
+        endType: 'divorce',
+        endDate: '2020-1-1',
+        endCity: 'Test',
+        endState: 'AK',
+      }),
+    });
+
+    fireEvent.submit($('form', container));
+
+    expect(goToPath.calledOnce).to.be.true;
+    expect(goToPath.firstCall.args[0]).to.equal('/review-and-submit');
   });
 });

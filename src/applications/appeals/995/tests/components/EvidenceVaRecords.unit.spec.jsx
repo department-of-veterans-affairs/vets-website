@@ -112,7 +112,7 @@ describe('EvidenceVaRecords', () => {
       $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
     ).to.eq(2);
 
-    expect($$('button', container).length).to.eq(2);
+    expect($$('va-button', container).length).to.eq(2);
   });
 
   it('should update location name', async () => {
