@@ -33,7 +33,7 @@ RUN apt-get install -y --no-install-recommends gconf-service libasound2 libatk1.
                                                 x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
                                                 xfonts-cyrillic x11-apps xvfb xauth netcat dumb-init libgbm-dev
 
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN curl -k "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 RUN unzip awscliv2.zip
 RUN ./aws/install
 RUN aws --version # Verify AWS CLI installation.
@@ -51,5 +51,7 @@ WORKDIR /application
 
 USER vets-website
 ENV NODE_EXTRA_CA_CERTS /etc/ssl/certs/ca-certificates.crt
+
+RUN npm config set strict-ssl false
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
