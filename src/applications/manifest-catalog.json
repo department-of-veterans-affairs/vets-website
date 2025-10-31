@@ -721,7 +721,7 @@
       "directoryPath": "src/applications/simple-forms/21-4140",
       "appName": "Submit Employment Questionnaire",
       "entryName": "21-4140-income-verification",
-      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
+      "rootUrl": "/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140"
     },
     {
       "directoryPath": "src/applications/simple-forms/21-4142",
