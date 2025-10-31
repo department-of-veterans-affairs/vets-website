@@ -54,7 +54,6 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
     body: decodeHtmlEntities(messageData.body),
     subject: decodeHtmlEntities(messageData.subject),
   };
-
   const response = await sendSaveDraft(request, id);
   if (response.data) {
     dispatch({
@@ -79,6 +78,13 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
       type: Actions.Draft.SAVE_FAILED,
       response: error,
     });
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        error?.title || Constants.Alerts.Message.GET_MESSAGE_ERROR,
+      ),
+    );
   }
   if (response.ok) {
     dispatch({

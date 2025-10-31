@@ -22,7 +22,7 @@ describe('recipients dropdown box', () => {
       .find('option')
       .its('length')
       .should('equal', mockRecipients.data.length + 1);
-    cy.get(Locators.ALERTS.MESS_CATAGO)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_CATEGORY_DATA_TEST_ID)
       .first()
       .click({ force: true });
   });
