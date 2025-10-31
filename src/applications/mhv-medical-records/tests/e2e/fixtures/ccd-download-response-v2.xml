@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <!-- Document metadata -->
+  <title>VA Continuity of Care Document (CCD) - Oracle Health</title>
+  <effectiveTime value="20251028120000" />
+
+  <!-- Patient information -->
+  <recordTarget>
+    <patientRole>
+      <id root="2.16.840.1.113883.4.349" extension="1000123456V123456" />
+      <patient>
+        <name use="L">
+          <family>TestUser</family>
+          <given>Oracle</given>
+          <given>Health</given>
+        </name>
+        <administrativeGenderCode code="M" displayName="Male" />
+        <birthTime value="19500101000000" />
+      </patient>
+    </patientRole>
+  </recordTarget>
+
+  <!-- Author (Oracle Health system) -->
+  <author>
+    <time value="20251028120000" />
+    <assignedAuthor>
+      <id nullFlavor="NA" />
+      <representedOrganization>
+        <id root="2.16.840.1.113883.4.349" />
+        <name>Oracle Health System</name>
+      </representedOrganization>
+    </assignedAuthor>
+  </author>
+
+  <!-- Custodian -->
+  <custodian>
+    <assignedCustodian>
+      <representedCustodianOrganization>
+        <id root="2.16.840.1.113883.4.349" />
+        <name>Department of Veterans Affairs (VA)</name>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
+
+  <!-- Document body (minimal sections) -->
+  <component>
+    <structuredBody>
+      <component>
+        <section>
+          <title>Allergies</title>
+          <text>No known allergies documented in Oracle Health system.</text>
+        </section>
+      </component>
+      <component>
+        <section>
+          <title>Medications</title>
+          <text>Medication information from Oracle Health.</text>
+        </section>
+      </component>
+    </structuredBody>
+  </component>
+</ClinicalDocument>
+

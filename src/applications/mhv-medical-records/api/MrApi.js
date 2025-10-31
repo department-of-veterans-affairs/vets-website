@@ -406,6 +406,24 @@ export const downloadCCD = (timestamp, format = 'html') => {
 };
 
 /**
+ * Downloads a Continuity of Care Document (CCD) from Oracle Health data (v2 endpoint)
+ * @param {string} format
+ * @returns {Promise}
+ *
+ * V2 vs V1 Architecture:
+ * - V1: Two-step process (generate -> poll -> download)
+ * - V2: Single-step direct download
+ * - In V2, backend can convert FHIR -> XML/HTML/PDF on-demand
+ */
+export const downloadCCDV2 = async (format = 'xml') => {
+  const lowerFormat = format.toLowerCase();
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/ccd/download.${lowerFormat}`,
+    { headers },
+  );
+};
+
+/**
  * Send Datadog actions to the backend to be recorded in StatsD metrics
  */
 export const postRecordDatadogAction = async (metric, tags = []) => {
