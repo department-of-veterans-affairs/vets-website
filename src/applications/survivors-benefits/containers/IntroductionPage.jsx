@@ -128,7 +128,7 @@ export const IntroductionPage = props => {
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
       <IntroductionText />
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+      <h2 className="vad-u-margin-top--0">
         Follow these steps to get started:
       </h2>
       <ProcessList />
