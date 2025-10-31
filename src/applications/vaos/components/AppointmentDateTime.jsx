@@ -7,7 +7,7 @@ import AddToCalendarButton from './AddToCalendarButton';
 export default function AppointmentDateTime({
   start,
   timezone,
-  calendarButton,
+  showAddToCalendarButton,
   calendarData,
 }) {
   return (
@@ -15,7 +15,7 @@ export default function AppointmentDateTime({
       <AppointmentDate date={start} timezone={timezone} />
       <br />
       <AppointmentTime date={start} timezone={timezone} />
-      {calendarButton && (
+      {showAddToCalendarButton && (
         <div className="vads-u-margin-top--1 vaos-hide-for-print">
           <AddToCalendarButton appointment={calendarData} />
         </div>
@@ -27,6 +27,6 @@ export default function AppointmentDateTime({
 AppointmentDateTime.propTypes = {
   start: PropTypes.string.isRequired,
   timezone: PropTypes.string.isRequired,
-  calendarButton: PropTypes.bool,
   calendarData: PropTypes.object,
+  showAddToCalendarButton: PropTypes.bool,
 };

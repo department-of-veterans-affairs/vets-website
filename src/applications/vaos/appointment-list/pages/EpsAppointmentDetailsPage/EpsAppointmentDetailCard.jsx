@@ -48,7 +48,7 @@ export default function EpsAppointmentDetailCard({
           start={appointment.start}
           timezone={appointment.provider.location.timezone}
           calendarData={calendarData}
-          calendarButton={
+          showAddToCalendarButton={
             APPOINTMENT_STATUS.cancelled !== appointment.status &&
             !isPastAppointment
           }
