@@ -64,7 +64,7 @@ describe('ReviewDependents', () => {
           {
             fullName: { first: 'John', last: 'Doe' },
             relationshipToVeteran: 'Child',
-            age: '25 years old',
+            labeledAge: '25 years old',
           },
         ],
       },
@@ -79,12 +79,12 @@ describe('ReviewDependents', () => {
       {
         fullName: { first: 'Maya', last: 'Patel' },
         relationshipToVeteran: 'Spouse',
-        age: '47 years old',
+        labeledAge: '47 years old',
       },
       {
         fullName: { first: 'Naomi', last: 'Garcia' },
         relationshipToVeteran: 'Child',
-        age: '21 years old',
+        labeledAge: '21 years old',
       },
     ];
 
@@ -117,14 +117,14 @@ describe('ReviewDependents', () => {
           {
             fullName: { first: 'Maya', last: 'Patel' },
             relationshipToVeteran: 'Spouse',
-            age: '47 years old',
+            labeledAge: '47 years old',
           },
         ],
       },
     });
 
     const name = getByText('Maya Patel');
-    const details = getByText('Spouse | 47 years old');
+    const details = getByText('Spouse, 47 years old');
 
     expect(name).to.not.be.null;
     expect(details).to.not.be.null;
@@ -137,12 +137,12 @@ describe('ReviewDependents', () => {
           {
             fullName: { first: 'OnlyFirst' },
             relationshipToVeteran: 'Child',
-            age: '18 years old',
+            labeledAge: '18 years old',
           },
           {
             fullName: { last: 'OnlyLast' },
             relationshipToVeteran: 'Spouse',
-            age: '45 years old',
+            labeledAge: '45 years old',
           },
         ],
       },
