@@ -13,7 +13,7 @@ import {
   noneAndConditionError,
 } from '../../../content/toxicExposure';
 import formConfig from '../../../config/form';
-import ToxicExposureConditions from '../../../components/ConfirmationFields/ToxicExposureConditions';
+import ConfirmationToxicExposureConditions from '../../../components/ConfirmationToxicExposureConditions';
 
 describe('Toxic Exposure Conditions', () => {
   const {
@@ -21,7 +21,7 @@ describe('Toxic Exposure Conditions', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.toxicExposureConditions;
 
-  it('expect that nothing shows up when no toxic exposure conditions are selected', () => {
+  it('expect that nothing shows up when user selects "I am not claiming any conditions related to toxic exposure " checkbox', () => {
     const formData = {
       toxicExposure: {
         conditions: {
@@ -31,7 +31,25 @@ describe('Toxic Exposure Conditions', () => {
       newDisabilities: [{ condition: 'Asthma' }, { condition: 'COPD' }],
     };
     const { queryByText } = render(
-      <ToxicExposureConditions formData={formData} />,
+      <ConfirmationToxicExposureConditions formData={formData} />,
+    );
+    // const element = document.getElementById('nonExistentElement'); // Attempt to find an element that shouldn't be there
+
+    expect(queryByText(/toxic exposure/i)).to.be.null;
+    expect(queryByText(/none claimed/i)).to.be.null;
+    expect(queryByText(/asthma/i)).to.be.null;
+    expect(queryByText(/copd/i)).to.be.null;
+  });
+
+  it('expect that nothing shows up when no toxic exposure selection is made (the page is optional)', () => {
+    const formData = {
+      toxicExposure: {
+        conditions: {},
+      },
+      newDisabilities: [{ condition: 'Asthma' }, { condition: 'COPD' }],
+    };
+    const { queryByText } = render(
+      <ConfirmationToxicExposureConditions formData={formData} />,
     );
     // const element = document.getElementById('nonExistentElement'); // Attempt to find an element that shouldn't be there
 
@@ -56,7 +74,7 @@ describe('Toxic Exposure Conditions', () => {
       ],
     };
     const { getByRole, queryByText, getByText } = render(
-      <ToxicExposureConditions formData={formData} />,
+      <ConfirmationToxicExposureConditions formData={formData} />,
     );
     expect(getByRole('heading', { name: /toxic exposure/i })).to.exist;
     expect(getByText(/asthma/i)).to.exist;
@@ -155,7 +173,7 @@ describe('Toxic Exposure Conditions', () => {
   });
 
   describe('ui:confirmationField', () => {
-    it('should render the custom ToxicExposureConditions confirmation component', () => {
+    it('should render the custom ConfirmationToxicExposureConditions confirmation component', () => {
       const formData = {
         toxicExposure: {
           conditions: {

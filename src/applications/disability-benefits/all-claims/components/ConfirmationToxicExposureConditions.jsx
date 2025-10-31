@@ -1,17 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { reviewEntry } from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
-import { sippableId, capitalizeEachWord } from '../../utils';
+import { sippableId, capitalizeEachWord } from '../utils';
 
-const ToxicExposureConditions = ({ formData }) => {
+const ConfirmationToxicExposureConditions = ({ formData }) => {
   // first, get list of toxic exposure conditions the user has claimed
   // return null if no TE conditions
   // then, cross-check that with the list of conditions they checked
   // and display the readable (non-Sippable) names of those conditions
+
   const teConditions = formData?.toxicExposure?.conditions || {};
-  if (teConditions?.none === true) return null;
+  const hasConditionKeys = Object.keys(teConditions).some(
+    key => key !== 'none' && teConditions[key] === true,
+  );
+  if (teConditions?.none === true || !hasConditionKeys) {
+    return null;
+  }
+
   const claimedKeys = Object.keys(teConditions).filter(
-    key => key !== 'none' && teConditions[key],
+    key => key !== 'none' && teConditions[key] === true,
   );
   const conditionsContainer = formData?.newDisabilities || [];
   const finalList = conditionsContainer
@@ -36,7 +43,7 @@ const ToxicExposureConditions = ({ formData }) => {
   );
 };
 
-ToxicExposureConditions.propTypes = {
+ConfirmationToxicExposureConditions.propTypes = {
   formData: PropTypes.object,
 };
-export default ToxicExposureConditions;
+export default ConfirmationToxicExposureConditions;
