@@ -89,9 +89,9 @@ const hasInputInShadowDOM = element => {
  * Clean up error annotations from web components that no longer have errors
  */
 export const cleanupErrorAnnotations = () => {
-  // Find all web components that might have error attributes
+  // Find all web components that might have legends with sr-only error spans
   const allComponents = document.querySelectorAll(
-    '[error], [input-error], [checkbox-error]',
+    'va-radio, va-checkbox-group, va-memorable-date, va-statement-of-truth',
   );
   allComponents.forEach(component => {
     const errorMessage =
@@ -123,14 +123,14 @@ if (typeof window !== 'undefined') {
     document.addEventListener('DOMContentLoaded', () => {
       observer.observe(document.body, {
         attributes: true,
-        attributeFilter: ['error'],
+        attributeFilter: ['error', 'input-error', 'checkbox-error'],
         subtree: true,
       });
     });
   } else {
     observer.observe(document.body, {
       attributes: true,
-      attributeFilter: ['error'],
+      attributeFilter: ['error', 'input-error', 'checkbox-error'],
       subtree: true,
     });
   }
