@@ -247,6 +247,7 @@ function initClaimDetailMocks(
     },
   });
 }
+
 module.exports = {
   initClaimsListEmptyMock,
   initClaimsListMock,

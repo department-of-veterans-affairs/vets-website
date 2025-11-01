@@ -283,4 +283,207 @@ describe('<DefaultPage>', () => {
       'We requested this evidence from you on March 7, 2024. You can still send the evidence after the “respond by” date, but it may delay your claim.',
     );
   });
+
+  describe('Type 1 error alerts', () => {
+    const trackedItem = {
+      closedDate: null,
+      description: 'desc',
+      displayName: 'Submit buddy statement(s)',
+      id: 1,
+      overdue: false,
+      receivedDate: null,
+      requestedDate: '2024-03-07',
+      status: 'NEEDED_FROM_YOU',
+      suspenseDate: fiveMonthsFromNowSuspenseDate,
+      uploadsAllowed: true,
+      canUploadFile: true,
+      documents: [],
+      date: '2024-03-07',
+    };
+
+    context('when cst_show_document_upload_status is disabled', () => {
+      it('should not render unknown error alert', () => {
+        const { container } = renderWithReduxAndRouter(
+          <DefaultPage
+            {...defaultProps}
+            item={trackedItem}
+            showDocumentUploadStatus={false}
+            type1UnknownErrors={[{ fileName: 'a.pdf', docType: 'Medical' }]}
+          />,
+          { initialState },
+        );
+
+        expect($('.claims-alert', container)).to.not.exist;
+      });
+
+      it('should not render known error alert (duplicate file, etc.)', () => {
+        const message = {
+          title: 'Known Error',
+          body: 'Some known error message',
+          type: 'error',
+        };
+        const { container } = renderWithReduxAndRouter(
+          <DefaultPage
+            {...defaultProps}
+            item={trackedItem}
+            showDocumentUploadStatus={false}
+            message={message}
+          />,
+          { initialState },
+        );
+
+        expect($('.claims-alert', container)).to.not.exist;
+      });
+    });
+
+    context('when cst_show_document_upload_status is enabled', () => {
+      it('should not render the alert when type1UnknownErrors is an empty array', () => {
+        const { container } = renderWithReduxAndRouter(
+          <DefaultPage
+            {...defaultProps}
+            item={trackedItem}
+            showDocumentUploadStatus
+            type1UnknownErrors={[]}
+          />,
+          {
+            initialState: {
+              ...initialState,
+              // eslint-disable-next-line camelcase
+              featureToggles: { cst_show_document_upload_status: true },
+            },
+          },
+        );
+
+        expect($('.claims-alert', container)).to.not.exist;
+      });
+
+      it('should not render the alert when type1UnknownErrors is null', () => {
+        const { container } = renderWithReduxAndRouter(
+          <DefaultPage
+            {...defaultProps}
+            item={trackedItem}
+            showDocumentUploadStatus
+            type1UnknownErrors={null}
+          />,
+          {
+            initialState: {
+              ...initialState,
+              // eslint-disable-next-line camelcase
+              featureToggles: { cst_show_document_upload_status: true },
+            },
+          },
+        );
+
+        expect($('.claims-alert', container)).to.not.exist;
+      });
+
+      it('should not render the alert when type1UnknownErrors is undefined', () => {
+        const { container } = renderWithReduxAndRouter(
+          <DefaultPage
+            {...defaultProps}
+            item={trackedItem}
+            showDocumentUploadStatus
+            type1UnknownErrors={undefined}
+          />,
+          {
+            initialState: {
+              ...initialState,
+              // eslint-disable-next-line camelcase
+              featureToggles: { cst_show_document_upload_status: true },
+            },
+          },
+        );
+
+        expect($('.claims-alert', container)).to.not.exist;
+      });
+
+      it('should render the type 1 unknown error alert when type1UnknownErrors exists', () => {
+        const { container } = renderWithReduxAndRouter(
+          <DefaultPage
+            {...defaultProps}
+            item={trackedItem}
+            showDocumentUploadStatus
+            type1UnknownErrors={[
+              { fileName: 'a.pdf', docType: 'Medical' },
+              { fileName: 'b.pdf', docType: 'Medical' },
+            ]}
+          />,
+          {
+            initialState: {
+              ...initialState,
+              // eslint-disable-next-line camelcase
+              featureToggles: { cst_show_document_upload_status: true },
+            },
+          },
+        );
+        const alerts = container.querySelectorAll('.claims-alert');
+
+        expect(alerts).to.have.lengthOf(1);
+        expect(container.textContent).to.include(
+          'We need you to submit files by mail or in person',
+        );
+      });
+
+      it('should render the known error alert when message exists', () => {
+        const message = {
+          title: 'Known Error',
+          body: 'Some known error message',
+          type: 'error',
+        };
+        const { container, getByText } = renderWithReduxAndRouter(
+          <DefaultPage
+            {...defaultProps}
+            item={trackedItem}
+            showDocumentUploadStatus
+            message={message}
+          />,
+          {
+            initialState: {
+              ...initialState,
+              // eslint-disable-next-line camelcase
+              featureToggles: { cst_show_document_upload_status: true },
+            },
+          },
+        );
+
+        const alerts = container.querySelectorAll('.claims-alert');
+        expect(alerts).to.have.lengthOf(1);
+        getByText('Known Error');
+        getByText('Some known error message');
+      });
+
+      it('should render the known error alert and the type 1 unknown error alert when both message and type1UnknownErrors exist', () => {
+        const message = {
+          title: 'Known Error',
+          body: 'Some known error message',
+          type: 'error',
+        };
+        const { container, getByText } = renderWithReduxAndRouter(
+          <DefaultPage
+            {...defaultProps}
+            item={trackedItem}
+            showDocumentUploadStatus
+            message={message}
+            type1UnknownErrors={[{ fileName: 'a.pdf', docType: 'Medical' }]}
+          />,
+          {
+            initialState: {
+              ...initialState,
+              // eslint-disable-next-line camelcase
+              featureToggles: { cst_show_document_upload_status: true },
+            },
+          },
+        );
+
+        // Both alerts should be visible
+        const alerts = container.querySelectorAll('.claims-alert');
+        expect(alerts).to.have.lengthOf(2);
+        getByText('Known Error');
+        getByText('Some known error message');
+        expect(container.textContent).to.include(
+          'We need you to submit files by mail or in person',
+        );
+      });
+    });
+  });
 });
