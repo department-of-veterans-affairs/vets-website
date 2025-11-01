@@ -53,8 +53,13 @@ Veterans who:
 ```bash
 21-0779-nursing-home-information/
 ├── app-entry.jsx             # Main entry point
+├── components/               # Reusable components
+│   ├── get-help.jsx
+│   └── get-help.unit.spec.jsx
 ├── config/
 │   └── form.js               # Form configuration
+├── constants.js              # Application constants
+├── constants.unit.spec.jsx   # Constants tests
 ├── containers/
 │   ├── App.jsx               # Main app container
 │   ├── IntroductionPage.jsx  # Form intro page
@@ -67,10 +72,19 @@ Veterans who:
 │   ├── nursingHomeDetails.js
 │   └── nursingCareInformation.js
 ├── reducers/                 # Redux reducers
+├── reviews/                  # Review page components
+│   ├── *.jsx                 # Review components
+│   └── *.unit.spec.jsx       # Co-located tests (14 files)
 ├── routes.jsx                # React Router configuration
+├── routes.unit.spec.jsx      # Routes tests
 ├── sass/                     # Styles
-├── tests/                    # Unit and E2E tests
+├── schemas/                  # Zod validation schemas
+│   ├── *.js                  # Schema definitions
+│   └── *.unit.spec.jsx       # Co-located tests (16 files)
+├── tests/                    # E2E Cypress tests
 └── utils/                    # Utility functions
+    ├── index.js
+    └── index.unit.spec.jsx
 ```
 
 ### Development Commands
@@ -126,7 +140,28 @@ yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-0779-nursing
 
 ## Testing
 
-- Unit tests for all form pages and components
-- Cypress E2E tests for complete form flow
+### Test Organization
+
+Tests are co-located with their source files using the naming convention `[filename].unit.spec.jsx` for all unit test files.
+
+### Running Tests
+
+```bash
+# Run all unit tests for this application
+yarn test:unit --app-folder benefits-optimization-aquia/21-0779-nursing-home-information
+
+# Run tests with coverage
+yarn test:unit:coverage --app-folder benefits-optimization-aquia/21-0779-nursing-home-information
+
+# Run specific test file
+yarn test:unit src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/schemas/nursing-home.unit.spec.jsx
+
+# Run Cypress E2E tests
+yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/tests/*.cypress.spec.js"
+```
+
+### E2E Testing
+
+- Cypress tests for complete form flow
 - Accessibility testing with axe-core
 - Cross-browser testing on Chrome, Firefox, Safari, and Edge
