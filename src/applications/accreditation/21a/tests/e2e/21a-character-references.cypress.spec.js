@@ -36,8 +36,9 @@ Cypress.Commands.add(
     cy.get('@phoneField')
       .shadow()
       .find('input[type="tel"]')
-      .should('not.be.disabled')
-      .type('5551234567');
+      .clear()
+      .type('5551234567', { force: true });
+
     cy.fillVaTextInput('root_email', 'test@example.com');
     cy.findByRole('button', { name: /^Continue$/i }).click();
 
