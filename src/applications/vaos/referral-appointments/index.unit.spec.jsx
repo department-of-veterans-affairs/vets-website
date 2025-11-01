@@ -84,6 +84,16 @@ describe('ReferralAppointments', () => {
       expect(screen.getByText('We’re sorry. We’ve run into a problem.')).to
         .exist;
     });
+
+    // Check the back link
+    expect(screen.getByTestId('back-link')).to.have.attribute(
+      'text',
+      'Back to appointments',
+    );
+    expect(screen.getByTestId('referral-layout-heading')).to.have.text(
+      'Something went wrong on our end',
+    );
+    expect(screen.getByTestId('referral-community-care-office')).to.exist;
   });
 
   it('should render ScheduleReferral for the base path', async () => {

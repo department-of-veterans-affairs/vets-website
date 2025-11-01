@@ -10,6 +10,12 @@ import { startReferralTimer } from './utils/timer';
  */
 export function getPageFlow(referralId, appointmentId) {
   return {
+    error: {
+      url: '/',
+      label: 'Back to appointments',
+      next: '',
+      previous: 'appointments',
+    },
     appointments: {
       url: '/',
       label: 'Appointments',
