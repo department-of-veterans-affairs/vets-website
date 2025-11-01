@@ -43,7 +43,9 @@ describe('parentOtherExit', () => {
   it('should render', () => {
     const { container } = renderComponent();
 
-    expect($('h3', container).textContent).to.equal('Changes to PETER');
+    expect($('h3', container).textContent).to.equal(
+      'PETER can’t be removed using this application',
+    );
 
     const info = $('va-additional-info', container);
     expect(info).to.exist;
@@ -51,26 +53,17 @@ describe('parentOtherExit', () => {
       'Why can I only remove a parent dependent if they have died?',
     );
 
-    const exitLink = $('va-link-action', container);
-    expect(exitLink).to.exist;
-    expect(exitLink.getAttribute('text')).to.equal('Exit application');
-    expect(exitLink.getAttribute('href')).to.equal('/manage-dependents/view');
+    expect(parentOtherExit.hasExitLink).to.be.true;
   });
 
-  it('should render edit text in header', () => {
-    const { container } = renderComponent({ isEditing: true });
-
-    expect($('h3', container).textContent).to.equal('Edit changes to PETER');
-  });
-
-  it('should not go forward when form is submitted', async () => {
-    const goForward = sinon.spy();
-    const { container } = renderComponent({ goForward });
+  it('should go forward when form is submitted', async () => {
+    const onSubmit = sinon.spy();
+    const { container } = renderComponent({ onSubmit });
 
     fireEvent.submit($('form', container));
 
     await waitFor(() => {
-      expect(goForward.called).to.be.false;
+      expect(onSubmit.calledOnce).to.be.true;
     });
   });
 
@@ -80,12 +73,12 @@ describe('parentOtherExit', () => {
       expect(handlers.goForward()).to.equal('DONE');
     });
 
-    it('should not call goForward when page is submitted', () => {
+    it('should call goForward when page is submitted', () => {
       const goForward = sinon.spy();
       handlers.onSubmit({
         goForward,
       });
-      expect(goForward.called).to.be.false;
+      expect(goForward.called).to.be.true;
     });
   });
 });

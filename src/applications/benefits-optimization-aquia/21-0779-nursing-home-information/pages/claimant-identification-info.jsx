@@ -44,6 +44,11 @@ export const ClaimantIdentificationInfoPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
+          <p>
+            You must enter the patient’s Social Security number. You can also
+            enter a VA File number if available.
+          </p>
+
           <SSNField
             name="claimantSsn"
             label="Social Security number"

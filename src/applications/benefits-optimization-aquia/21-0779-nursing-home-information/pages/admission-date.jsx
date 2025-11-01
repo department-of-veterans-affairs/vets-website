@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { MemorableDateField } from '@bio-aquia/shared/components/atoms';
+import { DateField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
@@ -46,7 +46,7 @@ export const AdmissionDatePage = ({ data, setFormData, goForward, goBack }) => {
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <MemorableDateField
+          <DateField
             name="admissionDate"
             label="When was the patient admitted to the nursing home?"
             schema={admissionDateSchema}
