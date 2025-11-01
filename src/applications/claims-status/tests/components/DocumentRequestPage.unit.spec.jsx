@@ -240,7 +240,7 @@ describe('<DocumentRequestPage>', () => {
         ,
       </Provider>,
     );
-    expect($('.claims-alert', context)).to.exist;
+    expect($('va-alert', context)).to.exist;
   });
   it('should render upload error alert when rerendered', () => {
     const trackedItem = {
@@ -252,7 +252,7 @@ describe('<DocumentRequestPage>', () => {
         <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
       </Provider>,
     );
-    expect($('.claims-alert', container)).not.to.exist;
+    expect($('va-alert', container)).not.to.exist;
 
     const message = {
       title: 'Test',
@@ -285,10 +285,8 @@ describe('<DocumentRequestPage>', () => {
         ,
       </Provider>,
     );
-    expect($('.claims-alert', container)).to.exist;
-    expect($('.claims-alert h2', container).textContent).to.equal(
-      message.title,
-    );
+    expect($('va-alert', container)).to.exist;
+    expect($('va-alert h2', container).textContent).to.equal(message.title);
   });
   it('should not clear notification after completed upload', () => {
     const trackedItem = {
@@ -328,7 +326,7 @@ describe('<DocumentRequestPage>', () => {
       </Provider>,
     );
 
-    expect($('.claims-alert', context)).to.exist;
+    expect($('va-alert', context)).to.exist;
     expect(clearNotification.called).to.be.false;
   });
   it('should render optional upload alert', () => {
@@ -694,7 +692,7 @@ describe('<DocumentRequestPage>', () => {
             <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
           </Provider>,
         );
-        expect($('.claims-alert', context)).to.exist;
+        expect($('va-alert', context)).to.exist;
       });
     });
 
@@ -738,7 +736,7 @@ describe('<DocumentRequestPage>', () => {
             ,
           </Provider>,
         );
-        expect($('.claims-alert', context)).to.not.exist;
+        expect($('va-alert', context)).to.not.exist;
       });
     });
   });
