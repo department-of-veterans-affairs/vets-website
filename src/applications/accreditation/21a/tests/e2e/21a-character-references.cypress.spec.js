@@ -1,20 +1,11 @@
 import 'cypress-axe';
-import user from './fixtures/mocks/user.json';
 import { setFeatureToggles } from './intercepts/feature-toggles';
 import inProgressFormsResponse from './fixtures/mocks/in-progress-forms-response.json';
-
-Cypress.Commands.add('loginArpUser', () => {
-  cy.intercept('GET', '/accredited_representative_portal/v0/user', {
-    statusCode: 200,
-    body: user,
-  }).as('fetchUser');
-});
 
 Cypress.Commands.add('addNewCharacterReference', () => {
   cy.get('input[name="root_view:hasCharacterReferences"][value="Y"]').check({
     force: true,
   });
-
   cy.findByRole('button', { name: /^Continue$/ }).click();
 });
 
@@ -53,22 +44,133 @@ Cypress.Commands.add(
   },
 );
 
+Cypress.Commands.add(
+  'seedUserWith21aSIP',
+  (returnUrlRel = '/character-references') => {
+    const nowSec = Math.floor(Date.now() / 1000);
+    cy.intercept('GET', '/accredited_representative_portal/v0/user', {
+      statusCode: 200,
+      headers: { 'cache-control': 'no-store' },
+      body: {
+        account: { accountUuid: '895e72d8-cadb-4929-93dd-a61a6b8c3f61' },
+        profile: {
+          firstName: 'HECTOR',
+          lastName: 'J',
+          verified: true,
+          signIn: { serviceName: 'logingov' },
+          loa: { current: 3, highest: 3 },
+        },
+        prefillsAvailable: [],
+        inProgressForms: [
+          {
+            form: '21a',
+            metadata: {
+              version: 0,
+              returnUrl: returnUrlRel,
+              savedAt: nowSec * 1000,
+              submission: {
+                status: false,
+                errorMessage: false,
+                id: false,
+                timestamp: false,
+                hasAttemptedSubmit: false,
+              },
+              createdAt: nowSec - 3000,
+              expiresAt: nowSec + 7 * 24 * 60 * 60,
+              lastUpdated: nowSec,
+              inProgressFormId: 2,
+            },
+            lastUpdated: nowSec,
+          },
+        ],
+      },
+    }).as('fetchUserWithSIP');
+  },
+);
+
+Cypress.Commands.add(
+  'stub21aFormDataExact',
+  (returnUrlRel = '/character-references') => {
+    const nowSec = Math.floor(Date.now() / 1000);
+    const nowMs = nowSec * 1000;
+
+    cy.intercept(
+      'GET',
+      '**/accredited_representative_portal/v0/in_progress_forms/21a*',
+      {
+        statusCode: 200,
+        body: {
+          formData: {
+            'view:characterReferencesMissingInformation': {},
+            'view:hasCharacterReferences': false,
+            fullName: {},
+            placeOfBirth: { 'view:militaryBaseDescription': {} },
+            phone: {},
+            homeAddress: { 'view:militaryBaseDescription': {} },
+            otherAddress: { 'view:militaryBaseDescription': {} },
+            employmentActivities: {},
+            convictionDetailsDocuments: { additionalData: {} },
+            convictionDetailsCertification: {},
+            courtMartialedDetailsDocuments: { additionalData: {} },
+            courtMartialedDetailsCertification: {},
+            underChargesDetailsDocuments: { additionalData: {} },
+            underChargesDetailsCertification: {},
+            resignedFromEducationDetailsDocuments: { additionalData: {} },
+            resignedFromEducationDetailsCertification: {},
+            withdrawnFromEducationDetailsDocuments: { additionalData: {} },
+            withdrawnFromEducationDetailsCertification: {},
+            disciplinedForDishonestyDetailsDocuments: { additionalData: {} },
+            disciplinedForDishonestyDetailsCertification: {},
+            resignedForDishonestyDetailsDocuments: { additionalData: {} },
+            resignedForDishonestyDetailsCertification: {},
+            representativeForAgencyDetailsDocuments: { additionalData: {} },
+            representativeForAgencyDetailsCertification: {},
+            reprimandedInAgencyDetailsDocuments: { additionalData: {} },
+            reprimandedInAgencyDetailsCertification: {},
+            resignedFromAgencyDetailsDocuments: { additionalData: {} },
+            resignedFromAgencyDetailsCertification: {},
+            appliedForVaAccreditationDetailsDocuments: { additionalData: {} },
+            appliedForVaAccreditationDetailsCertification: {},
+            terminatedByVsorgDetailsDocuments: { additionalData: {} },
+            terminatedByVsorgDetailsCertification: {},
+            conditionThatAffectsRepresentationDetailsDocuments: {
+              additionalData: {},
+            },
+            conditionThatAffectsRepresentationDetailsCertification: {},
+            conditionThatAffectsExaminationDetailsDocuments: {
+              additionalData: {},
+            },
+            conditionThatAffectsExaminationDetailsCertification: {},
+            characterReferences: [],
+          },
+          metadata: {
+            version: 0,
+            returnUrl: returnUrlRel,
+            savedAt: nowMs,
+            submission: {
+              status: false,
+              errorMessage: false,
+              id: false,
+              timestamp: false,
+              hasAttemptedSubmit: false,
+            },
+            createdAt: nowSec - 3000,
+            expiresAt: nowSec + 7 * 24 * 60 * 60,
+            lastUpdated: nowSec,
+            inProgressFormId: 2,
+          },
+        },
+      },
+    ).as('getInProgressForm');
+  },
+);
+
 const baseUrl = '/representative/accreditation/attorney-claims-agent-form-21a/';
 const introUrl = `${baseUrl}introduction`;
-const personalInfoUrl = `${baseUrl}personal-information-intro`;
-const characterReferencesUrl = `${baseUrl}character-references`;
-// const characterReferencesSummaryUrl = `${baseUrl}character-references-summary`;
-// const supplementaryStatementsIntroUrl = `${baseUrl}supplementary-statements-intro`;
+const characterReferencesSummaryUrl = `${baseUrl}character-references-summary`;
+const supplementaryStatementsIntroUrl = `${baseUrl}supplementary-statements-intro`;
 
-const vamcUser = {
-  data: {
-    nodeQuery: {
-      count: 0,
-      entities: [],
-    },
-  },
-};
-
+const vamcUser = { data: { nodeQuery: { count: 0, entities: [] } } };
 const setUpIntercepts = (
   featureToggles = { isAppEnabled: true, isInPilot: true },
 ) => {
@@ -78,132 +180,124 @@ const setUpIntercepts = (
 
 describe('The 21A Character References Page', () => {
   beforeEach(() => {
-    cy.loginArpUser();
     setUpIntercepts({
       isAppEnabled: true,
       isInPilot: true,
       isForm21Enabled: true,
     });
+
     cy.intercept(
       'PUT',
-      '/accredited_representative_portal/v0/in_progress_forms/21a',
+      '**/accredited_representative_portal/v0/in_progress_forms/21a*',
       inProgressFormsResponse,
     ).as('saveInProgressForm');
+
+    // Seed resume + form data BEFORE visiting
+    cy.seedUserWith21aSIP('/character-references');
+    cy.stub21aFormDataExact('/character-references');
   });
 
   it('allows the user to move forward with 3 references', () => {
-    cy.visit('/representative');
-    cy.location('pathname', { timeout: 1000 }).should('eq', '/representative/');
-    cy.visit(baseUrl);
-    cy.location('pathname', { timeout: 1000 }).should('eq', introUrl);
+    cy.visit(introUrl);
+    cy.injectAxe();
+    cy.axeCheck();
+
+    cy.contains('button', /^Continue your application$/).click({ force: true });
+    cy.wait('@getInProgressForm');
+    cy.findByRole('button', { name: /^Continue$/i }).click();
+
+    cy.createCharacterReference('Harry', 'Potter');
+    cy.addNewCharacterReference();
+    cy.createCharacterReference('Ron', 'Weasley');
+    cy.addNewCharacterReference();
+    cy.createCharacterReference('Hermione', 'Granger');
+
+    cy.goToNextPage();
+    cy.location('pathname', { timeout: 1000 }).should(
+      'eq',
+      supplementaryStatementsIntroUrl,
+    );
+
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+
+  it('allows the user to move forward with 4 references', () => {
+    cy.visit(introUrl);
+    cy.injectAxe();
+    cy.axeCheck();
+
+    cy.contains('button', /^Continue your application$/).click({ force: true });
+    cy.wait('@getInProgressForm');
+    cy.findByRole('button', { name: /^Continue$/i }).click();
+
+    cy.createCharacterReference('Harry', 'Potter');
+    cy.addNewCharacterReference();
+    cy.createCharacterReference('Ron', 'Weasley');
+    cy.addNewCharacterReference();
+    cy.createCharacterReference('Hermione', 'Granger');
+    cy.addNewCharacterReference();
+    cy.createCharacterReference('Severus', 'Snape');
+    cy.findByRole('button', { name: /^Continue$/i }).click();
+    cy.location('pathname', { timeout: 1000 }).should(
+      'eq',
+      supplementaryStatementsIntroUrl,
+    );
+
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+
+  it('shows error if there are only 2 references', () => {
+    cy.visit(introUrl);
+    cy.injectAxe();
+    cy.axeCheck();
+
+    cy.contains('button', /^Continue your application$/).click({ force: true });
+    cy.wait('@getInProgressForm');
+    cy.findByRole('button', { name: /^Continue$/i }).click();
+
+    cy.createCharacterReference('Harry', 'Potter');
+    cy.addNewCharacterReference();
+    cy.createCharacterReference('Ron', 'Weasley');
+    cy.goToNextPage();
+    cy.contains(
+      'span.usa-error-message',
+      'You must add at least 3 character references. You currently have 2.',
+    ).should('be.visible');
 
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByRole('link', { name: /start your application/i }).click();
-    cy.location('pathname', { timeout: 1000 }).should('eq', personalInfoUrl);
-    cy.visit(characterReferencesUrl);
-    cy.scrollTo('bottom');
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(1000);
-    cy.findByRole('button', { name: /^Continue$/ }).click();
-    // cy.createCharacterReference('Harry', 'Potter');
-    // cy.addNewCharacterReference();
-    // cy.createCharacterReference('Ron', 'Weasley');
-    // cy.addNewCharacterReference();
-    // cy.createCharacterReference('Hermione', 'Granger');
-    // cy.goToNextPage();
-    // cy.location('pathname', { timeout: 1000 }).should(
-    //   'eq',
-    //   supplementaryStatementsIntroUrl,
-    // );
-
-    // cy.injectAxe();
-    // cy.axeCheck();
+    cy.location('pathname', { timeout: 1000 }).should(
+      'eq',
+      characterReferencesSummaryUrl,
+    );
   });
 
-  // it('allows the user to move forward with 4 references', () => {
-  //   cy.visit(characterReferencesUrl);
-  //   cy.location('pathname', { timeout: 1000 }).should(
-  //     'eq',
-  //     characterReferencesUrl,
-  //   );
+  it('shows error if there is only 1 reference', () => {
+    cy.visit(introUrl);
+    cy.injectAxe();
+    cy.axeCheck();
 
-  //   cy.injectAxe();
-  //   cy.axeCheck();
+    cy.contains('button', /^Continue your application$/).click({ force: true });
+    cy.wait('@getInProgressForm');
+    cy.findByRole('button', { name: /^Continue$/i }).click();
 
-  //   cy.findByRole('button', { name: /^Continue$/ }).click();
-  //   cy.createCharacterReference('Harry', 'Potter');
-  //   cy.addNewCharacterReference();
-  //   cy.createCharacterReference('Ron', 'Weasley');
-  //   cy.addNewCharacterReference();
-  //   cy.createCharacterReference('Hermione', 'Granger');
-  //   cy.addNewCharacterReference();
-  //   cy.createCharacterReference('Severus', 'Snape');
-  //   cy.findByRole('button', { name: /^Continue$/i }).click();
-  //   cy.location('pathname', { timeout: 1000 }).should(
-  //     'eq',
-  //     supplementaryStatementsIntroUrl,
-  //   );
+    cy.createCharacterReference('Harry', 'Potter');
+    cy.goToNextPage();
 
-  //   cy.injectAxe();
-  //   cy.axeCheck();
-  // });
+    cy.contains(
+      'span.usa-error-message',
+      'You must add at least 3 character references. You currently have 1.',
+    ).should('be.visible');
 
-  // it('shows error if there are only 2 references', () => {
-  //   cy.visit(characterReferencesUrl);
-  //   cy.location('pathname', { timeout: 1000 }).should(
-  //     'eq',
-  //     characterReferencesUrl,
-  //   );
+    cy.injectAxe();
+    cy.axeCheck();
 
-  //   cy.injectAxe();
-  //   cy.axeCheck();
-
-  //   cy.findByRole('button', { name: /^Continue$/ }).click();
-  //   cy.createCharacterReference('Harry', 'Potter');
-  //   cy.addNewCharacterReference();
-  //   cy.createCharacterReference('Ron', 'Weasley');
-  //   cy.goToNextPage();
-  //   cy.contains(
-  //     'span.usa-error-message',
-  //     'You must add at least 3 character references. You currently have 2.',
-  //   ).should('be.visible');
-
-  //   cy.injectAxe();
-  //   cy.axeCheck();
-
-  //   cy.location('pathname', { timeout: 1000 }).should(
-  //     'eq',
-  //     characterReferencesSummaryUrl,
-  //   );
-  // });
-
-  // it('shows error if there is only 1 reference', () => {
-  //   cy.visit(characterReferencesUrl);
-  //   cy.location('pathname', { timeout: 1000 }).should(
-  //     'eq',
-  //     characterReferencesUrl,
-  //   );
-
-  //   cy.injectAxe();
-  //   cy.axeCheck();
-
-  //   cy.findByRole('button', { name: /^Continue$/ }).click();
-  //   cy.createCharacterReference('Harry', 'Potter');
-  //   cy.goToNextPage();
-
-  //   cy.contains(
-  //     'span.usa-error-message',
-  //     'You must add at least 3 character references. You currently have 1.',
-  //   ).should('be.visible');
-
-  //   cy.injectAxe();
-  //   cy.axeCheck();
-
-  //   cy.location('pathname', { timeout: 1000 }).should(
-  //     'eq',
-  //     characterReferencesSummaryUrl,
-  //   );
-  // });
+    cy.location('pathname', { timeout: 1000 }).should(
+      'eq',
+      characterReferencesSummaryUrl,
+    );
+  });
 });
