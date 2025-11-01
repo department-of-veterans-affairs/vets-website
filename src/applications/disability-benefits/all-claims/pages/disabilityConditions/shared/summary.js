@@ -2,7 +2,7 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { arrayOptions, backfillCauseForIncreaseRows } from './utils';
+import { arrayOptions } from './utils';
 
 // Optional: helper right here
 const isOrphanSecondary = (item, fullData = {}) => {
@@ -28,7 +28,6 @@ const summaryPage = {
       ...arrayBuilderYesNoUI(arrayOptions, {}, { hint: null }),
       'ui:validations': [
         (errors, fieldData, formData) => {
-          backfillCauseForIncreaseRows(formData);
           const orphans =
             (formData?.newDisabilities || []).filter(d =>
               isOrphanSecondary(d, formData),

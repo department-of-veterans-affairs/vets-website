@@ -7,6 +7,7 @@ import {
 
 import {
   addStyleToShadowDomOnPages,
+  backfillCauseForIncreaseRows,
   ForceFieldBlur,
   validateApproximateDate,
 } from './utils';
@@ -42,7 +43,7 @@ const ratedDisabilityDatePage = {
       ...baseDateUI,
       // run the effect here
       'ui:description': HideDefaultDateHint,
-      'ui:validations': [validateApproximateDate],
+      'ui:validations': [validateApproximateDate, backfillCauseForIncreaseRows],
     },
     // Aim is to trigger internal VA form field update logic
     _forceFieldBlur: {

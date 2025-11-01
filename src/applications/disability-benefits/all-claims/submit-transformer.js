@@ -19,6 +19,7 @@ import {
   setActionTypes,
   transformRelatedDisabilities,
   removeExtraData,
+  removeRatedDisabilityFromNew,
   filterServicePeriods,
   stringifyRelatedDisabilities,
   cleanUpMailingAddress,
@@ -262,6 +263,7 @@ export function transform(formConfig, form) {
     }
     return formData;
   };
+
   // End transformation definitions
 
   // Apply the transformations
@@ -281,6 +283,7 @@ export function transform(formConfig, form) {
     addPTSDCause,
     addRequiredDescriptionsToDisabilitiesBDD,
     splitNewDisabilities,
+    removeRatedDisabilityFromNew,
     transformSecondaryDisabilities,
     stringifyRelatedDisabilities,
     transformSeparationPayDate,

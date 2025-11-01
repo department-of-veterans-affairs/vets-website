@@ -11,6 +11,7 @@ import sideOfBodyPage from './sideOfBody';
 import summaryPage from './summary';
 import {
   arrayOptions,
+  backfillCauseForIncreaseRows,
   hasSideOfBody,
   isNewCondition,
   isRatedDisability,
@@ -44,6 +45,14 @@ export const remainingSharedPages = (pageBuilder, helpers) => ({
     depends: (formData, index) => isRatedDisability(formData, index),
     uiSchema: ratedDisabilityDatePage.uiSchema,
     schema: ratedDisabilityDatePage.schema,
+    onNavForward: props => {
+      const { formData, setFormData } = props;
+      const updated = backfillCauseForIncreaseRows(formData);
+      if (updated && updated !== formData) {
+        setFormData(updated);
+      }
+      return helpers.navForwardFinishedItem(props);
+    },
   }),
   NewCondition: pageBuilder.itemPage({
     title: 'Add new condition',
