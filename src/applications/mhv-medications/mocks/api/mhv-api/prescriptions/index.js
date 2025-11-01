@@ -22,6 +22,7 @@ function mockPrescription(n = 0, attrs = {}) {
     cmopNdcNumber,
     cmopDivisionPhone = '(555) 555-5555',
     dialCmopDivisionPhone = '5555555555',
+    pharmacyPhoneNumber = '(555) 555-5555',
   } = attrs;
   const prescriptionName = `Fake ${n}`;
   const newCmopNdcNumber =
@@ -58,6 +59,7 @@ function mockPrescription(n = 0, attrs = {}) {
       modifiedDate: null,
       institutionId: null,
       dialCmopDivisionPhone,
+      pharmacyPhoneNumber,
       dispStatus: isRefillable ? 'Active' : 'Expired',
       ndc: null,
       reason: 'A good reason',
@@ -143,6 +145,8 @@ function mockPrescriptionArray(n = 20) {
       cmopDivisionPhone: realPrescription.cmopDivisionPhone || '(555) 555-5555',
       dialCmopDivisionPhone:
         realPrescription.dialCmopDivisionPhone || '5555555555',
+      pharmacyPhoneNumber:
+        realPrescription.pharmacyPhoneNumber || '(555) 555-5555',
       notRefillableDisplayMessage: realPrescription.notRefillableDisplayMessage,
       providerFirstName: realPrescription.providerFirstName,
       providerLastName: realPrescription.providerLastName,

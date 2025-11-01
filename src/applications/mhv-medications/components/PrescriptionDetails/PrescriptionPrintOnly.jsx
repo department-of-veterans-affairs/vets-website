@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DATETIME_FORMATS,
   FIELD_NONE_NOTED,
@@ -10,7 +11,6 @@ import {
 import {
   validateField,
   dateFormat,
-  pharmacyPhoneNumber,
   determineRefillLabel,
   getShowRefillHistory,
   displayProviderName,
