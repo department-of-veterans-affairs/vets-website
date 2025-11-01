@@ -13,9 +13,12 @@ import { SaveInProgress } from '@bio-aquia/shared/components';
  */
 const breadcrumbList = [
   { href: '/', label: 'VA.gov home' },
-  { href: '/pension', label: 'Pension benefits' },
   {
-    href: '/pension/aid-attendance-housebound',
+    href: '/supporting-forms-for-claims/',
+    label: 'Supporting forms for claims',
+  },
+  {
+    href: '/supporting-forms-for-claims/aid-attendance-housebound',
     label: 'Aid and Attendance or Housebound benefits',
   },
 ];
