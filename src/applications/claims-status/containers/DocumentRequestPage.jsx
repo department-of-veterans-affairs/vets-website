@@ -6,6 +6,7 @@ import { scrollToTop } from 'platform/utilities/scroll';
 
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
+import Notification from '../components/Notification';
 import DefaultPage from '../components/claim-document-request-pages/DefaultPage';
 import {
   cancelUpload,
@@ -21,7 +22,7 @@ import {
   setPageTitle,
   getLabel,
 } from '../utils/helpers';
-import { setUpPage, setPageFocus } from '../utils/page';
+import { setUpPage, setPageFocus, focusNotificationAlert } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
 
@@ -68,7 +69,7 @@ class DocumentRequestPage extends React.Component {
       <>
         <DefaultPage
           item={this.props.trackedItem}
-          message={message}
+          message={showDocumentUploadStatus ? message : null}
           onCancel={this.props.cancelUpload}
           onSubmit={files =>
             this.props.submitFiles(
@@ -80,7 +81,9 @@ class DocumentRequestPage extends React.Component {
           }
           progress={this.props.progress}
           showDocumentUploadStatus={showDocumentUploadStatus}
-          type1UnknownErrors={type1UnknownErrors}
+          type1UnknownErrors={
+            showDocumentUploadStatus ? type1UnknownErrors : null
+          }
           uploading={this.props.uploading}
         />
       </>
@@ -140,8 +143,21 @@ class DocumentRequestPage extends React.Component {
         </div>
       );
     } else {
+      const { message, showDocumentUploadStatus } = this.props;
       content = (
         <>
+          {/* Show errors here when the feature flag is OFF. When the feature flag is ON, errors are shown in DefaultPage. */}
+          {!showDocumentUploadStatus &&
+            message && (
+              <div>
+                <Notification
+                  title={message.title}
+                  body={message.body}
+                  type={message.type}
+                  onSetFocus={focusNotificationAlert}
+                />
+              </div>
+            )}
           {isAutomated5103Notice(trackedItem.displayName) ? (
             <Default5103EvidenceNotice item={trackedItem} />
           ) : (

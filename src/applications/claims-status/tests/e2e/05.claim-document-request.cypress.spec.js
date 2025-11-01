@@ -155,18 +155,19 @@ describe('When feature toggle cst_5103_update_enabled enabled', () => {
 
 describe('Type 1 Error Alert', () => {
   context('when cst_show_document_upload_status is disabled', () => {
-    it('should not display the type 1 unknown error alert', () => {
+    it('should display the old alert and not the new type 1 unknown error alert', () => {
       setupPageAndIntercepts(false);
       setupUnknownErrorMock();
       uploadFileWithDocType('test-document.txt');
       clickSubmitFilesButton(false);
 
       cy.wait('@uploadRequest');
-      // Verify Type 1 alert is not present
+      // Verify new Type 1 unknown error alert is not present
       cy.get('.claims-alert').should(
         'not.contain.text',
         'We need you to submit files by mail or in person',
       );
+      // Verify old alert is present
       cy.get('.claims-alert').should('contain.text', 'Error uploading');
 
       cy.axeCheck();
@@ -181,8 +182,7 @@ describe('Type 1 Error Alert', () => {
       clickSubmitFilesButton(true);
 
       cy.wait('@uploadRequest');
-      // Verify the type 1 unknown error alert is visible
-      cy.get('.claims-alert')
+      cy.get('#default-page .claims-alert')
         .should('be.visible')
         .and(
           'contain.text',
@@ -238,9 +238,12 @@ describe('Type 1 Error Alert', () => {
       cy.wait('@uploadRequests');
       cy.wait('@uploadRequests');
       // Verify both alerts are visible
-      cy.get('.claims-alert').should('have.length.at.least', 2);
-      cy.get('.claims-alert').should('contain.text', "You've already uploaded");
-      cy.get('.claims-alert').should(
+      cy.get('#default-page .claims-alert').should('have.length.at.least', 2);
+      cy.get('#default-page .claims-alert').should(
+        'contain.text',
+        "You've already uploaded",
+      );
+      cy.get('#default-page .claims-alert').should(
         'contain.text',
         'We need you to submit files by mail or in person',
       );

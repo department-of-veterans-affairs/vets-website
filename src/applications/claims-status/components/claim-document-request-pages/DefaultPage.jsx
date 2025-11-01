@@ -94,30 +94,36 @@ export default function DefaultPage({
           </>
         )}
       </h1>
-      {/* For type 1 known errors, display an alert */}
-      {message && (
-        <div className="vads-u-margin-top--0">
-          <Notification
-            title={message.title}
-            body={message.body}
-            type={message.type}
-            onSetFocus={focusNotificationAlert}
-          />
-        </div>
+      {/* Only show errors in DefaultPage when feature flag is ON */}
+      {showDocumentUploadStatus && (
+        <>
+          {/* For type 1 known errors, display an alert */}
+          {message && (
+            <div className="vads-u-margin-top--0">
+              <Notification
+                title={message.title}
+                body={message.body}
+                type={message.type}
+                onSetFocus={focusNotificationAlert}
+              />
+            </div>
+          )}
+          {/* For type 1 unknown errors, display the Type 1 Unknown Upload Error alert */}
+          {type1UnknownErrors &&
+            type1UnknownErrors.length > 0 && (
+              <div className="vads-u-margin-y--4">
+                <Notification
+                  title="We need you to submit files by mail or in person"
+                  body={
+                    <Type1UnknownUploadError errorFiles={type1UnknownErrors} />
+                  }
+                  type="error"
+                  onSetFocus={focusNotificationAlert}
+                />
+              </div>
+            )}
+        </>
       )}
-      {/* For type 1 unknown errors, display the Type 1 Unknown Upload Error alert */}
-      {showDocumentUploadStatus &&
-        type1UnknownErrors &&
-        type1UnknownErrors.length > 0 && (
-          <div className="vads-u-margin-y--4">
-            <Notification
-              title="We need you to submit files by mail or in person"
-              body={<Type1UnknownUploadError errorFiles={type1UnknownErrors} />}
-              type="error"
-              onSetFocus={focusNotificationAlert}
-            />
-          </div>
-        )}
       {item.status === 'NEEDED_FROM_YOU' &&
         (pastDueDate ? (
           <va-alert status="warning" class="vads-u-margin-top--4">
