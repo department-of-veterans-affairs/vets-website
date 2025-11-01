@@ -289,16 +289,8 @@ describe('New disabilities follow up info', () => {
     );
 
     selectRadio(form, 'root_cause', 'WORSENED');
-    fillData(
-      form,
-      'input[id="root_view:worsenedFollowUp_worsenedDescription"]',
-      longText,
-    );
-    fillData(
-      form,
-      'textarea[id="root_view:worsenedFollowUp_worsenedEffects"]',
-      longText,
-    );
+    fillData(form, 'input[id="root_worsenedDescription"]', longText);
+    fillData(form, 'textarea[id="root_worsenedEffects"]', longText);
 
     await waitFor(() => {
       form.find('form').simulate('submit');
@@ -331,14 +323,10 @@ describe('New disabilities follow up info', () => {
     );
 
     selectRadio(form, 'root_cause', 'SECONDARY');
+    fillData(form, 'select[name="root_causedByDisability"]', 'Old Condition');
     fillData(
       form,
-      'select[name="root_view:secondaryFollowUp_causedByDisability"]',
-      'Old Condition',
-    );
-    fillData(
-      form,
-      'textarea[id="root_view:secondaryFollowUp_causedByDisabilityDescription"]',
+      'textarea[id="root_causedByDisabilityDescription"]',
       longText,
     );
 
@@ -372,21 +360,9 @@ describe('New disabilities follow up info', () => {
     );
 
     selectRadio(form, 'root_cause', 'VA');
-    fillData(
-      form,
-      'textarea[id="root_view:vaFollowUp_vaMistreatmentDescription"]',
-      longText,
-    );
-    fillData(
-      form,
-      'input[id="root_view:vaFollowUp_vaMistreatmentLocation"]',
-      longText,
-    );
-    fillData(
-      form,
-      'input[id="root_view:vaFollowUp_vaMistreatmentDate"]',
-      longText,
-    );
+    fillData(form, 'textarea[id="root_vaMistreatmentDescription"]', longText);
+    fillData(form, 'input[id="root_vaMistreatmentLocation"]', longText);
+    fillData(form, 'input[id="root_vaMistreatmentDate"]', longText);
 
     await waitFor(() => {
       form.find('form').simulate('submit');

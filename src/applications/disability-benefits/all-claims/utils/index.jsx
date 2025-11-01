@@ -16,10 +16,12 @@ import React from 'react';
 import { createSelector } from 'reselect';
 import {
   CHAR_LIMITS,
+  CURRENT_WORKFLOW_URLS,
   DATA_PATHS,
   DISABILITY_526_V2_ROOT_URL,
   FORM_STATUS_BDD,
   HOMELESSNESS_TYPES,
+  NEW_WORKFLOW_URLS,
   NINE_ELEVEN,
   PAGE_TITLES,
   PTSD_MATCHES,
@@ -34,6 +36,7 @@ import { getBranches } from './serviceBranches';
 import { setSharedVariable } from './sharedState';
 import { formatDateRange, formatDate, parseDate } from './dates/formatting';
 import { getToday } from '../tests/utils/dates/dateHelper';
+import { normalizePath, includesAny } from './validations';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -976,5 +979,30 @@ export const onFormLoaded = props => {
   } else {
     // otherwise, we just redirect to the returnUrl as usual when resuming a form
     router.push(returnUrl);
+
+    const path = normalizePath(returnUrl || '');
+    const here = normalizePath(window.location.pathname || '');
+
+    // Migrate from current to new workflow when FF ON
+    if (
+      !!formData?.disabilityCompNewConditionsWorkflow &&
+      includesAny(path, CURRENT_WORKFLOW_URLS)
+    ) {
+      const target = '/conditions/summary';
+      if (normalizePath(target) !== here) router.push(target);
+      return;
+    }
+
+    // Migrate from new to current workflow when FF OFF
+    if (
+      !formData?.disabilityCompNewConditionsWorkflow &&
+      includesAny(path, NEW_WORKFLOW_URLS)
+    ) {
+      const target = '/disabilities/summary';
+      if (normalizePath(target) !== here) router.push(target);
+      return;
+    }
+
+    router?.push(returnUrl);
   }
 };

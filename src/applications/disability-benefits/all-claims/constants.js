@@ -618,3 +618,28 @@ export const SUPPORTING_EVIDENCE_HINTS = Object.freeze({
 export const ARRAY_PATH = 'newDisabilities';
 export const NEW_CONDITION_OPTION = "A condition I haven't claimed before";
 export const CONDITION_NOT_LISTED_OPTION = 'My condition is not listed';
+
+export const CURRENT_WORKFLOW_URLS = [
+  '/claim-type',
+  '/disabilities/orientation',
+  '/disabilities/rated-disabilities',
+  '/new-disabilities/add',
+  '/new-disabilities/follow-up',
+  '/new-disabilities/follow-up/',
+];
+
+export const NEW_WORKFLOW_URLS = [
+  '/conditions/orientation',
+  '/new-condition',
+  '/new-condition-date',
+  '/cause',
+  '/cause-new',
+  '/cause-secondary',
+  '/cause-worsened',
+  '/cause-va',
+  '/rated-disability-date',
+  '/side-of-body',
+  '/condition',
+  '/condition/summary',
+  '/conditions/summary',
+];
