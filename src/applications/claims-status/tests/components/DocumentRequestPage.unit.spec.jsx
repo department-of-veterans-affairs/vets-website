@@ -50,6 +50,48 @@ describe('<DocumentRequestPage>', () => {
       },
     }));
 
+  const createStoreWithFeatureFlag = (flagValue, message = null) =>
+    createStore(() => ({
+      disability: {
+        status: {
+          claimAsk: {
+            decisionRequested: false,
+            decisionRequestError: false,
+            loadingDecisionRequest: false,
+          },
+          ...(message && {
+            notifications: {
+              additionalEvidenceMessage: message,
+            },
+          }),
+        },
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        cst_show_document_upload_status: flagValue,
+      },
+    }));
+
+  const createBasicTrackedItem = overrides => ({
+    status: 'NEEDED_FROM_YOU',
+    displayName: 'Testing',
+    ...overrides,
+  });
+
+  const createTestMessage = overrides => ({
+    title: 'Test',
+    body: 'Testing',
+    ...overrides,
+  });
+
+  const renderPage = (props = {}, store = getStore()) => {
+    return renderWithRouter(
+      <Provider store={store}>
+        <DocumentRequestPage {...defaultProps} {...props} />,
+      </Provider>,
+    );
+  };
+
   it('should render Default5103EvidenceNotice component when item is a 5103 notice', () => {
     const trackedItem = {
       closedDate: null,
@@ -222,61 +264,23 @@ describe('<DocumentRequestPage>', () => {
     expect($('.claim-container', context)).to.not.exist;
   });
   it('should render upload error alert', () => {
-    const trackedItem = {
-      status: 'NEEDED_FROM_YOU',
-    };
-    const message = {
-      title: 'Test',
-      body: 'Testing',
-    };
+    const trackedItem = createBasicTrackedItem();
+    const message = createTestMessage();
 
-    const { context } = renderWithRouter(
-      <Provider store={getStore()}>
-        <DocumentRequestPage
-          {...defaultProps}
-          trackedItem={trackedItem}
-          message={message}
-        />
-        ,
-      </Provider>,
-    );
+    const { context } = renderPage({ trackedItem, message });
     expect($('va-alert', context)).to.exist;
   });
   it('should render upload error alert when rerendered', () => {
-    const trackedItem = {
-      status: 'NEEDED_FROM_YOU',
-    };
+    const trackedItem = createBasicTrackedItem();
 
-    const { container, rerender } = renderWithRouter(
-      <Provider store={getStore()}>
-        <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
-      </Provider>,
-    );
+    const { container, rerender } = renderPage({ trackedItem });
     expect($('va-alert', container)).not.to.exist;
 
-    const message = {
-      title: 'Test',
-      body: 'Testing',
-    };
-
-    const storeWithMessage = createStore(() => ({
-      disability: {
-        status: {
-          claimAsk: {
-            decisionRequested: false,
-            decisionRequestError: false,
-            loadingDecisionRequest: false,
-          },
-          notifications: {
-            additionalEvidenceMessage: message,
-          },
-        },
-      },
-    }));
+    const message = createTestMessage();
 
     rerenderWithRouter(
       rerender,
-      <Provider store={storeWithMessage}>
+      <Provider store={getStore()}>
         <DocumentRequestPage
           {...defaultProps}
           trackedItem={trackedItem}
@@ -289,42 +293,19 @@ describe('<DocumentRequestPage>', () => {
     expect($('va-alert h2', container).textContent).to.equal(message.title);
   });
   it('should not clear notification after completed upload', () => {
-    const trackedItem = {
-      status: 'NEEDED_FROM_YOU',
-    };
-    const message = {
+    const trackedItem = createBasicTrackedItem();
+    const message = createTestMessage({
       title: 'test',
       body: 'test',
       type: 'error',
-    };
+    });
     const clearNotification = sinon.spy();
 
-    const store = createStore(() => ({
-      disability: {
-        status: {
-          claimAsk: {
-            decisionRequested: false,
-            decisionRequestError: false,
-            loadingDecisionRequest: false,
-          },
-          notifications: {
-            additionalEvidenceMessage: message,
-          },
-        },
-      },
-    }));
-
-    const { context } = renderWithRouter(
-      <Provider store={store}>
-        <DocumentRequestPage
-          {...defaultProps}
-          trackedItem={trackedItem}
-          clearNotification={clearNotification}
-          message={message}
-        />
-        ,
-      </Provider>,
-    );
+    const { context } = renderPage({
+      trackedItem,
+      clearNotification,
+      message,
+    });
 
     expect($('va-alert', context)).to.exist;
     expect(clearNotification.called).to.be.false;
@@ -660,81 +641,24 @@ describe('<DocumentRequestPage>', () => {
   describe('Error alert display', () => {
     context('when cst_show_document_upload_status is disabled', () => {
       it('should render upload error alert in DocumentRequestPage', () => {
-        const trackedItem = {
-          status: 'NEEDED_FROM_YOU',
-        };
-        const message = {
-          title: 'Test',
-          body: 'Testing',
-        };
+        const trackedItem = createBasicTrackedItem();
+        const message = createTestMessage();
+        const store = createStoreWithFeatureFlag(false, message);
 
-        const store = createStore(() => ({
-          disability: {
-            status: {
-              claimAsk: {
-                decisionRequested: false,
-                decisionRequestError: false,
-                loadingDecisionRequest: false,
-              },
-              notifications: {
-                additionalEvidenceMessage: message,
-              },
-            },
-          },
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            cst_show_document_upload_status: false,
-          },
-        }));
-
-        const { context } = renderWithRouter(
-          <Provider store={store}>
-            <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
-          </Provider>,
-        );
+        const { context } = renderPage({ trackedItem }, store);
         expect($('va-alert', context)).to.exist;
       });
     });
 
     context('when cst_show_document_upload_status is enabled', () => {
       it('should not render upload error alert in DocumentRequestPage', () => {
-        const trackedItem = {
-          status: 'NEEDED_FROM_YOU',
-        };
-        const message = {
-          title: 'Test',
-          body: 'Testing',
-        };
+        const trackedItem = createBasicTrackedItem();
+        const message = createTestMessage();
+        const store = createStoreWithFeatureFlag(true, message);
 
-        const store = createStore(() => ({
-          disability: {
-            status: {
-              claimAsk: {
-                decisionRequested: false,
-                decisionRequestError: false,
-                loadingDecisionRequest: false,
-              },
-              notifications: {
-                additionalEvidenceMessage: message,
-              },
-            },
-          },
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            cst_show_document_upload_status: true,
-          },
-        }));
-
-        const { context } = renderWithRouter(
-          <Provider store={store}>
-            <DocumentRequestPage
-              {...defaultProps}
-              trackedItem={trackedItem}
-              message={message}
-              showDocumentUploadStatus
-            />
-            ,
-          </Provider>,
+        const { context } = renderPage(
+          { trackedItem, message, showDocumentUploadStatus: true },
+          store,
         );
         expect($('va-alert', context)).to.not.exist;
       });
