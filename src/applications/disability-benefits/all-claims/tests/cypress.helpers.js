@@ -193,15 +193,11 @@ export const setup = (cy, testOptions = {}) => {
     'uploadFile',
   );
 
-  cy.intercept('POST', /\/v0\/disability_compensation_form\/.*/).as(
-    'any526Post',
-  );
-
   cy.intercept(
     'POST',
-    /\/v0\/disability_compensation_form\/(submit|submissions|submit_all_claim)/,
+    '/v0/disability_compensation_form/submit_all_claim',
     mockSubmit,
-  ).as('submit526');
+  );
 
   // Stub submission status for immediate transition to confirmation page.
   cy.intercept(
@@ -273,8 +269,6 @@ export const reviewAndSubmitPageFlow = (
   cy.findByText(submitButtonText, {
     selector: 'button',
   }).click();
-  cy.wait('@any526Post', { timeout: 15000 });
-  cy.wait('@submit526', { timeout: 15000 });
 };
 
 export const pageHooks = (cy, testOptions) => ({
