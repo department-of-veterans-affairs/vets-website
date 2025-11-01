@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,7 +14,59 @@ const ombInfo = {
   expDate: '08/31/2026',
 };
 
-export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
+const appendLoggedInQueryParam = (windowLocation = window.location) => {
+  return `${windowLocation.origin}${windowLocation.pathname}?loggedIn=true`;
+};
+
+/**
+ * Creates a sign-in button component based on user login status
+ * @param {Object} params - Parameters for creating the sign-in button
+ * @param {boolean} params.userLoggedIn - Whether the user is logged in
+ * @param {Array} params.routes - Routes array
+ * @param {Object} params.router - Router object for navigation
+ * @param {Function} params.appendLoggedInQueryParam - Function to append logged in query param
+ * @returns {React.Component} A sign-in button component
+ */
+const createSignInButton = ({ userLoggedIn, routes, router }) => {
+  const text = userLoggedIn
+    ? 'Start your request'
+    : 'Sign in to start your request';
+
+  const nextRoute = userLoggedIn
+    ? routes[0].childRoutes[1].path
+    : appendLoggedInQueryParam();
+
+  const onSignInButtonClick = event => {
+    event.preventDefault();
+    if (userLoggedIn) {
+      router.push(nextRoute);
+      return;
+    }
+
+    window.location = nextRoute;
+  };
+
+  const LoggedInLink = ({ loggedIn }) =>
+    loggedIn ? (
+      <va-link-action
+        type="primary"
+        onClick={onSignInButtonClick}
+        text={text}
+        href={nextRoute}
+      />
+    ) : (
+      <va-button onClick={onSignInButtonClick} text={text} />
+    );
+  return <LoggedInLink loggedIn={userLoggedIn} />;
+};
+
+export const IntroductionPage = ({
+  route,
+  userIdVerified,
+  userLoggedIn,
+  router,
+  routes,
+}) => {
   const content = {
     formTitle: TITLE,
     formSubTitle: SUBTITLE,
@@ -84,10 +136,48 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
     </>
   );
 
+  useEffect(
+    () => {
+      const signInLink = document.querySelector(
+        '.sign-in-nav .sign-in-links .sign-in-link',
+      );
+
+      if (signInLink && !userLoggedIn) {
+        const handleClick = e => {
+          e.stopPropagation();
+          e.preventDefault();
+          window.location = appendLoggedInQueryParam();
+        };
+
+        signInLink.addEventListener('click', handleClick);
+
+        return () => {
+          signInLink.removeEventListener('click', handleClick);
+        };
+      }
+
+      // Return an empty cleanup function if no event listener was added
+      return () => {};
+    },
+    [userLoggedIn],
+  );
+
+  // Create the sign-in button using the extracted function
+  const signInButton = () =>
+    createSignInButton({
+      userLoggedIn,
+      routes,
+      router,
+      appendLoggedInQueryParam,
+    });
+
   return (
     <IntroductionPageView
       route={route}
-      content={content}
+      content={{
+        ...content,
+        customLink: signInButton,
+      }}
       ombInfo={ombInfo}
       childContent={childContent}
       userIdVerified={userIdVerified}
