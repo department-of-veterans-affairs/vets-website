@@ -19,51 +19,35 @@ const RecordList = props => {
 
   const history = useHistory();
   const location = useLocation();
-
-  const urlParams = new URLSearchParams(location.search);
-  const hasPageParam = urlParams.has('page');
-
   const paramPage = getParamValue(location.search, 'page');
   const [currentRecords, setCurrentRecords] = useState([]);
-  const [currentPage, setCurrentPage] = useState(Number(paramPage) || 1);
+  const [currentPage, setCurrentPage] = useState(paramPage);
   const paginatedRecords = useRef([]);
-
-  const shouldFocusShowing = useRef(false);
 
   const onPageChange = page => {
     sendDataDogAction(`Pagination - ${type}`);
-
-    // When user clicks to a new page, focus to "Showing"
-    shouldFocusShowing.current = true;
-
-    history.push(`${history.location.pathname}?page=${page}`);
+    const searchParams = new URLSearchParams(history.location.search);
+    searchParams.set('page', page);
+    const newURL = `${history.location.pathname}?${searchParams.toString()}`;
+    history.push(newURL);
     setCurrentRecords(paginatedRecords.current[page - 1]);
-    setCurrentPage(Number(page));
-  };
+    setCurrentPage(page);
 
-  useEffect(() => {
-    // On deep link to a specific page, focus to "Showing"
-    if (hasPageParam) shouldFocusShowing.current = true;
-    // We only want to set this once
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // calculate height of "showing records" and scrolls to it.
+    const showRecordsHeight = document
+      .querySelector('#showingRecords')
+      .getBoundingClientRect();
+    window.scrollTo({ top: showRecordsHeight.top + window.scrollY, left: 0 });
+  };
 
   // tracks url param
   useEffect(
     () => {
       const historyParamVal = getParamValue(history.location.search, 'page');
-
-      const pageNum = Number(historyParamVal) || 1;
-      // Only update if it actually changed to avoid churn on the first click
-      if (pageNum !== currentPage) {
-        setCurrentRecords(paginatedRecords.current[pageNum - 1]);
-        setCurrentPage(pageNum);
-      } else {
-        // keep currentRecords in sync even if pageNum is same
-        setCurrentRecords(paginatedRecords.current[pageNum - 1]);
-      }
+      setCurrentRecords(paginatedRecords.current[historyParamVal - 1]);
+      setCurrentPage(historyParamVal);
     },
-    [currentPage, history.location.search],
+    [history.location.search],
   );
 
   useEffect(
@@ -78,19 +62,11 @@ const RecordList = props => {
 
   useEffect(
     () => {
-      if (shouldFocusShowing.current && records?.length) {
+      if (currentPage > 1 && records?.length) {
         focusElement(document.querySelector('#showingRecords'));
-        // calculate height of "showing records" and scrolls to it.
-        const showRecordsHeight = document
-          .querySelector('#showingRecords')
-          .getBoundingClientRect();
-        window.scrollTo({
-          top: showRecordsHeight.top + window.scrollY,
-          left: 0,
-        });
       }
     },
-    [currentPage, paramPage, records],
+    [currentPage, records],
   );
 
   return (

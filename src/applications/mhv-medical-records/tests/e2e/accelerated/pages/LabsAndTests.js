@@ -55,8 +55,18 @@ class LabsAndTests {
     });
   };
 
-  checkUrl = ({ timeFrame }) => {
-    cy.url().should('include', `?timeFrame=${timeFrame}`);
+  checkUrl = ({ rangeIndex }) => {
+    cy.url().should('include', `rangeIndex=${rangeIndex}`);
+  };
+
+  selectDateRange = ({ rangeIndex }) => {
+    cy.get('[data-testid="date-range-dropdown"]')
+      .shadow()
+      .find('select')
+      .select(rangeIndex.toString());
+
+    // Wait for the URL to update
+    cy.url().should('include', `rangeIndex=${rangeIndex}`);
   };
 
   selectMonthAndYear = ({ month, year, submit = true }) => {

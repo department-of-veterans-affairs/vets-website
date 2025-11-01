@@ -1136,3 +1136,107 @@ describe('errorForUnequalBirthDates (no sinon)', () => {
     );
   });
 });
+
+describe('formatDateRange', () => {
+  it('formats a date range correctly', () => {
+    const {
+      formatDateRange: formatDateRangeFn,
+    } = require('../../util/helpers');
+    const dateRange = {
+      startDate: '2024-01-01',
+      endDate: '2024-03-31',
+    };
+    const formattedRange = formatDateRangeFn(dateRange);
+    expect(formattedRange).to.eq('January 1, 2024 to March 31, 2024');
+  });
+
+  it('returns null for invalid start date', () => {
+    const {
+      formatDateRange: formatDateRangeFn,
+    } = require('../../util/helpers');
+    const dateRange = {
+      startDate: 'invalid-date',
+      endDate: '2024-03-31',
+    };
+    const formattedRange = formatDateRangeFn(dateRange);
+    expect(formattedRange).to.be.null;
+  });
+
+  it('returns null for missing dates', () => {
+    const {
+      formatDateRange: formatDateRangeFn,
+    } = require('../../util/helpers');
+    const formattedRange = formatDateRangeFn({});
+    expect(formattedRange).to.be.null;
+  });
+});
+
+describe('getLabsAndTestsDateRanges', () => {
+  it('generates 40 date ranges covering approximately 10 years', () => {
+    const {
+      getLabsAndTestsDateRanges: getLabsAndTestsDateRangesFn,
+    } = require('../../util/helpers');
+    const ranges = getLabsAndTestsDateRangesFn();
+    expect(ranges).to.have.lengthOf(40);
+  });
+
+  it('generates correct label for first range', () => {
+    const {
+      getLabsAndTestsDateRanges: getLabsAndTestsDateRangesFn,
+    } = require('../../util/helpers');
+    const ranges = getLabsAndTestsDateRangesFn();
+    expect(ranges[0].label).to.eq('Last 90 days');
+  });
+
+  it('generates date-based labels for subsequent ranges', () => {
+    const {
+      getLabsAndTestsDateRanges: getLabsAndTestsDateRangesFn,
+    } = require('../../util/helpers');
+    const ranges = getLabsAndTestsDateRangesFn();
+    // Check that ranges 1+ have formatted date labels
+    expect(ranges[1].label).to.match(
+      /^[A-Z][a-z]{2} \d{1,2}, \d{4} to [A-Z][a-z]{2} \d{1,2}, \d{4}$/,
+    );
+  });
+
+  it('generates valid date formats', () => {
+    const {
+      getLabsAndTestsDateRanges: getLabsAndTestsDateRangesFn,
+    } = require('../../util/helpers');
+    const ranges = getLabsAndTestsDateRangesFn();
+
+    ranges.forEach(range => {
+      expect(range.startDate).to.match(/^\d{4}-\d{2}-\d{2}$/);
+      expect(range.endDate).to.match(/^\d{4}-\d{2}-\d{2}$/);
+    });
+  });
+
+  it('has sequential value indices', () => {
+    const {
+      getLabsAndTestsDateRanges: getLabsAndTestsDateRangesFn,
+    } = require('../../util/helpers');
+    const ranges = getLabsAndTestsDateRangesFn();
+
+    ranges.forEach((range, index) => {
+      expect(range.value).to.eq(index);
+    });
+  });
+
+  it('covers approximately 10 years of data', () => {
+    const {
+      getLabsAndTestsDateRanges: getLabsAndTestsDateRangesFn,
+    } = require('../../util/helpers');
+    const ranges = getLabsAndTestsDateRangesFn();
+    const lastRange = ranges[ranges.length - 1];
+
+    // The last range should be approximately 3,600 days ago (10 years * 360 days approximate)
+    const lastRangeStartDate = new Date(lastRange.startDate);
+    const now = new Date();
+    const daysDiff = Math.floor(
+      (now - lastRangeStartDate) / (1000 * 60 * 60 * 24),
+    );
+
+    // Allow some variance (40 ranges * 90 days = 3,600 days)
+    expect(daysDiff).to.be.within(3500, 3700);
+  });
+});
