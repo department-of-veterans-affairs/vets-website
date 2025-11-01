@@ -23,11 +23,13 @@ Cypress.Commands.add(
     cy.fillVaTextInput('root_fullName_last', last);
     cy.findByRole('button', { name: /^Continue$/ }).click();
 
-    cy.get('select[name="root_address_country"]').select('USA');
+    cy.get('select[name="root_address_country"]').select('USA', {
+      force: true,
+    });
     cy.fillVaTextInput('root_address_street', '123 Main St');
     cy.fillVaTextInput('root_address_city', 'Springfield');
     cy.fillVaTextInput('root_address_postalCode', '12345');
-    cy.get('select[name="root_address_state"]').select('NY');
+    cy.get('select[name="root_address_state"]').select('NY', { force: true });
     cy.findByRole('button', { name: /^Continue$/i }).click();
 
     cy.get('va-telephone-input').as('phoneField');
@@ -39,7 +41,9 @@ Cypress.Commands.add(
     cy.fillVaTextInput('root_email', 'test@example.com');
     cy.findByRole('button', { name: /^Continue$/i }).click();
 
-    cy.get('select[name="root_relationship"]').select('Friend');
+    cy.get('select[name="root_relationship"]').select('Friend', {
+      force: true,
+    });
     cy.findByRole('button', { name: /^Continue$/i }).click();
   },
 );
