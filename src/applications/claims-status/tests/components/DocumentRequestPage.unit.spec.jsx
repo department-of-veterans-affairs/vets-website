@@ -54,31 +54,11 @@ describe('<DocumentRequestPage>', () => {
       },
     }));
 
-  const createStoreWithFeatureFlag = (flagValue, message = null) =>
-    createStore(() => ({
-      disability: {
-        status: {
-          claimAsk: {
-            decisionRequested: false,
-            decisionRequestError: false,
-            loadingDecisionRequest: false,
-          },
-          ...(message && {
-            notifications: {
-              additionalEvidenceMessage: message,
-            },
-          }),
-        },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        cst_show_document_upload_status: flagValue,
-      },
-    }));
-
   const createBasicTrackedItem = overrides => ({
     status: 'NEEDED_FROM_YOU',
     displayName: 'Testing',
+    suspenseDate: '2024-12-31',
+    requestedDate: '2024-01-01',
     ...overrides,
   });
 
@@ -271,13 +251,13 @@ describe('<DocumentRequestPage>', () => {
     const message = createTestMessage();
 
     const { context } = renderPage({ trackedItem, message });
-    expect($('va-alert', context)).to.exist;
+    expect($('.claims-alert', context)).to.exist;
   });
   it('should render upload error alert when rerendered', () => {
     const trackedItem = createBasicTrackedItem();
 
     const { container, rerender } = renderPage({ trackedItem });
-    expect($('va-alert', container)).not.to.exist;
+    expect($('.claims-alert', container)).not.to.exist;
 
     const message = createTestMessage();
 
@@ -292,8 +272,10 @@ describe('<DocumentRequestPage>', () => {
         ,
       </Provider>,
     );
-    expect($('va-alert', container)).to.exist;
-    expect($('va-alert h2', container).textContent).to.equal(message.title);
+    expect($('.claims-alert', container)).to.exist;
+    expect($('.claims-alert h2', container).textContent).to.equal(
+      message.title,
+    );
   });
   it('should not clear notification after completed upload', () => {
     const trackedItem = createBasicTrackedItem();
@@ -310,7 +292,7 @@ describe('<DocumentRequestPage>', () => {
       message,
     });
 
-    expect($('va-alert', context)).to.exist;
+    expect($('.claims-alert', context)).to.exist;
     expect(clearNotification.called).to.be.false;
   });
   it('should render optional upload alert', () => {
@@ -638,33 +620,6 @@ describe('<DocumentRequestPage>', () => {
         'Request for an exam',
       );
       expect(document.title).to.equal('Request for an exam | Veterans Affairs');
-    });
-  });
-
-  describe('Error alert display', () => {
-    context('when cst_show_document_upload_status is disabled', () => {
-      it('should render upload error alert in DocumentRequestPage', () => {
-        const trackedItem = createBasicTrackedItem();
-        const message = createTestMessage();
-        const store = createStoreWithFeatureFlag(false, message);
-
-        const { context } = renderPage({ trackedItem }, store);
-        expect($('va-alert', context)).to.exist;
-      });
-    });
-
-    context('when cst_show_document_upload_status is enabled', () => {
-      it('should not render upload error alert in DocumentRequestPage', () => {
-        const trackedItem = createBasicTrackedItem();
-        const message = createTestMessage();
-        const store = createStoreWithFeatureFlag(true, message);
-
-        const { context } = renderPage(
-          { trackedItem, message, showDocumentUploadStatus: true },
-          store,
-        );
-        expect($('va-alert', context)).to.not.exist;
-      });
     });
   });
 });
