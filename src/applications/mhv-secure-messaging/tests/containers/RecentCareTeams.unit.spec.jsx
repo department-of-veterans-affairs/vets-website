@@ -86,8 +86,14 @@ describe('RecentCareTeams component', () => {
   });
 
   describe('Component Rendering', () => {
-    it('should render the component with heading and radio options', () => {
+    it('should render the component with heading and radio options', async () => {
       const screen = renderComponent();
+
+      await waitFor(() => {
+        expect(document.title).to.contain(
+          document.querySelector('h1').textContent,
+        );
+      });
 
       expect(
         screen.getByText(Constants.PageHeaders.RECENT_RECIPIENTS, {

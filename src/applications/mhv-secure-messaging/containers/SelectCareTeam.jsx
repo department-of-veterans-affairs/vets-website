@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+} from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropType from 'prop-types';
@@ -13,7 +19,7 @@ import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-dat
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 
 import { populatedDraft } from '../selectors';
-import { ErrorMessages, Paths } from '../util/constants';
+import { ErrorMessages, Paths, PageTitles } from '../util/constants';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
 import EmergencyNote from '../components/EmergencyNote';
 import { updateDraftInProgress } from '../actions/threadDetails';
@@ -47,6 +53,8 @@ const SelectCareTeam = () => {
   const [recipientsSelectKey, setRecipientsSelectKey] = useState(0); // controls resetting the careTeam combo box when the careSystem changes
 
   const MAX_RADIO_OPTIONS = 6;
+
+  const h1Ref = useRef(null);
 
   useEffect(
     () => {
@@ -130,6 +138,14 @@ const SelectCareTeam = () => {
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
+
+  useEffect(
+    () => {
+      const headerText = h1Ref.current?.textContent;
+      document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+    },
+    [allowedRecipients],
+  );
 
   const onRadioChangeHandler = e => {
     if (e?.detail?.value) {
@@ -378,7 +394,9 @@ const SelectCareTeam = () => {
 
   return (
     <div className="choose-va-health-care-system">
-      <h1 className="vads-u-margin-bottom--2">Select care team</h1>
+      <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
+        Select care team
+      </h1>
       <EmergencyNote dropDownFlag />
       <RouteLeavingGuard
         saveDraftHandler={saveDraftHandler}

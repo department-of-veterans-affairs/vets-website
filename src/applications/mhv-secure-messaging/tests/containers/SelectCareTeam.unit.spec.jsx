@@ -88,7 +88,7 @@ describe('SelectCareTeam', () => {
     },
   };
 
-  it('renders the heading and radio options', () => {
+  it('renders the heading and radio options', async () => {
     const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
       initialState,
       reducers: reducer,
@@ -100,6 +100,12 @@ describe('SelectCareTeam', () => {
         name: /Select care team/i,
       }),
     ).to.exist;
+
+    await waitFor(() => {
+      expect(document.title).to.contain(
+        document.querySelector('h1').textContent,
+      );
+    });
     const vaRadio = screen.container.querySelector('va-radio');
     expect(vaRadio).to.exist;
     expect(vaRadio.getAttribute('label')).to.equal(
