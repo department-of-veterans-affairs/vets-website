@@ -51,11 +51,6 @@ src/applications/benefits-optimization-aquia/shared/
 │   │       ├── page-template.jsx
 │   │       ├── page-template.unit.spec.jsx
 │   │       └── index.js
-│   ├── pages/           # Page components
-│   │   └── base-form-page/
-│   │       ├── base-form-page.jsx
-│   │       ├── base-form-page.unit.spec.jsx
-│   │       └── index.js
 │   ├── error-boundary/  # React error boundary wrapper
 │   │   ├── error-boundary.jsx
 │   │   ├── error-boundary.unit.spec.jsx
@@ -69,10 +64,6 @@ src/applications/benefits-optimization-aquia/shared/
 │   ├── data-processors/
 │   │   ├── data-processors.js
 │   │   ├── data-processors.unit.spec.jsx
-│   │   └── index.js
-│   ├── section-patterns/
-│   │   ├── section-patterns.js
-│   │   ├── section-patterns.unit.spec.jsx
 │   │   └── index.js
 │   └── index.js         # Barrel exports
 ├── hooks/               # Integration hooks
@@ -609,16 +600,10 @@ const { errors, validate, clearErrors, setError } = useFormValidation(
 
 ### Data Processors
 
-Generic utilities for transforming form data:
+Utilities for transforming form data:
 
 ```jsx
-import {
-  transformDates,
-  transformBooleans,
-  sanitizeFormData,
-  normalizeValue,
-  formatValue,
-} from '@bio-aquia/shared/forms';
+import { transformDates } from '@bio-aquia/shared/forms';
 ```
 
 #### Example: Date Processing
@@ -679,22 +664,6 @@ import {
   createValidationErrorHandler,
   zodErrorToMessage,
 } from '@bio-aquia/shared/utils';
-```
-
-### Section Management Patterns
-
-```jsx
-import {
-  createSectionData,
-  mergeWithDefaults,
-  extractSectionData,
-  updateSectionData,
-} from '@bio-aquia/shared/forms';
-
-// Use these utilities for managing form section data
-const sectionData = extractSectionData(formData, 'sectionName');
-const mergedData = mergeWithDefaults(sectionData, defaultData);
-const updatedForm = updateSectionData(formData, 'sectionName', newData);
 ```
 
 ### Best Practices
