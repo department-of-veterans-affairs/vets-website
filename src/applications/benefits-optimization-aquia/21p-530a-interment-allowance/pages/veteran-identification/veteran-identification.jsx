@@ -1,22 +1,28 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { FullnameField } from '@bio-aquia/shared/components/molecules';
+import { SSNField, TextInputField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import { z } from 'zod';
-import { fullNameSchema } from '../../schemas';
+import {
+  ssnSchema,
+  vaFileNumberSchema,
+  serviceNumberSchema,
+} from '../../schemas';
 
 /**
- * Schema for veteran name page
+ * Schema for veteran identification page
  */
-const veteranNameSchema = z.object({
-  fullName: fullNameSchema,
+const veteranIdentificationSchema = z.object({
+  ssn: ssnSchema,
+  serviceNumber: serviceNumberSchema,
+  vaFileNumber: vaFileNumberSchema,
 });
 
 /**
  * Veteran Identification page component for the interment allowance form
- * This page collects deceased veteran's name
+ * This page collects deceased veteran's SSN, service number, and VA file number
  * @param {Object} props - Component props
  * @param {Object} props.data - Initial form data
  * @param {Function} props.setFormData - Function to update form data
@@ -36,37 +42,53 @@ export const VeteranIdentificationPage = ({
 
   return (
     <PageTemplate
-      title="Deceased Veteran's name"
+      title="Veteran's identification information"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
-      schema={veteranNameSchema}
+      schema={veteranIdentificationSchema}
       sectionName="veteranIdentification"
       defaultData={{
-        fullName: {
-          first: '',
-          middle: '',
-          last: '',
-        },
+        ssn: '',
+        serviceNumber: '',
+        vaFileNumber: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <p className="vads-u-margin-bottom--3">
-            Please provide the deceased Veteran’s name.
-          </p>
-
-          <FullnameField
-            name="fullName"
-            value={localData.fullName}
+          <SSNField
+            name="ssn"
+            label="Social Security number"
+            schema={ssnSchema}
+            value={localData.ssn}
             onChange={handleFieldChange}
-            errors={errors}
-            forceShowError={formSubmitted}
-            label="Veteran's full name"
             required
+            error={errors.ssn}
+            forceShowError={formSubmitted}
+          />
+
+          <TextInputField
+            name="serviceNumber"
+            label="VA service number"
+            value={localData.serviceNumber}
+            onChange={handleFieldChange}
+            error={errors.serviceNumber}
+            forceShowError={formSubmitted}
+            hint="Enter this number only if it's different than their Social Security number"
+            schema={serviceNumberSchema}
+          />
+
+          <TextInputField
+            name="vaFileNumber"
+            label="VA file number"
+            value={localData.vaFileNumber}
+            onChange={handleFieldChange}
+            error={errors.vaFileNumber}
+            forceShowError={formSubmitted}
+            schema={vaFileNumberSchema}
           />
         </>
       )}
@@ -75,10 +97,10 @@ export const VeteranIdentificationPage = ({
 };
 
 VeteranIdentificationPage.propTypes = {
-  goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  goBack: PropTypes.func,
   onReviewPage: PropTypes.bool,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func.isRequired,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
 };

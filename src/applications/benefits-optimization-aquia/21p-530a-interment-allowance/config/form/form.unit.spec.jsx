@@ -102,17 +102,15 @@ describe('Form Configuration', () => {
   });
 
   describe('Veteran Information Pages', () => {
+    it('should have veteranName page', () => {
+      expect(formConfig.chapters.veteranInformationChapter.pages.veteranName).to
+        .exist;
+    });
+
     it('should have veteranIdentification page', () => {
       expect(
         formConfig.chapters.veteranInformationChapter.pages
           .veteranIdentification,
-      ).to.exist;
-    });
-
-    it('should have veteranSsnFileNumber page', () => {
-      expect(
-        formConfig.chapters.veteranInformationChapter.pages
-          .veteranSsnFileNumber,
       ).to.exist;
     });
 
