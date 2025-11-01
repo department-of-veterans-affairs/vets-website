@@ -9,7 +9,11 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { uploadStore } from '~/platform/forms-system/test/config/helpers';
 
 import { DocumentRequestPage } from '../../containers/DocumentRequestPage';
-import { renderWithRouter, rerenderWithRouter } from '../utils';
+import {
+  renderWithRouter,
+  rerenderWithRouter,
+  renderWithCustomStore,
+} from '../utils';
 
 const claim = {
   id: 1,
@@ -85,10 +89,9 @@ describe('<DocumentRequestPage>', () => {
   });
 
   const renderPage = (props = {}, store = getStore()) => {
-    return renderWithRouter(
-      <Provider store={store}>
-        <DocumentRequestPage {...defaultProps} {...props} />,
-      </Provider>,
+    return renderWithCustomStore(
+      <DocumentRequestPage {...defaultProps} {...props} />,
+      store,
     );
   };
 
