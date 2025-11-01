@@ -156,9 +156,9 @@ const formConfig = {
           CustomPageReview: VeteranIdentificationReviewPage,
           pagePerItemIndex: 0,
         },
-        veteranBirthDeathInformation: {
-          path: 'birth-death-information',
-          title: 'Birth and death information',
+        veteranBirthInformation: {
+          path: 'birth-information',
+          title: 'Birth information',
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: VeteranBirthDeathInformationPage,
@@ -167,7 +167,7 @@ const formConfig = {
         },
         veteranBurialInformation: {
           path: 'burial-information',
-          title: 'Burial information',
+          title: 'Death and burial information',
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: VeteranBurialInformationPage,

@@ -114,18 +114,11 @@ describe('Form Configuration', () => {
       ).to.exist;
     });
 
-    it('should have veteranBirthDeathInformation page', () => {
-      expect(
-        formConfig.chapters.veteranInformationChapter.pages
-          .veteranBirthDeathInformation,
-      ).to.exist;
-    });
-
-    it('should NOT have duplicate veteranBirthInformation page', () => {
+    it('should have veteranBirthInformation page', () => {
       expect(
         formConfig.chapters.veteranInformationChapter.pages
           .veteranBirthInformation,
-      ).to.not.exist;
+      ).to.exist;
     });
 
     it('should have veteranBurialInformation page', () => {
