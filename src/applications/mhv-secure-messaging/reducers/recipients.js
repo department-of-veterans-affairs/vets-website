@@ -126,7 +126,7 @@ export const recipientsReducer = (state = initialState, action) => {
     case Actions.AllRecipients.GET_RECENT_ERROR:
       return {
         ...state,
-        recentRecipients: 'error',
+        recentRecipients: { error: 'error' },
       };
     default:
       return state;

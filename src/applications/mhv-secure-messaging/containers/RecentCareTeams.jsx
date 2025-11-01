@@ -64,7 +64,7 @@ const RecentCareTeams = () => {
       // If recentRecipients is null (fetched but none present), redirect
       if (
         recentRecipients?.length === 0 ||
-        recentRecipients === 'error' ||
+        recentRecipients?.error === 'error' ||
         recentRecipients === null
       ) {
         history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
@@ -112,7 +112,12 @@ const RecentCareTeams = () => {
       dispatch(
         updateDraftInProgress({
           recipientId: recipient?.triageTeamId,
-          careSystemName: recipient?.healthCareSystemName,
+          careSystemName:
+            recipient?.healthCareSystemName ||
+            getVamcSystemNameFromVhaId(
+              ehrDataByVhaId,
+              recipient?.stationNumber,
+            ),
           recipientName: recipient?.name,
           careSystemVhaId: recipient?.stationNumber,
           ohTriageGroup: recipient?.ohTriageGroup,
@@ -120,7 +125,7 @@ const RecentCareTeams = () => {
       );
       setError(null); // Clear error on selection
     },
-    [recentRecipients, dispatch],
+    [recentRecipients, dispatch, ehrDataByVhaId],
   );
 
   if (recentRecipients === undefined) {
