@@ -3,8 +3,9 @@
  */
 
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { AdmissionDateReview } from './admission-date-review';
 
 describe('AdmissionDateReview', () => {
@@ -185,6 +186,102 @@ describe('AdmissionDateReview', () => {
 
       const editButton = container.querySelector('va-button');
       expect(editButton).to.exist;
+    });
+
+    it('should call editPage when edit button is clicked', () => {
+      const editPageSpy = sinon.spy();
+      const { container } = render(
+        <AdmissionDateReview
+          data={{}}
+          editPage={editPageSpy}
+          title={mockTitle}
+        />,
+      );
+
+      const editButton = container.querySelector('va-button');
+      fireEvent.click(editButton);
+
+      expect(editPageSpy.calledOnce).to.be.true;
+    });
+
+    it('should have secondary button style', () => {
+      const { container } = render(
+        <AdmissionDateReview
+          data={{}}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+
+      const editButton = container.querySelector('va-button');
+      expect(editButton.hasAttribute('secondary')).to.be.true;
+    });
+
+    it('should have uswds attribute', () => {
+      const { container } = render(
+        <AdmissionDateReview
+          data={{}}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+
+      const editButton = container.querySelector('va-button');
+      expect(editButton.hasAttribute('uswds')).to.be.true;
+    });
+
+    it('should display Edit text on button', () => {
+      const { container } = render(
+        <AdmissionDateReview
+          data={{}}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+
+      const editButton = container.querySelector('va-button');
+      expect(editButton.getAttribute('text')).to.equal('Edit');
+    });
+  });
+
+  describe('CSS Classes', () => {
+    it('should have form-review-panel-page class', () => {
+      const { container } = render(
+        <AdmissionDateReview
+          data={{}}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+
+      const reviewPanel = container.querySelector('.form-review-panel-page');
+      expect(reviewPanel).to.exist;
+    });
+
+    it('should have review class on dl element', () => {
+      const { container } = render(
+        <AdmissionDateReview
+          data={{}}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+
+      const reviewDl = container.querySelector('dl.review');
+      expect(reviewDl).to.exist;
+    });
+
+    it('should have review-row class on data row', () => {
+      const { container } = render(
+        <AdmissionDateReview
+          data={{}}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+
+      const reviewRow = container.querySelector('.review-row');
+      expect(reviewRow).to.exist;
     });
   });
 });

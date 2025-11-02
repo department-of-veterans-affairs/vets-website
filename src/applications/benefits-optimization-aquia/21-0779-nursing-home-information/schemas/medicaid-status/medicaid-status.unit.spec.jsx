@@ -91,6 +91,12 @@ describe('Medicaid Status Schemas', () => {
       const result = medicaidStatusSchema.safeParse(['yes']);
       expect(result.success).to.be.false;
     });
+
+    it('should export schema as a zod enum', () => {
+      expect(medicaidStatusSchema).to.exist;
+      expect(medicaidStatusSchema._def).to.exist;
+      expect(medicaidStatusSchema._def.typeName).to.equal('ZodEnum');
+    });
   });
 
   describe('currentMedicaidStatusSchema', () => {
@@ -152,6 +158,34 @@ describe('Medicaid Status Schemas', () => {
       };
       const result = currentMedicaidStatusSchema.safeParse(invalidData);
       expect(result.success).to.be.false;
+    });
+
+    it('should reject whitespace-only string', () => {
+      const invalidData = {
+        currentlyCoveredByMedicaid: '   ',
+      };
+      const result = currentMedicaidStatusSchema.safeParse(invalidData);
+      expect(result.success).to.be.false;
+    });
+
+    it('should handle complex invalid types gracefully', () => {
+      const invalidData = {
+        currentlyCoveredByMedicaid: new Date(),
+      };
+      const result = currentMedicaidStatusSchema.safeParse(invalidData);
+      expect(result.success).to.be.false;
+    });
+
+    it('should have shape property with currentlyCoveredByMedicaid field', () => {
+      expect(currentMedicaidStatusSchema.shape).to.exist;
+      expect(currentMedicaidStatusSchema.shape.currentlyCoveredByMedicaid).to
+        .exist;
+    });
+
+    it('should export schema as a zod object', () => {
+      expect(currentMedicaidStatusSchema).to.exist;
+      expect(currentMedicaidStatusSchema._def).to.exist;
+      expect(currentMedicaidStatusSchema._def.typeName).to.equal('ZodObject');
     });
   });
 });

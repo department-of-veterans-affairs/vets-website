@@ -246,6 +246,31 @@ describe('Form Configuration', () => {
       expect(page.verifyItemValues).to.be.a('function');
     });
 
+    it('should call verifyItemValues for nursingOfficialInformation with valid data', () => {
+      const page =
+        formConfig.chapters.nursingOfficialPersonalChapter.pages
+          .nursingOfficialInformation;
+      const validData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+          phoneNumber: '1234567890',
+          email: 'test@example.com',
+        },
+      };
+      const result = page.verifyItemValues(validData);
+      expect(result).to.exist;
+    });
+
+    it('should call verifyItemValues for nursingOfficialInformation with invalid data', () => {
+      const page =
+        formConfig.chapters.nursingOfficialPersonalChapter.pages
+          .nursingOfficialInformation;
+      const invalidData = {};
+      const result = page.verifyItemValues(invalidData);
+      expect(result).to.exist;
+    });
+
     it('should have verifyItemValues for claimantQuestion', () => {
       const page =
         formConfig.chapters.patientInformationChapter.pages.claimantQuestion;
@@ -253,10 +278,166 @@ describe('Form Configuration', () => {
       expect(page.verifyItemValues).to.be.a('function');
     });
 
+    it('should call verifyItemValues for claimantQuestion', () => {
+      const page =
+        formConfig.chapters.patientInformationChapter.pages.claimantQuestion;
+      const data = {
+        claimantQuestion: {
+          patientType: 'veteran',
+        },
+      };
+      const result = page.verifyItemValues(data);
+      expect(result).to.exist;
+    });
+
     it('should have verifyItemValues for monthlyCosts', () => {
       const page = formConfig.chapters.costsChapter.pages.monthlyCosts;
       expect(page.verifyItemValues).to.exist;
       expect(page.verifyItemValues).to.be.a('function');
+    });
+
+    it('should call verifyItemValues for monthlyCosts', () => {
+      const page = formConfig.chapters.costsChapter.pages.monthlyCosts;
+      const data = {
+        monthlyCosts: {
+          monthlyCharge: '1000',
+        },
+      };
+      const result = page.verifyItemValues(data);
+      expect(result).to.exist;
+    });
+
+    it('should call verifyItemValues for nursingHomeDetails', () => {
+      const page =
+        formConfig.chapters.nursingHomeChapter.pages.nursingHomeDetails;
+      const data = {
+        nursingHomeDetails: {
+          facilityName: 'Test Facility',
+        },
+      };
+      const result = page.verifyItemValues(data);
+      expect(result).to.exist;
+    });
+
+    it('should call verifyItemValues for claimantPersonalInfo', () => {
+      const page =
+        formConfig.chapters.patientInformationChapter.pages
+          .claimantPersonalInfo;
+      const data = {
+        claimantPersonalInfo: {
+          firstName: 'Jane',
+          lastName: 'Doe',
+        },
+      };
+      const result = page.verifyItemValues(data);
+      expect(result).to.exist;
+    });
+
+    it('should call verifyItemValues for claimantIdentificationInfo', () => {
+      const page =
+        formConfig.chapters.patientInformationChapter.pages
+          .claimantIdentificationInfo;
+      const data = {
+        claimantIdentificationInfo: {
+          ssn: '123456789',
+        },
+      };
+      const result = page.verifyItemValues(data);
+      expect(result).to.exist;
+    });
+
+    it('should call verifyItemValues for veteranPersonalInfo', () => {
+      const page =
+        formConfig.chapters.patientInformationChapter.pages.veteranPersonalInfo;
+      const data = {
+        veteranPersonalInfo: {
+          firstName: 'John',
+          lastName: 'Veteran',
+        },
+      };
+      const result = page.verifyItemValues(data);
+      expect(result).to.exist;
+    });
+
+    it('should call verifyItemValues for veteranIdentificationInfo', () => {
+      const page =
+        formConfig.chapters.patientInformationChapter.pages
+          .veteranIdentificationInfo;
+      const data = {
+        veteranIdentificationInfo: {
+          ssn: '987654321',
+        },
+      };
+      const result = page.verifyItemValues(data);
+      expect(result).to.exist;
+    });
+
+    it('should call verifyItemValues for certificationLevelOfCare', () => {
+      const page =
+        formConfig.chapters.levelOfCareChapter.pages.certificationLevelOfCare;
+      const data = {
+        certificationLevelOfCare: {
+          levelOfCare: 'skilled',
+        },
+      };
+      const result = page.verifyItemValues(data);
+      expect(result).to.exist;
+    });
+
+    it('should call verifyItemValues for admissionDate', () => {
+      const page = formConfig.chapters.levelOfCareChapter.pages.admissionDate;
+      const data = {
+        admissionDateInfo: {
+          admissionDate: '2023-01-01',
+        },
+      };
+      const result = page.verifyItemValues(data);
+      expect(result).to.exist;
+    });
+
+    it('should call verifyItemValues for medicaidFacility', () => {
+      const page = formConfig.chapters.medicaidChapter.pages.medicaidFacility;
+      const data = {
+        medicaidFacility: {
+          approvedByMedicaid: 'yes',
+        },
+      };
+      const result = page.verifyItemValues(data);
+      expect(result).to.exist;
+    });
+
+    it('should call verifyItemValues for medicaidApplication', () => {
+      const page =
+        formConfig.chapters.medicaidChapter.pages.medicaidApplication;
+      const data = {
+        medicaidApplication: {
+          appliedForMedicaid: 'yes',
+        },
+      };
+      const result = page.verifyItemValues(data);
+      expect(result).to.exist;
+    });
+
+    it('should call verifyItemValues for medicaidStatus', () => {
+      const page = formConfig.chapters.medicaidChapter.pages.medicaidStatus;
+      const data = {
+        medicaidStatus: {
+          currentlyCoveredByMedicaid: 'yes',
+        },
+      };
+      const result = page.verifyItemValues(data);
+      expect(result).to.exist;
+    });
+
+    it('should call verifyItemValues for medicaidStartDate', () => {
+      const page = formConfig.chapters.medicaidChapter.pages.medicaidStartDate;
+      const data = {
+        medicaidStartDateInfo: {
+          medicaidStartDate: '2023-01-01',
+        },
+      };
+      const result = page.verifyItemValues(data);
+      expect(result).to.exist;
     });
   });
 
@@ -275,6 +456,26 @@ describe('Form Configuration', () => {
           .claimantPersonalInfo;
       expect(page.onErrorChange).to.exist;
       expect(page.onErrorChange).to.be.a('function');
+    });
+
+    it('should have onErrorChange for nursingHomeDetails', () => {
+      const page =
+        formConfig.chapters.nursingHomeChapter.pages.nursingHomeDetails;
+      expect(page.onErrorChange).to.exist;
+      expect(page.onErrorChange).to.be.a('function');
+    });
+
+    it('should have onErrorChange for all pages with error handlers', () => {
+      const allPages = Object.values(formConfig.chapters).flatMap(chapter =>
+        Object.values(chapter.pages),
+      );
+      const pagesWithErrorHandlers = allPages.filter(
+        page => page.onErrorChange,
+      );
+      expect(pagesWithErrorHandlers.length).to.be.greaterThan(0);
+      pagesWithErrorHandlers.forEach(page => {
+        expect(page.onErrorChange).to.be.a('function');
+      });
     });
   });
 
@@ -311,6 +512,20 @@ describe('Form Configuration', () => {
       expect(page.depends(formData)).to.be.false;
     });
 
+    it('should hide claimantPersonalInfo when formData is undefined', () => {
+      const page =
+        formConfig.chapters.patientInformationChapter.pages
+          .claimantPersonalInfo;
+      expect(page.depends(undefined)).to.be.false;
+    });
+
+    it('should hide claimantPersonalInfo when claimantQuestion is undefined', () => {
+      const page =
+        formConfig.chapters.patientInformationChapter.pages
+          .claimantPersonalInfo;
+      expect(page.depends({})).to.be.false;
+    });
+
     it('should have depends function for claimantIdentificationInfo', () => {
       const page =
         formConfig.chapters.patientInformationChapter.pages
@@ -329,6 +544,25 @@ describe('Form Configuration', () => {
         },
       };
       expect(page.depends(formData)).to.be.true;
+    });
+
+    it('should hide claimantIdentificationInfo when patientType is not spouseOrParent', () => {
+      const page =
+        formConfig.chapters.patientInformationChapter.pages
+          .claimantIdentificationInfo;
+      const formData = {
+        claimantQuestion: {
+          patientType: 'veteran',
+        },
+      };
+      expect(page.depends(formData)).to.be.false;
+    });
+
+    it('should hide claimantIdentificationInfo when formData is undefined', () => {
+      const page =
+        formConfig.chapters.patientInformationChapter.pages
+          .claimantIdentificationInfo;
+      expect(page.depends(undefined)).to.be.false;
     });
 
     it('should have depends function for medicaidStartDate', () => {
@@ -355,6 +589,16 @@ describe('Form Configuration', () => {
         },
       };
       expect(page.depends(formData)).to.be.false;
+    });
+
+    it('should hide medicaidStartDate when formData is undefined', () => {
+      const page = formConfig.chapters.medicaidChapter.pages.medicaidStartDate;
+      expect(page.depends(undefined)).to.be.false;
+    });
+
+    it('should hide medicaidStartDate when medicaidStatus is undefined', () => {
+      const page = formConfig.chapters.medicaidChapter.pages.medicaidStartDate;
+      expect(page.depends({})).to.be.false;
     });
   });
 
@@ -425,6 +669,49 @@ describe('Form Configuration', () => {
     it('should have savedFormMessages', () => {
       expect(formConfig.savedFormMessages).to.exist;
       expect(formConfig.savedFormMessages).to.be.an('object');
+    });
+  });
+
+  describe('Page Schema Configuration', () => {
+    it('should use defaultSchema for all pages', () => {
+      const allPages = Object.values(formConfig.chapters).flatMap(chapter =>
+        Object.values(chapter.pages),
+      );
+      allPages.forEach(page => {
+        expect(page.schema).to.exist;
+        expect(page.schema.type).to.equal('object');
+        expect(page.schema.properties).to.exist;
+      });
+    });
+
+    it('should have title for all pages', () => {
+      const allPages = Object.values(formConfig.chapters).flatMap(chapter =>
+        Object.values(chapter.pages),
+      );
+      allPages.forEach(page => {
+        expect(page.title).to.exist;
+        expect(page.title).to.be.a('string');
+      });
+    });
+
+    it('should have path for all pages', () => {
+      const allPages = Object.values(formConfig.chapters).flatMap(chapter =>
+        Object.values(chapter.pages),
+      );
+      allPages.forEach(page => {
+        expect(page.path).to.exist;
+        expect(page.path).to.be.a('string');
+      });
+    });
+
+    it('should have verifyItemValues for all pages', () => {
+      const allPages = Object.values(formConfig.chapters).flatMap(chapter =>
+        Object.values(chapter.pages),
+      );
+      allPages.forEach(page => {
+        expect(page.verifyItemValues).to.exist;
+        expect(page.verifyItemValues).to.be.a('function');
+      });
     });
   });
 });

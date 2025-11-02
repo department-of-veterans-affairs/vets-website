@@ -96,6 +96,12 @@ describe('Medicaid Facility Schemas', () => {
       const result = medicaidFacilityStatusSchema.safeParse(['yes']);
       expect(result.success).to.be.false;
     });
+
+    it('should export schema as a zod enum', () => {
+      expect(medicaidFacilityStatusSchema).to.exist;
+      expect(medicaidFacilityStatusSchema._def).to.exist;
+      expect(medicaidFacilityStatusSchema._def.typeName).to.equal('ZodEnum');
+    });
   });
 
   describe('medicaidFacilitySchema', () => {
@@ -157,6 +163,33 @@ describe('Medicaid Facility Schemas', () => {
       };
       const result = medicaidFacilitySchema.safeParse(invalidData);
       expect(result.success).to.be.false;
+    });
+
+    it('should reject whitespace-only string', () => {
+      const invalidData = {
+        isMedicaidApproved: '   ',
+      };
+      const result = medicaidFacilitySchema.safeParse(invalidData);
+      expect(result.success).to.be.false;
+    });
+
+    it('should handle complex invalid types gracefully', () => {
+      const invalidData = {
+        isMedicaidApproved: new Date(),
+      };
+      const result = medicaidFacilitySchema.safeParse(invalidData);
+      expect(result.success).to.be.false;
+    });
+
+    it('should have shape property with isMedicaidApproved field', () => {
+      expect(medicaidFacilitySchema.shape).to.exist;
+      expect(medicaidFacilitySchema.shape.isMedicaidApproved).to.exist;
+    });
+
+    it('should export schema as a zod object', () => {
+      expect(medicaidFacilitySchema).to.exist;
+      expect(medicaidFacilitySchema._def).to.exist;
+      expect(medicaidFacilitySchema._def.typeName).to.equal('ZodObject');
     });
   });
 });

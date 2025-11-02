@@ -88,6 +88,12 @@ describe('Claimant Question Schemas', () => {
       const result = patientTypeSchema.safeParse(['veteran']);
       expect(result.success).to.be.false;
     });
+
+    it('should export schema as a zod enum', () => {
+      expect(patientTypeSchema).to.exist;
+      expect(patientTypeSchema._def).to.exist;
+      expect(patientTypeSchema._def.typeName).to.equal('ZodEnum');
+    });
   });
 
   describe('claimantQuestionSchema', () => {
@@ -160,6 +166,41 @@ describe('Claimant Question Schemas', () => {
       const result = claimantQuestionSchema.safeParse(invalidData);
       // This will pass in Zod by default unless we use .strict()
       expect(result.success).to.be.true;
+    });
+
+    it('should reject whitespace-only string', () => {
+      const invalidData = {
+        patientType: '   ',
+      };
+      const result = claimantQuestionSchema.safeParse(invalidData);
+      expect(result.success).to.be.false;
+    });
+
+    it('should handle complex invalid types gracefully', () => {
+      const invalidData = {
+        patientType: new Date(),
+      };
+      const result = claimantQuestionSchema.safeParse(invalidData);
+      expect(result.success).to.be.false;
+    });
+
+    it('should reject array of valid values', () => {
+      const invalidData = {
+        patientType: ['veteran', 'spouseOrParent'],
+      };
+      const result = claimantQuestionSchema.safeParse(invalidData);
+      expect(result.success).to.be.false;
+    });
+
+    it('should have shape property with patientType field', () => {
+      expect(claimantQuestionSchema.shape).to.exist;
+      expect(claimantQuestionSchema.shape.patientType).to.exist;
+    });
+
+    it('should export schema as a zod object', () => {
+      expect(claimantQuestionSchema).to.exist;
+      expect(claimantQuestionSchema._def).to.exist;
+      expect(claimantQuestionSchema._def.typeName).to.equal('ZodObject');
     });
   });
 });

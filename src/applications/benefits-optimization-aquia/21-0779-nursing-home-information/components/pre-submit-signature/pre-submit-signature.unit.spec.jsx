@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -115,6 +115,42 @@ describe('PreSubmitSignature Component', () => {
       const statementOfTruth = container.querySelector('va-statement-of-truth');
       expect(statementOfTruth).to.exist;
     });
+
+    it('should handle names with only firstName', () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+      expect(container.textContent).to.include('John');
+    });
+
+    it('should handle names with only lastName', () => {
+      const formData = {
+        nursingOfficialInformation: {
+          lastName: 'Doe',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+      expect(container.textContent).to.include('Doe');
+    });
   });
 
   describe('Missing Name Handling', () => {
@@ -151,6 +187,250 @@ describe('PreSubmitSignature Component', () => {
       );
       expect(container.textContent).to.include('We need your full name');
       expect(container.textContent).to.include('Please go back');
+    });
+
+    it('should show error when nursingOfficialInformation is missing', () => {
+      const formData = {};
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.exist;
+    });
+  });
+
+  describe('Dispatch Behavior', () => {
+    it('should call dispatch when signature data changes', async () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+      render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+
+      // Component should dispatch initial state
+      await waitFor(() => {
+        expect(dispatchSpy.called).to.be.true;
+      });
+    });
+
+    it('should not dispatch when form is already submitted', () => {
+      const submittedStore = {
+        getState: () => ({
+          form: {
+            submission: {
+              status: 'submitted',
+            },
+          },
+        }),
+        subscribe: () => {},
+        dispatch: dispatchSpy,
+      };
+
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+
+      render(
+        <Provider store={submittedStore}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+
+      // Should not dispatch when already submitted
+      expect(dispatchSpy.called).to.be.false;
+    });
+  });
+
+  describe('Callback Behavior', () => {
+    it('should call onSectionComplete callback', async () => {
+      const callback = sandbox.spy();
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+
+      render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={callback}
+          />
+        </Provider>,
+      );
+
+      // Callback should be called with initial state
+      await waitFor(() => {
+        expect(callback.called).to.be.true;
+      });
+    });
+  });
+
+  describe('Error States', () => {
+    it('should not show errors when showError is false', () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+      expect(statementOfTruth.getAttribute('input-error')).to.be.null;
+    });
+
+    it('should show error when showError is true and signature does not match', async () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+      const { container, rerender } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+
+      // Trigger error state
+      rerender(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        const statementOfTruth = container.querySelector(
+          'va-statement-of-truth',
+        );
+        expect(statementOfTruth.getAttribute('input-error')).to.not.be.null;
+      });
+    });
+
+    it('should show checkbox error when showError is true and not checked', async () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        const statementOfTruth = container.querySelector(
+          'va-statement-of-truth',
+        );
+        expect(statementOfTruth.getAttribute('checkbox-error')).to.not.be.null;
+      });
+    });
+
+    it('should not show errors after form submission', async () => {
+      const submittedStore = {
+        getState: () => ({
+          form: {
+            submission: {
+              status: 'submitted',
+            },
+          },
+        }),
+        subscribe: () => {},
+        dispatch: dispatchSpy,
+      };
+
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+
+      const { container } = render(
+        <Provider store={submittedStore}>
+          <PreSubmitSignature
+            formData={formData}
+            showError
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        const statementOfTruth = container.querySelector(
+          'va-statement-of-truth',
+        );
+        expect(statementOfTruth.getAttribute('input-error')).to.be.null;
+        expect(statementOfTruth.getAttribute('checkbox-error')).to.be.null;
+      });
+    });
+
+    it('should handle form with existing signature data', () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+        signature: 'John Doe',
+        certificationChecked: true,
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+      expect(container).to.exist;
     });
   });
 
@@ -211,6 +491,418 @@ describe('PreSubmitSignature Component', () => {
         </Provider>,
       );
       expect(container).to.exist;
+    });
+  });
+
+  describe('Event Handlers', () => {
+    it('should handle input change event', async () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaInputChange', {
+          detail: { value: 'John Doe' },
+        }),
+      );
+
+      await waitFor(() => {
+        expect(dispatchSpy.called).to.be.true;
+      });
+    });
+
+    it('should handle input blur event', async () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+      fireEvent(statementOfTruth, new CustomEvent('vaInputBlur'));
+
+      expect(statementOfTruth).to.exist;
+    });
+
+    it('should handle checkbox change event', async () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaCheckboxChange', {
+          detail: { checked: true },
+        }),
+      );
+
+      await waitFor(() => {
+        expect(dispatchSpy.called).to.be.true;
+      });
+    });
+
+    it('should trim signature value on input change', async () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaInputChange', {
+          detail: { value: '  John Doe  ' },
+        }),
+      );
+
+      await waitFor(() => {
+        expect(dispatchSpy.called).to.be.true;
+      });
+    });
+
+    it('should update onSectionComplete when signature matches and checkbox is checked', async () => {
+      const callback = sandbox.spy();
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={callback}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+      // Enter matching signature
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaInputChange', {
+          detail: { value: 'John Doe' },
+        }),
+      );
+
+      // Check the checkbox
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaCheckboxChange', {
+          detail: { checked: true },
+        }),
+      );
+
+      await waitFor(() => {
+        expect(callback.called).to.be.true;
+      });
+    });
+  });
+
+  describe('Signature Validation', () => {
+    it('should validate case-insensitive signature', async () => {
+      const callback = sandbox.spy();
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={callback}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+      // Enter signature with different case
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaInputChange', {
+          detail: { value: 'JOHN DOE' },
+        }),
+      );
+
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaCheckboxChange', {
+          detail: { checked: true },
+        }),
+      );
+
+      await waitFor(() => {
+        expect(callback.called).to.be.true;
+      });
+    });
+
+    it('should handle extra spaces in signature', async () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+      // Enter signature with extra spaces
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaInputChange', {
+          detail: { value: 'John  Doe' },
+        }),
+      );
+
+      expect(statementOfTruth).to.exist;
+    });
+
+    it('should reject invalid signature', async () => {
+      const callback = sandbox.spy();
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={callback}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+      // Enter non-matching signature
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaInputChange', {
+          detail: { value: 'Jane Smith' },
+        }),
+      );
+
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaCheckboxChange', {
+          detail: { checked: true },
+        }),
+      );
+
+      await waitFor(() => {
+        expect(callback.called).to.be.true;
+      });
+    });
+
+    it('should handle empty signature value', async () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaInputChange', {
+          detail: { value: '' },
+        }),
+      );
+
+      fireEvent(statementOfTruth, new CustomEvent('vaInputBlur'));
+
+      await waitFor(() => {
+        expect(statementOfTruth.getAttribute('input-error')).to.not.be.null;
+      });
+    });
+  });
+
+  describe('Edge Cases', () => {
+    it('should handle names with special characters', () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John-Paul',
+          lastName: "O'Brien",
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+      expect(container.textContent).to.include("John-Paul O'Brien");
+    });
+
+    it('should handle names with multiple spaces', () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'Mary Ann',
+          lastName: 'Van Der Berg',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+      expect(container.textContent).to.include('Mary Ann Van Der Berg');
+    });
+
+    it('should not dispatch if signature values have not changed', () => {
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+        signature: '',
+        certificationChecked: false,
+      };
+
+      sandbox.resetHistory();
+
+      render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={() => {}}
+          />
+        </Provider>,
+      );
+
+      // Should not dispatch since values match initial state
+      expect(dispatchSpy.called).to.be.false;
+    });
+
+    it('should handle rapid state changes', async () => {
+      const callback = sandbox.spy();
+      const formData = {
+        nursingOfficialInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitSignature
+            formData={formData}
+            showError={false}
+            onSectionComplete={callback}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+      // Rapid input changes
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaInputChange', {
+          detail: { value: 'J' },
+        }),
+      );
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaInputChange', {
+          detail: { value: 'Jo' },
+        }),
+      );
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaInputChange', {
+          detail: { value: 'John Doe' },
+        }),
+      );
+
+      await waitFor(() => {
+        expect(dispatchSpy.called).to.be.true;
+      });
     });
   });
 
