@@ -54,36 +54,58 @@ Veterans who:
 21-0779-nursing-home-information/
 ├── app-entry.jsx             # Main entry point
 ├── components/               # Reusable components
-│   ├── get-help.jsx
-│   └── get-help.unit.spec.jsx
+│   ├── get-help/
+│   │   ├── get-help.jsx
+│   │   ├── get-help.unit.spec.jsx
+│   │   └── index.js          # Component barrel
+│   ├── pre-submit-signature/
+│   │   ├── pre-submit-signature.jsx
+│   │   └── index.js          # Component barrel
+│   └── index.js              # Components barrel
 ├── config/
-│   └── form.js               # Form configuration
+│   ├── form.js               # Form configuration
+│   ├── transform.js          # Submit transformer
+│   └── index.js              # Config barrel
 ├── constants.js              # Application constants
 ├── constants.unit.spec.jsx   # Constants tests
 ├── containers/
-│   ├── App.jsx               # Main app container
-│   ├── IntroductionPage.jsx  # Form intro page
-│   └── ConfirmationPage.jsx  # Submission confirmation
-├── pages/                    # Individual form pages
-│   ├── nameAndDateOfBirth.js
-│   ├── identificationInformation.js
-│   ├── mailingAddress.js
-│   ├── phoneAndEmailAddress.js
-│   ├── nursingHomeDetails.js
-│   └── nursingCareInformation.js
+│   ├── app.jsx               # Main app container
+│   ├── introduction-page.jsx # Form intro page
+│   ├── confirmation-page.jsx # Submission confirmation
+│   └── index.js              # Containers barrel
+├── index.js                  # Root barrel export
+├── pages/                    # Form pages with co-located reviews
+│   ├── admission-date/
+│   │   ├── admission-date.jsx
+│   │   ├── admission-date-review.jsx
+│   │   ├── admission-date-review.unit.spec.jsx
+│   │   └── index.js
+│   ├── claimant-question/
+│   │   ├── claimant-question.jsx
+│   │   ├── claimant-question-review.jsx
+│   │   ├── claimant-question-review.unit.spec.jsx
+│   │   └── index.js
+│   ├── [13 more page directories...]
+│   └── index.js              # Pages barrel (exports pages & reviews)
 ├── reducers/                 # Redux reducers
-├── reviews/                  # Review page components
-│   ├── *.jsx                 # Review components
-│   └── *.unit.spec.jsx       # Co-located tests (14 files)
+│   └── index.js              # Reducers barrel
 ├── routes.jsx                # React Router configuration
 ├── routes.unit.spec.jsx      # Routes tests
 ├── sass/                     # Styles
 ├── schemas/                  # Zod validation schemas
-│   ├── *.js                  # Schema definitions
-│   └── *.unit.spec.jsx       # Co-located tests (16 files)
+│   ├── admission-date/
+│   │   ├── admission-date.js
+│   │   ├── admission-date.unit.spec.jsx
+│   │   └── index.js
+│   ├── veteran-identification/
+│   │   ├── veteran-identification.js
+│   │   ├── veteran-identification.unit.spec.jsx
+│   │   └── index.js
+│   ├── [13 more schema directories...]
+│   └── index.js              # Schemas barrel (exports all schemas)
 ├── tests/                    # E2E Cypress tests
 └── utils/                    # Utility functions
-    ├── index.js
+    ├── index.js              # Utils with JSDoc
     └── index.unit.spec.jsx
 ```
 

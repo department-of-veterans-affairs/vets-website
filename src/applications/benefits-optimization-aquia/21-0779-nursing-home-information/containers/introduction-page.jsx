@@ -104,5 +104,3 @@ IntroductionPage.propTypes = {
     push: PropTypes.func,
   }),
 };
-
-export default IntroductionPage;
