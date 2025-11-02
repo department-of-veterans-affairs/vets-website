@@ -16,161 +16,7 @@ import {
 const MILITARY_ZIP_PATTERNS = MILITARY_POSTAL_PATTERNS;
 
 /**
- * Street address schema - validates street addresses
- */
-export const streetAddressSchema = z
-  .string()
-  .min(1, 'Street address is required')
-  .max(100, 'Street address must be 100 characters or less')
-  .regex(/^.*\S.*/, 'Street address cannot be only whitespace')
-  .trim();
-
-/**
- * City schema - validates city names
- */
-export const citySchema = z
-  .string()
-  .min(1, 'City is required')
-  .max(50, 'City must be 50 characters or less')
-  .trim();
-
-/**
- * State code schema - validates US state codes
- */
-export const stateCodeSchema = z
-  .string()
-  .length(2, 'State must be a 2-letter code')
-  .toUpperCase()
-  .refine(val => {
-    const ALL_STATES = [
-      'AL',
-      'AK',
-      'AZ',
-      'AR',
-      'CA',
-      'CO',
-      'CT',
-      'DE',
-      'DC',
-      'FL',
-      'GA',
-      'HI',
-      'ID',
-      'IL',
-      'IN',
-      'IA',
-      'KS',
-      'KY',
-      'LA',
-      'ME',
-      'MD',
-      'MA',
-      'MI',
-      'MN',
-      'MS',
-      'MO',
-      'MT',
-      'NE',
-      'NV',
-      'NH',
-      'NJ',
-      'NM',
-      'NY',
-      'NC',
-      'ND',
-      'OH',
-      'OK',
-      'OR',
-      'PA',
-      'RI',
-      'SC',
-      'SD',
-      'TN',
-      'TX',
-      'UT',
-      'VT',
-      'VA',
-      'WA',
-      'WV',
-      'WI',
-      'WY',
-      'AS',
-      'GU',
-      'MP',
-      'PR',
-      'VI',
-      'UM',
-      'FM',
-      'MH',
-      'PW',
-      'AA',
-      'AE',
-      'AP', // Military codes
-    ];
-    return ALL_STATES.includes(val);
-  }, 'Invalid state code');
-
-/**
- * Postal code schema - validates postal codes based on country
- */
-export const postalCodeSchema = z
-  .string()
-  .optional()
-  .refine(val => {
-    if (!val) return true;
-    // Accept US, Canadian, Mexican, and military postal codes
-    return (
-      POSTAL_PATTERNS.USA.test(val) ||
-      POSTAL_PATTERNS.CANADA.test(val) ||
-      POSTAL_PATTERNS.MEXICO.test(val) ||
-      Object.values(MILITARY_POSTAL_PATTERNS).some(pattern => pattern.test(val))
-    );
-  }, 'Invalid postal code format');
-
-/**
- * Country code schema - validates country codes
- */
-export const countryCodeSchema = z
-  .string()
-  .optional()
-  .default('USA')
-  .refine(val => {
-    if (!val) return true;
-    return (
-      ['USA', 'US', 'CAN', 'CA', 'MEX', 'MX'].includes(val) ||
-      val.length === 2 ||
-      val.length === 3
-    );
-  }, 'Invalid country code');
-
-/**
- * International address schema - for addresses outside USA
- */
-export const internationalAddressSchema = z.object({
-  street: streetAddressSchema,
-  street2: z.string().optional(),
-  city: citySchema,
-  province: z.string().optional(),
-  country: z.string(),
-  postalCode: z.string().optional(),
-  internationalPostalCode: z.string().optional(),
-});
-
-/**
- * Military address schema - for APO/FPO/DPO addresses
- */
-export const militaryAddressSchema = z.object({
-  street: streetAddressSchema,
-  street2: z.string().optional(),
-  city: z.enum(['APO', 'FPO', 'DPO']),
-  state: z.enum(['AA', 'AE', 'AP']),
-  postalCode: z.string().regex(/^\d{5}(-\d{4})?$/, 'Invalid ZIP code format'),
-  country: z.literal('USA').default('USA'),
-  isMilitary: z.literal(true).default(true),
-});
-
-/**
- * Valid military city codes
+ * Valid military cities
  */
 const MILITARY_CITIES = ['APO', 'FPO', 'DPO'];
 
@@ -180,7 +26,7 @@ const MILITARY_CITIES = ['APO', 'FPO', 'DPO'];
 const MILITARY_STATES = ['AA', 'AE', 'AP'];
 
 /**
- * US States including territories (excluding military)
+ * US States including territories (excluding military codes)
  */
 const US_STATES = [
   'AL',
@@ -244,6 +90,101 @@ const US_STATES = [
   'MH',
   'PW',
 ];
+
+/**
+ * All valid state codes including US states, territories, and military codes
+ */
+const ALL_STATES_AND_TERRITORIES = [...US_STATES, ...MILITARY_STATES];
+
+/**
+ * Street address schema - validates street addresses
+ */
+export const streetAddressSchema = z
+  .string()
+  .min(1, 'Street address is required')
+  .max(100, 'Street address must be 100 characters or less')
+  .regex(/^.*\S.*/, 'Street address cannot be only whitespace')
+  .trim();
+
+/**
+ * City schema - validates city names
+ */
+export const citySchema = z
+  .string()
+  .min(1, 'City is required')
+  .max(50, 'City must be 50 characters or less')
+  .trim();
+
+/**
+ * State code schema - validates US state codes
+ */
+export const stateCodeSchema = z
+  .string()
+  .length(2, 'State must be a 2-letter code')
+  .toUpperCase()
+  .refine(
+    val => ALL_STATES_AND_TERRITORIES.includes(val),
+    'Invalid state code',
+  );
+
+/**
+ * Postal code schema - validates postal codes based on country
+ */
+export const postalCodeSchema = z
+  .string()
+  .optional()
+  .refine(val => {
+    if (!val) return true;
+    // Accept US, Canadian, Mexican, and military postal codes
+    return (
+      POSTAL_PATTERNS.USA.test(val) ||
+      POSTAL_PATTERNS.CANADA.test(val) ||
+      POSTAL_PATTERNS.MEXICO.test(val) ||
+      Object.values(MILITARY_POSTAL_PATTERNS).some(pattern => pattern.test(val))
+    );
+  }, 'Invalid postal code format');
+
+/**
+ * Country code schema - validates country codes
+ */
+export const countryCodeSchema = z
+  .string()
+  .optional()
+  .default('USA')
+  .refine(val => {
+    if (!val) return true;
+    return (
+      ['USA', 'US', 'CAN', 'CA', 'MEX', 'MX'].includes(val) ||
+      val.length === 2 ||
+      val.length === 3
+    );
+  }, 'Invalid country code');
+
+/**
+ * International address schema - for addresses outside USA
+ */
+export const internationalAddressSchema = z.object({
+  street: streetAddressSchema,
+  street2: z.string().optional(),
+  city: citySchema,
+  province: z.string().optional(),
+  country: z.string(),
+  postalCode: z.string().optional(),
+  internationalPostalCode: z.string().optional(),
+});
+
+/**
+ * Military address schema - for APO/FPO/DPO addresses
+ */
+export const militaryAddressSchema = z.object({
+  street: streetAddressSchema,
+  street2: z.string().optional(),
+  city: z.enum(['APO', 'FPO', 'DPO']),
+  state: z.enum(['AA', 'AE', 'AP']),
+  postalCode: z.string().regex(/^\d{5}(-\d{4})?$/, 'Invalid ZIP code format'),
+  country: z.literal('USA').default('USA'),
+  isMilitary: z.literal(true).default(true),
+});
 
 /**
  * Canadian provinces and territories

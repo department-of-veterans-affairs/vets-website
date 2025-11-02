@@ -91,18 +91,11 @@ export const suffixSchema = z
   .transform(val => (val === '' ? undefined : val))
   .refine(val => {
     if (!val) return true;
-    // Reject empty, numbers only, special chars only
+    // Reject numbers only, special chars only
     if (/^\d+$/.test(val)) return false;
     if (/^[!@#$%^&*()]+$/.test(val)) return false;
     return NAME_PATTERNS.SUFFIX.test(val);
-  }, VALIDATION_MESSAGES.NAME_INVALID_SUFFIX || 'Invalid suffix format')
-  .refine(val => {
-    if (!val) return true;
-    // Reject numbers only, special chars only
-    if (/^\d+$/.test(val)) return false;
-    // Reject special chars only
-    return !/^[!@#$%^&*()]+$/.test(val);
-  }, 'Invalid suffix');
+  }, VALIDATION_MESSAGES.NAME_INVALID_SUFFIX || 'Invalid suffix format');
 
 /**
  * Full name composite schema.
