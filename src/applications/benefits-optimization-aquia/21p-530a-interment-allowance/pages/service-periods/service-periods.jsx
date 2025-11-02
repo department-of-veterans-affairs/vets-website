@@ -70,11 +70,6 @@ export const ServicePeriodsPage = ({
       editingServicePeriodIndex: index,
     };
     setFormData(updatedData);
-
-    // Navigate to first page of the flow
-    if (goToPath) {
-      goToPath('/service-branch');
-    }
   };
 
   const handleDelete = index => {

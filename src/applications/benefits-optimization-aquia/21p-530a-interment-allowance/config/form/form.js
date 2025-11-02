@@ -185,12 +185,11 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: ServiceBranchPage,
           CustomPageReview: null,
-          pagePerItemIndex: 0,
           // Show if no service periods exist, otherwise only accessible from summary
-          depends: formData => {
-            const hasServicePeriods = formData?.servicePeriods?.length > 0;
-            return !hasServicePeriods;
-          },
+          // depends: formData => {
+          //   const hasServicePeriods = formData?.servicePeriods?.length > 0;
+          //   return !hasServicePeriods;
+          // },
         },
         serviceDates: {
           path: 'service-dates',
@@ -199,12 +198,11 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: ServiceDatesPage,
           CustomPageReview: null,
-          pagePerItemIndex: 0,
           // Show if no service periods exist, otherwise only accessible from summary
-          depends: formData => {
-            const hasServicePeriods = formData?.servicePeriods?.length > 0;
-            return !hasServicePeriods;
-          },
+          // depends: formData => {
+          //   const hasServicePeriods = formData?.servicePeriods?.length > 0;
+          //   return !hasServicePeriods;
+          // },
         },
         locationsAndRank: {
           path: 'locations-and-rank',
@@ -213,12 +211,11 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: LocationsAndRankPage,
           CustomPageReview: null,
-          pagePerItemIndex: 0,
           // Show if no service periods exist, otherwise only accessible from summary
-          depends: formData => {
-            const hasServicePeriods = formData?.servicePeriods?.length > 0;
-            return !hasServicePeriods;
-          },
+          // depends: formData => {
+          //   const hasServicePeriods = formData?.servicePeriods?.length > 0;
+          //   return !hasServicePeriods;
+          // },
         },
         servicePeriods: {
           path: 'service-periods',
@@ -227,7 +224,6 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: ServicePeriodsPage,
           CustomPageReview: ServicePeriodsReviewPage,
-          pagePerItemIndex: 0,
           // Only show summary if at least one service period exists
           // depends: formData => {
           //   return formData?.servicePeriods?.length > 0;
