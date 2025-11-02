@@ -258,10 +258,12 @@ const EmploymentCheckPage = ({
         uswds
       >
         <VaRadioOption
+          name="employment-check"
           label="Yes, I was employed or self-employed during the past 12 months"
           value="yes"
         />
         <VaRadioOption
+          name="employment-check"
           label="No, I was not employed during the past 12 months"
           value="no"
         />

@@ -28,9 +28,11 @@ export default {
         addAnotherText: 'Add another disability',
       },
       items: {
-        disability: textUI(
-          'What service-connected disability prevents you from getting or keeping a job?',
-        ),
+        disability: textUI({
+          title:
+            'What service-connected disability prevents you from getting or keeping a job?',
+          useDlWrap: true,
+        }),
       },
     },
   },

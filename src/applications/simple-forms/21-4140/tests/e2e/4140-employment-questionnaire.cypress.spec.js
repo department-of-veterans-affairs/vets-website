@@ -17,13 +17,70 @@ import {
 } from '../../../shared/tests/e2e/helpers';
 
 const pagePaths = getPagePaths(formConfig);
-const employerDetailsPath = pagePaths.employerDetails?.replace(':index', '0');
+const employerDetailsPath = pagePaths.employerDetails;
 const dataDir = path.join(__dirname, 'fixtures', 'data');
 
 const isEmploymentFlow = data =>
   data?.employmentCheck?.hasEmploymentInLast12Months === 'yes';
 
-let hasAddedEmployer = false;
+let employersAdded = 0;
+
+const formatUsPhoneNumber = contact => {
+  if (!contact) {
+    return contact;
+  }
+  const digitsOnly = contact.replace(/\D/g, '');
+  if (digitsOnly.length === 10) {
+    const area = digitsOnly.slice(0, 3);
+    const exchange = digitsOnly.slice(3, 6);
+    const subscriber = digitsOnly.slice(6);
+    return `(${area}) ${exchange}-${subscriber}`;
+  }
+  return contact;
+};
+
+const fillTelephoneField = (fieldName, phone) => {
+  if (!phone?.contact) {
+    return;
+  }
+  const alias = `${fieldName}Input`.replace(/[^A-Za-z0-9_-]/g, '');
+  cy.get(`va-telephone-input[name="${fieldName}"]`)
+    .shadow()
+    .find('va-text-input')
+    .shadow()
+    .find('input')
+    .as(alias);
+
+  cy.get(`@${alias}`)
+    .click({ force: true })
+    .clear({ force: true })
+    .type(phone.contact, { force: true })
+    .should('have.value', formatUsPhoneNumber(phone.contact));
+};
+
+const fillEmployerDetails = employer => {
+  if (!employer) {
+    return;
+  }
+
+  fillTextWebComponent('employerName', employer.employerName);
+  cy.fillAddressWebComponentPattern(
+    'employerAddress',
+    employer.employerAddress,
+  );
+  fillDateWebComponentPattern(
+    'datesOfEmployment_from',
+    employer.datesOfEmployment?.from,
+  );
+  fillDateWebComponentPattern(
+    'datesOfEmployment_to',
+    employer.datesOfEmployment?.to,
+  );
+  fillTextWebComponent('typeOfWork', employer.typeOfWork);
+  fillTextWebComponent('highestIncome', employer.highestIncome);
+  fillTextWebComponent('hoursPerWeek', employer.hoursPerWeek);
+  fillTextWebComponent('lostTime', employer.lostTime);
+};
 
 const pageHooks = {
   introduction: ({ afterHook }) => {
@@ -37,7 +94,7 @@ const pageHooks = {
   'form-verification': ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
-      cy.selectVaRadioOption('', 'yes');
+      cy.selectVaRadioOption('employment-status-verification', 'yes');
       cy.axeCheck();
       cy.findByText(/continue/i, { selector: 'button' }).click();
     });
@@ -107,10 +164,10 @@ if (pagePaths.contactInformation1) {
           );
         }
         if (veteran.homePhone) {
-          cy.fillVaTelephoneInput('root_veteran_homePhone', veteran.homePhone);
+          fillTelephoneField('root_veteran_homePhone', veteran.homePhone);
         }
         if (veteran.alternatePhone) {
-          cy.fillVaTelephoneInput(
+          fillTelephoneField(
             'root_veteran_alternatePhone',
             veteran.alternatePhone,
           );
@@ -128,7 +185,18 @@ if (pagePaths.employmentCheck) {
     afterHook(() => {
       cy.get('@testData').then(({ employmentCheck }) => {
         const selection = employmentCheck?.hasEmploymentInLast12Months;
-        cy.selectVaRadioOption('employment-check', selection);
+        if (!selection) {
+          return;
+        }
+        const radioLabels = {
+          yes: /Yes, I was employed or self-employed during the past 12 months/i,
+          no: /No, I was not employed during the past 12 months/i,
+        };
+
+        cy.findByRole('radio', { name: radioLabels[selection] })
+          .scrollIntoView()
+          .click({ force: true, waitForAnimations: false })
+            .should('be.checked');
       });
       cy.axeCheck();
       cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -159,12 +227,14 @@ if (pagePaths.employersSummary) {
         if (!isEmploymentFlow(data)) {
           return;
         }
-        const shouldAddEmployer = !hasAddedEmployer;
+        const totalEmployers = data.employers?.length || 0;
+        const shouldAddEmployer = employersAdded < totalEmployers;
+
         selectYesNoWebComponent('view:hasEmployers', shouldAddEmployer);
         cy.axeCheck();
         cy.findByText(/continue/i, { selector: 'button' }).click();
         if (shouldAddEmployer) {
-          hasAddedEmployer = true;
+          employersAdded += 1;
         }
       });
     });
@@ -172,37 +242,46 @@ if (pagePaths.employersSummary) {
 }
 
 if (employerDetailsPath) {
-  pageHooks[employerDetailsPath] = ({ afterHook }) => {
+  pageHooks[employerDetailsPath] = ({ afterHook, index }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(data => {
         if (!isEmploymentFlow(data)) {
           return;
         }
-        const employer = data.employers?.[0];
-        if (!employer) {
+        if (!data.employers?.length) {
           return;
         }
-        fillTextWebComponent('employers_0_employerName', employer.employerName);
-        cy.fillAddressWebComponentPattern(
-          'employers_0_employerAddress',
-          employer.employerAddress,
+
+        const candidateIndexes = new Set();
+
+        if (typeof index === 'number' && !Number.isNaN(index)) {
+          candidateIndexes.add(index);
+          if (index > 0) {
+            candidateIndexes.add(index - 1);
+          }
+        }
+
+        if (employersAdded > 0) {
+          candidateIndexes.add(employersAdded - 1);
+        }
+
+        candidateIndexes.add(0);
+
+        const employers = data.employers;
+        const dataIndex = [...candidateIndexes].find(
+          idx => employers[idx] != null,
         );
-        fillDateWebComponentPattern(
-          'employers_0_datesOfEmployment_from',
-          employer.datesOfEmployment?.from,
-        );
-        fillDateWebComponentPattern(
-          'employers_0_datesOfEmployment_to',
-          employer.datesOfEmployment?.to,
-        );
-        fillTextWebComponent('employers_0_typeOfWork', employer.typeOfWork);
-        fillTextWebComponent(
-          'employers_0_highestIncome',
-          employer.highestIncome,
-        );
-        fillTextWebComponent('employers_0_hoursPerWeek', employer.hoursPerWeek);
-        fillTextWebComponent('employers_0_lostTime', employer.lostTime);
+
+        const employer =
+          dataIndex !== undefined ? employers[dataIndex] : undefined;
+
+        expect(
+          employer,
+          `employer data for indexes [${[...candidateIndexes].join(', ')}]`,
+        ).to.exist;
+
+        fillEmployerDetails(employer);
       });
       cy.axeCheck();
       cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -263,7 +342,10 @@ pageHooks['review-and-submit'] = ({ afterHook }) => {
   cy.injectAxeThenAxeCheck();
   afterHook(() => {
     cy.get('@testData').then(({ veteran }) => {
-      reviewAndSubmitPageFlow(veteran.fullName);
+      reviewAndSubmitPageFlow(
+        veteran.fullName,
+        'Submit employment questionnaire',
+      );
       cy.wait('@submitForm');
     });
   });
@@ -277,7 +359,7 @@ const testConfig = createTestConfig(
     dataDir,
     pageHooks,
     setupPerTest: () => {
-      hasAddedEmployer = false;
+      employersAdded = 0;
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit).as('submitForm');
       cy.login(user);

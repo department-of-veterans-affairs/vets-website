@@ -24,12 +24,27 @@
   "sectionThree": {
     "disabilityDate": "2020-01-01",
     "lastWorkedDate": "2021-06-01",
-    "disabledWorkDate": "2021-06-15",
+    "disabledWorkDate": "2021-06-15"
+  },
+  "peakEarnings": {
     "maxYearlyEarnings": 55000,
     "yearEarned": 2019,
     "occupation": "Technician"
   },
   "employmentHistory": { "hasTriedEmployment": false },
+  "currentMilitaryService": {
+    "currentlyServing": false,
+    "activeDutyOrders": false
+  },
+  "currentIncome": {
+    "totalIncome": 24000,
+    "monthlyIncome": 2000
+  },
+  "leavingLastPosition": {
+    "leftDueToDisability": true,
+    "receivesDisabilityRetirement": false,
+    "receivesWorkersCompensation": false
+  },
   "sectionFour": {
     "educationLevel": "highSchool",
     "highSchool": "12"

@@ -117,8 +117,16 @@ const PreSectionOnePage = ({ formData, location, route, router, setFormData }) =
         onVaValueChange={handleValueChange}
         onBlur={handleBlur}
       >
-        <VaRadioOption label="Yes" value="yes" />
-        <VaRadioOption label="No" value="no" />
+        <VaRadioOption
+          name="employment-status-verification"
+          label="Yes"
+          value="yes"
+        />
+        <VaRadioOption
+          name="employment-status-verification"
+          label="No"
+          value="no"
+        />
       </VaRadio>
       {selection === 'no' && (
         <VaAlert

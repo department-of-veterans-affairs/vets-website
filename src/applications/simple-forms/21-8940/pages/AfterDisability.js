@@ -1,6 +1,7 @@
 import {
   radioUI,
   radioSchema,
+  textUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -12,6 +13,7 @@ import {
 
 import { EducationView } from '../components/viewElements';
 import SafeArrayField from '../components/SafeArrayField';
+import { wrapDateRangeUiWithDl } from '../helpers/reviewHelpers';
 
 /** @type {PageSchema} */
 export default {
@@ -27,6 +29,7 @@ export default {
         Y: 'Yes',
         N: 'No',
       },
+      useDlWrap: true,
     }),
 
     educationAfterDisability: {
@@ -50,12 +53,15 @@ export default {
         'ui:options': {
           classNames: 'vads-u-margin-left--1p5',
         },
-        typeOfEducation: {
-          'ui:title': 'Type of education or training',
-        },
-        datesOfTraining: currentOrPastDateRangeUI(
-          'Start date of training',
-          'End date of training',
+        typeOfEducation: textUI({
+          title: 'Type of education or training',
+          useDlWrap: true,
+        }),
+        datesOfTraining: wrapDateRangeUiWithDl(
+          currentOrPastDateRangeUI(
+            { title: 'Start date of training' },
+            { title: 'End date of training' },
+          ),
         ),
       },
     },

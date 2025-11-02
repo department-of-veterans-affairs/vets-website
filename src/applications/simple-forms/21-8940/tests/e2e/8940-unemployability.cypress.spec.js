@@ -15,6 +15,9 @@ import {
   selectYesNoWebComponent,
   selectCheckboxWebComponent,
 } from '../../../shared/tests/e2e/helpers';
+import {
+  fillNumberWebComponent,
+} from './helpers/local-helpers';
 
 const testConfig = createTestConfig(
   {
@@ -183,12 +186,21 @@ const testConfig = createTestConfig(
               'disabledWorkDate',
               sectionThree.disabledWorkDate,
             );
-            fillTextWebComponent(
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'peak-earnings': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { peakEarnings } = data;
+            fillNumberWebComponent(
               'maxYearlyEarnings',
-              sectionThree.maxYearlyEarnings,
+              peakEarnings?.maxYearlyEarnings,
             );
-            fillTextWebComponent('yearEarned', sectionThree.yearEarned);
-            fillTextWebComponent('occupation', sectionThree.occupation);
+            fillNumberWebComponent('yearEarned', peakEarnings?.yearEarned);
+            fillTextWebComponent('occupation', peakEarnings?.occupation);
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
@@ -198,13 +210,70 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             selectYesNoWebComponent(
-              'employmentHistory_hasTriedEmployment',
+              'hasTriedEmployment',
               data.employmentHistory.hasTriedEmployment,
             );
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
+        'current-military-service': ({ afterHook }) => {
+          cy.injectAxeThenAxeCheck();
+          afterHook(() => {
+            cy.get('@testData').then(data => {
+              const { currentMilitaryService } = data;
+              selectYesNoWebComponent(
+                'currentlyServing',
+                currentMilitaryService?.currentlyServing,
+              );
+              if (currentMilitaryService?.currentlyServing) {
+                selectYesNoWebComponent(
+                  'activeDutyOrders',
+                  currentMilitaryService?.activeDutyOrders,
+                );
+              }
+              cy.findByText(/continue/i, { selector: 'button' }).click();
+            });
+          });
+        },
+        'current-income': ({ afterHook }) => {
+          cy.injectAxeThenAxeCheck();
+          afterHook(() => {
+            cy.get('@testData').then(data => {
+              const { currentIncome } = data;
+              fillNumberWebComponent(
+                'totalIncome',
+                currentIncome?.totalIncome,
+              );
+              fillNumberWebComponent(
+                'monthlyIncome',
+                currentIncome?.monthlyIncome,
+              );
+              cy.findByText(/continue/i, { selector: 'button' }).click();
+            });
+          });
+        },
+        'leaving-last-position': ({ afterHook }) => {
+          cy.injectAxeThenAxeCheck();
+          afterHook(() => {
+            cy.get('@testData').then(data => {
+              const { leavingLastPosition } = data;
+              selectYesNoWebComponent(
+                'leftDueToDisability',
+                leavingLastPosition?.leftDueToDisability,
+              );
+              selectYesNoWebComponent(
+                'receivesDisabilityRetirement',
+                leavingLastPosition?.receivesDisabilityRetirement,
+              );
+              selectYesNoWebComponent(
+                'receivesWorkersCompensation',
+                leavingLastPosition?.receivesWorkersCompensation,
+              );
+              cy.findByText(/continue/i, { selector: 'button' }).click();
+            });
+          });
+        },
       'education-and-training': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -251,15 +320,9 @@ const testConfig = createTestConfig(
       'authorization-and-certification': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
-          cy.get('@testData').then(data => {
-            const { sectionSix } = data;
-            fillTextWebComponent(
-              'signatureOfClaimant',
-              sectionSix.signatureOfClaimant,
-            );
-            fillDateWebComponentPattern('dateSigned', sectionSix.dateSigned);
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
+          selectCheckboxWebComponent('authorizationRelease', true);
+          selectCheckboxWebComponent('certificationStatements', true);
+          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
       'review-and-submit': ({ afterHook }) => {
@@ -267,7 +330,7 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             reviewAndSubmitPageFlow(
               data.veteran.fullName,
-              'Submit application',
+              'Submit veteran application',
             );
           });
         });

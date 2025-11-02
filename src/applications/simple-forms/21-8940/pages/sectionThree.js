@@ -2,6 +2,7 @@ import {
   currentOrPastDateSchema,
   currentOrPastDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { wrapDateUiWithDl } from '../helpers/reviewHelpers';
 
 /** @type {PageSchema} */
 export default {
@@ -9,13 +10,17 @@ export default {
     'ui:title': 'Employment Timeline',
     'ui:description': ' When did your disability affect your work? ',
 
-    disabilityDate: currentOrPastDateUI(
-      'Date your disability affected full-time employment',
+    disabilityDate: wrapDateUiWithDl(
+      currentOrPastDateUI(
+        'Date your disability affected full-time employment',
+      ),
     ),
 
-    lastWorkedDate: currentOrPastDateUI('Date you last worked full-time'),
-    disabledWorkDate: currentOrPastDateUI(
-      'Date you became too disabled to work',
+    lastWorkedDate: wrapDateUiWithDl(
+      currentOrPastDateUI('Date you last worked full-time'),
+    ),
+    disabledWorkDate: wrapDateUiWithDl(
+      currentOrPastDateUI('Date you became too disabled to work'),
     ),
   },
   schema: {

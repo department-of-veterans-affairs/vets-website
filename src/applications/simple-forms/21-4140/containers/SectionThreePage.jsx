@@ -19,11 +19,13 @@ const SectionThreePage = ({ goBack, goForward, NavButtons }) => {
         <h4 slot="headline">What to expect</h4>
         <ul className="usa-list vads-u-margin--0">
           <li>Review the information you provided</li>
-          <li>Read the unemployment certifications</li>
-          <ul>
-            <li>Confirm you had no employment in the last 12 months</li>
-            <li>Confirm your disability continues to prevent gainful employment</li>
-          </ul>
+          <li>
+            Read the unemployment certifications
+            <ul>
+              <li>Confirm you had no employment in the last 12 months</li>
+              <li>Confirm your disability continues to prevent gainful employment</li>
+            </ul>
+          </li>
           <li>Sign and date your questionnaire</li>
           <li>Takes about 1-2 minutes</li>
         </ul>
