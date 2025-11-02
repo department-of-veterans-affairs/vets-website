@@ -19,8 +19,7 @@ import {
  * @returns {JSX.Element} Review page content
  */
 export const ServicePeriodsReviewPage = ({ data, editPage, title }) => {
-  const sectionData = data?.servicePeriods || {};
-  const servicePeriods = sectionData.servicePeriods || [];
+  const servicePeriods = data?.servicePeriods || [];
 
   if (!servicePeriods.length) {
     return (
@@ -28,7 +27,7 @@ export const ServicePeriodsReviewPage = ({ data, editPage, title }) => {
         title={title}
         data={data}
         editPage={editPage}
-        sectionName="servicePeriods"
+        sectionName="servicePeriodsData"
       >
         <ReviewField label="Service periods" value="Not provided" />
       </ReviewPageTemplate>
@@ -40,7 +39,7 @@ export const ServicePeriodsReviewPage = ({ data, editPage, title }) => {
       title={title}
       data={data}
       editPage={editPage}
-      sectionName="servicePeriods"
+      sectionName="servicePeriodsData"
     >
       {servicePeriods.map((period, index) => {
         const periodNumber = servicePeriods.length > 1 ? ` ${index + 1}` : '';

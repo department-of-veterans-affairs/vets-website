@@ -16,9 +16,12 @@ import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/p
 import {
   AdditionalRemarksPage,
   BurialBenefitsRecipientPage,
+  LocationsAndRankPage,
   MailingAddressPage,
   OrganizationInformationPage,
   RelationshipToVeteranPage,
+  ServiceBranchPage,
+  ServiceDatesPage,
   ServicePeriodsPage,
   VeteranBirthDeathInformationPage,
   VeteranBurialInformationPage,
@@ -179,6 +182,48 @@ const formConfig = {
     militaryHistoryChapter: {
       title: 'Military history',
       pages: {
+        serviceBranch: {
+          path: 'service-branch',
+          title: 'Branch of service',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: ServiceBranchPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          // Show if no service periods exist, otherwise only accessible from summary
+          depends: formData => {
+            const hasServicePeriods = formData?.servicePeriods?.length > 0;
+            return !hasServicePeriods;
+          },
+        },
+        serviceDates: {
+          path: 'service-dates',
+          title: 'Service dates',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: ServiceDatesPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          // Show if no service periods exist, otherwise only accessible from summary
+          depends: formData => {
+            const hasServicePeriods = formData?.servicePeriods?.length > 0;
+            return !hasServicePeriods;
+          },
+        },
+        locationsAndRank: {
+          path: 'locations-and-rank',
+          title: 'Locations and rank',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: LocationsAndRankPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          // Show if no service periods exist, otherwise only accessible from summary
+          depends: formData => {
+            const hasServicePeriods = formData?.servicePeriods?.length > 0;
+            return !hasServicePeriods;
+          },
+        },
         servicePeriods: {
           path: 'service-periods',
           title: 'Service periods',
@@ -187,6 +232,10 @@ const formConfig = {
           CustomPage: ServicePeriodsPage,
           CustomPageReview: ServicePeriodsReviewPage,
           pagePerItemIndex: 0,
+          // Only show summary if at least one service period exists
+          // depends: formData => {
+          //   return formData?.servicePeriods?.length > 0;
+          // },
         },
         veteranServedUnderDifferentName: {
           path: 'served-under-different-name',
