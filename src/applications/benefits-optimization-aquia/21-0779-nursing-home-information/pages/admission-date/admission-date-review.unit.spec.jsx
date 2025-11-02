@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import React from 'react';
 import sinon from 'sinon';
 
-import { AdmissionDateReview } from './admission-date-review';
+import { AdmissionDateReview } from '@bio-aquia/21-0779-nursing-home-information/pages/admission-date/admission-date-review';
 
 describe('AdmissionDateReview', () => {
   const mockEditPage = () => {};

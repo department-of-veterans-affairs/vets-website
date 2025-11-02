@@ -6,7 +6,7 @@ import {
   addressSchema,
   mailingAddressSchema,
   contactInfoSchema,
-} from './contact-info';
+} from '@bio-aquia/21-0779-nursing-home-information/schemas/contact-info/contact-info';
 
 describe('Contact Info Schemas', () => {
   describe('phoneSchema', () => {

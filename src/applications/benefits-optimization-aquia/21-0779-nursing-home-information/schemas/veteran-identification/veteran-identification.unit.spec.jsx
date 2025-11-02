@@ -9,7 +9,7 @@ import {
   dateOfBirthSchema,
   veteranPersonalInfoSchema,
   veteranIdentificationInfoSchema,
-} from './veteran-identification';
+} from '@bio-aquia/21-0779-nursing-home-information/schemas/veteran-identification/veteran-identification';
 
 describe('Veteran Identification Schemas', () => {
   describe('firstNameSchema', () => {

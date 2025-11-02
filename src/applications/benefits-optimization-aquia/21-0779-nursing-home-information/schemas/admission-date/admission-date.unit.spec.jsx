@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 
-import { admissionDateInfoSchema, admissionDateSchema } from './admission-date';
+import {
+  admissionDateInfoSchema,
+  admissionDateSchema,
+} from '@bio-aquia/21-0779-nursing-home-information/schemas/admission-date/admission-date';
 
 describe('Admission Date Schemas', () => {
   describe('admissionDateSchema', () => {

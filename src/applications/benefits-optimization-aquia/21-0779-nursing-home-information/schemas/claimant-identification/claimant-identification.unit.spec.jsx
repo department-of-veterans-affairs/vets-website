@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import {
   claimantPersonalInfoSchema,
   claimantIdentificationInfoSchema,
-} from './claimant-identification';
+} from '@bio-aquia/21-0779-nursing-home-information/schemas/claimant-identification/claimant-identification';
 
 describe('Claimant Identification Schemas', () => {
   describe('claimantPersonalInfoSchema', () => {

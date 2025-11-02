@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 
-import { VeteranIdentificationInfoPage } from './veteran-identification-info';
+import { VeteranIdentificationInfoPage } from '@bio-aquia/21-0779-nursing-home-information/pages/veteran-identification-info/veteran-identification-info';
 
 describe('VeteranIdentificationInfoPage', () => {
   const defaultProps = {

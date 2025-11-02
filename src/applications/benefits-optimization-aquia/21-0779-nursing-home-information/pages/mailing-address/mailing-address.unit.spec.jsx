@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { mailingAddress } from './mailing-address';
+import { mailingAddress } from '@bio-aquia/21-0779-nursing-home-information/pages/mailing-address/mailing-address';
 
 describe('Mailing Address Page Schema', () => {
   describe('Schema Export', () => {

@@ -5,7 +5,7 @@ import {
   nursingOfficialJobTitleSchema,
   nursingOfficialPhoneNumberSchema,
   nursingOfficialInformationSchema,
-} from './nursing-official-information';
+} from '@bio-aquia/21-0779-nursing-home-information/schemas/nursing-official-information/nursing-official-information';
 
 describe('Nursing Official Information Schemas', () => {
   describe('nursingOfficialFirstNameSchema', () => {

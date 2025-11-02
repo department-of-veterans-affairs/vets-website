@@ -9,7 +9,7 @@ import {
   lastNameSchema,
   middleNameSchema,
   suffixSchema,
-} from './personal-info';
+} from '@bio-aquia/21-0779-nursing-home-information/schemas/personal-info/personal-info';
 
 describe('Personal Info Schemas', () => {
   describe('firstNameSchema', () => {

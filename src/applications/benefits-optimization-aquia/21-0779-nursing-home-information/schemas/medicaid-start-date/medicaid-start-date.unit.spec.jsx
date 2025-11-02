@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import {
   medicaidStartDateInfoSchema,
   medicaidStartDateSchema,
-} from './medicaid-start-date';
+} from '@bio-aquia/21-0779-nursing-home-information/schemas/medicaid-start-date/medicaid-start-date';
 
 describe('Medicaid Start Date Schemas', () => {
   describe('medicaidStartDateSchema', () => {

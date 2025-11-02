@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { AdmissionDatePage } from './admission-date';
+import { AdmissionDatePage } from '@bio-aquia/21-0779-nursing-home-information/pages/admission-date/admission-date';
 
 describe('AdmissionDatePage', () => {
   describe('Component Export', () => {

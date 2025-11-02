@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { certificationLevelOfCareSchema } from './certification-level-of-care';
+import { certificationLevelOfCareSchema } from '@bio-aquia/21-0779-nursing-home-information/schemas/certification-level-of-care/certification-level-of-care';
 
 describe('Certification Level of Care Schemas', () => {
   describe('certificationLevelOfCareSchema', () => {

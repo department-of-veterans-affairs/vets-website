@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { nameAndDateOfBirth } from './name-and-date-of-birth';
+import { nameAndDateOfBirth } from '@bio-aquia/21-0779-nursing-home-information/pages/name-and-date-of-birth/name-and-date-of-birth';
 
 describe('Name and Date of Birth Page Schema', () => {
   describe('Schema Structure', () => {

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { phoneAndEmailAddress } from './phone-and-email-address';
+import { phoneAndEmailAddress } from '@bio-aquia/21-0779-nursing-home-information/pages/phone-and-email-address/phone-and-email-address';
 
 describe('Phone and Email Address Page Schema', () => {
   describe('Schema Export', () => {

@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 
-import { CertificationLevelOfCareReview } from './certification-level-of-care-review';
+import { CertificationLevelOfCareReview } from '@bio-aquia/21-0779-nursing-home-information/pages/certification-level-of-care/certification-level-of-care-review';
 
 describe('CertificationLevelOfCareReview', () => {
   const mockEditPage = () => {};

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import {
   nursingHomeAddressSchema,
   nursingHomeDetailsSchema,
-} from './nursing-home';
+} from '@bio-aquia/21-0779-nursing-home-information/schemas/nursing-home/nursing-home';
 
 describe('Nursing Home Information Schemas', () => {
   describe('nursingHomeAddressSchema', () => {

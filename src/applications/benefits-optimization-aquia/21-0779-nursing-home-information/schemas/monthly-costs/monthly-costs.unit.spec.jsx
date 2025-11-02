@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 
-import { monthlyOutOfPocketSchema, monthlyCostsSchema } from './monthly-costs';
+import {
+  monthlyOutOfPocketSchema,
+  monthlyCostsSchema,
+} from '@bio-aquia/21-0779-nursing-home-information/schemas/monthly-costs/monthly-costs';
 
 describe('Monthly Costs Schemas', () => {
   describe('monthlyOutOfPocketSchema', () => {

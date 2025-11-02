@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { identificationInformation } from './identification-information';
+import { identificationInformation } from '@bio-aquia/21-0779-nursing-home-information/pages/identification-information/identification-information';
 
 describe('Identification Information Page Schema', () => {
   describe('Schema Export', () => {

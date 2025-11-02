@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 
-import { MEDICAID_PATTERNS, MEDICAID_MESSAGES } from './constants';
+import {
+  MEDICAID_PATTERNS,
+  MEDICAID_MESSAGES,
+} from '@bio-aquia/21-0779-nursing-home-information/schemas/constants/constants';
 
 describe('Schema Constants', () => {
   describe('MEDICAID_PATTERNS', () => {

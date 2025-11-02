@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 
-import { patientTypeSchema, claimantQuestionSchema } from './claimant-question';
+import {
+  patientTypeSchema,
+  claimantQuestionSchema,
+} from '@bio-aquia/21-0779-nursing-home-information/schemas/claimant-question/claimant-question';
 
 describe('Claimant Question Schemas', () => {
   describe('patientTypeSchema', () => {

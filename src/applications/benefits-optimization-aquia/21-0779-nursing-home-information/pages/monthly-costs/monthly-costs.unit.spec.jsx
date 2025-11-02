@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 
-import { MonthlyCostsPage } from './monthly-costs';
+import { MonthlyCostsPage } from '@bio-aquia/21-0779-nursing-home-information/pages/monthly-costs/monthly-costs';
 
 describe('MonthlyCostsPage', () => {
   const defaultProps = {

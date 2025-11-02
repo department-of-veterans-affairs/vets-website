@@ -1,10 +1,11 @@
 import { z } from 'zod';
+
 import {
   dateOfBirthSchema,
   fullNameSchema,
   ssnSchema,
   vaFileNumberSchema,
-} from '../veteran-identification';
+} from '@bio-aquia/21-0779-nursing-home-information/schemas/veteran-identification';
 
 /**
  * Schema for claimant personal information (name and DOB)

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { CertificationLevelOfCarePage } from './certification-level-of-care';
+import { CertificationLevelOfCarePage } from '@bio-aquia/21-0779-nursing-home-information/pages/certification-level-of-care/certification-level-of-care';
 
 describe('CertificationLevelOfCarePage', () => {
   describe('Component Export', () => {

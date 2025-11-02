@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 
-import { ClaimantPersonalInfoReview } from './claimant-personal-info-review';
+import { ClaimantPersonalInfoReview } from '@bio-aquia/21-0779-nursing-home-information/pages/claimant-personal-info/claimant-personal-info-review';
 
 describe('ClaimantPersonalInfoReview', () => {
   const mockEditPage = () => {};

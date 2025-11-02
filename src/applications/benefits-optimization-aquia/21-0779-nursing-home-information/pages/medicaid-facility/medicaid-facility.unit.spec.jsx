@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 
-import { MedicaidFacilityPage } from './medicaid-facility';
+import { MedicaidFacilityPage } from '@bio-aquia/21-0779-nursing-home-information/pages/medicaid-facility/medicaid-facility';
 
 describe('MedicaidFacilityPage', () => {
   const defaultProps = {
