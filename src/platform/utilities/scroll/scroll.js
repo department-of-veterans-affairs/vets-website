@@ -89,9 +89,9 @@ const hasInputInShadowDOM = element => {
  * Clean up error annotations from web components that no longer have errors
  */
 export const cleanupErrorAnnotations = () => {
-  // Find all web components that might have legends with sr-only error spans
+  // Find all web components that might have legends or labels with sr-only error spans
   const allComponents = document.querySelectorAll(
-    'va-radio, va-checkbox-group, va-memorable-date, va-statement-of-truth',
+    'va-radio, va-checkbox, va-checkbox-group, va-memorable-date, va-statement-of-truth',
   );
   allComponents.forEach(component => {
     const errorMessage =
@@ -104,6 +104,15 @@ export const cleanupErrorAnnotations = () => {
       const legend = component.shadowRoot?.querySelector('legend');
       if (legend) {
         const errorSpan = legend.querySelector('.sr-only-error');
+        if (errorSpan) {
+          errorSpan.remove();
+        }
+      }
+
+      // Also check labels (for va-checkbox)
+      const label = component.shadowRoot?.querySelector('label');
+      if (label) {
+        const errorSpan = label.querySelector('.sr-only-error');
         if (errorSpan) {
           errorSpan.remove();
         }
@@ -241,6 +250,23 @@ const processErrorElement = errorWebComponent => {
   // Remove role=alert to prevent interference with aria-describedby announcements
   errorElement.removeAttribute('role');
   errorElement.removeAttribute('aria-live');
+
+  // Special handling for va-checkbox: add error to label instead of using aria-describedby
+  const isCheckbox = errorWebComponent.tagName === 'VA-CHECKBOX';
+  if (isCheckbox) {
+    const errorMessage =
+      errorWebComponent.getAttribute('error') || errorWebComponent.error;
+    addSROnlyErrorToElement(errorWebComponent, errorMessage, 'label');
+
+    // Remove aria-describedby from checkbox input to prevent duplicate announcements
+    const checkboxInput = errorWebComponent?.shadowRoot?.querySelector(
+      'input[type="checkbox"]',
+    );
+    if (checkboxInput) {
+      checkboxInput.removeAttribute('aria-describedby');
+    }
+    return;
+  }
 
   // Check if there's a focusable input element (including nested shadow DOMs)
   const hasInput = hasInputInShadowDOM(errorWebComponent);
