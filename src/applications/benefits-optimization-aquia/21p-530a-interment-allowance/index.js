@@ -5,13 +5,11 @@
 
 /** @exports {Object} Constants - Form constants */
 export {
-  TITLE,
-  SUBTITLE,
-  SUBMIT_URL,
-  TRACKING_PREFIX,
-  BRANCH_OF_SERVICE,
-  CURRENT_ALLOWANCE_RATE,
   SUBMISSION_ADDRESS,
+  SUBMIT_URL,
+  SUBTITLE,
+  TITLE,
+  TRACKING_PREFIX,
 } from '@bio-aquia/21p-530a-interment-allowance/constants';
 
 /** @exports {Object} Config - Form configuration */
