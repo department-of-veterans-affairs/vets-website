@@ -9,12 +9,12 @@ import constants from 'vets-json-schema/dist/constants.json';
 import addressData from 'platform/forms/address/data';
 
 import {
-  MILITARY_ZIP_PATTERNS,
   isValidUSZipCode,
   isValidCanPostalCode,
   isValidMexicoPostalCode,
+  MILITARY_ZIP_PATTERNS,
   VALIDATION_MESSAGES,
-} from '../../utils/platform-validators';
+} from '../../utils/validators';
 
 /**
  * Valid military cities - from platform

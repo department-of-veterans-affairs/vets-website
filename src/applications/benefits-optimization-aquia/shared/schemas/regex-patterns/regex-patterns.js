@@ -1,17 +1,17 @@
 /**
  * @module regex-patterns
  * @description Centralized regular expression patterns for bio-aquia/shared validation.
- * @deprecated Prefer using platform-validators module which wraps VA.gov platform validation functions.
- * This module re-exports from platform-validators for backward compatibility.
+ * @deprecated Prefer using validators module which provides platform and custom validation functions.
+ * This module re-exports from validators for backward compatibility.
  *
- * MIGRATION NOTE: New code should import from '@bio-aquia/shared/utils/platform-validators'
- * to use platform validation functions directly.
+ * MIGRATION NOTE: New code should import from '@bio-aquia/shared/utils/validators'
+ * to use validation functions directly.
  */
 
 import {
   MILITARY_ZIP_PATTERNS,
   VALIDATION_MESSAGES as PLATFORM_MESSAGES,
-} from '../../utils/platform-validators';
+} from '../../utils/validators';
 
 /**
  * Name validation patterns
@@ -89,7 +89,7 @@ export const CHAR_PATTERNS = {
  * Platform equivalents:
  * - isValidUSZipCode() in platform/forms/address/index.js
  * - isValidCanPostalCode() in platform/forms/address/index.js
- * - isValidMexicoPostalCode() in platform-validators (custom implementation)
+ * - isValidMexicoPostalCode() in validators (custom implementation)
  */
 export const POSTAL_PATTERNS = {
   /** USA - 5 digits or 5+4 format */
@@ -102,12 +102,12 @@ export const POSTAL_PATTERNS = {
 
 /**
  * Military postal code patterns
- * Re-exported from platform-validators
+ * Re-exported from validators
  */
 export const MILITARY_POSTAL_PATTERNS = MILITARY_ZIP_PATTERNS;
 
 /**
  * Common validation messages
- * Re-exported from platform-validators
+ * Re-exported from validators
  */
 export const VALIDATION_MESSAGES = PLATFORM_MESSAGES;

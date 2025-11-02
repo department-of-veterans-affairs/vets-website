@@ -10,7 +10,7 @@ import {
   isValidSSN,
   isValidVAFileNumber,
   VALIDATION_MESSAGES,
-} from '../../utils/platform-validators';
+} from '../../utils/validators';
 
 /**
  * Date of birth validation schema with age checks.

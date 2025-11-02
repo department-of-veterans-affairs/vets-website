@@ -26,5 +26,5 @@ export { createVAComponentProps } from './component-props';
 /** Validation debugging utilities */
 export { debugValidation } from './debug-utils';
 
-/** Platform validation functions (wraps VA.gov platform validators) */
-export * from '@bio-aquia/shared/utils/platform-validators';
+/** Validation functions (platform + custom validators) */
+export * from '@bio-aquia/shared/utils/validators';

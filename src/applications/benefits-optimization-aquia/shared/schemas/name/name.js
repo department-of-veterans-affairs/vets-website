@@ -6,10 +6,7 @@
 
 import { z } from 'zod';
 
-import {
-  isValidName,
-  VALIDATION_MESSAGES,
-} from '../../utils/platform-validators';
+import { isValidName, VALIDATION_MESSAGES } from '../../utils/validators';
 
 /**
  * First name validation schema.
