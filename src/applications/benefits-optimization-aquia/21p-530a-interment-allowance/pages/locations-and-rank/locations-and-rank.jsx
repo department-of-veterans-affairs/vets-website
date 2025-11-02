@@ -15,9 +15,9 @@ import {
  * Schema for locations and rank page
  */
 const locationsAndRankPageSchema = z.object({
-  placeOfEntry: placeEnteredServiceSchema,
-  placeOfSeparation: placeSeparatedSchema,
-  rank: rankSchema,
+  placeOfEntry: placeEnteredServiceSchema.optional(),
+  placeOfSeparation: placeSeparatedSchema.optional(),
+  rank: rankSchema.optional(),
 });
 
 /**
@@ -45,39 +45,6 @@ export const LocationsAndRankPage = ({
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
-
-  // Check if we're editing an existing service period
-  // Only show "Cancel edit" if there are existing service periods and we're editing
-  const hasExistingPeriods = (formDataToUse.servicePeriods || []).length > 0;
-  const isEditingExisting =
-    typeof formDataToUse.editingServicePeriodIndex === 'number';
-  const isAddingAnother = hasExistingPeriods && !isEditingExisting;
-  const shouldShowCancelEdit = isEditingExisting || isAddingAnother;
-
-  // Custom back handler for cancel edit
-  const handleBack = () => {
-    if (shouldShowCancelEdit) {
-      // Cancel edit/add - clear temp data and return to summary
-      const updatedData = {
-        ...formDataToUse,
-        tempServicePeriod: {
-          branchOfService: '',
-          dateFrom: '',
-          dateTo: '',
-          placeOfEntry: '',
-          placeOfSeparation: '',
-          rank: '',
-          isEditing: false,
-        },
-        editingServicePeriodIndex: undefined,
-      };
-      setFormData(updatedData);
-      goToPath('/service-periods');
-    } else {
-      // Normal back navigation (first time through)
-      goBack();
-    }
-  };
 
   // Custom forward handler that adds the temp service period to the array
   const handleGoForward = () => {
@@ -118,29 +85,26 @@ export const LocationsAndRankPage = ({
         placeOfEntry: '',
         placeOfSeparation: '',
         rank: '',
-        isEditing: false,
       },
       editingServicePeriodIndex: undefined,
     };
 
+    // issuehere:
     setFormData(updatedData);
     goToPath('/service-periods');
   };
 
   return (
     <PageTemplate
-      title="Service locations"
+      title="Locations and rank"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={handleGoForward}
-      goBack={handleBack}
+      goBack={goBack}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       schema={locationsAndRankPageSchema}
       sectionName="tempServicePeriod"
-      navigationProps={{
-        backButtonText: shouldShowCancelEdit ? 'Cancel' : 'Back',
-      }}
       defaultData={{
         placeOfEntry: '',
         placeOfSeparation: '',
@@ -155,24 +119,24 @@ export const LocationsAndRankPage = ({
 
           <TextInputField
             name="placeOfEntry"
-            label="Place the Veteran entered active service"
+            label="Place of entry"
             value={localData.placeOfEntry || ''}
             onChange={handleFieldChange}
             error={errors.placeOfEntry}
             forceShowError={formSubmitted}
-            required
             schema={placeEnteredServiceSchema}
+            hint="Enter the city and state or name of the military base"
           />
 
           <TextInputField
             name="placeOfSeparation"
-            label="Place the Veteran separated from active service"
+            label="Place of separation"
             value={localData.placeOfSeparation || ''}
             onChange={handleFieldChange}
             error={errors.placeOfSeparation}
             forceShowError={formSubmitted}
             schema={placeSeparatedSchema}
-            required
+            hint="Enter the city and state or name of the military base"
           />
 
           <TextInputField
@@ -183,7 +147,6 @@ export const LocationsAndRankPage = ({
             error={errors.rank}
             forceShowError={formSubmitted}
             schema={rankSchema}
-            required
           />
         </>
       )}

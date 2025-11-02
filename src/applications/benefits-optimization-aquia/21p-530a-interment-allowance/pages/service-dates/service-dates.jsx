@@ -5,8 +5,6 @@ import { MemorableDateField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
-import constants from 'vets-json-schema/dist/constants.json';
-
 import { z } from 'zod';
 import { dateEnteredServiceSchema, dateSeparatedSchema } from '../../schemas';
 
@@ -64,73 +62,24 @@ export const ServiceDatesPage = ({
   setFormData,
   goForward,
   goBack,
-  goToPath,
   onReviewPage,
   updatePage,
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
-  // Check if we're editing an existing service period
-  // Only show "Cancel edit" if there are existing service periods and we're editing
-  const hasExistingPeriods = (formDataToUse.servicePeriods || []).length > 0;
-  const isEditingExisting =
-    typeof formDataToUse.editingServicePeriodIndex === 'number';
-  const isAddingAnother = hasExistingPeriods && !isEditingExisting;
-  const shouldShowCancelEdit = isEditingExisting || isAddingAnother;
-
-  // Custom back handler for cancel edit
-  const handleBack = () => {
-    if (shouldShowCancelEdit) {
-      // Cancel edit/add - clear temp data and return to summary
-      const updatedData = {
-        ...formDataToUse,
-        tempServicePeriod: {
-          branchOfService: '',
-          dateFrom: '',
-          dateTo: '',
-          placeOfEntry: '',
-          placeOfSeparation: '',
-          rank: '',
-          isEditing: false,
-        },
-        editingServicePeriodIndex: undefined,
-      };
-      setFormData(updatedData);
-      goToPath('/service-periods');
-    } else {
-      // Normal back navigation (first time through)
-      goBack();
-    }
-  };
-
-  // Get proper title
-  const { tempServicePeriod } = formDataToUse;
-  // Find matching branch label from constants
-  const branchOption = constants.branchesServed.find(
-    branch => branch.value === tempServicePeriod.branchOfService,
-  );
-  const branchLabel = branchOption
-    ? branchOption.label
-    : tempServicePeriod.branchOfService || '';
-
-  const pageTitle = `${branchLabel}`;
-
   return (
     <PageTemplate
-      title={pageTitle}
+      title="Service dates"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
-      goBack={handleBack}
+      goBack={goBack}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       schema={serviceDatesPageSchema}
       sectionName="tempServicePeriod"
       dataProcessor={ensureDateStrings}
-      navigationProps={{
-        backButtonText: shouldShowCancelEdit ? 'Cancel' : 'Back',
-      }}
       defaultData={{
         dateFrom: '',
         dateTo: '',
@@ -138,30 +87,32 @@ export const ServiceDatesPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
+          <p className="vads-u-margin-bottom--3">
+            Please provide the start and end dates for this service period.
+          </p>
+
           <MemorableDateField
             name="dateFrom"
             label="Service start date"
-            monthSelect
             value={localData.dateFrom || ''}
             onChange={handleFieldChange}
             required
-            remove-date-hint
             error={errors.dateFrom}
             forceShowError={formSubmitted}
             schema={dateEnteredServiceSchema}
+            hint="If you don't know the exact date, enter your best guess"
           />
 
           <MemorableDateField
             name="dateTo"
             label="Service end date"
-            monthSelect
             value={localData.dateTo || ''}
             onChange={handleFieldChange}
             required
-            remove-date-hint
             error={errors.dateTo}
             forceShowError={formSubmitted}
             schema={dateSeparatedSchema}
+            hint="If you don't know the exact date, enter your best guess"
           />
         </>
       )}
@@ -170,11 +121,10 @@ export const ServiceDatesPage = ({
 };
 
 ServiceDatesPage.propTypes = {
-  goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  onReviewPage: PropTypes.bool,
   goBack: PropTypes.func,
-  goToPath: PropTypes.func,
+  goForward: PropTypes.func.isRequired,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
 };

@@ -34,87 +34,55 @@ export const ServiceBranchPage = ({
   setFormData,
   goForward,
   goBack,
-  goToPath,
   onReviewPage,
   updatePage,
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
-  // Check if we're editing an existing service period
-  // Only show "Cancel edit" if there are existing service periods and we're editing
-  const hasExistingPeriods = (formDataToUse.servicePeriods || []).length > 0;
-  const isEditingExisting =
-    typeof formDataToUse.editingServicePeriodIndex === 'number';
-  const isAddingAnother = hasExistingPeriods && !isEditingExisting;
-  const shouldShowCancelEdit = isEditingExisting || isAddingAnother;
-
-  // Custom back handler for cancel edit
-  const handleBack = () => {
-    if (shouldShowCancelEdit) {
-      // Cancel edit/add - clear temp data and return to summary
-      const updatedData = {
-        ...formDataToUse,
-        tempServicePeriod: {
-          branchOfService: '',
-          dateFrom: '',
-          dateTo: '',
-          placeOfEntry: '',
-          placeOfSeparation: '',
-          rank: '',
-          isEditing: false,
-        },
-        editingServicePeriodIndex: undefined,
-      };
-      setFormData(updatedData);
-      goToPath('/service-periods');
-    } else {
-      // Normal back navigation (first time through)
-      goBack();
-    }
-  };
-
   return (
     <PageTemplate
-      title="Service periods"
+      title="Branch of service"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
-      goBack={handleBack}
+      goBack={goBack}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       schema={serviceBranchPageSchema}
       sectionName="tempServicePeriod"
-      navigationProps={{
-        backButtonText: shouldShowCancelEdit ? 'Cancel' : 'Back',
-      }}
       defaultData={{
         branchOfService: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
-        <SelectField
-          name="branchOfService"
-          label="Branch of service"
-          value={localData.branchOfService || ''}
-          onChange={handleFieldChange}
-          required
-          error={errors.branchOfService}
-          forceShowError={formSubmitted}
-          schema={branchOfServiceSchema}
-          options={constants.branchesServed}
-        />
+        <>
+          <p className="vads-u-margin-bottom--3">
+            Please select the branch of service for this service period.
+          </p>
+
+          <SelectField
+            name="branchOfService"
+            label="Branch of service"
+            value={localData.branchOfService || ''}
+            onChange={handleFieldChange}
+            required
+            error={errors.branchOfService}
+            forceShowError={formSubmitted}
+            schema={branchOfServiceSchema}
+            options={constants.branchesServed}
+          />
+        </>
       )}
     </PageTemplate>
   );
 };
 
 ServiceBranchPage.propTypes = {
-  goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  onReviewPage: PropTypes.bool,
   goBack: PropTypes.func,
-  goToPath: PropTypes.func,
+  goForward: PropTypes.func.isRequired,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
 };

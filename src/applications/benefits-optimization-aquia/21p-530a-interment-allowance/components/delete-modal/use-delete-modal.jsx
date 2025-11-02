@@ -12,17 +12,11 @@ export const useDeleteModal = (onDelete = () => {}) => {
 
   // Confirms the delete action and closes the modal
   const handleModalConfirm = () => {
-    // Close modal and reset state BEFORE calling onDelete to avoid
-    // state updates on unmounted component
+    if (typeof onDelete === 'function') {
+      onDelete(deleteIndex);
+    }
     setModalOpen(false);
     setDeleteIndex(null);
-
-    if (typeof onDelete === 'function') {
-      // Use setTimeout to ensure state updates complete before deletion
-      setTimeout(() => {
-        onDelete(deleteIndex);
-      }, 0);
-    }
   };
 
   // Opens the modal for a specific index

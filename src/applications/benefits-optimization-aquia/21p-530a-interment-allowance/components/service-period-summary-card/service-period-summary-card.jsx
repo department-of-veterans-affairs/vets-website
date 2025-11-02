@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import constants from 'vets-json-schema/dist/constants.json';
-import { Link } from 'react-router';
-// import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import DeleteConfirmationModal from '../delete-modal/delete-confirmation-modal';
 import { useDeleteModal } from '../delete-modal/use-delete-modal';
@@ -57,6 +56,19 @@ export const ServicePeriodSummaryCard = ({
     handleDeleteClick,
   } = useDeleteModal(onDelete);
 
+  // const handleDeleteClick = () => {
+  //   setIsModalOpen(true);
+  // };
+
+  // const handleModalCancel = () => {
+  //   setIsModalOpen(false);
+  // };
+
+  // const handleModalConfirm = () => {
+  //   setIsModalOpen(false);
+  //   onDelete(index);
+  // };
+
   const cardHeading = `${branchLabel}`;
   const ariaLabel = `Service period ${index + 1}: ${branchLabel}`;
 
@@ -86,12 +98,10 @@ export const ServicePeriodSummaryCard = ({
           </div>
         </div>
         <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-bottom--neg1">
-          <Link
+          <VaLink
+            type="VaLink"
             aria-label={`Edit ${ariaLabel}`}
-            to="/service-branch"
-            onClick={() => {
-              onEdit(index);
-            }}
+            onClick={() => onEdit(index)}
             className="vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--neg0p5"
           >
             <span>
@@ -102,12 +112,12 @@ export const ServicePeriodSummaryCard = ({
                 className="vads-u-padding-left--0p5"
               />
             </span>
-          </Link>
+          </VaLink>
 
           <va-button-icon
             button-type="delete"
             class="vads-u-margin-right--neg1 mobile-lg:vads-u-margin-right--neg2 summary-card-delete-button"
-            onClick={() => handleDeleteClick(index)}
+            onClick={handleDeleteClick}
           />
         </div>
       </va-card>
@@ -117,9 +127,28 @@ export const ServicePeriodSummaryCard = ({
           isOpen={isModalOpen}
           onClose={handleModalCancel}
           onDelete={handleModalConfirm}
-          modalTitle={cardHeading}
+          modalTitle={`${cardHeading.charAt(0).toLowerCase()}`}
         />
       ) : null}
+
+      {/* {isModalOpen && (
+        <va-modal
+          modalTitle="Remove this service period?"
+          onCloseEvent={handleModalCancel}
+          onPrimaryButtonClick={handleModalConfirm}
+          onSecondaryButtonClick={handleModalCancel}
+          primaryButtonText="Yes, remove this"
+          secondaryButtonText="No, keep this"
+          status="warning"
+          visible={isModalOpen}
+          uswds
+        >
+          <p>
+            This will remove <strong>{branchLabel}</strong> from your service
+            periods.
+          </p>
+        </va-modal>
+      )} */}
     </>
   );
 };

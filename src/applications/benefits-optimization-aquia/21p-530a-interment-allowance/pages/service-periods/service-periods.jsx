@@ -50,7 +50,7 @@ export const ServicePeriodsPage = ({
   data,
   setFormData,
   goForward,
-  // goBack,
+  goBack,
   goToPath,
   onReviewPage,
   updatePage,
@@ -66,7 +66,7 @@ export const ServicePeriodsPage = ({
     const periodToEdit = servicePeriods[index];
     const updatedData = {
       ...formDataToUse,
-      tempServicePeriod: { ...periodToEdit, isEditing: true },
+      tempServicePeriod: { ...periodToEdit },
       editingServicePeriodIndex: index,
     };
     setFormData(updatedData);
@@ -87,7 +87,7 @@ export const ServicePeriodsPage = ({
   };
 
   const handleAddAnother = () => {
-    // Clear temp object and editing index, set isEditing flag
+    // Clear temp object and editing index
     const updatedData = {
       ...formDataToUse,
       tempServicePeriod: {
@@ -97,7 +97,6 @@ export const ServicePeriodsPage = ({
         placeOfEntry: '',
         placeOfSeparation: '',
         rank: '',
-        isEditing: true,
       },
       editingServicePeriodIndex: undefined,
     };
@@ -105,11 +104,7 @@ export const ServicePeriodsPage = ({
 
     // Navigate to first page of the flow
     if (goToPath) {
-      // timeout is needed to prevent a race condition between setFormData and
-      //  page navigation otherwise the formData doesn't reflect the change in time for the depends
-      setTimeout(() => {
-        goToPath('/service-branch');
-      }, 0);
+      goToPath('/service-branch');
     }
   };
 
@@ -140,33 +135,13 @@ export const ServicePeriodsPage = ({
     }
   };
 
-  // Custom back handler - jumping back to burial information
-  //  editing pages happens in first entry and on "edit"
-  const handleBack = () => {
-    const updatedData = {
-      ...formDataToUse,
-      tempServicePeriod: {
-        branchOfService: '',
-        dateFrom: '',
-        dateTo: '',
-        placeOfEntry: '',
-        placeOfSeparation: '',
-        rank: '',
-        isEditing: false,
-      },
-      editingServicePeriodIndex: undefined,
-    };
-    setFormData(updatedData);
-    goToPath('/burial-information');
-  };
-
   return (
     <PageTemplate
       title="Review the Veteran's service periods"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={handleForward}
-      goBack={handleBack}
+      goBack={goBack}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       schema={servicePeriodsSummarySchema}
@@ -178,6 +153,11 @@ export const ServicePeriodsPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
+          <p className="vads-u-margin-bottom--3">
+            Review the veteran’s service periods below. You can add, edit, or
+            remove service periods as needed.
+          </p>
+
           {servicePeriods.length === 0 ? (
             <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3">
               <p className="vads-u-margin--0">No service periods added yet.</p>
@@ -198,7 +178,7 @@ export const ServicePeriodsPage = ({
 
           <RadioField
             name="hasAdditionalServicePeriods"
-            label="Do you have another service period to add?"
+            label="Do you have additional service periods to add?"
             value={localData.hasAdditionalServicePeriods || ''}
             onChange={handleFieldChange}
             required
