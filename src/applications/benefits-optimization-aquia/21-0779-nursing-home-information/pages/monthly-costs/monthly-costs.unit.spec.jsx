@@ -1,10 +1,7 @@
-/**
- * Unit tests for MonthlyCostsPage component
- */
-
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import { MonthlyCostsPage } from './monthly-costs';
 
 describe('MonthlyCostsPage', () => {

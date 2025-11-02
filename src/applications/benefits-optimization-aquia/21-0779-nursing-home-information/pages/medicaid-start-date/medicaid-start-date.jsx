@@ -6,8 +6,8 @@ import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
 import {
-  medicaidStartDateSchema,
   medicaidStartDateInfoSchema,
+  medicaidStartDateSchema,
 } from '@bio-aquia/21-0779-nursing-home-information/schemas/medicaid-start-date';
 
 /**

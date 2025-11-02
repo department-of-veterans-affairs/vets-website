@@ -1,8 +1,5 @@
-/**
- * Unit tests for utility functions
- */
-
 import { expect } from 'chai';
+
 import { formatDate } from './index';
 
 describe('Utility Functions', () => {
@@ -76,7 +73,7 @@ describe('Utility Functions', () => {
 
     it('should format non-leap year Feb 29 (JS Date rolls over to Mar 1)', () => {
       const result = formatDate('2019-02-29');
-      // JavaScript Date accepts 2019-02-29 and rolls over to 2019-03-01
+
       expect(result).to.not.equal('Not provided');
       expect(result).to.be.a('string');
     });
@@ -124,25 +121,25 @@ describe('Utility Functions', () => {
 
     it('should return input value for boolean input (error handling)', () => {
       const result = formatDate(true);
-      // Function returns dateString on error, which is the boolean true
+
       expect(result).to.equal(true);
     });
 
     it('should return input value for numeric input (error handling)', () => {
       const result = formatDate(12345);
-      // Function returns dateString on error, which is the number
+
       expect(result).to.equal(12345);
     });
 
     it('should return input value for object input (error handling)', () => {
       const result = formatDate({ date: '2020-01-01' });
-      // Function returns dateString on error, which is the object
+
       expect(result).to.deep.equal({ date: '2020-01-01' });
     });
 
     it('should return input value for array input (error handling)', () => {
       const result = formatDate(['2020-01-01']);
-      // Function returns dateString on error, which is the array
+
       expect(result).to.deep.equal(['2020-01-01']);
     });
   });

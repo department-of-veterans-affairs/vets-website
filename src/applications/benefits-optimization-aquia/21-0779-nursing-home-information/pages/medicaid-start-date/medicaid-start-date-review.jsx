@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import { formatDate } from '@bio-aquia/21-0779-nursing-home-information/utils';
 
 /**

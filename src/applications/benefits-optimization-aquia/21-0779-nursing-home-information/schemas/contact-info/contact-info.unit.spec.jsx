@@ -1,7 +1,3 @@
-/**
- * Unit tests for contact info schemas
- */
-
 import { expect } from 'chai';
 import {
   phoneSchema,

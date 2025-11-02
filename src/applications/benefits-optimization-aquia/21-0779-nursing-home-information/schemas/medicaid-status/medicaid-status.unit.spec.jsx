@@ -1,7 +1,3 @@
-/**
- * Unit tests for medicaid status schemas
- */
-
 import { expect } from 'chai';
 import {
   medicaidStatusSchema,

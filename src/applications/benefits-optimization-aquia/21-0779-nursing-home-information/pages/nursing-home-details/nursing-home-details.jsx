@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import { z } from 'zod';
+
+import { nursingHomeDetailsSchema } from '@bio-aquia/21-0779-nursing-home-information/schemas';
 import { TextInputField } from '@bio-aquia/shared/components/atoms';
 import { AddressField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
-import { nursingHomeDetailsSchema } from '@bio-aquia/21-0779-nursing-home-information/schemas';
 
 // Schema for nursing home name field
 const nursingHomeNameSchema = z

@@ -1,16 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { TextInputField, PhoneField } from '@bio-aquia/shared/components/atoms';
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
-
 import {
   nursingOfficialFirstNameSchema,
-  nursingOfficialLastNameSchema,
-  nursingOfficialJobTitleSchema,
-  nursingOfficialPhoneNumberSchema,
   nursingOfficialInformationSchema,
+  nursingOfficialJobTitleSchema,
+  nursingOfficialLastNameSchema,
+  nursingOfficialPhoneNumberSchema,
 } from '@bio-aquia/21-0779-nursing-home-information/schemas/nursing-official-information';
+import { PhoneField, TextInputField } from '@bio-aquia/shared/components/atoms';
+import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 /**
  * Nursing Official Information page component for the nursing home information form

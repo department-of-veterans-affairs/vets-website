@@ -1,9 +1,6 @@
-/**
- * Unit tests for admission date schemas
- */
-
 import { expect } from 'chai';
-import { admissionDateSchema, admissionDateInfoSchema } from './admission-date';
+
+import { admissionDateInfoSchema, admissionDateSchema } from './admission-date';
 
 describe('Admission Date Schemas', () => {
   describe('admissionDateSchema', () => {
@@ -106,7 +103,7 @@ describe('Admission Date Schemas', () => {
 
     it('should accept non-leap year Feb 29 (JavaScript Date accepts and rolls over)', () => {
       const result = admissionDateSchema.safeParse('2019-02-29');
-      // JavaScript Date constructor accepts 2019-02-29 and rolls over to 2019-03-01
+
       expect(result.success).to.be.true;
     });
   });

@@ -1,8 +1,5 @@
-/**
- * Unit tests for schema constants
- */
-
 import { expect } from 'chai';
+
 import { MEDICAID_PATTERNS, MEDICAID_MESSAGES } from './constants';
 
 describe('Schema Constants', () => {

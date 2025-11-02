@@ -1,11 +1,8 @@
-/**
- * Unit tests for ConfirmationPage container component
- */
-
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
+
 import { ConfirmationPage } from './confirmation-page';
 
 describe('ConfirmationPage Container', () => {
@@ -326,7 +323,7 @@ describe('ConfirmationPage Container', () => {
           <ConfirmationPage route={route} />
         </Provider>,
       );
-      // Just verify it renders without errors when devOnly is set
+
       expect(container).to.exist;
     });
   });

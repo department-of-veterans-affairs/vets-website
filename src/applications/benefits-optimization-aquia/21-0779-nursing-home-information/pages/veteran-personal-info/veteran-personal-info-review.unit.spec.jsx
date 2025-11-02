@@ -1,10 +1,7 @@
-/**
- * Unit tests for VeteranPersonalInfoReview component
- */
-
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import { VeteranPersonalInfoReview } from './veteran-personal-info-review';
 
 describe('VeteranPersonalInfoReview', () => {

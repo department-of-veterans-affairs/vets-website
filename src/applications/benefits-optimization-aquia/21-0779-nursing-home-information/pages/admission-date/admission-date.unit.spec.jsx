@@ -1,8 +1,5 @@
-/**
- * Unit tests for AdmissionDatePage component
- */
-
 import { expect } from 'chai';
+
 import { AdmissionDatePage } from './admission-date';
 
 describe('AdmissionDatePage', () => {

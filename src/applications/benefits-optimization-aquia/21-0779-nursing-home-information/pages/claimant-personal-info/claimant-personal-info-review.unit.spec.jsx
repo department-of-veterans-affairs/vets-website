@@ -1,10 +1,7 @@
-/**
- * Unit tests for ClaimantPersonalInfoReview component
- */
-
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import { ClaimantPersonalInfoReview } from './claimant-personal-info-review';
 
 describe('ClaimantPersonalInfoReview', () => {

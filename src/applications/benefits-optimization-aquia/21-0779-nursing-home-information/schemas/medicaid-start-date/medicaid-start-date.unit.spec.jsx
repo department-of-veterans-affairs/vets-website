@@ -1,11 +1,7 @@
-/**
- * Unit tests for medicaid start date schemas
- */
-
 import { expect } from 'chai';
 import {
-  medicaidStartDateSchema,
   medicaidStartDateInfoSchema,
+  medicaidStartDateSchema,
 } from './medicaid-start-date';
 
 describe('Medicaid Start Date Schemas', () => {
@@ -109,7 +105,7 @@ describe('Medicaid Start Date Schemas', () => {
 
     it('should accept non-leap year Feb 29 (JavaScript Date accepts and rolls over)', () => {
       const result = medicaidStartDateSchema.safeParse('2019-02-29');
-      // JavaScript Date constructor accepts 2019-02-29 and rolls over to 2019-03-01
+
       expect(result.success).to.be.true;
     });
   });

@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  admissionDateInfoSchema,
+  admissionDateSchema,
+} from '@bio-aquia/21-0779-nursing-home-information/schemas/admission-date';
 import { DateField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
-
-import {
-  admissionDateSchema,
-  admissionDateInfoSchema,
-} from '@bio-aquia/21-0779-nursing-home-information/schemas/admission-date';
 
 /**
  * Data processor to ensure date values are properly formatted strings

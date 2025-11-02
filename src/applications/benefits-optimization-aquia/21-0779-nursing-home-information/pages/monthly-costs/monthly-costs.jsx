@@ -5,8 +5,8 @@ import { CurrencyField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import {
-  monthlyOutOfPocketSchema,
   monthlyCostsSchema,
+  monthlyOutOfPocketSchema,
 } from '@bio-aquia/21-0779-nursing-home-information/schemas/monthly-costs';
 
 /**

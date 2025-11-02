@@ -1,8 +1,5 @@
-/**
- * Unit tests for mailing address page schema
- */
-
 import { expect } from 'chai';
+
 import { mailingAddress } from './mailing-address';
 
 describe('Mailing Address Page Schema', () => {
@@ -33,7 +30,6 @@ describe('Mailing Address Page Schema', () => {
     });
 
     it('should configure title and description for mailing address', () => {
-      // Title UI configuration includes both title and description
       expect(mailingAddress.uiSchema['ui:title']).to.exist;
     });
   });

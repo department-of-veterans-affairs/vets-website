@@ -1,10 +1,7 @@
-/**
- * Unit tests for ClaimantIdentificationInfoPage component
- */
-
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import { ClaimantIdentificationInfoPage } from './claimant-identification-info';
 
 describe('ClaimantIdentificationInfoPage', () => {

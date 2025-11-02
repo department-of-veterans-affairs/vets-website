@@ -1,10 +1,7 @@
-/**
- * Unit tests for MedicaidApplicationPage component
- */
-
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import { MedicaidApplicationPage } from './medicaid-application';
 
 describe('MedicaidApplicationPage', () => {

@@ -1,10 +1,7 @@
-/**
- * Unit tests for NursingHomeDetailsPage component
- */
-
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import { NursingHomeDetailsPage } from './nursing-home-details';
 
 describe('NursingHomeDetailsPage', () => {

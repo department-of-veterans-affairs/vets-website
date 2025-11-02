@@ -1,11 +1,8 @@
-/**
- * Unit tests for AdmissionDateReview component
- */
-
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
 import sinon from 'sinon';
+
 import { AdmissionDateReview } from './admission-date-review';
 
 describe('AdmissionDateReview', () => {
@@ -87,7 +84,6 @@ describe('AdmissionDateReview', () => {
         />,
       );
 
-      // The formatDate function will format the date
       expect(container).to.exist;
     });
 

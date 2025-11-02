@@ -1,8 +1,5 @@
-/**
- * Unit tests for nursing care information page schema
- */
-
 import { expect } from 'chai';
+
 import { nursingCareInformation } from './nursing-care-information';
 
 describe('Nursing Care Information Page Schema', () => {

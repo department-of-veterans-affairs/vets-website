@@ -1,8 +1,5 @@
-/**
- * Unit tests for phone and email address page schema
- */
-
 import { expect } from 'chai';
+
 import { phoneAndEmailAddress } from './phone-and-email-address';
 
 describe('Phone and Email Address Page Schema', () => {

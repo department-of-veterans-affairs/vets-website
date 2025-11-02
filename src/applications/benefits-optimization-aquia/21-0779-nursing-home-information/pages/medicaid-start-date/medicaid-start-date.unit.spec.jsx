@@ -1,8 +1,5 @@
-/**
- * Unit tests for MedicaidStartDatePage component
- */
-
 import { expect } from 'chai';
+
 import { MedicaidStartDatePage } from './medicaid-start-date';
 
 describe('MedicaidStartDatePage', () => {

@@ -1,8 +1,5 @@
-/**
- * Unit tests for identification information page schema
- */
-
 import { expect } from 'chai';
+
 import { identificationInformation } from './identification-information';
 
 describe('Identification Information Page Schema', () => {
@@ -33,7 +30,6 @@ describe('Identification Information Page Schema', () => {
     });
 
     it('should configure title and description for identification', () => {
-      // Title UI configuration includes both title and description
       expect(identificationInformation.uiSchema['ui:title']).to.exist;
     });
   });

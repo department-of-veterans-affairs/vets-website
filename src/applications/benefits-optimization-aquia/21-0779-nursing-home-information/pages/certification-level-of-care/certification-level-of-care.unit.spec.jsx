@@ -1,8 +1,5 @@
-/**
- * Unit tests for CertificationLevelOfCarePage component
- */
-
 import { expect } from 'chai';
+
 import { CertificationLevelOfCarePage } from './certification-level-of-care';
 
 describe('CertificationLevelOfCarePage', () => {

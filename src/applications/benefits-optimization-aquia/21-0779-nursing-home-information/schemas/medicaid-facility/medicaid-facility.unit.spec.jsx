@@ -1,7 +1,3 @@
-/**
- * Unit tests for medicaid facility schemas
- */
-
 import { expect } from 'chai';
 import {
   medicaidFacilityStatusSchema,

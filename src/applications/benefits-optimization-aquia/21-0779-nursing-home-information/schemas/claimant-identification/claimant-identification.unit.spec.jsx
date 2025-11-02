@@ -1,7 +1,3 @@
-/**
- * Unit tests for claimant identification schemas
- */
-
 import { expect } from 'chai';
 import {
   claimantPersonalInfoSchema,
@@ -184,7 +180,7 @@ describe('Claimant Identification Schemas', () => {
         claimantVaFileNumber: '87654321',
       };
       const result = claimantIdentificationInfoSchema.safeParse(validData);
-      // claimantSsn has optional chaining but still validates when present
+
       expect(result.success).to.be.false;
     });
 

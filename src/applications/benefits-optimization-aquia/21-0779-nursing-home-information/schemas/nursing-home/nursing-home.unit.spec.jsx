@@ -1,7 +1,3 @@
-/**
- * Unit tests for nursing home information schemas
- */
-
 import { expect } from 'chai';
 import {
   nursingHomeAddressSchema,

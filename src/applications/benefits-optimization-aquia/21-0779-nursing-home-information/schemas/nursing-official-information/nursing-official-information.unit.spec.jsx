@@ -1,7 +1,3 @@
-/**
- * Unit tests for nursing official information schemas
- */
-
 import { expect } from 'chai';
 import {
   nursingOfficialFirstNameSchema,

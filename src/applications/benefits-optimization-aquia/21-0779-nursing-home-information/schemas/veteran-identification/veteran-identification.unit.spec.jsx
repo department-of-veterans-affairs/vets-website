@@ -1,7 +1,3 @@
-/**
- * Unit tests for veteran identification schemas
- */
-
 import { expect } from 'chai';
 import {
   firstNameSchema,

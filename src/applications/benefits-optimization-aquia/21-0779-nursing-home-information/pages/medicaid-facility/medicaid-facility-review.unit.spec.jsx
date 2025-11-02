@@ -1,10 +1,7 @@
-/**
- * Unit tests for MedicaidFacilityReview component
- */
-
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import { MedicaidFacilityReview } from './medicaid-facility-review';
 
 describe('MedicaidFacilityReview', () => {

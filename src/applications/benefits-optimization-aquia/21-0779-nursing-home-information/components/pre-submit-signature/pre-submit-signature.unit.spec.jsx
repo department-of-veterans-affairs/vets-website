@@ -1,7 +1,3 @@
-/**
- * Unit tests for PreSubmitSignature component
- */
-
 import React from 'react';
 import { render, waitFor, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
@@ -223,7 +219,6 @@ describe('PreSubmitSignature Component', () => {
         </Provider>,
       );
 
-      // Component should dispatch initial state
       await waitFor(() => {
         expect(dispatchSpy.called).to.be.true;
       });
@@ -259,7 +254,6 @@ describe('PreSubmitSignature Component', () => {
         </Provider>,
       );
 
-      // Should not dispatch when already submitted
       expect(dispatchSpy.called).to.be.false;
     });
   });
@@ -284,7 +278,6 @@ describe('PreSubmitSignature Component', () => {
         </Provider>,
       );
 
-      // Callback should be called with initial state
       await waitFor(() => {
         expect(callback.called).to.be.true;
       });
@@ -329,7 +322,6 @@ describe('PreSubmitSignature Component', () => {
         </Provider>,
       );
 
-      // Trigger error state
       rerender(
         <Provider store={store}>
           <PreSubmitSignature
@@ -628,7 +620,6 @@ describe('PreSubmitSignature Component', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
 
-      // Enter matching signature
       fireEvent(
         statementOfTruth,
         new CustomEvent('vaInputChange', {
@@ -636,7 +627,6 @@ describe('PreSubmitSignature Component', () => {
         }),
       );
 
-      // Check the checkbox
       fireEvent(
         statementOfTruth,
         new CustomEvent('vaCheckboxChange', {
@@ -671,7 +661,6 @@ describe('PreSubmitSignature Component', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
 
-      // Enter signature with different case
       fireEvent(
         statementOfTruth,
         new CustomEvent('vaInputChange', {
@@ -710,7 +699,6 @@ describe('PreSubmitSignature Component', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
 
-      // Enter signature with extra spaces
       fireEvent(
         statementOfTruth,
         new CustomEvent('vaInputChange', {
@@ -741,7 +729,6 @@ describe('PreSubmitSignature Component', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
 
-      // Enter non-matching signature
       fireEvent(
         statementOfTruth,
         new CustomEvent('vaInputChange', {
@@ -856,7 +843,6 @@ describe('PreSubmitSignature Component', () => {
         </Provider>,
       );
 
-      // Should not dispatch since values match initial state
       expect(dispatchSpy.called).to.be.false;
     });
 
@@ -880,7 +866,6 @@ describe('PreSubmitSignature Component', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
 
-      // Rapid input changes
       fireEvent(
         statementOfTruth,
         new CustomEvent('vaInputChange', {

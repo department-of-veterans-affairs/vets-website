@@ -1,7 +1,7 @@
 import {
-  titleUI,
   ssnOrVaFileNumberNoHintSchema,
   ssnOrVaFileNumberNoHintUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */

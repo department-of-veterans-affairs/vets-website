@@ -1,8 +1,5 @@
-/**
- * Unit tests for certification level of care schemas
- */
-
 import { expect } from 'chai';
+
 import { certificationLevelOfCareSchema } from './certification-level-of-care';
 
 describe('Certification Level of Care Schemas', () => {

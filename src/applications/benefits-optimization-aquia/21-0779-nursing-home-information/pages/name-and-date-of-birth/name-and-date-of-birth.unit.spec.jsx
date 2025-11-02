@@ -1,8 +1,5 @@
-/**
- * Unit tests for name and date of birth page schema
- */
-
 import { expect } from 'chai';
+
 import { nameAndDateOfBirth } from './name-and-date-of-birth';
 
 describe('Name and Date of Birth Page Schema', () => {

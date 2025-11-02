@@ -1,8 +1,5 @@
-/**
- * Unit tests for monthly costs schemas
- */
-
 import { expect } from 'chai';
+
 import { monthlyOutOfPocketSchema, monthlyCostsSchema } from './monthly-costs';
 
 describe('Monthly Costs Schemas', () => {
@@ -64,7 +61,7 @@ describe('Monthly Costs Schemas', () => {
 
     it('should accept negative amount string (schema strips minus sign)', () => {
       const result = monthlyOutOfPocketSchema.safeParse('-100');
-      // Schema uses replace(/[^0-9.]/g, '') which strips the minus sign, leaving '100'
+
       expect(result.success).to.be.true;
     });
 
@@ -80,7 +77,7 @@ describe('Monthly Costs Schemas', () => {
 
     it('should accept amount with letters and numbers (schema strips letters)', () => {
       const result = monthlyOutOfPocketSchema.safeParse('123ABC');
-      // Schema uses replace(/[^0-9.]/g, '') which strips letters, leaving '123'
+
       expect(result.success).to.be.true;
     });
 
@@ -96,7 +93,7 @@ describe('Monthly Costs Schemas', () => {
 
     it('should accept invalid characters (schema strips non-numeric)', () => {
       const result = monthlyOutOfPocketSchema.safeParse('$1,500@');
-      // Schema uses replace(/[^0-9.]/g, '') which strips $, comma, and @
+
       expect(result.success).to.be.true;
     });
 
@@ -160,7 +157,7 @@ describe('Monthly Costs Schemas', () => {
         monthlyOutOfPocket: '-100',
       };
       const result = monthlyCostsSchema.safeParse(invalidData);
-      // Schema strips the minus sign
+
       expect(result.success).to.be.true;
     });
 

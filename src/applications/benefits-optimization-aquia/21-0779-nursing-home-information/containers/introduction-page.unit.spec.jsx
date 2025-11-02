@@ -1,11 +1,8 @@
-/**
- * Unit tests for IntroductionPage container component
- */
-
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+
 import { IntroductionPage } from './introduction-page';
 
 describe('IntroductionPage Container', () => {

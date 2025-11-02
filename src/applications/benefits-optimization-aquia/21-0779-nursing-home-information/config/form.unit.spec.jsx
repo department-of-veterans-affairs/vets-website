@@ -1,8 +1,5 @@
-/**
- * Unit tests for form configuration
- */
-
 import { expect } from 'chai';
+
 import { formConfig } from './form';
 
 describe('Form Configuration', () => {

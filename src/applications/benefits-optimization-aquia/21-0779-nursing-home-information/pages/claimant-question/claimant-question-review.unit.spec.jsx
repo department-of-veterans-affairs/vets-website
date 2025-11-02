@@ -1,10 +1,7 @@
-/**
- * Unit tests for ClaimantQuestionReview component
- */
-
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import { ClaimantQuestionReview } from './claimant-question-review';
 
 describe('ClaimantQuestionReview', () => {

@@ -1,8 +1,5 @@
-/**
- * Unit tests for routes configuration
- */
-
 import { expect } from 'chai';
+
 import { route } from './routes';
 
 describe('Routes Configuration', () => {

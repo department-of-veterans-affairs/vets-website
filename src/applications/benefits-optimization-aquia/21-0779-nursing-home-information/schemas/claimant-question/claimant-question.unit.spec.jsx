@@ -1,8 +1,5 @@
-/**
- * Unit tests for claimant question schemas
- */
-
 import { expect } from 'chai';
+
 import { patientTypeSchema, claimantQuestionSchema } from './claimant-question';
 
 describe('Claimant Question Schemas', () => {
@@ -162,9 +159,9 @@ describe('Claimant Question Schemas', () => {
         patientType: 'veteran',
         extraField: 'should not be here',
       };
-      // Zod allows extra fields by default, but we test the structure
+
       const result = claimantQuestionSchema.safeParse(invalidData);
-      // This will pass in Zod by default unless we use .strict()
+
       expect(result.success).to.be.true;
     });
 

@@ -1,7 +1,3 @@
-/**
- * Unit tests for personal info schemas
- */
-
 import { expect } from 'chai';
 import {
   ssnSchema,

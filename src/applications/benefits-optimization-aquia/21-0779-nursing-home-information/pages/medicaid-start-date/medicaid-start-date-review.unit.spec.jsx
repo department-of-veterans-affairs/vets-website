@@ -1,10 +1,7 @@
-/**
- * Unit tests for MedicaidStartDateReview component
- */
-
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import { MedicaidStartDateReview } from './medicaid-start-date-review';
 
 describe('MedicaidStartDateReview', () => {

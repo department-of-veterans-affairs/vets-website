@@ -1,8 +1,5 @@
-/**
- * Unit tests for constants
- */
-
 import { expect } from 'chai';
+
 import { TITLE, SUBTITLE } from './constants';
 
 describe('Constants', () => {
