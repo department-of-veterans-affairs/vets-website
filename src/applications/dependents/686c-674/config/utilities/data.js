@@ -25,7 +25,7 @@ export const customFormReplacer = (key, value) => {
     return value.replace(/\D/g, '');
   }
   // clean up empty objects, which we have no reason to send
-  if (typeof value === 'object') {
+  if (typeof value === 'object' && value !== null) {
     const fields = Object.keys(value);
     if (
       fields.length === 0 ||

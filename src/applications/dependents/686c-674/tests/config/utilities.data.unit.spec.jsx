@@ -33,6 +33,7 @@ describe('Utilities', () => {
     ).to.be.an('array');
     expect(customFormReplacer('test', [])).to.be.undefined;
     expect(customFormReplacer('test', 1)).to.be.eq(1);
+    expect(customFormReplacer('test', null)).to.be.null;
   });
 });
 
