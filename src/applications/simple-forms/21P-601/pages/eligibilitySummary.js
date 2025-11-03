@@ -65,12 +65,11 @@ function EligibilitySummary({ formData }) {
               <li>Mail the completed form to your VA regional office</li>
             </ol>
 
-            <va-button
-              className=""
-              text="Download VA Form 21P-601 (PDF)"
+            <va-link
               href="https://www.va.gov/find-forms/about-form-21p-601/"
               target="_blank"
               rel="noopener noreferrer"
+              text="Download VA Form 21P-601 (PDF)"
             />
           </>
         )}
