@@ -98,7 +98,7 @@ const DebtDetails = () => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
@@ -131,7 +131,7 @@ const DebtDetails = () => {
         {oneThingPerPageActive ? (
           <va-accordion open-single>
             <va-accordion-item
-              header="Why might I have this debt?"
+              header="Why might I have this overpayment balance?"
               id="first"
               bordered
             >
@@ -156,7 +156,7 @@ const DebtDetails = () => {
               className="vads-u-margin-y--2 vads-u-margin-top--4"
               data-testid="debt-details-header"
             >
-              Debt details
+              Overpayment details
             </h2>
             <div className="mobile-lg:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
               <div>
@@ -194,7 +194,7 @@ const DebtDetails = () => {
                 className="vads-u-margin-y--2 vads-u-margin-top--4"
                 data-testid="otpp-details-header"
               >
-                Debt details
+                Overpayment details
               </h2>
               <p>
                 <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
@@ -214,7 +214,7 @@ const DebtDetails = () => {
               id="debtLetterHistory"
               className="vads-u-margin-top--4 vads-u-margin-bottom--0"
             >
-              Debt letter history
+              Overpayment letter history
             </h2>
             <HistoryTable history={filteredHistory} />
             {showDebtLetterDownload ? (
