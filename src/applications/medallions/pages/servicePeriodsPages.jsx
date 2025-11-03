@@ -17,6 +17,7 @@ import {
   isAuthorizedAgent,
   hasServiceRecord,
   validateMilitaryHistory,
+  requestRecordsLink,
 } from '../utils/helpers';
 import rankEnums from '../utils/rankEnums';
 import { rankLabels } from '../utils/rankLabels';
@@ -158,9 +159,10 @@ const options = {
 const introPage = {
   uiSchema: {
     ...titleUI(
-      'Service period(s)',
-      'In the next few questions, we’ll ask you about service periods. You must add at least one branch of service. You can add up to 3 service periods.',
+      'Veteran Service period(s)',
+      'The next few questions are about the Veteran’s service periods. You must add at least 1 service period. If you don’t know the Veteran’s service periods, you can request their military service records.',
     ),
+    'ui:description': requestRecordsLink,
   },
   schema: {
     type: 'object',

@@ -342,3 +342,15 @@ export const validateMilitaryHistory = (
     }
   }
 };
+
+export const requestRecordsLink = () => {
+  return (
+    <a
+      href="https://www.va.gov/records/get-military-service-records/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Learn how to request military service records (open in new tab)
+    </a>
+  );
+};

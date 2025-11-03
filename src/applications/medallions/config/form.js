@@ -30,7 +30,12 @@ import {
   ApplicantNameNote,
   isUserSignedIn,
 } from '../utils/helpers';
-import { servicePeriodsPagesVeteran } from '../pages/servicePeriodsPages';
+import {
+  // servicePeriodsPagesVeteran,
+  servicePeriodsPagesNonVeteran,
+  // servicePeriodsPagesPreparerVeteran,
+  // servicePeriodsPagesPreparerNonVeteran,
+} from '../pages/servicePeriodsPages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -192,10 +197,22 @@ const formConfig = {
         },
       },
     },
-    veteranServicePeriods: {
-      title: 'Veteran service periods',
-      pages: servicePeriodsPagesVeteran,
+    // servicePeriodsVeteran: {
+    //   title: 'Veteran service periods',
+    //   pages: servicePeriodsPagesVeteran,
+    // },
+    // servicePeriodsPreparerVeteran: {
+    //   title: 'Applicant’s service period(s)',
+    //   pages: servicePeriodsPagesPreparerVeteran,
+    // },
+    servicePeriodsNonVeteran: {
+      title: 'Veteran service period(s)',
+      pages: servicePeriodsPagesNonVeteran,
     },
+    // servicePeriodsPreparerNonVeteran: {
+    //   title: 'Veteran service period(s)',
+    //   pages: servicePeriodsPagesPreparerNonVeteran,
+    // },
     burialInformation: {
       title: 'Burial information',
       pages: {
