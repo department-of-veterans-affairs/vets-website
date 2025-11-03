@@ -77,10 +77,7 @@ export default {
   Component: {
     firstName: PropTypes.string,
     formSubmitted: PropTypes.bool,
-    fullName: PropTypes.shape({
-      firstName: PropTypes.string,
-      lastName: PropTypes.string,
-    }),
+    fullName: PropTypes.string,
     goBack: PropTypes.func,
     handlers: PropTypes.shape({
       onChange: PropTypes.func,
