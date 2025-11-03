@@ -120,7 +120,7 @@ const getAvailableAfterDate = (decisionDate, blockingType) => {
  * Formats an array of issue names into a natural language list
  * Uses semicolons as separators between issues if any issue name contains a comma
  * @param {string[]} names - Array of issue names
- * @returns {string} Formatted list (e.g., "A", "A and B", "A, B, and C" or "A; B, C; D, and E")
+ * @returns {string} Formatted list (e.g., "A", "A and B", "A, B, and C" or "A; B, C; D; and E")
  */
 export const formatIssueList = names => {
   if (names.length === 1) return names[0];
