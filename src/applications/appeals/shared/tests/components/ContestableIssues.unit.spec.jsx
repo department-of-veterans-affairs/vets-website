@@ -406,6 +406,35 @@ describe('<ContestableIssues>', () => {
       );
     });
 
+    it('should display blocked message for multiple blocked issues with correct plural grammar', () => {
+      const today = new Date();
+      const todayString = today.toISOString().split('T')[0];
+
+      const multipleBlockedIssues = [
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Back Pain',
+            approxDecisionDate: todayString,
+          },
+        },
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Knee Injury',
+            approxDecisionDate: todayString,
+          },
+        },
+      ];
+
+      const props = getProps({ loadedIssues: multipleBlockedIssues });
+      const { container } = render(<ContestableIssues {...props} />);
+
+      const blockedAlert = $('#blocked-issues-alert', container);
+      expect(blockedAlert).to.exist;
+      expect(blockedAlert.textContent).to.include(
+        "Your back pain and knee injury issues aren't available",
+      );
+    });
+
     it('should not display blocked message when no issues are blocked', () => {
       const pastIssues = [
         {
@@ -454,9 +483,9 @@ describe('<ContestableIssues>', () => {
 
       // Check that visual separation exists between blocked and non-blocked issues
       const elementsWithSeparator = container.querySelectorAll(
-        '[class*="vads-u-border-top--1px"][class*="vads-u-border-color--gray-medium"]',
+        '[class*="vads-u-border-top--1px"][class*="vads-u-border-color--gray-light"]',
       );
-      expect(elementsWithSeparator.length).to.be.greaterThan(0);
+      expect(elementsWithSeparator.length).to.equal(2);
     });
   });
 });

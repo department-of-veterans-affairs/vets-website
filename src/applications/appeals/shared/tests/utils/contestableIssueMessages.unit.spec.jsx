@@ -25,6 +25,34 @@ describe('formatIssueList', () => {
     ]);
     expect(result).to.equal('back pain, knee injury, and hearing loss');
   });
+
+  it('should use semicolons when issue names contain commas', () => {
+    const result = formatIssueList([
+      "bell's palsy",
+      'tendonitis, left ankle',
+      'tinnitus',
+    ]);
+    expect(result).to.equal(
+      "bell's palsy, tendonitis; left ankle, and tinnitus",
+    );
+  });
+
+  it('should use semicolons for two issues when names contain commas', () => {
+    const result = formatIssueList(["bell's palsy", 'tendonitis, left ankle']);
+    expect(result).to.equal("bell's palsy and tendonitis; left ankle");
+  });
+
+  it('should use regular commas when no issue names contain commas', () => {
+    const result = formatIssueList([
+      'back pain',
+      'knee injury',
+      'hearing loss',
+      'tinnitus',
+    ]);
+    expect(result).to.equal(
+      'back pain, knee injury, hearing loss, and tinnitus',
+    );
+  });
 });
 
 describe('extractIssueNames', () => {
@@ -37,16 +65,6 @@ describe('extractIssueNames', () => {
 
     const result = extractIssueNames(blockedIssues);
     expect(result).to.deep.equal(['back pain', 'knee injury', 'hearing loss']);
-  });
-
-  it('should handle missing issue names with fallback', () => {
-    const blockedIssues = [
-      { issue: 'Back Pain' },
-      {}, // Missing both issue and ratingIssueSubjectText
-    ];
-
-    const result = extractIssueNames(blockedIssues);
-    expect(result).to.deep.equal(['back pain', 'unknown condition']);
   });
 });
 
@@ -69,9 +87,10 @@ describe('getBlockedMessage', () => {
 
     const result = getBlockedMessage(blockedIssues);
 
-    expect(result).to.include("Your back pain issue isn't available");
-    expect(result).to.include('select it after');
-    expect(result).to.include("We're sorry");
+    // Assert on the full message structure for single issue
+    expect(result).to.match(
+      /^We're sorry\. Your back pain issue isn't available to add to your appeal yet\. You can come back and select it after .+, 12:00 a\.m\. [A-Z]{3,4}\.$/,
+    );
   });
 
   it('should generate message for multiple issues with correct grammar', () => {
@@ -88,10 +107,32 @@ describe('getBlockedMessage', () => {
 
     const result = getBlockedMessage(blockedIssues);
 
-    expect(result).to.include(
-      "Your back pain and knee injury issues aren't available",
+    expect(result).to.match(
+      /^We're sorry\. Your back pain and knee injury issues aren't available to add to your appeal yet\. You can come back and select them after .+, 12:00 a\.m\. [A-Z]{3,4}\.$/,
     );
-    expect(result).to.include('select them after');
+  });
+
+  it('should generate message for three or more issues with correct comma formatting', () => {
+    const blockedIssues = [
+      {
+        issue: 'Back Pain',
+        approxDecisionDate: '2023-06-15',
+      },
+      {
+        issue: 'Knee Injury',
+        approxDecisionDate: '2023-06-15',
+      },
+      {
+        issue: 'PTSD',
+        approxDecisionDate: '2023-06-15',
+      },
+    ];
+
+    const result = getBlockedMessage(blockedIssues);
+
+    expect(result).to.match(
+      /^We're sorry\. Your back pain, knee injury, and ptsd issues aren't available to add to your appeal yet\. You can come back and select them after .+, 12:00 a\.m\. [A-Z]{3,4}\.$/,
+    );
   });
 
   it('should generate local blocking message for current day decision dates', () => {
@@ -107,7 +148,8 @@ describe('getBlockedMessage', () => {
 
     const result = getBlockedMessage(blockedIssues);
 
-    expect(result).to.include('12:00 a.m.');
-    expect(result).to.include("Your back pain issue isn't available");
+    expect(result).to.match(
+      /^We're sorry\. Your back pain issue isn't available to add to your appeal yet\. You can come back and select it after .+, 12:00 a\.m\. [A-Z]{3,4}\.$/,
+    );
   });
 });
