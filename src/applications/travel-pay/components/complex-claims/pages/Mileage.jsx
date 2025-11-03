@@ -9,12 +9,10 @@ import {
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { createNewExpense, updateExpense } from '../../../redux/actions';
 import {
-  selectAppointment,
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
   selectAllExpenses,
 } from '../../../redux/selectors';
-import { formatDateTime } from '../../../util/dates';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import { EXPENSE_TYPES, TRIP_TYPES } from '../../../constants';
 
@@ -30,7 +28,6 @@ const Mileage = () => {
         : selectExpenseCreationLoadingState(state),
   );
 
-  const appointmentData = useSelector(selectAppointment);
   const allExpenses = useSelector(selectAllExpenses);
 
   const address = useSelector(selectVAPResidentialAddress);
@@ -125,32 +122,6 @@ const Mileage = () => {
   return (
     <>
       <h1>Mileage</h1>
-
-      {appointmentData && (
-        <div className="vads-u-margin-bottom--3">
-          <p className="vads-u-font-weight--bold vads-u-margin-bottom--1">
-            Appointment information
-          </p>
-          <p className="vads-u-margin-y--0">
-            {(() => {
-              if (!appointmentData.localStartTime) {
-                return 'Appointment information not available';
-              }
-              const [formattedDate, formattedTime] = formatDateTime(
-                appointmentData.localStartTime,
-                true,
-              );
-              return `${formattedDate} at ${formattedTime} appointment`;
-            })()}
-          </p>
-          {appointmentData.location?.attributes?.name && (
-            <p className="vads-u-margin-y--0">
-              {appointmentData.location.attributes.name}
-            </p>
-          )}
-        </div>
-      )}
-
       <va-additional-info
         class="vads-u-margin-y--3"
         trigger="How we calculate mileage"
