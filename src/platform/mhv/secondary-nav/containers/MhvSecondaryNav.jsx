@@ -26,7 +26,7 @@ export const mhvSecNavItems = [
     title: 'My HealtheVet',
     actionName: `${actionPrefix} - My HealtheVet`,
     icon: 'home',
-    href: '/my-health',
+    href: '/my-health/',
   },
   {
     title: 'Appointments',
@@ -34,7 +34,7 @@ export const mhvSecNavItems = [
     abbreviation: 'Appts',
     ariaLabel: 'Appointments',
     icon: 'calendar_today',
-    href: `/my-health/appointments`,
+    href: `/my-health/appointments/`,
   },
   {
     title: 'Messages',
@@ -48,13 +48,13 @@ export const mhvSecNavItems = [
     abbreviation: 'Meds',
     actionName: `${actionPrefix} - Medications`,
     icon: 'pill',
-    href: '/my-health/medications',
+    href: '/my-health/medications/',
   },
   {
     title: 'Records',
     actionName: `${actionPrefix} - Records`,
     icon: 'note_add',
-    href: `/my-health/medical-records`,
+    href: `/my-health/medical-records/`,
   },
 ];
 

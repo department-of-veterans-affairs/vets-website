@@ -45,19 +45,11 @@ describe('childMarriage', () => {
     const { container } = renderComponent();
 
     expect($('h3', container).textContent).to.equal(
-      'Details about PENNY’s marriage',
+      'When did PENNY get married?',
     );
     const date = $('va-memorable-date', container);
     expect(date).to.exist;
     expect(date.getAttribute('label')).to.equal('Date of marriage');
-  });
-
-  it('should render h3 with correct apostrophe', () => {
-    const { container } = renderComponent({ firstName: 'JESS' });
-
-    expect($('h3', container).textContent).to.equal(
-      'Details about JESS’ marriage',
-    );
   });
 
   it('should show error messages if submitted without filling in fields', async () => {

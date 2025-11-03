@@ -24,6 +24,16 @@ const InterstitialPage = props => {
     focusElement(document.querySelector('h1'));
   }, []);
 
+  const handleContinueButton = useCallback(
+    () => {
+      dispatch(acceptInterstitial());
+      if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
+        history.push(`${Paths.RECENT_CARE_TEAMS}`);
+      }
+    },
+    [history, mhvSecureMessagingCuratedListFlow, type, dispatch],
+  );
+
   useEffect(
     () => {
       const searchParams = new URLSearchParams(location.search);
@@ -31,6 +41,7 @@ const InterstitialPage = props => {
       const redirectPath = searchParams.get('redirectPath');
       if (prescriptionId) {
         dispatch(getPrescriptionById(prescriptionId));
+        handleContinueButton();
       } else {
         dispatch(clearPrescription());
       }
@@ -38,7 +49,7 @@ const InterstitialPage = props => {
         dispatch(setRedirectPath(decodeURIComponent(redirectPath)));
       }
     },
-    [location.search, dispatch],
+    [location.search, handleContinueButton, dispatch],
   );
 
   const continueButtonText = useMemo(
@@ -53,16 +64,6 @@ const InterstitialPage = props => {
       }
     },
     [type],
-  );
-
-  const handleContinueButton = useCallback(
-    () => {
-      dispatch(acceptInterstitial());
-      if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
-        history.push(`${Paths.RECENT_CARE_TEAMS}`);
-      }
-    },
-    [history, mhvSecureMessagingCuratedListFlow, type, dispatch],
   );
 
   return (
