@@ -260,8 +260,9 @@ const formConfig = {
           title: 'Separation details',
           depends: formData =>
             formData.claimantRelationship === 'SPOUSE' &&
-            (formData.separationReason === 'RELATIONSHIP_DIFFERENCES' ||
-              formData.separationReason === 'OTHER'),
+            (formData.separationDueToAssignedReasons ===
+              'RELATIONSHIP_DIFFERENCES' ||
+              formData.separationDueToAssignedReasons === 'OTHER'),
           uiSchema: separationDetails.uiSchema,
           schema: separationDetails.schema,
         },

@@ -19,7 +19,7 @@
   "hadPreviousMarriages": false,
   "remarried": false,
   "separationReason": "MEDICAL_FINANCIAL",
-  "separationReasonExplanation": "Court Order",
+  "separationExplanation": "Court Order",
   "separationStartDate": "2005-02-20",
   "separationEndDate": "2006-02-20",
   "courtOrderedSeparation": true,

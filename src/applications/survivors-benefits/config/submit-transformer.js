@@ -1,19 +1,57 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { format } from 'date-fns-tz';
 import { durationInDays } from '../utils/helpers';
 
 function calculateSeparationDuration(formData) {
   const parsedFormData = JSON.parse(formData);
-  const transformedValue = { ...parsedFormData };
+  const transformedValue = parsedFormData;
 
-  // Calculate separation duration if both dates are present
+  let calculatedDuration = null;
+
   if (
-    transformedValue.separationStartDate &&
-    transformedValue.separationEndDate
+    parsedFormData?.separationStartDate &&
+    parsedFormData?.separationEndDate
   ) {
-    transformedValue.separationDurationInDays = durationInDays(
-      transformedValue.separationStartDate,
-      transformedValue.separationEndDate,
+    calculatedDuration = durationInDays(
+      parsedFormData?.separationStartDate,
+      parsedFormData?.separationEndDate,
     );
+  }
+
+  if (parsedFormData?.separationExplanation) {
+    const originalExplanation = parsedFormData.separationExplanation;
+    const additionalItems = [];
+
+    if (parsedFormData?.separationDueToAssignedReasons) {
+      additionalItems.push(
+        `Reason: ${parsedFormData.separationDueToAssignedReasons}`,
+      );
+    }
+
+    if (parsedFormData?.separationStartDate) {
+      additionalItems.push(`Start Date: ${parsedFormData.separationStartDate}`);
+    }
+
+    if (parsedFormData?.separationEndDate) {
+      additionalItems.push(`End Date: ${parsedFormData.separationEndDate}`);
+    }
+
+    if (calculatedDuration) {
+      additionalItems.push(`Duration: ${calculatedDuration} days`);
+    }
+
+    if (parsedFormData?.courtOrderedSeparation !== undefined) {
+      const courtOrderValue = parsedFormData.courtOrderedSeparation
+        ? 'Yes'
+        : 'No';
+      additionalItems.push(`Court Ordered: ${courtOrderValue}`);
+    }
+
+    const additionalInfo = additionalItems.join(' | ');
+
+    transformedValue.separationExplanation = additionalInfo
+      ? `${originalExplanation} | ${additionalInfo}`
+      : originalExplanation;
   }
 
   return JSON.stringify(transformedValue);
@@ -22,5 +60,10 @@ function calculateSeparationDuration(formData) {
 export const transform = (formConfig, form) => {
   let transformedData = transformForSubmit(formConfig, form);
   transformedData = calculateSeparationDuration(transformedData);
-  return transformedData;
+  return JSON.stringify({
+    survivorsBenefits: {
+      form: transformedData,
+    },
+    localTime: format(new Date(), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+  });
 };
