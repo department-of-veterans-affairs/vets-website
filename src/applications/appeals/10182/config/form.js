@@ -136,7 +136,7 @@ const formConfig = {
         ...contactInfo,
       },
     },
-    conditions: {
+    issues: {
       title: 'Issues for review',
       pages: {
         filingDeadlines: {

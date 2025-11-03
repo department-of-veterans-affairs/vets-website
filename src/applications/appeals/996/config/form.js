@@ -150,7 +150,7 @@ const formConfig = {
         ...contactInfo,
       },
     },
-    conditions: {
+    issues: {
       title: 'Issues for review',
       pages: {
         // v2 - show contested + added issues

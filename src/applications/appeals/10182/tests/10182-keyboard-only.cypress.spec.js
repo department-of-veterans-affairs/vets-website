@@ -50,23 +50,23 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       h.tabToContinue();
 
       // *** Filing deadlines
-      verifyUrl(chapters.conditions.pages.filingDeadlines.path);
+      verifyUrl(chapters.issues.pages.filingDeadlines.path);
       h.tabToContinue();
 
       // *** Request extension
-      verifyUrl(chapters.conditions.pages.extensionRequest.path);
+      verifyUrl(chapters.issues.pages.extensionRequest.path);
       cy.tabToElement('[name="root_requestingExtension"]');
       cy.chooseRadio(data.requestingExtension ? 'Y' : 'N');
       h.tabToContinue();
 
       // *** Request reason
-      verifyUrl(chapters.conditions.pages.extensionReason.path);
+      verifyUrl(chapters.issues.pages.extensionReason.path);
       cy.tabToElement('textarea');
       cy.realType(data.extensionReason);
       h.tabToContinue();
 
       // *** Denial of VHA benefits
-      verifyUrl(chapters.conditions.pages.appealingVhaDenial.path);
+      verifyUrl(chapters.issues.pages.appealingVhaDenial.path);
       cy.tabToElement('[name="root_appealingVHADenial"]');
       cy.chooseRadio(data.appealingVHADenial ? 'Y' : 'N');
       h.tabToContinue();
@@ -74,14 +74,14 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       // *** Issues for review (sorted by random decision date) - only selecting
       // one, or more complex code is needed to find if the next checkbox is
       // before or after the first
-      verifyUrl(chapters.conditions.pages.contestableIssues.path);
+      verifyUrl(chapters.issues.pages.contestableIssues.path);
       cy.tabToElement('[name="root_contestedIssues_1"]'); // tinnitus
       cy.realPress('Space');
       h.tabToContinue();
 
       // *** Area of disagreement for tinnitus
       verifyUrl(
-        chapters.conditions.pages.areaOfDisagreementFollowUp.path.replace(
+        chapters.issues.pages.areaOfDisagreementFollowUp.path.replace(
           ':index',
           '',
         ),
@@ -91,7 +91,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       h.tabToContinue();
 
       // *** Issue summary
-      verifyUrl(chapters.conditions.pages.issueSummary.path);
+      verifyUrl(chapters.issues.pages.issueSummary.path);
       h.tabToContinue();
 
       // *** Board review option
