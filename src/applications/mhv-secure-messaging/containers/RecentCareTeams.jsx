@@ -96,7 +96,7 @@ const RecentCareTeams = () => {
 
   useEffect(
     () => {
-      document.title = `Recently Messaged Care Teams - Start Message ${
+      document.title = `Recently Messaged Care Teams - Start Message${
         Constants.PageTitles.DEFAULT_PAGE_TITLE_TAG
       }`;
     },
