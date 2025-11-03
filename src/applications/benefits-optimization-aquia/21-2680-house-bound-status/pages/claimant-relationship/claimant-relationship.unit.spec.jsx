@@ -107,13 +107,13 @@ describe('ClaimantRelationshipPage', () => {
 
       const radioGroup = container.querySelector('va-radio');
       expect(radioGroup).to.exist;
+      expect(radioGroup.getAttribute('value')).to.equal('veteran');
 
       const radioOptions = container.querySelectorAll('va-radio-option');
       const veteranOption = Array.from(radioOptions).find(
         opt => opt.getAttribute('value') === 'veteran',
       );
       expect(veteranOption).to.exist;
-      expect(veteranOption.hasAttribute('checked')).to.be.true;
     });
 
     it('should render with spouse relationship selected', () => {
@@ -133,13 +133,13 @@ describe('ClaimantRelationshipPage', () => {
 
       const radioGroup = container.querySelector('va-radio');
       expect(radioGroup).to.exist;
+      expect(radioGroup.getAttribute('value')).to.equal('spouse');
 
       const radioOptions = container.querySelectorAll('va-radio-option');
       const spouseOption = Array.from(radioOptions).find(
         opt => opt.getAttribute('value') === 'spouse',
       );
       expect(spouseOption).to.exist;
-      expect(spouseOption.hasAttribute('checked')).to.be.true;
     });
 
     it('should handle empty data gracefully', () => {

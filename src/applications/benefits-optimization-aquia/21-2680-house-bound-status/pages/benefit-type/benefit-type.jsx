@@ -34,10 +34,18 @@ export const BenefitTypePage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Ensure benefitType section exists
+  const migratedData = {
+    ...formDataToUse,
+    benefitType: {
+      benefitType: formDataToUse?.benefitType?.benefitType,
+    },
+  };
+
   // Get claimant information for dynamic label
-  const relationship = formDataToUse?.claimantRelationship?.relationship;
+  const relationship = migratedData?.claimantRelationship?.relationship;
   const isVeteran = relationship === 'veteran';
-  const claimantName = formDataToUse?.claimantInformation?.claimantFullName;
+  const claimantName = migratedData?.claimantInformation?.claimantFullName;
   const firstName = claimantName?.first || '';
   const lastName = claimantName?.last || '';
 
@@ -54,7 +62,7 @@ export const BenefitTypePage = ({
   return (
     <PageTemplate
       title={questionText}
-      data={formDataToUse}
+      data={migratedData}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
@@ -62,9 +70,7 @@ export const BenefitTypePage = ({
       sectionName="benefitType"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
-      defaultData={{
-        benefitType: '',
-      }}
+      defaultData={{}}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <div className="benefit-type-page">
@@ -82,7 +88,7 @@ export const BenefitTypePage = ({
           <RadioField
             name="benefitType"
             label="Select benefit type"
-            value={localData.benefitType || ''}
+            value={localData.benefitType}
             onChange={handleFieldChange}
             schema={benefitTypeSchema}
             tile

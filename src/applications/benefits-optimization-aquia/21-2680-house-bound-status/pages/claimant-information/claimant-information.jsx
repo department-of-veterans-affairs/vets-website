@@ -35,14 +35,14 @@ export const ClaimantInformationPage = ({
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
   // Migrate old field names to new field names for backward compatibility
+  const existingData = formDataToUse?.claimantInformation || {};
   const migratedData = {
     ...formDataToUse,
     claimantInformation: {
-      claimantFullName: formDataToUse?.claimantInformation?.claimantFullName,
-      claimantDOB:
-        formDataToUse?.claimantInformation?.claimantDOB ||
-        formDataToUse?.claimantInformation?.claimantDob ||
-        '',
+      ...(existingData.claimantFullName && {
+        claimantFullName: existingData.claimantFullName,
+      }),
+      claimantDOB: existingData.claimantDOB || existingData.claimantDob || '',
     },
   };
 

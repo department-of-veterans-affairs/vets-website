@@ -85,7 +85,7 @@ export const RadioField = ({
       label={label}
       required={required}
       hint={hint}
-      value={value || ''}
+      value={value ?? undefined}
       error={finalError}
       tile={tile}
       onBlur={handleBlur}
@@ -97,7 +97,6 @@ export const RadioField = ({
           key={option.value}
           label={option.label}
           value={option.value}
-          checked={value === option.value}
           description={option.description}
         />
       ))}
