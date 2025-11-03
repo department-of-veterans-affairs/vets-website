@@ -36,11 +36,11 @@ const getChildRemovalOptions = (isStepchild, age, _firstName) => {
     });
   }
 
-  // Child got adopted (all ages, both child and stepchild)
-  options.push({
-    value: 'childAdopted',
-    label: labels.Child.childAdopted,
-  });
+  // Child got adopted (all ages, both child and stepchild) (BACKLOGGED WORK)
+  // options.push({
+  //   value: 'childAdopted',
+  //   label: labels.Child.childAdopted,
+  // });
 
   // Child got married (ages 15+)
   if (age >= 15) {
@@ -71,8 +71,9 @@ const childReasonToRemove = {
           return 'stepchild-financial-support';
         case 'childNotInSchool':
           return 'child-disability';
-        case 'childAdopted':
-          return 'DONE';
+        // childAdopted work moved to the backlog
+        // case 'childAdopted':
+        //   return 'DONE';
         default:
           return 'DONE';
       }
