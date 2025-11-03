@@ -1,4 +1,5 @@
 import {
+  titleUI,
   bankAccountSchema,
   radioUI,
   radioSchema,
@@ -23,7 +24,7 @@ const baseBankUI = bankAccountUI({
 });
 
 const uiSchema = {
-  'ui:title': 'Account information for direct deposit',
+  ...titleUI('Account information for direct deposit'),
   ...baseBankUI,
   accountType: radioUI({
     title: 'Account type',

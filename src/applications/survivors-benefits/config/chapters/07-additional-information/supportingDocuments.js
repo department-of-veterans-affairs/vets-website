@@ -13,99 +13,105 @@ const Intro = () => (
 
 const Documents = () => (
   <div>
-    <h3>Required documents</h3>
+    <h4 className="vads-u-color--gray-dark">Required documents</h4>
     <va-accordion>
-      <va-accordion-item bordered header="Verification of Veteran’s death">
+      <va-accordion-item
+        level={5}
+        bordered
+        header="Veteran’s death certificate"
+      >
         <p>
-          You’ll need to submit a death certificate for the Veteran, clearly
-          showing the primary cause(s) of death and any contributing factors or
-          conditions.
+          You’ll need to submit a copy of the Veteran’s death certificate. It
+          must clearly show the primary cause of death and any contributing
+          factors or conditions.
         </p>
         <p>
-          <strong>Note:</strong> If the veteran’s death certificate lists the
-          cause of death as "Pending," please have the medical examiner submit
-          evidence that shows the cause of death.
+          <strong>Note:</strong> If the Veteran’s death certificate lists the
+          cause of death as "Pending," have the medical examiner submit evidence
+          that shows the cause of death.
         </p>
       </va-accordion-item>
 
-      <va-accordion-item bordered header="Service verification">
+      <va-accordion-item
+        level={5}
+        bordered
+        header="Veteran’s DD214 or separation documents"
+      >
         <p>
           You’ll need to submit a copy of the Veteran’s DD Form 214 or
-          equivalent for all periods of military service. This must show
-          military service dates, type of service, and character of discharge.
+          equivalent for all periods of military service. It must show when they
+          served, the type of service, and the character of their discharge.
         </p>
       </va-accordion-item>
     </va-accordion>
 
-    <h3 className="vads-u-margin-top--4">Other documents you may need</h3>
+    <h4 className="vads-u-color--gray-dark">Other documents you may need</h4>
     <va-accordion>
-      <va-accordion-item bordered header="Income and net worth">
+      <va-accordion-item level={5} bordered header="Income and net worth">
         <p>
-          If instructed in Step 6 when giving financial information, you’ll need
-          to submit:
+          If instructed in Step 6 when you provided financial information,
+          you’ll need to submit an Income and Asset Statement in Support of
+          Claim for Pension or Parents’ Dependency and Indemnity Compensation
+          (VA Form 21P-0969).
+        </p>
+        <span className="vads-u-display--block">
+          <va-link
+            href="https://www.va.gov/find-forms/about-form-21p-0969"
+            text="Get VA Form 21P-0969 to download"
+            external
+          />
+        </span>
+        <p>
+          You’ll also need to submit additional evidence for specific types of
+          income or assets:
         </p>
         <ul>
           <li>
-            Income and Asset Statement in Support of Claim for Pension or
-            Parents’ Dependency and Indemnity Compensation (VA Form 21P-0969)
-            <br />
-            <va-link
-              href="https://www.va.gov/find-forms/about-form-21p-0969"
-              external
-              text="Get VA Form 21P-0969 to download (opens in a new tab)"
-            />
-          </li>
-        </ul>
-
-        <p>
-          If you have specific types of income or assets, the VA Form 21P-0969
-          requires additional evidence:
-        </p>
-        <ul>
-          <li>
-            <strong>Farm</strong> income or assets requires a Pension Claim
+            <strong>Farm</strong> income or assets require a Pension Claim
             Questionnaire for Farm Income (VA Form 21P-4165)
-            <br />
-            <va-link
-              href="https://www.va.gov/find-forms/about-form-21p-4165"
-              external
-              text="Get VA Form 21P-4165 to download (opens in a new tab)"
-            />
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21p-4165"
+                external
+                text="Get VA Form 21P-4165 to download"
+              />
+            </span>
           </li>
           <li>
             <strong>Business or rental property</strong> income or assets
-            requires a Report of Income from Property or Business (VA Form
+            require a Report of Income from Property or Business (VA Form
             21P-4185)
-            <br />
-            <va-link
-              href="https://www.va.gov/find-forms/about-form-21p-4185"
-              external
-              text="Get VA Form 21P-4185 to download (opens in a new tab)"
-            />
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21p-4185"
+                external
+                text="Get VA Form 21P-4185 to download"
+              />
+            </span>
           </li>
           <li>
-            <strong>Royalties</strong> income or assets requires a Statement in
-            Support of Claim (VA Form 21-4138). You’ll need to provide details,
-            such as Royalty source, joint owners, etc.
-            <br />
-            <va-link
-              href="https://www.va.gov/find-forms/about-form-21p-4138"
-              external
-              text="Get VA Form 21-4138 to download (opens in a new tab)"
-            />
+            <strong>Royalties</strong> require a Statement in Support of Claim
+            (VA Form 21-4138)
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21-4138/"
+                external
+                text="Get VA Form 21-4138 to download"
+              />
+            </span>
           </li>
           <li>
-            <strong>Trust</strong> income or assets requires you to submit
-            complete Trust documents to include the Schedule of Assets.
+            <strong>Trust</strong> income or assets require you to submit
+            complete trust documents, including the schedule of assets
           </li>
           <li>
-            <strong>Interest, Dividends or Financial Investments</strong> income
-            or assets may require you to submit current account statements from
-            a financial institution, such as a bank, investment, annuity, etc.
+            <strong>Interest, dividends or financial investments</strong>{' '}
+            require account statements from a financial institution
           </li>
         </ul>
       </va-accordion-item>
       <va-accordion-item
+        level={5}
         bordered
         header="Special circumstances regarding your medical care"
       >
@@ -114,130 +120,120 @@ const Documents = () => (
           documents listed:
         </p>
 
-        <h4>
+        <p className="vads-u-font-weight--bold">
           Claim for Special Monthly Pension (SMP) - Aid and Attendance or
           Household Status
-        </h4>
-        <ul>
-          <li>
-            Examination for Housebound Status or Permanent Need for Regular Aid
-            and Attendance (VA Form 21-2680)
-            <br />
-            <va-link
-              href="https://www.va.gov/find-forms/about-form-21-2680"
-              external
-              text="Get VA Form 21-2680 to download (opens in a new tab)"
-            />
-          </li>
-        </ul>
-
-        <h4>
+        </p>
+        <p>
+          Examination for Housebound Status or Permanent Need for Regular Aid
+          and Attendance (VA Form 21-2680)
+        </p>
+        <span className="vads-u-display--block">
+          <va-link
+            href="https://www.va.gov/find-forms/about-form-21-2680"
+            external
+            text="Get VA Form 21-2680 to download"
+          />
+        </span>
+        <p className="vads-u-font-weight--bold">
           Claim for Medicare Nursing Home and/or $90.00 Rate Reduction Request
-        </h4>
-        <ul>
-          <li>
-            Request for Nursing Home Information in Connection with Claim for
-            Aid and Attendance (VA Form 21-0779)
-            <br />
-            <va-link
-              href="https://www.va.gov/find-forms/about-form-21-0779"
-              external
-              text="Get VA Form 21-0779 to download (opens in a new tab)"
-            />
-          </li>
-        </ul>
-
-        <h4>Claim for Fiduciary Assistance</h4>
-        <ul>
-          <li>
-            Examination for Housebound Status or Permanent Need for Regular Aid
-            and Attendance (VA Form 21-2680)
-            <br />
-            <va-link
-              href="https://www.va.gov/find-forms/about-form-21-2680"
-              external
-              text="Get VA Form 21-2680 to download (opens in a new tab)"
-            />
-          </li>
-        </ul>
-
-        <h4>Statement of Medical Care</h4>
+        </p>
+        <p>
+          Request for Nursing Home Information in Connection with Claim for Aid
+          and Attendance (VA Form 21-0779)
+        </p>
+        <span className="vads-u-display--block">
+          <va-link
+            href="https://www.va.gov/find-forms/about-form-21-0779"
+            external
+            text="Get VA Form 21-0779 to download"
+          />
+        </span>
+        <p className="vads-u-font-weight--bold">
+          Claim for Fiduciary Assistance
+        </p>
+        <p>
+          Examination for Housebound Status or Permanent Need for Regular Aid
+          and Attendance (VA Form 21-2680)
+        </p>
+        <span className="vads-u-display--block">
+          <va-link
+            href="https://www.va.gov/find-forms/about-form-21-2680"
+            external
+            text="Get VA Form 21-2680 to download"
+          />
+        </span>
+        <p className="vads-u-font-weight--bold">Statement of Medical Care</p>
         <ul>
           <li>
             If you’re claiming expenses for a residential care facility, you’ll
             need to submit a Worksheet for a Residential Care, Adult Daycare, or
-            Similar Facility from VA Form 21-534EZ
-            <br />
-            <va-link
-              href="https://www.va.gov/find-forms/about-form-21-534ez"
-              external
-              text="Get VA Form 21-534EZ to download (opens in a new tab)"
-            />
+            Similar Facility from the PDF version of VA Form 21P-534EZ
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21p-534ez"
+                external
+                text="Get VA Form 21P-534EZ to download"
+              />
+            </span>
           </li>
           <li>
             If you’re claiming expenses for an in-home care attendant, you’ll
-            need to submit a Worksheet for In-Home Attendant from VA Form
-            21-534EZ
-            <br />
-            <va-link
-              href="https://www.va.gov/find-forms/about-form-21-534ez"
-              external
-              text="Get VA Form 21-534EZ to download (opens in a new tab)"
-            />
+            need to submit a Worksheet for In-Home Attendant from the PDF
+            version of VA Form 21P-534EZ
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21p-534ez"
+                external
+                text="Get VA Form 21P-534EZ to download"
+              />
+            </span>
           </li>
           <li>
-            Proof of Payment from care provided, such as canceled checks, bank
-            statements, etc.
+            Proof of payment from care provided, such as canceled checks or bank
+            statements
           </li>
           <li>Signed verification from care service provider</li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item bordered header="Dependent children">
+      <va-accordion-item level={5} bordered header="Dependent children">
         <p>If you have dependent children, you’ll need to submit:</p>
         <ul>
           <li>
-            A birth certificate that clearly shows the Veteran as the parent if
-            you do not reside within the U.S. or its territories
+            <strong>If you don’t live in the U.S. or its territories</strong>, a
+            birth certificate that shows the Veteran as the parent
           </li>
           <li>
-            An adoption decree or a revised birth certificate if children are
-            adopted
+            <strong>If children are adopted</strong>, an adoption decree or a
+            revised birth certificate
           </li>
           <li>
-            A Request for Approval of School Attendance (VA Form 21-674) if your
-            child is over 18 but under 23
-            <br />
-            <va-link
-              href="https://www.va.gov/find-forms/about-form-21-674"
-              external
-              text="Get VA Form 21-674 to download (opens in a new tab)"
-            />
+            <strong>If your child is over 18 but under 23</strong>, a Request
+            for Approval of School Attendance (VA Form 21-674)
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21-674"
+                external
+                text="Get VA Form 21-674 to download"
+              />
+            </span>
+          </li>
+          <li>
+            <strong>If you have more than 3 dependents to report</strong>, an
+            Application Request to Add and/or Remove Dependents (VA Form
+            21-686c)
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21-686c"
+                external
+                text="Get VA Form 21-686c to download"
+              />
+            </span>
           </li>
           <li>Medical records for each seriously disabled child</li>
-          <li>
-            An Application Request to Add and/or Remove Dependents (VA Form
-            21-686c) if you have more than 3 dependents to report
-            <br />
-            <va-link
-              href="https://www.va.gov/find-forms/about-form-21-686c"
-              external
-              text="Get VA Form 21-686c to download (opens in a new tab)"
-            />
-          </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item bordered header="Unreimbursed medical expenses">
-        <p>
-          If you have more medical expenses to report, you’ll need to submit a
-          Medical Expense Report (VA Form 21P-8416)
-        </p>
-        <va-link
-          href="https://www.va.gov/find-forms/about-form-21p-8416"
-          external
-          text="Get VA Form 21P-8416 to download (opens in a new tab)"
-        />
-      </va-accordion-item>
-      <va-accordion-item bordered header="Marriage history">
+      <va-accordion-item level={5} bordered header="Marriage history">
         <p>
           If you are claiming benefits as a surviving spouse, you may need to
           submit these documents:
@@ -248,16 +244,6 @@ const Documents = () => (
           <li>
             If you were separated from the Veteran due to a court order, you’ll
             need to submit a copy of the court order
-          </li>
-          <li>
-            If you have more marriages to report, submit a Statement in Support
-            of Claim (VA Form 21-4138)
-            <br />
-            <va-link
-              href="https://www.va.gov/find-forms/about-form-21-4138"
-              external
-              text="Get VA Form 21-4138 to download (opens in a new tab)"
-            />
           </li>
         </ul>
       </va-accordion-item>
