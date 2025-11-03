@@ -63,7 +63,10 @@ describe('Pensions — Disability Rating Alert', () => {
 
   it('shows 100% disability rating info alert', () => {
     cy.intercept('GET', DISABILITY_RATING_URL, {
-      combinedDisabilityRating: 100,
+      data: {
+        type: 'disability_ratings',
+        attributes: { combinedDisabilityRating: 100 },
+      },
     });
 
     cypressSetup();
@@ -75,7 +78,7 @@ describe('Pensions — Disability Rating Alert', () => {
           .find('h2')
           .should(
             'contain',
-            'This benefit is unlikely to increase your payments',
+            'You’re unlikely to get a higher payment from a Veterans Pension',
           );
       });
 
@@ -85,7 +88,10 @@ describe('Pensions — Disability Rating Alert', () => {
 
   it('renders no alert when rating is less than 100', () => {
     cy.intercept('GET', DISABILITY_RATING_URL, {
-      combinedDisabilityRating: 70,
+      data: {
+        type: 'disability_ratings',
+        attributes: { combinedDisabilityRating: 70 },
+      },
     });
 
     cypressSetup();
@@ -121,7 +127,7 @@ describe('Pensions — Disability Rating Alert', () => {
             .find('h2')
             .should(
               'contain',
-              'Consider your disability rating before you apply',
+              'A 100% disability rating pays more than a Veterans Pension',
             );
         });
 

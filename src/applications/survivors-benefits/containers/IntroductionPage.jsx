@@ -9,11 +9,11 @@ import { TITLE, SUBTITLE } from '../utils/constants';
 
 const OMB_RES_BURDEN = 40;
 const OMB_NUMBER = '2900-0004';
-const OMB_EXP_DATE = 'TBD';
+const OMB_EXP_DATE = '08/31/2028';
 
 const IntroductionText = () => {
   return (
-    <p>
+    <p className="va-introtext">
       Use this application if you’re the surviving spouse or child of a Veteran
       and want to apply for survivors benefits. You can also submit evidence
       with your application to get a faster decision.
@@ -74,18 +74,6 @@ const ProcessList = () => {
             benefits claims
           </a>
         </p>
-        <p>
-          Note: What you’ll need to submit yourself depends on if you’re filing
-          a standard claim or participating in the Fully Developed Claims (FDC)
-          program. You can get a faster decision if you turn in all your
-          evidence at the same time as you file your claim through the FDC
-          program.
-        </p>
-        <p>
-          <a href="/pension/how-to-apply/fully-developed-claim/">
-            Learn more about fully developed claims
-          </a>
-        </p>
       </va-process-list-item>
       <va-process-list-item header="Start your application">
         <p>
@@ -128,7 +116,7 @@ export const IntroductionPage = props => {
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
       <IntroductionText />
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+      <h2 className="vad-u-margin-top--0">
         Follow these steps to get started:
       </h2>
       <ProcessList />
