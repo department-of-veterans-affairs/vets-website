@@ -48,7 +48,7 @@ class DocumentRequestPage extends React.Component {
       });
     }
     if (props.uploadComplete) {
-      this.goToFilesPage();
+      this.goToStatusPage();
     }
   }
 
@@ -79,7 +79,7 @@ class DocumentRequestPage extends React.Component {
     );
   }
 
-  goToFilesPage() {
+  goToStatusPage() {
     this.props.getClaim(this.props.claim.id);
     this.props.navigate(statusPath);
   }
