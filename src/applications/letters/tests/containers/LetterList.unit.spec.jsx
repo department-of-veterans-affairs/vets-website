@@ -394,11 +394,8 @@ describe('<LetterList>', () => {
           },
         ],
       };
-
       apiRequestStub.resolves(mockResponse);
-
       const componentRef = React.createRef();
-
       const tsaLetterEnabledProps = {
         ...defaultProps,
         ref: componentRef,
@@ -411,7 +408,6 @@ describe('<LetterList>', () => {
           </MemoryRouter>
         </Provider>,
       );
-
       await waitFor(() => {
         const instance = componentRef.current;
         expect(instance.state.tsaLetter).to.exist;
