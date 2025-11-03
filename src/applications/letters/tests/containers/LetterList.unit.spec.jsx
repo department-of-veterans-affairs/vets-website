@@ -380,6 +380,12 @@ describe('<LetterList>', () => {
               received_at: '2022-01-01',
             },
           },
+          // missing received_at defaults received_at to 0
+          {
+            attributes: {
+              document_id: '111',
+            },
+          },
           {
             attributes: {
               document_id: '456',
