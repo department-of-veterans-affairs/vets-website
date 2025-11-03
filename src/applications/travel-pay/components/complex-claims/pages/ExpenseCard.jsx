@@ -31,54 +31,56 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
     <div className="vads-u-margin-top--2">
       <va-card>
         <h3 className="vads-u-margin-top--1">{header}</h3>
-        {isDeleting && (
-          <va-loading-indicator
-            class="vads-u-margin-left--2 vads-u-display--inline-block"
-            message="Deleting..."
-            set-focus={false}
-          />
-        )}
-        {expenseType === 'Mileage' && (
-          <ExpenseCardDetails
-            items={[
-              {
-                label: 'Which address did you depart from?',
-                value: (
-                  <>
-                    {address.addressLine1}{' '}
-                    {address.addressLine2 && (
-                      <span>{address.addressLine2} </span>
-                    )}
-                    {address.addressLine3 && (
-                      <span>{address.addressLine3} </span>
-                    )}
-                    {address.city}, {address.stateCode} {address.zipCode}
-                  </>
-                ),
-              },
-              {
-                label: 'Was your trip round trip or one way?',
-                value:
-                  Object.values(TRIP_TYPES).find(
-                    type => type.value === tripType || type.key === tripType,
-                  )?.label || tripType,
-              },
-            ]}
-          />
-        )}
-        {expenseType !== 'Mileage' && (
-          <ExpenseCardDetails
-            items={[
-              {
-                label: 'Description',
-                value: expense.description,
-              },
-              {
-                label: 'File name',
-                value: expense.document?.filename,
-              },
-            ]}
-          />
+        {isDeleting ? (
+          <div className="vads-u-text-align--center">
+            <va-loading-indicator message="Deleting..." set-focus={false} />
+          </div>
+        ) : (
+          <>
+            {expenseType === 'Mileage' && (
+              <ExpenseCardDetails
+                items={[
+                  {
+                    label: 'Which address did you depart from?',
+                    value: (
+                      <>
+                        {address.addressLine1}{' '}
+                        {address.addressLine2 && (
+                          <span>{address.addressLine2} </span>
+                        )}
+                        {address.addressLine3 && (
+                          <span>{address.addressLine3} </span>
+                        )}
+                        {address.city}, {address.stateCode} {address.zipCode}
+                      </>
+                    ),
+                  },
+                  {
+                    label: 'Was your trip round trip or one way?',
+                    value:
+                      Object.values(TRIP_TYPES).find(
+                        type =>
+                          type.value === tripType || type.key === tripType,
+                      )?.label || tripType,
+                  },
+                ]}
+              />
+            )}
+            {expenseType !== 'Mileage' && (
+              <ExpenseCardDetails
+                items={[
+                  {
+                    label: 'Description',
+                    value: expense.description,
+                  },
+                  {
+                    label: 'File name',
+                    value: expense.document?.filename,
+                  },
+                ]}
+              />
+            )}
+          </>
         )}
 
         <div className="review-button-row">
