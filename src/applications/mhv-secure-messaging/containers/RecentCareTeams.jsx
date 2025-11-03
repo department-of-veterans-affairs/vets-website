@@ -14,7 +14,8 @@ import { focusOnErrorField } from '../util/formHelpers';
 import { updateDraftInProgress } from '../actions/threadDetails';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 
-const RADIO_BUTTON_SET_LABEL = `Select a team from those you've sent messages to in the past 6 months. Or select "A different care team" to find another team.`;
+const RECENT_RECIPIENTS_LABEL = `Select a team you want to message. This list only includes teams that you’ve sent messages to in the last 6 months. If you want to contact another team, select “A different care team.”`;
+
 const OTHER_VALUE = 'other';
 const { Paths } = Constants;
 
@@ -63,7 +64,7 @@ const RecentCareTeams = () => {
       // If recentRecipients is null (fetched but none present), redirect
       if (
         recentRecipients?.length === 0 ||
-        recentRecipients === 'error' ||
+        recentRecipients?.error === 'error' ||
         recentRecipients === null
       ) {
         history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
@@ -111,7 +112,12 @@ const RecentCareTeams = () => {
       dispatch(
         updateDraftInProgress({
           recipientId: recipient?.triageTeamId,
-          careSystemName: recipient?.healthCareSystemName,
+          careSystemName:
+            recipient?.healthCareSystemName ||
+            getVamcSystemNameFromVhaId(
+              ehrDataByVhaId,
+              recipient?.stationNumber,
+            ),
           recipientName: recipient?.name,
           careSystemVhaId: recipient?.stationNumber,
           ohTriageGroup: recipient?.ohTriageGroup,
@@ -119,7 +125,7 @@ const RecentCareTeams = () => {
       );
       setError(null); // Clear error on selection
     },
-    [recentRecipients, dispatch],
+    [recentRecipients, dispatch, ehrDataByVhaId],
   );
 
   if (recentRecipients === undefined) {
@@ -129,13 +135,13 @@ const RecentCareTeams = () => {
   return (
     <>
       <h1 className="vads-u-margin-bottom--3" tabIndex="-1" ref={h1Ref}>
-        Recent care teams
+        Care teams you recently sent messages to
       </h1>
       <EmergencyNote dropDownFlag />
       <VaRadio
         class="vads-u-margin-bottom--3"
         error={error}
-        label={RADIO_BUTTON_SET_LABEL}
+        label={RECENT_RECIPIENTS_LABEL}
         required
         onVaValueChange={handleRadioChange}
         data-testid="recent-care-teams-radio-group"

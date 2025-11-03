@@ -1,7 +1,5 @@
-// import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../utils/constants';
@@ -9,14 +7,17 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FormSavedPage from '../containers/FormSavedPage';
-import { submit, transform } from './submit';
+// import prefillTransformer from './prefill-transformer';
+import { transform } from './submit-transformer';
 // import { defaultDefinitions } from './definitions';
-import reportingPeriod from './chapters/02-expenses/reportingPeriod';
 import claimantRelationship from './chapters/01-applicant-information/claimantRelationship';
 import claimantInformation from './chapters/01-applicant-information/claimantInformation';
 import contactInformation from './chapters/01-applicant-information/contactInformation';
 import mailingAddress from './chapters/01-applicant-information/mailingAddress';
 import veteranInformation from './chapters/01-applicant-information/veteranInformation';
+import firstTimeReporting from './chapters/02-expenses/firstTimeReporting';
+import effectiveDates from './chapters/02-expenses/effectiveDates';
+import reportingPeriod from './chapters/02-expenses/reportingPeriod';
 import { careExpensesPages } from './chapters/02-expenses/careExpensesPages';
 import { medicalExpensesPages } from './chapters/02-expenses/medicalExpensesPage';
 import { mileageExpensesPages } from './chapters/02-expenses/mileageExpensesPage';
@@ -31,7 +32,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/medical_expense_reports/v0/form8416`,
-  submit,
   transformForSubmit: transform,
   trackingPrefix: 'med-expense-8416',
   v3SegmentedProgressBar: true,
@@ -47,6 +47,7 @@ const formConfig = {
   // useCustomScrollAndFocus: false,
   defaultDefinitions: commonDefinitions,
   prefillEnabled: true,
+  // prefillTransformer,
   saveInProgress: {
     messages: {
       inProgress: 'Your medical expense report is in progress.',
@@ -121,9 +122,23 @@ const formConfig = {
     expenses: {
       title: 'Expenses',
       pages: {
-        reportingPeriod: {
-          title: 'Reporting period',
+        firstTimeReporting: {
+          title: 'Reporting expenses',
           path: 'expenses/reporting-period',
+          uiSchema: firstTimeReporting.uiSchema,
+          schema: firstTimeReporting.schema,
+        },
+        effectiveDates: {
+          title: 'Reporting period effective date',
+          path: 'expenses/reporting-period/effective-dates',
+          depends: formData => formData?.firstTimeReporting === true,
+          uiSchema: effectiveDates.uiSchema,
+          schema: effectiveDates.schema,
+        },
+        reportingPeriod: {
+          title: 'Reporting period dates',
+          path: 'expenses/reporting-period/dates',
+          depends: formData => formData?.firstTimeReporting === false,
           uiSchema: reportingPeriod.uiSchema,
           schema: reportingPeriod.schema,
         },

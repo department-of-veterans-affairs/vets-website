@@ -1,9 +1,0 @@
-{
-  "results": [
-      {
-          "event_name": "mhv_mr_accessed",
-          "status": "exists",
-          "new_event": false
-      }
-  ]
-}

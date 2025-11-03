@@ -3,6 +3,7 @@ import mockUser from './fixtures/mocks/mock-user';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
+import { disableConfirmationOnLocal } from './helpers/disableConfirmationOnLocal';
 import {
   fillTextWebComponent,
   goToNextPage,
@@ -17,6 +18,8 @@ const { data: testData } = maxTestData;
 
 describe('EZR Next Of Kin flow', () => {
   beforeEach(() => {
+    disableConfirmationOnLocal();
+
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',

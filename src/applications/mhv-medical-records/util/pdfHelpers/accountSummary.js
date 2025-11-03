@@ -1,5 +1,5 @@
 export const generateAccountSummaryContent = record => {
-  const { authenticationSummary, vaTreatmentFacilities } = record;
+  const { authenticationSummary = {}, vaTreatmentFacilities = [] } = record;
 
   return {
     details: {

@@ -6,9 +6,16 @@
  */
 
 /**
+ * Relationship to veteran schemas
+ * @description Schema for validating the applicant's relationship to the veteran
+ * (state cemetery or tribal organization)
+ */
+export { relationshipToVeteranSchema } from './relationship-to-veteran';
+
+/**
  * Veteran identification schemas
  * @description Exports schemas for validating veteran personal information including
- * name components, SSN, service number, VA file number, dates, and place of birth
+ * name components, SSN, VA file number, dates, and place of birth
  */
 export {
   dateOfBirthSchema,

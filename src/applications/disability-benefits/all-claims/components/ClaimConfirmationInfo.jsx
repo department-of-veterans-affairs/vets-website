@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { capitalizeEachWord, formatDate, formatFullName } from '../utils';
-import { NULL_CONDITION_STRING } from '../constants';
+import { formatFullName } from '../utils';
+import { formatDate } from '../utils/dates/formatting';
 
 export function ClaimConfirmationInfo({
   fullName,
@@ -27,13 +27,20 @@ export function ClaimConfirmationInfo({
           <li>
             <strong>Conditions claimed</strong>
             <ul className="disability-list vads-u-margin-top--0">
-              {conditions.map((disability, i) => (
-                <li key={i} className="vads-u-margin-bottom--0">
-                  {typeof disability === 'string'
-                    ? capitalizeEachWord(disability)
-                    : NULL_CONDITION_STRING}
+              {conditions.length > 0 ? (
+                conditions.map((cond, idx) => (
+                  <li
+                    key={`${idx}-${cond}`}
+                    className="vads-u-margin-bottom--0"
+                  >
+                    {cond}
+                  </li>
+                ))
+              ) : (
+                <li className="vads-u-margin-bottom--0">
+                  No new conditions claimed
                 </li>
-              ))}
+              )}
             </ul>
           </li>
           {claimId && (

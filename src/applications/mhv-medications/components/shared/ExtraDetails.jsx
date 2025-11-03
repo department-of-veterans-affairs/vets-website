@@ -6,7 +6,7 @@ import {
   pharmacyPhoneNumber,
   rxSourceIsNonVA,
 } from '../../util/helpers';
-import { dispStatusObj } from '../../util/constants';
+import { DATETIME_FORMATS, dispStatusObj } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
@@ -52,8 +52,8 @@ const ExtraDetails = rx => {
               className="vads-u-margin-y--0"
             >
               We expect to fill this prescription on{' '}
-              {dateFormat(rx.refillDate, 'MMMM D, YYYY')}. If you need it
-              sooner, call your VA pharmacy
+              {dateFormat(rx.refillDate, DATETIME_FORMATS.longMonthDate)}. If{' '}
+              you need it sooner, call your VA pharmacy
               <CallPharmacyPhone
                 cmopDivisionPhone={pharmacyPhone}
                 page={pageType.DETAILS}
@@ -70,8 +70,8 @@ const ExtraDetails = rx => {
           <va-icon icon="fact_check" size={3} aria-hidden="true" />
           <span className="vads-u-padding-left--2">
             We got your request on{' '}
-            {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
-            updates.
+            {dateFormat(rx.refillSubmitDate, DATETIME_FORMATS.longMonthDate)}.{' '}
+            Check back for updates.
           </span>
         </p>
       )}

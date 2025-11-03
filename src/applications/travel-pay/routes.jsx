@@ -4,9 +4,15 @@ import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 
 import TravelPayStatusApp from './containers/TravelPayStatusApp';
 import TravelClaimDetails from './components/TravelClaimDetails';
+import Mileage from './components/complex-claims/pages/Mileage';
+import AgreementPage from './components/complex-claims/pages/AgreementPage';
+import ChooseExpenseType from './components/complex-claims/pages/ChooseExpenseType';
+import ConfirmationPage from './components/complex-claims/pages/ConfirmationPage';
 import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPage';
 import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
 import ComplexClaimSubmitFlowWrapper from './containers/ComplexClaimSubmitFlowWrapper';
+import ReviewPage from './components/complex-claims/pages/ReviewPage';
+import IntroductionPage from './components/complex-claims/pages/IntroductionPage';
 import App from './containers/App';
 
 const routes = (
@@ -28,7 +34,14 @@ const routes = (
       <Route
         path="/file-new-claim/complex/:apptId"
         element={<ComplexClaimSubmitFlowWrapper />}
-      />
+      >
+        <Route index element={<IntroductionPage />} />
+        <Route path="choose-expense" element={<ChooseExpenseType />} />
+        <Route path="mileage" element={<Mileage />} />
+        <Route path="review" element={<ReviewPage />} />
+        <Route path="travel-agreement" element={<AgreementPage />} />
+        <Route path="confirmation" element={<ConfirmationPage />} />
+      </Route>
       <Route path="/file-new-claim/:apptId" element={<SubmitFlowWrapper />} />
       <Route path="/claims/:id" element={<TravelClaimDetails />} />
     </Route>

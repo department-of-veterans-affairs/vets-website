@@ -10,6 +10,7 @@ import {
   hasAwardedDependents,
   showV3Picklist,
   noV3Picklist,
+  showOptionsSelection,
   isAddingDependents,
   isRemovingDependents,
   isVisiblePicklistPage,
@@ -184,8 +185,8 @@ describe('childEvidence', () => {
 });
 
 describe('buildSubmissionData', () => {
-  const createTestData = (overrides = {}) => ({
-    data: {
+  const createTestData = (overrides = {}) => {
+    const defaults = {
       'view:addOrRemoveDependents': { add: true, remove: true },
       'view:addDependentOptions': {
         addSpouse: false,
@@ -225,9 +226,19 @@ describe('buildSubmissionData', () => {
       householdIncome: false,
       vaDependentsNetWorthAndPension: true,
       metadata: { version: 1 },
-      ...overrides,
-    },
-  });
+    };
+
+    const merged = { ...defaults, ...overrides };
+
+    const addOptions = merged['view:addDependentOptions'] || {};
+    const removeOptions = merged['view:removeDependentOptions'] || {};
+    merged['view:selectable686Options'] = {
+      ...addOptions,
+      ...removeOptions,
+    };
+
+    return { data: merged };
+  };
 
   it('should return unchanged payload when no data property exists', () => {
     const payload = { metadata: { version: 1 } };
@@ -483,6 +494,32 @@ describe('noV3Picklist', () => {
 
   it('should return false if feature flag is on', () => {
     expect(noV3Picklist({ vaDependentsV3: true })).to.be.false;
+  });
+});
+
+describe('showOptionsSelection', () => {
+  it('should return true if the feature flag is off', () => {
+    expect(
+      showOptionsSelection({
+        vaDependentsV3: false,
+      }),
+    ).to.be.true;
+  });
+  it('should return true if the feature flag is on and some active dependents are available', () => {
+    expect(
+      showOptionsSelection({
+        vaDependentsV3: true,
+        dependents: { awarded: [{}] },
+      }),
+    ).to.be.true;
+  });
+  it('should return false if the feature flag is on and no active dependents are available', () => {
+    expect(
+      showOptionsSelection({
+        vaDependentsV3: true,
+        dependents: { awarded: [] },
+      }),
+    ).to.be.false;
   });
 });
 

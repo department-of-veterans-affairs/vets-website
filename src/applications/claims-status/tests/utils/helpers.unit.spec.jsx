@@ -19,6 +19,7 @@ import {
   displayFileSize,
   getFilesNeeded,
   getFilesOptional,
+  getFailedSubmissionsWithinLast30Days,
   getUserPhase,
   getUserPhaseDescription,
   getPhaseDescription,
@@ -470,6 +471,53 @@ describe('Disability benefits helpers: ', () => {
         const filesNeeded = getFilesOptional(eventsTimeline, useLighthouse);
         expect(filesNeeded.length).to.equal(1);
       });
+    });
+  });
+
+  describe('getFailedSubmissionsWithinLast30Days', () => {
+    const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+    const createEvidenceSubmission = (options = {}) => ({
+      id: 1,
+      uploadStatus: 'FAILED',
+      acknowledgementDate: tomorrow,
+      ...options,
+    });
+
+    it('should return empty array when evidenceSubmissions is undefined', () => {
+      const result = getFailedSubmissionsWithinLast30Days(undefined);
+      expect(result).to.be.an('array');
+      expect(result.length).to.equal(0);
+    });
+
+    it('should return empty array when evidenceSubmissions is null', () => {
+      const result = getFailedSubmissionsWithinLast30Days(null);
+      expect(result).to.be.an('array');
+      expect(result.length).to.equal(0);
+    });
+
+    it('should return empty array when there are no failed submissions', () => {
+      const evidenceSubmissions = [
+        createEvidenceSubmission({ uploadStatus: 'SUCCESS' }),
+        createEvidenceSubmission({ id: 2, uploadStatus: 'PENDING' }),
+      ];
+      const result = getFailedSubmissionsWithinLast30Days(evidenceSubmissions);
+
+      expect(result.length).to.equal(0);
+    });
+
+    it('should only return failed submissions within the last 30 days', () => {
+      const evidenceSubmissions = [
+        createEvidenceSubmission({ id: 4 }),
+        createEvidenceSubmission({ id: 3, acknowledgementDate: yesterday }),
+        createEvidenceSubmission({ id: 5 }),
+      ];
+      const result = getFailedSubmissionsWithinLast30Days(evidenceSubmissions);
+
+      expect(result.length).to.equal(2);
+      expect(result[0].id).to.equal(4);
+      expect(result[1].id).to.equal(5);
     });
   });
 

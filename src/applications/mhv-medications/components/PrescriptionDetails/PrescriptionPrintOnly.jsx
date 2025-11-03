@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
-  pdfStatusDefinitions,
-  pdfDefaultStatusDefinition,
+  DATETIME_FORMATS,
   FIELD_NONE_NOTED,
+  medStatusDisplayTypes,
+  pdfStatusDefinitions,
 } from '../../util/constants';
 import {
   validateField,
@@ -15,6 +16,7 @@ import {
   displayProviderName,
   getRxStatus,
   rxSourceIsNonVA,
+  prescriptionMedAndRenewalStatus,
 } from '../../util/helpers';
 import MedicationDescription from '../shared/MedicationDescription';
 import { selectPendingMedsFlag } from '../../util/selectors';
@@ -71,7 +73,11 @@ const PrescriptionPrintOnly = props => {
       </ul>
       <p className="vads-u-margin-top--neg1p5">
         <strong>When you started taking this medication:</strong>{' '}
-        {dateFormat(pres.dispensedDate, 'MMMM D, YYYY', 'Date not available')}
+        {dateFormat(
+          pres.dispensedDate,
+          DATETIME_FORMATS.longMonthDate,
+          'Date not available',
+        )}
       </p>
       <p>
         <strong>Documented by: </strong>
@@ -106,7 +112,10 @@ const PrescriptionPrintOnly = props => {
               <p>
                 <strong>Last filled on:</strong>{' '}
                 {rx?.sortedDispensedDate
-                  ? dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')
+                  ? dateFormat(
+                      rx.sortedDispensedDate,
+                      DATETIME_FORMATS.longMonthDate,
+                    )
                   : 'Not filled yet'}
               </p>
             ) : null}
@@ -120,37 +129,41 @@ const PrescriptionPrintOnly = props => {
                 </>
               )}
             <p>
-              <strong>Status:</strong> {rxStatus}
+              <strong>Status: </strong>
+              {prescriptionMedAndRenewalStatus(rx, medStatusDisplayTypes.PRINT)}
             </p>
-            <div className="vads-u-margin-y--0p5 no-break vads-u-margin-right--5">
-              {pdfStatusDefinitions[rx.refillStatus]
-                ? pdfStatusDefinitions[rx.refillStatus].map((def, i) => {
-                    if (Array.isArray(def.value)) {
+            {!pendingMed &&
+              !pendingRenewal &&
+              pdfStatusDefinitions[rx.refillStatus] &&
+              pdfStatusDefinitions[rx.refillStatus].length > 1 && (
+                <div className="vads-u-margin-y--0p5 no-break vads-u-margin-right--5">
+                  {pdfStatusDefinitions[rx.refillStatus]
+                    .slice(1) // skip the first line (already displayed)
+                    .map((def, i) => {
+                      if (Array.isArray(def.value)) {
+                        return (
+                          <ul key={i} className="vads-u-margin--0">
+                            {def.value.map((val, idx) => (
+                              <li key={idx} className="vads-u-margin--0">
+                                {val}
+                              </li>
+                            ))}
+                          </ul>
+                        );
+                      }
+
+                      if (def.weight === 'bold') {
+                        return <strong key={i}>{def.value}</strong>;
+                      }
+
                       return (
-                        <ul key={i} className="vads-u-margin--0">
-                          {def.value.map((val, idx) => (
-                            <li key={idx} className="vads-u-margin--0">
-                              {val}
-                            </li>
-                          ))}
-                        </ul>
+                        <div key={i} className="vads-u-margin-y--0p5">
+                          {def.value}
+                        </div>
                       );
-                    }
-                    if (def.weight === 'bold') {
-                      return <strong key={i}>{def.value}</strong>;
-                    }
-                    return (
-                      <div key={i} className="vads-u-margin-y--0p5">
-                        {def.value}
-                      </div>
-                    );
-                  })
-                : pdfDefaultStatusDefinition.map(({ value }, i) => (
-                    <div key={i} className="vads-u-margin-y--0p5">
-                      {value}
-                    </div>
-                  ))}
-            </div>
+                    })}
+                </div>
+              )}
             <p>
               <strong>Refills left:</strong> {validateField(rx.refillRemaining)}
             </p>
@@ -159,7 +172,7 @@ const PrescriptionPrintOnly = props => {
                 <strong>
                   Request refills by this prescription expiration date:
                 </strong>{' '}
-                {dateFormat(rx.expirationDate, 'MMMM D, YYYY')}
+                {dateFormat(rx.expirationDate, DATETIME_FORMATS.longMonthDate)}
               </p>
             )}
 
@@ -190,7 +203,7 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Prescribed on:</strong>{' '}
-              {dateFormat(rx.orderedDate, 'MMMM D, YYYY')}
+              {dateFormat(rx.orderedDate, DATETIME_FORMATS.longMonthDate)}
             </p>
             <p>
               <strong>Prescribed by:</strong>{' '}
@@ -295,7 +308,7 @@ const PrescriptionPrintOnly = props => {
                             {entry.sortedDispensedDate
                               ? dateFormat(
                                   entry.sortedDispensedDate,
-                                  'MMMM D, YYYY',
+                                  DATETIME_FORMATS.longMonthDate,
                                 )
                               : 'Not filled yet'}
                           </p>
@@ -305,7 +318,10 @@ const PrescriptionPrintOnly = props => {
                           </p>
                           <p>
                             <strong>Prescribed on:</strong>{' '}
-                            {dateFormat(entry.orderedDate, 'MMMM D, YYYY')}
+                            {dateFormat(
+                              entry.orderedDate,
+                              DATETIME_FORMATS.longMonthDate,
+                            )}
                           </p>
                           <p>
                             <strong>Prescribed by:</strong>{' '}
