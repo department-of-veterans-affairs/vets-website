@@ -7,10 +7,12 @@ import {
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import { createExpense, updateExpense } from '../../../redux/actions';
+import { createNewExpense, updateExpense } from '../../../redux/actions';
 import {
   selectAppointment,
-  selectClaimDetails,
+  selectExpenseUpdateLoadingState,
+  selectExpenseCreationLoadingState,
+  selectAllExpenses,
 } from '../../../redux/selectors';
 import { formatDateTime } from '../../../util/dates';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
@@ -21,13 +23,14 @@ const Mileage = () => {
   const { apptId, claimId, expenseId } = useParams();
 
   const isLoadingExpense = useSelector(
-    state => state.travelPay.expense?.isLoading,
+    state =>
+      expenseId
+        ? selectExpenseUpdateLoadingState(state)
+        : selectExpenseCreationLoadingState(state),
   );
 
   const appointmentData = useSelector(selectAppointment);
-  const { data: claimDetails } = useSelector(state =>
-    selectClaimDetails(state, claimId),
-  );
+  const allExpenses = useSelector(selectAllExpenses);
 
   const address = useSelector(selectVAPResidentialAddress);
 
@@ -75,12 +78,13 @@ const Mileage = () => {
             updateExpense(claimId, 'mileage', expenseId, expenseData),
           );
         } else {
-          await dispatch(createExpense(claimId, 'mileage', expenseData));
+          await dispatch(createNewExpense(claimId, 'mileage', expenseData));
         }
       } catch (error) {
         // Handle error
         // eslint-disable-next-line no-console
         console.error('Error creating expense:', error);
+        return; // Don't navigate if there's an error
       }
       navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     }
@@ -96,7 +100,7 @@ const Mileage = () => {
 
   useEffect(
     () => {
-      const hasMileageExpense = (claimDetails?.expenses ?? []).some(
+      const hasMileageExpense = (allExpenses ?? []).some(
         e => e.expenseType === 'mileage',
       );
       if (expenseId ?? hasMileageExpense) {
@@ -104,7 +108,7 @@ const Mileage = () => {
         setTripType('round-trip');
       }
     },
-    [claimId, claimDetails, expenseId],
+    [claimId, allExpenses, expenseId],
   );
 
   return (
