@@ -31,7 +31,7 @@ export const getVitals = (
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     datadogRum.addError(error, {
       relativePath: 'src/applications/mhv-medical-records/actions/vitals.js',
-      functionName: 'getConditionsList',
+      functionName: 'getVitals',
     });
   }
 };
