@@ -22,6 +22,7 @@ import {
 } from '../constants';
 
 import { getHomelessOrAtRisk } from '../utils';
+import HousingSituationResponses from '../components/ConfirmationFields/HousingSituationResponses';
 
 export const uiSchema = {
   homelessOrAtRisk: {
@@ -44,6 +45,7 @@ export const uiSchema = {
       'ui:title': 'Please describe your current living situation.',
       'ui:required': formData =>
         _.get('homelessOrAtRisk', formData, '') === HOMELESSNESS_TYPES.homeless,
+      'ui:confirmationField': HousingSituationResponses,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
@@ -70,6 +72,7 @@ export const uiSchema = {
       'ui:title': 'Do you need to quickly leave your current living situation?',
       'ui:required': formData =>
         _.get('homelessOrAtRisk', formData, '') === HOMELESSNESS_TYPES.homeless,
+      'ui:confirmationField': HousingSituationResponses,
       'ui:widget': 'yesNo',
     },
   },
@@ -97,6 +100,7 @@ export const uiSchema = {
       'ui:required': formData =>
         _.get('view:isAtRisk.atRiskHousingSituation', formData, '') ===
         AT_RISK_HOUSING_TYPES.other,
+      'ui:confirmationField': HousingSituationResponses,
       'ui:options': {
         hideIf: formData =>
           _.get('view:isAtRisk.atRiskHousingSituation', formData, '') !==
