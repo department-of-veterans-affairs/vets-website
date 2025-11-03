@@ -6,9 +6,6 @@ import {
 
 /** @type {PageSchema} */
 const powPeriodOfTimePage = {
-  title: 'Prisoner of war period',
-  path: 'veteran/prisoner-of-war-period',
-  depends: formData => formData?.prisonerOfWar === true,
   uiSchema: {
     ...titleUI('Period of time held as a POW'),
     powPeriod: currentOrPastDateRangeUI(

@@ -30,7 +30,7 @@ export default {
       monthSelect: false,
     }),
     cityStateOrForeignCountry: textUI({
-      title: "Place of Veteran's last separation",
+      title: 'Place of Veteran’s last separation',
       hint: 'City, state, or foreign country',
     }),
   },

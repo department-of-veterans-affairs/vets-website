@@ -8,16 +8,32 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 
+function checkIsItemIncomplete(item) {
+  return !item?.otherServiceName?.first || !item?.otherServiceName?.last;
+}
+
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'otherServiceNames',
   nounSingular: 'name',
   nounPlural: 'names',
   required: false,
-  isItemIncomplete: item =>
-    !item?.otherServiceName?.first || !item?.otherServiceName?.last,
+  isItemIncomplete: item => checkIsItemIncomplete(item),
   maxItems: 2,
   text: {
+    summaryTitle: 'Review the Veteran’s other service names',
+    alertMaxItems:
+      'You have added the maximum number of allowed service names for this application. You may edit or delete a name or choose to continue on in the application.',
+    cancelAddTitle: 'Cancel adding this service name?',
+    cancelEditTitle: 'Cancel editing this service name?',
+    cancelAddDescription:
+      'If you cancel, we won’t add this name to your list of service names. You’ll return to a page where you can add a new service name.',
+    cancelEditDescription:
+      'If you cancel, you’ll lose any changes you made to this service name and you will be returned to the service name review page.',
+    cancelAddYes: 'Yes, cancel adding',
+    cancelAddNo: 'No, continue adding',
+    cancelEditYes: 'Yes, cancel editing',
+    cancelEditNo: 'No, continue editing',
     getItemName: item => {
       const name = item?.otherServiceName;
       if (!name?.first && !name?.last) return '';
@@ -37,8 +53,8 @@ function introDescription() {
   return (
     <div>
       <p>
-        In the next few questions, we’ll ask you about other names the Veteran
-        served under. You may add up to 2 names.
+        Next we’ll ask you about other names the Veteran served under. You may
+        add up to 2 names.
       </p>
     </div>
   );
@@ -106,7 +122,7 @@ export const otherServiceNamesPages = arrayBuilderPages(
   options,
   pageBuilder => ({
     otherServiceNamesIntro: pageBuilder.introPage({
-      title: 'test',
+      title: 'Service names',
       path: 'veteran/other-service-names-intro',
       depends: formData => formData.receivedBenefits === false,
       uiSchema: introPage.uiSchema,
