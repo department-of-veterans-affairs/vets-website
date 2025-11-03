@@ -315,6 +315,8 @@ const formConfig = {
         dicBenefits: {
           title: 'D.I.C. benefits',
           path: 'claim-information/dic',
+          depends: formData =>
+            formData?.claims?.dependencyIndemnityComp === true,
           uiSchema: dicBenefits.uiSchema,
           schema: dicBenefits.schema,
         },
