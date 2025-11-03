@@ -35,9 +35,14 @@ describe('ExpenseCard', () => {
 
   const getData = () => ({
     travelPay: {
-      expense: {
-        isLoading: false,
-        error: null,
+      complexClaim: {
+        expenses: {
+          delete: {
+            isLoading: false,
+            error: null,
+            id: '',
+          },
+        },
       },
     },
   });
