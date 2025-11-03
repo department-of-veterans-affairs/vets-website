@@ -184,11 +184,12 @@ const formConfig = {
           },
           pageBuilder => ({
             additionalLocationSummary: pageBuilder.summaryPage({
-              title: 'Additional locations',
+              title: 'Additional locations [noun plural]',
               path: 'additional-locations',
               uiSchema: additionalLocationSummary.uiSchema,
               schema: additionalLocationSummary.schema,
               scrollAndFocusTarget,
+              depends: data => data?.agreementType === 'newCommitment',
             }),
             additionalLocation: pageBuilder.itemPage({
               title: 'Additional location',
@@ -196,12 +197,14 @@ const formConfig = {
               showPagePerItem: true,
               uiSchema: additionalInstitutionDetailsItem.uiSchema,
               schema: additionalInstitutionDetailsItem.schema,
+              depends: data => data?.agreementType === 'newCommitment',
             }),
             previouslyEnteredPointOfContact: pageBuilder.itemPage({
               title: 'Point of contact for this location',
               path: 'additional-locations/:index/point-of-contact',
               uiSchema: previouslyEnteredPoc.uiSchema,
               schema: previouslyEnteredPoc.schema,
+              depends: data => data?.agreementType === 'newCommitment',
             }),
             pointOfContactForThisLocation: pageBuilder.itemPage({
               title: 'point Of ContactFor This Location',

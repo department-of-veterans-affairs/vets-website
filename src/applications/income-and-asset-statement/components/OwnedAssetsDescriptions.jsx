@@ -45,7 +45,6 @@ export const SupportingDocumentsNeededList = () => (
     <li>
       Any changes to the schedule of assets, <strong>and</strong>
     </li>
-    <li>Documentation demonstration sell-ability, value and income of asset</li>
     <li>
       Monthly payments out of this trust (if any), <strong>and</strong>
     </li>
