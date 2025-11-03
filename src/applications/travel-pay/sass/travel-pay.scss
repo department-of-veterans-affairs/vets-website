@@ -8,6 +8,12 @@
 @import "../../../platform/mhv/secondary-nav/sass/mhv-sec-nav";
 
 // Complex claim review page styles for the buttons and links
+.expense-card-details {
+  p {
+    margin-block: 8px !important;
+  }
+}
+
 .review-button-row {
   display: flex;
   justify-content: space-between;

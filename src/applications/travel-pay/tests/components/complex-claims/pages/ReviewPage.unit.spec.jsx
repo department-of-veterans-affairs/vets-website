@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { fireEvent } from '@testing-library/react';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -14,30 +13,40 @@ import ReviewPage from '../../../../components/complex-claims/pages/ReviewPage';
 import reducer from '../../../../redux/reducer';
 
 describe('Travel Pay – ReviewPage', () => {
-  const defaultClaim = [
-    {
-      claimId: '12345',
-      expenses: [
-        {
-          id: 'expense1',
-          expenseType: 'Mileage',
-          tripType: 'OneWay',
-          address: {
-            addressLine1: '123 Main St',
-            addressLine2: 'Suite 100',
-            city: 'Denver',
-            stateCode: 'CO',
-            zipCode: '80202',
-          },
+  const defaultClaim = {
+    claimId: '12345',
+    totalCostRequested: 100.25,
+    expenses: [
+      {
+        id: 'expense1',
+        expenseType: 'Mileage',
+        tripType: 'OneWay',
+        address: {
+          addressLine1: '123 Main St',
+          addressLine2: 'Suite 100',
+          city: 'Denver',
+          stateCode: 'CO',
+          zipCode: '80202',
         },
-        {
-          id: 'expense2',
-          expenseType: 'Parking',
-          tripType: 'OneWay',
-        },
-      ],
-    },
-  ];
+        costRequested: 50.25,
+      },
+      {
+        id: 'expense2',
+        expenseType: 'Parking',
+        tripType: 'OneWay',
+        costRequested: 50.0,
+        documentId: '9c63737a-f29e-f011-b4cc-001dd806c742',
+      },
+    ],
+    documents: [
+      {
+        documentId: '9c63737a-f29e-f011-b4cc-001dd806c742',
+        filename: 'test.pdf',
+        mimetype: 'application/pdf',
+        createdon: '2025-10-01T18:14:37Z',
+      },
+    ],
+  };
 
   const LocationDisplay = () => {
     const location = useLocation();
@@ -50,7 +59,7 @@ describe('Travel Pay – ReviewPage', () => {
     },
   });
 
-  it('renders the review page with expenses and alert', () => {
+  it('renders the review page with expenses, alert, buttons, and summary box', () => {
     const { getByTestId, getByRole, container } = renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
         <ReviewPage claim={defaultClaim} />
@@ -69,22 +78,34 @@ describe('Travel Pay – ReviewPage', () => {
       .exist;
 
     // Alert component visible
-    expect($('va-alert')).to.exist;
+    expect(getByTestId('review-page-alert')).to.exist;
 
     // Add more expenses button
-    expect($('#add-expense-button', container)).to.exist;
+    expect(container.querySelector('#add-expense-button')).to.exist;
 
     // Sign agreement button
-    expect($('#sign-agreement-button', container)).to.exist;
+    expect(container.querySelector('#sign-agreement-button')).to.exist;
+
+    // Accordion items
+    const accordionItems = container.querySelectorAll('va-accordion-item');
+    expect(accordionItems.length).to.equal(
+      Object.keys(
+        defaultClaim.expenses.reduce((acc, e) => {
+          acc[e.expenseType] = true;
+          return acc;
+        }, {}),
+      ).length,
+    );
 
     // ExpenseCard should render
-    expect($('va-accordion-item', container)).to.exist;
+    const expenseCards = container.querySelectorAll('va-card');
+    expect(expenseCards.length).to.equal(defaultClaim.expenses.length);
 
     // SummaryBox should render
-    expect($('va-summary-box', container)).to.exist;
+    expect(container.querySelector('va-summary-box')).to.exist;
   });
 
-  it('calls onNext when Sign Agreement button is clicked', () => {
+  it('calls signAgreement when Sign Agreement button is clicked', () => {
     const { container, getByTestId } = renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
         <Routes>
@@ -101,7 +122,7 @@ describe('Travel Pay – ReviewPage', () => {
       },
     );
 
-    const signButton = $('#sign-agreement-button', container);
+    const signButton = container.querySelector('#sign-agreement-button');
     expect(signButton).to.exist;
 
     // Click the Sign Agreement button
@@ -114,7 +135,7 @@ describe('Travel Pay – ReviewPage', () => {
   });
 
   it('hides alert when close button is clicked', () => {
-    const { container } = renderWithStoreAndRouter(
+    const { getByTestId } = renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
         <ReviewPage claim={defaultClaim} />
       </MemoryRouter>,
@@ -124,7 +145,7 @@ describe('Travel Pay – ReviewPage', () => {
       },
     );
 
-    const alert = $('va-alert', container);
+    const alert = getByTestId('review-page-alert');
     expect(alert).to.exist;
 
     // Trigger the onCloseEvent of the alert
@@ -148,11 +169,43 @@ describe('Travel Pay – ReviewPage', () => {
 
     // Check that each expense type has an accordion item
     const accordionItems = container.querySelectorAll('va-accordion-item');
-    expect(accordionItems.length).to.equal(2);
+    expect(accordionItems.length).to.equal(
+      Object.keys(
+        defaultClaim.expenses.reduce((acc, e) => {
+          acc[e.expenseType] = true;
+          return acc;
+        }, {}),
+      ).length,
+    );
 
     // ExpenseCard rendered
-    const mileageCard = container.querySelector('va-accordion-item div');
-    expect(mileageCard).to.exist;
+    const expenseCards = container.querySelectorAll('va-card');
+    expect(expenseCards.length).to.equal(defaultClaim.expenses.length);
+  });
+
+  it('renders "No expenses have been added to this claim." when there are no expenses', () => {
+    const emptyClaim = {
+      claimId: '67890',
+      totalCostRequested: 0,
+      expenses: [],
+      documents: [],
+    };
+
+    const { getByText } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={['/file-new-claim/complex/67890/review']}>
+        <ReviewPage claim={emptyClaim} />
+      </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
+
+    // The "no expenses" message should be visible
+    expect(getByText('No expenses have been added to this claim.')).to.exist;
+
+    // The "Add more expenses" button should still exist
+    expect(document.querySelector('#add-expense-button')).to.exist;
   });
 
   it('calls addMoreExpenses when Add More Expenses button is clicked', () => {
@@ -172,7 +225,7 @@ describe('Travel Pay – ReviewPage', () => {
       },
     );
 
-    const addButton = $('#add-expense-button', container);
+    const addButton = container.querySelector('#add-expense-button');
     expect(addButton).to.exist;
 
     // Click the Add more expenses button
@@ -181,6 +234,34 @@ describe('Travel Pay – ReviewPage', () => {
     // Check that the location updated
     expect(getByTestId('location-display').textContent).to.equal(
       '/file-new-claim/complex/12345/choose-expense',
+    );
+  });
+
+  it('renders "Add another" buttons for non-mileage expense types', () => {
+    const { container, getByTestId } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
+        <Routes>
+          <Route
+            path="/file-new-claim/complex/:apptId/review"
+            element={<ReviewPage claim={defaultClaim} />}
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>,
+      { initialState: getData(), reducers: reducer },
+    );
+
+    const addParkingBtn = container.querySelector(
+      '#add-parking-expense-button',
+    );
+    expect(addParkingBtn).to.exist;
+
+    // Click the Add another parking expenses button
+    fireEvent.click(addParkingBtn);
+
+    // Check that the location updated
+    expect(getByTestId('location-display').textContent).to.equal(
+      '/file-new-claim/complex/12345/parking',
     );
   });
 });

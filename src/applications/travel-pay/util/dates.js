@@ -7,6 +7,8 @@ import {
   startOfQuarter,
   subMonths,
   subQuarters,
+  parseISO,
+  isValid,
 } from 'date-fns';
 
 import { utcToZonedTime } from 'date-fns-tz';
@@ -27,6 +29,25 @@ export function formatDateTime(datetimeString, stripUTCIndicator = false) {
   const formattedTime = format(dateTime, 'h:mm a');
 
   return [formattedDate, formattedTime];
+}
+
+/**
+ * Format an ISO datetime string into "Month Day, Year"
+ * @param {string} datetimeString - ISO datetime string, e.g., '2025-10-13T13:54:26Z' or '2025-09-01T00:00:00'
+ * @returns {string} Formatted date like "October 13, 2025" or "Invalid Date"
+ */
+export function formatDate(datetimeString) {
+  if (!datetimeString) return 'Invalid Date';
+
+  try {
+    const date = parseISO(datetimeString);
+
+    if (!isValid(date)) return 'Invalid Date';
+
+    return format(date, 'MMMM d, yyyy');
+  } catch (err) {
+    return 'Invalid Date';
+  }
 }
 
 /**
