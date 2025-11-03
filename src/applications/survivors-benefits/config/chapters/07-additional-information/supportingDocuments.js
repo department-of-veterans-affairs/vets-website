@@ -13,9 +13,13 @@ const Intro = () => (
 
 const Documents = () => (
   <div>
-    <h4>Required documents</h4>
+    <h4 className="vads-u-color--gray-dark">Required documents</h4>
     <va-accordion>
-      <va-accordion-item bordered header="Veteran’s death certificate">
+      <va-accordion-item
+        level={5}
+        bordered
+        header="Veteran’s death certificate"
+      >
         <p>
           You’ll need to submit a copy of the Veteran’s death certificate. It
           must clearly show the primary cause of death and any contributing
@@ -29,6 +33,7 @@ const Documents = () => (
       </va-accordion-item>
 
       <va-accordion-item
+        level={5}
         bordered
         header="Veteran’s DD214 or separation documents"
       >
@@ -40,9 +45,9 @@ const Documents = () => (
       </va-accordion-item>
     </va-accordion>
 
-    <h4>Other documents you may need</h4>
+    <h4 className="vads-u-color--gray-dark">Other documents you may need</h4>
     <va-accordion>
-      <va-accordion-item bordered header="Income and net worth">
+      <va-accordion-item level={5} bordered header="Income and net worth">
         <p>
           If instructed in Step 6 when you provided financial information,
           you’ll need to submit an Income and Asset Statement in Support of
@@ -106,6 +111,7 @@ const Documents = () => (
         </ul>
       </va-accordion-item>
       <va-accordion-item
+        level={5}
         bordered
         header="Special circumstances regarding your medical care"
       >
@@ -188,7 +194,7 @@ const Documents = () => (
           <li>Signed verification from care service provider</li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item bordered header="Dependent children">
+      <va-accordion-item level={5} bordered header="Dependent children">
         <p>If you have dependent children, you’ll need to submit:</p>
         <ul>
           <li>
@@ -225,7 +231,7 @@ const Documents = () => (
           <li>Medical records for each seriously disabled child</li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item bordered header="Marriage history">
+      <va-accordion-item level={5} bordered header="Marriage history">
         <p>
           If you are claiming benefits as a surviving spouse, you may need to
           submit these documents:
