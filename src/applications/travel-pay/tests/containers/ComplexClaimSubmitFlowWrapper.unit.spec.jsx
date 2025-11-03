@@ -1,4 +1,5 @@
 import React from 'react';
+import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { MemoryRouter, Route, Routes } from 'react-router-dom-v5-compat';
@@ -108,14 +109,13 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     it('renders the ReviewPage component', () => {
       const initialState = getData({ complexClaimsEnabled: true });
       const screen = renderWithStoreAndRouter(
-        <MemoryRouter initialEntries={['/file-new-claim/12345/45678']}>
+        <MemoryRouter initialEntries={['/file-new-claim/12345/45678/review']}>
           <Routes>
             <Route
               path="/file-new-claim/:apptId/:claimId"
               element={<ComplexClaimSubmitFlowWrapper />}
             >
-              {/* Nested route renders the ReviewPage */}
-              <Route index element={<ReviewPage />} />
+              <Route path="review" element={<ReviewPage />} />
             </Route>
           </Routes>
         </MemoryRouter>,
@@ -127,16 +127,18 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
 
     it('shows the ReviewPage first, and after clicking Sign Agreement navigates to the AgreementPage', async () => {
       const initialState = getData({ complexClaimsEnabled: true });
-      const { getByTestId, unmount } = renderWithStoreAndRouter(
-        <MemoryRouter initialEntries={['/file-new-claim/12345/45678']}>
+      const {
+        container,
+        queryByTestId,
+        getByTestId,
+      } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/45678/review']}>
           <Routes>
             <Route
               path="/file-new-claim/:apptId/:claimId"
               element={<ComplexClaimSubmitFlowWrapper />}
             >
-              {/* Page 1 */}
-              <Route index element={<ReviewPage onNext={() => {}} />} />
-              {/* Page 2 */}
+              <Route path="review" element={<ReviewPage onNext={() => {}} />} />
               <Route path="travel-agreement" element={<AgreementPage />} />
             </Route>
           </Routes>
@@ -147,37 +149,14 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       // Page 1 should render first (ReviewPage)
       expect(getByTestId('review-page')).to.exist;
 
-      // Clean up the first render
-      unmount();
-
-      // For this test, we need to actually trigger a navigation to /travel-agreement
-      // In real app this would be done via react-router navigation inside signAgreement
-      // Here we can simulate by rerendering with the new route:
-      const {
-        getByTestId: getByTestId2,
-        queryByTestId: queryByTestId2,
-      } = renderWithStoreAndRouter(
-        <MemoryRouter
-          initialEntries={['/file-new-claim/12345/45678/travel-agreement']}
-        >
-          <Routes>
-            <Route
-              path="/file-new-claim/:apptId/:claimId"
-              element={<ComplexClaimSubmitFlowWrapper />}
-            >
-              <Route index element={<ReviewPage onNext={() => {}} />} />
-              <Route path="travel-agreement" element={<AgreementPage />} />
-            </Route>
-          </Routes>
-        </MemoryRouter>,
-        { initialState, reducers: reducer },
-      );
+      const signButton = $('#sign-agreement-button', container);
+      fireEvent.click(signButton);
 
       // Agreement page should render
-      expect(getByTestId2('agreement-checkbox')).to.exist;
+      expect(getByTestId('agreement-checkbox')).to.exist;
 
       // ReviewPage is no longer visible
-      expect(queryByTestId2('review-page')).to.be.null;
+      expect(queryByTestId('review-page')).to.be.null;
     });
 
     it('handles different appointment IDs in the URL', () => {
