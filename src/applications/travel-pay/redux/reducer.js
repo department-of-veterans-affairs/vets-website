@@ -1,7 +1,13 @@
 import {
-  UPDATE_EXPENSE_STARTED,
-  UPDATE_EXPENSE_SUCCESS,
-  UPDATE_EXPENSE_FAILURE,
+  CREATE_COMPLEX_CLAIM_FAILURE,
+  CREATE_COMPLEX_CLAIM_STARTED,
+  CREATE_COMPLEX_CLAIM_SUCCESS,
+  CREATE_EXPENSE_FAILURE,
+  CREATE_EXPENSE_STARTED,
+  CREATE_EXPENSE_SUCCESS,
+  DELETE_EXPENSE_FAILURE,
+  DELETE_EXPENSE_STARTED,
+  DELETE_EXPENSE_SUCCESS,
   FETCH_APPOINTMENT_FAILURE,
   FETCH_APPOINTMENT_STARTED,
   FETCH_APPOINTMENT_SUCCESS,
@@ -14,9 +20,9 @@ import {
   SUBMIT_CLAIM_FAILURE,
   SUBMIT_CLAIM_STARTED,
   SUBMIT_CLAIM_SUCCESS,
-  CREATE_COMPLEX_CLAIM_STARTED,
-  CREATE_COMPLEX_CLAIM_SUCCESS,
-  CREATE_COMPLEX_CLAIM_FAILURE,
+  UPDATE_EXPENSE_FAILURE,
+  UPDATE_EXPENSE_STARTED,
+  UPDATE_EXPENSE_SUCCESS,
 } from './actions';
 
 const initialState = {
@@ -39,14 +45,37 @@ const initialState = {
     error: null,
     data: null,
   },
-  complexClaimCreation: {
-    isLoading: false,
-    error: null,
-    data: null,
-  },
-  expense: {
-    isLoading: false,
-    error: null,
+  complexClaim: {
+    claim: {
+      creation: {
+        isLoading: false,
+        error: null,
+      },
+      submission: {
+        id: '',
+        isSubmitting: false,
+        error: null,
+        data: null,
+      },
+      data: null,
+    },
+    expenses: {
+      creation: {
+        isLoading: false,
+        error: null,
+      },
+      update: {
+        id: '',
+        isLoading: false,
+        error: null,
+      },
+      delete: {
+        id: '',
+        isLoading: false,
+        error: null,
+      },
+      data: [],
+    },
   },
 };
 
@@ -177,100 +206,195 @@ function travelPayReducer(state = initialState, action) {
     case CREATE_COMPLEX_CLAIM_STARTED:
       return {
         ...state,
-        complexClaimCreation: {
-          ...state.complexClaimCreation,
-          isLoading: true,
+        complexClaim: {
+          ...state.complexClaim,
+          claim: {
+            ...state.complexClaim.claim,
+            creation: {
+              isLoading: true,
+              error: null,
+            },
+          },
         },
       };
     case CREATE_COMPLEX_CLAIM_SUCCESS:
       return {
         ...state,
-        complexClaimCreation: {
-          error: null,
-          isLoading: false,
-          data: action.payload,
-        },
-        // Also add the newly created claim to claimDetails for immediate access
-        claimDetails: {
-          ...state.claimDetails,
-          data: {
-            ...state.claimDetails.data,
-            [action.payload.claimId]: action.payload,
+        complexClaim: {
+          ...state.complexClaim,
+          claim: {
+            ...state.complexClaim.claim,
+            creation: {
+              error: null,
+              isLoading: false,
+              data: action.payload,
+            },
+            data: action.payload,
           },
         },
       };
     case CREATE_COMPLEX_CLAIM_FAILURE:
       return {
         ...state,
-        complexClaimCreation: {
-          ...state.complexClaimCreation,
-          isLoading: false,
-          error: action.error,
+        complexClaim: {
+          ...state.complexClaim,
+          claim: {
+            ...state.complexClaim.claim,
+            creation: {
+              isLoading: false,
+              error: action.error,
+            },
+          },
         },
       };
     case UPDATE_EXPENSE_STARTED:
       return {
         ...state,
-        expense: {
-          ...state.expense,
-          isLoading: true,
-        },
-      };
-    case UPDATE_EXPENSE_SUCCESS:
-      // Expense delete
-      if (action.expenseId) {
-        return {
-          ...state,
-          expense: {
-            error: null,
-            isLoading: false,
-          },
-          claimDetails: {
-            ...state.claimDetails,
-            data: {
-              ...state.claimDetails.data,
-              [action.claimId]: {
-                ...state.claimDetails.data[action.claimId],
-                expenses: state.claimDetails.data[
-                  action.claimId
-                ].expenses.filter(expense => expense.id !== action.expenseId),
-              },
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            update: {
+              id: action.expenseId,
+              isLoading: true,
+              error: null,
             },
           },
-        };
-      }
-      // Create/Update expense
+        },
+      };
+    case UPDATE_EXPENSE_SUCCESS: {
       return {
         ...state,
-        expense: {
-          error: null,
-          isLoading: false,
-        },
-        claimDetails: {
-          ...state.claimDetails,
-          data: {
-            ...state.claimDetails.data,
-            [action.claimId]: {
-              ...state.claimDetails.data[action.claimId],
-              expenses: [
-                ...state.claimDetails.data[action.claimId].expenses.filter(
-                  expense => expense.id !== action.payload.id,
-                ),
-                action.payload,
-              ],
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            update: {
+              id: '',
+              isLoading: false,
+              error: null,
             },
+            data: state.complexClaim.expenses.data.map(
+              expense =>
+                expense.id === action.payload.id ? action.payload : expense,
+            ),
           },
         },
       };
+    }
     case UPDATE_EXPENSE_FAILURE:
       return {
         ...state,
-        expense: {
-          ...state.expense,
-          isLoading: false,
-          error: action.error,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            update: {
+              id: action.expenseId,
+              isLoading: false,
+              error: action.error,
+            },
+          },
         },
       };
+    case DELETE_EXPENSE_STARTED: {
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            delete: {
+              id: action.expenseId,
+              isLoading: true,
+              error: null,
+            },
+          },
+        },
+      };
+    }
+    case DELETE_EXPENSE_SUCCESS: {
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            delete: {
+              id: '',
+              isLoading: false,
+              error: null,
+            },
+            data: state.complexClaim.expenses.data.filter(
+              expense => expense.id !== action.expenseId,
+            ),
+          },
+        },
+      };
+    }
+    case DELETE_EXPENSE_FAILURE:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            delete: {
+              id: action.expenseId,
+              isLoading: false,
+              error: action.error,
+            },
+          },
+        },
+      };
+
+    // New bifurcated expense operations
+    case CREATE_EXPENSE_STARTED:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            creation: {
+              isLoading: true,
+              error: null,
+            },
+          },
+        },
+      };
+
+    case CREATE_EXPENSE_SUCCESS:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            creation: {
+              isLoading: false,
+              error: null,
+            },
+            data: [...state.complexClaim.expenses.data, action.payload],
+          },
+        },
+      };
+
+    case CREATE_EXPENSE_FAILURE:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            creation: {
+              isLoading: false,
+              error: action.error,
+            },
+          },
+        },
+      };
+
     default:
       return state;
   }

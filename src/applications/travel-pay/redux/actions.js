@@ -20,6 +20,14 @@ export const CREATE_COMPLEX_CLAIM_FAILURE = 'CREATE_COMPLEX_CLAIM_FAILURE';
 export const UPDATE_EXPENSE_STARTED = 'UPDATE_EXPENSE_STARTED';
 export const UPDATE_EXPENSE_SUCCESS = 'UPDATE_EXPENSE_SUCCESS';
 export const UPDATE_EXPENSE_FAILURE = 'UPDATE_EXPENSE_FAILURE';
+// New delete expense action types (separate from update)
+export const DELETE_EXPENSE_STARTED = 'DELETE_EXPENSE_STARTED';
+export const DELETE_EXPENSE_SUCCESS = 'DELETE_EXPENSE_SUCCESS';
+export const DELETE_EXPENSE_FAILURE = 'DELETE_EXPENSE_FAILURE';
+// New create expense action types (separate from update/modify)
+export const CREATE_EXPENSE_STARTED = 'CREATE_EXPENSE_STARTED';
+export const CREATE_EXPENSE_SUCCESS = 'CREATE_EXPENSE_SUCCESS';
+export const CREATE_EXPENSE_FAILURE = 'CREATE_EXPENSE_FAILURE';
 
 // Get all travel claims
 const fetchTravelClaimsStart = () => ({
@@ -199,14 +207,15 @@ export function submitComplexClaim(claimData) {
 }
 
 // Creating a new expense
-const createExpenseStart = () => ({ type: UPDATE_EXPENSE_STARTED });
-const createExpenseSuccess = (claimId, data) => ({
-  type: UPDATE_EXPENSE_SUCCESS,
-  claimId,
+const createExpenseStart = () => ({
+  type: CREATE_EXPENSE_STARTED,
+});
+const createExpenseSuccess = data => ({
+  type: CREATE_EXPENSE_SUCCESS,
   payload: data,
 });
 const createExpenseFailure = error => ({
-  type: UPDATE_EXPENSE_FAILURE,
+  type: CREATE_EXPENSE_FAILURE,
   error,
 });
 
@@ -228,7 +237,7 @@ export function createExpense(claimId, expenseType, expenseData) {
       }/travel_pay/v0/expenses/${expenseType}`;
       const response = await apiRequest(expenseUrl, options);
       dispatch(
-        createExpenseSuccess(claimId, {
+        createExpenseSuccess({
           ...expenseData,
           id: response.id,
         }),
@@ -240,20 +249,23 @@ export function createExpense(claimId, expenseType, expenseData) {
 }
 
 // Updating an expense
-const updateExpenseStart = () => ({ type: UPDATE_EXPENSE_STARTED });
-const updateExpenseSuccess = (claimId, data) => ({
+const updateExpenseStart = expenseId => ({
+  type: UPDATE_EXPENSE_STARTED,
+  expenseId,
+});
+const updateExpenseSuccess = data => ({
   type: UPDATE_EXPENSE_SUCCESS,
-  claimId,
   payload: data,
 });
-const updateExpenseFailure = error => ({
+const updateExpenseFailure = (error, expenseId) => ({
   type: UPDATE_EXPENSE_FAILURE,
   error,
+  expenseId,
 });
 
 export function updateExpense(claimId, expenseType, expenseId, expenseData) {
   return async dispatch => {
-    dispatch(updateExpenseStart());
+    dispatch(updateExpenseStart(expenseId));
 
     try {
       const options = {
@@ -268,30 +280,34 @@ export function updateExpense(claimId, expenseType, expenseId, expenseData) {
         environment.API_URL
       }/travel_pay/v0/expenses/${expenseType}/${expenseId}`;
       await apiRequest(expenseUrl, options);
-      dispatch(
-        updateExpenseSuccess(claimId, { ...expenseData, id: expenseId }),
-      );
+      const result = { ...expenseData, id: expenseId };
+      dispatch(updateExpenseSuccess(result));
+      return result;
     } catch (error) {
-      dispatch(updateExpenseFailure(error));
+      dispatch(updateExpenseFailure(error, expenseId));
+      throw error;
     }
   };
 }
 
 // Deleting an expense
-const deleteExpenseStart = () => ({ type: UPDATE_EXPENSE_STARTED });
-const deleteExpenseSuccess = (claimId, expenseId) => ({
-  type: UPDATE_EXPENSE_SUCCESS,
-  claimId,
+const deleteExpenseStart = expenseId => ({
+  type: DELETE_EXPENSE_STARTED,
   expenseId,
 });
-const deleteExpenseFailure = error => ({
-  type: UPDATE_EXPENSE_FAILURE,
+const deleteExpenseSuccess = expenseId => ({
+  type: DELETE_EXPENSE_SUCCESS,
+  expenseId,
+});
+const deleteExpenseFailure = (error, expenseId) => ({
+  type: DELETE_EXPENSE_FAILURE,
   error,
+  expenseId,
 });
 
 export function deleteExpense(claimId, expenseType, expenseId) {
   return async dispatch => {
-    dispatch(deleteExpenseStart());
+    dispatch(deleteExpenseStart(expenseId));
 
     try {
       const options = {
@@ -305,9 +321,111 @@ export function deleteExpense(claimId, expenseType, expenseId) {
         environment.API_URL
       }/travel_pay/v0/expenses/${expenseType.toLowerCase()}/${expenseId}`;
       await apiRequest(expenseUrl, options);
-      dispatch(deleteExpenseSuccess(claimId, expenseId));
+      dispatch(deleteExpenseSuccess(expenseId));
+      return { id: expenseId };
     } catch (error) {
-      dispatch(deleteExpenseFailure(error));
+      dispatch(deleteExpenseFailure(error, expenseId));
+      throw error;
+    }
+  };
+}
+
+// New bifurcated expense operations
+
+// Creating a new expense (no ID needed)
+const createNewExpenseStart = () => ({
+  type: CREATE_EXPENSE_STARTED,
+});
+const createNewExpenseSuccess = data => ({
+  type: CREATE_EXPENSE_SUCCESS,
+  payload: data,
+});
+const createNewExpenseFailure = error => ({
+  type: CREATE_EXPENSE_FAILURE,
+  error,
+});
+
+export function createNewExpense(claimId, expenseType, expenseData) {
+  return async dispatch => {
+    dispatch(createNewExpenseStart());
+
+    try {
+      const options = {
+        method: 'POST',
+        body: JSON.stringify(expenseData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const expenseUrl = `${
+        environment.API_URL
+      }/travel_pay/v0/expenses/${expenseType}`;
+      const response = await apiRequest(expenseUrl, options);
+      const result = {
+        ...expenseData,
+        id: response.id,
+      };
+      dispatch(createNewExpenseSuccess(result));
+      return result;
+    } catch (error) {
+      dispatch(createNewExpenseFailure(error));
+      throw error;
+    }
+  };
+}
+
+// Update/Delete existing expenses (reuse existing UPDATE_EXPENSE actions)
+export function updateExistingExpense(
+  claimId,
+  expenseType,
+  expenseId,
+  expenseData,
+) {
+  return async dispatch => {
+    dispatch(updateExpenseStart(expenseId));
+
+    try {
+      const options = {
+        method: 'PATCH',
+        body: JSON.stringify(expenseData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const expenseUrl = `${
+        environment.API_URL
+      }/travel_pay/v0/expenses/${expenseType}/${expenseId}`;
+      await apiRequest(expenseUrl, options);
+      dispatch(updateExpenseSuccess({ ...expenseData, id: expenseId }));
+    } catch (error) {
+      dispatch(updateExpenseFailure(error, expenseId));
+    }
+  };
+}
+
+export function deleteExistingExpense(claimId, expenseType, expenseId) {
+  return async dispatch => {
+    dispatch(deleteExpenseStart(expenseId));
+
+    try {
+      const options = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const expenseUrl = `${
+        environment.API_URL
+      }/travel_pay/v0/expenses/${expenseType.toLowerCase()}/${expenseId}`;
+      await apiRequest(expenseUrl, options);
+      dispatch(deleteExpenseSuccess(expenseId));
+      return { id: expenseId };
+    } catch (error) {
+      dispatch(deleteExpenseFailure(error, expenseId));
+      throw error;
     }
   };
 }
