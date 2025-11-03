@@ -167,7 +167,6 @@ export const ClaimantRelationshipPage = ({
                     errors={errors.claimantFullName || {}}
                     forceShowError={formSubmitted}
                     required
-                    label="Claimant's full name"
                     showSuffix={false}
                   />
 

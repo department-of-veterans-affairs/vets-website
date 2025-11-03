@@ -92,18 +92,6 @@ describe('ClaimantInformationPage', () => {
       });
     });
 
-    it('should render full name field label', () => {
-      const { container } = render(
-        <ClaimantInformationPage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.textContent).to.include("Claimant's full name");
-    });
-
     it('should render date of birth field', async () => {
       const { container } = render(
         <ClaimantInformationPage

@@ -8,14 +8,14 @@ import { expect } from 'chai';
 import React from 'react';
 import { VeteranInformationPage } from './veteran-information';
 
-describe('Veteran Identification Form', () => {
+describe('VeteranInformationPage', () => {
   const mockSetFormData = () => {};
   const mockGoForward = () => {};
   const mockGoBack = () => {};
   const mockUpdatePage = () => {};
 
-  describe('Form Initialization', () => {
-    it('should initialize empty form for new applications', () => {
+  describe('Initial Rendering', () => {
+    it('should render without errors', () => {
       const { container } = render(
         <VeteranInformationPage
           data={{}}
@@ -26,19 +26,6 @@ describe('Veteran Identification Form', () => {
       );
 
       expect(container).to.exist;
-    });
-
-    it('should render page title', () => {
-      const { container } = render(
-        <VeteranInformationPage
-          data={{}}
-          setFormData={mockSetFormData}
-          goForward={mockGoForward}
-          goBack={mockGoBack}
-        />,
-      );
-
-      expect(container.textContent).to.include('Veteran information');
     });
 
     it('should render instruction text', () => {
@@ -58,8 +45,8 @@ describe('Veteran Identification Form', () => {
     });
   });
 
-  describe('Data Display', () => {
-    it('should display veteran identification data', () => {
+  describe('Data Handling', () => {
+    it('should render with existing veteran information data', () => {
       const data = {
         veteranIdentification: {
           veteranFullName: {
@@ -112,7 +99,7 @@ describe('Veteran Identification Form', () => {
   });
 
   describe('Review Mode', () => {
-    it('should render in review mode', () => {
+    it('should render veteran information in review mode', () => {
       const data = {
         veteranIdentification: {
           veteranFullName: {

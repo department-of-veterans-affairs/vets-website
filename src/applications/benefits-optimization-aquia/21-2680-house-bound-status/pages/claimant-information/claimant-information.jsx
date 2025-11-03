@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { MemorableDateField } from '@bio-aquia/shared/components/atoms';
 import { FullnameField } from '@bio-aquia/shared/components/molecules';
+import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
 import {
@@ -49,24 +49,6 @@ export const ClaimantInformationPage = ({
   const relationship = migratedData?.claimantRelationship?.claimantRelationship;
 
   /**
-   * Get the appropriate label text based on relationship
-   */
-  const getNameLabel = () => {
-    switch (relationship) {
-      case 'veteran':
-        return 'Your full name';
-      case 'spouse':
-        return "Your spouse's full name";
-      case 'child':
-        return "Your child's full name";
-      case 'parent':
-        return "Your parent's full name";
-      default:
-        return "Claimant's full name";
-    }
-  };
-
-  /**
    * Get the appropriate description text based on relationship
    */
   const getDescription = () => {
@@ -86,7 +68,6 @@ export const ClaimantInformationPage = ({
 
   return (
     <PageTemplate
-      title="Claimant information"
       data={migratedData}
       setFormData={setFormData}
       goForward={goForward}
@@ -116,7 +97,6 @@ export const ClaimantInformationPage = ({
             errors={errors.claimantFullName || {}}
             forceShowError={formSubmitted}
             required
-            label={getNameLabel()}
             showSuffix={false}
           />
 

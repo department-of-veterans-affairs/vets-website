@@ -75,9 +75,9 @@ export const VeteranInformationPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <p className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--lg vads-u-line-height--1">
+          <h2 className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--h4 vads-u-line-height--1">
             Confirm the personal information we have on file for the Veteran.
-          </p>
+          </h2>
 
           <FullnameField
             fieldPrefix="veteran"
