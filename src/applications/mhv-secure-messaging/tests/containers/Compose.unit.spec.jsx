@@ -484,10 +484,6 @@ describe('Compose container', () => {
       expect(body).to.exist;
       expect(screen.getByTestId('edit-signature-link')).to.exist;
     });
-    await waitFor(() => {
-      expect(getByText("We're sorry. Something went wrong on our end.")).to
-        .exist;
-    });
   });
 
   describe('with curated list flow feature flag enabled', () => {

@@ -10,6 +10,7 @@ import InterstitialPage from '../../containers/InterstitialPage';
 import * as threadDetailsActions from '../../actions/threadDetails';
 import * as prescriptionActions from '../../actions/prescription';
 import { getByBrokenText } from '../../util/testUtils';
+import { Paths } from '../../util/constants';
 
 describe('Interstitial page', () => {
   const initialState = (isNewFlow = false) => {
@@ -203,35 +204,7 @@ describe('Interstitial page', () => {
 
       await waitFor(() => {
         expect(acknowledgeSpy.called).to.be.false;
-        expect(history.location.pathname).to.equal('/new-message/recent/');
-      });
-    });
-
-    it('clicking the start message link navigates to select care team page when no recent recipients', async () => {
-      const acknowledgeSpy = sinon.spy();
-      const stateWithoutRecentRecipients = {
-        ...initialState(true),
-        sm: {
-          recipients: {
-            recentRecipients: [],
-          },
-        },
-      };
-      const { history, getByTestId } = renderWithStoreAndRouter(
-        <InterstitialPage acknowledge={acknowledgeSpy} />,
-        {
-          initialState: stateWithoutRecentRecipients,
-          reducers: reducer,
-          path: '/new-message/',
-        },
-      );
-
-      const startMessageLink = getByTestId('start-message-link');
-      userEvent.click(startMessageLink);
-
-      await waitFor(() => {
-        expect(acknowledgeSpy.called).to.be.false;
-        expect(history.location.pathname).to.equal('/new-message/recent/');
+        expect(history.location.pathname).to.equal(Paths.RECENT_CARE_TEAMS);
       });
     });
 
@@ -260,7 +233,37 @@ describe('Interstitial page', () => {
       await waitFor(() => {
         expect(acknowledgeSpy.called).to.be.false;
         expect(history.location.pathname).to.equal(
-          '/new-message/select-care-team/',
+          `/new-message/${Paths.SELECT_CARE_TEAM}`,
+        );
+      });
+    });
+
+    it('clicking the start message link navigates to select care team page when no recent recipients', async () => {
+      const acknowledgeSpy = sinon.spy();
+      const stateWithoutRecentRecipients = {
+        ...initialState(true),
+        sm: {
+          recipients: {
+            recentRecipients: [],
+          },
+        },
+      };
+      const { history, getByTestId } = renderWithStoreAndRouter(
+        <InterstitialPage acknowledge={acknowledgeSpy} />,
+        {
+          initialState: stateWithoutRecentRecipients,
+          reducers: reducer,
+          path: '/new-message/',
+        },
+      );
+
+      const startMessageLink = getByTestId('start-message-link');
+      userEvent.click(startMessageLink);
+
+      await waitFor(() => {
+        expect(acknowledgeSpy.called).to.be.false;
+        expect(history.location.pathname).to.equal(
+          `/new-message/${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });
