@@ -13,8 +13,15 @@ div[id$="-autosuggest-container"] {
     flex-direction: column;
     width: 100%;
 
+    label>span[class*="usa-hint"] {
+      color: var(--vads-color-gray);
+    }
+
+
+
     @media (min-width: $small-desktop-screen) {
       flex-direction: row;
+
       &.fl-sm-desktop {
         flex-direction: column;
         align-items: flex-start;
