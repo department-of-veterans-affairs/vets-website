@@ -23,8 +23,10 @@ import {
   isRemovingDependents,
   showV3Picklist,
   noV3Picklist,
+  showOptionsSelection,
   hasAwardedDependents,
   isVisiblePicklistPage,
+  hasSelectedPicklistItems,
 } from './data';
 
 export {
@@ -52,6 +54,8 @@ export {
   isRemovingDependents,
   showV3Picklist,
   noV3Picklist,
+  showOptionsSelection,
   hasAwardedDependents,
   isVisiblePicklistPage,
+  hasSelectedPicklistItems,
 };

@@ -49,10 +49,6 @@ const formConfig = {
         label: 'Disability benefits',
       },
       {
-        href: '/disability/eligibility/special-claims/unemployability/',
-        label: 'Verify Individual Unemployability status',
-      },
-      {
         href:
           '/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140',
         label: 'Submit Employment Questionnaire',

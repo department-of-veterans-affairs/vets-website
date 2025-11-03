@@ -51,3 +51,27 @@ export const prefixedFullNameUI = ({ label, hint }) =>
       },
     },
   });
+
+export const fullNameNotRequired = {
+  type: 'object',
+  properties: {
+    first: {
+      type: 'string',
+      minLength: 1,
+      maxLength: 30,
+    },
+    middle: {
+      type: 'string',
+      maxLength: 30,
+    },
+    last: {
+      type: 'string',
+      minLength: 1,
+      maxLength: 30,
+    },
+    suffix: {
+      type: 'string',
+      enum: ['Jr.', 'Sr.', 'II', 'III', 'IV'],
+    },
+  },
+};

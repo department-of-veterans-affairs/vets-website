@@ -68,3 +68,38 @@ export const RoyaltiesSummaryDescription = () => {
     </>
   );
 };
+
+export const AssetTransfersSummaryDescription = () => {
+  return (
+    <>
+      <p>Asset transfers could include these types of transactions:</p>
+      <ul>
+        <li>Sale: For monetary benefit</li>
+        <li>Trade: For an alternative property</li>
+        <li>Giveaway: For no benefit</li>
+        <li>Conveyed: Through a legal process</li>
+      </ul>
+    </>
+  );
+};
+
+export const UnreportedAssetsSummaryDescription = () => {
+  return (
+    <>
+      <p>
+        Here are some examples of other assets you may not have reported yet:
+      </p>
+      <ul>
+        <li>Accounts that don’t accrue interest</li>
+        <li>Collectible valuables</li>
+        <li>Real estate that doesn’t generate an income</li>
+        <li>Cash</li>
+      </ul>
+      <p>
+        <strong>Note:</strong> If you reported receiving money from an asset
+        transfer and spent part of it, only include the amount you haven’t
+        spent.
+      </p>
+    </>
+  );
+};

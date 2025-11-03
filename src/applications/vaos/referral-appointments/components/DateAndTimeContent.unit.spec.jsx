@@ -155,6 +155,40 @@ describe('VAOS Component: DateAndTimeContent', () => {
       },
     );
     expect(screen.getByTestId('no-slots-alert')).to.exist;
+    expect(screen.getByTestId('no-slots-provider-phone')).to.exist;
+    expect(
+      screen.container.querySelector(
+        `va-telephone[contact="${referral.provider.phone}"]`,
+      ),
+    ).to.be.ok;
+  });
+  describe('when not in pilot station', () => {
+    it('should show an alert and a link to find a community care office', () => {
+      const referralNotInPilot = createReferralById(
+        '2024-12-05',
+        'add2f0f4-a1ea-4dea-a504-a54ab57c68',
+        undefined,
+        undefined,
+        true,
+        '12345',
+      ).attributes;
+      const screen = renderWithStoreAndRouter(
+        <DateAndTimeContent
+          currentReferral={referralNotInPilot}
+          draftAppointmentInfo={draftAppointmentInfo}
+          appointmentsByMonth={appointmentsByMonth}
+        />,
+        {
+          initialState,
+        },
+      );
+      const alert = screen.getByTestId('station-id-not-valid-alert');
+      expect(screen.getByTestId('station-id-not-valid-alert')).to.exist;
+      expect(alert).to.contain.text(
+        'Call this provider or your facility’s community care office to schedule an appointment.',
+      );
+      expect(screen.getByTestId('referral-community-care-office')).to.exist;
+    });
   });
 
   it('should display provider timezone when it differs from referral timezone', async () => {

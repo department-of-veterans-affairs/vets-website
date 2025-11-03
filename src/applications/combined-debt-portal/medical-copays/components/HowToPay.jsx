@@ -4,7 +4,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => (
   <article className="vads-u-padding--0" data-testid="how-to-pay">
-    <h2 id="how-to-pay">How to pay your copay bill</h2>
+    <h2 id="how-to-pay">How to make a payment</h2>
     <h3>Pay online</h3>
     <p>
       Pay directly from your bank account or by debit or credit card on the
@@ -12,31 +12,44 @@ export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => (
     </p>
     <p>You’ll need the following details to pay this bill online:</p>
     {!isOverview && (
-      <div>
-        <p>
+      <ul>
+        <li>
           <strong>Account number: </strong>
           {acctNum}
-        </p>
+        </li>
         {amtDue > 0 && (
-          <p>
+          <li>
             <strong>Current amount due: </strong>${amtDue}
-          </p>
+          </li>
         )}
-      </div>
+      </ul>
     )}
-    <va-link-action
-      href="https://www.pay.gov/public/form/start/25987221"
+    <va-icon icon="navigate_next" class="icon-action" size="3" />
+    <va-link
+      aria-label="Opens pay.va.gov in a new tab"
+      external
       text="Pay at pay.gov"
-      primary
+      href="https://www.pay.gov/public/form/start/25987221"
+      class="vads-u-margin-top--2 vads-u-font-weight--bold"
     />
+
     <h3>Pay by phone</h3>
     <p>
       Call us at <va-telephone contact="8888274817" /> (
       <va-telephone tty contact={CONTACTS[711]} />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
+    <h3>Pay in person</h3>
+    <p>
+      Visit {isOverview ? 'the facility' : facility?.facilityName} and ask for
+      the agent cashier’s office. Bring your payment stub, along with a check or
+      money order made payable to "VA". Be sure to include your account number
+      on the check or money order.
+    </p>
     <h3>Pay by mail</h3>
-    <p>Please send us these items:</p>
+    <p>
+      <strong>Please send us these items:</strong>
+    </p>
     <ul>
       <li>
         A check or money order (made payable to the "U.S. Department of Veterans
@@ -44,12 +57,6 @@ export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => (
       </li>
       <li>The payment remittance stub for your bill</li>
     </ul>
-    <p>
-      <strong>Note: </strong> You’ll find these stubs at the bottom of each
-      statement. If you don’t have your most recent statement, you can download
-      and print it above or include a note listing the facility you’d like to
-      pay.
-    </p>
     <p>
       <strong>Print this information on each check or money order:</strong>
     </p>
@@ -68,17 +75,10 @@ export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => (
       Portland, OR 97208-3978
       <br />
     </p>
-    <h3>Pay in person</h3>
     <p>
-      Visit {isOverview ? 'the facility' : facility?.facilityName} and ask for
-      the agent cashier’s office. Bring your payment stub, along with a check or
-      money order made payable to "VA". Be sure to include your account number
-      on the check or money order.
-    </p>
-    <p>
-      <strong>Note: </strong>
-      You’ll find these stubs at the bottom of each statement. If you don’t have
-      your most recent statement, you can download and print it above.
+      <strong>Note: </strong> You’ll find these stubs at the bottom of each
+      statement. If you don’t have your most recent statement, you can download
+      and print it or include a note listing the facility you’d like to pay.
     </p>
   </article>
 );

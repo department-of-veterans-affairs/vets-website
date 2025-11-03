@@ -1,16 +1,12 @@
 export const goToNextPage = pagePath => {
-  cy.findAllByText(/continue|confirm/i, { selector: 'button' })
-    .first()
-    .click();
-  if (pagePath) {
-    cy.location('pathname').should('include', pagePath);
-  }
+  cy.clickFormContinue();
+  if (pagePath) cy.location('pathname').should('include', pagePath);
 };
 
 export const startAsGuestUser = () => {
-  cy.get('.schemaform-start-button')
-    .first()
-    .click();
+  cy.get('va-alert-sign-in').within(() => {
+    cy.get('a.schemaform-start-button').click();
+  });
   cy.location('pathname').should('include', '/who-is-applying');
 };
 

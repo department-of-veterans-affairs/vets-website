@@ -165,35 +165,35 @@ describe('<FilesWeCouldntReceive>', () => {
   });
 
   describe('Failed Files Display', () => {
-    it('should render failed files in sorted order and with proper accessibility', () => {
-      const mockFailedFiles = [
-        {
-          id: 1,
-          fileName: 'document1.pdf',
-          trackedItemDisplayName: '21-4142',
-          failedDate: '2025-01-15T10:35:00.000Z',
-          documentType: 'VA Form 21-4142',
-          claimId: '123',
-        },
-        {
-          id: 2,
-          fileName: 'document2.pdf',
-          trackedItemDisplayName: '21-4142',
-          failedDate: '2025-01-22T10:35:00.000Z',
-          documentType: 'VA Form 21-4142',
-          claimId: '456',
-        },
-        {
-          id: 3,
-          fileName: 'document3.pdf',
-          trackedItemDisplayName: '21-4142',
-          failedDate: '2025-01-10T10:35:00.000Z',
-          documentType: 'VA Form 21-4142',
-          claimId: '789',
-        },
-      ];
+    const mockFailedFilesWithSorting = [
+      {
+        id: 1,
+        fileName: 'document1.pdf',
+        trackedItemDisplayName: '21-4142',
+        failedDate: '2025-01-15T10:35:00.000Z',
+        documentType: 'VA Form 21-4142',
+        claimId: '123',
+      },
+      {
+        id: 2,
+        fileName: 'document2.pdf',
+        trackedItemDisplayName: '21-4142',
+        failedDate: '2025-01-22T10:35:00.000Z',
+        documentType: 'VA Form 21-4142',
+        claimId: '456',
+      },
+      {
+        id: 3,
+        fileName: 'document3.pdf',
+        trackedItemDisplayName: '21-4142',
+        failedDate: '2025-01-10T10:35:00.000Z',
+        documentType: 'VA Form 21-4142',
+        claimId: '789',
+      },
+    ];
 
-      const store = createMockStore(mockFailedFiles);
+    it('should render failed files in sorted order with proper structure', () => {
+      const store = createMockStore(mockFailedFilesWithSorting);
       const { container, getAllByTestId } = renderWithCustomStore(
         <FilesWeCouldntReceive />,
         store,
@@ -243,6 +243,33 @@ describe('<FilesWeCouldntReceive>', () => {
         expect(card.parentElement.tagName.toLowerCase()).to.equal('li');
       });
     });
+
+    it('should render VaLink components with proper aria-labels for accessibility', () => {
+      const store = createMockStore(mockFailedFilesWithSorting);
+      const { container } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
+
+      const vaLinks = container.querySelectorAll(
+        'ul[data-testid="failed-files-list"] va-link',
+      );
+      expect(vaLinks).to.have.length(3);
+
+      // Files are sorted by date (most recent first)
+      const expectedFileOrder = [
+        'document2.pdf', // 2025-01-22 (most recent)
+        'document1.pdf', // 2025-01-15 (middle)
+        'document3.pdf', // 2025-01-10 (oldest)
+      ];
+
+      vaLinks.forEach((link, index) => {
+        const expectedLabel = `Go to the claim this file was uploaded for: ${
+          expectedFileOrder[index]
+        }`;
+        expect(link).to.have.attribute('label', expectedLabel);
+      });
+    });
   });
 
   describe('Pagination', () => {
@@ -283,12 +310,33 @@ describe('<FilesWeCouldntReceive>', () => {
       const pagination = container.querySelector('va-pagination');
       expect(pagination).to.not.exist;
 
+      // Test that pagination info text is NOT rendered
+      const paginationInfo = container.querySelector('#pagination-info');
+      expect(paginationInfo).to.not.exist;
+
       // Test that all 5 items are shown
       const failedFileCards = getAllByTestId(/failed-file-/);
       expect(failedFileCards).to.have.length(5);
     });
 
-    it('should scroll to files section when pagination is clicked', () => {
+    it('should display pagination info text with correct format when pagination is shown', () => {
+      // Create 15 mock failed files to trigger pagination
+      const mockFailedFiles = createMockFailedFiles(15);
+      const store = createMockStore(mockFailedFiles);
+      const { container, getByText } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
+
+      // Test that pagination info text is rendered with correct format
+      const paginationInfo = container.querySelector('#pagination-info');
+      expect(paginationInfo).to.exist;
+
+      // Test that the text shows the correct range for first page
+      expect(getByText('Showing 1 ‒ 10 of 15 items')).to.exist;
+    });
+
+    it('should focus on pagination info when pagination is clicked', () => {
       // Create 15 mock failed files to trigger pagination
       const mockFailedFiles = createMockFailedFiles(15);
       const store = createMockStore(mockFailedFiles);
@@ -297,14 +345,10 @@ describe('<FilesWeCouldntReceive>', () => {
         store,
       );
 
-      // Mock the scrollIntoView method
-      const mockScrollIntoView = sinon.spy();
-      const filesSection = container.querySelector(
-        '#files-not-received-section',
-      );
-      if (filesSection) {
-        filesSection.scrollIntoView = mockScrollIntoView;
-      }
+      // Mock the setPageFocus function from utils/page
+      const mockSetPageFocus = sinon.spy();
+      const originalSetPageFocus = require('../../utils/page').setPageFocus;
+      require('../../utils/page').setPageFocus = mockSetPageFocus;
 
       // Find the pagination component
       const pagination = container.querySelector('va-pagination');
@@ -318,8 +362,12 @@ describe('<FilesWeCouldntReceive>', () => {
       // Trigger the pageSelect event on the pagination component
       pagination.dispatchEvent(pageSelectEvent);
 
-      // Verify that scrollIntoView was called on the files section
-      expect(mockScrollIntoView.calledOnce).to.be.true;
+      // Verify that setPageFocus was called with the correct selector
+      expect(mockSetPageFocus.calledOnce).to.be.true;
+      expect(mockSetPageFocus.calledWith('#pagination-info')).to.be.true;
+
+      // Restore the original function
+      require('../../utils/page').setPageFocus = originalSetPageFocus;
     });
   });
 });

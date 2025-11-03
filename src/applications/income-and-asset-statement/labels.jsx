@@ -51,10 +51,18 @@ export const parentRelationshipLabelDescriptions = {
 
 export const transferMethodLabels = {
   SOLD: 'Sold',
+  TRADED: 'Traded',
   GIFTED: 'Gifted',
   CONVEYED: 'Conveyed',
-  TRADED: 'Traded',
-  OTHER: 'Other',
+  OTHER: 'Another way',
+};
+
+export const transferMethodDescriptions = {
+  SOLD: 'Original owner received money for the asset',
+  TRADED: 'Original owner swapped the asset for other property',
+  GIFTED: 'Original owner gave away the asset',
+  CONVEYED:
+    'The title or ownership of an asset was legally transferred to someone else by using contracts, leases, titles, or deeds.',
 };
 
 export const claimantTypeLabels = {

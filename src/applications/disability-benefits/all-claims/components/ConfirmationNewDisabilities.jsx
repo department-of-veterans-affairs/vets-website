@@ -6,15 +6,16 @@ const ConfirmationNewDisabilities = ({ formData }) => {
   const { newDisabilities = [] } = formData || {};
 
   return (
-    <div>
+    <>
       {newDisabilities.map(dis => {
+        // guard is necessary for legacy 0781 conditions that do not have a cause
+        const cause = dis?.cause || 'Claimed';
         const capitalizedCause =
-          dis.cause === 'VA'
+          cause === 'VA'
             ? 'VA'
-            : dis.cause.charAt(0).toUpperCase() +
-              dis.cause.slice(1).toLowerCase();
+            : cause.charAt(0).toUpperCase() + cause.slice(1).toLowerCase();
         return (
-          <div key={dis.condition}>
+          <li key={dis.condition}>
             <h4>{capitalizeEachWord(dis.condition)} </h4>
             <div className="vads-u-color--gray">Description </div>
             {capitalizedCause} condition; {dis.primaryDescription}
@@ -46,10 +47,10 @@ const ConfirmationNewDisabilities = ({ formData }) => {
                   {dis['view:vaFollowUp'].vaMistreatmentDescription}
                 </>
               )}
-          </div>
+          </li>
         );
       })}
-    </div>
+    </>
   );
 };
 

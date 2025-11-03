@@ -2,15 +2,16 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import {
-  $,
-  $$,
-} from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import ConfirmationPage from '../../components/ConfirmationPage';
-import fullTest from '../fixtures/data/comprehensive-test.json';
+import comprehensiveTest from '../fixtures/data/pre-api-comprehensive-test.json';
+import noEvidenceTest from '../fixtures/data/pre-api-no-evidence-test.json';
+import { verifyHeader } from '../unit-test-helpers';
+import { title995 } from '../../content/title';
+import { content as evidenceSummaryContent } from '../../content/evidenceSummary';
 
 describe('ConfirmationPage', () => {
-  const makeStore = () => ({
+  const makeStore = data => ({
     subscribe: () => {},
     dispatch: () => {},
     getState: () => ({
@@ -30,86 +31,137 @@ describe('ConfirmationPage', () => {
         submission: {
           response: new Date().toISOString(),
         },
-        data: fullTest.data,
+        data,
       },
     }),
   });
 
-  const createConfirmationPage = () => {
+  const createConfirmationPage = data => {
     return render(
-      <Provider store={makeStore()}>
+      <Provider store={makeStore(data)}>
         <ConfirmationPage />
       </Provider>,
     );
   };
 
-  it('should properly render the confirmation page with the given data', () => {
-    const { container } = createConfirmationPage();
+  describe('when evidence is present', () => {
+    it('should render the proper content', () => {
+      const { container } = createConfirmationPage(comprehensiveTest.data);
 
-    // Check for success message
-    expect($('va-alert[status="success"]', container)).to.exist;
+      const h2s = $$('h2', container);
+      const h3s = $$('h3', container);
+      const h4s = $$('h4', container);
 
-    const h2s = $$('h2', container);
-    const h3s = $$('h3', container);
-    const h4s = $$('h4', container);
+      verifyHeader(h2s, 0, title995);
+      expect($$('va-alert[status="success"]', container)).to.exist;
+      verifyHeader(h3s, 0, 'Print this confirmation page');
+      verifyHeader(h3s, 1, 'Personal information');
+      verifyHeader(h3s, 2, 'Issues for review');
 
-    expect(h2s.includes('File a Supplemental Claim'));
-    expect(h3s.includes('Print this confirmation page'));
-    expect(h3s.includes('Personal information'));
-    expect(h3s.includes('Issues for review'));
-    expect(h3s.includes('New and relevant evidence'));
+      // Check 5103
+      const response5103 = $$(
+        '[data-testid="confirmation-form-5103"]',
+        container,
+      )?.[0];
 
-    // Check 5103
-    const response5103 = $$(
-      '[data-testid="confirmation-form-5103"]',
-      container,
-    )?.[0];
+      expect(response5103.textContent).to.equal('Yes, I certify');
 
-    expect(response5103.textContent).to.equal('Yes, I certify');
+      // Check facility types
+      const facilityTypes = $$(
+        '[data-testid="confirmation-facility-types"]',
+        container,
+      )?.[0];
 
-    // Check facility types
-    const facilityTypes = $$(
-      '[data-testid="confirmation-facility-types"]',
-      container,
-    )?.[0];
+      expect(facilityTypes.textContent).to.equal(
+        'A VA medical center (also called a VAMC), A community-based outpatient clinic (also called a CBOC), A Department of Defense military treatment facility (also called an MTF), A community care provider that VA paid for, A VA Vet center, A non-VA healthcare provider, and Some other type of provider',
+      );
 
-    expect(facilityTypes.textContent).to.equal(
-      'A VA medical center (also called a VAMC), A community-based outpatient clinic (also called a CBOC), A Department of Defense military treatment facility (also called an MTF), A community care provider that VA paid for, A VA Vet center, A non-VA healthcare provider, and Some other type of provider',
-    );
+      // Evidence is present, validate that "no evidence" header is not there
+      const noEvidenceHeader = $$(
+        '[data-testid="confirmation-no-evidence-header"]',
+      );
 
-    // Evidence is present, validate that "no evidence" header is not there
-    const noEvidenceHeader = $$(
-      '[data-testid="confirmation-no-evidence-header"]',
-    );
+      expect(noEvidenceHeader.length).to.equal(0);
 
-    expect(noEvidenceHeader.length).to.equal(0);
+      // Evidence
+      verifyHeader(h4s, 0, evidenceSummaryContent.vaTitle);
+      verifyHeader(h4s, 1, evidenceSummaryContent.privateTitle);
+      verifyHeader(h4s, 2, evidenceSummaryContent.otherTitle);
 
-    // Evidence
-    expect(h4s.includes(`We're requesting records from these VA locations:`));
-    expect(
-      h4s.includes(
-        `We're requesting records from these non-VA medical providers:`,
-      ),
-    );
-    expect(h4s.includes(`You've uploaded these documents:`));
+      // VHA / MST
+      expect(h3s.includes('VHA indicator'));
 
-    // VHA / MST
-    expect(h3s.includes('VHA indicator'));
+      const responseMst = $$(
+        '[data-testid="confirmation-mst-response"]',
+        container,
+      )?.[0];
 
-    const responseMst = $$(
-      '[data-testid="confirmation-mst-response"]',
-      container,
-    )?.[0];
+      expect(responseMst.textContent).to.equal('Yes');
 
-    expect(responseMst.textContent).to.equal('Yes');
+      const indicatorMst = $$(
+        '[data-testid="confirmation-mst-option-indicator"]',
+        container,
+      )?.[0];
 
-    const indicatorMst = $$(
-      '[data-testid="confirmation-mst-option-indicator"]',
-      container,
-    )?.[0];
+      expect(indicatorMst.textContent).to.equal(
+        'I gave permission in the past, but I want to revoke (or cancel) my permission',
+      );
+    });
+  });
 
-    expect(indicatorMst.textContent).to.equal(
-      'I gave permission in the past, but I want to revoke (or cancel) my permission',
-    );
+  describe('when no evidence is present', () => {
+    it('should render the proper content', () => {
+      const { container } = createConfirmationPage(noEvidenceTest.data);
+
+      const h2s = $$('h2', container);
+      const h3s = $$('h3', container);
+
+      verifyHeader(h2s, 0, title995);
+      expect($$('va-alert[status="success"]', container)).to.exist;
+      verifyHeader(h3s, 0, 'Print this confirmation page');
+      verifyHeader(h3s, 1, 'Personal information');
+      verifyHeader(h3s, 2, 'Issues for review');
+
+      // Check 5103
+      const response5103 = $$(
+        '[data-testid="confirmation-form-5103"]',
+        container,
+      )?.[0];
+
+      expect(response5103.textContent).to.equal('Yes, I certify');
+
+      // Check facility types
+      const facilityTypes = $$(
+        '[data-testid="confirmation-facility-types"]',
+        container,
+      )?.[0];
+
+      expect(facilityTypes.textContent).to.equal('None selected');
+
+      const noEvidenceHeader = $$('.no-evidence', container)?.[0];
+
+      expect(noEvidenceHeader.textContent).to.equal(
+        evidenceSummaryContent.missingEvidenceReviewText,
+      );
+
+      // VHA / MST
+      expect(h3s.includes('VHA indicator'));
+
+      const responseMst = $$(
+        '[data-testid="confirmation-mst-response"]',
+        container,
+      )?.[0];
+
+      expect(responseMst.textContent).to.equal('Yes');
+
+      const indicatorMst = $$(
+        '[data-testid="confirmation-mst-option-indicator"]',
+        container,
+      )?.[0];
+
+      expect(indicatorMst.textContent).to.equal(
+        'I gave permission in the past, but I want to revoke (or cancel) my permission',
+      );
+    });
   });
 });

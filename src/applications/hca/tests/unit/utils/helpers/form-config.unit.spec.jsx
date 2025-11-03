@@ -27,14 +27,10 @@ import {
   includeSpousalInformation,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
-  includeDependentInformation,
   collectMedicareInformation,
   insuranceTextOverrides,
 } from '../../../../utils/helpers';
-import {
-  DEPENDENT_VIEW_FIELDS,
-  HIGH_DISABILITY_MINIMUM,
-} from '../../../../utils/constants';
+import { HIGH_DISABILITY_MINIMUM } from '../../../../utils/constants';
 import content from '../../../../locales/en/content.json';
 
 describe('hca form config helpers', () => {
@@ -734,26 +730,6 @@ describe('hca form config helpers', () => {
     it('should return `true` when spouse address does not match Veteran', () => {
       const { formData } = getData({ sameAddress: false });
       expect(spouseAddressDoesNotMatchVeterans(formData)).to.be.true;
-    });
-  });
-
-  context('when `includeDependentInformation` executes', () => {
-    const getData = ({ skip }) => ({
-      formData: {
-        'view:totalDisabilityRating': 0,
-        discloseFinancialInformation: true,
-        [DEPENDENT_VIEW_FIELDS.skip]: skip,
-      },
-    });
-
-    it('should return `false` when skip value is `true`', () => {
-      const { formData } = getData({ skip: true });
-      expect(includeDependentInformation(formData)).to.be.false;
-    });
-
-    it('should return `true` when skip value is `false`', () => {
-      const { formData } = getData({ skip: false });
-      expect(includeDependentInformation(formData)).to.be.true;
     });
   });
 

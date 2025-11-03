@@ -11,6 +11,7 @@ import { threadsReducer } from './threads';
 import { preferencesReducer } from './preferences';
 import { threadDetailsReducer } from './threadDetails';
 import { facilitiesReducer } from './facilities';
+import { prescriptionReducer } from './prescription';
 
 const rootReducer = {
   sm: combineReducers({
@@ -25,6 +26,7 @@ const rootReducer = {
     threadDetails: threadDetailsReducer,
     triageTeams: triageTeamsReducer,
     preferences: preferencesReducer,
+    prescription: prescriptionReducer,
   }),
 };
 

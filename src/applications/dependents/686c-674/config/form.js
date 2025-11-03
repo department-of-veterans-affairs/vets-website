@@ -8,6 +8,7 @@ import { isChapterFieldRequired } from './helpers';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
+import ReviewDependents from '../components/ReviewDependents';
 import { customSubmit686 } from '../analytics/helpers';
 
 import manifest from '../manifest.json';
@@ -32,7 +33,7 @@ import { childAdditionalEvidence as finalChildAdditionalEvidence } from './chapt
 
 import {
   removeDependentsPicklistOptions,
-  // removeDependentsPicklistPages,
+  removeDependentsPicklistFollowupPages,
 } from './chapters/formConfigRemovePicklist';
 import addChild from './chapters/report-add-child';
 import report674 from './chapters/formConfig674';
@@ -52,10 +53,12 @@ import {
   showPensionBackupPath,
   showV3Picklist,
   noV3Picklist,
+  showOptionsSelection,
   isAddingDependents,
   isRemovingDependents,
 } from './utilities';
 import migrations from './migrations';
+import reviewDependents from './chapters/picklist/reviewDependents';
 
 export const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -122,6 +125,11 @@ export const formConfig = {
           title: 'Veteran information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+          initialData: {
+            // Set in prefill, but included here because we're seeing v2
+            // submissions without it
+            useV2: true,
+          },
         },
         veteranAddress: {
           path: 'veteran-address',
@@ -144,16 +152,20 @@ export const formConfig = {
           ? 'Manage dependents'
           : 'Add or remove dependents',
       pages: {
+        reviewDependents: {
+          title: 'Review your VA Dependents',
+          path: 'review-dependents',
+          CustomPage: ReviewDependents,
+          CustomPageReview: null,
+          uiSchema: reviewDependents.uiSchema,
+          schema: reviewDependents.schema,
+        },
         addOrRemoveDependents: {
           title: 'What would you like to do?',
           path: 'options-selection',
+          depends: showOptionsSelection,
           uiSchema: addOrRemoveDependents.uiSchema,
           schema: addOrRemoveDependents.schema,
-          initialData: {
-            // Set in prefill, but included here because we're seeing v2
-            // submissions without it
-            useV2: true,
-          },
         },
         addDependentOptions: {
           title: 'Add a dependent',
@@ -184,7 +196,8 @@ export const formConfig = {
       },
     },
 
-    // removeDependentsPicklistPages,
+    removeDependentsPicklistFollowupPages,
+
     addSpouse,
     addChild,
     report674,

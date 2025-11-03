@@ -48,6 +48,6 @@ export {
   default as MissingRecordsError,
 } from './self-entered/MissingRecordsError';
 export {
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
-} from './unique_user_metrics';
+  default as MhvAlertConfirmEmail,
+  ProfileAlertConfirmEmail,
+} from './components/MhvAlertConfirmEmail';

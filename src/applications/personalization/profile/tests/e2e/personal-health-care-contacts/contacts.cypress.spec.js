@@ -20,24 +20,25 @@ describe('Personal health care contacts', () => {
     mockGETEndpoints(otherEndpoints, 200, {});
   });
 
-  describe('when feature profileShowPaperlessDelivery is true', () => {
+  describe('when feature profile2Enabled is true', () => {
     it('links from the nav', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
-          profileShowPaperlessDelivery: true,
+          profile2Enabled: true,
+          profileHealthCareSettingsPage: true,
         }),
       );
       cy.intercept('GET', '/v0/profile/contacts', contacts);
       cy.login(loa3User72);
-      cy.visit(PROFILE_PATHS.CONTACTS);
+      cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
       cy.get('va-sidenav-item[href="/profile/contacts"').should('exist');
       cy.injectAxeThenAxeCheck();
     });
   });
 
-  describe('when feature profileShowPaperlessDelivery is false', () => {
+  describe('when feature profile2Enabled is false', () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
     });
