@@ -21,7 +21,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
     selectIsExpenseDeleting(state, expenseId),
   );
 
-  const header = `${formatDate(expense.dateIncurred)}, $${currency(
+  const header = `${formatDate(expense.dateIncurred)}, ${currency(
     expense.costRequested,
   )}`;
 
@@ -90,6 +90,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
         <div className="review-button-row">
           <div className="review-edit-button">
             <Link
+              data-testid={`${expenseId}-edit-expense-link`}
               to={`/file-new-claim/${apptId}/${claimId}/${
                 EXPENSE_TYPES[expenseType]?.route
               }/${expenseId}`}

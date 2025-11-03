@@ -209,7 +209,7 @@ describe('Complex Claims Mileage', () => {
       const tripTypeRadio = $('va-radio[id="trip-type"]');
       expect(tripTypeRadio).to.exist;
       expect(tripTypeRadio.getAttribute('label')).to.equal(
-        'Which address did you depart from?',
+        'Was your trip round trip or one way?',
       );
       expect(tripTypeRadio.hasAttribute('required')).to.be.true;
     });

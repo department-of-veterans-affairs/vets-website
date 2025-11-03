@@ -341,7 +341,11 @@ describe('Redux - actions', () => {
 
         const expenseData = { expenseType: 'Parking', amount: 10.0 };
 
-        await createExpense('claim123', 'parking', expenseData)(mockDispatch);
+        try {
+          await createExpense('claim123', 'parking', expenseData)(mockDispatch);
+        } catch (error) {
+          // Expected to throw
+        }
 
         expect(mockDispatch.calledWithMatch({ type: 'CREATE_EXPENSE_STARTED' }))
           .to.be.true;

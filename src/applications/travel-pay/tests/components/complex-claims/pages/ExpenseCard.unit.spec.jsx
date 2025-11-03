@@ -29,6 +29,8 @@ describe('ExpenseCard', () => {
     },
     tripType: 'OneWay',
     expenseType: 'Mileage',
+    dateIncurred: '2023-10-15',
+    costRequested: 25.5,
   };
 
   const defaultNonMileageExpense = {
@@ -36,6 +38,8 @@ describe('ExpenseCard', () => {
     expenseType: 'Parking',
     description: 'Parking at hospital',
     document: { filename: 'test.pdf' },
+    dateIncurred: '2023-10-15',
+    costRequested: 15,
   };
 
   const getData = () => ({
@@ -70,7 +74,7 @@ describe('ExpenseCard', () => {
     const { getByText, container } = renderExpenseCard();
 
     // Header
-    expect(getByText('Mileage expense')).to.exist;
+    expect(getByText('October 15, 2023, $25.50')).to.exist;
 
     // Address
     expect(getByText('Which address did you depart from?')).to.exist;
@@ -93,10 +97,10 @@ describe('ExpenseCard', () => {
     expect(deleteButton.getAttribute('button-type')).to.equal('delete');
   });
 
-  it('renders non-Mileage expense correctly', () => {
+  it('renders non-mileage expense correctly', () => {
     const { getByText } = renderExpenseCard(defaultNonMileageExpense);
 
-    expect(getByText('Parking expense')).to.exist;
+    expect(getByText('October 15, 2023, $15.00')).to.exist;
     expect(getByText('Description')).to.exist;
     expect(getByText('Parking at hospital')).to.exist;
     expect(getByText('File name')).to.exist;
@@ -115,6 +119,8 @@ describe('ExpenseCard', () => {
         zipCode: '98101',
       },
       tripType: 'RoundTrip',
+      dateIncurred: '2023-10-15',
+      costRequested: 30.75,
     };
 
     const { getByText, container } = renderExpenseCard(expense);
