@@ -42,14 +42,18 @@ const isNewConditionOption = ratedDisability =>
 
 export const isNewCondition = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
-    const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
-    return !ratedDisability || isNewConditionOption(ratedDisability);
+    const item = formData?.[ARRAY_PATH]?.[index] || {};
+    const ratedDisability = item?.ratedDisability;
+    const hasCondition =
+      typeof item?.condition === 'string' && item.condition.trim().length > 0;
+    return hasCondition || isNewConditionOption(ratedDisability);
   }
 
-  return (
-    !formData?.ratedDisability ||
-    isNewConditionOption(formData?.ratedDisability)
-  );
+  const hasCondition =
+    typeof formData?.condition === 'string' &&
+    formData.condition.trim().length > 0;
+
+  return hasCondition || isNewConditionOption(formData?.ratedDisability);
 };
 
 export const isRatedDisability = (formData, index) => {

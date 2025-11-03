@@ -352,3 +352,34 @@ export function includeSpousalInformationWithV2Prefill(formData) {
     maritalStatus?.toLowerCase() === 'separated'
   );
 }
+
+/**
+ * Helper that determines if the Veteran & their spouse cohabitated last year (V1)
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if cohabitedLastYear is set to `false` and spousal
+ * information should be included in the form
+ */
+export function spouseDidNotCohabitateWithVeteranV1(formData) {
+  const { cohabitedLastYear } = formData;
+  return includeSpousalInformationV1(formData) && !cohabitedLastYear;
+}
+
+/**
+ * Helper that determines if the Veteran & their spouse cohabitated last year (V2)
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if cohabitedLastYear is set to `false` and spousal
+ * information should be included in the form
+ */
+export function spouseDidNotCohabitateWithVeteranV2(formData) {
+  // Check both root level and array level for cohabitedLastYear.
+  // This is temporary in order to support both v1 and v2 form data structure
+  // while transitioning to v2.
+  const rootCohabitedLastYear = formData.cohabitedLastYear;
+  const arrayCohabitedLastYear =
+    formData.spouseInformation?.[0]?.cohabitedLastYear;
+
+  // Use array value if it exists, otherwise fall back to root value
+  const cohabitedLastYear = arrayCohabitedLastYear ?? rootCohabitedLastYear;
+
+  return includeSpousalInformationV2(formData) && !cohabitedLastYear;
+}

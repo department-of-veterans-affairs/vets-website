@@ -6,10 +6,6 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
-import {
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
-} from '@department-of-veterans-affairs/mhv/exports';
 import CernerAlert from '../../../components/CernerAlert';
 import WarningNotification from '../../../components/WarningNotification';
 import { selectPendingAppointments } from '../../../redux/selectors';
@@ -62,7 +58,6 @@ export default function AppointmentsPage() {
   useEffect(
     () => {
       dispatch(setFormCurrentPage('appointments'));
-      logUniqueUserMetricsEvents(EVENT_REGISTRY.APPOINTMENTS_ACCESSED);
     },
     [location, dispatch],
   );
