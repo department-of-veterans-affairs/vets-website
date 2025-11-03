@@ -6,32 +6,29 @@ import { additionalLocationArrayBuilderOptions } from '../helpers';
 
 const additionalLocationSummary = {
   uiSchema: {
-    'view:introduction': {
-      'ui:description':
-        'You can add more locations to this agreement. If you have any more campuses or additional locations to add to this agreement, you can do so now. You will need a facility code for each location you would like to add.',
-    },
     addMoreLocations: arrayBuilderYesNoUI(
       additionalLocationArrayBuilderOptions,
       {
         title:
-          "Do you have any additional locations you'd like to add to this agreement?",
+          'Do you have any additional locations  you’d like to add to this agreement?  ',
         labels: {
           Y: 'Yes, I have additional locations to add',
           N: "No, I don't have additional locations to add",
         },
         hint: '',
         errorMessages: {
-          required: 'Please make a selection',
+          required: 'Please provide a response',
         },
       },
       {
-        title: "Do you have another location you'd like to add?",
+        title:
+          'Do you have another location you’d like to add to this agreement?  (',
         labels: {
           Y: 'Yes, I have another location to add',
           N: "No, I don't have another location to add",
         },
         errorMessages: {
-          required: 'Select yes if you have another location to add',
+          required: 'Please provide a response',
         },
       },
     ),

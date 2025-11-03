@@ -91,6 +91,10 @@ export const additionalLocationArrayBuilderOptions = {
   nounPlural: 'locations',
   required: false,
   text: {
+    summaryTitle: 'Review your additional locations',
+    summaryTitleWithoutItems: 'You can add more locations to this agreement',
+    summaryDescriptionWithoutItems:
+      'If you have any more campuses or additional locations to add to this agreement, you can do so now. You will need a facility code for each location you would like to add.',
     getItemName,
     cardDescription: item => getCardDescription(item),
   },
