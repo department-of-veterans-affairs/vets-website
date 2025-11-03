@@ -96,6 +96,13 @@ export const DATA_PATHS = {
   hasAdditionalDocuments: 'view:selectableEvidenceTypes.view:hasOtherEvidence',
 };
 
+export const DATA_DOG_APP_NAME = 'Benefits Disability';
+export const DATA_DOG_ID = 'c7eb541a-30d2-4a00-aba0-04965e8a2668';
+export const DATA_DOG_TOKEN = 'pub300747eeaef98ae4eb9c8d66f3c747c1';
+export const DATA_DOG_SERVICE = 'benefits-disability';
+export const DATA_DOG_VERSION = '1.0.0';
+export const DATA_DOG_TOGGLE = 'disability526BrowserMonitoringEnabled';
+
 export const DISABILITY_526_V2_ROOT_URL =
   '/disability/file-disability-claim-form-21-526ez';
 

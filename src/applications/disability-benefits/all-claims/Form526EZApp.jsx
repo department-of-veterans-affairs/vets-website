@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
@@ -24,6 +25,11 @@ import {
   PAGE_TITLE_SUFFIX,
   SHOW_8940_4192,
   WIZARD_STATUS,
+  DATA_DOG_TOGGLE,
+  DATA_DOG_ID,
+  DATA_DOG_TOKEN,
+  DATA_DOG_SERVICE,
+  DATA_DOG_VERSION,
 } from './constants';
 import {
   isBDD,
@@ -158,9 +164,22 @@ export const Form526Entry = ({
     'disability526Enable2024Form4142',
     'disability526ToxicExposureOptOutDataPurge',
     'disability526ToxicExposureOptOutDataPurgeByUser',
+    'disability526Enable2024Form4142',
+    'disabilityCompNewConditionsWorkflow',
   ]);
-  useFormFeatureToggleSync(['disability526Enable2024Form4142']);
-  useFormFeatureToggleSync(['disabilityCompNewConditionsWorkflow']);
+
+  useBrowserMonitoring({
+    loggedIn: true,
+    toggleName: DATA_DOG_TOGGLE,
+    applicationId: DATA_DOG_ID,
+    clientToken: DATA_DOG_TOKEN,
+    service: DATA_DOG_SERVICE,
+    version: DATA_DOG_VERSION,
+    // Current recommendation is to record 100% and filter in DD retention filters, since swap to unlimited plan?
+    // Will confirm
+    sessionReplaySampleRate: 100,
+    // sessionReplaySampleRate: environment.vspEnvironment() === 'staging' ? 100 : 10,
+  });
 
   if (!loggedIn) {
     // clear service branches if not logged in
