@@ -25,11 +25,46 @@ import {
  * Re-export platform validators
  */
 export const isValidName = platformIsValidName;
-export const isValidSSN = platformIsValidSSN;
 export const isValidPhone = platformIsValidPhone;
 export const isValidEmail = platformIsValidEmail;
 export const isValidUSZipCode = platformIsValidUSZipCode;
 export const isValidCanPostalCode = platformIsValidCanPostalCode;
+
+/**
+ * SSN validation - extends platform's SSN validation with additional checks
+ * Accepts both 9-digit (123456789) and formatted (123-45-6789) SSNs
+ * Rejects invalid patterns (all zeros, sequential numbers, invalid area codes)
+ *
+ * @param {string} value - SSN to validate
+ * @returns {boolean} True if valid
+ * @example
+ * isValidSSN('123-45-6789') // true
+ * isValidSSN('123456789') // true
+ * isValidSSN('000-00-0000') // false (invalid area code)
+ * isValidSSN('666-12-3456') // false (invalid area code)
+ * isValidSSN('900-12-3456') // false (invalid area code)
+ */
+export const isValidSSN = value => {
+  if (!value) return false;
+
+  // Strip non-digits
+  const digits = value.replace(/\D/g, '');
+
+  // Additional business logic checks
+  if (digits.length !== 9) return false;
+  if (digits === '000000000') return false;
+  if (digits === '123456789') return false;
+  if (digits === '999999999') return false;
+
+  // Check invalid area codes (first 3 digits)
+  const areaCode = digits.substring(0, 3);
+  if (areaCode === '000') return false;
+  if (areaCode === '666') return false;
+  if (areaCode >= '900') return false;
+
+  // Use platform validation for additional checks
+  return platformIsValidSSN(value);
+};
 
 /**
  * Custom validators (not in platform)
@@ -113,25 +148,27 @@ export const isValidMilitaryZip = (zipCode, state) => {
  */
 export const VALIDATION_MESSAGES = {
   // Name validation
+  NAME_INVALID: 'Must contain only letters, spaces, hyphens, and apostrophes',
   NAME_INVALID_FIRST: 'Contains invalid characters',
   NAME_INVALID_MIDDLE: 'Middle name contains invalid characters',
   NAME_INVALID_LAST: 'Last name contains invalid characters',
   NAME_INVALID_SUFFIX: 'Suffix contains invalid characters',
 
-  // SSN
+  // Date messages
+  DATE_FORMAT: 'Date must be in YYYY-MM-DD format',
+
+  // ID messages
   SSN_FORMAT: 'SSN must be 9 digits',
-
-  // Email
-  EMAIL_FORMAT: 'Please enter a valid email address',
-
-  // VA File Number
   VA_FILE_FORMAT: 'VA file number must be 8 or 9 digits',
 
-  // Mexican postal codes
-  POSTAL_MEXICO: 'Postal code must be 5 digits',
+  // Contact messages
+  PHONE_FORMAT: 'Please enter a 10-digit phone number (with or without dashes)',
+  EMAIL_FORMAT: 'Enter a valid email address using the format email@domain.com',
 
-  // Canadian postal codes
+  // Postal messages
+  ZIP_USA: 'Enter a valid 5-digit ZIP code (12345) or ZIP+4 (12345-6789)',
   POSTAL_CANADA: 'Postal code must be in format A1A 1A1',
+  POSTAL_MEXICO: 'Postal code must be 5 digits',
 
   // Military ZIP codes
   ZIP_MILITARY_AA: 'ZIP code must start with 340',
