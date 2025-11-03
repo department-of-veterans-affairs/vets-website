@@ -5,6 +5,7 @@ import {
   arrayBuilderYesNoUI,
   titleUI,
   currentOrPastDateRangeUI,
+  numberUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
@@ -159,7 +160,7 @@ const options = {
 const introPage = {
   uiSchema: {
     ...titleUI(
-      'Veteran Service period(s)',
+      'Veteran service period(s)',
       'The next few questions are about the Veteran’s service periods. You must add at least 1 service period. If you don’t know the Veteran’s service periods, you can request their military service records.',
     ),
     'ui:description': requestRecordsLink,
@@ -204,19 +205,14 @@ export function servicePeriodInformationPage(isVet, isPrep) {
   return {
     uiSchema: {
       ...arrayBuilderItemFirstPageTitleUI({
-        title: handleTitle(
-          isVet,
-          isPrep,
-          'Your service period(s)',
-          'Sponsor’s service periods(s)',
-          'Applicant’s service period(s)',
-        ),
+        title: 'Veteran service period(s)',
         nounSingular: 'service period',
         servicePeriod: options.servicePeriod,
         hasMultipleItemPages: false,
       }),
       'ui:order': [
         'serviceBranch',
+        'militaryServiceNumber',
         'dateRange',
         'highestRank',
         'dischargeType',
@@ -228,13 +224,7 @@ export function servicePeriodInformationPage(isVet, isPrep) {
       },
       serviceBranch: {
         'ui:field': AutosuggestField,
-        'ui:title': handleTitle(
-          isVet,
-          isPrep,
-          'Branch of service',
-          'Sponsor’s branch of service',
-          'Applicant’s branch of service',
-        ),
+        'ui:title': 'Branch of service',
         'ui:options': {
           getOptions: inputValue => {
             if (!inputValue) return [];
@@ -275,37 +265,22 @@ export function servicePeriodInformationPage(isVet, isPrep) {
           },
         },
       },
+      militaryServiceNumber: numberUI({
+        title: 'Military service number',
+      }),
       dateRange: currentOrPastDateRangeUI(
         {
-          title: handleTitle(
-            isVet,
-            isPrep,
-            'Service start date',
-            'Sponsor’s service start date',
-            'Applicant’s service start date',
-          ),
+          title: 'Service start date',
           required: () => false,
         },
         {
-          title: handleTitle(
-            isVet,
-            isPrep,
-            'Service end date',
-            'Sponsor’s service end date',
-            'Applicant’s service end date',
-          ),
+          title: 'Service end date',
           required: () => false,
         },
         'The service end date must be after the service start date.', // Range error message
       ),
       dischargeType: {
-        'ui:title': handleTitle(
-          isVet,
-          isPrep,
-          'Discharge character of service',
-          'Sponsor’s discharge character of service',
-          'Applicant’s discharge character of service',
-        ),
+        'ui:title': 'Discharge character of service',
         'ui:webComponentField': VaSelectField,
         'ui:options': {
           labels: {
@@ -471,6 +446,12 @@ export function servicePeriodInformationPage(isVet, isPrep) {
             'SP',
             'UT',
           ],
+        },
+        militaryServiceNumber: {
+          type: 'string',
+          minLength: 4,
+          maxLength: 9,
+          pattern: '^\\d*$',
         },
         dateRange: {
           type: 'object',

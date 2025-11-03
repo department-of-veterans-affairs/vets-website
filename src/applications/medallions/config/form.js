@@ -206,7 +206,7 @@ const formConfig = {
     //   pages: servicePeriodsPagesPreparerVeteran,
     // },
     servicePeriodsNonVeteran: {
-      title: 'Veteran service period(s)',
+      title: 'Veteran service periods',
       pages: servicePeriodsPagesNonVeteran,
     },
     // servicePeriodsPreparerNonVeteran: {
