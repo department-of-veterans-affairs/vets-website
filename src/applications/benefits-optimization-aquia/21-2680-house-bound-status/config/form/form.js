@@ -144,7 +144,7 @@ const formConfig = {
           CustomPageReview: () => null,
           // Hidden when veteran is claimant
           depends: formData =>
-            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
+            formData?.claimantRelationship?.relationship !== 'veteran',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
@@ -156,7 +156,7 @@ const formConfig = {
           CustomPageReview: () => null,
           // Hidden when veteran is claimant
           depends: formData =>
-            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
+            formData?.claimantRelationship?.relationship !== 'veteran',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
@@ -168,7 +168,7 @@ const formConfig = {
           CustomPageReview: () => null,
           // Hidden when veteran is claimant
           depends: formData =>
-            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
+            formData?.claimantRelationship?.relationship !== 'veteran',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
@@ -180,7 +180,7 @@ const formConfig = {
           CustomPageReview: () => null,
           // Hidden when veteran is claimant
           depends: formData =>
-            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
+            formData?.claimantRelationship?.relationship !== 'veteran',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },

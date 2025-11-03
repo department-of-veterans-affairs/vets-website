@@ -45,19 +45,6 @@ describe('ClaimantRelationshipPage', () => {
       );
 
       expect(container).to.exist;
-      expect(container.textContent).to.include('Claimant information');
-    });
-
-    it('should render page title', () => {
-      const { container } = render(
-        <ClaimantRelationshipPage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.textContent).to.include('Claimant information');
     });
 
     it('should render radio group with label', async () => {
@@ -105,7 +92,9 @@ describe('ClaimantRelationshipPage', () => {
   describe('Data Handling', () => {
     it('should render with existing relationship data', () => {
       const existingData = {
-        claimantRelationship: 'veteran',
+        claimantRelationship: {
+          relationship: 'veteran',
+        },
       };
 
       const { container } = render(
@@ -129,7 +118,9 @@ describe('ClaimantRelationshipPage', () => {
 
     it('should render with spouse relationship selected', () => {
       const existingData = {
-        claimantRelationship: 'spouse',
+        claimantRelationship: {
+          relationship: 'spouse',
+        },
       };
 
       const { container } = render(

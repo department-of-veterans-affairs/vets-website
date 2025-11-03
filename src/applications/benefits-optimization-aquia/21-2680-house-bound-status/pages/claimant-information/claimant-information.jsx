@@ -46,7 +46,7 @@ export const ClaimantInformationPage = ({
     },
   };
 
-  const relationship = migratedData?.claimantRelationship?.claimantRelationship;
+  const relationship = migratedData?.claimantRelationship?.relationship;
 
   /**
    * Get the appropriate description text based on relationship
@@ -119,8 +119,8 @@ export const ClaimantInformationPage = ({
 ClaimantInformationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  onReviewPage: PropTypes.bool,
   goBack: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };

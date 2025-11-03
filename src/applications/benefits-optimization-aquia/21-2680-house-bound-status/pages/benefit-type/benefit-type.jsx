@@ -35,8 +35,7 @@ export const BenefitTypePage = ({
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
   // Get claimant information for dynamic label
-  const relationship =
-    formDataToUse?.claimantRelationship?.claimantRelationship;
+  const relationship = formDataToUse?.claimantRelationship?.relationship;
   const isVeteran = relationship === 'veteran';
   const claimantName = formDataToUse?.claimantInformation?.claimantFullName;
   const firstName = claimantName?.first || '';

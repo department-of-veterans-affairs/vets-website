@@ -78,7 +78,7 @@ describe('Claimant Relationship Schemas', () => {
   describe('claimantRelationshipPageSchema', () => {
     it('should validate complete page data with veteran', () => {
       const validData = {
-        claimantRelationship: 'veteran',
+        relationship: 'veteran',
       };
       const result = claimantRelationshipPageSchema.safeParse(validData);
       expect(result.success).to.be.true;
@@ -86,7 +86,7 @@ describe('Claimant Relationship Schemas', () => {
 
     it('should validate complete page data with spouse', () => {
       const validData = {
-        claimantRelationship: 'spouse',
+        relationship: 'spouse',
       };
       const result = claimantRelationshipPageSchema.safeParse(validData);
       expect(result.success).to.be.true;
@@ -94,7 +94,7 @@ describe('Claimant Relationship Schemas', () => {
 
     it('should validate complete page data with child', () => {
       const validData = {
-        claimantRelationship: 'child',
+        relationship: 'child',
       };
       const result = claimantRelationshipPageSchema.safeParse(validData);
       expect(result.success).to.be.true;
@@ -102,37 +102,37 @@ describe('Claimant Relationship Schemas', () => {
 
     it('should validate complete page data with parent', () => {
       const validData = {
-        claimantRelationship: 'parent',
+        relationship: 'parent',
       };
       const result = claimantRelationshipPageSchema.safeParse(validData);
       expect(result.success).to.be.true;
     });
 
-    it('should reject missing claimantRelationship', () => {
+    it('should reject missing relationship', () => {
       const invalidData = {};
       const result = claimantRelationshipPageSchema.safeParse(invalidData);
       expect(result.success).to.be.false;
     });
 
-    it('should reject invalid claimantRelationship value', () => {
+    it('should reject invalid relationship value', () => {
       const invalidData = {
-        claimantRelationship: 'invalid',
+        relationship: 'invalid',
       };
       const result = claimantRelationshipPageSchema.safeParse(invalidData);
       expect(result.success).to.be.false;
     });
 
-    it('should reject empty string claimantRelationship', () => {
+    it('should reject empty string relationship', () => {
       const invalidData = {
-        claimantRelationship: '',
+        relationship: '',
       };
       const result = claimantRelationshipPageSchema.safeParse(invalidData);
       expect(result.success).to.be.false;
     });
 
-    it('should reject null claimantRelationship', () => {
+    it('should reject null relationship', () => {
       const invalidData = {
-        claimantRelationship: null,
+        relationship: null,
       };
       const result = claimantRelationshipPageSchema.safeParse(invalidData);
       expect(result.success).to.be.false;

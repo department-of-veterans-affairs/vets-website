@@ -93,7 +93,7 @@ describe('HospitalizationStatusPage', () => {
     it('should render page title for veteran relationship', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         claimantInformation: {
           claimantFullName: {

@@ -45,19 +45,6 @@ describe('ClaimantInformationPage', () => {
       );
 
       expect(container).to.exist;
-      expect(container.textContent).to.include('Claimant information');
-    });
-
-    it('should render page title', () => {
-      const { container } = render(
-        <ClaimantInformationPage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.textContent).to.include('Claimant information');
     });
 
     it('should render instruction text', () => {

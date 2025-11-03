@@ -26,8 +26,7 @@ export const HospitalizationStatusPage = ({
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
   // Get claimant information for dynamic title
-  const relationship =
-    formDataToUse?.claimantRelationship?.claimantRelationship;
+  const relationship = formDataToUse?.claimantRelationship?.relationship;
   const isVeteran = relationship === 'veteran';
   const claimantName = formDataToUse?.claimantInformation?.claimantFullName;
   const firstName = claimantName?.first || '';

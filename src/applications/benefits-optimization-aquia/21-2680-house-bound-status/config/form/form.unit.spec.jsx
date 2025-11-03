@@ -201,7 +201,7 @@ describe('Form Configuration', () => {
       it('should show claimant pages when claimantRelationship is not veteran', () => {
         const formData = {
           claimantRelationship: {
-            claimantRelationship: 'spouse',
+            relationship: 'spouse',
           },
         };
 
@@ -224,7 +224,7 @@ describe('Form Configuration', () => {
       it('should hide claimant pages when claimantRelationship is veteran', () => {
         const formData = {
           claimantRelationship: {
-            claimantRelationship: 'veteran',
+            relationship: 'veteran',
           },
         };
 
