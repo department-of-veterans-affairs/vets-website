@@ -183,13 +183,13 @@ describe('CDP - One Thing Per Page', () => {
 
         cy.go('back');
 
-        // Resolve this debt link should be present and work
+        // Resolve this overpayment link should be present and work
         cy.get('[data-testid="debt-summary-item"]')
           .findByTestId('debt-resolve-link')
           .shadow()
           .find('a')
           .as('resolveLink');
-        cy.get('@resolveLink').should('contain', 'Resolve this debt');
+        cy.get('@resolveLink').should('contain', 'Resolve this overpayment');
         cy.get('@resolveLink').click();
         cy.url().should('match', /\/debt-balances\/\d+\/resolve$/);
 
@@ -207,9 +207,7 @@ describe('CDP - One Thing Per Page', () => {
           .find('a')
           .click();
 
-        cy.findByTestId('detail-page-title').contains(
-          'Resolve your overpayment',
-        );
+        cy.findByTestId('detail-page-title').contains('Resolve overpayment');
 
         cy.get('va-on-this-page').should('exist');
         cy.get('#howDoIPay').should('exist');

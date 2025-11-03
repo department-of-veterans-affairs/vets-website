@@ -213,7 +213,6 @@ const routesForProfile2Nav = [
     name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
     path: PROFILE_PATHS.ACCOUNT_SECURITY,
     requiresLOA3: false,
-    requiresMVI: false,
     hasSubnav: true,
   },
   {
@@ -229,7 +228,6 @@ const routesForProfile2Nav = [
     name: PROFILE_PATH_NAMES.SIGNIN_INFORMATION,
     path: PROFILE_PATHS.SIGNIN_INFORMATION,
     requiresLOA3: false,
-    requiresMVI: false,
     subnavParent: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
   },
 ];

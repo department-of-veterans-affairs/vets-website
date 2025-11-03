@@ -186,6 +186,7 @@ const EvidenceSummary = ({
         </va-alert>
 
         <VaModal
+          clickToClose
           status="warning"
           visible={showModal}
           modalTitle={modalTitle}
@@ -226,6 +227,7 @@ const EvidenceSummary = ({
               <FormNavButtons
                 goBack={goBack}
                 goForward={handlers.onGoForward}
+                useWebComponents
               />
               {contentAfterButtons}
             </>
