@@ -92,7 +92,7 @@ export function buildMajorSteps(formData, pathname) {
   steps.push({
     ...REVIEW_STEP,
     current: currentChapter === 'review',
-    idx: steps.length + 1,
+    idx: steps.length,
   });
   return steps;
 }
