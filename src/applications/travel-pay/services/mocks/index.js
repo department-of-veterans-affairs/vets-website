@@ -133,24 +133,22 @@ const responses = {
   // },
 
   // Creating a new complex claim
-  'POST /travel_pay/v0/complex_claims': {
-    claimId: generateUUID(),
-    claimNumber: 'TC0000000002',
-    status: 'InProgress',
-    appointmentDateTime: '2024-01-15T10:00:00Z',
+  'POST /travel_pay/v0/complex_claims': (req, res) => {
+    return res.json({
+      claimId: generateUUID(),
+    });
   },
 
   // Submitting a complex claim
   'PATCH /travel_pay/v0/complex_claims': {
     claimId: 'a1f33265-014a-4dc6-93ae-66a29b94675b',
-    claimNumber: 'TC0000000002',
-    status: 'Submitted',
-    submittedOn: '2024-01-15T15:30:00Z',
   },
 
   // Creating expenses
-  'POST /travel_pay/v0/expenses/mileage': {
-    id: generateUUID(),
+  'POST /travel_pay/v0/expenses/mileage': (req, res) => {
+    return res.json({
+      id: generateUUID(),
+    });
   },
 
   // Updating expense
