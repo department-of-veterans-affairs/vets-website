@@ -14,6 +14,9 @@ import {
   FETCH_CLAIM_DETAILS_FAILURE,
   FETCH_CLAIM_DETAILS_STARTED,
   FETCH_CLAIM_DETAILS_SUCCESS,
+  FETCH_COMPLEX_CLAIM_DETAILS_FAILURE,
+  FETCH_COMPLEX_CLAIM_DETAILS_STARTED,
+  FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS,
   FETCH_TRAVEL_CLAIMS_FAILURE,
   FETCH_TRAVEL_CLAIMS_STARTED,
   FETCH_TRAVEL_CLAIMS_SUCCESS,
@@ -56,6 +59,10 @@ const initialState = {
         isSubmitting: false,
         error: null,
         data: null,
+      },
+      fetch: {
+        isLoading: false,
+        error: null,
       },
       data: null,
     },
@@ -388,6 +395,57 @@ function travelPayReducer(state = initialState, action) {
           expenses: {
             ...state.complexClaim.expenses,
             creation: {
+              isLoading: false,
+              error: action.error,
+            },
+          },
+        },
+      };
+
+    case FETCH_COMPLEX_CLAIM_DETAILS_STARTED:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          claim: {
+            ...state.complexClaim.claim,
+            fetch: {
+              isLoading: true,
+              error: null,
+            },
+          },
+        },
+      };
+
+    case FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS: {
+      // Replace all expenses with the fresh data from complex claim response
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          claim: {
+            ...state.complexClaim.claim,
+            fetch: {
+              isLoading: false,
+              error: null,
+            },
+          },
+          expenses: {
+            ...state.complexClaim.expenses,
+            data: action.payload, // action.payload is now an array of expenses
+          },
+        },
+      };
+    }
+
+    case FETCH_COMPLEX_CLAIM_DETAILS_FAILURE:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          claim: {
+            ...state.complexClaim.claim,
+            fetch: {
               isLoading: false,
               error: action.error,
             },

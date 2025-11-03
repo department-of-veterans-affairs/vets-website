@@ -21,14 +21,18 @@ export const CREATE_COMPLEX_CLAIM_FAILURE = 'CREATE_COMPLEX_CLAIM_FAILURE';
 export const UPDATE_EXPENSE_STARTED = 'UPDATE_EXPENSE_STARTED';
 export const UPDATE_EXPENSE_SUCCESS = 'UPDATE_EXPENSE_SUCCESS';
 export const UPDATE_EXPENSE_FAILURE = 'UPDATE_EXPENSE_FAILURE';
-// New delete expense action types (separate from update)
 export const DELETE_EXPENSE_STARTED = 'DELETE_EXPENSE_STARTED';
 export const DELETE_EXPENSE_SUCCESS = 'DELETE_EXPENSE_SUCCESS';
 export const DELETE_EXPENSE_FAILURE = 'DELETE_EXPENSE_FAILURE';
-// New create expense action types (separate from update/modify)
 export const CREATE_EXPENSE_STARTED = 'CREATE_EXPENSE_STARTED';
 export const CREATE_EXPENSE_SUCCESS = 'CREATE_EXPENSE_SUCCESS';
 export const CREATE_EXPENSE_FAILURE = 'CREATE_EXPENSE_FAILURE';
+export const FETCH_COMPLEX_CLAIM_DETAILS_STARTED =
+  'FETCH_COMPLEX_CLAIM_DETAILS_STARTED';
+export const FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS =
+  'FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS';
+export const FETCH_COMPLEX_CLAIM_DETAILS_FAILURE =
+  'FETCH_COMPLEX_CLAIM_DETAILS_FAILURE';
 
 // Get all travel claims
 const fetchTravelClaimsStart = () => ({
@@ -207,44 +211,33 @@ export function submitComplexClaim(claimData) {
   };
 }
 
-// Creating a new expense
-const createExpenseStart = () => ({
-  type: CREATE_EXPENSE_STARTED,
+// Fetching complex claim details (including expenses)
+const fetchComplexClaimDetailsStart = () => ({
+  type: FETCH_COMPLEX_CLAIM_DETAILS_STARTED,
 });
-const createExpenseSuccess = data => ({
-  type: CREATE_EXPENSE_SUCCESS,
+const fetchComplexClaimDetailsSuccess = data => ({
+  type: FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS,
   payload: data,
 });
-const createExpenseFailure = error => ({
-  type: CREATE_EXPENSE_FAILURE,
+const fetchComplexClaimDetailsFailure = error => ({
+  type: FETCH_COMPLEX_CLAIM_DETAILS_FAILURE,
   error,
 });
 
-export function createExpense(claimId, expenseType, expenseData) {
+export function getComplexClaimDetails(claimId) {
   return async dispatch => {
-    dispatch(createExpenseStart());
+    dispatch(fetchComplexClaimDetailsStart());
 
     try {
-      const options = {
-        method: 'POST',
-        body: JSON.stringify(expenseData),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-
-      const expenseUrl = `${
-        environment.API_URL
-      }/travel_pay/v0/expenses/${expenseType}`;
-      const response = await apiRequest(expenseUrl, options);
-      dispatch(
-        createExpenseSuccess({
-          ...expenseData,
-          id: response.id,
-        }),
-      );
+      const claimUrl = `${environment.API_URL}/travel_pay/v0/claims/${claimId}`;
+      const response = await apiRequest(claimUrl);
+      // Extract expenses from the complex claim response
+      const expenses = response.data?.expenses || [];
+      dispatch(fetchComplexClaimDetailsSuccess(expenses));
+      return response;
     } catch (error) {
-      dispatch(createExpenseFailure(error));
+      dispatch(fetchComplexClaimDetailsFailure(error));
+      throw error;
     }
   };
 }
@@ -282,7 +275,17 @@ export function updateExpense(claimId, expenseType, expenseId, expenseData) {
       }/travel_pay/v0/expenses/${expenseType}/${expenseId}`;
       await apiRequest(expenseUrl, options);
       const result = { ...expenseData, id: expenseId };
+
+      // Fetch the complete complex claim details and load expenses into store
+      try {
+        await dispatch(getComplexClaimDetails(claimId));
+      } catch (fetchError) {
+        // Silently continue if fetching details fails
+      }
+
+      // Dispatch success only after claim details are fetched
       dispatch(updateExpenseSuccess(result));
+
       return result;
     } catch (error) {
       dispatch(updateExpenseFailure(error, expenseId));
@@ -322,6 +325,15 @@ export function deleteExpense(claimId, expenseType, expenseId) {
         EXPENSE_TYPES[expenseType]?.route
       }/${expenseId}`;
       await apiRequest(expenseUrl, options);
+
+      // Fetch the complete complex claim details and load expenses into store
+      try {
+        await dispatch(getComplexClaimDetails(claimId));
+      } catch (fetchError) {
+        // Silently continue if fetching details fails
+      }
+
+      // Dispatch success only after claim details are fetched
       dispatch(deleteExpenseSuccess(expenseId));
       return { id: expenseId };
     } catch (error) {
@@ -333,22 +345,22 @@ export function deleteExpense(claimId, expenseType, expenseId) {
 
 // New bifurcated expense operations
 
-// Creating a new expense (no ID needed)
-const createNewExpenseStart = () => ({
+// Creating a new expense
+const createExpenseStart = () => ({
   type: CREATE_EXPENSE_STARTED,
 });
-const createNewExpenseSuccess = data => ({
+const createExpenseSuccess = data => ({
   type: CREATE_EXPENSE_SUCCESS,
   payload: data,
 });
-const createNewExpenseFailure = error => ({
+const createExpenseFailure = error => ({
   type: CREATE_EXPENSE_FAILURE,
   error,
 });
 
-export function createNewExpense(claimId, expenseType, expenseData) {
+export function createExpense(claimId, expenseType, expenseData) {
   return async dispatch => {
-    dispatch(createNewExpenseStart());
+    dispatch(createExpenseStart());
 
     try {
       const options = {
@@ -367,65 +379,20 @@ export function createNewExpense(claimId, expenseType, expenseData) {
         ...expenseData,
         id: response.id,
       };
-      dispatch(createNewExpenseSuccess(result));
+
+      // Fetch the complete complex claim details and load expenses into store
+      try {
+        await dispatch(getComplexClaimDetails(claimId));
+      } catch (fetchError) {
+        // Silently continue if fetching details fails
+      }
+
+      // Dispatch success only after claim details are fetched
+      dispatch(createExpenseSuccess(result));
+
       return result;
     } catch (error) {
-      dispatch(createNewExpenseFailure(error));
-      throw error;
-    }
-  };
-}
-
-// Update/Delete existing expenses (reuse existing UPDATE_EXPENSE actions)
-export function updateExistingExpense(
-  claimId,
-  expenseType,
-  expenseId,
-  expenseData,
-) {
-  return async dispatch => {
-    dispatch(updateExpenseStart(expenseId));
-
-    try {
-      const options = {
-        method: 'PATCH',
-        body: JSON.stringify(expenseData),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-
-      const expenseUrl = `${
-        environment.API_URL
-      }/travel_pay/v0/expenses/${expenseType}/${expenseId}`;
-      await apiRequest(expenseUrl, options);
-      dispatch(updateExpenseSuccess({ ...expenseData, id: expenseId }));
-    } catch (error) {
-      dispatch(updateExpenseFailure(error, expenseId));
-    }
-  };
-}
-
-export function deleteExistingExpense(claimId, expenseType, expenseId) {
-  return async dispatch => {
-    dispatch(deleteExpenseStart(expenseId));
-
-    try {
-      const options = {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-
-      const expenseUrl = `${environment.API_URL}/travel_pay/v0/expenses/${
-        EXPENSE_TYPES[expenseType]?.route
-      }/${expenseId}`;
-      await apiRequest(expenseUrl, options);
-      dispatch(deleteExpenseSuccess(expenseId));
-      return { id: expenseId };
-    } catch (error) {
-      dispatch(deleteExpenseFailure(error, expenseId));
+      dispatch(createExpenseFailure(error));
       throw error;
     }
   };
