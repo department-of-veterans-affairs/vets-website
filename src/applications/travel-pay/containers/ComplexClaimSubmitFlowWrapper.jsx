@@ -10,7 +10,7 @@ import {
   selectComplexClaim,
   selectComplexClaimCreationLoadingState,
 } from '../redux/selectors';
-import { getAppointmentData, getClaimDetails } from '../redux/actions';
+import { getAppointmentData, getComplexClaimDetails } from '../redux/actions';
 
 const ComplexClaimSubmitFlowWrapper = () => {
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ const ComplexClaimSubmitFlowWrapper = () => {
   useEffect(
     () => {
       if (claimId && !claimData && !claimError) {
-        dispatch(getClaimDetails(claimId));
+        dispatch(getComplexClaimDetails(claimId));
       }
       if (apptId && !apptData && !apptError) {
         dispatch(getAppointmentData(apptId));

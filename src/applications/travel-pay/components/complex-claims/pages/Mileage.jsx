@@ -7,7 +7,7 @@ import {
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import { createNewExpense, updateExpense } from '../../../redux/actions';
+import { createExpense, updateExpense } from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
@@ -85,7 +85,7 @@ const Mileage = () => {
           );
         } else {
           await dispatch(
-            createNewExpense(claimId, EXPENSE_TYPES.Mileage.route, expenseData),
+            createExpense(claimId, EXPENSE_TYPES.Mileage.route, expenseData),
           );
         }
       } catch (error) {

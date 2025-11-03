@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom-v5-compat';
 import { deleteExpense } from '../../../redux/actions';
 import { selectIsExpenseDeleting } from '../../../redux/selectors';
 import { EXPENSE_TYPES, TRIP_TYPES } from '../../../constants';
+import { formatDate } from '../../../util/dates';
+import { currency } from '../../../util/string-helpers';
 import ExpenseCardDetails from './ExpenseCardDetails';
 import DeleteExpenseModal from './DeleteExpenseModal';
 
@@ -19,7 +21,9 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
     selectIsExpenseDeleting(state, expenseId),
   );
 
-  const header = `${expenseType} expense`;
+  const header = `${formatDate(expense.dateIncurred)}, $${currency(
+    expense.costRequested,
+  )}`;
 
   const handleDeleteExpense = async () => {
     setShowDeleteModal(false);
