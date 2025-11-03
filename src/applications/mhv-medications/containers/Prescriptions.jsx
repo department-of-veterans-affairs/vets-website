@@ -5,7 +5,12 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import {
+  Link,
+  useNavigate,
+  useLocation,
+  useSearchParams,
+} from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
@@ -48,6 +53,7 @@ import Alert from '../components/shared/Alert';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
+import RxRenewalMessageSuccessAlert from '../components/shared/RxRenewalMessageSuccessAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
 import DelayedRefillAlert from '../components/shared/DelayedRefillAlert';
@@ -86,6 +92,8 @@ const Prescriptions = () => {
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
+  const [searchParams] = useSearchParams();
+  const rxRenualMessageSuccess = searchParams.get('rxRenualMessageSuccess');
 
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);
@@ -620,6 +628,12 @@ const Prescriptions = () => {
     );
   };
 
+  const renderRxRenewalMessageSuccess = () => {
+    if (!rxRenualMessageSuccess) return null;
+
+    return <RxRenewalMessageSuccessAlert />;
+  };
+
   const renderHeader = () => {
     let titleNotesMessage =
       'Bring your medications list to each appointment. And tell your provider about any new allergies or reactions.';
@@ -741,6 +755,7 @@ const Prescriptions = () => {
     return (
       <div className="landing-page no-print">
         {renderHeader()}
+        {renderRxRenewalMessageSuccess()}
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
