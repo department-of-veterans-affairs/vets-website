@@ -32,11 +32,23 @@ Cypress.Commands.add(
     cy.get('select[name="root_address_state"]').select('NY', { force: true });
     cy.findByRole('button', { name: /^Continue$/i }).click();
 
-    cy.get('va-telephone-input').as('phoneField');
-    cy.get('@phoneField')
+    cy.get('va-text-input[name="root_email"]').should('be.visible');
+
+    cy.get('va-telephone-input')
       .shadow()
       .find('input[type="tel"]')
-      .clear()
+      .should('be.visible')
+      .click({ force: true });
+
+    cy.get('va-telephone-input')
+      .shadow()
+      .find('input[type="tel"]')
+      .should('not.be.disabled')
+      .clear({ force: true, delay: 100 });
+
+    cy.get('va-telephone-input')
+      .shadow()
+      .find('input[type="tel"]')
       .type('5551234567', { force: true });
 
     cy.fillVaTextInput('root_email', 'test@example.com');
