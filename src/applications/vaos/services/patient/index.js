@@ -16,6 +16,30 @@ import { getPatientEligibility, getPatientRelationships } from '../vaos';
 import { getLongTermAppointmentHistoryV2 } from '../appointment';
 import { transformPatientRelationships } from './transformers';
 
+/**
+ * Checks if a type of care is exempted from requiring past appointment history
+ * for scheduling
+ * @param {string} typeOfCareId The type of care ID to check
+ * @param {boolean} [featurePastVisitMHFilter=false] whether to use past visits as a filter for scheduling MH appointments
+ * @returns {boolean} true if the type of care is exempted from past appointment history requirement
+ */
+export function typeOfCareRequiresPastHistory(
+  typeOfCareId,
+  flags = { featurePastVisitMHFilter: false },
+) {
+  const {
+    MENTAL_HEALTH_SERVICES_ID,
+    PRIMARY_CARE,
+    MENTAL_HEALTH_SUBSTANCE_USE_ID,
+  } = TYPE_OF_CARE_IDS;
+  return (
+    (typeOfCareId !== MENTAL_HEALTH_SERVICES_ID ||
+      flags.featurePastVisitMHFilter) && // If id is MH and flag is disabled condition is false and MH does not require past Hx
+    typeOfCareId !== PRIMARY_CARE && // If id is PC never requires past Hx
+    typeOfCareId !== MENTAL_HEALTH_SUBSTANCE_USE_ID // If id is SUD never requires past Hx
+  );
+}
+
 function createErrorHandler(errorKey) {
   return data => {
     captureError(data, true);
@@ -173,7 +197,6 @@ function hasMatchingClinics(
   clinics,
   pastAppointments,
   removeFacilityConfigCheck = false,
-  pastHistoryRequired = true,
 ) {
   return clinics?.some(
     clinic =>
@@ -181,9 +204,8 @@ function hasMatchingClinics(
         const clinicIds = clinic.id.split('_');
         if (appt.version === 2) {
           return (
-            ((clinic.stationId === appt.location.stationId &&
-              clinicIds[1] === appt.location.clinicId) ||
-              !pastHistoryRequired) &&
+            clinic.stationId === appt.location.stationId &&
+            clinicIds[1] === appt.location.clinicId &&
             (removeFacilityConfigCheck ||
               clinic.patientDirectScheduling === true)
           );
@@ -291,10 +313,9 @@ export async function fetchFlowEligibilityAndClinics({
       removeFacilityConfigCheck) &&
     directSchedulingEnabled;
 
-  const typeOfCareRequiresPastHistory =
-    typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-    (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
-      featurePastVisitMHFilter);
+  const typeOfCareRequiresCheck = typeOfCareRequiresPastHistory(typeOfCare.id, {
+    featurePastVisitMHFilter,
+  });
 
   const apiCalls = {
     patientEligibility: fetchPatientEligibility({
@@ -319,7 +340,7 @@ export async function fetchFlowEligibilityAndClinics({
     if (keepFacilityConfigCheck) {
       // Primary care and mental health is exempt from past appt history requirement
       const isDirectAppointmentHistoryRequired =
-        typeOfCareRequiresPastHistory &&
+        typeOfCareRequiresCheck &&
         directTypeOfCareSettings.patientHistoryRequired === true;
 
       if (isDirectAppointmentHistoryRequired) {
@@ -348,7 +369,7 @@ export async function fetchFlowEligibilityAndClinics({
   // Call not added above if removeFacilityConfigCheck is true, but requires resolved eligibility status to determine if needed
   // When removing feature toggle, remove just the removeFacilityConfigCheck variable, not the other booleans.
   if (
-    typeOfCareRequiresPastHistory &&
+    typeOfCareRequiresCheck &&
     removeFacilityConfigCheck &&
     results.patientEligibility.direct?.eligible
   ) {
@@ -432,16 +453,18 @@ export async function fetchFlowEligibilityAndClinics({
         location?.id,
       );
     }
-    // When removeFacilityConfigCheck is removed, remove the entire condition inside the parens (2nd set of nested parens) with
+    // When removeFacilityConfigCheck is removed, remove the entire condition inside the parens with
     // keepFacilityConfigCheck because we no longer will no longer be doing determination on the client side.
     if (
       !isCerner &&
-      typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-      (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
-        featurePastVisitMHFilter) &&
+      typeOfCareRequiresCheck &&
       (keepFacilityConfigCheck &&
         directTypeOfCareSettings.patientHistoryRequired) &&
-      !hasMatchingClinics(results.clinics, results.pastAppointments)
+      !hasMatchingClinics(
+        results.clinics,
+        results.pastAppointments,
+        removeFacilityConfigCheck,
+      )
     ) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);

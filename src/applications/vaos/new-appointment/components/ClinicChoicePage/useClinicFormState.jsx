@@ -7,7 +7,6 @@ import {
   selectFeatureMentalHealthHistoryFiltering,
   selectFeatureRemoveFacilityConfigCheck,
 } from '../../../redux/selectors';
-import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import {
   getClinicsForChosenFacility,
   getFormData,
@@ -17,6 +16,7 @@ import {
   selectPastAppointments,
 } from '../../redux/selectors';
 import AppointmentsRadioWidget from '../AppointmentsRadioWidget';
+import { typeOfCareRequiresPastHistory } from '../../../services/patient';
 
 const initialSchema = {
   type: 'object',
@@ -54,17 +54,16 @@ export default function useClinicFormState(pageTitle) {
   );
 
   // Past appointment history check
-  // primary care and mental health are exempt
+  // primary care and mental health and SUD are exempt
   // NOTE: Same check is in ../services/patient/index.js:fetchFlowEligibilityAndClinics
   const isCheckTypeOfCare =
-    (selectedTypeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
-      featurePastVisitMHFilter) &&
-    selectedTypeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-    selectedTypeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SUBSTANCE_USE_ID &&
-    (!removeFacilityConfigCheck
-      ? location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
-          ?.patientHistoryRequired === true
-      : eligibility.direct);
+    typeOfCareRequiresPastHistory(selectedTypeOfCare.id, {
+      featurePastVisitMHFilter,
+    }) &&
+    (removeFacilityConfigCheck
+      ? eligibility.direct
+      : location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
+          ?.patientHistoryRequired === true);
 
   if (isCheckTypeOfCare) {
     const pastAppointmentDateMap = new Map();
