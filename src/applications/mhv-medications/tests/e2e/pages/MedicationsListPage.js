@@ -1,4 +1,4 @@
-import moment from 'moment-timezone';
+import { addSeconds, format } from 'date-fns';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
@@ -7,7 +7,7 @@ import { Paths } from '../utils/constants';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
-import { medicationsUrls } from '../../../util/constants';
+import { DATETIME_FORMATS, medicationsUrls } from '../../../util/constants';
 import tooltipVisible from '../fixtures/tooltip-visible-list-page.json';
 import noToolTip from '../fixtures/tooltip-not-visible-list-page.json';
 import hidden from '../fixtures/tooltip-hidden.json';
@@ -298,15 +298,22 @@ class MedicationsListPage {
     userLastName = 'Mhvtp',
     searchText = 'Date',
   ) => {
-    this.downloadTime1sec = moment()
-      .add(1, 'seconds')
-      .format('M-D-YYYY_hhmmssa');
-    this.downloadTime2sec = moment()
-      .add(2, 'seconds')
-      .format('M-D-YYYY_hhmmssa');
-    this.downloadTime3sec = moment()
-      .add(3, 'seconds')
-      .format('M-D-YYYY_hhmmssa');
+    const now = Date.now();
+
+    this.downloadTime1sec = format(
+      addSeconds(now, 1),
+      DATETIME_FORMATS.filename,
+    );
+
+    this.downloadTime2sec = format(
+      addSeconds(now, 2),
+      DATETIME_FORMATS.filename,
+    );
+
+    this.downloadTime3sec = format(
+      addSeconds(now, 3),
+      DATETIME_FORMATS.filename,
+    );
 
     if (Cypress.browser.isHeadless) {
       cy.log('browser is headless');
