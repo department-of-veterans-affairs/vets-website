@@ -3,6 +3,9 @@
     "first": "John",
     "last": "Doe"
   },
+  "claims" : {
+    "dependencyIndemnityComp" : true
+  },
   "veteranDateOfBirth": "1989-02-16",
   "hasBankAccount": false,
   "moreThanFourSources": false,
@@ -12,9 +15,9 @@
   "view:whatTransferredAssets": {},
   "totalAssets": 100,
   "hasAssetsOverThreshold": false,
-  "needRegularAssistance": "No",
-  "inNursingHome": "No",
-  "view:dicType": "DIC",
+  "needRegularAssistance": false,
+  "inNursingHome": false,
+  "dicType": "DIC",
   "recognizedAsSpouse": true,
   "hadPreviousMarriages": false,
   "remarried": false,
@@ -66,7 +69,6 @@
   "veteranSocialSecurityNumber": "230635555",
   "view:warningAlert": {},
   "seriouslyDisabled": {},
-  "claims": {},
   "branchOfService": {},
   "unitPhoneNumber": {},
   "unitAddress": {
