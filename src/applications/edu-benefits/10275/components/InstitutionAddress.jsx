@@ -1,11 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
-const InstitutionAddress = () => {
+const InstitutionAddress = ({ uiSchema }) => {
   const formData = useSelector(state => state.form?.data);
-  const institutionAddress =
-    formData?.institutionDetails?.institutionAddress || {};
 
+  const options = uiSchema?.['ui:options'] || {};
+  const { isArrayItem = false } = options;
+
+  const index = isArrayItem ? getArrayIndexFromPathName() : null;
+
+  const details = isArrayItem
+    ? formData?.additionalLocations?.[index] || {}
+    : formData?.institutionDetails || {};
+
+  const institutionAddress = details?.institutionAddress || {};
   const {
     street,
     street2,

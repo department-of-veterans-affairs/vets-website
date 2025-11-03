@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
@@ -8,6 +7,9 @@ import {
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { CancelButton } from '../../config/helpers';
+import propTypes from './types';
+
+import { makeNamePossessive } from '../../../shared/utils';
 
 const stepchildFinancialSupport = {
   handlers: {
@@ -33,32 +35,7 @@ const stepchildFinancialSupport = {
     },
   },
 
-  /**
-   * Dependent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} isStepchild Whether the child is a stepchild
-   * @property {string} removalReason Dependent's removal reason
-   * @property {string} stepchildFinancialSupport Whether veteran provides financial support
-   */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} returnToMainPage Function to return to the main remove
-   * dependents page
-   * @returns React component
-   */
+  /** @type {PicklistComponentProps} */
   Component: ({
     itemData,
     formSubmitted,
@@ -85,13 +62,15 @@ const stepchildFinancialSupport = {
     return (
       <>
         <VaRadio
-          class=""
+          class="vads-u-margin-bottom--2 dd-privacy-mask"
           error={
             formSubmitted && !itemData.stepchildFinancialSupport
               ? 'Select an option'
               : null
           }
-          label={`Do you provide at least half of ${firstName}'s financial support?`}
+          label={`Do you provide at least half of ${makeNamePossessive(
+            firstName,
+          )} financial support?`}
           labelHeaderLevel="3"
           onVaValueChange={onChange}
           required
@@ -119,26 +98,7 @@ const stepchildFinancialSupport = {
   },
 };
 
-stepchildFinancialSupport.propTypes = {
-  Component: PropTypes.func,
-};
-
-stepchildFinancialSupport.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    dateOfBirth: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-    isStepchild: PropTypes.string,
-    removalReason: PropTypes.string,
-    stepchildFinancialSupport: PropTypes.string,
-  }),
-  returnToMainPage: PropTypes.func,
-};
+stepchildFinancialSupport.propTypes = propTypes.Page;
+stepchildFinancialSupport.Component.propTypes = propTypes.Component;
 
 export default stepchildFinancialSupport;
