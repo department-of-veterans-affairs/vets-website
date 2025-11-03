@@ -46,7 +46,7 @@ const stepchildLeftHousehold = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          When did
+          When did{' '}
           <span className="dd-privacy-mask" data-dd-action-name="first name">
             {firstName}
           </span>{' '}
