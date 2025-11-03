@@ -1,4 +1,4 @@
-import { isToday, add } from 'date-fns';
+import { add } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { parseDateToDateObj, toUTCStartOfDay } from './dates';
 import { FORMAT_YMD_DATE_FNS } from '../constants';
