@@ -20,7 +20,7 @@ export const options = {
   text: {
     summaryTitle: 'Review VA medical centers',
     alertMaxItems:
-      'You have added the maximum number of allowed VA medical centers for this application. You may edit or delete a name or choose to continue on in the application.',
+      'You have added the maximum number of allowed VA medical centers for this application. You may edit or delete a VA medical center or choose to continue on in the application.',
     getItemName: formData =>
       formData.vaMedicalCenterName || 'VA medical center',
     cardDescription: formData =>
