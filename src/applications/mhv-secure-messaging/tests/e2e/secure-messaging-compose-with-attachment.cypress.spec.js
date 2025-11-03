@@ -85,7 +85,7 @@ describe('verify attach file button behaviour', () => {
     PatientComposePage.attachFewFiles(fileList);
 
     // After 4 files, the FileInput component should not render at all
-    cy.get(Locators.ATTACH_FILE_INPUT).should('not.exist');
+    cy.get('[data-testid^="attach-file-input"]').should('not.exist');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

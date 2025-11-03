@@ -318,7 +318,9 @@ class PatientComposePage {
           .shadow()
           .find('input[type="file"]')
           .then($inputs => {
-            // Cypress sometimes finds multiple inputs, use the first one
+            // Defensive: In rare cases, Cypress may return multiple file inputs due to shadow DOM quirks or component updates.
+            // Typically, VaFileInputMultiple renders a single input; we select the first to ensure robustness.
+            // If multiple inputs are ever observed, investigate the component or selector for changes.
             cy.wrap($inputs[0]).selectFile(filepath, {
               force: true,
             });
@@ -364,9 +366,9 @@ class PatientComposePage {
             );
           })
           .then(() => {
-            // Manually trigger the vaMultipleChange event
+            // Manually trigger the vaMultipleChange event since selectFile bypasses web component events
             const file = new File([content], fileConfig.fileName, {
-              type: fileConfig.mimeType,
+              type: fileConfig.mimeType || 'application/octet-stream',
             });
             const event = new CustomEvent('vaMultipleChange', {
               detail: {

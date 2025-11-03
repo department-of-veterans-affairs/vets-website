@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import PatientErrorPage from './pages/PatientErrorPage';
-import { AXE_CONTEXT, Data, Alerts, Locators } from './utils/constants';
+import { AXE_CONTEXT, Data, Alerts } from './utils/constants';
 
 describe('Verify compose message attachments errors', () => {
   beforeEach(() => {
@@ -61,7 +61,7 @@ describe('Verify compose message attachments errors', () => {
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_IMG);
     PatientComposePage.verifyExpectedAttachmentsCount(4);
 
-    cy.get(Locators.ATTACH_FILE_INPUT).should('not.exist');
+    cy.get('[data-testid^="attach-file-input"]').should('not.exist');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

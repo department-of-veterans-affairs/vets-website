@@ -220,12 +220,17 @@ const FileInput = props => {
 
   const hintText = useMemo(
     () => {
-      const fileTypes = Object.keys(acceptedFileTypesToUse)
-        .map(ext => ext.toUpperCase())
-        .join(', ');
+      const fileTypesList = Object.keys(acceptedFileTypesToUse);
       const maxSize = useLargeAttachments ? '25 MB' : '6 MB';
       const totalSize = useLargeAttachments ? '25 MB' : '10 MB';
-      return `You can upload up to ${totalMaxFileCount} files. Accepted file types: ${fileTypes}. Maximum file size: ${maxSize}. Maximum total size: ${totalSize}.`;
+
+      // If file types list is very long (30+ types), summarize instead of listing all
+      const fileTypesText =
+        fileTypesList.length > 15
+          ? 'common document and image formats'
+          : fileTypesList.map(ext => ext.toUpperCase()).join(', ');
+
+      return `You can upload up to ${totalMaxFileCount} files. Accepted file types: ${fileTypesText}. Maximum file size: ${maxSize}. Maximum total size: ${totalSize}.`;
     },
     [acceptedFileTypesToUse, useLargeAttachments, totalMaxFileCount],
   );

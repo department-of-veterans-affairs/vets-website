@@ -34,7 +34,7 @@ describe(`SM ATTACHMENT WITH VIRUS TESTS`, () => {
         .should(`be.visible`)
         .and(`have.text`, Alerts.VIRUS_ATTCH);
 
-      cy.get(Locators.ATTACH_FILE_INPUT).should(`not.exist`);
+      cy.get('[data-testid^="attach-file-input"]').should(`not.exist`);
       cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT).should('be.focused');
 
       cy.injectAxe();
@@ -80,7 +80,7 @@ describe(`SM ATTACHMENT WITH VIRUS TESTS`, () => {
       cy.get(Locators.ALERTS.ATTCH_VIRUS)
         .should(`be.visible`)
         .and(`have.text`, Alerts.VIRUS_MULTI_ATTCH);
-      cy.get(Locators.ATTACH_FILE_INPUT).should(`not.exist`);
+      cy.get('[data-testid^="attach-file-input"]').should(`not.exist`);
       cy.get(Locators.BUTTONS.REMOVE_ALL_ATTCH).should('be.focused');
 
       cy.injectAxe();

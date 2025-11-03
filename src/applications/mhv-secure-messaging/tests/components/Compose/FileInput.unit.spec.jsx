@@ -10,6 +10,7 @@ describe('File input component', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
   });
+
   afterEach(() => {
     sandbox.restore();
     if (stub) {
@@ -37,10 +38,9 @@ describe('File input component', () => {
 
   const attachments = [];
   it('renders without errors', () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    stubUseFeatureToggles({
       largeAttachmentsEnabled: false,
     });
-    useFeatureTogglesStub;
 
     const { container } = render(<FileInput attachments={attachments} />);
     const main = container.getElementsByClassName('file-input');
@@ -48,10 +48,9 @@ describe('File input component', () => {
   });
 
   it('should contain a file input', () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    stubUseFeatureToggles({
       largeAttachmentsEnabled: false,
     });
-    useFeatureTogglesStub;
 
     const screen = render(<FileInput attachments={attachments} />);
     const attachFileInput = screen.getByTestId('attach-file-input');
@@ -60,10 +59,9 @@ describe('File input component', () => {
   });
 
   it('should allow a file to be attached', async () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    stubUseFeatureToggles({
       largeAttachmentsEnabled: false,
     });
-    useFeatureTogglesStub;
 
     const setAttachments = sinon.spy();
     const setAttachFileSuccess = sinon.spy();
@@ -101,10 +99,9 @@ describe('File input component', () => {
   });
 
   it('should allow multiple files to be attached', async () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    stubUseFeatureToggles({
       largeAttachmentsEnabled: false,
     });
-    useFeatureTogglesStub;
 
     const oneAttachment = { name: 'test1.png', size: 1000, type: 'image/png' };
     const setAttachments = sinon.spy();
@@ -142,10 +139,9 @@ describe('File input component', () => {
   });
 
   it('should not render when 4 files attached', () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    stubUseFeatureToggles({
       largeAttachmentsEnabled: false,
     });
-    useFeatureTogglesStub;
 
     const fourAttachments = [
       { name: 'test1.png', size: 1000, type: 'image/png' },
@@ -161,10 +157,9 @@ describe('File input component', () => {
   });
 
   it('should not render when 10 files attached with largeAttachmentsEnabled feature flag', () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    stubUseFeatureToggles({
       largeAttachmentsEnabled: true,
     });
-    useFeatureTogglesStub;
 
     const tenAttachments = [
       { name: 'test1.png', size: 1000, type: 'image/png' },
@@ -186,10 +181,9 @@ describe('File input component', () => {
   });
 
   it('should render when more than 4 and less than 10 files attached with largeAttachmentsEnabled feature flag', () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    stubUseFeatureToggles({
       largeAttachmentsEnabled: true,
     });
-    useFeatureTogglesStub;
 
     const nineAttachments = [
       { name: 'test1.png', size: 1000, type: 'image/png' },
@@ -209,11 +203,10 @@ describe('File input component', () => {
 
   describe('useLargeAttachments logic', () => {
     it('should use large attachments when cernerPilotSmFeatureFlag=true and isOhTriageGroup=true', () => {
-      const useFeatureTogglesStub = stubUseFeatureToggles({
+      stubUseFeatureToggles({
         largeAttachmentsEnabled: false,
         cernerPilotSmFeatureFlag: true,
       });
-      useFeatureTogglesStub;
 
       const nineAttachments = Array.from({ length: 9 }, (_, i) => ({
         name: `test${i + 1}.png`,
@@ -229,11 +222,10 @@ describe('File input component', () => {
     });
 
     it('should NOT use large attachments when cernerPilotSmFeatureFlag=true but isOhTriageGroup=false', () => {
-      const useFeatureTogglesStub = stubUseFeatureToggles({
+      stubUseFeatureToggles({
         largeAttachmentsEnabled: false,
         cernerPilotSmFeatureFlag: true,
       });
-      useFeatureTogglesStub;
 
       const fourAttachments = Array.from({ length: 4 }, (_, i) => ({
         name: `test${i + 1}.png`,
@@ -251,11 +243,10 @@ describe('File input component', () => {
     });
 
     it('should use large attachments when largeAttachmentsEnabled=true regardless of other flags', () => {
-      const useFeatureTogglesStub = stubUseFeatureToggles({
+      stubUseFeatureToggles({
         largeAttachmentsEnabled: true,
         cernerPilotSmFeatureFlag: false,
       });
-      useFeatureTogglesStub;
 
       const nineAttachments = Array.from({ length: 9 }, (_, i) => ({
         name: `test${i + 1}.png`,
@@ -271,11 +262,10 @@ describe('File input component', () => {
     });
 
     it('should NOT use large attachments when all flags are false', () => {
-      const useFeatureTogglesStub = stubUseFeatureToggles({
+      stubUseFeatureToggles({
         largeAttachmentsEnabled: false,
         cernerPilotSmFeatureFlag: false,
       });
-      useFeatureTogglesStub;
 
       const fourAttachments = Array.from({ length: 4 }, (_, i) => ({
         name: `test${i + 1}.png`,
@@ -306,11 +296,10 @@ describe('File input component', () => {
 
     describe('when isOhTriageGroup is true', () => {
       it('validates file types - should accept extended file types like MP4, BMP, TIFF when cernerPilotSmFeatureFlag is enabled', async () => {
-        const useFeatureTogglesStub = stubUseFeatureToggles({
+        stubUseFeatureToggles({
           largeAttachmentsEnabled: false,
           cernerPilotSmFeatureFlag: true,
         });
-        useFeatureTogglesStub;
 
         const props = {
           attachments: [],
@@ -363,11 +352,10 @@ describe('File input component', () => {
       });
 
       it('validates single file size - should accept files up to 25MB', async () => {
-        const useFeatureTogglesStub = stubUseFeatureToggles({
+        stubUseFeatureToggles({
           largeAttachmentsEnabled: false,
           cernerPilotSmFeatureFlag: true,
         });
-        useFeatureTogglesStub;
 
         const props = {
           attachments: [],
@@ -421,11 +409,10 @@ describe('File input component', () => {
       });
 
       it('validates total file size - should accept total files up to 25MB', async () => {
-        const useFeatureTogglesStub = stubUseFeatureToggles({
+        stubUseFeatureToggles({
           largeAttachmentsEnabled: false,
           cernerPilotSmFeatureFlag: true,
         });
-        useFeatureTogglesStub;
 
         const existingAttachments = [
           { name: 'existing.png', size: 20 * 1024 * 1024, type: 'image/png' },
@@ -485,11 +472,10 @@ describe('File input component', () => {
 
     describe('when isOhTriageGroup is false', () => {
       it('validates file types - should only accept basic file types', async () => {
-        const useFeatureTogglesStub = stubUseFeatureToggles({
+        stubUseFeatureToggles({
           largeAttachmentsEnabled: false,
           cernerPilotSmFeatureFlag: true,
         });
-        useFeatureTogglesStub;
 
         const props = {
           attachments: [],
@@ -543,11 +529,10 @@ describe('File input component', () => {
       });
 
       it('validates single file size - should reject files over 6MB', async () => {
-        const useFeatureTogglesStub = stubUseFeatureToggles({
+        stubUseFeatureToggles({
           largeAttachmentsEnabled: false,
           cernerPilotSmFeatureFlag: true,
         });
-        useFeatureTogglesStub;
 
         const props = {
           attachments: [],
@@ -601,11 +586,10 @@ describe('File input component', () => {
       });
 
       it('validates total file size - should reject when total exceeds 10MB', async () => {
-        const useFeatureTogglesStub = stubUseFeatureToggles({
+        stubUseFeatureToggles({
           largeAttachmentsEnabled: false,
           cernerPilotSmFeatureFlag: true,
         });
-        useFeatureTogglesStub;
 
         const existingAttachments = [
           { name: 'existing.png', size: 8 * 1024 * 1024, type: 'image/png' },
@@ -664,11 +648,10 @@ describe('File input component', () => {
 
     describe('when largeAttachmentsEnabled is true', () => {
       it('validates file types - should accept extended file types for all users', async () => {
-        const useFeatureTogglesStub = stubUseFeatureToggles({
+        stubUseFeatureToggles({
           largeAttachmentsEnabled: true,
           cernerPilotSmFeatureFlag: false,
         });
-        useFeatureTogglesStub;
 
         const props = {
           attachments: [],

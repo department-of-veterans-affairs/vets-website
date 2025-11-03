@@ -322,10 +322,9 @@ describe('Compose form component', () => {
   });
 
   it('renders sending message spinner without errors with largeAttachmentsEnabled feature flag ', async () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    stubUseFeatureToggles({
       largeAttachmentsEnabled: true,
     });
-    useFeatureTogglesStub;
 
     const customDraftMessage = {
       ...draftMessage,
