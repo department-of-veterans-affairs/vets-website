@@ -6,8 +6,9 @@ import {
   SSNField,
 } from '@bio-aquia/shared/components/atoms';
 import { FullnameField } from '@bio-aquia/shared/components/molecules';
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { PageTemplateWithSave } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 import {
   veteranDOBSchema,
@@ -53,7 +54,7 @@ export const VeteranInformationPage = ({
   };
 
   return (
-    <PageTemplate
+    <PageTemplateWithSave
       data={migratedData}
       setFormData={setFormData}
       goForward={goForward}
@@ -63,6 +64,7 @@ export const VeteranInformationPage = ({
       dataProcessor={ensureDateStrings}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+      formConfig={formConfig}
       defaultData={{
         veteranFullName: {
           first: '',
@@ -112,7 +114,7 @@ export const VeteranInformationPage = ({
           />
         </>
       )}
-    </PageTemplate>
+    </PageTemplateWithSave>
   );
 };
 
