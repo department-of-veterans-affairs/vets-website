@@ -186,6 +186,7 @@ const EvidenceSummary = ({
         </va-alert>
 
         <VaModal
+          clickToClose
           status="warning"
           visible={showModal}
           modalTitle={modalTitle}
