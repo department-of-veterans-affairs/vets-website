@@ -64,11 +64,11 @@ const childContent = (
       </li>
       <li>
         <strong>
-          If none of these descriptions fit you but you paid for the
-          beneficiary’s burial or their care during their final illness,
+          If none of these descriptions fit you, but you paid for the
+          beneficiary’s burial or care during their final illness,
         </strong>{' '}
-        you’ll you’ll need to use the PDF version of this form. You’ll and apply
-        as an unpaid creditor.
+        you’ll need to use the PDF version of this form. You’ll apply as an
+        unpaid creditor.
         <br />
         <br />
         <va-link

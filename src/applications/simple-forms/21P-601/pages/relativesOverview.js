@@ -21,7 +21,7 @@ export default {
       'ui:description':
         'Since there are no surviving relatives, you may be eligible for reimbursement of last illness and burial expenses if you paid them.',
       'ui:options': {
-        hideIf: formData => formData.survivors.hasNone !== true,
+        hideIf: formData => formData?.survivors?.hasNone !== true,
       },
     },
   },
