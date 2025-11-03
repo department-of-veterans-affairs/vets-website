@@ -15,8 +15,7 @@ const Description = () => (
 
 const WhatWeConsiderAsset = () => (
   <va-accordion>
-    <va-accordion-item>
-      <span slot="headline">What we consider an asset</span>
+    <va-accordion-item level={4} header="What we consider an asset">
       <div>
         <p>
           Assets include the fair market value of all the real and personal
@@ -46,8 +45,7 @@ const WhatWeConsiderAsset = () => (
       </div>
     </va-accordion-item>
 
-    <va-accordion-item>
-      <span slot="headline">Who we consider a dependent</span>
+    <va-accordion-item level={4} header="Who we consider a dependent">
       <div>
         <p className="vads-u-font-weight--bold">A dependent is:</p>
         <ul>
@@ -81,8 +79,7 @@ const WhatWeConsiderAsset = () => (
       </div>
     </va-accordion-item>
 
-    <va-accordion-item>
-      <span slot="headline">Whose assets you need to report</span>
+    <va-accordion-item level={4} header="Whose assets you need to report">
       <div>
         <p className="vads-u-font-weight--bold">
           If you’re a surviving spouse claimant:
