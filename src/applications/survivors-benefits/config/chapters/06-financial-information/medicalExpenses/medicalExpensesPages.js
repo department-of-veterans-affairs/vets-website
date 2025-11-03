@@ -62,7 +62,7 @@ const options = {
   nounSingular: 'medical expense',
   nounPlural: 'medical expenses',
   required: false,
-  maxItems: 5,
+  maxItems: 6,
   isItemIncomplete: item =>
     !item?.recipient ||
     (['VETERANS_CHILD', 'OTHER'].includes(item?.recipient) &&
