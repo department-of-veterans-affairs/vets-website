@@ -4,7 +4,7 @@
  */
 
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
-import { formConfig } from '@bio-aquia/21-4192-employment-information/config';
+import formConfig from '@bio-aquia/21-4192-employment-information/config/form';
 
 /**
  * Root reducer object for the application
