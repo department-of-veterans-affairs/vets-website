@@ -34,10 +34,9 @@ const childDisabilityExit = {
         <span className="dd-privacy-mask" data-dd-action-name="first name">
           {firstName}
         </span>{' '}
-        is still an eligible dependent.`}
+        is still an eligible dependent.
       </p>
       <p>
-        {' '}
         <span className="dd-privacy-mask" data-dd-action-name="first name">
           {firstName}
         </span>{' '}
