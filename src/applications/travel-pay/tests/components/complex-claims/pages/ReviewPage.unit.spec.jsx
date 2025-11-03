@@ -19,6 +19,7 @@ describe('Travel Pay – ReviewPage', () => {
 
   const defaultClaim = {
     claimId,
+    totalCostRequested: 100.25,
     expenses: [
       {
         id: 'expense1',
@@ -31,11 +32,22 @@ describe('Travel Pay – ReviewPage', () => {
           stateCode: 'CO',
           zipCode: '80202',
         },
+        costRequested: 50.25,
       },
       {
         id: 'expense2',
         expenseType: 'Parking',
         tripType: 'OneWay',
+        costRequested: 50.0,
+        documentId: '9c63737a-f29e-f011-b4cc-001dd806c742',
+      },
+    ],
+    documents: [
+      {
+        documentId: '9c63737a-f29e-f011-b4cc-001dd806c742',
+        filename: 'test.pdf',
+        mimetype: 'application/pdf',
+        createdon: '2025-10-01T18:14:37Z',
       },
     ],
   };
@@ -101,7 +113,7 @@ describe('Travel Pay – ReviewPage', () => {
     },
   });
 
-  it('renders the review page with expenses and alert', async () => {
+  it('renders the review page with expenses, alert, buttons, and summary box', async () => {
     const { getByTestId, getByRole, container } = renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
@@ -127,24 +139,39 @@ describe('Travel Pay – ReviewPage', () => {
       .exist;
 
     // Alert component visible
-    expect($('va-alert')).to.exist;
+    expect(getByTestId('review-page-alert')).to.exist;
 
     // Add more expenses button
-    expect($('#add-expense-button', container)).to.exist;
+    expect(container.querySelector('#add-expense-button')).to.exist;
 
     // Sign agreement button
-    expect($('#sign-agreement-button', container)).to.exist;
+    expect(container.querySelector('#sign-agreement-button')).to.exist;
+
+    // Accordion items
+    const accordionItems = container.querySelectorAll('va-accordion-item');
+    expect(accordionItems.length).to.equal(
+      Object.keys(
+        defaultClaim.expenses.reduce((acc, e) => {
+          acc[e.expenseType] = true;
+          return acc;
+        }, {}),
+      ).length,
+    );
 
     // Wait for expenses to load and render accordion items
     await waitFor(() => {
       expect($('va-accordion-item', container)).to.exist;
     });
 
+    // ExpenseCard should render
+    const expenseCards = container.querySelectorAll('va-card');
+    expect(expenseCards.length).to.equal(defaultClaim.expenses.length);
+
     // SummaryBox should render
-    expect($('va-summary-box', container)).to.exist;
+    expect(container.querySelector('va-summary-box')).to.exist;
   });
 
-  it('calls onNext when Sign Agreement button is clicked', () => {
+  it('calls signAgreement when Sign Agreement button is clicked', () => {
     const { container, getByTestId } = renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
@@ -163,7 +190,7 @@ describe('Travel Pay – ReviewPage', () => {
       },
     );
 
-    const signButton = $('#sign-agreement-button', container);
+    const signButton = container.querySelector('#sign-agreement-button');
     expect(signButton).to.exist;
 
     // Click the Sign Agreement button
@@ -176,7 +203,7 @@ describe('Travel Pay – ReviewPage', () => {
   });
 
   it('hides alert when close button is clicked', () => {
-    const { container } = renderWithStoreAndRouter(
+    const { getByTestId } = renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
       >
@@ -193,7 +220,7 @@ describe('Travel Pay – ReviewPage', () => {
       },
     );
 
-    const alert = $('va-alert', container);
+    const alert = getByTestId('review-page-alert');
     expect(alert).to.exist;
 
     // Trigger the onCloseEvent of the alert
@@ -226,12 +253,52 @@ describe('Travel Pay – ReviewPage', () => {
     await waitFor(() => {
       // Check that each expense type has an accordion item
       const accordionItems = container.querySelectorAll('va-accordion-item');
-      expect(accordionItems.length).to.equal(2);
+      expect(accordionItems.length).to.equal(
+        Object.keys(
+          defaultClaim.expenses.reduce((acc, e) => {
+            acc[e.expenseType] = true;
+            return acc;
+          }, {}),
+        ).length,
+      );
     });
 
     // ExpenseCard rendered
-    const mileageCard = container.querySelector('va-accordion-item div');
-    expect(mileageCard).to.exist;
+    const expenseCards = container.querySelectorAll('va-card');
+    expect(expenseCards.length).to.equal(defaultClaim.expenses.length);
+  });
+
+  it('renders "No expenses have been added to this claim." when there are no expenses', () => {
+    // Override the Redux state to have no expenses
+    const emptyState = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        complexClaim: {
+          ...getData().travelPay.complexClaim,
+          expenses: {
+            ...getData().travelPay.complexClaim.expenses,
+            data: [], // No expenses
+          },
+        },
+      },
+    };
+
+    const { getByText } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={['/file-new-claim/12345/67890/review']}>
+        <ReviewPage />
+      </MemoryRouter>,
+      {
+        initialState: emptyState,
+        reducers: reducer,
+      },
+    );
+
+    // The "no expenses" message should be visible
+    expect(getByText('No expenses have been added to this claim.')).to.exist;
+
+    // The "Add more expenses" button should still exist
+    expect(document.querySelector('#add-expense-button')).to.exist;
   });
 
   it('calls addMoreExpenses when Add More Expenses button is clicked', () => {
@@ -253,7 +320,7 @@ describe('Travel Pay – ReviewPage', () => {
       },
     );
 
-    const addButton = $('#add-expense-button', container);
+    const addButton = container.querySelector('#add-expense-button');
     expect(addButton).to.exist;
 
     // Click the Add more expenses button
@@ -262,6 +329,34 @@ describe('Travel Pay – ReviewPage', () => {
     // Check that the location updated
     expect(getByTestId('location-display').textContent).to.equal(
       `/file-new-claim/${apptId}/${claimId}/choose-expense`,
+    );
+  });
+
+  it('renders "Add another" buttons for non-mileage expense types', () => {
+    const { container, getByTestId } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={['/file-new-claim/12345/45678/review']}>
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>,
+      { initialState: getData(), reducers: reducer },
+    );
+
+    const addParkingBtn = container.querySelector(
+      '#add-parking-expense-button',
+    );
+    expect(addParkingBtn).to.exist;
+
+    // Click the Add another parking expenses button
+    fireEvent.click(addParkingBtn);
+
+    // Check that the location updated
+    expect(getByTestId('location-display').textContent).to.equal(
+      '/file-new-claim/12345/45678/parking',
     );
   });
 });

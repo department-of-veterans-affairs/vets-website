@@ -30,30 +30,37 @@ describe('DisabilityRatingAlert component', () => {
   });
 
   it('renders info alert when rating is 100%', async () => {
-    apiStub = sinon
-      .stub(api, 'apiRequest')
-      // eslint-disable-next-line camelcase
-      .resolves({ user_percent_of_disability: 100 });
+    apiStub = sinon.stub(api, 'apiRequest').resolves({
+      data: {
+        type: 'disability_ratings',
+        attributes: { combinedDisabilityRating: 100 },
+      },
+    });
 
     const { container, getByText } = render(<DisabilityRatingAlert />);
 
     await waitFor(() => {
-      expect(getByText(/This benefit is unlikely to increase your payments/i))
-        .to.exist;
+      expect(
+        getByText(
+          /You’re unlikely to get a higher payment from a Veterans Pension/i,
+        ),
+      ).to.exist;
 
       const link = container.querySelector('va-link');
       expect(link).to.exist;
       expect(link.getAttribute('href')).to.include(
-        'disability/view-disability-rating/rating',
+        'pension/veterans-pension-rates',
       );
     });
   });
 
   it('renders nothing when rating is less than 100%', async () => {
-    apiStub = sinon
-      .stub(api, 'apiRequest')
-      // eslint-disable-next-line camelcase
-      .resolves({ user_percent_of_disability: 70 });
+    apiStub = sinon.stub(api, 'apiRequest').resolves({
+      data: {
+        type: 'disability_ratings',
+        attributes: { combinedDisabilityRating: 70 },
+      },
+    });
 
     const { container } = render(<DisabilityRatingAlert />);
 
@@ -65,11 +72,20 @@ describe('DisabilityRatingAlert component', () => {
   it('renders fallback alert when request fails', async () => {
     apiStub = sinon.stub(api, 'apiRequest').rejects(new Error('Network error'));
 
-    const { getByText } = render(<DisabilityRatingAlert />);
+    const { container, getByText } = render(<DisabilityRatingAlert />);
 
     await waitFor(() => {
-      expect(getByText(/Consider your disability rating before you apply/i)).to
-        .exist;
+      expect(
+        getByText(
+          /A 100% disability rating pays more than a Veterans Pension/i,
+        ),
+      ).to.exist;
     });
+
+    const link = container.querySelector('va-link');
+    expect(link).to.exist;
+    expect(link.getAttribute('href')).to.include(
+      'pension/veterans-pension-rates',
+    );
   });
 });

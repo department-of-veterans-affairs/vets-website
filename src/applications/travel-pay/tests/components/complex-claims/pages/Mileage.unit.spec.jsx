@@ -99,13 +99,11 @@ describe('Complex Claims Mileage', () => {
 
     return renderWithStoreAndRouter(
       <MemoryRouter
-        initialEntries={[
-          `/file-new-claim/complex/${apptId}/mileage/${claimId}`,
-        ]}
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/mileage`]}
       >
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/mileage/:claimId"
+            path="/file-new-claim/:apptId/:claimId/mileage"
             element={<Mileage />}
           />
         </Routes>
