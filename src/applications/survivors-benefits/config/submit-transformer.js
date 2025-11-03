@@ -1,6 +1,7 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { format } from 'date-fns-tz';
 import { durationInDays } from '../utils/helpers';
+import { separationReasonOptions } from '../utils/labels';
 
 function calculateSeparationDuration(formData) {
   const parsedFormData = JSON.parse(formData);
@@ -23,9 +24,10 @@ function calculateSeparationDuration(formData) {
     const additionalItems = [];
 
     if (parsedFormData?.separationDueToAssignedReasons) {
-      additionalItems.push(
-        `Reason: ${parsedFormData.separationDueToAssignedReasons}`,
-      );
+      // Get the display value from the labels object
+      const reasonKey = parsedFormData.separationDueToAssignedReasons;
+      const reasonLabel = separationReasonOptions[reasonKey];
+      additionalItems.push(`Reason: ${reasonLabel}`);
     }
 
     if (parsedFormData?.separationStartDate) {
