@@ -118,25 +118,27 @@ const getAvailableAfterDate = (decisionDate, blockingType) => {
 
 /**
  * Formats an array of issue names into a natural language list
- * Replaces commas within issue names with semicolons if any issue contains a comma
+ * Uses semicolons as separators between issues if any issue name contains a comma
  * @param {string[]} names - Array of issue names
- * @returns {string} Formatted list (e.g., "A", "A and B", "A, B, and C" or "A, B; C, and D")
+ * @returns {string} Formatted list (e.g., "A", "A and B", "A, B, and C" or "A; B, C; D, and E")
  */
 export const formatIssueList = names => {
   if (names.length === 1) return names[0];
 
   const hasCommaInNames = names.some(name => name.includes(','));
-  const processedNames = hasCommaInNames
-    ? names.map(name => name.replace(/,/g, ';'))
-    : names;
+  const separator = hasCommaInNames ? '; ' : ', ';
 
-  const lastItem = processedNames[processedNames.length - 1];
+  const lastItem = names[names.length - 1];
 
-  if (processedNames.length === 2) {
-    return `${processedNames[0]} and ${lastItem}`;
+  if (names.length === 2) {
+    const twoItemSeparator = hasCommaInNames ? '; and ' : ' and ';
+    return `${names[0]}${twoItemSeparator}${lastItem}`;
   }
 
-  return `${processedNames.slice(0, -1).join(', ')}, and ${lastItem}`;
+  const finalSeparator = hasCommaInNames ? '; ' : ', ';
+  return `${names
+    .slice(0, -1)
+    .join(separator)}${finalSeparator}and ${lastItem}`;
 };
 
 /**

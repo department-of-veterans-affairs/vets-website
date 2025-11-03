@@ -26,20 +26,21 @@ describe('formatIssueList', () => {
     expect(result).to.equal('back pain, knee injury, and hearing loss');
   });
 
-  it('should use semicolons when issue names contain commas', () => {
+  it('should use semicolons as separators when issue names contain commas', () => {
     const result = formatIssueList([
       "bell's palsy",
+      'skin cancer, small-cell',
       'tendonitis, left ankle',
-      'tinnitus',
+      'migraines',
     ]);
     expect(result).to.equal(
-      "bell's palsy, tendonitis; left ankle, and tinnitus",
+      "bell's palsy; skin cancer, small-cell; tendonitis, left ankle; and migraines",
     );
   });
 
   it('should use semicolons for two issues when names contain commas', () => {
     const result = formatIssueList(["bell's palsy", 'tendonitis, left ankle']);
-    expect(result).to.equal("bell's palsy and tendonitis; left ankle");
+    expect(result).to.equal("bell's palsy; and tendonitis, left ankle");
   });
 
   it('should use regular commas when no issue names contain commas', () => {
