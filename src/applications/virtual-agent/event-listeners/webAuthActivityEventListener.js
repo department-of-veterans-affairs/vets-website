@@ -3,8 +3,8 @@ import { setLoggedInFlow, getLoggedInFlow } from '../utils/sessionStorage';
 function setIsLoggingIn(isLoggedIn, setIsAuthTopic) {
   if (!isLoggedIn) {
     if (getLoggedInFlow() === 'true') {
-      setLoggedInFlow('false');
       setIsAuthTopic('false');
+      setLoggedInFlow('false');
     }
     setIsAuthTopic(true);
     setTimeout(() => {
