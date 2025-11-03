@@ -166,9 +166,7 @@ export const pharmacyPhoneNumber = prescription => {
 export const getNameDateAndTime = user => {
   const now = new Date();
   const formattedDate = format(now, 'M-d-yyyy_hhmmaaa'); // Note: `aa` gives lowercase am/pm in some locales
-  return `${user.userFullName.first}-${
-    user.userFullName.last
-  }-${formattedDate}`;
+  return `${user.userFullName.first}-${user.userFullName.last}-${formattedDate}`;
 };
 
 /**
@@ -240,7 +238,9 @@ export const makePdf = async (
   try {
     // Use cached module promise if available, otherwise create a new one
     if (!pdfModulePromise) {
-      pdfModulePromise = import('@department-of-veterans-affairs/platform-pdf/exports');
+      pdfModulePromise = import(
+        '@department-of-veterans-affairs/platform-pdf/exports'
+      );
     }
 
     // Wait for the module to load and extract the generatePdf function
@@ -252,7 +252,7 @@ export const makePdf = async (
   } catch (error) {
     // Reset the pdfModulePromise so subsequent calls can try again
     pdfModulePromise = null;
-    datadogRum.addError(error, sentryErrorLabel);
+    datadogRum.addError(error, { feature: sentryErrorLabel });
     sendErrorToSentry(error, sentryErrorLabel);
   }
 };
