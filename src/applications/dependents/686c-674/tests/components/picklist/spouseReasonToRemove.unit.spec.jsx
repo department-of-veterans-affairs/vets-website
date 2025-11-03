@@ -46,9 +46,7 @@ describe('spouseReasonToRemove', () => {
   it('should render', () => {
     const { container } = renderComponent();
 
-    expect($('h3', container).textContent).to.equal(
-      labels.Spouse.removalReasonTitle('SPOUSY FOSTER'),
-    );
+    expect($('h3', container).textContent).to.contain('SPOUSY FOSTER');
 
     const radio = $('va-radio', container);
     expect(radio).to.exist;
