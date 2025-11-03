@@ -1,8 +1,15 @@
 import { expect } from 'chai';
 import { addDays } from 'date-fns';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
-import { fetchPatientRelationships, hasEligibilityError } from '.';
-import { INELIGIBILITY_CODES_VAOS } from '../../utils/constants';
+import {
+  fetchPatientRelationships,
+  hasEligibilityError,
+  typeOfCareRequiresPastHistory,
+} from '.';
+import {
+  INELIGIBILITY_CODES_VAOS,
+  TYPE_OF_CARE_IDS,
+} from '../../utils/constants';
 
 describe('VAOS Services: Patient ', () => {
   describe('fetchPatientRelationships', () => {
@@ -94,6 +101,56 @@ describe('VAOS Services: Patient ', () => {
       for (const [, code] of Object.entries(INELIGIBILITY_CODES_VAOS)) {
         expect(hasEligibilityError(undefined, code)).to.be.false;
       }
+    });
+  });
+  describe('typeOfCareRequiresPastHistory', () => {
+    const {
+      MENTAL_HEALTH_SERVICES_ID,
+      PRIMARY_CARE,
+      MENTAL_HEALTH_SUBSTANCE_USE_ID,
+      FOOD_AND_NUTRITION_ID,
+    } = TYPE_OF_CARE_IDS; // Should always require past history
+    it('Should return true for MH Id when flipper on', () => {
+      const result = typeOfCareRequiresPastHistory(MENTAL_HEALTH_SERVICES_ID, {
+        featurePastVisitMHFilter: true,
+      });
+      expect(result).to.be.true;
+    });
+    it('Should return false for MH Id when flipper off', () => {
+      const result = typeOfCareRequiresPastHistory(MENTAL_HEALTH_SERVICES_ID, {
+        featurePastVisitMHFilter: false,
+      });
+      expect(result).to.be.false;
+    });
+    it('Should return false for PC Id no matter condition of MH flipper', () => {
+      const result =
+        typeOfCareRequiresPastHistory(PRIMARY_CARE, {
+          featurePastVisitMHFilter: false,
+        }) ||
+        typeOfCareRequiresPastHistory(PRIMARY_CARE, {
+          featurePastVisitMHFilter: true,
+        });
+      expect(result).to.be.false;
+    });
+    it('Should return true for SUD Id no matter condition of MH flipper', () => {
+      const result =
+        typeOfCareRequiresPastHistory(MENTAL_HEALTH_SUBSTANCE_USE_ID, {
+          featurePastVisitMHFilter: true,
+        }) ||
+        typeOfCareRequiresPastHistory(MENTAL_HEALTH_SUBSTANCE_USE_ID, {
+          featurePastVisitMHFilter: false,
+        });
+      expect(result).to.be.false;
+    });
+    it('Should return true for non-MH/PC/SUD Ids no matter condition of MH flipper', () => {
+      const result =
+        typeOfCareRequiresPastHistory(FOOD_AND_NUTRITION_ID, {
+          featurePastVisitMHFilter: true,
+        }) &&
+        typeOfCareRequiresPastHistory(FOOD_AND_NUTRITION_ID, {
+          featurePastVisitMHFilter: false,
+        });
+      expect(result).to.be.true;
     });
   });
 });
