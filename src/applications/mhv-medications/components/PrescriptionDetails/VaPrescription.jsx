@@ -24,6 +24,7 @@ import { medStatusDisplayTypes, DATETIME_FORMATS } from '../../util/constants';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
+import SendRxRenewalMessage from '../shared/SendRxRenewalMessage';
 import MedicationDescription from '../shared/MedicationDescription';
 import {
   selectPartialFillContentFlag,
@@ -230,16 +231,24 @@ const VaPrescription = prescription => {
               {showRefillProgressContent && (
                 <>
                   {prescription?.isRefillable ? (
-                    <Link
-                      className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
-                      to="/refill"
-                      data-testid="refill-nav-link"
-                      data-dd-action-name={
-                        dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
+                    <SendRxRenewalMessage
+                      rx={prescription}
+                      isActionLink
+                      fallbackContent={
+                        // eslint-disable-next-line react/jsx-wrap-multilines
+                        <Link
+                          className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
+                          to="/refill"
+                          data-testid="refill-nav-link"
+                          data-dd-action-name={
+                            dataDogActionNames.detailsPage
+                              .FILL_THIS_PRESCRIPTION
+                          }
+                        >
+                          {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
+                        </Link>
                       }
-                    >
-                      {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
-                    </Link>
+                    />
                   ) : (
                     <FillRefillButton {...prescription} />
                   )}
@@ -247,7 +256,11 @@ const VaPrescription = prescription => {
               )}
 
               {prescription && (
-                <ExtraDetails {...prescription} page={pageType.DETAILS} />
+                <ExtraDetails
+                  {...prescription}
+                  page={pageType.DETAILS}
+                  showRenewalLink
+                />
               )}
               {!pendingMed &&
                 !pendingRenewal && (

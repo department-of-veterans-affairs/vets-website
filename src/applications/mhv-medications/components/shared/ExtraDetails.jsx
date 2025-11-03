@@ -5,9 +5,10 @@ import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports
 import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
 import { DATETIME_FORMATS, dispStatusObj } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
+import SendRxRenewalMessage from './SendRxRenewalMessage';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
-const ExtraDetails = rx => {
+const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
   const { dispStatus, refillRemaining } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   let noRefillRemaining = false;
@@ -148,10 +149,17 @@ const ExtraDetails = rx => {
             >
               You have no refills left. If you need more, request a renewal.
             </p>
-            <va-link
-              href="/resources/how-to-renew-a-va-prescription"
-              text="Learn how to renew prescriptions"
-              data-testid="learn-to-renew-prescriptions-link"
+            <SendRxRenewalMessage
+              rx={rx}
+              alwaysShowFallBackContent={showRenewalLink}
+              fallbackContent={
+                // eslint-disable-next-line react/jsx-wrap-multilines
+                <va-link
+                  href="/resources/how-to-renew-a-va-prescription"
+                  text="Learn how to renew prescriptions"
+                  data-testid="learn-to-renew-prescriptions-link"
+                />
+              }
             />
           </div>
         )}
@@ -161,12 +169,14 @@ const ExtraDetails = rx => {
 
 ExtraDetails.propTypes = {
   dispStatus: PropTypes.string,
+  expirationDate: PropTypes.string,
   page: PropTypes.string,
   pharmacyPhoneNumber: PropTypes.string,
   prescriptionId: PropTypes.number,
   refillDate: PropTypes.string,
   refillRemaining: PropTypes.number,
   refillSubmitDate: PropTypes.string,
+  showRenewalLink: PropTypes.bool,
 };
 
 export default ExtraDetails;
