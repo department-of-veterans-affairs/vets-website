@@ -65,7 +65,7 @@ describe('SM INTERSTITIAL PAGE', () => {
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToInterstitialPage();
     GeneralFunctionsPage.verifyPageTitle(
-      'Only use messages for non-urgent needs | Veterans Affairs',
+      'Only Use Messages For Non-Urgent Needs | Veterans Affairs',
     );
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

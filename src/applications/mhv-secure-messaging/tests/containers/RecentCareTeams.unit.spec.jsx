@@ -92,7 +92,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(document.title).to.contain(
-          document.querySelector('h1').textContent,
+          'Recently Messaged Care Teams - Start Message | Veterans Affairs',
         );
       });
 

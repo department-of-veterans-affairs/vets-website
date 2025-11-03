@@ -96,8 +96,7 @@ const RecentCareTeams = () => {
 
   useEffect(
     () => {
-      const headerText = h1Ref.current?.textContent;
-      document.title = `${headerText} ${
+      document.title = `Recently Messaged Care Teams - Start Message ${
         Constants.PageTitles.DEFAULT_PAGE_TITLE_TAG
       }`;
     },

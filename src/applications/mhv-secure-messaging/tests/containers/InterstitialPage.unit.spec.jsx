@@ -56,7 +56,7 @@ describe('Interstitial page header', () => {
 
     await waitFor(() => {
       expect(document.title).to.contain(
-        'Only use messages for non-urgent needs',
+        'Only Use Messages For Non-Urgent Needs | Veterans Affairs',
       );
     });
   });

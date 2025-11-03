@@ -104,7 +104,7 @@ describe('SelectCareTeam', () => {
 
     await waitFor(() => {
       expect(document.title).to.contain(
-        document.querySelector('h1').textContent,
+        'Select Care Team - Start Message | Veterans Affairs',
       );
     });
     const vaRadio = screen.container.querySelector('va-radio');

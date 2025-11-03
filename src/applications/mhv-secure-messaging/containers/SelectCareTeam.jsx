@@ -143,8 +143,9 @@ const SelectCareTeam = () => {
 
   useEffect(
     () => {
-      const headerText = h1Ref.current?.textContent;
-      document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+      document.title = `Select Care Team - Start Message${
+        PageTitles.DEFAULT_PAGE_TITLE_TAG
+      }`;
     },
     [allowedRecipients],
   );

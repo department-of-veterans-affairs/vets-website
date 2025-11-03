@@ -26,13 +26,9 @@ const InterstitialPage = props => {
     focusElement(document.querySelector('h1'));
   }, []);
 
-  const headerText = h1Ref.current?.textContent;
-  useEffect(
-    () => {
-      document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
-    },
-    [headerText],
-  );
+  document.title = `Only Use Messages For Non-Urgent Needs${
+    PageTitles.DEFAULT_PAGE_TITLE_TAG
+  }`;
 
   const handleContinueButton = useCallback(
     () => {
