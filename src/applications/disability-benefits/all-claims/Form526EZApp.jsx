@@ -292,7 +292,12 @@ export const Form526Entry = ({
     ? ''
     : 'vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-justify-content--space-between';
 
-  if (form?.data?.disability526SidenavEnabled) {
+  // temorarily disabling when working with disabilityCompNewConditionsWorkflow enabled.
+  // Investigation ticket has been opened to troubleshoot compatibility with other wip feature
+  if (
+    form?.data?.disability526SidenavEnabled &&
+    !form?.data?.disabilityCompNewConditionsWorkflow
+  ) {
     return (
       <article
         className="vads-grid-container"
