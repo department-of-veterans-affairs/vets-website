@@ -8,10 +8,8 @@ import { goToNextPage, selectYesNoWebComponent } from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 import {
   advanceToHouseholdSection,
-  fillSpousePersonalInformation,
   fillSpouseContactInformation,
-  fillSpouseFinancialSupport,
-  fillSpouseAdditionalInformation,
+  fillSpousePersonalInformation,
 } from './helpers/household';
 
 const { data: testData } = maxTestData;
@@ -102,7 +100,11 @@ describe('EZR V2 spouse information flow', () => {
       );
 
       // Fill spouse additional information.
-      fillSpouseAdditionalInformation(testData);
+      cy.selectYesNoVaRadioOption(
+        'root_cohabitedLastYear',
+        testData.cohabitedLastYear,
+      );
+      cy.selectYesNoVaRadioOption('root_sameAddress', testData.sameAddress);
 
       // Axe check.
       cy.injectAxeThenAxeCheck();
@@ -113,7 +115,10 @@ describe('EZR V2 spouse information flow', () => {
       );
 
       // Fill spouse financial support.
-      fillSpouseFinancialSupport(testData?.provideSupportLastYear);
+      cy.selectYesNoVaRadioOption(
+        'root_provideSupportLastYear',
+        testData?.provideSupportLastYear,
+      );
 
       // Axe check.
       cy.injectAxeThenAxeCheck();
