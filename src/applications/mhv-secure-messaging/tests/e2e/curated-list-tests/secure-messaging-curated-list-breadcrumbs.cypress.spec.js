@@ -313,11 +313,10 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
         `${Paths.UI_MAIN}${Paths.COMPOSE}`,
       );
 
-      // Wait for recent recipients to load
-      cy.wait('@recentRecipients');
-
       // Forward: Interstitial → Recent care teams
       PatientInterstitialPage.getStartMessageLink().click();
+      // Wait for recent recipients to load – search doesn't load until button is clicked
+      cy.wait('@recentRecipients');
       GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
       cy.location('pathname').should(
         'equal',
