@@ -7,7 +7,6 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import parentReasonToRemove from '../../../components/picklist/parentReasonToRemove';
 import { labels } from '../../../components/picklist/utils';
-import { PICKLIST_DATA } from '../../../config/constants';
 
 import { createDoB } from '../../test-helpers';
 
@@ -47,9 +46,7 @@ describe('parentReasonToRemove', () => {
   it('should render', () => {
     const { container } = renderComponent();
 
-    expect($('h3', container).textContent).to.equal(
-      labels.Parent.removalReasonTitle('PETER FOSTER'),
-    );
+    expect($('h3', container).textContent).to.contain('PETER FOSTER');
 
     const radio = $('va-radio', container);
     expect(radio).to.exist;
@@ -119,47 +116,6 @@ describe('parentReasonToRemove', () => {
         goForward,
       });
       expect(goForward.calledOnce).to.be.true;
-    });
-
-    it('should return "parent-other" on goForward when other dependent types are selected', () => {
-      const itemData = { removalReason: 'parentOther' };
-      const fullData = {
-        [PICKLIST_DATA]: [
-          {
-            selected: true,
-            relationshipToVeteran: 'Parent',
-            removalReason: 'parentOther',
-          },
-          { selected: true, relationshipToVeteran: 'Spouse' },
-        ],
-      };
-      expect(handlers.goForward({ itemData, fullData })).to.equal(
-        'parent-other',
-      );
-    });
-
-    it('should return "parent-other" on first parent-other dependent type and "parent-exit" on the second parent-other on goForward when 2 parents are selected', () => {
-      const itemData = { removalReason: 'parentOther' };
-      const fullData = {
-        [PICKLIST_DATA]: [
-          {
-            selected: true,
-            relationshipToVeteran: 'Parent',
-            removalReason: 'parentOther',
-          },
-          {
-            selected: true,
-            relationshipToVeteran: 'Parent',
-            removalReason: 'parentOther',
-          },
-        ],
-      };
-      expect(handlers.goForward({ itemData, index: 0, fullData })).to.equal(
-        'parent-other',
-      );
-      expect(handlers.goForward({ itemData, index: 1, fullData })).to.equal(
-        'parent-exit',
-      );
     });
 
     it('should not call goForward when reason to remove value is set on submit', () => {

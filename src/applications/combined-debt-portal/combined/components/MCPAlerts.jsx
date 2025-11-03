@@ -67,7 +67,7 @@ Alert.PastDueOTPP = ({ copay, history }) => {
           recordEvent({ event: 'cta-link-click-copay-past-due-alert' });
           history.push(`/copay-balances/${copay.id}/resolve`);
         }}
-        text="Pay your balance, request financial help, or dispute this bill"
+        text="Resolve this bill"
         type="primary"
       />
     </va-alert>
@@ -222,7 +222,7 @@ Alert.StatusOTPP = ({ copay, history }) => (
         recordEvent({ event: 'cta-link-click-copay-status-alert' });
         history.push(`/copay-balances/${copay.id}/resolve`);
       }}
-      text="Pay your balance, request financial help, or dispute this bill"
+      text="Resolve this bill"
       type="primary"
     />
   </va-alert>

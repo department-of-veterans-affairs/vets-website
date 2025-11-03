@@ -31,7 +31,11 @@ const childMarried = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          {`${isEditing ? 'Edit when' : 'When'} did ${firstName} get married?`}
+          {isEditing ? 'Edit when' : 'When'} did{' '}
+          <span className="dd-privacy-mask" data-dd-action-name="first name">
+            {firstName}
+          </span>{' '}
+          get married?
         </h3>
 
         <VaMemorableDate
