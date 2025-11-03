@@ -62,9 +62,9 @@ export default function useClinicFormState(pageTitle) {
       featurePastVisitMHFilter,
     ) &&
     (removeFacilityConfigCheck
-      ? eligibility.direct
+      ? !eligibility.direct
       : location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
-          ?.patientHistoryRequired === true);
+          ?.patientHistoryRequired === true); // this is a facility level condition
 
   if (isCheckTypeOfCare) {
     const pastAppointmentDateMap = new Map();

@@ -193,22 +193,28 @@ function locationSupportsRequests(location, typeOfCare) {
   );
 }
 
-function hasMatchingClinics(clinics, pastAppointments) {
+function hasMatchingClinics(
+  clinics,
+  pastAppointments,
+  requiresPastHistory = true,
+) {
   return clinics?.some(
     clinic =>
       !!pastAppointments.find(appt => {
         const clinicIds = clinic.id.split('_');
         if (appt.version === 2) {
           return (
-            // these two conditions check if there is past Hx -- this function should only be executed if the type of care requires this check
-            clinic.stationId === appt.location.stationId &&
-            clinicIds[1] === appt.location.clinicId &&
+            // these two conditions check if there is past Hx -- unless not required
+            (!requiresPastHistory ||
+              (clinic.stationId === appt.location.stationId &&
+                clinicIds[1] === appt.location.clinicId)) &&
             // condition checks if clinic allows direct scheduling
             clinic.patientDirectScheduling === true
           );
         }
         return (
-          clinicIds[0] === appt.facilityId && clinicIds[1] === appt.clinicId
+          !requiresPastHistory ||
+          (clinicIds[0] === appt.facilityId && clinicIds[1] === appt.clinicId)
         );
       }),
   );
@@ -458,7 +464,11 @@ export async function fetchFlowEligibilityAndClinics({
       typeOfCareRequiresCheck &&
       (keepFacilityConfigCheck &&
         directTypeOfCareSettings.patientHistoryRequired) &&
-      !hasMatchingClinics(results.clinics, results.pastAppointments)
+      !hasMatchingClinics(
+        results.clinics,
+        results.pastAppointments,
+        typeOfCareRequiresCheck,
+      )
     ) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);
