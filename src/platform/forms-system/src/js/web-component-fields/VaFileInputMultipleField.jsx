@@ -164,20 +164,24 @@ const VaFileInputMultipleField = props => {
 
     const { name, size, type } = file;
 
-    const existingAtIndex = childrenProps.formData?.[index];
-
     const newFile = {
       ...rest,
       name,
       size,
       type,
-      ...(existingAtIndex?.additionalData
-        ? { additionalData: existingAtIndex.additionalData }
-        : {}),
     };
 
-    const files = [...(childrenProps.formData || [])];
-    files[index] = newFile;
+    const encryptedFile = childrenProps.formData[index];
+    // check to see if we are adding an encrypted pdf
+    // where the additional info was added before the password
+    let files;
+    if (encryptedFile?.additionalData) {
+      newFile.additionalData = encryptedFile.additionalData;
+      files = [...childrenProps.formData];
+      files[index] = newFile;
+    } else {
+      files = [...childrenProps.formData, newFile];
+    }
     childrenProps.onChange(files);
   };
 
@@ -283,7 +287,6 @@ const VaFileInputMultipleField = props => {
 
   const handleChange = e => {
     const { detail } = e;
-    // debugger
     const { action, state, file, mockFormData } = detail;
     const findFileIndex = (_state, _file) => {
       return _state.findIndex(
@@ -293,7 +296,6 @@ const VaFileInputMultipleField = props => {
     const _file = state.at(-1);
     switch (action) {
       case 'FILE_ADDED': {
-        // debugger
         const _currentIndex = state.length - 1;
         errorManager.setInternalFileInputErrors(_currentIndex, false);
         handleFileAdded(_file, _currentIndex, mockFormData);
@@ -301,7 +303,6 @@ const VaFileInputMultipleField = props => {
         break;
       }
       case 'FILE_UPDATED': {
-        // debugger
         const index = findFileIndex(state, file);
         handleFileAdded(_file, index);
         setCurrentIndex(index);
@@ -315,7 +316,6 @@ const VaFileInputMultipleField = props => {
         break;
       }
       case 'FILE_REMOVED':
-        // debugger
         handleFileRemoved(file);
         break;
       default:
