@@ -4,13 +4,10 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
   arrayBuilderItemFirstPageTitleUI,
-  arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   addressNoMilitaryUI,
   addressNoMilitarySchema,
-  yesNoUI,
-  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
@@ -49,20 +46,6 @@ const options = {
 
       return parts.join(' • ');
     },
-  },
-};
-
-/** @returns {PageSchema} */
-const introPage = {
-  uiSchema: {
-    ...titleUI(
-      'Employment application records',
-      `Can enter up to ${options.maxItems} employment application records`,
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {},
   },
 };
 
@@ -130,12 +113,6 @@ const employmentInformationPage = {
 };
 
 export default arrayBuilderPages(options, pageBuilder => ({
- /* employmentHistoryIntro: pageBuilder.introPage({
-    title: 'Employment application records',
-    path: 'employment-application-statement',
-    uiSchema: introPage.uiSchema,
-    schema: introPage.schema,
-  }),*/
   employmentHistorySummary: pageBuilder.summaryPage({
     title: 'Review your employment application records',
     path: 'employment-application-records-summary',

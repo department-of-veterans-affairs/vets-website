@@ -59,6 +59,43 @@ const normalizeCountry = country => {
   return upper.length === 2 ? upper : upper.slice(0, 2);
 };
 
+const pruneEmpty = value => {
+  if (Array.isArray(value)) {
+    const prunedArray = value.map(item => pruneEmpty(item)).filter(item => {
+      if (item == null) {
+        return false;
+      }
+      if (Array.isArray(item)) {
+        return item.length > 0;
+      }
+      if (typeof item === 'object') {
+        return Object.keys(item).length > 0;
+      }
+      return true;
+    });
+
+    return prunedArray.length ? prunedArray : undefined;
+  }
+
+  if (value && typeof value === 'object') {
+    const prunedObject = Object.entries(value).reduce((acc, [key, val]) => {
+      const pruned = pruneEmpty(val);
+      if (pruned !== undefined) {
+        acc[key] = pruned;
+      }
+      return acc;
+    }, {});
+
+    return Object.keys(prunedObject).length ? prunedObject : undefined;
+  }
+
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+
+  return value;
+};
+
 const buildAddress = address => {
   if (!address || typeof address !== 'object') {
     return undefined;
@@ -186,8 +223,7 @@ const normalizeYear = value => {
   return Number.isNaN(truncated) ? undefined : truncated;
 };
 
-const toBoolean = value =>
-  typeof value === 'boolean' ? value : undefined;
+const toBoolean = value => (typeof value === 'boolean' ? value : undefined);
 
 const ensureDateRange = (value, startKey = 'from', endKey = 'to') => {
   if (!value || typeof value !== 'object') {
@@ -257,56 +293,23 @@ const buildDelimitedList = (items, formatter, maxLength) => {
   return maxLength ? truncateString(combined, maxLength) : combined;
 };
 
-const pruneEmpty = value => {
-  if (Array.isArray(value)) {
-    const prunedArray = value
-      .map(item => pruneEmpty(item))
-      .filter(item => {
-        if (item == null) {
-          return false;
-        }
-        if (Array.isArray(item)) {
-          return item.length > 0;
-        }
-        if (typeof item === 'object') {
-          return Object.keys(item).length > 0;
-        }
-        return true;
-      });
-
-    return prunedArray.length ? prunedArray : undefined;
-  }
-
-  if (value && typeof value === 'object') {
-    const prunedObject = Object.entries(value).reduce((acc, [key, val]) => {
-      const pruned = pruneEmpty(val);
-      if (pruned !== undefined) {
-        acc[key] = pruned;
-      }
-      return acc;
-    }, {});
-
-    return Object.keys(prunedObject).length ? prunedObject : undefined;
-  }
-
-  if (value === undefined || value === null) {
-    return undefined;
-  }
-
-  return value;
-};
-
 const buildVeteranFullName = fullName => {
   if (!fullName || typeof fullName !== 'object') {
     return undefined;
   }
 
-  const first = truncateString(stringOrUndefined(fullName.first), MAX_LENGTHS.firstName);
+  const first = truncateString(
+    stringOrUndefined(fullName.first),
+    MAX_LENGTHS.firstName,
+  );
   const middle = stringOrUndefined(fullName.middle);
   const middleInitial = middle
     ? truncateString(middle.charAt(0).toUpperCase(), MAX_LENGTHS.middleInitial)
     : undefined;
-  const last = truncateString(stringOrUndefined(fullName.last), MAX_LENGTHS.lastName);
+  const last = truncateString(
+    stringOrUndefined(fullName.last),
+    MAX_LENGTHS.lastName,
+  );
 
   return pruneEmpty({
     first,
@@ -347,7 +350,10 @@ const mapAppliedEmployers = (primary, fallback) => {
       );
 
       return pruneEmpty({
-        nameAndAddress: truncateString(nameAndAddress, MAX_LENGTHS.previousEmployerNameAddress),
+        nameAndAddress: truncateString(
+          nameAndAddress,
+          MAX_LENGTHS.previousEmployerNameAddress,
+        ),
         typeOfWork: truncateString(
           stringOrUndefined(item?.typeOfWork),
           MAX_LENGTHS.appliedEmployerType,
@@ -367,10 +373,15 @@ const COLLEGE_LEVEL_MAP = {
 
 const mapEducation = data => {
   const level = stringOrUndefined(data?.educationLevel);
-  const gradeSchool = level === 'gradeSchool' ? toInteger(data?.gradeSchool) : undefined;
-  const highSchool = level === 'highSchool' ? toInteger(data?.highSchool) : undefined;
-  const collegeKey = level === 'college' ? stringOrUndefined(data?.college) : undefined;
-  const college = collegeKey ? COLLEGE_LEVEL_MAP[collegeKey.toLowerCase()] : undefined;
+  const gradeSchool =
+    level === 'gradeSchool' ? toInteger(data?.gradeSchool) : undefined;
+  const highSchool =
+    level === 'highSchool' ? toInteger(data?.highSchool) : undefined;
+  const collegeKey =
+    level === 'college' ? stringOrUndefined(data?.college) : undefined;
+  const college = collegeKey
+    ? COLLEGE_LEVEL_MAP[collegeKey.toLowerCase()]
+    : undefined;
 
   return pruneEmpty({
     gradeSchool,
@@ -418,7 +429,10 @@ const buildSubmissionPayload = data => {
   );
 
   const education = mapEducation(data);
-  const preTraining = buildTrainingSection(data?.educationBeforeDisability, 'dateOfTraining');
+  const preTraining = buildTrainingSection(
+    data?.educationBeforeDisability,
+    'dateOfTraining',
+  );
   const postTraining = buildTrainingSection(
     data?.educationAfterDisability,
     'datesOfTraining',
@@ -436,7 +450,11 @@ const buildSubmissionPayload = data => {
     MAX_LENGTHS.hospitalAddresses,
   );
 
-  const doctorTreatmentRange = aggregateDateRanges(doctorDates, 'startDate', 'endDate');
+  const doctorTreatmentRange = aggregateDateRanges(
+    doctorDates,
+    'startDate',
+    'endDate',
+  );
   const hospitalTreatmentRange = aggregateDateRanges(
     hospitalDates,
     'startDate',
@@ -471,9 +489,7 @@ const buildSubmissionPayload = data => {
     email: stringOrUndefined(veteran.email),
     veteranPhone: stringOrUndefined(veteran.homePhone),
     internationalPhone: stringOrUndefined(veteran.internationalPhone),
-    listOfDisabilities: formatDisabilitiesList(
-      data?.disabilityDescription,
-    ),
+    listOfDisabilities: formatDisabilitiesList(data?.disabilityDescription),
     doctorsCareInLastYTD:
       doctorCareAnswer !== undefined
         ? doctorCareAnswer
@@ -533,7 +549,7 @@ export default function transformForSubmit(formConfig, form) {
   return JSON.stringify({
     formNumber,
     increase_compensation_claim: {
-        form: stringifiedPayload,
-    }
+      form: stringifiedPayload,
+    },
   });
 }

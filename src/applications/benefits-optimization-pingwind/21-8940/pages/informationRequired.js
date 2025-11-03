@@ -31,7 +31,13 @@ export default {
           class="vads-u-margin-bottom--2"
         >
           <h2 slot="headline">IMPORTANT</h2>
-          <p>This is a claim for compensation benefits based on unemployability. When you complete this form you are claiming total disability because of a service-connected disability(ies) which has/have prevented you from securing or following any substantially gainful occupation. Answer all questions fully and accurately.</p>
+          <p>
+            This is a claim for compensation benefits based on unemployability.
+            When you complete this form you are claiming total disability
+            because of a service-connected disability(ies) which has/have
+            prevented you from securing or following any substantially gainful
+            occupation. Answer all questions fully and accurately.
+          </p>
         </VaSummaryBox>
       ),
     },
@@ -54,7 +60,23 @@ export default {
           class="vads-u-margin-bottom--2 vads-u-margin-top--4"
         >
           <h2 slot="headline">Your rights and responsibilities</h2>
-          <p>Individuals who have a disability and meet medical criteria may qualify for Social Security or Supplemental Security Income disability benefits. If you would like more information about Social Security benefits, contact your nearest Social Security Administration (SSA) office. You can locate the address of the nearest SSA office at <a href="https://www.ssa.gov/locator" target='_blank'>SSA.gov | Social Security Office locator</a> or call 1-800-772-1213 (Hearing Impaired TDD line 1-800-325-0778). You may also contact SSA by Internet at <a href="https://www.ssa.gov/" target='_blank'>SSA.gov</a>.</p>
+          <p>
+            Individuals who have a disability and meet medical criteria may
+            qualify for Social Security or Supplemental Security Income
+            disability benefits. If you would like more information about Social
+            Security benefits, contact your nearest Social Security
+            Administration (SSA) office. You can locate the address of the
+            nearest SSA office at{' '}
+            <a href="https://www.ssa.gov/locator" target="_blank" rel="noreferrer">
+              SSA.gov | Social Security Office locator
+            </a>{' '}
+            or call 1-800-772-1213 (Hearing Impaired TDD line 1-800-325-0778).
+            You may also contact SSA by Internet at{' '}
+            <a href="https://www.ssa.gov/" target="_blank" rel="noreferrer">
+              SSA.gov
+            </a>
+            .
+          </p>
         </VaSummaryBox>
       ),
     },
@@ -70,10 +92,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: [
-      fieldNames.fairInformationPractices,
-      fieldNames.privacyAct,
-    ],
+    required: [fieldNames.fairInformationPractices, fieldNames.privacyAct],
     properties: {
       'view:fairInformationSummary': {
         type: 'object',

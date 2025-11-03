@@ -49,7 +49,8 @@ export default {
         }),
         connectedDisabilities: {
           'ui:title': 'Connected disabilities',
-          'ui:description': 'Enter disabilities separated by commas (e.g., PTSD, Hearing Loss, Back Pain)',
+          'ui:description':
+            'Enter disabilities separated by commas (e.g., PTSD, Hearing Loss, Back Pain)',
         },
       },
     },

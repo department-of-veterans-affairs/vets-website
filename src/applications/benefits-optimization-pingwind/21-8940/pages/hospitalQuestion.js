@@ -36,7 +36,8 @@ export default {
         'ui:description': () => (
           <div>
             <p>
-              <strong>Important:</strong> You must authorize the release of non-VA medical information to VA using these forms:
+              <strong>Important:</strong> You must authorize the release of
+              non-VA medical information to VA using these forms:
             </p>
             <ul>
               <li>
@@ -53,13 +54,14 @@ export default {
               </li>
             </ul>
             <p>
-              These forms allow VA to request your medical records from non-VA healthcare providers.
+              These forms allow VA to request your medical records from non-VA
+              healthcare providers.
             </p>
           </div>
         ),
         'ui:options': {
           expandUnder: 'view:treatmentAtNonVA',
-          expandUnderCondition: (val) => val === 'va' || val === 'both',
+          expandUnderCondition: val => val === 'va' || val === 'both',
         },
       },
 
@@ -80,7 +82,7 @@ export default {
           'view:treatmentAtNonVA': radioSchema(['nonVa', 'va', 'both']),
           'view:nonVAAuthorizationInfo': {
             type: 'object',
-            properties: {}
+            properties: {},
           },
         },
       },

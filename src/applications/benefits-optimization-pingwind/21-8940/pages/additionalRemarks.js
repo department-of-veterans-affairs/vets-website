@@ -5,8 +5,8 @@ const additionalRemarksDescription = <h3>Additional information</h3>;
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': "Additional Information",
-    'ui:description': "Anything else we should know?",
+    'ui:title': 'Additional Information',
+    'ui:description': 'Anything else we should know?',
     additionalRemarks: {
       'ui:title':
         'Enter additional information you may want to share (optional)',

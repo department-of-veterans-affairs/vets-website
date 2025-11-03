@@ -1,6 +1,4 @@
 import {
-  radioUI,
-  radioSchema,
   textUI,
   yesNoUI,
   yesNoSchema,
@@ -40,8 +38,6 @@ export default {
         customTitle: 'Education before disability',
         useDlWrap: true,
         keepInPageOnReview: true,
-        /*showSave: true,
-        reviewMode: true,*/
         doNotScroll: true,
         confirmRemove: true,
         confirmRemoveDescription:

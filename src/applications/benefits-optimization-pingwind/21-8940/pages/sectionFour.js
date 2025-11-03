@@ -1,16 +1,7 @@
 import {
   radioUI,
   radioSchema,
-  yesNoUI,
-  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-import {
-  currentOrPastDateRangeUI,
-  currentOrPastDateRangeSchema,
-} from 'platform/forms-system/src/js/web-component-patterns/datePatterns';
-
-import { EducationView } from '../components/viewElements';
 
 /** @type {PageSchema} */
 export default {

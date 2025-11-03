@@ -3,8 +3,6 @@ import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import {
   titleUI,
   textUI,
-  currentOrPastDateRangeUI,
-  currentOrPastDateRangeSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   arrayBuilderItemFirstPageTitleUI,
@@ -63,7 +61,8 @@ const introPage = {
 const summaryPage = {
   uiSchema: {
     'view:hasMedicalTreatmentRecords': arrayBuilderYesNoUI(options, {
-      title: 'Have you been under a doctor\'s care and/or hospitalized within the past 12 months?',
+      title:
+        "Have you been under a doctor's care and/or hospitalized within the past 12 months?",
     }),
     'view:treatmentAtNonVA': yesNoUI({
       title: 'Were you treated at a Non-VA hospital or VA hospital?',
@@ -79,7 +78,8 @@ const summaryPage = {
       'ui:description': () => (
         <div>
           <p>
-            <strong>Important:</strong> You must authorize the release of non-VA medical information to VA using these forms:
+            <strong>Important:</strong> You must authorize the release of non-VA
+            medical information to VA using these forms:
           </p>
           <ul>
             <li>
@@ -96,7 +96,8 @@ const summaryPage = {
             </li>
           </ul>
           <p>
-            These forms allow VA to request your medical records from non-VA healthcare providers.
+            These forms allow VA to request your medical records from non-VA
+            healthcare providers.
           </p>
         </div>
       ),
@@ -199,7 +200,7 @@ const treatmentDatesPage = {
           'medical provider'}`,
     ),
 
-  /*  ...textUI(
+    /*  ...textUI(
       'Please provide information about the hospital where you were treated. If you were not treated you do not need to add a date range. Maybe add up to two treatment dates, any additional dates should be added in Section 5 - Remarks under additional information',
     ),*/
     treatmentDates: {
@@ -260,7 +261,7 @@ const hospitalizationDatesPage = {
           formData[medicalTreatmentRecordsFields.hospitalName] ||
           'medical provider'}`,
     ),
-   /* ...textUI(
+    /* ...textUI(
       'Please provide dates for your hospitalization. If you were not hospitalized then you do not need to add a date range. May add up to two treatment dates, any additional dates should be added in Section 5 - Remarks under additional information',
     ),*/
     hospitalizationDates: {

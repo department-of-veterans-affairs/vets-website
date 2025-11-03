@@ -9,8 +9,9 @@ import { veteranFields } from '../definitions/constants';
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
-      ...inlineTitleUI("How can we reach you?",
-        'We need to collect some basic information about you first. '
+      ...inlineTitleUI(
+        'How can we reach you?',
+        'We need to collect some basic information about you first. ',
       ),
       [veteranFields.address]: addressUI({
         labels: {

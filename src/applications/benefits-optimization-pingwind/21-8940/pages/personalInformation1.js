@@ -12,7 +12,9 @@ import { getFullNameLabels } from '../helpers';
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
-      ...inlineTitleUI('We\'ll start by confirming your identity and how to reach you.'),
+      ...inlineTitleUI(
+        "We'll start by confirming your identity and how to reach you.",
+      ),
       [veteranFields.fullName]: fullNameUI(label =>
         getFullNameLabels(label, false),
       ),

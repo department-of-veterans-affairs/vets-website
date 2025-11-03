@@ -4,16 +4,11 @@ import {
   yesNoUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-
-const requireYesConfirmation = (errors, fieldData) => {
-  if (fieldData !== true) {
-    errors.addError('You must make a selection. This field is required.');
-  }
-};
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': "Let's confirm VA Form 21-8940 is the right form for your needs",
+    'ui:title':
+      "Let's confirm VA Form 21-8940 is the right form for your needs",
     confirmationQuestion: {
       ...yesNoUI({
         title:
@@ -47,7 +42,9 @@ export default {
       'ui:validations': [
         (errors, fieldData) => {
           if (fieldData === false) {
-            errors.addError('You must select "Yes" to continue with this form.');
+            errors.addError(
+              'You must select "Yes" to continue with this form.',
+            );
           }
         },
       ],
@@ -80,7 +77,8 @@ export default {
         <va-alert status="warning" uswds>
           <h3 slot="headline">Seems like you need a different form.</h3>
           <p>
-            Let's get you to the right place! Visit our forms page to find the right one for your needs. Remember, you can always get help from a{' '}
+            Let's get you to the right place! Visit our forms page to find the
+            right one for your needs. Remember, you can always get help from a{' '}
             <va-link
               href="/disability/get-help-filing-claim/"
               text="Veteran Service Organization"
@@ -109,11 +107,11 @@ export default {
       newConditionQuestion: yesNoSchema,
       'view:yesNotification': {
         type: 'object',
-        properties: {}
+        properties: {},
       },
       'view:noNotification': {
         type: 'object',
-        properties: {}
+        properties: {},
       },
     },
     required: ['confirmationQuestion'],

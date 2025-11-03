@@ -12,11 +12,8 @@ export const DisabilityView = ({ formData }) => {
 };
 
 export const DateRangeView = ({ formData }) => {
-  /* const dateLabel = formData.startDate ? `Date range starting ${formData.startDate}` : 'Date range';*/
-
   return (
     <div className="vads-u-padding--2">
-      {/*<strong>{dateLabel}</strong>*/}
       <p>
         Duration: {formData.startDate || 'Not provided'} &mdash;{' '}
         {formData.endDate || 'Not provided'}

@@ -10,7 +10,10 @@ import { doctorCareQuestionFields } from '../definitions/constants';
 export default {
   uiSchema: {
     [doctorCareQuestionFields.parentObject]: {
-      ...inlineTitleUI('Recent Medical Care', "Tell us more about the doctors treating you and when."),
+      ...inlineTitleUI(
+        'Recent Medical Care',
+        'Tell us more about the doctors treating you and when.',
+      ),
       [doctorCareQuestionFields.hasReceivedDoctorCare]: yesNoUI({
         title: "Have you been under a doctor's care for the past 12 months?",
         labels: {

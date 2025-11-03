@@ -1,8 +1,6 @@
 import {
   textUI,
   textSchema,
-  yesNoUI,
-  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import SafeArrayField from '../components/SafeArrayField';
 import { DisabilityView } from '../components/viewElements';
@@ -11,8 +9,7 @@ import { DisabilityView } from '../components/viewElements';
 export default {
   uiSchema: {
     'ui:title': 'Service-connected Disabilities',
-    'ui:description':
-      'Tell us about your service-connected disabilities.',
+    'ui:description': 'Tell us about your service-connected disabilities.',
 
     disabilityDescription: {
       'ui:field': SafeArrayField,

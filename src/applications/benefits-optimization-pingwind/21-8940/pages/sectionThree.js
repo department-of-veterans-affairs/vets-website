@@ -11,9 +11,7 @@ export default {
     'ui:description': ' When did your disability affect your work? ',
 
     disabilityDate: wrapDateUiWithDl(
-      currentOrPastDateUI(
-        'Date your disability affected full-time employment',
-      ),
+      currentOrPastDateUI('Date your disability affected full-time employment'),
     ),
 
     lastWorkedDate: wrapDateUiWithDl(
@@ -30,10 +28,6 @@ export default {
       lastWorkedDate: currentOrPastDateSchema,
       disabledWorkDate: currentOrPastDateSchema,
     },
-    required: [
-      'disabilityDate',
-      'lastWorkedDate',
-      'disabledWorkDate',
-    ],
+    required: ['disabilityDate', 'lastWorkedDate', 'disabledWorkDate'],
   },
 };

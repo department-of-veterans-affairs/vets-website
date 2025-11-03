@@ -1,4 +1,7 @@
-import { yesNoUI, yesNoSchema } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {

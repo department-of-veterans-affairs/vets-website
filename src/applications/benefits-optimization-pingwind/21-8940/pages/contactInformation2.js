@@ -11,10 +11,7 @@ import { veteranFields } from '../definitions/constants';
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
-      ...inlineTitleUI(
-      'Contact information',
-      "How can we reach you?"
-      ),
+      ...inlineTitleUI('Contact information', 'How can we reach you?'),
       [veteranFields.homePhone]: phoneUI('Home phone number'),
       [veteranFields.email]: emailToSendNotificationsUI({
         title: 'Email address',
