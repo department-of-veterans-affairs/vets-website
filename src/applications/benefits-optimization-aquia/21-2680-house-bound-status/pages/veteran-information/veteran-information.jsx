@@ -40,24 +40,20 @@ export const VeteranInformationPage = ({
 
   // Migrate old field names to new field names for backward compatibility
   // This handles save-in-progress data that used old camelCase field names
+  const existingData = formDataToUse?.veteranIdentification || {};
   const migratedData = {
     ...formDataToUse,
     veteranIdentification: {
-      veteranFullName: formDataToUse?.veteranIdentification?.veteranFullName,
-      veteranSSN:
-        formDataToUse?.veteranIdentification?.veteranSSN ||
-        formDataToUse?.veteranIdentification?.veteranSsn ||
-        '',
-      veteranDOB:
-        formDataToUse?.veteranIdentification?.veteranDOB ||
-        formDataToUse?.veteranIdentification?.veteranDob ||
-        '',
+      ...(existingData.veteranFullName && {
+        veteranFullName: existingData.veteranFullName,
+      }),
+      veteranSSN: existingData.veteranSSN || existingData.veteranSsn || '',
+      veteranDOB: existingData.veteranDOB || existingData.veteranDob || '',
     },
   };
 
   return (
     <PageTemplate
-      title="Veteran information"
       data={migratedData}
       setFormData={setFormData}
       goForward={goForward}
@@ -90,7 +86,7 @@ export const VeteranInformationPage = ({
             errors={errors.veteranFullName || {}}
             forceShowError={formSubmitted}
             required
-            label="Veteran's full name"
+            showSuffix={false}
           />
 
           <SSNField

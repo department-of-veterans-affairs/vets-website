@@ -80,9 +80,9 @@ describe('Form Configuration', () => {
       expect(page.CustomPage).to.exist;
     });
 
-    it('should have veteran identity page', () => {
+    it('should have veteran information page', () => {
       const page =
-        formConfig.chapters.veteranInformationChapter.pages.veteranIdentity;
+        formConfig.chapters.veteranInformationChapter.pages.veteranInformation;
       expect(page).to.exist;
       expect(page.path).to.equal('veteran-information');
       expect(page.CustomPage).to.exist;
