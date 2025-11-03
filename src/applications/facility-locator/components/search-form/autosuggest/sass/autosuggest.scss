@@ -13,11 +13,6 @@ div[id$="-autosuggest-container"] {
     flex-direction: column;
     width: 100%;
 
-    label>span[class*="usa-hint"] {
-      color: var(--vads-color-gray);
-    }
-
-
 
     @media (min-width: $small-desktop-screen) {
       flex-direction: row;
