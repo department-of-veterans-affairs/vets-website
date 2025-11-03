@@ -200,10 +200,14 @@ describe('<LetterList>', () => {
   it('renders eligibility error when TSA letter is not available', async () => {
     apiRequestStub.resetBehavior();
     apiRequestStub.rejects(new Error('API Error'));
+    const tsaLetterEnabledProps = {
+      ...defaultProps,
+      tsaSafeTravelLetter: true,
+    };
     const { findByText } = render(
       <Provider store={getStore()}>
         <MemoryRouter>
-          <LetterList {...defaultProps} />
+          <LetterList {...tsaLetterEnabledProps} />
         </MemoryRouter>
       </Provider>,
     );
