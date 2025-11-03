@@ -48,14 +48,10 @@ export class LetterList extends React.Component {
     return apiRequest(GET_TSA_LETTER_ELIGIBILITY_ENDPOINT)
       .then(response => {
         if (Array.isArray(response.data) && response.data.length > 0) {
-          const tsaLetters = response.data.filter(
-            letter => letter?.attributes?.received_at,
-          );
-          const latestLetter = tsaLetters.reduce((latest, current) => {
-            return current.attributes.received_at >
-              latest.attributes.received_at
-              ? current
-              : latest;
+          const latestLetter = response.data.reduce((latest, current) => {
+            const latestDate = latest.attributes?.received_at || 0;
+            const currentDate = current.attributes?.received_at || 0;
+            return currentDate > latestDate ? current : latest;
           });
           this.setState({ tsaLetter: latestLetter });
         }

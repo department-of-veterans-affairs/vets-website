@@ -130,6 +130,8 @@ const ApplicationsInProgress = ({
               } else if (formId === '22-10297') {
                 formIdLabel =
                   '22-10297 (Apply for VET TEC 2.0 (high-tech program))';
+              } else if (formId === 'form0995_form4142') {
+                formIdLabel = '21-4142 submitted with VA Form 20-0995';
               } else {
                 formIdLabel = form.form.replace(/-V2$/i, '');
               }

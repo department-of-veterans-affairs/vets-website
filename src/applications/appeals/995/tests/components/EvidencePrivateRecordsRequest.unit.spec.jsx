@@ -26,7 +26,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     );
 
     expect($('va-radio', container)).to.exist;
-    expect($$('button', container).length).to.eq(2);
+    expect($$('va-button', container).length).to.eq(2);
   });
 
   it('should capture google analytics', () => {
@@ -58,7 +58,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-primary', container));
+    fireEvent.click($('va-button[continue]', container));
     const radio = $('va-radio', container);
     expect(radio.getAttribute('error')).to.eq(errorMessages.requiredYesNo);
     expect(goSpy.called).to.be.false;
@@ -73,7 +73,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-primary', container));
+    fireEvent.click($('va-button[continue]', container));
     const radio = $('va-radio', container);
     expect(radio.getAttribute('error')).to.be.null;
     expect(goSpy.called).to.be.true;
@@ -107,7 +107,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-secondary', container));
+    fireEvent.click($('va-button[back]', container));
     expect(goSpy.called).to.be.true;
   });
 
@@ -120,7 +120,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-secondary', container));
+    fireEvent.click($('va-button[back]', container));
     expect(
       goSpy.calledWith(
         `/${EVIDENCE_VA_DETAILS_URL}?index=${data.locations.length - 1}`,

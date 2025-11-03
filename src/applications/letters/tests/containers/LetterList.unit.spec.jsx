@@ -33,7 +33,7 @@ const defaultProps = {
   lettersAvailability: AVAILABILITY_STATUSES.available,
   letterDownloadStatus: {},
   optionsAvailable: true,
-  tsaSafeTravelLetter: true,
+  tsaSafeTravelLetter: false,
 };
 
 const getStore = () =>
@@ -350,5 +350,31 @@ describe('<LetterList>', () => {
         'The Benefit Verification Letter shows your VA financial benefits.',
       ),
     ).to.exist;
+  });
+
+  it('does not fetch TSA letter if feature flag is disabled', () => {
+    render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...defaultProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(apiRequestStub.calledOnce).to.be.false;
+  });
+
+  it('fetches TSA letter if feature flag is enabled', () => {
+    const tsaLetterEnabledProps = {
+      ...defaultProps,
+      tsaSafeTravelLetter: true,
+    };
+    render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...tsaLetterEnabledProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(apiRequestStub.calledOnce).to.be.true;
   });
 });
