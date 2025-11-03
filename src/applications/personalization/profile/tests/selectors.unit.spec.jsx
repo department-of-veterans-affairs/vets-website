@@ -247,6 +247,19 @@ describe('profile selectors', () => {
       };
       expect(selectors.selectIsBlocked(state)).to.be.false;
     });
+    it('returns `false` when directDeposit.controlInformation is null', () => {
+      const state = {
+        vaProfile: {
+          cnpPaymentInformation: {
+            controlInformation: {},
+          },
+        },
+        directDeposit: {
+          controlInformation: null,
+        },
+      };
+      expect(selectors.selectIsBlocked(state)).to.be.false;
+    });
   });
 
   describe('cnpDirectDepositUiState', () => {
