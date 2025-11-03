@@ -288,7 +288,6 @@ const marriageEndDateLocationPage = {
         },
       },
       state: {
-        // 'ui:title': 'State',
         'ui:webComponentField': VaSelectField,
         'ui:required': formData => !formData[MARRIAGE_FILTERED_STATES],
         'ui:options': {
