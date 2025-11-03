@@ -6,13 +6,9 @@ import { Link } from 'react-router-dom-v5-compat';
 
 import { deleteExpense } from '../../../redux/actions';
 import { selectIsExpenseDeleting } from '../../../redux/selectors';
+import { EXPENSE_TYPES, TRIP_TYPES } from '../../../constants';
 import ExpenseCardDetails from './ExpenseCardDetails';
 import DeleteExpenseModal from './DeleteExpenseModal';
-
-const TripTypeLabels = {
-  OneWay: 'One way',
-  RoundTrip: 'Round trip',
-};
 
 const ExpenseCard = ({ apptId, claimId, expense, address }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -27,7 +23,8 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
 
   const handleDeleteExpense = async () => {
     setShowDeleteModal(false);
-    dispatch(deleteExpense(claimId, expenseType.toLowerCase(), expenseId));
+    const expenseRoute = EXPENSE_TYPES[expenseType]?.route;
+    dispatch(deleteExpense(claimId, expenseRoute, expenseId));
   };
 
   return (
@@ -61,7 +58,10 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
               },
               {
                 label: 'Was your trip round trip or one way?',
-                value: TripTypeLabels[tripType] || tripType,
+                value:
+                  Object.values(TRIP_TYPES).find(
+                    type => type.value === tripType || type.key === tripType,
+                  )?.label || tripType,
               },
             ]}
           />
@@ -84,9 +84,9 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
         <div className="review-button-row">
           <div className="review-edit-button">
             <Link
-              data-testid={`${expense.id}-edit-expense-link`}
-              className="active-va-link"
-              to={`/file-new-claim/${apptId}/${claimId}/${expenseType.toLowerCase()}/${expenseId}`}
+              to={`/file-new-claim/${apptId}/${claimId}/${
+                EXPENSE_TYPES[expenseType]?.route
+              }/${expenseId}`}
             >
               EDIT
               <va-icon

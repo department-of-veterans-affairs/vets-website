@@ -16,6 +16,7 @@ import {
 } from '../../../redux/selectors';
 import { formatDateTime } from '../../../util/dates';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
+import { EXPENSE_TYPES, TRIP_TYPES } from '../../../constants';
 
 const Mileage = () => {
   const navigate = useNavigate();
@@ -60,25 +61,35 @@ const Mileage = () => {
   };
 
   const handleContinue = async () => {
-    // Create mileage expense data
     const expenseData = {
-      departureAddress: departureAddress === 'home-address' ? address : 'other',
       tripType,
-      expenseType: 'mileage',
+      expenseType: EXPENSE_TYPES.Mileage.title,
     };
 
     // Check if user selected "another-address" or "one-way"
-    if (departureAddress === 'another-address' || tripType === 'one-way') {
+    if (
+      departureAddress === 'another-address' ||
+      tripType === TRIP_TYPES.ONE_WAY.value
+    ) {
       // eslint-disable-next-line no-console
-      console.log('Special case detected - would redirect to different page');
+      console.log(
+        'Special case detected - would redirect to "not supported" page',
+      );
     } else {
       try {
         if (expenseId) {
           await dispatch(
-            updateExpense(claimId, 'mileage', expenseId, expenseData),
+            updateExpense(
+              claimId,
+              EXPENSE_TYPES.Mileage.route,
+              expenseId,
+              expenseData,
+            ),
           );
         } else {
-          await dispatch(createNewExpense(claimId, 'mileage', expenseData));
+          await dispatch(
+            createNewExpense(claimId, EXPENSE_TYPES.Mileage.route, expenseData),
+          );
         }
       } catch (error) {
         // Handle error
@@ -105,7 +116,7 @@ const Mileage = () => {
       );
       if (expenseId ?? hasMileageExpense) {
         setDepartureAddress('home-address');
-        setTripType('round-trip');
+        setTripType(TRIP_TYPES.ROUND_TRIP.value);
       }
     },
     [claimId, allExpenses, expenseId],
@@ -192,22 +203,22 @@ const Mileage = () => {
         id="trip-type"
         onVaValueChange={handleTripTypeChange}
         value={tripType}
-        label="Which address did you depart from?"
+        label="Was your trip round trip or one way?"
         required
       >
         <va-radio-option
-          label="Round trip"
-          value="round-trip"
+          label={TRIP_TYPES.ROUND_TRIP.label}
+          value={TRIP_TYPES.ROUND_TRIP.value}
           key="trip-round-trip"
           name="trip-type"
-          checked={tripType === 'round-trip'}
+          checked={tripType === TRIP_TYPES.ROUND_TRIP.value}
         />
         <va-radio-option
-          label="One way"
-          value="one-way"
+          label={TRIP_TYPES.ONE_WAY.label}
+          value={TRIP_TYPES.ONE_WAY.value}
           key="trip-one-way"
           name="trip-type"
-          checked={tripType === 'one-way'}
+          checked={tripType === TRIP_TYPES.ONE_WAY.value}
         />
       </VaRadio>
       {!expenseId && (

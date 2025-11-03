@@ -1,6 +1,7 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { transformVAOSAppointment } from '../util/appointment-helpers';
+import { EXPENSE_TYPES } from '../constants';
 
 export const FETCH_TRAVEL_CLAIMS_STARTED = 'FETCH_TRAVEL_CLAIMS_STARTED';
 export const FETCH_TRAVEL_CLAIMS_SUCCESS = 'FETCH_TRAVEL_CLAIMS_SUCCESS';
@@ -317,9 +318,9 @@ export function deleteExpense(claimId, expenseType, expenseId) {
         },
       };
 
-      const expenseUrl = `${
-        environment.API_URL
-      }/travel_pay/v0/expenses/${expenseType.toLowerCase()}/${expenseId}`;
+      const expenseUrl = `${environment.API_URL}/travel_pay/v0/expenses/${
+        EXPENSE_TYPES[expenseType]?.route
+      }/${expenseId}`;
       await apiRequest(expenseUrl, options);
       dispatch(deleteExpenseSuccess(expenseId));
       return { id: expenseId };
@@ -417,9 +418,9 @@ export function deleteExistingExpense(claimId, expenseType, expenseId) {
         },
       };
 
-      const expenseUrl = `${
-        environment.API_URL
-      }/travel_pay/v0/expenses/${expenseType.toLowerCase()}/${expenseId}`;
+      const expenseUrl = `${environment.API_URL}/travel_pay/v0/expenses/${
+        EXPENSE_TYPES[expenseType]?.route
+      }/${expenseId}`;
       await apiRequest(expenseUrl, options);
       dispatch(deleteExpenseSuccess(expenseId));
       return { id: expenseId };

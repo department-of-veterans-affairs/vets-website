@@ -172,6 +172,19 @@ export const STATUS_GROUPINGS = [
   },
 ];
 
+export const TRIP_TYPES = Object.freeze({
+  ONE_WAY: {
+    value: 'one-way',
+    label: 'One way',
+    key: 'OneWay',
+  },
+  ROUND_TRIP: {
+    value: 'round-trip',
+    label: 'Round trip',
+    key: 'RoundTrip',
+  },
+});
+
 export const EXPENSE_TYPES = Object.freeze({
   Airtravel: {
     addButtonText: 'air travel',
