@@ -1,12 +1,12 @@
 /**
- * @module tests/pages/veteran-identity.unit.spec
- * @description Unit tests for VeteranIdentityPage component
+ * @module tests/pages/veteran-information.unit.spec
+ * @description Unit tests for VeteranInformationPage component
  */
 
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
-import { VeteranIdentityPage } from './veteran-identity';
+import { VeteranInformationPage } from './veteran-information';
 
 describe('Veteran Identification Form', () => {
   const mockSetFormData = () => {};
@@ -17,7 +17,7 @@ describe('Veteran Identification Form', () => {
   describe('Form Initialization', () => {
     it('should initialize empty form for new applications', () => {
       const { container } = render(
-        <VeteranIdentityPage
+        <VeteranInformationPage
           data={{}}
           setFormData={mockSetFormData}
           goForward={mockGoForward}
@@ -30,7 +30,7 @@ describe('Veteran Identification Form', () => {
 
     it('should render page title', () => {
       const { container } = render(
-        <VeteranIdentityPage
+        <VeteranInformationPage
           data={{}}
           setFormData={mockSetFormData}
           goForward={mockGoForward}
@@ -43,7 +43,7 @@ describe('Veteran Identification Form', () => {
 
     it('should render instruction text', () => {
       const { container } = render(
-        <VeteranIdentityPage
+        <VeteranInformationPage
           data={{}}
           setFormData={mockSetFormData}
           goForward={mockGoForward}
@@ -73,7 +73,7 @@ describe('Veteran Identification Form', () => {
       };
 
       const { container } = render(
-        <VeteranIdentityPage
+        <VeteranInformationPage
           data={data}
           setFormData={mockSetFormData}
           goForward={mockGoForward}
@@ -86,7 +86,7 @@ describe('Veteran Identification Form', () => {
 
     it('should handle empty data', () => {
       const { container } = render(
-        <VeteranIdentityPage
+        <VeteranInformationPage
           data={{}}
           setFormData={mockSetFormData}
           goForward={mockGoForward}
@@ -99,7 +99,7 @@ describe('Veteran Identification Form', () => {
 
     it('should handle null data prop', () => {
       const { container } = render(
-        <VeteranIdentityPage
+        <VeteranInformationPage
           data={null}
           setFormData={mockSetFormData}
           goForward={mockGoForward}
@@ -126,7 +126,7 @@ describe('Veteran Identification Form', () => {
       };
 
       const { container } = render(
-        <VeteranIdentityPage
+        <VeteranInformationPage
           data={data}
           setFormData={mockSetFormData}
           goForward={mockGoForward}

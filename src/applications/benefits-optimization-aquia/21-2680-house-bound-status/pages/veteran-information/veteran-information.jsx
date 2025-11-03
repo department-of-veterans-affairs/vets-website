@@ -10,9 +10,9 @@ import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
 import {
-  veteranSSNSchema,
   veteranDOBSchema,
   veteranIdentificationPageSchema,
+  veteranSSNSchema,
 } from '@bio-aquia/21-2680-house-bound-status/schemas';
 
 /**
@@ -23,11 +23,11 @@ const ensureDateStrings = formData => {
 };
 
 /**
- * Veteran Identity Page
+ * Veteran Information Page
  * Section I - Items 1-5: Veteran identification information
- * @module pages/veteran-identity
+ * @module pages/veteran-information
  */
-export const VeteranIdentityPage = ({
+export const VeteranInformationPage = ({
   data,
   setFormData,
   goForward,
@@ -91,7 +91,6 @@ export const VeteranIdentityPage = ({
             forceShowError={formSubmitted}
             required
             label="Veteran's full name"
-            showSuffix={false}
           />
 
           <SSNField
@@ -121,7 +120,7 @@ export const VeteranIdentityPage = ({
   );
 };
 
-VeteranIdentityPage.propTypes = {
+VeteranInformationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,

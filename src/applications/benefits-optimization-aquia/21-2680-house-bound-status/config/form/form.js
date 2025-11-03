@@ -21,7 +21,7 @@ import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/
 // Import all page components from barrel export
 import {
   BenefitTypePage,
-  VeteranIdentityPage,
+  VeteranInformationPage,
   VeteranAddressPage,
   ClaimantRelationshipPage,
   ClaimantInformationPage,
@@ -32,7 +32,7 @@ import {
   HospitalizationDatePage,
   HospitalizationFacilityPage,
   BenefitTypeReviewPage,
-  VeteranIdentityReviewPage,
+  VeteranInformationReviewPage,
   VeteranAddressReviewPage,
   ClaimantInformationReviewPage,
   HospitalizationStatusReviewPage,
@@ -104,8 +104,8 @@ const formConfig = {
         veteranIdentity: {
           path: 'veteran-information',
           title: 'Veteran information',
-          CustomPage: VeteranIdentityPage,
-          CustomPageReview: VeteranIdentityReviewPage,
+          CustomPage: VeteranInformationPage,
+          CustomPageReview: VeteranInformationReviewPage,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
