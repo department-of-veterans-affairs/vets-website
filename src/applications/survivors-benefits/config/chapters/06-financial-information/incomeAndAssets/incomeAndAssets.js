@@ -59,7 +59,7 @@ const WhatWeConsiderAsset = () => (
           </li>
           <li>
             An unmarried child (including an adopted child or stepchild) who
-            meets one of the eligibility requirements listed here
+            meets 1 of the eligibility requirements listed here
           </li>
         </ul>
         <p className="vads-u-font-weight--bold">
@@ -74,7 +74,7 @@ const WhatWeConsiderAsset = () => (
             They’re between the ages of 18 and 23 years old and enrolled in
             school full time, <strong>or</strong>
           </li>
-          <li>They became permanently disabled</li>
+          <li>They became permanently disabled before they turned 18</li>
         </ul>
       </div>
     </va-accordion-item>
@@ -86,16 +86,14 @@ const WhatWeConsiderAsset = () => (
         </p>
         <p>
           You must report income and assets for yourself and for any child of
-          the veteran who lives with you or for whom you are responsible.
+          the veteran who lives with you or for whom you are responsible, unless
+          a court has decided you do not have custody of the child.
         </p>
-        <p>A court may have decided you do not have custody of the child.</p>
         <p className="vads-u-font-weight--bold">
           If you’re a surviving child claimant:
         </p>
         <p>
           This means that the child isn’t in the custody of a surviving spouse.
-        </p>
-        <p>
           You must report income and assets for yourself, your custodian, and
           your custodian’s spouse.
         </p>
