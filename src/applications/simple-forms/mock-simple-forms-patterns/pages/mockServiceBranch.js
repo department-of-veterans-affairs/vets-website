@@ -8,22 +8,18 @@ export default {
   uiSchema: {
     wcv3ServiceBranchDefault: serviceBranchUI(),
     wcv3ServiceBranchCustom: serviceBranchUI({
-      title: 'Service branches in the Army group',
+      title: 'Service branches in the Coast Guard group',
       required: () => true,
       hint:
-        'This component only includes service branches in the space force and coast guard groups',
-      placeholder: 'Select a service branch',
-      groups: ['space force', 'coast guard'],
+        'This component only includes service branches in the coast guard group',
+      groups: ['coast guard'],
     }),
   },
   schema: {
     type: 'object',
     properties: {
       wcv3ServiceBranchDefault: serviceBranchSchema(),
-      wcv3ServiceBranchCustom: serviceBranchSchema([
-        'space force',
-        'coast guard',
-      ]),
+      wcv3ServiceBranchCustom: serviceBranchSchema(['coast guard']),
     },
   },
 };
