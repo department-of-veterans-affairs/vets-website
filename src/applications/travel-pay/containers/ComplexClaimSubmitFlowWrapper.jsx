@@ -46,7 +46,8 @@ const ComplexClaimSubmitFlowWrapper = () => {
     () => {
       if (claimId && !claimData && !claimError) {
         dispatch(getClaimDetails(claimId));
-      } else if (apptId && !apptData && !apptError) {
+      }
+      if (apptId && !apptData && !apptError) {
         dispatch(getAppointmentData(apptId));
       }
     },
