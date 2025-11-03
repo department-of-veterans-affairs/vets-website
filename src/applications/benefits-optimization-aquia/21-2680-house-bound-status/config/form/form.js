@@ -76,8 +76,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
+    showNavLinks: false,
+    collapsibleNavLinks: false,
   },
   formId: VA_FORM_IDS.FORM_21_2680,
   saveInProgress: {
@@ -89,13 +89,10 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   prefillTransformer,
   transformForSubmit: submitTransformer,
-  savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
-  },
+  savedFormMessages: {},
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
