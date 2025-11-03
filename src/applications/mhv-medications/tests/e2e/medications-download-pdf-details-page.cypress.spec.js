@@ -1,4 +1,3 @@
-import moment from 'moment-timezone';
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 import MedicationsListPage from './pages/MedicationsListPage';
@@ -23,11 +22,7 @@ describe('Medications Details Page Download', () => {
       Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
     );
     listPage.verifyFocusOnDownloadAlertSuccessBanner();
-    site.verifyDownloadedPdfFile(
-      'VA-medications-list-Safari-Mhvtp',
-      moment(),
-      '',
-    );
+    site.verifyDownloadedPdfFile('VA-medications-list-Safari-Mhvtp', '');
     cy.injectAxe();
     cy.axeCheck('main');
   });

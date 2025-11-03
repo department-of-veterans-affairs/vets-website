@@ -6,17 +6,16 @@ import {
   SUBTITLE,
   TITLE,
 } from '@bio-aquia/21-0779-nursing-home-information/constants';
-import ConfirmationPage from '@bio-aquia/21-0779-nursing-home-information/containers/confirmation-page';
-import IntroductionPage from '@bio-aquia/21-0779-nursing-home-information/containers/introduction-page';
+import { ConfirmationPage } from '@bio-aquia/21-0779-nursing-home-information/containers/confirmation-page';
+import { IntroductionPage } from '@bio-aquia/21-0779-nursing-home-information/containers/introduction-page';
 import manifest from '@bio-aquia/21-0779-nursing-home-information/manifest.json';
 import { transform } from '@bio-aquia/21-0779-nursing-home-information/config/transform';
 import {
   createPageValidator,
   createValidationErrorHandler,
 } from '@bio-aquia/shared/utils';
-import prefillTransformer from '@bio-aquia/21-0779-nursing-home-information/config/prefill-transformer';
-import GetHelpFooter from '@bio-aquia/21-0779-nursing-home-information/components/get-help';
-import PreSubmitInfo from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-info';
+import { GetHelp } from '@bio-aquia/21-0779-nursing-home-information/components/get-help';
+import { preSubmitSignatureConfig } from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-signature';
 import {
   CertificationLevelOfCarePage,
   ClaimantQuestionPage,
@@ -32,8 +31,6 @@ import {
   MedicaidStatusPage,
   MedicaidStartDatePage,
   MonthlyCostsPage,
-} from '@bio-aquia/21-0779-nursing-home-information/pages';
-import {
   AdmissionDateReview,
   CertificationLevelOfCareReview,
   ClaimantIdentificationInfoReview,
@@ -48,7 +45,7 @@ import {
   NursingOfficialInformationReview,
   VeteranIdentificationInfoReview,
   VeteranPersonalInfoReview,
-} from '@bio-aquia/21-0779-nursing-home-information/reviews';
+} from '@bio-aquia/21-0779-nursing-home-information/pages';
 import {
   certificationLevelOfCareSchema,
   claimantQuestionSchema,
@@ -64,7 +61,7 @@ import {
   currentMedicaidStatusSchema,
   medicaidStartDateInfoSchema,
   monthlyCostsSchema,
-} from '../schemas';
+} from '@bio-aquia/21-0779-nursing-home-information/schemas';
 
 const defaultSchema = {
   type: 'object',
@@ -82,11 +79,11 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   footerContent,
-  getHelp: GetHelpFooter,
-  preSubmitInfo: PreSubmitInfo,
+  getHelp: GetHelp,
+  preSubmitInfo: preSubmitSignatureConfig,
   dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
+    showNavLinks: false,
+    collapsibleNavLinks: false,
   },
   formId: VA_FORM_IDS.FORM_21_0779,
   saveInProgress: {
@@ -99,12 +96,8 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
-  prefillTransformer,
-  savedFormMessages: {
-    notFound: 'Please start over to submit your nursing home information.',
-    noAuth: 'Please sign in again to continue your request.',
-  },
+  prefillEnabled: false,
+  savedFormMessages: {},
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
@@ -311,3 +304,4 @@ const formConfig = {
 };
 
 export default formConfig;
+export { formConfig };

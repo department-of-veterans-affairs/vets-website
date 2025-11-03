@@ -49,7 +49,7 @@ describe('CDP - Copay card content', () => {
     cy.findByTestId('summary-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
-    cy.findByTestId(`how-to-pay`).contains('How to pay your copay bill');
+    cy.findByTestId(`how-to-pay`).contains('How to make a payment');
     cy.injectAxeThenAxeCheck();
   });
 
