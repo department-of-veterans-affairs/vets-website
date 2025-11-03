@@ -139,7 +139,10 @@ export const serviceBranchUI = options => {
       ...uiOptions,
       labels,
     },
-    'ui:errorMessages': errorMessages,
+    'ui:errorMessages': {
+      required: 'Select a branch',
+      ...errorMessages,
+    },
   };
 };
 
