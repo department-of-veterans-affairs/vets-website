@@ -5,7 +5,11 @@ import { useParams, Outlet } from 'react-router-dom-v5-compat';
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
-import { selectAppointment, selectClaimDetails } from '../redux/selectors';
+import {
+  selectAppointment,
+  selectComplexClaim,
+  selectComplexClaimCreationLoadingState,
+} from '../redux/selectors';
 import { getAppointmentData, getClaimDetails } from '../redux/actions';
 
 const ComplexClaimSubmitFlowWrapper = () => {
@@ -28,10 +32,15 @@ const ComplexClaimSubmitFlowWrapper = () => {
     isLoading: isApptLoading,
   } = useSelector(selectAppointment);
 
-  const { data: claimData, error: claimError, isLoading: isClaimLoading } =
-    useSelector(state => selectClaimDetails(state, claimId)) ?? {};
+  const { data: claimData, error: claimError } =
+    useSelector(selectComplexClaim) ?? {};
 
-  const isLoading = toggleIsLoading || isApptLoading || isClaimLoading;
+  const isComplexClaimCreationLoading = useSelector(
+    selectComplexClaimCreationLoadingState,
+  );
+
+  const isLoading =
+    toggleIsLoading || isApptLoading || isComplexClaimCreationLoading;
 
   useEffect(
     () => {
