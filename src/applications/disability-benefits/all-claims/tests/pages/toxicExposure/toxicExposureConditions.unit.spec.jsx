@@ -21,7 +21,7 @@ describe('Toxic Exposure Conditions', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.toxicExposureConditions;
 
-  it('expect that nothing shows up when user selects "I am not claiming any conditions related to toxic exposure " checkbox', () => {
+  it('expect that nothing shows up when user selects "I am not claiming any conditions related to toxic exposure" checkbox', () => {
     const formData = {
       toxicExposure: {
         conditions: {
