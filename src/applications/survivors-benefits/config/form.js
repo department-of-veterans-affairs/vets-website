@@ -1,6 +1,5 @@
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../utils/constants';
@@ -63,7 +62,7 @@ import reviewDocuments from './chapters/07-additional-information/reviewDocument
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/survivors_benefits/v0/form534ez`,
   submit,
   trackingPrefix: 'survivors-534ez',
   v3SegmentedProgressBar: true,
@@ -76,15 +75,6 @@ const formConfig = {
   downtime: {
     dependencies: [externalServices.icmhs],
   },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      {
-        href: '/supporting-forms-for-claims/apply-form-21p-534ez',
-        label: 'Survivors benefits',
-      },
-    ],
-  }),
   formId: VA_FORM_IDS.FORM_21P_534EZ,
   saveInProgress: {
     messages: {
@@ -107,7 +97,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'veteranFullName',
+      fullNamePath: 'claimantFullName',
     },
   },
   title: TITLE,
