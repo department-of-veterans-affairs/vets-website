@@ -40,7 +40,7 @@ describe('Toxic Exposure Conditions', () => {
     expect(queryByText(/copd/i)).to.be.null;
   });
 
-  it('expect that nothing shows up when no toxic exposure selection is made (the page is optional)', () => {
+  it('expect that nothing shows up when no toxic exposure selection is made (the question is optional)', () => {
     const formData = {
       toxicExposure: {
         conditions: {},
