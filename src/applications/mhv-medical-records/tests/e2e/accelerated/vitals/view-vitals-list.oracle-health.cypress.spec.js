@@ -24,11 +24,7 @@ describe('Medical Records View Vitals', () => {
 
     Vitals.goToVitalPage();
 
-    // Use the frozen clock date for timeframe calculation
-    const today = new Date();
-    const timeFrame = `${today.getFullYear()}-${(today.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}`;
+    const timeFrame = '2025-10';
     Vitals.checkUrl({ timeFrame });
 
     cy.injectAxeThenAxeCheck();
