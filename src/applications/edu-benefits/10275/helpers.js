@@ -41,7 +41,7 @@ export const getCardDescription = item => {
   ));
   const cityStateZip =
     city || state || postalCode
-      ? `${city || ''}${city && (state || postalCode) ? ', ' : ''} ${state ||
+      ? `${city || ''}${city && (state || postalCode) ? ',' : ''} ${state ||
           ''} ${postalCode || ''}`.trim()
       : null;
 
