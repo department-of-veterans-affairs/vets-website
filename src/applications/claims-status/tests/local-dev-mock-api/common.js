@@ -788,6 +788,19 @@ const baseClaims = [
           documents: '[]',
           date: '2024-03-07',
         },
+        {
+          closedDate: null,
+          description: 'Automated 5103 Notice Response',
+          displayName: 'Automated 5103 Notice Response',
+          overdue: false,
+          receivedDate: '2024-06-13',
+          requestedDate: '2024-06-13',
+          suspenseDate: '2024-07-14',
+          id: 13,
+          status: 'NEEDED_FROM_YOU',
+          uploaded: false,
+          uploadsAllowed: true,
+        },
       ],
     },
     false,
@@ -1644,6 +1657,25 @@ const responses = {
       url: '/mock-letters/VA_Decision_Letter_12345.pdf',
     },
   ],
+
+  'POST /v0/benefits_claims/:id/submit5103': (_req, res) => {
+    const hasError = true;
+
+    if (hasError) {
+      return res.status(500).json({
+        errors: [
+          {
+            title: 'Internal Server Error',
+            detail: 'An error occurred while processing your request',
+            code: '500',
+            status: '500',
+          },
+        ],
+      });
+    }
+
+    return res.status(200).json({ jobId: `job-${Date.now()}` });
+  },
 
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
