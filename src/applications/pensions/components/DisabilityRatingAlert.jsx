@@ -2,6 +2,13 @@ import React, { useEffect, useState } from 'react';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 
+const VaLink = () => (
+  <va-link
+    href="https://va.gov/pension/veterans-pension-rates"
+    text="View Veterans Pension rates"
+  />
+);
+
 const DisabilityRatingAlert = () => {
   const [loading, setLoading] = useState(true);
   const [rating, setRating] = useState(null);
@@ -12,11 +19,13 @@ const DisabilityRatingAlert = () => {
 
     const fetchDisabilityRating = async () => {
       try {
-        const data = await apiRequest(
-          `${environment.API_URL}/v0/disability_compensation_form/rating_info`,
+        const response = await apiRequest(
+          `${environment.API_URL}/v0/rated_disabilities`,
         );
         if (isMounted) {
-          setRating(data?.user_percent_of_disability ?? 0);
+          const combinedDisabilityRating =
+            response?.data?.attributes?.combinedDisabilityRating;
+          setRating(combinedDisabilityRating ?? 0);
         }
       } catch (err) {
         if (isMounted) {
@@ -44,11 +53,16 @@ const DisabilityRatingAlert = () => {
     return (
       <va-alert visible>
         <h2 slot="headline">
-          Consider your disability rating before you apply
+          A 100% disability rating pays more than a Veterans Pension
         </h2>
         <p className="vads-u-margin-y--0">
-          If you have a 100% disability rating, applying for Veterans Pension is
-          unlikely to increase your monthly payments.
+          Veterans with a 100% disability rating get a higher payment from
+          disability compensation than from a Veterans Pension. If you have this
+          rating, applying for a Veterans Pension won’t increase your monthly
+          payments.
+        </p>
+        <p className="vads-u-margin-bottom--0">
+          <VaLink />
         </p>
       </va-alert>
     );
@@ -61,17 +75,15 @@ const DisabilityRatingAlert = () => {
   return (
     <va-alert status="warning" visible>
       <h2 slot="headline">
-        This benefit is unlikely to increase your payments
+        You’re unlikely to get a higher payment from a Veterans Pension
       </h2>
       <p className="vads-u-margin-y--0">
-        Because you have a{' '}
-        <va-link
-          href="https://va.gov/disability/view-disability-rating/rating"
-          text="100% disability rating"
-        />
-        , your current compensation rate is higher than what you could receive
-        from Veterans Pension. You can still apply, but it’s unlikely to
-        increase your monthly payments.
+        Our records show you have a 100% disability rating. Your current monthly
+        payment is higher than a Veterans Pension payment. You can still apply,
+        but your payments won’t increase.
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        <VaLink />
       </p>
     </va-alert>
   );

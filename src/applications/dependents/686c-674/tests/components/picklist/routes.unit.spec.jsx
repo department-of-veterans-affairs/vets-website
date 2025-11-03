@@ -84,6 +84,20 @@ describe('getPicklistRoutes', () => {
     expect(result).to.deep.equal([]);
   });
 
+  it('should not include routes that aren’t navigated to', () => {
+    const brokenRoutes = {
+      Spouse: [
+        { path: 's1', page: { handlers: { goForward: () => 's3' } } },
+        { path: 's2', page: { handlers: { goForward: () => 'DONE' } } },
+      ],
+    };
+    const result = getPicklistRoutes(getData({ spouse: true }), brokenRoutes);
+    expect(result).to.deep.equal([
+      { index: 0, path: 's1', type: 'Spouse' },
+      { index: 0, path: 's3', type: 'Spouse' }, // s3 doesn't exist in routes
+    ]);
+  });
+
   it('should return linear spouse route', () => {
     const fullData = getData({ spouse: true });
     const result = getPicklistRoutes(fullData, routes);
