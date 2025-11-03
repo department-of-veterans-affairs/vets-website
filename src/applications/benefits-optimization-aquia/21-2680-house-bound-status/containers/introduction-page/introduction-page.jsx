@@ -5,10 +5,11 @@
 
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { useSelector } from 'react-redux';
+import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 
 import {
   TITLE,
@@ -89,7 +90,12 @@ const ProcessList = () => {
  * @param {Object} props - Component properties
  * @returns {React.ReactElement} Introduction page
  */
-export const IntroductionPage = ({ router }) => {
+export const IntroductionPage = ({ route }) => {
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
+  const userIdVerified = useSelector(state => isLOA3(state));
+  const { formConfig, pageList } = route;
+  const showVerifyIdentity = userLoggedIn && !userIdVerified;
+
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
@@ -120,13 +126,21 @@ export const IntroductionPage = ({ router }) => {
         </va-additional-info>
       </div>
 
-      <VaLinkAction
-        onClick={e => {
-          e.preventDefault();
-          router.push('/veteran-information');
-        }}
-        text="Start your application"
-      />
+      {showVerifyIdentity ? (
+        <div>{/* add verify identity alert if applicable */}</div>
+      ) : (
+        <SaveInProgressIntro
+          headingLevel={2}
+          prefillEnabled={formConfig.prefillEnabled}
+          messages={formConfig.savedFormMessages}
+          pageList={pageList}
+          startText="Start your application"
+          hideUnauthedStartLink
+          devOnly={{
+            forceShowFormControls: true,
+          }}
+        />
+      )}
 
       <va-omb-info
         res-burden={OMB_RES_BURDEN}
@@ -138,7 +152,11 @@ export const IntroductionPage = ({ router }) => {
 };
 
 IntroductionPage.propTypes = {
-  router: PropTypes.shape({
-    push: PropTypes.func.isRequired,
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool.isRequired,
+      savedFormMessages: PropTypes.object.isRequired,
+    }).isRequired,
+    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
 };

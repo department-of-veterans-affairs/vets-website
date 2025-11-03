@@ -158,8 +158,8 @@ describe('Form Configuration', () => {
       expect(formConfig.version).to.be.a('number');
     });
 
-    it('should have prefill disabled', () => {
-      expect(formConfig.prefillEnabled).to.be.false;
+    it('should have prefill enabled', () => {
+      expect(formConfig.prefillEnabled).to.be.true;
     });
 
     it('should have prefill transformer', () => {
@@ -174,14 +174,18 @@ describe('Form Configuration', () => {
 
     it('should have dev configuration', () => {
       expect(formConfig.dev).to.exist;
-      expect(formConfig.dev.showNavLinks).to.be.false;
-      expect(formConfig.dev.collapsibleNavLinks).to.be.false;
+      expect(formConfig.dev.showNavLinks).to.be.true;
+      expect(formConfig.dev.collapsibleNavLinks).to.be.true;
     });
   });
 
   describe('Saved Form Messages', () => {
-    it('should have empty saved form messages for unauthenticated form', () => {
-      expect(formConfig.savedFormMessages).to.deep.equal({});
+    it('should have not found message', () => {
+      expect(formConfig.savedFormMessages.notFound).to.exist;
+    });
+
+    it('should have no auth message', () => {
+      expect(formConfig.savedFormMessages.noAuth).to.exist;
     });
   });
 
