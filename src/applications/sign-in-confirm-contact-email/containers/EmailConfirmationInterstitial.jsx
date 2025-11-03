@@ -18,9 +18,14 @@ export default function EmailConfirmationInterstitial() {
     }
   }, []);
 
-  const { emailAddress = 'No email provided', id } = useSelector(
-    selectVAPContactInfo,
-  ).email;
+  // const { emailAddress = 'No email provided', id } = useSelector(
+  //   selectVAPContactInfo,
+  // ).email;
+
+  const vapContactInfo = useSelector(selectVAPContactInfo);
+  const emailAddress =
+    vapContactInfo?.email?.emailAddress || 'No email provided';
+  const id = vapContactInfo?.email?.id;
 
   const returnUrl =
     sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '/my-va';
