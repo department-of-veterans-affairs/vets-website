@@ -85,27 +85,30 @@ export const RadioField = ({
       label={label}
       required={required}
       hint={hint}
-      value={value ?? undefined}
+      value={value ?? null}
       error={finalError}
       tile={tile}
       onBlur={handleBlur}
       onVaValueChange={handleValueChange}
       {...props}
     >
-      {options.map(option => (
-        <VaRadioOption
-          key={option.value}
-          label={option.label}
-          value={option.value}
-          description={option.description}
-        />
-      ))}
+      {options.map(option => {
+        const isChecked = value === option.value;
+        return (
+          <VaRadioOption
+            key={option.value}
+            label={option.label}
+            value={option.value}
+            {...(isChecked ? { checked: true } : {})}
+            description={option.description}
+          />
+        );
+      })}
     </VaRadio>
   );
 };
 
 RadioField.propTypes = {
-  label: PropTypes.string,
   name: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -119,6 +122,7 @@ RadioField.propTypes = {
   error: PropTypes.string,
   forceShowError: PropTypes.bool,
   hint: PropTypes.string,
+  label: PropTypes.string,
   required: PropTypes.bool,
   tile: PropTypes.bool,
   value: PropTypes.string,

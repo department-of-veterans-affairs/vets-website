@@ -35,16 +35,14 @@ export const ClaimantRelationshipPage = ({
       sectionName="claimantRelationship"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
-      defaultData={{
-        relationship: '',
-      }}
+      defaultData={{}}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
           <RadioField
             label="Who is the claim for?"
             name="relationship"
-            value={localData.relationship || ''}
+            value={localData.relationship}
             onChange={handleFieldChange}
             schema={claimantRelationshipSchema}
             options={[

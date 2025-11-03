@@ -200,13 +200,13 @@ describe('HospitalizationStatusPage', () => {
 
       const radioGroup = container.querySelector('va-radio');
       expect(radioGroup).to.exist;
-      expect(radioGroup.getAttribute('value')).to.equal('yes');
 
       const radioOptions = container.querySelectorAll('va-radio-option');
       const yesOption = Array.from(radioOptions).find(
         opt => opt.getAttribute('value') === 'yes',
       );
       expect(yesOption).to.exist;
+      expect(yesOption.hasAttribute('checked')).to.be.true;
     });
 
     it('should render with hospitalized status no', () => {
@@ -231,13 +231,13 @@ describe('HospitalizationStatusPage', () => {
 
       const radioGroup = container.querySelector('va-radio');
       expect(radioGroup).to.exist;
-      expect(radioGroup.getAttribute('value')).to.equal('no');
 
       const radioOptions = container.querySelectorAll('va-radio-option');
       const noOption = Array.from(radioOptions).find(
         opt => opt.getAttribute('value') === 'no',
       );
       expect(noOption).to.exist;
+      expect(noOption.hasAttribute('checked')).to.be.true;
     });
 
     it('should handle empty data gracefully', () => {

@@ -53,16 +53,14 @@ export const HospitalizationStatusPage = ({
       sectionName="hospitalizationStatus"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
-      defaultData={{
-        isCurrentlyHospitalized: '',
-      }}
+      defaultData={{}}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
           <RadioField
             label="Hospitalization status"
             name="isCurrentlyHospitalized"
-            value={localData.isCurrentlyHospitalized || ''}
+            value={localData.isCurrentlyHospitalized}
             onChange={handleFieldChange}
             schema={isCurrentlyHospitalizedSchema}
             options={[
