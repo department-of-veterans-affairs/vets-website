@@ -57,7 +57,8 @@ import directDepositAccount from './chapters/07-additional-information/directDep
 import otherPaymentOptions from './chapters/07-additional-information/otherPaymentOptions';
 import supportingDocuments from './chapters/07-additional-information/supportingDocuments';
 import uploadDocuments from './chapters/07-additional-information/uploadDocuments';
-import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
+// TODO: Will be added after mvp release
+// import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -431,12 +432,13 @@ const formConfig = {
           uiSchema: uploadDocuments.uiSchema,
           schema: uploadDocuments.schema,
         },
-        reviewDocuments: {
-          title: 'Review supporting documents',
-          path: 'additional-information/review-documents',
-          uiSchema: reviewDocuments.uiSchema,
-          schema: reviewDocuments.schema,
-        },
+        // TODO: Will be added after mvp release
+        // reviewDocuments: {
+        //   title: 'Review supporting documents',
+        //   path: 'additional-information/review-documents',
+        //   uiSchema: reviewDocuments.uiSchema,
+        //   schema: reviewDocuments.schema,
+        // },
       },
     },
   },
