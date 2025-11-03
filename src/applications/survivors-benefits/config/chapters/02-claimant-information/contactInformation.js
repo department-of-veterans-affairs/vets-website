@@ -8,8 +8,6 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Contact information',
-  path: 'claimant/contact-information',
   uiSchema: {
     ...titleUI('Email address and phone number'),
     email: emailUI('Email'),

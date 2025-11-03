@@ -31,12 +31,10 @@ const seriouslyDisabledDescription = (
 
 /** @type {PageSchema} */
 export default {
-  title: 'Claimant information',
-  path: 'claimant/information',
   uiSchema: {
-    ...titleUI("Claimant's relationship to the Veteran"),
+    ...titleUI('Claimant’s relationship to the Veteran'),
     claimantRelationship: radioUI({
-      title: "What is the claimant's relationship to the Veteran?",
+      title: 'What is the claimant’s relationship to the Veteran?',
       labels: claimantRelationshipOptions,
       errorMessages: {
         required: 'Select what your relationship is to the Veteran',
