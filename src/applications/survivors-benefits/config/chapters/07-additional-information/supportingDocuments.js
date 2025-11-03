@@ -120,10 +120,10 @@ const Documents = () => (
           documents listed:
         </p>
 
-        <h4>
+        <p className="vads-u-font-weight--bold">
           Claim for Special Monthly Pension (SMP) - Aid and Attendance or
           Household Status
-        </h4>
+        </p>
         <p>
           Examination for Housebound Status or Permanent Need for Regular Aid
           and Attendance (VA Form 21-2680)
@@ -135,9 +135,9 @@ const Documents = () => (
             text="Get VA Form 21-2680 to download"
           />
         </span>
-        <h4>
+        <p className="vads-u-font-weight--bold">
           Claim for Medicare Nursing Home and/or $90.00 Rate Reduction Request
-        </h4>
+        </p>
         <p>
           Request for Nursing Home Information in Connection with Claim for Aid
           and Attendance (VA Form 21-0779)
@@ -149,7 +149,9 @@ const Documents = () => (
             text="Get VA Form 21-0779 to download"
           />
         </span>
-        <h4>Claim for Fiduciary Assistance</h4>
+        <p className="vads-u-font-weight--bold">
+          Claim for Fiduciary Assistance
+        </p>
         <p>
           Examination for Housebound Status or Permanent Need for Regular Aid
           and Attendance (VA Form 21-2680)
@@ -161,7 +163,7 @@ const Documents = () => (
             text="Get VA Form 21-2680 to download"
           />
         </span>
-        <h4>Statement of Medical Care</h4>
+        <p className="vads-u-font-weight--bold">Statement of Medical Care</p>
         <ul>
           <li>
             If you’re claiming expenses for a residential care facility, you’ll
