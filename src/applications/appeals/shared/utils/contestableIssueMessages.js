@@ -3,13 +3,15 @@ import { formatInTimeZone } from 'date-fns-tz';
 import { parseDateToDateObj, toUTCStartOfDay } from './dates';
 import { FORMAT_YMD_DATE_FNS } from '../constants';
 
+const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 /**
  * Get the current timezone abbreviation (e.g., "PST", "EST", "JST")
  * Uses date-fns-tz to properly handle DST (EDT vs EST, PDT vs PST, etc.)
  * @returns {string} Timezone abbreviation
  */
 const getCurrentTimeZoneAbbr = () => {
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const timezone = USER_TIMEZONE;
   const now = new Date();
 
   return formatInTimeZone(now, timezone, 'zzz');
@@ -21,10 +23,7 @@ const getCurrentTimeZoneAbbr = () => {
  * @param {string} timezone - Target timezone (defaults to user's current timezone)
  * @returns {string} Formatted date (e.g., "January 15, 2024")
  */
-const formatDatePart = (
-  date,
-  timezone = Intl.DateTimeFormat().resolvedOptions().timeZone,
-) => {
+const formatDatePart = (date, timezone = USER_TIMEZONE) => {
   return formatInTimeZone(date, timezone, 'MMMM d, yyyy');
 };
 
@@ -34,10 +33,7 @@ const formatDatePart = (
  * @param {string} timezone - Target timezone (defaults to user's current timezone)
  * @returns {string} Formatted time (e.g., "3:45 p.m.")
  */
-const formatTimePart = (
-  date,
-  timezone = Intl.DateTimeFormat().resolvedOptions().timeZone,
-) => {
+const formatTimePart = (date, timezone = USER_TIMEZONE) => {
   // Use date-fns-tz to format time with proper AM/PM formatting
   const timeString = formatInTimeZone(date, timezone, 'h:mm a');
   // Convert "AM" to "a.m." and "PM" to "p.m." to match VA style guide
@@ -53,7 +49,7 @@ const formatTimePart = (
  * @returns {string} Formatted date with midnight time
  */
 const formatDateWithMidnight = (date, timezoneAbbr) => {
-  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTimezone = USER_TIMEZONE;
   const abbr = timezoneAbbr || getCurrentTimeZoneAbbr();
   return `${formatDatePart(date, userTimezone)}, 12:00 a.m. ${abbr}`;
 };
@@ -66,7 +62,7 @@ const formatDateWithMidnight = (date, timezoneAbbr) => {
  * @returns {string} Formatted date with specific time
  */
 const formatDateWithTime = (date, timezoneAbbr) => {
-  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTimezone = USER_TIMEZONE;
   const abbr = timezoneAbbr || getCurrentTimeZoneAbbr();
   const datePart = formatDatePart(date, userTimezone);
   const timePart = formatTimePart(date, userTimezone);
