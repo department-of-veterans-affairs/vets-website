@@ -20,9 +20,9 @@
     }
   },
   {
-    "appName": "Submit Employment Questionnaire",
+    "appName": "Employment Questionnaire",
     "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140",
-    "entryName": "21-4140-income-verification"
+    "entryName": "21-4140"
   },
   {
     "appName": "Homepage",

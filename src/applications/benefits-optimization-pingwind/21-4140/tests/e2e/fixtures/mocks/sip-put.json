@@ -1,0 +1,26 @@
+{
+  "data": {
+    "id": "1234",
+    "type": "in_progress_forms",
+    "attributes": {
+      "formId": "21-4140",
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "metadata": {
+        "version": 0,
+        "returnUrl": "/form-verification",
+        "savedAt": 1735689600000,
+        "lastUpdated": 1735689600000,
+        "expiresAt": 4102444800,
+        "inProgressFormId": 1234,
+        "submission": {
+          "status": false,
+          "errorMessage": false,
+          "id": false,
+          "timestamp": false,
+          "hasAttemptedSubmit": false
+        }
+      }
+    }
+  }
+}

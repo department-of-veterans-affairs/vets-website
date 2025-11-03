@@ -548,7 +548,7 @@ export default function transformForSubmit(formConfig, form) {
 
   return JSON.stringify({
     formNumber,
-    increase_compensation_claim: {
+    "increase_compensation_claim": {
       form: stringifiedPayload,
     },
   });
