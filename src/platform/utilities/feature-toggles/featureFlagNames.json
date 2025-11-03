@@ -68,6 +68,7 @@
   "disabilityCompensationToxicExposureDestructionModal": "disability_compensation_toxic_exposure_destruction_modal",
   "disability526ToxicExposureOptOutDataPurge": "disability_526_toxic_exposure_opt_out_data_purge",
   "disability526ToxicExposureOptOutDataPurgeByUser": "disability_526_toxic_exposure_opt_out_data_purge_by_user",
+  "disability526BrowserMonitoringEnabled": "disability_526_browser_monitoring_enabled",
   "disablityBenefitsBrowserMonitoringEnabled": "disablity_benefits_browser_monitoring_enabled",
   "disabilityCompNewConditionsWorkflow": "disability_compensation_new_conditions_workflow",
   "dischargeWizardFeatures": "discharge_wizard_features",
