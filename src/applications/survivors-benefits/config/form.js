@@ -149,25 +149,25 @@ const formConfig = {
       title: "Claimant's information",
       pages: {
         claimantInformation: {
-          path: 'claimant/information',
-          title: 'Claimant information',
+          path: 'claimant-information',
+          title: 'Claimant’s relationship to the Veteran',
           uiSchema: claimantInformationPage.uiSchema,
           schema: claimantInformationPage.schema,
         },
         mailingAddress: {
-          path: 'claimant/mailing-address',
+          path: 'claimant-mailing-address',
           title: 'Mailing address',
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
         },
         contactInformation: {
-          path: 'claimant/contact-information',
-          title: 'Contact information',
+          path: 'claimant-contact-information',
+          title: 'Email address and phone number',
           uiSchema: contactInformation.uiSchema,
           schema: contactInformation.schema,
         },
         benefitType: {
-          path: 'claimant/benefit-type',
+          path: 'claimant-benefit-type',
           title: 'Benefit type',
           uiSchema: benefitType.uiSchema,
           schema: benefitType.schema,
