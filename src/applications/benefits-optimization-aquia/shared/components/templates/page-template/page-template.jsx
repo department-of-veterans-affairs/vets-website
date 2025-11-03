@@ -130,47 +130,30 @@ const PageTemplateBase = ({
   const wrapperClasses = ['form-panel', className].filter(Boolean).join(' ');
 
   return (
-    <div className={wrapperClasses}>
-      <form noValidate>
-        <fieldset className="vads-u-margin-y--2">
-          {title && (
-            <legend id="root__title">
-              <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-font-family--serif vads-u-font-size--h4">
-                {title}
-              </h3>
-            </legend>
-          )}
+    <>
+      <div className={wrapperClasses}>
+        <form noValidate>
+          <fieldset className="vads-u-margin-y--2">
+            {title && (
+              <legend id="root__title">
+                <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-font-family--serif vads-u-font-size--h4">
+                  {title}
+                </h3>
+              </legend>
+            )}
 
-          {subtitle && (
-            <div className="vads-u-margin-bottom--2">
-              <p className="vads-u-margin--0">{subtitle}</p>
-            </div>
-          )}
-
-          {renderChildren()}
-        </fieldset>
-
-        {!hideNavigation && (
-          <div className="vads-u-margin-y--2 vads-u-display--flex vads-u-justify-content--space-between">
-            {onReviewPage ? (
-              // Review page mode - show Save button (right-aligned)
-              <div style={{ marginLeft: 'auto' }}>
-                <va-button
-                  onClick={e => {
-                    e.preventDefault();
-                    formSectionProps.handleContinue(() => {
-                      if (updatePage) {
-                        updatePage();
-                      }
-                    });
-                  }}
-                  text="Save"
-                  {...navigationProps?.updateButtonProps || {}}
-                />
+            {subtitle && (
+              <div className="vads-u-margin-bottom--2">
+                <p className="vads-u-margin--0">{subtitle}</p>
               </div>
-            ) : (
-              // Normal page mode - show Back/Continue buttons
-              <>
+            )}
+
+            {renderChildren()}
+          </fieldset>
+
+          {!hideNavigation &&
+            !onReviewPage && (
+              <div className="vads-u-margin-top--2 vads-u-margin-bottom--2 vads-u-display--flex vads-u-justify-content--space-between">
                 <div>
                   {goBack && (
                     <va-button
@@ -191,12 +174,29 @@ const PageTemplateBase = ({
                     {...navigationProps?.continueButtonProps || {}}
                   />
                 </div>
-              </>
+              </div>
             )}
+        </form>
+      </div>
+
+      {!hideNavigation &&
+        onReviewPage && (
+          <div className="vads-u-margin-top--2 vads-u-margin-bottom--2 vads-u-display--flex vads-u-justify-content--flex-end">
+            <va-button
+              onClick={e => {
+                e.preventDefault();
+                formSectionProps.handleContinue(() => {
+                  if (updatePage) {
+                    updatePage();
+                  }
+                });
+              }}
+              text="Save"
+              {...navigationProps?.updateButtonProps || {}}
+            />
           </div>
         )}
-      </form>
-    </div>
+    </>
   );
 };
 

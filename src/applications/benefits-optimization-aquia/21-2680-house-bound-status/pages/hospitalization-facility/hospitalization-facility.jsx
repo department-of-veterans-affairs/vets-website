@@ -84,7 +84,7 @@ export const HospitalizationFacilityPage = ({
             onChange={handleFieldChange}
             schema={hospitalizationFacilityPageSchema.shape.facilityAddress}
             errors={
-              formSubmitted && errors.facilityAddress
+              errors.facilityAddress
                 ? {
                     street: errors.facilityAddress?.street,
                     street2: errors.facilityAddress?.street2,
@@ -93,6 +93,19 @@ export const HospitalizationFacilityPage = ({
                     state: errors.facilityAddress?.state,
                     country: errors.facilityAddress?.country,
                     postalCode: errors.facilityAddress?.postalCode,
+                  }
+                : undefined
+            }
+            touched={
+              formSubmitted
+                ? {
+                    street: true,
+                    street2: true,
+                    street3: true,
+                    city: true,
+                    state: true,
+                    country: true,
+                    postalCode: true,
                   }
                 : undefined
             }
