@@ -52,6 +52,7 @@ export const IntroductionPage = props => {
           text="Review Executive Order 13607 to learn more about the PoE"
           href="https://www.govinfo.gov/content/pkg/FR-2012-05-02/pdf/2012-10715.pdf"
         />
+        .
         <p>
           If your school is approved for VA education benefits, we encourage you
           to commit to the PoE. Signing up shows your dedication to transparency
