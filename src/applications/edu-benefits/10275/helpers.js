@@ -10,7 +10,7 @@ export const getFullName = fullName => {
 
   return [first, middle, last].filter(Boolean).join(' ');
 };
-const getCardDescription = item => {
+export const getCardDescription = item => {
   const poc = item?.previouslyEnteredPointOfContact;
   const fullName = poc?.fullName || item?.fullName;
 
@@ -58,19 +58,29 @@ const getCardDescription = item => {
       <p className="vads-u-margin-bottom--0">
         <strong>Point of contact: </strong>
       </p>
-      <p className="vads-u-display--flex vads-u-align-items--center vads-u-margin-y--0">
-        {' '}
+      <p
+        className="vads-u-display--flex vads-u-align-items--center vads-u-margin-y--0"
+        data-testid="card-name"
+      >
         <VaIcon icon="person" className="vads-u-margin-right--0p5" />
-        {contactName}
+        <span className="vads-u-display--inline-block vads-u-margin-bottom--0p5">
+          {contactName}
+        </span>
       </p>
-      <p className="vads-u-display--flex vads-u-align-items--center vads-u-margin-top--0">
-        <VaIcon icon="mail" className="vads-u-margin-right--0p5" /> {email}
+      <p
+        className="vads-u-display--flex vads-u-align-items--center vads-u-margin-top--0"
+        data-testid="card-email"
+      >
+        <VaIcon icon="mail" className="vads-u-margin-right--0p5" />
+        <span className="vads-u-display--inline-block vads-u-margin-bottom--0p5">
+          {email}
+        </span>
       </p>
     </div>
   ) : null;
 };
 
-const getItemName = item => {
+export const getItemName = item => {
   if (!item) return null;
   return item?.institutionName || 'Location';
 };
