@@ -11,6 +11,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { submit } from './submit';
 import veteranAndClaimantInformation from './chapters/01-veteran-and-claimant-information';
+import itemPages from './chapters/00-array-builder-multi-summary-pages';
 import unassociatedIncomes from './chapters/02-unassociated-incomes';
 import associatedIncomes from './chapters/03-associated-incomes';
 import ownedAssets from './chapters/04-owned-assets';
@@ -97,6 +98,7 @@ const formConfig = {
   subTitle: 'VA Form 21P-0969',
   defaultDefinitions: {},
   chapters: {
+    itemPages,
     veteranAndClaimantInformation,
     unassociatedIncomes,
     associatedIncomes,
