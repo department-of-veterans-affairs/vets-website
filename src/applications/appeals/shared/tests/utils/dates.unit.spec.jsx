@@ -214,4 +214,20 @@ describe('isUTCTodayOrFuture', () => {
     past.setDate(past.getDate() - 1);
     expect(isUTCTodayOrFuture(past)).to.be.false;
   });
+
+  it('should handle same UTC day comparison correctly', () => {
+    // Test the specific UTC comparison logic used by isUTCTodayOrFuture
+    // This verifies the core algorithm: issueDateUtc.getTime() >= utcToday.getTime()
+
+    const mockUTCToday = new Date(Date.UTC(2024, 0, 15, 0, 0, 0, 0)); // Jan 15, 2024 UTC start
+    const decisionDate = new Date(Date.UTC(2024, 0, 15, 8, 0, 0, 0)); // Jan 15, 2024 8 AM UTC
+
+    const issueDateUTC = toUTCStartOfDay(decisionDate);
+    const utcComparisonResult =
+      issueDateUTC.getTime() >= mockUTCToday.getTime();
+
+    expect(utcComparisonResult).to.be.true;
+    expect(issueDateUTC.getUTCDate()).to.equal(mockUTCToday.getUTCDate());
+    expect(issueDateUTC.getTime()).to.equal(mockUTCToday.getTime());
+  });
 });

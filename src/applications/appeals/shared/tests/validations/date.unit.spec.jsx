@@ -6,7 +6,6 @@ import {
   addDateErrorMessages,
   isTodayOrInFuture,
 } from '../../validations/date';
-import { toUTCStartOfDay } from '../../utils/dates';
 
 describe('addDateErrorMessages', () => {
   it('should not have an error', () => {
@@ -95,22 +94,6 @@ describe('isTodayOrInFuture - Dual Validation Logic', () => {
   });
 
   describe('UTC validation (Step 2 of dual validation)', () => {
-    it('should demonstrate UTC validation logic for same UTC day', () => {
-      // Test the UTC comparison logic that powers Step 2
-      // This verifies the core algorithm: inputDateUTC >= utcToday
-
-      const mockUTCToday = new Date(Date.UTC(2024, 0, 15, 0, 0, 0, 0)); // Jan 15, 2024 UTC start
-      const decisionDate = new Date(Date.UTC(2024, 0, 15, 8, 0, 0, 0)); // Jan 15, 2024 8 AM UTC
-
-      const inputDateUTC = toUTCStartOfDay(decisionDate);
-      const utcComparisonResult =
-        inputDateUTC.getTime() >= mockUTCToday.getTime();
-
-      expect(utcComparisonResult).to.be.true;
-      expect(inputDateUTC.getUTCDate()).to.equal(mockUTCToday.getUTCDate());
-      expect(inputDateUTC.getTime()).to.equal(mockUTCToday.getTime());
-    });
-
     it('should handle UTC edge case - decision date just before UTC midnight', () => {
       const now = new Date();
       const beforeUTCMidnight = new Date(
@@ -128,18 +111,18 @@ describe('isTodayOrInFuture - Dual Validation Logic', () => {
       expect(result).to.be.false;
     });
 
-    it('should handle same calendar date in different timezones consistently', () => {
-      const dateInUTC = new Date('2023-06-15T00:00:00.000Z'); // UTC midnight
-      const dateInEST = new Date('2023-06-15T05:00:00.000Z'); // 1am EST (still June 15 in EST)
-      const dateInPST = new Date('2023-06-15T08:00:00.000Z'); // 1am PST (still June 15 in PST)
+    it('should handle same calendar date consistently in different timezones', () => {
+      const dateUTC = new Date('2023-06-15T00:00:00.000Z'); // UTC midnight
+      const dateEST = new Date('2023-06-15T05:00:00.000Z'); // Same day, 1am EST
+      const datePST = new Date('2023-06-15T08:00:00.000Z'); // Same day, 1am PST
 
-      const utcResult = isTodayOrInFuture(dateInUTC);
-      const estResult = isTodayOrInFuture(dateInEST);
-      const pstResult = isTodayOrInFuture(dateInPST);
+      const resultUTC = isTodayOrInFuture(dateUTC);
+      const resultEST = isTodayOrInFuture(dateEST);
+      const resultPST = isTodayOrInFuture(datePST);
 
-      expect(utcResult).to.equal(estResult);
-      expect(estResult).to.equal(pstResult);
-      expect(utcResult).to.be.false;
+      expect(resultUTC).to.be.false;
+      expect(resultEST).to.be.false;
+      expect(resultPST).to.be.false;
     });
   });
 
