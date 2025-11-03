@@ -48,6 +48,7 @@ export const IntroductionPage = props => {
         <br />
         <br />
         <va-link
+          external
           text="Review Executive Order 13607 to learn more about the PoE (opens in a new tab)."
           href="https://www.govinfo.gov/content/pkg/FR-2012-05-02/pdf/2012-10715.pdf"
         />
