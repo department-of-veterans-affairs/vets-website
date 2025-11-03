@@ -108,8 +108,13 @@ PreviouslyEnteredPOCWidget.propTypes = {
 export const uiSchema = {
   ...titleUI({
     title: 'Use a previously entered point of contact',
-    description:
-      'You can choose someone you’ve already entered on this form as the point of contact for this location. If you select “None of the above,” you’ll be able to enter a new point of contact on the next page.',
+    description: (
+      <p>
+        You can choose someone you’ve already entered on this form as the point
+        of contact for this location. If you select “None of the above,” you’ll
+        be able to enter a new point of contact on the next page.
+      </p>
+    ),
   }),
   previouslyEnteredPointOfContact: {
     'ui:title':
