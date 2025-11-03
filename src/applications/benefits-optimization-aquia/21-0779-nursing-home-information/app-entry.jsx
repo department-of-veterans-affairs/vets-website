@@ -5,12 +5,12 @@ import '@department-of-veterans-affairs/web-components';
 import './sass/21-0779-nursing-home-information.scss';
 
 import manifest from '@bio-aquia/21-0779-nursing-home-information/manifest.json';
-import reducer from '@bio-aquia/21-0779-nursing-home-information/reducers';
-import routes from '@bio-aquia/21-0779-nursing-home-information/routes';
+import { reducers } from '@bio-aquia/21-0779-nursing-home-information/reducers';
+import { route } from '@bio-aquia/21-0779-nursing-home-information/routes';
 
 startAppFromIndex({
   entryName: manifest.entryName,
   url: manifest.rootUrl,
-  reducer,
-  routes,
+  reducer: reducers,
+  routes: route,
 });
