@@ -2,13 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import {
   getServiceBranchDisplayName,
   transformServiceHistoryEntryIntoTableRow,
+  getContactEditLinkURL,
+  handleRouteChange,
 } from '../helpers';
 
-import { USA_MILITARY_BRANCHES } from '../constants';
+import { USA_MILITARY_BRANCHES, PROFILE_PATHS } from '../constants';
 
 describe('getServiceBranchDisplayName', () => {
   describe('when passed a valid USA military branches', () => {
@@ -277,5 +280,106 @@ describe('transformServiceHistoryEntryIntoTableRow', () => {
       expect(value.text()).to.contain('January 31, 2000');
       value.unmount();
     });
+  });
+});
+
+describe('getContactEditLinkURL', () => {
+  it('should construct URL with email field name', () => {
+    const result = getContactEditLinkURL('email');
+    expect(result).to.equal(`${PROFILE_PATHS.EDIT}?fieldName=email`);
+  });
+
+  it('should construct URL with mobile phone field name', () => {
+    const result = getContactEditLinkURL('mobilePhone');
+    expect(result).to.equal(`${PROFILE_PATHS.EDIT}?fieldName=mobilePhone`);
+  });
+
+  it('should construct URL with address field name', () => {
+    const result = getContactEditLinkURL('address');
+    expect(result).to.equal(`${PROFILE_PATHS.EDIT}?fieldName=address`);
+  });
+
+  it('should construct URL with any field name string', () => {
+    const result = getContactEditLinkURL('someFieldName');
+    expect(result).to.equal(`${PROFILE_PATHS.EDIT}?fieldName=someFieldName`);
+  });
+
+  it('should handle field names with special characters in URL encoding', () => {
+    const result = getContactEditLinkURL('field with spaces');
+    expect(result).to.equal(
+      `${PROFILE_PATHS.EDIT}?fieldName=field with spaces`,
+    );
+  });
+});
+
+describe('handleRouteChange', () => {
+  it('should call preventDefault on the event', () => {
+    const mockEvent = {
+      preventDefault: sinon.spy(),
+      target: {
+        href: '/profile/edit',
+      },
+    };
+    const mockHistory = {
+      push: sinon.spy(),
+    };
+
+    handleRouteChange(mockEvent, mockHistory);
+
+    expect(mockEvent.preventDefault.called).to.be.true;
+  });
+
+  it('should call history.push with event.target.href', () => {
+    const mockEvent = {
+      preventDefault: sinon.spy(),
+      target: {
+        href: '/profile/edit',
+      },
+    };
+    const mockHistory = {
+      push: sinon.spy(),
+    };
+
+    handleRouteChange(mockEvent, mockHistory);
+
+    expect(mockHistory.push.calledOnce).to.be.true;
+    expect(mockHistory.push.calledWith('/profile/edit')).to.be.true;
+  });
+
+  it('should handle different href values', () => {
+    const mockEvent = {
+      preventDefault: sinon.spy(),
+      target: {
+        href: '/profile/personal-information',
+      },
+    };
+    const mockHistory = {
+      push: sinon.spy(),
+    };
+
+    handleRouteChange(mockEvent, mockHistory);
+
+    expect(mockHistory.push.calledOnce).to.be.true;
+    expect(mockHistory.push.calledWith('/profile/personal-information')).to.be
+      .true;
+  });
+
+  it('should call both preventDefault and history.push', () => {
+    const mockEvent = {
+      preventDefault: sinon.spy(),
+      target: {
+        href: '/profile/contact-information',
+      },
+    };
+    const mockHistory = {
+      push: sinon.spy(),
+    };
+
+    handleRouteChange(mockEvent, mockHistory);
+
+    expect(mockEvent.preventDefault.called).to.be.true;
+    expect(mockHistory.push.calledOnce).to.be.true;
+    expect(mockHistory.push.calledWith('/profile/contact-information')).to.be
+      .true;
   });
 });
