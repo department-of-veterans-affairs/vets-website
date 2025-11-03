@@ -17,6 +17,7 @@ const CashOnHand = ({
   goForward,
   goToPath,
   setFormData,
+  props,
 }) => {
   const headerRef = useRef(null);
   const { assets } = data;
@@ -124,6 +125,7 @@ const CashOnHand = ({
           goBack={handleBackNavigation}
           goForward={updateFormData}
           submitToContinue
+          useWebComponents={props.formOptions?.useWebComponentForNavigation}
         />
         {contentAfterButtons}
       </fieldset>

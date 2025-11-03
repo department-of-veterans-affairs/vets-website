@@ -14,6 +14,7 @@ const AdditionalIncomeCheckList = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
+  props,
 }) => {
   const {
     additionalIncome,
@@ -89,6 +90,7 @@ const AdditionalIncomeCheckList = ({
             goBack={goBack}
             goForward={goForward}
             submitToContinue
+            useWebComponents={props.formOptions?.useWebComponentForNavigation}
           />
           {contentAfterButtons}
         </div>
