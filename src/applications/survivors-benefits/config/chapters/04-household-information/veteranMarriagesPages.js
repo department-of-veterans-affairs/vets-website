@@ -1,31 +1,30 @@
 import React from 'react';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
-  addressUI,
-  addressSchema,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoUI,
   arrayBuilderYesNoSchema,
   radioUI,
   radioSchema,
+  fullNameUI,
+  fullNameSchema,
+  selectUI,
   textUI,
   textSchema,
-  textareaUI,
-  textareaSchema,
+  checkboxUI,
+  checkboxSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from 'platform/utilities/data/get';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import {
-  MARRIAGE_FILTERED_STATES,
   STATE_NAMES,
   STATE_VALUES,
   COUNTRY_NAMES,
   COUNTRY_VALUES,
 } from '../../../utils/labels';
+import { handleAlertMaxItems } from '../../../components/FormAlerts';
 
 /**
  * Pages for Veteran's previous marriages (array-builder)
@@ -49,14 +48,17 @@ const options = {
   required: false,
   maxItems: 2,
   isItemIncomplete: item =>
-    !item?.previousSpouseFirst ||
-    !item?.previousSpouseLast ||
-    !item?.marriageDate,
+    !item?.previousSpouseFullName || !item?.marriageDate,
   text: {
-    getItemName: item =>
-      (item && item.previousSpouseLast && `${item.previousSpouseLast}`) ||
-      'Previous marriage',
+    alertMaxItems: handleAlertMaxItems,
+    getItemName: item => {
+      const { first, middle, last, suffix } =
+        get('previousSpouseFullName', item) || {};
+      const name = [first, middle, last, suffix].filter(Boolean).join(' ');
+      return name || 'Previous marriage';
+    },
     cardDescription: () => '',
+    summaryTitle: () => "Review the Veteran's previous marriages",
   },
 };
 
@@ -105,20 +107,14 @@ const namePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       "Veteran's previous spouse's name",
     ),
-    previousSpouseFirst: textUI('First name'),
-    previousSpouseMiddle: textUI('Middle name'),
-    previousSpouseLast: textUI('Last name'),
-    previousSpouseSuffix: textUI('Suffix'),
+    previousSpouseFullName: fullNameUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      previousSpouseFirst: textSchema,
-      previousSpouseMiddle: textSchema,
-      previousSpouseLast: textSchema,
-      previousSpouseSuffix: textSchema,
+      previousSpouseFullName: fullNameSchema,
     },
-    required: ['previousSpouseFirst', 'previousSpouseLast'],
+    required: ['previousSpouseFullName'],
   },
 };
 
@@ -127,99 +123,80 @@ const marriageDatePlacePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'When and where did they get married?',
     ),
-    marriageDate: currentOrPastDateUI('Date of marriage'),
-    marriagePlace: {
-      ...addressUI({
-        labels: {
-          militaryCheckbox: 'They got married outside the U.S.',
+    marriageDate: currentOrPastDateUI({
+      title: 'Date of marriage',
+      monthSelect: false,
+      'ui:description':
+        'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
+      required: formData => !formData['view:marriageDate'],
+    }),
+    marriedOutsideUS: checkboxUI({
+      title: 'They got married outside the U.S.',
+    }),
+    marriageLocation: {
+      city: textUI('City'),
+      state: {
+        ...selectUI('State', STATE_VALUES, STATE_NAMES),
+        'ui:required': (formData, index) => {
+          const item = formData?.previousMarriages?.[index];
+          const currentPageData = formData;
+          return !(item?.marriedOutsideUS || currentPageData?.marriedOutsideUS);
         },
-      }),
-      // Page-level override: when the user checks 'married outside the U.S.'
-      // they are confirming the marriage place is a U.S. military base: (isMilitary === true)
-      // State and Country are rendered in the same object select (using the filtered marriage state
-      // values). When isMilitary is false we leave the default address
-      // UI/schema unchanged. See addressPatterns.js for the base address UI/schema.
-      city: {
-        'ui:title': 'City',
-        'ui:webComponentField': VaTextInputField,
-        'ui:required': formData => !formData['view:marriagePlace'],
         'ui:options': {
-          updateSchema: (formData, schema, _uiSchema, _index, path) => {
-            const addressPath = Array.isArray(path) ? path.slice(0, -1) : [];
-            const addressFormData = get(addressPath, formData) || {};
-            const { isMilitary } = addressFormData;
-            if (isMilitary) {
-              // eslint-disable-next-line no-param-reassign
-              _uiSchema['ui:webComponentField'] = VaTextInputField;
-              // eslint-disable-next-line no-param-reassign
-              _uiSchema['ui:errorMessages'] = {
-                required: 'Please enter a city',
-              };
-            }
-            return schema;
+          hideIf: (formData, index) => {
+            const item = formData?.previousMarriages?.[index];
+            const currentPageData = formData;
+            return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
           },
         },
       },
-      state: {
-        'ui:webComponentField': VaSelectField,
-        'ui:required': formData => !formData[MARRIAGE_FILTERED_STATES],
-        'ui:options': {
-          updateSchema: (formData, schema, _uiSchema, _index, path) => {
-            const addressPath = Array.isArray(path) ? path.slice(0, -1) : [];
-            const addressFormData = get(addressPath, formData) || {};
-            const { isMilitary } = addressFormData;
-            if (isMilitary) {
-              // eslint-disable-next-line no-param-reassign
-              _uiSchema['ui:webComponentField'] = VaSelectField;
-              // eslint-disable-next-line no-param-reassign
-              _uiSchema['ui:errorMessages'] = {
-                required: 'Please select a country',
-              };
-              return {
-                type: 'string',
-                title: 'Country',
-                enum: COUNTRY_VALUES,
-                enumNames: COUNTRY_NAMES,
-              };
-            }
-
-            if (!isMilitary) {
-              // eslint-disable-next-line no-param-reassign
-              _uiSchema['ui:webComponentField'] = VaSelectField;
-              // eslint-disable-next-line no-param-reassign
-              _uiSchema['ui:errorMessages'] = {
-                required: 'Please select a state',
-              };
-              return {
-                type: 'string',
-                title: 'State',
-                enum: STATE_VALUES,
-                enumNames: STATE_NAMES,
-              };
-            }
-
-            return { schema, required: ['marriagePlace'] };
-          },
-          hideEmptyValueInReview: true,
+      country: {
+        ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
+        'ui:required': (formData, index) => {
+          const item = formData?.previousMarriages?.[index];
+          const currentPageData = formData;
+          return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
         },
-        'ui:errorMessages': { required: 'Please select a state' },
+        'ui:options': {
+          hideIf: (formData, index) => {
+            const item = formData?.previousMarriages?.[index];
+            const currentPageData = formData;
+            return !(
+              item?.marriedOutsideUS || currentPageData?.marriedOutsideUS
+            );
+          },
+          labels: COUNTRY_VALUES.reduce((acc, value, idx) => {
+            acc[value] = COUNTRY_NAMES[idx];
+            return acc;
+          }, {}),
+        },
+        'ui:errorMessages': {
+          required: 'Please select a country',
+        },
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['marriagePlace'],
+    required: ['marriageLocation', 'marriageDate'],
     properties: {
       marriageDate: currentOrPastDateSchema,
-      marriagePlace: {
+      marriedOutsideUS: checkboxSchema,
+      marriageLocation: {
         type: 'object',
+        required: ['city'],
         properties: {
-          ...addressSchema({
-            labels: {
-              militaryCheckbox: 'They got married outside the U.S.',
-            },
-            omit: ['street', 'street2', 'street3', 'postalCode', 'country'],
-          }).properties,
+          city: { type: 'string' },
+          state: {
+            type: 'string',
+            enum: STATE_VALUES,
+            enumNames: STATE_NAMES,
+          },
+          country: {
+            type: 'string',
+            enum: COUNTRY_VALUES,
+            enumNames: COUNTRY_NAMES,
+          },
         },
       },
     },
@@ -233,7 +210,7 @@ const endedPage = {
       title: 'How did the marriage end?',
       labels: { DEATH: 'Death', DIVORCE: 'Divorce', OTHER: 'Other' },
     }),
-    marriageEndedOther: textareaUI({
+    marriageEndedOther: textUI({
       title: 'Tell us how the marriage ended',
       expandUnder: 'marriageEndedBy',
       expandUnderCondition: field => field === 'OTHER',
@@ -245,7 +222,7 @@ const endedPage = {
     type: 'object',
     properties: {
       marriageEndedBy: radioSchema(['DEATH', 'DIVORCE', 'OTHER']),
-      marriageEndedOther: textareaSchema,
+      marriageEndedOther: textSchema,
     },
     required: ['marriageEndedBy'],
   },
@@ -256,99 +233,90 @@ const marriageEndDateLocationPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'When and where did their marriage end?',
     ),
-    dateOfTermination: currentOrPastDateUI('Date marriage ended'),
+    dateOfTermination: currentOrPastDateUI({
+      title: 'Date marriage ended',
+      monthSelect: false,
+      'ui:description':
+        'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
+      required: formData => !formData['view:dateOfTermination'],
+    }),
+    marriageEndedOutsideUS: checkboxUI({
+      title: 'Their marriage ended outside the U.S.',
+    }),
     marriageEndLocation: {
-      ...addressUI({
-        labels: {
-          militaryCheckbox: 'Their marriage ended outside the U.S.',
-        },
-      }),
-      city: {
-        'ui:title': 'City',
-        'ui:webComponentField': VaTextInputField,
-        'ui:required': formData => !formData['view:marriageEndLocation'],
-        'ui:errorMessages': {
-          required: 'Please enter the city where the marriage ended',
-        },
-        'ui:options': {
-          updateSchema: (formData, schema, _uiSchema, _index, path) => {
-            const addressPath = Array.isArray(path) ? path.slice(0, -1) : [];
-            const addressFormData = get(addressPath, formData) || {};
-            const { isMilitary } = addressFormData;
-            if (isMilitary) {
-              // eslint-disable-next-line no-param-reassign
-              _uiSchema['ui:webComponentField'] = VaTextInputField;
-              // eslint-disable-next-line no-param-reassign
-              _uiSchema['ui:errorMessages'] = {
-                required: 'Please enter a city',
-              };
-            }
-            return schema;
-          },
-        },
-      },
+      city: textUI('City'),
       state: {
-        'ui:webComponentField': VaSelectField,
-        'ui:required': formData => !formData[MARRIAGE_FILTERED_STATES],
-        'ui:options': {
-          updateSchema: (formData, schema, _uiSchema, _index, path) => {
-            const addressPath = Array.isArray(path) ? path.slice(0, -1) : [];
-            const addressFormData = get(addressPath, formData) || {};
-            const { isMilitary } = addressFormData;
-            if (isMilitary) {
-              // eslint-disable-next-line no-param-reassign
-              _uiSchema['ui:webComponentField'] = VaSelectField;
-              // eslint-disable-next-line no-param-reassign
-              _uiSchema['ui:errorMessages'] = {
-                required: 'Please select a country',
-              };
-              return {
-                type: 'string',
-                title: 'Country',
-                enum: COUNTRY_VALUES,
-                enumNames: COUNTRY_NAMES,
-              };
-            }
-
-            if (!isMilitary) {
-              // eslint-disable-next-line no-param-reassign
-              _uiSchema['ui:webComponentField'] = VaSelectField;
-              // eslint-disable-next-line no-param-reassign
-              _uiSchema['ui:errorMessages'] = {
-                required: 'Please select a state',
-              };
-              return {
-                type: 'string',
-                title: 'State',
-                enum: STATE_VALUES,
-                enumNames: STATE_NAMES,
-              };
-            }
-            return { schema, required: ['marriageEndLocation'] };
-          },
-          hideEmptyValueInReview: true,
+        ...selectUI('State', STATE_VALUES, STATE_NAMES),
+        'ui:required': (formData, index) => {
+          const item = formData?.previousMarriages?.[index];
+          const currentPageData = formData;
+          return !(
+            item?.marriageEndedOutsideUS ||
+            currentPageData?.marriageEndedOutsideUS
+          );
         },
-        'ui:errorMessages': {
-          required: 'Please select a state',
+        'ui:options': {
+          hideIf: (formData, index) => {
+            const item = formData?.previousMarriages?.[index];
+            const currentPageData = formData;
+            return (
+              item?.marriageEndedOutsideUS ||
+              currentPageData?.marriageEndedOutsideUS
+            );
+          },
         },
       },
-      country: {},
+      country: {
+        ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
+        'ui:required': (formData, index) => {
+          const item = formData?.previousMarriages?.[index];
+          const currentPageData = formData;
+          return (
+            item?.marriageEndedOutsideUS ||
+            currentPageData?.marriageEndedOutsideUS
+          );
+        },
+        'ui:options': {
+          hideIf: (formData, index) => {
+            const item = formData?.previousMarriages?.[index];
+            const currentPageData = formData;
+            return !(
+              item?.marriageEndedOutsideUS ||
+              currentPageData?.marriageEndedOutsideUS
+            );
+          },
+          labels: COUNTRY_VALUES.reduce((acc, value, idx) => {
+            acc[value] = COUNTRY_NAMES[idx];
+            return acc;
+          }, {}),
+        },
+        'ui:errorMessages': {
+          required: 'Please select a country',
+        },
+      },
     },
   },
   schema: {
     type: 'object',
-    required: ['dateOfTermination', 'marriageEndLocation'],
+    required: ['marriageEndLocation', 'dateOfTermination'],
     properties: {
       dateOfTermination: currentOrPastDateSchema,
+      marriageEndedOutsideUS: checkboxSchema,
       marriageEndLocation: {
         type: 'object',
+        required: ['city'],
         properties: {
-          ...addressSchema({
-            labels: {
-              militaryCheckbox: 'Their marriage ended outside the U.S.',
-            },
-            omit: ['street', 'street2', 'street3', 'postalCode', 'country'],
-          }).properties,
+          city: { type: 'string' },
+          state: {
+            type: 'string',
+            enum: STATE_VALUES,
+            enumNames: STATE_NAMES,
+          },
+          country: {
+            type: 'string',
+            enum: COUNTRY_VALUES,
+            enumNames: COUNTRY_NAMES,
+          },
         },
       },
     },

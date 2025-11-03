@@ -1,7 +1,7 @@
 import {
   titleUI,
-  radioUI,
-  radioSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /**
@@ -9,22 +9,20 @@ import {
  */
 const uiSchema = {
   ...titleUI('Children of Veteran'),
-  expectingChild: radioUI({
+  expectingChild: yesNoUI({
     title: "Are you expecting the birth of the Veteran's child?",
-    labels: { YES: 'Yes', NO: 'No' },
   }),
-  hadChildWithVeteran: radioUI({
+  hadChildWithVeteran: yesNoUI({
     title:
       'Did you have a child with the Veteran before or during your marriage?',
-    labels: { YES: 'Yes', NO: 'No' },
   }),
 };
 
 const schema = {
   type: 'object',
   properties: {
-    expectingChild: radioSchema(['YES', 'NO']),
-    hadChildWithVeteran: radioSchema(['YES', 'NO']),
+    expectingChild: yesNoSchema,
+    hadChildWithVeteran: yesNoSchema,
   },
   required: ['expectingChild', 'hadChildWithVeteran'],
 };
