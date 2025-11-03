@@ -49,7 +49,7 @@ export default function EpsAppointmentHeading({
             },
           }}
           heading="You have canceled your appointment"
-          infoText="Go to your referral to review referral details or schedule a new appointment."
+          infoText="If you still need an appointment, call us or go to your referral to schedule a new appointment online."
         />
         <va-link
           active
@@ -57,7 +57,7 @@ export default function EpsAppointmentHeading({
             e.preventDefault();
             history.push(`/schedule-referral?id=${referralId}`);
           }}
-          text="Go to your referral"
+          text="Go to your referral to schedule"
           data-testid="go-to-referral-link"
           href={`/my-health/appointments/schedule-referral?id=${referralId}`}
         />
