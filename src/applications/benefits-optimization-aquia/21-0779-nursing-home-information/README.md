@@ -53,24 +53,60 @@ Veterans who:
 ```bash
 21-0779-nursing-home-information/
 ├── app-entry.jsx             # Main entry point
+├── components/               # Reusable components
+│   ├── get-help/
+│   │   ├── get-help.jsx
+│   │   ├── get-help.unit.spec.jsx
+│   │   └── index.js          # Component barrel
+│   ├── pre-submit-signature/
+│   │   ├── pre-submit-signature.jsx
+│   │   └── index.js          # Component barrel
+│   └── index.js              # Components barrel
 ├── config/
-│   └── form.js               # Form configuration
+│   ├── form.js               # Form configuration
+│   ├── transform.js          # Submit transformer
+│   └── index.js              # Config barrel
+├── constants.js              # Application constants
+├── constants.unit.spec.jsx   # Constants tests
 ├── containers/
-│   ├── App.jsx               # Main app container
-│   ├── IntroductionPage.jsx  # Form intro page
-│   └── ConfirmationPage.jsx  # Submission confirmation
-├── pages/                    # Individual form pages
-│   ├── nameAndDateOfBirth.js
-│   ├── identificationInformation.js
-│   ├── mailingAddress.js
-│   ├── phoneAndEmailAddress.js
-│   ├── nursingHomeDetails.js
-│   └── nursingCareInformation.js
+│   ├── app.jsx               # Main app container
+│   ├── introduction-page.jsx # Form intro page
+│   ├── confirmation-page.jsx # Submission confirmation
+│   └── index.js              # Containers barrel
+├── index.js                  # Root barrel export
+├── pages/                    # Form pages with co-located reviews
+│   ├── admission-date/
+│   │   ├── admission-date.jsx
+│   │   ├── admission-date-review.jsx
+│   │   ├── admission-date-review.unit.spec.jsx
+│   │   └── index.js
+│   ├── claimant-question/
+│   │   ├── claimant-question.jsx
+│   │   ├── claimant-question-review.jsx
+│   │   ├── claimant-question-review.unit.spec.jsx
+│   │   └── index.js
+│   ├── [13 more page directories...]
+│   └── index.js              # Pages barrel (exports pages & reviews)
 ├── reducers/                 # Redux reducers
+│   └── index.js              # Reducers barrel
 ├── routes.jsx                # React Router configuration
+├── routes.unit.spec.jsx      # Routes tests
 ├── sass/                     # Styles
-├── tests/                    # Unit and E2E tests
+├── schemas/                  # Zod validation schemas
+│   ├── admission-date/
+│   │   ├── admission-date.js
+│   │   ├── admission-date.unit.spec.jsx
+│   │   └── index.js
+│   ├── veteran-identification/
+│   │   ├── veteran-identification.js
+│   │   ├── veteran-identification.unit.spec.jsx
+│   │   └── index.js
+│   ├── [13 more schema directories...]
+│   └── index.js              # Schemas barrel (exports all schemas)
+├── tests/                    # E2E Cypress tests
 └── utils/                    # Utility functions
+    ├── index.js              # Utils with JSDoc
+    └── index.unit.spec.jsx
 ```
 
 ### Development Commands
@@ -126,7 +162,28 @@ yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-0779-nursing
 
 ## Testing
 
-- Unit tests for all form pages and components
-- Cypress E2E tests for complete form flow
+### Test Organization
+
+Tests are co-located with their source files using the naming convention `[filename].unit.spec.jsx` for all unit test files.
+
+### Running Tests
+
+```bash
+# Run all unit tests for this application
+yarn test:unit --app-folder benefits-optimization-aquia/21-0779-nursing-home-information
+
+# Run tests with coverage
+yarn test:unit:coverage --app-folder benefits-optimization-aquia/21-0779-nursing-home-information
+
+# Run specific test file
+yarn test:unit src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/schemas/nursing-home.unit.spec.jsx
+
+# Run Cypress E2E tests
+yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/tests/*.cypress.spec.js"
+```
+
+### E2E Testing
+
+- Cypress tests for complete form flow
 - Accessibility testing with axe-core
 - Cross-browser testing on Chrome, Firefox, Safari, and Edge

@@ -6,16 +6,16 @@ import {
   SUBTITLE,
   TITLE,
 } from '@bio-aquia/21-0779-nursing-home-information/constants';
-import ConfirmationPage from '@bio-aquia/21-0779-nursing-home-information/containers/confirmation-page';
-import IntroductionPage from '@bio-aquia/21-0779-nursing-home-information/containers/introduction-page';
+import { ConfirmationPage } from '@bio-aquia/21-0779-nursing-home-information/containers/confirmation-page';
+import { IntroductionPage } from '@bio-aquia/21-0779-nursing-home-information/containers/introduction-page';
 import manifest from '@bio-aquia/21-0779-nursing-home-information/manifest.json';
 import { transform } from '@bio-aquia/21-0779-nursing-home-information/config/transform';
 import {
   createPageValidator,
   createValidationErrorHandler,
 } from '@bio-aquia/shared/utils';
-import GetHelpFooter from '@bio-aquia/21-0779-nursing-home-information/components/get-help';
-import PreSubmitSignature from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-signature';
+import { GetHelp } from '@bio-aquia/21-0779-nursing-home-information/components/get-help';
+import { preSubmitSignatureConfig } from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-signature';
 import {
   CertificationLevelOfCarePage,
   ClaimantQuestionPage,
@@ -31,8 +31,6 @@ import {
   MedicaidStatusPage,
   MedicaidStartDatePage,
   MonthlyCostsPage,
-} from '@bio-aquia/21-0779-nursing-home-information/pages';
-import {
   AdmissionDateReview,
   CertificationLevelOfCareReview,
   ClaimantIdentificationInfoReview,
@@ -47,7 +45,7 @@ import {
   NursingOfficialInformationReview,
   VeteranIdentificationInfoReview,
   VeteranPersonalInfoReview,
-} from '@bio-aquia/21-0779-nursing-home-information/reviews';
+} from '@bio-aquia/21-0779-nursing-home-information/pages';
 import {
   certificationLevelOfCareSchema,
   claimantQuestionSchema,
@@ -63,7 +61,7 @@ import {
   currentMedicaidStatusSchema,
   medicaidStartDateInfoSchema,
   monthlyCostsSchema,
-} from '../schemas';
+} from '@bio-aquia/21-0779-nursing-home-information/schemas';
 
 const defaultSchema = {
   type: 'object',
@@ -81,8 +79,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   footerContent,
-  getHelp: GetHelpFooter,
-  preSubmitInfo: PreSubmitSignature,
+  getHelp: GetHelp,
+  preSubmitInfo: preSubmitSignatureConfig,
   dev: {
     showNavLinks: false,
     collapsibleNavLinks: false,
@@ -306,3 +304,4 @@ const formConfig = {
 };
 
 export default formConfig;
+export { formConfig };

@@ -66,5 +66,3 @@ ConfirmationPage.propTypes = {
     formConfig: PropTypes.object,
   }),
 };
-
-export default ConfirmationPage;

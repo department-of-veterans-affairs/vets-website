@@ -3,9 +3,12 @@ import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import formConfig from '../../config/form';
-import { IntroductionPage } from '../../containers/introduction-page';
-import { TITLE, SUBTITLE } from '../../constants';
+import formConfig from '@bio-aquia/21-0779-nursing-home-information/config/form';
+import {
+  TITLE,
+  SUBTITLE,
+} from '@bio-aquia/21-0779-nursing-home-information/constants';
+import { IntroductionPage } from '@bio-aquia/21-0779-nursing-home-information/containers/introduction-page';
 
 const createMockStore = (overrides = {}) => ({
   getState: () => ({

@@ -3,8 +3,8 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import formConfig from '../config/form';
-import manifest from '../manifest.json';
+import formConfig from '@bio-aquia/21-0779-nursing-home-information/config/form';
+import manifest from '@bio-aquia/21-0779-nursing-home-information/manifest.json';
 
 const continueClick = () => {
   cy.get('va-button')
