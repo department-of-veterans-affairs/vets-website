@@ -57,9 +57,10 @@ export default function useClinicFormState(pageTitle) {
   // primary care and mental health and SUD are exempt
   // NOTE: Same check is in ../services/patient/index.js:fetchFlowEligibilityAndClinics
   const isCheckTypeOfCare =
-    typeOfCareRequiresPastHistory(selectedTypeOfCare.id, {
+    typeOfCareRequiresPastHistory(
+      selectedTypeOfCare.id,
       featurePastVisitMHFilter,
-    }) &&
+    ) &&
     (removeFacilityConfigCheck
       ? eligibility.direct
       : location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct

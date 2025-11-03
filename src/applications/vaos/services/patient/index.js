@@ -25,7 +25,7 @@ import { transformPatientRelationships } from './transformers';
  */
 export function typeOfCareRequiresPastHistory(
   typeOfCareId,
-  flags = { featurePastVisitMHFilter: false },
+  featurePastVisitMHFilter = false,
 ) {
   const {
     MENTAL_HEALTH_SERVICES_ID,
@@ -34,7 +34,7 @@ export function typeOfCareRequiresPastHistory(
   } = TYPE_OF_CARE_IDS;
   return (
     (typeOfCareId !== MENTAL_HEALTH_SERVICES_ID ||
-      flags.featurePastVisitMHFilter) && // If id is MH and flag is disabled condition is false and MH does not require past Hx
+      !!featurePastVisitMHFilter) && // If id is MH and flag is disabled condition is false and MH does not require past Hx
     typeOfCareId !== PRIMARY_CARE && // If id is PC never requires past Hx
     typeOfCareId !== MENTAL_HEALTH_SUBSTANCE_USE_ID // If id is SUD never requires past Hx
   );
@@ -313,9 +313,10 @@ export async function fetchFlowEligibilityAndClinics({
       removeFacilityConfigCheck) &&
     directSchedulingEnabled;
 
-  const typeOfCareRequiresCheck = typeOfCareRequiresPastHistory(typeOfCare.id, {
+  const typeOfCareRequiresCheck = typeOfCareRequiresPastHistory(
+    typeOfCare.id,
     featurePastVisitMHFilter,
-  });
+  );
 
   const apiCalls = {
     patientEligibility: fetchPatientEligibility({
