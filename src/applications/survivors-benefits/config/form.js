@@ -7,7 +7,6 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FormSavedPage from '../containers/FormSavedPage';
-import { submit } from './submit';
 import { defaultDefinitions } from './definitions';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
@@ -63,7 +62,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/survivors_benefits/v0/form534ez`,
-  submit,
   trackingPrefix: 'survivors-534ez',
   v3SegmentedProgressBar: true,
   prefillEnabled: true,

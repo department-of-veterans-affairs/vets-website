@@ -1,7 +1,7 @@
 // yarn mock-api --responses ./src/applications/{application}/tests/e2e/fixtures/mocks/local-mock-responses.js
 const mockItf = require('./mock-itf');
-
 const mockUser = require('./user.json');
+const completedForm = require('./completed-form.json');
 
 const responses = {
   'GET /v0/user': mockUser,
@@ -17,7 +17,7 @@ const responses = {
   },
   'GET /v0/in_progress_forms/21P-534EZ': (req, res) => {
     return res.json({
-      formData: {},
+      formData: completedForm,
       metadata: {
         version: 0,
         prefill: true,
