@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import {
@@ -34,24 +35,35 @@ describe('Travel Pay – IntroductionPage', () => {
         },
       },
       complexClaim: {
-        creation: {
-          isLoading: false,
-          error: null,
-          data: null,
-        },
         claim: {
-          isLoading: false,
-          error: null,
-          data: {},
-        },
-        submission: {
-          isSubmitting: false,
-          error: null,
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          submission: {
+            id: '',
+            isSubmitting: false,
+            error: null,
+            data: null,
+          },
           data: null,
         },
-        expense: {
-          isLoading: false,
-          error: null,
+        expenses: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          update: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          delete: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          data: [],
         },
       },
     },
@@ -133,11 +145,14 @@ describe('Travel Pay – IntroductionPage', () => {
         ...getData().travelPay,
         complexClaim: {
           ...getData().travelPay.complexClaim,
-          creation: {
-            isLoading: false,
-            error: null,
-            data: {
-              claimId: '45678',
+          claim: {
+            ...getData().travelPay.complexClaim.claim,
+            creation: {
+              isLoading: false,
+              error: null,
+              data: {
+                claimId: '45678',
+              },
             },
           },
         },
@@ -164,10 +179,12 @@ describe('Travel Pay – IntroductionPage', () => {
       },
     );
 
-    // The component should navigate immediately on mount since createdClaim.claimId exists
-    expect(getByTestId('location-display').textContent).to.equal(
-      '/file-new-claim/12345/45678/choose-expense',
-    );
+    // The component should navigate automatically on mount since createdClaim.claimId exists
+    await waitFor(() => {
+      expect(getByTestId('location-display').textContent).to.equal(
+        '/file-new-claim/12345/45678/choose-expense',
+      );
+    });
   });
 
   it('renders OMB info', () => {

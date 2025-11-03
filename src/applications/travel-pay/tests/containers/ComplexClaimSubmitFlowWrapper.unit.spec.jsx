@@ -47,6 +47,38 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         error: null,
         isLoading: false,
       },
+      complexClaim: {
+        claim: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          submission: {
+            id: '',
+            isSubmitting: false,
+            error: null,
+            data: null,
+          },
+          data: null,
+        },
+        expenses: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          update: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          delete: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          data: [],
+        },
+      },
     },
   });
 

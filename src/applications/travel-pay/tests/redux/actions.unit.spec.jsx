@@ -306,12 +306,8 @@ describe('Redux - actions', () => {
     describe('Create Expense', () => {
       it('should call correct actions for create expense success', async () => {
         const mockDispatch = sinon.spy();
-        const mockExpense = {
-          id: 'exp123',
-          expenseType: 'Mileage',
-          amount: 25.5,
-        };
-        apiStub.resolves(mockExpense);
+        const mockResponse = { id: 'exp123' };
+        apiStub.resolves(mockResponse);
 
         const expenseData = {
           expenseType: 'Mileage',
@@ -326,13 +322,15 @@ describe('Redux - actions', () => {
 
         await createExpense('claim123', 'mileage', expenseData)(mockDispatch);
 
-        expect(mockDispatch.calledWithMatch({ type: 'UPDATE_EXPENSE_STARTED' }))
+        expect(mockDispatch.calledWithMatch({ type: 'CREATE_EXPENSE_STARTED' }))
           .to.be.true;
         expect(
           mockDispatch.calledWithMatch({
-            type: 'UPDATE_EXPENSE_SUCCESS',
-            claimId: 'claim123',
-            payload: mockExpense,
+            type: 'CREATE_EXPENSE_SUCCESS',
+            payload: {
+              ...expenseData,
+              id: 'exp123',
+            },
           }),
         ).to.be.true;
       });
@@ -345,11 +343,11 @@ describe('Redux - actions', () => {
 
         await createExpense('claim123', 'parking', expenseData)(mockDispatch);
 
-        expect(mockDispatch.calledWithMatch({ type: 'UPDATE_EXPENSE_STARTED' }))
+        expect(mockDispatch.calledWithMatch({ type: 'CREATE_EXPENSE_STARTED' }))
           .to.be.true;
         expect(
           mockDispatch.calledWithMatch({
-            type: 'UPDATE_EXPENSE_FAILURE',
+            type: 'CREATE_EXPENSE_FAILURE',
             error: sinon.match.instanceOf(Error),
           }),
         ).to.be.true;
@@ -359,12 +357,7 @@ describe('Redux - actions', () => {
     describe('Update Expense', () => {
       it('should call correct actions for update expense success', async () => {
         const mockDispatch = sinon.spy();
-        const mockUpdatedExpense = {
-          id: 'exp123',
-          expenseType: 'Mileage',
-          amount: 30.75,
-        };
-        apiStub.resolves(mockUpdatedExpense);
+        apiStub.resolves(); // updateExpense doesn't use the response
 
         const expenseData = {
           amount: 30.75,
@@ -380,8 +373,10 @@ describe('Redux - actions', () => {
         expect(
           mockDispatch.calledWithMatch({
             type: 'UPDATE_EXPENSE_SUCCESS',
-            claimId: 'claim123',
-            payload: mockUpdatedExpense,
+            payload: {
+              ...expenseData,
+              id: 'exp123',
+            },
           }),
         ).to.be.true;
       });
@@ -392,9 +387,13 @@ describe('Redux - actions', () => {
 
         const expenseData = { amount: 25.0 };
 
-        await updateExpense('claim123', 'mileage', 'exp123', expenseData)(
-          mockDispatch,
-        );
+        try {
+          await updateExpense('claim123', 'mileage', 'exp123', expenseData)(
+            mockDispatch,
+          );
+        } catch (error) {
+          // Expected to throw
+        }
 
         expect(mockDispatch.calledWithMatch({ type: 'UPDATE_EXPENSE_STARTED' }))
           .to.be.true;
@@ -414,12 +413,11 @@ describe('Redux - actions', () => {
 
         await deleteExpense('claim123', 'mileage', 'exp123')(mockDispatch);
 
-        expect(mockDispatch.calledWithMatch({ type: 'UPDATE_EXPENSE_STARTED' }))
+        expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
           .to.be.true;
         expect(
           mockDispatch.calledWithMatch({
-            type: 'UPDATE_EXPENSE_SUCCESS',
-            claimId: 'claim123',
+            type: 'DELETE_EXPENSE_SUCCESS',
             expenseId: 'exp123',
           }),
         ).to.be.true;
@@ -429,13 +427,17 @@ describe('Redux - actions', () => {
         const mockDispatch = sinon.spy();
         apiStub.rejects(new Error('Failed to delete expense'));
 
-        await deleteExpense('claim123', 'mileage', 'exp123')(mockDispatch);
+        try {
+          await deleteExpense('claim123', 'mileage', 'exp123')(mockDispatch);
+        } catch (error) {
+          // Expected to throw
+        }
 
-        expect(mockDispatch.calledWithMatch({ type: 'UPDATE_EXPENSE_STARTED' }))
+        expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
           .to.be.true;
         expect(
           mockDispatch.calledWithMatch({
-            type: 'UPDATE_EXPENSE_FAILURE',
+            type: 'DELETE_EXPENSE_FAILURE',
             error: sinon.match.instanceOf(Error),
           }),
         ).to.be.true;

@@ -19,16 +19,20 @@ describe('Complex Claims Mileage', () => {
     const initialState = {
       travelPay: {
         appointment: {
-          id: apptId,
-          facilityName: 'Test VA Medical Center',
-          facilityAddress: {
-            addressLine1: '123 Medical Center Drive',
-            city: 'Test City',
-            stateCode: 'TX',
-            zipCode: '12345',
+          data: {
+            id: apptId,
+            facilityName: 'Test VA Medical Center',
+            facilityAddress: {
+              addressLine1: '123 Medical Center Drive',
+              city: 'Test City',
+              stateCode: 'TX',
+              zipCode: '12345',
+            },
+            appointmentDate: '2024-01-15',
+            appointmentTime: '10:00 AM',
           },
-          appointmentDate: '2024-01-15',
-          appointmentTime: '10:00 AM',
+          error: null,
+          isLoading: false,
         },
         claimDetails: {
           data: {
@@ -38,6 +42,38 @@ describe('Complex Claims Mileage', () => {
               expenses: [],
               appointmentId: apptId,
             },
+          },
+        },
+        complexClaim: {
+          claim: {
+            creation: {
+              isLoading: false,
+              error: null,
+            },
+            submission: {
+              id: '',
+              isSubmitting: false,
+              error: null,
+              data: null,
+            },
+            data: null,
+          },
+          expenses: {
+            creation: {
+              isLoading: false,
+              error: null,
+            },
+            update: {
+              id: '',
+              isLoading: false,
+              error: null,
+            },
+            delete: {
+              id: '',
+              isLoading: false,
+              error: null,
+            },
+            data: [],
           },
         },
         expense: {
