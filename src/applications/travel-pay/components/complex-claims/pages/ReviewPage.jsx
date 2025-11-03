@@ -9,33 +9,32 @@ import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpenseCard from './ExpenseCard';
-import { selectClaimDetails } from '../../../redux/selectors';
+import {
+  selectComplexClaim,
+  selectAllExpenses,
+} from '../../../redux/selectors';
 
 const ReviewPage = ({ message }) => {
   const navigate = useNavigate();
   const { apptId, claimId } = useParams();
 
   const address = useSelector(selectVAPResidentialAddress);
-  const { data: claimDetails } = useSelector(state =>
-    selectClaimDetails(state, claimId),
-  );
+  const { data: claimDetails } = useSelector(selectComplexClaim);
+  const allExpenses = useSelector(selectAllExpenses);
 
-  // Get the Mileage expense from the overriddenClaim
+  // Get the Mileage expense from the expenses
   const mileageExpense =
-    claimDetails?.expenses?.find(exp => exp.expenseType === 'Mileage') || null;
+    allExpenses?.find(exp => exp.expenseType === 'Mileage') || null;
 
   // Create a grouped version of expenses by expenseType
-  const groupedExpenses = (claimDetails?.expenses ?? []).reduce(
-    (acc, expense) => {
-      const { expenseType } = expense;
-      if (!acc[expenseType]) {
-        acc[expenseType] = [];
-      }
-      acc[expenseType].push(expense);
-      return acc;
-    },
-    {},
-  );
+  const groupedExpenses = (allExpenses ?? []).reduce((acc, expense) => {
+    const { expenseType } = expense;
+    if (!acc[expenseType]) {
+      acc[expenseType] = [];
+    }
+    acc[expenseType].push(expense);
+    return acc;
+  }, {});
 
   // For now, we will override the message to have a title, body, and type
   // If message is not provided, use default values
