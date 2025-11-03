@@ -147,6 +147,103 @@ describe('21P-601 expenses and debts page configurations', () => {
       });
       expect(result).to.equal('Burial - $0.00');
     });
+
+    it('calls cardDescription without expenseType', () => {
+      const result = expensesOptions.text.cardDescription({
+        amount: '500',
+      });
+      expect(result).to.equal('Not specified - $500.00');
+    });
+
+    it('calls cardDescription with neither expenseType nor amount', () => {
+      const result = expensesOptions.text.cardDescription({});
+      expect(result).to.equal('Not specified - $0.00');
+    });
+
+    it('calls getItemName with undefined item', () => {
+      const result = expensesOptions.text.getItemName(undefined);
+      expect(result).to.equal('Unknown provider');
+    });
+
+    it('calls isItemIncomplete with missing expenseType', () => {
+      expect(
+        expensesOptions.isItemIncomplete({
+          provider: 'Hospital',
+          expenseType: null,
+          amount: '100',
+        }),
+      ).to.be.true;
+    });
+
+    it('calls isItemIncomplete with missing amount', () => {
+      expect(
+        expensesOptions.isItemIncomplete({
+          provider: 'Hospital',
+          expenseType: 'Medical',
+          amount: null,
+        }),
+      ).to.be.true;
+    });
+
+    it('calls isItemIncomplete with all fields missing', () => {
+      expect(expensesOptions.isItemIncomplete({})).to.be.true;
+    });
+
+    it('calls isItemIncomplete with undefined item', () => {
+      expect(expensesOptions.isItemIncomplete(undefined)).to.be.true;
+    });
+
+    it('expensePaidByPage title function returns title with provider', () => {
+      const titleFn =
+        expensesPages.expensePaidByPage.uiSchema.expenses.items['ui:title'];
+      expect(titleFn).to.be.a('function');
+      const result = titleFn({ formData: { provider: 'Test Hospital' } });
+      expect(result).to.exist;
+    });
+
+    it('expensePaidByPage title function returns title without provider', () => {
+      const titleFn =
+        expensesPages.expensePaidByPage.uiSchema.expenses.items['ui:title'];
+      expect(titleFn).to.be.a('function');
+      const result = titleFn({ formData: {} });
+      expect(result).to.exist;
+    });
+
+    it('expensePaidByPage title function returns title with null provider', () => {
+      const titleFn =
+        expensesPages.expensePaidByPage.uiSchema.expenses.items['ui:title'];
+      expect(titleFn).to.be.a('function');
+      const result = titleFn({ formData: { provider: null } });
+      expect(result).to.exist;
+    });
+
+    it('expensePaidByPage title function returns title with undefined formData', () => {
+      const titleFn =
+        expensesPages.expensePaidByPage.uiSchema.expenses.items['ui:title'];
+      expect(titleFn).to.be.a('function');
+      const result = titleFn({ formData: undefined });
+      expect(result).to.exist;
+    });
+
+    it('verifies maxItems is set to 4', () => {
+      expect(expensesOptions.maxItems).to.equal(4);
+    });
+
+    it('verifies arrayPath is expenses', () => {
+      expect(expensesOptions.arrayPath).to.equal('expenses');
+    });
+
+    it('verifies nounSingular is expense', () => {
+      expect(expensesOptions.nounSingular).to.equal('expense');
+    });
+
+    it('verifies nounPlural is expenses', () => {
+      expect(expensesOptions.nounPlural).to.equal('expenses');
+    });
+
+    it('verifies required is false', () => {
+      expect(expensesOptions.required).to.equal(false);
+    });
   });
 
   describe('otherDebts', () => {
