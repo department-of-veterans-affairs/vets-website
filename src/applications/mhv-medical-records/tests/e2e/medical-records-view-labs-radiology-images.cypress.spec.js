@@ -9,7 +9,7 @@ import imagingStudies from './fixtures/labs-and-tests/radiologyCvix.json';
 describe('Medical Records - Radiology images are shown when requested', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
     LabsAndTestsListPage.goToLabsAndTests(
       defaultLabsAndTests,

@@ -12,6 +12,7 @@ import {
 } from '../../actions/conditions';
 import { getCondition as apiGetCondition } from '../../api/MrApi';
 import * as Helpers from '../../util/helpers';
+import error404 from '../fixtures/404.json';
 
 describe('Get conditions action', () => {
   it('should dispatch a get list action (default behavior isAccelerating is false/undefined )', () => {
@@ -39,7 +40,10 @@ describe('Get condition action', () => {
   });
   it('should dispatch a get details action', () => {
     mockApiRequest(condition);
-    return getConditionDetails('3106', undefined)(dispatch).then(() => {
+    return getConditionDetails(
+      '3106',
+      undefined,
+    )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Conditions.GET);
     });
   });
@@ -56,7 +60,10 @@ describe('Get condition action', () => {
   it('should handle undefined conditionId', () => {
     mockApiRequest(condition);
     const mockList = [{ id: 'test-id', name: 'Test' }];
-    return getConditionDetails(undefined, mockList)(dispatch).then(() => {
+    return getConditionDetails(
+      undefined,
+      mockList,
+    )(dispatch).then(() => {
       expect(dispatch.calledOnce).to.be.true;
     });
   });
@@ -81,11 +88,26 @@ describe('getConditionsList - isAccelerating feature', () => {
 
   it('should dispatch GET_UNIFIED_LIST', () => {
     mockApiRequest(conditionsAccelerating);
-    return getConditionsList(false, true)(dispatch).then(() => {
+    return getConditionsList(
+      false,
+      true,
+    )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Conditions.UPDATE_LIST_STATE,
       );
       expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Conditions.GET_UNIFIED_LIST,
+      );
+    });
+  });
+
+  it("should Not Call Actions.Conditions.GET_UNIFIED_LIST when there's an error", () => {
+    mockApiRequest(error404, false);
+    return getConditionsList(
+      false,
+      true,
+    )(dispatch).then(() => {
+      expect(dispatch.secondCall.args[0].type).to.not.equal(
         Actions.Conditions.GET_UNIFIED_LIST,
       );
     });

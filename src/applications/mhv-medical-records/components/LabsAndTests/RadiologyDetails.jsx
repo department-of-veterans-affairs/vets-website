@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   updatePageTitle,
   crisisLineHeader,
@@ -14,8 +13,6 @@ import {
   formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -27,7 +24,7 @@ import {
   ALERT_TYPE_IMAGE_STATUS_ERROR,
   radiologyErrors,
 } from '../../util/constants';
-import { generateTextFile, sendDataDogAction } from '../../util/helpers';
+import { generateTextFile } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import {
@@ -49,16 +46,6 @@ const RadiologyDetails = props => {
   const processingAlertHeadingRef = useRef(null);
 
   const user = useSelector(state => state.user.profile);
-  const { allowTxtDownloads, allowMarchUpdates } = useSelector(state => ({
-    allowTxtDownloads:
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-    allowMarchUpdates:
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
-      ],
-  }));
   const radiologyDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
@@ -83,50 +70,38 @@ const RadiologyDetails = props => {
 
   const activeAlert = useAlerts(dispatch);
 
-  useEffect(
-    () => {
-      dispatch(fetchImageRequestStatus());
-      dispatch(fetchBbmiNotificationStatus());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(fetchImageRequestStatus());
+    dispatch(fetchBbmiNotificationStatus());
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (studyJobs?.length) {
-        const jobsInProcess = studyJobs.filter(
-          job =>
-            job.status === studyJobStatus.NEW ||
-            job.status === studyJobStatus.QUEUED ||
-            job.status === studyJobStatus.PROCESSING,
-        );
-        if (jobsInProcess.length >= 3) {
-          dispatch(setStudyRequestLimitReached(true));
-        } else if (studyRequestLimitReached) {
-          dispatch(setStudyRequestLimitReached(false));
-        }
+  useEffect(() => {
+    if (studyJobs?.length) {
+      const jobsInProcess = studyJobs.filter(
+        job =>
+          job.status === studyJobStatus.NEW ||
+          job.status === studyJobStatus.QUEUED ||
+          job.status === studyJobStatus.PROCESSING,
+      );
+      if (jobsInProcess.length >= 3) {
+        dispatch(setStudyRequestLimitReached(true));
+      } else if (studyRequestLimitReached) {
+        dispatch(setStudyRequestLimitReached(false));
       }
-    },
-    [dispatch, studyJobs, studyRequestLimitReached],
-  );
+    }
+  }, [dispatch, studyJobs, studyRequestLimitReached]);
 
-  useEffect(
-    () => {
-      if (processingAlertHeadingRef.current) {
-        setImageProcessingAlertRendered(true);
-      }
-    },
-    [processingAlertHeadingRef.current],
-  );
+  useEffect(() => {
+    if (processingAlertHeadingRef.current) {
+      setImageProcessingAlertRendered(true);
+    }
+  }, [processingAlertHeadingRef.current]);
 
-  useEffect(
-    () => {
-      if (imageProcessingAlertRendered && isImageRequested) {
-        focusElement(processingAlertHeadingRef.current);
-      }
-    },
-    [imageProcessingAlertRendered, isImageRequested],
-  );
+  useEffect(() => {
+    if (imageProcessingAlertRendered && isImageRequested) {
+      focusElement(processingAlertHeadingRef.current);
+    }
+  }, [imageProcessingAlertRendered, isImageRequested]);
 
   const studyJob = useMemo(
     () =>
@@ -135,47 +110,34 @@ const RadiologyDetails = props => {
     [studyJobs, radiologyDetails.studyId],
   );
 
-  useEffect(
-    () => {
-      if (
-        imageRequestApiFailed ||
-        studyRequestLimitReached ||
-        studyJob?.status
-      ) {
-        setProcessingRequest(false);
-      }
-    },
-    [imageRequestApiFailed, studyJob, studyRequestLimitReached],
-  );
+  useEffect(() => {
+    if (imageRequestApiFailed || studyRequestLimitReached || studyJob?.status) {
+      setProcessingRequest(false);
+    }
+  }, [imageRequestApiFailed, studyJob, studyRequestLimitReached]);
 
-  useEffect(
-    () => {
-      let timeoutId;
-      if (
-        studyJob?.status === studyJobStatus.NEW ||
-        studyJob?.status === studyJobStatus.QUEUED ||
-        studyJob?.status === studyJobStatus.PROCESSING
-      ) {
-        setProcessingRequest(false);
+  useEffect(() => {
+    let timeoutId;
+    if (
+      studyJob?.status === studyJobStatus.NEW ||
+      studyJob?.status === studyJobStatus.QUEUED ||
+      studyJob?.status === studyJobStatus.PROCESSING
+    ) {
+      setProcessingRequest(false);
 
-        timeoutId = setTimeout(() => {
-          dispatch(fetchImageRequestStatus());
-          // Increase the polling interval by 5% on each iteration, capped at 30 seconds
-          setPollInterval(prevInterval => Math.min(prevInterval * 1.05, 30000));
-        }, pollInterval);
-      }
-      // Cleanup interval on component unmount or dependencies change
-      return () => clearTimeout(timeoutId);
-    },
-    [studyJob?.status, pollInterval, dispatch],
-  );
+      timeoutId = setTimeout(() => {
+        dispatch(fetchImageRequestStatus());
+        // Increase the polling interval by 5% on each iteration, capped at 30 seconds
+        setPollInterval(prevInterval => Math.min(prevInterval * 1.05, 30000));
+      }, pollInterval);
+    }
+    // Cleanup interval on component unmount or dependencies change
+    return () => clearTimeout(timeoutId);
+  }, [studyJob?.status, pollInterval, dispatch]);
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-    },
-    [record],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  }, [record]);
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
@@ -223,49 +185,24 @@ ${record.results}`;
   const notificationContent = () => (
     <>
       {notificationStatus ? (
-        <>
-          {allowMarchUpdates ? (
-            <p>
-              <strong>Note: </strong> If you do not want us to notifiy you about
-              images, change your settings in your profile.
-            </p>
-          ) : (
-            <p>
-              <strong>Note: </strong>
-              If you don’t want to get email notifications for images anymore,
-              you can change your notification settings on the previous version
-              of My HealtheVet.
-            </p>
-          )}
-        </>
+        <p>
+          <strong>Note: </strong> If you do not want us to notifiy you about
+          images, change your settings in your profile.
+        </p>
       ) : (
         <>
           <h3>Get email notifications for images</h3>
           <p>
             If you want us to email you when your images are ready, change your
-            notification settings
-            {allowMarchUpdates
-              ? ` in your profile.`
-              : ` on the previous version of My HealtheVet.`}
+            notification settings in your profile.
           </p>
         </>
       )}
-      {allowMarchUpdates ? (
-        <va-link
-          className="vads-u-margin-top--1"
-          href="/profile/notifications"
-          text="Go to notification settings"
-        />
-      ) : (
-        <va-link
-          className="vads-u-margin-top--1"
-          href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
-          text="Go back to the previous version of My HealtheVet"
-          onClick={() => {
-            sendDataDogAction('Go back to MHV - Radiology');
-          }}
-        />
-      )}
+      <va-link
+        className="vads-u-margin-top--1"
+        href="/profile/notifications"
+        text="Go to notification settings"
+      />
     </>
   );
 
@@ -466,16 +403,6 @@ ${record.results}`;
           </VaAlert>
         )}
         {downloadStarted && <DownloadSuccessAlert />}
-        <PrintDownload
-          description="L&TR Detail"
-          downloadPdf={downloadPdf}
-          downloadTxt={generateRadiologyTxt}
-          allowTxtDownloads={allowTxtDownloads}
-        />
-        <DownloadingRecordsInfo
-          description="L&TR Detail"
-          allowTxtDownloads={allowTxtDownloads}
-        />
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
@@ -531,6 +458,14 @@ ${record.results}`;
             {imageStatusContent()}
           </HeaderSection>
         </div>
+        <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+        <DownloadingRecordsInfo description="L&TR Detail" />
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={downloadPdf}
+          downloadTxt={generateRadiologyTxt}
+        />
+        <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
       </HeaderSection>
     </div>
   );

@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
+
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  updatePageTitle,
+  useAcceleratedData,
+} from '@department-of-veterans-affairs/mhv/exports';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList, reloadRecords } from '../actions/labsAndTests';
@@ -26,9 +30,9 @@ import { getMonthFromSelectedDate } from '../util/helpers';
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 import DatePicker from '../components/shared/DatePicker';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { fetchImageRequestStatus } from '../actions/images';
@@ -66,12 +70,9 @@ const LabsAndTests = () => {
   );
   useTrackAction(statsdFrontEndActions.LABS_AND_TESTS_LIST);
 
-  useEffect(
-    () => {
-      dispatch(fetchImageRequestStatus());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(fetchImageRequestStatus());
+  }, [dispatch]);
 
   const { isAcceleratingLabsAndTests } = useAcceleratedData();
 
@@ -85,32 +86,26 @@ const LabsAndTests = () => {
   const [displayDate, setDisplayDate] = useState(acceleratedLabsAndTestDate);
 
   // for the api call
-  const timeFrameApiParameters = useMemo(
-    () => {
-      // set end date to the last day of the month
-      const [year, month] = acceleratedLabsAndTestDate.split('-');
-      const lastDayOfMonth = new Date(year, month, 0).getDate();
-      const formattedMonth = month.padStart(2, '0');
-      return {
-        startDate: `${year}-${formattedMonth}-01`,
-        endDate: `${year}-${formattedMonth}-${lastDayOfMonth}`,
-      };
-    },
-    [acceleratedLabsAndTestDate],
-  );
+  const timeFrameApiParameters = useMemo(() => {
+    // set end date to the last day of the month
+    const [year, month] = acceleratedLabsAndTestDate.split('-');
+    const lastDayOfMonth = new Date(year, month, 0).getDate();
+    const formattedMonth = month.padStart(2, '0');
+    return {
+      startDate: `${year}-${formattedMonth}-01`,
+      endDate: `${year}-${formattedMonth}-${lastDayOfMonth}`,
+    };
+  }, [acceleratedLabsAndTestDate]);
 
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getLabsAndTestsList(
-          isCurrent,
-          isAcceleratingLabsAndTests,
-          timeFrameApiParameters,
-        );
-      };
-    },
-    [isAcceleratingLabsAndTests, timeFrameApiParameters],
-  );
+  const dispatchAction = useMemo(() => {
+    return isCurrent => {
+      return getLabsAndTestsList(
+        isCurrent,
+        isAcceleratingLabsAndTests,
+        timeFrameApiParameters,
+      );
+    };
+  }, [isAcceleratingLabsAndTests, timeFrameApiParameters]);
 
   useListRefresh({
     listState,
@@ -121,51 +116,42 @@ const LabsAndTests = () => {
     dispatch,
   });
 
-  useEffect(
-    /**
-     * @returns a callback to automatically load any new records when unmounting this component
-     */
-    () => {
-      return () => {
-        dispatch(reloadRecords());
-      };
-    },
-    [dispatch],
-  );
+  // On Unmount: reload any newly updated records and normalize the FETCHING state.
+  useReloadResetListOnUnmount({
+    listState,
+    dispatch,
+    updateListActionType: Actions.LabsAndTests.UPDATE_LIST_STATE,
+    reloadRecordsAction: reloadRecords,
+  });
+
   const isLoadingAcceleratedData =
     isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (isAcceleratingLabsAndTests) {
-        // Only update if there is no time frame. This is only for on initial page load.
-        const timeFrame = new URLSearchParams(location.search).get('timeFrame');
-        if (!timeFrame) {
-          const searchParams = new URLSearchParams(location.search);
-          searchParams.set('timeFrame', acceleratedLabsAndTestDate);
-          history.push({
-            pathname: location.pathname,
-            search: searchParams.toString(),
-          });
-        }
+  useEffect(() => {
+    if (isAcceleratingLabsAndTests) {
+      // Only update if there is no time frame. This is only for on initial page load.
+      const timeFrame = new URLSearchParams(location.search).get('timeFrame');
+      if (!timeFrame) {
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set('timeFrame', acceleratedLabsAndTestDate);
+        history.push({
+          pathname: location.pathname,
+          search: searchParams.toString(),
+        });
       }
-    },
-    [
-      acceleratedLabsAndTestDate,
-      history,
-      isAcceleratingLabsAndTests,
-      location.pathname,
-      location.search,
-    ],
-  );
+    }
+  }, [
+    acceleratedLabsAndTestDate,
+    history,
+    isAcceleratingLabsAndTests,
+    location.pathname,
+    location.search,
+  ]);
   const updateDate = event => {
     const [year, month] = event.target.value.split('-');
     // Ignore transient date changes.

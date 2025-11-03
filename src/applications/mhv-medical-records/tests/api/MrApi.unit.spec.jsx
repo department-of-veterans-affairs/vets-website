@@ -48,7 +48,7 @@ import {
   getPatient,
   getAcceleratedAllergies,
   getAcceleratedAllergy,
-  getAcceleratedVitals,
+  getVitalsWithOHData,
   getAcceleratedLabsAndTests,
   getAcceleratedImmunizations,
   getAcceleratedImmunization,
@@ -275,9 +275,7 @@ describe('Get appointments api call', () => {
 
     const statusParams =
       '&statuses[]=booked&statuses[]=arrived&statuses[]=fulfilled&statuses[]=cancelled';
-    const expectedUrl = `${
-      environment.API_URL
-    }/vaos/v2/appointments?_include=facilities,clinics&start=${fromDate}&end=${toDate}${statusParams}`;
+    const expectedUrl = `${environment.API_URL}/vaos/v2/appointments?_include=facilities,clinics&start=${fromDate}&end=${toDate}${statusParams}`;
     expect(fetchStub.firstCall.args[0]).to.equal(expectedUrl);
     expect(result.data.length).to.equal(2);
 
@@ -376,13 +374,17 @@ describe('Accelerated OH API calls', () => {
       });
     });
   });
-  describe('getAcceleratedVitals', () => {
+  describe('getVitalsWithOHData', () => {
     it('should make an api call to get all vitals', () => {
       const mockData = { mock: 'data' };
+      const mockDate = '2023-01';
       mockApiRequest(mockData);
 
-      return getAcceleratedVitals().then(res => {
+      return getVitalsWithOHData(mockDate).then(res => {
         expect(res.mock).to.equal('data');
+        // expect fetch to be called with the correct date
+        const expectedUrl = `${environment.API_URL}/my_health/v1/medical_records/vitals?use_oh_data_path=1&from=${mockDate}&to=${mockDate}`;
+        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });
   });
@@ -405,9 +407,7 @@ describe('Accelerated OH API calls', () => {
       }).then(res => {
         expect(res.mock).to.equal('data');
         // expect fetch to be called with the correct date
-        const expectedUrl = `${
-          environment.API_URL
-        }/my_health/v2/medical_records/labs_and_tests?start_date=2023-01-01&end_date=2023-01-31`;
+        const expectedUrl = `${environment.API_URL}/my_health/v2/medical_records/labs_and_tests?start_date=2023-01-01&end_date=2023-01-31`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });

@@ -13,28 +13,22 @@ const CernerFacilityAlert = ({ linkPath, pageName }) => {
 
   const drupalCernerFacilities = useSelector(selectCernerFacilities);
 
-  const cernerFacilities = useMemo(
-    () => {
-      return userFacilities?.filter(facility =>
-        drupalCernerFacilities?.some(
-          f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
-        ),
-      );
-    },
-    [userFacilities, drupalCernerFacilities],
-  );
+  const cernerFacilities = useMemo(() => {
+    return userFacilities?.filter(facility =>
+      drupalCernerFacilities?.some(
+        f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
+      ),
+    );
+  }, [userFacilities, drupalCernerFacilities]);
 
-  const cernerFacilitiesNames = useMemo(
-    () => {
-      if (ehrDataByVhaId) {
-        return cernerFacilities?.map(facility =>
-          getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
-        );
-      }
-      return [];
-    },
-    [cernerFacilities, ehrDataByVhaId],
-  );
+  const cernerFacilitiesNames = useMemo(() => {
+    if (ehrDataByVhaId) {
+      return cernerFacilities?.map(facility =>
+        getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
+      );
+    }
+    return [];
+  }, [cernerFacilities, ehrDataByVhaId]);
 
   return (
     <>
@@ -81,10 +75,8 @@ const CernerFacilityAlert = ({ linkPath, pageName }) => {
             <a
               className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
               href={getCernerURL(linkPath, true)}
-              target="_blank"
-              rel="noopener noreferrer"
             >
-              Go to My VA Health (opens in new tab)
+              Go to My VA Health
             </a>
             <p>
               <strong>Note:</strong> Having trouble opening up My VA Health? Try

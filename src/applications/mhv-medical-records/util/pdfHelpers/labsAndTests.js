@@ -26,20 +26,22 @@ export const generateGenericContent = record => {
 
   const details = {
     header: 'Details about this test',
-    items: itemKeys.filter(key => record[key]).map(key => {
-      return {
-        title: LABS_AND_TESTS_DISPLAY_DISPLAY_MAP[key],
-        value: record[key],
-        inline: true,
-      };
-    }),
+    items: itemKeys
+      .filter(key => record[key])
+      .map(key => {
+        return {
+          title: LABS_AND_TESTS_DISPLAY_DISPLAY_MAP[key],
+          value: record[key],
+          inline: true,
+        };
+      }),
   };
 
   const rv = {
     details,
   };
 
-  if (record.observations) {
+  if (Array.isArray(record.observations) && record.observations.length) {
     const observationKeys = [
       'referenceRange',
       'status',
@@ -67,16 +69,18 @@ export const generateGenericContent = record => {
         items: [
           {
             title: 'Result',
-            value: item.value.text,
+            value: item.value?.text,
             inline: true,
           },
-          ...observationKeys.filter(key => item[key]).map(key => {
-            return {
-              title: OBSERVATION_DISPLAY_DISPLAY_MAP[key],
-              value: item[key],
-              inline: true,
-            };
-          }),
+          ...observationKeys
+            .filter(key => item[key])
+            .map(key => {
+              return {
+                title: OBSERVATION_DISPLAY_DISPLAY_MAP[key],
+                value: item[key],
+                inline: true,
+              };
+            }),
         ],
       })),
     };
@@ -137,31 +141,33 @@ export const generateChemHemContent = record => ({
       },
     ],
     sectionSeparators: false,
-    items: record.results.map(item => ({
-      header: item.name,
-      items: [
-        {
-          title: 'Result',
-          value: item.result,
-          inline: true,
-        },
-        {
-          title: 'Reference range',
-          value: item.standardRange,
-          inline: true,
-        },
-        {
-          title: 'Status',
-          value: item.status,
-          inline: true,
-        },
-        {
-          title: 'Lab comments',
-          value: item.labComments,
-          inline: true,
-        },
-      ],
-    })),
+    items: Array.isArray(record.results)
+      ? record.results.map(item => ({
+          header: item.name,
+          items: [
+            {
+              title: 'Result',
+              value: item.result,
+              inline: true,
+            },
+            {
+              title: 'Reference range',
+              value: item.standardRange,
+              inline: true,
+            },
+            {
+              title: 'Status',
+              value: item.status,
+              inline: true,
+            },
+            {
+              title: 'Lab comments',
+              value: item.labComments,
+              inline: true,
+            },
+          ],
+        }))
+      : [],
   },
 });
 
@@ -224,7 +230,7 @@ export const generateMicrobioContent = record => {
     },
   };
 
-  if (record.name !== 'Microbiology' && record.labType) {
+  if (record?.name !== 'Microbiology' && record?.labType) {
     content.details.items.unshift({
       title: 'Lab type',
       value: record.labType,

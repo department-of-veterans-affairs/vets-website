@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -35,20 +34,11 @@ import LabelValue from '../shared/LabelValue';
 const MicroDetails = props => {
   const { record, fullState, runningUnitTest } = props;
   const user = useSelector(state => state.user.profile);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-    },
-    [record],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  }, [record]);
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
@@ -88,10 +78,10 @@ Date: ${record.date}\n
 ${txtLine}\n\n
 Details about this test\n
 ${
-      record.name !== 'Microbiology' && record.labType
-        ? `Lab type: ${record.labType}\n`
-        : ''
-    }
+  record.name !== 'Microbiology' && record.labType
+    ? `Lab type: ${record.labType}\n`
+    : ''
+}
 Site or sample tested: ${record.sampleTested}\n
 Collection sample: ${record.sampleFrom}\n
 Ordered by: ${record.orderedBy}\n
@@ -127,28 +117,17 @@ ${record.results}`;
         />
 
         {downloadStarted && <DownloadSuccessAlert />}
-        <PrintDownload
-          description="L&TR Detail"
-          downloadPdf={generateMicrobiologyPdf}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generateMicroTxt}
-        />
-        <DownloadingRecordsInfo
-          description="L&TR Detail"
-          allowTxtDownloads={allowTxtDownloads}
-        />
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
-            {record.name !== 'Microbiology' &&
-              record.labType && (
-                <LabelValue
-                  label="Lab type"
-                  value={record.labType}
-                  testId="microbio-lab-type"
-                  action-name="[lab and tests - microbio lab type]"
-                />
-              )}
+            {record.name !== 'Microbiology' && record.labType && (
+              <LabelValue
+                label="Lab type"
+                value={record.labType}
+                testId="microbio-lab-type"
+                action-name="[lab and tests - microbio lab type]"
+              />
+            )}
             <LabelValue
               label="Site or sample tested"
               value={record.sampleTested}
@@ -194,6 +173,14 @@ ${record.results}`;
             </p>
           </HeaderSection>
         </div>
+        <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+        <DownloadingRecordsInfo description="L&TR Detail" />
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={generateMicrobiologyPdf}
+          downloadTxt={generateMicroTxt}
+        />
+        <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
       </HeaderSection>
     </div>
   );

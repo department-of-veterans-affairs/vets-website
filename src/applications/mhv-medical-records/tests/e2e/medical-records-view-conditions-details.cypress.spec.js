@@ -5,9 +5,15 @@ import ConditionDetailsPage from './pages/ConditionDetailsPage';
 import conditions from './fixtures/conditions.json';
 
 describe('Medical Records View Conditions', () => {
-  it('Visits Medical Records View Conditions Details', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
+  });
+
+  it('Visits Medical Records View Conditions Details', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
     // cy.visit('my-health/medical-records/conditions');
     ConditionsListPage.gotoConditionsListPage();
     ConditionsListPage.clickConditionsDetailsLink(1);
@@ -16,9 +22,7 @@ describe('Medical Records View Conditions', () => {
     ConditionDetailsPage.verifyProvider(
       // conditions.entry[0].resource.contained[0].name[0].text, // 'JOHN,SMITH'
       // 'SMITH JOHN',
-      `${conditions.entry[0].resource.contained[0].name[0].given[0]} ${
-        conditions.entry[0].resource.contained[0].name[0].family
-      }`,
+      `${conditions.entry[0].resource.contained[0].name[0].given[0]} ${conditions.entry[0].resource.contained[0].name[0].family}`,
     );
     ConditionDetailsPage.verifyLocation(
       conditions.entry[0].resource.contained[1].name, // 'DAYTON'

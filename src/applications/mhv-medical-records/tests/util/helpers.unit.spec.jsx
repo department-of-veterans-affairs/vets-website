@@ -32,6 +32,7 @@ import {
   removeTrailingSlash,
   formatDateAndTimeWithGenericZone,
   formatDateTime,
+  itemListWrapper,
 } from '../../util/helpers';
 import { refreshPhases, VALID_REFRESH_DURATION } from '../../util/constants';
 
@@ -131,10 +132,37 @@ describe('processList', () => {
   });
 });
 
+describe('itemListWrapper', () => {
+  it('returns undefined for non-array input', () => {
+    expect(itemListWrapper('string')).to.be.undefined;
+    expect(itemListWrapper(null)).to.be.undefined;
+    expect(itemListWrapper(undefined)).to.be.undefined;
+  });
+
+  it('returns undefined for an empty array', () => {
+    expect(itemListWrapper([])).to.be.undefined;
+  });
+
+  it('returns undefined for a single-item array', () => {
+    expect(itemListWrapper(['only'])).to.be.undefined;
+  });
+
+  it('returns div for a multi-item array (2 items)', () => {
+    expect(itemListWrapper(['a', 'b'])).to.equal('div');
+  });
+
+  it('returns div for an array with more than two items', () => {
+    expect(itemListWrapper(['a', 'b', 'c'])).to.equal('div');
+  });
+});
+
 describe('extractContainedResource', () => {
   it('should extract the contained resource when provided a valid reference ID', () => {
     const resource = {
-      contained: [{ id: 'a1', type: 'TypeA' }, { id: 'b2', type: 'TypeB' }],
+      contained: [
+        { id: 'a1', type: 'TypeA' },
+        { id: 'b2', type: 'TypeB' },
+      ],
     };
 
     const result = extractContainedResource(resource, '#a1');

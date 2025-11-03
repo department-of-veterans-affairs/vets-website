@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -26,6 +25,7 @@ import {
   processList,
   generateTextFile,
   asyncErrorForUnequalBirthDates,
+  itemListWrapper,
 } from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -40,20 +40,11 @@ import LabelValue from '../shared/LabelValue';
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
   const user = useSelector(state => state.user.profile);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-    },
-    [record.date, record.name],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  }, [record.date, record.name]);
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
@@ -104,8 +95,8 @@ Lab comments: ${processList(record.comments)} \n
 ${txtLine}\n\n
 Results:
 ${record.results
-      .map(
-        entry => `
+  .map(
+    entry => `
 ${txtLine}\n
 ${entry.name}
 ${txtLineDotted}
@@ -113,8 +104,8 @@ Result: ${entry.result}
 Standard range: ${entry.standardRange}
 Status: ${entry.status}
 Lab comments: ${entry.labComments}\n`,
-      )
-      .join('')}`;
+  )
+  .join('')}`;
 
     generateTextFile(
       content,
@@ -141,16 +132,6 @@ Lab comments: ${entry.labComments}\n`,
         />
 
         {downloadStarted && <DownloadSuccessAlert />}
-        <PrintDownload
-          description="L&TR Detail"
-          downloadPdf={generateChemHemPdf}
-          downloadTxt={generateChemHemTxt}
-          allowTxtDownloads={allowTxtDownloads}
-        />
-        <DownloadingRecordsInfo
-          description="L&TR Detail"
-          allowTxtDownloads={allowTxtDownloads}
-        />
 
         {/*                   TEST DETAILS                          */}
         <div className="test-details-container max-80">
@@ -179,8 +160,13 @@ Lab comments: ${entry.labComments}\n`,
               testId="chem-hem-collecting-location"
               data-dd-action-name="[lab and tests - location]"
             />
-            <LabelValue label="Lab comments" />
-            <ItemList list={record.comments} />
+            <LabelValue
+              label="Lab comments"
+              element={itemListWrapper(record?.comments)}
+              testId="chem-hem-lab-comments"
+            >
+              <ItemList list={record.comments} />
+            </LabelValue>
           </HeaderSection>
         </div>
         {/*         RESULTS CARDS            */}
@@ -203,6 +189,14 @@ Lab comments: ${entry.labComments}\n`,
             <ChemHemResults results={record.results} />
           </HeaderSection>
         </div>
+        <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+        <DownloadingRecordsInfo description="L&TR Detail" />
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={generateChemHemPdf}
+          downloadTxt={generateChemHemTxt}
+        />
+        <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
       </HeaderSection>
     </div>
   );

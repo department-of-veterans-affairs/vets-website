@@ -24,18 +24,14 @@ import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
 import { HeaderSectionProvider } from '../context/HeaderSectionContext';
 
-import {
-  flagsLoadedAndMhvEnabled,
-  selectBypassDowntime,
-} from '../util/selectors';
+import { selectBypassDowntime } from '../util/selectors';
 import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
 
-  const { featureTogglesLoading } = useSelector(
-    flagsLoadedAndMhvEnabled,
-    state => state.featureToggles,
+  const featureTogglesLoading = useSelector(
+    state => state?.featureToggles?.loading,
   );
 
   const bypassDowntime = useSelector(selectBypassDowntime);
@@ -57,37 +53,28 @@ const App = ({ children }) => {
     state => state.mr.refresh.statusPollBeginDate,
   );
 
-  useEffect(
-    () => {
-      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
-    },
-    [mhvMockSessionFlag],
-  );
+  useEffect(() => {
+    if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+  }, [mhvMockSessionFlag]);
 
-  const mhvMrDown = useMemo(
-    () => {
-      if (Object.keys(scheduledDowntimes).length > 0) {
-        return (
-          scheduledDowntimes &&
-          ((scheduledDowntimes[externalServices.mhvMr] &&
-            scheduledDowntimes[externalServices.mhvMr].status) ||
-            (scheduledDowntimes[externalServices.mhvPlatform] &&
-              scheduledDowntimes[externalServices.mhvPlatform].status) ||
-            (scheduledDowntimes[externalServices.global] &&
-              scheduledDowntimes[externalServices.global].status))
-        );
-      }
-      return 'downtime status: ok';
-    },
-    [scheduledDowntimes],
-  );
+  const mhvMrDown = useMemo(() => {
+    if (Object.keys(scheduledDowntimes).length > 0) {
+      return (
+        scheduledDowntimes &&
+        ((scheduledDowntimes[externalServices.mhvMr] &&
+          scheduledDowntimes[externalServices.mhvMr].status) ||
+          (scheduledDowntimes[externalServices.mhvPlatform] &&
+            scheduledDowntimes[externalServices.mhvPlatform].status) ||
+          (scheduledDowntimes[externalServices.global] &&
+            scheduledDowntimes[externalServices.global].status))
+      );
+    }
+    return 'downtime status: ok';
+  }, [scheduledDowntimes]);
 
-  useEffect(
-    () => {
-      dispatch(getScheduledDowntime());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(getScheduledDowntime());
+  }, [dispatch]);
 
   const handleDdRumBeforeSend = event => {
     const customEvent = { ...event };
@@ -118,12 +105,9 @@ const App = ({ children }) => {
   useDatadogRum(datadogRumConfig);
 
   // Add unique user tracking
-  useEffect(
-    () => {
-      setDatadogRumUser({ id: user?.profile?.accountUuid });
-    },
-    [user],
-  );
+  useEffect(() => {
+    setDatadogRumUser({ id: user?.profile?.accountUuid });
+  }, [user]);
 
   if (featureTogglesLoading || user.profile.loading) {
     return (
