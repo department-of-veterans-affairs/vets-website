@@ -37,6 +37,7 @@ import remarriageDetails from './chapters/04-household-information/remarriageDet
 import additionalMarriages from './chapters/04-household-information/additionalMarriages';
 import previousMarriages from './chapters/04-household-information/previousMarriages';
 import { previousMarriagesPages } from './chapters/04-household-information/previousMarriagesPages';
+import dependentsPages from './chapters/04-household-information/dependentsPages';
 import dicBenefits from './chapters/05-claim-information/dicBenefits';
 import nursingHome from './chapters/05-claim-information/nursingHome';
 import { treatmentPages } from './chapters/05-claim-information/treatmentPages';
@@ -305,6 +306,7 @@ const formConfig = {
           schema: previousMarriages.schema,
         },
         ...previousMarriagesPages,
+        ...dependentsPages,
       },
     },
     // Chapter 5 - Claim Information
