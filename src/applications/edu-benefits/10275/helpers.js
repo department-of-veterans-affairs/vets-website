@@ -63,18 +63,14 @@ export const getCardDescription = item => {
         data-testid="card-name"
       >
         <VaIcon icon="person" className="vads-u-margin-right--0p5" />
-        <span className="vads-u-display--inline-block vads-u-margin-bottom--0p5">
-          {contactName}
-        </span>
+        <span className="vads-u-display--inline-block">{contactName}</span>
       </p>
       <p
         className="vads-u-display--flex vads-u-align-items--center vads-u-margin-top--0"
         data-testid="card-email"
       >
         <VaIcon icon="mail" className="vads-u-margin-right--0p5" />
-        <span className="vads-u-display--inline-block vads-u-margin-bottom--0p5">
-          {email}
-        </span>
+        <span className="vads-u-display--inline-block">{email}</span>
       </p>
     </div>
   ) : null;
