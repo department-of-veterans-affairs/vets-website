@@ -144,22 +144,6 @@ export const extractIssueNames = blockedIssues =>
   });
 
 /**
- * Determines which validation is blocking based on decision tree logic
- * @param {Object[]} blockedIssues - Array of blocked contestable issue objects
- * @returns {boolean} - True if blocked by local day validation, false if blocked by UTC validation
- */
-export const isBlockedByLocalDay = blockedIssues => {
-  return blockedIssues.some(issue => {
-    const decisionDateString = getDecisionDate(issue);
-    const decisionDate = parseDateToDateObj(
-      decisionDateString,
-      FORMAT_YMD_DATE_FNS,
-    );
-    return isToday(decisionDate);
-  });
-};
-
-/**
  * Generates blocked issue alert message based on dual validation decision tree
  * - If blocked by local "same day": Show "wait until next day local time"
  * - If blocked by UTC validation: Show "wait until next day UTC time (in local time)"

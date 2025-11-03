@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import {
   formatIssueList,
   extractIssueNames,
-  isBlockedByLocalDay,
   getBlockedMessage,
 } from '../../utils/contestableIssueMessages';
 
@@ -48,32 +47,6 @@ describe('extractIssueNames', () => {
 
     const result = extractIssueNames(blockedIssues);
     expect(result).to.deep.equal(['back pain', 'unknown condition']);
-  });
-});
-
-describe('isBlockedByLocalDay', () => {
-  it('should return true when any issue has current day as decision date', () => {
-    // Use actual current date to avoid fake timer issues
-    const today = new Date();
-    const todayString = today.toISOString().split('T')[0]; // YYYY-MM-DD format
-
-    const blockedIssues = [
-      { approxDecisionDate: '2023-01-01' },
-      { approxDecisionDate: todayString },
-    ];
-
-    const result = isBlockedByLocalDay(blockedIssues);
-    expect(result).to.be.true;
-  });
-
-  it('should return false when all issues are from clearly past days', () => {
-    const blockedIssues = [
-      { approxDecisionDate: '2023-01-15' },
-      { approxDecisionDate: '2023-06-20' },
-    ];
-
-    const result = isBlockedByLocalDay(blockedIssues);
-    expect(result).to.be.false;
   });
 });
 
