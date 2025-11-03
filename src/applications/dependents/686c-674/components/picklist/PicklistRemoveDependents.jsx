@@ -102,6 +102,8 @@ const RemoveDependentsPicklist = ({
               key={item.key}
               data-key={item.key}
               name={PICKLIST_DATA}
+              class="dd-privacy-mask"
+              data-dd-action-name="dependent name & age"
               label={dependentFullName}
               checked={item.selected || false}
               tile

@@ -48,7 +48,8 @@ const childIsStepchild = {
     return (
       <>
         <VaRadio
-          class="vads-u-margin-bottom--2"
+          class="vads-u-margin-bottom--2 dd-privacy-mask"
+          data-dd-action-name="is stepchild question"
           name="isStepchild"
           error={
             formSubmitted && !itemData.isStepchild
