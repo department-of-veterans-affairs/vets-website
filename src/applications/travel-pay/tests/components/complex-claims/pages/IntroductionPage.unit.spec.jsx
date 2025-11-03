@@ -29,7 +29,7 @@ describe('Travel Pay – IntroductionPage', () => {
     },
   });
 
-  const initialRoute = '/file-new-claim/complex/12345/introduction';
+  const initialRoute = '/file-new-claim/12345/introduction';
 
   it('renders the IntroductionPage with correct structure', () => {
     const { getByRole, container } = renderWithStoreAndRouter(
@@ -118,7 +118,7 @@ describe('Travel Pay – IntroductionPage', () => {
       <MemoryRouter initialEntries={[initialRoute]}>
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/introduction"
+            path="/file-new-claim/:apptId/introduction"
             element={<IntroductionPage appointment={mockAppointment} />}
           />
           <Route
