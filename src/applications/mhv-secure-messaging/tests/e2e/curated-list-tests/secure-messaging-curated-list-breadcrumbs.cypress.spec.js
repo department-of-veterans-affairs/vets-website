@@ -267,11 +267,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
 
       // Wait for recent recipients to load
       cy.wait('@recentRecipients');
-
-      // Continue to recent care teams
-      PatientInterstitialPage.continueToRecentRecipients(
-        searchSentFolderResponse,
-      );
+      PatientInterstitialPage.getStartMessageLink().click();
       GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
       // Navigate forward to select care team
