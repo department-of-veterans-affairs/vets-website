@@ -105,22 +105,18 @@ describe('uploadPage', () => {
   });
 
   describe('supportingDocuments', () => {
-    it('renders confirmationField properly', () => {
-      const cf = uiSchema.supportingDocuments['ui:confirmationField'];
-      const mockFormData = [{ name: 'doc1.pdf' }, { fileName: 'doc2.pdf' }];
-      const result = cf({ formData: mockFormData });
-      expect(result.data).to.deep.equal(['doc1.pdf', 'doc2.pdf']);
-      expect(result.label).to.exist;
-    });
-
     it('has a ui:field and ui:options for supportingDocuments', () => {
       const sd = uiSchema.supportingDocuments;
-      expect(sd['ui:field']).to.exist;
       expect(sd['ui:options']).to.be.an('object');
     });
 
-    it('has a ui:title React element', () => {
-      const title = uiSchema.supportingDocuments['ui:title'];
+    it('loads description for supporting documents', () => {
+      const title = uiSchema['view:supportingEvidenceDescription'];
+      expect(title).to.be.an('object');
+    });
+
+    it('has a custom ui:title React element', () => {
+      const title = uiSchema['view:supportingEvidenceTitle'];
       expect(title).to.be.an('object');
     });
   });
@@ -133,11 +129,12 @@ describe('uploadPage', () => {
     it('defines schema for supportingDocuments', () => {
       const props = schema.properties.supportingDocuments.items.properties;
       expect(props).to.have.all.keys(
-        'fileName',
-        'fileSize',
-        'confirmationNumber',
-        'errorMessage',
-        'uploading',
+        'additionalData',
+        'confirmationCode',
+        'name',
+        'size',
+        'type',
+        'warnings',
       );
     });
   });

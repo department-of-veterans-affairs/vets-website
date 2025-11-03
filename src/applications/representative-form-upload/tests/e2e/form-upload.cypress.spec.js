@@ -230,15 +230,18 @@ describe('Representative Form Upload', () => {
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(1000);
 
-          cy.get('input#root_supportingDocuments').selectFile(uploadImgPath, {
-            force: true,
-          });
+          cy.get('[name="root_supportingDocuments-0"]').selectFile(
+            uploadImgPath,
+            {
+              force: true,
+            },
+          );
 
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(1000);
           cy.axeCheck();
 
-          cy.findByRole('button', { name: /^Continue$/ }).click();
+          cy.clickFormContinue();
           cy.location('pathname').should(
             'eq',
             `/representative/representative-form-upload/${formId}/review-and-submit`,
