@@ -46,3 +46,18 @@ va-checkbox[error]::part(checkbox) {
     }
   }
 }
+va-radio[name="previouslyEnteredPointOfContact"]{
+  margin-top: 0 !important;
+}
+va-radio-option[label="None of the above, I will enter a new point of contact"]{
+  margin-top: 0;
+}
+.radio-container va-radio-option{
+  border: 1px solid hsl(0, 0%, 79%);
+  padding: 10px 20px;
+}
+.card-address {
+  display: block;
+  font-weight: normal;
+}
+
