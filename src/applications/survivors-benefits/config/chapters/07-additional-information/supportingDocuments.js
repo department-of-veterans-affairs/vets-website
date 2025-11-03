@@ -73,7 +73,7 @@ const Documents = () => (
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21p-4165"
                 external
-                text="Get VA Form 21P-4165 to download (opens in a new tab)"
+                text="Get VA Form 21P-4165 to download"
               />
             </span>
           </li>
@@ -85,7 +85,7 @@ const Documents = () => (
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21p-4185"
                 external
-                text="Get VA Form 21P-4185 to download (opens in a new tab)"
+                text="Get VA Form 21P-4185 to download"
               />
             </span>
           </li>
@@ -94,9 +94,9 @@ const Documents = () => (
             (VA Form 21-4138)
             <span className="vads-u-display--block">
               <va-link
-                href="https://www.va.gov/find-forms/about-form-21p-4138"
+                href="https://www.va.gov/find-forms/about-form-21-4138/"
                 external
-                text="Get VA Form 21-4138 to download (opens in a new tab)"
+                text="Get VA Form 21-4138 to download"
               />
             </span>
           </li>
@@ -132,7 +132,7 @@ const Documents = () => (
           <va-link
             href="https://www.va.gov/find-forms/about-form-21-2680"
             external
-            text="Get VA Form 21-2680 to download (opens in a new tab)"
+            text="Get VA Form 21-2680 to download"
           />
         </span>
         <h4>
@@ -146,7 +146,7 @@ const Documents = () => (
           <va-link
             href="https://www.va.gov/find-forms/about-form-21-0779"
             external
-            text="Get VA Form 21-0779 to download (opens in a new tab)"
+            text="Get VA Form 21-0779 to download"
           />
         </span>
         <h4>Claim for Fiduciary Assistance</h4>
@@ -158,7 +158,7 @@ const Documents = () => (
           <va-link
             href="https://www.va.gov/find-forms/about-form-21-2680"
             external
-            text="Get VA Form 21-2680 to download (opens in a new tab)"
+            text="Get VA Form 21-2680 to download"
           />
         </span>
         <h4>Statement of Medical Care</h4>
@@ -171,7 +171,7 @@ const Documents = () => (
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21p-534ez"
                 external
-                text="Get VA Form 21P-534EZ to download (opens in a new tab)"
+                text="Get VA Form 21P-534EZ to download"
               />
             </span>
           </li>
@@ -183,7 +183,7 @@ const Documents = () => (
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21p-534ez"
                 external
-                text="Get VA Form 21P-534EZ to download (opens in a new tab)"
+                text="Get VA Form 21P-534EZ to download"
               />
             </span>
           </li>
@@ -224,7 +224,7 @@ const Documents = () => (
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21-686c"
                 external
-                text="Get VA Form 21-686c to download (opens in a new tab)"
+                text="Get VA Form 21-686c to download"
               />
             </span>
           </li>
