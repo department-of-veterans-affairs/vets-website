@@ -114,7 +114,7 @@ describe('VAOS Services: Patient ', () => {
     it('Should return true for MH Id when flipper on', () => {
       const result = typeOfCareRequiresPastHistory(
         MENTAL_HEALTH_SERVICES_ID,
-        false,
+        true,
       );
       expect(result).to.be.true;
     });
