@@ -100,6 +100,7 @@ const EvidencePrivateRequest = ({
         <FormNavButtons
           goBack={handlers.onGoBack}
           goForward={handlers.onGoForward}
+          useWebComponents
         />
         {contentAfterButtons}
       </div>
