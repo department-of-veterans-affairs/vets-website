@@ -62,6 +62,94 @@ export const scrollToTop = async (
 ) => scrollTo(position, scrollOptions);
 
 /**
+ * Get error message text from a web component
+ * @param {Element} el - The web component element
+ * @returns {string} The error message text
+ */
+const getErrorMessage = el => {
+  return (
+    el.getAttribute('error') ||
+    el.getAttribute('input-error') ||
+    el.getAttribute('checkbox-error') ||
+    el.error ||
+    ''
+  );
+};
+
+/**
+ * Get label text from a web component
+ * @param {Element} el - The web component element
+ * @returns {string} The label text
+ */
+const getLabelText = el => {
+  const label = el.shadowRoot?.querySelector('label');
+  if (!label) return '';
+
+  // Get the text content, but exclude any existing error messages
+  const clone = label.cloneNode(true);
+  const errorElements = clone.querySelectorAll(
+    '[role="alert"], #input-error-message, #radio-error-message, .usa-error-message',
+  );
+  errorElements.forEach(err => err.remove());
+
+  return clone.textContent.trim();
+};
+
+/**
+ * Update aria-label on all components with errors
+ */
+const updateAriaLabels = () => {
+  // Find all custom elements on the page
+  const allElements = document.querySelectorAll('*');
+
+  allElements.forEach(el => {
+    // Check if it's a custom element (has a hyphen in tag name)
+    if (el.tagName.includes('-')) {
+      const errorMessage = getErrorMessage(el);
+
+      // Find the actual input element inside shadow DOM
+      const input = el.shadowRoot?.querySelector('input, select, textarea');
+
+      if (errorMessage && input) {
+        // Has error - add aria-label to the internal input
+        const labelText = getLabelText(el);
+        if (labelText) {
+          const errorText = errorMessage.replace(/^Error\s*/i, '').trim();
+          input.setAttribute('aria-label', `${errorText} ${labelText}`);
+        }
+      } else if (input && input.hasAttribute('aria-label')) {
+        // No error but has aria-label - remove it (likely from previous error)
+        input.removeAttribute('aria-label');
+      }
+    }
+  });
+};
+
+// Set up a MutationObserver to update aria-labels when error attributes change
+if (typeof window !== 'undefined') {
+  const observer = new MutationObserver(() => {
+    updateAriaLabels();
+  });
+
+  // Start observing when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['error', 'input-error', 'checkbox-error'],
+        subtree: true,
+      });
+    });
+  } else {
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['error', 'input-error', 'checkbox-error'],
+      subtree: true,
+    });
+  }
+}
+
+/**
  * scrollToFirstError options
  * @typedef scrollToFirstErrorOptions
  * @type {Object}
@@ -129,8 +217,12 @@ export const scrollToFirstError = async (options = {}) => {
       if (!isModalOpen) {
         const position = getElementPosition(el);
         scrollTo(position - 10, options);
+        el.setAttribute('tabindex', '0'); // make focusable
 
         if (focusOnAlertRole) {
+          // Update aria-labels for all components with errors
+          updateAriaLabels();
+
           // Adding a delay so that the shadow DOM needs to render and attach
           // before we try to focus on the element; without the setTimeout,
           // focus ends up staying on the "Continue" button
