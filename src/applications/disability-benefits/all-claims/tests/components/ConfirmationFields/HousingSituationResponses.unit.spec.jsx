@@ -32,7 +32,7 @@ describe('all-claims <HousingSituationResponses>', () => {
     expect(
       result.getByText(/Are you homeless or at risk of becoming homeless/i),
     ).to.exist;
-    expect(result.getByText(/AnotherPerson/i)).to.exist;
+    expect(result.getByText(/I’m living with another person\./i)).to.exist;
   });
 
   it('should display need to leave housing response', () => {
