@@ -68,13 +68,10 @@ const HousingSituationResponses = ({ formData }) => {
                 Please describe your current living situation:
               </div>
               {capitalizeEachWord(
-                formData['view:isHomeless']?.homelessHousingSituation ||
-                  formData['view:isAtRisk']?.homelessHousingSituation ||
-                  '',
+                formData['view:isAtRisk']?.atRiskHousingSituation || '',
               )}
             </li>
-            {formData['view:isAtRisk']?.homelessHousingSituation ===
-              'other' && (
+            {formData['view:isAtRisk']?.atRiskHousingSituation === 'other' && (
               <li>
                 <div className="vads-u-color--gray">Please describe: </div>
                 {formData['view:isAtRisk']?.otherAtRiskHousing || ''}
