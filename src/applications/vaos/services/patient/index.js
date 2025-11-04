@@ -192,41 +192,29 @@ function locationSupportsRequests(location, typeOfCare) {
   );
 }
 
-function matchClinicToAppt(
-  clinic,
-  facilityAndClinicIds,
-  appt,
-  requiresPastHistory,
-) {
-  const [facilityId, clinicId] = facilityAndClinicIds;
-  if (!requiresPastHistory) {
-    return clinic.patientDirectScheduling === true;
-  }
-  return appt.version === 2
-    ? clinic.stationId === appt.location?.stationId &&
-        clinicId === appt.location?.clinicId &&
-        clinic.patientDirectScheduling === true
-    : clinicId === appt.clinicId && facilityId === appt.facilityId;
-}
-
 function hasMatchingClinics(
   clinics,
   pastAppointments,
   requiresPastHistory = true,
 ) {
   return clinics?.some(clinic => {
-    const facilityAndClinicIds = clinic.id.split('_');
-    // we might get nonexistent pastAppointments
-    return !pastAppointments
-      ? clinic.patientDirectScheduling === true
-      : !!pastAppointments.find(appt =>
-          matchClinicToAppt(
-            clinic,
-            facilityAndClinicIds,
-            appt,
-            requiresPastHistory,
-          ),
-        );
+    const [clinicId, facilityId] = clinic.id.split('_');
+    const acceptsDirect = clinic.patientDirectScheduling === true;
+
+    return !!pastAppointments.find(appt => {
+      const matchesClinic =
+        appt.version === 2
+          ? clinic.stationId === appt.location?.stationId &&
+            clinicId === appt.location?.clinicId
+          : clinicId === appt.clinicId && facilityId === appt.facilityId;
+      if (appt.version === 2 && requiresPastHistory) {
+        return matchesClinic && acceptsDirect;
+      }
+      if (appt.version === 2) {
+        return acceptsDirect;
+      }
+      return matchesClinic;
+    });
   });
 }
 
@@ -351,17 +339,9 @@ export async function fetchFlowEligibilityAndClinics({
       typeOfCare,
     }).catch(createErrorHandler('direct-available-clinics-error'));
 
-    if (keepFacilityConfigCheck) {
-      // Primary care and mental health is exempt from past appt history requirement
-      const isDirectAppointmentHistoryRequired =
-        typeOfCareRequiresCheck &&
-        directTypeOfCareSettings.patientHistoryRequired === true;
-      if (isDirectAppointmentHistoryRequired) {
-        apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
-          featureUseBrowserTimezone,
-        ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
-      }
-    }
+    apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
+      featureUseBrowserTimezone,
+    ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
   }
 
   // This waits for all the api calls we're running in parallel to finish
@@ -378,14 +358,6 @@ export async function fetchFlowEligibilityAndClinics({
     request: true,
     requestReasons: [],
   };
-
-  // Call not added above if removeFacilityConfigCheck is true, but requires resolved eligibility status to determine if needed
-  // When removing feature toggle, remove just the removeFacilityConfigCheck variable, not the other booleans.
-  if (typeOfCareRequiresCheck && !results.pastAppointments) {
-    results.pastAppointments = await getLongTermAppointmentHistoryV2().catch(
-      createErrorHandler('direct-no-matching-past-clinics-error'),
-    );
-  }
 
   // When removeFacilityConfigCheck is removed, remove first condition in first if and remove
   // removeFacilityConfigCheck from 2nd condition in first if condition
