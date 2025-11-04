@@ -27,11 +27,11 @@ const InterstitialPage = props => {
 
   useEffect(
     () => {
-      if (allRecipients?.length > 0 && !recentRecipients) {
+      if (allRecipients?.length > 0 && recentRecipients === undefined) {
         dispatch(getRecentRecipients(6));
       }
     },
-    [allRecipients, dispatch, recentRecipients],
+    [dispatch, recentRecipients, allRecipients],
   );
 
   useEffect(() => {
@@ -42,8 +42,7 @@ const InterstitialPage = props => {
   // This is used for both the href attribute AND the programmatic navigation
   const getDestinationPath = useCallback(
     (includeRootUrl = false) => {
-      const hasRecentRecipients =
-        Array.isArray(recentRecipients) && recentRecipients.length > 0;
+      const hasRecentRecipients = recentRecipients?.length > 0;
 
       const path = hasRecentRecipients
         ? Paths.RECENT_CARE_TEAMS
@@ -56,7 +55,7 @@ const InterstitialPage = props => {
 
   const handleContinueButton = useCallback(
     event => {
-      event.preventDefault();
+      event?.preventDefault();
       dispatch(acceptInterstitial());
       if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
         history.push(getDestinationPath());
@@ -76,17 +75,19 @@ const InterstitialPage = props => {
       const searchParams = new URLSearchParams(location.search);
       const prescriptionId = searchParams.get('prescriptionId');
       const redirectPath = searchParams.get('redirectPath');
-      if (prescriptionId) {
-        dispatch(getPrescriptionById(prescriptionId));
-        handleContinueButton();
-      } else {
-        dispatch(clearPrescription());
-      }
-      if (redirectPath) {
-        dispatch(setRedirectPath(decodeURIComponent(redirectPath)));
+      if (recentRecipients !== undefined) {
+        if (prescriptionId) {
+          dispatch(getPrescriptionById(prescriptionId));
+          handleContinueButton();
+        } else {
+          dispatch(clearPrescription());
+        }
+        if (redirectPath) {
+          dispatch(setRedirectPath(decodeURIComponent(redirectPath)));
+        }
       }
     },
-    [location.search, handleContinueButton, dispatch],
+    [location.search, handleContinueButton, dispatch, recentRecipients],
   );
 
   const continueButtonText = useMemo(
