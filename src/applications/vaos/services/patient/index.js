@@ -193,31 +193,34 @@ function locationSupportsRequests(location, typeOfCare) {
   );
 }
 
+function matchClinicToAppt(clinic, clinicId, appt, requiresPastHistory) {
+  let matchesClinic = true;
+  if (requiresPastHistory) {
+    // in mocks/tests, sometimes appt is just `meta: []`, so optional
+    matchesClinic =
+      clinic.stationId === appt?.location?.stationId &&
+      clinicId === appt?.location?.clinicId;
+  }
+  if (appt.version === 2) {
+    return matchesClinic && clinic.patientDirectScheduling === true;
+  }
+  return matchesClinic;
+}
+
 function hasMatchingClinics(
   clinics,
   pastAppointments,
   requiresPastHistory = true,
 ) {
-  return clinics?.some(
-    clinic =>
-      !!pastAppointments.find(appt => {
-        const clinicIds = clinic.id.split('_');
-        if (appt.version === 2) {
-          return (
-            // these two conditions check if there is past Hx -- unless not required
-            (!requiresPastHistory ||
-              (clinic.stationId === appt.location.stationId &&
-                clinicIds[1] === appt.location.clinicId)) &&
-            // condition checks if clinic allows direct scheduling
-            clinic.patientDirectScheduling === true
-          );
-        }
-        return (
-          !requiresPastHistory ||
-          (clinicIds[0] === appt.facilityId && clinicIds[1] === appt.clinicId)
+  return clinics?.some(clinic => {
+    const clinicId = clinic.id.split('_')?.[1];
+    // we might get nonexistent pastAppointments
+    return !pastAppointments
+      ? clinic.patientDirectScheduling === true
+      : !!pastAppointments.find(appt =>
+          matchClinicToAppt(clinic, clinicId, appt, requiresPastHistory),
         );
-      }),
-  );
+  });
 }
 
 /*
@@ -346,7 +349,6 @@ export async function fetchFlowEligibilityAndClinics({
       const isDirectAppointmentHistoryRequired =
         typeOfCareRequiresCheck &&
         directTypeOfCareSettings.patientHistoryRequired === true;
-
       if (isDirectAppointmentHistoryRequired) {
         apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
           featureUseBrowserTimezone,
@@ -372,11 +374,7 @@ export async function fetchFlowEligibilityAndClinics({
 
   // Call not added above if removeFacilityConfigCheck is true, but requires resolved eligibility status to determine if needed
   // When removing feature toggle, remove just the removeFacilityConfigCheck variable, not the other booleans.
-  if (
-    typeOfCareRequiresCheck &&
-    removeFacilityConfigCheck &&
-    results.patientEligibility.direct?.eligible
-  ) {
+  if (typeOfCareRequiresCheck && !results.pastAppointments) {
     results.pastAppointments = await getLongTermAppointmentHistoryV2().catch(
       createErrorHandler('direct-no-matching-past-clinics-error'),
     );
@@ -461,7 +459,6 @@ export async function fetchFlowEligibilityAndClinics({
     // keepFacilityConfigCheck because we no longer will no longer be doing determination on the client side.
     if (
       !isCerner &&
-      typeOfCareRequiresCheck &&
       (keepFacilityConfigCheck &&
         directTypeOfCareSettings.patientHistoryRequired) &&
       !hasMatchingClinics(

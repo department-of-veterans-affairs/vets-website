@@ -12,7 +12,6 @@ import {
   getFormData,
   getTypeOfCare,
   selectChosenFacilityInfo,
-  selectEligibility,
   selectPastAppointments,
 } from '../../redux/selectors';
 import AppointmentsRadioWidget from '../AppointmentsRadioWidget';
@@ -32,8 +31,6 @@ const initialSchema = {
 export default function useClinicFormState(pageTitle) {
   const initialData = useSelector(getFormData);
   const location = useSelector(selectChosenFacilityInfo);
-
-  const eligibility = useSelector(selectEligibility);
   const selectedTypeOfCare = getTypeOfCare(initialData);
 
   const clinics = useSelector(getClinicsForChosenFacility);
@@ -61,10 +58,9 @@ export default function useClinicFormState(pageTitle) {
       selectedTypeOfCare.id,
       featurePastVisitMHFilter,
     ) &&
-    (removeFacilityConfigCheck
-      ? !eligibility.direct
-      : location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
-          ?.patientHistoryRequired === true); // this is a facility level condition
+    (!removeFacilityConfigCheck &&
+      location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
+        ?.patientHistoryRequired === true); // this is a facility level condition
 
   if (isCheckTypeOfCare) {
     const pastAppointmentDateMap = new Map();
