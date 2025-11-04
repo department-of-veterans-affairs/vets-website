@@ -552,7 +552,7 @@ export default function transformForSubmit(formConfig, form) {
     formNumber,
     // API contract requires this snake_case key
     // eslint-disable-next-line camelcase
-    increase_compensation_claim:{
+    increase_compensation_claim: {
       form: stringifiedPayload,
     },
   });
