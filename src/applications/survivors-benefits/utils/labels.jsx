@@ -74,6 +74,12 @@ export const recipientTypeLabels = {
   CUSTODIAN_SPOUSE: 'Custodian’s spouse',
 };
 
+export const medicalExpenseRecipientLabels = {
+  VETERAN: 'Veteran (only select if a last or burial expense)',
+  SURVIVING_SPOUSE: 'Surviving spouse',
+  VETERANS_CHILD: 'Veteran’s child',
+};
+
 export const careTypeLabels = {
   RESIDENTIAL_CARE_FACILITY: 'Residential care facility',
   IN_HOME_CARE_ATTENDANT: 'In-home care attendant',
