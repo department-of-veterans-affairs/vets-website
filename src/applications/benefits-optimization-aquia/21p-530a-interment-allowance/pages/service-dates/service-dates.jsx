@@ -62,11 +62,40 @@ export const ServiceDatesPage = ({
   setFormData,
   goForward,
   goBack,
+  goToPath,
   onReviewPage,
   updatePage,
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
+
+  // Check if we're editing an existing service period
+  const isEditing = formDataToUse.tempServicePeriod?.isEditing || false;
+
+  // Custom back handler for cancel edit
+  const handleBack = () => {
+    if (isEditing) {
+      // Cancel edit - clear temp data and return to summary
+      const updatedData = {
+        ...formDataToUse,
+        tempServicePeriod: {
+          branchOfService: '',
+          dateFrom: '',
+          dateTo: '',
+          placeOfEntry: '',
+          placeOfSeparation: '',
+          rank: '',
+          isEditing: false,
+        },
+        editingServicePeriodIndex: undefined,
+      };
+      setFormData(updatedData);
+      goToPath('/service-periods');
+    } else {
+      // Normal back navigation
+      goBack();
+    }
+  };
 
   return (
     <PageTemplate
@@ -74,12 +103,15 @@ export const ServiceDatesPage = ({
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
-      goBack={goBack}
+      goBack={handleBack}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       schema={serviceDatesPageSchema}
       sectionName="tempServicePeriod"
       dataProcessor={ensureDateStrings}
+      navigationProps={{
+        backButtonText: isEditing ? 'Cancel' : 'Back',
+      }}
       defaultData={{
         dateFrom: '',
         dateTo: '',
@@ -122,9 +154,10 @@ export const ServiceDatesPage = ({
 
 ServiceDatesPage.propTypes = {
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  onReviewPage: PropTypes.bool,
-  goBack: PropTypes.func,
   goForward: PropTypes.func.isRequired,
+  goBack: PropTypes.func,
+  goToPath: PropTypes.func,
+  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
 };

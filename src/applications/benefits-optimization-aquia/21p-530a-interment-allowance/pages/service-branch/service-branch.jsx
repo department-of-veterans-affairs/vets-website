@@ -34,11 +34,40 @@ export const ServiceBranchPage = ({
   setFormData,
   goForward,
   goBack,
+  goToPath,
   onReviewPage,
   updatePage,
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
+
+  // Check if we're editing an existing service period
+  const isEditing = formDataToUse.tempServicePeriod?.isEditing || false;
+
+  // Custom back handler for cancel edit
+  const handleBack = () => {
+    if (isEditing) {
+      // Cancel edit - clear temp data and return to summary
+      const updatedData = {
+        ...formDataToUse,
+        tempServicePeriod: {
+          branchOfService: '',
+          dateFrom: '',
+          dateTo: '',
+          placeOfEntry: '',
+          placeOfSeparation: '',
+          rank: '',
+          isEditing: false,
+        },
+        editingServicePeriodIndex: undefined,
+      };
+      setFormData(updatedData);
+      goToPath('/service-periods');
+    } else {
+      // Normal back navigation
+      goBack();
+    }
+  };
 
   return (
     <PageTemplate
@@ -46,11 +75,14 @@ export const ServiceBranchPage = ({
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
-      goBack={goBack}
+      goBack={handleBack}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       schema={serviceBranchPageSchema}
       sectionName="tempServicePeriod"
+      navigationProps={{
+        backButtonText: isEditing ? 'Cancel' : 'Back',
+      }}
       defaultData={{
         branchOfService: '',
       }}
@@ -79,10 +111,11 @@ export const ServiceBranchPage = ({
 };
 
 ServiceBranchPage.propTypes = {
-  data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  onReviewPage: PropTypes.bool,
-  goBack: PropTypes.func,
   goForward: PropTypes.func.isRequired,
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  goBack: PropTypes.func,
+  goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
