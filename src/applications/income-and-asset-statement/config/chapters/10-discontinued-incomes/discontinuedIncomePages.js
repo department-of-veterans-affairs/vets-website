@@ -251,7 +251,7 @@ const parentSummaryPage = {
 const veteranIncomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Recurring income relationship',
+      title: incomeRecipientPageTitle,
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
@@ -288,7 +288,7 @@ const veteranIncomeRecipientPage = {
 const spouseIncomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Recurring income relationship',
+      title: incomeRecipientPageTitle,
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
@@ -321,7 +321,7 @@ const spouseIncomeRecipientPage = {
 const custodianIncomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Recurring income relationship',
+      title: incomeRecipientPageTitle,
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
@@ -356,7 +356,7 @@ const custodianIncomeRecipientPage = {
 const parentIncomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Recurring income relationship',
+      title: incomeRecipientPageTitle,
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
@@ -387,7 +387,7 @@ const parentIncomeRecipientPage = {
 const nonVeteranIncomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Discontinued income relationship',
+      title: incomeRecipientPageTitle,
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
