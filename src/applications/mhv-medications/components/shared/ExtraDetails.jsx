@@ -47,21 +47,33 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
           className="statusIcon refillProcessIcon"
           data-testid="refill-in-process"
         >
-          <va-icon icon="acute" size={3} aria-hidden="true" />
-          <div className="vads-u-padding-left--2" data-testid="rx-process">
-            <p
-              data-testid="rx-refillinprocess-info"
-              className="vads-u-margin-y--0"
-            >
-              We expect to fill this prescription on{' '}
-              {dateFormat(rx.refillDate, DATETIME_FORMATS.longMonthDate)}. If{' '}
-              you need it sooner, call your VA pharmacy
-              <CallPharmacyPhone
-                cmopDivisionPhone={pharmacyPhone}
-                page={pageType.DETAILS}
-              />
-            </p>
-          </div>
+          <SendRxRenewalMessage
+            rx={rx}
+            alwaysShowFallBackContent={showRenewalLink}
+            fallbackContent={
+              // eslint-disable-next-line react/jsx-wrap-multilines
+              <>
+                <va-icon icon="acute" size={3} aria-hidden="true" />
+                <div
+                  className="vads-u-padding-left--2"
+                  data-testid="rx-process"
+                >
+                  <p
+                    data-testid="rx-refillinprocess-info"
+                    className="vads-u-margin-y--0"
+                  >
+                    We expect to fill this prescription on{' '}
+                    {dateFormat(rx.refillDate, DATETIME_FORMATS.longMonthDate)}.
+                    If you need it sooner, call your VA pharmacy
+                    <CallPharmacyPhone
+                      cmopDivisionPhone={pharmacyPhone}
+                      page={pageType.DETAILS}
+                    />
+                  </p>
+                </div>
+              </>
+            }
+          />
         </div>
       )}
       {dispStatus === dispStatusObj.submitted && (
@@ -69,12 +81,24 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
           className="statusIcon submittedIcon"
           data-testid="submitted-refill-request"
         >
-          <va-icon icon="fact_check" size={3} aria-hidden="true" />
-          <span className="vads-u-padding-left--2">
-            We got your request on{' '}
-            {dateFormat(rx.refillSubmitDate, DATETIME_FORMATS.longMonthDate)}.{' '}
-            Check back for updates.
-          </span>
+          <SendRxRenewalMessage
+            rx={rx}
+            alwaysShowFallBackContent={showRenewalLink}
+            fallbackContent={
+              // eslint-disable-next-line react/jsx-wrap-multilines
+              <>
+                <va-icon icon="fact_check" size={3} aria-hidden="true" />
+                <span className="vads-u-padding-left--2">
+                  We got your request on{' '}
+                  {dateFormat(
+                    rx.refillSubmitDate,
+                    DATETIME_FORMATS.longMonthDate,
+                  )}
+                  Check back for updates.
+                </span>
+              </>
+            }
+          />
         </p>
       )}
       {dispStatus === dispStatusObj.activeParked && (
@@ -84,24 +108,26 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
       )}
       {dispStatus === dispStatusObj.expired && (
         <div>
-          <p className="vads-u-margin-y--0" data-testid="expired">
-            This prescription is too old to refill. If you need more, request a
-            renewal.
-          </p>
           <SendRxRenewalMessage
             rx={rx}
             alwaysShowFallBackContent={showRenewalLink}
             fallbackContent={
               // eslint-disable-next-line react/jsx-wrap-multilines
-              <va-link
-                href="/resources/how-to-renew-a-va-prescription"
-                text="Learn how to renew prescriptions"
-                data-testid="learn-to-renew-precsriptions-link"
-                data-dd-action-name={
-                  dataDogActionNames.detailsPage
-                    .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
-                }
-              />
+              <>
+                <p className="vads-u-margin-y--0" data-testid="expired">
+                  This prescription is too old to refill. If you need more,
+                  renewal.
+                </p>
+                <va-link
+                  href="/resources/how-to-renew-a-va-prescription"
+                  text="Learn how to renew prescriptions"
+                  data-testid="learn-to-renew-precsriptions-link"
+                  data-dd-action-name={
+                    dataDogActionNames.detailsPage
+                      .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
+                  }
+                />
+              </>
             }
           />
         </div>

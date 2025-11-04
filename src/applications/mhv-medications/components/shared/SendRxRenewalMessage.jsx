@@ -45,11 +45,12 @@ const SendRxRenewalMessage = ({
       <RenderLinkVariation
         isActionLink={isActionLink}
         setShowRenewalModal={setShowRenewalModal}
+        isExpired={isExpiredLessThan120Days}
       />
       <VaModal
         modalTitle="You're leaving medications to send a message"
         primaryButtonText="Continue"
-        secondaryButtonText="CANCEL"
+        secondaryButtonText="Back"
         onPrimaryButtonClick={() => {
           window.location.href = secureMessagesUrl;
         }}
@@ -87,7 +88,11 @@ SendRxRenewalMessage.propTypes = {
   }),
 };
 
-const RenderLinkVariation = ({ isActionLink, setShowRenewalModal }) => {
+const RenderLinkVariation = ({
+  isActionLink,
+  setShowRenewalModal,
+  isExpired,
+}) => {
   return isActionLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link
@@ -99,17 +104,29 @@ const RenderLinkVariation = ({ isActionLink, setShowRenewalModal }) => {
       Send a renewal request message
     </Link>
   ) : (
-    <va-link
-      href="#"
-      text="Send a renewal request message"
-      data-testid="send-renewal-request-message-link"
-      onClick={() => setShowRenewalModal(true)}
-    />
+    <>
+      {isExpired && (
+        <p
+          className="vads-u-margin-y--0"
+          data-testid="expired-less-than-120-days"
+        >
+          You can’t refill this prescription. If you need more, send a secure
+          message to your care team.
+        </p>
+      )}
+      <va-link
+        href="#"
+        text="Send a renewal request message"
+        data-testid="send-renewal-request-message-link"
+        onClick={() => setShowRenewalModal(true)}
+      />
+    </>
   );
 };
 
 RenderLinkVariation.propTypes = {
   isActionLink: PropTypes.bool,
+  isExpired: PropTypes.bool,
   setShowRenewalModal: PropTypes.func,
 };
 
