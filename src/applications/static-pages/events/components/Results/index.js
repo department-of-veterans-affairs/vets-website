@@ -74,20 +74,25 @@ export const Results = ({
   queryId,
   results,
   totalResults,
+  shouldFocus = false,
+  onFocusComplete,
 }) => {
   const noResultsRef = useRef(null);
   const resultsHeaderRef = useRef(null);
 
-  // Focus the appropriate element when results change to announce to screen readers
+  // Focus the appropriate element when filters are applied (not on page load)
   useEffect(
     () => {
-      if (!results?.length && noResultsRef.current) {
-        noResultsRef.current.focus();
-      } else if (results?.length && resultsHeaderRef.current) {
-        resultsHeaderRef.current.focus();
+      if (shouldFocus) {
+        if (results?.length > 0) {
+          resultsHeaderRef.current?.focus();
+        } else {
+          noResultsRef.current?.focus();
+        }
+        onFocusComplete();
       }
     },
-    [results, totalResults, query],
+    [shouldFocus, results?.length, onFocusComplete],
   );
 
   if (!results?.length) {
@@ -221,6 +226,8 @@ Results.propTypes = {
   totalResults: PropTypes.number.isRequired,
   onPageSelect: PropTypes.func.isRequired,
   queryId: PropTypes.string,
+  shouldFocus: PropTypes.bool,
+  onFocusComplete: PropTypes.func,
 };
 
 export default Results;
