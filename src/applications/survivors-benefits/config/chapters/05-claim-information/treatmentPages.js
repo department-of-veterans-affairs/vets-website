@@ -39,7 +39,7 @@ const introPage = {
       title: 'Treatment at VA medical centers',
     }),
     'ui:description':
-      'Next we’ll ask you about VA medical centers where the Veteran received treatment pertaining to your claim. You may edit or delete a VA medical center or choose to continue on in the application.',
+      'Next we’ll ask you about VA medical centers where the Veteran received treatment pertaining to your claim. You may add up to 3 VA medical centers.',
   },
   schema: {
     type: 'object',

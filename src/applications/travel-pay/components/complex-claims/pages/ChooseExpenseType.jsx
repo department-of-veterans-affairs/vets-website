@@ -39,7 +39,7 @@ const ChooseExpenseType = () => {
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/complex/${apptId}`);
+    navigate(`/file-new-claim/${apptId}`);
   };
 
   return (

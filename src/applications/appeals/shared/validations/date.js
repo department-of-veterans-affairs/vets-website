@@ -1,10 +1,32 @@
-import { isValid, isToday, isAfter, startOfToday } from 'date-fns';
+import { isValid } from 'date-fns';
 
 import { parseISODate } from '~/platform/forms-system/src/js/helpers';
 
 import { FORMAT_YMD_DATE_FNS } from '../constants';
-import { parseDateToDateObj } from '../utils/dates';
+import {
+  parseDateToDateObj,
+  isLocalToday,
+  isUTCTodayOrFuture,
+} from '../utils/dates';
 import { fixDateFormat } from '../utils/replace';
+
+/**
+ * Main validation method: Check if a date should be blocked from appeal submission
+ * Uses dual validation approach combining local timezone and UTC validation
+ * This prevents same-day submissions globally while maintaining backend consistency
+ *
+ * Decision tree:
+ * 1. If decision date is same as current local calendar day → Block (return true)
+ * 2. If different local calendar day but same UTC day → Block (return true)
+ * 3. If both different → Allow (return false)
+ *
+ * @param {Date} date - The date to check
+ * @returns {boolean} - True if the date should be blocked from appeal submission
+ */
+export const isTodayOrInFuture = date => {
+  if (!date || !isValid(date)) return false;
+  return isLocalToday(date) || isUTCTodayOrFuture(date);
+};
 
 const buildDatePartErrors = (month, day, year) => {
   // get last day of the month (month is zero based, so we're +1 month, day 0);
@@ -51,7 +73,7 @@ export const createDateObject = rawDateString => {
       datePartErrors.year ||
       invalidDate,
     dateObj,
-    isTodayOrInFuture: isToday(dateObj) || isAfter(dateObj, startOfToday()),
+    isTodayOrInFuture: isTodayOrInFuture(dateObj),
   };
 };
 
@@ -70,6 +92,7 @@ export const addDateErrorMessages = (errors, errorMessages, date) => {
   }
   if (date.isTodayOrInFuture) {
     // Lighthouse won't accept same day (as submission) decision date
+    // Using UTC-based validation to match backend behavior
     errors.addError(errorMessages.decisions.pastDate);
     // eslint-disable-next-line no-param-reassign
     date.errors.year = true; // only the year is invalid at this point
