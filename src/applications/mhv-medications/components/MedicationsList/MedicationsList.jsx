@@ -63,15 +63,24 @@ const MedicationsList = props => {
     const allMedsSelected = selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY;
     return (
       <>
-        {!isFullList &&
-          !allMedsSelected && (
-            <strong>{selectedFilterDisplay} medications</strong>
-          )}
+        {!isFullList && !allMedsSelected && (
+          <strong>{selectedFilterDisplay} medications</strong>
+        )}
         {`${
           !isFullList && !allMedsSelected ? '' : ' medications'
         }, ${sortOptionLowercase}`}
       </>
     );
+  };
+
+  // used to create aria-label for filter and sort info (for Firefox)
+  const filterAndSortAriaLabel = () => {
+    const allMedsSelected = selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY;
+    const filterText =
+      !isFullList && !allMedsSelected
+        ? `${selectedFilterDisplay} medications`
+        : 'medications';
+    return `${filterText}, ${sortOptionLowercase}`;
   };
 
   return (
@@ -80,11 +89,12 @@ const MedicationsList = props => {
         className="rx-page-total-info vads-u-font-family--sans"
         data-testid="page-total-info"
         id="showingRx"
+        aria-label={`Showing ${displayNums[0]} - ${
+          displayNums[1]
+        } of ${totalMedications} ${filterAndSortAriaLabel()}`}
       >
         <span className="no-print">
-          {`Showing ${displayNums[0]} - ${
-            displayNums[1]
-          } of ${totalMedications} `}
+          {`Showing ${displayNums[0]} - ${displayNums[1]} of ${totalMedications} `}
           {filterAndSortContent()}
         </span>
         <span className="print-only">
@@ -102,15 +112,14 @@ const MedicationsList = props => {
         data-testid="medication-list"
       >
         {rxList?.length > 0 &&
-          rxList.map(
-            (rx, idx) =>
-              rx.prescriptionId === prescriptionId ? (
-                <div ref={scrollLocation} key={idx}>
-                  <MedicationsListCard rx={rx} />
-                </div>
-              ) : (
-                <MedicationsListCard key={idx} rx={rx} />
-              ),
+          rxList.map((rx, idx) =>
+            rx.prescriptionId === prescriptionId ? (
+              <div ref={scrollLocation} key={idx}>
+                <MedicationsListCard rx={rx} />
+              </div>
+            ) : (
+              <MedicationsListCard key={idx} rx={rx} />
+            ),
           )}
       </div>
       <VaPagination

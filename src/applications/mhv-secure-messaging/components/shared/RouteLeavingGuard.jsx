@@ -81,20 +81,18 @@ export const RouteLeavingGuard = ({
     [setIsModalVisible],
   );
 
-  const closeModal = useCallback(
-    () => {
-      setIsModalVisible(false);
-      updateModalVisible(false);
-      setSavedDraft(false);
-    },
-    [setIsModalVisible, setSavedDraft],
-  );
+  const closeModal = useCallback(() => {
+    setIsModalVisible(false);
+    updateModalVisible(false);
+    setSavedDraft(false);
+  }, [setIsModalVisible, setSavedDraft]);
 
   const handleBlockedNavigation = useCallback(
     nextLocation => {
       let allowedPaths = [];
       if (type === 'compose') {
         allowedPaths = [
+          `${Paths.RECENT_CARE_TEAMS}`,
           `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
           `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
           `${Paths.MESSAGE_THREAD}${draftInProgress?.messageId}`,
@@ -108,12 +106,13 @@ export const RouteLeavingGuard = ({
 
       // Allow navigation between specified paths without guard
       const normalizePath = path => path.replace(/\/$/, '');
+      const normalizedAllowedPaths = allowedPaths.map(normalizePath);
       const normalizedCurrentPath = normalizePath(currentPath);
       const normalizedNextPath = normalizePath(nextPath);
 
       if (
-        allowedPaths.includes(normalizedCurrentPath) &&
-        allowedPaths.includes(normalizedNextPath)
+        normalizedAllowedPaths.includes(normalizedCurrentPath) &&
+        normalizedAllowedPaths.includes(normalizedNextPath)
       ) {
         return true;
       }
@@ -164,27 +163,27 @@ export const RouteLeavingGuard = ({
     }
   };
 
-  useEffect(
-    () => {
-      if (confirmedNavigation && lastLocation?.pathname) {
-        if (!persistDraftPaths.includes(lastLocation?.pathname)) {
-          dispatch(clearDraftInProgress());
-        }
-        navigate(lastLocation.pathname);
-        updateConfirmedNavigation(false);
+  useEffect(() => {
+    if (confirmedNavigation && lastLocation?.pathname) {
+      if (!persistDraftPaths.includes(lastLocation?.pathname)) {
+        dispatch(clearDraftInProgress());
       }
-    },
-    [confirmedNavigation, dispatch, lastLocation?.pathname, navigate],
-  );
+      navigate(lastLocation.pathname);
+      updateConfirmedNavigation(false);
+    }
+  }, [
+    confirmedNavigation,
+    dispatch,
+    lastLocation?.pathname,
+    navigate,
+    persistDraftPaths,
+  ]);
 
-  useEffect(
-    () => {
-      if (savedDraft && !!saveError) {
-        updateModalVisible(true);
-      }
-    },
-    [saveError, savedDraft],
-  );
+  useEffect(() => {
+    if (savedDraft && !!saveError) {
+      updateModalVisible(true);
+    }
+  }, [saveError, savedDraft]);
 
   useBeforeUnloadGuard(when);
   return (

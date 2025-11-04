@@ -6,7 +6,7 @@ import {
   pharmacyPhoneNumber,
   rxSourceIsNonVA,
 } from '../../util/helpers';
-import { dispStatusObj } from '../../util/constants';
+import { DATETIME_FORMATS, dispStatusObj } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
@@ -52,10 +52,8 @@ const ExtraDetails = rx => {
               className="vads-u-margin-y--0"
             >
               We expect to fill this prescription on{' '}
-              {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
-            </p>
-            <p className="vads-u-margin-y--0" data-testid="pharmacy-phone-info">
-              If you need it sooner, call your VA pharmacy
+              {dateFormat(rx.refillDate, DATETIME_FORMATS.longMonthDate)}. If{' '}
+              you need it sooner, call your VA pharmacy
               <CallPharmacyPhone
                 cmopDivisionPhone={pharmacyPhone}
                 page={pageType.DETAILS}
@@ -72,8 +70,8 @@ const ExtraDetails = rx => {
           <va-icon icon="fact_check" size={3} aria-hidden="true" />
           <span className="vads-u-padding-left--2">
             We got your request on{' '}
-            {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
-            updates.
+            {dateFormat(rx.refillSubmitDate, DATETIME_FORMATS.longMonthDate)}.{' '}
+            Check back for updates.
           </span>
         </p>
       )}
@@ -106,9 +104,7 @@ const ExtraDetails = rx => {
             to your care team.
           </p>
           <va-link
-            href={`${
-              environment.BASE_URL
-            }/my-health/secure-messages/new-message/`}
+            href={`${environment.BASE_URL}/my-health/secure-messages/new-message/`}
             text="Start a new message"
             data-testid="discontinued-compose-message-link"
             data-dd-action-name={
@@ -144,22 +140,18 @@ const ExtraDetails = rx => {
           />
         </p>
       )}
-      {dispStatus === dispStatusObj.active &&
-        noRefillRemaining && (
-          <div className="no-print">
-            <p
-              className="vads-u-margin-y--0"
-              data-testid="active-no-refill-left"
-            >
-              You have no refills left. If you need more, request a renewal.
-            </p>
-            <va-link
-              href="/resources/how-to-renew-a-va-prescription"
-              text="Learn how to renew prescriptions"
-              data-testid="learn-to-renew-prescriptions-link"
-            />
-          </div>
-        )}
+      {dispStatus === dispStatusObj.active && noRefillRemaining && (
+        <div className="no-print">
+          <p className="vads-u-margin-y--0" data-testid="active-no-refill-left">
+            You have no refills left. If you need more, request a renewal.
+          </p>
+          <va-link
+            href="/resources/how-to-renew-a-va-prescription"
+            text="Learn how to renew prescriptions"
+            data-testid="learn-to-renew-prescriptions-link"
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -5,6 +5,7 @@
   "allTriageGroupsBlocked": false,
   "mockBlockedFacilities": ["583"],
   "mockAllFacilities": ["583", "636"],
+  "mockVistaFacilities": ["583", "636"],
 
   "mockAllRecipients": [
     {
@@ -112,5 +113,4 @@
       "type": "Care Team"
     }
   ]
-
 }

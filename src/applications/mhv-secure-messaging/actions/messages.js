@@ -1,8 +1,4 @@
 import moment from 'moment-timezone';
-import {
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
-} from '@department-of-veterans-affairs/mhv/exports';
 import { Actions } from '../util/actionTypes';
 import {
   getMessage,
@@ -64,11 +60,10 @@ export const retrieveMessageThread = messageId => async dispatch => {
 
     const drafts = response.data
       .filter(m => m.attributes.draftDate !== null)
-      .sort(
-        (a, b) =>
-          moment(a.attributes.draftDate).isSameOrBefore(b.attributes.draftDate)
-            ? 1
-            : -1,
+      .sort((a, b) =>
+        moment(a.attributes.draftDate).isSameOrBefore(b.attributes.draftDate)
+          ? 1
+          : -1,
       );
     const messages = response.data.filter(m => m.attributes.sentDate !== null);
 
@@ -212,9 +207,6 @@ export const sendMessage = (
         ),
       );
     throw e;
-  } finally {
-    // Log message sending even if failed for analytics
-    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };
 
@@ -280,8 +272,5 @@ export const sendReply = ({
       );
     }
     throw e;
-  } finally {
-    // Log message sending even if failed for analytics
-    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };

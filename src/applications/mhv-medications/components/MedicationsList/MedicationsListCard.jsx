@@ -5,6 +5,7 @@ import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
+import { DATETIME_FORMATS } from '../../util/constants';
 
 const MedicationsListCard = ({ rx }) => {
   const pendingMed =
@@ -62,7 +63,7 @@ const MedicationsListCard = ({ rx }) => {
               Shipped on{' '}
               {dateFormat(
                 latestTrackingStatus.completeDateTime,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
               )}
             </span>
           </p>
@@ -98,12 +99,8 @@ const MedicationsListCard = ({ rx }) => {
           id={`card-header-${rx.prescriptionId}`}
           aria-describedby={
             pendingMed || pendingRenewal
-              ? `prescription-number-${rx.prescriptionId} pending-med-content-${
-                  rx.prescriptionId
-                }`
-              : `status-${rx.prescriptionId} status-description-${
-                  rx.prescriptionId
-                } fill-or-refill-button-${rx.prescriptionId}`
+              ? `prescription-number-${rx.prescriptionId} pending-med-content-${rx.prescriptionId}`
+              : `status-${rx.prescriptionId} status-description-${rx.prescriptionId} fill-or-refill-button-${rx.prescriptionId}`
           }
           data-dd-privacy="mask"
           data-dd-action-name={

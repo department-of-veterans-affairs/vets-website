@@ -12,17 +12,13 @@ class PatientMessageDetailsPage {
     const singleMessageResponse = { data: singleThreadResponse.data[0] };
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_EXTENDED}/${
-        multiThreadsResponse.data[0].attributes.messageId
-      }/thread*`,
+      `${Paths.SM_API_EXTENDED}/${multiThreadsResponse.data[0].attributes.messageId}/thread*`,
       singleThreadResponse,
     ).as(`threadResponse`);
 
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_EXTENDED}/${
-        singleThreadResponse.data[0].attributes.messageId
-      }`,
+      `${Paths.SM_API_EXTENDED}/${singleThreadResponse.data[0].attributes.messageId}`,
       singleMessageResponse,
     ).as(`threadFirstMessageResponse`);
 
@@ -35,9 +31,7 @@ class PatientMessageDetailsPage {
   loadReplyMessageThread = (singleThreadResponse = threadResponse) => {
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_EXTENDED}/${
-        singleThreadResponse.data[0].attributes.messageId
-      }/thread*`,
+      `${Paths.SM_API_EXTENDED}/${singleThreadResponse.data[0].attributes.messageId}/thread*`,
       singleThreadResponse,
     ).as(`threadResponse`);
 
@@ -50,7 +44,15 @@ class PatientMessageDetailsPage {
     cy.findByTestId(Locators.ALERTS.THREAD_EXPAND)
       .should('be.visible')
       .shadow()
-      .find('button')
+      .findByText('Expand all')
+      .click({ force: true });
+  };
+
+  collapseAllThreadMessages = () => {
+    cy.findByTestId(Locators.ALERTS.THREAD_EXPAND)
+      .should('be.visible')
+      .shadow()
+      .findByText('Collapse all')
       .click({ force: true });
   };
 
@@ -137,9 +139,7 @@ class PatientMessageDetailsPage {
   loadReplyPage = mockMessageDetails => {
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockMessageDetails.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockMessageDetails.data.attributes.messageId}`,
       mockMessageDetails,
     ).as('reply-message');
     cy.get('[data-testid=reply-button-text]').click();
@@ -172,9 +172,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'contain',
-        `From: ${messageDetails.data.attributes.senderName} (${
-          messageDetails.data.attributes.triageGroupName
-        })`,
+        `From: ${messageDetails.data.attributes.senderName} (${messageDetails.data.attributes.triageGroupName})`,
       );
   };
 
@@ -184,24 +182,14 @@ class PatientMessageDetailsPage {
     attachmentIndex = 0,
   ) => {
     cy.get(
-      `[data-testid="expand-message-button-${
-        messageThread.data[messageIndex].id
-      }"]`,
+      `[data-testid="expand-message-button-${messageThread.data[messageIndex].id}"]`,
     )
       .find(
-        `[data-testid="has-attachment-${
-          messageThread.data[messageIndex].attributes.attachments[
-            attachmentIndex
-          ].id
-        }"]`,
+        `[data-testid="has-attachment-${messageThread.data[messageIndex].attributes.attachments[attachmentIndex].id}"]`,
       )
       .should(
         'have.text',
-        `${
-          messageThread.data[messageIndex].attributes.attachments[
-            attachmentIndex
-          ].name
-        }`,
+        `${messageThread.data[messageIndex].attributes.attachments[attachmentIndex].name}`,
       );
   };
 
@@ -261,9 +249,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `Draft To: ${messageDetails.data.attributes.senderName}\n(Team: ${
-          messageDetails.data.attributes.triageGroupName
-        })`,
+        `Draft To: ${messageDetails.data.attributes.senderName}\n(Team: ${messageDetails.data.attributes.triageGroupName})`,
       );
   };
 
@@ -373,9 +359,7 @@ class PatientMessageDetailsPage {
     if (messageDetails.data.at(messageIndex).attributes.hasAttachments) {
       cy.log('message has attachment... checking for image');
       cy.get(
-        `[data-testid="expand-message-button-${
-          messageDetails.data[messageIndex].attributes.messageId
-        }"]`,
+        `[data-testid="expand-message-button-${messageDetails.data[messageIndex].attributes.messageId}"]`,
       )
         .find(Locators.ICONS.ATTCH_ICON)
         .should('be.visible');

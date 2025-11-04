@@ -169,11 +169,10 @@ export const isOlderThan = (timestamp, days) => {
 };
 
 export const getLastSentMessage = messages => {
-  return messages.find(
-    m =>
-      m.attributes !== undefined
-        ? m.attributes.sentDate !== null
-        : m.sentDate !== null,
+  return messages.find(m =>
+    m.attributes !== undefined
+      ? m.attributes.sentDate !== null
+      : m.sentDate !== null,
   );
 };
 
@@ -308,9 +307,7 @@ export const convertPathNameToTitleCase = str => {
 
 export const messageSignatureFormatter = singatureObj => {
   if (singatureObj?.includeSignature) {
-    return `\n\n\n${singatureObj.signatureName}\n${
-      singatureObj.signatureTitle
-    }`;
+    return `\n\n\n${singatureObj.signatureName}\n${singatureObj.signatureTitle}`;
   }
   return null;
 };
@@ -408,6 +405,28 @@ export const findBlockedFacilities = recipients => {
   const allFacilities = [...facilityList];
 
   return { fullyBlockedFacilities, allFacilities };
+};
+
+export const findAllowedFacilities = recipients => {
+  const allowedVistaFacilities = new Set();
+  const allowedOracleFacilities = new Set();
+
+  recipients.forEach(recipient => {
+    const { stationNumber, blockedStatus, ohTriageGroup } = recipient;
+
+    if (blockedStatus === false) {
+      if (ohTriageGroup === true) {
+        allowedOracleFacilities.add(stationNumber);
+      } else {
+        allowedVistaFacilities.add(stationNumber);
+      }
+    }
+  });
+
+  return {
+    allowedVistaFacilities: [...allowedVistaFacilities],
+    allowedOracleFacilities: [...allowedOracleFacilities],
+  };
 };
 
 export const getStationNumberFromRecipientId = (recipientId, recipients) => {

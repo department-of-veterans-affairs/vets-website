@@ -5,11 +5,7 @@ import {
   focusElement,
   waitForRenderThenFocus,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
-import {
-  updatePageTitle,
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DefaultFolders as Folders,
   Alerts,
@@ -63,26 +59,23 @@ const FolderThreadListView = () => {
     "[data-testid='displaying-number-of-threads']";
 
   // Calculate folder ID based on current route
-  const currentFolderId = useMemo(
-    () => {
-      if (params?.folderId) {
-        return params.folderId;
-      }
+  const currentFolderId = useMemo(() => {
+    if (params?.folderId) {
+      return params.folderId;
+    }
 
-      const normalizedPath = location.pathname.endsWith('/')
-        ? location.pathname
-        : `${location.pathname}/`;
-      const pathToFolderMap = {
-        [Paths.INBOX]: Folders.INBOX.id,
-        [Paths.SENT]: Folders.SENT.id,
-        [Paths.DRAFTS]: Folders.DRAFTS.id,
-        [Paths.DELETED]: Folders.DELETED.id,
-      };
+    const normalizedPath = location.pathname.endsWith('/')
+      ? location.pathname
+      : `${location.pathname}/`;
+    const pathToFolderMap = {
+      [Paths.INBOX]: Folders.INBOX.id,
+      [Paths.SENT]: Folders.SENT.id,
+      [Paths.DRAFTS]: Folders.DRAFTS.id,
+      [Paths.DELETED]: Folders.DELETED.id,
+    };
 
-      return pathToFolderMap[normalizedPath];
-    },
-    [location.pathname, params?.folderId],
-  );
+    return pathToFolderMap[normalizedPath];
+  }, [location.pathname, params?.folderId]);
 
   const retrieveListOfThreads = useCallback(
     ({
@@ -135,107 +128,79 @@ const FolderThreadListView = () => {
     [retrieveListOfThreads, threadSort.folderId, threadSort.value],
   );
 
-  useEffect(
-    () => {
-      // Log inbox access for analytics
-      const normalizedPath = location.pathname.endsWith('/')
-        ? location.pathname
-        : `${location.pathname}/`;
-      if (normalizedPath === Paths.INBOX) {
-        logUniqueUserMetricsEvents(
-          EVENT_REGISTRY.SECURE_MESSAGING_INBOX_ACCESSED,
-        );
+  useEffect(() => {
+    dispatch(retrieveFolder(currentFolderId));
+
+    return () => {
+      // clear out alerts if user navigates away from this component
+      if (location.pathname) {
+        dispatch(closeAlert());
       }
+    };
+  }, [dispatch, currentFolderId, location.pathname]);
 
-      dispatch(retrieveFolder(currentFolderId));
-
-      return () => {
-        // clear out alerts if user navigates away from this component
-        if (location.pathname) {
-          dispatch(closeAlert());
-        }
-      };
-    },
-    [dispatch, currentFolderId, location.pathname],
-  );
-
-  useEffect(
-    () => {
-      if (
-        refetchRequired &&
-        threadSort.folderId &&
-        threadSort.value &&
-        threadSort.page
-      )
-        retrieveListOfThreads({
-          sortFolderId: threadSort.folderId,
-          perPage: threadsPerPage,
-          page: threadSort.page,
-          value: threadSort.value,
-        });
-    },
-    [
-      refetchRequired,
-      retrieveListOfThreads,
-      threadSort.folderId,
-      threadSort.page,
-      threadSort.value,
-      threadsPerPage,
-    ],
-  );
+  useEffect(() => {
+    if (
+      refetchRequired &&
+      threadSort.folderId &&
+      threadSort.value &&
+      threadSort.page
+    )
+      retrieveListOfThreads({
+        sortFolderId: threadSort.folderId,
+        perPage: threadsPerPage,
+        page: threadSort.page,
+        value: threadSort.value,
+      });
+  }, [
+    refetchRequired,
+    retrieveListOfThreads,
+    threadSort.folderId,
+    threadSort.page,
+    threadSort.value,
+    threadsPerPage,
+  ]);
 
   // Effect to retrieve threads when folder changes
-  useEffect(
-    () => {
-      if (folderId != null && folderId !== threadSort.folderId) {
-        let sortOption = threadSortingOptions.SENT_DATE_DESCENDING.value;
-        if (folderId === Folders.DRAFTS.id) {
-          sortOption = threadSortingOptions.DRAFT_DATE_DESCENDING.value;
-        }
-        retrieveListOfThreads({
-          sortFolderId: folderId,
-          value: sortOption,
-          page: 1,
-        });
+  useEffect(() => {
+    if (folderId != null && folderId !== threadSort.folderId) {
+      let sortOption = threadSortingOptions.SENT_DATE_DESCENDING.value;
+      if (folderId === Folders.DRAFTS.id) {
+        sortOption = threadSortingOptions.DRAFT_DATE_DESCENDING.value;
       }
-    },
-    [folderId, threadSort.folderId, retrieveListOfThreads],
-  );
+      retrieveListOfThreads({
+        sortFolderId: folderId,
+        value: sortOption,
+        page: 1,
+      });
+    }
+  }, [folderId, threadSort.folderId, retrieveListOfThreads]);
 
   // Effect to update page title when folder name changes
-  useEffect(
-    () => {
-      if (folder?.name === convertPathNameToTitleCase(location.pathname)) {
-        const pageTitleTag = getPageTitle({
-          folderName: folder.name,
-        });
-        updatePageTitle(pageTitleTag);
-      }
-    },
-    [folder?.name, location?.pathname],
-  );
+  useEffect(() => {
+    if (folder?.name === convertPathNameToTitleCase(location.pathname)) {
+      const pageTitleTag = getPageTitle({
+        folderName: folder.name,
+      });
+      updatePageTitle(pageTitleTag);
+    }
+  }, [folder?.name, location?.pathname]);
 
   // Effect to clear search results when folder changes
-  useEffect(
-    () => {
-      if (folderId !== searchFolder?.folderId) {
-        dispatch(clearSearchResults());
-      }
-    },
-    [folderId, searchFolder?.folderId, dispatch],
-  );
+  useEffect(() => {
+    if (folderId !== searchFolder?.folderId) {
+      dispatch(clearSearchResults());
+    }
+  }, [folderId, searchFolder?.folderId, dispatch]);
 
-  useEffect(
-    () => {
-      const alertVisible = alertList[alertList?.length - 1];
-      const alertSelector =
-        folder !== undefined && !alertVisible?.isActive
-          ? 'h1'
-          : alertVisible?.isActive && 'va-alert';
-      focusElement(document.querySelector(alertSelector));
-    },
-    [alertList, folder],
-  );
+  useEffect(() => {
+    const alertVisible = alertList[alertList?.length - 1];
+    const alertSelector =
+      folder !== undefined && !alertVisible?.isActive
+        ? 'h1'
+        : alertVisible?.isActive && 'va-alert';
+    focusElement(document.querySelector(alertSelector));
+  }, [alertList, folder]);
 
   useInterval(() => {
     if (folderId !== null) {
@@ -259,88 +224,80 @@ const FolderThreadListView = () => {
     );
   };
 
-  const content = useMemo(
-    () => {
-      if (isLoading || awaitingResults) {
-        return <LoadingIndicator />;
-      }
+  const content = useMemo(() => {
+    if (isLoading || awaitingResults) {
+      return <LoadingIndicator />;
+    }
 
-      if (threadList?.length === 0 && threadSort?.page === 1) {
-        return (
-          <>
-            {!noAssociations &&
-              !allTriageGroupsBlocked && (
-                <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
-                  Showing 0 of 0 conversations
-                </div>
-              )}
-
-            <div className="vads-u-margin-y--3">
-              <va-alert
-                background-only="true"
-                status="info"
-                className="vads-u-margin-bottom--1 va-alert"
-                data-testid="alert-no-messages"
-              >
-                <p className="vads-u-margin-y--0">
-                  {Alerts.Message.NO_MESSAGES}
-                </p>
-              </va-alert>
+    if (threadList?.length === 0 && threadSort?.page === 1) {
+      return (
+        <>
+          {!noAssociations && !allTriageGroupsBlocked && (
+            <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+              Showing 0 of 0 conversations
             </div>
-          </>
-        );
-      }
+          )}
 
-      if (error) {
-        return (
-          <va-alert status="error" visible>
-            <h2 slot="headline">
-              We’re sorry. Something went wrong on our end
-            </h2>
-            <p>
-              You can’t view your secure messages because something went wrong
-              on our end. Please check back soon.
-            </p>
-          </va-alert>
-        );
-      }
+          <div className="vads-u-margin-y--3">
+            <va-alert
+              background-only="true"
+              status="info"
+              className="vads-u-margin-bottom--1 va-alert"
+              data-testid="alert-no-messages"
+            >
+              <p className="vads-u-margin-y--0">{Alerts.Message.NO_MESSAGES}</p>
+            </va-alert>
+          </div>
+        </>
+      );
+    }
 
-      if (searchResults !== undefined) {
-        return <SearchResults />;
-      }
+    if (error) {
+      return (
+        <va-alert status="error" visible>
+          <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
+          <p>
+            You can’t view your secure messages because something went wrong on
+            our end. Please check back soon.
+          </p>
+        </va-alert>
+      );
+    }
 
-      if (threadList?.length > 0) {
-        return (
-          <>
-            <ThreadsList
-              threadList={threadList}
-              folder={folder}
-              pageNum={threadSort.page}
-              paginationCallback={handlePagination}
-              threadsPerPage={threadsPerPage}
-              sortOrder={threadSort.value}
-              sortCallback={handleSortCallback}
-            />
-          </>
-        );
-      }
-      return null;
-    },
-    [
-      allTriageGroupsBlocked,
-      awaitingResults,
-      folder,
-      handlePagination,
-      handleSortCallback,
-      isLoading,
-      noAssociations,
-      searchResults,
-      threadList,
-      threadSort.page,
-      threadSort.value,
-      threadsPerPage,
-    ],
-  );
+    if (searchResults !== undefined) {
+      return <SearchResults />;
+    }
+
+    if (threadList?.length > 0) {
+      return (
+        <>
+          <ThreadsList
+            threadList={threadList}
+            folder={folder}
+            pageNum={threadSort.page}
+            paginationCallback={handlePagination}
+            threadsPerPage={threadsPerPage}
+            sortOrder={threadSort.value}
+            sortCallback={handleSortCallback}
+          />
+        </>
+      );
+    }
+    return null;
+  }, [
+    allTriageGroupsBlocked,
+    awaitingResults,
+    folder,
+    handlePagination,
+    handleSortCallback,
+    isLoading,
+    noAssociations,
+    searchResults,
+    threadList,
+    threadSort.page,
+    threadSort.value,
+    threadsPerPage,
+  ]);
 
   return (
     <div className="vads-u-padding--0">
