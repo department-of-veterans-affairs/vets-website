@@ -18,7 +18,7 @@ const ConfirmationPrisonerOfWar = ({ formData }) => {
   // and display the readable (non-Sippable) names of those conditions
   const powDisabilities = formData?.['view:isPow']?.powDisabilities || {};
   const claimedKeys = Object.keys(powDisabilities).filter(
-    key => key !== 'none' && powDisabilities[key],
+    key => key !== 'none' && powDisabilities[key] === true,
   );
 
   const conditionsContainer = formData?.newDisabilities || [];
@@ -44,7 +44,7 @@ const ConfirmationPrisonerOfWar = ({ formData }) => {
     },
     powDisabilities: {
       label: 'Which of your conditions is connected to your POW experience?',
-      data: finalList.length ? finalList : 'None selected',
+      data: finalList.length ? finalList : null,
     },
   };
 

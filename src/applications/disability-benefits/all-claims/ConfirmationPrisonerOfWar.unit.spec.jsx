@@ -194,6 +194,8 @@ describe('ConfirmationPrisonerOfWar', () => {
     expect(container.textContent).to.contain(
       'From January 1, 2020 to June 30, 2020',
     );
-    expect(container.textContent).to.contain('None selected');
+    expect(container.textContent).to.not.contain(
+      'Which of your conditions is connected to your POW experience?',
+    );
   });
 });
