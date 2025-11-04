@@ -78,6 +78,15 @@ describe('Survivor Pension Benefits 534EZ ', () => {
       cy.selectRadio('root_hadChildWithVeteran', 'N');
       utils.checkAxeAndClickContinueButton();
 
+      // Dependents into.
+      utils.checkContentDependentsIntro();
+      utils.checkAxeAndClickContinueButton();
+
+      // Do you Dependents?
+      utils.checkContentDependentsQuestion();
+      cy.selectRadio('root_view:isAddingDependent', 'N');
+      utils.checkAxeAndClickContinueButton();
+
       // DIC
       utils.checkContentDicBenefits();
       cy.selectRadio('root_dicType', 'DIC');

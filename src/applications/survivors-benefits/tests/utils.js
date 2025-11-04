@@ -194,7 +194,7 @@ export const checkContentMarriageToVet = () => {
   checkVisibleElementContent('va-text-input', 'Place of marriage');
   checkVisibleElementContent('va-text-input', 'Place marriage ended');
   checkVisibleElementContent('va-radio', 'How did you get married?');
-  checkVisibleElementContent('va-text-input', 'Tell us how you got married.');
+  checkVisibleElementContent('va-text-input', 'Tell us how you got married');
 };
 
 /**
@@ -238,7 +238,7 @@ export const checkContentPreviousMarriages = () => {
   checkVisibleElementContent('legend', 'Previous marriages');
   checkVisibleElementContent(
     'va-radio',
-    'Did we recognize you as a Veteran spouse before their death?',
+    'Did we recognize you as the Veteran’s spouse before their death?',
   );
   checkVisibleElementContent(
     'va-radio',
@@ -325,6 +325,38 @@ export const checkContentDicBenefits = () => {
 };
 
 /**
+ * Check content on Dependents intro page.
+ */
+export const checkContentDependentsIntro = () => {
+  checkVisibleElementContent(
+    'h1',
+    'Apply for DIC, Survivors Pension, or accrued benefits online',
+  );
+  checkVisibleElementContent(
+    'form',
+    'Next we’ll ask you about your dependent children. You may add up to 3 dependents.',
+  );
+  checkVisibleElementContent(
+    'va-additional-info',
+    'Who we consider a dependent child',
+  );
+};
+
+/**
+ * Check content for the Dependents question page.
+ */
+export const checkContentDependentsQuestion = () => {
+  checkVisibleElementContent(
+    'h1',
+    'Apply for DIC, Survivors Pension, or accrued benefits online',
+  );
+  checkVisibleElementContent(
+    'va-radio',
+    'Do you have a dependent child to add?',
+  );
+};
+
+/**
  * Check content on the Treatement at VA Medical Centers Intro page.
  */
 export const checkContentTreatmentVaMedicalCentersIntro = () => {
@@ -335,7 +367,7 @@ export const checkContentTreatmentVaMedicalCentersIntro = () => {
   checkVisibleElementContent('legend', 'Treatment at VA medical centers');
   checkVisibleElementContent(
     'form',
-    'Next we’ll ask you about VA medical centers where the Veteran received treatment pertaining to your claim. You may edit or delete a VA medical center or choose to continue on in the application.',
+    'Next we’ll ask you about VA medical centers where the Veteran received treatment pertaining to your claim. You may add up to 3 VA medical centers.',
   );
 };
 
@@ -473,7 +505,7 @@ export const checkContentGrossMonthlyIncomeIntro = () => {
   checkVisibleElementContent('legend', 'Gross monthly income');
   checkVisibleElementContent(
     'fieldset',
-    'Next we’ll ask you the gross monthly income you, your spouse, and your dependents receive. You’ll need to add at least 1 income source and can add up to the number of sources you reported.',
+    'Next we’ll ask you the gross monthly income you, your spouse, and your dependents receive. You’ll need to add at least 1 income source and can add up to 4.',
   );
   checkVisibleElementContent(
     'fieldset',
