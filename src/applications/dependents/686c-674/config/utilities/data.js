@@ -60,17 +60,17 @@ export function buildSubmissionData(payload) {
   }
 
   const sourceData = payload.data;
-  // Start with a clone of ALL data
+  // Start with a clone of formData
   const cleanData = cloneDeep(sourceData);
 
-  // Get the main toggles
+  // Get main toggles
   const addEnabled = sourceData['view:addOrRemoveDependents']?.add === true;
   const removeEnabled =
     sourceData['view:addOrRemoveDependents']?.remove === true;
 
   const selectableOptions = sourceData['view:selectable686Options'] || {};
 
-  // Always ensure these are set - needed for BE
+  // Always include these - needed for BE
   cleanData.useV2 = true;
   cleanData.daysTillExpires = 365;
 
@@ -96,7 +96,7 @@ export function buildSubmissionData(payload) {
     reportChild18OrOlderIsNotAttendingSchool: ['childStoppedAttendingSchool'],
   };
 
-  // Process ADD section - remove fields for disabled options
+  // ADD section - remove fields for disabled options
   const enabledAddOptions = {};
 
   if (addEnabled === true) {
@@ -104,7 +104,6 @@ export function buildSubmissionData(payload) {
     if (selectableOptions.addSpouse === true) {
       enabledAddOptions.addSpouse = true;
     } else {
-      // Remove spouse fields if not adding spouse
       addSpouseFields.forEach(field => {
         delete cleanData[field];
       });
@@ -123,23 +122,21 @@ export function buildSubmissionData(payload) {
         enabledAddOptions.addDisabledChild = true;
       }
     } else {
-      // Remove child fields if not adding children
       childFields.forEach(field => {
         delete cleanData[field];
       });
     }
 
-    // Check report674 option
+    // Check student option
     if (selectableOptions.report674 === true) {
       enabledAddOptions.report674 = true;
     } else {
-      // Remove student information if not reporting 674
       report674Fields.forEach(field => {
         delete cleanData[field];
       });
     }
   } else {
-    // If add is not enabled at all, remove all add-related fields
+    // If main add toggle is not enabled, remove all add-related fields
     addSpouseFields.forEach(field => {
       delete cleanData[field];
     });
@@ -151,7 +148,7 @@ export function buildSubmissionData(payload) {
     });
   }
 
-  // Process REMOVE section - remove fields for disabled options
+  // REMOVE section - remove fields for disabled options
   const enabledRemoveOptions = {};
 
   if (removeEnabled === true) {
@@ -159,14 +156,13 @@ export function buildSubmissionData(payload) {
       if (selectableOptions[option] === true) {
         enabledRemoveOptions[option] = true;
       } else {
-        // Remove fields for this disabled remove option
         fields.forEach(field => {
           delete cleanData[field];
         });
       }
     });
   } else {
-    // If remove is not enabled at all, remove all remove-related fields
+    // If main remove toggle is not enabled, remove all remove-related fields
     Object.values(removeFieldMappings).forEach(fields => {
       fields.forEach(field => {
         delete cleanData[field];
@@ -174,7 +170,7 @@ export function buildSubmissionData(payload) {
     });
   }
 
-  // Update the view fields to reflect what's actually enabled
+  // Update the view fields with enabled options
   if (Object.keys(enabledAddOptions).length > 0) {
     cleanData['view:addDependentOptions'] = enabledAddOptions;
   } else {
@@ -234,7 +230,6 @@ export function customTransformForSubmit(formConfig, form) {
   payload.data.useV2 = true;
   payload.data.daysTillExpires = 365;
 
-  // Skip the platform filtering and go straight to our custom logic
   const cleanedPayload = buildSubmissionData(payload);
 
   return JSON.stringify(cleanedPayload.data, customFormReplacer) || '{}';

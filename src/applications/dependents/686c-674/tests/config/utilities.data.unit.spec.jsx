@@ -230,7 +230,6 @@ describe('buildSubmissionData', () => {
 
     const merged = { ...defaults, ...overrides };
 
-    // Build view:selectable686Options from the merged add and remove options
     const addOptions = merged['view:addDependentOptions'] || {};
     const removeOptions = merged['view:removeDependentOptions'] || {};
     merged['view:selectable686Options'] = {
