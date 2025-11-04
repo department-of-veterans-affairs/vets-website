@@ -4,9 +4,8 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
 import { CancelButton } from '../../config/helpers';
+import { scrollToError } from './helpers';
 import propTypes from './types';
 
 import { makeNamePossessive } from '../../../shared/utils';
@@ -28,7 +27,7 @@ const stepchildFinancialSupport = {
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.stepchildFinancialSupport) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
