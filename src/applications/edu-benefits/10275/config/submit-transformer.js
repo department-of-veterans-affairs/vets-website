@@ -137,28 +137,67 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
-  // const additionalLocationsTransform = formData => {
-  //   const clonedData = cloneDeep(formData);
+  const additionalLocationsTransform = formData => {
+    const clonedData = cloneDeep(formData);
 
-  //   delete clonedData.addMoreLocations;
+    delete clonedData.addMoreLocations;
 
-  //   clonedData.additionalInstitutions = clonedData.additionalLocations.map((insititution) => {
-  //     delete insititution.poeEligible;
-  //     delete insititution.isLoading;
+    clonedData.additionalInstitutions = clonedData.additionalLocations.map(
+      institution => {
+        let clonedInstitution = cloneDeep(institution);
 
-  //     let pointOfConctact;
-  //     if(institution.previouslyEnteredPointOfContact?.key === 'authorizedOfficial') {
-  //       pointOfConctact = {
+        delete clonedInstitution.poeEligible;
+        delete clonedInstitution.isLoading;
 
-  //       }
-  //     }
-  //     return {
-  //       ...insititution,
-  //     }
-  //   })
+        if (institution.pointOfContact?.key === 'none') {
+          clonedInstitution.pointOfContact = {
+            fullName: institution?.fullName,
+            email: institution?.email,
+          };
+        }
 
-  //   return clonedData;
-  // }
+        clonedInstitution = {
+          ...clonedInstitution,
+          institutionAddress: {
+            street: institution.institutionAddress?.street
+              ? institution.institutionAddress.street
+              : null,
+            street2: institution.institutionAddress?.street2
+              ? institution.institutionAddress.street2
+              : null,
+            street3: institution.institutionAddress?.street3
+              ? institution.institutionAddress.street3
+              : null,
+            city: institution.institutionAddress?.city
+              ? institution.institutionAddress.city
+              : null,
+            state: institution.institutionAddress?.state
+              ? institution.institutionAddress.state
+              : null,
+            postalCode: institution.institutionAddress?.postalCode
+              ? institution.institutionAddress.postalCode
+              : null,
+            country: institution.institutionAddress?.country
+              ? institution.institutionAddress.country
+              : null,
+          },
+        };
+
+        delete clonedInstitution.pointOfContact.key;
+        delete clonedInstitution.fullName;
+        delete clonedInstitution.email;
+
+        delete clonedInstitution.pointOfContact.title;
+        delete clonedInstitution.pointOfContact.phone;
+
+        return {
+          ...clonedInstitution,
+        };
+      },
+    );
+
+    return clonedData;
+  };
 
   const removePrincipleTransform = formData => {
     const clonedData = cloneDeep(formData);
@@ -194,7 +233,7 @@ export default function transform(formConfig, form) {
     authorizedOfficialTransform,
     contactTransform,
     institutionTransform,
-    // additionalLocationsTransform,
+    additionalLocationsTransform,
     removePrincipleTransform,
     privacyAgreementTransform,
     usFormTransform, // this must appear last
