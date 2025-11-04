@@ -1,6 +1,5 @@
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../utils/constants';
@@ -8,7 +7,6 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FormSavedPage from '../containers/FormSavedPage';
-import { submit } from './submit';
 import { defaultDefinitions } from './definitions';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
@@ -37,6 +35,9 @@ import remarriageDetails from './chapters/04-household-information/remarriageDet
 import additionalMarriages from './chapters/04-household-information/additionalMarriages';
 import previousMarriages from './chapters/04-household-information/previousMarriages';
 import { previousMarriagesPages } from './chapters/04-household-information/previousMarriagesPages';
+import { veteranMarriagesPages } from './chapters/04-household-information/veteranMarriagesPages';
+import veteranChildren from './chapters/04-household-information/veteranChildren';
+import dependentsPages from './chapters/04-household-information/dependentsPages';
 import dicBenefits from './chapters/05-claim-information/dicBenefits';
 import nursingHome from './chapters/05-claim-information/nursingHome';
 import { treatmentPages } from './chapters/05-claim-information/treatmentPages';
@@ -59,13 +60,14 @@ import supportingDocuments from './chapters/07-additional-information/supporting
 import uploadDocuments from './chapters/07-additional-information/uploadDocuments';
 // TODO: Will be added after mvp release
 // import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
+import { transform } from './submit-transformer';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit,
+  submitUrl: `${environment.API_URL}/survivors_benefits/v0/form534ez`,
+  transformForSubmit: transform,
   trackingPrefix: 'survivors-534ez',
   v3SegmentedProgressBar: true,
   prefillEnabled: true,
@@ -77,15 +79,6 @@ const formConfig = {
   downtime: {
     dependencies: [externalServices.icmhs],
   },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      {
-        href: '/supporting-forms-for-claims/apply-form-21p-534ez',
-        label: 'Survivors benefits',
-      },
-    ],
-  }),
   formId: VA_FORM_IDS.FORM_21P_534EZ,
   saveInProgress: {
     messages: {
@@ -108,7 +101,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'veteranFullName',
+      fullNamePath: 'claimantFullName',
     },
   },
   title: TITLE,
@@ -149,25 +142,25 @@ const formConfig = {
       title: "Claimant's information",
       pages: {
         claimantInformation: {
-          path: 'claimant/information',
-          title: 'Claimant information',
+          path: 'claimant-information',
+          title: 'Claimant’s relationship to the Veteran',
           uiSchema: claimantInformationPage.uiSchema,
           schema: claimantInformationPage.schema,
         },
         mailingAddress: {
-          path: 'claimant/mailing-address',
+          path: 'claimant-mailing-address',
           title: 'Mailing address',
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
         },
         contactInformation: {
-          path: 'claimant/contact-information',
-          title: 'Contact information',
+          path: 'claimant-contact-information',
+          title: 'Email address and phone number',
           uiSchema: contactInformation.uiSchema,
           schema: contactInformation.schema,
         },
         benefitType: {
-          path: 'claimant/benefit-type',
+          path: 'claimant-benefit-type',
           title: 'Benefit type',
           uiSchema: benefitType.uiSchema,
           schema: benefitType.schema,
@@ -176,52 +169,52 @@ const formConfig = {
     },
     // Chapter 3 - Military History
     militaryHistory: {
-      title: "Veteran's military history",
+      title: 'Veteran’s military history',
       pages: {
         militaryHistory: {
-          path: 'veteran/va-benefits',
+          path: 'va-benefits',
           title: 'VA benefits',
           uiSchema: vaBenefits.uiSchema,
           schema: vaBenefits.schema,
         },
         servicePeriod: {
-          path: 'veteran/service-period',
+          path: 'service-period',
           title: 'Veteran information',
           depends: formData => formData.receivedBenefits === false,
           uiSchema: servicePeriod.uiSchema,
           schema: servicePeriod.schema,
         },
         nationalGuardService: {
-          path: 'veteran/national-guard-service',
+          path: 'national-guard-service',
           title: 'National Guard service',
           depends: formData => formData.receivedBenefits === false,
           uiSchema: nationalGuardService.uiSchema,
           schema: nationalGuardService.schema,
         },
         nationalGuardServicePeriod: {
-          path: 'veteran/national-guard-service-period',
+          path: 'national-guard-service-period',
           title: 'National Guard service period',
           depends: formData => formData.nationalGuardActivated === true,
           uiSchema: nationalGuardServicePeriod.uiSchema,
           schema: nationalGuardServicePeriod.schema,
         },
         nationalGuardUnitAddress: {
-          path: 'veteran/national-guard-unit-address',
-          title: 'National Guard unit address',
+          path: 'national-guard-unit-address',
+          title: 'National Guard Unit address',
           depends: formData => formData.nationalGuardActivated === true,
           uiSchema: nationalGuardUnitAddress.uiSchema,
           schema: nationalGuardUnitAddress.schema,
         },
         ...otherServiceNamesPages,
         prisonerOfWar: {
-          path: 'veteran/prisoner-of-war',
+          path: 'prisoner-of-war',
           title: 'Prisoner of war',
           depends: formData => formData.receivedBenefits === false,
           uiSchema: prisonerOfWarPage.uiSchema,
           schema: prisonerOfWarPage.schema,
         },
         powPeriodOfTime: {
-          path: 'veteran/prisoner-of-war-period',
+          path: 'prisoner-of-war-period',
           title: 'Prisoner of war period',
           depends: formData => formData?.prisonerOfWar === true,
           uiSchema: powPeriodOfTimePage.uiSchema,
@@ -268,8 +261,9 @@ const formConfig = {
           title: 'Separation details',
           depends: formData =>
             formData.claimantRelationship === 'SPOUSE' &&
-            (formData.separationReason === 'RELATIONSHIP_DIFFERENCES' ||
-              formData.separationReason === 'OTHER'),
+            (formData.separationDueToAssignedReasons ===
+              'RELATIONSHIP_DIFFERENCES' ||
+              formData.separationDueToAssignedReasons === 'OTHER'),
           uiSchema: separationDetails.uiSchema,
           schema: separationDetails.schema,
         },
@@ -306,6 +300,9 @@ const formConfig = {
           schema: previousMarriages.schema,
         },
         ...previousMarriagesPages,
+        ...veteranMarriagesPages,
+        veteranChildren,
+        ...dependentsPages,
       },
     },
     // Chapter 5 - Claim Information
@@ -315,6 +312,8 @@ const formConfig = {
         dicBenefits: {
           title: 'D.I.C. benefits',
           path: 'claim-information/dic',
+          depends: formData =>
+            formData?.claims?.dependencyIndemnityComp === true,
           uiSchema: dicBenefits.uiSchema,
           schema: dicBenefits.schema,
         },

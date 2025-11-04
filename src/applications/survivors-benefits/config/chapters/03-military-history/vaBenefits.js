@@ -6,8 +6,6 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Military history',
-  path: 'veteran/military-history',
   uiSchema: {
     ...titleUI('VA benefits'),
     receivedBenefits: yesNoUI({
