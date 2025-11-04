@@ -21,6 +21,7 @@ import {
   renderWidgetDowntimeNotification,
   sortStatementsByDate,
   getLatestCopay,
+  presentableFormIDs,
 } from '../helpers';
 
 describe('profile helpers:', () => {
@@ -503,6 +504,59 @@ describe('profile helpers:', () => {
       const result = getLatestCopay(statements);
 
       expect(result).to.be.null;
+    });
+  });
+
+  describe('presentableFormIDs', () => {
+    it('should format FEEDBACK_TOOL as "FEEDBACK TOOL"', () => {
+      expect(presentableFormIDs[VA_FORM_IDS.FEEDBACK_TOOL]).to.equal(
+        'FEEDBACK TOOL',
+      );
+    });
+
+    it('should format FORM_10_10EZ as "FORM 10-10EZ"', () => {
+      expect(presentableFormIDs[VA_FORM_IDS.FORM_10_10EZ]).to.equal(
+        'FORM 10-10EZ',
+      );
+    });
+
+    it('should format FORM_21P_530EZ as "FORM 21P-530EZ"', () => {
+      expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_530EZ]).to.equal(
+        'FORM 21P-530EZ',
+      );
+    });
+
+    it('should format forms with "-UPLOAD" suffix by removing "-UPLOAD" and prefixing with "FORM"', () => {
+      expect(presentableFormIDs[VA_FORM_IDS.FORM_21_0779_UPLOAD]).to.equal(
+        'FORM 21-0779',
+      );
+      expect(presentableFormIDs[VA_FORM_IDS.FORM_21_4192_UPLOAD]).to.equal(
+        'FORM 21-4192',
+      );
+      expect(presentableFormIDs[VA_FORM_IDS.FORM_21_509_UPLOAD]).to.equal(
+        'FORM 21-509',
+      );
+      expect(presentableFormIDs[VA_FORM_IDS.FORM_21_686C_UPLOAD]).to.equal(
+        'FORM 21-686C',
+      );
+      expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_530A_UPLOAD]).to.equal(
+        'FORM 21P-530a',
+      );
+    });
+
+    it('should format other forms by prefixing with "FORM"', () => {
+      expect(presentableFormIDs[VA_FORM_IDS.FORM_21_526EZ]).to.equal(
+        'FORM 21-526EZ',
+      );
+      expect(presentableFormIDs[VA_FORM_IDS.FORM_10_10D]).to.equal(
+        'FORM 10-10D',
+      );
+      expect(presentableFormIDs[VA_FORM_IDS.FORM_22_1990]).to.equal(
+        'FORM 22-1990',
+      );
+      expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_527EZ]).to.equal(
+        'FORM 21P-527EZ',
+      );
     });
   });
 });
