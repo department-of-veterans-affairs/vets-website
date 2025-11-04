@@ -128,12 +128,9 @@ export const Results = ({
           tabIndex="-1"
           ref={resultsHeaderRef}
         >
-          <span>Displaying {resultsStartNumber}</span>
-          <span className="vads-u-visibility--screen-reader">through</span>
-          <span aria-hidden="true">&ndash;</span>
           <span>
-            {resultsEndNumber} of {totalResults} results for{' '}
-            <strong>{query}</strong>
+            Displaying {resultsStartNumber} - {resultsEndNumber} of
+            {totalResults} results for <strong>{query}</strong>
           </span>
         </h2>
       )}
