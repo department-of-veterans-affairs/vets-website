@@ -26,7 +26,9 @@ export class ChooseDateAndTimePageObject extends PageObject {
     cy.findByText(/You or your VA facility chose this/).should('exist');
     cy.findByText(/Dr. Moreen S. Rafa/).should('exist');
     cy.findByText(/Meridian Health/).should('exist');
-
+    cy.findByText(
+      /Appointment times are displayed in (Eastern time \(ET\))/,
+    ).should('exist');
     return this;
   }
 
