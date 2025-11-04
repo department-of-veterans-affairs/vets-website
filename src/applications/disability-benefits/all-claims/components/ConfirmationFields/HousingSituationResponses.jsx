@@ -7,7 +7,8 @@ const HousingSituationResponses = ({ formData }) => {
   const homelessLabel = 'I’m currently homeless.';
   const atRiskLabel = 'I’m at risk of becoming homeless.';
   const homelessnessContact = formData.homelessnessContact || {};
-  const homelessHousingSituation = {
+  const homelessHousingSituationDescription = {
+    shelter: 'I’m living in a homeless shelter.',
     notShelter:
       'I’m living somewhere other than a shelter. (For example, I’m living in a car or a tent.)',
     anotherPerson: 'I’m living with another person.',
@@ -42,7 +43,7 @@ const HousingSituationResponses = ({ formData }) => {
               <div className="vads-u-color--gray">
                 Please describe your current living situation:
               </div>
-              {homelessHousingSituation[
+              {homelessHousingSituationDescription[
                 (formData['view:isHomeless']?.homelessHousingSituation)
               ] || ''}
             </li>
@@ -59,18 +60,6 @@ const HousingSituationResponses = ({ formData }) => {
               </div>
               {formData['view:isHomeless']?.needToLeaveHousing ? 'Yes' : 'No'}
             </li>
-            {homelessnessContact.name && (
-              <>
-                <li>
-                  <div className="vads-u-color--gray">
-                    Please provide the name of a person or place we can call if
-                    we need to get in touch with you:
-                  </div>
-                </li>
-                <li>Name: {homelessnessContact.name}</li>
-                <li>Phone number: {homelessnessContact.phoneNumber}</li>
-              </>
-            )}
           </div>
         )}
 
@@ -90,25 +79,19 @@ const HousingSituationResponses = ({ formData }) => {
                 {formData['view:isAtRisk']?.otherAtRiskHousing || ''}
               </li>
             )}
+          </div>
+        )}
+        {homelessnessContact.name && (
+          <>
             <li>
               <div className="vads-u-color--gray">
-                Do you need to quickly leave your current living situation?
+                Please provide the name of a person or place we can call if we
+                need to get in touch with you:
               </div>
-              {formData['view:isAtRisk']?.needToLeaveHousing ? 'Yes' : 'No'}
             </li>
-            {homelessnessContact.name && (
-              <>
-                <li>
-                  <div className="vads-u-color--gray">
-                    Please provide the name of a person or place we can call if
-                    we need to get in touch with you:
-                  </div>
-                </li>
-                <li>Name: {homelessnessContact.name}</li>
-                <li>Phone number: {homelessnessContact.phoneNumber}</li>
-              </>
-            )}
-          </div>
+            <li>Name: {homelessnessContact.name}</li>
+            <li>Phone number: {homelessnessContact.phoneNumber}</li>
+          </>
         )}
       </ul>
     </div>
