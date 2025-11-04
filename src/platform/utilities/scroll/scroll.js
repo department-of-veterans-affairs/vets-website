@@ -62,6 +62,134 @@ export const scrollToTop = async (
 ) => scrollTo(position, scrollOptions);
 
 /**
+ * Get error message text from a web component
+ * @param {Element} el - The web component element
+ * @returns {string} The error message text
+ */
+const getErrorMessage = el => {
+  return (
+    el.getAttribute('error') ||
+    el.getAttribute('input-error') ||
+    el.getAttribute('checkbox-error') ||
+    el.error ||
+    ''
+  );
+};
+
+/**
+ * Get label text from a web component
+ * @param {Element} el - The web component element
+ * @returns {string} The label text
+ */
+const getLabelText = el => {
+  // Try to get from label prop first
+  let labelText = el.getAttribute('label') || el.label || '';
+
+  if (!labelText) {
+    // Fall back to extracting from label element in shadow DOM
+    const labelElement = el.shadowRoot?.querySelector('label');
+    if (labelElement) {
+      // Clone and remove error messages to get clean label text
+      const clone = labelElement.cloneNode(true);
+      const errorElements = clone.querySelectorAll(
+        '[role="alert"], #input-error-message, #radio-error-message, .usa-error-message',
+      );
+      errorElements.forEach(err => err.remove());
+      labelText = clone.textContent.trim();
+    }
+  }
+
+  return labelText;
+};
+
+/**
+ * Build aria-label for an error element
+ * @param {Element} el - The web component element
+ * @returns {string} The formatted aria-label text
+ */
+const buildErrorAriaLabel = el => {
+  const errorMessage = getErrorMessage(el);
+  const labelText = getLabelText(el);
+
+  if (!errorMessage || !labelText) {
+    return '';
+  }
+
+  const errorText = errorMessage.replace(/^Error\s*/i, '').trim();
+
+  return `Error: ${errorText}. ${labelText}.`;
+};
+
+/**
+ * Find a focusable element within nested shadow DOMs
+ * @param {Element} el - The web component element
+ * @returns {Element|null} The focusable element or null
+ */
+const findFocusableElement = el => {
+  // Level 1: Check direct shadow DOM for input, select, textarea, or legend
+  let focusable = el.shadowRoot?.querySelector(
+    'input, select, textarea, legend',
+  );
+  if (focusable) return focusable;
+
+  // Level 2: Check child elements' shadow DOMs
+  const children = el.shadowRoot?.querySelectorAll('*');
+  if (children) {
+    for (const child of children) {
+      if (child.shadowRoot) {
+        focusable = child.shadowRoot.querySelector(
+          'input, select, textarea, legend',
+        );
+        if (focusable) return focusable;
+      }
+    }
+  }
+
+  return null;
+};
+
+/**
+ * Set up aria-label on error element
+ * @param {Element} el - The web component element
+ */
+const setUpErrorAriaLabel = el => {
+  const ariaLabel = buildErrorAriaLabel(el);
+
+  if (ariaLabel) {
+    // Set aria-label on internal input only (not legend)
+    const input = el.shadowRoot?.querySelector('input, select, textarea');
+    if (input) {
+      input.setAttribute('aria-label', ariaLabel);
+      // Remove aria-describedby to prevent conflicts with aria-label
+      input.removeAttribute('aria-describedby');
+    }
+  }
+};
+
+/**
+ * Focus the first error element
+ * @param {Element} el - The web component element
+ */
+const focusErrorElement = el => {
+  // Find and focus the actual focusable element inside shadow DOM
+  const focusTarget = findFocusableElement(el);
+  if (focusTarget) {
+    // Make legend focusable if needed
+    if (focusTarget.tagName === 'LEGEND') {
+      focusTarget.setAttribute('tabindex', '-1');
+    }
+    setTimeout(() => {
+      focusElement(focusTarget);
+    }, 100);
+  } else {
+    // Fallback: focus the custom element itself
+    setTimeout(() => {
+      focusElement(el);
+    }, 100);
+  }
+};
+
+/**
  * scrollToFirstError options
  * @typedef scrollToFirstErrorOptions
  * @type {Object}
@@ -130,6 +258,31 @@ export const scrollToFirstError = async (options = {}) => {
         const position = getElementPosition(el);
         scrollTo(position - 10, options);
 
+        // Remove role="alert" and aria-describedby from all error elements on the page
+        // Debounced removal to optimize timing
+        const removeAriaDescribedBy = () => {
+          const allErrorElements = document.querySelectorAll('*');
+          allErrorElements.forEach(element => {
+            if (element.shadowRoot) {
+              const errorElement = element.shadowRoot.querySelector(
+                '#input-error-message, [role="alert"]',
+              );
+              if (errorElement) {
+                errorElement.removeAttribute('role');
+                errorElement.removeAttribute('aria-live');
+              }
+
+              // Remove aria-describedby from all inputs
+              const input = element.shadowRoot.querySelector(
+                'input, select, textarea',
+              );
+              if (input && input.hasAttribute('aria-describedby')) {
+                input.removeAttribute('aria-describedby');
+              }
+            }
+          });
+        };
+
         if (focusOnAlertRole) {
           // Adding a delay so that the shadow DOM needs to render and attach
           // before we try to focus on the element; without the setTimeout,
@@ -138,7 +291,21 @@ export const scrollToFirstError = async (options = {}) => {
             focusElement('[role="alert"]', {}, el?.shadowRoot);
           });
         } else {
-          focusElement(el);
+          // Remove immediately
+          removeAriaDescribedBy();
+
+          // Remove again after component updates
+          setTimeout(removeAriaDescribedBy, 50);
+          setTimeout(removeAriaDescribedBy, 150);
+
+          // Set up aria-labels on ALL error elements
+          const allErrorElements = document.querySelectorAll(selectors);
+          allErrorElements.forEach(errorEl => {
+            setUpErrorAriaLabel(errorEl);
+          });
+
+          // Focus only the FIRST error element
+          focusErrorElement(el);
         }
       }
 
