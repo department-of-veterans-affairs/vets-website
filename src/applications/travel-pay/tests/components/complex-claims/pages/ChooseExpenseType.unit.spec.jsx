@@ -4,12 +4,14 @@ import { fireEvent } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { EXPENSE_TYPES } from '../../../../constants';
 
 import ChooseExpenseType from '../../../../components/complex-claims/pages/ChooseExpenseType';
 import reducer from '../../../../redux/reducer';
 
 describe('ChooseExpenseType', () => {
   const defaultApptId = '12345';
+  const expenseOptions = Object.values(EXPENSE_TYPES);
 
   const renderComponent = (apptId = defaultApptId) => {
     return renderWithStoreAndRouter(
@@ -47,43 +49,16 @@ describe('ChooseExpenseType', () => {
 
   it('renders all expense type options', () => {
     renderComponent();
-
-    const radioOptions = [
-      'Mileage',
-      'Parking',
-      'Tolls',
-      'Public transportation, taxi, or rideshare',
-      'Air fare',
-      'Lodging',
-      'Meals',
-      'Other travel expenses',
-    ];
-
-    radioOptions.forEach(option => {
-      expect($(`va-radio-option[label="${option}"]`)).to.exist;
+    expenseOptions.forEach(option => {
+      expect($(`va-radio-option[label="${option.title}"]`)).to.exist;
     });
   });
 
   it('renders expense options with correct values', () => {
     renderComponent();
-
-    const expectedOptions = [
-      { value: 'mileage', label: 'Mileage' },
-      { value: 'parking', label: 'Parking' },
-      { value: 'tolls', label: 'Tolls' },
-      {
-        value: 'public-transportation',
-        label: 'Public transportation, taxi, or rideshare',
-      },
-      { value: 'air-fare', label: 'Air fare' },
-      { value: 'lodging', label: 'Lodging' },
-      { value: 'meals', label: 'Meals' },
-      { value: 'other', label: 'Other travel expenses' },
-    ];
-
-    expectedOptions.forEach(option => {
+    expenseOptions.forEach(option => {
       expect(
-        $(`va-radio-option[value="${option.value}"][label="${option.label}"]`),
+        $(`va-radio-option[value="${option.route}"][label="${option.title}"]`),
       ).to.exist;
     });
   });

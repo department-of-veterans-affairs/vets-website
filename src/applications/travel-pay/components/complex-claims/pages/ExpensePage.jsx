@@ -8,11 +8,13 @@ import {
   VaTextInput,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import DocumentUpload from './DocumentUpload';
 import {
   EXPENSE_TYPES,
   TRANSPORTATION_OPTIONS,
   TRANSPORTATION_REASONS,
   TRIP_OPTIONS,
+  ACCEPTED_FILE_TYPES,
 } from '../../../constants';
 
 const ExpensePage = () => {
@@ -21,6 +23,7 @@ const ExpensePage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formState, setFormState] = useState({});
   const [showError, setShowError] = useState(false);
+  const [uploadError, setUploadError] = useState('');
   const errorRef = useRef(null); // ref for the error message
 
   // Focus the error message when it becomes visible
@@ -94,6 +97,69 @@ const ExpensePage = () => {
     navigate(`/file-new-claim/complex/${apptId}/choose-expense`);
   };
 
+  const handleDocumentUpload = e => {
+    setUploadError(''); // Clear any previous errors
+    // eslint-disable-next-line no-console
+    console.log('e --- ', e);
+    // eslint-disable-next-line no-console
+    console.log('e.detail --- ', e.detail);
+
+    // Try both e.detail.files and e.target.files
+    const files = e.detail?.files;
+    // eslint-disable-next-line no-console
+    console.log('files --- ', files);
+
+    // Check if we have files for upload
+    if (!files || files.length === 0) {
+      // eslint-disable-next-line no-console
+      console.error('No files found');
+      return;
+    }
+
+    const file = files[0]; // Get the first (and only) file
+    // eslint-disable-next-line no-console
+    console.log('file --- ', file);
+
+    // Check if we're replacing an existing file
+    // const isReplacement = e.type === 'vaChange';
+
+    // Validate file type
+    const isValidFileType = ACCEPTED_FILE_TYPES.some(fileType =>
+      file.name.toLowerCase().endsWith(`.${fileType.toLowerCase()}`),
+    );
+
+    if (!isValidFileType) {
+      const allowedTypes = ACCEPTED_FILE_TYPES.reduce(
+        (accumulator, fileType, index, array) => {
+          if (index === 0) return `.${fileType}`;
+          const separator = index < array.length - 1 ? ',' : ', or';
+          return `${accumulator}${separator} .${fileType}`;
+        },
+        '',
+      );
+
+      const fileTypeErrorMessage = `We couldn't upload your file because we can't accept this type of file. Please make sure the file is a ${allowedTypes} file and try again.`;
+
+      setUploadError(fileTypeErrorMessage);
+      return;
+    }
+
+    // Validate file size
+    const maxSize = 5000000; // 5MB
+    if (file.size > maxSize) {
+      const fileSizeText = `${Math.round(maxSize / 1024 / 1024)}MB`;
+      const fileTooBigErrorMessage = `We couldn't upload your file because it's too large. File size must be less than ${fileSizeText}.`;
+
+      setUploadError(fileTooBigErrorMessage);
+      return;
+    }
+
+    // Create FormData payload
+    const uploadData = new FormData();
+    uploadData.append('document', file);
+    // TODO: Add this to the redux store
+  };
+
   return (
     <>
       <h1>
@@ -121,6 +187,10 @@ const ExpensePage = () => {
         } expenses, add just one on this page. ` +
           `You'll be able to add more expenses after this.`}
       </p>
+      <DocumentUpload
+        handleDocumentUpload={handleDocumentUpload}
+        uploadError={uploadError}
+      />
       {expenseType === 'Meal' && (
         <>
           <VaTextInput

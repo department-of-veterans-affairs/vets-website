@@ -251,4 +251,16 @@ export const TRANSPORTATION_REASONS = Object.freeze({
   },
 });
 
-export const TRIP_OPTIONS = Object.freeze(['Round trip', 'Oneway']);
+export const TRIP_OPTIONS = Object.freeze(['Round trip', 'One way']);
+
+export const ACCEPTED_FILE_TYPES = Object.freeze([
+  'pdf',
+  'jpeg',
+  'jpg',
+  'png',
+  'bmp',
+  'tif',
+  'tiff',
+  'doc',
+  'docx',
+]);
