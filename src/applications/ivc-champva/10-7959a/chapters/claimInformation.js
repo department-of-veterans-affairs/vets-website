@@ -9,13 +9,13 @@ import {
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
-import { blankSchema } from './sponsorInformation';
 import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
 import { LLM_RESPONSE } from '../components/llmUploadResponse';
 import SubmittingClaimsAddtlInfo from '../components/FormDescriptions/SubmittingClaimsAddtlInfo';
 import MedicalEobDescription from '../components/FormDescriptions/MedicalEobDescription';
 import PharmacyClaimsDescription from '../components/FormDescriptions/PharmacyClaimsDescription';
 import MedicalClaimsDescription from '../components/FormDescriptions/MedicalClaimsDescription';
+import { blankSchema, fileUploadSchema } from '../definitions';
 import content from '../locales/en/content.json';
 
 const addtlInfoNotes = {
@@ -100,18 +100,7 @@ export const medicalClaimUploadSchema = {
       'view:notes': blankSchema,
       // schema for LLM message
       'view:fileClaim': blankSchema,
-      medicalUpload: {
-        type: 'array',
-        minItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      medicalUpload: fileUploadSchema,
       'view:uploadAlert': blankSchema,
     },
   },
@@ -148,18 +137,7 @@ export const eobUploadSchema = isPrimary => {
         'view:notes': blankSchema,
         // schema for LLM message
         'view:fileClaim': blankSchema,
-        [keyName]: {
-          type: 'array',
-          minItems: 1,
-          items: {
-            type: 'object',
-            properties: {
-              name: {
-                type: 'string',
-              },
-            },
-          },
-        },
+        [keyName]: fileUploadSchema,
         'view:uploadAlert': blankSchema,
       },
     },
@@ -190,18 +168,7 @@ export const pharmacyClaimUploadSchema = {
       'view:notes': blankSchema,
       // schema for LLM message
       'view:fileClaim': blankSchema,
-      pharmacyUpload: {
-        type: 'array',
-        minItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      pharmacyUpload: fileUploadSchema,
       'view:uploadAlert': blankSchema,
     },
   },

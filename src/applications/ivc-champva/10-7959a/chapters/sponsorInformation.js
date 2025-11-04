@@ -1,7 +1,4 @@
-import { cloneDeep } from 'lodash';
 import {
-  fullNameUI,
-  fullNameSchema,
   titleUI,
   addressUI,
   addressSchema,
@@ -15,13 +12,12 @@ import {
   validObjectCharsOnly,
 } from '../../shared/validations';
 import VeteranNameDescription from '../components/FormDescriptions/VeteranNameDescription';
+import {
+  fullNameMiddleInitialSchema,
+  fullNameMiddleInitialUI,
+} from '../definitions';
 import { personalizeTitleByRole } from '../utils/helpers';
 import content from '../locales/en/content.json';
-
-export const blankSchema = { type: 'object', properties: {} };
-
-const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
-fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 
 export const sponsorNameSchema = {
   uiSchema: {
@@ -42,7 +38,7 @@ export const sponsorNameSchema = {
   schema: {
     type: 'object',
     properties: {
-      sponsorName: fullNameSchema,
+      sponsorName: fullNameMiddleInitialSchema,
     },
   },
 };
