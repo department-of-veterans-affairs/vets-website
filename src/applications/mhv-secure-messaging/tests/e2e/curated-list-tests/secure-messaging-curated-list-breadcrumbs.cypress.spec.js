@@ -296,7 +296,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       // Start from Inbox
       cy.location('pathname').should('equal', `${Paths.UI_MAIN}${Paths.INBOX}`);
 
-      // Set up intercept for recent recipients search
+      // Set up intercept for recent recipients search BEFORE navigating
       cy.intercept(
         'POST',
         Paths.INTERCEPT.SENT_SEARCH,
@@ -313,7 +313,13 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
         `${Paths.UI_MAIN}${Paths.COMPOSE}`,
       );
 
+      // Wait for recent recipients to load before clicking continue
       cy.wait('@recentRecipients');
+
+      // Ensure the link href is updated to point to recent care teams
+      cy.get('[data-testid="start-message-link"]')
+        .should('have.attr', 'href')
+        .and('include', Paths.RECENT_CARE_TEAMS);
 
       // Forward: Interstitial → Recent care teams
       PatientInterstitialPage.getStartMessageLink().click();
