@@ -27,7 +27,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
     <>
       <p>
         Hi there, welcome to VA Form 21-8940. Please use this form if you want
-        to apply for Individual Unemployability disability benefits for a
+        to apply for Individual Unemployability disability benefits for a
         service-connected condition that prevents you from keeping a steady job.
       </p>
     </>

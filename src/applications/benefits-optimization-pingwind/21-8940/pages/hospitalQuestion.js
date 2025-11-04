@@ -77,7 +77,7 @@ export default {
 
       'ui:options': {
         showFieldLabel: true,
-        /* classNames: 'confirmation-required-radio',*/
+
         updateSchema: (formData, schema, uiSchema, index, path) => {
           if (
             formData &&

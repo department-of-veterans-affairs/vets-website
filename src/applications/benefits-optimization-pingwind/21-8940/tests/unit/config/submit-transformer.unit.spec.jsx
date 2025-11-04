@@ -78,9 +78,7 @@ describe('21-8940 submit transformer', () => {
             },
           },
         ],
-        treatmentDates: [
-          { startDate: '2018-02-01', endDate: '2018-03-01' },
-        ],
+        treatmentDates: [{ startDate: '2018-02-01', endDate: '2018-03-01' }],
         employersHistory: [
           {
             employerName: ' Mega Corp ',
@@ -141,8 +139,7 @@ describe('21-8940 submit transformer', () => {
         disabledWorkDate: '2021-07-09',
         maxYearlyEarnings: '54000',
         yearEarned: '2021345',
-        occupation:
-          'Lead Systems Architect with multiple responsibilities',
+        occupation: 'Lead Systems Architect with multiple responsibilities',
         militaryDutyPrevented: true,
         totalIncome: '1234',
         monthlyIncome: '456',
@@ -225,8 +222,7 @@ describe('21-8940 submit transformer', () => {
     );
     expect(payload.previousEmployers).to.deep.equal([
       {
-        nameAndAddress:
-          'Mega Corp - 200 Industry Rd, Arlington, VA, 22203, US',
+        nameAndAddress: 'Mega Corp - 200 Industry Rd, Arlington, VA, 22203, US',
         typeOfWork: 'Engineering Manager',
         hoursPerWeek: 50,
         datesOfEmployment: {
@@ -244,8 +240,7 @@ describe('21-8940 submit transformer', () => {
         dateApplied: '2023-01-03',
       },
       {
-        nameAndAddress:
-          'Backup Inc - 700 Backup Rd, Alexandria, VA, 22314, CA',
+        nameAndAddress: 'Backup Inc - 700 Backup Rd, Alexandria, VA, 22314, CA',
         typeOfWork: 'Consultant',
         dateApplied: '2023-02-10',
       },

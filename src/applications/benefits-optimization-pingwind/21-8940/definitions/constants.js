@@ -36,7 +36,6 @@ export const hospitalizationQuestionFields = {
   hasBeenHospitalized: 'hasBeenHospitalized',
 };
 
-
 export const employedByVAFields = {
   parentObject: 'employedByVA',
   isEmployedByVA: 'isEmployedByVA',

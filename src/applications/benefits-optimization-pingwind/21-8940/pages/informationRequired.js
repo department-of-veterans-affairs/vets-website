@@ -67,7 +67,11 @@ export default {
             Security benefits, contact your nearest Social Security
             Administration (SSA) office. You can locate the address of the
             nearest SSA office at{' '}
-            <a href="https://www.ssa.gov/locator" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.ssa.gov/locator"
+              target="_blank"
+              rel="noreferrer"
+            >
               SSA.gov | Social Security Office locator
             </a>{' '}
             or call 1-800-772-1213 (Hearing Impaired TDD line 1-800-325-0778).

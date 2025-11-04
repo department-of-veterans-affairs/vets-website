@@ -30,6 +30,11 @@ const SECTION_THREE_KEYS = [
   employedByVAFields.hasUnderstoodSection3,
 ];
 
+const LEGACY_SELECTION_MAP = {
+  Y: 'yes',
+  N: 'no',
+};
+
 const pruneNestedObject = (object, keysToRemove) => {
   if (!object) {
     return undefined;
@@ -147,12 +152,7 @@ const EmploymentCheckPage = ({
     formData?.[employedByVAFields.parentObject]?.[
       employedByVAFields.isEmployedByVA
     ];
-  const legacyNormalized =
-    legacySelection === 'Y'
-      ? 'yes'
-      : legacySelection === 'N'
-        ? 'no'
-        : undefined;
+  const legacyNormalized = LEGACY_SELECTION_MAP[legacySelection];
   const selection = storedSelection || legacyNormalized;
 
   const [selectionState, setSelectionState] = useState(selection);

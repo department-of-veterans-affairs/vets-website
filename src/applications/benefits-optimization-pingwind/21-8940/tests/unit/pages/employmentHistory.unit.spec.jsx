@@ -3,7 +3,6 @@ import formConfig from '../../../config/form';
 
 const {
   schema,
-  uiSchema,
 } = formConfig.chapters.employmentHistoryChapter.pages.employmentHistory;
 
 describe('8940 employmentHistory page schema basics', () => {
