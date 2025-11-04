@@ -35,9 +35,7 @@ export const getConditionsList = (
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     datadogRum.addError(error, {
-      relativePath:
-        'src/applications/mhv-medical-records/actions/conditions.js',
-      functionName: 'getConditionsList',
+      feature: 'Medical Records - actions_conditions_getConditionsList',
     });
   }
 };
