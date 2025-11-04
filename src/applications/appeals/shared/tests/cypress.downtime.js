@@ -1,15 +1,11 @@
 import { add, formatISO } from 'date-fns';
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
-
 import Timeouts from 'platform/testing/e2e/timeouts';
-
-import { getPastItf, fetchItf } from '../../995/tests/995.cypress.helpers';
 import { ITF_API } from '../../995/constants/apis';
-
+import * as h from './cypress.helpers';
 import cypressSetup from './cypress.setup';
 import mockUser from './fixtures/mocks/user.json';
 import inProgressMock from './fixtures/mocks/get-in-progress';
-import { fixDecisionDates } from './cypress.helpers';
 
 const now = new Date();
 const beforeNow = formatISO(add(now, { minutes: -1 }));
@@ -29,15 +25,18 @@ const downtimeTesting = ({
       setStoredSubTask({ benefitType: 'compensation' }); // HLR & SC
 
       cy.intercept('GET', `${contestableApi}/compensation`, {
-        data: fixDecisionDates(data.contestedIssues, { unselected: true }),
+        data: h.fixDecisionDates(data.contestedIssues, { unselected: true }),
       }).as('getIssues');
+
       cy.intercept('PUT', `/v0/in_progress_forms/${formId}`, mockInProgress);
+
       cy.intercept(
         'GET',
         `/v0/in_progress_forms/${formId}`,
         inProgressMock({ data }),
       );
-      cy.intercept('GET', ITF_API, fetchItf()); // 995 only
+
+      cy.intercept('GET', ITF_API, h.fetchItf()); // 995 only
       cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
       cy.intercept('GET', '/v0/feature_toggles*', {});
 
@@ -49,8 +48,9 @@ const downtimeTesting = ({
       cypressSetup();
       cy.intercept('GET', '/v0/maintenance_windows', { data: [] });
       cy.reload();
-      cy.get('va-process-list');
-      cy.get('.vads-c-action-link--green');
+
+      h.verifyElement('va-process-list');
+      h.verifyElement(h.START_LINK);
       cy.injectAxeThenAxeCheck();
     });
 
@@ -73,13 +73,15 @@ const downtimeTesting = ({
           },
         ],
       });
+
       cy.reload();
-      cy.get(
+
+      h.verifyElementDoesNotExist(
         '[data-status="downtimeApproaching"] #downtime-approaching-modal',
         { timeout: Timeouts.slow },
       ).should('not.exist');
-      cy.get('.vads-c-action-link--green');
 
+      h.verifyElement(h.START_LINK);
       cy.injectAxeThenAxeCheck();
     });
 
@@ -99,6 +101,7 @@ const downtimeTesting = ({
           },
         ],
       });
+
       cy.reload();
       cy.get('va-alert [slot="headline"]', { timeout: Timeouts.slow })
         .should('be.visible')
@@ -127,6 +130,7 @@ const downtimeTesting = ({
           },
         },
       };
+
       cypressSetup({ user });
 
       cy.intercept('GET', '/v0/maintenance_windows', {
@@ -151,14 +155,14 @@ const downtimeTesting = ({
         .and('contain', 'is in progress');
       cy.injectAxeThenAxeCheck();
 
-      cy.get('va-button[data-testid="continue-your-application"]').click();
+      cy.get(h.CONTINUE_APP_LINK).click();
 
       // go to review & submit page
       cy.location('pathname')
         .should('contain', `/review-and-submit`)
         .then(() => {
           if (formId === '20-0995') {
-            getPastItf(cy);
+            h.getPastItf(cy);
           }
         });
 

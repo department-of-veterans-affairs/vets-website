@@ -15,6 +15,7 @@ const LettersAndDocuments = () => {
         heading={PROFILE_PATH_NAMES.VETERAN_STATUS_CARD}
         content="Your Veteran Status Card makes it easy to prove your service and access Veteran discounts"
         href={PROFILE_PATHS.VETERAN_STATUS_CARD}
+        reactLink
       />
     </Tier2PageContent>
   );

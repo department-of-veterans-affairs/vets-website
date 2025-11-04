@@ -38,37 +38,6 @@ const InterstitialPage = props => {
     focusElement(document.querySelector('h1'));
   }, []);
 
-  useEffect(
-    () => {
-      const searchParams = new URLSearchParams(location.search);
-      const prescriptionId = searchParams.get('prescriptionId');
-      const redirectPath = searchParams.get('redirectPath');
-      if (prescriptionId) {
-        dispatch(getPrescriptionById(prescriptionId));
-      } else {
-        dispatch(clearPrescription());
-      }
-      if (redirectPath) {
-        dispatch(setRedirectPath(decodeURIComponent(redirectPath)));
-      }
-    },
-    [location.search, dispatch],
-  );
-
-  const continueButtonText = useMemo(
-    () => {
-      switch (type) {
-        case 'reply':
-          return 'Continue to reply';
-        case 'draft':
-          return 'Continue to draft';
-        default:
-          return 'Continue to start message';
-      }
-    },
-    [type],
-  );
-
   // Determine the correct destination based on whether recent recipients exist
   // This is used for both the href attribute AND the programmatic navigation
   const getDestinationPath = useCallback(
@@ -100,6 +69,38 @@ const InterstitialPage = props => {
       dispatch,
       getDestinationPath,
     ],
+  );
+
+  useEffect(
+    () => {
+      const searchParams = new URLSearchParams(location.search);
+      const prescriptionId = searchParams.get('prescriptionId');
+      const redirectPath = searchParams.get('redirectPath');
+      if (prescriptionId) {
+        dispatch(getPrescriptionById(prescriptionId));
+        handleContinueButton();
+      } else {
+        dispatch(clearPrescription());
+      }
+      if (redirectPath) {
+        dispatch(setRedirectPath(decodeURIComponent(redirectPath)));
+      }
+    },
+    [location.search, handleContinueButton, dispatch],
+  );
+
+  const continueButtonText = useMemo(
+    () => {
+      switch (type) {
+        case 'reply':
+          return 'Continue to reply';
+        case 'draft':
+          return 'Continue to draft';
+        default:
+          return 'Continue to start message';
+      }
+    },
+    [type],
   );
 
   return (

@@ -166,7 +166,10 @@ export const DateAndTimeContent = props => {
             We’re sorry. We couldn’t find any open time slots.
           </h2>
           <p>Please call this provider to schedule an appointment</p>
-          <va-telephone contact={currentReferral.provider.telephone} />
+          <va-telephone
+            contact={currentReferral.provider.phone}
+            data-testid="no-slots-provider-phone"
+          />
         </va-alert>
       );
     }
