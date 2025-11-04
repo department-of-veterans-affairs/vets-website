@@ -27,7 +27,7 @@ describe('ExpenseCard', () => {
       stateCode: 'DC',
       zipCode: '20001',
     },
-    tripType: 'OneWay',
+    tripType: 'RoundTrip',
     expenseType: 'Mileage',
     dateIncurred: '2023-10-15',
     costRequested: 25.5,
@@ -84,7 +84,7 @@ describe('ExpenseCard', () => {
 
     // Trip type
     expect(getByText('Was your trip round trip or one way?')).to.exist;
-    expect(container.textContent).to.include('One way');
+    expect(container.textContent).to.include('Round trip');
 
     // Edit button
     const editLink = container.querySelector('a');
