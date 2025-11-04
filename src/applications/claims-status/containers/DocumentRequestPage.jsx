@@ -48,7 +48,7 @@ class DocumentRequestPage extends React.Component {
       });
     }
     if (props.uploadComplete) {
-      this.goToFilesPage();
+      this.handleUploadComplete();
     }
   }
 
@@ -57,6 +57,14 @@ class DocumentRequestPage extends React.Component {
       setPageFocus('h1');
       setPageTitle(this.props.trackedItem);
     }
+  }
+
+  handleUploadComplete() {
+    this.props.getClaim(this.props.claim.id);
+    const redirectPath = this.props.showDocumentUploadStatus
+      ? statusPath
+      : filesPath;
+    this.props.navigate(redirectPath);
   }
 
   getDefaultPage() {
@@ -88,11 +96,6 @@ class DocumentRequestPage extends React.Component {
         />
       </>
     );
-  }
-
-  goToFilesPage() {
-    this.props.getClaim(this.props.claim.id);
-    this.props.navigate(filesPath);
   }
 
   render() {

@@ -764,6 +764,26 @@ const baseClaims = [
           '2024-10-15',
         ),
       ],
+      trackedItems: [
+        {
+          closedDate: null,
+          description: '21-4142 text',
+          displayName: '21-4142/21-4142a',
+          friendlyName: 'Authorization to Disclose Information',
+          friendlyDescription: 'good description',
+          canUploadFile: true,
+          supportAliases: ['VA Form 21-4142'],
+          id: 14268,
+          overdue: true,
+          receivedDate: null,
+          requestedDate: '2024-03-07',
+          status: 'NEEDED_FROM_YOU',
+          suspenseDate: '2024-04-07',
+          uploadsAllowed: true,
+          documents: '[]',
+          date: '2024-03-07',
+        },
+      ],
       contentions: [
         {
           name: 'Service connection for tinnitus',

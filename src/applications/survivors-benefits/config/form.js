@@ -37,6 +37,7 @@ import previousMarriages from './chapters/04-household-information/previousMarri
 import { previousMarriagesPages } from './chapters/04-household-information/previousMarriagesPages';
 import { veteranMarriagesPages } from './chapters/04-household-information/veteranMarriagesPages';
 import veteranChildren from './chapters/04-household-information/veteranChildren';
+import dependentsPages from './chapters/04-household-information/dependentsPages';
 import dicBenefits from './chapters/05-claim-information/dicBenefits';
 import nursingHome from './chapters/05-claim-information/nursingHome';
 import { treatmentPages } from './chapters/05-claim-information/treatmentPages';
@@ -59,12 +60,14 @@ import supportingDocuments from './chapters/07-additional-information/supporting
 import uploadDocuments from './chapters/07-additional-information/uploadDocuments';
 // TODO: Will be added after mvp release
 // import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
+import { transform } from './submit-transformer';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/survivors_benefits/v0/form534ez`,
+  transformForSubmit: transform,
   trackingPrefix: 'survivors-534ez',
   v3SegmentedProgressBar: true,
   prefillEnabled: true,
@@ -258,8 +261,9 @@ const formConfig = {
           title: 'Separation details',
           depends: formData =>
             formData.claimantRelationship === 'SPOUSE' &&
-            (formData.separationReason === 'RELATIONSHIP_DIFFERENCES' ||
-              formData.separationReason === 'OTHER'),
+            (formData.separationDueToAssignedReasons ===
+              'RELATIONSHIP_DIFFERENCES' ||
+              formData.separationDueToAssignedReasons === 'OTHER'),
           uiSchema: separationDetails.uiSchema,
           schema: separationDetails.schema,
         },
@@ -298,6 +302,7 @@ const formConfig = {
         ...previousMarriagesPages,
         ...veteranMarriagesPages,
         veteranChildren,
+        ...dependentsPages,
       },
     },
     // Chapter 5 - Claim Information

@@ -103,3 +103,30 @@ export const UnreportedAssetsSummaryDescription = () => {
     </>
   );
 };
+
+export const DiscontinuedIncomeSummaryDescription = () => {
+  return (
+    <>
+      <p>
+        Here are some examples of discontinued or irregular income you’ll need
+        to disclose for the reporting period you entered in Step 1:
+      </p>
+      <ul>
+        <li>Wages from a previous job</li>
+        <li>Interest or dividends from recently closed or emptied accounts</li>
+        <li>Unemployment benefits </li>
+        <li>Lottery or gambling winnings</li>
+      </ul>
+      <p>
+        If you’re submitting this form with your initial claim, include income
+        from the previous calendar year.
+      </p>
+      <p>
+        {' '}
+        <strong>Note:</strong> You may need to submit evidence that you no
+        longer receive this income, like a bank statement or a letter confirming
+        a closed account.
+      </p>
+    </>
+  );
+};
