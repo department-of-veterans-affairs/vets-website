@@ -1,13 +1,18 @@
-import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import { useFormSection } from '@bio-aquia/shared/hooks';
+import { FINISH_APP_LATER_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
 import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
 import { saveAndRedirectToReturnUrl } from 'platform/forms/save-in-progress/actions';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { FINISH_APP_LATER_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
-import { useFormSection } from '@bio-aquia/shared/hooks';
+import { BUTTON_TEXT, CSS_CLASSES, DEFAULTS } from './constants';
+import {
+  PageTemplateCorePropTypes,
+  PageTemplateWithSaveInProgressPropTypes,
+  formSectionInternalPropTypes,
+} from './prop-types';
 import StableSaveStatus from './stable-save-status';
 
 /**
@@ -33,7 +38,7 @@ const PageTemplateWithHook = ({
   updatePage,
 }) => {
   const formSectionProps = useFormSection({
-    sectionName: sectionName || 'default',
+    sectionName: sectionName || DEFAULTS.SECTION_NAME,
     schema: schema || { parse: value => value },
     data,
     setFormData,
@@ -61,24 +66,7 @@ const PageTemplateWithHook = ({
   );
 };
 
-PageTemplateWithHook.propTypes = {
-  data: PropTypes.object.isRequired,
-  goForward: PropTypes.func.isRequired,
-  setFormData: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  className: PropTypes.string,
-  dataProcessor: PropTypes.func,
-  defaultData: PropTypes.object,
-  goBack: PropTypes.func,
-  hideNavigation: PropTypes.bool,
-  navigationProps: PropTypes.object,
-  onReviewPage: PropTypes.bool,
-  schema: PropTypes.object,
-  sectionName: PropTypes.string,
-  subtitle: PropTypes.string,
-  title: PropTypes.string,
-  updatePage: PropTypes.func,
-};
+PageTemplateWithHook.propTypes = PageTemplateCorePropTypes;
 
 /**
  * Base template component that handles rendering.
@@ -134,24 +122,30 @@ const PageTemplateBase = ({
     });
   };
 
-  const wrapperClasses = ['form-panel', className].filter(Boolean).join(' ');
+  const wrapperClasses = [CSS_CLASSES.FORM_PANEL, className]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <>
       <div className={wrapperClasses}>
         <form noValidate>
-          <fieldset className="vads-u-margin-y--2">
+          <fieldset className={CSS_CLASSES.FIELDSET}>
             {title && (
               <legend id="root__title">
-                <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-font-family--serif vads-u-font-size--h4">
+                <h3
+                  className={`${CSS_CLASSES.HEADING_DARK} ${
+                    CSS_CLASSES.HEADING_NO_TOP_MARGIN
+                  } ${CSS_CLASSES.HEADING_SERIF} ${CSS_CLASSES.HEADING_SIZE}`}
+                >
                   {title}
                 </h3>
               </legend>
             )}
 
             {subtitle && (
-              <div className="vads-u-margin-bottom--2">
-                <p className="vads-u-margin--0">{subtitle}</p>
+              <div className={CSS_CLASSES.MARGIN_BOTTOM_2}>
+                <p className={CSS_CLASSES.MARGIN_0}>{subtitle}</p>
               </div>
             )}
 
@@ -160,13 +154,19 @@ const PageTemplateBase = ({
 
           {!hideNavigation &&
             !onReviewPage && (
-              <div className="vads-u-margin-top--2 vads-u-margin-bottom--2 vads-u-display--flex vads-u-justify-content--space-between">
+              <div
+                className={`${CSS_CLASSES.MARGIN_TOP_2} ${
+                  CSS_CLASSES.MARGIN_BOTTOM_2
+                } ${CSS_CLASSES.DISPLAY_FLEX} ${
+                  CSS_CLASSES.JUSTIFY_SPACE_BETWEEN
+                }`}
+              >
                 <div>
                   {goBack && (
                     <va-button
                       secondary
                       onClick={goBack}
-                      text="Back"
+                      text={BUTTON_TEXT.BACK}
                       {...navigationProps?.backButtonProps || {}}
                     />
                   )}
@@ -177,7 +177,7 @@ const PageTemplateBase = ({
                       e.preventDefault();
                       formSectionProps.handleContinue(goForward);
                     }}
-                    text="Continue"
+                    text={BUTTON_TEXT.CONTINUE}
                     {...navigationProps?.continueButtonProps || {}}
                   />
                 </div>
@@ -188,7 +188,11 @@ const PageTemplateBase = ({
 
       {!hideNavigation &&
         onReviewPage && (
-          <div className="vads-u-margin-top--2 vads-u-margin-bottom--2 vads-u-display--flex vads-u-justify-content--flex-end">
+          <div
+            className={`${CSS_CLASSES.MARGIN_TOP_2} ${
+              CSS_CLASSES.MARGIN_BOTTOM_2
+            } ${CSS_CLASSES.DISPLAY_FLEX} ${CSS_CLASSES.JUSTIFY_FLEX_END}`}
+          >
             <va-button
               onClick={e => {
                 e.preventDefault();
@@ -198,7 +202,7 @@ const PageTemplateBase = ({
                   }
                 });
               }}
-              text="Save"
+              text={BUTTON_TEXT.SAVE}
               {...navigationProps?.updateButtonProps || {}}
             />
           </div>
@@ -208,18 +212,10 @@ const PageTemplateBase = ({
 };
 
 PageTemplateBase.propTypes = {
-  formSectionProps: PropTypes.object.isRequired,
-  goForward: PropTypes.func.isRequired,
-  shouldUseHook: PropTypes.bool.isRequired,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  className: PropTypes.string,
-  goBack: PropTypes.func,
-  hideNavigation: PropTypes.bool,
-  navigationProps: PropTypes.object,
-  onReviewPage: PropTypes.bool,
-  subtitle: PropTypes.string,
-  title: PropTypes.string,
-  updatePage: PropTypes.func,
+  formSectionProps: formSectionInternalPropTypes,
+  goForward: PageTemplateCorePropTypes.goForward,
+  shouldUseHook: PageTemplateCorePropTypes.useFormSectionHook,
+  ...PageTemplateCorePropTypes,
 };
 
 /**
@@ -342,25 +338,7 @@ export const PageTemplateCore = ({
   );
 };
 
-PageTemplateCore.propTypes = {
-  data: PropTypes.object.isRequired,
-  goForward: PropTypes.func.isRequired,
-  setFormData: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  className: PropTypes.string,
-  dataProcessor: PropTypes.func,
-  defaultData: PropTypes.object,
-  goBack: PropTypes.func,
-  hideNavigation: PropTypes.bool,
-  navigationProps: PropTypes.object,
-  onReviewPage: PropTypes.bool,
-  schema: PropTypes.object,
-  sectionName: PropTypes.string,
-  subtitle: PropTypes.string,
-  title: PropTypes.string,
-  updatePage: PropTypes.func,
-  useFormSectionHook: PropTypes.bool,
-};
+PageTemplateCore.propTypes = PageTemplateCorePropTypes;
 
 /**
  * PageTemplate with integrated save-in-progress UI.
@@ -456,36 +434,7 @@ const PageTemplateComponent = ({
   );
 };
 
-PageTemplateComponent.propTypes = {
-  // PageTemplate props
-  data: PropTypes.object.isRequired,
-  goForward: PropTypes.func.isRequired,
-  setFormData: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  className: PropTypes.string,
-  dataProcessor: PropTypes.func,
-  defaultData: PropTypes.object,
-  goBack: PropTypes.func,
-  hideNavigation: PropTypes.bool,
-  navigationProps: PropTypes.object,
-  onReviewPage: PropTypes.bool,
-  schema: PropTypes.object,
-  sectionName: PropTypes.string,
-  subtitle: PropTypes.string,
-  title: PropTypes.string,
-  updatePage: PropTypes.func,
-  useFormSectionHook: PropTypes.bool,
-
-  // Redux-provided props
-  form: PropTypes.object.isRequired,
-  saveAndRedirectToReturnUrlAction: PropTypes.func.isRequired,
-  toggleLoginModalAction: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  formConfig: PropTypes.object,
-  location: PropTypes.object,
-  route: PropTypes.object,
-  showLoginModal: PropTypes.bool,
-};
+PageTemplateComponent.propTypes = PageTemplateWithSaveInProgressPropTypes;
 
 /**
  * Map Redux state to component props

@@ -1,15 +1,16 @@
-import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns-tz';
+import {
+  APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE,
+  APP_TYPE_DEFAULT,
+} from 'platform/forms-system/src/js/constants';
 import SignInLink from 'platform/forms/components/SignInLink';
 import {
   SAVE_STATUSES,
   saveErrors,
 } from 'platform/forms/save-in-progress/actions';
-import {
-  APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE,
-  APP_TYPE_DEFAULT,
-} from 'platform/forms-system/src/js/constants';
+import React, { useEffect, useState } from 'react';
+import { CSS_CLASSES, DATE_FORMAT, ERROR_MESSAGES } from './constants';
+import { StableSaveStatusPropTypes } from './prop-types';
 
 /**
  * Stable SaveStatus component that displays save-in-progress alerts without flickering.
@@ -98,10 +99,7 @@ function StableSaveStatus({
   let savedAtMessage;
   if (lastSuccessDate) {
     const savedAt = new Date(lastSuccessDate);
-    savedAtMessage = ` We saved it on ${format(
-      savedAt,
-      "MMMM d, yyyy', at' h:mm aaaa z.",
-    )}`;
+    savedAtMessage = ` We saved it on ${format(savedAt, DATE_FORMAT.SAVED_AT)}`;
   } else {
     savedAtMessage = '';
   }
@@ -146,7 +144,13 @@ function StableSaveStatus({
     <div>
       {/* Success Alert: Shows after a save completes, stays visible during subsequent saves */}
       {showSuccess && (
-        <div className="panel saved-success-container vads-u-display--flex vads-u-padding--1 vads-u-margin-bottom--1p5 vads-u-display--block">
+        <div
+          className={`${CSS_CLASSES.SAVE_SUCCESS_CONTAINER} ${
+            CSS_CLASSES.DISPLAY_FLEX
+          } ${CSS_CLASSES.PADDING_1} ${CSS_CLASSES.MARGIN_BOTTOM_1P5} ${
+            CSS_CLASSES.DISPLAY_BLOCK
+          }`}
+        >
           <va-alert status="success" slim uswds>
             {appSavedSuccessfullyMessage}
             {savedAtMessage}
@@ -157,37 +161,39 @@ function StableSaveStatus({
 
       {/* Saving Indicator: Only shown during the very first save (before hasSeenPending is true) */}
       {autoSavedStatus === SAVE_STATUSES.pending &&
-        !hasSeenPending && <p className="saved-form-autosaving">Saving...</p>}
+        !hasSeenPending && (
+          <p className={CSS_CLASSES.SAVE_AUTOSAVING}>Saving...</p>
+        )}
 
       {/* Error Alerts: Display when save fails for various reasons */}
       {hasError && (
         <va-alert
           status="error"
           role="alert"
-          class="schemaform-save-error"
+          class={CSS_CLASSES.SAVE_ERROR}
           slim
           uswds
         >
           {/* Network connection error */}
           {autoSavedStatus === SAVE_STATUSES.clientFailure &&
-            `We're sorry. We're unable to connect to VA.gov. Please check that you're connected to the Internet, so we can save your ${appType} in progress.`}
+            ERROR_MESSAGES.CLIENT_FAILURE(appType)}
 
           {/* Server error */}
           {autoSavedStatus === SAVE_STATUSES.failure &&
-            `We're sorry, but we're having some issues and are working to fix them. You can continue filling out the ${appType}, but it will not be automatically saved as you fill it out.`}
+            ERROR_MESSAGES.SERVER_FAILURE(appType)}
 
           {/* Authentication error */}
           {!isLoggedIn &&
             autoSavedStatus === SAVE_STATUSES.noAuth && (
               <span>
-                Sorry, you're no longer signed in.{' '}
+                {ERROR_MESSAGES.NO_AUTH_PREFIX}{' '}
                 <SignInLink
                   className="va-button-link"
                   isLoggedIn={isLoggedIn}
                   showLoginModal={showLoginModal}
                   toggleLoginModal={toggleLoginModal}
                 >
-                  Sign in to save your {appType} in progress
+                  {ERROR_MESSAGES.NO_AUTH_LINK_TEXT(appType)}
                 </SignInLink>
                 .
               </span>
@@ -198,17 +204,6 @@ function StableSaveStatus({
   );
 }
 
-StableSaveStatus.propTypes = {
-  form: PropTypes.object.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
-  formConfig: PropTypes.shape({
-    customText: PropTypes.shape({
-      appSavedSuccessfullyMessage: PropTypes.string,
-      appType: PropTypes.string,
-    }),
-  }),
-  showLoginModal: PropTypes.bool,
-  toggleLoginModal: PropTypes.func,
-};
+StableSaveStatus.propTypes = StableSaveStatusPropTypes;
 
 export default StableSaveStatus;
