@@ -129,7 +129,7 @@ export const Results = ({
           ref={resultsHeaderRef}
         >
           <span>
-            Displaying {resultsStartNumber} - {resultsEndNumber} of
+            Displaying {resultsStartNumber} - {resultsEndNumber} of{' '}
             {totalResults} results for <strong>{query}</strong>
           </span>
         </h2>
