@@ -1,12 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { capitalizeEachWord } from '../../utils';
 
 const HousingSituationResponses = ({ formData }) => {
-  // Determine if the user is homeless or at risk
   const isHomeless = formData.homelessOrAtRisk === 'homeless';
   const isAtRisk = formData.homelessOrAtRisk === 'atRisk';
+  const homelessLabel = 'I’m currently homeless.';
+  const atRiskLabel = 'I’m at risk of becoming homeless.';
   const homelessnessContact = formData.homelessnessContact || {};
+  const homelessHousingSituation = {
+    notShelter:
+      'I’m living somewhere other than a shelter. (For example, I’m living in a car or a tent.)',
+    anotherPerson: 'I’m living with another person.',
+    other: 'Other',
+  };
+  const atRiskHousingSituation = {
+    losingHousing: 'I’m losing my housing in 30 days.',
+    leavingShelter: 'I’m leaving a publicly funded homeless shelter soon.',
+    other: 'Other',
+  };
 
   return (
     <div data-testid="housing-situation-responses">
@@ -14,19 +25,26 @@ const HousingSituationResponses = ({ formData }) => {
       <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
         <li>
           <div className="vads-u-color--gray">
-            Are you homeless or at risk of becoming homeless?:
+            Are you homeless or at risk of becoming homeless?
           </div>
-          {capitalizeEachWord(formData.homelessOrAtRisk || '')}
         </li>
+        <li>
+          <div>
+            {formData.homelessOrAtRisk === 'homeless' && homelessLabel}
+            {formData.homelessOrAtRisk === 'atRisk' && atRiskLabel}
+            {formData.homelessOrAtRisk === 'no' && 'No'}
+          </div>
+        </li>
+
         {isHomeless && (
-          <>
+          <div>
             <li>
               <div className="vads-u-color--gray">
                 Please describe your current living situation:
               </div>
-              {capitalizeEachWord(
-                formData['view:isHomeless']?.homelessHousingSituation || '',
-              )}
+              {homelessHousingSituation[
+                (formData['view:isHomeless']?.homelessHousingSituation)
+              ] || ''}
             </li>
             {formData['view:isHomeless']?.homelessHousingSituation ===
               'other' && (
@@ -37,7 +55,7 @@ const HousingSituationResponses = ({ formData }) => {
             )}
             <li>
               <div className="vads-u-color--gray">
-                Do you need to quickly leave your current living situation?:
+                Do you need to quickly leave your current living situation?
               </div>
               {formData['view:isHomeless']?.needToLeaveHousing ? 'Yes' : 'No'}
             </li>
@@ -53,19 +71,18 @@ const HousingSituationResponses = ({ formData }) => {
                 <li>Phone number: {homelessnessContact.phoneNumber}</li>
               </>
             )}
-          </>
+          </div>
         )}
-      </ul>
-      {isAtRisk && (
-        <div>
-          <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
+
+        {isAtRisk && (
+          <div>
             <li>
               <div className="vads-u-color--gray">
-                Please describe your current living situation:
+                Please describe your housing situation:
               </div>
-              {capitalizeEachWord(
-                formData['view:isAtRisk']?.atRiskHousingSituation || '',
-              )}
+              {atRiskHousingSituation[
+                (formData['view:isAtRisk']?.atRiskHousingSituation)
+              ] || ''}
             </li>
             {formData['view:isAtRisk']?.atRiskHousingSituation === 'other' && (
               <li>
@@ -75,7 +92,7 @@ const HousingSituationResponses = ({ formData }) => {
             )}
             <li>
               <div className="vads-u-color--gray">
-                Do you need to quickly leave your current living situation?:
+                Do you need to quickly leave your current living situation?
               </div>
               {formData['view:isAtRisk']?.needToLeaveHousing ? 'Yes' : 'No'}
             </li>
@@ -91,9 +108,9 @@ const HousingSituationResponses = ({ formData }) => {
                 <li>Phone number: {homelessnessContact.phoneNumber}</li>
               </>
             )}
-          </ul>
-        </div>
-      )}
+          </div>
+        )}
+      </ul>
     </div>
   );
 };
