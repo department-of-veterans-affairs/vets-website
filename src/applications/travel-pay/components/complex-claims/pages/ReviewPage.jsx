@@ -18,19 +18,16 @@ import {
   formatAmount,
 } from '../../../util/complex-claims-helper';
 import { EXPENSE_TYPES } from '../../../constants';
-import { complexClaimAllExpenseTypes } from '../../../services/mocks/complex-claim-all-expense-types';
 
 const ReviewPage = ({ message }) => {
   const navigate = useNavigate();
   const { apptId, claimId } = useParams();
 
   const address = useSelector(selectVAPResidentialAddress);
-  const { data: claimDetails } = useSelector(selectComplexClaim);
+  const { data: claimDetails = {} } = useSelector(selectComplexClaim);
   const allExpenses = useSelector(selectAllExpenses);
 
-  // For fallback when Redux data is not available, use mock data
-  const overriddenClaim = claimDetails || complexClaimAllExpenseTypes;
-  const expenses = allExpenses || overriddenClaim.expenses || [];
+  const expenses = allExpenses ?? [];
 
   // Get total by expense type and return expenses alphabetically
   const totalByExpenseType = Object.fromEntries(
@@ -49,7 +46,7 @@ const ReviewPage = ({ message }) => {
 
     // Find document associated with this expense using documentId
     const expenseDocument =
-      overriddenClaim.documents?.find(doc => doc.documentId === documentId) ||
+      claimDetails?.documents?.find(doc => doc.documentId === documentId) ||
       null;
 
     // Add document to the expense object
@@ -178,8 +175,8 @@ const ReviewPage = ({ message }) => {
         <p>
           <strong>Total:</strong> $
           {formatAmount(
-            claimDetails?.totalCostRequested ||
-              overriddenClaim.totalCostRequested ||
+            claimDetails?.totalCostRequested ??
+              claimDetails?.totalCostRequested ??
               0,
           )}
         </p>
