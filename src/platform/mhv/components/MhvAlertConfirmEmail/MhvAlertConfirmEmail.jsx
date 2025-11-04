@@ -50,7 +50,6 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
     [confirmSuccess, confirmError, skipSuccess],
   );
 
-  // eslint-disable-next-line no-unused-vars
   const putConfirmationDate = (confirmationDate = new Date().toISOString()) =>
     apiRequest('/profile/email_addresses', {
       method: 'PUT',
@@ -98,11 +97,7 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
       {!confirmSuccess && (
         <AlertConfirmContactEmail
           emailAddress={emailAddress}
-          // UNDO: remove comment after testing: onConfirmClick={putConfirmationDate}
-          // TESTING: set for testing setConfirmSuccess(true) or setConfirmError(true); or setSkipSuccess(true);
-          onConfirmClick={() => {
-            setConfirmError(true);
-          }}
+          onConfirmClick={putConfirmationDate}
           recordEvent={recordEvent}
         />
       )}
