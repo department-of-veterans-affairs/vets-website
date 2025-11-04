@@ -36,7 +36,7 @@ const RequestFormAlert = ({
 }) => (
   <va-alert-expandable
     status="warning"
-    trigger={`You’ll need to submit a ${formName}`}
+    trigger={`You’ll need to submit ${formName}`}
   >
     <p className="vads-u-margin-y--0">
       You’ll need to submit an {title} ({formName}
