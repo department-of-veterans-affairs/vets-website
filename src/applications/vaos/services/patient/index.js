@@ -198,8 +198,8 @@ function matchClinicToAppt(clinic, clinicId, appt, requiresPastHistory) {
   if (requiresPastHistory) {
     // in mocks/tests, sometimes appt is just `meta: []`, so optional
     matchesClinic =
-      clinic.stationId === appt?.location?.stationId &&
-      clinicId === appt?.location?.clinicId;
+      clinic.stationId === appt.location?.stationId &&
+      clinicId === appt.location?.clinicId;
   }
   if (appt.version === 2) {
     return matchesClinic && clinic.patientDirectScheduling === true;
