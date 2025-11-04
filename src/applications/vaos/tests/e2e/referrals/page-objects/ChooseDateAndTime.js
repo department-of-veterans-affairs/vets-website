@@ -64,11 +64,14 @@ export class ChooseDateAndTimePageObject extends PageObject {
   /**
    * Validates that no slots available warning is shown
    */
-  assertNoSlotsAvailable() {
-    cy.findByTestId('no-slots-alert').should('exist');
-    cy.findByText(/We’re sorry. We couldn’t find any open time slots/).should(
-      'exist',
-    );
+  assertNoSlotsAvailableAlert() {
+    cy.findByTestId('no-slots-alert').within(() => {
+      cy.findByText(/We couldn’t find any open time slots./).should('exist');
+      cy.findByText(
+        /Call this provider or your facility’s community care office to schedule an appointment./,
+      ).should('exist');
+      cy.findByTestId('referral-community-care-office').should('exist');
+    });
     return this;
   }
 
@@ -116,6 +119,22 @@ export class ChooseDateAndTimePageObject extends PageObject {
    */
   clickBack() {
     return this.clickBackButton();
+  }
+
+  /**
+   * Validates that the station ID not valid alert is displayed
+   */
+  assertStationIdNotValidAlert() {
+    cy.findByTestId('station-id-not-valid-alert').within(() => {
+      cy.findByText(/Online scheduling isn’t available right now/).should(
+        'exist',
+      );
+      cy.findByText(
+        /Call this provider or your facility’s community care office to schedule an appointment./,
+      ).should('exist');
+      cy.findByTestId('referral-community-care-office').should('exist');
+    });
+    return this;
   }
 
   /**
