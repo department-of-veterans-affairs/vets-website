@@ -161,7 +161,7 @@ export const vitalReducer = (state = initialState, action) => {
     case Actions.Vitals.GET_LIST: {
       const oldList = state.vitalsList;
       const newList =
-        action.response.entry
+        action?.response?.entry
           ?.filter(entry =>
             entry.resource.code.coding.some(coding =>
               allowedVitalLoincs.includes(coding.code),
