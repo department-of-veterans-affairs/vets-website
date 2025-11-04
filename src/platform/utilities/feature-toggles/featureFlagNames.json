@@ -304,6 +304,7 @@
   "travelPayClaimsManagement": "travel_pay_claims_management",
   "travelPayClaimsManagementDecisionReason": "travel_pay_claims_management_decision_reason",
   "travelPayEnableComplexClaims": "travel_pay_enable_complex_claims",
+  "tsaSafeTravelLetter": "tsa_safe_travel_letter",
   "useFacilitiesApiV2ForCernerCTA": "use_facilities_api_v2_for_cerner_cta",
   "useLighthouseFormsSearchLogic": "new_va_forms_search",
   "vaDependentsVerification": "va_dependents_verification",
