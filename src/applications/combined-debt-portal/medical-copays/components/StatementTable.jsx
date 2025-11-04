@@ -136,7 +136,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
           scrollable={false}
           table-type="bordered"
           full-width
-          unobunded
+          unbounded
         >
           <va-table-row>
             {columns.map((col, index) => (
