@@ -6,8 +6,6 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Mailing address',
-  path: 'claimant/mailing-address',
   uiSchema: {
     ...titleUI('Your mailing address'),
     claimantAddress: addressUI({
