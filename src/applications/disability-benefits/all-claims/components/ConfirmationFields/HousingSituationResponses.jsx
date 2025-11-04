@@ -14,13 +14,19 @@ const HousingSituationResponses = ({ formData }) => {
 
   return (
     <div data-testid="housing-situation-responses">
-      <h3>Housing situation</h3>
-      {isHomeless && (
-        <div>
-          <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
+      <h4>Housing situation</h4>
+      <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
+        <li>
+          <div className="vads-u-color--gray">
+            Are you homeless or at risk of becoming homeless?:
+          </div>
+          {capitalizeEachWord(formData.homelessOrAtRisk || '')}
+        </li>
+        {isHomeless && (
+          <>
             <li>
               <div className="vads-u-color--gray">
-                Are you homeless or at risk of becoming homeless?:
+                Please describe your current living situation:
               </div>
               {capitalizeEachWord(
                 formData['view:isHomeless']?.homelessHousingSituation || '',
@@ -29,9 +35,7 @@ const HousingSituationResponses = ({ formData }) => {
             {formData['view:isHomeless']?.homelessHousingSituation ===
               'other' && (
               <li>
-                <div className="vads-u-color--gray">
-                  Please describe your housing situation:
-                </div>
+                <div className="vads-u-color--gray">Please describe:</div>
                 {formData['view:isHomeless']?.otherHomelessHousing || ''}
               </li>
             )}
@@ -53,25 +57,26 @@ const HousingSituationResponses = ({ formData }) => {
                 <li>Phone number: {homelessnessContact.phoneNumber}</li>
               </>
             )}
-          </ul>
-        </div>
-      )}
+          </>
+        )}
+      </ul>
       {isAtRisk && (
         <div>
           <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
             <li>
               <div className="vads-u-color--gray">
-                Are you homeless or at risk of becoming homeless?:
+                Please describe your current living situation:
               </div>
               {capitalizeEachWord(
-                formData['view:isAtRisk']?.homelessHousingSituation || '',
+                formData['view:isHomeless']?.homelessHousingSituation ||
+                  formData['view:isAtRisk']?.homelessHousingSituation ||
+                  '',
               )}
             </li>
-            {formData['view:isAtRisk']?.atRiskHousingSituation === 'other' && (
+            {formData['view:isAtRisk']?.homelessHousingSituation ===
+              'other' && (
               <li>
-                <div className="vads-u-color--gray">
-                  Other housing situation:{' '}
-                </div>
+                <div className="vads-u-color--gray">Please describe: </div>
                 {formData['view:isAtRisk']?.otherAtRiskHousing || ''}
               </li>
             )}
