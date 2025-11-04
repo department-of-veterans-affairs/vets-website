@@ -1,7 +1,8 @@
 import React from 'react';
 import { useGetRefillablePrescriptionsQuery } from '../api/refillsApi';
-import MedicationsRefillPageSkeleton from '../components/MedicationsRefillPage.Skeleton';
 import { dateFormat } from '../../mhv-medications/util/helpers';
+// Import skeleton HTML as raw string
+import skeletonHTML from '../components/MedicationsRefillPage.Skeleton.html';
 
 /**
  * MedicationsRefillPage component
@@ -32,9 +33,10 @@ const MedicationsRefillPage = () => {
     );
   }
 
-  // Show skeleton while loading (provides better UX than loading spinner)
+  // Show skeleton HTML while fetching data
   if (isLoading) {
-    return <MedicationsRefillPageSkeleton />;
+    // eslint-disable-next-line react/no-danger
+    return <div dangerouslySetInnerHTML={{ __html: skeletonHTML }} />;
   }
 
   const prescriptions = data?.prescriptions || [];

@@ -318,6 +318,10 @@ module.exports = async (env = {}) => {
       strictExportPresence: true,
       rules: [
         {
+          test: /\.html$/,
+          type: 'asset/source',
+        },
+        {
           test: /\.jsx?$/,
           exclude: /node_modules/,
           use: {
@@ -557,10 +561,8 @@ module.exports = async (env = {}) => {
     );
   }
 
-  // Generate skeleton manifest for React hydration (both build and watch mode)
+  // Generate skeleton manifest and inject into HTML files
   baseConfig.plugins.push(new SkeletonManifestPlugin());
-
-  // Inject skeleton HTML into generated HTML files (runs after compilation)
   baseConfig.plugins.push(new SkeletonInjectorPlugin());
 
   // Optionally generate mocked HTML pages for apps without running content build.
