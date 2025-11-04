@@ -46,7 +46,15 @@ const uiSchema = {
         required: 'Select a type of phone number',
       },
     }),
-    phoneNumber: {
+    'view:phoneType': radioUI({
+      title: 'Select a type of phone number to enter for yourself',
+      labels: phoneLabels,
+      required: () => true,
+      errorMessages: {
+        required: 'Select a type of phone number',
+      },
+    }),
+    usPhone: {
       ...phoneUI({
         title: 'US Phone number',
         hint: 'Enter a 10-digit phone number.',
@@ -56,7 +64,7 @@ const uiSchema = {
         required: 'Enter a 10-digit phone number (with or without dashes)',
       },
     },
-    internationalPhoneNumber: {
+    internationalPhone: {
       ...internationalPhoneDeprecatedUI({
         title: 'International phone number',
         hint:
@@ -70,20 +78,20 @@ const uiSchema = {
 
     'ui:options': {
       updateSchema: (formData, formSchema) => {
-        if (formData.authorizedOfficial?.phoneType === 'us') {
+        if (formData.authorizedOfficial['view:phoneType'] === 'us') {
           return {
             ...formSchema,
-            required: ['fullName', 'title', 'phoneType', 'phoneNumber'],
+            required: ['fullName', 'title', 'view:phoneType', 'usPhone'],
           };
         }
-        if (formData.authorizedOfficial?.phoneType === 'intl') {
+        if (formData.authorizedOfficial['view:phoneType'] === 'intl') {
           return {
             ...formSchema,
             required: [
               'fullName',
               'title',
-              'phoneType',
-              'internationalPhoneNumber',
+              'view:phoneType',
+              'internationalPhone',
             ],
           };
         }
@@ -106,11 +114,11 @@ const schema = {
           minLength: 1,
           maxLength: 60,
         },
-        phoneType: radioSchema(Object.keys(phoneLabels)),
-        phoneNumber: phoneSchema,
-        internationalPhoneNumber: internationalPhoneDeprecatedSchema,
+        'view:phoneType': radioSchema(Object.keys(phoneLabels)),
+        usPhone: phoneSchema,
+        internationalPhone: internationalPhoneDeprecatedSchema,
       },
-      required: ['fullName', 'title', 'phoneType'],
+      required: ['fullName', 'title', 'view:phoneType'],
     },
   },
 };

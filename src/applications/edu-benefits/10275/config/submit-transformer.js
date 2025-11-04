@@ -1,7 +1,23 @@
 import { cloneDeep } from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { dateSigned, transformPhoneNumber } from '../helpers';
 
 export default function transform(formConfig, form) {
+  const authorizedOfficialTransform = formData => {
+    const clonedData = cloneDeep(formData);
+
+    clonedData.authorizedOfficial = {
+      ...clonedData.authorizedOfficial,
+      usPhone: clonedData.authorizedOfficial.usPhone
+        ? transformPhoneNumber(clonedData.authorizedOfficial.usPhone)
+        : null,
+      internationalPhone: clonedData.authorizedOfficial.internationalPhone
+        ? transformPhoneNumber(clonedData.authorizedOfficial.internationalPhone)
+        : null,
+    };
+
+    return clonedData;
+  };
   const contactTransform = formData => {
     const clonedData = cloneDeep(formData);
 
@@ -15,6 +31,27 @@ export default function transform(formConfig, form) {
         ...clonedData.newCommitment,
         principlesOfExcellencePointOfContact,
       };
+    } else {
+      clonedData.newCommitment = {
+        ...clonedData.newCommitment,
+        principlesOfExcellencePointOfContact: {
+          ...clonedData.newCommitment.principlesOfExcellencePointOfContact,
+          usPhone: clonedData.newCommitment.principlesOfExcellencePointOfContact
+            .usPhone
+            ? transformPhoneNumber(
+                clonedData.newCommitment.principlesOfExcellencePointOfContact
+                  .usPhone,
+              )
+            : null,
+          internationalPhone: clonedData.newCommitment
+            .principlesOfExcellencePointOfContact.internationalPhone
+            ? transformPhoneNumber(
+                clonedData.newCommitment.principlesOfExcellencePointOfContact
+                  .internationalPhone,
+              )
+            : null,
+        },
+      };
     }
 
     if (clonedData.authorizedOfficial['view:isSCO']) {
@@ -25,7 +62,28 @@ export default function transform(formConfig, form) {
         ...clonedData.newCommitment,
         schoolCertifyingOfficial,
       };
-    } else if (
+    } else {
+      clonedData.newCommitment = {
+        ...clonedData.newCommitment,
+        schoolCertifyingOfficial: {
+          ...clonedData.newCommitment.schoolCertifyingOfficial,
+          usPhone: clonedData.newCommitment.schoolCertifyingOfficial.usPhone
+            ? transformPhoneNumber(
+                clonedData.newCommitment.schoolCertifyingOfficial.usPhone,
+              )
+            : null,
+          internationalPhone: clonedData.newCommitment.schoolCertifyingOfficial
+            .internationalPhone
+            ? transformPhoneNumber(
+                clonedData.newCommitment.schoolCertifyingOfficial
+                  .internationalPhone,
+              )
+            : null,
+        },
+      };
+    }
+
+    if (
       clonedData.newCommitment?.principlesOfExcellencePointOfContact?.[
         'view:isSCO'
       ]
@@ -44,12 +102,64 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
+  // const additionalLocationsTransform = formData => {
+  //   const clonedData = cloneDeep(formData);
+
+  //   delete clonedData.addMoreLocations;
+
+  //   clonedData.additionalInstitutions = clonedData.additionalLocations.map((insititution) => {
+  //     delete insititution.poeEligible;
+  //     delete insititution.isLoading;
+
+  //     let pointOfConctact;
+  //     if(institution.previouslyEnteredPointOfContact?.key === 'authorizedOfficial') {
+  //       pointOfConctact = {
+
+  //       }
+  //     }
+  //     return {
+  //       ...insititution,
+  //     }
+  //   })
+
+  //   return clonedData;
+  // }
+
+  const removePrincipleTransform = formData => {
+    const clonedData = cloneDeep(formData);
+    delete clonedData.principle1;
+    delete clonedData.principle2;
+    delete clonedData.principle3;
+    delete clonedData.principle4;
+    delete clonedData.principle5;
+    delete clonedData.principle6;
+    delete clonedData.principle7;
+    delete clonedData.principle8;
+    return clonedData;
+  };
+
+  const privacyAgreementTransform = formData => {
+    const clonedData = cloneDeep(formData);
+
+    delete clonedData.statementOfTruthCertified;
+    delete clonedData.additionalLocations;
+
+    return {
+      ...clonedData,
+      dateSigned: dateSigned(),
+    };
+  };
+
   // Stringifies the form data and removes empty fields
   const usFormTransform = formData =>
     transformForSubmit(formConfig, { ...form, data: formData });
 
   const transformedData = [
+    authorizedOfficialTransform,
     contactTransform,
+    // additionalLocationsTransform,
+    removePrincipleTransform,
+    privacyAgreementTransform,
     usFormTransform, // this must appear last
   ].reduce((formData, transformer) => transformer(formData), form.data);
 
