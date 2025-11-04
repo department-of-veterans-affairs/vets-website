@@ -54,48 +54,108 @@ class SkeletonManifestPlugin {
               );
 
               if (manifest.skeletonComponent) {
-                // For now, create a simple placeholder skeleton
-                // In production, this would be generated from the actual component
-                const placeholderHTML = `
-                  <div class="medications-refills-skeleton" data-skeleton="true">
-                    <div class="vads-l-grid-container vads-u-padding-x--0 large-screen:vads-u-padding-x--2">
-                      <div class="vads-l-row">
-                        <div class="vads-l-col--12">
-                          <div class="skeleton-shimmer" style="width: 280px; height: 36px; margin-top: 2rem; margin-bottom: 1rem;" aria-hidden="true"></div>
-                          <div class="skeleton-shimmer" style="width: 100%; max-width: 600px; height: 20px; margin-bottom: 2rem;" aria-hidden="true"></div>
-                          <div class="skeleton-card" style="margin-bottom: 1rem; padding: 1.5rem; background-color: #f0f0f0; border-radius: 4px;">
-                            <div class="skeleton-shimmer" style="width: 220px; height: 24px; margin-bottom: 1rem;" aria-hidden="true"></div>
-                            <div class="skeleton-shimmer" style="width: 200px; height: 16px; margin-bottom: 0.5rem;" aria-hidden="true"></div>
-                            <div class="skeleton-shimmer" style="width: 180px; height: 16px;" aria-hidden="true"></div>
-                          </div>
-                          <div class="skeleton-card" style="margin-bottom: 1rem; padding: 1.5rem; background-color: #f0f0f0; border-radius: 4px;">
-                            <div class="skeleton-shimmer" style="width: 220px; height: 24px; margin-bottom: 1rem;" aria-hidden="true"></div>
-                            <div class="skeleton-shimmer" style="width: 200px; height: 16px; margin-bottom: 0.5rem;" aria-hidden="true"></div>
-                            <div class="skeleton-shimmer" style="width: 180px; height: 16px;" aria-hidden="true"></div>
-                          </div>
-                          <div class="skeleton-card" style="margin-bottom: 1rem; padding: 1.5rem; background-color: #f0f0f0; border-radius: 4px;">
-                            <div class="skeleton-shimmer" style="width: 220px; height: 24px; margin-bottom: 1rem;" aria-hidden="true"></div>
-                            <div class="skeleton-shimmer" style="width: 200px; height: 16px; margin-bottom: 0.5rem;" aria-hidden="true"></div>
-                            <div class="skeleton-shimmer" style="width: 180px; height: 16px;" aria-hidden="true"></div>
-                          </div>
-                          <div class="skeleton-shimmer" style="width: 160px; height: 44px; margin-top: 2rem;" aria-hidden="true"></div>
-                          <div class="sr-only">Loading prescription refills...</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                `.trim();
+                // Render the actual skeleton component to HTML
+                const appDir = path.dirname(manifestPath);
+                const skeletonPath = path.resolve(
+                  appDir,
+                  manifest.skeletonComponent,
+                );
+
+                let skeletonHTML = '';
+
+                try {
+                  // Use Babel to transpile and React to render
+                  const React = require('react');
+                  const ReactDOMServer = require('react-dom/server');
+                  const babel = require('@babel/core');
+
+                  console.log(
+                    `[SkeletonManifestPlugin] Attempting to load skeleton from: ${skeletonPath}`,
+                  );
+
+                  // Read and transpile the skeleton component file
+                  const skeletonSource = fs.readFileSync(skeletonPath, 'utf8');
+                  console.log(
+                    `[SkeletonManifestPlugin] Source has nav: ${skeletonSource.includes(
+                      '<nav',
+                    )}`,
+                  );
+                  console.log(
+                    `[SkeletonManifestPlugin] Source line 11-15: ${skeletonSource
+                      .split('\n')
+                      .slice(10, 15)
+                      .join('\n')}`,
+                  );
+                  const transpiled = babel.transformSync(skeletonSource, {
+                    filename: skeletonPath,
+                    presets: [
+                      '@babel/preset-react',
+                      [
+                        '@babel/preset-env',
+                        {
+                          targets: { node: 'current' },
+                        },
+                      ],
+                    ],
+                  });
+
+                  // Create a module and evaluate the transpiled code
+                  const Module = require('module');
+                  const m = new Module();
+                  m.require = require; // Provide require to the module
+                  m.exports = {};
+
+                  // Provide React in the module's require context
+                  const originalRequire = m.require;
+                  m.require = function(id) {
+                    if (id === 'react') {
+                      return React;
+                    }
+                    return originalRequire(id);
+                  };
+
+                  m._compile(transpiled.code, skeletonPath);
+                  const SkeletonComponent = m.exports.default || m.exports;
+
+                  console.log(
+                    `[SkeletonManifestPlugin] Component loaded, rendering...`,
+                  );
+
+                  // Render the component WITHOUT App wrapper since the skeleton
+                  // should be the raw component content
+                  const element = React.createElement(SkeletonComponent);
+                  skeletonHTML = ReactDOMServer.renderToStaticMarkup(element);
+
+                  console.log(
+                    `[SkeletonManifestPlugin] First 300 chars: ${skeletonHTML.substring(
+                      0,
+                      300,
+                    )}`,
+                  );
+
+                  console.log(
+                    `[SkeletonManifestPlugin] ✓ Rendered skeleton for ${
+                      manifest.entryName
+                    } (${skeletonHTML.length} bytes)`,
+                  );
+                } catch (error) {
+                  console.error(
+                    `[SkeletonManifestPlugin] Error rendering skeleton for ${
+                      manifest.entryName
+                    }:`,
+                  );
+                  console.error(`  Path: ${skeletonPath}`);
+                  console.error(`  Error: ${error.message}`);
+                  console.error(`  Stack: ${error.stack}`);
+                  // Fallback to empty skeleton
+                  skeletonHTML =
+                    '<div class="skeleton-loading">Loading...</div>';
+                }
 
                 skeletons[manifest.entryName] = {
-                  html: placeholderHTML,
+                  html: skeletonHTML,
                   rootUrl: manifest.rootUrl,
                 };
-
-                console.log(
-                  `[SkeletonManifestPlugin] ✓ Generated skeleton for ${
-                    manifest.entryName
-                  }`,
-                );
               }
             } catch (error) {
               console.error(

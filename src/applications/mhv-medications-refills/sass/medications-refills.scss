@@ -7,36 +7,39 @@
   padding: 2rem 0;
 }
 
-.medications-refills-skeleton {
-  padding: 0;
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  display: block;
 
-  .skeleton-card {
-    background: var(--vads-color-gray-lightest);
-    border: 1px solid var(--vads-color-gray-lighter);
-    border-radius: 4px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .skeleton-shimmer {
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: linear-gradient(
       90deg,
-      var(--vads-color-gray-lightest) 0%,
-      var(--vads-color-gray-lighter) 50%,
-      var(--vads-color-gray-lightest) 100%
+      transparent 0,
+      rgba(255, 255, 255, 0.6) 50%,
+      transparent 100%
     );
-    background-size: 200% 100%;
-    animation: shimmer 1.5s ease-in-out infinite;
-    border-radius: 4px;
-    display: block;
+    transform: translateX(-100%);
+    animation: shimmer 1.6s linear infinite;
   }
+}
 
-  @keyframes shimmer {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer::after {
+    animation: none;
   }
 }
