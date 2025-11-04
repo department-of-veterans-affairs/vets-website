@@ -50,7 +50,7 @@ class StemClaimStatusPage extends React.Component {
       content = (
         <>
           <h1>We encountered a problem</h1>
-          <ServiceUnavailableAlert services={['claims']} />
+          <ServiceUnavailableAlert services={['claims']} headerLevel={2} />
         </>
       );
     }

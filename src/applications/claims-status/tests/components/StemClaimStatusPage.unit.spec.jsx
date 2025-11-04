@@ -29,14 +29,14 @@ describe('<StemClaimStatusPage>', () => {
     );
     expect(
       queryByText(
-        'You didn’t meet the following criteria for the Rogers STEM Scholarship:',
+        "You didn't meet the following criteria for the Rogers STEM Scholarship:",
       ),
     ).to.not.exist;
     expect(document.title).to.equal(documentTitle);
     getByText('We encountered a problem');
     expect($('va-alert', container)).to.exist;
     expect(container.textContent).to.include(
-      "We can't show your claims right now",
+      'VA.gov is having trouble loading claims information',
     );
   });
 
@@ -48,14 +48,14 @@ describe('<StemClaimStatusPage>', () => {
     );
     expect(
       queryByText(
-        'You didn’t meet the following criteria for the Rogers STEM Scholarship:',
+        "You didn't meet the following criteria for the Rogers STEM Scholarship:",
       ),
     ).to.not.exist;
     expect(document.title).to.equal(documentTitle);
     getByText('We encountered a problem');
     expect($('va-alert', container)).to.exist;
     expect(container.textContent).to.include(
-      "We can't show your claims right now",
+      'VA.gov is having trouble loading claims information',
     );
   });
 

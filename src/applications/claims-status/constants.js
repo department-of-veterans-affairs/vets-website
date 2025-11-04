@@ -2,7 +2,20 @@ import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { MAX_FILE_SIZE_MB, MAX_PDF_SIZE_MB } from './utils/validations';
 
-export const SERVICES = ['claims', 'appeals'];
+/**
+ * Service registry for claims-status application
+ * Defines display names and text for different service types
+ */
+export const SERVICE_REGISTRY = {
+  claims: {
+    singularTitle: 'Claim',
+    lowercase: 'claims',
+  },
+  appeals: {
+    singularTitle: 'Appeal',
+    lowercase: 'appeals',
+  },
+};
 
 export const ITEMS_PER_PAGE = 10;
 
