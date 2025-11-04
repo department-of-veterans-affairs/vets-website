@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { fromUnixTime } from 'date-fns';
 import { format } from 'date-fns-tz';
 
-import scrollToTop from '~/platform/utilities/scroll';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from '~/platform/utilities/ui';
 import { savedMessage } from '~/platform/forms-system/src/js/utilities/save-in-progress-messages';
 
@@ -60,26 +60,25 @@ const FormSaved = props => {
             {savedMessage(route.formConfig)}
           </h2>
           <br />
-          {!!lastSavedDate &&
-            !!expirationDate && (
-              <div className="saved-form-metadata-container">
-                <span className="saved-form-metadata">
-                  Last saved on{' '}
-                  {format(lastSavedDate, "MMMM d, yyyy', at' h:mm aaaa z")}
-                </span>
-                {expirationMessage || (
-                  <p className="expires-container">
-                    Your saved {appType}{' '}
-                    <span className="expires">
-                      will expire on {expirationDate}.
-                    </span>
-                  </p>
-                )}
-              </div>
-            )}
+          {!!lastSavedDate && !!expirationDate && (
+            <div className="saved-form-metadata-container">
+              <span className="saved-form-metadata">
+                We saved your {appType} on{' '}
+                {format(lastSavedDate, "MMMM d, yyyy', at' h:mm aaaa z")}.
+              </span>
+              {expirationMessage || (
+                <p className="expires-container">
+                  Your saved {appType}{' '}
+                  <span className="expires">
+                    will expire on {expirationDate}.
+                  </span>
+                </p>
+              )}
+            </div>
+          )}
           {success}
-          If you’re on a public computer, please sign out of your account before
-          you leave so your information stays secure.
+          If you’re on a public computer, sign out of your account to keep your
+          information secure.
         </div>
       </va-alert>
       {!verified && (
@@ -164,10 +163,7 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(FormSaved),
+  connect(mapStateToProps, mapDispatchToProps)(FormSaved),
 );
 
 export { FormSaved };
