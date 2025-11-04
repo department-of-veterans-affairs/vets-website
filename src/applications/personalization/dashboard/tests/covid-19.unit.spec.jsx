@@ -47,67 +47,77 @@ describe('COVID19Alert component', () => {
   });
 
   describe('getChatHours', () => {
-    describe('when facilityId is in VISN8 systems', () => {
-      it('should return VISN 8 hours for facilityId starting with 516', () => {
+    describe('branch: visn8Systems.has(facilityId) returns true', () => {
+      it('should return VISN 8 hours when facilityId is in VISN8 systems only (516)', () => {
+        // 516 is only in VISN8, not in VISN23
         const result = getChatHours('516');
         expect(result).to.equal(
           '8:00 a.m. to 4:00 p.m., Monday through Friday',
         );
       });
 
-      it('should return VISN 8 hours for facilityId starting with 672', () => {
-        const result = getChatHours('672');
-        expect(result).to.equal(
-          '8:00 a.m. to 4:00 p.m., Monday through Friday',
-        );
-      });
-
-      it('should return VISN 8 hours for facilityId starting with 673', () => {
-        const result = getChatHours('673');
-        expect(result).to.equal(
-          '8:00 a.m. to 4:00 p.m., Monday through Friday',
-        );
-      });
-
-      it('should return VISN 8 hours for facilityId starting with 546', () => {
+      it('should return VISN 8 hours when facilityId is in VISN8 systems only (546)', () => {
+        // 546 is only in VISN8, not in VISN23
         const result = getChatHours('546');
         expect(result).to.equal(
           '8:00 a.m. to 4:00 p.m., Monday through Friday',
         );
       });
 
-      it('should return VISN 8 hours for facilityId starting with 548', () => {
+      it('should return VISN 8 hours when facilityId is in VISN8 systems only (548)', () => {
+        // 548 is only in VISN8, not in VISN23
         const result = getChatHours('548');
         expect(result).to.equal(
           '8:00 a.m. to 4:00 p.m., Monday through Friday',
         );
       });
 
-      it('should return VISN 8 hours for facilityId starting with 573', () => {
+      it('should return VISN 8 hours when facilityId is in VISN8 systems only (573)', () => {
+        // 573 is only in VISN8, not in VISN23
         const result = getChatHours('573');
         expect(result).to.equal(
           '8:00 a.m. to 4:00 p.m., Monday through Friday',
         );
       });
 
-      it('should return VISN 8 hours for facilityId starting with 618', () => {
-        const result = getChatHours('618');
+      it('should return VISN 8 hours when facilityId is in VISN8 systems only (672)', () => {
+        // 672 is only in VISN8, not in VISN23
+        const result = getChatHours('672');
         expect(result).to.equal(
           '8:00 a.m. to 4:00 p.m., Monday through Friday',
         );
       });
 
-      it('should return VISN 8 hours for facilityId starting with 675', () => {
+      it('should return VISN 8 hours when facilityId is in VISN8 systems only (673)', () => {
+        // 673 is only in VISN8, not in VISN23
+        const result = getChatHours('673');
+        expect(result).to.equal(
+          '8:00 a.m. to 4:00 p.m., Monday through Friday',
+        );
+      });
+
+      it('should return VISN 8 hours when facilityId is in VISN8 systems only (675)', () => {
+        // 675 is only in VISN8, not in VISN23
         const result = getChatHours('675');
+        expect(result).to.equal(
+          '8:00 a.m. to 4:00 p.m., Monday through Friday',
+        );
+      });
+
+      it('should return VISN 8 hours when facilityId is in both VISN8 and VISN23 (618)', () => {
+        // 618 is in both VISN8 and VISN23, but VISN8 is checked first
+        // This tests that the first branch takes precedence
+        const result = getChatHours('618');
         expect(result).to.equal(
           '8:00 a.m. to 4:00 p.m., Monday through Friday',
         );
       });
     });
 
-    describe('when facilityId is in VISN23 systems', () => {
-      it('should return VISN 23 hours for facilityId starting with 656', () => {
-        // Note: 656 is only in VISN23, not in VISN8
+    describe('branch: visn23Systems.has(facilityId) returns true', () => {
+      it('should return VISN 23 hours when facilityId is in VISN23 systems only (656)', () => {
+        // 656 is only in VISN23, not in VISN8
+        // This tests the second branch
         const result = getChatHours('656');
         expect(result).to.equal(
           '7:30 a.m. to 4:30 p.m., Monday through Friday',
@@ -115,9 +125,50 @@ describe('COVID19Alert component', () => {
       });
     });
 
-    describe('when facilityId is not in VISN8 or VISN23 systems (default case)', () => {
-      it('should return test hours for facilityId not in any system', () => {
+    describe('else branch: return testHours', () => {
+      it('should return test hours for facilityId not in VISN8 or VISN23 (999)', () => {
+        // 999 is not in either VISN system
         const result = getChatHours('999');
+        expect(result).to.equal(
+          '9:00 a.m. to 5:00 p.m., Monday through Friday',
+        );
+      });
+
+      it('should return test hours for facilityId not in VISN8 or VISN23 (100)', () => {
+        // 100 is not in either VISN system
+        const result = getChatHours('100');
+        expect(result).to.equal(
+          '9:00 a.m. to 5:00 p.m., Monday through Friday',
+        );
+      });
+
+      it('should return test hours for facilityId not in VISN8 or VISN23 (200)', () => {
+        // 200 is not in either VISN system
+        const result = getChatHours('200');
+        expect(result).to.equal(
+          '9:00 a.m. to 5:00 p.m., Monday through Friday',
+        );
+      });
+
+      it('should return test hours for facilityId not in VISN8 or VISN23 (300)', () => {
+        // 300 is not in either VISN system
+        const result = getChatHours('300');
+        expect(result).to.equal(
+          '9:00 a.m. to 5:00 p.m., Monday through Friday',
+        );
+      });
+
+      it('should return test hours for facilityId not in VISN8 or VISN23 (400)', () => {
+        // 400 is not in either VISN system
+        const result = getChatHours('400');
+        expect(result).to.equal(
+          '9:00 a.m. to 5:00 p.m., Monday through Friday',
+        );
+      });
+
+      it('should return test hours for facilityId not in VISN8 or VISN23 (500)', () => {
+        // 500 is not in either VISN system
+        const result = getChatHours('500');
         expect(result).to.equal(
           '9:00 a.m. to 5:00 p.m., Monday through Friday',
         );
