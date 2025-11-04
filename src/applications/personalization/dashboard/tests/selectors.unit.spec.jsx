@@ -240,4 +240,136 @@ describe('dashboard selectors', () => {
       });
     });
   });
+
+  describe('selectUnreadCount', () => {
+    describe('when state is null', () => {
+      it('should throw error when accessing health property', () => {
+        const state = null;
+        expect(() => selectors.selectUnreadCount(state)).to.throw();
+      });
+    });
+
+    describe('when state is undefined', () => {
+      it('should throw error when accessing health property', () => {
+        const state = undefined;
+        expect(() => selectors.selectUnreadCount(state)).to.throw();
+      });
+    });
+
+    describe('when state.health is null', () => {
+      it('should return undefined', () => {
+        const state = {};
+        expect(selectors.selectUnreadCount(state)).to.be.undefined;
+      });
+    });
+
+    describe('when state.health.msg is null', () => {
+      it('should return undefined', () => {
+        const state = {
+          health: {},
+        };
+        expect(selectors.selectUnreadCount(state)).to.be.undefined;
+      });
+    });
+
+    describe('when state.health.msg.unreadCount exists', () => {
+      it('should return the unreadCount value when it is a number', () => {
+        const state = {
+          health: {
+            msg: {
+              unreadCount: 5,
+            },
+          },
+        };
+        expect(selectors.selectUnreadCount(state)).to.equal(5);
+      });
+
+      it('should return the unreadCount value when it is zero', () => {
+        const state = {
+          health: {
+            msg: {
+              unreadCount: 0,
+            },
+          },
+        };
+        expect(selectors.selectUnreadCount(state)).to.equal(0);
+      });
+
+      it('should return the unreadCount value when it is null', () => {
+        const state = {
+          health: {
+            msg: {
+              unreadCount: null,
+            },
+          },
+        };
+        expect(selectors.selectUnreadCount(state)).to.be.null;
+      });
+    });
+  });
+
+  describe('selectPdfUrlLoading', () => {
+    describe('when state is null', () => {
+      it('should throw error when accessing loading property', () => {
+        const state = null;
+        expect(() => selectors.selectPdfUrlLoading(state)).to.throw();
+      });
+    });
+
+    describe('when state is undefined', () => {
+      it('should throw error when accessing loading property', () => {
+        const state = undefined;
+        expect(() => selectors.selectPdfUrlLoading(state)).to.throw();
+      });
+    });
+
+    describe('when state.myVaFormPdfs is null', () => {
+      it('should throw error when accessing loading property', () => {
+        const state = {
+          myVaFormPdfs: null,
+        };
+        expect(() => selectors.selectPdfUrlLoading(state)).to.throw();
+      });
+    });
+
+    describe('when state.myVaFormPdfs is undefined', () => {
+      it('should throw error when accessing loading property', () => {
+        const state = {
+          myVaFormPdfs: undefined,
+        };
+        expect(() => selectors.selectPdfUrlLoading(state)).to.throw();
+      });
+    });
+
+    describe('when state.myVaFormPdfs.loading exists', () => {
+      it('should return true when loading is true', () => {
+        const state = {
+          myVaFormPdfs: {
+            loading: true,
+            submissions: {},
+          },
+        };
+        expect(selectors.selectPdfUrlLoading(state)).to.be.true;
+      });
+
+      it('should return false when loading is false', () => {
+        const state = {
+          myVaFormPdfs: {
+            loading: false,
+            submissions: {},
+          },
+        };
+        expect(selectors.selectPdfUrlLoading(state)).to.be.false;
+      });
+
+      it('should return undefined when loading is undefined', () => {
+        const state = {
+          myVaFormPdfs: {
+            submissions: {},
+          },
+        };
+        expect(selectors.selectPdfUrlLoading(state)).to.be.undefined;
+      });
+    });
+  });
 });
