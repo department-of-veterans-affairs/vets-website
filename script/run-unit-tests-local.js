@@ -4,7 +4,7 @@ const glob = require('glob');
 const path = require('path');
 const { promisify } = require('util');
 const printUnitTestHelp = require('./run-unit-test-help');
-const { runCommand } = require('./utils');
+const { runCommand, runCommandSync } = require('./utils');
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 const exec = promisify(require('child_process').exec);
 
@@ -58,11 +58,14 @@ if (options.help) {
 }
 
 const mochaPath = `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
+// When --coverage-html is used, collect coverage data without generating HTML yet
+// HTML will be generated after tests complete using 'nyc report --reporter=html'
 const coverageReporter = options['coverage-html']
-  ? '--reporter=html mocha --retries 5'
+  ? '--reporter=text mocha --retries 5'
   : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
-const testRunner = options.coverage ? coveragePath : mochaPath;
+const testRunner =
+  options.coverage || options['coverage-html'] ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';
 
 async function runCommandAsync(command) {
@@ -78,6 +81,22 @@ async function runCommandAsync(command) {
       }
     });
   });
+}
+
+function generateOverallCoverageReport(appFolder = null) {
+  console.log('\nGenerating overall HTML coverage report...');
+
+  // If app-folder is specified, output report to coverage/<app-folder>
+  // Otherwise, output to default coverage directory
+  const reportDir = appFolder ? `coverage/${appFolder}` : 'coverage';
+  runCommandSync(`npx nyc report --reporter=html --report-dir=${reportDir}`);
+
+  const reportPath = appFolder
+    ? `coverage/${appFolder}/index.html`
+    : 'coverage/index.html';
+  console.log(
+    `\nCoverage report generated! Open ${reportPath} in your browser to view the report.`,
+  );
 }
 
 async function runTests() {
@@ -118,9 +137,22 @@ if (options.path[0] !== defaultPath) {
     .map(p => `'${p}'`)
     .join(' ')}`}`;
 
-  runCommand(command);
+  if (options['coverage-html']) {
+    // Use synchronous command execution so we can generate HTML report after tests complete
+    const exitCode = runCommandSync(command);
+    if (exitCode === 0) {
+      generateOverallCoverageReport(options['app-folder']);
+    }
+  } else {
+    runCommand(command);
+  }
 } else {
   runTests().then(() => {
     console.log('All Tests Complete');
+
+    // Generate HTML report after tests complete if --coverage-html flag is set
+    if (options['coverage-html']) {
+      generateOverallCoverageReport(options['app-folder']);
+    }
   });
 }
