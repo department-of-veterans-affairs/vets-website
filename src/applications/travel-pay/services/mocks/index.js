@@ -140,8 +140,10 @@ const responses = {
   },
 
   // Submitting a complex claim
-  'PATCH /travel_pay/v0/complex_claims': {
-    claimId: 'a1f33265-014a-4dc6-93ae-66a29b94675b',
+  'PATCH /travel_pay/v0/complex_claims/:claimId': (req, res) => {
+    return res.json({
+      id: req.params.claimId,
+    });
   },
 
   // Creating expenses
