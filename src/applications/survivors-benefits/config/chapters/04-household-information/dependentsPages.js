@@ -388,6 +388,7 @@ const childSupportPage = {
   },
 };
 
+/** @returns {PageSchema} */
 export const dependentsPages = arrayBuilderPages(options, pageBuilder => ({
   dependentsIntro: pageBuilder.introPage({
     title: 'Dependents',
@@ -436,19 +437,24 @@ export const dependentsPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'household/dependents/:index/mailing-address',
     uiSchema: mailingAddressPage.uiSchema,
     schema: mailingAddressPage.schema,
-    depends: formData => formData.dependentHousehold === true,
+    depends: (formData, index) =>
+      formData?.dependents?.[index]?.livesWithYou === false,
   }),
   dependentCustodian: pageBuilder.itemPage({
     title: "Dependent's custodian",
     path: 'household/dependents/:index/custodian',
     uiSchema: custodianPage.uiSchema,
     schema: custodianPage.schema,
+    depends: (formData, index) =>
+      formData?.dependents?.[index]?.livesWithYou === false,
   }),
   dependentChildSupport: pageBuilder.itemPage({
     title: 'Child support payment',
     path: 'household/dependents/:index/child-support',
     uiSchema: childSupportPage.uiSchema,
     schema: childSupportPage.schema,
+    depends: (formData, index) =>
+      formData?.dependents?.[index]?.livesWithYou === false,
   }),
 }));
 
