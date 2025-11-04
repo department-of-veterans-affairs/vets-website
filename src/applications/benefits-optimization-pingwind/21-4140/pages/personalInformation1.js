@@ -23,14 +23,10 @@ import { getFullNameLabels } from '../helpers';
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
-      /* ...titleUI({
-        title: 'Basic Information',
-      }),*/
-
       ...inlineTitleUI('Basic Information'),
       'ui:description': () => (
         <div style={{ paddingTop: '2rem' }}>
-        We need to collect some basic information about you first.
+          We need to collect some basic information about you first.
         </div>
       ),
 

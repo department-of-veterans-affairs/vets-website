@@ -198,7 +198,7 @@ if (pagePaths.employmentCheck) {
         cy.findByRole('radio', { name: radioLabels[selection] })
           .scrollIntoView()
           .click({ force: true, waitForAnimations: false })
-            .should('be.checked');
+          .should('be.checked');
       });
       cy.axeCheck();
       cy.findByText(/continue/i, { selector: 'button' }).click();

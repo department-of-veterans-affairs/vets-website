@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
-import IdNotVerifiedAlert from '../../shared/components/IdNotVerified';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
 const ombInfo = {
@@ -24,10 +23,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
     displayNonVeteranMessaging: true,
     hideSipIntro: userLoggedIn && !userIdVerified,
   };
-  const childContent = (
-    <>
-    </>
-  );
+  const childContent = <></>;
 
   return (
     <IntroductionPageView

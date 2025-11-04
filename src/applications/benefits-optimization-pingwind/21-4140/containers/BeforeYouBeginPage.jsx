@@ -56,21 +56,30 @@ const BeforeYouBeginPage = ({
 
   return (
     <div className="schemaform-intro">
-      <a className="show-on-focus" href="#main-content" onClick={skipToContent}>Skip to Content</a>
-      <h1 id='main-content' className="vads-u-margin-bottom--2">What to Expect</h1>
+      <a className="show-on-focus" href="#main-content" onClick={skipToContent}>
+        Skip to Content
+      </a>
+      <h1 id="main-content" className="vads-u-margin-bottom--2">
+        What to Expect
+      </h1>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '20px' }}>
-        We'll be asking you questions about your employment status for the last 12 months.
+        We'll be asking you questions about your employment status for the last
+        12 months.
       </p>
-      <VaSummaryBox id="required-information-summary" uswds class="vads-u-margin-bottom--3">
+      <VaSummaryBox
+        id="required-information-summary"
+        uswds
+        class="vads-u-margin-bottom--3"
+      >
         <h2 slot="headline">Keep in mind</h2>
         <ul className="usa-list vads-u-margin--0">
           <li>This form may take about 5 - 10 minutes to complete.</li>
           <li>You must answer all questions fully and accurately.</li>
           <li>You can save your progress and come back to this form later.</li>
           <li>
-            This form is for you to verify your employment status when asked, because you
-            currently receive Individual Unemployability disability benefits for a
-            service-connected condition.
+            This form is for you to verify your employment status when asked,
+            because you currently receive Individual Unemployability disability
+            benefits for a service-connected condition.
           </li>
         </ul>
       </VaSummaryBox>
@@ -101,4 +110,7 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BeforeYouBeginPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(BeforeYouBeginPage);
