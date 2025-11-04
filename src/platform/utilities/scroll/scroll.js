@@ -149,20 +149,43 @@ const findFocusableElement = el => {
 };
 
 /**
- * Set up aria-label on error element
+ * Set up aria-labelledby on error element with hidden label span
  * @param {Element} el - The web component element
  */
 const setUpErrorAriaLabel = el => {
-  const ariaLabel = buildErrorAriaLabel(el);
+  const labelText = buildErrorAriaLabel(el);
 
-  if (ariaLabel) {
-    // Set aria-label on internal input only (not legend)
-    const input = el.shadowRoot?.querySelector('input, select, textarea');
-    if (input) {
-      input.setAttribute('aria-label', ariaLabel);
-      // Remove aria-describedby to prevent conflicts with aria-label
-      input.removeAttribute('aria-describedby');
+  if (labelText && el.shadowRoot) {
+    // Create a unique ID for this error label
+    const labelId = `error-label-${Math.random()
+      .toString(36)
+      .substr(2, 9)}`;
+
+    // Find the target element (input for most components, fieldset for va-radio)
+    let target = el.shadowRoot.querySelector('input, select, textarea');
+
+    // If no input found, try fieldset (for va-radio, va-checkbox-group)
+    if (!target) {
+      target = el.shadowRoot.querySelector('fieldset');
     }
+
+    if (!target) return;
+
+    // Create a hidden span with the label text inside the shadow root
+    const labelSpan = document.createElement('span');
+    labelSpan.id = labelId;
+    labelSpan.className = 'usa-sr-only';
+    labelSpan.textContent = labelText;
+    el.shadowRoot.appendChild(labelSpan);
+
+    // Set aria-labelledby on the target element
+    target.setAttribute('aria-labelledby', labelId);
+    // Remove aria-describedby to prevent conflicts with aria-labelledby
+    target.removeAttribute('aria-describedby');
+
+    // Store the label ID for potential cleanup
+    // eslint-disable-next-line no-param-reassign
+    el.dataset.errorLabelId = labelId;
   }
 };
 
@@ -274,7 +297,7 @@ export const scrollToFirstError = async (options = {}) => {
 
               // Remove aria-describedby from all inputs
               const input = element.shadowRoot.querySelector(
-                'input, select, textarea',
+                'input, select, textarea, legend',
               );
               if (input && input.hasAttribute('aria-describedby')) {
                 input.removeAttribute('aria-describedby');
