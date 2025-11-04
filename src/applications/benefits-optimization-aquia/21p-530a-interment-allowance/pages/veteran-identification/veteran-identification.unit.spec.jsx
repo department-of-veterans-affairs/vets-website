@@ -18,6 +18,16 @@ const findByLabel = (container, tagName, labelText) => {
   );
 };
 
+/**
+ * Helper function to find web component by tag and text attribute
+ * Works around Node 22 limitation with CSS attribute selectors on custom elements
+ */
+const findByText = (container, tagName, textValue) => {
+  return Array.from(container.querySelectorAll(tagName)).find(
+    el => el.getAttribute('text') === textValue,
+  );
+};
+
 describe('VeteranIdentificationPage', () => {
   const mockGoForward = () => {};
   const mockGoBack = () => {};
@@ -35,12 +45,10 @@ describe('VeteranIdentificationPage', () => {
       );
 
       expect(container).to.exist;
-      expect(container.textContent).to.include(
-        "Veteran's identification information",
-      );
+      expect(container.textContent).to.include("Deceased Veteran's name");
     });
 
-    it('should render all identification fields', async () => {
+    it('should render all name fields', async () => {
       const { container } = render(
         <VeteranIdentificationPage
           goForward={mockGoForward}
@@ -50,45 +58,22 @@ describe('VeteranIdentificationPage', () => {
       );
 
       await waitFor(() => {
-        expect(
-          findByLabel(container, 'va-text-input', 'Social Security number'),
-        ).to.exist;
-        expect(findByLabel(container, 'va-text-input', 'VA service number')).to
-          .exist;
-        expect(findByLabel(container, 'va-text-input', 'VA file number')).to
-          .exist;
-      });
-    });
-
-    it('should render the service number hint text', async () => {
-      const { container } = render(
-        <VeteranIdentificationPage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      await waitFor(() => {
-        const serviceNumberField = findByLabel(
-          container,
-          'va-text-input',
-          'VA service number',
-        );
-        expect(serviceNumberField?.getAttribute('hint')).to.equal(
-          "Enter this number only if it's different than their Social Security number",
-        );
+        expect(findByLabel(container, 'va-text-input', 'First name')).to.exist;
+        expect(findByLabel(container, 'va-text-input', 'Middle name')).to.exist;
+        expect(findByLabel(container, 'va-text-input', 'Last name')).to.exist;
+        expect(findByLabel(container, 'va-text-input', 'Suffix')).to.exist;
       });
     });
   });
 
   describe('Data Handling', () => {
-    it('should render with existing veteran identification data', () => {
+    it('should render with existing veteran name data', () => {
       const existingData = {
-        veteranIdentification: {
-          ssn: '123-45-6789',
-          serviceNumber: 'A123456',
-          vaFileNumber: 'C12345678',
+        fullName: {
+          first: 'Anakin',
+          middle: '',
+          last: 'Skywalker',
+          suffix: 'Jr.',
         },
       };
 
@@ -114,94 +99,23 @@ describe('VeteranIdentificationPage', () => {
 
       expect(container.querySelector('va-text-input')).to.exist;
     });
-
-    it('should handle undefined data gracefully', () => {
-      const { container } = render(
-        <VeteranIdentificationPage
-          goForward={mockGoForward}
-          data={undefined}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.querySelector('va-text-input')).to.exist;
-    });
-
-    it('should handle null data gracefully', () => {
-      const { container } = render(
-        <VeteranIdentificationPage
-          goForward={mockGoForward}
-          data={null}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.querySelector('va-text-input')).to.exist;
-    });
-
-    it('should handle array data gracefully by using empty object', () => {
-      const { container } = render(
-        <VeteranIdentificationPage
-          goForward={mockGoForward}
-          data={[]}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.querySelector('va-text-input')).to.exist;
-    });
-
-    it('should render with partial identification data', () => {
-      const partialData = {
-        veteranIdentification: {
-          ssn: '123-45-6789',
-        },
-      };
-
-      const { container } = render(
-        <VeteranIdentificationPage
-          goForward={mockGoForward}
-          data={partialData}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.querySelector('va-text-input')).to.exist;
-    });
-  });
-
-  describe('Review Mode', () => {
-    it('should render in review mode when onReviewPage is true', () => {
-      const { container } = render(
-        <VeteranIdentificationPage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-          onReviewPage
-          updatePage={mockUpdatePage}
-        />,
-      );
-
-      expect(container).to.exist;
-    });
-
-    it('should accept updatePage prop in review mode', () => {
-      const { container } = render(
-        <VeteranIdentificationPage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-          onReviewPage
-          updatePage={mockUpdatePage}
-        />,
-      );
-
-      expect(container).to.exist;
-    });
   });
 
   describe('Navigation', () => {
-    it('should accept goBack prop', () => {
+    it('should render continue button', () => {
+      const { container } = render(
+        <VeteranIdentificationPage
+          goForward={mockGoForward}
+          data={{}}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      const continueButton = findByText(container, 'va-button', 'Continue');
+      expect(continueButton).to.exist;
+    });
+
+    it('should render back button when goBack is provided', () => {
       const { container } = render(
         <VeteranIdentificationPage
           goForward={mockGoForward}
@@ -211,96 +125,28 @@ describe('VeteranIdentificationPage', () => {
         />,
       );
 
-      expect(container).to.exist;
+      const backButton = findByText(container, 'va-button', 'Back');
+      expect(backButton).to.exist;
     });
   });
 
-  describe('Field Requirements', () => {
-    it('should mark SSN field as required', async () => {
+  describe('Review Mode', () => {
+    it('should render save button instead of continue in review mode', () => {
       const { container } = render(
         <VeteranIdentificationPage
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
+          onReviewPage
+          updatePage={mockUpdatePage}
         />,
       );
 
-      await waitFor(() => {
-        const ssnField = findByLabel(
-          container,
-          'va-text-input',
-          'Social Security number',
-        );
-        expect(ssnField?.getAttribute('required')).to.not.be.null;
-      });
-    });
+      const saveButton = findByText(container, 'va-button', 'Save');
+      const continueButton = findByText(container, 'va-button', 'Continue');
 
-    it('should not mark service number as required', async () => {
-      const { container } = render(
-        <VeteranIdentificationPage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      await waitFor(() => {
-        const serviceNumberField = findByLabel(
-          container,
-          'va-text-input',
-          'VA service number',
-        );
-        // Service number is optional
-        expect(serviceNumberField).to.exist;
-      });
-    });
-
-    it('should not mark VA file number as required', async () => {
-      const { container } = render(
-        <VeteranIdentificationPage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      await waitFor(() => {
-        const vaFileNumberField = findByLabel(
-          container,
-          'va-text-input',
-          'VA file number',
-        );
-        // VA file number is optional
-        expect(vaFileNumberField).to.exist;
-      });
-    });
-  });
-
-  describe('Schema Validation', () => {
-    it('should use veteranIdentification as section name', () => {
-      const { container } = render(
-        <VeteranIdentificationPage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      // PageTemplate should be rendered with veteranIdentification section
-      expect(container).to.exist;
-    });
-
-    it('should have default data structure for identification fields', () => {
-      const { container } = render(
-        <VeteranIdentificationPage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      // Should render identification fields even with empty data
-      expect(container.querySelectorAll('va-text-input').length).to.equal(3);
+      expect(saveButton).to.exist;
+      expect(continueButton).to.not.exist;
     });
   });
 });

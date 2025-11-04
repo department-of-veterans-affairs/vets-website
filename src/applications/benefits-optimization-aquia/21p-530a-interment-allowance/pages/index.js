@@ -13,8 +13,8 @@ export { BurialBenefitsRecipientPage } from './burial-benefits-recipient';
 export { MailingAddressPage } from './mailing-address';
 
 // Chapter 2: Deceased Veteran information
-export { VeteranNamePage } from './veteran-name';
 export { VeteranIdentificationPage } from './veteran-identification';
+export { VeteranSsnFileNumberPage } from './veteran-ssn-file-number';
 export {
   VeteranBirthDeathInformationPage,
 } from './veteran-birth-death-information';

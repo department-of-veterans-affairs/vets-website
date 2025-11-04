@@ -2,11 +2,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { ReviewPageTemplate } from '@bio-aquia/shared/components/templates/review-page-template';
-import { ReviewField } from '@bio-aquia/shared/components/atoms/review-field';
+import {
+  ReviewDateField,
+  ReviewField,
+  ReviewFullnameField,
+} from '@bio-aquia/shared/components/atoms';
 
 /**
  * Review page component for veteran identification.
- * Displays the veteran's SSN, service number, and VA file number.
+ * Displays the deceased Veteran's identification information.
  *
  * @component
  * @param {Object} props - Component props
@@ -18,15 +22,6 @@ import { ReviewField } from '@bio-aquia/shared/components/atoms/review-field';
 export const VeteranIdentificationReviewPage = ({ data, editPage, title }) => {
   const sectionData = data?.veteranIdentification || {};
 
-  const formatSSN = ssn => {
-    if (!ssn) return '';
-    const cleaned = ssn.replace(/\D/g, '');
-    if (cleaned.length === 9) {
-      return `***-**-${cleaned.slice(-4)}`;
-    }
-    return ssn;
-  };
-
   return (
     <ReviewPageTemplate
       title={title}
@@ -34,20 +29,40 @@ export const VeteranIdentificationReviewPage = ({ data, editPage, title }) => {
       editPage={editPage}
       sectionName="veteranIdentification"
     >
+      <ReviewFullnameField
+        label="Veteran's full name"
+        value={sectionData.fullName}
+        hideWhenEmpty
+      />
       <ReviewField
-        label="Social Security number"
+        label="Veteran's Social Security Number"
         value={sectionData.ssn}
-        formatter={formatSSN}
         hideWhenEmpty
       />
       <ReviewField
-        label="VA service number"
-        value={sectionData.serviceNumber}
-        hideWhenEmpty
-      />
-      <ReviewField
-        label="VA file number"
+        label="Veteran's VA file number"
         value={sectionData.vaFileNumber}
+        hideWhenEmpty
+      />
+      <ReviewDateField
+        label="Veteran's date of birth"
+        value={sectionData.dateOfBirth}
+        hideWhenEmpty
+      />
+      <ReviewField
+        label="Place of birth"
+        value={
+          sectionData.placeOfBirth
+            ? `${sectionData.placeOfBirth.city}, ${
+                sectionData.placeOfBirth.state
+              }`
+            : null
+        }
+        hideWhenEmpty
+      />
+      <ReviewDateField
+        label="Veteran's date of death"
+        value={sectionData.dateOfDeath}
         hideWhenEmpty
       />
     </ReviewPageTemplate>
