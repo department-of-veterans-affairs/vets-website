@@ -2,6 +2,8 @@ import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { MAX_FILE_SIZE_MB, MAX_PDF_SIZE_MB } from './utils/validations';
 
+export const SERVICES = ['claims', 'appeals'];
+
 export const ITEMS_PER_PAGE = 10;
 
 // Date Formats
