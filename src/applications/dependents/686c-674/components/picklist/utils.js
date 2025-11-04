@@ -165,17 +165,15 @@ export const pageDetails = {
 
   Child: item => {
     const isStepchild = {
-      label: `${item.fullName.first} is your stepchild?`,
+      label: `Is ${item.fullName.first} your stepchild?`,
       value: item.isStepchild === 'Y' ? 'Yes' : 'No',
-      action: 'is stepchild?',
+      action: 'is this dependent a stepchild?',
       hideLabel: true,
       hideValue: false, // generic value
     };
     const reason = {
-      label: `Reason for removing ${item.fullName.first}`,
+      label: 'Reason for removing this child',
       value: labels.Child[item.removalReason],
-      action: 'reason for removing child',
-      hideLabel: true,
       hideValue: false, // generic value
     };
     switch (item.removalReason) {
@@ -189,14 +187,58 @@ export const pageDetails = {
           },
         ];
       case 'childNotInSchool':
-        // TO DO
-        return [isStepchild, reason];
+        return [
+          isStepchild,
+          reason,
+          {
+            label: 'Does this child have a permanent disability?',
+            value: item.childHasPermanentDisability === 'Y' ? 'Yes' : 'No',
+          },
+          item.childHasPermanentDisability === 'Y'
+            ? {
+                // We can't leave a DT blank
+                label: (
+                  <div className="sr-only">
+                    This child is still an eligible dependent
+                  </div>
+                ),
+                action: 'This child is still an eligible dependent',
+                value: `${item.fullName.first} will remain on your benefits`,
+              }
+            : {
+                label: 'Date child stopped attending school',
+                value: getFormatedDate(item.endDate),
+              },
+        ];
       case 'stepchildNotMember':
-        // TO DO
-        return [isStepchild, reason];
-      case 'childAdopted':
-        // TO DO
-        return [isStepchild, reason];
+        return [
+          isStepchild,
+          reason,
+          {
+            label:
+              'Do you provide at least half of this child’s financial support?',
+            value: item.stepchildFinancialSupport === 'Y' ? 'Yes' : 'No',
+            hideValue: false,
+          },
+          item.stepchildFinancialSupport === 'Y'
+            ? {
+                // We can't leave a DT blank
+                label: (
+                  <div className="sr-only">
+                    This child still qualifies as your dependent
+                  </div>
+                ),
+                action: 'This child still qualifies as your dependent',
+                value: `${item.fullName.first} will remain on your benefits`,
+              }
+            : {
+                label: 'When did this child stop living with you?',
+                value: getFormatedDate(item.endDate),
+              },
+        ];
+      // childAdopted work has been moved to the backlog
+      // case 'childAdopted':
+      //   return [isStepchild, reason];
       case 'childDied':
         return [
           isStepchild,
@@ -216,7 +258,7 @@ export const pageDetails = {
   },
 };
 
-export const showExitLink = ({ data, index }) => {
+export const showExitLink = ({ data = {}, index = 0 } = {}) => {
   const selected = data[PICKLIST_DATA]?.filter(item => item.selected) || [];
   const list = data[PICKLIST_PATHS] || [];
   const exitPaths = list.filter(item => item.path.endsWith('-exit'));
