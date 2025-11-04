@@ -179,6 +179,14 @@ export const Form526Entry = ({
     // Will confirm
     sessionReplaySampleRate: 100,
     defaultPrivacyLevel: 'mask',
+    beforeSend: event => {
+      // Prevent PII from being sent to Datadog with click actions.
+      if (event.action?.type === 'click') {
+        // eslint-disable-next-line no-param-reassign
+        event.action.target.name = 'Clicked item';
+      }
+      return true;
+    },
     // sessionReplaySampleRate: environment.vspEnvironment() === 'staging' ? 100 : 10,
   });
 
