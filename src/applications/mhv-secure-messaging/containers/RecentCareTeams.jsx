@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   VaRadio,
   VaRadioOption,
@@ -57,6 +58,17 @@ const RecentCareTeams = () => {
       }
     },
     [allRecipients, dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (recentRecipients?.length > 0) {
+        datadogRum.addAction('Recent Care Teams loaded', {
+          recentCareTeamsCount: recentRecipients.length,
+        });
+      }
+    },
+    [recentRecipients],
   );
 
   useEffect(
@@ -163,6 +175,7 @@ const RecentCareTeams = () => {
                 value={recipient.triageTeamId}
                 description={healthCareSystemName}
                 data-dd-privacy="mask"
+                data-dd-action-name="Recent Care Teams radio option"
               />
             );
           })}

@@ -1,10 +1,7 @@
 import React, { useLayoutEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import {
-  DowntimeNotification,
-  externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -58,7 +55,7 @@ const App = ({ location, children }) => {
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       <DowntimeNotification
         appTitle={`CHAMPVA Form ${formConfig.formId}`}
-        dependencies={[externalServices.pega]}
+        dependencies={formConfig.downtime.dependencies}
       >
         {children}
       </DowntimeNotification>

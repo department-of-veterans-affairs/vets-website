@@ -33,6 +33,7 @@ describe('Utilities', () => {
     ).to.be.an('array');
     expect(customFormReplacer('test', [])).to.be.undefined;
     expect(customFormReplacer('test', 1)).to.be.eq(1);
+    expect(customFormReplacer('test', null)).to.be.null;
   });
 });
 
@@ -185,8 +186,8 @@ describe('childEvidence', () => {
 });
 
 describe('buildSubmissionData', () => {
-  const createTestData = (overrides = {}) => {
-    const defaults = {
+  const createTestData = (overrides = {}) => ({
+    data: {
       'view:addOrRemoveDependents': { add: true, remove: true },
       'view:addDependentOptions': {
         addSpouse: false,
@@ -226,19 +227,9 @@ describe('buildSubmissionData', () => {
       householdIncome: false,
       vaDependentsNetWorthAndPension: true,
       metadata: { version: 1 },
-    };
-
-    const merged = { ...defaults, ...overrides };
-
-    const addOptions = merged['view:addDependentOptions'] || {};
-    const removeOptions = merged['view:removeDependentOptions'] || {};
-    merged['view:selectable686Options'] = {
-      ...addOptions,
-      ...removeOptions,
-    };
-
-    return { data: merged };
-  };
+      ...overrides,
+    },
+  });
 
   it('should return unchanged payload when no data property exists', () => {
     const payload = { metadata: { version: 1 } };
