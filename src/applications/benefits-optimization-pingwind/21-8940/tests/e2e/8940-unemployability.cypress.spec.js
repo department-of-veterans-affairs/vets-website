@@ -17,6 +17,43 @@ import {
 } from '../../../shared/tests/e2e/helpers';
 import { fillNumberWebComponent } from './helpers/local-helpers';
 
+const formatUsPhoneNumber = contact => {
+  if (!contact) {
+    return contact;
+  }
+  const digitsOnly = contact.replace(/\D/g, '');
+  if (digitsOnly.length === 10) {
+    const area = digitsOnly.slice(0, 3);
+    const exchange = digitsOnly.slice(3, 6);
+    const subscriber = digitsOnly.slice(6);
+    return `(${area}) ${exchange}-${subscriber}`;
+  }
+  return contact;
+};
+
+const fillTelephoneField = (fieldName, phone) => {
+  if (!phone) {
+    return;
+  }
+  const contact = typeof phone === 'string' ? phone : phone.contact;
+  if (!contact) {
+    return;
+  }
+  const alias = `${fieldName}Input`.replace(/[^A-Za-z0-9_-]/g, '');
+  cy.get(`va-telephone-input[name="root_${fieldName}"]`)
+    .shadow()
+    .find('va-text-input')
+    .shadow()
+    .find('input')
+    .as(alias);
+
+  cy.get(`@${alias}`)
+    .click({ force: true })
+    .clear({ force: true })
+    .type(contact, { force: true })
+    .should('have.value', formatUsPhoneNumber(contact));
+};
+
 const testConfig = createTestConfig(
   {
     useWebComponentFields: true,
@@ -115,7 +152,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillTextWebComponent('veteran_homePhone', data.veteran.homePhone);
+            fillTelephoneField('veteran_homePhone', data.veteran.homePhone);
             fillTextWebComponent('veteran_email', data.veteran.email);
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
