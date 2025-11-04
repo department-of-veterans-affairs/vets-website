@@ -16,13 +16,14 @@ export default function EpsAppointmentDetailCard({
   featureCommunityCareCancellations,
   onSetCancelAppointment,
 }) {
+  const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const facility = {
-    name: appointment.provider.location.name,
-    address: appointment.provider.location.address,
-    phone: appointment.provider.phone,
-    website: appointment.provider.location.website,
-    timezone: appointment.provider.location.timezone,
-    practiceName: appointment.provider.location.name,
+    name: appointment.provider?.location?.name,
+    address: appointment.provider?.location?.address,
+    phone: appointment.provider?.phone,
+    website: appointment.provider?.location?.website,
+    timezone: appointment.provider?.location?.timezone || browserTimezone,
+    practiceName: appointment.provider?.location?.name,
   };
   const defaultMinutesDuration = 30;
   const calendarData = {
@@ -46,7 +47,7 @@ export default function EpsAppointmentDetailCard({
       <Section heading="When">
         <AppointmentDateTime
           start={appointment.start}
-          timezone={appointment.provider.location.timezone}
+          timezone={appointment.provider?.location?.timezone || browserTimezone}
           calendarData={calendarData}
           showAddToCalendarButton={
             APPOINTMENT_STATUS.cancelled !== appointment.status &&
@@ -68,9 +69,9 @@ export default function EpsAppointmentDetailCard({
           </p>
         )}
         <AppointmentFacilityLocation
-          locationName={appointment.provider.location.name}
-          locationAddress={appointment.provider.location.address}
-          locationPhone={appointment.provider.phone}
+          locationName={appointment.provider?.location?.name}
+          locationAddress={appointment.provider?.location?.address}
+          locationPhone={appointment.provider?.phone}
         />
       </Section>
       <Details
