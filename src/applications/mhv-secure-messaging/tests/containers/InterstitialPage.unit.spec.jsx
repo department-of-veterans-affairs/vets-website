@@ -9,6 +9,7 @@ import reducer from '../../reducers';
 import InterstitialPage from '../../containers/InterstitialPage';
 import * as threadDetailsActions from '../../actions/threadDetails';
 import * as prescriptionActions from '../../actions/prescription';
+import * as recipientsActions from '../../actions/recipients';
 import { getByBrokenText } from '../../util/testUtils';
 import { Paths } from '../../util/constants';
 
@@ -235,6 +236,109 @@ describe('Interstitial page', () => {
         );
       });
     });
+  });
+
+  it('dispatches getRecentRecipients when allRecipients exist and recentRecipients is undefined', async () => {
+    const getRecentRecipientsSpy = sinon.spy(
+      recipientsActions,
+      'getRecentRecipients',
+    );
+
+    const stateWithAllRecipientsOnly = {
+      ...initialState(true),
+      sm: {
+        recipients: {
+          allRecipients: [
+            { id: 1, name: 'Team 1' },
+            { id: 2, name: 'Team 2' },
+            { id: 3, name: 'Team 3' },
+          ],
+          recentRecipients: undefined,
+        },
+      },
+    };
+
+    renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: stateWithAllRecipientsOnly,
+      reducers: reducer,
+      path: '/new-message/',
+    });
+
+    await waitFor(() => {
+      expect(getRecentRecipientsSpy.calledOnce).to.be.true;
+      expect(getRecentRecipientsSpy.calledWith(6)).to.be.true;
+    });
+
+    getRecentRecipientsSpy.restore();
+  });
+
+  it('does NOT dispatch getRecentRecipients when recentRecipients is already defined', async () => {
+    const getRecentRecipientsSpy = sinon.spy(
+      recipientsActions,
+      'getRecentRecipients',
+    );
+
+    const stateWithRecentRecipients = {
+      ...initialState(true),
+      sm: {
+        recipients: {
+          allRecipients: [{ id: 1, name: 'Team 1' }, { id: 2, name: 'Team 2' }],
+          recentRecipients: [{ id: 1, name: 'Team 1' }],
+        },
+      },
+    };
+
+    renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: stateWithRecentRecipients,
+      reducers: reducer,
+      path: '/new-message/',
+    });
+
+    await waitFor(() => {
+      expect(getRecentRecipientsSpy.called).to.be.false;
+    });
+
+    getRecentRecipientsSpy.restore();
+  });
+
+  it('clicking continue link with type=reply calls acceptInterstitial but does not navigate', async () => {
+    const acceptInterstitialSpy = sinon.spy(
+      threadDetailsActions,
+      'acceptInterstitial',
+    );
+
+    const stateWithRecentRecipients = {
+      ...initialState(true),
+      sm: {
+        recipients: {
+          recentRecipients: [
+            { id: 1, name: 'Team 1' },
+            { id: 2, name: 'Team 2' },
+          ],
+        },
+      },
+    };
+
+    const { history, getByTestId } = renderWithStoreAndRouter(
+      <InterstitialPage type="reply" />,
+      {
+        initialState: stateWithRecentRecipients,
+        reducers: reducer,
+        path: '/new-message/',
+      },
+    );
+
+    const initialPath = history.location.pathname;
+    const startMessageLink = getByTestId('start-message-link');
+    userEvent.click(startMessageLink);
+
+    await waitFor(() => {
+      expect(acceptInterstitialSpy.calledOnce).to.be.true;
+      // Should not navigate when type is 'reply'
+      expect(history.location.pathname).to.equal(initialPath);
+    });
+
+    acceptInterstitialSpy.restore();
   });
 
   it('renders without errors when prescriptionId is in URL params', () => {
