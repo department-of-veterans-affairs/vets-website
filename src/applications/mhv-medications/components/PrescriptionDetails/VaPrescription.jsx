@@ -7,6 +7,7 @@ import {
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
+import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import {
   dateFormat,
   determineRefillLabel,
@@ -16,7 +17,6 @@ import {
   getShowRefillHistory,
   hasCmopNdcNumber,
   isRefillTakingLongerThanExpected,
-  pharmacyPhoneNumber,
   validateIfAvailable,
   prescriptionMedAndRenewalStatus,
 } from '../../util/helpers';
@@ -246,7 +246,9 @@ const VaPrescription = prescription => {
                 </>
               )}
 
-              {prescription && <ExtraDetails {...prescription} />}
+              {prescription && (
+                <ExtraDetails {...prescription} page={pageType.DETAILS} />
+              )}
               {!pendingMed &&
                 !pendingRenewal && (
                   <>

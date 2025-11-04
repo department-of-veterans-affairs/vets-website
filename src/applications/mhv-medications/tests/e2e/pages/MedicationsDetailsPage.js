@@ -410,6 +410,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="va-prescription-documentation-link"]').click({
       waitForAnimations: true,
     });
+    cy.wait('@medicationDescription');
   };
 
   clickLearnMoreAboutMedicationLinkOnDetailsPageWithNoInfo = prescriptionId => {
@@ -421,6 +422,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="va-prescription-documentation-link"]').click({
       waitForAnimations: true,
     });
+    cy.wait('@medicationDescription');
   };
 
   clickLearnMoreAboutMedicationLinkOnDetailsPageError = () => {
