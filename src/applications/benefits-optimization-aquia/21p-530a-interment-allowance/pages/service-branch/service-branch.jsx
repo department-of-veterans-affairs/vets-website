@@ -76,7 +76,7 @@ export const ServiceBranchPage = ({
 
   return (
     <PageTemplate
-      title="Branch of service"
+      title="Service periods"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}

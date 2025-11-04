@@ -51,9 +51,8 @@ export const dateEnteredServiceSchema = z
  */
 export const placeEnteredServiceSchema = z
   .string()
-  .max(100, 'Place must be less than 100 characters')
-  .optional()
-  .or(z.literal(''));
+  .min(1, 'Place entered service is required')
+  .max(100, 'Place must be less than 100 characters');
 
 /**
  * Schema for service separation date
@@ -71,18 +70,16 @@ export const dateSeparatedSchema = z
  */
 export const placeSeparatedSchema = z
   .string()
-  .max(100, 'Place must be less than 100 characters')
-  .optional()
-  .or(z.literal(''));
+  .min(1, 'Place separated from service is required')
+  .max(100, 'Place must be less than 100 characters');
 
 /**
  * Schema for rank at separation
  */
 export const rankSchema = z
   .string()
-  .max(50, 'Rank must be less than 50 characters')
-  .optional()
-  .or(z.literal(''));
+  .min(1, 'Rank is required')
+  .max(50, 'Rank must be less than 50 characters');
 
 /**
  * Schema for yes/no question about alternate names

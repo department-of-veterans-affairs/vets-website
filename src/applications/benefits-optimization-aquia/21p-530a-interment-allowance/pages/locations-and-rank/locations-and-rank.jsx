@@ -15,9 +15,9 @@ import {
  * Schema for locations and rank page
  */
 const locationsAndRankPageSchema = z.object({
-  placeOfEntry: placeEnteredServiceSchema.optional(),
-  placeOfSeparation: placeSeparatedSchema.optional(),
-  rank: rankSchema.optional(),
+  placeOfEntry: placeEnteredServiceSchema,
+  placeOfSeparation: placeSeparatedSchema,
+  rank: rankSchema,
 });
 
 /**
@@ -129,7 +129,7 @@ export const LocationsAndRankPage = ({
 
   return (
     <PageTemplate
-      title="Locations and rank"
+      title="Service locations"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={handleGoForward}
@@ -155,24 +155,24 @@ export const LocationsAndRankPage = ({
 
           <TextInputField
             name="placeOfEntry"
-            label="Place of entry"
+            label="Place the Veteran entered active service"
             value={localData.placeOfEntry || ''}
             onChange={handleFieldChange}
             error={errors.placeOfEntry}
             forceShowError={formSubmitted}
+            required
             schema={placeEnteredServiceSchema}
-            hint="Enter the city and state or name of the military base"
           />
 
           <TextInputField
             name="placeOfSeparation"
-            label="Place of separation"
+            label="Place the Veteran separated from active service"
             value={localData.placeOfSeparation || ''}
             onChange={handleFieldChange}
             error={errors.placeOfSeparation}
             forceShowError={formSubmitted}
             schema={placeSeparatedSchema}
-            hint="Enter the city and state or name of the military base"
+            required
           />
 
           <TextInputField
@@ -183,6 +183,7 @@ export const LocationsAndRankPage = ({
             error={errors.rank}
             forceShowError={formSubmitted}
             schema={rankSchema}
+            required
           />
         </>
       )}
