@@ -73,7 +73,8 @@ const PicklistRemoveDependentFollowup = ({
   const pageToRender = dependentGroup?.[currentPage] || {};
   const reviewPageFlag =
     sessionStorage.getItem(PICKLIST_EDIT_REVIEW_FLAG) === currentDependent.key;
-  const hasExitPageButton = pageToRender.page?.hasExitLink;
+  const canShowExitButton = pageToRender.page?.hasExitLink;
+  const isShowingExitLink = canShowExitButton && showExitLink({ data, index });
 
   // Page change state to force scroll & focus on page change
   useEffect(scrollAndFocus, [page, index]);
@@ -187,15 +188,16 @@ const PicklistRemoveDependentFollowup = ({
           itemData={currentDependent}
           returnToMainPage={returnToMainPage}
           isEditing={reviewPageFlag}
+          isShowingExitLink={isShowingExitLink}
         />
       </div>
-      {!hasExitPageButton && contentBeforeButtons}
+      {!canShowExitButton && contentBeforeButtons}
       <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--3">
         <div className="small-6 medium-5 columns">
           <va-button back full-width onClick={navigation.goBack} />
         </div>
         <div className="small-6 medium-5 end columns">
-          {pageToRender.page.hasExitLink && showExitLink({ data, index }) ? (
+          {isShowingExitLink ? (
             <ExitForm
               useButton
               formId={VA_FORM_IDS.FORM_21_686CV2}
@@ -207,7 +209,7 @@ const PicklistRemoveDependentFollowup = ({
           )}
         </div>
       </div>
-      {!hasExitPageButton && contentAfterButtons}
+      {!canShowExitButton && contentAfterButtons}
     </form>
   );
 };

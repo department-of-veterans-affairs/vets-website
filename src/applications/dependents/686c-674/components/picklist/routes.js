@@ -6,11 +6,18 @@ import spouseDeath from './spouseDeath';
 
 import childIsStepChild from './childIsStepchild';
 import childReasonToRemove from './childReasonToRemove';
+// child left household
 import stepchildFinancialSupport from './stepchildFinancialSupport';
 import stepchildFinancialSupportExit from './stepchildFinancialSupportExit';
 import stepchildLeftHousehold from './stepchildLeftHousehold';
+// Child marriage
 import childMarriage from './childMarriage';
+// Child death
 import childDeath from './childDeath';
+// Child left school
+import childHasDisability from './childHasDisability';
+import childDisabilityExit from './childDisabilityExit';
+import childLeftSchool from './childLeftSchool';
 
 import parentReasonToRemove from './parentReasonToRemove';
 import parentDeath from './parentDeath';
@@ -34,14 +41,21 @@ export const routing = {
   Child: [
     { path: 'is-stepchild', page: childIsStepChild },
     { path: 'child-reason-to-remove', page: childReasonToRemove },
+    // Child left household
     { path: 'stepchild-financial-support', page: stepchildFinancialSupport },
     {
       path: 'stepchild-financial-support-exit',
       page: stepchildFinancialSupportExit,
     },
     { path: 'stepchild-left-household', page: stepchildLeftHousehold },
+    // Child marriage
     { path: 'child-marriage', page: childMarriage },
+    // Child death
     { path: 'child-death', page: childDeath },
+    // Child left school
+    { path: 'child-disability', page: childHasDisability },
+    { path: 'child-exit', page: childDisabilityExit },
+    { path: 'child-left-school', page: childLeftSchool },
   ],
 
   Parent: [

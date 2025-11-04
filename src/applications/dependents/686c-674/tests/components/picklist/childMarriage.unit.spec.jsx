@@ -28,6 +28,7 @@ describe('childMarriage', () => {
     goForward = () => {},
     goBack = () => {},
     firstName = 'PENNY',
+    isEditing = false,
   } = {}) =>
     render(
       <form onSubmit={onSubmit}>
@@ -37,6 +38,7 @@ describe('childMarriage', () => {
           firstName={firstName}
           formSubmitted={formSubmitted}
           handlers={{ goForward, goBack, onChange, onSubmit }}
+          isEditing={isEditing}
         />
       </form>,
     );
@@ -50,6 +52,14 @@ describe('childMarriage', () => {
     const date = $('va-memorable-date', container);
     expect(date).to.exist;
     expect(date.getAttribute('label')).to.equal('Date of marriage');
+  });
+
+  it('should render edit title', () => {
+    const { container } = renderComponent({ isEditing: true });
+
+    expect($('h3', container).textContent).to.equal(
+      'Edit when did PENNY get married?',
+    );
   });
 
   it('should show error messages if submitted without filling in fields', async () => {

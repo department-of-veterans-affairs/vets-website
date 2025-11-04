@@ -259,21 +259,124 @@ describe('pageDetails', () => {
       });
       expect(details).to.deep.equal([
         {
-          label: 'PENNY is your stepchild?',
+          label: 'Is PENNY your stepchild?',
           value: 'Yes',
-          action: 'is stepchild?',
+          action: 'is this dependent a stepchild?',
           hideLabel: true,
           hideValue: false,
         },
         {
-          label: 'Reason for removing PENNY',
+          label: 'Reason for removing this child',
           value: 'They got married',
-          action: 'reason for removing child',
-          hideLabel: true,
           hideValue: false,
         },
         { label: 'Date of marriage', value: 'January 1, 2025' },
       ]);
+    });
+
+    it('should return child left school details', () => {
+      const details = pageDetails.Child({
+        fullName: { first: 'PENNY' },
+        isStepchild: 'N',
+        removalReason: 'childNotInSchool',
+        childHasPermanentDisability: 'N',
+        endDate: '2025-01-01',
+      });
+      expect(details).to.deep.equal([
+        {
+          label: 'Is PENNY your stepchild?',
+          value: 'No',
+          action: 'is this dependent a stepchild?',
+          hideLabel: true,
+          hideValue: false,
+        },
+        {
+          label: 'Reason for removing this child',
+          value: 'They’re no longer enrolled in school',
+          hideValue: false,
+        },
+        {
+          label: 'Does this child have a permanent disability?',
+          value: 'No',
+        },
+        {
+          label: 'Date child stopped attending school',
+          value: 'January 1, 2025',
+        },
+      ]);
+    });
+
+    it('should return child left school details and has a permanent disability', () => {
+      const details = pageDetails.Child({
+        fullName: { first: 'PENNY' },
+        isStepchild: 'N',
+        removalReason: 'childNotInSchool',
+        childHasPermanentDisability: 'Y',
+      });
+      expect(details[2].label).to.equal(
+        'Does this child have a permanent disability?',
+      );
+      expect(details[2].value).to.equal('Yes');
+
+      expect(details[3].label).to.exist; // JSX
+      expect(details[3].value).to.equal('PENNY will remain on your benefits');
+      expect(details[3].action).to.equal(
+        'This child is still an eligible dependent',
+      );
+    });
+
+    it('should return child not a member of the household details', () => {
+      const details = pageDetails.Child({
+        fullName: { first: 'PENNY' },
+        isStepchild: 'Y',
+        removalReason: 'stepchildNotMember',
+        stepchildFinancialSupport: 'N',
+        endDate: '2025-01-01',
+      });
+      expect(details).to.deep.equal([
+        {
+          label: 'Is PENNY your stepchild?',
+          value: 'Yes',
+          action: 'is this dependent a stepchild?',
+          hideLabel: true,
+          hideValue: false,
+        },
+        {
+          label: 'Reason for removing this child',
+          value: 'They no longer live with you',
+          hideValue: false,
+        },
+        {
+          label:
+            'Do you provide at least half of this child’s financial support?',
+          value: 'No',
+          hideValue: false,
+        },
+        {
+          label: 'When did this child stop living with you?',
+          value: 'January 1, 2025',
+        },
+      ]);
+    });
+
+    it('should return child not a member of the household details but still getting 50% financial support', () => {
+      const details = pageDetails.Child({
+        fullName: { first: 'PENNY' },
+        isStepchild: 'Y',
+        removalReason: 'stepchildNotMember',
+        stepchildFinancialSupport: 'Y',
+      });
+
+      expect(details[2].label).to.equal(
+        'Do you provide at least half of this child’s financial support?',
+      );
+      expect(details[2].value).to.equal('Yes');
+
+      expect(details[3].label).to.exist; // JSX
+      expect(details[3].value).to.equal('PENNY will remain on your benefits');
+      expect(details[3].action).to.equal(
+        'This child still qualifies as your dependent',
+      );
     });
 
     it('should return child death details', () => {
@@ -288,17 +391,15 @@ describe('pageDetails', () => {
       });
       expect(details).to.deep.equal([
         {
-          label: 'PENNY is your stepchild?',
+          label: 'Is PENNY your stepchild?',
           value: 'No',
-          action: 'is stepchild?',
+          action: 'is this dependent a stepchild?',
           hideLabel: true,
           hideValue: false,
         },
         {
-          label: 'Reason for removing PENNY',
+          label: 'Reason for removing this child',
           value: 'They died',
-          action: 'reason for removing child',
-          hideLabel: true,
           hideValue: false,
         },
         { label: 'When was the death?', value: 'January 1, 2020' },
@@ -322,6 +423,7 @@ describe('showExitLink', () => {
   it('should return false if there is no data', () => {
     const data = { [PICKLIST_DATA]: [], [PICKLIST_PATHS]: [] };
     expect(showExitLink({ data, index: 0 })).to.be.false;
+    expect(showExitLink()).to.be.false;
   });
 
   it('should return false for no exit pages', () => {

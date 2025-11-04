@@ -63,6 +63,7 @@ const stepchildFinancialSupport = {
       <>
         <VaRadio
           class="vads-u-margin-bottom--2 dd-privacy-mask"
+          data-dd-action-name="Do you provide at least half of this stepchild's financial support?"
           error={
             formSubmitted && !itemData.stepchildFinancialSupport
               ? 'Select an option'

@@ -433,6 +433,22 @@
   "view:removeDependentPickList": [
     {
       "fullName": {
+        "first": "JOE",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "2006-08-08",
+      "ssn": "793473468",
+      "relationshipToVeteran": "Child",
+      "awardIndicator": "Y",
+      "key": "joe-3468",
+      "selected": true,
+      "isStepchild": "N",
+      "removalReason": "childNotInSchool",
+      "childHasPermanentDisability": "N",
+      "endDate": "2025-06-05"
+    },
+    {
+      "fullName": {
         "first": "PENNY",
         "last": "FOSTER"
       },
@@ -444,8 +460,7 @@
       "selected": true,
       "isStepchild": "N",
       "removalReason": "childMarried",
-      "marriageDate": "2025-06-05",
-      "endDate": "2020-01-01",
+      "endDate": "2025-06-05",
       "endOutsideUS": false,
       "endCity": "Test",
       "endProvince": "Prov",
