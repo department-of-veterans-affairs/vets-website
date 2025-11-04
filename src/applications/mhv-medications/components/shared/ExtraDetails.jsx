@@ -90,7 +90,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
                     rx.refillSubmitDate,
                     DATETIME_FORMATS.longMonthDate,
                   )}
-                  Check back for updates.
+                  . Check back for updates.
                 </span>
               </>
             }
@@ -112,7 +112,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
               <>
                 <p className="vads-u-margin-y--0" data-testid="expired">
                   This prescription is too old to refill. If you need more,
-                  renewal.
+                  request a renewal.
                 </p>
                 <va-link
                   href="/resources/how-to-renew-a-va-prescription"
