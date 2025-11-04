@@ -161,6 +161,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
         `va-telephone[contact="${referral.provider.phone}"]`,
       ),
     ).to.be.ok;
+    expect(screen.getByTestId('referral-community-care-office')).to.exist;
   });
   describe('when not in pilot station', () => {
     it('should show an alert and a link to find a community care office', () => {
