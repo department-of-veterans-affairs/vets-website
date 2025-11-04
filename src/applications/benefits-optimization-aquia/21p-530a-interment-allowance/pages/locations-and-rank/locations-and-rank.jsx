@@ -47,12 +47,17 @@ export const LocationsAndRankPage = ({
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
   // Check if we're editing an existing service period
-  const isEditing = formDataToUse.tempServicePeriod?.isEditing || false;
+  // Only show "Cancel edit" if there are existing service periods and we're editing
+  const hasExistingPeriods = (formDataToUse.servicePeriods || []).length > 0;
+  const isEditingExisting =
+    typeof formDataToUse.editingServicePeriodIndex === 'number';
+  const isAddingAnother = hasExistingPeriods && !isEditingExisting;
+  const shouldShowCancelEdit = isEditingExisting || isAddingAnother;
 
   // Custom back handler for cancel edit
   const handleBack = () => {
-    if (isEditing) {
-      // Cancel edit - clear temp data and return to summary
+    if (shouldShowCancelEdit) {
+      // Cancel edit/add - clear temp data and return to summary
       const updatedData = {
         ...formDataToUse,
         tempServicePeriod: {
@@ -69,7 +74,7 @@ export const LocationsAndRankPage = ({
       setFormData(updatedData);
       goToPath('/service-periods');
     } else {
-      // Normal back navigation
+      // Normal back navigation (first time through)
       goBack();
     }
   };
@@ -134,7 +139,7 @@ export const LocationsAndRankPage = ({
       schema={locationsAndRankPageSchema}
       sectionName="tempServicePeriod"
       navigationProps={{
-        backButtonText: isEditing ? 'Cancel' : 'Back',
+        backButtonText: shouldShowCancelEdit ? 'Cancel' : 'Back',
       }}
       defaultData={{
         placeOfEntry: '',
