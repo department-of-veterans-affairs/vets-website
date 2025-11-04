@@ -118,6 +118,14 @@ function AddressAutosuggest({
     debouncedUpdateSearch(value);
   };
 
+  // remove aria-describedby if error resolved
+  const resolveError = () => {
+    const addressInput = document.getElementById('street-city-state-zip');
+    if (addressInput?.hasAttribute('aria-describedby')) {
+      addressInput.removeAttribute('aria-describedby');
+    }
+  };
+
   useEffect(
     () => {
       // If the location is changed, and there is no value in searchString or inputValue then show the error
@@ -150,7 +158,11 @@ function AddressAutosuggest({
     () => {
       // Focus the error message when it appears so screen readers announce it
       if (showAddressError && errorRef.current) {
+        const addressInput = document.getElementById('street-city-state-zip');
+        addressInput?.setAttribute('aria-describedby', 'input-error-message');
         errorRef.current.focus();
+      } else {
+        resolveError();
       }
     },
     [showAddressError],
