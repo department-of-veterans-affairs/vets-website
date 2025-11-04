@@ -1,4 +1,3 @@
-
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
@@ -6,8 +5,10 @@ import {
 import { hospitalizationQuestionFields } from '../../../definitions/constants';
 import formConfig from '../../../config/form';
 
-const { schema, uiSchema } =
-  formConfig.chapters.sectionTwoP1Chapter.pages.hospitalCareQuestionPage;
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.sectionTwoP1Chapter.pages.hospitalCareQuestionPage;
 const pageTitleTrue = 'hospital care question - has been hospitalized';
 const pageTitleFalse = 'hospital care question - has not been hospitalized';
 
@@ -33,7 +34,7 @@ testNumberOfWebComponentFields(
   mockDataTrue,
 );
 
-const expectedNumberOfFieldsFalse = 2;
+const expectedNumberOfFieldsFalse = 1;
 testNumberOfWebComponentFields(
   formConfig,
   schema,

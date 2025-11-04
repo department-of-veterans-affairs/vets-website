@@ -33,7 +33,10 @@ describe('21-4140 container/SectionThreePage', () => {
     goBack = sandbox.spy();
     goForward = sandbox.spy();
     navButtonProps = null;
-    hadScrollTo = Object.prototype.hasOwnProperty.call(document.body, 'scrollTo');
+    hadScrollTo = Object.prototype.hasOwnProperty.call(
+      document.body,
+      'scrollTo',
+    );
     originalScrollTo = document.body.scrollTo;
     if (!originalScrollTo) {
       document.body.scrollTo = () => {};
@@ -53,22 +56,38 @@ describe('21-4140 container/SectionThreePage', () => {
 
   it('renders the page content and wires navigation correctly', async () => {
     const { getByRole, getByText, getByTestId } = render(
-      <SectionThreePage goBack={goBack} goForward={goForward} NavButtons={TestNavButtons} />,
+      <SectionThreePage
+        goBack={goBack}
+        goForward={goForward}
+        NavButtons={TestNavButtons}
+      />,
     );
 
     await waitFor(() => {
       expect(bodyScrollStub.called).to.be.true;
     });
 
-    expect(getByRole('heading', { level: 3, name: 'Section III: Unemployment Certification' })).to.exist;
     expect(
-      getByText('Complete this section if you did NOT work during the past 12 months.'),
+      getByRole('heading', {
+        level: 3,
+        name: 'Section III: Unemployment Certification',
+      }),
+    ).to.exist;
+    expect(
+      getByText(
+        'Complete this section if you did NOT work during the past 12 months.',
+      ),
     ).to.exist;
     expect(getByRole('heading', { level: 4, name: 'What to expect' })).to.exist;
     expect(getByText('Review the information you provided')).to.exist;
     expect(getByText('Read the unemployment certifications')).to.exist;
-    expect(getByText('Confirm you had no employment in the last 12 months')).to.exist;
-    expect(getByText('Confirm your disability continues to prevent gainful employment')).to.exist;
+    expect(getByText('Confirm you had no employment in the last 12 months')).to
+      .exist;
+    expect(
+      getByText(
+        'Confirm your disability continues to prevent gainful employment',
+      ),
+    ).to.exist;
     expect(getByText('Sign and date your questionnaire')).to.exist;
     expect(getByText('Takes about 1-2 minutes')).to.exist;
 

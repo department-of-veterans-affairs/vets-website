@@ -21,9 +21,7 @@ describe('21-4140 page/sectionTwo', () => {
       };
 
       const { getByText } = render(<SectionTwoIntro {...mockProps} />);
-      expect(
-        getByText('Section II: Employment Certification'),
-      ).to.exist;
+      expect(getByText('Section II: Employment Certification')).to.exist;
     });
 
     it('renders the employment summary box', () => {
@@ -225,7 +223,9 @@ describe('21-4140 page/sectionTwo', () => {
 
     it('contains summary page', () => {
       expect(employersPages.employersSummary).to.exist;
-      expect(employersPages.employersSummary.path).to.equal('section-2-summary');
+      expect(employersPages.employersSummary.path).to.equal(
+        'section-2-summary',
+      );
     });
 
     it('contains employer details page', () => {
@@ -236,7 +236,9 @@ describe('21-4140 page/sectionTwo', () => {
     });
 
     it('intro page uses custom component', () => {
-      expect(employersPages.employersIntro.CustomPage).to.equal(SectionTwoIntro);
+      expect(employersPages.employersIntro.CustomPage).to.equal(
+        SectionTwoIntro,
+      );
     });
 
     it('intro page has null custom review', () => {

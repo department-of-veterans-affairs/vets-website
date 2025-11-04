@@ -57,30 +57,19 @@ const WhatYouNeedPage = ({
     <div className="schemaform-intro">
       <h1 className="vads-u-margin-bottom--2">What You Need to Get Started</h1>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '20px' }}>
-        Review this checklist for what you'll need. Don't have everything? You
-        can start now and save your progress as you go.
+        Review this checklist for what you'll need. Don't have everything? You can start now and save your progress as you go.
       </p>
-      <VaSummaryBox
-        id="required-information-summary"
-        uswds
-        class="vads-u-margin-bottom--3"
-      >
+      <VaSummaryBox id="required-information-summary" uswds class="vads-u-margin-bottom--3">
         <h2 slot="headline">Basic Information</h2>
         <ul className="usa-list vads-u-margin--0">
           <li>Veteran's Name</li>
           <li>Date of Birth</li>
           <li>Social Security Number</li>
           <li>Veteran Service Number</li>
-          <li>
-            Contact Information (mailing address, email address, phone number)
-          </li>
+          <li>Contact Information (mailing address, email address, phone number)</li>
         </ul>
       </VaSummaryBox>
-      <VaSummaryBox
-        id="required-information-summary"
-        uswds
-        class="vads-u-margin-bottom--3"
-      >
+      <VaSummaryBox id="required-information-summary" uswds class="vads-u-margin-bottom--3">
         <h2 slot="headline">Employment</h2>
         <ul className="usa-list vads-u-margin--0">
           <li>
@@ -121,7 +110,4 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(WhatYouNeedPage);
+export default connect(mapStateToProps, mapDispatchToProps)(WhatYouNeedPage);

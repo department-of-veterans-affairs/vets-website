@@ -56,7 +56,10 @@ describe('21-4140 container/BeforeYouBeginPage', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     user = userEvent;
-    hadScrollTo = Object.prototype.hasOwnProperty.call(document.body, 'scrollTo');
+    hadScrollTo = Object.prototype.hasOwnProperty.call(
+      document.body,
+      'scrollTo',
+    );
     originalScrollTo = document.body.scrollTo;
     if (!originalScrollTo) {
       document.body.scrollTo = () => {};
@@ -82,18 +85,20 @@ describe('21-4140 container/BeforeYouBeginPage', () => {
       expect(bodyScrollStub.called).to.be.true;
     });
 
-    expect(
-      getByRole('heading', { level: 1, name: 'What to Expect' }),
-    ).to.exist;
+    expect(getByRole('heading', { level: 1, name: 'What to Expect' })).to.exist;
     expect(
       getByText(
         "We'll be asking you questions about your employment status for the last 12 months.",
       ),
     ).to.exist;
     expect(getByText('Keep in mind')).to.exist;
-    expect(getByText('This form may take about 5 - 10 minutes to complete.')).to.exist;
-    expect(getByText('You must answer all questions fully and accurately.')).to.exist;
-    expect(getByText('You can save your progress and come back to this form later.')).to.exist;
+    expect(getByText('This form may take about 5 - 10 minutes to complete.')).to
+      .exist;
+    expect(getByText('You must answer all questions fully and accurately.')).to
+      .exist;
+    expect(
+      getByText('You can save your progress and come back to this form later.'),
+    ).to.exist;
     expect(
       getByText(
         'This form is for you to verify your employment status when asked, because you currently receive Individual Unemployability disability benefits for a service-connected condition.',
@@ -114,17 +119,27 @@ describe('21-4140 container/BeforeYouBeginPage', () => {
   it('renders skip to content link', () => {
     const { getByText } = renderPage();
     const skipLink = getByText('Skip to Content');
-    
+
     expect(skipLink).to.exist;
     expect(skipLink.getAttribute('href')).to.equal('#main-content');
   });
 
   it('sets beforeYouBegin.visited when continuing forward', async () => {
+    const initialFormData = {
+      beforeYouBegin: {
+        visited: false,
+        extraField: 'keep-me',
+      },
+      anotherSection: {
+        someValue: 42,
+      },
+    };
+
     const mockDispatch = sandbox.spy();
     const store = {
       getState: () => ({
         form: {
-          data: {},
+          data: initialFormData,
         },
       }),
       subscribe: () => {},
@@ -134,10 +149,10 @@ describe('21-4140 container/BeforeYouBeginPage', () => {
     const router = { push: sandbox.spy() };
     const { findByRole } = render(
       <Provider store={store}>
-        <BeforeYouBeginPage 
-          location={defaultLocation} 
-          route={defaultRoute} 
-          router={router} 
+        <BeforeYouBeginPage
+          location={defaultLocation}
+          route={defaultRoute}
+          router={router}
         />
       </Provider>,
     );
@@ -145,6 +160,20 @@ describe('21-4140 container/BeforeYouBeginPage', () => {
     const continueButton = await findByRole('button', { name: /continue/i });
     await user.click(continueButton);
 
-    expect(mockDispatch.called).to.be.true;
+    await waitFor(() => {
+      expect(mockDispatch.called).to.be.true;
+    });
+
+    const dispatchedAction = mockDispatch.firstCall?.args?.[0];
+    expect(dispatchedAction?.type).to.equal('SET_DATA');
+    expect(dispatchedAction?.data?.beforeYouBegin?.visited).to.be.true;
+    expect(dispatchedAction?.data?.beforeYouBegin?.extraField).to.equal(
+      'keep-me',
+    );
+    expect(dispatchedAction?.data?.anotherSection).to.deep.equal(
+      initialFormData.anotherSection,
+    );
+    expect(initialFormData.beforeYouBegin.visited).to.be.false;
+    expect(router.push.calledWith('what-you-need')).to.be.true;
   });
 });

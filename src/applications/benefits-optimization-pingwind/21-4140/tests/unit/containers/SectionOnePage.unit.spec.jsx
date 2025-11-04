@@ -33,7 +33,10 @@ describe('21-4140 container/SectionOnePage', () => {
     goBack = sandbox.spy();
     goForward = sandbox.spy();
     navButtonProps = null;
-    hadScrollTo = Object.prototype.hasOwnProperty.call(document.body, 'scrollTo');
+    hadScrollTo = Object.prototype.hasOwnProperty.call(
+      document.body,
+      'scrollTo',
+    );
     originalScrollTo = document.body.scrollTo;
     if (!originalScrollTo) {
       document.body.scrollTo = () => {};
@@ -53,20 +56,28 @@ describe('21-4140 container/SectionOnePage', () => {
 
   it('renders the page content and wires navigation correctly', async () => {
     const { getByRole, getByText, getByTestId } = render(
-      <SectionOnePage goBack={goBack} goForward={goForward} NavButtons={TestNavButtons} />,
+      <SectionOnePage
+        goBack={goBack}
+        goForward={goForward}
+        NavButtons={TestNavButtons}
+      />,
     );
 
     await waitFor(() => {
       expect(bodyScrollStub.called).to.be.true;
     });
 
-    expect(getByRole('heading', { level: 3, name: 'Section I: Veteran ID' })).to.exist;
+    expect(getByRole('heading', { level: 3, name: 'Section I: Veteran ID' })).to
+      .exist;
     expect(
-      getByText("We'll start by confirming your identity and how to reach you."),
+      getByText(
+        "We'll start by confirming your identity and how to reach you.",
+      ),
     ).to.exist;
     expect(getByText('What to expect')).to.exist;
     expect(getByText('Your name and identification numbers')).to.exist;
-    expect(getByText('Your contact information (address, email, phone)')).to.exist;
+    expect(getByText('Your contact information (address, email, phone)')).to
+      .exist;
     expect(getByText('Takes about 1-2 minutes')).to.exist;
 
     const navButtons = getByTestId('nav-buttons');

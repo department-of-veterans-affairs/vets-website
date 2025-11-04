@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
@@ -7,11 +8,10 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.confirmationQuestionChapter.pages.confirmationQuestion;
+} = formConfig.chapters.employmentHistoryChapter.pages.currentIncome;
 
-const pageTitle = 'confirmation question';
-
-const numberOfWebComponentFields = 1;
+const pageTitle = 'current income';
+const numberOfWebComponentFields = 2;
 
 testNumberOfWebComponentFields(
   formConfig,
@@ -21,12 +21,18 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const numberOfWebComponentErrors = 1;
-
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
-  numberOfWebComponentErrors,
+  numberOfWebComponentFields,
   pageTitle,
 );
+
+describe('8940 currentIncome schema basics', () => {
+  it('requires both current income fields', () => {
+    ['totalIncome', 'monthlyIncome'].forEach(field =>
+      expect(schema.required).to.include(field),
+    );
+  });
+});

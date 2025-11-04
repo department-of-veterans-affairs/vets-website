@@ -45,7 +45,10 @@ describe('21-4140 container/EmploymentCheckPage', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     user = userEvent;
-    hadScrollTo = Object.prototype.hasOwnProperty.call(document.body, 'scrollTo');
+    hadScrollTo = Object.prototype.hasOwnProperty.call(
+      document.body,
+      'scrollTo',
+    );
     originalScrollTo = document.body.scrollTo;
     if (!originalScrollTo) {
       document.body.scrollTo = () => {};
@@ -69,7 +72,7 @@ describe('21-4140 container/EmploymentCheckPage', () => {
         [employedByVAFields.isEmployedByVA]: 'Y',
       },
     };
-  const setFormData = sandbox.spy();
+    const setFormData = sandbox.spy();
 
     renderPage({ data: legacyData, setFormData });
 
@@ -86,7 +89,7 @@ describe('21-4140 container/EmploymentCheckPage', () => {
   });
 
   it('prevents continuing without a selection and shows a validation error', async () => {
-  const goForward = sandbox.spy();
+    const goForward = sandbox.spy();
 
     const { container, findByRole } = renderPage({ goForward });
 
@@ -101,8 +104,8 @@ describe('21-4140 container/EmploymentCheckPage', () => {
   });
 
   it('updates form data and continues when the user selects "yes"', async () => {
-  const goForward = sandbox.spy();
-  const setFormData = sandbox.spy();
+    const goForward = sandbox.spy();
+    const setFormData = sandbox.spy();
 
     const { container, findByRole } = renderPage({ goForward, setFormData });
 
@@ -116,7 +119,7 @@ describe('21-4140 container/EmploymentCheckPage', () => {
       );
     });
 
-  const continueButton = await findByRole('button', { name: /continue/i });
+    const continueButton = await findByRole('button', { name: /continue/i });
     await user.click(continueButton);
 
     const expectedData = {

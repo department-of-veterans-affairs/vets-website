@@ -24,6 +24,7 @@ import {
   currentOrPastDateRangeSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns/datePatterns';
 
+
 export const SectionTwoIntro = ({ goBack, goForward, NavButtons }) => {
   useEffect(() => {
     scrollTo('topScrollElement');
@@ -62,6 +63,7 @@ SectionTwoIntro.propTypes = {
   NavButtons: PropTypes.elementType,
 };
 
+
 const hasValue = value => value !== undefined && value !== null && value !== '';
 
 const isEmployerAddressIncomplete = address => {
@@ -70,8 +72,7 @@ const isEmployerAddressIncomplete = address => {
   }
 
   const { country } = address;
-  const requiresState =
-    hasValue(country) && ['USA', 'CAN', 'MEX'].includes(country);
+  const requiresState = hasValue(country) && ['USA', 'CAN', 'MEX'].includes(country);
 
   return (
     !hasValue(address.street) ||
@@ -81,6 +82,7 @@ const isEmployerAddressIncomplete = address => {
     !hasValue(address.postalCode)
   );
 };
+
 
 /** @type {ArrayBuilderOptions} */
 const employersOptions = {
@@ -184,12 +186,9 @@ const employerDetailsPage = {
         postalCode: 'Zip/Postal Code',
       },
       errorMessages: {
-        street:
-          "Enter the employer's mailing address number and street or rural route. This field is required.",
-        city:
-          'Enter the City. Use this field for APO, FPO, or DPO. This field is required.',
-        state:
-          'Enter the State, Province, or Region, or use AA, AE, or AP. This field is required.',
+        street: 'Enter the employer\'s mailing address number and street or rural route. This field is required.',
+        city: 'Enter the City. Use this field for APO, FPO, or DPO. This field is required.',
+        state: 'Enter the State, Province, or Region, or use AA, AE, or AP. This field is required.',
         postalCode: 'Enter a Zip/Postal code',
       },
     }),
@@ -202,17 +201,14 @@ const employerDetailsPage = {
       hint: 'If self-employed enter "Self"',
       title: 'Type of work',
       errorMessages: {
-        required:
-          'Enter type of work for this employer, self-employment, or military duties. This field is required.',
+        required: 'Enter type of work for this employer, self-employment, or military duties. This field is required.',
       },
     }),
     highestIncome: numberUI({
-      title:
-        'What was the most you earned in a month at this job before taxes (gross income)?',
+      title: 'What was the most you earned in a month at this job before taxes (gross income)?',
       min: 0,
       errorMessages: {
-        required:
-          'Enter your monthly gross income. Round to the nearest whole number. This field is required.',
+        required: 'Enter your monthly gross income. Round to the nearest whole number. This field is required.',
         pattern: 'Enter your monthly gross income using numbers only.',
       },
     }),
@@ -220,8 +216,7 @@ const employerDetailsPage = {
       title: 'How many hours per week did you work?',
       min: 0,
       errorMessages: {
-        required:
-          'Enter the number of hours worked per week. This field is required.',
+        required: 'Enter the number of hours worked per week. This field is required.',
         pattern: 'Enter the hours worked per week using numbers only.',
       },
     }),
@@ -229,10 +224,8 @@ const employerDetailsPage = {
       title: 'How many days per month did you miss work due to illness?',
       min: 0,
       errorMessages: {
-        required:
-          'Enter the number of days missed per month because of illness. This field is required.',
-        pattern:
-          'Enter the number of days missed per month using numbers only.',
+        required: 'Enter the number of days missed per month because of illness. This field is required.',
+        pattern: 'Enter the number of days missed per month using numbers only.',
       },
     }),
   },

@@ -21,7 +21,11 @@ describe('21-4140 utils/skipToContent', () => {
     window.focusContent = originalFocusContent;
     window.scrollTo = originalScrollTo;
     if (originalPageYOffsetDescriptor) {
-      Object.defineProperty(window, 'pageYOffset', originalPageYOffsetDescriptor);
+      Object.defineProperty(
+        window,
+        'pageYOffset',
+        originalPageYOffsetDescriptor,
+      );
     } else {
       delete window.pageYOffset;
     }
@@ -77,7 +81,11 @@ describe('21-4140 utils/skipToContent', () => {
     expect(main.getAttribute('tabindex')).to.equal('-1');
     expect(blurHandler).to.be.a('function');
     expect(addEventListener.calledOnce).to.be.true;
-    expect(addEventListener.firstCall.args).to.deep.equal(['blur', blurHandler, true]);
+    expect(addEventListener.firstCall.args).to.deep.equal([
+      'blur',
+      blurHandler,
+      true,
+    ]);
     expect(scrollToStub.calledOnce).to.be.true;
     expect(scrollToStub.firstCall.args).to.deep.equal([0, 175]);
     expect(focusSpy.calledOnce).to.be.true;
@@ -85,7 +93,11 @@ describe('21-4140 utils/skipToContent', () => {
     blurHandler();
 
     expect(removeEventListener.calledOnce).to.be.true;
-    expect(removeEventListener.firstCall.args).to.deep.equal(['blur', blurHandler, true]);
+    expect(removeEventListener.firstCall.args).to.deep.equal([
+      'blur',
+      blurHandler,
+      true,
+    ]);
     expect(main.hasAttribute('tabindex')).to.be.false;
 
     getBoundingClientRectStub.restore();
@@ -110,7 +122,9 @@ describe('21-4140 utils/skipToContent', () => {
 
     expect(event.preventDefault.calledOnce).to.be.true;
     expect(scrollIntoViewSpy.calledOnce).to.be.true;
-    expect(scrollIntoViewSpy.firstCall.args).to.deep.equal([{ block: 'start' }]);
+    expect(scrollIntoViewSpy.firstCall.args).to.deep.equal([
+      { block: 'start' },
+    ]);
     expect(focusSpy.calledOnce).to.be.true;
   });
 

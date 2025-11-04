@@ -4,8 +4,6 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import user from './fixtures/mocks/user.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
-import sipGet from './fixtures/mocks/sip-get.json';
-import sipPut from './fixtures/mocks/sip-put.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import {
@@ -363,8 +361,6 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       employersAdded = 0;
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-      cy.intercept('GET', '/v0/in_progress_forms/21-4140', sipGet);
-      cy.intercept('PUT', '/v0/in_progress_forms/21-4140', sipPut);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit).as('submitForm');
       cy.login(user);
     },

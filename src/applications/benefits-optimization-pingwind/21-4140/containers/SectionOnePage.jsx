@@ -15,11 +15,7 @@ const SectionOnePage = ({ goBack, goForward, NavButtons }) => {
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>
         We'll start by confirming your identity and how to reach you.
       </p>
-      <VaSummaryBox
-        id="required-information-summary"
-        uswds
-        class="vads-u-margin-bottom--3"
-      >
+      <VaSummaryBox id="required-information-summary" uswds class="vads-u-margin-bottom--3">
         <h4 slot="headline">What to expect</h4>
         <ul className="usa-list vads-u-margin--0">
           <li>Your name and identification numbers</li>

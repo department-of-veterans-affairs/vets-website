@@ -57,7 +57,10 @@ describe('21-4140 container/PreSectionOnePage', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     user = userEvent;
-    hadScrollTo = Object.prototype.hasOwnProperty.call(document.body, 'scrollTo');
+    hadScrollTo = Object.prototype.hasOwnProperty.call(
+      document.body,
+      'scrollTo',
+    );
     originalScrollTo = document.body.scrollTo;
     if (!originalScrollTo) {
       document.body.scrollTo = () => {};
@@ -107,7 +110,7 @@ describe('21-4140 container/PreSectionOnePage', () => {
   });
 
   it('shows the warning alert when "no" is selected and prevents navigation', async () => {
-  const { container, router, findByRole } = renderPage();
+    const { container, router, findByRole } = renderPage();
 
     const radio = container.querySelector('va-radio');
     act(() => {
@@ -119,8 +122,8 @@ describe('21-4140 container/PreSectionOnePage', () => {
       );
     });
 
-  const alert = container.querySelector('#employment-status-alert');
-  expect(alert).to.exist;
+    const alert = container.querySelector('#employment-status-alert');
+    expect(alert).to.exist;
 
     const continueButton = await findByRole('button', { name: /continue/i });
     await user.click(continueButton);

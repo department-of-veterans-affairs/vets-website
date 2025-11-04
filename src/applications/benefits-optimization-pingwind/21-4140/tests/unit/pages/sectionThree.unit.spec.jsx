@@ -36,8 +36,7 @@ describe('21-4140 page/sectionThree', () => {
   });
 
   it('provides the Section 2 - Employment Information heading in the UI schema', () => {
-    const employedByVAUiSchema =
-      page.uiSchema[employedByVAFields.parentObject];
+    const employedByVAUiSchema = page.uiSchema[employedByVAFields.parentObject];
     const title = employedByVAUiSchema['ui:title'];
     let titleText = '';
 
@@ -100,10 +99,8 @@ describe('21-4140 page/sectionThree', () => {
   });
 
   it('provides a hint for type of work field', () => {
-    const employedByVAUiSchema =
-      page.uiSchema[employedByVAFields.parentObject];
-    const typeOfWorkUi =
-      employedByVAUiSchema[employedByVAFields.typeOfWork];
+    const employedByVAUiSchema = page.uiSchema[employedByVAFields.parentObject];
+    const typeOfWorkUi = employedByVAUiSchema[employedByVAFields.typeOfWork];
 
     expect(typeOfWorkUi['ui:options']?.hint).to.equal(
       'If self-employed enter "Self"',
@@ -111,8 +108,7 @@ describe('21-4140 page/sectionThree', () => {
   });
 
   it('provides a hint for lost time field', () => {
-    const employedByVAUiSchema =
-      page.uiSchema[employedByVAFields.parentObject];
+    const employedByVAUiSchema = page.uiSchema[employedByVAFields.parentObject];
     const lostTimeUi = employedByVAUiSchema[employedByVAFields.lostTime];
 
     expect(lostTimeUi['ui:options']?.hint).to.equal(
@@ -121,8 +117,7 @@ describe('21-4140 page/sectionThree', () => {
   });
 
   it('includes validation for hours per week', () => {
-    const employedByVAUiSchema =
-      page.uiSchema[employedByVAFields.parentObject];
+    const employedByVAUiSchema = page.uiSchema[employedByVAFields.parentObject];
     const hoursPerWeekUi =
       employedByVAUiSchema[employedByVAFields.hoursPerWeek];
 
@@ -130,8 +125,7 @@ describe('21-4140 page/sectionThree', () => {
   });
 
   it('includes validation for highest income', () => {
-    const employedByVAUiSchema =
-      page.uiSchema[employedByVAFields.parentObject];
+    const employedByVAUiSchema = page.uiSchema[employedByVAFields.parentObject];
     const highestIncomeUi =
       employedByVAUiSchema[employedByVAFields.highestIncome];
 
@@ -139,8 +133,7 @@ describe('21-4140 page/sectionThree', () => {
   });
 
   it('provides custom error messages for hours per week', () => {
-    const employedByVAUiSchema =
-      page.uiSchema[employedByVAFields.parentObject];
+    const employedByVAUiSchema = page.uiSchema[employedByVAFields.parentObject];
     const hoursPerWeekUi =
       employedByVAUiSchema[employedByVAFields.hoursPerWeek];
 
@@ -153,8 +146,7 @@ describe('21-4140 page/sectionThree', () => {
   });
 
   it('provides custom error messages for lost time', () => {
-    const employedByVAUiSchema =
-      page.uiSchema[employedByVAFields.parentObject];
+    const employedByVAUiSchema = page.uiSchema[employedByVAFields.parentObject];
     const lostTimeUi = employedByVAUiSchema[employedByVAFields.lostTime];
 
     expect(lostTimeUi['ui:errorMessages']?.required).to.equal(
@@ -166,8 +158,7 @@ describe('21-4140 page/sectionThree', () => {
   });
 
   it('provides custom error messages for highest income', () => {
-    const employedByVAUiSchema =
-      page.uiSchema[employedByVAFields.parentObject];
+    const employedByVAUiSchema = page.uiSchema[employedByVAFields.parentObject];
     const highestIncomeUi =
       employedByVAUiSchema[employedByVAFields.highestIncome];
 
@@ -180,11 +171,8 @@ describe('21-4140 page/sectionThree', () => {
   });
 
   it('includes dates of employment field in the UI schema', () => {
-    const employedByVAUiSchema =
-      page.uiSchema[employedByVAFields.parentObject];
+    const employedByVAUiSchema = page.uiSchema[employedByVAFields.parentObject];
 
-    expect(
-      employedByVAUiSchema[employedByVAFields.datesOfEmployment],
-    ).to.exist;
+    expect(employedByVAUiSchema[employedByVAFields.datesOfEmployment]).to.exist;
   });
 });

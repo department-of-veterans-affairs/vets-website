@@ -56,7 +56,10 @@ describe('21-4140 container/WhatYouNeedPage', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     user = userEvent;
-    hadScrollTo = Object.prototype.hasOwnProperty.call(document.body, 'scrollTo');
+    hadScrollTo = Object.prototype.hasOwnProperty.call(
+      document.body,
+      'scrollTo',
+    );
     originalScrollTo = document.body.scrollTo;
     if (!originalScrollTo) {
       document.body.scrollTo = () => {};
@@ -90,14 +93,17 @@ describe('21-4140 container/WhatYouNeedPage', () => {
         "Review this checklist for what you'll need. Don't have everything? You can start now and save your progress as you go.",
       ),
     ).to.exist;
-    expect(getByRole('heading', { level: 2, name: 'Basic Information' })).to.exist;
+    expect(getByRole('heading', { level: 2, name: 'Basic Information' })).to
+      .exist;
     expect(getByRole('heading', { level: 2, name: 'Employment' })).to.exist;
     expect(getByText("Veteran's Name")).to.exist;
     expect(getByText('Date of Birth')).to.exist;
     expect(getByText('Social Security Number')).to.exist;
     expect(getByText('Veteran Service Number')).to.exist;
     expect(
-      getByText('Contact Information (mailing address, email address, phone number)'),
+      getByText(
+        'Contact Information (mailing address, email address, phone number)',
+      ),
     ).to.exist;
     expect(getByText('Employer names and addresses')).to.exist;
     expect(getByText('Work dates and hours per week')).to.exist;

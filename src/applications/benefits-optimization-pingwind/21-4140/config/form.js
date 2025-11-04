@@ -59,16 +59,20 @@ const formConfig = {
     messages: {
       inProgress:
         'Your authorization to release non-VA medical information to VA (21-4140) is in progress.',
-      expired: 'Your saved employment questionnaire (21-4140) has expired.',
-      saved: 'Your employment questionnaire has been saved.',
+      expired:
+        'Your saved employment questionnaire (21-4140) has expired.',
+      saved:
+        'Your employment questionnaire has been saved.',
     },
   },
   version: 0,
   prefillEnabled: true,
   transformForSubmit,
   savedFormMessages: {
-    notFound: 'Please start over to complete your employment questionnaire.',
-    noAuth: 'Please sign in again to continue your employment questionnaire',
+    notFound:
+      'Please start over to complete your employment questionnaire.',
+    noAuth:
+      'Please sign in again to continue your employment questionnaire',
   },
   hideUnauthedStartLink: true,
   title: 'Employee Questionnaire for VA Disability Benefits',

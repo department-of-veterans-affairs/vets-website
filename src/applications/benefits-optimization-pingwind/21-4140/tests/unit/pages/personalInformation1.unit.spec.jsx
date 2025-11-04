@@ -6,8 +6,7 @@ import { veteranFields } from '../../../definitions/constants';
 
 describe('21-4140 page/personalInformation1', () => {
   it('requires full name, SSN, and date of birth', () => {
-    const veteranSchema =
-      page.schema.properties[veteranFields.parentObject];
+    const veteranSchema = page.schema.properties[veteranFields.parentObject];
 
     expect(veteranSchema.required).to.deep.equal([
       veteranFields.fullName,
@@ -17,8 +16,7 @@ describe('21-4140 page/personalInformation1', () => {
   });
 
   it('provides the Basic Information heading in the UI schema', () => {
-    const veteranUiSchema =
-      page.uiSchema[veteranFields.parentObject];
+    const veteranUiSchema = page.uiSchema[veteranFields.parentObject];
     const title = veteranUiSchema['ui:title'];
     let titleText = '';
 

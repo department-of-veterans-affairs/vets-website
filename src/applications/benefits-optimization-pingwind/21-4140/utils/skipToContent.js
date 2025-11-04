@@ -1,7 +1,8 @@
 export const skipToContent = event => {
   event?.preventDefault?.();
 
-  const focusContent = typeof window !== 'undefined' ? window.focusContent : undefined;
+  const focusContent =
+    typeof window !== 'undefined' ? window.focusContent : undefined;
   if (typeof focusContent === 'function') {
     focusContent(event);
     return;
@@ -31,7 +32,8 @@ export const skipToContent = event => {
   target.addEventListener('blur', removeTabIndex, true);
 
   if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
-    const topOffset = target.getBoundingClientRect().top + (window.pageYOffset || 0);
+    const topOffset =
+      target.getBoundingClientRect().top + (window.pageYOffset || 0);
     window.scrollTo(0, topOffset);
   } else if (typeof target.scrollIntoView === 'function') {
     target.scrollIntoView({ block: 'start' });

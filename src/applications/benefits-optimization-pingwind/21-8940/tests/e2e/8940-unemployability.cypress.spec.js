@@ -15,9 +15,7 @@ import {
   selectYesNoWebComponent,
   selectCheckboxWebComponent,
 } from '../../../shared/tests/e2e/helpers';
-import {
-  fillNumberWebComponent,
-} from './helpers/local-helpers';
+import { fillNumberWebComponent } from './helpers/local-helpers';
 
 const testConfig = createTestConfig(
   {
@@ -217,63 +215,60 @@ const testConfig = createTestConfig(
           });
         });
       },
-        'current-military-service': ({ afterHook }) => {
-          cy.injectAxeThenAxeCheck();
-          afterHook(() => {
-            cy.get('@testData').then(data => {
-              const { currentMilitaryService } = data;
+      'current-military-service': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { currentMilitaryService } = data;
+            selectYesNoWebComponent(
+              'currentlyServing',
+              currentMilitaryService?.currentlyServing,
+            );
+            if (currentMilitaryService?.currentlyServing) {
               selectYesNoWebComponent(
-                'currentlyServing',
-                currentMilitaryService?.currentlyServing,
+                'activeDutyOrders',
+                currentMilitaryService?.activeDutyOrders,
               );
-              if (currentMilitaryService?.currentlyServing) {
-                selectYesNoWebComponent(
-                  'activeDutyOrders',
-                  currentMilitaryService?.activeDutyOrders,
-                );
-              }
-              cy.findByText(/continue/i, { selector: 'button' }).click();
-            });
+            }
+            cy.findByText(/continue/i, { selector: 'button' }).click();
           });
-        },
-        'current-income': ({ afterHook }) => {
-          cy.injectAxeThenAxeCheck();
-          afterHook(() => {
-            cy.get('@testData').then(data => {
-              const { currentIncome } = data;
-              fillNumberWebComponent(
-                'totalIncome',
-                currentIncome?.totalIncome,
-              );
-              fillNumberWebComponent(
-                'monthlyIncome',
-                currentIncome?.monthlyIncome,
-              );
-              cy.findByText(/continue/i, { selector: 'button' }).click();
-            });
+        });
+      },
+      'current-income': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { currentIncome } = data;
+            fillNumberWebComponent('totalIncome', currentIncome?.totalIncome);
+            fillNumberWebComponent(
+              'monthlyIncome',
+              currentIncome?.monthlyIncome,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
           });
-        },
-        'leaving-last-position': ({ afterHook }) => {
-          cy.injectAxeThenAxeCheck();
-          afterHook(() => {
-            cy.get('@testData').then(data => {
-              const { leavingLastPosition } = data;
-              selectYesNoWebComponent(
-                'leftDueToDisability',
-                leavingLastPosition?.leftDueToDisability,
-              );
-              selectYesNoWebComponent(
-                'receivesDisabilityRetirement',
-                leavingLastPosition?.receivesDisabilityRetirement,
-              );
-              selectYesNoWebComponent(
-                'receivesWorkersCompensation',
-                leavingLastPosition?.receivesWorkersCompensation,
-              );
-              cy.findByText(/continue/i, { selector: 'button' }).click();
-            });
+        });
+      },
+      'leaving-last-position': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { leavingLastPosition } = data;
+            selectYesNoWebComponent(
+              'leftDueToDisability',
+              leavingLastPosition?.leftDueToDisability,
+            );
+            selectYesNoWebComponent(
+              'receivesDisabilityRetirement',
+              leavingLastPosition?.receivesDisabilityRetirement,
+            );
+            selectYesNoWebComponent(
+              'receivesWorkersCompensation',
+              leavingLastPosition?.receivesWorkersCompensation,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
           });
-        },
+        });
+      },
       'education-and-training': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {

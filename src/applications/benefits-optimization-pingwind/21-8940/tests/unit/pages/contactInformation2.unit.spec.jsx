@@ -31,7 +31,7 @@ testNumberOfErrorsOnSubmit(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentFields = 2;
+const expectedNumberOfWebComponentFields = 3;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -40,7 +40,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 2;
+const expectedNumberOfWebComponentErrors = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
