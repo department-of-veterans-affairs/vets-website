@@ -107,10 +107,13 @@ const DebtSelection = ({ formContext }) => {
         ))}
       </VaCheckboxGroup>
       <va-additional-info trigger="If your debt isn't listed here">
-        To dispute a benefit overpayment debt that’s not listed here, call us at{' '}
-        <va-telephone contact={CONTACTS.DMC} /> (or{' '}
-        <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
-        overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+        <p>
+          To dispute a benefit overpayment debt that’s not listed here, call us
+          at <va-telephone contact={CONTACTS.DMC} /> (or{' '}
+          <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
+          overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m.
+          ET.
+        </p>
       </va-additional-info>
     </div>
   );
