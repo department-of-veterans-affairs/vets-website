@@ -16,7 +16,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
 
-  const { id: expenseId, expenseType, tripType } = expense;
+  const { id: expenseId, expenseType } = expense;
   const isDeleting = useSelector(state =>
     selectIsExpenseDeleting(state, expenseId),
   );
@@ -61,11 +61,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
                   },
                   {
                     label: 'Was your trip round trip or one way?',
-                    value:
-                      Object.values(TRIP_TYPES).find(
-                        type =>
-                          type.value === tripType || type.key === tripType,
-                      )?.label || tripType,
+                    value: TRIP_TYPES.ROUND_TRIP.label,
                   },
                 ]}
               />
