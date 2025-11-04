@@ -314,6 +314,24 @@ export const applicantContactInfoAddressTitle = (
   </div>
 );
 
+export const applicantEditAddressTitleLoggedIn = (
+  <div>
+    <va-alert status="info" slim class="vads-u-margin-bottom--2">
+      <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
+        Any changes you make will also be reflected on your VA.gov profile.
+      </p>
+    </va-alert>
+    <h3>Edit your mailing address</h3>
+  </div>
+);
+
+export const applicantEditAddressDescriptionLoggedIn = (
+  <p className="vads-u-margin-top--0">
+    We may mail information about your application to the address you provide
+    here.
+  </p>
+);
+
 export const applicantContactInfoPreparerAddressTitle = (
   <div>
     <h3>Applicant mailing address</h3>
