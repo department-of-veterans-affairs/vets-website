@@ -5,6 +5,8 @@ import { MemorableDateField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
+import constants from 'vets-json-schema/dist/constants.json';
+
 import { z } from 'zod';
 import { dateEnteredServiceSchema, dateSeparatedSchema } from '../../schemas';
 
@@ -102,9 +104,21 @@ export const ServiceDatesPage = ({
     }
   };
 
+  // Get proper title
+  const { tempServicePeriod } = formDataToUse;
+  // Find matching branch label from constants
+  const branchOption = constants.branchesServed.find(
+    branch => branch.value === tempServicePeriod.branchOfService,
+  );
+  const branchLabel = branchOption
+    ? branchOption.label
+    : tempServicePeriod.branchOfService || '';
+
+  const pageTitle = `${branchLabel}`;
+
   return (
     <PageTemplate
-      title="Service dates"
+      title={pageTitle}
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -158,11 +172,11 @@ export const ServiceDatesPage = ({
 };
 
 ServiceDatesPage.propTypes = {
-  data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goForward: PropTypes.func.isRequired,
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
   goToPath: PropTypes.func,
-  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };

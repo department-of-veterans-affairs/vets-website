@@ -178,11 +178,6 @@ export const ServicePeriodsPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <p className="vads-u-margin-bottom--3">
-            Review the veteran’s service periods below. You can add, edit, or
-            remove service periods as needed.
-          </p>
-
           {servicePeriods.length === 0 ? (
             <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3">
               <p className="vads-u-margin--0">No service periods added yet.</p>
@@ -203,7 +198,7 @@ export const ServicePeriodsPage = ({
 
           <RadioField
             name="hasAdditionalServicePeriods"
-            label="Do you have additional service periods to add?"
+            label="Do you have another service period to add?"
             value={localData.hasAdditionalServicePeriods || ''}
             onChange={handleFieldChange}
             required
