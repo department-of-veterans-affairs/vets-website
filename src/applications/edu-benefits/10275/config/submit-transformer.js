@@ -102,6 +102,41 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
+  const institutionTransform = formData => {
+    const clonedData = cloneDeep(formData);
+
+    delete clonedData.institutionDetails.poeEligible;
+
+    clonedData.mainInstitution = {
+      ...clonedData.institutionDetails,
+      institutionAddress: {
+        street: clonedData.institutionDetails.institutionAddress.street
+          ? clonedData.institutionDetails.institutionAddress.street
+          : null,
+        street2: clonedData.institutionDetails.institutionAddress.street2
+          ? clonedData.institutionDetails.institutionAddress.street2
+          : null,
+        street3: clonedData.institutionDetails.institutionAddress.street3
+          ? clonedData.institutionDetails.institutionAddress.street3
+          : null,
+        city: clonedData.institutionDetails.institutionAddress.city
+          ? clonedData.institutionDetails.institutionAddress.city
+          : null,
+        state: clonedData.institutionDetails.institutionAddress.state
+          ? clonedData.institutionDetails.institutionAddress.state
+          : null,
+        postalCode: clonedData.institutionDetails.institutionAddress.postalCode
+          ? clonedData.institutionDetails.institutionAddress.postalCode
+          : null,
+        country: clonedData.institutionDetails.institutionAddress.country
+          ? clonedData.institutionDetails.institutionAddress.country
+          : null,
+      },
+    };
+
+    return clonedData;
+  };
+
   // const additionalLocationsTransform = formData => {
   //   const clonedData = cloneDeep(formData);
 
@@ -143,6 +178,7 @@ export default function transform(formConfig, form) {
 
     delete clonedData.statementOfTruthCertified;
     delete clonedData.additionalLocations;
+    delete clonedData.institutionDetails;
 
     return {
       ...clonedData,
@@ -157,6 +193,7 @@ export default function transform(formConfig, form) {
   const transformedData = [
     authorizedOfficialTransform,
     contactTransform,
+    institutionTransform,
     // additionalLocationsTransform,
     removePrincipleTransform,
     privacyAgreementTransform,
