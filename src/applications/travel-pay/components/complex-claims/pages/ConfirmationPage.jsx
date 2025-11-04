@@ -20,7 +20,7 @@ const ConfirmationPage = () => {
         <h2 slot="headline">Claim submitted</h2>
         <p className="vads-u-margin-y--0">Claim number: {claimId}</p>
         {appointmentData && (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             This claim is for your appointment
             {appointmentData.location?.attributes?.name
               ? ` at ${appointmentData.location.attributes.name}`
