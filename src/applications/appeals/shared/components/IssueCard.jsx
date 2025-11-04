@@ -31,7 +31,6 @@ export const IssueCard = ({
   onChange,
   showCheckbox,
   onRemove,
-  onReviewPage,
   showSeparator = false,
 }) => {
   // On the review & submit page, there may be more than one
@@ -66,7 +65,9 @@ export const IssueCard = ({
   const titleClass = [
     'widget-title',
     'dd-privacy-hidden',
-    'vads-u-font-size--h4',
+    'vads-u-font-weight--bold',
+    'vads-u-font-family--serif',
+    'vads-u-line-height--2',
     'vads-u-margin--0',
     'capitalize',
     'overflow-wrap-word',
@@ -107,11 +108,6 @@ export const IssueCard = ({
         />
       </div>
     ) : null;
-
-  // Issues h4 disappears in edit mode, so we need to match the page header
-  // level
-  const Header = onReviewPage ? 'h5' : 'h4';
-
   return (
     <li id={`issue-${index}`} name={`issue-${index}`} key={index}>
       <div className={wrapperClass}>
@@ -135,12 +131,13 @@ export const IssueCard = ({
             // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
             tabIndex="0"
           >
-            <Header
+            <strong
               className={titleClass}
               data-dd-action-name="rated issue name"
             >
-              <strong>{issueName}</strong>
-            </Header>
+              {issueName}
+            </strong>
+
             <IssueCardContent id={`issue-${index}-description`} {...item} />
             {editControls}
           </div>
@@ -169,5 +166,4 @@ IssueCard.propTypes = {
   showSeparator: PropTypes.bool,
   onChange: PropTypes.func,
   onRemove: PropTypes.func,
-  onReviewPage: PropTypes.bool,
 };

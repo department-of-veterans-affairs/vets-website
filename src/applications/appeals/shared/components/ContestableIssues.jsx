@@ -238,7 +238,6 @@ const ContestableIssues = props => {
       key: index,
       options,
       showCheckbox,
-      onReviewPage,
       showSeparator,
       // props.testChange for testing
       onChange: props.testChange || handlers.onChange,
