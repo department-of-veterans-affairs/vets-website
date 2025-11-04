@@ -126,15 +126,17 @@ describe('22-10275 EDU Form', () => {
     cy.chooseRadio('Y');
     cy.tabToContinueForm();
 
-    // The Principles of Excellence page - Step 5
-    // TODO: This will need to be updated to check for Step 4
+    // Additional location summary page - Step 4
     cy.url().should(
       'include',
-      formConfig.chapters.principlesOfExcellenceCommitmentChapter.pages
-        .poeCommitment.path,
+      formConfig.chapters.additionalLocationsChapter.pages
+        .additionalLocationSummary.path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.focused().should('contain.text', 'The Principles of Excellence');
+    cy.focused().should(
+      'contain.text',
+      'You can add more locations to this agreement',
+    );
     cy.clickFormBack();
 
     // Your information page - Step 3 (POC and SCO de-selected to visit all pages)
@@ -197,15 +199,17 @@ describe('22-10275 EDU Form', () => {
     cy.chooseRadio('Y');
     cy.tabToContinueForm();
 
-    // The Principles of Excellence page - Step 5
-    // TODO: This will need to be updated to check for Step 4
+    // Additional location summary page - Step 4
     cy.url().should(
       'include',
-      formConfig.chapters.principlesOfExcellenceCommitmentChapter.pages
-        .poeCommitment.path,
+      formConfig.chapters.additionalLocationsChapter.pages
+        .additionalLocationSummary.path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.focused().should('contain.text', 'The Principles of Excellence');
+    cy.focused().should(
+      'contain.text',
+      'You can add more locations to this agreement',
+    );
     cy.clickFormBack();
 
     // Your information page - Step 3 (POC and SCO de-selected to visit all pages)
@@ -257,7 +261,112 @@ describe('22-10275 EDU Form', () => {
     cy.typeInFocused(schoolCertifyingOfficial.email);
     cy.tabToContinueForm();
 
-    // TODO: Insert tests for Step of the form
+    // Additional location summary page - Step 4
+    cy.url().should(
+      'include',
+      formConfig.chapters.additionalLocationsChapter.pages
+        .additionalLocationSummary.path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.focused().should(
+      'contain.text',
+      'You can add more locations to this agreement',
+    );
+    cy.realPress('Tab');
+    cy.allyEvaluateRadioButtons(
+      [
+        'input#root_addMoreLocationsYesinput',
+        'input#root_addMoreLocationsNoinput',
+      ],
+      'ArrowDown',
+    );
+    cy.chooseRadio('Y');
+    cy.tabToContinueForm();
+
+    // Additional locations institution page - Step 4
+    cy.url().should(
+      'include',
+      `${
+        formConfig.chapters.additionalLocationsChapter.pages
+          .additionalLocationSummary.path
+      }/0`,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.focused().should(
+      'contain.text',
+      "Enter the VA facility code for the additional location you'd like to add",
+    );
+    cy.realPress('Tab');
+    cy.typeInFocused(data.additionalLocations[0].facilityCode);
+    cy.tabToContinueForm();
+
+    // Additional locations previously entered point of contact page - Step 4
+    cy.url().should(
+      'include',
+      `${
+        formConfig.chapters.additionalLocationsChapter.pages
+          .additionalLocationSummary.path
+      }/0/point-of-contact`,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.focused().should(
+      'contain.text',
+      'Use a previously entered point of contact',
+    );
+    cy.realPress('Tab');
+    cy.allyEvaluateRadioButtons(
+      [
+        'input#enteredPOCauthorizedOfficialinput',
+        'input#enteredPOCscoinput',
+        'input#enteredPOCpoeinput',
+        'input#enteredPOCnoneinput',
+      ],
+      'ArrowDown',
+    );
+    cy.chooseRadio('none');
+    cy.tabToContinueForm();
+
+    // Additional locations new point of contact page - Step 4
+    cy.url().should(
+      'include',
+      `${
+        formConfig.chapters.additionalLocationsChapter.pages
+          .additionalLocationSummary.path
+      }/0/point-of-contact-2`,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.focused().should(
+      'contain.text',
+      'Enter a point of contact for this location',
+    );
+    cy.realPress('Tab');
+    cy.typeInFocused(data.additionalLocations[0].fullName.first);
+    cy.realPress('Tab');
+    cy.typeInFocused(data.additionalLocations[0].fullName.middle);
+    cy.realPress('Tab');
+    cy.typeInFocused(data.additionalLocations[0].fullName.last);
+    cy.realPress('Tab');
+    cy.typeInFocused(data.additionalLocations[0].email);
+    cy.tabToContinueForm();
+
+    // Additional locations new point of contact page - Step 4
+    cy.url().should(
+      'include',
+      formConfig.chapters.additionalLocationsChapter.pages
+        .additionalLocationSummary.path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.focused().should('contain.text', 'Review your additional locations');
+    cy.repeatKey('Tab', 3);
+    cy.allyEvaluateRadioButtons(
+      [
+        'input#root_addMoreLocationsYesinput',
+        'input#root_addMoreLocationsNoinput',
+      ],
+      'ArrowDown',
+    );
+    cy.chooseRadio('N');
+    cy.tabToContinueForm();
 
     // The Principles of Excellence page - Step 5
     cy.url().should(
@@ -293,6 +402,6 @@ describe('22-10275 EDU Form', () => {
 
     // Confirmation page
     cy.url().should('include', '/confirmation');
-    // cy.focused().should('contain.text', "You've submitted your new commitment");
+    cy.focused().should('contain.text', "You've submitted your new commitment");
   });
 });

@@ -60,6 +60,33 @@
       },
       "poeEligible": true
     },
-    "agreementType": "newCommitment"
+    "agreementType": "newCommitment",
+    "additionalLocations": [
+      {
+        "fullName": {
+          "first": "Brand",
+          "middle": "New",
+          "last": "Contact"
+        },
+        "email": "brand.new@email.com",
+        "previouslyEnteredPointOfContact": {
+          "key": "none"
+        },
+        "view:additionalInstructions": {},
+        "facilityCode": "15012020",
+        "institutionName": "MARYLAND STATE POLICE TRAINING ACADEMY",
+        "institutionAddress": {
+          "country": "USA",
+          "street": "PUBLIC SAFETY EDUCATION TRAINING",
+          "street2": "6852 4TH ST",
+          "street3": "",
+          "city": "SYKESVILLE",
+          "state": "MD",
+          "postalCode": "21784"
+        },
+        "poeEligible": true,
+        "isLoading": false
+      }
+    ]
   }
 }
