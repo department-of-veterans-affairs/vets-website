@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 /* eslint-disable cypress/unsafe-to-chain-command */
 import maximalData from './fixtures/data/maximal-test.json';
 import formConfig from '../config/form';
