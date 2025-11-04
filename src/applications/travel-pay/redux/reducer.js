@@ -467,7 +467,33 @@ function travelPayReducer(state = initialState, action) {
       };
 
     case FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS: {
-      // Replace all expenses with the fresh data from complex claim response
+      const existingExpenses = state.complexClaim.expenses.data || [];
+      const newExpenses = action.payload || [];
+
+      const existingExpensesMap = existingExpenses.reduce(
+        (map, expense) => ({
+          ...map,
+          [expense.id]: expense,
+        }),
+        {},
+      );
+
+      // Merge new expenses with existing ones, preserving all properties
+      const mergedExpensesMap = newExpenses.reduce(
+        (map, newExpense) => ({
+          ...map,
+          [newExpense.id]: {
+            // Merge existing expense properties with new ones
+            ...map[newExpense.id],
+            ...newExpense,
+          },
+        }),
+        existingExpensesMap,
+      );
+
+      // Convert back to array
+      const mergedExpenses = Object.values(mergedExpensesMap);
+
       return {
         ...state,
         complexClaim: {
@@ -481,7 +507,7 @@ function travelPayReducer(state = initialState, action) {
           },
           expenses: {
             ...state.complexClaim.expenses,
-            data: action.payload, // action.payload is now an array of expenses
+            data: mergedExpenses,
           },
         },
       };

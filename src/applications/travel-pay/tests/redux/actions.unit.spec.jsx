@@ -270,11 +270,12 @@ describe('Redux - actions', () => {
 
       await submitComplexClaim(claimData)(mockDispatch);
 
-      expect(mockDispatch.calledWithMatch({ type: 'SUBMIT_CLAIM_STARTED' })).to
-        .be.true;
+      expect(
+        mockDispatch.calledWithMatch({ type: 'SUBMIT_COMPLEX_CLAIM_STARTED' }),
+      ).to.be.true;
       expect(
         mockDispatch.calledWithMatch({
-          type: 'SUBMIT_CLAIM_SUCCESS',
+          type: 'SUBMIT_COMPLEX_CLAIM_SUCCESS',
           payload: mockResponse,
         }),
       ).to.be.true;
@@ -291,11 +292,12 @@ describe('Redux - actions', () => {
 
       await submitComplexClaim(claimData)(mockDispatch);
 
-      expect(mockDispatch.calledWithMatch({ type: 'SUBMIT_CLAIM_STARTED' })).to
-        .be.true;
+      expect(
+        mockDispatch.calledWithMatch({ type: 'SUBMIT_COMPLEX_CLAIM_STARTED' }),
+      ).to.be.true;
       expect(
         mockDispatch.calledWithMatch({
-          type: 'SUBMIT_CLAIM_FAILURE',
+          type: 'SUBMIT_COMPLEX_CLAIM_FAILURE',
           error: sinon.match.instanceOf(Error),
         }),
       ).to.be.true;

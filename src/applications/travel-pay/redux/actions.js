@@ -248,7 +248,7 @@ export function getComplexClaimDetails(claimId) {
       const claimUrl = `${environment.API_URL}/travel_pay/v0/claims/${claimId}`;
       const response = await apiRequest(claimUrl);
       // Extract expenses from the complex claim response
-      const expenses = response.data?.expenses || [];
+      const expenses = response?.expenses ?? [];
       dispatch(fetchComplexClaimDetailsSuccess(expenses));
       return response;
     } catch (error) {
