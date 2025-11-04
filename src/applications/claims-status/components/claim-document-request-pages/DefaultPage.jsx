@@ -21,7 +21,6 @@ export default function DefaultPage({
   uploading,
   message,
   type1UnknownErrors,
-  showDocumentUploadStatus,
 }) {
   const dateFormatter = buildDateFormatter();
   const now = new Date();
@@ -95,35 +94,29 @@ export default function DefaultPage({
         )}
       </h1>
       {/* Only show errors in DefaultPage when feature flag is ON */}
-      {showDocumentUploadStatus && (
-        <>
-          {/* For type 1 known errors, display an alert */}
-          {message && (
-            <div className="vads-u-margin-top--0">
-              <Notification
-                title={message.title}
-                body={message.body}
-                type={message.type}
-                onSetFocus={focusNotificationAlert}
-              />
-            </div>
-          )}
-          {/* For type 1 unknown errors, display the Type 1 Unknown Upload Error alert */}
-          {type1UnknownErrors &&
-            type1UnknownErrors.length > 0 && (
-              <div className="vads-u-margin-y--4">
-                <Notification
-                  title="We need you to submit files by mail or in person"
-                  body={
-                    <Type1UnknownUploadError errorFiles={type1UnknownErrors} />
-                  }
-                  type="error"
-                  onSetFocus={focusNotificationAlert}
-                />
-              </div>
-            )}
-        </>
+      {/* For type 1 known errors, display an alert */}
+      {message && (
+        <div className="vads-u-margin-top--0">
+          <Notification
+            title={message.title}
+            body={message.body}
+            type={message.type}
+            onSetFocus={focusNotificationAlert}
+          />
+        </div>
       )}
+      {/* For type 1 unknown errors, display the Type 1 Unknown Upload Error alert */}
+      {type1UnknownErrors &&
+        type1UnknownErrors.length > 0 && (
+          <div className="vads-u-margin-y--4">
+            <Notification
+              title="We need you to submit files by mail or in person"
+              body={<Type1UnknownUploadError errorFiles={type1UnknownErrors} />}
+              type="error"
+              onSetFocus={!message ? focusNotificationAlert : undefined}
+            />
+          </div>
+        )}
       {item.status === 'NEEDED_FROM_YOU' &&
         (pastDueDate ? (
           <va-alert status="warning" class="vads-u-margin-top--4">
@@ -254,7 +247,6 @@ DefaultPage.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   message: PropTypes.object,
   progress: PropTypes.number,
-  showDocumentUploadStatus: PropTypes.bool,
   type1UnknownErrors: PropTypes.array,
   uploading: PropTypes.bool,
 };

@@ -88,7 +88,6 @@ class DocumentRequestPage extends React.Component {
             )
           }
           progress={this.props.progress}
-          showDocumentUploadStatus={showDocumentUploadStatus}
           type1UnknownErrors={
             showDocumentUploadStatus ? type1UnknownErrors : null
           }
