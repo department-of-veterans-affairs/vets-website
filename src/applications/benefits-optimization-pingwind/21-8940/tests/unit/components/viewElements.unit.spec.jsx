@@ -25,7 +25,9 @@ describe('21-8940 component/viewElements', () => {
 
   it('renders the provided date range and fallbacks', () => {
     const { rerender, getByText } = render(
-      <DateRangeView formData={{ startDate: 'Jan 1, 2020', endDate: 'Dec 31, 2020' }} />,
+      <DateRangeView
+        formData={{ startDate: 'Jan 1, 2020', endDate: 'Dec 31, 2020' }}
+      />,
     );
 
     const dateParagraph = getByText(/Duration:/);
@@ -49,11 +51,17 @@ describe('21-8940 component/viewElements', () => {
       connectedDisabilities: 'Back pain',
     };
 
-    const { container, rerender, getByText } = render(<DoctorView formData={formData} />);
+    const { container, rerender, getByText } = render(
+      <DoctorView formData={formData} />,
+    );
 
-    expect(container.querySelector('strong').textContent).to.equal('Dr. Jane Doe');
+    expect(container.querySelector('strong').textContent).to.equal(
+      'Dr. Jane Doe',
+    );
     expect(container.querySelector('p').textContent).to.include('123 Main St');
-    expect(container.textContent).to.include('Connected disabilities: Back pain');
+    expect(container.textContent).to.include(
+      'Connected disabilities: Back pain',
+    );
 
     rerender(<DoctorView formData={{}} />);
     expect(getByText('Doctor name not provided')).to.exist;
@@ -71,13 +79,17 @@ describe('21-8940 component/viewElements', () => {
       connectedDisabilities: 'Chronic fatigue',
     };
 
-  const { container, rerender, getByText } = render(<HospitalView formData={formData} />);
+    const { container, rerender, getByText } = render(
+      <HospitalView formData={formData} />,
+    );
 
     expect(container.querySelector('strong').textContent).to.equal(
       'VA Medical Center',
     );
     expect(container.querySelector('p').textContent).to.include('456 Elm St');
-    expect(container.textContent).to.include('Connected disabilities: Chronic fatigue');
+    expect(container.textContent).to.include(
+      'Connected disabilities: Chronic fatigue',
+    );
 
     rerender(<HospitalView formData={{}} />);
     expect(getByText('Hospital name not provided')).to.exist;
@@ -128,9 +140,7 @@ describe('21-8940 component/viewElements', () => {
       },
     };
 
-    const { container } = render(
-      <EmploymentHistoryView formData={formData} />,
-    );
+    const { container } = render(<EmploymentHistoryView formData={formData} />);
 
     expect(container.querySelector('strong').textContent).to.equal(
       'Widget Factory',
@@ -138,7 +148,9 @@ describe('21-8940 component/viewElements', () => {
     expect(container.textContent).to.include('Hours per week: 40');
     expect(container.textContent).to.include('Employment dates: Jan 2022');
     expect(container.textContent).to.include('Dec 2023');
-    expect(container.textContent).to.include('Time lost from illness: 12 hours');
+    expect(container.textContent).to.include(
+      'Time lost from illness: 12 hours',
+    );
     expect(container.textContent).to.include(
       'Highest gross earnings per month: $4500',
     );

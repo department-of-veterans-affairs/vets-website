@@ -8,13 +8,11 @@ import {
 
 import { hospitalizationQuestionFields } from '../definitions/constants';
 
-
 const hospitalTypeOptions = [
   { value: 'nonVa', label: 'Non-VA Hospital' },
   { value: 'va', label: 'VA Hospital' },
   { value: 'both', label: 'Both VA and Non-VA Hospital' },
 ];
-
 
 /** @type {PageSchema} */
 export default {
@@ -37,7 +35,11 @@ export default {
           },
         }),
         'ui:options': {
-          hideIf: formData => formData && !formData[hospitalizationQuestionFields.parentObject][hospitalizationQuestionFields.hasBeenHospitalized],
+          hideIf: formData =>
+            formData &&
+            !formData[hospitalizationQuestionFields.parentObject][
+              hospitalizationQuestionFields.hasBeenHospitalized
+            ],
         },
       },
       'view:nonVAAuthorizationInfo': {
@@ -77,8 +79,10 @@ export default {
         showFieldLabel: true,
         /* classNames: 'confirmation-required-radio',*/
         updateSchema: (formData, schema, uiSchema, index, path) => {
-         
-          if (formData && !formData[hospitalizationQuestionFields.hasBeenHospitalized]) {
+          if (
+            formData &&
+            !formData[hospitalizationQuestionFields.hasBeenHospitalized]
+          ) {
             return {
               ...schema,
               properties: {
@@ -104,10 +108,9 @@ export default {
         properties: {
           [hospitalizationQuestionFields.hasBeenHospitalized]: yesNoSchema,
           hospitalType: {
-             type: 'string',
-        enum: hospitalTypeOptions.map(o => o.value),
-        enumNames: hospitalTypeOptions.map(o => o.label),
-
+            type: 'string',
+            enum: hospitalTypeOptions.map(o => o.value),
+            enumNames: hospitalTypeOptions.map(o => o.label),
           },
           'view:nonVAAuthorizationInfo': {
             type: 'object',

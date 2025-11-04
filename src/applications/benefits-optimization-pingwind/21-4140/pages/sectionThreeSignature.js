@@ -3,7 +3,6 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import {
   checkboxRequiredSchema,
   checkboxUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import { inlineTitleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';

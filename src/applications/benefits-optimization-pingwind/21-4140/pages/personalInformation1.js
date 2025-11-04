@@ -9,7 +9,6 @@ import {
   serviceNumberUI,
   ssnSchema,
   ssnUI,
-  titleUI,
   vaFileNumberSchema,
   vaFileNumberUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
@@ -23,10 +22,6 @@ import { getFullNameLabels } from '../helpers';
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
-      /* ...titleUI({
-        title: 'Basic Information',
-      }),*/
-
       ...inlineTitleUI('Basic Information'),
       'ui:description': () => (
         <div style={{ paddingTop: '2rem' }}>

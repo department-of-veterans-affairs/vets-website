@@ -158,12 +158,17 @@ const PreSectionOnePage = ({
           <a
             href="https://www.va.gov/get-help-from-accredited-representative/find-rep/"
             target="_blank"
+            rel="noreferrer"
           >
             VA accredited representative or Veteran Service Organization (VSO).
             It's free!
           </a>
           <br />
-          <a href="https://www.va.gov/find-forms/" target="_blank">
+          <a
+            href="https://www.va.gov/find-forms/"
+            target="_blank"
+            rel="noreferrer"
+          >
             Find a VA Form
           </a>
         </VaAlert>

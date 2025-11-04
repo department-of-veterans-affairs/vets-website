@@ -27,8 +27,6 @@ export default {
         customTitle: 'Your doctors',
         useDlWrap: true,
         keepInPageOnReview: true,
-        /*  showSave: true,
-        reviewMode: true,*/
         doNotScroll: true,
         confirmRemove: true,
         confirmRemoveDescription:
@@ -65,8 +63,6 @@ export default {
         customTitle: 'Your important treatment dates',
         useDlWrap: true,
         keepInPageOnReview: true,
-        /* showSave: true,
-        reviewMode: true,*/
         doNotScroll: true,
         confirmRemove: true,
         confirmRemoveDescription: 'Are you sure you want to remove this date?',

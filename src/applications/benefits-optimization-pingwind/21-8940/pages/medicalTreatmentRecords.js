@@ -1,5 +1,4 @@
 import React from 'react';
-import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import {
   titleUI,
   textUI,
@@ -128,10 +127,7 @@ const doctorInformationPage = {
       title: 'Doctor information',
       nounSingular: options.nounSingular,
     }),
-    /*...textUI(
-      '',
-      'Please provide information about the doctor who treated you. If you were not seen by a specific doctor, you can leave the doctor name field blank.',
-    ),*/
+
     [medicalTreatmentRecordsFields.doctorName]: textUI({
       title: 'Name of doctor (if applicable)',
       hint: 'Leave blank if you were not treated by a specific doctor',
@@ -200,9 +196,6 @@ const treatmentDatesPage = {
           'medical provider'}`,
     ),
 
-    /*  ...textUI(
-      'Please provide information about the hospital where you were treated. If you were not treated you do not need to add a date range. Maybe add up to two treatment dates, any additional dates should be added in Section 5 - Remarks under additional information',
-    ),*/
     treatmentDates: {
       'ui:options': {
         itemName: 'Treatment Date',
@@ -261,9 +254,7 @@ const hospitalizationDatesPage = {
           formData[medicalTreatmentRecordsFields.hospitalName] ||
           'medical provider'}`,
     ),
-    /* ...textUI(
-      'Please provide dates for your hospitalization. If you were not hospitalized then you do not need to add a date range. May add up to two treatment dates, any additional dates should be added in Section 5 - Remarks under additional information',
-    ),*/
+
     hospitalizationDates: {
       'ui:options': {
         itemName: 'Hospitalization Date',
