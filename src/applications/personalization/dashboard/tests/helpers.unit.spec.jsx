@@ -508,55 +508,279 @@ describe('profile helpers:', () => {
   });
 
   describe('presentableFormIDs', () => {
-    it('should format FEEDBACK_TOOL as "FEEDBACK TOOL"', () => {
-      expect(presentableFormIDs[VA_FORM_IDS.FEEDBACK_TOOL]).to.equal(
-        'FEEDBACK TOOL',
-      );
+    describe('branch: formID === VA_FORM_IDS.FEEDBACK_TOOL', () => {
+      it('should format FEEDBACK_TOOL as "FEEDBACK TOOL"', () => {
+        expect(presentableFormIDs[VA_FORM_IDS.FEEDBACK_TOOL]).to.equal(
+          'FEEDBACK TOOL',
+        );
+      });
     });
 
-    it('should format FORM_10_10EZ as "FORM 10-10EZ"', () => {
-      expect(presentableFormIDs[VA_FORM_IDS.FORM_10_10EZ]).to.equal(
-        'FORM 10-10EZ',
-      );
+    describe('branch: formID === VA_FORM_IDS.FORM_10_10EZ', () => {
+      it('should format FORM_10_10EZ as "FORM 10-10EZ"', () => {
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_10_10EZ]).to.equal(
+          'FORM 10-10EZ',
+        );
+      });
     });
 
-    it('should format FORM_21P_530EZ as "FORM 21P-530EZ"', () => {
-      expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_530EZ]).to.equal(
-        'FORM 21P-530EZ',
-      );
+    describe('branch: formID === VA_FORM_IDS.FORM_21P_530EZ (line 24)', () => {
+      it('should format FORM_21P_530EZ as "FORM 21P-530EZ"', () => {
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_530EZ]).to.equal(
+          'FORM 21P-530EZ',
+        );
+      });
     });
 
-    it('should format forms with "-UPLOAD" suffix by removing "-UPLOAD" and prefixing with "FORM"', () => {
-      expect(presentableFormIDs[VA_FORM_IDS.FORM_21_0779_UPLOAD]).to.equal(
-        'FORM 21-0779',
-      );
-      expect(presentableFormIDs[VA_FORM_IDS.FORM_21_4192_UPLOAD]).to.equal(
-        'FORM 21-4192',
-      );
-      expect(presentableFormIDs[VA_FORM_IDS.FORM_21_509_UPLOAD]).to.equal(
-        'FORM 21-509',
-      );
-      expect(presentableFormIDs[VA_FORM_IDS.FORM_21_686C_UPLOAD]).to.equal(
-        'FORM 21-686C',
-      );
-      expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_530A_UPLOAD]).to.equal(
-        'FORM 21P-530a',
-      );
+    describe('branch: formID.includes("-UPLOAD")', () => {
+      it('should format forms with "-UPLOAD" suffix by removing "-UPLOAD" and prefixing with "FORM"', () => {
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_0779_UPLOAD]).to.equal(
+          'FORM 21-0779',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_4192_UPLOAD]).to.equal(
+          'FORM 21-4192',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_509_UPLOAD]).to.equal(
+          'FORM 21-509',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_686C_UPLOAD]).to.equal(
+          'FORM 21-686C',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_530A_UPLOAD]).to.equal(
+          'FORM 21P-530a',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_4185_UPLOAD]).to.equal(
+          'FORM 21P-4185',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_651_UPLOAD]).to.equal(
+          'FORM 21-651',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_0304_UPLOAD]).to.equal(
+          'FORM 21-0304',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_8960_UPLOAD]).to.equal(
+          'FORM 21-8960',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_4706C_UPLOAD]).to.equal(
+          'FORM 21P-4706c',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_4140_UPLOAD]).to.equal(
+          'FORM 21-4140',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_4718A_UPLOAD]).to.equal(
+          'FORM 21P-4718a',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_4193_UPLOAD]).to.equal(
+          'FORM 21-4193',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_0788_UPLOAD]).to.equal(
+          'FORM 21-0788',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_8951_2_UPLOAD]).to.equal(
+          'FORM 21-8951-2',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_674B_UPLOAD]).to.equal(
+          'FORM 21-674b',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_2680_UPLOAD]).to.equal(
+          'FORM 21-2680',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_8940_UPLOAD]).to.equal(
+          'FORM 21-8940',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_0516_1_UPLOAD]).to.equal(
+          'FORM 21P-0516-1',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_0517_1_UPLOAD]).to.equal(
+          'FORM 21P-0517-1',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_0518_1_UPLOAD]).to.equal(
+          'FORM 21P-0518-1',
+        );
+        expect(
+          presentableFormIDs[VA_FORM_IDS.FORM_21P_0519C_1_UPLOAD],
+        ).to.equal('FORM 21P-0519C-1');
+        expect(
+          presentableFormIDs[VA_FORM_IDS.FORM_21P_0519S_1_UPLOAD],
+        ).to.equal('FORM 21P-0519S-1');
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_8049_UPLOAD]).to.equal(
+          'FORM 21P-8049',
+        );
+      });
     });
 
-    it('should format other forms by prefixing with "FORM"', () => {
-      expect(presentableFormIDs[VA_FORM_IDS.FORM_21_526EZ]).to.equal(
-        'FORM 21-526EZ',
-      );
-      expect(presentableFormIDs[VA_FORM_IDS.FORM_10_10D]).to.equal(
-        'FORM 10-10D',
-      );
-      expect(presentableFormIDs[VA_FORM_IDS.FORM_22_1990]).to.equal(
-        'FORM 22-1990',
-      );
-      expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_527EZ]).to.equal(
-        'FORM 21P-527EZ',
-      );
+    describe('else branch: default "FORM {formID}"', () => {
+      it('should format other forms by prefixing with "FORM"', () => {
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_526EZ]).to.equal(
+          'FORM 21-526EZ',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_10_10D]).to.equal(
+          'FORM 10-10D',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_22_1990]).to.equal(
+          'FORM 22-1990',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_527EZ]).to.equal(
+          'FORM 21P-527EZ',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_10_7959A]).to.equal(
+          'FORM 10-7959A',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_10_7959C]).to.equal(
+          'FORM 10-7959C',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_10_7959F_1]).to.equal(
+          'FORM 10-7959F-1',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_10_7959F_2]).to.equal(
+          'FORM 10-7959F-2',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_10182]).to.equal(
+          'FORM 10182',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_1330M]).to.equal(
+          'FORM 1330M',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_1330M2]).to.equal(
+          'FORM 1330M2',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_20_0995]).to.equal(
+          'FORM 20-0995',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_20_0996]).to.equal(
+          'FORM 20-0996',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_20_10206]).to.equal(
+          'FORM 20-10206',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_20_10207]).to.equal(
+          'FORM 20-10207',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_0845]).to.equal(
+          'FORM 21-0845',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_0966]).to.equal(
+          'FORM 21-0966',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_0972]).to.equal(
+          'FORM 21-0972',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_10210]).to.equal(
+          'FORM 21-10210',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_22]).to.equal(
+          'FORM 21-22',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_22A]).to.equal(
+          'FORM 21-22a',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_4142]).to.equal(
+          'FORM 21-4142',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_686C]).to.equal(
+          'FORM 686C-674',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_0847]).to.equal(
+          'FORM 21P-0847',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_22_0994]).to.equal(
+          'FORM 22-0994',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_22_10203]).to.equal(
+          'FORM 22-10203',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_22_10215]).to.equal(
+          'FORM 22-10215',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_22_10282]).to.equal(
+          'FORM 22-10282',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_22_1990EZ]).to.equal(
+          'FORM 22-1990EZ',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_22_1995]).to.equal(
+          'FORM 22-1995',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_26_1880]).to.equal(
+          'FORM 26-1880',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_26_4555]).to.equal(
+          'FORM 26-4555',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_27_8832]).to.equal(
+          'FORM 27-8832',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_28_1900]).to.equal(
+          'FORM 28-1900',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_28_8832]).to.equal(
+          'FORM 28-8832',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_40_0247]).to.equal(
+          'FORM 40-0247',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_40_10007]).to.equal(
+          'FORM 40-10007',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_5655]).to.equal('FORM 5655');
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_DISPUTE_DEBT]).to.equal(
+          'FORM DISPUTE-DEBT',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_VA_2346A]).to.equal(
+          'FORM MDOT',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_22_10216]).to.equal(
+          'FORM 22-10216',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_10_10D_EXTENDED]).to.equal(
+          'FORM 10-10D-EXTENDED',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_0538]).to.equal(
+          'FORM 21-0538',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_22_10297]).to.equal(
+          'FORM 22-10297',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_22_0839]).to.equal(
+          'FORM 22-0839',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_22_10275]).to.equal(
+          'FORM 22-10275',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_40_4962]).to.equal(
+          'FORM 40-4962',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_4140]).to.equal(
+          'FORM 21-4140',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_2680]).to.equal(
+          'FORM 21-2680',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_8940]).to.equal(
+          'FORM 21-8940',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_4192]).to.equal(
+          'FORM 21-4192',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_0779]).to.equal(
+          'FORM 21-0779',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_530A]).to.equal(
+          'FORM 21P-530A',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_0537]).to.equal(
+          'FORM 21P-0537',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_8416]).to.equal(
+          'FORM 21P-8416',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_534EZ]).to.equal(
+          'FORM 21P-534EZ',
+        );
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_601]).to.equal(
+          'FORM 21P-601',
+        );
+      });
     });
   });
 });
