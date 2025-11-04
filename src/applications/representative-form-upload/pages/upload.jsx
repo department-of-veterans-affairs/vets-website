@@ -80,7 +80,7 @@ export const uploadPage = {
         required: false,
         skipUpload: false,
         fileUploadUrl: `${baseURL}/upload_supporting_documents`,
-        // Disallow uploads greater than 25 MB
+        // Disallow uploads greater than 100 MB
         maxFileSize: 104857600, // 100MB in bytes
         accept: '.pdf,jpg,.jpeg,.png',
         errorMessages: { required: `Upload a completed VA Form ${formNumber}` },

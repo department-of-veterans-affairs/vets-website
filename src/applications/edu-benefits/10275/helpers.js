@@ -11,13 +11,10 @@ export const getFullName = fullName => {
   return [first, middle, last].filter(Boolean).join(' ');
 };
 export const getCardDescription = item => {
-  const poc = item?.previouslyEnteredPointOfContact;
-  const fullName = poc?.fullName || item?.fullName;
-
+  const poc = item?.pointOfContact;
+  const fullName = item?.fullName || poc?.fullName;
   let contactName = '';
-  if (typeof fullName === 'string') {
-    contactName = fullName;
-  } else if (fullName && typeof fullName === 'object') {
+  if (fullName && typeof fullName === 'object') {
     contactName = getFullName(fullName);
   } else if (item?.fullName && typeof item.fullName === 'object') {
     contactName = getFullName(item.fullName);
