@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useMemo } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
+import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
+import { saveAndRedirectToReturnUrl } from 'platform/forms/save-in-progress/actions';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { FINISH_APP_LATER_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
 import { useFormSection } from '@bio-aquia/shared/hooks';
+import StableSaveStatus from './stable-save-status';
 
 /**
  * Internal component that uses the form section hook.
@@ -216,10 +223,14 @@ PageTemplateBase.propTypes = {
 };
 
 /**
- * Generic form page template.
+ * Core form page template component (without save-in-progress UI or Redux).
  * Wraps any form content with consistent layout and navigation.
  * Provides form section logic without imposing business requirements.
  * Styled to match VA.gov form patterns.
+ *
+ * Use this in tests or when you need a PageTemplate without save-in-progress features.
+ * For production use, import PageTemplate (the default export) which includes
+ * save-in-progress UI automatically.
  *
  * @component
  * @param {Object} props - Component props
@@ -242,7 +253,7 @@ PageTemplateBase.propTypes = {
  * @param {Function} [props.updatePage] - Function to call when Update button is clicked (for review page)
  * @returns {JSX.Element} Form page with navigation
  */
-export const PageTemplate = ({
+export const PageTemplateCore = ({
   data,
   setFormData,
   goForward,
@@ -331,7 +342,7 @@ export const PageTemplate = ({
   );
 };
 
-PageTemplate.propTypes = {
+PageTemplateCore.propTypes = {
   data: PropTypes.object.isRequired,
   goForward: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
@@ -350,3 +361,179 @@ PageTemplate.propTypes = {
   updatePage: PropTypes.func,
   useFormSectionHook: PropTypes.bool,
 };
+
+/**
+ * PageTemplate with integrated save-in-progress UI.
+ * This is the main component to use for all form pages.
+ *
+ * Automatically includes:
+ * - Save-in-progress success/error alerts
+ * - "Finish this application later" link
+ * - All core PageTemplate functionality
+ *
+ * The save-in-progress UI automatically shows/hides based on user authentication
+ * and form configuration. Auto-save functionality is handled by the platform's
+ * RoutedSavableApp - this component only provides the UI elements.
+ *
+ * @component
+ * @param {Object} props - All PageTemplate props plus Redux-provided props
+ * @returns {JSX.Element} Form page with save-in-progress UI
+ */
+const PageTemplateComponent = ({
+  user,
+  form,
+  formConfig,
+  route,
+  location,
+  showLoginModal,
+  saveAndRedirectToReturnUrlAction,
+  toggleLoginModalAction,
+  data,
+  setFormData,
+  ...pageTemplateProps
+}) => {
+  const finishAppLaterMessage =
+    formConfig?.customText?.finishAppLaterMessage ||
+    FINISH_APP_LATER_DEFAULT_MESSAGE;
+
+  // Extract stable values from props
+  const isLoggedIn = user?.login?.currentlyLoggedIn;
+  const pathname = location?.pathname;
+
+  // NOTE: Auto-save is handled by the platform's RoutedSavableApp
+  // We only provide the SaveStatus alert and SaveFormLink here
+
+  // Memoize SaveFormLink - only re-render when necessary
+  const saveFormLinkElement = useMemo(
+    () => (
+      <SaveFormLink
+        locationPathname={pathname}
+        form={form}
+        formConfig={formConfig}
+        route={route}
+        user={user}
+        showLoginModal={showLoginModal}
+        saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrlAction}
+        toggleLoginModal={toggleLoginModalAction}
+      >
+        {finishAppLaterMessage}
+      </SaveFormLink>
+    ),
+    [
+      pathname,
+      form,
+      formConfig,
+      route,
+      user,
+      showLoginModal,
+      saveAndRedirectToReturnUrlAction,
+      toggleLoginModalAction,
+      finishAppLaterMessage,
+    ],
+  );
+
+  return (
+    <>
+      {/* Save success/error alert - shows at top of page */}
+      <StableSaveStatus
+        isLoggedIn={isLoggedIn}
+        showLoginModal={showLoginModal}
+        toggleLoginModal={toggleLoginModalAction}
+        form={form}
+        formConfig={formConfig}
+      />
+
+      {/* Main page content */}
+      <PageTemplateCore
+        data={data}
+        setFormData={setFormData}
+        {...pageTemplateProps}
+      />
+
+      {/* Finish this application later link - shows after navigation buttons */}
+      {saveFormLinkElement}
+    </>
+  );
+};
+
+PageTemplateComponent.propTypes = {
+  // PageTemplate props
+  data: PropTypes.object.isRequired,
+  goForward: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  className: PropTypes.string,
+  dataProcessor: PropTypes.func,
+  defaultData: PropTypes.object,
+  goBack: PropTypes.func,
+  hideNavigation: PropTypes.bool,
+  navigationProps: PropTypes.object,
+  onReviewPage: PropTypes.bool,
+  schema: PropTypes.object,
+  sectionName: PropTypes.string,
+  subtitle: PropTypes.string,
+  title: PropTypes.string,
+  updatePage: PropTypes.func,
+  useFormSectionHook: PropTypes.bool,
+
+  // Redux-provided props
+  form: PropTypes.object.isRequired,
+  saveAndRedirectToReturnUrlAction: PropTypes.func.isRequired,
+  toggleLoginModalAction: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  formConfig: PropTypes.object,
+  location: PropTypes.object,
+  route: PropTypes.object,
+  showLoginModal: PropTypes.bool,
+};
+
+/**
+ * Map Redux state to component props
+ * @param {Object} state - Redux state
+ * @returns {Object} Props mapped from Redux state
+ */
+const mapStateToProps = state => ({
+  form: state.form,
+  user: state.user,
+  showLoginModal: state.navigation?.showLoginModal,
+});
+
+const mapDispatchToProps = {
+  saveAndRedirectToReturnUrlAction: saveAndRedirectToReturnUrl,
+  toggleLoginModalAction: toggleLoginModal,
+};
+
+/**
+ * PageTemplate with save-in-progress features (Redux-connected version).
+ * Use this in production code when you want automatic save-in-progress UI.
+ *
+ * @example
+ * <PageTemplateWithSaveInProgress
+ *   data={data}
+ *   setFormData={setFormData}
+ *   goForward={goForward}
+ *   goBack={goBack}
+ *   formConfig={formConfig}
+ *   schema={schema}
+ *   sectionName="mySection"
+ * >
+ *   {children}
+ * </PageTemplateWithSaveInProgress>
+ */
+export const PageTemplateWithSaveInProgress = withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(PageTemplateComponent),
+);
+
+/**
+ * PageTemplate - Core version without save-in-progress.
+ * This is the main export for backward compatibility with existing tests.
+ *
+ * For production code that needs save-in-progress features,
+ * use PageTemplateWithSaveInProgress instead.
+ */
+export const PageTemplate = PageTemplateCore;
+
+export default PageTemplate;
