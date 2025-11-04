@@ -151,8 +151,10 @@ export const serviceBranchUI = options => {
     delete labels[key].group;
   });
 
+  const _title = title || 'Select your service branch';
+
   return {
-    'ui:title': title || 'Select your service branch',
+    'ui:title': _title,
     'ui:description': description,
     'ui:webComponentField': VaComboBoxField,
     'ui:required': required,
@@ -164,6 +166,10 @@ export const serviceBranchUI = options => {
       required: 'Select a branch',
       ...errorMessages,
     },
+    'ui:confirmationField': ({ formData }) => ({
+      data: formData.label,
+      label: _title,
+    }),
   };
 };
 
