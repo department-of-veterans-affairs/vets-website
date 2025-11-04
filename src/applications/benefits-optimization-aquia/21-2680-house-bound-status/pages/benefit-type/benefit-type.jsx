@@ -2,13 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { RadioField } from '@bio-aquia/shared/components/atoms';
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { PageTemplateWithSaveInProgress } from '@bio-aquia/shared/components/templates';
 
 import { BENEFIT_TYPES } from '@bio-aquia/21-2680-house-bound-status/constants';
 import {
   benefitTypePageSchema,
   benefitTypeSchema,
 } from '@bio-aquia/21-2680-house-bound-status/schemas';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 /**
  * Benefit Type Page
@@ -60,7 +61,7 @@ export const BenefitTypePage = ({
     : `Select which benefit ${formattedName} is applying for`;
 
   return (
-    <PageTemplate
+    <PageTemplateWithSaveInProgress
       title={questionText}
       data={migratedData}
       setFormData={setFormData}
@@ -70,6 +71,7 @@ export const BenefitTypePage = ({
       sectionName="benefitType"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+      formConfig={formConfig}
       defaultData={{}}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
@@ -112,7 +114,7 @@ export const BenefitTypePage = ({
           />
         </div>
       )}
-    </PageTemplate>
+    </PageTemplateWithSaveInProgress>
   );
 };
 

@@ -3,13 +3,14 @@ import React from 'react';
 
 import { MemorableDateField } from '@bio-aquia/shared/components/atoms';
 import { FullnameField } from '@bio-aquia/shared/components/molecules';
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { PageTemplateWithSaveInProgress } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
 import {
   claimantDOBSchema,
   claimantInformationPageSchema,
 } from '@bio-aquia/21-2680-house-bound-status/schemas';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 /**
  * Data processor to ensure date values are properly formatted strings
@@ -67,7 +68,7 @@ export const ClaimantInformationPage = ({
   };
 
   return (
-    <PageTemplate
+    <PageTemplateWithSaveInProgress
       data={migratedData}
       setFormData={setFormData}
       goForward={goForward}
@@ -77,6 +78,7 @@ export const ClaimantInformationPage = ({
       dataProcessor={ensureDateStrings}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+      formConfig={formConfig}
       defaultData={{
         claimantFullName: {
           first: '',
@@ -112,7 +114,7 @@ export const ClaimantInformationPage = ({
           />
         </>
       )}
-    </PageTemplate>
+    </PageTemplateWithSaveInProgress>
   );
 };
 

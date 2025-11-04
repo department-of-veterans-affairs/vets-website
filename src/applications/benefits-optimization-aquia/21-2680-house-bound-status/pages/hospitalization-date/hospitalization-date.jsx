@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { PageTemplateWithSaveInProgress } from '@bio-aquia/shared/components/templates';
 import { MemorableDateField } from '@bio-aquia/shared/components/atoms';
 import { transformDates } from '@bio-aquia/shared/forms';
 
@@ -9,6 +9,7 @@ import {
   hospitalizationDatePageSchema,
   admissionDateFieldSchema,
 } from '@bio-aquia/21-2680-house-bound-status/schemas';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 /**
  * Data processor to ensure date values are properly formatted strings
@@ -51,7 +52,7 @@ export const HospitalizationDatePage = ({
     : `When was ${formattedName} admitted to the hospital?`;
 
   return (
-    <PageTemplate
+    <PageTemplateWithSaveInProgress
       title={pageTitle}
       data={formDataToUse}
       setFormData={setFormData}
@@ -62,6 +63,7 @@ export const HospitalizationDatePage = ({
       dataProcessor={ensureDateStrings}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+      formConfig={formConfig}
       defaultData={{
         admissionDate: '',
       }}
@@ -80,7 +82,7 @@ export const HospitalizationDatePage = ({
           />
         </>
       )}
-    </PageTemplate>
+    </PageTemplateWithSaveInProgress>
   );
 };
 

@@ -2,12 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { RadioField } from '@bio-aquia/shared/components/atoms';
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { PageTemplateWithSaveInProgress } from '@bio-aquia/shared/components/templates';
 
 import {
   isCurrentlyHospitalizedSchema,
   hospitalizationStatusPageSchema,
 } from '@bio-aquia/21-2680-house-bound-status/schemas';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 /**
  * Hospitalization Status Page
@@ -43,7 +44,7 @@ export const HospitalizationStatusPage = ({
     : `Is ${formattedName} hospitalized?`;
 
   return (
-    <PageTemplate
+    <PageTemplateWithSaveInProgress
       title={pageTitle}
       data={formDataToUse}
       setFormData={setFormData}
@@ -53,6 +54,7 @@ export const HospitalizationStatusPage = ({
       sectionName="hospitalizationStatus"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+      formConfig={formConfig}
       defaultData={{}}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
@@ -79,7 +81,7 @@ export const HospitalizationStatusPage = ({
           />
         </>
       )}
-    </PageTemplate>
+    </PageTemplateWithSaveInProgress>
   );
 };
 

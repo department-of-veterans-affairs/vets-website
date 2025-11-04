@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { PageTemplateWithSaveInProgress } from '@bio-aquia/shared/components/templates';
 import { AddressField } from '@bio-aquia/shared/components/molecules';
 import { TextInputField } from '@bio-aquia/shared/components/atoms';
 
 import { hospitalizationFacilityPageSchema } from '@bio-aquia/21-2680-house-bound-status/schemas';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 /**
  * Hospitalization Facility Page
@@ -41,7 +42,7 @@ export const HospitalizationFacilityPage = ({
     : `What's the name and address of the hospital where ${formattedName} is admitted?`;
 
   return (
-    <PageTemplate
+    <PageTemplateWithSaveInProgress
       title={pageTitle}
       data={formDataToUse}
       setFormData={setFormData}
@@ -51,6 +52,7 @@ export const HospitalizationFacilityPage = ({
       sectionName="hospitalizationFacility"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+      formConfig={formConfig}
       defaultData={{
         facilityName: '',
         facilityAddress: {
@@ -113,7 +115,7 @@ export const HospitalizationFacilityPage = ({
           />
         </>
       )}
-    </PageTemplate>
+    </PageTemplateWithSaveInProgress>
   );
 };
 
