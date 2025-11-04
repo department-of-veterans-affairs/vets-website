@@ -3,9 +3,9 @@ import { rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
 
-// TODO: Unskip when complex claims routing has been setup
-describe.skip('Complex Claims Confirmation Page', () => {
+describe('Complex Claims Confirmation Page', () => {
   const appointmentId = '12345';
+  const claimId = '45678';
 
   beforeEach(() => {
     cy.clock(new Date(2025, 0, 15), ['Date']);
@@ -20,7 +20,9 @@ describe.skip('Complex Claims Confirmation Page', () => {
   });
 
   it('displays confirmation page with success alert', () => {
-    cy.visit(`${rootUrl}/file-new-claim/complex/${appointmentId}`);
+    cy.visit(
+      `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/confirmation`,
+    );
     cy.injectAxeThenAxeCheck();
 
     // Check main heading
@@ -43,7 +45,9 @@ describe.skip('Complex Claims Confirmation Page', () => {
   });
 
   it('displays appointment details in success alert', () => {
-    cy.visit(`${rootUrl}/file-new-claim/complex/${appointmentId}`);
+    cy.visit(
+      `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/confirmation`,
+    );
 
     // Check appointment details in the success alert
     cy.get('va-alert[status="success"]').should(
@@ -53,7 +57,9 @@ describe.skip('Complex Claims Confirmation Page', () => {
   });
 
   it('has functional print button', () => {
-    cy.visit(`${rootUrl}/file-new-claim/complex/${appointmentId}`);
+    cy.visit(
+      `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/confirmation`,
+    );
 
     // Check print section
     cy.get('h2').should('contain.text', 'Print this confirmation page');
@@ -71,7 +77,9 @@ describe.skip('Complex Claims Confirmation Page', () => {
   });
 
   it('displays what happens next section with process list', () => {
-    cy.visit(`${rootUrl}/file-new-claim/complex/${appointmentId}`);
+    cy.visit(
+      `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/confirmation`,
+    );
 
     // Check "What happens next" section
     cy.get('h2').should('contain.text', 'What happens next');
@@ -106,7 +114,9 @@ describe.skip('Complex Claims Confirmation Page', () => {
   });
 
   it('has submit another claim link action', () => {
-    cy.visit(`${rootUrl}/file-new-claim/complex/${appointmentId}`);
+    cy.visit(
+      `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/confirmation`,
+    );
 
     // Check link action for submitting another claim
     cy.get(
@@ -115,7 +125,9 @@ describe.skip('Complex Claims Confirmation Page', () => {
   });
 
   it('displays contact information section', () => {
-    cy.visit(`${rootUrl}/file-new-claim/complex/${appointmentId}`);
+    cy.visit(
+      `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/confirmation`,
+    );
 
     // Check contact section heading
     cy.get('h2').should(
@@ -141,7 +153,10 @@ describe.skip('Complex Claims Confirmation Page', () => {
 
   it('handles different appointment IDs in URL', () => {
     const differentApptId = '98765';
-    cy.visit(`${rootUrl}/file-new-claim/complex/${differentApptId}`);
+    const differentClaimId = 'claim-11111';
+    cy.visit(
+      `${rootUrl}/file-new-claim/${differentApptId}/${differentClaimId}/confirmation`,
+    );
 
     // Verify back link uses the correct appointment ID
     cy.get('va-link[back][data-testid="complex-claim-back-link"]')
@@ -152,7 +167,9 @@ describe.skip('Complex Claims Confirmation Page', () => {
   describe('responsive behavior', () => {
     it('displays correctly on mobile viewport', () => {
       cy.viewport('iphone-6');
-      cy.visit(`${rootUrl}/file-new-claim/complex/${appointmentId}`);
+      cy.visit(
+        `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/confirmation`,
+      );
 
       // Check that content is still accessible on mobile
       cy.get('h1').should('be.visible');
@@ -164,7 +181,9 @@ describe.skip('Complex Claims Confirmation Page', () => {
 
     it('displays correctly on tablet viewport', () => {
       cy.viewport('ipad-2');
-      cy.visit(`${rootUrl}/file-new-claim/complex/${appointmentId}`);
+      cy.visit(
+        `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/confirmation`,
+      );
 
       // Check layout on tablet
       cy.get('.vads-l-col--12.medium-screen\\:vads-l-col--8').should(

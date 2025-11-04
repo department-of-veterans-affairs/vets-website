@@ -13,8 +13,11 @@ import ReviewPage from '../../../../components/complex-claims/pages/ReviewPage';
 import reducer from '../../../../redux/reducer';
 
 describe('Travel Pay – ReviewPage', () => {
+  const apptId = '12345';
+  const claimId = '45678';
+
   const defaultClaim = {
-    claimId: '12345',
+    claimId,
     totalCostRequested: 100.25,
     expenses: [
       {
@@ -61,7 +64,9 @@ describe('Travel Pay – ReviewPage', () => {
 
   it('renders the review page with expenses, alert, buttons, and summary box', () => {
     const { getByTestId, getByRole, container } = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
         <ReviewPage claim={defaultClaim} />
       </MemoryRouter>,
       {
@@ -107,10 +112,12 @@ describe('Travel Pay – ReviewPage', () => {
 
   it('calls signAgreement when Sign Agreement button is clicked', () => {
     const { container, getByTestId } = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/review"
+            path="/file-new-claim/:apptId/:claimId/review"
             element={<ReviewPage claim={defaultClaim} />}
           />
         </Routes>
@@ -130,13 +137,15 @@ describe('Travel Pay – ReviewPage', () => {
 
     // Check that the location updated
     expect(getByTestId('location-display').textContent).to.equal(
-      '/file-new-claim/complex/12345/travel-agreement',
+      `/file-new-claim/${apptId}/${claimId}/travel-agreement`,
     );
   });
 
   it('hides alert when close button is clicked', () => {
     const { getByTestId } = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
         <ReviewPage claim={defaultClaim} />
       </MemoryRouter>,
       {
@@ -158,7 +167,9 @@ describe('Travel Pay – ReviewPage', () => {
 
   it('renders multiple expenses correctly', () => {
     const { container } = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
         <ReviewPage claim={defaultClaim} />
       </MemoryRouter>,
       {
@@ -192,7 +203,7 @@ describe('Travel Pay – ReviewPage', () => {
     };
 
     const { getByText } = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/file-new-claim/complex/67890/review']}>
+      <MemoryRouter initialEntries={['/file-new-claim/12345/67890/review']}>
         <ReviewPage claim={emptyClaim} />
       </MemoryRouter>,
       {
@@ -210,10 +221,12 @@ describe('Travel Pay – ReviewPage', () => {
 
   it('calls addMoreExpenses when Add More Expenses button is clicked', () => {
     const { container, getByTestId } = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/review"
+            path="/file-new-claim/:apptId/:claimId/review"
             element={<ReviewPage claim={defaultClaim} />}
           />
         </Routes>
@@ -233,16 +246,16 @@ describe('Travel Pay – ReviewPage', () => {
 
     // Check that the location updated
     expect(getByTestId('location-display').textContent).to.equal(
-      '/file-new-claim/complex/12345/choose-expense',
+      `/file-new-claim/${apptId}/${claimId}/choose-expense`,
     );
   });
 
   it('renders "Add another" buttons for non-mileage expense types', () => {
     const { container, getByTestId } = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
+      <MemoryRouter initialEntries={['/file-new-claim/12345/45678/review']}>
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/review"
+            path="/file-new-claim/:apptId/:claimId/review"
             element={<ReviewPage claim={defaultClaim} />}
           />
         </Routes>
@@ -261,7 +274,7 @@ describe('Travel Pay – ReviewPage', () => {
 
     // Check that the location updated
     expect(getByTestId('location-display').textContent).to.equal(
-      '/file-new-claim/complex/12345/parking',
+      '/file-new-claim/12345/45678/parking',
     );
   });
 });

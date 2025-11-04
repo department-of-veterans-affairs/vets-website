@@ -9,7 +9,7 @@ import {
 
 const Mileage = () => {
   const navigate = useNavigate();
-  const { apptId } = useParams();
+  const { apptId, claimId } = useParams();
 
   // TODO: Remove placeholder data
   const address = {
@@ -51,12 +51,12 @@ const Mileage = () => {
       // eslint-disable-next-line no-console
       console.log('Special case detected - would redirect to different page');
     } else {
-      navigate(`/file-new-claim/complex/${apptId}/review`);
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     }
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/complex/${apptId}/choose-expense`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
   };
 
   return (

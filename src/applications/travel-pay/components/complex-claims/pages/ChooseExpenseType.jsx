@@ -7,7 +7,7 @@ import {
 
 const ChooseExpenseType = () => {
   const navigate = useNavigate();
-  const { apptId } = useParams();
+  const { apptId, claimId } = useParams();
   const [selectedExpenseType, setSelectedExpenseType] = useState('');
   const [showError, setShowError] = useState(false);
 
@@ -39,7 +39,7 @@ const ChooseExpenseType = () => {
 
     setShowError(false);
     if (selectedExpenseType === 'mileage') {
-      navigate(`/file-new-claim/complex/${apptId}/mileage`);
+      navigate(`/file-new-claim/${apptId}/${claimId}/mileage`);
     } else {
       // For other expense types, navigate to appropriate pages when they're created
       // TODO: Add navigation for other expense types
@@ -47,7 +47,7 @@ const ChooseExpenseType = () => {
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/complex/${apptId}`);
+    navigate(`/file-new-claim/${apptId}`);
   };
 
   return (

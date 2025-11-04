@@ -11,14 +11,14 @@ import reducer from '../../../../redux/reducer';
 describe('ChooseExpenseType', () => {
   const defaultApptId = '12345';
 
-  const renderComponent = (apptId = defaultApptId) => {
+  const renderComponent = (apptId = defaultApptId, claimId = 'claim123') => {
     return renderWithStoreAndRouter(
       <MemoryRouter
-        initialEntries={[`/file-new-claim/complex/${apptId}/expense-type`]}
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/choose-expense`]}
       >
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/expense-type"
+            path="/file-new-claim/:apptId/:claimId/choose-expense"
             element={<ChooseExpenseType />}
           />
         </Routes>
@@ -246,7 +246,7 @@ describe('ChooseExpenseType', () => {
       Object.defineProperty(window, 'location', {
         value: {
           ...originalLocation,
-          pathname: '/file-new-claim/complex/12345/expense-type',
+          pathname: '/file-new-claim/12345/claim123/choose-expense',
         },
         writable: true,
       });
@@ -261,7 +261,7 @@ describe('ChooseExpenseType', () => {
 
       // Should still be on the same page (no navigation occurred)
       expect(window.location.pathname).to.equal(
-        '/file-new-claim/complex/12345/expense-type',
+        '/file-new-claim/12345/claim123/choose-expense',
       );
 
       // Restore original location

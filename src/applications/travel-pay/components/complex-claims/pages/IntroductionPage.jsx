@@ -30,8 +30,11 @@ const IntroductionPage = ({ appointment }) => {
   const navigate = useNavigate();
   const apptId = overriddenAppointment.id;
   const createClaim = () => {
-    navigate(`/file-new-claim/complex/${apptId}/choose-expense`);
-    // TODO Add logic to add a claim here
+    // TODO: Add logic to add a claim here
+    // Hardcoded claim ID in the meantime
+    const claimId = '45678';
+
+    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
   };
 
   return (
