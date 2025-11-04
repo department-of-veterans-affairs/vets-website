@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   VaTextInput,
   VaCheckbox,
@@ -16,7 +16,17 @@ export default function EligibleIndividualsField({
   childrenProps,
 }) {
   const { formData = {}, onChange } = childrenProps || {};
-  const [shouldShowTextFields, setShouldShowTextFields] = useState(true);
+  const [shouldShowTextFields, setShouldShowTextFields] = useState(
+    !formData.unlimitedIndividuals,
+  );
+
+  useEffect(
+    () => {
+      setShouldShowTextFields(!formData.unlimitedIndividuals);
+    },
+    [formData.unlimitedIndividuals],
+  );
+
   const handleTextInputChange = event => {
     const { value } = event.target;
     const newFormData = {

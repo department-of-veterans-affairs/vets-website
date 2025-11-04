@@ -299,13 +299,6 @@ Provider notes: ${vital.notes}\n\n`,
           )}
 
           {downloadStarted && <DownloadSuccessAlert />}
-          <PrintDownload
-            description={ddDisplayName}
-            downloadPdf={generateVitalsPdf}
-            downloadTxt={generateVitalsTxt}
-            list
-          />
-          <DownloadingRecordsInfo description={ddDisplayName} />
 
           <HeaderSection
             header={`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
@@ -435,6 +428,14 @@ Provider notes: ${vital.notes}\n\n`,
               </li>
             ))}
         </ul>
+        <DownloadingRecordsInfo description={ddDisplayName} />
+        <PrintDownload
+          description={ddDisplayName}
+          downloadPdf={generateVitalsPdf}
+          downloadTxt={generateVitalsTxt}
+          list
+        />
+        <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
         {/* print view end */}
       </>
     );

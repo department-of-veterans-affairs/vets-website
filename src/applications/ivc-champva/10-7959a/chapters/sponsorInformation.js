@@ -3,7 +3,6 @@ import {
   fullNameUI,
   fullNameSchema,
   titleUI,
-  titleSchema,
   addressUI,
   addressSchema,
   phoneUI,
@@ -16,6 +15,8 @@ import {
   validObjectCharsOnly,
 } from '../../shared/validations';
 import VeteranNameDescription from '../components/FormDescriptions/VeteranNameDescription';
+import { personalizeTitleByRole } from '../utils/helpers';
+import content from '../locales/en/content.json';
 
 export const blankSchema = { type: 'object', properties: {} };
 
@@ -24,10 +25,14 @@ fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 
 export const sponsorNameSchema = {
   uiSchema: {
-    ...titleUI(({ formData }) => {
-      const isSponsor = formData?.certifierRole === 'sponsor';
-      return `${isSponsor ? 'Your' : 'Veteran’s'} name`;
-    }, VeteranNameDescription),
+    ...titleUI(
+      ({ formData }) =>
+        personalizeTitleByRole(formData, content['page-title--name'], {
+          matchRole: 'sponsor',
+          other: content['noun--veteran-possessive'],
+        }),
+      VeteranNameDescription,
+    ),
     sponsorName: fullNameMiddleInitialUI,
     'ui:validations': [
       (errors, formData) =>
@@ -37,7 +42,6 @@ export const sponsorNameSchema = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
       sponsorName: fullNameSchema,
     },
   },
@@ -46,13 +50,12 @@ export const sponsorNameSchema = {
 export const sponsorAddressSchema = {
   uiSchema: {
     ...titleUI(
-      'Your mailing address',
-      'We’ll send any important information about this claim to this address.',
+      content['veteran--mailing-address-title'],
+      content['veteran--mailing-address-desc'],
     ),
     sponsorAddress: addressUI({
       labels: {
-        militaryCheckbox:
-          'Address is on military base outside of the United States.',
+        militaryCheckbox: content['form-label--address-military'],
       },
     }),
     'ui:validations': [
@@ -63,7 +66,6 @@ export const sponsorAddressSchema = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
       sponsorAddress: addressSchema({ omit: ['street3'] }),
     },
   },
@@ -72,8 +74,8 @@ export const sponsorAddressSchema = {
 export const sponsorContactSchema = {
   uiSchema: {
     ...titleUI(
-      'Your phone number',
-      'We may contact you if we have more questions about this claim.',
+      content['veteran--contact-info-title'],
+      content['veteran--contact-info-desc'],
     ),
     sponsorPhone: phoneUI(),
     sponsorEmail: emailUI(),
@@ -82,7 +84,6 @@ export const sponsorContactSchema = {
     type: 'object',
     required: ['sponsorPhone', 'sponsorEmail'],
     properties: {
-      titleSchema,
       sponsorPhone: phoneSchema,
       sponsorEmail: emailSchema,
     },

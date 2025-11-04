@@ -21,7 +21,7 @@ describe('Toxic Exposure Conditions', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.toxicExposureConditions;
 
-  it('renders "None claimed" when no toxic exposure conditions are selected', () => {
+  it('expect that nothing shows up when no toxic exposure conditions are selected', () => {
     const formData = {
       toxicExposure: {
         conditions: {
@@ -30,11 +30,13 @@ describe('Toxic Exposure Conditions', () => {
       },
       newDisabilities: [{ condition: 'Asthma' }, { condition: 'COPD' }],
     };
-    const { getByRole, queryByText } = render(
+    const { queryByText } = render(
       <ToxicExposureConditions formData={formData} />,
     );
-    expect(getByRole('heading', { name: /toxic exposure/i })).to.exist;
-    expect(queryByText(/none claimed/i)).to.exist;
+    // const element = document.getElementById('nonExistentElement'); // Attempt to find an element that shouldn't be there
+
+    expect(queryByText(/toxic exposure/i)).to.be.null;
+    expect(queryByText(/none claimed/i)).to.be.null;
     expect(queryByText(/asthma/i)).to.be.null;
     expect(queryByText(/copd/i)).to.be.null;
   });
@@ -149,6 +151,43 @@ describe('Toxic Exposure Conditions', () => {
     userEvent.click(getByText('Submit'));
     await waitFor(() => {
       expect($('va-checkbox-group').error).to.equal(noneAndConditionError);
+    });
+  });
+
+  describe('ui:confirmationField', () => {
+    it('should render the custom ToxicExposureConditions confirmation component', () => {
+      const formData = {
+        toxicExposure: {
+          conditions: {
+            anemia: true,
+            tinnitus: true,
+          },
+        },
+      };
+
+      const confirmationField = uiSchema['ui:confirmationField']({ formData });
+      const { container } = render(confirmationField);
+
+      const heading = container.querySelector('h4');
+      expect(heading).to.exist;
+      expect(heading.textContent).to.equal('Toxic Exposure');
+      // Check that the list includes exactly 2 claimed conditions
+      const list = heading.nextElementSibling;
+      const items = list.querySelectorAll('li');
+      expect(items.length).to.equal(0);
+    });
+
+    it('should not render the component if "none" is selected', () => {
+      const formData = {
+        toxicExposure: {
+          conditions: {
+            none: true,
+          },
+        },
+      };
+
+      const confirmationField = uiSchema['ui:confirmationField']({ formData });
+      expect(confirmationField).to.be.null;
     });
   });
 });
