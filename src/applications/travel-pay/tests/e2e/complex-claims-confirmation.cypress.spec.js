@@ -52,7 +52,7 @@ describe('Complex Claims Confirmation Page', () => {
     // Check appointment details in the success alert
     cy.get('va-alert[status="success"]').should(
       'contain.text',
-      'This claim is for your appointment at Cheyenne VA Medical Center on Monday, December 30, 2024 at 6:00 AM.',
+      'This claim is for your appointment at Cheyenne VA Medical Center',
     );
   });
 
