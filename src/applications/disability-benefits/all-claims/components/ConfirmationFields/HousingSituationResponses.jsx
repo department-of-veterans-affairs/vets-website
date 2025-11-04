@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import { capitalizeEachWord } from '../../utils';
 
 const HousingSituationResponses = ({ formData }) => {
-  // homelessOrAtRisk - "homeless" as a string
-  // homelessnessContact {name: "string, phoneNumber: "string"}
-  // view:isHomeless {homelessHousingSituation: "string", otherHomelessHousing: "string", needToLeaveHousing: boolean}
-  // view:isAtRisk {atRiskHousingSituation: "string", otherAtRiskHousing: "string"}
   // Determine if the user is homeless or at risk
   const isHomeless = formData.homelessOrAtRisk === 'homeless';
   const isAtRisk = formData.homelessOrAtRisk === 'atRisk';
