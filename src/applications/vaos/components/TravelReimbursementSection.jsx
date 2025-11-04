@@ -81,9 +81,9 @@ export default function TravelReimbursementSection({ appointment }) {
             }`;
           }}
           onSecondaryButtonClick={() => setShowModal(false)}
-          modalTitle="Filing after 30 days"
+          modalTitle="Your appointment happened more than 30 days ago"
           primaryButtonText="Yes, I want to file"
-          secondaryButtonText="No, cancel filing"
+          secondaryButtonText="Don’t file"
           status="warning"
           uswds
         >
