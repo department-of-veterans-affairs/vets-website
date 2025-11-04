@@ -1,5 +1,11 @@
 import React from 'react';
-import { isBefore, isAfter, isEqual, parseISO } from 'date-fns';
+import {
+  isBefore,
+  isAfter,
+  isEqual,
+  parseISO,
+  differenceInDays,
+} from 'date-fns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
@@ -178,3 +184,15 @@ export async function addStyleToShadowDomOnPages(
 export const isYes = val =>
   val === true ||
   (typeof val === 'string' && val.toLowerCase().startsWith('y'));
+
+/**
+ * Calculates the duration in days between two dates
+ *
+ * @export
+ * @param {string} startDate - The start date in ISO format (YYYY-MM-DD)
+ * @param {string} endDate - The end date in ISO format (YYYY-MM-DD)
+ * @return {number} The duration in days between the two dates
+ */
+export const durationInDays = (startDate, endDate) => {
+  return differenceInDays(new Date(endDate), new Date(startDate));
+};

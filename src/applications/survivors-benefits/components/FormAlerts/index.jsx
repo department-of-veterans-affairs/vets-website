@@ -44,8 +44,8 @@ const RequestFormAlert = ({
     </p>
     <p>{children}</p>
     <p>
-      We’ll ask you to upload this form at the end of this application. Or you
-      can send it to us by mail.
+      We’ll ask you to upload this document at the end of this application. Or
+      you can send it to us by mail.
     </p>
     <p>
       <va-link href={formLink} external text={`Get ${formName} to download`} />
@@ -138,3 +138,16 @@ UnauthenticatedWarningAlert.propTypes = {
   isLoggedIn: PropTypes.bool,
   toggleLoginModal: PropTypes.func,
 };
+
+export const handleAlertMaxItems = () => (
+  <div>
+    You have added the maximum number of allowed previous marriages for this
+    application. Additional marriages can be added using VA Form 21-4138 and
+    uploaded at the end of this application.
+    <va-link
+      href="/find-forms/about-form-21-4138/"
+      external
+      text="Get VA Form 21-4138 to download"
+    />
+  </div>
+);
