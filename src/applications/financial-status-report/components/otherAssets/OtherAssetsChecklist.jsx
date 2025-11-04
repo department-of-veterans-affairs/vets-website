@@ -13,7 +13,7 @@ const OtherAssetsChecklist = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
-  props,
+  useWebComponents,
 }) => {
   const {
     assets,
@@ -80,7 +80,7 @@ const OtherAssetsChecklist = ({
             goBack={goBack}
             goForward={goForward}
             submitToContinue
-            useWebComponents={props.formOptions?.useWebComponentForNavigation}
+            useWebComponents={useWebComponents}
           />
           {contentAfterButtons}
         </div>

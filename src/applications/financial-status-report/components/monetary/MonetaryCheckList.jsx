@@ -14,7 +14,7 @@ const MonetaryCheckList = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
-  props,
+  useWebComponents,
 }) => {
   const {
     assets,
@@ -95,7 +95,7 @@ const MonetaryCheckList = ({
           goBack={handleBackNavigation}
           goForward={goForward}
           submitToContinue
-          useWebComponents={props.formOptions?.useWebComponentForNavigation}
+          useWebComponents={useWebComponents}
         />
         {contentAfterButtons}
       </fieldset>
