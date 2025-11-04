@@ -6,8 +6,8 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import {
   EVIDENCE_VA_DETAILS_URL,
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
+  HAS_VA_EVIDENCE,
+  HAS_PRIVATE_EVIDENCE,
 } from '../constants';
 
 import {
@@ -40,7 +40,7 @@ const EvidencePrivateRequest = ({
       const val = event.detail.value === 'y';
       setFormData({
         ...data,
-        [EVIDENCE_PRIVATE]: val,
+        [HAS_PRIVATE_EVIDENCE]: val,
       });
       setError(null);
       recordEvent({
@@ -51,7 +51,7 @@ const EvidencePrivateRequest = ({
       });
     },
     onGoBack: () => {
-      if (data[EVIDENCE_VA]) {
+      if (data[HAS_VA_EVIDENCE]) {
         // go to last VA location entry, but only if they requested it
         goToPath(`/${EVIDENCE_VA_DETAILS_URL}?index=${locations.length - 1}`);
       } else {
@@ -60,7 +60,7 @@ const EvidencePrivateRequest = ({
       }
     },
     onGoForward: () => {
-      if (typeof data[EVIDENCE_PRIVATE] === 'undefined') {
+      if (typeof data[HAS_PRIVATE_EVIDENCE] === 'undefined') {
         setError(errorMessages.requiredYesNo);
         setTimeout(focusFirstError);
       } else {
@@ -84,14 +84,14 @@ const EvidencePrivateRequest = ({
           label="Yes"
           name="private"
           value="y"
-          checked={data[EVIDENCE_PRIVATE]}
+          checked={data[HAS_PRIVATE_EVIDENCE]}
           description={privateRecordsRadioDescription.yes}
         />
         <va-radio-option
           label="No"
           name="private"
           value="n"
-          checked={data[EVIDENCE_PRIVATE] === false}
+          checked={data[HAS_PRIVATE_EVIDENCE] === false}
           description={privateRecordsRadioDescription.no}
         />
       </VaRadio>

@@ -1,4 +1,4 @@
-import { EVIDENCE_PRIVATE } from '../constants';
+import { HAS_PRIVATE_EVIDENCE } from '../constants';
 
 import {
   validatePrivateName,
@@ -145,7 +145,7 @@ export default {
     oneOf: [
       {
         properties: {
-          [EVIDENCE_PRIVATE]: {
+          [HAS_PRIVATE_EVIDENCE]: {
             type: 'boolean',
             enum: [true],
           },
@@ -157,7 +157,7 @@ export default {
       },
       {
         properties: {
-          [EVIDENCE_PRIVATE]: {
+          [HAS_PRIVATE_EVIDENCE]: {
             type: 'boolean',
             enum: [false],
           },

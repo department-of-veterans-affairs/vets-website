@@ -4,11 +4,11 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { content } from '../content/limitedConsent';
 import { isOnReviewPage } from '../../shared/utils/helpers';
-import { LIMITED_CONSENT_RESPONSE } from '../constants';
+import { HAS_PRIVATE_LIMITATION } from '../constants';
 
 export default {
   uiSchema: {
-    [LIMITED_CONSENT_RESPONSE]: yesNoUI({
+    [HAS_PRIVATE_LIMITATION]: yesNoUI({
       title: content.promptQuestion,
       enableAnalytics: true,
       labelHeaderLevel: '3',
@@ -30,7 +30,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      [LIMITED_CONSENT_RESPONSE]: yesNoSchema,
+      [HAS_PRIVATE_LIMITATION]: yesNoSchema,
       'view:evidenceLimitInfo': {
         type: 'object',
         properties: {},

@@ -12,7 +12,7 @@ import {
   EVIDENCE_VA_DETAILS_URL,
   EVIDENCE_PRIVATE_PROMPT_URL,
   EVIDENCE_PRIVATE_DETAILS_URL,
-  EVIDENCE_PRIVATE,
+  HAS_PRIVATE_EVIDENCE,
   EVIDENCE_UPLOAD_URL,
 } from '../constants';
 import {
@@ -260,7 +260,7 @@ export const pageHooks = {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(data => {
-        const hasPrivate = data[EVIDENCE_PRIVATE];
+        const hasPrivate = data[HAS_PRIVATE_EVIDENCE];
 
         cy.get(`va-radio-option[value="${hasPrivate ? 'y' : 'n'}"]`).click();
         clickContinue();

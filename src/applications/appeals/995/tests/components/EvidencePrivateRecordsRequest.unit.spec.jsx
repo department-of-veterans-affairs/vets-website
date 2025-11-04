@@ -11,8 +11,8 @@ import {
 import EvidencePrivateRecordsRequest from '../../components/EvidencePrivateRecordsRequest';
 import { privateRecordsRequestTitle } from '../../content/evidencePrivateRecordsRequest';
 import {
-  EVIDENCE_PRIVATE,
-  EVIDENCE_VA,
+  HAS_PRIVATE_EVIDENCE,
+  HAS_VA_EVIDENCE,
   EVIDENCE_VA_DETAILS_URL,
 } from '../../constants';
 import errorMessages from '../../../shared/content/errorMessages';
@@ -66,7 +66,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
 
   it('should submit page', () => {
     const goSpy = sinon.spy();
-    const data = { [EVIDENCE_PRIVATE]: true };
+    const data = { [HAS_PRIVATE_EVIDENCE]: true };
     const { container } = render(
       <div>
         <EvidencePrivateRecordsRequest data={data} goForward={goSpy} />
@@ -81,7 +81,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
 
   it('should allow setting va-radio-option', () => {
     const setFormDataSpy = sinon.spy();
-    const data = { [EVIDENCE_PRIVATE]: true };
+    const data = { [HAS_PRIVATE_EVIDENCE]: true };
     const changeEvent = new MouseEvent('vaValueChange', {
       detail: { value: 'n' },
     });
@@ -95,12 +95,13 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     );
 
     fireEvent($('va-radio', container), changeEvent);
-    expect(setFormDataSpy.calledWith({ [EVIDENCE_PRIVATE]: false })).to.be.true;
+    expect(setFormDataSpy.calledWith({ [HAS_PRIVATE_EVIDENCE]: false })).to.be
+      .true;
   });
 
   it('should call goBack to get to the VA record request page', () => {
     const goSpy = sinon.spy();
-    const data = { [EVIDENCE_VA]: false };
+    const data = { [HAS_VA_EVIDENCE]: false };
     const { container } = render(
       <div>
         <EvidencePrivateRecordsRequest data={data} goBack={goSpy} />
@@ -113,7 +114,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
 
   it('should call goToPath to go to the last VA record location page', () => {
     const goSpy = sinon.spy();
-    const data = { [EVIDENCE_VA]: true, locations: [{}, {}] };
+    const data = { [HAS_VA_EVIDENCE]: true, locations: [{}, {}] };
     const { container } = render(
       <div>
         <EvidencePrivateRecordsRequest data={data} goToPath={goSpy} />

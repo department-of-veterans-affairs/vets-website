@@ -11,7 +11,7 @@ import * as focusUtils from '~/platform/utilities/ui/focus';
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
 import {
   errorMessages,
-  EVIDENCE_VA,
+  HAS_VA_EVIDENCE,
   EVIDENCE_VA_DETAILS_URL,
   NO_ISSUES_SELECTED,
 } from '../../constants';
@@ -139,7 +139,7 @@ describe('EvidenceVaRecords', () => {
       setFormData: setDataSpy,
       data: {
         ...mockData,
-        [EVIDENCE_VA]: true,
+        [HAS_VA_EVIDENCE]: true,
         locations: [{ ...vaLocations[0], issues: [] }],
       },
     });
@@ -160,7 +160,7 @@ describe('EvidenceVaRecords', () => {
       setFormData: setDataSpy,
       data: {
         ...mockData,
-        [EVIDENCE_VA]: true,
+        [HAS_VA_EVIDENCE]: true,
         locations: [vaLocations[1]],
       },
     });
@@ -185,7 +185,7 @@ describe('EvidenceVaRecords', () => {
       const goSpy = sinon.spy();
       const data = {
         ...mockData,
-        [EVIDENCE_VA]: true,
+        [HAS_VA_EVIDENCE]: true,
         locations: [vaLocations[0]],
       };
 
@@ -209,7 +209,7 @@ describe('EvidenceVaRecords', () => {
       const goSpy = sinon.spy();
       const data = {
         ...mockData,
-        [EVIDENCE_VA]: true,
+        [HAS_VA_EVIDENCE]: true,
         locations: [vaLocations[1]],
       };
 
@@ -275,7 +275,7 @@ describe('EvidenceVaRecords', () => {
       const goSpy = sinon.spy();
       const data = {
         ...mockData,
-        [EVIDENCE_VA]: true,
+        [HAS_VA_EVIDENCE]: true,
         locations: [vaLocations[0], {}, vaLocations[1]],
       };
 
@@ -302,7 +302,7 @@ describe('EvidenceVaRecords', () => {
     it('should navigate from zero index, with valid data, to next index when inserting another entry', async () => {
       const goSpy = sinon.spy();
       const locations = [vaLocations[0], vaLocations[1], {}];
-      const data = { ...mockData, [EVIDENCE_VA]: true, locations };
+      const data = { ...mockData, [HAS_VA_EVIDENCE]: true, locations };
       const index = 0;
       const page = setup({
         index,
@@ -363,7 +363,7 @@ describe('EvidenceVaRecords', () => {
         const index = 1;
         const data = {
           ...mockData,
-          [EVIDENCE_VA]: true,
+          [HAS_VA_EVIDENCE]: true,
           locations: [vaLocations[0], {}, vaLocations[1]],
         };
 
@@ -408,7 +408,7 @@ describe('EvidenceVaRecords', () => {
         const setDataSpy = sinon.spy();
         const data = {
           ...mockData,
-          [EVIDENCE_VA]: true,
+          [HAS_VA_EVIDENCE]: true,
           locations: [vaLocations[0], {}],
         };
         const page = setup({
@@ -435,7 +435,7 @@ describe('EvidenceVaRecords', () => {
         const index = 1;
         const data = {
           ...mockData,
-          [EVIDENCE_VA]: true,
+          [HAS_VA_EVIDENCE]: true,
           locations: [vaLocations[0], {}, vaLocations[1]],
         };
         const page = setup({
@@ -495,7 +495,7 @@ describe('EvidenceVaRecords', () => {
         const index = 1;
         const data = {
           ...mockData,
-          [EVIDENCE_VA]: true,
+          [HAS_VA_EVIDENCE]: true,
           locations: [
             vaLocations[0],
             { locationAndName: 'foo' },
@@ -527,7 +527,7 @@ describe('EvidenceVaRecords', () => {
         const index = 1;
         const data = {
           ...mockData,
-          [EVIDENCE_VA]: true,
+          [HAS_VA_EVIDENCE]: true,
           locations: [
             vaLocations[0],
             { locationAndName: 'foo' },
@@ -571,7 +571,7 @@ describe('EvidenceVaRecords', () => {
           setFormData: setDataSpy,
           data: {
             ...mockData,
-            [EVIDENCE_VA]: true,
+            [HAS_VA_EVIDENCE]: true,
             locations: [
               vaLocations[0],
               vaLocations[1],
@@ -608,7 +608,7 @@ describe('EvidenceVaRecords', () => {
           goToPath: goSpy,
           data: {
             ...mockData,
-            [EVIDENCE_VA]: true,
+            [HAS_VA_EVIDENCE]: true,
             locations: [vaLocations[0], { locationAndName: 'foo' }],
           },
         });
@@ -633,7 +633,7 @@ describe('EvidenceVaRecords', () => {
         );
         const data = {
           ...mockData,
-          [EVIDENCE_VA]: true,
+          [HAS_VA_EVIDENCE]: true,
           locations: [{ locationAndName: name }],
         };
         const page = setup({ index: 0, data });
@@ -652,7 +652,7 @@ describe('EvidenceVaRecords', () => {
       it('should show an error when the issue is not unique', async () => {
         const data = {
           ...mockData,
-          [EVIDENCE_VA]: true,
+          [HAS_VA_EVIDENCE]: true,
           locations: [vaLocations[0], vaLocations[0]],
         };
         const page = setup({ index: 1, data });
@@ -679,7 +679,7 @@ describe('EvidenceVaRecords', () => {
         const index = 1;
         const data = {
           ...mockData,
-          [EVIDENCE_VA]: true,
+          [HAS_VA_EVIDENCE]: true,
           locations: [vaLocations[0], {}, vaLocations[1]],
         };
         const page = setup({

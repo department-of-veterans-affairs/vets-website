@@ -8,12 +8,12 @@ import {
   requestVaRecordsTitle,
 } from '../content/evidenceVaPrompt';
 
-import { EVIDENCE_VA } from '../constants';
+import { HAS_VA_EVIDENCE } from '../constants';
 import errorMessages from '../../shared/content/errorMessages';
 
 export default {
   uiSchema: {
-    [EVIDENCE_VA]: yesNoUI({
+    [HAS_VA_EVIDENCE]: yesNoUI({
       title: requestVaRecordsTitle,
       hint: requestVaRecordsHint,
       enableAnalytics: true,
@@ -33,7 +33,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      [EVIDENCE_VA]: yesNoSchema,
+      [HAS_VA_EVIDENCE]: yesNoSchema,
       'view:vaEvidenceInfo': {
         type: 'object',
         properties: {},
