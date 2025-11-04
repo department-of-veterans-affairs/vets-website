@@ -15,6 +15,9 @@ export const FETCH_APPOINTMENT_FAILURE = 'FETCH_APPOINTMENT_FAILURE';
 export const SUBMIT_CLAIM_STARTED = 'SUBMIT_CLAIM_STARTED';
 export const SUBMIT_CLAIM_SUCCESS = 'SUBMIT_CLAIM_SUCCESS';
 export const SUBMIT_CLAIM_FAILURE = 'SUBMIT_CLAIM_FAILURE';
+export const SUBMIT_COMPLEX_CLAIM_STARTED = 'SUBMIT_COMPLEX_CLAIM_STARTED';
+export const SUBMIT_COMPLEX_CLAIM_SUCCESS = 'SUBMIT_COMPLEX_CLAIM_SUCCESS';
+export const SUBMIT_COMPLEX_CLAIM_FAILURE = 'SUBMIT_COMPLEX_CLAIM_FAILURE';
 export const CREATE_COMPLEX_CLAIM_STARTED = 'CREATE_COMPLEX_CLAIM_STARTED';
 export const CREATE_COMPLEX_CLAIM_SUCCESS = 'CREATE_COMPLEX_CLAIM_SUCCESS';
 export const CREATE_COMPLEX_CLAIM_FAILURE = 'CREATE_COMPLEX_CLAIM_FAILURE';
@@ -134,6 +137,17 @@ const submitClaimFailure = error => ({
   error,
 });
 
+// Submitting a complex travel claim
+const submitComplexClaimStart = () => ({ type: SUBMIT_COMPLEX_CLAIM_STARTED });
+const submitComplexClaimSuccess = data => ({
+  type: SUBMIT_COMPLEX_CLAIM_SUCCESS,
+  payload: data,
+});
+const submitComplexClaimFailure = error => ({
+  type: SUBMIT_COMPLEX_CLAIM_FAILURE,
+  error,
+});
+
 export function submitMileageOnlyClaim(appointmentData) {
   return async dispatch => {
     dispatch(submitClaimStart());
@@ -189,9 +203,9 @@ export function createComplexClaim(appointmentData) {
 }
 
 // Submitting a complex travel claim
-export function submitComplexClaim(claimData) {
+export function submitComplexClaim(claimId, claimData) {
   return async dispatch => {
-    dispatch(submitClaimStart());
+    dispatch(submitComplexClaimStart());
 
     try {
       const options = {
@@ -202,11 +216,13 @@ export function submitComplexClaim(claimData) {
         },
       };
 
-      const apptUrl = `${environment.API_URL}/travel_pay/v0/complex_claims`;
+      const apptUrl = `${
+        environment.API_URL
+      }/travel_pay/v0/complex_claims/${claimId}`;
       const response = await apiRequest(apptUrl, options);
-      dispatch(submitClaimSuccess(response));
+      dispatch(submitComplexClaimSuccess(response));
     } catch (error) {
-      dispatch(submitClaimFailure(error));
+      dispatch(submitComplexClaimFailure(error));
     }
   };
 }

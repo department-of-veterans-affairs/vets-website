@@ -23,6 +23,9 @@ import {
   SUBMIT_CLAIM_FAILURE,
   SUBMIT_CLAIM_STARTED,
   SUBMIT_CLAIM_SUCCESS,
+  SUBMIT_COMPLEX_CLAIM_FAILURE,
+  SUBMIT_COMPLEX_CLAIM_STARTED,
+  SUBMIT_COMPLEX_CLAIM_SUCCESS,
   UPDATE_EXPENSE_FAILURE,
   UPDATE_EXPENSE_STARTED,
   UPDATE_EXPENSE_SUCCESS,
@@ -208,6 +211,52 @@ function travelPayReducer(state = initialState, action) {
           ...state.claimSubmission,
           isSubmitting: false,
           error: action.error,
+        },
+      };
+    case SUBMIT_COMPLEX_CLAIM_STARTED:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          claim: {
+            ...state.complexClaim.claim,
+            submission: {
+              ...state.complexClaim.claim.submission,
+              isSubmitting: true,
+              error: null,
+            },
+          },
+        },
+      };
+    case SUBMIT_COMPLEX_CLAIM_SUCCESS:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          claim: {
+            ...state.complexClaim.claim,
+            submission: {
+              ...state.complexClaim.claim.submission,
+              isSubmitting: false,
+              error: null,
+              data: action.payload,
+            },
+          },
+        },
+      };
+    case SUBMIT_COMPLEX_CLAIM_FAILURE:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          claim: {
+            ...state.complexClaim.claim,
+            submission: {
+              ...state.complexClaim.claim.submission,
+              isSubmitting: false,
+              error: action.error,
+            },
+          },
         },
       };
     case CREATE_COMPLEX_CLAIM_STARTED:

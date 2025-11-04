@@ -27,3 +27,6 @@ export const selectComplexClaimCreationLoadingState = state =>
 
 export const selectCreatedComplexClaim = state =>
   state.travelPay.complexClaim.claim.creation.data;
+
+export const selectComplexClaimSubmissionState = state =>
+  state.travelPay.complexClaim.claim.submission;
