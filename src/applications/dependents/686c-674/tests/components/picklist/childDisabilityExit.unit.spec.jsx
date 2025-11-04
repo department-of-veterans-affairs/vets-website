@@ -5,16 +5,16 @@ import sinon from 'sinon';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import parentOtherExit from '../../../components/picklist/parentOtherExit';
+import childDisabilityExit from '../../../components/picklist/childDisabilityExit';
 
-describe('parentOtherExit', () => {
+describe('childDisabilityExit', () => {
   const defaultData = {
     fullName: {
-      first: 'PETER',
+      first: 'PENNY',
       last: 'FOSTER',
     },
     dateOfBirth: '',
-    relationshipToVeteran: 'Parent',
+    relationshipToVeteran: 'Child',
     selected: true,
     awardIndicator: 'Y',
   };
@@ -30,10 +30,10 @@ describe('parentOtherExit', () => {
   } = {}) =>
     render(
       <form onSubmit={onSubmit}>
-        <parentOtherExit.Component
+        <childDisabilityExit.Component
           itemData={data}
-          fullName="PETER FOSTER"
-          firstName="PETER"
+          fullName="PENNY FOSTER"
+          firstName="PENNY"
           formSubmitted={formSubmitted}
           handlers={{ goForward, goBack, onChange, onSubmit }}
           isEditing={isEditing}
@@ -46,23 +46,14 @@ describe('parentOtherExit', () => {
     const { container } = renderComponent();
 
     expect($('h3', container).textContent).to.equal(
-      'PETER can’t be removed using this application',
+      'PENNY still qualifies as your dependent',
     );
-
     expect($$('p', container).length).to.equal(2);
-
-    const info = $('va-additional-info', container);
-    expect(info).to.exist;
-    expect(info.getAttribute('trigger')).to.equal(
-      'Why can I only remove a parent dependent if they have died?',
-    );
-
-    expect(parentOtherExit.hasExitLink).to.be.true;
+    expect(childDisabilityExit.hasExitLink).to.be.true;
   });
 
   it('should render exit message paragraph', () => {
     const { container } = renderComponent({ isShowingExitLink: true });
-
     expect($$('p', container).length).to.equal(3);
   });
 
@@ -77,8 +68,8 @@ describe('parentOtherExit', () => {
     });
   });
 
-  context('parentOtherExit handlers', () => {
-    const { handlers } = parentOtherExit;
+  context('childDisabilityExit handlers', () => {
+    const { handlers } = childDisabilityExit;
     it('should return "DONE" on goForward', () => {
       expect(handlers.goForward()).to.equal('DONE');
     });

@@ -6,13 +6,14 @@ import { scrollToFirstError } from 'platform/utilities/ui';
 import { getValue } from './helpers';
 import propTypes from './types';
 
-const stepchildLeftHousehold = {
+const childLeftSchool = {
   handlers: {
-    goForward: () => 'DONE',
+    // Return "DONE" when we're done with this flow
+    goForward: (/* { itemData, index, fullData } */) => 'DONE',
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
-      if (!itemData.dateStepchildLeftHousehold) {
+      if (!itemData.endDate) {
         setTimeout(scrollToFirstError);
       } else {
         goForward();
@@ -21,23 +22,7 @@ const stepchildLeftHousehold = {
   },
 
   /** @type {PicklistComponentProps} */
-  Component: ({
-    itemData,
-    formSubmitted,
-    firstName,
-    handlers,
-    returnToMainPage,
-  }) => {
-    if (
-      !itemData.dateOfBirth ||
-      itemData.relationshipToVeteran !== 'Child' ||
-      itemData.isStepchild !== 'Y' ||
-      itemData.removalReason !== 'stepchildNotMember'
-    ) {
-      returnToMainPage();
-      return null;
-    }
-
+  Component: ({ itemData, firstName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
       handlers.onChange({ ...itemData, [field]: value });
@@ -46,23 +31,22 @@ const stepchildLeftHousehold = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          When did{' '}
+          {isEditing ? 'Edit when' : 'When'} did{' '}
           <span className="dd-privacy-mask" data-dd-action-name="first name">
             {firstName}
           </span>{' '}
-          stop living with you?
+          stop attending school?
         </h3>
-
         <VaMemorableDate
-          name="dateStepchildLeftHousehold"
-          label="Date stepchild left your household"
+          name="endDate"
+          label="Date child stopped attending school"
           error={
-            formSubmitted && !itemData.dateStepchildLeftHousehold
-              ? 'Provide a date'
+            formSubmitted && !itemData.endDate
+              ? 'Enter last date of school attendance'
               : null
           }
           monthSelect
-          value={itemData.dateStepchildLeftHousehold || ''}
+          value={itemData.endDate || ''}
           // use onDateBlur to ensure month & day are zero-padded
           onDateBlur={onChange}
           required
@@ -72,7 +56,7 @@ const stepchildLeftHousehold = {
   },
 };
 
-stepchildLeftHousehold.propTypes = propTypes.Page;
-stepchildLeftHousehold.Component.propTypes = propTypes.Component;
+childLeftSchool.propTypes = propTypes.Page;
+childLeftSchool.Component.propTypes = propTypes.Component;
 
-export default stepchildLeftHousehold;
+export default childLeftSchool;

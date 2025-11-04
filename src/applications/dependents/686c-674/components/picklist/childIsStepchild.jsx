@@ -17,8 +17,6 @@ const childIsStepchild = {
     // Return "DONE" when we're done with this flow
     goForward: (/* { itemData, index, fullData } */) =>
       'child-reason-to-remove',
-    // return empty path to go to first child page
-    // goBack: (/* { itemData, index, fullData } */) => '',
 
     /** @type {OnSubmitParams} */
     onSubmit: ({ itemData, goForward }) => {

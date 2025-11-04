@@ -60,6 +60,14 @@ const mockDependents = {
     attributes: {
       persons: [
         {
+          firstName: 'JOE',
+          lastName: 'FOSTER',
+          dateOfBirth: createDate(19),
+          ssn: '793473468',
+          relationshipToVeteran: 'Child',
+          awardIndicator: 'Y',
+        },
+        {
           firstName: 'PENNY',
           lastName: 'FOSTER',
           dateOfBirth: createDate(17),
