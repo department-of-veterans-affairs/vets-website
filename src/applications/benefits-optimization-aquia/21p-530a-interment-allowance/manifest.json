@@ -18,15 +18,7 @@
         "path": "/"
       },
       {
-        "name": "Burials and memorials",
-        "path": "/burials-memorials/"
-      },
-      {
-        "name": "Burial allowance",
-        "path": "/burials-memorials/veterans-burial-allowance/"
-      },
-      {
-        "name": "Apply for burial benefits",
+        "name": "Submit a state or tribal organization request for interment allowance",
         "path": "/submit-state-interment-allowance-form-21p-530a"
       }
     ]
