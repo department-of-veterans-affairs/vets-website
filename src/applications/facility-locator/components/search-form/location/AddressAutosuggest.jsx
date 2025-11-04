@@ -10,7 +10,7 @@ import Autosuggest from '../autosuggest';
 
 const onlySpaces = str => /^\s+$/.test(str);
 const MIN_SEARCH_CHARS = 3;
-
+// test
 function AddressAutosuggest({
   currentQuery,
   geolocateUser,
