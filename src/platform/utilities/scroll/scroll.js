@@ -91,7 +91,12 @@ const collectAllErrorElements = selectors => {
   allErrorElements.forEach(el => {
     const nestedErrors = Array.from(
       el.shadowRoot?.querySelectorAll('*') || [],
-    ).filter(child => getErrorPropText(child));
+    ).filter(child => {
+      // Only check va-* components for errors
+      return (
+        child.tagName.toLowerCase().startsWith('va-') && getErrorPropText(child)
+      );
+    });
 
     if (nestedErrors.length) {
       nestedErrorElements.push(...nestedErrors);
@@ -99,20 +104,6 @@ const collectAllErrorElements = selectors => {
   });
 
   return [...allErrorElements, ...nestedErrorElements];
-};
-
-/**
- * Remove alert role from error element to prevent interference
- * @param {Element} el - The element to update
- */
-const removeAlertRole = el => {
-  const errorElement = el?.shadowRoot?.querySelector(
-    '[role="alert"], #input-error-message, #radio-error-message',
-  );
-  if (errorElement) {
-    errorElement.removeAttribute('role');
-    errorElement.removeAttribute('aria-live');
-  }
 };
 
 /**
@@ -136,6 +127,20 @@ const getLabelText = el => {
   }
 
   return labelText;
+};
+
+/**
+ * Remove alert role from error element to prevent interference
+ * @param {Element} el - The element to update
+ */
+const removeAlertRole = el => {
+  const errorElement = el?.shadowRoot?.querySelector(
+    '#input-error-message, #radio-error-message, #checkbox-error-message',
+  );
+  if (errorElement) {
+    errorElement.removeAttribute('role');
+    errorElement.removeAttribute('aria-live');
+  }
 };
 
 /**
@@ -214,9 +219,28 @@ const associateErrorWithInput = (errorWebComponent, errorMessage) => {
 
   const errorText = errorMessage.replace(/^Error\\s*/i, '').trim();
   const labelText = getLabelText(errorWebComponent);
-  const fullText = labelText
-    ? `Error: ${errorText}. ${labelText}.`
-    : `Error: ${errorText}.`;
+
+  // Get hint text if present
+  const hintElement = errorWebComponent.shadowRoot?.querySelector('.usa-hint');
+  const hintText = hintElement?.textContent?.trim() || '';
+
+  // Get checkbox label description if present
+  const descriptionElement = errorWebComponent.shadowRoot?.querySelector(
+    '.usa-checkbox__label-description',
+  );
+  const descriptionText = descriptionElement?.textContent?.trim() || '';
+
+  // Build full text with error, label, hint, and description
+  let fullText = `Error: ${errorText}`;
+  if (labelText) {
+    fullText += `. ${labelText}`;
+  }
+  if (hintText) {
+    fullText += `. ${hintText}`;
+  }
+  if (descriptionText) {
+    fullText += `. ${descriptionText}`;
+  }
 
   const labelSpan = document.createElement('span');
   labelSpan.id = labelId;
@@ -229,6 +253,21 @@ const associateErrorWithInput = (errorWebComponent, errorMessage) => {
 
   inputElement.setAttribute('aria-labelledby', labelId);
   inputElement.removeAttribute('aria-describedby');
+};
+
+/**
+ * Process a single error element to set up accessibility annotations
+ * Adds aria-labelledby with sr-only error span
+ * @param {Element} errorWebComponent - The web component with an error
+ */
+const addErrorAnnotations = errorWebComponent => {
+  removeAlertRole(errorWebComponent);
+
+  const errorMessage = getErrorPropText(errorWebComponent);
+  if (!errorMessage) return;
+
+  // Use aria-labelledby with sr-only span for all components
+  associateErrorWithInput(errorWebComponent, errorMessage);
 };
 
 /**
@@ -250,21 +289,6 @@ const removeErrorAnnotations = el => {
 };
 
 /**
- * Process a single error element to set up accessibility annotations
- * Adds aria-labelledby with sr-only error span
- * @param {Element} errorWebComponent - The web component with an error
- */
-const processErrorElement = errorWebComponent => {
-  removeAlertRole(errorWebComponent);
-
-  const errorMessage = getErrorPropText(errorWebComponent);
-  if (!errorMessage) return;
-
-  // Use aria-labelledby with sr-only span for all components
-  associateErrorWithInput(errorWebComponent, errorMessage);
-};
-
-/**
  * Recursively clean up error annotations in nested shadow DOMs
  * @param {Element|ShadowRoot} root - The element or shadow root to search
  */
@@ -280,8 +304,8 @@ const cleanupNestedShadowRoots = root => {
   }
 
   elements.forEach(el => {
-    // Check if this element has a shadow root
-    if (el.shadowRoot) {
+    // Only process va-* components
+    if (el.tagName.toLowerCase().startsWith('va-') && el.shadowRoot) {
       // Check if this element has error spans
       if (el.shadowRoot.querySelector(ERROR_SPAN_SELECTOR)) {
         const errorMessage = getErrorPropText(el);
@@ -416,7 +440,7 @@ export const scrollToFirstError = async (options = {}) => {
 
         // Collect and process all error elements (including nested ones)
         const allErrors = collectAllErrorElements(selectors);
-        allErrors.forEach(processErrorElement);
+        allErrors.forEach(addErrorAnnotations);
 
         // Find and focus the appropriate input element
         const focusTarget = findFocusTarget(el);
