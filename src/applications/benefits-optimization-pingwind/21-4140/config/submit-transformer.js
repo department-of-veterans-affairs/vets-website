@@ -315,7 +315,7 @@ const transformForSubmit = (formConfig, form, options) => {
   });
 
   return JSON.stringify({
-    'employment_questionairres_claim': {
+    `employment_questionairres_claim`: {
       form: JSON.stringify(submissionForm || {}),
     },
   });
