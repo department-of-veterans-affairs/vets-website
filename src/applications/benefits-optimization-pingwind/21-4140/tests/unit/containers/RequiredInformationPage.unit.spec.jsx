@@ -31,7 +31,6 @@ const defaultLocation = { pathname: 'required-information' };
 describe('21-4140 container/RequiredInformationPage', () => {
   let sandbox;
   let user;
-  let bodyScrollStub;
   let originalScrollTo;
   let hadScrollTo;
 
@@ -71,7 +70,7 @@ describe('21-4140 container/RequiredInformationPage', () => {
       document.body.scrollTo = () => {};
       originalScrollTo = document.body.scrollTo;
     }
-    bodyScrollStub = sandbox.stub(document.body, 'scrollTo');
+    sandbox.stub(document.body, 'scrollTo');
     user = userEvent;
   });
 

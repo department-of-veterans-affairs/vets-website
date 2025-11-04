@@ -88,7 +88,7 @@ export default {
               properties: {
                 ...schema.properties,
                 hospitalType: {
-                  ...(schema.properties?.hospitalType),
+                  ...schema.properties?.hospitalType,
                   default: undefined,
                 },
               },

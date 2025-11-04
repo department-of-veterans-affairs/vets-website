@@ -56,7 +56,7 @@ describe('21-4140 utils/skipToContent', () => {
     main.focus = focusSpy;
 
     let blurHandler;
-    const addEventListener = sinon.spy((name, handler, useCapture) => {
+    const addEventListener = sinon.spy((name, handler, _useCapture) => {
       if (name === 'blur') {
         blurHandler = handler;
       }
@@ -169,11 +169,11 @@ describe('21-4140 utils/skipToContent', () => {
     window.focusContent = undefined;
 
     let blurHandler;
-    main.addEventListener = sinon.spy((name, handler, useCapture) => {
+    main.addEventListener = sinon.spy((name, handler, _useCapture) => {
       if (name === 'blur') {
         blurHandler = handler;
       }
-      return { name, handler, useCapture };
+      return { name, handler, useCapture: _useCapture };
     });
     main.removeEventListener = sinon.spy();
     main.focus = sinon.spy();
