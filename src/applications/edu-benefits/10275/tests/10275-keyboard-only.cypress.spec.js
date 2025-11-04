@@ -6,6 +6,7 @@ import manifest from '../manifest.json';
 
 describe('22-10275 EDU Form', () => {
   const { data } = maximalData;
+  const { authorizedOfficial } = data;
   const {
     principlesOfExcellencePointOfContact,
     schoolCertifyingOfficial,
@@ -84,13 +85,13 @@ describe('22-10275 EDU Form', () => {
     cy.injectAxeThenAxeCheck();
     cy.focused().should('contain.text', 'Your information');
     cy.realPress('Tab');
-    cy.typeInFocused(data.authorizedOfficial.fullName.first);
+    cy.typeInFocused(authorizedOfficial.fullName.first);
     cy.realPress('Tab');
-    cy.typeInFocused(data.authorizedOfficial.fullName.middle);
+    cy.typeInFocused(authorizedOfficial.fullName.middle);
     cy.realPress('Tab');
-    cy.typeInFocused(data.authorizedOfficial.fullName.last);
+    cy.typeInFocused(authorizedOfficial.fullName.last);
     cy.realPress('Tab');
-    cy.typeInFocused(data.authorizedOfficial.title);
+    cy.typeInFocused(authorizedOfficial.title);
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
@@ -99,11 +100,11 @@ describe('22-10275 EDU Form', () => {
       ],
       'ArrowDown',
     );
-    cy.chooseRadio(data.authorizedOfficial['view:phoneType']);
+    cy.chooseRadio(authorizedOfficial['view:phoneType']);
     cy.realPress('Tab');
-    cy.typeInFocused(data.authorizedOfficial.usPhone);
+    cy.typeInFocused(authorizedOfficial.usPhone);
     cy.repeatKey('Tab', 2);
-    cy.typeInFocused(data.authorizedOfficial.email);
+    cy.typeInFocused(authorizedOfficial.email);
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
@@ -286,10 +287,10 @@ describe('22-10275 EDU Form', () => {
     // Additional locations institution page - Step 4
     cy.url().should(
       'include',
-      `${
-        formConfig.chapters.additionalLocationsChapter.pages
-          .additionalLocationSummary.path
-      }/0`,
+      formConfig.chapters.additionalLocationsChapter.pages.additionalLocation.path.replace(
+        ':index',
+        '0',
+      ),
     );
     cy.injectAxeThenAxeCheck();
     cy.focused().should(
@@ -303,10 +304,10 @@ describe('22-10275 EDU Form', () => {
     // Additional locations previously entered point of contact page - Step 4
     cy.url().should(
       'include',
-      `${
-        formConfig.chapters.additionalLocationsChapter.pages
-          .additionalLocationSummary.path
-      }/0/point-of-contact`,
+      formConfig.chapters.additionalLocationsChapter.pages.previouslyEnteredPointOfContact.path.replace(
+        ':index',
+        '0',
+      ),
     );
     cy.injectAxeThenAxeCheck();
     cy.focused().should(
@@ -329,10 +330,10 @@ describe('22-10275 EDU Form', () => {
     // Additional locations new point of contact page - Step 4
     cy.url().should(
       'include',
-      `${
-        formConfig.chapters.additionalLocationsChapter.pages
-          .additionalLocationSummary.path
-      }/0/point-of-contact-2`,
+      formConfig.chapters.additionalLocationsChapter.pages.pointOfContactForThisLocation.path.replace(
+        ':index',
+        '0',
+      ),
     );
     cy.injectAxeThenAxeCheck();
     cy.focused().should(
@@ -393,9 +394,9 @@ describe('22-10275 EDU Form', () => {
       .shadow()
       .get('#inputField')
       .type(
-        `${data.authorizedOfficial.fullName.first} ${
-          data.authorizedOfficial.fullName.middle
-        } ${data.authorizedOfficial.fullName.last}`,
+        `${authorizedOfficial.fullName.first} ${
+          authorizedOfficial.fullName.middle
+        } ${authorizedOfficial.fullName.last}`,
       );
     cy.tabToElementAndPressSpace('va-checkbox');
     cy.tabToSubmitForm();
