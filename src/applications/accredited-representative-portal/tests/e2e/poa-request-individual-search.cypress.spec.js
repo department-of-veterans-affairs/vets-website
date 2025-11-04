@@ -125,7 +125,7 @@ describe('Accredited Representative Portal', () => {
       setEmptyClaimantSearch();
       cy.get('.poa-request-search__form-submit').click();
       cy.get(
-        "[data-testid='poa-requests-table-fetcher-no-poa-requests']",
+        "[data-testid='representation-requests-table-fetcher-no-poa-requests']",
       ).should(
         'have.text',
         'No result found for "asdf", "ghjkl", "2024-01-01", "***-**-6666"',

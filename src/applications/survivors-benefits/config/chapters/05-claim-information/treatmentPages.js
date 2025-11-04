@@ -8,20 +8,27 @@ import {
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-
-// Short description shown on the intro page.
-const treatmentDescription =
-  'In the next few questions, we’ll ask you about VA medical centers where the Veteran received treatment pertaining to your claim.';
+import { transformDate } from './helpers';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'vaMedicalCenters',
   nounSingular: 'VA medical center',
   nounPlural: 'VA medical centers',
   required: false,
+  maxItems: 3,
   text: {
-    getItemName: 'VA medical center',
-    cardDescription: '',
+    summaryTitle: 'Review VA medical centers',
+    alertMaxItems:
+      'You have added the maximum number of allowed VA medical centers for this application. You may edit or delete a VA medical center or choose to continue on in the application.',
+    getItemName: formData =>
+      formData.vaMedicalCenterName || 'VA medical center',
+    cardDescription: formData =>
+      formData.startDate && formData.endDate
+        ? `${transformDate(formData.startDate)} - ${transformDate(
+            formData.endDate,
+          )}`
+        : 'Treatment dates not provided',
   },
 };
 
@@ -30,10 +37,9 @@ const introPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Treatment at VA medical centers',
-      nounSingular: options.nounSingular,
-      nounPlural: options.nounPlural,
     }),
-    'ui:description': treatmentDescription,
+    'ui:description':
+      'Next we’ll ask you about VA medical centers where the Veteran received treatment pertaining to your claim. You may edit or delete a VA medical center or choose to continue on in the application.',
   },
   schema: {
     type: 'object',
@@ -90,24 +96,14 @@ const treatmentDatePage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Dates of treatment',
-      nounSingular: options.nounSingular,
-      nounPlural: options.nounPlural,
     }),
     startDate: currentOrPastDateUI({
       title: 'Start date of treatment',
       monthSelect: false,
-      'ui:description':
-        'Enter 2 digits for the month and day and 4 digits for the year.',
-      required: formData =>
-        formData?.firstTimeReporting !== undefined &&
-        formData?.firstTimeReporting === false,
     }),
     endDate: currentOrPastDateUI({
       title: 'End date of treatment',
       monthSelect: false,
-      required: formData =>
-        formData?.firstTimeReporting !== undefined &&
-        formData?.firstTimeReporting === false,
     }),
   },
   schema: {
@@ -124,24 +120,28 @@ export const treatmentPages = arrayBuilderPages(options, pageBuilder => ({
   dicBenefitsIntro: pageBuilder.introPage({
     title: 'Treatment at VA medical centers',
     path: 'claim-information/dic/treatment',
+    depends: formData => formData?.dicType === 'DIC',
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
   }),
   dicBenefitsSummary: pageBuilder.summaryPage({
-    title: 'D.I.C. benefits',
+    title: 'DIC benefits',
     path: 'claim-information/dic/add',
+    depends: formData => formData?.dicType === 'DIC',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   dicNameLocationPage: pageBuilder.itemPage({
     title: 'VA medical center name and location',
     path: 'claim-information/dic/:index/name-location',
+    depends: formData => formData?.dicType === 'DIC',
     uiSchema: nameLocationPage.uiSchema,
     schema: nameLocationPage.schema,
   }),
   dicTreatmentDates: pageBuilder.itemPage({
     title: 'Dates of treatment',
     path: 'claim-information/dic/:index/dates',
+    depends: formData => formData?.dicType === 'DIC',
     uiSchema: treatmentDatePage.uiSchema,
     schema: treatmentDatePage.schema,
   }),

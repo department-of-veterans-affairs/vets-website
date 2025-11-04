@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-const GENERIC_NAME_DESC =
-  'Enter the Veteran’s name. We’ll use this information to confirm your eligibility.';
+import content from '../../locales/en/content.json';
 
 const VeteranNameDescription = ({ formData }) => {
   const isSponsor = formData?.certifierRole === 'sponsor';
@@ -19,7 +17,7 @@ const VeteranNameDescription = ({ formData }) => {
       </p>
     </div>
   ) : (
-    GENERIC_NAME_DESC
+    content['veteran--name-desc']
   );
 };
 
