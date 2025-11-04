@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import {
   MemoryRouter,
@@ -156,7 +156,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
         );
 
         const reasonOption = root.querySelector(
-          `va-radio[name="transportationReasons"] va-radio-option[value="${
+          `va-radio[name="transportationReason"] va-radio-option[value="${
             Object.keys(TRANSPORTATION_REASONS)[0]
           }"]`,
         );
@@ -325,6 +325,23 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           expect(getByTestId('location-display').textContent).to.equal(
             '/file-new-claim/complex/12345/choose-expense',
           );
+        });
+
+        it('focuses the error message on validation failure', async () => {
+          const { container, getByTestId, getByText } = renderPage(config);
+          const buttonPair = container.querySelector('va-button-pair');
+
+          buttonPair.__events.primaryClick();
+
+          await waitFor(() => {
+            const error = getByTestId('expense-page-error');
+            expect(
+              getByText(
+                'Please fill out all required fields before continuing.',
+              ),
+            ).to.exist;
+            expect(document.activeElement).to.eq(error);
+          });
         });
       });
     });
