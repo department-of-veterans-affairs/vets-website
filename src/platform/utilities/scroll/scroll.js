@@ -71,12 +71,48 @@ const ERROR_SPAN_SELECTOR = 'span.usa-sr-only[id^="error-label-"]';
  * @param {Element} el - The web component element
  * @returns {string} The error message text
  */
-const getErrorMessage = el => {
+const getErrorPropText = el => {
   for (const attr of ERROR_ATTR_SELECTORS) {
     const msg = el.getAttribute(attr);
     if (msg) return msg;
   }
   return el.error || '';
+};
+
+/**
+ * Collect all error elements including nested ones within shadow DOMs
+ * @param {string} selectors - CSS selectors for error elements
+ * @returns {Array<Element>} Array of all error elements (top-level and nested)
+ */
+const collectAllErrorElements = selectors => {
+  const allErrorElements = document.querySelectorAll(selectors);
+  const nestedErrorElements = [];
+
+  allErrorElements.forEach(el => {
+    const nestedErrors = Array.from(
+      el.shadowRoot?.querySelectorAll('*') || [],
+    ).filter(child => getErrorPropText(child));
+
+    if (nestedErrors.length) {
+      nestedErrorElements.push(...nestedErrors);
+    }
+  });
+
+  return [...allErrorElements, ...nestedErrorElements];
+};
+
+/**
+ * Remove alert role from error element to prevent interference
+ * @param {Element} el - The element to update
+ */
+const removeAlertRole = el => {
+  const errorElement = el?.shadowRoot?.querySelector(
+    '[role="alert"], #input-error-message, #radio-error-message',
+  );
+  if (errorElement) {
+    errorElement.removeAttribute('role');
+    errorElement.removeAttribute('aria-live');
+  }
 };
 
 /**
@@ -103,132 +139,8 @@ const getLabelText = el => {
 };
 
 /**
- * Remove error annotations from an element's shadow root
- * @param {Element} el - The element to clean
- */
-const removeErrorAnnotations = el => {
-  if (!el?.shadowRoot) return;
-
-  // Remove aria-labelledby error spans
-  el.shadowRoot
-    .querySelectorAll(ERROR_SPAN_SELECTOR)
-    .forEach(span => span.remove());
-
-  // Remove aria-labelledby from inputs
-  el.shadowRoot.querySelectorAll(INPUT_SELECTOR).forEach(input => {
-    input.removeAttribute('aria-labelledby');
-  });
-
-  // Also remove sr-only-error spans from legend/label (for backward compatibility)
-  ['legend', 'label'].forEach(selector => {
-    const element = el.shadowRoot.querySelector(selector);
-    const errorSpan = element?.querySelector('.sr-only-error');
-    errorSpan?.remove();
-  });
-};
-
-/**
- * Recursively clean up error annotations in nested shadow DOMs
- * @param {Element|ShadowRoot} root - The element or shadow root to search
- */
-const cleanupNestedShadowRoots = root => {
-  if (!root) return;
-
-  // For ShadowRoot, we need to access children via getElementById or other methods
-  // For Element, we can use querySelectorAll
-  let elements = [];
-
-  if (root.querySelectorAll) {
-    elements = Array.from(root.querySelectorAll('*'));
-  }
-
-  elements.forEach(el => {
-    // Check if this element has a shadow root
-    if (el.shadowRoot) {
-      // Check if this element has error spans
-      if (el.shadowRoot.querySelector(ERROR_SPAN_SELECTOR)) {
-        const errorMessage = getErrorMessage(el);
-        if (!errorMessage) {
-          removeErrorAnnotations(el);
-        }
-      }
-      // Recursively check nested shadow roots
-      cleanupNestedShadowRoots(el.shadowRoot);
-    }
-  });
-};
-
-/**
- * Clean up error annotations from web components that no longer have errors
- */
-export const cleanupErrorAnnotations = () => {
-  // Find all elements that currently have error attributes
-  const errorSelector = ERROR_ATTR_SELECTORS.map(attr => `[${attr}]`).join(
-    ', ',
-  );
-  const elementsWithErrors = document.querySelectorAll(errorSelector);
-  elementsWithErrors.forEach(el => {
-    const errorMessage = getErrorMessage(el);
-    if (!errorMessage) {
-      removeErrorAnnotations(el);
-    }
-  });
-
-  // Recursively clean up all nested shadow DOMs
-  cleanupNestedShadowRoots(document);
-};
-
-// Set up a MutationObserver to clean up errors when attributes change
-if (typeof window !== 'undefined') {
-  const observerConfig = {
-    attributes: true,
-    attributeFilter: ERROR_ATTR_SELECTORS,
-    subtree: true,
-  };
-
-  const startObserving = () => {
-    // Debounce cleanup to avoid excessive calls
-    let cleanupTimeout;
-    const debouncedCleanup = () => {
-      clearTimeout(cleanupTimeout);
-      cleanupTimeout = setTimeout(cleanupErrorAnnotations, 50);
-    };
-
-    const observer = new MutationObserver(debouncedCleanup);
-    observer.observe(document, observerConfig);
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startObserving);
-  } else {
-    startObserving();
-  }
-}
-
-/**
- * Collect all error elements including nested ones within shadow DOMs
- * @param {string} selectors - CSS selectors for error elements
- * @returns {Array<Element>} Array of all error elements (top-level and nested)
- */
-const collectAllErrorElements = selectors => {
-  const allErrorElements = document.querySelectorAll(selectors);
-  const nestedErrorElements = [];
-
-  allErrorElements.forEach(el => {
-    const nestedErrors = el.shadowRoot?.querySelectorAll(
-      '[error]:not([error=""])',
-    );
-    if (nestedErrors) {
-      nestedErrorElements.push(...Array.from(nestedErrors));
-    }
-  });
-
-  return [...allErrorElements, ...nestedErrorElements];
-};
-
-/**
  * Find the focusable element within an error component
- * Searches through nested shadow DOMs and falls back to legend if needed
+ * Searches through nested shadow DOMs and falls back to fieldset if needed
  * @param {Element} el - The error element to search within
  * @returns {Element|null} The focusable element, or null if none found
  */
@@ -268,12 +180,12 @@ const findFocusTarget = el => {
     }
   }
 
-  // 4. Fallback: focus legend if no inputs found (for radio/checkbox groups)
+  // 4. Fallback: focus fieldset if no inputs found (for radio/checkbox groups)
   if (!focusTarget) {
-    const legend = el?.shadowRoot?.querySelector('legend');
-    if (legend) {
-      legend.setAttribute('tabindex', '-1');
-      focusTarget = legend;
+    const fieldset = el?.shadowRoot?.querySelector('fieldset');
+    if (fieldset) {
+      fieldset.setAttribute('tabindex', '-1');
+      focusTarget = fieldset;
     }
   }
 
@@ -286,61 +198,55 @@ const findFocusTarget = el => {
  * @param {string} errorMessage - The error message text
  */
 const associateErrorWithInput = (errorWebComponent, errorMessage) => {
-  if (!errorMessage) return;
-
-  // Find the focusable input (including nested elements)
   const inputElement = findFocusTarget(errorWebComponent);
   if (!inputElement) return;
 
-  // Check if this input already has an error label
   const existingLabelId = inputElement.getAttribute('aria-labelledby');
   if (
     existingLabelId &&
     errorWebComponent.shadowRoot?.querySelector(`#${existingLabelId}`)
-  ) {
-    return; // Already has an error label
-  }
+  )
+    return;
 
-  // Create a unique ID for the error label
   const labelId = `error-label-${Math.random()
     .toString(36)
     .substr(2, 9)}`;
 
-  // Create error label text
-  const errorText = errorMessage.replace(/^Error\s*/i, '').trim();
+  const errorText = errorMessage.replace(/^Error\\s*/i, '').trim();
   const labelText = getLabelText(errorWebComponent);
   const fullText = labelText
     ? `Error: ${errorText}. ${labelText}.`
     : `Error: ${errorText}.`;
 
-  // Create a hidden span with the error message
   const labelSpan = document.createElement('span');
   labelSpan.id = labelId;
   labelSpan.className = 'usa-sr-only';
   labelSpan.textContent = fullText;
 
-  // Append to the component's shadow root
   if (errorWebComponent.shadowRoot) {
     errorWebComponent.shadowRoot.appendChild(labelSpan);
   }
 
-  // Set aria-labelledby on the input
   inputElement.setAttribute('aria-labelledby', labelId);
   inputElement.removeAttribute('aria-describedby');
 };
 
 /**
- * Remove alert role from error element to prevent interference
- * @param {Element} el - The element to update
+ * Remove error annotations from an element's shadow root
+ * @param {Element} el - The element to clean
  */
-const removeAlertRole = el => {
-  const errorElement = el?.shadowRoot?.querySelector(
-    '[role="alert"], #input-error-message, #radio-error-message',
-  );
-  if (errorElement) {
-    errorElement.removeAttribute('role');
-    errorElement.removeAttribute('aria-live');
-  }
+const removeErrorAnnotations = el => {
+  if (!el?.shadowRoot) return;
+
+  // Remove aria-labelledby error spans
+  el.shadowRoot
+    .querySelectorAll(ERROR_SPAN_SELECTOR)
+    .forEach(span => span.remove());
+
+  // Remove aria-labelledby from inputs
+  el.shadowRoot.querySelectorAll(INPUT_SELECTOR).forEach(input => {
+    input.removeAttribute('aria-labelledby');
+  });
 };
 
 /**
@@ -351,12 +257,90 @@ const removeAlertRole = el => {
 const processErrorElement = errorWebComponent => {
   removeAlertRole(errorWebComponent);
 
-  const errorMessage = getErrorMessage(errorWebComponent);
+  const errorMessage = getErrorPropText(errorWebComponent);
   if (!errorMessage) return;
 
   // Use aria-labelledby with sr-only span for all components
   associateErrorWithInput(errorWebComponent, errorMessage);
 };
+
+/**
+ * Recursively clean up error annotations in nested shadow DOMs
+ * @param {Element|ShadowRoot} root - The element or shadow root to search
+ */
+const cleanupNestedShadowRoots = root => {
+  if (!root) return;
+
+  // For ShadowRoot, we need to access children via getElementById or other methods
+  // For Element, we can use querySelectorAll
+  let elements = [];
+
+  if (root.querySelectorAll) {
+    elements = Array.from(root.querySelectorAll('*'));
+  }
+
+  elements.forEach(el => {
+    // Check if this element has a shadow root
+    if (el.shadowRoot) {
+      // Check if this element has error spans
+      if (el.shadowRoot.querySelector(ERROR_SPAN_SELECTOR)) {
+        const errorMessage = getErrorPropText(el);
+        if (!errorMessage) {
+          removeErrorAnnotations(el);
+        }
+      }
+      // Recursively check nested shadow roots
+      cleanupNestedShadowRoots(el.shadowRoot);
+    }
+  });
+};
+
+/**
+ * Clean up error annotations from web components that no longer have errors
+ */
+export const cleanupErrorAnnotations = () => {
+  // Find all elements that currently have error attributes
+  const errorSelector = ERROR_ATTR_SELECTORS.map(attr => `[${attr}]`).join(
+    ', ',
+  );
+  const elementsWithErrors = document.querySelectorAll(errorSelector);
+  elementsWithErrors.forEach(el => {
+    const errorMessage = getErrorPropText(el);
+    if (!errorMessage) {
+      removeErrorAnnotations(el);
+    }
+  });
+
+  // Recursively clean up all nested shadow DOMs
+  cleanupNestedShadowRoots(document);
+};
+
+// Set up a MutationObserver to clean up errors when attributes change
+if (typeof window !== 'undefined') {
+  const observerConfig = {
+    attributes: true,
+    attributeFilter: ERROR_ATTR_SELECTORS,
+    subtree: true,
+  };
+
+  const startObserving = () => {
+    // Debounce cleanup to avoid excessive calls
+    let cleanupTimeout;
+    const debouncedCleanup = () => {
+      clearTimeout(cleanupTimeout);
+      cleanupTimeout = setTimeout(cleanupErrorAnnotations, 50);
+    };
+
+    const observer = new MutationObserver(debouncedCleanup);
+    observer.observe(document, observerConfig);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startObserving);
+  } else {
+    startObserving();
+  }
+}
 
 /**
  * scrollToFirstError options
