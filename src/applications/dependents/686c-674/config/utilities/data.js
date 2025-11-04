@@ -212,6 +212,13 @@ export function buildSubmissionData(payload) {
     delete cleanData['view:selectable686Options'];
   }
 
+  // Clean up empty arrays
+  Object.keys(cleanData).forEach(key => {
+    if (Array.isArray(cleanData[key]) && cleanData[key].length === 0) {
+      delete cleanData[key];
+    }
+  });
+
   return {
     metadata: payload.metadata,
     data: cleanData,
