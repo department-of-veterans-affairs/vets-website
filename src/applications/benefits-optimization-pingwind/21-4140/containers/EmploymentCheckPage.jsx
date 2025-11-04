@@ -142,9 +142,7 @@ const EmploymentCheckPage = ({
   const employmentCheckData =
     formData?.[employmentCheckFields.parentObject] || {};
   const storedSelection =
-    employmentCheckData?.[
-      employmentCheckFields.hasEmploymentInLast12Months
-    ];
+    employmentCheckData?.[employmentCheckFields.hasEmploymentInLast12Months];
   const legacySelection =
     formData?.[employedByVAFields.parentObject]?.[
       employedByVAFields.isEmployedByVA
@@ -160,31 +158,37 @@ const EmploymentCheckPage = ({
   const [selectionState, setSelectionState] = useState(selection);
   const [attemptedSubmit, setAttemptedSubmit] = useState(false);
 
-  useEffect(() => {
-    setSelectionState(selection);
-  }, [selection]);
+  useEffect(
+    () => {
+      setSelectionState(selection);
+    },
+    [selection],
+  );
 
-  useEffect(() => {
-    if (!storedSelection && legacyNormalized) {
-      setFormData({
-        ...formData,
-        [employmentCheckFields.parentObject]: {
-          ...employmentCheckData,
-          [employmentCheckFields.hasEmploymentInLast12Months]: legacyNormalized,
-        },
-      });
-    }
-  }, [
-    storedSelection,
-    legacyNormalized,
-    employmentCheckData,
-    formData,
-    setFormData,
-  ]);
+  useEffect(
+    () => {
+      if (!storedSelection && legacyNormalized) {
+        setFormData({
+          ...formData,
+          [employmentCheckFields.parentObject]: {
+            ...employmentCheckData,
+            [employmentCheckFields.hasEmploymentInLast12Months]: legacyNormalized,
+          },
+        });
+      }
+    },
+    [
+      storedSelection,
+      legacyNormalized,
+      employmentCheckData,
+      formData,
+      setFormData,
+    ],
+  );
 
   const handleContinue = event => {
     event?.preventDefault();
-    
+
     const currentSelection = selectionState || selection;
 
     if (!currentSelection) {
@@ -226,7 +230,10 @@ const EmploymentCheckPage = ({
     // Defer until after focus settles so we can detect moves within the radio group
     setTimeout(() => {
       const activeElement = document.activeElement;
-      if (activeElement === currentTarget || currentTarget.contains(activeElement)) {
+      if (
+        activeElement === currentTarget ||
+        currentTarget.contains(activeElement)
+      ) {
         return;
       }
 
@@ -238,7 +245,9 @@ const EmploymentCheckPage = ({
 
   return (
     <div className="schemaform-intro">
-      <h3 className="vads-u-margin-bottom--2">Employment in the past 12 months</h3>
+      <h3 className="vads-u-margin-bottom--2">
+        Employment in the past 12 months
+      </h3>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>
         This includes any work for VA, other employers, or self-employment.
       </p>

@@ -26,7 +26,8 @@ export default {
       ...inlineTitleUI('Contact information'),
       'ui:description': () => (
         <div style={{ paddingTop: '2rem' }}>
-          How can we reach you? We’ll send any important information about your application to this mailing address.
+          How can we reach you? We’ll send any important information about your
+          application to this mailing address.
         </div>
       ),
 

@@ -4,7 +4,6 @@ import {
   yesNoSchema,
   yesNoUI,
   radioUI,
-  radioSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import { hospitalizationQuestionFields } from '../definitions/constants';

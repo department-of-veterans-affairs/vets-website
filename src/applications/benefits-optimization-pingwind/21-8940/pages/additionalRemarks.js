@@ -1,7 +1,5 @@
 import React from 'react';
 
-const additionalRemarksDescription = <h3>Additional information</h3>;
-
 /** @type {PageSchema} */
 export default {
   uiSchema: {

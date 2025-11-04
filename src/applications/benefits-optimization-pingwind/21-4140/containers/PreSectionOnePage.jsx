@@ -13,14 +13,21 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { skipToContent } from '../utils/skipToContent';
 
-const PreSectionOnePage = ({ formData, location, route, router, setFormData }) => {
+const PreSectionOnePage = ({
+  formData,
+  location,
+  route,
+  router,
+  setFormData,
+}) => {
   useEffect(() => {
     scrollTo('topScrollElement');
   }, []);
 
   const pageList = route?.pageList || [];
   const currentPath = location?.pathname || '';
-  const NO_SELECTION_MESSAGE = 'Oops, we hit a snag. You told us you are NOT applying for increased unemployability compensation benefits. Select the Find a VA Form link to find the right form, or to continue with this form, 21-8940, select "Yes" and continue.';
+  const NO_SELECTION_MESSAGE =
+    'Oops, we hit a snag. You told us you are NOT applying for increased unemployability compensation benefits. Select the Find a VA Form link to find the right form, or to continue with this form, 21-8940, select "Yes" and continue.';
 
   const initialSelection = formData?.preSectionOne?.selection;
   const [selection, setSelection] = useState(initialSelection);
@@ -75,7 +82,10 @@ const PreSectionOnePage = ({ formData, location, route, router, setFormData }) =
     // Defer until after focus settles so we can detect moves within the radio group
     setTimeout(() => {
       const activeElement = document.activeElement;
-      if (activeElement === currentTarget || currentTarget.contains(activeElement)) {
+      if (
+        activeElement === currentTarget ||
+        currentTarget.contains(activeElement)
+      ) {
         return;
       }
 
@@ -103,8 +113,12 @@ const PreSectionOnePage = ({ formData, location, route, router, setFormData }) =
 
   return (
     <div className="schemaform-intro">
-      <a className="show-on-focus" href="#main-content" onClick={skipToContent}>Skip to Content</a>
-      <h1 id="main-content" className="vads-u-margin-bottom--2">Let's get started!</h1>
+      <a className="show-on-focus" href="#main-content" onClick={skipToContent}>
+        Skip to Content
+      </a>
+      <h1 id="main-content" className="vads-u-margin-bottom--2">
+        Let's get started!
+      </h1>
       <p className="vads-u-margin-bottom--3">
         We want to confirm you're in the right place.
       </p>
@@ -137,10 +151,21 @@ const PreSectionOnePage = ({ formData, location, route, router, setFormData }) =
           visible
         >
           <h2>Hmmm? Seems like you need a different form.</h2>
-          <p className="vads-u-margin--0">Let’s get you to the right place! Visit our forms page to find the right one for your needs. Remember, you can always get help from a</p>
-          <a href="https://www.va.gov/get-help-from-accredited-representative/find-rep/" target='_blank'>VA accredited representative or Veteran Service Organization (VSO). It's free!</a>
+          <p className="vads-u-margin--0">
+            Let’s get you to the right place! Visit our forms page to find the
+            right one for your needs. Remember, you can always get help from a
+          </p>
+          <a
+            href="https://www.va.gov/get-help-from-accredited-representative/find-rep/"
+            target="_blank"
+          >
+            VA accredited representative or Veteran Service Organization (VSO).
+            It's free!
+          </a>
           <br />
-          <a href="https://www.va.gov/find-forms/" target='_blank'>Find a VA Form</a>
+          <a href="https://www.va.gov/find-forms/" target="_blank">
+            Find a VA Form
+          </a>
         </VaAlert>
       )}
       <FormNavButtons goBack={goBack} goForward={goForward} />
@@ -170,4 +195,7 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PreSectionOnePage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PreSectionOnePage);

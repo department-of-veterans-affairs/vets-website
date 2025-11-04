@@ -1,5 +1,4 @@
 import {
-  titleUI,
   textUI,
   currentOrPastDateUI,
   currentOrPastDateSchema,

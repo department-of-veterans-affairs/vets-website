@@ -11,7 +11,7 @@ const digits = value => {
   }
 
   const onlyDigits = value.replace(/\D/g, '');
-  return onlyDigits ? onlyDigits : undefined;
+  return onlyDigits || undefined;
 };
 
 const trimString = value => {
@@ -315,7 +315,7 @@ const transformForSubmit = (formConfig, form, options) => {
   });
 
   return JSON.stringify({
-    employment_questionairres_claim: {
+    "employment_questionairres_claim": {
       form: JSON.stringify(submissionForm || {}),
     },
   });

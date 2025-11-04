@@ -1,8 +1,6 @@
 import {
   emailToSendNotificationsSchema,
   emailToSendNotificationsUI,
-  phoneSchema,
-  phoneUI,
   inlineTitleUI,
   internationalPhoneSchema,
   internationalPhoneUI,
