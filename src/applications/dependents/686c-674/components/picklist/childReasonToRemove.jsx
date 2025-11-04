@@ -4,8 +4,7 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
+import { scrollToError } from './helpers';
 import { labels } from './utils';
 import propTypes from './types';
 
@@ -82,7 +81,7 @@ const childReasonToRemove = {
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.removalReason) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }

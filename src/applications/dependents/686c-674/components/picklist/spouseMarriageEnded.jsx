@@ -2,15 +2,19 @@ import React from 'react';
 // import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import {
   VaCheckbox,
-  VaMemorableDate,
   VaRadio,
   VaRadioOption,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
-import { SelectCountry, SelectState, getValue } from './helpers';
+import {
+  SelectCountry,
+  SelectState,
+  getValue,
+  PastDate,
+  scrollToError,
+} from './helpers';
+import { getPastDateError } from './utils';
 import propTypes from './types';
 
 const spouseMarriageEnded = {
@@ -20,16 +24,17 @@ const spouseMarriageEnded = {
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
+      const hasError = getPastDateError(itemData.endDate);
       if (
         !itemData.endType ||
         (itemData.endType === 'annulmentOrVoid' &&
           !itemData.endAnnulmentOrVoidDescription) ||
-        !itemData.endDate ||
+        hasError ||
         !itemData.endCity ||
         (!itemData.endOutsideUS && !itemData.endState) ||
         (itemData.endOutsideUS && !itemData.endCountry)
       ) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
@@ -98,19 +103,12 @@ const spouseMarriageEnded = {
         </div>
 
         <h4>When did the marriage end?</h4>
-        <VaMemorableDate
-          name="endDate"
+        <PastDate
           label="Date marriage ended"
-          error={
-            formSubmitted && !itemData.endDate
-              ? 'Provide a date marriage ended'
-              : null
-          }
-          monthSelect
-          value={itemData.endDate || ''}
-          // use onDateBlur to ensure month & day are zero-padded
-          onDateBlur={onChange}
-          required
+          date={itemData.endDate}
+          formSubmitted={formSubmitted}
+          missingErrorMessage="Provide a date marriage ended"
+          onChange={onChange}
         />
 
         <h4>Where did the marriage end?</h4>
