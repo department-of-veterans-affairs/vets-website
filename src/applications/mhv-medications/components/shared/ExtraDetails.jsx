@@ -84,13 +84,20 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
             This prescription is too old to refill. If you need more, request a
             renewal.
           </p>
-          <va-link
-            href="/resources/how-to-renew-a-va-prescription"
-            text="Learn how to renew prescriptions"
-            data-testid="learn-to-renew-precsriptions-link"
-            data-dd-action-name={
-              dataDogActionNames.detailsPage
-                .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
+          <SendRxRenewalMessage
+            rx={rx}
+            alwaysShowFallBackContent={showRenewalLink}
+            fallbackContent={
+              // eslint-disable-next-line react/jsx-wrap-multilines
+              <va-link
+                href="/resources/how-to-renew-a-va-prescription"
+                text="Learn how to renew prescriptions"
+                data-testid="learn-to-renew-precsriptions-link"
+                data-dd-action-name={
+                  dataDogActionNames.detailsPage
+                    .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
+                }
+              />
             }
           />
         </div>
