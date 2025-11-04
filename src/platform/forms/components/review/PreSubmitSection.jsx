@@ -64,7 +64,7 @@ export function fullNameReducer(fullNameString) {
   return fullNameString?.replaceAll(' ', '').toLowerCase();
 }
 
-function statementOfTruthBodyElement(formData, statementOfTruthBody) {
+export function statementOfTruthBodyElement(formData, statementOfTruthBody) {
   switch (typeof statementOfTruthBody) {
     case 'function':
       if (typeof statementOfTruthBody(formData) === 'string') {
@@ -271,22 +271,19 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    (state, ownProps) => {
-      const { form, user } = state;
-      const { formConfig } = ownProps || {};
+  connect((state, ownProps) => {
+    const { form, user } = state;
+    const { formConfig } = ownProps || {};
 
-      const preSubmit = preSubmitSelector(formConfig);
-      const showPreSubmitError = form?.submission?.hasAttemptedSubmit;
-      return {
-        form,
-        preSubmit,
-        showPreSubmitError,
-        formConfig,
-        user,
-        showLoginModal: state.navigation.showLoginModal,
-      };
-    },
-    mapDispatchToProps,
-  )(PreSubmitSection),
+    const preSubmit = preSubmitSelector(formConfig);
+    const showPreSubmitError = form?.submission?.hasAttemptedSubmit;
+    return {
+      form,
+      preSubmit,
+      showPreSubmitError,
+      formConfig,
+      user,
+      showLoginModal: state.navigation.showLoginModal,
+    };
+  }, mapDispatchToProps)(PreSubmitSection),
 );
