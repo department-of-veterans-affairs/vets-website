@@ -140,13 +140,12 @@ const SelectCareTeam = () => {
   }, []);
 
   // Send DataDog RUM action on component unmount with the count of care system switches
+  // Should call addAction even if the count is zero
   useEffect(() => {
     return () => {
-      if (careSystemSwitchCountRef.current > 0) {
-        datadogRum.addAction('Care System Radio Switch Count', {
-          switchCount: careSystemSwitchCountRef.current,
-        });
-      }
+      datadogRum.addAction('Care System Radio Switch Count', {
+        switchCount: careSystemSwitchCountRef.current,
+      });
     };
   }, []);
 
