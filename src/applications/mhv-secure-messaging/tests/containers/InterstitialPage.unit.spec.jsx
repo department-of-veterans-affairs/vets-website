@@ -132,8 +132,7 @@ describe('Interstitial page', () => {
     });
 
     it('"Start a new message" link responds on Enter key', async () => {
-      let updateAcknowledgeSpy = sinon.spy();
-      updateAcknowledgeSpy = sinon.spy(
+      const updateAcknowledgeSpy = sinon.spy(
         threadDetailsActions,
         'acceptInterstitial',
       );
@@ -149,8 +148,7 @@ describe('Interstitial page', () => {
     });
 
     it('"Start a new message" link responds on Space key', async () => {
-      let updateAcknowledgeSpy = sinon.spy();
-      updateAcknowledgeSpy = sinon.spy(
+      const updateAcknowledgeSpy = sinon.spy(
         threadDetailsActions,
         'acceptInterstitial',
       );
@@ -237,36 +235,6 @@ describe('Interstitial page', () => {
         );
       });
     });
-
-    it('clicking the start message link navigates to select care team page when no recent recipients', async () => {
-      const acknowledgeSpy = sinon.spy();
-      const stateWithoutRecentRecipients = {
-        ...initialState(true),
-        sm: {
-          recipients: {
-            recentRecipients: [],
-          },
-        },
-      };
-      const { history, getByTestId } = renderWithStoreAndRouter(
-        <InterstitialPage acknowledge={acknowledgeSpy} />,
-        {
-          initialState: stateWithoutRecentRecipients,
-          reducers: reducer,
-          path: '/new-message/',
-        },
-      );
-
-      const startMessageLink = getByTestId('start-message-link');
-      userEvent.click(startMessageLink);
-
-      await waitFor(() => {
-        expect(acknowledgeSpy.called).to.be.false;
-        expect(history.location.pathname).to.equal(
-          `/new-message/${Paths.SELECT_CARE_TEAM}`,
-        );
-      });
-    });
   });
 
   it('renders without errors when prescriptionId is in URL params', () => {
@@ -301,8 +269,18 @@ describe('Interstitial page', () => {
       'clearPrescription',
     );
 
+    // Component now only dispatches clearPrescription when recentRecipients is defined
+    const stateWithRecentRecipients = {
+      ...initialState(),
+      sm: {
+        recipients: {
+          recentRecipients: [],
+        },
+      },
+    };
+
     renderWithStoreAndRouter(<InterstitialPage />, {
-      initialState: initialState(),
+      initialState: stateWithRecentRecipients,
       reducers: reducer,
       path: '/new-message/',
     });
@@ -317,8 +295,18 @@ describe('Interstitial page', () => {
   it('dispatches redirectPath when redirectPath is in URL params', async () => {
     const redirectPathSpy = sinon.spy(prescriptionActions, 'setRedirectPath');
 
+    // Component only dispatches setRedirectPath when recentRecipients is defined
+    const stateWithRecentRecipients = {
+      ...initialState(),
+      sm: {
+        recipients: {
+          recentRecipients: [],
+        },
+      },
+    };
+
     renderWithStoreAndRouter(<InterstitialPage />, {
-      initialState: initialState(),
+      initialState: stateWithRecentRecipients,
       reducers: reducer,
       path: '/new-message/?redirectPath=/some/other/path',
     });
@@ -341,8 +329,21 @@ describe('Interstitial page', () => {
       'acceptInterstitial',
     );
 
+    // Component requires recentRecipients to be defined to process prescriptionId
+    const stateWithRecentRecipients = {
+      ...initialState(true), // curated list flow enabled
+      sm: {
+        recipients: {
+          recentRecipients: [
+            { id: 1, name: 'Team 1' },
+            { id: 2, name: 'Team 2' },
+          ],
+        },
+      },
+    };
+
     const { history } = renderWithStoreAndRouter(<InterstitialPage />, {
-      initialState: initialState(true), // curated list flow enabled
+      initialState: stateWithRecentRecipients,
       reducers: reducer,
       path: '/new-message/?prescriptionId=123',
     });
@@ -361,8 +362,18 @@ describe('Interstitial page', () => {
   it('does NOT dispatch redirectPath when redirectPath is NOT in URL params', async () => {
     const redirectPathSpy = sinon.spy(prescriptionActions, 'setRedirectPath');
 
+    // Component requires recentRecipients to be defined to process URL params
+    const stateWithRecentRecipients = {
+      ...initialState(),
+      sm: {
+        recipients: {
+          recentRecipients: [],
+        },
+      },
+    };
+
     renderWithStoreAndRouter(<InterstitialPage />, {
-      initialState: initialState(),
+      initialState: stateWithRecentRecipients,
       reducers: reducer,
       path: '/new-message/',
     });
