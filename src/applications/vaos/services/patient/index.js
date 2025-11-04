@@ -192,18 +192,21 @@ function locationSupportsRequests(location, typeOfCare) {
   );
 }
 
-function matchClinicToAppt(clinic, clinicId, appt, requiresPastHistory) {
-  let matchesClinic = true;
-  if (requiresPastHistory) {
-    // in mocks/tests, sometimes appt is just `meta: []`, so optional
-    matchesClinic =
-      clinic.stationId === appt.location?.stationId &&
-      clinicId === appt.location?.clinicId;
+function matchClinicToAppt(
+  clinic,
+  facilityAndClinicIds,
+  appt,
+  requiresPastHistory,
+) {
+  const [facilityId, clinicId] = facilityAndClinicIds;
+  if (!requiresPastHistory) {
+    return clinic.patientDirectScheduling === true;
   }
-  if (appt.version === 2) {
-    return matchesClinic && clinic.patientDirectScheduling === true;
-  }
-  return matchesClinic;
+  return appt.version === 2
+    ? clinic.stationId === appt.location?.stationId &&
+        clinicId === appt.location?.clinicId &&
+        clinic.patientDirectScheduling === true
+    : clinicId === appt.clinicId && facilityId === appt.facilityId;
 }
 
 function hasMatchingClinics(
@@ -212,12 +215,17 @@ function hasMatchingClinics(
   requiresPastHistory = true,
 ) {
   return clinics?.some(clinic => {
-    const clinicId = clinic.id.split('_')?.[1];
+    const facilityAndClinicIds = clinic.id.split('_');
     // we might get nonexistent pastAppointments
     return !pastAppointments
       ? clinic.patientDirectScheduling === true
       : !!pastAppointments.find(appt =>
-          matchClinicToAppt(clinic, clinicId, appt, requiresPastHistory),
+          matchClinicToAppt(
+            clinic,
+            facilityAndClinicIds,
+            appt,
+            requiresPastHistory,
+          ),
         );
   });
 }
