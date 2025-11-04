@@ -17,19 +17,7 @@ import {
 import constants from 'vets-json-schema/dist/constants.json';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { previousMarriageEndOptions } from '../../../utils/labels';
-
-const handleAlertMaxItems = () => (
-  <div>
-    You have added the maximum number of allowed previous marriages for this
-    application. Additional marriages can be added using VA Form 21-4138 and
-    uploaded at the end of this application.
-    <va-link
-      href="/find-forms/about-form-21-4138/"
-      external
-      text="Get VA Form 21-4138 to download"
-    />
-  </div>
-);
+import { handleAlertMaxItems } from '../../../components/FormAlerts';
 
 // Helper function to determine if previous marriages section should be shown
 const shouldShowPreviousMarriages = formData => {
@@ -71,7 +59,7 @@ const COUNTRY_NAMES = constants.countries
 const options = {
   arrayPath: 'previousMarriages',
   nounSingular: 'previous marriage',
-  nounPlural: 'previous marriages',
+  nounPlural: "Veteran's previous marriages",
   required: false,
   minItems: 0,
   isItemIncomplete: item =>
