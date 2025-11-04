@@ -149,6 +149,28 @@ const findFocusableElement = el => {
 };
 
 /**
+ * Remove error label span when error is resolved
+ * @param {Element} el - The web component element
+ */
+const cleanupErrorAriaLabel = el => {
+  if (!el?.shadowRoot) return;
+
+  // Find and remove all error label spans in this component
+  const errorSpans = el.shadowRoot.querySelectorAll(
+    'span.usa-sr-only[id^="error-label-"]',
+  );
+  errorSpans.forEach(span => span.remove());
+
+  // Remove aria-labelledby from all inputs
+  const inputs = el.shadowRoot.querySelectorAll('input, select, textarea');
+  inputs.forEach(input => {
+    if (input.hasAttribute('aria-labelledby')) {
+      input.removeAttribute('aria-labelledby');
+    }
+  });
+};
+
+/**
  * Set up aria-labelledby on error element with hidden label span
  * @param {Element} el - The web component element
  */
@@ -156,6 +178,19 @@ const setUpErrorAriaLabel = el => {
   const labelText = buildErrorAriaLabel(el);
 
   if (labelText && el.shadowRoot) {
+    // Check if a label span already exists for this element
+    const existingLabelId = el.dataset.errorLabelId;
+    if (existingLabelId) {
+      const existingSpan = el.shadowRoot.querySelector(`#${existingLabelId}`);
+      if (existingSpan) {
+        // Update existing span if text changed
+        if (existingSpan.textContent !== labelText) {
+          existingSpan.textContent = labelText;
+        }
+        return; // Already set up
+      }
+    }
+
     // Create a unique ID for this error label
     const labelId = `error-label-${Math.random()
       .toString(36)
@@ -186,6 +221,36 @@ const setUpErrorAriaLabel = el => {
     // Store the label ID for potential cleanup
     // eslint-disable-next-line no-param-reassign
     el.dataset.errorLabelId = labelId;
+
+    // Set up observer for future error prop changes
+    // Skip if already observing
+    if (el.dataset.errorObserving === 'true') return;
+
+    // Mark as observing
+    // eslint-disable-next-line no-param-reassign
+    el.dataset.errorObserving = 'true';
+
+    // Create observer to watch for attribute changes
+    const observer = new MutationObserver(() => {
+      const hasError =
+        (el.getAttribute('error') && el.getAttribute('error') !== '') ||
+        (el.getAttribute('input-error') &&
+          el.getAttribute('input-error') !== '') ||
+        (el.getAttribute('checkbox-error') &&
+          el.getAttribute('checkbox-error') !== '');
+
+      if (!hasError) {
+        cleanupErrorAriaLabel(el);
+      } else {
+        setUpErrorAriaLabel(el);
+      }
+    });
+
+    // Watch for changes to error attributes
+    observer.observe(el, {
+      attributes: true,
+      attributeFilter: ['error', 'input-error', 'checkbox-error'],
+    });
   }
 };
 
