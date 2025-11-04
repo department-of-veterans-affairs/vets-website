@@ -81,9 +81,10 @@ describe('ReplyDraftItem component', () => {
     const messageBody = await findByTestId('message-body-field');
     expect(messageBody).to.have.attribute('value', draft.body);
     expect(document.querySelector('.attachments-section')).to.exist;
-    expect(getByText('Attachments')).to.exist;
-    expect(getByText('Attachments input')).to.exist;
-    expect(getByTestId('attach-file-input')).to.exist;
+    // VaFileInputMultiple component has "Attachments" as a label attribute, not visible text
+    const fileInput = getByTestId('attach-file-input');
+    expect(fileInput).to.exist;
+    expect(fileInput).to.have.attribute('label', 'Attachments');
     expect(getByTestId('send-button')).to.exist;
     expect(getByText('Save draft', { selector: 'button' })).to.exist;
     expect(getByText('Delete draft', { selector: 'button' })).to.exist;

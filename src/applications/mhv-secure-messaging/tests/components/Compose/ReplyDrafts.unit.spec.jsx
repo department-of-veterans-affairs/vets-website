@@ -46,9 +46,10 @@ describe('ReplyDrafts component', () => {
 
     const messageBody = await findByTestId('message-body-field');
     expect(messageBody).to.have.attribute('value', drafts[0].body);
-    expect(getByText('Attachments')).to.exist;
-    expect(getByText('Attachments input')).to.exist;
-    expect(getByTestId('attach-file-input')).to.exist;
+    // VaFileInputMultiple component has "Attachments" as a label attribute, not visible text
+    const fileInput = getByTestId('attach-file-input');
+    expect(fileInput).to.exist;
+    expect(fileInput).to.have.attribute('label', 'Attachments');
     expect(getByTestId('send-button')).to.exist;
     expect(getByText('Save draft', { selector: 'button' })).to.exist;
     expect(getByText('Delete draft', { selector: 'button' })).to.exist;
@@ -98,9 +99,13 @@ describe('ReplyDrafts component', () => {
     expect(replyToLabel.textContent).to.include('Draft 3 To: DOCTOR, FREEMAN');
     const textarea = replyToLabel.nextElementSibling.nextElementSibling;
     expect(textarea).to.have.attribute('value', customProps.drafts[0].body);
-    const attachments = textarea.nextElementSibling;
-    expect(attachments.textContent).to.include('Attachments');
-    const buttons = attachments.nextElementSibling;
+    const attachmentsSection = textarea.nextElementSibling;
+    // VaFileInputMultiple has label as an attribute, not in textContent
+    const fileInput = within(attachmentsSection).getByTestId(
+      'attach-file-input-3',
+    );
+    expect(fileInput).to.have.attribute('label', 'Attachments');
+    const buttons = attachmentsSection.nextElementSibling;
     expect(buttons.querySelector('va-button[text="Send draft 3"]')).to.exist;
     expect(within(buttons).getByTestId('save-draft-button-3')).to.exist;
     expect(within(buttons).getByTestId('delete-draft-button-3')).to.exist;
@@ -111,9 +116,13 @@ describe('ReplyDrafts component', () => {
     expect(replyToLabel2.textContent).to.include('Draft 2 To: DOCTOR, FREEMAN');
     const textarea2 = replyToLabel2.nextElementSibling.nextElementSibling;
     expect(textarea2).to.have.attribute('value', customProps.drafts[1].body);
-    const attachments2 = textarea2.nextElementSibling;
-    expect(attachments2.textContent).to.include('Attachments');
-    const buttons2 = attachments2.nextElementSibling;
+    const attachmentsSection2 = textarea2.nextElementSibling;
+    // VaFileInputMultiple has label as an attribute, not in textContent
+    const fileInput2 = within(attachmentsSection2).getByTestId(
+      'attach-file-input-2',
+    );
+    expect(fileInput2).to.have.attribute('label', 'Attachments');
+    const buttons2 = attachmentsSection2.nextElementSibling;
     expect(buttons2.querySelector('va-button[text="Send draft 2"]')).to.exist;
     expect(within(buttons2).getByTestId('save-draft-button-2')).to.exist;
     expect(within(buttons2).getByTestId('delete-draft-button-2')).to.exist;
