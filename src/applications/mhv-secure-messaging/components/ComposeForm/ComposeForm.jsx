@@ -142,6 +142,15 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
+      return () => {
+        dispatch(clearPrescription());
+      };
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
       if (isRxRenewalDraft) {
         const rx = renewalPrescription;
         const messageSubject = 'Renewal Needed';
@@ -172,9 +181,6 @@ const ComposeForm = props => {
           }),
         );
       }
-      return () => {
-        dispatch(clearPrescription());
-      };
     },
     [renewalPrescription, isRxRenewalDraft, dispatch],
   );

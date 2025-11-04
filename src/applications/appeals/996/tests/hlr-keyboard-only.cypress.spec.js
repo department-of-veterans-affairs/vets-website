@@ -66,7 +66,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       // *** Issues for review (sorted by random decision date) - only selecting one,
       // or more complex code is needed to find if the next checkbox is before or
       // after the first
-      verifyUrl(chapters.conditions.pages.contestableIssues.path);
+      verifyUrl(chapters.issues.pages.contestableIssues.path);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement('[name="root_contestedIssues_0"]'); // Tinnitus
@@ -75,7 +75,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
       // *** Area of disagreement for tinnitus
       verifyUrl(
-        chapters.conditions.pages.areaOfDisagreementFollowUp.path.replace(
+        chapters.issues.pages.areaOfDisagreementFollowUp.path.replace(
           ':index',
           '',
         ),
@@ -90,11 +90,11 @@ describe('Higher-Level Review keyboard only navigation', () => {
       h.tabToContinue();
 
       // *** Authorization
-      verifyUrl(chapters.conditions.pages.authorization.path);
+      verifyUrl(chapters.issues.pages.authorization.path);
       h.tabToContinue();
 
       // *** Issue summary
-      verifyUrl(chapters.conditions.pages.issueSummary.path);
+      verifyUrl(chapters.issues.pages.issueSummary.path);
       h.tabToContinue();
 
       // *** Informal conference choice

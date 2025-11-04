@@ -41,10 +41,10 @@ export const OTHER_HOUSING_RISK_MAX = 100;
 export const POINT_OF_CONTACT_MAX = 150;
 export const TREATMENT_FACILITY_OTHER_MAX = 115;
 
-export const EVIDENCE_VA = 'view:hasVaEvidence';
-export const EVIDENCE_PRIVATE = 'view:hasPrivateEvidence';
-export const EVIDENCE_OTHER = 'view:hasOtherEvidence';
-export const LIMITED_CONSENT_RESPONSE = 'view:hasPrivateLimitation';
+export const HAS_VA_EVIDENCE = 'view:hasVaEvidence';
+export const HAS_PRIVATE_EVIDENCE = 'view:hasPrivateEvidence';
+export const HAS_OTHER_EVIDENCE = 'view:hasOtherEvidence';
+export const HAS_PRIVATE_LIMITATION = 'view:hasPrivateLimitation';
 export const MST_OPTION = 'mstOption';
 
 // Including a default until we determine how to get around the user restarting

@@ -1,10 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
-import { getValue } from './helpers';
+import { getValue, PastDate, scrollToError } from './helpers';
+import { getPastDateError } from './utils';
+import propTypes from './types';
 
 const stepchildLeftHousehold = {
   handlers: {
@@ -12,41 +10,16 @@ const stepchildLeftHousehold = {
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
-      if (!itemData.dateStepchildLeftHousehold) {
-        setTimeout(scrollToFirstError);
+      const hasError = getPastDateError(itemData.endDate);
+      if (hasError) {
+        scrollToError();
       } else {
         goForward();
       }
     },
   },
 
-  /**
-   * Dependent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} isStepchild Whether the child is a stepchild
-   * @property {string} removalReason Dependent's removal reason
-   * @property {string} stepchildFinancialSupport Whether veteran provides financial support
-   * @property {string} dateStepchildLeftHousehold Date stepchild left household
-   */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} returnToMainPage Function to return to the main remove
-   * dependents page
-   * @returns React component
-   */
+  /** @type {PicklistComponentProps} */
   Component: ({
     itemData,
     formSubmitted,
@@ -72,49 +45,26 @@ const stepchildLeftHousehold = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          When did {firstName} stop living with you?
+          When did{' '}
+          <span className="dd-privacy-mask" data-dd-action-name="first name">
+            {firstName}
+          </span>{' '}
+          stop living with you?
         </h3>
 
-        <VaMemorableDate
-          name="dateStepchildLeftHousehold"
+        <PastDate
           label="Date stepchild left your household"
-          error={
-            formSubmitted && !itemData.dateStepchildLeftHousehold
-              ? 'Provide a date'
-              : null
-          }
-          monthSelect
-          value={itemData.dateStepchildLeftHousehold || ''}
-          // use onDateBlur to ensure month & day are zero-padded
-          onDateBlur={onChange}
-          required
+          date={itemData.endDate}
+          formSubmitted={formSubmitted}
+          missingErrorMessage="Provide a date"
+          onChange={onChange}
         />
       </>
     );
   },
 };
 
-stepchildLeftHousehold.propTypes = {
-  Component: PropTypes.func,
-};
-
-stepchildLeftHousehold.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    dateOfBirth: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-    isStepchild: PropTypes.string,
-    removalReason: PropTypes.string,
-    stepchildFinancialSupport: PropTypes.string,
-    dateStepchildLeftHousehold: PropTypes.string,
-  }),
-  returnToMainPage: PropTypes.func,
-};
+stepchildLeftHousehold.propTypes = propTypes.Page;
+stepchildLeftHousehold.Component.propTypes = propTypes.Component;
 
 export default stepchildLeftHousehold;
