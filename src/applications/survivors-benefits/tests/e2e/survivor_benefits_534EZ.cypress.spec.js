@@ -152,7 +152,7 @@ describe('Survivor Pension Benefits 534EZ ', () => {
       utils.checkAxeAndClickContinueButton();
 
       // Direct Deposit
-      utils.checkContentDirectDeposit()
+      utils.checkContentDirectDeposit();
       cy.selectRadio('root_hasBankAccount', 'N');
       utils.checkAxeAndClickContinueButton();
 

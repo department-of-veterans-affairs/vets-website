@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import fixtureData from './fixtures/data/fixtureData.json';
 
 /**
@@ -576,7 +575,10 @@ export const checkContentDirectDeposit = () => {
     'fieldset',
     'The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If we approve your application, we’ll use direct deposit to deposit your payments directly into a bank account.',
   );
-  checkVisibleElementContent('va-radio', 'Do you have a bank account to use for direct deposit? ');
+  checkVisibleElementContent(
+    'va-radio',
+    'Do you have a bank account to use for direct deposit? ',
+  );
 };
 
 /**
@@ -588,10 +590,13 @@ export const checkContentOtherPaymentOtionsIntro = () => {
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
   checkVisibleElementContent('legend', 'Other payment options');
-  checkVisibleElementContent('h4', 'Option 1: Get your payment through Direct Express Debit MasterCard');
+  checkVisibleElementContent(
+    'h4',
+    'Option 1: Get your payment through Direct Express Debit MasterCard',
+  );
   checkVisibleElementContent('h4', 'Option 2: Open a bank account');
   checkVisibleElementContent('va-link', 'Go to the VBBP website');
-}
+};
 
 /**
  * Check the content on the Supporting Docs page
@@ -602,30 +607,43 @@ export const checkContentSupportingDocs = () => {
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
   checkVisibleElementContent('legend', 'Supporting documents');
-  checkVisibleElementContent('fieldset',
-     'Next we’ll ask you to submit evidence (supporting documents) for your claim. If you upload all of this information online now, you may be able to get a faster decision on your claim.'
+  checkVisibleElementContent(
+    'fieldset',
+    'Next we’ll ask you to submit evidence (supporting documents) for your claim. If you upload all of this information online now, you may be able to get a faster decision on your claim.',
   );
   checkVisibleElementContent('h4', 'Required documents');
-  checkVisibleElementContent('va-accordion-item', 'Veteran’s death certificate');
-  checkVisibleElementContent('va-accordion-item', 'Veteran’s DD214 or separation documents');
-  checkVisibleElementContent('h4', 'Other documents you may need')
-  checkVisibleElementContent('va-accordion-item', 'Income and net worth')
-  checkVisibleElementContent('va-accordion-item', 'Special circumstances regarding your medical care')
-  checkVisibleElementContent('va-accordion-item', 'Dependent children')
+  checkVisibleElementContent(
+    'va-accordion-item',
+    'Veteran’s death certificate',
+  );
+  checkVisibleElementContent(
+    'va-accordion-item',
+    'Veteran’s DD214 or separation documents',
+  );
+  checkVisibleElementContent('h4', 'Other documents you may need');
+  checkVisibleElementContent('va-accordion-item', 'Income and net worth');
+  checkVisibleElementContent(
+    'va-accordion-item',
+    'Special circumstances regarding your medical care',
+  );
+  checkVisibleElementContent('va-accordion-item', 'Dependent children');
   checkVisibleElementContent('va-accordion-item', 'Marriage history');
-}
+};
 
 /**
  * Check the content on the Submit Supporting Docs page.
  */
-export const CheckContentSubmitSupportingDocs = () =>{
+export const CheckContentSubmitSupportingDocs = () => {
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
   checkVisibleElementContent('legend', 'Submit your supporting documents');
-  checkVisibleElementContent('va-file-input-multiple', 'Select a file to upload');
-} 
+  checkVisibleElementContent(
+    'va-file-input-multiple',
+    'Select a file to upload',
+  );
+};
 /**
  * Start the application process while not logged in
  */
@@ -870,5 +888,5 @@ export const fillInStatementOfTruthFromFixture = () => {
     .type(fullName);
 
   cy.injectAxeThenAxeCheck();
-  //cy.get('button[class="usa-button-primary"]').click();
+  // cy.get('button[class="usa-button-primary"]').click();
 };
