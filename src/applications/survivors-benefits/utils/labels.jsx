@@ -87,12 +87,22 @@ export const frequencyLabels = {
   ONE_TIME: 'One-time',
 };
 
+export const careFrequencyLabels = {
+  MONTHLY: 'Once a month',
+  YEARLY: 'Once a year',
+};
+
 export const typeOfIncomeLabels = {
   SOCIAL_SECURITY: 'Social Security',
   INTEREST_DIVIDEND: 'Interest or dividend income',
   CIVIL_SERVICE: 'Civil Service',
   PENSION_RETIREMENT: 'Pension or retirement income',
   OTHER: 'Other income',
+};
+
+export const careRecipientLabels = {
+  SURVIVING_SPOUSE: 'Surviving spouse',
+  OTHER: 'Other',
 };
 
 // Get military states to filter them out
