@@ -220,6 +220,19 @@ div[id^="vaos-appts__detail-"] {
   }
 }
 
+div[id^="vaos-appts__namelocation-"] {
+  @include media($small-screen) {
+    display: flex;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  @include media($small-desktop-screen) {
+    justify-content: left;
+  }
+}
+
+
 .vaos-appts__display--table {
   display: table;
   table-layout: fixed;

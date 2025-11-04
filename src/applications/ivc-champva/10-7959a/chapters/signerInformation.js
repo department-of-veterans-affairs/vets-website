@@ -21,6 +21,8 @@ import {
   validFieldCharsOnly,
   validObjectCharsOnly,
 } from '../../shared/validations';
+import { personalizeTitleByRole } from '../utils/helpers';
+import content from '../locales/en/content.json';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -49,26 +51,27 @@ export const certifierRoleSchema = {
   },
 };
 
-export const certifierReceivedPacketSchema = {
+export const certifierBenefitStatusSchema = {
   uiSchema: {
-    ...titleUI(({ formData }) => {
-      return `${
-        formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
-      } CHAMPVA benefit status`;
-    }),
-
+    ...titleUI(({ formData }) =>
+      personalizeTitleByRole(
+        formData,
+        content['certifier--benefit-status-title'],
+      ),
+    ),
     certifierReceivedPacket: {
       ...yesNoUI({
         type: 'radio',
-        updateUiSchema: formData => {
-          return {
-            'ui:title': `${
-              formData?.certifierRole === 'applicant'
-                ? 'Do you'
-                : 'Does the beneficiary'
-            } receive CHAMPVA benefits now?`,
-          };
-        },
+        updateUiSchema: formData => ({
+          'ui:title': personalizeTitleByRole(
+            formData,
+            content['certifier--benefit-status-label'],
+            {
+              self: content['form-label--your'],
+              other: content['form-label--beneficiary'],
+            },
+          ),
+        }),
       }),
     },
   },
@@ -211,18 +214,18 @@ export const certifierRelationshipSchema = {
 
 export const certifierClaimStatusSchema = {
   uiSchema: {
-    ...titleUI(({ formData }) => {
-      return `${
-        formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
-      } CHAMPVA claim status`;
-    }),
+    ...titleUI(({ formData }) =>
+      personalizeTitleByRole(
+        formData,
+        content['certifier--claim-status-title'],
+      ),
+    ),
     claimStatus: radioUI({
       type: 'radio',
-      title: 'Is this a new claim or a resubmission for an existing claim?',
-      required: () => true,
+      title: content['certifier--claim-status-label'],
       labels: {
-        new: 'A new claim',
-        resubmission: 'A resubmission for an existing claim',
+        new: content['certifier--claim-status-option--new'],
+        resubmission: content['certifier--claim-status-option--resubmission'],
       },
     }),
   },
