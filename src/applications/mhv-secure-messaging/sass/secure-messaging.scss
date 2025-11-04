@@ -1,10 +1,10 @@
+@forward "usa-button-group";
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "./secure-messaging-breadcrumb";
 @import "./navigation";
 @import "./folders-list";
 @import "./folder-thread-list-view";
 @import "src/platform/mhv/secondary-nav/sass/mhv-sec-nav";
-@forward "usa-button-group";
 
 .bottom-container {
   background-color: var(--vads-color-white);
