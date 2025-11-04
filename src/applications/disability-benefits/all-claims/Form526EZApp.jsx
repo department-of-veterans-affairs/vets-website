@@ -163,7 +163,7 @@ export const Form526Entry = ({
   useFormFeatureToggleSync([
     'disability526Enable2024Form4142',
     'disability526ToxicExposureOptOutDataPurge',
-    'disability526ToxicExposureOptOutDataPurgeByUser',
+    'disability526Enable2024Form4142',
     'disabilityCompNewConditionsWorkflow',
   ]);
 
