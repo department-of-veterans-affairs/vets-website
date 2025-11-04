@@ -357,7 +357,7 @@ class MedicationsListPage {
         'contain',
         'You have no refills left. If you need more, request a renewal.',
       );
-    cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
+    cy.get('[data-testid="send-renewal-request-message-link"]')
       .should('exist')
       .and('be.visible');
   };
