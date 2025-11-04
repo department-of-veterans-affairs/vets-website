@@ -167,6 +167,7 @@ const EmploymentQuestion = props => {
           goBack={handleBackNavigation}
           goForward={goForward}
           submitToContinue
+          useWebComponents={props.formOptions?.useWebComponentForNavigation}
         />
         {contentAfterButtons}
       </fieldset>
