@@ -11,14 +11,14 @@ import reducer from '../../../../redux/reducer';
 describe('Complex Claims Mileage', () => {
   const defaultApptId = '12345';
 
-  const renderComponent = (apptId = defaultApptId) => {
+  const renderComponent = (apptId = defaultApptId, claimId = 'claim123') => {
     return renderWithStoreAndRouter(
       <MemoryRouter
-        initialEntries={[`/file-new-claim/complex/${apptId}/mileage`]}
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/mileage`]}
       >
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/mileage"
+            path="/file-new-claim/:apptId/:claimId/mileage"
             element={<Mileage />}
           />
         </Routes>
