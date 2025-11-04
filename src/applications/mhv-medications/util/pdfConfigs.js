@@ -18,6 +18,7 @@ import {
   FIELD_NOT_AVAILABLE,
   medStatusDisplayTypes,
   pdfStatusDefinitions,
+  PRESCRIPTION_SOURCE,
 } from './constants';
 
 /**
@@ -121,7 +122,7 @@ export const buildNonVAPrescriptionPDFList = prescription => {
  */
 export const buildPrescriptionsPDFList = prescriptions => {
   return prescriptions?.map(rx => {
-    if (rx?.prescriptionSource === 'NV') {
+    if (rx?.prescriptionSource === PRESCRIPTION_SOURCE.NV) {
       return {
         ...buildNonVAPrescriptionPDFList(rx)[0],
         header: rx?.prescriptionName || rx?.orderableItem,
@@ -129,9 +130,11 @@ export const buildPrescriptionsPDFList = prescriptions => {
     }
 
     const pendingMed =
-      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+      rx?.prescriptionSource === PRESCRIPTION_SOURCE.PD &&
+      rx?.dispStatus === 'NewOrder';
     const pendingRenewal =
-      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+      rx?.prescriptionSource === PRESCRIPTION_SOURCE.PD &&
+      rx?.dispStatus === 'Renew';
     const isPending = pendingMed || pendingRenewal;
 
     const mostRecentRxRefillLine = () => {
@@ -355,10 +358,10 @@ export const buildVAPrescriptionPDFList = prescription => {
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pendingMed =
-    prescription?.prescriptionSource === 'PD' &&
+    prescription?.prescriptionSource === PRESCRIPTION_SOURCE.PD &&
     prescription?.dispStatus === 'NewOrder';
   const pendingRenewal =
-    prescription?.prescriptionSource === 'PD' &&
+    prescription?.prescriptionSource === PRESCRIPTION_SOURCE.PD &&
     prescription?.dispStatus === 'Renew';
   const VAPrescriptionPDFList = [
     {
@@ -494,7 +497,8 @@ export const buildVAPrescriptionPDFList = prescription => {
               ...refillHistory
                 .map((entry, i) => {
                   const { shape, color, backImprint, frontImprint } = entry;
-                  const isPartialFill = entry.prescriptionSource === 'PF';
+                  const isPartialFill =
+                    entry.prescriptionSource === PRESCRIPTION_SOURCE.PF;
                   const refillLabel = determineRefillLabel(
                     isPartialFill,
                     refillHistory,

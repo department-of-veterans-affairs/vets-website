@@ -42,6 +42,7 @@ import {
   DOWNLOAD_FORMAT,
   recordNotFoundMessage,
   DATETIME_FORMATS,
+  PRESCRIPTION_SOURCE,
 } from '../util/constants';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
@@ -80,7 +81,8 @@ const PrescriptionDetails = () => {
     queryParams,
   );
 
-  const nonVaPrescription = prescription?.prescriptionSource === 'NV';
+  const nonVaPrescription =
+    prescription?.prescriptionSource === PRESCRIPTION_SOURCE.NV;
 
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
@@ -451,7 +453,8 @@ const PrescriptionDetails = () => {
                 >
                   {filledEnteredDate()}
                 </p>
-                {prescription.prescriptionSource === 'PD' && pendingMedAlert()}
+                {prescription.prescriptionSource === PRESCRIPTION_SOURCE.PD &&
+                  pendingMedAlert()}
                 {isErrorNotificationVisible && (
                   <ApiErrorNotification
                     errorType={getErrorTypeFromFormat(

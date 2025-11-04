@@ -7,6 +7,7 @@ import {
   FIELD_NONE_NOTED,
   medStatusDisplayTypes,
   pdfStatusDefinitions,
+  PRESCRIPTION_SOURCE,
 } from '../../util/constants';
 import {
   validateField,
@@ -28,9 +29,11 @@ const PrescriptionPrintOnly = props => {
   const latestTrackingStatus = rx?.trackingList?.[0];
   const showPendingMedsContent = useSelector(selectPendingMedsFlag);
   const pendingMed =
-    rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+    rx?.prescriptionSource === PRESCRIPTION_SOURCE.PD &&
+    rx?.dispStatus === 'NewOrder';
   const pendingRenewal =
-    rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+    rx?.prescriptionSource === PRESCRIPTION_SOURCE.PD &&
+    rx?.dispStatus === 'Renew';
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);
 
@@ -235,7 +238,8 @@ const PrescriptionPrintOnly = props => {
                 {refillHistory.map((entry, i) => {
                   const index = refillHistory.length - i - 1;
                   const { shape, color, backImprint, frontImprint } = entry;
-                  const isPartialFill = entry.prescriptionSource === 'PF';
+                  const isPartialFill =
+                    entry.prescriptionSource === PRESCRIPTION_SOURCE.PF;
                   const refillLabel = determineRefillLabel(
                     isPartialFill,
                     refillHistory,

@@ -8,6 +8,7 @@ import {
   pdfDefaultPendingMedDefinition,
   pdfDefaultPendingRenewalDefinition,
   medStatusDisplayTypes,
+  PRESCRIPTION_SOURCE,
 } from '../constants';
 
 import { validateField } from './validateField';
@@ -89,10 +90,10 @@ export const prescriptionMedAndRenewalStatus = (prescription, displayType) => {
     return null;
   }
   const pendingMed =
-    prescription?.prescriptionSource === 'PD' &&
+    prescription?.prescriptionSource === PRESCRIPTION_SOURCE.PD &&
     prescription?.dispStatus === 'NewOrder';
   const pendingRenewal =
-    prescription?.prescriptionSource === 'PD' &&
+    prescription?.prescriptionSource === PRESCRIPTION_SOURCE.PD &&
     prescription?.dispStatus === 'Renew';
 
   return determineStatus(displayType, pendingMed, pendingRenewal, prescription);

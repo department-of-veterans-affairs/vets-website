@@ -335,3 +335,10 @@ export const DATETIME_FORMATS = {
 };
 
 export const MEDS_BY_MAIL_FACILITY_ID = '741MM';
+
+export const PRESCRIPTION_SOURCE = {
+  PD: 'PD',
+  PF: 'PF',
+  VA: 'VA',
+  NV: 'NV',
+};
