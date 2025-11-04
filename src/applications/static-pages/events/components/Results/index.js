@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { format, utcToZonedTime } from 'date-fns-tz';
@@ -75,12 +75,28 @@ export const Results = ({
   results,
   totalResults,
 }) => {
+  const noResultsRef = useRef(null);
+  const resultsHeaderRef = useRef(null);
+
+  // Focus the appropriate element when results change to announce to screen readers
+  useEffect(
+    () => {
+      if (!results?.length && noResultsRef.current) {
+        noResultsRef.current.focus();
+      } else if (results?.length && resultsHeaderRef.current) {
+        resultsHeaderRef.current.focus();
+      }
+    },
+    [results, totalResults, query],
+  );
+
   if (!results?.length) {
     return (
       <p
         className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1"
         data-testid="events-results-none-found"
         tabIndex="-1"
+        ref={noResultsRef}
       >
         {queryId === 'custom-date-range' ? (
           <span>No results found for Custom date range</span>
@@ -105,6 +121,7 @@ export const Results = ({
           className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1 vads-u-font-size--base vads-u-font-weight--normal"
           data-events-focus="true"
           tabIndex="-1"
+          ref={resultsHeaderRef}
         >
           <span>Displaying {resultsStartNumber}</span>
           <span className="vads-u-visibility--screen-reader">through</span>
