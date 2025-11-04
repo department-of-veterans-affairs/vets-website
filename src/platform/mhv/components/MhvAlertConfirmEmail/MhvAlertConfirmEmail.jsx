@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -36,6 +36,21 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const [confirmError, setConfirmError] = useState(false);
   const [skipSuccess, setSkipSuccess] = useState(false);
 
+  // adding focus by refs
+  const confirmSuccessRef = useRef(null);
+  const confirmErrorRef = useRef(null);
+  const skipSuccessRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (confirmSuccess) confirmSuccessRef.current?.focus();
+      if (confirmError) confirmErrorRef.current?.focus();
+      if (skipSuccess) skipSuccessRef.current?.focus();
+    },
+    [confirmSuccess, confirmError, skipSuccess],
+  );
+
+  // eslint-disable-next-line no-unused-vars
   const putConfirmationDate = (confirmationDate = new Date().toISOString()) =>
     apiRequest('/profile/email_addresses', {
       method: 'PUT',
@@ -57,7 +72,6 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
       })
       .then(() => dismissAlertViaCookie())
       .catch(() => setConfirmError(true));
-
   const onSkipClick = () => {
     setSkipSuccess(true);
     dismissAlertViaCookie();
@@ -68,15 +82,27 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   return emailAddress ? (
     <>
       {confirmSuccess && (
-        <AlertSystemResponseConfirmSuccess recordEvent={recordEvent} />
+        <AlertSystemResponseConfirmSuccess
+          recordEvent={recordEvent}
+          ref={confirmSuccessRef}
+          tabIndex={-1}
+        />
       )}
       {confirmError && (
-        <AlertSystemResponseConfirmError recordEvent={recordEvent} />
+        <AlertSystemResponseConfirmError
+          recordEvent={recordEvent}
+          ref={confirmErrorRef}
+          tabIndex={-1}
+        />
       )}
       {!confirmSuccess && (
         <AlertConfirmContactEmail
           emailAddress={emailAddress}
-          onConfirmClick={putConfirmationDate}
+          // UNDO: remove comment after testing: onConfirmClick={putConfirmationDate}
+          // TESTING: set for testing setConfirmSuccess(true) or setConfirmError(true); or setSkipSuccess(true);
+          onConfirmClick={() => {
+            setConfirmError(true);
+          }}
           recordEvent={recordEvent}
         />
       )}
@@ -84,7 +110,11 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   ) : (
     <>
       {skipSuccess && (
-        <AlertSystemResponseSkipSuccess recordEvent={recordEvent} />
+        <AlertSystemResponseSkipSuccess
+          recordEvent={recordEvent}
+          ref={skipSuccessRef}
+          tabIndex={-1}
+        />
       )}
       {!skipSuccess && (
         <AlertAddContactEmail

@@ -26,25 +26,24 @@ const SKIP_SUCCESS_PROPS = {
   content: defaultContent,
 };
 
-const AlertSystemResponse = ({
-  content,
-  dataTestid,
-  headline,
-  recordEvent = _ => {},
-  status,
-}) => {
-  useEffect(() => recordEvent(headline), [headline, recordEvent]);
-  return (
-    <VaAlert
-      status={status}
-      dataTestid={dataTestid}
-      className="vads-u-margin-y--2"
-    >
-      <h2 slot="headline">{headline}</h2>
-      <p className="vads-u-margin-y--0">{content}</p>
-    </VaAlert>
-  );
-};
+const AlertSystemResponse = React.forwardRef(
+  ({ content, dataTestid, headline, recordEvent = _ => {}, status }, ref) => {
+    useEffect(() => recordEvent(headline), [headline, recordEvent]);
+    return (
+      <VaAlert
+        status={status}
+        role="alert"
+        dataTestid={dataTestid}
+        className="vads-u-margin-y--2"
+        ref={ref}
+        tabIndex={-1}
+      >
+        <h2 slot="headline">{headline}</h2>
+        <p className="vads-u-margin-y--0">{content}</p>
+      </VaAlert>
+    );
+  },
+);
 
 AlertSystemResponse.propTypes = {
   content: PropTypes.string.isRequired,
@@ -54,14 +53,18 @@ AlertSystemResponse.propTypes = {
   recordEvent: PropTypes.func,
 };
 
-export const AlertSystemResponseConfirmSuccess = props => (
-  <AlertSystemResponse {...CONFIRM_SUCCESS_PROPS} {...props} />
+export const AlertSystemResponseConfirmSuccess = React.forwardRef(
+  (props, ref) => (
+    <AlertSystemResponse {...CONFIRM_SUCCESS_PROPS} {...props} ref={ref} />
+  ),
 );
 
-export const AlertSystemResponseConfirmError = props => (
-  <AlertSystemResponse {...CONFIRM_ERROR_PROPS} {...props} />
+export const AlertSystemResponseConfirmError = React.forwardRef(
+  (props, ref) => (
+    <AlertSystemResponse {...CONFIRM_ERROR_PROPS} {...props} ref={ref} />
+  ),
 );
 
-export const AlertSystemResponseSkipSuccess = props => (
-  <AlertSystemResponse {...SKIP_SUCCESS_PROPS} {...props} />
-);
+export const AlertSystemResponseSkipSuccess = React.forwardRef((props, ref) => (
+  <AlertSystemResponse {...SKIP_SUCCESS_PROPS} {...props} ref={ref} />
+));

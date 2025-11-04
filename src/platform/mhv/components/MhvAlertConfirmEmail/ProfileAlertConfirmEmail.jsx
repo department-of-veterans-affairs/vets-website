@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
@@ -25,7 +25,11 @@ const AlertConfirmContactEmail = ({ recordEvent, onClick }) => {
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
 
   return (
-    <VaAlert status="warning" dataTestid="profile-alert--confirm-contact-email">
+    <VaAlert
+      status="warning"
+      role="status"
+      dataTestid="profile-alert--confirm-contact-email"
+    >
       <h2 slot="headline">{headline}</h2>
       <React.Fragment key=".1">
         <p>
@@ -62,7 +66,11 @@ const AlertAddContactEmail = ({ recordEvent, onClick }) => {
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
 
   return (
-    <VaAlert status="warning" dataTestid="profile-alert--add-contact-email">
+    <VaAlert
+      status="warning"
+      role="status"
+      dataTestid="profile-alert--add-contact-email"
+    >
       <h2 slot="headline">{headline}</h2>
       <React.Fragment key=".1">
         <p>
@@ -110,6 +118,20 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const [confirmError, setConfirmError] = useState(false);
   const [skipSuccess, setSkipSuccess] = useState(false);
 
+  // Add refs for each alert
+  const confirmSuccessRef = useRef(null);
+  const confirmErrorRef = useRef(null);
+  const skipSuccessRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (confirmSuccess) confirmSuccessRef.current?.focus();
+      if (confirmError) confirmErrorRef.current?.focus();
+      if (skipSuccess) skipSuccessRef.current?.focus();
+    },
+    [confirmSuccess, confirmError, skipSuccess],
+  );
+
   const putConfirmationDate = (confirmationDate = new Date().toISOString()) =>
     apiRequest('/profile/email_addresses', {
       method: 'PUT',
@@ -128,7 +150,13 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   };
 
   if (skipSuccess)
-    return <AlertSystemResponseSkipSuccess recordEvent={recordEvent} />;
+    return (
+      <AlertSystemResponseSkipSuccess
+        recordEvent={recordEvent}
+        ref={skipSuccessRef}
+        tabIndex={-1}
+      />
+    );
 
   if (!renderAlert) return null;
 
@@ -137,10 +165,18 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
       {emailAddress ? (
         <>
           {confirmSuccess && (
-            <AlertSystemResponseConfirmSuccess recordEvent={recordEvent} />
+            <AlertSystemResponseConfirmSuccess
+              recordEvent={recordEvent}
+              ref={confirmSuccessRef}
+              tabIndex={-1}
+            />
           )}
           {confirmError && (
-            <AlertSystemResponseConfirmError recordEvent={recordEvent} />
+            <AlertSystemResponseConfirmError
+              recordEvent={recordEvent}
+              ref={confirmErrorRef}
+              tabIndex={-1}
+            />
           )}
           {!confirmSuccess && (
             <AlertConfirmContactEmail
