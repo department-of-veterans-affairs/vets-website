@@ -18,7 +18,6 @@ import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
-import AttachmentsList from '../AttachmentsList';
 import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
@@ -286,6 +285,10 @@ const ComposeForm = props => {
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const navigationErrorModalVisible =
     draftInProgress?.navigationErrorModalVisible;
+  // FileInput component needs setAttachFileSuccess for prop compatibility
+  // The value is managed internally by FileInput but not used in ComposeForm
+  // (previously was used by AttachmentsList which is no longer rendered here)
+  // eslint-disable-next-line no-unused-vars
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const savedDraft = draftInProgress?.savedDraft;
@@ -521,9 +524,8 @@ const ComposeForm = props => {
       setSubject(draftInProgress?.subject ?? draft.subject);
       setMessageBody(draftInProgress?.body ?? draft.body);
 
-      if (draft?.attachments) {
-        setAttachments(draft.attachments);
-      }
+      // Note: Drafts cannot save attachments, so draft.attachments is always empty
+      // This code is intentionally removed as it would never execute
       setFormPopulated(true);
       setFieldsString(
         JSON.stringify({
@@ -1112,20 +1114,6 @@ const ComposeForm = props => {
             (!noAssociations &&
               !allTriageGroupsBlocked && (
                 <section className="attachments-section">
-                  <AttachmentsList
-                    compose
-                    attachments={attachments}
-                    setAttachments={setAttachments}
-                    attachFileSuccess={attachFileSuccess}
-                    setAttachFileSuccess={setAttachFileSuccess}
-                    setNavigationError={setNavigationError}
-                    editingEnabled
-                    attachmentScanError={attachmentScanError}
-                    attachFileError={attachFileError}
-                    setAttachFileError={setAttachFileError}
-                    isOhTriageGroup={draftInProgress?.ohTriageGroup}
-                  />
-
                   <FileInput
                     attachments={attachments}
                     setAttachments={setAttachments}

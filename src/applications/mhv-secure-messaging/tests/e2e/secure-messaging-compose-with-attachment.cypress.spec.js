@@ -42,7 +42,13 @@ describe('Compose a new message with attachments', () => {
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
     PatientComposePage.removeAttachedFile();
 
-    cy.get(Locators.BLOCKS.ATTACHMENTS).should('not.be.visible');
+    // Verify no files are attached by checking that the VaFileInputMultiple component
+    // shows the initial "Attach file" button text instead of "Attach additional file"
+    PatientComposePage.attachFileButton().should(
+      'have.attr',
+      'button-text',
+      'Attach file',
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

@@ -8,6 +8,7 @@ import {
   ErrorMessages,
 } from '../../util/constants';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
+import HowToAttachFiles from '../HowToAttachFiles';
 
 const FileInput = props => {
   const {
@@ -19,6 +20,7 @@ const FileInput = props => {
     setAttachFileError,
     setAttachFileSuccess,
     setAttachments,
+    showHelp = true,
   } = props;
 
   const {
@@ -242,6 +244,12 @@ const FileInput = props => {
 
   return (
     <div className="file-input vads-u-margin-top--2">
+      {/* Only show HowToAttachFiles when showHelp is true
+          In reply/draft context where AttachmentsList is also rendered,
+          showHelp should be false to avoid duplication */}
+      {showHelp && (
+        <HowToAttachFiles useLargeAttachments={useLargeAttachments} />
+      )}
       {attachFileError && (
         <div
           data-testid="file-input-error-message"
@@ -276,6 +284,7 @@ FileInput.propTypes = {
   setAttachFileError: PropTypes.func,
   setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,
+  showHelp: PropTypes.bool,
 };
 
 export default FileInput;

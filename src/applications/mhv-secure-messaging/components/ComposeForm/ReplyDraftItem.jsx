@@ -17,7 +17,6 @@ import {
   navigateToFolderByFolderId,
   setCaretToPos,
 } from '../../util/helpers';
-import AttachmentsList from '../AttachmentsList';
 import FileInput from './FileInput';
 import DraftSavedInfo from './DraftSavedInfo';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
@@ -88,6 +87,9 @@ const ReplyDraftItem = props => {
     [dispatch],
   );
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
+  // FileInput component needs setAttachFileSuccess for prop compatibility
+  // The value is managed internally by FileInput but not used in ReplyDraftItem
+  // eslint-disable-next-line no-unused-vars
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -534,21 +536,6 @@ const ReplyDraftItem = props => {
         {!cannotReply &&
           !showBlockedTriageGroupAlert && (
             <section className="attachments-section vads-u-margin-top--2">
-              <AttachmentsList
-                attachments={attachments}
-                reply
-                setAttachments={setAttachments}
-                setNavigationError={setNavigationError}
-                editingEnabled
-                attachFileSuccess={attachFileSuccess}
-                setAttachFileSuccess={setAttachFileSuccess}
-                draftSequence={draftSequence}
-                attachmentScanError={attachmentScanError}
-                attachFileError={attachFileError}
-                setAttachFileError={setAttachFileError}
-                isOhTriageGroup={isOhTriageGroup}
-              />
-
               <FileInput
                 attachments={attachments}
                 setAttachments={setAttachments}
