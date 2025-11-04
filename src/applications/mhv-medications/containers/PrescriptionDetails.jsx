@@ -8,6 +8,7 @@ import {
   reportGeneratedBy,
   usePrintTitle,
   MhvPageNotFoundContent,
+  pharmacyPhoneNumber,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintOnlyPage from './PrintOnlyPage';
 import {
@@ -18,7 +19,6 @@ import {
   getErrorTypeFromFormat,
   getRefillHistory,
   hasCmopNdcNumber,
-  pharmacyPhoneNumber,
 } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import NonVaPrescription from '../components/PrescriptionDetails/NonVaPrescription';

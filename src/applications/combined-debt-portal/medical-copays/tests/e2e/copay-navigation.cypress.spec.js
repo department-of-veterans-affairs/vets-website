@@ -48,7 +48,7 @@ describe('CDP - Copay generic navigation & content', () => {
     cy.findByTestId(`past-due-balance-alert`).contains(
       'Your balance may be overdue',
     );
-    cy.findByTestId(`how-to-pay`).contains('How to pay your copay bill');
+    cy.findByTestId(`how-to-pay`).contains('How to make a payment');
     cy.injectAxeThenAxeCheck();
   });
 

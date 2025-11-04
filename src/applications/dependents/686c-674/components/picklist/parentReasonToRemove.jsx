@@ -7,46 +7,15 @@ import {
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { CancelButton } from '../../config/helpers';
-import { PICKLIST_DATA } from '../../config/constants';
 import { labels } from './utils';
 import propTypes from './types';
 
 const parentReasonToRemove = {
   handlers: {
-    goForward: ({ itemData, index, fullData }) => {
-      if (itemData.removalReason === 'parentDied') {
-        return 'parent-death';
-      }
-
-      const selectedItems = fullData[PICKLIST_DATA].filter(
-        item => item.selected,
-      );
-      const allParentOther = selectedItems.filter(
-        item =>
-          item.relationshipToVeteran === 'Parent' &&
-          item.removalReason === 'parentOther',
-      );
-
-      // If there are multiple selected dependents to remove and not all are
-      // parents, then don't show the parent exit page
-      if (
-        selectedItems.length > 1 &&
-        allParentOther.length !== selectedItems.length
-      ) {
-        return 'parent-other';
-      }
-
-      // Check for multiple parent "other" choices & only show the exit page if
-      // displaying the last parent
-      const result = fullData[PICKLIST_DATA].filter(
-        (item, itemIndex) =>
-          itemIndex > index &&
-          item.relationshipToVeteran === 'Parent' &&
-          item.selected &&
-          item.removalReason === 'parentOther',
-      );
-
-      return result.length > 0 ? 'parent-other' : 'parent-exit';
+    goForward: ({ itemData }) => {
+      return itemData.removalReason === 'parentDied'
+        ? 'parent-death'
+        : 'parent-exit';
     },
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {

@@ -46,9 +46,11 @@ const spouseMarriageEnded = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          {`${
-            isEditing ? 'Edit information' : 'Information'
-          } about the end of your marriage to ${firstName}`}
+          {isEditing ? 'Edit information' : 'Information'} about the end of your
+          marriage to{' '}
+          <span className="dd-privacy-mask" data-dd-action-name="first name">
+            {firstName}
+          </span>
         </h3>
 
         <div className="vads-u-margin-bottom--2">

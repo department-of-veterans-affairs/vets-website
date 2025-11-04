@@ -38,9 +38,10 @@ describe('submit transformer', () => {
 
     const result = transform(formConfig, formData);
     const parsedResult = JSON.parse(result);
+    const parsedForm = JSON.parse(parsedResult.medicalExpenseReportsClaim.form);
     expect(parsedResult).to.have.property('medicalExpenseReportsClaim');
     expect(parsedResult.medicalExpenseReportsClaim).to.have.property('form');
-    expect(parsedResult.medicalExpenseReportsClaim.form).to.deep.equal({
+    expect(parsedForm).to.deep.equal({
       claimantNotVeteran: false,
       claimantFullName: {},
       veteranFullName: {
@@ -51,7 +52,6 @@ describe('submit transformer', () => {
       },
     });
     expect(parsedResult).to.have.property('localTime');
-    // Additional checks for localTime format can be added here
   });
   it('should transform form data correctly for submission as not veteran', () => {
     const formConfig = {}; // Mock form config if needed
@@ -73,9 +73,10 @@ describe('submit transformer', () => {
 
     const result = transform(formConfig, formData);
     const parsedResult = JSON.parse(result);
+    const parsedForm = JSON.parse(parsedResult.medicalExpenseReportsClaim.form);
     expect(parsedResult).to.have.property('medicalExpenseReportsClaim');
     expect(parsedResult.medicalExpenseReportsClaim).to.have.property('form');
-    expect(parsedResult.medicalExpenseReportsClaim.form).to.deep.equal({
+    expect(parsedForm).to.deep.equal({
       claimantNotVeteran: true,
       claimantFullName: {
         first: 'John',
@@ -91,6 +92,5 @@ describe('submit transformer', () => {
       },
     });
     expect(parsedResult).to.have.property('localTime');
-    // Additional checks for localTime format can be added here
   });
 });
