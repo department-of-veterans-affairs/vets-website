@@ -151,3 +151,27 @@ export const handleAlertMaxItems = () => (
     />
   </div>
 );
+
+export const VaForm214138Alert = () => (
+  <va-alert status="warning" background-only>
+    <h3 slot="headline">You’ll need to submit VA Form 21-4138</h3>
+    <p>
+      You’ll need to submit a Statement in Support of Claim (VA Form 21-4138)
+      with the name of the person the child is currently living with and the
+      full address of where the child resides.
+    </p>
+    <p>
+      We’ll ask you to upload these documents at the end of this application. Or
+      you can send them to us by mail.
+    </p>
+    <p>
+      <a
+        href="https://www.va.gov/find-forms/about-form-21-4138/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Get VA Form 21-4138 to download (opens in new tab)
+      </a>
+    </p>
+  </va-alert>
+);
