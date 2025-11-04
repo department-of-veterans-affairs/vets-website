@@ -39,7 +39,7 @@ import {
 import {
   MedicarePartADescription,
   MedicarePartBDescription,
-  medicarePartsAbDescription,
+  MedicarePartsAbDescription,
 } from '../components/FormDescriptions/MedicarePlanDescriptions';
 import MedicarePartCAddtlInfo from '../components/FormDescriptions/MedicarePartCAddtlInfo';
 import ProofOfMedicareAlert from '../components/FormAlerts/ProofOfMedicareAlert';
@@ -313,7 +313,7 @@ const {
   uiSchema: medicareCardUiSchema,
   schema: medicareCardSchema,
 } = createCardUploadSchema({
-  customDescription: medicarePartsAbDescription,
+  customDescription: MedicarePartsAbDescription,
   frontProperty: 'medicarePartAPartBFrontCard',
   backProperty: 'medicarePartAPartBBackCard',
   frontImageSrc: '/img/ivc-champva/part_a_and_b_front_high_res.png',
@@ -413,20 +413,24 @@ const medicarePartBEffectiveDatePage = {
         headerLevel: 2,
         headerStyleLevel: 3,
       }),
+      medicarePartBEffectiveDate: currentOrPastDateUI({
+        title: 'Effective date',
+        hint:
+          'This will be on the front of the Medicare card near “Coverage starts.”',
+        classNames: 'vads-u-margin-top--neg1p5',
+      }),
     },
-    medicarePartBEffectiveDate: currentOrPastDateUI({
-      title: 'Effective date',
-      hint:
-        'This will be on the front of the Medicare card near “Coverage starts.”',
-      classNames: 'vads-u-margin-top--neg3',
-    }),
   },
   schema: {
     type: 'object',
-    required: ['medicarePartBEffectiveDate'],
     properties: {
-      'view:medicarePartBEffectiveDate': blankSchema,
-      medicarePartBEffectiveDate: currentOrPastDateSchema,
+      'view:medicarePartBEffectiveDate': {
+        type: 'object',
+        required: ['medicarePartBEffectiveDate'],
+        properties: {
+          medicarePartBEffectiveDate: currentOrPastDateSchema,
+        },
+      },
     },
   },
 };
