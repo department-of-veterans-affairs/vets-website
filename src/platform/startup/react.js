@@ -82,21 +82,19 @@ export default function startReactApp(component, rootOrOptions) {
 
   /**
    * Mount or hydrate the React application
-   * Uses hydrateRoot for React 18+ when hydrate flag is true and HTML exists
-   * Falls back to legacy render otherwise
+   * Uses ReactDOM.hydrate (React 17) when hydrate flag is true and HTML exists
+   * Falls back to render otherwise
    */
   const mountApp = () => {
     // Check if we should hydrate (hydrate flag + existing HTML in root)
     if (hydrate && root.hasChildNodes()) {
-      // Use React 18 hydration API
-      // eslint-disable-next-line import/no-unresolved, global-require
-      const { hydrateRoot } = require('react-dom/client');
-      hydrateRoot(root, component);
+      // Use React 17 hydration - attaches React to existing HTML
+      ReactDOM.hydrate(component, root);
 
       // eslint-disable-next-line no-console
       console.log('[startReactApp] Hydrated app with existing skeleton HTML');
     } else {
-      // Use legacy render (client-side only)
+      // Use render (client-side only, clears and replaces content)
       ReactDOM.render(component, root);
 
       if (hydrate) {

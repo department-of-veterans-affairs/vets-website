@@ -36,7 +36,7 @@ export const refillsApi = createApi({
   endpoints: builder => ({
     getRefillablePrescriptions: builder.query({
       query: () => ({
-        path: `${apiBasePath}/prescriptions/refillable`,
+        path: `${apiBasePath}/prescriptions/list_refillable_prescriptions`,
       }),
       providesTags: ['Refill'],
       transformResponse: response => {

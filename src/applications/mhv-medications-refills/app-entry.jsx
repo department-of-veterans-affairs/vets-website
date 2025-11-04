@@ -21,10 +21,11 @@ const App = () => (
   </Provider>
 );
 
-// Start the application with hydration enabled
-// The { hydrate: true } flag tells the platform to use React's hydrateRoot
-// instead of render, allowing React to attach to pre-rendered skeleton HTML
-startReactApp(<App />, { hydrate: true });
+// Start the application normally
+// The skeleton HTML will be replaced when React renders
+// Note: We don't use hydration because the skeleton is not a React-rendered component
+// but a static placeholder for perceived performance
+startReactApp(<App />);
 
 // Export the store to make it accessible elsewhere in the app
 export { store };

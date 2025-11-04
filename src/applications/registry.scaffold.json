@@ -156,5 +156,10 @@
     "appName": "Dependents Verification How To Verify",
     "rootUrl": "/manage-dependents/dependents-verification-how-to-verify",
     "widgetType": "dependents-verification-how-to-verify"
+  },
+  {
+    "appName": "MHV Medications Refills",
+    "entryName": "medications-refills",
+    "rootUrl": "/my-health/medications-refills"
   }
 ]

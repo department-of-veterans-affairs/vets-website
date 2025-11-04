@@ -1,5 +1,6 @@
 import React from 'react';
 import { useGetRefillablePrescriptionsQuery } from '../api/refillsApi';
+import MedicationsRefillPageSkeleton from '../components/MedicationsRefillPage.Skeleton';
 
 /**
  * MedicationsRefillPage component
@@ -30,14 +31,9 @@ const MedicationsRefillPage = () => {
     );
   }
 
+  // Show skeleton while loading (provides better UX than loading spinner)
   if (isLoading) {
-    return (
-      <va-loading-indicator
-        message="Loading your prescriptions..."
-        set-focus
-        data-testid="loading-indicator"
-      />
-    );
+    return <MedicationsRefillPageSkeleton />;
   }
 
   const prescriptions = data?.prescriptions || [];
@@ -58,28 +54,23 @@ const MedicationsRefillPage = () => {
         </div>
       ) : (
         <>
-          <p className="vads-u-margin-top--2">
-            Select the prescriptions you’d like to refill, then submit your
-            request.
-          </p>
-
           <div data-testid="prescription-list" className="vads-u-margin-top--3">
             {prescriptions.map(prescription => (
               <div
-                key={prescription.prescriptionId}
+                key={prescription.id || prescription.attributes?.prescriptionId}
                 className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
               >
                 <h3 className="vads-u-margin-top--0">
-                  {prescription.prescriptionName || 'Prescription'}
+                  {prescription.attributes?.prescriptionName || 'Prescription'}
                 </h3>
                 <p className="vads-u-margin-bottom--0">
                   <strong>Prescription number:</strong>{' '}
-                  {prescription.prescriptionNumber}
+                  {prescription.attributes?.prescriptionNumber}
                 </p>
-                {prescription.refillsRemaining !== undefined && (
+                {prescription.attributes?.refillRemaining !== undefined && (
                   <p className="vads-u-margin-bottom--0">
                     <strong>Refills remaining:</strong>{' '}
-                    {prescription.refillsRemaining}
+                    {prescription.attributes?.refillRemaining}
                   </p>
                 )}
               </div>
