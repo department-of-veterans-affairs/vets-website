@@ -94,7 +94,7 @@ const Prescriptions = () => {
   const dob = useSelector(selectUserDob);
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
   const [searchParams] = useSearchParams();
-  const rxRenualMessageSuccess = searchParams.get('rxRenualMessageSuccess');
+  const rxRenewalMessageSuccess = searchParams.get('rxRenewalMessageSuccess');
 
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);
@@ -634,7 +634,7 @@ const Prescriptions = () => {
   };
 
   const renderRxRenewalMessageSuccess = () => {
-    if (!rxRenualMessageSuccess) return null;
+    if (!rxRenewalMessageSuccess) return null;
 
     return <RxRenewalMessageSuccessAlert />;
   };

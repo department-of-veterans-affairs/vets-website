@@ -9,9 +9,12 @@ const SendRxRenewalMessage = ({
   alwaysShowFallBackContent = false,
   isActionLink = false,
 }) => {
+  const redirectPath = encodeURIComponent(
+    '/my-health/medications?page=1&rxRenewalMessageSuccess=true',
+  );
   const secureMessagesUrl = `/my-health/secure-messages/new-message?prescriptionId=${
     rx.prescriptionId
-  }&redirectPath=/my-health/medications?page=1&rxRenualMessageSuccess=true`;
+  }&redirectPath=${redirectPath}`;
   const [showRenewalModal, setShowRenewalModal] = useState(false);
 
   // Determine if the prescription is eligible for a renewal request
@@ -80,7 +83,7 @@ SendRxRenewalMessage.propTypes = {
     refillRemaining: PropTypes.number,
     dispStatus: PropTypes.string,
     expirationDate: PropTypes.string,
-    prescriptionId: PropTypes.string,
+    prescriptionId: PropTypes.number,
   }),
 };
 
