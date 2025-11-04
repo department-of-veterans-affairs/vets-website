@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 147,
+  "totalApplications": 149,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -158,6 +158,12 @@
       "appName": "Claims Status",
       "entryName": "claims-status",
       "rootUrl": "/track-claims"
+    },
+    {
+      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
+      "appName": "N/A",
+      "entryName": "N/A",
+      "rootUrl": "N/A"
     },
     {
       "directoryPath": "src/applications/combined-debt-portal/combined",
@@ -484,6 +490,12 @@
       "rootUrl": "/my-health/medications"
     },
     {
+      "directoryPath": "src/applications/mhv-medications-refills",
+      "appName": "MHV Medications Refills",
+      "entryName": "medications-refills",
+      "rootUrl": "/my-health/medications-refills"
+    },
+    {
       "directoryPath": "src/applications/mhv-secure-messaging",
       "appName": "MHV Secure Messaging",
       "entryName": "mhv-secure-messaging",
@@ -796,11 +808,10 @@
       "rootUrl": "/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490"
     },
     {
+      "directoryPath": "src/applications/survivors-benefits",
       "appName": "Apply For DIC, Survivors Pension, Or Accrued Benefits Online",
-      "entryFile": "./survivors-benefits-entry.jsx",
       "entryName": "survivors-benefits",
-      "rootUrl": "/family-and-caregiver-benefits/survivor-compensation/apply-for-dic-survivors-pension-accrued-benefits-form-21p-534ez",
-      "productId": "51601cf6-a6ff-4621-ac50-f12c37e5193e"
+      "rootUrl": "/family-and-caregiver-benefits/survivor-compensation/apply-for-dic-survivors-pension-accrued-benefits-form-21p-534ez"
     },
     {
       "directoryPath": "src/applications/terms-of-use",

@@ -29,6 +29,7 @@ const {
   getAppManifests,
   getWebpackEntryPoints,
 } = require('./manifest-helpers');
+const SkeletonManifestPlugin = require('./webpack-plugins/SkeletonManifestPlugin');
 
 // TODO: refactor the other approach for creating files without the hash so that we're only doing that in the webpack config: https://github.com/department-of-veterans-affairs/vets-website/blob/a012bad17e5bf024b0ea7326a72ae6a737e349ec/src/site/stages/build/plugins/process-entry-names.js#L35
 const vaMedalliaStylesFilename = 'va-medallia-styles';
@@ -551,6 +552,9 @@ module.exports = async (env = {}) => {
         filter: ({ isChunk }) => isChunk,
       }),
     );
+
+    // Generate skeleton manifest for React hydration
+    baseConfig.plugins.push(new SkeletonManifestPlugin());
   }
 
   // Optionally generate mocked HTML pages for apps without running content build.
