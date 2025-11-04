@@ -42,8 +42,7 @@ export default {
   uiSchema: {
     ...titleUI(
       'Work History Details',
-      `List all your employment including self-employment for the last five years you worked
-(include any military duty including inactive duty for training) (note: for additional employment information use section v, remarks)`,
+      `Your employment history - last 5 years. List all employment (including self-employment) for the last five years you have worked. Also be sure to include any military duty including inactive duty for training. `,
     ),
     employersHistory: {
       'ui:field': SafeArrayField,

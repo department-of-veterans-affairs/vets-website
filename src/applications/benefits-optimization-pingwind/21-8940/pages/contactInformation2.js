@@ -4,7 +4,12 @@ import {
   phoneSchema,
   phoneUI,
   inlineTitleUI,
+  internationalPhoneSchema,
+  internationalPhoneUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
+import TelephoneFieldNoInternalErrors from '../components/TelephoneFieldNoInternalErrors';
+
 import { veteranFields } from '../definitions/constants';
 
 /** @type {PageSchema} */
@@ -12,7 +17,20 @@ export default {
   uiSchema: {
     [veteranFields.parentObject]: {
       ...inlineTitleUI('Contact information', 'How can we reach you?'),
-      [veteranFields.homePhone]: phoneUI('Home phone number'),
+      [veteranFields.homePhone]: {
+        ...internationalPhoneUI({
+          title: 'Primary phone number',
+        }),
+        'ui:webComponentField': TelephoneFieldNoInternalErrors,
+        'ui:required': () => true,
+      },
+      [veteranFields.alternatePhone]: {
+        ...internationalPhoneUI({
+          title: 'Alternate or international phone number (if applicable)',
+          hideEmptyValueInReview: true,
+        }),
+        'ui:webComponentField': TelephoneFieldNoInternalErrors,
+      },
       [veteranFields.email]: emailToSendNotificationsUI({
         title: 'Email address',
         hint:
@@ -27,7 +45,10 @@ export default {
         type: 'object',
         required: [veteranFields.homePhone, veteranFields.email],
         properties: {
-          [veteranFields.homePhone]: phoneSchema,
+          [veteranFields.homePhone]: internationalPhoneSchema({
+            required: true,
+          }),
+          [veteranFields.alternatePhone]: internationalPhoneSchema(),
           [veteranFields.email]: emailToSendNotificationsSchema,
         },
       },

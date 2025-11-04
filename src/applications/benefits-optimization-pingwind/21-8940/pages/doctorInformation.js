@@ -46,6 +46,7 @@ export default {
           labels: {
             militaryCheckbox: 'Doctor is on a military base',
           },
+          omit: ['street2', 'street3'],
         }),
         connectedDisabilities: {
           'ui:title': 'Connected disabilities',

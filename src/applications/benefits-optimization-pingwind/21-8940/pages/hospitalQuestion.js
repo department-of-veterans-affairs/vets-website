@@ -9,6 +9,14 @@ import {
 
 import { hospitalizationQuestionFields } from '../definitions/constants';
 
+
+const hospitalTypeOptions = [
+  { value: 'nonVa', label: 'Non-VA Hospital' },
+  { value: 'va', label: 'VA Hospital' },
+  { value: 'both', label: 'Both VA and Non-VA Hospital' },
+];
+
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -21,17 +29,18 @@ export default {
           N: 'No, I have NOT been hospitalized in the past 12 months ',
         },
       }),
-      'view:treatmentAtNonVA': radioUI({
-        title: 'Where were you treated?',
-        labels: {
-          nonVa: 'Non-VA Hospital',
-          va: 'VA Hospital',
-          both: 'Both VA and Non-VA Hospital',
+      hospitalType: {
+        ...radioUI({
+          title: 'Where were you treated?',
+          options: hospitalTypeOptions,
+          errorMessages: {
+            required: 'Please select where you were treated.',
+          },
+        }),
+        'ui:options': {
+          hideIf: formData => formData && !formData[hospitalizationQuestionFields.parentObject][hospitalizationQuestionFields.hasBeenHospitalized],
         },
-        errorMessages: {
-          required: 'Please select where you were treated.',
-        },
-      }),
+      },
       'view:nonVAAuthorizationInfo': {
         'ui:description': () => (
           <div>
@@ -60,14 +69,30 @@ export default {
           </div>
         ),
         'ui:options': {
-          expandUnder: 'view:treatmentAtNonVA',
-          expandUnderCondition: val => val === 'va' || val === 'both',
+          expandUnder: 'hospitalType',
+          expandUnderCondition: val => val === 'nonVa' || val === 'both',
         },
       },
 
       'ui:options': {
         showFieldLabel: true,
         /* classNames: 'confirmation-required-radio',*/
+        updateSchema: (formData, schema, uiSchema, index, path) => {
+         
+          if (formData && !formData[hospitalizationQuestionFields.hasBeenHospitalized]) {
+            return {
+              ...schema,
+              properties: {
+                ...schema.properties,
+                ['hospitalType']: {
+                  ...schema.properties['hospitalType'],
+                  default: undefined,
+                },
+              },
+            };
+          }
+          return schema;
+        },
       },
     },
   },
@@ -79,7 +104,12 @@ export default {
         required: [hospitalizationQuestionFields.hasBeenHospitalized],
         properties: {
           [hospitalizationQuestionFields.hasBeenHospitalized]: yesNoSchema,
-          'view:treatmentAtNonVA': radioSchema(['nonVa', 'va', 'both']),
+          hospitalType: {
+             type: 'string',
+        enum: hospitalTypeOptions.map(o => o.value),
+        enumNames: hospitalTypeOptions.map(o => o.label),
+
+          },
           'view:nonVAAuthorizationInfo': {
             type: 'object',
             properties: {},

@@ -11,11 +11,13 @@ export default {
     totalIncome: numberUI({
       title:
         'Indicate your total earned income for the past 12 months (gross income)',
+      hint: 'Numeric characters only',
       setTouchedOnBlur: false,
     }),
     monthlyIncome: numberUI({
       title:
         'If you are currently employed, indicate your current monthly earned income (gross income)',
+      hint: 'Numeric characters only',
       setTouchedOnBlur: false,
     }),
   },

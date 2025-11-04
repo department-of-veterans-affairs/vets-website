@@ -25,7 +25,7 @@ const options = {
     !item?.[employmentAppliedFields.typeOfWork] ||
     !item?.[employmentAppliedFields.employerAddress] ||
     !item?.[employmentAppliedFields.dateApplied],
-  maxItems: 4,
+  maxItems: 3,
   text: {
     getItemName: item =>
       item[employmentAppliedFields.employerName] || 'Employer',

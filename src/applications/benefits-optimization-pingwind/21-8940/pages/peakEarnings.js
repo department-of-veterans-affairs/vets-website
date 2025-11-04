@@ -11,10 +11,12 @@ export default {
     'ui:title': 'Peak Earnings',
     'ui:description': 'Your highest earnings',
     maxYearlyEarnings: numberUI(
-      'What is the most you ever earned in one year?',
+      'What is the most you ever earned in one year? (Gross Income)',
     ),
-    yearEarned: numberUI('What year?'),
-    occupation: textUI('Occupation during that year?'),
+    yearEarned: numberUI('What year did you make your peak earnings?', {
+      hint: 'Numeric characters only',
+    }),
+    occupation: textUI('Your job(s) during that year'),
   },
   schema: {
     type: 'object',

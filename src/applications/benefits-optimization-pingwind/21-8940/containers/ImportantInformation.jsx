@@ -52,7 +52,7 @@ const ImportantInformation = ({ formData, location, route, router }) => {
           <li>You can save your progress and come back to this form later.</li>
           <li>
             This form is for claiming total disability if service-connected
-            disabilities have prevented you from getting or keeping a job
+            disabilities have prevented you from getting or keeping a job.
           </li>
         </ul>
       </VaSummaryBox>
