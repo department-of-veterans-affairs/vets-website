@@ -22,6 +22,7 @@ import {
   selectUI,
   addressUI,
   addressSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   STATE_NAMES,
@@ -59,6 +60,20 @@ const options = {
     },
     cardDescription: () => '',
   },
+  alertMaxItems: (
+    <div>
+      <p className="vads-u-margin-top--0">
+        You have added the maximum number of allowed dependent children for this
+        application. Additional dependents can be added using VA Form 686c and
+        uploaded at the end of this application.
+      </p>
+      <va-link
+        href="https://www.va.gov/find-forms/about-form-21-686c/"
+        external
+        text="Get VA Form 21P-686c to download"
+      />
+    </div>
+  ),
 };
 
 const introPage = {
@@ -111,7 +126,22 @@ const namePage = {
       "Dependent's name and information",
     ),
     dependentFullName: fullNameUI(),
-    dependentSocialSecurityNumber: ssnUI(),
+    dependentSocialSecurityNumber: {
+      ...ssnUI(),
+      'ui:required': (formData, index) => {
+        const item = formData?.dependents?.[index];
+        const currentPageData = formData;
+        return !(item?.noSsn || currentPageData?.noSsn);
+      },
+
+      'ui:options': {
+        hideIf: (formData, index) => {
+          const item = formData?.dependents?.[index];
+          const currentPageData = formData;
+          return item?.noSsn || currentPageData?.noSsn;
+        },
+      },
+    },
     noSsn: checkboxUI({
       title: "Doesn't have a Social Security number",
     }),
@@ -123,7 +153,7 @@ const namePage = {
       dependentSocialSecurityNumber: ssnSchema,
       noSsn: checkboxSchema,
     },
-    required: ['dependentFullName', 'dependentSocialSecurityNumber'],
+    required: ['dependentFullName'],
   },
 };
 
@@ -276,35 +306,33 @@ const dependentInfoPage = {
 
 const householdPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI("Dependent's household"),
-    livesWithYou: yesNoUI({ title: 'Does your child live with you?' }),
-    form21Alert: {
-      // show this alert when the dependent does NOT live with the veteran
+    ...titleUI("Dependent's household"),
+    livesWithYou: yesNoUI({
+      title: 'Does your child live with you?',
+      'ui:required': true,
+    }),
+    vaForm214138Alert: {
+      'ui:description': VaForm214138Alert,
       'ui:options': {
-        // when used inside the array-builder item page the hideIf callback
-        // receives (formData, index) — check the item at dependents[index]
         hideIf: (formData, index) => {
           const item = formData?.dependents?.[index];
-          const currentPageData = formData;
-          const value = item?.livesWithYou ?? currentPageData?.livesWithYou;
-          // hide the alert unless livesWithYou is explicitly false
+          const value = item?.livesWithYou ?? formData?.livesWithYou;
           return value !== false;
         },
         displayEmptyObjectOnReview: true,
       },
-      'ui:description': VaForm214138Alert,
     },
   },
   schema: {
     type: 'object',
+    required: ['livesWithYou'],
     properties: {
       livesWithYou: yesNoSchema,
-      form21Alert: {
+      vaForm214138Alert: {
         type: 'object',
         properties: {},
       },
     },
-    required: ['livesWithYou'],
   },
 };
 
@@ -360,98 +388,68 @@ const childSupportPage = {
   },
 };
 
-export const dependentsPages = arrayBuilderPages(
-  options,
-  (pageBuilder, helpers) => ({
-    dependentsIntro: pageBuilder.introPage({
-      title: 'Dependents',
-      path: 'household/dependents',
-      uiSchema: introPage.uiSchema,
-      schema: introPage.schema,
-    }),
-    dependentsSummary: pageBuilder.summaryPage({
-      title: 'Do you have a dependent child to add?',
-      path: 'household/dependents/add',
-      uiSchema: summaryPage.uiSchema,
-      schema: summaryPage.schema,
-    }),
-    dependentName: pageBuilder.itemPage({
-      title: "Dependent's name and information",
-      path: 'household/dependents/:index/name-and-information',
-      uiSchema: namePage.uiSchema,
-      schema: namePage.schema,
-    }),
-    dependentDobPlace: pageBuilder.itemPage({
-      title: "Dependent's date and place of birth",
-      path: 'household/dependents/:index/date-and-place-of-birth',
-      uiSchema: dobPlacePage.uiSchema,
-      schema: dobPlacePage.schema,
-    }),
-    dependentRelationship: pageBuilder.itemPage({
-      title: 'Relationship to dependent',
-      path: 'household/dependents/:index/relationship-to-dependent',
-      uiSchema: relationshipPage.uiSchema,
-      schema: relationshipPage.schema,
-    }),
-    dependentInfo: pageBuilder.itemPage({
-      title: "Dependent's information",
-      path: 'household/dependents/:index/information',
-      uiSchema: dependentInfoPage.uiSchema,
-      schema: dependentInfoPage.schema,
-    }),
-    dependentHousehold: pageBuilder.itemPage({
-      title: "Dependent's household",
-      path: 'household/dependents/:index/household',
-      uiSchema: householdPage.uiSchema,
-      schema: householdPage.schema,
-      onNavForward: props => {
-        // If the dependent lives with the veteran, finish the item and
-        // return to the summary (review) page. Otherwise continue to the
-        // mailing address and subsequent pages.
-        const index = props.match?.params?.index
-          ? Number(props.match.params.index)
-          : undefined;
-        const item = props.formData?.dependents?.[index];
-        const livesWithYou = item?.livesWithYou ?? props.formData?.livesWithYou;
-        return livesWithYou === true
-          ? helpers.navForwardFinishedItem(props)
-          : helpers.navForwardKeepUrlParams(props);
-      },
-    }),
-    dependentMailingAddress: pageBuilder.itemPage({
-      title: "Dependent's mailing address",
-      path: 'household/dependents/:index/mailing-address',
-      uiSchema: mailingAddressPage.uiSchema,
-      schema: mailingAddressPage.schema,
-      depends: (formData, index) => {
-        const item = formData?.dependents?.[index];
-        const value = item?.livesWithYou ?? formData?.livesWithYou;
-        return value === false;
-      },
-    }),
-    dependentCustodian: pageBuilder.itemPage({
-      title: "Dependent's custodian",
-      path: 'household/dependents/:index/custodian',
-      uiSchema: custodianPage.uiSchema,
-      schema: custodianPage.schema,
-      depends: (formData, index) => {
-        const item = formData?.dependents?.[index];
-        const value = item?.livesWithYou ?? formData?.livesWithYou;
-        return value === false;
-      },
-    }),
-    dependentChildSupport: pageBuilder.itemPage({
-      title: 'Child support payment',
-      path: 'household/dependents/:index/child-support',
-      uiSchema: childSupportPage.uiSchema,
-      schema: childSupportPage.schema,
-      depends: (formData, index) => {
-        const item = formData?.dependents?.[index];
-        const value = item?.livesWithYou ?? formData?.livesWithYou;
-        return value === false;
-      },
-    }),
+export const dependentsPages = arrayBuilderPages(options, pageBuilder => ({
+  dependentsIntro: pageBuilder.introPage({
+    title: 'Dependents',
+    path: 'household/dependents',
+    uiSchema: introPage.uiSchema,
+    schema: introPage.schema,
   }),
-);
+  dependentsSummary: pageBuilder.summaryPage({
+    title: 'Do you have a dependent child to add?',
+    path: 'household/dependents/add',
+    uiSchema: summaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  dependentName: pageBuilder.itemPage({
+    title: "Dependent's name and information",
+    path: 'household/dependents/:index/name-and-information',
+    uiSchema: namePage.uiSchema,
+    schema: namePage.schema,
+  }),
+  dependentDobPlace: pageBuilder.itemPage({
+    title: "Dependent's date and place of birth",
+    path: 'household/dependents/:index/date-and-place-of-birth',
+    uiSchema: dobPlacePage.uiSchema,
+    schema: dobPlacePage.schema,
+  }),
+  dependentRelationship: pageBuilder.itemPage({
+    title: 'Relationship to dependent',
+    path: 'household/dependents/:index/relationship-to-dependent',
+    uiSchema: relationshipPage.uiSchema,
+    schema: relationshipPage.schema,
+  }),
+  dependentInfo: pageBuilder.itemPage({
+    title: "Dependent's information",
+    path: 'household/dependents/:index/information',
+    uiSchema: dependentInfoPage.uiSchema,
+    schema: dependentInfoPage.schema,
+  }),
+  dependentHousehold: pageBuilder.itemPage({
+    title: "Dependent's household",
+    path: 'household/dependents/:index/household',
+    uiSchema: householdPage.uiSchema,
+    schema: householdPage.schema,
+  }),
+  dependentMailingAddress: pageBuilder.itemPage({
+    title: "Dependent's mailing address",
+    path: 'household/dependents/:index/mailing-address',
+    uiSchema: mailingAddressPage.uiSchema,
+    schema: mailingAddressPage.schema,
+    depends: formData => formData.dependentHousehold === true,
+  }),
+  dependentCustodian: pageBuilder.itemPage({
+    title: "Dependent's custodian",
+    path: 'household/dependents/:index/custodian',
+    uiSchema: custodianPage.uiSchema,
+    schema: custodianPage.schema,
+  }),
+  dependentChildSupport: pageBuilder.itemPage({
+    title: 'Child support payment',
+    path: 'household/dependents/:index/child-support',
+    uiSchema: childSupportPage.uiSchema,
+    schema: childSupportPage.schema,
+  }),
+}));
 
 export default dependentsPages;

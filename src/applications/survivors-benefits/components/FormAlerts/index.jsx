@@ -153,8 +153,11 @@ export const handleAlertMaxItems = () => (
 );
 
 export const VaForm214138Alert = () => (
-  <va-alert status="warning" background-only>
-    <h3 slot="headline">You’ll need to submit VA Form 21-4138</h3>
+  <va-alert-expandable
+    status="warning"
+    trigger="You’ll need to submit a VA Form 21-4138"
+    disable-border="true"
+  >
     <p>
       You’ll need to submit a Statement in Support of Claim (VA Form 21-4138)
       with the name of the person the child is currently living with and the
@@ -165,13 +168,15 @@ export const VaForm214138Alert = () => (
       you can send them to us by mail.
     </p>
     <p>
-      <a
-        href="https://www.va.gov/find-forms/about-form-21-4138/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Get VA Form 21-4138 to download (opens in new tab)
-      </a>
+      <span className="vads-u-display--block">
+        <va-link
+          href="https://www.va.gov/find-forms/about-form-21-4138/"
+          external
+          text="Get VA Form 21-4138 to download"
+        >
+          Get VA Form 21-4138 to download (opens in new tab)
+        </va-link>
+      </span>
     </p>
-  </va-alert>
+  </va-alert-expandable>
 );
