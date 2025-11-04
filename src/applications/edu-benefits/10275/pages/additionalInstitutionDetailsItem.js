@@ -101,7 +101,7 @@ const schema = {
         state: addressSchema().properties.state,
         postalCode: addressSchema().properties.postalCode,
       },
-      // required: ['street', 'city', 'state', 'postalCode', 'country'],
+      required: ['street', 'city', 'state', 'postalCode', 'country'],
     },
     // 'view:warningBanner': {
     //   type: 'object',

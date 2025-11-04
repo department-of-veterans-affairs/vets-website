@@ -6,7 +6,11 @@ describe('Helpers', () => {
   describe('getCardDescription', () => {
     it('should return the correct card description', () => {
       const card = {
-        fullName: 'John Doe',
+        fullName: {
+          first: 'John',
+          middle: '',
+          last: 'Doe',
+        },
         email: 'john.doe@example.com',
       };
       const description = getCardDescription(card);

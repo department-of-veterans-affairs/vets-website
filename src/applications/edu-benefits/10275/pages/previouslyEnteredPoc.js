@@ -34,7 +34,11 @@ const PreviouslyEnteredPOCWidget = props => {
       email: contact?.email || '',
       data: {
         key,
-        fullName: nm,
+        fullName: {
+          first: contact?.fullName.first,
+          middle: contact?.fullName?.middle,
+          last: contact?.fullName?.last,
+        },
         title,
         email: contact?.email || '',
         phone,
@@ -58,7 +62,11 @@ const PreviouslyEnteredPOCWidget = props => {
       email: authorizedOfficial?.email || '',
       data: {
         key: 'authorizedOfficial',
-        fullName: authorizedOfficialName,
+        fullName: {
+          first: authorizedOfficial?.fullName?.first,
+          middle: authorizedOfficial?.fullName?.middle,
+          last: authorizedOfficial?.fullName?.last,
+        },
         title,
         email: authorizedOfficial?.email || '',
         phone,
@@ -83,7 +91,16 @@ const PreviouslyEnteredPOCWidget = props => {
       key: `new-${idx}`,
       label: name,
       email,
-      data: { key: `new-${idx}`, fullName: name, email, phone },
+      data: {
+        key: `new-${idx}`,
+        fullName: {
+          first: fn.first,
+          middle: fn.middle,
+          last: fn.last,
+        },
+        email,
+        phone,
+      },
     });
   });
   options.push({
@@ -116,7 +133,7 @@ export const uiSchema = {
       </p>
     ),
   }),
-  previouslyEnteredPointOfContact: {
+  pointOfContact: {
     'ui:title':
       'Select a name below to use them as the point of contact for this additional location.',
     'ui:field': PreviouslyEnteredPOCWidget,
@@ -142,16 +159,23 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    previouslyEnteredPointOfContact: {
+    pointOfContact: {
       type: 'object',
       properties: {
         key: { type: 'string' },
-        fullName: { type: 'string' },
+        fullName: {
+          type: 'object',
+          properties: {
+            first: { type: 'string' },
+            middle: { type: 'string' },
+            last: { type: 'string' },
+          },
+        },
         title: { type: 'string' },
         email: { type: 'string', format: 'email' },
         phone: { type: 'string' },
       },
     },
   },
-  required: ['previouslyEnteredPointOfContact'],
+  required: ['pointOfContact'],
 };
