@@ -1,15 +1,6 @@
 const fs = require('fs');
 const delay = require('mocker-api/lib/delay');
 
-// Generate a UUID v4
-function generateUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-    const r = Math.floor(Math.random() * 16);
-    const v = c === 'x' ? r : (r % 4) + 8;
-    return v.toString(16);
-  });
-}
-
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
 const travelClaims = require('./travel-claims-31.json');
 
@@ -103,7 +94,25 @@ const responses = {
   //     ],
   //   });
   // },
-  'GET /travel_pay/v0/claims/:id': claimDetails.v1,
+  // 'GET /travel_pay/v0/claims/:id': claimDetails.v2,
+  'GET /travel_pay/v0/claims/:id': (req, res) => {
+    const details = { ...claimDetails.v2 };
+    details.expenses = [
+      {
+        expenseType: 'Mileage',
+        name: 'Mileage Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'mileage',
+        costRequested: 1.16,
+        costSubmitted: {
+          source: '0.0',
+          parsedValue: 0,
+        },
+        id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
+      },
+    ];
+    return res.json(details);
+  },
   // 'GET /travel_pay/v0/claims/:id': (req, res) => {
   //   return res.status(403).json({
   //     errors: [
@@ -135,7 +144,7 @@ const responses = {
   // Creating a new complex claim
   'POST /travel_pay/v0/complex_claims': (req, res) => {
     return res.json({
-      claimId: generateUUID(),
+      claimId: 'bd427107-91ac-4a4a-94ae-177df5aa32dc',
     });
   },
 
@@ -149,7 +158,7 @@ const responses = {
   // Creating expenses
   'POST /travel_pay/v0/expenses/mileage': (req, res) => {
     return res.json({
-      id: generateUUID(),
+      id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
     });
   },
 
