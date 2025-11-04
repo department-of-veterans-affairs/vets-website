@@ -192,13 +192,20 @@ function locationSupportsRequests(location, typeOfCare) {
   );
 }
 
+/**
+ * Has maching clinics that support direct scheduling and match past appointments if required
+ * @param {HealthCareService[]} clinics
+ * @param {Object[]} pastAppointments -- from getLongTermAppointmentHistoryV2 - no return type
+ * @param {boolean} [requiresPastHistory=true]
+ * @returns {boolean}
+ */
 function hasMatchingClinics(
   clinics,
   pastAppointments,
   requiresPastHistory = true,
 ) {
   return clinics?.some(clinic => {
-    const [clinicId, facilityId] = clinic.id.split('_');
+    const [facilityId, clinicId] = clinic.id.split('_');
     const acceptsDirect = clinic.patientDirectScheduling === true;
 
     return !!pastAppointments.find(appt => {
@@ -207,12 +214,13 @@ function hasMatchingClinics(
           ? clinic.stationId === appt.location?.stationId &&
             clinicId === appt.location?.clinicId
           : clinicId === appt.clinicId && facilityId === appt.facilityId;
-      if (appt.version === 2 && requiresPastHistory) {
-        return matchesClinic && acceptsDirect;
-      }
       if (appt.version === 2) {
+        if (requiresPastHistory) {
+          return matchesClinic && acceptsDirect;
+        }
         return acceptsDirect;
       }
+      // v1 appointments may not have clinic info, but
       return matchesClinic;
     });
   });
