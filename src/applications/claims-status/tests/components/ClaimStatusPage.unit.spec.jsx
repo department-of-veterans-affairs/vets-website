@@ -45,7 +45,7 @@ describe('<ClaimStatusPage>', () => {
         </Provider>,
       );
       expect($('.claim-status', container)).to.not.exist;
-      getByText('Claim status is unavailable');
+      getByText('We encountered a problem');
     });
   });
 
@@ -57,7 +57,7 @@ describe('<ClaimStatusPage>', () => {
         </Provider>,
       );
       expect($('.claim-status', container)).to.not.exist;
-      getByText('Claim status is unavailable');
+      getByText('We encountered a problem');
     });
   });
 

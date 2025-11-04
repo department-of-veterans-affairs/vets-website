@@ -187,7 +187,7 @@ describe('<OverviewPage>', () => {
       </Provider>,
     );
     expect($('.overview-container', container)).to.not.exist;
-    getByText('Claim status is unavailable');
+    getByText('We encountered a problem');
   });
 
   it('should render null when claim is null', () => {
@@ -197,7 +197,7 @@ describe('<OverviewPage>', () => {
       </Provider>,
     );
     expect($('.overview-container', container)).to.not.exist;
-    getByText('Claim status is unavailable');
+    getByText('We encountered a problem');
   });
 
   context('cstClaimPhases feature flag enabled', () => {

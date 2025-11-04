@@ -98,7 +98,7 @@ describe('<FilesPage>', () => {
     );
 
     expect(container.querySelector('.claim-files')).to.not.exist;
-    getByText('Claim status is unavailable');
+    getByText('We encountered a problem');
   });
 
   it('should render null when claim null', () => {
@@ -113,7 +113,7 @@ describe('<FilesPage>', () => {
     );
 
     expect(container.querySelector('.claim-files')).to.not.exist;
-    getByText('Claim status is unavailable');
+    getByText('We encountered a problem');
   });
 
   describe('pageFocus', () => {
