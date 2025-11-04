@@ -15,7 +15,7 @@ export default {
   uiSchema: {
     ...titleUI('Additional marriages'),
     additionalMarriages: yesNoUI({
-      title: 'Did you have more than 1 marriage after the Veteran death?',
+      title: 'Did you have more than 1 marriage after the Veteran’s death?',
     }),
     additionalMarriagesAlert: {
       'ui:description': AdditionalMarriagesAlert,

@@ -23,6 +23,7 @@ import {
   STATE_VALUES,
   COUNTRY_NAMES,
   COUNTRY_VALUES,
+  previousMarriageEndOptions,
 } from '../../../utils/labels';
 import { handleAlertMaxItems } from '../../../components/FormAlerts';
 
@@ -205,10 +206,10 @@ const marriageDatePlacePage = {
 
 const endedPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('How did the marriage end?'),
     marriageEndedBy: radioUI({
       title: 'How did the marriage end?',
-      labels: { DEATH: 'Death', DIVORCE: 'Divorce', OTHER: 'Other' },
+      labels: previousMarriageEndOptions,
+      labelHeaderLevel: 3,
     }),
     marriageEndedOther: textUI({
       title: 'Tell us how the marriage ended',
@@ -221,7 +222,7 @@ const endedPage = {
   schema: {
     type: 'object',
     properties: {
-      marriageEndedBy: radioSchema(['DEATH', 'DIVORCE', 'OTHER']),
+      marriageEndedBy: radioSchema(Object.keys(previousMarriageEndOptions)),
       marriageEndedOther: textSchema,
     },
     required: ['marriageEndedBy'],

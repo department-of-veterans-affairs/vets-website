@@ -36,7 +36,7 @@ export default {
       },
       marriageEndOtherReason: {
         ...textUI({
-          title: 'Tell us how the marriage ended?',
+          title: 'Tell us how the marriage ended',
           required: formData =>
             formData?.marriageEndDetails?.marriageEndReason === 'OTHER',
         }),
@@ -68,7 +68,7 @@ export default {
     }),
     marriageTypeOther: {
       ...textUI({
-        title: 'Tell us how you got married.',
+        title: 'Tell us how you got married',
         required: formData => formData?.marriageType === 'OTHER_WAY',
       }),
       'ui:options': {
@@ -84,8 +84,10 @@ export default {
     required: [
       'marriedAtDeath',
       'marriageDate',
+      'marriageEndDate',
       'placeOfMarriage',
       'marriageType',
+      'placeMarriageEnded',
     ],
     properties: {
       marriedAtDeath: yesNoSchema,

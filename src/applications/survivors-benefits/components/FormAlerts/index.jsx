@@ -141,11 +141,13 @@ UnauthenticatedWarningAlert.propTypes = {
 
 export const handleAlertMaxItems = () => (
   <div>
-    You have added the maximum number of allowed previous marriages for this
-    application. Additional marriages can be added using VA Form 21-4138 and
-    uploaded at the end of this application.
+    <p className="vads-u-margin-top--0">
+      You have added the maximum number of allowed previous marriages for this
+      application. Additional marriages can be added using VA Form 21-4138 and
+      uploaded at the end of this application.
+    </p>
     <va-link
-      href="/find-forms/about-form-21-4138/"
+      href="https://www.va.gov/find-forms/about-form-21-4138/"
       external
       text="Get VA Form 21-4138 to download"
     />

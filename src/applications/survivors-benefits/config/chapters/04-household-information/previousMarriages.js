@@ -12,7 +12,7 @@ export default {
   uiSchema: {
     ...titleUI('Previous marriages'),
     recognizedAsSpouse: yesNoUI({
-      title: 'Did we recognize you as a Veteran spouse before their death?',
+      title: 'Did we recognize you as the Veteran’s spouse before their death?',
     }),
     hadPreviousMarriages: yesNoUI({
       title:
