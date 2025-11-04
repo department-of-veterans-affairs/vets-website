@@ -61,87 +61,147 @@ export const scrollToTop = async (
   scrollOptions,
 ) => scrollTo(position, scrollOptions);
 
+// Selectors and constants for error handling
+const ERROR_ATTR_SELECTORS = ['error', 'input-error', 'checkbox-error'];
+const INPUT_SELECTOR = 'input, select, textarea';
+const ERROR_SPAN_SELECTOR = 'span.usa-sr-only[id^="error-label-"]';
+
 /**
- * Helper to check if a component has focusable inputs, checking nested shadow DOMs
- * @param {Element} element - The element to check
- * @returns {boolean} - True if any input/select/textarea found at any level
+ * Get error message text from a web component
+ * @param {Element} el - The web component element
+ * @returns {string} The error message text
  */
-const hasInputInShadowDOM = element => {
-  // Check direct shadow DOM
-  if (element?.shadowRoot?.querySelector('input, select, textarea')) {
-    return true;
+const getErrorMessage = el => {
+  for (const attr of ERROR_ATTR_SELECTORS) {
+    const msg = el.getAttribute(attr);
+    if (msg) return msg;
+  }
+  return el.error || '';
+};
+
+/**
+ * Get label text from a web component
+ * @param {Element} el - The web component element
+ * @returns {string} The label text
+ */
+const getLabelText = el => {
+  // Try to get from label prop first
+  let labelText = el.getAttribute('label') || el.label || '';
+
+  // Try input-label prop if label is empty
+  if (!labelText) {
+    labelText = el.getAttribute('input-label') || el.inputLabel || '';
   }
 
-  // Check one level deeper (nested web components)
-  const childComponents = element?.shadowRoot?.querySelectorAll('*');
-  if (childComponents) {
-    for (const child of childComponents) {
-      if (child.shadowRoot?.querySelector('input, select, textarea')) {
-        return true;
+  // Fall back to extracting from label element in shadow DOM
+  if (!labelText) {
+    const labelElement = el.shadowRoot?.querySelector('label');
+    labelText = labelElement?.textContent?.trim() || '';
+  }
+
+  return labelText;
+};
+
+/**
+ * Remove error annotations from an element's shadow root
+ * @param {Element} el - The element to clean
+ */
+const removeErrorAnnotations = el => {
+  if (!el?.shadowRoot) return;
+
+  // Remove aria-labelledby error spans
+  el.shadowRoot
+    .querySelectorAll(ERROR_SPAN_SELECTOR)
+    .forEach(span => span.remove());
+
+  // Remove aria-labelledby from inputs
+  el.shadowRoot.querySelectorAll(INPUT_SELECTOR).forEach(input => {
+    input.removeAttribute('aria-labelledby');
+  });
+
+  // Also remove sr-only-error spans from legend/label (for backward compatibility)
+  ['legend', 'label'].forEach(selector => {
+    const element = el.shadowRoot.querySelector(selector);
+    const errorSpan = element?.querySelector('.sr-only-error');
+    errorSpan?.remove();
+  });
+};
+
+/**
+ * Recursively clean up error annotations in nested shadow DOMs
+ * @param {Element|ShadowRoot} root - The element or shadow root to search
+ */
+const cleanupNestedShadowRoots = root => {
+  if (!root) return;
+
+  // For ShadowRoot, we need to access children via getElementById or other methods
+  // For Element, we can use querySelectorAll
+  let elements = [];
+
+  if (root.querySelectorAll) {
+    elements = Array.from(root.querySelectorAll('*'));
+  }
+
+  elements.forEach(el => {
+    // Check if this element has a shadow root
+    if (el.shadowRoot) {
+      // Check if this element has error spans
+      if (el.shadowRoot.querySelector(ERROR_SPAN_SELECTOR)) {
+        const errorMessage = getErrorMessage(el);
+        if (!errorMessage) {
+          removeErrorAnnotations(el);
+        }
       }
+      // Recursively check nested shadow roots
+      cleanupNestedShadowRoots(el.shadowRoot);
     }
-  }
-
-  return false;
+  });
 };
 
 /**
  * Clean up error annotations from web components that no longer have errors
  */
 export const cleanupErrorAnnotations = () => {
-  // Find all web components that might have legends or labels with sr-only error spans
-  const allComponents = document.querySelectorAll(
-    'va-radio, va-checkbox, va-checkbox-group, va-memorable-date, va-statement-of-truth',
+  // Find all elements that currently have error attributes
+  const errorSelector = ERROR_ATTR_SELECTORS.map(attr => `[${attr}]`).join(
+    ', ',
   );
-  allComponents.forEach(component => {
-    const errorMessage =
-      component.getAttribute('error') ||
-      component.getAttribute('input-error') ||
-      component.getAttribute('checkbox-error') ||
-      component.error;
+  const elementsWithErrors = document.querySelectorAll(errorSelector);
+  elementsWithErrors.forEach(el => {
+    const errorMessage = getErrorMessage(el);
     if (!errorMessage) {
-      // No error - remove sr-only error span from legend if it exists
-      const legend = component.shadowRoot?.querySelector('legend');
-      if (legend) {
-        const errorSpan = legend.querySelector('.sr-only-error');
-        if (errorSpan) {
-          errorSpan.remove();
-        }
-      }
-
-      // Also check labels (for va-checkbox)
-      const label = component.shadowRoot?.querySelector('label');
-      if (label) {
-        const errorSpan = label.querySelector('.sr-only-error');
-        if (errorSpan) {
-          errorSpan.remove();
-        }
-      }
+      removeErrorAnnotations(el);
     }
   });
+
+  // Recursively clean up all nested shadow DOMs
+  cleanupNestedShadowRoots(document);
 };
 
 // Set up a MutationObserver to clean up errors when attributes change
 if (typeof window !== 'undefined') {
-  const observer = new MutationObserver(() => {
-    cleanupErrorAnnotations();
-  });
+  const observerConfig = {
+    attributes: true,
+    attributeFilter: ERROR_ATTR_SELECTORS,
+    subtree: true,
+  };
 
-  // Start observing when DOM is ready
+  const startObserving = () => {
+    // Debounce cleanup to avoid excessive calls
+    let cleanupTimeout;
+    const debouncedCleanup = () => {
+      clearTimeout(cleanupTimeout);
+      cleanupTimeout = setTimeout(cleanupErrorAnnotations, 50);
+    };
+
+    const observer = new MutationObserver(debouncedCleanup);
+    observer.observe(document, observerConfig);
+  };
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      observer.observe(document.body, {
-        attributes: true,
-        attributeFilter: ['error', 'input-error', 'checkbox-error'],
-        subtree: true,
-      });
-    });
+    document.addEventListener('DOMContentLoaded', startObserving);
   } else {
-    observer.observe(document.body, {
-      attributes: true,
-      attributeFilter: ['error', 'input-error', 'checkbox-error'],
-      subtree: true,
-    });
+    startObserving();
   }
 }
 
@@ -164,125 +224,6 @@ const collectAllErrorElements = selectors => {
   });
 
   return [...allErrorElements, ...nestedErrorElements];
-};
-
-/**
- * Add sr-only error text to a label or legend element for screen reader accessibility
- * @param {Element} errorWebComponent - The web component with an error
- * @param {string} errorMessage - The error message text to add
- * @param {string} targetSelector - CSS selector for the target element ('legend' or 'label')
- */
-const addSROnlyErrorToElement = (
-  errorWebComponent,
-  errorMessage,
-  targetSelector = 'legend',
-) => {
-  const targetElement = errorWebComponent.shadowRoot?.querySelector(
-    targetSelector,
-  );
-
-  if (
-    errorMessage &&
-    targetElement &&
-    !targetElement.querySelector('.sr-only-error')
-  ) {
-    const errorText = errorMessage.replace(/^Error\s*/i, '').trim();
-    const errorSpan = document.createElement('span');
-    errorSpan.className = 'usa-sr-only sr-only-error';
-    errorSpan.textContent = `Error: ${errorText}. `;
-    targetElement.insertBefore(errorSpan, targetElement.firstChild);
-  }
-};
-
-/**
- * Associate error message with input element using aria-describedby
- * @param {Element} errorWebComponent - The web component with an error
- * @param {string} errorId - The ID of the error message element
- */
-const associateErrorWithInput = (errorWebComponent, errorId) => {
-  const inputElement = errorWebComponent?.shadowRoot?.querySelector(
-    'input, select, textarea',
-  );
-
-  if (inputElement) {
-    const existingDescribedBy = inputElement.getAttribute('aria-describedby');
-    if (!existingDescribedBy) {
-      // No existing aria-describedby, just set the error ID
-      inputElement.setAttribute('aria-describedby', errorId);
-    } else if (!existingDescribedBy.includes(errorId)) {
-      // Error ID not present, add it first
-      inputElement.setAttribute(
-        'aria-describedby',
-        `${errorId} ${existingDescribedBy}`,
-      );
-    } else if (!existingDescribedBy.startsWith(errorId)) {
-      // Error ID present but not first, reorder it
-      const ids = existingDescribedBy.split(' ').filter(id => id !== errorId);
-      inputElement.setAttribute(
-        'aria-describedby',
-        `${errorId} ${ids.join(' ')}`,
-      );
-    }
-  }
-};
-
-/**
- * Process a single error element to set up accessibility annotations
- * Adds aria-describedby for inputs or sr-only text for legends
- * @param {Element} errorWebComponent - The web component with an error
- */
-const processErrorElement = errorWebComponent => {
-  const errorElement = errorWebComponent?.shadowRoot?.querySelector(
-    '[role="alert"], #input-error-message, #radio-error-message',
-  );
-
-  if (!errorElement) return;
-
-  // Get or create a unique ID for the error element
-  let errorId = errorElement.id;
-  if (!errorId) {
-    errorId = `input-error-message-${Math.random()
-      .toString(36)
-      .substr(2, 9)}`;
-    errorElement.id = errorId;
-  }
-
-  // Remove role=alert to prevent interference with aria-describedby announcements
-  errorElement.removeAttribute('role');
-  errorElement.removeAttribute('aria-live');
-
-  // Special handling for va-checkbox: add error to label instead of using aria-describedby
-  const isCheckbox = errorWebComponent.tagName === 'VA-CHECKBOX';
-  if (isCheckbox) {
-    const errorMessage =
-      errorWebComponent.getAttribute('error') || errorWebComponent.error;
-    addSROnlyErrorToElement(errorWebComponent, errorMessage, 'label');
-
-    // Remove aria-describedby from checkbox input to prevent duplicate announcements
-    const checkboxInput = errorWebComponent?.shadowRoot?.querySelector(
-      'input[type="checkbox"]',
-    );
-    if (checkboxInput) {
-      checkboxInput.removeAttribute('aria-describedby');
-    }
-    return;
-  }
-
-  // Check if there's a focusable input element (including nested shadow DOMs)
-  const hasInput = hasInputInShadowDOM(errorWebComponent);
-
-  if (!hasInput) {
-    // No input found - add sr-only error to legend for components like radio/checkbox groups
-    const errorMessage =
-      errorWebComponent.getAttribute('error') ||
-      errorWebComponent.getAttribute('input-error') ||
-      errorWebComponent.getAttribute('checkbox-error') ||
-      errorWebComponent.error;
-    addSROnlyErrorToElement(errorWebComponent, errorMessage);
-  } else {
-    // For other inputs, use aria-describedby
-    associateErrorWithInput(errorWebComponent, errorId);
-  }
 };
 
 /**
@@ -340,6 +281,84 @@ const findFocusTarget = el => {
 };
 
 /**
+ * Associate error message with input element using aria-labelledby
+ * @param {Element} errorWebComponent - The web component with an error
+ * @param {string} errorMessage - The error message text
+ */
+const associateErrorWithInput = (errorWebComponent, errorMessage) => {
+  if (!errorMessage) return;
+
+  // Find the focusable input (including nested elements)
+  const inputElement = findFocusTarget(errorWebComponent);
+  if (!inputElement) return;
+
+  // Check if this input already has an error label
+  const existingLabelId = inputElement.getAttribute('aria-labelledby');
+  if (
+    existingLabelId &&
+    errorWebComponent.shadowRoot?.querySelector(`#${existingLabelId}`)
+  ) {
+    return; // Already has an error label
+  }
+
+  // Create a unique ID for the error label
+  const labelId = `error-label-${Math.random()
+    .toString(36)
+    .substr(2, 9)}`;
+
+  // Create error label text
+  const errorText = errorMessage.replace(/^Error\s*/i, '').trim();
+  const labelText = getLabelText(errorWebComponent);
+  const fullText = labelText
+    ? `Error: ${errorText}. ${labelText}.`
+    : `Error: ${errorText}.`;
+
+  // Create a hidden span with the error message
+  const labelSpan = document.createElement('span');
+  labelSpan.id = labelId;
+  labelSpan.className = 'usa-sr-only';
+  labelSpan.textContent = fullText;
+
+  // Append to the component's shadow root
+  if (errorWebComponent.shadowRoot) {
+    errorWebComponent.shadowRoot.appendChild(labelSpan);
+  }
+
+  // Set aria-labelledby on the input
+  inputElement.setAttribute('aria-labelledby', labelId);
+  inputElement.removeAttribute('aria-describedby');
+};
+
+/**
+ * Remove alert role from error element to prevent interference
+ * @param {Element} el - The element to update
+ */
+const removeAlertRole = el => {
+  const errorElement = el?.shadowRoot?.querySelector(
+    '[role="alert"], #input-error-message, #radio-error-message',
+  );
+  if (errorElement) {
+    errorElement.removeAttribute('role');
+    errorElement.removeAttribute('aria-live');
+  }
+};
+
+/**
+ * Process a single error element to set up accessibility annotations
+ * Adds aria-labelledby with sr-only error span
+ * @param {Element} errorWebComponent - The web component with an error
+ */
+const processErrorElement = errorWebComponent => {
+  removeAlertRole(errorWebComponent);
+
+  const errorMessage = getErrorMessage(errorWebComponent);
+  if (!errorMessage) return;
+
+  // Use aria-labelledby with sr-only span for all components
+  associateErrorWithInput(errorWebComponent, errorMessage);
+};
+
+/**
  * scrollToFirstError options
  * @typedef scrollToFirstErrorOptions
  * @type {Object}
@@ -354,7 +373,7 @@ const findFocusTarget = el => {
  */
 export const scrollToFirstError = async (options = {}) => {
   return new Promise(resolve => {
-    const { focusOnAlertRole = true, errorContext } = options;
+    const { errorContext } = options;
     const selectors = ERROR_ELEMENTS.join(',');
     const timeout = 500;
     const observerConfig = { childList: true, subtree: true };
@@ -408,23 +427,19 @@ export const scrollToFirstError = async (options = {}) => {
         const position = getElementPosition(el);
         scrollTo(position - 10, options);
 
-        if (focusOnAlertRole) {
-          // First, clean up any components that no longer have errors
-          cleanupErrorAnnotations();
+        // Clean up orphaned error annotations from nested shadow DOMs
+        cleanupErrorAnnotations();
 
-          // Collect and process all error elements (including nested ones)
-          const allErrors = collectAllErrorElements(selectors);
-          allErrors.forEach(processErrorElement);
+        // Collect and process all error elements (including nested ones)
+        const allErrors = collectAllErrorElements(selectors);
+        allErrors.forEach(processErrorElement);
 
-          // Find and focus the appropriate input element
-          const focusTarget = findFocusTarget(el);
-          if (focusTarget) {
-            setTimeout(() => {
-              focusTarget.focus({ preventScroll: true });
-            }, 100);
-          }
-        } else {
-          focusElement(el);
+        // Find and focus the appropriate input element
+        const focusTarget = findFocusTarget(el);
+        if (focusTarget) {
+          setTimeout(() => {
+            focusTarget.focus({ preventScroll: true });
+          }, 100);
         }
       }
 
