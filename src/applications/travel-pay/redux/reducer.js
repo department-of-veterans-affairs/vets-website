@@ -468,7 +468,7 @@ function travelPayReducer(state = initialState, action) {
 
     case FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS: {
       const existingExpenses = state.complexClaim.expenses.data || [];
-      const newExpenses = action.payload || [];
+      const newExpenses = action.payload?.expenses || [];
 
       const existingExpensesMap = existingExpenses.reduce(
         (map, expense) => ({
@@ -504,6 +504,7 @@ function travelPayReducer(state = initialState, action) {
               isLoading: false,
               error: null,
             },
+            data: action.payload,
           },
           expenses: {
             ...state.complexClaim.expenses,
