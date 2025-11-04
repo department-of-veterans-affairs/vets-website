@@ -1,9 +1,7 @@
 import React from 'react';
-import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
-import { getValue } from './helpers';
+import { getValue, PastDate, scrollToError } from './helpers';
+import { getPastDateError } from './utils';
 import propTypes from './types';
 
 const stepchildLeftHousehold = {
@@ -12,8 +10,9 @@ const stepchildLeftHousehold = {
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
-      if (!itemData.dateStepchildLeftHousehold) {
-        setTimeout(scrollToFirstError);
+      const hasError = getPastDateError(itemData.endDate);
+      if (hasError) {
+        scrollToError();
       } else {
         goForward();
       }
@@ -53,19 +52,12 @@ const stepchildLeftHousehold = {
           stop living with you?
         </h3>
 
-        <VaMemorableDate
-          name="dateStepchildLeftHousehold"
+        <PastDate
           label="Date stepchild left your household"
-          error={
-            formSubmitted && !itemData.dateStepchildLeftHousehold
-              ? 'Provide a date'
-              : null
-          }
-          monthSelect
-          value={itemData.dateStepchildLeftHousehold || ''}
-          // use onDateBlur to ensure month & day are zero-padded
-          onDateBlur={onChange}
-          required
+          date={itemData.endDate}
+          formSubmitted={formSubmitted}
+          missingErrorMessage="Provide a date"
+          onChange={onChange}
         />
       </>
     );

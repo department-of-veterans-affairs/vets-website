@@ -1,13 +1,17 @@
 import React from 'react';
 import {
   VaCheckbox,
-  VaMemorableDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
-import { SelectCountry, SelectState, getValue } from './helpers';
+import {
+  SelectCountry,
+  SelectState,
+  getValue,
+  PastDate,
+  scrollToError,
+} from './helpers';
+import { getPastDateError } from './utils';
 import propTypes from './types';
 
 const spouseDeath = {
@@ -17,13 +21,14 @@ const spouseDeath = {
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
+      const hasError = getPastDateError(itemData.endDate);
       if (
-        !itemData.endDate ||
+        hasError ||
         !itemData.endCity ||
         (!itemData.endOutsideUS && !itemData.endState) ||
         (itemData.endOutsideUS && !itemData.endCountry)
       ) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
@@ -45,20 +50,14 @@ const spouseDeath = {
             {firstName}
           </span>
         </h3>
+
         <h4>When was the death?</h4>
-        <VaMemorableDate
-          name="endDate"
+        <PastDate
           label="Date of death"
-          error={
-            formSubmitted && !itemData.endDate
-              ? 'Provide a date of death'
-              : null
-          }
-          monthSelect
-          value={itemData.endDate || ''}
-          // use onDateBlur to ensure month & day are zero-padded
-          onDateBlur={onChange}
-          required
+          date={itemData.endDate}
+          formSubmitted={formSubmitted}
+          missingErrorMessage="Provide a date of death"
+          onChange={onChange}
         />
 
         <h4>Where did the death happen?</h4>

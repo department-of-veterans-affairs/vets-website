@@ -7,7 +7,6 @@ import {
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollToFirstError } from '~/platform/utilities/ui';
 
 import {
   PICKLIST_DATA,
@@ -15,6 +14,7 @@ import {
   PICKLIST_EDIT_REVIEW_FLAG,
 } from '../../config/constants';
 import { getPicklistRoutes } from './routes';
+import { scrollToError } from './helpers';
 
 import { getFullName, calculateAge } from '../../../shared/utils';
 
@@ -76,7 +76,7 @@ const RemoveDependentsPicklist = ({
         });
       } else {
         setShowCheckboxError(true);
-        setTimeout(scrollToFirstError);
+        scrollToError();
       }
     },
   };

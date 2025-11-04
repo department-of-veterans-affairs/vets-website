@@ -6,8 +6,11 @@ import {
   location,
   pageDetails,
   showExitLink,
+  getPastDateError,
 } from '../../../components/picklist/utils';
 import { PICKLIST_DATA, PICKLIST_PATHS } from '../../../config/constants';
+
+import { createDoB } from '../../test-helpers';
 
 describe('labels', () => {
   it('should render Spouse title with and without "Edit"', () => {
@@ -499,5 +502,27 @@ describe('showExitLink', () => {
     expect(showExitLink({ data, index: 1 })).to.be.false;
     expect(showExitLink({ data, index: 2 })).to.be.false;
     expect(showExitLink({ data, index: 3 })).to.be.true;
+  });
+});
+
+describe('getPastDateError', () => {
+  it('should return missing error message if date is not provided', () => {
+    const error = getPastDateError('', 'Missing date');
+    expect(error).to.equal('Missing date');
+  });
+
+  it('should return past date error message if date is in the future', () => {
+    const error = getPastDateError(createDoB(0, -2), 'Missing date');
+    expect(error).to.equal('Enter a past date');
+  });
+
+  it('should return invalid date error message if a partial date is provided', () => {
+    const error = getPastDateError('2000-01', 'Missing date');
+    expect(error).to.equal('Enter a valid date');
+  });
+
+  it('should return null if date is valid and in the past', () => {
+    const error = getPastDateError('2020-01-01', 'Missing date');
+    expect(error).to.be.null;
   });
 });

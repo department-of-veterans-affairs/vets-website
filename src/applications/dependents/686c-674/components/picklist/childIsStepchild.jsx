@@ -4,9 +4,7 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
-import { getValue } from './helpers';
+import { getValue, scrollToError } from './helpers';
 import { labels } from './utils';
 import { CancelButton } from '../../config/helpers';
 import { calculateAge } from '../../../shared/utils';
@@ -22,7 +20,7 @@ const childIsStepchild = {
     onSubmit: ({ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.isStepchild) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }

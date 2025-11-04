@@ -1,4 +1,5 @@
 import React from 'react';
+import { parse, isValid, isPast } from 'date-fns';
 
 import { getFormatedDate } from '../../../shared/utils';
 import { PICKLIST_DATA, PICKLIST_PATHS } from '../../config/constants';
@@ -267,4 +268,23 @@ export const showExitLink = ({ data = {}, index = 0 } = {}) => {
     selected.length === exitPaths.length &&
     exitPaths[exitPaths.length - 1]?.index === index
   );
+};
+
+export const getPastDateError = (
+  date,
+  missingErrorMessage = 'Enter a date',
+) => {
+  if (!date) {
+    return missingErrorMessage;
+  }
+
+  const parsedDate = parse(date, 'yyyy-MM-dd', new Date());
+  if (!isValid(parsedDate)) {
+    return 'Enter a valid date';
+  }
+  if (!isPast(parsedDate)) {
+    return 'Enter a past date';
+  }
+
+  return null;
 };
