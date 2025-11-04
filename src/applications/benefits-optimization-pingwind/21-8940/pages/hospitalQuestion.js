@@ -78,7 +78,7 @@ export default {
       'ui:options': {
         showFieldLabel: true,
 
-        updateSchema: (formData, schema, uiSchema, index, path) => {
+        updateSchema: (formData, schema, _uiSchema, _index, _path) => {
           if (
             formData &&
             !formData[hospitalizationQuestionFields.hasBeenHospitalized]
@@ -87,8 +87,8 @@ export default {
               ...schema,
               properties: {
                 ...schema.properties,
-                ['hospitalType']: {
-                  ...schema.properties['hospitalType'],
+                hospitalType: {
+                  ...(schema.properties?.hospitalType),
                   default: undefined,
                 },
               },

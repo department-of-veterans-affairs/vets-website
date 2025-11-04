@@ -465,6 +465,13 @@ const buildSubmissionPayload = data => {
     doctorCare?.[doctorCareQuestionFields.hasReceivedDoctorCare],
   );
 
+  let doctorsCareInLastYTD;
+  if (doctorCareAnswer !== undefined) {
+    doctorsCareInLastYTD = doctorCareAnswer;
+  } else if (doctors.length > 0 || doctorDates.length > 0) {
+    doctorsCareInLastYTD = true;
+  }
+
   const attemptedEmployAnswer = (() => {
     const arrayBuilderAnswer = toBoolean(
       data?.[employmentAppliedFields.hasTriedEmployment],
@@ -490,12 +497,7 @@ const buildSubmissionPayload = data => {
     veteranPhone: stringOrUndefined(veteran.homePhone),
     internationalPhone: stringOrUndefined(veteran.internationalPhone),
     listOfDisabilities: formatDisabilitiesList(data?.disabilityDescription),
-    doctorsCareInLastYTD:
-      doctorCareAnswer !== undefined
-        ? doctorCareAnswer
-        : doctors.length > 0 || doctorDates.length > 0
-          ? true
-          : undefined,
+    doctorsCareInLastYTD,
     doctorsTreatmentDates: doctorTreatmentRange,
     nameAndAddressesOfDoctors: doctorNameAddresses,
     nameAndAddressesOfHospitals: hospitalNameAddresses,
