@@ -27,9 +27,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   transformForSubmit,
-  formOptions: {
-    focusOnAlertRole: true,
-  },
   preSubmitInfo: {
     statementOfTruth: {
       body:
