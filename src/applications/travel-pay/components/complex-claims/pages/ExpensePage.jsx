@@ -14,7 +14,6 @@ import {
   TRANSPORTATION_OPTIONS,
   TRANSPORTATION_REASONS,
   TRIP_OPTIONS,
-  ACCEPTED_FILE_TYPES,
 } from '../../../constants';
 
 const ExpensePage = () => {
@@ -23,7 +22,7 @@ const ExpensePage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formState, setFormState] = useState({});
   const [showError, setShowError] = useState(false);
-  const [uploadError, setUploadError] = useState('');
+  const [documentUpload, setDocumentUpload] = useState({});
   const errorRef = useRef(null); // ref for the error message
 
   // Focus the error message when it becomes visible
@@ -60,7 +59,7 @@ const ExpensePage = () => {
   const handleCloseModal = () => setIsModalVisible(false);
 
   const validatePage = () => {
-    const requiredFields = ['date', 'amount']; // basic required fields
+    const requiredFields = ['date', 'amount', 'documentUpload']; // basic required fields
 
     if (expenseType === 'Meal') requiredFields.push('vendor');
     if (expenseType === 'Lodging') {
@@ -98,65 +97,23 @@ const ExpensePage = () => {
   };
 
   const handleDocumentUpload = e => {
-    setUploadError(''); // Clear any previous errors
-    // eslint-disable-next-line no-console
-    console.log('e --- ', e);
-    // eslint-disable-next-line no-console
-    console.log('e.detail --- ', e.detail);
-
     // Try both e.detail.files and e.target.files
     const files = e.detail?.files;
-    // eslint-disable-next-line no-console
-    console.log('files --- ', files);
-
     // Check if we have files for upload
     if (!files || files.length === 0) {
-      // eslint-disable-next-line no-console
-      console.error('No files found');
       return;
     }
 
     const file = files[0]; // Get the first (and only) file
-    // eslint-disable-next-line no-console
-    console.log('file --- ', file);
-
-    // Check if we're replacing an existing file
-    // const isReplacement = e.type === 'vaChange';
-
-    // Validate file type
-    const isValidFileType = ACCEPTED_FILE_TYPES.some(fileType =>
-      file.name.toLowerCase().endsWith(`.${fileType.toLowerCase()}`),
-    );
-
-    if (!isValidFileType) {
-      const allowedTypes = ACCEPTED_FILE_TYPES.reduce(
-        (accumulator, fileType, index, array) => {
-          if (index === 0) return `.${fileType}`;
-          const separator = index < array.length - 1 ? ',' : ', or';
-          return `${accumulator}${separator} .${fileType}`;
-        },
-        '',
-      );
-
-      const fileTypeErrorMessage = `We couldn't upload your file because we can't accept this type of file. Please make sure the file is a ${allowedTypes} file and try again.`;
-
-      setUploadError(fileTypeErrorMessage);
-      return;
-    }
-
-    // Validate file size
-    const maxSize = 5000000; // 5MB
-    if (file.size > maxSize) {
-      const fileSizeText = `${Math.round(maxSize / 1024 / 1024)}MB`;
-      const fileTooBigErrorMessage = `We couldn't upload your file because it's too large. File size must be less than ${fileSizeText}.`;
-
-      setUploadError(fileTooBigErrorMessage);
-      return;
-    }
-
-    // Create FormData payload
-    const uploadData = new FormData();
-    uploadData.append('document', file);
+    // TODO: can remove this once we set the redux store
+    setDocumentUpload(file);
+    /* eslint-disable-next-line no-console */
+    console.log(documentUpload);
+    // Sync into formState so validation works
+    setFormState(prev => ({
+      ...prev,
+      documentUpload: file,
+    }));
     // TODO: Add this to the redux store
   };
 
@@ -187,10 +144,7 @@ const ExpensePage = () => {
         } expenses, add just one on this page. ` +
           `You'll be able to add more expenses after this.`}
       </p>
-      <DocumentUpload
-        handleDocumentUpload={handleDocumentUpload}
-        uploadError={uploadError}
-      />
+      <DocumentUpload handleDocumentUpload={handleDocumentUpload} />
       {expenseType === 'Meal' && (
         <>
           <VaTextInput
