@@ -368,9 +368,12 @@ describe('Search form', () => {
       const screen = setup(customProps);
 
       const messageIdInfo = screen.container.querySelector(
-        'va-additional-info[trigger="What\'s a message ID?"]',
+        'va-additional-info',
       );
       expect(messageIdInfo).to.exist;
+      expect(messageIdInfo.getAttribute('trigger')).to.equal(
+        "What's a message ID?",
+      );
       expect(messageIdInfo.getAttribute('data-dd-action-name')).to.equal(
         "What's a message ID? Expandable Info",
       );
