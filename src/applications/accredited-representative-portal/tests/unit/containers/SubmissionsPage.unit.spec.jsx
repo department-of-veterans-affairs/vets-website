@@ -22,7 +22,7 @@ describe('SubmissionsPage', () => {
   it('contains 686c upload link reference', () => {
     const componentString = importedSubmissionsPage.toString();
     expect(componentString).to.include(
-      '/representative/representative-form-upload/21-686c',
+      '/representative/representative-form-upload/submit-va-form-21-686c',
     );
     expect(componentString).to.include('Upload and submit VA Form 21-686c');
   });
@@ -30,7 +30,7 @@ describe('SubmissionsPage', () => {
   it('contains 526 upload link reference', () => {
     const componentString = importedSubmissionsPage.toString();
     expect(componentString).to.include(
-      '/representative/representative-form-upload/21-526EZ',
+      '/representative/representative-form-upload/submit-va-form-21-526EZ',
     );
     expect(componentString).to.include('Upload and submit VA Form 21-526EZ');
   });

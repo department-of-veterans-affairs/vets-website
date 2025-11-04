@@ -151,7 +151,7 @@ export const poaDetailsBreadcrumbs = [
     label: 'VA.gov/representative home',
   },
   {
-    href: '/representative/poa-requests',
+    href: '/representative/representation-requests',
     label: 'Representation requests',
   },
   {
