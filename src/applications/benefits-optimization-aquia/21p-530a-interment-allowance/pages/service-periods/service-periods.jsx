@@ -105,7 +105,11 @@ export const ServicePeriodsPage = ({
 
     // Navigate to first page of the flow
     if (goToPath) {
-      goToPath('/service-branch');
+      // timeout is needed to prevent a race condition between setFormData and
+      //  page navigation otherwise the formData doesn't reflect the change in time for the depends
+      setTimeout(() => {
+        goToPath('/service-branch');
+      }, 0);
     }
   };
 
