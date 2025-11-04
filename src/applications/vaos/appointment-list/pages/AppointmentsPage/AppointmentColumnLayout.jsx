@@ -91,6 +91,7 @@ export default function AppointmentColumnLayout({
             )}
           >
             <h3
+              aria-hidden="true"
               className={classNames(
                 'vads-u-text-align--center',
                 'vads-u-margin-top--0',
@@ -98,7 +99,7 @@ export default function AppointmentColumnLayout({
                 { 'vads-u-display--none': !first },
               )}
             >
-              <span aria-hidden="false" data-dd-privacy="mask">
+              <span data-dd-privacy="mask">
                 {formatInTimeZone(startDate, data.timezone, 'd')}
               </span>
             </h3>
