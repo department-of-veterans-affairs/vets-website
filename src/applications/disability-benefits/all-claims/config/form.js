@@ -140,6 +140,10 @@ import ConfirmationAncillaryFormsWizard from '../components/ConfirmationAncillar
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
+  dev: {
+    showNavLinks: true,
+    collapsibleNavLinks: true,
+  },
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${
