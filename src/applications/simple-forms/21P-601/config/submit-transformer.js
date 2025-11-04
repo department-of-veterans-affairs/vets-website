@@ -185,6 +185,7 @@ function transformForSubmit(formConfig, form) {
     },
     // Section 6: Remarks (Question 26)
     remarks: transformedData.remarks || '',
+    veteranSupportingDocuments: transformedData.veteranSupportingDocuments,
   };
 
   return JSON.stringify(result);
