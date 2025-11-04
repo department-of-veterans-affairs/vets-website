@@ -183,17 +183,21 @@ const formConfig = {
       title: 'Military history',
       pages: {
         serviceBranch: {
+          initialData: {
+            tempServicePeriod: {
+              isEditing: true,
+            },
+          },
           path: 'service-branch',
           title: 'Branch of service',
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: ServiceBranchPage,
           CustomPageReview: null,
-          // Show if no service periods exist, otherwise only accessible from summary
-          // depends: formData => {
-          //   const hasServicePeriods = formData?.servicePeriods?.length > 0;
-          //   return !hasServicePeriods;
-          // },
+          depends: formData => {
+            // Show if we're editing/adding a service period
+            return formData?.tempServicePeriod?.isEditing === true;
+          },
         },
         serviceDates: {
           path: 'service-dates',
@@ -202,11 +206,10 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: ServiceDatesPage,
           CustomPageReview: null,
-          // Show if no service periods exist, otherwise only accessible from summary
-          // depends: formData => {
-          //   const hasServicePeriods = formData?.servicePeriods?.length > 0;
-          //   return !hasServicePeriods;
-          // },
+          depends: formData => {
+            // Show if we're editing/adding a service period
+            return formData?.tempServicePeriod?.isEditing === true;
+          },
         },
         locationsAndRank: {
           path: 'locations-and-rank',
@@ -215,11 +218,10 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: LocationsAndRankPage,
           CustomPageReview: null,
-          // Show if no service periods exist, otherwise only accessible from summary
-          // depends: formData => {
-          //   const hasServicePeriods = formData?.servicePeriods?.length > 0;
-          //   return !hasServicePeriods;
-          // },
+          depends: formData => {
+            // Show if we're editing/adding a service period
+            return formData?.tempServicePeriod?.isEditing === true;
+          },
         },
         servicePeriods: {
           path: 'service-periods',
@@ -228,10 +230,7 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: ServicePeriodsPage,
           CustomPageReview: ServicePeriodsReviewPage,
-          // Only show summary if at least one service period exists
-          // depends: formData => {
-          //   return formData?.servicePeriods?.length > 0;
-          // },
+          // Always show summary page (not dependent on isEditing)
         },
         veteranServedUnderDifferentName: {
           path: 'served-under-different-name',

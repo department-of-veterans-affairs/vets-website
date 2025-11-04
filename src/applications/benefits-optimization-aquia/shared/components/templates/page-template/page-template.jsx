@@ -176,7 +176,7 @@ const PageTemplateBase = ({
                     <va-button
                       secondary
                       onClick={goBack}
-                      text="Back"
+                      text={navigationProps?.backButtonText || 'Back'}
                       {...navigationProps?.backButtonProps || {}}
                     />
                   )}
@@ -187,7 +187,7 @@ const PageTemplateBase = ({
                       e.preventDefault();
                       formSectionProps.handleContinue(goForward);
                     }}
-                    text="Continue"
+                    text={navigationProps?.continueButtonText || 'Continue'}
                     {...navigationProps?.continueButtonProps || {}}
                   />
                 </div>

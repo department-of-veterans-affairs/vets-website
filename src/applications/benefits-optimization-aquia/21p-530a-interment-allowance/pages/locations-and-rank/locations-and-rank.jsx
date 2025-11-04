@@ -46,6 +46,34 @@ export const LocationsAndRankPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Check if we're editing an existing service period
+  const isEditing = formDataToUse.tempServicePeriod?.isEditing || false;
+
+  // Custom back handler for cancel edit
+  const handleBack = () => {
+    if (isEditing) {
+      // Cancel edit - clear temp data and return to summary
+      const updatedData = {
+        ...formDataToUse,
+        tempServicePeriod: {
+          branchOfService: '',
+          dateFrom: '',
+          dateTo: '',
+          placeOfEntry: '',
+          placeOfSeparation: '',
+          rank: '',
+          isEditing: false,
+        },
+        editingServicePeriodIndex: undefined,
+      };
+      setFormData(updatedData);
+      goToPath('/service-periods');
+    } else {
+      // Normal back navigation
+      goBack();
+    }
+  };
+
   // Custom forward handler that adds the temp service period to the array
   const handleGoForward = () => {
     const { tempServicePeriod } = formDataToUse;
@@ -85,11 +113,11 @@ export const LocationsAndRankPage = ({
         placeOfEntry: '',
         placeOfSeparation: '',
         rank: '',
+        isEditing: false,
       },
       editingServicePeriodIndex: undefined,
     };
 
-    // issuehere:
     setFormData(updatedData);
     goToPath('/service-periods');
   };
@@ -100,11 +128,14 @@ export const LocationsAndRankPage = ({
       data={formDataToUse}
       setFormData={setFormData}
       goForward={handleGoForward}
-      goBack={goBack}
+      goBack={handleBack}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       schema={locationsAndRankPageSchema}
       sectionName="tempServicePeriod"
+      navigationProps={{
+        backButtonText: isEditing ? 'Cancel' : 'Back',
+      }}
       defaultData={{
         placeOfEntry: '',
         placeOfSeparation: '',

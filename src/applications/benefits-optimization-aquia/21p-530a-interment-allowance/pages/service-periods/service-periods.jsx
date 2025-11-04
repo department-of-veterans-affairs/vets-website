@@ -50,7 +50,7 @@ export const ServicePeriodsPage = ({
   data,
   setFormData,
   goForward,
-  goBack,
+  // goBack,
   goToPath,
   onReviewPage,
   updatePage,
@@ -66,10 +66,15 @@ export const ServicePeriodsPage = ({
     const periodToEdit = servicePeriods[index];
     const updatedData = {
       ...formDataToUse,
-      tempServicePeriod: { ...periodToEdit },
+      tempServicePeriod: { ...periodToEdit, isEditing: true },
       editingServicePeriodIndex: index,
     };
     setFormData(updatedData);
+
+    // Navigate to first page of the flow
+    if (goToPath) {
+      goToPath('/service-branch');
+    }
   };
 
   const handleDelete = index => {
@@ -82,7 +87,7 @@ export const ServicePeriodsPage = ({
   };
 
   const handleAddAnother = () => {
-    // Clear temp object and editing index
+    // Clear temp object and editing index, set isEditing flag
     const updatedData = {
       ...formDataToUse,
       tempServicePeriod: {
@@ -92,6 +97,7 @@ export const ServicePeriodsPage = ({
         placeOfEntry: '',
         placeOfSeparation: '',
         rank: '',
+        isEditing: true,
       },
       editingServicePeriodIndex: undefined,
     };
@@ -130,13 +136,33 @@ export const ServicePeriodsPage = ({
     }
   };
 
+  // Custom back handler - jumping back to burial information
+  //  editing pages happens in first entry and on "edit"
+  const handleBack = () => {
+    const updatedData = {
+      ...formDataToUse,
+      tempServicePeriod: {
+        branchOfService: '',
+        dateFrom: '',
+        dateTo: '',
+        placeOfEntry: '',
+        placeOfSeparation: '',
+        rank: '',
+        isEditing: false,
+      },
+      editingServicePeriodIndex: undefined,
+    };
+    setFormData(updatedData);
+    goToPath('/burial-information');
+  };
+
   return (
     <PageTemplate
       title="Service periods"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={handleForward}
-      goBack={goBack}
+      goBack={handleBack}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       schema={servicePeriodsSummarySchema}
