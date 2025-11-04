@@ -171,3 +171,54 @@ export const STATUS_GROUPINGS = [
     ],
   },
 ];
+
+export const EXPENSE_TYPES = Object.freeze({
+  Airtravel: {
+    addButtonText: 'air travel',
+    name: 'air travel',
+    title: 'Airfare',
+    route: 'air-travel',
+  },
+  Commoncarrier: {
+    addButtonText: 'public transportation, taxi, or rideshare',
+    name: 'common carrier',
+    title: 'Public transportation, taxi, or rideshare',
+    route: 'common-carrier',
+  },
+  Lodging: {
+    addButtonText: 'lodging',
+    name: 'lodging',
+    title: 'Lodging',
+    route: 'lodging',
+  },
+  Meal: {
+    addButtonText: 'meal',
+    name: 'meal',
+    title: 'Meals',
+    route: 'meal',
+  },
+  Mileage: {
+    addButtonText: 'mileage',
+    name: 'mileage',
+    title: 'Mileage',
+    route: 'mileage',
+  },
+  Parking: {
+    addButtonText: 'parking',
+    name: 'parking',
+    title: 'Parking',
+    route: 'parking',
+  },
+  Other: {
+    addButtonText: 'travel',
+    name: 'other',
+    title: 'Other travel expenses',
+    route: 'other',
+  },
+  Toll: {
+    addButtonText: 'toll',
+    name: 'toll',
+    title: 'Tolls',
+    route: 'toll',
+  },
+});

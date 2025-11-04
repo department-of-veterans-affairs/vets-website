@@ -4,9 +4,7 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
-import { getValue } from './helpers';
+import { getValue, scrollToError } from './helpers';
 import { labels } from './utils';
 import { CancelButton } from '../../config/helpers';
 import { calculateAge } from '../../../shared/utils';
@@ -17,14 +15,12 @@ const childIsStepchild = {
     // Return "DONE" when we're done with this flow
     goForward: (/* { itemData, index, fullData } */) =>
       'child-reason-to-remove',
-    // return empty path to go to first child page
-    // goBack: (/* { itemData, index, fullData } */) => '',
 
     /** @type {OnSubmitParams} */
     onSubmit: ({ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.isStepchild) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
@@ -48,7 +44,8 @@ const childIsStepchild = {
     return (
       <>
         <VaRadio
-          class="vads-u-margin-bottom--2"
+          class="vads-u-margin-bottom--2 dd-privacy-mask"
+          data-dd-action-name="is stepchild question"
           name="isStepchild"
           error={
             formSubmitted && !itemData.isStepchild
