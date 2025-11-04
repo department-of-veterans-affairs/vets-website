@@ -37,6 +37,7 @@ import previousMarriages from './chapters/04-household-information/previousMarri
 import { previousMarriagesPages } from './chapters/04-household-information/previousMarriagesPages';
 import { veteranMarriagesPages } from './chapters/04-household-information/veteranMarriagesPages';
 import veteranChildren from './chapters/04-household-information/veteranChildren';
+import dependentsPages from './chapters/04-household-information/dependentsPages';
 import dicBenefits from './chapters/05-claim-information/dicBenefits';
 import nursingHome from './chapters/05-claim-information/nursingHome';
 import { treatmentPages } from './chapters/05-claim-information/treatmentPages';
@@ -301,6 +302,7 @@ const formConfig = {
         ...previousMarriagesPages,
         ...veteranMarriagesPages,
         veteranChildren,
+        ...dependentsPages,
       },
     },
     // Chapter 5 - Claim Information

@@ -64,6 +64,33 @@ export const DependentSeriouslyDisabledDescription = (
   </div>
 );
 
+export const DependentChildDescription = (
+  <div className="vads-u-padding-y--1">
+    <va-additional-info trigger="Who we consider a dependent child">
+      <span>
+        In most circumstances, children over the age of 23 aren’t considered
+        dependent for VA purposes, unless the child is determined to be
+        seriously disabled based on a condition that started before turning 18.
+      </span>
+    </va-additional-info>
+  </div>
+);
+
+export const seriouslyDisabledDescription = (
+  <div className="vads-u-padding-y--1">
+    <va-additional-info
+      trigger="What we consider a seriously disabled adult child"
+      class="vads-u-margin-bottom--4"
+    >
+      <p>
+        A child is seriously disabled if they developed a permanent physical or
+        mental disability before they turned 18 years old. A seriously disabled
+        child can’t support or care for themselves.
+      </p>
+    </va-additional-info>
+  </div>
+);
+
 export const IncomeSourceDescription = (
   <>
     <p>

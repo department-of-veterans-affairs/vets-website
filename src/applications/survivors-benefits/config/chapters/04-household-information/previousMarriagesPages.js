@@ -59,7 +59,7 @@ const COUNTRY_NAMES = constants.countries
 const options = {
   arrayPath: 'previousMarriages',
   nounSingular: 'previous marriage',
-  nounPlural: "Veteran's previous marriages",
+  nounPlural: 'previous marriages',
   required: false,
   minItems: 0,
   isItemIncomplete: item =>
