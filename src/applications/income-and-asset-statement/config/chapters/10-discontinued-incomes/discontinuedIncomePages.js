@@ -29,8 +29,11 @@ import {
   recipientNameRequired,
   requireExpandedArrayField,
   resolveRecipientFullName,
+  showUpdatedContent,
+  sharedYesNoOptionsBase,
 } from '../../../helpers';
 import { incomeFrequencyLabels, relationshipLabels } from '../../../labels';
+import { DiscontinuedIncomeSummaryDescription } from '../../../components/SummaryDescriptions';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -46,6 +49,13 @@ export const options = {
     !isDefined(item.incomeLastReceivedDate) ||
     !isDefined(item.grossAnnualAmount), // include all required fields here
   text: {
+    summaryTitle: 'Review  discontinued and irregular income',
+    summaryTitleWithoutItems: showUpdatedContent()
+      ? 'Discontinued and irregular income'
+      : null,
+    summaryDescriptionWithoutItems: showUpdatedContent()
+      ? DiscontinuedIncomeSummaryDescription
+      : null,
     getItemName: (item, index, formData) => {
       if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
         return undefined;
@@ -87,6 +97,20 @@ export const options = {
   },
 };
 
+// We support multiple summary pages (one per claimant type).
+// These constants centralize shared text so each summary page stays consistent.
+// Important: only one summary page should ever be displayed at a time.
+
+// Shared summary page text
+const updatedTitleNoItems =
+  'Have you or your dependents received income that has ended during the reporting period or in the last full calendar year (if this is your first claim)?';
+const updatedTitleWithItems = 'Do you have more discontinued income to report?';
+const summaryPageTitle = 'Discontinued and irregular income';
+const yesNoOptionLabels = {
+  Y: 'Yes, I have income to report',
+  N: 'No, I don’t have income to report',
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -107,10 +131,7 @@ const summaryPage = {
       },
       {
         title: 'Do you have more discontinued incomes to report?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
+        ...sharedYesNoOptionsBase,
       },
     ),
   },
@@ -120,6 +141,100 @@ const summaryPage = {
       'view:isAddingDiscontinuedIncomes': arrayBuilderYesNoSchema,
     },
     required: ['view:isAddingDiscontinuedIncomes'],
+  },
+};
+
+const veteranSummaryPage = {
+  uiSchema: {
+    'view:isAddingDiscontinuedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const spouseSummaryPage = {
+  uiSchema: {
+    'view:isAddingDiscontinuedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint: 'Your dependents include children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const childSummaryPage = {
+  uiSchema: {
+    'view:isAddingDiscontinuedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title:
+          'Have you received income that has ended during the reporting period or in the last full calendar year (if this is your first claim)?',
+        hint: null,
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const custodianSummaryPage = {
+  uiSchema: {
+    'view:isAddingDiscontinuedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const parentSummaryPage = {
+  uiSchema: {
+    'view:isAddingDiscontinuedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
   },
 };
 
@@ -270,9 +385,51 @@ const incomeAmountPage = {
 export const discontinuedIncomePages = arrayBuilderPages(
   options,
   pageBuilder => ({
+    discontinuedIncomePagesVeteranSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'discontinued-incomes-summary-veteran',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'VETERAN',
+      uiSchema: veteranSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    discontinuedIncomePagesSpouseSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'discontinued-incomes-summary-spouse',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'SPOUSE',
+      uiSchema: spouseSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    discontinuedIncomePagesChildSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'discontinued-incomes-summary-child',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CHILD',
+      uiSchema: childSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    discontinuedIncomePagesCustodianSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'discontinued-incomes-summary-custodian',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+      uiSchema: custodianSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    discontinuedIncomePagesParentSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'discontinued-incomes-summary-parent',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'PARENT',
+      uiSchema: parentSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
     discontinuedIncomePagesSummary: pageBuilder.summaryPage({
       title: 'Discontinued incomes',
       path: 'discontinued-incomes-summary',
+      depends: () => !showUpdatedContent(),
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),

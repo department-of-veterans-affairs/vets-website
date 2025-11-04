@@ -1,9 +1,11 @@
+import { expect } from 'chai';
+import sinon from 'sinon';
 import formConfig from '../../../../config/form';
 import {
   discontinuedIncomePages,
   options,
 } from '../../../../config/chapters/10-discontinued-incomes/discontinuedIncomePages';
-
+import * as helpers from '../../../../helpers';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
 
@@ -21,52 +23,92 @@ import {
 } from '../pageTests.spec';
 
 describe('discontinued income list and loop pages', () => {
-  const { discontinuedIncomePagesSummary } = discontinuedIncomePages;
+  let showUpdatedContentStub;
 
-  describe('isItemIncomplete function', () => {
-    const baseItem = testData.data.discontinuedIncomes[0];
-    testOptionsIsItemIncomplete(options, baseItem);
+  beforeEach(() => {
+    showUpdatedContentStub = sinon.stub(helpers, 'showUpdatedContent');
   });
 
-  describe('isItemIncomplete function tested with zeroes', () => {
-    const baseItem = testDataZeroes.data.discontinuedIncomes[0];
-    testOptionsIsItemIncompleteWithZeroes(options, baseItem);
+  afterEach(() => {
+    if (showUpdatedContentStub && showUpdatedContentStub.restore) {
+      showUpdatedContentStub.restore();
+    }
   });
 
-  describe('text getItemName function', () => {
-    testOptionsTextGetItemNameRecurringIncome(options);
+  const {
+    discontinuedIncomePagesSummary,
+    discontinuedIncomePagesVeteranSummary,
+    discontinuedIncomePagesSpouseSummary,
+    discontinuedIncomePagesChildSummary,
+    discontinuedIncomePagesCustodianSummary,
+    discontinuedIncomePagesParentSummary,
+  } = discontinuedIncomePages;
+
+  describe('text', () => {
+    describe('isItemIncomplete function', () => {
+      const baseItem = testData.data.discontinuedIncomes[0];
+      testOptionsIsItemIncomplete(options, baseItem);
+    });
+
+    describe('isItemIncomplete function tested with zeroes', () => {
+      const baseItem = testDataZeroes.data.discontinuedIncomes[0];
+      testOptionsIsItemIncompleteWithZeroes(options, baseItem);
+    });
+
+    describe('text getItemName function', () => {
+      testOptionsTextGetItemNameRecurringIncome(options);
+    });
+
+    describe('text cardDescription function', () => {
+      /* eslint-disable no-unused-vars */
+      const {
+        payer,
+        incomeFrequency,
+        incomeLastReceivedDate,
+        recipientRelationship,
+        recipientName,
+        ...baseItem
+      } = testData.data.discontinuedIncomes[0];
+      /* eslint-enable no-unused-vars */
+      testOptionsTextCardDescription(options, baseItem);
+    });
+
+    describe('text cardDescription function with zero values', () => {
+      /* eslint-disable no-unused-vars */
+      const {
+        payer,
+        incomeFrequency,
+        incomeLastReceivedDate,
+        recipientRelationship,
+        recipientName,
+        ...baseItem
+      } = testDataZeroes.data.discontinuedIncomes[0];
+      /* eslint-enable no-unused-vars */
+      testOptionsTextCardDescription(options, baseItem);
+    });
+
+    describe('summaryTitle function', () => {
+      it('should show review title', () => {
+        expect(options.text.summaryTitle).to.eql(
+          'Review  discontinued and irregular income',
+        );
+      });
+    });
+
+    describe('summaryDescriptionWithoutItems', () => {
+      it('should return null when showUpdatedContent is false', () => {
+        expect(options.text.summaryDescriptionWithoutItems).to.be.null;
+      });
+    });
   });
 
-  describe('text cardDescription function', () => {
-    /* eslint-disable no-unused-vars */
-    const {
-      payer,
-      incomeFrequency,
-      incomeLastReceivedDate,
-      recipientRelationship,
-      recipientName,
-      ...baseItem
-    } = testData.data.discontinuedIncomes[0];
-    /* eslint-enable no-unused-vars */
-    testOptionsTextCardDescription(options, baseItem);
-  });
+  describe('MVP summary page', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(false);
+    });
 
-  describe('text cardDescription function with zero values', () => {
-    /* eslint-disable no-unused-vars */
-    const {
-      payer,
-      incomeFrequency,
-      incomeLastReceivedDate,
-      recipientRelationship,
-      recipientName,
-      ...baseItem
-    } = testDataZeroes.data.discontinuedIncomes[0];
-    /* eslint-enable no-unused-vars */
-    testOptionsTextCardDescription(options, baseItem);
-  });
-
-  describe('summary page', () => {
     const { schema, uiSchema } = discontinuedIncomePagesSummary;
+
     testNumberOfFieldsByType(
       formConfig,
       schema,
@@ -91,6 +133,176 @@ describe('discontinued income list and loop pages', () => {
       testData.data,
       { loggedIn: true },
     );
+  });
+
+  describe('Post MVP summary pages', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(true);
+    });
+
+    describe('veteran summary page', () => {
+      const { schema, uiSchema } = discontinuedIncomePagesVeteranSummary;
+      const formData = { ...testData.data, claimantType: 'VETERAN' };
+
+      it('should display when showUpdatedContent is true and claimantType is VETERAN', () => {
+        const { depends } = discontinuedIncomePagesVeteranSummary;
+        expect(depends(formData)).to.be.true;
+      });
+
+      it('should have modified hint text for veteran', () => {
+        expect(
+          uiSchema['view:isAddingDiscontinuedIncomes'][
+            'ui:options'
+          ].updateUiSchema()['ui:options'].hint,
+        ).to.include(
+          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+        );
+      });
+
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'spouse summary page',
+        formData,
+        { loggedIn: true },
+      );
+    });
+
+    describe('spouse summary page', () => {
+      const { schema, uiSchema } = discontinuedIncomePagesSpouseSummary;
+      const formData = { ...testData.data, claimantType: 'SPOUSE' };
+
+      it('should display when showUpdatedContent is true and claimantType is SPOUSE', () => {
+        const { depends } = discontinuedIncomePagesSpouseSummary;
+        expect(depends(formData)).to.be.true;
+      });
+
+      it('should have modified hint text for spouse', () => {
+        expect(
+          uiSchema['view:isAddingDiscontinuedIncomes'][
+            'ui:options'
+          ].updateUiSchema()['ui:options'].hint,
+        ).to.include(
+          'Your dependents include children who you financially support',
+        );
+      });
+
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'spouse summary page',
+        formData,
+        { loggedIn: true },
+      );
+    });
+
+    describe('child summary page', () => {
+      const { schema, uiSchema } = discontinuedIncomePagesChildSummary;
+      const formData = { ...testData.data, claimantType: 'CHILD' };
+
+      it('should display when showUpdatedContent is true and claimantType is CHILD', () => {
+        const { depends } = discontinuedIncomePagesChildSummary;
+        expect(depends(formData)).to.be.true;
+      });
+
+      it('should have modified title text for child', () => {
+        expect(
+          uiSchema['view:isAddingDiscontinuedIncomes']['ui:title'],
+        ).to.equal(
+          'Have you received income that has ended during the reporting period or in the last full calendar year (if this is your first claim)?',
+        );
+      });
+
+      it('should have no hint text for child', () => {
+        expect(uiSchema['view:isAddingDiscontinuedIncomes']['ui:options'].hint)
+          .to.be.undefined;
+      });
+
+      it('should have correct option labels', () => {
+        const { labels } = uiSchema['view:isAddingDiscontinuedIncomes'][
+          'ui:options'
+        ].updateUiSchema()['ui:options'];
+        expect(labels.Y).to.equal('Yes, I have income to report');
+        expect(labels.N).to.equal('No, I don’t have income to report');
+      });
+
+      it('should have correct labelHeaderLevel configuration', () => {
+        const { labelHeaderLevel } = uiSchema[
+          'view:isAddingDiscontinuedIncomes'
+        ]['ui:options'].updateUiSchema()['ui:options'];
+
+        expect(labelHeaderLevel).to.equal('2');
+      });
+
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'child summary page',
+        formData,
+        { loggedIn: true },
+      );
+    });
+
+    describe('custodian summary page', () => {
+      const { schema, uiSchema } = discontinuedIncomePagesCustodianSummary;
+      const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
+
+      it('should display when showUpdatedContent is true and claimantType is CUSTODIAN', () => {
+        const { depends } = discontinuedIncomePagesCustodianSummary;
+        expect(depends(formData)).to.be.true;
+      });
+
+      it('should have modified hint text for custodian', () => {
+        expect(
+          uiSchema['view:isAddingDiscontinuedIncomes'][
+            'ui:options'
+          ].updateUiSchema()['ui:options'].hint,
+        ).to.include(
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        );
+      });
+
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'custodian summary page',
+        formData,
+        { loggedIn: true },
+      );
+    });
+
+    describe('parent summary page', () => {
+      const { schema, uiSchema } = discontinuedIncomePagesParentSummary;
+      const formData = { ...testData.data, claimantType: 'PARENT' };
+
+      it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
+        const { depends } = discontinuedIncomePagesParentSummary;
+        expect(depends(formData)).to.be.true;
+      });
+
+      it('should have modified hint text for parent', () => {
+        expect(
+          uiSchema['view:isAddingDiscontinuedIncomes'][
+            'ui:options'
+          ].updateUiSchema()['ui:options'].hint,
+        ).to.include(
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        );
+      });
+
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'parent summary page',
+        formData,
+        { loggedIn: true },
+      );
+    });
   });
 
   describe('relationship page', () => {
