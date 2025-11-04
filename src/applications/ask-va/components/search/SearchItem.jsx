@@ -22,17 +22,14 @@ const SearchItem = ({
   };
   const alertRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        focusElement(alertRef.current);
-      }
-      if (!facilityData?.data.length) {
-        focusElement('#not-found-error');
-      }
-    },
-    [alertRef, pageURL],
-  );
+  useEffect(() => {
+    if (alertRef?.current) {
+      focusElement(alertRef.current);
+    }
+    if (!facilityData?.data.length) {
+      focusElement('#not-found-error');
+    }
+  }, [alertRef, pageURL]);
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
@@ -47,9 +44,7 @@ const SearchItem = ({
   const facilityInfo = info => {
     const facilityName = `${info.attributes.name}`;
     const facilityZip = info.attributes.address.physical.zip.split('-')[0];
-    const facilityAddress = `${info.attributes.address.physical.city}, ${
-      info.attributes.address.physical.state
-    } ${facilityZip}`;
+    const facilityAddress = `${info.attributes.address.physical.city}, ${info.attributes.address.physical.state} ${facilityZip}`;
     return `${facilityName}, ${facilityAddress}`;
   };
 
@@ -109,10 +104,21 @@ const SearchItem = ({
       </>
     ) : (
       <div className="vads-u-margin-top--3">
-        <p id="not-found-error" className="vads-u-margin-bottom--0p5">
-          We didn’t find any results for "<strong>{searchInput}</strong>
-          ." Please try again.
-        </p>
+        <div id="not-found-error">
+          <p className="vads-u-margin-bottom--0p5">
+            We didn’t find any results for "<strong>{searchInput}</strong>
+            ."
+          </p>
+          <p>
+            <strong>Try 1 of these 2 things to get more results</strong>:
+          </p>
+          <ul>
+            <li>Make sure you entered the correct city or zip code</li>
+            <li>
+              Enter the city or zip code of your assigned VA medical center
+            </li>
+          </ul>
+        </div>
         <hr />
       </div>
     ))

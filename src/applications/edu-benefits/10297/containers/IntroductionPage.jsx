@@ -22,12 +22,9 @@ const IntroductionPage = props => {
     const h1 = document.querySelector('h1');
     scrollAndFocus(h1);
   }, []);
-  const showSignInModal = useCallback(
-    () => {
-      toggleLoginModal(true, 'ask-va', true);
-    },
-    [toggleLoginModal],
-  );
+  const showSignInModal = useCallback(() => {
+    toggleLoginModal(true, 'ask-va', true);
+  }, [toggleLoginModal]);
   function SignInButton() {
     return (
       <span slot="SignInButton">
@@ -38,19 +35,16 @@ const IntroductionPage = props => {
       </span>
     );
   }
-  useEffect(
-    () => {
-      const params = new URLSearchParams(window.location.search);
-      if (
-        params.get('showSignInModal') === 'true' &&
-        !loggedIn &&
-        !showLoadingIndicator
-      ) {
-        showSignInModal();
-      }
-    },
-    [loggedIn, showLoadingIndicator, toggleLoginModal, showSignInModal],
-  );
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (
+      params.get('showSignInModal') === 'true' &&
+      !loggedIn &&
+      !showLoadingIndicator
+    ) {
+      showSignInModal();
+    }
+  }, [loggedIn, showLoadingIndicator, toggleLoginModal, showSignInModal]);
 
   return (
     <article className="schemaform-intro form-10297-introduction-page">
@@ -69,7 +63,7 @@ const IntroductionPage = props => {
       </h2>
       <ProcessList />
       <va-additional-info trigger="What happens after I apply?">
-        <p className="additional-info-content">
+        <p>
           If you’re eligible and the 4,000-student cap hasn’t been met, we’ll
           email you a Certificate of Eligibility. Otherwise, we’ll explain why
           you’re not eligible.
@@ -134,7 +128,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);

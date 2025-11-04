@@ -1,6 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { certifyingOfficialTrainingInfo } from '../helpers';
+import {
+  certifyingOfficialTrainingInfo,
+  capitalizeFirstLetter,
+} from '../helpers';
 
 const AdditionalOfficialTrainingInfo = ({ formContext }) => {
   const formState = useSelector(state => state?.form?.data || {});
@@ -9,14 +12,15 @@ const AdditionalOfficialTrainingInfo = ({ formContext }) => {
     ? formState['additional-certifying-official'][index]
         ?.additionalOfficialDetails
     : {};
-
+  const firstName = official?.fullName?.first;
+  const lastName = official?.fullName?.last;
   return (
     <>
       <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-        {official?.fullName?.first && official?.fullName?.last
-          ? `${official.fullName.first} ${
-              official.fullName.last
-            }'s Section 305 training`
+        {firstName && lastName
+          ? `${capitalizeFirstLetter(firstName)} ${capitalizeFirstLetter(
+              lastName,
+            )}'s Section 305 training`
           : 'Section 305 Training'}
       </h3>
       {certifyingOfficialTrainingInfo}
