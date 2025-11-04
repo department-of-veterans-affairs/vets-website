@@ -550,7 +550,9 @@ export default function transformForSubmit(formConfig, form) {
 
   return JSON.stringify({
     formNumber,
-    `increase_compensation_claim`: {
+    // API contract requires this snake_case key
+     // eslint-disable-next-line camelcase
+    increase_compensation_claim:{
       form: stringifiedPayload,
     },
   });
