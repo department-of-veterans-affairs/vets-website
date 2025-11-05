@@ -123,6 +123,16 @@ export class ProfileInformationEditView extends Component {
       !isPendingTransaction(this.props.transaction)
     ) {
       window.clearInterval(this.interval);
+
+      // Dismiss the MHV email confirmation alert if email transaction succeeded
+      // This handles cases where the component stays mounted after transaction completion
+      if (
+        this.props.fieldName === FIELD_NAMES.EMAIL &&
+        this.props.transaction &&
+        isSuccessfulTransaction(this.props.transaction)
+      ) {
+        dismissEmailConfirmationAlertViaCookie();
+      }
     }
   }
 
@@ -134,7 +144,8 @@ export class ProfileInformationEditView extends Component {
     const { fieldName } = this.props;
 
     // Dismiss the MHV email confirmation alert if email transaction succeeded
-    // This runs when the edit view closes after successful save
+    // This is a fallback for cases where componentDidUpdate doesn't run
+    // (e.g., when the component unmounts immediately after transaction completion)
     if (
       fieldName === FIELD_NAMES.EMAIL &&
       this.props.transaction &&
