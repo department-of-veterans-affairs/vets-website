@@ -10,7 +10,7 @@ describe('transformForSubmit', () => {
   it('should transform json correctly', () => {
     delete global.window?.location;
     global.window = {
-      location: { pathname: '/forms/21-0779/upload/introduction' },
+      location: { pathname: '/forms/upload/21-0779/introduction' },
     };
 
     const transformedResult = JSON.parse(
@@ -22,7 +22,7 @@ describe('transformForSubmit', () => {
   it('handles empty transformedData', () => {
     delete global.window?.location;
     global.window = {
-      location: { pathname: '/forms/21-0779/upload/introduction' },
+      location: { pathname: '/forms/upload/21-0779/introduction' },
     };
 
     const transformedResult = JSON.parse(

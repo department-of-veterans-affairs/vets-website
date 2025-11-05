@@ -22,26 +22,26 @@ import * as constants from '../../../config/constants';
 describe('Helpers', () => {
   describe('getFormNumber', () => {
     it('returns correct path when formNumber matches', () => {
-      expect(getFormNumber('/forms/21-0779/upload/introduction')).to.eq(
+      expect(getFormNumber('/forms/upload/21-0779/introduction')).to.eq(
         '21-0779',
       ); // ✅ Pass pathname
     });
 
     it('retains upper-case characters from formMappings', () => {
-      expect(getFormNumber('/forms/21p-0518-1/upload/introduction')).to.eq(
+      expect(getFormNumber('/forms/upload/21p-0518-1/introduction')).to.eq(
         '21P-0518-1',
       );
     });
 
     it('returns empty string when formNumber does not match', () => {
-      expect(getFormNumber('/forms/fake-form/upload/introduction')).to.eq('');
+      expect(getFormNumber('/forms/upload/fake-form/introduction')).to.eq('');
     });
   });
 
   describe('getFormContent', () => {
     it.skip('returns appropriate content when the form number is mapped', () => {
       global.window.location = {
-        pathname: 'forms/21-0779/upload/introduction',
+        pathname: 'forms/upload/21-0779/introduction',
       };
       expect(getFormContent()).to.include({ title: 'Upload form 21-0779' });
     });
