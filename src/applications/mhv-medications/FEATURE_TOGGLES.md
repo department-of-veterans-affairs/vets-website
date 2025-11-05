@@ -9,8 +9,8 @@ Name | staging | production
 ---- | ------- | ----------
 `mhvMedicationsDisplayAllergies`    | `true` | `true` |
 `mhv_medications_display_allergies` | `true` | `true` |
-`mhvMedicationsDisplayDocumentationContent`     | `true` |
-`mhv_medications_display_documentation_content` | `true` |
+`mhvMedicationsDisplayDocumentationContent`     | `true` | `true` |
+`mhv_medications_display_documentation_content` | `true` | `true` |
 `mhvMedicationsDisplayPendingMeds`     | `true` | `false` |
 `mhv_medications_display_pending_meds` | `true` | `false` |
 `mhvMedicationsDisplayRefillProgress`     | `true` | `true` |
