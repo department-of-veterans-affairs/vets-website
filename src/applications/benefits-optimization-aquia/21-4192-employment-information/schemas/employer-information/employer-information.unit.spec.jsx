@@ -379,7 +379,6 @@ describe('Employer Information Schemas', () => {
             country: 'USA',
             postalCode: '94102',
           },
-          employerPhone: '4155551234',
         });
         expect(result.success).to.be.true;
       });
@@ -393,7 +392,6 @@ describe('Employer Information Schemas', () => {
             state: 'CA',
             postalCode: '90210',
           },
-          employerPhone: '5551701234',
         });
         expect(result.success).to.be.true;
       });
@@ -408,7 +406,6 @@ describe('Employer Information Schemas', () => {
             country: 'USA',
             postalCode: '10001',
           },
-          employerPhone: '2125559876',
         });
         expect(result.success).to.be.true;
       });
@@ -422,7 +419,6 @@ describe('Employer Information Schemas', () => {
             state: 'CA',
             postalCode: '91234',
           },
-          employerPhone: '5555551234',
         });
         expect(result.success).to.be.true;
       });
@@ -437,7 +433,6 @@ describe('Employer Information Schemas', () => {
             state: 'CA',
             postalCode: '94102',
           },
-          employerPhone: '4155551234',
         });
         expect(result.success).to.be.false;
       });
@@ -445,34 +440,6 @@ describe('Employer Information Schemas', () => {
       it('should reject missing employerAddress', () => {
         const result = employerInformationSchema.safeParse({
           employerName: 'Bounty Hunters Guild',
-          employerPhone: '4155551234',
-        });
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject missing employerPhone', () => {
-        const result = employerInformationSchema.safeParse({
-          employerName: 'Bounty Hunters Guild',
-          employerAddress: {
-            street: '123 Main St',
-            city: 'Mos Eisley',
-            state: 'CA',
-            postalCode: '94102',
-          },
-        });
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject invalid phone number', () => {
-        const result = employerInformationSchema.safeParse({
-          employerName: 'Bounty Hunters Guild',
-          employerAddress: {
-            street: '123 Main St',
-            city: 'Mos Eisley',
-            state: 'CA',
-            postalCode: '94102',
-          },
-          employerPhone: '123', // Too short
         });
         expect(result.success).to.be.false;
       });
@@ -483,7 +450,6 @@ describe('Employer Information Schemas', () => {
           employerAddress: {
             street: '123 Main St',
           },
-          employerPhone: '4155551234',
         });
         expect(result.success).to.be.false;
       });
@@ -504,7 +470,6 @@ describe('Employer Information Schemas', () => {
             state: 'CA',
             postalCode: '12345',
           },
-          employerPhone: '1234567890',
         });
         expect(result.success).to.be.true;
       });
@@ -518,7 +483,6 @@ describe('Employer Information Schemas', () => {
             state: 'CA',
             postalCode: '94102',
           },
-          employerPhone: '4155551234',
         });
         expect(result.success).to.be.true;
       });
@@ -536,7 +500,6 @@ describe('Employer Information Schemas', () => {
             postalCode: '94102-1234',
             isMilitary: true,
           },
-          employerPhone: '(415) 555-1234',
         });
         expect(result.success).to.be.true;
       });
