@@ -57,7 +57,7 @@ export default function useClinicFormState(pageTitle) {
     typeOfCareRequiresPastHistory(
       selectedTypeOfCare.id,
       featurePastVisitMHFilter,
-    ) &&
+    ) ||
     (!removeFacilityConfigCheck &&
       location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
         ?.patientHistoryRequired === true); // this is a facility level condition
