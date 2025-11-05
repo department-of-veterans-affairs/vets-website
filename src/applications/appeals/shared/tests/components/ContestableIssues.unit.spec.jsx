@@ -188,7 +188,9 @@ describe('<ContestableIssues>', () => {
   it('should show an error when submitted with no selections', async () => {
     const props = getProps({ submitted: true });
     const { container } = render(<ContestableIssues {...props} />);
-    expect($$('va-alert', container).length).to.equal(1);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(1);
     const alert = $('va-alert', container);
     expect(alert.innerHTML).to.contain(
       'at least 1 issue before you can continue',
@@ -289,7 +291,9 @@ describe('<ContestableIssues>', () => {
       <ContestableIssues {...props} contestedIssues={[]} />,
     );
 
-    expect($$('va-alert', container).length).to.equal(1);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(1);
     expect($('va-alert', container).innerHTML).to.contain(
       'We can’t load your issues right now',
     );
@@ -300,7 +304,9 @@ describe('<ContestableIssues>', () => {
     const { container } = render(
       <ContestableIssues {...props} formData={{}} />,
     );
-    expect($$('va-alert', container).length).to.equal(1);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(1);
     expect($('va-alert', container).innerHTML).to.contain(
       'we couldn’t find any eligible issues',
     );
@@ -315,7 +321,9 @@ describe('<ContestableIssues>', () => {
       <ContestableIssues {...props} contestedIssues={[]} />,
     );
 
-    expect($$('va-alert', container).length).to.equal(0);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(0);
   });
 
   it('should not show an alert when api is successful, and after adding an additional issues', async () => {
@@ -327,7 +335,9 @@ describe('<ContestableIssues>', () => {
       <ContestableIssues {...props} contestedIssues={[]} />,
     );
 
-    expect($$('va-alert', container).length).to.equal(0);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(0);
   });
 
   it('should not show an alert if no issues are loaded, and after all additional issues are removed', async () => {
@@ -346,7 +356,9 @@ describe('<ContestableIssues>', () => {
     rerender(<ContestableIssues {...newProps} />);
 
     await waitFor(() => {
-      expect($$('va-alert', container).length).to.eq(0);
+      expect($$('va-alert:not(#blocked-issues-alert)', container).length).to.eq(
+        0,
+      );
     });
   });
 
@@ -357,5 +369,118 @@ describe('<ContestableIssues>', () => {
       <ContestableIssues {...props} formData={{}} />,
     );
     expect($$('input[type="checkbox"]', container).length).to.equal(0);
+  });
+
+  describe('blocked issues functionality', () => {
+    it('should display blocked message when issues have today decision dates', () => {
+      const today = new Date();
+      const todayString = today.toISOString().split('T')[0];
+
+      const issuesWithToday = [
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Back Pain',
+            approxDecisionDate: todayString,
+          },
+        },
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Knee Injury',
+            approxDecisionDate: '2023-06-15',
+          },
+        },
+      ];
+
+      const props = getProps({ loadedIssues: issuesWithToday });
+      const { container } = render(<ContestableIssues {...props} />);
+
+      const blockedAlert = $('#blocked-issues-alert', container);
+      expect(blockedAlert).to.exist;
+      expect(blockedAlert.textContent).to.include(
+        "Your back pain issue isn't available",
+      );
+    });
+
+    it('should display blocked message for multiple blocked issues with correct plural grammar', () => {
+      const today = new Date();
+      const todayString = today.toISOString().split('T')[0];
+
+      const multipleBlockedIssues = [
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Back Pain',
+            approxDecisionDate: todayString,
+          },
+        },
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Knee Injury',
+            approxDecisionDate: todayString,
+          },
+        },
+      ];
+
+      const props = getProps({ loadedIssues: multipleBlockedIssues });
+      const { container } = render(<ContestableIssues {...props} />);
+
+      const blockedAlert = $('#blocked-issues-alert', container);
+      expect(blockedAlert).to.exist;
+      expect(blockedAlert.textContent).to.include(
+        "Your back pain and knee injury issues aren't available",
+      );
+    });
+
+    it('should not display blocked message when no issues are blocked', () => {
+      const pastIssues = [
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Back Pain',
+            approxDecisionDate: '2023-06-15',
+          },
+        },
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Knee Injury',
+            approxDecisionDate: '2023-08-20',
+          },
+        },
+      ];
+
+      const props = getProps({ loadedIssues: pastIssues });
+      const { container } = render(<ContestableIssues {...props} />);
+
+      const blockedAlert = $('#blocked-issues-alert', container);
+      expect(blockedAlert).to.exist;
+      expect(blockedAlert.getAttribute('visible')).to.equal('false');
+    });
+
+    it('should display separator between blocked and non-blocked issues', () => {
+      const today = new Date();
+      const todayString = today.toISOString().split('T')[0];
+
+      const mixedIssues = [
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Blocked Issue',
+            approxDecisionDate: todayString,
+          },
+        },
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Available Issue',
+            approxDecisionDate: '2023-06-15',
+          },
+        },
+      ];
+
+      const props = getProps({ loadedIssues: mixedIssues });
+      const { container } = render(<ContestableIssues {...props} />);
+
+      // Check that visual separation exists between blocked and non-blocked issues
+      const elementsWithSeparator = container.querySelectorAll(
+        '[class*="vads-u-border-top--1px"][class*="vads-u-border-color--gray-light"]',
+      );
+      expect(elementsWithSeparator.length).to.equal(2);
+    });
   });
 });
