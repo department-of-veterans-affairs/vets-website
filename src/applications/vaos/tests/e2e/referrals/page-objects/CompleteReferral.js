@@ -43,14 +43,40 @@ export class CompleteReferralPageObject extends PageObject {
   }
 
   /**
+   * Validates that the API error alert is displayed
+   */
+  assertApiErrorAlert() {
+    cy.findByTestId('error-alert').within(() => {
+      // This uses curly apostrophes as required by VA style guidelines
+      cy.findByText(
+        /We’re sorry. Call your community care provider at/i,
+      ).should('exist');
+      cy.findByTestId('referral-community-care-office').should('exist');
+    });
+    return this;
+  }
+
+  /**
    * Validates that an API error message is displayed when completed appointment details fail to load
    */
   assertApiError() {
     // This uses curly apostrophes as required by VA style guidelines
     cy.findByText(/We can’t schedule this appointment online/i).should('exist');
-    cy.findByText(/We’re sorry. Call your community care provider at/i).should(
-      'exist',
-    );
+    this.assertApiErrorAlert();
+    return this;
+  }
+
+  /**
+   * Validates that the not booked error alert is displayed
+   */
+  assertNotBookedErrorAlert() {
+    cy.findByTestId('warning-alert').within(() => {
+      cy.findByText(
+        /Try refreshing this page. If it still doesn’t work, call your community care provider at/i,
+      ).should('exist');
+      cy.findByTestId('referral-community-care-office').should('exist');
+    });
+
     return this;
   }
 
@@ -62,6 +88,7 @@ export class CompleteReferralPageObject extends PageObject {
     cy.findByText(/We’re having trouble scheduling this appointment/i).should(
       'exist',
     );
+    this.assertNotBookedErrorAlert();
     return this;
   }
 
