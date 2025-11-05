@@ -27,7 +27,7 @@ export function simulateVaInputChange(inputField, value) {
 
   // Call the component's onInput handler if it exists
   if (typeof field.onInput === 'function') {
-    field.onInput({ target: { value } });
+    field.onInput({ target: { value } }, value);
   }
 
   return { field, value, eventFired: true };
@@ -59,7 +59,7 @@ export function simulateVaDateChange(dateField, value) {
 
   // Call the component's onDateChange handler if it exists
   if (typeof field.onDateChange === 'function') {
-    field.onDateChange({ target: { value } });
+    field.onDateChange({ target: { value } }, value);
   }
 
   return { field, value, eventFired: true };
