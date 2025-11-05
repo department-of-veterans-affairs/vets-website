@@ -23,12 +23,14 @@ const PendingReferralCard = ({ referral, index }) => {
 
   if (!stationIdValid) {
     return (
-      <li className="vads-u-margin--0 vads-u-border-bottom--1px vads-u-border-color--gray-medium">
+      <li
+        data-testid="referral-not-available-list-item"
+        className="vads-u-margin--0 vads-u-border-bottom--1px vads-u-border-color--gray-medium"
+      >
         <div>
           <AppointmentRow className="vads-u-margin-x--0p5 mobile:vads-u-flex-direction--row">
             <AppointmentColumn className="vads-u-padding-y--1" size="1">
               <div
-                // canceled={isCanceled}
                 className="vads-u-font-weight--bold vaos-appts__display--table vads-u-padding--0p5"
                 data-testid="typeOfCare"
                 id={`ref-title-${index}`}
