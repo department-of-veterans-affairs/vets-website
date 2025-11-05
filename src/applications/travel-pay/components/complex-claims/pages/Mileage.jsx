@@ -68,10 +68,7 @@ const Mileage = () => {
       departureAddress === 'another-address' ||
       tripType === TRIP_TYPES.ONE_WAY.value
     ) {
-      // eslint-disable-next-line no-console
-      console.log(
-        'Special case detected - would redirect to "not supported" page',
-      );
+      navigate(`/file-new-claim/${apptId}/${claimId}/unsupported`);
     } else {
       try {
         if (expenseId) {
