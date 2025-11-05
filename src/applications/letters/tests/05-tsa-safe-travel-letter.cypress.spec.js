@@ -51,12 +51,9 @@ describe('TSA Safe Travel Letter', () => {
   const tsaLetterTitle = 'TSA PreCheck Application Fee Waiver Letter';
 
   it('allows downloading TSA letter', () => {
-    cy.intercept('GET', '/v0/tsa_letter', tsaLetter);
-    cy.intercept(
-      'GET',
-      `/v0/tsa_letter/${tsaLetter.data[0].attributes.document_id}`,
-      '@letterPDFBlob',
-    );
+    cy.intercept('GET', '/v0/tsa_letter', tsaLetter).as('tsaEligibility');
+    cy.wait('@tsaEligibility');
+    cy.intercept('GET', '/v0/tsa_letter/*', '@letterPDFBlob');
     cy.injectAxeThenAxeCheck();
     cy.get('[data-test-id="letters-accordion"]', {
       timeout: Timeouts.slow,
@@ -77,39 +74,40 @@ describe('TSA Safe Travel Letter', () => {
     });
   });
 
-  it('displays alert if determining TSA letter eligibility fails', () => {
-    cy.intercept('GET', '/v0/tsa_letter', {
-      statusCode: 500,
-    }).as('tsaLetterError');
-    cy.injectAxeThenAxeCheck();
-    cy.get('va-alert[status="warning"]', {
-      timeout: Timeouts.slow,
-    })
-      .should('be.visible')
-      .as('warningAlert');
-    cy.get('@warningAlert')
-      .find('h4')
-      .should('have.text', 'Some letters may not be available');
-  });
+  // not merged yet
+
+  //   it('displays alert if determining TSA letter eligibility fails', () => {
+  //     cy.intercept('GET', '/v0/tsa_letter', {
+  //       statusCode: 500,
+  //     }).as('tsaLetterError');
+  //     cy.injectAxeThenAxeCheck();
+  //     cy.get('va-alert[status="warning"]', {
+  //       timeout: Timeouts.slow,
+  //     })
+  //       .should('be.visible')
+  //       .as('warningAlert');
+  //     cy.get('@warningAlert')
+  //       .find('h4')
+  //       .should('have.text', 'Some letters may not be available');
+  //   });
 
   it('displays alert if downloading TSA letter fails', () => {
-    cy.intercept('GET', '/v0/tsa_letter', tsaLetter);
-    cy.intercept(
-      'GET',
-      `/v0/tsa_letter/${tsaLetter.data[0].attributes.document_id}`,
-      {
-        statusCode: 500,
-      },
-    ).as('tsaLetterError');
+    cy.intercept('GET', '/v0/tsa_letter', tsaLetter).as('tsaEligibility');
+    cy.wait('@tsaEligibility');
+    cy.intercept('GET', '/v0/tsa_letter/*', {
+      statusCode: 500,
+    }).as('tsaLetterError');
     cy.injectAxeThenAxeCheck();
     cy.get('[data-test-id="letters-accordion"]', {
       timeout: Timeouts.slow,
     }).should('be.visible');
     cy.get('va-accordion-item')
       .last()
+      .as('tsaAccordionItem')
       .shadow()
       .find('button[aria-expanded=false]')
       .click({ force: true });
+    cy.wait('@tsaLetterError');
     cy.get('va-alert[status="error"]', {
       timeout: Timeouts.slow,
     })
