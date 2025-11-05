@@ -80,6 +80,17 @@ describe('<ServiceUnavailableAlert>', () => {
     });
   });
 
+  context('headerLevel prop', () => {
+    it('should render custom heading level when provided', () => {
+      const { container } = render(
+        <ServiceUnavailableAlert services={['claims']} headerLevel={2} />,
+      );
+
+      const heading = container.querySelector('h2');
+      expect(heading.textContent).to.equal('Claim status is unavailable');
+    });
+  });
+
   context('edge cases', () => {
     it('should return null when services is empty array', () => {
       const { container } = render(<ServiceUnavailableAlert services={[]} />);
