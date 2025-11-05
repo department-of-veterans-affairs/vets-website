@@ -160,14 +160,15 @@ describe('New letters page design', () => {
       cy.intercept('GET', '/v0/tsa_letter', tsaLetter);
       cy.intercept(
         'POST',
-        `v0/tsa_letter/${tsaLetter.data[0].attributes.document_id}`,
+        `/v0/tsa_letter/${tsaLetter.data[0].attributes.document_id}`,
         '@letterPDFBlob',
       );
       cy.injectAxeThenAxeCheck();
       cy.get('[data-test-id="letters-accordion"]', {
         timeout: Timeouts.slow,
       }).should('be.visible');
-      cy.contains('va-accordion-item', tsaLetterTitle)
+      cy.get('va-accordion-item')
+        .last()
         .shadow()
         .find('button[aria-expanded=false]')
         .click({ force: true });
@@ -184,7 +185,8 @@ describe('New letters page design', () => {
     it('displays alert if determining TSA letter eligibility fails', () => {
       cy.intercept('GET', '/v0/tsa_letter', {
         statusCode: 500,
-      });
+      }).as('tsaLetterError');
+      cy.wait('@tsaLetterError');
       cy.injectAxeThenAxeCheck();
       cy.get('va-alert[status="warning"]', {
         timeout: Timeouts.slow,
@@ -200,19 +202,21 @@ describe('New letters page design', () => {
       cy.intercept('GET', '/v0/tsa_letter', tsaLetter);
       cy.intercept(
         'GET',
-        `v0/tsa_letter/${tsaLetter.data[0].attributes.document_id}`,
+        `/v0/tsa_letter/${tsaLetter.data[0].attributes.document_id}`,
         {
           statusCode: 500,
         },
-      );
+      ).as('tsaLetterError');
       cy.injectAxeThenAxeCheck();
       cy.get('[data-test-id="letters-accordion"]', {
         timeout: Timeouts.slow,
       }).should('be.visible');
-      cy.contains('va-accordion-item', tsaLetterTitle)
+      cy.get('va-accordion-item')
+        .last()
         .shadow()
         .find('button[aria-expanded=false]')
         .click({ force: true });
+      cy.wait('@tsaLetterError');
       cy.get('va-alert[status="error"]', {
         timeout: Timeouts.slow,
       })
