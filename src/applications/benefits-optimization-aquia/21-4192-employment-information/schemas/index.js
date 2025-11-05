@@ -39,9 +39,9 @@ export {
  */
 export {
   beginningDateSchema,
+  currentlyEmployedSchema,
   employmentDatesSchema,
   endingDateSchema,
-  typeOfWorkSchema,
 } from './employment-dates';
 export {
   amountEarnedSchema,

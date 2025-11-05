@@ -38,13 +38,9 @@ export const endingDateSchema = z
   );
 
 /**
- * Schema for type of work performed
+ * Schema for currently employed status
  */
-export const typeOfWorkSchema = z
-  .string()
-  .max(1000, 'Type of work must be less than 1000 characters')
-  .optional()
-  .or(z.literal(''));
+export const currentlyEmployedSchema = z.boolean().optional();
 
 /**
  * Complete employment dates schema
@@ -52,5 +48,5 @@ export const typeOfWorkSchema = z
 export const employmentDatesSchema = z.object({
   beginningDate: beginningDateSchema,
   endingDate: endingDateSchema,
-  typeOfWork: typeOfWorkSchema,
+  currentlyEmployed: currentlyEmployedSchema,
 });

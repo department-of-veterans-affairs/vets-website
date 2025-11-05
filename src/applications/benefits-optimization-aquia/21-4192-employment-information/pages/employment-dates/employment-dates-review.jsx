@@ -3,7 +3,7 @@ import React from 'react';
 
 /**
  * Employment Dates Review component
- * Displays employment dates and work type on the review page
+ * Displays employment dates and currently employed status on the review page
  * @param {Object} props - Component props
  * @param {Object} props.data - Complete form data
  * @param {Function} props.editPage - Function to edit this page
@@ -12,6 +12,14 @@ import React from 'react';
  */
 export const EmploymentDatesReview = ({ data, editPage, title }) => {
   const employmentDates = data?.employmentDates || {};
+  const veteranInfo = data?.veteranInformation || {};
+  const employerName =
+    data?.employerInformation?.employerName || 'this employer';
+
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'Veteran';
 
   const formatDate = dateString => {
     if (!dateString) return 'Not provided';
@@ -40,19 +48,25 @@ export const EmploymentDatesReview = ({ data, editPage, title }) => {
 
       <dl className="review">
         <div className="review-row">
-          <dt>Beginning date</dt>
+          <dt>
+            When did {veteranName} start working for {employerName}?
+          </dt>
           <dd>{formatDate(employmentDates.beginningDate)}</dd>
         </div>
 
         <div className="review-row">
-          <dt>Ending date</dt>
-          <dd>{formatDate(employmentDates.endingDate)}</dd>
+          <dt>Currently employed</dt>
+          <dd>{employmentDates.currentlyEmployed ? 'Yes' : 'No'}</dd>
         </div>
 
-        <div className="review-row">
-          <dt>Type of work</dt>
-          <dd>{employmentDates.typeOfWork || 'Not provided'}</dd>
-        </div>
+        {!employmentDates.currentlyEmployed && (
+          <div className="review-row">
+            <dt>
+              When did {veteranName} stop working for {employerName}?
+            </dt>
+            <dd>{formatDate(employmentDates.endingDate)}</dd>
+          </div>
+        )}
       </dl>
     </div>
   );

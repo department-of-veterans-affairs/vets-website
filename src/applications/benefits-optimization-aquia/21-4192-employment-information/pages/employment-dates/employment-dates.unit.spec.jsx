@@ -34,16 +34,16 @@ describe('EmploymentDatesPage', () => {
     );
 
     const dateFields = container.querySelectorAll('va-memorable-date');
-    const textareas = container.querySelectorAll('va-textarea');
+    const checkboxes = container.querySelectorAll('va-checkbox');
 
-    expect(dateFields.length).to.be.at.least(2); // beginningDate, endingDate
-    expect(textareas.length).to.be.at.least(1); // typeOfWork
+    expect(dateFields.length).to.be.at.least(1); // beginningDate (endingDate is conditional)
+    expect(checkboxes.length).to.be.at.least(1); // currentlyEmployed
   });
 
-  it('should display type of work data', () => {
+  it('should display checkbox for currently employed', () => {
     const data = {
       employmentDates: {
-        typeOfWork: 'Commanding officer of Slave I',
+        currentlyEmployed: true,
       },
     };
     const { container } = render(
@@ -54,10 +54,45 @@ describe('EmploymentDatesPage', () => {
       />,
     );
 
-    const textarea = container.querySelector('va-textarea');
-    expect(textarea.getAttribute('value')).to.equal(
-      'Commanding officer of Slave I',
+    const checkbox = container.querySelector('va-checkbox');
+    expect(checkbox).to.exist;
+    expect(checkbox.hasAttribute('checked')).to.be.true;
+  });
+
+  it('should show ending date field when not currently employed', () => {
+    const data = {
+      employmentDates: {
+        currentlyEmployed: false,
+      },
+    };
+    const { container } = render(
+      <EmploymentDatesPage
+        goForward={mockGoForward}
+        data={data}
+        setFormData={mockSetFormData}
+      />,
     );
+
+    const dateFields = container.querySelectorAll('va-memorable-date');
+    expect(dateFields.length).to.equal(2); // beginningDate and endingDate
+  });
+
+  it('should hide ending date field when currently employed', () => {
+    const data = {
+      employmentDates: {
+        currentlyEmployed: true,
+      },
+    };
+    const { container } = render(
+      <EmploymentDatesPage
+        goForward={mockGoForward}
+        data={data}
+        setFormData={mockSetFormData}
+      />,
+    );
+
+    const dateFields = container.querySelectorAll('va-memorable-date');
+    expect(dateFields.length).to.equal(1); // only beginningDate
   });
 
   it('should handle undefined data', () => {
@@ -72,16 +107,43 @@ describe('EmploymentDatesPage', () => {
     expect(container).to.exist;
   });
 
-  it('should validate maxLength for type of work', () => {
+  it('should use veteran and employer names in title and labels', () => {
+    const data = {
+      veteranInformation: {
+        firstName: 'Boba',
+        lastName: 'Fett',
+      },
+      employerInformation: {
+        employerName: 'Bounty Hunters Guild',
+      },
+      employmentDates: {
+        currentlyEmployed: false,
+      },
+    };
     const { container } = render(
       <EmploymentDatesPage
         goForward={mockGoForward}
-        data={{}}
+        data={data}
         setFormData={mockSetFormData}
       />,
     );
 
-    const textarea = container.querySelector('va-textarea');
-    expect(textarea.getAttribute('maxlength')).to.equal('1000');
+    // Check title includes veteran name
+    const text = container.textContent;
+    expect(text).to.include('Boba Fett');
+
+    // Check that the memorable date fields have labels with names
+    const dateFields = container.querySelectorAll('va-memorable-date');
+    expect(dateFields.length).to.equal(2);
+
+    const beginningLabel = dateFields[0].getAttribute('label');
+    expect(beginningLabel).to.include('Boba Fett');
+    expect(beginningLabel).to.include('Bounty Hunters Guild');
+    expect(beginningLabel).to.include('start working');
+
+    const endingLabel = dateFields[1].getAttribute('label');
+    expect(endingLabel).to.include('Boba Fett');
+    expect(endingLabel).to.include('Bounty Hunters Guild');
+    expect(endingLabel).to.include('stop working');
   });
 });
