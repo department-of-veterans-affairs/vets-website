@@ -59,28 +59,6 @@ export const fullNameSchema = z.object({
 });
 
 /**
- * Schema for Social Security Number
- */
-export const ssnSchema = z
-  .string()
-  .min(1, 'Social Security Number is required')
-  .transform(val => val?.replace(/-/g, '')) // Remove dashes for validation
-  .refine(val => /^\d{9}$/.test(val), {
-    message: 'SSN must be 9 digits',
-  });
-
-/**
- * Schema for VA file number (optional)
- */
-export const vaFileNumberSchema = z
-  .string()
-  .refine(val => !val || /^\d{8,9}$/.test(val), {
-    message: 'VA file number must be 8 or 9 digits',
-  })
-  .optional()
-  .or(z.literal(''));
-
-/**
  * Schema for date of birth
  */
 export const dateOfBirthSchema = z
@@ -98,6 +76,4 @@ export const dateOfBirthSchema = z
 export const veteranInformationSchema = z.object({
   fullName: fullNameSchema,
   dateOfBirth: dateOfBirthSchema,
-  ssn: ssnSchema,
-  vaFileNumber: vaFileNumberSchema,
 });

@@ -1,20 +1,20 @@
 /**
- * @module tests/pages/employment-dates-details.unit.spec
- * @description Unit tests for Employment Dates and Details page component
+ * @module tests/pages/duty-status-details.unit.spec
+ * @description Unit tests for Duty Status Details page component
  */
 
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { EmploymentDatesDetailsPage } from './employment-dates-details';
+import { DutyStatusDetailsPage } from './duty-status-details';
 
-describe('EmploymentDatesDetailsPage', () => {
+describe('DutyStatusDetailsPage', () => {
   const mockGoForward = () => {};
   const mockSetFormData = () => {};
 
   it('should render without errors', () => {
     const { container } = render(
-      <EmploymentDatesDetailsPage
+      <DutyStatusDetailsPage
         goForward={mockGoForward}
         data={{}}
         setFormData={mockSetFormData}
@@ -24,34 +24,27 @@ describe('EmploymentDatesDetailsPage', () => {
     expect(container).to.exist;
   });
 
-  it('should render all form fields', () => {
+  it('should render textarea field', () => {
     const { container } = render(
-      <EmploymentDatesDetailsPage
+      <DutyStatusDetailsPage
         goForward={mockGoForward}
         data={{}}
         setFormData={mockSetFormData}
       />,
     );
 
-    const dateFields = container.querySelectorAll('va-memorable-date');
-    const textareas = container.querySelectorAll('va-textarea');
-    const numberFields = container.querySelectorAll(
-      'va-text-input[inputmode="numeric"]',
-    );
-
-    expect(dateFields.length).to.be.at.least(2);
-    expect(textareas.length).to.be.at.least(1);
-    expect(numberFields.length).to.be.at.least(2);
+    const textarea = container.querySelector('va-textarea');
+    expect(textarea).to.exist;
   });
 
-  it('should display type of work data', () => {
+  it('should display status details data', () => {
     const data = {
-      employmentDatesDetails: {
-        typeOfWork: 'Commanding officer of Slave I',
+      dutyStatusDetails: {
+        statusDetails: 'Active duty reserve training two weekends per month',
       },
     };
     const { container } = render(
-      <EmploymentDatesDetailsPage
+      <DutyStatusDetailsPage
         goForward={mockGoForward}
         data={data}
         setFormData={mockSetFormData}
@@ -60,13 +53,13 @@ describe('EmploymentDatesDetailsPage', () => {
 
     const textarea = container.querySelector('va-textarea');
     expect(textarea.getAttribute('value')).to.equal(
-      'Commanding officer of Slave I',
+      'Active duty reserve training two weekends per month',
     );
   });
 
   it('should handle undefined data', () => {
     const { container } = render(
-      <EmploymentDatesDetailsPage
+      <DutyStatusDetailsPage
         goForward={mockGoForward}
         data={undefined}
         setFormData={mockSetFormData}
@@ -76,9 +69,9 @@ describe('EmploymentDatesDetailsPage', () => {
     expect(container).to.exist;
   });
 
-  it('should validate maxLength for type of work', () => {
+  it('should validate maxLength for status details', () => {
     const { container } = render(
-      <EmploymentDatesDetailsPage
+      <DutyStatusDetailsPage
         goForward={mockGoForward}
         data={{}}
         setFormData={mockSetFormData}
@@ -86,6 +79,6 @@ describe('EmploymentDatesDetailsPage', () => {
     );
 
     const textarea = container.querySelector('va-textarea');
-    expect(textarea.getAttribute('maxlength')).to.equal('1000');
+    expect(textarea.getAttribute('maxlength')).to.equal('500');
   });
 });

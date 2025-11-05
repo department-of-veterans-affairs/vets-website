@@ -64,18 +64,6 @@ describe('VeteranInformationPage', () => {
       expect(
         container.querySelector('va-memorable-date[label="Date of birth"]'),
       ).to.exist;
-
-      expect(
-        container.querySelector(
-          'va-text-input[label="Social security number"]',
-        ),
-      ).to.exist;
-
-      expect(
-        container.querySelector(
-          'va-text-input[label="VA file number (if applicable)"]',
-        ),
-      ).to.exist;
     });
 
     it('should render continue button', () => {
@@ -119,8 +107,6 @@ describe('VeteranInformationPage', () => {
             last: 'Fett',
           },
           dateOfBirth: '1985-03-22',
-          ssn: '123-45-6789',
-          vaFileNumber: '22113800',
         },
       };
 
@@ -174,54 +160,6 @@ describe('VeteranInformationPage', () => {
       );
       expect(dobField).to.exist;
       expect(dobField.getAttribute('value')).to.equal('1958-01-06');
-    });
-
-    it('should display SSN', () => {
-      const data = {
-        veteranInformation: {
-          fullName: { first: 'Cad', last: 'Bane' },
-          ssn: '123-45-6789',
-        },
-      };
-
-      const { container } = render(
-        <VeteranInformationPage
-          data={data}
-          setFormData={mockSetFormData}
-          goForward={mockGoForward}
-          goBack={mockGoBack}
-        />,
-      );
-
-      const ssnField = container.querySelector(
-        'va-text-input[label="Social security number"]',
-      );
-      expect(ssnField).to.exist;
-      expect(ssnField.getAttribute('value')).to.equal('123-45-6789');
-    });
-
-    it('should display VA file number', () => {
-      const data = {
-        veteranInformation: {
-          fullName: { first: 'Bossk', last: 'Trandoshan' },
-          vaFileNumber: '77992000',
-        },
-      };
-
-      const { container } = render(
-        <VeteranInformationPage
-          data={data}
-          setFormData={mockSetFormData}
-          goForward={mockGoForward}
-          goBack={mockGoBack}
-        />,
-      );
-
-      const vaFileNumberField = container.querySelector(
-        'va-text-input[label="VA file number (if applicable)"]',
-      );
-      expect(vaFileNumberField).to.exist;
-      expect(vaFileNumberField.getAttribute('value')).to.equal('77992000');
     });
 
     it('should handle empty fullName object', () => {
@@ -422,58 +360,6 @@ describe('VeteranInformationPage', () => {
       );
       expect(dobField.hasAttribute('required')).to.be.true;
     });
-
-    it('should mark ssn as required', () => {
-      const { container } = render(
-        <VeteranInformationPage
-          data={{}}
-          setFormData={mockSetFormData}
-          goForward={mockGoForward}
-          goBack={mockGoBack}
-        />,
-      );
-
-      const ssnField = container.querySelector(
-        'va-text-input[label="Social security number"]',
-      );
-      expect(ssnField.hasAttribute('required')).to.be.true;
-    });
-
-    it('should not mark vaFileNumber as required', () => {
-      const { container } = render(
-        <VeteranInformationPage
-          data={{}}
-          setFormData={mockSetFormData}
-          goForward={mockGoForward}
-          goBack={mockGoBack}
-        />,
-      );
-
-      const vaFileNumberField = container.querySelector(
-        'va-text-input[label="VA file number (if applicable)"]',
-      );
-      expect(vaFileNumberField.hasAttribute('required')).to.be.false;
-    });
-  });
-
-  describe('Field Hints', () => {
-    it('should display hint for VA file number', () => {
-      const { container } = render(
-        <VeteranInformationPage
-          data={{}}
-          setFormData={mockSetFormData}
-          goForward={mockGoForward}
-          goBack={mockGoBack}
-        />,
-      );
-
-      const vaFileNumberField = container.querySelector(
-        'va-text-input[label="VA file number (if applicable)"]',
-      );
-      expect(vaFileNumberField.getAttribute('hint')).to.equal(
-        'VA file number must be 8 or 9 digits',
-      );
-    });
   });
 
   describe('Component Props', () => {
@@ -537,8 +423,6 @@ describe('ensureDateStrings', () => {
       const formData = {
         dateOfBirth: '1962-07-13',
         fullName: { first: 'Cad', middle: '', last: 'Bane' },
-        ssn: '123-45-6789',
-        vaFileNumber: '33771100',
       };
 
       const result = ensureDateStrings(formData);
@@ -548,8 +432,6 @@ describe('ensureDateStrings', () => {
         middle: '',
         last: 'Bane',
       });
-      expect(result.ssn).to.equal('123-45-6789');
-      expect(result.vaFileNumber).to.equal('33771100');
     });
   });
 
@@ -635,7 +517,6 @@ describe('ensureDateStrings', () => {
       const formData = {
         dateOfBirth: '1983-11-29',
         fullName: { first: 'Sugi', last: '' },
-        ssn: '123-45-6789',
       };
 
       const result = ensureDateStrings(formData);

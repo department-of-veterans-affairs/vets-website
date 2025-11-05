@@ -10,8 +10,6 @@ import {
   fullNameSchema,
   lastNameSchema,
   middleNameSchema,
-  ssnSchema,
-  vaFileNumberSchema,
   veteranInformationSchema,
 } from './veteran-information';
 
@@ -256,147 +254,6 @@ describe('Veteran Information Schemas', () => {
     });
   });
 
-  describe('ssnSchema', () => {
-    describe('Valid SSNs', () => {
-      it('should validate SSN with dashes', () => {
-        const result = ssnSchema.safeParse('123-45-6789');
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate SSN without dashes', () => {
-        const result = ssnSchema.safeParse('123456789');
-        expect(result.success).to.be.true;
-      });
-
-      it('should transform SSN with dashes to without dashes', () => {
-        const result = ssnSchema.safeParse('123-45-6789');
-        if (result.success) {
-          expect(result.data).to.equal('123456789');
-        }
-      });
-
-      it('should validate various valid SSNs', () => {
-        const ssns = [
-          '111-22-3333',
-          '222-33-4444',
-          '555-66-7777',
-          '999-88-7777',
-        ];
-
-        ssns.forEach(ssn => {
-          const result = ssnSchema.safeParse(ssn);
-          expect(result.success).to.be.true;
-        });
-      });
-    });
-
-    describe('Invalid SSNs', () => {
-      it('should reject empty string', () => {
-        const result = ssnSchema.safeParse('');
-        expect(result.success).to.be.false;
-        if (!result.success) {
-          expect(result.error.issues[0].message).to.include('required');
-        }
-      });
-
-      it('should reject SSN with too few digits', () => {
-        const result = ssnSchema.safeParse('12-34-567');
-        expect(result.success).to.be.false;
-        if (!result.success) {
-          expect(result.error.issues[0].message).to.include('9 digits');
-        }
-      });
-
-      it('should reject SSN with too many digits', () => {
-        const result = ssnSchema.safeParse('123-45-67890');
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject SSN with letters', () => {
-        const result = ssnSchema.safeParse('123-45-678A');
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject SSN with special characters', () => {
-        const result = ssnSchema.safeParse('123@45#6789');
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject undefined', () => {
-        const result = ssnSchema.safeParse(undefined);
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject null', () => {
-        const result = ssnSchema.safeParse(null);
-        expect(result.success).to.be.false;
-      });
-    });
-  });
-
-  describe('vaFileNumberSchema', () => {
-    describe('Valid VA File Numbers', () => {
-      it('should validate 8-digit VA file number', () => {
-        const result = vaFileNumberSchema.safeParse('12345678');
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate 9-digit VA file number', () => {
-        const result = vaFileNumberSchema.safeParse('123456789');
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate empty string (optional)', () => {
-        const result = vaFileNumberSchema.safeParse('');
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate undefined (optional)', () => {
-        const result = vaFileNumberSchema.safeParse(undefined);
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate various valid lengths', () => {
-        const validNumbers = ['87654321', '123456789'];
-
-        validNumbers.forEach(num => {
-          const result = vaFileNumberSchema.safeParse(num);
-          expect(result.success).to.be.true;
-        });
-      });
-    });
-
-    describe('Invalid VA File Numbers', () => {
-      it('should reject 7-digit number', () => {
-        const result = vaFileNumberSchema.safeParse('1234567');
-        expect(result.success).to.be.false;
-        if (!result.success) {
-          expect(result.error.issues[0].message).to.include('8 or 9 digits');
-        }
-      });
-
-      it('should reject 10-digit number', () => {
-        const result = vaFileNumberSchema.safeParse('1234567890');
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject alphanumeric value', () => {
-        const result = vaFileNumberSchema.safeParse('1234567A');
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject number with dashes', () => {
-        const result = vaFileNumberSchema.safeParse('123-456-78');
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject number with spaces', () => {
-        const result = vaFileNumberSchema.safeParse('123 456 789');
-        expect(result.success).to.be.false;
-      });
-    });
-  });
-
   describe('dateOfBirthSchema', () => {
     describe('Valid Dates', () => {
       it('should validate birth date', () => {
@@ -475,8 +332,6 @@ describe('Veteran Information Schemas', () => {
             last: 'Fett',
           },
           dateOfBirth: '1985-03-22',
-          ssn: '123-45-6789',
-          vaFileNumber: '22113800',
         });
         expect(result.success).to.be.true;
       });
@@ -488,34 +343,6 @@ describe('Veteran Information Schemas', () => {
             last: 'Fett',
           },
           dateOfBirth: '1958-01-06',
-          ssn: '987-65-4321',
-          vaFileNumber: '19580100',
-        });
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate veteran without VA file number', () => {
-        const result = veteranInformationSchema.safeParse({
-          fullName: {
-            first: 'Cad',
-            middle: '',
-            last: 'Bane',
-          },
-          dateOfBirth: '1962-07-13',
-          ssn: '111-22-3333',
-          vaFileNumber: '',
-        });
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate veteran with undefined VA file number', () => {
-        const result = veteranInformationSchema.safeParse({
-          fullName: {
-            first: 'Zam',
-            last: 'Wesell',
-          },
-          dateOfBirth: '1979-04-18',
-          ssn: '222-33-4444',
         });
         expect(result.success).to.be.true;
       });
@@ -526,8 +353,6 @@ describe('Veteran Information Schemas', () => {
         const result = veteranInformationSchema.safeParse({
           fullName: { first: 'Bossk', last: 'Trandoshan' },
           dateOfBirth: '1971-05-02',
-          ssn: '555-66-7777',
-          vaFileNumber: '19710500',
         });
         expect(result.success).to.be.true;
       });
@@ -536,8 +361,6 @@ describe('Veteran Information Schemas', () => {
         const result = veteranInformationSchema.safeParse({
           fullName: { first: 'Aurra', middle: '', last: 'Sing' },
           dateOfBirth: '1983-11-29',
-          ssn: '333-44-5555',
-          vaFileNumber: '19831100',
         });
         expect(result.success).to.be.true;
       });
@@ -546,7 +369,6 @@ describe('Veteran Information Schemas', () => {
         const result = veteranInformationSchema.safeParse({
           fullName: { first: 'Greedo', last: 'Rodian' },
           dateOfBirth: '1965-08-14',
-          ssn: '444-55-6666',
         });
         expect(result.success).to.be.true;
       });
@@ -555,8 +377,6 @@ describe('Veteran Information Schemas', () => {
         const result = veteranInformationSchema.safeParse({
           fullName: { first: 'Bossk', middle: '', last: 'Trandoshan' },
           dateOfBirth: '1977-09-21',
-          ssn: '666-77-8888',
-          vaFileNumber: '19770900',
         });
         expect(result.success).to.be.true;
       });
@@ -566,7 +386,6 @@ describe('Veteran Information Schemas', () => {
       it('should reject missing fullName', () => {
         const result = veteranInformationSchema.safeParse({
           dateOfBirth: '1985-03-22',
-          ssn: '123-45-6789',
         });
         expect(result.success).to.be.false;
       });
@@ -574,34 +393,6 @@ describe('Veteran Information Schemas', () => {
       it('should reject missing dateOfBirth', () => {
         const result = veteranInformationSchema.safeParse({
           fullName: { first: 'Boba', last: 'Fett' },
-          ssn: '123-45-6789',
-        });
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject missing ssn', () => {
-        const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'Boba', last: 'Fett' },
-          dateOfBirth: '1985-03-22',
-        });
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject invalid SSN format', () => {
-        const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'Boba', last: 'Fett' },
-          dateOfBirth: '1985-03-22',
-          ssn: '123-45-678', // Too short
-        });
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject invalid VA file number format', () => {
-        const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'Boba', last: 'Fett' },
-          dateOfBirth: '1985-03-22',
-          ssn: '123-45-6789',
-          vaFileNumber: '123', // Too short
         });
         expect(result.success).to.be.false;
       });
@@ -610,35 +401,8 @@ describe('Veteran Information Schemas', () => {
         const result = veteranInformationSchema.safeParse({
           fullName: { first: 'Boba123', last: 'Fett' },
           dateOfBirth: '1985-03-22',
-          ssn: '123-45-6789',
         });
         expect(result.success).to.be.false;
-      });
-    });
-
-    describe('Data Transformation', () => {
-      it('should transform SSN by removing dashes', () => {
-        const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'Boba', last: 'Fett' },
-          dateOfBirth: '1985-03-22',
-          ssn: '123-45-6789',
-          vaFileNumber: '22113800',
-        });
-        if (result.success) {
-          expect(result.data.ssn).to.equal('123456789');
-        }
-      });
-
-      it('should preserve SSN without dashes', () => {
-        const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'Jango', last: 'Fett' },
-          dateOfBirth: '1958-01-06',
-          ssn: '123456789',
-          vaFileNumber: '19580100',
-        });
-        if (result.success) {
-          expect(result.data.ssn).to.equal('123456789');
-        }
       });
     });
 
@@ -647,7 +411,6 @@ describe('Veteran Information Schemas', () => {
         const result = veteranInformationSchema.safeParse({
           fullName: { first: 'J', last: 'K' },
           dateOfBirth: '2000-01-01',
-          ssn: '123456789',
         });
         expect(result.success).to.be.true;
       });
@@ -660,8 +423,6 @@ describe('Veteran Information Schemas', () => {
             last: 'C'.repeat(30),
           },
           dateOfBirth: '2000-01-01',
-          ssn: '123456789',
-          vaFileNumber: '123456789',
         });
         expect(result.success).to.be.true;
       });
@@ -674,7 +435,6 @@ describe('Veteran Information Schemas', () => {
             last: "D'Asta-Kryze",
           },
           dateOfBirth: '1990-10-15',
-          ssn: '123456789',
         });
         expect(result.success).to.be.true;
       });
