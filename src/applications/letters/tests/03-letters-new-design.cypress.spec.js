@@ -159,7 +159,7 @@ describe('New letters page design', () => {
     it('allows downloading TSA letter', () => {
       cy.intercept('GET', '/v0/tsa_letter', tsaLetter);
       cy.intercept(
-        'POST',
+        'GET',
         `/v0/tsa_letter/${tsaLetter.data[0].attributes.document_id}`,
         '@letterPDFBlob',
       );
