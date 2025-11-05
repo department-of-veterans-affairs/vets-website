@@ -1,12 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { MemorableDateField } from '@bio-aquia/shared/components/atoms';
-import { FullnameField } from '@bio-aquia/shared/components/molecules';
+import {
+  MemorableDateField,
+  TextInputField,
+} from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
-import { dateOfBirthSchema, veteranInformationSchema } from '../../schemas';
+import {
+  dateOfBirthSchema,
+  firstNameSchema,
+  lastNameSchema,
+  veteranInformationSchema,
+} from '../../schemas';
 
 /**
  * Data processor to ensure date values are properly formatted strings.
@@ -43,7 +50,7 @@ export const VeteranInformationPage = ({
 
   return (
     <PageTemplate
-      title="Veteran's information"
+      title="Who is the Veteran you are providing information for?"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -54,29 +61,38 @@ export const VeteranInformationPage = ({
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       defaultData={{
-        fullName: {
-          first: '',
-          middle: '',
-          last: '',
-        },
+        firstName: '',
+        lastName: '',
         dateOfBirth: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <FullnameField
-            name="fullName"
-            value={localData.fullName}
+          <TextInputField
+            name="firstName"
+            label="Veteran's first or given name"
+            schema={firstNameSchema}
+            value={localData.firstName}
             onChange={handleFieldChange}
-            errors={errors.fullName || {}}
-            forceShowError={formSubmitted}
-            label="Veteran's name"
             required
+            error={errors.firstName}
+            forceShowError={formSubmitted}
+          />
+
+          <TextInputField
+            name="lastName"
+            label="Veteran's last or family name"
+            schema={lastNameSchema}
+            value={localData.lastName}
+            onChange={handleFieldChange}
+            required
+            error={errors.lastName}
+            forceShowError={formSubmitted}
           />
 
           <MemorableDateField
             name="dateOfBirth"
-            label="Date of birth"
+            label="Veteran's date of birth"
             schema={dateOfBirthSchema}
             value={localData.dateOfBirth}
             onChange={handleFieldChange}

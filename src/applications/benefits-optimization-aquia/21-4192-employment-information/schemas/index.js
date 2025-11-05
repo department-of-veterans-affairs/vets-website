@@ -19,9 +19,7 @@
 export {
   dateOfBirthSchema,
   firstNameSchema,
-  fullNameSchema,
   lastNameSchema,
-  middleNameSchema,
   veteranInformationSchema,
 } from './veteran-information';
 export {

@@ -41,7 +41,9 @@ describe('VeteranInformationPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include("Veteran's information");
+      expect(container.textContent).to.include(
+        'Who is the Veteran you are providing information for',
+      );
     });
 
     it('should render all form fields', () => {
@@ -54,15 +56,21 @@ describe('VeteranInformationPage', () => {
         />,
       );
 
-      expect(container.querySelector('va-text-input[label="First name"]')).to
-        .exist;
-      expect(container.querySelector('va-text-input[label="Middle name"]')).to
-        .exist;
-      expect(container.querySelector('va-text-input[label="Last name"]')).to
-        .exist;
+      expect(
+        container.querySelector(
+          'va-text-input[label="Veteran\'s first or given name"]',
+        ),
+      ).to.exist;
+      expect(
+        container.querySelector(
+          'va-text-input[label="Veteran\'s last or family name"]',
+        ),
+      ).to.exist;
 
       expect(
-        container.querySelector('va-memorable-date[label="Date of birth"]'),
+        container.querySelector(
+          'va-memorable-date[label="Veteran\'s date of birth"]',
+        ),
       ).to.exist;
     });
 
@@ -101,11 +109,8 @@ describe('VeteranInformationPage', () => {
     it('should display veteran name data', () => {
       const data = {
         veteranInformation: {
-          fullName: {
-            first: 'Boba',
-            middle: '',
-            last: 'Fett',
-          },
+          firstName: 'Boba',
+          lastName: 'Fett',
           dateOfBirth: '1985-03-22',
         },
       };
@@ -120,19 +125,13 @@ describe('VeteranInformationPage', () => {
       );
 
       const firstNameInput = container.querySelector(
-        'va-text-input[label="First name"]',
+        'va-text-input[label="Veteran\'s first or given name"]',
       );
       expect(firstNameInput).to.exist;
       expect(firstNameInput.getAttribute('value')).to.equal('Boba');
 
-      const middleNameInput = container.querySelector(
-        'va-text-input[label="Middle name"]',
-      );
-      expect(middleNameInput).to.exist;
-      expect(middleNameInput.getAttribute('value')).to.equal('');
-
       const lastNameInput = container.querySelector(
-        'va-text-input[label="Last name"]',
+        'va-text-input[label="Veteran\'s last or family name"]',
       );
       expect(lastNameInput).to.exist;
       expect(lastNameInput.getAttribute('value')).to.equal('Fett');
@@ -141,7 +140,8 @@ describe('VeteranInformationPage', () => {
     it('should display date of birth', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'Jango', middle: '', last: 'Fett' },
+          firstName: 'Jango',
+          lastName: 'Fett',
           dateOfBirth: '1958-01-06',
         },
       };
@@ -156,17 +156,15 @@ describe('VeteranInformationPage', () => {
       );
 
       const dobField = container.querySelector(
-        'va-memorable-date[label="Date of birth"]',
+        'va-memorable-date[label="Veteran\'s date of birth"]',
       );
       expect(dobField).to.exist;
       expect(dobField.getAttribute('value')).to.equal('1958-01-06');
     });
 
-    it('should handle empty fullName object', () => {
+    it('should handle empty veteran information', () => {
       const data = {
-        veteranInformation: {
-          fullName: {},
-        },
+        veteranInformation: {},
       };
 
       const { container } = render(
@@ -181,10 +179,8 @@ describe('VeteranInformationPage', () => {
       expect(container).to.exist;
     });
 
-    it('should handle missing fullName', () => {
-      const data = {
-        veteranInformation: {},
-      };
+    it('should handle missing veteranInformation', () => {
+      const data = {};
 
       const { container } = render(
         <VeteranInformationPage
@@ -255,9 +251,7 @@ describe('VeteranInformationPage', () => {
     it('should handle partial data', () => {
       const data = {
         veteranInformation: {
-          fullName: {
-            first: 'Greedo',
-          },
+          firstName: 'Greedo',
         },
       };
 
@@ -271,7 +265,7 @@ describe('VeteranInformationPage', () => {
       );
 
       const firstNameInput = container.querySelector(
-        'va-text-input[label="First name"]',
+        'va-text-input[label="Veteran\'s first or given name"]',
       );
       expect(firstNameInput.getAttribute('value')).to.equal('Greedo');
     });
@@ -281,7 +275,8 @@ describe('VeteranInformationPage', () => {
     it('should render in review mode', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'Zam', last: 'Wesell' },
+          firstName: 'Zam',
+          lastName: 'Wesell',
           dateOfBirth: '1979-04-18',
         },
       };
@@ -303,7 +298,8 @@ describe('VeteranInformationPage', () => {
     it('should show update button in review mode', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'Aurra', last: 'Sing' },
+          firstName: 'Aurra',
+          lastName: 'Sing',
         },
       };
 
@@ -324,7 +320,7 @@ describe('VeteranInformationPage', () => {
   });
 
   describe('Required Fields', () => {
-    it('should mark fullName as required', () => {
+    it('should mark firstName and lastName as required', () => {
       const { container } = render(
         <VeteranInformationPage
           data={{}}
@@ -335,12 +331,12 @@ describe('VeteranInformationPage', () => {
       );
 
       const firstNameInput = container.querySelector(
-        'va-text-input[label="First name"]',
+        'va-text-input[label="Veteran\'s first or given name"]',
       );
       expect(firstNameInput.hasAttribute('required')).to.be.true;
 
       const lastNameInput = container.querySelector(
-        'va-text-input[label="Last name"]',
+        'va-text-input[label="Veteran\'s last or family name"]',
       );
       expect(lastNameInput.hasAttribute('required')).to.be.true;
     });
@@ -356,7 +352,7 @@ describe('VeteranInformationPage', () => {
       );
 
       const dobField = container.querySelector(
-        'va-memorable-date[label="Date of birth"]',
+        'va-memorable-date[label="Veteran\'s date of birth"]',
       );
       expect(dobField.hasAttribute('required')).to.be.true;
     });
@@ -374,7 +370,8 @@ describe('VeteranInformationPage', () => {
     it('should render with all props', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'Embo', last: '' },
+          firstName: 'Embo',
+          lastName: '',
         },
       };
 
@@ -399,7 +396,8 @@ describe('ensureDateStrings', () => {
     it('should transform Date object to ISO string for dateOfBirth', () => {
       const formData = {
         dateOfBirth: new Date('1985-03-22'),
-        fullName: { first: 'Boba', last: 'Fett' },
+        firstName: 'Boba',
+        lastName: 'Fett',
       };
 
       const result = ensureDateStrings(formData);
@@ -411,7 +409,8 @@ describe('ensureDateStrings', () => {
     it('should preserve string dates', () => {
       const formData = {
         dateOfBirth: '1958-01-06',
-        fullName: { first: 'Jango', last: 'Fett' },
+        firstName: 'Jango',
+        lastName: 'Fett',
       };
 
       const result = ensureDateStrings(formData);
@@ -422,16 +421,14 @@ describe('ensureDateStrings', () => {
     it('should preserve other fields unchanged', () => {
       const formData = {
         dateOfBirth: '1962-07-13',
-        fullName: { first: 'Cad', middle: '', last: 'Bane' },
+        firstName: 'Cad',
+        lastName: 'Bane',
       };
 
       const result = ensureDateStrings(formData);
 
-      expect(result.fullName).to.deep.equal({
-        first: 'Cad',
-        middle: '',
-        last: 'Bane',
-      });
+      expect(result.firstName).to.equal('Cad');
+      expect(result.lastName).to.equal('Bane');
     });
   });
 
@@ -453,20 +450,23 @@ describe('ensureDateStrings', () => {
 
     it('should handle formData without dateOfBirth', () => {
       const formData = {
-        fullName: { first: 'IG-88', last: '' },
+        firstName: 'IG-88',
+        lastName: '',
       };
 
       const result = ensureDateStrings(formData);
 
       expect(result).to.deep.equal({
-        fullName: { first: 'IG-88', last: '' },
+        firstName: 'IG-88',
+        lastName: '',
       });
     });
 
     it('should handle empty dateOfBirth string', () => {
       const formData = {
         dateOfBirth: '',
-        fullName: { first: 'Dengar', last: '' },
+        firstName: 'Dengar',
+        lastName: '',
       };
 
       const result = ensureDateStrings(formData);
@@ -477,7 +477,8 @@ describe('ensureDateStrings', () => {
     it('should handle invalid date object', () => {
       const formData = {
         dateOfBirth: new Date('invalid'),
-        fullName: { first: '4-LOM', last: '' },
+        firstName: '4-LOM',
+        lastName: '',
       };
 
       const result = ensureDateStrings(formData);
@@ -491,7 +492,8 @@ describe('ensureDateStrings', () => {
       const formData = {
         dateOfBirth: new Date('1985-03-22'),
         otherDate: new Date('2024-01-01'),
-        fullName: { first: 'Boba', last: 'Fett' },
+        firstName: 'Boba',
+        lastName: 'Fett',
       };
 
       const result = ensureDateStrings(formData);
@@ -505,7 +507,8 @@ describe('ensureDateStrings', () => {
     it('should return a new object', () => {
       const formData = {
         dateOfBirth: '1971-05-02',
-        fullName: { first: 'Bossk', last: 'Trandoshan' },
+        firstName: 'Bossk',
+        lastName: 'Trandoshan',
       };
 
       const result = ensureDateStrings(formData);
@@ -516,7 +519,8 @@ describe('ensureDateStrings', () => {
     it('should return object with same structure', () => {
       const formData = {
         dateOfBirth: '1983-11-29',
-        fullName: { first: 'Sugi', last: '' },
+        firstName: 'Sugi',
+        lastName: '',
       };
 
       const result = ensureDateStrings(formData);
