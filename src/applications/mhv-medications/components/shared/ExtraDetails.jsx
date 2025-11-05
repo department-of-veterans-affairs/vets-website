@@ -77,7 +77,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
         </div>
       )}
       {dispStatus === dispStatusObj.submitted && (
-        <p
+        <div
           className="statusIcon submittedIcon"
           data-testid="submitted-refill-request"
         >
@@ -99,7 +99,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
               </>
             }
           />
-        </p>
+        </div>
       )}
       {dispStatus === dispStatusObj.activeParked && (
         <p className="vads-u-margin-y--0" data-testid="active-parked">
