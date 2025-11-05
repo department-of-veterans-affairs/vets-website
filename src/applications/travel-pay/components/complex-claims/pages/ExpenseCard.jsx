@@ -27,8 +27,9 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
 
   const handleDeleteExpense = async () => {
     setShowDeleteModal(false);
-    const expenseRoute = EXPENSE_TYPES[expenseType]?.route;
-    dispatch(deleteExpense(claimId, expenseRoute, expenseId));
+    dispatch(
+      deleteExpense(claimId, EXPENSE_TYPES[expenseType]?.apiRoute, expenseId),
+    );
   };
 
   return (
@@ -36,7 +37,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
       <va-card>
         <h3 className="vads-u-margin-top--1">{header}</h3>
         {isDeleting ? (
-          <div className="vads-u-text-align--center">
+          <div className="vads-u-text-align--center vads-u-margin--5">
             <va-loading-indicator message="Deleting..." set-focus={false} />
           </div>
         ) : (
@@ -80,35 +81,34 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
                 ]}
               />
             )}
+            <div className="review-button-row">
+              <div className="review-edit-button">
+                <Link
+                  data-testid={`${expenseId}-edit-expense-link`}
+                  to={`/file-new-claim/${apptId}/${claimId}/${
+                    EXPENSE_TYPES[expenseType]?.route
+                  }/${expenseId}`}
+                >
+                  EDIT
+                  <va-icon
+                    active
+                    icon="navigate_next"
+                    size={3}
+                    aria-hidden="true"
+                  />
+                </Link>
+              </div>
+
+              <va-button-icon
+                className="align-items--end"
+                data-action="remove"
+                button-type="delete"
+                disabled={isDeleting}
+                onClick={() => !isDeleting && setShowDeleteModal(true)}
+              />
+            </div>
           </>
         )}
-
-        <div className="review-button-row">
-          <div className="review-edit-button">
-            <Link
-              data-testid={`${expenseId}-edit-expense-link`}
-              to={`/file-new-claim/${apptId}/${claimId}/${
-                EXPENSE_TYPES[expenseType]?.route
-              }/${expenseId}`}
-            >
-              EDIT
-              <va-icon
-                active
-                icon="navigate_next"
-                size={3}
-                aria-hidden="true"
-              />
-            </Link>
-          </div>
-
-          <va-button-icon
-            className="align-items--end"
-            data-action="remove"
-            button-type="delete"
-            disabled={isDeleting}
-            onClick={() => !isDeleting && setShowDeleteModal(true)}
-          />
-        </div>
       </va-card>
       <DeleteExpenseModal
         expenseCardTitle={header}

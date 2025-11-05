@@ -78,14 +78,14 @@ const Mileage = () => {
           await dispatch(
             updateExpense(
               claimId,
-              EXPENSE_TYPES.Mileage.route,
+              EXPENSE_TYPES.Mileage.apiRoute,
               expenseId,
               expenseData,
             ),
           );
         } else {
           await dispatch(
-            createExpense(claimId, EXPENSE_TYPES.Mileage.route, expenseData),
+            createExpense(claimId, EXPENSE_TYPES.Mileage.apiRoute, expenseData),
           );
         }
       } catch (error) {
