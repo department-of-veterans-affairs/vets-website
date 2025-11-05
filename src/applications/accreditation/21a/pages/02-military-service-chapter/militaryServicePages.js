@@ -10,6 +10,8 @@ import {
   textareaUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
+import content from '../../locales/en/content.json';
+
 import MilitaryServiceIntro from '../../components/02-military-service-chapter/MilitaryServiceIntro';
 import {
   branchOptions,
@@ -30,6 +32,8 @@ export const arrayBuilderOptions = {
   arrayPath: 'militaryServiceExperiences',
   nounSingular: 'military service experience',
   nounPlural: 'military service experiences',
+  summaryTitle: () => 'Review your medical and other expenses',
+  yesNoBlankReviewQuestion: () => content.militaryTitle,
   required: false,
   isItemIncomplete: item =>
     !item?.branch ||
