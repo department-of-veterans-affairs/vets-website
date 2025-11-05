@@ -1,9 +1,10 @@
-# Changelog: MHV Medications (Sept 30 - Nov 3, 2025)
+# Changelog: MHV Medications (Sept 30 - Nov 5, 2025)
 
 ## Refactoring & Code Quality
 - **#120943**: Removed moment.js dependency from medications, improved date handling consistency (Oct 30)
+- **#39285**: Moved pharmacy phone number logic to vets-api, added phone number formatting (Nov 3)
 - **RefillAlert → DelayedRefillAlert**: Refactored component naming and structure (Oct 21)
-- **RefillNotification refactor**: Improved component structure, added aria-labels, moved constants, created smaller sub-components (Oct 15) -- aria labels?
+- **RefillNotification refactor**: Improved component structure, added aria-labels, moved constants, created smaller sub-components (Oct 15)
 
 ## Accessibility Improvements
 - **#118720**: Enhanced screen reader messaging when sorting/filtering medications in list view (Oct 21)
@@ -22,7 +23,7 @@
 - **#119376**: Updated small content change for the filter on the Medications list page (Oct 8)
 
 ## Feature Additions
-- **#119376**: Created new `NewCernerFacilityAlert` Alert with va-alert-expandable when showNewFacilityAlert toggle is ON and user has transitional facility (Oct 16)
+- **#119376**: Created new `NewCernerFacilityAlert` with va-alert-expandable when showNewFacilityAlert toggle is ON and user is associated with an Oracle Health Cerner facility (Oct 16)
 
 ## Bug Fixes & Testing
 - **#119106**: Fixed PropType validation error - changed 'hasError' prop from object to boolean in PrintonlyPage (Oct 7)
@@ -33,7 +34,11 @@
 ## Monitoring & Analytics
 - Removed Unique User Metrics from Medications (Oct 23)
 
+## Documentation
+- Added FEATURE_TOGGLES.md for mhv-medications (Nov 5)
+
+
 ---
 
-**Total commits**: 19
-**Date range**: October 7 - October 30, 2025
+**Total commits**: 22
+**Date range**: October 7 - November 5, 2025
