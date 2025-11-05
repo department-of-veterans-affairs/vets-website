@@ -62,6 +62,7 @@ const spouseReasonToRemove = {
           label={labels.Spouse.removalReason}
           hint={labels.Spouse.removalReasonHint}
           onVaValueChange={onChange}
+          enable-analytics
           required
         >
           <VaRadioOption

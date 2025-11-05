@@ -55,6 +55,7 @@ const childIsStepchild = {
           label={labels.Child.isStepChildTitle(fullName, cleanAge, isEditing)}
           labelHeaderLevel="3"
           onVaValueChange={onChange}
+          enable-analytics
           required
         >
           <VaRadioOption

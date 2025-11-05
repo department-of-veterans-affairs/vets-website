@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import {
+  slugifyKey,
   processDependents,
   updateDependentsInFormData,
 } from '../../utils/processDependents';
@@ -50,6 +51,21 @@ const getDependent = ({
     labeledAge: labeledAges[index],
   };
 };
+
+describe('slugifyKey', () => {
+  it('should return a slugified key based on first name and last 4 of ssn', () => {
+    const dependent = {
+      fullName: { first: 'Katie' },
+      ssn: '123456789',
+    };
+    const result = slugifyKey(dependent);
+    expect(result).to.equal('katie-6789');
+  });
+  it('should return a slugified key with an empty first name & ssn', () => {
+    const result = slugifyKey({});
+    expect(result).to.equal('-');
+  });
+});
 
 describe('processDependents', () => {
   const getDependentsArray = (props1, props2) => [

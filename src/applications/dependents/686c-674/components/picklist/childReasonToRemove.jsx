@@ -125,6 +125,7 @@ const childReasonToRemove = {
           label={labels.Child.removalReason}
           hint={labels.Child.removalReasonHint}
           onVaValueChange={onChange}
+          enable-analytics
           required
         >
           {removalOptions.map(option => (
