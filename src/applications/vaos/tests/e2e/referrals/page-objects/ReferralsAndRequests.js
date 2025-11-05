@@ -78,6 +78,23 @@ export class ReferralsAndRequestsPageObject extends PageObject {
   }
 
   /**
+   * Validates that the online scheduling not available message is displayed on a referral card
+   */
+  assertOnlineSchedulingNotAvailableAlert(index = 0) {
+    cy.findAllByTestId('referral-not-available-list-item')
+      .eq(index)
+      .within(() => {
+        cy.findByTestId('referral-not-available-alert').within(() => {
+          cy.findByText(
+            /Online scheduling isn’t available for this referral right now. Call your community care provider or your facility’s community care office to schedule an appointment./i,
+          ).should('exist');
+          cy.findByTestId('referral-community-care-office').should('exist');
+        });
+      });
+    return this;
+  }
+
+  /**
    * Validates the URL and breadcrumb for the page
    */
   _validateUrl() {
