@@ -8,14 +8,14 @@ export const CustomTopContent = () => {
   const formNumber = getFormNumber();
   const breadcrumbs = [
     { href: '/', label: 'VA.gov home' },
-    { href: '/find-forms', label: 'Find a VA form' },
+    { href: '/forms', label: 'VA forms' },
     // TODO: Restore this breadcrumb when the static content at /find-forms/upload plays nicely with the Form Upload tool
     // {
     //   href: `/find-forms/upload`,
     //   label: `Upload VA forms`,
     // },
     {
-      href: `/find-forms/upload/${formNumber}/introduction`,
+      href: `/forms/${formNumber}/upload/introduction`,
       label: `Upload form ${formNumber}`,
     },
   ];

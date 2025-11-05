@@ -166,6 +166,12 @@
       "rootUrl": "/track-claims"
     },
     {
+      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
+      "appName": "N/A",
+      "entryName": "N/A",
+      "rootUrl": "N/A"
+    },
+    {
       "directoryPath": "src/applications/combined-debt-portal/combined",
       "appName": "Debt and bills",
       "entryName": "combined-debt-portal",
@@ -781,7 +787,7 @@
       "directoryPath": "src/applications/simple-forms/form-upload",
       "appName": "Form Upload",
       "entryName": "form-upload-flow",
-      "rootUrl": "/find-forms/upload"
+      "rootUrl": "/forms"
     },
     {
       "directoryPath": "src/applications/simple-forms/mock-form-minimal-header",

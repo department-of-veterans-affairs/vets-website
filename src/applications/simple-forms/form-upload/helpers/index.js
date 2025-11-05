@@ -132,7 +132,7 @@ export const formMappings = {
 };
 
 const extractFormSlug = path => {
-  const regex = /upload\/([^/]+)/;
+  const regex = /forms\/([^/]+)\/upload/;
   return path.match(regex)?.[1] ?? '';
 };
 
