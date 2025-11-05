@@ -89,6 +89,10 @@ const VaFileInputField = props => {
   );
   const [encrypted, setEncrypted] = useState(false);
   const [passwordErrorManager, setPasswordErrorManager] = useState(null);
+  const [pendingPassword, setPendingPassword] = useState('');
+  const [localPasswordError, setLocalPasswordError] = useState(null);
+  // Instrumentation for tests: track last upload (file & password)
+  const [lastUpload, setLastUpload] = useState(null);
   const [percent, setPercent] = useState(null);
   const _id = childrenProps.idSchema.$id;
 
@@ -100,25 +104,28 @@ const VaFileInputField = props => {
     [percentUploaded],
   );
 
-  useEffect(() => {
-    const instance = passwordErrorState.getInstance(_id);
-    setPasswordErrorManager(instance);
-    return () => {
-      instance.reset();
-    };
-  }, []);
+  useEffect(
+    () => {
+      const instance = passwordErrorState.getInstance(_id);
+      setPasswordErrorManager(instance);
+      return () => {
+        instance.reset();
+      };
+    },
+    [_id],
+  );
 
   const getErrorMessage = field => {
     let errorMessage = null;
     const errorArray = childrenProps.errorSchema[field]?.__errors;
     if (errorArray && errorArray.length > 0) {
-      errorMessage = errorArray[0];
+      [errorMessage] = errorArray;
     }
     return errorMessage;
   };
 
   const additionalInputError = getErrorMessage('additionalData');
-  let passwordError = getErrorMessage('isEncrypted');
+  const schemaPasswordError = getErrorMessage('isEncrypted');
 
   const assignFileUploadToStore = uploadedFile => {
     if (!uploadedFile) return;
@@ -143,27 +150,33 @@ const VaFileInputField = props => {
     if (!uploadedFile || !uploadedFile.file) return;
     setError(uploadedFile.errorMessage);
     assignFileUploadToStore(uploadedFile);
+
+    // If upload succeeded (no errorMessage), clear password state/UI
+    if (!uploadedFile.errorMessage) {
+      setEncrypted(false);
+      setFileWithPassword(null);
+      setPendingPassword('');
+      setLocalPasswordError(null);
+      if (passwordErrorManager) {
+        passwordErrorManager.setHasPassword(true);
+      }
+    }
   };
 
   // upload after debounce
   const debouncePassword = useMemo(
     () =>
       debounce(DEBOUNCE_WAIT, password => {
-        if (fileWithPassword) {
+        // Only update validation state as the user types; do NOT upload yet.
+        if (fileWithPassword && passwordErrorManager) {
           passwordErrorManager.setHasPassword(password.length > 0);
-          passwordError = null;
-          setEncrypted(null);
-          // eslint-disable-next-line no-unused-expressions
-          uiOptions.skipUpload
-            ? simulateUploadSingle(
-                setPercent,
-                childrenProps.onChange,
-                fileWithPassword,
-              )
-            : handleUpload(fileWithPassword, handleFileProcessing, password);
+          childrenProps.onChange({
+            ...childrenProps.formData,
+            _id,
+          });
         }
       }),
-    [handleUpload],
+    [passwordErrorManager, fileWithPassword, childrenProps, _id],
   );
 
   const handleVaChange = async e => {
@@ -210,13 +223,53 @@ const VaFileInputField = props => {
         _id,
       });
     } else {
+      setLastUpload({ file: fileFromEvent, password: null });
       handleUpload(fileFromEvent, handleFileProcessing);
     }
   };
 
   const handleVaPasswordChange = e => {
     const { password } = e.detail;
-    debouncePassword(password);
+    setPendingPassword(password || '');
+    // Clear local password error feedback once user starts typing again
+    if (localPasswordError) setLocalPasswordError(null);
+    debouncePassword(password || '');
+  };
+
+  const handleAddPasswordClick = () => {
+    if (!pendingPassword) {
+      // Show a required error near the password field and focus stays there
+      setLocalPasswordError('Please provide a password to decrypt this file');
+      if (passwordErrorManager) {
+        passwordErrorManager.setHasPassword(false);
+      }
+      // Trigger a lightweight change so validation messages can appear
+      childrenProps.onChange({
+        ...childrenProps.formData,
+        _id,
+      });
+      return;
+    }
+
+    if (fileWithPassword) {
+      // Mark that we now have a password and proceed with upload
+      if (passwordErrorManager) {
+        passwordErrorManager.setHasPassword(true);
+      }
+      childrenProps.onChange({
+        ...childrenProps.formData,
+        _id,
+      });
+      setLastUpload({ file: fileWithPassword, password: pendingPassword });
+      // eslint-disable-next-line no-unused-expressions
+      uiOptions.skipUpload
+        ? simulateUploadSingle(
+            setPercent,
+            childrenProps.onChange,
+            fileWithPassword,
+          )
+        : handleUpload(fileWithPassword, handleFileProcessing, pendingPassword);
+    }
   };
 
   const handleAdditionalInput = e => {
@@ -238,10 +291,28 @@ const VaFileInputField = props => {
   };
 
   const _error = error || mappedProps.error;
-  const fileHasBeenAdded =
-    (childrenProps.formData.name &&
-      childrenProps.formData.name !== 'uploading') ||
-    fileWithPassword;
+  const fileHasBeenAdded = Boolean(
+    childrenProps.formData.name && childrenProps.formData.name !== 'uploading',
+  );
+  const combinedPasswordError = localPasswordError || schemaPasswordError;
+
+  // Test harness (non-production) to allow unit tests to drive internal logic
+  if (uiOptions?.testHarness && typeof uiOptions.testHarness === 'function') {
+    // Only invoke once per render cycle with current closures
+    uiOptions.testHarness({
+      triggerFile: file => handleVaChange({ detail: { files: [file] } }),
+      triggerPassword: password =>
+        handleVaPasswordChange({ detail: { password } }),
+      clickAddPassword: handleAddPasswordClick,
+      getState: () => ({
+        encrypted,
+        hasFileWithPassword: !!fileWithPassword,
+        pendingPassword,
+        localPasswordError,
+        lastUpload,
+      }),
+    });
+  }
 
   return (
     <VaFileInput
@@ -254,8 +325,20 @@ const VaFileInputField = props => {
       onVaChange={handleVaChange}
       onVaPasswordChange={handleVaPasswordChange}
       percentUploaded={percent || null}
-      passwordError={passwordError}
+      passwordError={combinedPasswordError}
     >
+      {/* Show the confirmation button when awaiting an encrypted file's password */}
+      {encrypted &&
+        fileWithPassword && (
+          <div className="vads-u-margin-top--2">
+            <va-button
+              class="vads-u-width--auto"
+              text="Add password"
+              onClick={handleAddPasswordClick}
+              uswds
+            />
+          </div>
+        )}
       <div className="additional-input-container">
         {fileHasBeenAdded &&
           mappedProps.additionalInput &&
