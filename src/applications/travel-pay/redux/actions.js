@@ -1,7 +1,6 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { transformVAOSAppointment } from '../util/appointment-helpers';
-import { EXPENSE_TYPES } from '../constants';
 
 export const FETCH_TRAVEL_CLAIMS_STARTED = 'FETCH_TRAVEL_CLAIMS_STARTED';
 export const FETCH_TRAVEL_CLAIMS_SUCCESS = 'FETCH_TRAVEL_CLAIMS_SUCCESS';
@@ -217,7 +216,7 @@ export function submitComplexClaim(claimId, claimData) {
 
       const apptUrl = `${
         environment.API_URL
-      }/travel_pay/v0/complex_claims/${claimId}`;
+      }/travel_pay/v0/complex_claims/${claimId}/submit`;
       const response = await apiRequest(apptUrl, options);
       dispatch(submitComplexClaimSuccess(response));
     } catch (error) {
@@ -334,9 +333,9 @@ export function deleteExpense(claimId, expenseType, expenseId) {
         },
       };
 
-      const expenseUrl = `${environment.API_URL}/travel_pay/v0/expenses/${
-        EXPENSE_TYPES[expenseType]?.route
-      }/${expenseId}`;
+      const expenseUrl = `${
+        environment.API_URL
+      }/travel_pay/v0/expenses/${expenseType}/${expenseId}`;
       await apiRequest(expenseUrl, options);
 
       // Fetch the complete complex claim details and load expenses into store

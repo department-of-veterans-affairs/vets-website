@@ -149,7 +149,7 @@ const responses = {
   },
 
   // Submitting a complex claim
-  'PATCH /travel_pay/v0/complex_claims/:claimId': (req, res) => {
+  'PATCH /travel_pay/v0/complex_claims/:claimId/submit': (req, res) => {
     return res.json({
       id: req.params.claimId,
     });
