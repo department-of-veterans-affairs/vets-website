@@ -445,7 +445,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
     }
   });
 
-  it('should throw an error if a single summary page uses depends', () => {
+  it('should allow a single summary page to use depends', () => {
     try {
       arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
         introPage: pageBuilder.introPage(validIntroPage),
@@ -456,14 +456,8 @@ describe('arrayBuilderPages required parameters and props tests', () => {
         pageA: pageBuilder.itemPage(validPageA),
         pageB: pageBuilder.itemPage(validPageB),
       }));
-      expect(true).to.be.false;
     } catch (e) {
-      expect(e.message).to.include(
-        'A single `pageBuilder.summaryPage` should not use `depends`',
-      );
-      expect(e.message).to.include(
-        'Use `depends` only when you have multiple summary pages',
-      );
+      expect(e.message).to.eq('Did not expect error');
     }
   });
 
@@ -516,7 +510,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
     }
   });
 
-  it('should throw an error if a single intro page uses depends', () => {
+  it('should allow a single intro page to use depends', () => {
     try {
       arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
         introPage: pageBuilder.introPage({
@@ -527,14 +521,8 @@ describe('arrayBuilderPages required parameters and props tests', () => {
         pageA: pageBuilder.itemPage(validPageA),
         pageB: pageBuilder.itemPage(validPageB),
       }));
-      expect(true).to.be.false;
     } catch (e) {
-      expect(e.message).to.include(
-        'A single `pageBuilder.introPage` should not use `depends`',
-      );
-      expect(e.message).to.include(
-        'Use `depends` only when you have multiple intro pages',
-      );
+      expect(e.message).to.eq('Did not expect error');
     }
   });
 

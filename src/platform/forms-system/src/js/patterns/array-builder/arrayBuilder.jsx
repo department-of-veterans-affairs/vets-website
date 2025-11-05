@@ -97,14 +97,6 @@ function throwSummaryPageMustComeBeforeItemPages() {
 }
 
 function validateMultiplePages(totalCount, totalCountDepends, pageType) {
-  if (totalCount === 1 && totalCountDepends > 0) {
-    throw new Error(
-      `arrayBuilderPages: A single \`pageBuilder.${pageType}\` should not use \`depends\`. Use \`depends\` only when you have multiple ${
-        pageType === 'introPage' ? 'intro' : 'summary'
-      } pages that need to be mutually exclusive.`,
-    );
-  }
-
   if (totalCount > 1 && totalCountDepends !== totalCount) {
     throwMultiplePagesRequireDepends(pageType);
   }
