@@ -12,6 +12,19 @@ import React from 'react';
  */
 export const EmploymentEarningsHoursReview = ({ data, editPage, title }) => {
   const employmentEarningsHours = data?.employmentEarningsHours || {};
+  const veteranInfo = data?.veteranInformation || {};
+
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
+
+  // Determine if currently employed to use correct tense
+  const currentlyEmployed = data?.employmentDates?.currentlyEmployed || false;
+  const tense = currentlyEmployed ? 'does' : 'did';
+  const timeframe = currentlyEmployed
+    ? 'last 12 months'
+    : '12 months before their last date of employment';
 
   return (
     <div className="form-review-panel-page">
@@ -24,22 +37,39 @@ export const EmploymentEarningsHoursReview = ({ data, editPage, title }) => {
 
       <dl className="review">
         <div className="review-row">
-          <dt>Amount earned during the period</dt>
+          <dt>
+            What type of work {tense} {veteranName} do?
+          </dt>
+          <dd>{employmentEarningsHours.typeOfWork || 'Not provided'}</dd>
+        </div>
+
+        <div className="review-row">
+          <dt>
+            How much {tense} {veteranName} earn in the {timeframe} (before
+            deductions)?
+          </dt>
           <dd>{employmentEarningsHours.amountEarned || 'Not provided'}</dd>
         </div>
 
         <div className="review-row">
-          <dt>Time lost</dt>
+          <dt>
+            How much time {tense} {veteranName} lose to disability in{' '}
+            {timeframe}?
+          </dt>
           <dd>{employmentEarningsHours.timeLost || 'Not provided'}</dd>
         </div>
 
         <div className="review-row">
-          <dt>Daily hours</dt>
+          <dt>
+            How many hours {tense} {veteranName} work each day?
+          </dt>
           <dd>{employmentEarningsHours.dailyHours || 'Not provided'}</dd>
         </div>
 
         <div className="review-row">
-          <dt>Weekly hours</dt>
+          <dt>
+            How many hours {tense} {veteranName} work each week?
+          </dt>
           <dd>{employmentEarningsHours.weeklyHours || 'Not provided'}</dd>
         </div>
       </dl>

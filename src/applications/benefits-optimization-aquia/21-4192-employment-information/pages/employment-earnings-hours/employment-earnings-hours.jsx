@@ -4,6 +4,7 @@ import React from 'react';
 import {
   CurrencyField,
   NumberField,
+  TextareaField,
   TextInputField,
 } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
@@ -13,6 +14,7 @@ import {
   dailyHoursSchema,
   employmentEarningsHoursSchema,
   timeLostSchema,
+  typeOfWorkSchema,
   weeklyHoursSchema,
 } from '../../schemas';
 
@@ -37,9 +39,24 @@ export const EmploymentEarningsHoursPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Get veteran name
+  const veteranInfo = formDataToUse?.veteranInformation || {};
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
+
+  // Determine if currently employed to use correct tense
+  const currentlyEmployed =
+    formDataToUse?.employmentDates?.currentlyEmployed || false;
+  const tense = currentlyEmployed ? 'does' : 'did';
+  const timeframe = currentlyEmployed
+    ? 'last 12 months'
+    : '12 months before their last date of employment';
+
   return (
     <PageTemplate
-      title="Employment information"
+      title={`Details about ${veteranName}'s employment`}
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -49,6 +66,7 @@ export const EmploymentEarningsHoursPage = ({
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       defaultData={{
+        typeOfWork: '',
         amountEarned: '',
         timeLost: '',
         dailyHours: '',
@@ -57,9 +75,21 @@ export const EmploymentEarningsHoursPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
+          <TextareaField
+            name="typeOfWork"
+            label={`What type of work ${tense} ${veteranName} do?`}
+            value={localData.typeOfWork}
+            onChange={handleFieldChange}
+            error={errors.typeOfWork}
+            forceShowError={formSubmitted}
+            schema={typeOfWorkSchema}
+            rows={5}
+            maxLength={1000}
+          />
+
           <CurrencyField
             name="amountEarned"
-            label="Amount earned during 12 months preceding last date of Employment (before deductions)"
+            label={`How much ${tense} ${veteranName} earn in the ${timeframe} (before deductions)?`}
             value={localData.amountEarned}
             onChange={handleFieldChange}
             error={errors.amountEarned}
@@ -69,7 +99,7 @@ export const EmploymentEarningsHoursPage = ({
 
           <TextInputField
             name="timeLost"
-            label="Time lost during 12 months preceding last date of employment (due to disability)"
+            label={`How much time ${tense} ${veteranName} lose to disability in ${timeframe}?`}
             value={localData.timeLost}
             onChange={handleFieldChange}
             error={errors.timeLost}
@@ -80,24 +110,22 @@ export const EmploymentEarningsHoursPage = ({
 
           <NumberField
             name="dailyHours"
-            label="Number of hours worked (daily)"
+            label={`How many hours ${tense} ${veteranName} work each day?`}
             value={localData.dailyHours}
             onChange={handleFieldChange}
             error={errors.dailyHours}
             forceShowError={formSubmitted}
             schema={dailyHoursSchema}
-            hint="Enter the number of hours worked per day"
           />
 
           <NumberField
             name="weeklyHours"
-            label="Number of hours worked (weekly)"
+            label={`How many hours ${tense} ${veteranName} work each week?`}
             value={localData.weeklyHours}
             onChange={handleFieldChange}
             error={errors.weeklyHours}
             forceShowError={formSubmitted}
             schema={weeklyHoursSchema}
-            hint="Enter the number of hours worked per week"
           />
         </>
       )}

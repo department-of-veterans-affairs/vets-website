@@ -48,6 +48,7 @@ export {
   dailyHoursSchema,
   employmentEarningsHoursSchema,
   timeLostSchema,
+  typeOfWorkSchema,
   weeklyHoursSchema,
 } from './employment-earnings-hours';
 export {
