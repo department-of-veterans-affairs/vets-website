@@ -167,7 +167,7 @@ describe('New letters page design', () => {
       cy.get('[data-test-id="letters-accordion"]', {
         timeout: Timeouts.slow,
       }).should('be.visible');
-      cy.get('va-accordion-item', tsaLetterTitle)
+      cy.contains('va-accordion-item', tsaLetterTitle)
         .shadow()
         .find('button[aria-expanded=false]')
         .click({ force: true });
@@ -209,7 +209,7 @@ describe('New letters page design', () => {
       cy.get('[data-test-id="letters-accordion"]', {
         timeout: Timeouts.slow,
       }).should('be.visible');
-      cy.get('va-accordion-item', tsaLetterTitle)
+      cy.contains('va-accordion-item', tsaLetterTitle)
         .shadow()
         .find('button[aria-expanded=false]')
         .click({ force: true });
