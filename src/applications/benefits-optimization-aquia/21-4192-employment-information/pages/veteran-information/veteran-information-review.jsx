@@ -56,16 +56,6 @@ export const VeteranInformationReview = ({ data, editPage, title }) => {
         </div>
 
         <div className="review-row">
-          <dt>Social Security number</dt>
-          <dd>{veteranInfo.ssn || 'Not provided'}</dd>
-        </div>
-
-        <div className="review-row">
-          <dt>VA file number</dt>
-          <dd>{veteranInfo.vaFileNumber || 'Not provided'}</dd>
-        </div>
-
-        <div className="review-row">
           <dt>Date of birth</dt>
           <dd>{formatDate(veteranInfo.dateOfBirth)}</dd>
         </div>

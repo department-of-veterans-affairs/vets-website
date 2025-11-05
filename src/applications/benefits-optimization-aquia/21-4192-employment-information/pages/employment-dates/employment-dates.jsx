@@ -2,24 +2,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  CurrencyField,
   MemorableDateField,
-  NumberField,
   TextareaField,
-  TextInputField,
 } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
 import {
-  amountEarnedSchema,
   beginningDateSchema,
-  dailyHoursSchema,
-  employmentDatesDetailsSchema,
+  employmentDatesSchema,
   endingDateSchema,
-  timeLostSchema,
   typeOfWorkSchema,
-  weeklyHoursSchema,
 } from '../../schemas';
 
 /**
@@ -30,16 +23,16 @@ const ensureDateStrings = formData => {
 };
 
 /**
- * Employment Dates and Details page component
- * This page collects employment dates, work type, earnings, and hours information
+ * Employment Dates page component
+ * This page collects employment dates and work type information
  * @param {Object} props - Component props
  * @param {Object} props.data - Initial form data
  * @param {Function} props.setFormData - Function to update form data
  * @param {Function} props.goForward - Function to proceed to next page
  * @param {Function} props.goBack - Function to go to previous page
- * @returns {JSX.Element} Employment dates and details form page
+ * @returns {JSX.Element} Employment dates form page
  */
-export const EmploymentDatesDetailsPage = ({
+export const EmploymentDatesPage = ({
   data,
   setFormData,
   goForward,
@@ -57,8 +50,8 @@ export const EmploymentDatesDetailsPage = ({
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
-      schema={employmentDatesDetailsSchema}
-      sectionName="employmentDatesDetails"
+      schema={employmentDatesSchema}
+      sectionName="employmentDates"
       dataProcessor={ensureDateStrings}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
@@ -66,10 +59,6 @@ export const EmploymentDatesDetailsPage = ({
         beginningDate: '',
         endingDate: '',
         typeOfWork: '',
-        amountEarned: '',
-        timeLost: '',
-        dailyHours: '',
-        weeklyHours: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
@@ -105,56 +94,13 @@ export const EmploymentDatesDetailsPage = ({
             rows={5}
             maxLength={1000}
           />
-
-          <CurrencyField
-            name="amountEarned"
-            label="Amount earned during 12 months preceding last date of Employment (before deductions)"
-            value={localData.amountEarned}
-            onChange={handleFieldChange}
-            error={errors.amountEarned}
-            forceShowError={formSubmitted}
-            schema={amountEarnedSchema}
-          />
-
-          <TextInputField
-            name="timeLost"
-            label="Time lost during 12 months preceding last date of employment (due to disability)"
-            value={localData.timeLost}
-            onChange={handleFieldChange}
-            error={errors.timeLost}
-            forceShowError={formSubmitted}
-            schema={timeLostSchema}
-            maxlength={100}
-          />
-
-          <NumberField
-            name="dailyHours"
-            label="Number of hours worked (daily)"
-            value={localData.dailyHours}
-            onChange={handleFieldChange}
-            error={errors.dailyHours}
-            forceShowError={formSubmitted}
-            schema={dailyHoursSchema}
-            hint="Enter the number of hours worked per day"
-          />
-
-          <NumberField
-            name="weeklyHours"
-            label="Number of hours worked (weekly)"
-            value={localData.weeklyHours}
-            onChange={handleFieldChange}
-            error={errors.weeklyHours}
-            forceShowError={formSubmitted}
-            schema={weeklyHoursSchema}
-            hint="Enter the number of hours worked per week"
-          />
         </>
       )}
     </PageTemplate>
   );
 };
 
-EmploymentDatesDetailsPage.propTypes = {
+EmploymentDatesPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
@@ -163,4 +109,4 @@ EmploymentDatesDetailsPage.propTypes = {
   onReviewPage: PropTypes.bool,
 };
 
-export default EmploymentDatesDetailsPage;
+export default EmploymentDatesPage;

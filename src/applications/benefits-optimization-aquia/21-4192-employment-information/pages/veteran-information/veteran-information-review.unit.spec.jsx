@@ -59,8 +59,6 @@ describe('VeteranInformationReview', () => {
             middle: '',
             last: 'Fett',
           },
-          ssn: '123-45-6789',
-          vaFileNumber: '22113800',
           dateOfBirth: '1985-03-22',
         },
       };
@@ -74,8 +72,6 @@ describe('VeteranInformationReview', () => {
       );
 
       expect(container.textContent).to.include('Boba Fett');
-      expect(container.textContent).to.include('123-45-6789');
-      expect(container.textContent).to.include('22113800');
       expect(container.textContent).to.include('March 22, 1985');
     });
 
@@ -86,7 +82,6 @@ describe('VeteranInformationReview', () => {
             first: 'Jango',
             last: 'Fett',
           },
-          ssn: '987-65-4321',
           dateOfBirth: '1958-01-06',
         },
       };
@@ -100,7 +95,6 @@ describe('VeteranInformationReview', () => {
       );
 
       expect(container.textContent).to.include('Jango Fett');
-      expect(container.textContent).to.include('987-65-4321');
       expect(container.textContent).to.include('January 6, 1958');
     });
 
@@ -112,7 +106,6 @@ describe('VeteranInformationReview', () => {
             last: 'Bane',
             suffix: '',
           },
-          ssn: '111-22-3333',
           dateOfBirth: '1962-07-13',
         },
       };
@@ -126,7 +119,6 @@ describe('VeteranInformationReview', () => {
       );
 
       expect(container.textContent).to.include('Cad Bane');
-      expect(container.textContent).to.include('111-22-3333');
       expect(container.textContent).to.include('July 13, 1962');
     });
 
@@ -139,7 +131,6 @@ describe('VeteranInformationReview', () => {
             last: 'Trandoshan',
             suffix: '',
           },
-          ssn: '222-33-4444',
           dateOfBirth: '1971-05-02',
         },
       };
@@ -153,7 +144,6 @@ describe('VeteranInformationReview', () => {
       );
 
       expect(container.textContent).to.include('Bossk Trandoshan');
-      expect(container.textContent).to.include('222-33-4444');
       expect(container.textContent).to.include('May 2, 1971');
     });
 
@@ -223,8 +213,6 @@ describe('VeteranInformationReview', () => {
       );
 
       expect(container.textContent).to.match(/Veteran.s full name/);
-      expect(container.textContent).to.include('Social Security number');
-      expect(container.textContent).to.include('VA file number');
       expect(container.textContent).to.include('Date of birth');
     });
   });
@@ -234,7 +222,6 @@ describe('VeteranInformationReview', () => {
       const data = {
         veteranInformation: {
           fullName: {},
-          ssn: '123-45-6789',
         },
       };
 
@@ -251,52 +238,10 @@ describe('VeteranInformationReview', () => {
       expect(nameRow.textContent).to.include('Not provided');
     });
 
-    it('should show not provided for missing SSN', () => {
-      const data = {
-        veteranInformation: {
-          fullName: { first: 'Boba', last: 'Fett' },
-        },
-      };
-
-      const { container } = render(
-        <VeteranInformationReview
-          data={data}
-          editPage={mockEditPage}
-          title={mockTitle}
-        />,
-      );
-
-      const reviewRows = container.querySelectorAll('.review-row');
-      const ssnRow = reviewRows[1];
-      expect(ssnRow.textContent).to.include('Not provided');
-    });
-
-    it('should show not provided for missing VA file number', () => {
-      const data = {
-        veteranInformation: {
-          fullName: { first: 'Boba', last: 'Fett' },
-          ssn: '123-45-6789',
-        },
-      };
-
-      const { container } = render(
-        <VeteranInformationReview
-          data={data}
-          editPage={mockEditPage}
-          title={mockTitle}
-        />,
-      );
-
-      const reviewRows = container.querySelectorAll('.review-row');
-      const vaFileRow = reviewRows[2];
-      expect(vaFileRow.textContent).to.include('Not provided');
-    });
-
     it('should show not provided for missing date of birth', () => {
       const data = {
         veteranInformation: {
           fullName: { first: 'Boba', last: 'Fett' },
-          ssn: '123-45-6789',
         },
       };
 
@@ -309,7 +254,7 @@ describe('VeteranInformationReview', () => {
       );
 
       const reviewRows = container.querySelectorAll('.review-row');
-      const dobRow = reviewRows[3];
+      const dobRow = reviewRows[1];
       expect(dobRow.textContent).to.include('Not provided');
     });
   });
@@ -389,7 +334,7 @@ describe('VeteranInformationReview', () => {
       );
 
       const reviewRows = container.querySelectorAll('.review-row');
-      const dobRow = reviewRows[3];
+      const dobRow = reviewRows[1];
       expect(dobRow.textContent).to.include('Not provided');
     });
 
@@ -410,7 +355,7 @@ describe('VeteranInformationReview', () => {
       );
 
       const reviewRows = container.querySelectorAll('.review-row');
-      const dobRow = reviewRows[3];
+      const dobRow = reviewRows[1];
       expect(dobRow.textContent).to.include('Not provided');
     });
   });
@@ -575,8 +520,6 @@ describe('VeteranInformationReview', () => {
       const data = {
         veteranInformation: {
           fullName: { first: 'Boba', last: 'Fett' },
-          ssn: '123-45-6789',
-          vaFileNumber: '22113800',
           dateOfBirth: '1985-03-22',
         },
       };
@@ -590,7 +533,7 @@ describe('VeteranInformationReview', () => {
       );
 
       const reviewRows = container.querySelectorAll('.review-row');
-      expect(reviewRows).to.have.lengthOf(4);
+      expect(reviewRows).to.have.lengthOf(2);
     });
 
     it('should have dt and dd elements for each row', () => {
@@ -650,8 +593,6 @@ describe('VeteranInformationReview', () => {
             first: 'Aurra',
             last: 'Sing',
           },
-          ssn: '555-66-7777',
-          vaFileNumber: '87654321',
           dateOfBirth: '1983-05-20',
         },
       };
@@ -665,8 +606,6 @@ describe('VeteranInformationReview', () => {
       );
 
       expect(container.textContent).to.include('Aurra Sing');
-      expect(container.textContent).to.include('555-66-7777');
-      expect(container.textContent).to.include('87654321');
       expect(container.textContent).to.include('May 20, 1983');
     });
 
@@ -677,7 +616,6 @@ describe('VeteranInformationReview', () => {
             first: 'Greedo',
             last: 'Rodian',
           },
-          ssn: '999-88-7777',
           dateOfBirth: '1968-08-19',
         },
       };
@@ -691,7 +629,6 @@ describe('VeteranInformationReview', () => {
       );
 
       expect(container.textContent).to.include('Greedo Rodian');
-      expect(container.textContent).to.include('999-88-7777');
       expect(container.textContent).to.include('August 19, 1968');
     });
   });

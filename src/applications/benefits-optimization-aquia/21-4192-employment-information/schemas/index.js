@@ -22,10 +22,13 @@ export {
   fullNameSchema,
   lastNameSchema,
   middleNameSchema,
-  ssnSchema,
-  vaFileNumberSchema,
   veteranInformationSchema,
 } from './veteran-information';
+export {
+  ssnSchema,
+  vaFileNumberSchema,
+  veteranContactInformationSchema,
+} from './veteran-contact-information';
 export {
   employerAddressSchema,
   employerInformationSchema,
@@ -38,15 +41,18 @@ export {
  * @description Schemas for validating employment history and termination details
  */
 export {
-  amountEarnedSchema,
   beginningDateSchema,
-  dailyHoursSchema,
-  employmentDatesDetailsSchema,
+  employmentDatesSchema,
   endingDateSchema,
-  timeLostSchema,
   typeOfWorkSchema,
+} from './employment-dates';
+export {
+  amountEarnedSchema,
+  dailyHoursSchema,
+  employmentEarningsHoursSchema,
+  timeLostSchema,
   weeklyHoursSchema,
-} from './employment-dates-details';
+} from './employment-earnings-hours';
 export {
   concessionsSchema,
   employmentConcessionsSchema,
@@ -70,6 +76,10 @@ export {
  * @description Schemas for validating Reserve or National Guard status
  */
 export { dutyStatusSchema, reserveOrGuardStatusSchema } from './duty-status';
+export {
+  dutyStatusDetailsSchema,
+  statusDetailsSchema,
+} from './duty-status-details';
 
 /**
  * Section IV - Benefits schemas
@@ -79,6 +89,10 @@ export {
   benefitEntitlementSchema,
   benefitsInformationSchema,
 } from './benefits-information';
+export {
+  benefitDetailsSchema,
+  benefitsDetailsSchema,
+} from './benefits-details';
 
 /**
  * Section V - Remarks schemas

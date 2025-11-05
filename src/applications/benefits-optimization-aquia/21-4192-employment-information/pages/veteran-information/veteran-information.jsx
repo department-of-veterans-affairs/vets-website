@@ -1,21 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  MemorableDateField,
-  NumberField,
-  SSNField,
-} from '@bio-aquia/shared/components/atoms';
+import { MemorableDateField } from '@bio-aquia/shared/components/atoms';
 import { FullnameField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
-import {
-  dateOfBirthSchema,
-  ssnSchema,
-  vaFileNumberSchema,
-  veteranInformationSchema,
-} from '../../schemas';
+import { dateOfBirthSchema, veteranInformationSchema } from '../../schemas';
 
 /**
  * Data processor to ensure date values are properly formatted strings.
@@ -69,8 +60,6 @@ export const VeteranInformationPage = ({
           last: '',
         },
         dateOfBirth: '',
-        ssn: '',
-        vaFileNumber: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
@@ -94,29 +83,6 @@ export const VeteranInformationPage = ({
             required
             error={errors.dateOfBirth}
             forceShowError={formSubmitted}
-          />
-
-          <SSNField
-            name="ssn"
-            label="Social security number"
-            schema={ssnSchema}
-            value={localData.ssn}
-            onChange={handleFieldChange}
-            required
-            error={errors.ssn}
-            forceShowError={formSubmitted}
-          />
-
-          <NumberField
-            name="vaFileNumber"
-            label="VA file number (if applicable)"
-            value={localData.vaFileNumber}
-            onChange={handleFieldChange}
-            error={errors.vaFileNumber}
-            forceShowError={formSubmitted}
-            schema={vaFileNumberSchema}
-            hint="VA file number must be 8 or 9 digits"
-            inputmode="numeric"
           />
         </>
       )}
