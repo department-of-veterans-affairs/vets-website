@@ -53,7 +53,7 @@ export const EmploymentEarningsHoursReview = ({ data, editPage, title }) => {
 
         <div className="review-row">
           <dt>
-            How much time {tense} {veteranName} lose to disability in{' '}
+            How much time {tense} {veteranName} miss due to disability in{' '}
             {timeframe}?
           </dt>
           <dd>{employmentEarningsHours.timeLost || 'Not provided'}</dd>
