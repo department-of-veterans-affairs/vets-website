@@ -3,28 +3,7 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseMealFields from '../../../../components/complex-claims/pages/ExpenseMealFields';
-
-// Helper to simulate VA text input change
-const simulateVaInputChange = (inputField, value) => {
-  if (!inputField) return;
-
-  // Use a local variable to avoid mutating the parameter
-  const field = inputField;
-
-  // Set the value directly
-  field.value = value;
-
-  // Dispatch native 'input' event
-  field.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
-
-  // Dispatch CustomEvent for VA web component
-  field.dispatchEvent(
-    new CustomEvent('input', { detail: value, bubbles: true, composed: true }),
-  );
-
-  // Call onInput directly if defined
-  typeof field.onInput === 'function' && field.onInput({ target: { value } });
-};
+import { simulateVaInputChange } from '../../../../util/testing-input-helpers';
 
 describe('ExpenseMealFields', () => {
   const defaultProps = {
