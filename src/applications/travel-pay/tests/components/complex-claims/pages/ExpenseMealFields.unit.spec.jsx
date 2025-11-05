@@ -50,11 +50,8 @@ describe('ExpenseMealFields', () => {
     await waitFor(() => {
       // Should call the onChange prop at least once
       expect(onChangeSpy.called).to.be.true;
-
       const eventArg = onChangeSpy.firstCall.args[0];
-
-      // Depending on how your wrapper handles events, it may be event.detail or event.target.value
-      const value = eventArg?.detail || eventArg?.target?.value;
+      const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('New Vendor');
     });
   });

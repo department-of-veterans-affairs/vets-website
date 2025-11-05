@@ -22,7 +22,11 @@ export function simulateVaInputChange(inputField, value) {
   // Dispatch standard VA input events
   field.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
   field.dispatchEvent(
-    new CustomEvent('input', { detail: value, bubbles: true, composed: true }),
+    new CustomEvent('vaInput', {
+      detail: value,
+      bubbles: true,
+      composed: true,
+    }),
   );
 
   // Call the component's onInput handler if it exists
