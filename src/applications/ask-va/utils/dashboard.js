@@ -32,3 +32,26 @@ export function categorizeByLOA(rawInquiries) {
   // Convert the Set into an array
   return { ...buckets, uniqueCategories: [...buckets.uniqueCategories] };
 }
+
+/** Splits an array into buckets of limited size
+ * @param {Array} arr The list of items
+ * @param {number} itemsPerPage The maximum number of items that can be on 1 page
+ * @returns {{pageStart: number; pageEnd: number; items: Array}[]}
+ */
+export function paginateArray(arr, itemsPerPage) {
+  return arr.reduce((acc, cur, index) => {
+    const isFirstItem = !(index % itemsPerPage);
+
+    // Create a new bucket if first item on a page
+    if (isFirstItem)
+      acc.push({
+        pageStart: index + 1,
+        pageEnd: index + itemsPerPage,
+        items: [cur],
+      });
+    // Otherwise, add to the end of the previous page
+    else acc[acc.length - 1].items.push(cur);
+
+    return [...acc];
+  }, []);
+}
