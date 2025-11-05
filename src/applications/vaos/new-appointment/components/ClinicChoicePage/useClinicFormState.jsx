@@ -3,10 +3,7 @@ import useFormState from '../../../hooks/useFormState';
 import { getClinicId } from '../../../services/healthcare-service';
 import { getSiteIdFromFacilityId } from '../../../services/location';
 
-import {
-  selectFeatureMentalHealthHistoryFiltering,
-  selectFeatureRemoveFacilityConfigCheck,
-} from '../../../redux/selectors';
+import { selectFeatureMentalHealthHistoryFiltering } from '../../../redux/selectors';
 import {
   getClinicsForChosenFacility,
   getFormData,
@@ -35,9 +32,6 @@ export default function useClinicFormState(pageTitle) {
 
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
-  const removeFacilityConfigCheck = useSelector(
-    selectFeatureRemoveFacilityConfigCheck,
-  );
 
   // Retrieves flipper state for mental health history filtering
   const featurePastVisitMHFilter = useSelector(
@@ -51,16 +45,15 @@ export default function useClinicFormState(pageTitle) {
   );
 
   // Past appointment history check
-  // primary care and mental health and SUD are exempt
+  // primary care and mental health (with flipper) and SUD are exempt
   // NOTE: Same check is in ../services/patient/index.js:fetchFlowEligibilityAndClinics
   const isCheckTypeOfCare =
     typeOfCareRequiresPastHistory(
       selectedTypeOfCare.id,
       featurePastVisitMHFilter,
-    ) ||
-    (!removeFacilityConfigCheck &&
-      location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
-        ?.patientHistoryRequired === true); // this is a facility level condition
+    ) &&
+    location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
+      ?.patientHistoryRequired === true; // facility level condition won't get set unless configuration check happens
 
   if (isCheckTypeOfCare) {
     const pastAppointmentDateMap = new Map();
