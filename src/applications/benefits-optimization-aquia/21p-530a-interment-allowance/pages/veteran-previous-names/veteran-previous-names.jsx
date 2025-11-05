@@ -161,7 +161,7 @@ export const VeteranPreviousNamesPage = ({
 
   return (
     <PageTemplate
-      title="Review the names the Veteran served under"
+      title="Review the Veteran's previous names"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={handleForward}
@@ -197,7 +197,7 @@ export const VeteranPreviousNamesPage = ({
 
           <RadioField
             name="hasAdditionalPreviousNames"
-            label="Do you have another name the Veteran served under?"
+            label="Do you have another name to add?"
             value={localData.hasAdditionalPreviousNames || ''}
             onChange={handleFieldChange}
             required
