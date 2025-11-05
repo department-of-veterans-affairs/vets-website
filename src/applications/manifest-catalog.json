@@ -787,7 +787,7 @@
       "directoryPath": "src/applications/simple-forms/form-upload",
       "appName": "Form Upload",
       "entryName": "form-upload-flow",
-      "rootUrl": "/forms"
+      "rootUrl": "/forms/upload"
     },
     {
       "directoryPath": "src/applications/simple-forms/mock-form-minimal-header",

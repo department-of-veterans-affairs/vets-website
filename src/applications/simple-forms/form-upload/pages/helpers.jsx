@@ -15,7 +15,7 @@ export const CustomTopContent = () => {
     //   label: `Upload VA forms`,
     // },
     {
-      href: `/forms/${formNumber}/upload/introduction`,
+      href: `/forms/upload/${formNumber}/introduction`,
       label: `Upload form ${formNumber}`,
     },
   ];
