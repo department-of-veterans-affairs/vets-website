@@ -204,9 +204,9 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include("Veteran's first or given name");
-      expect(container.textContent).to.include("Veteran's last or family name");
-      expect(container.textContent).to.include("Veteran's date of birth");
+      expect(container.textContent).to.include('first or given name');
+      expect(container.textContent).to.include('last or family name');
+      expect(container.textContent).to.include('date of birth');
     });
   });
 

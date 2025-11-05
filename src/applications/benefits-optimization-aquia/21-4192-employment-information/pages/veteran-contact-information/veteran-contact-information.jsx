@@ -33,9 +33,16 @@ export const VeteranContactInformationPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Get veteran's name for the title
+  const veteranInfo = formDataToUse?.veteranInformation || {};
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'Veteran';
+
   return (
     <PageTemplate
-      title="Veteran's information"
+      title={`${veteranName}'s Social Security number and VA file number`}
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
