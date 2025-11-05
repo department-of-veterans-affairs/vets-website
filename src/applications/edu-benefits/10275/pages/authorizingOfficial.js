@@ -7,7 +7,6 @@ import {
   phoneUI,
   phoneSchema,
   internationalPhoneDeprecatedUI,
-  internationalPhoneDeprecatedSchema,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -116,7 +115,10 @@ const schema = {
         },
         'view:phoneType': radioSchema(Object.keys(phoneLabels)),
         usPhone: phoneSchema,
-        internationalPhone: internationalPhoneDeprecatedSchema,
+        internationalPhone: {
+          type: 'string',
+          pattern: '^\\+?[0-9](?:-?[0-9]){10,14}$',
+        },
       },
       required: ['fullName', 'title', 'view:phoneType'],
     },
