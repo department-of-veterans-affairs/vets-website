@@ -178,6 +178,15 @@ export const Form526Entry = ({
     // Current recommendation is to record 100% and filter in DD retention filters, since swap to unlimited plan?
     // Will confirm
     sessionReplaySampleRate: 100,
+    defaultPrivacyLevel: 'mask',
+    beforeSend: event => {
+      // Prevent PII from being sent to Datadog with click actions.
+      if (event.action?.type === 'click') {
+        // eslint-disable-next-line no-param-reassign
+        event.action.target.name = 'Clicked item';
+      }
+      return true;
+    },
     // sessionReplaySampleRate: environment.vspEnvironment() === 'staging' ? 100 : 10,
   });
 

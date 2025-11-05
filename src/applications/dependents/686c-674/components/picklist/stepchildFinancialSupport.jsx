@@ -4,9 +4,8 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
 import { CancelButton } from '../../config/helpers';
+import { scrollToError } from './helpers';
 import propTypes from './types';
 
 import { makeNamePossessive } from '../../../shared/utils';
@@ -28,7 +27,7 @@ const stepchildFinancialSupport = {
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.stepchildFinancialSupport) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
@@ -63,6 +62,7 @@ const stepchildFinancialSupport = {
       <>
         <VaRadio
           class="vads-u-margin-bottom--2 dd-privacy-mask"
+          data-dd-action-name="Do you provide at least half of this stepchild's financial support?"
           error={
             formSubmitted && !itemData.stepchildFinancialSupport
               ? 'Select an option'

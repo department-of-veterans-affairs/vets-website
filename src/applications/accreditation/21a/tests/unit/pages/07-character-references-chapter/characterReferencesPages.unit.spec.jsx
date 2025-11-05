@@ -10,7 +10,7 @@ import characterReferencesPages, {
 } from '../../../../pages/07-character-references-chapter/characterReferencesPages';
 import CharacterReferencesIntro from '../../../../components/07-character-references-chapter/CharacterReferencesIntro';
 
-describe('educationalInstitutionsPages', () => {
+describe('characterReferencesPages', () => {
   const formData = {
     relationship: 'Friend',
     phone: {

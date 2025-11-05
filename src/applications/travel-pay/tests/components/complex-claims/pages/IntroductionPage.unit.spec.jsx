@@ -29,7 +29,7 @@ describe('Travel Pay – IntroductionPage', () => {
     },
   });
 
-  const initialRoute = '/file-new-claim/complex/12345/introduction';
+  const initialRoute = '/file-new-claim/12345/introduction';
 
   it('renders the IntroductionPage with correct structure', () => {
     const { getByRole, container } = renderWithStoreAndRouter(
@@ -118,11 +118,11 @@ describe('Travel Pay – IntroductionPage', () => {
       <MemoryRouter initialEntries={[initialRoute]}>
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/introduction"
+            path="/file-new-claim/:apptId/introduction"
             element={<IntroductionPage appointment={mockAppointment} />}
           />
           <Route
-            path="/file-new-claim/complex/:apptId/choose-expense"
+            path="/file-new-claim/:apptId/:claimId/choose-expense"
             element={<ChooseExpenseType />}
           />
         </Routes>
@@ -138,7 +138,7 @@ describe('Travel Pay – IntroductionPage', () => {
     fireEvent.click(linkAction);
 
     expect(getByTestId('location-display').textContent).to.equal(
-      '/file-new-claim/complex/12345/choose-expense',
+      '/file-new-claim/12345/45678/choose-expense',
     );
   });
 
