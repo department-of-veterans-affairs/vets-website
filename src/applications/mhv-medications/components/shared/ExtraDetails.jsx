@@ -209,7 +209,7 @@ ExtraDetails.propTypes = {
   expirationDate: PropTypes.string,
   page: PropTypes.string,
   pharmacyPhoneNumber: PropTypes.string,
-  prescriptionId: PropTypes.number,
+  prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   refillDate: PropTypes.string,
   refillRemaining: PropTypes.number,
   refillSubmitDate: PropTypes.string,

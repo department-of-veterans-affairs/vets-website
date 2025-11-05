@@ -84,7 +84,7 @@ SendRxRenewalMessage.propTypes = {
     refillRemaining: PropTypes.number,
     dispStatus: PropTypes.string,
     expirationDate: PropTypes.string,
-    prescriptionId: PropTypes.number,
+    prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   }),
 };
 
