@@ -75,13 +75,12 @@ const EligibilityAlert = ({ formData }) => {
             <li>Mail the completed form with all signatures to VA</li>
           </ol>
           <p>
-            <a
+            <va-link
               href="https://www.va.gov/find-forms/about-form-21p-601/"
               target="_blank"
               rel="noopener noreferrer"
-            >
-              Download VA Form 21P-601 (PDF)
-            </a>
+              text="Download VA Form 21P-601 (PDF)"
+            />
           </p>
         </div>
       </va-alert>

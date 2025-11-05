@@ -89,7 +89,7 @@ export const Nav = () => {
             </Link>
             <Link
               className="nav__btn desktop"
-              to="/poa-requests"
+              to="/representation-requests"
               data-testid="desktop-poa-link"
               onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"
