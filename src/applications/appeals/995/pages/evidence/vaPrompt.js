@@ -6,10 +6,10 @@ import {
 import {
   requestVaRecordsHint,
   requestVaRecordsTitle,
-} from '../content/evidenceVaPrompt';
+} from '../../content/evidence/vaPrompt';
 
-import { HAS_VA_EVIDENCE } from '../constants';
-import errorMessages from '../../shared/content/errorMessages';
+import { HAS_VA_EVIDENCE } from '../../constants';
+import errorMessages from '../../../shared/content/errorMessages';
 
 export default {
   uiSchema: {

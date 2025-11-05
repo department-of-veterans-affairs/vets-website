@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-
-import { subTitle995, subTitle4142, getSubTitle } from '../../content/title';
+import { FORM_ID } from '../../constants';
+import { subTitle4142, getSubTitle } from '../../content/title';
 
 describe('getSubTitle', () => {
   const testSubTitle = (pathname, expectedTitle) => {
@@ -9,14 +9,14 @@ describe('getSubTitle', () => {
     expect(subTitle).to.eq(expectedTitle);
   };
   it('should return 995 title for all non-4142 paths', () => {
-    testSubTitle('/', subTitle995);
-    testSubTitle('/introduction', subTitle995);
-    testSubTitle('/veteran-information', subTitle995);
-    testSubTitle('/contact-information', subTitle995);
-    testSubTitle('/review-and-submit', subTitle995);
-    testSubTitle('/confirmation', subTitle995);
-    testSubTitle('/private-medical', subTitle995);
-    testSubTitle('/request-private-medical-records', subTitle995);
+    testSubTitle('/', FORM_ID);
+    testSubTitle('/introduction', FORM_ID);
+    testSubTitle('/veteran-information', FORM_ID);
+    testSubTitle('/contact-information', FORM_ID);
+    testSubTitle('/review-and-submit', FORM_ID);
+    testSubTitle('/confirmation', FORM_ID);
+    testSubTitle('/private-medical', FORM_ID);
+    testSubTitle('/request-private-medical-records', FORM_ID);
   });
   it('should return 4142 title for 4142 paths', () => {
     testSubTitle('/private-medical-records-authorization', subTitle4142);

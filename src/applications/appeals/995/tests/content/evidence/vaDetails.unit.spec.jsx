@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { content } from '../../content/evidenceVaDetails';
+import { content } from '../../../content/evidence/vaDetails';
 
 describe('title', () => {
   it('should show new title with add or edit and spelled out index', () => {
