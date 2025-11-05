@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom-v5-compat';
 
 const SendRxRenewalMessage = ({
   rx,
-  fallbackContent,
+  fallbackContent = null,
   alwaysShowFallBackContent = false,
   isActionLink = false,
 }) => {

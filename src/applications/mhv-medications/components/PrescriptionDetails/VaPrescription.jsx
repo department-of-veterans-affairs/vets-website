@@ -149,6 +149,7 @@ const VaPrescription = prescription => {
             data-testid="va-prescription-container"
             data-dd-privacy="mask"
           >
+            <SendRxRenewalMessage rx={prescription} isActionLink />
             <>
               {displayTrackingAlert()}
 
