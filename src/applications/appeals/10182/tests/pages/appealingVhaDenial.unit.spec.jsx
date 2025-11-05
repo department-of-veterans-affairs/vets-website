@@ -11,7 +11,7 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.conditions.pages.appealingVhaDenial;
+} = formConfig.chapters.issues.pages.appealingVhaDenial;
 
 describe('extension request page', () => {
   it('should render', () => {
