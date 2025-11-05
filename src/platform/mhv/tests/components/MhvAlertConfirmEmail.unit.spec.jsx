@@ -232,7 +232,7 @@ describe('<MhvAlertConfirmEmail />', () => {
       });
     });
 
-    it('should call putConfirmationDate with id and email_address in payload', async () => {
+    it('calls putConfirmationDate with id and email_address in request body', async () => {
       mockApiRequest();
       const emailAddressId = 123;
       const emailAddress = 'test@example.com';
@@ -251,9 +251,9 @@ describe('<MhvAlertConfirmEmail />', () => {
       await waitFor(() => {
         expect(global.fetch.calledOnce).to.be.true;
         const [, options] = global.fetch.firstCall.args;
-        const payload = JSON.parse(options.body);
-        expect(payload).to.have.property('id', emailAddressId);
-        expect(payload).to.have.property('email_address', emailAddress);
+        const requestBody = JSON.parse(options.body);
+        expect(requestBody).to.have.property('id', emailAddressId);
+        expect(requestBody).to.have.property('email_address', emailAddress);
       });
     });
   });

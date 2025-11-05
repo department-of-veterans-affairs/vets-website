@@ -5,7 +5,7 @@ import POARequestCard from './POARequestCard';
 const POARequestSearchPageResults = ({ poaRequests }) => {
   if (poaRequests.length === 0) {
     return (
-      <p data-testid="poa-requests-table-fetcher-no-poa-requests">
+      <p data-testid="representation-requests-table-fetcher-no-poa-requests">
         No representation requests found.
       </p>
     );
@@ -13,7 +13,7 @@ const POARequestSearchPageResults = ({ poaRequests }) => {
 
   return (
     <ul
-      data-testid="poa-requests-card"
+      data-testid="representation-requests-card"
       className="poa-request__list"
       sort-column={1}
     >

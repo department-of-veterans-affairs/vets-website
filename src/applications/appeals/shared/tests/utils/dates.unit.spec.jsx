@@ -6,6 +6,10 @@ import {
   parseDate,
   parseDateWithOffset,
   getReadableDate,
+  getCurrentUTCStartOfDay,
+  toUTCStartOfDay,
+  isLocalToday,
+  isUTCTodayOrFuture,
 } from '../../utils/dates';
 
 describe('parseDateToDateObj', () => {
@@ -109,5 +113,121 @@ describe('getReadableDate', () => {
   it('should return a readable date', () => {
     expect(getReadableDate('2023-10-15')).to.eq('October 15, 2023');
     expect(getReadableDate('2024-06-04')).to.eq('June 4, 2024');
+  });
+});
+
+describe('getCurrentUTCStartOfDay', () => {
+  it('should return current date in UTC at start of day (midnight)', () => {
+    const result = getCurrentUTCStartOfDay();
+    const now = new Date();
+
+    expect(result).to.be.instanceOf(Date);
+    expect(result.getTime()).to.not.be.NaN;
+
+    expect(result.getUTCFullYear()).to.equal(now.getUTCFullYear());
+    expect(result.getUTCMonth()).to.equal(now.getUTCMonth());
+    expect(result.getUTCDate()).to.equal(now.getUTCDate());
+
+    expect(result.getUTCHours()).to.equal(0);
+    expect(result.getUTCMinutes()).to.equal(0);
+    expect(result.getUTCSeconds()).to.equal(0);
+    expect(result.getUTCMilliseconds()).to.equal(0);
+  });
+});
+
+describe('toUTCStartOfDay', () => {
+  it('should convert local date to UTC start of day preserving calendar date', () => {
+    const inputDate = new Date('2023-10-15T14:30:45.123');
+    const result = toUTCStartOfDay(inputDate);
+
+    expect(result.getUTCFullYear()).to.equal(inputDate.getFullYear());
+    expect(result.getUTCMonth()).to.equal(inputDate.getMonth());
+    expect(result.getUTCDate()).to.equal(inputDate.getDate());
+
+    expect(result.getUTCHours()).to.equal(0);
+    expect(result.getUTCMinutes()).to.equal(0);
+    expect(result.getUTCSeconds()).to.equal(0);
+    expect(result.getUTCMilliseconds()).to.equal(0);
+  });
+
+  it('should handle dates at start and end of day', () => {
+    const startOfDay = new Date('2023-10-15T00:00:00.000');
+    const endOfDay = new Date('2023-10-15T23:59:59.999');
+
+    const result1 = toUTCStartOfDay(startOfDay);
+    const result2 = toUTCStartOfDay(endOfDay);
+
+    expect(result1.getTime()).to.equal(result2.getTime());
+    expect(result1.getUTCHours()).to.equal(0);
+    expect(result2.getUTCHours()).to.equal(0);
+  });
+
+  it('should handle different input date formats consistently', () => {
+    // Use local timezone dates to avoid timezone parsing issues
+    const date1 = new Date(2023, 9, 15, 10, 0, 0); // October 15, 2023 10:00 AM local
+    const date2 = new Date(2023, 9, 15, 23, 59, 59); // October 15, 2023 11:59 PM local
+    const date3 = new Date(2023, 9, 15, 0, 0, 0); // October 15, 2023 midnight local
+
+    const result1 = toUTCStartOfDay(date1);
+    const result2 = toUTCStartOfDay(date2);
+    const result3 = toUTCStartOfDay(date3);
+
+    expect(result1.getTime()).to.equal(result2.getTime());
+    expect(result2.getTime()).to.equal(result3.getTime());
+    expect(result1.getUTCDate()).to.equal(15);
+  });
+});
+
+describe('isLocalToday', () => {
+  it("should return true for today's date", () => {
+    const today = new Date();
+    expect(isLocalToday(today)).to.be.true;
+  });
+
+  it('should return false for yesterday', () => {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    expect(isLocalToday(yesterday)).to.be.false;
+  });
+
+  it('should return false for tomorrow', () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    expect(isLocalToday(tomorrow)).to.be.false;
+  });
+});
+
+describe('isUTCTodayOrFuture', () => {
+  it('should return true for today in UTC', () => {
+    const today = new Date();
+    expect(isUTCTodayOrFuture(today)).to.be.true;
+  });
+
+  it('should return true for future dates', () => {
+    const future = new Date();
+    future.setDate(future.getDate() + 1);
+    expect(isUTCTodayOrFuture(future)).to.be.true;
+  });
+
+  it('should return false for past dates', () => {
+    const past = new Date();
+    past.setDate(past.getDate() - 1);
+    expect(isUTCTodayOrFuture(past)).to.be.false;
+  });
+
+  it('should handle same UTC day comparison correctly', () => {
+    // Test the specific UTC comparison logic used by isUTCTodayOrFuture
+    // This verifies the core algorithm: issueDateUtc.getTime() >= utcToday.getTime()
+
+    const mockUTCToday = new Date(Date.UTC(2024, 0, 15, 0, 0, 0, 0)); // Jan 15, 2024 UTC start
+    const decisionDate = new Date(Date.UTC(2024, 0, 15, 8, 0, 0, 0)); // Jan 15, 2024 8 AM UTC
+
+    const issueDateUTC = toUTCStartOfDay(decisionDate);
+    const utcComparisonResult =
+      issueDateUTC.getTime() >= mockUTCToday.getTime();
+
+    expect(utcComparisonResult).to.be.true;
+    expect(issueDateUTC.getUTCDate()).to.equal(mockUTCToday.getUTCDate());
+    expect(issueDateUTC.getTime()).to.equal(mockUTCToday.getTime());
   });
 });

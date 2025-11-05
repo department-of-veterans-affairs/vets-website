@@ -9,7 +9,8 @@ import formConfig from '../../../config/form';
 import IntroductionPage from '../../../containers/IntroductionPage';
 import { getFormContent } from '../../../helpers';
 
-const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/introduction';
+const TEST_URL =
+  'https://dev.va.gov/representative/representative-form-upload/submit-va-form-21-686c/introduction';
 const config = formConfig;
 
 const props = {

@@ -45,7 +45,7 @@ class AllergiesListPage extends BaseListPage {
     cy.get('[data-testid="mhv-sec-nav-item"]')
       .eq(4)
       .find('a')
-      .should('have.attr', 'href', '/my-health/medical-records');
+      .should('have.attr', 'href', '/my-health/medical-records/');
   };
 }
 export default new AllergiesListPage();

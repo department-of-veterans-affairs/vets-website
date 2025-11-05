@@ -20,7 +20,7 @@ const HowDoIPay = ({ userData }) => {
         id="howDoIPay"
         className="vads-u-margin-top--4 vads-u-margin-bottom-2"
       >
-        How to pay your VA debt
+        How to make a payment
       </h2>
 
       <h3>Pay online</h3>

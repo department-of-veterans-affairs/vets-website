@@ -3,7 +3,7 @@ import { VaTelephone } from '@department-of-veterans-affairs/component-library/d
 
 export default function NeedHelp() {
   return (
-    <div className="vads-u-margin-top--9 vads-u-margin-bottom--3">
+    <div className="vaos-hide-for-print vads-u-margin-top--9 vads-u-margin-bottom--3">
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
         Need help?
       </h2>

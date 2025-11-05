@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import {
-  EVIDENCE_OTHER,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_VA,
-  LIMITED_CONSENT_RESPONSE,
+  HAS_OTHER_EVIDENCE,
+  HAS_PRIVATE_EVIDENCE,
+  HAS_VA_EVIDENCE,
+  HAS_PRIVATE_LIMITATION,
 } from '../../../constants';
 import {
   getEvidence,
@@ -115,7 +115,7 @@ describe('dedupeVALocations', () => {
 describe('getEvidence', () => {
   const getData = ({ hasVa = true } = {}) => ({
     data: {
-      [EVIDENCE_VA]: hasVa,
+      [HAS_VA_EVIDENCE]: hasVa,
       form5103Acknowledged: true,
       locations: [
         {
@@ -198,7 +198,7 @@ describe('getEvidence', () => {
     const { data } = getData();
     const evidence = {
       ...data,
-      [EVIDENCE_OTHER]: true,
+      [HAS_OTHER_EVIDENCE]: true,
       additionalDocuments: [{}],
     };
     expect(getEvidence(evidence).evidenceSubmission.evidenceType).to.deep.equal(
@@ -210,7 +210,7 @@ describe('getEvidence', () => {
     const { data } = getData({ hasVa: false });
     const evidence = {
       ...data,
-      [EVIDENCE_OTHER]: true,
+      [HAS_OTHER_EVIDENCE]: true,
       additionalDocuments: [{}],
     };
     expect(getEvidence(evidence).evidenceSubmission.evidenceType).to.deep.equal(
@@ -236,7 +236,7 @@ describe('getEvidence', () => {
 
   it('should send noTreatmentDates as true when no date is provided', () => {
     const evidence = {
-      [EVIDENCE_VA]: true,
+      [HAS_VA_EVIDENCE]: true,
       form5103Acknowledged: true,
       locations: [
         {
@@ -345,7 +345,7 @@ describe('getForm4142', () => {
 
   it('should return 4142 form data with undefined acceptance', () => {
     const data = {
-      [EVIDENCE_PRIVATE]: true,
+      [HAS_PRIVATE_EVIDENCE]: true,
       ...getData(),
       privacyAgreementAccepted: undefined,
     };
@@ -357,7 +357,7 @@ describe('getForm4142', () => {
 
   it('should return 4142 form data', () => {
     const data = {
-      [EVIDENCE_PRIVATE]: true,
+      [HAS_PRIVATE_EVIDENCE]: true,
       ...getData(),
     };
     expect(getForm4142(data)).to.deep.equal({
@@ -368,14 +368,14 @@ describe('getForm4142', () => {
 
   it('should return empty object since private evidence not selected', () => {
     const data = {
-      [EVIDENCE_PRIVATE]: false,
+      [HAS_PRIVATE_EVIDENCE]: false,
       ...getData(),
     };
     expect(getForm4142(data)).to.deep.equal(null);
   });
   it('should combine duplicate facilities', () => {
     const data = {
-      [EVIDENCE_PRIVATE]: true,
+      [HAS_PRIVATE_EVIDENCE]: true,
       ...getData(),
     };
     data.providerFacility.push(data.providerFacility[0]); // add duplicate
@@ -388,8 +388,8 @@ describe('getForm4142', () => {
 
   it('should return with limited consent when y/n is set to yes', () => {
     const data = {
-      [EVIDENCE_PRIVATE]: true,
-      [LIMITED_CONSENT_RESPONSE]: true,
+      [HAS_PRIVATE_EVIDENCE]: true,
+      [HAS_PRIVATE_LIMITATION]: true,
       ...getData(),
       privacyAgreementAccepted: undefined,
     };
@@ -398,8 +398,8 @@ describe('getForm4142', () => {
 
   it('should return with empty limited consent when y/n is set to no', () => {
     const data = {
-      [EVIDENCE_PRIVATE]: true,
-      [LIMITED_CONSENT_RESPONSE]: false,
+      [HAS_PRIVATE_EVIDENCE]: true,
+      [HAS_PRIVATE_LIMITATION]: false,
       ...getData(),
       privacyAgreementAccepted: undefined,
     };
@@ -414,7 +414,7 @@ describe('getForm4142', () => {
 
   it('should return with empty limited consent when y/n is not set at all', () => {
     const data = {
-      [EVIDENCE_PRIVATE]: true,
+      [HAS_PRIVATE_EVIDENCE]: true,
       ...getData(),
       privacyAgreementAccepted: undefined,
     };

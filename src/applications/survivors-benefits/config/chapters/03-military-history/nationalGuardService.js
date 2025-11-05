@@ -6,13 +6,11 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'National Guard service',
-  path: 'veteran/national-guard-service',
   uiSchema: {
     ...titleUI('National Guard service'),
     nationalGuardActivated: yesNoUI({
       title:
-        'Was the Veteran activated to Federal or Active Duty under authority of title 10, U.S.C. (National Guard)?',
+        'Was the Veteran activated to Federal or active duty under authority of title 10, U.S.C. (National Guard)?',
     }),
   },
   schema: {

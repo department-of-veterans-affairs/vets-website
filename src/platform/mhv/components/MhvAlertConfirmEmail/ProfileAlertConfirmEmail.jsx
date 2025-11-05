@@ -9,6 +9,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import {
   dismissAlertViaCookie,
   selectContactEmailAddress,
+  selectContactEmailAddressId,
   showAlert,
 } from './selectors';
 import {
@@ -105,6 +106,7 @@ AlertAddContactEmail.propTypes = {
 const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const renderAlert = useSelector(showAlert);
   const emailAddress = useSelector(selectContactEmailAddress);
+  const emailAddressId = useSelector(selectContactEmailAddressId);
 
   const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [confirmError, setConfirmError] = useState(false);
@@ -113,7 +115,15 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const putConfirmationDate = (confirmationDate = new Date().toISOString()) =>
     apiRequest('/profile/email_addresses', {
       method: 'PUT',
-      body: JSON.stringify({ confirmationDate, emailAddress }),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        id: emailAddressId,
+        confirmation_date: confirmationDate, // eslint-disable-line camelcase
+        email_address: emailAddress, // eslint-disable-line camelcase
+      }),
     })
       .then(() => {
         setConfirmError(false);

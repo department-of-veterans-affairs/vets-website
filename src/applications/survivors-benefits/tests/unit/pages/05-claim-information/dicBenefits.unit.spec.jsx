@@ -6,33 +6,23 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import formConfig from '../../../../config/form';
+import dicBenefits from '../../../../config/chapters/05-claim-information/dicBenefits';
 import { dicOptions } from '../../../../utils/labels';
 
 describe('DIC Benefits Page', () => {
-  const {
-    schema,
-    uiSchema,
-    arrayPath,
-    title,
-  } = formConfig.chapters.claimInformation.pages.dicBenefits;
+  const { schema, uiSchema } = dicBenefits;
   it('renders the DIC benefits options', async () => {
     const form = render(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-      />,
+      <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
     );
     const formDOM = getFormDOM(form);
     const vaRadio = $('va-radio', formDOM);
     const options = $$('va-radio-option', formDOM);
     const optionKeys = Object.keys(dicOptions);
 
-    expect(form.getByRole('heading')).to.have.text(title);
+    expect(form.getByRole('heading')).to.have.text('DIC benefits');
     expect(vaRadio.getAttribute('label')).to.equal(
-      'What Dependency and indemnity compensation (D.I.C.) benefit are you claiming?',
+      'What Dependency and indemnity compensation (DIC) benefit are you claiming?',
     );
     expect(vaRadio.getAttribute('required')).to.equal('true');
 

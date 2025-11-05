@@ -169,7 +169,11 @@ const AreaOfDisagreement = ({
       ) : (
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
-          <FormNavButtons goBack={goBack} goForward={handlers.onSubmit} />
+          <FormNavButtons
+            goBack={goBack}
+            goForward={handlers.onSubmit}
+            useWebComponents
+          />
           {contentAfterButtons}
         </div>
       )}

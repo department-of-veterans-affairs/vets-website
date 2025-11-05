@@ -1,6 +1,16 @@
+/**
+ * @module utils/index
+ * @description Utility functions for VA Form 21-0779
+ */
+
 import { isValid } from 'date-fns';
 import { formatDateShort } from 'platform/utilities/date';
 
+/**
+ * Formats a date string for display
+ * @param {string} dateString - Date string to format (YYYY-MM-DD or YYYY/MM/DD)
+ * @returns {string} Formatted date string or 'Not provided' if invalid
+ */
 export const formatDate = dateString => {
   if (!dateString) return 'Not provided';
 

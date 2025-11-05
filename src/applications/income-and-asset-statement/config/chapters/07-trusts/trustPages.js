@@ -226,7 +226,8 @@ const veteranSummaryPage = {
         title: updatedTitleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -245,7 +246,8 @@ const spouseSummaryPage = {
       {
         title: updatedTitleNoItems,
         hint: 'Your dependents include children who you financially support. ',
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -262,9 +264,10 @@ const childSummaryPage = {
     'view:isAddingTrusts': arrayBuilderYesNoUI(
       options,
       {
-        title: updatedTitleNoItems,
+        title: 'Do you have access to a trust?',
         hint: null,
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -283,7 +286,8 @@ const parentSummaryPage = {
         title: updatedTitleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner.',
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -303,7 +307,8 @@ const custodianSummaryPage = {
         title: updatedTitleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -394,11 +399,18 @@ const veteransChildPage = {
         'Was this trust created for a Veteran’s child who was seriously disabled before age 18?',
       ...sharedYesNoOptionsBase,
     }),
+    'view:additionalInfo': {
+      'ui:description': SeriouslyDisabledAdditionalInformation,
+    },
   },
   schema: {
     type: 'object',
     properties: {
       trustEstablishedForVeteransChild: yesNoSchema,
+      'view:additionalInfo': {
+        type: 'object',
+        properties: {},
+      },
     },
     required: ['trustEstablishedForVeteransChild'],
   },
@@ -704,9 +716,6 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
     schema: incomePage.schema,
   }),
   trustVeteransChildPage: pageBuilder.itemPage({
-    ContentBeforeButtons: showUpdatedContent() ? (
-      <SeriouslyDisabledAdditionalInformation />
-    ) : null,
     title: 'Trust for child',
     path: 'trusts/:index/trust-veterans-child',
     uiSchema: veteransChildPage.uiSchema,
@@ -750,7 +759,7 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'trusts/:index/document-upload',
     depends: (formData, index) =>
       showUpdatedContent() &&
-      formData?.trusts[index]?.['view:addFormQuestion'] === true,
+      formData?.[options.arrayPath]?.[index]?.['view:addFormQuestion'] === true,
     uiSchema: supportingDocumentUpload.uiSchema,
     schema: supportingDocumentUpload.schema,
   }),
@@ -759,7 +768,8 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'trusts/:index/document-mailing-address',
     depends: (formData, index) =>
       showUpdatedContent() &&
-      formData?.trusts[index]?.['view:addFormQuestion'] === false,
+      formData?.[options.arrayPath]?.[index]?.['view:addFormQuestion'] ===
+        false,
     uiSchema: documentMailingAddressPage.uiSchema,
     schema: documentMailingAddressPage.schema,
   }),

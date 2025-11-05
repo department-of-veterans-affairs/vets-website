@@ -12,16 +12,18 @@ export default {
   depends: formData => formData.livedContinuouslyWithVeteran === false,
   uiSchema: {
     ...titleUI('Reason for separation'),
-    separationReason: radioUI({
+    separationDueToAssignedReasons: radioUI({
       title: 'What was the reason for separation?',
       labels: separationReasonOptions,
     }),
   },
   schema: {
     type: 'object',
-    required: ['separationReason'],
+    required: ['separationDueToAssignedReasons'],
     properties: {
-      separationReason: radioSchema(Object.keys(separationReasonOptions)),
+      separationDueToAssignedReasons: radioSchema(
+        Object.keys(separationReasonOptions),
+      ),
     },
   },
 };

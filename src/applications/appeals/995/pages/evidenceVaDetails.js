@@ -1,4 +1,4 @@
-import { EVIDENCE_VA } from '../constants';
+import { HAS_VA_EVIDENCE } from '../constants';
 
 import {
   validateVaLocation,
@@ -41,7 +41,7 @@ const schema = {
   oneOf: [
     {
       properties: {
-        [EVIDENCE_VA]: {
+        [HAS_VA_EVIDENCE]: {
           type: 'boolean',
           enum: [true],
         },
@@ -53,7 +53,7 @@ const schema = {
     },
     {
       properties: {
-        [EVIDENCE_VA]: {
+        [HAS_VA_EVIDENCE]: {
           type: 'boolean',
           enum: [false],
         },

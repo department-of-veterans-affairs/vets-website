@@ -6,7 +6,10 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { treatmentPages } from '../../../../config/chapters/05-claim-information/treatmentPages';
+import {
+  treatmentPages,
+  options,
+} from '../../../../config/chapters/05-claim-information/treatmentPages';
 
 const arrayPath = 'vaMedicalCenters';
 
@@ -76,8 +79,8 @@ describe('Treatment Pages', () => {
 
     const vaStartDate = $('va-memorable-date[name*="root_startDate"]', formDOM);
     const vaEndDate = $('va-memorable-date[name*="root_endDate"]', formDOM);
-    expect(vaStartDate.getAttribute('required')).to.equal('false');
-    expect(vaEndDate.getAttribute('required')).to.equal('false');
+    expect(vaStartDate.getAttribute('required')).to.equal('true');
+    expect(vaEndDate.getAttribute('required')).to.equal('true');
   });
   it('renders the treatment page dates again', async () => {
     const { dicTreatmentDates } = treatmentPages;
@@ -88,7 +91,7 @@ describe('Treatment Pages', () => {
         schema={dicTreatmentDates.schema}
         uiSchema={dicTreatmentDates.uiSchema}
         pagePerItemIndex={0}
-        data={{ firstTimeReporting: false, vaMedicalCenters: [formData] }}
+        data={{ vaMedicalCenters: [formData] }}
       />,
     );
     const formDOM = getFormDOM(form);
@@ -99,5 +102,47 @@ describe('Treatment Pages', () => {
     const vaEndDate = $('va-memorable-date[name*="root_endDate"]', formDOM);
     expect(vaStartDate.getAttribute('required')).to.equal('true');
     expect(vaEndDate.getAttribute('required')).to.equal('true');
+  });
+  it('should return the correct card description with itemName and cardDescription', () => {
+    const item = {
+      vaMedicalCenterName: 'Hospital ABC',
+      startDate: '2004-04-04',
+      endDate: '2005-05-05',
+    };
+    const { getByText: nameText } = render(options.text.getItemName(item));
+    const { getByText: descriptionText } = render(
+      options.text.cardDescription(item),
+    );
+    expect(nameText('Hospital ABC')).to.exist;
+    expect(descriptionText('04/04/2004 - 05/05/2005')).to.exist;
+  });
+  it('should return the default card description with itemName and cardDescription', () => {
+    const item = {};
+    const { getByText: nameText } = render(options.text.getItemName(item));
+    const { getByText: descriptionText } = render(
+      options.text.cardDescription(item),
+    );
+    expect(nameText('VA medical center')).to.exist;
+    expect(descriptionText('Treatment dates not provided')).to.exist;
+  });
+  it('should return correct depends function', () => {
+    const {
+      dicBenefitsIntro,
+      dicBenefitsSummary,
+      dicNameLocationPage,
+      dicTreatmentDates,
+    } = treatmentPages;
+
+    const formDataTrue = { dicType: 'DIC' };
+    const formDataFalse = { dicType: 'NOT_DIC' };
+
+    expect(dicBenefitsIntro.depends(formDataTrue)).to.be.true;
+    expect(dicBenefitsIntro.depends(formDataFalse)).to.be.false;
+    expect(dicBenefitsSummary.depends(formDataTrue)).to.be.true;
+    expect(dicBenefitsSummary.depends(formDataFalse)).to.be.false;
+    expect(dicNameLocationPage.depends(formDataTrue)).to.be.true;
+    expect(dicNameLocationPage.depends(formDataFalse)).to.be.false;
+    expect(dicTreatmentDates.depends(formDataTrue)).to.be.true;
+    expect(dicTreatmentDates.depends(formDataFalse)).to.be.false;
   });
 });

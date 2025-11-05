@@ -7,7 +7,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { isYes } from '../05-claim-information/helpers';
+import { isYes } from '../../../utils/helpers';
 import { CourtOrderSeparationAlert } from '../../../components/FormAlerts';
 
 /** @type {PageSchema} */
@@ -15,11 +15,11 @@ export default {
   title: 'Separation details',
   path: 'household/separation-details',
   depends: formData =>
-    formData.separationReason === 'RELATIONSHIP_DIFFERENCES' ||
-    formData.separationReason === 'OTHER',
+    formData.separationDueToAssignedReasons === 'RELATIONSHIP_DIFFERENCES' ||
+    formData.separationDueToAssignedReasons === 'OTHER',
   uiSchema: {
     ...titleUI('Separation details'),
-    separationReasonExplanation: textUI({
+    separationExplanation: textUI({
       title: 'Tell us the reason for the separation',
     }),
     separationStartDate: currentOrPastDateUI({
@@ -44,13 +44,13 @@ export default {
   schema: {
     type: 'object',
     required: [
-      'separationReasonExplanation',
+      'separationExplanation',
       'separationStartDate',
       'separationEndDate',
       'courtOrderedSeparation',
     ],
     properties: {
-      separationReasonExplanation: textSchema,
+      separationExplanation: textSchema,
       separationStartDate: currentOrPastDateSchema,
       separationEndDate: currentOrPastDateSchema,
       courtOrderedSeparation: yesNoSchema,

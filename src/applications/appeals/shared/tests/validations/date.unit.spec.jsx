@@ -2,7 +2,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import errorMessages from '../../content/errorMessages';
-import { addDateErrorMessages } from '../../validations/date';
+import {
+  addDateErrorMessages,
+  isTodayOrInFuture,
+} from '../../validations/date';
 
 describe('addDateErrorMessages', () => {
   it('should not have an error', () => {
@@ -34,5 +37,139 @@ describe('addDateErrorMessages', () => {
     expect(errors.addError.args[0][0]).to.eq(errorMessages.decisions.pastDate);
     expect(date.errors.year).to.be.true;
     expect(result).to.be.true;
+  });
+});
+
+describe('isTodayOrInFuture - Dual Validation Logic', () => {
+  describe('Invalid date handling', () => {
+    it('should return false for null date', () => {
+      const result = isTodayOrInFuture(null);
+      expect(result).to.be.false;
+    });
+
+    it('should return false for undefined date', () => {
+      const result = isTodayOrInFuture(undefined);
+      expect(result).to.be.false;
+    });
+
+    it('should return false for invalid Date object', () => {
+      const result = isTodayOrInFuture(new Date('invalid'));
+      expect(result).to.be.false;
+    });
+
+    it('should return false for malformed date string', () => {
+      const result = isTodayOrInFuture(new Date('not-a-date'));
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('Local timezone blocking (Step 1 of dual validation)', () => {
+    it('should block when decision date equals today in local timezone', () => {
+      const now = new Date();
+      const today = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        15,
+        0,
+        0,
+      );
+      const result = isTodayOrInFuture(today);
+      expect(result).to.be.true;
+    });
+
+    it('should block future dates in local timezone', () => {
+      const now = new Date();
+      const tomorrow = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1,
+        12,
+        0,
+        0,
+      );
+      const result = isTodayOrInFuture(tomorrow);
+      expect(result).to.be.true;
+    });
+  });
+
+  describe('UTC validation (Step 2 of dual validation)', () => {
+    it('should handle UTC edge case - decision date just before UTC midnight', () => {
+      const now = new Date();
+      const beforeUTCMidnight = new Date(
+        Date.UTC(
+          now.getUTCFullYear(),
+          now.getUTCMonth(),
+          now.getUTCDate() - 1,
+          23,
+          59,
+          59,
+          999,
+        ),
+      );
+      const result = isTodayOrInFuture(beforeUTCMidnight);
+      expect(result).to.be.false;
+    });
+
+    it('should handle same calendar date consistently in different timezones', () => {
+      const dateUTC = new Date('2023-06-15T00:00:00.000Z'); // UTC midnight
+      const dateEST = new Date('2023-06-15T05:00:00.000Z'); // Same day, 1am EST
+      const datePST = new Date('2023-06-15T08:00:00.000Z'); // Same day, 1am PST
+
+      const resultUTC = isTodayOrInFuture(dateUTC);
+      const resultEST = isTodayOrInFuture(dateEST);
+      const resultPST = isTodayOrInFuture(datePST);
+
+      expect(resultUTC).to.be.false;
+      expect(resultEST).to.be.false;
+      expect(resultPST).to.be.false;
+    });
+  });
+
+  describe('Dual validation integration', () => {
+    it('should allow when decision date is in past for both local and UTC', () => {
+      const now = new Date();
+      const yesterday = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() - 1,
+        12,
+        0,
+        0,
+      );
+      const result = isTodayOrInFuture(yesterday);
+      expect(result).to.be.false;
+    });
+
+    it('should block today dates regardless of time (CA timezone edge case)', () => {
+      // Test CA scenario: Someone in California at 5 PM PST (which is midnight UTC next day)
+      // Even though it's technically the next day in UTC, we still block because it's "today" locally
+      // This tests that our local timezone check (Step 1) takes priority over UTC conversion
+      const now = new Date();
+
+      const todayMorning = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        9, // 9 AM PST local time
+        0,
+        0,
+      );
+
+      const todayEvening = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        17, // 5 PM PST local time (midnight UTC next day)
+        0,
+        0,
+      );
+
+      const morningResult = isTodayOrInFuture(todayMorning);
+      const eveningResult = isTodayOrInFuture(todayEvening);
+
+      expect(morningResult).to.be.true;
+      expect(eveningResult).to.be.true;
+    });
   });
 });

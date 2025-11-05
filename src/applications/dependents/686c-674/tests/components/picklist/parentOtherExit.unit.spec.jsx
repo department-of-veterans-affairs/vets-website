@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import parentOtherExit from '../../../components/picklist/parentOtherExit';
 
@@ -25,6 +25,8 @@ describe('parentOtherExit', () => {
     onSubmit = () => {},
     goForward = () => {},
     goBack = () => {},
+    isEditing = false,
+    isShowingExitLink = false,
   } = {}) =>
     render(
       <form onSubmit={onSubmit}>
@@ -34,6 +36,8 @@ describe('parentOtherExit', () => {
           firstName="PETER"
           formSubmitted={formSubmitted}
           handlers={{ goForward, goBack, onChange, onSubmit }}
+          isEditing={isEditing}
+          isShowingExitLink={isShowingExitLink}
         />
       </form>,
     );
@@ -41,7 +45,11 @@ describe('parentOtherExit', () => {
   it('should render', () => {
     const { container } = renderComponent();
 
-    expect($('h3', container).textContent).to.equal('Changes to PETER');
+    expect($('h3', container).textContent).to.equal(
+      'PETER can’t be removed using this application',
+    );
+
+    expect($$('p', container).length).to.equal(2);
 
     const info = $('va-additional-info', container);
     expect(info).to.exist;
@@ -49,20 +57,23 @@ describe('parentOtherExit', () => {
       'Why can I only remove a parent dependent if they have died?',
     );
 
-    const exitLink = $('va-link-action', container);
-    expect(exitLink).to.exist;
-    expect(exitLink.getAttribute('text')).to.equal('Exit application');
-    expect(exitLink.getAttribute('href')).to.equal('/manage-dependents/view');
+    expect(parentOtherExit.hasExitLink).to.be.true;
   });
 
-  it('should not go forward when form is submitted', async () => {
-    const goForward = sinon.spy();
-    const { container } = renderComponent({ goForward });
+  it('should render exit message paragraph', () => {
+    const { container } = renderComponent({ isShowingExitLink: true });
+
+    expect($$('p', container).length).to.equal(3);
+  });
+
+  it('should go forward when form is submitted', async () => {
+    const onSubmit = sinon.spy();
+    const { container } = renderComponent({ onSubmit });
 
     fireEvent.submit($('form', container));
 
     await waitFor(() => {
-      expect(goForward.called).to.be.false;
+      expect(onSubmit.calledOnce).to.be.true;
     });
   });
 
@@ -72,12 +83,12 @@ describe('parentOtherExit', () => {
       expect(handlers.goForward()).to.equal('DONE');
     });
 
-    it('should not call goForward when page is submitted', () => {
+    it('should call goForward when page is submitted', () => {
       const goForward = sinon.spy();
       handlers.onSubmit({
         goForward,
       });
-      expect(goForward.called).to.be.false;
+      expect(goForward.called).to.be.true;
     });
   });
 });

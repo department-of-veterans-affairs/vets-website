@@ -1,0 +1,11 @@
+{
+  "statusCode": 200,
+  "body": {
+    "formData": {},
+    "metadata": {
+      "version": 1,
+      "prefill": false,
+      "returnUrl": "/representative/accreditation/attorney-claims-agent-form-21a/character-references"
+    }
+  }
+}

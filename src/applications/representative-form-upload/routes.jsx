@@ -20,7 +20,7 @@ const config = formConfig();
 const routes = formUploadForms.map(formId => {
   const lowerCaseFormId = formId.toLowerCase();
   return {
-    path: `/${lowerCaseFormId}`,
+    path: `/submit-va-form-${lowerCaseFormId}`,
     component: ({ location, children }) => (
       <App>
         <FormApp formConfig={config} currentLocation={location}>
@@ -30,7 +30,7 @@ const routes = formUploadForms.map(formId => {
     ),
     indexRoute: {
       onEnter: (_nextState, replace) =>
-        replace(`/${lowerCaseFormId}/introduction`),
+        replace(`/submit-va-form-${lowerCaseFormId}/introduction`),
     },
     childRoutes: createRoutes(config),
   };

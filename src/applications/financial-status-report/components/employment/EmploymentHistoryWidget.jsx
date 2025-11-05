@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { useSelector, connect } from 'react-redux';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import EmploymentHistorySummaryCard from './EmploymentHistorySummaryCard';
 import { EmptyMiniSummaryCard } from '../shared/MiniSummaryCard';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import {
   clearJobIndex,
   clearJobButton,
@@ -37,7 +37,11 @@ const EmploymentHistoryWidget = props => {
   };
 
   const navButtons = (
-    <FormNavButtons goBack={handlers.onBackClick} goForward={goForward} />
+    <FormNavButtons
+      goBack={handlers.onBackClick}
+      goForward={goForward}
+      useWebComponents={props.formOptions?.useWebComponentForNavigation}
+    />
   );
 
   return (

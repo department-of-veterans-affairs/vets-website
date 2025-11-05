@@ -64,7 +64,7 @@ const POARequestSearchCard = ({ poaRequest }) => {
           </li>
           <li>
             <Link
-              to={`/poa-requests/${poaRequest.id}`}
+              to={`/representation-requests/${poaRequest.id}`}
               className="vads-c-action-link--gray"
             >
               View POA request

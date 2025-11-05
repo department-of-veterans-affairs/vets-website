@@ -90,7 +90,7 @@ const formConfig = {
       title: 'Your contact information',
       pages: {
         personalInformation: {
-          path: 'contact/name',
+          path: 'name',
           title: 'Your name',
           CustomPage: props => <PersonalInformation {...props} />,
           CustomPageReview: null,
@@ -103,7 +103,7 @@ const formConfig = {
           uiSchema: {},
         },
         phoneAndEmail: {
-          path: 'contact/phone-email',
+          path: 'contact-info',
           title: 'Your phone number and email address',
           uiSchema: phoneAndEmail.uiSchema,
           schema: phoneAndEmail.schema,
@@ -115,14 +115,14 @@ const formConfig = {
       title: 'Deceased Veteran information',
       pages: {
         veteranName: {
-          path: 'veteran-info/name',
+          path: 'veteran-name',
           title: "Deceased Veteran's name",
           uiSchema: recipientName.uiSchema,
           schema: recipientName.schema,
           scrollAndFocusTarget,
         },
         veteranIdentifier: {
-          path: 'veteran-info/identifier',
+          path: 'veteran-identifier',
           title: "Deceased Veteran's identification information",
           uiSchema: recipientIdentifier.uiSchema,
           schema: recipientIdentifier.schema,
@@ -134,7 +134,7 @@ const formConfig = {
       title: 'Marital status',
       pages: {
         remarriageQuestion: {
-          path: 'screening/remarriage-status',
+          path: 'remarriage-status',
           title: 'Have you remarried?',
           uiSchema: remarriageQuestion.uiSchema,
           schema: remarriageQuestion.schema,
@@ -146,7 +146,7 @@ const formConfig = {
       title: 'Remarriage information',
       pages: {
         marriageInfo: {
-          path: 'marital/marriage-info',
+          path: 'marriage-info',
           title: 'Details about your remarriage',
           depends: formData => formData.hasRemarried === true,
           uiSchema: marriageInfo.uiSchema,
@@ -154,7 +154,7 @@ const formConfig = {
           scrollAndFocusTarget,
         },
         spouseVeteranStatus: {
-          path: 'marital/spouse-veteran',
+          path: 'spouse-veteran-status',
           title: 'Is your spouse a Veteran?',
           depends: formData => formData.hasRemarried === true,
           uiSchema: spouseVeteranStatus.uiSchema,
@@ -162,7 +162,7 @@ const formConfig = {
           scrollAndFocusTarget,
         },
         spouseVeteranId: {
-          path: 'marital/spouse-veteran-id',
+          path: 'spouse-veteran-id',
           title: "Spouse's identification information",
           depends: formData =>
             formData.hasRemarried === true &&
@@ -172,7 +172,7 @@ const formConfig = {
           scrollAndFocusTarget,
         },
         terminationStatus: {
-          path: 'marital/termination-status',
+          path: 'remarriage-end-status',
           title: 'Has your remarriage ended?',
           depends: formData => formData.hasRemarried === true,
           uiSchema: terminationStatus.uiSchema,
@@ -180,7 +180,7 @@ const formConfig = {
           scrollAndFocusTarget,
         },
         terminationDetails: {
-          path: 'marital/termination-details',
+          path: 'remarriage-end-details',
           title: 'Details on end of remarriage',
           depends: formData =>
             formData.hasRemarried === true &&

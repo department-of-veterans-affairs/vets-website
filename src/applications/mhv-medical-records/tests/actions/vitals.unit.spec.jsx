@@ -11,6 +11,17 @@ import {
   setVitalsList,
   reloadRecords,
 } from '../../actions/vitals';
+import error404 from '../fixtures/404.json';
+
+describe('unable to get vitals action because of server error', () => {
+  it("should Not Call Actions.Conditions.GET_UNIFIED_LIST when there's an error", () => {
+    mockApiRequest(error404, false);
+    const dispatch = sinon.spy();
+    return getVitals()(dispatch).then(() => {
+      expect(dispatch.secondCall.args[0].type).to.not.equal(Actions.Vitals.GET);
+    });
+  });
+});
 
 describe('Get vitals action', () => {
   it('should dispatch a get list action', () => {

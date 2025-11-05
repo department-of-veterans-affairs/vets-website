@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   VaRadio,
   VaRadioOption,
@@ -61,10 +62,21 @@ const RecentCareTeams = () => {
 
   useEffect(
     () => {
+      if (recentRecipients?.length > 0) {
+        datadogRum.addAction('Recent Care Teams loaded', {
+          recentCareTeamsCount: recentRecipients.length,
+        });
+      }
+    },
+    [recentRecipients],
+  );
+
+  useEffect(
+    () => {
       // If recentRecipients is null (fetched but none present), redirect
       if (
         recentRecipients?.length === 0 ||
-        recentRecipients === 'error' ||
+        recentRecipients?.error === 'error' ||
         recentRecipients === null
       ) {
         history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
@@ -112,7 +124,12 @@ const RecentCareTeams = () => {
       dispatch(
         updateDraftInProgress({
           recipientId: recipient?.triageTeamId,
-          careSystemName: recipient?.healthCareSystemName,
+          careSystemName:
+            recipient?.healthCareSystemName ||
+            getVamcSystemNameFromVhaId(
+              ehrDataByVhaId,
+              recipient?.stationNumber,
+            ),
           recipientName: recipient?.name,
           careSystemVhaId: recipient?.stationNumber,
           ohTriageGroup: recipient?.ohTriageGroup,
@@ -120,7 +137,7 @@ const RecentCareTeams = () => {
       );
       setError(null); // Clear error on selection
     },
-    [recentRecipients, dispatch],
+    [recentRecipients, dispatch, ehrDataByVhaId],
   );
 
   if (recentRecipients === undefined) {
@@ -158,6 +175,7 @@ const RecentCareTeams = () => {
                 value={recipient.triageTeamId}
                 description={healthCareSystemName}
                 data-dd-privacy="mask"
+                data-dd-action-name="Recent Care Teams radio option"
               />
             );
           })}

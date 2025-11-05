@@ -38,20 +38,25 @@ const ReviewDependents = ({
   );
 
   const renderDependentCard = (dependent, index) => {
-    const { fullName, relationshipToVeteran, age } = dependent;
+    const { fullName, relationshipToVeteran, labeledAge } = dependent;
     const name = `${fullName?.first || ''} ${fullName?.last || ''}`.trim();
     const relationship = relationshipToVeteran || '';
 
     return (
-      <div
-        key={index}
-        className="vads-u-border--1px vads-u-border-color-gray-light vads-u-padding--2 vads-u-margin-bottom--2"
-      >
-        <h4 className="vads-u-margin-top--0">{name}</h4>
+      <va-card key={index} class="vads-u-padding--2 vads-u-margin-bottom--2">
+        <h5
+          className="vads-u-margin-top--0 dd-privacy-mask"
+          data-dd-action-name="dependent name"
+        >
+          {name}
+        </h5>
         <span>
-          {relationship} | {age}
+          {relationship},{' '}
+          <span className="dd-privacy-mask" data-dd-action-name="dependent age">
+            {labeledAge}
+          </span>
         </span>
-      </div>
+      </va-card>
     );
   };
 
@@ -89,7 +94,7 @@ const ReviewDependents = ({
 
       {hasDependents && (
         <>
-          <h5>Check if your current dependents still qualify</h5>
+          <h4>Check if your current dependents still qualify</h4>
           <p>Remove dependents if these life changes occurred:</p>
           <ul>
             <li>

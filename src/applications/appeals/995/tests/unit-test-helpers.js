@@ -29,11 +29,11 @@ const clickBack = container => {
 */
 
 export const clickContinue = container => {
-  fireEvent.click($('.usa-button-primary', container));
+  fireEvent.click($('va-button[continue]', container));
 };
 
 export const clickBack = container => {
-  fireEvent.click($('.usa-button-secondary', container));
+  fireEvent.click($('va-button[back]', container));
 };
 
 export const clickAddAnother = container => {

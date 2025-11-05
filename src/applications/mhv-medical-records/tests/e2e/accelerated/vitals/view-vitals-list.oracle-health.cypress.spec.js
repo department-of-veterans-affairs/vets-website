@@ -5,12 +5,11 @@ import vitalsData from '../fixtures/vitals/sample-lighthouse.json';
 
 describe('Medical Records View Vitals', () => {
   const site = new MedicalRecordsSite();
+  const mockDate = new Date(2025, 9, 15); // October 15, 2025
 
   beforeEach(() => {
-    // Freeze time to stabilize timeframe-dependent URL assertions (UTC to local differences on CI)
-    // Use a fixed date in October 2025 to align with CI expectation logic
-    const fixedDate = new Date('2025-10-15T12:00:00Z');
-    cy.clock(fixedDate.getTime(), ['Date']);
+    cy.clock(mockDate, ['Date']);
+
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
@@ -24,8 +23,7 @@ describe('Medical Records View Vitals', () => {
 
     Vitals.goToVitalPage();
 
-    // Use the frozen clock date for timeframe calculation
-    const today = new Date();
+    const today = mockDate;
     const timeFrame = `${today.getFullYear()}-${(today.getMonth() + 1)
       .toString()
       .padStart(2, '0')}`;

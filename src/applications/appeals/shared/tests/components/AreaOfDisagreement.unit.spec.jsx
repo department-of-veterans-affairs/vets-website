@@ -108,7 +108,7 @@ describe('<AreaOfDisagreement>', () => {
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-primary', container));
+    fireEvent.click($('va-button[continue]', container));
     expect(goSpy.called).to.be.true;
   });
 
@@ -125,7 +125,7 @@ describe('<AreaOfDisagreement>', () => {
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-primary', container));
+    fireEvent.click($('va-button[continue]', container));
     expect(goSpy.called).to.be.true;
   });
 
@@ -151,7 +151,7 @@ describe('<AreaOfDisagreement>', () => {
     input.value = 'something';
     await fireEvent.input(input, { target: { name: 'something' } });
 
-    await fireEvent.click($('button.usa-button-primary', container));
+    await fireEvent.click($('va-button[continue]', container));
     expect(goSpy.called).to.be.true;
   });
 
@@ -220,7 +220,7 @@ describe('<AreaOfDisagreement>', () => {
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-primary', container));
+    fireEvent.click($('va-button[continue]', container));
 
     waitFor(() => {
       expect(goSpy.called).to.be.false;
@@ -248,7 +248,7 @@ describe('<AreaOfDisagreement>', () => {
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-primary', container));
+    fireEvent.click($('va-button[continue]', container));
 
     waitFor(() => {
       expect(goSpy.called).to.be.false;

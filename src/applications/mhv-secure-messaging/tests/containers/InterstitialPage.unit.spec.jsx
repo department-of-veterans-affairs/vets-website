@@ -200,6 +200,33 @@ describe('Interstitial page header', () => {
     redirectPathSpy.restore();
   });
 
+  it('dispatches getPrescriptionById and acceptInterstitial when prescriptionId is in URL params', async () => {
+    const getPrescriptionSpy = sinon.spy(
+      prescriptionActions,
+      'getPrescriptionById',
+    );
+    const acceptInterstitialSpy = sinon.spy(
+      threadDetailsActions,
+      'acceptInterstitial',
+    );
+
+    const { history } = renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: initialState(true), // curated list flow enabled
+      reducers: reducer,
+      path: '/new-message/?prescriptionId=123',
+    });
+
+    await waitFor(() => {
+      expect(getPrescriptionSpy.calledOnce).to.be.true;
+      expect(getPrescriptionSpy.calledWith('123')).to.be.true;
+      expect(acceptInterstitialSpy.calledOnce).to.be.true;
+      expect(history.location.pathname).to.equal('/new-message/recent/');
+    });
+
+    getPrescriptionSpy.restore();
+    acceptInterstitialSpy.restore();
+  });
+
   it('does NOT dispatch redirectPath when redirectPath is NOT in URL params', async () => {
     const redirectPathSpy = sinon.spy(prescriptionActions, 'setRedirectPath');
 

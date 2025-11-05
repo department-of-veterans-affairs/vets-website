@@ -7,6 +7,7 @@ import { MAX_LENGTH, MAX_SELECTED_ERROR } from '../constants';
 // higher level
 export const MaxSelectionsAlert = ({ closeModal, appName }) => (
   <VaModal
+    clickToClose
     modalTitle={MAX_SELECTED_ERROR}
     status="warning"
     onCloseEvent={closeModal}

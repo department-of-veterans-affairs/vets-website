@@ -10,7 +10,7 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 import App from '../../containers/App';
-import { EVIDENCE_VA } from '../../constants';
+import { HAS_VA_EVIDENCE } from '../../constants';
 import { CONTESTABLE_ISSUES_API } from '../../constants/apis';
 import { SELECTED } from '../../../shared/constants';
 import {
@@ -306,7 +306,7 @@ describe('App', () => {
         ...hasComp,
         contestedIssues: [],
         legacyCount: 0,
-        [EVIDENCE_VA]: true,
+        [HAS_VA_EVIDENCE]: true,
         locations: [{ issues: ['abc', 'def'] }],
         additionalIssues: [{ issue: 'bbb', [SELECTED]: true }],
         internalTesting: true,

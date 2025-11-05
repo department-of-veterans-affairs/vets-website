@@ -64,7 +64,7 @@ describe('ReviewDependents', () => {
           {
             fullName: { first: 'John', last: 'Doe' },
             relationshipToVeteran: 'Child',
-            age: '25 years old',
+            labeledAge: '25 years old',
           },
         ],
       },
@@ -79,12 +79,12 @@ describe('ReviewDependents', () => {
       {
         fullName: { first: 'Maya', last: 'Patel' },
         relationshipToVeteran: 'Spouse',
-        age: '47 years old',
+        labeledAge: '47 years old',
       },
       {
         fullName: { first: 'Naomi', last: 'Garcia' },
         relationshipToVeteran: 'Child',
-        age: '21 years old',
+        labeledAge: '21 years old',
       },
     ];
 
@@ -92,22 +92,11 @@ describe('ReviewDependents', () => {
       dependents: { awarded: mockDependents },
     });
 
-    // Count h4 headings that represent dependent names
-    const dependentHeadings = getAllByRole('heading', { level: 4 }).filter(
-      heading =>
-        heading.textContent === 'Maya Patel' ||
-        heading.textContent === 'Naomi Garcia' ||
-        heading.textContent ===
-          'Check if someone is missing on your VA benefits',
-    );
+    // Should have 2 headings, check if dependents quality & missing benefits
+    expect(getAllByRole('heading', { level: 4 }).length).to.equal(2);
 
-    // Should have 2 dependent name headings (plus 1 additional h4 for missing benefits)
-    const dependentNames = dependentHeadings.filter(
-      heading =>
-        heading.textContent !==
-        'Check if someone is missing on your VA benefits',
-    );
-    expect(dependentNames.length).to.equal(2);
+    // Count h5 headings that represent dependent names
+    expect(getAllByRole('heading', { level: 5 }).length).to.equal(2);
   });
 
   it('should render dependent information correctly', () => {
@@ -117,17 +106,19 @@ describe('ReviewDependents', () => {
           {
             fullName: { first: 'Maya', last: 'Patel' },
             relationshipToVeteran: 'Spouse',
-            age: '47 years old',
+            labeledAge: '47 years old',
           },
         ],
       },
     });
 
     const name = getByText('Maya Patel');
-    const details = getByText('Spouse | 47 years old');
+    const relationship = getByText('Spouse,');
+    const age = getByText('47 years old');
 
     expect(name).to.not.be.null;
-    expect(details).to.not.be.null;
+    expect(relationship).to.not.be.null;
+    expect(age).to.not.be.null;
   });
 
   it('should handle missing name fields gracefully', () => {
@@ -137,12 +128,12 @@ describe('ReviewDependents', () => {
           {
             fullName: { first: 'OnlyFirst' },
             relationshipToVeteran: 'Child',
-            age: '18 years old',
+            labeledAge: '18 years old',
           },
           {
             fullName: { last: 'OnlyLast' },
             relationshipToVeteran: 'Spouse',
-            age: '45 years old',
+            labeledAge: '45 years old',
           },
         ],
       },

@@ -7,7 +7,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-import { EVIDENCE_OTHER } from '../../constants';
+import { HAS_OTHER_EVIDENCE } from '../../constants';
 import errorMessages from '../../../shared/content/errorMessages';
 
 describe('Supplemental Claims evidence upload request page', () => {
@@ -61,7 +61,7 @@ describe('Supplemental Claims evidence upload request page', () => {
         definitions={{}}
         schema={schema}
         uiSchema={uiSchema}
-        data={{ [EVIDENCE_OTHER]: true }}
+        data={{ [HAS_OTHER_EVIDENCE]: true }}
         formData={{}}
         onSubmit={onSubmit}
       />,

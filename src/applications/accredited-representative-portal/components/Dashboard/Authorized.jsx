@@ -26,7 +26,7 @@ const Authorized = () => {
             <h2>
               <va-link
                 class="dashboard__card-link vads-u-font-family--serif"
-                href="/representative/poa-requests"
+                href="/representative/representation-requests"
                 text="Review representation requests"
               />
             </h2>

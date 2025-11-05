@@ -277,4 +277,143 @@ describe('Search form', () => {
     );
     expect(screen.getByText('January 1st 2022 to December 31st 2022'));
   });
+
+  describe('Datadog RUM action names', () => {
+    it('should have data-dd-action-name on filter results label', () => {
+      const searchTerm = 'test';
+      const query = {
+        category: 'other',
+        fromDate: '2022-09-19T00:00:00-07:00',
+        toDate: '2022-12-19T21:55:17.766Z',
+        queryData: { searchTerm },
+      };
+      const customProps = {
+        ...defaultProps,
+        keyword: searchTerm,
+        resultsCount: searchResults.length,
+        query,
+        threadCount: threadList.length,
+      };
+      const screen = setup(customProps);
+
+      const resultsLabel = screen.getByTestId(
+        'search-message-folder-input-label',
+      );
+      expect(resultsLabel.getAttribute('data-dd-action-name')).to.equal(
+        'Filter Messages matches label',
+      );
+    });
+
+    it('should have data-dd-action-name on filter messages heading for inbox', () => {
+      const screen = setup();
+
+      const heading = screen.getByRole('heading', {
+        name: 'Filter messages in inbox',
+      });
+      expect(heading.getAttribute('data-dd-action-name')).to.equal(
+        'Filter Messages in Inbox',
+      );
+    });
+
+    it('should have data-dd-action-name on filter messages heading for custom folder', () => {
+      const customFolder = {
+        folderId: 123,
+        name: 'My Custom Folder',
+        count: 10,
+        unreadCount: 2,
+        systemFolder: false,
+      };
+      const customProps = {
+        ...defaultProps,
+        folder: customFolder,
+      };
+
+      const customState = {
+        sm: {
+          folders: {
+            folderList,
+            folder: customFolder,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SearchForm {...customProps} />, {
+        initialState: customState,
+        reducers: reducer,
+        path: `/folders/${customFolder.folderId}`,
+      });
+
+      const heading = screen.getByRole('heading', {
+        name: /Filter messages in My Custom Folder/i,
+      });
+      expect(heading.getAttribute('data-dd-action-name')).to.equal(
+        'Filter Messages in Custom Folder',
+      );
+    });
+
+    it('should have data-dd-action-name on filter input field', () => {
+      const screen = setup();
+
+      const filterInput = screen.getByTestId('keyword-search-input');
+      expect(filterInput.getAttribute('data-dd-action-name')).to.equal(
+        'Input Field - Filter',
+      );
+    });
+
+    it('should have data-dd-action-name on message ID info expandable', () => {
+      const customProps = {
+        ...defaultProps,
+        threadCount: threadList.length,
+      };
+      const screen = setup(customProps);
+
+      const messageIdInfo = screen.container.querySelector(
+        'va-additional-info',
+      );
+      expect(messageIdInfo).to.exist;
+      expect(messageIdInfo.getAttribute('trigger')).to.equal(
+        "What's a message ID?",
+      );
+      expect(messageIdInfo.getAttribute('data-dd-action-name')).to.equal(
+        "What's a message ID? Expandable Info",
+      );
+    });
+
+    it('should have data-dd-action-name on apply filters button', () => {
+      const customProps = {
+        ...defaultProps,
+        threadCount: threadList.length,
+      };
+      const screen = setup(customProps);
+
+      const applyButton = screen.getByTestId('filter-messages-button');
+      expect(applyButton.getAttribute('data-dd-action-name')).to.equal(
+        'Filter Button',
+      );
+    });
+
+    it('should have dd-action-name on clear filters button when results exist', () => {
+      const searchTerm = 'test';
+      const query = {
+        category: 'other',
+        queryData: { searchTerm },
+      };
+      const customProps = {
+        ...defaultProps,
+        keyword: searchTerm,
+        resultsCount: searchResults.length,
+        query,
+        threadCount: threadList.length,
+      };
+      const screen = setup(customProps);
+
+      const clearButton = screen.container.querySelector(
+        'va-button[text="Clear filters"]',
+      );
+      expect(clearButton).to.exist;
+      expect(clearButton.getAttribute('dd-action-name')).to.equal(
+        'Clear filters Button',
+      );
+    });
+  });
 });

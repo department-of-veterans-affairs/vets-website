@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom-v5-compat';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
-import { dataDogActionNames } from '../../util/dataDogConstants';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
+import { DATETIME_FORMATS } from '../../util/constants';
 
 const MedicationsListCard = ({ rx }) => {
   const pendingMed =
@@ -62,7 +63,7 @@ const MedicationsListCard = ({ rx }) => {
               Shipped on{' '}
               {dateFormat(
                 latestTrackingStatus.completeDateTime,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
               )}
             </span>
           </p>
@@ -77,7 +78,7 @@ const MedicationsListCard = ({ rx }) => {
             {rxStatus}
           </p>
         )}
-        {rx && <ExtraDetails {...rx} />}
+        {rx && <ExtraDetails {...rx} page={pageType.LIST} />}
       </>
     );
   };

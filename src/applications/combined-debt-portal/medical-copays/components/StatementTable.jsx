@@ -1,18 +1,71 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { formatDate } from '../../combined/utils/helpers';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { formatDate, setPageFocus } from '../../combined/utils/helpers';
 
 const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
+  const columns = ['Date', 'Description', 'Billing Reference', 'Amount'];
+
+  const MAX_ROWS = 10;
+
+  function paginate(array, pageSize, pageNumber) {
+    return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+  }
+
+  function getPaginationText(
+    currentPage,
+    pageSize,
+    totalItems,
+    label = 'charges',
+  ) {
+    // Ensure numbers are valid
+    if (totalItems === 0) {
+      return `Showing 0 ${label}`;
+    }
+
+    const start = (currentPage - 1) * pageSize + 1;
+    const end = Math.min(currentPage * pageSize, totalItems);
+
+    return `Showing ${start}-${end} of ${totalItems} ${label}`;
+  }
+
+  const [currentData, setCurrentData] = useState(
+    paginate(charges, MAX_ROWS, 1),
+  );
+  const [currentPage, setCurrentPage] = useState(1);
+
+  function onPageChange(page) {
+    setCurrentData(paginate(charges, MAX_ROWS, page));
+    setCurrentPage(page);
+    setPageFocus(`va-table`);
+  }
+
+  const numPages = Math.ceil(charges.length / MAX_ROWS);
+
   const getStatementDateRange = () => {
+    const pageText = getPaginationText(
+      currentPage,
+      MAX_ROWS,
+      charges.length,
+      'charges',
+    );
+
     if (
       !selectedCopay?.statementStartDate ||
       !selectedCopay?.statementEndDate
     ) {
+      if (charges.length > MAX_ROWS) {
+        return `This statement shows your current charges. ${pageText}.`;
+      }
       return 'This statement shows your current charges.';
     }
 
     const startDate = formatDate(selectedCopay.statementStartDate);
     const endDate = formatDate(selectedCopay.statementEndDate);
+
+    if (charges.length > MAX_ROWS) {
+      return `This statement shows charges you received between ${startDate} and ${endDate}. ${pageText}.`;
+    }
     return `This statement shows charges you received between ${startDate} and ${endDate}.`;
   };
   const renderDescription = charge => (
@@ -76,44 +129,41 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
       >
         Most recent statement charges
       </h2>
-      <va-table
-        data-testid="payment-history-statement-table"
-        table-type="bordered"
-        table-title={getStatementDateRange()}
-      >
-        <va-table-row slot="headers">
-          <span>Date</span>
-          <span>Description</span>
-          <span>Billing Reference</span>
-          <span>Amount</span>
-        </va-table-row>
-        <va-table-row>
-          <span>Empty</span>
-          <span>Previous Balance</span>
-          <span>Empty</span>
-          <span>{formatCurrency(selectedCopay?.pHPrevBal)}</span>
-        </va-table-row>
-        {charges
-          ?.filter(charge => !charge.pDTransDescOutput.startsWith('&nbsp;'))
-          .map((charge, index) => (
-            <va-table-row key={`${charge.pDRefNo || index}`}>
-              <span>{getDate(charge)}</span>
-              <span>{renderDescription(charge)}</span>
-              <span>{getReference(charge)}</span>
-              <span>{formatCurrency(charge.pDTransAmt)}</span>
-            </va-table-row>
-          ))}
-        <va-table-row>
-          <span>Empty</span>
-          <span>
-            <strong>Current Balance</strong>
-          </span>
-          <span>Empty</span>
-          <span>
-            <strong>{formatCurrency(selectedCopay?.pHNewBalance)}</strong>
-          </span>
-        </va-table-row>
-      </va-table>
+
+      <div key={`table-wrapper-${currentPage}`}>
+        <va-table
+          table-title={getStatementDateRange()}
+          scrollable={false}
+          table-type="bordered"
+          full-width
+          unbounded
+        >
+          <va-table-row>
+            {columns.map((col, index) => (
+              <span key={`table-header-${index}`}>{col}</span>
+            ))}
+          </va-table-row>
+
+          {currentData
+            ?.filter(charge => !charge.pDTransDescOutput.startsWith('&nbsp;'))
+            .map((charge, index) => (
+              <va-table-row key={`${charge.pDRefNo || index}`}>
+                <span>{getDate(charge)}</span>
+                <span>{renderDescription(charge)}</span>
+                <span>{getReference(charge)}</span>
+                <span>{formatCurrency(charge.pDTransAmt)}</span>
+              </va-table-row>
+            ))}
+        </va-table>
+      </div>
+
+      {charges.length > MAX_ROWS ? (
+        <VaPagination
+          onPageSelect={e => onPageChange(e.detail.page)}
+          page={currentPage}
+          pages={numPages}
+        />
+      ) : null}
     </>
   );
 };

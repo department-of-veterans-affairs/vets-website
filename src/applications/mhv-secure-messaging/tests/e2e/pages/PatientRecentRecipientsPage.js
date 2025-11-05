@@ -1,8 +1,10 @@
-import { Data } from '../utils/constants';
+import { Data, Locators } from '../utils/constants';
 
 class PatientRecentRecipientsPage {
   continueButton = () => {
-    return cy.getByTestId('recent-care-teams-continue-button');
+    return cy.findByTestId(
+      Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID,
+    );
   };
 
   selectDifferentRecipient = () => {

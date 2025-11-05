@@ -34,12 +34,12 @@ const ZeroBalanceCard = ({ appType }) => {
         appType === APP_TYPES.DEBT ? 'debt' : 'copay'
       }`}
     >
-      <h3
-        className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
+      <h2
+        className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--h3"
         data-testid="card-title"
       >
         {cardTitle}
-      </h3>
+      </h2>
       {cardContent}
     </va-card>
   );

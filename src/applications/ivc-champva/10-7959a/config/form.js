@@ -1,19 +1,19 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import GetFormHelp from '../../shared/components/GetFormHelp';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import SubmissionError from '../../shared/components/SubmissionError';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import FormFooter from '../components/FormFooter';
 import transformForSubmit from './submitTransformer';
-import { nameWording, privWrapper } from '../../shared/utilities';
 import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
 import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
+import { blankSchema } from '../definitions';
 import {
   certifierRoleSchema,
-  certifierReceivedPacketSchema,
+  certifierBenefitStatusSchema,
   certifierNotEnrolledChampvaSchema,
   certifierNameSchema,
   certifierAddressSchema,
@@ -40,12 +40,10 @@ import {
   applicantContactSchema,
 } from '../chapters/beneficiaryInformation';
 import {
-  blankSchema,
   sponsorAddressSchema,
   sponsorNameSchema,
   sponsorContactSchema,
 } from '../chapters/sponsorInformation';
-
 import {
   claimIdentificationNumber,
   resubmissionLetterUpload,
@@ -54,17 +52,12 @@ import {
 
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 
-// first name posessive
-function fnp(formData) {
-  return nameWording(formData, undefined, undefined, true);
-}
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   transformForSubmit,
-  footerContent: GetFormHelp,
+  footerContent: FormFooter,
   trackingPrefix: '10-7959a-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -121,17 +114,15 @@ const formConfig = {
           path: 'signer-type',
           title: 'Your information',
           // initialData: mockData.data,
-          // Placeholder data so that we display "beneficiary" in title when `fnp` is used
           ...certifierRoleSchema,
         },
         page1a1: {
           path: 'enrolled-champva',
           title: 'Your CHAMPVA benefit status',
-          ...certifierReceivedPacketSchema,
+          ...certifierBenefitStatusSchema,
         },
         page1a2: {
           path: 'not-enrolled-champva',
-          title: 'Wait until you receive CHAMPVA packet',
           depends: formData => !get('certifierReceivedPacket', formData),
           CustomPage: NotEnrolledPage,
           CustomPageReview: null,
@@ -163,8 +154,7 @@ const formConfig = {
         },
         page1e: {
           path: 'is-resubmit',
-          title: 'Your CHAMPVA claim status',
-          // If the feature toggle is enabled, show this page:
+          title: 'CHAMPVA claim status',
           depends: formData =>
             formData['view:champvaEnableClaimResubmitQuestion'],
           ...certifierClaimStatusSchema,
@@ -182,7 +172,7 @@ const formConfig = {
         },
         page1e2: {
           path: 'resubmission-letter-upload',
-          title: 'Upload CHAMPVA resubmission letter',
+          title: 'CHAMPVA resubmission letter',
           depends: formData => get('claimStatus', formData) === 'resubmission',
           CustomPage: FileFieldCustomSimple,
           CustomPageReview: null,
@@ -190,7 +180,7 @@ const formConfig = {
         },
         page1e3: {
           path: 'resubmission-supporting-docs-upload',
-          title: 'Upload supporting documents for your claim',
+          title: 'Supporting documents for claim',
           depends: formData => get('claimStatus', formData) === 'resubmission',
           CustomPage: FileFieldCustomSimple,
           CustomPageReview: null,
@@ -230,14 +220,12 @@ const formConfig = {
         },
         page2b: {
           path: 'beneficiary-identification-info',
-          title: formData =>
-            privWrapper(`${fnp(formData)} CHAMPVA member number`),
+          title: 'Beneficiary CHAMPVA member number',
           ...applicantMemberNumberSchema,
         },
         page2c: {
           path: 'beneficiary-address',
-          title: formData => privWrapper(`${fnp(formData)} address`),
-          // Only show if we have addresses to pull from:
+          title: 'Beneficiary address',
           depends: formData =>
             get('certifierRole', formData) !== 'applicant' &&
             (get('street', formData?.certifierAddress) ||
@@ -252,12 +240,12 @@ const formConfig = {
         },
         page2d: {
           path: 'beneficiary-mailing-address',
-          title: formData => privWrapper(`${fnp(formData)} mailing address`),
+          title: 'Beneficiary mailing address',
           ...applicantAddressSchema,
         },
         page2e: {
           path: 'beneficiary-contact-info',
-          title: formData => privWrapper(`${fnp(formData)} phone number`),
+          title: 'Beneficiary contact information',
           ...applicantContactSchema,
         },
       },
@@ -267,15 +255,11 @@ const formConfig = {
       pages: {
         page3: {
           path: 'insurance-status',
-          title: props => {
-            return privWrapper(
-              `${fnp(props.formData ?? props)} health insurance status`,
-            );
-          },
+          title: 'Beneficiary health insurance status',
           depends: formData => get('claimStatus', formData) !== 'resubmission',
           ...insuranceStatusSchema,
         },
-        ...insurancePages, // Array builder/list loop pages
+        ...insurancePages,
       },
     },
     claimInformation: {
@@ -309,22 +293,14 @@ const formConfig = {
         },
         page8: {
           path: 'eob-upload',
-          title: formData =>
-            `Upload explanation of benefits from ${get(
-              'policies[0].name',
-              formData,
-            )}`,
+          title: 'Explanation of benefits',
           depends: formData =>
             get('hasOhi', formData) && get('claimType', formData) === 'medical',
           ...eobUploadSchema(true),
         },
         page9: {
           path: 'additional-eob-upload',
-          title: formData =>
-            `Upload explanation of benefits from ${get(
-              'policies[1].name',
-              formData,
-            )}`,
+          title: 'Additional explanation of benefits',
           depends: formData =>
             get('hasOhi', formData) &&
             get('claimType', formData) === 'medical' &&
@@ -334,7 +310,7 @@ const formConfig = {
         },
         page10: {
           path: 'pharmacy-claim-upload',
-          title: 'Upload supporting document for prescription medication claim',
+          title: 'Supporting document for prescription medication claim',
           depends: formData =>
             get('claimType', formData) === 'pharmacy' &&
             get('claimStatus', formData) !== 'resubmission',

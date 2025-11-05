@@ -21,7 +21,7 @@ describe('ExpenseCard', () => {
 
   const editRoute = '../mileage';
 
-  const defaultExpense = {
+  const defaultMileageExpense = {
     id: 'expense1',
     address: {
       addressLine1: '123 Main St',
@@ -35,25 +35,32 @@ describe('ExpenseCard', () => {
     expenseType: 'Mileage',
   };
 
+  const defaultNonMileageExpense = {
+    id: 'expense2',
+    expenseType: 'Parking',
+    description: 'Parking at hospital',
+    document: { filename: 'test.pdf' },
+  };
+
   const getData = () => ({});
 
   // Helper to render the component with router + store
   const renderExpenseCard = (
-    expense = defaultExpense,
+    expense = defaultMileageExpense,
     editToRoute = editRoute,
   ) =>
     renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/review']}>
         <ExpenseCard
           expense={expense}
-          header="Mileage expense"
+          header={`${expense.expenseType} expense`}
           editToRoute={editToRoute}
         />
       </MemoryRouter>,
       { initialState: getData(), reducers: reducer },
     );
 
-  it('renders the component correctly', () => {
+  it('renders mileage component correctly', () => {
     const { getByText, container } = renderExpenseCard();
 
     // Header
@@ -80,9 +87,19 @@ describe('ExpenseCard', () => {
     expect(deleteButton.getAttribute('button-type')).to.equal('delete');
   });
 
+  it('renders non-Mileage expense correctly', () => {
+    const { getByText } = renderExpenseCard(defaultNonMileageExpense);
+
+    expect(getByText('Parking expense')).to.exist;
+    expect(getByText('Description')).to.exist;
+    expect(getByText('Parking at hospital')).to.exist;
+    expect(getByText('File name')).to.exist;
+    expect(getByText('test.pdf')).to.exist;
+  });
+
   it('renders correctly with empty address lines', () => {
     const expense = {
-      ...defaultExpense,
+      ...defaultMileageExpense,
       address: {
         addressLine1: '456 Elm St',
         addressLine2: '',
@@ -122,7 +139,7 @@ describe('ExpenseCard', () => {
     await waitFor(() => {
       expect(
         consoleSpy.calledWith(
-          `Delete clicked for expense id: ${defaultExpense.id}`,
+          `Delete clicked for expense id: ${defaultMileageExpense.id}`,
         ),
       ).to.be.true;
     });
@@ -139,7 +156,7 @@ describe('ExpenseCard', () => {
             element={
               // eslint-disable-next-line react/jsx-wrap-multilines
               <ExpenseCard
-                expense={defaultExpense}
+                expense={defaultMileageExpense}
                 header="Mileage expense"
                 editToRoute={editRoute}
               />
@@ -152,7 +169,9 @@ describe('ExpenseCard', () => {
       { initialState: {}, reducers: reducer },
     );
 
-    const editLink = getByTestId(`${defaultExpense.id}-edit-expense-link`);
+    const editLink = getByTestId(
+      `${defaultMileageExpense.id}-edit-expense-link`,
+    );
     expect(editLink).to.exist;
 
     fireEvent.click(editLink);

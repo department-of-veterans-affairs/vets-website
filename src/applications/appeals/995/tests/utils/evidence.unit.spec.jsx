@@ -9,7 +9,11 @@ import {
   removeNonSelectedIssuesFromEvidence,
   onFormLoaded,
 } from '../../utils/evidence';
-import { EVIDENCE_VA, EVIDENCE_PRIVATE, EVIDENCE_OTHER } from '../../constants';
+import {
+  HAS_VA_EVIDENCE,
+  HAS_PRIVATE_EVIDENCE,
+  HAS_OTHER_EVIDENCE,
+} from '../../constants';
 import { SELECTED } from '../../../shared/constants';
 
 describe('getIndex', () => {
@@ -43,23 +47,23 @@ describe('getIndex', () => {
 describe('getVAEvidence', () => {
   it('should return expected value', () => {
     expect(
-      getVAEvidence({ [EVIDENCE_VA]: undefined, locations: [{}] }),
+      getVAEvidence({ [HAS_VA_EVIDENCE]: undefined, locations: [{}] }),
     ).to.deep.equal([]);
 
     expect(
-      getVAEvidence({ [EVIDENCE_VA]: true, locations: [{}] }),
+      getVAEvidence({ [HAS_VA_EVIDENCE]: true, locations: [{}] }),
     ).to.deep.equal([{}]);
 
-    expect(getVAEvidence({ [EVIDENCE_VA]: true, locations: [] })).to.deep.equal(
-      [],
-    );
-
     expect(
-      getVAEvidence({ [EVIDENCE_VA]: false, locations: [{}] }),
+      getVAEvidence({ [HAS_VA_EVIDENCE]: true, locations: [] }),
     ).to.deep.equal([]);
 
     expect(
-      getVAEvidence({ [EVIDENCE_VA]: true, locations: [{ test: 'test' }] }),
+      getVAEvidence({ [HAS_VA_EVIDENCE]: false, locations: [{}] }),
+    ).to.deep.equal([]);
+
+    expect(
+      getVAEvidence({ [HAS_VA_EVIDENCE]: true, locations: [{ test: 'test' }] }),
     ).to.deep.equal([{ test: 'test' }]);
   });
 });
@@ -68,18 +72,27 @@ describe('getPrivateEvidence', () => {
   it('should return expected value', () => {
     expect(
       getPrivateEvidence({
-        [EVIDENCE_PRIVATE]: undefined,
+        [HAS_PRIVATE_EVIDENCE]: undefined,
         providerFacility: [{}],
       }),
     ).to.deep.equal([]);
     expect(
-      getPrivateEvidence({ [EVIDENCE_PRIVATE]: true, providerFacility: [{}] }),
+      getPrivateEvidence({
+        [HAS_PRIVATE_EVIDENCE]: true,
+        providerFacility: [{}],
+      }),
     ).to.deep.equal([{}]);
     expect(
-      getPrivateEvidence({ [EVIDENCE_PRIVATE]: true, providerFacility: [] }),
+      getPrivateEvidence({
+        [HAS_PRIVATE_EVIDENCE]: true,
+        providerFacility: [],
+      }),
     ).to.deep.equal([]);
     expect(
-      getPrivateEvidence({ [EVIDENCE_PRIVATE]: false, providerFacility: [{}] }),
+      getPrivateEvidence({
+        [HAS_PRIVATE_EVIDENCE]: false,
+        providerFacility: [{}],
+      }),
     ).to.deep.equal([]);
   });
 });
@@ -88,18 +101,24 @@ describe('getOtherEvidence', () => {
   it('should return expected value', () => {
     expect(
       getOtherEvidence({
-        [EVIDENCE_OTHER]: undefined,
+        [HAS_OTHER_EVIDENCE]: undefined,
         additionalDocuments: [{}],
       }),
     ).to.deep.equal([]);
     expect(
-      getOtherEvidence({ [EVIDENCE_OTHER]: true, additionalDocuments: [{}] }),
+      getOtherEvidence({
+        [HAS_OTHER_EVIDENCE]: true,
+        additionalDocuments: [{}],
+      }),
     ).to.deep.equal([{}]);
     expect(
-      getOtherEvidence({ [EVIDENCE_OTHER]: true, additionalDocuments: [] }),
+      getOtherEvidence({ [HAS_OTHER_EVIDENCE]: true, additionalDocuments: [] }),
     ).to.deep.equal([]);
     expect(
-      getOtherEvidence({ [EVIDENCE_OTHER]: false, additionalDocuments: [{}] }),
+      getOtherEvidence({
+        [HAS_OTHER_EVIDENCE]: false,
+        additionalDocuments: [{}],
+      }),
     ).to.deep.equal([]);
   });
 });
@@ -113,8 +132,8 @@ describe('evidenceNeedsUpdating', () => {
     providerFacility = [{ issues: ['abc', 'def'] }],
   } = {}) => {
     return {
-      [EVIDENCE_VA]: hasVa,
-      [EVIDENCE_PRIVATE]: hasPrivate,
+      [HAS_VA_EVIDENCE]: hasVa,
+      [HAS_PRIVATE_EVIDENCE]: hasPrivate,
       contestedIssues: [
         {
           attributes: { ratingIssueSubjectText: 'def' },
@@ -144,8 +163,8 @@ describe('evidenceNeedsUpdating', () => {
   });
 
   it('should return false if provider facility evidence undefined', () => {
-    expect(evidenceNeedsUpdating({ [EVIDENCE_VA]: true, locations: [{}] })).to
-      .be.false;
+    expect(evidenceNeedsUpdating({ [HAS_VA_EVIDENCE]: true, locations: [{}] }))
+      .to.be.false;
   });
 
   it('should return false if no updates needed', () => {
@@ -174,7 +193,7 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
       { issue: 'test 2', [SELECTED]: true },
       { issue: 'test 4', [SELECTED]: false },
     ],
-    [EVIDENCE_VA]: true,
+    [HAS_VA_EVIDENCE]: true,
     locations: [
       {
         foo: true,
@@ -187,7 +206,7 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
         issues: ['test 1', 'test 2', addLocation].filter(Boolean),
       },
     ],
-    [EVIDENCE_PRIVATE]: true,
+    [HAS_PRIVATE_EVIDENCE]: true,
     providerFacility: [
       {
         foo: false,

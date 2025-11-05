@@ -24,7 +24,7 @@ import {
   getPrivateEvidence,
   getOtherEvidence,
 } from '../utils/evidence';
-import { LIMITED_CONSENT_RESPONSE } from '../constants';
+import { HAS_PRIVATE_LIMITATION } from '../constants';
 import { getReadableDate } from '../../shared/utils/dates';
 
 // Components
@@ -200,7 +200,7 @@ export const ConfirmationPage = () => {
           privacyAgreementAccepted={data.privacyAgreementAccepted}
           reviewMode
           showListOnly
-          limitedConsentResponse={data?.[LIMITED_CONSENT_RESPONSE]}
+          limitedConsentResponse={data?.[HAS_PRIVATE_LIMITATION]}
         />
       ) : null}
 

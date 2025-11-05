@@ -13,7 +13,7 @@ import { content } from '../content/evidenceSummary';
 import { EvidencePrivateContent } from './EvidencePrivateContent';
 import { EvidenceUploadContent } from './EvidenceUploadContent';
 import { EvidenceVaContent } from './EvidenceVaContent';
-import { LIMITED_CONSENT_RESPONSE } from '../constants';
+import { HAS_PRIVATE_LIMITATION } from '../constants';
 import { customPageProps995 } from '../../shared/props';
 import { focusFirstError } from '../../shared/utils/focus';
 
@@ -186,6 +186,7 @@ const EvidenceSummary = ({
         </va-alert>
 
         <VaModal
+          clickToClose
           status="warning"
           visible={showModal}
           modalTitle={modalTitle}
@@ -203,7 +204,7 @@ const EvidenceSummary = ({
         <EvidenceVaContent list={vaEvidence} {...props} />
         <EvidencePrivateContent
           list={privateEvidence}
-          limitedConsentResponse={data?.[LIMITED_CONSENT_RESPONSE]}
+          limitedConsentResponse={data?.[HAS_PRIVATE_LIMITATION]}
           limitedConsent={limitedConsent}
           privacyAgreementAccepted={privacyAgreementAccepted}
           {...props}
@@ -226,6 +227,7 @@ const EvidenceSummary = ({
               <FormNavButtons
                 goBack={goBack}
                 goForward={handlers.onGoForward}
+                useWebComponents
               />
               {contentAfterButtons}
             </>

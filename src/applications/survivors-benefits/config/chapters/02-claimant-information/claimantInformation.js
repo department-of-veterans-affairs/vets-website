@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   fullNameSchema,
   fullNameUI,
@@ -13,28 +12,14 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { claimantRelationshipOptions } from '../../../utils/labels';
-
-const seriouslyDisabledDescription = (
-  <>
-    <va-additional-info
-      trigger="What we consider a seriously disabled adult child"
-      class="vads-u-margin-bottom--4"
-    >
-      A child is seriously disabled if they developed a permanent physical or
-      mental disability before they turned 18 years old. A seriously disabled
-      child can’t support or care for themselves.
-    </va-additional-info>
-  </>
-);
+import { seriouslyDisabledDescription } from '../../../utils/helpers';
 
 /** @type {PageSchema} */
 export default {
-  title: 'Claimant information',
-  path: 'claimant/information',
   uiSchema: {
-    ...titleUI("Claimant's relationship to the Veteran"),
+    ...titleUI('Claimant’s relationship to the Veteran'),
     claimantRelationship: radioUI({
-      title: "What is the claimant's relationship to the Veteran?",
+      title: 'What is the claimant’s relationship to the Veteran?',
       labels: claimantRelationshipOptions,
       errorMessages: {
         required: 'Select what your relationship is to the Veteran',

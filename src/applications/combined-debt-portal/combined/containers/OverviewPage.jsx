@@ -19,7 +19,7 @@ import { GenericDisasterAlert } from '../components/DisasterAlert';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 
 const OverviewPage = () => {
-  const title = 'Your VA debt and bills';
+  const title = 'Overpayments and copay bills';
   useHeaderPageTitle(title);
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const OverviewPage = () => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
         ]}
         label="Breadcrumb"
@@ -81,9 +81,10 @@ const OverviewPage = () => {
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="overview-page-title">{title}</h1>
         <p className="va-introtext">
-          Check the details of debt from VA education, disability compensation,
-          pension programs, or VA health care and prescription charges. Find out
-          how to make payments or request financial help.
+          Check the details of benefit overpayments from VA education,
+          disability compensation, and pension programs. And review VA health
+          care and prescription copay charges. Find out how to make payments or
+          request financial help.
         </p>
         <GenericDisasterAlert />
         {bothError || bothZero ? (
@@ -92,7 +93,6 @@ const OverviewPage = () => {
           />
         ) : (
           <>
-            <h2>Debt and bill overview</h2>
             <Balances />
             {showOneVADebtLetterLink && !debtError && !billError ? (
               <VaLinkAction
@@ -102,21 +102,31 @@ const OverviewPage = () => {
                 type="secondary"
               />
             ) : null}
-            <h2>What to do if you have questions about your debt and bills</h2>
-            <h3>Questions about benefit debt</h3>
-            <p>
-              Call the Debt Management Center (DMC) at{' '}
-              <va-telephone contact={CONTACTS.DMC} /> (
-              <va-telephone tty contact="711" />
-              ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-            </p>
-            <h3>Questions about medical copayment bills</h3>
-            <p>
-              Call the VA Health Resource Center at{' '}
-              <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
-              <va-telephone tty contact="711" />
-              ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-            </p>
+
+            <va-need-help id="needHelp" class="vads-u-margin-top--4">
+              <div slot="content">
+                <p>
+                  <strong>Questions about overpayments</strong>
+                </p>
+                <p>
+                  Call the Debt Management Center (DMC) at{' '}
+                  <va-telephone contact={CONTACTS.DMC} /> (
+                  <va-telephone tty contact="711" />
+                  ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m.
+                  ET.
+                </p>
+                <p>
+                  <strong>Questions about copay bills</strong>
+                </p>
+                <p>
+                  Call the VA Health Resource Center at{' '}
+                  <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
+                  <va-telephone tty contact="711" />
+                  ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
+                  ET.
+                </p>
+              </div>
+            </va-need-help>
           </>
         )}
       </div>

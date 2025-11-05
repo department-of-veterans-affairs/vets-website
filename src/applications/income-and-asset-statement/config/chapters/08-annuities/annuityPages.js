@@ -63,6 +63,24 @@ export const options = {
               {formatCurrency(item.marketValueAtEstablishment)}
             </span>
           </li>
+          {item?.receivingIncomeFromAnnuity &&
+            item?.annualReceivedIncome && (
+              <li>
+                Annual income:{' '}
+                <span className="vads-u-font-weight--bold">
+                  {formatCurrency(item.annualReceivedIncome)}
+                </span>
+              </li>
+            )}
+          {item?.addedFundsAfterEstablishment &&
+            item?.addedFundsAmount && (
+              <li>
+                Money added:{' '}
+                <span className="vads-u-font-weight--bold">
+                  {formatCurrency(item.addedFundsAmount)}
+                </span>
+              </li>
+            )}
         </ul>
       ),
     reviewAddButtonText: 'Add another annuity',
@@ -137,7 +155,8 @@ const veteranSummaryPage = {
         title: updatedTitleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -156,7 +175,8 @@ const spouseSummaryPage = {
       {
         title: updatedTitleNoItems,
         hint: 'Your dependents include children who you financially support. ',
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -175,7 +195,8 @@ const childSummaryPage = {
       {
         title: 'Do you have an annuity?',
         hint: null,
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -194,7 +215,8 @@ const parentSummaryPage = {
         title: updatedTitleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner.',
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -214,7 +236,8 @@ const custodianSummaryPage = {
         title: updatedTitleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
-        ...sharedYesNoOptionsBase,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
       },
       {
@@ -274,7 +297,7 @@ const incomePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Income from annuity'),
     receivingIncomeFromAnnuity: yesNoUI({
-      title: 'Did you receive income from this annuity?',
+      title: 'Do you receive income from this annuity?',
       ...sharedYesNoOptionsBase,
     }),
     annualReceivedIncome: {
