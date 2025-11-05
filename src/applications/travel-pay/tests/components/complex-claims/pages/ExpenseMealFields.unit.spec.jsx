@@ -48,7 +48,6 @@ describe('ExpenseMealFields', () => {
     simulateVaInputChange(vaInput, 'New Vendor');
 
     await waitFor(() => {
-      // Should call the onChange prop at least once
       expect(onChangeSpy.called).to.be.true;
       const eventArg = onChangeSpy.firstCall.args[0];
       const value = eventArg?.detail?.value || eventArg?.target?.value;

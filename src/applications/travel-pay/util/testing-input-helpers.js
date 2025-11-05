@@ -15,24 +15,22 @@ import { expect } from 'chai';
 export function simulateVaInputChange(inputField, value) {
   if (!inputField) return null;
 
+  // Update the custom element's value property
   const field = inputField;
-
   field.value = value;
 
-  // Dispatch standard VA input events
-  field.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
-  field.dispatchEvent(
-    new CustomEvent('vaInput', {
-      detail: value,
-      bubbles: true,
-      composed: true,
-    }),
-  );
-
-  // Call the component's onInput handler if it exists
+  // Call the internal onInput prop if it exists
   if (typeof field.onInput === 'function') {
-    field.onInput({ target: { value } }, value);
+    field.onInput({ target: { value } });
   }
+
+  // Fire a synthetic input event to match user behavior
+  const event = new Event('input', {
+    bubbles: true,
+    composed: true,
+  });
+
+  field.dispatchEvent(event);
 
   return { field, value, eventFired: true };
 }
