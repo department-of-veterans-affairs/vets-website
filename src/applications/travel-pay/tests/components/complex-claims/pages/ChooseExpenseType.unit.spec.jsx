@@ -7,21 +7,26 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { EXPENSE_TYPES } from '../../../../constants';
 
 import ChooseExpenseType from '../../../../components/complex-claims/pages/ChooseExpenseType';
+import ExpensePage from '../../../../components/complex-claims/pages/ExpensePage';
 import reducer from '../../../../redux/reducer';
 
 describe('ChooseExpenseType', () => {
   const defaultApptId = '12345';
   const expenseOptions = Object.values(EXPENSE_TYPES);
 
-  const renderComponent = (apptId = defaultApptId, claimId = 'claim123') => {
+  const renderComponent = (apptId = defaultApptId) => {
     return renderWithStoreAndRouter(
       <MemoryRouter
-        initialEntries={[`/file-new-claim/${apptId}/${claimId}/choose-expense`]}
+        initialEntries={[`/file-new-claim/${apptId}/choose-expense`]}
       >
         <Routes>
           <Route
-            path="/file-new-claim/:apptId/:claimId/choose-expense"
+            path="/file-new-claim/:apptId/choose-expense"
             element={<ChooseExpenseType />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+            element={<ExpensePage />}
           />
         </Routes>
       </MemoryRouter>,

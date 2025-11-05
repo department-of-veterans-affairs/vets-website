@@ -15,7 +15,7 @@ import ExpenseCommonCarrierFields from './ExpenseCommonCarrierFields';
 
 const ExpensePage = () => {
   const navigate = useNavigate();
-  const { apptId, expenseTypeRoute } = useParams();
+  const { apptId, claimId, expenseTypeRoute } = useParams();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formState, setFormState] = useState({});
   const [showError, setShowError] = useState(false);
@@ -52,7 +52,10 @@ const ExpensePage = () => {
   };
 
   const handleOpenModal = () => setIsModalVisible(true);
-  const handleCloseModal = () => setIsModalVisible(false);
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+  };
 
   const REQUIRED_FIELDS = {
     Meal: ['vendor'],
@@ -82,17 +85,16 @@ const ExpensePage = () => {
   const handleContinue = () => {
     const isValid = validatePage();
     if (!isValid) return; // stop navigation if validation fails
-    navigate(`/file-new-claim/complex/${apptId}/review`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/complex/${apptId}/choose-expense`);
+    navigate(`/file-new-claim/${apptId}/choose-expense`);
   };
 
   return (
     <>
       <h1>
-        {' '}
         {expenseTypeFields?.expensePageText
           ? `${expenseTypeFields.expensePageText
               .charAt(0)

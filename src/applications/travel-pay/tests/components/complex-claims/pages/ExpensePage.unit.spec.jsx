@@ -44,16 +44,16 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
     renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[
-          `/file-new-claim/complex/12345/${expenseTypeConfig.route}`,
+          `/file-new-claim/12345/43555/${expenseTypeConfig.route}`,
         ]}
       >
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/:expenseTypeRoute"
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
             element={<ExpensePage />}
           />
           <Route
-            path="/file-new-claim/complex/:apptId/choose-expense"
+            path="/file-new-claim/:apptId/choose-expense"
             element={<ChooseExpenseType />}
           />
         </Routes>
@@ -301,7 +301,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           buttonPair.__events.primaryClick();
 
           expect(getByTestId('location-display').textContent).to.equal(
-            `/file-new-claim/complex/12345/${config.route}`,
+            `/file-new-claim/12345/43555/${config.route}`,
           );
         });
 
@@ -323,7 +323,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           buttonPair.__events.secondaryClick();
 
           expect(getByTestId('location-display').textContent).to.equal(
-            '/file-new-claim/complex/12345/choose-expense',
+            '/file-new-claim/12345/choose-expense',
           );
         });
 

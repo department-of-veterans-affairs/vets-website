@@ -8,7 +8,7 @@ import { EXPENSE_TYPES } from '../../../constants';
 
 const ChooseExpenseType = () => {
   const navigate = useNavigate();
-  const { apptId } = useParams();
+  const { apptId, claimId } = useParams();
   const [selectedExpenseType, setSelectedExpenseType] = useState('');
   const [showError, setShowError] = useState(false);
 
@@ -34,7 +34,7 @@ const ChooseExpenseType = () => {
     );
 
     if (selectedExpense) {
-      navigate(`/file-new-claim/complex/${apptId}/${selectedExpense.route}`);
+      navigate(`/file-new-claim/${apptId}/${claimId}/${selectedExpense.route}`);
     }
   };
 
