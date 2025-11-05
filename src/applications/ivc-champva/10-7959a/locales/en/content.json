@@ -34,6 +34,7 @@
   "form-input--option--yes": "Yes",
   "form-label--address-military": "Address is on military base outside of the United States.",
   "form-label--beneficiary": "Does the beneficiary",
+  "form-label--middle-initial": "Middle initial",
   "form-label--your": "Do you",
   "health-insurance--button--cancel-add": "Cancel adding this insurance",
   "health-insurance--cancel-add-title": "Cancel adding this plan?",
