@@ -29,21 +29,20 @@ const formUploadForms = [
   '21P-4185',
 ];
 
-const config = formConfig();
-
 const routes = formUploadForms.map(formId => {
   const lowerCaseFormId = formId.toLowerCase();
+  const config = formConfig(`/forms/${lowerCaseFormId}/upload/introduction`);
+
   return {
-    path: `/${lowerCaseFormId}`,
+    path: `${lowerCaseFormId}/upload/`,
     component: App,
     indexRoute: {
       onEnter: (nextState, replace) =>
-        replace(`/${lowerCaseFormId}/introduction`),
+        replace(`${lowerCaseFormId}/upload/introduction`),
     },
     childRoutes: createRoutesWithSaveInProgress(config),
   };
 });
-
 // or dynamic
 // {
 //   path: '/:formId',
