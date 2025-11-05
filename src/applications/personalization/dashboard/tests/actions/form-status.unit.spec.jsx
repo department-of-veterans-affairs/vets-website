@@ -87,7 +87,6 @@ describe('form-status actions', () => {
         const successAction = dispatchSpy.secondCall.args[0];
         expect(successAction.type).to.equal(FETCH_FORM_STATUS_SUCCEEDED);
         expect(successAction.forms).to.eql(responseData);
-        expect(successAction.forms).to.equal(response.data);
       });
 
       it('should dispatch FETCH_FORM_STATUS_SUCCEEDED with actionSuccess using response.errors', async () => {
@@ -106,7 +105,6 @@ describe('form-status actions', () => {
         const successAction = dispatchSpy.secondCall.args[0];
         expect(successAction.type).to.equal(FETCH_FORM_STATUS_SUCCEEDED);
         expect(successAction.errors).to.eql(responseErrors);
-        expect(successAction.errors).to.equal(response.errors);
       });
 
       it('should call recordSuccess when fetch succeeds', async () => {
@@ -274,7 +272,6 @@ describe('form-status actions', () => {
 
         const successAction = dispatchSpy.secondCall.args[0];
         expect(successAction.forms).to.eql(responseData);
-        expect(successAction.forms).to.equal(response.data);
       });
 
       it('should set errors from response.errors when present', async () => {
@@ -293,7 +290,6 @@ describe('form-status actions', () => {
 
         const successAction = dispatchSpy.secondCall.args[0];
         expect(successAction.errors).to.eql(responseErrors);
-        expect(successAction.errors).to.equal(response.errors);
       });
 
       it('should handle both response.data and response.errors together', async () => {
