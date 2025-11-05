@@ -9,6 +9,7 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import SaveInformationPage from '../containers/SaveInformationPage';
 import preparerTypePg from '../pages/preparerType';
 import persInfoPg from '../pages/personalInfo';
 import citizenIdInfoPg from '../pages/citizenIdentificationInfo';
@@ -91,6 +92,14 @@ const formConfig = {
     notFound: 'Start over to request personal records.',
     noAuth: 'Sign in again to continue your Personal records request.',
   },
+  additionalRoutes: [
+    {
+      path: 'save-information',
+      component: SaveInformationPage,
+      pageKey: 'save-information',
+      depends: () => true,
+    },
+  ],
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {
