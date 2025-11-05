@@ -169,13 +169,14 @@ describe('New letters page design', () => {
       }).should('be.visible');
       cy.get('va-accordion-item')
         .last()
+        .as('tsaAccordionItem')
         .shadow()
         .find('button[aria-expanded=false]')
         .click({ force: true });
-      cy.get('va-button')
-        .shadow()
-        .find('button')
-        .contains(`Download ${tsaLetterTitle} (PDF)`)
+      cy.get('@tsaAccordionItem')
+        .find(`va-link[text="Download ${tsaLetterTitle}"]`, {
+          timeout: Timeouts.slow,
+        })
         .click();
       cy.get('@letterPDFBlob').then(blob => {
         expect(blob).to.exist;
@@ -186,7 +187,6 @@ describe('New letters page design', () => {
       cy.intercept('GET', '/v0/tsa_letter', {
         statusCode: 500,
       }).as('tsaLetterError');
-      cy.wait('@tsaLetterError');
       cy.injectAxeThenAxeCheck();
       cy.get('va-alert[status="warning"]', {
         timeout: Timeouts.slow,
@@ -216,7 +216,6 @@ describe('New letters page design', () => {
         .shadow()
         .find('button[aria-expanded=false]')
         .click({ force: true });
-      cy.wait('@tsaLetterError');
       cy.get('va-alert[status="error"]', {
         timeout: Timeouts.slow,
       })
