@@ -1,6 +1,82 @@
 {
   "data": [
     {
+      "id": "CERN04aa456vvs",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "comment": "",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming at home telehealth appointment with instructions",
+        "end": "2022-12-09T20:30:00Z",
+        "id": "CERN04aa456vvs",
+        "kind": "telehealth",
+        "type": "VA",
+        "modality": "vaVideoCareAtHome",
+        "locationId": "668",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "isCerner": true,
+        "patientInstruction": "Medication Review to prepare patient",
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
+              "family": "Smith",
+              "given": ["Megan"]
+            },
+            "practiceName": null
+          },
+          {
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
+              "family": "Dali",
+              "given": ["Salvador"]
+            },
+            "practiceName": null
+          }
+        ],
+        "physicalLocation": "should not display",
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reasonCode": {},
+        "requestedPeriods": null,
+        "serviceType": "audiology",
+        "extension": {
+          "patientHasMobileGfe": true
+        },
+        "slot": null,
+        "start": "2025-12-09T20:30:00Z",
+        "localStartTime": "2025-12-13T09:00:00.000-06:00",
+        "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
+        "status": "booked",
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "MOBILE_ANY"
+        },
+        "past": false,
+        "pending": false
+      }
+    },
+    {
       "id": "CERN53943037",
       "type": "appointments",
       "attributes": {
