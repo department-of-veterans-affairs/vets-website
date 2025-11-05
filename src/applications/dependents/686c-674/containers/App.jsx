@@ -98,7 +98,9 @@ function App({
   const flipperV2 = featureToggles.vaDependentsV2;
 
   if (!getShouldUseV2(flipperV2, savedForms)) {
-    window.location.href = `/${manifest.rootUrl}/add-remove-form-21-686c/`;
+    window.location.href = `${getRootParentUrl(
+      manifest.rootUrl,
+    )}/add-remove-form-21-686c/`;
     return <></>;
   }
 
