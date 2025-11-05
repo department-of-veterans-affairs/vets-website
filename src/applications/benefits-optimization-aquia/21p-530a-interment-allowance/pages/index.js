@@ -28,6 +28,7 @@ export { ServicePeriodsPage } from './service-periods';
 export {
   VeteranServedUnderDifferentNamePage,
 } from './veteran-served-under-different-name';
+export { PreviousNameEntryPage } from './previous-name-entry';
 export { VeteranPreviousNamesPage } from './veteran-previous-names';
 
 // Chapter 4: Additional remarks

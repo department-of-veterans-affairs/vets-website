@@ -50,6 +50,7 @@ export const VeteranIdentificationPage = ({
           first: '',
           middle: '',
           last: '',
+          suffix: '',
         },
       }}
     >
@@ -78,7 +79,7 @@ VeteranIdentificationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
-  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };

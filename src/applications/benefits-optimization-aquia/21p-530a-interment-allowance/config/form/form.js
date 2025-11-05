@@ -19,6 +19,7 @@ import {
   LocationsAndRankPage,
   MailingAddressPage,
   OrganizationInformationPage,
+  PreviousNameEntryPage,
   RelationshipToVeteranPage,
   ServiceBranchPage,
   ServiceDatesPage,
@@ -240,6 +241,27 @@ const formConfig = {
           CustomPage: VeteranServedUnderDifferentNamePage,
           CustomPageReview: VeteranServedUnderDifferentNameReviewPage,
           pagePerItemIndex: 0,
+        },
+        previousNameEntry: {
+          initialData: {
+            tempPreviousName: {
+              isEditing: true,
+            },
+          },
+          path: 'previous-name-entry',
+          title: 'Previous name',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: PreviousNameEntryPage,
+          CustomPageReview: null,
+          depends: formData => {
+            // Show if we're editing/adding a previous name
+            return (
+              formData?.tempPreviousName?.isEditing === true &&
+              formData?.veteranServedUnderDifferentName
+                ?.veteranServedUnderDifferentName === 'yes'
+            );
+          },
         },
         veteranPreviousNames: {
           path: 'previous-names',
