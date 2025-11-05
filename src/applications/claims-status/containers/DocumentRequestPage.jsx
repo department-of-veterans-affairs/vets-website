@@ -48,7 +48,7 @@ class DocumentRequestPage extends React.Component {
       });
     }
     if (props.uploadComplete) {
-      this.goToFilesPage();
+      this.handleUploadComplete();
     }
   }
 
@@ -57,6 +57,14 @@ class DocumentRequestPage extends React.Component {
       setPageFocus('h1');
       setPageTitle(this.props.trackedItem);
     }
+  }
+
+  handleUploadComplete() {
+    this.props.getClaim(this.props.claim.id);
+    const redirectPath = this.props.showDocumentUploadStatus
+      ? statusPath
+      : filesPath;
+    this.props.navigate(redirectPath);
   }
 
   getDefaultPage() {
@@ -77,11 +85,6 @@ class DocumentRequestPage extends React.Component {
         />
       </>
     );
-  }
-
-  goToFilesPage() {
-    this.props.getClaim(this.props.claim.id);
-    this.props.navigate(filesPath);
   }
 
   render() {
@@ -188,6 +191,8 @@ function mapStateToProps(state, ownProps) {
     loading: claimDetail.loading,
     message: claimsState.notifications.additionalEvidenceMessage,
     progress: uploads.progress,
+    showDocumentUploadStatus:
+      state.featureToggles?.cst_show_document_upload_status || false,
     trackedItem,
     uploadComplete: uploads.uploadComplete,
     uploadError: uploads.uploadError,
@@ -221,6 +226,7 @@ DocumentRequestPage.propTypes = {
   params: PropTypes.object,
   progress: PropTypes.number,
   resetUploads: PropTypes.func,
+  showDocumentUploadStatus: PropTypes.bool,
   submitFiles: PropTypes.func,
   trackedItem: PropTypes.object,
   uploadComplete: PropTypes.bool,

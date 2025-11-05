@@ -9,7 +9,7 @@ import TravelAgreementContent from '../../TravelAgreementContent';
 
 const AgreementPage = () => {
   const navigate = useNavigate();
-  const { apptId } = useParams();
+  const { apptId, claimId } = useParams();
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
   const [isAgreementError, setIsAgreementError] = useState(false);
   const onSubmit = () => {
@@ -18,12 +18,12 @@ const AgreementPage = () => {
     } else {
       setIsAgreementError(false);
       // TODO Add logic for Submitting the claim
-      navigate(`/file-new-claim/complex/${apptId}/confirmation`);
+      navigate(`/file-new-claim/${apptId}/${claimId}/confirmation`);
     }
   };
 
   const onBack = () => {
-    navigate(`/file-new-claim/complex/${apptId}/review`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
   return (

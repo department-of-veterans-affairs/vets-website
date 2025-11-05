@@ -55,14 +55,15 @@ export const clickContinue = () =>
     .should('be.visible')
     .click();
 
-export const typeInInput = (selector, value) =>
-  cy
-    .findByTestId(selector)
-    .shadow()
-    .get('input')
+export const typeInInput = (selector, value) => {
+  cy.findByTestId(selector).shadow();
+  cy.get('input')
     .first()
-    .click()
+    .click();
+  cy.get('input')
+    .first()
     .type(value, { force: true });
+};
 
 export const checkFormAlertText = (selector, expectedValue) =>
   cy
@@ -75,26 +76,22 @@ export const checkFormAlertText = (selector, expectedValue) =>
 export const checkServiceAlertText = expectedValue =>
   cy.findByTestId('il-service-error').should('have.text', expectedValue);
 
-export const clearInput = selector =>
-  cy
-    .findByTestId(selector)
-    .shadow()
-    .get('input')
+export const clearInput = selector => {
+  cy.findByTestId(selector).shadow();
+  cy.get('input')
     .first()
-    .focus()
+    .focus();
+  cy.get('input')
+    .first()
     .clear();
+};
 
 export const checkInputText = (selector, expectedValue) =>
   cy.findByTestId(selector).should('have.value', expectedValue);
 
-export const checkAccordionValue = (selector, expectedValue, index) =>
-  cy
-    .findByTestId(RESULTSPAGE)
-    .findByTestId(selector)
-    .shadow()
-    .get('button')
-    .eq(index)
-    .should('have.text', expectedValue);
+export const checkAccordionValue = (selector, expectedValue) => {
+  cy.findByTestId(selector).should('have.attr', 'header', expectedValue);
+};
 
 export const verifyElement = selector =>
   cy.findByTestId(selector).should('exist');
