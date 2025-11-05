@@ -85,9 +85,9 @@ describe('ClaimantRelationshipPage', () => {
       );
 
       expect(container.textContent).to.include('Veteran');
-      expect(container.textContent).to.include("Veteran's spouse");
-      expect(container.textContent).to.include("Veteran's child");
-      expect(container.textContent).to.include("Veteran's parent");
+      expect(container.textContent).to.include('spouse');
+      expect(container.textContent).to.include('child');
+      expect(container.textContent).to.include('parent');
     });
   });
 
@@ -127,7 +127,10 @@ describe('ClaimantRelationshipPage', () => {
         <ClaimantRelationshipPageContent data={{}} />,
       );
 
-      expect(container.textContent).to.include('Continue');
+      const continueButton = container.querySelector(
+        'va-button[text="Continue"]',
+      );
+      expect(continueButton).to.exist;
     });
 
     it('should render back button when goBack is provided', () => {

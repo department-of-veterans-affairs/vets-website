@@ -88,7 +88,10 @@ describe('HospitalizationFacilityPage', () => {
         <HospitalizationFacilityPageContent data={{}} />,
       );
 
-      expect(container.textContent).to.include('Continue');
+      const continueButton = container.querySelector(
+        'va-button[text="Continue"]',
+      );
+      expect(continueButton).to.exist;
     });
   });
 });

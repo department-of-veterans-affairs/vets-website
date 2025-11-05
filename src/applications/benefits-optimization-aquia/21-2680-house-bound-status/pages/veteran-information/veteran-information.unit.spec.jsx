@@ -108,7 +108,10 @@ describe('VeteranInformationPage', () => {
     it('should render continue button', () => {
       const { container } = render(<VeteranInformationPageContent data={{}} />);
 
-      expect(container.textContent).to.include('Continue');
+      const continueButton = container.querySelector(
+        'va-button[text="Continue"]',
+      );
+      expect(continueButton).to.exist;
     });
   });
 });
