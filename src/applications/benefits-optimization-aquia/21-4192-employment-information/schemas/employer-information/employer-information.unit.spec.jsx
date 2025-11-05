@@ -8,7 +8,6 @@ import {
   employerAddressSchema,
   employerInformationSchema,
   employerNameSchema,
-  phoneNumberSchema,
 } from './employer-information';
 
 describe('Employer Information Schemas', () => {
@@ -73,82 +72,6 @@ describe('Employer Information Schemas', () => {
             'less than 100 characters',
           );
         }
-      });
-    });
-  });
-
-  describe('phoneNumberSchema', () => {
-    describe('Valid Phone Numbers', () => {
-      it('should validate 10-digit phone number', () => {
-        const result = phoneNumberSchema.safeParse('4155551234');
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate phone with dashes', () => {
-        const result = phoneNumberSchema.safeParse('415-555-1234');
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate phone with parentheses', () => {
-        const result = phoneNumberSchema.safeParse('(415) 555-1234');
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate phone with spaces', () => {
-        const result = phoneNumberSchema.safeParse('415 555 1234');
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate various formatted phone numbers', () => {
-        const phones = [
-          '5551701234',
-          '555-170-1234',
-          '(555) 170-1234',
-          '555 170 1234',
-        ];
-
-        phones.forEach(phone => {
-          const result = phoneNumberSchema.safeParse(phone);
-          expect(result.success).to.be.true;
-        });
-      });
-    });
-
-    describe('Invalid Phone Numbers', () => {
-      it('should reject empty string', () => {
-        const result = phoneNumberSchema.safeParse('');
-        expect(result.success).to.be.false;
-        if (!result.success) {
-          expect(result.error.issues[0].message).to.include('required');
-        }
-      });
-
-      it('should reject phone with too few digits', () => {
-        const result = phoneNumberSchema.safeParse('123456789');
-        expect(result.success).to.be.false;
-        if (!result.success) {
-          expect(result.error.issues[0].message).to.include('10 digits');
-        }
-      });
-
-      it('should reject phone with too many digits', () => {
-        const result = phoneNumberSchema.safeParse('12345678901');
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject phone with letters', () => {
-        const result = phoneNumberSchema.safeParse('415-555-ABCD');
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject undefined', () => {
-        const result = phoneNumberSchema.safeParse(undefined);
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject null', () => {
-        const result = phoneNumberSchema.safeParse(null);
-        expect(result.success).to.be.false;
       });
     });
   });

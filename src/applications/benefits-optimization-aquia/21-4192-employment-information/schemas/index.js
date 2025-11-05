@@ -31,7 +31,6 @@ export {
   employerAddressSchema,
   employerInformationSchema,
   employerNameSchema,
-  phoneNumberSchema,
 } from './employer-information';
 
 /**
