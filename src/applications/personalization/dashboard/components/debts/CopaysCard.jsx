@@ -24,13 +24,12 @@ export const CopaysCard = ({ copays }) => {
 
   const content = (
     <>
-      <h4 className="vads-u-margin-y--0 vads-u-padding-bottom--1">Copays</h4>
-      <h5
+      <h4
+        className="vads-u-margin-y--0 vads-u-padding-bottom--1"
         data-testid="copay-due-header"
-        className="vads-u-font-size--h4 vads-u-margin-y--0 vads-u-margin-top--0p5"
       >
         {copayDueHeaderContent}
-      </h5>
+      </h4>
       <p className="vads-u-margin-y--0 vads-u-margin-top--0p5">
         Updated on{' '}
         {format(new Date(latestCopay.pSStatementDateOutput), 'MMMM dd, yyyy')}
@@ -38,7 +37,7 @@ export const CopaysCard = ({ copays }) => {
       <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">
         <va-link
           active
-          text="Review copay bills"
+          text="Manage copay bills"
           href="/manage-va-debt/summary/copay-balances"
           onClick={() =>
             recordEvent({
@@ -54,7 +53,7 @@ export const CopaysCard = ({ copays }) => {
   );
 
   return (
-    <div className="vads-u-margin-bottom--3">
+    <div className="vads-u-margin-bottom--2">
       <va-card>
         <div data-testid="copay-card">{content}</div>
       </va-card>

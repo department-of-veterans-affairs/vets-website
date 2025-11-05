@@ -73,7 +73,7 @@ describe('<BenefitPaymentsAndDebt />', () => {
     );
 
     const header = getByTestId('debt-total-header');
-    expect(header.textContent).to.equal('3 outstanding debts');
+    expect(header.textContent).to.equal('3 overpayments');
   });
 
   it('displays debts card when debts are present', () => {

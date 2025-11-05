@@ -16,20 +16,17 @@ export const DebtsCard = ({ debtsCount }) => {
 
   const content = (
     <>
-      <h4 className="vads-u-margin-y--0 vads-u-padding-bottom--1">
-        Overpayments
-      </h4>
-      <h5
-        className="vads-u-font-size--h4 vads-u-margin-y--0 vads-u-margin-top--0p5"
+      <h4
+        className="vads-u-margin-y--0 vads-u-padding-bottom--1"
         data-testid="debt-total-header"
       >
-        {debtsCount} outstanding debt
+        {debtsCount} overpayment
         {debtsCount > 1 ? 's' : ''}
-      </h5>
+      </h4>
       <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">
         <va-link
           active
-          text="Review outstanding debts"
+          text="Manage overpayments"
           href="/manage-va-debt/summary/debt-balances"
           onClick={() =>
             recordEvent({
@@ -45,7 +42,7 @@ export const DebtsCard = ({ debtsCount }) => {
   );
 
   return (
-    <div className="vads-u-margin-bottom--3">
+    <div className="vads-u-margin-bottom--2">
       <va-card>
         <div data-testid="debt-card">{content}</div>
       </va-card>

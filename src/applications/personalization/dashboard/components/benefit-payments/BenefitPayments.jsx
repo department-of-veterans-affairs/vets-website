@@ -102,7 +102,9 @@ const BenefitPayments = () => {
     <>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Enabled>
-          <h3 className="vads-u-margin-top--0">Benefit payments</h3>
+          <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+            Benefit payments
+          </h3>
         </Toggler.Enabled>
       </Toggler>
       <div className="vads-l-row">

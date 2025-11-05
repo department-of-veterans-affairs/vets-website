@@ -14,8 +14,8 @@ describe('<DebtsCard />', () => {
       initialState: {},
     });
 
-    expect(tree.getByText(/2 outstanding debts/)).to.exist;
-    expect(getVaLinkByText('Review outstanding debts', tree)).to.exist;
+    expect(tree.getByText(/2 overpayments/)).to.exist;
+    expect(getVaLinkByText('Manage overpayments', tree)).to.exist;
   });
 
   it('renders zero debt message when count is 0', () => {
@@ -39,6 +39,6 @@ describe('<DebtsCard />', () => {
       initialState: {},
     });
 
-    expect(tree.getByText('1 outstanding debt')).to.exist;
+    expect(tree.getByText('1 overpayment')).to.exist;
   });
 });
