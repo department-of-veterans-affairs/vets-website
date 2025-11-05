@@ -17,6 +17,7 @@ import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
 import ComplexClaimSubmitFlowWrapper from './containers/ComplexClaimSubmitFlowWrapper';
 import ReviewPage from './components/complex-claims/pages/ReviewPage';
 import IntroductionPage from './components/complex-claims/pages/IntroductionPage';
+import UnsupportedMileage from './components/complex-claims/pages/UnsupportedMileage';
 import App from './containers/App';
 
 // Function that returns routes based on feature toggle
@@ -39,6 +40,7 @@ const getRoutes = () => {
           <Route path="review" element={<ReviewPage />} />
           <Route path="travel-agreement" element={<AgreementPage />} />
           <Route path="confirmation" element={<ConfirmationPage />} />
+          <Route path="unsupported" element={<UnsupportedMileage />} />
         </Route>
       </Route>
     ) : (
