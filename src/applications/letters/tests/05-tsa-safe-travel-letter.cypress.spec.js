@@ -113,7 +113,7 @@ describe('TSA Safe Travel Letter', () => {
         features: [
           {
             name: 'tsa_safe_travel_letter',
-            value: false,
+            value: true,
           },
         ],
       },
