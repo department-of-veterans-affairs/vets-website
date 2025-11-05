@@ -212,13 +212,18 @@ const cernerUser = {
         familyName: 'Hunter',
         gender: 'M',
         givenNames: ['Julio', 'E'],
-        activeStatus: 'active',
+        isCernerPatient: true,
+        cernerId: '1234567890',
+        cernerFacilityIds: ['757'],
         facilities: [
           {
             facilityId: '757',
             isCerner: true,
           },
         ],
+        vaPatient: true,
+        mhvAccountState: 'OK',
+        activeMHVIds: [],
       },
     },
   },
@@ -540,70 +545,11 @@ const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
 
 const noFacilityUser = generateUserWithFacilities({ facilities: [] });
 
-// User with ONLY Oracle Health facilities (no VistA data)
-const ohOnlyUser = {
-  ...acceleratedCernerUser,
-  data: {
-    ...acceleratedCernerUser.data,
-    attributes: {
-      ...acceleratedCernerUser.data.attributes,
-      profile: {
-        ...acceleratedCernerUser.data.attributes.profile,
-        firstName: 'OH-Only',
-        lastName: 'User',
-      },
-      vaProfile: {
-        ...acceleratedCernerUser.data.attributes.vaProfile,
-        facilities: [
-          {
-            facilityId: '556',
-            isCerner: true,
-          },
-        ],
-      },
-    },
-  },
-};
-
-// User with ONLY VistA facilities (no Oracle Health data)
-const vistaOnlyUser = {
-  ...acceleratedCernerUser,
-  data: {
-    ...acceleratedCernerUser.data,
-    attributes: {
-      ...acceleratedCernerUser.data.attributes,
-      profile: {
-        ...acceleratedCernerUser.data.attributes.profile,
-        firstName: 'VistA-Only',
-        lastName: 'User',
-      },
-      vaProfile: {
-        ...acceleratedCernerUser.data.attributes.vaProfile,
-        isCernerPatient: false,
-        cernerId: null,
-        cernerFacilityIds: [],
-        facilities: [
-          {
-            facilityId: '528',
-            isCerner: false,
-          },
-          {
-            facilityId: '459',
-            isCerner: false,
-          },
-        ],
-      },
-    },
-  },
-};
-
 module.exports = {
   defaultUser,
   cernerUser,
   noFacilityUser,
   acceleratedCernerUser,
-  ohOnlyUser,
-  vistaOnlyUser,
   generateUser,
   generateUserWithServiceProvider,
   generateUserWithFacilities,
