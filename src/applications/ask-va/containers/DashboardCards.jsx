@@ -179,8 +179,8 @@ const DashboardCards = () => {
         <ul
           className={
             hasBusinessLevelAuth
-              ? 'dashboard-cards-grid-with-business'
-              : 'dashboard-cards-grid vads-u-padding--0'
+              ? 'dashboard-grid grid-tabs'
+              : 'dashboard-grid vads-u-padding--0'
           }
         >
           {currentInquiries.map(({ id, attributes }) => (

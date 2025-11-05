@@ -496,19 +496,17 @@ ul.react-tabs__tab-list {
   border: none;
 }
 
-.dashboard-cards-grid-with-business {
+.dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 20px;
+  padding: 0;
+}
+
+.grid-tabs {
   padding-bottom: 40px;
   padding-left: 20px;
   padding-right: 20px;
-}
-
-.dashboard-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
 }
 
 .dashboard-dl {
