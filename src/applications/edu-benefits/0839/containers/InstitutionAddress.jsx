@@ -14,7 +14,9 @@ const InstitutionAddress = ({ uiSchema }) => {
     ? formData?.[dataPath]?.[index] || {}
     : formData?.[dataPath] || {};
 
+  const institutionName = details?.institutionName;
   const institutionAddress = details?.institutionAddress || {};
+  const facilityCode = (details?.facilityCode || '').trim();
   const notYR = details.yrEligible === false;
   const notIHL = details.ihlEligible === false;
   const showWarningBanner = notYR || notIHL;
@@ -39,9 +41,15 @@ const InstitutionAddress = ({ uiSchema }) => {
     country,
   ].some(Boolean);
 
+  const badFormat =
+    facilityCode.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(facilityCode);
+  const notFound = institutionName === 'not found';
+  const hasError = badFormat || notFound || notYR || notIHL;
+  const shouldShowAddress = hasAddress && !hasError;
+
   return (
     <div aria-live="polite">
-      {hasAddress ? (
+      {shouldShowAddress ? (
         <>
           <p className="va-address-block" id="institutionAddress">
             {street}

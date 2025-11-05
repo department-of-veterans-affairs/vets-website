@@ -15,6 +15,21 @@ const uiSchema = {
         Y: 'Yes, I have additional locations to add',
         N: "No, I don't have additional locations to add",
       },
+      errorMessages: {
+        required: 'Select yes if you have additional locations to add',
+      },
+    },
+    {
+      title:
+        "Do you have another location you'd like to add to this agreement?",
+      hint: '',
+      labels: {
+        Y: 'Yes, I have another location to add',
+        N: "No, I don't have another location to add",
+      },
+      errorMessages: {
+        required: 'Select yes if you have another location to add',
+      },
     },
   ),
 };

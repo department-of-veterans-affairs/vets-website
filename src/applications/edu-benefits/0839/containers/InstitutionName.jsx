@@ -21,9 +21,19 @@ const InstitutionName = ({ uiSchema }) => {
   const { loader } = isArrayItem ? additionalFacilityHook : mainFacilityHook;
 
   // Get data from appropriate path
-  const institutionName = isArrayItem
-    ? formData?.[dataPath]?.[index]?.institutionName
-    : formData?.[dataPath]?.institutionName;
+  const details = isArrayItem
+    ? formData?.[dataPath]?.[index] || {}
+    : formData?.[dataPath] || {};
+
+  const institutionName = details?.institutionName;
+  const facilityCode = (details?.facilityCode || '').trim();
+
+  const badFormat =
+    facilityCode.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(facilityCode);
+  const notFound = institutionName === 'not found';
+  const notIHL = details.ihlEligible === false;
+  const notYR = details.yrEligible === false;
+  const hasError = badFormat || notFound || notYR || notIHL;
 
   useEffect(
     () => {
@@ -45,14 +55,12 @@ const InstitutionName = ({ uiSchema }) => {
           <h3
             id="institutionHeading"
             aria-label={
-              institutionName === 'not found'
+              hasError || !institutionName
                 ? 'Institution name not found'
                 : institutionName
             }
           >
-            {institutionName === 'not found' || !institutionName
-              ? '--'
-              : institutionName}
+            {hasError || !institutionName ? '--' : institutionName}
           </h3>
         </>
       )}
