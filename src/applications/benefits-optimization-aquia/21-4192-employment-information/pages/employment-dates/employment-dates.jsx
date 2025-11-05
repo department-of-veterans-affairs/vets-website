@@ -85,15 +85,17 @@ export const EmploymentDatesPage = ({
             required
           />
 
-          <CheckboxField
-            name="currentlyEmployed"
-            label={`${veteranName} is currently employed at ${employerName}.`}
-            schema={currentlyEmployedSchema}
-            value={localData.currentlyEmployed}
-            onChange={handleFieldChange}
-            error={errors.currentlyEmployed}
-            forceShowError={formSubmitted}
-          />
+          <div className="vads-u-margin-top--3">
+            <CheckboxField
+              name="currentlyEmployed"
+              label={`${veteranName} is currently employed at ${employerName}.`}
+              schema={currentlyEmployedSchema}
+              value={localData.currentlyEmployed}
+              onChange={handleFieldChange}
+              error={errors.currentlyEmployed}
+              forceShowError={formSubmitted}
+            />
+          </div>
 
           {!localData.currentlyEmployed && (
             <MemorableDateField
