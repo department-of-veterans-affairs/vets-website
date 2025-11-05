@@ -33,31 +33,39 @@ describe('IntroductionPage', () => {
 
     const title = getByTestId('form-title');
     expect(title).to.exist;
-    expect(title.textContent).to.include('Employment Information');
+    expect(title.textContent).to.include('Provide Employment Information');
 
     const subtitle = getByTestId('form-subtitle');
     expect(subtitle).to.exist;
-    expect(subtitle.textContent).to.equal('VA Form 21-4192');
+    expect(subtitle.textContent).to.include('VA Form 21-4192');
   });
 
-  it('should render the introduction content', () => {
+  it('should render process list with steps', () => {
     const { container } = render(<IntroductionPage {...defaultProps} />);
 
-    expect(container.textContent).to.include('Use this form if you');
-    expect(container.textContent).to.include('an employer');
-    expect(container.textContent).to.include(
-      'What to know before you fill out this form',
+    const processItems = container.querySelectorAll('va-process-list-item');
+    expect(processItems).to.have.lengthOf(3);
+    expect(processItems[0].getAttribute('header')).to.equal(
+      'Gather your information',
     );
+    expect(processItems[1].getAttribute('header')).to.equal(
+      'Fill out and sign the form',
+    );
+    expect(processItems[2].getAttribute('header')).to.equal('Submit the form');
   });
 
   it('should render the required information lists', () => {
     const { container } = render(<IntroductionPage {...defaultProps} />);
 
-    expect(container.textContent).to.include('Social Security number');
-    expect(container.textContent).to.include('Date of birth');
-    expect(container.textContent).to.include('Dates of employment');
-    expect(container.textContent).to.include('Type of work performed');
-    expect(container.textContent).to.include('Earnings and hours worked');
+    expect(container.textContent).to.include('social security number');
+    expect(container.textContent).to.include('date of birth');
+    expect(container.textContent).to.include(
+      'The business name of the employer',
+    );
+    expect(container.textContent).to.include('The type of work they did');
+    expect(container.textContent).to.include(
+      'National Guard or Reserve status',
+    );
   });
 
   it('should render the start link action', () => {
@@ -68,7 +76,7 @@ describe('IntroductionPage', () => {
     );
     expect(startLink).to.exist;
     expect(startLink.getAttribute('text')).to.equal(
-      'Start the employment information request',
+      'Submit employment information in connection with claim for Individual Unemployability',
     );
   });
 

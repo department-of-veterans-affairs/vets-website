@@ -33,40 +33,58 @@ export const IntroductionPage = ({ router }) => {
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
 
-      <p className="vads-u-font-size--lg">
-        Use this form if you’re an employer to provide employment information
-        for a Veteran who has filed a claim for compensation.
-      </p>
-
-      <h2 className="vads-u-margin-top--3">
-        What to know before you fill out this form
+      <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+        Follow these steps to provide information about an employee
       </h2>
-      <p>
-        Only an employer or authorized representative can fill out this form.
-        You’ll provide information about the Veteran’s employment, including
-        dates of employment, earnings, and any concessions made due to age or
-        disability.
-      </p>
 
-      <p className="vads-u-margin-top--2">
-        You’ll need to provide the following information about the Veteran:
-      </p>
-      <ul>
-        <li>Social Security number or VA file number</li>
-        <li>Date of birth</li>
-        <li>Full name</li>
-      </ul>
+      <va-process-list>
+        <va-process-list-item header="Gather your information">
+          <p>
+            <strong>
+              You’ll need this information about the Veteran’s employer:
+            </strong>
+          </p>
+          <ul>
+            <li>The business name of the employer</li>
+            <li>The address</li>
+          </ul>
+          <p>
+            <strong>
+              You’ll need this information about the Veteran seeking benefits:
+            </strong>
+          </p>
+          <ul>
+            <li>Their name</li>
+            <li>Their date of birth</li>
+            <li>Their social security number</li>
+            <li>
+              When they started working and, if applicable, when they stopped
+              working
+            </li>
+            <li>The type of work they did</li>
+            <li>Whether any concessions were made due to age or disability</li>
+            <li>
+              Whether they received any entitlements or benefits while employed
+            </li>
+            <li>Details about the last payment made to them</li>
+            <li>Their National Guard or Reserve status</li>
+          </ul>
+        </va-process-list-item>
 
-      <p>You’ll also need to provide employment information including:</p>
-      <ul>
-        <li>Dates of employment</li>
-        <li>Type of work performed</li>
-        <li>Earnings and hours worked</li>
-        <li>Any concessions made due to age or disability</li>
-        <li>
-          Information about termination (if applicable) and last payment details
-        </li>
-      </ul>
+        <va-process-list-item header="Fill out and sign the form">
+          <p>
+            We’ll take you through each step of the process. It should take
+            about 15 minutes to complete this form.
+          </p>
+        </va-process-list-item>
+
+        <va-process-list-item header="Submit the form">
+          <p>
+            After you submit the form, you’ll receive a confirmation message.
+            You can print this for your records.
+          </p>
+        </va-process-list-item>
+      </va-process-list>
 
       <VaLinkAction
         href="/veteran-information"
@@ -75,7 +93,7 @@ export const IntroductionPage = ({ router }) => {
           e.preventDefault();
           router.push('/veteran-information');
         }}
-        text="Start the employment information request"
+        text="Submit employment information in connection with claim for Individual Unemployability"
       />
       <div className="vads-u-margin-top--4">
         <va-omb-info
