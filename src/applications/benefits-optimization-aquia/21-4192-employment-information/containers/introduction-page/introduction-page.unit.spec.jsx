@@ -1,63 +1,13 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { formConfig } from '@bio-aquia/21-4192-employment-information/config';
+import * as uiUtils from 'platform/utilities/ui';
 import { IntroductionPage } from '@bio-aquia/21-4192-employment-information/containers';
 
-/**
- * Creates a mock Redux store for testing
- * @param {Object} [initialState={}] - State overrides
- * @returns {Object} Mock store with getState, subscribe, and dispatch
- */
-const createMockStore = (initialState = {}) => ({
-  getState: () => ({
-    user: {
-      login: {
-        currentlyLoggedIn: false,
-      },
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-        loa: {
-          current: 3,
-          highest: 3,
-        },
-        verified: true,
-        dob: '1985-03-22',
-        claims: {
-          appeals: false,
-        },
-      },
-    },
-    form: {
-      formId: formConfig.formId,
-      loadedStatus: 'success',
-      savedStatus: '',
-      loadedData: {
-        metadata: {},
-      },
-      data: {},
-    },
-    scheduledDowntime: {
-      globalDowntime: null,
-      isReady: true,
-      isPending: false,
-      serviceMap: { get() {} },
-      dismissedDowntimeWarnings: [],
-    },
-    ...initialState,
-  }),
-  subscribe: () => {},
-  dispatch: () => {},
-});
-
 const defaultProps = {
-  route: {
-    path: 'introduction',
-    pageList: [],
-    formConfig,
+  router: {
+    push: sinon.spy(),
   },
   location: {
     pathname: '/introduction',
@@ -69,7 +19,6 @@ describe('IntroductionPage', () => {
   let focusElementStub;
 
   beforeEach(() => {
-    const uiUtils = require('platform/utilities/ui');
     scrollToTopStub = sinon.stub(uiUtils, 'scrollToTop');
     focusElementStub = sinon.stub(uiUtils, 'focusElement');
   });
@@ -80,13 +29,7 @@ describe('IntroductionPage', () => {
   });
 
   it('should render the form title and subtitle', () => {
-    const mockStore = createMockStore();
-
-    const { getByTestId } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...defaultProps} />
-      </Provider>,
-    );
+    const { getByTestId } = render(<IntroductionPage {...defaultProps} />);
 
     const title = getByTestId('form-title');
     expect(title).to.exist;
@@ -97,89 +40,64 @@ describe('IntroductionPage', () => {
     expect(subtitle.textContent).to.equal('VA Form 21-4192');
   });
 
-  it('should render the process list with steps', () => {
-    const mockStore = createMockStore();
+  it('should render the introduction content', () => {
+    const { container } = render(<IntroductionPage {...defaultProps} />);
 
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...defaultProps} />
-      </Provider>,
+    expect(container.textContent).to.include(
+      "Use this form if you're an employer",
     );
-
-    const processItems = container.querySelectorAll('va-process-list-item');
-    expect(processItems).to.have.lengthOf(4);
-    expect(processItems[0].getAttribute('header')).to.equal(
-      'Check your eligibility',
+    expect(container.textContent).to.include(
+      'What to know before you fill out this form',
     );
-    expect(processItems[1].getAttribute('header')).to.equal(
-      'Gather your information',
-    );
-    expect(processItems[2].getAttribute('header')).to.equal('Apply');
-    expect(processItems[3].getAttribute('header')).to.equal('After you apply');
   });
 
-  it('should display sign-in alert when user is not logged in', () => {
-    const mockStore = createMockStore();
+  it('should render the required information lists', () => {
+    const { container } = render(<IntroductionPage {...defaultProps} />);
 
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...defaultProps} />
-      </Provider>,
-    );
-
-    const signInAlert = container.querySelector('va-alert-sign-in');
-    expect(signInAlert).to.exist;
+    expect(container.textContent).to.include('Social Security number');
+    expect(container.textContent).to.include('Date of birth');
+    expect(container.textContent).to.include('Dates of employment');
+    expect(container.textContent).to.include('Type of work performed');
+    expect(container.textContent).to.include('Earnings and hours worked');
   });
 
-  it('should display verify identity message when user is logged in but not verified', () => {
-    const mockStore = createMockStore({
-      user: {
-        login: {
-          currentlyLoggedIn: true,
-        },
-        profile: {
-          savedForms: [],
-          prefillsAvailable: [],
-          loa: {
-            current: 1,
-            highest: 1,
-          },
-          verified: false,
-        },
-      },
-    });
+  it('should render the start link action', () => {
+    const { container } = render(<IntroductionPage {...defaultProps} />);
 
-    const { queryByText } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...defaultProps} />
-      </Provider>,
+    const startLink = container.querySelector(
+      'va-link-action[data-testid="start-employment-info-link"]',
+    );
+    expect(startLink).to.exist;
+    expect(startLink.getAttribute('text')).to.equal(
+      'Start the employment information request',
+    );
+  });
+
+  it('should navigate to first page when start link is clicked', () => {
+    const mockRouter = {
+      push: sinon.spy(),
+    };
+    const { container } = render(
+      <IntroductionPage {...defaultProps} router={mockRouter} />,
     );
 
-    const startButton = queryByText(/Start your/);
-    expect(startButton).to.not.exist;
+    const startLink = container.querySelector(
+      'va-link-action[data-testid="start-employment-info-link"]',
+    );
+    startLink.click();
+
+    expect(mockRouter.push.calledWith('/veteran-information')).to.be.true;
   });
 
   it('should scroll to top and focus h1 on mount', () => {
-    const mockStore = createMockStore();
-
-    render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...defaultProps} />
-      </Provider>,
-    );
+    render(<IntroductionPage {...defaultProps} />);
 
     expect(scrollToTopStub).to.exist;
     expect(focusElementStub).to.exist;
   });
 
   it('should display OMB information', () => {
-    const mockStore = createMockStore();
-
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...defaultProps} />
-      </Provider>,
-    );
+    const { container } = render(<IntroductionPage {...defaultProps} />);
 
     const ombInfo = container.querySelector('va-omb-info');
     expect(ombInfo).to.exist;
