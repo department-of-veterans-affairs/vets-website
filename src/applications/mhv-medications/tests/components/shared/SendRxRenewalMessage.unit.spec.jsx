@@ -239,8 +239,6 @@ describe('SendRxRenewalMessage Component', () => {
         prescriptionId: 98765,
       };
 
-      // We can't directly test window.location.href without mocking,
-      // but we can verify the component renders with the correct prescription
       const screen = setup(rx);
       expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
     });
@@ -254,7 +252,7 @@ describe('SendRxRenewalMessage Component', () => {
         expirationDate: null,
       };
       const screen = setup(rx);
-      // Without a valid expiration date, it cannot determine if within 120 days
+
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
     });
@@ -270,7 +268,7 @@ describe('SendRxRenewalMessage Component', () => {
         expirationDate: exactExpiration.toISOString(),
       };
       const screen = setup(rx);
-      // At exactly 120 days, it is NOT eligible (logic uses > not >=)
+
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
     });
@@ -286,7 +284,7 @@ describe('SendRxRenewalMessage Component', () => {
         expirationDate: recentExpiration.toISOString(),
       };
       const screen = setup(rx);
-      // At 119 days (within 120 days), it should be eligible
+
       expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
     });
 
