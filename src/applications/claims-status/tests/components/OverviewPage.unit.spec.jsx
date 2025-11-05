@@ -180,7 +180,7 @@ describe('<OverviewPage>', () => {
       },
     }));
 
-  it('should render null when claim empty', () => {
+  it('should render error heading and ServiceUnavailableAlert when claim empty', () => {
     const { container, getByText } = renderWithRouter(
       <Provider store={getStore()}>
         <OverviewPage {...props} />
@@ -188,9 +188,20 @@ describe('<OverviewPage>', () => {
     );
     expect($('.overview-container', container)).to.not.exist;
     getByText('We encountered a problem');
+
+    const alertHeading = $('va-alert h2', container);
+    expect(alertHeading.textContent).to.equal('Claim status is unavailable');
+
+    const alertBody = $('va-alert p', container);
+    expect(alertBody.textContent).to.include(
+      'VA.gov is having trouble loading claims information',
+    );
+    expect(alertBody.textContent).to.include(
+      'Note: You are still able to review appeals information.',
+    );
   });
 
-  it('should render null when claim is null', () => {
+  it('should render error heading and ServiceUnavailableAlert when claim is null', () => {
     const { container, getByText } = renderWithRouter(
       <Provider store={getStore()}>
         <OverviewPage {...props} claim={null} />
@@ -198,6 +209,17 @@ describe('<OverviewPage>', () => {
     );
     expect($('.overview-container', container)).to.not.exist;
     getByText('We encountered a problem');
+
+    const alertHeading = $('va-alert h2', container);
+    expect(alertHeading.textContent).to.equal('Claim status is unavailable');
+
+    const alertBody = $('va-alert p', container);
+    expect(alertBody.textContent).to.include(
+      'VA.gov is having trouble loading claims information',
+    );
+    expect(alertBody.textContent).to.include(
+      'Note: You are still able to review appeals information.',
+    );
   });
 
   context('cstClaimPhases feature flag enabled', () => {

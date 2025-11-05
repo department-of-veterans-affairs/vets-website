@@ -38,7 +38,7 @@ const getStore = (decisionRequested = false) =>
 
 describe('<ClaimStatusPage>', () => {
   describe('when claim is null', () => {
-    it('should render null', () => {
+    it('should render error heading and ServiceUnavailableAlert', () => {
       const { container, getByText } = renderWithRouter(
         <Provider store={getStore()}>
           <ClaimStatusPage {...props} claim={null} params={params} />
@@ -46,11 +46,22 @@ describe('<ClaimStatusPage>', () => {
       );
       expect($('.claim-status', container)).to.not.exist;
       getByText('We encountered a problem');
+
+      const alertHeading = $('va-alert h2', container);
+      expect(alertHeading.textContent).to.equal('Claim status is unavailable');
+
+      const alertBody = $('va-alert p', container);
+      expect(alertBody.textContent).to.include(
+        'VA.gov is having trouble loading claims information',
+      );
+      expect(alertBody.textContent).to.include(
+        'Note: You are still able to review appeals information.',
+      );
     });
   });
 
   describe('when there are no claims', () => {
-    it('should render null', () => {
+    it('should render error heading and ServiceUnavailableAlert', () => {
       const { container, getByText } = renderWithRouter(
         <Provider store={getStore()}>
           <ClaimStatusPage {...props} params={params} />
@@ -58,6 +69,17 @@ describe('<ClaimStatusPage>', () => {
       );
       expect($('.claim-status', container)).to.not.exist;
       getByText('We encountered a problem');
+
+      const alertHeading = $('va-alert h2', container);
+      expect(alertHeading.textContent).to.equal('Claim status is unavailable');
+
+      const alertBody = $('va-alert p', container);
+      expect(alertBody.textContent).to.include(
+        'VA.gov is having trouble loading claims information',
+      );
+      expect(alertBody.textContent).to.include(
+        'Note: You are still able to review appeals information.',
+      );
     });
   });
 
