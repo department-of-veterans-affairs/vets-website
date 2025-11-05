@@ -170,6 +170,7 @@ const VaPrescription = prescription => {
                 )}
               </>
             )}
+            <SendRxRenewalMessage rx={prescription} isActionLink />
             <>
               {displayTrackingAlert()}
 
@@ -231,24 +232,16 @@ const VaPrescription = prescription => {
               {showRefillProgressContent && (
                 <>
                   {prescription?.isRefillable ? (
-                    <SendRxRenewalMessage
-                      rx={prescription}
-                      isActionLink
-                      fallbackContent={
-                        // eslint-disable-next-line react/jsx-wrap-multilines
-                        <Link
-                          className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
-                          to="/refill"
-                          data-testid="refill-nav-link"
-                          data-dd-action-name={
-                            dataDogActionNames.detailsPage
-                              .FILL_THIS_PRESCRIPTION
-                          }
-                        >
-                          {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
-                        </Link>
+                    <Link
+                      className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
+                      to="/refill"
+                      data-testid="refill-nav-link"
+                      data-dd-action-name={
+                        dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
                       }
-                    />
+                    >
+                      {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
+                    </Link>
                   ) : (
                     <FillRefillButton {...prescription} />
                   )}
