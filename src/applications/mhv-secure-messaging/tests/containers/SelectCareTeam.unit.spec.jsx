@@ -795,7 +795,9 @@ describe('SelectCareTeam', () => {
       screen.unmount();
 
       // Check that datadogRum.addAction was called
-      expect(addActionSpy.calledOnce).to.be.true;
+      await waitFor(() => {
+        expect(addActionSpy.calledOnce).to.be.true;
+      });
       expect(
         addActionSpy.calledWith('Care System Radio Switch Count', {
           switchCount: 1,
@@ -824,7 +826,9 @@ describe('SelectCareTeam', () => {
       screen.unmount();
 
       // Check that datadogRum.addAction was called
-      expect(addActionSpy.calledOnce).to.be.true;
+      await waitFor(() => {
+        expect(addActionSpy.calledOnce).to.be.true;
+      });
       const callArgs = addActionSpy.lastCall.args;
       expect(callArgs[0]).to.equal('Care System Radio Switch Count');
       expect(callArgs[1]).to.deep.equal({
@@ -832,7 +836,7 @@ describe('SelectCareTeam', () => {
       });
     });
 
-    it('should call datadogRum.addAction when no care system switches occurred', () => {
+    it('should call datadogRum.addAction when no care system switches occurred', async () => {
       renderWithStoreAndRouter(<SelectCareTeam />, {
         initialState: stateWithAcceptInterstitial,
         reducers: reducer,
@@ -842,7 +846,9 @@ describe('SelectCareTeam', () => {
       // Unmount without any switches
       cleanup();
 
-      expect(addActionSpy.called).to.be.true;
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
       const callArgs = addActionSpy.lastCall.args;
       expect(callArgs[0]).to.equal('Care System Radio Switch Count');
       expect(callArgs[1]).to.deep.equal({
@@ -870,7 +876,9 @@ describe('SelectCareTeam', () => {
       screen.unmount();
 
       // Check that datadogRum.addAction was called
-      expect(addActionSpy.calledOnce).to.be.true;
+      await waitFor(() => {
+        expect(addActionSpy.calledOnce).to.be.true;
+      });
       expect(
         addActionSpy.calledWith('Care System Radio Switch Count', {
           switchCount: 1,
