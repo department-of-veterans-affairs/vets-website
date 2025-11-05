@@ -114,10 +114,8 @@ const ExpensePage = () => {
         </p>
       )}
       <p>
-        {`If you have multiple ${
-          expenseTypeFields.expensePageText
-        } expenses, add just one on this page. ` +
-          `You'll be able to add more expenses after this.`}
+        If you have multiple {expenseTypeFields.expensePageText} expenses, add
+        just one on this page. You’ll be able to add more expenses after this.
       </p>
       {expenseType === 'Meal' && (
         <ExpenseMealFields formState={formState} onChange={handleFormChange} />
