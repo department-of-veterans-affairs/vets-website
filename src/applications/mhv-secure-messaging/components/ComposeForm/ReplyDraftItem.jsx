@@ -18,6 +18,7 @@ import {
   setCaretToPos,
 } from '../../util/helpers';
 import FileInput from './FileInput';
+
 import DraftSavedInfo from './DraftSavedInfo';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';

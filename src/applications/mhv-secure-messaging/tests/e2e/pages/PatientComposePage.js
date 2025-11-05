@@ -8,6 +8,36 @@ import mockRecipients from '../fixtures/recipientsResponse/recipients-response.j
 import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
 import SharedComponents from './SharedComponents';
 
+// Utility function to get proper MIME type from filename
+const getMimeType = filename => {
+  const ext = filename
+    .split('.')
+    .pop()
+    .toLowerCase();
+  const mimeMap = {
+    pdf: 'application/pdf',
+    png: 'image/png',
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    gif: 'image/gif',
+    bmp: 'image/bmp',
+    tiff: 'image/tiff',
+    tif: 'image/tiff',
+    txt: 'text/plain',
+    doc: 'application/msword',
+    docx:
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    xls: 'application/vnd.ms-excel',
+    xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    mp3: 'audio/mpeg',
+    mp4: 'video/mp4',
+    mkv: 'video/x-matroska',
+    avi: 'video/x-msvideo',
+    mov: 'video/quicktime',
+  };
+  return mimeMap[ext] || 'application/octet-stream';
+};
+
 class PatientComposePage {
   messageSubjectText = 'testSubject';
 
@@ -329,7 +359,7 @@ class PatientComposePage {
             // Manually trigger the vaMultipleChange event since selectFile bypasses web component events
             cy.readFile(filepath, null).then(fileContent => {
               const file = new File([fileContent], filename.split('/').pop(), {
-                type: 'application/octet-stream',
+                type: getMimeType(filename),
               });
               const event = new CustomEvent('vaMultipleChange', {
                 detail: {
@@ -344,7 +374,7 @@ class PatientComposePage {
       });
   };
 
-  attachFakeFile = (fileConfig, { verify = false } = {}) => {
+  attachFakeFile = fileConfig => {
     const content = 'x'.repeat(fileConfig.size);
 
     // VaFileInputMultiple component - access the input inside shadow DOM
@@ -368,7 +398,7 @@ class PatientComposePage {
           .then(() => {
             // Manually trigger the vaMultipleChange event since selectFile bypasses web component events
             const file = new File([content], fileConfig.fileName, {
-              type: fileConfig.mimeType || 'application/octet-stream',
+              type: fileConfig.mimeType || getMimeType(fileConfig.fileName),
             });
             const event = new CustomEvent('vaMultipleChange', {
               detail: {
@@ -381,11 +411,11 @@ class PatientComposePage {
           });
       });
 
-    // Wait for file processing
-    if (verify) cy.findByText(fileConfig.fileName).should('exist');
+    // Allow tests to handle their own verification timing
+    // The verify parameter is deprecated - tests should explicitly check for attachments
   };
 
-  attachFakeFilesByCount = (numberOfFiles, { verify = false } = {}) => {
+  attachFakeFilesByCount = numberOfFiles => {
     for (let i = 0; i < numberOfFiles; i += 1) {
       // const fileConfig = Data[`FAKE_FILE_${i + 1}KB`];
       const content = 'x'.repeat(100 * 1024);
@@ -426,11 +456,8 @@ class PatientComposePage {
         });
     }
 
-    // Wait for file processing
-    if (verify)
-      for (let i = 0; i < numberOfFiles; i += 1) {
-        cy.findByText(`FAKE_FILE_${i + 1}.pdf`).should('exist');
-      }
+    // Allow tests to handle their own verification timing
+    // The verify parameter is deprecated - tests should explicitly check for attachments
   };
 
   attachFewFiles = list => {

@@ -6,6 +6,7 @@ import {
   acceptedFileTypesExtended,
   Attachments,
   ErrorMessages,
+  Alerts,
 } from '../../util/constants';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 import HowToAttachFiles from '../HowToAttachFiles';
@@ -237,16 +238,30 @@ const FileInput = props => {
     [acceptedFileTypesToUse, useLargeAttachments, totalMaxFileCount],
   );
 
-  // Don't show file input if max files reached or attachment scan error
-  if (attachments?.length >= totalMaxFileCount || attachmentScanError) {
+  // Generate errors array for VaFileInputMultiple
+  const fileErrors = useMemo(
+    () => {
+      if (!attachmentScanError) return [];
+
+      // When virus scan fails, show error for all attachments
+      const errorMessage =
+        attachments.length > 1
+          ? Alerts.Message.MULTIPLE_ATTACHMENTS_SCAN_FAIL
+          : Alerts.Message.ATTACHMENT_SCAN_FAIL;
+
+      return attachments.map(() => errorMessage);
+    },
+    [attachmentScanError, attachments],
+  );
+
+  // Don't show file input if max files reached
+  if (attachments?.length >= totalMaxFileCount) {
     return null;
   }
 
   return (
     <div className="file-input vads-u-margin-top--2">
-      {/* Only show HowToAttachFiles when showHelp is true
-          In reply/draft context where AttachmentsList is also rendered,
-          showHelp should be false to avoid duplication */}
+      {/* Show HowToAttachFiles help text when showHelp prop is true */}
       {showHelp && (
         <HowToAttachFiles useLargeAttachments={useLargeAttachments} />
       )}
@@ -266,6 +281,7 @@ const FileInput = props => {
         buttonText={buttonText}
         hint={hintText}
         accept={acceptString}
+        errors={fileErrors}
         onVaMultipleChange={handleMultipleChange}
         data-testid={`attach-file-input${
           draftSequence ? `-${draftSequence}` : ''

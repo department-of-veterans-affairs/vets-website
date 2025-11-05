@@ -724,11 +724,10 @@ describe('File input component', () => {
       });
 
       it('validates single file size - should accept files up to 25MB for all users', async () => {
-        const useFeatureTogglesStub = stubUseFeatureToggles({
+        stubUseFeatureToggles({
           largeAttachmentsEnabled: true,
           cernerPilotSmFeatureFlag: false,
         });
-        useFeatureTogglesStub;
 
         const props = {
           attachments: [],
@@ -782,11 +781,10 @@ describe('File input component', () => {
       });
 
       it('validates total file size - should accept total files up to 25MB for all users', async () => {
-        const useFeatureTogglesStub = stubUseFeatureToggles({
+        stubUseFeatureToggles({
           largeAttachmentsEnabled: true,
           cernerPilotSmFeatureFlag: false,
         });
-        useFeatureTogglesStub;
 
         const existingAttachments = [
           { name: 'existing.png', size: 20 * 1024 * 1024, type: 'image/png' },
@@ -846,11 +844,10 @@ describe('File input component', () => {
 
     describe('when largeAttachmentsEnabled is false', () => {
       it('validates file types - should use standard file type restrictions', async () => {
-        const useFeatureTogglesStub = stubUseFeatureToggles({
+        stubUseFeatureToggles({
           largeAttachmentsEnabled: false,
           cernerPilotSmFeatureFlag: false,
         });
-        useFeatureTogglesStub;
 
         const props = {
           attachments: [],
@@ -904,11 +901,10 @@ describe('File input component', () => {
       });
 
       it('validates single file size - should use standard 6MB limit', async () => {
-        const useFeatureTogglesStub = stubUseFeatureToggles({
+        stubUseFeatureToggles({
           largeAttachmentsEnabled: false,
           cernerPilotSmFeatureFlag: false,
         });
-        useFeatureTogglesStub;
 
         const props = {
           attachments: [],
@@ -962,11 +958,10 @@ describe('File input component', () => {
       });
 
       it('validates total file size - should use standard 10MB limit', async () => {
-        const useFeatureTogglesStub = stubUseFeatureToggles({
+        stubUseFeatureToggles({
           largeAttachmentsEnabled: false,
           cernerPilotSmFeatureFlag: false,
         });
-        useFeatureTogglesStub;
 
         const existingAttachments = [
           { name: 'existing.png', size: 8 * 1024 * 1024, type: 'image/png' },
@@ -1025,10 +1020,9 @@ describe('File input component', () => {
     });
 
     it('should reject empty files', async () => {
-      const useFeatureTogglesStub = stubUseFeatureToggles({
+      stubUseFeatureToggles({
         largeAttachmentsEnabled: false,
       });
-      useFeatureTogglesStub;
 
       const props = {
         attachments: [],
@@ -1063,10 +1057,9 @@ describe('File input component', () => {
     });
 
     it('should reject duplicate files', async () => {
-      const useFeatureTogglesStub = stubUseFeatureToggles({
+      stubUseFeatureToggles({
         largeAttachmentsEnabled: false,
       });
-      useFeatureTogglesStub;
 
       const existingFile = { name: 'test.png', size: 1000, type: 'image/png' };
 
@@ -1101,10 +1094,9 @@ describe('File input component', () => {
     });
 
     it('should handle file removal', async () => {
-      const useFeatureTogglesStub = stubUseFeatureToggles({
+      stubUseFeatureToggles({
         largeAttachmentsEnabled: false,
       });
-      useFeatureTogglesStub;
 
       const existingFiles = [
         { name: 'test1.png', size: 1000, type: 'image/png' },
@@ -1135,18 +1127,31 @@ describe('File input component', () => {
     });
   });
 
-  it('should not render when attachmentScanError is true', () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+  it('should render with virus error and display component', () => {
+    stubUseFeatureToggles({
       largeAttachmentsEnabled: false,
     });
-    useFeatureTogglesStub;
+
+    const testFile = createTestFile({
+      name: 'test.pdf',
+      sizeMb: 1,
+      mimeType: 'application/pdf',
+      content: 'test content',
+    });
 
     const { container } = render(
-      <FileInput attachments={[]} attachmentScanError />,
+      <FileInput
+        attachments={[testFile]}
+        attachmentScanError
+        setAttachments={() => {}}
+        setAttachFileError={() => {}}
+        setAttachFileSuccess={() => {}}
+      />,
     );
     const fileInput = container.querySelector(
       '[data-testid="attach-file-input"]',
     );
-    expect(fileInput).to.not.exist;
+    // FileInput should still render even with virus error (not hidden)
+    expect(fileInput).to.exist;
   });
 });
