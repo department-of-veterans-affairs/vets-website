@@ -57,7 +57,7 @@ const SendRxRenewalMessage = ({
         onSecondaryButtonClick={() => setShowRenewalModal(false)}
         onCloseEvent={() => setShowRenewalModal(false)}
         visible={showRenewalModal}
-        status="success"
+        status="info"
         clickToClose
         uswds
       >
