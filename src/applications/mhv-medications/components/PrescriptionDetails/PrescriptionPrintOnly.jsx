@@ -7,6 +7,7 @@ import {
   FIELD_NONE_NOTED,
   medStatusDisplayTypes,
   pdfStatusDefinitions,
+  DISPENSE_STATUS,
 } from '../../util/constants';
 import {
   validateField,
@@ -28,9 +29,10 @@ const PrescriptionPrintOnly = props => {
   const latestTrackingStatus = rx?.trackingList?.[0];
   const showPendingMedsContent = useSelector(selectPendingMedsFlag);
   const pendingMed =
-    rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+    rx?.prescriptionSource === 'PD' &&
+    rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
   const pendingRenewal =
-    rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+    rx?.prescriptionSource === 'PD' && rx?.dispStatus === DISPENSE_STATUS.RENEW;
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);
 

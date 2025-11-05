@@ -16,6 +16,7 @@ import {
   DATETIME_FORMATS,
   FIELD_NOT_AVAILABLE,
   medStatusDisplayTypes,
+  DISPENSE_STATUS,
 } from './constants';
 
 const newLine = (n = 1) => '\n'.repeat(n);
@@ -31,9 +32,10 @@ const SEPARATOR =
   '---------------------------------------------------------------------------------';
 const getLastFilledAndRxNumberBlock = rx => {
   const pendingMed =
-    rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+    rx?.prescriptionSource === 'PD' &&
+    rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
   const pendingRenewal =
-    rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+    rx?.prescriptionSource === 'PD' && rx?.dispStatus === DISPENSE_STATUS.RENEW;
   const isRxPending = pendingMed || pendingRenewal;
 
   return isRxPending

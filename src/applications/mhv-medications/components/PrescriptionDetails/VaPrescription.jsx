@@ -20,7 +20,11 @@ import {
   validateIfAvailable,
   prescriptionMedAndRenewalStatus,
 } from '../../util/helpers';
-import { medStatusDisplayTypes, DATETIME_FORMATS } from '../../util/constants';
+import {
+  medStatusDisplayTypes,
+  DATETIME_FORMATS,
+  DISPENSE_STATUS,
+} from '../../util/constants';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
@@ -44,10 +48,10 @@ const VaPrescription = prescription => {
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
   const pendingMed =
     prescription?.prescriptionSource === 'PD' &&
-    prescription?.dispStatus === 'NewOrder';
+    prescription?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
   const pendingRenewal =
     prescription?.prescriptionSource === 'PD' &&
-    prescription?.dispStatus === 'Renew';
+    prescription?.dispStatus === DISPENSE_STATUS.RENEW;
   const hasBeenDispensed =
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
