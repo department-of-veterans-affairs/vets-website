@@ -2,25 +2,33 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Toggler } from 'platform/utilities/feature-toggles';
-
+import recordEvent from 'platform/monitoring/record-event';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import DownloadLetterBlobLink from '../components/DownloadLetterBlobLink';
+import { DownloadTsaLetter } from '../components/DownloadTsaLetter';
 import VeteranBenefitSummaryOptions from './VeteranBenefitSummaryOptions';
-
 import {
+  apiRequest,
   //  eslint-disable-next-line -- LH_MIGRATION
   LH_MIGRATION__getOptions,
   newLetterContent,
 } from '../utils/helpers';
-import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
+import {
+  AVAILABILITY_STATUSES,
+  GET_TSA_LETTER_ELIGIBILITY_ENDPOINT,
+  LETTER_TYPES,
+} from '../utils/constants';
 
 export class LetterList extends React.Component {
   constructor(props) {
     super(props);
-    // eslint-disable-next-line -- LH_MIGRATION
-    this.state = { LH_MIGRATION__options: LH_MIGRATION__getOptions(false) };
+    this.state = {
+      tsaLetter: null,
+      // eslint-disable-next-line -- LH_MIGRATION
+      LH_MIGRATION__options: LH_MIGRATION__getOptions(false),
+    };
     this.accordionRefs = {};
   }
 
@@ -30,10 +38,40 @@ export class LetterList extends React.Component {
       // eslint-disable-next-line -- LH_MIGRATION
       LH_MIGRATION__options: LH_MIGRATION__getOptions(),
     });
+    if (this.props.tsaSafeTravelLetter) {
+      this.getTsaLetter();
+    }
+  }
+
+  getTsaLetter() {
+    return apiRequest(GET_TSA_LETTER_ELIGIBILITY_ENDPOINT)
+      .then(response => {
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          const latestLetter = response.data.reduce((latest, current) => {
+            const latestDate = latest.attributes?.received_at || 0;
+            const currentDate = current.attributes?.received_at || 0;
+            return currentDate > latestDate ? current : latest;
+          });
+          this.setState({ tsaLetter: latestLetter });
+        }
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'GET /v0/tsa_letter',
+          'api-status': 'successful',
+        });
+      })
+      .catch(() => {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'GET /v0/tsa_letter',
+          'api-status': 'error',
+        });
+      });
   }
 
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
+    const hasTsaLetter = Boolean(this.state.tsaLetter?.attributes?.document_id);
     const letterItems = (this.props.letters || []).map((letter, index) => {
       if (!this.accordionRefs[index]) {
         this.accordionRefs[index] = React.createRef();
@@ -110,9 +148,12 @@ export class LetterList extends React.Component {
 
     return (
       <div className="step-content">
-        {letterItems.length !== 0 && (
+        {(letterItems.length !== 0 || hasTsaLetter) && (
           <va-accordion data-test-id="letters-accordion" bordered>
             {letterItems}
+            {hasTsaLetter && (
+              <DownloadTsaLetter letter={this.state.tsaLetter} />
+            )}
           </va-accordion>
         )}
         <Toggler toggleName={Toggler.TOGGLE_NAMES.emptyStateBenefitLetters}>
@@ -156,6 +197,8 @@ function mapStateToProps(state) {
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
+    tsaSafeTravelLetter:
+      state.featureToggles[FEATURE_FLAG_NAMES.tsaSafeTravelLetter],
   };
 }
 
@@ -169,6 +212,7 @@ LetterList.propTypes = {
   ),
   lettersAvailability: PropTypes.string,
   optionsAvailable: PropTypes.bool,
+  tsaSafeTravelLetter: PropTypes.bool,
 };
 
 export default connect(
