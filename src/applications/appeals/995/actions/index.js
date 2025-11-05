@@ -1,8 +1,7 @@
 import environment from 'platform/utilities/environment';
-
 import { apiRequest } from 'platform/utilities/api';
-
-import { SUPPORTED_BENEFIT_TYPES, DEFAULT_BENEFIT_TYPE } from '../constants';
+import { DEFAULT_BENEFIT_TYPE } from '../../shared/constants';
+import { SUPPORTED_BENEFIT_TYPES } from '../constants';
 import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 
 import {
