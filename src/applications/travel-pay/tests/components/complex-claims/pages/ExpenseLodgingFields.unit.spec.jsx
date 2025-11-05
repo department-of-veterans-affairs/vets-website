@@ -3,41 +3,10 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseLodgingFields from '../../../../components/complex-claims/pages/ExpenseLodgingFields';
-
-// Helper to simulate VA text input change
-const simulateVaInputChange = (inputField, value) => {
-  if (!inputField) return;
-
-  const field = inputField;
-  field.value = value;
-
-  field.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
-  field.dispatchEvent(
-    new CustomEvent('input', { detail: value, bubbles: true, composed: true }),
-  );
-
-  typeof field.onInput === 'function' && field.onInput({ target: { value } });
-};
-
-// Helper to simulate VA date change
-const simulateVaDateChange = (dateField, value) => {
-  if (!dateField) return;
-
-  const field = dateField;
-  field.value = value;
-
-  field.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
-  field.dispatchEvent(
-    new CustomEvent('dateChange', {
-      detail: value,
-      bubbles: true,
-      composed: true,
-    }),
-  );
-
-  typeof field.onDateChange === 'function' &&
-    field.onDateChange({ target: { value } });
-};
+import {
+  simulateVaDateChange,
+  simulateVaInputChange,
+} from '../../../../util/testing-input-helpers';
 
 describe('ExpenseLodgingFields', () => {
   const defaultProps = {
