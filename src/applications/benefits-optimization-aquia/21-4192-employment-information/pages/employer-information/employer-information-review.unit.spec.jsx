@@ -199,7 +199,7 @@ describe('EmployerInformationReview', () => {
       );
 
       expect(container.textContent).to.include('Name of employer');
-      expect(container.textContent).to.include('Employer address');
+      expect(container.textContent).to.include("Employer's address");
     });
   });
 

@@ -40,7 +40,7 @@ export const EmployerInformationReview = ({ data, editPage, title }) => {
         </div>
 
         <div className="review-row">
-          <dt>Employer address</dt>
+          <dt>Employer’s address</dt>
           <dd>{formatAddress()}</dd>
         </div>
       </dl>

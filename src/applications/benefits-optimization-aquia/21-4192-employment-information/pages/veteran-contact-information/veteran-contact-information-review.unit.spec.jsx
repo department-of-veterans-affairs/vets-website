@@ -78,7 +78,7 @@ describe('VeteranContactInformationReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Social Security number');
+      expect(text).to.include('Social security number');
       expect(text).to.include('123-45-6789');
     });
 
