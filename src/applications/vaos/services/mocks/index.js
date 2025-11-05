@@ -32,6 +32,8 @@ const nextBusinessDayString = nextBusinessDay.toISOString().split('T')[0]; // Ge
 // confirmed_null_states.json
 const confirmedV2 = require('./v2/confirmed.json');
 // const confirmedV2 = require('./v2/confirmed_null_states.json');
+
+// Oracle Health confirmed appointments
 const confirmedOh = require('./v2/confirmed_oh.json');
 
 const confirmedAppointmentsV3 = {
@@ -66,7 +68,10 @@ const vamcEhr = require('./v2/vamc_ehr.json');
 // requests_null_states.json.json
 const requestsV2 = require('./v2/requests.json');
 // const requestsV2 = require('./v2/requests_null_states.json.json');
+
+// Oracle Health appointment requests
 const requestsOh = require('./v2/requests_oh.json');
+
 // Uncomment to produce backend service errors
 // const meta = require('./v2/meta_failures.json');
 
