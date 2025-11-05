@@ -137,17 +137,6 @@ const submitClaimFailure = error => ({
   error,
 });
 
-// Submitting a complex travel claim
-const submitComplexClaimStart = () => ({ type: SUBMIT_COMPLEX_CLAIM_STARTED });
-const submitComplexClaimSuccess = data => ({
-  type: SUBMIT_COMPLEX_CLAIM_SUCCESS,
-  payload: data,
-});
-const submitComplexClaimFailure = error => ({
-  type: SUBMIT_COMPLEX_CLAIM_FAILURE,
-  error,
-});
-
 export function submitMileageOnlyClaim(appointmentData) {
   return async dispatch => {
     dispatch(submitClaimStart());
@@ -203,6 +192,16 @@ export function createComplexClaim(appointmentData) {
 }
 
 // Submitting a complex travel claim
+const submitComplexClaimStart = () => ({ type: SUBMIT_COMPLEX_CLAIM_STARTED });
+const submitComplexClaimSuccess = data => ({
+  type: SUBMIT_COMPLEX_CLAIM_SUCCESS,
+  payload: data,
+});
+const submitComplexClaimFailure = error => ({
+  type: SUBMIT_COMPLEX_CLAIM_FAILURE,
+  error,
+});
+
 export function submitComplexClaim(claimId, claimData) {
   return async dispatch => {
     dispatch(submitComplexClaimStart());
