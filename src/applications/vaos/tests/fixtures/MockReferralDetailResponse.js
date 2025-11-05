@@ -14,6 +14,7 @@ class MockReferralDetailResponse {
       notFound: false,
       serverError: false,
       referralNumber: 'VA0000005681',
+      referralConsultId: '659_646907',
       provider: {
         name: 'Dr. Moreen S. Rafa',
         npi: '1346206547',
@@ -48,6 +49,7 @@ class MockReferralDetailResponse {
       : format(addMonths(new Date(), 6), 'yyyy-MM-dd'),
     referralDate = format(new Date(), 'yyyy-MM-dd'),
     stationId = '659',
+    referralConsultId = `${stationId}_646907`,
     provider = {
       name: 'Dr. Moreen S. Rafa',
       npi: '1346206547',
@@ -70,6 +72,7 @@ class MockReferralDetailResponse {
           categoryOfCare,
           status: 'ACTIVE',
           referralNumber,
+          referralConsultId,
           expirationDate,
           serviceName: 'Referral',
           hasAppointments,
@@ -155,6 +158,7 @@ class MockReferralDetailResponse {
       provider,
       referralNumber,
       stationId,
+      referralConsultId,
     } = this.options;
 
     // Return 404 error if notFound is true
@@ -175,6 +179,7 @@ class MockReferralDetailResponse {
       provider,
       referralNumber,
       stationId,
+      referralConsultId,
     });
   }
 }
