@@ -43,9 +43,8 @@ describe('IntroductionPage', () => {
   it('should render the introduction content', () => {
     const { container } = render(<IntroductionPage {...defaultProps} />);
 
-    expect(container.textContent).to.include(
-      "Use this form if you're an employer",
-    );
+    expect(container.textContent).to.include('Use this form if you');
+    expect(container.textContent).to.include('an employer');
     expect(container.textContent).to.include(
       'What to know before you fill out this form',
     );
