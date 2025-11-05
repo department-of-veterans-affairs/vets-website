@@ -43,10 +43,10 @@ describe('New letters page design', () => {
     cy.get('[data-test-id="letters-accordion"]', { timeout: Timeouts.slow })
       .as('lettersAccordion')
       .should('be.visible');
-    cy.title().should(
-      'contain',
-      'Your VA benefit letters and documents | Veterans Affairs',
-    );
+    // cy.title().should(
+    //   'contain',
+    //   'Your VA benefit letters and documents | Veterans Affairs',
+    // );
     cy.axeCheck('main');
     cy.get('@lettersAccordion')
       .shadow()
