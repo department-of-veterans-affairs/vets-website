@@ -42,6 +42,11 @@ describe('discontinued income list and loop pages', () => {
     discontinuedIncomePagesChildSummary,
     discontinuedIncomePagesCustodianSummary,
     discontinuedIncomePagesParentSummary,
+    discontinuedIncomeVeteranRecipientPage,
+    discontinuedIncomeSpouseRecipientPage,
+    discontinuedIncomeCustodianRecipientPage,
+    discontinuedIncomeParentRecipientPage,
+    discontinuedIncomeNonVeteranRecipientPage,
   } = discontinuedIncomePages;
 
   describe('text', () => {
@@ -305,13 +310,17 @@ describe('discontinued income list and loop pages', () => {
     });
   });
 
-  describe('relationship page', () => {
+  describe('MVP income recipient page', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(false);
+    });
+
     const schema =
-      discontinuedIncomePages.discontinuedIncomeRelationshipPage.schema
-        .properties.discontinuedIncomes.items;
-    const uiSchema =
-      discontinuedIncomePages.discontinuedIncomeRelationshipPage.uiSchema
+      discontinuedIncomeNonVeteranRecipientPage.schema.properties
         .discontinuedIncomes.items;
+    const uiSchema =
+      discontinuedIncomeNonVeteranRecipientPage.uiSchema.discontinuedIncomes
+        .items;
 
     testNumberOfFieldsByType(
       formConfig,
@@ -342,6 +351,73 @@ describe('discontinued income list and loop pages', () => {
       'relationship',
       'root_otherRecipientRelationshipType',
     );
+
+    describe('Non-Veteran recipient page', () => {
+      it('should display when showUpdatedContent is false', () => {
+        const formData = { ...testData.data, claimantType: 'SPOUSE' };
+        const { depends } = discontinuedIncomeNonVeteranRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+  });
+
+  describe('Updated recipient pages', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(true);
+    });
+
+    describe('Veteran recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'VETERAN' };
+
+      it('should display when showUpdatedContent is true and claimantType is VETERAN', () => {
+        const { depends } = discontinuedIncomeVeteranRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Spouse recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'SPOUSE' };
+
+      it('should display when showUpdatedContent is true and claimantType is SPOUSE', () => {
+        const { depends } = discontinuedIncomeSpouseRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Custodian recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
+
+      it('should display when showUpdatedContent is true and claimantType is CUSTODIAN', () => {
+        const { depends } = discontinuedIncomeCustodianRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Parent recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'PARENT' };
+
+      it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
+        const { depends } = discontinuedIncomeParentRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Income recipient pages', () => {
+      const formData = { ...testData.data, claimantType: 'CHILD' };
+
+      it('should NOT display any recipient pages when claimantType is CHILD', () => {
+        expect(discontinuedIncomeNonVeteranRecipientPage.depends(formData)).to
+          .be.false;
+        expect(discontinuedIncomeVeteranRecipientPage.depends(formData)).to.be
+          .false;
+        expect(discontinuedIncomeSpouseRecipientPage.depends(formData)).to.be
+          .false;
+        expect(discontinuedIncomeCustodianRecipientPage.depends(formData)).to.be
+          .false;
+        expect(discontinuedIncomeParentRecipientPage.depends(formData)).to.be
+          .false;
+      });
+    });
   });
 
   describe('recipient name page', () => {

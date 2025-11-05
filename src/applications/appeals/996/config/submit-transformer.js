@@ -1,4 +1,4 @@
-import { DEFAULT_BENEFIT_TYPE } from '../constants';
+import { DEFAULT_BENEFIT_TYPE } from '../../shared/constants';
 
 import {
   getAddress,

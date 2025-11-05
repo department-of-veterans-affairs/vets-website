@@ -73,6 +73,7 @@ const stepchildFinancialSupport = {
           )} financial support?`}
           labelHeaderLevel="3"
           onVaValueChange={onChange}
+          enable-analytics
           required
         >
           <VaRadioOption

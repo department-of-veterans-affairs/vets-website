@@ -1,9 +1,8 @@
 import React from 'react';
-import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { scrollToFirstError } from 'platform/utilities/ui';
 
-import { getValue } from './helpers';
+import { getValue, PastDate } from './helpers';
 import propTypes from './types';
 
 const childLeftSchool = {
@@ -37,19 +36,13 @@ const childLeftSchool = {
           </span>{' '}
           stop attending school?
         </h3>
-        <VaMemorableDate
-          name="endDate"
+
+        <PastDate
           label="Date child stopped attending school"
-          error={
-            formSubmitted && !itemData.endDate
-              ? 'Enter last date of school attendance'
-              : null
-          }
-          monthSelect
-          value={itemData.endDate || ''}
-          // use onDateBlur to ensure month & day are zero-padded
-          onDateBlur={onChange}
-          required
+          date={itemData.endDate}
+          formSubmitted={formSubmitted}
+          missingErrorMessage="Enter last date of school attendance"
+          onChange={onChange}
         />
       </>
     );

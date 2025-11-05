@@ -264,7 +264,7 @@ describe('VAOS Referral API Error Handling', () => {
         cy.injectAxeThenAxeCheck();
 
         // Verify error message is displayed
-        reviewAndConfirm.assertApiError();
+        reviewAndConfirm.assertApiErrorAlert();
       });
     });
   });
