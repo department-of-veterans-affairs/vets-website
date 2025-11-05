@@ -56,22 +56,13 @@ describe('VeteranInformationPage', () => {
         />,
       );
 
-      expect(
-        container.querySelector(
-          'va-text-input[label="Veteran\'s first or given name"]',
-        ),
-      ).to.exist;
-      expect(
-        container.querySelector(
-          'va-text-input[label="Veteran\'s last or family name"]',
-        ),
-      ).to.exist;
+      expect(container.querySelector('va-text-input[name="firstName"]')).to
+        .exist;
+      expect(container.querySelector('va-text-input[name="lastName"]')).to
+        .exist;
 
-      expect(
-        container.querySelector(
-          'va-memorable-date[label="Veteran\'s date of birth"]',
-        ),
-      ).to.exist;
+      expect(container.querySelector('va-memorable-date[name="dateOfBirth"]'))
+        .to.exist;
     });
 
     it('should render continue button', () => {
@@ -125,13 +116,13 @@ describe('VeteranInformationPage', () => {
       );
 
       const firstNameInput = container.querySelector(
-        'va-text-input[label="Veteran\'s first or given name"]',
+        'va-text-input[name="firstName"]',
       );
       expect(firstNameInput).to.exist;
       expect(firstNameInput.getAttribute('value')).to.equal('Boba');
 
       const lastNameInput = container.querySelector(
-        'va-text-input[label="Veteran\'s last or family name"]',
+        'va-text-input[name="lastName"]',
       );
       expect(lastNameInput).to.exist;
       expect(lastNameInput.getAttribute('value')).to.equal('Fett');
@@ -156,7 +147,7 @@ describe('VeteranInformationPage', () => {
       );
 
       const dobField = container.querySelector(
-        'va-memorable-date[label="Veteran\'s date of birth"]',
+        'va-memorable-date[name="dateOfBirth"]',
       );
       expect(dobField).to.exist;
       expect(dobField.getAttribute('value')).to.equal('1958-01-06');
@@ -265,8 +256,9 @@ describe('VeteranInformationPage', () => {
       );
 
       const firstNameInput = container.querySelector(
-        'va-text-input[label="Veteran\'s first or given name"]',
+        'va-text-input[name="firstName"]',
       );
+      expect(firstNameInput).to.exist;
       expect(firstNameInput.getAttribute('value')).to.equal('Greedo');
     });
   });
@@ -331,13 +323,15 @@ describe('VeteranInformationPage', () => {
       );
 
       const firstNameInput = container.querySelector(
-        'va-text-input[label="Veteran\'s first or given name"]',
+        'va-text-input[name="firstName"]',
       );
+      expect(firstNameInput).to.exist;
       expect(firstNameInput.hasAttribute('required')).to.be.true;
 
       const lastNameInput = container.querySelector(
-        'va-text-input[label="Veteran\'s last or family name"]',
+        'va-text-input[name="lastName"]',
       );
+      expect(lastNameInput).to.exist;
       expect(lastNameInput.hasAttribute('required')).to.be.true;
     });
 
@@ -352,8 +346,9 @@ describe('VeteranInformationPage', () => {
       );
 
       const dobField = container.querySelector(
-        'va-memorable-date[label="Veteran\'s date of birth"]',
+        'va-memorable-date[name="dateOfBirth"]',
       );
+      expect(dobField).to.exist;
       expect(dobField.hasAttribute('required')).to.be.true;
     });
   });
