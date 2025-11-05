@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const HousingSituationResponses = ({ formData }) => {
+const ConfirmationHousingSituation = ({ formData }) => {
   const isHomeless = formData.homelessOrAtRisk === 'homeless';
   const isAtRisk = formData.homelessOrAtRisk === 'atRisk';
   const homelessLabel = 'I’m currently homeless.';
@@ -98,7 +98,7 @@ const HousingSituationResponses = ({ formData }) => {
   );
 };
 
-HousingSituationResponses.propTypes = {
+ConfirmationHousingSituation.propTypes = {
   formData: PropTypes.object,
 };
-export default HousingSituationResponses;
+export default ConfirmationHousingSituation;

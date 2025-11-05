@@ -22,7 +22,7 @@ import {
 } from '../constants';
 
 import { getHomelessOrAtRisk } from '../utils';
-import HousingSituationResponses from '../components/ConfirmationFields/HousingSituationResponses';
+import ConfirmationHousingSituation from '../components/ConfirmationFields/ConfirmationHousingSituation';
 
 export const uiSchema = {
   homelessOrAtRisk: {
@@ -123,7 +123,7 @@ export const uiSchema = {
       'ui:required': getHomelessOrAtRisk,
     }),
   },
-  'ui:confirmationField': HousingSituationResponses,
+  'ui:confirmationField': ConfirmationHousingSituation,
 };
 
 export const schema = {
