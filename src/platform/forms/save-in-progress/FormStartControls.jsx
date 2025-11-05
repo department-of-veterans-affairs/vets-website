@@ -34,12 +34,17 @@ const FormStartControls = props => {
     resumeOnly,
   } = props;
 
+  // eslint-disable-next-line no-console
+  console.log(startPage);
+
   // get access to the formConfig object through this route
   const { formConfig } = props.routes?.[1] || props.formConfig || {};
 
   const [modalOpen, setModalOpen] = useState(false);
 
   const goToBeginning = () => {
+    // eslint-disable-next-line no-console
+    console.log('GONE TO BEGINING');
     props.router.push(startPage);
   };
 
@@ -49,13 +54,20 @@ const FormStartControls = props => {
   const handleLoadPrefill = () => {
     captureAnalytics();
     if (prefillAvailable) {
-      props.fetchInProgressForm(
-        // TODO: where does this come from?
-        formId,
-        migrations,
-        true,
-        prefillTransformer,
-      );
+      // eslint-disable-next-line no-console
+      console.log('DIRECTED TO PREFILL AVAILABLE');
+      // eslint-disable-next-line no-console
+      console.log(props.fetchInProgressForm);
+      // Perhaps it needs an in prgogresscheck, it's catching new form starts too
+      // props.fetchInProgressForm(
+      //   // TODO: where does this come from?
+      //   formId,
+      //   migrations,
+      //   true,
+      //   prefillTransformer,
+      // );
+      // FOR NEW FORMS but with logged in user prefills
+      goToBeginning();
     } else {
       goToBeginning();
     }
