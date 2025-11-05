@@ -220,7 +220,8 @@ function hasMatchingClinics(
         }
         return acceptsDirect;
       }
-      // v1 appointments may not have clinic info, but
+      // v1 appointments fallback, despite the fact that clinics response now should be updated
+      // and have the possibility to match acceptsDirect for whichever type of appt is returned
       return matchesClinic;
     });
   });
