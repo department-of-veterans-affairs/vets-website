@@ -5,7 +5,9 @@ import { PICKLIST_DATA } from '../config/constants';
 import { calculateAge } from '../../shared/utils';
 
 export const slugifyKey = dependent =>
-  slugifyText(`${dependent?.fullName.first}-${dependent?.ssn.slice(-4)}`);
+  slugifyText(
+    `${dependent?.fullName?.first || ''}-${dependent?.ssn?.slice(-4) || ''}`,
+  );
 
 export const processDependents = (props = {}) => {
   const isPrefill = props.prefill || false;
