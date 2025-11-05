@@ -208,7 +208,7 @@ describe('1010d `validateMedicarePlan` form validation', () => {
       expect(validateMedicarePlan(undefined)).to.be.true;
     });
 
-    it('should return `true` when plan type is omitted', () => {
+    it('should return "true" when plan type is omitted', () => {
       expect(validateMedicarePlan(makeItem())).to.be.true;
     });
   });
@@ -293,12 +293,12 @@ describe('1010d `validateMedicarePlan` form validation', () => {
     ];
 
     for (const c of invalidCases) {
-      it(`should return \`true\` when ${c.name}`, () => {
+      it(`should return "true" when ${c.name}`, () => {
         expect(validateMedicarePlan(c.item)).to.be.true;
       });
     }
 
-    it('should return `false` when effective date is valid + both cards uploaded', () => {
+    it('should return "false" when effective date is valid + both cards uploaded', () => {
       const base = {
         medicarePlanType: 'a',
         'view:medicarePartAEffectiveDate': {
@@ -320,7 +320,7 @@ describe('1010d `validateMedicarePlan` form validation', () => {
   });
 
   context('Medicare Part B validation', () => {
-    it('should return `true` when missing card uploads', () => {
+    it('should return "true" when missing card uploads', () => {
       const item = makeItem({
         medicarePlanType: 'b',
         'view:medicarePartBEffectiveDate': {
@@ -332,7 +332,7 @@ describe('1010d `validateMedicarePlan` form validation', () => {
       expect(validateMedicarePlan(item)).to.be.true;
     });
 
-    it('should return `false` when effective date is valid + both cards uploaded', () => {
+    it('should return "false" when effective date is valid + both cards uploaded', () => {
       const item = makeItem({
         medicarePlanType: 'b',
         'view:medicarePartBEffectiveDate': {
@@ -360,7 +360,7 @@ describe('1010d `validateMedicarePlan` form validation', () => {
       ['combined front card is omitted', files.invalid(), files.valid()],
       ['combined back card is omitted', files.valid(), files.invalid()],
     ]) {
-      it(`should return \`true\` when ${name}`, () => {
+      it(`should return "true" when ${name}`, () => {
         const item = makeItem({
           ...base,
           medicarePartAPartBFrontCard: front,
@@ -370,7 +370,7 @@ describe('1010d `validateMedicarePlan` form validation', () => {
       });
     }
 
-    it('should return `false` when effective date is valid + both cards uploaded', () => {
+    it('should return "false" when effective date is valid + both cards uploaded', () => {
       const item = makeItem({
         ...base,
         medicarePartAPartBFrontCard: files.valid(),
@@ -391,7 +391,7 @@ describe('1010d `validateMedicarePlan` form validation', () => {
       ['front card is omitted', files.invalid(), files.valid()],
       ['back card is omitted', files.valid(), files.invalid()],
     ]) {
-      it(`should return \`true\` when ${name}`, () => {
+      it(`should return "true" when ${name}`, () => {
         const item = makeItem({
           ...base,
           medicarePartCFrontCard: front,
@@ -401,7 +401,7 @@ describe('1010d `validateMedicarePlan` form validation', () => {
       });
     }
 
-    it('should return `false` when effective date is valid + both cards uploaded', () => {
+    it('should return "false" when effective date is valid + both cards uploaded', () => {
       const item = makeItem({
         ...base,
         medicarePartCFrontCard: files.valid(),
@@ -470,13 +470,13 @@ describe('1010d `validateMedicarePlan` form validation', () => {
         },
       ],
     ]) {
-      it(`should return \`true\` when ${name}`, () => {
+      it(`should return "true" when ${name}`, () => {
         const item = makeItem({ ...baseAB, ...mutation });
         expect(validateMedicarePlan(item)).to.be.true;
       });
     }
 
-    it('should return `false` with valid Parts A, B & D effective dates + cards uploaded', () => {
+    it('should return "false" with valid Parts A, B & D effective dates + cards uploaded', () => {
       const item = makeItem({
         ...baseAB,
         hasMedicarePartD: true,
@@ -487,7 +487,7 @@ describe('1010d `validateMedicarePlan` form validation', () => {
       expect(validateMedicarePlan(item)).to.be.false;
     });
 
-    it('should return `false` with valid Parts C & D effective dates + cards uploaded', () => {
+    it('should return "false" with valid Parts C & D effective dates + cards uploaded', () => {
       const item = makeItem({
         ...baseC,
         hasMedicarePartD: true,
@@ -498,7 +498,7 @@ describe('1010d `validateMedicarePlan` form validation', () => {
       expect(validateMedicarePlan(item)).to.be.false;
     });
 
-    it('should return `false` with valid Parts A & B + no required Part D', () => {
+    it('should return "false" with valid Parts A & B + no required Part D', () => {
       const item = makeItem({
         ...baseAB,
         hasMedicarePartD: false,
