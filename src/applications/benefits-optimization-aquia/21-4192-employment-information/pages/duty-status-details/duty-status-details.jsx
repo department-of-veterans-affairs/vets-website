@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { TextareaField } from '@bio-aquia/shared/components/atoms';
+import { RadioField, TextareaField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
-import { dutyStatusDetailsSchema, statusDetailsSchema } from '../../schemas';
+import {
+  currentDutyStatusSchema,
+  disabilitiesPreventDutiesSchema,
+  dutyStatusDetailsSchema,
+} from '../../schemas';
 
 /**
  * Duty Status Details page component
@@ -28,9 +32,16 @@ export const DutyStatusDetailsPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Get veteran name
+  const veteranInfo = formDataToUse?.veteranInformation || {};
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
+
   return (
     <PageTemplate
-      title="Duty status"
+      title="Reserve or National Guard duty status"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -40,26 +51,39 @@ export const DutyStatusDetailsPage = ({
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       defaultData={{
-        statusDetails: '',
+        currentDutyStatus: '',
+        disabilitiesPreventDuties: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <h3 className="vads-u-margin-top--0">
-            Reserve or National Guard duty details
-          </h3>
+          <div className="vads-u-margin-top--neg2">
+            <TextareaField
+              name="currentDutyStatus"
+              label={`What is ${veteranName}'s current duty status?`}
+              schema={currentDutyStatusSchema}
+              value={localData.currentDutyStatus}
+              onChange={handleFieldChange}
+              error={errors.currentDutyStatus}
+              forceShowError={formSubmitted}
+              rows={5}
+              maxLength={500}
+            />
 
-          <TextareaField
-            name="statusDetails"
-            label="Please provide details about the duty status"
-            schema={statusDetailsSchema}
-            value={localData.statusDetails}
-            onChange={handleFieldChange}
-            error={errors.statusDetails}
-            forceShowError={formSubmitted}
-            rows={5}
-            maxLength={500}
-          />
+            <RadioField
+              name="disabilitiesPreventDuties"
+              label={`Does ${veteranName} have any disabilities that prevent them from performing their military duties?`}
+              schema={disabilitiesPreventDutiesSchema}
+              value={localData.disabilitiesPreventDuties}
+              onChange={handleFieldChange}
+              error={errors.disabilitiesPreventDuties}
+              forceShowError={formSubmitted}
+              options={[
+                { value: 'yes', label: 'Yes' },
+                { value: 'no', label: 'No' },
+              ]}
+            />
+          </div>
         </>
       )}
     </PageTemplate>

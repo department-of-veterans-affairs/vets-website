@@ -12,6 +12,28 @@ import React from 'react';
  */
 export const BenefitsDetailsReview = ({ data, editPage, title }) => {
   const benefitsDetails = data?.benefitsDetails || {};
+  const veteranInfo = data?.veteranInformation || {};
+
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
+
+  const formatDate = dateString => {
+    if (!dateString) return 'Not provided';
+    try {
+      // Parse date string as YYYY-MM-DD to avoid timezone issues
+      const [year, month, day] = dateString.split('-').map(Number);
+      const date = new Date(year, month - 1, day);
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    } catch {
+      return dateString;
+    }
+  };
 
   return (
     <div className="form-review-panel-page">
@@ -24,8 +46,32 @@ export const BenefitsDetailsReview = ({ data, editPage, title }) => {
 
       <dl className="review">
         <div className="review-row">
-          <dt>Benefit details</dt>
-          <dd>{benefitsDetails.benefitDetails || 'Not provided'}</dd>
+          <dt>Type of benefit</dt>
+          <dd>{benefitsDetails.benefitType || 'Not provided'}</dd>
+        </div>
+
+        <div className="review-row">
+          <dt>Gross monthly amount of benefit</dt>
+          <dd>{benefitsDetails.grossMonthlyAmount || 'Not provided'}</dd>
+        </div>
+
+        <div className="review-row">
+          <dt>When did {veteranName} start receiving this benefit?</dt>
+          <dd>{formatDate(benefitsDetails.startReceivingDate)}</dd>
+        </div>
+
+        <div className="review-row">
+          <dt>
+            When did {veteranName} receive their first payment for this benefit?
+          </dt>
+          <dd>{formatDate(benefitsDetails.firstPaymentDate)}</dd>
+        </div>
+
+        <div className="review-row">
+          <dt>
+            When will {veteranName} no longer receive this benefit (if known)?
+          </dt>
+          <dd>{formatDate(benefitsDetails.stopReceivingDate)}</dd>
         </div>
       </dl>
     </div>

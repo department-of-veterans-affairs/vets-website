@@ -24,7 +24,7 @@ describe('DutyStatusDetailsPage', () => {
     expect(container).to.exist;
   });
 
-  it('should render textarea field', () => {
+  it('should render textarea and radio fields', () => {
     const { container } = render(
       <DutyStatusDetailsPage
         goForward={mockGoForward}
@@ -34,13 +34,16 @@ describe('DutyStatusDetailsPage', () => {
     );
 
     const textarea = container.querySelector('va-textarea');
+    const radio = container.querySelector('va-radio');
     expect(textarea).to.exist;
+    expect(radio).to.exist;
   });
 
-  it('should display status details data', () => {
+  it('should display current duty status data', () => {
     const data = {
       dutyStatusDetails: {
-        statusDetails: 'Active duty reserve training two weekends per month',
+        currentDutyStatus:
+          'Active duty reserve training two weekends per month',
       },
     };
     const { container } = render(
@@ -57,6 +60,60 @@ describe('DutyStatusDetailsPage', () => {
     );
   });
 
+  it('should display disabilities prevent duties data', () => {
+    const data = {
+      dutyStatusDetails: {
+        disabilitiesPreventDuties: 'yes',
+      },
+    };
+    const { container } = render(
+      <DutyStatusDetailsPage
+        goForward={mockGoForward}
+        data={data}
+        setFormData={mockSetFormData}
+      />,
+    );
+
+    const radio = container.querySelector('va-radio');
+    expect(radio.getAttribute('value')).to.equal('yes');
+  });
+
+  it('should use veteran name in labels', () => {
+    const data = {
+      veteranInformation: {
+        firstName: 'Boba',
+        lastName: 'Fett',
+      },
+    };
+    const { container } = render(
+      <DutyStatusDetailsPage
+        goForward={mockGoForward}
+        data={data}
+        setFormData={mockSetFormData}
+      />,
+    );
+
+    const textarea = container.querySelector('va-textarea');
+    const radio = container.querySelector('va-radio');
+    expect(textarea.getAttribute('label')).to.include('Boba Fett');
+    expect(radio.getAttribute('label')).to.include('Boba Fett');
+  });
+
+  it('should use "the Veteran" when no name provided', () => {
+    const { container } = render(
+      <DutyStatusDetailsPage
+        goForward={mockGoForward}
+        data={{}}
+        setFormData={mockSetFormData}
+      />,
+    );
+
+    const textarea = container.querySelector('va-textarea');
+    const radio = container.querySelector('va-radio');
+    expect(textarea.getAttribute('label')).to.include('the Veteran');
+    expect(radio.getAttribute('label')).to.include('the Veteran');
+  });
+
   it('should handle undefined data', () => {
     const { container } = render(
       <DutyStatusDetailsPage
@@ -69,7 +126,7 @@ describe('DutyStatusDetailsPage', () => {
     expect(container).to.exist;
   });
 
-  it('should validate maxLength for status details', () => {
+  it('should validate maxLength for current duty status', () => {
     const { container } = render(
       <DutyStatusDetailsPage
         goForward={mockGoForward}

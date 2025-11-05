@@ -6,11 +6,19 @@ import { z } from 'zod';
  */
 
 /**
- * Schema for duty status details text
+ * Schema for current duty status text
  */
-export const statusDetailsSchema = z
+export const currentDutyStatusSchema = z
   .string()
-  .max(500, 'Status details must be less than 500 characters')
+  .max(500, 'Current duty status must be less than 500 characters')
+  .optional()
+  .or(z.literal(''));
+
+/**
+ * Schema for disabilities prevent duties question
+ */
+export const disabilitiesPreventDutiesSchema = z
+  .enum(['yes', 'no', ''])
   .optional()
   .or(z.literal(''));
 
@@ -18,5 +26,6 @@ export const statusDetailsSchema = z
  * Complete duty status details schema
  */
 export const dutyStatusDetailsSchema = z.object({
-  statusDetails: statusDetailsSchema,
+  currentDutyStatus: currentDutyStatusSchema,
+  disabilitiesPreventDuties: disabilitiesPreventDutiesSchema,
 });

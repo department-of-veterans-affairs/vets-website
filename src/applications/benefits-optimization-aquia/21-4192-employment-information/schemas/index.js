@@ -75,8 +75,9 @@ export {
  */
 export { dutyStatusSchema, reserveOrGuardStatusSchema } from './duty-status';
 export {
+  currentDutyStatusSchema,
+  disabilitiesPreventDutiesSchema,
   dutyStatusDetailsSchema,
-  statusDetailsSchema,
 } from './duty-status-details';
 
 /**
@@ -88,8 +89,12 @@ export {
   benefitsInformationSchema,
 } from './benefits-information';
 export {
-  benefitDetailsSchema,
+  benefitTypeSchema,
   benefitsDetailsSchema,
+  firstPaymentDateSchema,
+  grossMonthlyAmountSchema,
+  startReceivingDateSchema,
+  stopReceivingDateSchema,
 } from './benefits-details';
 
 /**

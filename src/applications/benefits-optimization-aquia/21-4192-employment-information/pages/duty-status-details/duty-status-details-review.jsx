@@ -12,6 +12,17 @@ import React from 'react';
  */
 export const DutyStatusDetailsReview = ({ data, editPage, title }) => {
   const dutyStatusDetails = data?.dutyStatusDetails || {};
+  const veteranInfo = data?.veteranInformation || {};
+
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
+
+  const formatYesNo = value => {
+    if (!value) return 'Not provided';
+    return value === 'yes' ? 'Yes' : 'No';
+  };
 
   return (
     <div className="form-review-panel-page">
@@ -24,8 +35,19 @@ export const DutyStatusDetailsReview = ({ data, editPage, title }) => {
 
       <dl className="review">
         <div className="review-row">
-          <dt>Duty status details</dt>
-          <dd>{dutyStatusDetails.statusDetails || 'Not provided'}</dd>
+          <dt>
+            What is {veteranName}
+            's current duty status?
+          </dt>
+          <dd>{dutyStatusDetails.currentDutyStatus || 'Not provided'}</dd>
+        </div>
+
+        <div className="review-row">
+          <dt>
+            Does {veteranName} have any disabilities that prevent them from
+            performing their military duties?
+          </dt>
+          <dd>{formatYesNo(dutyStatusDetails.disabilitiesPreventDuties)}</dd>
         </div>
       </dl>
     </div>
