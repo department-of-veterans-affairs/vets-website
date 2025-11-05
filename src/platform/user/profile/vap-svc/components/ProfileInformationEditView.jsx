@@ -9,6 +9,7 @@ import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
 import IntlMobileConfirmModal from '@@vap-svc/components/ContactInformationFieldInfo/IntlMobileConfirmModal';
+import { dismissAlertViaCookie as dismissEmailConfirmationAlertViaCookie } from 'platform/mhv/components/MhvAlertConfirmEmail/selectors';
 import { ContactInfoFormAppConfigContext } from './ContactInfoFormAppConfigContext';
 import {
   createTransaction,
@@ -46,6 +47,7 @@ import {
 import {
   isFailedTransaction,
   isPendingTransaction,
+  isSuccessfulTransaction,
 } from '../util/transactions';
 import { getEditButtonId } from '../util/id-factory';
 
@@ -128,7 +130,19 @@ export class ProfileInformationEditView extends Component {
     if (this.interval) {
       window.clearInterval(this.interval);
     }
+
     const { fieldName } = this.props;
+
+    // Dismiss the MHV email confirmation alert if email transaction succeeded
+    // This runs when the edit view closes after successful save
+    if (
+      fieldName === FIELD_NAMES.EMAIL &&
+      this.props.transaction &&
+      isSuccessfulTransaction(this.props.transaction)
+    ) {
+      dismissEmailConfirmationAlertViaCookie();
+    }
+
     // Errors returned directly from the API request (as opposed through a transaction lookup) are
     // displayed in this modal, rather than on the page. Once the modal is closed, reset the state
     // for the next time the modal is opened by removing any existing transaction request from the store.
