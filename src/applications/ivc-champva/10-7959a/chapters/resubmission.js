@@ -1,4 +1,3 @@
-import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
   titleUI,
   descriptionUI,
@@ -19,6 +18,7 @@ import {
   ResubmissionDocsUploadDescription,
 } from '../components/FormDescriptions/ResubmissionDescriptions';
 import ClaimIdentificationInfo from '../components/FormDescriptions/ClaimIdentificationInfo';
+import { blankSchema, fileUploadSchema } from '../definitions';
 import content from '../locales/en/content.json';
 
 const ID_NUMBER_OPTIONS = [
@@ -75,14 +75,7 @@ export const resubmissionLetterUpload = {
     required: ['resubmissionLetterUpload'],
     properties: {
       'view:fileClaim': blankSchema,
-      resubmissionLetterUpload: {
-        type: 'array',
-        minItems: 1,
-        items: {
-          type: 'object',
-          properties: { name: { type: 'string' } },
-        },
-      },
+      resubmissionLetterUpload: fileUploadSchema,
       'view:uploadAlert': blankSchema,
     },
   },
@@ -108,14 +101,7 @@ export const resubmissionDocsUpload = {
     required: ['resubmissionDocsUpload'],
     properties: {
       'view:fileClaim': blankSchema,
-      resubmissionDocsUpload: {
-        type: 'array',
-        minItems: 1,
-        items: {
-          type: 'object',
-          properties: { name: { type: 'string' } },
-        },
-      },
+      resubmissionDocsUpload: fileUploadSchema,
       'view:uploadAlert': blankSchema,
     },
   },

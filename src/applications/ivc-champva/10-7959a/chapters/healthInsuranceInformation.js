@@ -19,8 +19,8 @@ import {
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { privWrapper } from '../../shared/utilities';
 import { validFieldCharsOnly } from '../../shared/validations';
-import content from '../locales/en/content.json';
 import { personalizeTitleByName, replaceStrValues } from '../utils/helpers';
+import content from '../locales/en/content.json';
 
 const INSURANCE_TYPE_LABELS = {
   group: content['health-insurance--type-label--group'],
