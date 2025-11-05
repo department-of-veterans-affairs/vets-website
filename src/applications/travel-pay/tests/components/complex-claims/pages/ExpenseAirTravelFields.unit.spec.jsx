@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseAirTravelFields from '../../../../components/complex-claims/pages/ExpenseAirTravelFields';
@@ -7,86 +7,8 @@ import { TRIP_OPTIONS } from '../../../../constants';
 import {
   simulateVaDateChange,
   simulateVaInputChange,
+  testVaRadioSelection,
 } from '../../../../util/testing-input-helpers';
-
-// Helper to simulate VA radio selection
-// const testVaRadioSelection = ({
-//   container,
-//   radioName,
-//   selectValue,
-//   formStateKey,
-//   onChangeSpy,
-// }) => {
-//   const radioGroup = container.querySelector(`va-radio[name="${radioName}"]`);
-//   expect(radioGroup).to.exist;
-
-//   fireEvent(
-//     radioGroup,
-//     new CustomEvent('vaValueChange', {
-//       detail: { value: selectValue },
-//       bubbles: true,
-//       composed: true,
-//     }),
-//   );
-
-//   // Verify onChange spy was called
-//   expect(onChangeSpy.calledOnce).to.be.true;
-//   expect(onChangeSpy.firstCall.args[0].value).to.equal(selectValue);
-//   expect(onChangeSpy.firstCall.args[1]).to.equal(formStateKey);
-
-//   // Rerender with updated state
-//   const updatedState = { [formStateKey]: selectValue };
-//   return updatedState;
-// };
-
-const testVaRadioSelection = ({ radioName, selectValue, formStateKey }) => {
-  const onChangeSpy = sinon.spy();
-  const initialState = {
-    transportationType: '',
-    transportationReason: '',
-  };
-
-  const utils = render(
-    <ExpenseAirTravelFields formState={initialState} onChange={onChangeSpy} />,
-  );
-
-  const radioGroup = utils.container.querySelector(
-    `va-radio[name="${radioName}"]`,
-  );
-  expect(radioGroup).to.exist;
-
-  // Trigger selection
-  fireEvent(
-    radioGroup,
-    new CustomEvent('vaValueChange', {
-      detail: { value: selectValue },
-      bubbles: true,
-      composed: true,
-    }),
-  );
-
-  // Spy assertions
-  expect(onChangeSpy.calledOnce).to.be.true;
-  expect(onChangeSpy.firstCall.args[0].value).to.equal(selectValue);
-  expect(onChangeSpy.firstCall.args[1]).to.equal(formStateKey);
-
-  // Rerender with updated state
-  const updatedState = {
-    ...initialState,
-    [formStateKey]: selectValue,
-  };
-
-  utils.rerender(
-    <ExpenseAirTravelFields formState={updatedState} onChange={onChangeSpy} />,
-  );
-
-  // Assert that the selected option is checked
-  const option = utils.container.querySelector(
-    `va-radio-option[value="${selectValue}"]`,
-  );
-  expect(option).to.exist;
-  expect(option.getAttribute('checked')).to.equal('true');
-};
 
 describe('ExpenseAirTravelFields', () => {
   const defaultProps = {
@@ -282,6 +204,7 @@ describe('ExpenseAirTravelFields', () => {
 
   it('checks trip type after selection', () => {
     testVaRadioSelection({
+      Component: ExpenseAirTravelFields,
       radioName: 'tripType',
       selectValue: TRIP_OPTIONS[0],
       formStateKey: 'tripType',

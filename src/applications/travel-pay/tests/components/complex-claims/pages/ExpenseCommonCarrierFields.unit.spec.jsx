@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseCommonCarrierFields from '../../../../components/complex-claims/pages/ExpenseCommonCarrierFields';
@@ -7,62 +7,7 @@ import {
   TRANSPORTATION_OPTIONS,
   TRANSPORTATION_REASONS,
 } from '../../../../constants';
-
-// Helper to simulate VA radio selection
-const testVaRadioSelection = ({ radioName, selectValue, formStateKey }) => {
-  const onChangeSpy = sinon.spy();
-  const initialState = {
-    transportationType: '',
-    transportationReason: '',
-  };
-
-  const utils = render(
-    <ExpenseCommonCarrierFields
-      formState={initialState}
-      onChange={onChangeSpy}
-    />,
-  );
-
-  const radioGroup = utils.container.querySelector(
-    `va-radio[name="${radioName}"]`,
-  );
-  expect(radioGroup).to.exist;
-
-  // Trigger selection
-  fireEvent(
-    radioGroup,
-    new CustomEvent('vaValueChange', {
-      detail: { value: selectValue },
-      bubbles: true,
-      composed: true,
-    }),
-  );
-
-  // Spy assertions
-  expect(onChangeSpy.calledOnce).to.be.true;
-  expect(onChangeSpy.firstCall.args[0].value).to.equal(selectValue);
-  expect(onChangeSpy.firstCall.args[1]).to.equal(formStateKey);
-
-  // Rerender with updated state
-  const updatedState = {
-    ...initialState,
-    [formStateKey]: selectValue,
-  };
-
-  utils.rerender(
-    <ExpenseCommonCarrierFields
-      formState={updatedState}
-      onChange={onChangeSpy}
-    />,
-  );
-
-  // Assert that the selected option is checked
-  const option = utils.container.querySelector(
-    `va-radio-option[value="${selectValue}"]`,
-  );
-  expect(option).to.exist;
-  expect(option.getAttribute('checked')).to.equal('true');
-};
+import { testVaRadioSelection } from '../../../../util/testing-input-helpers';
 
 describe('ExpenseCommonCarrierFields', () => {
   const defaultProps = {
@@ -156,6 +101,7 @@ describe('ExpenseCommonCarrierFields', () => {
 
   it('checks the transportation type after selection', () => {
     testVaRadioSelection({
+      Component: ExpenseCommonCarrierFields,
       radioName: 'transportationType',
       selectValue: TRANSPORTATION_OPTIONS[0],
       formStateKey: 'transportationType',
@@ -165,6 +111,7 @@ describe('ExpenseCommonCarrierFields', () => {
   it('checks the transportation reason after selection', () => {
     const firstKey = Object.keys(TRANSPORTATION_REASONS)[0];
     testVaRadioSelection({
+      Component: ExpenseCommonCarrierFields,
       radioName: 'transportationReason',
       selectValue: firstKey,
       formStateKey: 'transportationReason',
