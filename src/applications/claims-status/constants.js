@@ -3,8 +3,8 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { MAX_FILE_SIZE_MB, MAX_PDF_SIZE_MB } from './utils/validations';
 
 /**
- * Service registry for claims-status application
- * Defines display names and text for different service types
+ * Service registry for unavailable service alerts.
+ * Add new services here to support them in ServiceUnavailableAlert.
  */
 export const SERVICE_REGISTRY = {
   claims: {

@@ -43,7 +43,10 @@ function AppContent({ featureFlagsLoading, isDataAvailable }) {
   return (
     <div className="claims-status-content">
       {!canUseApp && (
-        <ServiceUnavailableAlert services={['claims', 'appeals']} />
+        <ServiceUnavailableAlert
+          services={['claims', 'appeals']}
+          headerLevel={1}
+        />
       )}
       {isAppReady && <Outlet />}
     </div>

@@ -140,6 +140,7 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     // Determine which services are unavailable
+    // Service keys must match SERVICE_REGISTRY in constants.js
     const unavailableServices = [];
 
     if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {
@@ -154,7 +155,12 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     if (unavailableServices.length > 0) {
-      return <ServiceUnavailableAlert services={unavailableServices} />;
+      return (
+        <ServiceUnavailableAlert
+          services={unavailableServices}
+          headerLevel={3}
+        />
+      );
     }
 
     return null;
