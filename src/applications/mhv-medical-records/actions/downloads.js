@@ -12,6 +12,57 @@ const INITIAL_BACKOFF = 1000; // 1 second
 const BACKOFF_FACTOR = 1.05; // 5% increase
 const MAX_DURATION = 60000; // 1 minute total
 
+// Shared media type map for CCD downloads
+const MEDIA_TYPE_MAP = {
+  xml: 'application/xml;charset=utf-8',
+  html: 'text/html;charset=utf-8',
+  pdf: 'application/pdf',
+};
+
+/**
+ * Validates file type and returns corresponding media type
+ * @param {string} fileType - File extension (xml, html, pdf)
+ * @returns {string} Media type
+ * @throws {Error} If file type is unsupported
+ */
+const validateAndGetMediaType = fileType => {
+  const extension = String(fileType).toLowerCase();
+  const mediaType = MEDIA_TYPE_MAP[extension];
+
+  if (!mediaType) {
+    throw new Error(`Unsupported file type: ${extension}`);
+  }
+
+  return mediaType;
+};
+
+/**
+ * Creates a blob with the correct MIME type
+ * @param {Response} response - Fetch API response
+ * @param {string} mediaType - MIME type to apply
+ * @returns {Promise<Blob>} Blob with correct type
+ */
+const createBlobWithType = async (response, mediaType) => {
+  const blob = await response.blob();
+  // If blob doesn't have a type, set it explicitly
+  return blob.type ? blob : blob.slice(0, blob.size, mediaType);
+};
+
+/**
+ * Triggers browser file download
+ * @param {Blob} blob - File blob to download
+ * @param {string} fileName - Name for downloaded file
+ */
+const triggerFileDownload = (blob, fileName) => {
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  a.click();
+  window.URL.revokeObjectURL(url);
+  a.remove();
+};
+
 export const genAndDownloadCCD = (
   firstName,
   lastName,
@@ -42,31 +93,13 @@ export const genAndDownloadCCD = (
       // get the xml data from the api
       const response = await downloadCCD(timestamp, fileType);
 
-      // decide how to read response
-      const ext = String(fileType).toLowerCase();
-      const mediaTypeMap = {
-        xml: 'application/xml;charset=utf-8',
-        html: 'text/html;charset=utf-8',
-        pdf: 'application/pdf',
-      };
-      if (!mediaTypeMap[ext]) {
-        throw new Error(`Unsupported file type: ${ext}`);
-      }
+      // Validate file type and create blob with correct MIME type
+      const mediaType = validateAndGetMediaType(fileType);
+      const blob = await createBlobWithType(response, mediaType);
 
-      let blob = await response.blob();
-      blob = blob.type
-        ? blob
-        : blob.slice(0, blob.size, mediaTypeMap[fileType]);
-
-      // download the xml to the user
+      // download the file to the user
       dispatch({ type: Actions.Downloads.DOWNLOAD_CCD, response: timestamp });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = fileName;
-      a.click();
-      window.URL.revokeObjectURL(url);
-      a.remove();
+      triggerFileDownload(blob, fileName);
     }
 
     // ERROR IN GENERATION (API SIDE)
@@ -133,37 +166,20 @@ export const downloadCCDV2 = (
       firstName ? `${firstName}-` : ''
     }${lastName}-${format(new Date(), 'M-d-yyyy_hhmmssaaa')}.${extension}`;
 
-    const mediaTypeMap = {
-      xml: 'application/xml;charset=utf-8',
-      html: 'text/html;charset=utf-8',
-      pdf: 'application/pdf',
-    };
-
-    if (!mediaTypeMap[extension]) {
-      throw new Error(`Unsupported file type: ${extension}`);
-    }
-
-    let blob = await response.blob();
-    blob = blob.type ? blob : blob.slice(0, blob.size, mediaTypeMap[fileType]);
+    // Validate file type and create blob with correct MIME type
+    const mediaType = validateAndGetMediaType(fileType);
+    const blob = await createBlobWithType(response, mediaType);
 
     dispatch({
       type: Actions.Downloads.DOWNLOAD_CCD,
       response: new Date().toISOString(),
     });
 
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    a.click();
-    window.URL.revokeObjectURL(url);
-    a.remove();
+    triggerFileDownload(blob, fileName);
   } catch (error) {
     dispatch({ type: Actions.Downloads.CANCEL_CCD });
 
     if (error.status === 404 || error.message?.includes('not found')) {
-      // Oracle Health records may not be available yet for some patients
-      // (e.g., recently transferred from VistA). Suggest fallback to VistA CCD.
       const customError = new Error(
         'Your Oracle Health medical records are not yet available. Please download your CCD from the Legacy System section above, which contains your complete medical history.',
       );
