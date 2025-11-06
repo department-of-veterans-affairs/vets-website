@@ -32,7 +32,6 @@ export function typeOfCareRequiresPastHistory(
     PRIMARY_CARE,
     MENTAL_HEALTH_SUBSTANCE_USE_ID,
   } = TYPE_OF_CARE_IDS;
-
   const exempted = new Set([PRIMARY_CARE, MENTAL_HEALTH_SUBSTANCE_USE_ID]);
 
   if (!featurePastVisitMHFilter) {
