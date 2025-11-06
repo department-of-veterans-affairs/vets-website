@@ -13,10 +13,10 @@ import SubTaskContainer from '../subtask/SubTaskContainer';
 import AddContestableIssue from '../components/AddContestableIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
 import PrimaryPhoneReview from '../components/PrimaryPhoneReview';
-import EvidenceVaRecords from '../components/EvidenceVaRecords';
-import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest';
+import VaDetails from '../components/evidence/VaDetails';
+import PrivatePrompt from '../components/evidence/PrivatePrompt';
 import PrivateRecordsAuthorization from '../components/4142/Authorization';
-import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
+import PrivateDetails from '../components/evidence/PrivateDetails';
 import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
@@ -40,13 +40,13 @@ import optionIndicator from '../pages/optionIndicator';
 
 import notice5103 from '../pages/notice5103';
 import facilityTypes from '../pages/facilityTypes';
-import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
+import privateAuthorization from '../pages/evidence/privateAuthorization';
 import vaPrompt from '../pages/evidence/vaPrompt';
 import vaDetails from '../pages/evidence/vaDetails';
-import evidencePrivateRequest from '../pages/evidencePrivateRequest';
+import evidencePrivateRequest from '../pages/evidence/privatePrompt';
 import limitedConsentPromptPage from '../pages/limitedConsentPrompt';
 import limitedConsentDetailsPage from '../pages/limitedConsentDetails';
-import evidencePrivateRecords from '../pages/evidencePrivateRecords';
+import privateDetails from '../pages/evidence/privateDetails';
 import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
 import evidenceSummary from '../pages/evidenceSummary';
@@ -279,30 +279,30 @@ const formConfig = {
           title: 'VA medical records details',
           path: EVIDENCE_VA_DETAILS_URL,
           depends: hasVAEvidence,
-          CustomPage: EvidenceVaRecords,
+          CustomPage: VaDetails,
           CustomPageReview: null,
           uiSchema: vaDetails.uiSchema,
           schema: vaDetails.schema,
           hideHeaderRow: true,
           scrollAndFocusTarget: focusEvidence,
         },
-        evidencePrivateRecordsRequest: {
+        privatePrompt: {
           title: 'Request non-VA medical records',
           path: EVIDENCE_PRIVATE_PROMPT_URL,
-          CustomPage: EvidencePrivateRequest,
+          CustomPage: PrivatePrompt,
           CustomPageReview: null,
           uiSchema: evidencePrivateRequest.uiSchema,
           schema: evidencePrivateRequest.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
-        evidencePrivateRecordsAuthorization: {
+        privateAuthorization: {
           title: 'Non-VA medical record authorization',
           path: 'supporting-evidence/private-medical-records-authorization',
           depends: hasPrivateEvidence,
           CustomPage: PrivateRecordsAuthorization,
           CustomPageReview: null,
-          uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
-          schema: evidencePrivateRecordsAuthorization.schema,
+          uiSchema: privateAuthorization.uiSchema,
+          schema: privateAuthorization.schema,
         },
         limitedConsentPrompt: {
           title: 'Non-VA medical record: limited consent prompt',
@@ -320,14 +320,14 @@ const formConfig = {
           schema: limitedConsentDetailsPage.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
-        evidencePrivateRecords: {
+        privateDetails: {
           title: 'Non-VA medical records',
           path: EVIDENCE_PRIVATE_DETAILS_URL,
           depends: hasPrivateEvidence,
-          CustomPage: EvidencePrivateRecords,
+          CustomPage: PrivateDetails,
           CustomPageReview: null,
-          uiSchema: evidencePrivateRecords.uiSchema,
-          schema: evidencePrivateRecords.schema,
+          uiSchema: privateDetails.uiSchema,
+          schema: privateDetails.schema,
           scrollAndFocusTarget: focusEvidence,
         },
         evidenceWillUpload: {

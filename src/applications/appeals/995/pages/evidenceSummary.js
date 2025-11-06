@@ -1,13 +1,13 @@
 import vaDetails from './evidence/vaDetails';
-import evidencePrivateRecords from './evidencePrivateRecords';
+import privateDetails from './evidence/privateDetails';
 
 export default {
   uiSchema: {
     ...vaDetails.uiSchema,
-    ...evidencePrivateRecords.uiSchema,
+    ...privateDetails.uiSchema,
   },
   schema: {
     ...vaDetails.schema,
-    ...evidencePrivateRecords.schema,
+    ...privateDetails.schema,
   },
 };

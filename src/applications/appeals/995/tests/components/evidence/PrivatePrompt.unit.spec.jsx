@@ -8,20 +8,20 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import EvidencePrivateRecordsRequest from '../../components/EvidencePrivateRecordsRequest';
-import { privateRecordsRequestTitle } from '../../content/evidencePrivateRecordsRequest';
+import PrivatePrompt from '../../../components/evidence/PrivatePrompt';
+import { privateRecordsRequestTitle } from '../../../content/evidence/privatePrompt';
 import {
   HAS_PRIVATE_EVIDENCE,
   HAS_VA_EVIDENCE,
   EVIDENCE_VA_DETAILS_URL,
-} from '../../constants';
-import errorMessages from '../../../shared/content/errorMessages';
+} from '../../../constants';
+import errorMessages from '../../../../shared/content/errorMessages';
 
-describe('<EvidencePrivateRecordsRequest>', () => {
+describe('<PrivatePrompt>', () => {
   it('should render', () => {
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsRequest />
+        <PrivatePrompt />
       </div>,
     );
 
@@ -32,7 +32,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
   it('should capture google analytics', () => {
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsRequest setFormData={() => {}} />
+        <PrivatePrompt setFormData={() => {}} />
       </div>,
     );
 
@@ -54,7 +54,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     const goSpy = sinon.spy();
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsRequest goForward={goSpy} />
+        <PrivatePrompt goForward={goSpy} />
       </div>,
     );
 
@@ -69,7 +69,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     const data = { [HAS_PRIVATE_EVIDENCE]: true };
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsRequest data={data} goForward={goSpy} />
+        <PrivatePrompt data={data} goForward={goSpy} />
       </div>,
     );
 
@@ -87,10 +87,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     });
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsRequest
-          data={data}
-          setFormData={setFormDataSpy}
-        />
+        <PrivatePrompt data={data} setFormData={setFormDataSpy} />
       </div>,
     );
 
@@ -104,7 +101,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     const data = { [HAS_VA_EVIDENCE]: false };
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsRequest data={data} goBack={goSpy} />
+        <PrivatePrompt data={data} goBack={goSpy} />
       </div>,
     );
 
@@ -117,7 +114,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     const data = { [HAS_VA_EVIDENCE]: true, locations: [{}, {}] };
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsRequest data={data} goToPath={goSpy} />
+        <PrivatePrompt data={data} goToPath={goSpy} />
       </div>,
     );
 

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { content } from '../../content/evidencePrivateRecords';
+import { content } from '../../../content/evidence/privateDetails';
 
 describe('title', () => {
   it('should show title with add or edit and spelled out index', () => {
