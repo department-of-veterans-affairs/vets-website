@@ -174,7 +174,7 @@ const VaFileInputMultipleField = props => {
     const existingFile = childrenProps.formData[index];
     // if existingFile is not null then either
     // 1. it is a placeholder for an encrypted file where additional info was added before the password OR
-    // 2. a file that is being replaced
+    // 2. it is a file that is being replaced
     let files;
     if (existingFile) {
       if (encrypted[index] && existingFile.additionalData) {
