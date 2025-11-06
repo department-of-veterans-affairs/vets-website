@@ -1,5 +1,4 @@
 import sessionStatus from '../fixtures/session/default.json';
-import MedicalRecordsLandingPage from '../../pages/MedicalRecordsLandingPage';
 import vamc from '../../fixtures/facilities/vamc-ehr.json';
 
 class AllergiesIntercepts {
@@ -13,7 +12,6 @@ class AllergiesIntercepts {
       req.reply(sessionStatus);
     });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', vamc).as('vamcEhr');
-    MedicalRecordsLandingPage.uumIntercept();
   };
 
   // Path 1: v2 SCDF endpoint
