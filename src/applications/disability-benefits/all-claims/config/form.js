@@ -21,6 +21,7 @@ import { standardTitle } from '../content/form0781';
 
 import {
   capitalizeEachWord,
+  claimingNew,
   getPageTitle,
   hasGuardOrReservePeriod,
   hasNewPtsdDisability,
@@ -28,7 +29,6 @@ import {
   hasPrivateEvidence,
   hasRatedDisabilities,
   hasVAEvidence,
-  increaseOnly,
   isAnswering781aQuestions,
   isAnswering781Questions,
   isBDD,
@@ -140,6 +140,10 @@ import ConfirmationAncillaryFormsWizard from '../components/ConfirmationAncillar
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
+  dev: {
+    showNavLinks: true,
+    collapsibleNavLinks: true,
+  },
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${
@@ -485,7 +489,7 @@ const formConfig = {
         prisonerOfWar: {
           title: 'Prisoner of war (POW)',
           path: 'pow',
-          depends: formData => !increaseOnly(formData) && !isBDD(formData),
+          depends: formData => !isBDD(formData) && claimingNew(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
           appStateSelector: state => ({

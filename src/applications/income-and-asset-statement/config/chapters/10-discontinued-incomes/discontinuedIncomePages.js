@@ -16,7 +16,6 @@ import {
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
@@ -25,18 +24,30 @@ import {
   isDefined,
   isIncomeTypeInfoIncomplete,
   isRecipientInfoIncomplete,
-  otherRecipientRelationshipExplanationRequired,
+  otherRecipientRelationshipTypeUI,
   recipientNameRequired,
   requireExpandedArrayField,
   resolveRecipientFullName,
+  sharedRecipientRelationshipBase,
+  showUpdatedContent,
+  sharedYesNoOptionsBase,
 } from '../../../helpers';
-import { incomeFrequencyLabels, relationshipLabels } from '../../../labels';
+import {
+  custodianRelationshipLabels,
+  incomeFrequencyLabels,
+  parentRelationshipLabels,
+  relationshipLabelDescriptions,
+  relationshipLabels,
+  spouseRelationshipLabels,
+} from '../../../labels';
+import { DiscontinuedIncomeSummaryDescription } from '../../../components/SummaryDescriptions';
+import { DependentDescription } from '../../../components/DependentDescription';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'discontinuedIncomes',
   nounSingular: 'discontinued income',
-  nounPlural: 'discontinued incomes',
+  nounPlural: 'discontinued income',
   required: false,
   isItemIncomplete: item =>
     isRecipientInfoIncomplete(item) ||
@@ -46,6 +57,13 @@ export const options = {
     !isDefined(item.incomeLastReceivedDate) ||
     !isDefined(item.grossAnnualAmount), // include all required fields here
   text: {
+    summaryTitle: 'Review  discontinued and irregular income',
+    summaryTitleWithoutItems: showUpdatedContent()
+      ? 'Discontinued and irregular income'
+      : null,
+    summaryDescriptionWithoutItems: showUpdatedContent()
+      ? DiscontinuedIncomeSummaryDescription
+      : null,
     getItemName: (item, index, formData) => {
       if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
         return undefined;
@@ -87,6 +105,21 @@ export const options = {
   },
 };
 
+// We support multiple summary pages (one per claimant type).
+// These constants centralize shared text so each summary page stays consistent.
+// Important: only one summary page should ever be displayed at a time.
+
+// Shared summary page text
+const updatedTitleNoItems =
+  'Have you or your dependents received income that has ended during the reporting period or in the last full calendar year (if this is your first claim)?';
+const updatedTitleWithItems = 'Do you have more discontinued income to report?';
+const summaryPageTitle = 'Discontinued and irregular income';
+const incomeRecipientPageTitle = 'Discontinued income relationship';
+const yesNoOptionLabels = {
+  Y: 'Yes, I have income to report',
+  N: 'No, I don’t have income to report',
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -107,10 +140,7 @@ const summaryPage = {
       },
       {
         title: 'Do you have more discontinued incomes to report?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
+        ...sharedYesNoOptionsBase,
       },
     ),
   },
@@ -123,32 +153,251 @@ const summaryPage = {
   },
 };
 
+const veteranSummaryPage = {
+  uiSchema: {
+    'view:isAddingDiscontinuedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const spouseSummaryPage = {
+  uiSchema: {
+    'view:isAddingDiscontinuedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint: 'Your dependents include children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const childSummaryPage = {
+  uiSchema: {
+    'view:isAddingDiscontinuedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title:
+          'Have you received income that has ended during the reporting period or in the last full calendar year (if this is your first claim)?',
+        hint: null,
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const custodianSummaryPage = {
+  uiSchema: {
+    'view:isAddingDiscontinuedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const parentSummaryPage = {
+  uiSchema: {
+    'view:isAddingDiscontinuedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
 /** @returns {PageSchema} */
-const relationshipPage = {
+const veteranIncomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Discontinued income relationship',
+      title: incomeRecipientPageTitle,
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'Who received the income?',
+      ...sharedRecipientRelationshipBase,
+      labels: Object.fromEntries(
+        Object.entries(relationshipLabels).filter(
+          ([key]) => key !== 'PARENT' && key !== 'CUSTODIAN',
+        ),
+      ),
+      descriptions: relationshipLabelDescriptions,
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'discontinuedIncomes',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(
+        Object.keys(relationshipLabels).filter(
+          key => key !== 'PARENT' && key !== 'CUSTODIAN',
+        ),
+      ),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const spouseIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: incomeRecipientPageTitle,
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: spouseRelationshipLabels,
+      descriptions: Object.fromEntries(
+        Object.entries(relationshipLabelDescriptions).filter(
+          ([key]) => key === 'CHILD',
+        ),
+      ),
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'discontinuedIncomes',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(Object.keys(spouseRelationshipLabels)),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const custodianIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: incomeRecipientPageTitle,
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: custodianRelationshipLabels,
+      descriptions: Object.fromEntries(
+        Object.entries(relationshipLabelDescriptions).filter(
+          ([key]) => key !== 'CHILD',
+        ),
+      ),
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'discontinuedIncomes',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(
+        Object.keys(custodianRelationshipLabels),
+      ),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const parentIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: incomeRecipientPageTitle,
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: parentRelationshipLabels,
+      descriptions: {
+        SPOUSE: 'The Veteran’s other parent should file a separate claim',
+      },
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'discontinuedIncomes',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(Object.keys(parentRelationshipLabels)),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const nonVeteranIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: incomeRecipientPageTitle,
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      title: 'Who received this income?',
+      ...sharedYesNoOptionsBase,
       labels: relationshipLabels,
     }),
-    otherRecipientRelationshipType: {
-      'ui:title': 'Describe their relationship to the Veteran',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: 'OTHER',
-        expandedContentFocus: true,
-      },
-      'ui:required': (formData, index) =>
-        otherRecipientRelationshipExplanationRequired(
-          formData,
-          index,
-          'discontinuedIncomes',
-        ),
-    },
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'discontinuedIncomes',
+    ),
     'ui:options': {
       ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
@@ -270,21 +519,108 @@ const incomeAmountPage = {
 export const discontinuedIncomePages = arrayBuilderPages(
   options,
   pageBuilder => ({
+    discontinuedIncomePagesVeteranSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'discontinued-income-summary-veteran',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'VETERAN',
+      uiSchema: veteranSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    discontinuedIncomePagesSpouseSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'discontinued-income-summary-spouse',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'SPOUSE',
+      uiSchema: spouseSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    discontinuedIncomePagesChildSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'discontinued-income-summary-child',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CHILD',
+      uiSchema: childSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    discontinuedIncomePagesCustodianSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'discontinued-income-summary-custodian',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+      uiSchema: custodianSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    discontinuedIncomePagesParentSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'discontinued-income-summary-parent',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'PARENT',
+      uiSchema: parentSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
     discontinuedIncomePagesSummary: pageBuilder.summaryPage({
       title: 'Discontinued incomes',
-      path: 'discontinued-incomes-summary',
+      path: 'discontinued-income-summary',
+      depends: () => !showUpdatedContent(),
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    discontinuedIncomeRelationshipPage: pageBuilder.itemPage({
-      title: 'Discontinued income relationship',
-      path: 'discontinued-incomes/:index/relationship',
-      uiSchema: relationshipPage.uiSchema,
-      schema: relationshipPage.schema,
+    discontinuedIncomeVeteranRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="VETERAN" />
+      ) : null,
+      title: incomeRecipientPageTitle,
+      path: 'discontinued-income/:index/veteran-income-recipient',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'VETERAN',
+      uiSchema: veteranIncomeRecipientPage.uiSchema,
+      schema: veteranIncomeRecipientPage.schema,
+    }),
+    discontinuedIncomeSpouseRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="SPOUSE" />
+      ) : null,
+      title: incomeRecipientPageTitle,
+      path: 'discontinued-income/:index/spouse-income-recipient',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'SPOUSE',
+      uiSchema: spouseIncomeRecipientPage.uiSchema,
+      schema: spouseIncomeRecipientPage.schema,
+    }),
+    discontinuedIncomeCustodianRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="CUSTODIAN" />
+      ) : null,
+      title: incomeRecipientPageTitle,
+      path: 'discontinued-income/:index/custodian-income-recipient',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+      uiSchema: custodianIncomeRecipientPage.uiSchema,
+      schema: custodianIncomeRecipientPage.schema,
+    }),
+    discontinuedIncomeParentRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="PARENT" />
+      ) : null,
+      title: incomeRecipientPageTitle,
+      path: 'discontinued-income/:index/parent-income-recipient',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'PARENT',
+      uiSchema: parentIncomeRecipientPage.uiSchema,
+      schema: parentIncomeRecipientPage.schema,
+    }),
+    discontinuedIncomeNonVeteranRecipientPage: pageBuilder.itemPage({
+      title: incomeRecipientPageTitle,
+      path: 'discontinued-income/:index/income-recipient',
+      depends: () => !showUpdatedContent(),
+      uiSchema: nonVeteranIncomeRecipientPage.uiSchema,
+      schema: nonVeteranIncomeRecipientPage.schema,
     }),
     discontinuedIncomeRecipientNamePage: pageBuilder.itemPage({
       title: 'Discontinued income recipient name',
-      path: 'discontinued-incomes/:index/recipient-name',
+      path: 'discontinued-income/:index/recipient-name',
       depends: (formData, index) =>
         recipientNameRequired(formData, index, 'discontinuedIncomes'),
       uiSchema: recipientNamePage.uiSchema,
@@ -292,31 +628,31 @@ export const discontinuedIncomePages = arrayBuilderPages(
     }),
     discontinuedIncomePayerPage: pageBuilder.itemPage({
       title: 'Discontinued income payer',
-      path: 'discontinued-incomes/:index/payer',
+      path: 'discontinued-income/:index/payer',
       uiSchema: incomePayerPage.uiSchema,
       schema: incomePayerPage.schema,
     }),
     discontinuedIncomeTypePage: pageBuilder.itemPage({
       title: 'Discontinued income type',
-      path: 'discontinued-incomes/:index/type',
+      path: 'discontinued-income/:index/type',
       uiSchema: incomeTypePage.uiSchema,
       schema: incomeTypePage.schema,
     }),
     discontinuedIncomeFrequencyPage: pageBuilder.itemPage({
       title: 'Discontinued income frequency',
-      path: 'discontinued-incomes/:index/frequency',
+      path: 'discontinued-income/:index/frequency',
       uiSchema: incomeFrequencyPage.uiSchema,
       schema: incomeFrequencyPage.schema,
     }),
     discontinuedIncomeDatePage: pageBuilder.itemPage({
       title: 'Discontinued income date',
-      path: 'discontinued-incomes/:index/date',
+      path: 'discontinued-income/:index/date',
       uiSchema: incomeDatePage.uiSchema,
       schema: incomeDatePage.schema,
     }),
     discontinuedIncomeAmountPage: pageBuilder.itemPage({
       title: 'Discontinued income amount',
-      path: 'discontinued-incomes/:index/amount',
+      path: 'discontinued-income/:index/amount',
       uiSchema: incomeAmountPage.uiSchema,
       schema: incomeAmountPage.schema,
     }),

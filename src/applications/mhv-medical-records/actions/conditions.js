@@ -1,3 +1,4 @@
+import { datadogRum } from '@datadog/browser-rum';
 import { Actions } from '../util/actionTypes';
 import {
   getConditions,
@@ -33,6 +34,9 @@ export const getConditionsList = (
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    datadogRum.addError(error, {
+      feature: 'Medical Records - actions_conditions_getConditionsList',
+    });
   }
 };
 

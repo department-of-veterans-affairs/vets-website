@@ -18,10 +18,12 @@ export const uiSchema = {
   // 'view:uploadServiceTreatmentRecordsQualifier'
   serviceTreatmentRecordsAttachments: {
     ...fileUploadUi,
-    'ui:options': {
-      ...fileUploadUi['ui:options'],
-    },
+    'ui:options': { ...fileUploadUi['ui:options'] },
     'ui:description': UploadDescription,
+    'ui:confirmationField': ({ formData }) => ({
+      data: formData?.map(item => item.name || item.fileName),
+      label: 'Uploaded file(s)',
+    }),
     'ui:required': data =>
       _.get(
         'view:uploadServiceTreatmentRecordsQualifier.view:hasServiceTreatmentRecordsToUpload',

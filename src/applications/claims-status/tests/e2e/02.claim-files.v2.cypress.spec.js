@@ -11,6 +11,12 @@ import claimDetailsOpenManySupportingDocs from './fixtures/mocks/lighthouse/clai
 import claimDetailsOpenManyEvidenceSubmissions from './fixtures/mocks/lighthouse/claim-detail-open-many-evidence-submissions.json';
 import claimDetailsOpenWithFailedSubmissions from './fixtures/mocks/lighthouse/claim-detail-open-with-failed-submissions.json';
 import { SUBMIT_FILES_FOR_REVIEW_TEXT, SUBMIT_TEXT } from '../../constants';
+import {
+  getFileInputElement,
+  uploadFile,
+  selectDocumentType,
+  setupUnknownErrorMock,
+} from './file-upload-helpers';
 
 describe('Claim Files Test', () => {
   it('Gets files properly - C30822', () => {
@@ -396,6 +402,108 @@ describe('Upload Type 2 Error Alert', () => {
   );
 });
 
+describe('Failed Submissions in Progress Empty State', () => {
+  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+  const twoDaysAgo = new Date(
+    Date.now() - 2 * 24 * 60 * 60 * 1000,
+  ).toISOString();
+
+  context('when there are failed uploads', () => {
+    it('should show updated empty state message with link when no in-progress items but has failed uploads', () => {
+      const claimDetailsWithOnlyFailedUploads = {
+        ...claimDetailsOpenWithFailedSubmissions,
+        data: {
+          ...claimDetailsOpenWithFailedSubmissions.data,
+          attributes: {
+            ...claimDetailsOpenWithFailedSubmissions.data.attributes,
+            evidenceSubmissions: [
+              {
+                ...claimDetailsOpenWithFailedSubmissions.data.attributes
+                  .evidenceSubmissions[0],
+                uploadStatus: 'FAILED',
+                failedDate: twoDaysAgo,
+                acknowledgementDate: tomorrow,
+              },
+            ],
+            supportingDocuments: [],
+          },
+        },
+      };
+
+      const trackClaimsPage = new TrackClaimsPageV2();
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsWithOnlyFailedUploads,
+        false,
+        false,
+        featureToggleDocumentUploadStatusEnabled,
+      );
+      trackClaimsPage.verifyInProgressClaim(false);
+      trackClaimsPage.navigateToFilesTab();
+
+      // Verify the updated empty state message appears
+      cy.get('[data-testid="file-submissions-in-progress"]').within(() => {
+        cy.contains(
+          'We received your uploaded files, except the ones our system couldn’t accept',
+        ).should('exist');
+
+        // Verify anchor link to files we couldn't receive section
+        cy.get('va-link')
+          .should('have.attr', 'href', '#files-we-couldnt-receive')
+          .should('have.attr', 'text', 'Files we couldn’t receive section');
+      });
+
+      // Verify the entry point section exists
+      cy.get('[data-testid="files-we-couldnt-receive-entry-point"]')
+        .should('exist')
+        .within(() => {
+          cy.contains('Files we couldn’t receive').should('exist');
+          cy.contains(
+            'Some files you submitted we couldn’t receive because of a problem with our system',
+          ).should('exist');
+
+          // Verify the link
+          cy.get('va-link')
+            .should('have.attr', 'href', '../files-we-couldnt-receive')
+            .should(
+              'have.attr',
+              'text',
+              'Learn which files we couldn’t receive and other ways to send your documents',
+            );
+        });
+
+      cy.axeCheck();
+    });
+  });
+
+  context('when there are no failed uploads', () => {
+    it('should show standard empty state message when all files are received and no failures', () => {
+      const trackClaimsPage = new TrackClaimsPageV2();
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpenNoEvidenceSubmissionsOneSupportingDocs,
+        false,
+        false,
+        featureToggleDocumentUploadStatusEnabled,
+      );
+      trackClaimsPage.verifyInProgressClaim(false);
+      trackClaimsPage.navigateToFilesTab();
+
+      // Verify standard empty state message
+      cy.get('[data-testid="file-submissions-in-progress"]').within(() => {
+        cy.contains('We’ve received all the files you’ve uploaded.').should(
+          'exist',
+        );
+      });
+      // Verify the entry point does not exist
+      cy.get('[data-testid="files-we-couldnt-receive-entry-point"]').should(
+        'not.exist',
+      );
+      cy.axeCheck();
+    });
+  });
+});
+
 describe('Type 1 Unknown Upload Errors', () => {
   const setupTest = () => {
     const trackClaimsPage = new TrackClaimsPageV2();
@@ -416,52 +524,6 @@ describe('Type 1 Unknown Upload Errors', () => {
       .shadow()
       .find('button')
       .click();
-  };
-
-  const getFileInputElement = (fileIndex = 0) =>
-    cy
-      .get('va-file-input-multiple')
-      .shadow()
-      .find('va-file-input')
-      .eq(fileIndex);
-
-  const getFileInput = (fileIndex = 0) =>
-    getFileInputElement(fileIndex).shadow();
-
-  const uploadFile = (fileName, fileIndex = 0) => {
-    getFileInput(fileIndex)
-      .find('input[type="file"]')
-      .selectFile({
-        contents: Cypress.Buffer.from('test content'),
-        fileName,
-      });
-  };
-
-  const selectDocumentType = (fileIndex, docTypeCode) => {
-    getFileInputElement(fileIndex)
-      .find('va-select')
-      .should('be.visible')
-      .shadow()
-      .find('select')
-      .should('not.be.disabled')
-      .should('be.visible')
-      .wait(100) // Small wait to ensure stability
-      .select(docTypeCode);
-  };
-
-  const setupUnknownErrorMock = () => {
-    cy.intercept('POST', '/v0/benefits_claims/*/benefits_documents', {
-      statusCode: 500,
-      body: {
-        errors: [
-          {
-            title: 'Internal Server Error',
-            code: '500',
-            status: '500',
-          },
-        ],
-      },
-    }).as('uploadRequest');
   };
 
   const uploadFileAndSubmit = () => {
