@@ -138,7 +138,6 @@ describe('Send Rx Renewal Message on List Page', () => {
         const nonVAText = $nonVA.text();
         expect(nonVAText).to.include('manage this medication');
 
-        // Verify no renewal link for non-VA prescription
         cy.wrap($nonVA)
           .parent()
           .find('[data-testid="send-renewal-request-message-link"]')
