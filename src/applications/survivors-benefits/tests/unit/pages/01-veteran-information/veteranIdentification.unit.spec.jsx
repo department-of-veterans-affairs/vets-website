@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import {
   DefinitionTester,
   getFormDOM,
@@ -19,16 +19,36 @@ describe('Claimant Information Page', () => {
     expect(form.getByRole('heading')).to.have.text(
       'Veteran’s identification information',
     );
+
+    expect(formDOM.querySelector('fieldset > p')).to.exist;
+
+    expect(formDOM.querySelector('fieldset > p')).to.have.text(
+      'You must enter either a Social Security number or a VA File number.',
+    );
+
     const vaTextInput = $$('va-text-input', formDOM);
 
     const vaSsn = $('va-text-input[label="Social Security number"]', formDOM);
     const vaFileNumber = $('va-text-input[label="VA file number"]', formDOM);
-    const vaServiceNumber = $('va-text-input[label="Service number"]', formDOM);
 
-    expect(vaTextInput.length).to.equal(3);
+    expect(vaTextInput.length).to.equal(2);
 
     expect(vaSsn.getAttribute('required')).to.equal('true');
     expect(vaFileNumber.getAttribute('required')).to.equal('false');
-    expect(vaServiceNumber.getAttribute('required')).to.equal('false');
+
+    // Fill out the VA file number field using web component event
+    vaFileNumber.value = '12345678';
+    vaFileNumber.dispatchEvent(
+      new CustomEvent('input', {
+        detail: { value: '12345678' },
+        bubbles: true,
+      }),
+    );
+
+    // Wait for the form to process the change
+    await waitFor(() => {
+      expect(vaSsn.getAttribute('required')).to.equal('false');
+      expect(vaFileNumber.getAttribute('required')).to.equal('true');
+    });
   });
 });
