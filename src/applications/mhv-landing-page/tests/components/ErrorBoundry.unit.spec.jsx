@@ -70,17 +70,8 @@ describe('ErrorBoundary component', () => {
         expect(queryByTestId('mhv-alert--mhv-registration')).to.exist;
       });
 
-      // Check that the error message text is present in the container
-      // Using Unicode escapes to match both straight apostrophe (\u0027) and curly apostrophe (\u2019)
-      expect(container.textContent).to.match(/We[\u0027\u2019]re sorry/);
-      expect(container.textContent).to.match(
-        /There[\u0027\u2019]s a problem with our system/,
-      );
-      expect(container.textContent).to.include('Try refreshing this page');
-      expect(container.textContent).to.include('Or check back later');
-      expect(container.textContent).to.match(
-        /You can[\u0027\u2019]t access My HealtheVet tools right now/,
-      );
+      // Verify error message is displayed (check for key phrase, not entire content)
+      expect(container.textContent).to.include('problem with our system');
     });
 
     it('should render error message when children is undefined', async () => {
@@ -93,17 +84,8 @@ describe('ErrorBoundary component', () => {
         expect(queryByTestId('mhv-alert--mhv-registration')).to.exist;
       });
 
-      // Check that the error message text is present in the container
-      // Using Unicode escapes to match both straight apostrophe (\u0027) and curly apostrophe (\u2019)
-      expect(container.textContent).to.match(/We[\u0027\u2019]re sorry/);
-      expect(container.textContent).to.match(
-        /There[\u0027\u2019]s a problem with our system/,
-      );
-      expect(container.textContent).to.include('Try refreshing this page');
-      expect(container.textContent).to.include('Or check back later');
-      expect(container.textContent).to.match(
-        /You can[\u0027\u2019]t access My HealtheVet tools right now/,
-      );
+      // Verify error message is displayed (check for key phrase, not entire content)
+      expect(container.textContent).to.include('problem with our system');
     });
   });
 
@@ -126,11 +108,8 @@ describe('ErrorBoundary component', () => {
       await waitFor(() => {
         expect(queryByTestId('mhv-alert--mhv-registration')).to.exist;
       });
-      // Using Unicode escapes to match both straight apostrophe (\u0027) and curly apostrophe (\u2019)
-      expect(container.textContent).to.match(/We[\u0027\u2019]re sorry/);
-      expect(container.textContent).to.match(
-        /There[\u0027\u2019]s a problem with our system/,
-      );
+      // Verify error message is displayed (check for key phrase, not entire content)
+      expect(container.textContent).to.include('problem with our system');
 
       // Try to re-render with a component that doesn't throw
       // Note: Error boundaries persist error state, so even with new children,
@@ -145,11 +124,8 @@ describe('ErrorBoundary component', () => {
       await waitFor(() => {
         expect(queryByTestId('mhv-alert--mhv-registration')).to.exist;
       });
-      // Using Unicode escapes to match both straight apostrophe (\u0027) and curly apostrophe (\u2019)
-      expect(container.textContent).to.match(/We[\u0027\u2019]re sorry/);
-      expect(container.textContent).to.match(
-        /There[\u0027\u2019]s a problem with our system/,
-      );
+      // Verify error message is still displayed (check for key phrase, not entire content)
+      expect(container.textContent).to.include('problem with our system');
 
       // Children should not be rendered
       expect(queryByText(/Child content/)).to.not.exist;

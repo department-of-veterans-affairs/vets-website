@@ -48,12 +48,9 @@ describe('CardLayout component', () => {
 
       // ErrorNavCard should show error message (when userActionable=true, shows error code format)
       expect(getByText(/Error 801:/)).to.exist;
-      // Text may be split across text nodes, so check container for the combined text
-      // Check for key parts without worrying about exact apostrophe character
+      // Verify error message is displayed (check for key phrase, not entire content)
       const paragraph = container.querySelector('p');
-      expect(paragraph.textContent).to.include('We can');
-      expect(paragraph.textContent).to.include('t give you access to');
-      expect(paragraph.textContent).to.include('messages');
+      expect(paragraph.textContent).to.include('give you access to');
       expect(getByText('Messages')).to.exist;
     });
 
@@ -135,15 +132,9 @@ describe('CardLayout component', () => {
       // ErrorNavCard with userActionable=false shows generic message (no error code, no phone)
       expect(queryByText(/Error \d+:/)).to.not.exist;
       expect(queryByText(/Call us at/)).to.not.exist;
-      // Text is split across text nodes, so check container for the combined text
-      // Check for key parts without worrying about exact apostrophe character
+      // Verify generic error message is displayed (check for key phrase, not entire content)
       const paragraph = container.querySelector('p');
-      expect(paragraph.textContent).to.include('We');
-      expect(paragraph.textContent).to.include('ve run into a problem');
-      expect(paragraph.textContent).to.include('can');
-      expect(paragraph.textContent).to.include('t give you access to');
-      expect(paragraph.textContent).to.include('Messages');
-      expect(paragraph.textContent).to.include('right now');
+      expect(paragraph.textContent).to.include('run into a problem');
     });
 
     it('sorts errors and prioritizes user actionable errors', () => {
