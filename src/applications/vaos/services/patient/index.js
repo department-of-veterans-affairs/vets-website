@@ -180,7 +180,7 @@ function locationSupportsDirectScheduling(location, typeOfCare) {
   return (
     // this check is included due to old two step facilities page
     location.legacyVAR.directSchedulingSupported ||
-    location.legacyVAR.settings?.[typeOfCare.id]?.direct.enabled
+    location.legacyVAR.settings?.[typeOfCare.id]?.direct?.enabled
   );
 }
 
