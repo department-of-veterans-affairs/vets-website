@@ -5,15 +5,12 @@ import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
 
-describe('Supplemental Claims Private evidence authorization page', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.evidence.pages.evidencePrivateRecordsAuthorization;
+describe('Supplemental Claims Private evidence request page', () => {
+  const { schema, uiSchema } = formConfig.chapters.evidence.pages.privatePrompt;
 
-  // Custom page is rendered, so this only renders a submit button
+  // Custom page is rendered, so this renders a checkbox + submit button
   it('should render', () => {
     const { container } = render(
       <DefinitionTester

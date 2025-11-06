@@ -1,4 +1,4 @@
-import { HAS_PRIVATE_EVIDENCE } from '../constants';
+import { HAS_PRIVATE_EVIDENCE } from '../../constants';
 
 export default {
   uiSchema: {

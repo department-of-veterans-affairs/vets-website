@@ -7,20 +7,20 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as focusUtils from '~/platform/utilities/ui/focus';
-import EvidencePrivateRecords from '../../components/EvidencePrivateRecords';
+import PrivateDetails from '../../../components/evidence/PrivateDetails';
 import {
   errorMessages,
   EVIDENCE_PRIVATE_DETAILS_URL,
   NO_ISSUES_SELECTED,
-} from '../../constants';
+} from '../../../constants';
 import {
   clickAddAnother,
   clickBack,
   clickContinue,
-} from '../unit-test-helpers';
-import { parseDateWithOffset } from '../../../shared/utils/dates';
-import { SELECTED, MAX_YEARS_PAST } from '../../../shared/constants';
-import sharedErrorMessages from '../../../shared/content/errorMessages';
+} from '../../unit-test-helpers';
+import { parseDateWithOffset } from '../../../../shared/utils/dates';
+import { SELECTED, MAX_YEARS_PAST } from '../../../../shared/constants';
+import sharedErrorMessages from '../../../../shared/content/errorMessages';
 
 /*
 | Data     | Forward     | Back               | Add another      |
@@ -29,7 +29,7 @@ import sharedErrorMessages from '../../../shared/content/errorMessages';
 | Empty    | Focus error | Prev page & remove | Focus error      |
 | Partial  | Focus error | Modal & Prev page  | Focus error      |
  */
-describe('<EvidencePrivateRecords>', () => {
+describe('<PrivateDetails>', () => {
   const validDate = parseDateWithOffset({ months: -2 });
   const mockData = {
     contestedIssues: [
@@ -76,7 +76,7 @@ describe('<EvidencePrivateRecords>', () => {
     setFormData = () => {},
   } = {}) => (
     <div>
-      <EvidencePrivateRecords
+      <PrivateDetails
         testingIndex={index}
         data={data}
         goBack={goBack}

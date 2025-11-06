@@ -7,8 +7,8 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { content as evidenceVaContent } from '../../../content/evidence/vaDetails';
-import { content as evidencePrivateContent } from '../../../content/evidencePrivateRecords';
-import EvidenceIssues from '../../../components/evidence/Issues';
+import { content as evidencePrivateContent } from '../../../content/evidence/privateDetails';
+import Issues from '../../../components/evidence/Issues';
 import { NO_ISSUES_SELECTED } from '../../../constants';
 
 const showErrorSpy = sinon.spy();
@@ -20,11 +20,11 @@ const emptyData = {
 
 const availableIssues = ['Hypertension', 'Right Knee Injury', 'ADHD'];
 
-describe('EvidenceIssues', () => {
+describe('Issues', () => {
   describe('when there are no available issues', () => {
     it('should render the proper content', () => {
       const screen = render(
-        <EvidenceIssues
+        <Issues
           availableIssues={[]}
           content={evidenceVaContent}
           currentData={emptyData}
@@ -41,7 +41,7 @@ describe('EvidenceIssues', () => {
     describe('before the form has been filled out', () => {
       it('should render the proper content', () => {
         const { container } = render(
-          <EvidenceIssues
+          <Issues
             availableIssues={availableIssues}
             content={evidenceVaContent}
             currentData={emptyData}
@@ -77,7 +77,7 @@ describe('EvidenceIssues', () => {
         };
 
         const { container } = render(
-          <EvidenceIssues
+          <Issues
             availableIssues={availableIssues}
             content={evidenceVaContent}
             currentData={filledData}
@@ -108,7 +108,7 @@ describe('EvidenceIssues', () => {
     describe('before the form has been filled out', () => {
       it('should render the proper content', () => {
         const { container } = render(
-          <EvidenceIssues
+          <Issues
             availableIssues={availableIssues}
             content={evidencePrivateContent}
             currentData={emptyData}
@@ -146,7 +146,7 @@ describe('EvidenceIssues', () => {
         };
 
         const { container } = render(
-          <EvidenceIssues
+          <Issues
             availableIssues={availableIssues}
             content={evidencePrivateContent}
             currentData={filledData}

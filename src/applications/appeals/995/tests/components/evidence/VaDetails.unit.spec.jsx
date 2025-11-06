@@ -8,23 +8,23 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as focusUtils from '~/platform/utilities/ui/focus';
-import EvidenceVaRecords from '../../components/EvidenceVaRecords';
+import VaDetails from '../../../components/evidence/VaDetails';
 import {
   errorMessages,
   HAS_VA_EVIDENCE,
   EVIDENCE_VA_DETAILS_URL,
   NO_ISSUES_SELECTED,
-} from '../../constants';
+} from '../../../constants';
 import {
   clickAddAnother,
   clickBack,
   clickContinue,
   verifyHeader,
-} from '../unit-test-helpers';
-import { parseDateWithOffset } from '../../../shared/utils/dates';
-import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
-import { records } from '../data/evidence-records';
-import { content } from '../../content/evidence/vaDetails';
+} from '../../unit-test-helpers';
+import { parseDateWithOffset } from '../../../../shared/utils/dates';
+import { MAX_LENGTH, SELECTED } from '../../../../shared/constants';
+import { records } from '../../data/evidence-records';
+import { content } from '../../../content/evidence/vaDetails';
 
 const vaLocations = records().locations;
 
@@ -35,7 +35,7 @@ const vaLocations = records().locations;
 | Empty    | Focus error | Prev page & remove | Focus error      |
 | Partial  | Focus error | Modal & Prev page  | Focus error      |
  */
-describe('EvidenceVaRecords', () => {
+describe('VaDetails', () => {
   let focusElementSpy;
 
   beforeEach(() => {
@@ -76,7 +76,7 @@ describe('EvidenceVaRecords', () => {
     goToPath = () => {},
     setFormData = () => {},
   } = {}) => (
-    <EvidenceVaRecords
+    <VaDetails
       testingIndex={index}
       data={data}
       goBack={goBack}

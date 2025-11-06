@@ -1,4 +1,4 @@
-import { HAS_PRIVATE_EVIDENCE } from '../constants';
+import { HAS_PRIVATE_EVIDENCE } from '../../constants';
 
 import {
   validatePrivateName,
@@ -11,7 +11,7 @@ import {
   validatePrivateFromDate,
   validatePrivateToDate,
   validatePrivateUnique,
-} from '../validations/evidence';
+} from '../../validations/evidence';
 
 const requiredPrivateEvidence = {
   type: 'object',
