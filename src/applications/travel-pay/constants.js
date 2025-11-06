@@ -173,12 +173,26 @@ export const STATUS_GROUPINGS = [
 ];
 
 export const EXPENSE_TYPES = Object.freeze({
-  Airtravel: {
-    addButtonText: 'air travel',
-    expensePageText: 'airfare',
-    name: 'air travel',
-    title: 'Airfare',
-    route: 'air-travel',
+  Mileage: {
+    addButtonText: 'mileage',
+    expensePageText: 'mileage',
+    name: 'mileage',
+    title: 'Mileage',
+    route: 'mileage',
+  },
+  Parking: {
+    addButtonText: 'parking',
+    expensePageText: 'parking',
+    name: 'parking',
+    title: 'Parking',
+    route: 'parking',
+  },
+  Toll: {
+    addButtonText: 'toll',
+    expensePageText: 'toll',
+    name: 'toll',
+    title: 'Tolls',
+    route: 'toll',
   },
   Commoncarrier: {
     addButtonText: 'public transportation, taxi, or rideshare',
@@ -186,6 +200,13 @@ export const EXPENSE_TYPES = Object.freeze({
     name: 'common carrier',
     title: 'Public transportation, taxi, or rideshare',
     route: 'common-carrier',
+  },
+  Airtravel: {
+    addButtonText: 'air travel',
+    expensePageText: 'airfare',
+    name: 'air travel',
+    title: 'Airfare',
+    route: 'air-travel',
   },
   Lodging: {
     addButtonText: 'lodging',
@@ -201,33 +222,12 @@ export const EXPENSE_TYPES = Object.freeze({
     title: 'Meals',
     route: 'meal',
   },
-  Mileage: {
-    addButtonText: 'mileage',
-    expensePageText: 'mileage',
-    name: 'mileage',
-    title: 'Mileage',
-    route: 'mileage',
-  },
-  Parking: {
-    addButtonText: 'parking',
-    expensePageText: 'parking',
-    name: 'parking',
-    title: 'Parking',
-    route: 'parking',
-  },
   Other: {
     addButtonText: 'travel',
     expensePageText: 'other travel',
     name: 'other',
     title: 'Other travel expenses',
     route: 'other',
-  },
-  Toll: {
-    addButtonText: 'toll',
-    expensePageText: 'toll',
-    name: 'toll',
-    title: 'Tolls',
-    route: 'toll',
   },
 });
 

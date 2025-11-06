@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import {
   MemoryRouter,
@@ -44,16 +44,16 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
     renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[
-          `/file-new-claim/complex/12345/${expenseTypeConfig.route}`,
+          `/file-new-claim/12345/43555/${expenseTypeConfig.route}`,
         ]}
       >
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/:expenseTypeRoute"
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
             element={<ExpensePage />}
           />
           <Route
-            path="/file-new-claim/complex/:apptId/choose-expense"
+            path="/file-new-claim/:apptId/:claimId/choose-expense"
             element={<ChooseExpenseType />}
           />
         </Routes>
@@ -156,7 +156,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
         );
 
         const reasonOption = root.querySelector(
-          `va-radio[name="transportationReasons"] va-radio-option[value="${
+          `va-radio[name="transportationReason"] va-radio-option[value="${
             Object.keys(TRANSPORTATION_REASONS)[0]
           }"]`,
         );
@@ -301,7 +301,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           buttonPair.__events.primaryClick();
 
           expect(getByTestId('location-display').textContent).to.equal(
-            `/file-new-claim/complex/12345/${config.route}`,
+            `/file-new-claim/12345/43555/${config.route}`,
           );
         });
 
@@ -323,8 +323,25 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           buttonPair.__events.secondaryClick();
 
           expect(getByTestId('location-display').textContent).to.equal(
-            '/file-new-claim/complex/12345/choose-expense',
+            '/file-new-claim/12345/43555/choose-expense',
           );
+        });
+
+        it('focuses the error message on validation failure', async () => {
+          const { container, getByTestId, getByText } = renderPage(config);
+          const buttonPair = container.querySelector('va-button-pair');
+
+          buttonPair.__events.primaryClick();
+
+          await waitFor(() => {
+            const error = getByTestId('expense-page-error');
+            expect(
+              getByText(
+                'Please fill out all required fields before continuing.',
+              ),
+            ).to.exist;
+            expect(document.activeElement).to.eq(error);
+          });
         });
       });
     });

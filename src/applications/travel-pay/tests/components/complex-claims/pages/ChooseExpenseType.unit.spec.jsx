@@ -7,6 +7,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { EXPENSE_TYPES } from '../../../../constants';
 
 import ChooseExpenseType from '../../../../components/complex-claims/pages/ChooseExpenseType';
+import ExpensePage from '../../../../components/complex-claims/pages/ExpensePage';
 import reducer from '../../../../redux/reducer';
 
 describe('ChooseExpenseType', () => {
@@ -22,6 +23,10 @@ describe('ChooseExpenseType', () => {
           <Route
             path="/file-new-claim/:apptId/:claimId/choose-expense"
             element={<ChooseExpenseType />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+            element={<ExpensePage />}
           />
         </Routes>
       </MemoryRouter>,

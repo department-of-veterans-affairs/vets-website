@@ -1,24 +1,28 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import {
+  useNavigate,
+  useParams,
+  useLocation,
+} from 'react-router-dom-v5-compat';
 import {
   VaModal,
   VaButton,
   VaButtonPair,
   VaDate,
   VaTextInput,
-  VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import DocumentUpload from './DocumentUpload';
-import {
-  EXPENSE_TYPES,
-  TRANSPORTATION_OPTIONS,
-  TRANSPORTATION_REASONS,
-  TRIP_OPTIONS,
-} from '../../../constants';
+import { EXPENSE_TYPES } from '../../../constants';
+import ExpenseMealFields from './ExpenseMealFields';
+import ExpenseAirTravelFields from './ExpenseAirTravelFields';
+import ExpenseLodgingFields from './ExpenseLodgingFields';
+import ExpenseCommonCarrierFields from './ExpenseCommonCarrierFields';
 
 const ExpensePage = () => {
   const navigate = useNavigate();
-  const { apptId, expenseTypeRoute } = useParams();
+  const { apptId, claimId } = useParams();
+  const location = useLocation();
+  const expenseTypeRoute = location.pathname.split('/').pop();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formState, setFormState] = useState({});
   const [showError, setShowError] = useState(false);
@@ -56,44 +60,44 @@ const ExpensePage = () => {
   };
 
   const handleOpenModal = () => setIsModalVisible(true);
-  const handleCloseModal = () => setIsModalVisible(false);
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+  };
+
+  const REQUIRED_FIELDS = {
+    Meal: ['vendor'],
+    Lodging: ['vendor', 'checkInDate', 'checkOutDate'],
+    Commoncarrier: ['transportationType', 'transportationReason'],
+    Airtravel: [
+      'vendorName',
+      'tripType',
+      'departureDate',
+      'departureAirport',
+      'arrivalDate',
+      'arrivalAirport',
+    ],
+  };
 
   const validatePage = () => {
-    const requiredFields = ['date', 'amount', 'documentUpload']; // basic required fields
-
-    if (expenseType === 'Meal') requiredFields.push('vendor');
-    if (expenseType === 'Lodging') {
-      requiredFields.push('vendor', 'checkInDate', 'checkOutDate');
-    }
-    if (expenseType === 'Commoncarrier') {
-      requiredFields.push('transportationType', 'transportationReason');
-    }
-    if (expenseType === 'Airtravel') {
-      requiredFields.push(
-        'vendorName',
-        'tripType',
-        'departureDate',
-        'departureAirport',
-        'arrivalDate',
-        'arrivalAirport',
-      );
-    }
+    const base = ['date', 'amount', 'documentUpload'];
+    const extra = REQUIRED_FIELDS[expenseType] || [];
+    const requiredFields = [...base, ...extra];
 
     const emptyFields = requiredFields.filter(field => !formState[field]);
-    const isValid = emptyFields.length === 0;
 
-    setShowError(!isValid);
-    return isValid;
+    setShowError(emptyFields.length > 0);
+    return emptyFields.length === 0;
   };
 
   const handleContinue = () => {
     const isValid = validatePage();
     if (!isValid) return; // stop navigation if validation fails
-    navigate(`/file-new-claim/complex/${apptId}/review`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/complex/${apptId}/choose-expense`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
   };
 
   const handleDocumentUpload = e => {
@@ -120,7 +124,6 @@ const ExpensePage = () => {
   return (
     <>
       <h1>
-        {' '}
         {expenseTypeFields?.expensePageText
           ? `${expenseTypeFields.expensePageText
               .charAt(0)
@@ -131,6 +134,7 @@ const ExpensePage = () => {
       </h1>
       {showError && (
         <p
+          data-testid="expense-page-error"
           ref={errorRef}
           tabIndex={-1} // make focusable
           style={{ color: 'red' }}
@@ -139,152 +143,30 @@ const ExpensePage = () => {
         </p>
       )}
       <p>
-        {`If you have multiple ${
-          expenseTypeFields.expensePageText
-        } expenses, add just one on this page. ` +
-          `You'll be able to add more expenses after this.`}
+        If you have multiple {expenseTypeFields.expensePageText} expenses, add
+        just one on this page. You’ll be able to add more expenses after this.
       </p>
       <DocumentUpload handleDocumentUpload={handleDocumentUpload} />
       {expenseType === 'Meal' && (
-        <>
-          <VaTextInput
-            label="Where did you purchase the meal?"
-            name="vendor"
-            value={formState.vendor || ''}
-            required
-            onInput={handleFormChange}
-            error
-          />
-        </>
+        <ExpenseMealFields formState={formState} onChange={handleFormChange} />
       )}
       {expenseType === 'Lodging' && (
-        <>
-          <VaTextInput
-            label="Where did you stay?"
-            name="vendor"
-            value={formState.vendor || ''}
-            required
-            onInput={handleFormChange}
-          />
-          <VaDate
-            label="Check in date"
-            name="checkInDate"
-            value={formState.checkInDate || ''}
-            required
-            onDateChange={handleFormChange}
-          />
-          <VaDate
-            label="Check out date"
-            name="checkOutDate"
-            value={formState.checkOutDate || ''}
-            required
-            onDateChange={handleFormChange}
-          />
-        </>
+        <ExpenseLodgingFields
+          formState={formState}
+          onChange={handleFormChange}
+        />
       )}
       {expenseType === 'Commoncarrier' && (
-        <>
-          <VaRadio
-            id="transportation-type"
-            name="transportationType"
-            value={formState.transportationType || ''}
-            onVaValueChange={e =>
-              handleFormChange(e.detail, 'transportationType')
-            }
-            label="Type of transportation"
-            required
-          >
-            {TRANSPORTATION_OPTIONS.map(option => (
-              <va-radio-option
-                key={option}
-                label={option}
-                value={option}
-                name={`transportation-type-${option}`}
-                checked={formState.transportationType === option}
-              />
-            ))}
-          </VaRadio>
-          <VaRadio
-            id="transportation-reasons"
-            name="transportationReasons"
-            onVaValueChange={e =>
-              handleFormChange(e.detail, 'transportationReasons')
-            }
-            value={formState.transportationReason || ''}
-            label="Why did you choose to use public transportation?"
-            required
-          >
-            {Object.keys(TRANSPORTATION_REASONS).map(key => (
-              <va-radio-option
-                key={key}
-                label={TRANSPORTATION_REASONS[key].label}
-                value={key}
-                name={`transportation-reason-${key}`}
-                checked={formState.transportationReason === key}
-              />
-            ))}
-          </VaRadio>
-        </>
+        <ExpenseCommonCarrierFields
+          formState={formState}
+          onChange={handleFormChange}
+        />
       )}
       {expenseType === 'Airtravel' && (
-        <>
-          <VaTextInput
-            label="Where did you purchase your ticket?"
-            name="vendorName"
-            value={formState.vendorName || ''}
-            required
-            onInput={handleFormChange}
-            hint="If you didn’t purchase the ticket(s) directly from an airline, enter the company you purchased the ticket from."
-          />
-          <VaRadio
-            id="trip-type"
-            name="tripType"
-            value={formState.tripType || ''}
-            label="Type of trip"
-            onVaValueChange={e => handleFormChange(e.detail, 'tripType')}
-            required
-          >
-            {TRIP_OPTIONS.map(option => (
-              <va-radio-option
-                key={option}
-                label={option}
-                value={option}
-                name={`trip-type-${option}`}
-                checked={formState.tripType === option}
-              />
-            ))}
-          </VaRadio>
-          <VaDate
-            label="Departure date"
-            name="departureDate"
-            value={formState.departureDate || ''}
-            required
-            onDateChange={handleFormChange}
-            hint="For round trip flights, enter the departure date of your first flight."
-          />
-          <VaTextInput
-            label="Departure airport"
-            name="departureAirport"
-            value={formState.departureAirport || ''}
-            required
-            onInput={handleFormChange}
-            hint="For round trip flights, enter the departure airport of your first flight."
-          />
-          <VaDate
-            label="Arrival date"
-            name="arrivalDate"
-            value={formState.arrivalDate || ''}
-            required
-            onDateChange={handleFormChange}
-          />
-          <VaTextInput
-            label="Arrival airport"
-            name="arrivalAirport"
-            value={formState.arrivalAirport || ''}
-            required
-            onInput={handleFormChange}
-          />
-        </>
+        <ExpenseAirTravelFields
+          formState={formState}
+          onChange={handleFormChange}
+        />
       )}
       <VaDate
         label="Date"
