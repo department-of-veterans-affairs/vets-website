@@ -32,11 +32,14 @@ export function typeOfCareRequiresPastHistory(
     PRIMARY_CARE,
     MENTAL_HEALTH_SUBSTANCE_USE_ID,
   } = TYPE_OF_CARE_IDS;
-  return (
-    (typeOfCareId !== MENTAL_HEALTH_SERVICES_ID || featurePastVisitMHFilter) && // If id is MH and flag is disabled condition is false and MH does not require past Hx
-    typeOfCareId !== PRIMARY_CARE && // If id is PC never requires past Hx
-    typeOfCareId !== MENTAL_HEALTH_SUBSTANCE_USE_ID // If id is SUD never requires past Hx
-  );
+
+  const exempted = new Set([PRIMARY_CARE, MENTAL_HEALTH_SUBSTANCE_USE_ID]);
+
+  if (!featurePastVisitMHFilter) {
+    exempted.add(MENTAL_HEALTH_SERVICES_ID);
+  }
+
+  return !exempted.has(typeOfCareId);
 }
 
 function createErrorHandler(errorKey) {
