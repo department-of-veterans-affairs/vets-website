@@ -7,10 +7,14 @@ import {
   SEI_DOMAINS,
   ALERT_TYPE_SEI_ERROR,
   MissingRecordsError,
-  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { add, compareAsc } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  selectPatientFacilities,
+  selectIsCernerPatient,
+  selectIsCernerOnlyPatient,
+} from '~/platform/user/cerner-dsot/selectors';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import {
   getFailedDomainList,
@@ -68,17 +72,16 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const [failedSeiDomains, setFailedSeiDomains] = useState([]);
   const [seiPdfGenerationError, setSeiPdfGenerationError] = useState(null);
   const [expandSelfEntered, setExpandSelfEntered] = useState(false);
-  const [generatingCCDV2, setGeneratingCCDV2] = useState(false);
 
   const activeAlert = useAlerts(dispatch);
   const selfEnteredAccordionRef = useRef(null);
-  useAcceleratedData();
 
-  // Determine user's data sources based on facility information
-  const facilities = userProfile?.facilities || [];
-  const hasOHFacilities = facilities.some(f => f.isCerner === true);
-  const hasVistAFacilities = facilities.some(f => f.isCerner === false);
-  const hasOHOnly = hasOHFacilities && !hasVistAFacilities;
+  // Determine user's data sources using platform selectors
+  const facilities = useSelector(selectPatientFacilities) || [];
+  const hasOHFacilities = useSelector(selectIsCernerPatient);
+  const hasOHOnly = useSelector(selectIsCernerOnlyPatient);
+  // Note: No platform selector exists for "has VistA facilities only"
+  const hasVistAFacilities = facilities.length > 0 && !hasOHOnly;
   const hasBothDataSources = hasOHFacilities && hasVistAFacilities;
 
   // Checks if CCD retry is needed and returns a formatted timestamp or null.
@@ -193,18 +196,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const handleDownloadCCDV2 = (e, fileType) => {
     e.preventDefault();
-    setGeneratingCCDV2(true);
-
     dispatch(
       downloadCCDV2(
         userProfile?.userFullName?.first || '',
         userProfile?.userFullName?.last || '',
         fileType,
       ),
-    ).finally(() => {
-      setGeneratingCCDV2(false);
-    });
-
+    );
     postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
     sendDataDogAction(`Download CCD V2 ${fileType} link`);
   };
@@ -338,7 +336,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               return (
                 <CCDAccordionItemDual
                   generatingCCD={generatingCCD}
-                  generatingCCDV2={generatingCCDV2}
                   handleDownloadCCD={handleDownloadCCD}
                   handleDownloadCCDV2={handleDownloadCCDV2}
                 />
@@ -347,7 +344,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             if (hasOHOnly) {
               return (
                 <CCDAccordionItemOH
-                  generatingCCDV2={generatingCCDV2}
+                  generatingCCD={generatingCCD}
                   handleDownloadCCDV2={handleDownloadCCDV2}
                 />
               );

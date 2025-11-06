@@ -64,7 +64,6 @@ DownloadSection.propTypes = {
 
 const CCDAccordionItemDual = ({
   generatingCCD,
-  generatingCCDV2,
   handleDownloadCCD,
   handleDownloadCCDV2,
 }) => (
@@ -101,7 +100,7 @@ const CCDAccordionItemDual = ({
     </p>
 
     <DownloadSection
-      isLoading={generatingCCDV2}
+      isLoading={generatingCCD}
       handleDownload={handleDownloadCCDV2}
       testIdSuffix="OH"
       ddSuffix="OH"
@@ -111,7 +110,6 @@ const CCDAccordionItemDual = ({
 
 CCDAccordionItemDual.propTypes = {
   generatingCCD: PropTypes.bool,
-  generatingCCDV2: PropTypes.bool,
   handleDownloadCCD: PropTypes.func,
   handleDownloadCCDV2: PropTypes.func,
 };

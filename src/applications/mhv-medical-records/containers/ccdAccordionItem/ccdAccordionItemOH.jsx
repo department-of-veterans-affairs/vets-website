@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TrackedSpinner from '../../components/shared/TrackedSpinner';
 
-const CCDAccordionItemOH = ({ generatingCCDV2, handleDownloadCCDV2 }) => (
+const CCDAccordionItemOH = ({ generatingCCD, handleDownloadCCDV2 }) => (
   <va-accordion-item bordered data-testid="ccdAccordionItem">
     <h3 slot="headline">Continuity of Care Document for non-VA providers</h3>
     <p className="vads-u-margin-bottom--2">
@@ -11,7 +11,7 @@ const CCDAccordionItemOH = ({ generatingCCDV2, handleDownloadCCDV2 }) => (
       includes your allergies, medications, recent lab results, and more. We
       used to call this report your VA Health Summary.
     </p>
-    {generatingCCDV2 ? (
+    {generatingCCD ? (
       <div id="generating-ccd-oh-indicator">
         <TrackedSpinner
           id="download-ccd-oh-spinner"
@@ -55,7 +55,7 @@ const CCDAccordionItemOH = ({ generatingCCDV2, handleDownloadCCDV2 }) => (
 );
 
 CCDAccordionItemOH.propTypes = {
-  generatingCCDV2: PropTypes.bool,
+  generatingCCD: PropTypes.bool,
   handleDownloadCCDV2: PropTypes.func,
 };
 

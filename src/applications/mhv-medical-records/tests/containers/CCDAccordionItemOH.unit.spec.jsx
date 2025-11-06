@@ -5,7 +5,7 @@ import CCDAccordionItemOH from '../../containers/ccdAccordionItem/ccdAccordionIt
 
 describe('CCDAccordionItemOH', () => {
   const defaultProps = {
-    generatingCCDV2: false,
+    generatingCCD: false,
     handleDownloadCCDV2: () => {},
   };
 
@@ -18,8 +18,8 @@ describe('CCDAccordionItemOH', () => {
       .to.exist;
   });
 
-  it('shows loading spinner when generatingCCDV2 is true', () => {
-    const props = { ...defaultProps, generatingCCDV2: true };
+  it('shows loading spinner when generatingCCD is true', () => {
+    const props = { ...defaultProps, generatingCCD: true };
     const { container, queryByTestId } = render(
       <CCDAccordionItemOH {...props} />,
     );

@@ -6,7 +6,6 @@ import CCDAccordionItemDual from '../../containers/ccdAccordionItem/ccdAccordion
 describe('CCDAccordionItemDual', () => {
   const defaultProps = {
     generatingCCD: false,
-    generatingCCDV2: false,
     handleDownloadCCD: () => {},
     handleDownloadCCDV2: () => {},
   };
@@ -29,8 +28,8 @@ describe('CCDAccordionItemDual', () => {
     expect(queryByTestId('generateCcdButtonXmlVista')).to.not.exist;
   });
 
-  it('shows Oracle Health loading spinner when generatingCCDV2 is true', () => {
-    const props = { ...defaultProps, generatingCCDV2: true };
+  it('shows Oracle Health loading spinner when generatingCCD is true', () => {
+    const props = { ...defaultProps, generatingCCD: true };
     const { getByTestId, queryByTestId } = render(
       <CCDAccordionItemDual {...props} />,
     );
@@ -84,11 +83,10 @@ describe('CCDAccordionItemDual', () => {
     expect(calledWith).to.equal('html');
   });
 
-  it('shows both spinners independently', () => {
+  it('shows both spinners when generatingCCD is true', () => {
     const props = {
       ...defaultProps,
       generatingCCD: true,
-      generatingCCDV2: true,
     };
     const { getByTestId } = render(<CCDAccordionItemDual {...props} />);
 
