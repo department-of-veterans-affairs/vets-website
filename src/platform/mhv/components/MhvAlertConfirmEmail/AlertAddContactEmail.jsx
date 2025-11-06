@@ -38,7 +38,7 @@ const AlertAddContactEmail = ({ recordEvent, onSkipClick }) => {
             fullWidth
             secondary
             onClick={() => onSkipClick()}
-            text="Skip adding email"
+            text="Skip adding an email"
           />
         </p>
       </React.Fragment>
