@@ -1,0 +1,285 @@
+{
+  "view:householdIncome": false,
+  "view:householdIncomeFooter": {},
+  "view:addOrRemoveDependents": {
+    "remove": true
+  },
+  "useV2": true,
+  "veteranContactInformation": {
+    "veteranAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1700 Clairmont Rd",
+      "street2": "",
+      "street3": "",
+      "city": "Decatur",
+      "state": "GA",
+      "postalCode": "30033"
+    },
+    "phoneNumber": "2023336688",
+    "emailAddress": "vets.gov.user80@gmail.com"
+  },
+  "view:addDependentOptions": {},
+  "view:addDependentOptionsDescription": {},
+  "view:removeDependentOptions": {},
+  "view:veteranPensionHeader": {},
+  "view:veteranPensionFooter": {},
+  "spouseInformation": {
+    "fullName": {}
+  },
+  "view:certificateNotice": {},
+  "view:cancelAddSpouse": {},
+  "doesLiveWithSpouse": {
+    "address": {
+      "view:militaryBaseDescription": {}
+    }
+  },
+  "currentMarriageInformation": {
+    "location": {},
+    "view:marriageTypeInformation": {}
+  },
+  "reportDivorce": {
+    "fullName": {},
+    "view:cancelDivorce": {},
+    "divorceLocation": {
+      "location": {}
+    }
+  },
+  "view:additionalEvidenceDescription": {},
+  "view:selectable686Options": {},
+  "vaDependentsNetWorthAndPension": false,
+  "vaDependentsDuplicateModals": true,
+  "vaDependentsV3": true,
+  "veteranInformation": {
+    "fullName": {
+      "first": "Pauline",
+      "last": "Foster",
+      "middle": "E"
+    },
+    "ssn": "796330625",
+    "birthDate": "1976-06-09",
+    "ssnLastFour": "0625",
+    "vaFileLastFour": "0625",
+    "isInReceiptOfPension": -1
+  },
+  "dependents": {
+    "hasDependents": true,
+    "awarded": [
+      {
+        "awardIndicator": "Y",
+        "dateOfBirth": "2007-11-15",
+        "emailAddress": null,
+        "firstName": "MORTY",
+        "gender": "M",
+        "lastName": "SMITH",
+        "proofOfDependency": "N",
+        "ptcpntId": "600089300",
+        "relatedToVet": "Y",
+        "relationship": "Child",
+        "ssn": "6791",
+        "veteranIndicator": "N",
+        "upcomingRemoval": "10/07/2025",
+        "dependentBenefitType": null,
+        "dob": "November 15, 2007",
+        "fullName": {
+          "first": "MORTY",
+          "last": "SMITH"
+        },
+        "age": 17,
+        "removalDate": "October 7, 2025",
+        "key": "morty-6791",
+        "relationshipToVeteran": "Child",
+        "labeledAge": "17 years old"
+      },
+      {
+        "awardIndicator": "Y",
+        "dateOfBirth": "1990-08-01",
+        "emailAddress": null,
+        "firstName": "SUMMER",
+        "gender": "F",
+        "lastName": "SMITH",
+        "proofOfDependency": "N",
+        "ptcpntId": "600089301",
+        "relatedToVet": "Y",
+        "relationship": "Spouse",
+        "ssn": "6790",
+        "veteranIndicator": "N",
+        "upcomingRemoval": null,
+        "dependentBenefitType": null,
+        "dob": "August 1, 1990",
+        "fullName": {
+          "first": "SUMMER",
+          "last": "SMITH"
+        },
+        "age": 35,
+        "removalDate": "",
+        "key": "summer-6790",
+        "relationshipToVeteran": "Spouse",
+        "labeledAge": "35 years old"
+      },
+      {
+        "awardIndicator": "Y",
+        "cityOfBirth": "herndon",
+        "dateOfBirth": "1936-05-16",
+        "emailAddress": null,
+        "firstName": "SAM",
+        "lastName": "PETER",
+        "ptcpntId": "600283912",
+        "relatedToVet": "Y",
+        "relationship": "Parent",
+        "ssn": "6767",
+        "stateOfBirth": "WA",
+        "veteranIndicator": "N",
+        "upcomingRemoval": null,
+        "dependentBenefitType": null,
+        "dob": "May 16, 1936",
+        "fullName": {
+          "first": "SAM",
+          "last": "PETER"
+        },
+        "age": 89,
+        "removalDate": "",
+        "key": "sam-6767",
+        "relationshipToVeteran": "Parent",
+        "labeledAge": "89 years old"
+      }
+    ],
+    "notAwarded": []
+  },
+  "netWorthLimit": 159240,
+  "daysTillExpires": 365,
+  "view:removeDependentPickList": [
+    {
+      "awardIndicator": "Y",
+      "dateOfBirth": "2007-11-15",
+      "emailAddress": null,
+      "firstName": "MORTY",
+      "gender": "M",
+      "lastName": "SMITH",
+      "proofOfDependency": "N",
+      "ptcpntId": "600089300",
+      "relatedToVet": "Y",
+      "relationship": "Child",
+      "ssn": "6791",
+      "veteranIndicator": "N",
+      "upcomingRemoval": "10/07/2025",
+      "dependentBenefitType": null,
+      "dob": "November 15, 2007",
+      "fullName": {
+        "first": "MORTY",
+        "last": "SMITH"
+      },
+      "age": 17,
+      "removalDate": "October 7, 2025",
+      "key": "morty-6791",
+      "relationshipToVeteran": "Child",
+      "labeledAge": "17 years old",
+      "selected": true,
+      "isStepchild": "N",
+      "removalReason": "childMarried",
+      "endDate": "2000-01-01"
+    },
+    {
+      "awardIndicator": "Y",
+      "dateOfBirth": "1990-08-01",
+      "emailAddress": null,
+      "firstName": "SUMMER",
+      "gender": "F",
+      "lastName": "SMITH",
+      "proofOfDependency": "N",
+      "ptcpntId": "600089301",
+      "relatedToVet": "Y",
+      "relationship": "Spouse",
+      "ssn": "6790",
+      "veteranIndicator": "N",
+      "upcomingRemoval": null,
+      "dependentBenefitType": null,
+      "dob": "August 1, 1990",
+      "fullName": {
+        "first": "SUMMER",
+        "last": "SMITH"
+      },
+      "age": 35,
+      "removalDate": "",
+      "key": "summer-6790",
+      "relationshipToVeteran": "Spouse",
+      "labeledAge": "35 years old",
+      "selected": true,
+      "removalReason": "marriageEnded",
+      "endType": "divorce",
+      "endDate": "2000-02-02",
+      "endCity": "test",
+      "endState": "AS"
+    },
+    {
+      "awardIndicator": "Y",
+      "cityOfBirth": "herndon",
+      "dateOfBirth": "1936-05-16",
+      "emailAddress": null,
+      "firstName": "SAM",
+      "lastName": "PETER",
+      "ptcpntId": "600283912",
+      "relatedToVet": "Y",
+      "relationship": "Parent",
+      "ssn": "6767",
+      "stateOfBirth": "WA",
+      "veteranIndicator": "N",
+      "upcomingRemoval": null,
+      "dependentBenefitType": null,
+      "dob": "May 16, 1936",
+      "fullName": {
+        "first": "SAM",
+        "last": "PETER"
+      },
+      "age": 89,
+      "removalDate": "",
+      "key": "sam-6767",
+      "relationshipToVeteran": "Parent",
+      "labeledAge": "89 years old",
+      "selected": true,
+      "removalReason": "parentDied",
+      "endDate": "2000-02-02",
+      "endOutsideUs": false,
+      "endCity": "test",
+      "endState": "AK"
+    }
+  ],
+  "view:removeDependentPaths": [
+    {
+      "type": "Child",
+      "path": "is-stepchild",
+      "index": 0
+    },
+    {
+      "type": "Child",
+      "path": "child-reason-to-remove",
+      "index": 0
+    },
+    {
+      "type": "Child",
+      "path": "child-marriage",
+      "index": 0
+    },
+    {
+      "type": "Spouse",
+      "path": "spouse-reason-to-remove",
+      "index": 1
+    },
+    {
+      "type": "Spouse",
+      "path": "spouse-marriage-ended",
+      "index": 1
+    },
+    {
+      "type": "Parent",
+      "path": "parent-reason-to-remove",
+      "index": 2
+    },
+    {
+      "type": "Parent",
+      "path": "parent-death",
+      "index": 2
+    }
+  ],
+  "householdIncome": true
+}
