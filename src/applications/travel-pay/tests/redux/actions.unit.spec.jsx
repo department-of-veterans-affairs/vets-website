@@ -358,6 +358,48 @@ describe('Redux - actions', () => {
           }),
         ).to.be.true;
       });
+
+      it('should throw error when expense type is missing', async () => {
+        const mockDispatch = sinon.spy();
+        const expenseData = { amount: 10.0 };
+
+        try {
+          await createExpense('claim123', null, expenseData)(mockDispatch);
+          expect.fail('Expected an error to be thrown');
+        } catch (error) {
+          expect(error.message).to.equal('Missing expense type');
+        }
+
+        expect(mockDispatch.calledWithMatch({ type: 'CREATE_EXPENSE_STARTED' }))
+          .to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'CREATE_EXPENSE_FAILURE',
+            error: sinon.match.instanceOf(Error),
+          }),
+        ).to.be.true;
+      });
+
+      it('should throw error when expense type is undefined', async () => {
+        const mockDispatch = sinon.spy();
+        const expenseData = { amount: 10.0 };
+
+        try {
+          await createExpense('claim123', undefined, expenseData)(mockDispatch);
+          expect.fail('Expected an error to be thrown');
+        } catch (error) {
+          expect(error.message).to.equal('Missing expense type');
+        }
+
+        expect(mockDispatch.calledWithMatch({ type: 'CREATE_EXPENSE_STARTED' }))
+          .to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'CREATE_EXPENSE_FAILURE',
+            error: sinon.match.instanceOf(Error),
+          }),
+        ).to.be.true;
+      });
     });
 
     describe('Update Expense', () => {
@@ -410,6 +452,98 @@ describe('Redux - actions', () => {
           }),
         ).to.be.true;
       });
+
+      it('should throw error when expense type is missing', async () => {
+        const mockDispatch = sinon.spy();
+        const expenseData = { amount: 25.0 };
+
+        try {
+          await updateExpense('claim123', null, 'exp123', expenseData)(
+            mockDispatch,
+          );
+          expect.fail('Expected an error to be thrown');
+        } catch (error) {
+          expect(error.message).to.equal('Missing expense type');
+        }
+
+        expect(mockDispatch.calledWithMatch({ type: 'UPDATE_EXPENSE_STARTED' }))
+          .to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'UPDATE_EXPENSE_FAILURE',
+            error: sinon.match.instanceOf(Error),
+          }),
+        ).to.be.true;
+      });
+
+      it('should throw error when expense id is missing', async () => {
+        const mockDispatch = sinon.spy();
+        const expenseData = { amount: 25.0 };
+
+        try {
+          await updateExpense('claim123', 'mileage', null, expenseData)(
+            mockDispatch,
+          );
+          expect.fail('Expected an error to be thrown');
+        } catch (error) {
+          expect(error.message).to.equal('Missing expense id');
+        }
+
+        expect(mockDispatch.calledWithMatch({ type: 'UPDATE_EXPENSE_STARTED' }))
+          .to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'UPDATE_EXPENSE_FAILURE',
+            error: sinon.match.instanceOf(Error),
+          }),
+        ).to.be.true;
+      });
+
+      it('should throw error when expense type is undefined', async () => {
+        const mockDispatch = sinon.spy();
+        const expenseData = { amount: 25.0 };
+
+        try {
+          await updateExpense('claim123', undefined, 'exp123', expenseData)(
+            mockDispatch,
+          );
+          expect.fail('Expected an error to be thrown');
+        } catch (error) {
+          expect(error.message).to.equal('Missing expense type');
+        }
+
+        expect(mockDispatch.calledWithMatch({ type: 'UPDATE_EXPENSE_STARTED' }))
+          .to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'UPDATE_EXPENSE_FAILURE',
+            error: sinon.match.instanceOf(Error),
+          }),
+        ).to.be.true;
+      });
+
+      it('should throw error when expense id is undefined', async () => {
+        const mockDispatch = sinon.spy();
+        const expenseData = { amount: 25.0 };
+
+        try {
+          await updateExpense('claim123', 'mileage', undefined, expenseData)(
+            mockDispatch,
+          );
+          expect.fail('Expected an error to be thrown');
+        } catch (error) {
+          expect(error.message).to.equal('Missing expense id');
+        }
+
+        expect(mockDispatch.calledWithMatch({ type: 'UPDATE_EXPENSE_STARTED' }))
+          .to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'UPDATE_EXPENSE_FAILURE',
+            error: sinon.match.instanceOf(Error),
+          }),
+        ).to.be.true;
+      });
     });
 
     describe('Delete Expense', () => {
@@ -437,6 +571,86 @@ describe('Redux - actions', () => {
           await deleteExpense('claim123', 'mileage', 'exp123')(mockDispatch);
         } catch (error) {
           // Expected to throw
+        }
+
+        expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
+          .to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'DELETE_EXPENSE_FAILURE',
+            error: sinon.match.instanceOf(Error),
+          }),
+        ).to.be.true;
+      });
+
+      it('should throw error when expense type is missing', async () => {
+        const mockDispatch = sinon.spy();
+
+        try {
+          await deleteExpense('claim123', null, 'exp123')(mockDispatch);
+          expect.fail('Expected an error to be thrown');
+        } catch (error) {
+          expect(error.message).to.equal('Missing expense type');
+        }
+
+        expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
+          .to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'DELETE_EXPENSE_FAILURE',
+            error: sinon.match.instanceOf(Error),
+          }),
+        ).to.be.true;
+      });
+
+      it('should throw error when expense id is missing', async () => {
+        const mockDispatch = sinon.spy();
+
+        try {
+          await deleteExpense('claim123', 'mileage', null)(mockDispatch);
+          expect.fail('Expected an error to be thrown');
+        } catch (error) {
+          expect(error.message).to.equal('Missing expense id');
+        }
+
+        expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
+          .to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'DELETE_EXPENSE_FAILURE',
+            error: sinon.match.instanceOf(Error),
+          }),
+        ).to.be.true;
+      });
+
+      it('should throw error when expense type is undefined', async () => {
+        const mockDispatch = sinon.spy();
+
+        try {
+          await deleteExpense('claim123', undefined, 'exp123')(mockDispatch);
+          expect.fail('Expected an error to be thrown');
+        } catch (error) {
+          expect(error.message).to.equal('Missing expense type');
+        }
+
+        expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
+          .to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'DELETE_EXPENSE_FAILURE',
+            error: sinon.match.instanceOf(Error),
+          }),
+        ).to.be.true;
+      });
+
+      it('should throw error when expense id is undefined', async () => {
+        const mockDispatch = sinon.spy();
+
+        try {
+          await deleteExpense('claim123', 'mileage', undefined)(mockDispatch);
+          expect.fail('Expected an error to be thrown');
+        } catch (error) {
+          expect(error.message).to.equal('Missing expense id');
         }
 
         expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
