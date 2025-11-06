@@ -141,25 +141,27 @@ export const ServiceDatesPage = ({
           <MemorableDateField
             name="dateFrom"
             label="Service start date"
+            monthSelect
             value={localData.dateFrom || ''}
             onChange={handleFieldChange}
             required
+            remove-date-hint
             error={errors.dateFrom}
             forceShowError={formSubmitted}
             schema={dateEnteredServiceSchema}
-            hint="If you don't know the exact date, enter your best guess"
           />
 
           <MemorableDateField
             name="dateTo"
             label="Service end date"
+            monthSelect
             value={localData.dateTo || ''}
             onChange={handleFieldChange}
             required
+            remove-date-hint
             error={errors.dateTo}
             forceShowError={formSubmitted}
             schema={dateSeparatedSchema}
-            hint="If you don't know the exact date, enter your best guess"
           />
         </>
       )}
