@@ -127,21 +127,16 @@ const PageTemplateBase = ({
     .join(' ');
 
   return (
-    <>
-      <div className={wrapperClasses}>
-        <form noValidate>
-          <fieldset className={CSS_CLASSES.FIELDSET}>
-            {title && (
-              <legend id="root__title">
-                <h3
-                  className={`${CSS_CLASSES.HEADING_DARK} ${
-                    CSS_CLASSES.HEADING_NO_TOP_MARGIN
-                  } ${CSS_CLASSES.HEADING_SERIF} ${CSS_CLASSES.HEADING_SIZE}`}
-                >
-                  {title}
-                </h3>
-              </legend>
-            )}
+    <div className={wrapperClasses}>
+      <form noValidate>
+        <fieldset className="vads-u-margin-y--2">
+          {title && (
+            <legend id="root__title">
+              <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-font-family--serif">
+                {title}
+              </h3>
+            </legend>
+          )}
 
             {subtitle && (
               <div className={CSS_CLASSES.MARGIN_BOTTOM_2}>
