@@ -180,9 +180,14 @@ describe('<ProfileInformationEditView/> - Email Confirmation Alert Cookie', () =
         },
       };
 
+      const completedTransactionRequest = {
+        isPending: false,
+      };
+
       const propsWithSuccessfulTransaction = {
         ...props,
         transaction: successfulTransaction,
+        transactionRequest: completedTransactionRequest,
       };
 
       wrapper = shallow(
@@ -253,6 +258,45 @@ describe('<ProfileInformationEditView/> - Email Confirmation Alert Cookie', () =
       wrapper.unmount();
 
       // Cookie should NOT be set on failure
+      expect(dismissAlertViaCookieStub.called).to.be.false;
+    });
+
+    it('should NOT dismiss alert cookie on unmount if transactionRequest has error', () => {
+      const successfulTransaction = {
+        data: {
+          attributes: {
+            transactionId: '123',
+            transactionStatus: 'COMPLETED_SUCCESS',
+          },
+        },
+      };
+
+      const transactionRequestWithError = {
+        error: {
+          errors: [
+            {
+              title: 'API Error',
+              detail: 'Something went wrong',
+              code: 'VET360_ERROR',
+              status: '400',
+            },
+          ],
+        },
+      };
+
+      const propsWithError = {
+        ...props,
+        transaction: successfulTransaction,
+        transactionRequest: transactionRequestWithError,
+        clearTransactionRequest: sinon.spy(),
+      };
+
+      wrapper = shallow(<ProfileInformationEditView {...propsWithError} />);
+
+      wrapper.unmount();
+
+      // Cookie should NOT be set when transactionRequest has error
+      // even if transaction shows success (edge case protection)
       expect(dismissAlertViaCookieStub.called).to.be.false;
     });
   });

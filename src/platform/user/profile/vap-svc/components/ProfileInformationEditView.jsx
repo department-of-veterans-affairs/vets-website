@@ -143,22 +143,20 @@ export class ProfileInformationEditView extends Component {
 
     const { fieldName } = this.props;
 
-    // Dismiss the MHV email confirmation alert if email transaction succeeded
-    // This is a fallback for cases where componentDidUpdate doesn't run
-    // (e.g., when the component unmounts immediately after transaction completion)
-    if (
-      fieldName === FIELD_NAMES.EMAIL &&
-      this.props.transaction &&
-      isSuccessfulTransaction(this.props.transaction)
-    ) {
-      dismissEmailConfirmationAlertViaCookie();
-    }
-
     // Errors returned directly from the API request (as opposed through a transaction lookup) are
     // displayed in this modal, rather than on the page. Once the modal is closed, reset the state
     // for the next time the modal is opened by removing any existing transaction request from the store.
     if (this.props.transactionRequest?.error) {
       this.props.clearTransactionRequest(fieldName);
+    } else if (
+      // Dismiss the MHV email confirmation alert if email transaction succeeded
+      // This is a fallback for cases where componentDidUpdate doesn't run
+      // (e.g., when the component unmounts immediately after transaction completion)
+      fieldName === FIELD_NAMES.EMAIL &&
+      this.props.transactionRequest &&
+      !this.props.transactionRequest.isPending
+    ) {
+      dismissEmailConfirmationAlertViaCookie();
     }
 
     // AS DONE IN ADDRESSEDITVIEW, CHECK FOR CORRECTNESS
