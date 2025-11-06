@@ -156,7 +156,7 @@ const formConfig = {
           pagePerItemIndex: 0,
         },
         veteranBirthInformation: {
-          path: 'birth-information',
+          path: 'veteran-birth-information',
           title: 'Birth information',
           uiSchema: {},
           schema: defaultSchema,
