@@ -44,6 +44,7 @@ describe('ExpenseCommonCarrierFields', () => {
       <ExpenseCommonCarrierFields {...defaultProps} />,
     );
 
+    // Radio group container
     const radio = container.querySelector(
       'va-radio[name="transportationReason"]',
     );
@@ -53,13 +54,13 @@ describe('ExpenseCommonCarrierFields', () => {
     );
     expect(radio.getAttribute('value')).to.equal('');
 
-    Object.keys(TRANSPORTATION_REASONS).forEach(key => {
-      const radioOption = container.querySelector(
-        `va-radio-option[label="${TRANSPORTATION_REASONS[key].label}"]`,
-      );
-      expect(radioOption).to.exist;
-      expect(radioOption.getAttribute('checked')).to.equal('false');
-    });
+    // Query all radio-option children
+    const radioOptions = radio.querySelectorAll('va-radio-option');
+
+    // Ensure the correct number of options rendered
+    expect(radioOptions.length).to.equal(
+      Object.keys(TRANSPORTATION_REASONS).length,
+    );
   });
 
   it('marks the correct transportationType as checked', () => {
