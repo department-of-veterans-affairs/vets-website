@@ -77,9 +77,11 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const selfEnteredAccordionRef = useRef(null);
 
   // Determine user's data sources using platform selectors
-  const facilities = useSelector(selectPatientFacilities) || [];
-  const hasOHFacilities = useSelector(selectIsCernerPatient);
-  const hasOHOnly = useSelector(selectIsCernerOnlyPatient);
+  const { facilities, hasOHFacilities, hasOHOnly } = useSelector(state => ({
+    facilities: selectPatientFacilities(state) || [],
+    hasOHFacilities: selectIsCernerPatient(state),
+    hasOHOnly: selectIsCernerOnlyPatient(state),
+  }));
   // Note: No platform selector exists for "has VistA facilities only"
   const hasVistAFacilities = facilities.length > 0 && !hasOHOnly;
   const hasBothDataSources = hasOHFacilities && hasVistAFacilities;

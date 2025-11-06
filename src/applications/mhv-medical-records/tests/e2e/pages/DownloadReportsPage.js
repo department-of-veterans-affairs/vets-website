@@ -8,17 +8,20 @@ class DownloadReportsPage {
   };
 
   clickCcdAccordionItem = () => {
-    // Wait for accordion to be visible and clickable
+    // Wait for web component to be fully hydrated and stable
     cy.get('[data-testid="ccdAccordionItem"]', { timeout: 15000 })
       .should('be.visible')
-      .click();
+      .should('have.class', 'hydrated');
+
+    // Click the accordion and wait for expansion
+    cy.get('[data-testid="ccdAccordionItem"]').click();
 
     // Wait for the headline text to appear (confirms accordion expanded)
     cy.contains('Continuity of Care Document', { timeout: 15000 }).should(
       'be.visible',
     );
 
-    // Wait for buttons to be rendered
+    // Wait for buttons to be rendered and stable
     cy.get('[data-testid^="generateCcdButton"]', { timeout: 15000 }).should(
       'have.length.greaterThan',
       0,
