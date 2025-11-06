@@ -20,9 +20,9 @@ const App = ({ formEnabled }) => {
       <h2>{headerText}</h2>
       <h3>When to use this form</h3>
       <p>
-        Use this to report medical or dental expenses that you have paid for
-        yourself or for a family member living in your household. These must be
-        expenses you weren’t reimbursed for and don’t expect to be reimbursed
+        Use this form to report medical or dental expenses that you have paid
+        for yourself or for a family member living in your household. These must
+        be expenses you weren’t reimbursed for and don’t expect to be reimbursed
         for.
       </p>
       <h3>How to submit this form</h3>
