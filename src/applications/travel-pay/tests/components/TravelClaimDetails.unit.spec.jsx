@@ -132,6 +132,8 @@ describe('TravelClaimDetails', () => {
 
     expect(screen.getByText(/There was an error loading the claim details/i)).to
       .exist;
+
+    expect(screen.getByText(/Something went wrong on our end/i)).to.exist;
   });
 
   it('shows downtime alert during maintenance window', () => {
