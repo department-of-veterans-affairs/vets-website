@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   dismissAlertViaCookie,
   selectContactEmailAddress,
@@ -36,16 +37,15 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const [confirmError, setConfirmError] = useState(false);
   const [skipSuccess, setSkipSuccess] = useState(false);
 
-  // adding focus by refs
-  const confirmSuccessRef = useRef(null);
-  const confirmErrorRef = useRef(null);
-  const skipSuccessRef = useRef(null);
-
   useEffect(
     () => {
-      if (confirmSuccess) confirmSuccessRef.current?.focus();
-      if (confirmError) confirmErrorRef.current?.focus();
-      if (skipSuccess) skipSuccessRef.current?.focus();
+      if (confirmSuccess) {
+        waitForRenderThenFocus('[data-testid="mhv-alert--confirm-success"]');
+      } else if (confirmError) {
+        waitForRenderThenFocus('[data-testid="mhv-alert--confirm-error"]');
+      } else if (skipSuccess) {
+        waitForRenderThenFocus('[data-testid="mhv-alert--skip-success"]');
+      }
     },
     [confirmSuccess, confirmError, skipSuccess],
   );
@@ -83,14 +83,12 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
       {confirmSuccess && (
         <AlertSystemResponseConfirmSuccess
           recordEvent={recordEvent}
-          ref={confirmSuccessRef}
           tabIndex={-1}
         />
       )}
       {confirmError && (
         <AlertSystemResponseConfirmError
           recordEvent={recordEvent}
-          ref={confirmErrorRef}
           tabIndex={-1}
         />
       )}
@@ -107,7 +105,6 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
       {skipSuccess && (
         <AlertSystemResponseSkipSuccess
           recordEvent={recordEvent}
-          ref={skipSuccessRef}
           tabIndex={-1}
         />
       )}
