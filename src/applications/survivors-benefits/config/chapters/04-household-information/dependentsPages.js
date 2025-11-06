@@ -39,8 +39,8 @@ import { VaForm214138Alert } from '../../../components/FormAlerts';
 /**
  * Dependent children (array builder)
  */
-
-const options = {
+/** @type {ArrayBuilderOptions} */
+export const options = {
   arrayPath: 'dependents',
   nounSingular: 'dependent child',
   nounPlural: 'dependent children',
@@ -48,6 +48,35 @@ const options = {
   maxItems: 3,
   isItemIncomplete: item => !item?.dependentFullName || !item?.dateOfBirth,
   text: {
+    cancelAddTitle: 'Cancel adding this dependent child?',
+    cancelEditTitle: 'Cancel editing this dependent child?',
+    cancelAddDescription:
+      'If you cancel, we won’t add this dependent to your list of dependent children. You’ll return to a page where you can add a new dependent child.',
+    cancelEditDescription:
+      'If you cancel, you’ll lose any changes you made to this dependent child and you will be returned to the dependent children review page.',
+    cancelAddYes: 'Yes, cancel adding',
+    cancelAddNo: 'No, continue adding',
+    cancelEditYes: 'Yes, cancel editing',
+    cancelEditNo: 'No, continue editing',
+    deleteDescription:
+      'This will delete the information from your list of dependent children. You’ll return to a page where you can add a new dependent child.',
+    deleteNo: 'No, keep',
+    deleteTitle: 'Delete this dependent child?',
+    deleteYes: 'Yes, delete',
+    alertMaxItems: (
+      <div>
+        <p className="vads-u-margin-top--0">
+          You have added the maximum number of allowed dependent children for
+          this application. Additional dependents can be added using VA Form
+          686c and uploaded at the end of this application.
+        </p>
+        <va-link
+          href="https://www.va.gov/find-forms/about-form-21-686c/"
+          external
+          text="Get VA Form 21P-686c to download"
+        />
+      </div>
+    ),
     getItemName: item => {
       if (
         item &&
@@ -60,22 +89,9 @@ const options = {
     },
     cardDescription: () => '',
   },
-  alertMaxItems: (
-    <div>
-      <p className="vads-u-margin-top--0">
-        You have added the maximum number of allowed dependent children for this
-        application. Additional dependents can be added using VA Form 686c and
-        uploaded at the end of this application.
-      </p>
-      <va-link
-        href="https://www.va.gov/find-forms/about-form-21-686c/"
-        external
-        text="Get VA Form 21P-686c to download"
-      />
-    </div>
-  ),
 };
 
+/** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
@@ -99,6 +115,7 @@ const introPage = {
   },
 };
 
+/** @returns {PageSchema} */
 const summaryPage = {
   uiSchema: {
     'ui:description': () => null,
@@ -120,6 +137,7 @@ const summaryPage = {
   },
 };
 
+/** @returns {PageSchema} */
 const namePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
@@ -157,6 +175,7 @@ const namePage = {
   },
 };
 
+/** @returns {PageSchema} */
 const dobPlacePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
@@ -248,6 +267,7 @@ const dobPlacePage = {
   },
 };
 
+/** @returns {PageSchema} */
 const relationshipPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Relationship to dependent'),
