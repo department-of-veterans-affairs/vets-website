@@ -3,7 +3,12 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 
 const RxRenewalMessageSuccessAlert = () => {
   return (
-    <VaAlert status="success" visible className="vads-u-margin-bottom--3">
+    <VaAlert
+      role="status"
+      status="success"
+      visible
+      className="vads-u-margin-bottom--3"
+    >
       <h2 slot="headline">Message Sent</h2>
       <p>
         We shared your renewal request with your selected provider. It can take
