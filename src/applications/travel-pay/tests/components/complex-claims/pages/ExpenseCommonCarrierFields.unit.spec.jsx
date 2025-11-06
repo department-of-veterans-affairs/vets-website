@@ -119,8 +119,9 @@ describe('ExpenseCommonCarrierFields', () => {
     );
 
     // Verify the selected option is checked
-    const selectedOption = container.querySelector(
-      `va-radio-option[label="${firstLabel}"]`,
+    const radioOptions = radioGroup.querySelectorAll('va-radio-option');
+    const selectedOption = Array.from(radioOptions).find(
+      opt => opt.getAttribute('label') === firstLabel,
     );
     expect(selectedOption).to.exist;
     expect(selectedOption.hasAttribute('checked')).to.be.true;
