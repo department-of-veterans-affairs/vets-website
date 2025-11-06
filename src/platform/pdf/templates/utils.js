@@ -2,7 +2,7 @@
  * Template utils.
  */
 import { unset } from 'lodash';
-import registerFonts from '../registerFonts';
+import { knownFonts, registerFonts } from '../registerFonts';
 
 const pdfkit = require('pdfkit');
 
@@ -42,6 +42,17 @@ const getBoundedYPosition = doc => {
 };
 
 /**
+ * Return the given font name, or if it doesn't exist, a safe default.
+ *
+ * @param {string} font
+ *
+ * @returns {string} safe font name
+ */
+const getSafeFont = font => {
+  return knownFonts[font] ? font : 'SourceSansPro-Regular';
+};
+
+/**
  * Add a structure to the given PDFKit document.
  *
  * @param {Object} doc
@@ -58,9 +69,10 @@ export const createStruct = (doc, struct, font, fontSize, text, options) => {
   const y = options.y ?? getBoundedYPosition(doc);
   unset(options.x);
   unset(options.y);
+
   return doc.struct(struct, () => {
     doc
-      .font(font)
+      .font(getSafeFont(font))
       .fontSize(fontSize)
       .text(text, x, y, options);
   });
@@ -147,6 +159,9 @@ const createArtifactText = (doc, config, text, options) => {
  * @returns {void}
  */
 const generateHeaderBanner = async (doc, header, data, config) => {
+  const regularFaceFont = getSafeFont(config.text.font);
+  const boldFaceFont = getSafeFont(config.text.boldFont);
+
   // eslint-disable-next-line no-param-reassign
   doc.page.margins = {
     top: 0,
@@ -160,10 +175,8 @@ const generateHeaderBanner = async (doc, header, data, config) => {
   // Calculate text width
   for (let i = 0; i < data.headerBanner.length; i += 1) {
     const element = data.headerBanner[i];
-    const font =
-      element.weight === 'bold' ? config.text.boldFont : config.text.font;
-
-    doc.font(font);
+    const font = element.weight === 'bold' ? boldFaceFont : regularFaceFont;
+    doc.font(getSafeFont(font));
     doc.fontSize(config.text.size);
   }
 
@@ -173,8 +186,7 @@ const generateHeaderBanner = async (doc, header, data, config) => {
 
   for (let i = 0; i < data.headerBanner.length; i += 1) {
     const element = data.headerBanner[i];
-    const font =
-      element.weight === 'bold' ? config.text.boldFont : config.text.font;
+    const font = element.weight === 'bold' ? boldFaceFont : regularFaceFont;
     const paragraphOptions = {};
     if (i < data.headerBanner.length) {
       paragraphOptions.continued = true;
@@ -183,7 +195,7 @@ const generateHeaderBanner = async (doc, header, data, config) => {
     header.add(
       doc.struct('Span', () => {
         doc
-          .font(font)
+          .font(getSafeFont(font))
           .fontSize(config.text.size)
           .text(element.text, leftMargin, doc.y, paragraphOptions);
       }),
@@ -281,7 +293,7 @@ const generateFinalHeaderContent = async (doc, data, config, startPage = 1) => {
 
     doc.markContent('Artifact');
     doc
-      .font(config.text.font)
+      .font(getSafeFont(config.text.font))
       .fontSize(config.text.size)
       .text(data.headerLeft, config.margins.left, 12);
     doc.text(data.headerRight, config.margins.right, 12, { align: 'right' });
@@ -337,7 +349,7 @@ const generateFooterContent = async (
     footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
 
     doc
-      .font(config.text.font)
+      .font(getSafeFont(config.text.font))
       .fontSize(config.text.size)
       .text(data.footerLeft, config.margins.left, 766);
     doc.text(footerRightText, config.margins.left, 766, { align: 'right' });
@@ -366,18 +378,20 @@ const createDetailItem = async (doc, config, x, item) => {
   const paragraphOptions = { lineGap: item.lineGap ?? 2 };
   let titleText = item.title ?? '';
   const content = [];
-  const monospaceFont = config.text.monospaceFont || config.text.font;
+  const regularFaceFont = getSafeFont(config.text.font);
+  const boldFaceFont = getSafeFont(config.text.boldFont);
+  const monospaceFont = getSafeFont(config.text.monospaceFont);
   if (item.inline === true) {
     paragraphOptions.continued = true;
     titleText += ': ';
     content.push(
       doc.struct('P', () => {
         doc
-          .font(config.text.boldFont)
+          .font(boldFaceFont)
           .fontSize(config.text.size)
           .text(titleText, x, doc.y, paragraphOptions);
         doc
-          .font(item.monospace ? monospaceFont : config.text.font)
+          .font(item.monospace ? monospaceFont : regularFaceFont)
           .fontSize(config.text.size)
           .text(item.value);
       }),
@@ -390,7 +404,7 @@ const createDetailItem = async (doc, config, x, item) => {
       content.push(
         doc.struct('P', () => {
           doc
-            .font(config.text.boldFont)
+            .font(boldFaceFont)
             .fontSize(config.text.size)
             .text(titleText, x, doc.y, paragraphOptions);
         }),
@@ -399,7 +413,7 @@ const createDetailItem = async (doc, config, x, item) => {
     content.push(
       doc.struct('P', () => {
         doc
-          .font(item.monospace ? monospaceFont : config.text.font)
+          .font(item.monospace ? monospaceFont : regularFaceFont)
           .fontSize(config.text.size)
           .text(item.value, x, doc.y, blockValueOptions);
       }),
@@ -420,6 +434,9 @@ const createDetailItem = async (doc, config, x, item) => {
  * @returns {Array} content
  */
 const createRichTextDetailItem = async (doc, config, x, item) => {
+  const regularFaceFont = getSafeFont(config.text.font);
+  const boldFaceFont = getSafeFont(config.text.boldFont);
+
   let titleText = item.title ?? '';
   const content = [];
 
@@ -428,7 +445,7 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
     content.push(
       doc.struct('P', () => {
         doc
-          .font(config.text.boldFont)
+          .font(boldFaceFont)
           .fontSize(config.text.size)
           .text(titleText, x, doc.y, {
             lineGap: 2,
@@ -441,8 +458,7 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
   for (let i = 0; i < item.value.length; i += 1) {
     const element = item.value[i];
     let elementTitleText = element.title ?? '';
-    const font =
-      element.weight === 'bold' ? config.text.boldFont : config.text.font;
+    const font = element.weight === 'bold' ? boldFaceFont : regularFaceFont;
     const paragraphOptions = {
       continued: !!element.continued,
       lineGap: item.lineGap || 2,
@@ -471,10 +487,10 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
             // eslint-disable-next-line no-param-reassign
             doc.x = config.indents.one;
             doc
-              .font(config.text.boldFont)
+              .font(boldFaceFont)
               .fontSize(config.text.size)
               .text(`${record.label}: `, { continued: true })
-              .font(config.text.font)
+              .font(regularFaceFont)
               .fontSize(config.text.size)
               .text(record.value);
             // Restore the original x coordinate.
@@ -504,7 +520,7 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
       content.push(
         doc.struct('P', () => {
           doc
-            .font(config.text.boldFont)
+            .font(boldFaceFont)
             .fontSize(config.text.size)
             .text(elementTitleText, x, doc.y, {
               ...paragraphOptions,
@@ -512,7 +528,7 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
               indent: element.indent ?? 15,
             });
           doc
-            .font(config.text.font)
+            .font(regularFaceFont)
             .fontSize(config.text.size)
             .text(element.value);
         }),
@@ -551,8 +567,8 @@ const createImageDetailItem = async (doc, config, x, item) => {
     content.push(
       doc.struct('P', () => {
         doc
-          .font(config.text.boldFont)
-          .fontSize(config.text.size)
+          .font(getSafeFont(config.text.boldFont))
+          .fontSize(getSafeFont(config.text.size))
           .text(titleText, x, doc.y, { lineGap: 2 });
       }),
     );
@@ -749,7 +765,7 @@ export const addBulletList = (
   section.add(
     doc.struct('List', () => {
       // set the font/size once
-      doc.font(config.text.font).fontSize(config.text.size);
+      doc.font(getSafeFont(config.text.font)).fontSize(config.text.size);
 
       // grab safe starting coords
       const startX = getBoundedXPosition(doc);
