@@ -135,7 +135,7 @@ const PageTemplateBase = ({
         <fieldset className="vads-u-margin-y--2">
           {title && (
             <legend id="root__title">
-              <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-font-family--serif vads-u-font-size--h4">
+              <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-font-family--serif">
                 {title}
               </h3>
             </legend>
