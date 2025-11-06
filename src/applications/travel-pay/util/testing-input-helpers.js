@@ -26,15 +26,6 @@ export function simulateVaInputChange(inputField, value) {
   });
   field.dispatchEvent(inputEvent);
 
-  // Also dispatch CustomEvent for compatibility
-  field.dispatchEvent(
-    new CustomEvent('input', {
-      detail: { value },
-      bubbles: true,
-      composed: true,
-    }),
-  );
-
   return { field, value, eventFired: true };
 }
 
