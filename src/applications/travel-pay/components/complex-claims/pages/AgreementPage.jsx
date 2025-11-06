@@ -21,10 +21,9 @@ const AgreementPage = () => {
   const [isAgreementError, setIsAgreementError] = useState(false);
 
   const onSubmit = async () => {
-    if (!isAgreementChecked) {
-      setIsAgreementError(true);
-    } else {
-      setIsAgreementError(false);
+    setIsAgreementError(!isAgreementChecked);
+
+    if (isAgreementChecked) {
       try {
         // Submit the complex claim
         await dispatch(submitComplexClaim(claimId, claimData));
