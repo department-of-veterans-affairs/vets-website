@@ -1,4 +1,5 @@
 import React from 'react';
+import { VaCrisisLineModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '../../../monitoring/record-event';
 
 import { FOOTER_COLUMNS, FOOTER_EVENTS } from '../helpers';
@@ -33,9 +34,11 @@ export default function DesktopLinks({ links, visible }) {
               onClick={() => recordEvent({ event: FOOTER_EVENTS.CRISIS_LINE })}
               className="va-button-link va-overlay-trigger"
               data-show="#modal-crisisline"
+              id="footer-crisis-line"
             >
               Veterans Crisis Line
             </button>
+            <VaCrisisLineModal triggerRef="#footer-crisis-line" />
           </li>
         </ul>
         <h2 className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">

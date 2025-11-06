@@ -1,7 +1,3 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import CrisisPanel from 'platform/site-wide/va-footer/components/CrisisPanel';
-import { openCrisisModal } from '@department-of-veterans-affairs/mhv/exports';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
@@ -22,7 +18,6 @@ import {
   ErrorMessages,
 } from '../../util/constants';
 import threadWithDraftResponse from '../fixtures/message-thread-with-draft-response.json';
-import CrisisLineConnectButton from '../../components/CrisisLineConnectButton';
 
 describe('MHV Secure Messaging helpers', () => {
   it('folderPathByFolderId should return correct path', () => {
@@ -62,19 +57,6 @@ describe('MHV Secure Messaging helpers', () => {
     expect(
       getLastSentMessage(threadWithDraftResponse.data).attributes.messageId,
     ).to.equal(3002892);
-  });
-
-  it('openCrisisModal should open the crisis modal and focus', () => {
-    render(
-      <>
-        <CrisisLineConnectButton />
-        <CrisisPanel />
-      </>,
-    );
-    openCrisisModal();
-    expect(document.querySelector('a[href="tel:988"]')).to.equal(
-      document.activeElement,
-    );
   });
 
   it('setCaretToPos should set the caret to the correct position', () => {
