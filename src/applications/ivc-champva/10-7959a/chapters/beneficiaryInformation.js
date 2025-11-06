@@ -1,11 +1,8 @@
-import { cloneDeep } from 'lodash';
 import {
   addressUI,
   addressSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
-  fullNameUI,
-  fullNameSchema,
   titleUI,
   radioUI,
   radioSchema,
@@ -20,11 +17,13 @@ import {
   validAddressCharsOnly,
   validObjectCharsOnly,
 } from '../../shared/validations';
-import content from '../locales/en/content.json';
+import {
+  champvaMemberNumberSchema,
+  fullNameMiddleInitialSchema,
+  fullNameMiddleInitialUI,
+} from '../definitions';
 import { personalizeTitleByName } from '../utils/helpers';
-
-const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
-fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
+import content from '../locales/en/content.json';
 
 export const applicantNameDobSchema = {
   uiSchema: {
@@ -43,7 +42,7 @@ export const applicantNameDobSchema = {
     type: 'object',
     required: ['applicantDOB'],
     properties: {
-      applicantName: fullNameSchema,
+      applicantName: fullNameMiddleInitialSchema,
       applicantDOB: dateOfBirthSchema,
     },
   },
@@ -70,12 +69,7 @@ export const applicantMemberNumberSchema = {
     type: 'object',
     required: ['applicantMemberNumber'],
     properties: {
-      applicantMemberNumber: {
-        type: 'string',
-        pattern: '^[0-9]+$',
-        maxLength: 9,
-        minLength: 8,
-      },
+      applicantMemberNumber: champvaMemberNumberSchema,
     },
   },
 };
@@ -106,7 +100,6 @@ export const applicantAddressSchema = {
           no: content['form-input--option--no'],
           unknown: content['form-input--option--unknown'],
         },
-        classNames: ['dd-privacy-hidden'],
       }),
     },
     'ui:validations': [

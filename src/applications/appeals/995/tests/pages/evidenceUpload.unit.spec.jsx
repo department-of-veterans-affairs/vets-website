@@ -10,7 +10,7 @@ import {
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-import { EVIDENCE_OTHER } from '../../constants';
+import { HAS_OTHER_EVIDENCE } from '../../constants';
 
 describe('Additional evidence upload', () => {
   const page = formConfig.chapters.evidence.pages.evidenceUpload;
@@ -68,7 +68,7 @@ describe('Additional evidence upload', () => {
           definitions={{}}
           schema={schema}
           data={{
-            [EVIDENCE_OTHER]: true,
+            [HAS_OTHER_EVIDENCE]: true,
             additionalDocuments: [
               {
                 name: 'test.pdf',

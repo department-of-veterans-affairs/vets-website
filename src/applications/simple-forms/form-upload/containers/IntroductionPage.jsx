@@ -29,14 +29,14 @@ const IntroductionPage = ({ route }) => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={title} subTitle={subTitle} />
-      <h2>How to submit VA form {formNumber}</h2>
+      <h2>How to submit VA Form {formNumber}</h2>
       <p>This upload tool allows Veterans to submit a completed VA form.</p>
       <VaProcessList>
         <VaProcessListItem header="Download the form">
           <p>Download the official VA Form {formNumber} from VA.gov.</p>
           <VaLink
             external
-            filetype="PDF"
+            download
             href={pdfDownloadUrl}
             text={`Download VA Form ${formNumber}`}
           />
@@ -44,8 +44,8 @@ const IntroductionPage = ({ route }) => {
         <VaProcessListItem header="Fill out the form">
           <div>
             <p>
-              Complete the form on your device, or print and complete it by
-              hand. For smooth processing, make sure you:
+              Complete the form on your device. Or print and complete it by
+              hand. Make sure to complete these important steps:
             </p>
             <ul>
               <li>Provide all the required information</li>
@@ -56,8 +56,8 @@ const IntroductionPage = ({ route }) => {
         <VaProcessListItem header="Upload your form here">
           <div>
             <p>
-              When you’re ready to submit your form, you can use the upload tool
-              below:
+              When you’re ready, you can submit your form here. We’ll ask you to
+              complete these steps:
             </p>
             <ul>
               <li>
@@ -65,12 +65,13 @@ const IntroductionPage = ({ route }) => {
                 you provide needs to match the form. If it doesn’t, it will
                 cause delays.
               </li>
-              <li>Then we’ll ask you to upload your completed form.</li>
-              <li>
-                <b>Note:</b> The upload tool can’t check for mistakes in your
-                form. Make sure you review your file before you submit.
-              </li>
+              <li>Upload your completed form.</li>
             </ul>
+            <p>
+              <b>Note: </b>
+              We can’t check for mistakes in your form when you upload it here
+              on VA.gov. Make sure you review it before you submit.
+            </p>
           </div>
         </VaProcessListItem>
       </VaProcessList>
@@ -88,7 +89,7 @@ const IntroductionPage = ({ route }) => {
         <VaAlert status="info" visible>
           <h2 slot="headline">Sign in now to upload your form</h2>
           <p>
-            By signing in we can fill in some of your information for you to
+            By signing in, we can fill in some of your information for you to
             save you time.
           </p>
           <VaButton
