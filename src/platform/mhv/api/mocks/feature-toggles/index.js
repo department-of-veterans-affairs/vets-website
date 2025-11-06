@@ -14,9 +14,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDontIncrementIpeCount,
 
     // medical records
-    mhvMedicalRecordsAllowTxtDownloads = true,
-    mhvMedicalRecordsToVaGovRelease = true,
-    mhvMedicalRecordsMarch17Updates = true,
 
     // OH integration work
     mhvAcceleratedDeliveryEnabled = false,
@@ -26,6 +23,8 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryConditionsEnabled = false,
     mhvAcceleratedDeliveryVaccinesEnabled = false,
     mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
+
+    mhvMedicationsDisplayNewCernerFacilityAlert = true,
 
     // secure messaging
     mhvSecureMessagingTriageGroupPlainLanguage = false,
@@ -113,24 +112,17 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_medications_dont_increment_ipe_count',
           value: mhvMedicationsDontIncrementIpeCount,
         },
+        {
+          name: 'mhv_medications_display_new_cerner_facility_alert',
+          value: mhvMedicationsDisplayNewCernerFacilityAlert,
+        },
 
         // medical records
         {
           name: 'mhv_medical_records_kill_external_links',
           value: true,
         },
-        {
-          name: 'mhv_medical_records_allow_txt_downloads',
-          value: mhvMedicalRecordsAllowTxtDownloads,
-        },
-        {
-          name: 'mhv_medical_records_to_va_gov_release',
-          value: mhvMedicalRecordsToVaGovRelease,
-        },
-        {
-          name: 'mhv_medical_records_update_landing_page',
-          value: mhvMedicalRecordsMarch17Updates,
-        },
+
         // secure messaging
         {
           name: 'mhv_secure_messaging_triage_group_plain_language',

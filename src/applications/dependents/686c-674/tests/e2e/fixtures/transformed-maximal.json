@@ -107,6 +107,7 @@
       "isEncrypted": false
     }
   ],
+  "view:householdIncome": true,
   "householdIncome": false,
 
   "reportDivorce": {
@@ -226,7 +227,7 @@
       "otherProgramOrBenefit": "Test",
       "tuitionIsPaidByGovAgency": false,
       "ssn": "333445555",
-      "isParent": false,
+      "relationshipToStudent": "biological",
       "wasMarried": false,
       "address": {
         "country": "USA",

@@ -1,0 +1,61 @@
+{
+  "hasAlreadyFiled": false,
+  "hasUnpaidCreditors": false,
+  "veteranFullName": {
+    "first": "James",
+    "middle": "T",
+    "last": "Wilson"
+  },
+  "beneficiaryIsVeteran": true,
+  "beneficiaryDateOfDeath": "2024-03-10",
+  "claimantFullName": {
+    "first": "Margaret",
+    "middle": "A",
+    "last": "Wilson"
+  },
+  "claimantDateOfBirth": "1945-08-20",
+  "claimantAddress": {
+    "street": "456 Elder Care Lane",
+    "street2": "Room 5",
+    "city": "Norfolk",
+    "state": "VA",
+    "country": "USA",
+    "postalCode": "23510"
+  },
+  "claimantPhone": "7575554321",
+  "claimantEmail": "mwilson@email.com",
+  "relationshipToDeceased": "executor",
+  "wantsToWaiveSubstitution": false,
+  "survivors": {
+    "hasSpouse": false,
+    "hasChildren": false,
+    "hasParents": true,
+    "hasNone": false
+  },
+  "survivingRelatives": [
+    {
+      "fullName": {
+        "first": "Robert",
+        "middle": "J",
+        "last": "Wilson"
+      },
+      "relationship": "parent",
+      "dateOfBirth": "1943-05-15",
+      "address": {
+        "street": "456 Elder Care Lane",
+        "city": "Norfolk",
+        "state": "VA",
+        "country": "USA",
+        "postalCode": "23510"
+      }
+    }
+  ],
+  "claimingReimbursement": false,
+  "remarks": "Mother filing for accrued benefits. Father (Robert) is also surviving but letting me handle the claim.",
+  "veteranIdentification": {
+    "ssn": "444556666"
+  },
+  "claimantIdentification": {
+    "ssn": "333445555"
+  }
+}

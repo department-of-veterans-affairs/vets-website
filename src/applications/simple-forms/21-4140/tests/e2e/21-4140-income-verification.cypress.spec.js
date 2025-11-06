@@ -11,7 +11,7 @@ import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['minimal-test'],
+    dataSets: ['minimal-test', 'maximal-test'],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {

@@ -2,37 +2,30 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
-
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
 import { FilesPage } from '../../containers/FilesPage';
 import * as AdditionalEvidencePage from '../../components/claim-files-tab/AdditionalEvidencePage';
-import {
-  renderWithRouter,
-  rerenderWithRouter,
-  renderWithReduxAndRouter,
-} from '../utils';
+import { renderWithRouter, rerenderWithRouter } from '../utils';
 import * as helpers from '../../utils/helpers';
 
-// cst_show_document_upload_status false for old behavior)
-const defaultReduxState = {
-  initialState: {
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      cst_show_document_upload_status: false,
-    },
-  },
-};
+const FEATURE_FLAG_KEY = 'cst_show_document_upload_status';
 
-// cst_show_document_upload_status true for new component testing
-const enabledReduxState = {
-  initialState: {
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      cst_show_document_upload_status: true,
+const getStore = (featureToggles = {}, notifications = {}) =>
+  createStore(() => ({
+    featureToggles,
+    disability: {
+      status: {
+        notifications: {
+          message: null,
+          additionalEvidenceMessage: null,
+          type1UnknownErrors: null,
+          ...notifications,
+        },
+      },
     },
-  },
-};
+  }));
 
 // Base claim object for testing
 const baseClaim = {
@@ -85,35 +78,41 @@ describe('<FilesPage>', () => {
 
   it('should render loading state', () => {
     const { container } = renderWithRouter(
-      <FilesPage
-        {...props}
-        loading
-        message={{ title: 'Test', body: 'Body' }}
-      />,
+      <Provider store={getStore()}>
+        <FilesPage
+          {...props}
+          loading
+          message={{ title: 'Test', body: 'Body' }}
+        />
+      </Provider>,
     );
-    expect($('.claim-files', container)).to.not.exist;
-    expect($('va-loading-indicator', container)).to.exist;
+    expect(container.querySelector('.claim-files')).to.not.exist;
+    expect(container.querySelector('va-loading-indicator')).to.exist;
   });
 
   it('should render null when claim empty', () => {
     const { container, getByText } = renderWithRouter(
-      <FilesPage {...props} message={{ title: 'Test', body: 'Body' }} />,
+      <Provider store={getStore()}>
+        <FilesPage {...props} message={{ title: 'Test', body: 'Body' }} />
+      </Provider>,
     );
 
-    expect($('.claim-files', container)).to.not.exist;
+    expect(container.querySelector('.claim-files')).to.not.exist;
     getByText('Claim status is unavailable');
   });
 
   it('should render null when claim null', () => {
     const { container, getByText } = renderWithRouter(
-      <FilesPage
-        {...props}
-        claim={null}
-        message={{ title: 'Test', body: 'Body' }}
-      />,
+      <Provider store={getStore()}>
+        <FilesPage
+          {...props}
+          claim={null}
+          message={{ title: 'Test', body: 'Body' }}
+        />
+      </Provider>,
     );
 
-    expect($('.claim-files', container)).to.not.exist;
+    expect(container.querySelector('.claim-files')).to.not.exist;
     getByText('Claim status is unavailable');
   });
 
@@ -121,9 +120,10 @@ describe('<FilesPage>', () => {
     const claim = { ...baseClaim };
 
     it('should call setPageFocus when location.hash is empty', async () => {
-      renderWithReduxAndRouter(
-        <FilesPage {...props} claim={claim} location={{ hash: '' }} />,
-        defaultReduxState,
+      renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} claim={claim} location={{ hash: '' }} />
+        </Provider>,
       );
 
       await waitFor(() => {
@@ -132,9 +132,10 @@ describe('<FilesPage>', () => {
     });
 
     it('should not call setPageFocus when location.hash is not empty', async () => {
-      renderWithReduxAndRouter(
-        <FilesPage {...props} location={{ hash: '#add-files' }} />,
-        defaultReduxState,
+      renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} location={{ hash: '#add-files' }} />
+        </Provider>,
       );
 
       await waitFor(() => {
@@ -148,14 +149,15 @@ describe('<FilesPage>', () => {
         body: 'Testing',
       };
 
-      const { container } = renderWithReduxAndRouter(
-        <FilesPage
-          {...props}
-          claim={claim}
-          message={message}
-          location={{ hash: '' }}
-        />,
-        defaultReduxState,
+      const { container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage
+            {...props}
+            claim={claim}
+            message={message}
+            location={{ hash: '' }}
+          />
+        </Provider>,
       );
 
       const selector = container.querySelector('va-alert');
@@ -173,44 +175,70 @@ describe('<FilesPage>', () => {
     claim.attributes.claimType = 'Compensation';
     claim.attributes.claimPhaseDates = { previousPhases: {} };
     it('should not update document title at mount-time if claim is not available', () => {
-      renderWithRouter(<FilesPage {...props} />);
+      renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} />
+        </Provider>,
+      );
       expect(document.title).to.equal('');
     });
     it('should update document title with claim details at mount-time if claim is already loaded', () => {
-      renderWithReduxAndRouter(
-        <FilesPage {...props} claim={claim} />,
-        defaultReduxState,
+      renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} claim={claim} />
+        </Provider>,
       );
       expect(document.title).to.equal(
         'Files for September 4, 2024 Compensation Claim | Veterans Affairs',
       );
     });
     it('should update document title with claim details after mount once the claim has loaded', () => {
-      const { rerender } = renderWithReduxAndRouter(
-        <FilesPage {...props} loading />,
-        defaultReduxState,
+      const { rerender } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} loading />
+        </Provider>,
       );
-      rerenderWithRouter(rerender, <FilesPage {...props} claim={claim} />);
+      rerenderWithRouter(
+        rerender,
+        <Provider store={getStore()}>
+          <FilesPage {...props} claim={claim} />
+        </Provider>,
+      );
       expect(document.title).to.equal(
         'Files for September 4, 2024 Compensation Claim | Veterans Affairs',
       );
     });
     it('should update document title with a default message after mount once the claim fails to load', () => {
-      const { rerender } = renderWithRouter(<FilesPage {...props} loading />);
-      rerenderWithRouter(rerender, <FilesPage {...props} claim={null} />);
+      const { rerender } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} loading />
+        </Provider>,
+      );
+      rerenderWithRouter(
+        rerender,
+        <Provider store={getStore()}>
+          <FilesPage {...props} claim={null} />
+        </Provider>,
+      );
       expect(document.title).to.equal(
         'Files for Your Claim | Veterans Affairs',
       );
     });
     it('should not update document title after mount if the loading status has not changed', () => {
-      const { rerender } = renderWithRouter(<FilesPage {...props} loading />);
+      const { rerender } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} loading />
+        </Provider>,
+      );
       rerenderWithRouter(
         rerender,
-        <FilesPage
-          {...props}
-          loading
-          message={{ title: 'Test', body: 'Body' }}
-        />,
+        <Provider store={getStore()}>
+          <FilesPage
+            {...props}
+            loading
+            message={{ title: 'Test', body: 'Body' }}
+          />
+        </Provider>,
       );
       expect(document.title).to.equal('');
     });
@@ -225,14 +253,15 @@ describe('<FilesPage>', () => {
           body: 'Test',
         };
         const clearNotification = sinon.spy();
-        const { unmount } = renderWithReduxAndRouter(
-          <FilesPage
-            {...props}
-            clearNotification={clearNotification}
-            message={message}
-            claim={claim}
-          />,
-          defaultReduxState,
+        const { unmount } = renderWithRouter(
+          <Provider store={getStore()}>
+            <FilesPage
+              {...props}
+              clearNotification={clearNotification}
+              message={message}
+              claim={claim}
+            />
+          </Provider>,
         );
         unmount();
         expect(clearNotification.called).to.be.true;
@@ -244,21 +273,24 @@ describe('<FilesPage>', () => {
     it('should render files page, showing additional evidence section without alerts, and docs filed section', () => {
       const claim = { ...baseClaim };
 
-      const { container, getByTestId } = renderWithReduxAndRouter(
-        <FilesPage
-          {...props}
-          claim={claim}
-          message={{ title: 'Test', body: 'Body' }}
-          clearNotification={() => {}}
-        />,
+      const { container, getByTestId } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage
+            {...props}
+            claim={claim}
+            message={{ title: 'Test', body: 'Body' }}
+            clearNotification={() => {}}
+          />
+        </Provider>,
       );
-      const filesPage = $('#tabPanelFiles', container);
+      const filesPage = container.querySelector('#tabPanelFiles');
 
       expect(filesPage).to.exist;
-      expect($('.claim-file-header-container', container)).to.exist;
+      expect(container.querySelector('.claim-file-header-container')).to.exist;
       expect(getByTestId('additional-evidence-page')).to.exist;
-      expect($('.documents-filed-container', container)).to.exist;
-      expect($('.claims-requested-files-container', container)).not.to.exist;
+      expect(container.querySelector('.documents-filed-container')).to.exist;
+      expect(container.querySelector('.claims-requested-files-container')).not
+        .to.exist;
     });
 
     it('should render files page, showing additional evidence section with alerts, and docs filed section when using lighthouse', () => {
@@ -274,21 +306,24 @@ describe('<FilesPage>', () => {
           date: '2023-01-01',
         },
       ];
-      const { container, getByTestId } = renderWithReduxAndRouter(
-        <FilesPage
-          {...props}
-          claim={claim}
-          message={{ title: 'Test', body: 'Body' }}
-          clearNotification={() => {}}
-        />,
+      const { container, getByTestId } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage
+            {...props}
+            claim={claim}
+            message={{ title: 'Test', body: 'Body' }}
+            clearNotification={() => {}}
+          />
+        </Provider>,
       );
-      const filesPage = $('#tabPanelFiles', container);
+      const filesPage = container.querySelector('#tabPanelFiles');
 
       expect(filesPage).to.exist;
-      expect($('.claim-file-header-container', container)).to.exist;
+      expect(container.querySelector('.claim-file-header-container')).to.exist;
       expect(getByTestId('additional-evidence-page')).to.exist;
-      expect($('.documents-filed-container', container)).to.exist;
-      expect($('.claims-requested-files-container', container)).to.not.exist;
+      expect(container.querySelector('.documents-filed-container')).to.exist;
+      expect(container.querySelector('.claims-requested-files-container')).not
+        .to.exist;
     });
     it('should not render ask va to decide component', () => {
       const claim = { ...baseClaim };
@@ -305,13 +340,15 @@ describe('<FilesPage>', () => {
       claim.attributes.evidenceWaiverSubmitted5103 = false;
       claim.attributes.status = 'EVIDENCE_GATHERING_REVIEW_DECISION';
 
-      const { queryByText } = renderWithReduxAndRouter(
-        <FilesPage
-          {...props}
-          claim={claim}
-          message={{ title: 'Test', body: 'Body' }}
-          clearNotification={() => {}}
-        />,
+      const { queryByText } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage
+            {...props}
+            claim={claim}
+            message={{ title: 'Test', body: 'Body' }}
+            clearNotification={() => {}}
+          />
+        </Provider>,
       );
 
       expect(queryByText('Ask for your Claim Decision')).to.not.exist;
@@ -332,29 +369,34 @@ describe('<FilesPage>', () => {
       claim.attributes.closeDate = '2023-01-31';
       claim.attributes.status = 'COMPLETE';
 
-      const { container, getByTestId } = renderWithReduxAndRouter(
-        <FilesPage
-          {...props}
-          claim={claim}
-          message={{ title: 'Test', body: 'Body' }}
-          clearNotification={() => {}}
-        />,
+      const { container, getByTestId } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage
+            {...props}
+            claim={claim}
+            message={{ title: 'Test', body: 'Body' }}
+            clearNotification={() => {}}
+          />
+        </Provider>,
       );
-      const filesPage = $('#tabPanelFiles', container);
+      const filesPage = container.querySelector('#tabPanelFiles');
 
       expect(filesPage).to.exist;
-      expect($('.claim-file-header-container', container)).to.exist;
+      expect(container.querySelector('.claim-file-header-container')).to.exist;
       expect(getByTestId('additional-evidence-page')).to.exist;
-      expect($('.documents-filed-container', container)).to.exist;
-      expect($('.claims-requested-files-container', container)).not.to.exist;
+      expect(container.querySelector('.documents-filed-container')).to.exist;
+      expect(container.querySelector('.claims-requested-files-container')).not
+        .to.exist;
     });
   });
 
   describe('OtherWaysToSendYourDocuments feature toggle', () => {
     it('should render OtherWaysToSendYourDocuments when feature toggle is enabled', () => {
-      const { getByTestId, getByText } = renderWithReduxAndRouter(
-        <FilesPage {...props} claim={baseClaim} />,
-        enabledReduxState,
+      const featureToggles = { [FEATURE_FLAG_KEY]: true };
+      const { getByTestId, getByText } = renderWithRouter(
+        <Provider store={getStore(featureToggles)}>
+          <FilesPage {...props} claim={baseClaim} />
+        </Provider>,
       );
 
       // Should render OtherWaysToSendYourDocuments component
@@ -373,9 +415,10 @@ describe('<FilesPage>', () => {
     });
 
     it('should render old content when feature toggle is disabled', () => {
-      const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
-        <FilesPage {...props} claim={baseClaim} />,
-        defaultReduxState,
+      const { getByTestId, queryByTestId } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} claim={baseClaim} />
+        </Provider>,
       );
 
       // Should render old components

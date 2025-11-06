@@ -10,10 +10,6 @@ describe('getMstData', () => {
       optionIndicator: choice,
     });
 
-  it('should return empty object if not in new form', () => {
-    expect(setup()).to.deep.equal({});
-  });
-
   it('should return empty object if nothing selected', () => {
     expect(setup()).to.deep.equal({});
   });

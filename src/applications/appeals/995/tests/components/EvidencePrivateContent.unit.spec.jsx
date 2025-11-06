@@ -6,7 +6,6 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   AUTHORIZATION_LABEL,
   EVIDENCE_PRIVATE_AUTHORIZATION_URL,
-  EVIDENCE_PRIVATE_DETAILS_URL,
   LIMITED_CONSENT_DETAILS_URL,
   LIMITED_CONSENT_PROMPT_URL,
 } from '../../constants';
@@ -15,6 +14,12 @@ import { content as limitedConsentContent } from '../../content/limitedConsent';
 import { EvidencePrivateContent } from '../../components/EvidencePrivateContent';
 import { records } from '../data/evidence-records';
 import { title4142WithId } from '../../content/title';
+import {
+  verifyHeader,
+  verifyLink,
+  verifyProviderPrivate,
+  verifyResponse,
+} from '../unit-test-helpers';
 
 const limitedConsentDetails = 'Testing limited consent content';
 
@@ -22,20 +27,6 @@ const verifyEvidenceHeader = container => {
   expect($('.private-title', container).textContent).to.contain(
     content.privateTitle,
   );
-};
-
-const verifyHeader = (headers, index, expectedContent) => {
-  expect(headers[index].textContent).to.eq(expectedContent);
-};
-
-const verifyResponse = (listItems, index, expectedContent) => {
-  expect(listItems[index].textContent).to.contain(expectedContent);
-};
-
-const verifyLink = (selector, expectedPath) => {
-  const link = $$(selector)?.[0];
-  expect(link).to.exist;
-  expect(link.href).to.eq(expectedPath);
 };
 
 const verifyAuthorization = (headers, listItems, reviewMode = false) => {
@@ -69,32 +60,6 @@ const verifyLimitedConsentDetails = (
 
   if (!reviewMode) {
     verifyLink('#edit-limitation', `/${LIMITED_CONSENT_DETAILS_URL}`);
-  }
-};
-
-const verifyProvider = (
-  headers,
-  listItems,
-  data,
-  listIndex,
-  providerIndex,
-  reviewMode = false,
-) => {
-  verifyHeader(headers, listIndex, data.providerName);
-  verifyResponse(listItems, listIndex, data.issues);
-  verifyResponse(listItems, listIndex, data.dates);
-
-  if (data.address) {
-    data.address.forEach(chunk => {
-      verifyResponse(listItems, listIndex, chunk);
-    });
-  }
-
-  if (!reviewMode) {
-    verifyLink(
-      `#edit-private-${providerIndex}`,
-      `/${EVIDENCE_PRIVATE_DETAILS_URL}?index=${providerIndex}`,
-    );
   }
 };
 
@@ -132,7 +97,7 @@ describe('EvidencePrivateContent', () => {
       verifyLimitedConsentPrompt(headers, listItems);
       verifyLimitedConsentDetails(headers, listItems);
 
-      verifyProvider(
+      verifyProviderPrivate(
         headers,
         listItems,
         {
@@ -142,9 +107,10 @@ describe('EvidencePrivateContent', () => {
         },
         3,
         0,
+        false,
       );
 
-      verifyProvider(
+      verifyProviderPrivate(
         headers,
         listItems,
         {
@@ -154,9 +120,10 @@ describe('EvidencePrivateContent', () => {
         },
         4,
         1,
+        false,
       );
 
-      verifyProvider(
+      verifyProviderPrivate(
         headers,
         listItems,
         {
@@ -166,6 +133,7 @@ describe('EvidencePrivateContent', () => {
         },
         5,
         2,
+        false,
       );
     });
   });
@@ -195,7 +163,7 @@ describe('EvidencePrivateContent', () => {
       verifyLimitedConsentPrompt(headers, listItems, true);
       verifyLimitedConsentDetails(headers, listItems, true);
 
-      verifyProvider(
+      verifyProviderPrivate(
         headers,
         listItems,
         {
@@ -208,7 +176,7 @@ describe('EvidencePrivateContent', () => {
         true,
       );
 
-      verifyProvider(
+      verifyProviderPrivate(
         headers,
         listItems,
         {
@@ -221,7 +189,7 @@ describe('EvidencePrivateContent', () => {
         true,
       );
 
-      verifyProvider(
+      verifyProviderPrivate(
         headers,
         listItems,
         {
@@ -261,7 +229,7 @@ describe('EvidencePrivateContent', () => {
       verifyLimitedConsentPrompt(headers, listItems, true);
       verifyLimitedConsentDetails(headers, listItems, true);
 
-      verifyProvider(
+      verifyProviderPrivate(
         headers,
         listItems,
         {
@@ -279,7 +247,7 @@ describe('EvidencePrivateContent', () => {
         true,
       );
 
-      verifyProvider(
+      verifyProviderPrivate(
         headers,
         listItems,
         {
@@ -293,7 +261,7 @@ describe('EvidencePrivateContent', () => {
         true,
       );
 
-      verifyProvider(
+      verifyProviderPrivate(
         headers,
         listItems,
         {

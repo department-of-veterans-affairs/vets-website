@@ -7,30 +7,18 @@ import { records } from '../data/evidence-records';
 import EvidenceSummary from '../../components/EvidenceSummary';
 import { content } from '../../content/evidenceSummary';
 import {
-  EVIDENCE_PRIVATE,
-  EVIDENCE_VA,
+  HAS_PRIVATE_EVIDENCE,
+  HAS_VA_EVIDENCE,
   EVIDENCE_VA_PROMPT_URL,
-  EVIDENCE_OTHER,
-  LIMITED_CONSENT_RESPONSE,
+  HAS_OTHER_EVIDENCE,
+  HAS_PRIVATE_LIMITATION,
 } from '../../constants';
-
-const verifyHeader = (headers, index, expectedContent) => {
-  expect(headers[index].textContent).to.eq(expectedContent);
-};
-
-const verifyLink = (selector, expectedPath) => {
-  const link = $$(selector)?.[0];
-  expect(link).to.exist;
-  expect(link.href).to.eq(expectedPath);
-};
-
-const clickContinue = container => {
-  fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-};
-
-const clickBack = container => {
-  fireEvent.click($('.form-progress-buttons .usa-button-secondary', container));
-};
+import {
+  clickBack,
+  clickContinue,
+  verifyHeader,
+  verifyLink,
+} from '../unit-test-helpers';
 
 const clickUpdatePage = container => {
   fireEvent.click($('.form-nav-buttons va-button', container));
@@ -42,7 +30,6 @@ const setupSummary = ({
   other = true,
   limit,
   privacy = true,
-  toggle = true,
   goBack = () => {},
   goForward = () => {},
   setFormData = () => {},
@@ -54,14 +41,13 @@ const setupSummary = ({
     <div>
       <EvidenceSummary
         data={{
-          [EVIDENCE_VA]: vaMR,
-          [EVIDENCE_PRIVATE]: privateMR,
-          [EVIDENCE_OTHER]: other,
+          [HAS_VA_EVIDENCE]: vaMR,
+          [HAS_PRIVATE_EVIDENCE]: privateMR,
+          [HAS_OTHER_EVIDENCE]: other,
           ...list,
           privacyAgreementAccepted: privacy,
-          [LIMITED_CONSENT_RESPONSE]: limit?.length > 0,
+          [HAS_PRIVATE_LIMITATION]: limit?.length > 0,
           limitedConsent: limit,
-          showScNewForm: toggle,
         }}
         goBack={goBack}
         goForward={goForward}
@@ -81,14 +67,13 @@ describe('EvidenceSummary', () => {
       const { container } = render(
         <EvidenceSummary
           data={{
-            [EVIDENCE_VA]: true,
-            [EVIDENCE_PRIVATE]: true,
-            [EVIDENCE_OTHER]: true,
+            [HAS_VA_EVIDENCE]: true,
+            [HAS_PRIVATE_EVIDENCE]: true,
+            [HAS_OTHER_EVIDENCE]: true,
             ...records(),
             privacyAgreementAccepted: true,
-            [LIMITED_CONSENT_RESPONSE]: true,
+            [HAS_PRIVATE_LIMITATION]: true,
             limitedConsent: 'Limited consent details',
-            showScNewForm: true,
           }}
           goBack={() => {}}
           goForward={() => {}}
@@ -211,14 +196,13 @@ describe('EvidenceSummary', () => {
       const { container } = render(
         <EvidenceSummary
           data={{
-            [EVIDENCE_VA]: true,
-            [EVIDENCE_PRIVATE]: true,
-            [EVIDENCE_OTHER]: true,
+            [HAS_VA_EVIDENCE]: true,
+            [HAS_PRIVATE_EVIDENCE]: true,
+            [HAS_OTHER_EVIDENCE]: true,
             ...records(),
             privacyAgreementAccepted: true,
-            [LIMITED_CONSENT_RESPONSE]: true,
+            [HAS_PRIVATE_LIMITATION]: true,
             limitedConsent: 'Limited consent details',
-            showScNewForm: true,
           }}
           goBack={() => {}}
           goForward={() => {}}

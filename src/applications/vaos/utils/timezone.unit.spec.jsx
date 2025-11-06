@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import Sinon from 'sinon';
 import {
   getTimezoneAbbrByFacilityId,
   getTimezoneAbbrFromApi,
@@ -134,6 +135,9 @@ describe('VAOS Utils: timezone', () => {
     it('should return null', () => {
       expect(getTimezoneDescByFacilityId('0402')).to.be.null;
     });
+    it('should return the timezone for users current location for bad facility id', () => {
+      expect(getTimezoneDescByFacilityId(null, true)).not.be.null;
+    });
   });
 
   describe('getTimezoneAbbrFromApi', () => {
@@ -226,6 +230,18 @@ describe('VAOS Utils: timezone', () => {
     it('should return null for an unknown id', () => {
       expect(getTimezoneByFacilityId(null)).to.be.null;
       expect(getTimezoneByFacilityId(undefined)).to.be.null;
+    });
+
+    it('should return the timezone for users current location for bad facility id', () => {
+      const stub = Sinon.stub(Intl, 'DateTimeFormat');
+      stub.returns({
+        resolvedOptions() {
+          return { timeZone: 'America/Chicago' };
+        },
+      });
+
+      expect(getTimezoneByFacilityId(null, true)).to.equal('America/Chicago');
+      stub.restore();
     });
   });
 
@@ -341,9 +357,10 @@ describe('VAOS Utils: timezone', () => {
     });
 
     it('should return abbreviation for unsupported timezones', () => {
-      // Test with a timezone that doesn't have a mapping in TIMEZONE_LABELS
-      const result = getTimezoneDescByTimeZoneString('Europe/London');
-      expect(result).to.equal('GMT+1');
+      // Test with a timezone without DST that doesn't have a mapping in
+      // TIMEZONE_LABELS and is not in GMT_TABLE_MAPPING
+      const result = getTimezoneDescByTimeZoneString('Asia/Dubai');
+      expect(result).to.equal('GMT+4');
     });
 
     it('should handle DST correctly by stripping daylight saving time indicators', () => {

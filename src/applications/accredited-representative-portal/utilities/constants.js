@@ -11,29 +11,15 @@ import {
   OAUTH_KEYS as SIS_QUERY_PARAM_KEYS,
 } from '~/platform/utilities/oauth/constants';
 
-import {
-  IsCustomLoginEnabled,
-  UseDashboardRedirectEnabled,
-} from './featureToggles';
-
-const PLATFORM_SIGN_IN_URL = '/sign-in';
 const ARP_SIGN_IN_URL = '/representative/sign-in';
 const USIP_BASE_URL = environment.BASE_URL;
 
 export const getSignInUrl = ({ returnUrl } = {}) => {
-  // Get feature toggle with safe fallback
-  const useNewLogin = IsCustomLoginEnabled();
-  const useDashboardRedirect = UseDashboardRedirectEnabled();
-  const signInPath = useNewLogin ? ARP_SIGN_IN_URL : PLATFORM_SIGN_IN_URL;
+  const signInPath = ARP_SIGN_IN_URL;
   const url = new URL(signInPath, USIP_BASE_URL);
   url.searchParams.set(USIP_QUERY_PARAMS.application, USIP_APPLICATIONS.ARP);
   url.searchParams.set(USIP_QUERY_PARAMS.OAuth, true);
-  url.searchParams.set(
-    USIP_QUERY_PARAMS.to,
-    useDashboardRedirect
-      ? '/representative/dashboard'
-      : '/representative/poa-requests',
-  );
+  url.searchParams.set(USIP_QUERY_PARAMS.to, '/representative/dashboard');
   if (returnUrl) {
     url.searchParams.set(USIP_QUERY_PARAMS.to, returnUrl);
   }
@@ -75,12 +61,17 @@ export const NAV_MENU_DROPDOWN = [
   },
   {
     LABEL: 'Representation Requests',
-    URL: '/poa-requests',
-    TEST_ID: 'user-nav-poa-requests-link',
+    URL: '/representation-requests',
+    TEST_ID: 'user-nav-representation-requests-link',
   },
   {
     LABEL: 'Submissions',
     URL: '/submissions',
     TEST_ID: 'submissions-link',
+  },
+  {
+    LABEL: 'Help',
+    URL: '/get-help',
+    TEST_ID: 'user-nav-help-link',
   },
 ];

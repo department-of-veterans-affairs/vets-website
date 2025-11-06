@@ -1,21 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import DisabilityRatingAlert from './DisabilityRatingAlert';
 import { FormReactivationAlert } from './FormAlerts';
 
 const IntroductionPage = props => {
   const { route } = props;
   const { formConfig, pageList } = route;
+  const loggedIn = useSelector(isLoggedIn);
 
-  useEffect(
-    () => {
-      focusElement('va-breadcrumbs');
-    },
-    [props],
-  );
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const pbbFormsRequireLoa3 = useToggleValue(TOGGLE_NAMES.pbbFormsRequireLoa3);
 
   return (
     <article className="schemaform-intro">
@@ -23,6 +22,7 @@ const IntroductionPage = props => {
         title="Apply for Veterans Pension benefits"
         subTitle="Application for Veterans Pension (VA Form 21P-527EZ)"
       />
+      {loggedIn && <DisabilityRatingAlert />}
       <p className="va-introtext">
         Use our online tool to fill out and submit your application for Veterans
         Pension benefits. If you’re a wartime Veteran and you’re at least 65
@@ -171,6 +171,7 @@ const IntroductionPage = props => {
         </va-process-list-item>
       </va-process-list>
       <SaveInProgressIntro
+        hideUnauthedStartLink={pbbFormsRequireLoa3}
         formConfig={formConfig}
         prefillEnabled={formConfig.prefillEnabled}
         pageList={pageList}

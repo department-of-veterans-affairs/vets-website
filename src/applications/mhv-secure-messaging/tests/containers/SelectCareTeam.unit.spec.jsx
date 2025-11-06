@@ -3,6 +3,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+import { datadogRum } from '@datadog/browser-rum';
 import reducer from '../../reducers';
 import { ErrorMessages, Paths } from '../../util/constants';
 import SelectCareTeam from '../../containers/SelectCareTeam';
@@ -42,6 +43,7 @@ describe('SelectCareTeam', () => {
           noBlockedRecipients.associatedBlockedTriageGroupsQty,
         noAssociations: noBlockedRecipients.noAssociations,
         allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+        vistaFacilities: noBlockedRecipients.mockVistaFacilities,
       },
       threadDetails: {
         draftInProgress: {},
@@ -51,32 +53,32 @@ describe('SelectCareTeam', () => {
       vamcEhrData: {
         data: {
           ehrDataByVhaId: {
-            '662': {
+            662: {
               vhaId: '662',
               vamcSystemName: 'Test Facility 1',
               ehr: 'vista',
             },
-            '636': {
+            636: {
               vhaId: '636',
               vamcSystemName: 'Test Facility 2',
               ehr: 'vista',
             },
-            '587': {
+            587: {
               vhaId: '587',
               vamcSystemName: 'Test Facility 3',
               ehr: 'vista',
             },
-            '321': {
+            321: {
               vhaId: '321',
               vamcSystemName: 'Test Facility 4',
               ehr: 'vista',
             },
-            '954': {
+            954: {
               vhaId: '954',
               vamcSystemName: 'Test Facility 5',
               ehr: 'cerner',
             },
-            '834': {
+            834: {
               vhaId: '834',
               vamcSystemName: 'Test Facility 6',
               ehr: 'cerner',
@@ -522,11 +524,6 @@ describe('SelectCareTeam', () => {
   });
 
   it('redirects users to interstitial page if interstitial not accepted', async () => {
-    const oldLocation = global.window.location;
-    global.window.location = {
-      replace: sandbox.spy(),
-    };
-
     const customState = {
       ...initialState,
       sm: {
@@ -547,8 +544,6 @@ describe('SelectCareTeam', () => {
     await waitFor(() => {
       expect(history.location.pathname).to.equal('/new-message/');
     });
-
-    global.window.location = oldLocation;
   });
 
   it('wont redirect users if interstitial accepted', async () => {
@@ -570,7 +565,311 @@ describe('SelectCareTeam', () => {
     });
 
     await waitFor(() => {
-      expect(history.location.pathname).to.equal('select-care-team');
+      expect(history.location.pathname).to.equal('select-care-team/');
+    });
+  });
+
+  it('shows contact list link when user has only Vista facilities', async () => {
+    const vistaOnlyState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          ...initialState.sm.recipients,
+          allRecipients: [
+            {
+              id: 1013155,
+              triageTeamId: 1013155,
+              name: 'Vista Team',
+              stationNumber: '636',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: false,
+            },
+          ],
+          allowedRecipients: [
+            {
+              id: 1013155,
+              triageTeamId: 1013155,
+              name: 'Vista Team',
+              stationNumber: '636',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: false,
+            },
+          ],
+          vistaFacilities: ['636'],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: vistaOnlyState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Update your contact list')).to.exist;
+    });
+  });
+
+  it('does not show contact list link when user has only Cerner facilities', async () => {
+    const cernerOnlyState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          ...initialState.sm.recipients,
+          allRecipients: [
+            {
+              id: 2710522,
+              triageTeamId: 2710522,
+              name: 'Cerner Team',
+              stationNumber: '757',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: true,
+            },
+          ],
+          allowedRecipients: [
+            {
+              id: 2710522,
+              triageTeamId: 2710522,
+              name: 'Cerner Team',
+              stationNumber: '757',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: true,
+            },
+          ],
+          vistaFacilities: [],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: cernerOnlyState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText('Update your contact list')).to.not.exist;
+    });
+  });
+
+  it('shows contact list link when user has both Vista and Cerner facilities', async () => {
+    const bothState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          ...initialState.sm.recipients,
+          allRecipients: [
+            {
+              id: 1013155,
+              triageTeamId: 1013155,
+              name: 'Vista Team',
+              stationNumber: '636',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: false,
+            },
+            {
+              id: 2710522,
+              triageTeamId: 2710522,
+              name: 'Cerner Team',
+              stationNumber: '757',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: true,
+            },
+          ],
+          allowedRecipients: [
+            {
+              id: 1013155,
+              triageTeamId: 1013155,
+              name: 'Vista Team',
+              stationNumber: '636',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: false,
+            },
+            {
+              id: 2710522,
+              triageTeamId: 2710522,
+              name: 'Cerner Team',
+              stationNumber: '757',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: true,
+            },
+          ],
+          vistaFacilities: ['636'],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: bothState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Update your contact list')).to.exist;
+    });
+  });
+
+  describe('Datadog RUM tracking', () => {
+    let addActionSpy;
+
+    const stateWithAcceptInterstitial = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          acceptInterstitial: true,
+          draftInProgress: {},
+        },
+      },
+    };
+
+    beforeEach(() => {
+      addActionSpy = sinon.spy(datadogRum, 'addAction');
+    });
+
+    afterEach(() => {
+      addActionSpy.restore();
+    });
+
+    it('should call datadogRum.addAction on unmount when care system was switched', async () => {
+      // Set initial state with a pre-selected care system
+      const stateWithPreselectedCareSystem = {
+        ...stateWithAcceptInterstitial,
+        sm: {
+          ...stateWithAcceptInterstitial.sm,
+          threadDetails: {
+            ...stateWithAcceptInterstitial.sm.threadDetails,
+            draftInProgress: {
+              careSystemVhaId: '636',
+            },
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithPreselectedCareSystem,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait for initial render
+      await waitFor(() => {
+        expect(screen.getByTestId('care-system-662')).to.exist;
+      });
+
+      // Switch from 636 to 662
+      selectVaRadio(screen.container, '662');
+
+      await waitFor(() => {
+        expect(updateDraftInProgressSpy.called).to.be.true;
+      });
+
+      // Unmount component to trigger useEffect cleanup
+      screen.unmount();
+
+      // Check that datadogRum.addAction was called
+      expect(addActionSpy.calledOnce).to.be.true;
+      expect(
+        addActionSpy.calledWith('Care System Radio Switch Count', {
+          switchCount: 1,
+        }),
+      ).to.be.true;
+    });
+
+    it('should track multiple care system switches', async () => {
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithAcceptInterstitial,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait for initial render
+      await waitFor(() => {
+        expect(screen.getByTestId('care-system-662')).to.exist;
+      });
+
+      // Each selection is a switch since each value is different from the previous
+      selectVaRadio(screen.container, '662');
+      selectVaRadio(screen.container, '636');
+      selectVaRadio(screen.container, '587');
+
+      // Unmount component
+      screen.unmount();
+
+      // Check that datadogRum.addAction was called
+      expect(addActionSpy.calledOnce).to.be.true;
+      const callArgs = addActionSpy.lastCall.args;
+      expect(callArgs[0]).to.equal('Care System Radio Switch Count');
+      expect(callArgs[1]).to.deep.equal({
+        switchCount: 3,
+      });
+    });
+
+    it('should call datadogRum.addAction when no care system switches occurred', () => {
+      renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithAcceptInterstitial,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Unmount without any switches
+      cleanup();
+
+      expect(addActionSpy.called).to.be.true;
+      const callArgs = addActionSpy.lastCall.args;
+      expect(callArgs[0]).to.equal('Care System Radio Switch Count');
+      expect(callArgs[1]).to.deep.equal({
+        switchCount: 0,
+      });
+    });
+
+    it('should track only one switch when selecting same care system multiple times', async () => {
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithAcceptInterstitial,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait for initial render
+      await waitFor(() => {
+        expect(screen.getByTestId('care-system-662')).to.exist;
+      });
+
+      // First selection counts as a switch, second selection of same value does not
+      selectVaRadio(screen.container, '662');
+      selectVaRadio(screen.container, '662');
+
+      // Unmount component
+      screen.unmount();
+
+      // Check that datadogRum.addAction was called
+      expect(addActionSpy.calledOnce).to.be.true;
+      expect(
+        addActionSpy.calledWith('Care System Radio Switch Count', {
+          switchCount: 1,
+        }),
+      ).to.be.true;
     });
   });
 });

@@ -87,7 +87,15 @@ export const LivingSituation = ({ data } = {}) => (
 LivingSituation.propTypes = {
   data: PropTypes.shape({
     housingRisk: PropTypes.bool,
-    livingSituation: PropTypes.arrayOf(PropTypes.string),
+    livingSituation: PropTypes.shape({
+      facility30Days: PropTypes.bool,
+      friendOrFamily: PropTypes.bool,
+      home30Days: PropTypes.bool,
+      none: PropTypes.bool,
+      notRegular: PropTypes.bool,
+      other: PropTypes.bool,
+      shelter: PropTypes.bool,
+    }),
     otherHousingRisks: PropTypes.string,
     pointOfContactName: PropTypes.string,
     pointOfContactPhone: PropTypes.string,

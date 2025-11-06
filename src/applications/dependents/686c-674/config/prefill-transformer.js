@@ -1,4 +1,5 @@
 import { NETWORTH_VALUE } from './constants';
+import { processDependents } from '../utils/processDependents';
 
 export default function prefillTransformer(pages, formData, metadata) {
   const {
@@ -6,19 +7,18 @@ export default function prefillTransformer(pages, formData, metadata) {
     veteranVaFileNumberLastFour = '',
     isInReceiptOfPension = -1,
     netWorthLimit = NETWORTH_VALUE,
-    dependents = [],
+    dependents = {},
   } = formData?.nonPrefill || {};
   const contact = formData?.veteranContactInformation || {};
   const address = contact.veteranAddress || {};
   const isMilitary =
     ['APO', 'FPO', 'DPO'].includes((address?.city || '').toUpperCase()) ||
     false;
-  const awardedDependents = dependents.filter(
-    dependent => dependent.awardIndicator === 'Y',
-  );
-  const notAwardedDependents = dependents.filter(
-    dependent => dependent.awardIndicator !== 'Y',
-  );
+
+  const { hasError, awarded, notAwarded } = processDependents({
+    dependents,
+    isPrefill: true,
+  });
 
   return {
     pages,
@@ -33,20 +33,21 @@ export default function prefillTransformer(pages, formData, metadata) {
         veteranAddress: {
           isMilitary,
           country: address.country || address.countryName || 'USA',
-          street: address.street || address.addressLine1 || null,
-          street2: address.street2 || address.addressLine2 || null,
-          street3: address.street3 || address.addressLine3 || null,
-          city: address.city || null,
-          state: address.state || address.stateCode || null,
-          postalCode: address.postalCode || address.zipCode || null,
+          street: address.street || address.addressLine1 || '',
+          street2: address.street2 || address.addressLine2 || '',
+          street3: address.street3 || address.addressLine3 || '',
+          city: address.city || '',
+          state: address.state || address.stateCode || '',
+          postalCode: address.postalCode || address.zipCode || '',
         },
         phoneNumber: contact.phoneNumber || null,
         emailAddress: contact.emailAddress || null,
       },
       dependents: {
-        hasDependents: awardedDependents.length > 0,
-        awarded: awardedDependents,
-        notAwarded: notAwardedDependents,
+        hasError,
+        hasDependents: awarded.length > 0,
+        awarded,
+        notAwarded,
       },
       useV2: true,
       netWorthLimit,

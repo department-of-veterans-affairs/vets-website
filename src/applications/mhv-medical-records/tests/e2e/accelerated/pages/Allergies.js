@@ -1,5 +1,4 @@
 import sessionStatus from '../fixtures/session/default.json';
-import MedicalRecordsLandingPage from '../../pages/MedicalRecordsLandingPage';
 import vamc from '../../fixtures/facilities/vamc-ehr.json';
 
 class Allergies {
@@ -27,8 +26,6 @@ class Allergies {
     cy.intercept('GET', '/my_health/v2/medical_records/allergies*', req => {
       req.reply(allergiesData);
     }).as('allergies-list');
-
-    MedicalRecordsLandingPage.uumIntercept();
   };
 
   checkLandingPageLinks = () => {

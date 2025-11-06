@@ -7,7 +7,7 @@ import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 // import { setData } from 'platform/forms-system/exportsFile';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 
-import { fetchDependents } from '../actions';
+import { fetchDependents } from '../../shared/actions';
 import manifest from '../manifest.json';
 import { getRootParentUrl } from '../../shared/utils';
 

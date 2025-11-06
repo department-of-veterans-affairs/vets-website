@@ -1,0 +1,41 @@
+{
+  "hasAlreadyFiled": false,
+  "hasUnpaidCreditors": false,
+  "understandsTimeLimit": true,
+  "veteranFullName": {
+    "first": "James",
+    "last": "Wilson"
+  },
+  "veteranIdentification": {
+    "ssn": "345678901"
+  },
+  "beneficiaryIsVeteran": true,
+  "beneficiaryDateOfDeath": "2024-03-01",
+  "claimantFullName": {
+    "first": "Jennifer",
+    "last": "Wilson"
+  },
+  "claimantIdentification": {
+    "ssn": "765432109"
+  },
+  "claimantDateOfBirth": "1965-11-30",
+  "claimantAddress": {
+    "street": "789 Elm Street",
+    "street2": "Apt 1",
+    "city": "Norfolk",
+    "state": "VA",
+    "country": "USA",
+    "postalCode": "23510"
+  },
+  "claimantPhone": "7575551234",
+  "claimantEmail": "jennifer.wilson@email.com",
+  "relationshipToDeceased": "executor",
+  "wantsToWaiveSubstitution": false,
+  "survivors": {
+    "hasSpouse": false,
+    "hasChildren": false,
+    "hasParents": false,
+    "hasNone": true
+  },
+  "claimingReimbursement": false
+}

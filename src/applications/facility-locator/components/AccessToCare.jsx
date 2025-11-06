@@ -51,7 +51,7 @@ export default function AccessToCare({ location }) {
 
   return (
     <div className="vads-u-margin-bottom--4">
-      <h4 className="highlight">Veteran-reported Satisfaction Scores</h4>
+      <h3 className="highlight">Veteran-reported Satisfaction Scores</h3>
       <div className="vads-u-margin-bottom--4">
         <p>
           Current as of{' '}

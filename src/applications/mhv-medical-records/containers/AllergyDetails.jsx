@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -46,12 +45,6 @@ const AllergyDetails = props => {
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
   const allergyList = useSelector(state => state.mr.allergies.allergiesList);
   const user = useSelector(state => state.user.profile);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
 
   const { isLoading, isCerner, isAcceleratingAllergies } = useAcceleratedData();
 
@@ -213,16 +206,6 @@ Provider notes: ${allergyData.notes} \n`;
             />
 
             {downloadStarted && <DownloadSuccessAlert />}
-            <PrintDownload
-              description="Allergies Detail"
-              downloadPdf={generateAllergyPdf}
-              allowTxtDownloads={allowTxtDownloads}
-              downloadTxt={generateAllergyTxt}
-            />
-            <DownloadingRecordsInfo
-              description="Allergy Detail"
-              allowTxtDownloads={allowTxtDownloads}
-            />
 
             <div
               className="max-80 vads-u-margin-top--4"
@@ -272,6 +255,17 @@ Provider notes: ${allergyData.notes} \n`;
                 actionName="[allergy provider notes]"
               />
             </div>
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            <DownloadingRecordsInfo description="Allergy Detail" />
+            <PrintDownload
+              description="Allergies Detail"
+              downloadPdf={generateAllergyPdf}
+              downloadTxt={generateAllergyTxt}
+            />
+            <br />
+            <br />
+            <br />
+            <div className="vads-u-margin-bottom--300 vads-u-border-top--1px vads-u-border-color--white" />
           </HeaderSection>
         </>
       );

@@ -12,8 +12,8 @@ import {
   currencySchema,
   dateOfBirthUI,
   dateOfBirthSchema,
-  fullNameUI,
-  fullNameSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
   ssnUI,
@@ -70,6 +70,17 @@ const options = {
     getItemName: item =>
       item.fullName ? formatFullName(item.fullName) : undefined,
     summaryTitleWithoutItems: 'Dependent children',
+    alertItemUpdated: 'Your dependents information has been updated',
+    alertItemDeleted: 'Your dependents information has been deleted',
+    cancelAddTitle: 'Cancel adding this dependent child',
+    cancelAddYes: 'Yes, cancel adding this dependent child',
+    cancelAddNo: 'No',
+    cancelEditTitle: 'Cancel editing this dependent child',
+    cancelEditYes: 'Yes, cancel editing this dependent child',
+    cancelEditNo: 'No',
+    cancelNo: 'No',
+    deleteTitle: 'Delete this dependent child',
+    deleteNo: 'No',
   },
 };
 
@@ -102,12 +113,12 @@ const fullNamePage = {
       title: 'Dependent child',
       nounSingular: options.nounSingular,
     }),
-    fullName: fullNameUI(title => `Child’s ${title}`),
+    fullName: fullNameNoSuffixUI(title => `Child’s ${title}`),
   },
   schema: {
     type: 'object',
     properties: {
-      fullName: fullNameSchema,
+      fullName: fullNameNoSuffixSchema,
     },
     required: ['fullName'],
   },
@@ -345,7 +356,7 @@ const addressPage = {
       {
         'ui:title': 'Who do they live with?',
       },
-      fullNameUI(),
+      fullNameNoSuffixUI(),
     ),
     monthlyPayment: merge(
       {},
@@ -366,7 +377,7 @@ const addressPage = {
     type: 'object',
     properties: {
       childAddress: addressSchema({ omit: ['isMilitary', 'street3'] }),
-      personWhoLivesWithChild: fullNameSchema,
+      personWhoLivesWithChild: fullNameNoSuffixSchema,
       monthlyPayment: currencySchema,
     },
   },

@@ -9,11 +9,13 @@ import { focusElement } from 'platform/utilities/ui';
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import {
+  ssnUI,
+  currentOrPastDateUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { countries } from 'platform/forms/address';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -310,6 +312,24 @@ export const applicantContactInfoAddressTitle = (
   <div>
     <h3>Your mailing address</h3>
   </div>
+);
+
+export const applicantEditAddressTitleLoggedIn = (
+  <div>
+    <va-alert status="info" slim class="vads-u-margin-bottom--2">
+      <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
+        Any changes you make will also be reflected on your VA.gov profile.
+      </p>
+    </va-alert>
+    <h3>Edit your mailing address</h3>
+  </div>
+);
+
+export const applicantEditAddressDescriptionLoggedIn = (
+  <p className="vads-u-margin-top--0">
+    We may mail information about your application to the address you provide
+    here.
+  </p>
 );
 
 export const applicantContactInfoPreparerAddressTitle = (
@@ -800,21 +820,19 @@ export function transform(formConfig, form) {
 }
 
 export const fullMaidenNameUI = merge({}, fullNameUI, {
-  first: {
-    'ui:title': 'First name',
-  },
+  first: { 'ui:title': 'First name', 'ui:webComponentField': VaTextInputField },
   middle: {
     'ui:title': 'Middle name',
+    'ui:webComponentField': VaTextInputField,
   },
-  last: {
-    'ui:title': 'Last name',
-  },
+  last: { 'ui:title': 'Last name', 'ui:webComponentField': VaTextInputField },
   suffix: {
     'ui:webComponentField': VaSelectField,
     'ui:options': { classNames: 'form-select-medium' },
   },
   maiden: {
     'ui:title': 'Maiden name',
+    'ui:webComponentField': VaTextInputField,
   },
   'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
@@ -843,11 +861,13 @@ export const preparerDateOfBirthUI = currentOrPastDateUI(
 );
 
 // Modify default uiSchema for SSN to insert any missing dashes.
-export const ssnDashesUI = ssnUI;
+export const ssnDashesUI = ssnUI();
 
-export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
-  'ui:title': 'Applicant’s Social Security number',
-});
+export const preparerSsnDashesUI = ssnUI('Applicant’s Social Security number');
+
+export const sponsorDetailsSsnDashesUI = ssnUI(
+  'Sponsor’s Social Security number',
+);
 
 export const VAClaimNumberAdditionalInfo = (
   <va-additional-info trigger="What is a “VA claim number”?">
@@ -1528,31 +1548,9 @@ export const ApplicantDetailsHeader = () => {
   );
 };
 
-// Helper functions to check authentication status for veteran applicant details pages
-export const isLoggedInVeteran = formData => {
+// Helper function to check if user is logged in and not an authorized agent
+export const isLoggedInUser = formData => {
   const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
-  const isVet = isVeteran(formData);
   const isAgent = isAuthorizedAgent(formData);
-  return !isAgent && isVet && isLoggedIn;
-};
-
-export const isNotLoggedInVeteran = formData => {
-  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
-  const isVet = isVeteran(formData);
-  const isAgent = isAuthorizedAgent(formData);
-  return !isAgent && isVet && !isLoggedIn;
-};
-
-export const isLoggedInVeteranPreparer = formData => {
-  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
-  const isVet = isVeteran(formData);
-  const isAgent = isAuthorizedAgent(formData);
-  return isAgent && isVet && isLoggedIn;
-};
-
-export const isNotLoggedInVeteranPreparer = formData => {
-  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
-  const isVet = isVeteran(formData);
-  const isAgent = isAuthorizedAgent(formData);
-  return isAgent && isVet && !isLoggedIn;
+  return !isAgent && isLoggedIn;
 };

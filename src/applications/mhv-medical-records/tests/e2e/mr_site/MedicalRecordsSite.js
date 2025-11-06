@@ -2,7 +2,6 @@ import mockUser from '../fixtures/user.json';
 import vamc from '../fixtures/facilities/vamc-ehr.json';
 import sessionStatus from '../fixtures/session-status.json';
 import createAal from '../fixtures/create-aal.json';
-import MedicalRecordsLandingPage from '../pages/MedicalRecordsLandingPage';
 
 class MedicalRecordsSite {
   login = (userFixture = mockUser, useDefaultFeatureToggles = true) => {
@@ -24,7 +23,6 @@ class MedicalRecordsSite {
       body: createAal,
     }).as('aal');
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
-    MedicalRecordsLandingPage.uumIntercept();
     cy.login(userFixture);
   };
 
@@ -78,10 +76,6 @@ class MedicalRecordsSite {
             value: false,
           },
           {
-            name: 'mhv_medical_records_allow_txt_downloads',
-            value: true,
-          },
-          {
             name: 'mhv_medical_records_support_backend_pagination_allergy',
             value: false,
           },
@@ -106,10 +100,6 @@ class MedicalRecordsSite {
           {
             name: 'mhv_medical_records_support_backend_pagination_vital',
             value: false,
-          },
-          {
-            name: 'mhv_medical_records_use_unified_sei_api',
-            value: true,
           },
         ],
       },

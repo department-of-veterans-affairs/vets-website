@@ -27,7 +27,7 @@ The SEI document aggregates self-entered health information across several domai
 
 ## Key Features
 
-1. **Feature Flag Support**: Allows toggling between unified API (`getAllSelfEnteredData`) and domain-specific APIs (`getSelfEnteredData`) for data fetching.
+1. **Feature Flag Support**: Get unified API (`getAllSelfEnteredData`).
 2. **Error Handling and Reporting**: Identifies failed domains and provides clear feedback to users using the `MissingRecordsError` component.
 3. **PDF Generation**: Produces a standardized report with user details and self-entered health information.
 4. **Integration with Redux**: Designed to work seamlessly with the Redux store for managing user profiles and feature flags.
@@ -49,19 +49,12 @@ import { useSelector } from 'react-redux';
 
 ### Step 2: Access the `userProfile` and Feature Flag from Redux
 
-Retrieve the `userProfile` and feature flag (`useUnifiedSelfEnteredAPI`) from Redux using `useSelector`:
+Retrieve the `userProfile` from Redux using `useSelector`:
 
 ```javascript
 const {
   user: { profile: userProfile },
 } = useSelector(state => state);
-
-const useUnifiedSelfEnteredAPI = useSelector(
-  state =>
-    state.featureToggles[
-      FEATURE_FLAG_NAMES.mhvMedicalRecordsUseUnifiedSeiApi
-    ],
-);
 ```
 
 ---
@@ -82,20 +75,13 @@ const GenerateSelfEnteredPdf = () => {
     user: { profile: userProfile },
   } = useSelector(state => state);
 
-  const useUnifiedSelfEnteredAPI = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsUseUnifiedSeiApi
-      ],
-  );
-
   const [loading, setLoading] = useState(false);
   const [failedDomains, setFailedDomains] = useState([]);
   const [error, setError] = useState(null);
 
   const handleGeneratePdf = () => {
     setLoading(true);
-    generateSEIPdf(userProfile, useUnifiedSelfEnteredAPI)
+    generateSEIPdf(userProfile)
       .then(response => {
         setLoading(false);
         if (response.success) {
@@ -161,8 +147,7 @@ The `generateSEIPdf` function returns a promise that resolves to an object conta
 ## Additional Notes
 
 1. **Feature Flag**: 
-   - When `useUnifiedSelfEnteredAPI` is `true`, the function uses `getAllSelfEnteredData` for unified data fetching.
-   - When `false`, it falls back to `getSelfEnteredData`, fetching data for each domain individually.
+   - The function uses `getAllSelfEnteredData` for unified data fetching.
 
 2. **Error Handling**:
    - The `failedDomains` list identifies domains that failed to load.
@@ -176,7 +161,7 @@ The `generateSEIPdf` function returns a promise that resolves to an object conta
    - If the "Allergies" domain fails but "Medications" does not, the function ensures "Medications" is marked as failed for clinical relevance.
 
 5. **Redux Integration**:
-   - The `userProfile` and feature flag are managed via Redux. Ensure the `FEATURE_FLAG_NAMES.mhvMedicalRecordsUseUnifiedSeiApi` flag is correctly configured.
+   - The `userProfile` and feature flag are managed via Redux.
 
 ### Required Fields in `userProfile`
 

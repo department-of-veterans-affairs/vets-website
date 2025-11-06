@@ -37,8 +37,8 @@ export const NAV_MENU_DROPDOWN = [
   },
   {
     LABEL: 'Representation Requests',
-    URL: '/poa-requests',
-    TEST_ID: 'user-nav-poa-requests-link',
+    URL: '/representation-requests',
+    TEST_ID: 'user-nav-representation-requests-link',
   },
   {
     LABEL: 'Submissions',
@@ -48,6 +48,6 @@ export const NAV_MENU_DROPDOWN = [
   {
     LABEL: 'Help',
     URL: '/get-help',
-    TEST_ID: 'user-nav-profile-link',
+    TEST_ID: 'user-nav-help-link',
   },
 ];

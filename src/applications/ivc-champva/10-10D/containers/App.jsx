@@ -1,11 +1,8 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
-import {
-  DowntimeNotification,
-  externalServices,
-} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { DowntimeNotification } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
@@ -49,6 +46,8 @@ export default function App({ location, children }) {
     [isLoadingFeatureFlags, isLoadingProfile],
   );
 
+  const [routeChecked, setRouteChecked] = useState(false);
+
   document.title = `${formConfig.title} | Veterans Affairs`;
   useEffect(() => {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
@@ -61,7 +60,7 @@ export default function App({ location, children }) {
   });
 
   // redirect to merged form if feature is active & user doesn't have an in-progress form
-  useEffect(
+  useLayoutEffect(
     () => {
       if (isAppLoading) return;
       const hasSavedForm = savedForms.some(
@@ -69,8 +68,10 @@ export default function App({ location, children }) {
           form === formConfig.formId && !isExpired(metaData?.expiresAt),
       );
       if (isMergedFormEnabled && !hasSavedForm) {
-        window.location(getAppUrl('10-10d-extended'));
+        window.location.replace(getAppUrl('10-10d-extended'));
+        return;
       }
+      setRouteChecked(true);
     },
     [isAppLoading, isMergedFormEnabled, savedForms],
   );
@@ -78,7 +79,8 @@ export default function App({ location, children }) {
   // Add Datadog RUM to the app
   useBrowserMonitoring();
 
-  return isAppLoading ? (
+  const showLoadingIndicator = isAppLoading || !routeChecked;
+  return showLoadingIndicator ? (
     <va-loading-indicator
       message="Loading application..."
       class="vads-u-margin-y--4"
@@ -90,7 +92,7 @@ export default function App({ location, children }) {
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         <DowntimeNotification
           appTitle={`CHAMPVA Form ${formConfig.formId}`}
-          dependencies={[externalServices.pega]}
+          dependencies={formConfig.downtime.dependencies}
         >
           {children}
         </DowntimeNotification>

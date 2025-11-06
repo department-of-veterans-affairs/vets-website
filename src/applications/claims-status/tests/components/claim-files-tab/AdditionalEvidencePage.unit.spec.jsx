@@ -91,8 +91,10 @@ describe('<AdditionalEvidencePage>', () => {
         { initialState },
       );
 
-      expect($('va-alert', container)).to.exist;
-      expect($('va-alert h2', container).textContent).to.equal(message.title);
+      expect($('.claims-alert', container)).to.exist;
+      expect($('.claims-alert h2', container).textContent).to.equal(
+        message.title,
+      );
     });
 
     it('should render upload error alert when rerendered', () => {
@@ -100,7 +102,7 @@ describe('<AdditionalEvidencePage>', () => {
         <AdditionalEvidencePage {...fileFormProps} claim={claim} />,
         { initialState },
       );
-      expect($('va-alert', container)).not.to.exist;
+      expect($('.claims-alert', container)).not.to.exist;
 
       const message = {
         title: 'Error uploading',
@@ -115,8 +117,10 @@ describe('<AdditionalEvidencePage>', () => {
           message={message}
         />,
       );
-      expect($('va-alert', container)).to.exist;
-      expect($('va-alert h2', container).textContent).to.equal(message.title);
+      expect($('.claims-alert', container)).to.exist;
+      expect($('.claims-alert h2', container).textContent).to.equal(
+        message.title,
+      );
     });
 
     it('should clear upload error when leaving', () => {
@@ -139,8 +143,10 @@ describe('<AdditionalEvidencePage>', () => {
         { initialState },
       );
 
-      expect($('va-alert', container)).to.exist;
-      expect($('va-alert h2', container).textContent).to.equal(message.title);
+      expect($('.claims-alert', container)).to.exist;
+      expect($('.claims-alert h2', container).textContent).to.equal(
+        message.title,
+      );
       unmount();
       expect(clearAdditionalEvidenceNotification.called).to.be.true;
     });
@@ -166,8 +172,10 @@ describe('<AdditionalEvidencePage>', () => {
         { initialState },
       );
 
-      expect($('va-alert', container)).to.exist;
-      expect($('va-alert h2', container).textContent).to.equal(message.title);
+      expect($('.claims-alert', container)).to.exist;
+      expect($('.claims-alert h2', container).textContent).to.equal(
+        message.title,
+      );
       unmount();
       expect(clearAdditionalEvidenceNotification.called).to.be.false;
     });
@@ -313,6 +321,42 @@ describe('<AdditionalEvidencePage>', () => {
       const titleElement = $('#add-files', container);
       expect(titleElement).to.exist;
       expect(titleElement.textContent).to.equal(customTitle);
+    });
+
+    it('should pass showDocumentUploadStatus toggle to submitFiles when toggle is enabled', () => {
+      const submitFiles = sinon.spy();
+
+      const page = new AdditionalEvidencePage({
+        ...fileFormProps,
+        claim,
+        submitFiles,
+        showDocumentUploadStatus: true,
+      });
+
+      const files = [
+        { file: {}, docType: { value: 'test' }, password: { value: '' } },
+      ];
+      page.onSubmitFiles(claim.id, files);
+
+      expect(submitFiles.calledWith(claim.id, null, files, true)).to.be.true;
+    });
+
+    it('should pass showDocumentUploadStatus as false to submitFiles when toggle is disabled', () => {
+      const submitFiles = sinon.spy();
+
+      const page = new AdditionalEvidencePage({
+        ...fileFormProps,
+        claim,
+        submitFiles,
+        showDocumentUploadStatus: false,
+      });
+
+      const files = [
+        { file: {}, docType: { value: 'test' }, password: { value: '' } },
+      ];
+      page.onSubmitFiles(claim.id, files);
+
+      expect(submitFiles.calledWith(claim.id, null, files, false)).to.be.true;
     });
   });
 

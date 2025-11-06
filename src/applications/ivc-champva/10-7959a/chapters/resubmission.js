@@ -1,352 +1,107 @@
-import React from 'react';
-import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
-  currentOrPastDateUI,
-  currentOrPastDateSchema,
-  radioUI,
-  radioSchema,
   titleUI,
-  titleSchema,
+  descriptionUI,
   selectUI,
   selectSchema,
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
-import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
-import { nameWording, privWrapper } from '../../shared/utilities';
-import { CHAMPVA_PHONE_NUMBER } from '../../shared/constants';
 import { validFieldCharsOnly } from '../../shared/validations';
+import { personalizeTitleByRole } from '../utils/helpers';
 import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
 import { LLM_RESPONSE } from '../components/llmUploadResponse';
+import {
+  ResubmissionDocsDescription,
+  ResubmissionLetterDescription,
+  ResubmissionUploadDescription,
+  ResubmissionDocsUploadDescription,
+} from '../components/FormDescriptions/ResubmissionDescriptions';
+import ClaimIdentificationInfo from '../components/FormDescriptions/ClaimIdentificationInfo';
+import { blankSchema, fileUploadSchema } from '../definitions';
+import content from '../locales/en/content.json';
 
-export const claimIdentifyingNumberOptions = ['PDI number', 'Control number'];
+const ID_NUMBER_OPTIONS = [
+  content['resubmission-id-number--pdi-option'],
+  content['resubmission-id-number--control-option'],
+];
 
-const additionalInfoDescription = (
-  <div className="vads-u-margin-top--4">
-    <p>
-      <strong>For PDI numbers</strong> you don’t need to include the date in the
-      beginning of the PDI number. Enter the 2 letters and all of the numbers
-      following it.
-    </p>
-    <p>
-      <strong>For control numbers</strong> include all of the numbers listed
-      under “Control Number” on the CHAMPVA Explanation of benefits.
-    </p>
-
-    <va-additional-info
-      trigger="Where to find the PDI number"
-      class="vads-u-margin-y--3"
-    >
-      <span>
-        <p className="vads-u-margin-top--0">
-          The PDI number is located at the bottom of the letter we mailed you.
-          It begins with a date, followed by 2 letters (VA, PG, FX and CM) and a
-          series of numbers (example: 02/26/2025-VA1753294097390-001).
-        </p>
-        <p className="vads-u-margin-bottom--0">
-          If you can’t find the PDI number, call us at{' '}
-          <va-telephone contact={CHAMPVA_PHONE_NUMBER} />{' '}
-          <va-telephone contact="711" tty />
-          {'. '}
-          We’re here Monday through Friday, 8:05a.m. to 7:30 p.m.{' '}
-          <dfn>
-            <abbr title="Eastern Time">ET</abbr>
-          </dfn>
-          .
-        </p>
-      </span>
-    </va-additional-info>
-    <va-additional-info
-      trigger="Where to find the control number"
-      class="vads-u-margin-y--3"
-    >
-      <span>
-        <p className="vads-u-margin-top--0">
-          The control number is located on the CHAMPVA Explanation of Benefits
-          we mailed you. It is a 12-digit code or may begin with the letter “M”
-          followed by an 11-digit code (example: M00001234567).
-        </p>
-        <p className="vads-u-margin-bottom--0">
-          If you can’t find the control number, call us at{' '}
-          <va-telephone contact={CHAMPVA_PHONE_NUMBER} />
-          <va-telephone contact="711" tty />
-          {'. '}
-          We’re here Monday through Friday, 8:05a.m. to 7:30 p.m.{' '}
-          <dfn>
-            <abbr title="Eastern Time">ET</abbr>
-          </dfn>
-          .
-        </p>
-      </span>
-    </va-additional-info>
-  </div>
-);
-
-const additionalNotesClaims = formData => {
-  const nameCap = privWrapper(
-    nameWording(formData, false, true, true) || 'You',
-  );
-  const namePosessive =
-    formData?.certifierRole === 'applicant' ? 'your' : 'their';
-  const name = formData?.certifierRole === 'applicant' ? 'you' : 'they';
-  return (
-    <va-additional-info
-      trigger="Other helpful information about submitting claims"
-      class="vads-u-margin-bottom--4"
-    >
-      <ul>
-        <li>
-          {nameCap} must file {namePosessive} claim within 1 year of when {name}{' '}
-          got the care. And if {name} stayed at a hospital for care, {name} must
-          file {namePosessive} claim within 1 year of when {name} left the
-          hospital.
-        </li>
-        <li>Please retain a copy of all documents submitted to CHAMPVA.</li>
-      </ul>
-    </va-additional-info>
-  );
-};
-
-export const claimIdentifyingNumber = {
+export const claimIdentificationNumber = {
   uiSchema: {
     ...titleUI(
       ({ formData }) =>
-        `${
-          formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
-        } claim identification number`,
-      `We’ll use the Program Document Identifier (PDI) or control number to identify the original claim that was submitted. These can be found on the letter you received from CHAMPVA requesting further action on your claim.`,
+        personalizeTitleByRole(
+          formData,
+          content['resubmission-id-number--page-title'],
+        ),
+      content['resubmission-id-number--page-desc'],
     ),
-    pdiOrClaimNumber: selectUI({
-      title: 'Is this a PDI number or control number?',
-    }),
-    identifyingNumber: {
-      ...textUI('Claim identification number'),
-    },
+    pdiOrClaimNumber: selectUI(content['resubmission-id-number--select-label']),
+    identifyingNumber: textUI(content['resubmission-id-number--input-label']),
     'ui:validations': [
       (errors, formData) =>
         validFieldCharsOnly(errors, null, formData, 'identifyingNumber'),
     ],
-    'view:adtlInfo': {
-      'ui:description': additionalInfoDescription,
-    },
+    'view:addtlInfo': { ...descriptionUI(ClaimIdentificationInfo) },
   },
   schema: {
     type: 'object',
     required: ['pdiOrClaimNumber', 'identifyingNumber'],
     properties: {
-      titleSchema,
-      pdiOrClaimNumber: selectSchema(claimIdentifyingNumberOptions),
+      pdiOrClaimNumber: selectSchema(ID_NUMBER_OPTIONS),
       identifyingNumber: textSchema,
-      'view:adtlInfo': {
-        type: 'object',
-        properties: {},
-      },
+      'view:addtlInfo': blankSchema,
     },
   },
 };
 
-export const claimType = {
+export const resubmissionLetterUpload = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) =>
-        `${
-          formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
-        } claim type`,
+      content['resubmission-letter-upload--page-title'],
+      ResubmissionLetterDescription,
     ),
-    claimType: radioUI({
-      title: 'What was the original type of claim?',
-      labels: {
-        medical: 'Medical claim',
-        pharmacy: 'Pharmacy claim',
-      },
-    }),
-  },
-  schema: {
-    type: 'object',
-    required: ['claimType'],
-    properties: {
-      titleSchema,
-      claimType: radioSchema(['medical', 'pharmacy']),
-    },
-  },
-};
-
-export const medicalClaimDetails = {
-  uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
-        `${
-          formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
-        } claim details`,
-      'This information will help us find your original claim.',
-    ),
-    providerName: textUI('Provider name'),
-    beginningDateOfService: {
-      ...currentOrPastDateUI({
-        title: 'Beginning date of service',
-      }),
-    },
-    endDateOfService: {
-      ...currentOrPastDateUI({
-        title: 'End date of service',
-        hint: 'If service occurred over multiple days.',
-      }),
-    },
-  },
-  schema: {
-    type: 'object',
-    required: ['providerName', 'beginningDateOfService', 'endDateOfService'],
-    properties: {
-      titleSchema,
-      providerName: textSchema,
-      beginningDateOfService: currentOrPastDateSchema,
-      endDateOfService: currentOrPastDateSchema,
-    },
-  },
-};
-
-export const medicalUploadSupportingDocs = {
-  uiSchema: {
-    ...titleUI(
-      'Upload supporting documents for your medical claim',
-      <>
-        <p>You’ll need to submit these documents:</p>
-        <ul>
-          <li>
-            Copies of documents with missing information we requested in the
-            letter we mailed you, <b> and</b>
-          </li>
-          <li>All documents you submitted with your claim</li>
-        </ul>
-        <p>
-          These documents could include paperwork attached to your prescription
-          or pharmacy statements.
-        </p>
-      </>,
-    ),
-    ...fileUploadBlurb,
-    'view:notes': {
-      'ui:description': formData => {
-        return additionalNotesClaims(formData?.formContext?.fullData);
-      },
-    },
-
-    medicalUpload: fileUploadUI({
-      label: 'Upload supporting document',
-      attachmentName: true,
-    }),
+    ...descriptionUI(ResubmissionUploadDescription),
     ...LLM_UPLOAD_WARNING,
+    resubmissionLetterUpload: fileUploadUI({
+      label: content['resubmission-letter-upload--input-label'],
+      attachmentName: true,
+      attachmentId: 'EOB', // hard-set for LLM verification
+    }),
     ...LLM_RESPONSE,
   },
   schema: {
     type: 'object',
-    required: ['medicalUpload'],
+    required: ['resubmissionLetterUpload'],
     properties: {
-      titleSchema,
-      'view:fileUploadBlurb': blankSchema,
-      'view:notes': blankSchema,
-      // schema for LLM message
       'view:fileClaim': blankSchema,
-      medicalUpload: {
-        type: 'array',
-        minItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      resubmissionLetterUpload: fileUploadSchema,
       'view:uploadAlert': blankSchema,
     },
   },
 };
 
-export const pharmacyClaimDetails = {
+export const resubmissionDocsUpload = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) =>
-        `${
-          formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
-        } claim details`,
-      'This information will help us find your original claim.',
+      content['resubmission-docs-upload--page-title'],
+      ResubmissionDocsDescription,
     ),
-    medicationName: textUI('Medication name'),
-    prescriptionFillDate: {
-      ...currentOrPastDateUI({
-        title: 'Prescription fill date',
-      }),
-    },
-  },
-  schema: {
-    type: 'object',
-    required: ['medicationName', 'prescriptionFillDate'],
-    properties: {
-      titleSchema,
-      medicationName: textSchema,
-      prescriptionFillDate: currentOrPastDateSchema,
-    },
-  },
-};
-
-export const pharmacyClaimUploadDocs = {
-  uiSchema: {
-    ...titleUI(
-      'Upload supporting documents for your pharmacy claim',
-      <>
-        <p>You’ll need to submit these documents:</p>
-        <ul>
-          <li>
-            Copies of documents with missing information we requested in the
-            letter we mailed you, <b> and</b>
-          </li>
-          <li>All documents you submitted with your original claim</li>
-        </ul>
-        <p>
-          These documents could include itemized billing statements (often
-          called a superbill) from your provider or Explanation of Benefits from
-          your insurance company.
-        </p>
-      </>,
-    ),
-    ...fileUploadBlurb,
-    'view:notes': {
-      'ui:description': formData => {
-        return additionalNotesClaims(formData?.formContext?.fullData);
-      },
-    },
+    ...descriptionUI(ResubmissionDocsUploadDescription),
     ...LLM_UPLOAD_WARNING,
-    pharmacyUpload: fileUploadUI({
-      label: 'Upload supporting document',
+    resubmissionDocsUpload: fileUploadUI({
+      label: content['resubmission-docs-upload--input-label'],
       attachmentName: true,
-      attachmentId: 'pharmacy invoice', // hard-set for LLM verification
+      attachmentId: 'MEDDOC',
     }),
     ...LLM_RESPONSE,
   },
   schema: {
     type: 'object',
-    required: ['pharmacyUpload'],
+    required: ['resubmissionDocsUpload'],
     properties: {
-      titleSchema,
-      'view:fileUploadBlurb': blankSchema,
-      'view:notes': blankSchema,
-      // schema for LLM message
       'view:fileClaim': blankSchema,
-      pharmacyUpload: {
-        type: 'array',
-        minItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      resubmissionDocsUpload: fileUploadSchema,
       'view:uploadAlert': blankSchema,
     },
   },

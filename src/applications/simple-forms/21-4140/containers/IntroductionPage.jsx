@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
@@ -14,7 +14,7 @@ const OMB_EXP_DATE = '8/31/2027';
 const IntroContent = () => {
   return (
     <>
-      <p>
+      <p className="va-introtext">
         Use this form if we asked you to verify your income and employment
         status for your Individual Unemployment (IU) benefits.
       </p>
@@ -31,7 +31,7 @@ const IntroContent = () => {
         </li>
         <li>You’ll need your Social Security number or your VA file number</li>
         <li>
-          After you submit this form, we’ll review it and advise you of your
+          After you submit this form, we’ll review it and advise you of our
           decision and your options
         </li>
       </ul>
@@ -48,7 +48,6 @@ export const IntroductionPage = props => {
 
   useEffect(() => {
     scrollToTop();
-    focusElement('h1');
   }, []);
 
   return (

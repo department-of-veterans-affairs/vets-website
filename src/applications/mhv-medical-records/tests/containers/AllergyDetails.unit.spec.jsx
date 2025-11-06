@@ -22,10 +22,6 @@ describe('Allergy details container', () => {
         allergyDetails: convertAllergy(allergy),
       },
     },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_allow_txt_downloads: true,
-    },
   };
 
   let screen;

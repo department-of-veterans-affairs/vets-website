@@ -1,6 +1,7 @@
 {
   "description": "Has not received CHAMPVA packet, military base sponsor address, no OHI, pharmacy claim, work related, NOT auto related",
   "data": {
+    "view:sharesAddressWith": "na",
     "claimStatus": "new",
     "view:hasPolicies": false,
     "pharmacyUpload": [
@@ -30,20 +31,20 @@
     "applicantMemberNumber": "123123123",
     "applicantName": {
       "first": "Beneficiary",
-      "middle": "Terry",
+      "middle": "T",
       "last": "Jones",
       "suffix": "II"
     },
     "applicantDOB": "2022-03-23",
     "sponsorName": {
       "first": "Sponsor",
-      "middle": "Quincy",
+      "middle": "Q",
       "last": "Jones",
       "suffix": "Sr."
     },
     "certifierRole": "applicant",
     "certifierReceivedPacket": false,
-    "statementOfTruthSignature": "Beneficiary Terry Jones",
+    "statementOfTruthSignature": "Beneficiary T Jones",
     "statementOfTruthCertified": true
   }
 }
