@@ -58,6 +58,10 @@ const getStore = () => {
         letterType: 'benefit_verification',
       },
     ],
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      tsa_safe_travel_letter: true,
+    },
   };
   return createStore(mockReducer, initialState, applyMiddleware(thunk));
 };
