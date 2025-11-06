@@ -2,9 +2,472 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import employersPages, { SectionTwoIntro } from '../../../pages/sectionTwo';
+import employersPages, {
+  SectionTwoIntro,
+  hasValue,
+  isEmployerAddressIncomplete,
+  employersOptions,
+} from '../../../pages/sectionTwo';
 
 describe('21-4140 page/sectionTwo', () => {
+  describe('hasValue helper function', () => {
+    it('returns false for undefined values', () => {
+      expect(hasValue(undefined)).to.be.false;
+    });
+
+    it('returns false for null values', () => {
+      expect(hasValue(null)).to.be.false;
+    });
+
+    it('returns false for empty string', () => {
+      expect(hasValue('')).to.be.false;
+    });
+
+    it('returns true for non-empty string', () => {
+      expect(hasValue('test')).to.be.true;
+    });
+
+    it('returns true for number zero', () => {
+      expect(hasValue(0)).to.be.true;
+    });
+
+    it('returns true for positive numbers', () => {
+      expect(hasValue(42)).to.be.true;
+    });
+
+    it('returns true for boolean false', () => {
+      expect(hasValue(false)).to.be.true;
+    });
+
+    it('returns true for boolean true', () => {
+      expect(hasValue(true)).to.be.true;
+    });
+
+    it('returns true for objects', () => {
+      expect(hasValue({})).to.be.true;
+    });
+
+    it('returns true for arrays', () => {
+      expect(hasValue([])).to.be.true;
+    });
+  });
+
+  describe('isEmployerAddressIncomplete helper function', () => {
+    it('returns true when address is null', () => {
+      expect(isEmployerAddressIncomplete(null)).to.be.true;
+    });
+
+    it('returns true when address is undefined', () => {
+      expect(isEmployerAddressIncomplete(undefined)).to.be.true;
+    });
+
+    it('returns true when street is missing', () => {
+      const address = {
+        city: 'New York',
+        state: 'NY',
+        country: 'USA',
+        postalCode: '10001',
+      };
+      expect(isEmployerAddressIncomplete(address)).to.be.true;
+    });
+
+    it('returns true when city is missing', () => {
+      const address = {
+        street: '123 Main St',
+        state: 'NY',
+        country: 'USA',
+        postalCode: '10001',
+      };
+      expect(isEmployerAddressIncomplete(address)).to.be.true;
+    });
+
+    it('returns true when country is missing', () => {
+      const address = {
+        street: '123 Main St',
+        city: 'New York',
+        state: 'NY',
+        postalCode: '10001',
+      };
+      expect(isEmployerAddressIncomplete(address)).to.be.true;
+    });
+
+    it('returns true when postalCode is missing', () => {
+      const address = {
+        street: '123 Main St',
+        city: 'New York',
+        state: 'NY',
+        country: 'USA',
+      };
+      expect(isEmployerAddressIncomplete(address)).to.be.true;
+    });
+
+    it('returns true when state is missing for USA address', () => {
+      const address = {
+        street: '123 Main St',
+        city: 'New York',
+        country: 'USA',
+        postalCode: '10001',
+      };
+      expect(isEmployerAddressIncomplete(address)).to.be.true;
+    });
+
+    it('returns true when state is missing for CAN address', () => {
+      const address = {
+        street: '123 Main St',
+        city: 'Toronto',
+        country: 'CAN',
+        postalCode: 'M5H 2N2',
+      };
+      expect(isEmployerAddressIncomplete(address)).to.be.true;
+    });
+
+    it('returns true when state is missing for MEX address', () => {
+      const address = {
+        street: '123 Main St',
+        city: 'Mexico City',
+        country: 'MEX',
+        postalCode: '01000',
+      };
+      expect(isEmployerAddressIncomplete(address)).to.be.true;
+    });
+
+    it('returns false for complete USA address', () => {
+      const address = {
+        street: '123 Main St',
+        city: 'New York',
+        state: 'NY',
+        country: 'USA',
+        postalCode: '10001',
+      };
+      expect(isEmployerAddressIncomplete(address)).to.be.false;
+    });
+
+    it('returns false for complete CAN address', () => {
+      const address = {
+        street: '123 Main St',
+        city: 'Toronto',
+        state: 'ON',
+        country: 'CAN',
+        postalCode: 'M5H 2N2',
+      };
+      expect(isEmployerAddressIncomplete(address)).to.be.false;
+    });
+
+    it('returns false for complete MEX address', () => {
+      const address = {
+        street: '123 Main St',
+        city: 'Mexico City',
+        state: 'CDMX',
+        country: 'MEX',
+        postalCode: '01000',
+      };
+      expect(isEmployerAddressIncomplete(address)).to.be.false;
+    });
+
+    it('returns false for complete non-USA/CAN/MEX address without state', () => {
+      const address = {
+        street: '123 Main St',
+        city: 'London',
+        country: 'GBR',
+        postalCode: 'SW1A 1AA',
+      };
+      expect(isEmployerAddressIncomplete(address)).to.be.false;
+    });
+
+    it('returns false for complete international address with state', () => {
+      const address = {
+        street: '123 Main St',
+        city: 'Paris',
+        state: 'Île-de-France',
+        country: 'FRA',
+        postalCode: '75001',
+      };
+      expect(isEmployerAddressIncomplete(address)).to.be.false;
+    });
+  });
+
+  describe('employersOptions configuration', () => {
+    it('has correct arrayPath', () => {
+      expect(employersOptions.arrayPath).to.equal('employers');
+    });
+
+    it('has correct noun singular', () => {
+      expect(employersOptions.nounSingular).to.equal('employer');
+    });
+
+    it('has correct noun plural', () => {
+      expect(employersOptions.nounPlural).to.equal('employers');
+    });
+
+    it('is marked as required', () => {
+      expect(employersOptions.required).to.be.true;
+    });
+
+    it('has max items set to 4', () => {
+      expect(employersOptions.maxItems).to.equal(4);
+    });
+
+    describe('isItemIncomplete function', () => {
+      it('returns true when employer name is missing', () => {
+        const item = {
+          typeOfWork: 'Developer',
+          hoursPerWeek: 40,
+          datesOfEmployment: { from: '2024-01-01', to: '2024-12-01' },
+          employerAddress: {
+            street: '123 Main St',
+            city: 'New York',
+            state: 'NY',
+            country: 'USA',
+            postalCode: '10001',
+          },
+          lostTime: 0,
+          highestIncome: 5000,
+        };
+        expect(employersOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('returns true when type of work is missing', () => {
+        const item = {
+          employerName: 'Acme Corp',
+          hoursPerWeek: 40,
+          datesOfEmployment: { from: '2024-01-01', to: '2024-12-01' },
+          employerAddress: {
+            street: '123 Main St',
+            city: 'New York',
+            state: 'NY',
+            country: 'USA',
+            postalCode: '10001',
+          },
+          lostTime: 0,
+          highestIncome: 5000,
+        };
+        expect(employersOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('returns true when hours per week is missing', () => {
+        const item = {
+          employerName: 'Acme Corp',
+          typeOfWork: 'Developer',
+          datesOfEmployment: { from: '2024-01-01', to: '2024-12-01' },
+          employerAddress: {
+            street: '123 Main St',
+            city: 'New York',
+            state: 'NY',
+            country: 'USA',
+            postalCode: '10001',
+          },
+          lostTime: 0,
+          highestIncome: 5000,
+        };
+        expect(employersOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('returns true when employment start date is missing', () => {
+        const item = {
+          employerName: 'Acme Corp',
+          typeOfWork: 'Developer',
+          hoursPerWeek: 40,
+          datesOfEmployment: { to: '2024-12-01' },
+          employerAddress: {
+            street: '123 Main St',
+            city: 'New York',
+            state: 'NY',
+            country: 'USA',
+            postalCode: '10001',
+          },
+          lostTime: 0,
+          highestIncome: 5000,
+        };
+        expect(employersOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('returns true when employment end date is missing', () => {
+        const item = {
+          employerName: 'Acme Corp',
+          typeOfWork: 'Developer',
+          hoursPerWeek: 40,
+          datesOfEmployment: { from: '2024-01-01' },
+          employerAddress: {
+            street: '123 Main St',
+            city: 'New York',
+            state: 'NY',
+            country: 'USA',
+            postalCode: '10001',
+          },
+          lostTime: 0,
+          highestIncome: 5000,
+        };
+        expect(employersOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('returns true when employer address is incomplete', () => {
+        const item = {
+          employerName: 'Acme Corp',
+          typeOfWork: 'Developer',
+          hoursPerWeek: 40,
+          datesOfEmployment: { from: '2024-01-01', to: '2024-12-01' },
+          employerAddress: {
+            street: '123 Main St',
+            city: 'New York',
+            country: 'USA',
+            postalCode: '10001',
+          },
+          lostTime: 0,
+          highestIncome: 5000,
+        };
+        expect(employersOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('returns true when lost time is missing', () => {
+        const item = {
+          employerName: 'Acme Corp',
+          typeOfWork: 'Developer',
+          hoursPerWeek: 40,
+          datesOfEmployment: { from: '2024-01-01', to: '2024-12-01' },
+          employerAddress: {
+            street: '123 Main St',
+            city: 'New York',
+            state: 'NY',
+            country: 'USA',
+            postalCode: '10001',
+          },
+          highestIncome: 5000,
+        };
+        expect(employersOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('returns true when highest income is missing', () => {
+        const item = {
+          employerName: 'Acme Corp',
+          typeOfWork: 'Developer',
+          hoursPerWeek: 40,
+          datesOfEmployment: { from: '2024-01-01', to: '2024-12-01' },
+          employerAddress: {
+            street: '123 Main St',
+            city: 'New York',
+            state: 'NY',
+            country: 'USA',
+            postalCode: '10001',
+          },
+          lostTime: 0,
+        };
+        expect(employersOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('returns false when all required fields are present', () => {
+        const item = {
+          employerName: 'Acme Corp',
+          typeOfWork: 'Developer',
+          hoursPerWeek: 40,
+          datesOfEmployment: { from: '2024-01-01', to: '2024-12-01' },
+          employerAddress: {
+            street: '123 Main St',
+            city: 'New York',
+            state: 'NY',
+            country: 'USA',
+            postalCode: '10001',
+          },
+          lostTime: 0,
+          highestIncome: 5000,
+        };
+        expect(employersOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('handles zero values correctly for numeric fields', () => {
+        const item = {
+          employerName: 'Acme Corp',
+          typeOfWork: 'Developer',
+          hoursPerWeek: 0,
+          datesOfEmployment: { from: '2024-01-01', to: '2024-12-01' },
+          employerAddress: {
+            street: '123 Main St',
+            city: 'New York',
+            state: 'NY',
+            country: 'USA',
+            postalCode: '10001',
+          },
+          lostTime: 0,
+          highestIncome: 0,
+        };
+        expect(employersOptions.isItemIncomplete(item)).to.be.false;
+      });
+    });
+
+    describe('text.getItemName function', () => {
+      it('returns employer name when present', () => {
+        const item = { employerName: 'Acme Corp' };
+        expect(employersOptions.text.getItemName(item)).to.equal('Acme Corp');
+      });
+
+      it('returns undefined when employer name is missing', () => {
+        const item = {};
+        expect(employersOptions.text.getItemName(item)).to.be.undefined;
+      });
+
+      it('handles null item', () => {
+        expect(employersOptions.text.getItemName(null)).to.be.undefined;
+      });
+
+      it('handles undefined item', () => {
+        expect(employersOptions.text.getItemName(undefined)).to.be.undefined;
+      });
+    });
+
+    describe('text.cardDescription function', () => {
+      it('returns formatted date range when both dates are present', () => {
+        const item = {
+          datesOfEmployment: {
+            from: '2024-01-01',
+            to: '2024-12-01',
+          },
+        };
+        expect(employersOptions.text.cardDescription(item)).to.equal(
+          '2024-01-01 - 2024-12-01',
+        );
+      });
+
+      it('returns default message when start date is missing', () => {
+        const item = {
+          datesOfEmployment: {
+            to: '2024-12-01',
+          },
+        };
+        expect(employersOptions.text.cardDescription(item)).to.equal(
+          'Employment dates not provided',
+        );
+      });
+
+      it('returns default message when end date is missing', () => {
+        const item = {
+          datesOfEmployment: {
+            from: '2024-01-01',
+          },
+        };
+        expect(employersOptions.text.cardDescription(item)).to.equal(
+          'Employment dates not provided',
+        );
+      });
+
+      it('returns default message when datesOfEmployment is missing', () => {
+        const item = {};
+        expect(employersOptions.text.cardDescription(item)).to.equal(
+          'Employment dates not provided',
+        );
+      });
+
+      it('returns default message when item is null', () => {
+        expect(employersOptions.text.cardDescription(null)).to.equal(
+          'Employment dates not provided',
+        );
+      });
+
+      it('returns default message when item is undefined', () => {
+        expect(employersOptions.text.cardDescription(undefined)).to.equal(
+          'Employment dates not provided',
+        );
+      });
+    });
+  });
   describe('SectionTwoIntro component', () => {
     it('renders the section title', () => {
       const mockProps = {

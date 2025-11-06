@@ -51,6 +51,36 @@ describe('21-4140 page/sectionTwoSignature', () => {
     ]);
   });
 
+  it('includes enum error message for hasCertifiedSection2', () => {
+    const ui = page.uiSchema[parentKey];
+    const certifyUi = ui[employedByVAFields.hasCertifiedSection2];
+
+    expect(certifyUi['ui:errorMessages'].enum).to.equal(
+      'You must certify that the statements above are true to continue.',
+    );
+  });
+
+  it('includes enum error message for hasUnderstoodSection2', () => {
+    const ui = page.uiSchema[parentKey];
+    const understandUi = ui[employedByVAFields.hasUnderstoodSection2];
+
+    expect(understandUi['ui:errorMessages'].enum).to.equal(
+      'You must acknowledge that you understand this statement to continue.',
+    );
+  });
+
+  it('has title and description for certification checkboxes', () => {
+    const ui = page.uiSchema[parentKey];
+
+    const certifyUi = ui[employedByVAFields.hasCertifiedSection2];
+    expect(certifyUi['ui:title']).to.exist;
+    expect(React.isValidElement(certifyUi['ui:description'])).to.be.true;
+
+    const understandUi = ui[employedByVAFields.hasUnderstoodSection2];
+    expect(understandUi['ui:title']).to.exist;
+    expect(React.isValidElement(understandUi['ui:description'])).to.be.true;
+  });
+
   it('configures informational alerts as view fields', () => {
     const ui = page.uiSchema[parentKey];
 
@@ -78,5 +108,25 @@ describe('21-4140 page/sectionTwoSignature', () => {
         .to.have.property('properties')
         .that.deep.equals({});
     });
+  });
+
+  it('includes ui:description at page level', () => {
+    expect(page.uiSchema['ui:description']).to.exist;
+    expect(typeof page.uiSchema['ui:description']).to.equal('function');
+  });
+
+  it('renders page level ui:description as React element', () => {
+    const description = page.uiSchema['ui:description']();
+    expect(React.isValidElement(description)).to.be.true;
+  });
+
+  it('has classNames for certification checkbox styling', () => {
+    const ui = page.uiSchema[parentKey];
+
+    const certifyUi = ui[employedByVAFields.hasCertifiedSection2];
+    expect(certifyUi['ui:options']?.classNames).to.exist;
+
+    const understandUi = ui[employedByVAFields.hasUnderstoodSection2];
+    expect(understandUi['ui:options']?.classNames).to.exist;
   });
 });

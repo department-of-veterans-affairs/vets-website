@@ -105,7 +105,7 @@ export default {
       // Treatment Dates Schema
       importantDates: {
         type: 'array',
-        minItems: 0,
+        minItems: 1,
         maxItems: 2,
         items: {
           type: 'object',

@@ -62,9 +62,10 @@ SectionTwoIntro.propTypes = {
   NavButtons: PropTypes.elementType,
 };
 
-const hasValue = value => value !== undefined && value !== null && value !== '';
+export const hasValue = value =>
+  value !== undefined && value !== null && value !== '';
 
-const isEmployerAddressIncomplete = address => {
+export const isEmployerAddressIncomplete = address => {
   if (!address) {
     return true;
   }
@@ -83,7 +84,7 @@ const isEmployerAddressIncomplete = address => {
 };
 
 /** @type {ArrayBuilderOptions} */
-const employersOptions = {
+export const employersOptions = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',

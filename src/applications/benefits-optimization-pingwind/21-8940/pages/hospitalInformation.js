@@ -65,7 +65,6 @@ export default {
             labels: {
               militaryCheckbox: 'Hospital is on a military base',
             },
-            omit: ['street3'],
           }),
           'ui:required': () => true,
         },
