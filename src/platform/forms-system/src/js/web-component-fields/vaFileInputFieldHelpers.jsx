@@ -107,22 +107,26 @@ export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
 /**
  *
  * @param {File} file the file to upload
+ * @param { boolean } disallowEncryptedPdfs flag to prevent encrypted pdfs
+ * @param { Object[] } files array of previously uploaded files
  * @returns {string | null} the error if one present else null
  */
-export async function getFileError(file, uiOptions, files = null) {
+export async function getFileError(
+  file,
+  { disallowEncryptedPdfs },
+  files = [],
+) {
   let fileError = null;
   let encryptedCheck = null;
 
-  if (files) {
-    for (const f of files) {
-      if (f.name === file.name && f.size === file.size) {
-        fileError = DUPLICATE_FILE_ERROR;
-        break;
-      }
+  for (const f of files) {
+    if (f.name === file.name && f.size === file.size) {
+      fileError = DUPLICATE_FILE_ERROR;
+      break;
     }
   }
 
-  // don't do more checks if duplicate file
+  // don't do more checks if there is a duplicate file
   if (!fileError) {
     const checks = await standardFileChecks(file);
     encryptedCheck = !!checks.checkIsEncryptedPdf;
@@ -131,7 +135,7 @@ export async function getFileError(file, uiOptions, files = null) {
       fileError = FILE_TYPE_MISMATCH_ERROR;
     }
 
-    if (!!checks.checkIsEncryptedPdf && uiOptions.disallowEncryptedPdfs) {
+    if (!!checks.checkIsEncryptedPdf && disallowEncryptedPdfs) {
       fileError = UNSUPPORTED_ENCRYPTED_FILE_ERROR;
     }
 
