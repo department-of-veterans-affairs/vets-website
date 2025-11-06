@@ -31,7 +31,8 @@ const InformationRequiredPage = ({ formData, location, route, router }) => {
     <div className="schemaform-intro">
       <h2 className="vads-u-margin-bottom--2">Information Required</h2>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>
-        Please provide all required information to continue with your application.
+        Please provide all required information to continue with your
+        application.
       </p>
       {/* Add any specific information required UI here */}
       <FormNavButtons goBack={goBack} goForward={goForward} />

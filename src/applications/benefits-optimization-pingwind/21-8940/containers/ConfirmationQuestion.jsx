@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -46,19 +45,27 @@ const ConfirmationQuestion = ({
 
     const nextPath = getNextPagePath(pageList, formData, currentPath);
 
-    if (confirmation === true || (confirmation === false && newCondition === true)) {
+    if (
+      confirmation === true ||
+      (confirmation === false && newCondition === true)
+    ) {
       setRadioError(undefined);
       router.push(nextPath);
       return;
     }
 
     if (confirmation === false && newCondition === false) {
-      setRadioError('Oops, we hit a snag. You told us you are NOT applying for increased unemployability compensation benefits. Select the Find a VA Form link to find the right form, or to continue with this form, 21-8940, select "Yes" and continue.');
+      setRadioError(
+        'Oops, we hit a snag. You told us you are NOT applying for increased unemployability compensation benefits. Select the Find a VA Form link to find the right form, or to continue with this form, 21-8940, select "Yes" and continue.',
+      );
       scrollTo('confirmation-question');
       return;
     }
 
-    if (confirmation === false && (newCondition === undefined || newCondition === null)) {
+    if (
+      confirmation === false &&
+      (newCondition === undefined || newCondition === null)
+    ) {
       scrollTo('new-condition-question');
       return;
     }
@@ -72,7 +79,7 @@ const ConfirmationQuestion = ({
     setConfirmationAnswered(true);
     setRadioError(undefined);
     if (value === false) {
-      setNewCondition(null); 
+      setNewCondition(null);
       setFormData({
         ...formData,
         confirmationQuestion: value,
@@ -98,13 +105,17 @@ const ConfirmationQuestion = ({
     });
   };
 
-  const confirmationError = attemptedSubmit && (confirmation === undefined || confirmation === null)
-    ? 'You must make a selection to proceed.'
-    : undefined;
+  const confirmationError =
+    attemptedSubmit && (confirmation === undefined || confirmation === null)
+      ? 'You must make a selection to proceed.'
+      : undefined;
 
-  const newConditionError = attemptedSubmit && confirmation === false && (newCondition === undefined || newCondition === null)
-    ? 'You must make a selection to proceed.'
-    : undefined;
+  const newConditionError =
+    attemptedSubmit &&
+    confirmation === false &&
+    (newCondition === undefined || newCondition === null)
+      ? 'You must make a selection to proceed.'
+      : undefined;
 
   return (
     <div className="schemaform-intro">
@@ -116,52 +127,89 @@ const ConfirmationQuestion = ({
         name="confirmation-question"
         label="Are you applying for increased unemployability compensation benefits?"
         required
-        value={confirmation === true ? 'Y' : confirmation === false ? 'N' : undefined}
+        value={
+          confirmation === true ? 'Y' : confirmation === false ? 'N' : undefined
+        }
         error={radioError || confirmationError}
         onVaValueChange={e => handleConfirmationChange(e.detail.value === 'Y')}
       >
         <VaRadioOption name="confirmation-question" label="Yes" value="Y" />
         <VaRadioOption name="confirmation-question" label="No" value="N" />
       </VaRadio>
-      {(confirmationAnswered && confirmation === false) ? (
+      {confirmationAnswered && confirmation === false ? (
         <>
           <VaRadio
             id="new-condition-question"
             name="new-condition-question"
             label="Are you applying for a new or secondary condition?"
             required
-            value={newCondition === true ? 'Y' : newCondition === false ? 'N' : undefined}
+            value={
+              newCondition === true
+                ? 'Y'
+                : newCondition === false
+                  ? 'N'
+                  : undefined
+            }
             error={newConditionError}
-            onVaValueChange={e => handleNewConditionChange(e.detail.value === 'Y')}
+            onVaValueChange={e =>
+              handleNewConditionChange(e.detail.value === 'Y')
+            }
           >
-            <VaRadioOption name="new-condition-question" label="Yes" value="Y" />
+            <VaRadioOption
+              name="new-condition-question"
+              label="Yes"
+              value="Y"
+            />
             <VaRadioOption name="new-condition-question" label="No" value="N" />
           </VaRadio>
-          
-          {newCondition !== null && (
-            newCondition === false ? (
+
+          {newCondition !== null &&
+            (newCondition === false ? (
               <VaAlert id="confirmation-alert" status="warning" uswds visible>
                 <h3 slot="headline">Seems like you need a different form.</h3>
                 <p>
-                  Let's get you to the right place! Visit our forms page to find the right one for your needs. Remember, you can always get help from a{' '}
-                  <a href="/disability/get-help-filing-claim/" target="_blank" rel="noreferrer">Veteran Service Organization</a>.
+                  Let's get you to the right place! Visit our forms page to find
+                  the right one for your needs. Remember, you can always get
+                  help from a{' '}
+                  <a
+                    href="/disability/get-help-filing-claim/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Veteran Service Organization
+                  </a>
+                  .
                 </p>
                 <p>
-                  <a href="https://www.va.gov/find-forms/" target="_blank" rel="noreferrer">Find a VA Form</a>
+                  <a
+                    href="https://www.va.gov/find-forms/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Find a VA Form
+                  </a>
                 </p>
               </VaAlert>
             ) : newCondition === true ? (
               <VaAlert status="info" uswds visible>
                 <h3 slot="headline">Important</h3>
                 <p>
-                  Please remember, if you are filing a claim for a new or secondary condition or for increased disability compensation, you will also need to complete the Form 21-526EZ if you haven't done so already.
+                  Please remember, if you are filing a claim for a new or
+                  secondary condition or for increased disability compensation,
+                  you will also need to complete the Form 21-526EZ if you
+                  haven't done so already.
                 </p>
                 <p>
-                  <a href="/disability/file-disability-claim-form-21-526ez/introduction" target="_blank" rel="noreferrer">VA Form 21-526EZ</a>
+                  <a
+                    href="/disability/file-disability-claim-form-21-526ez/introduction"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    VA Form 21-526EZ
+                  </a>
                 </p>
               </VaAlert>
-            ) : null
-          )}
+            ) : null)}
         </>
       ) : null}
       <FormNavButtons goBack={goBack} goForward={goForward} />

@@ -111,7 +111,11 @@ const sectionTwoBannerPage = {
   path: 'section-2-banner',
   title: 'Disability And Medical Treatment',
   uiSchema: {
-    'ui:title': (<h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">Disability And Medical Treatment</h3>),
+    'ui:title': (
+      <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
+        Disability And Medical Treatment
+      </h3>
+    ),
     'ui:description': (
       <div>
         <p>
@@ -374,12 +378,6 @@ const formConfig = {
           uiSchema: personalInformation1.uiSchema,
           schema: personalInformation1.schema,
         },
-       /* personalInformation2: {
-          path: 'personal-information-2',
-          title: "Personal Information (cont'd)",
-          uiSchema: personalInformation2.uiSchema,
-          schema: personalInformation2.schema,
-        },*/
         contactInformation1: {
           path: 'contact-information-1',
           title: 'Contact Information',

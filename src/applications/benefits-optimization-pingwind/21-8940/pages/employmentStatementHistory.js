@@ -54,7 +54,8 @@ const options = {
 const summaryPage = {
   uiSchema: {
     [employmentAppliedFields.hasTriedEmployment]: arrayBuilderYesNoUI(options, {
-      title: 'Have you tried to obtain employment since you became too disabled to work?',
+      title:
+        'Have you tried to obtain employment since you became too disabled to work?',
     }),
   },
   schema: {

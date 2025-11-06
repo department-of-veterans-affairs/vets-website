@@ -22,8 +22,7 @@ export const ConfirmationPage = props => {
   const preparerIdentification = data.preparerIdentification || {};
   const veteran = data.veteran || {};
   const preparerFullName = preparerIdentification.preparerFullName;
-  const preparerNameDefined =
-    preparerFullName?.first && preparerFullName?.last;
+  const preparerNameDefined = preparerFullName?.first && preparerFullName?.last;
   const preparerName = preparerNameDefined
     ? preparerFullName
     : veteran.fullName;
@@ -36,7 +35,7 @@ export const ConfirmationPage = props => {
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       submitterName={preparerName}
-  pdfUrl={submission.response?.pdfUrl}
+      pdfUrl={submission.response?.pdfUrl}
       devOnly={{
         showButtons: true,
       }}

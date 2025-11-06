@@ -58,7 +58,9 @@ const WhatYouNeedPage = ({
 
   return (
     <div className="schemaform-intro">
-      <h1 className="vads-u-margin-bottom--2" id='main-content'>What You Need to Get Started</h1>
+      <h1 className="vads-u-margin-bottom--2" id="main-content">
+        What You Need to Get Started
+      </h1>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '20px' }}>
         Review this checklist for what you'll need. Don't have everything? You
         can start now and save your progress as you go.

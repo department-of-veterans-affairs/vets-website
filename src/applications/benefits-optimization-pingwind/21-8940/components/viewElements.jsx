@@ -45,15 +45,16 @@ export const DoctorView = ({ formData }) => {
 };
 
 export const HospitalView = ({ formData }) => {
+  const hospitalTypeMap = {
+    va: 'VA Hospital',
+    nonVa: 'Non-VA Hospital',
+  };
   const hospitalTypeLabel =
-    formData.hospitalType === 'va'
-      ? 'VA Hospital'
-      : formData.hospitalType === 'nonVa'
-        ? 'Non-VA Hospital'
-        : 'Hospital type not provided';
+    hospitalTypeMap[formData.hospitalType] || 'Hospital type not provided';
 
   return (
     <div className="vads-u-padding--2">
+      <p>Type: {hospitalTypeLabel}</p>
       <strong>{formData.hospitalName || 'Hospital name not provided'}</strong>
       <p>
         Address: {formData.hospitalAddress?.street || ''}{' '}
@@ -68,7 +69,6 @@ export const HospitalView = ({ formData }) => {
           ? ` ${formData.hospitalAddress.postalCode}`
           : ''}
       </p>
-      <p>Type: {hospitalTypeLabel}</p>
       {formData.connectedDisabilities && (
         <p>Connected disabilities: {formData.connectedDisabilities}</p>
       )}

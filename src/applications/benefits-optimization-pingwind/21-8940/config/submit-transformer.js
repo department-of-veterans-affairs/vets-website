@@ -60,7 +60,9 @@ const formatPhoneNumber = phone => {
       : undefined;
 
   const contactDigits = digitsOnly(contactValue) || contactValue;
-  const callingCodeDigits = callingCodeRaw ? digitsOnly(callingCodeRaw) : undefined;
+  const callingCodeDigits = callingCodeRaw
+    ? digitsOnly(callingCodeRaw)
+    : undefined;
 
   const includeCallingCode =
     callingCodeDigits &&
@@ -467,14 +469,12 @@ const buildTrainingSection = (entries, rangePropName) => {
   }
 
   const firstEntry = entryList[0];
-  const rangeSource =
-    firstEntry?.datesOfTraining ?? firstEntry?.dateOfTraining;
   const details = pruneEmpty({
     name: truncateString(
       stringOrUndefined(firstEntry?.typeOfEducation),
       MAX_LENGTHS.trainingName,
     ),
-    [rangePropName]: ensureDateRange(rangeSource, 'from', 'to'),
+    [rangePropName]: ensureDateRange(firstEntry?.datesOfTraining, 'from', 'to'),
   });
 
   if (!details) {
@@ -506,7 +506,7 @@ const buildSubmissionPayload = data => {
   const education = mapEducation(data);
   const preTraining = buildTrainingSection(
     data?.educationBeforeDisability,
-    'dateOfTraining',
+    'datesOfTraining',
   );
   const postTraining = buildTrainingSection(
     data?.educationAfterDisability,
@@ -613,7 +613,9 @@ const buildSubmissionPayload = data => {
     currentMonthlyEarnedIncome: toInteger(data?.monthlyIncome),
     leftLastJobDueToDisability: toBoolean(data?.leftDueToDisability),
     expectDisabilityRetirement: toBoolean(data?.receivesDisabilityRetirement),
-    receiveExpectWorkersCompensation: toBoolean(data?.receivesWorkersCompensation),
+    receiveExpectWorkersCompensation: toBoolean(
+      data?.receivesWorkersCompensation,
+    ),
     attemptedEmploy: attemptedEmployAnswer,
     appliedEmployers,
     education,

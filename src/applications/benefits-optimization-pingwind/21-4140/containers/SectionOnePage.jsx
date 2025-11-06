@@ -14,7 +14,9 @@ const SectionOnePage = ({ goBack, goForward, NavButtons }) => {
 
   return (
     <div className="schemaform-intro">
-      <h3 className="vads-u-margin-bottom--2" id="main-content">Section I: Veteran ID</h3>
+      <h3 className="vads-u-margin-bottom--2" id="main-content">
+        Section I: Veteran ID
+      </h3>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>
         We'll start by confirming your identity and how to reach you.
       </p>

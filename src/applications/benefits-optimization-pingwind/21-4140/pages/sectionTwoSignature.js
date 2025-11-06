@@ -14,10 +14,10 @@ export default {
   uiSchema: {
     ...titleUI('Authorization and Certification'),
     'ui:description': () => (
-        <div style={{ paddingBottom: '2rem' }}>
-          Read and agree to the following statements
-        </div>
-      ),
+      <div style={{ paddingBottom: '2rem' }}>
+        Read and agree to the following statements
+      </div>
+    ),
     [employedByVAFields.parentObject]: {
       'ui:order': [
         employedByVAFields.hasCertifiedSection2,
