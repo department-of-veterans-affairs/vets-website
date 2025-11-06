@@ -99,16 +99,39 @@ const testConfig = createTestConfig(
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
-      'confirmation-required': ({ afterHook }) => {
+      'confirmation-question': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            selectYesNoWebComponent(
-              'confirmationQuestion',
-              data.confirmationQuestion,
+            const confirmationSelection = data.confirmationQuestion
+              ? 'Y'
+              : 'N';
+            cy.selectVaRadioOption(
+              'confirmation-question',
+              confirmationSelection,
             );
+
+            if (
+              data.confirmationQuestion === false &&
+              typeof data.newConditionQuestion !== 'undefined'
+            ) {
+              const newConditionSelection = data.newConditionQuestion
+                ? 'Y'
+                : 'N';
+              cy.selectVaRadioOption(
+                'new-condition-question',
+                newConditionSelection,
+              );
+            }
+
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
+        });
+      },
+      'section-1-banner': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
       'personal-information-1': ({ afterHook }) => {
@@ -123,14 +146,6 @@ const testConfig = createTestConfig(
               'veteran_dateOfBirth',
               data.veteran.dateOfBirth,
             );
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      'personal-information-2': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
             fillTextWebComponent('veteran_ssn', data.veteran.ssn);
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
