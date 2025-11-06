@@ -308,13 +308,13 @@ describe('<ProfileAlertConfirmEmail />', () => {
         getByRole('heading', { name: /^Add a contact email$/ });
 
         // getByRole('button', { name: /^Skip adding an email$/ });
-        const buttonSelector = 'va-button[text="Skip adding email"]';
+        const buttonSelector = 'va-button[text="Skip adding an email"]';
         const button = container.querySelector(buttonSelector);
         expect(button).to.exist;
 
         expect(
           getByTestId('profile-alert--contact-email').textContent,
-        ).to.equal('No contact email provided.');
+        ).to.equal('No contact email provided');
       });
     });
 
@@ -372,7 +372,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
         },
       );
       await waitFor(() => getByTestId('profile-alert--add-contact-email'));
-      const button = 'va-button[text="Skip adding email"]';
+      const button = 'va-button[text="Skip adding an email"]';
       fireEvent.click(container.querySelector(button));
       await waitFor(() => {
         getByTestId('mhv-alert--skip-success');

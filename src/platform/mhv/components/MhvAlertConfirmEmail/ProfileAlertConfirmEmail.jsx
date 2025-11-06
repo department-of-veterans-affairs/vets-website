@@ -90,14 +90,14 @@ const AlertAddContactEmail = ({ recordEvent, onAddClick, onSkipClick }) => {
           style={{ wordBreak: 'break-word' }}
           data-testid="profile-alert--contact-email"
         >
-          No contact email provided.
+          No contact email provided
         </p>
         <p>
           <VaButton text="Add a contact email" onClick={() => onAddClick()} />
         </p>
         <p>
           <VaButton
-            text="Skip adding email"
+            text="Skip adding an email"
             onClick={() => onSkipClick()}
             secondary
           />
