@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { NO_ISSUES_SELECTED } from '../../constants';
 
-const EvidenceIssues = ({
+const Issues = ({
   availableIssues,
   content,
   currentData,
@@ -42,9 +42,9 @@ const EvidenceIssues = ({
   );
 };
 
-export default EvidenceIssues;
+export default Issues;
 
-EvidenceIssues.propTypes = {
+Issues.propTypes = {
   availableIssues: PropTypes.array,
   content: PropTypes.shape({
     issuesLabel: PropTypes.string,

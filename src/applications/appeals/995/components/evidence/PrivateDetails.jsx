@@ -1,38 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import {
-  VaCheckbox,
-  VaDate,
+  VaMemorableDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { EVIDENCE_VA_DETAILS_URL } from '../constants';
-import { content } from '../content/evidence/vaDetails';
-import { getIndex, getVAEvidence, hasErrors } from '../utils/evidence';
+import { EVIDENCE_PRIVATE_DETAILS_URL } from '../../constants';
+import { content } from '../../content/evidence/privateDetails';
+import { getIndex, hasErrors } from '../../utils/evidence';
 import {
-  validateVaLocation,
-  validateVaIssues,
-  validateVaDate,
-  validateVaUnique,
-  isEmptyVaEntry,
-} from '../validations/evidence';
-import { focusEvidence } from '../../shared/utils/focus';
-import { EvidenceHeaderAndModal } from './EvidenceHeaderAndModal';
-import EvidenceIssues from './evidence/Issues';
-import { EvidencePageNavigation } from './EvidencePageNavigation';
-import { getIssueName, getSelected } from '../../shared/utils/issues';
-import { checkValidations } from '../../shared/validations';
-import { customPageProps995 } from '../../shared/props';
+  validatePrivateName,
+  validateCountry,
+  validateStreet,
+  validateCity,
+  validateState,
+  validatePostal,
+  validatePrivateIssues,
+  validatePrivateFromDate,
+  validatePrivateToDate,
+  validatePrivateUnique,
+  isEmptyPrivateEntry,
+} from '../../validations/evidence';
+import { focusEvidence } from '../../../shared/utils/focus';
+import { EvidenceFacilityAddress } from '../EvidenceFacilityAddress';
+import { EvidenceHeaderAndModal } from '../EvidenceHeaderAndModal';
+import Issues from './Issues';
+import { EvidencePageNavigation } from '../EvidencePageNavigation';
+import { getIssueName, getSelected } from '../../../shared/utils/issues';
+import { checkValidations } from '../../../shared/validations';
+import { customPageProps995 } from '../../../shared/props';
 
-const VA_PATH = `/${EVIDENCE_VA_DETAILS_URL}`;
+const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_DETAILS_URL}`;
 
 const defaultData = {
-  locationAndName: '',
+  providerFacilityName: '',
   issues: [],
-  treatmentDate: '',
+  providerFacilityAddress: {
+    country: 'USA',
+    street: '',
+    street2: '',
+    city: '',
+    state: '',
+    postalCode: '',
+  },
+  treatmentDateRange: { from: '', to: '' },
 };
-
 const defaultState = {
   dirty: {
     name: false,
+    country: false,
+    street: false,
+    city: false,
+    state: false,
+    postal: false,
     issues: false,
     from: false,
     to: false,
@@ -41,7 +59,7 @@ const defaultState = {
   submitted: false,
 };
 
-const EvidenceVaRecords = ({
+const PrivateDetails = ({
   data,
   goBack,
   goForward,
@@ -51,15 +69,15 @@ const EvidenceVaRecords = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const locations = getVAEvidence(data || {});
+  const { providerFacility = [] } = data || {};
 
   // *** state ***
   // currentIndex is zero-based
   const [currentIndex, setCurrentIndex] = useState(
-    getIndex(locations, testingIndex),
+    getIndex(providerFacility, testingIndex),
   );
   const [currentData, setCurrentData] = useState(
-    locations?.[currentIndex] || defaultData,
+    providerFacility?.[currentIndex] || defaultData,
   );
   // force a useEffect call when currentIndex doesn't change
   const [forceReload, setForceReload] = useState(false);
@@ -67,71 +85,89 @@ const EvidenceVaRecords = ({
 
   const [currentState, setCurrentState] = useState(defaultState);
 
-  const getPageType = entry => (isEmptyVaEntry(entry) ? 'add' : 'edit');
-  const [addOrEdit, setAddOrEdit] = useState(getPageType(currentData));
-
   const availableIssues = getSelected(data).map(getIssueName);
+
+  const getPageType = entry => (isEmptyPrivateEntry(entry) ? 'add' : 'edit');
+  const [addOrEdit, setAddorEdit] = useState(getPageType(currentData));
 
   // *** validations ***
   const errors = {
     unique: checkValidations(
-      [validateVaUnique],
+      [validatePrivateUnique],
       currentData,
       data,
       currentIndex,
     )[0],
-    name: checkValidations([validateVaLocation], currentData, data)[0],
+    name: checkValidations([validatePrivateName], currentData, data)[0],
+    country: checkValidations([validateCountry], currentData)[0],
+    street: checkValidations([validateStreet], currentData)[0],
+    city: checkValidations([validateCity], currentData)[0],
+    state: checkValidations([validateState], currentData)[0],
+    postal: checkValidations([validatePostal], currentData)[0],
     issues: checkValidations(
-      [validateVaIssues],
+      [validatePrivateIssues],
       currentData,
       data,
       currentIndex,
     )[0],
-    treatmentDate: currentData.noDate
-      ? null
-      : checkValidations([validateVaDate], currentData, data),
+    from: checkValidations([validatePrivateFromDate], currentData),
+    to: checkValidations([validatePrivateToDate], currentData),
   };
 
   useEffect(
     () => {
-      const entry = locations?.[currentIndex] || defaultData;
+      const entry = providerFacility?.[currentIndex] || defaultData;
       setCurrentData(entry);
-      setAddOrEdit(getPageType(entry));
+      setAddorEdit(getPageType(entry));
       setCurrentState(defaultState);
       focusEvidence();
       setForceReload(false);
       setTimeout(() => setIsBusy(false));
     },
-    // don't include locations or we clear state & move focus every time
+    // don't include providerFacility or we clear state & move focus every time
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentIndex, forceReload],
   );
 
-  const updateCurrentLocation = ({
-    name = currentData.locationAndName,
+  const updateCurrentFacility = ({
+    name = currentData.providerFacilityName,
+    country = currentData.providerFacilityAddress?.country,
+    street = currentData.providerFacilityAddress?.street,
+    street2 = currentData.providerFacilityAddress?.street2,
+    city = currentData.providerFacilityAddress?.city,
+    state = currentData.providerFacilityAddress?.state,
+    postal = currentData.providerFacilityAddress?.postalCode,
     issues = currentData.issues,
-    txdate = currentData.treatmentDate,
-    nodate = currentData.noDate,
+    from = currentData.treatmentDateRange?.from,
+    to = currentData.treatmentDateRange?.to,
     remove = false,
   } = {}) => {
     const newData = {
-      locationAndName: name,
+      providerFacilityName: name,
+      providerFacilityAddress: {
+        country,
+        street,
+        street2,
+        city,
+        state,
+        postalCode: postal,
+      },
       issues,
-      treatmentDate: txdate,
-      noDate: nodate,
+      treatmentDateRange: {
+        from,
+        to,
+      },
     };
 
-    const newLocations = [...locations];
-
+    const newProviderFacility = [...providerFacility];
     if (remove) {
-      newLocations.splice(currentIndex, 1);
+      newProviderFacility.splice(currentIndex, 1);
     } else {
-      newLocations[currentIndex] = newData;
+      newProviderFacility[currentIndex] = newData;
     }
-
     setCurrentData(newData);
-    setFormData({ ...data, locations: newLocations });
-    return newLocations;
+    setFormData({ ...data, providerFacility: newProviderFacility });
+    return newProviderFacility;
   };
 
   const updateState = ({
@@ -145,16 +181,16 @@ const EvidenceVaRecords = ({
   const goToPageIndex = index => {
     setCurrentIndex(index);
     setForceReload(true);
-    goToPath(`${VA_PATH}?index=${index}`);
+    goToPath(`${PRIVATE_PATH}?index=${index}`);
   };
 
   const addAndGoToPageIndex = index => {
-    const newLocations = [...locations];
-    if (!isEmptyVaEntry(locations[index])) {
+    const newProviderFacility = [...providerFacility];
+    if (!isEmptyPrivateEntry(providerFacility[index])) {
       // only insert a new entry if the existing entry isn't empty
-      newLocations.splice(index, 0, defaultData);
+      newProviderFacility.splice(index, 0, defaultData);
     }
-    setFormData({ ...data, locations: newLocations });
+    setFormData({ ...data, providerFacility: newProviderFacility });
     goToPageIndex(index);
   };
 
@@ -171,12 +207,11 @@ const EvidenceVaRecords = ({
     onChange: event => {
       const { target = {} } = event;
       const fieldName = target.name;
-      // target.value from va-text-input, va-memorable-date, & va-date
-      const value =
-        fieldName === 'nodate'
-          ? target.checked // I don't have a date checkbox
-          : target.value || '';
-      updateCurrentLocation({ [fieldName]: value });
+      // detail.value from va-select &
+      // target.value from va-text-input & va-memorable-date
+      const value = event.detail?.value || target.value || '';
+      // empty va-memorable-date may return '--'
+      updateCurrentFacility({ [fieldName]: value });
     },
 
     onIssueChange: event => {
@@ -195,7 +230,7 @@ const EvidenceVaRecords = ({
       } else {
         newIssues.delete(target.label);
       }
-      updateCurrentLocation({ issues: [...newIssues] });
+      updateCurrentFacility({ issues: [...newIssues] });
     },
 
     onAddAnother: event => {
@@ -212,6 +247,7 @@ const EvidenceVaRecords = ({
       // a new entry
       addAndGoToPageIndex(currentIndex + 1);
     },
+
     onGoForward: event => {
       event.preventDefault();
       updateState({ submitted: true });
@@ -223,7 +259,7 @@ const EvidenceVaRecords = ({
 
       setIsBusy(true);
       const nextIndex = currentIndex + 1;
-      if (currentIndex < locations.length - 1) {
+      if (currentIndex < providerFacility.length - 1) {
         goToPageIndex(nextIndex);
       } else {
         // passing data is needed, including nextIndex for unit testing
@@ -233,9 +269,10 @@ const EvidenceVaRecords = ({
     onGoBack: () => {
       // show modal if there are errors; don't show _immediately after_ adding
       // a new empty entry
-      if (isEmptyVaEntry(currentData)) {
-        updateCurrentLocation({ remove: true });
+      if (isEmptyPrivateEntry(currentData)) {
+        updateCurrentFacility({ remove: true });
       } else if (hasErrors(errors)) {
+        // focus on first error
         updateState({ submitted: true, showModal: true });
         return;
       }
@@ -257,7 +294,7 @@ const EvidenceVaRecords = ({
       focusEvidence();
     },
     onModalYes: () => {
-      // Yes, keep location
+      // Yes, keep providerFacility
       updateState({ submitted: true, showModal: false });
       const prevIndex = currentIndex - 1;
       // index only passed here for testing purposes
@@ -271,7 +308,7 @@ const EvidenceVaRecords = ({
     onModalNo: () => {
       // No, clear current data and navigate
       setCurrentData(defaultData);
-      updateCurrentLocation({ remove: true });
+      updateCurrentFacility({ remove: true });
 
       updateState({ submitted: true, showModal: false });
       const prevIndex = currentIndex - 1;
@@ -289,6 +326,11 @@ const EvidenceVaRecords = ({
       (Array.isArray(errors[name]) ? errors[name][0] : errors[name])) ||
     null;
 
+  const isInvalid = (name, part) => {
+    const message = errors[name]?.[1] || '';
+    return message.includes(part) || message.includes('other');
+  };
+
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
@@ -301,46 +343,61 @@ const EvidenceVaRecords = ({
           handlers={handlers}
         />
         <VaTextInput
-          id="add-location-name"
+          id="add-facility-name"
           name="name"
           type="text"
-          label={content.locationAndName}
-          hint={content?.locationAndNameHint || ''}
+          label={content.nameLabel}
           required
-          value={currentData.locationAndName}
+          value={currentData.providerFacilityName}
           onInput={handlers.onChange}
           onBlur={handlers.onBlur}
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
-          autocomplete="section-facility name"
+          autocomplete="section-provider name"
         />
-        <EvidenceIssues
+        <EvidenceFacilityAddress
+          currentData={currentData}
+          content={content}
+          handlers={handlers}
+          showError={showError}
+        />
+        <Issues
           availableIssues={availableIssues}
           content={content}
           currentData={currentData}
           handlers={handlers}
           showError={showError}
         />
-        <VaDate
-          id="txdate"
-          name="txdate"
-          monthYearOnly
-          error={showError('treatmentDate')}
-          label={content.treatmentDate}
+        <VaMemorableDate
+          id="from-date"
+          name="from"
+          label={content.dateStart}
+          required
           onDateChange={handlers.onChange}
           onDateBlur={handlers.onBlur}
-          value={currentData.treatmentDate}
+          value={currentData.treatmentDateRange?.from}
+          error={showError('from')}
+          invalidMonth={isInvalid('from', 'month')}
+          invalidDay={isInvalid('from', 'day')}
+          invalidYear={isInvalid('from', 'year')}
+          month-select={false}
         />
-        <VaCheckbox
-          id="nodate"
-          name="nodate"
-          class="vads-u-margin-bottom--4"
-          label={content.noDate}
-          onVaChange={handlers.onChange}
-          checked={currentData.noDate}
+        <VaMemorableDate
+          id="to-date"
+          name="to"
+          label={content.dateEnd}
+          required
+          onDateChange={handlers.onChange}
+          onDateBlur={handlers.onBlur}
+          value={currentData.treatmentDateRange?.to}
+          error={showError('to')}
+          invalidMonth={isInvalid('to', 'month')}
+          invalidDay={isInvalid('to', 'day')}
+          invalidYear={isInvalid('to', 'year')}
+          month-select={false}
         />
         <EvidencePageNavigation
-          path={`${VA_PATH}?index=${currentIndex + 1}`}
+          path={`${PRIVATE_PATH}?index=${currentIndex + 1}`}
           content={{
             ...content,
             contentBeforeButtons,
@@ -353,6 +410,6 @@ const EvidenceVaRecords = ({
   );
 };
 
-EvidenceVaRecords.propTypes = customPageProps995;
+PrivateDetails.propTypes = customPageProps995;
 
-export default EvidenceVaRecords;
+export default PrivateDetails;

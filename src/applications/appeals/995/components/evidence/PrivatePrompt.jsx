@@ -8,22 +8,22 @@ import {
   EVIDENCE_VA_DETAILS_URL,
   HAS_VA_EVIDENCE,
   HAS_PRIVATE_EVIDENCE,
-} from '../constants';
+} from '../../constants';
 
 import {
   privateRecordsRequestTitle,
   privateRecordsRequestInfo,
   privateRecordsRadioDescription,
-} from '../content/evidencePrivateRecordsRequest';
+} from '../../content/evidence/privatePrompt';
 
-import { customPageProps995 } from '../../shared/props';
-import errorMessages from '../../shared/content/errorMessages';
-import { focusFirstError } from '../../shared/utils/focus';
+import { customPageProps995 } from '../../../shared/props';
+import errorMessages from '../../../shared/content/errorMessages';
+import { focusFirstError } from '../../../shared/utils/focus';
 
 /**
  * This page is needed to make the back button on this page to to the last
  */
-const EvidencePrivateRequest = ({
+const PrivatePrompt = ({
   data = {},
   goBack,
   goForward,
@@ -108,6 +108,6 @@ const EvidencePrivateRequest = ({
   );
 };
 
-EvidencePrivateRequest.propTypes = customPageProps995;
+PrivatePrompt.propTypes = customPageProps995;
 
-export default EvidencePrivateRequest;
+export default PrivatePrompt;
