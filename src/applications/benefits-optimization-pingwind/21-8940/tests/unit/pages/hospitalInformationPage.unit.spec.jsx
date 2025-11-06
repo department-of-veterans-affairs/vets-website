@@ -12,7 +12,7 @@ const {
 } = formConfig.chapters.sectionTwoP1Chapter.pages.hospitalInformationPage;
 const pageTitle = 'hospital information';
 
-const expectedNumberOfFields = 1;
+const expectedNumberOfFields = 0;
 testNumberOfFields(
   formConfig,
   schema,
@@ -30,7 +30,7 @@ testNumberOfErrorsOnSubmit(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentFields = 12;
+const expectedNumberOfWebComponentFields = 13;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
