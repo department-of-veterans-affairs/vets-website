@@ -145,6 +145,7 @@ const ArrayBuilderCards = ({
   const arrayData = get(arrayPath, formData);
   const currentItem = arrayData?.[currentIndex];
   const isMounted = useRef(true);
+  const incompleteTimeoutRef = useRef(null);
   const nounSingularSlug = slugifyText(nounSingular);
 
   useEffect(() => {
