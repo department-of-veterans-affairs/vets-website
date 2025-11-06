@@ -1,3 +1,4 @@
+import { datadogRum } from '@datadog/browser-rum';
 import { Actions } from '../util/actionTypes';
 import {
   getVitalsList,
@@ -37,7 +38,9 @@ export const getVitals = (
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    datadogRum.addError(error, {
+      feature: 'Medical Records - actions_vitals_getVitals',
+    });
   }
 };
 

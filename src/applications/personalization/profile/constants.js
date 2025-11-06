@@ -36,7 +36,7 @@ export const SERVICE_BADGE_IMAGE_PATHS = new Map([
 // These breadcrumbs are the base breadcrumbs for the profile app
 // They are used when the user is on the profile root page
 export const PROFILE_BREADCRUMB_BASE = [
-  { href: '/', label: 'Home' },
+  { href: '/', label: 'VA.gov home' },
   { href: '/profile', label: 'Profile', isRouterLink: true },
 ];
 
@@ -62,7 +62,7 @@ export const PROFILE_PATHS = Object.freeze({
   EMAIL_AND_TEXT_NOTIFICATIONS: '/profile/notifications',
   ACCOUNT_SECURITY: '/profile/account-security',
   CONNECTED_APPLICATIONS: '/profile/connected-applications',
-  SIGNIN_INFORMATION: '/profile/sign-in-information',
+  SIGNIN_INFORMATION: '/profile/account-security/sign-in-information',
   EDIT: '/profile/edit',
   PAPERLESS_DELIVERY: '/profile/paperless-delivery',
 });

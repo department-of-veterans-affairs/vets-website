@@ -224,7 +224,6 @@ const ContestableIssuesWidget = props => {
       key: index,
       options,
       showCheckbox,
-      onReviewPage,
       onChange: handlers.onChange,
       onRemove: handlers.onShowRemoveModal,
     };
