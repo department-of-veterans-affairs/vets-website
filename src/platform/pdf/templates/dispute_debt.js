@@ -393,7 +393,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   // =====================================
   // * Veteran identification information *
   // =====================================
-  const { ssnLastFour } = veteran;
+  const { ssnLastFour, vaFileLastFour } = veteran;
 
   const veteranIdentificationInformation = doc.struct('Sect', {
     title: "Veteran's identification information",
@@ -412,6 +412,18 @@ const generate = async (data = {}, config = defaultConfig) => {
         .fontSize(config.text.size)
         .text('Social Security number');
       doc.font(config.text.font).text(ssnLastFour || '');
+    }),
+  );
+
+  veteranIdentificationInformation.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.boldFont)
+        .fontSize(config.text.size)
+        .text('VA file number');
+      doc.font(config.text.font).text(`••• •• ${vaFileLastFour}`, {
+        lineGap: 8,
+      });
     }),
   );
 
