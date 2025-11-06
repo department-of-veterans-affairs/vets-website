@@ -218,8 +218,10 @@ export const sendUpdatedSearchQuery = (
   const location = zip.text || features[0].place_name;
 
   // Radius is computed as the distance from the center point
-  // to the western edge of the bounding box
-  const radius = distBetween(lat, lng, lat, currentBounds[0]);
+  // to the southwest corner of the bounding box to ensure the entire
+  // rectangular map area is covered by the circular search query.
+  // This prevents missing results in map corners (see GitHub issue #21812)
+  const radius = distBetween(lat, lng, currentBounds[1], currentBounds[0]);
 
   dispatch({
     type: SEARCH_QUERY_UPDATED,
