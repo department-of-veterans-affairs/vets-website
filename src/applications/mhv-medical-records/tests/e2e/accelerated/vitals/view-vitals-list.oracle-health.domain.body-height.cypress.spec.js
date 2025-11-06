@@ -10,7 +10,7 @@ describe('Medical Records View Body Height', () => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
-      isAcceleratingVitals: false,
+      isAcceleratingVitals: false, // This tests the isCerner LH Data implementation
     });
     Vitals.setIntercepts({ vitalData: vitalsData });
   });
@@ -19,10 +19,6 @@ describe('Medical Records View Body Height', () => {
     site.loadPage();
 
     Vitals.goToVitalPage();
-
-    // switch to march 2024
-    Vitals.selectMonthAndYear({ month: '3', year: 2024 });
-    Vitals.verifySelectedDate({ dateString: 'March 2024' });
 
     // check for latest id
     cy.get('[data-testid="vital-height-measurement"]').should('be.visible');

@@ -10,7 +10,7 @@ describe('Medical Records View Heart Rate', () => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
-      isAcceleratingVitals: false,
+      isAcceleratingVitals: false, // This tests the isCerner LH Data implementation
     });
     cy.visit('my-health/medical-records');
     Vitals.setIntercepts({ vitalData: vitalsData });
@@ -21,9 +21,6 @@ describe('Medical Records View Heart Rate', () => {
 
     Vitals.goToVitalPage();
 
-    // switch to march 2024
-    Vitals.selectMonthAndYear({ month: '3', year: 2024 });
-    Vitals.verifySelectedDate({ dateString: 'March 2024' });
     // check for latest id
     cy.get('[data-testid="vital-heart-rate-measurement"]').should('be.visible');
     cy.get('[data-testid="vital-heart-rate-measurement"]').contains(
