@@ -14,14 +14,14 @@ describe('ChooseExpenseType', () => {
   const defaultApptId = '12345';
   const expenseOptions = Object.values(EXPENSE_TYPES);
 
-  const renderComponent = (apptId = defaultApptId) => {
+  const renderComponent = (apptId = defaultApptId, claimId = 'claim123') => {
     return renderWithStoreAndRouter(
       <MemoryRouter
-        initialEntries={[`/file-new-claim/${apptId}/choose-expense`]}
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/choose-expense`]}
       >
         <Routes>
           <Route
-            path="/file-new-claim/:apptId/choose-expense"
+            path="/file-new-claim/:apptId/:claimId/choose-expense"
             element={<ChooseExpenseType />}
           />
           <Route
