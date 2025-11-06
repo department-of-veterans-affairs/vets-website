@@ -8,7 +8,6 @@ import {
   getClinicsForChosenFacility,
   getFormData,
   getTypeOfCare,
-  selectChosenFacilityInfo,
   selectPastAppointments,
 } from '../../redux/selectors';
 import AppointmentsRadioWidget from '../AppointmentsRadioWidget';
@@ -27,7 +26,6 @@ const initialSchema = {
 
 export default function useClinicFormState(pageTitle) {
   const initialData = useSelector(getFormData);
-  const location = useSelector(selectChosenFacilityInfo);
   const selectedTypeOfCare = getTypeOfCare(initialData);
 
   const clinics = useSelector(getClinicsForChosenFacility);
@@ -47,13 +45,10 @@ export default function useClinicFormState(pageTitle) {
   // Past appointment history check
   // primary care and mental health (with flipper) and SUD are exempt
   // NOTE: Same check is in ../services/patient/index.js:fetchFlowEligibilityAndClinics
-  const isCheckTypeOfCare =
-    typeOfCareRequiresPastHistory(
-      selectedTypeOfCare.id,
-      featurePastVisitMHFilter,
-    ) &&
-    location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
-      ?.patientHistoryRequired === true; // facility level condition won't get set unless configuration check happens
+  const isCheckTypeOfCare = typeOfCareRequiresPastHistory(
+    selectedTypeOfCare.id,
+    featurePastVisitMHFilter,
+  );
 
   if (isCheckTypeOfCare) {
     const pastAppointmentDateMap = new Map();
