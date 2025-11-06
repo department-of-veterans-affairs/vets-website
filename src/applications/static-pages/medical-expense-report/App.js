@@ -21,7 +21,7 @@ const App = ({ formEnabled }) => {
       <h3>When to use this form</h3>
       <p>
         Use this to report medical or dental expenses that you have paid for
-        yourself or for a family member living in your household. These must
+        yourself or for a family member living in your household. These must be
         expenses you weren’t reimbursed for and don’t expect to be reimbursed
         for.
       </p>
