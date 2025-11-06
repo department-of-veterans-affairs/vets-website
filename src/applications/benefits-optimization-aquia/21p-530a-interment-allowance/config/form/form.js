@@ -93,8 +93,8 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    relationshipToVeteranChapter: {
-      title: 'Relationship to the Veteran',
+    organizationInformationChapter: {
+      title: "Your organization's information",
       pages: {
         relationshipToVeteran: {
           path: 'relationship-to-veteran',
@@ -105,11 +105,6 @@ const formConfig = {
           CustomPageReview: RelationshipToVeteranReviewPage,
           pagePerItemIndex: 0,
         },
-      },
-    },
-    organizationInformationChapter: {
-      title: "Your organization's information",
-      pages: {
         organizationInformation: {
           path: 'organization-information',
           title: "Your organization's information",
@@ -129,7 +124,7 @@ const formConfig = {
           pagePerItemIndex: 0,
         },
         mailingAddress: {
-          path: 'mailing-address',
+          path: 'organization-mailing-address',
           title: 'Mailing address',
           uiSchema: {},
           schema: defaultSchema,
@@ -143,7 +138,7 @@ const formConfig = {
       title: 'Deceased Veteran information',
       pages: {
         veteranIdentification: {
-          path: 'identification',
+          path: 'veteran-identification',
           title: 'Identification',
           uiSchema: {},
           schema: defaultSchema,
@@ -152,7 +147,7 @@ const formConfig = {
           pagePerItemIndex: 0,
         },
         veteranSsnFileNumber: {
-          path: 'ssn-file-number',
+          path: 'veteran-ssn-file-number',
           title: 'Identification numbers',
           uiSchema: {},
           schema: defaultSchema,
@@ -161,7 +156,7 @@ const formConfig = {
           pagePerItemIndex: 0,
         },
         veteranBirthInformation: {
-          path: 'birth-information',
+          path: 'veteran-birth-information',
           title: 'Birth information',
           uiSchema: {},
           schema: defaultSchema,
@@ -170,7 +165,7 @@ const formConfig = {
           pagePerItemIndex: 0,
         },
         veteranBurialInformation: {
-          path: 'burial-information',
+          path: 'veteran-burial-information',
           title: 'Burial information',
           uiSchema: {},
           schema: defaultSchema,
@@ -234,7 +229,7 @@ const formConfig = {
           // Always show summary page (not dependent on isEditing)
         },
         veteranServedUnderDifferentName: {
-          path: 'served-under-different-name',
+          path: 'veteran-served-under-different-name',
           title: 'Previous names',
           uiSchema: {},
           schema: defaultSchema,
