@@ -1,11 +1,11 @@
-import { HAS_VA_EVIDENCE } from '../constants';
+import { HAS_VA_EVIDENCE } from '../../constants';
 
 import {
   validateVaLocation,
   validateVaIssues,
   validateVaDate,
   validateVaUnique,
-} from '../validations/evidence';
+} from '../../validations/evidence';
 
 const dates = {
   treatmentDate: { type: 'string' },

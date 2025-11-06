@@ -3,13 +3,10 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
 
 describe('Supplemental Claims VA evidence page', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.evidence.pages.evidenceVaDetails;
+  const { schema, uiSchema } = formConfig.chapters.evidence.pages.vaDetails;
 
   // Custom page is rendered, so this renders a submit button
   it('should render', () => {

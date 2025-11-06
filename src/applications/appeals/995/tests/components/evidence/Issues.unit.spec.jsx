@@ -6,9 +6,9 @@ import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { content as evidenceVaContent } from '../../../content/evidenceVaDetails';
+import { content as evidenceVaContent } from '../../../content/evidence/vaDetails';
 import { content as evidencePrivateContent } from '../../../content/evidencePrivateRecords';
-import EvidenceIssues from '../../../components/evidence/EvidenceIssues';
+import EvidenceIssues from '../../../components/evidence/Issues';
 import { NO_ISSUES_SELECTED } from '../../../constants';
 
 const showErrorSpy = sinon.spy();

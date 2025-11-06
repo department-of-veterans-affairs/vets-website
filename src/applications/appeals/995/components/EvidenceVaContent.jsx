@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 import { content } from '../content/evidenceSummary';
-import { content as vaContent } from '../content/evidenceVaDetails';
+import { content as vaContent } from '../content/evidence/vaDetails';
 import { EVIDENCE_VA_DETAILS_URL } from '../constants';
 import { FORMAT_READABLE_MMYY_DATE_FNS } from '../../shared/constants';
 import {

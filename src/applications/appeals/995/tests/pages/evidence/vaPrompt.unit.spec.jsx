@@ -5,13 +5,13 @@ import { fireEvent, waitFor, render } from '@testing-library/react';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import formConfig from '../../config/form';
-import { HAS_VA_EVIDENCE } from '../../constants';
+import formConfig from '../../../config/form';
+import { HAS_VA_EVIDENCE } from '../../../constants';
 import {
   requestVaRecordsTitle,
   requestVaRecordsHint,
-} from '../../content/evidenceVaPrompt';
-import errorMessages from '../../../shared/content/errorMessages';
+} from '../../../content/evidence/vaPrompt';
+import errorMessages from '../../../../shared/content/errorMessages';
 
 const mockStore = () => ({
   getState: () => ({
@@ -22,10 +22,7 @@ const mockStore = () => ({
 });
 
 describe('Supplemental Claims VA evidence request page', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.evidence.pages.evidenceVaPrompt;
+  const { schema, uiSchema } = formConfig.chapters.evidence.pages.vaPrompt;
 
   it('should render', () => {
     const { container } = render(

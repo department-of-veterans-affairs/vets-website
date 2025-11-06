@@ -22,7 +22,7 @@ import {
 import { focusEvidence } from '../../shared/utils/focus';
 import { EvidenceFacilityAddress } from './EvidenceFacilityAddress';
 import { EvidenceHeaderAndModal } from './EvidenceHeaderAndModal';
-import EvidenceIssues from './evidence/EvidenceIssues';
+import EvidenceIssues from './evidence/Issues';
 import { EvidencePageNavigation } from './EvidencePageNavigation';
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { checkValidations } from '../../shared/validations';
