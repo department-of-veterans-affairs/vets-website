@@ -3,7 +3,11 @@ import React from 'react';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': (<h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">Additional Information</h3>),
+    'ui:title': (
+      <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
+        Additional Information
+      </h3>
+    ),
     'ui:description': 'Anything else we should know?',
     additionalRemarks: {
       'ui:title':
