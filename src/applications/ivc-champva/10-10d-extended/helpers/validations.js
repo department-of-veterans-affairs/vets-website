@@ -1,4 +1,4 @@
-import { isAfter, isValid } from 'date-fns';
+import { isBefore, isValid } from 'date-fns';
 import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms/validations';
 
@@ -125,14 +125,11 @@ export const validateMedicarePlan = (item = {}) => {
   const isValidPastDate = dateString => {
     if (!dateString) return false;
     const date = new Date(dateString);
-    return isValid(date) && !isAfter(date, new Date());
+    return isValid(date) && isBefore(date, new Date());
   };
 
-  const hasValidUpload = fileArray => {
-    return (
-      Array.isArray(fileArray) && fileArray.length > 0 && fileArray[0]?.name
-    );
-  };
+  const hasValidUpload = fileArray =>
+    Array.isArray(fileArray) && fileArray[0]?.name;
 
   if (!medicarePlanType) return true;
 
