@@ -32,7 +32,7 @@ const baseVeteran = {
 
 const parseTransformed = transformed => {
   const outer = JSON.parse(transformed);
-  const formString = outer?.employment_questionairres_claim?.form;
+  const formString = outer?.employment_questionnaires_claim?.form;
   return formString ? JSON.parse(formString) : {};
 };
 

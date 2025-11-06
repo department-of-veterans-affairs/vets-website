@@ -11,6 +11,18 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+const mapBooleanToRadioValue = value => {
+  if (value === true) {
+    return 'Y';
+  }
+
+  if (value === false) {
+    return 'N';
+  }
+
+  return undefined;
+};
+
 const ConfirmationQuestion = ({
   formData,
   location,
@@ -117,6 +129,61 @@ const ConfirmationQuestion = ({
       ? 'You must make a selection to proceed.'
       : undefined;
 
+  const confirmationValue = mapBooleanToRadioValue(confirmation);
+  const newConditionValue = mapBooleanToRadioValue(newCondition);
+  const shouldShowNewConditionAlert =
+    newCondition !== null && newCondition !== undefined;
+
+  let newConditionAlert = null;
+  if (newCondition === false) {
+    newConditionAlert = (
+      <VaAlert id="confirmation-alert" status="warning" uswds visible>
+        <h3 slot="headline">Seems like you need a different form.</h3>
+        <p>
+          Let's get you to the right place! Visit our forms page to find the
+          right one for your needs. Remember, you can always get help from a{' '}
+          <a
+            href="/disability/get-help-filing-claim/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Veteran Service Organization
+          </a>
+          .
+        </p>
+        <p>
+          <a
+            href="https://www.va.gov/find-forms/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Find a VA Form
+          </a>
+        </p>
+      </VaAlert>
+    );
+  } else if (newCondition === true) {
+    newConditionAlert = (
+      <VaAlert status="info" uswds visible>
+        <h3 slot="headline">Important</h3>
+        <p>
+          Please remember, if you are filing a claim for a new or secondary
+          condition or for increased disability compensation, you will also need
+          to complete the Form 21-526EZ if you haven't done so already.
+        </p>
+        <p>
+          <a
+            href="/disability/file-disability-claim-form-21-526ez/introduction"
+            target="_blank"
+            rel="noreferrer"
+          >
+            VA Form 21-526EZ
+          </a>
+        </p>
+      </VaAlert>
+    );
+  }
+
   return (
     <div className="schemaform-intro">
       <h1 id="main-content" className="vads-u-margin-bottom--2">
@@ -127,9 +194,7 @@ const ConfirmationQuestion = ({
         name="confirmation-question"
         label="Are you applying for increased unemployability compensation benefits?"
         required
-        value={
-          confirmation === true ? 'Y' : confirmation === false ? 'N' : undefined
-        }
+        value={confirmationValue}
         error={radioError || confirmationError}
         onVaValueChange={e => handleConfirmationChange(e.detail.value === 'Y')}
       >
@@ -143,13 +208,7 @@ const ConfirmationQuestion = ({
             name="new-condition-question"
             label="Are you applying for a new or secondary condition?"
             required
-            value={
-              newCondition === true
-                ? 'Y'
-                : newCondition === false
-                  ? 'N'
-                  : undefined
-            }
+            value={newConditionValue}
             error={newConditionError}
             onVaValueChange={e =>
               handleNewConditionChange(e.detail.value === 'Y')
@@ -163,53 +222,7 @@ const ConfirmationQuestion = ({
             <VaRadioOption name="new-condition-question" label="No" value="N" />
           </VaRadio>
 
-          {newCondition !== null &&
-            (newCondition === false ? (
-              <VaAlert id="confirmation-alert" status="warning" uswds visible>
-                <h3 slot="headline">Seems like you need a different form.</h3>
-                <p>
-                  Let's get you to the right place! Visit our forms page to find
-                  the right one for your needs. Remember, you can always get
-                  help from a{' '}
-                  <a
-                    href="/disability/get-help-filing-claim/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Veteran Service Organization
-                  </a>
-                  .
-                </p>
-                <p>
-                  <a
-                    href="https://www.va.gov/find-forms/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Find a VA Form
-                  </a>
-                </p>
-              </VaAlert>
-            ) : newCondition === true ? (
-              <VaAlert status="info" uswds visible>
-                <h3 slot="headline">Important</h3>
-                <p>
-                  Please remember, if you are filing a claim for a new or
-                  secondary condition or for increased disability compensation,
-                  you will also need to complete the Form 21-526EZ if you
-                  haven't done so already.
-                </p>
-                <p>
-                  <a
-                    href="/disability/file-disability-claim-form-21-526ez/introduction"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    VA Form 21-526EZ
-                  </a>
-                </p>
-              </VaAlert>
-            ) : null)}
+          {shouldShowNewConditionAlert && newConditionAlert}
         </>
       ) : null}
       <FormNavButtons goBack={goBack} goForward={goForward} />

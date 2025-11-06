@@ -37,7 +37,7 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/employment_questionairres/v0/form4140`,
+  submitUrl: `${environment.API_URL}/employment_questionnaires/v0/form4140`,
   trackingPrefix: 'ss-4140-',
   dev: {
     collapsibleNavLinks: true,

@@ -17,7 +17,6 @@ import transformForSubmit from './submit-transformer';
 
 import ConfirmationQuestion from '../containers/ConfirmationQuestion';
 import personalInformation1 from '../pages/personalInformation1';
-/*import personalInformation2 from '../pages/personalInformation2';*/
 import contactInformation1 from '../pages/contactInformation1';
 import contactInformation2 from '../pages/contactInformation2';
 
@@ -48,7 +47,6 @@ import {
   doctorCareQuestionFields,
   hospitalizationQuestionFields,
 } from '../definitions/constants';
-/* import medicalTreatmentRecordsPages from '../pages/medicalTreatmentRecords'; */
 
 import ImportantInformation from '../containers/ImportantInformation';
 import WhatYouNeed from '../containers/WhatYouNeed';

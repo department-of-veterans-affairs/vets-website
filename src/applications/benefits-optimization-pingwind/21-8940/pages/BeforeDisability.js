@@ -18,7 +18,11 @@ import { wrapDateRangeUiWithDl } from '../helpers/reviewHelpers';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': (<h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">Education and Training Before Becoming Disabled</h3>),
+    'ui:title': (
+      <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
+        Education and Training Before Becoming Disabled
+      </h3>
+    ),
     'ui:description':
       'Tell us about your education and training before becoming too disabled to work.',
 

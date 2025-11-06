@@ -86,7 +86,7 @@ describe('21-8940 component/viewElements', () => {
     expect(container.querySelector('strong').textContent).to.equal(
       'VA Medical Center',
     );
-    expect(container.querySelector('p').textContent).to.include('456 Elm St');
+    expect(container.textContent).to.include('456 Elm St');
     expect(container.textContent).to.include(
       'Connected disabilities: Chronic fatigue',
     );

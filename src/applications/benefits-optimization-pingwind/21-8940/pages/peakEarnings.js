@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { description } from 'platform';
 import {
   textUI,
   numberUI,

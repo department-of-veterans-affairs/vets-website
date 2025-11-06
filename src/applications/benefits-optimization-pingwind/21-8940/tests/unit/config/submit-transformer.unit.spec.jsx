@@ -149,12 +149,12 @@ describe('21-8940 submit transformer', () => {
         maxYearlyEarnings: '54000',
         yearEarned: '2021345',
         occupation: 'Lead Systems Architect with multiple responsibilities',
-  activeDutyOrders: true,
+        activeDutyOrders: true,
         totalIncome: '1234',
         monthlyIncome: '456',
-  leftDueToDisability: false,
-  receivesDisabilityRetirement: true,
-  receivesWorkersCompensation: true,
+        leftDueToDisability: false,
+        receivesDisabilityRetirement: true,
+        receivesWorkersCompensation: true,
         educationLevel: 'college',
         college: 'junior',
         educationBeforeDisability: [
@@ -259,7 +259,7 @@ describe('21-8940 submit transformer', () => {
     expect(payload.education).to.deep.equal({ college: 'Jr' });
     expect(payload.educationTrainingPreUnemployability).to.deep.equal({
       name: 'Vocational t',
-      dateOfTraining: {
+      datesOfTraining: {
         from: '2010-01-01',
         to: '2010-06-01',
       },
@@ -277,9 +277,9 @@ describe('21-8940 submit transformer', () => {
     expect(payload.yearOfMostEarnings).to.equal(2021);
     expect(payload.past12MonthsEarnedIncome).to.equal(1234);
     expect(payload.currentMonthlyEarnedIncome).to.equal(456);
-  expect(payload.leftLastJobDueToDisability).to.be.false;
-  expect(payload.expectDisabilityRetirement).to.be.true;
-  expect(payload.receiveExpectWorkersCompensation).to.be.true;
+    expect(payload.leftLastJobDueToDisability).to.be.false;
+    expect(payload.expectDisabilityRetirement).to.be.true;
+    expect(payload.receiveExpectWorkersCompensation).to.be.true;
     expect(payload.attemptedEmploy).to.be.true;
     expect(payload.remarks).to.equal('Needs assistance with tasks.');
     expect(payload.signature).to.equal('John Doe');

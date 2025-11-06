@@ -103,9 +103,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const confirmationSelection = data.confirmationQuestion
-              ? 'Y'
-              : 'N';
+            const confirmationSelection = data.confirmationQuestion ? 'Y' : 'N';
             cy.selectVaRadioOption(
               'confirmation-question',
               confirmationSelection,
