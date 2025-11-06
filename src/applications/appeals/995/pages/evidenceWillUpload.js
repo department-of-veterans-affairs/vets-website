@@ -8,12 +8,12 @@ import {
   evidenceWillUploadInfo,
 } from '../content/evidenceWillUpload';
 
-import { EVIDENCE_OTHER } from '../constants';
+import { HAS_OTHER_EVIDENCE } from '../constants';
 import errorMessages from '../../shared/content/errorMessages';
 
 export default {
   uiSchema: {
-    [EVIDENCE_OTHER]: yesNoUI({
+    [HAS_OTHER_EVIDENCE]: yesNoUI({
       title: evidenceWillUploadTitle,
       enableAnalytics: true,
       labelHeaderLevel: '3',
@@ -34,9 +34,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: [EVIDENCE_OTHER],
+    required: [HAS_OTHER_EVIDENCE],
     properties: {
-      [EVIDENCE_OTHER]: yesNoSchema,
+      [HAS_OTHER_EVIDENCE]: yesNoSchema,
       'view:otherEvidenceInfo': {
         type: 'object',
         properties: {},
