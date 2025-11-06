@@ -49,7 +49,7 @@ describe('ConfirmationPage', () => {
       'submitted your application for a burial allowance',
     );
     expect(container.textContent).to.include(
-      'Thank you for helping to support a claim',
+      'After we receive your application,',
     );
   });
 });
