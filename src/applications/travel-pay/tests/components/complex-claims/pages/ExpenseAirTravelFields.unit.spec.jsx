@@ -111,9 +111,7 @@ describe('ExpenseAirTravelFields', () => {
     ).to.equal('LAX');
   });
 
-  // For some reason these tests are passing locally but not with the Node 22 compatibility Check
-  // Waiting to hear back from platform about how to resolve this
-  it.skip('calls onChange when typing into vendor input', async () => {
+  it('calls onChange when typing into vendor input', async () => {
     const onChangeSpy = sinon.spy();
     const { container } = render(
       <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
@@ -126,7 +124,7 @@ describe('ExpenseAirTravelFields', () => {
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
       const value =
-        onChangeSpy.firstCall.args[0]?.detail ||
+        onChangeSpy.firstCall.args[0]?.detail?.value ||
         onChangeSpy.firstCall.args[0]?.target?.value;
       expect(value).to.equal('United Airlines');
     });
@@ -185,9 +183,7 @@ describe('ExpenseAirTravelFields', () => {
     });
   });
 
-  // For some reason these tests are passing locally but not with the Node 22 compatibility Check
-  // Waiting to hear back from platform about how to resolve this
-  it.skip('calls onChange when typing into arrival airport input', async () => {
+  it('calls onChange when typing into arrival airport input', async () => {
     const onChangeSpy = sinon.spy();
     const { container } = render(
       <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
@@ -201,7 +197,7 @@ describe('ExpenseAirTravelFields', () => {
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
       const eventArg = onChangeSpy.firstCall.args[0];
-      const value = eventArg?.detail || eventArg?.target?.value;
+      const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('ORD');
     });
   });

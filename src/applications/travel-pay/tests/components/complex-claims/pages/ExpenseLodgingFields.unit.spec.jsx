@@ -62,9 +62,7 @@ describe('ExpenseLodgingFields', () => {
     expect(checkOut.getAttribute('value')).to.equal('2025-11-15');
   });
 
-  // For some reason these tests are passing locally but not with the Node 22 compatibility Check
-  // Waiting to hear back from platform about how to resolve this
-  it.skip('calls onChange when typing into vendor input', async () => {
+  it('calls onChange when typing into vendor input', async () => {
     const onChangeSpy = sinon.spy();
     const { container } = render(
       <ExpenseLodgingFields {...defaultProps} onChange={onChangeSpy} />,
@@ -76,7 +74,7 @@ describe('ExpenseLodgingFields', () => {
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
       const eventArg = onChangeSpy.firstCall.args[0];
-      const value = eventArg?.detail || eventArg?.target?.value;
+      const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('Hotel California');
     });
   });
