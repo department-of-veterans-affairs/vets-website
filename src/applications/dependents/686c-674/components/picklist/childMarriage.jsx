@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { scrollToFirstError } from 'platform/utilities/ui';
 
-import { getValue } from './helpers';
-import { makeNamePossessive } from '../../../shared/utils';
+import { getValue, PastDate } from './helpers';
+import { getPastDateError } from './utils';
+import propTypes from './types';
 
 const childMarried = {
   handlers: {
@@ -13,39 +12,18 @@ const childMarried = {
     goForward: (/* { _itemData, _index, _fullData } */) => 'DONE',
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
+      const hasError = getPastDateError(itemData.endDate);
       // event.preventDefault(); // executed before this function is called
-      if (!itemData.marriageDate) {
-        setTimeout(scrollToFirstError);
+      if (hasError) {
+        setTimeout(() => scrollToFirstError({ focusOnAlertRole: true }));
       } else {
         goForward();
       }
     },
   },
 
-  /**
-   * Depedent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth - Dependent's date of birth
-   * @property {string} relationshipToVeteran - Dependent's relationship
-   * @property {string} marriageDate - child's marriage date
-   */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange - Change handler
-   * @property {function} onSubmit - Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData - Dependent's data
-   * @param {string} fullName - Dependent's full name
-   * @param {boolean} formSubmitted - Whether the form has been submitted
-   * @param {string} firstName - Dependent's first name
-   * @param {object} handlers - The handlers for the component
-   * @param {function} goBack - Function to go back to the previous page
-   * @returns React component
-   */
-  Component: ({ itemData, firstName, handlers, formSubmitted }) => {
+  /** @type {PicklistComponentProps} */
+  Component: ({ itemData, firstName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
       handlers.onChange({ ...itemData, [field]: value });
@@ -54,52 +32,26 @@ const childMarried = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          {`Details about ${makeNamePossessive(firstName)} marriage`}
+          {isEditing ? 'Edit when' : 'When'} did{' '}
+          <span className="dd-privacy-mask" data-dd-action-name="first name">
+            {firstName}
+          </span>{' '}
+          get married?
         </h3>
 
-        <VaMemorableDate
-          name="marriageDate"
+        <PastDate
           label="Date of marriage"
-          error={
-            formSubmitted && !itemData.marriageDate ? 'Enter a date' : null
-          }
-          monthSelect
-          value={itemData.marriageDate || ''}
-          // use onDateBlur to ensure month & day are zero-padded
-          onDateBlur={onChange}
-          required
+          date={itemData.endDate}
+          formSubmitted={formSubmitted}
+          missingErrorMessage="Enter a date"
+          onChange={onChange}
         />
-
-        <va-additional-info
-          class="vads-u-margin-y--4"
-          trigger="What if the marriage ends?"
-        >
-          If the marriage ends, you can add the dependent back if they’re under
-          18 or between 18 and 23 attending school.
-        </va-additional-info>
       </>
     );
   },
 };
 
-childMarried.propTypes = {
-  Component: PropTypes.func,
-};
-
-childMarried.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  goBack: PropTypes.func,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    dateOfBirth: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-    marriageDate: PropTypes.string,
-  }),
-};
+childMarried.propTypes = propTypes.Page;
+childMarried.Component.propTypes = propTypes.Component;
 
 export default childMarried;

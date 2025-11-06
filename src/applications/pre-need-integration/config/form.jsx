@@ -34,8 +34,10 @@ import * as nonVeteranApplicantDetailsPreparer from './pages/nonVeteranApplicant
 import * as applicantMailingAddress from './pages/applicantMailingAddress';
 import * as applicantContactDetails from './pages/applicantContactDetails';
 import ApplicantContactDetailsLoggedIn from './pages/applicantContactDetailsLoggedIn';
+import ApplicantMailingAddressLoggedIn from './pages/applicantMailingAddressLoggedIn';
 import EditPhone from './pages/editPhone';
 import EditEmail from './pages/editEmail';
+import ApplicantSuggestedAddressLoggedIn from './pages/applicantSuggestedAddressLoggedIn';
 import * as preparer from './pages/preparer';
 import * as preparerDetails from './pages/preparerDetails';
 import * as preparerContactDetails from './pages/preparerContactDetails';
@@ -119,6 +121,8 @@ import {
   previousNameReviewHeader,
   addConditionalDependency,
   isLoggedInUser,
+  applicantEditAddressTitleLoggedIn,
+  applicantEditAddressDescriptionLoggedIn,
 } from '../utils/helpers';
 
 import {
@@ -371,16 +375,41 @@ const formConfig = {
         applicantMailingAddress: {
           title: applicantContactInfoAddressTitle,
           path: 'applicant-mailing-address',
-          depends: formData => !isAuthorizedAgent(formData),
+          depends: formData =>
+            !isAuthorizedAgent(formData) && !isLoggedInUser(formData),
           uiSchema: applicantMailingAddress.uiSchema(
             applicantContactInfoAddressTitle,
+          ),
+          schema: applicantMailingAddress.schema,
+        },
+        applicantMailingAddressLoggedIn: {
+          title: applicantContactInfoAddressTitle,
+          path: 'applicant-mailing-address-logged-in',
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isLoggedInUser(formData),
+          CustomPage: ApplicantMailingAddressLoggedIn,
+          CustomPageReview: ApplicantMailingAddressLoggedIn,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editMailingAddress: {
+          title: 'Edit your mailing address',
+          path: 'applicant-mailing-address-logged-in/edit-address',
+          depends: formData => formData?.['view:loggedInEditAddress'] === true,
+          uiSchema: applicantMailingAddress.uiSchema(
+            applicantEditAddressTitleLoggedIn,
+            applicantEditAddressDescriptionLoggedIn,
           ),
           schema: applicantMailingAddress.schema,
         },
         applicantSuggestedAddress: {
           title: 'Validate Address',
           path: 'applicant-suggested-address',
-          depends: formData => !isAuthorizedAgent(formData),
+          depends: formData =>
+            !isAuthorizedAgent(formData) && !isLoggedInUser(formData),
           uiSchema: {
             application: {
               applicant: {
@@ -409,6 +438,18 @@ const formConfig = {
                 },
               },
             },
+          },
+        },
+        applicantSuggestedAddressLoggedIn: {
+          title: 'Validate Address',
+          path: 'applicant-suggested-address-logged-in',
+          depends: formData => formData?.['view:loggedInEditAddress'] === true,
+          CustomPage: ApplicantSuggestedAddressLoggedIn,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
           },
         },
         applicantContactDetails: {
