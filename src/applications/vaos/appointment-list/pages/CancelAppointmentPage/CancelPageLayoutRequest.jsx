@@ -35,7 +35,6 @@ export default function CancelPageLayoutRequest() {
     typeOfCareName,
     preferredModality,
     status,
-    isCerner,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
@@ -145,7 +144,6 @@ export default function CancelPageLayoutRequest() {
             reason={reasonForAppointment}
             otherDetails={patientComments}
             request
-            isCerner={isCerner}
             level={3}
           />
         </>
