@@ -58,3 +58,27 @@ Enable/disable counting times IPE has been hidden. [source](https://github.com/d
 - [ ] `mhv_medications_remove_landing_page` `mhvMedicationsRemoveLandingPage`
 - [ ] `mhv_medications_show_ipe_content` `mhvMedicationsShowIpeContent`
 - [ ] `mhv_medications_to_va_gov_release` `mhvMedicationsToVaGovRelease`
+
+
+```
+# dev/sandbox
+vets-api(prod)> Flipper.remove(:mhv_medications_display_filter)
+=> true
+vets-api(prod)> Flipper.remove(:mhv_medications_display_grouping)
+=> true
+vets-api(prod)> Flipper.remove(:mhv_medications_display_refill_content)
+=> true
+vets-api(prod)> Flipper.remove(:mhv_medications_remove_landing_page)
+=> true
+vets-api(prod)> Flipper.remove(:mhv_medications_show_ipe_content)
+=> true
+vets-api(prod)> Flipper.remove(:mhv_medications_to_va_gov_release)
+=> true
+
+# staging -- no access via argocd
+$ bundle exec rails c
+Enter PEM pass phrase:
+
+# prod -- no access via argocd
+Terminal Connection Error: Internal error
+```
