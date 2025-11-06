@@ -29,11 +29,19 @@ describe('ExpenseCommonCarrierFields', () => {
     expect(radio.getAttribute('label')).to.equal('Type of transportation');
     expect(radio.getAttribute('value')).to.equal('');
 
+    // Get all radio options and check by value instead of label
+    const radioOptions = container.querySelectorAll('va-radio-option');
+    const values = Array.from(radioOptions).map(opt =>
+      opt.getAttribute('value'),
+    );
+
+    // Check that all expected options are present
     TRANSPORTATION_OPTIONS.forEach(option => {
-      const radioOption = container.querySelector(
-        `va-radio-option[label="${option}"]`,
-      );
-      expect(radioOption).to.exist;
+      expect(values).to.include(option);
+    });
+
+    // Check that all options are unchecked
+    radioOptions.forEach(radioOption => {
       expect(radioOption.getAttribute('checked')).to.equal('false');
     });
   });
@@ -52,12 +60,20 @@ describe('ExpenseCommonCarrierFields', () => {
     );
     expect(radio.getAttribute('value')).to.equal('');
 
+    // Get all radio options and check by value instead of label
+    const radioOptions = container.querySelectorAll('va-radio-option');
+    const values = Array.from(radioOptions).map(opt =>
+      opt.getAttribute('value'),
+    );
+
+    // Check that all expected keys are present
     Object.keys(TRANSPORTATION_REASONS).forEach(key => {
-      const radioOption = container.querySelector(
-        `va-radio-option[label="${TRANSPORTATION_REASONS[key].label}"]`,
-      );
-      expect(radioOption).to.exist;
-      expect(radioOption.getAttribute('checked')).to.equal('false');
+      expect(values).to.include(key);
+    });
+
+    // Check that all options are unchecked
+    radioOptions.forEach(option => {
+      expect(option.getAttribute('checked')).to.equal('false');
     });
   });
 
@@ -72,18 +88,20 @@ describe('ExpenseCommonCarrierFields', () => {
       <ExpenseCommonCarrierFields {...defaultProps} formState={formState} />,
     );
 
-    // Verify the selected option is checked
+    // Verify the selected option is checked by value
     const selectedRadio = container.querySelector(
-      `va-radio-option[label="${selectedType}"]`,
+      `va-radio-option[value="${selectedType}"]`,
     );
+    expect(selectedRadio).to.exist;
     expect(selectedRadio.getAttribute('checked')).to.equal('true');
 
     // Verify all others are NOT checked
     TRANSPORTATION_OPTIONS.filter(option => option !== selectedType).forEach(
       option => {
         const radio = container.querySelector(
-          `va-radio-option[label="${option}"]`,
+          `va-radio-option[value="${option}"]`,
         );
+        expect(radio).to.exist;
         expect(radio.getAttribute('checked')).to.equal('false');
       },
     );
@@ -91,7 +109,6 @@ describe('ExpenseCommonCarrierFields', () => {
 
   it('marks the correct transportationReason as checked', () => {
     const firstKey = Object.keys(TRANSPORTATION_REASONS)[0];
-    const firstLabel = TRANSPORTATION_REASONS[firstKey].label;
 
     const formState = {
       transportationType: '',
@@ -101,20 +118,21 @@ describe('ExpenseCommonCarrierFields', () => {
       <ExpenseCommonCarrierFields {...defaultProps} formState={formState} />,
     );
 
-    // Verify the selected option is checked
+    // Verify the selected option is checked by value
     const selectedRadio = container.querySelector(
-      `va-radio-option[label="${firstLabel}"]`,
+      `va-radio-option[value="${firstKey}"]`,
     );
+    expect(selectedRadio).to.exist;
     expect(selectedRadio.getAttribute('checked')).to.equal('true');
 
     // Verify all others are NOT checked
     Object.keys(TRANSPORTATION_REASONS)
       .filter(key => key !== firstKey)
       .forEach(key => {
-        const { label } = TRANSPORTATION_REASONS[key];
         const radio = container.querySelector(
-          `va-radio-option[label="${label}"]`,
+          `va-radio-option[value="${key}"]`,
         );
+        expect(radio).to.exist;
         expect(radio.getAttribute('checked')).to.equal('false');
       });
   });
