@@ -207,7 +207,7 @@ const VaFileInputMultipleField = props => {
       setErrors(_errors);
       errorManager.setFileCheckError(index, true);
       const files = [...childrenProps.formData];
-      // add placeholder file
+      // add placeholder file in case another file added before user resolves this error
       files[index] = {};
       childrenProps.onChange(files);
       return;
@@ -367,6 +367,7 @@ const VaFileInputMultipleField = props => {
   });
 
   const resetVisualState = errors.map(error => (error ? true : null));
+  // don't render additional input content if file input instance has an error
   const slotFieldIndexes = errors
     .map((error, i) => (error ? null : i))
     .filter(i => i !== null);
