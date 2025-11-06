@@ -188,7 +188,7 @@ function locationSupportsRequests(location, typeOfCare) {
   return (
     // this check is included due to old two step facilities page
     location.legacyVAR.requestSupported ||
-    location.legacyVAR.settings?.[typeOfCare.id]?.request.enabled
+    location.legacyVAR.settings?.[typeOfCare.id]?.request?.enabled
   );
 }
 
