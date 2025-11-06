@@ -207,7 +207,7 @@ export default function AppointmentColumnLayout({
                 className="vaos-appts__display--table"
                 canceled={isCanceled}
               >
-                <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
+                <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--flex-start">
                   {!isCommunityCare && (
                     <span
                       className={classNames(
@@ -225,9 +225,7 @@ export default function AppointmentColumnLayout({
                       />
                     </span>
                   )}
-                  <span className="vaos-appts__text--truncate">
-                    {modalityText}
-                  </span>
+                  <span>{modalityText}</span>
                 </span>
               </AppointmentColumn>
             </AppointmentRow>
