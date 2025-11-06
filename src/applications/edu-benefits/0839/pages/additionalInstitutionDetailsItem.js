@@ -54,6 +54,30 @@ const uiSchema = {
       hideLabelText: true,
       dataPath: 'additionalInstitutionDetails',
       isArrayItem: true,
+      updateSchema: (formData, currentSchema) => {
+        const isForeign = !!formData?.institutionDetails?.isForeignCountry;
+
+        if (!isForeign) {
+          // Leave schema exactly as-is for domestic cases
+          return currentSchema;
+        }
+
+        // Foreign: make country free-text; state & postalCode NOT required
+        const withoutStateAndPostal = (currentSchema?.required || []).filter(
+          k => k !== 'state' && k !== 'postalCode',
+        );
+
+        return {
+          ...currentSchema,
+          properties: {
+            ...currentSchema?.properties,
+            country: { type: 'string', minLength: 1, title: 'Country' },
+          },
+          required: withoutStateAndPostal.length
+            ? withoutStateAndPostal
+            : ['street', 'city', 'country'],
+        };
+      },
     },
   },
   'view:warningBanner': {

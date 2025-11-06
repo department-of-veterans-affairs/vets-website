@@ -42,6 +42,8 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             },
           );
           const attrs = response.data.attributes;
+          const isForeignCountry =
+            response.data?.attributes?.type?.toLowerCase() === 'foreign';
           const firstDigit = facilityCode.charAt(0);
           const secondDigit = facilityCode.charAt(1);
           const yrEligible =
@@ -83,6 +85,7 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             setData({
               ...formData,
               additionalInstitutionDetails: updatedDetails,
+              isForeignCountry,
             }),
           );
         } catch (error) {

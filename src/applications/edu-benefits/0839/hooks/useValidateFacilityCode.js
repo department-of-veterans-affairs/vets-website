@@ -33,6 +33,8 @@ export const useValidateFacilityCode = formData => {
             },
           );
           const attrs = response.data.attributes;
+          const isForeignCountry =
+            response.data?.attributes?.type?.toLowerCase() === 'foreign';
           const firstDigit = formData.institutionDetails.facilityCode.charAt(0);
           const secondDigit = formData.institutionDetails.facilityCode.charAt(
             1,
@@ -71,6 +73,7 @@ export const useValidateFacilityCode = formData => {
                 isLoading: false,
                 isUsaSchool:
                   response?.data?.attributes?.physicalCountry === 'USA',
+                isForeignCountry,
               },
             }),
           );
