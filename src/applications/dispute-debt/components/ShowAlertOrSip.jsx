@@ -31,6 +31,7 @@ export const ShowAlertOrSip = ({ basename, sipOptions, bottom }) => {
       <SaveInProgressIntro
         {...sipOptions}
         headingLevel={2}
+        ariaLabel="Start your debt dispute"
         devOnly={{
           forceShowFormControls: true,
         }}

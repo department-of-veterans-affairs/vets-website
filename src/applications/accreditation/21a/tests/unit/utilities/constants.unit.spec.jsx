@@ -32,10 +32,10 @@ describe('Constants and utilities', () => {
       expect(url.searchParams.get(USIP_QUERY_PARAMS.OAuth)).to.equal('true');
     });
 
-    it('should include to parameter set to /poa-requests', () => {
+    it('should include to parameter set to /representation-requests', () => {
       const url = getSignInUrl();
       expect(url.searchParams.get(USIP_QUERY_PARAMS.to)).to.equal(
-        '/poa-requests',
+        '/representation-requests',
       );
     });
 

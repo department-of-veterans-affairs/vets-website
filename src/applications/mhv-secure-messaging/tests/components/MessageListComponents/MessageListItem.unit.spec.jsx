@@ -107,4 +107,216 @@ describe('MessageListItem component', () => {
       'vads-u-font-weight--bold',
     );
   });
+
+  describe('Datadog RUM action names', () => {
+    it('should have data-dd-action-name on message subject link', () => {
+      const customProps = {
+        ...props,
+        message: {
+          ...props.message,
+          category: 'OTHER',
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(
+        <MessageListItem {...customProps} />,
+        {
+          initialState,
+          reducers: reducer,
+          path: `/search/results`,
+        },
+      );
+
+      const subjectLink = screen.getByRole('link');
+      expect(subjectLink.getAttribute('data-dd-action-name')).to.equal(
+        'Link to Message Subject Details',
+      );
+    });
+
+    it('should have data-dd-action-name on recipient info in sent folder', () => {
+      const sent = {
+        folderId: -1,
+        name: 'Sent',
+        count: 49,
+        unreadCount: 35,
+        systemFolder: true,
+      };
+
+      const customProps = {
+        ...props,
+        activeFolder: sent,
+        message: {
+          ...props.message,
+          category: 'OTHER',
+        },
+      };
+
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          search: {
+            ...initialState.sm.search,
+            folder: sent,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(
+        <MessageListItem {...customProps} />,
+        {
+          customState,
+          reducers: reducer,
+          path: `/sent/`,
+        },
+      );
+
+      const recipientDiv = screen.getByText((content, element) => {
+        return (
+          element.getAttribute('data-dd-action-name') ===
+          'Message List Item Recipient and Sender Info'
+        );
+      });
+      expect(recipientDiv).to.exist;
+      expect(recipientDiv.textContent).to.include('To:');
+    });
+
+    it('should have data-dd-action-name on sender info in sent folder', () => {
+      const sent = {
+        folderId: -1,
+        name: 'Sent',
+        count: 49,
+        unreadCount: 35,
+        systemFolder: true,
+      };
+
+      const customProps = {
+        ...props,
+        activeFolder: sent,
+        message: {
+          ...props.message,
+          category: 'OTHER',
+        },
+      };
+
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          search: {
+            ...initialState.sm.search,
+            folder: sent,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(
+        <MessageListItem {...customProps} />,
+        {
+          customState,
+          reducers: reducer,
+          path: `/sent/`,
+        },
+      );
+
+      const senderDiv = screen.getByText((content, element) => {
+        return (
+          element.getAttribute('data-dd-action-name') ===
+          'Message List Item Sender Info'
+        );
+      });
+      expect(senderDiv).to.exist;
+      expect(senderDiv.textContent).to.include('From:');
+    });
+
+    it('should have data-dd-action-name on recipient info in drafts folder', () => {
+      const drafts = {
+        folderId: -2,
+        name: 'Drafts',
+        count: 5,
+        unreadCount: 0,
+        systemFolder: true,
+      };
+
+      const customProps = {
+        ...props,
+        activeFolder: drafts,
+        message: {
+          ...props.message,
+          category: 'OTHER',
+        },
+      };
+
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          search: {
+            ...initialState.sm.search,
+            folder: drafts,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(
+        <MessageListItem {...customProps} />,
+        {
+          customState,
+          reducers: reducer,
+          path: `/drafts/`,
+        },
+      );
+
+      const recipientDiv = screen.getByText((content, element) => {
+        return (
+          element.getAttribute('data-dd-action-name') ===
+          'Message List Item Recipient and Sender Info'
+        );
+      });
+      expect(recipientDiv).to.exist;
+      expect(recipientDiv.textContent).to.include('To:');
+    });
+
+    it('should show draft label in drafts folder', () => {
+      const drafts = {
+        folderId: -2,
+        name: 'Drafts',
+        count: 5,
+        unreadCount: 0,
+        systemFolder: true,
+      };
+
+      const customProps = {
+        ...props,
+        activeFolder: drafts,
+        message: {
+          ...props.message,
+          category: 'OTHER',
+        },
+      };
+
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          search: {
+            ...initialState.sm.search,
+            folder: drafts,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(
+        <MessageListItem {...customProps} />,
+        {
+          customState,
+          reducers: reducer,
+          path: `/drafts/`,
+        },
+      );
+
+      const draftLabel = screen.getByText('(Draft)');
+      expect(draftLabel).to.exist;
+    });
+  });
 });

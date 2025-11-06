@@ -4,8 +4,7 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
+import { scrollToError } from './helpers';
 import { labels } from './utils';
 import propTypes from './types';
 
@@ -36,11 +35,11 @@ const getChildRemovalOptions = (isStepchild, age, _firstName) => {
     });
   }
 
-  // Child got adopted (all ages, both child and stepchild)
-  options.push({
-    value: 'childAdopted',
-    label: labels.Child.childAdopted,
-  });
+  // Child got adopted (all ages, both child and stepchild) (BACKLOGGED WORK)
+  // options.push({
+  //   value: 'childAdopted',
+  //   label: labels.Child.childAdopted,
+  // });
 
   // Child got married (ages 15+)
   if (age >= 15) {
@@ -70,8 +69,10 @@ const childReasonToRemove = {
         case 'stepchildNotMember':
           return 'stepchild-financial-support';
         case 'childNotInSchool':
-        case 'childAdopted':
-          return 'DONE';
+          return 'child-disability';
+        // childAdopted work moved to the backlog
+        // case 'childAdopted':
+        //   return 'DONE';
         default:
           return 'DONE';
       }
@@ -80,7 +81,7 @@ const childReasonToRemove = {
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.removalReason) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
@@ -124,6 +125,7 @@ const childReasonToRemove = {
           label={labels.Child.removalReason}
           hint={labels.Child.removalReasonHint}
           onVaValueChange={onChange}
+          enable-analytics
           required
         >
           {removalOptions.map(option => (
