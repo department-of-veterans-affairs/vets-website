@@ -63,25 +63,37 @@ describe('ExpenseCommonCarrierFields', () => {
   });
 
   it('marks the correct transportationType as checked', () => {
+    const selectedType = TRANSPORTATION_OPTIONS[1];
+
     const formState = {
-      transportationType: TRANSPORTATION_OPTIONS[1],
+      transportationType: selectedType,
       transportationReason: '',
     };
     const { container } = render(
       <ExpenseCommonCarrierFields {...defaultProps} formState={formState} />,
     );
 
-    TRANSPORTATION_OPTIONS.forEach(option => {
-      const radioOption = container.querySelector(
-        `va-radio-option[label="${option}"]`,
-      );
-      const expected = option === TRANSPORTATION_OPTIONS[1] ? 'true' : 'false';
-      expect(radioOption.getAttribute('checked')).to.equal(expected);
-    });
+    // Verify the selected option is checked
+    const selectedRadio = container.querySelector(
+      `va-radio-option[label="${selectedType}"]`,
+    );
+    expect(selectedRadio.getAttribute('checked')).to.equal('true');
+
+    // Verify all others are NOT checked
+    TRANSPORTATION_OPTIONS.filter(option => option !== selectedType).forEach(
+      option => {
+        const radio = container.querySelector(
+          `va-radio-option[label="${option}"]`,
+        );
+        expect(radio.getAttribute('checked')).to.equal('false');
+      },
+    );
   });
 
   it('marks the correct transportationReason as checked', () => {
     const firstKey = Object.keys(TRANSPORTATION_REASONS)[0];
+    const firstLabel = TRANSPORTATION_REASONS[firstKey].label;
+
     const formState = {
       transportationType: '',
       transportationReason: firstKey,
@@ -90,13 +102,22 @@ describe('ExpenseCommonCarrierFields', () => {
       <ExpenseCommonCarrierFields {...defaultProps} formState={formState} />,
     );
 
-    Object.keys(TRANSPORTATION_REASONS).forEach(key => {
-      const radioOption = container.querySelector(
-        `va-radio-option[label="${TRANSPORTATION_REASONS[key].label}"]`,
-      );
-      const expected = key === firstKey ? 'true' : 'false';
-      expect(radioOption.getAttribute('checked')).to.equal(expected);
-    });
+    // Verify the selected option is checked
+    const selectedRadio = container.querySelector(
+      `va-radio-option[label="${firstLabel}"]`,
+    );
+    expect(selectedRadio.getAttribute('checked')).to.equal('true');
+
+    // Verify all others are NOT checked
+    Object.keys(TRANSPORTATION_REASONS)
+      .filter(key => key !== firstKey)
+      .forEach(key => {
+        const { label } = TRANSPORTATION_REASONS[key];
+        const radio = container.querySelector(
+          `va-radio-option[label="${label}"]`,
+        );
+        expect(radio.getAttribute('checked')).to.equal('false');
+      });
   });
 
   // For some reason these tests are passing locally but not with the Node 22 compatibility Check
