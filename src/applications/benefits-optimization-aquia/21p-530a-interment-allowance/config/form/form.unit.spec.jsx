@@ -136,10 +136,6 @@ describe('Form Configuration', () => {
       expect(formConfig.submitUrl).to.be.a('string');
     });
 
-    it('should have submit function', () => {
-      expect(formConfig.submit).to.be.a('function');
-    });
-
     it('should have tracking prefix', () => {
       expect(formConfig.trackingPrefix).to.be.a('string');
     });

@@ -1,8 +1,8 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
-  SUBMIT_URL,
   SUBTITLE,
   TITLE,
   TRACKING_PREFIX,
@@ -13,6 +13,7 @@ import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
 import { GetHelp as GetHelpFooter } from '@bio-aquia/21p-530a-interment-allowance/components/get-help';
 import PreSubmitInfo from '@bio-aquia/21p-530a-interment-allowance/components/pre-submit-info';
 import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
+import { transform } from '@bio-aquia/21p-530a-interment-allowance/config/submit-transform/transform';
 import {
   AdditionalRemarksPage,
   BurialBenefitsRecipientPage,
@@ -57,9 +58,8 @@ const defaultSchema = {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: SUBMIT_URL,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/form21p530a`,
+  transformForSubmit: transform,
   trackingPrefix: TRACKING_PREFIX,
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,

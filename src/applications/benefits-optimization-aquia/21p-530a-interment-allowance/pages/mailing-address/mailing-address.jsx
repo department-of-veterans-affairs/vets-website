@@ -76,6 +76,7 @@ export const MailingAddressPage = ({
         <>
           <AddressField
             allowMilitary={false}
+            omitStreet3
             name="recipientAddress"
             label=""
             value={localData.recipientAddress}
