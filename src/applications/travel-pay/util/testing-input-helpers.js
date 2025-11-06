@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 
 /**
- * Simulates a VA text input change event and optionally calls the onInput handler.
+ * Simulates a VA text input change event using direct event dispatching.
  * @param {HTMLElement} inputField - The VA text input field element.
  * @param {string|number} value - The value to set for the input field.
  * @returns {{field: HTMLElement, value: string|number, eventFired: boolean}|null}
@@ -15,28 +15,24 @@ import { expect } from 'chai';
 export function simulateVaInputChange(inputField, value) {
   if (!inputField) return null;
 
-  // Update the custom element's value property
+  // Set the value and dispatch the input event directly
   const field = inputField;
   field.value = value;
 
-  // Call the internal onInput prop if it exists
-  if (typeof field.onInput === 'function') {
-    field.onInput({ target: { value } });
-  }
-
-  // Fire a synthetic input event to match user behavior
-  const event = new Event('input', {
-    bubbles: true,
-    composed: true,
-  });
-
-  field.dispatchEvent(event);
+  fireEvent(
+    field,
+    new CustomEvent('input', {
+      detail: { value },
+      bubbles: true,
+      composed: true,
+    }),
+  );
 
   return { field, value, eventFired: true };
 }
 
 /**
- * Simulates a VA date input change event and optionally calls the onDateChange handler.
+ * Simulates a VA date input change event using direct event dispatching.
  * @param {HTMLElement} dateField - The VA date input field element.
  * @param {string|Date} value - The date value to set for the field.
  * @returns {{field: HTMLElement, value: string|Date, eventFired: boolean}|null}
@@ -49,26 +45,21 @@ export function simulateVaDateChange(dateField, value) {
   const field = dateField;
   field.value = value;
 
-  // Dispatch standard VA date events
-  field.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
-  field.dispatchEvent(
+  // Dispatch the dateChange event that VA date components use
+  fireEvent(
+    field,
     new CustomEvent('dateChange', {
-      detail: value,
+      detail: { value },
       bubbles: true,
       composed: true,
     }),
   );
 
-  // Call the component's onDateChange handler if it exists
-  if (typeof field.onDateChange === 'function') {
-    field.onDateChange({ target: { value } }, value);
-  }
-
   return { field, value, eventFired: true };
 }
 
 /**
- * Helper to simulate selecting a value in a VA radio group and verifying state updates.
+ * Helper to simulate selecting a value in a VA radio group and using direct event dispatching.
  * Works for any VA-style radio component.
  *
  * @param {Object} params
@@ -106,7 +97,7 @@ export const testVaRadioSelection = ({
   );
   expect(radioGroup).to.exist;
 
-  // Trigger value selection
+  // Trigger value selection using direct event dispatching.
   fireEvent(
     radioGroup,
     new CustomEvent('vaValueChange', {

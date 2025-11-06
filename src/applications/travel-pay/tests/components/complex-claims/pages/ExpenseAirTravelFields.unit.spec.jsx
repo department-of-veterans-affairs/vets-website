@@ -144,7 +144,7 @@ describe('ExpenseAirTravelFields', () => {
 
     await waitFor(() => {
       const value =
-        onChangeSpy.firstCall.args[0]?.detail ||
+        onChangeSpy.firstCall.args[0]?.detail?.value ||
         onChangeSpy.firstCall.args[0]?.target?.value;
       expect(value).to.equal('2025-11-10');
     });
@@ -160,15 +160,13 @@ describe('ExpenseAirTravelFields', () => {
 
     await waitFor(() => {
       const value =
-        onChangeSpy.firstCall.args[0]?.detail ||
+        onChangeSpy.firstCall.args[0]?.detail?.value ||
         onChangeSpy.firstCall.args[0]?.target?.value;
       expect(value).to.equal('2025-11-11');
     });
   });
 
-  // For some reason these tests are passing locally but not with the Node 22 compatibility Check
-  // Waiting to hear back from platform about how to resolve this
-  it.skip('calls onChange when typing into departure airport input', async () => {
+  it('calls onChange when typing into departure airport input', async () => {
     const onChangeSpy = sinon.spy();
     const { container } = render(
       <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
@@ -182,7 +180,7 @@ describe('ExpenseAirTravelFields', () => {
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
       const eventArg = onChangeSpy.firstCall.args[0];
-      const value = eventArg?.detail || eventArg?.target?.value;
+      const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('SFO');
     });
   });
