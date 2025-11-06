@@ -780,7 +780,7 @@ export const fillInClaimantsRelationshipDataFromFixture = () => {
 /**
  * Fill in Spouse/Claimant mailing data.
  */
-export const fillInSouseMailingAddressFromFixture = () => {
+export const fillInSpouseMailingAddressFromFixture = () => {
   cy.get('select[name="root_claimantAddress_country"]').select(
     fixtureData.data.attributes.spouseData.country,
   );

@@ -19,7 +19,7 @@ describe('Survivor Pension Benefits 534EZ ', () => {
       utils.fillInClaimantsRelationshipDataFromFixture();
 
       utils.checkContentClaimantsInfoAddress();
-      utils.fillInSouseMailingAddressFromFixture();
+      utils.fillInSpouseMailingAddressFromFixture();
 
       utils.checkContentClaimantsEmailPhone();
       utils.fillInSpouseEmailAndPhoneFromFixture();
