@@ -67,7 +67,7 @@ export const PreviousNameEntryPage = ({
         editingPreviousNameIndex: undefined,
       };
       setFormData(updatedData);
-      goToPath('/previous-names');
+      goToPath('/review-previous-names');
     } else {
       // Normal back navigation (first time through)
       goBack();
@@ -112,7 +112,7 @@ export const PreviousNameEntryPage = ({
 
     // Navigate to summary page if we have existing names, otherwise continue normally
     if (hasExistingNames || isAddingAnother) {
-      goToPath('/previous-names');
+      goToPath('/review-previous-names');
     } else {
       goForward(updatedData);
     }
@@ -120,7 +120,7 @@ export const PreviousNameEntryPage = ({
 
   return (
     <PageTemplate
-      title="Previous names"
+      title="Name the Veteran served under"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={handleForward}
@@ -142,23 +142,17 @@ export const PreviousNameEntryPage = ({
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
-        <>
-          <p className="vads-u-margin-bottom--3">
-            Please enter the name the Veteran served under during their military
-            service.
-          </p>
-
-          <FullnameField
-            name="fullName"
-            value={localData.fullName}
-            onChange={handleFieldChange}
-            errors={errors.fullName}
-            forceShowError={formSubmitted}
-            label=""
-            showSuffix
-            required
-          />
-        </>
+        <FullnameField
+          name="fullName"
+          value={localData.fullName}
+          onChange={handleFieldChange}
+          errors={errors.fullName}
+          forceShowError={formSubmitted}
+          label=""
+          legend=""
+          showSuffix
+          required
+        />
       )}
     </PageTemplate>
   );

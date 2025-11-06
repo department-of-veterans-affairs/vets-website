@@ -118,7 +118,6 @@ export const IntroductionPage = ({ router }) => {
 
       <VaLinkAction
         data-testid="start-burial-allowance-link"
-        href="/relationship-to-veteran"
         onClick={e => {
           e.preventDefault();
           router.push('/relationship-to-veteran');

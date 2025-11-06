@@ -66,7 +66,7 @@ export const VeteranServedUnderDifferentNamePage = ({
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <RadioField
           name="veteranServedUnderDifferentName"
-          label="Did the Veteran serve under another name?"
+          label="Did the Veteran serve under another name? brother"
           value={localData.veteranServedUnderDifferentName}
           onChange={handleFieldChange}
           schema={hasAlternateNamesSchema}

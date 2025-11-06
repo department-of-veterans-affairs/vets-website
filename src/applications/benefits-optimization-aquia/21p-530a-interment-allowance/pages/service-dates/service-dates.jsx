@@ -138,10 +138,6 @@ export const ServiceDatesPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <p className="vads-u-margin-bottom--3">
-            Please provide the start and end dates for this service period.
-          </p>
-
           <MemorableDateField
             name="dateFrom"
             label="Service start date"
