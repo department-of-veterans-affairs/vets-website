@@ -174,11 +174,7 @@ const ReviewPage = ({ message }) => {
 
         <p>
           <strong>Total:</strong> $
-          {formatAmount(
-            claimDetails?.totalCostRequested ??
-              claimDetails?.totalCostRequested ??
-              0,
-          )}
+          {formatAmount(claimDetails?.totalCostRequested ?? 0)}
         </p>
         <p>
           This estimated reimbursement doesn’t account for the $6 per trip
