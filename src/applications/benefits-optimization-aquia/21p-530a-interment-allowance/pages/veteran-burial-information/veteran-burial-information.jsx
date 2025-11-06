@@ -63,7 +63,7 @@ export const VeteranBurialInformationPage = ({
 
   return (
     <PageTemplate
-      title="Burial information"
+      title="Veteran’s burial information"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}

@@ -15,9 +15,7 @@ export { MailingAddressPage } from './mailing-address';
 // Chapter 2: Deceased Veteran information
 export { VeteranIdentificationPage } from './veteran-identification';
 export { VeteranSsnFileNumberPage } from './veteran-ssn-file-number';
-export {
-  VeteranBirthDeathInformationPage,
-} from './veteran-birth-death-information';
+export { VeteranBirthInformationPage } from './veteran-birth-information';
 export { VeteranBurialInformationPage } from './veteran-burial-information';
 
 // Chapter 3: Military history

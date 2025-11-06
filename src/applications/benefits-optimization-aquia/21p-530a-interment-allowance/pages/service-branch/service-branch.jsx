@@ -93,23 +93,17 @@ export const ServiceBranchPage = ({
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
-        <>
-          <p className="vads-u-margin-bottom--3">
-            Please select the branch of service for this service period.
-          </p>
-
-          <SelectField
-            name="branchOfService"
-            label="Branch of service"
-            value={localData.branchOfService || ''}
-            onChange={handleFieldChange}
-            required
-            error={errors.branchOfService}
-            forceShowError={formSubmitted}
-            schema={branchOfServiceSchema}
-            options={constants.branchesServed}
-          />
-        </>
+        <SelectField
+          name="branchOfService"
+          label="Branch of service"
+          value={localData.branchOfService || ''}
+          onChange={handleFieldChange}
+          required
+          error={errors.branchOfService}
+          forceShowError={formSubmitted}
+          schema={branchOfServiceSchema}
+          options={constants.branchesServed}
+        />
       )}
     </PageTemplate>
   );

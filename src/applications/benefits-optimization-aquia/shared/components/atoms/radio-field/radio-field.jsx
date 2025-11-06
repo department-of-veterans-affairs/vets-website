@@ -87,7 +87,6 @@ export const RadioField = ({
       hint={hint}
       value={value || ''}
       error={finalError}
-      tile={tile}
       onBlur={handleBlur}
       onVaValueChange={handleValueChange}
       {...props}
@@ -96,6 +95,7 @@ export const RadioField = ({
         <VaRadioOption
           key={option.value}
           label={option.label}
+          tile={tile}
           value={option.value}
           checked={value === option.value}
           description={option.description}

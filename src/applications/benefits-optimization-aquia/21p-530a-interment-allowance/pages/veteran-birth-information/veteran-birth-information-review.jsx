@@ -15,7 +15,7 @@ import { ReviewField } from '@bio-aquia/shared/components/atoms/review-field';
  * @param {string} props.title - Page title
  * @returns {JSX.Element} Review page content
  */
-export const VeteranBirthDeathInformationReviewPage = ({
+export const VeteranBirthInformationReviewPage = ({
   data,
   editPage,
   title,
@@ -70,7 +70,7 @@ export const VeteranBirthDeathInformationReviewPage = ({
   );
 };
 
-VeteranBirthDeathInformationReviewPage.propTypes = {
+VeteranBirthInformationReviewPage.propTypes = {
   data: PropTypes.object.isRequired,
   editPage: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,

@@ -50,7 +50,7 @@ export const MailingAddressPage = ({
 
   return (
     <PageTemplate
-      title="Mailing address"
+      title="Burial organization’s mailing address"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -76,7 +76,7 @@ export const MailingAddressPage = ({
         <>
           <AddressField
             name="recipientAddress"
-            label="Mailing address"
+            label=""
             value={localData.recipientAddress}
             onChange={handleFieldChange}
             schema={recipientAddressSchema}

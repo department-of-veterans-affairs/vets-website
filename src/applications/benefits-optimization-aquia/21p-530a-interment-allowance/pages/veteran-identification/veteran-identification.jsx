@@ -36,7 +36,7 @@ export const VeteranIdentificationPage = ({
 
   return (
     <PageTemplate
-      title="Deceased Veteran's name"
+      title="Veteran's name"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -55,21 +55,16 @@ export const VeteranIdentificationPage = ({
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
-        <>
-          <p className="vads-u-margin-bottom--3">
-            Please provide the deceased Veteran’s name.
-          </p>
-
-          <FullnameField
-            name="fullName"
-            value={localData.fullName}
-            onChange={handleFieldChange}
-            errors={errors}
-            forceShowError={formSubmitted}
-            label="Veteran's full name"
-            required
-          />
-        </>
+        <FullnameField
+          name="fullName"
+          value={localData.fullName}
+          onChange={handleFieldChange}
+          errors={errors}
+          forceShowError={formSubmitted}
+          label=""
+          legend=""
+          required
+        />
       )}
     </PageTemplate>
   );

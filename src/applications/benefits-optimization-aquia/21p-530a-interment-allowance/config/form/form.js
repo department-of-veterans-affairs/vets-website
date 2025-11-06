@@ -24,7 +24,7 @@ import {
   ServiceBranchPage,
   ServiceDatesPage,
   ServicePeriodsPage,
-  VeteranBirthDeathInformationPage,
+  VeteranBirthInformationPage,
   VeteranBurialInformationPage,
   VeteranIdentificationPage,
   VeteranPreviousNamesPage,
@@ -39,7 +39,7 @@ import { MailingAddressReviewPage } from '@bio-aquia/21p-530a-interment-allowanc
 import { OrganizationInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/organization-information/organization-information-review';
 import { RelationshipToVeteranReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/relationship-to-veteran/relationship-to-veteran-review';
 import { ServicePeriodsReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/service-periods/service-periods-review';
-import { VeteranBirthDeathInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-birth-death-information/veteran-birth-death-information-review';
+import { VeteranBirthInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-birth-information/veteran-birth-information-review';
 import { VeteranBurialInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-burial-information/veteran-burial-information-review';
 import { VeteranIdentificationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-identification/veteran-identification-review';
 import { VeteranPreviousNamesReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-previous-names/veteran-previous-names-review';
@@ -160,13 +160,13 @@ const formConfig = {
           CustomPageReview: VeteranSsnFileNumberReviewPage,
           pagePerItemIndex: 0,
         },
-        veteranBirthDeathInformation: {
-          path: 'birth-death-information',
-          title: 'Birth and death information',
+        veteranBirthInformation: {
+          path: 'birth-information',
+          title: 'Birth information',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: VeteranBirthDeathInformationPage,
-          CustomPageReview: VeteranBirthDeathInformationReviewPage,
+          CustomPage: VeteranBirthInformationPage,
+          CustomPageReview: VeteranBirthInformationReviewPage,
           pagePerItemIndex: 0,
         },
         veteranBurialInformation: {
@@ -264,7 +264,7 @@ const formConfig = {
           },
         },
         veteranPreviousNames: {
-          path: 'previous-names',
+          path: 'review-previous-names',
           title: 'Previous names',
           uiSchema: {},
           schema: defaultSchema,

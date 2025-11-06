@@ -14,7 +14,7 @@ import { dateOfBirthSchema, placeOfBirthSchema } from '../../schemas';
 /**
  * Schema for veteran birth information page
  */
-const veteranBirthDeathSchema = z.object({
+const veteranBirthSchema = z.object({
   dateOfBirth: dateOfBirthSchema,
   placeOfBirth: placeOfBirthSchema,
 });
@@ -35,7 +35,7 @@ const ensureDateStrings = formData => {
  * @param {Function} props.goForward - Function to proceed to next page
  * @returns {JSX.Element} Veteran birth information form page
  */
-export const VeteranBirthDeathInformationPage = ({
+export const VeteranBirthInformationPage = ({
   data,
   setFormData,
   goForward,
@@ -55,7 +55,7 @@ export const VeteranBirthDeathInformationPage = ({
       goBack={goBack}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
-      schema={veteranBirthDeathSchema}
+      schema={veteranBirthSchema}
       sectionName="veteranIdentification"
       dataProcessor={ensureDateStrings}
       defaultData={{
@@ -106,7 +106,7 @@ export const VeteranBirthDeathInformationPage = ({
   );
 };
 
-VeteranBirthDeathInformationPage.propTypes = {
+VeteranBirthInformationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
