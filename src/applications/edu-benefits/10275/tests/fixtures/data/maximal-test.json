@@ -1,0 +1,92 @@
+{
+  "data": {
+    "principle1": true,
+    "principle2": true,
+    "principle3": true,
+    "principle4": true,
+    "principle5": true,
+    "principle6": true,
+    "principle7": true,
+    "principle8": true,
+    "newCommitment": {
+      "schoolCertifyingOfficial": {
+        "fullName": {
+          "first": "School",
+          "middle": "Certifying",
+          "last": "Official"
+        },
+        "title": "SCO",
+        "view:phoneType": "us",
+        "usPhone": "1231231234",
+        "email": "school.official@test.com"
+      },
+      "principlesOfExcellencePointOfContact": {
+        "fullName": {
+          "first": "Point",
+          "middle": "of",
+          "last": "Contact"
+        },
+        "title": "PoC",
+        "view:phoneType": "us",
+        "usPhone": "1112223333",
+        "email": "point.contact@test.com",
+        "view:isSCO": false
+      }
+    },
+    "authorizedOfficial": {
+      "fullName": {
+        "first": "John",
+        "middle": "William",
+        "last": "Doe"
+      },
+      "title": "President",
+      "view:phoneType": "us",
+      "usPhone": "1234567890",
+      "email": "john.doe@test.com",
+      "view:isPOC": false,
+      "view:isSCO": false
+    },
+    "institutionDetails": {
+      "facilityCode": "11100520",
+      "institutionName": "ST MARY'S COLLEGE OF MARYLAND",
+      "institutionAddress": {
+        "street": "18952 EAST FISHER ROAD",
+        "street2": "",
+        "street3": "",
+        "city": "ST MARYS CITY",
+        "state": "MD",
+        "postalCode": "20686",
+        "country": "USA"
+      },
+      "poeEligible": true
+    },
+    "agreementType": "newCommitment",
+    "additionalLocations": [
+      {
+        "fullName": {
+          "first": "Brand",
+          "middle": "New",
+          "last": "Contact"
+        },
+        "email": "brand.new@email.com",
+        "previouslyEnteredPointOfContact": {
+          "key": "none"
+        },
+        "view:additionalInstructions": {},
+        "facilityCode": "15012020",
+        "institutionName": "MARYLAND STATE POLICE TRAINING ACADEMY",
+        "institutionAddress": {
+          "country": "USA",
+          "street": "PUBLIC SAFETY EDUCATION TRAINING",
+          "street2": "6852 4TH ST",
+          "street3": "",
+          "city": "SYKESVILLE",
+          "state": "MD",
+          "postalCode": "21784"
+        },
+        "poeEligible": true,
+        "isLoading": false
+      }
+    ]
+  }
+}
