@@ -52,7 +52,6 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
             rx={rx}
             alwaysShowFallBackContent={showRenewalLink}
             fallbackContent={
-              // eslint-disable-next-line react/jsx-wrap-multilines
               <>
                 <VaIcon size={3} icon="acute" aria-hidden="true" />
                 <div
@@ -113,7 +112,6 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
             rx={rx}
             alwaysShowFallBackContent={showRenewalLink}
             fallbackContent={
-              // eslint-disable-next-line react/jsx-wrap-multilines
               <>
                 <p className="vads-u-margin-y--0" data-testid="expired">
                   This prescription is too old to refill. If you need more,
@@ -191,7 +189,6 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
               rx={rx}
               alwaysShowFallBackContent={showRenewalLink}
               fallbackContent={
-                // eslint-disable-next-line react/jsx-wrap-multilines
                 <va-link
                   href="/resources/how-to-renew-a-va-prescription"
                   text="Learn how to renew prescriptions"
