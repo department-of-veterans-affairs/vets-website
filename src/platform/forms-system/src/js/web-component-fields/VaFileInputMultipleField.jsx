@@ -199,7 +199,11 @@ const VaFileInputMultipleField = props => {
   };
 
   const handleFileAdded = async (file, index, mockFormData) => {
-    const { fileError, encryptedCheck } = await getFileError(file, uiOptions);
+    const { fileError, encryptedCheck } = await getFileError(
+      file,
+      uiOptions,
+      childrenProps.formData,
+    );
     const _errors = [...errors];
 
     if (fileError) {
