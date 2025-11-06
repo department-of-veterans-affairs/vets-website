@@ -25,7 +25,6 @@ import {
   fullNameUIHelper,
   generateDeleteDescription,
   isDefined,
-  isIncomeTypeInfoIncomplete,
   isRecipientInfoIncomplete,
   otherRecipientRelationshipTypeUI,
   recipientNameRequired,
@@ -57,7 +56,9 @@ export const options = {
   isItemIncomplete: item =>
     isRecipientInfoIncomplete(item) ||
     !isDefined(item.payer) ||
-    isIncomeTypeInfoIncomplete(item) ||
+    !isDefined(item?.incomeType) ||
+    (!isDefined(item?.['view:otherIncomeType']) &&
+      item?.incomeType === 'OTHER') ||
     !isDefined(item.incomeFrequency) ||
     !isDefined(item.incomeLastReceivedDate) ||
     !isDefined(item.grossAnnualAmount), // include all required fields here
@@ -468,6 +469,9 @@ const incomeInformationPage = {
       'ui:required': (formData, index) => {
         return formData?.discontinuedIncomes?.[index]?.incomeType === 'OTHER';
       },
+    },
+    'ui:options': {
+      ...requireExpandedArrayField('view:otherIncomeType'),
     },
   },
   schema: {
