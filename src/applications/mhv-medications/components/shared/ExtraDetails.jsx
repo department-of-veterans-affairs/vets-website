@@ -81,7 +81,6 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
             rx={rx}
             alwaysShowFallBackContent={showRenewalLink}
             fallbackContent={
-              // eslint-disable-next-line react/jsx-wrap-multilines
               <>
                 <VaIcon size={3} icon="fact_check" aria-hidden="true" />
                 <span className="vads-u-padding-left--2">
