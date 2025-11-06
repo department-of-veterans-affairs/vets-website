@@ -55,6 +55,7 @@ describe('21-8940 reviewHelpers', () => {
       expect(wrapper.text()).to.include('May');
       expect(wrapper.text()).to.include('15');
       expect(wrapper.text()).to.include('2023');
+  wrapper.unmount();
     });
 
     it('should create a DateReviewWidget for month/year only dates', () => {
@@ -72,6 +73,7 @@ describe('21-8940 reviewHelpers', () => {
       expect(wrapper.text()).to.include('May');
       expect(wrapper.text()).to.include('2023');
       expect(wrapper.text()).to.not.include('15');
+  wrapper.unmount();
     });
 
     it('should apply dataDogHidden class when specified', () => {
@@ -88,6 +90,7 @@ describe('21-8940 reviewHelpers', () => {
       const wrapper = shallow(<DateReviewWidget value="2023-05-15" />);
       expect(wrapper.find('.dd-privacy-hidden')).to.have.lengthOf(1);
       expect(wrapper.prop('data-dd-action-name')).to.equal('Test Date');
+  wrapper.unmount();
     });
 
     it('should return null when date value is falsy', () => {
@@ -101,6 +104,7 @@ describe('21-8940 reviewHelpers', () => {
 
       const wrapper = shallow(<DateReviewWidget value={null} />);
       expect(wrapper.type()).to.be.null;
+  wrapper.unmount();
     });
 
     it('should handle invalid date values gracefully', () => {
@@ -115,6 +119,7 @@ describe('21-8940 reviewHelpers', () => {
       const wrapper = shallow(<DateReviewWidget value="invalid-date" />);
       // Should still render the invalid value - browser returns 'Invalid Date'
       expect(wrapper.text()).to.include('Invalid Date');
+  wrapper.unmount();
     });
   });
 

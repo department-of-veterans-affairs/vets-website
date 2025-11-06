@@ -20,12 +20,8 @@ describe('21-4140 container/App', () => {
   it('adds sf-4140-app class to body on mount', () => {
     // Create a simple mock component to test the effect
     const { useEffect } = React;
-    let effectCallback;
 
-    sandbox.stub(React, 'useEffect').callsFake(cb => {
-      effectCallback = cb;
-      return useEffect(cb, []);
-    });
+    sandbox.stub(React, 'useEffect').callsFake(cb => useEffect(cb, []));
 
     // Manually call the effect to test body class addition
     document.body.classList.remove('sf-4140-app');
@@ -46,6 +42,7 @@ describe('21-4140 container/App', () => {
 
   it('exports App component', () => {
     expect(App).to.exist;
-    expect(typeof App).to.equal('function');
+    const exportedComponent = App.WrappedComponent || App;
+    expect(exportedComponent).to.be.a('function');
   });
 });
