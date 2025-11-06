@@ -79,7 +79,6 @@ export const SelectField = ({
       onVaSelect={handleChange}
       onBlur={handleBlur}
     >
-      <option value="">- Select -</option>
       {options.map(option => (
         <option key={option.value} value={option.value}>
           {option.label}

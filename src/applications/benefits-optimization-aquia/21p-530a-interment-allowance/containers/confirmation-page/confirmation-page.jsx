@@ -19,8 +19,8 @@ export const ConfirmationPage = ({ route }) => {
 
   const submissionAlertContent = (
     <p>
-      Thank you for helping to support a claim. We’ll review your form and
-      contact you if we need any additional information.
+      After we receive your application, we’ll review your information and send
+      you a letter with more information about your claim.
     </p>
   );
 

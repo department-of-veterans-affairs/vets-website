@@ -75,6 +75,7 @@ export const MailingAddressPage = ({
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
           <AddressField
+            allowMilitary={false}
             name="recipientAddress"
             label=""
             value={localData.recipientAddress}
