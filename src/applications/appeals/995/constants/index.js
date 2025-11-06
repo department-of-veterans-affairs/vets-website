@@ -3,6 +3,7 @@ import manifest from '../manifest.json';
 // import schema from './config/form-0995-schema.json';
 
 export const APP_NAME = 'Supplemental Claim';
+export const FORM_ID = 'VA Form 20-0995';
 
 export const DATA_DOG_ID = '2779ccc3-be87-4b2d-a757-9ff54b58761b';
 export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';

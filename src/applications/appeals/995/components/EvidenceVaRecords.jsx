@@ -5,7 +5,7 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { EVIDENCE_VA_DETAILS_URL } from '../constants';
-import { content } from '../content/evidenceVaDetails';
+import { content } from '../content/evidence/vaDetails';
 import { getIndex, getVAEvidence, hasErrors } from '../utils/evidence';
 import {
   validateVaLocation,
@@ -16,7 +16,7 @@ import {
 } from '../validations/evidence';
 import { focusEvidence } from '../../shared/utils/focus';
 import { EvidenceHeaderAndModal } from './EvidenceHeaderAndModal';
-import EvidenceIssues from './evidence/EvidenceIssues';
+import EvidenceIssues from './evidence/Issues';
 import { EvidencePageNavigation } from './EvidencePageNavigation';
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { checkValidations } from '../../shared/validations';

@@ -24,7 +24,7 @@ import {
 import { parseDateWithOffset } from '../../../shared/utils/dates';
 import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 import { records } from '../data/evidence-records';
-import { content } from '../../content/evidenceVaDetails';
+import { content } from '../../content/evidence/vaDetails';
 
 const vaLocations = records().locations;
 
