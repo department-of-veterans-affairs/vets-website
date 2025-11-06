@@ -43,6 +43,7 @@ import {
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 
+import InitializeVAPServiceID from '~/platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 
 import getRoutes from '../routes';
@@ -160,55 +161,109 @@ class Profile extends Component {
     return (
       <BrowserRouter>
         <LastLocationProvider>
-          <ProfileWrapper
-            isInMVI={this.props.isInMVI}
-            isLOA3={this.props.isLOA3}
-            isBlocked={this.props.isBlocked}
-          >
-            <Switch>
-              {/* Redirect users to Account Security to upgrade their account if they need to */}
-              {routes.map(route => {
-                if (
-                  (route.requiresLOA3 && !this.props.isLOA3) ||
-                  (route.requiresMVI && !this.props.isInMVI) ||
-                  (route.requiresLOA3 && this.props.isBlocked)
-                ) {
+          {this.props.isLOA3 && this.props.isInMVI ? (
+            <InitializeVAPServiceID>
+              <ProfileWrapper
+                isInMVI={this.props.isInMVI}
+                isLOA3={this.props.isLOA3}
+                isBlocked={this.props.isBlocked}
+              >
+                <Switch>
+                  {/* Redirect users to Account Security to upgrade their account if they need to */}
+                  {routes.map(route => {
+                    if (
+                      (route.requiresLOA3 && !this.props.isLOA3) ||
+                      (route.requiresMVI && !this.props.isInMVI) ||
+                      (route.requiresLOA3 && this.props.isBlocked)
+                    ) {
+                      return (
+                        <Redirect
+                          from={route.path}
+                          to={
+                            this.props.shouldShowProfile2
+                              ? PROFILE_PATHS.SIGNIN_INFORMATION
+                              : PROFILE_PATHS.ACCOUNT_SECURITY
+                          }
+                          key={route.path}
+                        />
+                      );
+                    }
+
+                    return (
+                      <Route
+                        component={route.component}
+                        exact
+                        key={route.path}
+                        path={route.path}
+                      />
+                    );
+                  })}
+
+                  <Redirect
+                    exact
+                    from="/profile#contact-information"
+                    to={PROFILE_PATHS.CONTACT_INFORMATION}
+                  />
+
+                  {/* fallback handling: redirect to root route */}
+                  {/* Should we consider making a 404 page for this instead? */}
+                  <Route path="*">
+                    <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
+                  </Route>
+                </Switch>
+              </ProfileWrapper>
+            </InitializeVAPServiceID>
+          ) : (
+            <ProfileWrapper
+              isInMVI={this.props.isInMVI}
+              isLOA3={this.props.isLOA3}
+              isBlocked={this.props.isBlocked}
+            >
+              <Switch>
+                {/* Redirect users to Account Security to upgrade their account if they need to */}
+                {routes.map(route => {
+                  if (
+                    (route.requiresLOA3 && !this.props.isLOA3) ||
+                    (route.requiresMVI && !this.props.isInMVI) ||
+                    (route.requiresLOA3 && this.props.isBlocked)
+                  ) {
+                    return (
+                      <Redirect
+                        from={route.path}
+                        to={
+                          this.props.shouldShowProfile2
+                            ? PROFILE_PATHS.SIGNIN_INFORMATION
+                            : PROFILE_PATHS.ACCOUNT_SECURITY
+                        }
+                        key={route.path}
+                      />
+                    );
+                  }
+
                   return (
-                    <Redirect
-                      from={route.path}
-                      to={
-                        this.props.shouldShowProfile2
-                          ? PROFILE_PATHS.SIGNIN_INFORMATION
-                          : PROFILE_PATHS.ACCOUNT_SECURITY
-                      }
+                    <Route
+                      component={route.component}
+                      exact
                       key={route.path}
+                      path={route.path}
                     />
                   );
-                }
+                })}
 
-                return (
-                  <Route
-                    component={route.component}
-                    exact
-                    key={route.path}
-                    path={route.path}
-                  />
-                );
-              })}
+                <Redirect
+                  exact
+                  from="/profile#contact-information"
+                  to={PROFILE_PATHS.CONTACT_INFORMATION}
+                />
 
-              <Redirect
-                exact
-                from="/profile#contact-information"
-                to={PROFILE_PATHS.CONTACT_INFORMATION}
-              />
-
-              {/* fallback handling: redirect to root route */}
-              {/* Should we consider making a 404 page for this instead? */}
-              <Route path="*">
-                <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
-              </Route>
-            </Switch>
-          </ProfileWrapper>
+                {/* fallback handling: redirect to root route */}
+                {/* Should we consider making a 404 page for this instead? */}
+                <Route path="*">
+                  <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
+                </Route>
+              </Switch>
+            </ProfileWrapper>
+          )}
         </LastLocationProvider>
       </BrowserRouter>
     );
