@@ -1,5 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import {
+  useNavigate,
+  useParams,
+  useLocation,
+} from 'react-router-dom-v5-compat';
 import {
   VaModal,
   VaButton,
@@ -15,7 +19,9 @@ import ExpenseCommonCarrierFields from './ExpenseCommonCarrierFields';
 
 const ExpensePage = () => {
   const navigate = useNavigate();
-  const { apptId, claimId, expenseTypeRoute } = useParams();
+  const { apptId, claimId } = useParams();
+  const location = useLocation();
+  const expenseTypeRoute = location.pathname.split('/').pop();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formState, setFormState] = useState({});
   const [showError, setShowError] = useState(false);
