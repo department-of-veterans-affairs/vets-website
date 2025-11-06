@@ -274,6 +274,12 @@ export function updateExpense(claimId, expenseType, expenseId, expenseData) {
     dispatch(updateExpenseStart(expenseId));
 
     try {
+      if (!expenseType) {
+        throw new Error('Missing expense type');
+      } else if (!expenseId) {
+        throw new Error('Missing expense id');
+      }
+
       const options = {
         method: 'PATCH',
         body: JSON.stringify(expenseData),
@@ -326,6 +332,12 @@ export function deleteExpense(claimId, expenseType, expenseId) {
     dispatch(deleteExpenseStart(expenseId));
 
     try {
+      if (!expenseType) {
+        throw new Error('Missing expense type');
+      } else if (!expenseId) {
+        throw new Error('Missing expense id');
+      }
+
       const options = {
         method: 'DELETE',
         headers: {
@@ -375,6 +387,10 @@ export function createExpense(claimId, expenseType, expenseData) {
     dispatch(createExpenseStart());
 
     try {
+      if (!expenseType) {
+        throw new Error('Missing expense type');
+      }
+
       const options = {
         method: 'POST',
         body: JSON.stringify(expenseData),
