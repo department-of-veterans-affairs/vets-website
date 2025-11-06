@@ -65,20 +65,6 @@ export const scrollToTop = async (
 const ERROR_ATTR_SELECTORS = ['error', 'input-error', 'checkbox-error'];
 const INPUT_SELECTOR = 'input, select, textarea';
 const ERROR_SPAN_SELECTOR = 'span.usa-sr-only[id^="error-label-"]';
-const GROUP_COMPONENT_TAGS = ['VA-RADIO', 'VA-CHECKBOX-GROUP'];
-const GROUP_OPTION_SELECTOR = 'va-radio-option, va-checkbox';
-
-/**
- * Check if element is a group component (va-radio or va-checkbox-group)
- */
-const isGroupComponent = element =>
-  GROUP_COMPONENT_TAGS.includes(element.tagName);
-
-/**
- * Get options from a group component
- */
-const getGroupOptions = element =>
-  element.querySelectorAll(GROUP_OPTION_SELECTOR);
 
 /**
  * Get error message text from a web component
@@ -158,159 +144,57 @@ const removeAlertRole = el => {
 };
 
 /**
- * Find the input element that should receive focus for a web component
- * @param {Element} el - The web component to find focus target for
- * @returns {HTMLElement|null} The focusable element, or null if not found
+ * Find the focusable element within an error component
+ * Searches through nested shadow DOMs and falls back to fieldset if needed
+ * @param {Element} el - The error element to search within
+ * @returns {Element|null} The focusable element, or null if none found
  */
 const findFocusTarget = el => {
   let focusTarget;
 
-  // Special handling for va-radio and va-checkbox-group (check this FIRST)
-  if (isGroupComponent(el)) {
-    // Find first radio option or checkbox (they're slotted content, so in light DOM)
-    const firstOption = el.querySelector(GROUP_OPTION_SELECTOR);
-    if (firstOption) {
-      // Try shadow DOM first, then light DOM
-      focusTarget = firstOption.shadowRoot?.querySelector('input');
-      if (!focusTarget) {
-        focusTarget = firstOption.querySelector('input');
-      }
-      if (focusTarget) return focusTarget;
-    }
-  }
-
   // 1. First check if there's a child component with an error (for nested web components)
   let childWithError = null;
-  if (el.shadowRoot) {
-    childWithError = el.shadowRoot.querySelector('[error]:not([error=""])');
+  if (el?.shadowRoot) {
+    childWithError = Array.from(el.shadowRoot.children).find(
+      child =>
+        child.hasAttribute('error') && child.getAttribute('error') !== '',
+    );
   }
   if (childWithError) {
-    return findFocusTarget(childWithError);
+    focusTarget = childWithError.shadowRoot?.querySelector(
+      'input, select, textarea',
+    );
   }
 
-  // 2. For other components, look in shadow DOM first
-  if (el.shadowRoot) {
-    focusTarget = el.shadowRoot.querySelector(INPUT_SELECTOR);
-    if (focusTarget) return focusTarget;
+  // 2. If not found, try direct input at current level
+  if (!focusTarget) {
+    focusTarget = el?.shadowRoot?.querySelector('input, select, textarea');
   }
 
-  // 3. Look for nested VA web components and try to locate their focus targets
-  if (el.shadowRoot) {
-    const nestedComponents = Array.from(
-      el.shadowRoot.querySelectorAll('*'),
-    ).filter(child => child.tagName?.toLowerCase().startsWith('va-'));
-    for (const nestedComponent of nestedComponents) {
-      const nestedFocusTarget = findFocusTarget(nestedComponent);
-      if (nestedFocusTarget && nestedFocusTarget !== nestedComponent) {
-        return nestedFocusTarget;
+  // 3. If still not found, search one level deeper in all child components
+  if (!focusTarget && el?.shadowRoot) {
+    const childComponents = el.shadowRoot.querySelectorAll('*');
+    for (const child of childComponents) {
+      const nestedInput = child.shadowRoot?.querySelector(
+        'input, select, textarea',
+      );
+      if (nestedInput) {
+        focusTarget = nestedInput;
+        break;
       }
     }
   }
 
-  // 4. Last resort - check for any focusable element in shadow DOM
-  if (el.shadowRoot) {
-    focusTarget = el.shadowRoot.querySelector('[tabindex], button, a[href]');
-    if (focusTarget) return focusTarget;
-  }
-
-  // 5. For elements without shadow DOM or when shadow DOM doesn't have focusable elements
-  // This handles test scenarios and legacy elements - return the element itself
-  return el;
-};
-
-/**
- * Helper to build full error label text
- * @param {string} errorMessage - The raw error message
- * @param {Element} errorWebComponent - The web component with an error
- * @param {boolean} includeHintAndDescription - Whether to include hint and description texts
- * @param {Element} [childOption] - Optional child option element for checkbox/radio groups
- * @returns {string} The full error label text
- */
-const buildErrorLabelText = (
-  errorMessage,
-  errorWebComponent,
-  includeHintAndDescription = true,
-  childOption = null,
-) => {
-  const errorText = errorMessage.replace(/^Error\\s*/i, '').trim();
-  const labelText = getLabelText(errorWebComponent);
-
-  let fullText = `Error: ${errorText}`;
-  if (labelText) {
-    fullText += `. ${labelText}`;
-  }
-
-  // For checkbox/radio group child options, append the child's label
-  if (childOption) {
-    const childLabelText = getLabelText(childOption);
-    if (childLabelText) {
-      fullText += `. ${childLabelText}`;
+  // 4. Fallback: focus fieldset if no inputs found (for radio/checkbox groups)
+  if (!focusTarget) {
+    const fieldset = el?.shadowRoot?.querySelector('fieldset');
+    if (fieldset) {
+      fieldset.setAttribute('tabindex', '-1');
+      focusTarget = fieldset;
     }
   }
 
-  if (includeHintAndDescription) {
-    // Get hint text if present
-    const hintElement = errorWebComponent.shadowRoot?.querySelector(
-      '.usa-hint',
-    );
-    const hintText = hintElement?.textContent?.trim() || '';
-
-    // Get checkbox label description if present
-    const descriptionElement = errorWebComponent.shadowRoot?.querySelector(
-      '.usa-checkbox__label-description',
-    );
-    const descriptionText = descriptionElement?.textContent?.trim() || '';
-
-    if (hintText) {
-      fullText += `. ${hintText}`;
-    }
-    if (descriptionText) {
-      fullText += `. ${descriptionText}`;
-    }
-  }
-
-  return fullText;
-};
-
-/**
- * Helper to find input element within a checkbox/radio option
- * @param {Element} option - The va-checkbox or va-radio-option element
- * @returns {HTMLInputElement|null} The input element, or null if not found
- */
-const findCheckboxRadioInput = option => {
-  // Try shadow DOM first, then light DOM
-  let input = option.shadowRoot?.querySelector('input');
-  if (!input) {
-    input = option.querySelector('input');
-  }
-  // Also try radio or checkbox type specifically
-  if (!input) {
-    input = option.shadowRoot?.querySelector(
-      'input[type="radio"], input[type="checkbox"]',
-    );
-  }
-  return input || null;
-};
-
-/**
- * Helper to create error label span and associate it with an input
- * @param {HTMLInputElement} input - The input element to associate
- * @param {string} fullText - The full error label text
- * @param {Element} container - Where to append the span (shadow root or light DOM)
- */
-const createAndAssociateErrorLabel = (input, fullText, container) => {
-  const labelId = `error-label-${Math.random()
-    .toString(36)
-    .substr(2, 9)}`;
-
-  const labelSpan = document.createElement('span');
-  labelSpan.id = labelId;
-  labelSpan.className = 'usa-sr-only';
-  labelSpan.textContent = fullText;
-  container.appendChild(labelSpan);
-
-  input.setAttribute('aria-labelledby', labelId);
-  input.removeAttribute('aria-describedby');
+  return focusTarget;
 };
 
 /**
@@ -319,30 +203,6 @@ const createAndAssociateErrorLabel = (input, fullText, container) => {
  * @param {string} errorMessage - The error message text
  */
 const associateErrorWithInput = (errorWebComponent, errorMessage) => {
-  // Special handling for va-radio and va-checkbox-group
-  if (isGroupComponent(errorWebComponent)) {
-    const slottedChildren = getGroupOptions(errorWebComponent);
-
-    slottedChildren.forEach(option => {
-      const input = findCheckboxRadioInput(option);
-      if (!input) return;
-
-      // Build full text with error, group label, and child label
-      const fullText = buildErrorLabelText(
-        errorMessage,
-        errorWebComponent,
-        false,
-        option,
-      );
-
-      // Create error span in light DOM so slotted children can access it
-      createAndAssociateErrorLabel(input, fullText, errorWebComponent);
-    });
-
-    return;
-  }
-
-  // Regular handling for other components
   const inputElement = findFocusTarget(errorWebComponent);
   if (!inputElement) return;
 
@@ -353,16 +213,48 @@ const associateErrorWithInput = (errorWebComponent, errorMessage) => {
   )
     return;
 
-  const fullText = buildErrorLabelText(errorMessage, errorWebComponent, true);
+  const labelId = `error-label-${Math.random()
+    .toString(36)
+    .substr(2, 9)}`;
+
+  const errorText = errorMessage.replace(/^Error\\s*/i, '').trim();
+  const labelText = getLabelText(errorWebComponent);
+
+  // Get hint text if present
+  const hintElement = errorWebComponent.shadowRoot?.querySelector('.usa-hint');
+  const hintText = hintElement?.textContent?.trim() || '';
+
+  // Get checkbox label description if present
+  const descriptionElement = errorWebComponent.shadowRoot?.querySelector(
+    '.usa-checkbox__label-description',
+  );
+  const descriptionText = descriptionElement?.textContent?.trim() || '';
+
+  // Build full text with error, label, hint, and description
+  let fullText = `Error: ${errorText}`;
+  if (labelText) {
+    fullText += `. ${labelText}`;
+  }
+  if (hintText) {
+    fullText += `. ${hintText}`;
+  }
+  if (descriptionText) {
+    fullText += `. ${descriptionText}`;
+  }
+
+  const labelSpan = document.createElement('span');
+  labelSpan.id = labelId;
+  labelSpan.className = 'usa-sr-only';
+  labelSpan.textContent = fullText;
 
   if (errorWebComponent.shadowRoot) {
-    createAndAssociateErrorLabel(
-      inputElement,
-      fullText,
-      errorWebComponent.shadowRoot,
-    );
+    errorWebComponent.shadowRoot.appendChild(labelSpan);
   }
+
+  inputElement.setAttribute('aria-labelledby', labelId);
+  inputElement.removeAttribute('aria-describedby');
 };
+
 /**
  * Process a single error element to set up accessibility annotations
  * Adds aria-labelledby with sr-only error span
@@ -383,22 +275,6 @@ const addErrorAnnotations = errorWebComponent => {
  * @param {Element} el - The element to clean
  */
 const removeErrorAnnotations = el => {
-  // Special handling for va-radio and va-checkbox-group
-  if (isGroupComponent(el)) {
-    // Remove error spans from light DOM (where they're created for slotted children)
-    el.querySelectorAll(ERROR_SPAN_SELECTOR).forEach(span => span.remove());
-
-    // Remove aria-labelledby from all child inputs
-    const slottedChildren = getGroupOptions(el);
-    slottedChildren.forEach(option => {
-      const input = findCheckboxRadioInput(option);
-      if (input) {
-        input.removeAttribute('aria-labelledby');
-      }
-    });
-    return;
-  }
-
   if (!el?.shadowRoot) return;
 
   // Remove aria-labelledby error spans
@@ -429,26 +305,15 @@ const cleanupNestedShadowRoots = root => {
 
   elements.forEach(el => {
     // Only process va-* components
-    if (!el.tagName.toLowerCase().startsWith('va-')) {
-      return;
-    }
-
-    const errorMessage = getErrorPropText(el);
-
-    // Check if component has no error and clean up orphaned error spans
-    if (!errorMessage) {
-      const isGroupComp = isGroupComponent(el);
-      const hasErrorSpan = isGroupComp
-        ? el.querySelector(ERROR_SPAN_SELECTOR)
-        : el.shadowRoot?.querySelector(ERROR_SPAN_SELECTOR);
-
-      if (hasErrorSpan) {
-        removeErrorAnnotations(el);
+    if (el.tagName.toLowerCase().startsWith('va-') && el.shadowRoot) {
+      // Check if this element has error spans
+      if (el.shadowRoot.querySelector(ERROR_SPAN_SELECTOR)) {
+        const errorMessage = getErrorPropText(el);
+        if (!errorMessage) {
+          removeErrorAnnotations(el);
+        }
       }
-    }
-
-    // Recursively check nested shadow roots
-    if (el.shadowRoot) {
+      // Recursively check nested shadow roots
       cleanupNestedShadowRoots(el.shadowRoot);
     }
   });
@@ -464,33 +329,9 @@ export const cleanupErrorAnnotations = () => {
   );
   const elementsWithErrors = document.querySelectorAll(errorSelector);
   elementsWithErrors.forEach(el => {
-    const currentErrorMessage = getErrorPropText(el);
-    const previousErrorMessage = el.dataset.previousErrorMessage || '';
-
-    if (!currentErrorMessage) {
-      // Error prop was cleared
-      removeErrorAnnotations(el);
-      // eslint-disable-next-line no-param-reassign
-      delete el.dataset.previousErrorMessage;
-    } else if (previousErrorMessage !== currentErrorMessage) {
-      // Error message changed, re-associate with new message
-      removeErrorAnnotations(el);
-      associateErrorWithInput(el, currentErrorMessage);
-      // eslint-disable-next-line no-param-reassign
-      el.dataset.previousErrorMessage = currentErrorMessage;
-    }
-  });
-
-  // Also check va-radio and va-checkbox-group for orphaned error spans in light DOM
-  const groupElements = document.querySelectorAll(
-    GROUP_COMPONENT_TAGS.map(tag => tag.toLowerCase()).join(', '),
-  );
-  groupElements.forEach(el => {
     const errorMessage = getErrorPropText(el);
-    if (!errorMessage && el.querySelector(ERROR_SPAN_SELECTOR)) {
+    if (!errorMessage) {
       removeErrorAnnotations(el);
-      // eslint-disable-next-line no-param-reassign
-      delete el.dataset.previousErrorMessage;
     }
   });
 
