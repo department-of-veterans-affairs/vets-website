@@ -91,6 +91,7 @@ export default function AppointmentColumnLayout({
             )}
           >
             <h3
+              aria-hidden="true"
               className={classNames(
                 'vads-u-text-align--center',
                 'vads-u-margin-top--0',
@@ -98,7 +99,7 @@ export default function AppointmentColumnLayout({
                 { 'vads-u-display--none': !first },
               )}
             >
-              <span aria-hidden="false" data-dd-privacy="mask">
+              <span data-dd-privacy="mask">
                 {formatInTimeZone(startDate, data.timezone, 'd')}
               </span>
             </h3>
@@ -181,14 +182,19 @@ export default function AppointmentColumnLayout({
                   data-dd-privacy="mask"
                 >
                   {featureListViewClinicInfo ? (
-                    <a
-                      href={link}
-                      aria-label={detailAriaLabel}
-                      className="vaos-appts__focus--hide-outline"
-                      onClick={e => e.preventDefault()}
-                    >
-                      {appointmentLocality}
-                    </a>
+                    <>
+                      <a
+                        href={link}
+                        aria-label={detailAriaLabel}
+                        className="vaos-appts__focus--hide-outline vaos-hide-for-print"
+                        onClick={e => e.preventDefault()}
+                      >
+                        {appointmentLocality}
+                      </a>
+                      <span className="vaos-print-only">
+                        {appointmentLocality}
+                      </span>
+                    </>
                   ) : (
                     appointmentLocality
                   )}
