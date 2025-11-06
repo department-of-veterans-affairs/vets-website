@@ -121,7 +121,7 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(() => {
             if (nextState === 'VERIFY_INTRO_A') {
               cy.contains(
-                "Variation A: In the next few questions, we'll ask you about your employers",
+                'Variation A: In the next few questions, we’ll ask you about your employers',
               ).should('exist');
 
               goNextState();

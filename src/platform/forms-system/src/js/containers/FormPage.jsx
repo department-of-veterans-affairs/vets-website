@@ -290,9 +290,7 @@ class FormPage extends React.Component {
       route.pageList[0].path === this.props.location.pathname;
 
     const showNavLinks =
-      environment.isLocalhost() &&
-      !window.Cypress &&
-      route.formConfig?.dev?.showNavLinks;
+      environment.isLocalhost() && route.formConfig?.dev?.showNavLinks;
     const hideNavButtons =
       !environment.isProduction() &&
       (formOptions?.noBottomNav || route.pageConfig?.hideNavButtons);
