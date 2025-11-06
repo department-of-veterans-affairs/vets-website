@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { TITLE, SUBTITLE } from '../utils/constants';
 
+import App from '../../static-pages/survivors-benefits/App';
+
 const OMB_RES_BURDEN = 40;
 const OMB_NUMBER = '2900-0004';
 const OMB_EXP_DATE = '08/31/2028';
@@ -114,6 +116,9 @@ export const IntroductionPage = props => {
 
   return (
     <article className="schemaform-intro">
+      <App />
+
+      <p>---------</p>
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
       <IntroductionText />
       <h2 className="vad-u-margin-top--0">
