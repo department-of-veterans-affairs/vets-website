@@ -68,19 +68,29 @@ class DocumentRequestPage extends React.Component {
   }
 
   getDefaultPage() {
+    const {
+      message,
+      type1UnknownErrors,
+      showDocumentUploadStatus,
+    } = this.props;
     return (
       <>
         <DefaultPage
           item={this.props.trackedItem}
+          message={showDocumentUploadStatus ? message : null}
           onCancel={this.props.cancelUpload}
           onSubmit={files =>
             this.props.submitFiles(
               this.props.claim.id,
               this.props.trackedItem,
               files,
+              showDocumentUploadStatus,
             )
           }
           progress={this.props.progress}
+          type1UnknownErrors={
+            showDocumentUploadStatus ? type1UnknownErrors : null
+          }
           uploading={this.props.uploading}
         />
       </>
@@ -135,21 +145,21 @@ class DocumentRequestPage extends React.Component {
         </div>
       );
     } else {
-      const { message } = this.props;
-
+      const { message, showDocumentUploadStatus } = this.props;
       content = (
         <>
-          {message && (
-            <div>
-              <Notification
-                title={message.title}
-                body={message.body}
-                type={message.type}
-                onSetFocus={focusNotificationAlert}
-              />
-            </div>
-          )}
-
+          {/* Show errors here when the feature flag is OFF. When the feature flag is ON, errors are shown in DefaultPage. */}
+          {!showDocumentUploadStatus &&
+            message && (
+              <div>
+                <Notification
+                  title={message.title}
+                  body={message.body}
+                  type={message.type}
+                  onSetFocus={focusNotificationAlert}
+                />
+              </div>
+            )}
           {isAutomated5103Notice(trackedItem.displayName) ? (
             <Default5103EvidenceNotice item={trackedItem} />
           ) : (
@@ -194,6 +204,7 @@ function mapStateToProps(state, ownProps) {
     showDocumentUploadStatus:
       state.featureToggles?.cst_show_document_upload_status || false,
     trackedItem,
+    type1UnknownErrors: claimsState.notifications.type1UnknownErrors,
     uploadComplete: uploads.uploadComplete,
     uploadError: uploads.uploadError,
     uploading: uploads.uploading,
@@ -229,6 +240,7 @@ DocumentRequestPage.propTypes = {
   showDocumentUploadStatus: PropTypes.bool,
   submitFiles: PropTypes.func,
   trackedItem: PropTypes.object,
+  type1UnknownErrors: PropTypes.array,
   uploadComplete: PropTypes.bool,
   uploading: PropTypes.bool,
 };
