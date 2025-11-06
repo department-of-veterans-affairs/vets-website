@@ -9,10 +9,9 @@ import FilterSummary from './FilterSummary';
 
 export default function InquiriesList({
   inquiries,
-  hasTabs,
   categoryFilter,
   statusFilter,
-  currentTab,
+  tabName,
 }) {
   const [currentPageNum, setCurrentPageNum] = useState(1);
   const itemsPerPage = 4;
@@ -44,13 +43,12 @@ export default function InquiriesList({
           pageStart,
           categoryFilter,
           statusFilter,
-          hasTabs,
-          currentTab,
+          tabName,
         }}
       />
       <ul
         className={classNames('dashboard-grid', {
-          'grid-tabs': hasTabs,
+          'grid-tabs': !!tabName,
         })}
       >
         {displayPage.items.map(inquiry => (
@@ -79,6 +77,5 @@ InquiriesList.propTypes = {
   categoryFilter: PropTypes.string.isRequired,
   inquiries: PropTypes.arrayOf(InquiryCard.propTypes.inquiry).isRequired,
   statusFilter: PropTypes.string.isRequired,
-  currentTab: FilterSummary.propTypes.currentTab,
-  hasTabs: PropTypes.bool,
+  tabName: FilterSummary.propTypes.tabName,
 };
