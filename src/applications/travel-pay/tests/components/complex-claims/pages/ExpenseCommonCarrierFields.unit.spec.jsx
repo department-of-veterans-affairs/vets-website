@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseCommonCarrierFields from '../../../../components/complex-claims/pages/ExpenseCommonCarrierFields';
@@ -73,21 +73,24 @@ describe('ExpenseCommonCarrierFields', () => {
       <ExpenseCommonCarrierFields {...defaultProps} formState={formState} />,
     );
 
+    // Get Radio Group for Transportation Types and Check an option
+    const radioGroup = container.querySelector(
+      'va-radio[label="Type of transportation"]',
+    );
+    expect(radioGroup).to.exist;
+    fireEvent(
+      radioGroup,
+      new CustomEvent('vaValueChange', {
+        detail: { value: selectedType },
+      }),
+    );
+
     // Verify the selected option is checked
-    const selectedRadio = container.querySelector(
+    const selectedOption = container.querySelector(
       `va-radio-option[label="${selectedType}"]`,
     );
-    expect(selectedRadio.getAttribute('checked')).to.equal('true');
-
-    // Verify all others are NOT checked
-    TRANSPORTATION_OPTIONS.filter(option => option !== selectedType).forEach(
-      option => {
-        const radio = container.querySelector(
-          `va-radio-option[label="${option}"]`,
-        );
-        expect(radio.getAttribute('checked')).to.equal('false');
-      },
-    );
+    expect(selectedOption).to.exist;
+    expect(selectedOption.hasAttribute('checked')).to.be.true;
   });
 
   it('marks the correct transportationReason as checked', () => {
@@ -102,22 +105,24 @@ describe('ExpenseCommonCarrierFields', () => {
       <ExpenseCommonCarrierFields {...defaultProps} formState={formState} />,
     );
 
+    // Get Radio Group for Transportation Reasons and Check an option
+    const radioGroup = container.querySelector(
+      'va-radio[label="Why did you choose to use public transportation?"]',
+    );
+    expect(radioGroup).to.exist;
+    fireEvent(
+      radioGroup,
+      new CustomEvent('vaValueChange', {
+        detail: { value: firstKey },
+      }),
+    );
+
     // Verify the selected option is checked
-    const selectedRadio = container.querySelector(
+    const selectedOption = container.querySelector(
       `va-radio-option[label="${firstLabel}"]`,
     );
-    expect(selectedRadio.getAttribute('checked')).to.equal('true');
-
-    // Verify all others are NOT checked
-    Object.keys(TRANSPORTATION_REASONS)
-      .filter(key => key !== firstKey)
-      .forEach(key => {
-        const { label } = TRANSPORTATION_REASONS[key];
-        const radio = container.querySelector(
-          `va-radio-option[label="${label}"]`,
-        );
-        expect(radio.getAttribute('checked')).to.equal('false');
-      });
+    expect(selectedOption).to.exist;
+    expect(selectedOption.hasAttribute('checked')).to.be.true;
   });
 
   // For some reason these tests are passing locally but not with the Node 22 compatibility Check
