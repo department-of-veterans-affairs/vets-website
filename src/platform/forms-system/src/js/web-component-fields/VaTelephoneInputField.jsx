@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTelephoneInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import vaTelephoneInputFieldMapping from './vaTelephoneInputFieldMapping';
 import environment from '../../../../utilities/environment';
 
@@ -9,7 +9,7 @@ import environment from '../../../../utilities/environment';
  * internationalPhone: {
  *   'ui:title': 'Phone number',
  *   'ui:description': 'description',
- *   'ui:webComponentField': VaTelephoneInputField,
+ *   'ui:webComponentField': VaTelephoneInput,
  *   'ui:hint': 'hint',
  *   'ui:errorMessages': {
  *     required: 'This is a custom error message.',
@@ -53,5 +53,5 @@ export default function VaTelephoneInputField(props) {
       mappedProps.onVaContact(testEvent);
     }
   }, []);
-  return <VaTelephone {...mappedProps} />;
+  return <VaTelephoneInput {...mappedProps} />;
 }
