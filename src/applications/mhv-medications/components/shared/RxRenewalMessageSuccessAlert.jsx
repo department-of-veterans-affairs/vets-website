@@ -12,7 +12,8 @@ const RxRenewalMessageSuccessAlert = () => {
       <p className="vads-u-margin-bottom--0">
         <va-link
           href="/my-health/secure-messages/inbox/"
-          text="Review message in Sent Messages"
+          text="Review message in your sent messages"
+          active
         />
       </p>
     </VaAlert>

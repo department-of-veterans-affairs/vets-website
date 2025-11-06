@@ -66,10 +66,9 @@ const SendRxRenewalMessage = ({
           a prescription renewal.
         </p>
         <p className="vads-u-margin-bottom--2">
-          If you need a medication immediately, you should call your VA
-          pharmacy’s automated refill line. You can find the pharmacy phone
-          number on your prescription label or in your prescription details
-          page.
+          If you need a medication immediately, call your VA pharmacy’s
+          automated refill line. The phone number is on your prescription label
+          or in your medications details page.
         </p>
       </VaModal>
     </>
