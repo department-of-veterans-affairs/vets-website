@@ -18,13 +18,15 @@ const alertContent = confirmationNumber => (
 
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
-  const { submission, data } = form;
+  const { submission = {}, data = {} } = form;
+  const preparerIdentification = data.preparerIdentification || {};
+  const veteran = data.veteran || {};
+  const preparerFullName = preparerIdentification.preparerFullName;
   const preparerNameDefined =
-    data.preparerIdentification?.preparerFullName?.first &&
-    data.preparerIdentification?.preparerFullName?.last;
+    preparerFullName?.first && preparerFullName?.last;
   const preparerName = preparerNameDefined
-    ? data.preparerIdentification.preparerFullName
-    : data.veteran.fullName;
+    ? preparerFullName
+    : veteran.fullName;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
@@ -34,7 +36,7 @@ export const ConfirmationPage = props => {
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       submitterName={preparerName}
-      pdfUrl={submission.response?.pdfUrl}
+  pdfUrl={submission.response?.pdfUrl}
       devOnly={{
         showButtons: true,
       }}

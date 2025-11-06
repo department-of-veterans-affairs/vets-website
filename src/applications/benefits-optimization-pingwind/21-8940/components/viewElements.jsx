@@ -23,10 +23,6 @@ export const DateRangeView = ({ formData }) => {
 };
 
 export const DoctorView = ({ formData }) => {
-  const treatmentDates = Array.isArray(formData?.treatmentDates)
-    ? formData.treatmentDates.filter(date => date && typeof date === 'object')
-    : [];
-
   return (
     <div className="vads-u-padding--2">
       <strong>{formData.doctorName || 'Doctor name not provided'}</strong>
@@ -44,21 +40,6 @@ export const DoctorView = ({ formData }) => {
       {formData.connectedDisabilities && (
         <p>Connected disabilities: {formData.connectedDisabilities}</p>
       )}
-      {treatmentDates.length > 0 && (
-        <div>
-          <strong className="vads-u-display--block vads-u-margin-bottom--0.5">
-            Treatment dates
-          </strong>
-          <ul className="vads-u-margin--0 vads-u-padding-left--3">
-            {treatmentDates.map((dateRange, index) => (
-              <li key={index}>
-                {dateRange.startDate || 'Not provided'} &mdash;{' '}
-                {dateRange.endDate || 'Not provided'}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 };
@@ -73,7 +54,6 @@ export const HospitalView = ({ formData }) => {
 
   return (
     <div className="vads-u-padding--2">
-      <p>Type: {hospitalTypeLabel}</p>
       <strong>{formData.hospitalName || 'Hospital name not provided'}</strong>
       <p>
         Address: {formData.hospitalAddress?.street || ''}{' '}
@@ -88,6 +68,7 @@ export const HospitalView = ({ formData }) => {
           ? ` ${formData.hospitalAddress.postalCode}`
           : ''}
       </p>
+      <p>Type: {hospitalTypeLabel}</p>
       {formData.connectedDisabilities && (
         <p>Connected disabilities: {formData.connectedDisabilities}</p>
       )}

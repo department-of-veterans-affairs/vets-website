@@ -12,7 +12,7 @@ const {
 } = formConfig.chapters.sectionTwoP1Chapter.pages.hospitalInformationPage;
 const pageTitle = 'hospital information';
 
-const expectedNumberOfFields = 0;
+const expectedNumberOfFields = 1;
 testNumberOfFields(
   formConfig,
   schema,

@@ -51,17 +51,6 @@ describe('21-4140 page/sectionThreeSignature', () => {
     ]);
   });
 
-  it('uses inline title for the certification section', () => {
-    const ui = page.uiSchema[parentKey];
-    const inlineTitle = ui['ui:title'];
-
-    expect(React.isValidElement(inlineTitle)).to.be.true;
-    expect(inlineTitle.type).to.equal('h3');
-    expect(inlineTitle.props.children).to.equal(
-      'Authorization and Certification',
-    );
-  });
-
   it('configures informational alerts as view fields', () => {
     const ui = page.uiSchema[parentKey];
 

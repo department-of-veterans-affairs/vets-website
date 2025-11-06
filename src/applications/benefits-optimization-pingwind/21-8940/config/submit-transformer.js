@@ -467,12 +467,14 @@ const buildTrainingSection = (entries, rangePropName) => {
   }
 
   const firstEntry = entryList[0];
+  const rangeSource =
+    firstEntry?.datesOfTraining ?? firstEntry?.dateOfTraining;
   const details = pruneEmpty({
     name: truncateString(
       stringOrUndefined(firstEntry?.typeOfEducation),
       MAX_LENGTHS.trainingName,
     ),
-    [rangePropName]: ensureDateRange(firstEntry?.datesOfTraining, 'from', 'to'),
+    [rangePropName]: ensureDateRange(rangeSource, 'from', 'to'),
   });
 
   if (!details) {
@@ -504,7 +506,7 @@ const buildSubmissionPayload = data => {
   const education = mapEducation(data);
   const preTraining = buildTrainingSection(
     data?.educationBeforeDisability,
-    'datesOfTraining',
+    'dateOfTraining',
   );
   const postTraining = buildTrainingSection(
     data?.educationAfterDisability,

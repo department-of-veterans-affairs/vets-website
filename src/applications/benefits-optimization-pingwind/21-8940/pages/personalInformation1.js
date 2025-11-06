@@ -1,15 +1,11 @@
 import {
   ssnUI,
-  vaFileNumberUI,
-  serviceNumberUI,
   dateOfBirthSchema,
   dateOfBirthUI,
-  fullNameSchema,
-  fullNameUI,
+  fullNameNoSuffixSchema,
+  fullNameNoSuffixUI,
   inlineTitleUI,
   ssnSchema,
-  vaFileNumberSchema,
-  serviceNumberSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { veteranFields } from '../definitions/constants';
 import { getFullNameLabels } from '../helpers';
@@ -21,16 +17,11 @@ export default {
       ...inlineTitleUI(
         "We'll start by confirming your identity and how to reach you.",
       ),
-      [veteranFields.fullName]: fullNameUI(label =>
+      [veteranFields.fullName]: fullNameNoSuffixUI(label =>
         getFullNameLabels(label, false),
       ),
       [veteranFields.dateOfBirth]: dateOfBirthUI(),
-
       [veteranFields.ssn]: ssnUI(),
-      [veteranFields.vaFileNumber]: vaFileNumberUI(),
-      [veteranFields.veteranServiceNumber]: serviceNumberUI(
-        'VA service number',
-      ),
     },
   },
   schema: {
@@ -39,13 +30,15 @@ export default {
       [veteranFields.parentObject]: {
         type: 'object',
         properties: {
-          [veteranFields.fullName]: fullNameSchema,
+          [veteranFields.fullName]: fullNameNoSuffixSchema,
           [veteranFields.dateOfBirth]: dateOfBirthSchema,
           [veteranFields.ssn]: ssnSchema,
-          [veteranFields.vaFileNumber]: vaFileNumberSchema,
-          [veteranFields.veteranServiceNumber]: serviceNumberSchema,
         },
-        required: ['fullName', 'dateOfBirth', veteranFields.ssn],
+        required: [
+          veteranFields.fullName,
+          veteranFields.dateOfBirth,
+          veteranFields.ssn,
+        ],
       },
     },
   },

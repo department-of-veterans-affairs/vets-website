@@ -23,13 +23,6 @@ export default {
         'ui:webComponentField': TelephoneFieldNoInternalErrors,
         'ui:required': () => true,
       },
-      [veteranFields.alternatePhone]: {
-        ...internationalPhoneUI({
-          title: 'Alternate or international phone number (if applicable)',
-          hideEmptyValueInReview: true,
-        }),
-        'ui:webComponentField': TelephoneFieldNoInternalErrors,
-      },
       [veteranFields.email]: emailToSendNotificationsUI({
         title: 'Email address',
         hint:
@@ -50,12 +43,11 @@ export default {
     properties: {
       [veteranFields.parentObject]: {
         type: 'object',
-        required: [veteranFields.homePhone, veteranFields.email],
+        required: [veteranFields.homePhone],
         properties: {
           [veteranFields.homePhone]: internationalPhoneSchema({
             required: true,
           }),
-          [veteranFields.alternatePhone]: internationalPhoneSchema(),
           [veteranFields.email]: emailToSendNotificationsSchema,
           electronicCorrespondence: { type: 'boolean' },
         },

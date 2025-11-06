@@ -25,7 +25,7 @@ testNumberOfWebComponentFields(
 );
 
 // Required errors: fullName first + last + dateOfBirth => approximate number of error fields
-const numberOfWebComponentErrors = 3;
+const numberOfWebComponentErrors = 4;
 
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,

@@ -149,13 +149,12 @@ describe('21-8940 submit transformer', () => {
         maxYearlyEarnings: '54000',
         yearEarned: '2021345',
         occupation: 'Lead Systems Architect with multiple responsibilities',
-        militaryDutyPrevented: true,
+  activeDutyOrders: true,
         totalIncome: '1234',
         monthlyIncome: '456',
-        leavedEmployment: false,
-        disabilityBenefits: true,
-        compensationBenefits: true,
-        hasTriedEmployment: true,
+  leftDueToDisability: false,
+  receivesDisabilityRetirement: true,
+  receivesWorkersCompensation: true,
         educationLevel: 'college',
         college: 'junior',
         educationBeforeDisability: [
@@ -231,6 +230,7 @@ describe('21-8940 submit transformer', () => {
     expect(payload.occupationDuringMostEarnings).to.equal(
       'Lead Systems Architect with',
     );
+    expect(payload.preventMilitaryDuties).to.be.true;
     expect(payload.previousEmployers).to.deep.equal([
       {
         nameAndAddress: 'Mega Corp - 200 Industry Rd, Arlington, VA, 22203, US',
@@ -277,9 +277,9 @@ describe('21-8940 submit transformer', () => {
     expect(payload.yearOfMostEarnings).to.equal(2021);
     expect(payload.past12MonthsEarnedIncome).to.equal(1234);
     expect(payload.currentMonthlyEarnedIncome).to.equal(456);
-    expect(payload.leftLastJobDueToDisability).to.be.false;
-    expect(payload.expectDisabilityRetirement).to.be.true;
-    expect(payload.receiveExpectWorkersCompensation).to.be.true;
+  expect(payload.leftLastJobDueToDisability).to.be.false;
+  expect(payload.expectDisabilityRetirement).to.be.true;
+  expect(payload.receiveExpectWorkersCompensation).to.be.true;
     expect(payload.attemptedEmploy).to.be.true;
     expect(payload.remarks).to.equal('Needs assistance with tasks.');
     expect(payload.signature).to.equal('John Doe');
