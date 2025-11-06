@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 
-const ConfirmationScreenView = ({ benficiary, signee, submitDate }) => {
+const ConfirmationScreenView = ({ beneficiary, signee, submitDate }) => {
   useEffect(() => focusElement('h2', {}, 'va-alert'), []);
 
   return (
@@ -18,7 +18,7 @@ const ConfirmationScreenView = ({ benficiary, signee, submitDate }) => {
 
         <h4>Beneficiary’s name</h4>
         <p className="dd-privacy-mask" data-dd-action-name="Beneficiary">
-          {benficiary}
+          {beneficiary}
         </p>
 
         <h4>Who submitted this form</h4>
@@ -50,7 +50,7 @@ const ConfirmationScreenView = ({ benficiary, signee, submitDate }) => {
 };
 
 ConfirmationScreenView.propTypes = {
-  benficiary: PropTypes.string,
+  beneficiary: PropTypes.string,
   signee: PropTypes.string,
   submitDate: PropTypes.string,
 };
