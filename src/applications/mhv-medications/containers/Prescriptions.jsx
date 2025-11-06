@@ -655,6 +655,7 @@ const Prescriptions = () => {
         <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
           Medications
         </h1>
+        {renderRxRenewalMessageSuccess()}
         <p
           className={`vads-u-margin-top--0 vads-u-margin-bottom--${titleNotesBottomMarginUnit}`}
           data-testid="Title-Notes"
@@ -760,7 +761,6 @@ const Prescriptions = () => {
     return (
       <div className="landing-page no-print">
         {renderHeader()}
-        {renderRxRenewalMessageSuccess()}
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
