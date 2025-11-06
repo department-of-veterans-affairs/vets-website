@@ -63,6 +63,7 @@ const parentReasonToRemove = {
           label={labels.Parent.removalReason}
           hint={labels.Parent.removalReasonHint}
           onVaValueChange={onChange}
+          enable-analytics
           required
         >
           <VaRadioOption

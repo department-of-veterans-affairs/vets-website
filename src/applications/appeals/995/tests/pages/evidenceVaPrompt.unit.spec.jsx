@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
-import { EVIDENCE_VA } from '../../constants';
+import { HAS_VA_EVIDENCE } from '../../constants';
 import {
   requestVaRecordsTitle,
   requestVaRecordsHint,
@@ -80,7 +80,7 @@ describe('Supplemental Claims VA evidence request page', () => {
           definitions={{}}
           schema={schema}
           uiSchema={uiSchema}
-          data={{ [EVIDENCE_VA]: true }}
+          data={{ [HAS_VA_EVIDENCE]: true }}
           formData={{}}
           onSubmit={onSubmit}
         />

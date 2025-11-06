@@ -1,10 +1,7 @@
-import { cloneDeep } from 'lodash';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   addressUI,
   addressSchema,
-  fullNameUI,
-  fullNameSchema,
   titleUI,
   radioUI,
   radioSchema,
@@ -15,17 +12,18 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
   validAddressCharsOnly,
   validFieldCharsOnly,
   validObjectCharsOnly,
 } from '../../shared/validations';
+import {
+  blankSchema,
+  fullNameMiddleInitialSchema,
+  fullNameMiddleInitialUI,
+} from '../definitions';
 import { personalizeTitleByRole } from '../utils/helpers';
 import content from '../locales/en/content.json';
-
-const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
-fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 
 export const certifierRoleSchema = {
   uiSchema: {
@@ -101,7 +99,7 @@ export const certifierNameSchema = {
   schema: {
     type: 'object',
     properties: {
-      certifierName: fullNameSchema,
+      certifierName: fullNameMiddleInitialSchema,
     },
   },
 };
