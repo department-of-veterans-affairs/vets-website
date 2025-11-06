@@ -4,11 +4,10 @@ import classNames from 'classnames';
 
 export default function FilterSummary({
   categoryFilter,
-  currentTab,
-  pageStart,
-  hasTabs,
   pageEnd,
+  pageStart,
   statusFilter,
+  tabName,
   total,
 }) {
   const resultsDescription = `${pageStart}-${pageEnd} of ${total}`;
@@ -20,18 +19,18 @@ export default function FilterSummary({
     <h3
       id="filter-summary"
       className={classNames(
-        'vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light',
-        { 'vads-u-padding-x--0': !hasTabs },
-        { 'vads-u-padding-x--2p5': hasTabs },
+        'vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-font-weight--normal vads-u-font-size--md',
+        { 'vads-u-padding-x--0': !tabName },
+        { 'vads-u-padding-x--2p5': !!tabName },
       )}
     >
       Showing {total ? resultsDescription : 'no'} results for "
       <strong>{statusFilter}</strong>" {statusDescription} and "
       <strong>{categoryFilter}</strong>" {categoryDescription}
-      {hasTabs && (
+      {!!tabName && (
         <>
           {' '}
-          in <span className="vads-u-font-weight--bold">{currentTab}</span>
+          in <strong>{tabName}</strong>
         </>
       )}
     </h3>
@@ -40,10 +39,9 @@ export default function FilterSummary({
 
 FilterSummary.propTypes = {
   categoryFilter: PropTypes.string.isRequired,
-  currentTab: PropTypes.oneOf(['business', 'personal']).isRequired,
   pageEnd: PropTypes.number.isRequired,
   pageStart: PropTypes.number.isRequired,
   statusFilter: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
-  hasTabs: PropTypes.bool,
+  tabName: PropTypes.oneOf(['Business', 'Personal']),
 };
