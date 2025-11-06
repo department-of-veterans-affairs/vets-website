@@ -67,6 +67,16 @@ describe('ExpenseLodgingFields', () => {
 
     const vendorInput = container.querySelector('va-text-input[name="vendor"]');
     vendorInput.value = 'Hotel California';
+
+    // Dispatch InputEvent as recommended by platform helpers
+    const inputEvent = new window.InputEvent('input', {
+      bubbles: true,
+      composed: true,
+      data: 'Hotel California',
+    });
+    vendorInput.dispatchEvent(inputEvent);
+
+    // Also dispatch CustomEvent for compatibility
     vendorInput.dispatchEvent(
       new CustomEvent('input', {
         detail: { value: 'Hotel California' },

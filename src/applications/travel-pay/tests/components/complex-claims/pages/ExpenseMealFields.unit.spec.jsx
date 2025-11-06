@@ -44,8 +44,18 @@ describe('ExpenseMealFields', () => {
     const vaInput = container.querySelector('va-text-input[name="vendor"]');
     expect(vaInput).to.exist;
 
-    // Simulate the input change using direct event dispatching
+    // Simulate the input change using platform's recommended approach
     vaInput.value = 'New Vendor';
+
+    // Dispatch InputEvent as recommended by platform helpers
+    const inputEvent = new window.InputEvent('input', {
+      bubbles: true,
+      composed: true,
+      data: 'New Vendor',
+    });
+    vaInput.dispatchEvent(inputEvent);
+
+    // Also dispatch CustomEvent for compatibility
     vaInput.dispatchEvent(
       new CustomEvent('input', {
         detail: { value: 'New Vendor' },

@@ -115,8 +115,18 @@ describe('ExpenseAirTravelFields', () => {
     const vendorInput = container.querySelector(
       'va-text-input[name="vendorName"]',
     );
-    // Simulate the input change using direct event dispatching
+    // Simulate the input change using platform's recommended approach
     vendorInput.value = 'United Airlines';
+
+    // Dispatch InputEvent as recommended by platform helpers
+    const inputEvent = new window.InputEvent('input', {
+      bubbles: true,
+      composed: true,
+      data: 'United Airlines',
+    });
+    vendorInput.dispatchEvent(inputEvent);
+
+    // Also dispatch CustomEvent for compatibility
     vendorInput.dispatchEvent(
       new CustomEvent('input', {
         detail: { value: 'United Airlines' },
@@ -193,6 +203,16 @@ describe('ExpenseAirTravelFields', () => {
       'va-text-input[name="departureAirport"]',
     );
     departureAirport.value = 'SFO';
+
+    // Dispatch InputEvent as recommended by platform helpers
+    const inputEvent = new window.InputEvent('input', {
+      bubbles: true,
+      composed: true,
+      data: 'SFO',
+    });
+    departureAirport.dispatchEvent(inputEvent);
+
+    // Also dispatch CustomEvent for compatibility
     departureAirport.dispatchEvent(
       new CustomEvent('input', {
         detail: { value: 'SFO' },
@@ -220,6 +240,16 @@ describe('ExpenseAirTravelFields', () => {
       'va-text-input[name="arrivalAirport"]',
     );
     arrivalAirport.value = 'ORD';
+
+    // Dispatch InputEvent as recommended by platform helpers
+    const inputEvent = new window.InputEvent('input', {
+      bubbles: true,
+      composed: true,
+      data: 'ORD',
+    });
+    arrivalAirport.dispatchEvent(inputEvent);
+
+    // Also dispatch CustomEvent for compatibility
     arrivalAirport.dispatchEvent(
       new CustomEvent('input', {
         detail: { value: 'ORD' },
