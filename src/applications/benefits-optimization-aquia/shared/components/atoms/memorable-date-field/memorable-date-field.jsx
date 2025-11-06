@@ -33,6 +33,7 @@ export const MemorableDateField = ({
   error: externalError,
   forceShowError = false,
   monthYearOnly = false,
+  monthSelect = false,
   ...props
 }) => {
   const [touched, setTouched] = useState(false);
@@ -57,7 +58,7 @@ export const MemorableDateField = ({
       {...props}
       name={name}
       label={label}
-      monthSelect={false}
+      monthSelect={monthSelect}
       monthYearOnly={monthYearOnly}
       value={value || ''}
       required={required}

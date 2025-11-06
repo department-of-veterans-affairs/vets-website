@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import constants from 'vets-json-schema/dist/constants.json';
 
 import {
   MemorableDateField,
   TextInputField,
+  SelectField,
 } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
@@ -71,10 +73,12 @@ export const VeteranBirthInformationPage = ({
           <MemorableDateField
             name="dateOfBirth"
             label="Date of birth"
+            monthSelect
             schema={dateOfBirthSchema}
             value={localData.dateOfBirth}
             onChange={handleFieldChange}
             required
+            remove-date-hint
             error={errors.dateOfBirth}
             forceShowError={formSubmitted}
           />
@@ -90,7 +94,7 @@ export const VeteranBirthInformationPage = ({
             schema={placeOfBirthSchema.shape.city}
           />
 
-          <TextInputField
+          <SelectField
             name="placeOfBirth.state"
             label="State of birth"
             value={localData.placeOfBirth?.state}
@@ -99,6 +103,9 @@ export const VeteranBirthInformationPage = ({
             error={errors['placeOfBirth.state']}
             forceShowError={formSubmitted}
             schema={placeOfBirthSchema.shape.state}
+            options={constants.states.USA.filter(
+              state => !['AA', 'AE', 'AP'].includes(state.value),
+            )}
           />
         </>
       )}
@@ -110,7 +117,7 @@ VeteranBirthInformationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
-  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
