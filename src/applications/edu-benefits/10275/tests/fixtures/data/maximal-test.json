@@ -16,8 +16,10 @@
           "last": "Official"
         },
         "title": "SCO",
-        "view:phoneType": "us",
-        "usPhone": "1231231234",
+       "phoneType": "us",
+      "view:phoneType": "us",
+      "usPhone":"1234567890",
+      "phoneNumber": "1234567890",
         "email": "school.official@test.com"
       },
       "principlesOfExcellencePointOfContact": {
@@ -27,8 +29,10 @@
           "last": "Contact"
         },
         "title": "PoC",
-        "view:phoneType": "us",
-        "usPhone": "1112223333",
+       "phoneType": "us",
+      "view:phoneType": "us",
+      "usPhone":"1234567890",
+      "phoneNumber": "1234567890",
         "email": "point.contact@test.com",
         "view:isSCO": false
       }
@@ -40,8 +44,10 @@
         "last": "Doe"
       },
       "title": "President",
+      "phoneType": "us",
       "view:phoneType": "us",
-      "usPhone": "1234567890",
+      "usPhone":"1234567890",
+      "phoneNumber": "1234567890",
       "email": "john.doe@test.com",
       "view:isPOC": false,
       "view:isSCO": false
@@ -69,8 +75,8 @@
           "last": "Contact"
         },
         "email": "brand.new@email.com",
-        "previouslyEnteredPointOfContact": {
-          "key": "none"
+        "pointOfContact": {
+          "key": "authorizedOfficial"
         },
         "view:additionalInstructions": {},
         "facilityCode": "15012020",
