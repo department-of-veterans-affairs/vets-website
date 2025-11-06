@@ -1,18 +1,13 @@
-import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
+import { getTitle } from '../../utils/evidence';
 
 export const content = {
-  title: (addOrEdit, index) =>
-    `${addOrEdit === 'add' ? 'Add a' : 'Edit the'} ${numberToWords(
-      index || 1,
-    )} VA or military treatment location`,
-  description:
-    'We’ll request your VA medical records from this facility or provider',
-  locationAndName: 'Name of facility or provider that treated you',
-  locationAndNameHint:
-    'You can enter the name of a VA medical center or clinic, military treatment facility, or community care provider (paid for by VA).',
-  issuesLabel: 'What did they treat you for?',
+  title: (addOrEdit, index) => getTitle(addOrEdit, index, 'va'),
+  locationAndName: 'Enter the name of facility or provider that treated you',
+  locationAndNameHint: 'You can add the names of more locations later',
   treatmentDate:
     'If you received treatment before 2005, when did they treat you?',
+  treatmentDateHint:
+    'We’ll use this date to help us find your paper records from 2005 or earlier (you can estimate).',
   noDate: 'I don’t have the date',
   addAnotherLink: 'Add another VA or military treatment location',
   modal: {

@@ -356,6 +356,7 @@ const PrivateDetailsEntry = ({
           autocomplete="section-provider name"
         />
         <EvidenceFacilityAddress
+          className={hasErrors(errors) ? 'vads-u-margin-top--2' : ''}
           currentData={currentData}
           content={content}
           handlers={handlers}
@@ -369,32 +370,36 @@ const PrivateDetailsEntry = ({
           showError={showError}
         />
         <VaMemorableDate
-          id="from-date"
-          name="from"
-          label={content.dateStart}
-          required
-          onDateChange={handlers.onChange}
-          onDateBlur={handlers.onBlur}
-          value={currentData.treatmentDateRange?.from}
           error={showError('from')}
-          invalidMonth={isInvalid('from', 'month')}
+          hint="Enter 2 digits for the month and day and 4 digits for the year. You can estimate the date."
+          id="from-date"
           invalidDay={isInvalid('from', 'day')}
+          invalidMonth={isInvalid('from', 'month')}
           invalidYear={isInvalid('from', 'year')}
+          label={content.dateStart}
           month-select={false}
+          name="from"
+          onDateBlur={handlers.onBlur}
+          onDateChange={handlers.onChange}
+          removeDateHint
+          required
+          value={currentData.treatmentDateRange?.from}
         />
         <VaMemorableDate
-          id="to-date"
-          name="to"
-          label={content.dateEnd}
-          required
-          onDateChange={handlers.onChange}
-          onDateBlur={handlers.onBlur}
-          value={currentData.treatmentDateRange?.to}
           error={showError('to')}
-          invalidMonth={isInvalid('to', 'month')}
+          hint="Enter 2 digits for the month and day and 4 digits for the year. You can estimate the date."
+          id="to-date"
           invalidDay={isInvalid('to', 'day')}
+          invalidMonth={isInvalid('to', 'month')}
           invalidYear={isInvalid('to', 'year')}
+          label={content.dateEnd}
           month-select={false}
+          name="to"
+          onDateBlur={handlers.onBlur}
+          onDateChange={handlers.onChange}
+          removeDateHint
+          required
+          value={currentData.treatmentDateRange?.to}
         />
         <EvidencePageNavigation
           path={`${PRIVATE_PATH}?index=${currentIndex + 1}`}

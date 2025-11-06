@@ -1,13 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-
 import formConfig from '../../../config/form';
 
-describe('Supplemental Claims Private evidence request page', () => {
+describe('Private evidence prompt page', () => {
   const { schema, uiSchema } = formConfig.chapters.evidence.pages.privatePrompt;
 
   // Custom page is rendered, so this renders a checkbox + submit button
