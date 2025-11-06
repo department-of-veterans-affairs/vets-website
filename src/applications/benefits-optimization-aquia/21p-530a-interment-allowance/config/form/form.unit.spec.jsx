@@ -31,8 +31,8 @@ describe('Form Configuration', () => {
       expect(formConfig.v3SegmentedProgressBar).to.be.true;
     });
 
-    it('should have prefill enabled', () => {
-      expect(formConfig.prefillEnabled).to.be.true;
+    it('should have prefill disabled', () => {
+      expect(formConfig.prefillEnabled).to.be.false;
     });
   });
 
@@ -116,18 +116,11 @@ describe('Form Configuration', () => {
       ).to.exist;
     });
 
-    it('should have veteranBirthDeathInformation page', () => {
-      expect(
-        formConfig.chapters.veteranInformationChapter.pages
-          .veteranBirthDeathInformation,
-      ).to.exist;
-    });
-
-    it('should NOT have duplicate veteranBirthInformation page', () => {
+    it('should have veteranBirthInformation page', () => {
       expect(
         formConfig.chapters.veteranInformationChapter.pages
           .veteranBirthInformation,
-      ).to.not.exist;
+      ).to.exist;
     });
 
     it('should have veteranBurialInformation page', () => {

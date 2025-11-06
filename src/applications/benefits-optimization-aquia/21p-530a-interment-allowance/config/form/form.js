@@ -82,7 +82,7 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   prefillTransformer,
   savedFormMessages: {
     notFound:

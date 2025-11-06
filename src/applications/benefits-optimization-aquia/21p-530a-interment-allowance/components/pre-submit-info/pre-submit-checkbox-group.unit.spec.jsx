@@ -53,7 +53,7 @@ describe('PreSubmitCheckboxGroup', () => {
       expect(container).to.exist;
     });
 
-    it('should display instruction text', () => {
+    it('should display legal note', () => {
       const store = createMockStore();
       const { container } = render(
         <Provider store={store}>
@@ -66,11 +66,11 @@ describe('PreSubmitCheckboxGroup', () => {
       );
 
       expect(container.textContent).to.include(
-        'Please review the information entered in this application',
+        'According to federal law, there are criminal penalties',
       );
     });
 
-    it('should display note about signature', () => {
+    it('should render statement of truth checkbox', () => {
       const store = createMockStore();
       const { container } = render(
         <Provider store={store}>
@@ -83,13 +83,13 @@ describe('PreSubmitCheckboxGroup', () => {
       );
 
       expect(container.textContent).to.include(
-        'This signature certifies all information provided',
+        'I confirm that the identifying information',
       );
     });
   });
 
-  describe('Statement Content', () => {
-    it('should include veteran name in statement', () => {
+  describe('Signature Fields', () => {
+    it('should render signature input field', () => {
       const store = createMockStore();
       const { container } = render(
         <Provider store={store}>
@@ -101,10 +101,10 @@ describe('PreSubmitCheckboxGroup', () => {
         </Provider>,
       );
 
-      expect(container.textContent).to.include('Anakin Skywalker');
+      expect(container.querySelector('va-text-input')).to.exist;
     });
 
-    it('should include cemetery name in statement', () => {
+    it('should render title input field', () => {
       const store = createMockStore();
       const { container } = render(
         <Provider store={store}>
@@ -116,10 +116,15 @@ describe('PreSubmitCheckboxGroup', () => {
         </Provider>,
       );
 
-      expect(container.textContent).to.include('Endor Forest Sanctuary');
+      // Check for the organization title text input
+      expect(
+        container.querySelector(
+          'va-text-input[label="Your organization title"]',
+        ),
+      ).to.exist;
     });
 
-    it('should include interment allowance rate', () => {
+    it('should render statement of truth with checkbox', () => {
       const store = createMockStore();
       const { container } = render(
         <Provider store={store}>
@@ -131,12 +136,12 @@ describe('PreSubmitCheckboxGroup', () => {
         </Provider>,
       );
 
-      expect(container.textContent).to.include('$978');
+      expect(container.querySelector('va-statement-of-truth')).to.exist;
     });
   });
 
   describe('Empty Data Handling', () => {
-    it('should handle missing veteran name', () => {
+    it('should render with empty form data', () => {
       const store = createMockStore();
       const emptyFormData = {};
 
@@ -150,10 +155,11 @@ describe('PreSubmitCheckboxGroup', () => {
         </Provider>,
       );
 
-      expect(container.textContent).to.include('[Veteran Name]');
+      expect(container).to.exist;
+      expect(container.querySelector('va-text-input')).to.exist;
     });
 
-    it('should handle missing cemetery name', () => {
+    it('should render legal note with empty data', () => {
       const store = createMockStore();
       const emptyFormData = {};
 
@@ -167,7 +173,7 @@ describe('PreSubmitCheckboxGroup', () => {
         </Provider>,
       );
 
-      expect(container.textContent).to.include('[Cemetery Name]');
+      expect(container.textContent).to.include('According to federal law');
     });
   });
 
