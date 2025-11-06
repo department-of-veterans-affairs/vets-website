@@ -34,10 +34,10 @@ const PicklistRemoveDependentFollowup = ({
   const scrollAndFocus = () => {
     setTimeout(() => {
       scrollToTop();
-      const radio = $('va-radio[label-header-level]');
-      if (radio) {
+      const el = $('h3, va-radio[label-header-level]');
+      if (el.tagName === 'VA-RADIO') {
         // va-radio content doesn't immediately render
-        waitForRenderThenFocus('h3', radio.shadowRoot);
+        waitForRenderThenFocus('h3', el.shadowRoot);
       } else {
         focusElement('h3');
       }
