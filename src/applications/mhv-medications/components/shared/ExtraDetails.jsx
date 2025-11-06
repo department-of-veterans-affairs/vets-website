@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
+import { VaIcon } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
 import {
   DATETIME_FORMATS,
@@ -53,7 +54,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
             fallbackContent={
               // eslint-disable-next-line react/jsx-wrap-multilines
               <>
-                <va-icon icon="acute" size={3} aria-hidden="true" />
+                <VaIcon size={3} icon="acute" aria-hidden="true" />
                 <div
                   className="vads-u-padding-left--2"
                   data-testid="rx-process"
@@ -87,7 +88,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
             fallbackContent={
               // eslint-disable-next-line react/jsx-wrap-multilines
               <>
-                <va-icon icon="fact_check" size={3} aria-hidden="true" />
+                <VaIcon size={3} icon="fact_check" aria-hidden="true" />
                 <span className="vads-u-padding-left--2">
                   We got your request on{' '}
                   {dateFormat(
