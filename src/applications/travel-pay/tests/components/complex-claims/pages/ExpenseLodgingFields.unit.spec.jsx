@@ -93,7 +93,7 @@ describe('ExpenseLodgingFields', () => {
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
       const eventArg = onChangeSpy.firstCall.args[0];
-      const value = eventArg?.detail || eventArg?.target?.value;
+      const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('2025-11-10');
     });
   });
@@ -110,7 +110,7 @@ describe('ExpenseLodgingFields', () => {
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
       const eventArg = onChangeSpy.firstCall.args[0];
-      const value = eventArg?.detail || eventArg?.target?.value;
+      const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('2025-11-15');
     });
   });

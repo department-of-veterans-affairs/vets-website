@@ -35,17 +35,17 @@ const DummyRadioComponent = ({ formState = {}, onChange }) => {
 
 describe('helper functions', () => {
   describe('simulateVaInputChange', () => {
-    it('should update value, fire events, and call onInput', () => {
+    it('should update value and fire events', () => {
       const input = document.createElement('input');
-      const onInputSpy = sinon.spy();
-      input.onInput = onInputSpy;
+      const eventSpy = sinon.spy();
+      input.addEventListener('input', eventSpy);
 
       const result = simulateVaInputChange(input, 'test value');
 
       expect(result).to.exist;
       expect(result.value).to.equal('test value');
       expect(input.value).to.equal('test value');
-      expect(onInputSpy.calledOnce).to.be.true;
+      expect(eventSpy.calledOnce).to.be.true;
       expect(result.eventFired).to.be.true;
     });
 
@@ -56,10 +56,10 @@ describe('helper functions', () => {
   });
 
   describe('simulateVaDateChange', () => {
-    it('should update value, fire events, and call onDateChange', () => {
+    it('should update value and fire events', () => {
       const dateInput = document.createElement('input');
-      const onDateChangeSpy = sinon.spy();
-      dateInput.onDateChange = onDateChangeSpy;
+      const eventSpy = sinon.spy();
+      dateInput.addEventListener('dateChange', eventSpy);
 
       const value = '2025-11-05';
       const result = simulateVaDateChange(dateInput, value);
@@ -67,7 +67,7 @@ describe('helper functions', () => {
       expect(result).to.exist;
       expect(result.value).to.equal(value);
       expect(dateInput.value).to.equal(value);
-      expect(onDateChangeSpy.calledOnce).to.be.true;
+      expect(eventSpy.calledOnce).to.be.true;
       expect(result.eventFired).to.be.true;
     });
 
