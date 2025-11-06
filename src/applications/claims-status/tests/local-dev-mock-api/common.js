@@ -762,6 +762,11 @@ const baseClaims = [
           '2024-10-15',
         ),
       ],
+      contentions: [
+        {
+          name: 'Service connection for tinnitus',
+        },
+      ],
       trackedItems: [
         {
           closedDate: null,
@@ -781,10 +786,36 @@ const baseClaims = [
           documents: '[]',
           date: '2024-03-07',
         },
-      ],
-      contentions: [
         {
-          name: 'Service connection for tinnitus',
+          closedDate: null,
+          description: 'Automated 5103 Notice Response',
+          displayName: 'Automated 5103 Notice Response',
+          overdue: false,
+          receivedDate: '2024-06-13',
+          requestedDate: '2024-06-13',
+          suspenseDate: '2024-07-14',
+          id: 13,
+          status: 'NEEDED_FROM_YOU',
+          uploaded: false,
+          uploadsAllowed: true,
+        },
+        {
+          closedDate: null,
+          description: '21-4142 text',
+          displayName: '21-4142/21-4142a',
+          friendlyName: 'Authorization to Disclose Information',
+          friendlyDescription: 'good description',
+          canUploadFile: true,
+          supportAliases: ['VA Form 21-4142'],
+          id: 14268,
+          overdue: true,
+          receivedDate: null,
+          requestedDate: '2024-03-07',
+          status: 'NEEDED_FROM_YOU',
+          suspenseDate: '2024-04-07',
+          uploadsAllowed: true,
+          documents: '[]',
+          date: '2024-03-07',
         },
       ],
     },
@@ -1642,6 +1673,25 @@ const responses = {
       url: '/mock-letters/VA_Decision_Letter_12345.pdf',
     },
   ],
+
+  'POST /v0/benefits_claims/:id/submit5103': (_req, res) => {
+    const hasError = true;
+
+    if (hasError) {
+      return res.status(500).json({
+        errors: [
+          {
+            title: 'Internal Server Error',
+            detail: 'An error occurred while processing your request',
+            code: '500',
+            status: '500',
+          },
+        ],
+      });
+    }
+
+    return res.status(200).json({ jobId: `job-${Date.now()}` });
+  },
 
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
