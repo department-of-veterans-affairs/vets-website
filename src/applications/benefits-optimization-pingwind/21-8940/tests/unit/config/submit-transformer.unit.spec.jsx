@@ -40,8 +40,16 @@ describe('21-8940 submit transformer', () => {
             country: ' united states of america ',
           },
           email: ' vet@example.com ',
-          homePhone: '555-0000',
-          internationalPhone: ' 444-5555 ',
+          homePhone: {
+            callingCode: 1,
+            contact: '(555) 000-0000',
+            countryCode: 'US',
+          },
+          alternatePhone: {
+            callingCode: 44,
+            contact: '20 7946 0958',
+            countryCode: 'GB',
+          },
         },
         doctorCareQuestion: {
           hasReceivedDoctorCare: true,
@@ -202,6 +210,8 @@ describe('21-8940 submit transformer', () => {
     });
     expect(payload.electronicCorrespondance).to.be.true;
     expect(payload.email).to.equal('vet@example.com');
+    expect(payload.veteranPhone).to.equal('5550000000');
+    expect(payload.internationalPhone).to.equal('442079460958');
     expect(payload.listOfDisabilities).to.equal('Chronic back pain, PTSD');
     expect(payload.doctorsTreatmentDates).to.deep.equal({
       from: '2019-01-01',
@@ -274,5 +284,50 @@ describe('21-8940 submit transformer', () => {
     expect(payload.signature).to.equal('John Doe');
     expect(payload.signatureDate).to.equal('2024-01-01');
     expect(payload.files).to.deep.equal([{ name: 'supporting.pdf' }]);
+  });
+
+  it('sets attemptedEmploy to true when employment history entries exist but toggle is false', () => {
+    const form = {
+      data: {
+        employmentHistory: {
+          hasTriedEmployment: false,
+          data: [
+            {
+              employerName: 'Sample Employer',
+              employerAddress: {
+                street: '1 Main St',
+                city: 'Springfield',
+                state: 'VA',
+                postalCode: '22150',
+                country: 'USA',
+              },
+              typeOfWork: 'Developer',
+              dateApplied: '2024-05-01',
+            },
+          ],
+        },
+      },
+    };
+
+    sharedTransformStub.callsFake((config, formArg) =>
+      JSON.stringify({
+        ...formArg.data,
+        formNumber: config.formId,
+      }),
+    );
+
+    const transformedResult = transformForSubmit(formConfig, form);
+    const transformed = JSON.parse(transformedResult);
+    const payload = JSON.parse(transformed.increase_compensation_claim.form);
+
+    expect(payload.attemptedEmploy).to.be.true;
+    expect(payload.appliedEmployers).to.deep.equal([
+      {
+        nameAndAddress:
+          'Sample Employer - 1 Main St, Springfield, VA, 22150, US',
+        typeOfWork: 'Developer',
+        dateApplied: '2024-05-01',
+      },
+    ]);
   });
 });

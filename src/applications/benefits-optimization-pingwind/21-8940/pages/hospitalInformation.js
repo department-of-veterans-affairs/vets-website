@@ -9,10 +9,17 @@ import {
   currentOrPastDateSchema,
   currentOrPastDateUI,
   titleUI,
+  radioUI,
+  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { HospitalView, DateRangeView } from '../components/viewElements';
 import SafeArrayField from '../components/SafeArrayField';
+
+const hospitalTypeLabels = {
+  va: 'VA Hospital',
+  nonVa: 'Non-VA Hospital',
+};
 
 /** @type {PageSchema} */
 export default {
@@ -37,6 +44,17 @@ export default {
       items: {
         'ui:options': {
           classNames: 'vads-u-margin-left--1p5',
+        },
+        hospitalType: {
+          ...radioUI({
+            title: 'Hospital type',
+            labels: hospitalTypeLabels,
+            required: () => true,
+            errorMessages: {
+              required: 'Please select if this is a VA or Non-VA hospital.',
+            },
+            tile: true,
+          }),
         },
         hospitalName: {
           ...textUI('Hospital name'),
@@ -95,6 +113,7 @@ export default {
         items: {
           type: 'object',
           properties: {
+            hospitalType: radioSchema(Object.keys(hospitalTypeLabels)),
             hospitalName: textSchema,
             hospitalAddress: addressSchema(),
             connectedDisabilities: {
@@ -102,7 +121,12 @@ export default {
               maxLength: 500,
             },
           },
-          required: ['hospitalName', 'hospitalAddress'],
+          required: [
+            'hospitalType',
+            'hospitalName',
+            'hospitalAddress',
+            'connectedDisabilities',
+          ],
         },
       },
       treatmentDates: {

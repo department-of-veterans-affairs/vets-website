@@ -135,7 +135,7 @@ const formConfig = {
       },
     },
     employmentInformation: {
-      title: 'Section 2 – Employment information',
+      title: 'Employment information',
       pages: {
         employmentCheck: {
           path: 'employment-check',
@@ -178,7 +178,7 @@ const formConfig = {
       },
     },
     unemploymentCertification: {
-      title: 'Section 3 – Unemployment certification',
+      title: 'Unemployment certification',
       pages: {
         sectionThreeIntro: {
           path: 'section-three',

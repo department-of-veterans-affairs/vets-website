@@ -49,7 +49,7 @@ export default {
         connectedDisabilities: {
           'ui:title': 'Connected disabilities',
           'ui:description':
-            'Enter disabilities separated by commas (e.g., PTSD, Hearing Loss, Back Pain)',
+            'Please enter the service-connected disabilities this doctor treated you for (please separate each disability with a comma e.g., PTSD, Hearing Loss, Back Pain)',
         },
       },
     },
@@ -98,7 +98,7 @@ export default {
               maxLength: 500,
             },
           },
-          required: ['doctorName', 'doctorAddress'],
+          required: ['doctorName', 'doctorAddress', 'connectedDisabilities'],
         },
       },
 

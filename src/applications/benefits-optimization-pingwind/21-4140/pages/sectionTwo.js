@@ -140,6 +140,10 @@ const summaryPage = {
           Y: 'Yes, I have another employer to add',
           N: 'No, I added all of my employers',
         },
+        errorMessages: {
+          required:
+            'Please make a selection, even if you do not have another employer to add. This field is required.',
+        },
       },
     ),
   },

@@ -24,6 +24,7 @@ export default {
       'ui:options': {
         showFieldLabel: true,
         classNames: 'confirmation-required-radio',
+        hideDuplicateDescription: true,
       },
     },
   },

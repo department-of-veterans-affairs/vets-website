@@ -28,6 +28,13 @@ export default {
           We need to collect some basic information about you first.
         </div>
       ),
+      'ui:order': [
+        veteranFields.fullName,
+        veteranFields.ssn,
+        veteranFields.vaFileNumber,
+        veteranFields.dateOfBirth,
+        veteranFields.veteranServiceNumber,
+      ],
 
       [veteranFields.fullName]: {
         ...fullNameUI(label => getFullNameLabels(label, false)),

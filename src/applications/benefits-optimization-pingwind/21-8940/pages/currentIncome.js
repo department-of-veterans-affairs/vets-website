@@ -1,7 +1,15 @@
+import React from 'react';
+
 import {
   numberUI,
   numberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
+const AdditionalInformation = () => (
+  <va-additional-info trigger="Additional Information" uswds>
+    <p>Numeric characters only</p>
+  </va-additional-info>
+);
 
 /** @type {PageSchema} */
 export default {
@@ -11,13 +19,13 @@ export default {
     totalIncome: numberUI({
       title:
         'Indicate your total earned income for the past 12 months (gross income)',
-      hint: 'Numeric characters only',
+      description: <AdditionalInformation />,
       setTouchedOnBlur: false,
     }),
     monthlyIncome: numberUI({
       title:
         'If you are currently employed, indicate your current monthly earned income (gross income)',
-      hint: 'Numeric characters only',
+      description: <AdditionalInformation />,
       setTouchedOnBlur: false,
     }),
   },

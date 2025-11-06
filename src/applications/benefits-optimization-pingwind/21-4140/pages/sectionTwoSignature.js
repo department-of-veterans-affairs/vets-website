@@ -5,13 +5,19 @@ import {
   checkboxUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import { inlineTitleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 import { employedByVAFields } from '../definitions/constants';
 
 /** @returns {PageSchema} */
 export default {
   uiSchema: {
+    ...titleUI('Authorization and Certification'),
+    'ui:description': () => (
+        <div style={{ paddingBottom: '2rem' }}>
+          Read and agree to the following statements
+        </div>
+      ),
     [employedByVAFields.parentObject]: {
       'ui:order': [
         employedByVAFields.hasCertifiedSection2,
@@ -21,7 +27,6 @@ export default {
         'view:sectionTwoBurdenAlert',
       ],
 
-      ...inlineTitleUI('Authorization and Certification'),
       [employedByVAFields.hasCertifiedSection2]: checkboxUI({
         title:
           'I certify that the statements made in this form are true and complete to the best of my knowledge and belief.',

@@ -5,15 +5,20 @@ import {
   checkboxUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import { inlineTitleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 import { employedByVAFields } from '../definitions/constants';
 
 /** @returns {PageSchema} */
 export default {
   uiSchema: {
+    ...titleUI('Authorization and Certification'),
+    'ui:description': () => (
+        <div style={{ paddingBottom: '2rem' }}>
+          Read and agree to the following statements
+        </div>
+      ),
     [employedByVAFields.parentObject]: {
-      ...inlineTitleUI('Authorization and Certification'),
       'ui:order': [
         employedByVAFields.hasCertifiedSection3,
         employedByVAFields.hasUnderstoodSection3,

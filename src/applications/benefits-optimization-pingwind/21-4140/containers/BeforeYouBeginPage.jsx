@@ -9,6 +9,7 @@ import {
 } from 'platform/forms-system/src/js/routing';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { scrollTo } from 'platform/utilities/scroll';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import { VaSummaryBox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { skipToContent } from '../utils/skipToContent';
 
@@ -21,6 +22,7 @@ const BeforeYouBeginPage = ({
 }) => {
   useEffect(() => {
     scrollTo('topScrollElement');
+    waitForRenderThenFocus('#main-content');
   }, []);
 
   const pageList = route?.pageList || [];

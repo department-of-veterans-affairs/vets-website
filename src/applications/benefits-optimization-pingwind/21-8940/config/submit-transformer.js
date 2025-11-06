@@ -27,6 +27,54 @@ const stringOrUndefined = value => {
   return undefined;
 };
 
+const digitsOnly = value => {
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+
+  return value.replace(/[^\d]/g, '');
+};
+
+const formatPhoneNumber = phone => {
+  if (phone === undefined || phone === null) {
+    return undefined;
+  }
+
+  if (typeof phone === 'string' || typeof phone === 'number') {
+    return stringOrUndefined(String(phone));
+  }
+
+  if (typeof phone !== 'object') {
+    return undefined;
+  }
+
+  const contactValue = stringOrUndefined(phone.contact);
+  if (!contactValue) {
+    return undefined;
+  }
+
+  const countryCode = stringOrUndefined(phone.countryCode);
+  const callingCodeRaw =
+    phone.callingCode === 0 || phone.callingCode
+      ? String(phone.callingCode)
+      : undefined;
+
+  const contactDigits = digitsOnly(contactValue) || contactValue;
+  const callingCodeDigits = callingCodeRaw ? digitsOnly(callingCodeRaw) : undefined;
+
+  const includeCallingCode =
+    callingCodeDigits &&
+    (countryCode
+      ? countryCode.toUpperCase() !== 'US' || callingCodeDigits !== '1'
+      : true);
+
+  const combined = includeCallingCode
+    ? `${callingCodeDigits}${contactDigits}`
+    : contactDigits;
+
+  return stringOrUndefined(combined);
+};
+
 const truncateString = (value, limit) => {
   if (typeof value !== 'string') {
     return value;
@@ -171,8 +219,30 @@ const isDeepEmpty = value => {
   return false;
 };
 
+const extractArrayLike = value => {
+  if (Array.isArray(value)) {
+    return value;
+  }
+
+  if (value && typeof value === 'object') {
+    if (Array.isArray(value.data)) {
+      return value.data;
+    }
+
+    if (Array.isArray(value.records)) {
+      return value.records;
+    }
+
+    if (Array.isArray(value.items)) {
+      return value.items;
+    }
+  }
+
+  return [];
+};
+
 const toArray = value =>
-  Array.isArray(value) ? value.filter(item => !isDeepEmpty(item)) : [];
+  extractArrayLike(value).filter(item => !isDeepEmpty(item));
 
 const formatDisabilitiesList = value => {
   if (typeof value === 'string') {
@@ -431,7 +501,7 @@ const buildSubmissionPayload = data => {
   const education = mapEducation(data);
   const preTraining = buildTrainingSection(
     data?.educationBeforeDisability,
-    'dateOfTraining',
+    'datesOfTraining',
   );
   const postTraining = buildTrainingSection(
     data?.educationAfterDisability,
@@ -472,18 +542,37 @@ const buildSubmissionPayload = data => {
     doctorsCareInLastYTD = true;
   }
 
+  const appliedEmployersCount = Array.isArray(appliedEmployers)
+    ? appliedEmployers.length
+    : 0;
+
   const attemptedEmployAnswer = (() => {
+    if (appliedEmployersCount > 0) {
+      return true;
+    }
+
+    const nestedArrayAnswer = toBoolean(
+      data?.[employmentAppliedFields.parentObject]?.[
+        employmentAppliedFields.hasTriedEmployment
+      ],
+    );
+    if (nestedArrayAnswer !== undefined) {
+      return nestedArrayAnswer;
+    }
+
     const arrayBuilderAnswer = toBoolean(
       data?.[employmentAppliedFields.hasTriedEmployment],
     );
     if (arrayBuilderAnswer !== undefined) {
       return arrayBuilderAnswer;
     }
+
     const legacyAnswer = toBoolean(data?.triedEmployment);
     if (legacyAnswer !== undefined) {
       return legacyAnswer;
     }
-    return appliedEmployers ? appliedEmployers.length > 0 : undefined;
+
+    return undefined;
   })();
 
   const submission = {
@@ -494,8 +583,10 @@ const buildSubmissionPayload = data => {
     veteranAddress: buildAddress(veteran.address),
     electronicCorrespondance: Boolean(stringOrUndefined(veteran.email)),
     email: stringOrUndefined(veteran.email),
-    veteranPhone: stringOrUndefined(veteran.homePhone),
-    internationalPhone: stringOrUndefined(veteran.internationalPhone),
+    veteranPhone: formatPhoneNumber(veteran.homePhone),
+    internationalPhone:
+      formatPhoneNumber(veteran.alternatePhone) ||
+      formatPhoneNumber(veteran.internationalPhone),
     listOfDisabilities: formatDisabilitiesList(data?.disabilityDescription),
     doctorsCareInLastYTD,
     doctorsTreatmentDates: doctorTreatmentRange,
@@ -512,12 +603,12 @@ const buildSubmissionPayload = data => {
       MAX_LENGTHS.occupation,
     ),
     previousEmployers,
-    preventMilitaryDuties: toBoolean(data?.militaryDutyPrevented),
+    preventMilitaryDuties: toBoolean(data?.activeDutyOrders),
     past12MonthsEarnedIncome: toInteger(data?.totalIncome),
     currentMonthlyEarnedIncome: toInteger(data?.monthlyIncome),
-    leftLastJobDueToDisability: toBoolean(data?.leavedEmployment),
-    expectDisabilityRetirement: toBoolean(data?.disabilityBenefits),
-    receiveExpectWorkersCompensation: toBoolean(data?.compensationBenefits),
+    leftLastJobDueToDisability: toBoolean(data?.leftDueToDisability),
+    expectDisabilityRetirement: toBoolean(data?.receivesDisabilityRetirement),
+    receiveExpectWorkersCompensation: toBoolean(data?.receivesWorkersCompensation),
     attemptedEmploy: attemptedEmployAnswer,
     appliedEmployers,
     education,

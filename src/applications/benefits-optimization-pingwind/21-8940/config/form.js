@@ -3,6 +3,10 @@ import environment from 'platform/utilities/environment';
 
 import footerContent from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import {
+  checkValidPagePath,
+  getNextPagePath,
+} from 'platform/forms-system/src/js/routing';
 import { inlineTitleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import manifest from '../manifest.json';
 
@@ -11,9 +15,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 import transformForSubmit from './submit-transformer';
 
-import confirmationQuestion from '../pages/confirmationQuestion';
+/*import confirmationQuestion from '../pages/confirmationQuestion';*/
+import confirmationQuestion from '../containers/confirmationQuestion';
 import personalInformation1 from '../pages/personalInformation1';
-import personalInformation2 from '../pages/personalInformation2';
+/*import personalInformation2 from '../pages/personalInformation2';*/
 import contactInformation1 from '../pages/contactInformation1';
 import contactInformation2 from '../pages/contactInformation2';
 
@@ -48,6 +53,26 @@ import {
 
 import ImportantInformation from '../containers/ImportantInformation';
 import WhatYouNeed from '../containers/WhatYouNeed';
+
+const handleFormLoaded = props => {
+  const {
+    returnUrl,
+    router,
+    routes,
+    formData,
+    formConfig: loadedFormConfig,
+  } = props;
+  const pageList = routes?.[routes.length - 1]?.pageList || [];
+  const introPath = `${loadedFormConfig?.urlPrefix || '/'}introduction`;
+  const fallbackPath =
+    getNextPagePath(pageList, formData, introPath) || introPath;
+  const safeReturnUrl =
+    returnUrl && checkValidPagePath(pageList, formData, returnUrl)
+      ? returnUrl
+      : fallbackPath;
+
+  router.push(safeReturnUrl);
+};
 
 /** @returns {PageSchema} */
 const sectionOneBannerPage = {
@@ -292,6 +317,7 @@ const formConfig = {
         "Your veteran's application for increased compensation based on unemployability has been saved.",
     },
   },
+  onFormLoaded: handleFormLoaded,
   version: 0,
   // Note: this is enabled for Save In Progress functionality. We are not using prefill and thus do not have a prefill transformer
   prefillEnabled: true,
@@ -313,6 +339,12 @@ const formConfig = {
 
   additionalRoutes: [
     {
+      path: 'confirmation-question',
+      pageKey: 'confirmationQuestion',
+      component: confirmationQuestion,
+      depends: () => true,
+    },
+    {
       path: 'important-information',
       pageKey: 'important-information',
       component: ImportantInformation,
@@ -327,7 +359,7 @@ const formConfig = {
   ],
 
   chapters: {
-    confirmationQuestionChapter: {
+    /*confirmationQuestionChapter: {
       title: "Let's get started",
       pages: {
         confirmationQuestion: {
@@ -337,7 +369,7 @@ const formConfig = {
           schema: confirmationQuestion.schema,
         },
       },
-    },
+    },*/
     informationRequiredChapter: {
       title: 'Information we are required to share',
       pages: {
@@ -354,12 +386,12 @@ const formConfig = {
           uiSchema: personalInformation1.uiSchema,
           schema: personalInformation1.schema,
         },
-        personalInformation2: {
+       /* personalInformation2: {
           path: 'personal-information-2',
           title: "Personal Information (cont'd)",
           uiSchema: personalInformation2.uiSchema,
           schema: personalInformation2.schema,
-        },
+        },*/
         contactInformation1: {
           path: 'contact-information-1',
           title: 'Contact Information',
@@ -396,7 +428,7 @@ const formConfig = {
           uiSchema: doctorInformation.uiSchema,
           schema: doctorInformation.schema,
           depends: formData =>
-            formData[doctorCareQuestionFields.parentObject][
+            !!formData?.[doctorCareQuestionFields.parentObject]?.[
               doctorCareQuestionFields.hasReceivedDoctorCare
             ],
         },
@@ -412,7 +444,7 @@ const formConfig = {
           uiSchema: hospitalInformation.uiSchema,
           schema: hospitalInformation.schema,
           depends: formData =>
-            formData[hospitalizationQuestionFields.parentObject][
+            !!formData?.[hospitalizationQuestionFields.parentObject]?.[
               hospitalizationQuestionFields.hasBeenHospitalized
             ],
         },

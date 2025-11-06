@@ -28,7 +28,7 @@ export default {
       [veteranFields.address]: addressUI({
         labels: {
           street2: 'Apartment or unit number',
-          postalCode: 'Zip/Postal Code',
+          postalCode: 'Postal Code',
         },
         omit: ['street3'],
         required: true,

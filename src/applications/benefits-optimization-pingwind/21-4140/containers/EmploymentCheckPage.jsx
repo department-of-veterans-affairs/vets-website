@@ -12,6 +12,8 @@ import {
   employedByVAFields,
 } from '../definitions/constants';
 
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
+
 const EMPLOYERS_PATH = 'employers';
 const SECTION_TWO_KEYS = [
   employedByVAFields.hasCertifiedSection2,
@@ -141,6 +143,7 @@ const EmploymentCheckPage = ({
 }) => {
   useEffect(() => {
     scrollTo('topScrollElement');
+    waitForRenderThenFocus('#main-content');
   }, []);
 
   const formData = data || {};
@@ -245,7 +248,7 @@ const EmploymentCheckPage = ({
 
   return (
     <div className="schemaform-intro">
-      <h3 className="vads-u-margin-bottom--2">
+      <h3 className="vads-u-margin-bottom--2" id="main-content">
         Employment in the past 12 months
       </h3>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>

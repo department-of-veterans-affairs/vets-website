@@ -11,6 +11,8 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { scrollTo } from 'platform/utilities/scroll';
 import { VaSummaryBox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
+
 const WhatYouNeedPage = ({
   formData,
   location,
@@ -20,6 +22,7 @@ const WhatYouNeedPage = ({
 }) => {
   useEffect(() => {
     scrollTo('topScrollElement');
+    waitForRenderThenFocus('#main-content');
   }, []);
 
   const pageList = route?.pageList || [];
@@ -55,7 +58,7 @@ const WhatYouNeedPage = ({
 
   return (
     <div className="schemaform-intro">
-      <h1 className="vads-u-margin-bottom--2">What You Need to Get Started</h1>
+      <h1 className="vads-u-margin-bottom--2" id='main-content'>What You Need to Get Started</h1>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '20px' }}>
         Review this checklist for what you'll need. Don't have everything? You
         can start now and save your progress as you go.

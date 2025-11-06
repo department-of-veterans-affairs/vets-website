@@ -1,3 +1,6 @@
+import React from 'react';
+
+import { description } from 'platform';
 import {
   textUI,
   numberUI,
@@ -5,16 +8,24 @@ import {
   numberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+const AdditionalInformation = () => (
+  <va-additional-info trigger="Additional Information" uswds>
+    <p>Numeric characters only</p>
+  </va-additional-info>
+);
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:title': 'Peak Earnings',
     'ui:description': 'Your highest earnings',
-    maxYearlyEarnings: numberUI(
-      'What is the most you ever earned in one year? (Gross Income)',
-    ),
-    yearEarned: numberUI('What year did you make your peak earnings?', {
-      hint: 'Numeric characters only',
+    maxYearlyEarnings: numberUI({
+      title: 'What is the most you ever earned in one year? (Gross Income)',
+      description: <AdditionalInformation />,
+    }),
+    yearEarned: numberUI({
+      title: 'What year did you make your peak earnings?',
+      description: <AdditionalInformation />,
     }),
     occupation: textUI('Your job(s) during that year'),
   },

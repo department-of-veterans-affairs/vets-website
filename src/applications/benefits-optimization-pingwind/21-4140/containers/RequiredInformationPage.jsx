@@ -8,7 +8,7 @@ import {
   getPreviousPagePath,
 } from 'platform/forms-system/src/js/routing';
 import { scrollTo } from 'platform/utilities/scroll';
-import { skipToContent } from '../utils/skipToContent';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import {
   VaSummaryBox,
   VaCheckbox,
@@ -24,6 +24,7 @@ const RequiredInformationPage = ({
 }) => {
   useEffect(() => {
     scrollTo('topScrollElement');
+    waitForRenderThenFocus('#main-content');
   }, []);
 
   const pageList = route?.pageList || [];
@@ -100,9 +101,6 @@ const RequiredInformationPage = ({
 
   return (
     <div className="schemaform-intro">
-      <a className="show-on-focus" href="#main-content" onClick={skipToContent}>
-        Skip to Content
-      </a>
       <h1 id="main-content" className="vads-u-margin-bottom--2">
         Information We are Required to Share
       </h1>

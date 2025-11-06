@@ -315,9 +315,7 @@ const transformForSubmit = (formConfig, form, options) => {
   });
 
   return JSON.stringify({
-    // API contract requires this snake_case key
-    // eslint-disable-next-line camelcase
-    employment_questionairres_claim: {
+    ['employment_questionairres_claim']: {
       form: JSON.stringify(submissionForm || {}),
     },
   });

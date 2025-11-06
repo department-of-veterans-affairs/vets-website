@@ -6,12 +6,12 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { scrollTo } from 'platform/utilities/scroll';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import {
   VaAlert,
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { skipToContent } from '../utils/skipToContent';
 
 const PreSectionOnePage = ({
   formData,
@@ -22,12 +22,13 @@ const PreSectionOnePage = ({
 }) => {
   useEffect(() => {
     scrollTo('topScrollElement');
+    waitForRenderThenFocus('#main-content');
   }, []);
 
   const pageList = route?.pageList || [];
   const currentPath = location?.pathname || '';
   const NO_SELECTION_MESSAGE =
-    'Oops, we hit a snag. You told us you are NOT applying for increased unemployability compensation benefits. Select the Find a VA Form link to find the right form, or to continue with this form, 21-8940, select "Yes" and continue.';
+    'Oops, we hit a snag. You told us we did NOT ask you to verify your employment status. Select the VA Form link to find the right form, or to continue with this form, 21-4140, to verify your employment, select “Yes” and continue.';
 
   const initialSelection = formData?.preSectionOne?.selection;
   const [selection, setSelection] = useState(initialSelection);
@@ -113,9 +114,6 @@ const PreSectionOnePage = ({
 
   return (
     <div className="schemaform-intro">
-      <a className="show-on-focus" href="#main-content" onClick={skipToContent}>
-        Skip to Content
-      </a>
       <h1 id="main-content" className="vads-u-margin-bottom--2">
         Let's get started!
       </h1>
