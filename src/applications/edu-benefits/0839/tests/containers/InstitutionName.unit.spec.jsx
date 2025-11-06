@@ -206,6 +206,26 @@ describe('InstitutionName Component', () => {
     const stateWithArray = {
       form: {
         data: {
+          institutionDetails: {
+            facilityCode: '12345678',
+            institutionName: 'Main University',
+            facilityMap: {
+              branches: [
+                {
+                  institution: {
+                    facilityCode: '11111111',
+                  },
+                },
+              ],
+              extensions: [
+                {
+                  institution: {
+                    facilityCode: '22222222',
+                  },
+                },
+              ],
+            },
+          },
           additionalInstitutionDetails: [
             {
               facilityCode: '11111111',

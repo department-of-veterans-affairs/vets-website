@@ -35,6 +35,36 @@ const InstitutionName = ({ uiSchema }) => {
   const notYR = details.yrEligible === false;
   const hasError = badFormat || notFound || notYR || notIHL;
 
+  const shouldHideNameInList =
+    isArrayItem &&
+    (() => {
+      const thirdChar = facilityCode?.charAt(2)?.toUpperCase();
+      const hasXInThirdPosition =
+        facilityCode.length === 8 && !badFormat && thirdChar === 'X';
+
+      if (hasXInThirdPosition) {
+        return true;
+      }
+
+      // Check if not attached to main campus
+      const mainInstitution = formData?.institutionDetails;
+      const branches =
+        mainInstitution?.facilityMap?.branches?.map(
+          branch => branch?.institution?.facilityCode,
+        ) || [];
+      const extensions =
+        mainInstitution?.facilityMap?.extensions?.map(
+          extension => extension?.institution?.facilityCode,
+        ) || [];
+      const branchList = [...branches, ...extensions];
+
+      if (!branchList.includes(facilityCode)) {
+        return true;
+      }
+
+      return false;
+    })();
+
   useEffect(
     () => {
       const facilityCodeInput = document
@@ -46,6 +76,8 @@ const InstitutionName = ({ uiSchema }) => {
     [institutionName, loader],
   );
 
+  const shouldShowName = institutionName && !hasError && !shouldHideNameInList;
+
   return (
     <div aria-live="polite">
       {loader ? (
@@ -55,12 +87,10 @@ const InstitutionName = ({ uiSchema }) => {
           <h3
             id="institutionHeading"
             aria-label={
-              hasError || !institutionName
-                ? 'Institution name not found'
-                : institutionName
+              shouldShowName ? institutionName : 'Institution name not found'
             }
           >
-            {hasError || !institutionName ? '--' : institutionName}
+            {shouldShowName ? institutionName : '--'}
           </h3>
         </>
       )}
