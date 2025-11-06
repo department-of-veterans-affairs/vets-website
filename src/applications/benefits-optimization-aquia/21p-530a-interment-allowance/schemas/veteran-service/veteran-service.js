@@ -56,7 +56,6 @@ export const dateEnteredServiceSchema = z
  */
 export const placeEnteredServiceSchema = z
   .string()
-  .min(1, 'Place entered service is required')
   .max(100, 'Place must be less than 100 characters');
 
 /**
@@ -75,7 +74,6 @@ export const dateSeparatedSchema = z
  */
 export const placeSeparatedSchema = z
   .string()
-  .min(1, 'Place separated from service is required')
   .max(100, 'Place must be less than 100 characters');
 
 /**
@@ -83,7 +81,6 @@ export const placeSeparatedSchema = z
  */
 export const rankSchema = z
   .string()
-  .min(1, 'Rank is required')
   .max(50, 'Rank must be less than 50 characters');
 
 /**
