@@ -9,7 +9,7 @@ import environment from '../../../../utilities/environment';
  * internationalPhone: {
  *   'ui:title': 'Phone number',
  *   'ui:description': 'description',
- *   'ui:webComponentField': VaTelephoneInputField,
+ *   'ui:webComponentField': VaTelephoneInput,
  *   'ui:hint': 'hint',
  *   'ui:errorMessages': {
  *     required: 'This is a custom error message.',

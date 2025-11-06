@@ -103,7 +103,7 @@ describe('EditContactInfo', () => {
     });
 
     describe('profileInternationalPhoneNumbers flag', () => {
-      it('should render VaTelephone fields when allowInternationalPhones is true', () => {
+      it('should render VaTelephoneInput fields when allowInternationalPhones is true', () => {
         const { getByText, getByTestId, container } = renderInReduxProvider(
           <EditHomePhone {...props} allowInternationalPhones />,
           {
@@ -119,7 +119,7 @@ describe('EditContactInfo', () => {
 
         // The international phone input component should render
         const vaTelephoneInput = $(
-          'va-telephone[label^="Home phone number"]',
+          'va-telephone-input[label^="Home phone number"]',
           container,
         );
         expect(vaTelephoneInput).to.exist;
@@ -135,7 +135,7 @@ describe('EditContactInfo', () => {
         expect(getByTestId('cancel-edit-button')).to.exist;
       });
 
-      it('should not render VaTelephone fields when allowInternationalPhones is false', () => {
+      it('should not render VaTelephoneInput fields when allowInternationalPhones is false', () => {
         const { getByText, getByTestId, container } = renderInReduxProvider(
           <EditHomePhone {...props} allowInternationalPhones={false} />,
           {
@@ -151,7 +151,7 @@ describe('EditContactInfo', () => {
 
         // The international phone input component should not render
         const vaTelephoneInput = $(
-          'va-telephone[label^="Home phone number"]',
+          'va-telephone-input[label^="Home phone number"]',
           container,
         );
         expect(vaTelephoneInput).to.not.exist;
