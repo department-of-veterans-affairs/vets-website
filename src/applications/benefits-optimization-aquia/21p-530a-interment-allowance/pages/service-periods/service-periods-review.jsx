@@ -49,6 +49,7 @@ export const ServicePeriodsReviewPage = ({ data, editPage, title }) => {
       data={data}
       editPage={editPage}
       sectionName="servicePeriodsData"
+      hideEditButton
     >
       {servicePeriods.map((period, index) => {
         const periodNumber = servicePeriods.length > 1 ? ` ${index + 1}` : '';
