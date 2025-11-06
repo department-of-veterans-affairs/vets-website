@@ -89,7 +89,7 @@ const ExpensePage = () => {
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/${apptId}/choose-expense`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
   };
 
   return (

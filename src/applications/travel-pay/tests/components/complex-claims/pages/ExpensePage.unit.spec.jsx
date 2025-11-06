@@ -53,7 +53,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
             element={<ExpensePage />}
           />
           <Route
-            path="/file-new-claim/:apptId/choose-expense"
+            path="/file-new-claim/:apptId/:claimId/choose-expense"
             element={<ChooseExpenseType />}
           />
         </Routes>
@@ -323,7 +323,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           buttonPair.__events.secondaryClick();
 
           expect(getByTestId('location-display').textContent).to.equal(
-            '/file-new-claim/12345/choose-expense',
+            '/file-new-claim/12345/43555/choose-expense',
           );
         });
 
