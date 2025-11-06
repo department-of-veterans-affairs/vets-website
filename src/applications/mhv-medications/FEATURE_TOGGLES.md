@@ -51,7 +51,6 @@ Enable/disable counting times IPE has been hidden. [source](https://github.com/d
 
 ### Slated for removal
 
-- [ ] `mhv_medications_cerner_pilot` `mhvMedicationsCernerPilot`
 - [ ] `mhv_medications_display_filter` `mhvMedicationsDisplayFilter`
 - [ ] `mhv_medications_display_grouping` `mhvMedicationsDisplayGrouping`
 - [ ] `mhv_medications_display_refill_content` `mhvMedicationsDisplayRefillContent`
