@@ -19,8 +19,15 @@ export function simulateVaInputChange(inputField, value) {
   const field = inputField;
   field.value = value;
 
-  fireEvent(
-    field,
+  const inputEvent = new window.InputEvent('input', {
+    bubbles: true,
+    composed: true,
+    data: value,
+  });
+  field.dispatchEvent(inputEvent);
+
+  // Also dispatch CustomEvent for compatibility
+  field.dispatchEvent(
     new CustomEvent('input', {
       detail: { value },
       bubbles: true,

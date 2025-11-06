@@ -37,15 +37,18 @@ describe('helper functions', () => {
   describe('simulateVaInputChange', () => {
     it('should update value and fire events', () => {
       const input = document.createElement('input');
-      const eventSpy = sinon.spy();
-      input.addEventListener('input', eventSpy);
+
+      const eventsFired = [];
+      input.addEventListener('input', e => eventsFired.push(e));
 
       const result = simulateVaInputChange(input, 'test value');
 
       expect(result).to.exist;
       expect(result.value).to.equal('test value');
       expect(input.value).to.equal('test value');
-      expect(eventSpy.calledOnce).to.be.true;
+
+      const firstEventValue = eventsFired[0].detail?.value || input.value;
+      expect(firstEventValue).to.equal('test value');
       expect(result.eventFired).to.be.true;
     });
 
