@@ -127,9 +127,7 @@ describe('ExpenseCommonCarrierFields', () => {
     expect(selectedOption.hasAttribute('checked')).to.be.true;
   });
 
-  // For some reason these tests are passing locally but not with the Node 22 compatibility Check
-  // Waiting to hear back from platform about how to resolve this
-  it.skip('checks the transportation type after selection', () => {
+  it('checks the transportation type after selection', () => {
     testVaRadioSelection({
       Component: ExpenseCommonCarrierFields,
       radioName: 'transportationType',
@@ -138,9 +136,7 @@ describe('ExpenseCommonCarrierFields', () => {
     });
   });
 
-  // For some reason these tests are passing locally but not with the Node 22 compatibility Check
-  // Waiting to hear back from platform about how to resolve this
-  it.skip('checks the transportation reason after selection', () => {
+  it('checks the transportation reason after selection', () => {
     const firstKey = Object.keys(TRANSPORTATION_REASONS)[0];
     testVaRadioSelection({
       Component: ExpenseCommonCarrierFields,

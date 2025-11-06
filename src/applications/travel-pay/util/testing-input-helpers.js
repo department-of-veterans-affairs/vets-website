@@ -135,12 +135,20 @@ export const testVaRadioSelection = ({
     />,
   );
 
-  // Assert that the option is checked
-  const selectedOption = utils.container.querySelector(
-    `va-radio-option[value="${selectValue}"]`,
+  // Query all radio-option children inside the group
+  const radioOptions = radioGroup.querySelectorAll('va-radio-option');
+  expect(radioOptions.length).to.be.greaterThan(0);
+
+  // Find the selected option by matching its value or label
+  const selectedOption = Array.from(radioOptions).find(
+    option =>
+      option.getAttribute('value') === selectValue ||
+      option.getAttribute('label') === selectValue,
   );
   expect(selectedOption).to.exist;
-  expect(selectedOption.getAttribute('checked')).to.equal('true');
+
+  // Assert that the option is checked
+  expect(selectedOption.hasAttribute('checked')).to.be.true;
 
   return { utils, onChangeSpy, updatedState, selectedOption };
 };
