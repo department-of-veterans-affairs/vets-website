@@ -121,10 +121,13 @@ describe('<ProfileAlertConfirmEmail />', () => {
         getByTestId('profile-alert--confirm-contact-email');
         getByRole('heading', { name: /^Confirm your contact email$/ });
 
-        // getByRole('button', { name: /^Confirm contact email$/ });
-        const buttonSelector = 'va-button[text="Confirm contact email"]';
+        const buttonSelector = 'va-button[text="Confirm"]';
         const button = container.querySelector(buttonSelector);
         expect(button).to.exist;
+
+        expect(
+          getByTestId('profile-alert--contact-email').textContent,
+        ).to.equal('vet@va.gov');
       });
     });
 
@@ -215,7 +218,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
         },
       );
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      const button = 'va-button[text="Confirm contact email"]';
+      const button = 'va-button[text="Confirm"]';
       fireEvent.click(container.querySelector(button));
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-success');
@@ -237,7 +240,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
         },
       );
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      const button = 'va-button[text="Confirm contact email"]';
+      const button = 'va-button[text="Confirm"]';
       fireEvent.click(container.querySelector(button));
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-error');
@@ -259,7 +262,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
         initialState,
       });
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      const buttonSelector = 'va-button[text="Confirm contact email"]';
+      const buttonSelector = 'va-button[text="Confirm"]';
       fireEvent.click(container.querySelector(buttonSelector));
 
       await waitFor(() => {
@@ -271,6 +274,24 @@ describe('<ProfileAlertConfirmEmail />', () => {
           'email_address',
           'veteran1729@example.com',
         );
+      });
+    });
+
+    it(`navigates to the email address field when 'Edit contact email' button clicked`, async () => {
+      mockApiRequest();
+      const props = { recordEvent: sinon.spy() };
+      const initialState = stateFn({ confirmationDate: null });
+      const { container, getByTestId } = render(
+        <ProfileAlertConfirmEmail {...props} />,
+        {
+          initialState,
+        },
+      );
+      await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
+      const button = 'va-button[text="Edit contact email"]';
+      fireEvent.click(container.querySelector(button));
+      await waitFor(() => {
+        expect(window.location.hash).to.equal('#contact-email-address');
       });
     });
   });
@@ -290,6 +311,10 @@ describe('<ProfileAlertConfirmEmail />', () => {
         const buttonSelector = 'va-button[text="Skip adding email"]';
         const button = container.querySelector(buttonSelector);
         expect(button).to.exist;
+
+        expect(
+          getByTestId('profile-alert--contact-email').textContent,
+        ).to.equal('No contact email provided.');
       });
     });
 
@@ -354,6 +379,23 @@ describe('<ProfileAlertConfirmEmail />', () => {
         expect(queryByTestId('profile-alert--add-contact-email')).to.be.null;
         const headline = 'Okay, we’ll skip adding a contact email for now';
         expect(props.recordEvent.calledWith(headline));
+      });
+    });
+
+    it(`navigates to the email address field when 'Add a contact email' button clicked`, async () => {
+      const props = { recordEvent: sinon.spy() };
+      const initialState = stateFn({ emailAddress: null });
+      const { container, getByTestId } = render(
+        <ProfileAlertConfirmEmail {...props} />,
+        {
+          initialState,
+        },
+      );
+      await waitFor(() => getByTestId('profile-alert--add-contact-email'));
+      const button = 'va-button[text="Add a contact email"]';
+      fireEvent.click(container.querySelector(button));
+      await waitFor(() => {
+        expect(window.location.hash).to.equal('#contact-email-address');
       });
     });
   });

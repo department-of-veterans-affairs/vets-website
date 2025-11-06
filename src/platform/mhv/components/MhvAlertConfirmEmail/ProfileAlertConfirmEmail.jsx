@@ -19,8 +19,17 @@ import {
 } from './AlertSystemResponse';
 import { recordAlertLoadEvent } from './recordAlertLoadEvent';
 
+const navigateToEmailAddressField = () => {
+  window.location.hash = 'contact-email-address';
+};
+
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7032-45235&t=t55H62nbe7HYOvFq-4
-const AlertConfirmContactEmail = ({ recordEvent, onClick }) => {
+const AlertConfirmContactEmail = ({
+  emailAddress,
+  recordEvent,
+  onConfirmClick,
+  onEditClick,
+}) => {
   const headline = 'Confirm your contact email';
 
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
@@ -33,18 +42,22 @@ const AlertConfirmContactEmail = ({ recordEvent, onClick }) => {
           We’ll send notifications about your VA health care and benefits to
           this email.
         </p>
-        <p>
-          If your contact email below is correct, select
-          <span className="vads-u-font-weight--bold">
-            {' '}
-            Confirm contact email
-          </span>
-          . If not, select{' '}
-          <span className="vads-u-font-weight--bold"> Edit </span>
-          to update your contact email.
+        <p
+          className="vads-u-font-weight--bold"
+          style={{ wordBreak: 'break-word' }}
+          data-testid="profile-alert--contact-email"
+        >
+          {emailAddress}
         </p>
         <p>
-          <VaButton text="Confirm contact email" onClick={() => onClick()} />
+          <VaButton text="Confirm" onClick={() => onConfirmClick()} />
+        </p>
+        <p>
+          <VaButton
+            text="Edit contact email"
+            onClick={() => onEditClick()}
+            secondary
+          />
         </p>
       </React.Fragment>
     </VaAlert>
@@ -52,12 +65,14 @@ const AlertConfirmContactEmail = ({ recordEvent, onClick }) => {
 };
 
 AlertConfirmContactEmail.propTypes = {
+  emailAddress: PropTypes.string.isRequired,
   recordEvent: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onConfirmClick: PropTypes.func.isRequired,
+  onEditClick: PropTypes.func.isRequired,
 };
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7032-45893&t=t55H62nbe7HYOvFq-4
-const AlertAddContactEmail = ({ recordEvent, onClick }) => {
+const AlertAddContactEmail = ({ recordEvent, onAddClick, onSkipClick }) => {
   const headline = 'Add a contact email';
 
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
@@ -70,16 +85,20 @@ const AlertAddContactEmail = ({ recordEvent, onClick }) => {
           We’ll send notifications about your VA health care and benefits to
           this email.
         </p>
+        <p
+          className="vads-u-font-weight--bold"
+          style={{ wordBreak: 'break-word' }}
+          data-testid="profile-alert--contact-email"
+        >
+          No contact email provided.
+        </p>
         <p>
-          If you want to add a contact email address, select{' '}
-          <span className="vads-u-font-weight--bold"> Add</span>. If you don’t
-          want to add an email right now, you can select{' '}
-          <span className="vads-u-font-weight--bold"> Skip adding email</span>.
+          <VaButton text="Add a contact email" onClick={() => onAddClick()} />
         </p>
         <p>
           <VaButton
             text="Skip adding email"
-            onClick={() => onClick()}
+            onClick={() => onSkipClick()}
             secondary
           />
         </p>
@@ -90,7 +109,8 @@ const AlertAddContactEmail = ({ recordEvent, onClick }) => {
 
 AlertAddContactEmail.propTypes = {
   recordEvent: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onAddClick: PropTypes.func.isRequired,
+  onSkipClick: PropTypes.func.isRequired,
 };
 
 /**
@@ -154,8 +174,10 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
           )}
           {!confirmSuccess && (
             <AlertConfirmContactEmail
-              onClick={putConfirmationDate}
+              onConfirmClick={putConfirmationDate}
+              onEditClick={navigateToEmailAddressField}
               recordEvent={recordEvent}
+              emailAddress={emailAddress}
             />
           )}
         </>
@@ -163,7 +185,8 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
         <>
           {!skipSuccess && (
             <AlertAddContactEmail
-              onClick={onSkipClick}
+              onAddClick={navigateToEmailAddressField}
+              onSkipClick={onSkipClick}
               recordEvent={recordEvent}
             />
           )}
