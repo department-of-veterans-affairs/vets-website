@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { formatDateLong } from 'platform/utilities/date';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
@@ -20,8 +19,8 @@ export const ConfirmationPage = ({ route }) => {
 
   const submissionAlertContent = (
     <p>
-      After we receive your application, we’ll review your information and send
-      you a letter with more information about your claim.
+      Thank you for helping to support a claim. We’ll review your form and
+      contact you if we need any additional information.
     </p>
   );
 
