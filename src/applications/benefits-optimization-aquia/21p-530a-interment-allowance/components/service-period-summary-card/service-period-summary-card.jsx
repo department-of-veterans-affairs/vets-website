@@ -117,7 +117,7 @@ export const ServicePeriodSummaryCard = ({
           isOpen={isModalOpen}
           onClose={handleModalCancel}
           onDelete={handleModalConfirm}
-          modalTitle={`${cardHeading.charAt(0).toLowerCase()}`}
+          modalTitle={cardHeading}
         />
       ) : null}
     </>
