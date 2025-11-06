@@ -1,4 +1,4 @@
-import { isAfter, isValid } from 'date-fns';
+import { isBefore, isValid } from 'date-fns';
 import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms/validations';
 
@@ -105,14 +105,11 @@ export const validateHealthInsurancePlan = (item = {}) => {
   const isValidPastDate = dateString => {
     if (!dateString) return false;
     const date = new Date(dateString);
-    return isValid(date) && !isAfter(date, new Date());
+    return isValid(date) && isBefore(date, new Date());
   };
 
-  const hasValidUpload = fileArray => {
-    return (
-      Array.isArray(fileArray) && fileArray.length > 0 && fileArray[0]?.name
-    );
-  };
+  const hasValidUpload = fileArray =>
+    Array.isArray(fileArray) && fileArray[0]?.name;
 
   const hasValidDateRange = (startDate, endDate) => {
     if (!startDate || !endDate) return true;
@@ -126,11 +123,8 @@ export const validateHealthInsurancePlan = (item = {}) => {
     return Object.values(participants).some(value => value === true);
   };
 
-  const isValidComments = comments => {
-    return (
-      !comments || (typeof comments === 'string' && comments.length <= 200)
-    );
-  };
+  const isValidComments = comments =>
+    !comments || (typeof comments === 'string' && comments.length <= 200);
 
   if (!insuranceType) return true;
   if (!provider || !isValidPastDate(effectiveDate)) return true;
