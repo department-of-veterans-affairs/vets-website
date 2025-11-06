@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseLodgingFields from '../../../../components/complex-claims/pages/ExpenseLodgingFields';
@@ -67,8 +67,7 @@ describe('ExpenseLodgingFields', () => {
 
     const vendorInput = container.querySelector('va-text-input[name="vendor"]');
     vendorInput.value = 'Hotel California';
-    fireEvent(
-      vendorInput,
+    vendorInput.dispatchEvent(
       new CustomEvent('input', {
         detail: { value: 'Hotel California' },
         bubbles: true,
@@ -92,8 +91,7 @@ describe('ExpenseLodgingFields', () => {
 
     const checkIn = container.querySelector('va-date[name="checkInDate"]');
     checkIn.value = '2025-11-10';
-    fireEvent(
-      checkIn,
+    checkIn.dispatchEvent(
       new CustomEvent('dateChange', {
         detail: { value: '2025-11-10' },
         bubbles: true,
@@ -117,8 +115,7 @@ describe('ExpenseLodgingFields', () => {
 
     const checkOut = container.querySelector('va-date[name="checkOutDate"]');
     checkOut.value = '2025-11-15';
-    fireEvent(
-      checkOut,
+    checkOut.dispatchEvent(
       new CustomEvent('dateChange', {
         detail: { value: '2025-11-15' },
         bubbles: true,

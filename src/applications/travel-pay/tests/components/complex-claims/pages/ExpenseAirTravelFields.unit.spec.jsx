@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseAirTravelFields from '../../../../components/complex-claims/pages/ExpenseAirTravelFields';
@@ -115,9 +115,9 @@ describe('ExpenseAirTravelFields', () => {
     const vendorInput = container.querySelector(
       'va-text-input[name="vendorName"]',
     );
+    // Simulate the input change using direct event dispatching
     vendorInput.value = 'United Airlines';
-    fireEvent(
-      vendorInput,
+    vendorInput.dispatchEvent(
       new CustomEvent('input', {
         detail: { value: 'United Airlines' },
         bubbles: true,
@@ -143,8 +143,7 @@ describe('ExpenseAirTravelFields', () => {
       'va-date[name="departureDate"]',
     );
     departureDate.value = '2025-11-10';
-    fireEvent(
-      departureDate,
+    departureDate.dispatchEvent(
       new CustomEvent('dateChange', {
         detail: { value: '2025-11-10' },
         bubbles: true,
@@ -167,8 +166,7 @@ describe('ExpenseAirTravelFields', () => {
     );
     const arrivalDate = container.querySelector('va-date[name="arrivalDate"]');
     arrivalDate.value = '2025-11-11';
-    fireEvent(
-      arrivalDate,
+    arrivalDate.dispatchEvent(
       new CustomEvent('dateChange', {
         detail: { value: '2025-11-11' },
         bubbles: true,
@@ -195,8 +193,7 @@ describe('ExpenseAirTravelFields', () => {
       'va-text-input[name="departureAirport"]',
     );
     departureAirport.value = 'SFO';
-    fireEvent(
-      departureAirport,
+    departureAirport.dispatchEvent(
       new CustomEvent('input', {
         detail: { value: 'SFO' },
         bubbles: true,
@@ -223,8 +220,7 @@ describe('ExpenseAirTravelFields', () => {
       'va-text-input[name="arrivalAirport"]',
     );
     arrivalAirport.value = 'ORD';
-    fireEvent(
-      arrivalAirport,
+    arrivalAirport.dispatchEvent(
       new CustomEvent('input', {
         detail: { value: 'ORD' },
         bubbles: true,
@@ -255,8 +251,7 @@ describe('ExpenseAirTravelFields', () => {
     expect(radioGroup).to.exist;
 
     // Trigger value selection using direct event dispatching
-    fireEvent(
-      radioGroup,
+    radioGroup.dispatchEvent(
       new CustomEvent('vaValueChange', {
         detail: { value: TRIP_OPTIONS[0] },
         bubbles: true,

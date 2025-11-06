@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseMealFields from '../../../../components/complex-claims/pages/ExpenseMealFields';
@@ -46,8 +46,7 @@ describe('ExpenseMealFields', () => {
 
     // Simulate the input change using direct event dispatching
     vaInput.value = 'New Vendor';
-    fireEvent(
-      vaInput,
+    vaInput.dispatchEvent(
       new CustomEvent('input', {
         detail: { value: 'New Vendor' },
         bubbles: true,

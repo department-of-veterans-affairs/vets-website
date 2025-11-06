@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseCommonCarrierFields from '../../../../components/complex-claims/pages/ExpenseCommonCarrierFields';
@@ -130,8 +130,7 @@ describe('ExpenseCommonCarrierFields', () => {
     const radioGroup = container.querySelector(
       'va-radio[name="transportationType"]',
     );
-    fireEvent(
-      radioGroup,
+    radioGroup.dispatchEvent(
       new CustomEvent('vaValueChange', {
         detail: { value: TRANSPORTATION_OPTIONS[0] },
         bubbles: true,
@@ -157,8 +156,7 @@ describe('ExpenseCommonCarrierFields', () => {
     const radioGroup = container.querySelector(
       'va-radio[name="transportationReason"]',
     );
-    fireEvent(
-      radioGroup,
+    radioGroup.dispatchEvent(
       new CustomEvent('vaValueChange', {
         detail: { value: firstKey },
         bubbles: true,
