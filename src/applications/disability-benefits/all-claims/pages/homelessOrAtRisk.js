@@ -19,6 +19,8 @@ import {
   HOMELESSNESS_TYPES,
   AT_RISK_HOUSING_TYPES,
   HOMELESS_HOUSING_TYPES,
+  AT_RISK_HOUSING_LABELS,
+  HOMELESS_HOUSING_LABELS,
 } from '../constants';
 
 import { getHomelessOrAtRisk } from '../utils';
@@ -47,13 +49,7 @@ export const uiSchema = {
         _.get('homelessOrAtRisk', formData, '') === HOMELESSNESS_TYPES.homeless,
       'ui:widget': 'radio',
       'ui:options': {
-        labels: {
-          shelter: 'I’m living in a homeless shelter.',
-          notShelter:
-            'I’m living somewhere other than a shelter. (For example, I’m living in a car or a tent.)',
-          anotherPerson: 'I’m living with another person.',
-          other: 'Other',
-        },
+        labels: HOMELESS_HOUSING_LABELS,
       },
     },
     otherHomelessHousing: {
@@ -85,12 +81,7 @@ export const uiSchema = {
         _.get('homelessOrAtRisk', formData, '') === HOMELESSNESS_TYPES.atRisk,
       'ui:widget': 'radio',
       'ui:options': {
-        labels: {
-          losingHousing: 'I’m losing my housing in 30 days.',
-          leavingShelter:
-            'I’m leaving a publicly funded homeless shelter soon.',
-          other: 'Other',
-        },
+        labels: AT_RISK_HOUSING_LABELS,
       },
     },
     otherAtRiskHousing: {

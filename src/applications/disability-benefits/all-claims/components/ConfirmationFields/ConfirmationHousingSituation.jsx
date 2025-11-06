@@ -1,24 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  HOMELESS_HOUSING_LABELS,
+  AT_RISK_HOUSING_LABELS,
+  HOMELESSNESS_TYPES,
+} from '../../constants';
+import { homelessLabel, atRiskLabel } from '../../content/homelessOrAtRisk';
 
 const ConfirmationHousingSituation = ({ formData }) => {
-  const isHomeless = formData.homelessOrAtRisk === 'homeless';
-  const isAtRisk = formData.homelessOrAtRisk === 'atRisk';
-  const homelessLabel = 'I’m currently homeless.';
-  const atRiskLabel = 'I’m at risk of becoming homeless.';
+  const isHomeless = formData.homelessOrAtRisk === HOMELESSNESS_TYPES.homeless;
+  const isAtRisk = formData.homelessOrAtRisk === HOMELESSNESS_TYPES.atRisk;
   const homelessnessContact = formData.homelessnessContact || {};
-  const homelessHousingSituationDescription = {
-    shelter: 'I’m living in a homeless shelter.',
-    notShelter:
-      'I’m living somewhere other than a shelter. (For example, I’m living in a car or a tent.)',
-    anotherPerson: 'I’m living with another person.',
-    other: 'Other',
-  };
-  const atRiskHousingSituation = {
-    losingHousing: 'I’m losing my housing in 30 days.',
-    leavingShelter: 'I’m leaving a publicly funded homeless shelter soon.',
-    other: 'Other',
-  };
 
   return (
     <div data-testid="housing-situation-responses">
@@ -31,9 +23,12 @@ const ConfirmationHousingSituation = ({ formData }) => {
         </li>
         <li>
           <div>
-            {formData.homelessOrAtRisk === 'homeless' && homelessLabel}
-            {formData.homelessOrAtRisk === 'atRisk' && atRiskLabel}
-            {formData.homelessOrAtRisk === 'no' && 'No'}
+            {formData.homelessOrAtRisk === HOMELESSNESS_TYPES.homeless &&
+              homelessLabel}
+            {formData.homelessOrAtRisk === HOMELESSNESS_TYPES.atRisk &&
+              atRiskLabel}
+            {formData.homelessOrAtRisk === HOMELESSNESS_TYPES.notHomeless &&
+              'No'}
           </div>
         </li>
 
@@ -43,7 +38,7 @@ const ConfirmationHousingSituation = ({ formData }) => {
               <div className="vads-u-color--gray">
                 Please describe your current living situation:
               </div>
-              {homelessHousingSituationDescription[
+              {HOMELESS_HOUSING_LABELS[
                 (formData['view:isHomeless']?.homelessHousingSituation)
               ] || ''}
             </li>
@@ -69,7 +64,7 @@ const ConfirmationHousingSituation = ({ formData }) => {
               <div className="vads-u-color--gray">
                 Please describe your housing situation:
               </div>
-              {atRiskHousingSituation[
+              {AT_RISK_HOUSING_LABELS[
                 (formData['view:isAtRisk']?.atRiskHousingSituation)
               ] || ''}
             </li>
