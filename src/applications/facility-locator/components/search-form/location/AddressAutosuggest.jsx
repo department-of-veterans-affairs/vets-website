@@ -120,6 +120,20 @@ function AddressAutosuggest({
     debouncedUpdateSearch(value);
   };
 
+  // add aria-describedby if error occurs
+  const handleError = () => {
+    const addressInput = document.getElementById('street-city-state-zip');
+    addressInput?.setAttribute('aria-describedby', 'input-error-message');
+  };
+
+  // remove aria-describedby if error resolved
+  const resolveError = () => {
+    const addressInput = document.getElementById('street-city-state-zip');
+    if (addressInput?.hasAttribute('aria-describedby')) {
+      addressInput.removeAttribute('aria-describedby');
+    }
+  };
+
   useEffect(
     () => {
       // If the location is changed, and there is no value in searchString or inputValue then show the error
@@ -148,6 +162,20 @@ function AddressAutosuggest({
     [searchString, geolocationInProgress],
   );
 
+  useEffect(
+    () => {
+      // Focus the error message when it appears so screen readers announce it
+      if (showAddressError) {
+        handleError();
+      } else {
+        resolveError();
+      }
+    },
+    [showAddressError],
+  );
+
+  const errorID = 'street-city-state-zip-error';
+
   return (
     <Autosuggest
       inputValue={inputValue || ''}
@@ -175,7 +203,11 @@ function AddressAutosuggest({
         },
       }}
       onClearClick={inputClearClick}
-      inputError={<AddressInputError showError={showAddressError || false} />}
+      /* eslint-disable prettier/prettier */
+
+      inputError={<AddressInputError showError={showAddressError || false} errorId={errorID} />}
+      /* eslint-enable prettier/prettier */
+
       showError={showAddressError}
       inputId="street-city-state-zip"
       inputRef={inputRef}
