@@ -110,7 +110,7 @@ export const VeteranBurialInformationPage = ({
               forceShowError={formSubmitted}
             />
           </div>
-          <h3 className="vads-u-margin-top--4">Cemetery information</h3>
+          <h4 className="vads-u-margin-top--4">Cemetery information</h4>
 
           <TextInputField
             name="cemeteryName"
