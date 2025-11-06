@@ -1,9 +1,8 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseMealFields from '../../../../components/complex-claims/pages/ExpenseMealFields';
-import { simulateVaInputChange } from '../../../../util/testing-input-helpers';
 
 describe('ExpenseMealFields', () => {
   const defaultProps = {
@@ -35,9 +34,8 @@ describe('ExpenseMealFields', () => {
     expect(input.getAttribute('value')).to.equal('Test Vendor');
   });
 
-  // For some reason these tests are passing locally but not with the Node 22 compatibility Check
-  // Waiting to hear back from platform about how to resolve this
-  it.skip('calls onChange when typing into the input', async () => {
+  // Updated to use direct event dispatching - testing if Node 22 compatibility issue is resolved
+  it('calls onChange when typing into the input', async () => {
     const onChangeSpy = sinon.spy();
     const { container } = render(
       <ExpenseMealFields {...defaultProps} onChange={onChangeSpy} />,
@@ -46,8 +44,16 @@ describe('ExpenseMealFields', () => {
     const vaInput = container.querySelector('va-text-input[name="vendor"]');
     expect(vaInput).to.exist;
 
-    // Simulate the input change
-    simulateVaInputChange(vaInput, 'New Vendor');
+    // Simulate the input change using direct event dispatching
+    vaInput.value = 'New Vendor';
+    fireEvent(
+      vaInput,
+      new CustomEvent('input', {
+        detail: { value: 'New Vendor' },
+        bubbles: true,
+        composed: true,
+      }),
+    );
 
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseCommonCarrierFields from '../../../../components/complex-claims/pages/ExpenseCommonCarrierFields';
@@ -7,7 +7,6 @@ import {
   TRANSPORTATION_OPTIONS,
   TRANSPORTATION_REASONS,
 } from '../../../../constants';
-import { testVaRadioSelection } from '../../../../util/testing-input-helpers';
 
 describe('ExpenseCommonCarrierFields', () => {
   const defaultProps = {
@@ -121,25 +120,54 @@ describe('ExpenseCommonCarrierFields', () => {
   });
 
   // For some reason these tests are passing locally but not with the Node 22 compatibility Check
-  // Waiting to hear back from platform about how to resolve this
-  it.skip('checks the transportation type after selection', () => {
-    testVaRadioSelection({
-      Component: ExpenseCommonCarrierFields,
-      radioName: 'transportationType',
-      selectValue: TRANSPORTATION_OPTIONS[0],
-      formStateKey: 'transportationType',
-    });
+  // Updated to use direct event dispatching - testing if Node 22 compatibility issue is resolved
+  it('checks the transportation type after selection', () => {
+    const onChangeSpy = sinon.spy();
+    const { container } = render(
+      <ExpenseCommonCarrierFields formState={{}} onChange={onChangeSpy} />,
+    );
+
+    const radioGroup = container.querySelector(
+      'va-radio[name="transportationType"]',
+    );
+    fireEvent(
+      radioGroup,
+      new CustomEvent('vaValueChange', {
+        detail: { value: TRANSPORTATION_OPTIONS[0] },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    expect(onChangeSpy.calledOnce).to.be.true;
+    expect(onChangeSpy.firstCall.args[0].value).to.equal(
+      TRANSPORTATION_OPTIONS[0],
+    );
+    expect(onChangeSpy.firstCall.args[1]).to.equal('transportationType');
   });
 
-  // For some reason these tests are passing locally but not with the Node 22 compatibility Check
-  // Waiting to hear back from platform about how to resolve this
-  it.skip('checks the transportation reason after selection', () => {
+  // Updated to use direct event dispatching - testing if Node 22 compatibility issue is resolved
+  it('checks the transportation reason after selection', () => {
     const firstKey = Object.keys(TRANSPORTATION_REASONS)[0];
-    testVaRadioSelection({
-      Component: ExpenseCommonCarrierFields,
-      radioName: 'transportationReason',
-      selectValue: firstKey,
-      formStateKey: 'transportationReason',
-    });
+    const onChangeSpy = sinon.spy();
+    const { container } = render(
+      <ExpenseCommonCarrierFields formState={{}} onChange={onChangeSpy} />,
+    );
+
+    const radioGroup = container.querySelector(
+      'va-radio[name="transportationReason"]',
+    );
+    fireEvent(
+      radioGroup,
+      new CustomEvent('vaValueChange', {
+        detail: { value: firstKey },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    expect(onChangeSpy.calledOnce).to.be.true;
+    expect(onChangeSpy.firstCall.args[0].value).to.equal(firstKey);
+    expect(onChangeSpy.firstCall.args[1]).to.equal('transportationReason');
   });
 });

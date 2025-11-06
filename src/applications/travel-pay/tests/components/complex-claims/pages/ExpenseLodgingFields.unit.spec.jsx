@@ -1,12 +1,8 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseLodgingFields from '../../../../components/complex-claims/pages/ExpenseLodgingFields';
-import {
-  simulateVaDateChange,
-  simulateVaInputChange,
-} from '../../../../util/testing-input-helpers';
 
 describe('ExpenseLodgingFields', () => {
   const defaultProps = {
@@ -62,21 +58,28 @@ describe('ExpenseLodgingFields', () => {
     expect(checkOut.getAttribute('value')).to.equal('2025-11-15');
   });
 
-  // For some reason these tests are passing locally but not with the Node 22 compatibility Check
-  // Waiting to hear back from platform about how to resolve this
-  it.skip('calls onChange when typing into vendor input', async () => {
+  // Updated to use direct event dispatching - testing if Node 22 compatibility issue is resolved
+  it('calls onChange when typing into vendor input', async () => {
     const onChangeSpy = sinon.spy();
     const { container } = render(
       <ExpenseLodgingFields {...defaultProps} onChange={onChangeSpy} />,
     );
 
     const vendorInput = container.querySelector('va-text-input[name="vendor"]');
-    simulateVaInputChange(vendorInput, 'Hotel California');
+    vendorInput.value = 'Hotel California';
+    fireEvent(
+      vendorInput,
+      new CustomEvent('input', {
+        detail: { value: 'Hotel California' },
+        bubbles: true,
+        composed: true,
+      }),
+    );
 
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
       const eventArg = onChangeSpy.firstCall.args[0];
-      const value = eventArg?.detail || eventArg?.target?.value;
+      const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('Hotel California');
     });
   });
@@ -88,12 +91,20 @@ describe('ExpenseLodgingFields', () => {
     );
 
     const checkIn = container.querySelector('va-date[name="checkInDate"]');
-    simulateVaDateChange(checkIn, '2025-11-10');
+    checkIn.value = '2025-11-10';
+    fireEvent(
+      checkIn,
+      new CustomEvent('dateChange', {
+        detail: { value: '2025-11-10' },
+        bubbles: true,
+        composed: true,
+      }),
+    );
 
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
       const eventArg = onChangeSpy.firstCall.args[0];
-      const value = eventArg?.detail || eventArg?.target?.value;
+      const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('2025-11-10');
     });
   });
@@ -105,12 +116,20 @@ describe('ExpenseLodgingFields', () => {
     );
 
     const checkOut = container.querySelector('va-date[name="checkOutDate"]');
-    simulateVaDateChange(checkOut, '2025-11-15');
+    checkOut.value = '2025-11-15';
+    fireEvent(
+      checkOut,
+      new CustomEvent('dateChange', {
+        detail: { value: '2025-11-15' },
+        bubbles: true,
+        composed: true,
+      }),
+    );
 
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
       const eventArg = onChangeSpy.firstCall.args[0];
-      const value = eventArg?.detail || eventArg?.target?.value;
+      const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('2025-11-15');
     });
   });
