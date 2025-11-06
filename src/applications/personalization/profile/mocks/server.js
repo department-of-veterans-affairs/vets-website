@@ -13,10 +13,7 @@ const {
   handleGetPersonalInformationRoute,
   handlePutPreferredNameRoute,
 } = require('./endpoints/personal-information');
-const {
-  maximalSetOfPreferences,
-  generateSuccess,
-} = require('./endpoints/communication-preferences');
+const { generateSuccess } = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const mockDisabilityCompensations = require('./endpoints/disability-compensations');
 const directDeposits = require('./endpoints/direct-deposits');
@@ -115,7 +112,7 @@ const responses = {
             profileShowNoValidationKeyAddressAlert: false,
             profileUseExperimental: false,
             profileShowPrivacyPolicy: false,
-            profileShowPaperlessDelivery: false,
+            profileShowPaperlessDelivery: true,
             profile2Enabled: true,
             profileHealthCareSettingsPage: true,
             vetStatusPdfLogging: true,
@@ -137,10 +134,10 @@ const responses = {
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
     // return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
-    // return res.json(user.loa3UserNeedsVapInit);
+    return res.json(user.loa3UserNeedsVapInit);
     // return res.json(user.loa3UserNoVaProfile); // LOA3 user without VA Profile service
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
-    return res.json(user.mvhUser); // user with mhv signIn.serviceName
+    // return res.json(user.mvhUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
     // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
     // return res.json(user.loa1UserMHV); // LOA1 user w/mhv
@@ -405,6 +402,13 @@ const responses = {
     // to simulate different responses based on the transactionId param
     return generateStatusResponse(req, res);
   },
+  // Aliases for InitializeVAPServiceID polling path
+  'GET /v0/profile/person/status': (req, res) => {
+    return getEmptyStatus(req, res);
+  },
+  'GET /v0/profile/person/status/:id': (req, res) => {
+    return generateStatusResponse(req, res);
+  },
   'POST /v0/profile/initialize_vet360_id': (req, res) => {
     // Simulate VA Profile initialization transaction
     const transactionId = `init-vap-${new Date().getTime()}`;
@@ -423,11 +427,9 @@ const responses = {
     // Return the transaction immediately - status will be checked via status endpoint
     return res.json(initializationTransaction);
   },
-  'GET /v0/profile/communication_preferences': (req, res) => {
-    if (req?.query?.error === 'true') {
-      return res.status(500).json(genericErrors.error500);
-    }
-    return delaySingleResponse(() => res.json(maximalSetOfPreferences), 1);
+  'GET /v0/profile/communication_preferences': (_req, res) => {
+    // Forced error to display general error state on Notification Settings page during local testing
+    return res.status(500).json(genericErrors.error500);
   },
   'PATCH /v0/profile/communication_preferences/:pref': (req, res) => {
     const {
