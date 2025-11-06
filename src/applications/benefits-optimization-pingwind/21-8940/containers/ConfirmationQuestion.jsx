@@ -44,14 +44,25 @@ const ConfirmationQuestion = ({
     setAttemptedSubmit(true);
     if (!router?.push) return;
 
-    if (confirmation === true) {
+    const nextPath = getNextPagePath(pageList, formData, currentPath);
+
+    if (confirmation === true || (confirmation === false && newCondition === true)) {
       setRadioError(undefined);
-      const nextPath = getNextPagePath(pageList, formData, currentPath);
       router.push(nextPath);
       return;
     }
-    
-    setRadioError('You must select "Yes" to continue with this form.');
+
+    if (confirmation === false && newCondition === false) {
+      setRadioError('Oops, we hit a snag. You told us you are NOT applying for increased unemployability compensation benefits. Select the Find a VA Form link to find the right form, or to continue with this form, 21-8940, select "Yes" and continue.');
+      scrollTo('confirmation-question');
+      return;
+    }
+
+    if (confirmation === false && (newCondition === undefined || newCondition === null)) {
+      scrollTo('new-condition-question');
+      return;
+    }
+
     scrollTo('confirmation-question');
   };
 
@@ -78,17 +89,20 @@ const ConfirmationQuestion = ({
   const handleNewConditionChange = value => {
     setNewCondition(value);
     setAttemptedSubmit(false);
+    if (value === true) {
+      setRadioError(undefined);
+    }
     setFormData({
       ...formData,
       newConditionQuestion: value,
     });
   };
 
-  const confirmationError = attemptedSubmit && confirmation === undefined
+  const confirmationError = attemptedSubmit && (confirmation === undefined || confirmation === null)
     ? 'You must make a selection to proceed.'
     : undefined;
 
-  const newConditionError = attemptedSubmit && newCondition === undefined
+  const newConditionError = attemptedSubmit && confirmation === false && (newCondition === undefined || newCondition === null)
     ? 'You must make a selection to proceed.'
     : undefined;
 
@@ -106,12 +120,13 @@ const ConfirmationQuestion = ({
         error={radioError || confirmationError}
         onVaValueChange={e => handleConfirmationChange(e.detail.value === 'Y')}
       >
-        <VaRadioOption name="confirmation-question" label="Yes, I confirm" value="Y" />
-        <VaRadioOption name="confirmation-question" label="No, I do not confirm" value="N" />
+        <VaRadioOption name="confirmation-question" label="Yes" value="Y" />
+        <VaRadioOption name="confirmation-question" label="No" value="N" />
       </VaRadio>
       {(confirmationAnswered && confirmation === false) ? (
         <>
           <VaRadio
+            id="new-condition-question"
             name="new-condition-question"
             label="Are you applying for a new or secondary condition?"
             required

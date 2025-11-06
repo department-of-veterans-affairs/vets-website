@@ -23,6 +23,10 @@ export const DateRangeView = ({ formData }) => {
 };
 
 export const DoctorView = ({ formData }) => {
+  const treatmentDates = Array.isArray(formData?.treatmentDates)
+    ? formData.treatmentDates.filter(date => date && typeof date === 'object')
+    : [];
+
   return (
     <div className="vads-u-padding--2">
       <strong>{formData.doctorName || 'Doctor name not provided'}</strong>
@@ -39,6 +43,21 @@ export const DoctorView = ({ formData }) => {
       </p>
       {formData.connectedDisabilities && (
         <p>Connected disabilities: {formData.connectedDisabilities}</p>
+      )}
+      {treatmentDates.length > 0 && (
+        <div>
+          <strong className="vads-u-display--block vads-u-margin-bottom--0.5">
+            Treatment dates
+          </strong>
+          <ul className="vads-u-margin--0 vads-u-padding-left--3">
+            {treatmentDates.map((dateRange, index) => (
+              <li key={index}>
+                {dateRange.startDate || 'Not provided'} &mdash;{' '}
+                {dateRange.endDate || 'Not provided'}
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );

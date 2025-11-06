@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   textUI,
   currentOrPastDateUI,
@@ -54,8 +56,11 @@ const options = {
 const summaryPage = {
   uiSchema: {
     [employmentAppliedFields.hasTriedEmployment]: arrayBuilderYesNoUI(options, {
-      title:
-        'Have you tried to obtain employment since you became too disabled to work?',
+      title: (
+        <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--0">
+          Have you tried to obtain employment since you became too disabled to work?
+        </h3>
+      ),
     }),
   },
   schema: {
@@ -71,7 +76,11 @@ const summaryPage = {
 const employmentInformationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Employer information',
+      title: (
+        <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--0">
+          Employer information
+        </h3>
+      ),
       nounSingular: options.nounSingular,
     }),
     [employmentAppliedFields.employerName]: textUI({
@@ -113,13 +122,21 @@ const employmentInformationPage = {
 
 export default arrayBuilderPages(options, pageBuilder => ({
   employmentHistorySummary: pageBuilder.summaryPage({
-    title: 'Review your employment application records',
+    title: (
+      <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--0">
+        Review your employment application records
+      </h3>
+    ),
     path: 'employment-application-records-summary',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   employmentHistoryPage: pageBuilder.itemPage({
-    title: 'Employment application record',
+    title: (
+      <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--0">
+        Employment application record
+      </h3>
+    ),
     path: 'employment-application-record/:index/',
     uiSchema: employmentInformationPage.uiSchema,
     schema: employmentInformationPage.schema,

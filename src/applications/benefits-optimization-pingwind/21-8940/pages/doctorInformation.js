@@ -12,6 +12,15 @@ import {
 import { DoctorView, DateRangeView } from '../components/viewElements';
 import SafeArrayField from '../components/SafeArrayField';
 
+const buildTreatmentDateSchema = () => ({
+  type: 'object',
+  properties: {
+    startDate: currentOrPastDateSchema,
+    endDate: currentOrPastDateSchema,
+  },
+  required: ['startDate'],
+});
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -37,6 +46,12 @@ export default {
         'ui:options': {
           classNames: 'vads-u-margin-left--1p5',
         },
+        'ui:order': [
+          'doctorName',
+          'doctorAddress',
+          'connectedDisabilities',
+          'treatmentDates',
+        ],
         doctorName: {
           'ui:title': "Doctor's name",
         },
@@ -51,29 +66,28 @@ export default {
           'ui:description':
             'Please enter the service-connected disabilities this doctor treated you for (please separate each disability with a comma e.g., PTSD, Hearing Loss, Back Pain)',
         },
-      },
-    },
-
-    // Treatment Dates Section
-    importantDates: {
-      'ui:field': SafeArrayField,
-      'ui:options': {
-        itemName: 'Date',
-        viewField: DateRangeView,
-        customTitle: 'Your important treatment dates',
-        useDlWrap: true,
-        keepInPageOnReview: true,
-        doNotScroll: true,
-        confirmRemove: true,
-        confirmRemoveDescription: 'Are you sure you want to remove this date?',
-        addAnotherText: 'Add another treatment date',
-      },
-      items: {
-        'ui:options': {
-          classNames: 'vads-u-margin-left--1p5',
+        treatmentDates: {
+          'ui:field': SafeArrayField,
+          'ui:options': {
+            itemName: 'Date',
+            viewField: DateRangeView,
+            customTitle: 'Your important treatment dates with this doctor',
+            useDlWrap: true,
+            keepInPageOnReview: true,
+            doNotScroll: true,
+            confirmRemove: true,
+            confirmRemoveDescription:
+              'Are you sure you want to remove this date?',
+            addAnotherText: 'Add another treatment date',
+          },
+          items: {
+            'ui:options': {
+              classNames: 'vads-u-margin-left--1p5',
+            },
+            startDate: currentOrPastDateUI('Start date'),
+            endDate: currentOrPastDateUI('End date (if applicable)'),
+          },
         },
-        startDate: currentOrPastDateUI('Start date'),
-        endDate: currentOrPastDateUI('End date (if applicable)'),
       },
     },
   },
@@ -97,23 +111,20 @@ export default {
               type: 'string',
               maxLength: 500,
             },
+            treatmentDates: {
+              type: 'array',
+              minItems: 1,
+              maxItems: 4,
+              items: [buildTreatmentDateSchema()],
+              additionalItems: buildTreatmentDateSchema(),
+            },
           },
-          required: ['doctorName', 'doctorAddress', 'connectedDisabilities'],
-        },
-      },
-
-      // Treatment Dates Schema
-      importantDates: {
-        type: 'array',
-        minItems: 1,
-        maxItems: 2,
-        items: {
-          type: 'object',
-          properties: {
-            startDate: currentOrPastDateSchema,
-            endDate: currentOrPastDateSchema,
-          },
-          required: ['startDate'],
+          required: [
+            'doctorName',
+            'doctorAddress',
+            'connectedDisabilities',
+            'treatmentDates',
+          ],
         },
       },
     },

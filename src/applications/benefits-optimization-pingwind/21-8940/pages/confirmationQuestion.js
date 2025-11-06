@@ -43,7 +43,7 @@ export default {
         (errors, fieldData) => {
           if (fieldData === false) {
             errors.addError(
-              'You must select "Yes" to continue with this form.',
+              'Oops, we hit a snag. You told us you are NOT applying for increased unemployability compensation benefits. Select the Find a VA Form link to find the right form, or to continue with this form, 21-8940, select "Yes" and continue.',
             );
           }
         },

@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   yesNoUI,
   yesNoSchema,
@@ -6,7 +8,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Current Military Service',
+    'ui:title': (<h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">Current Military Service</h3>),
     'ui:description': 'Tell us about your current military service.',
     currentlyServing: yesNoUI(
       'Are you currently serving in the Reserve or National Guard?',

@@ -16,15 +16,12 @@ export default {
   title: 'Information we are required to share',
   uiSchema: {
     'ui:title': 'Information we are required to share',
-    'ui:order': [
-      'view:fairInformationSummary',
-      fieldNames.fairInformationPractices,
-      'view:privacyActSummary',
-      fieldNames.privacyAct,
-    ],
-    'view:fairInformationSummary': {
-      'ui:field': 'ViewField',
-      'ui:description': (
+    'ui:order': [fieldNames.fairInformationPractices, fieldNames.privacyAct],
+    [fieldNames.fairInformationPractices]: checkboxUI({
+      title: 'I have read this statement.',
+      required: () => true,
+      marginTop: 0,
+      description: (
         <VaSummaryBox
           id="information-use-summary"
           uswds
@@ -32,28 +29,25 @@ export default {
         >
           <h2 slot="headline">IMPORTANT</h2>
           <p>
-            This is a claim for compensation benefits based on unemployability.
-            When you complete this form you are claiming total disability
-            because of a service-connected disability(ies) which has/have
-            prevented you from securing or following any substantially gainful
-            occupation. Answer all questions fully and accurately.
+            This is a claim for compensation benefits based on
+            unemployability. When you complete this form you are claiming total
+            disability because of a service-connected disability(ies) which
+            has/have prevented you from securing or following any substantially
+            gainful occupation. Answer all questions fully and accurately.
           </p>
         </VaSummaryBox>
       ),
-    },
-    [fieldNames.fairInformationPractices]: checkboxUI({
-      title: 'I have read this statement.',
-      required: () => true,
-      marginTop: 0,
       errorMessages: {
         enum: 'You must acknowledge how VA uses your information to continue.',
         required:
           'You must acknowledge how VA uses your information to continue.',
       },
     }),
-    'view:privacyActSummary': {
-      'ui:field': 'ViewField',
-      'ui:description': (
+    [fieldNames.privacyAct]: checkboxUI({
+      title: 'I have read this statement.',
+      required: () => true,
+      marginTop: 0,
+      description: (
         <VaSummaryBox
           id="privacy-rights-summary"
           uswds
@@ -63,8 +57,8 @@ export default {
           <p>
             Individuals who have a disability and meet medical criteria may
             qualify for Social Security or Supplemental Security Income
-            disability benefits. If you would like more information about Social
-            Security benefits, contact your nearest Social Security
+            disability benefits. If you would like more information about
+            Social Security benefits, contact your nearest Social Security
             Administration (SSA) office. You can locate the address of the
             nearest SSA office at{' '}
             <a
@@ -83,11 +77,6 @@ export default {
           </p>
         </VaSummaryBox>
       ),
-    },
-    [fieldNames.privacyAct]: checkboxUI({
-      title: 'I have read this statement.',
-      required: () => true,
-      marginTop: 0,
       errorMessages: {
         enum: 'You must acknowledge your privacy rights to continue.',
         required: 'You must acknowledge your privacy rights to continue.',
@@ -98,15 +87,7 @@ export default {
     type: 'object',
     required: [fieldNames.fairInformationPractices, fieldNames.privacyAct],
     properties: {
-      'view:fairInformationSummary': {
-        type: 'object',
-        properties: {},
-      },
       [fieldNames.fairInformationPractices]: checkboxRequiredSchema,
-      'view:privacyActSummary': {
-        type: 'object',
-        properties: {},
-      },
       [fieldNames.privacyAct]: checkboxRequiredSchema,
     },
   },

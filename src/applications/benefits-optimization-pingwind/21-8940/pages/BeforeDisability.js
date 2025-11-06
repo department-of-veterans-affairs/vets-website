@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   textUI,
   yesNoUI,
@@ -16,7 +18,7 @@ import { wrapDateRangeUiWithDl } from '../helpers/reviewHelpers';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Education and Training Before Becoming Disabled',
+    'ui:title': (<h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">Education and Training Before Becoming Disabled</h3>),
     'ui:description':
       'Tell us about your education and training before becoming too disabled to work.',
 

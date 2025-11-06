@@ -14,7 +14,7 @@ const AdditionalInformation = () => (
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Current Income',
+    'ui:title': (<h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">Current Income</h3>),
     'ui:description': 'Your current earnings',
     totalIncome: numberUI({
       title:

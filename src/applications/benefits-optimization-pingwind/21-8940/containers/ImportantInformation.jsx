@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VaSummaryBox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import {
+  getNextPagePath,
+  getPreviousPagePath,
+} from 'platform/forms-system/src/js/routing';
 import { scrollTo } from 'platform/utilities/scroll';
 
 const ImportantInformation = ({ formData, location, route, router }) => {
@@ -15,9 +18,12 @@ const ImportantInformation = ({ formData, location, route, router }) => {
   const currentPath = location?.pathname || '';
 
   const goBack = () => {
-    if (router?.push) {
-      router.push('/');
+    if (!router?.push) {
+      return;
     }
+
+    const previousPath = getPreviousPagePath(pageList, formData, currentPath);
+    router.push(previousPath || '/introduction');
   };
 
   const goForward = () => {

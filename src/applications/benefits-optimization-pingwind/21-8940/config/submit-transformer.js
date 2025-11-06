@@ -488,7 +488,10 @@ const buildSubmissionPayload = data => {
   const doctorCare = data?.[doctorCareQuestionFields.parentObject] || {};
 
   const doctors = toArray(data?.doctors);
-  const doctorDates = toArray(data?.importantDates);
+  const doctorDates = doctors.reduce((accumulator, doctorEntry) => {
+    const entryDates = toArray(doctorEntry?.treatmentDates);
+    return entryDates.length ? accumulator.concat(entryDates) : accumulator;
+  }, []);
   const hospitals = toArray(data?.hospitals);
   const hospitalDates = toArray(data?.treatmentDates);
 

@@ -17,7 +17,11 @@ const AdditionalInformation = () => (
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Peak Earnings',
+    'ui:title': (
+      <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
+        Peak Earnings
+      </h3>
+    ),
     'ui:description': 'Your highest earnings',
     maxYearlyEarnings: numberUI({
       title: 'What is the most you ever earned in one year? (Gross Income)',

@@ -84,7 +84,16 @@
           "state": "VA",
           "postalCode": "22314",
           "country": "USA"
-        }
+        },
+        "treatmentDates": [
+          {
+            "startDate": "2023-01-15",
+            "endDate": "2023-03-01"
+          },
+          {
+            "startDate": "2024-02-10"
+          }
+        ]
       },
       {
         "doctorName": "Dr. William Nguyen",
@@ -94,16 +103,13 @@
           "state": "VA",
           "postalCode": "22042",
           "country": "USA"
-        }
-      }
-    ],
-    "importantDates": [
-      {
-        "startDate": "2023-01-15",
-        "endDate": "2023-03-01"
-      },
-      {
-        "startDate": "2024-02-10"
+        },
+        "treatmentDates": [
+          {
+            "startDate": "2022-11-15",
+            "endDate": "2023-02-20"
+          }
+        ]
       }
     ],
     "hospitals": [

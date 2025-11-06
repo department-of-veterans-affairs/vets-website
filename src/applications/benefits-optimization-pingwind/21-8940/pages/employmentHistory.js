@@ -71,6 +71,9 @@ export default {
         employerAddress: addressWithDlWrap(
           addressUI({
             title: 'Employer address',
+            labels: {
+              postalCode: 'Zip Code',
+            },
             omit: ['street2', 'street3', 'isMilitary'],
           }),
         ),

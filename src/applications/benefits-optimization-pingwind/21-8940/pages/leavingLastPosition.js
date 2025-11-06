@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   yesNoUI,
   yesNoSchema,
@@ -6,7 +8,11 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Leaving Your Last Position',
+    'ui:title': (
+      <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
+        Leaving Your Last Position
+      </h3>
+    ),
     'ui:description': 'Tell us more about why you left your last position.',
     leftDueToDisability: yesNoUI({
       title:

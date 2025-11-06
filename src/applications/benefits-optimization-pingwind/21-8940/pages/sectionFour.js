@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   radioUI,
   radioSchema,
@@ -6,7 +8,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Education and Training Information',
+    'ui:title': (<h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">Education and Training Information</h3>),
     'ui:description': 'Please provide information about your education level.',
 
     educationLevel: radioUI({

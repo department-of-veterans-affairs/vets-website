@@ -64,15 +64,16 @@ describe('21-8940 submit transformer', () => {
               postalCode: '10012',
               country: 'USA',
             },
+            treatmentDates: [
+              { startDate: '2019-01-01', endDate: '2019-05-01' },
+              { startDate: '2019-06-01', endDate: '2019-08-01' },
+            ],
           },
           {
             doctorName: '  ',
             doctorAddress: {},
+            treatmentDates: [],
           },
-        ],
-        importantDates: [
-          { startDate: '2019-01-01', endDate: '2019-05-01' },
-          { startDate: '2019-06-01', endDate: '2019-08-01' },
         ],
         hospitals: [
           {

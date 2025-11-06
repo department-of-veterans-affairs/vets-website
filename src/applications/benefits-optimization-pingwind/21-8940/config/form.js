@@ -15,8 +15,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 import transformForSubmit from './submit-transformer';
 
-/*import confirmationQuestion from '../pages/confirmationQuestion';*/
-import confirmationQuestion from '../containers/confirmationQuestion';
+import ConfirmationQuestion from '../containers/ConfirmationQuestion';
 import personalInformation1 from '../pages/personalInformation1';
 /*import personalInformation2 from '../pages/personalInformation2';*/
 import contactInformation1 from '../pages/contactInformation1';
@@ -112,7 +111,7 @@ const sectionTwoBannerPage = {
   path: 'section-2-banner',
   title: 'Disability And Medical Treatment',
   uiSchema: {
-    'ui:title': 'Disability And Medical Treatment',
+    'ui:title': (<h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">Disability And Medical Treatment</h3>),
     'ui:description': (
       <div>
         <p>
@@ -153,7 +152,7 @@ const sectionThreeBannerPage = {
     ...inlineTitleUI('Section III - Employment'),
     'ui:description': (
       <div className="vads-u-margin-top--8">
-        <p>We’ll start by confirming your identity and how to reach you.</p>
+        <p>Your work history and how your disabilities affect employment.</p>
         <div
           style={{
             backgroundColor: '#e7f4f7',
@@ -222,7 +221,7 @@ const sectionFiveBannerPage = {
     ...inlineTitleUI('Section V - Remarks'),
     'ui:description': (
       <div className="vads-u-margin-top--8">
-        <p>We’ll start by confirming your identity and how to reach you.</p>
+        <p>Add any additional information we should know.</p>
         <div
           style={{
             backgroundColor: '#e7f4f7',
@@ -341,7 +340,7 @@ const formConfig = {
     {
       path: 'confirmation-question',
       pageKey: 'confirmationQuestion',
-      component: confirmationQuestion,
+      component: ConfirmationQuestion,
       depends: () => true,
     },
     {
@@ -359,17 +358,6 @@ const formConfig = {
   ],
 
   chapters: {
-    /*confirmationQuestionChapter: {
-      title: "Let's get started",
-      pages: {
-        confirmationQuestion: {
-          path: 'confirmation-required',
-          title: 'Confirmation Required',
-          uiSchema: confirmationQuestion.uiSchema,
-          schema: confirmationQuestion.schema,
-        },
-      },
-    },*/
     informationRequiredChapter: {
       title: 'Information we are required to share',
       pages: {
@@ -516,22 +504,22 @@ const formConfig = {
     },
 
     beforeDisabilityChapter: {
-      title: 'Education and Training Information (cont.)',
+      title: 'Education and Training Information',
       pages: {
         beforeDisabilityPage: {
           path: 'education-and-training-before-disability',
-          title: 'Education and Training Information (cont.)',
+          title: 'Education and Training Information',
           uiSchema: BeforeDisability.uiSchema,
           schema: BeforeDisability.schema,
         },
       },
     },
     afterDisabilityChapter: {
-      title: 'Education and Training Information (cont.)',
+      title: 'Education and Training Information',
       pages: {
         afterDisabilityPage: {
           path: 'education-and-training-after-disability',
-          title: 'Education and Training Information (cont.)',
+          title: 'Education and Training Information',
           uiSchema: AfterDisability.uiSchema,
           schema: AfterDisability.schema,
         },
