@@ -14,7 +14,6 @@ describe('<AppContent>', () => {
   let useBrowserMonitoringStub;
 
   beforeEach(() => {
-    // Stub platform useBrowserMonitoring for all tests
     useBrowserMonitoringStub = sinon.stub(
       platformMonitoring,
       'useBrowserMonitoring',
@@ -201,7 +200,6 @@ describe('<ClaimsStatusApp> - Platform DataDog RUM Integration', () => {
   let store;
 
   beforeEach(() => {
-    // Stub the platform useBrowserMonitoring hook
     useBrowserMonitoringStub = sinon.stub(
       platformMonitoring,
       'useBrowserMonitoring',
@@ -295,19 +293,6 @@ describe('<ClaimsStatusApp> - Platform DataDog RUM Integration', () => {
 
     expect(useBrowserMonitoringStub.calledOnce).to.be.true;
     expect(useBrowserMonitoringStub.firstCall.args[0].loggedIn).to.equal(false);
-  });
-
-  // TODO:: Remove this test once the custom DataDog RUM utilities are removed
-  it('should not import custom DataDog RUM utilities', () => {
-    // This test verifies that the custom useBrowserMonitoring is not imported
-    // by checking that the platform version is used instead
-    const ClaimsStatusAppModule = require('../../containers/ClaimsStatusApp');
-    const moduleString = ClaimsStatusAppModule.toString();
-
-    // The module should not contain references to the custom datadog-rum path
-    expect(moduleString).to.not.include(
-      '../utils/datadog-rum/useBrowserMonitoring',
-    );
   });
 
   it('should pass toggleName for feature flag control', () => {
