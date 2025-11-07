@@ -27,7 +27,7 @@ More documentation: https://github.com/department-of-veterans-affairs/va.gov-tea
 - Vets-api does not currently send referrals if they are expired
 - Only the first appointment can be directly scheduled
 - If there are appointments already booked, the app will not let you continue with scheduling
-- Types of care allowed include Optometry and other specialty care types
+- Only certain types of care are allowed other referral types are filtered from the list view on the frontend [src/applications/vaos/referral-appointments/utils/referrals.js](utils/referrals.js)
 
 
 ## Local testing and test scenarios
@@ -144,7 +144,7 @@ This feature uses RTK Query for API state management. The main API slice is defi
 RTK Query documentation: https://redux-toolkit.js.org/rtk-query/overview
 
 ### Mock Service Worker (MSW)
-Unit tests use MSW for API mocking. Examples can be found in:
+Some unit tests use MSW for API mocking. Examples can be found in:
 - [`src/applications/vaos/referral-appointments/ReferralsAndRequests.unit.spec.jsx`](ReferralsAndRequests.unit.spec.jsx)
 
 MSW documentation: https://mswjs.io/
