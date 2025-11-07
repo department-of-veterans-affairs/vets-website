@@ -9,6 +9,7 @@ import ReferralLayout from './components/ReferralLayout';
 import ProviderAddress from './components/ProviderAddress';
 import AppointmentDate from '../components/AppointmentDate';
 import AppointmentTime from '../components/AppointmentTime';
+import FindCommunityCareOfficeLink from './components/FindCCFacilityLink';
 import { routeToNextReferralPage } from './flow';
 import { usePollAppointmentInfoQuery } from '../redux/api/vaosApi';
 import { setFormCurrentPage, startNewAppointmentFlow } from './redux/actions';
@@ -19,7 +20,6 @@ import {
   selectCurrentPage,
 } from './redux/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
-import FindCommunityCareOfficeLink from './components/FindCCFacilityLink';
 
 function handleScheduleClick(dispatch) {
   return () => {
@@ -119,11 +119,9 @@ export const CompleteReferral = props => {
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             {appointmentInfoTimeout
               ? `Try refreshing this page. If it still doesn’t work, call your community care provider at  ${
-                  currentReferral.provider.phone
+                  referralAppointmentInfo?.attributes?.provider?.phone
                 } or your facility’s community care office to schedule an appointment.`
-              : `We’re sorry. Call your community care provider at ${
-                  currentReferral.provider.phone
-                } or your facility’s community care office to schedule an appointment.`}
+              : `We’re sorry. Call your community care provider or your facility’s community care office to schedule an appointment.`}
           </p>
           <FindCommunityCareOfficeLink />
         </va-alert>

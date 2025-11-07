@@ -22,6 +22,9 @@ export default function EpsAppointmentDetailsPage() {
   const { pathname } = useLocation();
   // get the id from the url my-health/appointments/1234
   const [, appointmentId] = pathname.split('/');
+  // get the param hasAppointments from the url with useLocation
+  const params = new URLSearchParams(useLocation().search);
+  const hasAppointments = params.get('hasAppointments');
   const dispatch = useDispatch();
   const featureCommunityCareCancellations = useSelector(
     selectFeatureCommunityCareCancellations,
@@ -108,6 +111,7 @@ export default function EpsAppointmentDetailsPage() {
         <EpsAppointmentDetailCard
           appointment={appointment}
           pageTitle={pageTitle}
+          hasAppointments={!!hasAppointments}
           isPastAppointment={!!isPastAppointment}
           featureCommunityCareCancellations={featureCommunityCareCancellations}
           onSetCancelAppointment={() =>

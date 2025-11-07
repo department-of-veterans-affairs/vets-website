@@ -14,6 +14,7 @@ import { useIsInPilotUserStations } from './hooks/useIsInPilotUserStations';
 import CompleteReferral from './CompleteReferral';
 import ReferralLayout from './components/ReferralLayout';
 import { useGetReferralByIdQuery } from '../redux/api/vaosApi';
+import { getCanBeScheduled, getNextAppointment } from './utils/referrals';
 
 export default function ReferralAppointments() {
   useManualScrollRestoration();
@@ -26,8 +27,20 @@ export default function ReferralAppointments() {
     skip: !id,
   });
 
-  if (referral?.attributes?.hasAppointments) {
-    return <Redirect to="/referrals-requests" />;
+  const canBeScheduled = getCanBeScheduled(referral.attributes.appointments);
+
+  if (!canBeScheduled) {
+    const { id: appointmentId, system } = getNextAppointment(
+      referral.attributes.appointments,
+    );
+    if (appointmentId) {
+      const path =
+        system === 'VAOS'
+          ? `/${appointmentId}`
+          : `/${appointmentId}?eps=true&hasAppointments=true`;
+      return <Redirect from={path} to="/" />;
+    }
+    return <Redirect from={basePath.url} to="/" />;
   }
 
   if (!isInPilotUserStations) {

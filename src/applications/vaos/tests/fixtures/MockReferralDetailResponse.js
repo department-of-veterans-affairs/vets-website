@@ -10,7 +10,10 @@ class MockReferralDetailResponse {
         .toString(36)
         .substring(2, 10)}`,
       categoryOfCare: 'OPTOMETRY',
-      hasAppointments: false,
+      appointments: {
+        system: 'EPS',
+        data: [],
+      },
       notFound: false,
       serverError: false,
       referralNumber: 'VA0000005681',
@@ -41,7 +44,7 @@ class MockReferralDetailResponse {
       .toString(36)
       .substring(2, 10)}`,
     categoryOfCare = 'OPTOMETRY',
-    hasAppointments = false,
+    appointments = {},
     referralNumber = 'VA0000005681',
     expirationDate = this.expirationDate
       ? format(this.expirationDate, 'yyyy-MM-dd')
@@ -72,7 +75,7 @@ class MockReferralDetailResponse {
           referralNumber,
           expirationDate,
           serviceName: 'Referral',
-          hasAppointments,
+          appointments,
           referralDate,
           stationId,
           facilityName: 'VAMC Facility',
