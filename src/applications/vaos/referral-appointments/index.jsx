@@ -40,7 +40,14 @@ export default function ReferralAppointments() {
 
   if (error) {
     // Referral Layout shows the error component is apiFailure is true
-    return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
+    return (
+      <ReferralLayout
+        apiFailure
+        hasEyebrow
+        heading="Something went wrong on our end"
+        errorBody="Something went wrong on our end. Please try again later. If you need help, call your facility's community care office."
+      />
+    );
   }
 
   return (
