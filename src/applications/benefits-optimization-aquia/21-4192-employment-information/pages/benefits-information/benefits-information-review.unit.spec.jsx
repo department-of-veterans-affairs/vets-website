@@ -123,4 +123,68 @@ describe('BenefitsInformationReview', () => {
       expect(container.textContent).to.include('Not provided');
     });
   });
+
+  describe('Dynamic Names Display', () => {
+    it('should use veteran name in label', () => {
+      const data = {
+        veteranInformation: {
+          firstName: 'Boba',
+          lastName: 'Fett',
+        },
+        benefitsInformation: {
+          benefitEntitlement: 'yes',
+        },
+      };
+
+      const { container } = render(
+        <BenefitsInformationReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+
+      expect(container.textContent).to.include('Boba Fett');
+    });
+
+    it('should use employer name in label', () => {
+      const data = {
+        employerInformation: {
+          employerName: 'Bounty Hunters Guild',
+        },
+        benefitsInformation: {
+          benefitEntitlement: 'yes',
+        },
+      };
+
+      const { container } = render(
+        <BenefitsInformationReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+
+      expect(container.textContent).to.include('Bounty Hunters Guild');
+    });
+
+    it('should use "the Veteran" and "you" when names not provided', () => {
+      const data = {
+        benefitsInformation: {
+          benefitEntitlement: 'yes',
+        },
+      };
+
+      const { container } = render(
+        <BenefitsInformationReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+
+      expect(container.textContent).to.include('the Veteran');
+      expect(container.textContent).to.include('you');
+    });
+  });
 });

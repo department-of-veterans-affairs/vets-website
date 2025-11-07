@@ -98,21 +98,23 @@ const PicklistRemoveDependentFollowup = ({
         goToPath,
       });
       if (nextPage === 'DONE') {
-        // Find next selected dependent
-        const nextSelectedIndex = data[PICKLIST_DATA].findIndex(
-          (dep, indx) => indx > index && dep.selected,
-        );
-        if (reviewPageFlag) {
-          sessionStorage.removeItem(PICKLIST_EDIT_REVIEW_FLAG);
-          goToPath('/review-and-submit');
-        } else if (nextSelectedIndex === -1) {
-          // Done with removing dependents, go to review & submit page
-          goForward(data);
-        } else {
-          // Go to the followup page for the next selected dependent
-          goToPath(`remove-dependent?index=${nextSelectedIndex}`, {
-            force: true,
-          });
+        if (!isShowingExitLink) {
+          // Find next selected dependent
+          const nextSelectedIndex = data[PICKLIST_DATA].findIndex(
+            (dep, indx) => indx > index && dep.selected,
+          );
+          if (reviewPageFlag) {
+            sessionStorage.removeItem(PICKLIST_EDIT_REVIEW_FLAG);
+            goToPath('/review-and-submit');
+          } else if (nextSelectedIndex === -1) {
+            // Done with removing dependents, go to review & submit page
+            goForward(data);
+          } else {
+            // Go to the followup page for the next selected dependent
+            goToPath(`remove-dependent?index=${nextSelectedIndex}`, {
+              force: true,
+            });
+          }
         }
       } else {
         goToPath(`remove-dependent?index=${index}&page=${nextPage}`, {
