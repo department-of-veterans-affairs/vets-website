@@ -25,6 +25,7 @@ const PicklistRemoveDependentsFollowupReview = ({ data = {}, goToPath }) => {
   useEffect(
     () => {
       if (updatedKey && updatedAlertRef.current) {
+        // Delay focus to wait out review page focus on the page title header
         setTimeout(() => {
           scrollAndFocus(updatedAlertRef.current);
         }, 300);
