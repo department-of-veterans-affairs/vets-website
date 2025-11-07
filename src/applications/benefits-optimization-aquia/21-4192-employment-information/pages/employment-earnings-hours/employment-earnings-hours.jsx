@@ -3,43 +3,32 @@ import React from 'react';
 
 import {
   CurrencyField,
-  MemorableDateField,
   NumberField,
   TextareaField,
   TextInputField,
 } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
-import { transformDates } from '@bio-aquia/shared/forms';
 
 import {
   amountEarnedSchema,
-  beginningDateSchema,
   dailyHoursSchema,
-  employmentDatesDetailsSchema,
-  endingDateSchema,
+  employmentEarningsHoursSchema,
   timeLostSchema,
   typeOfWorkSchema,
   weeklyHoursSchema,
 } from '../../schemas';
 
 /**
- * Data processor to ensure date values are properly formatted strings
- */
-const ensureDateStrings = formData => {
-  return transformDates(formData, ['beginningDate', 'endingDate']);
-};
-
-/**
- * Employment Dates and Details page component
- * This page collects employment dates, work type, earnings, and hours information
+ * Employment Earnings and Hours page component
+ * This page collects earnings and hours information
  * @param {Object} props - Component props
  * @param {Object} props.data - Initial form data
  * @param {Function} props.setFormData - Function to update form data
  * @param {Function} props.goForward - Function to proceed to next page
  * @param {Function} props.goBack - Function to go to previous page
- * @returns {JSX.Element} Employment dates and details form page
+ * @returns {JSX.Element} Employment earnings and hours form page
  */
-export const EmploymentDatesDetailsPage = ({
+export const EmploymentEarningsHoursPage = ({
   data,
   setFormData,
   goForward,
@@ -50,21 +39,33 @@ export const EmploymentDatesDetailsPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Get veteran name
+  const veteranInfo = formDataToUse?.veteranInformation || {};
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
+
+  // Determine if currently employed to use correct tense
+  const currentlyEmployed =
+    formDataToUse?.employmentDates?.currentlyEmployed || false;
+  const tense = currentlyEmployed ? 'does' : 'did';
+  const timeframe = currentlyEmployed
+    ? 'last 12 months'
+    : '12 months before their last date of employment';
+
   return (
     <PageTemplate
-      title="Employment information"
+      title={`Details about ${veteranName}'s employment`}
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
-      schema={employmentDatesDetailsSchema}
-      sectionName="employmentDatesDetails"
-      dataProcessor={ensureDateStrings}
+      schema={employmentEarningsHoursSchema}
+      sectionName="employmentEarningsHours"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       defaultData={{
-        beginningDate: '',
-        endingDate: '',
         typeOfWork: '',
         amountEarned: '',
         timeLost: '',
@@ -74,41 +75,21 @@ export const EmploymentDatesDetailsPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <MemorableDateField
-            name="beginningDate"
-            label="Beginning date of employment"
-            schema={beginningDateSchema}
-            value={localData.beginningDate}
-            onChange={handleFieldChange}
-            error={errors.beginningDate}
-            forceShowError={formSubmitted}
-          />
-
-          <MemorableDateField
-            name="endingDate"
-            label="Ending date of employment"
-            schema={endingDateSchema}
-            value={localData.endingDate}
-            onChange={handleFieldChange}
-            error={errors.endingDate}
-            forceShowError={formSubmitted}
-          />
-
           <TextareaField
             name="typeOfWork"
-            label="Type of work performed"
-            schema={typeOfWorkSchema}
+            label={`What type of work ${tense} ${veteranName} do?`}
             value={localData.typeOfWork}
             onChange={handleFieldChange}
             error={errors.typeOfWork}
             forceShowError={formSubmitted}
+            schema={typeOfWorkSchema}
             rows={5}
             maxLength={1000}
           />
 
           <CurrencyField
             name="amountEarned"
-            label="Amount earned during 12 months preceding last date of Employment (before deductions)"
+            label={`How much ${tense} ${veteranName} earn in the ${timeframe} (before deductions)?`}
             value={localData.amountEarned}
             onChange={handleFieldChange}
             error={errors.amountEarned}
@@ -118,7 +99,7 @@ export const EmploymentDatesDetailsPage = ({
 
           <TextInputField
             name="timeLost"
-            label="Time lost during 12 months preceding last date of employment (due to disability)"
+            label={`How much time ${tense} ${veteranName} lose to disability in ${timeframe}?`}
             value={localData.timeLost}
             onChange={handleFieldChange}
             error={errors.timeLost}
@@ -129,24 +110,22 @@ export const EmploymentDatesDetailsPage = ({
 
           <NumberField
             name="dailyHours"
-            label="Number of hours worked (daily)"
+            label={`How many hours ${tense} ${veteranName} work each day?`}
             value={localData.dailyHours}
             onChange={handleFieldChange}
             error={errors.dailyHours}
             forceShowError={formSubmitted}
             schema={dailyHoursSchema}
-            hint="Enter the number of hours worked per day"
           />
 
           <NumberField
             name="weeklyHours"
-            label="Number of hours worked (weekly)"
+            label={`How many hours ${tense} ${veteranName} work each week?`}
             value={localData.weeklyHours}
             onChange={handleFieldChange}
             error={errors.weeklyHours}
             forceShowError={formSubmitted}
             schema={weeklyHoursSchema}
-            hint="Enter the number of hours worked per week"
           />
         </>
       )}
@@ -154,7 +133,7 @@ export const EmploymentDatesDetailsPage = ({
   );
 };
 
-EmploymentDatesDetailsPage.propTypes = {
+EmploymentEarningsHoursPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
@@ -163,4 +142,4 @@ EmploymentDatesDetailsPage.propTypes = {
   onReviewPage: PropTypes.bool,
 };
 
-export default EmploymentDatesDetailsPage;
+export default EmploymentEarningsHoursPage;

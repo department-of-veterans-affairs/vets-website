@@ -1,12 +1,47 @@
 {
   "data": {
-    "fullName": {
-      "first": "James",
-      "middle": "Tiberius",
-      "last": "Kirk"
+    "veteranInformation": {
+      "firstName": "James",
+      "lastName": "Kirk",
+      "dateOfBirth": "2233-03-22"
     },
-    "dateOfBirth": "2233-03-22",
-    "ssn": "123-45-6789",
-    "vaFileNumber": "12345678"
+    "veteranContactInformation": {
+      "ssn": "123-45-6789",
+      "vaFileNumber": "12345678"
+    },
+    "employerInformation": {
+      "employerName": "Starfleet Command",
+      "employerAddress": {
+        "street": "123 Fleet Street",
+        "city": "San Francisco",
+        "state": "CA",
+        "country": "USA",
+        "postalCode": "94102"
+      }
+    },
+    "employmentDates": {
+      "beginningDate": "2250-01-01",
+      "currentlyEmployed": true
+    },
+    "employmentEarningsHours": {
+      "typeOfWork": "Starship Captain",
+      "amountEarned": "5000",
+      "dailyHours": "8",
+      "weeklyHours": "40"
+    },
+    "employmentConcessions": {},
+    "employmentTermination": {},
+    "employmentLastPayment": {
+      "dateOfLastPayment": "2024-10-31",
+      "grossAmountLastPayment": "5000",
+      "lumpSumPayment": "no"
+    },
+    "dutyStatus": {
+      "reserveOrGuardStatus": "no"
+    },
+    "benefitsInformation": {
+      "benefitEntitlement": "no"
+    },
+    "remarks": {}
   }
 }

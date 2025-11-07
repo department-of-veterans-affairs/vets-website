@@ -55,10 +55,10 @@ describe('MemorableDateField', () => {
       expect(dateField).to.have.attribute('value', '');
     });
 
-    it('disables month select by default', () => {
+    it('enables month select by default', () => {
       const { container } = render(<MemorableDateField {...defaultProps} />);
       const dateField = container.querySelector('va-memorable-date');
-      expect(dateField).to.have.attribute('month-select', 'false');
+      expect(dateField).to.have.attribute('month-select', 'true');
     });
 
     it('shows month and year only when specified', () => {

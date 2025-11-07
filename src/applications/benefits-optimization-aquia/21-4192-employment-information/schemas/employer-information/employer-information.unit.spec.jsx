@@ -8,7 +8,6 @@ import {
   employerAddressSchema,
   employerInformationSchema,
   employerNameSchema,
-  phoneNumberSchema,
 } from './employer-information';
 
 describe('Employer Information Schemas', () => {
@@ -73,82 +72,6 @@ describe('Employer Information Schemas', () => {
             'less than 100 characters',
           );
         }
-      });
-    });
-  });
-
-  describe('phoneNumberSchema', () => {
-    describe('Valid Phone Numbers', () => {
-      it('should validate 10-digit phone number', () => {
-        const result = phoneNumberSchema.safeParse('4155551234');
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate phone with dashes', () => {
-        const result = phoneNumberSchema.safeParse('415-555-1234');
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate phone with parentheses', () => {
-        const result = phoneNumberSchema.safeParse('(415) 555-1234');
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate phone with spaces', () => {
-        const result = phoneNumberSchema.safeParse('415 555 1234');
-        expect(result.success).to.be.true;
-      });
-
-      it('should validate various formatted phone numbers', () => {
-        const phones = [
-          '5551701234',
-          '555-170-1234',
-          '(555) 170-1234',
-          '555 170 1234',
-        ];
-
-        phones.forEach(phone => {
-          const result = phoneNumberSchema.safeParse(phone);
-          expect(result.success).to.be.true;
-        });
-      });
-    });
-
-    describe('Invalid Phone Numbers', () => {
-      it('should reject empty string', () => {
-        const result = phoneNumberSchema.safeParse('');
-        expect(result.success).to.be.false;
-        if (!result.success) {
-          expect(result.error.issues[0].message).to.include('required');
-        }
-      });
-
-      it('should reject phone with too few digits', () => {
-        const result = phoneNumberSchema.safeParse('123456789');
-        expect(result.success).to.be.false;
-        if (!result.success) {
-          expect(result.error.issues[0].message).to.include('10 digits');
-        }
-      });
-
-      it('should reject phone with too many digits', () => {
-        const result = phoneNumberSchema.safeParse('12345678901');
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject phone with letters', () => {
-        const result = phoneNumberSchema.safeParse('415-555-ABCD');
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject undefined', () => {
-        const result = phoneNumberSchema.safeParse(undefined);
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject null', () => {
-        const result = phoneNumberSchema.safeParse(null);
-        expect(result.success).to.be.false;
       });
     });
   });
@@ -379,7 +302,6 @@ describe('Employer Information Schemas', () => {
             country: 'USA',
             postalCode: '94102',
           },
-          employerPhone: '4155551234',
         });
         expect(result.success).to.be.true;
       });
@@ -393,7 +315,6 @@ describe('Employer Information Schemas', () => {
             state: 'CA',
             postalCode: '90210',
           },
-          employerPhone: '5551701234',
         });
         expect(result.success).to.be.true;
       });
@@ -408,7 +329,6 @@ describe('Employer Information Schemas', () => {
             country: 'USA',
             postalCode: '10001',
           },
-          employerPhone: '2125559876',
         });
         expect(result.success).to.be.true;
       });
@@ -422,7 +342,6 @@ describe('Employer Information Schemas', () => {
             state: 'CA',
             postalCode: '91234',
           },
-          employerPhone: '5555551234',
         });
         expect(result.success).to.be.true;
       });
@@ -437,7 +356,6 @@ describe('Employer Information Schemas', () => {
             state: 'CA',
             postalCode: '94102',
           },
-          employerPhone: '4155551234',
         });
         expect(result.success).to.be.false;
       });
@@ -445,34 +363,6 @@ describe('Employer Information Schemas', () => {
       it('should reject missing employerAddress', () => {
         const result = employerInformationSchema.safeParse({
           employerName: 'Bounty Hunters Guild',
-          employerPhone: '4155551234',
-        });
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject missing employerPhone', () => {
-        const result = employerInformationSchema.safeParse({
-          employerName: 'Bounty Hunters Guild',
-          employerAddress: {
-            street: '123 Main St',
-            city: 'Mos Eisley',
-            state: 'CA',
-            postalCode: '94102',
-          },
-        });
-        expect(result.success).to.be.false;
-      });
-
-      it('should reject invalid phone number', () => {
-        const result = employerInformationSchema.safeParse({
-          employerName: 'Bounty Hunters Guild',
-          employerAddress: {
-            street: '123 Main St',
-            city: 'Mos Eisley',
-            state: 'CA',
-            postalCode: '94102',
-          },
-          employerPhone: '123', // Too short
         });
         expect(result.success).to.be.false;
       });
@@ -483,7 +373,6 @@ describe('Employer Information Schemas', () => {
           employerAddress: {
             street: '123 Main St',
           },
-          employerPhone: '4155551234',
         });
         expect(result.success).to.be.false;
       });
@@ -504,7 +393,6 @@ describe('Employer Information Schemas', () => {
             state: 'CA',
             postalCode: '12345',
           },
-          employerPhone: '1234567890',
         });
         expect(result.success).to.be.true;
       });
@@ -518,7 +406,6 @@ describe('Employer Information Schemas', () => {
             state: 'CA',
             postalCode: '94102',
           },
-          employerPhone: '4155551234',
         });
         expect(result.success).to.be.true;
       });
@@ -536,7 +423,6 @@ describe('Employer Information Schemas', () => {
             postalCode: '94102-1234',
             isMilitary: true,
           },
-          employerPhone: '(415) 555-1234',
         });
         expect(result.success).to.be.true;
       });
