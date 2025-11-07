@@ -97,6 +97,7 @@ describe('SM Medications Renewal Request', () => {
           expect(request.subject).to.eq('Renewal Needed');
           expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
         });
+      cy.findByText('Message Sent.').should('not.exist');
       cy.url().should('include', decodeURIComponent(redirectPath));
     });
 
@@ -171,6 +172,7 @@ describe('SM Medications Renewal Request', () => {
           expect(request.subject).to.eq('Renewal Needed');
           expect(request.recipient_id).to.eq(+mockRecipients.data[1].id);
         });
+      cy.findByText('Message Sent.').should('not.exist');
       cy.url().should('include', decodeURIComponent(redirectPath));
     });
 
@@ -229,6 +231,7 @@ describe('SM Medications Renewal Request', () => {
           expect(request.subject).to.eq('Renewal Needed');
           expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
         });
+      cy.findByText('Message Sent.').should('not.exist');
       cy.url().should('include', decodeURIComponent(redirectPath));
     });
 
@@ -291,6 +294,7 @@ describe('SM Medications Renewal Request', () => {
           expect(request.subject).to.eq('Renewal Needed');
           expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
         });
+      cy.findByText('Message Sent.').should('be.visible');
       cy.url().should('include', '/my-health/secure-messages/inbox/');
     });
   });
@@ -360,6 +364,7 @@ describe('SM Medications Renewal Request', () => {
           expect(request.subject).to.eq('Renewal Needed');
           expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
         });
+      cy.findByText('Message Sent.').should('not.exist');
       cy.url().should('include', decodeURIComponent(redirectPath));
     });
 
@@ -411,6 +416,7 @@ describe('SM Medications Renewal Request', () => {
           expect(request.subject).to.eq('Renewal Needed');
           expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
         });
+      cy.findByText('Message Sent.').should('not.exist');
       cy.url().should('include', decodeURIComponent(redirectPath));
     });
 
@@ -457,6 +463,7 @@ describe('SM Medications Renewal Request', () => {
           expect(request.subject).to.eq('Renewal Needed');
           expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
         });
+      cy.findByText('Message Sent.').should('be.visible');
       cy.url().should('include', '/my-health/secure-messages/inbox/');
     });
   });
