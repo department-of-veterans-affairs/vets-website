@@ -217,9 +217,11 @@ export const sendUpdatedSearchQuery = (
   const zip = features[0].context.find(v => v.id.includes('postcode')) || {};
   const location = zip.text || features[0].place_name;
 
-  // Radius is computed as the distance from the center point
-  // to the western edge of the bounding box
-  const radius = distBetween(lat, lng, lat, currentBounds[0]);
+  // Radius is computed as the diagonal distance from the center point
+  // to the southwestern corner of the bounding box to ensure the circular
+  // search area encompasses the entire rectangular map bounds.
+  // currentBounds format: [minLng, minLat, maxLng, maxLat]
+  const radius = distBetween(lat, lng, currentBounds[1], currentBounds[0]);
 
   dispatch({
     type: SEARCH_QUERY_UPDATED,
