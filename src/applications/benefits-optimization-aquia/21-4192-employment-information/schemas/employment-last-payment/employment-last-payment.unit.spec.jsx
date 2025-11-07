@@ -15,8 +15,8 @@ import {
 
 describe('Employment Last Payment Schemas', () => {
   describe('dateOfLastPaymentSchema', () => {
-    it('should validate empty string', () => {
-      expect(dateOfLastPaymentSchema.safeParse('').success).to.be.true;
+    it('should reject empty string', () => {
+      expect(dateOfLastPaymentSchema.safeParse('').success).to.be.false;
     });
 
     it('should validate valid date', () => {
@@ -29,8 +29,8 @@ describe('Employment Last Payment Schemas', () => {
         .true;
     });
 
-    it('should validate undefined', () => {
-      expect(dateOfLastPaymentSchema.safeParse(undefined).success).to.be.true;
+    it('should reject undefined', () => {
+      expect(dateOfLastPaymentSchema.safeParse(undefined).success).to.be.false;
     });
 
     it('should reject invalid date', () => {
@@ -206,9 +206,9 @@ describe('Employment Last Payment Schemas', () => {
       expect(employmentLastPaymentSchema.safeParse(data).success).to.be.true;
     });
 
-    it('should validate empty object', () => {
+    it('should reject empty object', () => {
       const data = {};
-      expect(employmentLastPaymentSchema.safeParse(data).success).to.be.true;
+      expect(employmentLastPaymentSchema.safeParse(data).success).to.be.false;
     });
 
     it('should validate themed data', () => {
@@ -262,13 +262,35 @@ describe('Employment Last Payment Schemas', () => {
       expect(employmentLastPaymentSchema.safeParse(data).success).to.be.true;
     });
 
-    it('should validate with lump sum data only', () => {
+    it('should reject lump sum data without required date of last payment', () => {
       const data = {
         lumpSumPayment: 'yes',
         grossAmountPaid: '50000',
         datePaid: '2015-12-31',
       };
-      expect(employmentLastPaymentSchema.safeParse(data).success).to.be.true;
+      expect(employmentLastPaymentSchema.safeParse(data).success).to.be.false;
+    });
+
+    it('should reject when lumpSumPayment is yes but grossAmountPaid is missing', () => {
+      const data = {
+        dateOfLastPayment: '2015-12-15',
+        grossAmountLastPayment: '5000',
+        lumpSumPayment: 'yes',
+        grossAmountPaid: '',
+        datePaid: '2015-12-31',
+      };
+      expect(employmentLastPaymentSchema.safeParse(data).success).to.be.false;
+    });
+
+    it('should reject when lumpSumPayment is yes but datePaid is missing', () => {
+      const data = {
+        dateOfLastPayment: '2015-12-15',
+        grossAmountLastPayment: '5000',
+        lumpSumPayment: 'yes',
+        grossAmountPaid: '50000',
+        datePaid: '',
+      };
+      expect(employmentLastPaymentSchema.safeParse(data).success).to.be.false;
     });
   });
 });

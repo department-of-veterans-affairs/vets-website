@@ -1,13 +1,29 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-
 import { focusElement } from 'platform/utilities/ui';
+import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { useValidateFacilityCode } from '../hooks/useValidateFacilityCode';
+import { useValidateAdditionalFacilityCode } from '../hooks/useValidateAdditionalFacilityCode';
 
-const InstitutionName = () => {
+const InstitutionName = ({ uiSchema }) => {
   const formData = useSelector(state => state.form?.data);
-  const { loader } = useValidateFacilityCode(formData);
-  const institutionName = formData?.institutionDetails?.institutionName;
+  const options = uiSchema?.['ui:options'] || {};
+  const { isArrayItem = false } = options;
+
+  const index = isArrayItem ? getArrayIndexFromPathName() : null;
+
+  // Use different hooks based on context
+  const mainFacilityHook = useValidateFacilityCode(formData);
+  const additionalFacilityHook = useValidateAdditionalFacilityCode(
+    formData,
+    index,
+  );
+  const { loader } = isArrayItem ? additionalFacilityHook : mainFacilityHook;
+
+  // Get data from appropriate path
+  const institutionName = isArrayItem
+    ? formData?.additionalLocations?.[index]?.institutionName
+    : formData?.institutionDetails?.institutionName;
 
   useEffect(
     () => {
@@ -43,4 +59,5 @@ const InstitutionName = () => {
     </div>
   );
 };
+
 export default InstitutionName;

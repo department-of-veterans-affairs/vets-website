@@ -4,8 +4,7 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
+import { scrollToError } from './helpers';
 import { labels } from './utils';
 import propTypes from './types';
 
@@ -70,8 +69,9 @@ const childReasonToRemove = {
         case 'stepchildNotMember':
           return 'stepchild-financial-support';
         case 'childNotInSchool':
+          return 'child-disability';
         case 'childAdopted':
-          return 'DONE';
+          return 'child-adopted-exit';
         default:
           return 'DONE';
       }
@@ -80,7 +80,7 @@ const childReasonToRemove = {
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.removalReason) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
@@ -124,6 +124,7 @@ const childReasonToRemove = {
           label={labels.Child.removalReason}
           hint={labels.Child.removalReasonHint}
           onVaValueChange={onChange}
+          enable-analytics
           required
         >
           {removalOptions.map(option => (
@@ -157,10 +158,6 @@ const childReasonToRemove = {
             </ul>
           </va-additional-info>
         )}
-        {/* <CancelButton */}
-        {/*  dependentType={itemData.relationshipToVeteran?.toLowerCase()} */}
-        {/*  removePath="options-selection/remove-active-dependents" */}
-        {/* /> */}
       </>
     );
   },

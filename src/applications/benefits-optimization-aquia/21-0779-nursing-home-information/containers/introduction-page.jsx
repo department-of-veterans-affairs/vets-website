@@ -78,6 +78,7 @@ export const IntroductionPage = ({ router }) => {
       </p>
 
       <VaLinkAction
+        href="/nursing-official-information"
         data-testid="start-nursing-home-info-link"
         onClick={e => {
           e.preventDefault();
@@ -104,5 +105,3 @@ IntroductionPage.propTypes = {
     push: PropTypes.func,
   }),
 };
-
-export default IntroductionPage;

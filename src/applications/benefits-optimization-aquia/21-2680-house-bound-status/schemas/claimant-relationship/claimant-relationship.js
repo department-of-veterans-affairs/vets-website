@@ -15,5 +15,5 @@ export const claimantRelationshipSchema = z.enum(
  * Complete claimant relationship page schema
  */
 export const claimantRelationshipPageSchema = z.object({
-  claimantRelationship: claimantRelationshipSchema,
+  relationship: claimantRelationshipSchema,
 });

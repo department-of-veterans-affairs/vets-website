@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { PageTemplateWithSaveInProgress } from '@bio-aquia/shared/components/templates';
 import { AddressField } from '@bio-aquia/shared/components/molecules';
 import { TextInputField } from '@bio-aquia/shared/components/atoms';
 
 import { hospitalizationFacilityPageSchema } from '@bio-aquia/21-2680-house-bound-status/schemas';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 /**
  * Hospitalization Facility Page
@@ -24,8 +25,7 @@ export const HospitalizationFacilityPage = ({
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
   // Get claimant information for dynamic title
-  const relationship =
-    formDataToUse?.claimantRelationship?.claimantRelationship;
+  const relationship = formDataToUse?.claimantRelationship?.relationship;
   const isVeteran = relationship === 'veteran';
   const claimantName = formDataToUse?.claimantInformation?.claimantFullName;
   const firstName = claimantName?.first || '';
@@ -42,7 +42,7 @@ export const HospitalizationFacilityPage = ({
     : `What's the name and address of the hospital where ${formattedName} is admitted?`;
 
   return (
-    <PageTemplate
+    <PageTemplateWithSaveInProgress
       title={pageTitle}
       data={formDataToUse}
       setFormData={setFormData}
@@ -52,6 +52,7 @@ export const HospitalizationFacilityPage = ({
       sectionName="hospitalizationFacility"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+      formConfig={formConfig}
       defaultData={{
         facilityName: '',
         facilityAddress: {
@@ -85,7 +86,7 @@ export const HospitalizationFacilityPage = ({
             onChange={handleFieldChange}
             schema={hospitalizationFacilityPageSchema.shape.facilityAddress}
             errors={
-              formSubmitted && errors.facilityAddress
+              errors.facilityAddress
                 ? {
                     street: errors.facilityAddress?.street,
                     street2: errors.facilityAddress?.street2,
@@ -97,11 +98,24 @@ export const HospitalizationFacilityPage = ({
                   }
                 : undefined
             }
+            touched={
+              formSubmitted
+                ? {
+                    street: true,
+                    street2: true,
+                    street3: true,
+                    city: true,
+                    state: true,
+                    country: true,
+                    postalCode: true,
+                  }
+                : undefined
+            }
             required
           />
         </>
       )}
-    </PageTemplate>
+    </PageTemplateWithSaveInProgress>
   );
 };
 

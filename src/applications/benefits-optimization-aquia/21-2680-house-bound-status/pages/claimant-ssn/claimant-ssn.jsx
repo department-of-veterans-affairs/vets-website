@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { PageTemplateWithSaveInProgress } from '@bio-aquia/shared/components/templates';
 import { SSNField } from '@bio-aquia/shared/components/atoms';
 
 import {
   claimantSSNSchema,
   claimantSSNPageSchema,
 } from '@bio-aquia/21-2680-house-bound-status/schemas';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 /**
  * Claimant SSN Page
@@ -52,7 +53,7 @@ export const ClaimantSSNPage = ({
   const pageTitle = `${formattedName}'s Social Security number`;
 
   return (
-    <PageTemplate
+    <PageTemplateWithSaveInProgress
       title={pageTitle}
       data={migratedData}
       setFormData={setFormData}
@@ -62,6 +63,7 @@ export const ClaimantSSNPage = ({
       sectionName="claimantSSN"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+      formConfig={formConfig}
       defaultData={{
         claimantSSN: '',
       }}
@@ -80,7 +82,7 @@ export const ClaimantSSNPage = ({
           />
         </>
       )}
-    </PageTemplate>
+    </PageTemplateWithSaveInProgress>
   );
 };
 

@@ -1,8 +1,8 @@
-import { EVIDENCE_PRIVATE } from '../constants';
+import { HAS_PRIVATE_EVIDENCE } from '../constants';
 
 export default {
   uiSchema: {
-    [EVIDENCE_PRIVATE]: {
+    [HAS_PRIVATE_EVIDENCE]: {
       'ui:options': {
         hideOnReview: true,
       },
@@ -11,10 +11,10 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      [EVIDENCE_PRIVATE]: {
+      [HAS_PRIVATE_EVIDENCE]: {
         type: 'boolean',
       },
     },
-    required: [EVIDENCE_PRIVATE],
+    required: [HAS_PRIVATE_EVIDENCE],
   },
 };

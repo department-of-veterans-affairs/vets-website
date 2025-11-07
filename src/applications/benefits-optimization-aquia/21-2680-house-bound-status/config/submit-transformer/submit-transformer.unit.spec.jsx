@@ -22,7 +22,7 @@ describe('Submit Transformer', () => {
     it('should preserve original form data when claimant is not veteran', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
         veteranIdentification: {
           veteranFullName: { first: 'John', last: 'Doe' },
@@ -46,7 +46,7 @@ describe('Submit Transformer', () => {
     it('should copy veteran full name to claimant when claimantRelationship is veteran', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         veteranIdentification: {
           veteranFullName: {
@@ -72,7 +72,7 @@ describe('Submit Transformer', () => {
     it('should copy veteran DOB to claimant when claimantRelationship is veteran', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         veteranIdentification: {
           veteranDOB: '1980-01-01',
@@ -85,7 +85,7 @@ describe('Submit Transformer', () => {
     it('should copy veteran SSN to claimant when claimantRelationship is veteran', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         veteranIdentification: {
           veteranSSN: '123-45-6789',
@@ -99,7 +99,7 @@ describe('Submit Transformer', () => {
     it('should copy veteran address to claimant when claimantRelationship is veteran', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         veteranAddress: {
           veteranAddress: {
@@ -137,7 +137,7 @@ describe('Submit Transformer', () => {
     it('should copy all veteran data to claimant in single transformation', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         veteranIdentification: {
           veteranFullName: { first: 'Alice', last: 'Smith' },
@@ -177,7 +177,7 @@ describe('Submit Transformer', () => {
     it('should handle missing veteran identification gracefully', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
       };
       const result = submitTransformer(mockFormConfig, formData);
@@ -189,7 +189,7 @@ describe('Submit Transformer', () => {
     it('should handle missing veteran address gracefully', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
       };
       const result = submitTransformer(mockFormConfig, formData);
@@ -201,7 +201,7 @@ describe('Submit Transformer', () => {
     it('should handle partial veteran name gracefully', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         veteranIdentification: {
           veteranFullName: {
@@ -222,7 +222,7 @@ describe('Submit Transformer', () => {
     it('should handle partial veteran address gracefully', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         veteranAddress: {
           veteranAddress: {
@@ -244,7 +244,7 @@ describe('Submit Transformer', () => {
     it('should default country to USA when not provided', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         veteranAddress: {
           veteranAddress: {
@@ -261,7 +261,7 @@ describe('Submit Transformer', () => {
     it('should default isMilitary to false when not provided', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         veteranAddress: {
           veteranAddress: {
@@ -280,7 +280,7 @@ describe('Submit Transformer', () => {
     it('should preserve other form fields when transforming', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         benefitType: 'housebound',
         hospitalizationStatus: { isCurrentlyHospitalized: 'no' },
@@ -293,15 +293,13 @@ describe('Submit Transformer', () => {
       expect(result.hospitalizationStatus.isCurrentlyHospitalized).to.equal(
         'no',
       );
-      expect(result.claimantRelationship.claimantRelationship).to.equal(
-        'veteran',
-      );
+      expect(result.claimantRelationship.relationship).to.equal('veteran');
     });
 
     it('should not overwrite existing claimantContact when veteran is claimant', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         veteranIdentification: {
           veteranFullName: { first: 'Test', last: 'User' },
@@ -403,7 +401,7 @@ describe('Submit Transformer', () => {
     it('should work correctly with veteran claimant and hospitalization cleanup', () => {
       const formData = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         veteranIdentification: {
           veteranFullName: { first: 'John', last: 'Doe' },

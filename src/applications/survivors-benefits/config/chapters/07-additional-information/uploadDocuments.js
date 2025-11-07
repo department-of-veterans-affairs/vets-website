@@ -8,9 +8,9 @@ import environment from 'platform/utilities/environment';
 
 const UploadMessage = (
   <p>
-    <strong>Note:</strong> You can choose to submit your supporting documents
-    and additional evidence after submitting your pension claim. You’ll need to
-    submit them by mail or upload them using the Claim Status Tool.
+    <strong>Note:</strong> You can submit your supporting documents and
+    additional evidence after submitting your application. You’ll need to submit
+    them by mail or upload them using the Claim Status Tool.
   </p>
 );
 
@@ -18,7 +18,7 @@ export default {
   uiSchema: {
     ...titleUI(
       'Submit your supporting documents',
-      'You can submit your supporting documents and additional evidence with your pension claim.',
+      'You can submit your supporting documents and additional evidence with your application.',
     ),
     files: fileInputMultipleUI({
       title: 'Select a file to upload',
