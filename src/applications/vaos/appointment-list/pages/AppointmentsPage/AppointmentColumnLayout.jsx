@@ -107,7 +107,7 @@ export default function AppointmentColumnLayout({
           </AppointmentColumn>
           <AppointmentColumn
             className={classNames(
-              'vads-u-text-align--left',
+              'mobile-lg:vads-u-text-align--left',
               'xsmall-screen:vads-u-order--first',
               'xsmall-screen:margin-top--1',
               'vaos-appts__column--date',
