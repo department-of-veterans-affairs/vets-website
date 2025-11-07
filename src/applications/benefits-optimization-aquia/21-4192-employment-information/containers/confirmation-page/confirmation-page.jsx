@@ -52,10 +52,11 @@ export const ConfirmationPage = () => {
   }
 
   // Get organization name or veteran name
-  const submitterName = data?.veteranInformation?.fullName
-    ? `${data.veteranInformation.fullName.first || ''} ${data.veteranInformation
-        .fullName.last || ''}`.trim()
-    : '[Organization title]';
+  const submitterName =
+    data?.veteranInformation?.firstName || data?.veteranInformation?.lastName
+      ? `${data.veteranInformation.firstName || ''} ${data.veteranInformation
+          .lastName || ''}`.trim()
+      : '[Organization title]';
 
   return (
     <>
@@ -84,9 +85,10 @@ export const ConfirmationPage = () => {
 
         <h3 className="vads-u-font-size--h4">Deceased Veteran</h3>
         <p>
-          {data?.veteranInformation?.fullName
-            ? `${data.veteranInformation.fullName.first || ''} ${data
-                .veteranInformation.fullName.last || ''}`.trim()
+          {data?.veteranInformation?.firstName ||
+          data?.veteranInformation?.lastName
+            ? `${data.veteranInformation.firstName || ''} ${data
+                .veteranInformation.lastName || ''}`.trim()
             : 'James Smith'}
         </p>
 

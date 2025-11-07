@@ -30,9 +30,20 @@ export const BenefitsInformationPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Get veteran name
+  const veteranInfo = formDataToUse?.veteranInformation || {};
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
+
+  // Get employer name
+  const employerName =
+    formDataToUse?.employerInformation?.employerName || 'you';
+
   return (
     <PageTemplate
-      title="Benefits information"
+      title="Benefit entitlement and/or payments"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -47,23 +58,21 @@ export const BenefitsInformationPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <h3 className="vads-u-margin-top--0">
-            Benefit entitlement and/or payments
-          </h3>
-
-          <RadioField
-            name="benefitEntitlement"
-            label="Is the Veteran receiving or entitled to receive, as a result of his/her employment with you, sick, retirement or other benefits?"
-            schema={benefitEntitlementSchema}
-            value={localData.benefitEntitlement}
-            onChange={handleFieldChange}
-            error={errors.benefitEntitlement}
-            forceShowError={formSubmitted}
-            options={[
-              { value: 'yes', label: 'Yes' },
-              { value: 'no', label: 'No' },
-            ]}
-          />
+          <div className="vads-u-margin-top--neg2">
+            <RadioField
+              name="benefitEntitlement"
+              label={`Is ${veteranName} receiving or entitled to receive, as a result of their employment with ${employerName}, sick, retirement or other benefits?`}
+              schema={benefitEntitlementSchema}
+              value={localData.benefitEntitlement}
+              onChange={handleFieldChange}
+              error={errors.benefitEntitlement}
+              forceShowError={formSubmitted}
+              options={[
+                { value: 'yes', label: 'Yes' },
+                { value: 'no', label: 'No' },
+              ]}
+            />
+          </div>
         </>
       )}
     </PageTemplate>

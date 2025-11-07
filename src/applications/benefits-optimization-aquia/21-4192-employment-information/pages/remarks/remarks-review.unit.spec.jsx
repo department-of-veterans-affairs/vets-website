@@ -36,6 +36,15 @@ describe('RemarksReview', () => {
 
       expect(container.textContent).to.include('Not provided');
     });
+
+    it('should use "the Veteran" in label when name is missing', () => {
+      const { container } = render(
+        <RemarksReview data={{}} editPage={mockEditPage} title={mockTitle} />,
+      );
+
+      expect(container.textContent).to.include('the Veteran');
+      expect(container.textContent).to.include('additional remarks');
+    });
   });
 
   describe('Data Display', () => {
@@ -97,6 +106,25 @@ describe('RemarksReview', () => {
 
       expect(container.textContent).to.include('The Code is the Way');
       expect(container.textContent).to.include('bounty ship Slave I');
+    });
+
+    it('should use dynamic veteran name in label', () => {
+      const data = {
+        veteranInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+        remarks: {
+          remarks: 'Test remarks',
+        },
+      };
+
+      const { container } = render(
+        <RemarksReview data={data} editPage={mockEditPage} title={mockTitle} />,
+      );
+
+      expect(container.textContent).to.include('John Doe');
+      expect(container.textContent).to.include('additional remarks');
     });
 
     it('should handle empty data gracefully', () => {

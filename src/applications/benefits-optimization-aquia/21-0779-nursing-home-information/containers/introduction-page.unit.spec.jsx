@@ -2,10 +2,23 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import * as uiUtils from 'platform/utilities/ui';
 
 import { IntroductionPage } from './introduction-page';
 
 describe('IntroductionPage Container', () => {
+  let scrollToTopStub;
+  let focusElementStub;
+
+  beforeEach(() => {
+    scrollToTopStub = sinon.stub(uiUtils, 'scrollToTop');
+    focusElementStub = sinon.stub(uiUtils, 'focusElement');
+  });
+
+  afterEach(() => {
+    scrollToTopStub.restore();
+    focusElementStub.restore();
+  });
   describe('Component Rendering', () => {
     it('should render without errors', () => {
       const router = { push: () => {} };
@@ -31,6 +44,14 @@ describe('IntroductionPage Container', () => {
       const { container } = render(<IntroductionPage router={router} />);
       const ombInfo = container.querySelector('va-omb-info');
       expect(ombInfo).to.exist;
+    });
+
+    it('should scroll to top and focus h1 on mount', () => {
+      const router = { push: () => {} };
+      render(<IntroductionPage router={router} />);
+
+      expect(scrollToTopStub).to.exist;
+      expect(focusElementStub).to.exist;
     });
   });
 

@@ -1,0 +1,71 @@
+{
+  "data": {
+    "veteranInformation": {
+      "firstName": "James",
+      "lastName": "Kirk",
+      "dateOfBirth": "2233-03-22"
+    },
+    "veteranContactInformation": {
+      "ssn": "123-45-6789",
+      "vaFileNumber": "12345678"
+    },
+    "employerInformation": {
+      "employerName": "Starfleet Command",
+      "employerAddress": {
+        "street": "123 Fleet Street",
+        "street2": "Building A",
+        "street3": "Suite 100",
+        "city": "San Francisco",
+        "state": "CA",
+        "country": "USA",
+        "postalCode": "94102"
+      }
+    },
+    "employmentDates": {
+      "beginningDate": "2250-01-01",
+      "endingDate": "2260-12-31",
+      "currentlyEmployed": false
+    },
+    "employmentEarningsHours": {
+      "typeOfWork": "Starship Captain - Command duties including exploration and diplomatic missions",
+      "amountEarned": "5000",
+      "timeLost": "30 days due to service-related medical conditions",
+      "dailyHours": "8",
+      "weeklyHours": "40"
+    },
+    "employmentConcessions": {
+      "concessions": "Flexible scheduling for medical appointments and therapy sessions related to service-connected disabilities"
+    },
+    "employmentTermination": {
+      "terminationReason": "End of service contract and transition to retirement",
+      "dateLastWorked": "2024-10-15"
+    },
+    "employmentLastPayment": {
+      "dateOfLastPayment": "2024-10-31",
+      "grossAmountLastPayment": "5000",
+      "lumpSumPayment": "yes",
+      "grossAmountPaid": "10000",
+      "datePaid": "2024-11-01"
+    },
+    "dutyStatus": {
+      "reserveOrGuardStatus": "yes"
+    },
+    "dutyStatusDetails": {
+      "currentDutyStatus": "Active reserve status, participating in monthly training weekends and annual training exercises",
+      "disabilitiesPreventDuties": "yes"
+    },
+    "benefitsInformation": {
+      "benefitEntitlement": "yes"
+    },
+    "benefitsDetails": {
+      "benefitType": "Medical and retirement benefits through Starfleet",
+      "grossMonthlyAmount": "1500",
+      "startReceivingDate": "2250-02-01",
+      "firstPaymentDate": "2250-02-15",
+      "stopReceivingDate": "2260-12-31"
+    },
+    "remarks": {
+      "remarks": "Additional information regarding service-connected disabilities sustained during multiple away missions and combat situations. Employment accommodations have been necessary to manage chronic conditions resulting from service."
+    }
+  }
+}

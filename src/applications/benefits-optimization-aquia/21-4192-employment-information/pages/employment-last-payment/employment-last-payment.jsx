@@ -48,7 +48,7 @@ export const EmploymentLastPaymentPage = ({
 
   return (
     <PageTemplate
-      title="Employment information"
+      title="Last payment"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -68,61 +68,68 @@ export const EmploymentLastPaymentPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <h3 className="vads-u-margin-top--0">Last payment</h3>
+          <div className="vads-u-margin-top--neg2">
+            <MemorableDateField
+              name="dateOfLastPayment"
+              label="Date of last payment"
+              schema={dateOfLastPaymentSchema}
+              value={localData.dateOfLastPayment}
+              onChange={handleFieldChange}
+              error={errors.dateOfLastPayment}
+              forceShowError={formSubmitted}
+              required
+            />
 
-          <MemorableDateField
-            name="dateOfLastPayment"
-            label="Date of last payment"
-            schema={dateOfLastPaymentSchema}
-            value={localData.dateOfLastPayment}
-            onChange={handleFieldChange}
-            error={errors.dateOfLastPayment}
-            forceShowError={formSubmitted}
-          />
+            <CurrencyField
+              name="grossAmountLastPayment"
+              label="Gross amount of last payment"
+              value={localData.grossAmountLastPayment}
+              onChange={handleFieldChange}
+              error={errors.grossAmountLastPayment}
+              forceShowError={formSubmitted}
+              schema={grossAmountLastPaymentSchema}
+            />
 
-          <CurrencyField
-            name="grossAmountLastPayment"
-            label="Gross amount of last payment"
-            value={localData.grossAmountLastPayment}
-            onChange={handleFieldChange}
-            error={errors.grossAmountLastPayment}
-            forceShowError={formSubmitted}
-            schema={grossAmountLastPaymentSchema}
-          />
+            <RadioField
+              name="lumpSumPayment"
+              label="Was a lump sum payment made?"
+              hint="[text explaining how this differs from standard pay check]"
+              schema={lumpSumPaymentSchema}
+              value={localData.lumpSumPayment}
+              onChange={handleFieldChange}
+              error={errors.lumpSumPayment}
+              forceShowError={formSubmitted}
+              options={[
+                { value: 'yes', label: 'Yes' },
+                { value: 'no', label: 'No' },
+              ]}
+            />
 
-          <RadioField
-            name="lumpSumPayment"
-            label="Was lump sum payment made?"
-            schema={lumpSumPaymentSchema}
-            value={localData.lumpSumPayment}
-            onChange={handleFieldChange}
-            error={errors.lumpSumPayment}
-            forceShowError={formSubmitted}
-            options={[
-              { value: 'yes', label: 'Yes' },
-              { value: 'no', label: 'No' },
-            ]}
-          />
+            {localData.lumpSumPayment === 'yes' && (
+              <>
+                <CurrencyField
+                  name="grossAmountPaid"
+                  label="Gross amount paid"
+                  value={localData.grossAmountPaid}
+                  onChange={handleFieldChange}
+                  error={errors.grossAmountPaid}
+                  forceShowError={formSubmitted}
+                  schema={grossAmountPaidSchema}
+                />
 
-          <CurrencyField
-            name="grossAmountPaid"
-            label="Gross amount paid"
-            value={localData.grossAmountPaid}
-            onChange={handleFieldChange}
-            error={errors.grossAmountPaid}
-            forceShowError={formSubmitted}
-            schema={grossAmountPaidSchema}
-          />
-
-          <MemorableDateField
-            name="datePaid"
-            label="Date paid"
-            schema={datePaidSchema}
-            value={localData.datePaid}
-            onChange={handleFieldChange}
-            error={errors.datePaid}
-            forceShowError={formSubmitted}
-          />
+                <MemorableDateField
+                  name="datePaid"
+                  label="When was the lump sum paid?"
+                  schema={datePaidSchema}
+                  value={localData.datePaid}
+                  onChange={handleFieldChange}
+                  error={errors.datePaid}
+                  forceShowError={formSubmitted}
+                  required
+                />
+              </>
+            )}
+          </div>
         </>
       )}
     </PageTemplate>

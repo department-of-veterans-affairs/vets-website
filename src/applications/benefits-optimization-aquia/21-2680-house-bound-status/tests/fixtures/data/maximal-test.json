@@ -1,0 +1,80 @@
+{
+  "data": {
+    "veteranIdentification": {
+      "veteranFullName": {
+        "first": "Jean-Luc",
+        "middle": "Pierre",
+        "last": "Picard",
+        "suffix": ""
+      },
+      "veteranSSN": "987-65-4321",
+      "veteranDOB": "2305-07-13"
+    },
+    "veteranAddress": {
+      "veteranAddress": {
+        "street": "456 Enterprise Way",
+        "street2": "Deck 1",
+        "street3": "Captain's Quarters",
+        "city": "La Barre",
+        "state": "NY",
+        "country": "USA",
+        "postalCode": "10001",
+        "isMilitary": false
+      }
+    },
+    "claimantRelationship": {
+      "claimantRelationship": "spouse"
+    },
+    "claimantInformation": {
+      "claimantFullName": {
+        "first": "Beverly",
+        "middle": "Anne",
+        "last": "Crusher",
+        "suffix": ""
+      },
+      "claimantDOB": "2324-10-13"
+    },
+    "claimantSSN": {
+      "claimantSSN": "111-22-3333"
+    },
+    "claimantAddress": {
+      "claimantAddress": {
+        "street": "789 Medical Bay Road",
+        "street2": "Apt 3B",
+        "street3": "",
+        "city": "San Diego",
+        "state": "CA",
+        "country": "USA",
+        "postalCode": "92101",
+        "isMilitary": false
+      }
+    },
+    "claimantContact": {
+      "claimantPhoneNumber": "6195551234",
+      "claimantMobilePhone": "6195555678",
+      "claimantEmail": "beverly.crusher@starfleet.mil"
+    },
+    "benefitType": {
+      "benefitType": "SMP"
+    },
+    "hospitalizationStatus": {
+      "isCurrentlyHospitalized": "yes"
+    },
+    "hospitalizationDate": {
+      "admissionDate": "2024-01-15"
+    },
+    "hospitalizationFacility": {
+      "facilityName": "Starfleet Medical Center",
+      "facilityAddress": {
+        "street": "1 Starfleet Medical Plaza",
+        "street2": "Building A",
+        "street3": "",
+        "city": "San Francisco",
+        "state": "CA",
+        "country": "USA",
+        "postalCode": "94102",
+        "isMilitary": true
+      }
+    }
+  }
+}

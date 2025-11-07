@@ -62,7 +62,6 @@ describe('EmployerInformationReview', () => {
             state: 'CA',
             postalCode: '94102',
           },
-          phoneNumber: '415-555-1234',
         },
       };
 
@@ -79,7 +78,6 @@ describe('EmployerInformationReview', () => {
       expect(container.textContent).to.include('Building One');
       expect(container.textContent).to.include('Mos Eisley');
       expect(container.textContent).to.include('CA 94102');
-      expect(container.textContent).to.include('415-555-1234');
     });
 
     it('should display Slave I employer information', () => {
@@ -92,7 +90,6 @@ describe('EmployerInformationReview', () => {
             state: 'CA',
             postalCode: '90210',
           },
-          phoneNumber: '555-170-1234',
         },
       };
 
@@ -107,7 +104,6 @@ describe('EmployerInformationReview', () => {
       expect(container.textContent).to.include('Slave I');
       expect(container.textContent).to.include('Nar Shaddaa Sector 11');
       expect(container.textContent).to.include('Nar Shaddaa');
-      expect(container.textContent).to.include('555-170-1234');
     });
 
     it('should display address without street2', () => {
@@ -120,7 +116,6 @@ describe('EmployerInformationReview', () => {
             state: 'NY',
             postalCode: '10001',
           },
-          phoneNumber: '212-555-9876',
         },
       };
 
@@ -204,8 +199,7 @@ describe('EmployerInformationReview', () => {
       );
 
       expect(container.textContent).to.include('Name of employer');
-      expect(container.textContent).to.include('Employer address');
-      expect(container.textContent).to.include('Phone number');
+      expect(container.textContent).to.include('Employer’s address');
     });
   });
 
@@ -253,32 +247,6 @@ describe('EmployerInformationReview', () => {
       const reviewRows = container.querySelectorAll('.review-row');
       const addressRow = reviewRows[1];
       expect(addressRow.textContent).to.include('Not provided');
-    });
-
-    it('should show not provided for missing phone number', () => {
-      const data = {
-        employerInformation: {
-          employerName: 'Bounty Hunters Guild',
-          employerAddress: {
-            street: '123 Main St',
-            city: 'Mos Eisley',
-            state: 'CA',
-            postalCode: '94102',
-          },
-        },
-      };
-
-      const { container } = render(
-        <EmployerInformationReview
-          data={data}
-          editPage={mockEditPage}
-          title={mockTitle}
-        />,
-      );
-
-      const reviewRows = container.querySelectorAll('.review-row');
-      const phoneRow = reviewRows[2];
-      expect(phoneRow.textContent).to.include('Not provided');
     });
   });
 
@@ -503,7 +471,6 @@ describe('EmployerInformationReview', () => {
             state: 'CA',
             postalCode: '94102',
           },
-          phoneNumber: '4155551234',
         },
       };
 
@@ -516,7 +483,7 @@ describe('EmployerInformationReview', () => {
       );
 
       const reviewRows = container.querySelectorAll('.review-row');
-      expect(reviewRows).to.have.lengthOf(3);
+      expect(reviewRows).to.have.lengthOf(2);
     });
 
     it('should have dt and dd elements for each row', () => {
@@ -579,7 +546,6 @@ describe('EmployerInformationReview', () => {
             state: 'CA',
             postalCode: '91234',
           },
-          phoneNumber: '555-555-1234',
         },
       };
 
@@ -606,7 +572,6 @@ describe('EmployerInformationReview', () => {
             state: 'NY',
             postalCode: '10001',
           },
-          phoneNumber: '212-555-1701',
         },
       };
 
@@ -634,7 +599,6 @@ describe('EmployerInformationReview', () => {
             state: 'CA',
             postalCode: '94102',
           },
-          phoneNumber: '415-555-ACAD',
         },
       };
 

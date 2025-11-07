@@ -12,6 +12,14 @@ import React from 'react';
  */
 export const BenefitsInformationReview = ({ data, editPage, title }) => {
   const benefitsInformation = data?.benefitsInformation || {};
+  const veteranInfo = data?.veteranInformation || {};
+
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
+
+  const employerName = data?.employerInformation?.employerName || 'you';
 
   const formatYesNo = value => {
     if (!value) return 'Not provided';
@@ -30,8 +38,9 @@ export const BenefitsInformationReview = ({ data, editPage, title }) => {
       <dl className="review">
         <div className="review-row">
           <dt>
-            Is the Veteran receiving or entitled to receive, as a result of
-            his/her employment with you, sick, retirement or other benefits?
+            Is {veteranName} receiving or entitled to receive, as a result of
+            their employment with {employerName}, sick, retirement or other
+            benefits?
           </dt>
           <dd>{formatYesNo(benefitsInformation.benefitEntitlement)}</dd>
         </div>

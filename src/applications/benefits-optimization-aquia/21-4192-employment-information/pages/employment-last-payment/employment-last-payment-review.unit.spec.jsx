@@ -117,7 +117,7 @@ describe('EmploymentLastPaymentReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Was lump sum payment made?');
+      expect(text).to.include('Was a lump sum payment made?');
       expect(text).to.include('Yes');
     });
 
@@ -138,10 +138,12 @@ describe('EmploymentLastPaymentReview', () => {
       expect(text).to.include('No');
     });
 
-    it('should display gross amount paid', () => {
+    it('should show lump sum fields only when lumpSumPayment is yes', () => {
       const data = {
         employmentLastPayment: {
+          lumpSumPayment: 'yes',
           grossAmountPaid: '50000',
+          datePaid: '2015-12-31',
         },
       };
       const { container } = render(
@@ -154,11 +156,15 @@ describe('EmploymentLastPaymentReview', () => {
       const text = container.textContent;
       expect(text).to.include('Gross amount paid');
       expect(text).to.include('50000');
+      expect(text).to.include('When was the lump sum paid?');
+      expect(text).to.include('2015');
     });
 
-    it('should display formatted date paid', () => {
+    it('should hide lump sum fields when lumpSumPayment is no', () => {
       const data = {
         employmentLastPayment: {
+          lumpSumPayment: 'no',
+          grossAmountPaid: '50000',
           datePaid: '2015-12-31',
         },
       };
@@ -170,8 +176,9 @@ describe('EmploymentLastPaymentReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Date paid');
-      expect(text).to.include('2015');
+      expect(text).to.not.include('Gross amount paid');
+      expect(text).to.not.include('50000');
+      expect(text).to.not.include('When was the lump sum paid?');
     });
 
     it('should display all themed payment data', () => {
@@ -319,6 +326,7 @@ describe('EmploymentLastPaymentReview', () => {
     it('should format dates correctly', () => {
       const data = {
         employmentLastPayment: {
+          lumpSumPayment: 'yes',
           datePaid: '2020-12-31',
         },
       };

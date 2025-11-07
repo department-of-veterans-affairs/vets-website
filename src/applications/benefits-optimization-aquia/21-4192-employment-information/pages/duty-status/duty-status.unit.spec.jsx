@@ -38,10 +38,32 @@ describe('DutyStatusPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Duty status');
+      expect(container.textContent).to.include(
+        'Reserve or National Guard duty status',
+      );
     });
 
-    it('should render heading', () => {
+    it('should render label with veteran name', () => {
+      const data = {
+        veteranInformation: {
+          firstName: 'Boba',
+          lastName: 'Fett',
+        },
+      };
+      const { container } = render(
+        <DutyStatusPage
+          data={data}
+          setFormData={mockSetFormData}
+          goForward={mockGoForward}
+          goBack={mockGoBack}
+        />,
+      );
+
+      const radioGroup = container.querySelector('va-radio');
+      expect(radioGroup.getAttribute('label')).to.include('Boba Fett');
+    });
+
+    it('should render label with "the Veteran" when no name provided', () => {
       const { container } = render(
         <DutyStatusPage
           data={{}}
@@ -51,9 +73,8 @@ describe('DutyStatusPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include(
-        'Reserve or National Guard duty status',
-      );
+      const radioGroup = container.querySelector('va-radio');
+      expect(radioGroup.getAttribute('label')).to.include('the Veteran');
     });
 
     it('should render radio field', () => {

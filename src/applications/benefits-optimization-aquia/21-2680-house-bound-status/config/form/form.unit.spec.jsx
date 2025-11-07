@@ -33,7 +33,9 @@ describe('Form Configuration', () => {
     });
 
     it('should have submitUrl', () => {
-      expect(formConfig.submitUrl).to.equal('/v0/api');
+      expect(formConfig.submitUrl).to.equal(
+        '/simple_forms_api/v1/simple_forms',
+      );
     });
   });
 

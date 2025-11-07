@@ -57,19 +57,23 @@ export const EmploymentLastPaymentReview = ({ data, editPage, title }) => {
         </div>
 
         <div className="review-row">
-          <dt>Was lump sum payment made?</dt>
+          <dt>Was a lump sum payment made?</dt>
           <dd>{formatYesNo(employmentLastPayment.lumpSumPayment)}</dd>
         </div>
 
-        <div className="review-row">
-          <dt>Gross amount paid</dt>
-          <dd>{employmentLastPayment.grossAmountPaid || 'Not provided'}</dd>
-        </div>
+        {employmentLastPayment.lumpSumPayment === 'yes' && (
+          <>
+            <div className="review-row">
+              <dt>Gross amount paid</dt>
+              <dd>{employmentLastPayment.grossAmountPaid || 'Not provided'}</dd>
+            </div>
 
-        <div className="review-row">
-          <dt>Date paid</dt>
-          <dd>{formatDate(employmentLastPayment.datePaid)}</dd>
-        </div>
+            <div className="review-row">
+              <dt>When was the lump sum paid?</dt>
+              <dd>{formatDate(employmentLastPayment.datePaid)}</dd>
+            </div>
+          </>
+        )}
       </dl>
     </div>
   );

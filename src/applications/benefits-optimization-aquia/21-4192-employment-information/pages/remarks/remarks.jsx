@@ -27,9 +27,16 @@ export const RemarksPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Get veteran name
+  const veteranInfo = formDataToUse?.veteranInformation || {};
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
+
   return (
     <PageTemplate
-      title="Remarks"
+      title="Additional remarks"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -44,19 +51,19 @@ export const RemarksPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <h3 className="vads-u-margin-top--0">Remarks</h3>
-
-          <TextareaField
-            name="remarks"
-            label="Remarks"
-            schema={remarksFieldSchema}
-            value={localData.remarks}
-            onChange={handleFieldChange}
-            error={errors.remarks}
-            forceShowError={formSubmitted}
-            rows={8}
-            maxLength={2000}
-          />
+          <div className="vads-u-margin-top--neg2">
+            <TextareaField
+              name="remarks"
+              label={`Provide any additional remarks about ${veteranName} related to their employment.`}
+              schema={remarksFieldSchema}
+              value={localData.remarks}
+              onChange={handleFieldChange}
+              error={errors.remarks}
+              forceShowError={formSubmitted}
+              rows={8}
+              maxLength={2000}
+            />
+          </div>
         </>
       )}
     </PageTemplate>

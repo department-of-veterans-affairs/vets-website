@@ -18,42 +18,55 @@ import ConfirmationPage from '@bio-aquia/21-4192-employment-information/containe
 import IntroductionPage from '@bio-aquia/21-4192-employment-information/containers/introduction-page';
 import manifest from '@bio-aquia/21-4192-employment-information/manifest.json';
 import GetHelpFooter from '@bio-aquia/21-4192-employment-information/components/get-help';
+import transformForSubmit from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
 
 // Import page components
 import {
   VeteranInformationPage,
+  VeteranContactInformationPage,
   EmployerInformationPage,
-  EmploymentDatesDetailsPage,
+  EmploymentDatesPage,
+  EmploymentEarningsHoursPage,
   EmploymentConcessionsPage,
   EmploymentTerminationPage,
   EmploymentLastPaymentPage,
   DutyStatusPage,
+  DutyStatusDetailsPage,
   BenefitsInformationPage,
+  BenefitsDetailsPage,
   RemarksPage,
 } from '@bio-aquia/21-4192-employment-information/pages';
 
 // Import review components
 import { VeteranInformationReview } from '@bio-aquia/21-4192-employment-information/pages/veteran-information';
+import { VeteranContactInformationReview } from '@bio-aquia/21-4192-employment-information/pages/veteran-contact-information';
 import { EmployerInformationReview } from '@bio-aquia/21-4192-employment-information/pages/employer-information';
-import { EmploymentDatesDetailsReview } from '@bio-aquia/21-4192-employment-information/pages/employment-dates-details';
+import { EmploymentDatesReview } from '@bio-aquia/21-4192-employment-information/pages/employment-dates';
+import { EmploymentEarningsHoursReview } from '@bio-aquia/21-4192-employment-information/pages/employment-earnings-hours';
 import { EmploymentConcessionsReview } from '@bio-aquia/21-4192-employment-information/pages/employment-concessions';
 import { EmploymentTerminationReview } from '@bio-aquia/21-4192-employment-information/pages/employment-termination';
 import { EmploymentLastPaymentReview } from '@bio-aquia/21-4192-employment-information/pages/employment-last-payment';
 import { DutyStatusReview } from '@bio-aquia/21-4192-employment-information/pages/duty-status';
+import { DutyStatusDetailsReview } from '@bio-aquia/21-4192-employment-information/pages/duty-status-details';
 import { BenefitsInformationReview } from '@bio-aquia/21-4192-employment-information/pages/benefits-information';
+import { BenefitsDetailsReview } from '@bio-aquia/21-4192-employment-information/pages/benefits-details';
 import { RemarksReview } from '@bio-aquia/21-4192-employment-information/pages/remarks';
 
 // Import schemas
 import {
   benefitsInformationSchema,
+  benefitsDetailsSchema,
   dutyStatusSchema,
+  dutyStatusDetailsSchema,
   employerInformationSchema,
   employmentConcessionsSchema,
-  employmentDatesDetailsSchema,
+  employmentDatesSchema,
+  employmentEarningsHoursSchema,
   employmentLastPaymentSchema,
   employmentTerminationSchema,
   remarksSchema,
   veteranInformationSchema,
+  veteranContactInformationSchema,
 } from '@bio-aquia/21-4192-employment-information/schemas';
 
 const defaultSchema = {
@@ -66,6 +79,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: '/v0/form21_4192',
+  transformForSubmit,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '21-4192-employment-information-',
@@ -112,6 +126,20 @@ const formConfig = {
             createPageValidator(veteranInformationSchema)(values),
           onErrorChange: createValidationErrorHandler('veteranInformation'),
         },
+        veteranContactInformation: {
+          path: 'veteran-contact-information',
+          title: 'Veteran Information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranContactInformationPage,
+          CustomPageReview: VeteranContactInformationReview,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(veteranContactInformationSchema)(values),
+          onErrorChange: createValidationErrorHandler(
+            'veteranContactInformation',
+          ),
+        },
       },
     },
     employerInformationChapter: {
@@ -134,17 +162,31 @@ const formConfig = {
     employmentInformationChapter: {
       title: 'Employment Information',
       pages: {
-        employmentDatesDetails: {
-          path: 'employment-dates-details',
+        employmentDates: {
+          path: 'employment-dates',
           title: 'Employment Information',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: EmploymentDatesDetailsPage,
-          CustomPageReview: EmploymentDatesDetailsReview,
+          CustomPage: EmploymentDatesPage,
+          CustomPageReview: EmploymentDatesReview,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
-            createPageValidator(employmentDatesDetailsSchema)(values),
-          onErrorChange: createValidationErrorHandler('employmentDatesDetails'),
+            createPageValidator(employmentDatesSchema)(values),
+          onErrorChange: createValidationErrorHandler('employmentDates'),
+        },
+        employmentEarningsHours: {
+          path: 'employment-earnings-hours',
+          title: 'Employment Information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: EmploymentEarningsHoursPage,
+          CustomPageReview: EmploymentEarningsHoursReview,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(employmentEarningsHoursSchema)(values),
+          onErrorChange: createValidationErrorHandler(
+            'employmentEarningsHours',
+          ),
         },
         employmentConcessions: {
           path: 'employment-concessions',
@@ -199,6 +241,20 @@ const formConfig = {
             createPageValidator(dutyStatusSchema)(values),
           onErrorChange: createValidationErrorHandler('dutyStatus'),
         },
+        dutyStatusDetails: {
+          path: 'duty-status-details',
+          title: 'Duty Status',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: DutyStatusDetailsPage,
+          CustomPageReview: DutyStatusDetailsReview,
+          pagePerItemIndex: 0,
+          depends: formData =>
+            formData?.dutyStatus?.reserveOrGuardStatus === 'yes',
+          verifyItemValues: values =>
+            createPageValidator(dutyStatusDetailsSchema)(values),
+          onErrorChange: createValidationErrorHandler('dutyStatusDetails'),
+        },
       },
     },
     benefitsInformationChapter: {
@@ -215,6 +271,20 @@ const formConfig = {
           verifyItemValues: values =>
             createPageValidator(benefitsInformationSchema)(values),
           onErrorChange: createValidationErrorHandler('benefitsInformation'),
+        },
+        benefitsDetails: {
+          path: 'benefits-details',
+          title: 'Benefits Information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: BenefitsDetailsPage,
+          CustomPageReview: BenefitsDetailsReview,
+          pagePerItemIndex: 0,
+          depends: formData =>
+            formData?.benefitsInformation?.benefitEntitlement === 'yes',
+          verifyItemValues: values =>
+            createPageValidator(benefitsDetailsSchema)(values),
+          onErrorChange: createValidationErrorHandler('benefitsDetails'),
         },
       },
     },

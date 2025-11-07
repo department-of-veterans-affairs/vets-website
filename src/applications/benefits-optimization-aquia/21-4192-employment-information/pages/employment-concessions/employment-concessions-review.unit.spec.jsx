@@ -10,6 +10,7 @@ import { EmploymentConcessionsReview } from './employment-concessions-review';
 
 describe('EmploymentConcessionsReview', () => {
   const mockEditPage = () => {};
+  const mockTitle = 'Concessions';
 
   describe('Component Rendering', () => {
     it('should render the component', () => {
@@ -17,7 +18,11 @@ describe('EmploymentConcessionsReview', () => {
         concessions: 'Modified duty schedule',
       };
       const { container } = render(
-        <EmploymentConcessionsReview data={data} editPage={mockEditPage} />,
+        <EmploymentConcessionsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
       );
       expect(container).to.exist;
     });
@@ -29,7 +34,11 @@ describe('EmploymentConcessionsReview', () => {
         },
       };
       const { container } = render(
-        <EmploymentConcessionsReview data={data} editPage={mockEditPage} />,
+        <EmploymentConcessionsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
       );
       const text = container.textContent;
       expect(text).to.include('Flexible duty shifts due to medical needs');
@@ -42,7 +51,11 @@ describe('EmploymentConcessionsReview', () => {
         },
       };
       const { container } = render(
-        <EmploymentConcessionsReview data={data} editPage={mockEditPage} />,
+        <EmploymentConcessionsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
       );
       const text = container.textContent;
       expect(text).to.include(
@@ -59,7 +72,11 @@ describe('EmploymentConcessionsReview', () => {
         },
       };
       const { container } = render(
-        <EmploymentConcessionsReview data={data} editPage={mockEditPage} />,
+        <EmploymentConcessionsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
       );
       expect(container).to.exist;
     });
@@ -71,7 +88,11 @@ describe('EmploymentConcessionsReview', () => {
         },
       };
       const { container } = render(
-        <EmploymentConcessionsReview data={data} editPage={mockEditPage} />,
+        <EmploymentConcessionsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
       );
       const text = container.textContent;
       expect(text).to.include('A'.repeat(1000));
@@ -84,7 +105,11 @@ describe('EmploymentConcessionsReview', () => {
         },
       };
       const { container } = render(
-        <EmploymentConcessionsReview data={data} editPage={mockEditPage} />,
+        <EmploymentConcessionsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
       );
       expect(container).to.exist;
     });
@@ -96,6 +121,7 @@ describe('EmploymentConcessionsReview', () => {
         <EmploymentConcessionsReview
           data={undefined}
           editPage={mockEditPage}
+          title={mockTitle}
         />,
       );
       expect(container).to.exist;
@@ -103,7 +129,11 @@ describe('EmploymentConcessionsReview', () => {
 
     it('should handle null data', () => {
       const { container } = render(
-        <EmploymentConcessionsReview data={null} editPage={mockEditPage} />,
+        <EmploymentConcessionsReview
+          data={null}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
       );
       expect(container).to.exist;
     });
@@ -111,7 +141,11 @@ describe('EmploymentConcessionsReview', () => {
     it('should handle missing concessions field', () => {
       const data = {};
       const { container } = render(
-        <EmploymentConcessionsReview data={data} editPage={mockEditPage} />,
+        <EmploymentConcessionsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
       );
       expect(container).to.exist;
     });
@@ -123,7 +157,11 @@ describe('EmploymentConcessionsReview', () => {
         concessions: 'Modified schedule',
       };
       const { container } = render(
-        <EmploymentConcessionsReview data={data} editPage={mockEditPage} />,
+        <EmploymentConcessionsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
       );
       expect(container).to.exist;
     });
@@ -132,7 +170,9 @@ describe('EmploymentConcessionsReview', () => {
       const data = {
         concessions: 'Modified schedule',
       };
-      const { container } = render(<EmploymentConcessionsReview data={data} />);
+      const { container } = render(
+        <EmploymentConcessionsReview data={data} title={mockTitle} />,
+      );
       expect(container).to.exist;
     });
   });
@@ -146,7 +186,11 @@ describe('EmploymentConcessionsReview', () => {
         },
       };
       const { container } = render(
-        <EmploymentConcessionsReview data={data} editPage={mockEditPage} />,
+        <EmploymentConcessionsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
       );
       const text = container.textContent;
       expect(text).to.include(
@@ -162,10 +206,77 @@ describe('EmploymentConcessionsReview', () => {
         },
       };
       const { container } = render(
-        <EmploymentConcessionsReview data={data} editPage={mockEditPage} />,
+        <EmploymentConcessionsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
       );
       const text = container.textContent;
       expect(text).to.include('Modified duty schedule');
+    });
+
+    it('should use correct tense for currently employed', () => {
+      const data = {
+        employmentDates: {
+          currentlyEmployed: true,
+        },
+        employmentConcessions: {
+          concessions: 'Flexible schedule',
+        },
+      };
+      const { container } = render(
+        <EmploymentConcessionsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('What concessions');
+      expect(text).to.include('are made');
+    });
+
+    it('should use correct tense for not currently employed', () => {
+      const data = {
+        employmentDates: {
+          currentlyEmployed: false,
+        },
+        employmentConcessions: {
+          concessions: 'Flexible schedule',
+        },
+      };
+      const { container } = render(
+        <EmploymentConcessionsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('What concessions');
+      expect(text).to.include('were made');
+    });
+
+    it('should use veteran name in label', () => {
+      const data = {
+        veteranInformation: {
+          firstName: 'Boba',
+          lastName: 'Fett',
+        },
+        employmentConcessions: {
+          concessions: 'Flexible schedule',
+        },
+      };
+      const { container } = render(
+        <EmploymentConcessionsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('Boba Fett');
     });
   });
 });

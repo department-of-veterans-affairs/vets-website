@@ -27,9 +27,16 @@ export const DutyStatusPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Get veteran name
+  const veteranInfo = formDataToUse?.veteranInformation || {};
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
+
   return (
     <PageTemplate
-      title="Duty status"
+      title="Reserve or National Guard duty status"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -44,23 +51,21 @@ export const DutyStatusPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <h3 className="vads-u-margin-top--0">
-            Reserve or National Guard duty status
-          </h3>
-
-          <RadioField
-            name="reserveOrGuardStatus"
-            label="Is the Veteran currently in the Reserve or National Guard?"
-            schema={reserveOrGuardStatusSchema}
-            value={localData.reserveOrGuardStatus}
-            onChange={handleFieldChange}
-            error={errors.reserveOrGuardStatus}
-            forceShowError={formSubmitted}
-            options={[
-              { value: 'yes', label: 'Yes' },
-              { value: 'no', label: 'No' },
-            ]}
-          />
+          <div className="vads-u-margin-top--neg2">
+            <RadioField
+              name="reserveOrGuardStatus"
+              label={`Is ${veteranName} currently in the Reserve or National Guard?`}
+              schema={reserveOrGuardStatusSchema}
+              value={localData.reserveOrGuardStatus}
+              onChange={handleFieldChange}
+              error={errors.reserveOrGuardStatus}
+              forceShowError={formSubmitted}
+              options={[
+                { value: 'yes', label: 'Yes' },
+                { value: 'no', label: 'No' },
+              ]}
+            />
+          </div>
         </>
       )}
     </PageTemplate>

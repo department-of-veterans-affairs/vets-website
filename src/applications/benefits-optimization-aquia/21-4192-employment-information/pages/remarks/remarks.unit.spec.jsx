@@ -38,7 +38,7 @@ describe('RemarksPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Remarks');
+      expect(container.textContent).to.include('Additional remarks');
     });
 
     it('should render remarks textarea field', () => {
@@ -51,7 +51,11 @@ describe('RemarksPage', () => {
         />,
       );
 
-      expect(container.querySelector('va-textarea[label="Remarks"]')).to.exist;
+      const textarea = container.querySelector('va-textarea');
+      expect(textarea).to.exist;
+      const label = textarea.getAttribute('label');
+      expect(label).to.include('additional remarks');
+      expect(label).to.include('the Veteran');
     });
 
     it('should render continue button', () => {
@@ -103,7 +107,7 @@ describe('RemarksPage', () => {
         />,
       );
 
-      const textarea = container.querySelector('va-textarea[label="Remarks"]');
+      const textarea = container.querySelector('va-textarea');
       expect(textarea).to.exist;
       expect(textarea.getAttribute('value')).to.include('Boba Fett');
       expect(textarea.getAttribute('value')).to.include('five-year contract');
@@ -126,7 +130,7 @@ describe('RemarksPage', () => {
         />,
       );
 
-      const textarea = container.querySelector('va-textarea[label="Remarks"]');
+      const textarea = container.querySelector('va-textarea');
       expect(textarea.getAttribute('value')).to.include('needs of the many');
     });
 
@@ -146,7 +150,7 @@ describe('RemarksPage', () => {
         />,
       );
 
-      const textarea = container.querySelector('va-textarea[label="Remarks"]');
+      const textarea = container.querySelector('va-textarea');
       expect(textarea.getAttribute('value')).to.equal('');
     });
 
@@ -165,6 +169,29 @@ describe('RemarksPage', () => {
       );
 
       expect(container).to.exist;
+    });
+
+    it('should use dynamic veteran name in label', () => {
+      const data = {
+        veteranInformation: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+      };
+
+      const { container } = render(
+        <RemarksPage
+          data={data}
+          setFormData={mockSetFormData}
+          goForward={mockGoForward}
+          goBack={mockGoBack}
+        />,
+      );
+
+      const textarea = container.querySelector('va-textarea');
+      const label = textarea.getAttribute('label');
+      expect(label).to.include('John Doe');
+      expect(label).to.include('additional remarks');
     });
   });
 
@@ -278,7 +305,7 @@ describe('RemarksPage', () => {
         />,
       );
 
-      const textarea = container.querySelector('va-textarea[label="Remarks"]');
+      const textarea = container.querySelector('va-textarea');
       expect(textarea.getAttribute('rows')).to.equal('8');
     });
 
@@ -292,7 +319,7 @@ describe('RemarksPage', () => {
         />,
       );
 
-      const textarea = container.querySelector('va-textarea[label="Remarks"]');
+      const textarea = container.querySelector('va-textarea');
       expect(textarea.getAttribute('maxlength')).to.equal('2000');
     });
 
@@ -306,7 +333,7 @@ describe('RemarksPage', () => {
         />,
       );
 
-      const textarea = container.querySelector('va-textarea[label="Remarks"]');
+      const textarea = container.querySelector('va-textarea');
       expect(textarea.hasAttribute('required')).to.be.false;
     });
   });
@@ -358,7 +385,7 @@ describe('RemarksPage', () => {
         />,
       );
 
-      const textarea = container.querySelector('va-textarea[label="Remarks"]');
+      const textarea = container.querySelector('va-textarea');
       expect(textarea.getAttribute('value')).to.have.lengthOf(2000);
     });
 
@@ -379,7 +406,7 @@ describe('RemarksPage', () => {
         />,
       );
 
-      const textarea = container.querySelector('va-textarea[label="Remarks"]');
+      const textarea = container.querySelector('va-textarea');
       expect(textarea.getAttribute('value')).to.include('The Code is the Way');
     });
   });
@@ -402,7 +429,7 @@ describe('RemarksPage', () => {
         />,
       );
 
-      const textarea = container.querySelector('va-textarea[label="Remarks"]');
+      const textarea = container.querySelector('va-textarea');
       expect(textarea.getAttribute('value')).to.include('Guild Code');
     });
 
@@ -423,7 +450,7 @@ describe('RemarksPage', () => {
         />,
       );
 
-      const textarea = container.querySelector('va-textarea[label="Remarks"]');
+      const textarea = container.querySelector('va-textarea');
       expect(textarea.getAttribute('value')).to.include(
         'exceptional leadership',
       );
@@ -446,39 +473,8 @@ describe('RemarksPage', () => {
         />,
       );
 
-      const textarea = container.querySelector('va-textarea[label="Remarks"]');
+      const textarea = container.querySelector('va-textarea');
       expect(textarea.getAttribute('value')).to.include('Dr. Leonard');
-    });
-  });
-
-  describe('Heading Structure', () => {
-    it('should have h3 heading for Remarks', () => {
-      const { container } = render(
-        <RemarksPage
-          data={{}}
-          setFormData={mockSetFormData}
-          goForward={mockGoForward}
-          goBack={mockGoBack}
-        />,
-      );
-
-      const heading = container.querySelector('h3');
-      expect(heading).to.exist;
-      expect(heading.textContent).to.equal('Remarks');
-    });
-
-    it('should have correct heading class', () => {
-      const { container } = render(
-        <RemarksPage
-          data={{}}
-          setFormData={mockSetFormData}
-          goForward={mockGoForward}
-          goBack={mockGoBack}
-        />,
-      );
-
-      const heading = container.querySelector('h3.vads-u-margin-top--0');
-      expect(heading).to.exist;
     });
   });
 });

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { PhoneField, TextInputField } from '@bio-aquia/shared/components/atoms';
+import { TextInputField } from '@bio-aquia/shared/components/atoms';
 import { AddressField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
@@ -9,12 +9,11 @@ import {
   employerAddressSchema,
   employerInformationSchema,
   employerNameSchema,
-  phoneNumberSchema,
 } from '../../schemas';
 
 /**
  * Employer Information page component for the employment information form
- * This page collects employer's name, address, and contact information
+ * This page collects employer's name and address
  * @param {Object} props - Component props
  * @param {Object} props.data - Initial form data
  * @param {Function} props.setFormData - Function to update form data
@@ -35,7 +34,7 @@ export const EmployerInformationPage = ({
 
   return (
     <PageTemplate
-      title="Employers Information"
+      title="Employer's name and address"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -56,14 +55,13 @@ export const EmployerInformationPage = ({
           postalCode: '',
           isMilitary: false,
         },
-        employerPhone: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
           <TextInputField
             name="employerName"
-            label="Employer's name"
+            label="Name of employer"
             value={localData.employerName}
             onChange={handleFieldChange}
             error={errors.employerName}
@@ -116,17 +114,6 @@ export const EmployerInformationPage = ({
                   }
                 : {}
             }
-            required
-          />
-
-          <PhoneField
-            name="employerPhone"
-            label="Employer's phone number"
-            value={localData.employerPhone}
-            onChange={handleFieldChange}
-            schema={phoneNumberSchema}
-            error={errors.employerPhone}
-            forceShowError={formSubmitted}
             required
           />
         </>

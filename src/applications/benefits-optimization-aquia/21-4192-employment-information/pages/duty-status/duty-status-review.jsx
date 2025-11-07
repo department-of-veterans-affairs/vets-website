@@ -12,6 +12,12 @@ import React from 'react';
  */
 export const DutyStatusReview = ({ data, editPage, title }) => {
   const dutyStatus = data?.dutyStatus || {};
+  const veteranInfo = data?.veteranInformation || {};
+
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
 
   const formatYesNo = value => {
     if (!value) return 'Not provided';
@@ -29,7 +35,7 @@ export const DutyStatusReview = ({ data, editPage, title }) => {
 
       <dl className="review">
         <div className="review-row">
-          <dt>Is the Veteran currently in the Reserve or National Guard?</dt>
+          <dt>Is {veteranName} currently in the Reserve or National Guard?</dt>
           <dd>{formatYesNo(dutyStatus.reserveOrGuardStatus)}</dd>
         </div>
       </dl>

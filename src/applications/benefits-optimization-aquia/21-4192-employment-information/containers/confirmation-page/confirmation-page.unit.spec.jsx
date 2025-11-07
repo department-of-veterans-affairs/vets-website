@@ -259,15 +259,12 @@ describe('ConfirmationPage', () => {
   });
 
   describe('Veteran Information Display', () => {
-    it('should display veteran full name with all parts', () => {
+    it('should display veteran full name', () => {
       const mockStore = createMockStore({
         formData: {
           veteranInformation: {
-            fullName: {
-              first: 'Boba',
-              middle: 'Tiberius',
-              last: 'Fett',
-            },
+            firstName: 'Boba',
+            lastName: 'Fett',
           },
         },
       });
@@ -282,14 +279,12 @@ describe('ConfirmationPage', () => {
       expect(nameElements).to.have.lengthOf(2);
     });
 
-    it('should display veteran name without middle name', () => {
+    it('should display veteran name', () => {
       const mockStore = createMockStore({
         formData: {
           veteranInformation: {
-            fullName: {
-              first: 'Cad',
-              last: 'Bane',
-            },
+            firstName: 'Cad',
+            lastName: 'Bane',
           },
         },
       });
@@ -340,9 +335,7 @@ describe('ConfirmationPage', () => {
       const mockStore = createMockStore({
         formData: {
           veteranInformation: {
-            fullName: {
-              last: 'Bossk',
-            },
+            lastName: 'Bossk',
           },
         },
       });
@@ -361,9 +354,7 @@ describe('ConfirmationPage', () => {
       const mockStore = createMockStore({
         formData: {
           veteranInformation: {
-            fullName: {
-              first: 'Jean-Luc',
-            },
+            firstName: 'Jean-Luc',
           },
         },
       });
@@ -378,12 +369,10 @@ describe('ConfirmationPage', () => {
       expect(nameElements.length).to.be.at.least(1);
     });
 
-    it('should handle empty fullName object', () => {
+    it('should handle empty veteranInformation object', () => {
       const mockStore = createMockStore({
         formData: {
-          veteranInformation: {
-            fullName: {},
-          },
+          veteranInformation: {},
         },
       });
 

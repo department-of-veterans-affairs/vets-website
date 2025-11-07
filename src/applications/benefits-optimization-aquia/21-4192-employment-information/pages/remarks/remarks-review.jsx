@@ -12,6 +12,12 @@ import React from 'react';
  */
 export const RemarksReview = ({ data, editPage, title }) => {
   const remarksData = data?.remarks || {};
+  const veteranInfo = data?.veteranInformation || {};
+
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
 
   return (
     <div className="form-review-panel-page">
@@ -24,7 +30,10 @@ export const RemarksReview = ({ data, editPage, title }) => {
 
       <dl className="review">
         <div className="review-row">
-          <dt>Remarks</dt>
+          <dt>
+            Provide any additional remarks about {veteranName} related to their
+            employment.
+          </dt>
           <dd>{remarksData.remarks || 'Not provided'}</dd>
         </div>
       </dl>
