@@ -143,6 +143,7 @@ export const convertVital = record => {
       : EMPTY_FIELD,
     effectiveDateTime: record?.effectiveDateTime,
     location: extractLocation(record),
+    // TODO: This should be changed to accommodate multiple notes
     notes:
       (isArrayAndHasItems(record.note) && record.note[0]?.text) || EMPTY_FIELD,
   };
@@ -165,6 +166,7 @@ export const convertUnifiedVital = record => {
       : EMPTY_FIELD,
     effectiveDateTime: record?.attributes.date,
     location: record.attributes.location || EMPTY_FIELD,
+    // TODO: This should be changed to accommodate multiple notes
     notes:
       (isArrayAndHasItems(record.attributes.notes) &&
         record.attributes.notes[0]) ||
