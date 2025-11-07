@@ -19,7 +19,7 @@ import {
   BurialBenefitsRecipientPage,
   LocationsAndRankPage,
   MailingAddressPage,
-  OrganizationInformationPage,
+  organizationInformationPage,
   PreviousNameEntryPage,
   relationshipToVeteranPage,
   ServiceBranchPage,
@@ -37,7 +37,6 @@ import {
 import { AdditionalRemarksReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/additional-remarks/additional-remarks-review';
 import { BurialBenefitsRecipientReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/burial-benefits-recipient/burial-benefits-recipient-review';
 import { MailingAddressReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/mailing-address/mailing-address-review';
-import { OrganizationInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/organization-information/organization-information-review';
 import { ServicePeriodsReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/service-periods/service-periods-review';
 import { VeteranBirthInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-birth-information/veteran-birth-information-review';
 import { VeteranBurialInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-burial-information/veteran-burial-information-review';
@@ -105,11 +104,8 @@ const formConfig = {
         organizationInformation: {
           path: 'organization-information',
           title: "Your organization's information",
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: OrganizationInformationPage,
-          CustomPageReview: OrganizationInformationReviewPage,
-          pagePerItemIndex: 0,
+          uiSchema: organizationInformationPage.uiSchema,
+          schema: organizationInformationPage.schema,
         },
         burialBenefitsRecipient: {
           path: 'burial-benefits-recipient',

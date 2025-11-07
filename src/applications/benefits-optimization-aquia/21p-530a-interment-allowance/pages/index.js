@@ -4,13 +4,13 @@
  * Pages are organized by chapter for better code organization and maintainability.
  */
 
-// Relationship to the Veteran
+// Chapter 1: Your organization's information
 export {
   default as relationshipToVeteranPage,
 } from './relationship-to-veteran';
-
-// Chapter 1: Your organization's information
-export { OrganizationInformationPage } from './organization-information';
+export {
+  default as organizationInformationPage,
+} from './organization-information';
 export { BurialBenefitsRecipientPage } from './burial-benefits-recipient';
 export { MailingAddressPage } from './mailing-address';
 
