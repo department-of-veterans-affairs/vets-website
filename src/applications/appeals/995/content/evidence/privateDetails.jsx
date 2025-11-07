@@ -1,7 +1,11 @@
-import { getTitle } from '../../utils/evidence';
+import {
+  getProviderDetailsTitle,
+  getProviderModalDeleteTitle,
+} from '../../utils/evidence';
 
 export const content = {
-  title: (addOrEdit, index) => getTitle(addOrEdit, index, 'nonVa'),
+  title: (addOrEdit, index) =>
+    getProviderDetailsTitle(addOrEdit, index, 'nonVa'),
   description:
     'Enter the name and address of the private provider, facility, medical center, clinic, or VA Vet Center you want us to request your records from.',
   nameLabel: 'Location name',
@@ -16,8 +20,8 @@ export const content = {
   dateStart: 'First treatment date',
   dateEnd: 'Last treatment date',
   modal: {
-    title: ({ providerFacilityName }) =>
-      `Do you want to keep ${providerFacilityName || 'this location'}?`,
+    title: ({ locationAndName }) =>
+      getProviderModalDeleteTitle(locationAndName),
     description: 'We’ve saved your current information',
     yes: 'Yes, keep location',
     no: 'No, remove location',

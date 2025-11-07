@@ -24,7 +24,7 @@ import {
 import { parseDateWithOffset } from '../../../../shared/utils/dates';
 import { MAX_LENGTH, SELECTED } from '../../../../shared/constants';
 import { records } from '../../data/evidence-records';
-import { getTitle } from '../../../utils/evidence';
+import { getProviderDetailsTitle } from '../../../utils/evidence';
 
 const vaLocations = records().locations;
 
@@ -99,7 +99,7 @@ describe('VaDetailsEntry', () => {
 
     const h3s = $$('h3', container);
 
-    verifyHeader(h3s, 0, getTitle('add', 1, 'va'));
+    verifyHeader(h3s, 0, getProviderDetailsTitle('add', 1, 'va'));
     expect($('#add-location-name', container)).to.exist;
     expect($('va-checkbox-group', container)).to.exist;
     expect($('va-checkbox[label="Hypertension"]', container)).to.exist;

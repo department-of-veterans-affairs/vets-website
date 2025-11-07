@@ -1,7 +1,10 @@
-import { getTitle } from '../../utils/evidence';
+import {
+  getProviderDetailsTitle,
+  getProviderModalDeleteTitle,
+} from '../../utils/evidence';
 
 export const content = {
-  title: (addOrEdit, index) => getTitle(addOrEdit, index, 'va'),
+  title: (addOrEdit, index) => getProviderDetailsTitle(addOrEdit, index, 'va'),
   locationAndName: 'Enter the name of facility or provider that treated you',
   locationAndNameHint: 'You can add the names of more locations later',
   treatmentDate:
@@ -12,7 +15,7 @@ export const content = {
   addAnotherLink: 'Add another VA or military treatment location',
   modal: {
     title: ({ locationAndName }) =>
-      `Do you want to keep ${locationAndName || 'this location'}?`,
+      getProviderModalDeleteTitle(locationAndName),
     description: 'We’ve saved your current information.',
     yes: 'Yes, keep location',
     no: 'No, remove location',

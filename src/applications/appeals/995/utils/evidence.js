@@ -122,7 +122,7 @@ const getContent = (type, numberToWord, addOrEdit) => {
  * @param {string} providerType - either "va" or "nonVa" to indicate which type of content we need
  * @returns
  */
-export const getTitle = (addOrEdit, index, providerType) => {
+export const getProviderDetailsTitle = (addOrEdit, index, providerType) => {
   // Add a space before the "first," "20th" etc.
   // to account for when it is blank (below) so we don't
   // have extra spaces in the sentence
@@ -133,4 +133,19 @@ export const getTitle = (addOrEdit, index, providerType) => {
   }
 
   return getContent(providerType, numberToWord, addOrEdit);
+};
+
+/**
+ * Used to create the modal title when deleting a provider entry
+ * If locationAndName is provided, it is included in the title.
+ * Otherwise, a generic title is returned.
+ * @param {string} locationAndName - name of provider location
+ * @returns {string} - modal title
+ */
+export const getProviderModalDeleteTitle = locationAndName => {
+  if (typeof locationAndName === 'string' && locationAndName) {
+    return `Do you want to keep ${locationAndName}?`;
+  }
+
+  return `Do you want to keep this location?`;
 };

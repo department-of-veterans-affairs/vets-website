@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollToFirstError } from 'platform/utilities/scroll';
 import { HAS_VA_EVIDENCE } from '../../constants';
 import { focusFirstError } from '../../../shared/utils/focus';
 
@@ -17,16 +16,6 @@ const VaPrompt = ({
   const [error, setError] = useState(null);
 
   const handlers = {
-    onSubmit: event => {
-      event.preventDefault();
-
-      if (error) {
-        scrollToFirstError({ focusOnAlertRole: true });
-      } else if (data[HAS_VA_EVIDENCE]) {
-        setError(null);
-        goForward(data);
-      }
-    },
     onSelection: event => {
       const { value } = event?.detail || null;
       const boolResponse = event?.detail?.value === 'y';
@@ -54,7 +43,7 @@ const VaPrompt = ({
   };
 
   return (
-    <form>
+    <form onSubmit={handlers.onGoForward}>
       <VaRadio
         error={error}
         form-heading="Do you want us to get your VA medical records or military health records?"
