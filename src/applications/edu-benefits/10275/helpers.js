@@ -29,6 +29,7 @@ export const getCardDescription = item => {
     city,
     state,
     postalCode,
+    country,
   } = institutionAddress;
   const addressParts = [street, street2, street3].filter(Boolean).map(addr => (
     <span key={addr} className="card-address">
@@ -37,7 +38,8 @@ export const getCardDescription = item => {
   ));
   const cityStateZip =
     city || state || postalCode
-      ? `${city || ''}, ${state || ''} ${postalCode || ''}`.trim()
+      ? `${city || ''}${city && (state || postalCode) ? ',' : ''} ${state ||
+          ''} ${postalCode || ''}`.trim()
       : null;
 
   return item ? (
@@ -49,6 +51,10 @@ export const getCardDescription = item => {
             {cityStateZip && (
               <span className="card-address">{cityStateZip}</span>
             )}
+            {country &&
+              country !== 'USA' && (
+                <span className="card-address">{country}</span>
+              )}
           </p>
         )}
       </>

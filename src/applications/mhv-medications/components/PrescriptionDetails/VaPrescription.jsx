@@ -28,6 +28,7 @@ import {
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
+import SendRxRenewalMessage from '../shared/SendRxRenewalMessage';
 import MedicationDescription from '../shared/MedicationDescription';
 import {
   selectPartialFillContentFlag,
@@ -173,6 +174,7 @@ const VaPrescription = prescription => {
                 )}
               </>
             )}
+            <SendRxRenewalMessage rx={prescription} isActionLink />
             <>
               {displayTrackingAlert()}
 
@@ -251,7 +253,11 @@ const VaPrescription = prescription => {
               )}
 
               {prescription && (
-                <ExtraDetails {...prescription} page={pageType.DETAILS} />
+                <ExtraDetails
+                  {...prescription}
+                  page={pageType.DETAILS}
+                  showRenewalLink
+                />
               )}
               {!pendingMed &&
                 !pendingRenewal && (
