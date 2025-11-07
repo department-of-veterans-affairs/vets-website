@@ -16,7 +16,7 @@ import {
   DATETIME_FORMATS,
   FIELD_NOT_AVAILABLE,
   medStatusDisplayTypes,
-  PRESCRIPTION_SOURCE,
+  RX_SOURCE,
 } from './constants';
 
 const newLine = (n = 1) => '\n'.repeat(n);
@@ -32,10 +32,10 @@ const SEPARATOR =
   '---------------------------------------------------------------------------------';
 const getLastFilledAndRxNumberBlock = rx => {
   const pendingMed =
-    rx?.prescriptionSource === PRESCRIPTION_SOURCE.PD &&
+    rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     rx?.dispStatus === 'NewOrder';
   const pendingRenewal =
-    rx?.prescriptionSource === PRESCRIPTION_SOURCE.PD &&
+    rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     rx?.dispStatus === 'Renew';
   const isRxPending = pendingMed || pendingRenewal;
 
@@ -135,7 +135,7 @@ export const buildPrescriptionsTXT = prescriptions => {
   const header = `${newLine()}${SEPARATOR}${newLine(3)}`;
 
   const body = (prescriptions || []).map(rx => {
-    if (rx?.prescriptionSource === PRESCRIPTION_SOURCE.NV) {
+    if (rx?.prescriptionSource === RX_SOURCE.NON_VA) {
       return buildNonVAPrescriptionTXT(rx, {
         includeSeparators: false,
       }).trimEnd();
@@ -235,7 +235,7 @@ export const buildVAPrescriptionTXT = prescription => {
         const hasValidDesc =
           shape?.trim() && color?.trim() && frontImprint?.trim();
         const isPartialFill =
-          record.prescriptionSource === PRESCRIPTION_SOURCE.PF;
+          record.prescriptionSource === RX_SOURCE.PARTIAL_FILL;
         const refillLabel = determineRefillLabel(
           isPartialFill,
           refillHistory,

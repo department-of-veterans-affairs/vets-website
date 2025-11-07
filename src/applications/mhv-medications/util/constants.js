@@ -336,9 +336,9 @@ export const DATETIME_FORMATS = {
 
 export const MEDS_BY_MAIL_FACILITY_ID = '741MM';
 
-export const PRESCRIPTION_SOURCE = {
-  PD: 'PD',
-  PF: 'PF',
+export const RX_SOURCE = {
+  PARTIAL_FILL: 'PF',
   VA: 'VA',
-  NV: 'NV',
+  NON_VA: 'NV',
+  PENDING_DISPENSE: 'PD',
 };
