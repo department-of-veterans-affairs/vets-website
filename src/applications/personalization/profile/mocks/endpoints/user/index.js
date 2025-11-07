@@ -39,7 +39,7 @@ const baseUserResponses = {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
         },
         profile: {
-          email: 'vets.gov.user+75a@gmail.com',
+          email: 'vets.gov.user+75@gmail.com',
           firstName: 'MITCHELL',
           middleName: 'G',
           lastName: 'JENKINS',
@@ -260,7 +260,7 @@ const baseUserResponses = {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
         },
         profile: {
-          email: 'vets.gov.user+75b@gmail.com',
+          email: 'vets.gov.user+75@gmail.com',
           firstName: 'MITCHELL',
           middleName: 'G',
           lastName: 'JENKINS',
@@ -484,7 +484,7 @@ const baseUserResponses = {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
         },
         profile: {
-          email: 'vets.gov.user+75c@gmail.com', // TODO this one
+          email: 'vets.gov.user+75@gmail.com',
           firstName: 'MITCHELL',
           middleName: 'G',
           lastName: 'JENKINS',
@@ -524,7 +524,7 @@ const baseUserResponses = {
               isCerner: false,
             },
           ],
-          vaPatient: true,
+          vaPatient: false,
           mhvAccountState: 'NONE',
         },
         veteranStatus: {
@@ -537,8 +537,7 @@ const baseUserResponses = {
         vet360ContactInformation: {
           email: {
             createdAt: '2018-04-20T17:24:13.000Z',
-            // emailAddress:
-            //   'longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong@longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong.com', // TODO this one
+            emailAddress: 'myemail72585885@unattended.com',
             effectiveEndDate: null,
             effectiveStartDate: '2019-03-07T22:32:40.000Z',
             id: 20648,
@@ -696,7 +695,7 @@ const baseUserResponses = {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
         },
         profile: {
-          email: 'vets.gov.user+75d@gmail.com',
+          email: 'vets.gov.user+75@gmail.com',
           firstName: 'MITCHELL',
           middleName: 'G',
           lastName: 'JENKINS',
@@ -907,7 +906,7 @@ const baseUserResponses = {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
         },
         profile: {
-          email: 'vets.gov.user+75e@gmail.com',
+          email: 'vets.gov.user+75@gmail.com',
           firstName: 'MITCHELL',
           middleName: 'G',
           lastName: 'JENKINS',
@@ -1114,7 +1113,7 @@ const baseUserResponses = {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
         },
         profile: {
-          email: 'vets.gov.user+75f@gmail.com',
+          email: 'vets.gov.user+75@gmail.com',
           firstName: 'MITCHELL',
           middleName: 'G',
           lastName: 'JENKINS',
@@ -1308,7 +1307,7 @@ const baseUserResponses = {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
         },
         profile: {
-          email: 'vets.gov.user+75g@gmail.com',
+          email: 'vets.gov.user+75@gmail.com',
           firstName: 'MITCHELL',
           middleName: 'G',
           lastName: 'JENKINS',
@@ -1522,7 +1521,7 @@ const mockErrorResponses = {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
         },
         profile: {
-          email: 'vets.gov.user+75h@gmail.com',
+          email: 'vets.gov.user+75@gmail.com',
           firstName: 'MITCHELL',
           middleName: 'G',
           lastName: 'JENKINS',

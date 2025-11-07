@@ -26,7 +26,7 @@ export const DATE_THRESHOLD = '2025-03-01T12:00:00.000+00:00';
 export const showAlert = state =>
   !dismissedAlertViaCookie() &&
   !state.featureToggles.loading &&
-  !state.featureToggles.mhvEmailConfirmation &&
+  state.featureToggles.mhvEmailConfirmation &&
   !state.user.profile.loading &&
   state.user.profile.vaPatient &&
   (!selectContactEmailAddress(state) ||
