@@ -10,6 +10,8 @@ import {
   getTokenKey,
   setConversationIdKey,
   setTokenKey,
+  getCodeKey,
+  setCodeKey,
 } from '../utils/sessionStorage';
 
 async function getToken(setToken, setCode, setLoadingStatus, forceNew = false) {
@@ -31,6 +33,7 @@ async function getToken(setToken, setCode, setLoadingStatus, forceNew = false) {
       setToken(existingToken);
     }
     setCode(response.code);
+    setCodeKey(response.code);
     setLoadingStatus(COMPLETE);
   } catch (ex) {
     const error = new Error('Could not retrieve chatbot token');
@@ -63,8 +66,15 @@ export default function useChatbotToken() {
       const existingConversationId = getConversationIdKey();
       const existingToken = getTokenKey();
       if (existingConversationId && existingToken) {
-        setToken(existingToken);
-        setLoadingStatus(COMPLETE);
+        const existingCode = getCodeKey();
+        if (existingCode) {
+          setToken(existingToken);
+          setCode(existingCode);
+          setLoadingStatus(COMPLETE);
+          return;
+        }
+        // If code is missing, fetch to obtain a new code while preserving existing conversation
+        getToken(setToken, setCode, setLoadingStatus);
         return;
       }
 
