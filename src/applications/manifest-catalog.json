@@ -664,12 +664,6 @@
       "rootUrl": "/form-builder-sandbox-12-3456"
     },
     {
-      "directoryPath": "src/applications/simple-forms-form-engine/21-4140",
-      "appName": "Employment Questionnaire",
-      "entryName": "21-4140-eq",
-      "rootUrl": "/employment-questionnaire-form-21-4140"
-    },
-    {
       "directoryPath": "src/applications/simple-forms/20-10206",
       "appName": "Request personal records",
       "entryName": "10206-pa",
@@ -712,9 +706,9 @@
       "rootUrl": "/supporting-forms-for-claims/submit-statement-form-21-4138"
     },
     {
-      "directoryPath": "src/applications/simple-forms/21-4140",
+      "directoryPath": "src/applications/benefits-optimization-pingwind/21-4140",
       "appName": "Submit Employment Questionnaire",
-      "entryName": "21-4140-income-verification",
+      "entryName": "21-4140",
       "rootUrl": "/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140"
     },
     {
