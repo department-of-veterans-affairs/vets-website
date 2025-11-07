@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
-import * as platformMonitoring from '@department-of-veterans-affairs/platform-monitoring/Datadog';
+import * as platformMonitoring from 'platform/monitoring/Datadog';
 import { AppContent, ClaimsStatusApp } from '../../containers/ClaimsStatusApp';
 
 describe('<AppContent>', () => {
