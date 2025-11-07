@@ -34,10 +34,10 @@ const PicklistRemoveDependentFollowup = ({
   const scrollAndFocus = () => {
     setTimeout(() => {
       scrollToTop();
-      const radio = $('va-radio[label-header-level]');
-      if (radio) {
+      const el = $('h3, va-radio[label-header-level]');
+      if (el?.tagName === 'VA-RADIO') {
         // va-radio content doesn't immediately render
-        waitForRenderThenFocus('h3', radio.shadowRoot);
+        waitForRenderThenFocus('h3', el.shadowRoot);
       } else {
         focusElement('h3');
       }
@@ -104,7 +104,6 @@ const PicklistRemoveDependentFollowup = ({
             (dep, indx) => indx > index && dep.selected,
           );
           if (reviewPageFlag) {
-            sessionStorage.removeItem(PICKLIST_EDIT_REVIEW_FLAG);
             goToPath('/review-and-submit');
           } else if (nextSelectedIndex === -1) {
             // Done with removing dependents, go to review & submit page
