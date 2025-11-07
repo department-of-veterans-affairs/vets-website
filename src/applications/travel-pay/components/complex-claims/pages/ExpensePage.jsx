@@ -169,7 +169,7 @@ const ExpensePage = () => {
         />
       )}
       <VaDate
-        label="Date"
+        label="Date on receipt"
         name="date"
         value={formState.date || ''}
         required
