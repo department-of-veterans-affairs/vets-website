@@ -343,7 +343,7 @@ describe('actions: mapbox', () => {
     const longitude = -98.495114;
     const latitude = 29.6267;
 
-    it('should return the correct action object', () => {
+    it('should return the correct action object with diagonal radius for full bbox coverage', () => {
       sendUpdatedSearchQuery(
         dispatchSpy,
         [
@@ -373,7 +373,9 @@ describe('actions: mapbox', () => {
 
       expect(dispatchSpy.firstCall.args[0].type).to.eq(SEARCH_QUERY_UPDATED);
       expect(dispatchSpy.firstCall.args[0].payload).to.deep.equal({
-        radius: 22.824343438601947,
+        // Radius is now calculated as diagonal distance to SW corner (issue #21812 fix)
+        // This ensures circular search area encompasses entire rectangular map bounds
+        radius: 34.818705884707484,
         searchString: 'San Antonio',
         context: 'San Antonio',
         searchArea: {
@@ -396,7 +398,7 @@ describe('actions: mapbox', () => {
       });
     });
 
-    it('should return the correct action object', () => {
+    it('should return the correct action object with diagonal radius when no postcode context', () => {
       sendUpdatedSearchQuery(
         dispatchSpy,
         [
@@ -424,7 +426,8 @@ describe('actions: mapbox', () => {
 
       expect(dispatchSpy.firstCall.args[0].type).to.eq(SEARCH_QUERY_UPDATED);
       expect(dispatchSpy.firstCall.args[0].payload).to.deep.equal({
-        radius: 22.824343438601947,
+        // Radius is now calculated as diagonal distance to SW corner (issue #21812 fix)
+        radius: 34.818705884707484,
         searchString: undefined,
         context: undefined,
         searchArea: {
@@ -445,6 +448,48 @@ describe('actions: mapbox', () => {
           longitude,
         },
       });
+    });
+
+    it('should calculate radius that covers entire bounding box (issue #21812)', () => {
+      // Test case based on the reported issue with Green Bay, WI searches
+      // Ensures that the circular search radius encompasses the full rectangular map bounds
+      const testLng = -87.9;
+      const testLat = 44.5;
+      const testBounds = [-88.5, 44.0, -87.3, 45.0]; // [minLng, minLat, maxLng, maxLat]
+
+      sendUpdatedSearchQuery(
+        dispatchSpy,
+        [
+          {
+            center: [testLng, testLat],
+            context: [
+              {
+                id: 'postcode.123',
+                text: 'Green Bay',
+              },
+            ],
+            geometry: {
+              coordinates: [testLng, testLat],
+              type: 'Point',
+            },
+            id: 'postcode.123',
+            // eslint-disable-next-line camelcase
+            place_name: 'Green Bay, WI',
+            // eslint-disable-next-line camelcase
+            place_type: ['postcode'],
+          },
+        ],
+        testLat,
+        testLng,
+        testBounds,
+      );
+
+      const { payload } = dispatchSpy.firstCall.args[0];
+
+      // Verify radius is calculated to SW corner, not just western edge
+      // This ensures all four corners of the bounding box are within the search radius
+      expect(payload.radius).to.be.a('number');
+      expect(payload.radius).to.be.greaterThan(35); // Should be much larger than edge distance
     });
   });
 
