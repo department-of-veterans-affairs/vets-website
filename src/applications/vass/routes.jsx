@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom-v5-compat';
-import Verify from './components/pages/Verify';
-import EnterOTC from './components/pages/EnterOTC';
-import DateTimeSelection from './components/pages/DateTimeSelection';
-import TopicSelection from './components/pages/TopicSelection';
-import Review from './components/pages/Review';
-import Confirmation from './components/pages/Confirmation';
+import Verify from './pages/Verify';
+import EnterOTC from './pages/EnterOTC';
+import DateTimeSelection from './pages/DateTimeSelection';
+import TopicSelection from './pages/TopicSelection';
+import Review from './pages/Review';
+import Confirmation from './pages/Confirmation';
 
 const routes = () => {
   return (
