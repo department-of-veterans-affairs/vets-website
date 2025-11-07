@@ -9,10 +9,11 @@ import {
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import OtherWaysToSendYourDocuments from './claim-files-tab-v2/OtherWaysToSendYourDocuments';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
-import useScrollToElement from '../hooks/useScrollToElement';
 import { usePagination } from '../hooks/usePagination';
 import { fetchFailedUploads } from '../actions';
 import { buildDateFormatter } from '../utils/helpers';
+import { setPageFocus } from '../utils/page';
+import { ITEMS_PER_PAGE } from '../constants';
 import NeedHelp from './NeedHelp';
 
 const FilesWeCouldntReceive = () => {
@@ -22,10 +23,6 @@ const FilesWeCouldntReceive = () => {
   );
 
   const dispatch = useDispatch();
-  const scrollToOtherWays = useScrollToElement('#other-ways-to-send-documents');
-  const scrollToFilesSection = useScrollToElement(
-    '#files-not-received-section',
-  );
 
   const { data: failedFiles, loading, error } = useSelector(
     state => state.disability.status.failedUploads,
@@ -52,11 +49,9 @@ const FilesWeCouldntReceive = () => {
     onPageSelect,
   } = usePagination(sortedFailedFiles);
 
-  // Custom page select handler that scrolls to files section
   const handlePageSelect = page => {
     onPageSelect(page);
-    // Scroll to the files section
-    scrollToFilesSection();
+    setPageFocus('#pagination-info');
   };
 
   useEffect(
@@ -87,7 +82,7 @@ const FilesWeCouldntReceive = () => {
         text="Learn about other ways to send your documents."
         onClick={e => {
           e.preventDefault();
-          scrollToOtherWays();
+          setPageFocus('#other-ways-to-send-documents');
         }}
       />
       {(() => {
@@ -127,6 +122,18 @@ const FilesWeCouldntReceive = () => {
                     by mail or in person, by you or by others, don’t appear in
                     this tool.
                   </p>
+
+                  {shouldPaginate &&
+                    (() => {
+                      const listLen = sortedFailedFiles.length;
+                      const start = (currentPage - 1) * ITEMS_PER_PAGE + 1;
+                      const end = Math.min(
+                        currentPage * ITEMS_PER_PAGE,
+                        listLen,
+                      );
+                      const txt = `Showing ${start} \u2012 ${end} of ${listLen} items`;
+                      return <p id="pagination-info">{txt}</p>;
+                    })()}
 
                   {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
                   <ul

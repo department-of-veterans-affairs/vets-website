@@ -15,6 +15,7 @@ export {
 export { fromToNumbs } from './fromToNumbs';
 export { generateMedicationsPDF } from './generateMedicationsPDF';
 export { generateTextFile } from './generateTextFile';
+export { generateTimestampForFilename } from './generateTimestampForFilename';
 export { getErrorTypeFromFormat } from './getErrorTypeFromFormat';
 export { getImageUri } from './getImageUri';
 export { getMostRecentRxRefill } from './getMostRecentRxRefill';
@@ -27,7 +28,6 @@ export { isArrayAndHasItems } from './isArrayAndHasItems';
 export {
   isRefillTakingLongerThanExpected,
 } from './isRefillTakingLongerThanExpected';
-export { pharmacyPhoneNumber } from './pharmacyPhoneNumber';
 export {
   prescriptionMedAndRenewalStatus,
 } from './prescriptionMedAndRenewalStatus';

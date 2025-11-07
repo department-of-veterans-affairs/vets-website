@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropType from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -7,16 +7,50 @@ import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 import { Paths } from '../util/constants';
 import featureToggles from '../hooks/useFeatureToggles';
 import { acceptInterstitial } from '../actions/threadDetails';
+import {
+  clearPrescription,
+  getPrescriptionById,
+  setRedirectPath,
+} from '../actions/prescription';
 
 const InterstitialPage = props => {
   const { type } = props;
   const history = useHistory();
+  const location = useLocation();
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
   const dispatch = useDispatch();
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
+
+  const handleContinueButton = useCallback(
+    () => {
+      dispatch(acceptInterstitial());
+      if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
+        history.push(`${Paths.RECENT_CARE_TEAMS}`);
+      }
+    },
+    [history, mhvSecureMessagingCuratedListFlow, type, dispatch],
+  );
+
+  useEffect(
+    () => {
+      const searchParams = new URLSearchParams(location.search);
+      const prescriptionId = searchParams.get('prescriptionId');
+      const redirectPath = searchParams.get('redirectPath');
+      if (prescriptionId) {
+        dispatch(getPrescriptionById(prescriptionId));
+        handleContinueButton();
+      } else {
+        dispatch(clearPrescription());
+      }
+      if (redirectPath) {
+        dispatch(setRedirectPath(decodeURIComponent(redirectPath)));
+      }
+    },
+    [location.search, handleContinueButton, dispatch],
+  );
 
   const continueButtonText = useMemo(
     () => {
@@ -30,16 +64,6 @@ const InterstitialPage = props => {
       }
     },
     [type],
-  );
-
-  const handleContinueButton = useCallback(
-    () => {
-      dispatch(acceptInterstitial());
-      if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
-        history.push(`${Paths.RECENT_CARE_TEAMS}`);
-      }
-    },
-    [history, mhvSecureMessagingCuratedListFlow, type, dispatch],
   );
 
   return (

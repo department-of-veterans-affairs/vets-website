@@ -95,4 +95,73 @@ describe('Print download menu component', () => {
     });
     expect(screen).to.exist;
   });
+
+  it('should close menu when Escape key is pressed, and focus on the toggle button', () => {
+    const screen = render(<PrintDownload />);
+    const toggleButton = screen.getByTestId('print-download-menu');
+
+    // Open the menu
+    fireEvent.click(toggleButton);
+    expect(toggleButton).to.have.attribute('aria-expanded', 'true');
+
+    // Press Escape
+    fireEvent.keyDown(screen.container.querySelector('.print-download'), {
+      keyCode: 27,
+    });
+
+    // Menu should be closed
+    expect(toggleButton).to.have.attribute('aria-expanded', 'false');
+    // Verify the toggle button is focused
+    expect(document.activeElement).to.equal(toggleButton);
+  });
+
+  it('should close menu when focus leaves the menu container', () => {
+    const screen = render(
+      <div>
+        <PrintDownload />
+        <button data-testid="outside-button">Outside Button</button>
+      </div>,
+    );
+
+    const toggleButton = screen.getByTestId('print-download-menu');
+    const outsideButton = screen.getByTestId('outside-button');
+
+    // Open the menu
+    fireEvent.click(toggleButton);
+    expect(toggleButton).to.have.attribute('aria-expanded', 'true');
+
+    // Focus on the last menu item
+    const lastMenuItem = screen.getByTestId('printButton-2');
+    fireEvent.focus(lastMenuItem);
+
+    // Blur from the menu container to outside element
+    fireEvent.blur(screen.container.querySelector('.print-download'), {
+      relatedTarget: outsideButton,
+    });
+
+    // Menu should be closed
+    expect(toggleButton).to.have.attribute('aria-expanded', 'false');
+  });
+
+  it('should close menu when clicking outside the menu', () => {
+    const screen = render(
+      <div>
+        <PrintDownload />
+        <div data-testid="outside-area">Outside Area</div>
+      </div>,
+    );
+
+    const toggleButton = screen.getByTestId('print-download-menu');
+    const outsideArea = screen.getByTestId('outside-area');
+
+    // Open the menu
+    fireEvent.click(toggleButton);
+    expect(toggleButton).to.have.attribute('aria-expanded', 'true');
+
+    // Click outside the menu
+    fireEvent.mouseDown(outsideArea);
+
+    // Menu should be closed
+    expect(toggleButton).to.have.attribute('aria-expanded', 'false');
+  });
 });

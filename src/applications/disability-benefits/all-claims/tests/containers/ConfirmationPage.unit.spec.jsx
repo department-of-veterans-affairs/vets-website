@@ -5,7 +5,9 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { Toggler } from '~/platform/utilities/feature-toggles';
-import ConfirmationPage from '../../containers/ConfirmationPage';
+import ConfirmationPage, {
+  getNewConditionsNames,
+} from '../../containers/ConfirmationPage';
 import { submissionStatuses } from '../../constants';
 import { bddConfirmationHeadline } from '../../content/bddConfirmationAlert';
 import formConfig from '../../config/form';
@@ -119,7 +121,6 @@ describe('ConfirmationPage', () => {
     getByText('November 7, 2024');
     getByText('Conditions claimed');
     getByText('Something Something');
-    getByText('Unknown Condition');
 
     if (claimId) {
       getByText('Claim ID number');
@@ -191,5 +192,33 @@ describe('ConfirmationPage', () => {
       submissionStatuses.succeeded,
       true, // disability526ShowConfirmationReview toggle
     );
+  });
+});
+
+describe('getNewConditionsNames', () => {
+  it('keeps strings and capitalizes them', () => {
+    expect(
+      getNewConditionsNames(['low back pain', '  knee PAIN  ']),
+    ).to.deep.equal(['Low Back Pain', 'Knee Pain']);
+  });
+
+  it('includes only NEW/SECONDARY objects, ignores others and blanks', () => {
+    const input = [
+      { condition: 'tinnitus', cause: 'secondary' },
+      { condition: 'sleep apnea', cause: 'NEW' },
+      { condition: 'flu', cause: 'primary' },
+      { condition: ' ', cause: 'NEW' },
+      { condition: 'tinnitus', cause: 'SECONDARY' },
+      undefined,
+    ];
+    expect(getNewConditionsNames(input)).to.deep.equal([
+      'Tinnitus',
+      'Sleep Apnea',
+    ]);
+  });
+
+  it('returns empty list for empty/invalid inputs', () => {
+    expect(getNewConditionsNames([])).to.deep.equal([]);
+    expect(getNewConditionsNames()).to.deep.equal([]);
   });
 });

@@ -3,26 +3,36 @@
  * @description Barrel export file for form page configurations
  */
 
+// Page components
 export { BenefitTypePage } from './benefit-type';
 export { VeteranIdentityPage } from './veteran-identity';
-export { ClaimantIdentityPage } from './claimant-identity';
-export { HospitalizationPage } from './hospitalization';
-export { ClaimantSignaturePage } from './claimant-signature';
-export { ExaminerIdentificationPage } from './examiner-identification';
-export { MedicalDiagnosisPage } from './medical-diagnosis';
-export { ADLAssessmentPage } from './adl-assessment';
-export { FunctionalLimitationsPage } from './functional-limitations';
-export { NarrativeAssessmentPage } from './narrative-assessment';
-export { ExaminerSignaturePage } from './examiner-signature';
+export { VeteranAddressPage } from './veteran-address';
+export { ClaimantRelationshipPage } from './claimant-relationship';
+export { ClaimantInformationPage } from './claimant-information';
+export { ClaimantSSNPage } from './claimant-ssn';
+export { ClaimantAddressPage } from './claimant-address';
+export { ClaimantContactPage } from './claimant-contact';
+export { HospitalizationStatusPage } from './hospitalization-status';
+export { HospitalizationDatePage } from './hospitalization-date';
+export { HospitalizationFacilityPage } from './hospitalization-facility';
 
-/** @exports {PageSchema} identificationInformation - SSN/VA file number page */
-export { identificationInformation } from './identification-information';
-
-/** @exports {PageSchema} mailingAddress - Mailing address page */
-export { mailingAddress } from './mailing-address';
-
-/** @exports {PageSchema} nameAndDateOfBirth - Name and DOB page */
-export { nameAndDateOfBirth } from './name-and-date-of-birth';
-
-/** @exports {PageSchema} phoneAndEmailAddress - Contact information page */
-export { phoneAndEmailAddress } from './phone-and-email-address';
+// Review components
+export { BenefitTypeReviewPage } from './benefit-type/benefit-type-review';
+export {
+  VeteranIdentityReviewPage,
+} from './veteran-identity/veteran-identity-review';
+export {
+  VeteranAddressReviewPage,
+} from './veteran-address/veteran-address-review';
+export {
+  ClaimantInformationReviewPage,
+} from './claimant-information/claimant-information-review';
+export {
+  HospitalizationStatusReviewPage,
+} from './hospitalization-status/hospitalization-status-review';
+export {
+  HospitalizationDateReviewPage,
+} from './hospitalization-date/hospitalization-date-review';
+export {
+  HospitalizationFacilityReviewPage,
+} from './hospitalization-facility/hospitalization-facility-review';
