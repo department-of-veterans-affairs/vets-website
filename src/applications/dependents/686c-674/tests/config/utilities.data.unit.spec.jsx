@@ -1034,7 +1034,7 @@ describe('transformPicklistToV2', () => {
     });
   });
 
-  it('should warn and skip parentOther removal reason', () => {
+  it('should throw error for parentOther removal reason', () => {
     const data = {
       [PICKLIST_DATA]: [
         {
@@ -1048,21 +1048,13 @@ describe('transformPicklistToV2', () => {
       ],
     };
 
-    // Should not throw, just warn
-    transformPicklistToV2(data);
-
-    // No V2 arrays should be created
-    expect(data.deaths).to.be.undefined;
-    expect(data['view:removeDependentOptions']).to.deep.equal({
-      reportDivorce: false,
-      reportDeath: false,
-      reportStepchildNotInHousehold: false,
-      reportMarriageOfChildUnder18: false,
-      reportChild18OrOlderIsNotAttendingSchool: false,
-    });
+    // Should throw error
+    expect(() => transformPicklistToV2(data)).to.throw(
+      'Unknown V2 mapping for parentOther removal reason',
+    );
   });
 
-  it('should warn about multiple spouses with marriageEnded', () => {
+  it('should throw error for multiple spouses with marriageEnded', () => {
     const data = {
       [PICKLIST_DATA]: [
         {
@@ -1088,11 +1080,9 @@ describe('transformPicklistToV2', () => {
       ],
     };
 
-    // Should not throw, just warn
-    transformPicklistToV2(data);
-
-    // Only the first one should be used
-    expect(data.reportDivorce).to.be.an('object');
-    expect(data.reportDivorce.fullName.first).to.equal('SPOUSE1');
+    // Should throw error on second spouse
+    expect(() => transformPicklistToV2(data)).to.throw(
+      'Multiple spouses selected with marriageEnded',
+    );
   });
 });
