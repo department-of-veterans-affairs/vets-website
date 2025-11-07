@@ -18,6 +18,8 @@ import childDeath from './childDeath';
 import childHasDisability from './childHasDisability';
 import childDisabilityExit from './childDisabilityExit';
 import childLeftSchool from './childLeftSchool';
+// Child adopted out of family
+import childAdoptedExit from './childAdoptedExit';
 
 import parentReasonToRemove from './parentReasonToRemove';
 import parentDeath from './parentDeath';
@@ -56,6 +58,8 @@ export const routing = {
     { path: 'child-disability', page: childHasDisability },
     { path: 'child-exit', page: childDisabilityExit },
     { path: 'child-left-school', page: childLeftSchool },
+    // Child adopted out of family
+    { path: 'child-adopted-exit', page: childAdoptedExit },
   ],
 
   Parent: [

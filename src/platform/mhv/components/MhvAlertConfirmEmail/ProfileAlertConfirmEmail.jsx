@@ -6,6 +6,7 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   dismissAlertViaCookie,
   selectContactEmailAddress,
@@ -26,7 +27,11 @@ const AlertConfirmContactEmail = ({ recordEvent, onClick }) => {
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
 
   return (
-    <VaAlert status="warning" dataTestid="profile-alert--confirm-contact-email">
+    <VaAlert
+      status="warning"
+      role="status"
+      dataTestid="profile-alert--confirm-contact-email"
+    >
       <h2 slot="headline">{headline}</h2>
       <React.Fragment key=".1">
         <p>
@@ -63,7 +68,11 @@ const AlertAddContactEmail = ({ recordEvent, onClick }) => {
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
 
   return (
-    <VaAlert status="warning" dataTestid="profile-alert--add-contact-email">
+    <VaAlert
+      status="warning"
+      role="status"
+      dataTestid="profile-alert--add-contact-email"
+    >
       <h2 slot="headline">{headline}</h2>
       <React.Fragment key=".1">
         <p>
@@ -112,6 +121,19 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const [confirmError, setConfirmError] = useState(false);
   const [skipSuccess, setSkipSuccess] = useState(false);
 
+  useEffect(
+    () => {
+      if (confirmSuccess) {
+        waitForRenderThenFocus('[data-testid="mhv-alert--confirm-success"]');
+      } else if (confirmError) {
+        waitForRenderThenFocus('[data-testid="mhv-alert--confirm-error"]');
+      } else if (skipSuccess) {
+        waitForRenderThenFocus('[data-testid="mhv-alert--skip-success"]');
+      }
+    },
+    [confirmSuccess, confirmError, skipSuccess],
+  );
+
   const putConfirmationDate = (confirmationDate = new Date().toISOString()) =>
     apiRequest('/profile/email_addresses', {
       method: 'PUT',
@@ -138,7 +160,9 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   };
 
   if (skipSuccess)
-    return <AlertSystemResponseSkipSuccess recordEvent={recordEvent} />;
+    return (
+      <AlertSystemResponseSkipSuccess recordEvent={recordEvent} tabIndex={-1} />
+    );
 
   if (!renderAlert) return null;
 
@@ -147,10 +171,16 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
       {emailAddress ? (
         <>
           {confirmSuccess && (
-            <AlertSystemResponseConfirmSuccess recordEvent={recordEvent} />
+            <AlertSystemResponseConfirmSuccess
+              recordEvent={recordEvent}
+              tabIndex={-1}
+            />
           )}
           {confirmError && (
-            <AlertSystemResponseConfirmError recordEvent={recordEvent} />
+            <AlertSystemResponseConfirmError
+              recordEvent={recordEvent}
+              tabIndex={-1}
+            />
           )}
           {!confirmSuccess && (
             <AlertConfirmContactEmail

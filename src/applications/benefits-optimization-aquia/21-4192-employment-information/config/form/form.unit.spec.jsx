@@ -103,12 +103,11 @@ describe('Form Configuration', () => {
       expect(page.CustomPageReview).to.exist;
     });
 
-    it('should have employment dates details page', () => {
+    it('should have employment dates page', () => {
       const page =
-        formConfig.chapters.employmentInformationChapter.pages
-          .employmentDatesDetails;
+        formConfig.chapters.employmentInformationChapter.pages.employmentDates;
       expect(page).to.exist;
-      expect(page.path).to.equal('employment-dates-details');
+      expect(page.path).to.equal('employment-dates');
       expect(page.CustomPage).to.exist;
       expect(page.CustomPageReview).to.exist;
     });
@@ -249,12 +248,12 @@ describe('Form Configuration', () => {
 
     it('should execute validator for employment dates', () => {
       const page =
-        formConfig.chapters.employmentInformationChapter.pages
-          .employmentDatesDetails;
+        formConfig.chapters.employmentInformationChapter.pages.employmentDates;
       const validData = {
-        employmentDatesDetails: {
-          employmentStartDate: '2024-01-01',
-          employmentEndDate: '2024-12-31',
+        employmentDates: {
+          beginningDate: '2024-01-01',
+          endingDate: '2024-12-31',
+          typeOfWork: 'Software Development',
         },
       };
       const result = page.verifyItemValues(validData);
