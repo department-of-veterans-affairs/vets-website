@@ -137,7 +137,7 @@ describe('Mileage Expense Pages', () => {
     });
     expect($(vaDestinationOtherSelector, formDOM)).to.not.exist;
     const vaMilesTravelled = $(
-      'va-text-input[label*="How many miles were travelled?"]',
+      'va-text-input[label*="How many miles were traveled?"]',
       formDOM,
     );
     expect(vaMilesTravelled.getAttribute('required')).to.equal('true');
