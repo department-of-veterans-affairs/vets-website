@@ -81,7 +81,7 @@ const formConfig = {
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
     applicantInformation: {
-      title: 'Applicant information',
+      title: 'Your information',
       pages: {
         claimantRelationship: {
           title: 'Your identity',
@@ -110,8 +110,8 @@ const formConfig = {
         veteranInformation: {
           title: formData =>
             formData?.claimantNotVeteran
-              ? 'Veteran information'
-              : 'Your information',
+              ? 'Veteran’s information'
+              : 'Your identification information',
 
           path: 'applicant/veteran-information',
           uiSchema: veteranInformation.uiSchema,
