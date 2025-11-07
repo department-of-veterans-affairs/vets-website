@@ -8,6 +8,7 @@ import {
 import * as helpers from '../../../../helpers';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
+import testDataPostMVP from '../../../e2e/fixtures/data/test-data-post-mvp.json';
 
 import {
   testOptionsIsItemIncomplete,
@@ -69,7 +70,6 @@ describe('discontinued income list and loop pages', () => {
       const {
         payer,
         incomeFrequency,
-        incomeLastReceivedDate,
         recipientRelationship,
         recipientName,
         ...baseItem
@@ -83,7 +83,6 @@ describe('discontinued income list and loop pages', () => {
       const {
         payer,
         incomeFrequency,
-        incomeLastReceivedDate,
         recipientRelationship,
         recipientName,
         ...baseItem
@@ -455,156 +454,230 @@ describe('discontinued income list and loop pages', () => {
     );
   });
 
-  describe('payer page', () => {
-    const schema =
-      discontinuedIncomePages.discontinuedIncomePayerPage.schema.properties
-        .discontinuedIncomes.items;
-    const uiSchema =
-      discontinuedIncomePages.discontinuedIncomePayerPage.uiSchema
-        .discontinuedIncomes.items;
+  describe('MVP pages', () => {
+    describe('payer page', () => {
+      const schema =
+        discontinuedIncomePages.discontinuedIncomePayerPage.schema.properties
+          .discontinuedIncomes.items;
+      const uiSchema =
+        discontinuedIncomePages.discontinuedIncomePayerPage.uiSchema
+          .discontinuedIncomes.items;
 
-    testNumberOfFieldsByType(
-      formConfig,
-      schema,
-      uiSchema,
-      { 'va-text-input': 1 },
-      'payer',
-    );
-    testComponentFieldsMarkedAsRequired(
-      formConfig,
-      schema,
-      uiSchema,
-      ['va-text-input[label="Income payer name"]'],
-      'payer',
-    );
-    testSubmitsWithoutErrors(
-      formConfig,
-      schema,
-      uiSchema,
-      'payer',
-      testData.data.discontinuedIncomes[0],
-      { loggedIn: true },
-    );
+      testNumberOfFieldsByType(
+        formConfig,
+        schema,
+        uiSchema,
+        { 'va-text-input': 1 },
+        'payer',
+      );
+      testComponentFieldsMarkedAsRequired(
+        formConfig,
+        schema,
+        uiSchema,
+        ['va-text-input[label="Income payer name"]'],
+        'payer',
+      );
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'payer',
+        testData.data.discontinuedIncomes[0],
+        { loggedIn: true },
+      );
+    });
+
+    describe('type page', () => {
+      const schema =
+        discontinuedIncomePages.discontinuedIncomeTypePage.schema.properties
+          .discontinuedIncomes.items;
+      const uiSchema =
+        discontinuedIncomePages.discontinuedIncomeTypePage.uiSchema
+          .discontinuedIncomes.items;
+
+      testNumberOfFieldsByType(
+        formConfig,
+        schema,
+        uiSchema,
+        { 'va-text-input': 1 },
+        'type',
+      );
+      testComponentFieldsMarkedAsRequired(
+        formConfig,
+        schema,
+        uiSchema,
+        ['va-text-input[label="What is the type of income received?"]'],
+        'type',
+      );
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'type',
+        testData.data.discontinuedIncomes[0],
+        { loggedIn: true },
+      );
+    });
+
+    describe('frequency page', () => {
+      const schema =
+        discontinuedIncomePages.discontinuedIncomeFrequencyPage.schema
+          .properties.discontinuedIncomes.items;
+      const uiSchema =
+        discontinuedIncomePages.discontinuedIncomeFrequencyPage.uiSchema
+          .discontinuedIncomes.items;
+
+      testNumberOfFieldsByType(
+        formConfig,
+        schema,
+        uiSchema,
+        { 'va-radio': 1 },
+        'frequency',
+      );
+      testComponentFieldsMarkedAsRequired(
+        formConfig,
+        schema,
+        uiSchema,
+        ['va-radio[name="root_incomeFrequency"]'],
+        'frequency',
+      );
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'frequency',
+        testData.data.discontinuedIncomes[0],
+        { loggedIn: true },
+      );
+    });
+
+    describe('date page', () => {
+      const schema =
+        discontinuedIncomePages.discontinuedIncomeDatePage.schema.properties
+          .discontinuedIncomes.items;
+      const uiSchema =
+        discontinuedIncomePages.discontinuedIncomeDatePage.uiSchema
+          .discontinuedIncomes.items;
+
+      testNumberOfFieldsByType(
+        formConfig,
+        schema,
+        uiSchema,
+        { 'va-memorable-date': 1 },
+        'date',
+      );
+      testComponentFieldsMarkedAsRequired(
+        formConfig,
+        schema,
+        uiSchema,
+        ['va-memorable-date[name="root_incomeLastReceivedDate"]'],
+        'date',
+      );
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'date',
+        testData.data.discontinuedIncomes[0],
+        { loggedIn: true },
+      );
+    });
+
+    describe('amount page', () => {
+      const schema =
+        discontinuedIncomePages.discontinuedIncomeAmountPage.schema.properties
+          .discontinuedIncomes.items;
+      const uiSchema =
+        discontinuedIncomePages.discontinuedIncomeAmountPage.uiSchema
+          .discontinuedIncomes.items;
+
+      testNumberOfFieldsByType(
+        formConfig,
+        schema,
+        uiSchema,
+        { 'va-text-input': 1 },
+        'amount',
+      );
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'amount',
+        testData.data.discontinuedIncomes[0],
+        { loggedIn: true },
+      );
+    });
   });
 
-  describe('type page', () => {
-    const schema =
-      discontinuedIncomePages.discontinuedIncomeTypePage.schema.properties
-        .discontinuedIncomes.items;
-    const uiSchema =
-      discontinuedIncomePages.discontinuedIncomeTypePage.uiSchema
-        .discontinuedIncomes.items;
+  describe('Post MVP pages', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(true);
+    });
 
-    testNumberOfFieldsByType(
-      formConfig,
-      schema,
-      uiSchema,
-      { 'va-text-input': 1 },
-      'type',
-    );
-    testComponentFieldsMarkedAsRequired(
-      formConfig,
-      schema,
-      uiSchema,
-      ['va-text-input[label="What is the type of income received?"]'],
-      'type',
-    );
-    testSubmitsWithoutErrors(
-      formConfig,
-      schema,
-      uiSchema,
-      'type',
-      testData.data.discontinuedIncomes[0],
-      { loggedIn: true },
-    );
-  });
+    describe('information page', () => {
+      const schema =
+        discontinuedIncomePages.discontinuedIncomeInformationPage.schema
+          .properties.discontinuedIncomes.items;
+      const uiSchema =
+        discontinuedIncomePages.discontinuedIncomeInformationPage.uiSchema
+          .discontinuedIncomes.items;
 
-  describe('frequency page', () => {
-    const schema =
-      discontinuedIncomePages.discontinuedIncomeFrequencyPage.schema.properties
-        .discontinuedIncomes.items;
-    const uiSchema =
-      discontinuedIncomePages.discontinuedIncomeFrequencyPage.uiSchema
-        .discontinuedIncomes.items;
+      testNumberOfFieldsByType(
+        formConfig,
+        schema,
+        uiSchema,
+        { 'va-text-input': 1, 'va-radio': 1 },
+        'information',
+      );
+      testComponentFieldsMarkedAsRequired(
+        formConfig,
+        schema,
+        uiSchema,
+        ['va-text-input[label="Who paid this income?"]'],
+        ['va-radio[label="What type of income is it?"]'],
+        'information',
+      );
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'information',
+        testDataPostMVP.data.discontinuedIncomes[0],
+        { loggedIn: true },
+      );
+    });
 
-    testNumberOfFieldsByType(
-      formConfig,
-      schema,
-      uiSchema,
-      { 'va-radio': 1 },
-      'frequency',
-    );
-    testComponentFieldsMarkedAsRequired(
-      formConfig,
-      schema,
-      uiSchema,
-      ['va-radio[name="root_incomeFrequency"]'],
-      'frequency',
-    );
-    testSubmitsWithoutErrors(
-      formConfig,
-      schema,
-      uiSchema,
-      'frequency',
-      testData.data.discontinuedIncomes[0],
-      { loggedIn: true },
-    );
-  });
+    describe('payment page', () => {
+      const schema =
+        discontinuedIncomePages.discontinuedIncomePaymentPage.schema.properties
+          .discontinuedIncomes.items;
+      const uiSchema =
+        discontinuedIncomePages.discontinuedIncomePaymentPage.uiSchema
+          .discontinuedIncomes.items;
 
-  describe('date page', () => {
-    const schema =
-      discontinuedIncomePages.discontinuedIncomeDatePage.schema.properties
-        .discontinuedIncomes.items;
-    const uiSchema =
-      discontinuedIncomePages.discontinuedIncomeDatePage.uiSchema
-        .discontinuedIncomes.items;
-
-    testNumberOfFieldsByType(
-      formConfig,
-      schema,
-      uiSchema,
-      { 'va-memorable-date': 1 },
-      'date',
-    );
-    testComponentFieldsMarkedAsRequired(
-      formConfig,
-      schema,
-      uiSchema,
-      ['va-memorable-date[name="root_incomeLastReceivedDate"]'],
-      'date',
-    );
-    testSubmitsWithoutErrors(
-      formConfig,
-      schema,
-      uiSchema,
-      'date',
-      testData.data.discontinuedIncomes[0],
-      { loggedIn: true },
-    );
-  });
-
-  describe('amount page', () => {
-    const schema =
-      discontinuedIncomePages.discontinuedIncomeAmountPage.schema.properties
-        .discontinuedIncomes.items;
-    const uiSchema =
-      discontinuedIncomePages.discontinuedIncomeAmountPage.uiSchema
-        .discontinuedIncomes.items;
-
-    testNumberOfFieldsByType(
-      formConfig,
-      schema,
-      uiSchema,
-      { 'va-text-input': 1 },
-      'amount',
-    );
-    testSubmitsWithoutErrors(
-      formConfig,
-      schema,
-      uiSchema,
-      'amount',
-      testData.data.discontinuedIncomes[0],
-      { loggedIn: true },
-    );
+      testNumberOfFieldsByType(
+        formConfig,
+        schema,
+        uiSchema,
+        { 'va-radio': 1, 'va-memorable-date': 1 },
+        'payment',
+      );
+      testComponentFieldsMarkedAsRequired(
+        formConfig,
+        schema,
+        uiSchema,
+        ['va-radio[label="How often was this income received?"]'],
+        ['va-memorable-date[label="When was this income last received?"]'],
+        'payment',
+      );
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'payment',
+        testDataPostMVP.data.discontinuedIncomes[0],
+        { loggedIn: true },
+      );
+    });
   });
 });
