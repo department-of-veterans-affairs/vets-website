@@ -23,7 +23,9 @@ export {
   default as veteranPersonalInformationPage,
 } from './veteran-personal-information';
 export { default as veteranIdentificationPage } from './veteran-identification';
-export { VeteranBirthInformationPage } from './veteran-birth-information';
+export {
+  default as veteranBirthInformationPage,
+} from './veteran-birth-information';
 export { VeteranBurialInformationPage } from './veteran-burial-information';
 
 // Chapter 3: Military history

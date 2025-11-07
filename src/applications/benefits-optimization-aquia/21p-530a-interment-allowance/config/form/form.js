@@ -25,7 +25,7 @@ import {
   ServiceBranchPage,
   ServiceDatesPage,
   ServicePeriodsPage,
-  VeteranBirthInformationPage,
+  veteranBirthInformationPage,
   VeteranBurialInformationPage,
   veteranPersonalInformationPage,
   VeteranPreviousNamesPage,
@@ -36,7 +36,6 @@ import {
 // Import review pages
 import { AdditionalRemarksReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/additional-remarks/additional-remarks-review';
 import { ServicePeriodsReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/service-periods/service-periods-review';
-import { VeteranBirthInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-birth-information/veteran-birth-information-review';
 import { VeteranBurialInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-burial-information/veteran-burial-information-review';
 import { VeteranPreviousNamesReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-previous-names/veteran-previous-names-review';
 import { VeteranServedUnderDifferentNameReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-served-under-different-name/veteran-served-under-different-name-review';
@@ -135,11 +134,8 @@ const formConfig = {
         veteranBirthInformation: {
           path: 'veteran-birth-information',
           title: 'Birth information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: VeteranBirthInformationPage,
-          CustomPageReview: VeteranBirthInformationReviewPage,
-          pagePerItemIndex: 0,
+          uiSchema: veteranBirthInformationPage.uiSchema,
+          schema: veteranBirthInformationPage.schema,
         },
         veteranBurialInformation: {
           path: 'veteran-burial-information',
