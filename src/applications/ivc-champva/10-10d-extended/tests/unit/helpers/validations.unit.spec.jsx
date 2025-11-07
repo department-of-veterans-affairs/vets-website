@@ -219,19 +219,19 @@ describe('1010d `validateApplicant` form validation', () => {
       ['gender is omitted', { applicantGender: {} }],
       ['phone is omitted', { applicantPhone: undefined }],
       [
-        'streetis omitted',
+        'street is omitted',
         { applicantAddress: { city: 'Anytown', state: 'NY' } },
       ],
       [
-        'cityis omitted',
+        'city is omitted',
         { applicantAddress: { street: '123 Main St', state: 'NY' } },
       ],
       [
-        'stateis omitted',
+        'state is omitted',
         { applicantAddress: { street: '123 Main St', city: 'Anytown' } },
       ],
       [
-        'relationship to sponsoris omitted',
+        'relationship to sponsor is omitted',
         { applicantRelationshipToSponsor: {} },
       ],
       ['applicant name is undefined', { applicantName: undefined }],
