@@ -27,9 +27,21 @@ export const EmploymentConcessionsPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Get veteran name
+  const veteranInfo = formDataToUse?.veteranInformation || {};
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
+
+  // Determine if currently employed to use correct tense
+  const currentlyEmployed =
+    formDataToUse?.employmentDates?.currentlyEmployed || false;
+  const tense = currentlyEmployed ? 'are' : 'were';
+
   return (
     <PageTemplate
-      title="Employment information"
+      title="Concessions"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -44,19 +56,19 @@ export const EmploymentConcessionsPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <h3 className="vads-u-margin-top--0">Concessions</h3>
-
-          <TextareaField
-            name="concessions"
-            label="Concessions (if any) made to employee by reason of age or disability"
-            schema={concessionsSchema}
-            value={localData.concessions}
-            onChange={handleFieldChange}
-            error={errors.concessions}
-            forceShowError={formSubmitted}
-            rows={5}
-            maxLength={1000}
-          />
+          <div className="vads-u-margin-top--neg2">
+            <TextareaField
+              name="concessions"
+              label={`What concessions (if any) ${tense} made to ${veteranName} because of age or disability?`}
+              schema={concessionsSchema}
+              value={localData.concessions}
+              onChange={handleFieldChange}
+              error={errors.concessions}
+              forceShowError={formSubmitted}
+              rows={5}
+              maxLength={1000}
+            />
+          </div>
         </>
       )}
     </PageTemplate>
