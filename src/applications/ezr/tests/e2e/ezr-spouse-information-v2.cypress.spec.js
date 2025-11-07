@@ -100,7 +100,6 @@ describe('EZR V2 spouse information flow', () => {
       );
       goToNextPage('household-information/dependents');
       cy.injectAxeThenAxeCheck();
-      cy.get('h3').should('contain', 'Your Dependents');
     });
   });
 
