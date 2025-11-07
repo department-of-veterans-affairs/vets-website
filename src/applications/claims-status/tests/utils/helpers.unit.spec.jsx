@@ -1693,6 +1693,246 @@ describe('Disability benefits helpers: ', () => {
       });
     });
   });
+
+  describe('generateClaimTitle with server-generated titles', () => {
+    const claimDate = '2024-08-21';
+
+    context('when server provides displayTitle (feature flag ON)', () => {
+      context('for list/detail views', () => {
+        it('should use displayTitle for list view (no placement)', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Claim for Veterans Pension',
+              claimTypeBase: 'veterans pension claim',
+              claimType: 'Pension',
+            },
+          };
+          expect(generateClaimTitle(claim)).to.equal(
+            'Claim for Veterans Pension',
+          );
+        });
+
+        it('should use displayTitle for detail placement', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Request to add or remove a dependent',
+              claimTypeBase: 'dependency claim',
+              claimType: 'Dependency',
+            },
+          };
+          expect(generateClaimTitle(claim, 'detail')).to.equal(
+            'Request to add or remove a dependent',
+          );
+        });
+
+        it('should bypass all client-side override logic when displayTitle present', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Claim for Survivors Pension',
+              claimTypeBase: 'survivors pension claim',
+              claimType: 'Pension',
+              claimTypeCode: '190ORGDPNPMC', // Would trigger client-side override
+            },
+          };
+          expect(generateClaimTitle(claim)).to.equal(
+            'Claim for Survivors Pension',
+          );
+        });
+      });
+
+      context('for breadcrumb/document views', () => {
+        it('should NOT use displayTitle for breadcrumb (uses composition)', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Claim for Veterans Pension',
+              claimTypeBase: 'veterans pension claim',
+              claimType: 'Pension',
+              claimTypeCode: '180ORGPENPMC',
+              claimDate,
+            },
+          };
+          const result = generateClaimTitle(claim, 'breadcrumb', 'Status');
+          expect(result).to.equal('Status of your veterans pension claim');
+          expect(result).to.not.equal(
+            'Status of your Claim for Veterans Pension',
+          );
+        });
+
+        it('should NOT use displayTitle for document (uses composition)', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Claim for Veterans Pension',
+              claimTypeBase: 'veterans pension claim',
+              claimType: 'Pension',
+              claimDate,
+            },
+          };
+          const result = generateClaimTitle(claim, 'document', 'Status');
+          expect(result).to.include('Veterans Pension Claim');
+          expect(result).to.include('August 21, 2024');
+        });
+      });
+    });
+
+    context('when server provides BOTH fields (feature flag ON)', () => {
+      it('should use claimTypeBase in breadcrumb composition', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Veterans Pension',
+            claimTypeBase: 'veterans pension claim',
+            claimType: 'Pension',
+            claimTypeCode: '180ORGPENPMC',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Files');
+        expect(result).to.equal('Files for your veterans pension claim');
+      });
+
+      it('should use claimTypeBase in document composition', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Survivors Pension',
+            claimTypeBase: 'survivors pension claim',
+            claimType: 'Pension',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'document', 'Overview');
+        expect(result).to.equal(
+          'Overview of August 21, 2024 Survivors Pension Claim',
+        );
+      });
+
+      it('should preserve backend claimTypeBase casing for composition', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Compensation',
+            claimTypeBase: 'compensation claim',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Status');
+        expect(result).to.equal('Status of your compensation claim');
+      });
+
+      it('should preserve pension claim specificity in breadcrumbs', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Veterans Pension',
+            claimTypeBase: 'veterans pension claim',
+            claimType: 'Pension',
+            claimTypeCode: '180ORGPENPMC',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Status');
+        // Should maintain "veterans pension" NOT collapse to generic "pension"
+        expect(result).to.include('veterans pension');
+        expect(result).to.not.equal('Status of your pension claim');
+      });
+    });
+
+    context('when server does NOT provide fields (feature flag OFF)', () => {
+      it('should fall back to client-side logic for list view', () => {
+        const claim = {
+          attributes: {
+            claimType: 'Compensation',
+          },
+        };
+        expect(generateClaimTitle(claim)).to.equal('Claim for compensation');
+      });
+
+      it('should fall back to getClaimType for breadcrumb composition', () => {
+        const claim = {
+          attributes: {
+            claimType: 'Compensation',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Files');
+        expect(result).to.equal('Files for your compensation claim');
+      });
+
+      it('should apply client-side claimTypeCode overrides when no server fields', () => {
+        const claim = {
+          attributes: {
+            claimType: 'Pension',
+            claimTypeCode: '190ORGDPNPMC', // Survivors Pension
+          },
+        };
+        expect(generateClaimTitle(claim)).to.equal(
+          'Claim for Survivors Pension',
+        );
+      });
+    });
+
+    context('edge cases', () => {
+      it('should handle null claimType with BOTH server fields present', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Debt Validation',
+            claimTypeBase: 'debt validation claim',
+            claimType: null,
+            claimTypeCode: '290DV',
+            claimDate,
+          },
+        };
+        // Should use server-generated titles, not fall back to "Disability Compensation"
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Status');
+        expect(result).to.equal('Status of your debt validation claim');
+        expect(result).to.not.include('disability compensation');
+      });
+
+      it('should handle Death claims with server-generated fields', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for expenses related to death or burial',
+            claimTypeBase: 'death claim',
+            claimType: 'Death',
+          },
+        };
+        expect(generateClaimTitle(claim)).to.equal(
+          'Claim for expenses related to death or burial',
+        );
+      });
+
+      it('should handle dependency claims with server-generated fields', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Request to add or remove a dependent',
+            claimTypeBase: 'request to add or remove a dependent',
+            claimType: 'Dependency',
+            claimTypeCode: '130DPNDCY',
+            claimDate,
+          },
+        };
+        expect(generateClaimTitle(claim)).to.equal(
+          'Request to add or remove a dependent',
+        );
+        // Check breadcrumb uses claimTypeBase
+        const breadcrumb = generateClaimTitle(claim, 'breadcrumb', 'Files');
+        expect(breadcrumb).to.equal(
+          'Files for your request to add or remove a dependent',
+        );
+      });
+
+      it('should fall back to legacy logic when only one server field is present', () => {
+        const claim = {
+          attributes: {
+            claimTypeBase: 'compensation claim', // Only claimTypeBase, no displayTitle
+            claimType: 'Compensation',
+            claimDate,
+          },
+        };
+        // Should use client-side logic since both fields are not present (atomic requirement)
+        expect(generateClaimTitle(claim)).to.equal('Claim for compensation');
+        const breadcrumb = generateClaimTitle(claim, 'breadcrumb', 'Status');
+        expect(breadcrumb).to.equal('Status of your compensation claim');
+      });
+    });
+  });
+
   describe('getUploadErrorMessage', () => {
     context('when error is due to a duplicate upload', () => {
       it('should return a specific duplicate error message with file name', () => {
