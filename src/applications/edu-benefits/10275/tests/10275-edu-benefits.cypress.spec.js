@@ -17,20 +17,46 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      '/school-administrators/commit-principles-of-excellence-form-22-10275/additional-locations/0/point-of-contact?add=true': ({
+      '/school-administrators/commit-principles-of-excellence-form-22-10275/additional-locations/:index/point-of-contact?add=true': ({
         afterHook,
       }) => {
         afterHook(() => {
-          cy.get('[label="John William Doe"]')
-            .should('exist')
+          cy.get('.radio-container', { timeout: 10000 }).should('exist');
+          cy.get(
+            'va-radio-option[name="pointOfContact"][value="authorizedOfficial"]',
+            {
+              timeout: 10000,
+            },
+          )
+            .first()
+            .should('be.visible')
             .click();
-          // cy.selectVaRadioOption(
-          //   '[label="John William Doe"]',
-          //   'authorizedOfficial',
-          // );
+          cy.get(
+            'va-radio-option[name="pointOfContact"][value="authorizedOfficial"]',
+          )
+            .first()
+            .should('have.attr', 'checked');
+          cy.get('va-radio[name="pointOfContact"]', { timeout: 5000 }).should(
+            'have.attr',
+            'value',
+            'authorizedOfficial',
+          );
           cy.tabToSubmitForm();
         });
       },
+
+      // '/school-administrators/commit-principles-of-excellence-form-22-10275/additional-locations/:index/point-of-contact?add=true': ({
+      //   afterHook,
+      // }) => {
+      //   afterHook(() => {
+      //     cy.contains('va-radio-option', 'John William Doe')
+      //       .shadow()
+      //       .find('input[type="radio"]')
+      //       .check('John William Doe');
+
+      //     cy.tabToSubmitForm();
+      //   });
+      // },
       // '/school-administrators/commit-principles-of-excellence-form-22-10275/new-commitment-institution-details': ({
       //   afterHook,
       // }) => {

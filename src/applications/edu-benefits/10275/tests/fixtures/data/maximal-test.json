@@ -67,6 +67,7 @@
       "poeEligible": true
     },
     "agreementType": "newCommitment",
+    "addMoreLocations":true,
     "additionalLocations": [
       {
         "fullName": {
@@ -75,9 +76,6 @@
           "last": "Contact"
         },
         "email": "brand.new@email.com",
-        "pointOfContact": {
-          "key": "authorizedOfficial"
-        },
         "view:additionalInstructions": {},
         "facilityCode": "15012020",
         "institutionName": "MARYLAND STATE POLICE TRAINING ACADEMY",
