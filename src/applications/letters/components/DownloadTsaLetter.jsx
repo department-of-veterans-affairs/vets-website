@@ -22,7 +22,7 @@ export const DownloadTsaLetter = ({ letter }) => {
 
       const getTsaLetterData = () => {
         return apiRequest(
-          DOWNLOAD_TSA_LETTER_ENDPOINT(letter.attributes.document_id),
+          DOWNLOAD_TSA_LETTER_ENDPOINT(letter.attributes.documentId),
         )
           .then(response => {
             response.blob().then(blob => {
