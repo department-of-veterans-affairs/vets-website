@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { getConversationIdKey, getTokenKey } from '../utils/sessionStorage';
+import * as SessionStorage from '../utils/sessionStorage';
 
 const getDirectLineDomain = () =>
   process.env.USE_LOCAL_DIRECTLINE
@@ -18,7 +18,7 @@ export default function useDirectLine(
   tokenOverride,
   freeze = false,
 ) {
-  const token = tokenOverride || getTokenKey();
+  const token = tokenOverride || SessionStorage.getTokenKey();
   const domain = getDirectLineDomain();
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const isSessionPersistenceEnabled = useToggleValue(
@@ -28,13 +28,12 @@ export default function useDirectLine(
   // Always capture the conversationId from the token endpoint so the socket
   // attaches to the correct conversation. Replay remains gated by watermark
   // below.
-  const conversationId = getConversationIdKey();
+  const conversationId = SessionStorage.getConversationIdKey();
 
   const initialOptions = useMemo(
     () => {
       const opts = { token, domain };
-      const useLocal = !!process.env.USE_LOCAL_DIRECTLINE;
-      if (useLocal && isSessionPersistenceEnabled && conversationId) {
+      if (isSessionPersistenceEnabled && conversationId) {
         opts.conversationId = conversationId;
         opts.watermark = '0';
       }
