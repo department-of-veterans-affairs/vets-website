@@ -19,7 +19,9 @@ export {
 } from './burial-organization-mailing-address';
 
 // Chapter 2: Deceased Veteran information
-export { default as veteranIdentificationPage } from './veteran-identification';
+export {
+  default as veteranPersonalInformationPage,
+} from './veteran-personal-information';
 export { VeteranSsnFileNumberPage } from './veteran-ssn-file-number';
 export { VeteranBirthInformationPage } from './veteran-birth-information';
 export { VeteranBurialInformationPage } from './veteran-burial-information';

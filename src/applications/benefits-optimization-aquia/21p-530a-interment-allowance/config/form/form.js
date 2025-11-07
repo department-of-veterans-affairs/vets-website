@@ -27,7 +27,7 @@ import {
   ServicePeriodsPage,
   VeteranBirthInformationPage,
   VeteranBurialInformationPage,
-  veteranIdentificationPage,
+  veteranPersonalInformationPage,
   VeteranPreviousNamesPage,
   VeteranServedUnderDifferentNamePage,
   VeteranSsnFileNumberPage,
@@ -121,11 +121,11 @@ const formConfig = {
     veteranInformationChapter: {
       title: 'Deceased Veteran information',
       pages: {
-        veteranIdentification: {
+        veteranPersonalInformation: {
           path: 'veteran-identification',
           title: 'Identification',
-          uiSchema: veteranIdentificationPage.uiSchema,
-          schema: veteranIdentificationPage.schema,
+          uiSchema: veteranPersonalInformationPage.uiSchema,
+          schema: veteranPersonalInformationPage.schema,
         },
         veteranSsnFileNumber: {
           path: 'veteran-ssn-file-number',
