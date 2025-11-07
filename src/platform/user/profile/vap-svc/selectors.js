@@ -13,11 +13,31 @@ import { isVAProfileServiceConfigured } from './util/local-vapsvc';
 
 import { isFailedTransaction, isPendingTransaction } from './util/transactions';
 
+/**
+ * Checks if VA Profile Service is available for the current user.
+ * Returns true if on localhost or if VA_PROFILE is in the user's available services.
+ *
+ * @param {Object} state - Redux state
+ * @returns {boolean} Whether VA Profile Service is available
+ */
 export function selectIsVAProfileServiceAvailableForUser(state) {
   if (!isVAProfileServiceConfigured()) return true; // returns true if on localhost
   return selectAvailableServices(state).includes(backendServices.VA_PROFILE);
 }
 
+/**
+ * Selects a specific contact information field from the VA Profile data.
+ *
+ * @param {Object} state - Redux state
+ * @param {string} fieldName - Field name constant from FIELD_NAMES (e.g., 'mobilePhone', 'emailAddress')
+ * @returns {Object|null} Contact information field data or null if not found
+ *
+ * @example
+ * import { selectVAPContactInfoField } from '@@vap-svc/selectors';
+ * import { FIELD_NAMES } from '@@vap-svc/constants';
+ *
+ * const mobilePhone = selectVAPContactInfoField(state, FIELD_NAMES.MOBILE_PHONE);
+ */
 export function selectVAPContactInfoField(state, fieldName) {
   return selectVAPContactInfo(state)?.[fieldName];
 }
@@ -162,6 +182,18 @@ export const selectTransactionIntervalId = state => {
   return state?.transactionsIntervalId;
 };
 
+/**
+ * Checks if the user's mailing address has been flagged as invalid or "bad"
+ * by VA Profile Service. Used to show address correction alerts and prompts.
+ *
+ * @param {Object} state - Redux state
+ * @returns {boolean} True if mailing address is marked as bad, false otherwise
+ *
+ * @example
+ * import { hasBadAddress } from '@@vap-svc/selectors';
+ *
+ * const showAddressAlert = hasBadAddress(state);
+ */
 export const hasBadAddress = state =>
   state.user?.profile?.vapContactInfo?.mailingAddress?.badAddress;
 

@@ -117,6 +117,22 @@ export const getValidationMessageKey = ({
 // FWIW: This sounds like a high bar to pass, but in fact most of the time this
 // function will return `false` unless the user made an error entering their
 // address or their address is not know to the validation API
+/**
+ * Determines whether to show the address validation modal to the user.
+ * The modal is shown unless a single high-confidence suggestion exactly matches the user's input.
+ *
+ * @param {Array<Object>} suggestedAddresses - Array of suggested addresses from validation API
+ * @param {Object} userInputAddress - The address entered by the user
+ * @param {string} userInputAddress.addressLine2 - Optional address line 2
+ * @param {string} userInputAddress.addressLine3 - Optional address line 3
+ * @param {string} userInputAddress.stateCode - State code
+ * @returns {boolean} True if validation modal should be shown, false if address is valid as-is
+ *
+ * @example
+ * import { showAddressValidationModal } from '@@vap-svc/util';
+ *
+ * const shouldShowModal = showAddressValidationModal(suggestions, enteredAddress);
+ */
 export const showAddressValidationModal = (
   suggestedAddresses,
   userInputAddress,
@@ -141,6 +157,22 @@ export const showAddressValidationModal = (
   return !hasValidAddress;
 };
 
+/**
+ * Infers the address type (domestic, international, or military) from address properties.
+ *
+ * @param {Object} address - Address object
+ * @param {string} address.countryName - Country name
+ * @param {string} address.stateCode - State code
+ * @returns {Object} Address object with inferred 'type' property added
+ *
+ * @example
+ * import { inferAddressType } from '@@vap-svc/util';
+ *
+ * const addressWithType = inferAddressType({
+ *   countryName: 'USA',
+ *   stateCode: 'CA'
+ * });
+ */
 // Infers the address type from the address supplied and returns the address
 // with the "new" type.
 export const inferAddressType = address => {
@@ -157,6 +189,19 @@ export const inferAddressType = address => {
   return { ...address, type };
 };
 
+/**
+ * Compares two address objects for equality based on standard address properties.
+ * Ignores empty/null fields and only compares properties defined in ADDRESS_PROPS.
+ *
+ * @param {Object} mainAddress - First address to compare
+ * @param {Object} testAddress - Second address to compare
+ * @returns {boolean} True if addresses are equal, false otherwise
+ *
+ * @example
+ * import { areAddressesEqual } from '@@vap-svc/util';
+ *
+ * const isSame = areAddressesEqual(mailingAddress, residentialAddress);
+ */
 export const areAddressesEqual = (mainAddress, testAddress) => {
   const mainAddressFields = pickBy(
     pick(mainAddress, ADDRESS_PROPS),
@@ -181,6 +226,21 @@ export const validateAsciiCharacters = (errors, field) => {
   }
 };
 
+/**
+ * Checks if a field's data is empty or unset.
+ * Handles special cases for messaging signature (requires both name and title)
+ * and gender identity (requires code property).
+ *
+ * @param {Object} data - Field data object
+ * @param {string} fieldName - Field name from FIELD_NAMES constants
+ * @returns {boolean} True if field is empty, false if it has data
+ *
+ * @example
+ * import { isFieldEmpty } from '@@vap-svc/util';
+ * import { FIELD_NAMES } from '@@vap-svc/constants';
+ *
+ * const empty = isFieldEmpty(mobilePhoneData, FIELD_NAMES.MOBILE_PHONE);
+ */
 // checks for basic field data or data for nested object like gender identity
 export const isFieldEmpty = (data, fieldName) => {
   // checks whether data is available and in the case of gender identity if there is a code present
