@@ -21,7 +21,7 @@ const childHasDisability = {
     onSubmit: ({ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.childHasPermanentDisability) {
-        setTimeout(scrollToFirstError);
+        setTimeout(() => scrollToFirstError({ focusOnAlertRole: true }));
       } else {
         goForward();
       }
