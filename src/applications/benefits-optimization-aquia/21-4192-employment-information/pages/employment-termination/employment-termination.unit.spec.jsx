@@ -95,4 +95,142 @@ describe('EmploymentTerminationPage', () => {
     const textarea = container.querySelector('va-textarea');
     expect(textarea.getAttribute('maxlength')).to.equal('1000');
   });
+
+  it('should display context paragraph with ending date', () => {
+    const data = {
+      employmentDates: {
+        endingDate: '2020-12-31',
+      },
+    };
+    const { container } = render(
+      <EmploymentTerminationPage
+        goForward={mockGoForward}
+        data={data}
+        setFormData={mockSetFormData}
+      />,
+    );
+
+    const text = container.textContent;
+    expect(text).to.include('On a previous page');
+    expect(text).to.include('stopped working on');
+    expect(text).to.include('December');
+    expect(text).to.include('31');
+    expect(text).to.include('2020');
+  });
+
+  it('should use veteran name in context paragraph', () => {
+    const data = {
+      veteranInformation: {
+        firstName: 'Boba',
+        lastName: 'Fett',
+      },
+      employmentDates: {
+        endingDate: '2020-12-31',
+      },
+    };
+    const { container } = render(
+      <EmploymentTerminationPage
+        goForward={mockGoForward}
+        data={data}
+        setFormData={mockSetFormData}
+      />,
+    );
+
+    const text = container.textContent;
+    expect(text).to.include('Boba Fett');
+    expect(text).to.include('stopped working on');
+  });
+
+  it('should use "the Veteran" when no name provided', () => {
+    const data = {
+      employmentDates: {
+        endingDate: '2020-12-31',
+      },
+    };
+    const { container } = render(
+      <EmploymentTerminationPage
+        goForward={mockGoForward}
+        data={data}
+        setFormData={mockSetFormData}
+      />,
+    );
+
+    const text = container.textContent;
+    expect(text).to.include('the Veteran');
+    expect(text).to.include('stopped working on');
+  });
+
+  it('should display hint text for termination reason', () => {
+    const { container } = render(
+      <EmploymentTerminationPage
+        goForward={mockGoForward}
+        data={{}}
+        setFormData={mockSetFormData}
+      />,
+    );
+
+    const textarea = container.querySelector('va-textarea');
+    expect(textarea.getAttribute('hint')).to.equal(
+      'If they retired on disability, please specify.',
+    );
+  });
+
+  it('should mark date last worked as required', () => {
+    const { container } = render(
+      <EmploymentTerminationPage
+        goForward={mockGoForward}
+        data={{}}
+        setFormData={mockSetFormData}
+      />,
+    );
+
+    const dateField = container.querySelector('va-memorable-date');
+    expect(dateField.hasAttribute('required')).to.be.true;
+  });
+
+  it('should display correct label for termination reason', () => {
+    const { container } = render(
+      <EmploymentTerminationPage
+        goForward={mockGoForward}
+        data={{}}
+        setFormData={mockSetFormData}
+      />,
+    );
+
+    const textarea = container.querySelector('va-textarea');
+    expect(textarea.getAttribute('label')).to.equal(
+      'Reason for termination of employment',
+    );
+  });
+
+  it('should display correct label for date last worked', () => {
+    const { container } = render(
+      <EmploymentTerminationPage
+        goForward={mockGoForward}
+        data={{}}
+        setFormData={mockSetFormData}
+      />,
+    );
+
+    const dateField = container.querySelector('va-memorable-date');
+    expect(dateField.getAttribute('label')).to.equal('Date last worked');
+  });
+
+  it('should handle missing ending date gracefully', () => {
+    const data = {
+      employmentDates: {},
+    };
+    const { container } = render(
+      <EmploymentTerminationPage
+        goForward={mockGoForward}
+        data={data}
+        setFormData={mockSetFormData}
+      />,
+    );
+
+    const text = container.textContent;
+    expect(text).to.include('you indicated that');
+    expect(text).to.include('stopped working. Why did they stop working?');
+    expect(text).to.not.include('[date not provided]');
+  });
 });
