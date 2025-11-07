@@ -269,7 +269,7 @@ const VaFileInputMultipleField = props => {
   // upload after debounce
   const debouncePassword = useMemo(
     () =>
-      debounce(DEBOUNCE_WAIT, ({ file, password }, index) => {
+      debounce(DEBOUNCE_WAIT, (file, password, index) => {
         if (password && password.length > 0) {
           errorManager.resetInstance(index);
           const _encrypted = [...encrypted];
@@ -292,25 +292,25 @@ const VaFileInputMultipleField = props => {
 
   const handleChange = e => {
     const { detail } = e;
-    const { action, state, index, mockFormData } = detail;
+    const { action, state, file, index, mockFormData } = detail;
     switch (action) {
       case 'FILE_ADDED': {
-        const { file } = state[index];
         errorManager.setInternalFileInputErrors(index, false);
         handleFileAdded(file, index, mockFormData);
         setCurrentIndex(index);
         break;
       }
       case 'FILE_UPDATED': {
-        const { file } = state[index];
         handleFileAdded(file, index);
         setCurrentIndex(index);
         break;
       }
       case 'PASSWORD_UPDATE': {
         setCurrentIndex(index);
-        const passwordFile = state[index];
-        debouncePassword(passwordFile, index);
+        const [{ password }] = state.filter(
+          f => f.file.name === file.name && f.file.size === file.size,
+        );
+        debouncePassword(file, password, index);
         break;
       }
       case 'FILE_REMOVED':
@@ -357,6 +357,10 @@ const VaFileInputMultipleField = props => {
     const _errors = [...errors];
     _errors[index] = e.detail.error;
     setErrors(_errors);
+    const files = [...childrenProps.formData];
+    // add placeholder file
+    files[index] = {};
+    childrenProps.onChange(files);
   };
 
   // get the password errors for any relevant instances
