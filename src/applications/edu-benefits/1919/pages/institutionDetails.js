@@ -62,7 +62,25 @@ const schema = {
         institutionName: {
           type: 'string',
         },
-        institutionAddress: addressSchema(),
+        institutionAddress: {
+          type: 'object',
+          properties: {
+            country: { type: 'string' },
+            street: addressSchema().properties.street,
+            street2: {
+              ...addressSchema().properties.street2,
+              minLength: 0,
+            },
+            street3: {
+              ...addressSchema().properties.street3,
+              minLength: 0,
+            },
+            city: addressSchema().properties.city,
+            state: addressSchema().properties.state,
+            postalCode: addressSchema().properties.postalCode,
+          },
+          required: ['street', 'city', 'state', 'postalCode', 'country'],
+        },
       },
     },
   },
