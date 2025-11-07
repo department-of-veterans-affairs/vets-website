@@ -20,10 +20,6 @@ export default {
     required: ['relationshipToVeteran'],
     properties: {
       relationshipToVeteran: radioSchema(Object.keys(relationshipOptions)),
-      'view:maritalStatusInfo': {
-        type: 'object',
-        properties: {},
-      },
     },
   },
 };
