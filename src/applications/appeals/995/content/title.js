@@ -1,14 +1,22 @@
 import { subTitle4142 } from './evidence/form4142';
-import { FORM_ID } from '../constants';
+import {
+  EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+  EVIDENCE_PRIVATE_DETAILS_URL,
+  EVIDENCE_PRIVATE_PROMPT_URL,
+  FORM_ID,
+  LIMITED_CONSENT_DETAILS_URL,
+  LIMITED_CONSENT_PROMPT_URL,
+} from '../constants';
 
 export const title995 = 'File a Supplemental Claim';
 export const titleFormDetails = 'Additional forms you may need to complete';
 
 const paths4142 = [
-  '/private-medical-records-authorization',
-  '/add-limitation',
-  '/limitation',
-  '/private-medical-records',
+  EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+  LIMITED_CONSENT_PROMPT_URL,
+  LIMITED_CONSENT_DETAILS_URL,
+  EVIDENCE_PRIVATE_DETAILS_URL,
+  EVIDENCE_PRIVATE_PROMPT_URL,
 ];
 
 const isNonVaEvidencePage = currentPath =>
