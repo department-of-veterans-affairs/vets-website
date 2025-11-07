@@ -110,7 +110,7 @@ for (const featureSet of featureSets) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        /results?.*Community providers.*Dentist - Orofacial Pain.*Austin, Texas/i,
+        /results.*Community providers.*Dentist - Orofacial Pain.*Austin, Texas/,
       );
 
       h.clearInput(h.CCP_SERVICE_TYPE_INPUT);
