@@ -842,7 +842,20 @@ jobs:
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
       - name: Wait for server
-        run: NODE_OPTIONS='--dns-result-order=ipv4first' npx wait-on http://localhost:3001
+        run: |
+          echo "Waiting for server to be ready..."
+          for i in {1..30}; do
+            if curl -f http://localhost:3001 > /dev/null 2>&1; then
+              echo "Server is ready!"
+              exit 0
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 2
+          done
+          echo "Server failed to start"
+          exit 1
+        env:
+            NODE_OPTIONS: '--dns-result-order=ipv4first'
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
