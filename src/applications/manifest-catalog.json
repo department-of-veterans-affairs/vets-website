@@ -103,25 +103,25 @@
       "directoryPath": "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information",
       "appName": "21-0779 Nursing Home Information",
       "entryName": "21-0779-nursing-home-information",
-      "rootUrl": "/21-0779-nursing-home-information"
+      "rootUrl": "/supporting-forms-for-claims/aid-attendance-housebound"
     },
     {
       "directoryPath": "src/applications/benefits-optimization-aquia/21-2680-house-bound-status",
       "appName": "21-2680 House Bound Status",
       "entryName": "21-2680-house-bound-status",
-      "rootUrl": "/21-2680-house-bound-status"
+      "rootUrl": "/pension/aid-attendance-housebound/apply-form-21-2680"
     },
     {
       "directoryPath": "src/applications/benefits-optimization-aquia/21-4192-employment-information",
       "appName": "21-4192 Employment Information",
       "entryName": "21-4192-employment-information",
-      "rootUrl": "/21-4192-employment-information"
+      "rootUrl": "/disability/eligibility/special-claims/unemployability/submit-employment-information-form-21-4192"
     },
     {
       "directoryPath": "src/applications/benefits-optimization-aquia/21p-530a-interment-allowance",
       "appName": "21P-530a Interment Allowance",
       "entryName": "21p-530a-interment-allowance",
-      "rootUrl": "/21p-530a-interment-allowance"
+      "rootUrl": "/submit-state-interment-allowance-form-21p-530a"
     },
     {
       "directoryPath": "src/applications/burials-ez",

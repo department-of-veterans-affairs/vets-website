@@ -9,14 +9,10 @@ import formConfig from '@bio-aquia/21p-530a-interment-allowance/config/form';
 
 const breadcrumbList = [
   { href: '/', label: 'Home' },
-  { href: '/burials-memorials', label: 'Burials and memorials' },
   {
-    href: '/burials-memorials/veterans-burial-allowance',
-    label: 'Burial allowance',
-  },
-  {
-    href: '/21p-530a-interment-allowance',
-    label: 'Apply for burial benefits',
+    href: '/submit-state-interment-allowance-form-21p-530a',
+    label:
+      'Submit a state or tribal organization request for interment allowance',
   },
 ];
 
