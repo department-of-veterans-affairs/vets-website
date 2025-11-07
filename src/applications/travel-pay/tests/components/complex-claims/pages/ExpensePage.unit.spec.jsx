@@ -16,7 +16,7 @@ import {
   EXPENSE_TYPES,
   TRANSPORTATION_OPTIONS,
   TRANSPORTATION_REASONS,
-  TRIP_OPTIONS,
+  TRIP_TYPES,
 } from '../../../../constants';
 
 describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
@@ -184,12 +184,12 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
         const tripType = root.querySelector(
           `va-radio[name="tripType"] va-radio-option[value="${
-            TRIP_OPTIONS[0]
+            TRIP_TYPES.ROUND_TRIP.label
           }"]`,
         );
         tripType?.dispatchEvent(
           new CustomEvent('vaValueChange', {
-            detail: { value: TRIP_OPTIONS[0] },
+            detail: { value: TRIP_TYPES.ROUND_TRIP.label },
             bubbles: true,
             composed: true,
           }),
