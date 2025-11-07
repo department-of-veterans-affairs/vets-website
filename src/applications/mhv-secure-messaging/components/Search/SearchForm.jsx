@@ -101,6 +101,7 @@ const SearchForm = props => {
     if (searchTerm === '' && customFilter === false) {
       setSearchTermError(null);
       setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
+      focusElement(filterInputRef.current);
       return;
     }
     setSearchTermError(null);
@@ -124,6 +125,7 @@ const SearchForm = props => {
     dispatch(clearSearchResults());
     setFiltersCleared(true);
     setSearchTerm('');
+    setSearchTermError(null);
     focusElement(filterFormTitleRef.current);
     setCategory('');
     setDateRange('any');

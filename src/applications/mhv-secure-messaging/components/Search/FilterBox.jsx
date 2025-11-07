@@ -1,4 +1,9 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, {
+  forwardRef,
+  useRef,
+  useImperativeHandle,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   VaDate,
@@ -7,6 +12,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 import moment from 'moment';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { DateRangeOptions, SelectCategories } from '../../util/inputContants';
 import { ErrorMessages } from '../../util/constants';
 
@@ -26,6 +32,8 @@ const FilterBox = forwardRef((props, ref) => {
   const [toDateError, setToDateError] = useState('');
   const [formError, setFormError] = useState('');
   const [isItemExpanded, setIsItemExpanded] = useState(false);
+  const fromDateRef = useRef(null);
+  const toDateRef = useRef(null);
 
   const handleCategoryChange = e => {
     setCategory(SelectCategories.find(item => item?.value === e.detail.value));
@@ -47,19 +55,23 @@ const FilterBox = forwardRef((props, ref) => {
     const today = new Date();
     // TODO: add validation for ALL blank fields
     let formInvalid;
+    const invalidInputs = [];
     if (dateRange === 'custom') {
       if (!fromDate) {
         formInvalid = true;
         setFromDateError(ErrorMessages.SearchForm.START_DATE_REQUIRED);
+        invalidInputs.push(fromDateRef);
       }
       if (!toDate) {
         formInvalid = true;
         setToDateError(ErrorMessages.SearchForm.END_DATE_REQUIRED);
+        invalidInputs.push(toDateRef);
       }
       if (fromDate && toDate && moment(toDate).isBefore(fromDate)) {
         formInvalid = true;
         setFromDateError(ErrorMessages.SearchForm.START_DATE_AFTER_END_DATE);
         setToDateError(ErrorMessages.SearchForm.END_DATE_BEFORE_START_DATE);
+        invalidInputs.push(fromDateRef);
       }
       if (fromDate && toDate && moment(fromDate).isBefore(toDate)) {
         formInvalid = false;
@@ -71,7 +83,12 @@ const FilterBox = forwardRef((props, ref) => {
         setToDateError(
           ErrorMessages.SearchForm.END_YEAR_GREATER_THAN_CURRENT_YEAR,
         );
+        invalidInputs.push(toDateRef);
       }
+      setIsItemExpanded(true);
+      setTimeout(() => {
+        focusElement(invalidInputs[0]?.current);
+      }, 100);
     } else {
       formInvalid = false;
     }
@@ -177,6 +194,7 @@ const FilterBox = forwardRef((props, ref) => {
                     required
                     error={fromDateError}
                     data-testid="date-start"
+                    ref={fromDateRef}
                   />
                   <VaDate
                     label="End date"
@@ -187,6 +205,7 @@ const FilterBox = forwardRef((props, ref) => {
                     required
                     error={toDateError}
                     data-testid="date-end"
+                    ref={toDateRef}
                   />
                 </div>
               </div>
