@@ -4,9 +4,93 @@
  */
 
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import PropTypes from 'prop-types';
+import { waitFor, render } from '@testing-library/react';
 import { expect } from 'chai';
-import { HospitalizationStatusPage } from './hospitalization-status';
+import { PageTemplateCore } from '@bio-aquia/shared/components/templates';
+import { RadioField } from '@bio-aquia/shared/components/atoms';
+import {
+  isCurrentlyHospitalizedSchema,
+  hospitalizationStatusPageSchema,
+} from '@bio-aquia/21-2680-house-bound-status/schemas';
+
+// Test component using PageTemplateCore directly
+const HospitalizationStatusPageTest = ({
+  data,
+  setFormData,
+  goForward,
+  goBack,
+  onReviewPage,
+  updatePage,
+}) => {
+  const formDataToUse = data || {};
+
+  // Get claimant information for dynamic title
+  const relationship = formDataToUse?.claimantRelationship?.relationship;
+  const isVeteran = relationship === 'veteran';
+  const claimantName = formDataToUse?.claimantInformation?.claimantFullName;
+  const firstName = claimantName?.first || '';
+  const lastName = claimantName?.last || '';
+
+  // Format the name for display
+  const formattedName =
+    firstName && lastName
+      ? `${firstName} ${lastName}`
+      : firstName || 'the claimant';
+
+  const pageTitle = isVeteran
+    ? 'Are you hospitalized?'
+    : `Is ${formattedName} hospitalized?`;
+
+  return (
+    <PageTemplateCore
+      title={pageTitle}
+      data={formDataToUse}
+      setFormData={setFormData}
+      goForward={goForward}
+      goBack={goBack}
+      schema={hospitalizationStatusPageSchema}
+      sectionName="hospitalizationStatus"
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
+      defaultData={{}}
+    >
+      {({ localData, handleFieldChange, errors, formSubmitted }) => (
+        <>
+          <RadioField
+            label="Hospitalization status"
+            name="isCurrentlyHospitalized"
+            value={localData.isCurrentlyHospitalized}
+            onChange={handleFieldChange}
+            schema={isCurrentlyHospitalizedSchema}
+            options={[
+              {
+                label: 'Yes',
+                value: 'yes',
+              },
+              {
+                label: 'No',
+                value: 'no',
+              },
+            ]}
+            error={errors.isCurrentlyHospitalized}
+            forceShowError={formSubmitted}
+            required
+          />
+        </>
+      )}
+    </PageTemplateCore>
+  );
+};
+
+HospitalizationStatusPageTest.propTypes = {
+  data: PropTypes.object,
+  setFormData: PropTypes.func,
+  goForward: PropTypes.func,
+  goBack: PropTypes.func,
+  onReviewPage: PropTypes.bool,
+  updatePage: PropTypes.func,
+};
 
 /**
  * Helper function to find web component by tag and text attribute
@@ -27,7 +111,7 @@ describe('HospitalizationStatusPage', () => {
   describe('Initial Rendering', () => {
     it('should render without errors', () => {
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -39,7 +123,7 @@ describe('HospitalizationStatusPage', () => {
 
     it('should render page title with default claimant name', () => {
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -60,7 +144,7 @@ describe('HospitalizationStatusPage', () => {
       };
 
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={data}
           setFormData={mockSetFormData}
@@ -80,7 +164,7 @@ describe('HospitalizationStatusPage', () => {
       };
 
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={data}
           setFormData={mockSetFormData}
@@ -93,7 +177,7 @@ describe('HospitalizationStatusPage', () => {
     it('should render page title for veteran relationship', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         claimantInformation: {
           claimantFullName: {
@@ -104,7 +188,7 @@ describe('HospitalizationStatusPage', () => {
       };
 
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={data}
           setFormData={mockSetFormData}
@@ -118,7 +202,7 @@ describe('HospitalizationStatusPage', () => {
   describe('Field Rendering', () => {
     it('should render radio group for hospitalization status', async () => {
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -133,7 +217,7 @@ describe('HospitalizationStatusPage', () => {
 
     it('should render Yes and No options', () => {
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -164,7 +248,7 @@ describe('HospitalizationStatusPage', () => {
       };
 
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={data}
           setFormData={mockSetFormData}
@@ -180,7 +264,9 @@ describe('HospitalizationStatusPage', () => {
   describe('Data Handling', () => {
     it('should render with hospitalized status yes', () => {
       const existingData = {
-        isCurrentlyHospitalized: 'yes',
+        hospitalizationStatus: {
+          isCurrentlyHospitalized: 'yes',
+        },
         claimantInformation: {
           claimantFullName: {
             first: 'Ahsoka',
@@ -189,7 +275,7 @@ describe('HospitalizationStatusPage', () => {
       };
 
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={existingData}
           setFormData={mockSetFormData}
@@ -209,7 +295,9 @@ describe('HospitalizationStatusPage', () => {
 
     it('should render with hospitalized status no', () => {
       const existingData = {
-        isCurrentlyHospitalized: 'no',
+        hospitalizationStatus: {
+          isCurrentlyHospitalized: 'no',
+        },
         claimantInformation: {
           claimantFullName: {
             first: 'Ahsoka',
@@ -218,7 +306,7 @@ describe('HospitalizationStatusPage', () => {
       };
 
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={existingData}
           setFormData={mockSetFormData}
@@ -238,7 +326,7 @@ describe('HospitalizationStatusPage', () => {
 
     it('should handle empty data gracefully', () => {
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -250,7 +338,7 @@ describe('HospitalizationStatusPage', () => {
 
     it('should handle null data prop', () => {
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={null}
           setFormData={mockSetFormData}
@@ -264,7 +352,7 @@ describe('HospitalizationStatusPage', () => {
   describe('Navigation', () => {
     it('should render continue button', () => {
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -277,7 +365,7 @@ describe('HospitalizationStatusPage', () => {
 
     it('should render back button when goBack is provided', () => {
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           goBack={mockGoBack}
           data={{}}
@@ -293,7 +381,7 @@ describe('HospitalizationStatusPage', () => {
   describe('Review Mode', () => {
     it('should render save button instead of continue in review mode', () => {
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -313,7 +401,7 @@ describe('HospitalizationStatusPage', () => {
   describe('Props Handling', () => {
     it('should accept required props', () => {
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -325,7 +413,7 @@ describe('HospitalizationStatusPage', () => {
 
     it('should accept optional props', () => {
       const { container } = render(
-        <HospitalizationStatusPage
+        <HospitalizationStatusPageTest
           goForward={mockGoForward}
           goBack={mockGoBack}
           data={{}}

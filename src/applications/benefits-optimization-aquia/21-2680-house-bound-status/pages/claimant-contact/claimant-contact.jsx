@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { PageTemplateWithSaveInProgress } from '@bio-aquia/shared/components/templates';
 import { PhoneField, TextInputField } from '@bio-aquia/shared/components/atoms';
 
 import {
@@ -10,6 +10,7 @@ import {
   claimantEmailSchema,
   claimantContactPageSchema,
 } from '@bio-aquia/21-2680-house-bound-status/schemas';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 /**
  * Claimant Contact Page
@@ -42,7 +43,7 @@ export const ClaimantContactPage = ({
   const pageTitle = `${formattedName}'s phone number and email address`;
 
   return (
-    <PageTemplate
+    <PageTemplateWithSaveInProgress
       title={pageTitle}
       data={formDataToUse}
       setFormData={setFormData}
@@ -52,6 +53,7 @@ export const ClaimantContactPage = ({
       sectionName="claimantContact"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+      formConfig={formConfig}
       defaultData={{
         claimantPhoneNumber: '',
         claimantMobilePhone: '',
@@ -99,7 +101,7 @@ export const ClaimantContactPage = ({
           />
         </>
       )}
-    </PageTemplate>
+    </PageTemplateWithSaveInProgress>
   );
 };
 

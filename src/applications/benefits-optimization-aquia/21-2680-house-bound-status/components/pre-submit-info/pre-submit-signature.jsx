@@ -8,7 +8,7 @@ import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-li
  * Get the claimant's full name based on relationship
  * @param {Object} formData - The form data object
  * @param {Object} formData.claimantRelationship - Claimant relationship data
- * @param {string} formData.claimantRelationship.claimantRelationship - Relationship type ('veteran' or other)
+ * @param {string} formData.claimantRelationship.relationship - Relationship type ('veteran' or other)
  * @param {Object} formData.veteranIdentification - Veteran identification data
  * @param {Object} formData.veteranIdentification.veteranFullName - Veteran's full name
  * @param {Object} formData.claimantInformation - Claimant information data
@@ -17,7 +17,7 @@ import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-li
  */
 const getClaimantFullName = formData => {
   const isVeteranClaimant =
-    formData?.claimantRelationship?.claimantRelationship === 'veteran';
+    formData?.claimantRelationship?.relationship === 'veteran';
 
   let fullName;
   if (isVeteranClaimant) {

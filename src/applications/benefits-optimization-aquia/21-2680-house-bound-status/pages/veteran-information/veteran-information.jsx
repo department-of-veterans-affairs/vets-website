@@ -6,13 +6,14 @@ import {
   SSNField,
 } from '@bio-aquia/shared/components/atoms';
 import { FullnameField } from '@bio-aquia/shared/components/molecules';
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { PageTemplateWithSaveInProgress } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 import {
-  veteranSSNSchema,
   veteranDOBSchema,
   veteranIdentificationPageSchema,
+  veteranSSNSchema,
 } from '@bio-aquia/21-2680-house-bound-status/schemas';
 
 /**
@@ -23,11 +24,11 @@ const ensureDateStrings = formData => {
 };
 
 /**
- * Veteran Identity Page
+ * Veteran Information Page
  * Section I - Items 1-5: Veteran identification information
- * @module pages/veteran-identity
+ * @module pages/veteran-information
  */
-export const VeteranIdentityPage = ({
+export const VeteranInformationPage = ({
   data,
   setFormData,
   goForward,
@@ -40,24 +41,20 @@ export const VeteranIdentityPage = ({
 
   // Migrate old field names to new field names for backward compatibility
   // This handles save-in-progress data that used old camelCase field names
+  const existingData = formDataToUse?.veteranIdentification || {};
   const migratedData = {
     ...formDataToUse,
     veteranIdentification: {
-      veteranFullName: formDataToUse?.veteranIdentification?.veteranFullName,
-      veteranSSN:
-        formDataToUse?.veteranIdentification?.veteranSSN ||
-        formDataToUse?.veteranIdentification?.veteranSsn ||
-        '',
-      veteranDOB:
-        formDataToUse?.veteranIdentification?.veteranDOB ||
-        formDataToUse?.veteranIdentification?.veteranDob ||
-        '',
+      ...(existingData.veteranFullName && {
+        veteranFullName: existingData.veteranFullName,
+      }),
+      veteranSSN: existingData.veteranSSN || existingData.veteranSsn || '',
+      veteranDOB: existingData.veteranDOB || existingData.veteranDob || '',
     },
   };
 
   return (
-    <PageTemplate
-      title="Veteran information"
+    <PageTemplateWithSaveInProgress
       data={migratedData}
       setFormData={setFormData}
       goForward={goForward}
@@ -67,6 +64,7 @@ export const VeteranIdentityPage = ({
       dataProcessor={ensureDateStrings}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+      formConfig={formConfig}
       defaultData={{
         veteranFullName: {
           first: '',
@@ -79,9 +77,9 @@ export const VeteranIdentityPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <p className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--lg vads-u-line-height--1">
+          <h2 className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--h4 vads-u-line-height--1">
             Confirm the personal information we have on file for the Veteran.
-          </p>
+          </h2>
 
           <FullnameField
             fieldPrefix="veteran"
@@ -90,7 +88,6 @@ export const VeteranIdentityPage = ({
             errors={errors.veteranFullName || {}}
             forceShowError={formSubmitted}
             required
-            label="Veteran's full name"
             showSuffix={false}
           />
 
@@ -117,11 +114,11 @@ export const VeteranIdentityPage = ({
           />
         </>
       )}
-    </PageTemplate>
+    </PageTemplateWithSaveInProgress>
   );
 };
 
-VeteranIdentityPage.propTypes = {
+VeteranInformationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,

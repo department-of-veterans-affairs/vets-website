@@ -4,40 +4,40 @@
  * or Permanent Need for Regular Aid & Attendance
  */
 
-import footerContent from 'platform/forms/components/FormFooter';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import {
-  TITLE,
-  SUBTITLE,
-} from '@bio-aquia/21-2680-house-bound-status/constants';
-import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
-import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
 import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components/get-help';
 import PreSubmitInfo from '@bio-aquia/21-2680-house-bound-status/components/pre-submit-info';
-import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 import { prefillTransformer } from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
 import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
+import {
+  SUBTITLE,
+  TITLE,
+} from '@bio-aquia/21-2680-house-bound-status/constants';
+import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
+import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
+import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
+import footerContent from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 // Import all page components from barrel export
 import {
   BenefitTypePage,
-  VeteranIdentityPage,
-  VeteranAddressPage,
-  ClaimantRelationshipPage,
-  ClaimantInformationPage,
-  ClaimantSSNPage,
+  BenefitTypeReviewPage,
   ClaimantAddressPage,
   ClaimantContactPage,
-  HospitalizationStatusPage,
-  HospitalizationDatePage,
-  HospitalizationFacilityPage,
-  BenefitTypeReviewPage,
-  VeteranIdentityReviewPage,
-  VeteranAddressReviewPage,
+  ClaimantInformationPage,
   ClaimantInformationReviewPage,
-  HospitalizationStatusReviewPage,
+  ClaimantRelationshipPage,
+  ClaimantSSNPage,
+  HospitalizationDatePage,
   HospitalizationDateReviewPage,
+  HospitalizationFacilityPage,
   HospitalizationFacilityReviewPage,
+  HospitalizationStatusPage,
+  HospitalizationStatusReviewPage,
+  VeteranAddressPage,
+  VeteranAddressReviewPage,
+  VeteranInformationPage,
+  VeteranInformationReviewPage,
 } from '@bio-aquia/21-2680-house-bound-status/pages';
 
 /**
@@ -104,11 +104,11 @@ const formConfig = {
     veteranInformationChapter: {
       title: "Veteran's information",
       pages: {
-        veteranIdentity: {
+        veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran information',
-          CustomPage: VeteranIdentityPage,
-          CustomPageReview: VeteranIdentityReviewPage,
+          title: "Veteran's information",
+          CustomPage: VeteranInformationPage,
+          CustomPageReview: VeteranInformationReviewPage,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
@@ -144,7 +144,7 @@ const formConfig = {
           CustomPageReview: () => null,
           // Hidden when veteran is claimant
           depends: formData =>
-            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
+            formData?.claimantRelationship?.relationship !== 'veteran',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
@@ -156,7 +156,7 @@ const formConfig = {
           CustomPageReview: () => null,
           // Hidden when veteran is claimant
           depends: formData =>
-            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
+            formData?.claimantRelationship?.relationship !== 'veteran',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
@@ -168,7 +168,7 @@ const formConfig = {
           CustomPageReview: () => null,
           // Hidden when veteran is claimant
           depends: formData =>
-            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
+            formData?.claimantRelationship?.relationship !== 'veteran',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
@@ -180,7 +180,7 @@ const formConfig = {
           CustomPageReview: () => null,
           // Hidden when veteran is claimant
           depends: formData =>
-            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
+            formData?.claimantRelationship?.relationship !== 'veteran',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },

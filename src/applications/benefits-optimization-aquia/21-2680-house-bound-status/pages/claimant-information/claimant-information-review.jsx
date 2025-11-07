@@ -27,7 +27,7 @@ import {
  */
 export const ClaimantInformationReviewPage = ({ data, editPage, title }) => {
   const isVeteranClaimant =
-    data?.claimantRelationship?.claimantRelationship === 'veteran';
+    data?.claimantRelationship?.relationship === 'veteran';
 
   // Format relationship for display
   const relationshipLabels = {
@@ -40,8 +40,8 @@ export const ClaimantInformationReviewPage = ({ data, editPage, title }) => {
   };
 
   const relationship =
-    relationshipLabels[(data?.claimantRelationship?.claimantRelationship)] ||
-    data?.claimantRelationship?.claimantRelationship;
+    relationshipLabels[(data?.claimantRelationship?.relationship)] ||
+    data?.claimantRelationship?.relationship;
 
   // Migrate old field names to new field names for backward compatibility
   // Handle both veteran and claimant data with old camelCase field names

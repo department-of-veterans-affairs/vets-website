@@ -1,21 +1,21 @@
 /**
- * @module tests/pages/veteran-identity-review.unit.spec
- * @description Unit tests for VeteranIdentityReviewPage component
+ * @module tests/pages/veteran-information-review.unit.spec
+ * @description Unit tests for VeteranInformationReviewPage component
  */
 
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { VeteranIdentityReviewPage } from './veteran-identity-review';
+import { VeteranInformationReviewPage } from './veteran-information-review';
 
-describe('VeteranIdentityReviewPage', () => {
+describe('VeteranInformationReviewPage', () => {
   const mockEditPage = () => {};
   const mockTitle = 'Veteran identification';
 
   describe('Initial Rendering', () => {
     it('should render without errors', () => {
       const { container } = render(
-        <VeteranIdentityReviewPage
+        <VeteranInformationReviewPage
           data={{}}
           editPage={mockEditPage}
           title={mockTitle}
@@ -27,7 +27,7 @@ describe('VeteranIdentityReviewPage', () => {
 
     it('should render title', () => {
       const { container } = render(
-        <VeteranIdentityReviewPage
+        <VeteranInformationReviewPage
           data={{}}
           editPage={mockEditPage}
           title={mockTitle}
@@ -39,7 +39,7 @@ describe('VeteranIdentityReviewPage', () => {
 
     it('should render edit button', () => {
       const { container } = render(
-        <VeteranIdentityReviewPage
+        <VeteranInformationReviewPage
           data={{}}
           editPage={mockEditPage}
           title={mockTitle}
@@ -66,7 +66,7 @@ describe('VeteranIdentityReviewPage', () => {
       };
 
       const { container } = render(
-        <VeteranIdentityReviewPage
+        <VeteranInformationReviewPage
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -91,7 +91,7 @@ describe('VeteranIdentityReviewPage', () => {
       };
 
       const { container } = render(
-        <VeteranIdentityReviewPage
+        <VeteranInformationReviewPage
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -115,7 +115,7 @@ describe('VeteranIdentityReviewPage', () => {
       };
 
       const { container } = render(
-        <VeteranIdentityReviewPage
+        <VeteranInformationReviewPage
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -137,7 +137,7 @@ describe('VeteranIdentityReviewPage', () => {
       };
 
       const { container } = render(
-        <VeteranIdentityReviewPage
+        <VeteranInformationReviewPage
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -149,7 +149,7 @@ describe('VeteranIdentityReviewPage', () => {
 
     it('should handle empty data gracefully', () => {
       const { container } = render(
-        <VeteranIdentityReviewPage
+        <VeteranInformationReviewPage
           data={{}}
           editPage={mockEditPage}
           title={mockTitle}
@@ -165,7 +165,7 @@ describe('VeteranIdentityReviewPage', () => {
       };
 
       const { container } = render(
-        <VeteranIdentityReviewPage
+        <VeteranInformationReviewPage
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -186,7 +186,7 @@ describe('VeteranIdentityReviewPage', () => {
       };
 
       const { container } = render(
-        <VeteranIdentityReviewPage
+        <VeteranInformationReviewPage
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -202,7 +202,7 @@ describe('VeteranIdentityReviewPage', () => {
     it('should pass editPage prop correctly', () => {
       const customEditPage = () => {};
       const { container } = render(
-        <VeteranIdentityReviewPage
+        <VeteranInformationReviewPage
           data={{}}
           editPage={customEditPage}
           title={mockTitle}

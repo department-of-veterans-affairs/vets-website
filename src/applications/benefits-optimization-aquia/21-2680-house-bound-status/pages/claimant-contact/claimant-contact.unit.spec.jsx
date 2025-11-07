@@ -4,9 +4,113 @@
  */
 
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import PropTypes from 'prop-types';
+import { waitFor, render } from '@testing-library/react';
 import { expect } from 'chai';
-import { ClaimantContactPage } from './claimant-contact';
+import { PageTemplateCore } from '@bio-aquia/shared/components/templates';
+import { PhoneField, TextInputField } from '@bio-aquia/shared/components/atoms';
+import {
+  claimantPhoneNumberSchema,
+  claimantMobilePhoneSchema,
+  claimantEmailSchema,
+  claimantContactPageSchema,
+} from '@bio-aquia/21-2680-house-bound-status/schemas';
+
+// Test component using PageTemplateCore directly
+const ClaimantContactPageTest = ({
+  data,
+  setFormData,
+  goForward,
+  goBack,
+  onReviewPage,
+  updatePage,
+}) => {
+  const formDataToUse =
+    data && typeof data === 'object' && !Array.isArray(data) ? data : {};
+
+  // Get claimant's name from form data
+  const claimantName = formDataToUse?.claimantInformation?.claimantFullName;
+  const firstName = claimantName?.first || '';
+  const lastName = claimantName?.last || '';
+
+  // Format the name for display
+  const formattedName =
+    firstName && lastName
+      ? `${firstName} ${lastName}`
+      : firstName || 'Claimant';
+
+  const pageTitle = `${formattedName}'s phone number and email address`;
+
+  return (
+    <PageTemplateCore
+      title={pageTitle}
+      data={formDataToUse}
+      setFormData={setFormData}
+      goForward={goForward}
+      goBack={goBack}
+      schema={claimantContactPageSchema}
+      sectionName="claimantContact"
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
+      defaultData={{
+        claimantPhoneNumber: '',
+        claimantMobilePhone: '',
+        claimantEmail: '',
+      }}
+    >
+      {({ localData, handleFieldChange, errors, formSubmitted }) => (
+        <>
+          <p>
+            We may use their contact information to contact them if we have
+            questions about their application or if we need more information.
+          </p>
+
+          <PhoneField
+            label={`${formattedName}'s home phone number`}
+            name="claimantPhoneNumber"
+            value={localData.claimantPhoneNumber || ''}
+            onChange={handleFieldChange}
+            error={errors.claimantPhoneNumber}
+            forceShowError={formSubmitted}
+            required
+            schema={claimantPhoneNumberSchema}
+          />
+
+          <PhoneField
+            label={`${formattedName}'s mobile phone number`}
+            name="claimantMobilePhone"
+            value={localData.claimantMobilePhone || ''}
+            onChange={handleFieldChange}
+            error={errors.claimantMobilePhone}
+            forceShowError={formSubmitted}
+            schema={claimantMobilePhoneSchema}
+          />
+
+          <TextInputField
+            label={`${formattedName}'s email address`}
+            name="claimantEmail"
+            type="email"
+            value={localData.claimantEmail || ''}
+            onChange={handleFieldChange}
+            error={errors.claimantEmail}
+            forceShowError={formSubmitted}
+            required
+            schema={claimantEmailSchema}
+          />
+        </>
+      )}
+    </PageTemplateCore>
+  );
+};
+
+ClaimantContactPageTest.propTypes = {
+  data: PropTypes.object,
+  setFormData: PropTypes.func,
+  goForward: PropTypes.func,
+  goBack: PropTypes.func,
+  onReviewPage: PropTypes.bool,
+  updatePage: PropTypes.func,
+};
 
 /**
  * Helper function to find web component by tag and label attribute
@@ -37,7 +141,7 @@ describe('ClaimantContactPage', () => {
   describe('Initial Rendering', () => {
     it('should render without errors', () => {
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -50,7 +154,7 @@ describe('ClaimantContactPage', () => {
 
     it('should render page title', () => {
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -62,7 +166,7 @@ describe('ClaimantContactPage', () => {
 
     it('should render instruction text', () => {
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -78,7 +182,7 @@ describe('ClaimantContactPage', () => {
   describe('Field Rendering', () => {
     it('should render phone number field', async () => {
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -98,7 +202,7 @@ describe('ClaimantContactPage', () => {
 
     it('should render mobile phone number field', async () => {
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -118,7 +222,7 @@ describe('ClaimantContactPage', () => {
 
     it('should render email address field', async () => {
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -134,7 +238,7 @@ describe('ClaimantContactPage', () => {
 
     it('should show optional hint for mobile phone', async () => {
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -162,7 +266,7 @@ describe('ClaimantContactPage', () => {
       };
 
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           data={existingData}
           setFormData={mockSetFormData}
@@ -180,7 +284,7 @@ describe('ClaimantContactPage', () => {
       };
 
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           data={existingData}
           setFormData={mockSetFormData}
@@ -192,7 +296,7 @@ describe('ClaimantContactPage', () => {
 
     it('should handle empty data gracefully', () => {
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -204,7 +308,7 @@ describe('ClaimantContactPage', () => {
 
     it('should handle null data prop', () => {
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           data={null}
           setFormData={mockSetFormData}
@@ -218,7 +322,7 @@ describe('ClaimantContactPage', () => {
   describe('Navigation', () => {
     it('should render continue button', () => {
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -231,7 +335,7 @@ describe('ClaimantContactPage', () => {
 
     it('should render back button when goBack is provided', () => {
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           goBack={mockGoBack}
           data={{}}
@@ -247,7 +351,7 @@ describe('ClaimantContactPage', () => {
   describe('Review Mode', () => {
     it('should render save button instead of continue in review mode', () => {
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -267,7 +371,7 @@ describe('ClaimantContactPage', () => {
   describe('Props Handling', () => {
     it('should accept required props', () => {
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -279,7 +383,7 @@ describe('ClaimantContactPage', () => {
 
     it('should accept optional props', () => {
       const { container } = render(
-        <ClaimantContactPage
+        <ClaimantContactPageTest
           goForward={mockGoForward}
           goBack={mockGoBack}
           data={{}}

@@ -5,7 +5,7 @@
 
 // Page components
 export { BenefitTypePage } from './benefit-type';
-export { VeteranIdentityPage } from './veteran-identity';
+export { VeteranInformationPage } from './veteran-information';
 export { VeteranAddressPage } from './veteran-address';
 export { ClaimantRelationshipPage } from './claimant-relationship';
 export { ClaimantInformationPage } from './claimant-information';
@@ -19,8 +19,8 @@ export { HospitalizationFacilityPage } from './hospitalization-facility';
 // Review components
 export { BenefitTypeReviewPage } from './benefit-type/benefit-type-review';
 export {
-  VeteranIdentityReviewPage,
-} from './veteran-identity/veteran-identity-review';
+  VeteranInformationReviewPage,
+} from './veteran-information/veteran-information-review';
 export {
   VeteranAddressReviewPage,
 } from './veteran-address/veteran-address-review';

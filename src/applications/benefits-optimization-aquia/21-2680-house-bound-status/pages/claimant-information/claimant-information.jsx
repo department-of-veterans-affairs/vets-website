@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { MemorableDateField } from '@bio-aquia/shared/components/atoms';
 import { FullnameField } from '@bio-aquia/shared/components/molecules';
+import { PageTemplateWithSaveInProgress } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
 import {
   claimantDOBSchema,
   claimantInformationPageSchema,
 } from '@bio-aquia/21-2680-house-bound-status/schemas';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 /**
  * Data processor to ensure date values are properly formatted strings
@@ -35,36 +36,18 @@ export const ClaimantInformationPage = ({
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
   // Migrate old field names to new field names for backward compatibility
+  const existingData = formDataToUse?.claimantInformation || {};
   const migratedData = {
     ...formDataToUse,
     claimantInformation: {
-      claimantFullName: formDataToUse?.claimantInformation?.claimantFullName,
-      claimantDOB:
-        formDataToUse?.claimantInformation?.claimantDOB ||
-        formDataToUse?.claimantInformation?.claimantDob ||
-        '',
+      ...(existingData.claimantFullName && {
+        claimantFullName: existingData.claimantFullName,
+      }),
+      claimantDOB: existingData.claimantDOB || existingData.claimantDob || '',
     },
   };
 
-  const relationship = migratedData?.claimantRelationship?.claimantRelationship;
-
-  /**
-   * Get the appropriate label text based on relationship
-   */
-  const getNameLabel = () => {
-    switch (relationship) {
-      case 'veteran':
-        return 'Your full name';
-      case 'spouse':
-        return "Your spouse's full name";
-      case 'child':
-        return "Your child's full name";
-      case 'parent':
-        return "Your parent's full name";
-      default:
-        return "Claimant's full name";
-    }
-  };
+  const relationship = migratedData?.claimantRelationship?.relationship;
 
   /**
    * Get the appropriate description text based on relationship
@@ -85,8 +68,7 @@ export const ClaimantInformationPage = ({
   };
 
   return (
-    <PageTemplate
-      title="Claimant information"
+    <PageTemplateWithSaveInProgress
       data={migratedData}
       setFormData={setFormData}
       goForward={goForward}
@@ -96,6 +78,7 @@ export const ClaimantInformationPage = ({
       dataProcessor={ensureDateStrings}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+      formConfig={formConfig}
       defaultData={{
         claimantFullName: {
           first: '',
@@ -116,7 +99,6 @@ export const ClaimantInformationPage = ({
             errors={errors.claimantFullName || {}}
             forceShowError={formSubmitted}
             required
-            label={getNameLabel()}
             showSuffix={false}
           />
 
@@ -132,15 +114,15 @@ export const ClaimantInformationPage = ({
           />
         </>
       )}
-    </PageTemplate>
+    </PageTemplateWithSaveInProgress>
   );
 };
 
 ClaimantInformationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  onReviewPage: PropTypes.bool,
   goBack: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
