@@ -852,7 +852,7 @@
     {
       "directoryPath": "src/applications/vass",
       "appName": "VASS",
-      "entryName": "vass",
+      "entryName": "vass-entry",
       "rootUrl": "/service-member/benefits/solid-start/schedule"
     },
     {

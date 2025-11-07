@@ -1,5 +1,5 @@
 import '@department-of-veterans-affairs/platform-polyfills';
-import './sass/vass.scss';
+import './sass/vass-entry.scss';
 
 import startApp from '@department-of-veterans-affairs/platform-startup/router';
 
