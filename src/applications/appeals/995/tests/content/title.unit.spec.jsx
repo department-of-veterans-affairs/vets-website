@@ -1,5 +1,14 @@
 import { expect } from 'chai';
-import { FORM_ID } from '../../constants';
+import {
+  EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+  EVIDENCE_PRIVATE_DETAILS_URL,
+  EVIDENCE_PRIVATE_PROMPT_URL,
+  EVIDENCE_VA_DETAILS_URL,
+  EVIDENCE_VA_PROMPT_URL,
+  FORM_ID,
+  LIMITED_CONSENT_DETAILS_URL,
+  LIMITED_CONSENT_PROMPT_URL,
+} from '../../constants';
 import { getSubTitle } from '../../content/title';
 import { subTitle4142 } from '../../content/evidence/form4142';
 
@@ -17,16 +26,15 @@ describe('getSubTitle', () => {
     testSubTitle('/contact-information', FORM_ID);
     testSubTitle('/review-and-submit', FORM_ID);
     testSubTitle('/confirmation', FORM_ID);
-    testSubTitle('/private-medical', FORM_ID);
-    testSubTitle('/request-private-medical-records', FORM_ID);
+    testSubTitle(EVIDENCE_VA_PROMPT_URL, FORM_ID);
+    testSubTitle(EVIDENCE_VA_DETAILS_URL, FORM_ID);
   });
 
   it('should return 4142 title for 4142 paths', () => {
-    testSubTitle('/private-medical-records-authorization', subTitle4142);
-    testSubTitle('/private-medical-records', subTitle4142);
-    testSubTitle('/add-limitation', subTitle4142);
-    testSubTitle('/limitation', subTitle4142);
-
-    testSubTitle('/private-medical-records/test', subTitle4142);
+    testSubTitle(EVIDENCE_PRIVATE_PROMPT_URL, subTitle4142);
+    testSubTitle(EVIDENCE_PRIVATE_AUTHORIZATION_URL, subTitle4142);
+    testSubTitle(EVIDENCE_PRIVATE_DETAILS_URL, subTitle4142);
+    testSubTitle(LIMITED_CONSENT_DETAILS_URL, subTitle4142);
+    testSubTitle(LIMITED_CONSENT_PROMPT_URL, subTitle4142);
   });
 });
