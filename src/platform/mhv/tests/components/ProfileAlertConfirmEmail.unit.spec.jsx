@@ -60,6 +60,15 @@ describe('<ProfileAlertConfirmEmail />', () => {
     useDispatchStub.restore();
   });
 
+  const clickButton = (container, clickSecondary = false) => {
+    fireEvent(
+      container.querySelector('va-button-pair'),
+      new CustomEvent(clickSecondary ? 'secondaryClick' : 'primaryClick', {
+        bubbles: true,
+      }),
+    );
+  };
+
   it('renders nothing when alert has been dismissed', async () => {
     dismissAlertViaCookie();
     const initialState = stateFn({ emailAddress: null });
@@ -135,9 +144,12 @@ describe('<ProfileAlertConfirmEmail />', () => {
         getByTestId('profile-alert--confirm-contact-email');
         getByRole('heading', { name: /^Confirm your contact email$/ });
 
-        const buttonSelector = 'va-button[text="Confirm"]';
-        const button = container.querySelector(buttonSelector);
-        expect(button).to.exist;
+        const buttonPair = container.querySelector('va-button-pair');
+        expect(buttonPair).to.exist;
+        expect(buttonPair.getAttribute('left-button-text')).to.equal('Confirm');
+        expect(buttonPair.getAttribute('right-button-text')).to.equal(
+          'Edit contact email',
+        );
 
         expect(getByText('vet@va.gov')).to.exist;
       });
@@ -230,8 +242,8 @@ describe('<ProfileAlertConfirmEmail />', () => {
         },
       );
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      const button = 'va-button[text="Confirm"]';
-      fireEvent.click(container.querySelector(button));
+      clickButton(container);
+
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-success');
         expect(queryByTestId('profile-alert--confirm-contact-email')).to.be
@@ -252,8 +264,8 @@ describe('<ProfileAlertConfirmEmail />', () => {
         },
       );
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      const button = 'va-button[text="Confirm"]';
-      fireEvent.click(container.querySelector(button));
+      clickButton(container);
+
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-error');
         getByTestId('profile-alert--confirm-contact-email');
@@ -274,8 +286,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
         initialState,
       });
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      const buttonSelector = 'va-button[text="Confirm"]';
-      fireEvent.click(container.querySelector(buttonSelector));
+      clickButton(container);
 
       await waitFor(() => {
         expect(global.fetch.calledOnce).to.be.true;
@@ -302,8 +313,8 @@ describe('<ProfileAlertConfirmEmail />', () => {
       );
 
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      const button = 'va-button[text="Edit contact email"]';
-      fireEvent.click(container.querySelector(button));
+      clickButton(container, true);
+
       await waitFor(() => {
         expect(
           dispatchSpy.calledWithMatch(
@@ -327,10 +338,14 @@ describe('<ProfileAlertConfirmEmail />', () => {
         getByTestId('profile-alert--add-contact-email');
         getByRole('heading', { name: /^Add a contact email$/ });
 
-        // getByRole('button', { name: /^Skip adding an email$/ });
-        const buttonSelector = 'va-button[text="Skip adding an email"]';
-        const button = container.querySelector(buttonSelector);
-        expect(button).to.exist;
+        const buttonPair = container.querySelector('va-button-pair');
+        expect(buttonPair).to.exist;
+        expect(buttonPair.getAttribute('left-button-text')).to.equal(
+          'Add a contact email',
+        );
+        expect(buttonPair.getAttribute('right-button-text')).to.equal(
+          'Skip adding an email',
+        );
 
         expect(getByText('No contact email provided')).to.exist;
       });
@@ -390,8 +405,8 @@ describe('<ProfileAlertConfirmEmail />', () => {
         },
       );
       await waitFor(() => getByTestId('profile-alert--add-contact-email'));
-      const button = 'va-button[text="Skip adding an email"]';
-      fireEvent.click(container.querySelector(button));
+      clickButton(container, true);
+
       await waitFor(() => {
         getByTestId('mhv-alert--skip-success');
         expect(queryByTestId('profile-alert--add-contact-email')).to.be.null;
@@ -410,8 +425,8 @@ describe('<ProfileAlertConfirmEmail />', () => {
         },
       );
       await waitFor(() => getByTestId('profile-alert--add-contact-email'));
-      const button = 'va-button[text="Add a contact email"]';
-      fireEvent.click(container.querySelector(button));
+      clickButton(container);
+
       await waitFor(() => {
         expect(
           dispatchSpy.calledWithMatch(

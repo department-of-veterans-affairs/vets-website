@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   VaAlert,
-  VaButton,
+  VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -20,10 +20,6 @@ import {
   AlertSystemResponseSkipSuccess,
 } from './AlertSystemResponse';
 import { recordAlertLoadEvent } from './recordAlertLoadEvent';
-
-// Place buttons next to each other on wider screens, stacked vertically on narrow screens
-const BUTTON_LAYOUT_CLASS =
-  'vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row mobile-lg:vads-u-align-items--center';
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7032-45235&t=t55H62nbe7HYOvFq-4
 const AlertConfirmContactEmail = ({
@@ -54,18 +50,12 @@ const AlertConfirmContactEmail = ({
         >
           {emailAddress}
         </p>
-        <div className={BUTTON_LAYOUT_CLASS}>
-          <p className="vads-u-margin-top--0">
-            <VaButton text="Confirm" onClick={() => onConfirmClick()} />
-          </p>
-          <p className="vads-u-margin-top--0">
-            <VaButton
-              text="Edit contact email"
-              onClick={() => onEditClick()}
-              secondary
-            />
-          </p>
-        </div>
+        <VaButtonPair
+          onPrimaryClick={onConfirmClick}
+          onSecondaryClick={onEditClick}
+          leftButtonText="Confirm"
+          rightButtonText="Edit contact email"
+        />
       </React.Fragment>
     </VaAlert>
   );
@@ -102,18 +92,12 @@ const AlertAddContactEmail = ({ recordEvent, onAddClick, onSkipClick }) => {
         >
           No contact email provided
         </p>
-        <div className={BUTTON_LAYOUT_CLASS}>
-          <p className="vads-u-margin-top--0">
-            <VaButton text="Add a contact email" onClick={() => onAddClick()} />
-          </p>
-          <p className="vads-u-margin-top--0">
-            <VaButton
-              text="Skip adding an email"
-              onClick={() => onSkipClick()}
-              secondary
-            />
-          </p>
-        </div>
+        <VaButtonPair
+          onPrimaryClick={onAddClick}
+          onSecondaryClick={onSkipClick}
+          leftButtonText="Add a contact email"
+          rightButtonText="Skip adding an email"
+        />
       </React.Fragment>
     </VaAlert>
   );
