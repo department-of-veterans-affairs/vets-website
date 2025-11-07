@@ -8,6 +8,7 @@ import { isChapterFieldRequired } from './helpers';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
+import ReviewDependents from '../components/ReviewDependents';
 import { customSubmit686 } from '../analytics/helpers';
 
 import manifest from '../manifest.json';
@@ -52,6 +53,7 @@ import {
   showPensionBackupPath,
   showV3Picklist,
   noV3Picklist,
+  showOptionsSelection,
   isAddingDependents,
   isRemovingDependents,
 } from './utilities';
@@ -77,6 +79,7 @@ export const formConfig = {
   },
   formId: VA_FORM_IDS.FORM_21_686CV2,
   formOptions: {
+    focusOnAlertRole: true,
     useWebComponentForNavigation: true,
   },
   saveInProgress: {
@@ -123,6 +126,11 @@ export const formConfig = {
           title: 'Veteran information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+          initialData: {
+            // Set in prefill, but included here because we're seeing v2
+            // submissions without it
+            useV2: true,
+          },
         },
         veteranAddress: {
           path: 'veteran-address',
@@ -148,20 +156,17 @@ export const formConfig = {
         reviewDependents: {
           title: 'Review your VA Dependents',
           path: 'review-dependents',
-          depends: showV3Picklist,
+          CustomPage: ReviewDependents,
+          CustomPageReview: null,
           uiSchema: reviewDependents.uiSchema,
           schema: reviewDependents.schema,
         },
         addOrRemoveDependents: {
           title: 'What would you like to do?',
           path: 'options-selection',
+          depends: showOptionsSelection,
           uiSchema: addOrRemoveDependents.uiSchema,
           schema: addOrRemoveDependents.schema,
-          initialData: {
-            // Set in prefill, but included here because we're seeing v2
-            // submissions without it
-            useV2: true,
-          },
         },
         addDependentOptions: {
           title: 'Add a dependent',

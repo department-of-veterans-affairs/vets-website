@@ -32,7 +32,7 @@ export const customFormReplacer = (key, value) => {
     return value.replace(/\D/g, '');
   }
   // clean up empty objects, which we have no reason to send
-  if (typeof value === 'object') {
+  if (typeof value === 'object' && value !== null) {
     const fields = Object.keys(value);
     if (
       fields.length === 0 ||
@@ -291,6 +291,8 @@ export const isRemovingDependents = formData =>
   !!formData?.['view:addOrRemoveDependents']?.remove;
 export const showV3Picklist = formData => !!formData?.vaDependentsV3;
 export const noV3Picklist = formData => !formData?.vaDependentsV3;
+export const showOptionsSelection = formData =>
+  showV3Picklist(formData) ? formData.dependents?.awarded.length > 0 : true;
 
 export const hasAwardedDependents = (formData = {}) =>
   Array.isArray(formData?.dependents?.awarded) &&

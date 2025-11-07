@@ -168,12 +168,7 @@ Provider Notes: ${processList(record.comments)}\n`;
             />
 
             {downloadStarted && <DownloadSuccessAlert />}
-            <PrintDownload
-              description="Health Conditions Detail"
-              downloadPdf={generateConditionDetailsPdf}
-              downloadTxt={generateConditionTxt}
-            />
-            <DownloadingRecordsInfo description="Health Conditions Detail" />
+
             <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
 
             <div className="max-80">
@@ -211,6 +206,14 @@ Provider Notes: ${processList(record.comments)}\n`;
                 </LabelValue>
               )}
             </div>
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            <DownloadingRecordsInfo description="Health Conditions Detail" />
+            <PrintDownload
+              description="Health Conditions Detail"
+              downloadPdf={generateConditionDetailsPdf}
+              downloadTxt={generateConditionTxt}
+            />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px" />
           </HeaderSection>
         </>
       );

@@ -58,7 +58,7 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Employers Information');
+      expect(container.textContent).to.include("Employer's name and address");
     });
 
     it('should render employer name field', async () => {
@@ -76,7 +76,7 @@ describe('EmployerInformationPage', () => {
           const element = findByLabel(
             container,
             'va-text-input',
-            "Employer's name",
+            'Name of employer',
           );
           expect(element).to.exist;
         },
@@ -104,29 +104,6 @@ describe('EmployerInformationPage', () => {
           expect(findByLabel(container, 'va-text-input', 'City')).to.exist;
           expect(findByLabel(container, 'va-select', 'State')).to.exist;
           expect(findByLabel(container, 'va-text-input', 'ZIP code')).to.exist;
-        },
-        { timeout: 3000 },
-      );
-    });
-
-    it('should render phone number field', async () => {
-      const { container } = render(
-        <EmployerInformationPage
-          data={{}}
-          setFormData={mockSetFormData}
-          goForward={mockGoForward}
-          goBack={mockGoBack}
-        />,
-      );
-
-      await waitFor(
-        () => {
-          const element = findByLabel(
-            container,
-            'va-telephone-input',
-            "Employer's phone number",
-          );
-          expect(element).to.exist;
         },
         { timeout: 3000 },
       );
@@ -184,7 +161,6 @@ describe('EmployerInformationPage', () => {
             country: 'USA',
             postalCode: '94102',
           },
-          employerPhone: '4155551234',
         },
       };
 
@@ -202,7 +178,7 @@ describe('EmployerInformationPage', () => {
           const employerNameInput = findByLabel(
             container,
             'va-text-input',
-            "Employer's name",
+            'Name of employer',
           );
           expect(employerNameInput).to.exist;
           expect(employerNameInput.getAttribute('value')).to.equal(
@@ -222,14 +198,6 @@ describe('EmployerInformationPage', () => {
           const cityInput = findByLabel(container, 'va-text-input', 'City');
           expect(cityInput).to.exist;
           expect(cityInput.getAttribute('value')).to.equal('Mos Eisley');
-
-          const phoneInput = findByLabel(
-            container,
-            'va-telephone-input',
-            "Employer's phone number",
-          );
-          expect(phoneInput).to.exist;
-          expect(phoneInput.getAttribute('value')).to.equal('4155551234');
         },
         { timeout: 3000 },
       );
@@ -246,7 +214,6 @@ describe('EmployerInformationPage', () => {
             country: 'USA',
             postalCode: '90210',
           },
-          employerPhone: '5551701234',
         },
       };
 
@@ -264,7 +231,7 @@ describe('EmployerInformationPage', () => {
           const employerNameInput = findByLabel(
             container,
             'va-text-input',
-            "Employer's name",
+            'Name of employer',
           );
           expect(employerNameInput).to.exist;
           expect(employerNameInput.getAttribute('value')).to.equal('Slave I');
@@ -284,7 +251,6 @@ describe('EmployerInformationPage', () => {
             country: 'USA',
             postalCode: '10001',
           },
-          employerPhone: '2125559876',
         },
       };
 
@@ -302,7 +268,7 @@ describe('EmployerInformationPage', () => {
           const employerNameInput = findByLabel(
             container,
             'va-text-input',
-            "Employer's name",
+            'Name of employer',
           );
           expect(employerNameInput).to.exist;
           expect(employerNameInput.getAttribute('value')).to.equal(
@@ -450,7 +416,7 @@ describe('EmployerInformationPage', () => {
           const employerNameInput = findByLabel(
             container,
             'va-text-input',
-            "Employer's name",
+            'Name of employer',
           );
           expect(employerNameInput).to.exist;
           expect(employerNameInput.getAttribute('value')).to.equal(
@@ -508,7 +474,6 @@ describe('EmployerInformationPage', () => {
             state: 'CA',
             postalCode: '94102',
           },
-          employerPhone: '4155551234',
         },
       };
 
@@ -570,34 +535,10 @@ describe('EmployerInformationPage', () => {
           const employerNameInput = findByLabel(
             container,
             'va-text-input',
-            "Employer's name",
+            'Name of employer',
           );
           expect(employerNameInput).to.exist;
           expect(employerNameInput.hasAttribute('required')).to.be.true;
-        },
-        { timeout: 3000 },
-      );
-    });
-
-    it('should mark phone number as required', async () => {
-      const { container } = render(
-        <EmployerInformationPage
-          data={{}}
-          setFormData={mockSetFormData}
-          goForward={mockGoForward}
-          goBack={mockGoBack}
-        />,
-      );
-
-      await waitFor(
-        () => {
-          const phoneInput = findByLabel(
-            container,
-            'va-telephone-input',
-            "Employer's phone number",
-          );
-          expect(phoneInput).to.exist;
-          expect(phoneInput.hasAttribute('required')).to.be.true;
         },
         { timeout: 3000 },
       );
@@ -620,7 +561,7 @@ describe('EmployerInformationPage', () => {
           const employerNameInput = findByLabel(
             container,
             'va-text-input',
-            "Employer's name",
+            'Name of employer',
           );
           expect(employerNameInput).to.exist;
           expect(employerNameInput.getAttribute('maxlength')).to.equal('100');
@@ -649,7 +590,6 @@ describe('EmployerInformationPage', () => {
             state: 'CA',
             postalCode: '94102',
           },
-          employerPhone: '4155551234',
         },
       };
 
@@ -735,7 +675,6 @@ describe('EmployerInformationPage', () => {
             state: 'CA',
             postalCode: '91234',
           },
-          employerPhone: '5555551234',
         },
       };
 
@@ -753,7 +692,7 @@ describe('EmployerInformationPage', () => {
           const employerNameInput = findByLabel(
             container,
             'va-text-input',
-            "Employer's name",
+            'Name of employer',
           );
           expect(employerNameInput).to.exist;
           expect(employerNameInput.getAttribute('value')).to.equal(
@@ -774,7 +713,6 @@ describe('EmployerInformationPage', () => {
             state: 'NY',
             postalCode: '10001',
           },
-          employerPhone: '2125551701',
         },
       };
 
@@ -792,7 +730,7 @@ describe('EmployerInformationPage', () => {
           const employerNameInput = findByLabel(
             container,
             'va-text-input',
-            "Employer's name",
+            'Name of employer',
           );
           expect(employerNameInput).to.exist;
           expect(employerNameInput.getAttribute('value')).to.equal(
@@ -813,7 +751,6 @@ describe('EmployerInformationPage', () => {
             state: 'TX',
             postalCode: '75001',
           },
-          employerPhone: '2145559999',
         },
       };
 
@@ -831,7 +768,7 @@ describe('EmployerInformationPage', () => {
           const employerNameInput = findByLabel(
             container,
             'va-text-input',
-            "Employer's name",
+            'Name of employer',
           );
           expect(employerNameInput).to.exist;
           expect(employerNameInput.getAttribute('value')).to.equal(

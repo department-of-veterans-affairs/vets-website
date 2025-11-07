@@ -55,14 +55,14 @@ export const NAV_MOBILE_DROPDOWN = [
 export const NAV_MENU_DROPDOWN = [
   {
     LABEL: 'Find Claimant',
-    URL: '/claimant-search',
+    URL: '/find-claimant',
     ICON: 'search',
     TEST_ID: 'user-nav-claimant-search-link',
   },
   {
     LABEL: 'Representation Requests',
-    URL: '/poa-requests',
-    TEST_ID: 'user-nav-poa-requests-link',
+    URL: '/representation-requests',
+    TEST_ID: 'user-nav-representation-requests-link',
   },
   {
     LABEL: 'Submissions',

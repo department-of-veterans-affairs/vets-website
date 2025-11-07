@@ -13,22 +13,31 @@ import {
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
 import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components/get-help';
+import PreSubmitInfo from '@bio-aquia/21-2680-house-bound-status/components/pre-submit-info';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
-import prefillTransformer from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
+import { prefillTransformer } from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
+import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
 
 // Import all page components from barrel export
 import {
   BenefitTypePage,
   VeteranIdentityPage,
-  ClaimantIdentityPage,
-  HospitalizationPage,
-  ClaimantSignaturePage,
-  ExaminerIdentificationPage,
-  MedicalDiagnosisPage,
-  ADLAssessmentPage,
-  FunctionalLimitationsPage,
-  NarrativeAssessmentPage,
-  ExaminerSignaturePage,
+  VeteranAddressPage,
+  ClaimantRelationshipPage,
+  ClaimantInformationPage,
+  ClaimantSSNPage,
+  ClaimantAddressPage,
+  ClaimantContactPage,
+  HospitalizationStatusPage,
+  HospitalizationDatePage,
+  HospitalizationFacilityPage,
+  BenefitTypeReviewPage,
+  VeteranIdentityReviewPage,
+  VeteranAddressReviewPage,
+  ClaimantInformationReviewPage,
+  HospitalizationStatusReviewPage,
+  HospitalizationDateReviewPage,
+  HospitalizationFacilityReviewPage,
 } from '@bio-aquia/21-2680-house-bound-status/pages';
 
 /**
@@ -60,7 +69,7 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: '/simple_forms_api/v1/simple_forms',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '21-2680-house-bound-status-',
@@ -72,15 +81,17 @@ const formConfig = {
   },
   formId: VA_FORM_IDS.FORM_21_2680,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your benefits application (21-2680) is in progress.',
-    //   expired: 'Your saved benefits application (21-2680) has expired. If you want to apply for benefits, please start a new application.',
-    //   saved: 'Your benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your benefits application (21-2680) is in progress.',
+      expired:
+        'Your saved benefits application (21-2680) has expired. If you want to apply for benefits, please start a new application.',
+      saved: 'Your benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  transformForSubmit: submitTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -89,148 +100,146 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    // Part 1: Benefit Selection
-    benefitSelectionChapter: {
-      title: 'Benefit selection',
+    // Step 1 of 5: Veteran's information
+    veteranInformationChapter: {
+      title: "Veteran's information",
+      pages: {
+        veteranIdentity: {
+          path: 'veteran-information',
+          title: 'Veteran information',
+          CustomPage: VeteranIdentityPage,
+          CustomPageReview: VeteranIdentityReviewPage,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        veteranAddress: {
+          path: 'veteran-address',
+          title: 'Veteran address',
+          CustomPage: VeteranAddressPage,
+          CustomPageReview: VeteranAddressReviewPage,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+      },
+    },
+
+    // Step 2 of 5: Claimant's information
+    claimantInformationChapter: {
+      title: "Claimant's information",
+      pages: {
+        claimantRelationship: {
+          path: 'claimant-relationship',
+          title: 'Who is the claim for?',
+          CustomPage: ClaimantRelationshipPage,
+          // Show comprehensive review with all claimant fields - edit navigates to first claimant page
+          CustomPageReview: ClaimantInformationReviewPage,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        claimantInformation: {
+          path: 'claimant-information',
+          title: 'Claimant information',
+          CustomPage: ClaimantInformationPage,
+          // Hidden page - user edits this via claimant-relationship review section
+          CustomPageReview: () => null,
+          // Hidden when veteran is claimant
+          depends: formData =>
+            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        claimantSSN: {
+          path: 'claimant-ssn',
+          title: 'Claimant Social Security number',
+          CustomPage: ClaimantSSNPage,
+          // Hidden page - user edits this via claimant-relationship review section
+          CustomPageReview: () => null,
+          // Hidden when veteran is claimant
+          depends: formData =>
+            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        claimantAddress: {
+          path: 'claimant-address',
+          title: 'Claimant address',
+          CustomPage: ClaimantAddressPage,
+          // Hidden page - user edits this via claimant-relationship review section
+          CustomPageReview: () => null,
+          // Hidden when veteran is claimant
+          depends: formData =>
+            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        claimantContact: {
+          path: 'claimant-contact',
+          title: 'Contact information',
+          CustomPage: ClaimantContactPage,
+          // Hidden page - user edits this via claimant-relationship review section
+          CustomPageReview: () => null,
+          // Hidden when veteran is claimant
+          depends: formData =>
+            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+      },
+    },
+
+    // Step 3 of 5: Claim information
+    claimInformationChapter: {
+      title: 'Claim information',
       pages: {
         benefitType: {
           path: 'benefit-type',
           title: 'Choose your benefit type',
           CustomPage: BenefitTypePage,
-          CustomPageReview: null,
+          CustomPageReview: BenefitTypeReviewPage,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
       },
     },
 
-    // Part 2: Claimant Information (Sections I-V)
-    veteranInformationChapter: {
-      title: 'Section I - Veteran information',
-      pages: {
-        veteranIdentity: {
-          path: 'veteran-identity',
-          title: 'Veteran identification',
-          CustomPage: VeteranIdentityPage,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-      },
-    },
-
-    claimantInformationChapter: {
-      title: 'Section II - Claimant information',
-      pages: {
-        claimantIdentity: {
-          path: 'claimant-identity',
-          title: 'Claimant identification',
-          CustomPage: ClaimantIdentityPage,
-          CustomPageReview: null,
-          depends: formData => formData?.isVeteranClaimant === 'no',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-      },
-    },
-
+    // Step 4 of 5: Hospitalization
     hospitalizationChapter: {
-      title: 'Section IV - Hospitalization',
+      title: 'Hospitalization',
       pages: {
-        hospitalization: {
-          path: 'hospitalization',
-          title: 'Current hospitalization',
-          CustomPage: HospitalizationPage,
-          CustomPageReview: null,
+        hospitalizationStatus: {
+          path: 'hospitalization-status',
+          title: 'Hospitalization status',
+          CustomPage: HospitalizationStatusPage,
+          CustomPageReview: HospitalizationStatusReviewPage,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-      },
-    },
-
-    claimantSignatureChapter: {
-      title: 'Section V - Claimant certification',
-      pages: {
-        claimantSignature: {
-          path: 'claimant-signature',
-          title: 'Certification and signature',
-          CustomPage: ClaimantSignaturePage,
-          CustomPageReview: null,
+        hospitalizationDate: {
+          path: 'hospitalization-date',
+          title: 'Admission date',
+          CustomPage: HospitalizationDatePage,
+          CustomPageReview: HospitalizationDateReviewPage,
+          depends: formData =>
+            formData?.hospitalizationStatus?.isCurrentlyHospitalized === 'yes',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-      },
-    },
-
-    // Part 3: Medical Examination (Sections VI-VIII)
-    examinerInformationChapter: {
-      title: 'Section VI - Medical examiner information',
-      pages: {
-        examinerIdentification: {
-          path: 'examiner-identification',
-          title: 'Examiner identification',
-          CustomPage: ExaminerIdentificationPage,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-        medicalDiagnosis: {
-          path: 'medical-diagnosis',
-          title: 'Medical diagnoses',
-          CustomPage: MedicalDiagnosisPage,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-      },
-    },
-
-    functionalAssessmentChapter: {
-      title: 'Section VII - Functional assessment',
-      pages: {
-        adlAssessment: {
-          path: 'adl-assessment',
-          title: 'Activities of Daily Living',
-          CustomPage: ADLAssessmentPage,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-        functionalLimitations: {
-          path: 'functional-limitations',
-          title: 'Functional limitations',
-          CustomPage: FunctionalLimitationsPage,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-      },
-    },
-
-    narrativeAssessmentChapter: {
-      title: 'Section VIII - Clinical narrative',
-      pages: {
-        narrativeAssessment: {
-          path: 'narrative-assessment',
-          title: 'Narrative and locomotion',
-          CustomPage: NarrativeAssessmentPage,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-        examinerSignature: {
-          path: 'examiner-signature',
-          title: 'Examiner certification',
-          CustomPage: ExaminerSignaturePage,
-          CustomPageReview: null,
+        hospitalizationFacility: {
+          path: 'hospitalization-facility',
+          title: 'Hospital information',
+          CustomPage: HospitalizationFacilityPage,
+          CustomPageReview: HospitalizationFacilityReviewPage,
+          depends: formData =>
+            formData?.hospitalizationStatus?.isCurrentlyHospitalized === 'yes',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
       },
     },
   },
+  preSubmitInfo: PreSubmitInfo,
   getHelp: GetHelp,
   footerContent,
 };
 
-export default formConfig;
+export { formConfig };

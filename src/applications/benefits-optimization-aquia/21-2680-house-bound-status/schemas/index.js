@@ -10,70 +10,64 @@ export {
   benefitTypePageSchema,
 } from './benefit-type/benefit-type';
 
+// Claimant relationship schemas
+export {
+  claimantRelationshipSchema,
+  claimantRelationshipPageSchema,
+} from './claimant-relationship/claimant-relationship';
+
 // Veteran identification schemas
 export {
-  veteranFirstNameSchema,
-  veteranMiddleNameSchema,
-  veteranLastNameSchema,
-  veteranFullNameSchema,
   veteranSSNSchema,
   veteranFileNumberSchema,
   veteranServiceNumberSchema,
   veteranDOBSchema,
   isVeteranClaimantSchema,
+  veteranIdentificationPageSchema,
   veteranIdentificationSchema,
 } from './veteran-identification/veteran-identification';
 
-// Claimant identification schemas
+// Veteran address schemas
 export {
-  claimantFirstNameSchema,
-  claimantMiddleNameSchema,
-  claimantLastNameSchema,
-  claimantStreetAddressSchema,
-  claimantUnitNumberSchema,
-  claimantCitySchema,
-  claimantStateSchema,
-  claimantZipSchema,
-  claimantPhoneSchema,
-  claimantRelationshipSchema,
-  claimantRelationshipOtherSchema,
-  claimantIdentificationSchema,
-} from './claimant-identification/claimant-identification';
+  veteranAddressSchema,
+  veteranAddressPageSchema,
+} from './veteran-address/veteran-address';
+
+// Claimant information schemas (name and DOB)
+export {
+  claimantDOBSchema,
+  claimantInformationPageSchema,
+} from './claimant-information/claimant-information';
+
+// Claimant SSN schemas
+export {
+  claimantSSNSchema,
+  claimantSSNPageSchema,
+} from './claimant-ssn/claimant-ssn';
+
+// Claimant address schemas
+export {
+  claimantAddressSchema,
+  claimantAddressPageSchema,
+} from './claimant-address/claimant-address';
+
+// Claimant contact schemas
+export {
+  claimantPhoneNumberSchema,
+  claimantMobilePhoneSchema,
+  claimantEmailSchema,
+  claimantContactPageSchema,
+} from './claimant-contact/claimant-contact';
 
 // Hospitalization schemas
 export {
   isCurrentlyHospitalizedSchema,
   admissionDateSchema,
+  admissionDateFieldSchema,
   facilityNameSchema,
-  facilityStreetAddressSchema,
-  facilityCitySchema,
-  facilityStateSchema,
-  facilityZipSchema,
+  facilityAddressSchema,
+  hospitalizationStatusPageSchema,
+  hospitalizationDatePageSchema,
+  hospitalizationFacilityPageSchema,
   hospitalizationSchema,
 } from './hospitalization/hospitalization';
-
-// Examiner identification schemas
-export {
-  examinerNameSchema,
-  examinerTitleSchema,
-  examinerNPISchema,
-  examinerPhoneSchema,
-  facilityPracticeNameSchema,
-  examinerStreetAddressSchema,
-  examinerUnitNumberSchema,
-  examinerCitySchema,
-  examinerStateSchema,
-  examinerZipSchema,
-  examinerIdentificationSchema,
-} from './examiner-identification/examiner-identification';
-
-// Signature schemas
-export {
-  claimantSignatureSchema,
-  claimantSignatureDateSchema,
-  examinationDateSchema,
-  examinerSignatureSchema,
-  examinerSignatureDateSchema,
-  claimantSignaturePageSchema,
-  examinerSignaturePageSchema,
-} from './signatures/signatures';
