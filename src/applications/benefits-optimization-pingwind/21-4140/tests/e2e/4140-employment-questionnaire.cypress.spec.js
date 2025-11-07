@@ -268,7 +268,7 @@ if (employerDetailsPath) {
 
         candidateIndexes.add(0);
 
-        const { employers } = data;
+        const employers = data.employers;
         const dataIndex = [...candidateIndexes].find(
           idx => employers[idx] != null,
         );

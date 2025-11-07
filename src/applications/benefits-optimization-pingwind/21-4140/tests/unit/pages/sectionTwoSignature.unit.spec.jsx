@@ -17,7 +17,7 @@ describe('21-4140 page/sectionTwoSignature', () => {
   });
 
   it('uses checkboxRequiredSchema for certification fields', () => {
-    const { properties } = page.schema.properties[parentKey];
+    const properties = page.schema.properties[parentKey].properties;
 
     expect(
       properties[employedByVAFields.hasCertifiedSection2].enum,
@@ -96,7 +96,7 @@ describe('21-4140 page/sectionTwoSignature', () => {
   });
 
   it('stubs schema objects for alert fields', () => {
-    const { properties } = page.schema.properties[parentKey];
+    const properties = page.schema.properties[parentKey].properties;
 
     [
       'view:sectionTwoPenaltyAlert',
