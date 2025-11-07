@@ -5,7 +5,10 @@ import {
   AT_RISK_HOUSING_LABELS,
   HOMELESSNESS_TYPES,
 } from '../../constants';
-import { homelessLabel, atRiskLabel } from '../../content/homelessOrAtRisk';
+import {
+  homelessConfirmationLabel,
+  atRiskConfirmationLabel,
+} from '../../content/homelessOrAtRisk';
 
 const ConfirmationHousingSituation = ({ formData }) => {
   const isHomeless = formData.homelessOrAtRisk === HOMELESSNESS_TYPES.homeless;
@@ -24,9 +27,9 @@ const ConfirmationHousingSituation = ({ formData }) => {
         <li>
           <div>
             {formData.homelessOrAtRisk === HOMELESSNESS_TYPES.homeless &&
-              homelessLabel}
+              homelessConfirmationLabel}
             {formData.homelessOrAtRisk === HOMELESSNESS_TYPES.atRisk &&
-              atRiskLabel}
+              atRiskConfirmationLabel}
             {formData.homelessOrAtRisk === HOMELESSNESS_TYPES.notHomeless &&
               'No'}
           </div>
