@@ -7,7 +7,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as focusUtils from '~/platform/utilities/ui/focus';
-import PrivateDetails from '../../../components/evidence/PrivateDetails';
+import PrivateDetailsEntry from '../../../components/evidence/PrivateDetailsEntry';
 import {
   errorMessages,
   EVIDENCE_PRIVATE_DETAILS_URL,
@@ -29,7 +29,7 @@ import sharedErrorMessages from '../../../../shared/content/errorMessages';
 | Empty    | Focus error | Prev page & remove | Focus error      |
 | Partial  | Focus error | Modal & Prev page  | Focus error      |
  */
-describe('<PrivateDetails>', () => {
+describe('<PrivateDetailsEntry>', () => {
   const validDate = parseDateWithOffset({ months: -2 });
   const mockData = {
     contestedIssues: [
@@ -76,7 +76,7 @@ describe('<PrivateDetails>', () => {
     setFormData = () => {},
   } = {}) => (
     <div>
-      <PrivateDetails
+      <PrivateDetailsEntry
         testingIndex={index}
         data={data}
         goBack={goBack}

@@ -2,14 +2,12 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
 import {
   evidenceWillUploadTitle,
   evidenceWillUploadInfo,
-} from '../content/evidenceWillUpload';
-
-import { HAS_OTHER_EVIDENCE } from '../constants';
-import errorMessages from '../../shared/content/errorMessages';
+} from '../../content/evidence/uploadPrompt';
+import { HAS_OTHER_EVIDENCE } from '../../constants';
+import errorMessages from '../../../shared/content/errorMessages';
 
 export default {
   uiSchema: {

@@ -59,7 +59,7 @@ const defaultState = {
   submitted: false,
 };
 
-const PrivateDetails = ({
+const PrivateDetailsEntry = ({
   data,
   goBack,
   goForward,
@@ -410,6 +410,6 @@ const PrivateDetails = ({
   );
 };
 
-PrivateDetails.propTypes = customPageProps995;
+PrivateDetailsEntry.propTypes = customPageProps995;
 
-export default PrivateDetails;
+export default PrivateDetailsEntry;

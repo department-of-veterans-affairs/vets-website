@@ -3,21 +3,21 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { content } from '../../content/evidenceSummary';
+import { content } from '../../../content/evidence/summary';
 import {
-  EvidenceVaContent,
+  VaDetailsDisplay,
   getFormattedTreatmentDate,
-} from '../../components/EvidenceVaContent';
-import { records } from '../data/evidence-records';
-import { verifyHeader, verifyProviderVA } from '../unit-test-helpers';
+} from '../../../components/evidence/VaDetailsDisplay';
+import { records } from '../../data/evidence-records';
+import { verifyHeader, verifyProviderVA } from '../../unit-test-helpers';
 
 const vaEvidence = records().locations;
 
-describe('EvidenceVaContent', () => {
+describe('VaDetailsDisplay', () => {
   describe('on the evidence review page', () => {
     it('should render the proper (editable) content', () => {
       const { container } = render(
-        <EvidenceVaContent
+        <VaDetailsDisplay
           isOnReviewPage={false}
           list={vaEvidence}
           reviewMode={false}
@@ -61,7 +61,7 @@ describe('EvidenceVaContent', () => {
   describe('on the review & submit page', () => {
     it('should render the proper (non-editable) content', () => {
       const { container } = render(
-        <EvidenceVaContent
+        <VaDetailsDisplay
           isOnReviewPage
           list={vaEvidence}
           reviewMode
@@ -104,7 +104,7 @@ describe('EvidenceVaContent', () => {
     describe('on the app confirmation page', () => {
       it('should render the proper (non-editable) content', () => {
         const { container } = render(
-          <EvidenceVaContent
+          <VaDetailsDisplay
             isOnReviewPage={false}
             list={vaEvidence}
             reviewMode
@@ -147,7 +147,7 @@ describe('EvidenceVaContent', () => {
 
     describe('when there is no list data', () => {
       it('should render nothing', () => {
-        const { container } = render(<EvidenceVaContent testing />);
+        const { container } = render(<VaDetailsDisplay testing />);
 
         expect(container.innerHTML).to.eq('');
       });
@@ -164,7 +164,7 @@ describe('EvidenceVaContent', () => {
 
     const getContainer = partialData => {
       return render(
-        <EvidenceVaContent
+        <VaDetailsDisplay
           list={[partialData]}
           isOnReviewPage={false}
           reviewMode
@@ -228,7 +228,7 @@ describe('EvidenceVaContent', () => {
     const handlers = { showModal: removeSpy };
 
     const { container } = render(
-      <EvidenceVaContent list={vaEvidence} handlers={handlers} testing />,
+      <VaDetailsDisplay list={vaEvidence} handlers={handlers} testing />,
     );
 
     const buttons = $$('.remove-item', container);

@@ -8,16 +8,16 @@ import {
   getVAEvidence,
   getPrivateEvidence,
   getOtherEvidence,
-} from '../utils/evidence';
-import { content } from '../content/evidenceSummary';
-import { EvidencePrivateContent } from './EvidencePrivateContent';
-import { EvidenceUploadContent } from './EvidenceUploadContent';
-import { EvidenceVaContent } from './EvidenceVaContent';
-import { HAS_PRIVATE_LIMITATION } from '../constants';
-import { customPageProps995 } from '../../shared/props';
-import { focusFirstError } from '../../shared/utils/focus';
+} from '../../utils/evidence';
+import { content } from '../../content/evidence/summary';
+import { PrivateDetailsDisplay } from './PrivateDetailsDisplay';
+import { EvidenceUploadContent } from '../EvidenceUploadContent';
+import { VaDetailsDisplay } from './VaDetailsDisplay';
+import { HAS_PRIVATE_LIMITATION } from '../../constants';
+import { customPageProps995 } from '../../../shared/props';
+import { focusFirstError } from '../../../shared/utils/focus';
 
-const EvidenceSummary = ({
+const Summary = ({
   data,
   goBack,
   goForward,
@@ -201,8 +201,8 @@ const EvidenceSummary = ({
             {removeData?.name ? <strong>{` ${removeData.name}`}</strong> : null}
           </p>
         </VaModal>
-        <EvidenceVaContent list={vaEvidence} {...props} />
-        <EvidencePrivateContent
+        <VaDetailsDisplay list={vaEvidence} {...props} />
+        <PrivateDetailsDisplay
           list={privateEvidence}
           limitedConsentResponse={data?.[HAS_PRIVATE_LIMITATION]}
           limitedConsent={limitedConsent}
@@ -238,6 +238,6 @@ const EvidenceSummary = ({
   );
 };
 
-EvidenceSummary.propTypes = customPageProps995;
+Summary.propTypes = customPageProps995;
 
-export default EvidenceSummary;
+export default Summary;
