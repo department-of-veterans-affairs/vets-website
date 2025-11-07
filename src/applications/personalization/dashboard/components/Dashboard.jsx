@@ -29,7 +29,10 @@ import {
   hasMPIConnectionError,
   isNotInMPI,
   selectAvailableServices,
+  selectProfile,
 } from '~/platform/user/selectors';
+import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
+import { VA_FORM_IDS } from '~/platform/forms/constants';
 import {
   RequiredLoginView,
   RequiredLoginLoader,
@@ -308,6 +311,7 @@ const Dashboard = ({
 
   useEffect(
     () => {
+      // console.log('getting esr status', shouldGetESRStatus);
       if (shouldGetESRStatus) {
         getESREnrollmentStatus();
       }
@@ -697,12 +701,34 @@ const mapStateToProps = state => {
   const { debtsCount } = state.allDebts;
   const copays = state.allDebts.copays || [];
 
+  const hasHCAInProgress =
+    selectProfile(state)
+      .savedForms?.filter(filterOutExpiredForms)
+      .some(savedForm => savedForm.form === VA_FORM_IDS.FORM_10_10EZ) ?? false;
+
+  const isPatient = isVAPatientSelector(state);
+
+  /*
+  console.log(
+    'forms',
+    selectProfile(state).savedForms,
+    selectProfile(state).savedForms?.filter(filterOutExpiredForms),
+  );
+
+  console.log('isPatient', isPatient);
+  console.log('hasHCAInProgress', hasHCAInProgress);
+  console.log('isLOA3', isLOA3Selector(state));
+   */
+  const shouldGetESRStatus =
+    !hasHCAInProgress && !isPatient && isLOA3Selector(state);
+
   return {
     appealsData: claimsState.appeals,
     claimsData: claimsState.claims,
     debts,
     debtsCount,
     copays,
+    shouldGetESRStatus,
     shouldLoadAppeals: isAppealsAvailableSelector(state) && canAccessAppeals,
     shouldLoadClaims: isClaimsAvailableSelector(state),
     canAccessMilitaryHistory,
