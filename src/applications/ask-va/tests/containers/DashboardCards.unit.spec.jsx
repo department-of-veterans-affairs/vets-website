@@ -31,7 +31,31 @@ describe('<DashboardCards>', () => {
                     categoryName: 'Benefits',
                     createdOn: '01/01/2024 12:00:00 PM',
                     lastUpdate: '01/01/2024 12:00:00 PM',
-                    submitterQuestion: 'Test question',
+                    submitterQuestion: 'Business question',
+                    levelOfAuthentication: 'Business',
+                  },
+                },
+                {
+                  id: '2',
+                  attributes: {
+                    inquiryNumber: 'A-2',
+                    status: 'In Progress',
+                    categoryName: 'Benefits',
+                    createdOn: '01/01/2024 12:00:00 PM',
+                    lastUpdate: '01/01/2024 12:00:00 PM',
+                    submitterQuestion: 'Personal question',
+                    levelOfAuthentication: 'Personal',
+                  },
+                },
+                {
+                  id: '3',
+                  attributes: {
+                    inquiryNumber: 'A-3',
+                    status: 'Replied',
+                    categoryName: 'Health care',
+                    createdOn: '01/01/2024 12:00:00 PM',
+                    lastUpdate: '01/01/2024 12:00:00 PM',
+                    submitterQuestion: 'Another personal question',
                     levelOfAuthentication: 'Personal',
                   },
                 },
@@ -95,7 +119,7 @@ describe('<DashboardCards>', () => {
         expect(categorySelect).to.exist;
 
         // Check that the inquiry content is displayed
-        expect(view.getByText('Test question')).to.exist;
+        expect(view.getByText('Business question')).to.exist;
         expect(view.getByText('A-1')).to.exist;
       });
     });
@@ -459,6 +483,39 @@ describe('<DashboardCards>', () => {
         );
         expect(filterInfo.textContent).to.include('in Personal');
       });
+    });
+
+    it('should sort results based on search query', async () => {
+      const view = render(<DashboardCards />);
+
+      // Switch to personal tab
+      const personalTab = await view.findByRole('tab', { name: /personal/i });
+      fireEvent.click(personalTab);
+
+      // Confirm correct tab's content is displayed
+      const filterSummary = await view.findByText(/showing/i);
+      expect(filterSummary.textContent).to.include('categories in Personal');
+
+      const resultsBefore = await view.findAllByRole('listitem');
+      expect(resultsBefore.length).to.equal(2);
+      expect(resultsBefore[0].textContent).to.include('Reference number: A-2');
+
+      // Confirm search box starts empty
+      const searchBox = view.container.querySelector('va-text-input');
+      expect(searchBox.value).to.equal('');
+
+      // Input a search query
+      searchBox.__events.vaInput({ target: { value: 'A-3' } });
+      expect(searchBox.value).to.equal('A-3');
+
+      // Apply filters
+      const filterButtons = view.container.querySelector('va-button-pair');
+      filterButtons.__events.primaryClick();
+
+      // Confirrm the list is now just one desired result
+      const resultsAfter = await view.findAllByRole('listitem');
+      expect(resultsAfter.length).to.equal(1);
+      expect(resultsAfter[0].textContent).to.include('Reference number: A-3');
     });
   });
 
