@@ -46,7 +46,7 @@ function introDescription() {
           <li>
             Worksheet for a Residential Care, Adult Daycare, or Similar Facility
             from VA Form 21P-8416
-            <span className="vads-u-display--inline-block">
+            <span className="vads-u-display--block">
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21p-8416/"
                 text="Get VA Form 21P-8416 to download"
@@ -56,7 +56,7 @@ function introDescription() {
           </li>
           <li>
             Worksheet for In-Home Attendant from VA Form 21P-8416
-            <span className="vads-u-display--inline-block">
+            <span className="vads-u-display--block">
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21p-8416/"
                 text="Get VA Form 21P-8416 to download"
@@ -67,7 +67,7 @@ function introDescription() {
           <li>
             Request for Nursing Home Information in Connection with Claim for
             Aid and Attendance (VA Form 21-0779)
-            <span className="vads-u-display--inline-block">
+            <span className="vads-u-display--block">
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21-0779/"
                 text="Get VA Form 21-0779 to download"
@@ -78,7 +78,7 @@ function introDescription() {
           <li>
             Examination for Housebound Status or Permanent Need for Regular Aid
             and Attendance form (VA Form 21-2680)
-            <span className="vads-u-display--inline-block">
+            <span className="vads-u-display--block">
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21-2680/"
                 text="Get VA Form 21-2680 to download"
@@ -87,17 +87,14 @@ function introDescription() {
             </span>
           </li>
         </ul>
-        <p>
-          We’ll ask you to upload these documents at the end of this
-          application.
-        </p>
+        <p>We’ll ask you to upload these documents at the end of this form.</p>
       </va-additional-info>
     </div>
   );
 }
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'careExpenses',
   nounSingular: 'care expense',
   nounPlural: 'care expenses',
@@ -180,11 +177,9 @@ const typeOfCarePage = {
 /** @returns {PageSchema} */
 const recipientPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Care recipient and provider name',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI('Care recipient'),
     recipient: radioUI({
-      title: 'Who is the expense for?',
+      title: 'Who’s the expense for?',
       labels: recipientTypeLabels,
     }),
     recipientName: textUI({
@@ -199,22 +194,23 @@ const recipientPage = {
         return ['DEPENDENT', 'OTHER'].includes(careExpense?.recipient);
       },
     }),
-    provider: textUI('What’s the name of the care provider?'),
   },
   schema: {
     type: 'object',
     properties: {
       recipient: radioSchema(Object.keys(recipientTypeLabels)),
       recipientName: textSchema,
-      provider: textSchema,
     },
-    required: ['recipient', 'provider'],
+    required: ['recipient'],
   },
 };
 /** @returns {PageSchema} */
 const datePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Dates of care'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Care provider’s name and dates of care',
+    ),
+    provider: textUI('What’s the name of the care provider?'),
     careDate: currentOrPastDateRangeUI(
       {
         title: 'Care start date',
@@ -230,21 +226,25 @@ const datePage = {
   schema: {
     type: 'object',
     properties: {
+      provider: textSchema,
       careDate: {
         ...currentOrPastDateRangeSchema,
         required: ['from'],
       },
       noEndDate: checkboxSchema,
     },
-    required: ['typeOfCare'],
+    required: ['typeOfCare', 'provider'],
   },
 };
 
 /** @returns {PageSchema} */
 const costPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Cost of care'),
-    monthlyAmount: currencyUI('How much is each monthly payment?'),
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
+      const provider = formData?.provider ?? '';
+      return provider ? `Cost of care for ${provider}` : 'Cost of care';
+    }),
+    monthlyAmount: currencyUI('What’s the monthly cost of this care?'),
     hourlyRate: {
       ...currencyUI({
         title: 'What is the care provider’s hourly rate?',
@@ -307,19 +307,22 @@ export const careExpensesPages = arrayBuilderPages(options, pageBuilder => ({
     schema: typeOfCarePage.schema,
   }),
   careExpensesRecipientPage: pageBuilder.itemPage({
-    title: 'Care recipient and provider',
-    path: 'expenses/care/:index/recipient-provider',
+    title: 'Care recipient',
+    path: 'expenses/care/:index/recipient',
     uiSchema: recipientPage.uiSchema,
     schema: recipientPage.schema,
   }),
   careExpensesDatesPage: pageBuilder.itemPage({
-    title: 'Dates of care',
+    title: 'Care provider’s name and dates of care',
     path: 'expenses/care/:index/dates',
     uiSchema: datePage.uiSchema,
     schema: datePage.schema,
   }),
   careExpensesCostPage: pageBuilder.itemPage({
-    title: 'Cost of care',
+    title: ({ formData }) => {
+      const provider = formData?.provider ?? '';
+      return provider ? `Cost of care for ${provider}` : 'Cost of care';
+    },
     path: 'expenses/care/:index/cost',
     uiSchema: costPage.uiSchema,
     schema: costPage.schema,

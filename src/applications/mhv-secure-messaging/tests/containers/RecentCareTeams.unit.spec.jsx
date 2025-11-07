@@ -3,6 +3,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { datadogRum } from '@datadog/browser-rum';
 
 import RecentCareTeams from '../../containers/RecentCareTeams';
 import reducer from '../../reducers';
@@ -557,6 +558,134 @@ describe('RecentCareTeams component', () => {
         'A different care team',
       );
       expect(screen.queryByText('Primary Care Team')).to.not.exist;
+    });
+  });
+
+  describe('Datadog RUM tracking', () => {
+    let addActionSpy;
+
+    beforeEach(() => {
+      addActionSpy = sinon.spy(datadogRum, 'addAction');
+    });
+
+    afterEach(() => {
+      addActionSpy.restore();
+    });
+
+    it('should call datadogRum.addAction when recent recipients are loaded', async () => {
+      renderComponent();
+
+      await waitFor(() => {
+        expect(addActionSpy.calledOnce).to.be.true;
+        expect(
+          addActionSpy.calledWith('Recent Care Teams loaded', {
+            recentCareTeamsCount: mockRecentRecipients.length,
+          }),
+        ).to.be.true;
+      });
+    });
+
+    it('should track the correct count of recent care teams', async () => {
+      const customRecentRecipients = [
+        {
+          triageTeamId: 1,
+          name: 'Team 1',
+          healthCareSystemName: 'System 1',
+          stationNumber: '442',
+        },
+        {
+          triageTeamId: 2,
+          name: 'Team 2',
+          healthCareSystemName: 'System 2',
+          stationNumber: '442',
+        },
+        {
+          triageTeamId: 3,
+          name: 'Team 3',
+          healthCareSystemName: 'System 3',
+          stationNumber: '648',
+        },
+        {
+          triageTeamId: 4,
+          name: 'Team 4',
+          healthCareSystemName: 'System 4',
+          stationNumber: '648',
+        },
+        {
+          triageTeamId: 5,
+          name: 'Team 5',
+          healthCareSystemName: 'System 5',
+          stationNumber: '648',
+        },
+      ];
+
+      const customState = {
+        ...defaultState,
+        sm: {
+          ...defaultState.sm,
+          recipients: {
+            ...defaultState.sm.recipients,
+            recentRecipients: customRecentRecipients,
+          },
+        },
+      };
+
+      renderComponent(customState);
+
+      await waitFor(() => {
+        expect(addActionSpy.calledOnce).to.be.true;
+        const callArgs = addActionSpy.lastCall.args;
+        expect(callArgs[0]).to.equal('Recent Care Teams loaded');
+        expect(callArgs[1]).to.deep.equal({
+          recentCareTeamsCount: 5,
+        });
+      });
+    });
+
+    it('should not call datadogRum.addAction when recent recipients are empty', () => {
+      const stateWithNoRecipients = {
+        ...defaultState,
+        sm: {
+          ...defaultState.sm,
+          recipients: {
+            ...defaultState.sm.recipients,
+            recentRecipients: [],
+          },
+        },
+      };
+
+      renderComponent(stateWithNoRecipients);
+
+      expect(addActionSpy.called).to.be.false;
+    });
+
+    it('should not call datadogRum.addAction when recent recipients are undefined', () => {
+      const stateWithUndefinedRecipients = {
+        ...defaultState,
+        sm: {
+          ...defaultState.sm,
+          recipients: {
+            ...defaultState.sm.recipients,
+            recentRecipients: undefined,
+          },
+        },
+      };
+
+      renderComponent(stateWithUndefinedRecipients);
+
+      expect(addActionSpy.called).to.be.false;
+    });
+  });
+
+  describe('Datadog RUM action names', () => {
+    it('should have data-dd-action-name attribute on recent care team radio options', () => {
+      const screen = renderComponent();
+
+      const radioOptions = screen.container.querySelectorAll(
+        'va-radio-option[data-dd-action-name="Recent Care Teams radio option"]',
+      );
+
+      expect(radioOptions.length).to.equal(mockRecentRecipients.length);
     });
   });
 

@@ -69,7 +69,7 @@ describe('childDeath', () => {
 
   it('should render country & province fields when outside US checkbox is checked', () => {
     const { container } = renderComponent({
-      data: { ...defaultData, childDeathOutsideUS: true },
+      data: { ...defaultData, endOutsideUS: true },
     });
 
     expect($('va-checkbox', container).checked).to.be.true;
@@ -99,7 +99,7 @@ describe('childDeath', () => {
       const errors = $$('[error]', container);
       expect(errors.length).to.equal(3);
       expect(errors.map(el => el.getAttribute('error'))).to.deep.equal([
-        'Provide a date of death',
+        'Enter a date of death',
         'Enter a city or county',
         'Select a state',
       ]);
@@ -110,13 +110,13 @@ describe('childDeath', () => {
   it('should show error messages if submitted without filling in fields (non-US)', async () => {
     const goForward = sinon.spy();
     const { container } = renderComponent({
-      data: { ...defaultData, childDeathOutsideUS: true },
+      data: { ...defaultData, endOutsideUS: true },
       formSubmitted: true,
       goForward,
     });
 
     $('va-checkbox', container).__events.vaChange({
-      target: { name: 'childDeathOutsideUS', tagName: 'VA-CHECKBOX' },
+      target: { name: 'endOutsideUS', tagName: 'VA-CHECKBOX' },
       detail: { checked: true },
     });
 
@@ -127,7 +127,7 @@ describe('childDeath', () => {
       // Still 3 errors because province is not required
       expect(errors.length).to.equal(3);
       expect(errors.map(el => el.getAttribute('error'))).to.deep.equal([
-        'Provide a date of death',
+        'Enter a date of death',
         'Enter a city',
         'Select a country',
       ]);
@@ -141,9 +141,9 @@ describe('childDeath', () => {
       onSubmit,
       data: {
         ...defaultData,
-        childDeathDate: '2000-01-01',
-        childDeathCity: 'Test',
-        childDeathState: 'AK',
+        endDate: '2000-01-01',
+        endCity: 'Test',
+        endState: 'AK',
       },
     });
 
@@ -163,9 +163,9 @@ describe('childDeath', () => {
       const goForward = sinon.spy();
       childDeath.handlers.onSubmit({
         itemData: {
-          childDeathDate: '2000-01-01',
-          childDeathCity: 'Test',
-          childDeathState: 'AK',
+          endDate: '2000-01-01',
+          endCity: 'Test',
+          endState: 'AK',
         },
         goForward,
       });
@@ -176,10 +176,10 @@ describe('childDeath', () => {
       const goForward = sinon.spy();
       childDeath.handlers.onSubmit({
         itemData: {
-          childDeathOutsideUS: true,
-          childDeathDate: '2000-01-01',
-          childDeathCity: 'Test',
-          childDeathCountry: 'TTT',
+          endOutsideUS: true,
+          endDate: '2000-01-01',
+          endCity: 'Test',
+          endCountry: 'TTT',
         },
         goForward,
       });

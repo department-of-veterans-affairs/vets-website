@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import vaSelectFieldMapping from './vaSelectFieldMapping';
+import vaSelectFieldMapping from './vaSelectAndComboBoxFieldMapping';
 import { renderOptions } from './helpers';
 
 /**

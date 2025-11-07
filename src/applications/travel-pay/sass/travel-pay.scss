@@ -8,6 +8,12 @@
 @import "../../../platform/mhv/secondary-nav/sass/mhv-sec-nav";
 
 // Complex claim review page styles for the buttons and links
+.expense-card-details {
+  p {
+    margin-block: 8px !important;
+  }
+}
+
 .review-button-row {
   display: flex;
   justify-content: space-between;
@@ -32,6 +38,25 @@
       display: inline-block;
       text-align: center;
     }
+  }
+}
+
+.complex-claim-help-section {
+  padding-bottom: 16px;
+
+  .complex-claim-help-heading {
+    border-bottom: 3px solid var(--vads-color-primary);
+    padding-bottom: 9px;
+    font-size: 1.35em;
+    line-height: 1.2;
+    font-weight: bold;
+  }
+}
+
+@media (max-width: $small-screen) {
+  .travel-pay-complex-expense-cancel-btn {
+    margin: 4px;
+    width: 100%;
   }
 }
 
@@ -107,13 +132,6 @@ h2#pagination-info {
   va-icon {
     margin-right: 0.2rem;
     vertical-align: middle;
-  }
-}
-
-.travel-pay-complex-expense-cancel-btn {
-  @media (max-width: 479px) {
-    margin: 4px;
-    width: 100%;
   }
 }
 

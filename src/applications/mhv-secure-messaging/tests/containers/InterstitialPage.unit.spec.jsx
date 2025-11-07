@@ -9,6 +9,7 @@ import reducer from '../../reducers';
 import InterstitialPage from '../../containers/InterstitialPage';
 import { getByBrokenText } from '../../util/testUtils';
 import * as threadDetailsActions from '../../actions/threadDetails';
+import * as prescriptionActions from '../../actions/prescription';
 
 describe('Interstitial page header', () => {
   const initialState = (isNewFlow = false) => {
@@ -23,13 +24,12 @@ describe('Interstitial page header', () => {
     customState = initialState(),
     path = '/new-message/',
     props,
-  }) => {
-    return renderWithStoreAndRouter(<InterstitialPage {...props} />, {
+  }) =>
+    renderWithStoreAndRouter(<InterstitialPage {...props} />, {
       initialState: customState,
       reducers: reducer,
       path,
     });
-  };
 
   it('renders without errors', async () => {
     const screen = setup({});
@@ -136,5 +136,110 @@ describe('Interstitial page header', () => {
       expect(acknowledgeSpy.called).to.be.false;
       expect(history.location.pathname).to.equal('/new-message/recent/');
     });
+  });
+
+  it('renders without errors when prescriptionId is in URL params', () => {
+    setup({
+      path: '/new-message/?prescriptionId=123',
+    });
+
+    expect(
+      getByBrokenText(
+        'If you’re in crisis or having thoughts of suicide, ',
+        document.querySelector('.interstitial-page'),
+      ),
+    ).to.exist;
+  });
+
+  it('renders without errors when prescriptionId is not in URL params', () => {
+    setup({
+      path: '/new-message/',
+    });
+
+    expect(
+      getByBrokenText(
+        'If you’re in crisis or having thoughts of suicide, ',
+        document.querySelector('.interstitial-page'),
+      ),
+    ).to.exist;
+  });
+
+  it('dispatches clearPrescription when prescriptionId is not in URL params', async () => {
+    const clearPrescriptionSpy = sinon.spy(
+      prescriptionActions,
+      'clearPrescription',
+    );
+
+    renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: initialState(),
+      reducers: reducer,
+      path: '/new-message/',
+    });
+
+    await waitFor(() => {
+      expect(clearPrescriptionSpy.calledOnce).to.be.true;
+    });
+
+    clearPrescriptionSpy.restore();
+  });
+
+  it('dispatches redirectPath when redirectPath is in URL params', async () => {
+    const redirectPathSpy = sinon.spy(prescriptionActions, 'setRedirectPath');
+
+    renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: initialState(),
+      reducers: reducer,
+      path: '/new-message/?redirectPath=/some/other/path',
+    });
+
+    await waitFor(() => {
+      expect(redirectPathSpy.calledOnce).to.be.true;
+      expect(redirectPathSpy.calledWith('/some/other/path')).to.be.true;
+    });
+
+    redirectPathSpy.restore();
+  });
+
+  it('dispatches getPrescriptionById and acceptInterstitial when prescriptionId is in URL params', async () => {
+    const getPrescriptionSpy = sinon.spy(
+      prescriptionActions,
+      'getPrescriptionById',
+    );
+    const acceptInterstitialSpy = sinon.spy(
+      threadDetailsActions,
+      'acceptInterstitial',
+    );
+
+    const { history } = renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: initialState(true), // curated list flow enabled
+      reducers: reducer,
+      path: '/new-message/?prescriptionId=123',
+    });
+
+    await waitFor(() => {
+      expect(getPrescriptionSpy.calledOnce).to.be.true;
+      expect(getPrescriptionSpy.calledWith('123')).to.be.true;
+      expect(acceptInterstitialSpy.calledOnce).to.be.true;
+      expect(history.location.pathname).to.equal('/new-message/recent/');
+    });
+
+    getPrescriptionSpy.restore();
+    acceptInterstitialSpy.restore();
+  });
+
+  it('does NOT dispatch redirectPath when redirectPath is NOT in URL params', async () => {
+    const redirectPathSpy = sinon.spy(prescriptionActions, 'setRedirectPath');
+
+    renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: initialState(),
+      reducers: reducer,
+      path: '/new-message/',
+    });
+
+    await waitFor(() => {
+      expect(redirectPathSpy.calledOnce).to.be.false;
+    });
+
+    redirectPathSpy.restore();
   });
 });
