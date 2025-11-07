@@ -38,8 +38,10 @@ export default function TravelClaimDetailsContent() {
               status in this tool right now. Please try again later.
             </p>
             <p>
-              You can call the BTSSS call center at 855-574-7292 (TTY: 711)
-              Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+              You can call the BTSSS call center at{' '}
+              <va-telephone contact="8555747292" /> (
+              <va-telephone tty contact="711" />) Monday through Friday, 8:00
+              a.m. to 8:00 p.m. ET.
             </p>
             <va-link
               href={TRAVEL_PAY_INFO_LINK}
