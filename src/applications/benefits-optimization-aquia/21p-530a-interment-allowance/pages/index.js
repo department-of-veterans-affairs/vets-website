@@ -22,7 +22,7 @@ export {
 export {
   default as veteranPersonalInformationPage,
 } from './veteran-personal-information';
-export { VeteranSsnFileNumberPage } from './veteran-ssn-file-number';
+export { default as veteranIdentificationPage } from './veteran-identification';
 export { VeteranBirthInformationPage } from './veteran-birth-information';
 export { VeteranBurialInformationPage } from './veteran-burial-information';
 

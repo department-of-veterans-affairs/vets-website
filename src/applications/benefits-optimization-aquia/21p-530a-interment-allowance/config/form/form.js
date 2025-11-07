@@ -30,7 +30,7 @@ import {
   veteranPersonalInformationPage,
   VeteranPreviousNamesPage,
   VeteranServedUnderDifferentNamePage,
-  VeteranSsnFileNumberPage,
+  veteranIdentificationPage,
 } from '@bio-aquia/21p-530a-interment-allowance/pages';
 
 // Import review pages
@@ -40,7 +40,6 @@ import { VeteranBirthInformationReviewPage } from '@bio-aquia/21p-530a-interment
 import { VeteranBurialInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-burial-information/veteran-burial-information-review';
 import { VeteranPreviousNamesReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-previous-names/veteran-previous-names-review';
 import { VeteranServedUnderDifferentNameReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-served-under-different-name/veteran-served-under-different-name-review';
-import { VeteranSsnFileNumberReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-ssn-file-number/veteran-ssn-file-number-review';
 
 const defaultSchema = {
   type: 'object',
@@ -122,19 +121,16 @@ const formConfig = {
       title: 'Deceased Veteran information',
       pages: {
         veteranPersonalInformation: {
-          path: 'veteran-identification',
-          title: 'Identification',
+          path: 'veteran-personal-information',
+          title: "Veteran's name",
           uiSchema: veteranPersonalInformationPage.uiSchema,
           schema: veteranPersonalInformationPage.schema,
         },
         veteranSsnFileNumber: {
-          path: 'veteran-ssn-file-number',
-          title: 'Identification numbers',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: VeteranSsnFileNumberPage,
-          CustomPageReview: VeteranSsnFileNumberReviewPage,
-          pagePerItemIndex: 0,
+          path: 'veteran-identification',
+          title: 'Veteran identification information',
+          uiSchema: veteranIdentificationPage.uiSchema,
+          schema: veteranIdentificationPage.schema,
         },
         veteranBirthInformation: {
           path: 'veteran-birth-information',
