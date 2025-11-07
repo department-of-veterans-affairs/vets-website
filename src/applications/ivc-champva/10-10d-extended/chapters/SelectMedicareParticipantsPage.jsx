@@ -70,36 +70,30 @@ export const selectMedicareParticipantPage = {
     medicareParticipant: {
       ...radioUI({
         title: 'Which applicant would you like to add Medicare insurance for?',
-        description:
+        hint:
           'If you have more applicants with Medicare plans, you can add them later in this form.',
-        required: () => true,
         labels: {
           na: 'NA',
         },
-      }),
-      'ui:options': {
         updateSchema: (
           formData,
-          schema,
-          uiSchema,
+          _schema,
+          _uiSchema,
           index,
-          path,
+          _path,
           formContext,
         ) => {
-          // Get data from formContext on the review page, or formData when on the edit page
           const fullData = formContext?.reviewMode
             ? formData
             : formContext || formData;
           const pagePerItemIndex = index;
 
-          // Get eligible applicants and their labels
           const eligibleApplicants = getEligibleApplicants(
             fullData,
             pagePerItemIndex,
           );
           const labels = createApplicantLabels(eligibleApplicants);
 
-          // Return updated schema with correct enum values
           return {
             enum: Object.keys(labels).length > 0 ? Object.keys(labels) : ['na'],
             enumNames:
@@ -108,7 +102,7 @@ export const selectMedicareParticipantPage = {
                 : ['No eligible applicants'],
           };
         },
-      },
+      }),
     },
   },
   schema: {

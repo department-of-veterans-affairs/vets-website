@@ -55,7 +55,7 @@ export const Nav = () => {
           <div className="nav__container vads-u-display--flex">
             <a
               className="nav__btn desktop"
-              href="/representative/claimant-search"
+              href="/representative/find-claimant"
               data-testid="desktop-search-link"
               data-eventname="nav-link-click"
             >
@@ -64,7 +64,7 @@ export const Nav = () => {
             </a>
             <a
               className="nav__btn desktop"
-              href="/representative/poa-requests"
+              href="/representative/representation-requests"
               data-testid="desktop-poa-link"
               data-eventname="nav-link-click"
             >

@@ -509,4 +509,95 @@ describe('useLargeAttachments logic', () => {
       expect(mockSetAttachFileError.calledWith(null)).to.be.true;
     });
   });
+
+  describe('Datadog RUM action names', () => {
+    it('should have data-dd-action-name on attachment list item', () => {
+      const customProps = {
+        attachments: [
+          {
+            id: 2664842,
+            messageId: 2664846,
+            name: 'test-file.pdf',
+            attachmentSize: 31127,
+            download:
+              'http://127.0.0.1:3000/my_health/v1/messaging/messages/2664846/attachments/2664842',
+          },
+        ],
+        attachmentScanError: false,
+        editingEnabled: true,
+      };
+
+      const screen = renderWithStoreAndRouter(
+        <AttachmentsList {...customProps} />,
+        {
+          initialState: {},
+          reducers: reducer,
+          path: Paths.COMPOSE,
+        },
+      );
+
+      const attachmentsList = screen.container.querySelector(
+        '.attachments-list',
+      );
+      const attachmentListItems = attachmentsList.querySelectorAll('li');
+      expect(attachmentListItems).to.have.length(1);
+      expect(
+        attachmentListItems[0].getAttribute('data-dd-action-name'),
+      ).to.equal('Attachment Item');
+    });
+
+    it('should have data-dd-action-name on all attachment list items when multiple attachments exist', () => {
+      const customProps = {
+        attachments: [
+          {
+            id: 2664842,
+            messageId: 2664846,
+            name: 'test-file-1.pdf',
+            attachmentSize: 31127,
+            download:
+              'http://127.0.0.1:3000/my_health/v1/messaging/messages/2664846/attachments/2664842',
+          },
+          {
+            id: 2664843,
+            messageId: 2664846,
+            name: 'test-file-2.jpg',
+            attachmentSize: 45200,
+            download:
+              'http://127.0.0.1:3000/my_health/v1/messaging/messages/2664846/attachments/2664843',
+          },
+          {
+            id: 2664844,
+            messageId: 2664846,
+            name: 'test-file-3.docx',
+            attachmentSize: 128000,
+            download:
+              'http://127.0.0.1:3000/my_health/v1/messaging/messages/2664846/attachments/2664844',
+          },
+        ],
+        attachmentScanError: false,
+        editingEnabled: false,
+      };
+
+      const screen = renderWithStoreAndRouter(
+        <AttachmentsList {...customProps} />,
+        {
+          initialState: {},
+          reducers: reducer,
+          path: Paths.MESSAGE_THREAD,
+        },
+      );
+
+      const attachmentsList = screen.container.querySelector(
+        '.attachments-list',
+      );
+      const attachmentListItems = attachmentsList.querySelectorAll('li');
+      expect(attachmentListItems).to.have.length(3);
+
+      attachmentListItems.forEach(item => {
+        expect(item.getAttribute('data-dd-action-name')).to.equal(
+          'Attachment Item',
+        );
+      });
+    });
+  });
 });

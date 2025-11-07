@@ -9,15 +9,13 @@ const Description = () => (
       Compensation (VA Form 21P-0969).
     </p>
 
-    <p>
+    <span className="vads-u-display--block">
       <va-link
-        href="https://www.va.gov/find-forms/about-form-21p-0969/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Get VA Form 21P-0969 to download (opens in new tab)
-      </va-link>
-    </p>
+        href="https://www.va.gov/find-forms/about-form-21p-0969"
+        text="Get VA Form 21P-0969 to download"
+        external
+      />
+    </span>
 
     <p>
       We’ll give you instructions for submitting your documents at the end of
