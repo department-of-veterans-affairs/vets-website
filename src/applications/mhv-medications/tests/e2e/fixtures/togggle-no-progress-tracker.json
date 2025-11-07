@@ -13,10 +13,6 @@
             {
                 "name": "mhv_medications_display_refill_progress",
                 "value": false
-            },
-            {
-                "name": "mhv_medications_remove_landing_page",
-                "value": true
             }
         ]
     }
