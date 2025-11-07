@@ -33,7 +33,12 @@ export default function OperationStatus(props) {
   ];
 
   return (
-    <va-alert close-btn-aria-label="" status={alertClass} visible uswds>
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status={alertClass}
+      visible
+      uswds
+    >
       <h2 slot="headline">{operationStatusTitle}</h2>
       <div data-testid="status-description">
         {operatingStatus.additionalInfo && (
