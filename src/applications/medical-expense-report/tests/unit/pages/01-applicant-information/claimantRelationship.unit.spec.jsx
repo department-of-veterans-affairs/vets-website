@@ -36,10 +36,10 @@ describe('Claimant Relationship Page', () => {
     const vaOptions = $$('va-radio-option', formDOM);
     expect(vaOptions.length).to.equal(2);
     expect(vaOptions[0].getAttribute('label')).to.equal(
-      'I’m a Veteran, and I want to report unreimbursed medical expenses',
+      'I’m a Veteran reporting unreimbursed medical expenses',
     );
     expect(vaOptions[1].getAttribute('label')).to.equal(
-      'I’m a spouse, child or dependent of a deceased Veteran, and I want to report unreimbursed medical expenses',
+      'I’m the spouse, dependent, or survivor of a Veteran reporting unreimbursed medical expenses',
     );
   });
 });
