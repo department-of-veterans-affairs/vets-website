@@ -51,7 +51,10 @@ describe('Complex Claims ConfirmationPage', () => {
   it('renders success confirmation', () => {
     const screen = renderConfirmationPage();
 
-    expect(screen.getByRole('heading', { level: 1 })).to.exist;
+    expect(screen.getByRole('heading', { level: 1 })).to.have.property(
+      'textContent',
+      'We’re processing your travel reimbursement claim',
+    );
     expect($('va-alert[status="success"]')).to.exist;
     expect(screen.getByText('Claim submitted')).to.exist;
   });
