@@ -5,8 +5,7 @@ import { IntroductionPageView } from '../../shared/components/IntroductionPageVi
 
 const content = {
   formTitle: 'Apply for accrued benefits online',
-  formSubTitle:
-    'Application for Accrued Amounts Due a Deceased Beneficiary (VA Form 21P-601)',
+  formSubTitle: '',
   authStartFormText: 'Apply for accrued benefits',
   displayNonVeteranMessaging: true,
 };
