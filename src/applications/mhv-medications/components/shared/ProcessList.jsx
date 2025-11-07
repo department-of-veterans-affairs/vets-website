@@ -55,12 +55,12 @@ const ProcessList = ({ stepGuideProps }) => {
     return (
       processSteps ||
       dispStatus === DISPENSE_STATUS.ACTIVE ||
-      dispStatus === DISPENSE_STATUS.ACTIVE_SUBMITTTED ||
+      dispStatus === DISPENSE_STATUS.ACTIVE_SUBMITTED ||
       dispStatus === DISPENSE_STATUS.ACTIVE_REFILL_IN_PROCESS ||
       (dispStatus === DISPENSE_STATUS.ACTIVE &&
         hasTrackingList &&
         trackingList[0]?.completeDateTime) ||
-      (dispStatus === DISPENSE_STATUS.ACTIVE_SUBMITTTED && hasTrackingList)
+      (dispStatus === DISPENSE_STATUS.ACTIVE_SUBMITTED && hasTrackingList)
     );
   };
 

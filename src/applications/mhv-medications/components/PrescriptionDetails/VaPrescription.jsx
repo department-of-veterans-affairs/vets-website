@@ -436,7 +436,7 @@ const VaPrescription = prescription => {
                           const refillPosition = refillHistory.length - i - 1;
                           const refillLabelId = `rx-refill-${refillPosition}`;
                           const isPartialFill =
-                            entry.prescriptionSource === 'PF';
+                            entry.prescriptionSource === RX_SOURCE.PARTIAL_FILL;
                           const refillLabel = determineRefillLabel(
                             isPartialFill,
                             refillHistory,
