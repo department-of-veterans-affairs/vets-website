@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   VaAlert,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { openModal } from 'platform/user/profile/vap-svc/actions/index';
 import {
   dismissAlertViaCookie,
   selectContactEmailAddress,
@@ -19,9 +20,9 @@ import {
 } from './AlertSystemResponse';
 import { recordAlertLoadEvent } from './recordAlertLoadEvent';
 
-const navigateToEmailAddressField = () => {
-  window.location.hash = 'contact-email-address';
-};
+// Place buttons next to each other on wider screens, stacked vertically on narrow screens
+const BUTTON_LAYOUT_CLASS =
+  'vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row mobile-lg:vads-u-align-items--center';
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7032-45235&t=t55H62nbe7HYOvFq-4
 const AlertConfirmContactEmail = ({
@@ -49,16 +50,18 @@ const AlertConfirmContactEmail = ({
         >
           {emailAddress}
         </p>
-        <p>
-          <VaButton text="Confirm" onClick={() => onConfirmClick()} />
-        </p>
-        <p>
-          <VaButton
-            text="Edit contact email"
-            onClick={() => onEditClick()}
-            secondary
-          />
-        </p>
+        <div className={BUTTON_LAYOUT_CLASS}>
+          <p className="vads-u-margin-top--0">
+            <VaButton text="Confirm" onClick={() => onConfirmClick()} />
+          </p>
+          <p className="vads-u-margin-top--0">
+            <VaButton
+              text="Edit contact email"
+              onClick={() => onEditClick()}
+              secondary
+            />
+          </p>
+        </div>
       </React.Fragment>
     </VaAlert>
   );
@@ -92,16 +95,18 @@ const AlertAddContactEmail = ({ recordEvent, onAddClick, onSkipClick }) => {
         >
           No contact email provided
         </p>
-        <p>
-          <VaButton text="Add a contact email" onClick={() => onAddClick()} />
-        </p>
-        <p>
-          <VaButton
-            text="Skip adding an email"
-            onClick={() => onSkipClick()}
-            secondary
-          />
-        </p>
+        <div className={BUTTON_LAYOUT_CLASS}>
+          <p className="vads-u-margin-top--0">
+            <VaButton text="Add a contact email" onClick={() => onAddClick()} />
+          </p>
+          <p className="vads-u-margin-top--0">
+            <VaButton
+              text="Skip adding an email"
+              onClick={() => onSkipClick()}
+              secondary
+            />
+          </p>
+        </div>
       </React.Fragment>
     </VaAlert>
   );
@@ -127,6 +132,9 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const renderAlert = useSelector(showAlert);
   const emailAddress = useSelector(selectContactEmailAddress);
   const emailAddressId = useSelector(selectContactEmailAddressId);
+
+  const dispatch = useDispatch();
+  const handleEditEmail = () => dispatch(openModal('email'));
 
   const [confirmSuccess, setConfirmSuccess] = useState(false);
   const [confirmError, setConfirmError] = useState(false);
@@ -175,7 +183,7 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
           {!confirmSuccess && (
             <AlertConfirmContactEmail
               onConfirmClick={putConfirmationDate}
-              onEditClick={navigateToEmailAddressField}
+              onEditClick={handleEditEmail}
               recordEvent={recordEvent}
               emailAddress={emailAddress}
             />
@@ -185,7 +193,7 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
         <>
           {!skipSuccess && (
             <AlertAddContactEmail
-              onAddClick={navigateToEmailAddressField}
+              onAddClick={handleEditEmail}
               onSkipClick={onSkipClick}
               recordEvent={recordEvent}
             />

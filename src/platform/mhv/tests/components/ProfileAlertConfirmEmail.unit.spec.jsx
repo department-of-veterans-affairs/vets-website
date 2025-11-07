@@ -1,4 +1,5 @@
 import React from 'react';
+import * as redux from 'react-redux';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
@@ -46,6 +47,19 @@ const stateFn = ({
 });
 
 describe('<ProfileAlertConfirmEmail />', () => {
+  let useDispatchStub;
+  let dispatchSpy;
+
+  beforeEach(() => {
+    useDispatchStub = sinon.stub(redux, 'useDispatch');
+    dispatchSpy = sinon.spy();
+    useDispatchStub.returns(dispatchSpy);
+  });
+
+  afterEach(() => {
+    useDispatchStub.restore();
+  });
+
   it('renders nothing when alert has been dismissed', async () => {
     dismissAlertViaCookie();
     const initialState = stateFn({ emailAddress: null });
@@ -278,7 +292,8 @@ describe('<ProfileAlertConfirmEmail />', () => {
     });
 
     it(`navigates to the email address field when 'Edit contact email' button clicked`, async () => {
-      mockApiRequest();
+      useDispatchStub.returns(dispatchSpy);
+
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
       const { container, getByTestId } = render(
@@ -287,11 +302,18 @@ describe('<ProfileAlertConfirmEmail />', () => {
           initialState,
         },
       );
+
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
       const button = 'va-button[text="Edit contact email"]';
       fireEvent.click(container.querySelector(button));
       await waitFor(() => {
-        expect(window.location.hash).to.equal('#contact-email-address');
+        expect(
+          dispatchSpy.calledWithMatch(
+            sinon.match({ type: 'OPEN_MODAL', modal: 'email' }),
+          ),
+        ).to.be.true;
+
+        useDispatchStub.restore();
       });
     });
   });
@@ -395,7 +417,11 @@ describe('<ProfileAlertConfirmEmail />', () => {
       const button = 'va-button[text="Add a contact email"]';
       fireEvent.click(container.querySelector(button));
       await waitFor(() => {
-        expect(window.location.hash).to.equal('#contact-email-address');
+        expect(
+          dispatchSpy.calledWithMatch(
+            sinon.match({ type: 'OPEN_MODAL', modal: 'email' }),
+          ),
+        ).to.be.true;
       });
     });
   });
