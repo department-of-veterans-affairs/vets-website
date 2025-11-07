@@ -55,7 +55,7 @@ export const NAV_MOBILE_DROPDOWN = [
 export const NAV_MENU_DROPDOWN = [
   {
     LABEL: 'Find Claimant',
-    URL: '/claimant-search',
+    URL: '/find-claimant',
     ICON: 'search',
     TEST_ID: 'user-nav-claimant-search-link',
   },
