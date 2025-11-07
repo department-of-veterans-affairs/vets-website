@@ -127,5 +127,59 @@ describe('startConvoAndTrackUtterances', () => {
       expect(processSendMessageActivityStub.notCalled).to.be.true;
       expect(nextSpy.calledOnce).to.be.true;
     });
+
+    it('should block WEB_CHAT/SEND_MESSAGE when frozen (no processing, no next)', async () => {
+      const store = { dispatch: 'fake-dispatch' };
+      const nextSpy = sinon.spy();
+      const action = { type: 'WEB_CHAT/SEND_MESSAGE' };
+
+      const processSendMessageActivityStub = sandbox.spy();
+      sandbox
+        .stub(
+          ActionHelpersModule,
+          ActionHelpersModule.processSendMessageActivity.name,
+        )
+        .returns(processSendMessageActivityStub);
+
+      const addActivityDataSpy = sandbox.spy(
+        ActionHelpersModule,
+        'addActivityData',
+      );
+
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
+        freezeRef: { current: true },
+      })(store)(nextSpy)(action);
+
+      expect(processSendMessageActivityStub.notCalled).to.be.true;
+      expect(addActivityDataSpy.notCalled).to.be.true;
+      expect(nextSpy.notCalled).to.be.true;
+    });
+
+    it('should block DIRECT_LINE/POST_ACTIVITY when frozen (no processing, no next)', async () => {
+      const store = { dispatch: 'fake-dispatch' };
+      const nextSpy = sinon.spy();
+      const action = { type: 'DIRECT_LINE/POST_ACTIVITY' };
+
+      const processIncomingActivityStub = sandbox.spy();
+      sandbox
+        .stub(
+          ActionHelpersModule,
+          ActionHelpersModule.processIncomingActivity.name,
+        )
+        .returns(processIncomingActivityStub);
+
+      const addActivityDataSpy = sandbox.spy(
+        ActionHelpersModule,
+        'addActivityData',
+      );
+
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
+        freezeRef: { current: true },
+      })(store)(nextSpy)(action);
+
+      expect(processIncomingActivityStub.notCalled).to.be.true;
+      expect(addActivityDataSpy.notCalled).to.be.true;
+      expect(nextSpy.notCalled).to.be.true;
+    });
   });
 });

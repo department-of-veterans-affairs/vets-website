@@ -37,6 +37,7 @@ export default function useWebChat(props, paramLoadingStatus) {
   return {
     token: token.token,
     code: token.code,
+    expired: token.expired,
     webChatFramework: webChatFramework.webChatFramework,
     loadingStatus,
   };

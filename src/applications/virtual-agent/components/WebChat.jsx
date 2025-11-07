@@ -54,7 +54,22 @@ const styleOptions = {
 
 export const renderMarkdown = text => MarkdownRenderer.render(text);
 
-const WebChat = ({ code, webChatFramework }) => {
+/**
+ * WebChat component rendering BotFramework Web Chat.
+ *
+ * The `freeze` prop temporarily blocks outbound activities (e.g., send message,
+ * post activity) while keeping the existing transcript visible. This is used
+ * when the token-expiry alert is shown. The value is passed via ref to
+ * middleware in useWebChatStore so we can toggle blocking without recreating
+ * the store.
+ *
+ * @param {Object} props
+ * @param {string} props.token - Direct Line token
+ * @param {string} [props.code] - Optional auth code for STS flows
+ * @param {Object} props.webChatFramework - Factories and components from Web Chat
+ * @param {boolean} [props.freeze=false] - When true, outbound actions are blocked; transcript remains visible
+ */
+const WebChat = ({ token, code, webChatFramework, freeze = false }) => {
   const {
     createDirectLine,
     createStore,
@@ -79,6 +94,8 @@ const WebChat = ({ code, webChatFramework }) => {
 
   const store = useWebChatStore({
     createStore,
+    freeze,
+    token,
     code,
     isMobile,
     environment,
@@ -103,7 +120,7 @@ const WebChat = ({ code, webChatFramework }) => {
     [isLoggedIn],
   );
 
-  const directLine = useDirectLine(createDirectLine);
+  const directLine = useDirectLine(createDirectLine, token, freeze);
 
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
@@ -134,6 +151,7 @@ WebChat.propTypes = {
     }),
   }).isRequired,
   code: PropTypes.string,
+  freeze: PropTypes.bool,
 };
 
 export default WebChat;
