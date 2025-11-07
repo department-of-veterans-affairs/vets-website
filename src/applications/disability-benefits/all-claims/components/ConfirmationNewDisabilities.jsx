@@ -27,7 +27,6 @@ const ConfirmationNewDisabilities = ({ formData }) => {
           <li key={dis.condition}>
             <h4>{capitalizeEachWord(dis.condition)}</h4>
 
-            {/* TODO: Not sure I need the type of condition */}
             {capitalizedConditionType && (
               <>
                 <div className="vads-u-color--gray">Type of condition</div>
@@ -109,13 +108,13 @@ const ConfirmationNewDisabilities = ({ formData }) => {
             {dis.cause === 'VA' &&
               dis?.['view:vaFollowUp'] && (
                 <>
-                  {dis['view:vaFollowUp'].vaMistreatmentDate && (
+                  {dis['view:vaFollowUp'].vaMistreatmentDescription && (
                     <>
                       <div className="vads-u-color--gray">
-                        VA mistreatment date
+                        VA mistreatment description
                       </div>
                       <div className="vads-u-margin-bottom--2">
-                        {dis['view:vaFollowUp'].vaMistreatmentDate}
+                        {dis['view:vaFollowUp'].vaMistreatmentDescription}
                       </div>
                     </>
                   )}
@@ -129,13 +128,13 @@ const ConfirmationNewDisabilities = ({ formData }) => {
                       </div>
                     </>
                   )}
-                  {dis['view:vaFollowUp'].vaMistreatmentDescription && (
+                  {dis['view:vaFollowUp'].vaMistreatmentDate && (
                     <>
                       <div className="vads-u-color--gray">
-                        VA mistreatment description
+                        VA mistreatment date
                       </div>
                       <div className="vads-u-margin-bottom--2">
-                        {dis['view:vaFollowUp'].vaMistreatmentDescription}
+                        {dis['view:vaFollowUp'].vaMistreatmentDate}
                       </div>
                     </>
                   )}
