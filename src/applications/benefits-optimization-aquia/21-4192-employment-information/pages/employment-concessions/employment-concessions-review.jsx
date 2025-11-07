@@ -12,6 +12,16 @@ import React from 'react';
  */
 export const EmploymentConcessionsReview = ({ data, editPage, title }) => {
   const employmentConcessions = data?.employmentConcessions || {};
+  const veteranInfo = data?.veteranInformation || {};
+
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
+
+  // Determine if currently employed to use correct tense
+  const currentlyEmployed = data?.employmentDates?.currentlyEmployed || false;
+  const tense = currentlyEmployed ? 'are' : 'were';
 
   return (
     <div className="form-review-panel-page">
@@ -24,7 +34,10 @@ export const EmploymentConcessionsReview = ({ data, editPage, title }) => {
 
       <dl className="review">
         <div className="review-row">
-          <dt>Concessions</dt>
+          <dt>
+            What concessions (if any) {tense} made to {veteranName} because of
+            age or disability?
+          </dt>
           <dd>{employmentConcessions.concessions || 'Not provided'}</dd>
         </div>
       </dl>

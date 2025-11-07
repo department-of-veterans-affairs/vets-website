@@ -18,6 +18,7 @@ import ConfirmationPage from '@bio-aquia/21-4192-employment-information/containe
 import IntroductionPage from '@bio-aquia/21-4192-employment-information/containers/introduction-page';
 import manifest from '@bio-aquia/21-4192-employment-information/manifest.json';
 import GetHelpFooter from '@bio-aquia/21-4192-employment-information/components/get-help';
+import transformForSubmit from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
 
 // Import page components
 import {
@@ -78,6 +79,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: '/v0/form21_4192',
+  transformForSubmit,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '21-4192-employment-information-',

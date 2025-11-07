@@ -63,10 +63,11 @@ describe('DutyStatusDetailsReview', () => {
   });
 
   describe('Data Display', () => {
-    it('should display status details', () => {
+    it('should display current duty status', () => {
       const data = {
         dutyStatusDetails: {
-          statusDetails: 'Active duty reserve training two weekends per month',
+          currentDutyStatus:
+            'Active duty reserve training two weekends per month',
         },
       };
       const { container } = render(
@@ -77,18 +78,110 @@ describe('DutyStatusDetailsReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Duty status details');
+      expect(text).to.include('current duty status');
       expect(text).to.include(
         'Active duty reserve training two weekends per month',
       );
     });
+
+    it('should display disabilities prevent duties as Yes', () => {
+      const data = {
+        dutyStatusDetails: {
+          disabilitiesPreventDuties: 'yes',
+        },
+      };
+      const { container } = render(
+        <DutyStatusDetailsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('disabilities that prevent');
+      expect(text).to.include('Yes');
+    });
+
+    it('should display disabilities prevent duties as No', () => {
+      const data = {
+        dutyStatusDetails: {
+          disabilitiesPreventDuties: 'no',
+        },
+      };
+      const { container } = render(
+        <DutyStatusDetailsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('No');
+    });
+
+    it('should use veteran name in labels', () => {
+      const data = {
+        veteranInformation: {
+          firstName: 'Boba',
+          lastName: 'Fett',
+        },
+        dutyStatusDetails: {
+          currentDutyStatus: 'Active reserve',
+          disabilitiesPreventDuties: 'no',
+        },
+      };
+      const { container } = render(
+        <DutyStatusDetailsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('Boba Fett');
+    });
+
+    it('should use "the Veteran" when no name provided', () => {
+      const data = {
+        dutyStatusDetails: {
+          currentDutyStatus: 'Active reserve',
+          disabilitiesPreventDuties: 'no',
+        },
+      };
+      const { container } = render(
+        <DutyStatusDetailsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('the Veteran');
+    });
   });
 
   describe('Missing Data Handling', () => {
-    it('should display "Not provided" for missing status details', () => {
+    it('should display "Not provided" for missing current duty status', () => {
       const data = {
         dutyStatusDetails: {
-          statusDetails: '',
+          currentDutyStatus: '',
+        },
+      };
+      const { container } = render(
+        <DutyStatusDetailsReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('Not provided');
+    });
+
+    it('should display "Not provided" for missing disabilities prevent duties', () => {
+      const data = {
+        dutyStatusDetails: {
+          disabilitiesPreventDuties: '',
         },
       };
       const { container } = render(

@@ -2,17 +2,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
+  CheckboxField,
   MemorableDateField,
-  TextareaField,
 } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
 import {
   beginningDateSchema,
+  currentlyEmployedSchema,
   employmentDatesSchema,
   endingDateSchema,
-  typeOfWorkSchema,
 } from '../../schemas';
 
 /**
@@ -43,9 +43,20 @@ export const EmploymentDatesPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Get veteran name
+  const veteranInfo = formDataToUse?.veteranInformation || {};
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'Veteran';
+
+  // Get employer name
+  const employerName =
+    formDataToUse?.employerInformation?.employerName || 'this employer';
+
   return (
     <PageTemplate
-      title="Employment information"
+      title={`${veteranName}'s dates of employment`}
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -58,42 +69,46 @@ export const EmploymentDatesPage = ({
       defaultData={{
         beginningDate: '',
         endingDate: '',
-        typeOfWork: '',
+        currentlyEmployed: false,
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
           <MemorableDateField
             name="beginningDate"
-            label="Beginning date of employment"
+            label={`When did ${veteranName} start working for ${employerName}?`}
             schema={beginningDateSchema}
             value={localData.beginningDate}
             onChange={handleFieldChange}
             error={errors.beginningDate}
             forceShowError={formSubmitted}
+            required
           />
 
-          <MemorableDateField
-            name="endingDate"
-            label="Ending date of employment"
-            schema={endingDateSchema}
-            value={localData.endingDate}
-            onChange={handleFieldChange}
-            error={errors.endingDate}
-            forceShowError={formSubmitted}
-          />
+          <div className="vads-u-margin-top--3">
+            <CheckboxField
+              name="currentlyEmployed"
+              label={`${veteranName} is currently employed at ${employerName}.`}
+              schema={currentlyEmployedSchema}
+              value={localData.currentlyEmployed}
+              onChange={handleFieldChange}
+              error={errors.currentlyEmployed}
+              forceShowError={formSubmitted}
+            />
+          </div>
 
-          <TextareaField
-            name="typeOfWork"
-            label="Type of work performed"
-            schema={typeOfWorkSchema}
-            value={localData.typeOfWork}
-            onChange={handleFieldChange}
-            error={errors.typeOfWork}
-            forceShowError={formSubmitted}
-            rows={5}
-            maxLength={1000}
-          />
+          {!localData.currentlyEmployed && (
+            <MemorableDateField
+              name="endingDate"
+              label={`When did ${veteranName} stop working for ${employerName}?`}
+              schema={endingDateSchema}
+              value={localData.endingDate}
+              onChange={handleFieldChange}
+              error={errors.endingDate}
+              forceShowError={formSubmitted}
+              required
+            />
+          )}
         </>
       )}
     </PageTemplate>

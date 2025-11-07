@@ -1,10 +1,33 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { TextareaField } from '@bio-aquia/shared/components/atoms';
+import {
+  CurrencyField,
+  MemorableDateField,
+  TextareaField,
+} from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { transformDates } from '@bio-aquia/shared/forms';
 
-import { benefitDetailsSchema, benefitsDetailsSchema } from '../../schemas';
+import {
+  benefitTypeSchema,
+  benefitsDetailsSchema,
+  firstPaymentDateSchema,
+  grossMonthlyAmountSchema,
+  startReceivingDateSchema,
+  stopReceivingDateSchema,
+} from '../../schemas';
+
+/**
+ * Data processor to ensure date values are properly formatted strings
+ */
+const ensureDateStrings = formData => {
+  return transformDates(formData, [
+    'startReceivingDate',
+    'firstPaymentDate',
+    'stopReceivingDate',
+  ]);
+};
 
 /**
  * Benefits Details page component
@@ -28,38 +51,90 @@ export const BenefitsDetailsPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Get veteran name
+  const veteranInfo = formDataToUse?.veteranInformation || {};
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
+
   return (
     <PageTemplate
-      title="Benefits information"
+      title="Benefit entitlement and/or payments"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
       schema={benefitsDetailsSchema}
       sectionName="benefitsDetails"
+      dataProcessor={ensureDateStrings}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       defaultData={{
-        benefitDetails: '',
+        benefitType: '',
+        grossMonthlyAmount: '',
+        startReceivingDate: '',
+        firstPaymentDate: '',
+        stopReceivingDate: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <h3 className="vads-u-margin-top--0">
-            Benefit entitlement and/or payments details
-          </h3>
+          <div className="vads-u-margin-top--neg2">
+            <TextareaField
+              name="benefitType"
+              label="Type of benefit"
+              schema={benefitTypeSchema}
+              value={localData.benefitType}
+              onChange={handleFieldChange}
+              error={errors.benefitType}
+              forceShowError={formSubmitted}
+              rows={3}
+              maxLength={500}
+            />
 
-          <TextareaField
-            name="benefitDetails"
-            label="Please provide details about the benefits"
-            schema={benefitDetailsSchema}
-            value={localData.benefitDetails}
-            onChange={handleFieldChange}
-            error={errors.benefitDetails}
-            forceShowError={formSubmitted}
-            rows={5}
-            maxLength={500}
-          />
+            <CurrencyField
+              name="grossMonthlyAmount"
+              label="Gross monthly amount of benefit"
+              schema={grossMonthlyAmountSchema}
+              value={localData.grossMonthlyAmount}
+              onChange={handleFieldChange}
+              error={errors.grossMonthlyAmount}
+              forceShowError={formSubmitted}
+            />
+
+            <MemorableDateField
+              name="startReceivingDate"
+              label={`When did ${veteranName} start receiving this benefit?`}
+              schema={startReceivingDateSchema}
+              value={localData.startReceivingDate}
+              onChange={handleFieldChange}
+              error={errors.startReceivingDate}
+              forceShowError={formSubmitted}
+              required
+            />
+
+            <MemorableDateField
+              name="firstPaymentDate"
+              label={`When did ${veteranName} receive their first payment for this benefit?`}
+              schema={firstPaymentDateSchema}
+              value={localData.firstPaymentDate}
+              onChange={handleFieldChange}
+              error={errors.firstPaymentDate}
+              forceShowError={formSubmitted}
+              required
+            />
+
+            <MemorableDateField
+              name="stopReceivingDate"
+              label={`When will ${veteranName} no longer receive this benefit (if known)?`}
+              schema={stopReceivingDateSchema}
+              value={localData.stopReceivingDate}
+              onChange={handleFieldChange}
+              error={errors.stopReceivingDate}
+              forceShowError={formSubmitted}
+            />
+          </div>
         </>
       )}
     </PageTemplate>

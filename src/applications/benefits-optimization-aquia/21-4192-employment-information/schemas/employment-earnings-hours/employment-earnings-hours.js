@@ -42,9 +42,19 @@ export const weeklyHoursSchema = z
   .or(z.literal(''));
 
 /**
+ * Schema for type of work performed
+ */
+export const typeOfWorkSchema = z
+  .string()
+  .max(1000, 'Type of work must be less than 1000 characters')
+  .optional()
+  .or(z.literal(''));
+
+/**
  * Complete employment earnings and hours schema
  */
 export const employmentEarningsHoursSchema = z.object({
+  typeOfWork: typeOfWorkSchema,
   amountEarned: amountEarnedSchema,
   timeLost: timeLostSchema,
   dailyHours: dailyHoursSchema,

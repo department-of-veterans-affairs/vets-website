@@ -9,7 +9,7 @@ const AddYourMedicationInfoWarning = ({ isVisible }) => {
         visible={isVisible}
         data-testid="add-medication-info-warning"
       >
-        <h2>Add your medication information to this message</h2>
+        <h2 slot="headline">Add your medication information to this message</h2>
         <p>
           To submit your renewal request, you should fill in as many of the
           medication details as possible. You can find this information on your

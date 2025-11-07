@@ -66,6 +66,24 @@ describe('EmploymentEarningsHoursReview', () => {
   });
 
   describe('Data Display', () => {
+    it('should display type of work', () => {
+      const data = {
+        employmentEarningsHours: {
+          typeOfWork: 'Software Engineer',
+        },
+      };
+      const { container } = render(
+        <EmploymentEarningsHoursReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('What type of work');
+      expect(text).to.include('Software Engineer');
+    });
+
     it('should display amount earned', () => {
       const data = {
         employmentEarningsHours: {
@@ -80,7 +98,8 @@ describe('EmploymentEarningsHoursReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Amount earned');
+      expect(text).to.include('How much');
+      expect(text).to.include('earn');
       expect(text).to.include('50000');
     });
 
@@ -98,7 +117,8 @@ describe('EmploymentEarningsHoursReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Time lost');
+      expect(text).to.include('How much time');
+      expect(text).to.include('disability');
       expect(text).to.include('2 weeks');
     });
 
@@ -116,7 +136,8 @@ describe('EmploymentEarningsHoursReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Daily hours');
+      expect(text).to.include('How many hours');
+      expect(text).to.include('each day');
       expect(text).to.include('8');
     });
 
@@ -134,8 +155,72 @@ describe('EmploymentEarningsHoursReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Weekly hours');
+      expect(text).to.include('How many hours');
+      expect(text).to.include('each week');
       expect(text).to.include('40');
+    });
+
+    it('should use correct tense for currently employed', () => {
+      const data = {
+        employmentDates: {
+          currentlyEmployed: true,
+        },
+        employmentEarningsHours: {
+          amountEarned: '50000',
+        },
+      };
+      const { container } = render(
+        <EmploymentEarningsHoursReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('does');
+      expect(text).to.include('last 12 months');
+    });
+
+    it('should use correct tense for not currently employed', () => {
+      const data = {
+        employmentDates: {
+          currentlyEmployed: false,
+        },
+        employmentEarningsHours: {
+          amountEarned: '50000',
+        },
+      };
+      const { container } = render(
+        <EmploymentEarningsHoursReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('did');
+      expect(text).to.include('12 months before their last date of employment');
+    });
+
+    it('should use veteran name in labels', () => {
+      const data = {
+        veteranInformation: {
+          firstName: 'Boba',
+          lastName: 'Fett',
+        },
+        employmentEarningsHours: {
+          dailyHours: '8',
+        },
+      };
+      const { container } = render(
+        <EmploymentEarningsHoursReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('Boba Fett');
     });
   });
 

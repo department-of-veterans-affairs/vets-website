@@ -18,7 +18,7 @@ describe('EmploymentDatesReview', () => {
         employmentDates: {
           beginningDate: '2010-01-01',
           endingDate: '2015-12-31',
-          typeOfWork: 'Starship Command',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
@@ -69,6 +69,7 @@ describe('EmploymentDatesReview', () => {
       const data = {
         employmentDates: {
           beginningDate: '2010-01-01',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
@@ -79,14 +80,15 @@ describe('EmploymentDatesReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Beginning date');
+      expect(text).to.include('start working');
       expect(text).to.include('2010');
     });
 
-    it('should display formatted ending date', () => {
+    it('should display formatted ending date when not currently employed', () => {
       const data = {
         employmentDates: {
           endingDate: '2015-12-31',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
@@ -97,14 +99,15 @@ describe('EmploymentDatesReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Ending date');
+      expect(text).to.include('stop working');
       expect(text).to.include('2015');
     });
 
-    it('should display type of work', () => {
+    it('should display currently employed status', () => {
       const data = {
         employmentDates: {
-          typeOfWork: 'Commanding officer of Slave I',
+          beginningDate: '2010-01-01',
+          currentlyEmployed: true,
         },
       };
       const { container } = render(
@@ -115,8 +118,28 @@ describe('EmploymentDatesReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Type of work');
-      expect(text).to.include('Commanding officer of Slave I');
+      expect(text).to.include('Currently employed');
+      expect(text).to.include('Yes');
+    });
+
+    it('should not display ending date when currently employed', () => {
+      const data = {
+        employmentDates: {
+          beginningDate: '2010-01-01',
+          endingDate: '2015-12-31',
+          currentlyEmployed: true,
+        },
+      };
+      const { container } = render(
+        <EmploymentDatesReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('Yes');
+      expect(text).to.not.include('stop working');
     });
 
     it('should display all employment dates data', () => {
@@ -124,7 +147,7 @@ describe('EmploymentDatesReview', () => {
         employmentDates: {
           beginningDate: '1985-03-22',
           endingDate: '2020-12-31',
-          typeOfWork: 'Bounty Hunters Guild Operations',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
@@ -135,7 +158,34 @@ describe('EmploymentDatesReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Bounty Hunters Guild Operations');
+      expect(text).to.include('1985');
+      expect(text).to.include('2020');
+    });
+
+    it('should use veteran name in labels', () => {
+      const data = {
+        veteranInformation: {
+          firstName: 'Boba',
+          lastName: 'Fett',
+        },
+        employerInformation: {
+          employerName: 'Bounty Hunters Guild',
+        },
+        employmentDates: {
+          beginningDate: '2010-01-01',
+          currentlyEmployed: false,
+        },
+      };
+      const { container } = render(
+        <EmploymentDatesReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('Boba Fett');
+      expect(text).to.include('Bounty Hunters Guild');
     });
   });
 
@@ -144,23 +194,7 @@ describe('EmploymentDatesReview', () => {
       const data = {
         employmentDates: {
           beginningDate: '',
-        },
-      };
-      const { container } = render(
-        <EmploymentDatesReview
-          data={data}
-          editPage={mockEditPage}
-          title={mockTitle}
-        />,
-      );
-      const text = container.textContent;
-      expect(text).to.include('Not provided');
-    });
-
-    it('should display "Not provided" for missing type of work', () => {
-      const data = {
-        employmentDates: {
-          typeOfWork: '',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
@@ -205,6 +239,7 @@ describe('EmploymentDatesReview', () => {
       const data = {
         employmentDates: {
           beginningDate: '2010-01-01',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
@@ -218,6 +253,25 @@ describe('EmploymentDatesReview', () => {
       expect(text).to.include('2010');
       expect(text).to.include('Not provided');
     });
+
+    it('should use fallback names when veteran info missing', () => {
+      const data = {
+        employmentDates: {
+          beginningDate: '2010-01-01',
+          currentlyEmployed: false,
+        },
+      };
+      const { container } = render(
+        <EmploymentDatesReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('Veteran');
+      expect(text).to.include('this employer');
+    });
   });
 
   describe('Date Formatting', () => {
@@ -225,6 +279,7 @@ describe('EmploymentDatesReview', () => {
       const data = {
         employmentDates: {
           beginningDate: '2010-01-15',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
@@ -244,6 +299,7 @@ describe('EmploymentDatesReview', () => {
       const data = {
         employmentDates: {
           beginningDate: '1985-03-22',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
@@ -263,6 +319,7 @@ describe('EmploymentDatesReview', () => {
       const data = {
         employmentDates: {
           beginningDate: 'invalid-date',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(

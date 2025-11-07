@@ -6,9 +6,9 @@
 import { expect } from 'chai';
 import {
   beginningDateSchema,
-  endingDateSchema,
-  typeOfWorkSchema,
+  currentlyEmployedSchema,
   employmentDatesSchema,
+  endingDateSchema,
 } from './employment-dates';
 
 describe('Employment Dates Schemas', () => {
@@ -60,41 +60,17 @@ describe('Employment Dates Schemas', () => {
     });
   });
 
-  describe('typeOfWorkSchema', () => {
-    it('should validate empty string', () => {
-      expect(typeOfWorkSchema.safeParse('').success).to.be.true;
+  describe('currentlyEmployedSchema', () => {
+    it('should validate true', () => {
+      expect(currentlyEmployedSchema.safeParse(true).success).to.be.true;
     });
 
-    it('should validate work description', () => {
-      expect(typeOfWorkSchema.safeParse('Starship Command').success).to.be.true;
-    });
-
-    it('should validate long work description', () => {
-      expect(
-        typeOfWorkSchema.safeParse(
-          'Commanding officer of Slave I, responsible for crew of 430 personnel',
-        ).success,
-      ).to.be.true;
-    });
-
-    it('should validate 1000 character string', () => {
-      expect(typeOfWorkSchema.safeParse('A'.repeat(1000)).success).to.be.true;
-    });
-
-    it('should reject over 1000 characters', () => {
-      expect(typeOfWorkSchema.safeParse('A'.repeat(1001)).success).to.be.false;
+    it('should validate false', () => {
+      expect(currentlyEmployedSchema.safeParse(false).success).to.be.true;
     });
 
     it('should validate undefined', () => {
-      expect(typeOfWorkSchema.safeParse(undefined).success).to.be.true;
-    });
-
-    it('should validate themed work', () => {
-      expect(
-        typeOfWorkSchema.safeParse(
-          'Bridge operations, tactical analysis, diplomatic missions',
-        ).success,
-      ).to.be.true;
+      expect(currentlyEmployedSchema.safeParse(undefined).success).to.be.true;
     });
   });
 
@@ -103,7 +79,7 @@ describe('Employment Dates Schemas', () => {
       const data = {
         beginningDate: '2010-01-01',
         endingDate: '2015-12-31',
-        typeOfWork: 'Starship Command',
+        currentlyEmployed: false,
       };
       expect(employmentDatesSchema.safeParse(data).success).to.be.true;
     });
@@ -112,7 +88,7 @@ describe('Employment Dates Schemas', () => {
       const data = {
         beginningDate: '2010-01-01',
         endingDate: '',
-        typeOfWork: '',
+        currentlyEmployed: false,
       };
       expect(employmentDatesSchema.safeParse(data).success).to.be.true;
     });
@@ -126,7 +102,15 @@ describe('Employment Dates Schemas', () => {
       const data = {
         beginningDate: '1985-03-22',
         endingDate: '2020-12-31',
-        typeOfWork: 'Commanding officer of Slave I',
+        currentlyEmployed: false,
+      };
+      expect(employmentDatesSchema.safeParse(data).success).to.be.true;
+    });
+
+    it('should validate currently employed', () => {
+      const data = {
+        beginningDate: '2010-01-01',
+        currentlyEmployed: true,
       };
       expect(employmentDatesSchema.safeParse(data).success).to.be.true;
     });
@@ -135,16 +119,7 @@ describe('Employment Dates Schemas', () => {
       const data = {
         beginningDate: 'invalid',
         endingDate: 'invalid',
-        typeOfWork: '',
-      };
-      expect(employmentDatesSchema.safeParse(data).success).to.be.false;
-    });
-
-    it('should reject overly long type of work', () => {
-      const data = {
-        beginningDate: '',
-        endingDate: '',
-        typeOfWork: 'A'.repeat(1001),
+        currentlyEmployed: false,
       };
       expect(employmentDatesSchema.safeParse(data).success).to.be.false;
     });
@@ -153,7 +128,15 @@ describe('Employment Dates Schemas', () => {
       const data = {
         beginningDate: '2010-01-01',
         endingDate: '2015-12-31',
-        typeOfWork: 'Bridge operations',
+        currentlyEmployed: false,
+      };
+      expect(employmentDatesSchema.safeParse(data).success).to.be.true;
+    });
+
+    it('should validate without ending date when currently employed', () => {
+      const data = {
+        beginningDate: '2010-01-01',
+        currentlyEmployed: true,
       };
       expect(employmentDatesSchema.safeParse(data).success).to.be.true;
     });

@@ -19,9 +19,7 @@
 export {
   dateOfBirthSchema,
   firstNameSchema,
-  fullNameSchema,
   lastNameSchema,
-  middleNameSchema,
   veteranInformationSchema,
 } from './veteran-information';
 export {
@@ -33,7 +31,6 @@ export {
   employerAddressSchema,
   employerInformationSchema,
   employerNameSchema,
-  phoneNumberSchema,
 } from './employer-information';
 
 /**
@@ -42,15 +39,16 @@ export {
  */
 export {
   beginningDateSchema,
+  currentlyEmployedSchema,
   employmentDatesSchema,
   endingDateSchema,
-  typeOfWorkSchema,
 } from './employment-dates';
 export {
   amountEarnedSchema,
   dailyHoursSchema,
   employmentEarningsHoursSchema,
   timeLostSchema,
+  typeOfWorkSchema,
   weeklyHoursSchema,
 } from './employment-earnings-hours';
 export {
@@ -77,8 +75,9 @@ export {
  */
 export { dutyStatusSchema, reserveOrGuardStatusSchema } from './duty-status';
 export {
+  currentDutyStatusSchema,
+  disabilitiesPreventDutiesSchema,
   dutyStatusDetailsSchema,
-  statusDetailsSchema,
 } from './duty-status-details';
 
 /**
@@ -90,8 +89,12 @@ export {
   benefitsInformationSchema,
 } from './benefits-information';
 export {
-  benefitDetailsSchema,
+  benefitTypeSchema,
   benefitsDetailsSchema,
+  firstPaymentDateSchema,
+  grossMonthlyAmountSchema,
+  startReceivingDateSchema,
+  stopReceivingDateSchema,
 } from './benefits-details';
 
 /**

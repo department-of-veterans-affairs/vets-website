@@ -24,12 +24,12 @@ export const VeteranContactInformationReview = ({ data, editPage, title }) => {
 
       <dl className="review">
         <div className="review-row">
-          <dt>Social Security number</dt>
+          <dt>Social security number</dt>
           <dd>{veteranContactInfo.ssn || 'Not provided'}</dd>
         </div>
 
         <div className="review-row">
-          <dt>VA file number</dt>
+          <dt>VA file number (if applicable)</dt>
           <dd>{veteranContactInfo.vaFileNumber || 'Not provided'}</dd>
         </div>
       </dl>

@@ -123,4 +123,46 @@ describe('DutyStatusReview', () => {
       expect(container.textContent).to.include('Not provided');
     });
   });
+
+  describe('Veteran Name Display', () => {
+    it('should display veteran name in label', () => {
+      const data = {
+        veteranInformation: {
+          firstName: 'Boba',
+          lastName: 'Fett',
+        },
+        dutyStatus: {
+          reserveOrGuardStatus: 'yes',
+        },
+      };
+
+      const { container } = render(
+        <DutyStatusReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+
+      expect(container.textContent).to.include('Boba Fett');
+    });
+
+    it('should display "the Veteran" when no name provided', () => {
+      const data = {
+        dutyStatus: {
+          reserveOrGuardStatus: 'yes',
+        },
+      };
+
+      const { container } = render(
+        <DutyStatusReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+
+      expect(container.textContent).to.include('the Veteran');
+    });
+  });
 });

@@ -42,9 +42,35 @@ export const EmploymentTerminationPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Get veteran name
+  const veteranInfo = formDataToUse?.veteranInformation || {};
+  const veteranName =
+    veteranInfo.firstName || veteranInfo.lastName
+      ? `${veteranInfo.firstName || ''} ${veteranInfo.lastName || ''}`.trim()
+      : 'the Veteran';
+
+  // Get ending date from employment dates
+  const endingDate = formDataToUse?.employmentDates?.endingDate || '';
+  const formatDate = dateString => {
+    if (!dateString) return null;
+    try {
+      const [year, month, day] = dateString.split('-').map(Number);
+      const date = new Date(year, month - 1, day);
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    } catch {
+      return dateString;
+    }
+  };
+
+  const formattedEndDate = formatDate(endingDate);
+
   return (
     <PageTemplate
-      title="Employment information"
+      title="Termination of employment"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -61,29 +87,43 @@ export const EmploymentTerminationPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <h3 className="vads-u-margin-top--0">Termination of employment</h3>
+          <div className="vads-u-margin-top--neg2">
+            {formattedEndDate ? (
+              <p>
+                On a previous page, you indicated that {veteranName} stopped
+                working on {formattedEndDate}. Why did they stop working?
+              </p>
+            ) : (
+              <p>
+                On a previous page, you indicated that {veteranName} stopped
+                working. Why did they stop working?
+              </p>
+            )}
 
-          <TextareaField
-            name="terminationReason"
-            label="If Veteran is not working, state the reason for termination of employment: (if retired on disability, please specify)"
-            schema={terminationReasonSchema}
-            value={localData.terminationReason}
-            onChange={handleFieldChange}
-            error={errors.terminationReason}
-            forceShowError={formSubmitted}
-            rows={5}
-            maxLength={1000}
-          />
+            <TextareaField
+              name="terminationReason"
+              label="Reason for termination of employment"
+              hint="If they retired on disability, please specify."
+              schema={terminationReasonSchema}
+              value={localData.terminationReason}
+              onChange={handleFieldChange}
+              error={errors.terminationReason}
+              forceShowError={formSubmitted}
+              rows={5}
+              maxLength={1000}
+            />
 
-          <MemorableDateField
-            name="dateLastWorked"
-            label="Date last worked"
-            schema={dateLastWorkedSchema}
-            value={localData.dateLastWorked}
-            onChange={handleFieldChange}
-            error={errors.dateLastWorked}
-            forceShowError={formSubmitted}
-          />
+            <MemorableDateField
+              name="dateLastWorked"
+              label="Date last worked"
+              schema={dateLastWorkedSchema}
+              value={localData.dateLastWorked}
+              onChange={handleFieldChange}
+              error={errors.dateLastWorked}
+              forceShowError={formSubmitted}
+              required
+            />
+          </div>
         </>
       )}
     </PageTemplate>
