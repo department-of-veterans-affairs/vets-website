@@ -3,7 +3,7 @@ import React from 'react';
 
 /**
  * Employer Information Review component
- * Displays employer identification and contact information on the review page
+ * Displays employer name and address on the review page
  * @param {Object} props - Component props
  * @param {Object} props.data - Complete form data
  * @param {Function} props.editPage - Function to edit this page
@@ -40,13 +40,8 @@ export const EmployerInformationReview = ({ data, editPage, title }) => {
         </div>
 
         <div className="review-row">
-          <dt>Employer address</dt>
+          <dt>Employer’s address</dt>
           <dd>{formatAddress()}</dd>
-        </div>
-
-        <div className="review-row">
-          <dt>Phone number</dt>
-          <dd>{employerInfo.phoneNumber || 'Not provided'}</dd>
         </div>
       </dl>
     </div>

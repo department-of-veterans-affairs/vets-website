@@ -57,7 +57,7 @@ export const MemorableDateField = ({
       {...props}
       name={name}
       label={label}
-      monthSelect={false}
+      monthSelect
       monthYearOnly={monthYearOnly}
       value={value || ''}
       required={required}
