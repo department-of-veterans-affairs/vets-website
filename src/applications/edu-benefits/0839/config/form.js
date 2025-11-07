@@ -126,6 +126,11 @@ const formConfig = {
             }
           },
         },
+      },
+    },
+    additionalInstitutionDetailsChapter: {
+      title: 'Additional institution details',
+      pages: {
         ...arrayBuilderPages(
           additionalInstitutionDetailsArrayOptions,
           pageBuilder => ({

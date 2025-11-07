@@ -1,0 +1,87 @@
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
+import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import { useValidateAdditionalFacilityCode } from '../hooks/useValidateAdditionalFacilityCode';
+
+const AdditionalInstitutionName = () => {
+  const formData = useSelector(state => state.form?.data);
+
+  const index = getArrayIndexFromPathName();
+
+  const { loader } = useValidateAdditionalFacilityCode(formData, index);
+
+  const details = formData?.additionalInstitutionDetails?.[index] || {};
+
+  const institutionName = details?.institutionName;
+  const facilityCode = (details?.facilityCode || '').trim();
+
+  const badFormat =
+    facilityCode.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(facilityCode);
+  const notFound = institutionName === 'not found';
+  const notIHL = details.ihlEligible === false;
+  const notYR = details.yrEligible === false;
+  const hasError = badFormat || notFound || notYR || notIHL;
+
+  const shouldHideNameInList = (() => {
+    const thirdChar = facilityCode?.charAt(2)?.toUpperCase();
+    const hasXInThirdPosition =
+      facilityCode.length === 8 && !badFormat && thirdChar === 'X';
+
+    if (hasXInThirdPosition) {
+      return true;
+    }
+
+    // Check if not attached to main campus
+    const mainInstitution = formData?.institutionDetails;
+    const branches =
+      mainInstitution?.facilityMap?.branches?.map(
+        branch => branch?.institution?.facilityCode,
+      ) || [];
+    const extensions =
+      mainInstitution?.facilityMap?.extensions?.map(
+        extension => extension?.institution?.facilityCode,
+      ) || [];
+    const branchList = [...branches, ...extensions];
+
+    if (!branchList.includes(facilityCode)) {
+      return true;
+    }
+
+    return false;
+  })();
+
+  useEffect(
+    () => {
+      const facilityCodeInput = document
+        .querySelector('va-text-input')
+        ?.shadowRoot?.querySelector('input');
+      if (!loader && institutionName && facilityCodeInput)
+        focusElement(facilityCodeInput);
+    },
+    [institutionName, loader],
+  );
+
+  const shouldShowName = institutionName && !hasError && !shouldHideNameInList;
+
+  return (
+    <div aria-live="polite">
+      {loader ? (
+        <va-loading-indicator set-focus message="Finding your institution" />
+      ) : (
+        <>
+          <h3
+            id="institutionHeading"
+            aria-label={
+              shouldShowName ? institutionName : 'Institution name not found'
+            }
+          >
+            {shouldShowName ? institutionName : '--'}
+          </h3>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default AdditionalInstitutionName;

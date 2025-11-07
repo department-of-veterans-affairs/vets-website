@@ -191,13 +191,15 @@ export const createBannerMessage = (
   const thirdChar = code?.charAt(2).toUpperCase();
 
   if (isArrayItem) {
-    const branches = mainInstitution?.facilityMap?.branches.map(
-      branch => branch?.institution?.facilityCode,
-    );
+    const branches =
+      mainInstitution?.facilityMap?.branches?.map(
+        branch => branch?.institution?.facilityCode,
+      ) || [];
 
-    const extensions = mainInstitution?.facilityMap?.extensions.map(
-      extension => extension?.institution?.facilityCode,
-    );
+    const extensions =
+      mainInstitution?.facilityMap?.extensions?.map(
+        extension => extension?.institution?.facilityCode,
+      ) || [];
 
     const branchList = [...branches, ...extensions];
 

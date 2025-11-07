@@ -14,7 +14,6 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const code = (fieldData || '').trim();
   const isLoading = details?.isLoading;
 
-  // Don't show validation errors while loading
   if (isLoading) {
     return;
   }

@@ -12,7 +12,7 @@ export const useValidateFacilityCode = formData => {
     () => {
       const fetchInstitutionInfo = async () => {
         setLoader(true);
-        // Set loading state in formData
+
         dispatch(
           setData({
             ...formData,
@@ -60,6 +60,7 @@ export const useValidateFacilityCode = formData => {
 
           setInstitutionData(response?.data);
           setLoader(false);
+
           dispatch(
             setData({
               ...formData,
