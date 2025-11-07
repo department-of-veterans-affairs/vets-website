@@ -26,7 +26,7 @@ export default function TravelClaimDetailsContent() {
     <>
       {error && (
         <>
-          <h1>There was an error loading the claim details.</h1>
+          <h1>Your travel reimbursement claim</h1>
           <va-alert
             close-btn-aria-label="Close notification"
             status="error"
