@@ -81,7 +81,7 @@ export const Nav = () => {
           <div className="nav__container vads-u-display--flex">
             <Link
               className="nav__btn desktop"
-              to="/claimant-search"
+              to="/find-claimant"
               data-testid="desktop-search-link"
               onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"
