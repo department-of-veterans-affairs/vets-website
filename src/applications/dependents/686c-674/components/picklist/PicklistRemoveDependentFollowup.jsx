@@ -35,7 +35,7 @@ const PicklistRemoveDependentFollowup = ({
     setTimeout(() => {
       scrollToTop();
       const el = $('h3, va-radio[label-header-level]');
-      if (el.tagName === 'VA-RADIO') {
+      if (el?.tagName === 'VA-RADIO') {
         // va-radio content doesn't immediately render
         waitForRenderThenFocus('h3', el.shadowRoot);
       } else {
@@ -104,7 +104,6 @@ const PicklistRemoveDependentFollowup = ({
             (dep, indx) => indx > index && dep.selected,
           );
           if (reviewPageFlag) {
-            sessionStorage.removeItem(PICKLIST_EDIT_REVIEW_FLAG);
             goToPath('/review-and-submit');
           } else if (nextSelectedIndex === -1) {
             // Done with removing dependents, go to review & submit page

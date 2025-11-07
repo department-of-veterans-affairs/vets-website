@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import { scrollAndFocus } from 'platform/utilities/scroll';
+import { focusElement } from 'platform/utilities/ui';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { getFullName } from '../../../shared/utils';
 
@@ -11,8 +16,22 @@ import { routing } from './routes';
 import { pageDetails } from './utils';
 
 const PicklistRemoveDependentsFollowupReview = ({ data = {}, goToPath }) => {
+  const updatedAlertRef = useRef(null);
   const selectedDependents =
     data[PICKLIST_DATA]?.filter(item => item.selected) || [];
+  const updatedKey = sessionStorage.getItem(PICKLIST_EDIT_REVIEW_FLAG) || false;
+  const [showUpdatedAlert, setShowUpdatedAlert] = useState(updatedKey);
+
+  useEffect(
+    () => {
+      if (updatedKey && updatedAlertRef.current) {
+        setTimeout(() => {
+          scrollAndFocus(updatedAlertRef.current);
+        }, 300);
+      }
+    },
+    [updatedKey, updatedAlertRef],
+  );
 
   const handlers = {
     onEdit: event => {
@@ -28,6 +47,14 @@ const PicklistRemoveDependentsFollowupReview = ({ data = {}, goToPath }) => {
         goToPath(`/remove-dependent?index=${index}&page=${path}`);
       }
     },
+    onCloseAlert: () => {
+      sessionStorage.removeItem(PICKLIST_EDIT_REVIEW_FLAG);
+      const el = $(`va-button[data-key="${showUpdatedAlert}"]`);
+      if (el) {
+        focusElement('button', {}, el?.shadowRoot);
+      }
+      setShowUpdatedAlert(false);
+    },
   };
 
   // The entire accordion is hidden if there aren't any selected dependents
@@ -42,6 +69,27 @@ const PicklistRemoveDependentsFollowupReview = ({ data = {}, goToPath }) => {
         const details = pageDetails[item.relationshipToVeteran](item);
         return (
           <div key={item.key} className="form-review-panel-page">
+            {showUpdatedAlert &&
+              item.key === updatedKey && (
+                <div className="vads-u-margin-bottom--1 vads-u-margin-right--0p5">
+                  <VaAlert
+                    ref={updatedAlertRef}
+                    slim
+                    closeable
+                    id="updated-dependent-alert"
+                    status="success"
+                    close-btn-aria-label="Close notification"
+                    onCloseEvent={handlers.onCloseAlert}
+                  >
+                    <div
+                      className="dd-privacy-mask"
+                      data-dd-action-name="Successfully updated alert"
+                    >
+                      {`${dependentFullName}’s information has been updated`}
+                    </div>
+                  </VaAlert>
+                </div>
+              )}
             <div className="form-review-panel-page-header-row vads-u-margin-bottom--2">
               <h4
                 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0 dd-privacy-mask"
