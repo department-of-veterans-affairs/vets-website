@@ -46,12 +46,18 @@ export default class ConfirmationPage extends React.Component {
       </Toggler>
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList
-        item1Header="We’ll send you an email to confirm your submission"
+        item1Header="We'll send you an email to confirm your submission"
         item1Content={<></>}
         item1Actions={<></>}
-        item2Header="Next we’ll send you a letter to let you know we have your claim"
+        item2Header="Next we'll send you a letter to let you know we have your claim"
         item2Content="You should get this letter in about 1 week, plus mailing time, after we receive your claim."
       />
+      <p className="vads-u-margin-top--2">
+        <va-link
+          href="https://www.va.gov/disability/after-you-file-claim/"
+          text="Learn more about the VA process after you file your claim"
+        />
+      </p>
       <ConfirmationView.HowToContact />
       {howLongForDecision}
       {dependentsAdditionalBenefits}
