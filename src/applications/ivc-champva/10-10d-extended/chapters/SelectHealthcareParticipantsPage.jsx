@@ -55,15 +55,13 @@ function dynamicSchema(data, item) {
   // Combine all into a single object
   labels = Object.assign({}, ...labels);
 
-  const title = `Which applicant or applicants has the ${item.provider} plan?`;
-
   return {
     uiSchema: {
       ...arrayBuilderItemSubsequentPageTitleUI(
-        'Applicant’s other health insurance',
+        `${item.provider} other health insurance`,
       ),
       healthcareParticipants: checkboxGroupUI({
-        title,
+        title: 'Which applicant or applicants has this plan?',
         hint: 'Select all that apply',
         required: () => true,
         labels,

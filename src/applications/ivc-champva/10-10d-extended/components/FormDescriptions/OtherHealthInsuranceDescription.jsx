@@ -2,6 +2,9 @@ import React from 'react';
 
 const OtherHealthInsuranceDescription = (
   <>
+    <h2 className="vads-u-margin-bottom--4 mobile-lg:vads-u-font-size--h3 vads-u-font-size--h4">
+      Report other health insurance
+    </h2>
     <p>
       Now we’ll ask you about current health insurance policies that the
       applicants listed on this application have. This information ensures
