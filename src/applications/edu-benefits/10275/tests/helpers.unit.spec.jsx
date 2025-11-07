@@ -63,7 +63,7 @@ describe('Helpers', () => {
       };
       const description = getCardDescription(card);
       const { getByTestId } = render(description);
-      expect(getByTestId('card-address').textContent).to.equal(', CA 12345');
+      expect(getByTestId('card-address').textContent).to.equal('CA 12345');
     });
     it('should handle missing state in address', () => {
       const card = {
