@@ -8,7 +8,7 @@ import mockRecipients from '../fixtures/recipientsResponse/recipients-response.j
 import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
 import SharedComponents from './SharedComponents';
 
-// Utility function to get proper MIME type from filename
+// Maps file extensions to MIME types, defaults to application/octet-stream
 const getMimeType = filename => {
   const ext = filename
     .split('.')
@@ -333,14 +333,12 @@ class PatientComposePage {
   };
 
   attachFileButton = () => {
-    // VaFileInputMultiple component - handle both compose and reply contexts
-    // In reply context, the testid might include a draft sequence number
+    // Prefix selector handles draft sequences in reply context
     return cy.get('[data-testid^="attach-file-input"]').first();
   };
 
   attachMessageFromFile = (filename = Data.TEST_IMAGE) => {
     const filepath = `src/applications/mhv-secure-messaging/tests/e2e/fixtures/mock-attachments/${filename}`;
-    // VaFileInputMultiple component - access the input inside shadow DOM
     cy.get('[data-testid^="attach-file-input"]')
       .first()
       .then($component => {
@@ -348,15 +346,13 @@ class PatientComposePage {
           .shadow()
           .find('input[type="file"]')
           .then($inputs => {
-            // Defensive: In rare cases, Cypress may return multiple file inputs due to shadow DOM quirks or component updates.
-            // Typically, VaFileInputMultiple renders a single input; we select the first to ensure robustness.
-            // If multiple inputs are ever observed, investigate the component or selector for changes.
+            // VaFileInputMultiple renders one input; using [0] for type safety
             cy.wrap($inputs[0]).selectFile(filepath, {
               force: true,
             });
           })
           .then(() => {
-            // Manually trigger the vaMultipleChange event since selectFile bypasses web component events
+            // Manually dispatch vaMultipleChange event for web component
             cy.readFile(filepath, null).then(fileContent => {
               const file = new File([fileContent], filename.split('/').pop(), {
                 type: getMimeType(filename),
@@ -377,7 +373,6 @@ class PatientComposePage {
   attachFakeFile = fileConfig => {
     const content = 'x'.repeat(fileConfig.size);
 
-    // VaFileInputMultiple component - access the input inside shadow DOM
     cy.get('[data-testid^="attach-file-input"]')
       .first()
       .then($component => {
@@ -385,7 +380,6 @@ class PatientComposePage {
           .shadow()
           .find('input[type="file"]')
           .then($inputs => {
-            // Cypress sometimes finds multiple inputs, use the first one
             cy.wrap($inputs[0]).selectFile(
               {
                 contents: Cypress.Buffer.from(content),
@@ -396,7 +390,7 @@ class PatientComposePage {
             );
           })
           .then(() => {
-            // Manually trigger the vaMultipleChange event since selectFile bypasses web component events
+            // Manually dispatch vaMultipleChange event for web component
             const file = new File([content], fileConfig.fileName, {
               type: fileConfig.mimeType || getMimeType(fileConfig.fileName),
             });
@@ -410,9 +404,6 @@ class PatientComposePage {
             $component[0].dispatchEvent(event);
           });
       });
-
-    // Allow tests to handle their own verification timing
-    // The verify parameter is deprecated - tests should explicitly check for attachments
   };
 
   attachFakeFilesByCount = numberOfFiles => {
@@ -421,7 +412,6 @@ class PatientComposePage {
       const content = 'x'.repeat(100 * 1024);
       const fileName = `FAKE_FILE_${i + 1}.pdf`;
 
-      // VaFileInputMultiple component - access the input inside shadow DOM
       cy.get('[data-testid^="attach-file-input"]')
         .first()
         .then($component => {
@@ -429,7 +419,6 @@ class PatientComposePage {
             .shadow()
             .find('input[type="file"]')
             .then($inputs => {
-              // Cypress sometimes finds multiple inputs, use the first one
               cy.wrap($inputs[0]).selectFile(
                 {
                   contents: Cypress.Buffer.from(content),
@@ -440,7 +429,7 @@ class PatientComposePage {
               );
             })
             .then(() => {
-              // Manually trigger the vaMultipleChange event
+              // Manually dispatch vaMultipleChange event
               const file = new File([content], fileName, {
                 type: 'application/pdf',
               });
@@ -504,8 +493,7 @@ class PatientComposePage {
   };
 
   removeAttachedFile = (fileName = Data.SAMPLE_PDF) => {
-    // VaFileInputMultiple component manages files via vaMultipleChange events
-    // Dispatch a FILE_REMOVED event to trigger the component's removal handler
+    // Dispatch FILE_REMOVED event to remove file
     cy.get('[data-testid^="attach-file-input"]')
       .first()
       .then($component => {
@@ -514,7 +502,6 @@ class PatientComposePage {
           type: 'application/octet-stream',
         });
 
-        // Dispatch the vaMultipleChange event with FILE_REMOVED action
         const event = new CustomEvent('vaMultipleChange', {
           detail: {
             action: 'FILE_REMOVED',
@@ -527,7 +514,6 @@ class PatientComposePage {
   };
 
   verifyAttachButtonHasFocus = () => {
-    // Wait for the component to exist and be ready, then check if the button inside the nested shadow DOM has focus
     cy.get('[data-testid^="attach-file-input"]')
       .first()
       .should('exist')

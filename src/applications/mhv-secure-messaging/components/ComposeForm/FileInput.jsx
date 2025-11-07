@@ -19,7 +19,7 @@ const FileInput = props => {
     draftSequence,
     isOhTriageGroup,
     setAttachFileError,
-    setAttachFileSuccess,
+    setAttachFileSuccess = () => {},
     setAttachments,
     showHelp = true,
   } = props;

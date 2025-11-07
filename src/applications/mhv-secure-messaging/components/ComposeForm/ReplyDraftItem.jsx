@@ -88,10 +88,6 @@ const ReplyDraftItem = props => {
     [dispatch],
   );
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
-  // FileInput component needs setAttachFileSuccess for prop compatibility
-  // The value is managed internally by FileInput but not used in ReplyDraftItem
-  // eslint-disable-next-line no-unused-vars
-  const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [bodyError, setBodyError] = useState('');
@@ -540,7 +536,6 @@ const ReplyDraftItem = props => {
               <FileInput
                 attachments={attachments}
                 setAttachments={setAttachments}
-                setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
                 attachmentScanError={attachmentScanError}
                 attachFileError={attachFileError}

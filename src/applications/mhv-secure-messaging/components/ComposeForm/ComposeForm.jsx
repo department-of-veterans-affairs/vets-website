@@ -291,11 +291,6 @@ const ComposeForm = props => {
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const navigationErrorModalVisible =
     draftInProgress?.navigationErrorModalVisible;
-  // FileInput component needs setAttachFileSuccess for prop compatibility
-  // The value is managed internally by FileInput but not used in ComposeForm
-  // (previously was used by AttachmentsList which is no longer rendered here)
-  // eslint-disable-next-line no-unused-vars
-  const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const savedDraft = draftInProgress?.savedDraft;
   const setSavedDraft = useCallback(
@@ -1123,7 +1118,6 @@ const ComposeForm = props => {
                   <FileInput
                     attachments={attachments}
                     setAttachments={setAttachments}
-                    setAttachFileSuccess={setAttachFileSuccess}
                     attachmentScanError={attachmentScanError}
                     attachFileError={attachFileError}
                     setAttachFileError={setAttachFileError}
