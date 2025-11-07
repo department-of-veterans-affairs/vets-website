@@ -2,10 +2,10 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
-import { content } from '../../content/evidenceSummary';
-import * as helpers from '../../../shared/utils/helpers';
+import { content } from '../../../content/evidence/summary';
+import * as helpers from '../../../../shared/utils/helpers';
 
-describe('evidenceSummary', () => {
+describe('summary', () => {
   it('should render an h5 on the review page', () => {
     const isOnReviewPageStub = sinon
       .stub(helpers, 'isOnReviewPage')

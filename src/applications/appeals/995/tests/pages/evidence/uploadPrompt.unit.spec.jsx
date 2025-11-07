@@ -6,15 +6,12 @@ import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import formConfig from '../../config/form';
-import { HAS_OTHER_EVIDENCE } from '../../constants';
-import errorMessages from '../../../shared/content/errorMessages';
+import formConfig from '../../../config/form';
+import { HAS_OTHER_EVIDENCE } from '../../../constants';
+import errorMessages from '../../../../shared/content/errorMessages';
 
 describe('Supplemental Claims evidence upload request page', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.evidence.pages.evidenceWillUpload;
+  const { schema, uiSchema } = formConfig.chapters.evidence.pages.uploadPrompt;
 
   it('should render', () => {
     const { container } = render(

@@ -39,8 +39,7 @@ export const PRIMARY_PHONE_PATH =
 export const ISSUES_SUMMARY_PATH = chapters.issues.pages.issueSummary.path;
 export const OPT_IN_PATH = chapters.issues.pages.optIn.path;
 export const NOTICE_5103_PATH = chapters.evidence.pages.notice5103.path;
-export const EVIDENCE_SUMMARY_PATH =
-  chapters.evidence.pages.evidenceSummary.path;
+export const EVIDENCE_SUMMARY_PATH = chapters.evidence.pages.summary.path;
 export const FACILITY_TYPES_PATH = chapters.evidence.pages.facilityTypes.path;
 export const EVIDENCE_VA_RECORDS_DETAILS_PATH =
   chapters.evidence.pages.vaDetails.path;

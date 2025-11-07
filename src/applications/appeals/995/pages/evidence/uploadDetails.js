@@ -1,9 +1,9 @@
 import {
   UploadDescription,
   evidenceOtherText,
-} from '../content/evidenceUpload';
-import { fileUploadUi } from '../utils/upload';
-import { ATTACHMENTS_OTHER } from '../constants';
+} from '../../content/evidence/uploadDetails';
+import { fileUploadUi } from '../../utils/upload';
+import { ATTACHMENTS_OTHER } from '../../constants';
 
 export default {
   uiSchema: {

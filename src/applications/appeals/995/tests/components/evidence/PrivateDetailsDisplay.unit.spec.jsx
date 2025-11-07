@@ -8,18 +8,18 @@ import {
   EVIDENCE_PRIVATE_AUTHORIZATION_URL,
   LIMITED_CONSENT_DETAILS_URL,
   LIMITED_CONSENT_PROMPT_URL,
-} from '../../constants';
-import { content } from '../../content/evidenceSummary';
-import { content as limitedConsentContent } from '../../content/limitedConsent';
-import { EvidencePrivateContent } from '../../components/EvidencePrivateContent';
-import { records } from '../data/evidence-records';
-import { title4142WithId } from '../../content/title';
+} from '../../../constants';
+import { content } from '../../../content/evidence/summary';
+import { content as limitedConsentContent } from '../../../content/limitedConsent';
+import { PrivateDetailsDisplay } from '../../../components/evidence/PrivateDetailsDisplay';
+import { records } from '../../data/evidence-records';
+import { title4142WithId } from '../../../content/title';
 import {
   verifyHeader,
   verifyLink,
   verifyProviderPrivate,
   verifyResponse,
-} from '../unit-test-helpers';
+} from '../../unit-test-helpers';
 
 const limitedConsentDetails = 'Testing limited consent content';
 
@@ -63,10 +63,10 @@ const verifyLimitedConsentDetails = (
   }
 };
 
-describe('EvidencePrivateContent', () => {
+describe('PrivateDetailsDisplay', () => {
   describe('when no private evidence is provided', () => {
     it('should render nothing', () => {
-      const { container } = render(<EvidencePrivateContent list={[]} />);
+      const { container } = render(<PrivateDetailsDisplay list={[]} />);
 
       expect(container.innerHTML).to.be.empty;
     });
@@ -75,7 +75,7 @@ describe('EvidencePrivateContent', () => {
   describe('when on the evidence review page', () => {
     it('should render the proper content', () => {
       const { container } = render(
-        <EvidencePrivateContent
+        <PrivateDetailsDisplay
           list={records().providerFacility}
           limitedConsent={limitedConsentDetails}
           isOnReviewPage={undefined}
@@ -141,7 +141,7 @@ describe('EvidencePrivateContent', () => {
   describe('when on the app review page', () => {
     it('should render the proper content', () => {
       const { container } = render(
-        <EvidencePrivateContent
+        <PrivateDetailsDisplay
           list={records().providerFacility}
           limitedConsent={limitedConsentDetails}
           isOnReviewPage
@@ -207,7 +207,7 @@ describe('EvidencePrivateContent', () => {
   describe('when on the confirmation page', () => {
     it('should render the proper content', () => {
       const { container } = render(
-        <EvidencePrivateContent
+        <PrivateDetailsDisplay
           list={records().providerFacility}
           limitedConsent={limitedConsentDetails}
           isOnReviewPage={false}
@@ -297,7 +297,7 @@ describe('EvidencePrivateContent', () => {
 
     const getContainer = partialData => {
       return render(
-        <EvidencePrivateContent
+        <PrivateDetailsDisplay
           list={[partialData]}
           limitedConsent={limitedConsentDetails}
           isOnReviewPage={false}
@@ -406,7 +406,7 @@ describe('EvidencePrivateContent', () => {
     const handlers = { showModal: removeSpy };
 
     const { container } = render(
-      <EvidencePrivateContent
+      <PrivateDetailsDisplay
         list={records().providerFacility}
         handlers={handlers}
         testing

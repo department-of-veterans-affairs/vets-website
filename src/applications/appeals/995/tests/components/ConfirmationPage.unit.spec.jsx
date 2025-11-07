@@ -8,7 +8,7 @@ import comprehensiveTest from '../fixtures/data/pre-api-comprehensive-test.json'
 import noEvidenceTest from '../fixtures/data/pre-api-no-evidence-test.json';
 import { verifyHeader } from '../unit-test-helpers';
 import { title995 } from '../../content/title';
-import { content as evidenceSummaryContent } from '../../content/evidenceSummary';
+import { content as evidenceSummaryContent } from '../../content/evidence/summary';
 
 describe('ConfirmationPage', () => {
   const makeStore = data => ({

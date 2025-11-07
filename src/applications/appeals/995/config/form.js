@@ -16,8 +16,8 @@ import PrimaryPhoneReview from '../components/PrimaryPhoneReview';
 import VaDetails from '../components/evidence/VaDetails';
 import PrivatePrompt from '../components/evidence/PrivatePrompt';
 import PrivateRecordsAuthorization from '../components/4142/Authorization';
-import PrivateDetails from '../components/evidence/PrivateDetails';
-import EvidenceSummary from '../components/EvidenceSummary';
+import PrivateDetailsEntry from '../components/evidence/PrivateDetailsEntry';
+import Summary from '../components/evidence/Summary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
 import reviewErrors from '../content/reviewErrors';
@@ -47,9 +47,9 @@ import evidencePrivateRequest from '../pages/evidence/privatePrompt';
 import limitedConsentPromptPage from '../pages/limitedConsentPrompt';
 import limitedConsentDetailsPage from '../pages/limitedConsentDetails';
 import privateDetails from '../pages/evidence/privateDetails';
-import evidenceWillUpload from '../pages/evidenceWillUpload';
-import evidenceUpload from '../pages/evidenceUpload';
-import evidenceSummary from '../pages/evidenceSummary';
+import uploadPrompt from '../pages/evidence/uploadPrompt';
+import uploadDetails from '../pages/evidence/uploadDetails';
+import summary from '../pages/evidence/summary';
 
 import {
   hasOtherEvidence,
@@ -324,33 +324,33 @@ const formConfig = {
           title: 'Non-VA medical records',
           path: EVIDENCE_PRIVATE_DETAILS_URL,
           depends: hasPrivateEvidence,
-          CustomPage: PrivateDetails,
+          CustomPage: PrivateDetailsEntry,
           CustomPageReview: null,
           uiSchema: privateDetails.uiSchema,
           schema: privateDetails.schema,
           scrollAndFocusTarget: focusEvidence,
         },
-        evidenceWillUpload: {
+        uploadPrompt: {
           title: 'Upload new and relevant evidence',
           path: EVIDENCE_ADDITIONAL_URL,
-          uiSchema: evidenceWillUpload.uiSchema,
-          schema: evidenceWillUpload.schema,
+          uiSchema: uploadPrompt.uiSchema,
+          schema: uploadPrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
-        evidenceUpload: {
+        uploadDetails: {
           title: 'Uploaded evidence',
           path: EVIDENCE_UPLOAD_URL,
           depends: hasOtherEvidence,
-          uiSchema: evidenceUpload.uiSchema,
-          schema: evidenceUpload.schema,
+          uiSchema: uploadDetails.uiSchema,
+          schema: uploadDetails.schema,
         },
-        evidenceSummary: {
+        summary: {
           title: 'Summary of evidence',
           path: 'supporting-evidence/summary',
-          CustomPage: EvidenceSummary,
+          CustomPage: Summary,
           CustomPageReview: EvidenceSummaryReview,
-          uiSchema: evidenceSummary.uiSchema,
-          schema: evidenceSummary.schema,
+          uiSchema: summary.uiSchema,
+          schema: summary.schema,
           scrollAndFocusTarget: focusAlertH3,
         },
       },

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
-import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
-import { title4142WithId } from '../content/title';
-import { content } from '../content/evidenceSummary';
-import { content as limitedConsentContent } from '../content/limitedConsent';
+import BasicLink from '../../../shared/components/web-component-wrappers/BasicLink';
+import { title4142WithId } from '../../content/title';
+import { content } from '../../content/evidence/summary';
+import { content as limitedConsentContent } from '../../content/limitedConsent';
 import {
   AUTHORIZATION_LABEL,
   EVIDENCE_PRIVATE_DETAILS_URL,
@@ -12,14 +12,14 @@ import {
   LIMITED_CONSENT_PROMPT_URL,
   LIMITED_CONSENT_DETAILS_URL,
   LIMITATION_KEY,
-} from '../constants';
+} from '../../constants';
 import {
   confirmationPageLabel,
   errorClassNames,
   listClassNames,
   removeButtonClass,
-} from '../utils/evidence-classnames';
-import { formatDate } from '../utils/evidence';
+} from '../../utils/evidence-classnames';
+import { formatDate } from '../../utils/evidence';
 
 /**
  * Build private evidence list
@@ -32,7 +32,7 @@ import { formatDate } from '../utils/evidence';
  *  an href when not wrapped in a Router
  * @returns {JSX}
  */
-export const EvidencePrivateContent = ({
+export const PrivateDetailsDisplay = ({
   list = [],
   limitedConsent = '',
   isOnReviewPage,
@@ -258,7 +258,7 @@ export const EvidencePrivateContent = ({
   );
 };
 
-EvidencePrivateContent.propTypes = {
+PrivateDetailsDisplay.propTypes = {
   handlers: PropTypes.shape({}),
   isOnReviewPage: PropTypes.bool,
   limitedConsent: PropTypes.string,
