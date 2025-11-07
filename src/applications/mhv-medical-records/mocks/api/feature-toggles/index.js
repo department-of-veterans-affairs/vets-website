@@ -5,7 +5,6 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   // medical records
 
   // OH integration work
-  mhvMedicationsToVaGovRelease: true,
   mhvAcceleratedDeliveryEnabled: true,
   mhvAcceleratedDeliveryAllergiesEnabled: true,
   mhvAcceleratedDeliveryConditionsEnabled: true,
