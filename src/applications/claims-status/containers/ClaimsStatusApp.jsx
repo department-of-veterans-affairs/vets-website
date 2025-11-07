@@ -69,8 +69,8 @@ function ClaimsStatusApp({
 
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring({
-    toggleName: 'cstUseDataDogRUM',
     loggedIn,
+    toggleName: 'cstUseDataDogRUM',
     applicationId: '75bb17aa-34f0-4366-b196-eb11eda75425',
     clientToken: 'pub21bfd23fdfb656231f24906ea91ccb01',
     service: 'benefits-claim-status-tool',
