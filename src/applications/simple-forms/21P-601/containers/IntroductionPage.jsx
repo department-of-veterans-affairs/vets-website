@@ -5,7 +5,8 @@ import { IntroductionPageView } from '../../shared/components/IntroductionPageVi
 
 const content = {
   formTitle: 'Apply for accrued benefits online',
-  formSubTitle: '',
+  formSubTitle:
+    'Application for Accrued Amounts Due a Deceased Beneficiary (VA Form 21P-601)',
   authStartFormText: 'Apply for accrued benefits',
   displayNonVeteranMessaging: true,
 };
@@ -44,8 +45,7 @@ const childContent = (
         this isn’t the best form for you to use. Instead, use the application
         that allows you to apply for survivor benefits like VA Dependency and
         Indemnity Compensation (VA DIC), Survivors Pension, and Accrued Benefits
-        at the same time.
-        <br />
+        at the same time.{' '}
         <va-link
           href="/family-member-benefits/apply-for-dependent-compensation-form-21p-534ez/"
           text="Learn about VA DIC and how to apply for survivor benefits"
@@ -57,9 +57,7 @@ const childContent = (
           for survivor benefits,
         </strong>{' '}
         don’t submit this form. You can check the status of your current claim
-        instead.
-        <br />
-        <br />
+        instead.{' '}
         <va-link href="/track-claims/" text="Check the status of your claim" />
       </li>
       <li>
@@ -68,9 +66,7 @@ const childContent = (
           beneficiary’s burial or care during their final illness,
         </strong>{' '}
         you’ll need to use the PDF version of this form. You’ll apply as an
-        unpaid creditor.
-        <br />
-        <br />
+        unpaid creditor.{' '}
         <va-link
           href="https://www.vba.va.gov/pubs/forms/VBA-21P-601-ARE.pdf"
           text="Get VA Form 21P-601 to download"
