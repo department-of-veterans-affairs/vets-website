@@ -1,14 +1,18 @@
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  textUI,
+  textSchema,
   addressUI,
   addressSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
-    veteranBirthDate: currentOrPastDateUI('Date of birth'),
-    veteranBirthLocation: addressUI({
+    veteranDeathDate: currentOrPastDateUI('Date of death'),
+    veteranBurialDate: currentOrPastDateUI('Date of burial'),
+    cemeteryName: textUI('Name'),
+    cemeteryLocation: addressUI({
       omit: [
         'isMilitary',
         'country',
@@ -21,10 +25,17 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['veteranBirthDate'],
+    required: [
+      'veteranDeathDate',
+      'veteranBurialDate',
+      'cemeteryName',
+      'cemeteryLocation',
+    ],
     properties: {
-      veteranBirthDate: currentOrPastDateSchema,
-      veteranBirthLocation: addressSchema({
+      veteranDeathDate: currentOrPastDateSchema,
+      veteranBurialDate: currentOrPastDateSchema,
+      cemeteryName: textSchema,
+      cemeteryLocation: addressSchema({
         omit: [
           'isMilitary',
           'country',

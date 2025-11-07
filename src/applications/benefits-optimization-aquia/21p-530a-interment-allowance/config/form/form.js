@@ -26,7 +26,7 @@ import {
   ServiceDatesPage,
   ServicePeriodsPage,
   veteranBirthInformationPage,
-  VeteranBurialInformationPage,
+  veteranBurialInformationPage,
   veteranPersonalInformationPage,
   VeteranPreviousNamesPage,
   VeteranServedUnderDifferentNamePage,
@@ -36,7 +36,6 @@ import {
 // Import review pages
 import { AdditionalRemarksReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/additional-remarks/additional-remarks-review';
 import { ServicePeriodsReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/service-periods/service-periods-review';
-import { VeteranBurialInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-burial-information/veteran-burial-information-review';
 import { VeteranPreviousNamesReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-previous-names/veteran-previous-names-review';
 import { VeteranServedUnderDifferentNameReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-served-under-different-name/veteran-served-under-different-name-review';
 
@@ -140,11 +139,8 @@ const formConfig = {
         veteranBurialInformation: {
           path: 'veteran-burial-information',
           title: 'Burial information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: VeteranBurialInformationPage,
-          CustomPageReview: VeteranBurialInformationReviewPage,
-          pagePerItemIndex: 0,
+          uiSchema: veteranBurialInformationPage.uiSchema,
+          schema: veteranBurialInformationPage.schema,
         },
       },
     },

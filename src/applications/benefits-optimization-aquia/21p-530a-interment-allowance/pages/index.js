@@ -26,7 +26,9 @@ export { default as veteranIdentificationPage } from './veteran-identification';
 export {
   default as veteranBirthInformationPage,
 } from './veteran-birth-information';
-export { VeteranBurialInformationPage } from './veteran-burial-information';
+export {
+  default as veteranBurialInformationPage,
+} from './veteran-burial-information';
 
 // Chapter 3: Military history
 export { ServiceBranchPage } from './service-branch';
