@@ -14,7 +14,7 @@ export default {
         <va-alert status="warning" class="vads-u-margin-bottom--2">
           <h3 slot="headline">Check medallion eligibility</h3>
           <p>
-            The Veteran&apos;s remains must be buried in their grave to be
+            If the Veteran&apos;s remains aren&apos;t buried, they may not be
             eligible for a medallion.
           </p>
         </va-alert>

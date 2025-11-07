@@ -34,7 +34,7 @@ export default {
       ...emailUI(),
       'ui:title': 'Email address',
       'ui:description': (
-        <p className="vads-u-color--gray-medium vads-u-margin-top--neg1">
+        <p className="vads-u-color--gray-medium vads-u-margin-top--0">
           If the email address is wrong, we can&apos;t process your form
         </p>
       ),
