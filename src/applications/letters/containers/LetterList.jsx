@@ -48,8 +48,8 @@ export class LetterList extends React.Component {
       .then(response => {
         if (Array.isArray(response.data) && response.data.length > 0) {
           const latestLetter = response.data.reduce((latest, current) => {
-            const latestDate = latest.attributes?.received_at || 0;
-            const currentDate = current.attributes?.received_at || 0;
+            const latestDate = latest.attributes?.receivedAt || 0;
+            const currentDate = current.attributes?.receivedAt || 0;
             return currentDate > latestDate ? current : latest;
           });
           this.setState({ tsaLetter: latestLetter });
@@ -71,7 +71,7 @@ export class LetterList extends React.Component {
 
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
-    const hasTsaLetter = Boolean(this.state.tsaLetter?.attributes?.document_id);
+    const hasTsaLetter = Boolean(this.state.tsaLetter?.attributes?.documentId);
     const letterItems = (this.props.letters || []).map((letter, index) => {
       if (!this.accordionRefs[index]) {
         this.accordionRefs[index] = React.createRef();
