@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
-import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
-import { content } from '../content/evidenceSummary';
-import { content as vaContent } from '../content/evidence/vaDetails';
-import { EVIDENCE_VA_DETAILS_URL } from '../constants';
-import { FORMAT_READABLE_MMYY_DATE_FNS } from '../../shared/constants';
+import BasicLink from '../../../shared/components/web-component-wrappers/BasicLink';
+import { content } from '../../content/evidence/summary';
+import { content as vaContent } from '../../content/evidence/vaDetails';
+import { EVIDENCE_VA_DETAILS_URL } from '../../constants';
+import { FORMAT_READABLE_MMYY_DATE_FNS } from '../../../shared/constants';
 import {
   confirmationPageLabel,
   errorClassNames,
   listClassNames,
   removeButtonClass,
-} from '../utils/evidence-classnames';
-import { formatDate } from '../utils/evidence';
+} from '../../utils/evidence-classnames';
+import { formatDate } from '../../utils/evidence';
 
 // treatment date only includes YYYY-MM; include '-01' to fit parser
 export const getFormattedTreatmentDate = (noDate, treatmentDate) => {
@@ -56,7 +56,7 @@ export const getLocationErrors = (
  *  an href when not wrapped in a Router
  * @returns {JSX}
  */
-export const EvidenceVaContent = ({
+export const VaDetailsDisplay = ({
   list = [],
   isOnReviewPage,
   reviewMode = false,
@@ -162,7 +162,7 @@ export const EvidenceVaContent = ({
   );
 };
 
-EvidenceVaContent.propTypes = {
+VaDetailsDisplay.propTypes = {
   handlers: PropTypes.shape({}),
   isOnReviewPage: PropTypes.bool,
   list: PropTypes.array,

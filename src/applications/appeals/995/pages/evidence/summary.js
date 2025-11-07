@@ -1,5 +1,5 @@
-import vaDetails from './evidence/vaDetails';
-import privateDetails from './evidence/privateDetails';
+import vaDetails from './vaDetails';
+import privateDetails from './privateDetails';
 
 export default {
   uiSchema: {

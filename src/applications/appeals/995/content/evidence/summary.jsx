@@ -1,7 +1,7 @@
 import React from 'react';
-import { EVIDENCE_VA_PROMPT_URL } from '../constants';
-import { isOnReviewPage } from '../../shared/utils/helpers';
-import ActionLink from '../../shared/components/web-component-wrappers/ActionLink';
+import { EVIDENCE_VA_PROMPT_URL } from '../../constants';
+import { isOnReviewPage } from '../../../shared/utils/helpers';
+import ActionLink from '../../../shared/components/web-component-wrappers/ActionLink';
 
 const wrapError = (message, block) => (
   <span

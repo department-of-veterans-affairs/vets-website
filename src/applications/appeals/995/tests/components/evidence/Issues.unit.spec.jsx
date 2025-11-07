@@ -7,7 +7,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { content as evidenceVaContent } from '../../../content/evidence/vaDetails';
-import { content as evidencePrivateContent } from '../../../content/evidence/privateDetails';
+import { content as privateDetailsDisplay } from '../../../content/evidence/privateDetails';
 import Issues from '../../../components/evidence/Issues';
 import { NO_ISSUES_SELECTED } from '../../../constants';
 
@@ -110,7 +110,7 @@ describe('Issues', () => {
         const { container } = render(
           <Issues
             availableIssues={availableIssues}
-            content={evidencePrivateContent}
+            content={privateDetailsDisplay}
             currentData={emptyData}
             handlers={{}}
             showError={showErrorSpy}
@@ -121,7 +121,7 @@ describe('Issues', () => {
         const checkboxes = $$('va-checkboxes', container);
 
         expect(checkboxParent.label).to.equal(
-          evidencePrivateContent.issuesLabel,
+          privateDetailsDisplay.issuesLabel,
         );
 
         checkboxes.forEach((checkbox, index) => {
@@ -148,7 +148,7 @@ describe('Issues', () => {
         const { container } = render(
           <Issues
             availableIssues={availableIssues}
-            content={evidencePrivateContent}
+            content={privateDetailsDisplay}
             currentData={filledData}
             handlers={{}}
             showError={showErrorSpy}
@@ -159,7 +159,7 @@ describe('Issues', () => {
         const checkboxes = $$('va-checkboxes', container);
 
         expect(checkboxParent.label).to.equal(
-          evidencePrivateContent.issuesLabel,
+          privateDetailsDisplay.issuesLabel,
         );
 
         checkboxes.forEach((checkbox, index) => {

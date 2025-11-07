@@ -17,15 +17,15 @@ describe('reviewErrors override', () => {
   it('should return evidence summary page keys', () => {
     expect(override('locations[0]')).to.be.deep.equal({
       chapterKey: 'evidence',
-      pageKey: 'evidenceSummary',
+      pageKey: 'summary',
     });
     expect(override('locations[2]')).to.be.deep.equal({
       chapterKey: 'evidence',
-      pageKey: 'evidenceSummary',
+      pageKey: 'summary',
     });
     expect(override('providerFacility[')).to.be.deep.equal({
       chapterKey: 'evidence',
-      pageKey: 'evidenceSummary',
+      pageKey: 'summary',
     });
   });
 

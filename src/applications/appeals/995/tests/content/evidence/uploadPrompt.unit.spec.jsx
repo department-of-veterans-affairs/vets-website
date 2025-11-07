@@ -1,10 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
-import { reviewField } from '../../content/evidenceWillUpload';
+import { reviewField } from '../../../content/evidence/uploadPrompt';
 
 describe('reviewField', () => {
   it('should render value', () => {

@@ -3,22 +3,22 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { records } from '../data/evidence-records';
-import EvidenceSummary from '../../components/EvidenceSummary';
-import { content } from '../../content/evidenceSummary';
+import { records } from '../../data/evidence-records';
+import Summary from '../../../components/evidence/Summary';
+import { content } from '../../../content/evidence/summary';
 import {
   HAS_PRIVATE_EVIDENCE,
   HAS_VA_EVIDENCE,
   EVIDENCE_VA_PROMPT_URL,
   HAS_OTHER_EVIDENCE,
   HAS_PRIVATE_LIMITATION,
-} from '../../constants';
+} from '../../../constants';
 import {
   clickBack,
   clickContinue,
   verifyHeader,
   verifyLink,
-} from '../unit-test-helpers';
+} from '../../unit-test-helpers';
 
 const clickUpdatePage = container => {
   fireEvent.click($('.form-nav-buttons va-button', container));
@@ -39,7 +39,7 @@ const setupSummary = ({
 } = {}) =>
   render(
     <div>
-      <EvidenceSummary
+      <Summary
         data={{
           [HAS_VA_EVIDENCE]: vaMR,
           [HAS_PRIVATE_EVIDENCE]: privateMR,
@@ -61,11 +61,11 @@ const setupSummary = ({
     </div>,
   );
 
-describe('EvidenceSummary', () => {
+describe('Summary', () => {
   describe('on the evidence summary page', () => {
     it('should render the proper content', () => {
       const { container } = render(
-        <EvidenceSummary
+        <Summary
           data={{
             [HAS_VA_EVIDENCE]: true,
             [HAS_PRIVATE_EVIDENCE]: true,
@@ -194,7 +194,7 @@ describe('EvidenceSummary', () => {
   describe('on the review and submit page', () => {
     it('should render the proper content', () => {
       const { container } = render(
-        <EvidenceSummary
+        <Summary
           data={{
             [HAS_VA_EVIDENCE]: true,
             [HAS_PRIVATE_EVIDENCE]: true,

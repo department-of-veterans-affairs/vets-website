@@ -9,11 +9,11 @@ import {
 } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import formConfig from '../../config/form';
-import { HAS_OTHER_EVIDENCE } from '../../constants';
+import formConfig from '../../../config/form';
+import { HAS_OTHER_EVIDENCE } from '../../../constants';
 
 describe('Additional evidence upload', () => {
-  const page = formConfig.chapters.evidence.pages.evidenceUpload;
+  const page = formConfig.chapters.evidence.pages.uploadDetails;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
