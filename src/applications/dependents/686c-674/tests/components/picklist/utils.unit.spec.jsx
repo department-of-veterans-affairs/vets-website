@@ -410,6 +410,22 @@ describe('pageDetails', () => {
       ]);
     });
 
+    it('should return child adopted out of the family details', () => {
+      const details = pageDetails.Child({
+        fullName: { first: 'PENNY' },
+        isStepchild: 'N',
+        removalReason: 'childAdopted',
+      });
+      expect(details[1].label).to.equal('Reason for removing this child');
+      expect(details[1].value).to.equal('They were adopted by another family');
+
+      expect(details[2].label).to.exist; // JSX
+      expect(details[2].value).to.equal('PENNY will remain on your benefits');
+      expect(details[2].action).to.equal(
+        'This child can’t be removed using this application',
+      );
+    });
+
     it('should return default error for child', () => {
       const details = pageDetails.Child({
         fullName: { first: 'PENNY' },

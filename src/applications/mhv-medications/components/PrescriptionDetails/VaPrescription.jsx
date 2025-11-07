@@ -23,6 +23,7 @@ import {
 import {
   medStatusDisplayTypes,
   DATETIME_FORMATS,
+  RX_SOURCE,
   DISPENSE_STATUS,
 } from '../../util/constants';
 import TrackingInfo from '../shared/TrackingInfo';
@@ -47,10 +48,10 @@ const VaPrescription = prescription => {
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
   const pendingMed =
-    prescription?.prescriptionSource === 'PD' &&
+    prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     prescription?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
   const pendingRenewal =
-    prescription?.prescriptionSource === 'PD' &&
+    prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     prescription?.dispStatus === DISPENSE_STATUS.RENEW;
   const hasBeenDispensed =
     prescription?.dispensedDate ||
