@@ -108,7 +108,7 @@ const formConfig = (pathname = null) => {
         },
       },
       uploadChapter: {
-        title: 'Upload',
+        title: 'Upload form',
         pages: {
           uploadPage: {
             path: 'upload',
