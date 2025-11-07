@@ -139,14 +139,17 @@ describe('ConfirmationPage', () => {
 
     // links
     expect(container.querySelectorAll('va-link')).to.have.lengthOf(6);
-    const link = container.querySelectorAll('va-link')[1];
-    expect(link.getAttribute('download')).to.exist;
-    expect(link.getAttribute('filetype')).to.equal('PDF');
-    expect(link.getAttribute('href')).to.equal(
-      'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
+    // Find the 21-686c PDF link by its attributes rather than index
+    const pdfLink = Array.from(container.querySelectorAll('va-link')).find(
+      linkElement =>
+        linkElement.getAttribute('href') ===
+        'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
     );
-    expect(link.getAttribute('pages')).to.equal('15');
-    expect(link.getAttribute('text')).to.equal(
+    expect(pdfLink).to.exist;
+    expect(pdfLink.getAttribute('download')).to.exist;
+    expect(pdfLink.getAttribute('filetype')).to.equal('PDF');
+    expect(pdfLink.getAttribute('pages')).to.equal('15');
+    expect(pdfLink.getAttribute('text')).to.equal(
       'Download VA Form 21-686c (opens in new tab)',
     );
 
