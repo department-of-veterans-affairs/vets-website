@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  VaModal,
-  VaButton,
-  VaRadio,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { createExpense, updateExpense } from '../../../redux/actions';
 import {
@@ -15,6 +11,7 @@ import {
 } from '../../../redux/selectors';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import { EXPENSE_TYPES, TRIP_TYPES } from '../../../constants';
+import CancelExpenseModal from './CancelExpenseModal';
 
 const Mileage = () => {
   const navigate = useNavigate();
@@ -193,29 +190,13 @@ const Mileage = () => {
         />
       </VaRadio>
       {!expenseId && (
-        <>
-          <VaModal
-            modalTitle="Cancel adding this expense"
-            onCloseEvent={handleCloseModal}
-            onPrimaryButtonClick={handleCancelModal}
-            onSecondaryButtonClick={handleCloseModal}
-            primaryButtonText="Yes, cancel"
-            secondaryButtonText="No, continue adding this expense"
-            status="warning"
-            visible={isModalVisible}
-          >
-            <p>
-              If you cancel, you’ll lose the information you entered about this
-              expense and will be returned to the review page.
-            </p>
-          </VaModal>
-          <VaButton
-            secondary
-            text="Cancel adding this expense"
-            onClick={handleOpenModal}
-            className="vads-u-display--flex vads-u-margin-y--2 travel-pay-complex-expense-cancel-btn"
-          />
-        </>
+        <CancelExpenseModal
+          visible={isModalVisible}
+          onCloseEvent={handleCloseModal}
+          onOpenModal={handleOpenModal}
+          onPrimaryButtonClick={handleCancelModal}
+          onSecondaryButtonClick={handleCloseModal}
+        />
       )}
       <TravelPayButtonPair
         continueText={expenseId ? 'Save and continue' : 'Continue'}
