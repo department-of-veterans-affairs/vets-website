@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 
-import NeedHelp from '../NeedHelp';
+import NeedHelp from '../components/NeedHelp';
 
 const Wrapper = props => {
   const { children, pageTitle, classNames = '', testID } = props;
