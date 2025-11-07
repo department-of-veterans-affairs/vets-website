@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 147,
+  "totalApplications": 149,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -158,6 +158,12 @@
       "appName": "Claims Status",
       "entryName": "claims-status",
       "rootUrl": "/track-claims"
+    },
+    {
+      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
+      "appName": "N/A",
+      "entryName": "N/A",
+      "rootUrl": "N/A"
     },
     {
       "directoryPath": "src/applications/combined-debt-portal/combined",
@@ -836,6 +842,12 @@
       "appName": "Appointments",
       "entryName": "vaos",
       "rootUrl": "/my-health/appointments"
+    },
+    {
+      "directoryPath": "src/applications/vass",
+      "appName": "VASS",
+      "entryName": "vass-entry",
+      "rootUrl": "/service-member/benefits/solid-start/schedule"
     },
     {
       "directoryPath": "src/applications/verify",
