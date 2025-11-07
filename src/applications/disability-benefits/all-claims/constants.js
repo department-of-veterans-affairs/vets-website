@@ -70,16 +70,16 @@ export const HOMELESSNESS_TYPES = {
 };
 
 export const HOMELESS_HOUSING_LABELS = {
-  shelter: "I'm living in a homeless shelter.",
+  shelter: 'I’m living in a homeless shelter.',
   notShelter:
-    "I'm living somewhere other than a shelter. (For example, I'm living in a car or a tent.)",
-  anotherPerson: "I'm living with another person.",
+    'I’m living somewhere other than a shelter. (For example, I’m living in a car or a tent.)',
+  anotherPerson: 'I’m living with another person.',
   other: 'Other',
 };
 
 export const AT_RISK_HOUSING_LABELS = {
-  losingHousing: "I'm losing my housing in 30 days.",
-  leavingShelter: "I'm leaving a publicly funded homeless shelter soon.",
+  losingHousing: 'I’m losing my housing in 30 days.',
+  leavingShelter: 'I’m leaving a publicly funded homeless shelter soon.',
   other: 'Other',
 };
 
