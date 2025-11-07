@@ -10,7 +10,7 @@ import { content } from '../content/evidenceSummary';
 import { EvidencePrivateContent } from './EvidencePrivateContent';
 import { EvidenceUploadContent } from './EvidenceUploadContent';
 import { EvidenceVaContent } from './EvidenceVaContent';
-import { SUMMARY_EDIT, LIMITED_CONSENT_RESPONSE } from '../constants';
+import { SUMMARY_EDIT, HAS_PRIVATE_LIMITATION } from '../constants';
 import { data995 } from '../../shared/props';
 
 const EvidenceSummaryReview = ({ data, editPage }) => {
@@ -80,7 +80,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
       <EvidenceVaContent list={vaEvidence} {...props} />
       <EvidencePrivateContent
         list={privateEvidence}
-        limitedConsentResponse={data?.[LIMITED_CONSENT_RESPONSE]}
+        limitedConsentResponse={data?.[HAS_PRIVATE_LIMITATION]}
         limitedConsent={limitedConsent}
         privacyAgreementAccepted={privacyAgreementAccepted}
         {...props}

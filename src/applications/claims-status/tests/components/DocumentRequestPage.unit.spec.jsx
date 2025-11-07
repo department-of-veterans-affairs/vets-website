@@ -9,7 +9,11 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { uploadStore } from '~/platform/forms-system/test/config/helpers';
 
 import { DocumentRequestPage } from '../../containers/DocumentRequestPage';
-import { renderWithRouter, rerenderWithRouter } from '../utils';
+import {
+  renderWithRouter,
+  rerenderWithRouter,
+  renderWithCustomStore,
+} from '../utils';
 
 const claim = {
   id: 1,
@@ -49,6 +53,27 @@ describe('<DocumentRequestPage>', () => {
         },
       },
     }));
+
+  const createBasicTrackedItem = overrides => ({
+    status: 'NEEDED_FROM_YOU',
+    displayName: 'Testing',
+    suspenseDate: '2024-12-31',
+    requestedDate: '2024-01-01',
+    ...overrides,
+  });
+
+  const createTestMessage = overrides => ({
+    title: 'Test',
+    body: 'Testing',
+    ...overrides,
+  });
+
+  const renderPage = (props = {}, store = getStore()) => {
+    return renderWithCustomStore(
+      <DocumentRequestPage {...defaultProps} {...props} />,
+      store,
+    );
+  };
 
   it('should render Default5103EvidenceNotice component when item is a 5103 notice', () => {
     const trackedItem = {
@@ -222,42 +247,19 @@ describe('<DocumentRequestPage>', () => {
     expect($('.claim-container', context)).to.not.exist;
   });
   it('should render upload error alert', () => {
-    const trackedItem = {
-      status: 'NEEDED_FROM_YOU',
-    };
-    const message = {
-      title: 'Test',
-      body: 'Testing',
-    };
+    const trackedItem = createBasicTrackedItem();
+    const message = createTestMessage();
 
-    const { context } = renderWithRouter(
-      <Provider store={getStore()}>
-        <DocumentRequestPage
-          {...defaultProps}
-          trackedItem={trackedItem}
-          message={message}
-        />
-        ,
-      </Provider>,
-    );
-    expect($('va-alert', context)).to.exist;
+    const { context } = renderPage({ trackedItem, message });
+    expect($('.claims-alert', context)).to.exist;
   });
   it('should render upload error alert when rerendered', () => {
-    const trackedItem = {
-      status: 'NEEDED_FROM_YOU',
-    };
+    const trackedItem = createBasicTrackedItem();
 
-    const { container, rerender } = renderWithRouter(
-      <Provider store={getStore()}>
-        <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
-      </Provider>,
-    );
-    expect($('va-alert', container)).not.to.exist;
+    const { container, rerender } = renderPage({ trackedItem });
+    expect($('.claims-alert', container)).not.to.exist;
 
-    const message = {
-      title: 'Test',
-      body: 'Testing',
-    };
+    const message = createTestMessage();
 
     rerenderWithRouter(
       rerender,
@@ -270,32 +272,27 @@ describe('<DocumentRequestPage>', () => {
         ,
       </Provider>,
     );
-    expect($('va-alert', container)).to.exist;
-    expect($('va-alert h2', container).textContent).to.equal(message.title);
+    expect($('.claims-alert', container)).to.exist;
+    expect($('.claims-alert h2', container).textContent).to.equal(
+      message.title,
+    );
   });
   it('should not clear notification after completed upload', () => {
-    const trackedItem = {
-      status: 'NEEDED_FROM_YOU',
-    };
-    const message = {
+    const trackedItem = createBasicTrackedItem();
+    const message = createTestMessage({
       title: 'test',
       body: 'test',
       type: 'error',
-    };
+    });
     const clearNotification = sinon.spy();
-    const { context } = renderWithRouter(
-      <Provider store={getStore()}>
-        <DocumentRequestPage
-          {...defaultProps}
-          trackedItem={trackedItem}
-          clearNotification={clearNotification}
-          message={message}
-        />
-        ,
-      </Provider>,
-    );
 
-    expect($('va-alert', context)).to.exist;
+    const { context } = renderPage({
+      trackedItem,
+      clearNotification,
+      message,
+    });
+
+    expect($('.claims-alert', context)).to.exist;
     expect(clearNotification.called).to.be.false;
   });
   it('should render optional upload alert', () => {
@@ -312,6 +309,7 @@ describe('<DocumentRequestPage>', () => {
 
     expect($('.optional-upload', context)).to.exist;
   });
+
   it('should render file upload form when trackedItem.canUploadFile is true', () => {
     const trackedItem = {
       status: 'NEEDED_FROM_YOU',
@@ -352,7 +350,7 @@ describe('<DocumentRequestPage>', () => {
     expect(resetUploads.called).to.be.true;
   });
 
-  it('should set details and go to files page if complete', () => {
+  it('should set details and go to status page if complete when feature flag is enabled', () => {
     const trackedItem = {
       status: 'NEEDED_FROM_YOU',
       displayName: 'Testing',
@@ -371,6 +369,7 @@ describe('<DocumentRequestPage>', () => {
           navigate={navigate}
           params={parameters}
           getClaim={getClaim}
+          showDocumentUploadStatus
         />
       </Provider>,
     );
@@ -385,6 +384,51 @@ describe('<DocumentRequestPage>', () => {
           navigate={navigate}
           params={parameters}
           getClaim={getClaim}
+          showDocumentUploadStatus
+        />
+        ,
+      </Provider>,
+    );
+
+    expect(getClaim.calledWith(1)).to.be.true;
+    expect(navigate.calledWith('../status')).to.be.true;
+  });
+
+  it('should set details and go to files page if complete when feature flag is disabled', () => {
+    const trackedItem = {
+      status: 'NEEDED_FROM_YOU',
+      displayName: 'Testing',
+    };
+    const parameters = {
+      id: 339,
+    };
+    const getClaim = sinon.spy();
+    const navigate = sinon.spy();
+
+    const { rerender } = renderWithRouter(
+      <Provider store={getStore()}>
+        <DocumentRequestPage
+          {...defaultProps}
+          trackedItem={trackedItem}
+          navigate={navigate}
+          params={parameters}
+          getClaim={getClaim}
+          showDocumentUploadStatus={false}
+        />
+      </Provider>,
+    );
+
+    rerenderWithRouter(
+      rerender,
+      <Provider store={getStore()}>
+        <DocumentRequestPage
+          {...defaultProps}
+          uploadComplete
+          trackedItem={trackedItem}
+          navigate={navigate}
+          params={parameters}
+          getClaim={getClaim}
+          showDocumentUploadStatus={false}
         />
         ,
       </Provider>,
