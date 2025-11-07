@@ -229,3 +229,20 @@ POST /my_health/v1/aal
 - **Caching**: Prescriptions API has a 1-hour cache (`keepUnusedDataFor: 60 * 60`)
 - **Error Handling**: All APIs include standardized error handling
 - **Platform Utilities**: Uses `@department-of-veterans-affairs/platform-utilities/exports` for `apiRequest` and `environment`
+
+## Historical Endpoints (Removed)
+
+The following endpoints appeared in legacy test code but are not present in the current mhv-medications application. They were used only as mocked E2E test helpers and have been removed from the working tree.
+
+```
+GET  /v0/prescriptions/preferences
+PUT  /v0/prescriptions/preferences
+```
+
+History:
+- Added in commit `f3b0ea2ecc` (2017-05-16) within legacy Rx E2E test helpers to mock retrieving and updating prescription email notification preferences.
+- Removed in commit `a09f44760e` (2019-01-04) as part of cleaning up unused health tools code.
+
+Notes:
+- These were mock definitions (not production API calls) and no longer exist anywhere in current source files.
+- Searches of the current codebase confirm no live usage of `prescriptions/preferences` paths.
