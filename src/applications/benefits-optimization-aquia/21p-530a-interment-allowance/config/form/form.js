@@ -18,7 +18,7 @@ import {
   AdditionalRemarksPage,
   burialBenefitsRecipientPage,
   LocationsAndRankPage,
-  MailingAddressPage,
+  burialOrganizationMailingAddressPage,
   organizationInformationPage,
   PreviousNameEntryPage,
   relationshipToVeteranPage,
@@ -35,7 +35,6 @@ import {
 
 // Import review pages
 import { AdditionalRemarksReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/additional-remarks/additional-remarks-review';
-import { MailingAddressReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/mailing-address/mailing-address-review';
 import { ServicePeriodsReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/service-periods/service-periods-review';
 import { VeteranBirthInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-birth-information/veteran-birth-information-review';
 import { VeteranBurialInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-burial-information/veteran-burial-information-review';
@@ -115,11 +114,8 @@ const formConfig = {
         mailingAddress: {
           path: 'organization-mailing-address',
           title: 'Mailing address',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: MailingAddressPage,
-          CustomPageReview: MailingAddressReviewPage,
-          pagePerItemIndex: 0,
+          uiSchema: burialOrganizationMailingAddressPage.uiSchema,
+          schema: burialOrganizationMailingAddressPage.schema,
         },
       },
     },
