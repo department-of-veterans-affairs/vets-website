@@ -11,6 +11,7 @@ export const SuccessNotification = ({
   successfulMeds,
 }) => (
   <RefillAlert config={config} additionalProps={{ 'data-dd-privacy': 'mask' }}>
+    # of medications successfully requested for refill: {successfulMeds?.length}
     <RefillMedicationList
       medications={successfulMeds}
       testId="successful-medication-list"

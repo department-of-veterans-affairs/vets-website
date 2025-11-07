@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { createApi } from '@reduxjs/toolkit/query/react';
 import {
   apiRequest,
   environment,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { random } from 'lodash';
 import {
   sanitizeKramesHtmlStr,
   convertPrescription,
@@ -27,6 +29,7 @@ export const prescriptionsApi = createApi({
     };
     try {
       const result = await apiRequest(path, { ...defaultOptions, ...options });
+      // console.log('API Request to:', path, 'with', result);
       return { data: result };
     } catch ({ errors }) {
       return {
@@ -170,17 +173,36 @@ export const prescriptionsApi = createApi({
     }),
     bulkRefillPrescriptions: builder.mutation({
       query: ids => {
+        // console.log('🔹 [bulkRefillPrescriptions] IDs received:', ids);
+        // Fix this line
         const idParams = ids.map(id => `ids[]=${id}`).join('&');
+        const path = `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`;
+        // console.log('🔹 [bulkRefillPrescriptions] API Path:', path);
+
+        // console.log('🔹 Encoded check:', encodeURI(path));
+        // const path2 = `${apiBasePath}/prescriptions/refill_prescriptions`;
+        // console.log(path2, 'PATH 2222222');
+
         return {
-          path: `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`,
+          path,
           options: { method: 'PATCH' },
+          body: JSON.stringify({ ids }),
         };
       },
       invalidatesTags: ['Prescription'],
-      transformResponse: response => {
+      transformResponse: (response, meta, arg) => {
+        // console.log('✅ [bulkRefillPrescriptions] Raw Response:', response);
+        // console.log('✅ [bulkRefillPrescriptions] Meta:', meta);
+        // console.log('✅ [bulkRefillPrescriptions] Args:', arg);
+        const orderId = random(10000, 99999);
+        // console.log(
+        //   '✅ [bulkRefillPrescriptions] Formatted Response:',
+        //   formatted,
+        // );
         return {
           successfulIds: response?.successfulIds || [],
           failedIds: response?.failedIds || [],
+          orderId,
         };
       },
     }),

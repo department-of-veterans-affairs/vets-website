@@ -48,6 +48,8 @@ const RefillPrescriptions = () => {
   ] = useBulkRefillPrescriptionsMutation();
   const { isLoading: isRefilling, error: bulkRefillError } = result;
 
+  // console.log(result, "RESULTTTT")
+
   const refillAlertList = refillableData?.refillAlertList || [];
 
   const getMedicationsByIds = (ids, prescriptions) => {
@@ -76,7 +78,7 @@ const RefillPrescriptions = () => {
       ),
     [result?.data?.failedIds],
   );
-
+  // console.log(successfulMeds, failedMeds)
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
     false,
   );
@@ -111,8 +113,10 @@ const RefillPrescriptions = () => {
       const prescriptionIds = selectedRefillList.map(rx => rx.prescriptionId);
 
       try {
+        // console.log("TRYYY")
         await bulkRefillPrescriptions(prescriptionIds);
         setRefillStatus(REFILL_STATUS.FINISHED);
+        // console.log("SUCCESSS")
       } catch (error) {
         setRefillStatus(REFILL_STATUS.ERROR);
       }
@@ -188,7 +192,7 @@ const RefillPrescriptions = () => {
 
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
-
+  // console.log(fullRefillList, "FULL REFILL LISTTTT")
   const content = () => {
     if (isLoading || isRefilling) {
       return (
@@ -305,7 +309,7 @@ const RefillPrescriptions = () => {
                               )}`
                             : 'Not filled yet'
                         }
-                        ${prescription.refillRemaining} refills left`}
+                        ${prescription.refillRemaining} refills left. TEST`}
                       />
                     </div>
                   ))}

@@ -7,7 +7,7 @@ export const RefillMedicationList = ({
   showBold = false,
 }) => {
   if (!medications?.length) return null;
-
+  // console.log(medications, 'MEDICATIONS  LISTTTT');
   return (
     <ul className="va-list--disc" data-dd-privacy="mask" data-testid={testId}>
       {medications.map((medication, idx) => (
@@ -20,6 +20,11 @@ export const RefillMedicationList = ({
           data-dd-privacy="mask"
         >
           {medication?.prescriptionName}
+          <div className="vads-u-margin-left--1 vads-u-font-size--sm">
+            <div>Prescription Source: {medication?.prescriptionSource}</div>
+            <div>Quantity: {medication?.quantity}</div>
+            <div># of Refills remaining: {medication?.refillRemaining}</div>
+          </div>
         </li>
       ))}
     </ul>

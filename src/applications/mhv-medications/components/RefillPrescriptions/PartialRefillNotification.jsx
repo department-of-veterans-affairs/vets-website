@@ -5,6 +5,8 @@ import { RefillMedicationList } from './RefillMedicationList';
 
 export const PartialRefillNotification = ({ config, failedMeds }) => (
   <RefillAlert config={config}>
+    # of medications that failed in their request for refill:{' '}
+    {failedMeds?.length}
     <p data-testid="partial-refill-description">{config.description}</p>
     <RefillMedicationList
       medications={failedMeds}
