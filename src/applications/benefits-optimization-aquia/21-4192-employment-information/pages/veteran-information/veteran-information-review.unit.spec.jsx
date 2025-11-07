@@ -54,13 +54,8 @@ describe('VeteranInformationReview', () => {
     it('should display complete veteran information', () => {
       const data = {
         veteranInformation: {
-          fullName: {
-            first: 'Boba',
-            middle: '',
-            last: 'Fett',
-          },
-          ssn: '123-45-6789',
-          vaFileNumber: '22113800',
+          firstName: 'Boba',
+          lastName: 'Fett',
           dateOfBirth: '1985-03-22',
         },
       };
@@ -73,20 +68,16 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Boba Fett');
-      expect(container.textContent).to.include('123-45-6789');
-      expect(container.textContent).to.include('22113800');
+      expect(container.textContent).to.include('Boba');
+      expect(container.textContent).to.include('Fett');
       expect(container.textContent).to.include('March 22, 1985');
     });
 
-    it('should display veteran information without middle name', () => {
+    it('should display veteran information separately', () => {
       const data = {
         veteranInformation: {
-          fullName: {
-            first: 'Jango',
-            last: 'Fett',
-          },
-          ssn: '987-65-4321',
+          firstName: 'Jango',
+          lastName: 'Fett',
           dateOfBirth: '1958-01-06',
         },
       };
@@ -99,20 +90,16 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Jango Fett');
-      expect(container.textContent).to.include('987-65-4321');
+      expect(container.textContent).to.include('Jango');
+      expect(container.textContent).to.include('Fett');
       expect(container.textContent).to.include('January 6, 1958');
     });
 
-    it('should display veteran with suffix', () => {
+    it('should display first and last name', () => {
       const data = {
         veteranInformation: {
-          fullName: {
-            first: 'Cad',
-            last: 'Bane',
-            suffix: '',
-          },
-          ssn: '111-22-3333',
+          firstName: 'Cad',
+          lastName: 'Bane',
           dateOfBirth: '1962-07-13',
         },
       };
@@ -125,21 +112,16 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Cad Bane');
-      expect(container.textContent).to.include('111-22-3333');
+      expect(container.textContent).to.include('Cad');
+      expect(container.textContent).to.include('Bane');
       expect(container.textContent).to.include('July 13, 1962');
     });
 
-    it('should display all name components when all present', () => {
+    it('should display all veteran information when all present', () => {
       const data = {
         veteranInformation: {
-          fullName: {
-            first: 'Bossk',
-            middle: '',
-            last: 'Trandoshan',
-            suffix: '',
-          },
-          ssn: '222-33-4444',
+          firstName: 'Bossk',
+          lastName: 'Trandoshan',
           dateOfBirth: '1971-05-02',
         },
       };
@@ -152,8 +134,8 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Bossk Trandoshan');
-      expect(container.textContent).to.include('222-33-4444');
+      expect(container.textContent).to.include('Bossk');
+      expect(container.textContent).to.include('Trandoshan');
       expect(container.textContent).to.include('May 2, 1971');
     });
 
@@ -222,20 +204,16 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.match(/Veteran.s full name/);
-      expect(container.textContent).to.include('Social Security number');
-      expect(container.textContent).to.include('VA file number');
-      expect(container.textContent).to.include('Date of birth');
+      expect(container.textContent).to.include('first or given name');
+      expect(container.textContent).to.include('last or family name');
+      expect(container.textContent).to.include('date of birth');
     });
   });
 
   describe('Missing Data Handling', () => {
-    it('should show not provided for missing name', () => {
+    it('should show not provided for missing firstName', () => {
       const data = {
-        veteranInformation: {
-          fullName: {},
-          ssn: '123-45-6789',
-        },
+        veteranInformation: {},
       };
 
       const { container } = render(
@@ -247,56 +225,15 @@ describe('VeteranInformationReview', () => {
       );
 
       const reviewRows = container.querySelectorAll('.review-row');
-      const nameRow = reviewRows[0];
-      expect(nameRow.textContent).to.include('Not provided');
-    });
-
-    it('should show not provided for missing SSN', () => {
-      const data = {
-        veteranInformation: {
-          fullName: { first: 'Boba', last: 'Fett' },
-        },
-      };
-
-      const { container } = render(
-        <VeteranInformationReview
-          data={data}
-          editPage={mockEditPage}
-          title={mockTitle}
-        />,
-      );
-
-      const reviewRows = container.querySelectorAll('.review-row');
-      const ssnRow = reviewRows[1];
-      expect(ssnRow.textContent).to.include('Not provided');
-    });
-
-    it('should show not provided for missing VA file number', () => {
-      const data = {
-        veteranInformation: {
-          fullName: { first: 'Boba', last: 'Fett' },
-          ssn: '123-45-6789',
-        },
-      };
-
-      const { container } = render(
-        <VeteranInformationReview
-          data={data}
-          editPage={mockEditPage}
-          title={mockTitle}
-        />,
-      );
-
-      const reviewRows = container.querySelectorAll('.review-row');
-      const vaFileRow = reviewRows[2];
-      expect(vaFileRow.textContent).to.include('Not provided');
+      const firstNameRow = reviewRows[0];
+      expect(firstNameRow.textContent).to.include('Not provided');
     });
 
     it('should show not provided for missing date of birth', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'Boba', last: 'Fett' },
-          ssn: '123-45-6789',
+          firstName: 'Boba',
+          lastName: 'Fett',
         },
       };
 
@@ -309,7 +246,7 @@ describe('VeteranInformationReview', () => {
       );
 
       const reviewRows = container.querySelectorAll('.review-row');
-      const dobRow = reviewRows[3];
+      const dobRow = reviewRows[2];
       expect(dobRow.textContent).to.include('Not provided');
     });
   });
@@ -318,7 +255,8 @@ describe('VeteranInformationReview', () => {
     it('should format valid dates correctly', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'Boba', last: 'Fett' },
+          firstName: 'Boba',
+          lastName: 'Fett',
           dateOfBirth: '1985-03-22',
         },
       };
@@ -337,7 +275,8 @@ describe('VeteranInformationReview', () => {
     it('should handle different date formats', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'Embo', last: '' },
+          firstName: 'Embo',
+          lastName: '',
           dateOfBirth: '1955-01-20',
         },
       };
@@ -356,7 +295,8 @@ describe('VeteranInformationReview', () => {
     it('should handle invalid date strings', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'Boba', last: 'Fett' },
+          firstName: 'Boba',
+          lastName: 'Fett',
           dateOfBirth: 'invalid-date',
         },
       };
@@ -375,7 +315,8 @@ describe('VeteranInformationReview', () => {
     it('should handle empty date string', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'Boba', last: 'Fett' },
+          firstName: 'Boba',
+          lastName: 'Fett',
           dateOfBirth: '',
         },
       };
@@ -389,14 +330,15 @@ describe('VeteranInformationReview', () => {
       );
 
       const reviewRows = container.querySelectorAll('.review-row');
-      const dobRow = reviewRows[3];
+      const dobRow = reviewRows[2];
       expect(dobRow.textContent).to.include('Not provided');
     });
 
     it('should handle null date', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'Boba', last: 'Fett' },
+          firstName: 'Boba',
+          lastName: 'Fett',
           dateOfBirth: null,
         },
       };
@@ -410,18 +352,16 @@ describe('VeteranInformationReview', () => {
       );
 
       const reviewRows = container.querySelectorAll('.review-row');
-      const dobRow = reviewRows[3];
+      const dobRow = reviewRows[2];
       expect(dobRow.textContent).to.include('Not provided');
     });
   });
 
-  describe('Name Formatting', () => {
-    it('should format first name only', () => {
+  describe('Name Display', () => {
+    it('should display first name only', () => {
       const data = {
         veteranInformation: {
-          fullName: {
-            first: 'Greedo',
-          },
+          firstName: 'Greedo',
         },
       };
 
@@ -436,12 +376,10 @@ describe('VeteranInformationReview', () => {
       expect(container.textContent).to.include('Greedo');
     });
 
-    it('should format last name only', () => {
+    it('should display last name only', () => {
       const data = {
         veteranInformation: {
-          fullName: {
-            last: 'IG-88',
-          },
+          lastName: 'IG-88',
         },
       };
 
@@ -456,15 +394,11 @@ describe('VeteranInformationReview', () => {
       expect(container.textContent).to.include('IG-88');
     });
 
-    it('should skip empty name parts', () => {
+    it('should display both first and last name', () => {
       const data = {
         veteranInformation: {
-          fullName: {
-            first: 'Zam',
-            middle: '',
-            last: 'Wesell',
-            suffix: '',
-          },
+          firstName: 'Zam',
+          lastName: 'Wesell',
         },
       };
 
@@ -476,19 +410,15 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Zam Wesell');
-      expect(container.textContent).to.not.include('  ');
+      expect(container.textContent).to.include('Zam');
+      expect(container.textContent).to.include('Wesell');
     });
 
-    it('should handle null name parts', () => {
+    it('should display complete name information', () => {
       const data = {
         veteranInformation: {
-          fullName: {
-            first: 'Aurra',
-            middle: null,
-            last: 'Sing',
-            suffix: null,
-          },
+          firstName: 'Aurra',
+          lastName: 'Sing',
         },
       };
 
@@ -500,7 +430,8 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Aurra Sing');
+      expect(container.textContent).to.include('Aurra');
+      expect(container.textContent).to.include('Sing');
     });
   });
 
@@ -551,10 +482,11 @@ describe('VeteranInformationReview', () => {
       expect(container).to.exist;
     });
 
-    it('should handle null fullName', () => {
+    it('should handle null firstName', () => {
       const data = {
         veteranInformation: {
-          fullName: null,
+          firstName: null,
+          lastName: null,
         },
       };
 
@@ -574,9 +506,8 @@ describe('VeteranInformationReview', () => {
     it('should have correct number of review rows', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'Boba', last: 'Fett' },
-          ssn: '123-45-6789',
-          vaFileNumber: '22113800',
+          firstName: 'Boba',
+          lastName: 'Fett',
           dateOfBirth: '1985-03-22',
         },
       };
@@ -590,13 +521,14 @@ describe('VeteranInformationReview', () => {
       );
 
       const reviewRows = container.querySelectorAll('.review-row');
-      expect(reviewRows).to.have.lengthOf(4);
+      expect(reviewRows).to.have.lengthOf(3);
     });
 
     it('should have dt and dd elements for each row', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'Boba', last: 'Fett' },
+          firstName: 'Boba',
+          lastName: 'Fett',
         },
       };
 
@@ -646,12 +578,8 @@ describe('VeteranInformationReview', () => {
     it('should display profile for Aurra Sing', () => {
       const data = {
         veteranInformation: {
-          fullName: {
-            first: 'Aurra',
-            last: 'Sing',
-          },
-          ssn: '555-66-7777',
-          vaFileNumber: '87654321',
+          firstName: 'Aurra',
+          lastName: 'Sing',
           dateOfBirth: '1983-05-20',
         },
       };
@@ -664,20 +592,16 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Aurra Sing');
-      expect(container.textContent).to.include('555-66-7777');
-      expect(container.textContent).to.include('87654321');
+      expect(container.textContent).to.include('Aurra');
+      expect(container.textContent).to.include('Sing');
       expect(container.textContent).to.include('May 20, 1983');
     });
 
     it('should display profile for Greedo', () => {
       const data = {
         veteranInformation: {
-          fullName: {
-            first: 'Greedo',
-            last: 'Rodian',
-          },
-          ssn: '999-88-7777',
+          firstName: 'Greedo',
+          lastName: 'Rodian',
           dateOfBirth: '1968-08-19',
         },
       };
@@ -690,8 +614,8 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Greedo Rodian');
-      expect(container.textContent).to.include('999-88-7777');
+      expect(container.textContent).to.include('Greedo');
+      expect(container.textContent).to.include('Rodian');
       expect(container.textContent).to.include('August 19, 1968');
     });
   });

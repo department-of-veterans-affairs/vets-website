@@ -146,7 +146,7 @@ const destinationPage = {
         return mileageExpense?.travelLocation === 'OTHER';
       },
     }),
-    travelMilesTraveled: numberUI('How many miles were travelled?'),
+    travelMilesTraveled: numberUI('How many miles were traveled?'),
     travelDate: currentOrPastDateUI({
       title: 'What was the date of travel?',
       monthSelect: false,
