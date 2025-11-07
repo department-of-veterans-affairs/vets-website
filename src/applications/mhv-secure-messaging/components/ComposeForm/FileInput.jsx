@@ -19,7 +19,6 @@ const FileInput = props => {
     draftSequence,
     isOhTriageGroup,
     setAttachFileError,
-    setAttachFileSuccess = () => {},
     setAttachments,
     showHelp = true,
   } = props;
@@ -151,7 +150,6 @@ const FileInput = props => {
           }
 
           // All validations passed, add the file
-          setAttachFileSuccess(true);
           if (attachments.length) {
             setAttachments(prevFiles => {
               return [...prevFiles, file];
@@ -165,7 +163,6 @@ const FileInput = props => {
           setAttachments(prevFiles => {
             return prevFiles.filter(f => f.name !== file.name);
           });
-          setAttachFileSuccess(false);
           break;
         }
         default:
@@ -179,7 +176,6 @@ const FileInput = props => {
       maxFileSize,
       maxFileSizeError,
       setAttachFileError,
-      setAttachFileSuccess,
       setAttachments,
       totalMaxFileSize,
       totalMaxFileSizeError,
@@ -227,7 +223,7 @@ const FileInput = props => {
       const maxSize = useLargeAttachments ? '25 MB' : '6 MB';
       const totalSize = useLargeAttachments ? '25 MB' : '10 MB';
 
-      // If file types list is very long (30+ types), summarize instead of listing all
+      // Summarize file types if more than 15 (shows basic types, hides extended types)
       const fileTypesText =
         fileTypesList.length > 15
           ? 'common document and image formats'
@@ -298,7 +294,6 @@ FileInput.propTypes = {
   draftSequence: PropTypes.number,
   isOhTriageGroup: PropTypes.bool,
   setAttachFileError: PropTypes.func,
-  setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,
   showHelp: PropTypes.bool,
 };

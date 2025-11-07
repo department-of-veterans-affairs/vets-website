@@ -64,7 +64,6 @@ describe('File input component', () => {
     });
 
     const setAttachments = sinon.spy();
-    const setAttachFileSuccess = sinon.spy();
     const setAttachFileError = sinon.spy();
 
     const file = createTestFile({
@@ -77,7 +76,6 @@ describe('File input component', () => {
       <FileInput
         attachments={attachments}
         setAttachments={setAttachments}
-        setAttachFileSuccess={setAttachFileSuccess}
         setAttachFileError={setAttachFileError}
       />,
     );
@@ -94,7 +92,6 @@ describe('File input component', () => {
       fileInput.dispatchEvent(changeEvent);
     });
 
-    expect(setAttachFileSuccess.calledWith(true)).to.be.true;
     expect(setAttachments.called).to.be.true;
   });
 
@@ -105,7 +102,6 @@ describe('File input component', () => {
 
     const oneAttachment = { name: 'test1.png', size: 1000, type: 'image/png' };
     const setAttachments = sinon.spy();
-    const setAttachFileSuccess = sinon.spy();
     const setAttachFileError = sinon.spy();
 
     const file = createTestFile({
@@ -118,7 +114,6 @@ describe('File input component', () => {
       <FileInput
         attachments={[oneAttachment]}
         setAttachments={setAttachments}
-        setAttachFileSuccess={setAttachFileSuccess}
         setAttachFileError={setAttachFileError}
       />,
     );
@@ -134,7 +129,6 @@ describe('File input component', () => {
       fileInput.dispatchEvent(changeEvent);
     });
 
-    expect(setAttachFileSuccess.calledWith(true)).to.be.true;
     expect(setAttachments.called).to.be.true;
   });
 
@@ -285,12 +279,10 @@ describe('File input component', () => {
 
   describe('setAttachFileError', () => {
     let setAttachFileErrorSpy;
-    let setAttachFileSuccessSpy;
     let setAttachments;
 
     beforeEach(() => {
       setAttachFileErrorSpy = sinon.spy();
-      setAttachFileSuccessSpy = sinon.spy();
       setAttachments = sinon.spy();
     });
 
@@ -305,7 +297,7 @@ describe('File input component', () => {
           attachments: [],
           isOhTriageGroup: true,
           setAttachFileError: setAttachFileErrorSpy,
-          setAttachFileSuccess: setAttachFileSuccessSpy,
+
           setAttachments,
         };
 
@@ -327,8 +319,6 @@ describe('File input component', () => {
         await waitFor(() => {
           input.dispatchEvent(changeEvent);
         });
-
-        expect(setAttachFileSuccessSpy.calledWith(true)).to.be.true;
 
         // Test invalid file type
         const mp3File = createTestFile({
@@ -361,7 +351,7 @@ describe('File input component', () => {
           attachments: [],
           isOhTriageGroup: true,
           setAttachFileError: setAttachFileErrorSpy,
-          setAttachFileSuccess: setAttachFileSuccessSpy,
+
           setAttachments,
         };
 
@@ -384,8 +374,6 @@ describe('File input component', () => {
         await waitFor(() => {
           input.dispatchEvent(validChangeEvent);
         });
-
-        expect(setAttachFileSuccessSpy.calledWith(true)).to.be.true;
 
         // Test file over 25MB
         const largeFile = createTestFile({
@@ -422,7 +410,7 @@ describe('File input component', () => {
           attachments: existingAttachments,
           isOhTriageGroup: true,
           setAttachFileError: setAttachFileErrorSpy,
-          setAttachFileSuccess: setAttachFileSuccessSpy,
+
           setAttachments,
         };
 
@@ -445,8 +433,6 @@ describe('File input component', () => {
         await waitFor(() => {
           input.dispatchEvent(validChangeEvent);
         });
-
-        expect(setAttachFileSuccessSpy.calledWith(true)).to.be.true;
 
         // Test file that exceeds total limit
         const largeFile = createTestFile({
@@ -481,7 +467,7 @@ describe('File input component', () => {
           attachments: [],
           isOhTriageGroup: false,
           setAttachFileError: setAttachFileErrorSpy,
-          setAttachFileSuccess: setAttachFileSuccessSpy,
+
           setAttachments,
         };
 
@@ -504,8 +490,6 @@ describe('File input component', () => {
         await waitFor(() => {
           input.dispatchEvent(validChangeEvent);
         });
-
-        expect(setAttachFileSuccessSpy.calledWith(true)).to.be.true;
 
         // Test extended file type (should be rejected)
         const mp4File = createTestFile({
@@ -538,7 +522,7 @@ describe('File input component', () => {
           attachments: [],
           isOhTriageGroup: false,
           setAttachFileError: setAttachFileErrorSpy,
-          setAttachFileSuccess: setAttachFileSuccessSpy,
+
           setAttachments,
         };
 
@@ -561,8 +545,6 @@ describe('File input component', () => {
         await waitFor(() => {
           input.dispatchEvent(validChangeEvent);
         });
-
-        expect(setAttachFileSuccessSpy.calledWith(true)).to.be.true;
 
         // Test file over 6MB
         const largeFile = createTestFile({
@@ -599,7 +581,7 @@ describe('File input component', () => {
           attachments: existingAttachments,
           isOhTriageGroup: false,
           setAttachFileError: setAttachFileErrorSpy,
-          setAttachFileSuccess: setAttachFileSuccessSpy,
+
           setAttachments,
         };
 
@@ -621,8 +603,6 @@ describe('File input component', () => {
         await waitFor(() => {
           input.dispatchEvent(validChangeEvent);
         });
-
-        expect(setAttachFileSuccessSpy.calledWith(true)).to.be.true;
 
         // Test file that exceeds total limit
         const largeFile = createTestFile({
@@ -657,7 +637,7 @@ describe('File input component', () => {
           attachments: [],
           isOhTriageGroup: false,
           setAttachFileError: setAttachFileErrorSpy,
-          setAttachFileSuccess: setAttachFileSuccessSpy,
+
           setAttachments,
         };
 
@@ -681,8 +661,6 @@ describe('File input component', () => {
           input.dispatchEvent(bmpChangeEvent);
         });
 
-        expect(setAttachFileSuccessSpy.calledWith(true)).to.be.true;
-
         // Test MP4 file
         const mp4File = createTestFile({
           content: 'test video content',
@@ -699,8 +677,6 @@ describe('File input component', () => {
         await waitFor(() => {
           input.dispatchEvent(mp4ChangeEvent);
         });
-
-        expect(setAttachFileSuccessSpy.calledWith(true)).to.be.true;
 
         // Test invalid file type
         const mp3File = createTestFile({
@@ -733,7 +709,7 @@ describe('File input component', () => {
           attachments: [],
           isOhTriageGroup: false,
           setAttachFileError: setAttachFileErrorSpy,
-          setAttachFileSuccess: setAttachFileSuccessSpy,
+
           setAttachments,
         };
 
@@ -756,8 +732,6 @@ describe('File input component', () => {
         await waitFor(() => {
           input.dispatchEvent(validChangeEvent);
         });
-
-        expect(setAttachFileSuccessSpy.calledWith(true)).to.be.true;
 
         // Test file over 25MB
         const largeFile = createTestFile({
@@ -794,7 +768,7 @@ describe('File input component', () => {
           attachments: existingAttachments,
           isOhTriageGroup: false,
           setAttachFileError: setAttachFileErrorSpy,
-          setAttachFileSuccess: setAttachFileSuccessSpy,
+
           setAttachments,
         };
 
@@ -817,8 +791,6 @@ describe('File input component', () => {
         await waitFor(() => {
           input.dispatchEvent(validChangeEvent);
         });
-
-        expect(setAttachFileSuccessSpy.calledWith(true)).to.be.true;
 
         // Test file that exceeds total limit
         const largeFile = createTestFile({
@@ -853,7 +825,7 @@ describe('File input component', () => {
           attachments: [],
           isOhTriageGroup: false,
           setAttachFileError: setAttachFileErrorSpy,
-          setAttachFileSuccess: setAttachFileSuccessSpy,
+
           setAttachments,
         };
 
@@ -876,8 +848,6 @@ describe('File input component', () => {
         await waitFor(() => {
           input.dispatchEvent(validChangeEvent);
         });
-
-        expect(setAttachFileSuccessSpy.calledWith(true)).to.be.true;
 
         // Test extended file type (should be rejected)
         const tiffFile = createTestFile({
@@ -910,7 +880,7 @@ describe('File input component', () => {
           attachments: [],
           isOhTriageGroup: false,
           setAttachFileError: setAttachFileErrorSpy,
-          setAttachFileSuccess: setAttachFileSuccessSpy,
+
           setAttachments,
         };
 
@@ -933,8 +903,6 @@ describe('File input component', () => {
         await waitFor(() => {
           input.dispatchEvent(validChangeEvent);
         });
-
-        expect(setAttachFileSuccessSpy.calledWith(true)).to.be.true;
 
         // Test file over 6MB
         const largeFile = createTestFile({
@@ -971,7 +939,7 @@ describe('File input component', () => {
           attachments: existingAttachments,
           isOhTriageGroup: false,
           setAttachFileError: setAttachFileErrorSpy,
-          setAttachFileSuccess: setAttachFileSuccessSpy,
+
           setAttachments,
         };
 
@@ -994,8 +962,6 @@ describe('File input component', () => {
         await waitFor(() => {
           input.dispatchEvent(validChangeEvent);
         });
-
-        expect(setAttachFileSuccessSpy.calledWith(true)).to.be.true;
 
         // Test file that exceeds total limit
         const largeFile = createTestFile({
@@ -1027,7 +993,7 @@ describe('File input component', () => {
       const props = {
         attachments: [],
         setAttachFileError: setAttachFileErrorSpy,
-        setAttachFileSuccess: setAttachFileSuccessSpy,
+
         setAttachments,
       };
 
@@ -1066,7 +1032,7 @@ describe('File input component', () => {
       const props = {
         attachments: [existingFile],
         setAttachFileError: setAttachFileErrorSpy,
-        setAttachFileSuccess: setAttachFileSuccessSpy,
+
         setAttachments,
       };
 
@@ -1106,7 +1072,7 @@ describe('File input component', () => {
       const props = {
         attachments: existingFiles,
         setAttachFileError: setAttachFileErrorSpy,
-        setAttachFileSuccess: setAttachFileSuccessSpy,
+
         setAttachments,
       };
 
@@ -1123,7 +1089,6 @@ describe('File input component', () => {
       });
 
       expect(setAttachments.called).to.be.true;
-      expect(setAttachFileSuccessSpy.calledWith(false)).to.be.true;
     });
   });
 
