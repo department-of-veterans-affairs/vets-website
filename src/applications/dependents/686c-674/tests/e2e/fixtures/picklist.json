@@ -430,7 +430,7 @@
   ],
   "statementOfTruthSignature": "John Doe",
   "statementOfTruthCertified": true,
-  "view:removeDependentPickListx": [
+  "view:removeDependentPickList": [
     {
       "fullName": {
         "first": "JOE",
