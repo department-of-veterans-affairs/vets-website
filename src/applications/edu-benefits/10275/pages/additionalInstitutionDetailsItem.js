@@ -87,7 +87,7 @@ const schema = {
     institutionAddress: {
       type: 'object',
       properties: {
-        country: addressSchema().properties.country,
+        country: { type: 'string' },
         street: addressSchema().properties.street,
         street2: {
           ...addressSchema().properties.street2,
@@ -101,7 +101,7 @@ const schema = {
         state: addressSchema().properties.state,
         postalCode: addressSchema().properties.postalCode,
       },
-      // required: ['street', 'city', 'state', 'postalCode', 'country'],
+      required: ['street', 'city', 'state', 'postalCode', 'country'],
     },
     // 'view:warningBanner': {
     //   type: 'object',

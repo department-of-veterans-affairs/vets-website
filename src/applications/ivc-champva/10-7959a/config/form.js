@@ -10,6 +10,7 @@ import transformForSubmit from './submitTransformer';
 import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
 import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
+import { blankSchema } from '../definitions';
 import {
   certifierRoleSchema,
   certifierBenefitStatusSchema,
@@ -39,12 +40,10 @@ import {
   applicantContactSchema,
 } from '../chapters/beneficiaryInformation';
 import {
-  blankSchema,
   sponsorAddressSchema,
   sponsorNameSchema,
   sponsorContactSchema,
 } from '../chapters/sponsorInformation';
-
 import {
   claimIdentificationNumber,
   resubmissionLetterUpload,
