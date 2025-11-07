@@ -16,7 +16,7 @@ import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/p
 import { transform } from '@bio-aquia/21p-530a-interment-allowance/config/submit-transform/transform';
 import {
   AdditionalRemarksPage,
-  BurialBenefitsRecipientPage,
+  burialBenefitsRecipientPage,
   LocationsAndRankPage,
   MailingAddressPage,
   organizationInformationPage,
@@ -35,7 +35,6 @@ import {
 
 // Import review pages
 import { AdditionalRemarksReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/additional-remarks/additional-remarks-review';
-import { BurialBenefitsRecipientReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/burial-benefits-recipient/burial-benefits-recipient-review';
 import { MailingAddressReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/mailing-address/mailing-address-review';
 import { ServicePeriodsReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/service-periods/service-periods-review';
 import { VeteranBirthInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-birth-information/veteran-birth-information-review';
@@ -110,11 +109,8 @@ const formConfig = {
         burialBenefitsRecipient: {
           path: 'burial-benefits-recipient',
           title: 'Burial benefits recipient',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: BurialBenefitsRecipientPage,
-          CustomPageReview: BurialBenefitsRecipientReviewPage,
-          pagePerItemIndex: 0,
+          uiSchema: burialBenefitsRecipientPage.uiSchema,
+          schema: burialBenefitsRecipientPage.schema,
         },
         mailingAddress: {
           path: 'organization-mailing-address',

@@ -11,7 +11,9 @@ export {
 export {
   default as organizationInformationPage,
 } from './organization-information';
-export { BurialBenefitsRecipientPage } from './burial-benefits-recipient';
+export {
+  default as burialBenefitsRecipientPage,
+} from './burial-benefits-recipient';
 export { MailingAddressPage } from './mailing-address';
 
 // Chapter 2: Deceased Veteran information
