@@ -15,7 +15,7 @@ const TravelPayButtonPair = ({
     <ul className={`travel-pay-button-group ${className}`}>
       <li className="travel-pay-button-group__item">
         <VaButton
-          back={!backText}
+          back={backText === 'Back'}
           text={backText}
           secondary={!!backText}
           onClick={onBack}
