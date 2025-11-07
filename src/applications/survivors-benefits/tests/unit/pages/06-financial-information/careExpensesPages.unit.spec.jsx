@@ -3,16 +3,19 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import {
   DefinitionTester,
-  // getFormDOM,
+  getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
-// import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   careExpensesPages,
   options,
 } from '../../../../config/chapters/06-financial-information/careFacilityExpenses/careExpensesPages';
-// import { medicalExpenseRecipientLabels } from '../../../../utils/labels';
+import {
+  careRecipientLabels,
+  careFrequencyLabels,
+} from '../../../../utils/labels';
 
-// const arrayPath = 'careExpenses';
+const arrayPath = 'careExpenses';
 
 describe('Care Expenses Pages', () => {
   it('renders the care expenses page intro', async () => {
@@ -27,89 +30,138 @@ describe('Care Expenses Pages', () => {
     );
     expect(form.getByRole('heading')).to.have.text(careExpensesIntro.title);
   });
-  //   it('renders the medical expenses page summary', async () => {
-  //     const { medicalExpensesSummary } = medicalExpensesPages;
-  //     const form = render(
-  //       <DefinitionTester
-  //         schema={medicalExpensesSummary.schema}
-  //         uiSchema={medicalExpensesSummary.uiSchema}
-  //         data={{}}
-  //       />,
-  //     );
-  //     const formDOM = getFormDOM(form);
-  //     const vaRadio = $('va-radio', formDOM);
-  //     const vaRadioOptions = $$('va-radio-option', formDOM);
 
-  //     expect(vaRadio.getAttribute('label-header-level')).to.equal('3');
-  //     expect(vaRadio.getAttribute('label')).to.equal(
-  //       'Do you have a medical or other expense to add?',
-  //     );
-  //     expect(vaRadioOptions.length).to.equal(2);
-  //     expect(vaRadioOptions[0].getAttribute('label')).to.equal('Yes');
-  //     expect(vaRadioOptions[1].getAttribute('label')).to.equal('No');
-  //   });
-  //   it('renders the medical expenses recipient page', async () => {
-  //     const { medicalRecipientPage } = medicalExpensesPages;
-  //     const formData = {};
-  //     const form = render(
-  //       <DefinitionTester
-  //         arrayPath={arrayPath}
-  //         schema={medicalRecipientPage.schema}
-  //         uiSchema={medicalRecipientPage.uiSchema}
-  //         pagePerItemIndex={0}
-  //         data={{ [arrayPath]: [formData] }}
-  //       />,
-  //     );
-  //     const formDOM = getFormDOM(form);
-  //     const vaRecipient = $(
-  //       'va-radio[label*="Who is the expense for?"]',
-  //       formDOM,
-  //     );
-  //     expect(vaRecipient.getAttribute('required')).to.equal('true');
-  //     const vaRecipientOtherSelector =
-  //       'va-text-input[label*="Full name of the person who the expense is for"]';
-  //     const vaRecipientOptions = $$('va-radio-option', formDOM);
-  //     expect(form.getByRole('heading')).to.have.text(
-  //       'Medical recipient and provider name',
-  //     );
-  //     expect(vaRecipientOptions.length).to.equal(3);
-  //     Object.keys(medicalExpenseRecipientLabels).forEach((key, index) => {
-  //       expect(vaRecipientOptions[index].getAttribute('label')).to.equal(
-  //         medicalExpenseRecipientLabels[key],
-  //       );
-  //     });
+  it('renders the care expenses recipient page', async () => {
+    const { careRecipientPage } = careExpensesPages;
+    const formData = {};
+    const form = render(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        schema={careRecipientPage.schema}
+        uiSchema={careRecipientPage.uiSchema}
+        pagePerItemIndex={0}
+        data={{ [arrayPath]: [formData] }}
+      />,
+    );
+    const formDOM = getFormDOM(form);
+    const vaRecipient = $(
+      'va-radio[label*="Who is the expense for?"]',
+      formDOM,
+    );
+    expect(vaRecipient.getAttribute('required')).to.equal('true');
+    const vaRecipientOtherSelector =
+      'va-text-input[label*="Full name of the person who received care"]';
+    const vaRecipientOptions = $$('va-radio-option', formDOM);
+    expect(form.getByRole('heading')).to.have.text(
+      'Care recipient and provider name',
+    );
+    expect(vaRecipientOptions.length).to.equal(2);
+    Object.keys(careRecipientLabels).forEach((key, index) => {
+      expect(vaRecipientOptions[index].getAttribute('label')).to.equal(
+        careRecipientLabels[key],
+      );
+    });
 
-  //     vaRecipient.__events.vaValueChange({
-  //       detail: { value: 'VETERANS_CHILD' },
-  //     });
-  //     expect($(vaRecipientOtherSelector, formDOM)).to.exist;
-  //     vaRecipient.__events.vaValueChange({
-  //       detail: { value: 'SURVIVING_SPOUSE' },
-  //     });
-  //     expect($(vaRecipientOtherSelector, formDOM)).to.not.exist;
-  //   });
-  //   it('should check isItemIncomplete', () => {
-  //     const { isItemIncomplete } = options;
-  //     const completeItem = {
-  //       recipient: 'VETERANS_CHILD',
-  //       recipientName: 'John Doe',
-  //       purpose: 'Dr. Smith',
-  //       paymentDate: '2020-01-01',
-  //       amount: 100,
-  //       frequency: 'monthly',
-  //     };
-  //     const incompleteItem = {
-  //       recipient: 'VETERANS_CHILD',
-  //       // missing recipientName
-  //       purpose: 'Dr. Smith',
-  //       paymentDate: '2020-01-01',
-  //       amount: 100,
-  //       frequency: 'monthly',
-  //     };
+    vaRecipient.__events.vaValueChange({
+      detail: { value: 'OTHER' },
+    });
+    expect($(vaRecipientOtherSelector, formDOM)).to.exist;
+    vaRecipient.__events.vaValueChange({
+      detail: { value: 'SURVIVING_SPOUSE' },
+    });
+    expect($(vaRecipientOtherSelector, formDOM)).to.not.exist;
+  });
+  it('should render only frequency and payment amount if not in home care attendant', () => {
+    const { careCostPage } = careExpensesPages;
+    const formData = {
+      typeOfCare: 'NURSING_HOME',
+    };
+    const form = render(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        schema={careCostPage.schema}
+        uiSchema={careCostPage.uiSchema}
+        pagePerItemIndex={0}
+        data={{ [arrayPath]: [formData] }}
+      />,
+    );
+    const formDOM = getFormDOM(form);
+    const vaFrequencyRadio = $(
+      'va-radio[label*="How often are the payments?"]',
+      formDOM,
+    );
+    expect(vaFrequencyRadio.getAttribute('required')).to.equal('true');
+    const vaFrequencyOptions = $$('va-radio-option', formDOM);
+    expect(vaFrequencyOptions.length).to.equal(2);
+    Object.keys(careFrequencyLabels).forEach((key, index) => {
+      expect(vaFrequencyOptions[index].getAttribute('label')).to.equal(
+        careFrequencyLabels[key],
+      );
+    });
 
-  //     expect(isItemIncomplete(completeItem)).to.be.false;
-  //     expect(isItemIncomplete(incompleteItem)).to.be.true;
-  //   });
+    const vaPaymentAmount = $(
+      'va-text-input[label*="How much is each payment?"]',
+      formDOM,
+    );
+    expect(vaPaymentAmount.getAttribute('required')).to.equal('true');
+
+    const vaHourlyRate = $(
+      'va-text-input[label*="What is the provider’s rate per hour?"]',
+      formDOM,
+    );
+    expect(vaHourlyRate).to.not.exist;
+    const vaWeeklyHours = $(
+      'va-text-input[label*="How many hours per week does the care provider work?"]',
+      formDOM,
+    );
+    expect(vaWeeklyHours).to.not.exist;
+  });
+  it('should render all fields if in home care attendant', () => {
+    const { careCostPage } = careExpensesPages;
+    const formData = {
+      typeOfCare: 'IN_HOME_CARE_ATTENDANT',
+    };
+    const form = render(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        schema={careCostPage.schema}
+        uiSchema={careCostPage.uiSchema}
+        pagePerItemIndex={0}
+        data={{ [arrayPath]: [formData] }}
+      />,
+    );
+    const formDOM = getFormDOM(form);
+    const vaFrequencyRadio = $(
+      'va-radio[label*="How often are the payments?"]',
+      formDOM,
+    );
+    expect(vaFrequencyRadio.getAttribute('required')).to.equal('true');
+    const vaFrequencyOptions = $$('va-radio-option', formDOM);
+    expect(vaFrequencyOptions.length).to.equal(2);
+    Object.keys(careFrequencyLabels).forEach((key, index) => {
+      expect(vaFrequencyOptions[index].getAttribute('label')).to.equal(
+        careFrequencyLabels[key],
+      );
+    });
+
+    const vaPaymentAmount = $(
+      'va-text-input[label*="How much is each payment?"]',
+      formDOM,
+    );
+    expect(vaPaymentAmount.getAttribute('required')).to.equal('true');
+
+    const vaHourlyRate = $(
+      'va-text-input[label*="What is the provider’s rate per hour?"]',
+      formDOM,
+    );
+    expect(vaHourlyRate.getAttribute('required')).to.equal('true');
+    const vaWeeklyHours = $(
+      'va-text-input[label*="How many hours per week does the care provider work?"]',
+      formDOM,
+    );
+    expect(vaWeeklyHours.getAttribute('required')).to.equal('true');
+  });
+
   it('should check if isItemIncomplete', () => {
     const { isItemIncomplete } = options;
     const completeItem = {
