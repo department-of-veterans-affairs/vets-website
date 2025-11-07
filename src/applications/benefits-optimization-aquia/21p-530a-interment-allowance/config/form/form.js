@@ -15,7 +15,7 @@ import PreSubmitInfo from '@bio-aquia/21p-530a-interment-allowance/components/pr
 import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
 import { transform } from '@bio-aquia/21p-530a-interment-allowance/config/submit-transform/transform';
 import {
-  AdditionalRemarksPage,
+  additionalRemarksPage,
   burialBenefitsRecipientPage,
   LocationsAndRankPage,
   burialOrganizationMailingAddressPage,
@@ -34,7 +34,6 @@ import {
 } from '@bio-aquia/21p-530a-interment-allowance/pages';
 
 // Import review pages
-import { AdditionalRemarksReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/additional-remarks/additional-remarks-review';
 import { ServicePeriodsReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/service-periods/service-periods-review';
 import { VeteranPreviousNamesReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-previous-names/veteran-previous-names-review';
 import { VeteranServedUnderDifferentNameReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-served-under-different-name/veteran-served-under-different-name-review';
@@ -247,11 +246,8 @@ const formConfig = {
         additionalRemarks: {
           path: 'additional-remarks',
           title: 'Additional remarks',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: AdditionalRemarksPage,
-          CustomPageReview: AdditionalRemarksReviewPage,
-          pagePerItemIndex: 0,
+          uiSchema: additionalRemarksPage.uiSchema,
+          schema: additionalRemarksPage.schema,
         },
       },
     },

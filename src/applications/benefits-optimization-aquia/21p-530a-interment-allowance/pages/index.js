@@ -42,4 +42,4 @@ export { PreviousNameEntryPage } from './previous-name-entry';
 export { VeteranPreviousNamesPage } from './veteran-previous-names';
 
 // Chapter 4: Additional remarks
-export { AdditionalRemarksPage } from './additional-remarks';
+export { default as additionalRemarksPage } from './additional-remarks';
