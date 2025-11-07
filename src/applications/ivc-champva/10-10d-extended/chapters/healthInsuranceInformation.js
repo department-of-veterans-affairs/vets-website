@@ -154,7 +154,8 @@ export const healthInsuranceOptions = {
     deleteNo: () => content['arraybuilder--button-delete-no'],
     deleteYes: () => content['arraybuilder--button-delete-yes'],
     summaryTitle: () => content['health-insurance--summary-title'],
-    summaryTitleWithoutItems: () => content['health-insurance--intro-title'],
+    summaryTitleWithoutItems: () =>
+      content['health-insurance--summary-title-no-items'],
   },
 };
 
@@ -167,7 +168,8 @@ const healthInsuranceIntroPage = {
     insuranceType: {
       ...radioUI({
         labels: INSURANCE_TYPE_LABELS,
-        title: `Which type of insurance plan or program are the applicant(s) enrolled in?`,
+        title:
+          'Which type of insurance plan or program are the applicant(s) enrolled in?',
         hint: 'This information is on the front of the health insurance card.',
       }),
     },
@@ -209,8 +211,7 @@ const medigapInformation = {
     ...arrayBuilderItemSubsequentPageTitleUI('Medigap information'),
     medigapPlan: {
       ...radioUI({
-        title: 'Select the Medigap policy the applicants are enrolled in',
-        required: () => true,
+        title: 'Select the Medigap policy the applicant(s) are enrolled in',
         labels: MEDIGAP,
       }),
     },
@@ -230,7 +231,7 @@ const providerInformation = {
     provider: textUI('Name of insurance provider'),
     effectiveDate: currentOrPastDateUI({
       title: 'Insurance start date',
-      hint: 'This information is on the insurance policy declarations pages.',
+      hint: 'This information is on the insurance policy declarations page.',
     }),
     expirationDate: currentOrPastDateUI({
       title: 'Insurance termination date',
@@ -260,7 +261,6 @@ const employer = {
     ),
     throughEmployer: yesNoUI({
       title: 'Is this insurance through the applicant(s) employer?',
-      required: () => true,
     }),
   },
   schema: {
@@ -280,7 +280,7 @@ const prescriptionCoverage = {
     eob: yesNoUI({
       title: 'Does the applicant(s) health insurance cover prescriptions?',
       hint:
-        'You may find this information on the front of your health insurance card. You can also contact the phone number listed on the back of the card.',
+        'You may find this information on the front of the health insurance card. You can also contact the phone number listed on the back of the card.',
     }),
   },
   schema: {

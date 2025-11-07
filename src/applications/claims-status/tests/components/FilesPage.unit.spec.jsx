@@ -5,6 +5,8 @@ import { waitFor } from '@testing-library/react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import { FilesPage } from '../../containers/FilesPage';
 import * as AdditionalEvidencePage from '../../components/claim-files-tab/AdditionalEvidencePage';
 import { renderWithRouter, rerenderWithRouter } from '../utils';
@@ -90,7 +92,7 @@ describe('<FilesPage>', () => {
     expect(container.querySelector('va-loading-indicator')).to.exist;
   });
 
-  it('should render null when claim empty', () => {
+  it('should render error heading and ServiceUnavailableAlert when claim empty', () => {
     const { container, getByText } = renderWithRouter(
       <Provider store={getStore()}>
         <FilesPage {...props} message={{ title: 'Test', body: 'Body' }} />
@@ -98,10 +100,21 @@ describe('<FilesPage>', () => {
     );
 
     expect(container.querySelector('.claim-files')).to.not.exist;
-    getByText('Claim status is unavailable');
+    getByText('We encountered a problem');
+
+    const alertHeading = $('va-alert h2', container);
+    expect(alertHeading.textContent).to.equal('Claim status is unavailable');
+
+    const alertBody = $('va-alert p', container);
+    expect(alertBody.textContent).to.include(
+      'VA.gov is having trouble loading claims information',
+    );
+    expect(alertBody.textContent).to.include(
+      'Note: You are still able to review appeals information.',
+    );
   });
 
-  it('should render null when claim null', () => {
+  it('should render error heading and ServiceUnavailableAlert when claim null', () => {
     const { container, getByText } = renderWithRouter(
       <Provider store={getStore()}>
         <FilesPage
@@ -113,7 +126,18 @@ describe('<FilesPage>', () => {
     );
 
     expect(container.querySelector('.claim-files')).to.not.exist;
-    getByText('Claim status is unavailable');
+    getByText('We encountered a problem');
+
+    const alertHeading = $('va-alert h2', container);
+    expect(alertHeading.textContent).to.equal('Claim status is unavailable');
+
+    const alertBody = $('va-alert p', container);
+    expect(alertBody.textContent).to.include(
+      'VA.gov is having trouble loading claims information',
+    );
+    expect(alertBody.textContent).to.include(
+      'Note: You are still able to review appeals information.',
+    );
   });
 
   describe('pageFocus', () => {

@@ -67,24 +67,126 @@ export const validateOHIDates = (errors, data) => {
 };
 
 /**
+ * Validates Medicare plan fields for a given form item.
+ *
+ * Returns `true` when the item is **invalid** (i.e., has missing or bad data)
+ * and `false` when all required fields are valid for the selected plan type.
+ *
+ * @param {Object} [item={}] Form data to validate.
+ * @returns {boolean} `true` if validation fails (invalid/missing fields); `false` if the item is valid.
+ */
+export const validateMedicarePlan = (item = {}) => {
+  const {
+    medicarePlanType,
+    medicarePartCCarrier,
+    medicarePartCEffectiveDate,
+    hasMedicarePartD,
+    medicarePartDEffectiveDate,
+    medicarePartDTerminationDate,
+    medicarePartAFrontCard,
+    medicarePartABackCard,
+    medicarePartBFrontCard,
+    medicarePartBBackCard,
+    medicarePartAPartBFrontCard,
+    medicarePartAPartBBackCard,
+    medicarePartCFrontCard,
+    medicarePartCBackCard,
+    medicarePartDFrontCard,
+    medicarePartDBackCard,
+  } = item;
+  const medicarePartAEffectiveDate =
+    item['view:medicarePartAEffectiveDate']?.medicarePartAEffectiveDate;
+  const medicarePartBEffectiveDate =
+    item['view:medicarePartBEffectiveDate']?.medicarePartBEffectiveDate;
+
+  const isValidPastDate = dateString => {
+    if (!dateString) return false;
+    const date = new Date(dateString);
+    return isValid(date) && isBefore(date, new Date());
+  };
+
+  const hasValidUpload = fileArray =>
+    Array.isArray(fileArray) && fileArray[0]?.name;
+
+  if (!medicarePlanType) return true;
+
+  const planValidations = {
+    ab: () => {
+      if (
+        !isValidPastDate(medicarePartAEffectiveDate) ||
+        !isValidPastDate(medicarePartBEffectiveDate)
+      ) {
+        return true;
+      }
+      return (
+        !hasValidUpload(medicarePartAPartBFrontCard) ||
+        !hasValidUpload(medicarePartAPartBBackCard)
+      );
+    },
+    a: () => {
+      if (!isValidPastDate(medicarePartAEffectiveDate)) {
+        return true;
+      }
+      return (
+        !hasValidUpload(medicarePartAFrontCard) ||
+        !hasValidUpload(medicarePartABackCard)
+      );
+    },
+    b: () => {
+      if (!isValidPastDate(medicarePartBEffectiveDate)) {
+        return true;
+      }
+      return (
+        !hasValidUpload(medicarePartBFrontCard) ||
+        !hasValidUpload(medicarePartBBackCard)
+      );
+    },
+    c: () => {
+      if (
+        !medicarePartCCarrier ||
+        !isValidPastDate(medicarePartCEffectiveDate)
+      ) {
+        return true;
+      }
+      return (
+        !hasValidUpload(medicarePartCFrontCard) ||
+        !hasValidUpload(medicarePartCBackCard)
+      );
+    },
+  };
+
+  const validator = planValidations[medicarePlanType];
+  if (!validator || validator()) return true;
+
+  const supportsPartD = ['ab', 'c'].includes(medicarePlanType);
+  if (supportsPartD && hasMedicarePartD === true) {
+    if (!isValidPastDate(medicarePartDEffectiveDate)) return true;
+
+    if (
+      medicarePartDTerminationDate &&
+      !isValidPastDate(medicarePartDTerminationDate)
+    ) {
+      return true;
+    }
+
+    if (
+      !hasValidUpload(medicarePartDFrontCard) ||
+      !hasValidUpload(medicarePartDBackCard)
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+/**
  * Validates health insurance plan fields for a given form item.
  *
  * Returns `true` when the item is **invalid** (i.e., has missing or bad data)
  * and `false` when all required fields are valid for the selected plan type.
  *
  * @param {Object} [item={}] Form data to validate.
- * @property {'hmo'|'ppo'|'medicaid'|'medigap'|'other'} [item.insuranceType] Selected insurance type. **Required if any health insurance data is present**.
- * @property {string} [item.provider] Required insurance provider name.
- * @property {string} [item.effectiveDate] Required past date for insurance start date.
- * @property {string} [item.expirationDate] Optional; if provided, must be a past date and after effective date.
- * @property {string} [item.medigapPlan] Required when `insuranceType === 'medigap'`.
- * @property {boolean} [item.throughEmployer] Required boolean indicating if insurance is through employer.
- * @property {boolean} [item.eob] Required boolean indicating if insurance covers prescriptions.
- * @property {string} [item.additionalComments] Optional additional comments (max 200 chars).
- * @property {Object} [item.healthcareParticipants] Required object indicating which applicants are covered.
- * @property {Array} [item.insuranceCardFront] Required uploaded file array for front of insurance card.
- * @property {Array} [item.insuranceCardBack] Required uploaded file array for back of insurance card.
- *
  * @returns {boolean} `true` if validation fails (invalid/missing fields); `false` if the item is valid.
  */
 export const validateHealthInsurancePlan = (item = {}) => {
