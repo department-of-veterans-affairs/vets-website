@@ -327,6 +327,80 @@ describe('messages actions', () => {
       });
   });
 
+  it('should dispatch success alert on sendMessage when suppressAlert is false', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+    await store
+      .dispatch(
+        sendMessage(
+          {
+            category: 'EDUCATION',
+            body: 'Test body',
+            subject: 'Test subject',
+            recipientId: '2710520',
+          },
+          true,
+          false,
+          false, // suppressAlert = false
+        ),
+      )
+      .then(() => {
+        const actions = store.getActions();
+        // Verify success alert is dispatched
+        expect(actions).to.deep.include({
+          type: Actions.Alerts.ADD_ALERT,
+          payload: {
+            alertType: 'success',
+            header: '',
+            content: Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+            className: undefined,
+            link: undefined,
+            title: undefined,
+            response: undefined,
+          },
+        });
+      });
+  });
+
+  it('should NOT dispatch success alert on sendMessage when suppressAlert is true', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+    await store
+      .dispatch(
+        sendMessage(
+          {
+            category: 'EDUCATION',
+            body: 'Test body',
+            subject: 'Test subject',
+            recipientId: '2710520',
+          },
+          true,
+          false,
+          true, // suppressAlert = true
+        ),
+      )
+      .then(() => {
+        const actions = store.getActions();
+        // Verify success alert is NOT dispatched
+        expect(actions).to.not.deep.include({
+          type: Actions.Alerts.ADD_ALERT,
+          payload: {
+            alertType: 'success',
+            header: '',
+            content: Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+            className: undefined,
+            link: undefined,
+            title: undefined,
+            response: undefined,
+          },
+        });
+        // Verify other actions are still dispatched
+        expect(actions).to.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
+        });
+      });
+  });
+
   it('should dispatch action on sendReply', async () => {
     const store = mockStore();
     mockApiRequest(messageResponse);
