@@ -40,10 +40,6 @@ describe('Medications Prescriptions container', () => {
       prescriptionsList: [],
       refillAlertList: [],
     },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medications_display_refill_progress: false,
-    },
   };
 
   const setup = (state = initialState) => {
@@ -98,10 +94,6 @@ describe('Medications Prescriptions container', () => {
       rx: {
         ...initialState.rx,
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_progress: true,
-      },
     });
 
     expect(await screen.findByTestId('mhv-rx--delayed-refill-alert')).to.exist;
@@ -151,10 +143,6 @@ describe('Medications Prescriptions container', () => {
       ...initialState,
       rx: {
         ...initialState.rx,
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_progress: true,
       },
     });
 
