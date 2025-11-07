@@ -4,6 +4,7 @@ import {
   VaRadio,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { EXPENSE_TYPES } from '../../../constants';
 
 const ChooseExpenseType = () => {
   const navigate = useNavigate();
@@ -11,19 +12,8 @@ const ChooseExpenseType = () => {
   const [selectedExpenseType, setSelectedExpenseType] = useState('');
   const [showError, setShowError] = useState(false);
 
-  const expenseOptions = [
-    { value: 'mileage', label: 'Mileage' },
-    { value: 'parking', label: 'Parking' },
-    { value: 'tolls', label: 'Tolls' },
-    {
-      value: 'public-transportation',
-      label: 'Public transportation, taxi, or rideshare',
-    },
-    { value: 'air-fare', label: 'Air fare' },
-    { value: 'lodging', label: 'Lodging' },
-    { value: 'meals', label: 'Meals' },
-    { value: 'other', label: 'Other travel expenses' },
-  ];
+  // Convert EXPENSE_TYPES object into an array for mapping
+  const expenseOptions = Object.values(EXPENSE_TYPES);
 
   const handleContinue = () => {
     // TODO: Handle error case for existing mileage expense
@@ -38,11 +28,13 @@ const ChooseExpenseType = () => {
     }
 
     setShowError(false);
-    if (selectedExpenseType === 'mileage') {
-      navigate(`/file-new-claim/${apptId}/${claimId}/mileage`);
-    } else {
-      // For other expense types, navigate to appropriate pages when they're created
-      // TODO: Add navigation for other expense types
+    // Navigate to the route defined in the constant
+    const selectedExpense = expenseOptions.find(
+      e => e.route === selectedExpenseType,
+    );
+
+    if (selectedExpense) {
+      navigate(`/file-new-claim/${apptId}/${claimId}/${selectedExpense.route}`);
     }
   };
 
@@ -73,10 +65,10 @@ const ChooseExpenseType = () => {
         {expenseOptions.map(option => (
           <va-radio-option
             tile
-            key={option.value}
-            label={option.label}
-            value={option.value}
-            checked={selectedExpenseType === option.value}
+            key={option.route}
+            label={option.title}
+            value={option.route}
+            checked={selectedExpenseType === option.route}
           />
         ))}
       </VaRadio>
