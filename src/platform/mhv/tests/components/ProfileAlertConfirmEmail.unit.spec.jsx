@@ -127,7 +127,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
   describe('<AlertConfirmContactEmail />', () => {
     it('renders', async () => {
       const initialState = stateFn({ confirmationDate: null });
-      const { container, getByRole, getByTestId } = render(
+      const { container, getByRole, getByTestId, getByText } = render(
         <ProfileAlertConfirmEmail />,
         { initialState },
       );
@@ -139,9 +139,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
         const button = container.querySelector(buttonSelector);
         expect(button).to.exist;
 
-        expect(
-          getByTestId('profile-alert--contact-email').textContent,
-        ).to.equal('vet@va.gov');
+        expect(getByText('vet@va.gov')).to.exist;
       });
     });
 
@@ -321,7 +319,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
   describe('<AlertAddContactEmail />', () => {
     it('renders', async () => {
       const initialState = stateFn({ emailAddress: null });
-      const { container, getByRole, getByTestId } = render(
+      const { container, getByRole, getByTestId, getByText } = render(
         <ProfileAlertConfirmEmail />,
         { initialState },
       );
@@ -334,9 +332,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
         const button = container.querySelector(buttonSelector);
         expect(button).to.exist;
 
-        expect(
-          getByTestId('profile-alert--contact-email').textContent,
-        ).to.equal('No contact email provided');
+        expect(getByText('No contact email provided')).to.exist;
       });
     });
 

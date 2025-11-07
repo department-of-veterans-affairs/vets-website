@@ -51,7 +51,6 @@ const AlertConfirmContactEmail = ({
         <p
           className="vads-u-font-weight--bold"
           style={{ wordBreak: 'break-word' }}
-          data-testid="profile-alert--contact-email"
         >
           {emailAddress}
         </p>
@@ -100,7 +99,6 @@ const AlertAddContactEmail = ({ recordEvent, onAddClick, onSkipClick }) => {
         <p
           className="vads-u-font-weight--bold"
           style={{ wordBreak: 'break-word' }}
-          data-testid="profile-alert--contact-email"
         >
           No contact email provided
         </p>
