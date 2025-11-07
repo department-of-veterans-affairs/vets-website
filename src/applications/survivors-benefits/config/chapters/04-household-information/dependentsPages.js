@@ -121,10 +121,14 @@ const summaryPage = {
     'ui:description': () => null,
     'view:isAddingDependent': arrayBuilderYesNoUI(
       options,
-      { hint: '' },
-      { hint: '' },
       {
         title: 'Do you have a dependent child to add?',
+        hint: '',
+      },
+      {
+        title: 'Do you have another dependent child to add?',
+        hint: '',
+        labelHeaderLevel: 3,
       },
     ),
   },
