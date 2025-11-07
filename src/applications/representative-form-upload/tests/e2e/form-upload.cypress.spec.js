@@ -238,11 +238,9 @@ describe('Representative Form Upload', () => {
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(1000);
 
-          cy.get('[name="root_supportingDocuments-0"]').selectFile(
-            uploadImgPath,
-            {
-              force: true,
-            },
+          cy.fillVaFileInputMultiple(
+            'root_supportingDocuments',
+            uploadImgDetails,
           );
 
           // eslint-disable-next-line cypress/no-unnecessary-waiting
