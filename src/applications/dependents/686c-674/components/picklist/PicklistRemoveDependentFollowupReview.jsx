@@ -6,7 +6,7 @@ import { scrollAndFocus } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import { getFullName } from '../../../shared/utils';
+import { getFullName, makeNamePossessive } from '../../../shared/utils';
 
 import {
   PICKLIST_DATA,
@@ -86,7 +86,9 @@ const PicklistRemoveDependentsFollowupReview = ({ data = {}, goToPath }) => {
                       className="dd-privacy-mask"
                       data-dd-action-name="Successfully updated alert"
                     >
-                      {`${dependentFullName}’s information has been updated`}
+                      {`${makeNamePossessive(
+                        dependentFullName,
+                      )} information has been updated`}
                     </div>
                   </VaAlert>
                 </div>
