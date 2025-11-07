@@ -19,7 +19,7 @@ const createMockStore = (submissionStatus = null) => ({
 describe('PreSubmitSignature', () => {
   const defaultFormData = {
     claimantRelationship: {
-      claimantRelationship: 'veteran',
+      relationship: 'veteran',
     },
     veteranIdentification: {
       veteranFullName: {
@@ -106,7 +106,7 @@ describe('PreSubmitSignature', () => {
     const store = createMockStore();
     const formDataWithClaimant = {
       claimantRelationship: {
-        claimantRelationship: 'spouse',
+        relationship: 'spouse',
       },
       claimantInformation: {
         claimantFullName: {
@@ -135,7 +135,7 @@ describe('PreSubmitSignature', () => {
     const store = createMockStore();
     const formDataWithoutName = {
       claimantRelationship: {
-        claimantRelationship: 'veteran',
+        relationship: 'veteran',
       },
       veteranIdentification: {},
     };
@@ -225,7 +225,7 @@ describe('PreSubmitSignature', () => {
       const store = createMockStore();
       const formDataNoMiddle = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
         veteranIdentification: {
           veteranFullName: {
