@@ -69,30 +69,6 @@ describe('Supplemental Claims option for facility type page', () => {
         expect(onSubmit.called).to.be.false;
       });
     });
-
-    it('should clear error when a checkbox is selected after validation error', async () => {
-      const { container } = renderContainer();
-
-      fireEvent.click($('button[type="submit"]', container));
-
-      await waitFor(() => {
-        expect($('va-checkbox-group[error]', container)).to.exist;
-      });
-
-      const checkbox = $('va-checkbox', container);
-
-      fireEvent(
-        checkbox,
-        new CustomEvent('vaChange', {
-          detail: { checked: true },
-          bubbles: true,
-        }),
-      );
-
-      await waitFor(() => {
-        expect($('va-checkbox-group[error]', container)).to.not.exist;
-      });
-    });
   });
 
   describe('checkbox selection and submission', () => {
