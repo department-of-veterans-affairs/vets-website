@@ -2,6 +2,21 @@ import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { MAX_FILE_SIZE_MB, MAX_PDF_SIZE_MB } from './utils/validations';
 
+/**
+ * Service registry for unavailable service alerts.
+ * Add new services here to support them in ServiceUnavailableAlert.
+ */
+export const SERVICE_REGISTRY = {
+  claims: {
+    singularTitle: 'Claim',
+    lowercase: 'claims',
+  },
+  appeals: {
+    singularTitle: 'Appeal',
+    lowercase: 'appeals',
+  },
+};
+
 export const ITEMS_PER_PAGE = 10;
 
 // Date Formats

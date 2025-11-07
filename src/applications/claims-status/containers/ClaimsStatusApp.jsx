@@ -11,7 +11,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import { setLastPage } from '../actions';
-import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
+import ServiceUnavailableAlert from '../components/ServiceUnavailableAlert';
 import { isLoadingFeatures } from '../selectors';
 import { useBrowserMonitoring } from '../utils/datadog-rum/useBrowserMonitoring';
 
@@ -42,7 +42,12 @@ function AppContent({ featureFlagsLoading, isDataAvailable }) {
 
   return (
     <div className="claims-status-content">
-      {!canUseApp && <ClaimsAppealsUnavailable />}
+      {!canUseApp && (
+        <ServiceUnavailableAlert
+          services={['claims', 'appeals']}
+          headerLevel={1}
+        />
+      )}
       {isAppReady && <Outlet />}
     </div>
   );
