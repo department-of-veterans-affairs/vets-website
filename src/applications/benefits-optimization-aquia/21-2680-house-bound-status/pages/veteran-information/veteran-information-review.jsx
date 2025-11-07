@@ -9,7 +9,7 @@ import {
 } from '@bio-aquia/shared/components/atoms';
 
 /**
- * Review page component for veteran identity.
+ * Review page component for veteran information.
  * Displays the Veteran's identification information.
  *
  * @component
@@ -19,7 +19,7 @@ import {
  * @param {string} props.title - Page title
  * @returns {JSX.Element} Review page content
  */
-export const VeteranIdentityReviewPage = ({ data, editPage, title }) => {
+export const VeteranInformationReviewPage = ({ data, editPage, title }) => {
   const sectionData = data?.veteranIdentification || {};
 
   // Migrate old field names to new field names for backward compatibility
@@ -49,7 +49,7 @@ export const VeteranIdentityReviewPage = ({ data, editPage, title }) => {
   );
 };
 
-VeteranIdentityReviewPage.propTypes = {
+VeteranInformationReviewPage.propTypes = {
   data: PropTypes.object.isRequired,
   editPage: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
