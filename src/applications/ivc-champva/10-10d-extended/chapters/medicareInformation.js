@@ -31,7 +31,10 @@ import {
 } from '../../shared/utilities';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { replaceStrValues } from '../helpers/formatting';
-import { validateMedicarePartDDates } from '../helpers/validations';
+import {
+  validateMedicarePartDDates,
+  validateMedicarePlan,
+} from '../helpers/validations';
 import {
   selectMedicareParticipantPage,
   SelectMedicareParticipantPage,
@@ -137,8 +140,7 @@ export const medicareOptions = {
   nounSingular: 'plan',
   nounPlural: 'plans',
   required: false,
-  // TODO: add proper checks
-  isItemIncomplete: () => false,
+  isItemIncomplete: validateMedicarePlan,
   maxItems: formData => formData?.applicants?.length,
   text: {
     getItemName: item => generateParticipantName(item),
