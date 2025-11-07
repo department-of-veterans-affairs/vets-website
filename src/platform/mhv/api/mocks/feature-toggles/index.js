@@ -6,7 +6,6 @@ const generateFeatureToggles = (toggles = {}) => {
     // medications
     mhvMedicationsDisplayDocumentationContent = true,
     mhvMedicationsDisplayFilter = true,
-    mhvMedicationsDisplayGrouping = true,
     mhvMedicationsDisplayPendingMeds = true,
     mhvMedicationsDisplayRefillProgress = true,
     mhvMedicationsPartialFillContent,
@@ -86,10 +85,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_filter',
           value: mhvMedicationsDisplayFilter,
-        },
-        {
-          name: 'mhv_medications_display_grouping',
-          value: mhvMedicationsDisplayGrouping,
         },
         {
           name: 'mhv_medications_display_pending_meds',
