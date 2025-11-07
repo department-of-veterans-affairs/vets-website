@@ -32,6 +32,7 @@ export const Events = ({ rawEvents }) => {
   const [page, setPage] = useState(1);
   const [results, setResults] = useState(deriveResults(events, page, perPage));
   const [selectedOption, setSelectedOption] = useState(defaultSelectedOption);
+  const [shouldFocusResults, setShouldFocusResults] = useState(false);
 
   const updateDisplayedResults = filteredEvents => {
     const newPage = 1;
@@ -80,6 +81,9 @@ export const Events = ({ rawEvents }) => {
       startDateMonth,
       startDateYear,
     });
+
+    // Set focus flag to true when apply filter button is clicked
+    setShouldFocusResults(true);
   };
 
   const onPageSelect = newPage => {
@@ -100,6 +104,8 @@ export const Events = ({ rawEvents }) => {
         queryId={selectedOption?.value}
         results={results}
         totalResults={events?.length || 0}
+        shouldFocus={shouldFocusResults}
+        onFocusComplete={() => setShouldFocusResults(false)}
       />
     </div>
   );
