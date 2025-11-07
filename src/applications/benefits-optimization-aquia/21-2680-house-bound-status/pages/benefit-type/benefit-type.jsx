@@ -2,13 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { RadioField } from '@bio-aquia/shared/components/atoms';
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { PageTemplateWithSaveInProgress } from '@bio-aquia/shared/components/templates';
 
 import { BENEFIT_TYPES } from '@bio-aquia/21-2680-house-bound-status/constants';
 import {
   benefitTypePageSchema,
   benefitTypeSchema,
 } from '@bio-aquia/21-2680-house-bound-status/schemas';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 /**
  * Benefit Type Page
@@ -34,11 +35,18 @@ export const BenefitTypePage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Ensure benefitType section exists
+  const migratedData = {
+    ...formDataToUse,
+    benefitType: {
+      benefitType: formDataToUse?.benefitType?.benefitType,
+    },
+  };
+
   // Get claimant information for dynamic label
-  const relationship =
-    formDataToUse?.claimantRelationship?.claimantRelationship;
+  const relationship = migratedData?.claimantRelationship?.relationship;
   const isVeteran = relationship === 'veteran';
-  const claimantName = formDataToUse?.claimantInformation?.claimantFullName;
+  const claimantName = migratedData?.claimantInformation?.claimantFullName;
   const firstName = claimantName?.first || '';
   const lastName = claimantName?.last || '';
 
@@ -53,9 +61,9 @@ export const BenefitTypePage = ({
     : `Select which benefit ${formattedName} is applying for`;
 
   return (
-    <PageTemplate
+    <PageTemplateWithSaveInProgress
       title={questionText}
-      data={formDataToUse}
+      data={migratedData}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
@@ -63,9 +71,8 @@ export const BenefitTypePage = ({
       sectionName="benefitType"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
-      defaultData={{
-        benefitType: '',
-      }}
+      formConfig={formConfig}
+      defaultData={{}}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <div className="benefit-type-page">
@@ -83,7 +90,7 @@ export const BenefitTypePage = ({
           <RadioField
             name="benefitType"
             label="Select benefit type"
-            value={localData.benefitType || ''}
+            value={localData.benefitType}
             onChange={handleFieldChange}
             schema={benefitTypeSchema}
             tile
@@ -107,7 +114,7 @@ export const BenefitTypePage = ({
           />
         </div>
       )}
-    </PageTemplate>
+    </PageTemplateWithSaveInProgress>
   );
 };
 

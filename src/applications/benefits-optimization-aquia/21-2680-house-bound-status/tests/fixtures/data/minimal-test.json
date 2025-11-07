@@ -1,9 +1,40 @@
 {
   "data": {
-    "fullName": {
-      "first": "John",
-      "last": "Doe"
+    "veteranIdentification": {
+      "veteranFullName": {
+        "first": "James",
+        "middle": "Tiberius",
+        "last": "Kirk",
+        "suffix": ""
+      },
+      "veteranSSN": "123-45-6789",
+      "veteranDOB": "2233-03-22"
     },
-    "dateOfBirth": "1980-01-01"
+    "veteranAddress": {
+      "veteranAddress": {
+        "street": "123 Starfleet Command Blvd",
+        "street2": "",
+        "street3": "",
+        "city": "San Francisco",
+        "state": "CA",
+        "country": "USA",
+        "postalCode": "94102",
+        "isMilitary": false
+      }
+    },
+    "claimantRelationship": {
+      "claimantRelationship": "veteran"
+    },
+    "claimantContact": {
+      "claimantPhoneNumber": "4155551234",
+      "claimantMobilePhone": "4155555678",
+      "claimantEmail": "james.kirk@starfleet.mil"
+    },
+    "benefitType": {
+      "benefitType": "SMC"
+    },
+    "hospitalizationStatus": {
+      "isCurrentlyHospitalized": "no"
+    }
   }
 }

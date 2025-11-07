@@ -55,7 +55,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display relationship label for veteran', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
       };
 
@@ -73,7 +73,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display message when veteran is claimant', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
       };
 
@@ -93,7 +93,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should not display claimant fields when veteran is claimant', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'veteran',
+          relationship: 'veteran',
         },
       };
 
@@ -117,7 +117,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display relationship label for spouse', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
         claimantInformation: {
           claimantFullName: {
@@ -141,7 +141,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display relationship label for child', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'child',
+          relationship: 'child',
         },
       };
 
@@ -159,7 +159,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display relationship label for parent', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'parent',
+          relationship: 'parent',
         },
       };
 
@@ -177,7 +177,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display relationship label for executor', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'executor',
+          relationship: 'executor',
         },
       };
 
@@ -197,7 +197,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display relationship label for other', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'other',
+          relationship: 'other',
         },
       };
 
@@ -217,7 +217,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display claimant full name with all parts', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
         claimantInformation: {
           claimantFullName: {
@@ -246,7 +246,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display claimant name without middle name or suffix', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
         claimantInformation: {
           claimantFullName: {
@@ -273,7 +273,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display claimant date of birth', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
         claimantInformation: {
           claimantFullName: {
@@ -298,7 +298,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display claimant SSN', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
         claimantInformation: {
           claimantFullName: {
@@ -327,7 +327,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display claimant address with all fields', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
         claimantInformation: {
           claimantFullName: {
@@ -366,7 +366,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display claimant address without optional fields', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
         claimantInformation: {
           claimantFullName: {
@@ -403,7 +403,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display all contact information', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
         claimantInformation: {
           claimantFullName: {
@@ -434,7 +434,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display partial contact information', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
         claimantInformation: {
           claimantFullName: {
@@ -463,7 +463,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should display all claimant information fields', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
         claimantInformation: {
           claimantFullName: {
@@ -548,7 +548,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should handle missing claimant information', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
       };
 
@@ -579,7 +579,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should handle empty name object', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
         claimantInformation: {
           claimantFullName: {},
@@ -600,7 +600,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should handle empty address object', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
         claimantAddress: {
           claimantAddress: {},
@@ -621,7 +621,7 @@ describe('ClaimantInformationReviewPage', () => {
     it('should handle empty contact object', () => {
       const data = {
         claimantRelationship: {
-          claimantRelationship: 'spouse',
+          relationship: 'spouse',
         },
         claimantContact: {},
       };

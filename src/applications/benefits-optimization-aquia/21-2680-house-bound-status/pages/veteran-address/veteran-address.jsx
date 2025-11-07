@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { PageTemplateWithSaveInProgress } from '@bio-aquia/shared/components/templates';
 import { AddressField } from '@bio-aquia/shared/components/molecules';
 import {
   veteranAddressPageSchema,
   veteranAddressSchema,
 } from '@bio-aquia/21-2680-house-bound-status/schemas';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 /**
  * Veteran Address Page
@@ -25,7 +26,7 @@ export const VeteranAddressPage = ({
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
   return (
-    <PageTemplate
+    <PageTemplateWithSaveInProgress
       title="Veteran address"
       data={formDataToUse}
       setFormData={setFormData}
@@ -35,6 +36,7 @@ export const VeteranAddressPage = ({
       sectionName="veteranAddress"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+      formConfig={formConfig}
       defaultData={{
         veteranAddress: {
           street: '',
@@ -97,7 +99,7 @@ export const VeteranAddressPage = ({
           />
         </>
       )}
-    </PageTemplate>
+    </PageTemplateWithSaveInProgress>
   );
 };
 
