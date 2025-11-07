@@ -6,11 +6,11 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import transferredAssets from '../../../../config/chapters/06-financial-information/incomeAndAssets/transferredAssets';
+import marketableLand from '../../../../config/chapters/06-financial-information/incomeAndAssets/marketableLand';
 
-describe('Transferred assets page', () => {
-  const { schema, uiSchema } = transferredAssets;
-  it('renders the transferred assets page', async () => {
+describe('Marketable land page', () => {
+  const { schema, uiSchema } = marketableLand;
+  it('renders the marketable land page', async () => {
     const form = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
     );
@@ -19,16 +19,16 @@ describe('Transferred assets page', () => {
     const vaRadios = $$('va-radio', formDOM);
     const vaRadioOptions = $$('va-radio-option', formDOM);
     const vaAdditionalInfos = $$('va-additional-info', formDOM);
-    const vaTransferredAssetsRadio = $(
-      'va-radio[label*="Did you or your dependents transfer any assets in the last 3 calendar years?"]',
+    const vaMarketableLandRadio = $(
+      'va-radio[label*="Is the additional land marketable?"]',
       formDOM,
     );
     const vaAlerts = $$('va-alert-expandable', formDOM);
 
-    expect(form.getByRole('heading')).to.have.text('Transferred assets');
+    expect(form.getByRole('heading')).to.have.text('Marketable land');
 
     expect(vaRadios.length).to.equal(1);
-    expect(vaTransferredAssetsRadio.getAttribute('required')).to.equal('true');
+    expect(vaMarketableLandRadio.getAttribute('required')).to.equal('true');
 
     expect(vaRadioOptions.length).to.equal(2);
     expect(vaRadioOptions[0].getAttribute('label')).to.equal('Yes');
@@ -36,7 +36,11 @@ describe('Transferred assets page', () => {
 
     expect(vaAdditionalInfos.length).to.equal(1);
     expect(vaAlerts.length).to.equal(0);
-    vaTransferredAssetsRadio.__events.vaValueChange({
+    vaMarketableLandRadio.__events.vaValueChange({
+      detail: { value: 'Y' },
+    });
+    expect($$('va-alert-expandable', formDOM).length).to.equal(1);
+    vaMarketableLandRadio.__events.vaValueChange({
       detail: { value: 'Y' },
     });
     expect($$('va-alert-expandable', formDOM).length).to.equal(1);
