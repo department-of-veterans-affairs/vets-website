@@ -31,7 +31,7 @@ import ExtraDetails from '../shared/ExtraDetails';
 import MedicationDescription from '../shared/MedicationDescription';
 import {
   selectPartialFillContentFlag,
-  selectRefillProgressFlag,
+  // selectRefillProgressFlag,
 } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
@@ -41,7 +41,7 @@ import ProcessList from '../shared/ProcessList';
 import { landMedicationDetailsAal } from '../../api/rxApi';
 
 const VaPrescription = prescription => {
-  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
+  // const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
@@ -109,7 +109,7 @@ const VaPrescription = prescription => {
   };
 
   const displayTrackingAlert = () => {
-    if (showRefillProgressContent && showTrackingAlert) {
+    if (showTrackingAlert) {
       return (
         <>
           {latestTrackingStatus && (
@@ -121,19 +121,16 @@ const VaPrescription = prescription => {
         </>
       );
     }
-    if (!showRefillProgressContent) {
-      return (
-        <>
-          {latestTrackingStatus && (
-            <TrackingInfo
-              {...latestTrackingStatus}
-              prescriptionName={prescription.prescriptionName}
-            />
-          )}
-        </>
-      );
-    }
-    return <></>;
+    return (
+      <>
+        {latestTrackingStatus && (
+          <TrackingInfo
+            {...latestTrackingStatus}
+            prescriptionName={prescription.prescriptionName}
+          />
+        )}
+      </>
+    );
   };
 
   const getPrescriptionStatusHeading = () => {
@@ -154,25 +151,21 @@ const VaPrescription = prescription => {
             data-testid="va-prescription-container"
             data-dd-privacy="mask"
           >
-            {/* TODO: clean after refill progress content flag is gone */}
-            {!showRefillProgressContent && (
-              <>
-                {prescription?.isRefillable ? (
-                  <Link
-                    className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
-                    to="refill"
-                    data-testid="refill-nav-link"
-                    data-dd-action-name={
-                      dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
-                    }
-                  >
-                    {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
-                  </Link>
-                ) : (
-                  <FillRefillButton {...prescription} />
-                )}
-              </>
+            {prescription?.isRefillable ? (
+              <Link
+                className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
+                to="refill"
+                data-testid="refill-nav-link"
+                data-dd-action-name={
+                  dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
+                }
+              >
+                {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
+              </Link>
+            ) : (
+              <FillRefillButton {...prescription} />
             )}
+
             <>
               {displayTrackingAlert()}
 
@@ -186,40 +179,37 @@ const VaPrescription = prescription => {
                 </h2>
               )}
 
-              {showRefillProgressContent &&
-                isRefillRunningLate && (
-                  <VaAlert
-                    data-testid="rx-details-refill-alert"
-                    status="warning"
-                    className="vads-u-margin-bottom--2"
-                    uswds
+              {isRefillRunningLate && (
+                <VaAlert
+                  data-testid="rx-details-refill-alert"
+                  status="warning"
+                  className="vads-u-margin-bottom--2"
+                  uswds
+                >
+                  <h3
+                    slot="headline"
+                    className="vads-u-margin-top--0 vads-u-margin-bottom--1"
                   >
-                    <h3
-                      slot="headline"
-                      className="vads-u-margin-top--0 vads-u-margin-bottom--1"
-                    >
-                      Your refill request for this medication is taking longer
-                      than expected
-                    </h3>
-                    <p>
-                      Call your VA pharmacy{' '}
-                      {pharmacyPhone && (
-                        <CallPharmacyPhone
-                          cmopDivisionPhone={pharmacyPhone}
-                          page={pageType.DETAILS}
-                        />
-                      )}{' '}
-                      to check on your refill, if you haven’t received it in the
-                      mail yet.
-                    </p>
-                  </VaAlert>
-                )}
-              {showRefillProgressContent && (
-                <>
-                  <ProcessList stepGuideProps={stepGuideProps} />
-                  <div className="vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-color--gray-lighter" />
-                </>
+                    Your refill request for this medication is taking longer
+                    than expected
+                  </h3>
+                  <p>
+                    Call your VA pharmacy{' '}
+                    {pharmacyPhone && (
+                      <CallPharmacyPhone
+                        cmopDivisionPhone={pharmacyPhone}
+                        page={pageType.DETAILS}
+                      />
+                    )}{' '}
+                    to check on your refill, if you haven’t received it in the
+                    mail yet.
+                  </p>
+                </VaAlert>
               )}
+              <>
+                <ProcessList stepGuideProps={stepGuideProps} />
+                <div className="vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-color--gray-lighter" />
+              </>
               <h2
                 className="vads-u-margin-top--0 vads-u-margin-bottom--4"
                 data-testid="recent-rx"
@@ -231,24 +221,22 @@ const VaPrescription = prescription => {
                 )}
               </h2>
               {/* TODO: clean after refill progress content flag is gone */}
-              {showRefillProgressContent && (
-                <>
-                  {prescription?.isRefillable ? (
-                    <Link
-                      className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
-                      to="/refill"
-                      data-testid="refill-nav-link"
-                      data-dd-action-name={
-                        dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
-                      }
-                    >
-                      {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
-                    </Link>
-                  ) : (
-                    <FillRefillButton {...prescription} />
-                  )}
-                </>
-              )}
+              <>
+                {prescription?.isRefillable ? (
+                  <Link
+                    className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
+                    to="/refill"
+                    data-testid="refill-nav-link"
+                    data-dd-action-name={
+                      dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
+                    }
+                  >
+                    {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
+                  </Link>
+                ) : (
+                  <FillRefillButton {...prescription} />
+                )}
+              </>
 
               {prescription && (
                 <ExtraDetails {...prescription} page={pageType.DETAILS} />
