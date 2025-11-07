@@ -20,7 +20,7 @@ export default {
     ),
     'view:creditorsAlert': {
       'ui:description': (
-        <va-alert status="error" uswds>
+        <va-alert status="error" role="alert" uswds>
           <h3 slot="headline">You must use the paper form</h3>
           <p>
             Online submission isn't available if you have unpaid creditors.

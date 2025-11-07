@@ -22,7 +22,7 @@ function EligibilitySummary({ formData }) {
     formData.hasUnpaidCreditors === false
   ) {
     return (
-      <va-alert status="error" uswds>
+      <va-alert status="error" role="alert" uswds>
         <h3 slot="headline">Something went wrong</h3>
         <p>
           There was an error with the eligibility check. Please return to the
@@ -34,7 +34,7 @@ function EligibilitySummary({ formData }) {
 
   return (
     <>
-      <va-alert status="error" uswds>
+      <va-alert status="error" role="alert" uswds>
         <h3 slot="headline">You already applied for survivors benefits</h3>
         <p>
           <strong>{reason}</strong>
