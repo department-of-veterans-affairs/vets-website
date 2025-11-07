@@ -428,9 +428,9 @@
       "birthDate": "1991-01-19"
     }
   ],
-  "statementOfTruthSignature": "Pauline E Foster",
+  "statementOfTruthSignature": "John Doe",
   "statementOfTruthCertified": true,
-  "view:removeDependentPickList": [
+  "view:removeDependentPickListx": [
     {
       "fullName": {
         "first": "JOE",
