@@ -1,32 +1,28 @@
 /**
- * @module tests/pages/employment-dates-details-review.unit.spec
- * @description Unit tests for Employment Dates and Details review component
+ * @module tests/pages/employment-dates-review.unit.spec
+ * @description Unit tests for Employment Dates review component
  */
 
 import { expect } from 'chai';
 import React from 'react';
 import { render } from '@testing-library/react';
-import { EmploymentDatesDetailsReview } from './employment-dates-details-review';
+import { EmploymentDatesReview } from './employment-dates-review';
 
-describe('EmploymentDatesDetailsReview', () => {
+describe('EmploymentDatesReview', () => {
   const mockEditPage = () => {};
-  const mockTitle = 'Employment dates and details';
+  const mockTitle = 'Employment dates';
 
   describe('Component Rendering', () => {
     it('should render the component', () => {
       const data = {
-        employmentDatesDetails: {
+        employmentDates: {
           beginningDate: '2010-01-01',
           endingDate: '2015-12-31',
-          typeOfWork: 'Starship Command',
-          amountEarned: '75000',
-          timeLost: '30 days',
-          dailyHours: '8',
-          weeklyHours: '40',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -37,10 +33,10 @@ describe('EmploymentDatesDetailsReview', () => {
 
     it('should display title', () => {
       const data = {
-        employmentDatesDetails: {},
+        employmentDates: {},
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -53,10 +49,10 @@ describe('EmploymentDatesDetailsReview', () => {
 
     it('should display edit button', () => {
       const data = {
-        employmentDatesDetails: {},
+        employmentDates: {},
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -71,167 +67,138 @@ describe('EmploymentDatesDetailsReview', () => {
   describe('Data Display', () => {
     it('should display formatted beginning date', () => {
       const data = {
-        employmentDatesDetails: {
+        employmentDates: {
           beginningDate: '2010-01-01',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Beginning date');
+      expect(text).to.include('start working');
       expect(text).to.include('2010');
     });
 
-    it('should display formatted ending date', () => {
+    it('should display formatted ending date when not currently employed', () => {
       const data = {
-        employmentDatesDetails: {
+        employmentDates: {
           endingDate: '2015-12-31',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Ending date');
+      expect(text).to.include('stop working');
       expect(text).to.include('2015');
     });
 
-    it('should display type of work', () => {
+    it('should display currently employed status', () => {
       const data = {
-        employmentDatesDetails: {
-          typeOfWork: 'Commanding officer of Slave I',
+        employmentDates: {
+          beginningDate: '2010-01-01',
+          currentlyEmployed: true,
         },
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Type of work');
-      expect(text).to.include('Commanding officer of Slave I');
+      expect(text).to.include('Currently employed');
+      expect(text).to.include('Yes');
     });
 
-    it('should display amount earned', () => {
+    it('should not display ending date when currently employed', () => {
       const data = {
-        employmentDatesDetails: {
-          amountEarned: '75000',
+        employmentDates: {
+          beginningDate: '2010-01-01',
+          endingDate: '2015-12-31',
+          currentlyEmployed: true,
         },
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Amount earned');
-      expect(text).to.include('75000');
+      expect(text).to.include('Yes');
+      expect(text).to.not.include('stop working');
     });
 
-    it('should display time lost', () => {
+    it('should display all employment dates data', () => {
       const data = {
-        employmentDatesDetails: {
-          timeLost: '30 days medical leave',
-        },
-      };
-      const { container } = render(
-        <EmploymentDatesDetailsReview
-          data={data}
-          editPage={mockEditPage}
-          title={mockTitle}
-        />,
-      );
-      const text = container.textContent;
-      expect(text).to.include('Time lost');
-      expect(text).to.include('30 days medical leave');
-    });
-
-    it('should display daily hours', () => {
-      const data = {
-        employmentDatesDetails: {
-          dailyHours: '8',
-        },
-      };
-      const { container } = render(
-        <EmploymentDatesDetailsReview
-          data={data}
-          editPage={mockEditPage}
-          title={mockTitle}
-        />,
-      );
-      const text = container.textContent;
-      expect(text).to.include('Daily hours');
-      expect(text).to.include('8');
-    });
-
-    it('should display weekly hours', () => {
-      const data = {
-        employmentDatesDetails: {
-          weeklyHours: '40',
-        },
-      };
-      const { container } = render(
-        <EmploymentDatesDetailsReview
-          data={data}
-          editPage={mockEditPage}
-          title={mockTitle}
-        />,
-      );
-      const text = container.textContent;
-      expect(text).to.include('Weekly hours');
-      expect(text).to.include('40');
-    });
-
-    it('should display all themed employment data', () => {
-      const data = {
-        employmentDatesDetails: {
+        employmentDates: {
           beginningDate: '1985-03-22',
           endingDate: '2020-12-31',
-          typeOfWork: 'Bounty Hunters Guild Operations',
-          amountEarned: '125000',
-          timeLost: '2 weeks medical recovery',
-          dailyHours: '10',
-          weeklyHours: '50',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Bounty Hunters Guild Operations');
-      expect(text).to.include('125000');
-      expect(text).to.include('2 weeks medical recovery');
-      expect(text).to.include('10');
-      expect(text).to.include('50');
+      expect(text).to.include('1985');
+      expect(text).to.include('2020');
+    });
+
+    it('should use veteran name in labels', () => {
+      const data = {
+        veteranInformation: {
+          firstName: 'Boba',
+          lastName: 'Fett',
+        },
+        employerInformation: {
+          employerName: 'Bounty Hunters Guild',
+        },
+        employmentDates: {
+          beginningDate: '2010-01-01',
+          currentlyEmployed: false,
+        },
+      };
+      const { container } = render(
+        <EmploymentDatesReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('Boba Fett');
+      expect(text).to.include('Bounty Hunters Guild');
     });
   });
 
   describe('Missing Data Handling', () => {
     it('should display "Not provided" for missing beginning date', () => {
       const data = {
-        employmentDatesDetails: {
+        employmentDates: {
           beginningDate: '',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -241,27 +208,10 @@ describe('EmploymentDatesDetailsReview', () => {
       expect(text).to.include('Not provided');
     });
 
-    it('should display "Not provided" for missing type of work', () => {
-      const data = {
-        employmentDatesDetails: {
-          typeOfWork: '',
-        },
-      };
-      const { container } = render(
-        <EmploymentDatesDetailsReview
-          data={data}
-          editPage={mockEditPage}
-          title={mockTitle}
-        />,
-      );
-      const text = container.textContent;
-      expect(text).to.include('Not provided');
-    });
-
-    it('should handle undefined employmentDatesDetails', () => {
+    it('should handle undefined employmentDates', () => {
       const data = {};
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -273,10 +223,10 @@ describe('EmploymentDatesDetailsReview', () => {
 
     it('should handle null data', () => {
       const data = {
-        employmentDatesDetails: null,
+        employmentDates: null,
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -287,12 +237,13 @@ describe('EmploymentDatesDetailsReview', () => {
 
     it('should handle partial data', () => {
       const data = {
-        employmentDatesDetails: {
+        employmentDates: {
           beginningDate: '2010-01-01',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -302,17 +253,37 @@ describe('EmploymentDatesDetailsReview', () => {
       expect(text).to.include('2010');
       expect(text).to.include('Not provided');
     });
+
+    it('should use fallback names when veteran info missing', () => {
+      const data = {
+        employmentDates: {
+          beginningDate: '2010-01-01',
+          currentlyEmployed: false,
+        },
+      };
+      const { container } = render(
+        <EmploymentDatesReview
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+      const text = container.textContent;
+      expect(text).to.include('Veteran');
+      expect(text).to.include('this employer');
+    });
   });
 
   describe('Date Formatting', () => {
     it('should format date in US locale', () => {
       const data = {
-        employmentDatesDetails: {
+        employmentDates: {
           beginningDate: '2010-01-15',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -326,12 +297,13 @@ describe('EmploymentDatesDetailsReview', () => {
 
     it('should handle birth date formatting', () => {
       const data = {
-        employmentDatesDetails: {
+        employmentDates: {
           beginningDate: '1985-03-22',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -345,12 +317,13 @@ describe('EmploymentDatesDetailsReview', () => {
 
     it('should handle invalid date gracefully', () => {
       const data = {
-        employmentDatesDetails: {
+        employmentDates: {
           beginningDate: 'invalid-date',
+          currentlyEmployed: false,
         },
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -363,10 +336,10 @@ describe('EmploymentDatesDetailsReview', () => {
   describe('Edit Functionality', () => {
     it('should accept editPage prop', () => {
       const data = {
-        employmentDatesDetails: {},
+        employmentDates: {},
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}
@@ -378,10 +351,10 @@ describe('EmploymentDatesDetailsReview', () => {
 
     it('should have secondary button styling', () => {
       const data = {
-        employmentDatesDetails: {},
+        employmentDates: {},
       };
       const { container } = render(
-        <EmploymentDatesDetailsReview
+        <EmploymentDatesReview
           data={data}
           editPage={mockEditPage}
           title={mockTitle}

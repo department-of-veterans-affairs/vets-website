@@ -38,10 +38,51 @@ describe('BenefitsInformationPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Benefits information');
+      expect(container.textContent).to.include('Benefit entitlement');
     });
 
-    it('should render heading', () => {
+    it('should use veteran name in label', () => {
+      const data = {
+        veteranInformation: {
+          firstName: 'Boba',
+          lastName: 'Fett',
+        },
+      };
+      const { container } = render(
+        <BenefitsInformationPage
+          data={data}
+          setFormData={mockSetFormData}
+          goForward={mockGoForward}
+          goBack={mockGoBack}
+        />,
+      );
+
+      const radioGroup = container.querySelector('va-radio');
+      expect(radioGroup.getAttribute('label')).to.include('Boba Fett');
+    });
+
+    it('should use employer name in label', () => {
+      const data = {
+        employerInformation: {
+          employerName: 'Bounty Hunters Guild',
+        },
+      };
+      const { container } = render(
+        <BenefitsInformationPage
+          data={data}
+          setFormData={mockSetFormData}
+          goForward={mockGoForward}
+          goBack={mockGoBack}
+        />,
+      );
+
+      const radioGroup = container.querySelector('va-radio');
+      expect(radioGroup.getAttribute('label')).to.include(
+        'Bounty Hunters Guild',
+      );
+    });
+
+    it('should use "the Veteran" and "you" when names not provided', () => {
       const { container } = render(
         <BenefitsInformationPage
           data={{}}
@@ -51,7 +92,9 @@ describe('BenefitsInformationPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Benefit entitlement');
+      const radioGroup = container.querySelector('va-radio');
+      expect(radioGroup.getAttribute('label')).to.include('the Veteran');
+      expect(radioGroup.getAttribute('label')).to.include('you');
     });
 
     it('should render radio field', () => {

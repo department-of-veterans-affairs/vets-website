@@ -23,20 +23,6 @@ export const firstNameSchema = z
   );
 
 /**
- * Schema for veteran's middle name (optional)
- */
-export const middleNameSchema = z
-  .string()
-  .max(30, 'Middle name must be less than 30 characters')
-  .regex(
-    NAME_PATTERNS.OPTIONAL,
-    VALIDATION_MESSAGES.NAME_INVALID ||
-      'Must contain only letters, spaces, hyphens, and apostrophes',
-  )
-  .optional()
-  .or(z.literal(''));
-
-/**
  * Schema for veteran's last name
  */
 export const lastNameSchema = z
@@ -48,37 +34,6 @@ export const lastNameSchema = z
     VALIDATION_MESSAGES.NAME_INVALID ||
       'Must contain only letters, spaces, hyphens, and apostrophes',
   );
-
-/**
- * Schema for veteran's full name
- */
-export const fullNameSchema = z.object({
-  first: firstNameSchema,
-  middle: middleNameSchema,
-  last: lastNameSchema,
-});
-
-/**
- * Schema for Social Security Number
- */
-export const ssnSchema = z
-  .string()
-  .min(1, 'Social Security Number is required')
-  .transform(val => val?.replace(/-/g, '')) // Remove dashes for validation
-  .refine(val => /^\d{9}$/.test(val), {
-    message: 'SSN must be 9 digits',
-  });
-
-/**
- * Schema for VA file number (optional)
- */
-export const vaFileNumberSchema = z
-  .string()
-  .refine(val => !val || /^\d{8,9}$/.test(val), {
-    message: 'VA file number must be 8 or 9 digits',
-  })
-  .optional()
-  .or(z.literal(''));
 
 /**
  * Schema for date of birth
@@ -96,8 +51,7 @@ export const dateOfBirthSchema = z
  * Complete veteran information schema for 21-4192
  */
 export const veteranInformationSchema = z.object({
-  fullName: fullNameSchema,
+  firstName: firstNameSchema,
+  lastName: lastNameSchema,
   dateOfBirth: dateOfBirthSchema,
-  ssn: ssnSchema,
-  vaFileNumber: vaFileNumberSchema,
 });

@@ -12,17 +12,6 @@ import React from 'react';
  */
 export const VeteranInformationReview = ({ data, editPage, title }) => {
   const veteranInfo = data?.veteranInformation || {};
-  const fullName = veteranInfo.fullName || {};
-
-  const formatName = () => {
-    const parts = [
-      fullName.first,
-      fullName.middle,
-      fullName.last,
-      fullName.suffix,
-    ].filter(Boolean);
-    return parts.join(' ') || 'Not provided';
-  };
 
   const formatDate = dateString => {
     if (!dateString) return 'Not provided';
@@ -51,22 +40,17 @@ export const VeteranInformationReview = ({ data, editPage, title }) => {
 
       <dl className="review">
         <div className="review-row">
-          <dt>Veteran’s full name</dt>
-          <dd>{formatName()}</dd>
+          <dt>Veteran’s first or given name</dt>
+          <dd>{veteranInfo.firstName || 'Not provided'}</dd>
         </div>
 
         <div className="review-row">
-          <dt>Social Security number</dt>
-          <dd>{veteranInfo.ssn || 'Not provided'}</dd>
+          <dt>Veteran’s last or family name</dt>
+          <dd>{veteranInfo.lastName || 'Not provided'}</dd>
         </div>
 
         <div className="review-row">
-          <dt>VA file number</dt>
-          <dd>{veteranInfo.vaFileNumber || 'Not provided'}</dd>
-        </div>
-
-        <div className="review-row">
-          <dt>Date of birth</dt>
+          <dt>Veteran’s date of birth</dt>
           <dd>{formatDate(veteranInfo.dateOfBirth)}</dd>
         </div>
       </dl>
