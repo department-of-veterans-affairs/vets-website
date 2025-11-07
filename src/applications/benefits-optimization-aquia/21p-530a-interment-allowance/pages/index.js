@@ -5,7 +5,9 @@
  */
 
 // Relationship to the Veteran
-export { RelationshipToVeteranPage } from './relationship-to-veteran';
+export {
+  default as relationshipToVeteranPage,
+} from './relationship-to-veteran';
 
 // Chapter 1: Your organization's information
 export { OrganizationInformationPage } from './organization-information';

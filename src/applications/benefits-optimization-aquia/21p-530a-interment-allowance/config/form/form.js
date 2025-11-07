@@ -21,7 +21,7 @@ import {
   MailingAddressPage,
   OrganizationInformationPage,
   PreviousNameEntryPage,
-  RelationshipToVeteranPage,
+  relationshipToVeteranPage,
   ServiceBranchPage,
   ServiceDatesPage,
   ServicePeriodsPage,
@@ -38,7 +38,6 @@ import { AdditionalRemarksReviewPage } from '@bio-aquia/21p-530a-interment-allow
 import { BurialBenefitsRecipientReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/burial-benefits-recipient/burial-benefits-recipient-review';
 import { MailingAddressReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/mailing-address/mailing-address-review';
 import { OrganizationInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/organization-information/organization-information-review';
-import { RelationshipToVeteranReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/relationship-to-veteran/relationship-to-veteran-review';
 import { ServicePeriodsReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/service-periods/service-periods-review';
 import { VeteranBirthInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-birth-information/veteran-birth-information-review';
 import { VeteranBurialInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-burial-information/veteran-burial-information-review';
@@ -99,10 +98,8 @@ const formConfig = {
         relationshipToVeteran: {
           path: 'relationship-to-veteran',
           title: 'Relationship to the Veteran',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: RelationshipToVeteranPage,
-          CustomPageReview: RelationshipToVeteranReviewPage,
+          uiSchema: relationshipToVeteranPage.uiSchema,
+          schema: relationshipToVeteranPage.schema,
           pagePerItemIndex: 0,
         },
         organizationInformation: {
