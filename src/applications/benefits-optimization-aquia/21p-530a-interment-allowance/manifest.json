@@ -1,9 +1,10 @@
 {
   "appName": "21P-530a Interment Allowance",
   "entryName": "21p-530a-interment-allowance",
-  "rootUrl": "/21p-530a-interment-allowance",
+  "rootUrl": "/submit-state-interment-allowance-form-21p-530a",
   "entryFile": "./app-entry.jsx",
-  "url": "/21p-530a-interment-allowance",
+  "url": "/submit-state-interment-allowance-form-21p-530a",
+  "productId": "9fab5bb1-b901-458e-a5fe-ec4242cdc492",
   "template": {
     "title": "Apply for a Veterans burial allowance for a state or tribal organization",
     "heading": "Apply for a Veterans burial allowance for a state or tribal organization",
@@ -17,16 +18,8 @@
         "path": "/"
       },
       {
-        "name": "Burials and memorials",
-        "path": "/burials-memorials/"
-      },
-      {
-        "name": "Burial allowance",
-        "path": "/burials-memorials/veterans-burial-allowance/"
-      },
-      {
-        "name": "Apply for burial benefits",
-        "path": "/21p-530a-interment-allowance"
+        "name": "Submit a state or tribal organization request for interment allowance",
+        "path": "/submit-state-interment-allowance-form-21p-530a"
       }
     ]
   }

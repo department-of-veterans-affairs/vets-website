@@ -1,0 +1,21 @@
+{
+  "appName": "Apply for additional compensation based on inability to work",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "21-8940",
+  "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-form-21-8940",
+  "productId": "549889a3-855d-409c-bb8d-bed6bc851c95",
+  "template": {
+    "vagovprod": false,
+    "layout": "page-react.html",
+    "includeBreadcrumbs": false,
+    "minimalExcludePaths": [
+      "/introduction",
+      "/confirmation"
+    ],
+    "minimalFooter": true,
+    "minimalHeader": {
+      "title": "Apply for additional compensation based on inability to work",
+      "subtitle": "increased compensation based on unemployability (VA Form 21-8940)"
+    }
+  }
+}

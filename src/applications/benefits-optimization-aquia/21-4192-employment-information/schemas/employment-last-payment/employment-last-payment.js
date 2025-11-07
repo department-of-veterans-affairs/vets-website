@@ -10,11 +10,10 @@ import { z } from 'zod';
  */
 export const dateOfLastPaymentSchema = z
   .string()
-  .optional()
-  .or(z.literal(''))
+  .min(1, 'Date of last payment is required')
   .refine(
     val => {
-      if (!val) return true;
+      if (!val) return false;
       const date = new Date(val);
       return date instanceof Date && !Number.isNaN(date.getTime());
     },
@@ -66,10 +65,37 @@ export const datePaidSchema = z
 /**
  * Complete employment last payment schema
  */
-export const employmentLastPaymentSchema = z.object({
-  dateOfLastPayment: dateOfLastPaymentSchema,
-  grossAmountLastPayment: grossAmountLastPaymentSchema,
-  lumpSumPayment: lumpSumPaymentSchema,
-  grossAmountPaid: grossAmountPaidSchema,
-  datePaid: datePaidSchema,
-});
+export const employmentLastPaymentSchema = z
+  .object({
+    dateOfLastPayment: dateOfLastPaymentSchema,
+    grossAmountLastPayment: grossAmountLastPaymentSchema,
+    lumpSumPayment: lumpSumPaymentSchema,
+    grossAmountPaid: grossAmountPaidSchema,
+    datePaid: datePaidSchema,
+  })
+  .refine(
+    data => {
+      // If lump sum payment is yes, gross amount paid and date paid are required
+      if (data.lumpSumPayment === 'yes') {
+        return data.grossAmountPaid && data.grossAmountPaid.trim() !== '';
+      }
+      return true;
+    },
+    {
+      message: 'Gross amount paid is required when lump sum payment was made',
+      path: ['grossAmountPaid'],
+    },
+  )
+  .refine(
+    data => {
+      // If lump sum payment is yes, date paid is required
+      if (data.lumpSumPayment === 'yes') {
+        return data.datePaid && data.datePaid.trim() !== '';
+      }
+      return true;
+    },
+    {
+      message: 'Date lump sum was paid is required',
+      path: ['datePaid'],
+    },
+  );
