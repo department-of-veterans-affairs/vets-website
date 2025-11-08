@@ -47,7 +47,7 @@ export const transform = (formConfig, form) => {
       capitalize(previousName.last),
     ].filter(Boolean);
     const formattedName = parts.join(' ');
-    return `${acc}, ${formattedName}`;
+    return `${acc ? `${acc}, ` : ''}${formattedName}`;
   }, '');
 
   // Fit into subbmission object
