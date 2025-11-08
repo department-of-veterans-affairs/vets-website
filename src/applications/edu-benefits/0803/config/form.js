@@ -7,7 +7,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import previouslyApplied from '../pages/previouslyApplied';
-import identificationInformation from '../pages/identificationInformation';
+import vaBenefitProgram from '../pages/vaBenefitProgram';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 
@@ -56,11 +56,11 @@ const formConfig = {
           uiSchema: previouslyApplied.uiSchema,
           schema: previouslyApplied.schema,
         },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
+        vaBenefitProgram: {
+          path: 'va-benefit-program',
+          title: 'VA Benefit Program',
+          uiSchema: vaBenefitProgram.uiSchema,
+          schema: vaBenefitProgram.schema,
         },
       },
     },

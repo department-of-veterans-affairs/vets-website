@@ -6,6 +6,11 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+const Options = {
+  yes: 'Yes',
+  no: 'No',
+};
+
 function applicationWarning() {
   return (
     <va-alert status="warning">
@@ -38,10 +43,7 @@ export default {
       ...radioUI({
         title: 'Have you previously applied for VA education benefits?',
         required: () => true,
-        labels: {
-          yes: 'Yes',
-          no: 'No',
-        },
+        labels: Options,
       }),
     },
     'view:applicationWarning': {
@@ -54,7 +56,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      hasPreviouslyApplied: radioSchema(['yes', 'no']),
+      hasPreviouslyApplied: radioSchema(Object.keys(Options)),
       'view:applicationWarning': { type: 'object', properties: {} },
     },
     required: ['hasPreviouslyApplied'],
