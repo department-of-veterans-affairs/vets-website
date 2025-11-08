@@ -27,7 +27,7 @@
  * @example
  * const transformed = submitTransformer(formConfig, {
  *   relationship: 'veteran',
- *   veteranIdentification: {
+ *   veteranInformation: {
  *     veteranFullName: { first: 'John', last: 'Doe' },
  *     veteranDOB: '1980-01-01',
  *     veteranSSN: '123-45-6789'
@@ -36,7 +36,7 @@
  *     veteranAddress: { street: '123 Main St', city: 'Springfield', ... }
  *   },
  *   hospitalizationStatus: {
- *     isCurrentlyHospitalized: 'no'
+ *     isCurrentlyHospitalized: false
  *   },
  *   hospitalizationDate: { date: '2024-01-01' } // Will be removed
  * });
@@ -47,7 +47,7 @@ export function submitTransformer(_formConfig, formData) {
   const transformedData = { ...formData };
 
   // Clean up duplicate/unnecessary data before submission
-  // Remove the 'veteran' object added by platform (duplicates veteranIdentification)
+  // Remove the 'veteran' object added by platform (duplicates veteranInformation)
   delete transformedData.veteran;
 
   // If the veteran is the claimant, copy veteran information to claimant fields
@@ -59,9 +59,9 @@ export function submitTransformer(_formConfig, formData) {
 
   if (isVeteranClaimant) {
     const veteranName =
-      transformedData.veteranIdentification?.veteranFullName || {};
-    const veteranDOB = transformedData.veteranIdentification?.veteranDOB || '';
-    const veteranSSN = transformedData.veteranIdentification?.veteranSSN || '';
+      transformedData.veteranInformation?.veteranFullName || {};
+    const veteranDOB = transformedData.veteranInformation?.veteranDOB || '';
+    const veteranSSN = transformedData.veteranInformation?.veteranSSN || '';
     const veteranAddr = transformedData.veteranAddress?.veteranAddress || {};
 
     // Copy veteran information to claimant fields
@@ -101,10 +101,10 @@ export function submitTransformer(_formConfig, formData) {
   // This handles the case where the user entered hospital information,
   // then went back and changed their answer to 'no'
   const isCurrentlyHospitalized =
-    transformedData.hospitalizationStatus?.isCurrentlyHospitalized === 'yes';
+    transformedData.hospitalizationStatus?.isCurrentlyHospitalized === true;
 
   if (!isCurrentlyHospitalized) {
-    // Keep hospitalizationStatus (contains the 'no' answer)
+    // Keep hospitalizationStatus (contains the false answer)
     // Remove hospitalizationDate and hospitalizationFacility
     delete transformedData.hospitalizationDate;
     delete transformedData.hospitalizationFacility;

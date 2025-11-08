@@ -58,7 +58,7 @@
       "benefitType": "SMP"
     },
     "hospitalizationStatus": {
-      "isCurrentlyHospitalized": "yes"
+      "isCurrentlyHospitalized": true
     },
     "hospitalizationDate": {
       "admissionDate": "2024-01-15"

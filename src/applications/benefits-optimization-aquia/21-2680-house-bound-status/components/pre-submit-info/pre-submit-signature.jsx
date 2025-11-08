@@ -9,8 +9,8 @@ import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-li
  * @param {Object} formData - The form data object
  * @param {Object} formData.claimantRelationship - Claimant relationship data
  * @param {string} formData.claimantRelationship.relationship - Relationship type ('veteran' or other)
- * @param {Object} formData.veteranIdentification - Veteran identification data
- * @param {Object} formData.veteranIdentification.veteranFullName - Veteran's full name
+ * @param {Object} formData.veteranInformation - Veteran information data
+ * @param {Object} formData.veteranInformation.veteranFullName - Veteran's full name
  * @param {Object} formData.claimantInformation - Claimant information data
  * @param {Object} formData.claimantInformation.claimantFullName - Claimant's full name
  * @returns {string} The full name (first middle last) or empty string if not found
@@ -22,7 +22,7 @@ const getClaimantFullName = formData => {
   let fullName;
   if (isVeteranClaimant) {
     // Use veteran's name
-    fullName = formData?.veteranIdentification?.veteranFullName;
+    fullName = formData?.veteranInformation?.veteranFullName;
   } else {
     // Use claimant's name
     fullName = formData?.claimantInformation?.claimantFullName;

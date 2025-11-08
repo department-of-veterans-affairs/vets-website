@@ -34,7 +34,7 @@
       "benefitType": "SMC"
     },
     "hospitalizationStatus": {
-      "isCurrentlyHospitalized": "no"
+      "isCurrentlyHospitalized": false
     }
   }
 }

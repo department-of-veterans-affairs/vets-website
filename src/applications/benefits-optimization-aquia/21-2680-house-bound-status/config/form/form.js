@@ -18,26 +18,30 @@ import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-// Import all page components from barrel export
+// Import page configurations (uiSchema and schema)
 import {
-  BenefitTypePage,
-  BenefitTypeReviewPage,
-  ClaimantAddressPage,
-  ClaimantContactPage,
-  ClaimantInformationPage,
-  ClaimantInformationReviewPage,
-  ClaimantRelationshipPage,
-  ClaimantSSNPage,
-  HospitalizationDatePage,
-  HospitalizationDateReviewPage,
-  HospitalizationFacilityPage,
-  HospitalizationFacilityReviewPage,
-  HospitalizationStatusPage,
-  HospitalizationStatusReviewPage,
-  VeteranAddressPage,
-  VeteranAddressReviewPage,
-  VeteranInformationPage,
-  VeteranInformationReviewPage,
+  veteranInformationUiSchema,
+  veteranInformationSchema,
+  veteranAddressUiSchema,
+  veteranAddressSchema,
+  claimantRelationshipUiSchema,
+  claimantRelationshipSchema,
+  claimantInformationUiSchema,
+  claimantInformationSchema,
+  claimantSsnUiSchema,
+  claimantSsnSchema,
+  claimantAddressUiSchema,
+  claimantAddressSchema,
+  claimantContactUiSchema,
+  claimantContactSchema,
+  benefitTypeUiSchema,
+  benefitTypeSchema,
+  hospitalizationStatusUiSchema,
+  hospitalizationStatusSchema,
+  hospitalizationDateUiSchema,
+  hospitalizationDateSchema,
+  hospitalizationFacilityUiSchema,
+  hospitalizationFacilitySchema,
 } from '@bio-aquia/21-2680-house-bound-status/pages';
 
 /**
@@ -107,18 +111,14 @@ const formConfig = {
         veteranInformation: {
           path: 'veteran-information',
           title: "Veteran's information",
-          CustomPage: VeteranInformationPage,
-          CustomPageReview: VeteranInformationReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: veteranInformationUiSchema,
+          schema: veteranInformationSchema,
         },
         veteranAddress: {
           path: 'veteran-address',
           title: 'Veteran address',
-          CustomPage: VeteranAddressPage,
-          CustomPageReview: VeteranAddressReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: veteranAddressUiSchema,
+          schema: veteranAddressSchema,
         },
       },
     },
@@ -130,59 +130,44 @@ const formConfig = {
         claimantRelationship: {
           path: 'claimant-relationship',
           title: 'Who is the claim for?',
-          CustomPage: ClaimantRelationshipPage,
-          // Show comprehensive review with all claimant fields - edit navigates to first claimant page
-          CustomPageReview: ClaimantInformationReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: claimantRelationshipUiSchema,
+          schema: claimantRelationshipSchema,
         },
         claimantInformation: {
           path: 'claimant-information',
           title: 'Claimant information',
-          CustomPage: ClaimantInformationPage,
-          // Hidden page - user edits this via claimant-relationship review section
-          CustomPageReview: () => null,
+          uiSchema: claimantInformationUiSchema,
+          schema: claimantInformationSchema,
           // Hidden when veteran is claimant
           depends: formData =>
             formData?.claimantRelationship?.relationship !== 'veteran',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
         },
         claimantSSN: {
           path: 'claimant-ssn',
           title: 'Claimant Social Security number',
-          CustomPage: ClaimantSSNPage,
-          // Hidden page - user edits this via claimant-relationship review section
-          CustomPageReview: () => null,
+          uiSchema: claimantSsnUiSchema,
+          schema: claimantSsnSchema,
           // Hidden when veteran is claimant
           depends: formData =>
             formData?.claimantRelationship?.relationship !== 'veteran',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
         },
         claimantAddress: {
           path: 'claimant-address',
           title: 'Claimant address',
-          CustomPage: ClaimantAddressPage,
-          // Hidden page - user edits this via claimant-relationship review section
-          CustomPageReview: () => null,
+          uiSchema: claimantAddressUiSchema,
+          schema: claimantAddressSchema,
           // Hidden when veteran is claimant
           depends: formData =>
             formData?.claimantRelationship?.relationship !== 'veteran',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
         },
         claimantContact: {
           path: 'claimant-contact',
           title: 'Contact information',
-          CustomPage: ClaimantContactPage,
-          // Hidden page - user edits this via claimant-relationship review section
-          CustomPageReview: () => null,
+          uiSchema: claimantContactUiSchema,
+          schema: claimantContactSchema,
           // Hidden when veteran is claimant
           depends: formData =>
             formData?.claimantRelationship?.relationship !== 'veteran',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
         },
       },
     },
@@ -194,10 +179,8 @@ const formConfig = {
         benefitType: {
           path: 'benefit-type',
           title: 'Choose your benefit type',
-          CustomPage: BenefitTypePage,
-          CustomPageReview: BenefitTypeReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: benefitTypeUiSchema,
+          schema: benefitTypeSchema,
         },
       },
     },
@@ -209,30 +192,24 @@ const formConfig = {
         hospitalizationStatus: {
           path: 'hospitalization-status',
           title: 'Hospitalization status',
-          CustomPage: HospitalizationStatusPage,
-          CustomPageReview: HospitalizationStatusReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: hospitalizationStatusUiSchema,
+          schema: hospitalizationStatusSchema,
         },
         hospitalizationDate: {
           path: 'hospitalization-date',
           title: 'Admission date',
-          CustomPage: HospitalizationDatePage,
-          CustomPageReview: HospitalizationDateReviewPage,
+          uiSchema: hospitalizationDateUiSchema,
+          schema: hospitalizationDateSchema,
           depends: formData =>
-            formData?.hospitalizationStatus?.isCurrentlyHospitalized === 'yes',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+            formData?.hospitalizationStatus?.isCurrentlyHospitalized === true,
         },
         hospitalizationFacility: {
           path: 'hospitalization-facility',
           title: 'Hospital information',
-          CustomPage: HospitalizationFacilityPage,
-          CustomPageReview: HospitalizationFacilityReviewPage,
+          uiSchema: hospitalizationFacilityUiSchema,
+          schema: hospitalizationFacilitySchema,
           depends: formData =>
-            formData?.hospitalizationStatus?.isCurrentlyHospitalized === 'yes',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+            formData?.hospitalizationStatus?.isCurrentlyHospitalized === true,
         },
       },
     },

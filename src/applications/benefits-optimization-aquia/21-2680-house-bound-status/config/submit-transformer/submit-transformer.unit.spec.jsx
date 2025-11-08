@@ -24,7 +24,7 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'spouse',
         },
-        veteranIdentification: {
+        veteranInformation: {
           veteranFullName: { first: 'John', last: 'Doe' },
           veteranDOB: '1980-01-01',
           veteranSSN: '123-45-6789',
@@ -48,7 +48,7 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranIdentification: {
+        veteranInformation: {
           veteranFullName: {
             first: 'John',
             middle: 'Michael',
@@ -74,7 +74,7 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranIdentification: {
+        veteranInformation: {
           veteranDOB: '1980-01-01',
         },
       };
@@ -87,7 +87,7 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranIdentification: {
+        veteranInformation: {
           veteranSSN: '123-45-6789',
         },
       };
@@ -139,7 +139,7 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranIdentification: {
+        veteranInformation: {
           veteranFullName: { first: 'Alice', last: 'Smith' },
           veteranDOB: '1975-06-20',
           veteranSSN: '987-65-4321',
@@ -203,7 +203,7 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranIdentification: {
+        veteranInformation: {
           veteranFullName: {
             first: 'Bob',
             last: 'Jones',
@@ -283,15 +283,15 @@ describe('Submit Transformer', () => {
           relationship: 'veteran',
         },
         benefitType: 'housebound',
-        hospitalizationStatus: { isCurrentlyHospitalized: 'no' },
-        veteranIdentification: {
+        hospitalizationStatus: { isCurrentlyHospitalized: false },
+        veteranInformation: {
           veteranFullName: { first: 'Test', last: 'User' },
         },
       };
       const result = submitTransformer(mockFormConfig, formData);
       expect(result.benefitType).to.equal('housebound');
       expect(result.hospitalizationStatus.isCurrentlyHospitalized).to.equal(
-        'no',
+        false,
       );
       expect(result.claimantRelationship.relationship).to.equal('veteran');
     });
@@ -301,7 +301,7 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranIdentification: {
+        veteranInformation: {
           veteranFullName: { first: 'Test', last: 'User' },
         },
         claimantContact: {
@@ -316,10 +316,10 @@ describe('Submit Transformer', () => {
   });
 
   describe('Hospitalization Data Cleanup', () => {
-    it('should remove hospitalization details when status is no', () => {
+    it('should remove hospitalization details when status is false', () => {
       const formData = {
         hospitalizationStatus: {
-          isCurrentlyHospitalized: 'no',
+          isCurrentlyHospitalized: false,
         },
         hospitalizationDate: {
           admissionDate: '2024-01-15',
@@ -337,7 +337,7 @@ describe('Submit Transformer', () => {
 
       // Status should remain
       expect(result.hospitalizationStatus.isCurrentlyHospitalized).to.equal(
-        'no',
+        false,
       );
 
       // Details should be removed
@@ -345,10 +345,10 @@ describe('Submit Transformer', () => {
       expect(result.hospitalizationFacility).to.be.undefined;
     });
 
-    it('should keep hospitalization details when status is yes', () => {
+    it('should keep hospitalization details when status is true', () => {
       const formData = {
         hospitalizationStatus: {
-          isCurrentlyHospitalized: 'yes',
+          isCurrentlyHospitalized: true,
         },
         hospitalizationDate: {
           admissionDate: '2024-01-15',
@@ -361,7 +361,7 @@ describe('Submit Transformer', () => {
 
       // Everything should remain
       expect(result.hospitalizationStatus.isCurrentlyHospitalized).to.equal(
-        'yes',
+        true,
       );
       expect(result.hospitalizationDate.admissionDate).to.equal('2024-01-15');
       expect(result.hospitalizationFacility.facilityName).to.equal(
@@ -403,13 +403,13 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranIdentification: {
+        veteranInformation: {
           veteranFullName: { first: 'John', last: 'Doe' },
           veteranDOB: '1980-01-01',
           veteranSSN: '123-45-6789',
         },
         hospitalizationStatus: {
-          isCurrentlyHospitalized: 'no',
+          isCurrentlyHospitalized: false,
         },
         hospitalizationDate: {
           admissionDate: '2024-01-15',
