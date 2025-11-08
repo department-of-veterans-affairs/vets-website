@@ -5,13 +5,13 @@ import {
 
 export const veteranIdentificationPage = {
   uiSchema: {
-    veteranIdentification: ssnOrVaFileNumberUI(),
+    veteranInformation: ssnOrVaFileNumberUI(),
   },
   schema: {
     type: 'object',
-    required: ['veteranIdentification'],
+    required: ['veteranInformation'],
     properties: {
-      veteranIdentification: ssnOrVaFileNumberSchema,
+      veteranInformation: ssnOrVaFileNumberSchema,
     },
   },
 };

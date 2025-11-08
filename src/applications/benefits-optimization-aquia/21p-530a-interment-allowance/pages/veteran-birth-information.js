@@ -7,24 +7,9 @@ import {
 
 export const veteranBirthInformationPage = {
   uiSchema: {
-    veteranBirthDate: currentOrPastDateUI('Date of birth'),
-    veteranBirthLocation: addressUI({
-      omit: [
-        'isMilitary',
-        'country',
-        'street',
-        'street2',
-        'street3',
-        'postalCode',
-      ],
-    }),
-  },
-  schema: {
-    type: 'object',
-    required: ['veteranBirthDate'],
-    properties: {
-      veteranBirthDate: currentOrPastDateSchema,
-      veteranBirthLocation: addressSchema({
+    veteranInformation: {
+      dateOfBirth: currentOrPastDateUI('Date of birth'),
+      veteranBirthLocation: addressUI({
         omit: [
           'isMilitary',
           'country',
@@ -33,7 +18,35 @@ export const veteranBirthInformationPage = {
           'street3',
           'postalCode',
         ],
+        required: {
+          state: () => true,
+        },
       }),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      veteranInformation: {
+        type: 'object',
+        required: ['dateOfBirth', 'veteranBirthLocation'],
+        properties: {
+          dateOfBirth: currentOrPastDateSchema,
+          veteranBirthLocation: addressSchema({
+            omit: [
+              'isMilitary',
+              'country',
+              'street',
+              'street2',
+              'street3',
+              'postalCode',
+            ],
+            required: {
+              state: () => true,
+            },
+          }),
+        },
+      },
     },
   },
 };

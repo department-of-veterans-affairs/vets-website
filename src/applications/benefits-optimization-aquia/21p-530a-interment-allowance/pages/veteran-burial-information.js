@@ -9,42 +9,66 @@ import {
 
 export const veteranBurialInformationPage = {
   uiSchema: {
-    veteranDeathDate: currentOrPastDateUI('Date of death'),
-    veteranBurialDate: currentOrPastDateUI('Date of burial'),
-    cemeteryName: textUI('Cemetery Name'),
-    cemeteryLocation: addressUI({
-      omit: [
-        'isMilitary',
-        'country',
-        'street',
-        'street2',
-        'street3',
-        'postalCode',
-      ],
-    }),
+    veteranInformation: {
+      dateOfDeath: currentOrPastDateUI('Date of death'),
+    },
+    burialInformation: {
+      dateOfBurial: currentOrPastDateUI('Date of burial'),
+      placeOfBurial: {
+        stateCemeteryOrTribalCemeteryName: textUI('Cemetery Name'),
+        cemeteryLocation: addressUI({
+          omit: [
+            'isMilitary',
+            'country',
+            'street',
+            'street2',
+            'street3',
+            'postalCode',
+          ],
+          required: {
+            state: () => true,
+          },
+        }),
+      },
+    },
   },
   schema: {
     type: 'object',
-    required: [
-      'veteranDeathDate',
-      'veteranBurialDate',
-      'cemeteryName',
-      'cemeteryLocation',
-    ],
     properties: {
-      veteranDeathDate: currentOrPastDateSchema,
-      veteranBurialDate: currentOrPastDateSchema,
-      cemeteryName: textSchema,
-      cemeteryLocation: addressSchema({
-        omit: [
-          'isMilitary',
-          'country',
-          'street',
-          'street2',
-          'street3',
-          'postalCode',
-        ],
-      }),
+      veteranInformation: {
+        type: 'object',
+        required: ['dateOfDeath'],
+        properties: {
+          dateOfDeath: currentOrPastDateSchema,
+        },
+      },
+      burialInformation: {
+        type: 'object',
+        required: ['dateOfBurial'],
+        properties: {
+          dateOfBurial: currentOrPastDateSchema,
+          placeOfBurial: {
+            type: 'object',
+            required: ['stateCemeteryOrTribalCemeteryName', 'cemeteryLocation'],
+            properties: {
+              stateCemeteryOrTribalCemeteryName: textSchema,
+              cemeteryLocation: addressSchema({
+                omit: [
+                  'isMilitary',
+                  'country',
+                  'street',
+                  'street2',
+                  'street3',
+                  'postalCode',
+                ],
+                required: {
+                  state: () => true,
+                },
+              }),
+            },
+          },
+        },
+      },
     },
   },
 };
