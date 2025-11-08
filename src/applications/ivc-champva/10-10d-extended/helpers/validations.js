@@ -73,6 +73,23 @@ export const validateOHIDates = (errors, data) => {
  * and `false` when all required fields are valid for the selected plan type.
  *
  * @param {Object} [item={}] Form data to validate.
+ * @property {string} item.medicarePlanType The selected Medicare plan type. One of: 'A', 'B', 'C', 'D', 'A_B', 'NONE'.
+ * @property {string} [item.medicarePartCCarrier] Name of the Medicare Part C (Medicare Advantage) carrier. Required if medicarePlanType is 'C'.
+ * @property {string} [item.medicarePartCEffectiveDate] Effective date for Medicare Part C. Required if medicarePlanType is 'C'.
+ * @property {boolean} [item.hasMedicarePartD] Whether the applicant has Medicare Part D. Required if medicarePlanType is 'D'.
+ * @property {string} [item.medicarePartDEffectiveDate] Effective date for Medicare Part D. Required if medicarePlanType is 'D'.
+ * @property {string} [item.medicarePartDTerminationDate] Termination date for Medicare Part D, if applicable.
+ * @property {string} [item.medicarePartAFrontCard] Image or file reference for the front of the Medicare Part A card. Required if medicarePlanType is 'A' or 'A_B'.
+ * @property {string} [item.medicarePartABackCard] Image or file reference for the back of the Medicare Part A card. Required if medicarePlanType is 'A' or 'A_B'.
+ * @property {string} [item.medicarePartBFrontCard] Image or file reference for the front of the Medicare Part B card. Required if medicarePlanType is 'B' or 'A_B'.
+ * @property {string} [item.medicarePartBBackCard] Image or file reference for the back of the Medicare Part B card. Required if medicarePlanType is 'B' or 'A_B'.
+ * @property {string} [item.medicarePartAPartBFrontCard] Image or file reference for the front of a combined Medicare Part A/B card. Required if medicarePlanType is 'A_B'.
+ * @property {string} [item.medicarePartAPartBBackCard] Image or file reference for the back of a combined Medicare Part A/B card. Required if medicarePlanType is 'A_B'.
+ * @property {string} [item.medicarePartCFrontCard] Image or file reference for the front of the Medicare Part C card. Required if medicarePlanType is 'C'.
+ * @property {string} [item.medicarePartCBackCard] Image or file reference for the back of the Medicare Part C card. Required if medicarePlanType is 'C'.
+ * @property {string} [item.medicarePartDFrontCard] Image or file reference for the front of the Medicare Part D card. Required if medicarePlanType is 'D'.
+ * @property {string} [item.medicarePartDBackCard] Image or file reference for the back of the Medicare Part D card. Required if medicarePlanType is 'D'.
+ *
  * @returns {boolean} `true` if validation fails (invalid/missing fields); `false` if the item is valid.
  */
 export const validateMedicarePlan = (item = {}) => {
@@ -187,6 +204,18 @@ export const validateMedicarePlan = (item = {}) => {
  * and `false` when all required fields are valid for the selected plan type.
  *
  * @param {Object} [item={}] Form data to validate.
+ * @property {string} insuranceType - The type of insurance plan (e.g., 'medigap', 'private', etc.).
+ * @property {string} provider - The name of the insurance provider.
+ * @property {string} effectiveDate - The date the insurance plan became effective (YYYY-MM-DD).
+ * @property {string} [expirationDate] - The date the insurance plan expires (YYYY-MM-DD), if applicable.
+ * @property {string} [medigapPlan] - The Medigap plan identifier, required if insuranceType is 'medigap'.
+ * @property {boolean} throughEmployer - Whether the plan is through an employer.
+ * @property {boolean} eob - Whether an Explanation of Benefits (EOB) is provided.
+ * @property {string} [additionalComments] - Optional additional comments (max 200 characters).
+ * @property {Object.<string, boolean>} healthcareParticipants - Object mapping participant keys to true/false indicating coverage.
+ * @property {Array<Object>} insuranceCardFront - Array of uploaded files for the front of the insurance card.
+ * @property {Array<Object>} insuranceCardBack - Array of uploaded files for the back of the insurance card.
+ *
  * @returns {boolean} `true` if validation fails (invalid/missing fields); `false` if the item is valid.
  */
 export const validateHealthInsurancePlan = (item = {}) => {
