@@ -26,7 +26,7 @@
  *
  * @example
  * const transformed = submitTransformer(formConfig, {
- *   claimantRelationship: 'veteran',
+ *   relationship: 'veteran',
  *   veteranIdentification: {
  *     veteranFullName: { first: 'John', last: 'Doe' },
  *     veteranDOB: '1980-01-01',
@@ -55,7 +55,7 @@ export function submitTransformer(_formConfig, formData) {
   // the user didn't fill out separate claimant pages
   // Note: claimantRelationship is nested due to sectionName in PageTemplate
   const isVeteranClaimant =
-    transformedData.claimantRelationship?.claimantRelationship === 'veteran';
+    transformedData.claimantRelationship?.relationship === 'veteran';
 
   if (isVeteranClaimant) {
     const veteranName =

@@ -1,13 +1,17 @@
 import React from 'react';
 import {
   VaCheckbox,
-  VaMemorableDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
-import { SelectCountry, SelectState, getValue } from './helpers';
+import {
+  SelectCountry,
+  SelectState,
+  getValue,
+  PastDate,
+  scrollToError,
+} from './helpers';
+import { getPastDateError } from './utils';
 import propTypes from './types';
 
 const childDeath = {
@@ -16,14 +20,15 @@ const childDeath = {
     goForward: (/* { itemData, index, fullData } */) => 'DONE',
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
+      const hasError = getPastDateError(itemData.endDate);
       // event.preventDefault(); // executed before this function is called
       if (
-        !itemData.endDate ||
+        hasError ||
         !itemData.endCity ||
         (!itemData.endOutsideUS && !itemData.endState) ||
         (itemData.endOutsideUS && !itemData.endCountry)
       ) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
@@ -42,20 +47,18 @@ const childDeath = {
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
           {`${
             isEditing ? 'Edit information' : 'Information'
-          } about the death of ${firstName}`}
+          } about the death of `}
+          <span className="dd-privacy-mask" data-dd-action-name="first name">
+            {firstName}
+          </span>
         </h3>
         <h4>When was the death?</h4>
-        <VaMemorableDate
-          name="endDate"
+        <PastDate
           label="Date of death"
-          error={
-            formSubmitted && !itemData.endDate ? 'Enter a date of death' : null
-          }
-          monthSelect
-          value={itemData.endDate || ''}
-          // use onDateBlur to ensure month & day are zero-padded
-          onDateBlur={onChange}
-          required
+          date={itemData.endDate}
+          formSubmitted={formSubmitted}
+          missingErrorMessage="Enter a date of death"
+          onChange={onChange}
         />
 
         <h4>Where was the death?</h4>

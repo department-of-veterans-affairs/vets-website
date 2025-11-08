@@ -8,13 +8,14 @@
  * @constant {string}
  */
 export const TITLE =
-  'Request for Employment Information in Connection with Claim for Disability Benefits';
+  'Provide Employment Information in Connection with Claim for Disability Benefits';
 
 /**
- * Subtitle displaying the form number
+ * Subtitle displaying the form number and description
  * @constant {string}
  */
-export const SUBTITLE = 'VA Form 21-4192';
+export const SUBTITLE =
+  'Request for Employment Information in Connection with Claim for Disability Benefits (VA Form 21-4192)';
 
 /**
  * Form submission status states

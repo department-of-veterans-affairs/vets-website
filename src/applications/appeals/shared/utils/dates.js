@@ -1,4 +1,4 @@
-import { parse, parseISO, add, format, isValid } from 'date-fns';
+import { parse, parseISO, add, format, isValid, isToday } from 'date-fns';
 
 import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from '../constants';
 
@@ -73,3 +73,53 @@ export const parseDateWithOffset = (
  */
 export const getReadableDate = dateString =>
   parseDate(dateString, FORMAT_READABLE_DATE_FNS, FORMAT_YMD_DATE_FNS);
+
+/**
+ * Get current UTC date at start of day (midnight)
+ * @returns {Date} - Current UTC date at start of day
+ */
+export const getCurrentUTCStartOfDay = () => {
+  const now = new Date();
+  return new Date(
+    Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate(),
+      0,
+      0,
+      0,
+      0,
+    ),
+  );
+};
+
+/**
+ * Convert any date to UTC start of day (preserving calendar date)
+ * @param {Date} date - The date to convert
+ * @returns {Date} - UTC date at start of day
+ */
+export const toUTCStartOfDay = date => {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
+  );
+};
+
+/**
+ * Check if a date is today in local timezone
+ * @param {Date} date - Date to check
+ * @returns {boolean} - True if date is today locally
+ */
+export const isLocalToday = date => {
+  return isToday(date);
+};
+
+/**
+ * Check if a date is today or in the future in UTC timezone
+ * @param {Date} date - Date to check
+ * @returns {boolean} - True if date is today or future in UTC
+ */
+export const isUTCTodayOrFuture = date => {
+  const utcToday = getCurrentUTCStartOfDay();
+  const issueDateUtc = toUTCStartOfDay(date);
+  return issueDateUtc.getTime() >= utcToday.getTime();
+};

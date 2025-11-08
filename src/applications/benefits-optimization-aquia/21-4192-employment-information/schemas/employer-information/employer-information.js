@@ -38,26 +38,9 @@ export const employerAddressSchema = z.object({
 });
 
 /**
- * Schema for phone number
- * Accepts various formats: 5551234567, 555-123-4567, (555) 123-4567, etc.
- */
-export const phoneNumberSchema = z
-  .string()
-  .min(1, 'Phone number is required')
-  .refine(
-    val => {
-      // Remove all non-digit characters and check if we have 10 digits
-      const digitsOnly = val.replace(/\D/g, '');
-      return digitsOnly.length === 10;
-    },
-    { message: 'Phone number must be 10 digits' },
-  );
-
-/**
  * Complete employer information schema for 21-4192
  */
 export const employerInformationSchema = z.object({
   employerName: employerNameSchema,
   employerAddress: employerAddressSchema,
-  employerPhone: phoneNumberSchema,
 });

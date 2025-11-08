@@ -11,8 +11,8 @@ import {
 import EvidencePrivateRecordsRequest from '../../components/EvidencePrivateRecordsRequest';
 import { privateRecordsRequestTitle } from '../../content/evidencePrivateRecordsRequest';
 import {
-  EVIDENCE_PRIVATE,
-  EVIDENCE_VA,
+  HAS_PRIVATE_EVIDENCE,
+  HAS_VA_EVIDENCE,
   EVIDENCE_VA_DETAILS_URL,
 } from '../../constants';
 import errorMessages from '../../../shared/content/errorMessages';
@@ -26,7 +26,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     );
 
     expect($('va-radio', container)).to.exist;
-    expect($$('button', container).length).to.eq(2);
+    expect($$('va-button', container).length).to.eq(2);
   });
 
   it('should capture google analytics', () => {
@@ -58,7 +58,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-primary', container));
+    fireEvent.click($('va-button[continue]', container));
     const radio = $('va-radio', container);
     expect(radio.getAttribute('error')).to.eq(errorMessages.requiredYesNo);
     expect(goSpy.called).to.be.false;
@@ -66,14 +66,14 @@ describe('<EvidencePrivateRecordsRequest>', () => {
 
   it('should submit page', () => {
     const goSpy = sinon.spy();
-    const data = { [EVIDENCE_PRIVATE]: true };
+    const data = { [HAS_PRIVATE_EVIDENCE]: true };
     const { container } = render(
       <div>
         <EvidencePrivateRecordsRequest data={data} goForward={goSpy} />
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-primary', container));
+    fireEvent.click($('va-button[continue]', container));
     const radio = $('va-radio', container);
     expect(radio.getAttribute('error')).to.be.null;
     expect(goSpy.called).to.be.true;
@@ -81,7 +81,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
 
   it('should allow setting va-radio-option', () => {
     const setFormDataSpy = sinon.spy();
-    const data = { [EVIDENCE_PRIVATE]: true };
+    const data = { [HAS_PRIVATE_EVIDENCE]: true };
     const changeEvent = new MouseEvent('vaValueChange', {
       detail: { value: 'n' },
     });
@@ -95,32 +95,33 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     );
 
     fireEvent($('va-radio', container), changeEvent);
-    expect(setFormDataSpy.calledWith({ [EVIDENCE_PRIVATE]: false })).to.be.true;
+    expect(setFormDataSpy.calledWith({ [HAS_PRIVATE_EVIDENCE]: false })).to.be
+      .true;
   });
 
   it('should call goBack to get to the VA record request page', () => {
     const goSpy = sinon.spy();
-    const data = { [EVIDENCE_VA]: false };
+    const data = { [HAS_VA_EVIDENCE]: false };
     const { container } = render(
       <div>
         <EvidencePrivateRecordsRequest data={data} goBack={goSpy} />
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-secondary', container));
+    fireEvent.click($('va-button[back]', container));
     expect(goSpy.called).to.be.true;
   });
 
   it('should call goToPath to go to the last VA record location page', () => {
     const goSpy = sinon.spy();
-    const data = { [EVIDENCE_VA]: true, locations: [{}, {}] };
+    const data = { [HAS_VA_EVIDENCE]: true, locations: [{}, {}] };
     const { container } = render(
       <div>
         <EvidencePrivateRecordsRequest data={data} goToPath={goSpy} />
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-secondary', container));
+    fireEvent.click($('va-button[back]', container));
     expect(
       goSpy.calledWith(
         `/${EVIDENCE_VA_DETAILS_URL}?index=${data.locations.length - 1}`,
