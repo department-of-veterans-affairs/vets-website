@@ -1,5 +1,10 @@
 import { z } from 'zod';
 import constants from 'vets-json-schema/dist/constants.json';
+import {
+  firstNameSchema,
+  middleNameSchema,
+  lastNameSchema,
+} from '../veteran-identification';
 
 /**
  * Veteran service information schemas for 21P-530a form
@@ -51,9 +56,7 @@ export const dateEnteredServiceSchema = z
  */
 export const placeEnteredServiceSchema = z
   .string()
-  .max(100, 'Place must be less than 100 characters')
-  .optional()
-  .or(z.literal(''));
+  .max(100, 'Place must be less than 100 characters');
 
 /**
  * Schema for service separation date
@@ -71,18 +74,14 @@ export const dateSeparatedSchema = z
  */
 export const placeSeparatedSchema = z
   .string()
-  .max(100, 'Place must be less than 100 characters')
-  .optional()
-  .or(z.literal(''));
+  .max(100, 'Place must be less than 100 characters');
 
 /**
  * Schema for rank at separation
  */
 export const rankSchema = z
   .string()
-  .max(50, 'Rank must be less than 50 characters')
-  .optional()
-  .or(z.literal(''));
+  .max(50, 'Rank must be less than 50 characters');
 
 /**
  * Schema for yes/no question about alternate names
@@ -100,21 +99,12 @@ export const hasAlternateNamesSchema = z.enum(['yes', 'no'], {
 
 /**
  * Schema for a single previous name item
+ * Uses the shared name schemas from veteran-identification for consistency
  */
 export const previousNameItemSchema = z.object({
-  firstName: z
-    .string()
-    .min(1, 'First name is required')
-    .max(50, 'First name must be less than 50 characters'),
-  middleName: z
-    .string()
-    .max(50, 'Middle name must be less than 50 characters')
-    .optional()
-    .or(z.literal('')),
-  lastName: z
-    .string()
-    .min(1, 'Last name is required')
-    .max(50, 'Last name must be less than 50 characters'),
+  firstName: firstNameSchema,
+  middleName: middleNameSchema,
+  lastName: lastNameSchema,
 });
 
 /**

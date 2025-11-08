@@ -25,7 +25,8 @@ describe('MailingAddressPage', () => {
       );
 
       expect(container).to.exist;
-      expect(container.textContent).to.include('Mailing address');
+      expect(container.textContent).to.include('Burial organization');
+      expect(container.textContent).to.include('mailing address');
     });
 
     it('should render address fields', () => {

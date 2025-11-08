@@ -8,7 +8,6 @@ import {
   BRANCH_OF_SERVICE,
   CURRENT_ALLOWANCE_RATE,
   SUBMISSION_ADDRESS,
-  SUBMIT_URL,
   SUBTITLE,
   TITLE,
   TRACKING_PREFIX,
@@ -27,17 +26,6 @@ describe('Constants', () => {
       expect(SUBTITLE).to.equal(
         'State or Tribal Organization Application for Interment Allowance (Under 38 U.S.C. Chapter 23) (VA Form 21-530a)',
       );
-    });
-  });
-
-  describe('Submit URL', () => {
-    it('should have submit URL', () => {
-      expect(SUBMIT_URL).to.exist;
-      expect(SUBMIT_URL).to.be.a('string');
-    });
-
-    it('should have correct API endpoint format', () => {
-      expect(SUBMIT_URL).to.match(/^\/v0\/form21p_530a$/);
     });
   });
 
@@ -209,7 +197,6 @@ describe('Constants', () => {
     it('should export all constants', () => {
       expect(TITLE).to.exist;
       expect(SUBTITLE).to.exist;
-      expect(SUBMIT_URL).to.exist;
       expect(TRACKING_PREFIX).to.exist;
       expect(BRANCH_OF_SERVICE).to.exist;
       expect(CURRENT_ALLOWANCE_RATE).to.exist;

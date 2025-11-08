@@ -2,11 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { ReviewPageTemplate } from '@bio-aquia/shared/components/templates/review-page-template';
-import {
-  ReviewDateField,
-  ReviewField,
-  ReviewFullnameField,
-} from '@bio-aquia/shared/components/atoms';
+import { ReviewFullnameField } from '@bio-aquia/shared/components/atoms';
 
 /**
  * Review page component for veteran identification.
@@ -32,37 +28,6 @@ export const VeteranIdentificationReviewPage = ({ data, editPage, title }) => {
       <ReviewFullnameField
         label="Veteran's full name"
         value={sectionData.fullName}
-        hideWhenEmpty
-      />
-      <ReviewField
-        label="Veteran's Social Security Number"
-        value={sectionData.ssn}
-        hideWhenEmpty
-      />
-      <ReviewField
-        label="Veteran's VA file number"
-        value={sectionData.vaFileNumber}
-        hideWhenEmpty
-      />
-      <ReviewDateField
-        label="Veteran's date of birth"
-        value={sectionData.dateOfBirth}
-        hideWhenEmpty
-      />
-      <ReviewField
-        label="Place of birth"
-        value={
-          sectionData.placeOfBirth
-            ? `${sectionData.placeOfBirth.city}, ${
-                sectionData.placeOfBirth.state
-              }`
-            : null
-        }
-        hideWhenEmpty
-      />
-      <ReviewDateField
-        label="Veteran's date of death"
-        value={sectionData.dateOfDeath}
         hideWhenEmpty
       />
     </ReviewPageTemplate>
