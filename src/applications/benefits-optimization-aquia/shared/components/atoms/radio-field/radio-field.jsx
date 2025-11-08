@@ -89,6 +89,7 @@ export const RadioField = ({
       error={finalError}
       onBlur={handleBlur}
       onVaValueChange={handleValueChange}
+      {...(tile ? { tile: true } : {})}
       {...props}
     >
       {options.map(option => {

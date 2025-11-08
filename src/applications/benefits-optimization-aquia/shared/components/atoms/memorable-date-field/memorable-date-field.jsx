@@ -78,6 +78,7 @@ MemorableDateField.propTypes = {
   error: PropTypes.string,
   forceShowError: PropTypes.bool,
   hint: PropTypes.string,
+  monthSelect: PropTypes.bool,
   monthYearOnly: PropTypes.bool,
   required: PropTypes.bool,
   value: PropTypes.oneOfType([

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { formatDateLong } from 'platform/utilities/date';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
@@ -80,4 +81,10 @@ export const ConfirmationPage = ({ route }) => {
       <ConfirmationView.NeedHelp />
     </ConfirmationView>
   );
+};
+
+ConfirmationPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
 };

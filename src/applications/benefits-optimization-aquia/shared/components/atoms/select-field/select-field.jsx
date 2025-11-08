@@ -89,18 +89,18 @@ export const SelectField = ({
 };
 
 SelectField.propTypes = {
-  error: PropTypes.string,
-  forceShowError: PropTypes.bool,
-  hint: PropTypes.string,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  onChange: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  forceShowError: PropTypes.bool,
+  hint: PropTypes.string,
   required: PropTypes.bool,
   schema: PropTypes.object,
   value: PropTypes.string,
