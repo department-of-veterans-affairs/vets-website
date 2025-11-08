@@ -31,10 +31,7 @@ export {
 } from './veteran-burial-information';
 
 // Chapter 3: Military history
-export { ServiceBranchPage } from './service-branch';
-export { ServiceDatesPage } from './service-dates';
-export { LocationsAndRankPage } from './locations-and-rank';
-export { ServicePeriodsPage } from './service-periods';
+export { servicePeriodsPages } from './service-period-pages';
 export {
   VeteranServedUnderDifferentNamePage,
 } from './veteran-served-under-different-name';

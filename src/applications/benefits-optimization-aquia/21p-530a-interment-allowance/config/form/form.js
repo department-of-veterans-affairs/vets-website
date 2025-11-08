@@ -1,7 +1,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 import {
   SUBTITLE,
   TITLE,
@@ -17,24 +16,20 @@ import { transform } from '@bio-aquia/21p-530a-interment-allowance/config/submit
 import {
   additionalRemarksPage,
   burialBenefitsRecipientPage,
-  LocationsAndRankPage,
   burialOrganizationMailingAddressPage,
   organizationInformationPage,
   PreviousNameEntryPage,
   relationshipToVeteranPage,
-  ServiceBranchPage,
-  ServiceDatesPage,
-  ServicePeriodsPage,
   veteranBirthInformationPage,
   veteranBurialInformationPage,
   veteranPersonalInformationPage,
   VeteranPreviousNamesPage,
   VeteranServedUnderDifferentNamePage,
   veteranIdentificationPage,
+  servicePeriodsPages,
 } from '@bio-aquia/21p-530a-interment-allowance/pages';
 
 // Import review pages
-import { ServicePeriodsReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/service-periods/service-periods-review';
 import { VeteranPreviousNamesReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-previous-names/veteran-previous-names-review';
 import { VeteranServedUnderDifferentNameReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-served-under-different-name/veteran-served-under-different-name-review';
 
@@ -146,56 +141,7 @@ const formConfig = {
     militaryHistoryChapter: {
       title: 'Military history',
       pages: {
-        serviceBranch: {
-          initialData: {
-            tempServicePeriod: {
-              isEditing: true,
-            },
-          },
-          path: 'service-branch',
-          title: 'Branch of service',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: ServiceBranchPage,
-          CustomPageReview: null,
-          depends: formData => {
-            // Show if we're editing/adding a service period
-            return formData?.tempServicePeriod?.isEditing === true;
-          },
-        },
-        serviceDates: {
-          path: 'service-dates',
-          title: 'Service dates',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: ServiceDatesPage,
-          CustomPageReview: null,
-          depends: formData => {
-            // Show if we're editing/adding a service period
-            return formData?.tempServicePeriod?.isEditing === true;
-          },
-        },
-        locationsAndRank: {
-          path: 'locations-and-rank',
-          title: 'Locations and rank',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: LocationsAndRankPage,
-          CustomPageReview: null,
-          depends: formData => {
-            // Show if we're editing/adding a service period
-            return formData?.tempServicePeriod?.isEditing === true;
-          },
-        },
-        servicePeriods: {
-          path: 'service-periods',
-          title: 'Service periods',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: ServicePeriodsPage,
-          CustomPageReview: ServicePeriodsReviewPage,
-          // Always show summary page (not dependent on isEditing)
-        },
+        ...servicePeriodsPages,
         veteranServedUnderDifferentName: {
           path: 'veteran-served-under-different-name',
           title: 'Previous names',
