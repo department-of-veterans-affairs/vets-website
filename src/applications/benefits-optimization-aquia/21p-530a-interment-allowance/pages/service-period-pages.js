@@ -3,7 +3,9 @@ import React from 'react';
 import { capitalize } from 'lodash';
 import {
   titleUI,
+  titleSchema,
   serviceBranchUI,
+  arrayBuilderItemFirstPageTitleUI,
   serviceBranchSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -31,7 +33,7 @@ const formatDate = dateStr => {
  */
 /** @type {ArrayBuilderOptions} */
 const servicePeriodOptions = {
-  arrayPath: 'servicePeriods',
+  arrayPath: 'periods',
   hint: '',
   nounSingular: 'service period',
   nounPlural: 'service periods',
@@ -58,12 +60,12 @@ const servicePeriodIntroPage = {
   uiSchema: {
     ...titleUI(
       `Veteran's ${servicePeriodOptions.nounPlural}`,
-      `In the next few questions, we’ll ask about the deceased Veteran's service periods. You must add at least one ${
-        servicePeriodOptions.nounSingular
-      }.`,
-    ),
-    'ui:description': (
       <>
+        <p>
+          In the next few questions, we’ll ask about the deceased Veteran’s
+          service periods. You must add at least one{' '}
+          {servicePeriodOptions.nounSingular}.{' '}
+        </p>
         <p>You will need to provide the following:</p>
         <ul>
           <li>Branch of service</li>
@@ -71,20 +73,23 @@ const servicePeriodIntroPage = {
           <li>Service entry and separation locations</li>
           <li>Grade, rank, or rating</li>
         </ul>
-      </>
+      </>,
     ),
   },
   schema: {
     type: 'object',
-    properties: {},
+    properties: {
+      titleSchema,
+    },
   },
 };
 
 // Service Branch Page
 const serviceBranchPage = {
   uiSchema: {
-    ...titleUI({
+    ...arrayBuilderItemFirstPageTitleUI({
       title: 'Service branch',
+      nounSingular: servicePeriodOptions.nounSingular,
     }),
     serviceBranch: serviceBranchUI(),
   },
@@ -102,7 +107,7 @@ const serviceDatesPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.branch ? `${formData.branch}` : 'Service Dates',
+        formData?.serviceBranch ? `${formData.serviceBranch}` : 'Service Dates',
     ),
     startDate: currentOrPastDateUI('Service start date'),
     separationDate: currentOrPastDateUI('Service end date'),
