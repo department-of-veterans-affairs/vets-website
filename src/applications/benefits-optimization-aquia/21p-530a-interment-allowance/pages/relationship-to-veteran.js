@@ -1,6 +1,7 @@
 import {
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const relationshipOptions = {
@@ -10,6 +11,7 @@ const relationshipOptions = {
 
 export const relationshipToVeteranPage = {
   uiSchema: {
+    ...titleUI('Relationship to the Veteran'),
     burialInformation: {
       relationshipToVeteran: radioUI({
         title: 'What is your relationship to the Veteran?',

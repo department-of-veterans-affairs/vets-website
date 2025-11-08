@@ -5,10 +5,12 @@ import {
   textSchema,
   addressUI,
   addressSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const veteranBurialInformationPage = {
   uiSchema: {
+    ...titleUI('Veteran’s burial information'),
     veteranInformation: {
       dateOfDeath: currentOrPastDateUI('Date of death'),
     },
@@ -61,9 +63,6 @@ export const veteranBurialInformationPage = {
                   'street3',
                   'postalCode',
                 ],
-                required: {
-                  state: () => true,
-                },
               }),
             },
           },

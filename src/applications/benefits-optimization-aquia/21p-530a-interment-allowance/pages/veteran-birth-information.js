@@ -3,10 +3,12 @@ import {
   currentOrPastDateSchema,
   addressUI,
   addressSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const veteranBirthInformationPage = {
   uiSchema: {
+    ...titleUI('Veteran’s birth information'),
     veteranInformation: {
       dateOfBirth: currentOrPastDateUI('Date of birth'),
       veteranBirthLocation: addressUI({
@@ -41,9 +43,6 @@ export const veteranBirthInformationPage = {
               'street3',
               'postalCode',
             ],
-            required: {
-              state: () => true,
-            },
           }),
         },
       },

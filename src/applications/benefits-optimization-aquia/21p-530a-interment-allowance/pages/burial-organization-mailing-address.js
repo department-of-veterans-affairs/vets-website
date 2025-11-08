@@ -1,10 +1,14 @@
 import {
   addressUI,
   addressSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const burialOrganizationMailingAddressPage = {
   uiSchema: {
+    ...titleUI('Burial organization’s mailing address'),
+    'ui:description':
+      'We’ll send any important information about your application to this address.',
     burialInformation: {
       recipientOrganization: {
         address: addressUI({

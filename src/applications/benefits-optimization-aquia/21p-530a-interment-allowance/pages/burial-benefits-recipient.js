@@ -8,9 +8,11 @@ import {
 
 export const burialBenefitsRecipientPage = {
   uiSchema: {
+    ...titleUI('Burial benefits recipient'),
+    'ui:description':
+      'This is the organization who will be receiving compensation.',
     burialInformation: {
       recipientOrganization: {
-        ...titleUI('Burial benefits recipient'),
         name: textUI('Full name'),
         phoneNumber: phoneUI('Phone number'),
       },

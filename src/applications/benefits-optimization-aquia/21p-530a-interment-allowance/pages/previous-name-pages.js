@@ -23,7 +23,7 @@ const formatName = name => {
  */
 /** @type {ArrayBuilderOptions} */
 const previousNameOptions = {
-  arrayPath: 'previousNames',
+  arrayPath: 'servedUnderDifferentName',
   hint: '',
   nounSingular: 'previous name',
   nounPlural: 'previous names',
