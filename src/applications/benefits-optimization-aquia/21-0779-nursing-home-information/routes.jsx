@@ -3,9 +3,11 @@ import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/
 import formConfig from '@bio-aquia/21-0779-nursing-home-information/config';
 import { App } from '@bio-aquia/21-0779-nursing-home-information/containers/app';
 
-export const route = {
+const route = {
   path: '/',
   component: App,
   indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
   childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
+
+export default route;

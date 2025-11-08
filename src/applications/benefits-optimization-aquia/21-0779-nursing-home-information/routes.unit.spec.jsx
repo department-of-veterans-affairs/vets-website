@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { route } from './routes';
+import route from './routes';
 
 describe('Routes Configuration', () => {
   describe('Route Structure', () => {
