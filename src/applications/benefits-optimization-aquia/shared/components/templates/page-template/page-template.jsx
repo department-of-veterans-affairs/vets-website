@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -212,10 +213,18 @@ const PageTemplateBase = ({
 };
 
 PageTemplateBase.propTypes = {
-  formSectionProps: formSectionInternalPropTypes,
+  className: PageTemplateCorePropTypes.className,
+  formSectionProps: PropTypes.shape(formSectionInternalPropTypes),
+  goBack: PageTemplateCorePropTypes.goBack,
   goForward: PageTemplateCorePropTypes.goForward,
+  hideNavigation: PageTemplateCorePropTypes.hideNavigation,
+  navigationProps: PageTemplateCorePropTypes.navigationProps,
+  onReviewPage: PageTemplateCorePropTypes.onReviewPage,
   shouldUseHook: PageTemplateCorePropTypes.useFormSectionHook,
-  ...PageTemplateCorePropTypes,
+  subtitle: PageTemplateCorePropTypes.subtitle,
+  title: PageTemplateCorePropTypes.title,
+  updatePage: PageTemplateCorePropTypes.updatePage,
+  children: PageTemplateCorePropTypes.children,
 };
 
 /**

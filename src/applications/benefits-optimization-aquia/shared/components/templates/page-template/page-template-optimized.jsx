@@ -11,6 +11,7 @@
  * @module components/templates/page-template/page-template-optimized
  */
 
+import PropTypes from 'prop-types';
 import React, { memo, useCallback, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -318,10 +319,18 @@ const PageTemplateBaseOptimized = memo(props => {
 PageTemplateBaseOptimized.displayName = 'PageTemplateBaseOptimized';
 
 PageTemplateBaseOptimized.propTypes = {
-  ...PageTemplateCorePropTypes,
-  formSectionProps: formSectionInternalPropTypes,
+  className: PageTemplateCorePropTypes.className,
+  formSectionProps: PropTypes.shape(formSectionInternalPropTypes),
+  goBack: PageTemplateCorePropTypes.goBack,
   goForward: PageTemplateCorePropTypes.goForward,
+  hideNavigation: PageTemplateCorePropTypes.hideNavigation,
+  navigationProps: PageTemplateCorePropTypes.navigationProps,
+  onReviewPage: PageTemplateCorePropTypes.onReviewPage,
   shouldUseHook: PageTemplateCorePropTypes.useFormSectionHook,
+  subtitle: PageTemplateCorePropTypes.subtitle,
+  title: PageTemplateCorePropTypes.title,
+  updatePage: PageTemplateCorePropTypes.updatePage,
+  children: PageTemplateCorePropTypes.children,
 };
 
 /**
