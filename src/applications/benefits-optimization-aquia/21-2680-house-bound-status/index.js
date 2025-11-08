@@ -1,11 +1,28 @@
 /**
  * @module index
  * @description Main barrel export file for VA Form 21-2680 application
+ * Provides centralized exports for all major components and configurations
  */
 
+/** @exports Constants - Application-wide constants */
 export { TITLE, SUBTITLE } from './constants';
-export { formConfig } from './config';
-export { default as routes } from './routes';
-export { default as reducer } from './reducers';
+
+/** @exports Containers - React container components */
 export { App, IntroductionPage, ConfirmationPage } from './containers';
-export { GetHelp } from './components';
+
+/** @exports Pages - Form page configurations */
+export {
+  identificationInformation,
+  mailingAddress,
+  nameAndDateOfBirth,
+  phoneAndEmailAddress,
+} from './pages';
+
+/** @exports Config - Form configuration object */
+export { formConfig } from './config';
+
+/** @exports Routes - React Router configuration */
+export { default as routes } from './routes';
+
+/** @exports Reducers - Redux reducer configuration */
+export { default as reducer } from './reducers';

@@ -5,13 +5,13 @@
         "sign_in": {
           "service_name": "idme"
         },
-        "email": "rex@republic.mil",
+        "email": "james.kirk@starfleet.fed",
         "loa": { "current": 3 },
-        "first_name": "Rex",
-        "middle_name": null,
-        "last_name": "CT-7567",
+        "first_name": "James",
+        "middle_name": "Tiberius",
+        "last_name": "Kirk",
         "gender": "M",
-        "birth_date": "2002-09-22",
+        "birth_date": "2233-03-22",
         "verified": true
       },
       "veteran_status": {
@@ -34,10 +34,10 @@
       ],
       "va_profile": {
         "status": "OK",
-        "birth_date": "20020922",
-        "family_name": "CT-7567",
+        "birth_date": "22330322",
+        "family_name": "Kirk",
         "gender": "M",
-        "given_names": ["Rex", ""],
+        "given_names": ["James", "Tiberius"],
         "active_status": "active",
         "facilities": [
           {

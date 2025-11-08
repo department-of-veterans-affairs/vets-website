@@ -1,58 +1,38 @@
 /**
- * @module pages
- * @description Barrel file for all form page configurations
- * VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid and Attendance
+ * @module pages/index
+ * @description Barrel export file for form page configurations
  */
 
-// Veteran Information Chapter
+// Page components
+export { BenefitTypePage } from './benefit-type';
+export { VeteranInformationPage } from './veteran-information';
+export { VeteranAddressPage } from './veteran-address';
+export { ClaimantRelationshipPage } from './claimant-relationship';
+export { ClaimantInformationPage } from './claimant-information';
+export { ClaimantSSNPage } from './claimant-ssn';
+export { ClaimantAddressPage } from './claimant-address';
+export { ClaimantContactPage } from './claimant-contact';
+export { HospitalizationStatusPage } from './hospitalization-status';
+export { HospitalizationDatePage } from './hospitalization-date';
+export { HospitalizationFacilityPage } from './hospitalization-facility';
+
+// Review components
+export { BenefitTypeReviewPage } from './benefit-type/benefit-type-review';
 export {
-  veteranInformationUiSchema,
-  veteranInformationSchema,
-} from './veteran-information';
-
+  VeteranInformationReviewPage,
+} from './veteran-information/veteran-information-review';
 export {
-  veteranAddressUiSchema,
-  veteranAddressSchema,
-} from './veteran-address';
-
-// Claimant Information Chapter
+  VeteranAddressReviewPage,
+} from './veteran-address/veteran-address-review';
 export {
-  claimantRelationshipUiSchema,
-  claimantRelationshipSchema,
-} from './claimant-relationship';
-
+  ClaimantInformationReviewPage,
+} from './claimant-information/claimant-information-review';
 export {
-  claimantInformationUiSchema,
-  claimantInformationSchema,
-} from './claimant-information';
-
-export { claimantSsnUiSchema, claimantSsnSchema } from './claimant-ssn';
-
+  HospitalizationStatusReviewPage,
+} from './hospitalization-status/hospitalization-status-review';
 export {
-  claimantAddressUiSchema,
-  claimantAddressSchema,
-} from './claimant-address';
-
+  HospitalizationDateReviewPage,
+} from './hospitalization-date/hospitalization-date-review';
 export {
-  claimantContactUiSchema,
-  claimantContactSchema,
-} from './claimant-contact';
-
-// Claim Information Chapter
-export { benefitTypeUiSchema, benefitTypeSchema } from './benefit-type';
-
-// Hospitalization Chapter
-export {
-  hospitalizationStatusUiSchema,
-  hospitalizationStatusSchema,
-} from './hospitalization-status';
-
-export {
-  hospitalizationDateUiSchema,
-  hospitalizationDateSchema,
-} from './hospitalization-date';
-
-export {
-  hospitalizationFacilityUiSchema,
-  hospitalizationFacilitySchema,
-} from './hospitalization-facility';
+  HospitalizationFacilityReviewPage,
+} from './hospitalization-facility/hospitalization-facility-review';

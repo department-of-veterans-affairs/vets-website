@@ -1,7 +1,3 @@
-/**
- * @module tests/fixtures
- * @description Barrel export for test fixtures
- */
-
+// Test fixtures barrel file
 export * from './data';
 export * from './mocks';

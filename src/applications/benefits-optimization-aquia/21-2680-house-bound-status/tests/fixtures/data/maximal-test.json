@@ -1,78 +1,78 @@
 {
   "data": {
-    "veteranInformation": {
+    "veteranIdentification": {
       "veteranFullName": {
-        "first": "Anakin",
-        "middle": "",
-        "last": "Skywalker",
+        "first": "Jean-Luc",
+        "middle": "Pierre",
+        "last": "Picard",
         "suffix": ""
       },
-      "veteranSsn": "987654321",
-      "veteranDob": "1941-03-01"
+      "veteranSSN": "987-65-4321",
+      "veteranDOB": "2305-07-13"
     },
     "veteranAddress": {
       "veteranAddress": {
-        "street": "501 Jedi Temple Avenue",
-        "street2": "High Council Chambers",
-        "street3": "Floor 1138",
-        "city": "Coruscant",
-        "state": "DC",
+        "street": "456 Enterprise Way",
+        "street2": "Deck 1",
+        "street3": "Captain's Quarters",
+        "city": "La Barre",
+        "state": "NY",
         "country": "USA",
-        "postalCode": "20001",
+        "postalCode": "10001",
         "isMilitary": false
       }
     },
     "claimantRelationship": {
-      "relationship": "spouse"
+      "claimantRelationship": "spouse"
     },
     "claimantInformation": {
       "claimantFullName": {
-        "first": "Padmé",
-        "middle": "Naberrie",
-        "last": "Amidala",
+        "first": "Beverly",
+        "middle": "Anne",
+        "last": "Crusher",
         "suffix": ""
       },
-      "claimantDob": "1946-11-12"
+      "claimantDOB": "2324-10-13"
     },
-    "claimantSsn": {
-      "claimantSsn": "111223333"
+    "claimantSSN": {
+      "claimantSSN": "111-22-3333"
     },
     "claimantAddress": {
       "claimantAddress": {
-        "street": "500 Republica Luxury Apartments",
-        "street2": "Penthouse Suite",
+        "street": "789 Medical Bay Road",
+        "street2": "Apt 3B",
         "street3": "",
-        "city": "Naboo",
-        "state": "NM",
+        "city": "San Diego",
+        "state": "CA",
         "country": "USA",
-        "postalCode": "87001",
+        "postalCode": "92101",
         "isMilitary": false
       }
     },
     "claimantContact": {
-      "claimantPhoneNumber": "5055551977",
-      "claimantMobilePhone": "5055551983",
-      "claimantEmail": "senator.amidala@galacticsenate.gov"
+      "claimantPhoneNumber": "6195551234",
+      "claimantMobilePhone": "6195555678",
+      "claimantEmail": "beverly.crusher@starfleet.mil"
     },
     "benefitType": {
       "benefitType": "SMP"
     },
     "hospitalizationStatus": {
-      "isCurrentlyHospitalized": true
+      "isCurrentlyHospitalized": "yes"
     },
     "hospitalizationDate": {
       "admissionDate": "2024-01-15"
     },
     "hospitalizationFacility": {
-      "facilityName": "Polis Massa Medical Facility",
+      "facilityName": "Starfleet Medical Center",
       "facilityAddress": {
-        "street": "1 Outer Rim Territories Medical Center",
-        "street2": "Emergency Wing",
+        "street": "1 Starfleet Medical Plaza",
+        "street2": "Building A",
         "street3": "",
-        "city": "APO",
-        "state": "AE",
+        "city": "San Francisco",
+        "state": "CA",
         "country": "USA",
-        "postalCode": "09123",
+        "postalCode": "94102",
         "isMilitary": true
       }
     }

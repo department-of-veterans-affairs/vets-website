@@ -24,21 +24,21 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'spouse',
         },
-        veteranInformation: {
+        veteranIdentification: {
           veteranFullName: { first: 'John', last: 'Doe' },
-          veteranDob: '1980-01-01',
-          veteranSsn: '123-45-6789',
+          veteranDOB: '1980-01-01',
+          veteranSSN: '123-45-6789',
         },
         claimantInformation: {
           claimantFullName: { first: 'Jane', last: 'Doe' },
-          claimantDob: '1982-05-15',
+          claimantDOB: '1982-05-15',
         },
       };
       const result = submitTransformer(mockFormConfig, formData);
       expect(result.claimantInformation.claimantFullName.first).to.equal(
         'Jane',
       );
-      expect(result.claimantInformation.claimantDob).to.equal('1982-05-15');
+      expect(result.claimantInformation.claimantDOB).to.equal('1982-05-15');
     });
   });
 
@@ -48,7 +48,7 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranInformation: {
+        veteranIdentification: {
           veteranFullName: {
             first: 'John',
             middle: 'Michael',
@@ -74,12 +74,12 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranInformation: {
-          veteranDob: '1980-01-01',
+        veteranIdentification: {
+          veteranDOB: '1980-01-01',
         },
       };
       const result = submitTransformer(mockFormConfig, formData);
-      expect(result.claimantInformation.claimantDob).to.equal('1980-01-01');
+      expect(result.claimantInformation.claimantDOB).to.equal('1980-01-01');
     });
 
     it('should copy veteran SSN to claimant when claimantRelationship is veteran', () => {
@@ -87,13 +87,13 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranInformation: {
-          veteranSsn: '123-45-6789',
+        veteranIdentification: {
+          veteranSSN: '123-45-6789',
         },
       };
       const result = submitTransformer(mockFormConfig, formData);
-      expect(result.claimantSsn).to.exist;
-      expect(result.claimantSsn.claimantSsn).to.equal('123-45-6789');
+      expect(result.claimantSSN).to.exist;
+      expect(result.claimantSSN.claimantSSN).to.equal('123-45-6789');
     });
 
     it('should copy veteran address to claimant when claimantRelationship is veteran', () => {
@@ -139,10 +139,10 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranInformation: {
+        veteranIdentification: {
           veteranFullName: { first: 'Alice', last: 'Smith' },
-          veteranDob: '1975-06-20',
-          veteranSsn: '987-65-4321',
+          veteranDOB: '1975-06-20',
+          veteranSSN: '987-65-4321',
         },
         veteranAddress: {
           veteranAddress: {
@@ -164,8 +164,8 @@ describe('Submit Transformer', () => {
       expect(result.claimantInformation.claimantFullName.last).to.equal(
         'Smith',
       );
-      expect(result.claimantInformation.claimantDob).to.equal('1975-06-20');
-      expect(result.claimantSsn.claimantSsn).to.equal('987-65-4321');
+      expect(result.claimantInformation.claimantDOB).to.equal('1975-06-20');
+      expect(result.claimantSSN.claimantSSN).to.equal('987-65-4321');
       expect(result.claimantAddress.claimantAddress.street).to.equal(
         '456 Oak Ave',
       );
@@ -183,7 +183,7 @@ describe('Submit Transformer', () => {
       const result = submitTransformer(mockFormConfig, formData);
       expect(result.claimantInformation).to.exist;
       expect(result.claimantInformation.claimantFullName.first).to.equal('');
-      expect(result.claimantInformation.claimantDob).to.equal('');
+      expect(result.claimantInformation.claimantDOB).to.equal('');
     });
 
     it('should handle missing veteran address gracefully', () => {
@@ -203,7 +203,7 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranInformation: {
+        veteranIdentification: {
           veteranFullName: {
             first: 'Bob',
             last: 'Jones',
@@ -283,15 +283,15 @@ describe('Submit Transformer', () => {
           relationship: 'veteran',
         },
         benefitType: 'housebound',
-        hospitalizationStatus: { isCurrentlyHospitalized: false },
-        veteranInformation: {
+        hospitalizationStatus: { isCurrentlyHospitalized: 'no' },
+        veteranIdentification: {
           veteranFullName: { first: 'Test', last: 'User' },
         },
       };
       const result = submitTransformer(mockFormConfig, formData);
       expect(result.benefitType).to.equal('housebound');
       expect(result.hospitalizationStatus.isCurrentlyHospitalized).to.equal(
-        false,
+        'no',
       );
       expect(result.claimantRelationship.relationship).to.equal('veteran');
     });
@@ -301,7 +301,7 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranInformation: {
+        veteranIdentification: {
           veteranFullName: { first: 'Test', last: 'User' },
         },
         claimantContact: {
@@ -316,10 +316,10 @@ describe('Submit Transformer', () => {
   });
 
   describe('Hospitalization Data Cleanup', () => {
-    it('should remove hospitalization details when status is false', () => {
+    it('should remove hospitalization details when status is no', () => {
       const formData = {
         hospitalizationStatus: {
-          isCurrentlyHospitalized: false,
+          isCurrentlyHospitalized: 'no',
         },
         hospitalizationDate: {
           admissionDate: '2024-01-15',
@@ -337,7 +337,7 @@ describe('Submit Transformer', () => {
 
       // Status should remain
       expect(result.hospitalizationStatus.isCurrentlyHospitalized).to.equal(
-        false,
+        'no',
       );
 
       // Details should be removed
@@ -345,10 +345,10 @@ describe('Submit Transformer', () => {
       expect(result.hospitalizationFacility).to.be.undefined;
     });
 
-    it('should keep hospitalization details when status is true', () => {
+    it('should keep hospitalization details when status is yes', () => {
       const formData = {
         hospitalizationStatus: {
-          isCurrentlyHospitalized: true,
+          isCurrentlyHospitalized: 'yes',
         },
         hospitalizationDate: {
           admissionDate: '2024-01-15',
@@ -361,7 +361,7 @@ describe('Submit Transformer', () => {
 
       // Everything should remain
       expect(result.hospitalizationStatus.isCurrentlyHospitalized).to.equal(
-        true,
+        'yes',
       );
       expect(result.hospitalizationDate.admissionDate).to.equal('2024-01-15');
       expect(result.hospitalizationFacility.facilityName).to.equal(
@@ -403,13 +403,13 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranInformation: {
+        veteranIdentification: {
           veteranFullName: { first: 'John', last: 'Doe' },
-          veteranDob: '1980-01-01',
-          veteranSsn: '123-45-6789',
+          veteranDOB: '1980-01-01',
+          veteranSSN: '123-45-6789',
         },
         hospitalizationStatus: {
-          isCurrentlyHospitalized: false,
+          isCurrentlyHospitalized: 'no',
         },
         hospitalizationDate: {
           admissionDate: '2024-01-15',
@@ -421,7 +421,7 @@ describe('Submit Transformer', () => {
       expect(result.claimantInformation.claimantFullName.first).to.equal(
         'John',
       );
-      expect(result.claimantInformation.claimantDob).to.equal('1980-01-01');
+      expect(result.claimantInformation.claimantDOB).to.equal('1980-01-01');
 
       // Hospitalization details should be removed
       expect(result.hospitalizationDate).to.be.undefined;
