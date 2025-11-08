@@ -1,0 +1,44 @@
+{
+    "data": {
+      "id": "",
+      "type": "users_scaffolds",
+      "attributes": {
+        "profile": {
+          "sign_in": {
+            "service_name": "idme"
+          },
+          "email": "vets.gov.user+71@gmail.com",
+          "loa": {
+            "current": 3
+          },
+          "first_name": "Julio",
+          "middle_name": "E",
+          "last_name": "Hunter",
+          "gender": "M",
+          "birth_date": "1951-11-18",
+          "verified": true
+        },
+        "veteran_status": {
+          "status": "OK",
+          "is_veteran": true
+        },
+        "inProgressForms": [],
+        "prefillsAvailable": [],
+        "services": [
+          "facilities",
+          "hca",
+          "user-profile"
+        ],
+        "va_profile": {
+          "status": "OK",
+          "birth_date": "19511118",
+          "family_name": "Hunter",
+          "gender": "M",
+          "given_names": [
+            "Julio",
+            "E"
+          ]
+        }
+      }
+    }
+  }

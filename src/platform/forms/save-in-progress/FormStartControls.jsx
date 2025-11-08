@@ -48,14 +48,30 @@ const FormStartControls = props => {
 
   const handleLoadPrefill = () => {
     captureAnalytics();
+    // eslint-disable-next-line no-console
+    console.log('FORMID', formId);
+    // eslint-disable-next-line no-console
+    console.log('MIGRATIONS', prefillTransformer);
     if (prefillAvailable) {
-      props.fetchInProgressForm(
-        // TODO: where does this come from?
-        formId,
-        migrations,
-        true,
-        prefillTransformer,
-      );
+      // the problem seems to lie here
+      try {
+        props.fetchInProgressForm(
+          // TODO: where does this come from?
+          formId,
+          migrations,
+          true,
+          prefillTransformer,
+        );
+        // eslint-disable-next-line no-constant-condition
+        if (true) {
+          goToBeginning();
+        }
+      } catch (ERROR) {
+        // eslint-disable-next-line no-console
+        console.log('ERROR FETCHING PREFILL', ERROR);
+        goToBeginning();
+      }
+      // console.log('DIRECTED TO PREFILL AVAILABLE');
     } else {
       goToBeginning();
     }
