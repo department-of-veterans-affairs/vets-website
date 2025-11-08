@@ -76,6 +76,7 @@ export default function AppointmentColumnLayout({
             'vaos-appts__column--alignItems',
             'vaos-appts__column-gap--1',
             'mobile:vads-u-text-align--center',
+            'mobile:vads-u-align-items--center',
             'mobile-lg:vads-u-flex-direction--row',
             'medium-screen:vads-u-padding-y--2',
           )}
@@ -106,12 +107,12 @@ export default function AppointmentColumnLayout({
           </AppointmentColumn>
           <AppointmentColumn
             className={classNames(
-              'vads-u-text-align--left',
+              'mobile-lg:vads-u-text-align--left',
               'xsmall-screen:vads-u-order--first',
               'xsmall-screen:margin-top--1',
+              'vaos-appts__column--date',
             )}
             size="1"
-            style={{ minWidth: '30px', maxWidth: '30px', alignSelf: 'center' }}
           >
             <span
               className={classNames({
@@ -207,7 +208,7 @@ export default function AppointmentColumnLayout({
                 className="vaos-appts__display--table"
                 canceled={isCanceled}
               >
-                <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
+                <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--flex-start">
                   {!isCommunityCare && (
                     <span
                       className={classNames(
@@ -225,9 +226,7 @@ export default function AppointmentColumnLayout({
                       />
                     </span>
                   )}
-                  <span className="vaos-appts__text--truncate">
-                    {modalityText}
-                  </span>
+                  <span>{modalityText}</span>
                 </span>
               </AppointmentColumn>
             </AppointmentRow>
