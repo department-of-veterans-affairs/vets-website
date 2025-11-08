@@ -18,6 +18,26 @@ import { ReviewAddressField } from '@bio-aquia/shared/components/atoms/review-ad
 export const MailingAddressReviewPage = ({ data, editPage, title }) => {
   const sectionData = data?.mailingAddress || {};
 
+  const formatAddress = address => {
+    if (!address) return 'Not provided';
+
+    const { street, city, state, postalCode } = address;
+    if (!street && !city && !state && !postalCode) return 'Not provided';
+
+    const parts = [];
+    if (street) parts.push(street);
+    if (city && state) {
+      parts.push(`${city}, ${state}`);
+    } else if (city) {
+      parts.push(city);
+    } else if (state) {
+      parts.push(state);
+    }
+    if (postalCode) parts.push(postalCode);
+
+    return parts.length > 0 ? parts.join('\n') : 'Not provided';
+  };
+
   return (
     <ReviewPageTemplate
       title={title}
@@ -27,7 +47,8 @@ export const MailingAddressReviewPage = ({ data, editPage, title }) => {
     >
       <ReviewAddressField
         label="Mailing address"
-        value={sectionData.address}
+        value={sectionData.recipientAddress}
+        formatter={formatAddress}
         hideWhenEmpty
       />
     </ReviewPageTemplate>

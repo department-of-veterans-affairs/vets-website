@@ -45,7 +45,7 @@ describe('VeteranIdentificationPage', () => {
       );
 
       expect(container).to.exist;
-      expect(container.textContent).to.include("Deceased Veteran's name");
+      expect(container.textContent).to.include("Veteran's name");
     });
 
     it('should render all name fields', async () => {

@@ -25,7 +25,8 @@ describe('VeteranBurialInformationPage', () => {
       );
 
       expect(container).to.exist;
-      expect(container.textContent).to.include('Burial information');
+      expect(container.textContent).to.include('Veteran');
+      expect(container.textContent).to.include('burial information');
     });
 
     it('should render all form fields', () => {

@@ -111,7 +111,7 @@ describe('Service Period Schemas', () => {
       expect(result.success).to.be.false;
       if (!result.success) {
         expect(result.error.issues[0].message).to.include(
-          'start date must be before end date',
+          'Service start date must be before end date',
         );
       }
     });

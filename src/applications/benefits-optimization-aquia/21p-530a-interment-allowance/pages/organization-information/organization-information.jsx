@@ -50,7 +50,7 @@ export const OrganizationInformationPage = ({
 
   return (
     <PageTemplate
-      title="State cemetery or tribal organization information"
+      title="Organization information"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}

@@ -31,9 +31,15 @@ The application consists of 4 chapters with 11 pages total:
 
 ### Chapter 3: Military history
 
-8. **Service Periods** - Branch, service dates, places of service
-9. **Previous Names** (conditional) - Whether Veteran served under different name
-10. **Previous Names List** (conditional) - List of names if applicable
+8. **Served Under Different Name** - Yes/no question
+9. **Service Periods (List & Loop)** - Add/edit/delete service periods:
+   - Service Branch - Select branch of service
+   - Service Dates - Start and end dates
+   - Locations and Rank - Entry/separation locations and rank
+   - Review Service Periods - Summary with edit/delete options
+10. **Previous Name Entry (List & Loop, conditional)** - Add/edit/delete previous names:
+    - Previous Name Entry - Name fields
+    - Review Previous Names - Summary with edit/delete options
 
 ### Chapter 4: Additional remarks
 
@@ -46,8 +52,11 @@ The application consists of 4 chapters with 11 pages total:
 ```bash
 21p-530a-interment-allowance/
 ├── components/           # Shared form components
+│   ├── delete-modal/    # Delete confirmation modal and hook
 │   ├── get-help/        # Help sidebar component
-│   └── pre-submit-info/ # Pre-submission information
+│   ├── pre-submit-info/ # Pre-submission information
+│   ├── previous-name-summary-card/ # Summary card for previous names
+│   └── service-period-summary-card/ # Summary card for service periods
 ├── config/              # Form configuration
 │   ├── form.js          # Main form config with chapters/pages
 │   └── prefill-transformer.js # Data prefill logic
@@ -64,9 +73,13 @@ The application consists of 4 chapters with 11 pages total:
 │   ├── veteran-identification/
 │   ├── veteran-birth-information/
 │   ├── veteran-burial-information/
-│   ├── service-periods/
 │   ├── veteran-served-under-different-name/
-│   ├── veteran-previous-names/
+│   ├── service-periods/ # List & Loop: Summary page with add/edit/delete
+│   ├── service-branch/  # List & Loop: Step 1 of service period entry
+│   ├── service-dates/   # List & Loop: Step 2 of service period entry
+│   ├── locations-and-rank/ # List & Loop: Step 3 of service period entry
+│   ├── previous-name-entry/ # List & Loop: Single page for name entry
+│   ├── veteran-previous-names/ # List & Loop: Summary page with add/edit/delete
 │   ├── additional-remarks/
 │   └── index.js         # Barrel exports
 ├── schemas/             # Zod validation schemas
@@ -197,20 +210,57 @@ Leverages BIO-AQ shared components for consistency:
 
 - **Form Fields**: `TextInputField`, `SelectField`, `SSNField`, `MemorableDateField`
 - **Composite Fields**: `FullNameField`, `AddressField`, `PhoneField`
-- **Array Fields**: `ArrayField` for repeating data (service periods, previous names)
 - **Review Components**: Full suite of review display components
 - **Templates**: `PageTemplate`, `ReviewPageTemplate` for page structure
 
-### Conditional Pages
+### List & Loop Pattern
 
-The "Previous Names List" page only appears if user indicates Veteran served under a different name:
+Service periods and previous names use a multi-page list & loop pattern:
+
+**Service Periods Flow** (3-step entry + summary):
+1. **Service Branch** - Select branch of service
+2. **Service Dates** - Enter start and end dates  
+3. **Locations and Rank** - Enter entry/separation locations and rank
+4. **Service Periods Summary** - Review all periods with edit/delete/add options
+
+**Previous Names Flow** (1-step entry + summary):
+1. **Previous Name Entry** - Enter full name
+2. **Review Previous Names** - Review all names with edit/delete/add options
+
+Key features:
+- **Summary Cards**: Display added items with edit/delete actions
+- **Delete Modal**: Confirmation dialog before deletion
+- **Edit Flow**: Navigate back to entry pages with pre-filled data
+- **Add Another**: Radio button to add additional items
+- **Cancel Edit**: Navigate back to summary without saving
 
 ```javascript
-veteranPreviousNames: {
-  path: 'previous-names',
-  title: 'Previous names',
-  CustomPage: VeteranPreviousNamesPage,
-  CustomPageReview: VeteranPreviousNamesReviewPage,
+// Example: Using useDeleteModal hook
+const {
+  isModalOpen,
+  handleModalCancel,
+  handleModalConfirm,
+  handleDeleteClick,
+} = useDeleteModal(onDelete);
+
+// Example: Summary card component
+<ServicePeriodSummaryCard
+  servicePeriod={period}
+  index={index}
+  onEdit={handleEdit}
+  onDelete={handleDelete}
+/>
+```
+
+### Conditional Pages
+
+The "Previous Names" flow only appears if user indicates Veteran served under a different name:
+
+```javascript
+previousNameEntry: {
+  path: 'previous-name-entry',
+  title: 'Previous name entry',
+  CustomPage: PreviousNameEntryPage,
   depends: formData =>
     formData?.veteranServedUnderDifferentName?.veteranServedUnderDifferentName === 'yes',
 }

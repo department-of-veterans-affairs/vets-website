@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import constants from 'vets-json-schema/dist/constants.json';
 
 import {
   MemorableDateField,
   TextInputField,
+  SelectField,
 } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
@@ -14,7 +16,7 @@ import { dateOfBirthSchema, placeOfBirthSchema } from '../../schemas';
 /**
  * Schema for veteran birth information page
  */
-const veteranBirthDeathSchema = z.object({
+const veteranBirthSchema = z.object({
   dateOfBirth: dateOfBirthSchema,
   placeOfBirth: placeOfBirthSchema,
 });
@@ -35,7 +37,7 @@ const ensureDateStrings = formData => {
  * @param {Function} props.goForward - Function to proceed to next page
  * @returns {JSX.Element} Veteran birth information form page
  */
-export const VeteranBirthDeathInformationPage = ({
+export const VeteranBirthInformationPage = ({
   data,
   setFormData,
   goForward,
@@ -55,7 +57,7 @@ export const VeteranBirthDeathInformationPage = ({
       goBack={goBack}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
-      schema={veteranBirthDeathSchema}
+      schema={veteranBirthSchema}
       sectionName="veteranIdentification"
       dataProcessor={ensureDateStrings}
       defaultData={{
@@ -71,10 +73,12 @@ export const VeteranBirthDeathInformationPage = ({
           <MemorableDateField
             name="dateOfBirth"
             label="Date of birth"
+            monthSelect
             schema={dateOfBirthSchema}
             value={localData.dateOfBirth}
             onChange={handleFieldChange}
             required
+            remove-date-hint
             error={errors.dateOfBirth}
             forceShowError={formSubmitted}
           />
@@ -90,7 +94,7 @@ export const VeteranBirthDeathInformationPage = ({
             schema={placeOfBirthSchema.shape.city}
           />
 
-          <TextInputField
+          <SelectField
             name="placeOfBirth.state"
             label="State of birth"
             value={localData.placeOfBirth?.state}
@@ -99,6 +103,9 @@ export const VeteranBirthDeathInformationPage = ({
             error={errors['placeOfBirth.state']}
             forceShowError={formSubmitted}
             schema={placeOfBirthSchema.shape.state}
+            options={constants.states.USA.filter(
+              state => !['AA', 'AE', 'AP'].includes(state.value),
+            )}
           />
         </>
       )}
@@ -106,11 +113,11 @@ export const VeteranBirthDeathInformationPage = ({
   );
 };
 
-VeteranBirthDeathInformationPage.propTypes = {
+VeteranBirthInformationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
-  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };

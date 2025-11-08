@@ -1,22 +1,14 @@
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { TextInputField } from '@bio-aquia/shared/components/atoms';
 import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 /**
  * Error messages for statement of truth validation
  */
 const ERROR_MSG_CHECKBOX = 'You must certify this statement is correct';
-
-/**
- * Normalize names for comparison: trim, lowercase, remove extra spaces
- */
-const normalizeName = name => {
-  if (!name || typeof name !== 'string') return '';
-  return name
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, ' ');
-};
+const ERROR_MSG_SIGNATURE = 'Please enter your full name';
+const ERROR_MSG_TITLE = 'Please enter an organization title';
 
 /**
  * Statement of Truth Item component
@@ -24,71 +16,87 @@ const normalizeName = name => {
  *
  * @param {Object} props - Component props
  * @param {boolean} props.hasCheckboxError - Whether checkbox has validation error
- * @param {boolean} props.hasInputError - Whether input has validation error
+ * @param {boolean} props.hasSignatureError - Whether signature has validation error
+ * @param {boolean} props.hasTitleError - Whether title has validation error
  * @param {string} props.label - Label for this signature item
- * @param {string} props.expectedName - Expected name to validate signature against
  * @param {Function} props.setSignatures - Function to update signatures state
  * @param {Object} props.signature - Current signature state
- * @param {Array} props.statementText - Text paragraphs for the statement
  * @returns {JSX.Element} Statement of truth component
  */
 export const StatementOfTruthItem = props => {
   const {
     hasCheckboxError,
-    hasInputError,
+    hasSignatureError,
+    hasTitleError,
     label,
-    expectedName,
     setSignatures,
     signature,
-    statementText,
   } = props;
 
-  const heading = `${label} Statement of Truth`;
-  const inputLabel = `${label}'s signature`;
-
-  const inputError = useMemo(
-    () =>
-      hasInputError
-        ? `Your signature must match the burial benefits recipient full name: ${expectedName}`
-        : null,
-    [hasInputError, expectedName],
+  const signatureError = useMemo(
+    () => (hasSignatureError ? ERROR_MSG_SIGNATURE : null),
+    [hasSignatureError],
   );
+
+  const titleError = useMemo(() => (hasTitleError ? ERROR_MSG_TITLE : null), [
+    hasTitleError,
+  ]);
 
   const checkboxError = useMemo(
     () => (hasCheckboxError ? ERROR_MSG_CHECKBOX : null),
     [hasCheckboxError],
   );
 
-  const handleInputBlur = useCallback(
+  const handleSignatureBlur = useCallback(
     () => {
-      if (!signature.dirty) {
+      if (!signature.signatureDirty) {
         setSignatures(prev => ({
           ...prev,
-          [label]: { ...prev[label], dirty: true },
+          [label]: { ...prev[label], signatureDirty: true },
         }));
       }
     },
-    [label, setSignatures, signature.dirty],
+    [label, setSignatures, signature.signatureDirty],
   );
 
-  const handleInputChange = useCallback(
+  const handleTitleBlur = useCallback(
+    () => {
+      if (!signature.titleDirty) {
+        setSignatures(prev => ({
+          ...prev,
+          [label]: { ...prev[label], titleDirty: true },
+        }));
+      }
+    },
+    [label, setSignatures, signature.titleDirty],
+  );
+
+  const handleSignatureChange = useCallback(
     event => {
       const { value } = event.detail;
-      const trimmedValue = value.trim();
-      const normalizedSignature = normalizeName(trimmedValue);
-      const normalizedExpectedName = normalizeName(expectedName);
-      const matches = normalizedSignature === normalizedExpectedName;
 
       setSignatures(prev => ({
         ...prev,
         [label]: {
           ...prev[label],
-          matches,
-          value, // Store the raw value so user can type spaces
+          signatureValue: value,
         },
       }));
     },
-    [label, expectedName, setSignatures],
+    [label, setSignatures],
+  );
+
+  const handleTitleChange = useCallback(
+    (_, value) => {
+      setSignatures(prev => ({
+        ...prev,
+        [label]: {
+          ...prev[label],
+          titleValue: value,
+        },
+      }));
+    },
+    [label, setSignatures],
   );
 
   const handleCheckboxChange = useCallback(
@@ -101,62 +109,50 @@ export const StatementOfTruthItem = props => {
     [label, setSignatures],
   );
 
-  // Re-validate signature when expectedName changes
-  useEffect(
-    () => {
-      if (signature.value) {
-        const trimmedValue = signature.value.trim();
-        const normalizedSignature = normalizeName(trimmedValue);
-        const normalizedExpectedName = normalizeName(expectedName);
-        const matches = normalizedSignature === normalizedExpectedName;
-
-        if (signature.matches !== matches) {
-          setSignatures(prev => ({
-            ...prev,
-            [label]: {
-              ...prev[label],
-              matches,
-            },
-          }));
-        }
-      }
-    },
-    [expectedName, signature.value, signature.matches, label, setSignatures],
-  );
-
   return (
     <VaStatementOfTruth
       name={label}
-      heading={heading}
-      inputLabel={inputLabel}
-      inputValue={signature.value}
-      inputError={inputError}
+      heading="Statement of truth"
+      inputLabel="Your full name"
+      inputValue={signature.signatureValue}
+      inputError={signatureError}
       checked={signature.checked}
       checkboxLabel="I certify the information above is correct and true to the best of my knowledge and belief."
       checkboxError={checkboxError}
-      onVaInputBlur={handleInputBlur}
-      onVaInputChange={handleInputChange}
+      onVaInputBlur={handleSignatureBlur}
+      onVaInputChange={handleSignatureChange}
       onVaCheckboxChange={handleCheckboxChange}
       hideLegalNote
     >
-      {statementText.map((text, index) => (
-        <p key={index}>{text}</p>
-      ))}
+      I confirm that the identifying information in this form is accurate and
+      has been represented correctly.
+      <TextInputField
+        name="organizationTitle"
+        label="Your organization title"
+        value={signature.titleValue || ''}
+        onChange={handleTitleChange}
+        onBlur={handleTitleBlur}
+        required
+        error={titleError}
+        forceShowError={hasTitleError}
+        minLength={2}
+        maxLength={100}
+      />
     </VaStatementOfTruth>
   );
 };
 
 StatementOfTruthItem.propTypes = {
   hasCheckboxError: PropTypes.bool,
-  hasInputError: PropTypes.bool,
+  hasSignatureError: PropTypes.bool,
+  hasTitleError: PropTypes.bool,
   label: PropTypes.string,
-  expectedName: PropTypes.string,
   setSignatures: PropTypes.func,
   signature: PropTypes.shape({
     checked: PropTypes.bool,
-    dirty: PropTypes.bool,
-    matches: PropTypes.bool,
-    value: PropTypes.string,
+    signatureDirty: PropTypes.bool,
+    signatureValue: PropTypes.string,
+    titleDirty: PropTypes.bool,
+    titleValue: PropTypes.string,
   }),
-  statementText: PropTypes.arrayOf(PropTypes.string),
 };

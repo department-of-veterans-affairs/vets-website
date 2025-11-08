@@ -40,7 +40,7 @@ describe('ConfirmationPage', () => {
     cleanup();
   });
 
-  it('should show success alert, h2, and confirmation number if present', () => {
+  it('should show success alert and confirmation message', () => {
     const { container } = initConfirmationPage();
     const alert = container.querySelector('va-alert');
     expect(alert).to.have.attribute('status', 'success');
@@ -48,6 +48,8 @@ describe('ConfirmationPage', () => {
     expect(heading.textContent).to.include(
       'submitted your application for a burial allowance',
     );
-    expect(container).to.contain.text('1234567890');
+    expect(container.textContent).to.include(
+      'After we receive your application,',
+    );
   });
 });

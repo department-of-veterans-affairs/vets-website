@@ -25,9 +25,7 @@ describe('OrganizationInformationPage', () => {
       );
 
       expect(container).to.exist;
-      expect(container.textContent).to.include(
-        'State cemetery or tribal organization information',
-      );
+      expect(container.textContent).to.include('Organization information');
     });
 
     it('should render organization name field', () => {

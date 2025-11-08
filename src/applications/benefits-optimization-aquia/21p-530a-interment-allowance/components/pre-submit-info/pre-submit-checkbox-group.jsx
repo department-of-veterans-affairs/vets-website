@@ -9,9 +9,10 @@ import { StatementOfTruthItem } from './statement-of-truth-item';
  */
 const DEFAULT_SIGNATURE_STATE = {
   checked: false,
-  dirty: false,
-  matches: false,
-  value: '',
+  signatureDirty: false,
+  signatureValue: '',
+  titleDirty: false,
+  titleValue: '',
 };
 
 /**
@@ -38,21 +39,22 @@ export const PreSubmitCheckboxGroup = ({
     'State or Tribal Official': DEFAULT_SIGNATURE_STATE,
   });
 
-  // Get the official's title from form data (for display purposes)
-  const officialTitle =
-    formData?.officialSignature?.officialTitle || 'State or Tribal Official';
-
-  // Set form data with signature values, if submission has not occurred
+  // Set form data with signature and title values, if submission has not occurred
   useEffect(
     () => {
       if (hasSubmittedForm) return;
 
       const officialSignature =
-        signatures['State or Tribal Official']?.value?.trim() || '';
+        signatures['State or Tribal Official']?.signatureValue?.trim() || '';
+      const officialTitle =
+        signatures['State or Tribal Official']?.titleValue?.trim() || '';
       dispatch(
         setData({
           ...formData,
-          stateTribalOfficialSignature: officialSignature,
+          certification: {
+            signature: officialSignature,
+            titleOfStateOrTribalOfficial: officialTitle,
+          },
         }),
       );
     },
@@ -60,11 +62,16 @@ export const PreSubmitCheckboxGroup = ({
     [dispatch, signatures],
   );
 
-  // Validate signature text is valid and checkbox is checked
+  // Validate signature, title, and checkbox are all complete
   useEffect(
     () => {
       const officialSig = signatures['State or Tribal Official'];
-      const isComplete = officialSig?.matches && officialSig?.checked;
+      const hasSignature = officialSig?.signatureValue?.trim().length > 0;
+      const hasTitle =
+        officialSig?.titleValue?.trim().length >= 2 &&
+        officialSig?.titleValue?.trim().length <= 100;
+      const isChecked = officialSig?.checked;
+      const isComplete = hasSignature && hasTitle && isChecked;
       onSectionComplete(isComplete);
       return () => onSectionComplete(false);
     },
@@ -76,70 +83,66 @@ export const PreSubmitCheckboxGroup = ({
     () => {
       const signature =
         signatures['State or Tribal Official'] || DEFAULT_SIGNATURE_STATE;
-      const { checked, dirty, matches, value } = signature;
+      const {
+        checked,
+        signatureDirty,
+        signatureValue,
+        titleDirty,
+        titleValue,
+      } = signature;
 
-      const hasCheckboxError = !hasSubmittedForm && !checked && showError;
-      const hasInputError =
-        !hasSubmittedForm &&
-        ((dirty && !matches) || (!dirty && showError && !value));
+      // Only show errors if form hasn't been submitted
+      if (hasSubmittedForm) {
+        return (
+          <StatementOfTruthItem
+            hasCheckboxError={false}
+            hasSignatureError={false}
+            hasTitleError={false}
+            label="State or Tribal Official"
+            signature={signature}
+            setSignatures={setSignatures}
+          />
+        );
+      }
 
-      const veteranName =
-        [
-          formData?.veteranIdentification?.fullName?.first,
-          formData?.veteranIdentification?.fullName?.middle,
-          formData?.veteranIdentification?.fullName?.last,
-        ]
-          .filter(Boolean)
-          .join(' ') || '[Veteran Name]';
+      // Checkbox validation
+      const hasCheckboxError = !checked && showError;
 
-      const cemeteryName =
-        formData?.cemeteryInformation?.cemeteryName || '[Cemetery Name]';
+      // Signature validation: show error if field is dirty or form submission attempted
+      const signatureIsEmpty = !signatureValue?.trim();
+      const hasSignatureError =
+        signatureIsEmpty && (signatureDirty || showError);
 
-      const recipientFullName =
-        formData?.burialBenefitsRecipient?.recipientOrganizationName ||
-        '[Recipient Name]';
-
-      const statementText = [
-        `I certify that ${veteranName} was buried in ${cemeteryName}, a State-owned Veterans Cemetery or Tribal Cemetery, without charge to the family.`,
-        `I certify that this cemetery is reserved solely for eligible veterans and their dependents as specified in 38 U.S.C. § 2402.`,
-        'I understand that providing false or fraudulent information may result in criminal prosecution under 18 U.S.C. §§ 287, 1001.',
-        `The current interment allowance rate of $978 (as of October 1, 2024) will be paid to the organization specified in this application.`,
-      ];
+      // Title validation: check length constraints
+      const titleLength = titleValue?.trim().length || 0;
+      const titleIsInvalid = titleLength < 2 || titleLength > 100;
+      const hasTitleError = titleIsInvalid && (titleDirty || showError);
 
       return (
         <StatementOfTruthItem
           hasCheckboxError={hasCheckboxError}
-          hasInputError={hasInputError}
-          label={officialTitle}
-          expectedName={recipientFullName}
+          hasSignatureError={hasSignatureError}
+          hasTitleError={hasTitleError}
+          label="State or Tribal Official"
           signature={signature}
           setSignatures={setSignatures}
-          statementText={statementText}
         />
       );
     },
-    [hasSubmittedForm, showError, signatures, formData, officialTitle],
+    [hasSubmittedForm, showError, signatures],
   );
-
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
-      <p
-        id="interment-allowance-declaration"
-        className="vads-u-margin-bottom--4"
-      >
-        Please review the information entered in this application. The state or
-        tribal official must sign the section below to certify the information.
+      <p className="vads-u-margin-bottom--4">
+        <strong>Note:</strong> According to federal law, there are criminal
+        penalties, including a fine and/or imprisonment for up to 5 years, for
+        withholding information or for providing incorrect information (See 18
+        U.S.C. 1001).
       </p>
 
       <div aria-describedby="interment-allowance-declaration">
         {statementOfTruth}
       </div>
-
-      <p className="vads-u-margin-top--4 vads-u-margin-bottom--6">
-        <strong>Note:</strong> This signature certifies all information provided
-        in VA Form 21P-530a and serves as the official certification required
-        for processing the interment allowance payment to your organization.
-      </p>
     </div>
   );
 };

@@ -42,7 +42,7 @@ describe('MailingAddressReviewPage', () => {
     it('should display mailing address', () => {
       const data = {
         mailingAddress: {
-          address: {
+          recipientAddress: {
             street: '1138 Temple Way',
             city: 'Coruscant City',
             state: 'DC',

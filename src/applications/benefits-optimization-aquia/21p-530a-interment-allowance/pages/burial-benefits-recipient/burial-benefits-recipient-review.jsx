@@ -22,12 +22,16 @@ export const BurialBenefitsRecipientReviewPage = ({
 }) => {
   const sectionData = data?.burialBenefitsRecipient || {};
 
-  const formatRecipient = value => {
-    const labels = {
-      claimant: 'Claimant (person completing this form)',
-      other: 'Other',
-    };
-    return labels[value] || value;
+  const formatPhone = phone => {
+    if (!phone) return 'Not provided';
+    // Format phone number if it's a 10-digit number
+    const cleaned = phone.replace(/\D/g, '');
+    if (cleaned.length === 10) {
+      return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(
+        6,
+      )}`;
+    }
+    return phone;
   };
 
   return (
@@ -38,10 +42,15 @@ export const BurialBenefitsRecipientReviewPage = ({
       sectionName="burialBenefitsRecipient"
     >
       <ReviewField
-        label="Who should receive the burial benefits?"
-        value={sectionData.recipient}
-        formatter={formatRecipient}
+        label="Full name"
+        value={sectionData.recipientOrganizationName}
+        emptyText="None provided"
         hideWhenEmpty
+      />
+      <ReviewField
+        label="Phone number"
+        value={sectionData.recipientPhone}
+        formatter={formatPhone}
       />
     </ReviewPageTemplate>
   );

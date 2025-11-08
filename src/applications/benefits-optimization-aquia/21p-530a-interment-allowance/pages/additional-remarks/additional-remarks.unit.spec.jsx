@@ -38,12 +38,12 @@ describe('AdditionalRemarksPage', () => {
       );
 
       const textarea = container.querySelector(
-        'va-textarea[label="Additional remarks"]',
+        'va-textarea[label="Provide any additional remarks about your application"]',
       );
       expect(textarea).to.exist;
     });
 
-    it('should show instruction text', () => {
+    it('should render textarea with character limit', () => {
       const { container } = render(
         <AdditionalRemarksPage
           goForward={mockGoForward}
@@ -52,9 +52,8 @@ describe('AdditionalRemarksPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include(
-        'Please provide any additional information',
-      );
+      const textarea = container.querySelector('va-textarea[maxlength="1000"]');
+      expect(textarea).to.exist;
     });
   });
 

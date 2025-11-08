@@ -63,7 +63,7 @@ export const VeteranBurialInformationPage = ({
 
   return (
     <PageTemplate
-      title="Burial information"
+      title="Veteran’s burial information"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -87,26 +87,30 @@ export const VeteranBurialInformationPage = ({
           <MemorableDateField
             name="dateOfDeath"
             label="Date of death"
+            monthSelect
             schema={dateOfDeathSchema}
             value={localData.dateOfDeath}
             onChange={handleFieldChange}
             required
+            remove-date-hint
             error={errors.dateOfDeath}
             forceShowError={formSubmitted}
           />
-
-          <MemorableDateField
-            name="dateOfBurial"
-            label="Date of burial"
-            schema={dateOfBurialSchema}
-            value={localData.dateOfBurial}
-            onChange={handleFieldChange}
-            required
-            error={errors.dateOfBurial}
-            forceShowError={formSubmitted}
-          />
-
-          <h3 className="vads-u-margin-top--4">Cemetery information</h3>
+          <div className="vads-u-margin-top--4">
+            <MemorableDateField
+              name="dateOfBurial"
+              label="Date of burial"
+              monthSelect
+              schema={dateOfBurialSchema}
+              value={localData.dateOfBurial}
+              onChange={handleFieldChange}
+              required
+              remove-date-hint
+              error={errors.dateOfBurial}
+              forceShowError={formSubmitted}
+            />
+          </div>
+          <h4 className="vads-u-margin-top--4">Cemetery information</h4>
 
           <TextInputField
             name="cemeteryName"
@@ -157,7 +161,7 @@ VeteranBurialInformationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
-  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };

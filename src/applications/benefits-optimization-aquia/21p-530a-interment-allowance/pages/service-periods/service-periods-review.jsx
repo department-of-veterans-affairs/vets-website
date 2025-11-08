@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import constants from 'vets-json-schema/dist/constants.json';
 
 import { ReviewPageTemplate } from '@bio-aquia/shared/components/templates/review-page-template';
 import {
@@ -19,8 +20,15 @@ import {
  * @returns {JSX.Element} Review page content
  */
 export const ServicePeriodsReviewPage = ({ data, editPage, title }) => {
-  const sectionData = data?.servicePeriods || {};
-  const servicePeriods = sectionData.servicePeriods || [];
+  const servicePeriods = data?.servicePeriods || [];
+
+  const formatBranch = value => {
+    // Find matching branch label from constants
+    const branchOption = constants.branchesServed.find(
+      branch => branch.value === value,
+    );
+    return branchOption ? branchOption.label : value || '';
+  };
 
   if (!servicePeriods.length) {
     return (
@@ -28,7 +36,7 @@ export const ServicePeriodsReviewPage = ({ data, editPage, title }) => {
         title={title}
         data={data}
         editPage={editPage}
-        sectionName="servicePeriods"
+        sectionName="servicePeriodsData"
       >
         <ReviewField label="Service periods" value="Not provided" />
       </ReviewPageTemplate>
@@ -40,10 +48,12 @@ export const ServicePeriodsReviewPage = ({ data, editPage, title }) => {
       title={title}
       data={data}
       editPage={editPage}
-      sectionName="servicePeriods"
+      sectionName="servicePeriodsData"
+      hideEditButton
     >
       {servicePeriods.map((period, index) => {
         const periodNumber = servicePeriods.length > 1 ? ` ${index + 1}` : '';
+
         return (
           <React.Fragment key={index}>
             {index > 0 && (
@@ -54,7 +64,7 @@ export const ServicePeriodsReviewPage = ({ data, editPage, title }) => {
             )}
             <ReviewField
               label={`Branch of service${periodNumber}`}
-              value={period.branchOfService}
+              value={formatBranch(period.branchOfService)}
               hideWhenEmpty
             />
             <ReviewDateField

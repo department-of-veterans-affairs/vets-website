@@ -1,60 +1,39 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import constants from 'vets-json-schema/dist/constants.json';
 
-import {
-  MemorableDateField,
-  SelectField,
-  TextInputField,
-} from '@bio-aquia/shared/components/atoms';
-import { ArrayField } from '@bio-aquia/shared/components/molecules';
+import { RadioField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
-import { transformDates } from '@bio-aquia/shared/forms';
 
 import { z } from 'zod';
-import {
-  formatServicePeriodSummary,
-  isServicePeriodEmpty,
-  servicePeriodBase,
-  servicePeriodsSchema,
-} from '../../schemas';
+import { ServicePeriodSummaryCard } from '../../components/service-period-summary-card';
 
 /**
- * Schema for service periods page
+ * Schema for service periods summary page
+ * This schema is optional because validation is handled conditionally
+ * based on whether service periods exist.
  */
-const servicePeriodsPageSchema = z.object({
-  servicePeriods: servicePeriodsSchema,
+const servicePeriodsSummarySchema = z.object({
+  hasAdditionalServicePeriods: z
+    .enum(['yes', 'no'], {
+      errorMap: (issue, ctx) => {
+        if (
+          issue.code === 'invalid_enum_value' ||
+          issue.code === 'invalid_type'
+        ) {
+          return {
+            message: 'Please select yes or no',
+          };
+        }
+        return { message: ctx.defaultError };
+      },
+    })
+    .optional(),
 });
 
 /**
- * Data processor to ensure date values are properly formatted strings.
- * Transforms date objects to ISO string format for each service period.
- * @param {Object} formData - The complete form data object
- * @returns {Object} Form data with dates transformed to strings
- */
-export const ensureDateStrings = formData => {
-  if (
-    !formData ||
-    !formData.servicePeriods ||
-    !Array.isArray(formData.servicePeriods)
-  ) {
-    return formData;
-  }
-
-  return {
-    ...formData,
-    servicePeriods: formData.servicePeriods.map(period => {
-      // Skip null/undefined items
-      if (!period) return period;
-      return transformDates(period, ['dateFrom', 'dateTo']);
-    }),
-  };
-};
-
-/**
- * Service Periods page component for the interment allowance form.
- * Allows users to add multiple service periods with branch, start date, and end date.
- * This page is in the "Military history" chapter.
+ * Service Periods Summary page component for the interment allowance form.
+ * Displays a list of previously entered service periods with options to add, edit, or delete.
+ * This is the fourth and final page in the service period flow.
  *
  * @component
  * @param {Object} props - Component props
@@ -62,172 +41,173 @@ export const ensureDateStrings = formData => {
  * @param {Function} [props.goBack] - Function to navigate to the previous page
  * @param {Function} props.goForward - Function to navigate to the next page
  * @param {Function} [props.setFormData] - Function to update the form data in the form system
+ * @param {Function} [props.goToPath] - Function to navigate to a specific path
  * @param {boolean} [props.onReviewPage] - Whether the page is being displayed in review mode
  * @param {Function} [props.updatePage] - Function to update the page in review mode
- * @returns {JSX.Element} Service periods form page
- *
- * @example
- * ```jsx
- * <ServicePeriodsPage
- *   data={formData}
- *   goForward={handleGoForward}
- *   goBack={handleGoBack}
- *   setFormData={setFormData}
- * />
- * ```
+ * @returns {JSX.Element} Service periods summary page
  */
 export const ServicePeriodsPage = ({
   data,
   setFormData,
   goForward,
-  goBack,
+  // goBack,
+  goToPath,
   onReviewPage,
   updatePage,
 }) => {
+  // const dispatch = useDispatch();
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  const servicePeriods = formDataToUse.servicePeriods || [];
+
+  const handleEdit = index => {
+    // Copy the service period to edit into tempServicePeriod
+    const periodToEdit = servicePeriods[index];
+    const updatedData = {
+      ...formDataToUse,
+      tempServicePeriod: { ...periodToEdit, isEditing: true },
+      editingServicePeriodIndex: index,
+    };
+    setFormData(updatedData);
+
+    // Navigate to first page of the flow
+    if (goToPath) {
+      goToPath('/service-branch');
+    }
+  };
+
+  const handleDelete = index => {
+    const updatedPeriods = servicePeriods.filter((_, i) => i !== index);
+    const updatedData = {
+      ...formDataToUse,
+      servicePeriods: updatedPeriods,
+    };
+    setFormData(updatedData);
+  };
+
+  const handleAddAnother = () => {
+    // Clear temp object and editing index, set isEditing flag
+    const updatedData = {
+      ...formDataToUse,
+      tempServicePeriod: {
+        branchOfService: '',
+        dateFrom: '',
+        dateTo: '',
+        placeOfEntry: '',
+        placeOfSeparation: '',
+        rank: '',
+        isEditing: true,
+      },
+      editingServicePeriodIndex: undefined,
+    };
+    setFormData(updatedData);
+
+    // Navigate to first page of the flow
+    if (goToPath) {
+      // timeout is needed to prevent a race condition between setFormData and
+      //  page navigation otherwise the formData doesn't reflect the change in time for the depends
+      setTimeout(() => {
+        goToPath('/service-branch');
+      }, 0);
+    }
+  };
+
+  // Custom validation - require at least one service period OR add one
+  const validateServicePeriods = () => {
+    if (servicePeriods.length === 0) {
+      return {
+        valid: false,
+        errors: {
+          servicePeriodsData: {
+            _error: 'Please add at least one service period',
+          },
+        },
+      };
+    }
+    return { valid: true };
+  };
+
+  // Custom forward handler - if user says yes to additional periods, go back to service-branch
+  const handleForward = () => {
+    const hasAdditionalPeriods =
+      formDataToUse.servicePeriodsData?.hasAdditionalServicePeriods;
+
+    if (hasAdditionalPeriods === 'yes') {
+      handleAddAnother();
+    } else {
+      goForward(formDataToUse);
+    }
+  };
+
+  // Custom back handler - jumping back to burial information
+  //  editing pages happens in first entry and on "edit"
+  const handleBack = () => {
+    const updatedData = {
+      ...formDataToUse,
+      tempServicePeriod: {
+        branchOfService: '',
+        dateFrom: '',
+        dateTo: '',
+        placeOfEntry: '',
+        placeOfSeparation: '',
+        rank: '',
+        isEditing: false,
+      },
+      editingServicePeriodIndex: undefined,
+    };
+    setFormData(updatedData);
+    goToPath('/burial-information');
+  };
+
   return (
     <PageTemplate
-      title="Service periods"
+      title="Review the Veteran's service periods"
       data={formDataToUse}
       setFormData={setFormData}
-      goForward={goForward}
-      goBack={goBack}
+      goForward={handleForward}
+      goBack={handleBack}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
-      schema={servicePeriodsPageSchema}
-      sectionName="servicePeriods"
-      dataProcessor={ensureDateStrings}
+      schema={servicePeriodsSummarySchema}
+      sectionName="servicePeriodsData"
+      customValidation={validateServicePeriods}
       defaultData={{
-        servicePeriods: [
-          {
-            branchOfService: '',
-            dateFrom: '',
-            dateTo: '',
-            placeOfEntry: '',
-            placeOfSeparation: '',
-            rank: '',
-          },
-        ],
+        hasAdditionalServicePeriods: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <p className="vads-u-margin-bottom--3">
-            Please provide information about the veteran’s military service
-            periods. You can add multiple service periods if the veteran served
-            in different branches or had multiple periods of service.
-          </p>
+          {servicePeriods.length === 0 ? (
+            <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3">
+              <p className="vads-u-margin--0">No service periods added yet.</p>
+            </div>
+          ) : (
+            <div className="vads-u-margin-y--3">
+              {servicePeriods.map((period, index) => (
+                <ServicePeriodSummaryCard
+                  key={index}
+                  servicePeriod={period}
+                  index={index}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                />
+              ))}
+            </div>
+          )}
 
-          <ArrayField
-            name="servicePeriods"
-            value={localData.servicePeriods}
+          <RadioField
+            name="hasAdditionalServicePeriods"
+            label="Do you have another service period to add?"
+            value={localData.hasAdditionalServicePeriods || ''}
             onChange={handleFieldChange}
-            defaultItem={{
-              branchOfService: '',
-              dateFrom: '',
-              dateTo: '',
-              placeOfEntry: '',
-              placeOfSeparation: '',
-              rank: '',
-            }}
-            itemName="service period"
-            addButtonText="Add another service period"
-            getItemSummary={formatServicePeriodSummary}
-            isItemEmpty={isServicePeriodEmpty}
-            errors={errors.servicePeriods}
             required
-            renderItem={(item, index, handleItemChange, itemErrors) => {
-              // Safety check: ensure item exists
-              if (!item) {
-                return null;
-              }
-
-              return (
-                <>
-                  <SelectField
-                    name="branchOfService"
-                    label="Branch of service"
-                    value={item?.branchOfService || ''}
-                    onChange={(name, value) =>
-                      handleItemChange(index, name, value)
-                    }
-                    required
-                    error={itemErrors?.branchOfService}
-                    forceShowError={formSubmitted}
-                    schema={servicePeriodBase.shape.branchOfService}
-                    options={constants.branchesServed}
-                  />
-
-                  <MemorableDateField
-                    name="dateFrom"
-                    label="Service start date"
-                    value={item?.dateFrom || ''}
-                    onChange={(name, value) =>
-                      handleItemChange(index, name, value)
-                    }
-                    required
-                    error={itemErrors?.dateFrom}
-                    forceShowError={formSubmitted}
-                    schema={servicePeriodBase.shape.dateFrom}
-                    hint="If you don't know the exact date, enter your best guess"
-                  />
-
-                  <MemorableDateField
-                    name="dateTo"
-                    label="Service end date"
-                    value={item?.dateTo || ''}
-                    onChange={(name, value) =>
-                      handleItemChange(index, name, value)
-                    }
-                    required
-                    error={itemErrors?.dateTo}
-                    forceShowError={formSubmitted}
-                    schema={servicePeriodBase.shape.dateTo}
-                    hint="If you don't know the exact date, enter your best guess"
-                  />
-
-                  <TextInputField
-                    name="placeOfEntry"
-                    label="Place of entry"
-                    value={item?.placeOfEntry || ''}
-                    onChange={(name, value) =>
-                      handleItemChange(index, name, value)
-                    }
-                    error={itemErrors?.placeOfEntry}
-                    forceShowError={formSubmitted}
-                    schema={servicePeriodBase.shape.placeOfEntry}
-                    hint="Enter the city and state or name of the military base"
-                  />
-
-                  <TextInputField
-                    name="placeOfSeparation"
-                    label="Place of separation"
-                    value={item?.placeOfSeparation || ''}
-                    onChange={(name, value) =>
-                      handleItemChange(index, name, value)
-                    }
-                    error={itemErrors?.placeOfSeparation}
-                    forceShowError={formSubmitted}
-                    schema={servicePeriodBase.shape.placeOfSeparation}
-                    hint="Enter the city and state or name of the military base"
-                  />
-
-                  <TextInputField
-                    name="rank"
-                    label="Grade, rank, or rating"
-                    value={item?.rank || ''}
-                    onChange={(name, value) =>
-                      handleItemChange(index, name, value)
-                    }
-                    error={itemErrors?.rank}
-                    forceShowError={formSubmitted}
-                    schema={servicePeriodBase.shape.rank}
-                  />
-                </>
-              );
-            }}
+            error={errors.hasAdditionalServicePeriods}
+            forceShowError={formSubmitted}
+            options={[
+              { label: 'Yes', value: 'yes' },
+              { label: 'No', value: 'no' },
+            ]}
           />
         </>
       )}
@@ -236,10 +216,11 @@ export const ServicePeriodsPage = ({
 };
 
 ServicePeriodsPage.propTypes = {
-  data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  onReviewPage: PropTypes.bool,
-  goBack: PropTypes.func,
   goForward: PropTypes.func.isRequired,
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  goBack: PropTypes.func,
+  goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };

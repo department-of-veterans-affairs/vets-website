@@ -50,7 +50,7 @@ export const MailingAddressPage = ({
 
   return (
     <PageTemplate
-      title="Mailing address"
+      title="Burial organization’s mailing address"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -75,8 +75,10 @@ export const MailingAddressPage = ({
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
           <AddressField
+            allowMilitary={false}
+            omitStreet3
             name="recipientAddress"
-            label="Mailing address"
+            label=""
             value={localData.recipientAddress}
             onChange={handleFieldChange}
             schema={recipientAddressSchema}
