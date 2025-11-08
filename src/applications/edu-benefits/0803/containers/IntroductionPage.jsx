@@ -129,7 +129,7 @@ export const IntroductionPage = props => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the application"
+          startText="Start your Request reimbursement for licensing or certification test fees"
           devOnly={{
             forceShowFormControls: true,
           }}
@@ -196,15 +196,6 @@ export const IntroductionPage = props => {
           </p>
         </va-accordion-item>
       </va-accordion>
-      <va-need-help>
-        <div slot="content">
-          <p>
-            If you need help in completing this form, call VA TOLL-FREE at{' '}
-            <va-telephone contact="8884424551" vanity="888-GIBILL-1" />. If you
-            have hearing loss, call <va-telephone contact="711" tty />.
-          </p>
-        </div>
-      </va-need-help>
     </article>
   );
 };

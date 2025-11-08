@@ -1,5 +1,4 @@
 // @ts-check
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
@@ -7,7 +6,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import previouslyApplied from '../pages/previouslyApplied';
 import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
@@ -27,33 +26,13 @@ const formConfig = {
     collapsibleNavLinks: true,
     disableWindowUnloadInCI: true,
   },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      {
-        href: '/education',
-        label: 'Education',
-      },
-      {
-        href: '/education/other-va-education-benefits',
-        label: 'Other va education benefits',
-      },
-      {
-        href: '/education/other-va-education-benefits/reimbursements',
-        label: 'Reimbursements',
-      },
-      {
-        href:
-          '/education/other-va-education-benefits/reimbursements/test-reimbursement-22-0803',
-        label: 'Test reimbursement 22 0803',
-      },
-    ],
-  }),
   formId: VA_FORM_IDS.FORM_22_0803,
   saveInProgress: {
     // messages: {
-    //   inProgress: 'Your education benefits application (22-0803) is in progress.',
-    //   expired: 'Your saved education benefits application (22-0803) has expired. If you want to apply for education benefits, please start a new application.',
+    //   inProgress:
+    //     'Your education benefits application (22-0803) is in progress.',
+    //   expired:
+    //     'Your saved education benefits application (22-0803) has expired. If you want to apply for education benefits, please start a new application.',
     //   saved: 'Your education benefits application has been saved.',
     // },
   },
@@ -68,14 +47,14 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    benefitsInformationChapter: {
+      title: 'Your education benefits information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        hasPreviouslyApplied: {
+          path: 'previously-applied',
+          title: 'Previously Applied',
+          uiSchema: previouslyApplied.uiSchema,
+          schema: previouslyApplied.schema,
         },
         identificationInformation: {
           path: 'identification-information',
