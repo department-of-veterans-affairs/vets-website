@@ -40,9 +40,10 @@ describe('CancelExpenseModal', () => {
   });
 
   it('renders the cancel button', () => {
-    const { getByText } = render(<CancelExpenseModal {...defaultProps} />);
+    const { container } = render(<CancelExpenseModal {...defaultProps} />);
 
-    expect(getByText('Cancel adding this expense')).to.exist;
+    expect($('va-button[text="Cancel adding this expense"]', container)).to
+      .exist;
   });
 
   it('calls onOpenModal when cancel button is clicked', async () => {
@@ -54,7 +55,7 @@ describe('CancelExpenseModal', () => {
 
     const button = $('va-button[text="Cancel adding this expense"]', container);
     expect(button).to.exist;
-    button.__events.click();
+    button.click();
 
     await waitFor(() => {
       expect(onOpen.calledOnce).to.be.true;

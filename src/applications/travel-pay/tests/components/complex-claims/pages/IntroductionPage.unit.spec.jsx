@@ -147,19 +147,15 @@ describe('Travel Pay – IntroductionPage', () => {
           ...getData().travelPay.complexClaim,
           claim: {
             ...getData().travelPay.complexClaim.claim,
-            creation: {
-              isLoading: false,
-              error: null,
-              data: {
-                claimId: '45678',
-              },
+            data: {
+              claimId: '45678',
             },
           },
         },
       },
     };
 
-    const { getByTestId } = renderWithStoreAndRouter(
+    const { getByTestId, container } = renderWithStoreAndRouter(
       <MemoryRouter initialEntries={[initialRoute]}>
         <Routes>
           <Route
@@ -179,7 +175,15 @@ describe('Travel Pay – IntroductionPage', () => {
       },
     );
 
-    // The component should navigate automatically on mount since createdClaim.claimId exists
+    // Click the start button
+    const startButton = $(
+      'va-link-action[text="Start your travel reimbursement claim"]',
+      container,
+    );
+    expect(startButton).to.exist;
+    startButton.click();
+
+    // The component should navigate when the button is clicked
     await waitFor(() => {
       expect(getByTestId('location-display').textContent).to.equal(
         '/file-new-claim/12345/45678/choose-expense',

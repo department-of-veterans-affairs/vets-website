@@ -240,7 +240,12 @@ describe('Redux - actions', () => {
         appointmentType: 'Other',
       };
 
-      await createComplexClaim(submissionData)(mockDispatch);
+      try {
+        await createComplexClaim(submissionData)(mockDispatch);
+        expect.fail('Expected an error to be thrown');
+      } catch (error) {
+        expect(error.message).to.equal('Failed to create claim');
+      }
 
       expect(
         mockDispatch.calledWithMatch({ type: 'CREATE_COMPLEX_CLAIM_STARTED' }),
