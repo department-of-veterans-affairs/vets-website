@@ -18,25 +18,14 @@ import {
   burialBenefitsRecipientPage,
   burialOrganizationMailingAddressPage,
   organizationInformationPage,
-  PreviousNameEntryPage,
   relationshipToVeteranPage,
   veteranBirthInformationPage,
   veteranBurialInformationPage,
   veteranPersonalInformationPage,
-  VeteranPreviousNamesPage,
-  VeteranServedUnderDifferentNamePage,
   veteranIdentificationPage,
   servicePeriodsPages,
+  previousNamePages,
 } from '@bio-aquia/21p-530a-interment-allowance/pages';
-
-// Import review pages
-import { VeteranPreviousNamesReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-previous-names/veteran-previous-names-review';
-import { VeteranServedUnderDifferentNameReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-served-under-different-name/veteran-served-under-different-name-review';
-
-const defaultSchema = {
-  type: 'object',
-  properties: {},
-};
 
 /**
  * Form configuration for VA Form 21P-530a - State or Tribal Organization Application for Interment Allowance
@@ -142,48 +131,7 @@ const formConfig = {
       title: 'Military history',
       pages: {
         ...servicePeriodsPages,
-        veteranServedUnderDifferentName: {
-          path: 'veteran-served-under-different-name',
-          title: 'Previous names',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: VeteranServedUnderDifferentNamePage,
-          CustomPageReview: VeteranServedUnderDifferentNameReviewPage,
-          pagePerItemIndex: 0,
-        },
-        previousNameEntry: {
-          initialData: {
-            tempPreviousName: {
-              isEditing: true,
-            },
-          },
-          path: 'previous-name-entry',
-          title: 'Previous name',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: PreviousNameEntryPage,
-          CustomPageReview: null,
-          depends: formData => {
-            // Show if we're editing/adding a previous name
-            return (
-              formData?.tempPreviousName?.isEditing === true &&
-              formData?.veteranServedUnderDifferentName
-                ?.veteranServedUnderDifferentName === 'yes'
-            );
-          },
-        },
-        veteranPreviousNames: {
-          path: 'review-previous-names',
-          title: 'Previous names',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: VeteranPreviousNamesPage,
-          CustomPageReview: VeteranPreviousNamesReviewPage,
-          pagePerItemIndex: 0,
-          depends: formData =>
-            formData?.veteranServedUnderDifferentName
-              ?.veteranServedUnderDifferentName === 'yes',
-        },
+        ...previousNamePages,
       },
     },
     additionalRemarksChapter: {

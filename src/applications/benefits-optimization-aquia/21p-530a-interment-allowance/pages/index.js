@@ -32,11 +32,7 @@ export {
 
 // Chapter 3: Military history
 export { servicePeriodsPages } from './service-period-pages';
-export {
-  VeteranServedUnderDifferentNamePage,
-} from './veteran-served-under-different-name';
-export { PreviousNameEntryPage } from './previous-name-entry';
-export { VeteranPreviousNamesPage } from './veteran-previous-names';
+export { previousNamePages } from './previous-name-pages';
 
 // Chapter 4: Additional remarks
 export { default as additionalRemarksPage } from './additional-remarks';
