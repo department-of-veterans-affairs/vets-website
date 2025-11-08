@@ -64,26 +64,19 @@ export const AdditionalRemarksPage = ({
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
-        <>
-          <p className="vads-u-margin-bottom--3">
-            Please provide any additional information you would like us to know
-            about this interment allowance claim.
-          </p>
-
-          <TextareaField
-            name="additionalRemarks"
-            label="Additional remarks"
-            value={localData.additionalRemarks}
-            onChange={handleFieldChange}
-            error={errors.additionalRemarks}
-            forceShowError={formSubmitted}
-            schema={remarksSchema}
-            rows={8}
-            maxLength={1000}
-            charCount
-            hint="You have 1,000 characters maximum"
-          />
-        </>
+        <TextareaField
+          name="additionalRemarks"
+          label="Provide any additional remarks about your application"
+          value={localData.additionalRemarks}
+          onChange={handleFieldChange}
+          error={errors.additionalRemarks}
+          forceShowError={formSubmitted}
+          schema={remarksSchema}
+          rows={8}
+          maxLength={1000}
+          charCount
+          hint="You have 1,000 characters maximum"
+        />
       )}
     </PageTemplate>
   );

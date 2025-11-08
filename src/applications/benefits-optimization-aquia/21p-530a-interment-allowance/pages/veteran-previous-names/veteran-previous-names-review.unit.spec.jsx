@@ -41,15 +41,13 @@ describe('VeteranPreviousNamesReviewPage', () => {
   describe('Data Display', () => {
     it('should display previous names', () => {
       const data = {
-        veteranPreviousNames: {
-          previousNames: [
-            {
-              firstName: 'Darth',
-              middleName: '',
-              lastName: 'Vader',
-            },
-          ],
-        },
+        previousNames: [
+          {
+            first: 'Darth',
+            middle: '',
+            last: 'Vader',
+          },
+        ],
       };
 
       const { container } = render(

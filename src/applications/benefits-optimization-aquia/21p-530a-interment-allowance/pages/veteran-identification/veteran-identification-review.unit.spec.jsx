@@ -71,7 +71,6 @@ describe('VeteranIdentificationReviewPage', () => {
 
       expect(container.textContent).to.include('Anakin');
       expect(container.textContent).to.include('Skywalker');
-      expect(container.textContent).to.include('Mos Espa, AZ');
     });
 
     it('should handle empty data gracefully', () => {

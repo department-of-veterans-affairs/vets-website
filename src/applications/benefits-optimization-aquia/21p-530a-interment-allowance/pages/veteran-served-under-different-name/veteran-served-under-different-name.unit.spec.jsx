@@ -51,7 +51,7 @@ describe('VeteranServedUnderDifferentNamePage', () => {
       );
 
       const radioField = container.querySelector(
-        'va-radio[label="Did the Veteran serve under a different name?"]',
+        'va-radio[label="Did the Veteran serve under another name?"]',
       );
       expect(radioField).to.exist;
     });
