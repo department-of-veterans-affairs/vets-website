@@ -184,8 +184,10 @@ export function createComplexClaim(appointmentData) {
       const apptUrl = `${environment.API_URL}/travel_pay/v0/complex_claims`;
       const response = await apiRequest(apptUrl, options);
       dispatch(createComplexClaimSuccess(response));
+      return response;
     } catch (error) {
       dispatch(createComplexClaimFailure(error));
+      throw error;
     }
   };
 }
