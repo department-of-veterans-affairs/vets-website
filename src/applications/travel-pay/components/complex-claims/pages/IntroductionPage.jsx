@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -11,7 +11,7 @@ import {
 import { createComplexClaim } from '../../../redux/actions';
 import {
   selectAppointment,
-  selectCreatedComplexClaim,
+  selectComplexClaim,
 } from '../../../redux/selectors';
 
 const IntroductionPage = () => {
@@ -21,30 +21,28 @@ const IntroductionPage = () => {
   // Get appointment data from the store
   const { data: appointment } = useSelector(selectAppointment);
 
-  // Get the created complex claim data from the store
-  const createdClaim = useSelector(selectCreatedComplexClaim);
+  // Get the complex claim data from the store
+  const complexClaim = useSelector(selectComplexClaim);
 
   const apptId = appointment?.id;
-
-  // Watch for successful claim creation and navigate
-  useEffect(
-    () => {
-      if (createdClaim?.claimId) {
-        navigate(
-          `/file-new-claim/${apptId}/${createdClaim.claimId}/choose-expense`,
-        );
-      }
-    },
-    [createdClaim, navigate, apptId],
-  );
 
   const createClaim = async () => {
     if (!appointment) {
       return;
     }
 
+    // If claim already exists, navigate directly
+    const existingClaimId = complexClaim?.data?.claimId;
+    if (existingClaimId) {
+      navigate(`/file-new-claim/${apptId}/${existingClaimId}/choose-expense`);
+      return;
+    }
+
     try {
-      await dispatch(createComplexClaim(appointment));
+      const result = await dispatch(createComplexClaim(appointment));
+      if (result?.claimId) {
+        navigate(`/file-new-claim/${apptId}/${result.claimId}/choose-expense`);
+      }
     } catch (error) {
       // TODO: Add proper error handling
       // Error will be handled by the Redux error state
