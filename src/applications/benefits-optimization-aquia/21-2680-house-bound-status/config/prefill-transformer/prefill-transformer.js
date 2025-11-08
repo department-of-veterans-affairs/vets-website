@@ -33,6 +33,7 @@ function formatDateOfBirth(dobString) {
 function getMailingAddress(profile) {
   const addressSource =
     profile.vapContactInfo?.mailingAddress ||
+    profile.vaProfile?.vet360ContactInformation?.mailingAddress ||
     profile.vet360ContactInformation?.mailingAddress ||
     profile.mailingAddress ||
     {};

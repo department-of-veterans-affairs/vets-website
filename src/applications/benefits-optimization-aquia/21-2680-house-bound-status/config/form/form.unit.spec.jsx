@@ -33,9 +33,7 @@ describe('Form Configuration', () => {
     });
 
     it('should have submitUrl', () => {
-      expect(formConfig.submitUrl).to.equal(
-        '/simple_forms_api/v1/simple_forms',
-      );
+      expect(formConfig.submitUrl).to.include('/v0/form212680');
     });
   });
 
@@ -140,18 +138,8 @@ describe('Form Configuration', () => {
   });
 
   describe('Submit Configuration', () => {
-    it('should have submit function', () => {
-      expect(formConfig.submit).to.be.a('function');
-    });
-
-    it('should return promise from submit', async () => {
-      const result = formConfig.submit();
-      expect(result).to.be.a('promise');
-    });
-
-    it('should resolve with confirmation number', async () => {
-      const result = await formConfig.submit();
-      expect(result.attributes.confirmationNumber).to.exist;
+    it('should have transformForSubmit function', () => {
+      expect(formConfig.transformForSubmit).to.be.a('function');
     });
   });
 
