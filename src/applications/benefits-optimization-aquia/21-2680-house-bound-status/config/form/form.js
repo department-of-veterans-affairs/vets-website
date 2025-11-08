@@ -227,3 +227,4 @@ const formConfig = {
 };
 
 export { formConfig };
+export default formConfig;
