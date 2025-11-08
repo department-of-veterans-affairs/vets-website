@@ -4,8 +4,8 @@
  * or Permanent Need for Regular Aid & Attendance
  */
 
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components/get-help';
-import PreSubmitInfo from '@bio-aquia/21-2680-house-bound-status/components/pre-submit-info';
 import { prefillTransformer } from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
 import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
 import {
@@ -73,12 +73,14 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/simple_forms_api/v1/simple_forms',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/form212680`,
+  transformForSubmit: submitTransformer,
   trackingPrefix: '21-2680-house-bound-status-',
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent,
+  getHelp: GetHelp,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -95,7 +97,6 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
-  transformForSubmit: submitTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -214,9 +215,15 @@ const formConfig = {
       },
     },
   },
-  preSubmitInfo: PreSubmitInfo,
-  getHelp: GetHelp,
-  footerContent,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteranInformation.veteranFullName',
+    },
+  },
 };
 
 export { formConfig };

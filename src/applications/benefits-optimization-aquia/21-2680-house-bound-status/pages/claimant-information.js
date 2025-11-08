@@ -19,7 +19,7 @@ export const claimantInformationUiSchema = {
   'ui:title': 'Claimant information',
   claimantInformation: {
     claimantFullName: fullNameUI(),
-    claimantDOB: dateOfBirthUI("Claimant's date of birth"),
+    claimantDob: dateOfBirthUI("Claimant's date of birth"),
   },
 };
 
@@ -33,10 +33,10 @@ export const claimantInformationSchema = {
   properties: {
     claimantInformation: {
       type: 'object',
-      required: ['claimantFullName', 'claimantDOB'],
+      required: ['claimantFullName', 'claimantDob'],
       properties: {
         claimantFullName: fullNameSchema,
-        claimantDOB: dateOfBirthSchema,
+        claimantDob: dateOfBirthSchema,
       },
     },
   },

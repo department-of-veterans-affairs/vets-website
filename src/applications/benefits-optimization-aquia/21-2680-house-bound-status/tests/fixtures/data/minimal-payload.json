@@ -1,0 +1,62 @@
+{
+  "veteranInformation": {
+    "veteranFullName": {
+      "first": "James",
+      "middle": "Tiberius",
+      "last": "Kirk",
+      "suffix": ""
+    },
+    "veteranSsn": "123456789",
+    "veteranDob": "2233-03-22"
+  },
+  "veteranAddress": {
+    "veteranAddress": {
+      "street": "123 Starfleet Command Blvd",
+      "street2": "",
+      "street3": "",
+      "city": "San Francisco",
+      "state": "CA",
+      "country": "USA",
+      "postalCode": "94102",
+      "isMilitary": false
+    }
+  },
+  "claimantRelationship": {
+    "relationship": "veteran"
+  },
+  "claimantInformation": {
+    "claimantFullName": {
+      "first": "James",
+      "middle": "Tiberius",
+      "last": "Kirk",
+      "suffix": ""
+    },
+    "claimantDob": "2233-03-22"
+  },
+  "claimantSsn": {
+    "claimantSsn": "123456789"
+  },
+  "claimantAddress": {
+    "claimantAddress": {
+      "street": "123 Starfleet Command Blvd",
+      "street2": "",
+      "street3": "",
+      "city": "San Francisco",
+      "state": "CA",
+      "postalCode": "94102",
+      "country": "USA",
+      "isMilitary": false
+    }
+  },
+  "claimantContact": {
+    "claimantPhoneNumber": "4155551234",
+    "claimantMobilePhone": "4155555678",
+    "claimantEmail": "james.kirk@starfleet.mil"
+  },
+  "benefitType": {
+    "benefitType": "SMC"
+  },
+  "hospitalizationStatus": {
+    "isCurrentlyHospitalized": false
+  }
+}

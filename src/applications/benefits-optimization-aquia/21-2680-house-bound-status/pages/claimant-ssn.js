@@ -15,8 +15,8 @@ import {
  */
 export const claimantSsnUiSchema = {
   'ui:title': 'Claimant Social Security number',
-  claimantSSN: {
-    claimantSSN: ssnUI("Claimant's Social Security number"),
+  claimantSsn: {
+    claimantSsn: ssnUI("Claimant's Social Security number"),
   },
 };
 
@@ -26,13 +26,13 @@ export const claimantSsnUiSchema = {
  */
 export const claimantSsnSchema = {
   type: 'object',
-  required: ['claimantSSN'],
+  required: ['claimantSsn'],
   properties: {
-    claimantSSN: {
+    claimantSsn: {
       type: 'object',
-      required: ['claimantSSN'],
+      required: ['claimantSsn'],
       properties: {
-        claimantSSN: ssnSchema,
+        claimantSsn: ssnSchema,
       },
     },
   },

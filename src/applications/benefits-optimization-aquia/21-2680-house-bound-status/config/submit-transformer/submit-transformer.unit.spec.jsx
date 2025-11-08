@@ -26,19 +26,19 @@ describe('Submit Transformer', () => {
         },
         veteranInformation: {
           veteranFullName: { first: 'John', last: 'Doe' },
-          veteranDOB: '1980-01-01',
-          veteranSSN: '123-45-6789',
+          veteranDob: '1980-01-01',
+          veteranSsn: '123-45-6789',
         },
         claimantInformation: {
           claimantFullName: { first: 'Jane', last: 'Doe' },
-          claimantDOB: '1982-05-15',
+          claimantDob: '1982-05-15',
         },
       };
       const result = submitTransformer(mockFormConfig, formData);
       expect(result.claimantInformation.claimantFullName.first).to.equal(
         'Jane',
       );
-      expect(result.claimantInformation.claimantDOB).to.equal('1982-05-15');
+      expect(result.claimantInformation.claimantDob).to.equal('1982-05-15');
     });
   });
 
@@ -75,11 +75,11 @@ describe('Submit Transformer', () => {
           relationship: 'veteran',
         },
         veteranInformation: {
-          veteranDOB: '1980-01-01',
+          veteranDob: '1980-01-01',
         },
       };
       const result = submitTransformer(mockFormConfig, formData);
-      expect(result.claimantInformation.claimantDOB).to.equal('1980-01-01');
+      expect(result.claimantInformation.claimantDob).to.equal('1980-01-01');
     });
 
     it('should copy veteran SSN to claimant when claimantRelationship is veteran', () => {
@@ -88,12 +88,12 @@ describe('Submit Transformer', () => {
           relationship: 'veteran',
         },
         veteranInformation: {
-          veteranSSN: '123-45-6789',
+          veteranSsn: '123-45-6789',
         },
       };
       const result = submitTransformer(mockFormConfig, formData);
-      expect(result.claimantSSN).to.exist;
-      expect(result.claimantSSN.claimantSSN).to.equal('123-45-6789');
+      expect(result.claimantSsn).to.exist;
+      expect(result.claimantSsn.claimantSsn).to.equal('123-45-6789');
     });
 
     it('should copy veteran address to claimant when claimantRelationship is veteran', () => {
@@ -141,8 +141,8 @@ describe('Submit Transformer', () => {
         },
         veteranInformation: {
           veteranFullName: { first: 'Alice', last: 'Smith' },
-          veteranDOB: '1975-06-20',
-          veteranSSN: '987-65-4321',
+          veteranDob: '1975-06-20',
+          veteranSsn: '987-65-4321',
         },
         veteranAddress: {
           veteranAddress: {
@@ -164,8 +164,8 @@ describe('Submit Transformer', () => {
       expect(result.claimantInformation.claimantFullName.last).to.equal(
         'Smith',
       );
-      expect(result.claimantInformation.claimantDOB).to.equal('1975-06-20');
-      expect(result.claimantSSN.claimantSSN).to.equal('987-65-4321');
+      expect(result.claimantInformation.claimantDob).to.equal('1975-06-20');
+      expect(result.claimantSsn.claimantSsn).to.equal('987-65-4321');
       expect(result.claimantAddress.claimantAddress.street).to.equal(
         '456 Oak Ave',
       );
@@ -183,7 +183,7 @@ describe('Submit Transformer', () => {
       const result = submitTransformer(mockFormConfig, formData);
       expect(result.claimantInformation).to.exist;
       expect(result.claimantInformation.claimantFullName.first).to.equal('');
-      expect(result.claimantInformation.claimantDOB).to.equal('');
+      expect(result.claimantInformation.claimantDob).to.equal('');
     });
 
     it('should handle missing veteran address gracefully', () => {
@@ -405,8 +405,8 @@ describe('Submit Transformer', () => {
         },
         veteranInformation: {
           veteranFullName: { first: 'John', last: 'Doe' },
-          veteranDOB: '1980-01-01',
-          veteranSSN: '123-45-6789',
+          veteranDob: '1980-01-01',
+          veteranSsn: '123-45-6789',
         },
         hospitalizationStatus: {
           isCurrentlyHospitalized: false,
@@ -421,7 +421,7 @@ describe('Submit Transformer', () => {
       expect(result.claimantInformation.claimantFullName.first).to.equal(
         'John',
       );
-      expect(result.claimantInformation.claimantDOB).to.equal('1980-01-01');
+      expect(result.claimantInformation.claimantDob).to.equal('1980-01-01');
 
       // Hospitalization details should be removed
       expect(result.hospitalizationDate).to.be.undefined;

@@ -101,8 +101,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
           last: fullName.last || '',
           suffix: fullName.suffix || '',
         },
-        veteranDOB: dateOfBirth,
-        veteranSSN: '', // Not prefilled for security
+        veteranDob: dateOfBirth,
+        veteranSsn: '', // Not prefilled for security
         // Spread saved data on top to overwrite defaults
         ...formData?.veteranInformation,
       },

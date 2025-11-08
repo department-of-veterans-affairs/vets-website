@@ -23,8 +23,8 @@ export const veteranInformationUiSchema = {
     'Confirm the personal information we have on file for the Veteran.',
   veteranInformation: {
     veteranFullName: fullNameUI(),
-    veteranSSN: ssnUI('Social Security number'),
-    veteranDOB: dateOfBirthUI(),
+    veteranSsn: ssnUI('Social Security number'),
+    veteranDob: dateOfBirthUI(),
   },
 };
 
@@ -38,11 +38,11 @@ export const veteranInformationSchema = {
   properties: {
     veteranInformation: {
       type: 'object',
-      required: ['veteranFullName', 'veteranSSN', 'veteranDOB'],
+      required: ['veteranFullName', 'veteranSsn', 'veteranDob'],
       properties: {
         veteranFullName: fullNameSchema,
-        veteranSSN: ssnSchema,
-        veteranDOB: dateOfBirthSchema,
+        veteranSsn: ssnSchema,
+        veteranDob: dateOfBirthSchema,
       },
     },
   },

@@ -1,0 +1,78 @@
+{
+  "veteranInformation": {
+    "veteranFullName": {
+      "first": "Jean-Luc",
+      "middle": "Pierre",
+      "last": "Picard",
+      "suffix": ""
+    },
+    "veteranSsn": "987654321",
+    "veteranDob": "2305-07-13"
+  },
+  "veteranAddress": {
+    "veteranAddress": {
+      "street": "456 Enterprise Way",
+      "street2": "Deck 1",
+      "street3": "Captain's Quarters",
+      "city": "La Barre",
+      "state": "NY",
+      "country": "USA",
+      "postalCode": "10001",
+      "isMilitary": false
+    }
+  },
+  "claimantRelationship": {
+    "relationship": "spouse"
+  },
+  "claimantInformation": {
+    "claimantFullName": {
+      "first": "Beverly",
+      "middle": "Anne",
+      "last": "Crusher",
+      "suffix": ""
+    },
+    "claimantDob": "2324-10-13"
+  },
+  "claimantSsn": {
+    "claimantSsn": "111223333"
+  },
+  "claimantAddress": {
+    "claimantAddress": {
+      "street": "789 Medical Bay Road",
+      "street2": "Apt 3B",
+      "street3": "",
+      "city": "San Diego",
+      "state": "CA",
+      "country": "USA",
+      "postalCode": "92101",
+      "isMilitary": false
+    }
+  },
+  "claimantContact": {
+    "claimantPhoneNumber": "6195551234",
+    "claimantMobilePhone": "6195555678",
+    "claimantEmail": "beverly.crusher@starfleet.mil"
+  },
+  "benefitType": {
+    "benefitType": "SMP"
+  },
+  "hospitalizationStatus": {
+    "isCurrentlyHospitalized": true
+  },
+  "hospitalizationDate": {
+    "admissionDate": "2024-01-15"
+  },
+  "hospitalizationFacility": {
+    "facilityName": "Starfleet Medical Center",
+    "facilityAddress": {
+      "street": "1 Starfleet Medical Plaza",
+      "street2": "Building A",
+      "street3": "",
+      "city": "San Francisco",
+      "state": "CA",
+      "country": "USA",
+      "postalCode": "94102",
+      "isMilitary": true
+    }
+  }
+}

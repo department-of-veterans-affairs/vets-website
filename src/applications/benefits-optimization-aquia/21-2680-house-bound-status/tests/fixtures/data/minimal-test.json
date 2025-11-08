@@ -1,14 +1,14 @@
 {
   "data": {
-    "veteranIdentification": {
+    "veteranInformation": {
       "veteranFullName": {
         "first": "James",
         "middle": "Tiberius",
         "last": "Kirk",
         "suffix": ""
       },
-      "veteranSSN": "123-45-6789",
-      "veteranDOB": "2233-03-22"
+      "veteranSsn": "123456789",
+      "veteranDob": "2233-03-22"
     },
     "veteranAddress": {
       "veteranAddress": {
@@ -23,7 +23,7 @@
       }
     },
     "claimantRelationship": {
-      "claimantRelationship": "veteran"
+      "relationship": "veteran"
     },
     "claimantContact": {
       "claimantPhoneNumber": "4155551234",

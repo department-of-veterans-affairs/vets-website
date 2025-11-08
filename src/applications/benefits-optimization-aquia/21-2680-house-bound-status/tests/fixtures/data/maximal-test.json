@@ -1,14 +1,14 @@
 {
   "data": {
-    "veteranIdentification": {
+    "veteranInformation": {
       "veteranFullName": {
         "first": "Jean-Luc",
         "middle": "Pierre",
         "last": "Picard",
         "suffix": ""
       },
-      "veteranSSN": "987-65-4321",
-      "veteranDOB": "2305-07-13"
+      "veteranSsn": "987654321",
+      "veteranDob": "2305-07-13"
     },
     "veteranAddress": {
       "veteranAddress": {
@@ -23,7 +23,7 @@
       }
     },
     "claimantRelationship": {
-      "claimantRelationship": "spouse"
+      "relationship": "spouse"
     },
     "claimantInformation": {
       "claimantFullName": {
@@ -32,10 +32,10 @@
         "last": "Crusher",
         "suffix": ""
       },
-      "claimantDOB": "2324-10-13"
+      "claimantDob": "2324-10-13"
     },
-    "claimantSSN": {
-      "claimantSSN": "111-22-3333"
+    "claimantSsn": {
+      "claimantSsn": "111223333"
     },
     "claimantAddress": {
       "claimantAddress": {

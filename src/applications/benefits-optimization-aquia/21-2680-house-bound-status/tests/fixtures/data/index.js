@@ -3,3 +3,5 @@
 
 export { default as minimalTest } from './minimal-test.json';
 export { default as maximalTest } from './maximal-test.json';
+export { default as minimalPayload } from './minimal-payload.json';
+export { default as maximalPayload } from './maximal-payload.json';
