@@ -1,6 +1,7 @@
 // @ts-check
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -8,8 +9,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import previouslyApplied from '../pages/previouslyApplied';
 import vaBenefitProgram from '../pages/vaBenefitProgram';
-import mailingAddress from '../pages/mailingAddress';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -64,26 +63,19 @@ const formConfig = {
         },
       },
     },
-    mailingAddressChapter: {
-      title: 'Mailing address',
+    personalInformationChapter: {
+      title: 'Your personal information',
       pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-        },
-      },
-    },
-    contactInformationChapter: {
-      title: 'Contact information',
-      pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
-        },
+        ...personalInformationPage({
+          personalInfoConfig: {
+            name: { show: true, required: false },
+            ssn: { show: true, required: false },
+            dateOfBirth: { show: true, required: false },
+          },
+          dataAdapter: {
+            ssnPath: 'application.claimant.ssn',
+          },
+        }),
       },
     },
   },
