@@ -3,19 +3,33 @@ import {
   addressSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-export default {
+export const burialOrganizationMailingAddressPage = {
   uiSchema: {
-    burialOrganizationMailingAddress: addressUI({
-      omit: ['isMilitary', 'street3'],
-    }),
+    burialInformation: {
+      recipientOrganization: {
+        address: addressUI({
+          omit: ['isMilitary', 'street3'],
+        }),
+      },
+    },
   },
   schema: {
     type: 'object',
-    required: ['burialOrganizationMailingAddress'],
     properties: {
-      burialOrganizationMailingAddress: addressSchema({
-        omit: ['isMilitary', 'street3'],
-      }),
+      burialInformation: {
+        type: 'object',
+        properties: {
+          recipientOrganization: {
+            type: 'object',
+            required: ['address'],
+            properties: {
+              address: addressSchema({
+                omit: ['isMilitary', 'street3'],
+              }),
+            },
+          },
+        },
+      },
     },
   },
 };

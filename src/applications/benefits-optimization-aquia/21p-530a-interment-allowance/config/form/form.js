@@ -17,7 +17,7 @@ import {
   additionalRemarksPage,
   burialBenefitsRecipientPage,
   burialOrganizationMailingAddressPage,
-  organizationInformationPage,
+  organizationNamePage,
   relationshipToVeteranPage,
   veteranBirthInformationPage,
   veteranBurialInformationPage,
@@ -81,8 +81,8 @@ const formConfig = {
         organizationInformation: {
           path: 'organization-information',
           title: "Your organization's information",
-          uiSchema: organizationInformationPage.uiSchema,
-          schema: organizationInformationPage.schema,
+          uiSchema: organizationNamePage.uiSchema,
+          schema: organizationNamePage.schema,
         },
         burialBenefitsRecipient: {
           path: 'burial-benefits-recipient',

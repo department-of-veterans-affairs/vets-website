@@ -3,7 +3,7 @@ import {
   textareaSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-export default {
+export const additionalRemarksPage = {
   uiSchema: {
     additionalRemarks: textareaUI({
       title: 'Provide any additional remarks about your application',

@@ -3,7 +3,7 @@ import {
   ssnOrVaFileNumberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-export default {
+export const veteranIdentificationPage = {
   uiSchema: {
     veteranIdentification: ssnOrVaFileNumberUI(),
   },

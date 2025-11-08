@@ -7,11 +7,11 @@ import {
   addressSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-export default {
+export const veteranBurialInformationPage = {
   uiSchema: {
     veteranDeathDate: currentOrPastDateUI('Date of death'),
     veteranBurialDate: currentOrPastDateUI('Date of burial'),
-    cemeteryName: textUI('Name'),
+    cemeteryName: textUI('Cemetery Name'),
     cemeteryLocation: addressUI({
       omit: [
         'isMilitary',

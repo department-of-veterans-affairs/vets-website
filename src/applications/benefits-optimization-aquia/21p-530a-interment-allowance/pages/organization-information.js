@@ -3,15 +3,20 @@ import {
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-export default {
+export const organizationNamePage = {
   uiSchema: {
-    organizationInformation: textUI('Organization name'),
+    burialInformation: {
+      nameOfStateCemeteryOrTribalOrganization: textUI('Organization name'),
+    },
   },
   schema: {
     type: 'object',
-    required: ['organizationInformation'],
     properties: {
-      organizationInformation: textSchema,
+      burialInformation: {
+        type: 'object',
+        required: ['nameOfStateCemeteryOrTribalOrganization'],
+        properties: { nameOfStateCemeteryOrTribalOrganization: textSchema },
+      },
     },
   },
 };

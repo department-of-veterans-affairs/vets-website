@@ -3,19 +3,35 @@ import {
   textSchema,
   phoneUI,
   phoneSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-export default {
+export const burialBenefitsRecipientPage = {
   uiSchema: {
-    fullName: textUI('Full name'),
-    phoneNumber: phoneUI('Phone number'),
+    burialInformation: {
+      recipientOrganization: {
+        ...titleUI('Burial benefits recipient'),
+        name: textUI('Full name'),
+        phoneNumber: phoneUI('Phone number'),
+      },
+    },
   },
   schema: {
     type: 'object',
-    required: ['fullName', 'phoneNumber'],
     properties: {
-      fullName: textSchema,
-      phoneNumber: phoneSchema,
+      burialInformation: {
+        type: 'object',
+        properties: {
+          recipientOrganization: {
+            type: 'object',
+            required: ['name', 'phoneNumber'],
+            properties: {
+              name: textSchema,
+              phoneNumber: phoneSchema,
+            },
+          },
+        },
+      },
     },
   },
 };

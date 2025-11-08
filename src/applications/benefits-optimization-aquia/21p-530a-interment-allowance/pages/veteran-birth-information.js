@@ -5,7 +5,7 @@ import {
   addressSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-export default {
+export const veteranBirthInformationPage = {
   uiSchema: {
     veteranBirthDate: currentOrPastDateUI('Date of birth'),
     veteranBirthLocation: addressUI({

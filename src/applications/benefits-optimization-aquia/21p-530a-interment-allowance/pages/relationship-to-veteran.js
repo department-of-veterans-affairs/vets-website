@@ -8,18 +8,25 @@ const relationshipOptions = {
   tribalOrganization: "I'm from a tribal organization",
 };
 
-export default {
+export const relationshipToVeteranPage = {
   uiSchema: {
-    relationshipToVeteran: radioUI({
-      title: 'What is your relationship to the Veteran?',
-      labels: relationshipOptions,
-    }),
+    burialInformation: {
+      relationshipToVeteran: radioUI({
+        title: 'What is your relationship to the Veteran?',
+        labels: relationshipOptions,
+      }),
+    },
   },
   schema: {
     type: 'object',
-    required: ['relationshipToVeteran'],
     properties: {
-      relationshipToVeteran: radioSchema(Object.keys(relationshipOptions)),
+      burialInformation: {
+        type: 'object',
+        required: ['relationshipToVeteran'],
+        properties: {
+          relationshipToVeteran: radioSchema(Object.keys(relationshipOptions)),
+        },
+      },
     },
   },
 };
