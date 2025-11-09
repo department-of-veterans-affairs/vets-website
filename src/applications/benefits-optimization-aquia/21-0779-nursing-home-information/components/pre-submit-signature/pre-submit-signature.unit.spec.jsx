@@ -37,8 +37,10 @@ describe('PreSubmitSignature Component', () => {
     it('should render without errors', () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -56,8 +58,10 @@ describe('PreSubmitSignature Component', () => {
     it('should display legal warning text', () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -76,8 +80,10 @@ describe('PreSubmitSignature Component', () => {
     it('should display officials name in statement', () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -95,8 +101,10 @@ describe('PreSubmitSignature Component', () => {
     it('should render VaStatementOfTruth component', () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'Jane',
-          lastName: 'Smith',
+          fullName: {
+            first: 'Jane',
+            last: 'Smith',
+          },
         },
       };
       const { container } = render(
@@ -112,10 +120,12 @@ describe('PreSubmitSignature Component', () => {
       expect(statementOfTruth).to.exist;
     });
 
-    it('should handle names with only firstName', () => {
+    it('should handle names with only first name', () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
+          fullName: {
+            first: 'John',
+          },
         },
       };
       const { container } = render(
@@ -130,10 +140,12 @@ describe('PreSubmitSignature Component', () => {
       expect(container.textContent).to.include('John');
     });
 
-    it('should handle names with only lastName', () => {
+    it('should handle names with only last name', () => {
       const formData = {
         nursingOfficialInformation: {
-          lastName: 'Doe',
+          fullName: {
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -205,8 +217,10 @@ describe('PreSubmitSignature Component', () => {
     it('should call dispatch when signature data changes', async () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       render(
@@ -239,8 +253,10 @@ describe('PreSubmitSignature Component', () => {
 
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
 
@@ -263,8 +279,10 @@ describe('PreSubmitSignature Component', () => {
       const callback = sandbox.spy();
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
 
@@ -288,8 +306,10 @@ describe('PreSubmitSignature Component', () => {
     it('should not show errors when showError is false', () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -308,8 +328,10 @@ describe('PreSubmitSignature Component', () => {
     it('should show error when showError is true and signature does not match', async () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container, rerender } = render(
@@ -343,8 +365,10 @@ describe('PreSubmitSignature Component', () => {
     it('should show checkbox error when showError is true and not checked', async () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -380,8 +404,10 @@ describe('PreSubmitSignature Component', () => {
 
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
 
@@ -407,8 +433,10 @@ describe('PreSubmitSignature Component', () => {
     it('should handle form with existing signature data', () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
         signature: 'John Doe',
         certificationChecked: true,
@@ -430,8 +458,10 @@ describe('PreSubmitSignature Component', () => {
     it('should accept formData prop', () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'Test',
-          lastName: 'User',
+          fullName: {
+            first: 'Test',
+            last: 'User',
+          },
         },
       };
       const { container } = render(
@@ -449,8 +479,10 @@ describe('PreSubmitSignature Component', () => {
     it('should accept showError prop', () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'Test',
-          lastName: 'User',
+          fullName: {
+            first: 'Test',
+            last: 'User',
+          },
         },
       };
       const { container } = render(
@@ -468,8 +500,10 @@ describe('PreSubmitSignature Component', () => {
     it('should accept onSectionComplete callback', () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'Test',
-          lastName: 'User',
+          fullName: {
+            first: 'Test',
+            last: 'User',
+          },
         },
       };
       const callback = sandbox.spy();
@@ -490,8 +524,10 @@ describe('PreSubmitSignature Component', () => {
     it('should handle input change event', async () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -520,8 +556,10 @@ describe('PreSubmitSignature Component', () => {
     it('should handle input blur event', async () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -543,8 +581,10 @@ describe('PreSubmitSignature Component', () => {
     it('should handle checkbox change event', async () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -573,8 +613,10 @@ describe('PreSubmitSignature Component', () => {
     it('should trim signature value on input change', async () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -604,8 +646,10 @@ describe('PreSubmitSignature Component', () => {
       const callback = sandbox.spy();
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -645,8 +689,10 @@ describe('PreSubmitSignature Component', () => {
       const callback = sandbox.spy();
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -683,8 +729,10 @@ describe('PreSubmitSignature Component', () => {
     it('should handle extra spaces in signature', async () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -713,8 +761,10 @@ describe('PreSubmitSignature Component', () => {
       const callback = sandbox.spy();
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -751,8 +801,10 @@ describe('PreSubmitSignature Component', () => {
     it('should handle empty signature value', async () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(
@@ -786,8 +838,10 @@ describe('PreSubmitSignature Component', () => {
     it('should handle names with special characters', () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John-Paul',
-          lastName: "O'Brien",
+          fullName: {
+            first: 'John-Paul',
+            last: "O'Brien",
+          },
         },
       };
       const { container } = render(
@@ -805,8 +859,10 @@ describe('PreSubmitSignature Component', () => {
     it('should handle names with multiple spaces', () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'Mary Ann',
-          lastName: 'Van Der Berg',
+          fullName: {
+            first: 'Mary Ann',
+            last: 'Van Der Berg',
+          },
         },
       };
       const { container } = render(
@@ -824,8 +880,10 @@ describe('PreSubmitSignature Component', () => {
     it('should not dispatch if signature values have not changed', () => {
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
         signature: '',
         certificationChecked: false,
@@ -850,8 +908,10 @@ describe('PreSubmitSignature Component', () => {
       const callback = sandbox.spy();
       const formData = {
         nursingOfficialInformation: {
-          firstName: 'John',
-          lastName: 'Doe',
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
         },
       };
       const { container } = render(

@@ -1,8 +1,10 @@
 {
   "data": {
     "nursingOfficialInformation": {
-      "firstName": "Evazan",
-      "lastName": "Ponda",
+      "fullName": {
+        "first": "Evazan",
+        "last": "Ponda"
+      },
       "jobTitle": "Medical Director",
       "phoneNumber": "5055551138"
     },

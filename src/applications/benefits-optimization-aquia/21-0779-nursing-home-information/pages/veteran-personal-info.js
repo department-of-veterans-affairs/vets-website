@@ -20,7 +20,13 @@ import { isPatientVeteran } from './helpers';
 export const veteranPersonalInfoUiSchema = {
   'ui:title': "Veteran's name and date of birth",
   veteranPersonalInfo: {
-    fullName: fullNameNoSuffixUI(),
+    fullName: {
+      ...fullNameNoSuffixUI(),
+      middle: {
+        ...fullNameNoSuffixUI().middle,
+        'ui:title': 'Middle initial',
+      },
+    },
     dateOfBirth: dateOfBirthUI(),
   },
   'ui:options': {
@@ -34,11 +40,6 @@ export const veteranPersonalInfoUiSchema = {
 
       return {
         'ui:description': subtitle,
-        veteranPersonalInfo: {
-          dateOfBirth: {
-            'ui:description': 'Enter the date as MM/DD/YYYY',
-          },
-        },
       };
     },
   },
@@ -48,6 +49,17 @@ export const veteranPersonalInfoUiSchema = {
  * JSON Schema for Veteran Personal Info page
  * Validates veteran name and date of birth
  */
+const fullNameSchemaWithMiddleInitial = {
+  ...fullNameNoSuffixSchema,
+  properties: {
+    ...fullNameNoSuffixSchema.properties,
+    middle: {
+      type: 'string',
+      maxLength: 1,
+    },
+  },
+};
+
 export const veteranPersonalInfoSchema = {
   type: 'object',
   required: ['veteranPersonalInfo'],
@@ -56,7 +68,7 @@ export const veteranPersonalInfoSchema = {
       type: 'object',
       required: ['fullName', 'dateOfBirth'],
       properties: {
-        fullName: fullNameNoSuffixSchema,
+        fullName: fullNameSchemaWithMiddleInitial,
         dateOfBirth: dateOfBirthSchema,
       },
     },

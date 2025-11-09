@@ -16,7 +16,6 @@ import { getPatientName } from './helpers';
  * Certifies the level of care the patient is receiving
  */
 export const certificationLevelOfCareUiSchema = {
-  'ui:title': 'Certification of level of care',
   certificationLevelOfCare: {
     levelOfCare: radioUI({
       title: 'Level of care',

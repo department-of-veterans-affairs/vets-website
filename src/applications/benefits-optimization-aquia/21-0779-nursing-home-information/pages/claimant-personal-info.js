@@ -19,19 +19,14 @@ export const claimantPersonalInfoUiSchema = {
   'ui:title': "Patient's name and date of birth",
   'ui:description': 'Tell us about the patient in the nursing home',
   claimantPersonalInfo: {
-    claimantFullName: fullNameNoSuffixUI(),
-    claimantDateOfBirth: dateOfBirthUI(),
-  },
-  'ui:options': {
-    updateUiSchema: () => {
-      return {
-        claimantPersonalInfo: {
-          claimantDateOfBirth: {
-            'ui:description': 'Enter the date as MM/DD/YYYY',
-          },
-        },
-      };
+    claimantFullName: {
+      ...fullNameNoSuffixUI(),
+      middle: {
+        ...fullNameNoSuffixUI().middle,
+        'ui:title': 'Middle initial',
+      },
     },
+    claimantDateOfBirth: dateOfBirthUI(),
   },
 };
 
@@ -39,6 +34,17 @@ export const claimantPersonalInfoUiSchema = {
  * JSON Schema for Claimant Personal Info page
  * Validates patient name and date of birth
  */
+const fullNameSchemaWithMiddleInitial = {
+  ...fullNameNoSuffixSchema,
+  properties: {
+    ...fullNameNoSuffixSchema.properties,
+    middle: {
+      type: 'string',
+      maxLength: 1,
+    },
+  },
+};
+
 export const claimantPersonalInfoSchema = {
   type: 'object',
   required: ['claimantPersonalInfo'],
@@ -47,7 +53,7 @@ export const claimantPersonalInfoSchema = {
       type: 'object',
       required: ['claimantFullName', 'claimantDateOfBirth'],
       properties: {
-        claimantFullName: fullNameNoSuffixSchema,
+        claimantFullName: fullNameSchemaWithMiddleInitial,
         claimantDateOfBirth: dateOfBirthSchema,
       },
     },
