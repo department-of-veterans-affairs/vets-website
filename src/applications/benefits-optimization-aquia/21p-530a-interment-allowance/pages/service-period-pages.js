@@ -96,7 +96,11 @@ const serviceBranchPage = {
       title: 'Service branch',
       nounSingular: servicePeriodOptions.nounSingular,
     }),
-    serviceBranch: serviceBranchUI(),
+    serviceBranch: serviceBranchUI({
+      title: 'Branch of service',
+      hint:
+        'Start entering the Veteran’s branch of service. Then select the best option from the dropdown.',
+    }),
   },
   schema: {
     type: 'object',

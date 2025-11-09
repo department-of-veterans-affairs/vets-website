@@ -14,8 +14,8 @@ export const veteranBirthInformationPage = {
     veteranInformation: {
       dateOfBirth: currentOrPastDateUI('Date of birth'),
       placeOfBirth: {
-        city: textUI('City'),
-        state: selectUI('State'),
+        city: textUI('City of birth'),
+        state: selectUI('State of birth'),
       },
     },
   },
