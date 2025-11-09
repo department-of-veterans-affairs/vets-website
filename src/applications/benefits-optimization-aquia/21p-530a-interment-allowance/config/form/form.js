@@ -110,7 +110,7 @@ const formConfig = {
           uiSchema: veteranPersonalInformationPage.uiSchema,
           schema: veteranPersonalInformationPage.schema,
         },
-        veteranSsnFileNumber: {
+        veteranIdentification: {
           path: 'veteran-identification',
           title: 'Veteran identification information',
           uiSchema: veteranIdentificationPage.uiSchema,
