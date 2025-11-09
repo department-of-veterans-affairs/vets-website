@@ -9,6 +9,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import previouslyApplied from '../pages/previouslyApplied';
 import vaBenefitProgram from '../pages/vaBenefitProgram';
+import payeeNumber from '../pages/payeeNumber';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -76,6 +77,12 @@ const formConfig = {
             ssnPath: 'application.claimant.ssn',
           },
         }),
+        payeeNumber: {
+          path: 'payee-number',
+          title: 'Payee Number',
+          uiSchema: payeeNumber.uiSchema,
+          schema: payeeNumber.schema,
+        },
       },
     },
   },

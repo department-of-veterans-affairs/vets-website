@@ -1,15 +1,10 @@
 // @ts-check
 import React from 'react';
 import {
-  radioSchema,
-  radioUI,
+  yesNoSchema,
+  yesNoUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-const Options = {
-  yes: 'Yes',
-  no: 'No',
-};
 
 function applicationWarning() {
   return (
@@ -40,23 +35,22 @@ export default {
   uiSchema: {
     ...titleUI('Your VA education benefits'),
     hasPreviouslyApplied: {
-      ...radioUI({
+      ...yesNoUI({
         title: 'Have you previously applied for VA education benefits?',
         required: () => true,
-        labels: Options,
       }),
     },
     'view:applicationWarning': {
       'ui:description': applicationWarning,
       'ui:options': {
-        hideIf: form => form.hasPreviouslyApplied !== 'no',
+        hideIf: form => form.hasPreviouslyApplied !== false,
       },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      hasPreviouslyApplied: radioSchema(Object.keys(Options)),
+      hasPreviouslyApplied: yesNoSchema,
       'view:applicationWarning': { type: 'object', properties: {} },
     },
     required: ['hasPreviouslyApplied'],
