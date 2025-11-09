@@ -15,6 +15,7 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { DEFAULT_BRANCH_LABELS } from 'platform/forms-system/src/js/web-component-patterns/serviceBranchPattern';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
 const formatDate = dateStr => {
@@ -47,7 +48,11 @@ const servicePeriodOptions = {
     !item.placeLeftService,
   text: {
     summaryTitle: "Review the Veteran's service periods",
-    getItemName: item => `${capitalize(item?.serviceBranch)}`,
+    getItemName: item =>
+      item?.serviceBranch
+        ? DEFAULT_BRANCH_LABELS[item.serviceBranch]?.label ||
+          capitalize(item.serviceBranch)
+        : '',
     cardDescription: item =>
       `Entry date (${formatDate(
         item?.dateEnteredService,
@@ -107,7 +112,10 @@ const serviceDatesPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.serviceBranch ? `${formData.serviceBranch}` : 'Service Dates',
+        formData?.serviceBranch
+          ? DEFAULT_BRANCH_LABELS[formData.serviceBranch]?.label ||
+            formData.serviceBranch
+          : 'Service Dates',
     ),
     dateEnteredService: currentOrPastDateUI('Service start date'),
     dateLeftService: currentOrPastDateUI('Service end date'),
