@@ -4,40 +4,45 @@
  * or Permanent Need for Regular Aid & Attendance
  */
 
-import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components/get-help';
-import PreSubmitInfo from '@bio-aquia/21-2680-house-bound-status/components/pre-submit-info';
-import { prefillTransformer } from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
-import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
-import {
-  SUBTITLE,
-  TITLE,
-} from '@bio-aquia/21-2680-house-bound-status/constants';
-import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
-import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
-import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-// Import all page components from barrel export
 import {
-  BenefitTypePage,
-  BenefitTypeReviewPage,
-  ClaimantAddressPage,
-  ClaimantContactPage,
-  ClaimantInformationPage,
-  ClaimantInformationReviewPage,
-  ClaimantRelationshipPage,
-  ClaimantSSNPage,
-  HospitalizationDatePage,
-  HospitalizationDateReviewPage,
-  HospitalizationFacilityPage,
-  HospitalizationFacilityReviewPage,
-  HospitalizationStatusPage,
-  HospitalizationStatusReviewPage,
-  VeteranAddressPage,
-  VeteranAddressReviewPage,
-  VeteranInformationPage,
-  VeteranInformationReviewPage,
+  TITLE,
+  SUBTITLE,
+} from '@bio-aquia/21-2680-house-bound-status/constants';
+import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components';
+import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
+import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
+import { prefillTransformer } from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
+import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
+import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
+
+// Import page configurations (uiSchema and schema)
+import {
+  veteranInformationUiSchema,
+  veteranInformationSchema,
+  veteranAddressUiSchema,
+  veteranAddressSchema,
+  claimantRelationshipUiSchema,
+  claimantRelationshipSchema,
+  claimantInformationUiSchema,
+  claimantInformationSchema,
+  claimantSsnUiSchema,
+  claimantSsnSchema,
+  claimantAddressUiSchema,
+  claimantAddressSchema,
+  claimantContactUiSchema,
+  claimantContactSchema,
+  benefitTypeUiSchema,
+  benefitTypeSchema,
+  hospitalizationStatusUiSchema,
+  hospitalizationStatusSchema,
+  hospitalizationDateUiSchema,
+  hospitalizationDateSchema,
+  hospitalizationFacilityUiSchema,
+  hospitalizationFacilitySchema,
 } from '@bio-aquia/21-2680-house-bound-status/pages';
 
 /**
@@ -69,12 +74,14 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/simple_forms_api/v1/simple_forms',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/form212680`,
+  transformForSubmit: submitTransformer,
   trackingPrefix: '21-2680-house-bound-status-',
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent,
+  getHelp: GetHelp,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -91,7 +98,6 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
-  transformForSubmit: submitTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -107,18 +113,14 @@ const formConfig = {
         veteranInformation: {
           path: 'veteran-information',
           title: "Veteran's information",
-          CustomPage: VeteranInformationPage,
-          CustomPageReview: VeteranInformationReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: veteranInformationUiSchema,
+          schema: veteranInformationSchema,
         },
         veteranAddress: {
           path: 'veteran-address',
           title: 'Veteran address',
-          CustomPage: VeteranAddressPage,
-          CustomPageReview: VeteranAddressReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: veteranAddressUiSchema,
+          schema: veteranAddressSchema,
         },
       },
     },
@@ -130,59 +132,44 @@ const formConfig = {
         claimantRelationship: {
           path: 'claimant-relationship',
           title: 'Who is the claim for?',
-          CustomPage: ClaimantRelationshipPage,
-          // Show comprehensive review with all claimant fields - edit navigates to first claimant page
-          CustomPageReview: ClaimantInformationReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: claimantRelationshipUiSchema,
+          schema: claimantRelationshipSchema,
         },
         claimantInformation: {
           path: 'claimant-information',
           title: 'Claimant information',
-          CustomPage: ClaimantInformationPage,
-          // Hidden page - user edits this via claimant-relationship review section
-          CustomPageReview: () => null,
+          uiSchema: claimantInformationUiSchema,
+          schema: claimantInformationSchema,
           // Hidden when veteran is claimant
           depends: formData =>
             formData?.claimantRelationship?.relationship !== 'veteran',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
         },
         claimantSSN: {
           path: 'claimant-ssn',
           title: 'Claimant Social Security number',
-          CustomPage: ClaimantSSNPage,
-          // Hidden page - user edits this via claimant-relationship review section
-          CustomPageReview: () => null,
+          uiSchema: claimantSsnUiSchema,
+          schema: claimantSsnSchema,
           // Hidden when veteran is claimant
           depends: formData =>
             formData?.claimantRelationship?.relationship !== 'veteran',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
         },
         claimantAddress: {
           path: 'claimant-address',
           title: 'Claimant address',
-          CustomPage: ClaimantAddressPage,
-          // Hidden page - user edits this via claimant-relationship review section
-          CustomPageReview: () => null,
+          uiSchema: claimantAddressUiSchema,
+          schema: claimantAddressSchema,
           // Hidden when veteran is claimant
           depends: formData =>
             formData?.claimantRelationship?.relationship !== 'veteran',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
         },
         claimantContact: {
           path: 'claimant-contact',
           title: 'Contact information',
-          CustomPage: ClaimantContactPage,
-          // Hidden page - user edits this via claimant-relationship review section
-          CustomPageReview: () => null,
+          uiSchema: claimantContactUiSchema,
+          schema: claimantContactSchema,
           // Hidden when veteran is claimant
           depends: formData =>
             formData?.claimantRelationship?.relationship !== 'veteran',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
         },
       },
     },
@@ -194,10 +181,8 @@ const formConfig = {
         benefitType: {
           path: 'benefit-type',
           title: 'Choose your benefit type',
-          CustomPage: BenefitTypePage,
-          CustomPageReview: BenefitTypeReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: benefitTypeUiSchema,
+          schema: benefitTypeSchema,
         },
       },
     },
@@ -209,37 +194,38 @@ const formConfig = {
         hospitalizationStatus: {
           path: 'hospitalization-status',
           title: 'Hospitalization status',
-          CustomPage: HospitalizationStatusPage,
-          CustomPageReview: HospitalizationStatusReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: hospitalizationStatusUiSchema,
+          schema: hospitalizationStatusSchema,
         },
         hospitalizationDate: {
           path: 'hospitalization-date',
           title: 'Admission date',
-          CustomPage: HospitalizationDatePage,
-          CustomPageReview: HospitalizationDateReviewPage,
+          uiSchema: hospitalizationDateUiSchema,
+          schema: hospitalizationDateSchema,
           depends: formData =>
-            formData?.hospitalizationStatus?.isCurrentlyHospitalized === 'yes',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+            formData?.hospitalizationStatus?.isCurrentlyHospitalized === true,
         },
         hospitalizationFacility: {
           path: 'hospitalization-facility',
           title: 'Hospital information',
-          CustomPage: HospitalizationFacilityPage,
-          CustomPageReview: HospitalizationFacilityReviewPage,
+          uiSchema: hospitalizationFacilityUiSchema,
+          schema: hospitalizationFacilitySchema,
           depends: formData =>
-            formData?.hospitalizationStatus?.isCurrentlyHospitalized === 'yes',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+            formData?.hospitalizationStatus?.isCurrentlyHospitalized === true,
         },
       },
     },
   },
-  preSubmitInfo: PreSubmitInfo,
-  getHelp: GetHelp,
-  footerContent,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteranInformation.veteranFullName',
+    },
+  },
 };
 
 export { formConfig };
+export default formConfig;

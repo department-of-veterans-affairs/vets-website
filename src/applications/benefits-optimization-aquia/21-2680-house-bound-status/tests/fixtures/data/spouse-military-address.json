@@ -1,0 +1,64 @@
+{
+  "data": {
+    "veteranInformation": {
+      "veteranFullName": {
+        "first": "Wedge",
+        "middle": "Dennis",
+        "last": "Antilles",
+        "suffix": ""
+      },
+      "veteranSsn": "246813579",
+      "veteranDob": "1952-12-25"
+    },
+    "veteranAddress": {
+      "veteranAddress": {
+        "street": "Red Squadron Base",
+        "street2": "Hangar Bay 7",
+        "street3": "",
+        "city": "FPO",
+        "state": "AP",
+        "country": "USA",
+        "postalCode": "96555",
+        "isMilitary": true
+      }
+    },
+    "claimantRelationship": {
+      "relationship": "spouse"
+    },
+    "claimantInformation": {
+      "claimantFullName": {
+        "first": "Norra",
+        "middle": "",
+        "last": "Wexley",
+        "suffix": ""
+      },
+      "claimantDob": "1954-06-15"
+    },
+    "claimantSsn": {
+      "claimantSsn": "864297531"
+    },
+    "claimantAddress": {
+      "claimantAddress": {
+        "street": "Gold Squadron Housing",
+        "street2": "Unit 12",
+        "street3": "",
+        "city": "FPO",
+        "state": "AP",
+        "country": "USA",
+        "postalCode": "96555",
+        "isMilitary": true
+      }
+    },
+    "claimantContact": {
+      "claimantPhoneNumber": "8085551952",
+      "claimantMobilePhone": "8085551983",
+      "claimantEmail": "norra.wexley@rebelalliance.mil"
+    },
+    "benefitType": {
+      "benefitType": "SMC"
+    },
+    "hospitalizationStatus": {
+      "isCurrentlyHospitalized": false
+    }
+  }
+}

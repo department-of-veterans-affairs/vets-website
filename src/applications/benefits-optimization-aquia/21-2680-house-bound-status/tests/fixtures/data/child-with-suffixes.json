@@ -1,0 +1,80 @@
+{
+  "data": {
+    "veteranInformation": {
+      "veteranFullName": {
+        "first": "Lando",
+        "middle": "Calrissian",
+        "last": "Calrissian",
+        "suffix": "Sr."
+      },
+      "veteranSsn": "159753486",
+      "veteranDob": "1937-04-06"
+    },
+    "veteranAddress": {
+      "veteranAddress": {
+        "street": "Cloud City Administration",
+        "street2": "Baron's Quarters",
+        "street3": "Level 121-138",
+        "city": "Denver",
+        "state": "CO",
+        "country": "USA",
+        "postalCode": "80202",
+        "isMilitary": false
+      }
+    },
+    "claimantRelationship": {
+      "relationship": "child"
+    },
+    "claimantInformation": {
+      "claimantFullName": {
+        "first": "Lando",
+        "middle": "Calrissian",
+        "last": "Calrissian",
+        "suffix": "Jr."
+      },
+      "claimantDob": "1965-08-10"
+    },
+    "claimantSsn": {
+      "claimantSsn": "753951486"
+    },
+    "claimantAddress": {
+      "claimantAddress": {
+        "street": "Bespin Mining Colony",
+        "street2": "Residential District",
+        "street3": "Suite 42",
+        "city": "Cloud City",
+        "state": "CO",
+        "country": "USA",
+        "postalCode": "80203",
+        "isMilitary": false
+      }
+    },
+    "claimantContact": {
+      "claimantPhoneNumber": "7205551937",
+      "claimantMobilePhone": "7205551980",
+      "claimantEmail": "lando.jr@cloudcity.com"
+    },
+    "benefitType": {
+      "benefitType": "SMP"
+    },
+    "hospitalizationStatus": {
+      "isCurrentlyHospitalized": true
+    },
+    "hospitalizationDate": {
+      "admissionDate": "2024-05-04"
+    },
+    "hospitalizationFacility": {
+      "facilityName": "Cloud City Medical Center",
+      "facilityAddress": {
+        "street": "Platform 327",
+        "street2": "Medical Wing",
+        "street3": "Recovery Floor",
+        "city": "DPO",
+        "state": "AA",
+        "country": "USA",
+        "postalCode": "34003",
+        "isMilitary": true
+      }
+    }
+  }
+}

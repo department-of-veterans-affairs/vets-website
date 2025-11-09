@@ -12,12 +12,41 @@
  */
 
 /**
+ * Recursively removes all keys that start with 'view:' from an object
+ * These are UI-only fields that should not be submitted to the API
+ *
+ * @param {Object} obj - The object to clean
+ * @returns {Object} A new object with view: fields removed
+ */
+function removeViewFields(obj) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(item => removeViewFields(item));
+  }
+
+  const cleaned = {};
+  Object.keys(obj).forEach(key => {
+    // Skip keys that start with 'view:'
+    if (!key.startsWith('view:')) {
+      cleaned[key] = removeViewFields(obj[key]);
+    }
+  });
+
+  return cleaned;
+}
+
+/**
  * Transforms form data before submission
  *
- * This transformer performs two key transformations:
- * 1. When the veteran is filing for themselves (claimantRelationship === 'veteran'),
+ * This transformer performs several key transformations:
+ * 1. Removes UI-only fields (prefixed with 'view:')
+ * 2. Removes stale/duplicate fields from old form versions
+ * 3. When the veteran is filing for themselves (claimantRelationship === 'veteran'),
  *    copies veteran information to claimant fields
- * 2. When hospitalization status is 'no', removes any stale hospitalization details
+ * 4. When hospitalization status is 'no', removes any stale hospitalization details
  *    (handles case where user entered details then changed answer to 'no')
  *
  * @param {Object} formConfig - The form configuration object
@@ -27,16 +56,16 @@
  * @example
  * const transformed = submitTransformer(formConfig, {
  *   relationship: 'veteran',
- *   veteranIdentification: {
+ *   veteranInformation: {
  *     veteranFullName: { first: 'John', last: 'Doe' },
- *     veteranDOB: '1980-01-01',
- *     veteranSSN: '123-45-6789'
+ *     veteranDob: '1980-01-01',
+ *     veteranSsn: '123-45-6789'
  *   },
  *   veteranAddress: {
  *     veteranAddress: { street: '123 Main St', city: 'Springfield', ... }
  *   },
  *   hospitalizationStatus: {
- *     isCurrentlyHospitalized: 'no'
+ *     isCurrentlyHospitalized: false
  *   },
  *   hospitalizationDate: { date: '2024-01-01' } // Will be removed
  * });
@@ -44,11 +73,20 @@
  * // transformed.hospitalizationDate and hospitalizationFacility will be removed
  */
 export function submitTransformer(_formConfig, formData) {
-  const transformedData = { ...formData };
+  // First, remove all view: prefixed fields recursively
+  const transformedData = removeViewFields(formData);
 
   // Clean up duplicate/unnecessary data before submission
-  // Remove the 'veteran' object added by platform (duplicates veteranIdentification)
+  // Remove the 'veteran' object added by platform (duplicates veteranInformation)
   delete transformedData.veteran;
+
+  // Remove stale/duplicate data that causes API parsing errors
+  delete transformedData.veteranIdentification; // Stale data not in form config
+  delete transformedData.signature; // Old signature pattern
+  delete transformedData.certificationChecked; // Old certification pattern
+  delete transformedData.agreed; // Old agreement field
+  delete transformedData.statementOfTruthSignature; // Statement of truth signature
+  delete transformedData.statementOfTruthCertified; // Statement of truth checkbox
 
   // If the veteran is the claimant, copy veteran information to claimant fields
   // This ensures the backend receives complete claimant data even though
@@ -59,9 +97,9 @@ export function submitTransformer(_formConfig, formData) {
 
   if (isVeteranClaimant) {
     const veteranName =
-      transformedData.veteranIdentification?.veteranFullName || {};
-    const veteranDOB = transformedData.veteranIdentification?.veteranDOB || '';
-    const veteranSSN = transformedData.veteranIdentification?.veteranSSN || '';
+      transformedData.veteranInformation?.veteranFullName || {};
+    const veteranDob = transformedData.veteranInformation?.veteranDob || '';
+    const veteranSsn = transformedData.veteranInformation?.veteranSsn || '';
     const veteranAddr = transformedData.veteranAddress?.veteranAddress || {};
 
     // Copy veteran information to claimant fields
@@ -72,11 +110,11 @@ export function submitTransformer(_formConfig, formData) {
         last: veteranName.last || '',
         suffix: veteranName.suffix || '',
       },
-      claimantDOB: veteranDOB,
+      claimantDob: veteranDob,
     };
 
-    transformedData.claimantSSN = {
-      claimantSSN: veteranSSN,
+    transformedData.claimantSsn = {
+      claimantSsn: veteranSsn,
     };
 
     transformedData.claimantAddress = {
@@ -101,10 +139,10 @@ export function submitTransformer(_formConfig, formData) {
   // This handles the case where the user entered hospital information,
   // then went back and changed their answer to 'no'
   const isCurrentlyHospitalized =
-    transformedData.hospitalizationStatus?.isCurrentlyHospitalized === 'yes';
+    transformedData.hospitalizationStatus?.isCurrentlyHospitalized === true;
 
   if (!isCurrentlyHospitalized) {
-    // Keep hospitalizationStatus (contains the 'no' answer)
+    // Keep hospitalizationStatus (contains the false answer)
     // Remove hospitalizationDate and hospitalizationFacility
     delete transformedData.hospitalizationDate;
     delete transformedData.hospitalizationFacility;
