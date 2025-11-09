@@ -127,14 +127,21 @@ const PageTemplateBase = ({
     .join(' ');
 
   return (
-    <div className={wrapperClasses}>
-      <form noValidate>
-        <fieldset className="vads-u-margin-y--2">
-          {title && (
-            <legend id="root__title">
-              <h3 className="vads-u-margin-top--0">{title}</h3>
-            </legend>
-          )}
+    <>
+      <div className={wrapperClasses}>
+        <form noValidate>
+          <fieldset className={CSS_CLASSES.FIELDSET}>
+            {title && (
+              <legend id="root__title">
+                <h3
+                  className={`${CSS_CLASSES.HEADING_DARK} ${
+                    CSS_CLASSES.HEADING_NO_TOP_MARGIN
+                  } ${CSS_CLASSES.HEADING_SERIF} ${CSS_CLASSES.HEADING_SIZE}`}
+                >
+                  {title}
+                </h3>
+              </legend>
+            )}
 
             {subtitle && (
               <div className={CSS_CLASSES.MARGIN_BOTTOM_2}>
@@ -159,7 +166,7 @@ const PageTemplateBase = ({
                     <va-button
                       secondary
                       onClick={goBack}
-                      text={navigationProps?.backButtonText || 'Back'}
+                      text={navigationProps?.backButtonText || BUTTON_TEXT.BACK}
                       {...navigationProps?.backButtonProps || {}}
                     />
                   )}
@@ -170,7 +177,7 @@ const PageTemplateBase = ({
                       e.preventDefault();
                       formSectionProps.handleContinue(goForward);
                     }}
-                    text={navigationProps?.continueButtonText || 'Continue'}
+                    text={BUTTON_TEXT.CONTINUE}
                     {...navigationProps?.continueButtonProps || {}}
                   />
                 </div>

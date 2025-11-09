@@ -92,16 +92,18 @@ export const RadioField = ({
       {...(tile ? { tile: true } : {})}
       {...props}
     >
-      {options.map(option => (
-        <VaRadioOption
-          key={option.value}
-          label={option.label}
-          tile={tile}
-          value={option.value}
-          checked={value === option.value}
-          description={option.description}
-        />
-      ))}
+      {options.map(option => {
+        const isChecked = value === option.value;
+        return (
+          <VaRadioOption
+            key={option.value}
+            label={option.label}
+            value={option.value}
+            {...(isChecked ? { checked: true } : {})}
+            description={option.description}
+          />
+        );
+      })}
     </VaRadio>
   );
 };
