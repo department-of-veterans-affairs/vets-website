@@ -10,6 +10,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import previouslyApplied from '../pages/previouslyApplied';
 import vaBenefitProgram from '../pages/vaBenefitProgram';
 import payeeNumber from '../pages/payeeNumber';
+import mailingAddress from '../pages/mailingAddress';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -82,6 +83,12 @@ const formConfig = {
           title: 'Payee Number',
           uiSchema: payeeNumber.uiSchema,
           schema: payeeNumber.schema,
+        },
+        mailingAddress: {
+          path: 'mailing-address',
+          title: 'Mailing Address',
+          uiSchema: mailingAddress.uiSchema,
+          schema: mailingAddress.schema,
         },
       },
     },
