@@ -1,0 +1,80 @@
+{
+  "data": {
+    "veteranInformation": {
+      "veteranFullName": {
+        "first": "Leia",
+        "middle": "Organa",
+        "last": "Solo",
+        "suffix": ""
+      },
+      "veteranSsn": "456789123",
+      "veteranDob": "1956-10-21"
+    },
+    "veteranAddress": {
+      "veteranAddress": {
+        "street": "2000 Resistance Base",
+        "street2": "Command Center",
+        "street3": "Level 3",
+        "city": "Alderaan City",
+        "state": "NY",
+        "country": "USA",
+        "postalCode": "10001",
+        "isMilitary": false
+      }
+    },
+    "claimantRelationship": {
+      "relationship": "parent"
+    },
+    "claimantInformation": {
+      "claimantFullName": {
+        "first": "Bail",
+        "middle": "Prestor",
+        "last": "Organa",
+        "suffix": ""
+      },
+      "claimantDob": "1935-11-30"
+    },
+    "claimantSsn": {
+      "claimantSsn": "321654987"
+    },
+    "claimantAddress": {
+      "claimantAddress": {
+        "street": "1 Royal Palace Avenue",
+        "street2": "Senate Wing",
+        "street3": "",
+        "city": "Alderaan City",
+        "state": "NY",
+        "country": "USA",
+        "postalCode": "10002",
+        "isMilitary": false
+      }
+    },
+    "claimantContact": {
+      "claimantPhoneNumber": "2125551935",
+      "claimantMobilePhone": "2125551956",
+      "claimantEmail": "bail.organa@alderaan.gov"
+    },
+    "benefitType": {
+      "benefitType": "SMP"
+    },
+    "hospitalizationStatus": {
+      "isCurrentlyHospitalized": true
+    },
+    "hospitalizationDate": {
+      "admissionDate": "2024-03-15"
+    },
+    "hospitalizationFacility": {
+      "facilityName": "Alderaan General Hospital",
+      "facilityAddress": {
+        "street": "500 Medical District",
+        "street2": "Emergency Department",
+        "street3": "",
+        "city": "Albany",
+        "state": "NY",
+        "country": "USA",
+        "postalCode": "12201",
+        "isMilitary": false
+      }
+    }
+  }
+}
