@@ -1,40 +1,64 @@
 {
   "data": {
-    "veteranIdentification": {
+    "veteranInformation": {
       "veteranFullName": {
-        "first": "James",
-        "middle": "Tiberius",
-        "last": "Kirk",
+        "first": "Luke",
+        "middle": "",
+        "last": "Skywalker",
         "suffix": ""
       },
-      "veteranSSN": "123-45-6789",
-      "veteranDOB": "2233-03-22"
+      "veteranSsn": "796121200",
+      "veteranDob": "1951-09-25"
     },
     "veteranAddress": {
       "veteranAddress": {
-        "street": "123 Starfleet Command Blvd",
+        "street": "1138 Moisture Farm Road",
         "street2": "",
         "street3": "",
-        "city": "San Francisco",
-        "state": "CA",
+        "city": "Mos Eisley",
+        "state": "AZ",
         "country": "USA",
-        "postalCode": "94102",
+        "postalCode": "85326",
         "isMilitary": false
       }
     },
     "claimantRelationship": {
-      "claimantRelationship": "veteran"
+      "relationship": "veteran"
+    },
+    "claimantInformation": {
+      "claimantFullName": {
+        "first": "Luke",
+        "middle": "",
+        "last": "Skywalker",
+        "suffix": ""
+      },
+      "claimantDob": "1951-09-25"
+    },
+    "claimantSsn": {
+      "claimantSsn": "796121200"
+    },
+    "claimantAddress": {
+      "claimantAddress": {
+        "street": "1138 Moisture Farm Road",
+        "street2": "",
+        "street3": "",
+        "city": "Mos Eisley",
+        "state": "AZ",
+        "postalCode": "85326",
+        "country": "USA",
+        "isMilitary": false
+      }
     },
     "claimantContact": {
-      "claimantPhoneNumber": "4155551234",
-      "claimantMobilePhone": "4155555678",
-      "claimantEmail": "james.kirk@starfleet.mil"
+      "claimantPhoneNumber": "5205551977",
+      "claimantMobilePhone": "5205551980",
+      "claimantEmail": "luke.skywalker@rebelalliance.mil"
     },
     "benefitType": {
       "benefitType": "SMC"
     },
     "hospitalizationStatus": {
-      "isCurrentlyHospitalized": "no"
+      "isCurrentlyHospitalized": false
     }
   }
 }
