@@ -12,6 +12,7 @@ import vaBenefitProgram from '../pages/vaBenefitProgram';
 import payeeNumber from '../pages/payeeNumber';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmail from '../pages/phoneAndEmail';
+import testNameAndDate from '../pages/testNameAndDate';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -96,6 +97,17 @@ const formConfig = {
           title: 'Phone and Email',
           uiSchema: phoneAndEmail.uiSchema,
           schema: phoneAndEmail.schema,
+        },
+      },
+    },
+    testInformationChapter: {
+      title: 'Test information',
+      pages: {
+        testNameAndDate: {
+          path: 'test-name-and-date',
+          title: 'Test name and date',
+          uiSchema: testNameAndDate.uiSchema,
+          schema: testNameAndDate.schema,
         },
       },
     },
