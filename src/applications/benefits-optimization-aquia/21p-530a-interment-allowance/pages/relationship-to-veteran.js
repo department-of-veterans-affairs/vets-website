@@ -13,7 +13,7 @@ export const relationshipToVeteranPage = {
   uiSchema: {
     ...titleUI('Relationship to the Veteran'),
     burialInformation: {
-      relationshipToVeteran: radioUI({
+      'view:relationshipToVeteran': radioUI({
         title: 'What is your relationship to the Veteran?',
         labels: relationshipOptions,
       }),
@@ -24,9 +24,11 @@ export const relationshipToVeteranPage = {
     properties: {
       burialInformation: {
         type: 'object',
-        required: ['relationshipToVeteran'],
+        required: ['view:relationshipToVeteran'],
         properties: {
-          relationshipToVeteran: radioSchema(Object.keys(relationshipOptions)),
+          'view:relationshipToVeteran': radioSchema(
+            Object.keys(relationshipOptions),
+          ),
         },
       },
     },

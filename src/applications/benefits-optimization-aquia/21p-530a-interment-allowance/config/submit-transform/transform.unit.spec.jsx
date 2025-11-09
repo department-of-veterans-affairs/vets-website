@@ -125,7 +125,7 @@ describe('Submit Transform', () => {
     it('should pass through burial information unchanged', () => {
       const form = createFormData({
         burialInformation: {
-          relationshipToVeteran: 'stateCemetery',
+          'view:relationshipToVeteran': 'stateCemetery',
           dateOfBurial: '2023-12-28',
           placeOfBurial: {
             stateCemeteryOrTribalCemeteryName: 'Arlington National Cemetery',
@@ -150,7 +150,7 @@ describe('Submit Transform', () => {
       const result = JSON.parse(transform({}, form));
 
       expect(result.burialInformation).to.deep.equal({
-        relationshipToVeteran: 'stateCemetery',
+        'view:relationshipToVeteran': 'stateCemetery',
         dateOfBurial: '2023-12-28',
         placeOfBurial: {
           stateCemeteryOrTribalCemeteryName: 'Arlington National Cemetery',
@@ -524,7 +524,7 @@ describe('Submit Transform', () => {
           placeOfBirth: 'New York, NY',
         },
         burialInformation: {
-          relationshipToVeteran: 'stateCemetery',
+          'view:relationshipToVeteran': 'stateCemetery',
           dateOfBurial: '2023-11-05',
           placeOfBurial: {
             stateCemeteryOrTribalCemeteryName: 'Springfield Veterans Cemetery',
