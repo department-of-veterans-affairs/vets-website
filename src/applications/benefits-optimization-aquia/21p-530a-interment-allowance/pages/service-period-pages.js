@@ -209,7 +209,7 @@ export const servicePeriodsPages = arrayBuilderPages(
   pageBuilder => ({
     servicePeriodsIntro: pageBuilder.introPage({
       title: 'Service period introduction',
-      path: 'service-period-introduction',
+      path: 'service-periods/orientation',
       uiSchema: servicePeriodIntroPage.uiSchema,
       schema: servicePeriodIntroPage.schema,
     }),
