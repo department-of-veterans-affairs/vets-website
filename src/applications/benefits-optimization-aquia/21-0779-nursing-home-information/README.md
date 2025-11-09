@@ -2,111 +2,133 @@
 
 ## Form Purpose
 
-This form is used to collect nursing home information from Veterans who are applying for or receiving Aid and Attendance benefits while residing in a nursing home. The information helps determine eligibility and payment amounts for these additional benefits.
+This form is used by nursing home officials to provide certification information for patients (Veterans or their spouses/parents) who are applying for Aid and Attendance benefits while residing in a nursing home. The form collects information about the facility, level of care, and costs to help determine eligibility and payment amounts.
 
 ## Who Should Use This Form
 
-Veterans who:
+Nursing home officials who need to certify:
 
-- Are currently residing in a nursing home
-- Are applying for Aid and Attendance benefits
-- Need to report nursing home admission to VA
-- Are already receiving VA benefits and have entered a nursing home
+- A patient's residence in a qualified extended care facility
+- The level of nursing care being provided
+- Medicaid coverage status and costs
+- Monthly out-of-pocket expenses for care
 
 ## Form Sections
 
-### 1. Personal Information
+### 1. Nursing Official Information
 
-- Veteran's name and date of birth
-- Social Security Number and VA File Number
-- Current mailing address
-- Phone and email contact information
+- Official's name and job title
+- Facility phone number
 
-### 2. Nursing Home Information
+### 2. Nursing Home Details
 
 - Name of nursing home facility
-- Complete address of nursing home
-- Date of admission
-- Medicaid number (if applicable)
+- Complete facility address
 
-### 3. Care and Payment Information
+### 3. Patient Information
 
-- Type of care received (nursing care vs. custodial care)
-- Medicaid coverage status
-- Amount of Medicaid per diem
-- Monthly payments made by the veteran
-- Monthly payments made by family, friends, or other sources
-- Names and relationships of those contributing to nursing home costs
+- Patient type (Veteran or spouse/parent of Veteran)
+- Patient's name, date of birth, and identification
+- Veteran's name, date of birth, and identification (if different from patient)
+
+### 4. Care Information
+
+- Certification level of care (skilled or intermediate)
+- Admission date to facility
+- Medicaid facility approval status
+- Medicaid application status
+- Current Medicaid coverage status
+- Medicaid start date (if applicable)
+- Monthly out-of-pocket costs
 
 ## Technical Implementation
 
 ### Form Configuration
 
 - **Form ID**: 21-0779
-- **OMB Number**: 2900-0652
-- **OMB Expiration**: 09/30/2026
-- **Estimated Burden**: 10 minutes
-- **Submit URL**: `/v0/form21_0779`
+- **OMB Number**: 2900-0361
+- **OMB Expiration**: 07/31/2027
+- **Estimated Burden**: 15 minutes
+- **Submit URL**: `/simple_forms_api/v1/simple_forms`
+- **Form System**: VA.gov JSON Schema Form System (RJSF)
 
 ### Application Structure
 
 ```bash
 21-0779-nursing-home-information/
-├── app-entry.jsx             # Main entry point
-├── components/               # Reusable components
+├── app-entry.jsx                    # Main entry point
+├── components/                      # Reusable components
 │   ├── get-help/
 │   │   ├── get-help.jsx
-│   │   ├── get-help.unit.spec.jsx
-│   │   └── index.js          # Component barrel
-│   ├── pre-submit-signature/
-│   │   ├── pre-submit-signature.jsx
-│   │   └── index.js          # Component barrel
-│   └── index.js              # Components barrel
+│   │   └── index.js
+│   └── index.js                     # Components barrel
 ├── config/
-│   ├── form.js               # Form configuration
-│   ├── transform.js          # Submit transformer
-│   └── index.js              # Config barrel
-├── constants.js              # Application constants
-├── constants.unit.spec.jsx   # Constants tests
+│   ├── form/
+│   │   ├── form.js                  # Main form configuration
+│   │   └── form.unit.spec.jsx       # Form config tests
+│   ├── prefill-transformer/
+│   │   ├── prefill-transformer.js   # Prefill logic
+│   │   └── prefill-transformer.unit.spec.jsx
+│   ├── submit-transformer/
+│   │   ├── submit-transformer.js    # Submit transformer
+│   │   └── submit-transformer.unit.spec.jsx
+│   └── index.js                     # Config barrel
+├── constants/
+│   ├── constants.js                 # Application constants
+│   ├── constants.unit.spec.jsx      # Constants tests
+│   └── index.js                     # Constants barrel
 ├── containers/
-│   ├── app.jsx               # Main app container
-│   ├── introduction-page.jsx # Form intro page
-│   ├── confirmation-page.jsx # Submission confirmation
-│   └── index.js              # Containers barrel
-├── index.js                  # Root barrel export
-├── pages/                    # Form pages with co-located reviews
-│   ├── admission-date/
-│   │   ├── admission-date.jsx
-│   │   ├── admission-date-review.jsx
-│   │   ├── admission-date-review.unit.spec.jsx
-│   │   └── index.js
-│   ├── claimant-question/
-│   │   ├── claimant-question.jsx
-│   │   ├── claimant-question-review.jsx
-│   │   ├── claimant-question-review.unit.spec.jsx
-│   │   └── index.js
-│   ├── [13 more page directories...]
-│   └── index.js              # Pages barrel (exports pages & reviews)
-├── reducers/                 # Redux reducers
-│   └── index.js              # Reducers barrel
-├── routes.jsx                # React Router configuration
-├── routes.unit.spec.jsx      # Routes tests
-├── sass/                     # Styles
-├── schemas/                  # Zod validation schemas
-│   ├── admission-date/
-│   │   ├── admission-date.js
-│   │   ├── admission-date.unit.spec.jsx
-│   │   └── index.js
-│   ├── veteran-identification/
-│   │   ├── veteran-identification.js
-│   │   ├── veteran-identification.unit.spec.jsx
-│   │   └── index.js
-│   ├── [13 more schema directories...]
-│   └── index.js              # Schemas barrel (exports all schemas)
-├── tests/                    # E2E Cypress tests
-└── utils/                    # Utility functions
-    ├── index.js              # Utils with JSDoc
-    └── index.unit.spec.jsx
+│   ├── app/
+│   │   └── app.jsx                  # Main app container
+│   ├── confirmation-page.jsx        # Submission confirmation
+│   ├── introduction-page.jsx        # Form intro page
+│   └── index.js                     # Containers barrel
+├── index.js                         # Root barrel export
+├── manifest.json                    # Application manifest
+├── pages/                           # JSON-schema form pages (flat structure)
+│   ├── admission-date.js            # Admission date page
+│   ├── benefit-type.js              # Benefit type selection
+│   ├── certification-level-of-care.js
+│   ├── claimant-identification-info.js
+│   ├── claimant-personal-info.js
+│   ├── claimant-question.js         # Patient type question
+│   ├── helpers.js                   # Shared helper functions
+│   ├── hospitalization-date.js
+│   ├── hospitalization-facility.js
+│   ├── hospitalization-status.js
+│   ├── medicaid-application.js
+│   ├── medicaid-facility.js
+│   ├── medicaid-start-date.js
+│   ├── medicaid-status.js
+│   ├── monthly-costs.js
+│   ├── nursing-home-details.js
+│   ├── nursing-official-information.js
+│   ├── veteran-identification-info.js
+│   ├── veteran-personal-info.js
+│   └── index.js                     # Pages barrel export
+├── reducers/
+│   └── index.js                     # Redux reducers
+├── routes/
+│   ├── routes.jsx                   # React Router configuration
+│   ├── routes.unit.spec.jsx         # Routes tests
+│   └── index.js                     # Routes barrel
+├── sass/
+│   └── 21-0779-nursing-home-information.scss
+├── tests/
+│   ├── e2e/
+│   │   └── 21-0779-nursing-home-information.cypress.spec.js
+│   ├── fixtures/
+│   │   ├── data/
+│   │   │   ├── maximal-test.json   # Full form data (Star Wars themed)
+│   │   │   └── minimal-test.json   # Minimal required data
+│   │   └── mocks/
+│   │       ├── application-submit.json
+│   │       ├── feature-toggles.json
+│   │       ├── user.json
+│   │       └── index.js
+│   └── unit/
+│       └── transform.unit.spec.jsx
+└── README.md                        # This file
 ```
 
 ### Development Commands
@@ -130,26 +152,64 @@ yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-0779-nursing
 
 ### Key Features
 
-- **Save in Progress**: Veterans can save their form and return later to complete it
-- **Prefill**: Form automatically populates with veteran's profile information where available
-- **Validation**: Real-time validation of required fields and data formats
+- **JSON Schema Form System**: Uses VA.gov platform's standard RJSF with web component patterns
+- **Platform Web Components**: All form fields use `platform/forms-system/src/js/web-component-patterns`
+- **Conditional Pages**: Dynamic form flow based on patient type (veteran vs spouse/parent)
+- **Save in Progress**: Officials can save partial forms and return later
+- **Validation**: Real-time validation using JSON Schema
 - **Accessibility**: WCAG 2.2 AA compliant with full keyboard navigation and screen reader support
+
+### Form Patterns Used
+
+- `textUI` / `textSchema` - Text input fields
+- `phoneUI` / `phoneSchema` - Phone number fields
+- `fullNameNoSuffixUI` / `fullNameNoSuffixSchema` - Name fields without suffix
+- `dateOfBirthUI` / `dateOfBirthSchema` - Date of birth fields
+- `ssnUI` / `ssnSchema` - Social Security Number fields
+- `addressUI` / `addressSchema` - Address fields with customization
+- `radioUI` / `radioSchema` - Radio button selections
+- `yesNoUI` / `yesNoSchema` - Yes/No boolean fields
+- `currentOrPastDateUI` / `currentOrPastDateSchema` - Date validation
 
 ## Form Flow
 
-1. **Introduction Page**: Explains the form purpose and requirements
-2. **Personal Information**: Collects veteran identification details
-3. **Contact Information**: Gathers current mailing address and contact methods
-4. **Nursing Home Details**: Records facility information and admission date
-5. **Care Information**: Documents type of care and payment arrangements
-6. **Review and Submit**: Allows review of all entered information before submission
-7. **Confirmation Page**: Provides submission confirmation and next steps
+### All Users Path
+
+1. **Introduction Page**: Explains form purpose and requirements for nursing home officials
+2. **Nursing Official Information**: Collects official's name, title, and phone number
+3. **Nursing Home Details**: Facility name and address
+4. **Patient Type Question**: Determines if patient is the Veteran or spouse/parent
+
+### Path 1: Patient is Veteran
+
+5. **Veteran Personal Info**: Veteran's name and date of birth
+6. **Veteran Identification**: SSN and optional VA file number
+
+### Path 2: Patient is Spouse/Parent
+
+5. **Claimant Personal Info**: Patient's (spouse/parent) name and DOB
+6. **Claimant Identification**: Patient's SSN and optional VA file number
+7. **Veteran Personal Info**: Connected Veteran's name and DOB
+8. **Veteran Identification**: Veteran's SSN and optional VA file number
+
+### Continuing for All Users
+
+9. **Certification Level of Care**: Skilled or intermediate care level
+10. **Admission Date**: Date patient was admitted to facility
+11. **Medicaid Facility Status**: Is facility Medicaid-approved?
+12. **Medicaid Application**: Has patient applied for Medicaid?
+13. **Medicaid Coverage Status**: Is patient currently covered by Medicaid?
+14. **Medicaid Start Date** (conditional): Only if currently covered by Medicaid
+15. **Monthly Costs**: Out-of-pocket monthly expenses
+16. **Review and Submit**: Pre-submission signature and review
+17. **Confirmation Page**: Submission confirmation and next steps
 
 ## Integration Points
 
-- **User Profile**: Prefills veteran information from authenticated session
-- **VA Benefits API**: Submits form data to `/v0/form21_0779` endpoint
-- **Save in Progress API**: Stores partial form data for later completion
+- **Simple Forms API**: Submits form data to `/simple_forms_api/v1/simple_forms` endpoint
+- **Save in Progress API**: Stores partial form data at `/v0/in_progress_forms/21-0779`
+- **Form Data Transform**: Uses `submit-transformer.js` to convert to backend format
+- **User Authentication**: Uses VA.gov authentication for form access
 
 ## Accessibility Features
 
@@ -184,6 +244,19 @@ yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-0779-nursing
 
 ### E2E Testing
 
-- Cypress tests for complete form flow
-- Accessibility testing with axe-core
-- Cross-browser testing on Chrome, Firefox, Safari, and Edge
+- Cypress tests for complete form flow using `platform/testing/e2e/cypress/support/form-tester`
+- Two test scenarios:
+  - **minimal-test.json**: Patient is veteran, no Medicaid coverage (shortest path)
+  - **maximal-test.json**: Patient is spouse/parent, full Medicaid coverage (longest path with all conditional pages)
+- Test data uses Star Wars themed names and locations for consistency with other forms
+- Accessibility testing with axe-core integrated into page hooks
+- Tests both veteran and claimant pathways through conditional logic
+
+### Test Data Theme
+
+Test fixtures use Star Wars lore-accurate data:
+
+- **Minimal**: Ben Kenobi at Mos Eisley Extended Care Facility (Tatooine)
+- **Maximal**: Shmi Skywalker (patient) / Anakin Skywalker (veteran) at Coruscant Veterans Medical Center
+- Nursing officials: Dr. Evazan Ponda (minimal), Beru Lars (maximal)
+- Easter eggs: May the Fourth dates, THX-1138 references, C-3PO cost amounts

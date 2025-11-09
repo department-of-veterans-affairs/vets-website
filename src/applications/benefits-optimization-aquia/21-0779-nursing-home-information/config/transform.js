@@ -9,11 +9,11 @@ export const transform = (formConfig, form) => {
     claimantIdentificationInfo,
     nursingHomeDetails,
     certificationLevelOfCare,
-    admissionDateInfo,
+    admissionDate,
     medicaidFacility,
     medicaidApplication,
     medicaidStatus,
-    medicaidStartDateInfo,
+    medicaidStartDate,
     monthlyCosts,
     nursingOfficialInformation,
   } = form?.data;
@@ -41,7 +41,8 @@ export const transform = (formConfig, form) => {
         ...veteranPersonalInfo?.fullName,
         dateOfBirth: veteranPersonalInfo?.dateOfBirth,
         veteranId: {
-          ...veteranIdentificationInfo,
+          ssn: veteranIdentificationInfo?.veteranSsn,
+          vaFileNumber: veteranIdentificationInfo?.veteranVaFileNumber,
         },
       },
       claimantInformation,
@@ -57,15 +58,14 @@ export const transform = (formConfig, form) => {
         },
       },
       generalInformation: {
-        admissionDate: admissionDateInfo?.admissionDate,
-        medicaidFacility: medicaidFacility?.isMedicaidApproved === 'yes',
+        admissionDate: admissionDate?.admissionDate,
+        medicaidFacility: medicaidFacility?.isMedicaidApprovedFacility === true,
         medicaidApplication:
-          medicaidApplication?.hasAppliedForMedicaid === 'yes',
+          medicaidApplication?.hasAppliedForMedicaid === true,
         patientMedicaidCovered:
-          medicaidStatus?.currentlyCoveredByMedicaid === 'yes',
-        medicaidStartDate: medicaidStartDateInfo?.medicaidStartDate,
+          medicaidStatus?.currentlyCoveredByMedicaid === true,
+        medicaidStartDate: medicaidStartDate?.medicaidStartDate,
         monthlyCosts: monthlyCosts?.monthlyOutOfPocket,
-        // TODO sort out level of care enum/boolean
         certificationLevelOfCare:
           certificationLevelOfCare?.levelOfCare === 'skilled',
         nursingOfficialName,

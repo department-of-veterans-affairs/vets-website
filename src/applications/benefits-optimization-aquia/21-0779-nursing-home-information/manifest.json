@@ -7,20 +7,6 @@
   "template": {
     "vagovprod": false,
     "layout": "page-react.html",
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "name": "Home",
-        "path": "/"
-      },
-      {
-        "name": "Supporting forms for claims",
-        "path": "/supporting-forms-for-claims/"
-      },
-      {
-        "name": "Submit nursing home information to support a claim",
-        "path": "/supporting-forms-for-claims/aid-attendance-housebound"
-      }
-    ]
+    "includeBreadcrumbs": true
   }
 }
