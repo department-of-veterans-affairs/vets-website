@@ -3,9 +3,10 @@ import React from 'react';
 import { capitalize } from 'lodash';
 import {
   titleUI,
+  titleSchema,
+  serviceBranchUI,
   arrayBuilderItemFirstPageTitleUI,
-  // serviceBranchUI,
-  // serviceBranchSchema,
+  serviceBranchSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -13,8 +14,6 @@ import {
   textSchema,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  selectUI,
-  selectSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
@@ -28,32 +27,6 @@ const formatDate = dateStr => {
     year: 'numeric',
   }).format(date);
 };
-
-export const branchOptions = Object.freeze([
-  'Air Force',
-  'Air Force Academy',
-  'Air Force Reserves',
-  'Air National Guard',
-  'Army',
-  'Army Air Corps or Army Air Force',
-  'Army National Guard',
-  'Army Reserves',
-  'Coast Guard',
-  'Coast Guard Academy',
-  'Coast Guard Reserves',
-  'Marine Corps',
-  'Marine Corps Reserves',
-  'Merchant Marine',
-  'National Oceanic & Atmospheric Administration',
-  'Naval Academy',
-  'Navy',
-  'Navy Reserves',
-  'Other',
-  'Public Health Service',
-  'Space Force',
-  'US Military Academy',
-  'Women’s Army Corps',
-]);
 
 /**
  * Configuration for the veteran's service periods
@@ -105,27 +78,11 @@ const servicePeriodIntroPage = {
   },
   schema: {
     type: 'object',
-    properties: {},
+    properties: {
+      titleSchema,
+    },
   },
 };
-
-// Service Branch Page
-// const serviceBranchPage = {
-//   uiSchema: {
-//     ...arrayBuilderItemFirstPageTitleUI({
-//       title: 'Service branch',
-//       nounSingular: servicePeriodOptions.nounSingular,
-//     }),
-//     serviceBranch: serviceBranchUI(),
-//   },
-//   schema: {
-//     type: 'object',
-//     required: ['serviceBranch'],
-//     properties: {
-//       serviceBranch: serviceBranchSchema(),
-//     },
-//   },
-// };
 
 // Service Branch Page
 const serviceBranchPage = {
@@ -134,13 +91,13 @@ const serviceBranchPage = {
       title: 'Service branch',
       nounSingular: servicePeriodOptions.nounSingular,
     }),
-    serviceBranch: selectUI('Branch of service'),
+    serviceBranch: serviceBranchUI(),
   },
   schema: {
     type: 'object',
     required: ['serviceBranch'],
     properties: {
-      serviceBranch: selectSchema(branchOptions),
+      serviceBranch: serviceBranchSchema(),
     },
   },
 };
