@@ -1,132 +1,69 @@
 import * as Sentry from '@sentry/browser';
+import { capitalize } from 'lodash';
 
-/**
- * Ensures dates are in YYYY-MM-DD format with zero-padded day and month
- * @param {string} date - Date string in YYYY-MM-DD format (may have single-digit day/month)
- * @returns {string} Date string with zero-padded day and month
- */
-const padDate = date => {
-  if (!date || typeof date !== 'string') return date;
+// Custom sanitizer to strip view fields, empty objects, and normalize country codes
+const sanitize = (key, value) => {
+  // Remove view: fields
+  if (key.startsWith('view:')) {
+    return undefined;
+  }
 
-  const parts = date.split('-');
-  if (parts.length !== 3) return date;
+  // Remove empty objects
+  if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+    const keys = Object.keys(value);
+    if (keys.length === 0 || keys.every(k => value[k] === undefined)) {
+      return undefined;
+    }
+  }
 
-  const [year, month, day] = parts;
-  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  // TODO - wait for endpoint update and drop this
+  // Truncate country fields to 2 characters (ISO 3166-1 alpha-2 format)
+  if (
+    key.toLowerCase().includes('country') &&
+    typeof value === 'string' &&
+    value.length > 2
+  ) {
+    return value.substring(0, 2);
+  }
+
+  return value;
 };
 
 export const transform = (formConfig, form) => {
   const {
-    // relationshipToVeteran,
-    organizationInformation,
-    burialBenefitsRecipient,
-    mailingAddress,
-    veteranIdentification,
-    veteranBurialInformation,
-    servicePeriods,
-    // servicePeriodsData,
-    // veteranServedUnderDifferentName,
+    veteranInformation,
+    burialInformation,
+    periods,
     previousNames,
-    additionalRemarks,
     certification,
+    remarks,
   } = form?.data;
 
-  // destructure & setup
-  const periods = servicePeriods.map(period => {
-    if (!period) return null;
-    const {
-      placeOfEntry = '',
-      placeOfSeparation = '',
-      rank = '',
-      dateFrom = '',
-      dateTo = '',
-      branchOfService = '',
-    } = period;
-    return {
-      serviceBranch: branchOfService,
-      dateEnteredService: padDate(dateFrom),
-      placeEnteredService: placeOfEntry,
-      rankAtSeparation: rank,
-      dateLeftService: padDate(dateTo),
-      placeLeftService: placeOfSeparation,
-    };
-  });
+  const servedUnderDifferentName = previousNames?.reduce((acc, name) => {
+    const { previousName } = name;
+    const parts = [
+      capitalize(previousName?.first),
+      capitalize(previousName?.middle),
+      capitalize(previousName?.last),
+    ].filter(Boolean);
+    const formattedName = parts?.join(' ');
+    return `${acc ? `${acc}, ` : ''}${formattedName}`;
+  }, '');
 
-  const servedUnderDifferentName = previousNames
-    .map(prevName => {
-      // Format the name for display
-      const parts = [
-        prevName.first,
-        prevName.middle,
-        prevName.last,
-        prevName.suffix,
-      ].filter(Boolean);
-      return parts.join(' ');
-    })
-    .join(', ');
-
-  const {
-    cemeteryLocation,
-    dateOfBurial,
-    dateOfDeath,
-  } = veteranBurialInformation;
-  const stateCemeteryOrTribalCemeteryLocation = `${cemeteryLocation?.city ||
-    ''}, ${cemeteryLocation?.state || ''}`;
-
-  const { recipientAddress } = mailingAddress;
-  const { first, middle, last } = veteranIdentification?.fullName;
-
-  // fit into submission obj shape
+  // Fit into subbmission object
   try {
     const submissionObj = {
-      veteranInformation: {
-        fullName: {
-          first,
-          middle: middle?.charAt(0),
-          last,
-        },
-        ssn: veteranIdentification?.ssn?.replace(/-/g, ''),
-        vaServiceNumber: veteranIdentification?.serviceNumber,
-        vaFileNumber: veteranIdentification?.vaFileNumber,
-        dateOfBirth: padDate(veteranIdentification?.dateOfBirth),
-        dateOfDeath: padDate(dateOfDeath),
-        placeOfBirth: veteranIdentification?.placeOfBirth,
-      },
+      veteranInformation,
+      burialInformation,
       veteranServicePeriods: {
         periods,
         servedUnderDifferentName,
       },
-      burialInformation: {
-        nameOfStateCemeteryOrTribalOrganization:
-          organizationInformation?.organizationName,
-        placeOfBurial: {
-          stateCemeteryOrTribalCemeteryName:
-            veteranBurialInformation?.cemeteryName,
-          stateCemeteryOrTribalCemeteryLocation,
-        },
-        dateOfBurial: padDate(dateOfBurial),
-        recipientOrganization: {
-          name: burialBenefitsRecipient?.recipientOrganizationName,
-          phoneNumber: burialBenefitsRecipient?.recipientPhone,
-          address: {
-            streetAndNumber: recipientAddress?.street,
-            aptOrUnitNumber: recipientAddress?.street2,
-            city: recipientAddress?.city,
-            state: recipientAddress?.state,
-            country:
-              recipientAddress?.state?.length > 2
-                ? 'US'
-                : recipientAddress?.state,
-            postalCode: recipientAddress?.postalCode,
-            postalCodeExtension: recipientAddress?.postalCodeExtension,
-          },
-        },
-      },
       certification,
-      remarks: additionalRemarks?.additionalRemarks,
+      remarks,
     };
 
-    return JSON.stringify(submissionObj);
+    return JSON.stringify(submissionObj, sanitize);
   } catch (error) {
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
