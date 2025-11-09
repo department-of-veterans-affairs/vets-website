@@ -1,47 +1,53 @@
 {
   "data": {
     "veteranInformation": {
-      "firstName": "James",
-      "lastName": "Kirk",
-      "dateOfBirth": "2233-03-22"
+      "veteranFullName": {
+        "first": "Rex",
+        "last": "CT-7567"
+      },
+      "dateOfBirth": "2002-09-22"
     },
     "veteranContactInformation": {
-      "ssn": "123-45-6789",
-      "vaFileNumber": "12345678"
+      "ssn": "757675767"
     },
     "employerInformation": {
-      "employerName": "Starfleet Command",
+      "employerName": "Grand Army of the Republic",
       "employerAddress": {
-        "street": "123 Fleet Street",
-        "city": "San Francisco",
-        "state": "CA",
+        "view:militaryBaseDescription": {},
         "country": "USA",
-        "postalCode": "94102"
+        "street": "501st Legion Barracks",
+        "city": "Coruscant",
+        "state": "DC",
+        "postalCode": "20001"
       }
     },
     "employmentDates": {
-      "beginningDate": "2250-01-01",
-      "currentlyEmployed": true
+      "beginningDate": "2002-09-22",
+      "endingDate": "2005-05-19"
     },
     "employmentEarningsHours": {
-      "typeOfWork": "Starship Captain",
-      "amountEarned": "5000",
-      "dailyHours": "8",
-      "weeklyHours": "40"
+      "typeOfWork": "Clone trooper captain serving in 501st Legion under General Skywalker during galactic conflict",
+      "amountEarned": 3200,
+      "timeLost": "2 weeks due to combat injuries sustained during battle operations",
+      "dailyHours": "16",
+      "weeklyHours": "112"
     },
     "employmentConcessions": {},
-    "employmentTermination": {},
+    "employmentTermination": {
+      "dateLastWorked": "2005-05-19"
+    },
     "employmentLastPayment": {
-      "dateOfLastPayment": "2024-10-31",
-      "grossAmountLastPayment": "5000",
+      "dateOfLastPayment": "2005-05-19",
+      "grossAmountLastPayment": 3200,
       "lumpSumPayment": "no"
     },
     "dutyStatus": {
-      "reserveOrGuardStatus": "no"
+      "reserveOrGuardStatus": false
     },
+    "dutyStatusDetails": {},
     "benefitsInformation": {
-      "benefitEntitlement": "no"
+      "benefitEntitlement": false
     },
-    "remarks": {}
+    "benefitsDetails": {}
   }
 }
