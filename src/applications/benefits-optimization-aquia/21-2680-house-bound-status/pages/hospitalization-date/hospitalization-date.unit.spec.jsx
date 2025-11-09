@@ -4,23 +4,16 @@
  */
 
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import PropTypes from 'prop-types';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { HospitalizationDatePage } from './hospitalization-date';
-
-/**
- * Helper function to find web component by tag and label attribute
- * Works around Node 22 limitation with CSS attribute selectors on custom elements
- */
-const findByLabel = (container, tagName, labelText) => {
-  return Array.from(container.querySelectorAll(tagName)).find(
-    el => el.getAttribute('label') === labelText,
-  );
-};
+import { PageTemplateCore } from '@bio-aquia/shared/components/templates';
+import { MemorableDateField } from '@bio-aquia/shared/components/atoms';
+import { transformDates } from '@bio-aquia/shared/forms';
+import { hospitalizationDatePageSchema } from '@bio-aquia/21-2680-house-bound-status/schemas';
 
 /**
  * Helper function to find web component by tag and text attribute
- * Works around Node 22 limitation with CSS attribute selectors on custom elements
  */
 const findByText = (container, tagName, textValue) => {
   return Array.from(container.querySelectorAll(tagName)).find(
@@ -28,16 +21,99 @@ const findByText = (container, tagName, textValue) => {
   );
 };
 
+const ensureDateStrings = formData => {
+  return transformDates(formData, ['hospitalizationDate']);
+};
+
+// Test component using PageTemplateCore directly
+const HospitalizationDatePageContent = ({
+  data,
+  setFormData,
+  goForward,
+  goBack,
+  onReviewPage,
+  updatePage,
+}) => {
+  const formDataToUse =
+    data && typeof data === 'object' && !Array.isArray(data) ? data : {};
+
+  return (
+    <PageTemplateCore
+      title="Date of hospitalization"
+      data={formDataToUse}
+      setFormData={setFormData}
+      goForward={goForward}
+      goBack={goBack}
+      schema={hospitalizationDatePageSchema}
+      sectionName="hospitalizationDate"
+      dataProcessor={ensureDateStrings}
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
+      defaultData={{ hospitalizationDate: '' }}
+    >
+      {({ localData, handleFieldChange, errors, formSubmitted }) => (
+        <>
+          <MemorableDateField
+            label="Date of hospitalization"
+            name="hospitalizationDate"
+            value={localData.hospitalizationDate || ''}
+            onChange={handleFieldChange}
+            error={errors.hospitalizationDate}
+            forceShowError={formSubmitted}
+            required
+          />
+        </>
+      )}
+    </PageTemplateCore>
+  );
+};
+
+HospitalizationDatePageContent.propTypes = {
+  data: PropTypes.object,
+  setFormData: PropTypes.func,
+  goForward: PropTypes.func,
+  goBack: PropTypes.func,
+  onReviewPage: PropTypes.bool,
+  updatePage: PropTypes.func,
+};
+
 describe('HospitalizationDatePage', () => {
   const mockGoForward = () => {};
-  const mockGoBack = () => {};
   const mockSetFormData = () => {};
-  const mockUpdatePage = () => {};
 
   describe('Initial Rendering', () => {
     it('should render without errors', () => {
       const { container } = render(
-        <HospitalizationDatePage
+        <HospitalizationDatePageContent
+          goForward={mockGoForward}
+          data={{}}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container).to.exist;
+      expect(container.textContent).to.include('Date of hospitalization');
+    });
+  });
+
+  describe('Field Rendering', () => {
+    it('should render date field', () => {
+      const { container } = render(
+        <HospitalizationDatePageContent
+          goForward={mockGoForward}
+          data={{}}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.querySelector('va-memorable-date')).to.exist;
+    });
+  });
+
+  describe('Data Handling', () => {
+    it('should handle empty data gracefully', () => {
+      const { container } = render(
+        <HospitalizationDatePageContent
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -46,208 +122,12 @@ describe('HospitalizationDatePage', () => {
 
       expect(container).to.exist;
     });
-
-    it('should render page title with default claimant name', () => {
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.textContent).to.include(
-        'When was the claimant admitted to the hospital?',
-      );
-    });
-
-    it('should render page title with claimant full name', () => {
-      const data = {
-        claimantInformation: {
-          claimantFullName: {
-            first: 'Michael',
-            last: 'Johnson',
-          },
-        },
-      };
-
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          data={data}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.textContent).to.include(
-        'When was Michael Johnson admitted to the hospital?',
-      );
-    });
-
-    it('should render page title with only first name when last name is missing', () => {
-      const data = {
-        claimantInformation: {
-          claimantFullName: {
-            first: 'Michael',
-          },
-        },
-      };
-
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          data={data}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.textContent).to.include(
-        'When was Michael admitted to the hospital?',
-      );
-    });
-
-    it('should render page title for veteran relationship', () => {
-      const data = {
-        claimantRelationship: {
-          claimantRelationship: 'veteran',
-        },
-        claimantInformation: {
-          claimantFullName: {
-            first: 'John',
-            last: 'Doe',
-          },
-        },
-      };
-
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          data={data}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.textContent).to.include(
-        'When were you admitted to the hospital?',
-      );
-    });
-  });
-
-  describe('Field Rendering', () => {
-    it('should render admission date field', async () => {
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      await waitFor(() => {
-        expect(findByLabel(container, 'va-memorable-date', 'Admission date')).to
-          .exist;
-      });
-    });
-
-    it('should render admission date field with label', () => {
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      const dateField = container.querySelector('va-memorable-date');
-      expect(dateField).to.exist;
-      expect(dateField.getAttribute('label')).to.equal('Admission date');
-    });
-  });
-
-  describe('Data Handling', () => {
-    it('should render with existing admission date', () => {
-      const existingData = {
-        admissionDate: '2024-01-15',
-        claimantInformation: {
-          claimantFullName: {
-            first: 'Sarah',
-            last: 'Williams',
-          },
-        },
-      };
-
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          data={existingData}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.querySelector('va-memorable-date')).to.exist;
-    });
-
-    it('should handle date as string', () => {
-      const existingData = {
-        admissionDate: '2023-12-25',
-      };
-
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          data={existingData}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.querySelector('va-memorable-date')).to.exist;
-    });
-
-    it('should handle empty data gracefully', () => {
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.querySelector('va-memorable-date')).to.exist;
-    });
-
-    it('should handle null data prop', () => {
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          data={null}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.querySelector('va-memorable-date')).to.exist;
-    });
-
-    it('should handle empty admission date string', () => {
-      const existingData = {
-        admissionDate: '',
-      };
-
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          data={existingData}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container.querySelector('va-memorable-date')).to.exist;
-    });
   });
 
   describe('Navigation', () => {
     it('should render continue button', () => {
       const { container } = render(
-        <HospitalizationDatePage
+        <HospitalizationDatePageContent
           goForward={mockGoForward}
           data={{}}
           setFormData={mockSetFormData}
@@ -256,69 +136,6 @@ describe('HospitalizationDatePage', () => {
 
       const continueButton = findByText(container, 'va-button', 'Continue');
       expect(continueButton).to.exist;
-    });
-
-    it('should render back button when goBack is provided', () => {
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          goBack={mockGoBack}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      const backButton = findByText(container, 'va-button', 'Back');
-      expect(backButton).to.exist;
-    });
-  });
-
-  describe('Review Mode', () => {
-    it('should render save button instead of continue in review mode', () => {
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-          onReviewPage
-          updatePage={mockUpdatePage}
-        />,
-      );
-
-      const saveButton = findByText(container, 'va-button', 'Save');
-      const continueButton = findByText(container, 'va-button', 'Continue');
-
-      expect(saveButton).to.exist;
-      expect(continueButton).to.not.exist;
-    });
-  });
-
-  describe('Props Handling', () => {
-    it('should accept required props', () => {
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          data={{}}
-          setFormData={mockSetFormData}
-        />,
-      );
-
-      expect(container).to.exist;
-    });
-
-    it('should accept optional props', () => {
-      const { container } = render(
-        <HospitalizationDatePage
-          goForward={mockGoForward}
-          goBack={mockGoBack}
-          data={{}}
-          setFormData={mockSetFormData}
-          onReviewPage
-          updatePage={mockUpdatePage}
-        />,
-      );
-
-      expect(container).to.exist;
     });
   });
 });

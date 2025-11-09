@@ -55,6 +55,7 @@ export const BurialBenefitsRecipientPage = ({
   return (
     <PageTemplate
       title="Burial benefits recipient"
+      subtitle="This is the organization who will be receiving compensation."
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -70,10 +71,6 @@ export const BurialBenefitsRecipientPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <p className="vads-u-margin-bottom--3">
-            This is the organization who will be receiving compensation.
-          </p>
-
           <TextInputField
             name="recipientOrganizationName"
             label="Full name"

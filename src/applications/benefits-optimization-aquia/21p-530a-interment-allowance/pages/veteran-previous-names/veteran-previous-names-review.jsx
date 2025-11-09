@@ -16,8 +16,7 @@ import { ReviewField } from '@bio-aquia/shared/components/atoms/review-field';
  * @returns {JSX.Element} Review page content
  */
 export const VeteranPreviousNamesReviewPage = ({ data, editPage, title }) => {
-  const sectionData = data?.veteranPreviousNames || {};
-  const previousNames = sectionData.previousNames || [];
+  const previousNames = data?.previousNames || [];
 
   if (!previousNames.length) {
     return (
@@ -34,7 +33,7 @@ export const VeteranPreviousNamesReviewPage = ({ data, editPage, title }) => {
 
   const formatName = name => {
     if (!name) return '';
-    const parts = [name.firstName, name.middleName, name.lastName].filter(
+    const parts = [name.first, name.middle, name.last, name.suffix].filter(
       Boolean,
     );
     return parts.join(' ');
@@ -46,6 +45,7 @@ export const VeteranPreviousNamesReviewPage = ({ data, editPage, title }) => {
       data={data}
       editPage={editPage}
       sectionName="veteranPreviousNames"
+      hideEditButton
     >
       {previousNames.map((name, index) => {
         const nameLabel =

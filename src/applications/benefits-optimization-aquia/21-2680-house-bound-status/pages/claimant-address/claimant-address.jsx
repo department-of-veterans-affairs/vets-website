@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
+import { PageTemplateWithSaveInProgress } from '@bio-aquia/shared/components/templates';
 import { AddressField } from '@bio-aquia/shared/components/molecules';
 
 import {
   claimantAddressPageSchema,
   claimantAddressSchema,
 } from '@bio-aquia/21-2680-house-bound-status/schemas';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 /**
  * Claimant Address Page
@@ -40,7 +41,7 @@ export const ClaimantAddressPage = ({
   const addressDescription = `We'll send any important information about ${formattedName}'s application to this address.`;
 
   return (
-    <PageTemplate
+    <PageTemplateWithSaveInProgress
       title=""
       data={formDataToUse}
       setFormData={setFormData}
@@ -50,6 +51,7 @@ export const ClaimantAddressPage = ({
       sectionName="claimantAddress"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+      formConfig={formConfig}
       defaultData={{
         claimantAddress: {
           street: '',
@@ -113,7 +115,7 @@ export const ClaimantAddressPage = ({
           />
         </>
       )}
-    </PageTemplate>
+    </PageTemplateWithSaveInProgress>
   );
 };
 

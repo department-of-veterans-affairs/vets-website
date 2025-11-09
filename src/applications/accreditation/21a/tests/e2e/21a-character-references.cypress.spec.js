@@ -64,7 +64,7 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'seedUserWith21aSIP',
   (returnUrlRel = '/character-references') => {
-    const nowSec = Math.floor(Date.now() / 1000);
+    const nowSec = 4918241875; // Fixed timestamp: 2125-11-07 00:00:00 UTC
     cy.intercept('GET', '/accredited_representative_portal/v0/user', {
       statusCode: 200,
       headers: { 'cache-control': 'no-store' },
@@ -108,7 +108,7 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'stub21aFormDataExact',
   (returnUrlRel = '/character-references') => {
-    const nowSec = Math.floor(Date.now() / 1000);
+    const nowSec = 4918241875; // Fixed timestamp: 2125-11-07 00:00:00 UTC
     const nowMs = nowSec * 1000;
 
     cy.intercept(

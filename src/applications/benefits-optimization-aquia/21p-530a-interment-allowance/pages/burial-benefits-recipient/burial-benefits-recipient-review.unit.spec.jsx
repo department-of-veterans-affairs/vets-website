@@ -39,10 +39,11 @@ describe('BurialBenefitsRecipientReviewPage', () => {
   });
 
   describe('Data Display', () => {
-    it('should display recipient information', () => {
+    it('should display recipient organization name', () => {
       const data = {
         burialBenefitsRecipient: {
-          recipient: 'claimant',
+          recipientOrganizationName: 'Test Organization',
+          recipientPhone: '1234567890',
         },
       };
 
@@ -54,7 +55,25 @@ describe('BurialBenefitsRecipientReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Claimant');
+      expect(container.textContent).to.include('Test Organization');
+    });
+
+    it('should display formatted phone number', () => {
+      const data = {
+        burialBenefitsRecipient: {
+          recipientPhone: '1234567890',
+        },
+      };
+
+      const { container } = render(
+        <BurialBenefitsRecipientReviewPage
+          data={data}
+          editPage={mockEditPage}
+          title={mockTitle}
+        />,
+      );
+
+      expect(container.textContent).to.include('123-456-7890');
     });
 
     it('should handle empty data gracefully', () => {
