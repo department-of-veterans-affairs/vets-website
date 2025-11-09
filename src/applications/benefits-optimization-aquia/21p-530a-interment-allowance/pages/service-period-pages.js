@@ -40,18 +40,18 @@ const servicePeriodOptions = {
   required: true,
   isItemIncomplete: item =>
     !item.serviceBranch &&
-    !item.startDate &&
-    !item.separationDate &&
-    !item.entryLocation &&
-    !item.separationLocation &&
-    !item.gradeOrRank,
+    !item.dateEnteredService &&
+    !item.placeEnteredService &&
+    !item.rankAtSeparation &&
+    !item.dateLeftService &&
+    !item.placeLeftService,
   text: {
     summaryTitle: "Review the Veteran's service periods",
     getItemName: item => `${capitalize(item?.serviceBranch)}`,
     cardDescription: item =>
       `Entry date (${formatDate(
-        item?.startDate,
-      )}) - Separation date (${formatDate(item?.separationDate)}}`,
+        item?.dateEnteredService,
+      )}) - Separation date (${formatDate(item?.dateLeftService)}}`,
   },
 };
 
@@ -109,15 +109,15 @@ const serviceDatesPage = {
       ({ formData }) =>
         formData?.serviceBranch ? `${formData.serviceBranch}` : 'Service Dates',
     ),
-    startDate: currentOrPastDateUI('Service start date'),
-    separationDate: currentOrPastDateUI('Service end date'),
+    dateEnteredService: currentOrPastDateUI('Service start date'),
+    dateLeftService: currentOrPastDateUI('Service end date'),
   },
   schema: {
     type: 'object',
-    required: ['startDate', 'separationDate'],
+    required: ['dateEnteredService', 'dateLeftService'],
     properties: {
-      startDate: currentOrPastDateSchema,
-      separationDate: currentOrPastDateSchema,
+      dateEnteredService: currentOrPastDateSchema,
+      dateLeftService: currentOrPastDateSchema,
     },
   },
 };
@@ -126,17 +126,17 @@ const serviceDatesPage = {
 const serviceLocationsAndRankPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Service Locations'),
-    entryLocation: textUI('Place the Veteran entered active service'),
-    separationLocation: textUI('Place the Veteran separated active service'),
-    gradeOrRank: textUI('Grade, rank, or rating'),
+    placeEnteredService: textUI('Place the Veteran entered active service'),
+    placeLeftService: textUI('Place the Veteran separated active service'),
+    rankAtSeparation: textUI('Grade, rank, or rating'),
   },
   schema: {
     type: 'object',
-    required: ['entryLocation', 'separationLocation', 'gradeOrRank'],
+    required: ['placeEnteredService', 'placeLeftService', 'rankAtSeparation'],
     properties: {
-      entryLocation: textSchema,
-      separationLocation: textSchema,
-      gradeOrRank: textSchema,
+      placeEnteredService: textSchema,
+      placeLeftService: textSchema,
+      rankAtSeparation: textSchema,
     },
   },
 };
