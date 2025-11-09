@@ -17,6 +17,11 @@ export const veteranBurialInformationPage = {
     burialInformation: {
       dateOfBurial: currentOrPastDateUI('Date of burial'),
       placeOfBurial: {
+        ...titleUI({
+          title: 'Cemetery information',
+          headerLevel: '4',
+          classNames: 'vads-u-color--gray-dark',
+        }),
         stateCemeteryOrTribalCemeteryName: textUI('Cemetery Name'),
         cemeteryLocation: addressUI({
           omit: [
