@@ -69,12 +69,14 @@ describe('useChatbotToken', () => {
 
       expect(sessionStorage.getItem('va-bot.token')).to.equal('t-new');
       expect(sessionStorage.getItem('va-bot.conversationId')).to.equal('c-new');
+      expect(sessionStorage.getItem('va-bot.code')).to.equal('code-new');
     });
 
-    it('should reuse existing token/conversationId and not fetch again', async () => {
+    it('should reuse existing token/conversationId/code and not fetch again', async () => {
       // Pre-populate existing values
       sessionStorage.setItem('va-bot.token', 't-existing');
       sessionStorage.setItem('va-bot.conversationId', 'c-existing');
+      sessionStorage.setItem('va-bot.code', 'code-existing');
 
       const retryStub = sandbox.stub(RetryOnce, 'default').resolves({
         token: 't-should-not-be-used',
@@ -96,6 +98,36 @@ describe('useChatbotToken', () => {
       expect(sessionStorage.getItem('va-bot.conversationId')).to.equal(
         'c-existing',
       );
+      expect(sessionStorage.getItem('va-bot.code')).to.equal('code-existing');
+    });
+
+    it('should fetch to obtain code when missing while preserving existing token/conversationId', async () => {
+      // Pre-populate existing token/conversationId but no code
+      sessionStorage.setItem('va-bot.token', 't-existing');
+      sessionStorage.setItem('va-bot.conversationId', 'c-existing');
+
+      const retryStub = sandbox.stub(RetryOnce, 'default').resolves({
+        token: 't-new',
+        conversationId: 'c-new',
+        code: 'code-fetched',
+      });
+
+      let result;
+      await act(async () => {
+        result = renderHook(() => useChatbotToken(), {
+          wrapper: createWrapper(true),
+        });
+      });
+
+      // token used by hook remains existing, and code is stored from fetch
+      expect(result.result.current.token).to.equal('t-existing');
+      expect(result.result.current.loadingStatus).to.equal(COMPLETE);
+      expect(retryStub.calledOnce).to.be.true;
+      expect(sessionStorage.getItem('va-bot.token')).to.equal('t-existing');
+      expect(sessionStorage.getItem('va-bot.conversationId')).to.equal(
+        'c-existing',
+      );
+      expect(sessionStorage.getItem('va-bot.code')).to.equal('code-fetched');
     });
 
     it('should run the effect only once on mount (no duplicate fetches)', async () => {

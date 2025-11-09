@@ -9,11 +9,6 @@ export const SUBTITLE =
   'State or Tribal Organization Application for Interment Allowance (Under 38 U.S.C. Chapter 23) (VA Form 21-530a)';
 
 /**
- * Form submission endpoint
- */
-export const SUBMIT_URL = '/v0/form21p_530a';
-
-/**
  * Tracking prefix for analytics
  */
 export const TRACKING_PREFIX = '21p-530a-interment-allowance-';

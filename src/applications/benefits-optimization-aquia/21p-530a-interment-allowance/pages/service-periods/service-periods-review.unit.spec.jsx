@@ -53,18 +53,16 @@ describe('ServicePeriodsReviewPage', () => {
   describe('Data Display', () => {
     it('should display single service period', () => {
       const data = {
-        servicePeriods: {
-          servicePeriods: [
-            {
-              branchOfService: 'army',
-              dateFrom: '1962-01-01',
-              dateTo: '1965-05-19',
-              placeOfEntry: 'Coruscant Jedi Temple',
-              placeOfSeparation: 'Mustafar',
-              rank: 'Jedi Knight / General',
-            },
-          ],
-        },
+        servicePeriods: [
+          {
+            branchOfService: 'army',
+            dateFrom: '1962-01-01',
+            dateTo: '1965-05-19',
+            placeOfEntry: 'Coruscant Jedi Temple',
+            placeOfSeparation: 'Mustafar',
+            rank: 'Jedi Knight / General',
+          },
+        ],
       };
 
       const { container } = render(
@@ -75,27 +73,25 @@ describe('ServicePeriodsReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('army');
+      expect(container.textContent).to.include('Army');
       expect(container.textContent).to.include('Coruscant Jedi Temple');
       expect(container.textContent).to.include('Jedi Knight / General');
     });
 
     it('should display multiple service periods', () => {
       const data = {
-        servicePeriods: {
-          servicePeriods: [
-            {
-              branchOfService: 'army',
-              dateFrom: '1962-01-01',
-              dateTo: '1965-05-19',
-            },
-            {
-              branchOfService: 'navy',
-              dateFrom: '1965-05-20',
-              dateTo: '1984-05-04',
-            },
-          ],
-        },
+        servicePeriods: [
+          {
+            branchOfService: 'army',
+            dateFrom: '1962-01-01',
+            dateTo: '1965-05-19',
+          },
+          {
+            branchOfService: 'navy',
+            dateFrom: '1965-05-20',
+            dateTo: '1984-05-04',
+          },
+        ],
       };
 
       const { container } = render(
@@ -106,8 +102,8 @@ describe('ServicePeriodsReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('army');
-      expect(container.textContent).to.include('navy');
+      expect(container.textContent).to.include('Army');
+      expect(container.textContent).to.include('Navy');
     });
 
     it('should handle empty data gracefully', () => {
@@ -141,34 +137,32 @@ describe('ServicePeriodsReviewPage', () => {
   describe('Multiple Service Periods Display', () => {
     it('should display period numbers for multiple periods', () => {
       const data = {
-        servicePeriods: {
-          servicePeriods: [
-            {
-              branchOfService: 'army',
-              dateFrom: '1941-05-04',
-              dateTo: '1945-05-08',
-              placeOfEntry: 'Tatooine',
-              placeOfSeparation: 'Coruscant',
-              rank: 'Padawan',
-            },
-            {
-              branchOfService: 'navy',
-              dateFrom: '1945-05-09',
-              dateTo: '1960-12-31',
-              placeOfEntry: 'Coruscant Jedi Temple',
-              placeOfSeparation: 'Mustafar',
-              rank: 'Jedi Knight',
-            },
-            {
-              branchOfService: 'space force',
-              dateFrom: '1965-05-20',
-              dateTo: '1984-05-04',
-              placeOfEntry: 'Death Star I',
-              placeOfSeparation: 'Death Star II',
-              rank: 'Supreme Commander',
-            },
-          ],
-        },
+        servicePeriods: [
+          {
+            branchOfService: 'army',
+            dateFrom: '1941-05-04',
+            dateTo: '1945-05-08',
+            placeOfEntry: 'Tatooine',
+            placeOfSeparation: 'Coruscant',
+            rank: 'Padawan',
+          },
+          {
+            branchOfService: 'navy',
+            dateFrom: '1945-05-09',
+            dateTo: '1960-12-31',
+            placeOfEntry: 'Coruscant Jedi Temple',
+            placeOfSeparation: 'Mustafar',
+            rank: 'Jedi Knight',
+          },
+          {
+            branchOfService: 'space force',
+            dateFrom: '1965-05-20',
+            dateTo: '1984-05-04',
+            placeOfEntry: 'Death Star I',
+            placeOfSeparation: 'Death Star II',
+            rank: 'Supreme Commander',
+          },
+        ],
       };
 
       const { container } = render(
@@ -179,9 +173,9 @@ describe('ServicePeriodsReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('army');
-      expect(container.textContent).to.include('navy');
-      expect(container.textContent).to.include('space force');
+      expect(container.textContent).to.include('Army');
+      expect(container.textContent).to.include('Navy');
+      expect(container.textContent).to.include('Space Force');
 
       expect(container.textContent).to.include('Branch of service 1');
       expect(container.textContent).to.include('Branch of service 2');
@@ -190,15 +184,13 @@ describe('ServicePeriodsReviewPage', () => {
 
     it('should not display period number for single period', () => {
       const data = {
-        servicePeriods: {
-          servicePeriods: [
-            {
-              branchOfService: 'army',
-              dateFrom: '1962-01-01',
-              dateTo: '1965-05-19',
-            },
-          ],
-        },
+        servicePeriods: [
+          {
+            branchOfService: 'army',
+            dateFrom: '1962-01-01',
+            dateTo: '1965-05-19',
+          },
+        ],
       };
 
       const { container } = render(
@@ -215,20 +207,18 @@ describe('ServicePeriodsReviewPage', () => {
 
     it('should render dividers between periods', () => {
       const data = {
-        servicePeriods: {
-          servicePeriods: [
-            {
-              branchOfService: 'army',
-              dateFrom: '1962-01-01',
-              dateTo: '1965-05-19',
-            },
-            {
-              branchOfService: 'navy',
-              dateFrom: '1965-05-20',
-              dateTo: '1984-05-04',
-            },
-          ],
-        },
+        servicePeriods: [
+          {
+            branchOfService: 'army',
+            dateFrom: '1962-01-01',
+            dateTo: '1965-05-19',
+          },
+          {
+            branchOfService: 'navy',
+            dateFrom: '1965-05-20',
+            dateTo: '1984-05-04',
+          },
+        ],
       };
 
       const { container } = render(
@@ -249,18 +239,16 @@ describe('ServicePeriodsReviewPage', () => {
   describe('Field Display with Different Data', () => {
     it('should display all fields when all data provided', () => {
       const data = {
-        servicePeriods: {
-          servicePeriods: [
-            {
-              branchOfService: 'navy',
-              dateFrom: '1977-05-25',
-              dateTo: '1983-05-25',
-              placeOfEntry: 'Alderaan',
-              placeOfSeparation: 'Endor',
-              rank: 'Princess / General',
-            },
-          ],
-        },
+        servicePeriods: [
+          {
+            branchOfService: 'navy',
+            dateFrom: '1977-05-25',
+            dateTo: '1983-05-25',
+            placeOfEntry: 'Alderaan',
+            placeOfSeparation: 'Endor',
+            rank: 'Princess / General',
+          },
+        ],
       };
 
       const { container } = render(
@@ -278,7 +266,7 @@ describe('ServicePeriodsReviewPage', () => {
       expect(container.textContent).to.include('Place of separation');
       expect(container.textContent).to.include('Grade, rank, or rating');
 
-      expect(container.textContent).to.include('navy');
+      expect(container.textContent).to.include('Navy');
       expect(container.textContent).to.include('Alderaan');
       expect(container.textContent).to.include('Endor');
       expect(container.textContent).to.include('Princess / General');
@@ -286,18 +274,16 @@ describe('ServicePeriodsReviewPage', () => {
 
     it('should hide empty fields with hideWhenEmpty', () => {
       const data = {
-        servicePeriods: {
-          servicePeriods: [
-            {
-              branchOfService: 'army',
-              dateFrom: '1962-01-01',
-              dateTo: '1965-05-19',
-              placeOfEntry: '',
-              placeOfSeparation: '',
-              rank: '',
-            },
-          ],
-        },
+        servicePeriods: [
+          {
+            branchOfService: 'army',
+            dateFrom: '1962-01-01',
+            dateTo: '1965-05-19',
+            placeOfEntry: '',
+            placeOfSeparation: '',
+            rank: '',
+          },
+        ],
       };
 
       const { container } = render(
@@ -308,21 +294,19 @@ describe('ServicePeriodsReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('army');
+      expect(container.textContent).to.include('Army');
       expect(container.textContent).to.include('Branch of service');
     });
 
     it('should handle periods with only required fields', () => {
       const data = {
-        servicePeriods: {
-          servicePeriods: [
-            {
-              branchOfService: 'coast guard',
-              dateFrom: '2000-01-01',
-              dateTo: '2004-12-31',
-            },
-          ],
-        },
+        servicePeriods: [
+          {
+            branchOfService: 'coast guard',
+            dateFrom: '2000-01-01',
+            dateTo: '2004-12-31',
+          },
+        ],
       };
 
       const { container } = render(
@@ -333,20 +317,18 @@ describe('ServicePeriodsReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('coast guard');
+      expect(container.textContent).to.include('Coast Guard');
     });
 
     it('should handle undefined optional fields', () => {
       const data = {
-        servicePeriods: {
-          servicePeriods: [
-            {
-              branchOfService: 'marine corps',
-              dateFrom: '1995-01-01',
-              dateTo: '1999-12-31',
-            },
-          ],
-        },
+        servicePeriods: [
+          {
+            branchOfService: 'marine corps',
+            dateFrom: '1995-01-01',
+            dateTo: '1999-12-31',
+          },
+        ],
       };
 
       const { container } = render(
@@ -357,16 +339,14 @@ describe('ServicePeriodsReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('marine corps');
+      expect(container.textContent).to.include('Marine Corps');
     });
   });
 
   describe('Data Structure Variations', () => {
     it('should handle empty servicePeriods array', () => {
       const data = {
-        servicePeriods: {
-          servicePeriods: [],
-        },
+        servicePeriods: [],
       };
 
       const { container } = render(
@@ -381,9 +361,7 @@ describe('ServicePeriodsReviewPage', () => {
     });
 
     it('should handle missing servicePeriods array', () => {
-      const data = {
-        servicePeriods: {},
-      };
+      const data = {};
 
       const { container } = render(
         <ServicePeriodsReviewPage
@@ -430,15 +408,13 @@ describe('ServicePeriodsReviewPage', () => {
   describe('Date Field Display', () => {
     it('should display formatted dates', () => {
       const data = {
-        servicePeriods: {
-          servicePeriods: [
-            {
-              branchOfService: 'army',
-              dateFrom: '1941-05-04',
-              dateTo: '1984-05-04',
-            },
-          ],
-        },
+        servicePeriods: [
+          {
+            branchOfService: 'army',
+            dateFrom: '1941-05-04',
+            dateTo: '1984-05-04',
+          },
+        ],
       };
 
       const { container } = render(
@@ -455,13 +431,11 @@ describe('ServicePeriodsReviewPage', () => {
 
     it('should handle missing dates', () => {
       const data = {
-        servicePeriods: {
-          servicePeriods: [
-            {
-              branchOfService: 'navy',
-            },
-          ],
-        },
+        servicePeriods: [
+          {
+            branchOfService: 'navy',
+          },
+        ],
       };
 
       const { container } = render(
@@ -472,32 +446,30 @@ describe('ServicePeriodsReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('navy');
+      expect(container.textContent).to.include('Navy');
     });
   });
 
   describe('Different Branch Types', () => {
     it('should display all supported branch types', () => {
       const branches = [
-        'air force',
-        'army',
-        'coast guard',
-        'marine corps',
-        'navy',
-        'space force',
+        { value: 'air force', label: 'Air Force' },
+        { value: 'army', label: 'Army' },
+        { value: 'coast guard', label: 'Coast Guard' },
+        { value: 'marine corps', label: 'Marine Corps' },
+        { value: 'navy', label: 'Navy' },
+        { value: 'space force', label: 'Space Force' },
       ];
 
       branches.forEach(branch => {
         const data = {
-          servicePeriods: {
-            servicePeriods: [
-              {
-                branchOfService: branch,
-                dateFrom: '2000-01-01',
-                dateTo: '2004-12-31',
-              },
-            ],
-          },
+          servicePeriods: [
+            {
+              branchOfService: branch.value,
+              dateFrom: '2000-01-01',
+              dateTo: '2004-12-31',
+            },
+          ],
         };
 
         const { container } = render(
@@ -508,7 +480,7 @@ describe('ServicePeriodsReviewPage', () => {
           />,
         );
 
-        expect(container.textContent).to.include(branch);
+        expect(container.textContent).to.include(branch.label);
       });
     });
   });

@@ -64,22 +64,25 @@ export const VeteranServedUnderDifferentNamePage = ({
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
-        <>
-          <RadioField
-            name="veteranServedUnderDifferentName"
-            label="Did the Veteran serve under a different name?"
-            value={localData.veteranServedUnderDifferentName}
-            onChange={handleFieldChange}
-            required
-            error={errors.veteranServedUnderDifferentName}
-            forceShowError={formSubmitted}
-            schema={hasAlternateNamesSchema}
-            options={[
-              { value: 'yes', label: 'Yes' },
-              { value: 'no', label: 'No' },
-            ]}
-          />
-        </>
+        <RadioField
+          name="veteranServedUnderDifferentName"
+          label="Did the Veteran serve under another name?"
+          value={localData.veteranServedUnderDifferentName}
+          onChange={handleFieldChange}
+          schema={hasAlternateNamesSchema}
+          tile
+          options={[
+            {
+              value: 'yes',
+              label: 'Yes',
+              description: "You'll need to add at least one other name.",
+            },
+            { value: 'no', label: 'No', description: '' },
+          ]}
+          error={errors.veteranServedUnderDifferentName}
+          forceShowError={formSubmitted}
+          required
+        />
       )}
     </PageTemplate>
   );

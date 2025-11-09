@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   arrayBuilderItemFirstPageTitleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   fullNameSchema,
@@ -17,19 +18,7 @@ import {
 import constants from 'vets-json-schema/dist/constants.json';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { previousMarriageEndOptions } from '../../../utils/labels';
-
-const handleAlertMaxItems = () => (
-  <div>
-    You have added the maximum number of allowed previous marriages for this
-    application. Additional marriages can be added using VA Form 21-4138 and
-    uploaded at the end of this application.
-    <va-link
-      href="/find-forms/about-form-21-4138/"
-      external
-      text="Get VA Form 21-4138 to download"
-    />
-  </div>
-);
+import { handleAlertMaxItems } from '../../../components/FormAlerts';
 
 // Helper function to determine if previous marriages section should be shown
 const shouldShowPreviousMarriages = formData => {
@@ -85,6 +74,21 @@ const options = {
     (item?.marriageEndReason === 'OTHER' && !item?.marriageEndOtherExplanation),
   maxItems: 2,
   text: {
+    cancelAddTitle: 'Cancel adding this previous marriage?',
+    cancelEditTitle: 'Cancel editing this previous marriage?',
+    cancelAddDescription:
+      'If you cancel, we won’t add this previous marriage to your list of marriages. You’ll return to a page where you can add another previous marriage.',
+    cancelEditDescription:
+      'If you cancel, you’ll lose any changes you made to this previous marriage and you will be returned to the previous marriage review page.',
+    cancelAddYes: 'Yes, cancel adding',
+    cancelAddNo: 'No, continue adding',
+    cancelEditYes: 'Yes, cancel editing',
+    cancelEditNo: 'No, continue editing',
+    deleteDescription:
+      'This will delete the information from your list of previous marriages. You’ll return to a page where you can add a new previous marriage.',
+    deleteNo: 'No, keep',
+    deleteTitle: 'Delete this previous marriage?',
+    deleteYes: 'Yes, delete',
     alertMaxItems: handleAlertMaxItems,
     getItemName: item => {
       const name = item?.previousSpouseName;
@@ -109,9 +113,9 @@ function introDescription() {
         the Veteran. You may add up to 2 marriages.
       </p>
       <p>
-        <strong>Note:</strong> We usually don't need to contact a previous
-        spouse of a Veteran's spouse. In very rare cases where we need
-        information from this person, we'll contact you first.
+        <strong>Note:</strong> We usually don’t need to contact a previous
+        spouse. In very rare cases where we need information from this person,
+        we’ll contact you first.
       </p>
     </div>
   );
@@ -162,7 +166,7 @@ const summaryPage = {
 const previousMarriageItemPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Previous spouse name',
+      title: 'Previous spouse’s name',
       nounSingular: options.nounSingular,
     }),
     previousSpouseName: fullNameUI(),
@@ -179,6 +183,9 @@ const previousMarriageItemPage = {
 /** @returns {PageSchema} */
 const marriageDateAndLocationPage = {
   uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'When and where did you get married?',
+    ),
     marriageToVeteranDate: currentOrPastDateUI({
       title: 'Date of marriage',
       monthSelect: false,
@@ -268,6 +275,9 @@ const marriageDateAndLocationPage = {
 /** @returns {PageSchema} */
 const marriageEndDateAndLocationPage = {
   uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'When and where did your marriage end?',
+    ),
     marriageEndDate: currentOrPastDateUI({
       title: 'Date marriage ended',
       monthSelect: false,
@@ -369,7 +379,8 @@ const marriageEndPage = {
   uiSchema: {
     marriageEndReason: radioUI({
       title: 'How did the marriage end?',
-      label: previousMarriageEndOptions,
+      labels: previousMarriageEndOptions,
+      labelHeaderLevel: 3,
     }),
     marriageEndOtherExplanation: {
       ...textUI({
@@ -432,7 +443,7 @@ export const previousMarriagesPages = arrayBuilderPages(
       schema: summaryPage.schema,
     }),
     previousMarriageItemPage: pageBuilder.itemPage({
-      title: 'Previous spouse name',
+      title: 'Previous spouse’s name',
       path: 'household/previous-marriage/:index/name',
       depends: formData =>
         formData.claimantRelationship === 'SPOUSE' &&

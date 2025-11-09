@@ -5,6 +5,8 @@
 
 /** @exports {Object} Constants - Form constants */
 export {
+  BRANCH_OF_SERVICE,
+  CURRENT_ALLOWANCE_RATE,
   SUBMISSION_ADDRESS,
   SUBMIT_URL,
   SUBTITLE,
