@@ -38,8 +38,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -59,8 +59,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -81,8 +81,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -95,15 +95,15 @@ describe('PreSubmitSignature Component', () => {
           />
         </Provider>,
       );
-      expect(container.textContent).to.include('John Doe');
+      expect(container.textContent).to.include('Luke Skywalker');
     });
 
     it('should render VaStatementOfTruth component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'Jane',
-            last: 'Smith',
+            first: 'Leia',
+            last: 'Organa',
           },
         },
       };
@@ -124,7 +124,7 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
+            first: 'Luke',
           },
         },
       };
@@ -137,14 +137,14 @@ describe('PreSubmitSignature Component', () => {
           />
         </Provider>,
       );
-      expect(container.textContent).to.include('John');
+      expect(container.textContent).to.include('Luke');
     });
 
     it('should handle names with only last name', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            last: 'Doe',
+            last: 'Skywalker',
           },
         },
       };
@@ -157,7 +157,7 @@ describe('PreSubmitSignature Component', () => {
           />
         </Provider>,
       );
-      expect(container.textContent).to.include('Doe');
+      expect(container.textContent).to.include('Skywalker');
     });
   });
 
@@ -218,8 +218,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -254,8 +254,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -280,8 +280,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -307,8 +307,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -329,8 +329,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -366,8 +366,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -405,8 +405,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -434,11 +434,11 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
-        signature: 'John Doe',
+        signature: 'Luke Skywalker',
         certificationChecked: true,
       };
       const { container } = render(
@@ -459,8 +459,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'Test',
-            last: 'User',
+            first: 'Qui-Gon',
+            last: 'Jinn',
           },
         },
       };
@@ -480,8 +480,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'Test',
-            last: 'User',
+            first: 'Qui-Gon',
+            last: 'Jinn',
           },
         },
       };
@@ -501,8 +501,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'Test',
-            last: 'User',
+            first: 'Qui-Gon',
+            last: 'Jinn',
           },
         },
       };
@@ -525,8 +525,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -544,7 +544,7 @@ describe('PreSubmitSignature Component', () => {
       fireEvent(
         statementOfTruth,
         new CustomEvent('vaInputChange', {
-          detail: { value: 'John Doe' },
+          detail: { value: 'Luke Skywalker' },
         }),
       );
 
@@ -557,8 +557,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -582,8 +582,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -614,8 +614,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -633,7 +633,7 @@ describe('PreSubmitSignature Component', () => {
       fireEvent(
         statementOfTruth,
         new CustomEvent('vaInputChange', {
-          detail: { value: '  John Doe  ' },
+          detail: { value: '  Luke Skywalker  ' },
         }),
       );
 
@@ -647,8 +647,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -667,7 +667,7 @@ describe('PreSubmitSignature Component', () => {
       fireEvent(
         statementOfTruth,
         new CustomEvent('vaInputChange', {
-          detail: { value: 'John Doe' },
+          detail: { value: 'Luke Skywalker' },
         }),
       );
 
@@ -690,8 +690,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -710,7 +710,7 @@ describe('PreSubmitSignature Component', () => {
       fireEvent(
         statementOfTruth,
         new CustomEvent('vaInputChange', {
-          detail: { value: 'JOHN DOE' },
+          detail: { value: 'LUKE SKYWALKER' },
         }),
       );
 
@@ -730,8 +730,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -750,7 +750,7 @@ describe('PreSubmitSignature Component', () => {
       fireEvent(
         statementOfTruth,
         new CustomEvent('vaInputChange', {
-          detail: { value: 'John  Doe' },
+          detail: { value: 'Luke  Skywalker' },
         }),
       );
 
@@ -762,8 +762,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -782,7 +782,7 @@ describe('PreSubmitSignature Component', () => {
       fireEvent(
         statementOfTruth,
         new CustomEvent('vaInputChange', {
-          detail: { value: 'Jane Smith' },
+          detail: { value: 'Leia Organa' },
         }),
       );
 
@@ -802,8 +802,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -839,8 +839,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John-Paul',
-            last: "O'Brien",
+            first: 'Obi-Wan',
+            last: 'Kenobi',
           },
         },
       };
@@ -853,15 +853,15 @@ describe('PreSubmitSignature Component', () => {
           />
         </Provider>,
       );
-      expect(container.textContent).to.include("John-Paul O'Brien");
+      expect(container.textContent).to.include('Obi-Wan Kenobi');
     });
 
     it('should handle names with multiple spaces', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'Mary Ann',
-            last: 'Van Der Berg',
+            first: 'Padmé',
+            last: 'Amidala',
           },
         },
       };
@@ -874,15 +874,15 @@ describe('PreSubmitSignature Component', () => {
           />
         </Provider>,
       );
-      expect(container.textContent).to.include('Mary Ann Van Der Berg');
+      expect(container.textContent).to.include('Padmé Amidala');
     });
 
     it('should not dispatch if signature values have not changed', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
         signature: '',
@@ -909,8 +909,8 @@ describe('PreSubmitSignature Component', () => {
       const formData = {
         nursingOfficialInformation: {
           fullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
@@ -941,7 +941,7 @@ describe('PreSubmitSignature Component', () => {
       fireEvent(
         statementOfTruth,
         new CustomEvent('vaInputChange', {
-          detail: { value: 'John Doe' },
+          detail: { value: 'Luke Skywalker' },
         }),
       );
 
