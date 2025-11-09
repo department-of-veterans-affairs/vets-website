@@ -1,18 +1,21 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 import {
   SUBTITLE,
   TITLE,
   TRACKING_PREFIX,
 } from '@bio-aquia/21p-530a-interment-allowance/constants';
-import { ConfirmationPage } from '@bio-aquia/21p-530a-interment-allowance/containers/confirmation-page';
-import { IntroductionPage } from '@bio-aquia/21p-530a-interment-allowance/containers/introduction-page';
+import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
 import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
+import { transform } from '@bio-aquia/21p-530a-interment-allowance/config/submit-transform/transform';
+
+import { ConfirmationPage } from '@bio-aquia/21p-530a-interment-allowance/components/confirmation-page';
+import { IntroductionPage } from '@bio-aquia/21p-530a-interment-allowance/components/introduction-page';
 import { GetHelp as GetHelpFooter } from '@bio-aquia/21p-530a-interment-allowance/components/get-help';
 import PreSubmitInfo from '@bio-aquia/21p-530a-interment-allowance/components/pre-submit-info';
-import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
-import { transform } from '@bio-aquia/21p-530a-interment-allowance/config/submit-transform/transform';
+
 import {
   additionalRemarksPage,
   burialBenefitsRecipientPage,

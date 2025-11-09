@@ -39,14 +39,14 @@ export const transform = (formConfig, form) => {
     remarks,
   } = form?.data;
 
-  const servedUnderDifferentName = previousNames.reduce((acc, name) => {
+  const servedUnderDifferentName = previousNames?.reduce((acc, name) => {
     const { previousName } = name;
     const parts = [
-      capitalize(previousName.first),
-      capitalize(previousName.middle),
-      capitalize(previousName.last),
+      capitalize(previousName?.first),
+      capitalize(previousName?.middle),
+      capitalize(previousName?.last),
     ].filter(Boolean);
-    const formattedName = parts.join(' ');
+    const formattedName = parts?.join(' ');
     return `${acc ? `${acc}, ` : ''}${formattedName}`;
   }, '');
 
