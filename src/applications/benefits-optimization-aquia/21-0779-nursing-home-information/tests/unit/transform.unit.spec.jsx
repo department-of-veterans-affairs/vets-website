@@ -18,14 +18,14 @@ describe('Transform Function', () => {
 
     expect(parsedResult).to.have.property('veteranInformation');
     expect(parsedResult.veteranInformation).to.deep.include({
-      first: 'Doug',
-      middle: 'P',
-      last: 'Woodhouse',
-      dateOfBirth: '1945-10-15',
+      first: 'Anakin',
+      middle: 'Lars',
+      last: 'Skywalker',
+      dateOfBirth: '1960-03-01',
     });
     expect(parsedResult.veteranInformation.veteranId).to.deep.equal({
-      ssn: '222-22-2222',
-      vaFileNumber: '987654321',
+      ssn: '987654321',
+      vaFileNumber: '501987654',
     });
   });
 
@@ -48,14 +48,14 @@ describe('Transform Function', () => {
 
     expect(parsedResult.claimantInformation).to.not.be.null;
     expect(parsedResult.claimantInformation).to.include({
-      first: 'Rosemary',
-      middle: 'M',
-      last: 'Woodhouse',
-      dateOfBirth: '1945-02-09',
+      first: 'Shmi',
+      middle: 'Ekkreth',
+      last: 'Skywalker',
+      dateOfBirth: '1939-09-15',
     });
     expect(parsedResult.claimantInformation.veteranId).to.deep.equal({
-      ssn: '111-11-1111',
-      vaFileNumber: '12345678',
+      ssn: '111223333',
+      vaFileNumber: '41982736',
     });
   });
 
@@ -65,14 +65,14 @@ describe('Transform Function', () => {
     const parsedResult = JSON.parse(result);
 
     expect(parsedResult.nursingHomeInformation).to.deep.equal({
-      nursingHomeName: 'Best Nursing Home',
+      nursingHomeName: 'Coruscant Veterans Medical Center',
       nursingHomeAddress: {
-        street: '1060 W Addison St',
-        street2: 'Suite 12',
-        city: 'Chicago',
-        state: 'IL',
+        street: '500 Senate District Boulevard',
+        street2: 'Level 5127',
+        city: 'Coruscant',
+        state: 'DC',
         country: 'USA',
-        postalCode: '60613',
+        postalCode: '20001',
       },
     });
   });
@@ -83,16 +83,16 @@ describe('Transform Function', () => {
     const parsedResult = JSON.parse(result);
 
     expect(parsedResult.generalInformation).to.include({
-      admissionDate: '2022-10-19',
+      admissionDate: '2019-05-04',
       medicaidFacility: true,
       medicaidApplication: true,
       patientMedicaidCovered: true,
-      medicaidStartDate: '2021-12-13',
-      monthlyCosts: '2134',
+      medicaidStartDate: '2020-12-25',
+      monthlyCosts: '3277',
       certificationLevelOfCare: true,
-      nursingOfficialName: 'Andrew Green',
-      nursingOfficialTitle: 'Head Nurse',
-      nursingOfficialPhoneNumber: '3121114321',
+      nursingOfficialName: 'Beru Lars',
+      nursingOfficialTitle: 'Nursing Home Administrator',
+      nursingOfficialPhoneNumber: '5055551977',
     });
   });
 
@@ -119,24 +119,24 @@ describe('Transform Function', () => {
   it('should handle partial nursing official name', () => {
     const mockForm = createMockFormData({
       nursingOfficialInformation: {
-        firstName: 'Andrew',
+        firstName: 'Beru',
         lastName: '',
-        jobTitle: 'Head Nurse',
+        jobTitle: 'Nursing Home Administrator',
       },
     });
     const result = transform({}, mockForm);
     const parsedResult = JSON.parse(result);
 
     expect(parsedResult.generalInformation.nursingOfficialName).to.equal(
-      'Andrew',
+      'Beru',
     );
   });
 
   it('should handle boolean conversions correctly', () => {
     const mockForm = createMockFormData({
-      medicaidFacility: { isMedicaidApproved: 'no' },
-      medicaidApplication: { hasAppliedForMedicaid: 'yes' },
-      medicaidStatus: { currentlyCoveredByMedicaid: 'no' },
+      medicaidFacility: { isMedicaidApprovedFacility: false },
+      medicaidApplication: { hasAppliedForMedicaid: true },
+      medicaidStatus: { currentlyCoveredByMedicaid: false },
       certificationLevelOfCare: { levelOfCare: 'intermediate' },
     });
     const result = transform({}, mockForm);
