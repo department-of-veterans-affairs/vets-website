@@ -6,10 +6,7 @@
 
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import {
-  createPageValidator,
-  createValidationErrorHandler,
-} from '@bio-aquia/shared/utils';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   TITLE,
   SUBTITLE,
@@ -20,68 +17,42 @@ import manifest from '@bio-aquia/21-4192-employment-information/manifest.json';
 import GetHelpFooter from '@bio-aquia/21-4192-employment-information/components/get-help';
 import transformForSubmit from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
 
-// Import page components
+// Import page configurations (uiSchema and schema)
 import {
-  VeteranInformationPage,
-  VeteranContactInformationPage,
-  EmployerInformationPage,
-  EmploymentDatesPage,
-  EmploymentEarningsHoursPage,
-  EmploymentConcessionsPage,
-  EmploymentTerminationPage,
-  EmploymentLastPaymentPage,
-  DutyStatusPage,
-  DutyStatusDetailsPage,
-  BenefitsInformationPage,
-  BenefitsDetailsPage,
-  RemarksPage,
-} from '@bio-aquia/21-4192-employment-information/pages';
-
-// Import review components
-import { VeteranInformationReview } from '@bio-aquia/21-4192-employment-information/pages/veteran-information';
-import { VeteranContactInformationReview } from '@bio-aquia/21-4192-employment-information/pages/veteran-contact-information';
-import { EmployerInformationReview } from '@bio-aquia/21-4192-employment-information/pages/employer-information';
-import { EmploymentDatesReview } from '@bio-aquia/21-4192-employment-information/pages/employment-dates';
-import { EmploymentEarningsHoursReview } from '@bio-aquia/21-4192-employment-information/pages/employment-earnings-hours';
-import { EmploymentConcessionsReview } from '@bio-aquia/21-4192-employment-information/pages/employment-concessions';
-import { EmploymentTerminationReview } from '@bio-aquia/21-4192-employment-information/pages/employment-termination';
-import { EmploymentLastPaymentReview } from '@bio-aquia/21-4192-employment-information/pages/employment-last-payment';
-import { DutyStatusReview } from '@bio-aquia/21-4192-employment-information/pages/duty-status';
-import { DutyStatusDetailsReview } from '@bio-aquia/21-4192-employment-information/pages/duty-status-details';
-import { BenefitsInformationReview } from '@bio-aquia/21-4192-employment-information/pages/benefits-information';
-import { BenefitsDetailsReview } from '@bio-aquia/21-4192-employment-information/pages/benefits-details';
-import { RemarksReview } from '@bio-aquia/21-4192-employment-information/pages/remarks';
-
-// Import schemas
-import {
-  benefitsInformationSchema,
-  benefitsDetailsSchema,
-  dutyStatusSchema,
-  dutyStatusDetailsSchema,
-  employerInformationSchema,
-  employmentConcessionsSchema,
-  employmentDatesSchema,
-  employmentEarningsHoursSchema,
-  employmentLastPaymentSchema,
-  employmentTerminationSchema,
-  remarksSchema,
+  veteranInformationUiSchema,
   veteranInformationSchema,
+  veteranContactInformationUiSchema,
   veteranContactInformationSchema,
-} from '@bio-aquia/21-4192-employment-information/schemas';
-
-const defaultSchema = {
-  type: 'object',
-  properties: {},
-};
+  employerInformationUiSchema,
+  employerInformationSchema,
+  employmentDatesUiSchema,
+  employmentDatesSchema,
+  employmentEarningsHoursUiSchema,
+  employmentEarningsHoursSchema,
+  employmentConcessionsUiSchema,
+  employmentConcessionsSchema,
+  employmentTerminationUiSchema,
+  employmentTerminationSchema,
+  employmentLastPaymentUiSchema,
+  employmentLastPaymentSchema,
+  dutyStatusUiSchema,
+  dutyStatusSchema,
+  dutyStatusDetailsUiSchema,
+  dutyStatusDetailsSchema,
+  benefitsInformationUiSchema,
+  benefitsInformationSchema,
+  benefitsDetailsUiSchema,
+  benefitsDetailsSchema,
+  remarksUiSchema,
+  remarksSchema,
+} from '../../pages';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/form21_4192',
+  submitUrl: `${environment.API_URL}/v0/form214192`,
   transformForSubmit,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '21-4192-employment-information-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
@@ -110,6 +81,15 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteranInformation.veteranFullName',
+    },
+  },
   chapters: {
     veteranInformationChapter: {
       title: 'Veteran Information',
@@ -117,28 +97,14 @@ const formConfig = {
         veteranInformation: {
           path: 'veteran-information',
           title: 'Veteran Information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: VeteranInformationPage,
-          CustomPageReview: VeteranInformationReview,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(veteranInformationSchema)(values),
-          onErrorChange: createValidationErrorHandler('veteranInformation'),
+          uiSchema: veteranInformationUiSchema,
+          schema: veteranInformationSchema,
         },
         veteranContactInformation: {
           path: 'veteran-contact-information',
-          title: 'Veteran Information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: VeteranContactInformationPage,
-          CustomPageReview: VeteranContactInformationReview,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(veteranContactInformationSchema)(values),
-          onErrorChange: createValidationErrorHandler(
-            'veteranContactInformation',
-          ),
+          title: 'Veteran Contact Information',
+          uiSchema: veteranContactInformationUiSchema,
+          schema: veteranContactInformationSchema,
         },
       },
     },
@@ -148,14 +114,8 @@ const formConfig = {
         employerInformation: {
           path: 'employer-information',
           title: 'Employers Information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: EmployerInformationPage,
-          CustomPageReview: EmployerInformationReview,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(employerInformationSchema)(values),
-          onErrorChange: createValidationErrorHandler('employerInformation'),
+          uiSchema: employerInformationUiSchema,
+          schema: employerInformationSchema,
         },
       },
     },
@@ -164,65 +124,33 @@ const formConfig = {
       pages: {
         employmentDates: {
           path: 'employment-dates',
-          title: 'Employment Information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: EmploymentDatesPage,
-          CustomPageReview: EmploymentDatesReview,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(employmentDatesSchema)(values),
-          onErrorChange: createValidationErrorHandler('employmentDates'),
+          title: 'Employment Dates',
+          uiSchema: employmentDatesUiSchema,
+          schema: employmentDatesSchema,
         },
         employmentEarningsHours: {
           path: 'employment-earnings-hours',
-          title: 'Employment Information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: EmploymentEarningsHoursPage,
-          CustomPageReview: EmploymentEarningsHoursReview,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(employmentEarningsHoursSchema)(values),
-          onErrorChange: createValidationErrorHandler(
-            'employmentEarningsHours',
-          ),
+          title: 'Employment Earnings and Hours',
+          uiSchema: employmentEarningsHoursUiSchema,
+          schema: employmentEarningsHoursSchema,
         },
         employmentConcessions: {
           path: 'employment-concessions',
-          title: 'Employment Information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: EmploymentConcessionsPage,
-          CustomPageReview: EmploymentConcessionsReview,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(employmentConcessionsSchema)(values),
-          onErrorChange: createValidationErrorHandler('employmentConcessions'),
+          title: 'Employment Concessions',
+          uiSchema: employmentConcessionsUiSchema,
+          schema: employmentConcessionsSchema,
         },
         employmentTermination: {
           path: 'employment-termination',
-          title: 'Employment Information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: EmploymentTerminationPage,
-          CustomPageReview: EmploymentTerminationReview,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(employmentTerminationSchema)(values),
-          onErrorChange: createValidationErrorHandler('employmentTermination'),
+          title: 'Employment Termination',
+          uiSchema: employmentTerminationUiSchema,
+          schema: employmentTerminationSchema,
         },
         employmentLastPayment: {
           path: 'employment-last-payment',
-          title: 'Employment Information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: EmploymentLastPaymentPage,
-          CustomPageReview: EmploymentLastPaymentReview,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(employmentLastPaymentSchema)(values),
-          onErrorChange: createValidationErrorHandler('employmentLastPayment'),
+          title: 'Employment Last Payment',
+          uiSchema: employmentLastPaymentUiSchema,
+          schema: employmentLastPaymentSchema,
         },
       },
     },
@@ -232,28 +160,16 @@ const formConfig = {
         dutyStatus: {
           path: 'duty-status',
           title: 'Duty Status',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: DutyStatusPage,
-          CustomPageReview: DutyStatusReview,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(dutyStatusSchema)(values),
-          onErrorChange: createValidationErrorHandler('dutyStatus'),
+          uiSchema: dutyStatusUiSchema,
+          schema: dutyStatusSchema,
         },
         dutyStatusDetails: {
           path: 'duty-status-details',
-          title: 'Duty Status',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: DutyStatusDetailsPage,
-          CustomPageReview: DutyStatusDetailsReview,
-          pagePerItemIndex: 0,
+          title: 'Duty Status Details',
+          uiSchema: dutyStatusDetailsUiSchema,
+          schema: dutyStatusDetailsSchema,
           depends: formData =>
-            formData?.dutyStatus?.reserveOrGuardStatus === 'yes',
-          verifyItemValues: values =>
-            createPageValidator(dutyStatusDetailsSchema)(values),
-          onErrorChange: createValidationErrorHandler('dutyStatusDetails'),
+            formData?.dutyStatus?.reserveOrGuardStatus === true,
         },
       },
     },
@@ -263,28 +179,16 @@ const formConfig = {
         benefitsInformation: {
           path: 'benefits-information',
           title: 'Benefits Information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: BenefitsInformationPage,
-          CustomPageReview: BenefitsInformationReview,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(benefitsInformationSchema)(values),
-          onErrorChange: createValidationErrorHandler('benefitsInformation'),
+          uiSchema: benefitsInformationUiSchema,
+          schema: benefitsInformationSchema,
         },
         benefitsDetails: {
           path: 'benefits-details',
-          title: 'Benefits Information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: BenefitsDetailsPage,
-          CustomPageReview: BenefitsDetailsReview,
-          pagePerItemIndex: 0,
+          title: 'Benefits Details',
+          uiSchema: benefitsDetailsUiSchema,
+          schema: benefitsDetailsSchema,
           depends: formData =>
-            formData?.benefitsInformation?.benefitEntitlement === 'yes',
-          verifyItemValues: values =>
-            createPageValidator(benefitsDetailsSchema)(values),
-          onErrorChange: createValidationErrorHandler('benefitsDetails'),
+            formData?.benefitsInformation?.benefitEntitlement === true,
         },
       },
     },
@@ -294,14 +198,8 @@ const formConfig = {
         remarks: {
           path: 'remarks',
           title: 'Remarks',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: RemarksPage,
-          CustomPageReview: RemarksReview,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(remarksSchema)(values),
-          onErrorChange: createValidationErrorHandler('remarks'),
+          uiSchema: remarksUiSchema,
+          schema: remarksSchema,
         },
       },
     },

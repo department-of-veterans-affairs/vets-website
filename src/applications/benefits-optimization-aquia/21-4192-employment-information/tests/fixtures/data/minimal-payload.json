@@ -1,0 +1,48 @@
+{
+  "veteranInformation": {
+    "fullName": {
+      "first": "Rex",
+      "middle": "",
+      "last": "CT-7567"
+    },
+    "ssn": "757675767",
+    "vaFileNumber": null,
+    "dateOfBirth": "2002-09-22",
+    "address": null
+  },
+  "employmentInformation": {
+    "employerName": "Grand Army of the Republic",
+    "employerAddress": {
+      "street": "501st Legion Barracks",
+      "street2": null,
+      "city": "Coruscant",
+      "state": "DC",
+      "postalCode": "20001",
+      "country": "US"
+    },
+    "typeOfWorkPerformed": "Clone trooper captain serving in 501st Legion under General Skywalker during galactic conflict",
+    "beginningDateOfEmployment": "2002-09-22",
+    "endingDateOfEmployment": "2005-05-19",
+    "amountEarnedLast12MonthsOfEmployment": 3200,
+    "timeLostLast12MonthsOfEmployment": "2 weeks due to combat injuries sustained during battle operations",
+    "hoursWorkedDaily": 16,
+    "hoursWorkedWeekly": 112,
+    "concessions": null,
+    "terminationReason": null,
+    "dateLastWorked": "2005-05-19",
+    "lastPaymentDate": "2005-05-19",
+    "lastPaymentGrossAmount": 3200,
+    "lumpSumPaymentMade": false,
+    "grossAmountPaid": null,
+    "datePaid": null
+  },
+  "benefitEntitlementPayments": {
+    "sickRetirementOtherBenefits": false,
+    "typeOfBenefit": null,
+    "grossMonthlyAmountOfBenefit": null,
+    "dateBenefitBegan": null,
+    "dateFirstPaymentIssued": null,
+    "dateBenefitWillStop": null,
+    "remarks": null
+  }
+}
