@@ -14,7 +14,6 @@ import {
  * Determines if patient is currently covered by Medicaid
  */
 export const medicaidStatusUiSchema = {
-  'ui:title': 'Medicaid status',
   medicaidStatus: {
     currentlyCoveredByMedicaid: yesNoUI({
       title:

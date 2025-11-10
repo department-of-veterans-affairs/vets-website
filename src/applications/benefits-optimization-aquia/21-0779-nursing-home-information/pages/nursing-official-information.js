@@ -5,6 +5,8 @@
  */
 
 import {
+  firstNameLastNameNoSuffixUI,
+  firstNameLastNameNoSuffixSchema,
   textUI,
   phoneUI,
   phoneSchema,
@@ -19,28 +21,15 @@ export const nursingOfficialInformationUiSchema = {
   'ui:description':
     'Only an official representative from a nursing home can fill out this form.',
   nursingOfficialInformation: {
-    firstName: textUI({
-      title: 'Your first name',
-    }),
-    lastName: textUI({
-      title: 'Your last name',
-    }),
+    fullName: firstNameLastNameNoSuffixUI(title => `Your ${title}`),
     jobTitle: textUI({
       title: 'Your nursing home job title',
     }),
-    phoneNumber: phoneUI('Your phone number'),
-  },
-  'ui:options': {
-    updateUiSchema: () => {
-      return {
-        nursingOfficialInformation: {
-          phoneNumber: {
-            'ui:description':
-              "We'll use this number to contact you if we have any questions about this form.",
-          },
-        },
-      };
-    },
+    phoneNumber: phoneUI({
+      title: 'Your phone number',
+      hint:
+        "We'll use this number to contact you if we have any questions about this form.",
+    }),
   },
 };
 
@@ -54,16 +43,9 @@ export const nursingOfficialInformationSchema = {
   properties: {
     nursingOfficialInformation: {
       type: 'object',
-      required: ['firstName', 'lastName', 'jobTitle', 'phoneNumber'],
+      required: ['fullName', 'jobTitle', 'phoneNumber'],
       properties: {
-        firstName: {
-          type: 'string',
-          maxLength: 30,
-        },
-        lastName: {
-          type: 'string',
-          maxLength: 30,
-        },
+        fullName: firstNameLastNameNoSuffixSchema,
         jobTitle: {
           type: 'string',
           maxLength: 100,

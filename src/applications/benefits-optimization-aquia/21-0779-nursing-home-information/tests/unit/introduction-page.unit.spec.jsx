@@ -115,9 +115,9 @@ describe('IntroductionPage', () => {
     const { container } = renderIntroductionPage();
     const ombInfo = container.querySelector('va-omb-info');
     expect(ombInfo).to.exist;
-    expect(ombInfo).to.have.attribute('res-burden', '15');
-    expect(ombInfo).to.have.attribute('omb-number', '2900-0361');
-    expect(ombInfo).to.have.attribute('exp-date', '07/31/2027');
+    expect(ombInfo).to.have.attribute('res-burden', '10');
+    expect(ombInfo).to.have.attribute('omb-number', '2900-0652');
+    expect(ombInfo).to.have.attribute('exp-date', '09/30/2026');
   });
 
   it('should include link to learn more about nursing homes', () => {

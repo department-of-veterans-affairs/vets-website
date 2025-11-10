@@ -144,21 +144,21 @@ describe('IntroductionPage Container', () => {
       const router = { push: () => {} };
       const { container } = render(<IntroductionPage router={router} />);
       const ombInfo = container.querySelector('va-omb-info');
-      expect(ombInfo.getAttribute('omb-number')).to.equal('2900-0361');
+      expect(ombInfo.getAttribute('omb-number')).to.equal('2900-0652');
     });
 
     it('should display response burden time', () => {
       const router = { push: () => {} };
       const { container } = render(<IntroductionPage router={router} />);
       const ombInfo = container.querySelector('va-omb-info');
-      expect(ombInfo.getAttribute('res-burden')).to.equal('15');
+      expect(ombInfo.getAttribute('res-burden')).to.equal('10');
     });
 
     it('should display expiration date', () => {
       const router = { push: () => {} };
       const { container } = render(<IntroductionPage router={router} />);
       const ombInfo = container.querySelector('va-omb-info');
-      expect(ombInfo.getAttribute('exp-date')).to.equal('07/31/2027');
+      expect(ombInfo.getAttribute('exp-date')).to.equal('09/30/2026');
     });
   });
 

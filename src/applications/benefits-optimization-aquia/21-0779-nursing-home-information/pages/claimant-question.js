@@ -14,7 +14,6 @@ import {
  * Determines if the patient is a veteran or spouse/parent of a veteran
  */
 export const claimantQuestionUiSchema = {
-  'ui:title': 'Patient information',
   claimantQuestion: {
     patientType: radioUI({
       title: 'Who is the patient in the nursing home facility?',

@@ -14,7 +14,6 @@ import {
  * Collects the date patient's Medicaid coverage began
  */
 export const medicaidStartDateUiSchema = {
-  'ui:title': 'Medicaid start date',
   medicaidStartDate: {
     medicaidStartDate: currentOrPastDateUI({
       title: "When did the patient's Medicaid plan begin?",

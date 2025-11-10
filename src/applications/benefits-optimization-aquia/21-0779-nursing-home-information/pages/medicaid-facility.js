@@ -14,11 +14,9 @@ import {
  * Determines if nursing home is Medicaid-approved facility
  */
 export const medicaidFacilityUiSchema = {
-  'ui:title': 'Medicaid facility status',
   medicaidFacility: {
     isMedicaidApprovedFacility: yesNoUI({
-      title:
-        'Is this nursing home a Medicaid-approved facility for nursing home care?',
+      title: 'Is the nuring home a Medicaid approved facility?',
     }),
   },
   'ui:options': {

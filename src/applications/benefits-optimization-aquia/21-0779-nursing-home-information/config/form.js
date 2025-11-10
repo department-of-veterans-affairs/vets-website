@@ -57,8 +57,8 @@ const formConfig = {
   getHelp: GetHelp,
   preSubmitInfo: preSubmitSignatureConfig,
   dev: {
-    showNavLinks: false,
-    collapsibleNavLinks: false,
+    showNavLinks: true,
+    collapsibleNavLinks: true,
   },
   formId: VA_FORM_IDS.FORM_21_0779,
   saveInProgress: {

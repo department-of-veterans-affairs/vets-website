@@ -5,15 +5,15 @@
         "sign_in": {
           "service_name": "idme"
         },
-        "email": "andrew.green@nursinghome.org",
+        "email": "bail.organa@nursinghome.org",
         "loa": { "current": 3 },
-        "first_name": "Andrew",
+        "first_name": "Bail",
         "middle_name": "",
-        "last_name": "Green",
+        "last_name": "Organa",
         "user_full_name": {
-          "first": "Andrew",
+          "first": "Bail",
           "middle": "",
-          "last": "Green",
+          "last": "Organa",
           "suffix": ""
         },
         "gender": "M",
@@ -46,9 +46,9 @@
       "va_profile": {
         "status": "OK",
         "birth_date": "19750615",
-        "family_name": "Green",
+        "family_name": "Organa",
         "gender": "M",
-        "given_names": ["Andrew", ""],
+        "given_names": ["Bail", ""],
         "active_status": "active"
       }
     }

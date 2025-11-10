@@ -34,8 +34,8 @@ export const PreSubmitSignature = ({
 }) => {
   const { nursingOfficialInformation = {} } = formData;
   // Get the official's name from form data
-  const officialsName = `${nursingOfficialInformation?.firstName ||
-    ''} ${nursingOfficialInformation?.lastName || ''}`.trim();
+  const officialsName = `${nursingOfficialInformation?.fullName?.first ||
+    ''} ${nursingOfficialInformation?.fullName?.last || ''}`.trim();
 
   const dispatch = useDispatch();
   const submission = useSelector(state => state.form.submission);

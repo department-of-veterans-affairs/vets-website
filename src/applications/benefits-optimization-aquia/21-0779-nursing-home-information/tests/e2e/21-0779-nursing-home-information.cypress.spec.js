@@ -23,8 +23,8 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             const { nursingOfficialInformation } = data;
             const officialName = [
-              nursingOfficialInformation.firstName,
-              nursingOfficialInformation.lastName,
+              nursingOfficialInformation.fullName.first,
+              nursingOfficialInformation.fullName.last,
             ]
               .filter(Boolean)
               .join(' ');

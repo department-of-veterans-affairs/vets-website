@@ -14,15 +14,31 @@ import { isPatientVeteran } from './helpers';
 
 /**
  * uiSchema for Veteran Identification Info page
- * Collects veteran SSN and optional VA file number
+ * Collects veteran SSN (preferred) or VA file number
  */
 export const veteranIdentificationInfoUiSchema = {
   'ui:title': "Veteran's identification information",
   veteranIdentificationInfo: {
-    veteranSsn: ssnUI('Social Security number'),
-    veteranVaFileNumber: textUI({
-      title: 'VA file number (optional)',
-    }),
+    veteranSsn: {
+      ...ssnUI('Social Security number'),
+      'ui:required': formData =>
+        !formData?.veteranIdentificationInfo?.veteranVaFileNumber,
+      'ui:errorMessages': {
+        ...ssnUI('Social Security number')['ui:errorMessages'],
+        required: 'Please enter a Social Security number or VA file number',
+      },
+    },
+    veteranVaFileNumber: {
+      ...textUI({
+        title: 'VA file number',
+      }),
+      'ui:options': {
+        hideOnReview: false,
+      },
+      'ui:errorMessages': {
+        pattern: 'VA file number must be 8 or 9 digits',
+      },
+    },
   },
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
@@ -30,16 +46,11 @@ export const veteranIdentificationInfoUiSchema = {
       const patientIsVeteran = isPatientVeteran(data);
 
       const subtitle = patientIsVeteran
-        ? 'You must enter either a Social Security number or VA File number'
+        ? "You must enter the Veteran's Social Security number. You can also enter a VA file number if available."
         : 'You must enter either a Social Security number or VA File number for the Veteran who is connected to the patient';
 
       return {
         'ui:description': subtitle,
-        veteranIdentificationInfo: {
-          veteranVaFileNumber: {
-            'ui:description': 'VA file number may be the same as SSN',
-          },
-        },
       };
     },
   },
@@ -47,7 +58,8 @@ export const veteranIdentificationInfoUiSchema = {
 
 /**
  * JSON Schema for Veteran Identification Info page
- * Validates veteran SSN and optional VA file number
+ * Validates veteran SSN and VA file number
+ * Note: At least one ID is required, enforced by ui:required functions
  */
 export const veteranIdentificationInfoSchema = {
   type: 'object',
@@ -55,7 +67,6 @@ export const veteranIdentificationInfoSchema = {
   properties: {
     veteranIdentificationInfo: {
       type: 'object',
-      required: ['veteranSsn'],
       properties: {
         veteranSsn: ssnSchema,
         veteranVaFileNumber: {

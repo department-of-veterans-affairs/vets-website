@@ -1,8 +1,10 @@
 {
   "data": {
     "nursingOfficialInformation": {
-      "firstName": "Beru",
-      "lastName": "Lars",
+      "fullName": {
+        "first": "Beru",
+        "last": "Lars"
+      },
       "jobTitle": "Nursing Home Administrator",
       "phoneNumber": "5055551977"
     },
@@ -23,7 +25,7 @@
     "claimantPersonalInfo": {
       "claimantFullName": {
         "first": "Shmi",
-        "middle": "Ekkreth",
+        "middle": "E",
         "last": "Skywalker"
       },
       "claimantDateOfBirth": "1939-09-15"
@@ -35,7 +37,7 @@
     "veteranPersonalInfo": {
       "fullName": {
         "first": "Anakin",
-        "middle": "Lars",
+        "middle": "L",
         "last": "Skywalker"
       },
       "dateOfBirth": "1960-03-01"

@@ -19,7 +19,7 @@ describe('Transform Function', () => {
     expect(parsedResult).to.have.property('veteranInformation');
     expect(parsedResult.veteranInformation).to.deep.include({
       first: 'Anakin',
-      middle: 'Lars',
+      middle: 'L',
       last: 'Skywalker',
       dateOfBirth: '1960-03-01',
     });
@@ -49,7 +49,7 @@ describe('Transform Function', () => {
     expect(parsedResult.claimantInformation).to.not.be.null;
     expect(parsedResult.claimantInformation).to.include({
       first: 'Shmi',
-      middle: 'Ekkreth',
+      middle: 'E',
       last: 'Skywalker',
       dateOfBirth: '1939-09-15',
     });
@@ -119,8 +119,10 @@ describe('Transform Function', () => {
   it('should handle partial nursing official name', () => {
     const mockForm = createMockFormData({
       nursingOfficialInformation: {
-        firstName: 'Beru',
-        lastName: '',
+        fullName: {
+          first: 'Beru',
+          last: '',
+        },
         jobTitle: 'Nursing Home Administrator',
       },
     });

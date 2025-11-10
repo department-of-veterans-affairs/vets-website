@@ -19,8 +19,8 @@ export const transform = (formConfig, form) => {
   } = form?.data;
 
   const { nursingHomeName, nursingHomeAddress } = nursingHomeDetails || {};
-  const nursingOfficialName = `${nursingOfficialInformation?.firstName?.trim() ||
-    ''} ${nursingOfficialInformation?.lastName?.trim() || ''}`.trim();
+  const nursingOfficialName = `${nursingOfficialInformation?.fullName?.first?.trim() ||
+    ''} ${nursingOfficialInformation?.fullName?.last?.trim() || ''}`.trim();
 
   // No claimant info if veteran is the patient
   const claimantIsVeteran = claimantQuestion?.patientType === 'veteran';

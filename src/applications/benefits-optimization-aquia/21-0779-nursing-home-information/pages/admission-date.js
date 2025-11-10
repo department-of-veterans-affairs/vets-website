@@ -14,7 +14,6 @@ import {
  * Collects the date patient was admitted to nursing home
  */
 export const admissionDateUiSchema = {
-  'ui:title': 'Date of admission',
   admissionDate: {
     admissionDate: currentOrPastDateUI({
       title: 'When was the patient admitted to the nursing home?',
