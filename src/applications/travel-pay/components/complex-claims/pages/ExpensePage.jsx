@@ -37,7 +37,6 @@ const ExpensePage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formState, setFormState] = useState({});
   const [showError, setShowError] = useState(false);
-  const [documentUpload, setDocumentUpload] = useState({});
   const errorRef = useRef(null); // ref for the error message
 
   const isLoadingExpense = useSelector(
@@ -102,7 +101,7 @@ const ExpensePage = () => {
   };
 
   const validatePage = () => {
-    const base = ['date', 'amount', 'documentUpload'];
+    const base = ['date', 'amount', 'receipt'];
     const extra = REQUIRED_FIELDS[expenseType] || [];
     const requiredFields = [...base, ...extra];
 
@@ -142,7 +141,15 @@ const ExpensePage = () => {
     }
   };
 
-  const handleDocumentUpload = e => {
+  const toBase64 = file =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+
+  const handleDocumentUpload = async e => {
     // Try both e.detail.files and e.target.files
     const files = e.detail?.files;
     // Check if we have files for upload
@@ -151,16 +158,17 @@ const ExpensePage = () => {
     }
 
     const file = files[0]; // Get the first (and only) file
-    // TODO: can remove this once we set the redux store
-    setDocumentUpload(file);
-    /* eslint-disable-next-line no-console */
-    console.log(documentUpload);
+    const base64File = await toBase64(file);
     // Sync into formState so validation works
     setFormState(prev => ({
       ...prev,
-      documentUpload: file,
+      receipt: {
+        contentType: file.type,
+        length: file.size,
+        fileName: file.name,
+        fileData: base64File,
+      },
     }));
-    // TODO: Add this to the redux store
   };
 
   return (
@@ -185,8 +193,9 @@ const ExpensePage = () => {
         </p>
       )}
       <p>
-        If you have multiple {expenseTypeFields.expensePageText} expenses, add
-        just one on this page. You’ll be able to add more expenses after this.
+        Upload a receipt or proof of the expense here. If you have multiple{' '}
+        {expenseTypeFields.expensePageText} expenses, add just one on this page.
+        You’ll be able to add more expenses after this.
       </p>
       <DocumentUpload handleDocumentUpload={handleDocumentUpload} />
       {expenseType === 'Meal' && (
