@@ -21,7 +21,10 @@ import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { validFieldCharsOnly } from '../../shared/validations';
-import { validateOHIDates } from '../helpers/validations';
+import {
+  validateHealthInsurancePlan,
+  validateOHIDates,
+} from '../helpers/validations';
 import { replaceStrValues } from '../helpers/formatting';
 import { toHash, nameWording, fmtDate } from '../../shared/utilities';
 import content from '../locales/en/content.json';
@@ -88,8 +91,7 @@ export const healthInsuranceOptions = {
   nounSingular: 'plan',
   nounPlural: 'plans',
   required: false,
-  isItemIncomplete: item =>
-    !(item.provider && item.insuranceType && item.effectiveDate),
+  isItemIncomplete: validateHealthInsurancePlan,
   text: {
     getItemName: item => item?.provider,
     cardDescription: item => (

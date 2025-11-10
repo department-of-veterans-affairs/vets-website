@@ -195,23 +195,6 @@ describe('generateParticipantNames', () => {
 });
 
 describe('healthInsuranceOptions', () => {
-  describe('isItemIncomplete', () => {
-    it('should mark item incomplete if provider is missing', () => {
-      const res = healthInsuranceOptions.isItemIncomplete({
-        insuranceType: 'some name',
-        effectiveDate: '2000-01-01',
-      });
-      expect(res).to.be.true;
-    });
-    it('should mark item complete if provider, insuranceType, and effectiveDate are present', () => {
-      const res = healthInsuranceOptions.isItemIncomplete({
-        provider: 'bcbs',
-        insuranceType: 'some name',
-        effectiveDate: '2000-01-01',
-      });
-      expect(res).to.be.false;
-    });
-  });
   describe('text.getItemName', () => {
     it('should compute title from provider name', () => {
       const res = healthInsuranceOptions.text.getItemName({
