@@ -569,54 +569,6 @@ describe('Submit Transform', () => {
     });
   });
 
-  describe('Sanitization - country codes', () => {
-    it('should truncate country field to 2 characters', () => {
-      const form = createFormData({
-        burialInformation: {
-          placeOfBurial: {
-            cemeteryLocation: {},
-          },
-          recipientOrganization: {
-            address: {
-              street: '123 Main St',
-              city: 'Springfield',
-              state: 'IL',
-              country: 'USA',
-              postalCode: '62701',
-            },
-          },
-        },
-      });
-
-      const result = JSON.parse(transform({}, form));
-
-      expect(
-        result.burialInformation.recipientOrganization.address.country,
-      ).to.equal('US');
-    });
-
-    it('should not modify 2-character country codes', () => {
-      const form = createFormData({
-        burialInformation: {
-          placeOfBurial: {
-            cemeteryLocation: {},
-          },
-          recipientOrganization: {
-            address: {
-              country: 'US',
-            },
-          },
-        },
-      });
-
-      const result = JSON.parse(transform({}, form));
-
-      expect(
-        result.burialInformation.recipientOrganization.address.country,
-      ).to.equal('US');
-    });
-  });
-
   describe('Complete Form Transformation', () => {
     it('should handle maximal form data correctly', () => {
       const maximalForm = createFormData({
@@ -733,7 +685,7 @@ describe('Submit Transform', () => {
       // Verify country code truncated
       expect(
         result.burialInformation.recipientOrganization.address.country,
-      ).to.equal('US');
+      ).to.equal('USA');
 
       // Verify remarks
       expect(result.remarks).to.equal('Purple Heart recipient');

@@ -49,12 +49,13 @@ export const PreSubmitCheckboxGroup = ({
           certification: {
             signature: fullName.trim(),
             titleOfStateOrTribalOfficial: organizationTitle.trim(),
+            certified: isCertified,
           },
         }),
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, fullName, organizationTitle],
+    [dispatch, fullName, organizationTitle, isCertified],
   );
 
   // Check if all required fields are valid
