@@ -129,7 +129,7 @@ const formConfig = {
       },
     },
     additionalInstitutionDetailsChapter: {
-      title: 'Additional institution details',
+      title: 'Additional locations',
       pages: {
         ...arrayBuilderPages(
           additionalInstitutionDetailsArrayOptions,

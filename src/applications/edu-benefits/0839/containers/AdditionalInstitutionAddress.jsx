@@ -8,10 +8,17 @@ const AdditionalInstitutionAddress = () => {
   const index = getArrayIndexFromPathName();
 
   const details = formData?.additionalInstitutionDetails?.[index] || {};
+  const facilityCode = (details?.facilityCode || '').trim();
+
+  const additionalFacilityCodes = formData?.additionalInstitutionDetails?.map(
+    item => item?.facilityCode?.trim(),
+  );
+
+  const isDuplicate =
+    additionalFacilityCodes.filter(item => item === facilityCode).length > 1;
 
   const institutionName = details?.institutionName;
   const institutionAddress = details?.institutionAddress || {};
-  const facilityCode = (details?.facilityCode || '').trim();
   const notYR = details.yrEligible === false;
   const notIHL = details.ihlEligible === false;
   const showWarningBanner = notYR || notIHL;
@@ -69,7 +76,8 @@ const AdditionalInstitutionAddress = () => {
     return false;
   })();
 
-  const shouldShowAddress = hasAddress && !hasError && !shouldHideAddressInList;
+  const shouldShowAddress =
+    hasAddress && !hasError && !shouldHideAddressInList && !isDuplicate;
 
   return (
     <div aria-live="polite">

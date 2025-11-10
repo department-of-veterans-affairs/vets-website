@@ -260,6 +260,10 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
     item => item?.facilityCode?.trim() === code,
   );
 
+  const additionalFacilityCodes = formData?.additionalInstitutionDetails?.map(
+    item => item?.facilityCode?.trim(),
+  );
+
   const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
   const notFound = currentItem?.institutionName === 'not found';
   const ihlEligible = currentItem?.ihlEligible;
@@ -270,6 +274,13 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
     code.length === 8 && !badFormat && thirdChar === 'X';
 
   if (!currentItem?.isLoading) {
+    if (additionalFacilityCodes.filter(item => item === code).length > 1) {
+      errors.addError(
+        "You've already added this location. Please enter a different code.",
+      );
+      return;
+    }
+
     if (hasXInThirdPosition) {
       errors.addError(
         'Codes with an "X" in the third position are not eligible',

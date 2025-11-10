@@ -34,6 +34,9 @@ const uiSchema = {
           'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
       },
       useAllFormData: true,
+      data: {
+        'facility-field': 'additional-facility-code',
+      },
     }),
     'ui:validations': [facilityCodeUIValidation],
   },

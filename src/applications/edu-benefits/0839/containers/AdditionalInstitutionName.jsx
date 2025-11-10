@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { useValidateAdditionalFacilityCode } from '../hooks/useValidateAdditionalFacilityCode';
 
 const AdditionalInstitutionName = () => {
+  const dispatch = useDispatch();
   const formData = useSelector(state => state.form?.data);
 
   const index = getArrayIndexFromPathName();
@@ -15,6 +17,13 @@ const AdditionalInstitutionName = () => {
 
   const institutionName = details?.institutionName;
   const facilityCode = (details?.facilityCode || '').trim();
+
+  const additionalFacilityCodes = formData?.additionalInstitutionDetails?.map(
+    item => item?.facilityCode?.trim(),
+  );
+
+  const isDuplicate =
+    additionalFacilityCodes.filter(item => item === facilityCode).length > 1;
 
   const badFormat =
     facilityCode.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(facilityCode);
@@ -62,7 +71,77 @@ const AdditionalInstitutionName = () => {
     [institutionName, loader],
   );
 
-  const shouldShowName = institutionName && !hasError && !shouldHideNameInList;
+  const shouldShowName =
+    institutionName && !hasError && !shouldHideNameInList && !isDuplicate;
+
+  const updateFacilityCodeInRedux = useCallback(
+    value => {
+      if (index == null) {
+        return;
+      }
+
+      const currentFormData = formData || {};
+      const existingArray = currentFormData.additionalInstitutionDetails || [];
+      const normalizedValue = value === '' ? undefined : value;
+      const existingValue =
+        existingArray[index]?.facilityCode === undefined
+          ? undefined
+          : existingArray[index]?.facilityCode;
+
+      if (existingValue === normalizedValue) {
+        return;
+      }
+
+      if (!existingArray.length && normalizedValue === undefined) {
+        return;
+      }
+
+      const updatedDetails = [...existingArray];
+      const updatedItem = {
+        ...(updatedDetails[index] || {}),
+        facilityCode: normalizedValue,
+      };
+      updatedDetails[index] = updatedItem;
+
+      dispatch(
+        setData({
+          ...currentFormData,
+          additionalInstitutionDetails: updatedDetails,
+        }),
+      );
+    },
+    [dispatch, formData, index],
+  );
+
+  useEffect(
+    () => {
+      if (index == null) {
+        return undefined;
+      }
+
+      const input = document.querySelector(
+        'va-text-input[data-facility-field="additional-facility-code"]',
+      );
+
+      if (!input) {
+        return undefined;
+      }
+
+      const handleEvent = event => {
+        const value = event?.detail?.value ?? event?.target?.value ?? '';
+        updateFacilityCodeInRedux(value);
+      };
+
+      input.addEventListener('va-input', handleEvent);
+      input.addEventListener('input', handleEvent);
+
+      return () => {
+        input.removeEventListener('va-input', handleEvent);
+        input.removeEventListener('input', handleEvent);
+      };
+    },
+    [index, updateFacilityCodeInRedux],
+  );
 
   return (
     <div aria-live="polite">

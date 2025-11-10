@@ -6,7 +6,16 @@ import { setData } from 'platform/forms-system/src/js/actions';
 export const useValidateFacilityCode = formData => {
   const [loader, setLoader] = useState(false);
   const [institutionData, setInstitutionData] = useState(null);
+  // const [lastFetchedCode, setLastFetchedCode] = useState(null);
   const dispatch = useDispatch();
+
+  const facilityCode = formData?.institutionDetails?.facilityCode;
+
+  // const rawFacilityCode = formData?.institutionDetails?.facilityCode;
+  // const facilityCode =
+  //   typeof rawFacilityCode === 'string'
+  //     ? rawFacilityCode.trim()
+  //     : rawFacilityCode?.toString()?.trim() || '';
 
   useEffect(
     () => {
@@ -76,6 +85,7 @@ export const useValidateFacilityCode = formData => {
                   response?.data?.attributes?.physicalCountry === 'USA',
                 isForeignCountry,
               },
+              additionalInstitutionDetails: [],
             }),
           );
         } catch (error) {
@@ -91,15 +101,22 @@ export const useValidateFacilityCode = formData => {
                 ihlEligible: null,
                 isLoading: false,
               },
+              additionalInstitutionDetails: [],
             }),
           );
         }
       };
-      if (formData?.institutionDetails?.facilityCode?.length === 8) {
+      if (facilityCode?.length === 8) {
         fetchInstitutionInfo();
       }
+      // if (facilityCode?.length === 8 && facilityCode !== lastFetchedCode) {
+      //   console.log({ facilityCode, lastFetchedCode });
+      //   setLastFetchedCode(facilityCode);
+      //   fetchInstitutionInfo();
+      // }
     },
-    [formData?.institutionDetails?.facilityCode],
+    [facilityCode, formData, dispatch],
+    // [facilityCode, formData, dispatch, lastFetchedCode],
   );
   const attrs = institutionData?.attributes || {};
   const institutionAddress = {
