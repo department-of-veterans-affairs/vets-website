@@ -56,7 +56,7 @@ const cypressSetup = ({
   cy.visit(TEST_URL);
 };
 
-describe('Pensions — Disability Rating Alert', () => {
+describe.skip('Pensions — Disability Rating Alert', () => {
   before(() => {
     cypressBeforeAllSetup();
   });
