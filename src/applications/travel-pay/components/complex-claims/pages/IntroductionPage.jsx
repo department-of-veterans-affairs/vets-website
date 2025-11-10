@@ -13,6 +13,7 @@ import {
   selectAppointment,
   selectComplexClaim,
 } from '../../../redux/selectors';
+import { stripTZOffset } from '../../../util/dates';
 
 const IntroductionPage = () => {
   const navigate = useNavigate();
@@ -39,7 +40,11 @@ const IntroductionPage = () => {
     }
 
     try {
-      const result = await dispatch(createComplexClaim(appointment));
+      const result = await dispatch(
+        createComplexClaim({
+          appointmentDateTime: stripTZOffset(appointment.localStartTime),
+        }),
+      );
       if (result?.claimId) {
         navigate(`/file-new-claim/${apptId}/${result.claimId}/choose-expense`);
       }
@@ -116,7 +121,7 @@ const IntroductionPage = () => {
             </p>
             <va-link-action
               onClick={createClaim}
-              href="javascript0:void"
+              href="#"
               text="Start your travel reimbursement claim"
               type="primary"
             />
