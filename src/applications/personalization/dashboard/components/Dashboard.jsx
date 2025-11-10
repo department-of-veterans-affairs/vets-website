@@ -708,17 +708,6 @@ const mapStateToProps = state => {
 
   const isPatient = isVAPatientSelector(state);
 
-  /*
-  console.log(
-    'forms',
-    selectProfile(state).savedForms,
-    selectProfile(state).savedForms?.filter(filterOutExpiredForms),
-  );
-
-  console.log('isPatient', isPatient);
-  console.log('hasHCAInProgress', hasHCAInProgress);
-  console.log('isLOA3', isLOA3Selector(state));
-   */
   const shouldGetESRStatus =
     !hasHCAInProgress && !isPatient && isLOA3Selector(state);
 
