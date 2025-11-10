@@ -20,8 +20,6 @@ import {
   validateMilitaryHistory,
   requestRecordsLink,
 } from '../utils/helpers';
-import rankEnums from '../utils/rankEnums';
-import { rankLabels } from '../utils/rankLabels';
 
 export function handleGetItemName(item) {
   return item?.serviceBranch ? serviceLabels[item.serviceBranch] : null;
@@ -109,24 +107,12 @@ export function handleCancelEditNo() {
 
 export function handleSummaryTitle(formData) {
   return hasServiceRecord(formData)
-    ? 'Veteran’s service period(s)'
+    ? 'Veteran service period(s)'
     : 'Review service period records';
-}
-
-export function handleVeteranDepends(formData) {
-  return isVeteran(formData) && !isAuthorizedAgent(formData);
-}
-
-export function handlePreparerVeteranDepends(formData) {
-  return isVeteran(formData) && isAuthorizedAgent(formData);
 }
 
 export function handleNonVeteranDepends(formData) {
   return !isVeteran(formData) && !isAuthorizedAgent(formData);
-}
-
-export function handlePreparerNonVeteranDepends(formData) {
-  return !isVeteran(formData) && isAuthorizedAgent(formData);
 }
 
 /** @type {ArrayBuilderOptions} */
@@ -214,8 +200,6 @@ export function servicePeriodInformationPage(isVet, isPrep) {
         'serviceBranch',
         'militaryServiceNumber',
         'dateRange',
-        'highestRank',
-        'dischargeType',
         'nationalGuardState',
       ],
       'ui:validations': [validateMilitaryHistory],
@@ -279,49 +263,6 @@ export function servicePeriodInformationPage(isVet, isPrep) {
         },
         'The service end date must be after the service start date.', // Range error message
       ),
-      dischargeType: {
-        'ui:title': 'Discharge character of service',
-        'ui:webComponentField': VaSelectField,
-        'ui:options': {
-          labels: {
-            1: 'Honorable',
-            2: 'General',
-            3: 'Entry Level Separation/Uncharacterized',
-            4: 'Other Than Honorable',
-            5: 'Bad Conduct',
-            6: 'Dishonorable',
-            7: 'Other',
-          },
-          classNames: 'selectNonImposter',
-        },
-      },
-      highestRank: {
-        'ui:field': AutosuggestField,
-        'ui:title': 'Highest rank attained',
-        'ui:options': {
-          getOptions: inputValue => {
-            if (!inputValue || inputValue.length < 2) return [];
-            const searchTerm = inputValue.toLowerCase();
-            return (
-              Object.entries(rankLabels)
-                // key is not read, but it is needed to get the labels populated
-                .filter(([key, label]) =>
-                  label.toLowerCase().includes(searchTerm),
-                )
-                .map(([key, label]) => ({
-                  id: key,
-                  label,
-                  value: key,
-                }))
-                .slice(0, 10)
-            );
-          },
-          inputProps: {
-            hint:
-              'This field may clear if the branch of service or service start and end dates are updated.',
-          },
-        },
-      },
       nationalGuardState: {
         'ui:title': 'State (for National Guard Service only)',
         'ui:webComponentField': VaSelectField,
@@ -466,14 +407,6 @@ export function servicePeriodInformationPage(isVet, isPrep) {
             },
           },
         },
-        highestRank: {
-          type: 'string',
-          enum: rankEnums,
-        },
-        dischargeType: {
-          type: 'string',
-          enum: ['1', '2', '3', '4', '5', '6', '7'],
-        },
         nationalGuardState: {
           type: 'string',
           maxLength: 3,
@@ -596,78 +529,9 @@ export function servicePeriodInformationPage(isVet, isPrep) {
   };
 }
 
-const servicePeriodInformationPageVeteran = servicePeriodInformationPage(
-  true,
-  false,
-);
-
-const servicePeriodInformationPagePreparerVeteran = servicePeriodInformationPage(
-  true,
-  true,
-);
-
 const servicePeriodInformationPageNonVeteran = servicePeriodInformationPage(
   false,
   false,
-);
-
-const servicePeriodInformationPagePreparerNonVeteran = servicePeriodInformationPage(
-  false,
-  true,
-);
-
-export const servicePeriodsPagesVeteran = arrayBuilderPages(
-  options,
-  pageBuilder => ({
-    servicePeriodsVeteran: pageBuilder.introPage({
-      title: 'Service periods',
-      path: 'service-periods-veteran',
-      uiSchema: introPage.uiSchema,
-      schema: introPage.schema,
-      depends: formData => handleVeteranDepends(formData),
-    }),
-    servicePeriodsSummaryVeteran: pageBuilder.summaryPage({
-      title: 'Your service period(s)',
-      path: 'service-periods-summary-veteran',
-      uiSchema: summaryPage.uiSchema,
-      schema: summaryPage.schema,
-      depends: formData => handleVeteranDepends(formData),
-    }),
-    servicePeriodInformationPageVeteran: pageBuilder.itemPage({
-      title: 'Service period',
-      path: 'service-periods-veteran/:index/service-period',
-      uiSchema: servicePeriodInformationPageVeteran.uiSchema,
-      schema: servicePeriodInformationPageVeteran.schema,
-      depends: formData => handleVeteranDepends(formData),
-    }),
-  }),
-);
-
-export const servicePeriodsPagesPreparerVeteran = arrayBuilderPages(
-  options,
-  pageBuilder => ({
-    servicePeriodsPreparerVeteran: pageBuilder.introPage({
-      title: 'Service periods',
-      path: 'service-periods-preparer-veteran',
-      uiSchema: introPage.uiSchema,
-      schema: introPage.schema,
-      depends: formData => handlePreparerVeteranDepends(formData),
-    }),
-    servicePeriodsSummaryPreparerVeteran: pageBuilder.summaryPage({
-      title: 'Applicant’s service period(s)',
-      path: 'service-periods-summary-preparer-veteran',
-      uiSchema: summaryPage.uiSchema,
-      schema: summaryPage.schema,
-      depends: formData => handlePreparerVeteranDepends(formData),
-    }),
-    servicePeriodInformationPagePreparerVeteran: pageBuilder.itemPage({
-      title: 'Service period',
-      path: 'service-periods-preparer-veteran/:index/service-period',
-      uiSchema: servicePeriodInformationPagePreparerVeteran.uiSchema,
-      schema: servicePeriodInformationPagePreparerVeteran.schema,
-      depends: formData => handlePreparerVeteranDepends(formData),
-    }),
-  }),
 );
 
 export const servicePeriodsPagesNonVeteran = arrayBuilderPages(
@@ -675,51 +539,24 @@ export const servicePeriodsPagesNonVeteran = arrayBuilderPages(
   pageBuilder => ({
     servicePeriodsNonVeteran: pageBuilder.introPage({
       title: 'Service periods',
-      path: 'service-periods-nonveteran',
+      path: 'service-periods',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
       depends: formData => handleNonVeteranDepends(formData),
     }),
     servicePeriodsSummaryNonVeteran: pageBuilder.summaryPage({
       title: 'Sponsor’s service period(s)',
-      path: 'service-periods-summary-nonveteran',
+      path: 'service-periods-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
       depends: formData => handleNonVeteranDepends(formData),
     }),
     servicePeriodInformationPageNonVeteran: pageBuilder.itemPage({
       title: 'Service period',
-      path: 'service-periods-nonveteran/:index/service-period',
+      path: 'service-periods/:index/service-period',
       uiSchema: servicePeriodInformationPageNonVeteran.uiSchema,
       schema: servicePeriodInformationPageNonVeteran.schema,
       depends: formData => handleNonVeteranDepends(formData),
-    }),
-  }),
-);
-
-export const servicePeriodsPagesPreparerNonVeteran = arrayBuilderPages(
-  options,
-  pageBuilder => ({
-    servicePeriodsPreparerNonVeteran: pageBuilder.introPage({
-      title: 'Service periods',
-      path: 'service-periods-preparer-nonveteran',
-      uiSchema: introPage.uiSchema,
-      schema: introPage.schema,
-      depends: formData => handlePreparerNonVeteranDepends(formData),
-    }),
-    servicePeriodsSummaryPreparerNonVeteran: pageBuilder.summaryPage({
-      title: 'Applicant’s service period(s)',
-      path: 'service-periods-summary-preparer-nonveteran',
-      uiSchema: summaryPage.uiSchema,
-      schema: summaryPage.schema,
-      depends: formData => handlePreparerNonVeteranDepends(formData),
-    }),
-    servicePeriodInformationPagePreparerNonVeteran: pageBuilder.itemPage({
-      title: 'Service period',
-      path: 'service-periods-preparer-nonveteran/:index/service-period',
-      uiSchema: servicePeriodInformationPagePreparerNonVeteran.uiSchema,
-      schema: servicePeriodInformationPagePreparerNonVeteran.schema,
-      depends: formData => handlePreparerNonVeteranDepends(formData),
     }),
   }),
 );

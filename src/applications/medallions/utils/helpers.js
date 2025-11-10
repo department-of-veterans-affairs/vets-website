@@ -6,8 +6,6 @@ import { focusElement } from 'platform/utilities/ui';
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import get from 'platform/utilities/data/get';
-import jsonData from './Military Ranks.json';
-import { serviceLabels } from './labels';
 
 export const applicantRelationToVetRadio = {
   relationToVetRadio: radioUI({
@@ -259,87 +257,51 @@ export function isAuthorizedAgent(item) {
   );
 }
 
+const validateServiceDatesAgainstBirth = (errors, serviceRecord, dob) => {
+  const errorMessage =
+    "Provide a valid date that is after the Veteran's date of birth";
+  const dobDate = new Date(dob);
+
+  if (serviceRecord.dateRange.from) {
+    const serviceStartDate = new Date(serviceRecord.dateRange.from);
+    if (serviceStartDate <= dobDate) {
+      errors.dateRange.from.addError(errorMessage);
+    }
+  }
+
+  if (serviceRecord.dateRange.to) {
+    const serviceEndDate = new Date(serviceRecord.dateRange.to);
+    if (serviceEndDate <= dobDate) {
+      errors.dateRange.to.addError(errorMessage);
+    }
+  }
+};
+
+const getVeteranDateOfBirth = useAllFormData => {
+  return (
+    useAllFormData?.veteranDateOfBirth ||
+    useAllFormData?.application?.claimant?.dateOfBirth ||
+    useAllFormData?.application?.veteran?.dateOfBirth
+  );
+};
+
 export const validateMilitaryHistory = (
   errors,
   serviceRecords,
   useAllFormData,
 ) => {
-  if (serviceRecords !== null && serviceRecords !== undefined) {
-    const serviceRecord = serviceRecords;
+  if (!serviceRecords) return;
 
-    // Check if serviceBranch is undefined and highestRank is defined
-    if (
-      serviceRecord.serviceBranch === undefined &&
-      serviceRecord.highestRank !== undefined
-    ) {
-      if (isVeteran(useAllFormData)) {
-        if (!isAuthorizedAgent(useAllFormData)) {
-          // Self
-          errors.highestRank.addError(
-            'Select a branch of service before selecting your highest rank attained.',
-          );
-        } else {
-          // Applicant
-          errors.highestRank.addError(
-            "Select Applicant's branch of service before selecting the Applicant's highest rank attained.",
-          );
-        }
-      } else {
-        // Sponsor
-        errors.highestRank.addError(
-          "Select Sponsor's branch of service before selecting the Sponsor's highest rank attained.",
-        );
-      }
-    }
+  const serviceRecord = serviceRecords;
 
-    if (serviceRecord.serviceBranch) {
-      const branchFilteredRanks = jsonData.filter(
-        rank => rank['Branch Of Service Code'] === serviceRecord.serviceBranch,
-      );
-      if (
-        serviceRecord.highestRank &&
-        !branchFilteredRanks.some(
-          rank => rank['Rank Code'] === serviceRecord.highestRank,
-        )
-      ) {
-        errors.highestRank.addError(
-          `This is not a valid rank for ${
-            serviceLabels[serviceRecord.serviceBranch]
-          }`,
-        );
-      }
-    }
+  if (isVeteran(useAllFormData) || isAuthorizedAgent(useAllFormData)) {
+    return;
+  }
 
-    // Date of birth validation
-    let dob;
-    let errorMessage;
-
-    if (isVeteran(useAllFormData)) {
-      if (!isAuthorizedAgent(useAllFormData)) {
-        // Self
-        dob = useAllFormData?.application?.claimant?.dateOfBirth;
-        errorMessage = 'Provide a valid date that is after your date of birth';
-      } else {
-        // Applicant
-        dob = useAllFormData?.application?.claimant?.dateOfBirth;
-        errorMessage =
-          "Provide a valid date that is after the applicant's date of birth";
-      }
-    } else {
-      // Sponsor
-      dob = useAllFormData?.application?.veteran?.dateOfBirth;
-      errorMessage =
-        "Provide a valid date that is after the sponsor's date of birth";
-    }
-
-    // Date of birth validation against service start date and service end date
-    if (serviceRecord.dateRange.from <= dob) {
-      errors.dateRange.from.addError(errorMessage);
-    }
-
-    if (serviceRecord.dateRange.to <= dob) {
-      errors.dateRange.to.addError(errorMessage);
-    }
+  // Validate service dates against date of birth
+  const dob = getVeteranDateOfBirth(useAllFormData);
+  if (dob && serviceRecord.dateRange) {
+    validateServiceDatesAgainstBirth(errors, serviceRecord, dob);
   }
 };
 

@@ -197,22 +197,10 @@ const formConfig = {
         },
       },
     },
-    // servicePeriodsVeteran: {
-    //   title: 'Veteran service periods',
-    //   pages: servicePeriodsPagesVeteran,
-    // },
-    // servicePeriodsPreparerVeteran: {
-    //   title: 'Applicant’s service period(s)',
-    //   pages: servicePeriodsPagesPreparerVeteran,
-    // },
     servicePeriodsNonVeteran: {
       title: 'Veteran service periods',
       pages: servicePeriodsPagesNonVeteran,
     },
-    // servicePeriodsPreparerNonVeteran: {
-    //   title: 'Veteran service period(s)',
-    //   pages: servicePeriodsPagesPreparerNonVeteran,
-    // },
     burialInformation: {
       title: 'Burial information',
       pages: {
