@@ -530,14 +530,14 @@ export const servicePeriodsPages = arrayBuilderPages(options, pageBuilder => ({
     schema: introPage.schema,
     depends: formData => handleDepends(formData),
   }),
-  servicePeriodsSummaryNonVeteran: pageBuilder.summaryPage({
+  servicePeriodsSummary: pageBuilder.summaryPage({
     title: 'Veteran service period(s) summary',
     path: 'service-periods-summary',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
     depends: formData => handleDepends(formData),
   }),
-  servicePeriodInformationPageNonVeteran: pageBuilder.itemPage({
+  servicePeriodInformationPage: pageBuilder.itemPage({
     title: 'Service period information',
     path: 'service-periods/:index/service-period',
     uiSchema: servicePeriodInformationPageConfig.uiSchema,
