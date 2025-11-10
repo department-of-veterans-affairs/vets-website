@@ -16,7 +16,7 @@ import {
   EXPENSE_TYPES,
   TRANSPORTATION_OPTIONS,
   TRANSPORTATION_REASONS,
-  TRIP_OPTIONS,
+  TRIP_TYPES,
 } from '../../../../constants';
 
 describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
@@ -34,6 +34,42 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
   const getData = () => ({
     travelPay: {
       claimSubmission: { isSubmitting: false, error: null, data: null },
+      complexClaim: {
+        claim: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          submission: {
+            id: '',
+            isSubmitting: false,
+            error: null,
+            data: null,
+          },
+          fetch: {
+            isLoading: false,
+            error: null,
+          },
+          data: null,
+        },
+        expenses: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          update: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          delete: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          data: [],
+        },
+      },
     },
   });
 
@@ -184,12 +220,12 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
         const tripType = root.querySelector(
           `va-radio[name="tripType"] va-radio-option[value="${
-            TRIP_OPTIONS[0]
+            TRIP_TYPES.ROUND_TRIP.label
           }"]`,
         );
         tripType?.dispatchEvent(
           new CustomEvent('vaValueChange', {
-            detail: { value: TRIP_OPTIONS[0] },
+            detail: { value: TRIP_TYPES.ROUND_TRIP.label },
             bubbles: true,
             composed: true,
           }),
@@ -267,27 +303,43 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
         it('renders correct buttons', () => {
           const { container } = renderPage(config);
 
-          // Click the back button
-          const buttonPair = container.querySelector('va-button-pair');
-          expect(buttonPair).to.exist;
-          expect(buttonPair.getAttribute('left-button-text')).to.contain(
-            'Back',
+          // Get all buttons
+          const buttons = container.querySelectorAll('va-button');
+          expect(buttons.length).to.be.at.least(3);
+
+          // Find the back/continue buttons in the button group
+          const buttonGroup = container.querySelector(
+            '.travel-pay-button-group',
           );
-          expect(buttonPair.getAttribute('right-button-text')).to.contain(
-            'Continue',
+          expect(buttonGroup).to.exist;
+
+          const backButton = Array.from(
+            buttonGroup.querySelectorAll('va-button'),
+          ).find(btn => btn.getAttribute('text') === 'Back');
+          expect(backButton).to.exist;
+
+          const continueButton = Array.from(
+            buttonGroup.querySelectorAll('va-button'),
+          ).find(btn => btn.getAttribute('text') === 'Continue');
+          expect(continueButton).to.exist;
+
+          // Find the cancel button
+          const cancelButton = Array.from(buttons).find(
+            btn => btn.getAttribute('text') === 'Cancel adding this expense',
           );
-          const button = container.querySelector('va-button');
-          expect(button).to.exist;
-          expect(button.getAttribute('text')).to.eq(
-            'Cancel adding this expense',
-          );
+          expect(cancelButton).to.exist;
         });
 
         it('displays validation error when required fields are missing', () => {
           const { getByText, container } = renderPage(config);
-          const buttonPair = container.querySelector('va-button-pair');
+          const buttonGroup = container.querySelector(
+            '.travel-pay-button-group',
+          );
+          const continueButton = Array.from(
+            buttonGroup.querySelectorAll('va-button'),
+          ).find(btn => btn.getAttribute('text') === 'Continue');
 
-          buttonPair.__events.primaryClick();
+          fireEvent.click(continueButton);
 
           expect(getByText(/please fill out all required fields/i)).to.exist;
         });
@@ -297,8 +349,13 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
           fillRequiredFields(container, key);
 
-          const buttonPair = container.querySelector('va-button-pair');
-          buttonPair.__events.primaryClick();
+          const buttonGroup = container.querySelector(
+            '.travel-pay-button-group',
+          );
+          const continueButton = Array.from(
+            buttonGroup.querySelectorAll('va-button'),
+          ).find(btn => btn.getAttribute('text') === 'Continue');
+          fireEvent.click(continueButton);
 
           expect(getByTestId('location-display').textContent).to.equal(
             `/file-new-claim/12345/43555/${config.route}`,
@@ -319,8 +376,13 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
         it('navigates back correctly', () => {
           const { container, getByTestId } = renderPage(config);
 
-          const buttonPair = container.querySelector('va-button-pair');
-          buttonPair.__events.secondaryClick();
+          const buttonGroup = container.querySelector(
+            '.travel-pay-button-group',
+          );
+          const backButton = Array.from(
+            buttonGroup.querySelectorAll('va-button'),
+          ).find(btn => btn.getAttribute('text') === 'Back');
+          fireEvent.click(backButton);
 
           expect(getByTestId('location-display').textContent).to.equal(
             '/file-new-claim/12345/43555/choose-expense',
@@ -329,9 +391,14 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
         it('focuses the error message on validation failure', async () => {
           const { container, getByTestId, getByText } = renderPage(config);
-          const buttonPair = container.querySelector('va-button-pair');
+          const buttonGroup = container.querySelector(
+            '.travel-pay-button-group',
+          );
+          const continueButton = Array.from(
+            buttonGroup.querySelectorAll('va-button'),
+          ).find(btn => btn.getAttribute('text') === 'Continue');
 
-          buttonPair.__events.primaryClick();
+          fireEvent.click(continueButton);
 
           await waitFor(() => {
             const error = getByTestId('expense-page-error');

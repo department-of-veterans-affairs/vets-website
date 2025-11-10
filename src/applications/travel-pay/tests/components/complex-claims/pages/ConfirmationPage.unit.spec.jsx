@@ -1,14 +1,55 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render, fireEvent } from '@testing-library/react';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { fireEvent } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 
+import reducer from '../../../../redux/reducer';
 import ConfirmationPage from '../../../../components/complex-claims/pages/ConfirmationPage';
+
+const appointment = {
+  location: { attributes: { name: 'Fort Collins VA Clinic' } },
+  start: '2025-01-15T21:39:27.698Z',
+  localStartTime: '2025-03-20T16:30:00.000-08:00',
+};
+
+const claimId = 'test-claim-id-123';
+const apptId = 'appt-123';
+
+const initialState = {
+  travelPay: {
+    appointment: {
+      isLoading: false,
+      error: null,
+      data: appointment,
+    },
+  },
+};
+
+const renderConfirmationPage = (state = initialState) => {
+  return renderWithStoreAndRouter(
+    <MemoryRouter
+      initialEntries={[`/file-new-claim/${apptId}/${claimId}/confirmation`]}
+    >
+      <Routes>
+        <Route
+          path="/file-new-claim/:apptId/:claimId/confirmation"
+          element={<ConfirmationPage />}
+        />
+      </Routes>
+    </MemoryRouter>,
+    {
+      initialState: state,
+      reducers: reducer,
+    },
+  );
+};
 
 describe('Complex Claims ConfirmationPage', () => {
   it('renders success confirmation', () => {
-    const screen = render(<ConfirmationPage />);
+    const screen = renderConfirmationPage();
 
     expect(screen.getByRole('heading', { level: 1 })).to.have.property(
       'textContent',
@@ -19,7 +60,7 @@ describe('Complex Claims ConfirmationPage', () => {
   });
 
   it('renders appointment details in success alert', () => {
-    render(<ConfirmationPage />);
+    renderConfirmationPage();
 
     // Find the success alert first, then check its content
     const successAlert = $('va-alert[status="success"]');
@@ -32,12 +73,41 @@ describe('Complex Claims ConfirmationPage', () => {
     );
   });
 
+  it('renders claim ID from URL params', () => {
+    renderConfirmationPage();
+
+    // Check that the claim ID is displayed
+    const successAlert = $('va-alert[status="success"]');
+    expect(successAlert).to.exist;
+    expect(successAlert.textContent).to.include(`Claim number: ${claimId}`);
+  });
+
+  it('does not render appointment details when no appointment data', () => {
+    const stateWithoutAppointment = {
+      travelPay: {
+        appointment: {
+          isLoading: false,
+          error: null,
+          data: null,
+        },
+      },
+    };
+
+    renderConfirmationPage(stateWithoutAppointment);
+
+    const successAlert = $('va-alert[status="success"]');
+    expect(successAlert).to.exist;
+    expect(successAlert.textContent).to.not.include(
+      'This claim is for your appointment',
+    );
+  });
+
   it('renders print button', () => {
     const oldPrint = global.window.print;
     const printSpy = sinon.spy();
     global.window.print = printSpy;
 
-    render(<ConfirmationPage />);
+    renderConfirmationPage();
 
     const printButton = $('va-button[text="Print this page for your records"]');
     expect(printButton).to.exist;
@@ -50,17 +120,15 @@ describe('Complex Claims ConfirmationPage', () => {
   });
 
   it('renders what happens next section with process list', () => {
-    const screen = render(<ConfirmationPage />);
+    const screen = renderConfirmationPage();
 
     expect(screen.getByText('What happens next')).to.exist;
     expect($('va-process-list')).to.exist;
     expect($('va-process-list-item[header="VA will review your claim"]')).to
       .exist;
-    expect(
-      $(
-        `va-process-list-item[header="If your claim is approved, you’ll receive reimbursement via direct deposit"]`,
-      ),
-    ).to.exist;
+    // Check for the second process list item by counting them
+    const processListItems = document.querySelectorAll('va-process-list-item');
+    expect(processListItems).to.have.length(2);
 
     // Links in process list
     expect(
@@ -76,7 +144,7 @@ describe('Complex Claims ConfirmationPage', () => {
   });
 
   it('renders link action to submit another claim', () => {
-    render(<ConfirmationPage />);
+    renderConfirmationPage();
 
     expect(
       $(

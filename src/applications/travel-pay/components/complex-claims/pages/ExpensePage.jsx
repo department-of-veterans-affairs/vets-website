@@ -4,28 +4,46 @@ import {
   useParams,
   useLocation,
 } from 'react-router-dom-v5-compat';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  VaModal,
-  VaButton,
-  VaButtonPair,
   VaDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { EXPENSE_TYPES } from '../../../constants';
+import { createExpense, updateExpense } from '../../../redux/actions';
+import {
+  selectExpenseUpdateLoadingState,
+  selectExpenseCreationLoadingState,
+} from '../../../redux/selectors';
+import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import ExpenseMealFields from './ExpenseMealFields';
 import ExpenseAirTravelFields from './ExpenseAirTravelFields';
 import ExpenseLodgingFields from './ExpenseLodgingFields';
 import ExpenseCommonCarrierFields from './ExpenseCommonCarrierFields';
+import CancelExpenseModal from './CancelExpenseModal';
 
 const ExpensePage = () => {
   const navigate = useNavigate();
-  const { apptId, claimId } = useParams();
+  const dispatch = useDispatch();
+  const { apptId, claimId, expenseId } = useParams();
   const location = useLocation();
-  const expenseTypeRoute = location.pathname.split('/').pop();
+  const expenseTypeMatcher = new RegExp(
+    `.*(${Object.keys(EXPENSE_TYPES)
+      .map(key => EXPENSE_TYPES[key].route)
+      .join('|')}).*`,
+  );
+  const expenseTypeRoute = location.pathname.match(expenseTypeMatcher)[1];
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formState, setFormState] = useState({});
   const [showError, setShowError] = useState(false);
   const errorRef = useRef(null); // ref for the error message
+
+  const isLoadingExpense = useSelector(
+    state =>
+      expenseId
+        ? selectExpenseUpdateLoadingState(state)
+        : selectExpenseCreationLoadingState(state),
+  );
 
   // Focus the error message when it becomes visible
   useEffect(
@@ -60,6 +78,10 @@ const ExpensePage = () => {
   const handleOpenModal = () => setIsModalVisible(true);
   const handleCloseModal = () => {
     setIsModalVisible(false);
+  };
+
+  const handleCancelModal = () => {
+    handleCloseModal();
     navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
@@ -88,14 +110,34 @@ const ExpensePage = () => {
     return emptyFields.length === 0;
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     const isValid = validatePage();
-    if (!isValid) return; // stop navigation if validation fails
-    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    if (!isValid) return;
+
+    const expenseConfig = EXPENSE_TYPES[expenseType];
+
+    try {
+      if (expenseId) {
+        await dispatch(
+          updateExpense(claimId, expenseConfig.apiRoute, expenseId, formState),
+        );
+      } else {
+        await dispatch(
+          createExpense(claimId, expenseConfig.apiRoute, formState),
+        );
+      }
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } catch (error) {
+      // TODO: Handle error
+    }
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+    if (expenseId) {
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else {
+      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+    }
   };
 
   return (
@@ -167,35 +209,22 @@ const ExpensePage = () => {
         value={formState.description || ''}
         onInput={handleFormChange}
       />
-      <VaModal
-        modalTitle="Cancel adding this expense"
-        onCloseEvent={handleCloseModal}
-        onPrimaryButtonClick={handleCloseModal}
-        onSecondaryButtonClick={handleCloseModal}
-        primaryButtonText="Yes, cancel"
-        secondaryButtonText="No, continue adding this expense"
-        status="warning"
-        visible={isModalVisible}
-      >
-        <p>
-          If you cancel, you’ll lose the information you entered about this
-          expense and will be returned to the review page.
-        </p>
-      </VaModal>
-      <VaButton
-        secondary
-        text="Cancel adding this expense"
-        onClick={handleOpenModal}
-        className="vads-u-display--flex vads-u-margin-y--2 travel-pay-complex-expense-cancel-btn"
-      />
-      <VaButtonPair
-        class="vads-u-margin-y--2"
-        continue
-        disable-analytics
-        rightButtonText="Continue"
-        leftButtonText="Back"
-        onPrimaryClick={handleContinue}
-        onSecondaryClick={handleBack}
+      {!expenseId && (
+        <CancelExpenseModal
+          visible={isModalVisible}
+          onCloseEvent={handleCloseModal}
+          onOpenModal={handleOpenModal}
+          onPrimaryButtonClick={handleCancelModal}
+          onSecondaryButtonClick={handleCloseModal}
+        />
+      )}
+      <TravelPayButtonPair
+        continueText={expenseId ? 'Save and continue' : 'Continue'}
+        backText={expenseId ? 'Cancel' : 'Back'}
+        className={expenseId && 'vads-u-margin-top--2'}
+        onBack={handleBack}
+        onContinue={handleContinue}
+        loading={isLoadingExpense}
       />
     </>
   );

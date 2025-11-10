@@ -3,7 +3,7 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseAirTravelFields from '../../../../components/complex-claims/pages/ExpenseAirTravelFields';
-import { TRIP_OPTIONS } from '../../../../constants';
+import { TRIP_TYPES } from '../../../../constants';
 import {
   simulateVaDateChange,
   simulateVaInputChange,
@@ -65,7 +65,7 @@ describe('ExpenseAirTravelFields', () => {
   it('renders pre-filled values', () => {
     const preFilled = {
       vendorName: 'Delta',
-      tripType: TRIP_OPTIONS[1],
+      tripType: TRIP_TYPES.ONE_WAY.label,
       departureDate: '2025-11-10',
       departureAirport: 'JFK',
       arrivalDate: '2025-11-11',
@@ -88,7 +88,7 @@ describe('ExpenseAirTravelFields', () => {
       container
         .querySelector('va-radio[name="tripType"]')
         .getAttribute('value'),
-    ).to.equal(TRIP_OPTIONS[1]);
+    ).to.equal(TRIP_TYPES.ONE_WAY.label);
     expect(
       container
         .querySelector('va-date[name="departureDate"]')
@@ -206,7 +206,7 @@ describe('ExpenseAirTravelFields', () => {
     testVaRadioSelection({
       Component: ExpenseAirTravelFields,
       radioName: 'tripType',
-      selectValue: TRIP_OPTIONS[0],
+      selectValue: TRIP_TYPES.ROUND_TRIP.label,
       formStateKey: 'tripType',
     });
   });

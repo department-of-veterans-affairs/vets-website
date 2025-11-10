@@ -146,3 +146,45 @@ h2#pagination-info {
     animation: none;
   }
 }
+
+// Custom button pair implementation for travel pay - exact copy of usa-button-group
+.travel-pay-button-group {
+  margin-bottom: 0;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding-left: 0;
+
+  .travel-pay-button-group__item {
+    margin: 0.25rem !important;
+
+    va-button {
+      height: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      width: 100%;
+
+      &::part(button) {
+        width: 100%;
+      }
+    }
+
+    @media all and (min-width: 30em) {
+      margin-top: 0;
+      margin-bottom: 0;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  @media all and (min-width: 30em) {
+    flex-wrap: nowrap;
+    align-items: stretch;
+    flex-direction: row;
+    margin: 0 -0.25rem;
+  }
+}

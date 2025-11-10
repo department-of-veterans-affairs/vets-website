@@ -40,7 +40,7 @@ describe('Complex Claims Confirmation Page', () => {
     // Check claim number placeholder
     cy.get('va-alert[status="success"]').should(
       'contain.text',
-      'Claim number: #######',
+      `Claim number: ${claimId}`,
     );
   });
 
@@ -52,7 +52,7 @@ describe('Complex Claims Confirmation Page', () => {
     // Check appointment details in the success alert
     cy.get('va-alert[status="success"]').should(
       'contain.text',
-      'This claim is for your appointment at Fort Collins VA Clinic',
+      'This claim is for your appointment at Cheyenne VA Medical Center',
     );
   });
 

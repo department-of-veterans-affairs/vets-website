@@ -94,7 +94,109 @@ const responses = {
   //     ],
   //   });
   // },
-  'GET /travel_pay/v0/claims/:id': claimDetails.v1,
+  // 'GET /travel_pay/v0/claims/:id': claimDetails.v2,
+  'GET /travel_pay/v0/claims/:id': (req, res) => {
+    const details = { ...claimDetails.v2 };
+    details.expenses = [
+      {
+        expenseType: 'Mileage',
+        name: 'Mileage Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'mileage',
+        costRequested: 1.16,
+        costSubmitted: {
+          source: '0.0',
+          parsedValue: 0,
+        },
+        id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
+      },
+      {
+        expenseType: 'Parking',
+        name: 'Parking Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Hospital parking',
+        costRequested: 15.0,
+        costSubmitted: {
+          source: '15.0',
+          parsedValue: 15.0,
+        },
+        id: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
+      },
+      {
+        expenseType: 'Toll',
+        name: 'Toll Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Highway toll',
+        costRequested: 5.5,
+        costSubmitted: {
+          source: '5.5',
+          parsedValue: 5.5,
+        },
+        id: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
+      },
+      {
+        expenseType: 'Commoncarrier',
+        name: 'Common Carrier Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Taxi to appointment',
+        costRequested: 45.0,
+        costSubmitted: {
+          source: '45.0',
+          parsedValue: 45.0,
+        },
+        id: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
+      },
+      {
+        expenseType: 'Airtravel',
+        name: 'Air Travel Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Flight to medical appointment',
+        costRequested: 350.0,
+        costSubmitted: {
+          source: '350.0',
+          parsedValue: 350.0,
+        },
+        id: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
+      },
+      {
+        expenseType: 'Lodging',
+        name: 'Lodging Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Hotel stay',
+        costRequested: 125.0,
+        costSubmitted: {
+          source: '125.0',
+          parsedValue: 125.0,
+        },
+        id: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
+      },
+      {
+        expenseType: 'Meal',
+        name: 'Meal Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Breakfast and lunch',
+        costRequested: 35.0,
+        costSubmitted: {
+          source: '35.0',
+          parsedValue: 35.0,
+        },
+        id: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
+      },
+      {
+        expenseType: 'Other',
+        name: 'Other Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Medical supplies',
+        costRequested: 50.0,
+        costSubmitted: {
+          source: '50.0',
+          parsedValue: 50.0,
+        },
+        id: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
+      },
+    ];
+    return res.json(details);
+  },
   // 'GET /travel_pay/v0/claims/:id': (req, res) => {
   //   return res.status(403).json({
   //     errors: [
@@ -122,6 +224,76 @@ const responses = {
   //     ],
   //   });
   // },
+
+  // Creating a new complex claim
+  'POST /travel_pay/v0/complex_claims': (req, res) => {
+    return res.json({
+      claimId: 'bd427107-91ac-4a4a-94ae-177df5aa32dc',
+    });
+  },
+
+  // Submitting a complex claim
+  'PATCH /travel_pay/v0/complex_claims/:claimId/submit': (req, res) => {
+    return res.json({
+      id: req.params.claimId,
+    });
+  },
+
+  // Creating expenses
+  'POST /travel_pay/v0/expenses/mileage': (req, res) => {
+    return res.json({
+      id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
+    });
+  },
+  'POST /travel_pay/v0/expenses/parking': (req, res) => {
+    return res.json({
+      id: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
+    });
+  },
+  'POST /travel_pay/v0/expenses/toll': (req, res) => {
+    return res.json({
+      id: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
+    });
+  },
+  'POST /travel_pay/v0/expenses/commoncarrier': (req, res) => {
+    return res.json({
+      id: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
+    });
+  },
+  'POST /travel_pay/v0/expenses/airtravel': (req, res) => {
+    return res.json({
+      id: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
+    });
+  },
+  'POST /travel_pay/v0/expenses/lodging': (req, res) => {
+    return res.json({
+      id: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
+    });
+  },
+  'POST /travel_pay/v0/expenses/meal': (req, res) => {
+    return res.json({
+      id: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
+    });
+  },
+  'POST /travel_pay/v0/expenses/other': (req, res) => {
+    return res.json({
+      id: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
+    });
+  },
+
+  // Updating expenses
+  'PATCH /travel_pay/v0/expenses/:expenseType/:expenseId': (req, res) => {
+    return res.json({
+      id: req.params.expenseId,
+    });
+  },
+
+  // Deleting expenses
+  'DELETE /travel_pay/v0/expenses/:expenseType/:expenseId': (req, res) => {
+    return res.status(200).json({
+      id: req.params.expenseId,
+    });
+  },
 
   // Get travel-pay appointment
   'GET /vaos/v2/appointments/:id': (req, res) => {

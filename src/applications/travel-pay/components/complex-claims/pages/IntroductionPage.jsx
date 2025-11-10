@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom-v5-compat';
 
@@ -7,34 +8,45 @@ import {
   BTSSS_PORTAL_URL,
   FIND_FACILITY_TP_CONTACT_LINK,
 } from '../../../constants';
+import { createComplexClaim } from '../../../redux/actions';
+import {
+  selectAppointment,
+  selectComplexClaim,
+} from '../../../redux/selectors';
 
-const IntroductionPage = ({ appointment }) => {
-  // For now, we will override the appointment
-  // TODO Remove this override when appointment data is wired up in redux store
-  const overriddenAppointment = appointment || {
-    id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    appointmentSource: 'API',
-    appointmentDateTime: '2025-10-17T21:32:16.531Z',
-    appointmentName: 'string',
-    appointmentType: 'EnvironmentalHealth',
-    facilityId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    facilityName: 'Cheyenne VA Medical Center',
-    serviceConnectedDisability: 0,
-    currentStatus: 'Pending',
-    appointmentStatus: 'Complete',
-    externalAppointmentId: '12345',
-    associatedClaimId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    associatedClaimNumber: '',
-    isCompleted: true,
-  };
+const IntroductionPage = () => {
   const navigate = useNavigate();
-  const apptId = overriddenAppointment.id;
-  const createClaim = () => {
-    // TODO: Add logic to add a claim here
-    // Hardcoded claim ID in the meantime
-    const claimId = '45678';
+  const dispatch = useDispatch();
 
-    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+  // Get appointment data from the store
+  const { data: appointment } = useSelector(selectAppointment);
+
+  // Get the complex claim data from the store
+  const complexClaim = useSelector(selectComplexClaim);
+
+  const apptId = appointment?.id;
+
+  const createClaim = async () => {
+    if (!appointment) {
+      return;
+    }
+
+    // If claim already exists, navigate directly
+    const existingClaimId = complexClaim?.data?.claimId;
+    if (existingClaimId) {
+      navigate(`/file-new-claim/${apptId}/${existingClaimId}/choose-expense`);
+      return;
+    }
+
+    try {
+      const result = await dispatch(createComplexClaim(appointment));
+      if (result?.claimId) {
+        navigate(`/file-new-claim/${apptId}/${result.claimId}/choose-expense`);
+      }
+    } catch (error) {
+      // TODO: Add proper error handling
+      // Error will be handled by the Redux error state
+    }
   };
 
   return (

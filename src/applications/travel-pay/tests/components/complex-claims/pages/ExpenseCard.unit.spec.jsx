@@ -1,6 +1,5 @@
 import React from 'react';
 import { fireEvent, waitFor } from '@testing-library/react';
-import sinon from 'sinon';
 import { expect } from 'chai';
 import {
   MemoryRouter,
@@ -11,15 +10,12 @@ import {
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import ExpenseCard from '../../../../components/complex-claims/pages/ExpenseCard';
 import reducer from '../../../../redux/reducer';
-import Mileage from '../../../../components/complex-claims/pages/Mileage';
 
 describe('ExpenseCard', () => {
   const LocationDisplay = () => {
     const location = useLocation();
     return <div data-testid="location-display">{location.pathname}</div>;
   };
-
-  const editRoute = '../mileage';
 
   const defaultMileageExpense = {
     id: 'expense1',
@@ -31,8 +27,10 @@ describe('ExpenseCard', () => {
       stateCode: 'DC',
       zipCode: '20001',
     },
-    tripType: 'OneWay',
+    tripType: 'RoundTrip',
     expenseType: 'Mileage',
+    dateIncurred: '2023-10-15',
+    costRequested: 25.5,
   };
 
   const defaultNonMileageExpense = {
@@ -40,21 +38,33 @@ describe('ExpenseCard', () => {
     expenseType: 'Parking',
     description: 'Parking at hospital',
     document: { filename: 'test.pdf' },
+    dateIncurred: '2023-10-15',
+    costRequested: 15,
   };
 
-  const getData = () => ({});
+  const getData = () => ({
+    travelPay: {
+      complexClaim: {
+        expenses: {
+          delete: {
+            isLoading: false,
+            error: null,
+            id: '',
+          },
+        },
+      },
+    },
+  });
 
   // Helper to render the component with router + store
-  const renderExpenseCard = (
-    expense = defaultMileageExpense,
-    editToRoute = editRoute,
-  ) =>
+  const renderExpenseCard = (expense = defaultMileageExpense) =>
     renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/review']}>
         <ExpenseCard
           expense={expense}
-          header={`${expense.expenseType} expense`}
-          editToRoute={editToRoute}
+          address={expense.address}
+          apptId="test-appt-id"
+          claimId="test-claim-id"
         />
       </MemoryRouter>,
       { initialState: getData(), reducers: reducer },
@@ -64,7 +74,7 @@ describe('ExpenseCard', () => {
     const { getByText, container } = renderExpenseCard();
 
     // Header
-    expect(getByText('Mileage expense')).to.exist;
+    expect(getByText('October 15, 2023, $25.50')).to.exist;
 
     // Address
     expect(getByText('Which address did you depart from?')).to.exist;
@@ -74,7 +84,7 @@ describe('ExpenseCard', () => {
 
     // Trip type
     expect(getByText('Was your trip round trip or one way?')).to.exist;
-    expect(container.textContent).to.include('One way');
+    expect(container.textContent).to.include('Round trip');
 
     // Edit button
     const editLink = container.querySelector('a');
@@ -87,10 +97,10 @@ describe('ExpenseCard', () => {
     expect(deleteButton.getAttribute('button-type')).to.equal('delete');
   });
 
-  it('renders non-Mileage expense correctly', () => {
+  it('renders non-mileage expense correctly', () => {
     const { getByText } = renderExpenseCard(defaultNonMileageExpense);
 
-    expect(getByText('Parking expense')).to.exist;
+    expect(getByText('October 15, 2023, $15.00')).to.exist;
     expect(getByText('Description')).to.exist;
     expect(getByText('Parking at hospital')).to.exist;
     expect(getByText('File name')).to.exist;
@@ -109,6 +119,8 @@ describe('ExpenseCard', () => {
         zipCode: '98101',
       },
       tripType: 'RoundTrip',
+      dateIncurred: '2023-10-15',
+      costRequested: 30.75,
     };
 
     const { getByText, container } = renderExpenseCard(expense);
@@ -121,7 +133,6 @@ describe('ExpenseCard', () => {
   });
 
   it('opens the delete modal and calls deleteExpense on confirm', async () => {
-    const consoleSpy = sinon.spy(console, 'log');
     const { container } = renderExpenseCard();
 
     // Click delete button to open modal
@@ -132,19 +143,15 @@ describe('ExpenseCard', () => {
     // The modal should now be visible
     const modal = container.querySelector('va-modal');
     expect(modal).to.exist;
+    expect(modal.getAttribute('visible')).to.equal('true');
 
     // Simulate confirm (primary button) click on modal
     modal.__events.primaryButtonClick();
 
     await waitFor(() => {
-      expect(
-        consoleSpy.calledWith(
-          `Delete clicked for expense id: ${defaultMileageExpense.id}`,
-        ),
-      ).to.be.true;
+      // After delete action, modal should be hidden
+      expect(modal.getAttribute('visible')).to.equal('false');
     });
-
-    consoleSpy.restore();
   });
 
   it('navigates to the edit route when Edit link is clicked', () => {
@@ -157,16 +164,21 @@ describe('ExpenseCard', () => {
               // eslint-disable-next-line react/jsx-wrap-multilines
               <ExpenseCard
                 expense={defaultMileageExpense}
-                header="Mileage expense"
-                editToRoute={editRoute}
+                address={defaultMileageExpense.address}
+                apptId="test-appt-id"
+                claimId="test-claim-id"
               />
             }
           />
-          <Route path="/mileage" element={<Mileage />} />
+          <Route path="/mileage" element={<div>Mileage Page</div>} />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseType/:expenseId"
+            element={<div>Edit Expense Page</div>}
+          />
         </Routes>
         <LocationDisplay />
       </MemoryRouter>,
-      { initialState: {}, reducers: reducer },
+      { initialState: getData(), reducers: reducer },
     );
 
     const editLink = getByTestId(
@@ -177,6 +189,8 @@ describe('ExpenseCard', () => {
     fireEvent.click(editLink);
 
     // Assert navigation happened
-    expect(getByTestId('location-display').textContent).to.equal('/mileage');
+    expect(getByTestId('location-display').textContent).to.equal(
+      '/file-new-claim/test-appt-id/test-claim-id/mileage/expense1',
+    );
   });
 });

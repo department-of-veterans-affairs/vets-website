@@ -6,7 +6,7 @@ import {
   VaRadio,
   VaDate,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { TRIP_OPTIONS } from '../../../constants';
+import { TRIP_TYPES } from '../../../constants';
 
 const ExpenseAirTravelFields = ({ formState, onChange }) => (
   <>
@@ -26,12 +26,12 @@ const ExpenseAirTravelFields = ({ formState, onChange }) => (
       onVaValueChange={e => onChange(e.detail, 'tripType')}
       required
     >
-      {TRIP_OPTIONS.map(option => (
+      {Object.values(TRIP_TYPES).map(option => (
         <va-radio-option
-          key={option}
-          label={option}
-          value={option}
-          checked={formState.tripType === option}
+          key={option.label}
+          label={option.label}
+          value={option.label}
+          checked={formState.tripType === option.label}
         />
       ))}
     </VaRadio>
