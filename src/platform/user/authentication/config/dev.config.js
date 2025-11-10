@@ -78,7 +78,7 @@ export default {
   },
   [EXTERNAL_APPS.ARP]: {
     allowedSignInProviders: {
-      idme: false,
+      idme: true,
       logingov: true,
     },
     legacySignInProviders: {

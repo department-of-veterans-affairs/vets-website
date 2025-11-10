@@ -7,7 +7,7 @@ const HowDoIDispute = () => {
         id="howDoIDispute"
         className="vads-u-margin-top--4 vads-u-margin-bottom-2"
       >
-        How to dispute your VA debt
+        How to dispute an overpayment
       </h2>
 
       <p>
@@ -24,6 +24,7 @@ const HowDoIDispute = () => {
         href="/manage-va-debt/dispute-debt/"
         message-aria-describedby="Opens pay.va.gov"
         text="Dispute an overpayment online"
+        type="secondary"
       />
     </section>
   );

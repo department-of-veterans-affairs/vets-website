@@ -10,6 +10,7 @@ import {
   hasAwardedDependents,
   showV3Picklist,
   noV3Picklist,
+  showOptionsSelection,
   isAddingDependents,
   isRemovingDependents,
   isVisiblePicklistPage,
@@ -32,6 +33,7 @@ describe('Utilities', () => {
     ).to.be.an('array');
     expect(customFormReplacer('test', [])).to.be.undefined;
     expect(customFormReplacer('test', 1)).to.be.eq(1);
+    expect(customFormReplacer('test', null)).to.be.null;
   });
 });
 
@@ -483,6 +485,32 @@ describe('noV3Picklist', () => {
 
   it('should return false if feature flag is on', () => {
     expect(noV3Picklist({ vaDependentsV3: true })).to.be.false;
+  });
+});
+
+describe('showOptionsSelection', () => {
+  it('should return true if the feature flag is off', () => {
+    expect(
+      showOptionsSelection({
+        vaDependentsV3: false,
+      }),
+    ).to.be.true;
+  });
+  it('should return true if the feature flag is on and some active dependents are available', () => {
+    expect(
+      showOptionsSelection({
+        vaDependentsV3: true,
+        dependents: { awarded: [{}] },
+      }),
+    ).to.be.true;
+  });
+  it('should return false if the feature flag is on and no active dependents are available', () => {
+    expect(
+      showOptionsSelection({
+        vaDependentsV3: true,
+        dependents: { awarded: [] },
+      }),
+    ).to.be.false;
   });
 });
 

@@ -33,6 +33,7 @@ import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo'
 import { generateTextFile, getLastUpdatedText } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import RecordListSection from '../components/shared/RecordListSection';
 import {
   generateAllergiesIntro,
@@ -43,6 +44,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { useTrackAction } from '../hooks/useTrackAction';
+import { Actions } from '../util/actionTypes';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -78,17 +80,13 @@ const Allergies = props => {
 
   useTrackAction(statsdFrontEndActions.ALLERGIES_LIST);
 
-  useEffect(
-    /**
-     * @returns a callback to automatically load any new records when unmounting this component
-     */
-    () => {
-      return () => {
-        dispatch(reloadRecords());
-      };
-    },
-    [dispatch],
-  );
+  // On Unmount: reload any newly updated records and normalize the FETCHING state.
+  useReloadResetListOnUnmount({
+    listState,
+    dispatch,
+    updateListActionType: Actions.Allergies.UPDATE_LIST_STATE,
+    reloadRecordsAction: reloadRecords,
+  });
 
   useEffect(
     () => {
@@ -215,13 +213,6 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
 
         {allergies?.length ? (
           <>
-            <PrintDownload
-              description="Allergies - List"
-              list
-              downloadPdf={generateAllergiesPdf}
-              downloadTxt={generateAllergiesTxt}
-            />
-            <DownloadingRecordsInfo description="Allergies" />
             <RecordList
               records={allergies?.map(allergy => ({
                 ...allergy,
@@ -229,6 +220,14 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
               }))}
               type={recordType.ALLERGIES}
             />
+            <DownloadingRecordsInfo description="Allergies" />
+            <PrintDownload
+              description="Allergies - List"
+              list
+              downloadPdf={generateAllergiesPdf}
+              downloadTxt={generateAllergiesTxt}
+            />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
           </>
         ) : (
           <NoRecordsMessage type={recordType.ALLERGIES} />

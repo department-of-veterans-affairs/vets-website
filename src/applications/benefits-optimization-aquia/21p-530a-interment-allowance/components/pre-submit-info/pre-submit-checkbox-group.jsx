@@ -1,18 +1,16 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { StatementOfTruthItem } from './statement-of-truth-item';
+import { TextInputField } from '@bio-aquia/shared/components/atoms';
+import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-/**
- * Default signature state for new signatures
- */
-const DEFAULT_SIGNATURE_STATE = {
-  checked: false,
-  dirty: false,
-  matches: false,
-  value: '',
-};
+const ERROR_MSG_CHECKBOX = 'You must certify this statement is correct';
+const ERROR_MSG_SIGNATURE = 'Please enter your full name';
+const ERROR_MSG_TITLE = 'Please enter an organization title';
+
+const TITLE_MIN_LENGTH = 2;
+const TITLE_MAX_LENGTH = 100;
 
 /**
  * PreSubmitCheckboxGroup component
@@ -33,108 +31,129 @@ export const PreSubmitCheckboxGroup = ({
   const dispatch = useDispatch();
   const hasSubmittedForm = Boolean(submission.status);
 
-  // Initialize signatures state
-  const [signatures, setSignatures] = useState({
-    'State or Tribal Official': DEFAULT_SIGNATURE_STATE,
-  });
+  // State for the single signature required
+  const [fullName, setFullName] = useState('');
+  const [organizationTitle, setOrganizationTitle] = useState('');
+  const [isCertified, setIsCertified] = useState(false);
+  const [fullNameTouched, setFullNameTouched] = useState(false);
+  const [titleTouched, setTitleTouched] = useState(false);
 
-  // Get the official's title from form data (for display purposes)
-  const officialTitle =
-    formData?.officialSignature?.officialTitle || 'State/Tribal Official';
-
-  // Set form data with signature values, if submission has not occurred
+  // Sync form data with certification values
   useEffect(
     () => {
       if (hasSubmittedForm) return;
 
-      const officialSignature =
-        signatures['State or Tribal Official']?.value || '';
       dispatch(
         setData({
           ...formData,
-          stateTribalOfficialSignature: officialSignature,
+          certification: {
+            signature: fullName.trim(),
+            titleOfStateOrTribalOfficial: organizationTitle.trim(),
+            certified: isCertified,
+          },
         }),
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, signatures],
+    [dispatch, fullName, organizationTitle, isCertified],
   );
 
-  // Validate signature text is valid and checkbox is checked
+  // Check if all required fields are valid
   useEffect(
     () => {
-      const officialSig = signatures['State or Tribal Official'];
-      const isComplete = officialSig?.matches && officialSig?.checked;
+      const hasValidFullName = fullName.trim().length > 0;
+      const titleLength = organizationTitle.trim().length;
+      const hasValidTitle =
+        titleLength >= TITLE_MIN_LENGTH && titleLength <= TITLE_MAX_LENGTH;
+      const isComplete = hasValidFullName && hasValidTitle && isCertified;
+
       onSectionComplete(isComplete);
       return () => onSectionComplete(false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [signatures],
+    [fullName, organizationTitle, isCertified],
   );
 
-  const statementOfTruth = useMemo(
-    () => {
-      const signature =
-        signatures['State or Tribal Official'] || DEFAULT_SIGNATURE_STATE;
-      const { checked, dirty, matches, value } = signature;
+  // Determine if errors should be shown
+  const shouldShowErrors = !hasSubmittedForm && showError;
+  const shouldShowFullNameError =
+    !hasSubmittedForm && (fullNameTouched || showError);
+  const shouldShowTitleError = !hasSubmittedForm && (titleTouched || showError);
 
-      const hasCheckboxError = !hasSubmittedForm && !checked && showError;
-      const hasInputError =
-        !hasSubmittedForm &&
-        ((dirty && !matches) || (!dirty && showError && !value));
+  // Validation checks
+  const isFullNameEmpty = fullName.trim().length === 0;
+  const titleLength = organizationTitle.trim().length;
+  const isTitleInvalid =
+    titleLength < TITLE_MIN_LENGTH || titleLength > TITLE_MAX_LENGTH;
 
-      const veteranName =
-        [
-          formData?.veteranIdentification?.fullName?.first,
-          formData?.veteranIdentification?.fullName?.middle,
-          formData?.veteranIdentification?.fullName?.last,
-        ]
-          .filter(Boolean)
-          .join(' ') || '[Veteran Name]';
+  // Error messages (null if no error)
+  const fullNameError =
+    shouldShowFullNameError && isFullNameEmpty ? ERROR_MSG_SIGNATURE : null;
+  const titleError =
+    shouldShowTitleError && isTitleInvalid ? ERROR_MSG_TITLE : null;
+  const checkboxError =
+    shouldShowErrors && !isCertified ? ERROR_MSG_CHECKBOX : null;
 
-      const cemeteryName =
-        formData?.cemeteryInformation?.cemeteryName || '[Cemetery Name]';
+  // Event handlers
+  const handleFullNameChange = useCallback(event => {
+    setFullName(event.detail.value);
+  }, []);
 
-      const statementText = [
-        `I certify that ${veteranName} was buried in ${cemeteryName}, a State-owned Veterans Cemetery or Tribal Cemetery, without charge to the family.`,
-        `I certify that this cemetery is reserved solely for eligible veterans and their dependents as specified in 38 U.S.C. § 2402.`,
-        'I understand that providing false or fraudulent information may result in criminal prosecution under 18 U.S.C. §§ 287, 1001.',
-        `The current interment allowance rate of $978 (as of October 1, 2024) will be paid to the organization specified in this application.`,
-      ];
+  const handleFullNameBlur = useCallback(() => {
+    setFullNameTouched(true);
+  }, []);
 
-      return (
-        <StatementOfTruthItem
-          hasCheckboxError={hasCheckboxError}
-          hasInputError={hasInputError}
-          label={officialTitle}
-          signature={signature}
-          setSignatures={setSignatures}
-          statementText={statementText}
-        />
-      );
-    },
-    [hasSubmittedForm, showError, signatures, formData, officialTitle],
-  );
+  const handleTitleChange = useCallback((_, value) => {
+    setOrganizationTitle(value);
+  }, []);
 
+  const handleTitleBlur = useCallback(() => {
+    setTitleTouched(true);
+  }, []);
+
+  const handleCheckboxChange = useCallback(event => {
+    setIsCertified(event.detail.checked);
+  }, []);
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
-      <p
-        id="interment-allowance-declaration"
-        className="vads-u-margin-bottom--4"
-      >
-        Please review the information entered in this application. The state or
-        tribal official must sign the section below to certify the information.
+      <p className="vads-u-margin-bottom--4">
+        <strong>Note:</strong> According to federal law, there are criminal
+        penalties, including a fine and/or imprisonment for up to 5 years, for
+        withholding information or for providing incorrect information (See 18
+        U.S.C. 1001).
       </p>
 
       <div aria-describedby="interment-allowance-declaration">
-        {statementOfTruth}
+        <VaStatementOfTruth
+          name="stateOrTribalOfficial"
+          heading="Statement of truth"
+          inputLabel="Your full name"
+          inputValue={fullName}
+          inputError={fullNameError}
+          checked={isCertified}
+          checkboxLabel="I certify the information above is correct and true to the best of my knowledge and belief."
+          checkboxError={checkboxError}
+          onVaInputBlur={handleFullNameBlur}
+          onVaInputChange={handleFullNameChange}
+          onVaCheckboxChange={handleCheckboxChange}
+          hideLegalNote
+        >
+          I confirm that the identifying information in this form is accurate
+          and has been represented correctly.
+          <TextInputField
+            name="organizationTitle"
+            label="Your organization title"
+            value={organizationTitle}
+            onChange={handleTitleChange}
+            onBlur={handleTitleBlur}
+            required
+            error={titleError}
+            forceShowError={shouldShowTitleError && isTitleInvalid}
+            minLength={TITLE_MIN_LENGTH}
+            maxLength={TITLE_MAX_LENGTH}
+          />
+        </VaStatementOfTruth>
       </div>
-
-      <p className="vads-u-margin-top--4 vads-u-margin-bottom--6">
-        <strong>Note:</strong> This signature certifies all information provided
-        in VA Form 21P-530a and serves as the official certification required
-        for processing the interment allowance payment to your organization.
-      </p>
     </div>
   );
 };

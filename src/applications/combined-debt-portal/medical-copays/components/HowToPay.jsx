@@ -4,7 +4,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => (
   <article className="vads-u-padding--0" data-testid="how-to-pay">
-    <h2 id="how-to-pay">How to pay your copay bill</h2>
+    <h2 id="how-to-pay">How to make a payment</h2>
     <h3>Pay online</h3>
     <p>
       Pay directly from your bank account or by debit or credit card on the
@@ -24,11 +24,15 @@ export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => (
         )}
       </ul>
     )}
-    <va-link-action
-      href="https://www.pay.gov/public/form/start/25987221"
+    <va-icon icon="navigate_next" class="icon-action" size="3" />
+    <va-link
+      aria-label="Opens pay.va.gov in a new tab"
+      external
       text="Pay at pay.gov"
-      primary
+      href="https://www.pay.gov/public/form/start/25987221"
+      class="vads-u-margin-top--2 vads-u-font-weight--bold"
     />
+
     <h3>Pay by phone</h3>
     <p>
       Call us at <va-telephone contact="8888274817" /> (

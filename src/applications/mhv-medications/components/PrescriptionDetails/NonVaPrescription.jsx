@@ -6,7 +6,7 @@ import {
   displayProviderName,
 } from '../../util/helpers';
 import ExtraDetails from '../shared/ExtraDetails';
-import { dataDogActionNames } from '../../util/dataDogConstants';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import { ACTIVE_NON_VA } from '../../util/constants';
 
 const NonVaPrescription = prescription => {
@@ -16,7 +16,13 @@ const NonVaPrescription = prescription => {
         <h2 className="vads-u-margin-bottom--2 no-print vads-u-margin-top--neg2">
           About this medication or supply
         </h2>
-        {prescription && <ExtraDetails {...prescription} />}
+        {prescription && (
+          <ExtraDetails
+            {...prescription}
+            page={pageType.DETAILS}
+            showRenewalLink
+          />
+        )}
         <section>
           <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Status

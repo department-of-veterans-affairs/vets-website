@@ -50,6 +50,7 @@ import {
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import RecordListSection from '../components/shared/RecordListSection';
 import {
   generateVaccinesIntro,
@@ -60,6 +61,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { useTrackAction } from '../hooks/useTrackAction';
+import { Actions } from '../util/actionTypes';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -118,17 +120,13 @@ const Vaccines = props => {
     checkUpdatesAction: checkForVaccineUpdates,
   });
 
-  useEffect(
-    /**
-     * @returns a callback to automatically load any new records when unmounting this component
-     */
-    () => {
-      return () => {
-        dispatch(reloadRecords());
-      };
-    },
-    [dispatch],
-  );
+  // On Unmount: reload any newly updated records and normalize the FETCHING state.
+  useReloadResetListOnUnmount({
+    listState,
+    dispatch,
+    updateListActionType: Actions.Vaccines.UPDATE_LIST_STATE,
+    reloadRecordsAction: reloadRecords,
+  });
 
   useEffect(
     () => {
@@ -289,13 +287,6 @@ const Vaccines = props => {
 
         {vaccines?.length ? (
           <>
-            <PrintDownload
-              description="Vaccines - List"
-              list
-              downloadPdf={generateVaccinesPdf}
-              downloadTxt={generateVaccinesTxt}
-            />
-            <DownloadingRecordsInfo description="Vaccines" />
             {useBackendPagination && vaccines ? (
               <RecordListNew
                 records={vaccines?.map(vaccine => ({
@@ -314,6 +305,15 @@ const Vaccines = props => {
                 type={recordType.VACCINES}
               />
             )}
+
+            <DownloadingRecordsInfo description="Vaccines" />
+            <PrintDownload
+              description="Vaccines - List"
+              list
+              downloadPdf={generateVaccinesPdf}
+              downloadTxt={generateVaccinesTxt}
+            />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
           </>
         ) : (
           <NoRecordsMessage type={recordType.VACCINES} />

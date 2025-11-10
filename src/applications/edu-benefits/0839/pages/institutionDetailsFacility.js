@@ -1,28 +1,31 @@
 import React from 'react';
 import {
-  addressSchema,
   titleUI,
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import InstitutionName from '../components/InstitutionName';
-import InstitutionAddress from '../components/InstitutionAddress';
-import WarningBanner from '../components/WarningBanner';
+import InstitutionName from '../containers/InstitutionName';
+import InstitutionAddress from '../containers/InstitutionAddress';
+import WarningBanner from '../containers/WarningBanner';
 
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const details = formData?.institutionDetails || {};
   const code = (fieldData || '').trim();
+  const isLoading = details?.isLoading;
+
+  // Don't show validation errors while loading
+  if (isLoading) {
+    return;
+  }
 
   const badFormat = code.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
   const notFound = details.institutionName === 'not found';
   const notIHL = details.ihlEligible === false;
   const notYR = details.yrEligible === false;
 
-  const thirdChar = code.charAt(2).toUpperCase();
-
   if (badFormat || notFound) {
     errors.addError(
-      'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+      'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
     );
   }
 
@@ -35,15 +38,6 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
   if (!notYR && notIHL) {
     errors.addError(
       'This institution is not an IHL. Please see information below.',
-    );
-  }
-
-  const hasXInThirdPosition =
-    code.length === 8 && !badFormat && thirdChar === 'X';
-
-  if (hasXInThirdPosition) {
-    errors.addError(
-      "This facility code can't be accepted because it's not associated with your main campus. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.",
     );
   }
 };
@@ -76,6 +70,8 @@ const uiSchema = {
       'ui:field': InstitutionName,
       'ui:options': {
         classNames: 'vads-u-margin-top--2',
+        dataPath: 'institutionDetails',
+        isArrayItem: false,
       },
     },
     institutionAddress: {
@@ -84,10 +80,16 @@ const uiSchema = {
       'ui:options': {
         classNames: 'vads-u-margin-top--2',
         hideLabelText: true,
+        dataPath: 'institutionDetails',
+        isArrayItem: false,
       },
     },
     'view:warningBanner': {
       'ui:field': WarningBanner,
+      'ui:options': {
+        dataPath: 'institutionDetails',
+        isArrayItem: false,
+      },
     },
   },
 };
@@ -109,21 +111,30 @@ const schema = {
         institutionAddress: {
           type: 'object',
           properties: {
-            country: addressSchema().properties.country,
-            street: addressSchema().properties.street,
-            street2: {
-              ...addressSchema().properties.street2,
-              minLength: 0,
-            },
-            street3: {
-              ...addressSchema().properties.street3,
-              minLength: 0,
-            },
-            city: addressSchema().properties.city,
-            state: addressSchema().properties.state,
-            postalCode: addressSchema().properties.postalCode,
+            country: { type: 'string' },
+            street: { type: 'string' },
+            street2: { type: 'string' },
+            street3: { type: 'string' },
+            city: { type: 'string' },
+            state: { type: 'string' },
+            postalCode: { type: 'string' },
           },
-          required: ['street', 'city', 'state', 'postalCode', 'country'],
+          anyOf: [
+            {
+              // For USA addresses
+              properties: {
+                country: { const: 'USA' },
+              },
+              required: ['street', 'city', 'state', 'postalCode', 'country'],
+            },
+            {
+              // For international addresses
+              properties: {
+                country: { not: { const: 'USA' } },
+              },
+              required: ['street', 'city', 'country'],
+            },
+          ],
         },
         'view:warningBanner': {
           type: 'object',

@@ -6,7 +6,6 @@ import NeedHelp from '../components/NeedHelp';
 import { fetchCh31Eligibility } from '../actions/ch31-my-eligibility-and-benefits';
 import EligibilityCriteria from '../components/EligibilityCriteria';
 import BenefitsSummary from '../components/BenefitsSummary';
-// import Breadcrumbs from '../components/Breadcrumbs';
 
 const MyEligibilityAndBenefits = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -42,7 +41,6 @@ const MyEligibilityAndBenefits = () => {
   if (!showEligibilityPage) {
     return (
       <div className="row">
-        {/* <Breadcrumbs /> */}
         <div className="usa-width-two-thirds vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0">
           <h1>Your VR&E eligibility and benefits</h1>
           <p className="vads-u-color--gray-medium">
@@ -56,7 +54,6 @@ const MyEligibilityAndBenefits = () => {
   if (loading) {
     return (
       <div className="row">
-        {/* <Breadcrumbs /> */}
         <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
           <h1>Your VR&E eligibility and benefits</h1>
           <va-loading-indicator
@@ -70,7 +67,6 @@ const MyEligibilityAndBenefits = () => {
   if (error) {
     return (
       <div className="row">
-        {/* <Breadcrumbs /> */}
         <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
           <h1>Your VR&E eligibility and benefits</h1>
           <va-alert status="error" visible class="vads-u-margin-y--4">
@@ -78,8 +74,9 @@ const MyEligibilityAndBenefits = () => {
               We can’t load the eligibility details right now
             </h2>
             <p>
-              We’re sorry. There’s a problem with our system. You are still
-              encouraged to proceed and apply for the VA Form 28-1900.
+              We’re sorry. There’s a problem with our system. Please wait a few
+              minutes and try again or apply for benefits using the VA Form
+              28-1900.
             </p>
             <va-link-action
               href="/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/#"
@@ -119,13 +116,12 @@ const MyEligibilityAndBenefits = () => {
 
   return (
     <div className="row ">
-      {/* <Breadcrumbs /> */}
       <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
         <h1>Your VR&E eligibility and benefits</h1>
 
         <p className="vads-u-font-size--lg">
-          Below you will find your Chapter 31 eligibility, which includes your
-          own military service, character of discharge, Service Connected
+          On this page you’ll find your Chapter 31 eligibility, which includes
+          your own military service, character of discharge, Service Connected
           Disability (SCD) rating, and remaining entitlement available.
         </p>
 
@@ -139,6 +135,7 @@ const MyEligibilityAndBenefits = () => {
           className="vads-u-margin-top--3 vads-u-margin-bottom--4"
           text="Find out more about requesting a Rudisill review"
           href="https://benefits.va.gov/GIBILL/rudisill.asp"
+          external
         />
 
         {isEligible && (
@@ -168,11 +165,10 @@ const MyEligibilityAndBenefits = () => {
             class="vads-u-margin-y--6"
           >
             <h2 slot="headline">
-              Our records indicate you do not meet the basic eligibility
-              criteria
+              Our records indicate you don’t meet the basic eligibility criteria
             </h2>
             <p className="vads-u-margin-y--2">
-              You do not currently meet the basic eligibility criteria. If you
+              You don’t currently meet the basic eligibility criteria. If you
               believe this is an error, please review the{' '}
               <va-link
                 text="Eligibility for Veteran Readiness and Employment"

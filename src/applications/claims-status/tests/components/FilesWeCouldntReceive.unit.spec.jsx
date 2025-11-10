@@ -310,12 +310,33 @@ describe('<FilesWeCouldntReceive>', () => {
       const pagination = container.querySelector('va-pagination');
       expect(pagination).to.not.exist;
 
+      // Test that pagination info text is NOT rendered
+      const paginationInfo = container.querySelector('#pagination-info');
+      expect(paginationInfo).to.not.exist;
+
       // Test that all 5 items are shown
       const failedFileCards = getAllByTestId(/failed-file-/);
       expect(failedFileCards).to.have.length(5);
     });
 
-    it('should scroll to files section when pagination is clicked', () => {
+    it('should display pagination info text with correct format when pagination is shown', () => {
+      // Create 15 mock failed files to trigger pagination
+      const mockFailedFiles = createMockFailedFiles(15);
+      const store = createMockStore(mockFailedFiles);
+      const { container, getByText } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
+
+      // Test that pagination info text is rendered with correct format
+      const paginationInfo = container.querySelector('#pagination-info');
+      expect(paginationInfo).to.exist;
+
+      // Test that the text shows the correct range for first page
+      expect(getByText('Showing 1 ‒ 10 of 15 items')).to.exist;
+    });
+
+    it('should focus on pagination info when pagination is clicked', () => {
       // Create 15 mock failed files to trigger pagination
       const mockFailedFiles = createMockFailedFiles(15);
       const store = createMockStore(mockFailedFiles);
@@ -324,14 +345,10 @@ describe('<FilesWeCouldntReceive>', () => {
         store,
       );
 
-      // Mock the scrollIntoView method
-      const mockScrollIntoView = sinon.spy();
-      const filesSection = container.querySelector(
-        '#files-not-received-section',
-      );
-      if (filesSection) {
-        filesSection.scrollIntoView = mockScrollIntoView;
-      }
+      // Mock the setPageFocus function from utils/page
+      const mockSetPageFocus = sinon.spy();
+      const originalSetPageFocus = require('../../utils/page').setPageFocus;
+      require('../../utils/page').setPageFocus = mockSetPageFocus;
 
       // Find the pagination component
       const pagination = container.querySelector('va-pagination');
@@ -345,8 +362,12 @@ describe('<FilesWeCouldntReceive>', () => {
       // Trigger the pageSelect event on the pagination component
       pagination.dispatchEvent(pageSelectEvent);
 
-      // Verify that scrollIntoView was called on the files section
-      expect(mockScrollIntoView.calledOnce).to.be.true;
+      // Verify that setPageFocus was called with the correct selector
+      expect(mockSetPageFocus.calledOnce).to.be.true;
+      expect(mockSetPageFocus.calledWith('#pagination-info')).to.be.true;
+
+      // Restore the original function
+      require('../../utils/page').setPageFocus = originalSetPageFocus;
     });
   });
 });

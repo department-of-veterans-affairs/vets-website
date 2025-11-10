@@ -9,8 +9,6 @@ import {
 import {
   updatePageTitle,
   usePrintTitle,
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -20,13 +18,17 @@ import {
 
 import { dateFormat } from '../util/helpers';
 import { selectRefillProgressFlag } from '../util/selectors';
-import { SESSION_SELECTED_PAGE_NUMBER, REFILL_STATUS } from '../util/constants';
+import {
+  DATETIME_FORMATS,
+  SESSION_SELECTED_PAGE_NUMBER,
+  REFILL_STATUS,
+} from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import PrintOnlyPage from './PrintOnlyPage';
+import DelayedRefillAlert from '../components/shared/DelayedRefillAlert';
 import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
-import RefillAlert from '../components/shared/RefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import ProcessList from '../components/shared/ProcessList';
@@ -116,9 +118,6 @@ const RefillPrescriptions = () => {
       } catch (error) {
         setRefillStatus(REFILL_STATUS.ERROR);
       }
-
-      // Log when user requests a refill (after the main refill logic)
-      logUniqueUserMetricsEvents(EVENT_REGISTRY.PRESCRIPTIONS_REFILL_REQUESTED);
 
       if (hasNoOptionSelectedError) setHasNoOptionSelectedError(false);
     } else {
@@ -212,13 +211,15 @@ const RefillPrescriptions = () => {
         >
           Refill prescriptions
         </h1>
-        {showRefillProgressContent && (
-          <RefillAlert
-            dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
-            refillStatus={refillStatus}
-            refillAlertList={refillAlertList}
-          />
-        )}
+        {showRefillProgressContent &&
+          refillAlertList.length > 0 && (
+            <DelayedRefillAlert
+              dataDogActionName={
+                dataDogActionNames.refillPage.REFILL_ALERT_LINK
+              }
+              refillAlertList={refillAlertList}
+            />
+          )}
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
@@ -301,7 +302,7 @@ const RefillPrescriptions = () => {
                             ? `Last filled on ${dateFormat(
                                 prescription.sortedDispensedDate ||
                                   prescription.dispensedDate,
-                                'MMMM D, YYYY',
+                                DATETIME_FORMATS.longMonthDate,
                               )}`
                             : 'Not filled yet'
                         }

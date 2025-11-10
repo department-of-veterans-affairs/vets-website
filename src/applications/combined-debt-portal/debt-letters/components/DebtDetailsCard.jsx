@@ -40,15 +40,13 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
       {debtCardContent.showLinks && (
         <va-link-action
           data-testid="link-resolve"
-          href={`/debt-balances/details/${debt.compositeDebtId}/resolve`}
+          href={`/debt-balances/${debt.compositeDebtId}/resolve`}
           onClick={event => {
             event.preventDefault();
             recordEvent({ event: 'cta-link-click-debt-details-card' });
-            history.push(
-              `/debt-balances/details/${debt.compositeDebtId}/resolve`,
-            );
+            history.push(`/debt-balances/${debt.compositeDebtId}/resolve`);
           }}
-          text="Pay your balance, request financial help, or dispute this overpayment"
+          text="Resolve this overpayment"
           type="primary"
         />
       )}
