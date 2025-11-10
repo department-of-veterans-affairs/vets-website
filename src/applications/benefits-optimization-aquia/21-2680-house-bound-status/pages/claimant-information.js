@@ -5,21 +5,39 @@
  */
 
 import {
-  fullNameUI,
-  fullNameSchema,
+  firstNameLastNameNoSuffixUI,
+  firstNameLastNameNoSuffixSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
+const relationshipLabels = {
+  veteran: 'Your',
+  spouse: "Veteran's spouse's",
+  child: "Veteran's child's",
+  parent: "Veteran's parent's",
+};
 
 /**
  * uiSchema for Claimant Information page
  * Collects claimant's full name and date of birth
  */
 export const claimantInformationUiSchema = {
-  'ui:title': 'Claimant information',
   claimantInformation: {
-    claimantFullName: fullNameUI(),
-    claimantDob: dateOfBirthUI("Claimant's date of birth"),
+    claimantFullName: firstNameLastNameNoSuffixUI(),
+    claimantDob: dateOfBirthUI(),
+  },
+  'ui:options': {
+    updateUiSchema: (formData, fullData) => {
+      const data = fullData || formData;
+      const relationship = data?.claimantRelationship?.relationship;
+      const title = `${relationshipLabels[relationship] ||
+        'Claimant'} name and date of birth`;
+
+      return {
+        'ui:title': title,
+      };
+    },
   },
 };
 
@@ -35,7 +53,7 @@ export const claimantInformationSchema = {
       type: 'object',
       required: ['claimantFullName', 'claimantDob'],
       properties: {
-        claimantFullName: fullNameSchema,
+        claimantFullName: firstNameLastNameNoSuffixSchema,
         claimantDob: dateOfBirthSchema,
       },
     },

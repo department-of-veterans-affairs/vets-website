@@ -4,10 +4,12 @@
  * VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid and Attendance
  */
 
+import React from 'react';
 import {
   textUI,
-  addressUI,
-  addressSchema,
+  titleUI,
+  addressNoMilitaryUI,
+  addressNoMilitarySchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /**
@@ -15,17 +17,48 @@ import {
  * Collects hospital/facility name and address
  */
 export const hospitalizationFacilityUiSchema = {
-  'ui:title': 'Hospital or facility information',
+  ...titleUI(({ formData }) => {
+    const isVeteran =
+      formData?.claimantRelationship?.relationship === 'veteran';
+
+    if (isVeteran) {
+      // Get veteran's name
+      const firstName =
+        formData?.veteranInformation?.veteranFullName?.first || '';
+      const lastName =
+        formData?.veteranInformation?.veteranFullName?.last || '';
+      const fullName = `${firstName} ${lastName}`.trim();
+
+      if (fullName) {
+        return `What's the name and address of the hospital where ${fullName} is admitted?`;
+      }
+      return "What's the name and address of the hospital where the claimant is admitted?";
+    }
+
+    // Get claimant's name
+    const firstName =
+      formData?.claimantInformation?.claimantFullName?.first || '';
+    const lastName =
+      formData?.claimantInformation?.claimantFullName?.last || '';
+    const fullName = `${firstName} ${lastName}`.trim();
+
+    if (fullName) {
+      return `What's the name and address of the hospital where ${fullName} is admitted?`;
+    }
+    return "What's the name and address of the hospital where the claimant is admitted?";
+  }),
   hospitalizationFacility: {
     facilityName: textUI({
-      title: 'Name of hospital or facility',
+      title: 'Name of hospital',
     }),
-    facilityAddress: addressUI({
-      labels: {
-        militaryCheckbox:
-          'Hospital is on a United States military base outside of the U.S.',
-      },
-    }),
+    facilityAddress: {
+      ...addressNoMilitaryUI(),
+      'ui:description': (
+        <h4 className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--base vads-u-line-height--3 vads-u-margin-top--2 vads-u-margin-bottom--1">
+          Address of hospital
+        </h4>
+      ),
+    },
   },
 };
 
@@ -45,7 +78,7 @@ export const hospitalizationFacilitySchema = {
           type: 'string',
           maxLength: 100,
         },
-        facilityAddress: addressSchema(),
+        facilityAddress: addressNoMilitarySchema(),
       },
     },
   },

@@ -14,15 +14,14 @@ import {
  * Determines the relationship of the claimant to the veteran
  */
 export const claimantRelationshipUiSchema = {
-  'ui:title': 'Claimant relationship to Veteran',
   claimantRelationship: {
     relationship: radioUI({
       title: 'What is your relationship to the Veteran?',
       labels: {
-        veteran: 'I am the Veteran',
-        spouse: 'Spouse of the Veteran',
-        child: 'Child of the Veteran',
-        parent: 'Parent of the Veteran',
+        veteran: 'Veteran',
+        spouse: "Veteran's spouse",
+        child: "Veteran's child",
+        parent: "Veteran's parent",
       },
     }),
   },

@@ -8,17 +8,36 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { getClaimantName, isClaimantVeteran } from './helpers';
 
 /**
  * Generate page title based on claimant relationship
  */
 const getPageTitle = formData => {
-  if (isClaimantVeteran(formData)) {
-    return 'Are you hospitalized?';
+  const isVeteran = formData?.claimantRelationship?.relationship === 'veteran';
+
+  if (isVeteran) {
+    // Get veteran's name
+    const firstName =
+      formData?.veteranInformation?.veteranFullName?.first || '';
+    const lastName = formData?.veteranInformation?.veteranFullName?.last || '';
+    const fullName = `${firstName} ${lastName}`.trim();
+
+    if (fullName) {
+      return `Is ${fullName} hospitalized?`;
+    }
+    return 'Is the Veteran hospitalized?';
   }
-  const claimantName = getClaimantName(formData);
-  return `Is ${claimantName} hospitalized?`;
+
+  // Get claimant's name
+  const firstName =
+    formData?.claimantInformation?.claimantFullName?.first || '';
+  const lastName = formData?.claimantInformation?.claimantFullName?.last || '';
+  const fullName = `${firstName} ${lastName}`.trim();
+
+  if (fullName) {
+    return `Is ${fullName} hospitalized?`;
+  }
+  return 'Is the claimant hospitalized?';
 };
 
 /**
@@ -26,17 +45,20 @@ const getPageTitle = formData => {
  * Determines if the claimant is currently hospitalized
  */
 export const hospitalizationStatusUiSchema = {
-  'ui:title': 'Hospitalization status',
   hospitalizationStatus: {
     isCurrentlyHospitalized: yesNoUI({
-      title: 'Hospitalization status',
+      title: 'Is the claimant hospitalized?',
     }),
   },
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
-      const pageTitle = getPageTitle(fullData || formData);
+      const fieldLabel = getPageTitle(fullData || formData);
       return {
-        'ui:title': pageTitle,
+        hospitalizationStatus: {
+          isCurrentlyHospitalized: {
+            'ui:title': fieldLabel,
+          },
+        },
       };
     },
   },
