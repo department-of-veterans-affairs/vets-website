@@ -10,6 +10,8 @@ export {
   veteranInformationSchema,
 } from './veteran-information';
 
+export { veteranSsnUiSchema, veteranSsnSchema } from './veteran-ssn';
+
 export {
   veteranAddressUiSchema,
   veteranAddressSchema,

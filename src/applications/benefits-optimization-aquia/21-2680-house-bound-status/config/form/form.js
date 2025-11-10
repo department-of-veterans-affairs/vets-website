@@ -23,6 +23,8 @@ import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 import {
   veteranInformationUiSchema,
   veteranInformationSchema,
+  veteranSsnUiSchema,
+  veteranSsnSchema,
   veteranAddressUiSchema,
   veteranAddressSchema,
   claimantRelationshipUiSchema,
@@ -115,6 +117,12 @@ const formConfig = {
           title: "Veteran's information",
           uiSchema: veteranInformationUiSchema,
           schema: veteranInformationSchema,
+        },
+        veteranSsn: {
+          path: 'veteran-ssn',
+          title: "Veteran's Social Security number",
+          uiSchema: veteranSsnUiSchema,
+          schema: veteranSsnSchema,
         },
         veteranAddress: {
           path: 'veteran-address',
