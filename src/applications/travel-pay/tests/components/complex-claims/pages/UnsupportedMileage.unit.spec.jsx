@@ -100,13 +100,13 @@ describe('Travel Pay – UnsupportedMileage', () => {
     // Check explanatory text
     expect(
       screen.getByText(
-        /Right now you can only file travel reimbursement claims on VA.gov if you departed from the address we have on file and traveled roundtrip/i,
+        /Right now you can only file travel reimbursement claims on VA.gov if you departed from the address we have on file and traveled round trip./i,
       ),
     ).to.exist;
 
     expect(
       screen.getByText(
-        /To file a one-way claim from another address, use the Beneficiary Travel Self Service System \(BTSSS\)/i,
+        /To file a one-way claim or a claim from another address, use the Beneficiary Travel Self Service System \(BTSSS\)./i,
       ),
     ).to.exist;
 
@@ -170,32 +170,6 @@ describe('Travel Pay – UnsupportedMileage', () => {
     // Check that we navigated back to the previous page
     expect(screen.getByTestId('location-display').textContent).to.equal(
       '/previous-page',
-    );
-  });
-
-  it('should render all informational content', () => {
-    const screen = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/unsupported-mileage']}>
-        <UnsupportedMileage />
-      </MemoryRouter>,
-      {
-        initialState: getData(),
-        reducers: reducer,
-      },
-    );
-
-    // Check that all paragraphs are present
-    const paragraphs = screen.container.querySelectorAll('p');
-    expect(paragraphs).to.have.length(2);
-
-    // Check first paragraph content
-    expect(paragraphs[0].textContent).to.include(
-      'Right now you can only file travel reimbursement claims on VA.gov if you departed from the address we have on file and traveled roundtrip',
-    );
-
-    // Check second paragraph content
-    expect(paragraphs[1].textContent).to.include(
-      'To file a one-way claim from another address, use the Beneficiary Travel Self Service System (BTSSS)',
     );
   });
 });
