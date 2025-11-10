@@ -11,17 +11,41 @@ import { transform } from './transform';
 /**
  * Helper to create minimal valid form data
  */
-const createFormData = (overrides = {}) => ({
-  data: {
+const createFormData = (overrides = {}) => {
+  const defaults = {
     veteranInformation: {},
-    burialInformation: {},
+    burialInformation: {
+      placeOfBurial: {
+        cemeteryLocation: {},
+      },
+      recipientOrganization: {
+        address: {},
+      },
+    },
     periods: [],
     previousNames: [],
     certification: {},
     remarks: '',
-    ...overrides,
-  },
-});
+  };
+
+  // Deep merge for burialInformation to preserve nested defaults
+  const data = { ...defaults, ...overrides };
+  if (overrides.burialInformation) {
+    data.burialInformation = {
+      placeOfBurial: {
+        cemeteryLocation: {},
+        ...(overrides.burialInformation.placeOfBurial || {}),
+      },
+      recipientOrganization: {
+        address: {},
+        ...(overrides.burialInformation.recipientOrganization || {}),
+      },
+      ...overrides.burialInformation,
+    };
+  }
+
+  return { data };
+};
 
 describe('Submit Transform', () => {
   let sentryStub;
@@ -122,10 +146,10 @@ describe('Submit Transform', () => {
   });
 
   describe('Burial Information', () => {
-    it('should pass through burial information unchanged', () => {
+    it('should restructure burial information correctly', () => {
       const form = createFormData({
         burialInformation: {
-          relationshipToVeteran: 'stateCemetery',
+          nameOfStateCemeteryOrTribalOrganization: 'Virginia State Cemetery',
           dateOfBurial: '2023-12-28',
           placeOfBurial: {
             stateCemeteryOrTribalCemeteryName: 'Arlington National Cemetery',
@@ -139,8 +163,10 @@ describe('Submit Transform', () => {
             phoneNumber: '555-0100',
             address: {
               street: '123 Main St',
+              street2: 'Suite 200',
               city: 'Springfield',
               state: 'IL',
+              country: 'US',
               postalCode: '62701',
             },
           },
@@ -150,26 +176,116 @@ describe('Submit Transform', () => {
       const result = JSON.parse(transform({}, form));
 
       expect(result.burialInformation).to.deep.equal({
-        relationshipToVeteran: 'stateCemetery',
+        nameOfStateCemeteryOrTribalOrganization: 'Virginia State Cemetery',
         dateOfBurial: '2023-12-28',
         placeOfBurial: {
           stateCemeteryOrTribalCemeteryName: 'Arlington National Cemetery',
-          cemeteryLocation: {
-            city: 'Arlington',
-            state: 'VA',
-          },
+          stateCemeteryOrTribalCemeteryLocation: 'Arlington, VA',
         },
         recipientOrganization: {
           name: 'State Veterans Affairs',
           phoneNumber: '555-0100',
           address: {
-            street: '123 Main St',
+            streetAndNumber: '123 Main St',
+            aptOrUnitNumber: 'Suite 200',
             city: 'Springfield',
             state: 'IL',
+            country: 'US',
             postalCode: '62701',
           },
         },
       });
+    });
+
+    it('should format cemetery location string from city and state', () => {
+      const form = createFormData({
+        burialInformation: {
+          placeOfBurial: {
+            stateCemeteryOrTribalCemeteryName: 'Test Cemetery',
+            cemeteryLocation: {
+              city: 'Boston',
+              state: 'MA',
+            },
+          },
+          recipientOrganization: {
+            address: {},
+          },
+        },
+      });
+
+      const result = JSON.parse(transform({}, form));
+
+      expect(
+        result.burialInformation.placeOfBurial
+          .stateCemeteryOrTribalCemeteryLocation,
+      ).to.equal('Boston, MA');
+    });
+
+    it('should transform address street to streetAndNumber', () => {
+      const form = createFormData({
+        burialInformation: {
+          placeOfBurial: {
+            cemeteryLocation: {},
+          },
+          recipientOrganization: {
+            address: {
+              street: '456 Oak Avenue',
+              city: 'Denver',
+              state: 'CO',
+            },
+          },
+        },
+      });
+
+      const result = JSON.parse(transform({}, form));
+
+      expect(
+        result.burialInformation.recipientOrganization.address.streetAndNumber,
+      ).to.equal('456 Oak Avenue');
+    });
+
+    it('should transform address street2 to aptOrUnitNumber', () => {
+      const form = createFormData({
+        burialInformation: {
+          placeOfBurial: {
+            cemeteryLocation: {},
+          },
+          recipientOrganization: {
+            address: {
+              street: '789 Main St',
+              street2: 'Apt 4B',
+              city: 'Phoenix',
+              state: 'AZ',
+            },
+          },
+        },
+      });
+
+      const result = JSON.parse(transform({}, form));
+
+      expect(
+        result.burialInformation.recipientOrganization.address.aptOrUnitNumber,
+      ).to.equal('Apt 4B');
+    });
+
+    it('should handle burial information with minimal fields', () => {
+      const form = createFormData({
+        burialInformation: {
+          placeOfBurial: {
+            cemeteryLocation: {},
+          },
+          recipientOrganization: {
+            address: {},
+          },
+        },
+      });
+
+      const result = JSON.parse(transform({}, form));
+
+      expect(result.burialInformation).to.have.property('placeOfBurial');
+      expect(result.burialInformation).to.have.property(
+        'recipientOrganization',
+      );
     });
   });
 
@@ -178,12 +294,12 @@ describe('Submit Transform', () => {
       const form = createFormData({
         periods: [
           {
-            serviceBranch: 'Army',
-            startDate: '2010-01-15',
-            separationDate: '2014-12-31',
-            entryLocation: 'Fort Benning, GA',
-            separationLocation: 'Fort Hood, TX',
-            gradeOrRank: 'Captain',
+            serviceBranch: 'ARMY',
+            dateEnteredService: '2010-01-15',
+            dateLeftService: '2014-12-31',
+            placeEnteredService: 'Fort Benning, GA',
+            placeLeftService: 'Fort Hood, TX',
+            rankAtSeparation: 'Captain',
           },
         ],
       });
@@ -194,11 +310,11 @@ describe('Submit Transform', () => {
       expect(result.veteranServicePeriods.periods).to.have.lengthOf(1);
       expect(result.veteranServicePeriods.periods[0]).to.deep.equal({
         serviceBranch: 'Army',
-        startDate: '2010-01-15',
-        separationDate: '2014-12-31',
-        entryLocation: 'Fort Benning, GA',
-        separationLocation: 'Fort Hood, TX',
-        gradeOrRank: 'Captain',
+        dateEnteredService: '2010-01-15',
+        dateLeftService: '2014-12-31',
+        placeEnteredService: 'Fort Benning, GA',
+        placeLeftService: 'Fort Hood, TX',
+        rankAtSeparation: 'Captain',
       });
     });
 
@@ -206,14 +322,14 @@ describe('Submit Transform', () => {
       const form = createFormData({
         periods: [
           {
-            serviceBranch: 'Navy',
-            startDate: '2005-03-01',
-            separationDate: '2009-02-28',
+            serviceBranch: 'NAVY',
+            dateEnteredService: '2005-03-01',
+            dateLeftService: '2009-02-28',
           },
           {
-            serviceBranch: 'Air Force',
-            startDate: '2010-06-15',
-            separationDate: '2015-06-14',
+            serviceBranch: 'AF',
+            dateEnteredService: '2010-06-15',
+            dateLeftService: '2015-06-14',
           },
         ],
       });
@@ -457,6 +573,9 @@ describe('Submit Transform', () => {
     it('should truncate country field to 2 characters', () => {
       const form = createFormData({
         burialInformation: {
+          placeOfBurial: {
+            cemeteryLocation: {},
+          },
           recipientOrganization: {
             address: {
               street: '123 Main St',
@@ -479,6 +598,9 @@ describe('Submit Transform', () => {
     it('should not modify 2-character country codes', () => {
       const form = createFormData({
         burialInformation: {
+          placeOfBurial: {
+            cemeteryLocation: {},
+          },
           recipientOrganization: {
             address: {
               country: 'US',
@@ -492,19 +614,6 @@ describe('Submit Transform', () => {
       expect(
         result.burialInformation.recipientOrganization.address.country,
       ).to.equal('US');
-    });
-
-    it('should handle lowercase country fields', () => {
-      const form = createFormData({
-        burialInformation: {
-          someCountryField: 'CANADA',
-        },
-      });
-
-      const result = JSON.parse(transform({}, form));
-
-      // Should still truncate fields with 'country' in lowercase key
-      expect(result.burialInformation.someCountryField).to.equal('CA');
     });
   });
 
@@ -524,7 +633,7 @@ describe('Submit Transform', () => {
           placeOfBirth: 'New York, NY',
         },
         burialInformation: {
-          relationshipToVeteran: 'stateCemetery',
+          nameOfStateCemeteryOrTribalOrganization: 'Illinois Veterans Affairs',
           dateOfBurial: '2023-11-05',
           placeOfBurial: {
             stateCemeteryOrTribalCemeteryName: 'Springfield Veterans Cemetery',
@@ -538,6 +647,7 @@ describe('Submit Transform', () => {
             phoneNumber: '555-1234',
             address: {
               street: '456 Cemetery Rd',
+              street2: 'Building A',
               city: 'Springfield',
               state: 'IL',
               country: 'USA',
@@ -547,12 +657,12 @@ describe('Submit Transform', () => {
         },
         periods: [
           {
-            serviceBranch: 'Army',
-            startDate: '1968-05-10',
-            separationDate: '1972-05-09',
-            entryLocation: 'Fort Dix, NJ',
-            separationLocation: 'Fort Hood, TX',
-            gradeOrRank: 'Sergeant',
+            serviceBranch: 'ARMY',
+            dateEnteredService: '1968-05-10',
+            dateLeftService: '1972-05-09',
+            placeEnteredService: 'Fort Dix, NJ',
+            placeLeftService: 'Fort Hood, TX',
+            rankAtSeparation: 'Sergeant',
           },
         ],
         previousNames: [
@@ -586,6 +696,28 @@ describe('Submit Transform', () => {
       // Verify veteran information passed through
       expect(result.veteranInformation.fullName.first).to.equal('John');
       expect(result.veteranInformation.ssn).to.equal('123456789');
+
+      // Verify burial information restructured correctly
+      expect(
+        result.burialInformation.nameOfStateCemeteryOrTribalOrganization,
+      ).to.equal('Illinois Veterans Affairs');
+      expect(result.burialInformation.dateOfBurial).to.equal('2023-11-05');
+      expect(
+        result.burialInformation.placeOfBurial
+          .stateCemeteryOrTribalCemeteryName,
+      ).to.equal('Springfield Veterans Cemetery');
+      expect(
+        result.burialInformation.placeOfBurial
+          .stateCemeteryOrTribalCemeteryLocation,
+      ).to.equal('Springfield, IL');
+
+      // Verify recipient organization address transformation
+      expect(
+        result.burialInformation.recipientOrganization.address.streetAndNumber,
+      ).to.equal('456 Cemetery Rd');
+      expect(
+        result.burialInformation.recipientOrganization.address.aptOrUnitNumber,
+      ).to.equal('Building A');
 
       // Verify service periods wrapped correctly
       expect(result.veteranServicePeriods.periods).to.have.lengthOf(1);

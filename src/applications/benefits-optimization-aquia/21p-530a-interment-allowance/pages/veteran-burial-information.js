@@ -1,12 +1,12 @@
 import {
+  titleUI,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   textUI,
   textSchema,
-  addressUI,
-  addressSchema,
-  titleUI,
+  selectUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { states } from '@department-of-veterans-affairs/platform-forms/address';
 
 export const veteranBurialInformationPage = {
   uiSchema: {
@@ -17,20 +17,16 @@ export const veteranBurialInformationPage = {
     burialInformation: {
       dateOfBurial: currentOrPastDateUI('Date of burial'),
       placeOfBurial: {
-        stateCemeteryOrTribalCemeteryName: textUI('Cemetery Name'),
-        cemeteryLocation: addressUI({
-          omit: [
-            'isMilitary',
-            'country',
-            'street',
-            'street2',
-            'street3',
-            'postalCode',
-          ],
-          required: {
-            state: () => true,
-          },
+        ...titleUI({
+          title: 'Cemetery information',
+          headerLevel: '4',
+          classNames: 'vads-u-color--gray-dark',
         }),
+        stateCemeteryOrTribalCemeteryName: textUI('Cemetery Name'),
+        cemeteryLocation: {
+          city: textUI('City'),
+          state: selectUI('State'),
+        },
       },
     },
   },
@@ -51,19 +47,20 @@ export const veteranBurialInformationPage = {
           dateOfBurial: currentOrPastDateSchema,
           placeOfBurial: {
             type: 'object',
-            required: ['stateCemeteryOrTribalCemeteryName', 'cemeteryLocation'],
+            required: ['stateCemeteryOrTribalCemeteryName'],
             properties: {
               stateCemeteryOrTribalCemeteryName: textSchema,
-              cemeteryLocation: addressSchema({
-                omit: [
-                  'isMilitary',
-                  'country',
-                  'street',
-                  'street2',
-                  'street3',
-                  'postalCode',
-                ],
-              }),
+              cemeteryLocation: {
+                type: 'object',
+                required: ['city', 'state'],
+                properties: {
+                  city: textSchema,
+                  state: {
+                    type: 'string',
+                    enum: states.USA.map(state => state.label),
+                  },
+                },
+              },
             },
           },
         },

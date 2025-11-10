@@ -27,9 +27,22 @@ export const burialOrganizationMailingAddressPage = {
             type: 'object',
             required: ['address'],
             properties: {
-              address: addressSchema({
-                omit: ['isMilitary', 'street3'],
-              }),
+              address: {
+                ...addressSchema({
+                  omit: ['isMilitary', 'street3'],
+                }),
+                properties: {
+                  ...addressSchema({
+                    omit: ['isMilitary', 'street3'],
+                  }).properties,
+                  street2: {
+                    ...addressSchema({
+                      omit: ['isMilitary', 'street3'],
+                    }).properties.street2,
+                    maxLength: 5,
+                  },
+                },
+              },
             },
           },
         },

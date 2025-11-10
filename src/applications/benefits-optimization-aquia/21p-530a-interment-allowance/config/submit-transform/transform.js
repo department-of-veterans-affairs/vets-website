@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import { capitalize } from 'lodash';
+import { DEFAULT_BRANCH_LABELS } from 'platform/forms-system/src/js/web-component-patterns/serviceBranchPattern';
 
 // Custom sanitizer to strip view fields, empty objects, and normalize country codes
 const sanitize = (key, value) => {
@@ -39,8 +40,21 @@ export const transform = (formConfig, form) => {
     remarks,
   } = form?.data;
 
-  const servedUnderDifferentName = previousNames?.reduce((acc, name) => {
-    const { previousName } = name;
+  // Breaking out burial information to fit submissionObject
+  const {
+    dateOfBurial,
+    nameOfStateCemeteryOrTribalOrganization,
+    placeOfBurial,
+    recipientOrganization,
+  } = burialInformation;
+  const { stateCemeteryOrTribalCemeteryName, cemeteryLocation } = placeOfBurial;
+  const stateCemeteryOrTribalCemeteryLocation = `${cemeteryLocation?.city}, ${
+    cemeteryLocation?.state
+  }`;
+  const { name, phoneNumber, address } = recipientOrganization;
+
+  const servedUnderDifferentName = previousNames?.reduce((acc, val) => {
+    const { previousName } = val;
     const parts = [
       capitalize(previousName?.first),
       capitalize(previousName?.middle),
@@ -50,13 +64,42 @@ export const transform = (formConfig, form) => {
     return `${acc ? `${acc}, ` : ''}${formattedName}`;
   }, '');
 
+  // convert service period branch name to label
+  const convertedServicePeriods = periods.map(period => {
+    const { label } = DEFAULT_BRANCH_LABELS[period.serviceBranch];
+    const serviceBranch = label ?? period.serviceBranch;
+    return {
+      ...period,
+      serviceBranch,
+    };
+  });
+
   // Fit into subbmission object
   try {
     const submissionObj = {
       veteranInformation,
-      burialInformation,
+      burialInformation: {
+        nameOfStateCemeteryOrTribalOrganization,
+        dateOfBurial,
+        placeOfBurial: {
+          stateCemeteryOrTribalCemeteryName,
+          stateCemeteryOrTribalCemeteryLocation,
+        },
+        recipientOrganization: {
+          name,
+          phoneNumber,
+          address: {
+            streetAndNumber: address.street,
+            aptOrUnitNumber: address.street2,
+            city: address.city,
+            state: address.state,
+            country: address.country,
+            postalCode: address.postalCode,
+          },
+        },
+      },
       veteranServicePeriods: {
-        periods,
+        periods: convertedServicePeriods,
         servedUnderDifferentName,
       },
       certification,

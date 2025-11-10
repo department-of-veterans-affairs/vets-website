@@ -75,7 +75,7 @@ const ProcessList = () => {
       <va-process-list-item header="Apply">
         <p>
           We’ll take you through each step of the process. This application
-          should take about 30 minutes.
+          should take about 5 minutes.
         </p>
       </va-process-list-item>
       <va-process-list-item header="After you apply">

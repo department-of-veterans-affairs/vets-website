@@ -1,4 +1,5 @@
 {
+  "remarks": "Provide any additional remarks about your application. Provide Provide any additional remarks about your application. Provide any additional remarks about your application. Provide any additional remarks about your application. Provide any additional remarks about your application. any additional remarks about your application. ",
   "view:previousNamesMissingInformation": {},
   "view:completedPreviousNames": false,
   "view:periodsMissingInformation": {},
@@ -11,15 +12,17 @@
       "state": "Maine"
     },
     "ssn": "223114332",
+    "vaFileNumber": "123456789",
     "fullName": {
       "first": "Rosemary",
+      "middle": "K",
       "last": "Woodhouse"
     }
   },
   "burialInformation": {
     "dateOfBurial": "2022-03-18",
     "placeOfBurial": {
-      "stateCemeteryOrTribalCemeteryName": "Springfield",
+      "stateCemeteryOrTribalCemeteryName": "Springfield Cemetery",
       "cemeteryLocation": {
         "city": "Springfield",
         "state": "Illinois"
@@ -30,6 +33,7 @@
         "view:militaryBaseDescription": {},
         "country": "USA",
         "street": "1060 W Addison St",
+        "street2": "bruh",
         "city": "Chicago",
         "state": "IL",
         "postalCode": "60631"
@@ -38,7 +42,7 @@
       "phoneNumber": "3122223124"
     },
     "nameOfStateCemeteryOrTribalOrganization": "Org Name",
-    "view:relationshipToVeteran": "tribalOrganization"
+    "view:relationshipToVeteran": "stateCemetery"
   },
   "titleSchema": {},
   "periods": [
@@ -49,6 +53,22 @@
       "dateEnteredService": "1965-03-14",
       "dateLeftService": "1990-04-04",
       "serviceBranch": "ARMY"
+    }
+  ],
+  "previousNames": [
+    {
+      "previousName": {
+        "first": "Rosemary",
+        "middle": "Kate",
+        "last": "Green"
+      }
+    },
+    {
+      "previousName": {
+        "first": "Rosemary",
+        "middle": "Kate",
+        "last": "Ryan"
+      }
     }
   ]
 }

@@ -31,7 +31,7 @@ const previousNameOptions = {
   isItemIncomplete: item =>
     !item.previousName?.first && !item.previousName?.last,
   text: {
-    summaryTitle: "Review the Veteran's previous names",
+    summaryTitle: 'Review the names the Veteran served under',
     getItemName: item => `${formatName(item?.previousName)}`,
   },
 };
