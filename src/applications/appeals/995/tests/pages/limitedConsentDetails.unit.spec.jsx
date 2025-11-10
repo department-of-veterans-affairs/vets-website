@@ -5,7 +5,11 @@ import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
-import { content } from '../../content/limitedConsent';
+import {
+  detailsError,
+  detailsHint,
+  detailsQuestion,
+} from '../../pages/limitedConsentDetails';
 
 describe('Supplemental Claims Limited Consent Details page', () => {
   const {
@@ -26,9 +30,9 @@ describe('Supplemental Claims Limited Consent Details page', () => {
 
     const textarea = $('va-textarea[required]', container);
     expect(textarea).to.exist;
-    expect(textarea.getAttribute('label')).to.eq(content.detailsQuestion);
+    expect(textarea.getAttribute('label')).to.eq(detailsQuestion);
     expect(textarea.getAttribute('label-header-level')).to.eq('3');
-    expect(textarea.getAttribute('hint')).to.eq(content.detailsHint);
+    expect(textarea.getAttribute('hint')).to.eq(detailsHint);
     expect($('button[type="submit"]', container)).to.exist;
   });
 
@@ -48,7 +52,7 @@ describe('Supplemental Claims Limited Consent Details page', () => {
 
     waitFor(() => {
       expect($('va-textarea', container).getAttribute('error')).to.eq(
-        content.errorMessage,
+        detailsError,
       );
     });
   });
