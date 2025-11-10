@@ -48,6 +48,26 @@ describe('purgeToxicExposureData', () => {
   });
 
   describe('when feature flag is enabled', () => {
+    it('should purge when disability526ToxicExposureOptOutDataPurge is true', () => {
+      const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
+        toxicExposure: {
+          conditions: { none: true },
+          gulfWar1990: { bahrain: true },
+          gulfWar1990Details: {
+            bahrain: { startDate: '1991-01-01', endDate: '1991-12-31' },
+          },
+        },
+      };
+
+      const result = purgeToxicExposureData(formData);
+      expect(result.toxicExposure).to.deep.equal({
+        conditions: { none: true },
+      });
+    });
+  });
+
+  describe('when feature flag is enabled', () => {
     describe('with no toxic exposure data', () => {
       it('should handle missing or empty toxicExposure', () => {
         // Missing toxicExposure

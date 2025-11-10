@@ -1,5 +1,6 @@
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
@@ -32,15 +33,15 @@ import {
   sponsorIntroSchema,
 } from '../chapters/sponsorInformation';
 import { applicantPages } from '../chapters/applicantInformation';
+import ohiIntroduction from '../chapters/medicareInformation/ohiIntroduction';
+import medicareIntroduction from '../chapters/medicareInformation/medicareIntroduction';
 import {
   medicarePages,
   medicareStatusPage,
   medicareProofOfIneligibilityPage,
 } from '../chapters/medicareInformation';
+import healthInsuranceIntroduction from '../chapters/healthInsuranceInformation/healthInsuranceIntroduction';
 import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
-import OhiIntroduction from '../components/FormPages/OhiIntroduction';
-import MedicareIntroduction from '../components/FormPages/MedicareIntroduction';
-import OtherHealthInsuranceInformation from '../components/FormPages/OtherHealthInsuranceInformation';
 import AddressSelectionPage, {
   NOT_SHARED,
 } from '../components/FormPages/AddressSelectionPage';
@@ -99,6 +100,9 @@ const formConfig = {
     wrapping: true,
   }),
   formId: VA_FORM_IDS.FORM_10_10D_EXTENDED,
+  downtime: {
+    dependencies: [externalServices.pega, externalServices.form1010dExt],
+  },
   saveInProgress: {
     messages: {
       inProgress: 'Your CHAMPVA benefits application (10-10D) is in progress.',
@@ -226,18 +230,12 @@ const formConfig = {
         ohiIntro: {
           path: 'medicare-and-other-health-insurance',
           title: 'Report Medicare and other health insurance',
-          CustomPage: OhiIntroduction,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: blankSchema,
+          ...ohiIntroduction,
         },
         medicareIntro: {
-          path: 'medicare-introduction',
+          path: 'report-medicare',
           title: 'Report Medicare',
-          CustomPage: MedicareIntroduction,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: blankSchema,
+          ...medicareIntroduction,
         },
         ...medicarePages,
         page22: medicareStatusPage,
@@ -249,12 +247,9 @@ const formConfig = {
         'Other Health Insurance Certification: Health insurance information',
       pages: {
         healthInsuranceIntro: {
-          path: 'other-health-insurance-introduction',
+          path: 'report-other-health-insurance',
           title: 'Report other health insurance',
-          CustomPage: OtherHealthInsuranceInformation,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: blankSchema,
+          ...healthInsuranceIntroduction,
         },
         ...healthInsurancePages,
       },

@@ -61,7 +61,7 @@ describe('spouseDeath', () => {
 
     const inUSInputs = $$('va-text-input', container);
     expect(inUSInputs.length).to.eq(1);
-    expect(inUSInputs[0].getAttribute('label')).to.eq('City');
+    expect(inUSInputs[0].getAttribute('label')).to.eq('City or county');
 
     const inUSSelects = $$('va-select', container);
     expect(inUSSelects.length).to.eq(1);
@@ -70,7 +70,7 @@ describe('spouseDeath', () => {
 
   it('should render country & province fields when outside US checkbox is checked', () => {
     const { container } = renderComponent({
-      data: { ...defaultData, marriageEndOutsideUS: true },
+      data: { ...defaultData, endOutsideUS: true },
     });
 
     expect($('va-checkbox', container).checked).to.be.true;
@@ -97,7 +97,13 @@ describe('spouseDeath', () => {
     await fireEvent.submit($('form', container));
 
     await waitFor(() => {
-      expect($$('[error]', container).length).to.equal(3);
+      const errors = $$('[error]', container);
+      expect(errors.length).to.equal(3);
+      expect(errors.map(el => el.getAttribute('error'))).to.deep.equal([
+        'Provide a date of death',
+        'Enter a city or county',
+        'Select a state',
+      ]);
       expect(goForward.notCalled).to.be.true;
     });
   });
@@ -105,21 +111,27 @@ describe('spouseDeath', () => {
   it('should show error messages if submitted without filling in fields (non-US)', async () => {
     const goForward = sinon.spy();
     const { container } = renderComponent({
-      data: { ...defaultData, marriageEndOutsideUS: true },
+      data: { ...defaultData, endOutsideUS: true },
       formSubmitted: true,
       goForward,
     });
 
     $('va-checkbox', container).__events.vaChange({
-      target: { name: 'marriageEndOutsideUS', tagName: 'VA-CHECKBOX' },
+      target: { name: 'endOutsideUS', tagName: 'VA-CHECKBOX' },
       detail: { checked: true },
     });
 
     await fireEvent.submit($('form', container));
 
     await waitFor(() => {
+      const errors = $$('[error]', container);
       // Still 3 errors because province is not required
-      expect($$('[error]', container).length).to.equal(3);
+      expect(errors.length).to.equal(3);
+      expect(errors.map(el => el.getAttribute('error'))).to.deep.equal([
+        'Provide a date of death',
+        'Enter a city',
+        'Select a country',
+      ]);
       expect(goForward.notCalled).to.be.true;
     });
   });
@@ -130,9 +142,9 @@ describe('spouseDeath', () => {
       onSubmit,
       data: {
         ...defaultData,
-        marriageEndDeathDate: '2000-01-01',
-        marriageEndCity: 'Test',
-        marriageEndState: 'TT',
+        endDate: '2000-01-01',
+        endCity: 'Test',
+        endState: 'AK',
       },
     });
 
@@ -144,7 +156,7 @@ describe('spouseDeath', () => {
   });
 
   context('spouseDeath handlers', () => {
-    it('should return "marriage-ended" on goForward', () => {
+    it('should return "DONE" on goForward', () => {
       expect(spouseDeath.handlers.goForward()).to.equal('DONE');
     });
 
@@ -152,9 +164,9 @@ describe('spouseDeath', () => {
       const goForward = sinon.spy();
       spouseDeath.handlers.onSubmit({
         itemData: {
-          marriageEndDeathDate: '2000-01-01',
-          marriageEndCity: 'Test',
-          marriageEndState: 'TT',
+          endDate: '2000-01-01',
+          endCity: 'Test',
+          endState: 'AK',
         },
         goForward,
       });
@@ -165,10 +177,10 @@ describe('spouseDeath', () => {
       const goForward = sinon.spy();
       spouseDeath.handlers.onSubmit({
         itemData: {
-          marriageEndOutsideUS: true,
-          marriageEndDeathDate: '2000-01-01',
-          marriageEndCity: 'Test',
-          marriageEndCountry: 'TTT',
+          endOutsideUS: true,
+          endDate: '2000-01-01',
+          endCity: 'Test',
+          endCountry: 'TTT',
         },
         goForward,
       });

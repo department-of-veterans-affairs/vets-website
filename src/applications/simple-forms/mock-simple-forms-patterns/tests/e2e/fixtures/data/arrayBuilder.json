@@ -2,6 +2,8 @@
   "data": {
     "arrayBuilderPatternFlowType": "optional",
     "arrayBuilderPatternInteractionType": "yesNoQuestion",
+    "arrayBuilderItemPages": "complex",
+    "arrayBuilderSummaryIntroVariation": "A",
     "view:hasEmployment": true,
     "employers": [
       {

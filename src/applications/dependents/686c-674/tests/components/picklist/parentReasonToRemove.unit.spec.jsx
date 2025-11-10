@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import parentReasonToRemove from '../../../components/picklist/parentReasonToRemove';
+import { labels } from '../../../components/picklist/utils';
 
 import { createDoB } from '../../test-helpers';
 
@@ -45,15 +46,11 @@ describe('parentReasonToRemove', () => {
   it('should render', () => {
     const { container } = renderComponent();
 
-    expect($('h3', container).textContent).to.equal(
-      'Reason for removing PETER FOSTER',
-    );
+    expect($('h3', container).textContent).to.contain('PETER FOSTER');
 
     const radio = $('va-radio', container);
     expect(radio).to.exist;
-    expect(radio.getAttribute('label')).to.equal(
-      'Do any of these apply to PETER FOSTER (age 82 years old)?',
-    );
+    expect(radio.getAttribute('label')).to.equal(labels.Parent.removalReason);
     expect(radio.getAttribute('required')).to.equal('true');
   });
 
@@ -68,7 +65,7 @@ describe('parentReasonToRemove', () => {
 
     await waitFor(() => {
       expect($('va-radio', container).getAttribute('error')).to.equal(
-        'Select an option',
+        labels.Parent.removalReasonError,
       );
       expect(goForward.notCalled).to.be.true;
     });
@@ -100,15 +97,22 @@ describe('parentReasonToRemove', () => {
   });
 
   context('parentReasonToRemove handlers', () => {
-    it('should return "DONE" on goForward', () => {
-      // This will change once more parent pages are added
-      expect(parentReasonToRemove.handlers.goForward()).to.equal('DONE');
+    const { handlers } = parentReasonToRemove;
+    it('should return "parent-death" on goForward', () => {
+      const itemData = {
+        relationshipToVeteran: 'Parent',
+        removalReason: 'parentDied',
+      };
+      expect(handlers.goForward({ itemData })).to.equal('parent-death');
     });
 
     it('should call goForward when reason to remove value is set on submit', () => {
       const goForward = sinon.spy();
-      parentReasonToRemove.handlers.onSubmit({
-        itemData: { removalReason: 'parentOther' },
+      handlers.onSubmit({
+        itemData: {
+          relationshipToVeteran: 'Parent',
+          removalReason: 'parentOther',
+        },
         goForward,
       });
       expect(goForward.calledOnce).to.be.true;
@@ -116,8 +120,8 @@ describe('parentReasonToRemove', () => {
 
     it('should not call goForward when reason to remove value is set on submit', () => {
       const goForward = sinon.spy();
-      parentReasonToRemove.handlers.onSubmit({
-        itemData: { parentOther: undefined },
+      handlers.onSubmit({
+        itemData: { removalReason: undefined },
         goForward,
       });
       expect(goForward.calledOnce).to.be.false;

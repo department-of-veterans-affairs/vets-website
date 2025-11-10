@@ -67,7 +67,7 @@ const SearchResults = ({ claimant, searchData }) => {
   if (!claimant) {
     return (
       <>
-        <p data-testid="poa-requests-table-fetcher-no-poa-requests">
+        <p data-testid="representation-requests-table-fetcher-no-poa-requests">
           No result found for <strong>"{searchData.first_name}"</strong>
           {', '}
           <strong>"{searchData.last_name}"</strong>
@@ -100,7 +100,7 @@ const SearchResults = ({ claimant, searchData }) => {
   return (
     <>
       <p
-        data-testid="poa-requests-table-fetcher-poa-requests"
+        data-testid="representation-requests-table-fetcher-poa-requests"
         className="claimant-search-showing-results"
       >
         Showing result for <strong>"{searchData.first_name}"</strong>
@@ -147,7 +147,7 @@ const SearchResults = ({ claimant, searchData }) => {
           </h3>
           <div className="poa-status-cta">{poaStatusCta(claimant)}</div>
           <ul
-            data-testid="poa-requests-card"
+            data-testid="representation-requests-card"
             className="poa-request__list poa-request__list--search"
             sort-column={1}
           >
@@ -184,7 +184,7 @@ SearchResults.propTypes = {
   /* eslint-able camelcase */
 };
 
-const ClaimantSearchPage = () => {
+const ClaimantSearchPage = title => {
   const [claimant, setClaimant] = useState({});
   const [searchData, setSearchData] = useState(false);
   const [lastSearchData, setLastSearchData] = useState(false);
@@ -194,18 +194,20 @@ const ClaimantSearchPage = () => {
   const [searchPerformed, setSearchPerformed] = useState(false);
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
-  useEffect(() => {
-    // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
-    // (can't be overridden by passing 'hint' to uiOptions):
-    addStyleToShadowDomOnPages(
-      [''],
-      ['va-date'],
-      'va-select::part(label), va-text-input::part(label) {margin-bottom:8px}',
-    );
-  });
+  useEffect(
+    () => {
+      document.title = title.title;
+      focusElement('h1');
+      // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
+      // (can't be overridden by passing 'hint' to uiOptions):
+      addStyleToShadowDomOnPages(
+        [''],
+        ['va-date'],
+        'va-select::part(label), va-text-input::part(label) {margin-bottom:8px}',
+      );
+    },
+    [title],
+  );
 
   const allFieldsPresent = () =>
     searchData.first_name &&
@@ -232,7 +234,7 @@ const ClaimantSearchPage = () => {
           setLastSearchData({ ...searchData });
           setSearchPerformed(true);
           setLoading(false);
-          focusElement('div.poa-requests-page-table-container');
+          focusElement('div.representation-requests-page-table-container');
         });
     }
     return null;
@@ -269,7 +271,7 @@ const ClaimantSearchPage = () => {
 
   const searchResult = () =>
     searchPerformed ? (
-      <div className="poa-requests-page-table-container">
+      <div className="representation-requests-page-table-container">
         <div
           className={searchStatus}
           id={`tabpanel-${searchStatus}`}
@@ -291,7 +293,7 @@ const ClaimantSearchPage = () => {
         homeVeteransAffairs={false}
       />
       <h1
-        data-testid="poa-requests-heading"
+        data-testid="representation-requests-heading"
         className="poa-request__search-header"
       >
         Find claimant

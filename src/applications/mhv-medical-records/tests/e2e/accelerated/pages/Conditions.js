@@ -1,5 +1,4 @@
 import sessionStatus from '../fixtures/session/default.json';
-import MedicalRecordsLandingPage from '../../pages/MedicalRecordsLandingPage';
 
 class Conditions {
   setIntercepts = ({ conditionsData }) => {
@@ -13,7 +12,6 @@ class Conditions {
     cy.intercept('GET', '/my_health/v2/medical_records/conditions*', req => {
       req.reply(conditionsData);
     }).as('conditions-list');
-    MedicalRecordsLandingPage.uumIntercept();
   };
 
   goToConditionsPage = () => {

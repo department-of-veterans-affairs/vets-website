@@ -16,18 +16,16 @@ describe('FullnameField', () => {
   });
 
   describe('rendering', () => {
-    it('displays default legend', () => {
+    it('renders name input fields', () => {
       const { container } = render(<FullnameField {...defaultProps} />);
-      const legend = container.querySelector('legend');
-      expect(legend).to.exist;
-      expect(legend.textContent).to.equal('Your full name');
-    });
-
-    it('displays custom legend', () => {
-      const props = { ...defaultProps, legend: "Veteran's full name" };
-      const { container } = render(<FullnameField {...props} />);
-      const legend = container.querySelector('legend');
-      expect(legend.textContent).to.equal("Veteran's full name");
+      const firstNameInput = container.querySelector(
+        'va-text-input[label="First name"]',
+      );
+      const lastNameInput = container.querySelector(
+        'va-text-input[label="Last name"]',
+      );
+      expect(firstNameInput).to.exist;
+      expect(lastNameInput).to.exist;
     });
 
     it('renders all name fields', () => {
@@ -74,10 +72,10 @@ describe('FullnameField', () => {
       const props = {
         ...defaultProps,
         value: {
-          first: 'John',
-          middle: 'Q',
-          last: 'Doe',
-          suffix: 'Jr.',
+          first: 'Leia',
+          middle: 'Amidala',
+          last: 'Organa',
+          suffix: 'Commander',
         },
       };
       const { container } = render(<FullnameField {...props} />);
@@ -95,10 +93,10 @@ describe('FullnameField', () => {
         'va-text-input[label="Suffix"]',
       );
 
-      expect(firstNameInput).to.have.attribute('value', 'John');
-      expect(middleNameInput).to.have.attribute('value', 'Q');
-      expect(lastNameInput).to.have.attribute('value', 'Doe');
-      expect(suffixInput).to.have.attribute('value', 'Jr.');
+      expect(firstNameInput).to.have.attribute('value', 'Leia');
+      expect(middleNameInput).to.have.attribute('value', 'Amidala');
+      expect(lastNameInput).to.have.attribute('value', 'Organa');
+      expect(suffixInput).to.have.attribute('value', 'Commander');
     });
 
     it('shows empty values when value is empty', () => {
@@ -186,11 +184,11 @@ describe('FullnameField', () => {
       render(<FullnameField {...props} />);
 
       // Simulate FormField calling handleNameChange
-      onChange('fullName', { first: 'Jane' });
+      onChange('fullName', { first: 'Mon' });
 
       expect(onChange.calledOnce).to.be.true;
       expect(onChange.firstCall.args[0]).to.equal('fullName');
-      expect(onChange.firstCall.args[1]).to.deep.equal({ first: 'Jane' });
+      expect(onChange.firstCall.args[1]).to.deep.equal({ first: 'Mon' });
     });
 
     it('calls onChange when middle name changes', () => {
@@ -198,18 +196,18 @@ describe('FullnameField', () => {
       const props = {
         ...defaultProps,
         onChange,
-        value: { first: 'John' },
+        value: { first: 'Wedge' },
       };
       render(<FullnameField {...props} />);
 
       // Simulate FormField calling handleNameChange
-      onChange('fullName', { first: 'John', middle: 'Q' });
+      onChange('fullName', { first: 'Wedge', middle: 'Derek' });
 
       expect(onChange.calledOnce).to.be.true;
       expect(onChange.firstCall.args[0]).to.equal('fullName');
       expect(onChange.firstCall.args[1]).to.deep.equal({
-        first: 'John',
-        middle: 'Q',
+        first: 'Wedge',
+        middle: 'Derek',
       });
     });
 
@@ -218,19 +216,23 @@ describe('FullnameField', () => {
       const props = {
         ...defaultProps,
         onChange,
-        value: { first: 'John', middle: 'Q' },
+        value: { first: 'Wedge', middle: 'Derek' },
       };
       render(<FullnameField {...props} />);
 
       // Simulate FormField calling handleNameChange
-      onChange('fullName', { first: 'John', middle: 'Q', last: 'Smith' });
+      onChange('fullName', {
+        first: 'Wedge',
+        middle: 'Derek',
+        last: 'Antilles',
+      });
 
       expect(onChange.calledOnce).to.be.true;
       expect(onChange.firstCall.args[0]).to.equal('fullName');
       expect(onChange.firstCall.args[1]).to.deep.equal({
-        first: 'John',
-        middle: 'Q',
-        last: 'Smith',
+        first: 'Wedge',
+        middle: 'Derek',
+        last: 'Antilles',
       });
     });
 
@@ -239,19 +241,23 @@ describe('FullnameField', () => {
       const props = {
         ...defaultProps,
         onChange,
-        value: { first: 'John', last: 'Doe' },
+        value: { first: 'Bail', last: 'Organa' },
       };
       render(<FullnameField {...props} />);
 
       // Simulate FormField calling handleNameChange
-      onChange('fullName', { first: 'John', last: 'Doe', suffix: 'III' });
+      onChange('fullName', {
+        first: 'Bail',
+        last: 'Organa',
+        suffix: 'Senator',
+      });
 
       expect(onChange.calledOnce).to.be.true;
       expect(onChange.firstCall.args[0]).to.equal('fullName');
       expect(onChange.firstCall.args[1]).to.deep.equal({
-        first: 'John',
-        last: 'Doe',
-        suffix: 'III',
+        first: 'Bail',
+        last: 'Organa',
+        suffix: 'Senator',
       });
     });
 
@@ -261,28 +267,28 @@ describe('FullnameField', () => {
         ...defaultProps,
         onChange,
         value: {
-          first: 'John',
-          middle: 'Q',
-          last: 'Doe',
-          suffix: 'Jr.',
+          first: 'Gial',
+          middle: 'Natalon',
+          last: 'Ackbar',
+          suffix: 'Admiral',
         },
       };
       render(<FullnameField {...props} />);
 
       // Simulate changing middle name
       onChange('fullName', {
-        first: 'John',
-        middle: 'Robert',
-        last: 'Doe',
-        suffix: 'Jr.',
+        first: 'Gial',
+        middle: '',
+        last: 'Ackbar',
+        suffix: 'Admiral',
       });
 
       expect(onChange.calledOnce).to.be.true;
       expect(onChange.firstCall.args[1]).to.deep.equal({
-        first: 'John',
-        middle: 'Robert',
-        last: 'Doe',
-        suffix: 'Jr.',
+        first: 'Gial',
+        middle: '',
+        last: 'Ackbar',
+        suffix: 'Admiral',
       });
     });
   });
@@ -471,7 +477,7 @@ describe('FullnameField', () => {
       const props = {
         ...defaultProps,
         value: {
-          first: 'John',
+          first: 'Carlist',
           // middle, last, and suffix are undefined
         },
       };
@@ -490,7 +496,7 @@ describe('FullnameField', () => {
         'va-text-input[label="Suffix"]',
       );
 
-      expect(firstNameInput).to.have.attribute('value', 'John');
+      expect(firstNameInput).to.have.attribute('value', 'Carlist');
       expect(middleNameInput).to.have.attribute('value', '');
       expect(lastNameInput).to.have.attribute('value', '');
       expect(suffixInput).to.have.attribute('value', '');
@@ -559,31 +565,31 @@ describe('FullnameField', () => {
   });
 
   describe('accessibility', () => {
-    it('uses fieldset and legend for grouping', () => {
+    it('renders individual labeled inputs', () => {
       const { container } = render(<FullnameField {...defaultProps} />);
-      const fieldset = container.querySelector('fieldset');
-      const legend = container.querySelector('legend');
+      const inputs = container.querySelectorAll('va-text-input');
 
-      expect(fieldset).to.exist;
-      expect(legend).to.exist;
+      expect(inputs.length).to.be.greaterThan(0);
+      inputs.forEach(input => {
+        expect(input).to.have.attribute('label');
+      });
     });
 
-    it('applies proper styling classes', () => {
+    it('provides clear labels for each name part', () => {
       const { container } = render(<FullnameField {...defaultProps} />);
-      const fieldset = container.querySelector('fieldset');
-      const legend = container.querySelector('legend');
+      const firstNameInput = container.querySelector(
+        'va-text-input[label="First name"]',
+      );
+      const middleNameInput = container.querySelector(
+        'va-text-input[label="Middle name"]',
+      );
+      const lastNameInput = container.querySelector(
+        'va-text-input[label="Last name"]',
+      );
 
-      expect(fieldset).to.have.class('vads-u-margin-bottom--2');
-      expect(legend).to.have.class('vads-u-font-weight--bold');
-      expect(legend).to.have.class('vads-u-margin-bottom--1');
-    });
-
-    it('provides context through legend text', () => {
-      const props = { ...defaultProps, legend: "Applicant's name" };
-      const { container } = render(<FullnameField {...props} />);
-      const legend = container.querySelector('legend');
-
-      expect(legend.textContent).to.equal("Applicant's name");
+      expect(firstNameInput).to.exist;
+      expect(middleNameInput).to.exist;
+      expect(lastNameInput).to.exist;
     });
 
     it('maintains logical tab order', () => {

@@ -104,7 +104,7 @@ describe('Accredited Representative Portal', () => {
     it('Allows the user to visit 686c form from Submissions', () => {
       cy.injectAxeThenAxeCheck();
       cy.get(
-        "va-link-action[href='/representative/representative-form-upload/21-686c']",
+        "va-link-action[href='/representative/representative-form-upload/submit-va-form-21-686c']",
       ).click();
     });
 
@@ -125,7 +125,6 @@ describe('Accredited Representative Portal', () => {
           isAppEnabled: true,
           isInPilot: true,
           isSubmissionsEnabled: true,
-          is526ezEnabled: true,
         },
         SUBMISSIONS_PAGE,
       );
@@ -134,7 +133,7 @@ describe('Accredited Representative Portal', () => {
     it('Allows the user to visit 526ez form from Submissions', () => {
       cy.injectAxeThenAxeCheck();
       cy.get(
-        "va-link-action[href='/representative/representative-form-upload/21-526EZ']",
+        "va-link-action[href='/representative/representative-form-upload/submit-va-form-21-526EZ']",
       ).click();
     });
   });

@@ -1,183 +1,207 @@
-# VA Form 21P-530A: Application for Interment Allowance
+# VA Form 21P-530A - State or Tribal Organization Application for Interment Allowance
 
-## Form Purpose
+## Overview
 
-This form is used to apply for interment (burial) allowance benefits for eligible Veterans. The interment allowance helps cover burial and funeral expenses for Veterans who die from non-service-connected causes.
+VA Form 21P-530A is used by state or tribal organizations to apply for interment allowances and burial benefits on behalf of deceased Veterans. This form collects organization information, deceased Veteran details, military service history, and burial information to support claims for burial benefits.
 
-## Who Should Use This Form
+## Who Uses This Form
 
-Eligible applicants include:
+- **State organizations** requesting burial benefits for deceased Veterans
+- **Tribal organizations** applying for interment allowances
+- **Authorized officials** submitting burial benefit claims on behalf of their organization
+- **VA Regional Offices** processing burial benefit requests
 
-- Surviving spouses of deceased Veterans
-- Children of deceased Veterans
-- Parents of deceased Veterans
-- Executors or administrators of the Veteran's estate
-- Funeral directors or other persons who paid burial expenses
+State and tribal organizations use this form to:
 
-## Eligibility Requirements
+- Request interment allowances for deceased Veterans
+- Provide Veteran service history and burial information
+- Submit burial benefit claims on behalf of their organization
+- Document military service periods and previous names
 
-The deceased Veteran must have:
+## Team
 
-- Been discharged under conditions other than dishonorable
-- Died from non-service-connected causes
-- Been receiving VA pension or compensation at the time of death, OR
-- Been entitled to receive VA pension or compensation but decided not to reduce military retirement or disability pay
+Benefits Intake Optimization - Aquia Team
 
-## Form Sections
+## Form Details
 
-### 1. Personal Information
+- **Form Number**: VA Form 21P-530A
+- **Entry Name**: `21p-530a-interment-allowance`
+- **Root URL**: `/submit-state-interment-allowance-form-21p-530a`
+- **API Endpoint**: `POST /v0/form21p530a`
+- **Product ID**: TBD
 
-- Applicant's name and relationship to Veteran
-- Social Security Number or VA File Number
-- Current mailing address
-- Phone and email contact information
+## Form Flow and Sections
 
-### 2. Veteran Information
+The form is organized into **4 chapters** with **11 total pages**, using conditional logic and List & Loop patterns for service periods and previous names.
 
-- Veteran's name and date of birth
-- Date of death
-- Place of death
-- Military service information
-- VA claim number (if applicable)
+### Chapter 1: Your organization's information (3 pages)
 
-### 3. Burial Information
+- **Page 1: Organization Information** (`organization-information`)
+  - Organization name and type (state or tribal)
+  - Contact person name
+  - Organization phone number
 
-- Date of burial
-- Name and location of cemetery
-- Was burial in a national cemetery?
-- Transportation costs for burial
+- **Page 2: Burial Benefits Recipient** (`burial-benefits-recipient`)
+  - Name of person/organization receiving benefits
+  - Relationship to organization
 
-### 4. Expense Information
+- **Page 3: Mailing Address** (`mailing-address`)
+  - Street address, city, state, ZIP code
 
-- Total burial expenses
-- Amount paid by applicant
-- Itemized list of funeral and burial costs
-- Documentation of expenses paid
+### Chapter 2: Deceased Veteran information (4 pages)
+
+- **Page 4: Personal Information** (`veteran-personal-information`)
+  - Veteran's full name (first, middle, last, suffix)
+  - Relationship to claimant
+
+- **Page 5: Identification** (`veteran-identification`)
+  - Social Security Number
+  - Service number (optional)
+  - VA file number (optional)
+
+- **Page 6: Birth Information** (`veteran-birth-information`)
+  - Date of birth
+  - Place of birth (city, state)
+
+- **Page 7: Burial Information** (`veteran-burial-information`)
+  - Date of death
+  - Date of burial
+  - Cemetery name and location
+
+### Chapter 3: Military history (3+ pages)
+
+- **Page 8: Served Under Different Name** (`veteran-served-under-different-name`)
+  - Yes/no question determining if previous names section appears
+  - **Conditional branching point**
+
+- **Page 9: Service Periods Summary** (`service-periods`) - **List & Loop**
+  - Summary of all service periods with add/edit/delete options
+  - Multi-step entry flow for each period:
+    - Service Branch: Select branch of service
+    - Service Dates: Enter start and end dates
+    - Locations and Rank: Entry/separation locations and rank
+
+- **Page 10: Previous Names Summary** (`veteran-previous-names`) - **Conditional List & Loop**
+  - Shown only if veteran served under a different name
+  - Summary of all previous names with add/edit/delete options
+  - Single-page entry flow for each name
+
+### Chapter 4: Additional remarks (1 page)
+
+- **Page 11: Additional Remarks** (`additional-remarks`)
+  - Optional additional information or clarifications
+
+### Final Pages (All Users)
+
+- **Page 12: Review and Submit**
+  - Pre-submission review of all entered information
+  - Statement of truth with signature
+  - Privacy policy acknowledgment
+
+- **Page 13: Confirmation Page**
+  - Submission confirmation
+  - Next steps information
 
 ## Technical Implementation
 
-### Form Configuration
+This application uses the **VA.gov Form System (CustomPage pattern)** with Zod validation and modern React components.
 
-- **Form ID**: 21P-530A
-- **OMB Number**: 2900-0565
-- **OMB Expiration**: 10/31/2027
-- **Estimated Burden**: 5 minutes
-- **Submit URL**: `/v0/form21p_530a`
+### API Integration
 
-### Application Structure
+The form uses **prefill-transformer** for data handling:
+
+- **Form Submission**: `POST /v0/form21p530a`
+- **Save in Progress**: `/v0/in_progress_forms/21p-530a`
+- **Prefill Transformer**: Converts user profile data to form data
+
+## Testing
+
+### Test Scenarios
+
+- **Minimal**: Basic required fields only, no previous names
+- **Maximal**: All fields filled, including previous names and all service periods
+
+### Running Tests
 
 ```bash
-21p-530a-interment-allowance/
-├── app-entry.jsx                    # Main entry point
-├── config/
-│   ├── index.js                     # Barrel export for config
-│   └── form.js                      # Form configuration
-├── containers/
-│   ├── index.js                     # Barrel export for containers
-│   ├── app.jsx                      # Main app container
-│   ├── introduction-page.jsx        # Form intro page
-│   └── confirmation-page.jsx        # Submission confirmation
-├── pages/                           # Individual form pages
-│   ├── index.js                     # Barrel export for pages
-│   ├── name-and-date-of-birth.js
-│   ├── identification-information.js
-│   ├── mailing-address.js
-│   └── phone-and-email-address.js
-├── reducers/                        # Redux reducers
-├── routes.jsx                       # React Router configuration
-├── constants.js                     # Application constants
-├── sass/                            # Styles
-│   └── 21p-530a-interment-allowance.scss
-├── tests/                           # Unit and E2E tests
-│   ├── fixtures/
-│   │   ├── index.js
-│   │   ├── data/
-│   │   │   ├── index.js
-│   │   │   └── minimal-test.json
-│   │   └── mocks/
-│   │       ├── index.js
-│   │       ├── local-mock-responses.js
-│   │       └── user.json
-│   ├── containers/
-│   │   ├── introduction-page.unit.spec.jsx
-│   │   └── confirmation-page.unit.spec.jsx
-│   └── 21p-530a-interment-allowance.cypress.spec.js
-├── manifest.json                    # Application manifest
-├── index.js                         # Main barrel export
-└── README.md                        # This file
+# Run all unit tests for this application
+yarn test:unit --app-folder benefits-optimization-aquia/21p-530a-interment-allowance
+
+# Run tests with coverage
+yarn test:unit:coverage --app-folder benefits-optimization-aquia/21p-530a-interment-allowance
+
+# Run specific test file
+yarn test:unit src/applications/benefits-optimization-aquia/21p-530a-interment-allowance/pages/organization-information/
+
+# Run Cypress E2E tests (requires yarn watch to be running)
+yarn cy:run --spec "src/applications/benefits-optimization-aquia/21p-530a-interment-allowance/tests/*.cypress.spec.js"
+
+# Open Cypress test runner
+yarn cy:open
 ```
 
-### Development Commands
+## Development
+
+### Getting Started
 
 ```bash
+# Install dependencies (if needed)
+yarn install
+
 # Run build for this single app
 yarn build --entry=21p-530a-interment-allowance
 
-# Start development server for this form only
+# Watch only this application (recommended for development)
 yarn watch --env entry=21p-530a-interment-allowance
 
 # Watch with authentication and static pages
 yarn watch --env entry=auth,static-pages,login-page,21p-530a-interment-allowance
-
-# Run unit tests
-yarn test:unit --app-folder benefits-optimization-aquia/21p-530a-interment-allowance
-
-# Run Cypress tests
-yarn cy:run --spec "src/applications/benefits-optimization-aquia/21p-530a-interment-allowance/tests/*.cypress.spec.js"
 ```
 
-### Key Features
+### Local Development URL
 
-- **Save in Progress**: Applicants can save their form and return later to complete it
-- **Prefill**: Form automatically populates with user's profile information where available
-- **Validation**: Real-time validation of required fields and data formats
-- **Accessibility**: WCAG 2.2 AA compliant with full keyboard navigation and screen reader support
-- **Named Exports**: Uses named exports pattern with barrel files for clean imports
-- **JSDoc Documentation**: Comprehensive documentation throughout codebase
-- **Kebab-case Naming**: All file names follow kebab-case convention
+- Development: `http://localhost:3001/submit-state-interment-allowance-form-21p-530a`
+- Introduction page: Starts at the root URL above
 
-## Form Flow
+## Conditional Form Logic
 
-1. **Introduction Page**: Explains the form purpose and eligibility requirements
-2. **Personal Information**: Collects applicant's name and date of birth
-3. **Identification Information**: Gathers SSN or VA file number
-4. **Mailing Address**: Records current mailing address for correspondence
-5. **Contact Information**: Collects phone and email contact details
-6. **Review and Submit**: Allows review of all entered information before submission
-7. **Confirmation Page**: Provides submission confirmation and next steps
+### When Pages Are Shown/Hidden
 
-## Integration Points
+#### Previous Names Summary (Page 10)
 
-- **User Profile**: Prefills applicant information from authenticated session
-- **VA Benefits API**: Submits form data to `/v0/form21p_530a` endpoint
-- **Save in Progress API**: Stores partial form data for later completion
-- **VA Forms Constants**: Uses `VA_FORM_IDS.FORM_21P_530A` for form identification
+**Shown when**:
 
-## Accessibility Features
+- `formData?.veteranServedUnderDifferentName?.veteranServedUnderDifferentName === 'yes'`
 
-- All form fields use VA Design System web components
-- Proper ARIA labels and descriptions on all inputs
-- Keyboard navigation support throughout
-- Screen reader announcements for form progress
-- Error messages associated with specific fields
-- Focus management between form sections
+**Hidden when**:
 
-## Testing
+- `formData?.veteranServedUnderDifferentName?.veteranServedUnderDifferentName === 'no'`
 
-- Unit tests for all form pages and components
-- Cypress E2E tests for complete form flow
-- Accessibility testing with axe-core
-- Cross-browser testing on Chrome, Firefox, Safari, and Edge
+**Fields collected**:
 
-## Import Patterns
+- Full name (first, middle, last, suffix) for each previous name
+- Multiple previous names can be added using List & Loop pattern
 
-All imports use the `@bio-aquia` alias for consistency:
+### List & Loop Patterns
 
-```javascript
-import { formConfig } from '@bio-aquia/21p-530a-interment-allowance/config';
-import { IntroductionPage } from '@bio-aquia/21p-530a-interment-allowance/containers';
-import {
-  TITLE,
-  SUBTITLE,
-} from '@bio-aquia/21p-530a-interment-allowance/constants';
-```
+The form uses multi-page list & loop patterns for repeating data:
+
+**Service Periods** (3-step entry):
+
+- Step 1: Select branch of service
+- Step 2: Enter service dates (from/to)
+- Step 3: Enter locations and rank
+- Summary: Review all periods with edit/delete/add options
+
+**Previous Names** (1-step entry):
+
+- Step 1: Enter full name
+- Summary: Review all names with edit/delete/add options
+
+## Support
+
+For questions or issues:
+
+- **Team**: Benefits Intake Optimization - Aquia Team
+- **Slack**: `#benefits-optimization-aquia` (internal)
+- **Repository**: `vets-website`

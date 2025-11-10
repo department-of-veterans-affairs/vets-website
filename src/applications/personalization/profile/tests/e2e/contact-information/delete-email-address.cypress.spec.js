@@ -32,8 +32,11 @@ const removeEmailAddress = () => {
     .find('va-button[text="Remove"]')
     .click();
 
+  // Confirm modal appears with focus
+  cy.get('va-modal').should('be.focused');
+
   // Confirm delete in modal
-  cy.get('va-button[data-testid="confirm-remove-button"]').click();
+  cy.get('[data-testid="confirm-remove-button"]').click();
 };
 
 describe('Delete email address', () => {
@@ -46,7 +49,7 @@ describe('Delete email address', () => {
     cy.get('[data-field-name="email"]')
       .find('va-button[text="Remove"]')
       .click();
-    cy.get('va-button[data-testid="cancel-remove-button"]').click();
+    cy.get('[data-testid="cancel-remove-button"]').click();
     // Confirm modal closes & focus is on the Remove button
     cy.get('va-modal').should('not.exist');
     cy.get('[data-field-name="email"]')
@@ -80,9 +83,7 @@ describe('Delete email address', () => {
     removeEmailAddress();
     // Confirm modal closes & error alert appears
     cy.get('va-modal').should('not.exist');
-    cy.contains(
-      'We couldn’t save your recent contact email address update. Please try again later.',
-    ).should('be.visible');
+    cy.get('[data-testid="generic-error-alert"]').should('be.visible');
 
     cy.injectAxeThenAxeCheck();
   });
@@ -126,7 +127,7 @@ describe('Delete email address', () => {
     removeEmailAddress();
     // Confirm modal closes & success alert appears
     cy.get('va-modal').should('not.exist');
-    cy.get('[data-testid="update-success-alert"]').should('be.visible');
+    cy.get('[data-testid="update-success-alert"]').should('be.focused');
 
     cy.injectAxeThenAxeCheck();
   });

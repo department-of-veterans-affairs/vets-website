@@ -7,6 +7,7 @@ import {
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
+import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import {
   dateFormat,
   determineRefillLabel,
@@ -16,13 +17,18 @@ import {
   getShowRefillHistory,
   hasCmopNdcNumber,
   isRefillTakingLongerThanExpected,
-  pharmacyPhoneNumber,
   validateIfAvailable,
+  prescriptionMedAndRenewalStatus,
 } from '../../util/helpers';
+import {
+  medStatusDisplayTypes,
+  DATETIME_FORMATS,
+  RX_SOURCE,
+} from '../../util/constants';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
-import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
+import SendRxRenewalMessage from '../shared/SendRxRenewalMessage';
 import MedicationDescription from '../shared/MedicationDescription';
 import {
   selectPartialFillContentFlag,
@@ -42,10 +48,10 @@ const VaPrescription = prescription => {
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
   const pendingMed =
-    prescription?.prescriptionSource === 'PD' &&
+    prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     prescription?.dispStatus === 'NewOrder';
   const pendingRenewal =
-    prescription?.prescriptionSource === 'PD' &&
+    prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     prescription?.dispStatus === 'Renew';
   const hasBeenDispensed =
     prescription?.dispensedDate ||
@@ -87,26 +93,6 @@ const VaPrescription = prescription => {
     },
     [prescription?.prescriptionId],
   );
-
-  const determineStatus = () => {
-    if (pendingRenewal) {
-      return (
-        <p data-testid="pending-renewal-status">
-          This is a renewal you requested. Your VA pharmacy is reviewing it now.
-          Details may change.
-        </p>
-      );
-    }
-    if (pendingMed) {
-      return (
-        <p>
-          This is a new prescription from your provider. Your VA pharmacy is
-          reviewing it now. Details may change.
-        </p>
-      );
-    }
-    return <StatusDropdown status={prescription.dispStatus} />;
-  };
 
   const handleAccordionItemToggle = ({ target }) => {
     if (target) {
@@ -188,6 +174,7 @@ const VaPrescription = prescription => {
                 )}
               </>
             )}
+            <SendRxRenewalMessage rx={prescription} isActionLink />
             <>
               {displayTrackingAlert()}
 
@@ -265,7 +252,13 @@ const VaPrescription = prescription => {
                 </>
               )}
 
-              {prescription && <ExtraDetails {...prescription} />}
+              {prescription && (
+                <ExtraDetails
+                  {...prescription}
+                  page={pageType.DETAILS}
+                  showRenewalLink
+                />
+              )}
               {!pendingMed &&
                 !pendingRenewal && (
                   <>
@@ -281,7 +274,10 @@ const VaPrescription = prescription => {
             <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Status
             </h3>
-            {determineStatus()}
+            {prescriptionMedAndRenewalStatus(
+              prescription,
+              medStatusDisplayTypes.VA_PRESCRIPTION,
+            )}
             <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Refills left
             </h3>
@@ -300,7 +296,7 @@ const VaPrescription = prescription => {
                   <p data-testid="expiration-date">
                     {dateFormat(
                       prescription.expirationDate,
-                      'MMMM D, YYYY',
+                      DATETIME_FORMATS.longMonthDate,
                       'Date not available',
                     )}
                   </p>
@@ -357,7 +353,7 @@ const VaPrescription = prescription => {
               <p data-testid="ordered-date">
                 {dateFormat(
                   prescription.orderedDate,
-                  'MMMM D, YYYY',
+                  DATETIME_FORMATS.longMonthDate,
                   'Date not available',
                 )}
               </p>
@@ -445,7 +441,7 @@ const VaPrescription = prescription => {
                           const refillPosition = refillHistory.length - i - 1;
                           const refillLabelId = `rx-refill-${refillPosition}`;
                           const isPartialFill =
-                            entry.prescriptionSource === 'PF';
+                            entry.prescriptionSource === RX_SOURCE.PARTIAL_FILL;
                           const refillLabel = determineRefillLabel(
                             isPartialFill,
                             refillHistory,
@@ -458,7 +454,7 @@ const VaPrescription = prescription => {
                               key={i}
                               subHeader={dateFormat(
                                 entry.dispensedDate,
-                                'MMMM D, YYYY',
+                                DATETIME_FORMATS.longMonthDate,
                                 'Date not available',
                                 'Filled on ',
                               )}
@@ -511,7 +507,7 @@ const VaPrescription = prescription => {
                                           ? prescription.trackingList[0]
                                               ?.completeDateTime
                                           : null,
-                                        'MMMM D, YYYY',
+                                        DATETIME_FORMATS.longMonthDate,
                                         'Date not available',
                                       )}
                                     </p>

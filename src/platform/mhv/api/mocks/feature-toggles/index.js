@@ -5,16 +5,13 @@ const generateFeatureToggles = (toggles = {}) => {
 
     // medications
     mhvMedicationsDisplayDocumentationContent = true,
-    mhvMedicationsDisplayFilter = true,
     mhvMedicationsDisplayGrouping = true,
     mhvMedicationsDisplayPendingMeds = true,
     mhvMedicationsDisplayRefillProgress = true,
-    mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
 
     // medical records
-    mhvMedicalRecordsAllowTxtDownloads = true,
 
     // OH integration work
     mhvAcceleratedDeliveryEnabled = false,
@@ -86,10 +83,6 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicationsDisplayDocumentationContent,
         },
         {
-          name: 'mhv_medications_display_filter',
-          value: mhvMedicationsDisplayFilter,
-        },
-        {
           name: 'mhv_medications_display_grouping',
           value: mhvMedicationsDisplayGrouping,
         },
@@ -100,10 +93,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_refill_progress',
           value: mhvMedicationsDisplayRefillProgress,
-        },
-        {
-          name: 'mhv_medications_show_ipe_content',
-          value: mhvMedicationsShowIpeContent,
         },
         {
           name: 'mhv_medications_partial_fill_content',
@@ -122,10 +111,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_kill_external_links',
           value: true,
-        },
-        {
-          name: 'mhv_medical_records_allow_txt_downloads',
-          value: mhvMedicalRecordsAllowTxtDownloads,
         },
 
         // secure messaging

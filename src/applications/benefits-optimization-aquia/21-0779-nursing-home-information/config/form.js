@@ -1,85 +1,90 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
-import manifest from '../manifest.json';
-import { IntroductionPage } from '../containers/introduction-page';
-import { ConfirmationPage } from '../containers/confirmation-page';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { nameAndDateOfBirth } from '../pages/name-and-date-of-birth';
-import { identificationInformation } from '../pages/identification-information';
-import { mailingAddress } from '../pages/mailing-address';
-import { phoneAndEmailAddress } from '../pages/phone-and-email-address';
-import { nursingHomeDetails } from '../pages/nursing-home-details';
-import { nursingCareInformation } from '../pages/nursing-care-information';
+import {
+  SUBTITLE,
+  TITLE,
+} from '@bio-aquia/21-0779-nursing-home-information/constants';
+import { ConfirmationPage } from '@bio-aquia/21-0779-nursing-home-information/containers/confirmation-page';
+import { IntroductionPage } from '@bio-aquia/21-0779-nursing-home-information/containers/introduction-page';
+import manifest from '@bio-aquia/21-0779-nursing-home-information/manifest.json';
+import { transform } from '@bio-aquia/21-0779-nursing-home-information/config/transform';
+import { GetHelp } from '@bio-aquia/21-0779-nursing-home-information/components/get-help';
+import { preSubmitSignatureConfig } from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-signature';
+import {
+  nursingOfficialInformationUiSchema,
+  nursingOfficialInformationSchema,
+  nursingHomeDetailsUiSchema,
+  nursingHomeDetailsSchema,
+  claimantQuestionUiSchema,
+  claimantQuestionSchema,
+  claimantPersonalInfoUiSchema,
+  claimantPersonalInfoSchema,
+  claimantIdentificationInfoUiSchema,
+  claimantIdentificationInfoSchema,
+  veteranPersonalInfoUiSchema,
+  veteranPersonalInfoSchema,
+  veteranIdentificationInfoUiSchema,
+  veteranIdentificationInfoSchema,
+  certificationLevelOfCareUiSchema,
+  certificationLevelOfCareSchema,
+  admissionDateUiSchema,
+  admissionDateSchema,
+  medicaidFacilityUiSchema,
+  medicaidFacilitySchema,
+  medicaidApplicationUiSchema,
+  medicaidApplicationSchema,
+  medicaidStatusUiSchema,
+  medicaidStatusSchema,
+  medicaidStartDateUiSchema,
+  medicaidStartDateSchema,
+  monthlyCostsUiSchema,
+  monthlyCostsSchema,
+} from '@bio-aquia/21-0779-nursing-home-information/pages';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/form21_0779',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/form210779`,
+  transformForSubmit: transform,
   trackingPrefix: '21-0779-nursing-home-information-',
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent,
+  getHelp: GetHelp,
+  preSubmitInfo: preSubmitSignatureConfig,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
   formId: VA_FORM_IDS.FORM_21_0779,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your benefits application (21-0779) is in progress.',
-    //   expired: 'Your saved benefits application (21-0779) has expired. If you want to apply for benefits, please start a new application.',
-    //   saved: 'Your benefits application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your nursing home information request (21-0779) is in progress.',
+      expired:
+        'Your saved nursing home information request (21-0779) has expired. If you want to submit your information, please start a new request.',
+      saved: 'Your nursing home information request has been saved.',
+    },
   },
   version: 0,
-  prefillEnabled: true,
-  savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
-  },
+  prefillEnabled: false,
+  savedFormMessages: {},
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
+    nursingOfficialPersonalChapter: {
       title: 'Your personal information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
-        },
-      },
-    },
-    mailingAddressChapter: {
-      title: 'Mailing address',
-      pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-        },
-      },
-    },
-    contactInformationChapter: {
-      title: 'Contact information',
-      pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+        nursingOfficialInformation: {
+          path: 'nursing-official-information',
+          title: 'Nursing home official personal information',
+          uiSchema: nursingOfficialInformationUiSchema,
+          schema: nursingOfficialInformationSchema,
         },
       },
     },
@@ -88,21 +93,112 @@ const formConfig = {
       pages: {
         nursingHomeDetails: {
           path: 'nursing-home-details',
-          title: 'Nursing home details',
-          uiSchema: nursingHomeDetails.uiSchema,
-          schema: nursingHomeDetails.schema,
+          title: 'Nursing home facility details',
+          uiSchema: nursingHomeDetailsUiSchema,
+          schema: nursingHomeDetailsSchema,
         },
-        nursingCareInformation: {
-          path: 'nursing-care-information',
-          title: 'Care and payment information',
-          uiSchema: nursingCareInformation.uiSchema,
-          schema: nursingCareInformation.schema,
+      },
+    },
+    patientInformationChapter: {
+      title: 'Patient information',
+      pages: {
+        claimantQuestion: {
+          path: 'claimant-question',
+          title: 'Patient information',
+          uiSchema: claimantQuestionUiSchema,
+          schema: claimantQuestionSchema,
+        },
+        claimantPersonalInfo: {
+          path: 'claimant-personal-info',
+          title: 'Claimant personal information',
+          uiSchema: claimantPersonalInfoUiSchema,
+          schema: claimantPersonalInfoSchema,
+          depends: formData =>
+            formData?.claimantQuestion?.patientType === 'spouseOrParent',
+        },
+        claimantIdentificationInfo: {
+          path: 'claimant-identification-info',
+          title: 'Claimant identification',
+          uiSchema: claimantIdentificationInfoUiSchema,
+          schema: claimantIdentificationInfoSchema,
+          depends: formData =>
+            formData?.claimantQuestion?.patientType === 'spouseOrParent',
+        },
+        veteranPersonalInfo: {
+          path: 'veteran-personal-info',
+          title: 'Veteran personal information',
+          uiSchema: veteranPersonalInfoUiSchema,
+          schema: veteranPersonalInfoSchema,
+        },
+        veteranIdentificationInfo: {
+          path: 'veteran-identification-info',
+          title: 'Veteran identification',
+          uiSchema: veteranIdentificationInfoUiSchema,
+          schema: veteranIdentificationInfoSchema,
+        },
+      },
+    },
+    levelOfCareChapter: {
+      title: 'Level of care',
+      pages: {
+        certificationLevelOfCare: {
+          path: 'certification-level-of-care',
+          title: 'Level of care certification',
+          uiSchema: certificationLevelOfCareUiSchema,
+          schema: certificationLevelOfCareSchema,
+        },
+        admissionDate: {
+          path: 'admission-date',
+          title: 'Date of admission',
+          uiSchema: admissionDateUiSchema,
+          schema: admissionDateSchema,
+        },
+      },
+    },
+    medicaidChapter: {
+      title: 'Medicaid',
+      pages: {
+        medicaidFacility: {
+          path: 'medicaid-facility',
+          title: 'Medicaid facility status',
+          uiSchema: medicaidFacilityUiSchema,
+          schema: medicaidFacilitySchema,
+        },
+        medicaidApplication: {
+          path: 'medicaid-application',
+          title: 'Medicaid application status',
+          uiSchema: medicaidApplicationUiSchema,
+          schema: medicaidApplicationSchema,
+        },
+        medicaidStatus: {
+          path: 'medicaid-status',
+          title: 'Medicaid status',
+          uiSchema: medicaidStatusUiSchema,
+          schema: medicaidStatusSchema,
+        },
+        medicaidStartDate: {
+          path: 'medicaid-start-date',
+          title: 'Medicaid start date',
+          uiSchema: medicaidStartDateUiSchema,
+          schema: medicaidStartDateSchema,
+          depends: formData =>
+            formData?.medicaidStatus?.currentlyCoveredByMedicaid === true,
+        },
+      },
+    },
+    costsChapter: {
+      title: 'Cost information',
+      pages: {
+        monthlyCosts: {
+          path: 'monthly-costs',
+          title: 'Monthly costs',
+          uiSchema: monthlyCostsUiSchema,
+          schema: monthlyCostsSchema,
         },
       },
     },
   },
-  // getHelp,
-  footerContent,
 };
 
 export default formConfig;
+export { formConfig };

@@ -42,10 +42,10 @@ describe('MemorableDateField', () => {
     });
 
     it('shows current date value', () => {
-      const props = { ...defaultProps, value: '1990-05-15' };
+      const props = { ...defaultProps, value: '1977-05-25' };
       const { container } = render(<MemorableDateField {...props} />);
       const dateField = container.querySelector('va-memorable-date');
-      expect(dateField).to.have.attribute('value', '1990-05-15');
+      expect(dateField).to.have.attribute('value', '1977-05-25');
     });
 
     it('shows empty string for no value', () => {
@@ -55,10 +55,11 @@ describe('MemorableDateField', () => {
       expect(dateField).to.have.attribute('value', '');
     });
 
-    it('disables month select by default', () => {
-      const { container } = render(<MemorableDateField {...defaultProps} />);
+    it('enables month select by default', () => {
+      const props = { ...defaultProps, monthSelect: true };
+      const { container } = render(<MemorableDateField {...props} />);
       const dateField = container.querySelector('va-memorable-date');
-      expect(dateField).to.have.attribute('month-select', 'false');
+      expect(dateField).to.have.attribute('month-select', 'true');
     });
 
     it('shows month and year only when specified', () => {
@@ -83,11 +84,11 @@ describe('MemorableDateField', () => {
       render(<MemorableDateField {...props} />);
 
       // Directly call the onChange handler
-      onChange('testMemorableDate', '1985-12-25');
+      onChange('testMemorableDate', '1980-05-21');
 
       expect(onChange.calledOnce).to.be.true;
       expect(onChange.firstCall.args[0]).to.equal('testMemorableDate');
-      expect(onChange.firstCall.args[1]).to.equal('1985-12-25');
+      expect(onChange.firstCall.args[1]).to.equal('1980-05-21');
     });
 
     it('handles onChange with event value from target', () => {
@@ -97,7 +98,7 @@ describe('MemorableDateField', () => {
       const dateField = container.querySelector('va-memorable-date');
 
       const event = {
-        target: { value: '2000-01-01' },
+        target: { value: '1983-05-25' },
       };
 
       const customEvent = new CustomEvent('dateChange');
@@ -109,7 +110,7 @@ describe('MemorableDateField', () => {
       dateField.dispatchEvent(customEvent);
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('2000-01-01');
+      expect(onChange.firstCall.args[1]).to.equal('1983-05-25');
     });
 
     it('handles date blur events', async () => {
@@ -132,10 +133,10 @@ describe('MemorableDateField', () => {
 
       // Simulate the component calling handleDateChange with (event, newValue)
       const handleDateChange = props.onChange;
-      handleDateChange('testMemorableDate', '1995-03-10');
+      handleDateChange('testMemorableDate', '1977-12-31');
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('1995-03-10');
+      expect(onChange.firstCall.args[1]).to.equal('1977-12-31');
     });
   });
 
@@ -215,7 +216,7 @@ describe('MemorableDateField', () => {
 
       dateField.focus();
       const event = new CustomEvent('dateChange', {
-        detail: { value: '2023-06-15' },
+        detail: { value: '1980-03-04' },
       });
       dateField.dispatchEvent(event);
 
@@ -245,7 +246,7 @@ describe('MemorableDateField', () => {
       const dateField = container.querySelector('va-memorable-date');
 
       const event = new CustomEvent('dateChange', {
-        detail: { value: '2023-07-01' },
+        detail: { value: '1977-06-01' },
       });
       expect(() => dateField.dispatchEvent(event)).to.not.throw();
     });
@@ -266,7 +267,7 @@ describe('MemorableDateField', () => {
     });
 
     it('handles object value format', () => {
-      const objectValue = { month: '05', day: '15', year: '1990' };
+      const objectValue = { month: '05', day: '25', year: '1977' };
       const props = { ...defaultProps, value: objectValue };
       const { container } = render(<MemorableDateField {...props} />);
       const dateField = container.querySelector('va-memorable-date');
@@ -292,7 +293,7 @@ describe('MemorableDateField', () => {
       const { container } = render(<MemorableDateField {...props} />);
       const dateField = container.querySelector('va-memorable-date');
 
-      const dates = ['1990-01-01', '1995-06-15', '2000-12-25'];
+      const dates = ['1977-05-25', '1980-05-21', '1983-05-25'];
       dates.forEach(date => {
         const event = new CustomEvent('dateChange', {
           detail: { value: date },
@@ -306,24 +307,24 @@ describe('MemorableDateField', () => {
 
   describe('date format handling', () => {
     it('accepts YYYY-MM-DD format', () => {
-      const props = { ...defaultProps, value: '1990-12-25' };
+      const props = { ...defaultProps, value: '1977-05-25' };
       const { container } = render(<MemorableDateField {...props} />);
       const dateField = container.querySelector('va-memorable-date');
-      expect(dateField).to.have.attribute('value', '1990-12-25');
+      expect(dateField).to.have.attribute('value', '1977-05-25');
     });
 
     it('handles partial dates', () => {
-      const props = { ...defaultProps, value: '1990-12' };
+      const props = { ...defaultProps, value: '1980-05' };
       const { container } = render(<MemorableDateField {...props} />);
       const dateField = container.querySelector('va-memorable-date');
-      expect(dateField).to.have.attribute('value', '1990-12');
+      expect(dateField).to.have.attribute('value', '1980-05');
     });
 
     it('handles year-only dates', () => {
-      const props = { ...defaultProps, value: '1990' };
+      const props = { ...defaultProps, value: '1977' };
       const { container } = render(<MemorableDateField {...props} />);
       const dateField = container.querySelector('va-memorable-date');
-      expect(dateField).to.have.attribute('value', '1990');
+      expect(dateField).to.have.attribute('value', '1977');
     });
   });
 

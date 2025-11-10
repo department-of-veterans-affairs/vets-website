@@ -201,7 +201,10 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
  * @returns {Object} Form data with orphaned/non-applicable toxic exposure data removed
  */
 export const purgeToxicExposureData = formData => {
-  if (formData.disability526ToxicExposureOptOutDataPurge !== true) {
+  const featureEnabled =
+    formData.disability526ToxicExposureOptOutDataPurge === true;
+
+  if (!featureEnabled) {
     return formData;
   }
 

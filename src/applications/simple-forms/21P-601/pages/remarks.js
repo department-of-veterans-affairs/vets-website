@@ -7,7 +7,9 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Additional information'),
-    remarks: textareaUI('Remarks (optional)'),
+    remarks: textareaUI(
+      'Enter any other information you’d like to include with your application.',
+    ),
   },
   schema: {
     type: 'object',

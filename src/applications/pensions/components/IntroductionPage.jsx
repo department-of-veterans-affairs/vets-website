@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-
-import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -13,13 +11,6 @@ const IntroductionPage = props => {
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const pbbFormsRequireLoa3 = useToggleValue(TOGGLE_NAMES.pbbFormsRequireLoa3);
-
-  useEffect(
-    () => {
-      focusElement('va-breadcrumbs');
-    },
-    [props],
-  );
 
   return (
     <article className="schemaform-intro">

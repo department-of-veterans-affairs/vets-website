@@ -3,11 +3,9 @@ import {
   mockFetch,
   mockMultipleApiRequests,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
-import * as mhvExports from '~/platform/mhv/unique_user_metrics';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { Actions } from '../../util/actionTypes';
 import * as Constants from '../../util/constants';
 import {
@@ -227,10 +225,6 @@ describe('messages actions', () => {
   });
 
   it('should dispatch action on sendMessage', async () => {
-    const logUniqueUserMetricsEventsStub = sinon.stub(
-      mhvExports,
-      'logUniqueUserMetricsEvents',
-    );
     const store = mockStore();
     mockApiRequest(messageResponse);
     await store
@@ -263,11 +257,6 @@ describe('messages actions', () => {
         expect(actions).to.deep.include({
           type: Actions.AllRecipients.RESET_RECENT,
         });
-        expect(logUniqueUserMetricsEventsStub.calledOnce).to.be.true;
-        expect(logUniqueUserMetricsEventsStub.firstCall.args[0]).to.equal(
-          mhvExports.EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
-        );
-        logUniqueUserMetricsEventsStub.restore();
       });
   });
 
@@ -338,11 +327,81 @@ describe('messages actions', () => {
       });
   });
 
+  it('should dispatch success alert on sendMessage when suppressAlert is false', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+    await store
+      .dispatch(
+        sendMessage(
+          {
+            category: 'EDUCATION',
+            body: 'Test body',
+            subject: 'Test subject',
+            recipientId: '2710520',
+          },
+          true,
+          false,
+          false, // suppressAlert = false
+        ),
+      )
+      .then(() => {
+        const actions = store.getActions();
+        // Verify success alert is dispatched
+        expect(actions).to.deep.include({
+          type: Actions.Alerts.ADD_ALERT,
+          payload: {
+            alertType: 'success',
+            header: '',
+            content: Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+            className: undefined,
+            link: undefined,
+            title: undefined,
+            response: undefined,
+          },
+        });
+      });
+  });
+
+  it('should NOT dispatch success alert on sendMessage when suppressAlert is true', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+    await store
+      .dispatch(
+        sendMessage(
+          {
+            category: 'EDUCATION',
+            body: 'Test body',
+            subject: 'Test subject',
+            recipientId: '2710520',
+          },
+          true,
+          false,
+          true, // suppressAlert = true
+        ),
+      )
+      .then(() => {
+        const actions = store.getActions();
+        // Verify success alert is NOT dispatched
+        expect(actions).to.not.deep.include({
+          type: Actions.Alerts.ADD_ALERT,
+          payload: {
+            alertType: 'success',
+            header: '',
+            content: Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+            className: undefined,
+            link: undefined,
+            title: undefined,
+            response: undefined,
+          },
+        });
+        // Verify other actions are still dispatched
+        expect(actions).to.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
+        });
+      });
+  });
+
   it('should dispatch action on sendReply', async () => {
-    const logUniqueUserMetricsEventsStub = sinon.stub(
-      mhvExports,
-      'logUniqueUserMetricsEvents',
-    );
     const store = mockStore();
     mockApiRequest(messageResponse);
     await store
@@ -376,11 +435,6 @@ describe('messages actions', () => {
         expect(actions).to.deep.include({
           type: Actions.AllRecipients.RESET_RECENT,
         });
-        expect(logUniqueUserMetricsEventsStub.calledOnce).to.be.true;
-        expect(logUniqueUserMetricsEventsStub.firstCall.args[0]).to.equal(
-          mhvExports.EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
-        );
-        logUniqueUserMetricsEventsStub.restore();
       });
   });
 

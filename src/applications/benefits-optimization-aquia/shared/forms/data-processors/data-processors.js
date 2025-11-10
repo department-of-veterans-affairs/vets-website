@@ -30,7 +30,12 @@ export const transformDates = (formData, dateFields = [], formatter) => {
       return `${year}-${month}-${day}`;
     }
     if (dateObj instanceof Date) {
-      return dateObj.toISOString().split('T')[0];
+      // Check if date is valid before converting to ISO string
+      if (!Number.isNaN(dateObj.getTime())) {
+        return dateObj.toISOString().split('T')[0];
+      }
+      // Return empty string for invalid dates
+      return '';
     }
     return dateObj;
   };
