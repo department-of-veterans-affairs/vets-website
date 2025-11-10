@@ -210,17 +210,17 @@ export const validateMedicarePlan = (item = {}) => {
  * and `false` when all required fields are valid for the selected plan type.
  *
  * @param {Object} [item={}] Form data to validate.
- * @property {string} insuranceType - The type of insurance plan (e.g., 'medigap', 'private', etc.).
- * @property {string} provider - The name of the insurance provider.
- * @property {string} effectiveDate - The date the insurance plan became effective (YYYY-MM-DD).
- * @property {string} [expirationDate] - The date the insurance plan expires (YYYY-MM-DD), if applicable.
- * @property {string} [medigapPlan] - The Medigap plan identifier, required if insuranceType is 'medigap'.
- * @property {boolean} throughEmployer - Whether the plan is through an employer.
- * @property {boolean} eob - Whether an Explanation of Benefits (EOB) is provided.
- * @property {string} [additionalComments] - Optional additional comments (max 200 characters).
- * @property {Object.<string, boolean>} healthcareParticipants - Object mapping participant keys to true/false indicating coverage.
- * @property {Array<Object>} insuranceCardFront - Array of uploaded files for the front of the insurance card.
- * @property {Array<Object>} insuranceCardBack - Array of uploaded files for the back of the insurance card.
+ * @property {'hmo'|'ppo'|'medicaid'|'medigap'|'other'} [item.insuranceType] Selected insurance type. **Required if any health insurance data is present**.
+ * @property {string} [item.provider] Required insurance provider name.
+ * @property {string} [item.effectiveDate] Required past date for insurance start date.
+ * @property {string} [item.expirationDate] Optional; if provided, must be a past date and after effective date.
+ * @property {string} [item.medigapPlan] Required when `insuranceType === 'medigap'`.
+ * @property {boolean} [item.throughEmployer] Required boolean indicating if insurance is through employer.
+ * @property {boolean} [item.eob] Required boolean indicating if insurance covers prescriptions.
+ * @property {string} [item.additionalComments] Optional additional comments (max 200 chars).
+ * @property {Object} [item.healthcareParticipants] Required object indicating which applicants are covered.
+ * @property {Array} [item.insuranceCardFront] Required uploaded file array for front of insurance card.
+ * @property {Array} [item.insuranceCardBack] Required uploaded file array for back of insurance card.
  *
  * @returns {boolean} `true` if validation fails (invalid/missing fields); `false` if the item is valid.
  */
