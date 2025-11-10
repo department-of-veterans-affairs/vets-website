@@ -82,7 +82,7 @@ const NotEnrolledPage = ({ goBack }) => (
       />
     </p>
 
-    {isMinimalHeaderApp() && (
+    {!isMinimalHeaderApp() && (
       <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
         <div className="small-6 medium-5 columns">
           <ProgressButton

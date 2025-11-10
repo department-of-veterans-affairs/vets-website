@@ -160,7 +160,7 @@ const AddressSelectionPage = props => {
       </fieldset>
 
       {contentBeforeButtons}
-      <NavButtons goBack={isMinimalHeaderApp() && goBack} submitToContinue />
+      <NavButtons goBack={!isMinimalHeaderApp() && goBack} submitToContinue />
       {contentAfterButtons}
     </form>
   );
