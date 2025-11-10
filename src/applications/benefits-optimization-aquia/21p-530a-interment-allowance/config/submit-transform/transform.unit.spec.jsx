@@ -294,7 +294,7 @@ describe('Submit Transform', () => {
       const form = createFormData({
         periods: [
           {
-            serviceBranch: 'Army',
+            serviceBranch: 'ARMY',
             dateEnteredService: '2010-01-15',
             dateLeftService: '2014-12-31',
             placeEnteredService: 'Fort Benning, GA',
@@ -322,12 +322,12 @@ describe('Submit Transform', () => {
       const form = createFormData({
         periods: [
           {
-            serviceBranch: 'Navy',
+            serviceBranch: 'NAVY',
             dateEnteredService: '2005-03-01',
             dateLeftService: '2009-02-28',
           },
           {
-            serviceBranch: 'Air Force',
+            serviceBranch: 'AF',
             dateEnteredService: '2010-06-15',
             dateLeftService: '2015-06-14',
           },
@@ -657,7 +657,7 @@ describe('Submit Transform', () => {
         },
         periods: [
           {
-            serviceBranch: 'Army',
+            serviceBranch: 'ARMY',
             dateEnteredService: '1968-05-10',
             dateLeftService: '1972-05-09',
             placeEnteredService: 'Fort Dix, NJ',
