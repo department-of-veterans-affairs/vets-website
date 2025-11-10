@@ -9,7 +9,7 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { getClaimantName, isClaimantVeteran } from './helpers';
+import { isClaimantVeteran } from '../utils';
 
 /**
  * Generate page title based on claimant relationship
@@ -18,8 +18,18 @@ const getPageTitle = formData => {
   if (isClaimantVeteran(formData)) {
     return 'Select which benefit you are applying for';
   }
-  const claimantName = getClaimantName(formData);
-  return `Select which benefit ${claimantName} is applying for`;
+
+  // Get claimant's actual name
+  const firstName =
+    formData?.claimantInformation?.claimantFullName?.first || '';
+  const lastName = formData?.claimantInformation?.claimantFullName?.last || '';
+  const fullName = `${firstName} ${lastName}`.trim();
+
+  // If we have a name, use it; otherwise fallback to "you are"
+  if (fullName) {
+    return `Select which benefit ${fullName} is applying for`;
+  }
+  return 'Select which benefit you are applying for';
 };
 
 /**

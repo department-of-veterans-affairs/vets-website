@@ -5,8 +5,8 @@
  */
 
 import {
-  fullNameUI,
-  fullNameSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   ssnUI,
   ssnSchema,
   dateOfBirthUI,
@@ -22,7 +22,7 @@ export const veteranInformationUiSchema = {
   'ui:description':
     'Confirm the personal information we have on file for the Veteran.',
   veteranInformation: {
-    veteranFullName: fullNameUI(),
+    veteranFullName: fullNameNoSuffixUI(),
     veteranSsn: ssnUI('Social Security number'),
     veteranDob: dateOfBirthUI(),
   },
@@ -40,7 +40,7 @@ export const veteranInformationSchema = {
       type: 'object',
       required: ['veteranFullName', 'veteranSsn', 'veteranDob'],
       properties: {
-        veteranFullName: fullNameSchema,
+        veteranFullName: fullNameNoSuffixSchema,
         veteranSsn: ssnSchema,
         veteranDob: dateOfBirthSchema,
       },
