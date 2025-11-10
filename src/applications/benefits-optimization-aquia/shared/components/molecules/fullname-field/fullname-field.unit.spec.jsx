@@ -16,18 +16,16 @@ describe('FullnameField', () => {
   });
 
   describe('rendering', () => {
-    it('displays default legend', () => {
+    it('renders name input fields', () => {
       const { container } = render(<FullnameField {...defaultProps} />);
-      const legend = container.querySelector('legend');
-      expect(legend).to.exist;
-      expect(legend.textContent).to.equal('Your full name');
-    });
-
-    it('displays custom legend', () => {
-      const props = { ...defaultProps, legend: "Veteran's full name" };
-      const { container } = render(<FullnameField {...props} />);
-      const legend = container.querySelector('legend');
-      expect(legend.textContent).to.equal("Veteran's full name");
+      const firstNameInput = container.querySelector(
+        'va-text-input[label="First name"]',
+      );
+      const lastNameInput = container.querySelector(
+        'va-text-input[label="Last name"]',
+      );
+      expect(firstNameInput).to.exist;
+      expect(lastNameInput).to.exist;
     });
 
     it('renders all name fields', () => {
@@ -567,31 +565,31 @@ describe('FullnameField', () => {
   });
 
   describe('accessibility', () => {
-    it('uses fieldset and legend for grouping', () => {
+    it('renders individual labeled inputs', () => {
       const { container } = render(<FullnameField {...defaultProps} />);
-      const fieldset = container.querySelector('fieldset');
-      const legend = container.querySelector('legend');
+      const inputs = container.querySelectorAll('va-text-input');
 
-      expect(fieldset).to.exist;
-      expect(legend).to.exist;
+      expect(inputs.length).to.be.greaterThan(0);
+      inputs.forEach(input => {
+        expect(input).to.have.attribute('label');
+      });
     });
 
-    it('applies proper styling classes', () => {
+    it('provides clear labels for each name part', () => {
       const { container } = render(<FullnameField {...defaultProps} />);
-      const fieldset = container.querySelector('fieldset');
-      const legend = container.querySelector('legend');
+      const firstNameInput = container.querySelector(
+        'va-text-input[label="First name"]',
+      );
+      const middleNameInput = container.querySelector(
+        'va-text-input[label="Middle name"]',
+      );
+      const lastNameInput = container.querySelector(
+        'va-text-input[label="Last name"]',
+      );
 
-      expect(fieldset).to.have.class('vads-u-margin-bottom--2');
-      expect(legend).to.have.class('vads-u-font-weight--bold');
-      expect(legend).to.have.class('vads-u-margin-bottom--1');
-    });
-
-    it('provides context through legend text', () => {
-      const props = { ...defaultProps, legend: "Applicant's name" };
-      const { container } = render(<FullnameField {...props} />);
-      const legend = container.querySelector('legend');
-
-      expect(legend.textContent).to.equal("Applicant's name");
+      expect(firstNameInput).to.exist;
+      expect(middleNameInput).to.exist;
+      expect(lastNameInput).to.exist;
     });
 
     it('maintains logical tab order', () => {

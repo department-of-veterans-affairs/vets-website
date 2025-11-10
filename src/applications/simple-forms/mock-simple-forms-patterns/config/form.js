@@ -362,6 +362,8 @@ const formConfig = {
           initialData: {
             arrayBuilderPatternFlowType: 'required',
             arrayBuilderPatternInteractionType: 'yesNoQuestion',
+            arrayBuilderItemPages: 'complex',
+            arrayBuilderSummaryIntroVariation: 'A',
           },
         },
         ...arrayBuilderPagesYesNoQuestion,

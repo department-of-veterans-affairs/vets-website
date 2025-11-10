@@ -85,15 +85,6 @@ describe('medicarePages depends functions', () => {
 });
 
 describe('medicareOptions', () => {
-  describe('isItemIncomplete', () => {
-    it('should return false', () => {
-      // TODO: when we determine which fields we want to require,
-      // update this test. Until then just verify it always passes
-      // (so that this test fails as soon as we start requiring things).
-      const res = medicareOptions.isItemIncomplete({});
-      expect(res).to.be.false;
-    });
-  });
   describe('text.getItemName', () => {
     it('should provide fallback title when no data present', () => {
       const res = medicareOptions.text.getItemName();

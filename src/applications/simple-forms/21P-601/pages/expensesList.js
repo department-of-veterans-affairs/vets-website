@@ -42,10 +42,17 @@ const summaryPage = {
     'view:expenseInfo': {
       'ui:description': (
         <va-alert status="info" uswds>
-          <h3 slot="headline">Note</h3>
-          <p>
+          <h3 slot="headline">
             You can only request reimbursement for expenses you’ve already paid.
-            If you have unpaid bills, you’ll need to use the paper form.
+          </h3>
+          <p>If you have unpaid bills, you’ll need to use the paper form.</p>
+          <p>
+            <va-link
+              href="https://www.va.gov/find-forms/about-form-21p-601/"
+              target="_blank"
+              rel="noopener noreferrer"
+              text="Download VA Form 21P-601 (PDF)"
+            />
           </p>
         </va-alert>
       ),
