@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { content } from '../content/evidenceSummary';
+import { content } from '../content/evidence/summary';
 import { EVIDENCE_UPLOAD_URL, ATTACHMENTS_OTHER } from '../constants';
 import {
   confirmationPageLabel,

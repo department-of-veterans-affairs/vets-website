@@ -109,13 +109,6 @@ describe('Form Configuration', () => {
       ).to.exist;
     });
 
-    it('should have veteranSsnFileNumber page', () => {
-      expect(
-        formConfig.chapters.veteranInformationChapter.pages
-          .veteranSsnFileNumber,
-      ).to.exist;
-    });
-
     it('should have veteranBirthInformation page', () => {
       expect(
         formConfig.chapters.veteranInformationChapter.pages
