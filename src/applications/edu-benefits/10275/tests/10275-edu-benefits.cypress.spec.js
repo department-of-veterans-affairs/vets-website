@@ -48,13 +48,13 @@ const testConfig = createTestConfig(
         afterHook,
       }) => {
         afterHook(() => {
-          // cy.get('@testKey').then(testKey => {
-          cy.get('[id="inputField"]', { timeout: 10000 }).type('John Doe', {
+          cy.get('#checkbox-element', { timeout: 10000 }).check({
             force: true,
           });
-          cy.get('[id="checkbox-element"]').check({ force: true });
-
-          cy.findByText(/Continue/i, { selector: 'button' }).click();
+          cy.get('#inputField', { timeout: 10000 }).type('John William Doe', {
+            force: true,
+          });
+          cy.tabToSubmitForm();
         });
       },
     },
