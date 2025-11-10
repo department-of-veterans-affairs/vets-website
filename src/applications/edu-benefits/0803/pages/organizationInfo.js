@@ -14,7 +14,13 @@ export default {
       'Name and address of organization issuing the license or certification',
     ),
     organizationName: {
-      ...textUI({ title: 'Name of organization', required: () => true }),
+      ...textUI({
+        title: 'Name of organization',
+        required: () => true,
+        errorMessages: {
+          required: 'Enter the name of the organization',
+        },
+      }),
     },
     organizationAddress: {
       ...addressNoMilitaryUI(),
@@ -26,5 +32,6 @@ export default {
       organizationName: textSchema,
       organizationAddress: addressNoMilitarySchema(),
     },
+    required: ['organizationName'],
   },
 };

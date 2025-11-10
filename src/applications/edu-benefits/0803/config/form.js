@@ -14,6 +14,7 @@ import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmail from '../pages/phoneAndEmail';
 import testNameAndDate from '../pages/testNameAndDate';
 import organizationInfo from '../pages/organizationInfo';
+import testCost from '../pages/testCost';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -115,6 +116,12 @@ const formConfig = {
           title: 'Organization information',
           uiSchema: organizationInfo.uiSchema,
           schema: organizationInfo.schema,
+        },
+        testCost: {
+          path: 'test-cost',
+          title: 'Test cost',
+          uiSchema: testCost.uiSchema,
+          schema: testCost.schema,
         },
       },
     },
