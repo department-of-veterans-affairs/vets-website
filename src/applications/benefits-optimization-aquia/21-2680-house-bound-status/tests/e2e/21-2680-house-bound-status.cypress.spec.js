@@ -12,8 +12,7 @@ const testConfig = createTestConfig(
       'minimal-test',
       'maximal-test',
       'parent-claimant-smp-hospitalized',
-      'spouse-military-address',
-      'child-with-suffixes',
+      'child-claimant-smc',
     ],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {

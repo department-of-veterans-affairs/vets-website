@@ -11,42 +11,14 @@ import {
   addressNoMilitaryUI,
   addressNoMilitarySchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { getHospitalizationFacilityTitle } from '../utils';
 
 /**
  * uiSchema for Hospitalization Facility page
  * Collects hospital/facility name and address
  */
 export const hospitalizationFacilityUiSchema = {
-  ...titleUI(({ formData }) => {
-    const isVeteran =
-      formData?.claimantRelationship?.relationship === 'veteran';
-
-    if (isVeteran) {
-      // Get veteran's name
-      const firstName =
-        formData?.veteranInformation?.veteranFullName?.first || '';
-      const lastName =
-        formData?.veteranInformation?.veteranFullName?.last || '';
-      const fullName = `${firstName} ${lastName}`.trim();
-
-      if (fullName) {
-        return `What's the name and address of the hospital where ${fullName} is admitted?`;
-      }
-      return "What's the name and address of the hospital where the claimant is admitted?";
-    }
-
-    // Get claimant's name
-    const firstName =
-      formData?.claimantInformation?.claimantFullName?.first || '';
-    const lastName =
-      formData?.claimantInformation?.claimantFullName?.last || '';
-    const fullName = `${firstName} ${lastName}`.trim();
-
-    if (fullName) {
-      return `What's the name and address of the hospital where ${fullName} is admitted?`;
-    }
-    return "What's the name and address of the hospital where the claimant is admitted?";
-  }),
+  ...titleUI(({ formData }) => getHospitalizationFacilityTitle(formData)),
   hospitalizationFacility: {
     facilityName: textUI({
       title: 'Name of hospital',

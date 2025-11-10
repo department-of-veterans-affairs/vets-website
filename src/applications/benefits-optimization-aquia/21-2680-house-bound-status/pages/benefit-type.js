@@ -9,7 +9,7 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { isClaimantVeteran } from './helpers';
+import { isClaimantVeteran } from '../utils';
 
 /**
  * Generate page title based on claimant relationship

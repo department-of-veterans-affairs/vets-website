@@ -68,11 +68,10 @@
       "street": "1 Outer Rim Territories Medical Center",
       "street2": "Emergency Wing",
       "street3": "",
-      "city": "APO",
-      "state": "AE",
+      "city": "Washington",
+      "state": "DC",
       "country": "USA",
-      "postalCode": "09123",
-      "isMilitary": true
+      "postalCode": "20001"
     }
   }
 }

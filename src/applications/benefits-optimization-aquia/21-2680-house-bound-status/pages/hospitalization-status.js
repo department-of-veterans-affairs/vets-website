@@ -8,37 +8,7 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-/**
- * Generate page title based on claimant relationship
- */
-const getPageTitle = formData => {
-  const isVeteran = formData?.claimantRelationship?.relationship === 'veteran';
-
-  if (isVeteran) {
-    // Get veteran's name
-    const firstName =
-      formData?.veteranInformation?.veteranFullName?.first || '';
-    const lastName = formData?.veteranInformation?.veteranFullName?.last || '';
-    const fullName = `${firstName} ${lastName}`.trim();
-
-    if (fullName) {
-      return `Is ${fullName} hospitalized?`;
-    }
-    return 'Is the Veteran hospitalized?';
-  }
-
-  // Get claimant's name
-  const firstName =
-    formData?.claimantInformation?.claimantFullName?.first || '';
-  const lastName = formData?.claimantInformation?.claimantFullName?.last || '';
-  const fullName = `${firstName} ${lastName}`.trim();
-
-  if (fullName) {
-    return `Is ${fullName} hospitalized?`;
-  }
-  return 'Is the claimant hospitalized?';
-};
+import { getHospitalizationStatusTitle } from '../utils';
 
 /**
  * uiSchema for Hospitalization Status page
@@ -52,7 +22,7 @@ export const hospitalizationStatusUiSchema = {
   },
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
-      const fieldLabel = getPageTitle(fullData || formData);
+      const fieldLabel = getHospitalizationStatusTitle(fullData || formData);
       return {
         hospitalizationStatus: {
           isCurrentlyHospitalized: {
