@@ -311,7 +311,6 @@ const Dashboard = ({
 
   useEffect(
     () => {
-      // console.log('getting esr status', shouldGetESRStatus);
       if (shouldGetESRStatus) {
         getESREnrollmentStatus();
       }
