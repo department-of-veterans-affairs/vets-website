@@ -44,7 +44,7 @@ export const ConfirmationPage = ({ route }) => {
         actions={<p />}
       />
       <ConfirmationView.SavePdfDownload />
-      {/* <ConfirmationView.ChapterSectionCollection /> */}
+      <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList
         item1Header="We’ll review your form"

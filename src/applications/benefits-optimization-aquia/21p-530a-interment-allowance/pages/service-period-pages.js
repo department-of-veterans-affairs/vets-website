@@ -15,6 +15,7 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { DEFAULT_BRANCH_LABELS } from 'platform/forms-system/src/js/web-component-patterns/serviceBranchPattern';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
 const formatDate = dateStr => {
@@ -40,18 +41,22 @@ const servicePeriodOptions = {
   required: true,
   isItemIncomplete: item =>
     !item.serviceBranch &&
-    !item.startDate &&
-    !item.separationDate &&
-    !item.entryLocation &&
-    !item.separationLocation &&
-    !item.gradeOrRank,
+    !item.dateEnteredService &&
+    !item.placeEnteredService &&
+    !item.rankAtSeparation &&
+    !item.dateLeftService &&
+    !item.placeLeftService,
   text: {
     summaryTitle: "Review the Veteran's service periods",
-    getItemName: item => `${capitalize(item?.serviceBranch)}`,
+    getItemName: item =>
+      item?.serviceBranch
+        ? DEFAULT_BRANCH_LABELS[item.serviceBranch]?.label ||
+          capitalize(item.serviceBranch)
+        : '',
     cardDescription: item =>
       `Entry date (${formatDate(
-        item?.startDate,
-      )}) - Separation date (${formatDate(item?.separationDate)}}`,
+        item?.dateEnteredService,
+      )}) - Separation date (${formatDate(item?.dateLeftService)}}`,
   },
 };
 
@@ -91,7 +96,11 @@ const serviceBranchPage = {
       title: 'Service branch',
       nounSingular: servicePeriodOptions.nounSingular,
     }),
-    serviceBranch: serviceBranchUI(),
+    serviceBranch: serviceBranchUI({
+      title: 'Branch of service',
+      hint:
+        'Start entering the Veteran’s branch of service. Then select the best option from the dropdown.',
+    }),
   },
   schema: {
     type: 'object',
@@ -107,17 +116,20 @@ const serviceDatesPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.serviceBranch ? `${formData.serviceBranch}` : 'Service Dates',
+        formData?.serviceBranch
+          ? DEFAULT_BRANCH_LABELS[formData.serviceBranch]?.label ||
+            formData.serviceBranch
+          : 'Service Dates',
     ),
-    startDate: currentOrPastDateUI('Service start date'),
-    separationDate: currentOrPastDateUI('Service end date'),
+    dateEnteredService: currentOrPastDateUI('Service start date'),
+    dateLeftService: currentOrPastDateUI('Service end date'),
   },
   schema: {
     type: 'object',
-    required: ['startDate', 'separationDate'],
+    required: ['dateEnteredService', 'dateLeftService'],
     properties: {
-      startDate: currentOrPastDateSchema,
-      separationDate: currentOrPastDateSchema,
+      dateEnteredService: currentOrPastDateSchema,
+      dateLeftService: currentOrPastDateSchema,
     },
   },
 };
@@ -126,17 +138,17 @@ const serviceDatesPage = {
 const serviceLocationsAndRankPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Service Locations'),
-    entryLocation: textUI('Place the Veteran entered active service'),
-    separationLocation: textUI('Place the Veteran separated active service'),
-    gradeOrRank: textUI('Grade, rank, or rating'),
+    placeEnteredService: textUI('Place the Veteran entered active service'),
+    placeLeftService: textUI('Place the Veteran separated active service'),
+    rankAtSeparation: textUI('Grade, rank, or rating'),
   },
   schema: {
     type: 'object',
-    required: ['entryLocation', 'separationLocation', 'gradeOrRank'],
+    required: ['placeEnteredService', 'placeLeftService', 'rankAtSeparation'],
     properties: {
-      entryLocation: textSchema,
-      separationLocation: textSchema,
-      gradeOrRank: textSchema,
+      placeEnteredService: textSchema,
+      placeLeftService: textSchema,
+      rankAtSeparation: textSchema,
     },
   },
 };
@@ -166,7 +178,7 @@ export const servicePeriodsPages = arrayBuilderPages(
   pageBuilder => ({
     servicePeriodsIntro: pageBuilder.introPage({
       title: 'Service period introduction',
-      path: 'service-period-introduction',
+      path: 'service-periods/orientation',
       uiSchema: servicePeriodIntroPage.uiSchema,
       schema: servicePeriodIntroPage.schema,
     }),
