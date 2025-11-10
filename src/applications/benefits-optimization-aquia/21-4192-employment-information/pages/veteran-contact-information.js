@@ -5,10 +5,8 @@
  */
 
 import {
-  ssnUI,
-  ssnSchema,
-  vaFileNumberUI,
-  vaFileNumberSchema,
+  ssnOrVaFileNumberSchema,
+  ssnOrVaFileNumberUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { getVeteranName } from './helpers';
@@ -31,13 +29,7 @@ const getPageTitle = ({ formData }) => {
  */
 export const veteranContactInformationUiSchema = {
   ...titleUI(getPageTitle),
-  veteranContactInformation: {
-    ssn: ssnUI('Social security number'),
-    vaFileNumber: {
-      ...vaFileNumberUI('VA file number (if applicable)'),
-      'ui:description': 'VA file number must be 8 or 9 digits',
-    },
-  },
+  veteranContactInformation: ssnOrVaFileNumberUI(),
 };
 
 /**
@@ -48,13 +40,6 @@ export const veteranContactInformationSchema = {
   type: 'object',
   required: ['veteranContactInformation'],
   properties: {
-    veteranContactInformation: {
-      type: 'object',
-      required: ['ssn'],
-      properties: {
-        ssn: ssnSchema,
-        vaFileNumber: vaFileNumberSchema,
-      },
-    },
+    veteranContactInformation: ssnOrVaFileNumberSchema,
   },
 };

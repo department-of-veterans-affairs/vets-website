@@ -51,7 +51,7 @@ const getTimeLostTitle = formData => {
   const veteranName = getVeteranName(formData);
   const tense = getEmploymentTense(formData);
   const timeframe = getEmploymentTimeframe(formData);
-  return `How much time ${
+  return `How many hours ${
     tense.does
   } ${veteranName} lose to disability in the ${timeframe}?`;
 };

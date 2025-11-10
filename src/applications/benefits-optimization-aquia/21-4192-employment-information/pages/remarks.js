@@ -5,16 +5,6 @@
  */
 
 import { textareaUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { getVeteranName } from './helpers';
-
-/**
- * Generate page description
- */
-const getPageDescription = formData => {
-  // Defensive: getVeteranName handles formData validation
-  const veteranName = getVeteranName(formData);
-  return `Provide any additional remarks about ${veteranName} related to their employment.`;
-};
 
 /**
  * uiSchema for Remarks page
@@ -22,7 +12,7 @@ const getPageDescription = formData => {
  */
 export const remarksUiSchema = {
   'ui:title': 'Additional remarks',
-  'ui:description': getPageDescription,
+  // 'ui:description': getPageDescription,
   remarks: textareaUI({
     title: 'Additional remarks',
     hint:

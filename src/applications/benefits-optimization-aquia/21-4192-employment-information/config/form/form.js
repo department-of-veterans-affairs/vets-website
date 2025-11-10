@@ -15,6 +15,7 @@ import ConfirmationPage from '@bio-aquia/21-4192-employment-information/containe
 import IntroductionPage from '@bio-aquia/21-4192-employment-information/containers/introduction-page';
 import manifest from '@bio-aquia/21-4192-employment-information/manifest.json';
 import GetHelpFooter from '@bio-aquia/21-4192-employment-information/components/get-help';
+import PreSubmitInfo from '@bio-aquia/21-4192-employment-information/components/PreSubmitInfo';
 import transformForSubmit from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
 
 // Import page configurations (uiSchema and schema)
@@ -82,13 +83,8 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   preSubmitInfo: {
-    statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'veteranInformation.veteranFullName',
-    },
+    required: true,
+    CustomComponent: PreSubmitInfo,
   },
   chapters: {
     veteranInformationChapter: {

@@ -6,8 +6,8 @@
 
 import {
   textUI,
-  addressUI,
-  addressSchema,
+  addressNoMilitaryUI,
+  addressNoMilitarySchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /**
@@ -19,17 +19,13 @@ export const employerInformationUiSchema = {
   employerInformation: {
     employerName: textUI({
       title: 'Name of employer',
+      hint: 'The business name of the employer',
       errorMessages: {
         required: 'Employer name is required',
         maxLength: 'Employer name must be less than 100 characters',
       },
     }),
-    employerAddress: addressUI({
-      labels: {
-        militaryCheckbox:
-          'Employer is located on a U.S. military base outside of the United States.',
-      },
-    }),
+    employerAddress: addressNoMilitaryUI(),
   },
 };
 
@@ -49,7 +45,7 @@ export const employerInformationSchema = {
           type: 'string',
           maxLength: 100,
         },
-        employerAddress: addressSchema(),
+        employerAddress: addressNoMilitarySchema(),
       },
     },
   },
