@@ -13,6 +13,7 @@ import payeeNumber from '../pages/payeeNumber';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmail from '../pages/phoneAndEmail';
 import testNameAndDate from '../pages/testNameAndDate';
+import organizationInfo from '../pages/organizationInfo';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -108,6 +109,12 @@ const formConfig = {
           title: 'Test name and date',
           uiSchema: testNameAndDate.uiSchema,
           schema: testNameAndDate.schema,
+        },
+        organizationInfo: {
+          path: 'organization-info',
+          title: 'Organization information',
+          uiSchema: organizationInfo.uiSchema,
+          schema: organizationInfo.schema,
         },
       },
     },
