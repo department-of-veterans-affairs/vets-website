@@ -1,19 +1,16 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { StatementOfTruthItem } from './statement-of-truth-item';
+import { TextInputField } from '@bio-aquia/shared/components/atoms';
+import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-/**
- * Default signature state for new signatures
- */
-const DEFAULT_SIGNATURE_STATE = {
-  checked: false,
-  signatureDirty: false,
-  signatureValue: '',
-  titleDirty: false,
-  titleValue: '',
-};
+const ERROR_MSG_CHECKBOX = 'You must certify this statement is correct';
+const ERROR_MSG_SIGNATURE = 'Please enter your full name';
+const ERROR_MSG_TITLE = 'Please enter an organization title';
+
+const TITLE_MIN_LENGTH = 2;
+const TITLE_MAX_LENGTH = 100;
 
 /**
  * PreSubmitCheckboxGroup component
@@ -34,103 +31,88 @@ export const PreSubmitCheckboxGroup = ({
   const dispatch = useDispatch();
   const hasSubmittedForm = Boolean(submission.status);
 
-  // Initialize signatures state
-  const [signatures, setSignatures] = useState({
-    'State or Tribal Official': DEFAULT_SIGNATURE_STATE,
-  });
+  // State for the single signature required
+  const [fullName, setFullName] = useState('');
+  const [organizationTitle, setOrganizationTitle] = useState('');
+  const [isCertified, setIsCertified] = useState(false);
+  const [fullNameTouched, setFullNameTouched] = useState(false);
+  const [titleTouched, setTitleTouched] = useState(false);
 
-  // Set form data with signature and title values, if submission has not occurred
+  // Sync form data with certification values
   useEffect(
     () => {
       if (hasSubmittedForm) return;
 
-      const officialSignature =
-        signatures['State or Tribal Official']?.signatureValue?.trim() || '';
-      const officialTitle =
-        signatures['State or Tribal Official']?.titleValue?.trim() || '';
       dispatch(
         setData({
           ...formData,
           certification: {
-            signature: officialSignature,
-            titleOfStateOrTribalOfficial: officialTitle,
+            signature: fullName.trim(),
+            titleOfStateOrTribalOfficial: organizationTitle.trim(),
           },
         }),
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, signatures],
+    [dispatch, fullName, organizationTitle],
   );
 
-  // Validate signature, title, and checkbox are all complete
+  // Check if all required fields are valid
   useEffect(
     () => {
-      const officialSig = signatures['State or Tribal Official'];
-      const hasSignature = officialSig?.signatureValue?.trim().length > 0;
-      const hasTitle =
-        officialSig?.titleValue?.trim().length >= 2 &&
-        officialSig?.titleValue?.trim().length <= 100;
-      const isChecked = officialSig?.checked;
-      const isComplete = hasSignature && hasTitle && isChecked;
+      const hasValidFullName = fullName.trim().length > 0;
+      const titleLength = organizationTitle.trim().length;
+      const hasValidTitle =
+        titleLength >= TITLE_MIN_LENGTH && titleLength <= TITLE_MAX_LENGTH;
+      const isComplete = hasValidFullName && hasValidTitle && isCertified;
+
       onSectionComplete(isComplete);
       return () => onSectionComplete(false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [signatures],
+    [fullName, organizationTitle, isCertified],
   );
 
-  const statementOfTruth = useMemo(
-    () => {
-      const signature =
-        signatures['State or Tribal Official'] || DEFAULT_SIGNATURE_STATE;
-      const {
-        checked,
-        signatureDirty,
-        signatureValue,
-        titleDirty,
-        titleValue,
-      } = signature;
+  // Determine if errors should be shown
+  const shouldShowErrors = !hasSubmittedForm && showError;
+  const shouldShowFullNameError =
+    !hasSubmittedForm && (fullNameTouched || showError);
+  const shouldShowTitleError = !hasSubmittedForm && (titleTouched || showError);
 
-      // Only show errors if form hasn't been submitted
-      if (hasSubmittedForm) {
-        return (
-          <StatementOfTruthItem
-            hasCheckboxError={false}
-            hasSignatureError={false}
-            hasTitleError={false}
-            label="State or Tribal Official"
-            signature={signature}
-            setSignatures={setSignatures}
-          />
-        );
-      }
+  // Validation checks
+  const isFullNameEmpty = fullName.trim().length === 0;
+  const titleLength = organizationTitle.trim().length;
+  const isTitleInvalid =
+    titleLength < TITLE_MIN_LENGTH || titleLength > TITLE_MAX_LENGTH;
 
-      // Checkbox validation
-      const hasCheckboxError = !checked && showError;
+  // Error messages (null if no error)
+  const fullNameError =
+    shouldShowFullNameError && isFullNameEmpty ? ERROR_MSG_SIGNATURE : null;
+  const titleError =
+    shouldShowTitleError && isTitleInvalid ? ERROR_MSG_TITLE : null;
+  const checkboxError =
+    shouldShowErrors && !isCertified ? ERROR_MSG_CHECKBOX : null;
 
-      // Signature validation: show error if field is dirty or form submission attempted
-      const signatureIsEmpty = !signatureValue?.trim();
-      const hasSignatureError =
-        signatureIsEmpty && (signatureDirty || showError);
+  // Event handlers
+  const handleFullNameChange = useCallback(event => {
+    setFullName(event.detail.value);
+  }, []);
 
-      // Title validation: check length constraints
-      const titleLength = titleValue?.trim().length || 0;
-      const titleIsInvalid = titleLength < 2 || titleLength > 100;
-      const hasTitleError = titleIsInvalid && (titleDirty || showError);
+  const handleFullNameBlur = useCallback(() => {
+    setFullNameTouched(true);
+  }, []);
 
-      return (
-        <StatementOfTruthItem
-          hasCheckboxError={hasCheckboxError}
-          hasSignatureError={hasSignatureError}
-          hasTitleError={hasTitleError}
-          label="State or Tribal Official"
-          signature={signature}
-          setSignatures={setSignatures}
-        />
-      );
-    },
-    [hasSubmittedForm, showError, signatures],
-  );
+  const handleTitleChange = useCallback((_, value) => {
+    setOrganizationTitle(value);
+  }, []);
+
+  const handleTitleBlur = useCallback(() => {
+    setTitleTouched(true);
+  }, []);
+
+  const handleCheckboxChange = useCallback(event => {
+    setIsCertified(event.detail.checked);
+  }, []);
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
       <p className="vads-u-margin-bottom--4">
@@ -141,7 +123,35 @@ export const PreSubmitCheckboxGroup = ({
       </p>
 
       <div aria-describedby="interment-allowance-declaration">
-        {statementOfTruth}
+        <VaStatementOfTruth
+          name="stateOrTribalOfficial"
+          heading="Statement of truth"
+          inputLabel="Your full name"
+          inputValue={fullName}
+          inputError={fullNameError}
+          checked={isCertified}
+          checkboxLabel="I certify the information above is correct and true to the best of my knowledge and belief."
+          checkboxError={checkboxError}
+          onVaInputBlur={handleFullNameBlur}
+          onVaInputChange={handleFullNameChange}
+          onVaCheckboxChange={handleCheckboxChange}
+          hideLegalNote
+        >
+          I confirm that the identifying information in this form is accurate
+          and has been represented correctly.
+          <TextInputField
+            name="organizationTitle"
+            label="Your organization title"
+            value={organizationTitle}
+            onChange={handleTitleChange}
+            onBlur={handleTitleBlur}
+            required
+            error={titleError}
+            forceShowError={shouldShowTitleError && isTitleInvalid}
+            minLength={TITLE_MIN_LENGTH}
+            maxLength={TITLE_MAX_LENGTH}
+          />
+        </VaStatementOfTruth>
       </div>
     </div>
   );

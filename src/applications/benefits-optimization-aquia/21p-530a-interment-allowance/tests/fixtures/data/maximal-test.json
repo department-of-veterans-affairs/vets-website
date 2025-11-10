@@ -70,5 +70,10 @@
         "last": "Ryan"
       }
     }
-  ]
+  ],
+  "certification": {
+      "signature": "Andrew Ryan",
+      "titleOfStateOrTribalOfficial": "Org Title"
+    },
+  "AGREED": true
 }
