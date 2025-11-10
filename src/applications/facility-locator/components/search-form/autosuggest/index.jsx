@@ -44,7 +44,9 @@ function Autosuggest({
   useProgressiveDisclosure,
   AutosuggestOptionComponent = AutosuggestOption,
   showOptionsRestriction = undefined,
+  errorMessageId,
 }) {
+  // test2
   const {
     isOpen,
     getToggleButtonProps,
@@ -108,6 +110,7 @@ function Autosuggest({
           showClearButton={!!inputValue}
           onClearClick={inputClearClick}
           downshiftInputProps={downshiftInputProps}
+          errorMessageId={errorMessageId}
         />
         <AutosuggestOptions
           getItemProps={getItemProps}

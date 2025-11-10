@@ -27,18 +27,25 @@ function InputWithClear({
   isOpen,
   showDownCaret,
   showClearButton,
+  errorMessageId,
 }) {
+  const inputProps = {
+    ref: inputRef,
+    ...downshiftInputProps,
+    ...(errorMessageId && { 'aria-describedby': errorMessageId }),
+  };
+
   return (
     <div className={className}>
       <div className="input-with-clear-container vads-u-width--full">
-        {/* 
-            cannot use a va-text-input because shadow DOM won't allow placement 
+        {/*
+            cannot use a va-text-input because shadow DOM won't allow placement
             of the button inside the input and also won't allow extending the input
             to 100% width.
          */}
         <input
           className="input-with-clear vads-u-width--full"
-          {...getInputProps({ ref: inputRef, ...downshiftInputProps })}
+          {...getInputProps(inputProps)}
           data-testid={`${inputId}-input-with-clear`}
         />
         <InputControlsContainer
@@ -64,6 +71,7 @@ InputWithClear.propTypes = {
   onClearClick: PropTypes.func.isRequired,
   className: PropTypes.string,
   downshiftInputProps: PropTypes.object,
+  errorMessageId: PropTypes.string,
   inputRef: PropTypes.any,
   // others not specified, may be passed from function
 };

@@ -27,6 +27,7 @@ function AddressAutosuggest({
   const [showAddressError, setShowAddressError] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
   const [isGeocoding, setIsGeocoding] = useState(false);
+  const errorRef = React.useRef(null);
 
   const inputClearClick = useCallback(
     () => {
@@ -117,6 +118,14 @@ function AddressAutosuggest({
     debouncedUpdateSearch(value);
   };
 
+  // remove aria-describedby if error resolved
+  const resolveError = () => {
+    const addressInput = document.getElementById('street-city-state-zip');
+    if (addressInput?.hasAttribute('aria-describedby')) {
+      addressInput.removeAttribute('aria-describedby');
+    }
+  };
+
   useEffect(
     () => {
       // If the location is changed, and there is no value in searchString or inputValue then show the error
@@ -144,6 +153,22 @@ function AddressAutosuggest({
     },
     [searchString, geolocationInProgress],
   );
+
+  useEffect(
+    () => {
+      // Focus the error message when it appears so screen readers announce it
+      if (showAddressError && errorRef.current) {
+        const addressInput = document.getElementById('street-city-state-zip');
+        addressInput?.setAttribute('aria-describedby', 'input-error-message');
+        errorRef.current.focus();
+      } else {
+        resolveError();
+      }
+    },
+    [showAddressError],
+  );
+
+  const errorMessageId = 'street-city-state-zip-error-message';
 
   return (
     <Autosuggest
@@ -174,9 +199,16 @@ function AddressAutosuggest({
         },
       }}
       onClearClick={inputClearClick}
-      inputError={<AddressInputError showError={showAddressError || false} />}
+      inputError={
+        <AddressInputError
+          ref={errorRef}
+          showError={showAddressError || false}
+          errorId={errorMessageId}
+        />
+      }
       showError={showAddressError}
       inputId="street-city-state-zip"
+      errorMessageId={errorMessageId}
       inputRef={inputRef}
       /* eslint-disable prettier/prettier */
       labelSibling={(
