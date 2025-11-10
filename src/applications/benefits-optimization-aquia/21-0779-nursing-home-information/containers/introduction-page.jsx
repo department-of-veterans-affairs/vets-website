@@ -10,9 +10,9 @@ import {
   TITLE,
 } from '@bio-aquia/21-0779-nursing-home-information/constants';
 
-const OMB_RES_BURDEN = 15;
-const OMB_NUMBER = '2900-0361';
-const OMB_EXP_DATE = '07/31/2027';
+const OMB_RES_BURDEN = 10;
+const OMB_NUMBER = '2900-0652';
+const OMB_EXP_DATE = '09/30/2026';
 
 export const IntroductionPage = ({ router }) => {
   useEffect(() => {
@@ -24,7 +24,7 @@ export const IntroductionPage = ({ router }) => {
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
 
-      <p className="vads-u-font-size--lg">
+      <p className="vads-u-font-size--lg vads-u-font-family--serif vads-u-font-weight--normal vads-u-line-height--4">
         Use this form if you’re a nursing home official to verify a Veteran or
         someone connected to a Veteran is a patient in a qualifying extended
         care facility.
