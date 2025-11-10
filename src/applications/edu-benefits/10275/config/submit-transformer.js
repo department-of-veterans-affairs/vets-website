@@ -1,20 +1,28 @@
 import { cloneDeep } from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { dateSigned, transformPhoneNumber } from '../helpers';
+import { dateSigned, getTransformIntlPhoneNumber } from '../helpers';
 
 export default function transform(formConfig, form) {
   const authorizedOfficialTransform = formData => {
     const clonedData = cloneDeep(formData);
 
-    clonedData.authorizedOfficial = {
-      ...clonedData.authorizedOfficial,
-      usPhone: clonedData.authorizedOfficial.usPhone
-        ? transformPhoneNumber(clonedData.authorizedOfficial.usPhone)
-        : null,
-      internationalPhone: clonedData.authorizedOfficial.internationalPhone
-        ? transformPhoneNumber(clonedData.authorizedOfficial.internationalPhone)
-        : null,
-    };
+    if (clonedData.authorizedOfficial.phoneNumber.countryCode === 'US') {
+      clonedData.authorizedOfficial = {
+        ...clonedData.authorizedOfficial,
+        usPhone: getTransformIntlPhoneNumber(
+          clonedData.authorizedOfficial.phoneNumber,
+        ),
+      };
+    } else {
+      clonedData.authorizedOfficial = {
+        ...clonedData.authorizedOfficial,
+        internationalPhone: getTransformIntlPhoneNumber(
+          clonedData.authorizedOfficial.phoneNumber,
+        ),
+      };
+    }
+
+    delete clonedData.authorizedOfficial.phoneNumber;
 
     return clonedData;
   };
@@ -32,26 +40,34 @@ export default function transform(formConfig, form) {
         principlesOfExcellencePointOfContact,
       };
     } else {
-      clonedData.newCommitment = {
-        ...clonedData.newCommitment,
-        principlesOfExcellencePointOfContact: {
-          ...clonedData.newCommitment.principlesOfExcellencePointOfContact,
-          usPhone: clonedData.newCommitment.principlesOfExcellencePointOfContact
-            .usPhone
-            ? transformPhoneNumber(
-                clonedData.newCommitment.principlesOfExcellencePointOfContact
-                  .usPhone,
-              )
-            : null,
-          internationalPhone: clonedData.newCommitment
-            .principlesOfExcellencePointOfContact.internationalPhone
-            ? transformPhoneNumber(
-                clonedData.newCommitment.principlesOfExcellencePointOfContact
-                  .internationalPhone,
-              )
-            : null,
-        },
-      };
+      if (
+        clonedData.newCommitment.principlesOfExcellencePointOfContact
+          ?.phoneNumber?.countryCode === 'US'
+      ) {
+        clonedData.newCommitment = {
+          ...clonedData.newCommitment,
+          principlesOfExcellencePointOfContact: {
+            ...clonedData.newCommitment.principlesOfExcellencePointOfContact,
+            usPhone: getTransformIntlPhoneNumber(
+              clonedData.newCommitment.principlesOfExcellencePointOfContact
+                .phoneNumber,
+            ),
+          },
+        };
+      } else {
+        clonedData.newCommitment = {
+          ...clonedData.newCommitment,
+          principlesOfExcellencePointOfContact: {
+            ...clonedData.newCommitment.principlesOfExcellencePointOfContact,
+            internationalPhone: getTransformIntlPhoneNumber(
+              clonedData.newCommitment.principlesOfExcellencePointOfContact
+                .phoneNumber,
+            ),
+          },
+        };
+      }
+      delete clonedData.newCommitment.principlesOfExcellencePointOfContact
+        .phoneNumber;
     }
 
     if (clonedData.authorizedOfficial['view:isSCO']) {
@@ -63,24 +79,31 @@ export default function transform(formConfig, form) {
         schoolCertifyingOfficial,
       };
     } else {
-      clonedData.newCommitment = {
-        ...clonedData.newCommitment,
-        schoolCertifyingOfficial: {
-          ...clonedData.newCommitment.schoolCertifyingOfficial,
-          usPhone: clonedData.newCommitment.schoolCertifyingOfficial.usPhone
-            ? transformPhoneNumber(
-                clonedData.newCommitment.schoolCertifyingOfficial.usPhone,
-              )
-            : null,
-          internationalPhone: clonedData.newCommitment.schoolCertifyingOfficial
-            .internationalPhone
-            ? transformPhoneNumber(
-                clonedData.newCommitment.schoolCertifyingOfficial
-                  .internationalPhone,
-              )
-            : null,
-        },
-      };
+      if (
+        clonedData.newCommitment.schoolCertifyingOfficial?.phoneNumber
+          ?.countryCode === 'US'
+      ) {
+        clonedData.newCommitment = {
+          ...clonedData.newCommitment,
+          schoolCertifyingOfficial: {
+            ...clonedData.newCommitment.schoolCertifyingOfficial,
+            usPhone: getTransformIntlPhoneNumber(
+              clonedData.newCommitment.schoolCertifyingOfficial.phoneNumber,
+            ),
+          },
+        };
+      } else {
+        clonedData.newCommitment = {
+          ...clonedData.newCommitment,
+          schoolCertifyingOfficial: {
+            ...clonedData.newCommitment.schoolCertifyingOfficial,
+            internationalPhone: getTransformIntlPhoneNumber(
+              clonedData.newCommitment.schoolCertifyingOfficial.phoneNumber,
+            ),
+          },
+        };
+      }
+      delete clonedData.newCommitment.schoolCertifyingOfficial.phoneNumber;
     }
 
     if (
