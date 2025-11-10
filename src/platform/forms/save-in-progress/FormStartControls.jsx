@@ -51,10 +51,11 @@ const FormStartControls = props => {
     // eslint-disable-next-line no-console
     console.log('FORMID', formId);
     // eslint-disable-next-line no-console
-    console.log('MIGRATIONS', prefillTransformer);
+    console.log('MIGRATIONS', migrations);
     if (prefillAvailable) {
       // the problem seems to lie here
-      try {
+      if (formSaved) {
+        // if there is a saved form, fetch it with prefill
         props.fetchInProgressForm(
           // TODO: where does this come from?
           formId,
@@ -62,13 +63,7 @@ const FormStartControls = props => {
           true,
           prefillTransformer,
         );
-        // eslint-disable-next-line no-constant-condition
-        if (true) {
-          goToBeginning();
-        }
-      } catch (ERROR) {
-        // eslint-disable-next-line no-console
-        console.log('ERROR FETCHING PREFILL', ERROR);
+      } else {
         goToBeginning();
       }
       // console.log('DIRECTED TO PREFILL AVAILABLE');

@@ -41,6 +41,8 @@ class SaveInProgressIntro extends React.Component {
     const isExpired = savedForm
       ? isBefore(fromUnixTime(savedForm.metadata.expiresAt), new Date())
       : false;
+    // eslint-disable-next-line no-console
+    console.log('prolfile', profile);
     return (
       <FormStartControls
         resumeOnly={this.props.resumeOnly}

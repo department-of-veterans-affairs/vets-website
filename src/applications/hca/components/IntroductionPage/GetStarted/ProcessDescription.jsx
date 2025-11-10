@@ -33,6 +33,8 @@ const ProcessDescription = ({ route: { formConfig, pageList } }) => {
         downtime,
         pageList,
       };
+      // eslint-disable-next-line no-console
+      console.log('sipProps', sipProps);
       return <SaveInProgressIntro {...sipProps} />;
     },
     [formConfig, pageList],

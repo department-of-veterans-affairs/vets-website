@@ -37,7 +37,10 @@ const PersonalInformationPage = ({ location, route, router }) => {
       router.push(getNextPagePath(route.pageList, formData, location.pathname)),
     [formData, location.pathname, route.pageList, router],
   );
-
+  // eslint-disable-next-line no-console
+  console.log('authUser', authUser);
+  // eslint-disable-next-line no-console
+  console.log('formData', formData);
   return (
     <>
       <FormTitle
