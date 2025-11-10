@@ -29,7 +29,7 @@ import {
   getLastUpdatedText,
   sendDataDogAction,
   getFailedDomainList,
-  logStackTrace,
+  sendDatadogError,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
@@ -387,7 +387,7 @@ const DownloadFileType = props => {
         }
       } catch (error) {
         logAal(0);
-        logStackTrace(error, 'Blue Button report - download_report_pdf');
+        sendDatadogError(error, 'Blue Button report - download_report_pdf');
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
@@ -437,7 +437,7 @@ const DownloadFileType = props => {
         }
       } catch (error) {
         logAal(0);
-        logStackTrace(error, 'Blue Button report - download_report_txt');
+        sendDatadogError(error, 'Blue Button report - download_report_txt');
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },

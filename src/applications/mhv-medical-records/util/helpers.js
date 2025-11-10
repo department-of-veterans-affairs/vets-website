@@ -732,9 +732,10 @@ export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
 };
 
-export const logStackTrace = (error, errorMessage) => {
+export const sendDatadogError = (error, feature) => {
   datadogRum.addError(error, {
-    feature: `[Medical Records] - ${errorMessage}`,
+    app: 'Medical Record',
+    feature,
   });
 };
 
