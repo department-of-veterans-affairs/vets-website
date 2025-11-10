@@ -29,31 +29,12 @@ export default {
       ),
       labelHeaderLevel: '3',
     }),
-    'view:alreadyFiledAlert': {
-      'ui:description': (
-        <va-alert status="warning" uswds>
-          <h3 slot="headline">You don’t need to fill out this form</h3>
-          <p>
-            Your accrued benefits claim is already included in your application
-            for survivors benefits. You don’t need to fill out this form
-            separately.
-          </p>
-        </va-alert>
-      ),
-      'ui:options': {
-        hideIf: formData => formData.hasAlreadyFiled !== true,
-      },
-    },
   },
   schema: {
     type: 'object',
     required: ['hasAlreadyFiled'],
     properties: {
       hasAlreadyFiled: yesNoSchema,
-      'view:alreadyFiledAlert': {
-        type: 'object',
-        properties: {},
-      },
     },
   },
 };
