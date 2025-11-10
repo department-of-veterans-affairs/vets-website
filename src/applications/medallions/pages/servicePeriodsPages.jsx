@@ -111,7 +111,7 @@ export function handleSummaryTitle(formData) {
     : 'Review service period records';
 }
 
-export function handleNonVeteranDepends(formData) {
+export function handleDepends(formData) {
   return !isVeteran(formData) && !isAuthorizedAgent(formData);
 }
 
@@ -176,18 +176,8 @@ const summaryPage = {
   },
 };
 
-function handleTitle(isVet, isPrep, vetTitle, sponsorTitle, prepTitle) {
-  if (isVet) {
-    if (isPrep) {
-      return prepTitle;
-    }
-    return vetTitle;
-  }
-  return sponsorTitle;
-}
-
 /** @returns {PageSchema} */
-export function servicePeriodInformationPage(isVet, isPrep) {
+export function servicePeriodInformationPage() {
   return {
     uiSchema: {
       ...arrayBuilderItemFirstPageTitleUI({
@@ -529,34 +519,29 @@ export function servicePeriodInformationPage(isVet, isPrep) {
   };
 }
 
-const servicePeriodInformationPageNonVeteran = servicePeriodInformationPage(
-  false,
-  false,
-);
+// This is needed to create a configuration object for the service period information page
+const servicePeriodInformationPageConfig = servicePeriodInformationPage();
 
-export const servicePeriodsPagesNonVeteran = arrayBuilderPages(
-  options,
-  pageBuilder => ({
-    servicePeriodsNonVeteran: pageBuilder.introPage({
-      title: 'Service periods',
-      path: 'service-periods',
-      uiSchema: introPage.uiSchema,
-      schema: introPage.schema,
-      depends: formData => handleNonVeteranDepends(formData),
-    }),
-    servicePeriodsSummaryNonVeteran: pageBuilder.summaryPage({
-      title: 'Sponsor’s service period(s)',
-      path: 'service-periods-summary',
-      uiSchema: summaryPage.uiSchema,
-      schema: summaryPage.schema,
-      depends: formData => handleNonVeteranDepends(formData),
-    }),
-    servicePeriodInformationPageNonVeteran: pageBuilder.itemPage({
-      title: 'Service period',
-      path: 'service-periods/:index/service-period',
-      uiSchema: servicePeriodInformationPageNonVeteran.uiSchema,
-      schema: servicePeriodInformationPageNonVeteran.schema,
-      depends: formData => handleNonVeteranDepends(formData),
-    }),
+export const servicePeriodsPages = arrayBuilderPages(options, pageBuilder => ({
+  servicePeriods: pageBuilder.introPage({
+    title: 'Service periods',
+    path: 'service-periods',
+    uiSchema: introPage.uiSchema,
+    schema: introPage.schema,
+    depends: formData => handleDepends(formData),
   }),
-);
+  servicePeriodsSummaryNonVeteran: pageBuilder.summaryPage({
+    title: 'Veteran service period(s) summary',
+    path: 'service-periods-summary',
+    uiSchema: summaryPage.uiSchema,
+    schema: summaryPage.schema,
+    depends: formData => handleDepends(formData),
+  }),
+  servicePeriodInformationPageNonVeteran: pageBuilder.itemPage({
+    title: 'Service period information',
+    path: 'service-periods/:index/service-period',
+    uiSchema: servicePeriodInformationPageConfig.uiSchema,
+    schema: servicePeriodInformationPageConfig.schema,
+    depends: formData => handleDepends(formData),
+  }),
+}));

@@ -30,12 +30,7 @@ import {
   ApplicantNameNote,
   isUserSignedIn,
 } from '../utils/helpers';
-import {
-  // servicePeriodsPagesVeteran,
-  servicePeriodsPagesNonVeteran,
-  // servicePeriodsPagesPreparerVeteran,
-  // servicePeriodsPagesPreparerNonVeteran,
-} from '../pages/servicePeriodsPages';
+import { servicePeriodsPages } from '../pages/servicePeriodsPages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -197,9 +192,9 @@ const formConfig = {
         },
       },
     },
-    servicePeriodsNonVeteran: {
+    servicePeriods: {
       title: 'Veteran service periods',
-      pages: servicePeriodsPagesNonVeteran,
+      pages: servicePeriodsPages,
     },
     burialInformation: {
       title: 'Burial information',
