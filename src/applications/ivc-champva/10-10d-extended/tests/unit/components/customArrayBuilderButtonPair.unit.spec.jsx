@@ -37,8 +37,8 @@ describe('CustomArrayBuilderButtonPair', () => {
         onContinue={goFwdSpy}
         updatePage={() => {}}
         arrayPath="applicants"
-        summaryRoute="/summaryRoute"
-        introRoute="/introRoute"
+        getSummaryPath={() => '/summaryRoute'}
+        getIntroPath={() => '/introRoute'}
         reviewRoute="/reviewRoute"
         required={() => false}
         getText={() => {}}
@@ -71,8 +71,8 @@ describe('CustomArrayBuilderButtonPair', () => {
         onContinue={() => {}}
         updatePage={() => {}}
         arrayPath="applicants"
-        summaryRoute="/summaryRoute"
-        introRoute="/introRoute"
+        getSummaryPath={() => '/summaryRoute'}
+        getIntroPath={() => '/introRoute'}
         reviewRoute="/reviewRoute"
         required={() => false}
         getText={_prop => {

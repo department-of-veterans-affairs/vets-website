@@ -23,17 +23,27 @@ const employersOptions = {
   nounSingular: 'employer',
   nounPlural: 'employers',
   required: formData => formData?.arrayBuilderPatternFlowType === 'required',
-  isItemIncomplete: item =>
-    !item?.name ||
-    !item?.address?.country ||
-    !item?.address?.city ||
-    !item?.address?.street ||
-    !item?.address?.postalCode,
+  isItemIncomplete: (item, fullData) => {
+    // Simple flow
+    if (fullData?.arrayBuilderItemPages === 'simple') {
+      return !item?.name;
+    }
+    // Complex flow
+    return (
+      !item?.name ||
+      !item?.address?.country ||
+      !item?.address?.city ||
+      !item?.address?.street ||
+      !item?.address?.postalCode
+    );
+  },
   maxItems: 5,
   text: {
     getItemName: item => item.name,
     cardDescription: item =>
-      `${item?.dateRange?.from} - ${item?.dateRange?.to}`,
+      item?.dateRange?.from && item?.dateRange?.to
+        ? `${item.dateRange.from} - ${item.dateRange.to}`
+        : '',
   },
   // Show possible duplicate alert on summary page
   duplicateChecks: {
@@ -107,11 +117,11 @@ const getOptions = interactionType => {
 };
 
 /** @returns {PageSchema} */
-export const employersIntroPage = {
+export const employersIntroPageA = {
   uiSchema: {
     ...titleUI(
-      'Your employers',
-      'In the next few questions, we’ll ask you about your employers. You must add at least one employer. You may add up to 5 employers.',
+      'Your employers - Variation A',
+      'Variation A: In the next few questions, we’ll ask you about your employers. You must add at least one employer. You may add up to 5 employers.',
     ),
   },
   schema: {
@@ -121,13 +131,27 @@ export const employersIntroPage = {
 };
 
 /** @returns {PageSchema} */
-export const employersSummaryPage = {
+export const employersIntroPageB = {
+  uiSchema: {
+    ...titleUI(
+      'Your employers - Variation B',
+      'Variation B: Tell us about your work history. We need information about your employers. At least one employer is required, up to 5 total.',
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
+
+/** @returns {PageSchema} */
+export const employersSummaryPageA = {
   uiSchema: {
     'view:hasEmployment': arrayBuilderYesNoUI(
       employersOptions,
       {
         title:
-          'Do you have any employment, including self-employment for the last 5 years to report?',
+          'Variation A: Do you have any employment, including self-employment for the last 5 years to report?',
         hint:
           'Include self-employment and military duty (including inactive duty for training).',
         labels: {
@@ -136,10 +160,43 @@ export const employersSummaryPage = {
         },
       },
       {
-        title: 'Do you have another employer to report?',
+        title: 'Variation A: Do you have another employer to report?',
         labels: {
           Y: 'Yes, I have another employer to report',
           N: 'No, I don’t have another employer to report',
+        },
+      },
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:hasEmployment': arrayBuilderYesNoSchema,
+    },
+    required: ['view:hasEmployment'],
+  },
+};
+
+/** @returns {PageSchema} */
+export const employersSummaryPageB = {
+  uiSchema: {
+    'view:hasEmployment': arrayBuilderYesNoUI(
+      employersOptions,
+      {
+        title:
+          'Variation B: Have you been employed or self-employed in the past 5 years?',
+        hint:
+          'This includes self-employment and all military service (active and inactive duty).',
+        labels: {
+          Y: 'Yes, I have work history',
+          N: 'No, I have no work history',
+        },
+      },
+      {
+        title: 'Variation B: Would you like to add another employer?',
+        labels: {
+          Y: 'Yes, add another employer',
+          N: 'No, I’m done adding employers',
         },
       },
     ),
@@ -237,6 +294,29 @@ export const employersOptionalPage = {
   },
 };
 
+/** @returns {PageSchema} - Simple single item page */
+export const employersSimpleItemPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Employer name',
+      nounSingular: employersOptions.nounSingular,
+    }),
+    name: {
+      'ui:title': 'Name of employer',
+      'ui:webComponentField': VaTextInputField,
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+      },
+    },
+    required: ['name'],
+  },
+};
+
 /**
  * Dynamic pages for testing variations in array builder patterns.
  * @param {"yesNoQuestion" | "addLink" | "addButton"} arrayBuilderPatternInteractionType
@@ -255,33 +335,69 @@ const createDynamicArrayBuilderPages = ({
   const options = getOptions(arrayBuilderPatternInteractionType);
 
   return arrayBuilderPages(options, pageBuilder => ({
-    // introPage needed for "required" flow
-    [`multiPageBuilderIntro${pageKeySuffix}`]: pageBuilder.introPage({
-      title: 'Your Employers',
+    // Intro Page Variation A - needed for "required" flow
+    [`multiPageBuilderIntroA${pageKeySuffix}`]: pageBuilder.introPage({
+      title: 'Your Employers - Variation A',
       path: `array-multiple-page-builder${pathSuffix}`,
-      uiSchema: employersIntroPage.uiSchema,
-      schema: employersIntroPage.schema,
+      uiSchema: employersIntroPageA.uiSchema,
+      schema: employersIntroPageA.schema,
       depends: formData =>
         formData?.chapterSelect?.arrayMultiPageBuilder &&
-        // normally you don't need this kind of check,
-        // but this is so we can test the 2 different styles
-        // of array builder pattern - "required" and "optional".
-        // "introPage" is needed in the "required" flow,
-        // but unnecessary in the "optional" flow
         formData?.arrayBuilderPatternInteractionType ===
           arrayBuilderPatternInteractionType &&
-        formData?.arrayBuilderPatternFlowType === 'required',
+        formData?.arrayBuilderPatternFlowType === 'required' &&
+        formData?.arrayBuilderSummaryIntroVariation === 'A',
     }),
-    [`multiPageBuilderSummary${pageKeySuffix}`]: pageBuilder.summaryPage({
-      title: 'Array with multiple page builder summary',
-      path: `array-multiple-page-builder-summary${pathSuffix}`,
-      uiSchema: summaryPageUsesSchemas ? employersSummaryPage.uiSchema : {},
-      schema: summaryPageUsesSchemas ? employersSummaryPage.schema : {},
+    // Intro Page Variation B - needed for "required" flow
+    [`multiPageBuilderIntroB${pageKeySuffix}`]: pageBuilder.introPage({
+      title: 'Your Employers - Variation B',
+      path: `array-multiple-page-builder${pathSuffix}-b`,
+      uiSchema: employersIntroPageB.uiSchema,
+      schema: employersIntroPageB.schema,
       depends: formData =>
         formData?.chapterSelect?.arrayMultiPageBuilder &&
         formData?.arrayBuilderPatternInteractionType ===
-          arrayBuilderPatternInteractionType,
+          arrayBuilderPatternInteractionType &&
+        formData?.arrayBuilderPatternFlowType === 'required' &&
+        formData?.arrayBuilderSummaryIntroVariation === 'B',
     }),
+    // Summary Page Variation A
+    [`multiPageBuilderSummaryA${pageKeySuffix}`]: pageBuilder.summaryPage({
+      title: 'Array with multiple page builder summary - Variation A',
+      path: `array-multiple-page-builder-summary${pathSuffix}`,
+      uiSchema: summaryPageUsesSchemas ? employersSummaryPageA.uiSchema : {},
+      schema: summaryPageUsesSchemas ? employersSummaryPageA.schema : {},
+      depends: formData =>
+        formData?.chapterSelect?.arrayMultiPageBuilder &&
+        formData?.arrayBuilderPatternInteractionType ===
+          arrayBuilderPatternInteractionType &&
+        formData?.arrayBuilderSummaryIntroVariation === 'A',
+    }),
+    // Summary Page Variation B
+    [`multiPageBuilderSummaryB${pageKeySuffix}`]: pageBuilder.summaryPage({
+      title: 'Array with multiple page builder summary - Variation B',
+      path: `array-multiple-page-builder-summary${pathSuffix}-b`,
+      uiSchema: summaryPageUsesSchemas ? employersSummaryPageB.uiSchema : {},
+      schema: summaryPageUsesSchemas ? employersSummaryPageB.schema : {},
+      depends: formData =>
+        formData?.chapterSelect?.arrayMultiPageBuilder &&
+        formData?.arrayBuilderPatternInteractionType ===
+          arrayBuilderPatternInteractionType &&
+        formData?.arrayBuilderSummaryIntroVariation === 'B',
+    }),
+    // Simple item page (single page)
+    [`multiPageBuilderSimpleItem${pageKeySuffix}`]: pageBuilder.itemPage({
+      title: 'Employer name',
+      path: `array-multiple-page-builder${pathSuffix}/:index/name`,
+      uiSchema: employersSimpleItemPage.uiSchema,
+      schema: employersSimpleItemPage.schema,
+      depends: formData =>
+        formData?.chapterSelect?.arrayMultiPageBuilder &&
+        formData?.arrayBuilderPatternInteractionType ===
+          arrayBuilderPatternInteractionType &&
+        formData?.arrayBuilderItemPages === 'simple',
+    }),
+    // Complex item pages (multiple pages)
     [`multiPageBuilderStepOne${pageKeySuffix}`]: pageBuilder.itemPage({
       title: 'Employer name and address',
       path: `array-multiple-page-builder${pathSuffix}/:index/name-and-address`,
@@ -290,7 +406,8 @@ const createDynamicArrayBuilderPages = ({
       depends: formData =>
         formData?.chapterSelect?.arrayMultiPageBuilder &&
         formData?.arrayBuilderPatternInteractionType ===
-          arrayBuilderPatternInteractionType,
+          arrayBuilderPatternInteractionType &&
+        formData?.arrayBuilderItemPages === 'complex',
     }),
     [`multiPageBuilderStepTwo${pageKeySuffix}`]: pageBuilder.itemPage({
       title: 'Employer dates',
@@ -300,7 +417,8 @@ const createDynamicArrayBuilderPages = ({
       depends: formData =>
         formData?.chapterSelect?.arrayMultiPageBuilder &&
         formData?.arrayBuilderPatternInteractionType ===
-          arrayBuilderPatternInteractionType,
+          arrayBuilderPatternInteractionType &&
+        formData?.arrayBuilderItemPages === 'complex',
     }),
     [`multiPageBuilderOptional${pageKeySuffix}`]: pageBuilder.itemPage({
       title: 'Optional page',
@@ -312,6 +430,7 @@ const createDynamicArrayBuilderPages = ({
           formData?.chapterSelect?.arrayMultiPageBuilder &&
           formData?.arrayBuilderPatternInteractionType ===
             arrayBuilderPatternInteractionType &&
+          formData?.arrayBuilderItemPages === 'complex' &&
           formData?.[options.arrayPath]?.[index]?.address?.state === 'CA'
         );
       },
