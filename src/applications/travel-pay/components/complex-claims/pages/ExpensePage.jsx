@@ -27,7 +27,13 @@ const ExpensePage = () => {
   const dispatch = useDispatch();
   const { apptId, claimId, expenseId } = useParams();
   const location = useLocation();
-  const expenseTypeRoute = location.pathname.split('/').pop();
+  const expenseTypeRoute = location.pathname
+    .split('/')
+    .find(pathFragment =>
+      Object.keys(EXPENSE_TYPES).find(
+        key => EXPENSE_TYPES[key].route === pathFragment,
+      ),
+    );
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formState, setFormState] = useState({});
   const [showError, setShowError] = useState(false);
