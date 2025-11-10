@@ -15,6 +15,7 @@ import phoneAndEmail from '../pages/phoneAndEmail';
 import testNameAndDate from '../pages/testNameAndDate';
 import organizationInfo from '../pages/organizationInfo';
 import testCost from '../pages/testCost';
+import remarksPage from '../pages/remarksPage';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -122,6 +123,17 @@ const formConfig = {
           title: 'Test cost',
           uiSchema: testCost.uiSchema,
           schema: testCost.schema,
+        },
+      },
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarksPage: {
+          path: 'remarks',
+          title: 'Remarks',
+          uiSchema: remarksPage.uiSchema,
+          schema: remarksPage.schema,
         },
       },
     },
