@@ -10,6 +10,7 @@ describe('22-10275 EDU Form', () => {
     principlesOfExcellencePointOfContact,
     schoolCertifyingOfficial,
   } = data.newCommitment;
+  const { pointOfContact } = data.additionalLocations[0];
 
   beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
@@ -303,7 +304,7 @@ describe('22-10275 EDU Form', () => {
     // Additional locations previously entered point of contact page - Step 4
     cy.url().should(
       'include',
-      formConfig.chapters.additionalLocationsChapter.pages.previouslyEnteredPointOfContact.path.replace(
+      formConfig.chapters.additionalLocationsChapter.pages.pointOfContact.path.replace(
         ':index',
         '0',
       ),
@@ -340,13 +341,13 @@ describe('22-10275 EDU Form', () => {
       'Enter a point of contact for this location',
     );
     cy.realPress('Tab');
-    cy.typeInFocused(data.additionalLocations[0].fullName.first);
+    cy.typeInFocused(pointOfContact.fullName.first);
     cy.realPress('Tab');
-    cy.typeInFocused(data.additionalLocations[0].fullName.middle);
+    cy.typeInFocused(pointOfContact.fullName.middle);
     cy.realPress('Tab');
-    cy.typeInFocused(data.additionalLocations[0].fullName.last);
+    cy.typeInFocused(pointOfContact.fullName.last);
     cy.realPress('Tab');
-    cy.typeInFocused(data.additionalLocations[0].email);
+    cy.typeInFocused(pointOfContact.email);
     cy.tabToContinueForm();
 
     // Additional locations new point of contact page - Step 4

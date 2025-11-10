@@ -25,8 +25,29 @@
       "view:isSCO": true
     },
     "newCommitment": {
-      "principlesOfExcellencePointOfContact": {},
-      "schoolCertifyingOfficial": {}
+      "schoolCertifyingOfficial": {
+        "fullName": {
+          "first": "School",
+          "middle": "Certifying",
+          "last": "Official"
+        },
+        "title": "SCO",
+        "view:phoneType": "us",
+        "usPhone": "1231231234",
+        "email": "school.official@test.com"
+      },
+      "principlesOfExcellencePointOfContact": {
+        "fullName": {
+          "first": "Point",
+          "middle": "of",
+          "last": "Contact"
+        },
+        "title": "PoC",
+        "view:phoneType": "us",
+        "usPhone": "1112223333",
+        "email": "point.contact@test.com",
+        "view:isSCO": false
+      }
     },
     "institutionDetails": {
       "facilityCode": "35047621",
