@@ -1,7 +1,7 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import Vitals from '../pages/Vitals';
 import oracleHealthUser from '../fixtures/user/oracle-health.json';
-import vitalsData from '../fixtures/vitals/sample-lighthouse.json';
+import vitalsData from '../fixtures/vitals/accelerated.json';
 
 describe('Medical Records View Vitals', () => {
   const site = new MedicalRecordsSite();
@@ -9,7 +9,7 @@ describe('Medical Records View Vitals', () => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
-      isAcceleratingVitals: false, // This tests the isCerner LH implementation
+      isAcceleratingVitals: true,
     });
     Vitals.setIntercepts({ vitalData: vitalsData });
   });
@@ -21,6 +21,13 @@ describe('Medical Records View Vitals', () => {
 
     const CARDS_PER_PAGE = 14; // 7 per page * 2 for printing
     cy.get('va-card').should('have.length', CARDS_PER_PAGE);
-    cy.get('va-card').should('not.contain', 'Pain severity');
+
+    Vitals.checkPulseOx();
+    Vitals.checkBloodPressure();
+    Vitals.checkHeight();
+    Vitals.checkWeight();
+    Vitals.checkRespiration();
+    Vitals.checkHeartRate();
+    Vitals.checkTemperature();
   });
 });
