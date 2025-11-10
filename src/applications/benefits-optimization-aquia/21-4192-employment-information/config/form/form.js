@@ -15,7 +15,7 @@ import ConfirmationPage from '@bio-aquia/21-4192-employment-information/containe
 import IntroductionPage from '@bio-aquia/21-4192-employment-information/containers/introduction-page';
 import manifest from '@bio-aquia/21-4192-employment-information/manifest.json';
 import GetHelpFooter from '@bio-aquia/21-4192-employment-information/components/get-help';
-import PreSubmitInfo from '@bio-aquia/21-4192-employment-information/components/PreSubmitInfo';
+import PreSubmitInfo from '@bio-aquia/21-4192-employment-information/components/pre-submit-info';
 import transformForSubmit from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
 
 // Import page configurations (uiSchema and schema)
