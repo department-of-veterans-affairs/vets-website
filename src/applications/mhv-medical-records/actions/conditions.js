@@ -1,4 +1,3 @@
-import { datadogRum } from '@datadog/browser-rum';
 import { Actions } from '../util/actionTypes';
 import {
   getConditions,
@@ -10,6 +9,7 @@ import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
 import { getListWithRetry } from './common';
+import { logStackTrace } from './logging';
 
 export const getConditionsList = (
   isCurrent = false,
@@ -34,9 +34,7 @@ export const getConditionsList = (
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    datadogRum.addError(error, {
-      feature: 'Medical Records - actions_conditions_getConditionsList',
-    });
+    dispatch(logStackTrace(error, 'actions_conditions_getConditionsList'));
   }
 };
 
