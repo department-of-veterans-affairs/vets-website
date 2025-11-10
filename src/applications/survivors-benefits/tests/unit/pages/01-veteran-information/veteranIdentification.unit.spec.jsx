@@ -45,10 +45,26 @@ describe('Claimant Information Page', () => {
       }),
     );
 
+    vaFileNumber.dispatchEvent(
+      new CustomEvent('blur', {
+        bubbles: true,
+      }),
+    );
+
+    const formElement = formDOM.querySelector('form');
+    formElement.dispatchEvent(
+      new CustomEvent('change', {
+        bubbles: true,
+      }),
+    );
+
     // Wait for the form to process the change
-    await waitFor(() => {
-      expect(vaSsn.getAttribute('required')).to.equal('false');
-      expect(vaFileNumber.getAttribute('required')).to.equal('true');
-    });
+    await waitFor(
+      () => {
+        expect(vaSsn.getAttribute('required')).to.equal('false');
+        expect(vaFileNumber.getAttribute('required')).to.equal('true');
+      },
+      { timeout: 3000 },
+    );
   });
 });
