@@ -33,6 +33,7 @@ const FilesWeCouldntReceiveEntryPoint = ({ evidenceSubmissions }) => {
         href="../files-we-couldnt-receive"
         text="Learn which files we couldn’t receive and other ways to send your documents"
       />
+      <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
     </div>
   );
 };
