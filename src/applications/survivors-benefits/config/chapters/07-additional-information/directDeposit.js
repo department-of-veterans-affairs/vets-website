@@ -42,30 +42,27 @@ const BankAdditionalInfo = () => (
   </va-additional-info>
 );
 
-const uiSchema = {
-  ...titleUI('Direct deposit for survivor benefits', Description),
-  hasBankAccount: yesNoUI({
-    title: 'Do you have a bank account to use for direct deposit?',
-    classNames: 'vads-u-margin-top--2',
-  }),
-  bankAdditionalInfo: {
-    'ui:description': BankAdditionalInfo,
-  },
-};
-
-const schema = {
-  type: 'object',
-  required: ['hasBankAccount'],
-  properties: {
-    hasBankAccount: yesNoSchema,
+/** @type {PageSchema} */
+export default {
+  uiSchema: {
+    ...titleUI('Direct deposit for survivor benefits', Description),
+    hasBankAccount: yesNoUI({
+      title: 'Do you have a bank account to use for direct deposit?',
+      classNames: 'vads-u-margin-top--2',
+    }),
     bankAdditionalInfo: {
-      type: 'object',
-      properties: {},
+      'ui:description': BankAdditionalInfo,
     },
   },
-};
-
-export default {
-  uiSchema,
-  schema,
+  schema: {
+    type: 'object',
+    required: ['hasBankAccount'],
+    properties: {
+      hasBankAccount: yesNoSchema,
+      bankAdditionalInfo: {
+        type: 'object',
+        properties: {},
+      },
+    },
+  },
 };

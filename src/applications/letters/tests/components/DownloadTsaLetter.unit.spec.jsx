@@ -1,5 +1,4 @@
 /* eslint-disable lines-between-class-members */
-/* eslint-disable camelcase */
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
@@ -18,8 +17,8 @@ describe('DownloadTsaLetter', () => {
 
   const mockLetter = {
     attributes: {
-      document_id: '{ABCDE-FGHIJ-KLMNO}',
-      received_at: '2025-10-10',
+      documentId: '{ABCDE-FGHIJ-KLMNO}',
+      receivedAt: '2025-10-10',
     },
   };
   const mockBlob = new Blob(['test'], { type: 'application/pdf' });
@@ -93,7 +92,7 @@ describe('DownloadTsaLetter', () => {
       expect(apiRequestStub.calledOnce).to.be.true;
     });
     expect(apiRequestStub.firstCall.args[0]).to.include(
-      `/v0/tsa_letter/${mockLetter.attributes.document_id}`,
+      `/v0/tsa_letter/${mockLetter.attributes.documentId}`,
     );
   });
 
