@@ -10,15 +10,21 @@ export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';
 export const DATA_DOG_SERVICE = 'benefits---supplemental-claim';
 
 // *** URLS ***
-export const DECISION_REVIEWS_URL = '/decision-reviews';
-export const SC_INFO_URL = `${DECISION_REVIEWS_URL}/supplemental-claim`;
+export const SC_INFO_URL = '/decision-reviews/supplemental-claim';
 export const BASE_URL = manifest.rootUrl;
 export const FORM_URL = 'https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf';
 export const CONTACT_INFO_URL = 'contact-information';
 export const ADD_ISSUE_URL = 'add-issue';
-export const EVIDENCE_VA_PROMPT_URL =
-  'supporting-evidence/request-va-medical-records';
-export const EVIDENCE_VA_DETAILS_URL = 'supporting-evidence/va-medical-records';
+export const VA_PROMPT_URL = 'supporting-evidence/va-medical-records';
+export const VA_LOCATION_URL =
+  'supporting-evidence/:index/va-medical-records-location';
+export const VA_CONDITIONS_URL =
+  'supporting-evidence/:index/va-medical-records-condition';
+export const VA_TREATMENT_DATE_PROMPT_URL =
+  'supporting-evidence/:index/va-medical-before-2005';
+export const VA_TREATMENT_DATE_URL =
+  'supporting-evidence/:index/va-medical-before-2005-date';
+export const VA_SUMMARY_URL = 'supporting-evidence/va-medical-summary';
 export const EVIDENCE_PRIVATE_PROMPT_URL =
   'supporting-evidence/request-private-medical-records';
 export const EVIDENCE_PRIVATE_AUTHORIZATION_URL =
@@ -55,7 +61,6 @@ export const errorMessages = {
     newerDate: 'You must add a more recent treatment date',
     blankDate: 'Enter a month from 1 to 12, even if it’s an estimate',
     missing: 'You must include at least 1 type of supporting evidence',
-    locationMissing: 'Enter a treatment location',
     locationMaxLength: 'You can enter a maximum of 255 characters',
     issuesMissing: 'Select a condition',
     uniqueVA:

@@ -10,7 +10,7 @@ import mockUpload from './fixtures/mocks/mockUpload.json';
 import {
   EVIDENCE_UPLOAD_URL,
   EVIDENCE_VA_DETAILS_URL,
-  EVIDENCE_VA_PROMPT_URL,
+  VA_PROMPT_URL,
   EVIDENCE_PRIVATE_PROMPT_URL,
   EVIDENCE_PRIVATE_DETAILS_URL,
   HAS_PRIVATE_EVIDENCE,
@@ -65,7 +65,7 @@ export const MST_OPTION_RADIO = '[name="root_optionIndicator"]';
 // VA location inputs
 export const VA_EVIDENCE_FACILITY_NAME_INPUT = '[name="name"]';
 export const VA_EVIDENCE_ISSUES_CHECKBOXES = '[name="issues"]';
-export const VA_EVIDENCE_TREATMENT_YEAR = '[name="txdateYear"]';
+export const VA_EVIDENCE_TREATMENT_YEAR = '[name="treatmentDateYear"]';
 
 // Non-VA location auth & inputs
 export const PRIVACY_MODAL_TRIGGER_1_ID = 'privacy-modal-button-1';
@@ -222,7 +222,7 @@ export const pageHooks = {
       clickContinue();
     });
   },
-  [EVIDENCE_VA_PROMPT_URL]: ({ afterHook }) => {
+  [VA_PROMPT_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
 
     afterHook(() => {
@@ -254,8 +254,8 @@ export const pageHooks = {
                 .check({ force: true });
             });
 
-            cy.fillVaDate('txdate', location.treatmentDate, true);
-            cy.selectVaCheckbox('nodate', location.noDate);
+            cy.fillVaDate('treatmentDate', location.treatmentDate, true);
+            cy.selectVaCheckbox('noDate', location.noDate);
             cy.injectAxeThenAxeCheck();
 
             // Add another

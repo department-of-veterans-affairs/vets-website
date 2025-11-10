@@ -93,6 +93,8 @@ import {
   appStateSelector,
 } from '../../shared/utils/issues';
 
+console.log('loading old form config');
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

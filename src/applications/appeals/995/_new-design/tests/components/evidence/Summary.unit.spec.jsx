@@ -9,7 +9,7 @@ import { content } from '../../../content/evidence/summary';
 import {
   HAS_PRIVATE_EVIDENCE,
   HAS_VA_EVIDENCE,
-  EVIDENCE_VA_PROMPT_URL,
+  VA_PROMPT_URL,
   HAS_OTHER_EVIDENCE,
   HAS_PRIVATE_LIMITATION,
 } from '../../../constants';
@@ -103,7 +103,7 @@ describe('Summary', () => {
 
       verifyLink(
         '[data-testid="add-more-evidence-link"]',
-        `/${EVIDENCE_VA_PROMPT_URL}`,
+        `/${VA_PROMPT_URL}`,
       );
 
       expect(
@@ -232,7 +232,7 @@ describe('Summary', () => {
 
       verifyLink(
         '[data-testid="add-more-evidence-link"]',
-        `/${EVIDENCE_VA_PROMPT_URL}`,
+        `/${VA_PROMPT_URL}`,
       );
 
       expect($('va-button[label="Update evidence page"]', container)).to.exist;

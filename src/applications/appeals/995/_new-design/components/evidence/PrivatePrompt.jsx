@@ -49,7 +49,8 @@ const PrivatePrompt = ({
     onGoBack: () => {
       if (data[HAS_VA_EVIDENCE]) {
         // go to last VA location entry, but only if they requested it
-        goToPath(`/${EVIDENCE_VA_DETAILS_URL}?index=${locations.length - 1}`);
+        // TODO
+        // goToPath(`/${EVIDENCE_VA_DETAILS_URL}?index=${locations.length - 1}`);
       } else {
         // go to request VA evidence page
         goBack();

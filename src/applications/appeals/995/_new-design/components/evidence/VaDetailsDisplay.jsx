@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import BasicLink from '../../../../shared/components/web-component-wrappers/BasicLink';
 import { content } from '../../content/evidence/summary';
-import { content as vaContent } from '../../content/evidence/vaDetails';
+import { content as vaContent } from '../../content/evidence/va';
 import { EVIDENCE_VA_DETAILS_URL } from '../../constants';
 import { FORMAT_READABLE_MMYY_DATE_FNS } from '../../../../shared/constants';
 import {
@@ -81,7 +81,7 @@ export const VaDetailsDisplay = ({
         {list.map((location, index) => {
           const { locationAndName, issues = [], treatmentDate = '', noDate } =
             location || {};
-          const path = `/${EVIDENCE_VA_DETAILS_URL}?index=${index}`;
+          // const path = `/${EVIDENCE_VA_DETAILS_URL}?index=${index}`;
 
           const formattedTreatmentDate = getFormattedTreatmentDate(
             noDate,

@@ -165,6 +165,7 @@ export const NewApp = ({
   return wrapWithBreadcrumb(
     'sc',
     <article id="form-0995" data-location={`${pathname?.slice(1)}`}>
+      <h1 style={{ color: 'red' }}>New Design</h1>
       {content}
     </article>,
   );

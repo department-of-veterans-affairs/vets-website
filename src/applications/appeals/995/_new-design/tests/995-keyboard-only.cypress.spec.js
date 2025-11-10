@@ -10,7 +10,7 @@ import {
   EVIDENCE_PRIVATE_AUTHORIZATION_URL,
   EVIDENCE_PRIVATE_DETAILS_URL,
   EVIDENCE_PRIVATE_PROMPT_URL,
-  EVIDENCE_VA_PROMPT_URL,
+  VA_PROMPT_URL,
   LIMITED_CONSENT_DETAILS_URL,
   LIMITED_CONSENT_PROMPT_URL,
 } from '../constants';
@@ -159,7 +159,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       tabToContinue();
 
       // *** VA evidence request (y/n) question page
-      verifyUrl(EVIDENCE_VA_PROMPT_URL);
+      verifyUrl(VA_PROMPT_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement('[name="va-prompt"]'); // Yes radio
@@ -176,7 +176,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.realType(locationData.locationAndName);
       cy.tabToElement(h.VA_EVIDENCE_ISSUES_CHECKBOXES); // select first issue
       cy.realPress('Space');
-      h.selectDropdownWithKeyboard('txdate', '1'); // fill out month
+      h.selectDropdownWithKeyboard('treatmentDate', '1'); // fill out month
       cy.tabToElement(h.VA_EVIDENCE_TREATMENT_YEAR);
       cy.realType('2001'); // fill out year
       cy.realPress('Space');

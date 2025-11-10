@@ -16,8 +16,9 @@ export const BASE_URL = manifest.rootUrl;
 export const FORM_URL = 'https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf';
 export const CONTACT_INFO_URL = 'contact-information';
 export const ADD_ISSUE_URL = 'add-issue';
-export const EVIDENCE_VA_PROMPT_URL =
-  'supporting-evidence/request-va-medical-records';
+export const EVIDENCE_VA_PROMPT_URL = 'DERP';
+// export const EVIDENCE_VA_PROMPT_URL =
+//   'supporting-evidence/request-va-medical-records';
 export const EVIDENCE_VA_DETAILS_URL = 'supporting-evidence/va-medical-records';
 export const EVIDENCE_PRIVATE_PROMPT_URL =
   'supporting-evidence/request-private-medical-records';

@@ -15,8 +15,8 @@ import PrivateRecordsAuthorization from '../components/4142/Authorization';
 import PrivateDetailsEntry from '../components/evidence/PrivateDetailsEntry';
 import SubTaskContainer from '../subtask/SubTaskContainer';
 import Summary from '../components/evidence/Summary';
-import VaDetailsEntry from '../components/evidence/VaDetailsEntry';
-import VaPrompt from '../components/evidence/VaPrompt';
+// import VaDetailsEntry from '../components/evidence/VaDetailsEntry';
+// import VaPrompt from '../components/evidence/VaPrompt';
 // Content
 import reviewErrors from '../content/reviewErrors';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
@@ -47,7 +47,7 @@ import summary from '../pages/evidence/summary';
 import uploadDetails from '../pages/evidence/uploadDetails';
 import uploadPrompt from '../pages/evidence/uploadPrompt';
 import vaDetails from '../pages/evidence/vaDetails';
-import vaPrompt from '../pages/evidence/vaPrompt';
+import vaEvidence from '../pages/evidence/vaEvidence';
 import veteranInfo from '../pages/veteranInfo';
 // Utils
 import migrations from '../migrations';
@@ -65,7 +65,7 @@ import { hasHomeAndMobilePhone } from '../../../shared/utils/contactInfo';
 import manifest from '../../manifest.json';
 import {
   ADD_ISSUE_URL,
-  EVIDENCE_VA_PROMPT_URL,
+  VA_PROMPT_URL,
   EVIDENCE_VA_DETAILS_URL,
   EVIDENCE_PRIVATE_PROMPT_URL,
   EVIDENCE_PRIVATE_DETAILS_URL,
@@ -92,6 +92,8 @@ import {
   mayHaveLegacyAppeals,
   appStateSelector,
 } from '../../../shared/utils/issues';
+
+console.log('loading new form config');
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -257,26 +259,27 @@ const formConfig = {
           schema: facilityTypes.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
-        vaPrompt: {
-          title: 'VA medical records prompt',
-          path: EVIDENCE_VA_PROMPT_URL,
-          CustomPage: VaPrompt,
-          CustomPageReview: null,
-          uiSchema: vaPrompt.uiSchema,
-          schema: vaPrompt.schema,
-          scrollAndFocusTarget: focusRadioH3,
-        },
-        vaDetails: {
-          title: 'VA medical records details',
-          path: EVIDENCE_VA_DETAILS_URL,
-          depends: hasVAEvidence,
-          CustomPage: VaDetailsEntry,
-          CustomPageReview: null,
-          uiSchema: vaDetails.uiSchema,
-          schema: vaDetails.schema,
-          hideHeaderRow: true,
-          scrollAndFocusTarget: focusEvidence,
-        },
+        vaEvidence,
+        // vaEvidence: {
+        //   title: 'VA medical records prompt',
+        //   path: VA_PROMPT_URL,
+        //   CustomPage: VaPrompt,
+        //   CustomPageReview: null,
+        //   uiSchema: vaEvidence.uiSchema,
+        //   schema: vaEvidence.schema,
+        //   scrollAndFocusTarget: focusRadioH3,
+        // },
+        // vaDetails: {
+        //   title: 'VA medical records details',
+        //   path: EVIDENCE_VA_DETAILS_URL,
+        //   depends: hasVAEvidence,
+        //   CustomPage: VaDetailsEntry,
+        //   CustomPageReview: null,
+        //   uiSchema: vaDetails.uiSchema,
+        //   schema: vaDetails.schema,
+        //   hideHeaderRow: true,
+        //   scrollAndFocusTarget: focusEvidence,
+        // },
         privatePrompt: {
           title: 'Request non-VA medical records',
           path: EVIDENCE_PRIVATE_PROMPT_URL,

@@ -4,7 +4,7 @@ import {
   EVIDENCE_PRIVATE_DETAILS_URL,
   EVIDENCE_PRIVATE_PROMPT_URL,
   EVIDENCE_VA_DETAILS_URL,
-  EVIDENCE_VA_PROMPT_URL,
+  VA_PROMPT_URL,
   FORM_ID,
   LIMITED_CONSENT_DETAILS_URL,
   LIMITED_CONSENT_PROMPT_URL,
@@ -26,7 +26,7 @@ describe('getSubTitle', () => {
     testSubTitle('/contact-information', FORM_ID);
     testSubTitle('/review-and-submit', FORM_ID);
     testSubTitle('/confirmation', FORM_ID);
-    testSubTitle(EVIDENCE_VA_PROMPT_URL, FORM_ID);
+    testSubTitle(VA_PROMPT_URL, FORM_ID);
     testSubTitle(EVIDENCE_VA_DETAILS_URL, FORM_ID);
   });
 
