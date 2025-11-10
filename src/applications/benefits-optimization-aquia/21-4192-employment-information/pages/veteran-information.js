@@ -5,8 +5,8 @@
  */
 
 import {
-  fullNameUI,
-  fullNameSchema,
+  firstNameLastNameNoSuffixUI,
+  firstNameLastNameNoSuffixSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -30,7 +30,7 @@ const formatVeteranNameTitle = title => {
 export const veteranInformationUiSchema = {
   'ui:title': 'Who is the Veteran you are providing information for?',
   veteranInformation: {
-    veteranFullName: fullNameUI(formatVeteranNameTitle),
+    veteranFullName: firstNameLastNameNoSuffixUI(formatVeteranNameTitle),
     dateOfBirth: dateOfBirthUI({
       title: "Veteran's date of birth",
       errorMessages: {
@@ -52,7 +52,7 @@ export const veteranInformationSchema = {
       type: 'object',
       required: ['veteranFullName', 'dateOfBirth'],
       properties: {
-        veteranFullName: fullNameSchema,
+        veteranFullName: firstNameLastNameNoSuffixSchema,
         dateOfBirth: dateOfBirthSchema,
       },
     },
