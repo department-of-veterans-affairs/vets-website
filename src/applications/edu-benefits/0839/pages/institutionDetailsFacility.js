@@ -11,14 +11,13 @@ import WarningBanner from '../containers/WarningBanner';
 
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const details = formData?.institutionDetails || {};
-  const code = (fieldData || '').trim();
   const isLoading = details?.isLoading;
 
   if (isLoading) {
     return;
   }
 
-  const badFormat = code.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
+  const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
   const notFound = details.institutionName === 'not found';
   const notIHL = details.ihlEligible === false;
   const notYR = details.yrEligible === false;

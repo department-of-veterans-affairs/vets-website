@@ -2,8 +2,8 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { useValidateAdditionalFacilityCode } from '../hooks/useValidateAdditionalFacilityCode';
+import { updateFacilityCodeInRedux } from '../hooks/updateFacilityCodeInRedux';
 
 const AdditionalInstitutionName = () => {
   const dispatch = useDispatch();
@@ -74,41 +74,9 @@ const AdditionalInstitutionName = () => {
   const shouldShowName =
     institutionName && !hasError && !shouldHideNameInList && !isDuplicate;
 
-  const updateFacilityCodeInRedux = useCallback(
+  const handleUpdateFacilityCodeInRedux = useCallback(
     value => {
-      if (index == null) {
-        return;
-      }
-
-      const currentFormData = formData || {};
-      const existingArray = currentFormData.additionalInstitutionDetails || [];
-      const normalizedValue = value === '' ? undefined : value;
-      const existingValue =
-        existingArray[index]?.facilityCode === undefined
-          ? undefined
-          : existingArray[index]?.facilityCode;
-
-      if (existingValue === normalizedValue) {
-        return;
-      }
-
-      if (!existingArray.length && normalizedValue === undefined) {
-        return;
-      }
-
-      const updatedDetails = [...existingArray];
-      const updatedItem = {
-        ...(updatedDetails[index] || {}),
-        facilityCode: normalizedValue,
-      };
-      updatedDetails[index] = updatedItem;
-
-      dispatch(
-        setData({
-          ...currentFormData,
-          additionalInstitutionDetails: updatedDetails,
-        }),
-      );
+      updateFacilityCodeInRedux(dispatch, formData, index, value);
     },
     [dispatch, formData, index],
   );
@@ -129,7 +97,7 @@ const AdditionalInstitutionName = () => {
 
       const handleEvent = event => {
         const value = event?.detail?.value ?? event?.target?.value ?? '';
-        updateFacilityCodeInRedux(value);
+        handleUpdateFacilityCodeInRedux(value);
       };
 
       input.addEventListener('va-input', handleEvent);
@@ -140,7 +108,7 @@ const AdditionalInstitutionName = () => {
         input.removeEventListener('input', handleEvent);
       };
     },
-    [index, updateFacilityCodeInRedux],
+    [handleUpdateFacilityCodeInRedux, index],
   );
 
   return (

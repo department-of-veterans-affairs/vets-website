@@ -147,8 +147,8 @@ export const getCardTitle = item => {
 
 export const additionalInstitutionDetailsArrayOptions = {
   arrayPath: 'additionalInstitutionDetails',
-  nounSingular: 'institution',
-  nounPlural: 'institutions',
+  nounSingular: 'location',
+  nounPlural: 'locations',
   required: false,
   isItemIncomplete: item => !item?.facilityCode,
   maxItems: 10,
@@ -158,8 +158,8 @@ export const additionalInstitutionDetailsArrayOptions = {
     summaryTitle: props => {
       const count = props?.formData?.additionalInstitutionDetails?.length || 0;
       return count > 1
-        ? 'Review your additional institutions'
-        : 'Review your additional institution';
+        ? 'Review your additional locations'
+        : 'Review your additional location';
     },
     summaryDescriptionWithoutItems: (
       <>
@@ -264,7 +264,7 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
     item => item?.facilityCode?.trim(),
   );
 
-  const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
+  const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
   const notFound = currentItem?.institutionName === 'not found';
   const ihlEligible = currentItem?.ihlEligible;
   const notYR = currentItem?.yrEligible === false;

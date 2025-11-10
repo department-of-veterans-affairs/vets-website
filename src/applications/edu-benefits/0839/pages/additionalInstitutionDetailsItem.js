@@ -92,7 +92,6 @@ const uiSchema = {
 
 const schema = {
   type: 'object',
-  // try wrapping in institutionDetails like the main institution -- maybe overwriting with the same property names
   properties: {
     'view:additionalInstructions': {
       type: 'object',
