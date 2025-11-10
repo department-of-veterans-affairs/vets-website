@@ -237,9 +237,21 @@ export const pageDetails = {
                 value: getFormatedDate(item.endDate),
               },
         ];
-      // childAdopted work has been moved to the backlog
-      // case 'childAdopted':
-      //   return [isStepchild, reason];
+      case 'childAdopted':
+        return [
+          isStepchild,
+          reason,
+          {
+            // We can't leave a DT blank
+            label: (
+              <div className="sr-only">
+                This child can’t be removed using this application
+              </div>
+            ),
+            action: 'This child can’t be removed using this application',
+            value: `${item.fullName.first} will remain on your benefits`,
+          },
+        ];
       case 'childDied':
         return [
           isStepchild,
