@@ -81,7 +81,7 @@ describe('Travel Pay – UnsupportedMileage', () => {
 
   it('should render the unsupported mileage page correctly', () => {
     const screen = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/unsupported-mileage']}>
+      <MemoryRouter initialEntries={['/unsupported']}>
         <UnsupportedMileage />
       </MemoryRouter>,
       {
@@ -126,7 +126,7 @@ describe('Travel Pay – UnsupportedMileage', () => {
 
   it('should have correct BTSSS portal URL', () => {
     renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/unsupported-mileage']}>
+      <MemoryRouter initialEntries={['/unsupported']}>
         <UnsupportedMileage />
       </MemoryRouter>,
       {
@@ -144,10 +144,10 @@ describe('Travel Pay – UnsupportedMileage', () => {
 
   it('should navigate back when back button is clicked', () => {
     const screen = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={['/previous-page', '/unsupported-mileage']}>
+      <MemoryRouter initialEntries={['/previous-page', '/unsupported']}>
         <Routes>
           <Route path="/previous-page" element={<div>Previous Page</div>} />
-          <Route path="/unsupported-mileage" element={<UnsupportedMileage />} />
+          <Route path="/unsupported" element={<UnsupportedMileage />} />
         </Routes>
         <LocationDisplay />
       </MemoryRouter>,
@@ -159,7 +159,7 @@ describe('Travel Pay – UnsupportedMileage', () => {
 
     // Verify we're on the unsupported mileage page
     expect(screen.getByTestId('location-display').textContent).to.equal(
-      '/unsupported-mileage',
+      '/unsupported',
     );
 
     // Click the back button
