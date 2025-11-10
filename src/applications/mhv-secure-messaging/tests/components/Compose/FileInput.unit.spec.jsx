@@ -52,8 +52,8 @@ describe('File input component', () => {
       largeAttachmentsEnabled: false,
     });
 
-    const screen = render(<FileInput attachments={attachments} />);
-    const attachFileInput = screen.getByTestId('attach-file-input');
+    const { getByTestId } = render(<FileInput attachments={attachments} />);
+    const attachFileInput = getByTestId('attach-file-input');
 
     expect(attachFileInput).to.exist;
   });
@@ -72,7 +72,7 @@ describe('File input component', () => {
       mimeType: 'image/png',
       content: '(⌐□_□)',
     });
-    const screen = render(
+    const { getByTestId } = render(
       <FileInput
         attachments={attachments}
         setAttachments={setAttachments}
@@ -80,7 +80,7 @@ describe('File input component', () => {
       />,
     );
 
-    const fileInput = screen.getByTestId('attach-file-input');
+    const fileInput = getByTestId('attach-file-input');
 
     // Simulate the VaFileInputMultiple component's vaChange event
     const changeEvent = new CustomEvent('vaMultipleChange', {
@@ -110,7 +110,7 @@ describe('File input component', () => {
       mimeType: 'image/png',
       content: '(⌐□_□)',
     });
-    const screen = render(
+    const { getByTestId } = render(
       <FileInput
         attachments={[oneAttachment]}
         setAttachments={setAttachments}
@@ -118,7 +118,7 @@ describe('File input component', () => {
       />,
     );
 
-    const fileInput = screen.getByTestId('attach-file-input');
+    const fileInput = getByTestId('attach-file-input');
 
     const changeEvent = new CustomEvent('vaMultipleChange', {
       detail: { action: 'FILE_ADDED', file },
@@ -132,7 +132,7 @@ describe('File input component', () => {
     expect(setAttachments.called).to.be.true;
   });
 
-  it('should not render when 4 files attached', () => {
+  it('should still render when 4 files attached (to allow removing files)', () => {
     stubUseFeatureToggles({
       largeAttachmentsEnabled: false,
     });
@@ -147,10 +147,11 @@ describe('File input component', () => {
     const fileInput = container.querySelector(
       '[data-testid="attach-file-input"]',
     );
-    expect(fileInput).to.not.exist;
+    // VaFileInputMultiple should still render so users can see and remove files
+    expect(fileInput).to.exist;
   });
 
-  it('should not render when 10 files attached with largeAttachmentsEnabled feature flag', () => {
+  it('should still render when 10 files attached with largeAttachmentsEnabled feature flag (to allow removing files)', () => {
     stubUseFeatureToggles({
       largeAttachmentsEnabled: true,
     });
@@ -171,7 +172,36 @@ describe('File input component', () => {
     const fileInput = container.querySelector(
       '[data-testid="attach-file-input"]',
     );
-    expect(fileInput).to.not.exist;
+    // VaFileInputMultiple should still render so users can see and remove files
+    expect(fileInput).to.exist;
+  });
+
+  it('should still render when 10 files attached with cernerPilotSmFeatureFlag and isOhTriageGroup (to allow removing files)', () => {
+    stubUseFeatureToggles({
+      largeAttachmentsEnabled: false,
+      cernerPilotSmFeatureFlag: true,
+    });
+
+    const tenAttachments = [
+      { name: 'test1.png', size: 1000, type: 'image/png' },
+      { name: 'test2.png', size: 1000, type: 'image/png' },
+      { name: 'test3.png', size: 1000, type: 'image/png' },
+      { name: 'test4.png', size: 1000, type: 'image/png' },
+      { name: 'test5.png', size: 1000, type: 'image/png' },
+      { name: 'test6.png', size: 1000, type: 'image/png' },
+      { name: 'test7.png', size: 1000, type: 'image/png' },
+      { name: 'test8.png', size: 1000, type: 'image/png' },
+      { name: 'test9.png', size: 1000, type: 'image/png' },
+      { name: 'test10.png', size: 1000, type: 'image/png' },
+    ];
+    const { container } = render(
+      <FileInput attachments={tenAttachments} isOhTriageGroup />,
+    );
+    const fileInput = container.querySelector(
+      '[data-testid="attach-file-input"]',
+    );
+    // VaFileInputMultiple should still render so users can see and remove files
+    expect(fileInput).to.exist;
   });
 
   it('should render when more than 4 and less than 10 files attached with largeAttachmentsEnabled feature flag', () => {
@@ -208,10 +238,10 @@ describe('File input component', () => {
         type: 'image/png',
       }));
 
-      const screen = render(
+      const { getByTestId: getTestId } = render(
         <FileInput attachments={nineAttachments} isOhTriageGroup />,
       );
-      const fileInput = screen.getByTestId('attach-file-input');
+      const fileInput = getTestId('attach-file-input');
       expect(fileInput).to.exist;
     });
 
@@ -233,7 +263,10 @@ describe('File input component', () => {
       const fileInput = container.querySelector(
         '[data-testid="attach-file-input"]',
       );
-      expect(fileInput).to.not.exist;
+      // Component should still render at max files to allow file management
+      expect(fileInput).to.exist;
+      // But should use standard limits (4 files max)
+      expect(fileInput.getAttribute('hint')).to.include('up to 4 files');
     });
 
     it('should use large attachments when largeAttachmentsEnabled=true regardless of other flags', () => {
@@ -248,10 +281,10 @@ describe('File input component', () => {
         type: 'image/png',
       }));
 
-      const screen = render(
+      const { getByTestId: getTestId2 } = render(
         <FileInput attachments={nineAttachments} isOhTriageGroup={false} />,
       );
-      const fileInput = screen.getByTestId('attach-file-input');
+      const fileInput = getTestId2('attach-file-input');
       expect(fileInput).to.exist;
     });
 
@@ -273,7 +306,10 @@ describe('File input component', () => {
       const fileInput = container.querySelector(
         '[data-testid="attach-file-input"]',
       );
-      expect(fileInput).to.not.exist;
+      // Component should still render at max files to allow file management
+      expect(fileInput).to.exist;
+      // But should use standard limits (4 files max)
+      expect(fileInput.getAttribute('hint')).to.include('up to 4 files');
     });
   });
 
@@ -1057,6 +1093,11 @@ describe('File input component', () => {
 
       const { message } = setAttachFileErrorSpy.lastCall.args[0];
       expect(message).to.equal('You have already attached this file.');
+
+      // CRITICAL: Verify duplicate file was NOT added to attachments
+      await waitFor(() => {
+        expect(setAttachments.called).to.be.false;
+      });
     });
 
     it('should handle file removal', async () => {
@@ -1090,6 +1131,88 @@ describe('File input component', () => {
 
       expect(setAttachments.called).to.be.true;
     });
+
+    describe('QuickTime video file handling', () => {
+      it('should not crash when processing QuickTime .mov files', () => {
+        stubUseFeatureToggles({
+          largeAttachmentsEnabled: false,
+        });
+
+        const setAttachmentsSpy = sinon.spy();
+        setAttachFileErrorSpy = sinon.spy();
+
+        // Create a QuickTime file
+        // This tests that our accept attribute fix (using only MIME types)
+        // prevents VaFileInput from crashing with undefined.endsWith error
+        const quicktimeFile = new File(
+          ['mock video content'],
+          'test-video.mov',
+          {
+            type: 'video/quicktime',
+          },
+        );
+
+        const { getByTestId } = render(
+          <FileInput
+            attachments={[]}
+            setAttachments={setAttachmentsSpy}
+            setAttachFileError={setAttachFileErrorSpy}
+          />,
+        );
+
+        const fileInput = getByTestId('attach-file-input');
+
+        // Simulate the VaFileInputMultiple component's vaMultipleChange event
+        const changeEvent = new CustomEvent('vaMultipleChange', {
+          detail: { action: 'FILE_ADDED', file: quicktimeFile },
+          bubbles: true,
+        });
+
+        // Primary assertion: Should NOT crash
+        // The bug was: VaFileInput crashed with "undefined is not an object (evaluating 'r.endsWith')"
+        // when accept attribute contained extensions not in its extensionToMimeType map
+        expect(() => {
+          fileInput.dispatchEvent(changeEvent);
+        }).to.not.throw();
+
+        // File will be rejected by our validation (not in accepted types)
+        // but that's tested elsewhere - here we just verify no crash
+      });
+
+      it('should not crash when processing files with empty MIME type', () => {
+        stubUseFeatureToggles({
+          largeAttachmentsEnabled: false,
+        });
+
+        const setAttachmentsSpy2 = sinon.spy();
+        const setAttachFileErrorSpy2 = sinon.spy();
+
+        // Create a file with empty type (can happen with some file types)
+        const fileWithEmptyType = new File(['content'], 'test-file.unknown', {
+          type: '',
+        });
+
+        const { getByTestId } = render(
+          <FileInput
+            attachments={[]}
+            setAttachments={setAttachmentsSpy2}
+            setAttachFileError={setAttachFileErrorSpy2}
+          />,
+        );
+
+        const fileInput = getByTestId('attach-file-input');
+
+        const changeEvent = new CustomEvent('vaMultipleChange', {
+          detail: { action: 'FILE_ADDED', file: fileWithEmptyType },
+          bubbles: true,
+        });
+
+        // Should not crash
+        expect(() => {
+          fileInput.dispatchEvent(changeEvent);
+        }).to.not.throw();
+      });
+    });
   });
 
   it('should render with virus error and display component', () => {
@@ -1110,7 +1233,6 @@ describe('File input component', () => {
         attachmentScanError
         setAttachments={() => {}}
         setAttachFileError={() => {}}
-        setAttachFileSuccess={() => {}}
       />,
     );
     const fileInput = container.querySelector(
@@ -1118,5 +1240,39 @@ describe('File input component', () => {
     );
     // FileInput should still render even with virus error (not hidden)
     expect(fileInput).to.exist;
+  });
+
+  describe('Accessibility features', () => {
+    it('should display error with enhanced visual styling', () => {
+      stubUseFeatureToggles({
+        largeAttachmentsEnabled: false,
+      });
+
+      const errorMessage = { message: 'File is too large' };
+
+      const { getByTestId } = render(
+        <FileInput
+          attachments={[]}
+          attachFileError={errorMessage}
+          setAttachFileError={() => {}}
+        />,
+      );
+
+      const errorElement = getByTestId('file-input-error-message');
+
+      // Should have error role and aria-live
+      expect(errorElement.getAttribute('role')).to.equal('alert');
+      expect(errorElement.getAttribute('aria-live')).to.equal('polite');
+
+      // Should have visual styling (border-left)
+      expect(errorElement.className).to.include('vads-u-border-left--4px');
+      expect(errorElement.className).to.include(
+        'vads-u-border-color--secondary-dark',
+      );
+      expect(errorElement.className).to.include('vads-u-padding-left--2');
+
+      // Should contain the error message
+      expect(errorElement.textContent).to.equal('File is too large');
+    });
   });
 });

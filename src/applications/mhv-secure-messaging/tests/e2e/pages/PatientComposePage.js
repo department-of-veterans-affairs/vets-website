@@ -8,36 +8,6 @@ import mockRecipients from '../fixtures/recipientsResponse/recipients-response.j
 import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
 import SharedComponents from './SharedComponents';
 
-// Maps file extensions to MIME types, defaults to application/octet-stream
-const getMimeType = filename => {
-  const ext = filename
-    .split('.')
-    .pop()
-    .toLowerCase();
-  const mimeMap = {
-    pdf: 'application/pdf',
-    png: 'image/png',
-    jpg: 'image/jpeg',
-    jpeg: 'image/jpeg',
-    gif: 'image/gif',
-    bmp: 'image/bmp',
-    tiff: 'image/tiff',
-    tif: 'image/tiff',
-    txt: 'text/plain',
-    doc: 'application/msword',
-    docx:
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    xls: 'application/vnd.ms-excel',
-    xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    mp3: 'audio/mpeg',
-    mp4: 'video/mp4',
-    mkv: 'video/x-matroska',
-    avi: 'video/x-msvideo',
-    mov: 'video/quicktime',
-  };
-  return mimeMap[ext] || 'application/octet-stream';
-};
-
 class PatientComposePage {
   messageSubjectText = 'testSubject';
 
@@ -339,120 +309,72 @@ class PatientComposePage {
 
   attachMessageFromFile = (filename = Data.TEST_IMAGE) => {
     const filepath = `src/applications/mhv-secure-messaging/tests/e2e/fixtures/mock-attachments/${filename}`;
+    // Use REAL file selection - let VaFileInputMultiple fire events naturally
+    // Target the LAST va-file-input element (the empty one ready for new file)
     cy.get('[data-testid^="attach-file-input"]')
       .first()
-      .then($component => {
-        cy.wrap($component)
-          .shadow()
-          .find('input[type="file"]')
-          .then($inputs => {
-            // VaFileInputMultiple renders one input; using [0] for type safety
-            cy.wrap($inputs[0]).selectFile(filepath, {
-              force: true,
-            });
-          })
-          .then(() => {
-            // Manually dispatch vaMultipleChange event for web component
-            cy.readFile(filepath, null).then(fileContent => {
-              const file = new File([fileContent], filename.split('/').pop(), {
-                type: getMimeType(filename),
-              });
-              const event = new CustomEvent('vaMultipleChange', {
-                detail: {
-                  action: 'FILE_ADDED',
-                  file,
-                },
-                bubbles: true,
-              });
-              $component[0].dispatchEvent(event);
-            });
-          });
-      });
+      .shadow()
+      .find('va-file-input')
+      .last()
+      .find('input[type="file"]')
+      .selectFile(filepath, { force: true });
   };
 
   attachFakeFile = fileConfig => {
     const content = 'x'.repeat(fileConfig.size);
 
+    // Use REAL file selection - let VaFileInputMultiple fire events naturally
+    // Target the LAST va-file-input element (the empty one ready for new file)
     cy.get('[data-testid^="attach-file-input"]')
       .first()
-      .then($component => {
-        cy.wrap($component)
-          .shadow()
-          .find('input[type="file"]')
-          .then($inputs => {
-            cy.wrap($inputs[0]).selectFile(
-              {
-                contents: Cypress.Buffer.from(content),
-                fileName: fileConfig.fileName,
-                mimeType: fileConfig.mimeType,
-              },
-              { force: true },
-            );
-          })
-          .then(() => {
-            // Manually dispatch vaMultipleChange event for web component
-            const file = new File([content], fileConfig.fileName, {
-              type: fileConfig.mimeType || getMimeType(fileConfig.fileName),
-            });
-            const event = new CustomEvent('vaMultipleChange', {
-              detail: {
-                action: 'FILE_ADDED',
-                file,
-              },
-              bubbles: true,
-            });
-            $component[0].dispatchEvent(event);
-          });
-      });
+      .shadow()
+      .find('va-file-input')
+      .last()
+      .find('input[type="file"]')
+      .selectFile(
+        {
+          contents: Cypress.Buffer.from(content),
+          fileName: fileConfig.fileName,
+          mimeType: fileConfig.mimeType,
+        },
+        { force: true },
+      );
   };
 
   attachFakeFilesByCount = numberOfFiles => {
     for (let i = 0; i < numberOfFiles; i += 1) {
-      // const fileConfig = Data[`FAKE_FILE_${i + 1}KB`];
-      const content = 'x'.repeat(100 * 1024);
-      const fileName = `FAKE_FILE_${i + 1}.pdf`;
+      const content = 'x'.repeat(1000);
+      const fileName = `test${i}.txt`;
 
+      // Use REAL file selection - let VaFileInputMultiple fire events naturally
+      // Target the LAST va-file-input element (the empty one ready for new file)
       cy.get('[data-testid^="attach-file-input"]')
         .first()
-        .then($component => {
-          cy.wrap($component)
-            .shadow()
-            .find('input[type="file"]')
-            .then($inputs => {
-              cy.wrap($inputs[0]).selectFile(
-                {
-                  contents: Cypress.Buffer.from(content),
-                  fileName,
-                  mimeType: 'application/pdf',
-                },
-                { force: true },
-              );
-            })
-            .then(() => {
-              // Manually dispatch vaMultipleChange event
-              const file = new File([content], fileName, {
-                type: 'application/pdf',
-              });
-              const event = new CustomEvent('vaMultipleChange', {
-                detail: {
-                  action: 'FILE_ADDED',
-                  file,
-                },
-                bubbles: true,
-              });
-              $component[0].dispatchEvent(event);
-            });
-        });
+        .shadow()
+        .find('va-file-input')
+        .last()
+        .find('input[type="file"]')
+        .selectFile(
+          {
+            contents: Cypress.Buffer.from(content),
+            fileName,
+            mimeType: 'text/plain',
+          },
+          { force: true },
+        );
     }
-
-    // Allow tests to handle their own verification timing
-    // The verify parameter is deprecated - tests should explicitly check for attachments
   };
 
   attachFewFiles = list => {
-    for (let i = 0; i < list.length; i += 1) {
-      this.attachMessageFromFile(list[i]);
-    }
+    list.forEach((file, index) => {
+      this.attachMessageFromFile(file);
+      // Wait for file to be processed by verifying the count increased
+      cy.get('[data-testid^="attach-file-input"]')
+        .first()
+        .shadow()
+        .find('va-file-input.has-file')
+        .should('have.length', index + 1);
+    });
   };
 
   verifyAttachmentButtonText = (numberOfAttachments = 0) => {
@@ -472,20 +394,28 @@ class PatientComposePage {
   };
 
   verifyExpectedAttachmentsCount = expectedCount => {
-    // VaFileInputMultiple component manages files internally
-    // We verify the count by checking if the attach button exists (< max files)
-    // or doesn't exist (max files reached)
+    // CRITICAL: This now checks the ACTUAL VISUAL file count in VaFileInputMultiple's Shadow DOM
+    // VaFileInputMultiple creates va-file-input elements with class 'has-file' for each attached file
+    // This is the real test - not just button text, but actual files shown to user
+    cy.get('[data-testid^="attach-file-input"]')
+      .first()
+      .shadow()
+      .find('va-file-input.has-file')
+      .should('have.length', expectedCount);
+
+    // Also verify button text changes appropriately
     if (expectedCount >= 4) {
-      // When max files (4) are attached, the FileInput component should not render
-      cy.get('[data-testid^="attach-file-input"]').should('not.exist');
+      cy.get('[data-testid^="attach-file-input"]')
+        .first()
+        .should('exist')
+        .should('have.attr', 'button-text')
+        .and('include', 'Attach additional file');
     } else if (expectedCount > 0) {
-      // When files are attached but not at max, button should say "Attach additional file"
       cy.get('[data-testid^="attach-file-input"]')
         .first()
         .should('have.attr', 'button-text')
         .and('include', 'Attach additional file');
     } else {
-      // When no files are attached, button should say "Attach file"
       cy.get('[data-testid^="attach-file-input"]')
         .first()
         .should('have.attr', 'button-text', 'Attach file');
@@ -493,24 +423,40 @@ class PatientComposePage {
   };
 
   removeAttachedFile = (fileName = Data.SAMPLE_PDF) => {
-    // Dispatch FILE_REMOVED event to remove file
+    // Click the actual delete button to test real user interaction
+    // VaFileInputMultiple creates one va-file-input per attached file
+    // Each has a va-button-icon delete button that opens a confirmation modal
+    const fileNameOnly = fileName.split('/').pop();
+
+    // Find and click the delete button for the specified file
     cy.get('[data-testid^="attach-file-input"]')
       .first()
-      .then($component => {
-        // Create a file object matching the attached file
-        const file = new File([''], fileName.split('/').pop(), {
-          type: 'application/octet-stream',
-        });
+      .shadow()
+      .find('va-file-input')
+      .shadow()
+      .find(`va-button-icon[aria-label*="delete file ${fileNameOnly}"]`)
+      .first()
+      .shadow()
+      .find('button')
+      .click({ force: true });
 
-        const event = new CustomEvent('vaMultipleChange', {
-          detail: {
-            action: 'FILE_REMOVED',
-            file,
-          },
-          bubbles: true,
-        });
-        $component[0].dispatchEvent(event);
-      });
+    // Wait for modal to appear and confirm deletion
+    cy.get('[data-testid^="attach-file-input"]')
+      .first()
+      .shadow()
+      .find('va-file-input')
+      .shadow()
+      .find('va-modal')
+      .shadow()
+      .find('button')
+      .contains('Yes, delete this')
+      .click({ force: true });
+
+    // Verify file removal by checking the file input still exists
+    // (Cypress will automatically retry until modal closes and DOM updates)
+    cy.get('[data-testid^="attach-file-input"]')
+      .first()
+      .should('exist');
   };
 
   verifyAttachButtonHasFocus = () => {

@@ -90,8 +90,10 @@ describe('verify attach file button behaviour', () => {
 
     PatientComposePage.attachFewFiles(fileList);
 
-    // After 4 files, the FileInput component should not render at all
-    cy.get('[data-testid^="attach-file-input"]').should('not.exist');
+    // After 4 files, component stays visible (so users can remove files)
+    // but verify we have exactly 4 files attached
+    cy.get('[data-testid^="attach-file-input"]').should('exist');
+    PatientComposePage.verifyExpectedAttachmentsCount(4);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
