@@ -3,11 +3,11 @@
  * @description Pre-submission statement of truth component for VA Form 21-4192
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
+import { setData } from 'platform/forms-system/src/js/actions';
 
 /**
  * Validates signature input
@@ -28,7 +28,7 @@ export const isSignatureValid = signatureValue => {
  * @component
  * @param {Object} props - Component properties
  * @param {Object} props.formData - Form data object containing signature and certification state
- * @param {string} props.formData.statementOfTruthSignature - The user's signature input
+ * @param {string} props.formData.signature - The user's signature input
  * @param {boolean} props.formData.statementOfTruthCertified - Whether user certified the statement
  * @param {boolean} [props.showError=false] - Whether to show validation errors
  * @param {Function} [props.onSectionComplete] - Callback function for form completion status
@@ -36,10 +36,8 @@ export const isSignatureValid = signatureValue => {
  */
 export const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
   const dispatch = useDispatch();
-  const [
-    statementOfTruthSignatureBlurred,
-    setStatementOfTruthSignatureBlurred,
-  ] = useState(false);
+  const { certification } = formData;
+  const [signatureBlurred, setsignatureBlurred] = useState(false);
 
   const STATEMENT_TEXT =
     'I confirm that the identifying information in this form is accurate and has been represented correctly.';
@@ -48,41 +46,56 @@ export const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
   useEffect(
     () => {
       const isValid =
-        isSignatureValid(formData?.statementOfTruthSignature) &&
-        formData?.statementOfTruthCertified;
+        isSignatureValid(certification?.signature) && certification?.certified;
       onSectionComplete?.(isValid);
     },
-    [
-      formData?.statementOfTruthSignature,
-      formData?.statementOfTruthCertified,
-      onSectionComplete,
-    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [certification?.signature, certification?.certified],
   );
 
-  const handleSignatureChange = event => {
-    dispatch(
-      setPreSubmitAction('statementOfTruthSignature', event.detail.value),
-    );
-  };
+  const handleSignatureChange = useCallback(
+    event => {
+      dispatch(
+        setData({
+          ...formData,
+          certification: {
+            ...formData?.certification,
+            signature: event.detail.value,
+          },
+        }),
+      );
+    },
+    [dispatch, formData],
+  );
 
   const handleSignatureBlur = () => {
-    setStatementOfTruthSignatureBlurred(true);
+    setsignatureBlurred(true);
   };
 
-  const handleCheckboxChange = event => {
-    dispatch(
-      setPreSubmitAction('statementOfTruthCertified', event.detail.checked),
-    );
-  };
+  const handleCheckboxChange = useCallback(
+    event => {
+      dispatch(
+        // setPreSubmitAction('statementOfTruthCertified', event.detail.checked),
+        setData({
+          ...formData,
+          certification: {
+            ...formData?.certification,
+            certified: event.detail.checked,
+          },
+        }),
+      );
+    },
+    [dispatch, formData],
+  );
 
   const signatureError =
-    (showError || statementOfTruthSignatureBlurred) &&
-    !isSignatureValid(formData?.statementOfTruthSignature)
+    (showError || signatureBlurred) &&
+    !isSignatureValid(certification?.signature)
       ? 'Please enter a name (at least 3 characters)'
       : undefined;
 
   const checkboxError =
-    showError && !formData?.statementOfTruthCertified
+    showError && !certification?.certified
       ? 'You must certify by checking the box'
       : undefined;
 
@@ -90,10 +103,10 @@ export const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
     <VaStatementOfTruth
       heading="Statement of truth"
       inputLabel="Your full name"
-      inputValue={formData?.statementOfTruthSignature || ''}
+      inputValue={certification?.signature || ''}
       inputMessageAriaDescribedby={`Statement of truth: ${STATEMENT_TEXT}`}
       inputError={signatureError}
-      checked={formData?.statementOfTruthCertified || false}
+      checked={certification?.certified || false}
       onVaInputChange={handleSignatureChange}
       onVaInputBlur={handleSignatureBlur}
       onVaCheckboxChange={handleCheckboxChange}
@@ -106,8 +119,10 @@ export const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
 
 PreSubmitInfo.propTypes = {
   formData: PropTypes.shape({
-    statementOfTruthSignature: PropTypes.string,
-    statementOfTruthCertified: PropTypes.bool,
+    certification: PropTypes.shape({
+      signature: PropTypes.string,
+      certified: PropTypes.bool,
+    }),
   }),
   showError: PropTypes.bool,
   onSectionComplete: PropTypes.func,
@@ -115,8 +130,10 @@ PreSubmitInfo.propTypes = {
 
 PreSubmitInfo.defaultProps = {
   formData: {
-    statementOfTruthSignature: '',
-    statementOfTruthCertified: false,
+    certification: {
+      signature: '',
+      certified: false,
+    },
   },
   showError: false,
   onSectionComplete: undefined,
