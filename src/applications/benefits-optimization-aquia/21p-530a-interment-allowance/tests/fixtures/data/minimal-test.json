@@ -50,5 +50,10 @@
       "dateLeftService": "1990-04-04",
       "serviceBranch": "ARMY"
     }
-  ]
+  ],
+  "certification": {
+      "signature": "Andrew Ryan",
+      "titleOfStateOrTribalOfficial": "Org Title"
+    },
+  "AGREED": true
 }
