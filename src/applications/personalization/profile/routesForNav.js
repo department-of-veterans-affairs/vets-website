@@ -250,3 +250,8 @@ export const getRoutesForNav = (
 
   return routesForNav;
 };
+
+export const routeHasParent = (route, routes) => {
+  const matchedRoute = routes.find(r => r.path === route.path);
+  return Boolean(matchedRoute?.subnavParent);
+};

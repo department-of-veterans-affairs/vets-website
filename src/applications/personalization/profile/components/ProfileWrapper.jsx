@@ -82,7 +82,7 @@ const ProfileWrapper = ({
           <div className="vads-u-padding-x--1 medium-screen:vads-u-display--none">
             {profile2Enabled ? (
               <>
-                <ProfileBreadcrumbs />
+                <ProfileBreadcrumbs routes={routesForNav} />
                 <ProfileSubNav
                   className="vads-u-margin-top--neg1 vads-u-margin-bottom--4"
                   routes={routesForNav}
@@ -101,6 +101,7 @@ const ProfileWrapper = ({
 
           <div className="vads-l-grid-container vads-u-padding-x--0">
             <ProfileBreadcrumbs
+              routes={routesForNav}
               className={`medium-screen:vads-u-padding-left--2 vads-u-padding-left--1 ${isLOA3 &&
                 !profile2Enabled &&
                 'vads-u-margin-top--neg2'}`}
