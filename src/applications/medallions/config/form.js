@@ -226,14 +226,20 @@ const formConfig = {
           title: 'Cemetery name',
           uiSchema: cemeteryName.uiSchema,
           schema: cemeteryName.schema,
-          depends: formData => formData.relationToVetRadio !== 'repOfCemetery',
+          depends: formData =>
+            !['repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ),
         },
         cemeteryContactInfo: {
           path: 'cemetery-contact-info',
           title: 'Cemetery contact information',
           uiSchema: cemeteryContactInfo.uiSchema,
           schema: cemeteryContactInfo.schema,
-          depends: formData => formData.relationToVetRadio !== 'repOfCemetery',
+          depends: formData =>
+            !['repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ),
         },
       },
     },
