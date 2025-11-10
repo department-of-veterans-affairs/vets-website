@@ -354,16 +354,14 @@ describe('0839 Helpers', () => {
         );
       });
 
-      it('returns message when code is not in branches or extensions', () => {
+      it('returns null when code is not in branches or extensions', () => {
         const details = {
           facilityCode: '99999999',
           yrEligible: true,
           ihlEligible: true,
         };
         const result = createBannerMessage(details, true, mainInstitution);
-        expect(result).to.equal(
-          "This facility code can't be accepted because it's not associated with your main campus. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.",
-        );
+        expect(result).to.be.null;
       });
 
       it('returns null when code is in branches', () => {
@@ -625,7 +623,7 @@ describe('0839 Helpers', () => {
     });
 
     describe('branch list validation', () => {
-      it('adds error when facility code is not in branches or extensions', () => {
+      it('does not add error when facility code is not in branches or extensions', () => {
         const formData = {
           institutionDetails: {
             facilityCode: '12345678',
@@ -646,9 +644,7 @@ describe('0839 Helpers', () => {
         };
 
         facilityCodeUIValidation(errors, 'ZZZZ9999', formData);
-        expect(errors.message).to.equal(
-          "This facility code isn't linked to your school's main campus",
-        );
+        expect(errors.message).to.be.undefined;
       });
 
       it('does not add error when facility code is in branches list', () => {
@@ -699,7 +695,7 @@ describe('0839 Helpers', () => {
         expect(errors.message).to.be.undefined;
       });
 
-      it('handles empty branches and extensions arrays', () => {
+      it('does not add error when branches and extensions arrays are empty', () => {
         const formData = {
           institutionDetails: {
             facilityCode: '12345678',
@@ -720,12 +716,10 @@ describe('0839 Helpers', () => {
         };
 
         facilityCodeUIValidation(errors, 'ABCD1234', formData);
-        expect(errors.message).to.equal(
-          "This facility code isn't linked to your school's main campus",
-        );
+        expect(errors.message).to.be.undefined;
       });
 
-      it('handles missing facilityMap', () => {
+      it('does not add error when facilityMap is missing', () => {
         const formData = {
           institutionDetails: {
             facilityCode: '12345678',
@@ -742,9 +736,7 @@ describe('0839 Helpers', () => {
         };
 
         facilityCodeUIValidation(errors, 'ABCD1234', formData);
-        expect(errors.message).to.equal(
-          "This facility code isn't linked to your school's main campus",
-        );
+        expect(errors.message).to.be.undefined;
       });
     });
 
@@ -978,7 +970,7 @@ describe('0839 Helpers', () => {
         );
       });
 
-      it('prioritizes branch list check over YR eligibility', () => {
+      it('prioritizes YR eligibility when facility code is not in branch list', () => {
         const formData = {
           institutionDetails: {
             facilityCode: '12345678',
@@ -1000,7 +992,7 @@ describe('0839 Helpers', () => {
 
         facilityCodeUIValidation(errors, 'ZZZZ9999', formData);
         expect(errors.message).to.equal(
-          "This facility code isn't linked to your school's main campus",
+          "The institution isn't eligible for the Yellow Ribbon Program.",
         );
       });
 
