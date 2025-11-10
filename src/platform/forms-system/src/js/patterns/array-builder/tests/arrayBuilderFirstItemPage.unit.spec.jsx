@@ -128,8 +128,8 @@ describe('ArrayBuilderFirstItemPage', () => {
 
     const CustomPage = ArrayBuilderItemPage({
       arrayPath: 'employers',
-      summaryRoute: '/summary',
-      introRoute: '/intro',
+      getSummaryPath: () => '/summary',
+      getIntroPath: () => '/intro',
       reviewRoute: '/review',
       getText,
       required,
