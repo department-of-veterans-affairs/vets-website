@@ -104,3 +104,12 @@ export const additionalLocationArrayBuilderOptions = {
     cardDescription: item => getCardDescription(item),
   },
 };
+
+export const dateSigned = () => {
+  const date = new Date();
+  return date.toISOString().split('T')[0];
+};
+
+export const transformPhoneNumber = phoneNumber => {
+  return phoneNumber.replaceAll('-', '');
+};
