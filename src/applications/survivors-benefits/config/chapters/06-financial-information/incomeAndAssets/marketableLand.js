@@ -9,7 +9,7 @@ import { IncomeAssetStatementFormAlert } from '../../../../components/FormAlerts
 
 const MarketableInfo = () => (
   <va-additional-info trigger="The additional land might not be marketable in these situations">
-    <p>
+    <div>
       <ul>
         <li>The entire lot of land is only slightly more than 2 acres, or</li>
         <li>The additional land isn’t accessible, or</li>
@@ -17,7 +17,7 @@ const MarketableInfo = () => (
           There are zoning rules that prevent selling the additional property
         </li>
       </ul>
-    </p>
+    </div>
   </va-additional-info>
 );
 
