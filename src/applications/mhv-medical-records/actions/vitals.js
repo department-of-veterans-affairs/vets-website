@@ -2,9 +2,8 @@ import { Actions } from '../util/actionTypes';
 import { getVitalsList, getVitalsWithOHData } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
-import { isArrayAndHasItems } from '../util/helpers';
+import { isArrayAndHasItems, logStackTrace } from '../util/helpers';
 import { getListWithRetry } from './common';
-import { logStackTrace } from './logging';
 
 export const getVitals = (
   isCurrent = false,
@@ -29,7 +28,7 @@ export const getVitals = (
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    dispatch(logStackTrace(error, 'actions_vitals_getVitals'));
+    logStackTrace(error, 'actions_vitals_getVitals');
   }
 };
 

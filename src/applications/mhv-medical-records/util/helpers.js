@@ -732,6 +732,12 @@ export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
 };
 
+export const logStackTrace = (error, errorMessage) => {
+  datadogRum.addError(error, {
+    feature: `[Medical Records] - ${errorMessage}`,
+  });
+};
+
 export const handleDataDogAction = ({
   locationBasePath,
   locationChildPath,

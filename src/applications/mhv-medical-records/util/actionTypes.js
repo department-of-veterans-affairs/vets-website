@@ -136,7 +136,4 @@ export const Actions = {
     ADD_FAILED: 'MR_SELF_ENTERED_ADD_FAILED',
     CLEAR_FAILED: 'MR_SELF_ENTERED_CLEAR_FAILED',
   },
-  logging: {
-    LOG_STACK_TRACE: 'MR_LOG_STACK_TRACE',
-  },
 };

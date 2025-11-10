@@ -7,9 +7,8 @@ import {
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
-import { dispatchDetails } from '../util/helpers';
+import { dispatchDetails, logStackTrace } from '../util/helpers';
 import { getListWithRetry } from './common';
-import { logStackTrace } from './logging';
 
 export const getConditionsList = (
   isCurrent = false,
@@ -34,7 +33,7 @@ export const getConditionsList = (
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    dispatch(logStackTrace(error, 'actions_conditions_getConditionsList'));
+    logStackTrace(error, 'actions_conditions_getConditionsList');
   }
 };
 
