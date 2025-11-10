@@ -1,6 +1,8 @@
-import React from 'react';
+/* eslint-disable no-console */
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { apiRequest } from 'platform/utilities/api';
 import formConfig from '../config/form';
 
 const IntroductionPage = ({ router }) => {
@@ -8,6 +10,20 @@ const IntroductionPage = ({ router }) => {
     event.preventDefault();
     router.push('/goals');
   };
+
+  useEffect(() => {
+    apiRequest('/veteran_verification/v2/service_history', {
+      apiVersion: 'services',
+    })
+      .then(response => {
+        console.log('Fetched veteran info!', response);
+      })
+      .error(error => {
+        console.log('Error:', error);
+      });
+    console.log('Intro page!');
+  }, []);
+
   return (
     <article className="schemaform-intro">
       <FormTitle title={formConfig.title} subtitle="" />
