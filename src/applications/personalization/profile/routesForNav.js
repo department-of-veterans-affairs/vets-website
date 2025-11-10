@@ -77,7 +77,6 @@ const routesForNav = [
     path: PROFILE_PATHS.NOTIFICATION_SETTINGS,
     requiresLOA3: true,
     requiresMVI: true,
-    subnavParent: PROFILE_PATH_NAMES.COMMUNICATIONS_SETTINGS,
   },
   {
     component: AccountSecurity,
