@@ -16,7 +16,7 @@ import { complexClaimAllExpenseTypes } from '../../../services/mocks/complex-cla
 
 const ReviewPage = ({ claim, message }) => {
   const navigate = useNavigate();
-  const { apptId } = useParams();
+  const { apptId, claimId } = useParams();
 
   // For now, we will override the claim to have some expenses
   const overriddenClaim = claim || complexClaimAllExpenseTypes;
@@ -66,18 +66,18 @@ const ReviewPage = ({ claim, message }) => {
   const [visible, setVisible] = useState(true);
   const onClose = () => setVisible(false);
   const addMoreExpenses = () => {
-    navigate(`/file-new-claim/complex/${apptId}/choose-expense`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     // TODO Add logic to add more expenses
   };
 
   const signAgreement = () => {
-    navigate(`/file-new-claim/complex/${apptId}/travel-agreement`);
     // TODO Add logic to sign the agreement
+    navigate(`/file-new-claim/${apptId}/${claimId}/travel-agreement`);
   };
 
   const addAnExpense = expenseRoute => {
     // Navigates a user to the add expense page for the type that was passed in
-    navigate(`/file-new-claim/complex/${apptId}/${expenseRoute}`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/${expenseRoute}`);
   };
 
   return (

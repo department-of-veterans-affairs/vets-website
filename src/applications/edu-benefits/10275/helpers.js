@@ -11,13 +11,10 @@ export const getFullName = fullName => {
   return [first, middle, last].filter(Boolean).join(' ');
 };
 export const getCardDescription = item => {
-  const poc = item?.previouslyEnteredPointOfContact;
-  const fullName = poc?.fullName || item?.fullName;
-
+  const poc = item?.pointOfContact;
+  const fullName = item?.fullName || poc?.fullName;
   let contactName = '';
-  if (typeof fullName === 'string') {
-    contactName = fullName;
-  } else if (fullName && typeof fullName === 'object') {
+  if (fullName && typeof fullName === 'object') {
     contactName = getFullName(fullName);
   } else if (item?.fullName && typeof item.fullName === 'object') {
     contactName = getFullName(item.fullName);
@@ -32,6 +29,7 @@ export const getCardDescription = item => {
     city,
     state,
     postalCode,
+    country,
   } = institutionAddress;
   const addressParts = [street, street2, street3].filter(Boolean).map(addr => (
     <span key={addr} className="card-address">
@@ -40,7 +38,8 @@ export const getCardDescription = item => {
   ));
   const cityStateZip =
     city || state || postalCode
-      ? `${city || ''}, ${state || ''} ${postalCode || ''}`.trim()
+      ? `${city || ''}${city && (state || postalCode) ? ',' : ''} ${state ||
+          ''} ${postalCode || ''}`.trim()
       : null;
 
   return item ? (
@@ -52,6 +51,10 @@ export const getCardDescription = item => {
             {cityStateZip && (
               <span className="card-address">{cityStateZip}</span>
             )}
+            {country &&
+              country !== 'USA' && (
+                <span className="card-address">{country}</span>
+              )}
           </p>
         )}
       </>
