@@ -44,6 +44,7 @@ const OfficialReport = props => {
   const [tempData, setTempData] = useState(props.data || {});
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const summaryRoute = props.arrayBuilder.getSummaryPath();
 
   const handlers = {
     shouldShowPoliceDataModal,
@@ -138,7 +139,7 @@ const OfficialReport = props => {
   );
 
   if (!props.onReviewPage && !isEdit && !isAdd) {
-    const path = props.arrayBuilder.summaryRoute;
+    const path = summaryRoute;
     props.goToPath(path);
     return null;
   }
@@ -219,7 +220,7 @@ const OfficialReport = props => {
               <ArrayBuilderCancelButton
                 goToPath={props.goToPath}
                 arrayPath={props.arrayBuilder.arrayPath}
-                summaryRoute={props.arrayBuilder.summaryRoute}
+                summaryRoute={summaryRoute}
                 reviewRoute={props.arrayBuilder.reviewRoute}
                 getText={props.arrayBuilder.getText}
                 required={props.arrayBuilder.required}
@@ -239,7 +240,7 @@ const OfficialReport = props => {
                 <ArrayBuilderCancelButton
                   goToPath={props.goToPath}
                   arrayPath={props.arrayBuilder.arrayPath}
-                  summaryRoute={props.arrayBuilder.summaryRoute}
+                  summaryRoute={summaryRoute}
                   reviewRoute={props.arrayBuilder.reviewRoute}
                   getText={props.arrayBuilder.getText}
                   required={props.arrayBuilder.required}
@@ -283,7 +284,7 @@ const OfficialReport = props => {
 
 OfficialReport.propTypes = {
   arrayBuilder: PropTypes.shape({
-    summaryRoute: PropTypes.string.isRequired,
+    getSummaryPath: PropTypes.func.isRequired,
     reviewRoute: PropTypes.string.isRequired,
     arrayPath: PropTypes.string.isRequired,
     required: PropTypes.func.isRequired,
