@@ -11,27 +11,29 @@
  *    (handles case where user entered details then changed answer to 'no')
  */
 
+import { filterViewFields } from 'platform/forms-system/src/js/helpers';
+
 /**
- * Recursively removes all keys that start with 'view:' from an object
- * These are UI-only fields that should not be submitted to the API
+ * Removes deprecated fields from form data that were removed from the form
+ * These include: suffix (from names) and isMilitary (from addresses)
  *
  * @param {Object} obj - The object to clean
- * @returns {Object} A new object with view: fields removed
+ * @returns {Object} A new object with deprecated fields removed
  */
-function removeViewFields(obj) {
+function removeDeprecatedFields(obj) {
   if (obj === null || typeof obj !== 'object') {
     return obj;
   }
 
   if (Array.isArray(obj)) {
-    return obj.map(item => removeViewFields(item));
+    return obj.map(item => removeDeprecatedFields(item));
   }
 
   const cleaned = {};
   Object.keys(obj).forEach(key => {
-    // Skip keys that start with 'view:'
-    if (!key.startsWith('view:')) {
-      cleaned[key] = removeViewFields(obj[key]);
+    // Skip deprecated fields
+    if (key !== 'suffix' && key !== 'isMilitary') {
+      cleaned[key] = removeDeprecatedFields(obj[key]);
     }
   });
 
@@ -73,8 +75,11 @@ function removeViewFields(obj) {
  * // transformed.hospitalizationDate and hospitalizationFacility will be removed
  */
 export function submitTransformer(_formConfig, formData) {
-  // First, remove all view: prefixed fields recursively
-  const transformedData = removeViewFields(formData);
+  // First, remove all view: prefixed fields using platform helper
+  let transformedData = filterViewFields(formData);
+
+  // Remove deprecated fields (suffix, isMilitary) that were removed from the form
+  transformedData = removeDeprecatedFields(transformedData);
 
   // Clean up duplicate/unnecessary data before submission
   // Remove the 'veteran' object added by platform (duplicates veteranInformation)
@@ -108,7 +113,7 @@ export function submitTransformer(_formConfig, formData) {
         first: veteranName.first || '',
         middle: veteranName.middle || '',
         last: veteranName.last || '',
-        suffix: veteranName.suffix || '',
+        // Note: suffix field removed from form
       },
       claimantDob: veteranDob,
     };
@@ -126,7 +131,7 @@ export function submitTransformer(_formConfig, formData) {
         state: veteranAddr.state || '',
         postalCode: veteranAddr.postalCode || '',
         country: veteranAddr.country || 'USA',
-        isMilitary: veteranAddr.isMilitary || false,
+        // Note: isMilitary field removed from form
       },
     };
 

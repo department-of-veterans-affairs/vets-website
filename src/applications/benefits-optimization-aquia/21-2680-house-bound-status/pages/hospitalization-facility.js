@@ -25,7 +25,7 @@ export const hospitalizationFacilityUiSchema = {
     }),
     facilityAddress: {
       ...addressNoMilitaryUI(),
-      'ui:description': (
+      'ui:description': () => (
         <h4 className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--base vads-u-line-height--3 vads-u-margin-top--2 vads-u-margin-bottom--1">
           Address of hospital
         </h4>

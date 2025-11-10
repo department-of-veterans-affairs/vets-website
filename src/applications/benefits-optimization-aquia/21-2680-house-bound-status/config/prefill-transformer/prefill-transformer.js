@@ -54,7 +54,7 @@ function getMailingAddress(profile) {
     country:
       addressSource.countryCodeIso3 || addressSource.countryName || 'USA',
     postalCode: zipSuffix ? `${zipCode}-${zipSuffix}` : zipCode,
-    isMilitary: false,
+    // Note: isMilitary field removed from form
   };
 }
 
@@ -87,6 +87,17 @@ export function prefillTransformer(pages, formData, metadata, state) {
   // Get mailing address
   const mailingAddress = getMailingAddress(profile);
 
+  // Clean suffix from saved form data (field removed from form)
+  const savedVeteranInfo = formData?.veteranInformation || {};
+  const cleanedVeteranFullName = savedVeteranInfo.veteranFullName
+    ? {
+        first: savedVeteranInfo.veteranFullName.first,
+        middle: savedVeteranInfo.veteranFullName.middle,
+        last: savedVeteranInfo.veteranFullName.last,
+        // Intentionally omit suffix
+      }
+    : undefined;
+
   // Return the transformed data structure
   // Start with profile defaults, then spread saved data on top
   // This ensures saved form data takes priority while providing profile defaults for new forms
@@ -100,12 +111,16 @@ export function prefillTransformer(pages, formData, metadata, state) {
           first: fullName.first || '',
           middle: fullName.middle || '',
           last: fullName.last || '',
-          suffix: fullName.suffix || '',
+          // Note: suffix field omitted from form
         },
         veteranDob: dateOfBirth,
         veteranSsn: '', // Not prefilled for security
         // Spread saved data on top to overwrite defaults
-        ...formData?.veteranInformation,
+        ...savedVeteranInfo,
+        // Apply cleaned full name (without suffix)
+        ...(cleanedVeteranFullName && {
+          veteranFullName: cleanedVeteranFullName,
+        }),
       },
       veteranAddress: {
         // Default from profile

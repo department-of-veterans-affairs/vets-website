@@ -62,5 +62,7 @@ export const getHospitalizationFacilityTitle = formData => {
     return `What's the name and address of the hospital where ${name} is admitted?`;
   }
 
-  return "What's the name and address of the hospital where the claimant is admitted?";
+  return isVeteran
+    ? "What's the name and address of the hospital where you are admitted?"
+    : "What's the name and address of the hospital where the claimant is admitted?";
 };

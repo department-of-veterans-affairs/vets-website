@@ -29,6 +29,8 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { veteranFullName } = data.veteranInformation;
+            // Build full name for signature (middle is optional, no suffix)
+            // The platform displays the full name but validates flexibly
             const veteranName = [
               veteranFullName.first,
               veteranFullName.middle,

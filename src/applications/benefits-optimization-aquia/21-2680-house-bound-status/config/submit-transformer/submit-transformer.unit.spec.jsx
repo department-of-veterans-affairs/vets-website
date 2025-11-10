@@ -66,7 +66,9 @@ describe('Submit Transformer', () => {
         'Michael',
       );
       expect(result.claimantInformation.claimantFullName.last).to.equal('Doe');
-      expect(result.claimantInformation.claimantFullName.suffix).to.equal('Jr');
+      // Note: suffix field removed from form (middle is kept)
+      expect(result.claimantInformation.claimantFullName.suffix).to.be
+        .undefined;
     });
 
     it('should copy veteran DOB to claimant when claimantRelationship is veteran', () => {
@@ -131,7 +133,8 @@ describe('Submit Transformer', () => {
         '62701',
       );
       expect(result.claimantAddress.claimantAddress.country).to.equal('USA');
-      expect(result.claimantAddress.claimantAddress.isMilitary).to.equal(false);
+      // Note: isMilitary field removed from form
+      expect(result.claimantAddress.claimantAddress.isMilitary).to.be.undefined;
     });
 
     it('should copy all veteran data to claimant in single transformation', () => {
@@ -212,11 +215,14 @@ describe('Submit Transformer', () => {
       };
       const result = submitTransformer(mockFormConfig, formData);
       expect(result.claimantInformation.claimantFullName.first).to.equal('Bob');
+      // Middle name should be copied as empty string
       expect(result.claimantInformation.claimantFullName.middle).to.equal('');
       expect(result.claimantInformation.claimantFullName.last).to.equal(
         'Jones',
       );
-      expect(result.claimantInformation.claimantFullName.suffix).to.equal('');
+      // Note: suffix field removed from form
+      expect(result.claimantInformation.claimantFullName.suffix).to.be
+        .undefined;
     });
 
     it('should handle partial veteran address gracefully', () => {
@@ -272,7 +278,8 @@ describe('Submit Transformer', () => {
         },
       };
       const result = submitTransformer(mockFormConfig, formData);
-      expect(result.claimantAddress.claimantAddress.isMilitary).to.equal(false);
+      // Note: isMilitary field removed from form
+      expect(result.claimantAddress.claimantAddress.isMilitary).to.be.undefined;
     });
   });
 

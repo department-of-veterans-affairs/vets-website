@@ -213,14 +213,14 @@ describe('dynamicTitleHelpers', () => {
       );
     });
 
-    it('should return claimant fallback when veteran name not available', () => {
+    it('should return veteran fallback when veteran name not available', () => {
       const formData = {
         claimantRelationship: {
           relationship: 'veteran',
         },
       };
       expect(getHospitalizationFacilityTitle(formData)).to.equal(
-        "What's the name and address of the hospital where the claimant is admitted?",
+        "What's the name and address of the hospital where you are admitted?",
       );
     });
 

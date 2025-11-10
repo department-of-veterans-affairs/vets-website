@@ -80,7 +80,11 @@ describe('nameHelpers', () => {
           },
         },
       };
-      expect(getClaimantName(formData)).to.equal('John   Doe');
+      /**
+       * Note: trim() only removes leading/trailing whitespace, not internal spaces
+       * '  John  ' + ' ' + '  Doe  ' = '  John     Doe  ' => trim() => 'John     Doe' (5 spaces)
+       */
+      expect(getClaimantName(formData)).to.equal('John     Doe');
     });
   });
 

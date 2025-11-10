@@ -3,7 +3,7 @@
     "veteranInformation": {
       "veteranFullName": {
         "first": "Lando",
-        "middle": "Calrissian",
+        "middle": "",
         "last": "Calrissian"
       },
       "veteranSsn": "159753486",
@@ -26,7 +26,7 @@
     "claimantInformation": {
       "claimantFullName": {
         "first": "Lando",
-        "middle": "Calrissian",
+        "middle": "Junior",
         "last": "Calrissian"
       },
       "claimantDob": "1965-08-10"
