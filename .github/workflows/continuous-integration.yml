@@ -969,7 +969,7 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
       
-      - name: Manual dependencies install
+      - name: Manual dependencies install (pre-merge)
         run: |
           yarn install \
           --network-timeout 1000000000 \
@@ -986,9 +986,17 @@ jobs:
 
       - name: Fetch target branch
         run: git fetch origin ${{ github.head_ref }}
+      
       - name: Merge in feature branch
         run: git merge origin/${{ github.ref_name }} --no-edit
-          
+
+      - name: Manual dependencies install (post-merge)
+        run: |
+          yarn install \
+          --network-timeout 1000000000 \
+          --prefer-offline \
+          --production=false
+              
       - name: Create test results folder
         run: mkdir -p test-results
 
