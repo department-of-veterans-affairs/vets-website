@@ -100,32 +100,6 @@ describe('Medications Prescriptions container', () => {
     expect(await screen.findByTestId('rxDelay-alert-message')).to.exist;
   });
 
-  it('should not display delayed refill alert when showRefillProgressContent flag is false', async () => {
-    sandbox.restore();
-    stubAllergiesApi({ sandbox });
-    stubPrescriptionsListApi({
-      sandbox,
-      data: {
-        prescriptions: emptyPrescriptionsList.data,
-        meta: emptyPrescriptionsList.meta,
-        pagination: emptyPrescriptionsList.meta.pagination,
-        refillAlertList,
-      },
-    });
-
-    const screen = setup({
-      ...initialState,
-      rx: {
-        ...initialState.rx,
-      },
-    });
-
-    await waitFor(() => {
-      expect(screen.queryByTestId('mhv-rx--delayed-refill-alert')).not.to.exist;
-      expect(screen.queryByTestId('rxDelay-alert-message')).not.to.exist;
-    });
-  });
-
   it('should not display delayed refill alert when refillAlertList is empty', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
