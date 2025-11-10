@@ -151,3 +151,39 @@ div.ac-container[style*="rgb(255, 226, 178)"]{
   white-space: nowrap;
   border-width: 0;
 }
+
+// .va-disclaimer {
+//   border-radius: 4px;
+//   padding: 5%;
+//   margin: 0;
+//   font-family: "Source Sans Pro", sans-serif;
+
+//   &__title {
+//     font-weight: 700;
+//     margin: 0 0 8px;
+//     font-size: 14px;
+//     line-height: 20px;
+//   }
+
+//   &__body {
+//     font-size: 12px;
+//     line-height: 16px;
+//     font-style: italic;
+//     margin: 0;
+//   }
+// }
+
+.va-disclaimer {
+margin: -3% 2% 0% 17%; /* left indent aligns under bubble content*/
+padding: 0;
+background: none;
+border: 0;
+
+  &__title { display: none; }
+
+  &__body {
+    font-size: 12px;
+    line-height: 14px;
+
+  }
+}
