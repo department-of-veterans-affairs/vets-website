@@ -18,6 +18,7 @@ import ComplexClaimSubmitFlowWrapper from './containers/ComplexClaimSubmitFlowWr
 import ReviewPage from './components/complex-claims/pages/ReviewPage';
 import ExpensePage from './components/complex-claims/pages/ExpensePage';
 import IntroductionPage from './components/complex-claims/pages/IntroductionPage';
+import UnsupportedMileage from './components/complex-claims/pages/UnsupportedMileage';
 import App from './containers/App';
 import { EXPENSE_TYPES } from './constants';
 
@@ -50,6 +51,7 @@ const getRoutes = () => {
           <Route path="review" element={<ReviewPage />} />
           <Route path="travel-agreement" element={<AgreementPage />} />
           <Route path="confirmation" element={<ConfirmationPage />} />
+          <Route path="unsupported" element={<UnsupportedMileage />} />
         </Route>
       </Route>
     ) : (
