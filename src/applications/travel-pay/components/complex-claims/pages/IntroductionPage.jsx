@@ -116,7 +116,7 @@ const IntroductionPage = () => {
             </p>
             <va-link-action
               onClick={createClaim}
-              href="javascript0:void"
+              href="#"
               text="Start your travel reimbursement claim"
               type="primary"
             />
