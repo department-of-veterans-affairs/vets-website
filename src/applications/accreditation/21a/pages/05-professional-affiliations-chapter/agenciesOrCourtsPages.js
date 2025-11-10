@@ -14,6 +14,8 @@ import {
 import { agenciesOrCourtsOptions } from '../../constants/agenciesOrCourts';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
+import content from '../../locales/en/content.json';
+
 /** @type {ArrayBuilderOptions} */
 export const arrayBuilderOptions = {
   arrayPath: 'agenciesOrCourts',
@@ -26,6 +28,8 @@ export const arrayBuilderOptions = {
     !item?.admissionDate ||
     !item?.membershipOrRegistrationNumber,
   text: {
+    yesNoBlankReviewQuestion: () => content['agency-or-court-question'],
+    reviewAddButtonText: () => content['agency-or-court-add-button-text'],
     getItemName: item =>
       item?.agencyOrCourt === 'Other'
         ? item?.otherAgencyOrCourt
