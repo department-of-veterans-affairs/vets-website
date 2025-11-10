@@ -32,7 +32,7 @@ export const arrayBuilderOptions = {
   arrayPath: 'militaryServiceExperiences',
   nounSingular: 'military service experience',
   nounPlural: 'military service experiences',
-  summaryTitle: () => 'Review your medical and other expenses',
+  summaryTitle: () => 'Review your military service experiences',
   yesNoBlankReviewQuestion: () => content.militaryTitle,
   required: false,
   isItemIncomplete: item =>
