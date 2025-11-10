@@ -1,4 +1,3 @@
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -6,22 +5,6 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
 import formConfig from '@bio-aquia/21-0779-nursing-home-information/config/form';
 import { SaveInProgress } from '@bio-aquia/shared/components';
-
-/**
- * Breadcrumb navigation configuration for the nursing home information form
- * @type {Array<{href: string, label: string}>}
- */
-const breadcrumbList = [
-  { href: '/', label: 'VA.gov home' },
-  {
-    href: '/supporting-forms-for-claims/',
-    label: 'Supporting forms for claims',
-  },
-  {
-    href: '/supporting-forms-for-claims/aid-attendance-housebound',
-    label: 'Aid and Attendance or Housebound benefits',
-  },
-];
 
 /**
  * Main application component for VA Form 21-0779 Nursing Home Information.
@@ -37,7 +20,6 @@ export const App = ({ location, router, children }) => {
   return (
     <SaveInProgress formConfig={formConfig} location={location} router={router}>
       <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
-        <VaBreadcrumbs breadcrumbList={breadcrumbList} />
         <RoutedSavableApp
           formConfig={formConfig}
           currentLocation={location}

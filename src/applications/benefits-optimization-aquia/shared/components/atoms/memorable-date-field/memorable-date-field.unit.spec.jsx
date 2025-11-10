@@ -56,7 +56,8 @@ describe('MemorableDateField', () => {
     });
 
     it('enables month select by default', () => {
-      const { container } = render(<MemorableDateField {...defaultProps} />);
+      const props = { ...defaultProps, monthSelect: true };
+      const { container } = render(<MemorableDateField {...props} />);
       const dateField = container.querySelector('va-memorable-date');
       expect(dateField).to.have.attribute('month-select', 'true');
     });
