@@ -142,6 +142,8 @@
     "formsPatternOtherField": "Test",
     "arrayBuilderPatternFlowType": "optional",
     "arrayBuilderPatternInteractionType": "yesNoQuestion",
+    "arrayBuilderItemPages": "complex",
+    "arrayBuilderSummaryIntroVariation": "A",
     "exampleArrayOne": [
       {
         "facilityName": "facility a",

@@ -1,4 +1,8 @@
 /* eslint-disable no-unused-vars */
+/**
+ * This file is deprecated.
+ * Please use `arrayBuilderPages` from 'platform/forms-system/src/js/patterns/array-builder/arrayBuilderPages' instead.
+ */
 import React from 'react';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
@@ -266,8 +270,9 @@ export function assignGetItemName(options) {
 
 const FORM_URL_PREFIX = '/6/marital-information/';
 
+// Deprecated: Use `arrayBuilderPages` from 'platform/forms-system/src/js/patterns/array-builder/arrayBuilderPages' instead
 // eslint-disable-next-line sonarjs/cognitive-complexity
-export function arrayBuilderPages(options, pageBuilderCallback) {
+export function arrayBuilderPagesDeprecated(options, pageBuilderCallback) {
   let introPath;
   let summaryPath;
   let hasItemsKey;
@@ -478,8 +483,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   /** @type {FormConfigPage['onNavBack']} */
   const navBackFirstItem = onNavBackRemoveAddingItem({
     arrayPath,
-    introRoute: introPath,
-    summaryRoute: summaryPath,
+    getIntroPath: () => introPath,
+    getSummaryPath: () => summaryPath,
     reviewRoute: reviewPath,
   });
 
