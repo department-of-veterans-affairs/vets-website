@@ -17,7 +17,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Date web components'),
+    ...titleUI('Date patterns'),
     dateWCV3: currentOrPastDateUI('Web component - Generic'),
     dateOfBirthWCV3: dateOfBirthUI('Web component - Date of birth'),
     'view:dateSubTitle': {
