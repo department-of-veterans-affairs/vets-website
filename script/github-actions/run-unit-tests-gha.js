@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-console */
 const commandLineArgs = require('command-line-args');
 const glob = require('glob');
@@ -37,6 +38,19 @@ const options = commandLineArgs(COMMAND_LINE_OPTIONS);
 
 // Helper function to get test paths
 function getTestPaths() {
+  const cliPaths = Array.isArray(options.path)
+    ? options.path
+    : options.path
+    ? [options.path]
+    : [];
+  const hasCustomCliPath =
+    cliPaths.length > 0 &&
+    !(cliPaths.length === 1 && cliPaths[0] === DEFAULT_SPEC_PATTERN);
+
+  if (hasCustomCliPath) {
+    return cliPaths;
+  }
+
   if (options['full-suite']) {
     return glob.sync(DEFAULT_SPEC_PATTERN);
   }
@@ -49,6 +63,10 @@ function getTestPaths() {
 
   if (changedFiles.length === 0) {
     return glob.sync(STATIC_PAGES_PATTERN);
+  }
+
+  if (changedFiles.length > 500) {
+    return [DEFAULT_SPEC_PATTERN];
   }
 
   // May need to convert this output into an array?
@@ -80,7 +98,15 @@ function getTestPaths() {
   // Always include static pages tests
   const staticPagesTests = glob.sync(STATIC_PAGES_PATTERN);
 
-  return [...new Set([...appTests, ...platformTests, ...staticPagesTests])];
+  const testPaths = [
+    ...new Set([...appTests, ...platformTests, ...staticPagesTests]),
+  ];
+
+  if (testPaths.join(' ').length > 20000) {
+    return [DEFAULT_SPEC_PATTERN];
+  }
+
+  return testPaths;
 }
 
 // Helper function to build test command
