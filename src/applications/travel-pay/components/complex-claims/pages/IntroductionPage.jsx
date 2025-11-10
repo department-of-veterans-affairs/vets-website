@@ -43,6 +43,11 @@ const IntroductionPage = () => {
       const result = await dispatch(
         createComplexClaim({
           appointmentDateTime: stripTZOffset(appointment.localStartTime),
+          facilityStationNumber: appointment.location.id,
+          appointmentType: appointment.isCompAndPen
+            ? 'CompensationAndPensionExamination'
+            : 'Other',
+          isComplete: false,
         }),
       );
       if (result?.claimId) {
