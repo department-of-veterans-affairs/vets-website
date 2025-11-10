@@ -56,7 +56,6 @@ const childContent = (
         don’t submit this form. You can check the status of your current claim
         instead.
         <br />
-        <br />
         <va-link href="/track-claims/" text="Check the status of your claim" />
       </li>
       <li>
@@ -66,7 +65,6 @@ const childContent = (
         </strong>{' '}
         you’ll need to use the PDF version of this form. You’ll apply as an
         unpaid creditor.
-        <br />
         <br />
         <va-link
           href="https://www.vba.va.gov/pubs/forms/VBA-21P-601-ARE.pdf"
