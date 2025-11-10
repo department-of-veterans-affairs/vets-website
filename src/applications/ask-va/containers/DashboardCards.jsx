@@ -116,10 +116,9 @@ const DashboardCards = () => {
     const filteredAndSorted = inquiriesCopy
       .filter(
         card =>
-          categoryFilter === 'All' ||
-          card.attributes.categoryName === categoryFilter ||
-          statusFilter === 'All' ||
-          card.attributes.status === statusFilter,
+          (categoryFilter === 'All' ||
+            card.attributes.categoryName === categoryFilter) &&
+          (statusFilter === 'All' || card.attributes.status === statusFilter),
       )
       .filter(
         card => loa === 'All' || card.attributes.levelOfAuthentication === loa,
