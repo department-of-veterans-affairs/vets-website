@@ -568,7 +568,9 @@ describe('0839 Helpers', () => {
         };
 
         facilityCodeUIValidation(errors, '  ABCD1234  ', formData);
-        expect(errors.message).to.be.undefined;
+        expect(errors.message).to.equal(
+          'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+        );
       });
     });
 

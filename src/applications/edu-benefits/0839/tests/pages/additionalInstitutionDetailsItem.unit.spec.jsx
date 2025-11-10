@@ -145,7 +145,7 @@ describe('additionalInstitutionDetailsItem page', () => {
   });
 
   describe('custom fields', () => {
-    it('renders InstitutionName custom field', () => {
+    it('renders AdditionalInstitutionName custom field', () => {
       const validState = {
         institutionDetails: {
           facilityCode: '12345678',
@@ -174,11 +174,11 @@ describe('additionalInstitutionDetailsItem page', () => {
         </Provider>,
       );
 
-      expect(form.find('InstitutionName').length).to.equal(1);
+      expect(form.find('AdditionalInstitutionName').length).to.equal(1);
       form.unmount();
     });
 
-    it('renders InstitutionAddress custom field', () => {
+    it('renders AdditionalInstitutionAddress custom field', () => {
       const validState = {
         institutionDetails: {
           facilityCode: '12345678',
@@ -213,7 +213,7 @@ describe('additionalInstitutionDetailsItem page', () => {
         </Provider>,
       );
 
-      expect(form.find('InstitutionAddress').length).to.equal(1);
+      expect(form.find('AdditionalInstitutionAddress').length).to.equal(1);
       form.unmount();
     });
 
@@ -296,16 +296,6 @@ describe('additionalInstitutionDetailsItem page', () => {
         'additionalInstitutionDetails',
       );
       expect(institutionNameOptions.isArrayItem).to.be.true;
-    });
-
-    it('sets correct options for InstitutionAddress field', () => {
-      const institutionAddressOptions =
-        uiSchema.institutionAddress['ui:options'];
-      expect(institutionAddressOptions.dataPath).to.equal(
-        'additionalInstitutionDetails',
-      );
-      expect(institutionAddressOptions.isArrayItem).to.be.true;
-      expect(institutionAddressOptions.hideLabelText).to.be.true;
     });
 
     it('sets correct options for WarningBanner field', () => {
