@@ -7,8 +7,10 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
-import { IntroductionPage } from './introduction-page';
+import {
+  formConfig,
+  IntroductionPage,
+} from '@bio-aquia/21-2680-house-bound-status';
 
 const props = {
   route: {

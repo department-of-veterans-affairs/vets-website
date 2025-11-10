@@ -14,12 +14,16 @@ const path = require('path');
 function findManifestFiles(dir, manifestFiles = []) {
   const files = fs.readdirSync(dir);
 
+  const skipDirectories = ['node_modules', 'dist', 'build', 'coverage', '.git'];
+
   for (const file of files) {
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
 
     if (stat.isDirectory()) {
-      findManifestFiles(filePath, manifestFiles);
+      if (!skipDirectories.includes(file)) {
+        findManifestFiles(filePath, manifestFiles);
+      }
     } else if (file === 'manifest.json') {
       manifestFiles.push(filePath);
     }

@@ -122,6 +122,7 @@ const responses = {
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
             vreCutoverNotice: true,
+            mhvEmailConfirmation: false,
           }),
         ),
       secondsOfDelay,
