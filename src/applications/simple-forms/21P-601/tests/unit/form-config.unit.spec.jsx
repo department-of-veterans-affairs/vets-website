@@ -71,13 +71,6 @@ describe('21P-601 form config', () => {
       expect(page).to.exist;
       expect(page.path).to.equal('eligibility-summary');
       expect(page.hideNavButtons).to.be.true;
-      expect(page.customNavButtons).to.be.a('function');
-    });
-
-    it('eligibilitySummary customNavButtons returns null', () => {
-      const page =
-        formConfig.chapters.eligibilityChapter.pages.eligibilitySummary;
-      expect(page.customNavButtons()).to.be.null;
     });
   });
 

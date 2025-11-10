@@ -7,32 +7,6 @@
   "template": {
     "vagovprod": false,
     "layout": "page-react.html",
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "name": "Home",
-        "path": "/"
-      },
-      {
-        "name": "Disability benefits",
-        "path": "/disability/"
-      },
-      {
-        "name": "Eligibility",
-        "path": "/disability/eligibility/"
-      },
-      {
-        "name": "Special claims",
-        "path": "/disability/eligibility/special-claims/"
-      },
-      {
-        "name": "Individual Unemployability if you can't work",
-        "path": "/disability/eligibility/special-claims/unemployability/"
-      },
-      {
-        "name": "Submit employment information in connection with claim for Individual Unemployability",
-        "path": "/disability/eligibility/special-claims/unemployability/submit-employment-information-form-21-4192"
-      }
-    ]
+    "includeBreadcrumbs": true
   }
 }

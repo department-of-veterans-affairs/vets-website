@@ -34,16 +34,21 @@ function EligibilitySummary({ formData }) {
 
   return (
     <>
-      <va-alert status="error" uswds>
-        <h3 slot="headline">You already applied for survivors benefits</h3>
-        <p>
-          <strong>{reason}</strong>
-        </p>
-        <p>{explanation}</p>
-      </va-alert>
-
       <div className="vads-u-margin-top--3">
-        <h3>What you can do</h3>
+        <va-card background icon-name="">
+          <div>
+            <h4 className="vads-u-margin-top--1">
+              Based on your responses, you should not submit this form online.
+            </h4>
+            <p>
+              <strong>Your response:</strong>
+            </p>
+            <p>{reason}</p>
+            <p>{explanation}</p>
+          </div>
+        </va-card>
+
+        <h4>What you can do</h4>
 
         {formData.hasAlreadyFiled === true ? (
           <p>
@@ -71,8 +76,12 @@ function EligibilitySummary({ formData }) {
               rel="noopener noreferrer"
               text="Download VA Form 21P-601 (PDF)"
             />
+            <br />
+            <br />
           </>
         )}
+
+        <va-link-action href="/" text="Exit application" type="primary" />
       </div>
     </>
   );

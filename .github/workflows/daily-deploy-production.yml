@@ -14,8 +14,8 @@ on:
         description: "Bypass holiday freeze and force enable deploy workflows"
         required: false
         default: "false"
-  # schedule:
-  #   - cron: 0 18 * * 1,4
+  schedule:
+    - cron: 0 18 * * 1,4
 
 env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
