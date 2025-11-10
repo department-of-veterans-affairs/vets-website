@@ -5,7 +5,8 @@ import { IntroductionPageView } from '../../shared/components/IntroductionPageVi
 
 const content = {
   formTitle: 'Apply for accrued benefits online',
-  formSubTitle: '',
+  formSubTitle:
+    'Primarily for executors or administrators of VA beneficiaries’ estates (VA Form 21P-601)',
   authStartFormText: 'Apply for accrued benefits',
   displayNonVeteranMessaging: true,
 };
@@ -18,10 +19,6 @@ const ombInfo = {
 
 const childContent = (
   <>
-    <p>
-      Primarily for executors or administrators of VA beneficiaries' estates (VA
-      Form 21P-601)
-    </p>
     <p>
       Use this form, in some cases, to apply for unpaid benefits that we owed to
       a VA beneficiary when they died. Be sure to read all the information on

@@ -65,7 +65,7 @@ const formConfig = {
   },
   title: 'Apply for accrued benefits online',
   subTitle:
-    'For people other than the spouse, child or parent of deceased Veterans (VA Form 21P-601)',
+    'Primarily for executors or administrators of VA beneficiaries’ estates (VA Form 21P-601)',
   customText: {
     appType: 'form',
   },
