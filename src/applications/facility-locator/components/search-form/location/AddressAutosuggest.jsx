@@ -67,6 +67,7 @@ function AddressAutosuggest({
       if (trimmedTerm === searchString) {
         return; // already have the values
       }
+
       if (trimmedTerm.length >= MIN_SEARCH_CHARS) {
         // fetch results and set options
         setIsGeocoding(true);
@@ -99,8 +100,11 @@ function AddressAutosuggest({
 
   const onBlur = () => {
     const value = inputValue?.trimStart() || '';
-    onChange({ searchString: ' ' });
-    onChange({ searchString: value });
+    if (value !== '') {
+      onChange({ searchString: ' ' });
+      onChange({ searchString: value });
+    }
+
     // not expected to search when user leaves the field
   };
 
