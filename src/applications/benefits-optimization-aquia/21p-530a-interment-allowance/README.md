@@ -1,447 +1,207 @@
-# Form 21P-530A: State or Tribal Organization Application for Interment Allowance
-
-Application for state or tribal organizations to request burial allowances and related benefits for deceased Veterans.
+# VA Form 21P-530A - State or Tribal Organization Application for Interment Allowance
 
 ## Overview
 
-**Form Number**: VA Form 21P-530A
+VA Form 21P-530A is used by state or tribal organizations to apply for interment allowances and burial benefits on behalf of deceased Veterans. This form collects organization information, deceased Veteran details, military service history, and burial information to support claims for burial benefits.
 
-**OMB Number**: TBD
+## Who Uses This Form
 
-**Purpose**: State or tribal organization application for burial benefits
+- **State organizations** requesting burial benefits for deceased Veterans
+- **Tribal organizations** applying for interment allowances
+- **Authorized officials** submitting burial benefit claims on behalf of their organization
+- **VA Regional Offices** processing burial benefit requests
 
-This application allows authorized state or tribal organizations to apply for interment allowances and burial benefits on behalf of deceased Veterans. The form collects organization information, deceased Veteran details, military service history, and burial information.
+State and tribal organizations use this form to:
 
-## Form Flow
+- Request interment allowances for deceased Veterans
+- Provide Veteran service history and burial information
+- Submit burial benefit claims on behalf of their organization
+- Document military service periods and previous names
 
-The application consists of 4 chapters with 11 pages total:
+## Team
 
-### Chapter 1: Your organization's information
+Benefits Intake Optimization - Aquia Team
 
-1. **Organization Information** - Organization name, type, contact person
-2. **Burial Benefits Recipient** - Person/organization receiving benefits
-3. **Mailing Address** - Where to send correspondence
+## Form Details
 
-### Chapter 2: Deceased Veteran information
+- **Form Number**: VA Form 21P-530A
+- **Entry Name**: `21p-530a-interment-allowance`
+- **Root URL**: `/submit-state-interment-allowance-form-21p-530a`
+- **API Endpoint**: `POST /v0/form21p530a`
+- **Product ID**: TBD
 
-4. **Personal Information** - Veteran's full name and relationship
-5. **Identification** - SSN, service number, VA file number
-6. **Birth Information** - Date and place of birth
-7. **Burial Information** - Death/burial dates, cemetery information
+## Form Flow and Sections
 
-### Chapter 3: Military history
+The form is organized into **4 chapters** with **11 total pages**, using conditional logic and List & Loop patterns for service periods and previous names.
 
-8. **Service Periods** - Branch, service dates, places of service
-9. **Previous Names** (conditional) - Whether Veteran served under different name
-10. **Previous Names List** (conditional) - List of names if applicable
+### Chapter 1: Your organization's information (3 pages)
 
-### Chapter 4: Additional remarks
+- **Page 1: Organization Information** (`organization-information`)
+  - Organization name and type (state or tribal)
+  - Contact person name
+  - Organization phone number
 
-11. **Additional Remarks** - Any additional information
+- **Page 2: Burial Benefits Recipient** (`burial-benefits-recipient`)
+  - Name of person/organization receiving benefits
+  - Relationship to organization
 
-## Architecture
+- **Page 3: Mailing Address** (`mailing-address`)
+  - Street address, city, state, ZIP code
 
-### Directory Structure
+### Chapter 2: Deceased Veteran information (4 pages)
+
+- **Page 4: Personal Information** (`veteran-personal-information`)
+  - Veteran's full name (first, middle, last, suffix)
+  - Relationship to claimant
+
+- **Page 5: Identification** (`veteran-identification`)
+  - Social Security Number
+  - Service number (optional)
+  - VA file number (optional)
+
+- **Page 6: Birth Information** (`veteran-birth-information`)
+  - Date of birth
+  - Place of birth (city, state)
+
+- **Page 7: Burial Information** (`veteran-burial-information`)
+  - Date of death
+  - Date of burial
+  - Cemetery name and location
+
+### Chapter 3: Military history (3+ pages)
+
+- **Page 8: Served Under Different Name** (`veteran-served-under-different-name`)
+  - Yes/no question determining if previous names section appears
+  - **Conditional branching point**
+
+- **Page 9: Service Periods Summary** (`service-periods`) - **List & Loop**
+  - Summary of all service periods with add/edit/delete options
+  - Multi-step entry flow for each period:
+    - Service Branch: Select branch of service
+    - Service Dates: Enter start and end dates
+    - Locations and Rank: Entry/separation locations and rank
+
+- **Page 10: Previous Names Summary** (`veteran-previous-names`) - **Conditional List & Loop**
+  - Shown only if veteran served under a different name
+  - Summary of all previous names with add/edit/delete options
+  - Single-page entry flow for each name
+
+### Chapter 4: Additional remarks (1 page)
+
+- **Page 11: Additional Remarks** (`additional-remarks`)
+  - Optional additional information or clarifications
+
+### Final Pages (All Users)
+
+- **Page 12: Review and Submit**
+  - Pre-submission review of all entered information
+  - Statement of truth with signature
+  - Privacy policy acknowledgment
+
+- **Page 13: Confirmation Page**
+  - Submission confirmation
+  - Next steps information
+
+## Technical Implementation
+
+This application uses the **VA.gov Form System (CustomPage pattern)** with Zod validation and modern React components.
+
+### API Integration
+
+The form uses **prefill-transformer** for data handling:
+
+- **Form Submission**: `POST /v0/form21p530a`
+- **Save in Progress**: `/v0/in_progress_forms/21p-530a`
+- **Prefill Transformer**: Converts user profile data to form data
+
+## Testing
+
+### Test Scenarios
+
+- **Minimal**: Basic required fields only, no previous names
+- **Maximal**: All fields filled, including previous names and all service periods
+
+### Running Tests
 
 ```bash
-21p-530a-interment-allowance/
-├── components/           # Shared form components
-│   ├── get-help/        # Help sidebar component
-│   └── pre-submit-info/ # Pre-submission information
-├── config/              # Form configuration
-│   ├── form.js          # Main form config with chapters/pages
-│   └── prefill-transformer.js # Data prefill logic
-├── containers/          # Page containers
-│   ├── confirmation-page/ # Post-submission confirmation
-│   └── introduction-page/ # Form introduction
-├── pages/               # Form pages (CustomPage pattern)
-│   ├── organization-information/
-│   │   ├── organization-information.jsx       # Edit mode
-│   │   └── organization-information-review.jsx # Review mode
-│   ├── burial-benefits-recipient/
-│   ├── mailing-address/
-│   ├── veteran-personal-information/
-│   ├── veteran-identification/
-│   ├── veteran-birth-information/
-│   ├── veteran-burial-information/
-│   ├── service-periods/
-│   ├── veteran-served-under-different-name/
-│   ├── veteran-previous-names/
-│   ├── additional-remarks/
-│   └── index.js         # Barrel exports
-├── schemas/             # Zod validation schemas
-│   ├── organization-information-schema.js
-│   ├── burial-benefits-recipient-schema.js
-│   ├── mailing-address-schema.js
-│   ├── veteran-identification-schema.js
-│   ├── veteran-birth-information-schema.js
-│   ├── veteran-burial-information-schema.js
-│   ├── service-periods-schema.js
-│   ├── veteran-previous-names-schema.js
-│   ├── additional-remarks-schema.js
-│   └── index.js
-├── tests/               # Integration tests
-│   └── 21p-530a.cypress.spec.js
-├── app-entry.jsx        # Application entry point
-├── constants.js         # Form constants
-├── manifest.json        # App manifest
-├── reducers.js          # Redux reducers
-└── routes.jsx           # Routing configuration
-```
+# Run all unit tests for this application
+yarn test:unit --app-folder benefits-optimization-aquia/21p-530a-interment-allowance
 
-### Technical Stack
+# Run tests with coverage
+yarn test:unit:coverage --app-folder benefits-optimization-aquia/21p-530a-interment-allowance
 
-- **Framework**: React + Redux
-- **Form System**: VA.gov Forms Platform (CustomPage pattern)
-- **Validation**: Zod schemas with platform integration
-- **Components**: VA Design System web components + BIO-AQ shared components
-- **State Management**: Redux with save-in-progress support
-- **Styling**: VA Design System + custom SASS
+# Run specific test file
+yarn test:unit src/applications/benefits-optimization-aquia/21p-530a-interment-allowance/pages/organization-information/
 
-## Key Features
+# Run Cypress E2E tests (requires yarn watch to be running)
+yarn cy:run --spec "src/applications/benefits-optimization-aquia/21p-530a-interment-allowance/tests/*.cypress.spec.js"
 
-### Custom Page Pattern
-
-Each form page uses the `CustomPage` and `CustomPageReview` pattern for full control over UI and validation:
-
-```javascript
-// Edit mode - CustomPage
-export const OrganizationInformationPage = ({
-  data,
-  setFormData,
-  goForward,
-  goBack,
-  onReviewPage,
-  updatePage,
-}) => (
-  <PageTemplate
-    title="Your organization's information"
-    data={data}
-    setFormData={setFormData}
-    goForward={goForward}
-    goBack={goBack}
-    onReviewPage={onReviewPage}
-    updatePage={updatePage}
-    schema={organizationInformationSchema}
-    sectionName="organizationInformation"
-  >
-    {({ localData, handleFieldChange, errors, formSubmitted }) => (
-      <TextInputField
-        name="organizationName"
-        label="Organization name"
-        value={localData.organizationName}
-        onChange={handleFieldChange}
-        required
-        error={errors.organizationName}
-        forceShowError={formSubmitted}
-      />
-    )}
-  </PageTemplate>
-);
-
-// Review mode - CustomPageReview
-export const OrganizationInformationReviewPage = ({
-  data,
-  editPage,
-  title,
-}) => (
-  <ReviewPageTemplate
-    title={title}
-    data={data}
-    editPage={editPage}
-    sectionName="organizationInformation"
-  >
-    <ReviewField
-      label="Organization name"
-      value={data?.organizationInformation?.organizationName}
-    />
-  </ReviewPageTemplate>
-);
-```
-
-### Review Page System
-
-The application implements a comprehensive review page system with:
-
-- **ReviewPageTemplate** - Wrapper template with title, edit button, and proper styling
-- **Review Field Components**:
-  - `ReviewField` - Generic field display with optional formatting
-  - `ReviewFullnameField` - Formats name objects (first, middle, last, suffix)
-  - `ReviewDateField` - Displays dates in long or short format
-  - `ReviewAddressField` - Multi-line address display (US, international, military)
-- **Mobile-Responsive** - Platform review styling with responsive breakpoints
-- **Edit Mode Integration** - Click edit → update → save → return to review
-
-### Zod Validation
-
-All pages use Zod schemas for type-safe validation:
-
-```javascript
-import { z } from 'zod';
-
-export const organizationInformationSchema = z.object({
-  organizationName: z.string().min(1, 'Organization name is required'),
-  organizationType: z.enum(['state', 'tribal'], {
-    errorMap: () => ({ message: 'Please select an organization type' }),
-  }),
-  contactPerson: fullNameSchema,
-  phoneNumber: phoneSchema,
-});
-```
-
-Schemas are validated client-side in `PageTemplate` and integrated with platform form system.
-
-### Shared Component Library
-
-Leverages BIO-AQ shared components for consistency:
-
-- **Form Fields**: `TextInputField`, `SelectField`, `SSNField`, `MemorableDateField`
-- **Composite Fields**: `FullNameField`, `AddressField`, `PhoneField`
-- **Array Fields**: `ArrayField` for repeating data (service periods, previous names)
-- **Review Components**: Full suite of review display components
-- **Templates**: `PageTemplate`, `ReviewPageTemplate` for page structure
-
-### Conditional Pages
-
-The "Previous Names List" page only appears if user indicates Veteran served under a different name:
-
-```javascript
-veteranPreviousNames: {
-  path: 'previous-names',
-  title: 'Previous names',
-  CustomPage: VeteranPreviousNamesPage,
-  CustomPageReview: VeteranPreviousNamesReviewPage,
-  depends: formData =>
-    formData?.veteranServedUnderDifferentName?.veteranServedUnderDifferentName === 'yes',
-}
-```
-
-### Save-in-Progress
-
-Automatic save-in-progress support with custom messaging:
-
-- Auto-saves form data to user account
-- 60-day expiration window
-- Custom messages for in-progress, expired, and saved states
-- Prefill support for returning users
-
-## Data Structure
-
-The form data follows this structure:
-
-```javascript
-{
-  organizationInformation: {
-    organizationName: string,
-    organizationType: 'state' | 'tribal',
-    contactPerson: { first, middle, last, suffix },
-    phoneNumber: string
-  },
-  burialBenefitsRecipient: {
-    recipientName: string,
-    relationship: string
-  },
-  mailingAddress: {
-    street: string,
-    street2?: string,
-    city: string,
-    state: string,
-    postalCode: string
-  },
-  veteranPersonalInformation: {
-    fullName: { first, middle, last, suffix },
-    relationship: string
-  },
-  veteranIdentification: {
-    ssn: string,
-    serviceNumber?: string,
-    vaFileNumber?: string
-  },
-  veteranBirthInformation: {
-    dateOfBirth: string,
-    placeOfBirth: { city: string, state: string }
-  },
-  veteranBurialInformation: {
-    dateOfDeath: string,
-    dateOfBurial: string,
-    cemeteryName: string,
-    cemeteryLocation: { city: string, state: string }
-  },
-  servicePeriods: {
-    servicePeriods: [{
-      branchOfService: string,
-      dateRange: { from: string, to: string },
-      placeOfService?: { city: string, state: string }
-    }]
-  },
-  veteranServedUnderDifferentName: {
-    veteranServedUnderDifferentName: 'yes' | 'no'
-  },
-  veteranPreviousNames: {
-    previousNames: [{ first, middle, last, suffix }]
-  },
-  additionalRemarks: {
-    remarks: string
-  }
-}
+# Open Cypress test runner
+yarn cy:open
 ```
 
 ## Development
 
-### Running the Application
+### Getting Started
 
 ```bash
-# Watch mode (no auth)
+# Install dependencies (if needed)
+yarn install
+
+# Run build for this single app
+yarn build --entry=21p-530a-interment-allowance
+
+# Watch only this application (recommended for development)
 yarn watch --env entry=21p-530a-interment-allowance
 
-# Watch mode with authentication
-yarn watch --env entry=auth,static-pages,login-page,terms-of-use,21p-530a-interment-allowance
-
-# Build for production
-yarn build --entry=21p-530a-interment-allowance
+# Watch with authentication and static pages
+yarn watch --env entry=auth,static-pages,login-page,21p-530a-interment-allowance
 ```
 
-### Testing
+### Local Development URL
 
-```bash
-# Unit tests
-yarn test:unit --app-folder benefits-optimization-aquia/21p-530a-interment-allowance
+- Development: `http://localhost:3001/submit-state-interment-allowance-form-21p-530a`
+- Introduction page: Starts at the root URL above
 
-# E2E tests
-yarn cy:run --spec "src/applications/benefits-optimization-aquia/21p-530a-interment-allowance/tests/*.cypress.spec.js"
+## Conditional Form Logic
 
-# Specific component tests
-yarn test:unit src/applications/benefits-optimization-aquia/21p-530a-interment-allowance/pages/organization-information/
-```
+### When Pages Are Shown/Hidden
 
-### Adding a New Page
+#### Previous Names Summary (Page 10)
 
-1. **Create page directory**:
+**Shown when**:
 
-```bash
-mkdir src/applications/benefits-optimization-aquia/21p-530a-interment-allowance/pages/new-page
-```
+- `formData?.veteranServedUnderDifferentName?.veteranServedUnderDifferentName === 'yes'`
 
-2. **Create edit mode component** (`new-page.jsx`):
+**Hidden when**:
 
-```javascript
-import { PageTemplate } from '@bio-aquia/shared/components/templates';
-import { TextInputField } from '@bio-aquia/shared/components/atoms';
-import { newPageSchema } from '@bio-aquia/21p-530a-interment-allowance/schemas';
+- `formData?.veteranServedUnderDifferentName?.veteranServedUnderDifferentName === 'no'`
 
-export const NewPage = ({
-  data,
-  setFormData,
-  goForward,
-  goBack,
-  onReviewPage,
-  updatePage,
-}) => (
-  <PageTemplate
-    title="New Page Title"
-    data={data}
-    setFormData={setFormData}
-    goForward={goForward}
-    goBack={goBack}
-    onReviewPage={onReviewPage}
-    updatePage={updatePage}
-    schema={newPageSchema}
-    sectionName="newPage"
-  >
-    {({ localData, handleFieldChange, errors, formSubmitted }) => (
-      <TextInputField
-        name="fieldName"
-        label="Field Label"
-        value={localData.fieldName}
-        onChange={handleFieldChange}
-        error={errors.fieldName}
-        forceShowError={formSubmitted}
-      />
-    )}
-  </PageTemplate>
-);
-```
+**Fields collected**:
 
-3. **Create review mode component** (`new-page-review.jsx`):
+- Full name (first, middle, last, suffix) for each previous name
+- Multiple previous names can be added using List & Loop pattern
 
-```javascript
-import { ReviewPageTemplate } from '@bio-aquia/shared/components/templates';
-import { ReviewField } from '@bio-aquia/shared/components/atoms';
+### List & Loop Patterns
 
-export const NewPageReviewPage = ({ data, editPage, title }) => (
-  <ReviewPageTemplate
-    title={title}
-    data={data}
-    editPage={editPage}
-    sectionName="newPage"
-  >
-    <ReviewField label="Field Label" value={data?.newPage?.fieldName} />
-  </ReviewPageTemplate>
-);
-```
+The form uses multi-page list & loop patterns for repeating data:
 
-4. **Create Zod schema** (`schemas/new-page-schema.js`):
+**Service Periods** (3-step entry):
 
-```javascript
-import { z } from 'zod';
+- Step 1: Select branch of service
+- Step 2: Enter service dates (from/to)
+- Step 3: Enter locations and rank
+- Summary: Review all periods with edit/delete/add options
 
-export const newPageSchema = z.object({
-  fieldName: z.string().min(1, 'Field is required'),
-});
-```
+**Previous Names** (1-step entry):
 
-5. **Add to form config** (`config/form.js`):
-
-```javascript
-import { NewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/new-page/new-page';
-import { NewPageReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/new-page/new-page-review';
-
-// In chapters object:
-chapterName: {
-  pages: {
-    newPage: {
-      path: 'new-page',
-      title: 'New Page Title',
-      uiSchema: {},
-      schema: { type: 'object', properties: {} },
-      CustomPage: NewPage,
-      CustomPageReview: NewPageReviewPage,
-      pagePerItemIndex: 0,
-    }
-  }
-}
-```
-
-6. **Export from pages/index.js**:
-
-```javascript
-export { NewPage } from './new-page/new-page';
-```
-
-7. **Write tests**:
-
-```bash
-# Create test file
-touch pages/new-page/new-page.unit.spec.jsx
-```
-
-## Accessibility
-
-- **WCAG 2.2 AA Compliant**: All components meet accessibility standards
-- **Keyboard Navigation**: Full keyboard support for all interactions
-- **Screen Reader Support**: Proper ARIA labels and semantic HTML
-- **Form Validation**: Clear, accessible error messages
-- **Focus Management**: Logical focus order and visible focus indicators
-
-## Related Documentation
-
-- [BIO-AQ Shared Components](../shared/components/README.md)
-- [BIO-AQ Shared Schemas](../shared/schemas/README.md)
-- [VA.gov Forms System](https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-overview)
-- [VA Design System](https://design.va.gov/)
+- Step 1: Enter full name
+- Summary: Review all names with edit/delete/add options
 
 ## Support
 
-**Team**: Benefits Intake Optimization - Aquia
+For questions or issues:
 
-**Slack**: #benefits-optimization-aquia
+- **Team**: Benefits Intake Optimization - Aquia Team
+- **Slack**: `#benefits-optimization-aquia` (internal)
+- **Repository**: `vets-website`
