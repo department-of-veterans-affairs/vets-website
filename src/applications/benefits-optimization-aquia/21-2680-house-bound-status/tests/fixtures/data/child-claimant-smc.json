@@ -3,9 +3,8 @@
     "veteranInformation": {
       "veteranFullName": {
         "first": "Lando",
-        "middle": "Calrissian",
-        "last": "Calrissian",
-        "suffix": "Sr."
+        "middle": "",
+        "last": "Calrissian"
       },
       "veteranSsn": "159753486",
       "veteranDob": "1937-04-06"
@@ -18,8 +17,7 @@
         "city": "Denver",
         "state": "CO",
         "country": "USA",
-        "postalCode": "80202",
-        "isMilitary": false
+        "postalCode": "80202"
       }
     },
     "claimantRelationship": {
@@ -28,9 +26,8 @@
     "claimantInformation": {
       "claimantFullName": {
         "first": "Lando",
-        "middle": "Calrissian",
-        "last": "Calrissian",
-        "suffix": "Jr."
+        "middle": "Junior",
+        "last": "Calrissian"
       },
       "claimantDob": "1965-08-10"
     },
@@ -45,8 +42,7 @@
         "city": "Cloud City",
         "state": "CO",
         "country": "USA",
-        "postalCode": "80203",
-        "isMilitary": false
+        "postalCode": "80203"
       }
     },
     "claimantContact": {
@@ -55,26 +51,10 @@
       "claimantEmail": "lando.jr@cloudcity.com"
     },
     "benefitType": {
-      "benefitType": "SMP"
+      "benefitType": "SMC"
     },
     "hospitalizationStatus": {
-      "isCurrentlyHospitalized": true
-    },
-    "hospitalizationDate": {
-      "admissionDate": "2024-05-04"
-    },
-    "hospitalizationFacility": {
-      "facilityName": "Cloud City Medical Center",
-      "facilityAddress": {
-        "street": "Platform 327",
-        "street2": "Medical Wing",
-        "street3": "Recovery Floor",
-        "city": "DPO",
-        "state": "AA",
-        "country": "USA",
-        "postalCode": "34003",
-        "isMilitary": true
-      }
+      "isCurrentlyHospitalized": false
     }
   }
 }

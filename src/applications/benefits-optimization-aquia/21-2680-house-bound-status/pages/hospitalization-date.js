@@ -8,33 +8,24 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { getClaimantName, isClaimantVeteran } from './helpers';
-
-/**
- * Generate admission date label based on claimant relationship
- */
-const getAdmissionDateLabel = formData => {
-  if (isClaimantVeteran(formData)) {
-    return 'When were you admitted to the hospital?';
-  }
-  const claimantName = getClaimantName(formData);
-  return `When was ${claimantName} admitted to the hospital?`;
-};
+import { getHospitalizationDateTitle } from '../utils';
 
 /**
  * uiSchema for Hospitalization Date page
  * Collects the date of hospital admission
  */
 export const hospitalizationDateUiSchema = {
-  'ui:title': 'Date of hospital admission',
   hospitalizationDate: {
     admissionDate: currentOrPastDateUI({
-      title: 'Date of hospital admission',
+      title: 'When was the claimant admitted to the hospital?',
     }),
   },
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
-      const admissionDateLabel = getAdmissionDateLabel(fullData || formData);
+      const admissionDateLabel = getHospitalizationDateTitle(
+        fullData || formData,
+      );
+
       return {
         hospitalizationDate: {
           admissionDate: {

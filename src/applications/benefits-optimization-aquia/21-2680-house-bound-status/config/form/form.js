@@ -137,7 +137,15 @@ const formConfig = {
         },
         claimantInformation: {
           path: 'claimant-information',
-          title: 'Claimant information',
+          title: formData => {
+            const relationshipLabels = {
+              spouse: "Veteran's spouse's information",
+              child: "Veteran's child's information",
+              parent: "Veteran's parent's information",
+            };
+            const relationship = formData?.claimantRelationship?.relationship;
+            return relationshipLabels[relationship] || 'Claimant information';
+          },
           uiSchema: claimantInformationUiSchema,
           schema: claimantInformationSchema,
           // Hidden when veteran is claimant
@@ -146,7 +154,16 @@ const formConfig = {
         },
         claimantSSN: {
           path: 'claimant-ssn',
-          title: 'Claimant Social Security number',
+          title: formData => {
+            const firstName =
+              formData?.claimantInformation?.claimantFullName?.first || '';
+            const lastName =
+              formData?.claimantInformation?.claimantFullName?.last || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+            return fullName
+              ? `${fullName}'s Social Security number`
+              : "Claimant's Social Security number";
+          },
           uiSchema: claimantSsnUiSchema,
           schema: claimantSsnSchema,
           // Hidden when veteran is claimant
@@ -155,7 +172,14 @@ const formConfig = {
         },
         claimantAddress: {
           path: 'claimant-address',
-          title: 'Claimant address',
+          title: formData => {
+            const firstName =
+              formData?.claimantInformation?.claimantFullName?.first || '';
+            const lastName =
+              formData?.claimantInformation?.claimantFullName?.last || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+            return fullName ? `${fullName}'s address` : "Claimant's address";
+          },
           uiSchema: claimantAddressUiSchema,
           schema: claimantAddressSchema,
           // Hidden when veteran is claimant
@@ -164,7 +188,16 @@ const formConfig = {
         },
         claimantContact: {
           path: 'claimant-contact',
-          title: 'Contact information',
+          title: formData => {
+            const firstName =
+              formData?.claimantInformation?.claimantFullName?.first || '';
+            const lastName =
+              formData?.claimantInformation?.claimantFullName?.last || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+            return fullName
+              ? `${fullName}'s phone number and email address`
+              : "Claimant's phone number and email address";
+          },
           uiSchema: claimantContactUiSchema,
           schema: claimantContactSchema,
           // Hidden when veteran is claimant
@@ -193,13 +226,67 @@ const formConfig = {
       pages: {
         hospitalizationStatus: {
           path: 'hospitalization-status',
-          title: 'Hospitalization status',
+          title: formData => {
+            const isVeteran =
+              formData?.claimantRelationship?.relationship === 'veteran';
+
+            if (isVeteran) {
+              const firstName =
+                formData?.veteranInformation?.veteranFullName?.first || '';
+              const lastName =
+                formData?.veteranInformation?.veteranFullName?.last || '';
+              const fullName = `${firstName} ${lastName}`.trim();
+
+              if (fullName) {
+                return `Is ${fullName} hospitalized?`;
+              }
+              return 'Is the Veteran hospitalized?';
+            }
+
+            const firstName =
+              formData?.claimantInformation?.claimantFullName?.first || '';
+            const lastName =
+              formData?.claimantInformation?.claimantFullName?.last || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+
+            if (fullName) {
+              return `Is ${fullName} hospitalized?`;
+            }
+            return 'Is the claimant hospitalized?';
+          },
           uiSchema: hospitalizationStatusUiSchema,
           schema: hospitalizationStatusSchema,
         },
         hospitalizationDate: {
           path: 'hospitalization-date',
-          title: 'Admission date',
+          title: formData => {
+            const isVeteran =
+              formData?.claimantRelationship?.relationship === 'veteran';
+
+            if (isVeteran) {
+              const firstName =
+                formData?.veteranInformation?.veteranFullName?.first || '';
+              const lastName =
+                formData?.veteranInformation?.veteranFullName?.last || '';
+              const fullName = `${firstName} ${lastName}`.trim();
+
+              if (fullName) {
+                return `When was ${fullName} admitted to the hospital?`;
+              }
+              return 'When were you admitted to the hospital?';
+            }
+
+            const firstName =
+              formData?.claimantInformation?.claimantFullName?.first || '';
+            const lastName =
+              formData?.claimantInformation?.claimantFullName?.last || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+
+            if (fullName) {
+              return `When was ${fullName} admitted to the hospital?`;
+            }
+            return 'When was the claimant admitted to the hospital?';
+          },
           uiSchema: hospitalizationDateUiSchema,
           schema: hospitalizationDateSchema,
           depends: formData =>
@@ -207,7 +294,34 @@ const formConfig = {
         },
         hospitalizationFacility: {
           path: 'hospitalization-facility',
-          title: 'Hospital information',
+          title: formData => {
+            const isVeteran =
+              formData?.claimantRelationship?.relationship === 'veteran';
+
+            if (isVeteran) {
+              const firstName =
+                formData?.veteranInformation?.veteranFullName?.first || '';
+              const lastName =
+                formData?.veteranInformation?.veteranFullName?.last || '';
+              const fullName = `${firstName} ${lastName}`.trim();
+
+              if (fullName) {
+                return `What's the name and address of the hospital where ${fullName} is admitted?`;
+              }
+              return "What's the name and address of the hospital where the claimant is admitted?";
+            }
+
+            const firstName =
+              formData?.claimantInformation?.claimantFullName?.first || '';
+            const lastName =
+              formData?.claimantInformation?.claimantFullName?.last || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+
+            if (fullName) {
+              return `What's the name and address of the hospital where ${fullName} is admitted?`;
+            }
+            return "What's the name and address of the hospital where the claimant is admitted?";
+          },
           uiSchema: hospitalizationFacilityUiSchema,
           schema: hospitalizationFacilitySchema,
           depends: formData =>

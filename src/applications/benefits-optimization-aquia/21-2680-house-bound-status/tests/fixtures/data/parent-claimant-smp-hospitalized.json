@@ -4,8 +4,7 @@
       "veteranFullName": {
         "first": "Leia",
         "middle": "Organa",
-        "last": "Solo",
-        "suffix": ""
+        "last": "Solo"
       },
       "veteranSsn": "456789123",
       "veteranDob": "1956-10-21"
@@ -18,8 +17,7 @@
         "city": "Alderaan City",
         "state": "NY",
         "country": "USA",
-        "postalCode": "10001",
-        "isMilitary": false
+        "postalCode": "10001"
       }
     },
     "claimantRelationship": {
@@ -29,8 +27,7 @@
       "claimantFullName": {
         "first": "Bail",
         "middle": "Prestor",
-        "last": "Organa",
-        "suffix": ""
+        "last": "Organa"
       },
       "claimantDob": "1935-11-30"
     },
@@ -45,8 +42,7 @@
         "city": "Alderaan City",
         "state": "NY",
         "country": "USA",
-        "postalCode": "10002",
-        "isMilitary": false
+        "postalCode": "10002"
       }
     },
     "claimantContact": {
@@ -72,8 +68,7 @@
         "city": "Albany",
         "state": "NY",
         "country": "USA",
-        "postalCode": "12201",
-        "isMilitary": false
+        "postalCode": "12201"
       }
     }
   }

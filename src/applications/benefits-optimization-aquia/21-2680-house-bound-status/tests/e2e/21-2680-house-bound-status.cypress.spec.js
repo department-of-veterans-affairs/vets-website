@@ -12,8 +12,7 @@ const testConfig = createTestConfig(
       'minimal-test',
       'maximal-test',
       'parent-claimant-smp-hospitalized',
-      'spouse-military-address',
-      'child-with-suffixes',
+      'child-claimant-smc',
     ],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {
@@ -30,6 +29,8 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { veteranFullName } = data.veteranInformation;
+            // Build full name for signature (middle is optional, no suffix)
+            // The platform displays the full name but validates flexibly
             const veteranName = [
               veteranFullName.first,
               veteranFullName.middle,

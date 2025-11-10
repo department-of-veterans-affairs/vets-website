@@ -4,8 +4,7 @@
       "veteranFullName": {
         "first": "Luke",
         "middle": "",
-        "last": "Skywalker",
-        "suffix": ""
+        "last": "Skywalker"
       },
       "veteranSsn": "796121200",
       "veteranDob": "1951-09-25"
@@ -18,8 +17,7 @@
         "city": "Mos Eisley",
         "state": "AZ",
         "country": "USA",
-        "postalCode": "85326",
-        "isMilitary": false
+        "postalCode": "85326"
       }
     },
     "claimantRelationship": {
@@ -29,8 +27,7 @@
       "claimantFullName": {
         "first": "Luke",
         "middle": "",
-        "last": "Skywalker",
-        "suffix": ""
+        "last": "Skywalker"
       },
       "claimantDob": "1951-09-25"
     },
@@ -45,8 +42,7 @@
         "city": "Mos Eisley",
         "state": "AZ",
         "postalCode": "85326",
-        "country": "USA",
-        "isMilitary": false
+        "country": "USA"
       }
     },
     "claimantContact": {

@@ -14,9 +14,24 @@ import {
  * Collects claimant's Social Security number
  */
 export const claimantSsnUiSchema = {
-  'ui:title': 'Claimant Social Security number',
   claimantSsn: {
-    claimantSsn: ssnUI("Claimant's Social Security number"),
+    claimantSsn: ssnUI('Social Security number'),
+  },
+  'ui:options': {
+    updateUiSchema: (formData, fullData) => {
+      const data = fullData || formData;
+      const firstName =
+        data?.claimantInformation?.claimantFullName?.first || '';
+      const lastName = data?.claimantInformation?.claimantFullName?.last || '';
+      const fullName = `${firstName} ${lastName}`.trim();
+      const title = fullName
+        ? `${fullName}'s Social Security number`
+        : "Claimant's Social Security number";
+
+      return {
+        'ui:title': title,
+      };
+    },
   },
 };
 

@@ -57,9 +57,9 @@ describe('Prefill Transformer', () => {
       expect(result.formData.veteranInformation.veteranFullName.last).to.equal(
         'Skywalker',
       );
-      expect(
-        result.formData.veteranInformation.veteranFullName.suffix,
-      ).to.equal('Jr');
+      // Note: suffix field removed from form (middle is kept)
+      expect(result.formData.veteranInformation.veteranFullName.suffix).to.be
+        .undefined;
     });
 
     it('should handle missing name fields with empty strings', () => {
@@ -74,12 +74,13 @@ describe('Prefill Transformer', () => {
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
+      // Middle name should be empty string when not provided
       expect(
         result.formData.veteranInformation.veteranFullName.middle,
       ).to.equal('');
-      expect(
-        result.formData.veteranInformation.veteranFullName.suffix,
-      ).to.equal('');
+      // Note: suffix field removed from form
+      expect(result.formData.veteranInformation.veteranFullName.suffix).to.be
+        .undefined;
     });
 
     it('should format date of birth from YYYYMMDD to YYYY-MM-DD', () => {
@@ -198,9 +199,9 @@ describe('Prefill Transformer', () => {
       expect(result.formData.veteranAddress.veteranAddress.country).to.equal(
         'USA',
       );
-      expect(result.formData.veteranAddress.veteranAddress.isMilitary).to.equal(
-        false,
-      );
+      // Note: isMilitary field removed from form
+      expect(result.formData.veteranAddress.veteranAddress.isMilitary).to.be
+        .undefined;
     });
 
     it('should fallback to vet360ContactInformation if vapContactInfo is not available', () => {
