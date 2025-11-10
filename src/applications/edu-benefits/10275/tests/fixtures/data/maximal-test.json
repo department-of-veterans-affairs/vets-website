@@ -1,96 +1,100 @@
-{
-  "data": {
-    "principle1": true,
-    "principle2": true,
-    "principle3": true,
-    "principle4": true,
-    "principle5": true,
-    "principle6": true,
-    "principle7": true,
-    "principle8": true,
-    "newCommitment": {
-      "schoolCertifyingOfficial": {
+{ "data": {
+      "principle1": true,
+      "principle2": true,
+      "principle3": true,
+      "principle4": true,
+      "principle5": true,
+      "principle6": true,
+      "principle7": true,
+      "principle8": true,
+      "view:additionalLocationsMissingInformation": {},
+      "view:introduction": {},
+      "addMoreLocations": false,
+      "authorizedOfficial": {
         "fullName": {
-          "first": "School",
-          "middle": "Certifying",
-          "last": "Official"
+          "first": "Jane",
+          "middle": "Middle",
+          "last": "Doe"
         },
-        "title": "SCO",
-       "phoneType": "us",
-      "view:phoneType": "us",
-      "usPhone":"1234567890",
-      "phoneNumber": "1234567890",
-        "email": "school.official@test.com"
+        "title": "Administrator",
+        "view:phoneType": "us",
+        "usPhone": "1235232341",
+        "email": "janedoe@gmail.com",
+        "view:isPOC": true,
+        "view:isSCO": true
       },
-      "principlesOfExcellencePointOfContact": {
-        "fullName": {
-          "first": "Point",
-          "middle": "of",
-          "last": "Contact"
-        },
-        "title": "PoC",
-       "phoneType": "us",
-      "view:phoneType": "us",
-      "usPhone":"1234567890",
-      "phoneNumber": "1234567890",
-        "email": "point.contact@test.com",
-        "view:isSCO": false
-      }
-    },
-    "authorizedOfficial": {
-      "fullName": {
-        "first": "John",
-        "middle": "William",
-        "last": "Doe"
+      "newCommitment": {
+        "principlesOfExcellencePointOfContact": {},
+        "schoolCertifyingOfficial": {}
       },
-      "title": "President",
-      "phoneType": "us",
-      "view:phoneType": "us",
-      "usPhone":"1234567890",
-      "phoneNumber": "1234567890",
-      "email": "john.doe@test.com",
-      "view:isPOC": false,
-      "view:isSCO": false
-    },
-    "institutionDetails": {
-      "facilityCode": "11100520",
-      "institutionName": "ST MARY'S COLLEGE OF MARYLAND",
-      "institutionAddress": {
-        "street": "18952 EAST FISHER ROAD",
-        "street2": "",
-        "street3": "",
-        "city": "ST MARYS CITY",
-        "state": "MD",
-        "postalCode": "20686",
-        "country": "USA"
-      },
-      "poeEligible": true
-    },
-    "agreementType": "newCommitment",
-    "addMoreLocations":true,
-    "additionalLocations": [
-      {
-        "fullName": {
-          "first": "Brand",
-          "middle": "New",
-          "last": "Contact"
-        },
-        "email": "brand.new@email.com",
-        "view:additionalInstructions": {},
-        "facilityCode": "15012020",
-        "institutionName": "MARYLAND STATE POLICE TRAINING ACADEMY",
+      "institutionDetails": {
+        "facilityCode": "35047621",
+        "institutionName": "GOVERNOR DUMMER ACADEMY",
         "institutionAddress": {
-          "country": "USA",
-          "street": "PUBLIC SAFETY EDUCATION TRAINING",
-          "street2": "6852 4TH ST",
+          "street": "1 ELM STREET",
+          "street2": "",
           "street3": "",
-          "city": "SYKESVILLE",
-          "state": "MD",
-          "postalCode": "21784"
+          "city": "BYFIELD",
+          "state": "MA",
+          "postalCode": "01922",
+          "country": "USA"
         },
-        "poeEligible": true,
-        "isLoading": false
-      }
-    ]
-  }
+        "poeEligible": true
+      },
+      "agreementType": "newCommitment",
+      "additionalLocations": [
+        {
+          "pointOfContact": {
+            "key": "authorizedOfficial",
+            "fullName": {
+              "first": "Jane",
+              "middle": "Middle",
+              "last": "Doe"
+            },
+            "title": "Administrator",
+            "email": "janedoe@gmail.com",
+            "phone": "1235232341"
+          },
+          "view:additionalInstructions": {},
+          "facilityCode": "318Z0032",
+          "institutionName": "NEW YORK INSTITUTE OF TECHNOLOGY-NYC",
+          "institutionAddress": {
+            "country": "USA",
+            "street": "1855 BROADWAY",
+            "street2": "",
+            "street3": "",
+            "city": "NEW YORK",
+            "state": "NY",
+            "postalCode": "10023"
+          },
+          "poeEligible": false,
+          "isLoading": false
+        },
+        {
+          "pointOfContact": {
+            "key": "none"
+          },
+           "fullName": {
+              "first": "Jane",
+              "middle": "Middle",
+              "last": "Doe"
+            },
+            "email": "janedoe@gmail.com",
+          "view:additionalInstructions": {},
+          "facilityCode": "318Z0032",
+          "institutionName": "NEW YORK INSTITUTE OF TECHNOLOGY-NYC",
+          "institutionAddress": {
+            "country": "",
+            "street": "",
+            "street2": "",
+            "street3": "",
+            "city": "",
+            "state": "",
+            "postalCode": ""
+          },
+          "poeEligible": false,
+          "isLoading": false
+        }
+      ]
+    }
 }
