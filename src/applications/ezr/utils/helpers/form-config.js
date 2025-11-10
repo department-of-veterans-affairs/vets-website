@@ -377,9 +377,31 @@ export function spouseDidNotCohabitateWithVeteranV2(formData) {
   const rootCohabitedLastYear = formData.cohabitedLastYear;
   const arrayCohabitedLastYear =
     formData.spouseInformation?.[0]?.cohabitedLastYear;
-
-  // Use array value if it exists, otherwise fall back to root value
   const cohabitedLastYear = arrayCohabitedLastYear ?? rootCohabitedLastYear;
-
   return includeSpousalInformationV2(formData) && !cohabitedLastYear;
+}
+
+/**
+ * Helper that determines if the Veteran's spouse has the same address
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if sameAddress is set to `false` and spousal
+ * information should be included in the form
+ */
+export function spouseAddressDoesNotMatchVeteransV1(formData) {
+  const { sameAddress } = formData;
+  return includeSpousalInformationV1(formData) && !sameAddress;
+}
+
+/**
+ * Helper that determines if the Veteran's spouse has the same address
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if sameAddress is set to `false` and spousal
+ * information should be included in the form
+ */
+export function spouseAddressDoesNotMatchVeteransV2(formData) {
+  const rootSameAddress = formData.sameAddress;
+  // Temporary - support both v1 and v2 form data structure while transitioning
+  const arraySameAddress = formData.spouseInformation?.[0]?.sameAddress;
+  const sameAddress = arraySameAddress ?? rootSameAddress;
+  return includeSpousalInformationV2(formData) && !sameAddress;
 }

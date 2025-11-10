@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useSelector, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import EmploymentHistorySummaryCard from './EmploymentHistorySummaryCard';
 import { EmptyMiniSummaryCard } from '../shared/MiniSummaryCard';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import {
   clearJobIndex,
   setJobButton,
@@ -34,7 +34,11 @@ const SpouseEmploymentHistoryWidget = props => {
   };
 
   const navButtons = (
-    <FormNavButtons goBack={handlers.onBackClick} goForward={goForward} />
+    <FormNavButtons
+      goBack={handlers.onBackClick}
+      goForward={goForward}
+      useWebComponents={props.formOptions?.useWebComponentForNavigation}
+    />
   );
 
   const emptyPrompt = `Select the ‘add additional job link to add another job. Select the continue button to move on to the next question.`;

@@ -4,39 +4,21 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import { focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
-
-import { BASE_URL, DEFAULT_BENEFIT_TYPE } from '../../constants';
-import pageNames from './pageNames';
-
-import { title995, subTitle995 } from '../../content/title';
+import { BASE_URL, FORM_ID } from '../../constants';
+import { title995 } from '../../content/title';
+import {
+  getNextPage,
+  options,
+  PAGE_NAMES,
+  recordBenefitTypeEvent,
+  validateBenefitType,
+} from '../../../shared/utils/start-page';
 
 const content = {
   groupLabel: 'What type of claim are you filing a Supplemental Claim for?',
   errorMessage: 'You must choose a claim type.',
 };
-
-const options = [
-  {
-    value: DEFAULT_BENEFIT_TYPE,
-    label: 'Disability compensation claim',
-  },
-  {
-    value: pageNames.other,
-    label: 'Another type of claim (not a disability claim)',
-  },
-];
-
-const optionValues = options.map(option => option.value);
-
-const getNextPage = data =>
-  data?.benefitType === optionValues[0]
-    ? `${BASE_URL}/introduction` // valid benefit type, go to intro page
-    : pageNames.other; // benefit type not supported
-
-const validate = ({ benefitType } = {}) => optionValues.includes(benefitType);
 
 /**
  * Benefit type page
@@ -51,27 +33,18 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
       focusElement('#main h2');
     });
   }, []);
+
   const handlers = {
     setBenefitType: event => {
       const { value } = event.detail;
       setPageData({ benefitType: value || null });
-
-      recordEvent({
-        event: 'howToWizard-formChange',
-        'form-field-type': 'form-radio-buttons',
-        'form-field-label':
-          'What type of claim are you filing a Supplemental Claim for?',
-        'form-field-value': value,
-      });
     },
   };
 
   return (
     <>
       <h1 className="vads-u-margin-bottom--0">{title995}</h1>
-      <div className="schemaform-subtitle vads-u-font-size--lg">
-        {subTitle995}
-      </div>
+      <div className="schemaform-subtitle vads-u-font-size--lg">{FORM_ID}</div>
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Is this the form I need?
       </h2>
@@ -131,9 +104,11 @@ BenefitType.propTypes = {
 };
 
 export default {
-  name: pageNames.start,
+  name: PAGE_NAMES.start,
   component: BenefitType,
-  validate,
+  validate: ({ benefitType } = {}) => validateBenefitType(benefitType),
   back: null,
-  next: getNextPage,
+  next: data => getNextPage(BASE_URL, data),
+  onContinue: ({ benefitType }) =>
+    recordBenefitTypeEvent(benefitType, content.groupLabel),
 };

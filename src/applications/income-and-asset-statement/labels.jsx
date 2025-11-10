@@ -79,6 +79,12 @@ export const incomeFrequencyLabels = {
   ONE_TIME: 'One time payment',
 };
 
+export const updatedIncomeFrequencyLabels = {
+  RECURRING: 'Regularly (monthly or weekly)',
+  IRREGULAR: 'Irregular (like every month or week)',
+  ONE_TIME: 'Once',
+};
+
 export const incomeTypeLabels = {
   SOCIAL_SECURITY: 'Social Security',
   RETIREMENT_PENSION: 'Pension or retirement income',
@@ -102,17 +108,25 @@ export const incomeTypeEarnedLabels = {
   OTHER: 'Other financial asset income',
 };
 
-export const ownedAssetTypeLabels = {
-  BUSINESS: 'Business',
-  FARM: 'Farm',
-  RENTAL_PROPERTY: 'Rental property',
-};
-
 export const generatedIncomeTypeLabels = {
   INTELLECTUAL_PROPERTY: 'Intellectual property rights',
   MINERALS_LUMBER: 'Mineral or lumber extraction',
   USE_OF_LAND: 'Land usage fees',
   OTHER: 'Another way',
+};
+
+export const discontinuedIncomeTypeLabels = {
+  WAGES: 'Wages',
+  INTEREST: 'Interest',
+  UNEMPLOYMENT_BENEFITS: 'Unemployment benefits',
+  LOTTERY_WINNINGS: 'Lottery winnings',
+  OTHER: 'Another type of income',
+};
+
+export const ownedAssetTypeLabels = {
+  BUSINESS: 'Business',
+  FARM: 'Farm',
+  RENTAL_PROPERTY: 'Rental property',
 };
 
 export const trustTypeLabels = {

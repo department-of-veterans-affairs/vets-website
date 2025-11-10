@@ -732,6 +732,13 @@ export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
 };
 
+export const sendDatadogError = (error, feature) => {
+  datadogRum.addError(error, {
+    app: 'Medical Records',
+    feature,
+  });
+};
+
 export const handleDataDogAction = ({
   locationBasePath,
   locationChildPath,

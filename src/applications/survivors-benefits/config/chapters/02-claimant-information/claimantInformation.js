@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   fullNameSchema,
   fullNameUI,
@@ -13,21 +12,7 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { claimantRelationshipOptions } from '../../../utils/labels';
-
-const seriouslyDisabledDescription = (
-  <>
-    <va-additional-info
-      trigger="What we consider a seriously disabled adult child"
-      class="vads-u-margin-bottom--4"
-    >
-      <p>
-        A child is seriously disabled if they developed a permanent physical or
-        mental disability before they turned 18 years old. A seriously disabled
-        child can’t support or care for themselves.
-      </p>
-    </va-additional-info>
-  </>
-);
+import { seriouslyDisabledDescription } from '../../../utils/helpers';
 
 /** @type {PageSchema} */
 export default {
