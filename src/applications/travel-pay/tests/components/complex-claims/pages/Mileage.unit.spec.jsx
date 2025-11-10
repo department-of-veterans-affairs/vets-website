@@ -10,8 +10,93 @@ import reducer from '../../../../redux/reducer';
 
 describe('Complex Claims Mileage', () => {
   const defaultApptId = '12345';
+  const defaultClaimId = '67890';
 
-  const renderComponent = (apptId = defaultApptId, claimId = 'claim123') => {
+  const renderComponent = (
+    apptId = defaultApptId,
+    claimId = defaultClaimId,
+  ) => {
+    const initialState = {
+      travelPay: {
+        appointment: {
+          data: {
+            id: apptId,
+            facilityName: 'Test VA Medical Center',
+            facilityAddress: {
+              addressLine1: '123 Medical Center Drive',
+              city: 'Test City',
+              stateCode: 'TX',
+              zipCode: '12345',
+            },
+            appointmentDate: '2024-01-15',
+            appointmentTime: '10:00 AM',
+          },
+          error: null,
+          isLoading: false,
+        },
+        claimDetails: {
+          data: {
+            [claimId]: {
+              id: claimId,
+              status: 'InProgress',
+              expenses: [],
+              appointmentId: apptId,
+            },
+          },
+        },
+        complexClaim: {
+          claim: {
+            creation: {
+              isLoading: false,
+              error: null,
+            },
+            submission: {
+              id: '',
+              isSubmitting: false,
+              error: null,
+              data: null,
+            },
+            data: null,
+          },
+          expenses: {
+            creation: {
+              isLoading: false,
+              error: null,
+            },
+            update: {
+              id: '',
+              isLoading: false,
+              error: null,
+            },
+            delete: {
+              id: '',
+              isLoading: false,
+              error: null,
+            },
+            data: [],
+          },
+        },
+        expense: {
+          isLoading: false,
+        },
+      },
+      user: {
+        profile: {
+          vapContactInfo: {
+            residentialAddress: {
+              addressLine1: '123 Main St',
+              addressLine2: 'Apt 1',
+              addressLine3: '',
+              city: 'Test City',
+              stateCode: 'TX',
+              zipCode: '12345',
+              countryName: 'United States',
+            },
+          },
+        },
+      },
+    };
+
     return renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/mileage`]}
@@ -24,7 +109,7 @@ describe('Complex Claims Mileage', () => {
         </Routes>
       </MemoryRouter>,
       {
-        initialState: {},
+        initialState,
         reducers: reducer,
       },
     );
@@ -41,7 +126,7 @@ describe('Complex Claims Mileage', () => {
       .exist;
     expect($('va-radio[id="departure-address"]')).to.exist;
     expect($('va-radio[id="trip-type"]')).to.exist;
-    expect($('va-button-pair')).to.exist;
+    expect($('.travel-pay-button-group')).to.exist;
   });
 
   it('renders mileage information in additional info component', () => {
@@ -124,7 +209,7 @@ describe('Complex Claims Mileage', () => {
       const tripTypeRadio = $('va-radio[id="trip-type"]');
       expect(tripTypeRadio).to.exist;
       expect(tripTypeRadio.getAttribute('label')).to.equal(
-        'Which address did you depart from?',
+        'Was your trip round trip or one way?',
       );
       expect(tripTypeRadio.hasAttribute('required')).to.be.true;
     });
@@ -161,39 +246,55 @@ describe('Complex Claims Mileage', () => {
     it('renders button pair with correct properties', () => {
       renderComponent();
 
-      const buttonPair = $('va-button-pair');
-      expect(buttonPair).to.exist;
-      expect(buttonPair.hasAttribute('continue')).to.be.true;
-      expect(buttonPair.hasAttribute('disable-analytics')).to.be.true;
-      expect(buttonPair.getAttribute('class')).to.include('vads-u-margin-y--2');
+      const buttonGroup = $('.travel-pay-button-group');
+      expect(buttonGroup).to.exist;
+
+      const buttons = buttonGroup.querySelectorAll('va-button');
+      expect(buttons).to.have.lengthOf(2);
+
+      // Check back button
+      const backButton = buttons[0];
+      expect(backButton).to.exist;
+      expect(backButton.hasAttribute('back')).to.be.true;
+
+      // Check continue button
+      const continueButton = buttons[1];
+      expect(continueButton).to.exist;
+      expect(continueButton.hasAttribute('continue')).to.be.true;
     });
 
     it('handles primary button click', () => {
       renderComponent();
 
-      const buttonPair = $('va-button-pair');
-      expect(buttonPair).to.exist;
+      const buttonGroup = $('.travel-pay-button-group');
+      expect(buttonGroup).to.exist;
 
-      // Simulate primary button click
-      fireEvent(buttonPair, new CustomEvent('primaryClick'));
+      const continueButton = buttonGroup.querySelectorAll('va-button')[1];
+      expect(continueButton).to.exist;
+
+      // Simulate continue button click
+      fireEvent.click(continueButton);
 
       // Since the handler is empty, we just verify the event can be fired
       // In a real implementation, this would test navigation or form submission
-      expect(buttonPair).to.exist;
+      expect(continueButton).to.exist;
     });
 
     it('handles secondary button click', () => {
       renderComponent();
 
-      const buttonPair = $('va-button-pair');
-      expect(buttonPair).to.exist;
+      const buttonGroup = $('.travel-pay-button-group');
+      expect(buttonGroup).to.exist;
 
-      // Simulate secondary button click
-      fireEvent(buttonPair, new CustomEvent('secondaryClick'));
+      const backButton = buttonGroup.querySelectorAll('va-button')[0];
+      expect(backButton).to.exist;
+
+      // Simulate back button click
+      fireEvent.click(backButton);
 
       // Since the handler is empty, we just verify the event can be fired
       // In a real implementation, this would test back navigation
-      expect(buttonPair).to.exist;
+      expect(backButton).to.exist;
     });
   });
 
