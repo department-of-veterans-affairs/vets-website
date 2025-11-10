@@ -102,7 +102,7 @@ const DownloadFormPDF = ({ formData, veteranName }) => {
         </div>
       )}
       <va-link
-        text="Download completed form"
+        text="Download a copy of your VA Form form 21P-530a"
         onClick={fetchPdf}
         filetype="PDF"
         href="#"
@@ -164,8 +164,13 @@ export const ConfirmationPage = ({ route }) => {
         content={submissionAlertContent}
         actions={<p />}
       />
-      <DownloadFormPDF formData={transformedData} veteranName={veteranName} />
-      <ConfirmationView.SavePdfDownload />
+      <div className="confirmation-save-pdf-download-section">
+        <h2>Save a copy of your form</h2>
+        <p>
+          If you’d like a PDF copy of your completed form, you can download it.{' '}
+        </p>
+        <DownloadFormPDF formData={transformedData} veteranName={veteranName} />
+      </div>
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList
