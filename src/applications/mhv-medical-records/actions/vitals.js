@@ -1,10 +1,10 @@
-import { datadogRum } from '@datadog/browser-rum';
 import { Actions } from '../util/actionTypes';
 import { getVitalsList, getVitalsWithOHData } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { isArrayAndHasItems } from '../util/helpers';
 import { getListWithRetry } from './common';
+import { logStackTrace } from './logging';
 
 export const getVitals = (
   isCurrent = false,
@@ -29,9 +29,7 @@ export const getVitals = (
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    datadogRum.addError(error, {
-      feature: 'Medical Records - actions_vitals_getVitals',
-    });
+    dispatch(logStackTrace(error, 'actions_vitals_getVitals'));
   }
 };
 
