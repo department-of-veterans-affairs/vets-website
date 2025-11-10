@@ -43,7 +43,7 @@ const getRoutes = () => {
             .map(expenseType => (
               <Route
                 key={expenseType.route}
-                path={expenseType.route}
+                path={`${expenseType.route}/:expenseId?`}
                 element={<ExpensePage />}
               />
             ))}
