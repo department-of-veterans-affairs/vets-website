@@ -26,7 +26,7 @@ const setUpIntercepts = (
 };
 
 Cypress.Commands.add('seedUserWith21aSIP', (returnUrlRel = '/conviction') => {
-  const nowSec = 1704067200; // Fixed timestamp: 2024-01-01 00:00:00 UTC
+  const nowSec = 4918241875; // Fixed timestamp: 2125-11-07 00:00:00 UTC
   cy.intercept('GET', '/accredited_representative_portal/v0/user', {
     statusCode: 200,
     headers: { 'cache-control': 'no-store' },
@@ -67,7 +67,7 @@ Cypress.Commands.add('seedUserWith21aSIP', (returnUrlRel = '/conviction') => {
 });
 
 Cypress.Commands.add('stub21aFormDataExact', (returnUrlRel = '/conviction') => {
-  const nowSec = 1704067200; // Fixed timestamp: 2024-01-01 00:00:00 UTC
+  const nowSec = 4918241875; // Fixed timestamp: 2125-11-07 00:00:00 UTC
   const nowMs = nowSec * 1000;
 
   cy.intercept(
