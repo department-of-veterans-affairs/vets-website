@@ -1,7 +1,8 @@
 import React from 'react';
 import { PrivacyActStatementContent } from '../components/4142/PrivacyActStatementContent';
-import { titleFormDetails, title4142Omb, subTitle4142Omb } from './title';
 import { FORM_ID } from '../constants';
+import { titleFormDetails } from './title';
+import { title4142Omb, subTitle4142Omb } from './evidence/form4142';
 
 const OmbInfo = () => (
   <>

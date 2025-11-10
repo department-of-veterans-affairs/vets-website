@@ -1,23 +1,22 @@
-import { FORM_ID } from '../constants';
+import { subTitle4142 } from './evidence/form4142';
+import {
+  EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+  EVIDENCE_PRIVATE_DETAILS_URL,
+  EVIDENCE_PRIVATE_PROMPT_URL,
+  FORM_ID,
+  LIMITED_CONSENT_DETAILS_URL,
+  LIMITED_CONSENT_PROMPT_URL,
+} from '../constants';
 
 export const title995 = 'File a Supplemental Claim';
-export const title995Omb = 'Supplemental Claim';
-
 export const titleFormDetails = 'Additional forms you may need to complete';
 
-export const title4142 =
-  'Authorize the release of non-VA medical records to the VA';
-export const title4142Omb =
-  'Authorization to disclose information to the Department of Veteran Affairs (VA)';
-export const subTitle4142Omb = 'VA Forms 21-4142 and 21-4142a';
-export const subTitle4142 = `${subTitle4142Omb} with ${FORM_ID}`;
-export const title4142WithId = `${title4142} (21-4142)`;
-
 const paths4142 = [
-  '/private-medical-records-authorization',
-  '/add-limitation',
-  '/limitation',
-  '/private-medical-records',
+  EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+  LIMITED_CONSENT_PROMPT_URL,
+  LIMITED_CONSENT_DETAILS_URL,
+  EVIDENCE_PRIVATE_DETAILS_URL,
+  EVIDENCE_PRIVATE_PROMPT_URL,
 ];
 
 const isNonVaEvidencePage = currentPath =>

@@ -21,15 +21,10 @@ export const content = {
   delete: 'Delete', // for files
   update: 'Update page',
   noDate: 'No date provided',
-
   summaryTitle: 'Review the evidence you’re submitting',
-
-  vaTitle: 'We’re requesting records from these VA locations:',
-
-  privateTitle: 'We’re requesting records from these non-VA medical providers:',
-
-  otherTitle: 'You uploaded these documents:',
-
+  vaTitle: `VA locations we’ll request your records from`,
+  privateTitle: `Private providers or VA Vet Centers we’ll request your records from`,
+  otherTitle: 'Supporting Evidence',
   addMoreLink: () => {
     const Header = isOnReviewPage() ? 'h5' : 'h4';
     return (
@@ -46,7 +41,6 @@ export const content = {
       </>
     );
   },
-
   // remove messages
   removeEvidence: {
     title: 'Are you sure you want to remove this evidence?',
@@ -61,7 +55,6 @@ export const content = {
     modalRemoveLimitation: 'Yes, remove limitation',
     modalNotRemoveLimitation: 'No, keep limitation',
   },
-
   // error messages
   missing: {
     location: wrapError('Missing location name'),
@@ -74,7 +67,6 @@ export const content = {
     address: wrapError('Incomplete address'),
     attachmentId: wrapError('Missing document type'),
   },
-
   missingEvidenceHeader: 'We noticed you didn’t add new evidence',
   missingEvidenceText: (
     <>

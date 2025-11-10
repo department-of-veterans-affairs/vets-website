@@ -1,56 +1,56 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
-
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
-
-import migrations from '../migrations';
-
+// Components
 import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../components/ConfirmationPage';
 import SubTaskContainer from '../subtask/SubTaskContainer';
-
 import AddContestableIssue from '../components/AddContestableIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
 import PrimaryPhoneReview from '../components/PrimaryPhoneReview';
-import VaDetails from '../components/evidence/VaDetails';
 import PrivatePrompt from '../components/evidence/PrivatePrompt';
 import PrivateRecordsAuthorization from '../components/4142/Authorization';
 import PrivateDetailsEntry from '../components/evidence/PrivateDetailsEntry';
+import ConfirmationPage from '../components/ConfirmationPage';
 import Summary from '../components/evidence/Summary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
+import VaDetailsEntry from '../components/evidence/VaDetailsEntry';
+import VaPrompt from '../components/evidence/VaPrompt';
+// Content
 import reviewErrors from '../content/reviewErrors';
-
-import veteranInfo from '../pages/veteranInfo';
-import contactInfo from '../pages/contactInformation';
+import { saveInProgress, savedFormMessages } from '../content/formMessages';
+import { title995, getSubTitle } from '../content/title';
+import submissionError from '../../shared/content/submissionError';
+import GetFormHelp from '../../shared/content/GetFormHelp';
+// Pages
 import addIssue from '../pages/addIssue';
-import primaryPhone from '../pages/primaryPhone';
-
+import contactInfo from '../pages/contactInformation';
+import contestableIssues from '../pages/contestableIssues';
+import privateAuthorization from '../pages/evidence/privateAuthorization';
+import privateDetails from '../pages/evidence/privateDetails';
+import privatePrompt from '../pages/evidence/privatePrompt';
+import summary from '../pages/evidence/summary';
+import uploadDetails from '../pages/evidence/uploadDetails';
+import uploadPrompt from '../pages/evidence/uploadPrompt';
+import facilityTypes from '../pages/facilityTypes';
 import housingRisk from '../pages/housingRisk';
+import issueSummary from '../pages/issueSummary';
+import limitedConsentDetailsPage from '../pages/limitedConsentDetails';
+import limitedConsentPromptPage from '../pages/limitedConsentPrompt';
 import livingSituation from '../pages/livingSituation';
+import notice5103 from '../pages/notice5103';
+import optionForMst from '../pages/optionForMst';
+import optIn from '../pages/optIn';
+import optionIndicator from '../pages/optionIndicator';
 import otherHousingRisk from '../pages/otherHousingRisk';
 import pointOfContact from '../pages/pointOfContact';
-
-import contestableIssues from '../pages/contestableIssues';
-import issueSummary from '../pages/issueSummary';
-import optIn from '../pages/optIn';
-import optionForMst from '../pages/optionForMst';
-import optionIndicator from '../pages/optionIndicator';
-
-import notice5103 from '../pages/notice5103';
-import facilityTypes from '../pages/facilityTypes';
-import privateAuthorization from '../pages/evidence/privateAuthorization';
-import vaPrompt from '../pages/evidence/vaPrompt';
+import primaryPhone from '../pages/primaryPhone';
 import vaDetails from '../pages/evidence/vaDetails';
-import evidencePrivateRequest from '../pages/evidence/privatePrompt';
-import limitedConsentPromptPage from '../pages/limitedConsentPrompt';
-import limitedConsentDetailsPage from '../pages/limitedConsentDetails';
-import privateDetails from '../pages/evidence/privateDetails';
-import uploadPrompt from '../pages/evidence/uploadPrompt';
-import uploadDetails from '../pages/evidence/uploadDetails';
-import summary from '../pages/evidence/summary';
-
+import vaPrompt from '../pages/evidence/vaPrompt';
+import veteranInfo from '../pages/veteranInfo';
+// Utils
+import migrations from '../migrations';
 import {
   hasOtherEvidence,
   hasVAEvidence,
@@ -62,7 +62,6 @@ import {
 } from '../utils/form-data-retrieval';
 import { onFormLoaded } from '../utils/evidence';
 import { hasHomeAndMobilePhone } from '../../shared/utils/contactInfo';
-
 import manifest from '../manifest.json';
 import {
   ADD_ISSUE_URL,
@@ -76,19 +75,10 @@ import {
   EVIDENCE_UPLOAD_URL,
 } from '../constants';
 import { SUBMIT_URL } from '../constants/apis';
-import { saveInProgress, savedFormMessages } from '../content/formMessages';
-import { title995, getSubTitle } from '../content/title';
-
 import prefillTransformer from './prefill-transformer';
 import submitForm from './submitForm';
-
-// import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
-
 import { focusEvidence } from '../utils/focus';
-
-import submissionError from '../../shared/content/submissionError';
-import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import {
   focusAlertH3,
@@ -98,7 +88,6 @@ import {
   focusOnAlert,
   focusIssue,
 } from '../../shared/utils/focus';
-
 import {
   mayHaveLegacyAppeals,
   appStateSelector,
@@ -271,6 +260,8 @@ const formConfig = {
         vaPrompt: {
           title: 'VA medical records prompt',
           path: EVIDENCE_VA_PROMPT_URL,
+          CustomPage: VaPrompt,
+          CustomPageReview: null,
           uiSchema: vaPrompt.uiSchema,
           schema: vaPrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
@@ -279,7 +270,7 @@ const formConfig = {
           title: 'VA medical records details',
           path: EVIDENCE_VA_DETAILS_URL,
           depends: hasVAEvidence,
-          CustomPage: VaDetails,
+          CustomPage: VaDetailsEntry,
           CustomPageReview: null,
           uiSchema: vaDetails.uiSchema,
           schema: vaDetails.schema,
@@ -291,8 +282,8 @@ const formConfig = {
           path: EVIDENCE_PRIVATE_PROMPT_URL,
           CustomPage: PrivatePrompt,
           CustomPageReview: null,
-          uiSchema: evidencePrivateRequest.uiSchema,
-          schema: evidencePrivateRequest.schema,
+          uiSchema: privatePrompt.uiSchema,
+          schema: privatePrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
         privateAuthorization: {

@@ -53,16 +53,16 @@ export const errorMessages = {
     // VA evidence
     pastDate: 'You must add a past treatment date',
     newerDate: 'You must add a more recent treatment date',
-    blankDate: 'You must enter a treatment date',
+    blankDate: 'Enter a month from 1 to 12, even if it’s an estimate',
     missing: 'You must include at least 1 type of supporting evidence',
-    locationMissing: 'You must enter a treatment location',
+    locationMissing: 'Enter a treatment location',
     locationMaxLength: 'You can enter a maximum of 255 characters',
-    issuesMissing: 'You must select 1 or more conditions',
+    issuesMissing: 'Select a condition',
     uniqueVA:
       'You must enter a location, condition and dates you haven’t already entered',
 
     // private evidence
-    facilityMissing: 'You must add a provider or facility name',
+    facilityMissing: 'Enter a location name',
     uniquePrivate:
       'You must enter a provider, address, condition and dates you haven’t already entered',
   },

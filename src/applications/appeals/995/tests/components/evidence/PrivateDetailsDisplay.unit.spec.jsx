@@ -10,10 +10,11 @@ import {
   LIMITED_CONSENT_PROMPT_URL,
 } from '../../../constants';
 import { content } from '../../../content/evidence/summary';
-import { content as limitedConsentContent } from '../../../content/limitedConsent';
+import { promptQuestion } from '../../../pages/limitedConsentPrompt';
+import { detailsQuestion } from '../../../pages/limitedConsentDetails';
 import { PrivateDetailsDisplay } from '../../../components/evidence/PrivateDetailsDisplay';
 import { records } from '../../data/evidence-records';
-import { title4142WithId } from '../../../content/title';
+import { auth4142Title } from '../../../content/evidence/form4142';
 import {
   verifyHeader,
   verifyLink,
@@ -30,7 +31,7 @@ const verifyEvidenceHeader = container => {
 };
 
 const verifyAuthorization = (headers, listItems, reviewMode = false) => {
-  verifyHeader(headers, 0, title4142WithId);
+  verifyHeader(headers, 0, auth4142Title);
   verifyResponse(listItems, 0, AUTHORIZATION_LABEL);
 
   if (!reviewMode) {
@@ -42,7 +43,7 @@ const verifyAuthorization = (headers, listItems, reviewMode = false) => {
 };
 
 const verifyLimitedConsentPrompt = (headers, listItems, reviewMode = false) => {
-  verifyHeader(headers, 1, limitedConsentContent.promptQuestion);
+  verifyHeader(headers, 1, promptQuestion);
   verifyResponse(listItems, 1, 'Yes');
 
   if (!reviewMode) {
@@ -55,7 +56,7 @@ const verifyLimitedConsentDetails = (
   listItems,
   reviewMode = false,
 ) => {
-  verifyHeader(headers, 2, limitedConsentContent.detailsQuestion);
+  verifyHeader(headers, 2, detailsQuestion);
   verifyResponse(listItems, 2, limitedConsentDetails);
 
   if (!reviewMode) {

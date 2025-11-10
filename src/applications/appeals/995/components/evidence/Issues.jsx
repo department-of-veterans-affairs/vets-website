@@ -3,13 +3,7 @@ import PropTypes from 'prop-types';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { NO_ISSUES_SELECTED } from '../../constants';
 
-const Issues = ({
-  availableIssues,
-  content,
-  currentData,
-  handlers,
-  showError,
-}) => {
+const Issues = ({ availableIssues, currentData, handlers, showError }) => {
   if (!availableIssues.length) {
     return (
       <p>
@@ -20,7 +14,8 @@ const Issues = ({
 
   return (
     <VaCheckboxGroup
-      label={content.issuesLabel}
+      hint="Select all the service-connected conditions you were treated for"
+      label="What conditions were you treated for?"
       name="issues"
       onVaChange={handlers.onIssueChange}
       onBlur={handlers.onBlur}
@@ -46,9 +41,6 @@ export default Issues;
 
 Issues.propTypes = {
   availableIssues: PropTypes.array,
-  content: PropTypes.shape({
-    issuesLabel: PropTypes.string,
-  }),
   currentData: PropTypes.shape({
     issues: PropTypes.array,
   }),

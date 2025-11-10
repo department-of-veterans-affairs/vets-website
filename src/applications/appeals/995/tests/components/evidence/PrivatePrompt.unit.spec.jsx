@@ -8,16 +8,17 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import PrivatePrompt from '../../../components/evidence/PrivatePrompt';
-import { privateRecordsRequestTitle } from '../../../content/evidence/privatePrompt';
+import PrivatePrompt, {
+  privateRecordsPromptError,
+  privateRecordsPromptTitle,
+} from '../../../components/evidence/PrivatePrompt';
 import {
   HAS_PRIVATE_EVIDENCE,
   HAS_VA_EVIDENCE,
   EVIDENCE_VA_DETAILS_URL,
 } from '../../../constants';
-import errorMessages from '../../../../shared/content/errorMessages';
 
-describe('<PrivatePrompt>', () => {
+describe('PrivatePrompt', () => {
   it('should render', () => {
     const { container } = render(
       <div>
@@ -44,7 +45,7 @@ describe('<PrivatePrompt>', () => {
     const event = global.window.dataLayer.slice(-1)[0];
     expect(event).to.deep.equal({
       event: 'int-radio-button-option-click',
-      'radio-button-label': privateRecordsRequestTitle,
+      'radio-button-label': privateRecordsPromptTitle,
       'radio-button-optionLabel': 'Yes',
       'radio-button-required': true,
     });
@@ -60,7 +61,7 @@ describe('<PrivatePrompt>', () => {
 
     fireEvent.click($('va-button[continue]', container));
     const radio = $('va-radio', container);
-    expect(radio.getAttribute('error')).to.eq(errorMessages.requiredYesNo);
+    expect(radio.getAttribute('error')).to.eq(privateRecordsPromptError);
     expect(goSpy.called).to.be.false;
   });
 

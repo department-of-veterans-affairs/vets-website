@@ -73,7 +73,7 @@ describe('ConfirmationPage', () => {
       )?.[0];
 
       expect(facilityTypes.textContent).to.equal(
-        'A VA medical center (also called a VAMC), A community-based outpatient clinic (also called a CBOC), A Department of Defense military treatment facility (also called an MTF), A community care provider that VA paid for, A VA Vet center, A non-VA healthcare provider, and Some other type of provider',
+        'VA medical center (also called a VAMC), Community-based outpatient clinic (also called a CBOC), Department of Defense military treatment facility (also called an MTF), Community care provider paid for by VA, VA Vet Center, Private healthcare provider, and Some other type of provider',
       );
 
       // Evidence is present, validate that "no evidence" header is not there

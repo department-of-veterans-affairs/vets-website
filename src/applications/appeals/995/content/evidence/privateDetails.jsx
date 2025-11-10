@@ -1,13 +1,14 @@
-import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
+import {
+  getProviderDetailsTitle,
+  getProviderModalDeleteTitle,
+} from '../../utils/evidence';
 
 export const content = {
   title: (addOrEdit, index) =>
-    `${addOrEdit === 'add' ? 'Add' : 'Edit'} the ${numberToWords(
-      index || 1,
-    )} provider where you received treatment`,
+    getProviderDetailsTitle(addOrEdit, index, 'nonVa'),
   description:
-    'We’ll request your non-VA medical records from this provider or hospital.',
-  nameLabel: 'Name of provider or hospital',
+    'Enter the name and address of the private provider, facility, medical center, clinic, or VA Vet Center you want us to request your records from.',
+  nameLabel: 'Location name',
   addressLabels: {
     country: 'Country',
     street: 'Street address',
@@ -16,17 +17,14 @@ export const content = {
     state: 'State',
     postal: 'Postal code',
   },
-
-  issuesLabel:
-    'Choose the conditions you received treatment for at this facility.',
-  dateStart: 'First treatment date (you can estimate)',
-  dateEnd: 'Last treatment date (you can estimate)',
+  dateStart: 'First treatment date',
+  dateEnd: 'Last treatment date',
   modal: {
-    title: ({ providerFacilityName }) =>
-      `Do you want to keep ${providerFacilityName || 'this location'}?`,
+    title: ({ locationAndName }) =>
+      getProviderModalDeleteTitle(locationAndName),
     description: 'We’ve saved your current information',
     yes: 'Yes, keep location',
     no: 'No, remove location',
   },
-  addAnotherLink: 'Add another location',
+  addAnotherLink: 'Add another private provider or VA Vet Center location',
 };

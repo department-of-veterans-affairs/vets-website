@@ -1,6 +1,3 @@
-export const privateRecordsRequestTitle =
-  'Would you like us to request your non-VA medical records?';
-
 export const privateRecordsRequestInfo =
   'You have non-VA medical records if you were treated by a private doctor, including a Veteran’s Choice doctor. A Disability Benefits Questionnaire is an example of a private medical record.';
 

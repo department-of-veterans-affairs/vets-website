@@ -8,7 +8,7 @@ import {
   SUPPORTED_UPLOAD_TYPES,
 } from '../../../shared/constants';
 
-export const UploadDescription = () => {
+export const UploadDetails = () => {
   const types = SUPPORTED_UPLOAD_TYPES.map(text => text.toUpperCase());
   const list = readableList(types, 'or');
   return (
@@ -52,7 +52,7 @@ export const UploadDescription = () => {
   );
 };
 
-UploadDescription.propTypes = {
+UploadDetails.propTypes = {
   uploadTitle: PropTypes.string,
 };
 

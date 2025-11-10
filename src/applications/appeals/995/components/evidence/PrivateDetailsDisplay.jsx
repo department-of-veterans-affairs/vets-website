@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import BasicLink from '../../../shared/components/web-component-wrappers/BasicLink';
-import { title4142WithId } from '../../content/title';
+import { auth4142Title } from '../../content/evidence/form4142';
 import { content } from '../../content/evidence/summary';
-import { content as limitedConsentContent } from '../../content/limitedConsent';
+import { detailsQuestion as limitedConsentDetailsQuestion } from '../../pages/limitedConsentDetails';
+import { promptQuestion as limitedConsentPromptQuestion } from '../../pages/limitedConsentPrompt';
 import {
   AUTHORIZATION_LABEL,
   EVIDENCE_PRIVATE_DETAILS_URL,
@@ -83,9 +84,9 @@ export const PrivateDetailsDisplay = ({
               showListOnly,
             )}`}
           >
-            {title4142WithId}
+            {auth4142Title}
           </SubHeader>
-          <div>
+          <p>
             {privacyAgreementAccepted ? (
               AUTHORIZATION_LABEL
             ) : (
@@ -95,14 +96,14 @@ export const PrivateDetailsDisplay = ({
                 records
               </span>
             )}
-          </div>
+          </p>
           {!reviewMode && (
             <div className="vads-u-margin-top--1p5">
               <BasicLink
                 disableAnalytics
                 id="edit-private-authorization"
                 className="edit-item"
-                aria-label={`edit ${title4142WithId}`}
+                aria-label={`edit ${auth4142Title}`}
                 data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION_URL : null}
                 path={`/${EVIDENCE_PRIVATE_AUTHORIZATION_URL}`}
                 text={content.edit}
@@ -116,7 +117,7 @@ export const PrivateDetailsDisplay = ({
               showListOnly,
             )}`}
           >
-            {limitedConsentContent.promptQuestion}
+            {limitedConsentPromptQuestion}
           </SubHeader>
           <p>{limitedConsentResponse ? 'Yes' : 'No'}</p>
           {!reviewMode && (
@@ -126,9 +127,7 @@ export const PrivateDetailsDisplay = ({
                 id="edit-limitation-y-n"
                 className="edit-item"
                 path={`/${LIMITED_CONSENT_PROMPT_URL}`}
-                aria-label={`${content.edit} ${
-                  limitedConsentContent.promptQuestion
-                } `}
+                aria-label={`${content.edit} ${limitedConsentPromptQuestion} `}
                 data-link={testing ? LIMITED_CONSENT_PROMPT_URL : null}
                 text={content.edit}
               />
@@ -142,7 +141,7 @@ export const PrivateDetailsDisplay = ({
                 vads-u-margin-y--0
                 ${confirmationPageLabel(showListOnly)}`}
             >
-              {limitedConsentContent.detailsQuestion}
+              {limitedConsentDetailsQuestion}
             </SubHeader>
             <p>{limitedConsent}</p>
             {!reviewMode && (
@@ -152,9 +151,9 @@ export const PrivateDetailsDisplay = ({
                   id="edit-limitation"
                   className="edit-item"
                   path={`/${LIMITED_CONSENT_DETAILS_URL}`}
-                  aria-label={`${content.edit} ${
-                    limitedConsentContent.detailsQuestion
-                  }`}
+                  aria-label={`${
+                    content.edit
+                  } ${limitedConsentDetailsQuestion}`}
                   data-link={testing ? LIMITED_CONSENT_DETAILS_URL : null}
                   text={content.edit}
                 />
@@ -201,7 +200,7 @@ export const PrivateDetailsDisplay = ({
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
                   <SubHeader
-                    className="private-facility dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold"
+                    className="private-facility vads-u-margin-bottom--2 dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold"
                     data-dd-action-name="Non-VA facility name"
                   >
                     {providerFacilityName}
@@ -212,12 +211,12 @@ export const PrivateDetailsDisplay = ({
                 ) : (
                   <div>{errors.address}</div>
                 )}
-                <div
-                  className="dd-privacy-hidden overflow-wrap-word"
+                <p
+                  className="dd-privacy-hidden vads-u-margin-bottom--1 overflow-wrap-word"
                   data-dd-action-name="Non-VA facility treated issues"
                 >
                   {errors.issues || readableList(issues)}
-                </div>
+                </p>
                 <div>{errors.address}</div>
                 {errors.dates || (
                   <div

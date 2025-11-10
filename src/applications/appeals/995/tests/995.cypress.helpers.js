@@ -8,12 +8,14 @@ import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/mockUpload.json';
 import {
-  PRIMARY_PHONE,
+  EVIDENCE_UPLOAD_URL,
   EVIDENCE_VA_DETAILS_URL,
+  EVIDENCE_VA_PROMPT_URL,
   EVIDENCE_PRIVATE_PROMPT_URL,
   EVIDENCE_PRIVATE_DETAILS_URL,
   HAS_PRIVATE_EVIDENCE,
-  EVIDENCE_UPLOAD_URL,
+  HAS_VA_EVIDENCE,
+  PRIMARY_PHONE,
 } from '../constants';
 import {
   CONTESTABLE_ISSUES_API,
@@ -218,6 +220,18 @@ export const pageHooks = {
       cy.selectVaCheckbox('root_facilityTypes_vamc', true);
       cy.selectVaCheckbox('root_facilityTypes_nonVa', true);
       clickContinue();
+    });
+  },
+  [EVIDENCE_VA_PROMPT_URL]: ({ afterHook }) => {
+    cy.injectAxeThenAxeCheck();
+
+    afterHook(() => {
+      cy.get('@testData').then(data => {
+        const hasVa = data[HAS_VA_EVIDENCE];
+
+        cy.get(`va-radio-option[value="${hasVa ? 'y' : 'n'}"]`).click();
+        clickContinue();
+      });
     });
   },
   [EVIDENCE_VA_DETAILS_URL]: ({ afterHook }) => {

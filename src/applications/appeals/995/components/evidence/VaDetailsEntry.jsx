@@ -41,7 +41,7 @@ const defaultState = {
   submitted: false,
 };
 
-const VaDetails = ({
+const VaDetailsEntry = ({
   data,
   goBack,
   goForward,
@@ -326,6 +326,7 @@ const VaDetails = ({
           name="txdate"
           monthYearOnly
           error={showError('treatmentDate')}
+          hint={content.treatmentDateHint}
           label={content.treatmentDate}
           onDateChange={handlers.onChange}
           onDateBlur={handlers.onBlur}
@@ -334,7 +335,7 @@ const VaDetails = ({
         <VaCheckbox
           id="nodate"
           name="nodate"
-          class="vads-u-margin-bottom--4"
+          class="vads-u-margin-top--3 vads-u-margin-bottom--4"
           label={content.noDate}
           onVaChange={handlers.onChange}
           checked={currentData.noDate}
@@ -353,6 +354,6 @@ const VaDetails = ({
   );
 };
 
-VaDetails.propTypes = customPageProps995;
+VaDetailsEntry.propTypes = customPageProps995;
 
-export default VaDetails;
+export default VaDetailsEntry;

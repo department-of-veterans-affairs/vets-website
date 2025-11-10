@@ -2,10 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
-import {
-  $,
-  $$,
-} from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { content as evidenceVaContent } from '../../../content/evidence/vaDetails';
 import { content as privateDetailsDisplay } from '../../../content/evidence/privateDetails';
 import Issues from '../../../components/evidence/Issues';
@@ -50,10 +47,7 @@ describe('Issues', () => {
           />,
         );
 
-        const checkboxParent = $('va-checkbox-group', container);
         const checkboxes = $$('va-checkboxes', container);
-
-        expect(checkboxParent.label).to.equal(evidenceVaContent.issuesLabel);
 
         checkboxes.forEach((checkbox, index) => {
           expect(checkbox)
@@ -86,10 +80,7 @@ describe('Issues', () => {
           />,
         );
 
-        const checkboxParent = $('va-checkbox-group', container);
         const checkboxes = $$('va-checkboxes', container);
-
-        expect(checkboxParent.label).to.equal(evidenceVaContent.issuesLabel);
 
         checkboxes.forEach((checkbox, index) => {
           expect(checkbox)
@@ -117,12 +108,7 @@ describe('Issues', () => {
           />,
         );
 
-        const checkboxParent = $('va-checkbox-group', container);
         const checkboxes = $$('va-checkboxes', container);
-
-        expect(checkboxParent.label).to.equal(
-          privateDetailsDisplay.issuesLabel,
-        );
 
         checkboxes.forEach((checkbox, index) => {
           expect(checkbox)
@@ -155,12 +141,7 @@ describe('Issues', () => {
           />,
         );
 
-        const checkboxParent = $('va-checkbox-group', container);
         const checkboxes = $$('va-checkboxes', container);
-
-        expect(checkboxParent.label).to.equal(
-          privateDetailsDisplay.issuesLabel,
-        );
 
         checkboxes.forEach((checkbox, index) => {
           expect(checkbox)

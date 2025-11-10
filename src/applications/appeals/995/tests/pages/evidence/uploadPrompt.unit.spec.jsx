@@ -2,13 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import { fireEvent, waitFor, render } from '@testing-library/react';
 import sinon from 'sinon';
-
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-
 import formConfig from '../../../config/form';
 import { HAS_OTHER_EVIDENCE } from '../../../constants';
-import errorMessages from '../../../../shared/content/errorMessages';
+import { uploadEvidencePromptError } from '../../../pages/evidence/uploadPrompt';
 
 describe('Supplemental Claims evidence upload request page', () => {
   const { schema, uiSchema } = formConfig.chapters.evidence.pages.uploadPrompt;
@@ -44,9 +42,7 @@ describe('Supplemental Claims evidence upload request page', () => {
     await waitFor(() => {
       const radios = $$('[error]', container);
       expect(radios.length).to.equal(1);
-      expect(radios[0].getAttribute('error')).to.eq(
-        errorMessages.requiredYesNo,
-      );
+      expect(radios[0].getAttribute('error')).to.eq(uploadEvidencePromptError);
       expect(onSubmit.called).to.be.false;
     });
   });

@@ -8,7 +8,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as focusUtils from '~/platform/utilities/ui/focus';
-import VaDetails from '../../../components/evidence/VaDetails';
+import VaDetailsEntry from '../../../components/evidence/VaDetailsEntry';
 import {
   errorMessages,
   HAS_VA_EVIDENCE,
@@ -24,18 +24,18 @@ import {
 import { parseDateWithOffset } from '../../../../shared/utils/dates';
 import { MAX_LENGTH, SELECTED } from '../../../../shared/constants';
 import { records } from '../../data/evidence-records';
-import { content } from '../../../content/evidence/vaDetails';
+import { getProviderDetailsTitle } from '../../../utils/evidence';
 
 const vaLocations = records().locations;
 
 /*
-| Data     | Forward     | Back               | Add another      |
+| Data     | Forward     | Back               | Add angit stother      |
 |----------|-------------|--------------------|------------------|
 | Complete | Next page   | Prev page          | New page (empty) |
 | Empty    | Focus error | Prev page & remove | Focus error      |
 | Partial  | Focus error | Modal & Prev page  | Focus error      |
  */
-describe('VaDetails', () => {
+describe('VaDetailsEntry', () => {
   let focusElementSpy;
 
   beforeEach(() => {
@@ -76,7 +76,7 @@ describe('VaDetails', () => {
     goToPath = () => {},
     setFormData = () => {},
   } = {}) => (
-    <VaDetails
+    <VaDetailsEntry
       testingIndex={index}
       data={data}
       goBack={goBack}
@@ -99,7 +99,7 @@ describe('VaDetails', () => {
 
     const h3s = $$('h3', container);
 
-    verifyHeader(h3s, 0, content.title('add', 0));
+    verifyHeader(h3s, 0, getProviderDetailsTitle('add', 1, 'va'));
     expect($('#add-location-name', container)).to.exist;
     expect($('va-checkbox-group', container)).to.exist;
     expect($('va-checkbox[label="Hypertension"]', container)).to.exist;

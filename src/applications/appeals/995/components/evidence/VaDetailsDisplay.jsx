@@ -107,18 +107,18 @@ export const VaDetailsDisplay = ({
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
                   <SubHeader
-                    className="va-location dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold"
+                    className="va-location vads-u-margin-bottom--2 dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold"
                     data-dd-action-name="VA location name"
                   >
                     {locationAndName}
                   </SubHeader>
                 )}
-                <div
-                  className="dd-privacy-hidden overflow-wrap-word"
+                <p
+                  className="dd-privacy-hidden vads-u-margin-bottom--1 overflow-wrap-word"
                   data-dd-action-name="VA location treated issues"
                 >
                   {errors.issues || readableList(issues)}
-                </div>
+                </p>
                 {noDate && vaContent.noDate}
                 {treatmentDateError ? (
                   errors.treatmentDate

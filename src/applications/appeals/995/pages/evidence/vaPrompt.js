@@ -1,39 +1,23 @@
-import {
-  yesNoSchema,
-  yesNoUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-
-import {
-  requestVaRecordsHint,
-  requestVaRecordsTitle,
-} from '../../content/evidence/vaPrompt';
-
 import { HAS_VA_EVIDENCE } from '../../constants';
-import errorMessages from '../../../shared/content/errorMessages';
+
+export const title =
+  'Do you want us to get your VA medical records or military health records?';
 
 export default {
   uiSchema: {
-    [HAS_VA_EVIDENCE]: yesNoUI({
-      title: requestVaRecordsTitle,
-      hint: requestVaRecordsHint,
-      enableAnalytics: true,
-      classNames: 'vads-u-margin-bottom--4',
-      labelHeaderLevel: '3',
-      labels: {
-        Y: 'Yes',
-        N: 'No',
+    [HAS_VA_EVIDENCE]: {
+      'ui:options': {
+        hideOnReview: true,
       },
-      required: () => true,
-      errorMessages: {
-        required: errorMessages.requiredYesNo,
-      },
-      hideOnReview: true,
-    }),
+    },
   },
   schema: {
     type: 'object',
+    required: [HAS_VA_EVIDENCE],
     properties: {
-      [HAS_VA_EVIDENCE]: yesNoSchema,
+      [HAS_VA_EVIDENCE]: {
+        type: 'boolean',
+      },
       'view:vaEvidenceInfo': {
         type: 'object',
         properties: {},

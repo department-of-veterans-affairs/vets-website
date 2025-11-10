@@ -1,5 +1,5 @@
 import {
-  UploadDescription,
+  UploadDetails,
   evidenceOtherText,
 } from '../../content/evidence/uploadDetails';
 import { fileUploadUi } from '../../utils/upload';
@@ -9,7 +9,7 @@ export default {
   uiSchema: {
     additionalDocuments: {
       ...fileUploadUi(evidenceOtherText),
-      'ui:description': UploadDescription,
+      'ui:description': UploadDetails,
     },
   },
 
