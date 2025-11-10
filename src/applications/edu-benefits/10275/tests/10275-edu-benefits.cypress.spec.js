@@ -17,34 +17,34 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      // '/school-administrators/commit-principles-of-excellence-form-22-10275/additional-locations/:index/point-of-contact?add=true': ({
-      //   afterHook,
-      // }) => {
-      //   afterHook(() => {
-      //     cy.get('.radio-container', { timeout: 10000 }).should('exist');
-      //     cy.get(
-      //       'va-radio-option[name="pointOfContact"][value="authorizedOfficial"]',
-      //       {
-      //         timeout: 10000,
-      //       },
-      //     )
-      //       .first()
-      //       .should('be.visible')
-      //       .click();
-      //     cy.get(
-      //       'va-radio-option[name="pointOfContact"][value="authorizedOfficial"]',
-      //     )
-      //       .first()
-      //       .should('have.attr', 'checked');
-      //     cy.get('va-radio[name="pointOfContact"]', { timeout: 5000 }).should(
-      //       'have.attr',
-      //       'value',
-      //       'authorizedOfficial',
-      //     );
-      //     cy.tabToSubmitForm();
-      //   });
-      // },
-      '/school-administrators/35-percent-exemption/review-and-submit': ({
+      '/school-administrators/commit-principles-of-excellence-form-22-10275/additional-locations/:index/point-of-contact': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('.radio-container', { timeout: 10000 }).should('exist');
+          cy.get(
+            'va-radio-option[name="pointOfContact"][value="authorizedOfficial"]',
+            {
+              timeout: 10000,
+            },
+          )
+            .first()
+            .should('be.visible')
+            .click();
+          cy.get(
+            'va-radio-option[name="pointOfContact"][value="authorizedOfficial"]',
+          )
+            .first()
+            .should('have.attr', 'checked');
+          cy.get('va-radio[name="pointOfContact"]', { timeout: 5000 }).should(
+            'have.attr',
+            'value',
+            'authorizedOfficial',
+          );
+          cy.tabToSubmitForm();
+        });
+      },
+      '/school-administrators/commit-principles-of-excellence-form-22-10275/review-and-submit': ({
         afterHook,
       }) => {
         afterHook(() => {
