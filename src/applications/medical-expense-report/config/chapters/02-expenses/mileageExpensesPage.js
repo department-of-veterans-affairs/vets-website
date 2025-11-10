@@ -18,11 +18,16 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { getArrayUrlSearchParams } from '~/platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   recipientTypeLabels,
   travelLocationLabels,
 } from '../../../utils/labels';
-import { transformDate } from './helpers';
+import {
+  transformDate,
+  requiredIfMileageReimbursed,
+  requiredIfMileageLocationOther,
+} from './helpers';
 
 function introDescription() {
   return (
@@ -39,17 +44,39 @@ function introDescription() {
   );
 }
 
+function checkIsItemIncomplete(item) {
+  return (
+    !item?.traveler ||
+    ((item.traveler === 'DEPENDENT' || item.traveler === 'OTHER') &&
+      !item?.travelerName) ||
+    !item?.travelLocation ||
+    (item.travelLocation === 'OTHER' && !item?.travelLocationOther) ||
+    !item?.travelDate ||
+    !item?.travelMilesTraveled ||
+    (item?.travelReimbursed !== false &&
+      (item.travelReimbursed === true && !item?.travelReimbursementAmount))
+  );
+}
+
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'mileageExpenses',
   nounSingular: 'mileage expense',
   nounPlural: 'mileage expenses',
   required: false,
-  isItemIncomplete: item => !item?.travelLocation || !item?.travelDate,
-  maxItems: 5,
+  isItemIncomplete: item => checkIsItemIncomplete(item),
+  maxItems: 12,
   text: {
     getItemName: item => travelLocationLabels[(item?.travelLocation)] || '',
     cardDescription: item => transformDate(item?.travelDate) || '',
+    cancelAddTitle: 'Cancel adding this mileage expense?',
+    cancelEditTitle: 'Cancel editing this mileage expense?',
+    cancelAddDescription:
+      'If you cancel, we won’t add this expense to your list of mileage expenses. You’ll return to a page where you can add a new mileage expense.',
+    cancelAddYes: 'Yes, cancel adding',
+    cancelAddNo: 'No, continue adding',
+    cancelEditYes: 'Yes, cancel editing',
+    cancelEditNo: 'No, continue editing',
   },
 };
 
@@ -95,7 +122,14 @@ const summaryPage = {
 /** @returns {PageSchema} */
 const travelerPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Traveler information'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Traveler information', () => {
+      const search = getArrayUrlSearchParams();
+      const isEdit = search.get('edit');
+      if (isEdit) {
+        return 'We’ll take you through each of the sections of this mileage expense for you to review and edit.';
+      }
+      return null;
+    }),
     traveler: radioUI({
       title: 'Who needed to travel?',
       labels: recipientTypeLabels,
@@ -139,14 +173,10 @@ const destinationPage = {
       title: 'Describe the destination',
       expandUnder: 'travelLocation',
       expandUnderCondition: field => field === 'OTHER',
-      required: (formData, index, fullData) => {
-        const mileageExpenses =
-          formData?.mileageExpenses ?? fullData?.mileageExpenses;
-        const mileageExpense = mileageExpenses?.[index];
-        return mileageExpense?.travelLocation === 'OTHER';
-      },
+      required: (formData, index, fullData) =>
+        requiredIfMileageLocationOther(formData, index, fullData),
     }),
-    travelMilesTraveled: numberUI('How many miles were travelled?'),
+    travelMilesTraveled: numberUI('How many miles were traveled?'),
     travelDate: currentOrPastDateUI({
       title: 'What was the date of travel?',
       monthSelect: false,
@@ -179,12 +209,8 @@ const reimbursementPage = {
         expandUnder: 'travelReimbursed',
         expandUnderCondition: field => field === true,
       }),
-      'ui:required': (formData, index, fullData) => {
-        const mileageExpenses =
-          formData?.mileageExpenses ?? fullData?.mileageExpenses;
-        const mileageExpense = mileageExpenses?.[index];
-        return mileageExpense?.travelReimbursed === true;
-      },
+      'ui:required': (formData, index, fullData) =>
+        requiredIfMileageReimbursed(formData, index, fullData),
     },
   },
   schema: {

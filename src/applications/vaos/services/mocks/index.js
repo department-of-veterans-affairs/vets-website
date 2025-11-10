@@ -33,8 +33,14 @@ const nextBusinessDayString = nextBusinessDay.toISOString().split('T')[0]; // Ge
 const confirmedV2 = require('./v2/confirmed.json');
 // const confirmedV2 = require('./v2/confirmed_null_states.json');
 
+// Oracle Health confirmed appointments
+const confirmedOh = require('./v2/confirmed_oh.json');
+
 const confirmedAppointmentsV3 = {
-  data: mockConfirmedAppointments.data.concat(confirmedV2.data),
+  data: mockConfirmedAppointments.data.concat(
+    confirmedV2.data,
+    confirmedOh.data,
+  ),
 };
 
 const nextBusinessDayAppointments = confirmedAppointmentsV3.data.filter(
@@ -63,8 +69,15 @@ const vamcEhr = require('./v2/vamc_ehr.json');
 const requestsV2 = require('./v2/requests.json');
 // const requestsV2 = require('./v2/requests_null_states.json.json');
 
+// Oracle Health appointment requests
+const requestsOh = require('./v2/requests_oh.json');
+
 // Uncomment to produce backend service errors
 // const meta = require('./v2/meta_failures.json');
+
+const appointmentRequests = {
+  data: requestsV2.data.concat(requestsOh.data),
+};
 
 // CC Direct Scheduling mocks
 const MockReferralListResponse = require('../../tests/fixtures/MockReferralListResponse');
@@ -191,7 +204,7 @@ const responses = {
   },
   'PUT /vaos/v2/appointments/:id': (req, res) => {
     // TODO: also check through confirmed mocks, when those exist
-    const appointments = requestsV2.data
+    const appointments = appointmentRequests.data
       .concat(confirmedAppointmentsV3.data)
       .concat(mockAppts);
 
@@ -222,7 +235,7 @@ const responses = {
     // merge arrays together
 
     const appointments = confirmedAppointmentsV3.data.concat(
-      requestsV2.data,
+      appointmentRequests.data,
       mockAppts,
     );
     for (const appointment of appointments) {
@@ -299,7 +312,7 @@ const responses = {
 
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
-      data: requestsV2.data
+      data: appointmentRequests.data
         .concat(confirmedAppointmentsV3.data)
         .concat(mockAppts),
     };

@@ -11,7 +11,13 @@ import { SORT_DEFAULTS } from './submissions';
 window.appName = manifest.entryName;
 
 const API_VERSION = 'accredited_representative_portal/v0';
-
+const doNotRedirectUrl = [
+  manifest.rootUrl,
+  `${manifest.rootUrl}/`,
+  `${manifest.rootUrl}/get-help`,
+  `${manifest.rootUrl}/sign-in`,
+  `${manifest.rootUrl}/auth/login/callback`,
+];
 // 403 redirect handler
 const redirectToUnauthorizedAndReturn = () => {
   const inAppPath = window.location.pathname.startsWith(manifest.rootUrl);
@@ -76,12 +82,7 @@ const wrapApiRequest = fn => {
         // Don't redirect to login for our app's root / landing page experience.
         // People are allowed to be unauthenticated there.
         // TODO: probably need a more sound & principled solution here.
-        ![
-          manifest.rootUrl,
-          `${manifest.rootUrl}/`,
-          `${manifest.rootUrl}/sign-in`,
-          `${manifest.rootUrl}/auth/login/callback`,
-        ].includes(window.location.pathname)
+        !doNotRedirectUrl.includes(window.location.pathname)
       ) {
         window.location = getSignInUrl({
           returnUrl: window.location.href,
