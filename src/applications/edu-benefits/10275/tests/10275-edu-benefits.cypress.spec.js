@@ -41,6 +41,7 @@ const testConfig = createTestConfig(
             'value',
             'authorizedOfficial',
           );
+          // cy.clickFormContinue();
           cy.tabToSubmitForm();
         });
       },
@@ -48,12 +49,17 @@ const testConfig = createTestConfig(
         afterHook,
       }) => {
         afterHook(() => {
-          cy.get('#checkbox-element', { timeout: 10000 }).check({
+          cy.get('[id="checkbox-element"]', { timeout: 10000 }).check({
             force: true,
           });
-          cy.get('#inputField', { timeout: 10000 }).type('John William Doe', {
-            force: true,
-          });
+          cy.get('[id="inputField"]', { timeout: 10000 }).type(
+            'John William Doe',
+            {
+              force: true,
+            },
+          );
+
+          cy.injectAxeThenAxeCheck();
           cy.tabToSubmitForm();
         });
       },
