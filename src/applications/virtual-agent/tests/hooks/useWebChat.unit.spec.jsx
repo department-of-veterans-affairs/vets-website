@@ -41,7 +41,6 @@ describe('useWebChat', () => {
 
       expect(result).to.deep.equal({
         ...token,
-        expired: token.expired,
         webChatFramework: 'framework',
         loadingStatus: 'combinedStatus',
       });
