@@ -200,6 +200,39 @@ describe('VAOS Component: PhoneLayout', () => {
         // Assert
         expect(screen.queryByText(/Location:/i)).not.to.exist;
       });
+
+      it('should not display reason and other details', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
+
+        // Act
+        const response = MockAppointmentResponse.createVAResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+          status: APPOINTMENT_STATUS.booked,
+        }).setLocation(new MockFacilityResponse());
+
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
+
+        const screen = renderWithStoreAndRouter(
+          <PhoneLayout data={appointment} />,
+          {
+            store,
+          },
+        );
+        // Assert
+        expect(
+          screen.queryByText(/Details you’d like to share with your provider/i),
+        ).not.to.exist;
+
+        expect(screen.queryByText(/Details you shared with your provider'/i))
+          .not.to.exist;
+
+        expect(screen.queryByText(/Reason:/i)).not.to.exist;
+        expect(screen.queryByText(/Other details:/i)).not.to.exist;
+      });
     });
   });
 

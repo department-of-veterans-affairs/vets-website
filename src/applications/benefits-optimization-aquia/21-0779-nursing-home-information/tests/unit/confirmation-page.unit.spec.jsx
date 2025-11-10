@@ -73,8 +73,10 @@ describe('ConfirmationPage', () => {
   it('should render with form data', () => {
     const formData = {
       nursingOfficialInformation: {
-        firstName: 'John',
-        lastName: 'Doe',
+        fullName: {
+          first: 'Owen',
+          last: 'Lars',
+        },
       },
     };
     const { container } = initConfirmationPage({ formData });
