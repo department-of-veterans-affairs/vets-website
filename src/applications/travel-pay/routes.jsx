@@ -16,8 +16,10 @@ import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPag
 import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
 import ComplexClaimSubmitFlowWrapper from './containers/ComplexClaimSubmitFlowWrapper';
 import ReviewPage from './components/complex-claims/pages/ReviewPage';
+import ExpensePage from './components/complex-claims/pages/ExpensePage';
 import IntroductionPage from './components/complex-claims/pages/IntroductionPage';
 import App from './containers/App';
+import { EXPENSE_TYPES } from './constants';
 
 // Function that returns routes based on feature toggle
 const getRoutes = () => {
@@ -36,6 +38,15 @@ const getRoutes = () => {
         <Route path=":claimId">
           <Route path="choose-expense" element={<ChooseExpenseType />} />
           <Route path="mileage/:expenseId?" element={<Mileage />} />
+          {Object.values(EXPENSE_TYPES)
+            .filter(expenseType => expenseType.route !== 'mileage')
+            .map(expenseType => (
+              <Route
+                key={expenseType.route}
+                path={expenseType.route}
+                element={<ExpensePage />}
+              />
+            ))}
           <Route path="review" element={<ReviewPage />} />
           <Route path="travel-agreement" element={<AgreementPage />} />
           <Route path="confirmation" element={<ConfirmationPage />} />
