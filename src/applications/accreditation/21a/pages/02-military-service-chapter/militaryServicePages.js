@@ -33,7 +33,6 @@ export const arrayBuilderOptions = {
   nounSingular: 'military service experience',
   nounPlural: 'military service experiences',
   summaryTitle: () => 'Review your military service experiences',
-  yesNoBlankReviewQuestion: () => content.militaryTitle,
   required: false,
   isItemIncomplete: item =>
     !item?.branch ||
@@ -44,6 +43,8 @@ export const arrayBuilderOptions = {
       requireExplanation(item?.characterOfDischarge) &&
       !item?.explanationOfDischarge),
   text: {
+    yesNoBlankReviewQuestion: () => content['military-service-question'],
+    reviewAddButtonText: () => content['military-service-add-button-text'],
     getItemName: item => item?.branch,
     cardDescription: item => createDateRangeText(item, 'currentlyServing'),
   },
