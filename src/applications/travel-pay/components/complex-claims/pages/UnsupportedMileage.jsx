@@ -6,16 +6,17 @@ import { BTSSS_PORTAL_URL } from '../../../constants';
 
 const UnsupportedMileage = () => {
   const navigate = useNavigate();
+
   return (
     <>
       <h1>You’ll need to file this claim in another tool</h1>
       <p>
         Right now you can only file travel reimbursement claims on VA.gov if you
-        departed from the address we have on file and traveled roundtrip.
+        departed from the address we have on file and traveled round trip.
       </p>
       <p>
-        To file a one-way claim from another address, use the Beneficiary Travel
-        Self Service System (BTSSS).
+        To file a one-way claim or a claim from another address, use the
+        Beneficiary Travel Self Service System (BTSSS).
       </p>
       <va-link
         href={BTSSS_PORTAL_URL}
