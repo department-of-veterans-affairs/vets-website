@@ -179,7 +179,7 @@ export const additionalInstitutionDetailsArrayOptions = {
 export const createBannerMessage = (
   institutionDetails,
   isArrayItem,
-  mainInstitution,
+  // mainInstitution,
 ) => {
   const notYR = institutionDetails.yrEligible === false;
   const notIHL = institutionDetails.ihlEligible === false;
@@ -191,17 +191,17 @@ export const createBannerMessage = (
   const thirdChar = code?.charAt(2).toUpperCase();
 
   if (isArrayItem) {
-    const branches =
-      mainInstitution?.facilityMap?.branches?.map(
-        branch => branch?.institution?.facilityCode,
-      ) || [];
+    // const branches =
+    //   mainInstitution?.facilityMap?.branches?.map(
+    //     branch => branch?.institution?.facilityCode,
+    //   ) || [];
 
-    const extensions =
-      mainInstitution?.facilityMap?.extensions?.map(
-        extension => extension?.institution?.facilityCode,
-      ) || [];
+    // const extensions =
+    //   mainInstitution?.facilityMap?.extensions?.map(
+    //     extension => extension?.institution?.facilityCode,
+    //   ) || [];
 
-    const branchList = [...branches, ...extensions];
+    // const branchList = [...branches, ...extensions];
 
     const hasXInThirdPosition =
       code?.length === 8 && !badFormat && thirdChar === 'X';
@@ -211,10 +211,10 @@ export const createBannerMessage = (
         "This facility code can't be accepted. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
       return message;
     }
-    if (!branchList.includes(code)) {
-      message =
-        "This facility code can't be accepted because it's not associated with your main campus. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
-    }
+    // if (!branchList.includes(code)) {
+    //   message =
+    //     "This facility code can't be accepted because it's not associated with your main campus. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
+    // }
   }
 
   if (notFound) {
@@ -242,19 +242,19 @@ export const getAcademicYearDisplay = () => {
 export const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const code = (fieldData || '').trim();
 
-  const mainInstitution = formData?.institutionDetails;
+  // const mainInstitution = formData?.institutionDetails;
 
-  const branches =
-    mainInstitution?.facilityMap?.branches?.map(
-      branch => branch?.institution?.facilityCode,
-    ) || [];
+  // const branches =
+  //   mainInstitution?.facilityMap?.branches?.map(
+  //     branch => branch?.institution?.facilityCode,
+  //   ) || [];
 
-  const extensions =
-    mainInstitution?.facilityMap?.extensions?.map(
-      extension => extension?.institution?.facilityCode,
-    ) || [];
+  // const extensions =
+  //   mainInstitution?.facilityMap?.extensions?.map(
+  //     extension => extension?.institution?.facilityCode,
+  //   ) || [];
 
-  const branchList = [...branches, ...extensions];
+  // const branchList = [...branches, ...extensions];
 
   const currentItem = formData?.additionalInstitutionDetails?.find(
     item => item?.facilityCode?.trim() === code,
@@ -295,12 +295,12 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
       return;
     }
 
-    if (!branchList.includes(code)) {
-      errors.addError(
-        "This facility code isn't linked to your school's main campus",
-      );
-      return;
-    }
+    // if (!branchList.includes(code)) {
+    //   errors.addError(
+    //     "This facility code isn't linked to your school's main campus",
+    //   );
+    //   return;
+    // }
 
     if (notYR) {
       errors.addError(

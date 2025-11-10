@@ -57,21 +57,21 @@ const AdditionalInstitutionAddress = () => {
       return true;
     }
 
-    // Check if not attached to main campus
-    const mainInstitution = formData?.institutionDetails;
-    const branches =
-      mainInstitution?.facilityMap?.branches?.map(
-        branch => branch?.institution?.facilityCode,
-      ) || [];
-    const extensions =
-      mainInstitution?.facilityMap?.extensions?.map(
-        extension => extension?.institution?.facilityCode,
-      ) || [];
-    const branchList = [...branches, ...extensions];
+    // // Check if not attached to main campus
+    // const mainInstitution = formData?.institutionDetails;
+    // const branches =
+    //   mainInstitution?.facilityMap?.branches?.map(
+    //     branch => branch?.institution?.facilityCode,
+    //   ) || [];
+    // const extensions =
+    //   mainInstitution?.facilityMap?.extensions?.map(
+    //     extension => extension?.institution?.facilityCode,
+    //   ) || [];
+    // const branchList = [...branches, ...extensions];
 
-    if (!branchList.includes(facilityCode)) {
-      return true;
-    }
+    // if (!branchList.includes(facilityCode)) {
+    //   return true;
+    // }
 
     return false;
   })();

@@ -24,6 +24,7 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
           ...updatedDetailsLoading[index],
           isLoading: true,
         };
+
         dispatch(
           setData({
             ...formData,
