@@ -1,5 +1,5 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
-import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config';
 import App from '@bio-aquia/21-2680-house-bound-status/containers/app';
 
 /**

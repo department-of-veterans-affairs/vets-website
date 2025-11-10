@@ -15,12 +15,70 @@ import ConfirmationPage from '../../components/complex-claims/pages/Confirmation
 describe('ComplexClaimSubmitFlowWrapper', () => {
   const oldLocation = global.window.location;
 
-  const getData = ({ complexClaimsEnabled = true } = {}) => ({
+  const getData = ({
+    complexClaimsEnabled = true,
+    appointmentId = '12345',
+  } = {}) => ({
     featureToggles: {
       loading: false,
       /* eslint-disable camelcase */
       travel_pay_enable_complex_claims: complexClaimsEnabled,
       /* eslint-enable camelcase */
+    },
+    travelPay: {
+      appointment: {
+        data: {
+          id: appointmentId,
+          facilityName: 'Test VA Medical Center',
+          facilityAddress: {
+            addressLine1: '123 Medical Center Drive',
+            city: 'Test City',
+            stateCode: 'TX',
+            zipCode: '12345',
+          },
+          appointmentDate: '2024-01-15',
+          appointmentTime: '10:00 AM',
+        },
+        error: null,
+        isLoading: false,
+      },
+      claimDetails: {
+        data: {},
+        error: null,
+        isLoading: false,
+      },
+      complexClaim: {
+        claim: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          submission: {
+            id: '',
+            isSubmitting: false,
+            error: null,
+            data: null,
+          },
+          data: null,
+        },
+        expenses: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          update: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          delete: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          data: [],
+        },
+      },
     },
   });
 
@@ -35,17 +93,18 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
 
   const renderWithStoreAndRouterHelper = (
     appointmentId = '12345',
+    claimId = '45678',
     initialState = {},
   ) => {
     return renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[
-          `/file-new-claim/complex/${appointmentId}/confirmation`,
+          `/file-new-claim/${appointmentId}/${claimId}/confirmation`,
         ]}
       >
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/confirmation"
+            path="/file-new-claim/:apptId/:claimId"
             element={<ComplexClaimSubmitFlowWrapper />}
           >
             <Route path="confirmation" element={<ConfirmationPage />} />
@@ -63,7 +122,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     it('redirects to home when complex claims feature flag is disabled', () => {
       const initialState = getData({ complexClaimsEnabled: false });
 
-      renderWithStoreAndRouterHelper('12345', initialState);
+      renderWithStoreAndRouterHelper('12345', '45678', initialState);
 
       expect(global.window.location.replace.calledWith('/')).to.be.true;
     });
@@ -71,7 +130,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     it('renders normally when complex claims feature flag is enabled', () => {
       const initialState = getData({ complexClaimsEnabled: true });
 
-      renderWithStoreAndRouterHelper('12345', initialState);
+      renderWithStoreAndRouterHelper('12345', '45678', initialState);
 
       expect($('article.usa-grid-full')).to.exist;
       expect($('.vads-l-col--12.medium-screen\\:vads-l-col--8')).to.exist;
@@ -82,7 +141,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
   describe('When feature flag is enabled', () => {
     it('renders the component with correct structure', () => {
       const initialState = getData({ complexClaimsEnabled: true });
-      renderWithStoreAndRouterHelper('12345', initialState);
+      renderWithStoreAndRouterHelper('12345', '45678', initialState);
 
       expect($('article.usa-grid-full')).to.exist;
       expect($('.vads-l-col--12.medium-screen\\:vads-l-col--8')).to.exist;
@@ -90,7 +149,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
 
     it('renders the back link with correct href and text', () => {
       const initialState = getData({ complexClaimsEnabled: true });
-      renderWithStoreAndRouterHelper('12345', initialState);
+      renderWithStoreAndRouterHelper('12345', '45678', initialState);
 
       const backLink = $(
         'va-link[back][data-testid="complex-claim-back-link"]',
@@ -108,14 +167,13 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     it('renders the ReviewPage component', () => {
       const initialState = getData({ complexClaimsEnabled: true });
       const screen = renderWithStoreAndRouter(
-        <MemoryRouter initialEntries={['/confirmation/12345']}>
+        <MemoryRouter initialEntries={['/file-new-claim/12345/45678/review']}>
           <Routes>
             <Route
-              path="/confirmation/:apptId/"
+              path="/file-new-claim/:apptId/:claimId"
               element={<ComplexClaimSubmitFlowWrapper />}
             >
-              {/* Nested route renders the ReviewPage */}
-              <Route path="" element={<ReviewPage />} />
+              <Route path="review" element={<ReviewPage />} />
             </Route>
           </Routes>
         </MemoryRouter>,
@@ -127,56 +185,36 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
 
     it('shows the ReviewPage first, and after clicking Sign Agreement navigates to the AgreementPage', async () => {
       const initialState = getData({ complexClaimsEnabled: true });
-      const { getByTestId, container } = renderWithStoreAndRouter(
-        <MemoryRouter initialEntries={['/confirmation/12345']}>
+      const {
+        container,
+        queryByTestId,
+        getByTestId,
+      } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/45678/review']}>
           <Routes>
             <Route
-              path="/confirmation/:apptId/"
+              path="/file-new-claim/:apptId/:claimId"
               element={<ComplexClaimSubmitFlowWrapper />}
             >
-              {/* Page 1 */}
-              <Route path="" element={<ReviewPage onNext={() => {}} />} />
-              {/* Page 2 */}
-              <Route path="agreement" element={<AgreementPage />} />
+              <Route path="review" element={<ReviewPage onNext={() => {}} />} />
+              <Route path="travel-agreement" element={<AgreementPage />} />
             </Route>
           </Routes>
         </MemoryRouter>,
         { initialState, reducers: reducer },
       );
 
-      // Page 1 should render first (AgreementPage)
+      // Page 1 should render first (ReviewPage)
       expect(getByTestId('review-page')).to.exist;
 
-      // Click the Sign Agreement button
       const signButton = $('#sign-agreement-button', container);
       fireEvent.click(signButton);
 
-      // For this test, we need to actually trigger a navigation to /agreement
-      // In real app this would be done via react-router navigation inside signAgreement
-      // Here we can simulate by rerendering with the new route:
-      const {
-        getByTestId: getByTestId2,
-        queryByTestId: queryByTestId2,
-      } = renderWithStoreAndRouter(
-        <MemoryRouter initialEntries={['/confirmation/12345/agreement']}>
-          <Routes>
-            <Route
-              path="/confirmation/:apptId/"
-              element={<ComplexClaimSubmitFlowWrapper />}
-            >
-              <Route path="" element={<ReviewPage onNext={() => {}} />} />
-              <Route path="agreement" element={<AgreementPage />} />
-            </Route>
-          </Routes>
-        </MemoryRouter>,
-        { initialState, reducers: reducer },
-      );
-
       // Agreement page should render
-      expect(getByTestId2('agreement-checkbox')).to.exist;
+      expect(getByTestId('agreement-checkbox')).to.exist;
 
       // ReviewPage is no longer visible
-      expect(queryByTestId2('review-page')).to.be.null;
+      expect(queryByTestId('review-page')).to.be.null;
     });
 
     it('handles different appointment IDs in the URL', () => {
@@ -186,6 +224,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       testIds.forEach(apptId => {
         const { container } = renderWithStoreAndRouterHelper(
           apptId,
+          '45678',
           initialState,
         );
 
@@ -200,14 +239,14 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
 
     it('renders with proper scroll element name', () => {
       const initialState = getData({ complexClaimsEnabled: true });
-      renderWithStoreAndRouterHelper('12345', initialState);
+      renderWithStoreAndRouterHelper('12345', '45678', initialState);
 
       expect($('[name="topScrollElement"]')).to.exist;
     });
 
     it('applies correct CSS classes for layout', () => {
       const initialState = getData({ complexClaimsEnabled: true });
-      renderWithStoreAndRouterHelper('12345', initialState);
+      renderWithStoreAndRouterHelper('12345', '45678', initialState);
 
       const article = $('article');
       expect(article.classList.contains('usa-grid-full')).to.be.true;
@@ -232,6 +271,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
           // Create a fresh render for each test case
           const { container } = renderWithStoreAndRouterHelper(
             expectedId,
+            '45678',
             initialState,
           );
 

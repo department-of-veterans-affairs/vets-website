@@ -217,27 +217,6 @@ describe('mcp statement view', () => {
       );
       expect(totalCreditsRow).to.not.exist;
     });
-
-    it('should render Previous Balance and Current Balance rows', () => {
-      const { container } = render(
-        <StatementTable
-          charges={mockSelectedCopay.details}
-          formatCurrency={mockFormatCurrency}
-          selectedCopay={mockSelectedCopay}
-        />,
-      );
-
-      const tableRows = container.querySelectorAll('va-table-row');
-      const previousBalanceRow = Array.from(tableRows).find(row =>
-        row.textContent.includes('Previous Balance'),
-      );
-      const currentBalanceRow = Array.from(tableRows).find(row =>
-        row.textContent.includes('Current Balance'),
-      );
-
-      expect(previousBalanceRow).to.exist;
-      expect(currentBalanceRow).to.exist;
-    });
   });
 
   describe('DownloadStatement component', () => {

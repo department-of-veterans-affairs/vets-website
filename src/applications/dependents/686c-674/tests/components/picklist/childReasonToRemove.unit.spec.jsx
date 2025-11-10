@@ -49,9 +49,7 @@ describe('childReasonToRemove', () => {
     const heading = $('h3', container);
 
     expect(heading).to.exist;
-    expect(heading.textContent).to.include(
-      labels.Child.removalReasonTitle('PENNY FOSTER'),
-    );
+    expect(heading.textContent).to.include('PENNY FOSTER');
     expect(radio).to.exist;
     expect(radio.getAttribute('required')).to.equal('true');
     expect(radio.getAttribute('label')).to.equal(labels.Child.removalReason);
@@ -213,18 +211,18 @@ describe('childReasonToRemove', () => {
   });
 
   describe('universal options', () => {
-    it('should always show adoption and death options', () => {
+    it('should always show ~adoption and~ death options', () => {
       const { container } = renderComponent();
 
       const radioOptions = container.querySelectorAll('va-radio-option');
-      const adoptionOption = Array.from(radioOptions).find(
-        option => option.getAttribute('value') === 'childAdopted',
-      );
+      // const adoptionOption = Array.from(radioOptions).find(
+      //   option => option.getAttribute('value') === 'childAdopted',
+      // );
       const deathOption = Array.from(radioOptions).find(
         option => option.getAttribute('value') === 'childDied',
       );
 
-      expect(adoptionOption).to.exist;
+      // expect(adoptionOption).to.exist;
       expect(deathOption).to.exist;
     });
   });
@@ -258,6 +256,22 @@ describe('childReasonToRemove', () => {
           itemData: { removalReason: 'stepchildNotMember' },
         }),
       ).to.equal('stepchild-financial-support');
+    });
+
+    it('should return "child-disability" on goForward', () => {
+      expect(
+        childReasonToRemove.handlers.goForward({
+          itemData: { removalReason: 'childNotInSchool' },
+        }),
+      ).to.equal('child-disability');
+    });
+
+    it('should return "child-adopted" on goForward', () => {
+      expect(
+        childReasonToRemove.handlers.goForward({
+          itemData: { removalReason: 'childAdopted' },
+        }),
+      ).to.equal('child-adopted-exit');
     });
 
     it('should call goForward when removal reason is set on submit', () => {

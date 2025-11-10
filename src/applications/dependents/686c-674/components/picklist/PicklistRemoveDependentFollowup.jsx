@@ -6,8 +6,7 @@ import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import set from 'platform/utilities/data/set';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
-
-import { getFullName } from '../../../shared/utils';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import {
   PICKLIST_DATA,
@@ -15,6 +14,10 @@ import {
   PICKLIST_EDIT_REVIEW_FLAG,
 } from '../../config/constants';
 import { routing, getPicklistRoutes } from './routes';
+import { showExitLink } from './utils';
+
+import { getFullName } from '../../../shared/utils';
+import ExitForm from '../../../shared/components/ExitFormLink';
 
 const PicklistRemoveDependentFollowup = ({
   data = {},
@@ -31,10 +34,10 @@ const PicklistRemoveDependentFollowup = ({
   const scrollAndFocus = () => {
     setTimeout(() => {
       scrollToTop();
-      const radio = $('va-radio[label-header-level]');
-      if (radio) {
+      const el = $('h3, va-radio[label-header-level]');
+      if (el?.tagName === 'VA-RADIO') {
         // va-radio content doesn't immediately render
-        waitForRenderThenFocus('h3', radio.shadowRoot);
+        waitForRenderThenFocus('h3', el.shadowRoot);
       } else {
         focusElement('h3');
       }
@@ -67,9 +70,11 @@ const PicklistRemoveDependentFollowup = ({
   const dependentGroup = routing?.[dependentType];
   const currentPage =
     page === '' ? 0 : dependentGroup?.findIndex(item => item.path === page);
-  const pageToRender = dependentGroup?.[currentPage];
+  const pageToRender = dependentGroup?.[currentPage] || {};
   const reviewPageFlag =
     sessionStorage.getItem(PICKLIST_EDIT_REVIEW_FLAG) === currentDependent.key;
+  const canShowExitButton = pageToRender.page?.hasExitLink;
+  const isShowingExitLink = canShowExitButton && showExitLink({ data, index });
 
   // Page change state to force scroll & focus on page change
   useEffect(scrollAndFocus, [page, index]);
@@ -93,21 +98,22 @@ const PicklistRemoveDependentFollowup = ({
         goToPath,
       });
       if (nextPage === 'DONE') {
-        // Find next selected dependent
-        const nextSelectedIndex = data[PICKLIST_DATA].findIndex(
-          (dep, indx) => indx > index && dep.selected,
-        );
-        if (reviewPageFlag) {
-          sessionStorage.removeItem(PICKLIST_EDIT_REVIEW_FLAG);
-          goToPath('/review-and-submit');
-        } else if (nextSelectedIndex === -1) {
-          // Done with removing dependents, go to review & submit page
-          goForward(data);
-        } else {
-          // Go to the followup page for the next selected dependent
-          goToPath(`remove-dependent?index=${nextSelectedIndex}`, {
-            force: true,
-          });
+        if (!isShowingExitLink) {
+          // Find next selected dependent
+          const nextSelectedIndex = data[PICKLIST_DATA].findIndex(
+            (dep, indx) => indx > index && dep.selected,
+          );
+          if (reviewPageFlag) {
+            goToPath('/review-and-submit');
+          } else if (nextSelectedIndex === -1) {
+            // Done with removing dependents, go to review & submit page
+            goForward(data);
+          } else {
+            // Go to the followup page for the next selected dependent
+            goToPath(`remove-dependent?index=${nextSelectedIndex}`, {
+              force: true,
+            });
+          }
         }
       } else {
         goToPath(`remove-dependent?index=${index}&page=${nextPage}`, {
@@ -173,28 +179,38 @@ const PicklistRemoveDependentFollowup = ({
 
   return (
     <form onSubmit={handlers.onSubmit}>
-      <pageToRender.page.Component
-        firstName={dependentFirstName}
-        formSubmitted={formSubmitted}
-        fullName={dependentFullName}
-        goBack={navigation.goBack}
-        handlers={handlers}
-        itemData={currentDependent}
-        returnToMainPage={returnToMainPage}
-        isEditing={reviewPageFlag}
-      />
-      {contentBeforeButtons}
-      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+      <div className="vads-u-margin-bottom--5">
+        <pageToRender.page.Component
+          firstName={dependentFirstName}
+          formSubmitted={formSubmitted}
+          fullName={dependentFullName}
+          goBack={navigation.goBack}
+          handlers={handlers}
+          itemData={currentDependent}
+          returnToMainPage={returnToMainPage}
+          isEditing={reviewPageFlag}
+          isShowingExitLink={isShowingExitLink}
+        />
+      </div>
+      {!canShowExitButton && contentBeforeButtons}
+      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--3">
         <div className="small-6 medium-5 columns">
           <va-button back full-width onClick={navigation.goBack} />
         </div>
         <div className="small-6 medium-5 end columns">
-          {!pageToRender.page.hasExitLink && (
+          {isShowingExitLink ? (
+            <ExitForm
+              useButton
+              formId={VA_FORM_IDS.FORM_21_686CV2}
+              text="Exit to your VA dependents"
+              href="/manage-dependents/view"
+            />
+          ) : (
             <va-button continue full-width submit="prevent" />
           )}
         </div>
       </div>
-      {contentAfterButtons}
+      {!canShowExitButton && contentAfterButtons}
     </form>
   );
 };

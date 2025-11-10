@@ -1,11 +1,19 @@
 import React from 'react';
+import { parse, isValid, isPast } from 'date-fns';
 
 import { getFormatedDate } from '../../../shared/utils';
+import { PICKLIST_DATA, PICKLIST_PATHS } from '../../config/constants';
 
 export const labels = {
   Spouse: {
-    removalReasonTitle: (fullName, isEditing) =>
-      `${isEditing ? 'Edit reason' : 'Reason'} for removing ${fullName}`,
+    removalReasonTitle: (fullName, isEditing) => (
+      <span>
+        {isEditing ? 'Edit reason' : 'Reason'} for removing{' '}
+        <span className="dd-privacy-mask" data-dd-action-name="first name">
+          {fullName}
+        </span>
+      </span>
+    ),
     removalReasonHint: 'If more than one applies, select what happened first.',
     removalReason: 'Why do you need to remove this dependent?',
     removalReasonError: 'Select a reason',
@@ -15,8 +23,14 @@ export const labels = {
     death: 'They died',
   },
   Parent: {
-    removalReasonTitle: (fullName, isEditing) =>
-      `${isEditing ? 'Edit reason' : 'Reason'} for removing ${fullName}`,
+    removalReasonTitle: (fullName, isEditing) => (
+      <span>
+        {isEditing ? 'Edit reason' : 'Reason'} for removing{' '}
+        <span className="dd-privacy-mask" data-dd-action-name="first name">
+          {fullName}
+        </span>
+      </span>
+    ),
     removalReasonHint: 'If more than one applies, select what happened first.',
     removalReason: 'Why do you need to remove this dependent?',
     removalReasonError: 'Select a reason',
@@ -32,8 +46,14 @@ export const labels = {
     isStepChildYes: 'Yes',
     isStepChildNo: 'No',
 
-    removalReasonTitle: (fullName, isEditing) =>
-      `${isEditing ? 'Edit reason' : 'Reason'} for removing ${fullName}`,
+    removalReasonTitle: (fullName, isEditing) => (
+      <span>
+        {isEditing ? 'Edit reason' : 'Reason'} for removing{' '}
+        <span className="dd-privacy-mask" data-dd-action-name="first name">
+          {fullName}
+        </span>
+      </span>
+    ),
     removalReasonHint: 'If more than one applies, select what happened first.',
     removalReason: 'Why do you need to remove this dependent?',
     removalReasonError: 'Select a reason',
@@ -48,7 +68,7 @@ export const labels = {
 export const location = item =>
   `${item.endCity}, ${
     item.endOutsideUS
-      ? `${item.endProvince ? `${item.endProvince},` : ''} ${item.endCountry}`
+      ? `${item.endProvince ? `${item.endProvince}, ` : ''}${item.endCountry}`
       : `${item.endState}`
   }`;
 
@@ -146,17 +166,15 @@ export const pageDetails = {
 
   Child: item => {
     const isStepchild = {
-      label: `${item.fullName.first} is your stepchild?`,
+      label: `Is ${item.fullName.first} your stepchild?`,
       value: item.isStepchild === 'Y' ? 'Yes' : 'No',
-      action: 'is stepchild?',
+      action: 'is this dependent a stepchild?',
       hideLabel: true,
       hideValue: false, // generic value
     };
     const reason = {
-      label: `Reason for removing ${item.fullName.first}`,
+      label: 'Reason for removing this child',
       value: labels.Child[item.removalReason],
-      action: 'reason for removing child',
-      hideLabel: true,
       hideValue: false, // generic value
     };
     switch (item.removalReason) {
@@ -170,14 +188,70 @@ export const pageDetails = {
           },
         ];
       case 'childNotInSchool':
-        // TO DO
-        return [isStepchild, reason];
+        return [
+          isStepchild,
+          reason,
+          {
+            label: 'Does this child have a permanent disability?',
+            value: item.childHasPermanentDisability === 'Y' ? 'Yes' : 'No',
+          },
+          item.childHasPermanentDisability === 'Y'
+            ? {
+                // We can't leave a DT blank
+                label: (
+                  <div className="sr-only">
+                    This child is still an eligible dependent
+                  </div>
+                ),
+                action: 'This child is still an eligible dependent',
+                value: `${item.fullName.first} will remain on your benefits`,
+              }
+            : {
+                label: 'Date child stopped attending school',
+                value: getFormatedDate(item.endDate),
+              },
+        ];
       case 'stepchildNotMember':
-        // TO DO
-        return [isStepchild, reason];
+        return [
+          isStepchild,
+          reason,
+          {
+            label:
+              'Do you provide at least half of this child’s financial support?',
+            value: item.stepchildFinancialSupport === 'Y' ? 'Yes' : 'No',
+            hideValue: false,
+          },
+          item.stepchildFinancialSupport === 'Y'
+            ? {
+                // We can't leave a DT blank
+                label: (
+                  <div className="sr-only">
+                    This child still qualifies as your dependent
+                  </div>
+                ),
+                action: 'This child still qualifies as your dependent',
+                value: `${item.fullName.first} will remain on your benefits`,
+              }
+            : {
+                label: 'When did this child stop living with you?',
+                value: getFormatedDate(item.endDate),
+              },
+        ];
       case 'childAdopted':
-        // TO DO
-        return [isStepchild, reason];
+        return [
+          isStepchild,
+          reason,
+          {
+            // We can't leave a DT blank
+            label: (
+              <div className="sr-only">
+                This child can’t be removed using this application
+              </div>
+            ),
+            action: 'This child can’t be removed using this application',
+            value: `${item.fullName.first} will remain on your benefits`,
+          },
+        ];
       case 'childDied':
         return [
           isStepchild,
@@ -195,4 +269,34 @@ export const pageDetails = {
         return [{ label: 'Something went wrong', value: '' }];
     }
   },
+};
+
+export const showExitLink = ({ data = {}, index = 0 } = {}) => {
+  const selected = data[PICKLIST_DATA]?.filter(item => item.selected) || [];
+  const list = data[PICKLIST_PATHS] || [];
+  const exitPaths = list.filter(item => item.path.endsWith('-exit'));
+
+  return (
+    selected.length === exitPaths.length &&
+    exitPaths[exitPaths.length - 1]?.index === index
+  );
+};
+
+export const getPastDateError = (
+  date,
+  missingErrorMessage = 'Enter a date',
+) => {
+  if (!date) {
+    return missingErrorMessage;
+  }
+
+  const parsedDate = parse(date, 'yyyy-MM-dd', new Date());
+  if (!isValid(parsedDate)) {
+    return 'Enter a valid date';
+  }
+  if (!isPast(parsedDate)) {
+    return 'Enter a past date';
+  }
+
+  return null;
 };
