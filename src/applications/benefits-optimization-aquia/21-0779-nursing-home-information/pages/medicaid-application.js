@@ -14,10 +14,9 @@ import {
  * Determines if patient has applied for Medicaid
  */
 export const medicaidApplicationUiSchema = {
-  'ui:title': 'Medicaid application status',
   medicaidApplication: {
     hasAppliedForMedicaid: yesNoUI({
-      title: 'Has the patient applied for Medicaid for nursing home care?',
+      title: 'Has the patient applied for Medicaid?',
     }),
   },
 };

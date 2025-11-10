@@ -1,230 +1,143 @@
-# VA Form 21-0779: Request for Nursing Home Information in Connection with Claim for Aid and Attendance
+# VA Form 21-0779 - Request for Nursing Home Information in Connection with Claim for Aid and Attendance
 
-## Form Purpose
+## Overview
 
-This form is used by nursing home officials to provide certification information for patients (Veterans or their spouses/parents) who are applying for Aid and Attendance benefits while residing in a nursing home. The form collects information about the facility, level of care, and costs to help determine eligibility and payment amounts.
+VA Form 21-0779 is used by nursing home officials to provide certification information for patients (Veterans or their spouses/parents) who are applying for Aid and Attendance benefits while residing in a nursing home. The form collects information about the facility, level of care, Medicaid status, and monthly costs to help the VA determine eligibility and payment amounts for Aid and Attendance benefits.
 
-## Who Should Use This Form
+## Who Uses This Form
 
-Nursing home officials who need to certify:
+- **Nursing home officials** certifying patient care for Aid and Attendance claims
+- **Extended care facility administrators** providing patient residence verification
+- **VA Regional Offices** collecting nursing home certification for benefit determination
+
+Nursing home officials use this form to certify:
 
 - A patient's residence in a qualified extended care facility
-- The level of nursing care being provided
-- Medicaid coverage status and costs
+- The level of nursing care being provided (skilled or intermediate)
+- Medicaid coverage status and application details
 - Monthly out-of-pocket expenses for care
 
-## Form Sections
+## Team
 
-### 1. Nursing Official Information
+Benefits Intake Optimization - Aquia Team
 
-- Official's name and job title
-- Facility phone number
+## Form Details
 
-### 2. Nursing Home Details
+- **Form Number**: VA Form 21-0779
+- **OMB Control Number**: 2900-0652
+- **OMB Expiration**: 09/30/2026
+- **Respondent Burden**: 10 minutes
+- **Entry Name**: `21-0779-nursing-home-information`
+- **Root URL**: `/supporting-forms-for-claims/aid-attendance-housebound`
+- **API Endpoint**: `POST /v0/form210779`
+- **Product ID**: `0383a035-c37c-4875-ad1d-5f85c59025fe`
 
-- Name of nursing home facility
-- Complete facility address
+## Form Flow and Sections
 
-### 3. Patient Information
+The form has **16 total pages** organized into a single-chapter flow, with conditional logic to show different pages based on patient type (Veteran vs spouse/parent).
 
-- Patient type (Veteran or spouse/parent of Veteran)
-- Patient's name, date of birth, and identification
-- Veteran's name, date of birth, and identification (if different from patient)
+### All Users Path (Pages 1-4)
 
-### 4. Care Information
+- **Page 1: Introduction Page**
+  - Explains form purpose and requirements for nursing home officials
+  - OMB information and estimated burden
 
-- Certification level of care (skilled or intermediate)
-- Admission date to facility
-- Medicaid facility approval status
-- Medicaid application status
-- Current Medicaid coverage status
-- Medicaid start date (if applicable)
-- Monthly out-of-pocket costs
+- **Page 2: Nursing Official Information** (`nursing-official-information`)
+  - Official's name
+  - Job title
+  - Facility phone number
+
+- **Page 3: Nursing Home Details** (`nursing-home-details`)
+  - Name of nursing home facility
+  - Complete facility address (street, city, state, ZIP)
+
+- **Page 4: Patient Type Question** (`claimant-question`)
+  - Determines if patient is the Veteran or spouse/parent of Veteran
+  - **Conditional branching point**
+
+### Path 1: Patient is the Veteran (Pages 5-6)
+
+- **Page 5: Veteran Personal Information** (`veteran-personal-info`)
+  - Veteran's full name (first, middle, last - no suffix)
+  - Date of birth
+
+- **Page 6: Veteran Identification Information** (`veteran-identification-info`)
+  - Social Security Number
+  - VA file number (optional)
+
+### Path 2: Patient is Spouse/Parent (Pages 5-8)
+
+- **Page 5: Claimant Personal Information** (`claimant-personal-info`)
+  - Patient's (spouse/parent) full name
+  - Date of birth
+
+- **Page 6: Claimant Identification Information** (`claimant-identification-info`)
+  - Patient's Social Security Number
+  - VA file number (optional)
+
+- **Page 7: Veteran Personal Information** (`veteran-personal-info`)
+  - Connected Veteran's full name
+  - Date of birth
+
+- **Page 8: Veteran Identification Information** (`veteran-identification-info`)
+  - Veteran's Social Security Number
+  - VA file number (optional)
+
+### Continuing for All Users (Pages 7-15 or 9-17)
+
+- **Page 9: Certification Level of Care** (`certification-level-of-care`)
+  - Skilled nursing care
+  - Intermediate nursing care
+
+- **Page 10: Admission Date** (`admission-date`)
+  - Date patient was admitted to facility
+
+- **Page 11: Medicaid Facility Status** (`medicaid-facility`)
+  - Whether facility is Medicaid-approved
+
+- **Page 12: Medicaid Application** (`medicaid-application`)
+  - Whether patient has applied for Medicaid
+
+- **Page 13: Medicaid Coverage Status** (`medicaid-status`)
+  - Whether patient is currently covered by Medicaid
+
+- **Page 14: Medicaid Start Date** (`medicaid-start-date`) - **Conditional**
+  - Shown only if patient is currently covered by Medicaid
+  - Date Medicaid coverage began
+
+- **Page 15: Monthly Costs** (`monthly-costs`)
+  - Out-of-pocket monthly expenses for care
+
+### Final Pages (All Users)
+
+- **Page 16: Review and Submit**
+  - Pre-submission review of all entered information
+  - Statement of truth with signature
+  - Privacy policy acknowledgment
+
+- **Page 17: Confirmation Page**
+  - Submission confirmation
+  - Next steps information
 
 ## Technical Implementation
 
-### Form Configuration
+This application uses the **VA.gov Form System (RJSF)** with traditional page-based configuration.
 
-- **Form ID**: 21-0779
-- **OMB Number**: 2900-0361
-- **OMB Expiration**: 07/31/2027
-- **Estimated Burden**: 15 minutes
-- **Submit URL**: `/simple_forms_api/v1/simple_forms`
-- **Form System**: VA.gov JSON Schema Form System (RJSF)
+### API Integration
 
-### Application Structure
+The form uses **submit-transformer** and **prefill-transformer** for data handling:
 
-```bash
-21-0779-nursing-home-information/
-├── app-entry.jsx                    # Main entry point
-├── components/                      # Reusable components
-│   ├── get-help/
-│   │   ├── get-help.jsx
-│   │   └── index.js
-│   └── index.js                     # Components barrel
-├── config/
-│   ├── form/
-│   │   ├── form.js                  # Main form configuration
-│   │   └── form.unit.spec.jsx       # Form config tests
-│   ├── prefill-transformer/
-│   │   ├── prefill-transformer.js   # Prefill logic
-│   │   └── prefill-transformer.unit.spec.jsx
-│   ├── submit-transformer/
-│   │   ├── submit-transformer.js    # Submit transformer
-│   │   └── submit-transformer.unit.spec.jsx
-│   └── index.js                     # Config barrel
-├── constants/
-│   ├── constants.js                 # Application constants
-│   ├── constants.unit.spec.jsx      # Constants tests
-│   └── index.js                     # Constants barrel
-├── containers/
-│   ├── app/
-│   │   └── app.jsx                  # Main app container
-│   ├── confirmation-page.jsx        # Submission confirmation
-│   ├── introduction-page.jsx        # Form intro page
-│   └── index.js                     # Containers barrel
-├── index.js                         # Root barrel export
-├── manifest.json                    # Application manifest
-├── pages/                           # JSON-schema form pages (flat structure)
-│   ├── admission-date.js            # Admission date page
-│   ├── benefit-type.js              # Benefit type selection
-│   ├── certification-level-of-care.js
-│   ├── claimant-identification-info.js
-│   ├── claimant-personal-info.js
-│   ├── claimant-question.js         # Patient type question
-│   ├── helpers.js                   # Shared helper functions
-│   ├── hospitalization-date.js
-│   ├── hospitalization-facility.js
-│   ├── hospitalization-status.js
-│   ├── medicaid-application.js
-│   ├── medicaid-facility.js
-│   ├── medicaid-start-date.js
-│   ├── medicaid-status.js
-│   ├── monthly-costs.js
-│   ├── nursing-home-details.js
-│   ├── nursing-official-information.js
-│   ├── veteran-identification-info.js
-│   ├── veteran-personal-info.js
-│   └── index.js                     # Pages barrel export
-├── reducers/
-│   └── index.js                     # Redux reducers
-├── routes/
-│   ├── routes.jsx                   # React Router configuration
-│   ├── routes.unit.spec.jsx         # Routes tests
-│   └── index.js                     # Routes barrel
-├── sass/
-│   └── 21-0779-nursing-home-information.scss
-├── tests/
-│   ├── e2e/
-│   │   └── 21-0779-nursing-home-information.cypress.spec.js
-│   ├── fixtures/
-│   │   ├── data/
-│   │   │   ├── maximal-test.json   # Full form data (Star Wars themed)
-│   │   │   └── minimal-test.json   # Minimal required data
-│   │   └── mocks/
-│   │       ├── application-submit.json
-│   │       ├── feature-toggles.json
-│   │       ├── user.json
-│   │       └── index.js
-│   └── unit/
-│       └── transform.unit.spec.jsx
-└── README.md                        # This file
-```
-
-### Development Commands
-
-```bash
-# Run build for this single app
-yarn build --entry=21-0779-nursing-home-information
-
-# Start development server for this form only
-yarn watch --env entry=21-0779-nursing-home-information
-
-# Watch with authentication and static pages
-yarn watch --env entry=auth,static-pages,login-page,21-0779-nursing-home-information
-
-# Run unit tests
-yarn test:unit --app-folder benefits-optimization-aquia/21-0779-nursing-home-information
-
-# Run Cypress tests
-yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/tests/*.cypress.spec.js"
-```
-
-### Key Features
-
-- **JSON Schema Form System**: Uses VA.gov platform's standard RJSF with web component patterns
-- **Platform Web Components**: All form fields use `platform/forms-system/src/js/web-component-patterns`
-- **Conditional Pages**: Dynamic form flow based on patient type (veteran vs spouse/parent)
-- **Save in Progress**: Officials can save partial forms and return later
-- **Validation**: Real-time validation using JSON Schema
-- **Accessibility**: WCAG 2.2 AA compliant with full keyboard navigation and screen reader support
-
-### Form Patterns Used
-
-- `textUI` / `textSchema` - Text input fields
-- `phoneUI` / `phoneSchema` - Phone number fields
-- `fullNameNoSuffixUI` / `fullNameNoSuffixSchema` - Name fields without suffix
-- `dateOfBirthUI` / `dateOfBirthSchema` - Date of birth fields
-- `ssnUI` / `ssnSchema` - Social Security Number fields
-- `addressUI` / `addressSchema` - Address fields with customization
-- `radioUI` / `radioSchema` - Radio button selections
-- `yesNoUI` / `yesNoSchema` - Yes/No boolean fields
-- `currentOrPastDateUI` / `currentOrPastDateSchema` - Date validation
-
-## Form Flow
-
-### All Users Path
-
-1. **Introduction Page**: Explains form purpose and requirements for nursing home officials
-2. **Nursing Official Information**: Collects official's name, title, and phone number
-3. **Nursing Home Details**: Facility name and address
-4. **Patient Type Question**: Determines if patient is the Veteran or spouse/parent
-
-### Path 1: Patient is Veteran
-
-5. **Veteran Personal Info**: Veteran's name and date of birth
-6. **Veteran Identification**: SSN and optional VA file number
-
-### Path 2: Patient is Spouse/Parent
-
-5. **Claimant Personal Info**: Patient's (spouse/parent) name and DOB
-6. **Claimant Identification**: Patient's SSN and optional VA file number
-7. **Veteran Personal Info**: Connected Veteran's name and DOB
-8. **Veteran Identification**: Veteran's SSN and optional VA file number
-
-### Continuing for All Users
-
-9. **Certification Level of Care**: Skilled or intermediate care level
-10. **Admission Date**: Date patient was admitted to facility
-11. **Medicaid Facility Status**: Is facility Medicaid-approved?
-12. **Medicaid Application**: Has patient applied for Medicaid?
-13. **Medicaid Coverage Status**: Is patient currently covered by Medicaid?
-14. **Medicaid Start Date** (conditional): Only if currently covered by Medicaid
-15. **Monthly Costs**: Out-of-pocket monthly expenses
-16. **Review and Submit**: Pre-submission signature and review
-17. **Confirmation Page**: Submission confirmation and next steps
-
-## Integration Points
-
-- **Simple Forms API**: Submits form data to `/simple_forms_api/v1/simple_forms` endpoint
-- **Save in Progress API**: Stores partial form data at `/v0/in_progress_forms/21-0779`
-- **Form Data Transform**: Uses `submit-transformer.js` to convert to backend format
-- **User Authentication**: Uses VA.gov authentication for form access
-
-## Accessibility Features
-
-- All form fields use VA Design System web components
-- Proper ARIA labels and descriptions on all inputs
-- Keyboard navigation support throughout
-- Screen reader announcements for form progress
-- Error messages associated with specific fields
-- Focus management between form sections
+- **Form Submission**: `POST /v0/form210779`
+- **Save in Progress**: `/v0/in_progress_forms/21-0779`
+- **Prefill Transformer**: Converts user profile data to form data
+- **Submit Transformer**: Converts form data to backend API format
 
 ## Testing
 
-### Test Organization
+### Test Scenarios
 
-Tests are co-located with their source files using the naming convention `[filename].unit.spec.jsx` for all unit test files.
+- **Minimal**: Patient is Veteran, no Medicaid (shortest path) - Star Wars themed
+- **Maximal**: Patient is spouse/parent, full Medicaid (all conditional pages) - Star Wars themed
 
 ### Running Tests
 
@@ -236,27 +149,67 @@ yarn test:unit --app-folder benefits-optimization-aquia/21-0779-nursing-home-inf
 yarn test:unit:coverage --app-folder benefits-optimization-aquia/21-0779-nursing-home-information
 
 # Run specific test file
-yarn test:unit src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/schemas/nursing-home.unit.spec.jsx
+yarn test:unit src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/config/form/form.unit.spec.jsx
 
-# Run Cypress E2E tests
+# Run Cypress E2E tests (requires yarn watch to be running)
 yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/tests/*.cypress.spec.js"
+
+# Open Cypress test runner
+yarn cy:open
 ```
 
-### E2E Testing
+## Development
 
-- Cypress tests for complete form flow using `platform/testing/e2e/cypress/support/form-tester`
-- Two test scenarios:
-  - **minimal-test.json**: Patient is veteran, no Medicaid coverage (shortest path)
-  - **maximal-test.json**: Patient is spouse/parent, full Medicaid coverage (longest path with all conditional pages)
-- Test data uses Star Wars themed names and locations for consistency with other forms
-- Accessibility testing with axe-core integrated into page hooks
-- Tests both veteran and claimant pathways through conditional logic
+### Getting Started
 
-### Test Data Theme
+```bash
+# Install dependencies (if needed)
+yarn install
 
-Test fixtures use Star Wars lore-accurate data:
+# Run build for this single app
+yarn build --entry=21-0779-nursing-home-information
 
-- **Minimal**: Ben Kenobi at Mos Eisley Extended Care Facility (Tatooine)
-- **Maximal**: Shmi Skywalker (patient) / Anakin Skywalker (veteran) at Coruscant Veterans Medical Center
-- Nursing officials: Dr. Evazan Ponda (minimal), Beru Lars (maximal)
-- Easter eggs: May the Fourth dates, THX-1138 references, C-3PO cost amounts
+# Watch only this application (recommended for development)
+yarn watch --env entry=21-0779-nursing-home-information
+
+# Watch with authentication and static pages
+yarn watch --env entry=auth,static-pages,login-page,21-0779-nursing-home-information
+```
+
+### Local Development URL
+
+- Development: `http://localhost:3001/supporting-forms-for-claims/aid-attendance-housebound`
+- Introduction page: Starts at the root URL above
+
+## Conditional Form Logic
+
+### When Pages Are Shown/Hidden
+
+#### Patient Type Branching (Pages 5-8)
+
+**When patient is the Veteran**:
+
+- Shows: Veteran Personal Info, Veteran Identification Info (2 pages)
+- Hides: Claimant Personal Info, Claimant Identification Info
+
+**When patient is spouse/parent**:
+
+- Shows: Claimant Personal Info, Claimant Identification Info, Veteran Personal Info, Veteran Identification Info (4 pages)
+
+#### Medicaid Start Date (Page 14)
+
+**Shown when**:
+
+- `formData?.medicaidStatus?.currentlyCoveredByMedicaid === true`
+
+**Fields collected**:
+
+- Date Medicaid coverage began
+
+## Support
+
+For questions or issues:
+
+- **Team**: Benefits Intake Optimization - Aquia Team
+- **Slack**: `#benefits-aquia` (internal)
+- **Repository**: `vets-website`
