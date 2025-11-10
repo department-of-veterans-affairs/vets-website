@@ -3,14 +3,7 @@ import { parse, parseISO, isValid } from 'date-fns';
 
 import omit from 'platform/utilities/data/omit';
 
-import {
-  filterInactivePageData,
-  getActivePages,
-  getInactivePages,
-  stringifyFormReplacer,
-  expandArrayPages,
-  createFormPageList,
-} from 'platform/forms-system/src/js/helpers';
+import { stringifyFormReplacer } from 'platform/forms-system/src/js/helpers';
 import { validateWhiteSpace } from 'platform/forms/validations';
 
 import { MARRIAGE_TYPES, PICKLIST_DATA } from '../constants';
@@ -61,72 +54,41 @@ export const customFormReplacer = (key, value) => {
   return value;
 };
 
-function copyDataFields(sourceData, cleanData, fields) {
-  fields.forEach(field => {
-    const value = sourceData[field];
-    if (Array.isArray(value) ? value.length > 0 : value) {
-      // eslint-disable-next-line no-param-reassign
-      cleanData[field] = value;
-    }
-  });
-}
-
 export function buildSubmissionData(payload) {
   if (!payload?.data) {
     return payload;
   }
 
   const sourceData = payload.data;
-  const cleanData = {};
+  // Start with a clone of formData
+  const cleanData = cloneDeep(sourceData);
 
+  // Get main toggles
   const addEnabled = sourceData['view:addOrRemoveDependents']?.add === true;
   const removeEnabled =
     sourceData['view:addOrRemoveDependents']?.remove === true;
-  const addOptions = sourceData['view:addDependentOptions'] || {};
-  const removeOptions = sourceData['view:removeDependentOptions'] || {};
+
+  const selectableOptions = sourceData['view:selectable686Options'] || {};
 
   // Always include these - needed for BE
-  Object.assign(cleanData, {
-    useV2: true,
-    daysTillExpires: 365,
-  });
+  cleanData.useV2 = true;
+  cleanData.daysTillExpires = 365;
 
-  const essentialFields = [
-    'veteranInformation',
-    'veteranContactInformation',
-    'statementOfTruthSignature',
-    'statementOfTruthCertified',
-    'metadata',
+  // Define the field mappings for each option
+  const addSpouseFields = [
+    'currentMarriageInformation',
+    'doesLiveWithSpouse',
+    'spouseInformation',
+    'spouseSupportingDocuments',
+    'spouseMarriageHistory',
+    'veteranMarriageHistory',
   ];
 
-  essentialFields.forEach(field => {
-    if (sourceData[field]) {
-      cleanData[field] = sourceData[field];
-    }
-  });
+  const childFields = ['childrenToAdd', 'childSupportingDocuments'];
 
-  // Handle fields that can be undefined/false - vaDependentsNetWorthAndPension recently added to formData
-  ['householdIncome', 'vaDependentsNetWorthAndPension'].forEach(field => {
-    if (sourceData[field] !== undefined) {
-      cleanData[field] = sourceData[field];
-    }
-  });
+  const report674Fields = ['studentInformation'];
 
-  const addDataMappings = {
-    addSpouse: [
-      'currentMarriageInformation',
-      'doesLiveWithSpouse',
-      'spouseInformation',
-      'spouseSupportingDocuments',
-      'spouseMarriageHistory',
-      'veteranMarriageHistory',
-    ],
-    addChild: ['childrenToAdd', 'childSupportingDocuments'],
-    addDisabledChild: ['childrenToAdd', 'childSupportingDocuments'],
-    report674: ['studentInformation'],
-  };
-
-  const removeDataMappings = {
+  const removeFieldMappings = {
     reportDivorce: ['reportDivorce'],
     reportDeath: ['deaths'],
     reportStepchildNotInHousehold: ['stepChildren'],
@@ -134,34 +96,91 @@ export function buildSubmissionData(payload) {
     reportChild18OrOlderIsNotAttendingSchool: ['childStoppedAttendingSchool'],
   };
 
-  // Add options
+  // ADD section - remove fields for disabled options
   const enabledAddOptions = {};
-  if (addEnabled) {
-    Object.entries(addDataMappings).forEach(([option, fields]) => {
-      if (addOptions[option] === true) {
-        enabledAddOptions[option] = true;
-        copyDataFields(sourceData, cleanData, fields);
+
+  if (addEnabled === true) {
+    // Check addSpouse option
+    if (selectableOptions.addSpouse === true) {
+      enabledAddOptions.addSpouse = true;
+    } else {
+      addSpouseFields.forEach(field => {
+        delete cleanData[field];
+      });
+    }
+
+    // Check child options
+    const shouldIncludeChildData =
+      selectableOptions.addChild === true ||
+      selectableOptions.addDisabledChild === true;
+
+    if (shouldIncludeChildData) {
+      if (selectableOptions.addChild === true) {
+        enabledAddOptions.addChild = true;
       }
+      if (selectableOptions.addDisabledChild === true) {
+        enabledAddOptions.addDisabledChild = true;
+      }
+    } else {
+      childFields.forEach(field => {
+        delete cleanData[field];
+      });
+    }
+
+    // Check student option
+    if (selectableOptions.report674 === true) {
+      enabledAddOptions.report674 = true;
+    } else {
+      report674Fields.forEach(field => {
+        delete cleanData[field];
+      });
+    }
+  } else {
+    // If main add toggle is not enabled, remove all add-related fields
+    addSpouseFields.forEach(field => {
+      delete cleanData[field];
+    });
+    childFields.forEach(field => {
+      delete cleanData[field];
+    });
+    report674Fields.forEach(field => {
+      delete cleanData[field];
     });
   }
 
-  // Remove options
+  // REMOVE section - remove fields for disabled options
   const enabledRemoveOptions = {};
-  if (removeEnabled) {
-    Object.entries(removeDataMappings).forEach(([option, fields]) => {
-      if (removeOptions[option] === true) {
+
+  if (removeEnabled === true) {
+    Object.entries(removeFieldMappings).forEach(([option, fields]) => {
+      if (selectableOptions[option] === true) {
         enabledRemoveOptions[option] = true;
-        copyDataFields(sourceData, cleanData, fields);
+      } else {
+        fields.forEach(field => {
+          delete cleanData[field];
+        });
       }
+    });
+  } else {
+    // If main remove toggle is not enabled, remove all remove-related fields
+    Object.values(removeFieldMappings).forEach(fields => {
+      fields.forEach(field => {
+        delete cleanData[field];
+      });
     });
   }
 
+  // Update the view fields with enabled options
   if (Object.keys(enabledAddOptions).length > 0) {
     cleanData['view:addDependentOptions'] = enabledAddOptions;
+  } else {
+    delete cleanData['view:addDependentOptions'];
   }
 
   if (Object.keys(enabledRemoveOptions).length > 0) {
     cleanData['view:removeDependentOptions'] = enabledRemoveOptions;
+  } else {
+    delete cleanData['view:removeDependentOptions'];
   }
 
   const mainControl = {};
@@ -174,14 +193,33 @@ export function buildSubmissionData(payload) {
 
   if (Object.keys(mainControl).length > 0) {
     cleanData['view:addOrRemoveDependents'] = mainControl;
+  } else {
+    delete cleanData['view:addOrRemoveDependents'];
   }
 
-  const selectableOptions = { ...enabledAddOptions, ...enabledRemoveOptions };
-  if (Object.keys(selectableOptions).length > 0) {
-    cleanData['view:selectable686Options'] = selectableOptions;
+  // Build the selectable options for backward compatibility
+  const enabledSelectableOptions = {
+    ...enabledAddOptions,
+    ...enabledRemoveOptions,
+  };
+  if (Object.keys(enabledSelectableOptions).length > 0) {
+    cleanData['view:selectable686Options'] = enabledSelectableOptions;
+  } else {
+    delete cleanData['view:selectable686Options'];
   }
 
-  return { ...payload, data: cleanData };
+  // Clean up empty arrays
+  Object.keys(cleanData).forEach(key => {
+    if (Array.isArray(cleanData[key]) && cleanData[key].length === 0) {
+      delete cleanData[key];
+    }
+  });
+
+  return {
+    metadata: payload.metadata,
+    data: cleanData,
+    formData: cleanData,
+  };
 }
 
 export function customTransformForSubmit(formConfig, form) {
@@ -192,21 +230,9 @@ export function customTransformForSubmit(formConfig, form) {
   payload.data.useV2 = true;
   payload.data.daysTillExpires = 365;
 
-  const expandedPages = expandArrayPages(
-    createFormPageList(formConfig),
-    payload.data,
-  );
-  const activePages = getActivePages(expandedPages, payload.data);
-  const inactivePages = getInactivePages(expandedPages, payload.data);
-  const withoutInactivePages = filterInactivePageData(
-    inactivePages,
-    activePages,
-    payload,
-  );
+  const cleanedPayload = buildSubmissionData(payload);
 
-  const cleanedPayload = buildSubmissionData(withoutInactivePages);
-
-  return JSON.stringify(cleanedPayload, customFormReplacer) || '{}';
+  return JSON.stringify(cleanedPayload.data, customFormReplacer) || '{}';
 }
 
 /**
