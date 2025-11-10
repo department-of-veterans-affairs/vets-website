@@ -6,10 +6,10 @@ import {
   getPrivateEvidence,
   getOtherEvidence,
 } from '../utils/evidence';
-import { content } from '../content/evidenceSummary';
-import { EvidencePrivateContent } from './EvidencePrivateContent';
+import { content } from '../content/evidence/summary';
+import { PrivateDetailsDisplay } from './evidence/PrivateDetailsDisplay';
 import { EvidenceUploadContent } from './EvidenceUploadContent';
-import { EvidenceVaContent } from './EvidenceVaContent';
+import { VaDetailsDisplay } from './evidence/VaDetailsDisplay';
 import { SUMMARY_EDIT, HAS_PRIVATE_LIMITATION } from '../constants';
 import { data995 } from '../../shared/props';
 
@@ -77,8 +77,8 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
           </div>
         </dl>
       ) : null}
-      <EvidenceVaContent list={vaEvidence} {...props} />
-      <EvidencePrivateContent
+      <VaDetailsDisplay list={vaEvidence} {...props} />
+      <PrivateDetailsDisplay
         list={privateEvidence}
         limitedConsentResponse={data?.[HAS_PRIVATE_LIMITATION]}
         limitedConsent={limitedConsent}
