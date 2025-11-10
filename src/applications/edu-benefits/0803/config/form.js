@@ -16,6 +16,7 @@ import testNameAndDate from '../pages/testNameAndDate';
 import organizationInfo from '../pages/organizationInfo';
 import testCost from '../pages/testCost';
 import remarksPage from '../pages/remarksPage';
+import submissionInstructions from '../pages/submissionInstructions';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -134,6 +135,17 @@ const formConfig = {
           title: 'Remarks',
           uiSchema: remarksPage.uiSchema,
           schema: remarksPage.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: 'Submission instructions',
+          uiSchema: submissionInstructions.uiSchema,
+          schema: submissionInstructions.schema,
         },
       },
     },
