@@ -73,22 +73,28 @@ export const validateOHIDates = (errors, data) => {
  * and `false` when all required fields are valid for the selected plan type.
  *
  * @param {Object} [item={}] Form data to validate.
- * @property {string} item.medicarePlanType The selected Medicare plan type. One of: 'A', 'B', 'C', 'D', 'A_B', 'NONE'.
- * @property {string} [item.medicarePartCCarrier] Name of the Medicare Part C (Medicare Advantage) carrier. Required if medicarePlanType is 'C'.
- * @property {string} [item.medicarePartCEffectiveDate] Effective date for Medicare Part C. Required if medicarePlanType is 'C'.
- * @property {boolean} [item.hasMedicarePartD] Whether the applicant has Medicare Part D. Required if medicarePlanType is 'D'.
- * @property {string} [item.medicarePartDEffectiveDate] Effective date for Medicare Part D. Required if medicarePlanType is 'D'.
- * @property {string} [item.medicarePartDTerminationDate] Termination date for Medicare Part D, if applicable.
- * @property {string} [item.medicarePartAFrontCard] Image or file reference for the front of the Medicare Part A card. Required if medicarePlanType is 'A' or 'A_B'.
- * @property {string} [item.medicarePartABackCard] Image or file reference for the back of the Medicare Part A card. Required if medicarePlanType is 'A' or 'A_B'.
- * @property {string} [item.medicarePartBFrontCard] Image or file reference for the front of the Medicare Part B card. Required if medicarePlanType is 'B' or 'A_B'.
- * @property {string} [item.medicarePartBBackCard] Image or file reference for the back of the Medicare Part B card. Required if medicarePlanType is 'B' or 'A_B'.
- * @property {string} [item.medicarePartAPartBFrontCard] Image or file reference for the front of a combined Medicare Part A/B card. Required if medicarePlanType is 'A_B'.
- * @property {string} [item.medicarePartAPartBBackCard] Image or file reference for the back of a combined Medicare Part A/B card. Required if medicarePlanType is 'A_B'.
- * @property {string} [item.medicarePartCFrontCard] Image or file reference for the front of the Medicare Part C card. Required if medicarePlanType is 'C'.
- * @property {string} [item.medicarePartCBackCard] Image or file reference for the back of the Medicare Part C card. Required if medicarePlanType is 'C'.
- * @property {string} [item.medicarePartDFrontCard] Image or file reference for the front of the Medicare Part D card. Required if medicarePlanType is 'D'.
- * @property {string} [item.medicarePartDBackCard] Image or file reference for the back of the Medicare Part D card. Required if medicarePlanType is 'D'.
+ * @property {'ab'|'a'|'b'|'c'} [item.medicarePlanType] Selected plan type.
+ *   - 'ab': Requires valid past dates for Parts A & B and uploaded cards. If Part D is present, it must have a valid past effective date, optional termination date, and uploaded cards.
+ *   - 'a' : Requires a valid past Part A effective date and uploaded cards.
+ *   - 'b' : Requires a valid past Part B effective date and uploaded cards.
+ *   - 'c' : Requires a carrier, a valid past Part C effective date, and uploaded cards. If Part D is present, same rules as above.
+ * @property {string} [item.medicarePartCCarrier] Required when `medicarePlanType === 'c'`.
+ * @property {string} [item.medicarePartCEffectiveDate] Required past date when `medicarePlanType === 'c'`.
+ * @property {boolean} [item.hasMedicarePartD] When `true` and plan supports Part D ('ab' or 'c'), Part D dates and cards are validated.
+ * @property {string} [item.medicarePartDEffectiveDate] Required past date when Part D is present and supported.
+ * @property {string} [item.medicarePartDTerminationDate] Optional; if provided, must be a past date when Part D is present and supported.
+ * @property {{ medicarePartAEffectiveDate?: string }} [item['view:medicarePartAEffectiveDate']] Container for Part A effective date (must be a past date when required).
+ * @property {{ medicarePartBEffectiveDate?: string }} [item['view:medicarePartBEffectiveDate']] Container for Part B effective date (must be a past date when required).
+ * @property {Array} [item.medicarePartAFrontCard] Required uploaded file array for Part A front card.
+ * @property {Array} [item.medicarePartABackCard] Required uploaded file array for Part A back card.
+ * @property {Array} [item.medicarePartBFrontCard] Required uploaded file array for Part B front card.
+ * @property {Array} [item.medicarePartBBackCard] Required uploaded file array for Part B back card.
+ * @property {Array} [item.medicarePartAPartBFrontCard] Required uploaded file array for Parts A & B front card.
+ * @property {Array} [item.medicarePartAPartBBackCard] Required uploaded file array for Parts A & B back card.
+ * @property {Array} [item.medicarePartCFrontCard] Required uploaded file array for Part C front card.
+ * @property {Array} [item.medicarePartCBackCard] Required uploaded file array for Part C back card.
+ * @property {Array} [item.medicarePartDFrontCard] Required uploaded file array for Part D front card when Part D is present.
+ * @property {Array} [item.medicarePartDBackCard] Required uploaded file array for Part D back card when Part D is present.
  *
  * @returns {boolean} `true` if validation fails (invalid/missing fields); `false` if the item is valid.
  */
