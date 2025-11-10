@@ -36,7 +36,7 @@ export const isSignatureValid = signatureValue => {
  */
 export const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
   const dispatch = useDispatch();
-  const { employerCertification } = formData;
+  const { certification } = formData;
   const [signatureBlurred, setsignatureBlurred] = useState(false);
 
   const STATEMENT_TEXT =
@@ -46,11 +46,11 @@ export const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
   useEffect(
     () => {
       const isValid =
-        isSignatureValid(employerCertification?.signature) && formData?.AGREED;
+        isSignatureValid(certification?.signature) && certification?.certified;
       onSectionComplete?.(isValid);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [employerCertification?.signature, formData?.AGREED],
+    [certification?.signature, certification?.certified],
   );
 
   const handleSignatureChange = useCallback(
@@ -58,7 +58,8 @@ export const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
       dispatch(
         setData({
           ...formData,
-          employerCertification: {
+          certification: {
+            ...formData?.certification,
             signature: event.detail.value,
           },
         }),
@@ -77,7 +78,10 @@ export const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
         // setPreSubmitAction('statementOfTruthCertified', event.detail.checked),
         setData({
           ...formData,
-          AGREED: event.detail.checked,
+          certification: {
+            ...formData?.certification,
+            certified: event.detail.checked,
+          },
         }),
       );
     },
@@ -86,12 +90,12 @@ export const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
 
   const signatureError =
     (showError || signatureBlurred) &&
-    !isSignatureValid(employerCertification?.signature)
+    !isSignatureValid(certification?.signature)
       ? 'Please enter a name (at least 3 characters)'
       : undefined;
 
   const checkboxError =
-    showError && !formData?.AGREED
+    showError && !certification?.certified
       ? 'You must certify by checking the box'
       : undefined;
 
@@ -99,10 +103,10 @@ export const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
     <VaStatementOfTruth
       heading="Statement of truth"
       inputLabel="Your full name"
-      inputValue={employerCertification?.signature || ''}
+      inputValue={certification?.signature || ''}
       inputMessageAriaDescribedby={`Statement of truth: ${STATEMENT_TEXT}`}
       inputError={signatureError}
-      checked={formData?.AGREED || false}
+      checked={certification?.certified || false}
       onVaInputChange={handleSignatureChange}
       onVaInputBlur={handleSignatureBlur}
       onVaCheckboxChange={handleCheckboxChange}
@@ -115,8 +119,10 @@ export const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
 
 PreSubmitInfo.propTypes = {
   formData: PropTypes.shape({
-    signature: PropTypes.string,
-    statementOfTruthCertified: PropTypes.bool,
+    certification: PropTypes.shape({
+      signature: PropTypes.string,
+      certified: PropTypes.bool,
+    }),
   }),
   showError: PropTypes.bool,
   onSectionComplete: PropTypes.func,
@@ -124,8 +130,10 @@ PreSubmitInfo.propTypes = {
 
 PreSubmitInfo.defaultProps = {
   formData: {
-    signature: '',
-    statementOfTruthCertified: false,
+    certification: {
+      signature: '',
+      certified: false,
+    },
   },
   showError: false,
   onSectionComplete: undefined,

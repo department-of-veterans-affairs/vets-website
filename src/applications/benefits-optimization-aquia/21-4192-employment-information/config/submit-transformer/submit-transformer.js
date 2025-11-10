@@ -310,9 +310,10 @@ export const transformForSubmit = (formConfig, form) => {
   // Only include employerCertification if signature is provided
   // (This would typically be filled by the employer on a separate form)
   // For now, we omit it entirely from the veteran's submission
-  if (data?.employerCertification?.signature) {
-    transformed.employerCertification = {
-      signature: data.employerCertification.signature,
+  if (data?.certification?.signature) {
+    transformed.certification = {
+      signature: data.certification.signature,
+      certified: data.certification.certified,
     };
   }
 
