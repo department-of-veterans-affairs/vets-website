@@ -98,7 +98,7 @@ export const allergyReducer = (state = initialState, action) => {
     case Actions.Allergies.GET_LIST: {
       const oldList = state.allergiesList;
       const newList =
-        action.response.entry
+        action?.response?.entry
           ?.map(allergy => {
             return convertAllergy(allergy.resource);
           })
