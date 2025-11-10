@@ -31,7 +31,7 @@ import {
   capitalizeEachWord,
   disabilityIsSelected,
   isClaimingIncrease,
-  isClaimingNew,
+  isPlaceholderRated,
   pathWithIndex,
   sippableId,
 } from './index';
@@ -53,20 +53,30 @@ const createCheckboxSchema = (schema, disabilityName) => {
  * Create the checkbox schema for new disabilities if user has selected
  * New claim type
  */
+const pretty = s =>
+  typeof capitalizeEachWord === 'function'
+    ? capitalizeEachWord(s)
+    : s.charAt(0).toUpperCase() + s.slice(1);
+
 export const makeSchemaForNewDisabilities = createSelector(
   formData =>
-    isClaimingNew(formData) && Array.isArray(formData?.newDisabilities)
-      ? formData.newDisabilities
-      : [],
+    Array.isArray(formData?.newDisabilities) ? formData.newDisabilities : [],
 
   (newDisabilities = []) => {
     const raw = newDisabilities
       .map(d => (typeof d?.condition === 'string' ? d.condition.trim() : ''))
-      .filter(s => s.length > 0);
+      .filter(s => s.length > 0 && !isPlaceholderRated(s));
 
-    const normalized = raw.map(s => s[0].toUpperCase() + s.slice(1));
+    const normalized = raw.map(pretty);
     const unique = [...new Set(normalized)];
-    const properties = unique.reduce(createCheckboxSchema, {});
+
+    const properties = unique.reduce((schema, name) => {
+      return _.set(
+        [sippableId(name)],
+        { title: name, type: 'boolean' },
+        schema,
+      );
+    }, {});
 
     return { properties };
   },
