@@ -734,7 +734,7 @@ export const sendDataDogAction = actionName => {
 
 export const sendDatadogError = (error, feature) => {
   datadogRum.addError(error, {
-    app: 'Medical Record',
+    app: 'Medical Records',
     feature,
   });
 };
