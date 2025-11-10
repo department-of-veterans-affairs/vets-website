@@ -165,7 +165,7 @@ const employmentDetailsPage = {
       ...textUI({
         title: 'Describe the kind of work you did',
         hint:
-          'For example: cashier at a grocery store, part-time landscaper, or office assistant',
+          'For example: cashier at a grocery store, part-time landscaper, or office assistant.',
         errorMessages: {
           required: 'Enter the kind of work you did',
         },
