@@ -150,7 +150,6 @@ const ExpensePage = () => {
     });
 
   const handleDocumentUpload = async e => {
-    // Try both e.detail.files and e.target.files
     const files = e.detail?.files;
     // Check if we have files for upload
     if (!files || files.length === 0) {
