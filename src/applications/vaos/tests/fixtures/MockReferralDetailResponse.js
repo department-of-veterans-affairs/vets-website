@@ -154,6 +154,7 @@ class MockReferralDetailResponse {
       serverError,
       provider,
       referralNumber,
+      stationId,
     } = this.options;
 
     // Return 404 error if notFound is true
@@ -173,6 +174,7 @@ class MockReferralDetailResponse {
       hasAppointments,
       provider,
       referralNumber,
+      stationId,
     });
   }
 }

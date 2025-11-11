@@ -3,6 +3,7 @@ import manifest from '../manifest.json';
 // import schema from './config/form-0995-schema.json';
 
 export const APP_NAME = 'Supplemental Claim';
+export const FORM_ID = 'VA Form 20-0995';
 
 export const DATA_DOG_ID = '2779ccc3-be87-4b2d-a757-9ff54b58761b';
 export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';
@@ -47,26 +48,21 @@ export const HAS_OTHER_EVIDENCE = 'view:hasOtherEvidence';
 export const HAS_PRIVATE_LIMITATION = 'view:hasPrivateLimitation';
 export const MST_OPTION = 'mstOption';
 
-// Including a default until we determine how to get around the user restarting
-// the application after using the "Finish this application later" link
-// See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
-export const DEFAULT_BENEFIT_TYPE = 'compensation';
-
 export const errorMessages = {
   evidence: {
     // VA evidence
     pastDate: 'You must add a past treatment date',
     newerDate: 'You must add a more recent treatment date',
-    blankDate: 'You must enter a treatment date',
+    blankDate: 'Enter a month from 1 to 12, even if it’s an estimate',
     missing: 'You must include at least 1 type of supporting evidence',
-    locationMissing: 'You must enter a treatment location',
+    locationMissing: 'Enter a treatment location',
     locationMaxLength: 'You can enter a maximum of 255 characters',
-    issuesMissing: 'You must select 1 or more conditions',
+    issuesMissing: 'Select a condition',
     uniqueVA:
       'You must enter a location, condition and dates you haven’t already entered',
 
     // private evidence
-    facilityMissing: 'You must add a provider or facility name',
+    facilityMissing: 'Enter a location name',
     uniquePrivate:
       'You must enter a provider, address, condition and dates you haven’t already entered',
   },
