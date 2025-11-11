@@ -3,6 +3,7 @@ import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import environment from '~/platform/utilities/environment';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -19,13 +20,19 @@ import testCost from '../pages/testCost';
 import remarksPage from '../pages/remarksPage';
 import submissionInstructions from '../pages/submissionInstructions';
 
+import submitForm from './submitForm';
+import transform from './tranform';
+
+export const SUBMIT_URL = `${
+  environment.API_URL
+}/v0/education_benefits_claims/0803`;
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
   trackingPrefix: '0803-edu-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -46,6 +53,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  transformForSubmit: transform,
   preSubmitInfo: {
     statementOfTruth: {
       heading: 'Certification statement',
@@ -62,6 +70,7 @@ const formConfig = {
           </p>
         </div>
       ),
+      useProfileFullName: true,
       messageAriaDescribedby: 'I have read and accept the privacy policy.',
     },
   },
@@ -160,12 +169,18 @@ const formConfig = {
     },
     submissionInstructionsChapter: {
       title: 'Submission instructions',
+      'ui:options': {
+        hideOnReview: true,
+      },
       pages: {
         submissionInstructions: {
           path: 'submission-instructions',
           title: 'Submission instructions',
           uiSchema: submissionInstructions.uiSchema,
           schema: submissionInstructions.schema,
+          'ui:options': {
+            hideOnReview: true,
+          },
         },
       },
     },

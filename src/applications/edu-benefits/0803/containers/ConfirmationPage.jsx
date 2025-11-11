@@ -1,32 +1,196 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { setSubmission } from 'platform/forms-system/src/js/actions';
+import recordEvent from 'platform/monitoring/record-event';
+import environment from '~/platform/utilities/environment';
+
+const CLAIM_ID = '0803ClaimId';
+
+export const setClaimIdInLocalStage = submission => {
+  if (submission?.response?.id) {
+    localStorage.setItem(CLAIM_ID, JSON.stringify(submission?.response?.id));
+  }
+};
+
+export const getClaimIdFromLocalStage = () => {
+  return JSON.parse(localStorage.getItem(CLAIM_ID));
+};
+
+function AlertBox() {
+  return (
+    <va-alert close-btn-aria-label="Close notification" status="into" visible>
+      <h2 slot="headline">Complete all submission steps</h2>
+      <p className="vads-u-margin-y--0">
+        This form requires additional steps for successful submission. Follow
+        the instructions below carefully to ensure your form is submitted
+        correctly.
+      </p>
+    </va-alert>
+  );
+}
+
+function ProcessList({ pdfUrl, trackingPrefix }) {
+  return (
+    <va-process-list uswds>
+      <va-process-list-item>
+        <div
+          itemProp="itemListElement"
+          className="confirmation-save-pdf-download-section screen-only custom-classname"
+        >
+          <h2>Download and save your form</h2>
+          <p>
+            Make sure that your completed form is saved as a PDF on your device.{' '}
+            <span className="vads-u-display--inline-block">
+              <va-link
+                download
+                filetype="PDF"
+                href={pdfUrl}
+                onClick={() =>
+                  recordEvent({
+                    event: `${trackingPrefix}confirmation-pdf-download`,
+                  })
+                }
+                text="Download completed VA Form 22-0803"
+              />
+            </span>
+          </p>
+        </div>
+      </va-process-list-item>
+      <va-process-list-item header="Gather relevant attachments">
+        <div itemProp="itemListElement">
+          <p>
+            When you submit this form, you will need to attach the following
+            documents:
+          </p>
+          <ul>
+            <li>
+              The receipt for the test fees, <strong>and</strong>
+            </li>
+            <li>A copy of your test results</li>
+          </ul>
+          <p>Gather those documents now.</p>
+        </div>
+      </va-process-list-item>
+      <va-process-list-item header="Upload your form and attachments to QuickSubmit or mail them to your Regional Processing Office">
+        <div itemProp="itemListElement">
+          <p>
+            Visit{' '}
+            <va-link
+              external
+              text="QuickSubmit on AccessVA (opens in a new tab)"
+              href="https://www.my.va.gov/EducationFileUploads/s/"
+            />{' '}
+            and upload your saved VA Form 22-0803 as well as your receipt and
+            test results.
+          </p>
+          <p>
+            If you would rather print and mail your form and attachments, the
+            addresses for your region are listed below.
+          </p>
+        </div>
+      </va-process-list-item>
+    </va-process-list>
+  );
+}
+ProcessList.propTypes = {
+  pdfUrl: PropTypes.string,
+  trackingPrefix: PropTypes.string,
+};
+
+function RegionalAccordion() {
+  return (
+    <va-accordion>
+      <va-accordion-item header="Eastern region" id="easter_region">
+        <p>TODO</p>
+      </va-accordion-item>
+      <va-accordion-item header="Western region" id="western_region">
+        <p>TODO</p>
+      </va-accordion-item>
+    </va-accordion>
+  );
+}
 
 export const ConfirmationPage = props => {
+  const [claimId, setClaimId] = useState(null);
   const form = useSelector(state => state.form || {});
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
   const confirmationNumber = submission?.response?.confirmationNumber || '';
+  const { route, router } = props;
+  const dispatch = useDispatch();
+
+  const resetSubmissionStatus = () => {
+    const now = new Date().getTime();
+
+    dispatch(setSubmission('status', false));
+    dispatch(setSubmission('timestamp', now));
+  };
+
+  const goBack = e => {
+    e.preventDefault();
+    resetSubmissionStatus();
+    router.push('/review-and-submit');
+  };
+
+  useEffect(
+    () => {
+      setClaimIdInLocalStage(submission);
+      setClaimId(getClaimIdFromLocalStage());
+    },
+    [submission],
+  );
 
   return (
     <ConfirmationView
       formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      pdfUrl={submission.response?.pdfUrl}
       devOnly={{
         showButtons: true,
       }}
     >
-      <ConfirmationView.SubmissionAlert />
-      <ConfirmationView.SavePdfDownload />
-      <ConfirmationView.ChapterSectionCollection />
-      <ConfirmationView.PrintThisPage />
-      <ConfirmationView.WhatsNextProcessList />
-      <ConfirmationView.HowToContact />
-      <ConfirmationView.GoBackLink />
-      <ConfirmationView.NeedHelp />
+      <div data-testid="download-link">
+        <AlertBox />
+        <h2 className="vads-u-font-size--h2 vad-u-margin-top--0">
+          To submit your form, follow the steps below
+        </h2>
+        <ProcessList
+          pdfUrl={`${
+            environment.API_URL
+          }/v0/education_benefits_claims/download_pdf/${claimId}`}
+          trackingPrefix={route?.formConfig?.trackingPrefix}
+        />
+        <p>
+          <va-button
+            className="custom-classname"
+            secondary
+            text="Print this page"
+            data-testid="print-page"
+            onClick={() => window.print()}
+          />
+        </p>
+        <p>
+          <va-link
+            onClick={goBack}
+            class="screen-only vads-u-margin-top--1 vads-u-font-weight--bold"
+            data-testid="back-button"
+            text="Back"
+            href="#"
+          />
+        </p>
+        <h2>Regional Processing Office mailing addresses</h2>
+        <RegionalAccordion />
+        <h2 className="vads-u-font-size--h2 vad-u-margin-top--0">
+          What are my next steps?
+        </h2>
+        <p>
+          After you successfully submit your form, we will review your
+          documents. You should hear back within 30 days about your
+          reimbursement.
+        </p>
+      </div>
     </ConfirmationView>
   );
 };
@@ -42,6 +206,9 @@ ConfirmationPage.propTypes = {
   name: PropTypes.string,
   route: PropTypes.shape({
     formConfig: PropTypes.object,
+  }),
+  router: PropTypes.shape({
+    push: PropTypes.func,
   }),
 };
 

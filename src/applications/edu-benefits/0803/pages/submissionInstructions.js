@@ -20,6 +20,9 @@ export default {
           </p>
         </div>
       ),
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
   },
   schema: {

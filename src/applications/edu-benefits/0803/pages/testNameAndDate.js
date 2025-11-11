@@ -32,7 +32,7 @@ export default {
         },
       }),
     },
-    understandsUploadRequirement: {
+    understandsUploadRequirement1: {
       ...checkboxUI({
         title: 'I understand',
         description: (
@@ -64,7 +64,7 @@ export default {
         type: 'string',
       },
       testDate: currentOrPastDateSchema,
-      understandsUploadRequirement: checkboxRequiredSchema,
+      understandsUploadRequirement1: checkboxRequiredSchema,
     },
     required: ['testName', 'testDate'],
   },
