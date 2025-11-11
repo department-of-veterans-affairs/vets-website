@@ -26,19 +26,19 @@ describe('Submit Transformer', () => {
           relationship: 'spouse',
         },
         veteranInformation: {
-          veteranFullName: { first: 'John', last: 'Doe' },
+          veteranFullName: { first: 'Anakin', last: 'Skywalker' },
           veteranDob: '1980-01-01',
           veteranSsn: '123-45-6789',
         },
         claimantInformation: {
-          claimantFullName: { first: 'Jane', last: 'Doe' },
+          claimantFullName: { first: 'Padmé', last: 'Amidala' },
           claimantDob: '1982-05-15',
         },
       };
       const resultString = submitTransformer(mockFormConfig, formData);
       const result = JSON.parse(resultString);
       expect(result.claimantInformation.claimantFullName.first).to.equal(
-        'Jane',
+        'Padmé',
       );
       expect(result.claimantInformation.claimantDob).to.equal('1982-05-15');
     });
@@ -52,9 +52,9 @@ describe('Submit Transformer', () => {
         },
         veteranInformation: {
           veteranFullName: {
-            first: 'John',
-            middle: 'Michael',
-            last: 'Doe',
+            first: 'Anakin',
+            middle: 'L',
+            last: 'Skywalker',
             suffix: 'Jr',
           },
         },
@@ -63,12 +63,12 @@ describe('Submit Transformer', () => {
       const result = JSON.parse(resultString);
       expect(result.claimantInformation).to.exist;
       expect(result.claimantInformation.claimantFullName.first).to.equal(
-        'John',
+        'Anakin',
       );
-      expect(result.claimantInformation.claimantFullName.middle).to.equal(
-        'Michael',
+      expect(result.claimantInformation.claimantFullName.middle).to.equal('L');
+      expect(result.claimantInformation.claimantFullName.last).to.equal(
+        'Skywalker',
       );
-      expect(result.claimantInformation.claimantFullName.last).to.equal('Doe');
       // Note: suffix field removed from form (middle is kept)
       expect(result.claimantInformation.claimantFullName.suffix).to.be
         .undefined;
@@ -149,7 +149,7 @@ describe('Submit Transformer', () => {
           relationship: 'veteran',
         },
         veteranInformation: {
-          veteranFullName: { first: 'Alice', last: 'Smith' },
+          veteranFullName: { first: 'Leia', last: 'Organa' },
           veteranDob: '1975-06-20',
           veteranSsn: '987-65-4321',
         },
@@ -169,10 +169,10 @@ describe('Submit Transformer', () => {
 
       // Check all copied data
       expect(result.claimantInformation.claimantFullName.first).to.equal(
-        'Alice',
+        'Leia',
       );
       expect(result.claimantInformation.claimantFullName.last).to.equal(
-        'Smith',
+        'Organa',
       );
       expect(result.claimantInformation.claimantDob).to.equal('1975-06-20');
       expect(result.claimantSsn.claimantSsn).to.equal('987-65-4321');
@@ -217,19 +217,17 @@ describe('Submit Transformer', () => {
         },
         veteranInformation: {
           veteranFullName: {
-            first: 'Bob',
-            last: 'Jones',
+            first: 'Han',
+            last: 'Solo',
           },
         },
       };
       const resultString = submitTransformer(mockFormConfig, formData);
       const result = JSON.parse(resultString);
-      expect(result.claimantInformation.claimantFullName.first).to.equal('Bob');
+      expect(result.claimantInformation.claimantFullName.first).to.equal('Han');
       // Middle name should be copied as empty string
       expect(result.claimantInformation.claimantFullName.middle).to.equal('');
-      expect(result.claimantInformation.claimantFullName.last).to.equal(
-        'Jones',
-      );
+      expect(result.claimantInformation.claimantFullName.last).to.equal('Solo');
       // Note: suffix field removed from form
       expect(result.claimantInformation.claimantFullName.suffix).to.be
         .undefined;
@@ -305,7 +303,7 @@ describe('Submit Transformer', () => {
         benefitType: 'housebound',
         hospitalizationStatus: { isCurrentlyHospitalized: false },
         veteranInformation: {
-          veteranFullName: { first: 'Test', last: 'User' },
+          veteranFullName: { first: 'Yoda', last: '' },
         },
       };
       const resultString = submitTransformer(mockFormConfig, formData);
@@ -323,7 +321,7 @@ describe('Submit Transformer', () => {
           relationship: 'veteran',
         },
         veteranInformation: {
-          veteranFullName: { first: 'Test', last: 'User' },
+          veteranFullName: { first: 'Chewbacca', last: '' },
         },
         claimantContact: {
           claimantPhoneNumber: '555-1234',
@@ -430,7 +428,7 @@ describe('Submit Transformer', () => {
           relationship: 'veteran',
         },
         veteranInformation: {
-          veteranFullName: { first: 'John', last: 'Doe' },
+          veteranFullName: { first: 'Luke', last: 'Skywalker' },
           veteranDob: '1980-01-01',
           veteranSsn: '123-45-6789',
         },
@@ -446,7 +444,7 @@ describe('Submit Transformer', () => {
 
       // Veteran data should be copied to claimant
       expect(result.claimantInformation.claimantFullName.first).to.equal(
-        'John',
+        'Luke',
       );
       expect(result.claimantInformation.claimantDob).to.equal('1980-01-01');
 

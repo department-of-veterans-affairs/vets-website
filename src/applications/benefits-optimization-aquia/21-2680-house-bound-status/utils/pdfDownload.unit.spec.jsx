@@ -179,13 +179,13 @@ describe('pdfDownload utilities', () => {
   describe('formatPdfFilename', () => {
     it('should format filename with veteran name', () => {
       const veteranName = {
-        first: 'John',
-        middle: 'A',
-        last: 'Doe',
+        first: 'Anakin',
+        middle: 'L',
+        last: 'Skywalker',
       };
 
       const result = formatPdfFilename(veteranName);
-      expect(result).to.equal('21-2680_John_Doe.pdf');
+      expect(result).to.equal('21-2680_Anakin_Skywalker.pdf');
     });
 
     it('should use default values when name is missing', () => {
@@ -195,12 +195,12 @@ describe('pdfDownload utilities', () => {
 
     it('should remove special characters from filename', () => {
       const veteranName = {
-        first: "John-Paul's",
-        last: "O'Brien-Smith",
+        first: "Obi-Wan's",
+        last: 'Kenobi-Solo',
       };
 
       const result = formatPdfFilename(veteranName);
-      expect(result).to.equal('21-2680_JohnPauls_OBrienSmith.pdf');
+      expect(result).to.equal('21-2680_ObiWans_KenobiSolo.pdf');
     });
 
     it('should handle null veteran name', () => {
@@ -215,12 +215,12 @@ describe('pdfDownload utilities', () => {
 
     it('should handle names with spaces', () => {
       const veteranName = {
-        first: 'Mary Jane',
-        last: 'Van Der Berg',
+        first: 'Qui-Gon',
+        last: 'Jinn',
       };
 
       const result = formatPdfFilename(veteranName);
-      expect(result).to.equal('21-2680_MaryJane_VanDerBerg.pdf');
+      expect(result).to.equal('21-2680_QuiGon_Jinn.pdf');
     });
   });
 });

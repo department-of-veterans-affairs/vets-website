@@ -264,11 +264,11 @@ describe('Form Configuration', () => {
       it('should include claimant name in title when name is provided', () => {
         const formData = {
           claimantInformation: {
-            claimantFullName: { first: 'John', last: 'Doe' },
+            claimantFullName: { first: 'Padmé', last: 'Amidala' },
           },
         };
         expect(page.title(formData)).to.equal(
-          "John Doe's Social Security number",
+          "Padmé Amidala's Social Security number",
         );
       });
 
@@ -284,19 +284,21 @@ describe('Form Configuration', () => {
       it('should handle partial name (first only)', () => {
         const formData = {
           claimantInformation: {
-            claimantFullName: { first: 'John', last: '' },
+            claimantFullName: { first: 'Padmé', last: '' },
           },
         };
-        expect(page.title(formData)).to.equal("John's Social Security number");
+        expect(page.title(formData)).to.equal("Padmé's Social Security number");
       });
 
       it('should handle partial name (last only)', () => {
         const formData = {
           claimantInformation: {
-            claimantFullName: { first: '', last: 'Doe' },
+            claimantFullName: { first: '', last: 'Amidala' },
           },
         };
-        expect(page.title(formData)).to.equal("Doe's Social Security number");
+        expect(page.title(formData)).to.equal(
+          "Amidala's Social Security number",
+        );
       });
     });
 
@@ -307,10 +309,10 @@ describe('Form Configuration', () => {
       it('should include claimant name in title when name is provided', () => {
         const formData = {
           claimantInformation: {
-            claimantFullName: { first: 'Jane', last: 'Smith' },
+            claimantFullName: { first: 'Leia', last: 'Organa' },
           },
         };
-        expect(page.title(formData)).to.equal("Jane Smith's address");
+        expect(page.title(formData)).to.equal("Leia Organa's address");
       });
 
       it('should use default title when claimant name is missing', () => {
@@ -328,11 +330,11 @@ describe('Form Configuration', () => {
       it('should include claimant name in title when name is provided', () => {
         const formData = {
           claimantInformation: {
-            claimantFullName: { first: 'Bob', last: 'Jones' },
+            claimantFullName: { first: 'Han', last: 'Solo' },
           },
         };
         expect(page.title(formData)).to.equal(
-          "Bob Jones's phone number and email address",
+          "Han Solo's phone number and email address",
         );
       });
 
@@ -354,10 +356,12 @@ describe('Form Configuration', () => {
         const formData = {
           claimantRelationship: { relationship: 'veteran' },
           veteranInformation: {
-            veteranFullName: { first: 'John', last: 'Veteran' },
+            veteranFullName: { first: 'Anakin', last: 'Skywalker' },
           },
         };
-        expect(page.title(formData)).to.equal('Is John Veteran hospitalized?');
+        expect(page.title(formData)).to.equal(
+          'Is Anakin Skywalker hospitalized?',
+        );
       });
 
       it('should use default veteran text when veteran is claimant but name missing', () => {
@@ -372,10 +376,10 @@ describe('Form Configuration', () => {
         const formData = {
           claimantRelationship: { relationship: 'spouse' },
           claimantInformation: {
-            claimantFullName: { first: 'Mary', last: 'Spouse' },
+            claimantFullName: { first: 'Padmé', last: 'Amidala' },
           },
         };
-        expect(page.title(formData)).to.equal('Is Mary Spouse hospitalized?');
+        expect(page.title(formData)).to.equal('Is Padmé Amidala hospitalized?');
       });
 
       it('should use default claimant text when claimant name missing', () => {
@@ -395,11 +399,11 @@ describe('Form Configuration', () => {
         const formData = {
           claimantRelationship: { relationship: 'veteran' },
           veteranInformation: {
-            veteranFullName: { first: 'John', last: 'Veteran' },
+            veteranFullName: { first: 'Anakin', last: 'Skywalker' },
           },
         };
         expect(page.title(formData)).to.equal(
-          'When was John Veteran admitted to the hospital?',
+          'When was Anakin Skywalker admitted to the hospital?',
         );
       });
 
@@ -417,11 +421,11 @@ describe('Form Configuration', () => {
         const formData = {
           claimantRelationship: { relationship: 'spouse' },
           claimantInformation: {
-            claimantFullName: { first: 'Mary', last: 'Spouse' },
+            claimantFullName: { first: 'Padmé', last: 'Amidala' },
           },
         };
         expect(page.title(formData)).to.equal(
-          'When was Mary Spouse admitted to the hospital?',
+          'When was Padmé Amidala admitted to the hospital?',
         );
       });
 
@@ -445,11 +449,11 @@ describe('Form Configuration', () => {
         const formData = {
           claimantRelationship: { relationship: 'veteran' },
           veteranInformation: {
-            veteranFullName: { first: 'John', last: 'Veteran' },
+            veteranFullName: { first: 'Anakin', last: 'Skywalker' },
           },
         };
         expect(page.title(formData)).to.equal(
-          "What's the name and address of the hospital where John Veteran is admitted?",
+          "What's the name and address of the hospital where Anakin Skywalker is admitted?",
         );
       });
 
@@ -467,11 +471,11 @@ describe('Form Configuration', () => {
         const formData = {
           claimantRelationship: { relationship: 'spouse' },
           claimantInformation: {
-            claimantFullName: { first: 'Mary', last: 'Spouse' },
+            claimantFullName: { first: 'Padmé', last: 'Amidala' },
           },
         };
         expect(page.title(formData)).to.equal(
-          "What's the name and address of the hospital where Mary Spouse is admitted?",
+          "What's the name and address of the hospital where Padmé Amidala is admitted?",
         );
       });
 
