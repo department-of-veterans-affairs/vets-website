@@ -11,13 +11,13 @@ describe('patientName utilities', () => {
           },
           veteranPersonalInfo: {
             fullName: {
-              first: 'John',
-              middle: 'Michael',
-              last: 'Doe',
+              first: 'Anakin',
+              middle: 'L',
+              last: 'Skywalker',
             },
           },
         };
-        expect(getPatientName(formData)).to.equal('John Michael Doe');
+        expect(getPatientName(formData)).to.equal('Anakin L Skywalker');
       });
 
       it('should return veteran full name without middle name', () => {
@@ -27,12 +27,12 @@ describe('patientName utilities', () => {
           },
           veteranPersonalInfo: {
             fullName: {
-              first: 'John',
-              last: 'Doe',
+              first: 'Anakin',
+              last: 'Skywalker',
             },
           },
         };
-        expect(getPatientName(formData)).to.equal('John Doe');
+        expect(getPatientName(formData)).to.equal('Anakin Skywalker');
       });
 
       it('should return veteran name with only first name', () => {
@@ -42,11 +42,11 @@ describe('patientName utilities', () => {
           },
           veteranPersonalInfo: {
             fullName: {
-              first: 'John',
+              first: 'Anakin',
             },
           },
         };
-        expect(getPatientName(formData)).to.equal('John');
+        expect(getPatientName(formData)).to.equal('Anakin');
       });
 
       it('should return veteran name with only last name', () => {
@@ -56,11 +56,11 @@ describe('patientName utilities', () => {
           },
           veteranPersonalInfo: {
             fullName: {
-              last: 'Doe',
+              last: 'Skywalker',
             },
           },
         };
-        expect(getPatientName(formData)).to.equal('Doe');
+        expect(getPatientName(formData)).to.equal('Skywalker');
       });
 
       it('should return default when veteran name is missing', () => {
@@ -91,12 +91,12 @@ describe('patientName utilities', () => {
           },
           veteranPersonalInfo: {
             fullName: {
-              first: '  John  ',
-              last: '  Doe  ',
+              first: '  Anakin  ',
+              last: '  Skywalker  ',
             },
           },
         };
-        expect(getPatientName(formData)).to.equal('John     Doe');
+        expect(getPatientName(formData)).to.equal('Anakin     Skywalker');
       });
     });
 
@@ -108,13 +108,13 @@ describe('patientName utilities', () => {
           },
           claimantPersonalInfo: {
             claimantFullName: {
-              first: 'Jane',
-              middle: 'Marie',
-              last: 'Smith',
+              first: 'Shmi',
+              middle: 'E',
+              last: 'Skywalker',
             },
           },
         };
-        expect(getPatientName(formData)).to.equal('Jane Marie Smith');
+        expect(getPatientName(formData)).to.equal('Shmi E Skywalker');
       });
 
       it('should return claimant full name without middle name', () => {
@@ -124,12 +124,12 @@ describe('patientName utilities', () => {
           },
           claimantPersonalInfo: {
             claimantFullName: {
-              first: 'Jane',
-              last: 'Smith',
+              first: 'Shmi',
+              last: 'Skywalker',
             },
           },
         };
-        expect(getPatientName(formData)).to.equal('Jane Smith');
+        expect(getPatientName(formData)).to.equal('Shmi Skywalker');
       });
 
       it('should return claimant name with only first name', () => {
@@ -139,11 +139,11 @@ describe('patientName utilities', () => {
           },
           claimantPersonalInfo: {
             claimantFullName: {
-              first: 'Jane',
+              first: 'Shmi',
             },
           },
         };
-        expect(getPatientName(formData)).to.equal('Jane');
+        expect(getPatientName(formData)).to.equal('Shmi');
       });
 
       it('should return claimant name with only last name', () => {
@@ -153,11 +153,11 @@ describe('patientName utilities', () => {
           },
           claimantPersonalInfo: {
             claimantFullName: {
-              last: 'Smith',
+              last: 'Skywalker',
             },
           },
         };
-        expect(getPatientName(formData)).to.equal('Smith');
+        expect(getPatientName(formData)).to.equal('Skywalker');
       });
 
       it('should return default when claimant name is missing', () => {
@@ -188,12 +188,12 @@ describe('patientName utilities', () => {
           },
           claimantPersonalInfo: {
             claimantFullName: {
-              first: '  Jane  ',
-              last: '  Smith  ',
+              first: '  Shmi  ',
+              last: '  Skywalker  ',
             },
           },
         };
-        expect(getPatientName(formData)).to.equal('Jane     Smith');
+        expect(getPatientName(formData)).to.equal('Shmi     Skywalker');
       });
     });
 

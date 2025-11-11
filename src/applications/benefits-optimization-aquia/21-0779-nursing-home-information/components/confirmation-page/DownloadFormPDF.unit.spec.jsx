@@ -12,9 +12,9 @@ describe('DownloadFormPDF', () => {
   const mockGuid = '12345678-1234-1234-1234-123456789abc';
 
   const mockVeteranName = {
-    first: 'John',
-    middle: 'A',
-    last: 'Doe',
+    first: 'Anakin',
+    middle: 'L',
+    last: 'Skywalker',
   };
 
   beforeEach(() => {
@@ -90,7 +90,7 @@ describe('DownloadFormPDF', () => {
       expect(fetchPdfApiStub.calledWith(mockGuid)).to.be.true;
       expect(downloadBlobStub.calledOnce).to.be.true;
       expect(downloadBlobStub.getCall(0).args[1]).to.equal(
-        '21-0779_John_Doe.pdf',
+        '21-0779_Anakin_Skywalker.pdf',
       );
     });
   });
@@ -184,9 +184,9 @@ describe('DownloadFormPDF', () => {
 
   it('should format filename correctly with special characters', async () => {
     const specialNameVeteran = {
-      first: "John-Paul's",
-      middle: 'A',
-      last: "O'Brien-Smith",
+      first: "Obi-Wan's",
+      middle: 'K',
+      last: 'Kenobi-Solo',
     };
 
     const { container } = render(
@@ -200,7 +200,7 @@ describe('DownloadFormPDF', () => {
       expect(downloadBlobStub.calledOnce).to.be.true;
       // Special characters should be removed from filename
       expect(downloadBlobStub.getCall(0).args[1]).to.equal(
-        '21-0779_JohnPauls_OBrienSmith.pdf',
+        '21-0779_ObiWans_KenobiSolo.pdf',
       );
     });
   });

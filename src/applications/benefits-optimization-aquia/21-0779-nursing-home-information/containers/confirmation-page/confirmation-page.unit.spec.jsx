@@ -250,8 +250,8 @@ describe('ConfirmationPage Container', () => {
             data: {
               veteranPersonalInfo: {
                 fullName: {
-                  first: 'John',
-                  last: 'Doe',
+                  first: 'Anakin',
+                  last: 'Skywalker',
                 },
               },
             },
