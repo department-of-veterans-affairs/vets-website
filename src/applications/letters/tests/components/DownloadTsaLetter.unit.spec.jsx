@@ -212,4 +212,25 @@ describe('DownloadTsaLetter', () => {
     accordion.setAttribute('open', '');
     expect(apiRequestStub.calledOnce).to.be.true;
   });
+
+  it('records download event when link is clicked', async () => {
+    apiRequestStub.resolves(mockResponse);
+    const { container } = render(<DownloadTsaLetter letter={mockLetter} />);
+    const accordion = container.querySelector('va-accordion-item');
+    accordion.setAttribute('open', '');
+    if (observerCallback) {
+      observerCallback();
+    }
+    await waitFor(() => {
+      expect(apiRequestStub.calledOnce).to.be.true;
+    });
+    const link = container.querySelector('va-link');
+    link.click();
+    expect(
+      recordEventStub.calledWith({
+        event: 'letter-download',
+        'letter-type': 'TSA PreCheck Application Fee Waiver Letter',
+      }),
+    ).to.be.true;
+  });
 });
