@@ -21,13 +21,13 @@ import { standardTitle } from '../content/form0781';
 
 import {
   capitalizeEachWord,
-  claimingNew,
   getPageTitle,
   hasGuardOrReservePeriod,
   hasNewPtsdDisability,
   hasOtherEvidence,
   hasPrivateEvidence,
   hasRatedDisabilities,
+  hasRealNewOrSecondaryConditions,
   hasVAEvidence,
   isAnswering781aQuestions,
   isAnswering781Questions,
@@ -489,7 +489,8 @@ const formConfig = {
         prisonerOfWar: {
           title: 'Prisoner of war (POW)',
           path: 'pow',
-          depends: formData => !isBDD(formData) && claimingNew(formData),
+          depends: formData =>
+            !isBDD(formData) && hasRealNewOrSecondaryConditions(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
           appStateSelector: state => ({

@@ -91,8 +91,10 @@ describe('<AdditionalEvidencePage>', () => {
         { initialState },
       );
 
-      expect($('va-alert', container)).to.exist;
-      expect($('va-alert h2', container).textContent).to.equal(message.title);
+      expect($('.claims-alert', container)).to.exist;
+      expect($('.claims-alert h2', container).textContent).to.equal(
+        message.title,
+      );
     });
 
     it('should render upload error alert when rerendered', () => {
@@ -100,7 +102,7 @@ describe('<AdditionalEvidencePage>', () => {
         <AdditionalEvidencePage {...fileFormProps} claim={claim} />,
         { initialState },
       );
-      expect($('va-alert', container)).not.to.exist;
+      expect($('.claims-alert', container)).not.to.exist;
 
       const message = {
         title: 'Error uploading',
@@ -115,8 +117,10 @@ describe('<AdditionalEvidencePage>', () => {
           message={message}
         />,
       );
-      expect($('va-alert', container)).to.exist;
-      expect($('va-alert h2', container).textContent).to.equal(message.title);
+      expect($('.claims-alert', container)).to.exist;
+      expect($('.claims-alert h2', container).textContent).to.equal(
+        message.title,
+      );
     });
 
     it('should clear upload error when leaving', () => {
@@ -139,8 +143,10 @@ describe('<AdditionalEvidencePage>', () => {
         { initialState },
       );
 
-      expect($('va-alert', container)).to.exist;
-      expect($('va-alert h2', container).textContent).to.equal(message.title);
+      expect($('.claims-alert', container)).to.exist;
+      expect($('.claims-alert h2', container).textContent).to.equal(
+        message.title,
+      );
       unmount();
       expect(clearAdditionalEvidenceNotification.called).to.be.true;
     });
@@ -166,8 +172,10 @@ describe('<AdditionalEvidencePage>', () => {
         { initialState },
       );
 
-      expect($('va-alert', container)).to.exist;
-      expect($('va-alert h2', container).textContent).to.equal(message.title);
+      expect($('.claims-alert', container)).to.exist;
+      expect($('.claims-alert h2', container).textContent).to.equal(
+        message.title,
+      );
       unmount();
       expect(clearAdditionalEvidenceNotification.called).to.be.false;
     });

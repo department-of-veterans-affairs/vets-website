@@ -6,7 +6,11 @@ describe('Helpers', () => {
   describe('getCardDescription', () => {
     it('should return the correct card description', () => {
       const card = {
-        fullName: 'John Doe',
+        fullName: {
+          first: 'John',
+          middle: '',
+          last: 'Doe',
+        },
         email: 'john.doe@example.com',
       };
       const description = getCardDescription(card);
@@ -59,7 +63,7 @@ describe('Helpers', () => {
       };
       const description = getCardDescription(card);
       const { getByTestId } = render(description);
-      expect(getByTestId('card-address').textContent).to.equal(', CA 12345');
+      expect(getByTestId('card-address').textContent).to.equal('CA 12345');
     });
     it('should handle missing state in address', () => {
       const card = {

@@ -15,10 +15,6 @@
                 "value": true
             },
             {
-                "name": "mhv_medications_remove_landing_page",
-                "value": true
-            },
-            {
                 "name": "mhv_medications_partial_fill_content",
                 "value": true
             },

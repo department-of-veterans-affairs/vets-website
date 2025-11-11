@@ -26,8 +26,7 @@ import {
   isEmergencyContactsEnabled,
   showFinancialStatusAlert,
   spouseDidNotCohabitateWithVeteranV1,
-  spouseDidNotCohabitateWithVeteranV2,
-  spouseAddressDoesNotMatchVeterans,
+  spouseAddressDoesNotMatchVeteransV1,
   includeDependentInformation,
   includeInsuranceInformation,
   collectMedicareInformation,
@@ -376,18 +375,7 @@ const formConfig = {
           ...spousalInformationPages.spouseInformationSummaryPage,
           depends: includeSpousalInformationV2,
         },
-        spousePersonalInformationV2: {
-          ...spousalInformationPages.spousePersonalInformationPage,
-          depends: includeSpousalInformationV2,
-        },
-        spouseAdditionalInformationV2: {
-          ...spousalInformationPages.spouseAdditionalInformationPage,
-          depends: includeSpousalInformationV2,
-        },
-        spouseFinancialSupportV2: {
-          ...spousalInformationPages.spouseFinancialSupportPage,
-          depends: spouseDidNotCohabitateWithVeteranV2,
-        },
+        ...spousalInformationPages,
         spousePersonalInformation: {
           path: 'household-information/spouse-personal-information',
           title: 'Spouse\u2019s personal information',
@@ -415,7 +403,7 @@ const formConfig = {
           path: 'household-information/spouse-contact-information',
           title: 'Spouse\u2019s address and phone number',
           initialData: {},
-          depends: spouseAddressDoesNotMatchVeterans,
+          depends: spouseAddressDoesNotMatchVeteransV1,
           uiSchema: spouseContactInformation.uiSchema,
           schema: spouseContactInformation.schema,
         },

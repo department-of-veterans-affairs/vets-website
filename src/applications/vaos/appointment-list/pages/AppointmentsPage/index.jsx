@@ -133,7 +133,10 @@ export default function AppointmentsPage() {
       >
         {pageTitle}
       </h1>
-      <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
+      <CernerAlert
+        className="vaos-hide-for-print vads-u-margin-bottom--3"
+        pageTitle={pageTitle}
+      />
       {/* {featureBookingExclusion && (
         <CernerTransitionAlert
           className="vads-u-margin-bottom--3"
@@ -156,6 +159,7 @@ export default function AppointmentsPage() {
       {isInPilotUserStations && (
         <div
           className={classNames(
+            'vaos-hide-for-print',
             'vads-u-padding-y--3',
             'vads-u-margin-bottom--3',
             'vads-u-margin-top--1',

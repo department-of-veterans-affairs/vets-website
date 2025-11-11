@@ -22,8 +22,8 @@ export default {
     ...titleUI(
       ({ formData }) =>
         formData?.claimantNotVeteran
-          ? 'Veteran information'
-          : 'Your information',
+          ? 'Veteran’s information'
+          : 'Your identification information',
     ),
     veteranFullName: {
       ...fullNameUI(),
@@ -68,7 +68,8 @@ export default {
     vaFileNumber: {
       ...vaFileNumberUI('VA file number'),
       'ui:options': {
-        hint: 'Enter your VA file number if it doesn’t match your SSN',
+        hint:
+          'You must enter either a VA file number or Social Security number.',
       },
     },
     veteranDateOfBirth: currentOrPastDateUI({
