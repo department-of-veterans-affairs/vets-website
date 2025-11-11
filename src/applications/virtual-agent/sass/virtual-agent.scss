@@ -28,6 +28,37 @@
   margin: 0;
 }
 
+// Ensure the send box main container allows wrapping so counter appears on new line
+.webchat__send-box__main {
+  flex-wrap: wrap !important;
+}
+
+.webchat-character-counter {
+  font-size: 16px;
+  color: rgb(0, 0, 0);
+  text-align: left;
+  padding: 0 0 8px 10px;
+  margin: 0;
+  display: block;
+  width: 100%;
+  flex-basis: 100%;
+  flex-shrink: 0;
+  min-width: 100%;
+  max-width: 100%;
+  order: 2;
+  clear: both;
+  background-color: transparent !important;
+  background: none !important;
+  transition: color 0.2s ease;
+
+  // Turn red when approaching or over limit
+  &.warning {
+    color: rgb(211, 47, 47);
+    background-color: transparent !important;
+    background: none !important;
+  }
+}
+
 .webchat__suggested-actions__stack {
   margin-bottom: 1em !important;
   overflow-y: hidden !important;
