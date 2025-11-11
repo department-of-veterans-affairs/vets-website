@@ -10,7 +10,7 @@ const DocumentUpload = ({ handleDocumentUpload }) => {
       <VaFileInput
         accept={ACCEPTED_FILE_TYPES.map(type => `.${type}`).join(',')}
         hint={`Accepted file types: ${ACCEPTED_FILE_TYPES.map(
-          ext => `.${ext}`,
+          ext => `${ext}`,
         ).join(', ')} (up to 5 MB)`}
         label="Upload a document for your expense"
         maxFileSize={5200000} // Based on platform cals have to use 5200000 to get 5MB
@@ -22,7 +22,7 @@ const DocumentUpload = ({ handleDocumentUpload }) => {
       <va-additional-info trigger="How to upload files">
         <ul>
           <li>
-            Use a {ACCEPTED_FILE_TYPES.map(type => `.${type}`).join(', ')} file
+            Use a {ACCEPTED_FILE_TYPES.map(type => `${type}`).join(', ')} file
             format
           </li>
           <li>The size of your file must be no more than 5 MB</li>

@@ -273,14 +273,14 @@ export const TRIP_TYPES = Object.freeze({
 });
 
 export const ACCEPTED_FILE_TYPES = Object.freeze([
-  'jpg',
-  'jpeg',
-  'png',
-  'pdf',
-  'doc',
-  'docx',
-  'gif',
-  'bmp',
-  'tif',
-  'tiff',
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.pdf',
+  '.doc',
+  '.docx',
+  '.gif',
+  '.bmp',
+  '.tif',
+  '.tiff',
 ]);

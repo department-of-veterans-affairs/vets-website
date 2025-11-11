@@ -50,7 +50,7 @@ describe('DocumentUpload component', () => {
 
     const fileInput = container.querySelector('va-file-input');
 
-    const acceptedExtensions = ACCEPTED_FILE_TYPES.map(ext => `.${ext}`);
+    const acceptedExtensions = ACCEPTED_FILE_TYPES.map(ext => `${ext}`);
     const acceptAttr = fileInput.getAttribute('accept').split(',');
     expect(acceptAttr).to.deep.equal(acceptedExtensions);
   });
