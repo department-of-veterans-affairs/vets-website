@@ -47,7 +47,7 @@ describe('pdfDownload utilities', () => {
       expect(result).to.equal(mockBlob);
       expect(apiRequestStub.calledOnce).to.be.true;
       expect(apiRequestStub.getCall(0).args[0]).to.equal(
-        `/v0/form212680/download_pdf/${mockGuid}`,
+        `/form212680/download_pdf/${mockGuid}`,
       );
       expect(apiRequestStub.getCall(0).args[1].method).to.equal('GET');
       expect(recordEventStub.calledOnce).to.be.true;

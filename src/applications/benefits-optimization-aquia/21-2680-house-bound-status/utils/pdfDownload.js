@@ -8,13 +8,7 @@
 
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
-
-/**
- * API endpoint configuration
- */
-const API_ENDPOINTS = {
-  downloadPdf: '/v0/form212680/download_pdf',
-};
+import { API_ENDPOINTS } from '../constants/constants';
 
 /**
  * Fetches a PDF blob from the backend API
@@ -102,7 +96,7 @@ export const downloadBlob = (blob, filename) => {
  * // Returns: '21-2680_John_Doe.pdf'
  *
  * formatPdfFilename({ first: "John-Paul's", last: "O'Brien" })
- * // Returns: '21-2680_JohnPauls_OBrien.pdf'
+ * // Returns: '21-2680_JohnPauls_OBrien.pdf' cSpell:ignore Pauls Brien
  *
  * formatPdfFilename({})
  * // Returns: '21-2680_Veteran_Submission.pdf'
