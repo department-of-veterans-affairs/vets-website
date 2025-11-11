@@ -21,19 +21,6 @@ export const transform = (formConfig, form) => {
   const nursingOfficialName = `${nursingOfficialInformation?.fullName?.first?.trim() ||
     ''} ${nursingOfficialInformation?.fullName?.last?.trim() || ''}`.trim();
 
-  // Convert country code from 3-letter to 2-letter format
-  const getCountryCode = country => {
-    if (!country) return undefined;
-    // Common conversions
-    const countryMap = {
-      USA: 'US',
-      CAN: 'CA',
-      MEX: 'MX',
-      GBR: 'GB',
-    };
-    return countryMap[country] || country.slice(0, 2).toUpperCase();
-  };
-
   // Claimant info - when veteran is the patient, use veteran's info
   const claimantIsVeteran = claimantQuestion?.patientType === 'veteran';
   const claimantInformation = claimantIsVeteran
@@ -71,7 +58,7 @@ export const transform = (formConfig, form) => {
         street2: nursingHomeAddress?.street2,
         city: nursingHomeAddress?.city,
         state: nursingHomeAddress?.state,
-        country: getCountryCode(nursingHomeAddress?.country),
+        country: nursingHomeAddress?.country,
         postalCode: nursingHomeAddress?.postalCode,
       },
     },

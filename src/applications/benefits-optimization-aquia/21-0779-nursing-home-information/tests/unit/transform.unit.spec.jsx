@@ -76,7 +76,7 @@ describe('Transform Function', () => {
         street2: 'Lvl 5',
         city: 'Coruscant',
         state: 'DC',
-        country: 'US', // Converted from USA to US
+        country: 'USA',
         postalCode: '20001',
       },
     });

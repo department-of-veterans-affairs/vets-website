@@ -6,38 +6,6 @@
  * vets-api/app/openapi/openapi/requests/form214192.rb
  */
 
-import countries from 'platform/user/profile/vap-svc/constants/countries.json';
-
-/**
- * Convert country code to 2-letter ISO format (ISO 3166-1 alpha-2)
- * API requires 2-character country codes
- *
- * @param {string} countryCode - Country code (2 or 3 letters, or country name)
- * @returns {string} 2-letter country code (ISO 3166-1 alpha-2)
- */
-const formatCountryCode = countryCode => {
-  if (!countryCode) return 'US'; // Default to US
-
-  const input = countryCode.toString().trim();
-
-  // Already 2 characters, return as-is
-  if (input.length === 2) return input.toUpperCase();
-
-  // 3 characters, look up in platform countries data
-  if (input.length === 3) {
-    const country = countries.find(
-      c => c.countryCodeISO3 === input.toUpperCase(),
-    );
-    return country?.countryCodeISO2 || 'US';
-  }
-
-  // Might be a country name, try to match
-  const country = countries.find(
-    c => c.countryName?.toLowerCase() === input.toLowerCase(),
-  );
-  return country?.countryCodeISO2 || 'US';
-};
-
 /**
  * Recursively remove null and undefined values from an object
  * Note: Empty strings are preserved for API validation (required fields can be empty strings)
@@ -153,14 +121,13 @@ const transformVeteranInformation = data => {
 
   return {
     fullName: {
-      first: fullName.first || '',
-      middle: fullName.middle || '',
-      last: fullName.last || '',
+      first: fullName.first,
+      middle: fullName.middle,
+      last: fullName.last,
     },
-    ssn: contactInfo.ssn?.replace(/-/g, '') || null, // Remove dashes for 9-digit format
-    vaFileNumber: contactInfo.vaFileNumber || null,
+    ssn: contactInfo.ssn?.replace(/-/g, ''),
+    vaFileNumber: contactInfo.vaFileNumber,
     dateOfBirth: formatDate(veteranInfo.dateOfBirth),
-    // Address is not collected in this form but included in schema for completeness
     address: null,
   };
 };
@@ -179,24 +146,21 @@ const transformEmploymentInformation = data => {
   const lastPayment = data?.employmentLastPayment || {};
 
   // Transform employer address
-  // API requires: street, city, state, postalCode, country (all required)
-  // API country code must be 2 characters (e.g., 'US' not 'USA')
   const employerAddress = employerInfo.employerAddress
     ? {
-        street: employerInfo.employerAddress.street || '',
-        street2: employerInfo.employerAddress.street2 || null,
-        city: employerInfo.employerAddress.city || '',
-        state: employerInfo.employerAddress.state || '',
-        postalCode: employerInfo.employerAddress.postalCode || '',
-        // Convert any 3-letter country code to 2-letter ISO format for API compatibility
-        country: formatCountryCode(employerInfo.employerAddress.country),
+        street: employerInfo.employerAddress.street,
+        street2: employerInfo.employerAddress.street2,
+        city: employerInfo.employerAddress.city,
+        state: employerInfo.employerAddress.state,
+        postalCode: employerInfo.employerAddress.postalCode,
+        country: employerInfo.employerAddress.country,
       }
     : null;
 
   return {
-    employerName: employerInfo.employerName || '',
+    employerName: employerInfo.employerName,
     employerAddress,
-    typeOfWorkPerformed: earningsHours.typeOfWork || '',
+    typeOfWorkPerformed: earningsHours.typeOfWork,
     beginningDateOfEmployment: formatDate(employmentDates.beginningDate),
     endingDateOfEmployment: employmentDates.currentlyEmployed
       ? null
@@ -204,11 +168,11 @@ const transformEmploymentInformation = data => {
     amountEarnedLast12MonthsOfEmployment: formatCurrency(
       earningsHours.amountEarned,
     ),
-    timeLostLast12MonthsOfEmployment: earningsHours.timeLost || null,
+    timeLostLast12MonthsOfEmployment: earningsHours.timeLost,
     hoursWorkedDaily: formatHours(earningsHours.dailyHours),
     hoursWorkedWeekly: formatHours(earningsHours.weeklyHours),
-    concessions: concessions.concessions || null,
-    terminationReason: termination.terminationReason || null,
+    concessions: concessions.concessions,
+    terminationReason: termination.terminationReason,
     dateLastWorked: formatDate(termination.dateLastWorked),
     lastPaymentDate: formatDate(lastPayment.dateOfLastPayment),
     lastPaymentGrossAmount: formatCurrency(lastPayment.grossAmountLastPayment),
@@ -239,7 +203,7 @@ const transformMilitaryDutyStatus = data => {
   }
 
   return {
-    currentDutyStatus: dutyDetails.currentDutyStatus || null,
+    currentDutyStatus: dutyDetails.currentDutyStatus,
     veteranDisabilitiesPreventMilitaryDuties: yesNoToBoolean(
       dutyDetails.disabilitiesPreventDuties,
     ),
@@ -262,7 +226,7 @@ const transformBenefitEntitlementPayments = data => {
     ),
     typeOfBenefit:
       benefitsInfo.benefitEntitlement === 'yes'
-        ? benefitsDetails.benefitType || null
+        ? benefitsDetails.benefitType
         : null,
     grossMonthlyAmountOfBenefit:
       benefitsInfo.benefitEntitlement === 'yes'
@@ -280,7 +244,7 @@ const transformBenefitEntitlementPayments = data => {
       benefitsInfo.benefitEntitlement === 'yes'
         ? formatDate(benefitsDetails.stopReceivingDate)
         : null,
-    remarks: remarks.remarks || null,
+    remarks: remarks.remarks,
   };
 };
 

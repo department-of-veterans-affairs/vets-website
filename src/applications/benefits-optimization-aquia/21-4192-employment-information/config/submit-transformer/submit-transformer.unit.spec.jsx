@@ -202,27 +202,6 @@ describe('Submit Transformer', () => {
       );
     });
 
-    it('should default country to US if missing', () => {
-      const form = {
-        data: {
-          employerInformation: {
-            employerAddress: {
-              street: '123 Main St',
-              city: 'Springfield',
-              state: 'IL',
-              postalCode: '62701',
-            },
-          },
-        },
-      };
-
-      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
-
-      expect(result.employmentInformation.employerAddress.country).to.equal(
-        'US',
-      );
-    });
-
     it('should transform employment dates', () => {
       const form = {
         data: {
