@@ -151,21 +151,6 @@ const VaPrescription = prescription => {
             data-testid="va-prescription-container"
             data-dd-privacy="mask"
           >
-            {prescription?.isRefillable ? (
-              <Link
-                className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
-                to="refill"
-                data-testid="refill-nav-link"
-                data-dd-action-name={
-                  dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
-                }
-              >
-                {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
-              </Link>
-            ) : (
-              <FillRefillButton {...prescription} />
-            )}
-
             <>
               {displayTrackingAlert()}
 
@@ -220,23 +205,20 @@ const VaPrescription = prescription => {
                   <>Most recent prescription</>
                 )}
               </h2>
-              {/* TODO: clean after refill progress content flag is gone */}
-              <>
-                {prescription?.isRefillable ? (
-                  <Link
-                    className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
-                    to="/refill"
-                    data-testid="refill-nav-link"
-                    data-dd-action-name={
-                      dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
-                    }
-                  >
-                    {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
-                  </Link>
-                ) : (
-                  <FillRefillButton {...prescription} />
-                )}
-              </>
+              {prescription?.isRefillable ? (
+                <Link
+                  className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
+                  to="/refill"
+                  data-testid="refill-nav-link"
+                  data-dd-action-name={
+                    dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
+                  }
+                >
+                  {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
+                </Link>
+              ) : (
+                <FillRefillButton {...prescription} />
+              )}
 
               {prescription && (
                 <ExtraDetails {...prescription} page={pageType.DETAILS} />
