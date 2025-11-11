@@ -281,7 +281,7 @@ export const validateHealthInsurancePlan = (item = {}) => {
   if (!hasValidParticipants(healthcareParticipants)) return true;
 
   return (
-    hasValidUpload(insuranceCardFront) && hasValidUpload(insuranceCardBack)
+    !hasValidUpload(insuranceCardFront) || !hasValidUpload(insuranceCardBack)
   );
 };
 
