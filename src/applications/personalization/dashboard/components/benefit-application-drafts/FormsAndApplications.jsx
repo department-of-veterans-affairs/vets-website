@@ -2,9 +2,6 @@ import React, { useLayoutEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
-import { VA_FORM_IDS } from '~/platform/forms/constants';
-import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
-import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
 
 import ApplicationsByStatus from './ApplicationsByStatus';
 import Error from './Error';
@@ -57,21 +54,11 @@ const FormsAndApplications = ({ submittedError }) => {
 };
 
 const mapStateToProps = state => {
-  const hasHCAInProgress =
-    selectProfile(state)
-      .savedForms?.filter(filterOutExpiredForms)
-      .some(savedForm => savedForm.form === VA_FORM_IDS.FORM_10_10EZ) ?? false;
-
-  const isPatient = isVAPatient(state);
-
-  const shouldGetESRStatus = !hasHCAInProgress && !isPatient && isLOA3(state);
-
   // normalize full vs. partial errors into a single true/false value and provide as prop
   const submittedError =
     !!state.submittedForms.error || state.submittedForms.errors?.length > 0;
 
   return {
-    shouldGetESRStatus,
     submittedError,
   };
 };
@@ -79,7 +66,6 @@ const mapStateToProps = state => {
 FormsAndApplications.propTypes = {
   getESREnrollmentStatus: PropTypes.func,
   getFormStatuses: PropTypes.func,
-  shouldGetESRStatus: PropTypes.bool,
   submittedError: PropTypes.bool,
 };
 
