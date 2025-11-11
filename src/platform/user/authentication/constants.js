@@ -15,7 +15,7 @@ export const API_SESSION_URL = ({ version = API_VERSION, type = null }) => {
   if (!type) {
     throw new Error('Attempted to call API_SESSION_URL without a type');
   }
-  return `${environment.API_URL}/${version}/sessions/${type}/new`;
+  return `${environment.API_URL}/${version}/my-va`;
 };
 
 export const AUTH_EVENTS = {
