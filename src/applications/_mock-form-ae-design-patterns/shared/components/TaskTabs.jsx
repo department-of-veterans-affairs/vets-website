@@ -12,16 +12,16 @@ const recordsConfig = {};
 export const TaskTabs = ({ location, formConfig }) => {
   const tabs = [
     {
-      name: 'Lemon',
+      name: 'Umbrella',
       path: '/introduction?loggedIn=false',
-      description: 'Lemon',
+      description: 'Umbrella',
       bgColor: '--vads-color-warning',
       textColor: '--vads-color-black',
     },
     {
-      name: 'Apple',
+      name: 'Apron',
       path: '/introduction?loggedIn=true',
-      description: 'Apple',
+      description: 'Apron',
       bgColor: '--vads-color-success-dark',
       textColor: '--vads-color-white',
     },
@@ -71,7 +71,7 @@ export const TaskTabs = ({ location, formConfig }) => {
             href="/my-va"
             className="vads-u-color--white vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full vads-u-padding-x--5"
           >
-            Mango
+            Mittens
           </a>
         </li>
       </ul>
