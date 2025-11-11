@@ -28,7 +28,7 @@ const API_ENDPOINTS = {
  *   const blob = await fetchPdfApi('12345678-1234-1234-1234-123456789abc');
  *   downloadBlob(blob, '21-2680_John_Doe.pdf');
  * } catch (error) {
- *   console.error('PDF download failed:', error);
+ *   // Error is tracked via recordEvent and thrown
  * }
  */
 export const fetchPdfApi = async guid => {

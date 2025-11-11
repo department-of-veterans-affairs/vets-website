@@ -1,26 +1,18 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as Sentry from '@sentry/browser';
 import * as api from 'platform/utilities/api';
+import * as recordEventModule from 'platform/monitoring/record-event';
 import { fetchPdfApi, downloadBlob, formatPdfFilename } from './pdfDownload';
 
 describe('pdfDownload utilities', () => {
   let sandbox;
   let apiRequestStub;
-  let sentryStub;
+  let recordEventStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     apiRequestStub = sandbox.stub(api, 'apiRequest');
-    sentryStub = {
-      withScope: sandbox.stub(Sentry, 'withScope').callsFake(callback => {
-        const mockScope = {
-          setExtra: sinon.stub(),
-        };
-        callback(mockScope);
-      }),
-      captureMessage: sandbox.stub(Sentry, 'captureMessage'),
-    };
+    recordEventStub = sandbox.stub(recordEventModule, 'default');
   });
 
   afterEach(() => {
@@ -58,6 +50,12 @@ describe('pdfDownload utilities', () => {
         `/form210779/download_pdf/${mockGuid}`,
       );
       expect(apiRequestStub.getCall(0).args[1].method).to.equal('GET');
+      expect(recordEventStub.calledOnce).to.be.true;
+      expect(
+        recordEventStub.calledWith({
+          event: 'form-21-0779--pdf-download-success',
+        }),
+      ).to.be.true;
     });
 
     it('should throw error for non-PDF response', async () => {
@@ -73,6 +71,13 @@ describe('pdfDownload utilities', () => {
         expect.fail('Should have thrown error');
       } catch (error) {
         expect(error.message).to.include('Expected PDF but got text/html');
+        expect(recordEventStub.calledOnce).to.be.true;
+        expect(
+          recordEventStub.calledWith({
+            event: 'form-21-0779--pdf-download-failure',
+            'error-message': error.message,
+          }),
+        ).to.be.true;
       }
     });
 
@@ -88,11 +93,12 @@ describe('pdfDownload utilities', () => {
         expect.fail('Should have thrown error');
       } catch (error) {
         expect(error.message).to.include('Failed to fetch PDF: 500');
-        expect(sentryStub.withScope.calledOnce).to.be.true;
+        expect(recordEventStub.calledOnce).to.be.true;
         expect(
-          sentryStub.captureMessage.calledWith(
-            'PDF download failed for 21-0779',
-          ),
+          recordEventStub.calledWith({
+            event: 'form-21-0779--pdf-download-failure',
+            'error-message': error.message,
+          }),
         ).to.be.true;
       }
     });
@@ -105,6 +111,13 @@ describe('pdfDownload utilities', () => {
         expect.fail('Should have thrown error');
       } catch (error) {
         expect(error.message).to.equal('Network error');
+        expect(recordEventStub.calledOnce).to.be.true;
+        expect(
+          recordEventStub.calledWith({
+            event: 'form-21-0779--pdf-download-failure',
+            'error-message': 'Network error',
+          }),
+        ).to.be.true;
       }
     });
   });

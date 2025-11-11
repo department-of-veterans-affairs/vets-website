@@ -1,5 +1,3 @@
-import * as Sentry from '@sentry/browser';
-
 export const transform = (formConfig, form) => {
   const {
     veteranPersonalInfo,
@@ -56,58 +54,45 @@ export const transform = (formConfig, form) => {
         },
       };
 
-  try {
-    const submissionData = {
-      veteranInformation: {
-        fullName: veteranPersonalInfo?.fullName,
-        dateOfBirth: veteranPersonalInfo?.dateOfBirth,
-        veteranId: {
-          ssn: veteranIdentificationInfo?.veteranSsn,
-          vaFileNumber: veteranIdentificationInfo?.veteranVaFileNumber,
-        },
+  const submissionData = {
+    veteranInformation: {
+      fullName: veteranPersonalInfo?.fullName,
+      dateOfBirth: veteranPersonalInfo?.dateOfBirth,
+      veteranId: {
+        ssn: veteranIdentificationInfo?.veteranSsn,
+        vaFileNumber: veteranIdentificationInfo?.veteranVaFileNumber,
       },
-      claimantInformation,
-      nursingHomeInformation: {
-        nursingHomeName,
-        nursingHomeAddress: {
-          street: nursingHomeAddress?.street,
-          street2: nursingHomeAddress?.street2,
-          city: nursingHomeAddress?.city,
-          state: nursingHomeAddress?.state,
-          country: getCountryCode(nursingHomeAddress?.country),
-          postalCode: nursingHomeAddress?.postalCode,
-        },
+    },
+    claimantInformation,
+    nursingHomeInformation: {
+      nursingHomeName,
+      nursingHomeAddress: {
+        street: nursingHomeAddress?.street,
+        street2: nursingHomeAddress?.street2,
+        city: nursingHomeAddress?.city,
+        state: nursingHomeAddress?.state,
+        country: getCountryCode(nursingHomeAddress?.country),
+        postalCode: nursingHomeAddress?.postalCode,
       },
-      generalInformation: {
-        admissionDate: admissionDate?.admissionDate,
-        medicaidFacility: medicaidFacility?.isMedicaidApprovedFacility === true,
-        medicaidApplication:
-          medicaidApplication?.hasAppliedForMedicaid === true,
-        patientMedicaidCovered:
-          medicaidStatus?.currentlyCoveredByMedicaid === true,
-        medicaidStartDate: medicaidStartDate?.medicaidStartDate,
-        monthlyCosts: monthlyCosts?.monthlyOutOfPocket
-          ? String(monthlyCosts.monthlyOutOfPocket)
-          : undefined,
-        certificationLevelOfCare: certificationLevelOfCare?.levelOfCare,
-        nursingOfficialName,
-        nursingOfficialTitle: nursingOfficialInformation?.jobTitle,
-        nursingOfficialPhoneNumber: nursingOfficialInformation?.phoneNumber,
-        signature,
-        signatureDate: new Date().toISOString().split('T')[0],
-      },
-    };
+    },
+    generalInformation: {
+      admissionDate: admissionDate?.admissionDate,
+      medicaidFacility: medicaidFacility?.isMedicaidApprovedFacility === true,
+      medicaidApplication: medicaidApplication?.hasAppliedForMedicaid === true,
+      patientMedicaidCovered:
+        medicaidStatus?.currentlyCoveredByMedicaid === true,
+      medicaidStartDate: medicaidStartDate?.medicaidStartDate,
+      monthlyCosts: monthlyCosts?.monthlyOutOfPocket
+        ? String(monthlyCosts.monthlyOutOfPocket)
+        : undefined,
+      certificationLevelOfCare: certificationLevelOfCare?.levelOfCare,
+      nursingOfficialName,
+      nursingOfficialTitle: nursingOfficialInformation?.jobTitle,
+      nursingOfficialPhoneNumber: nursingOfficialInformation?.phoneNumber,
+      signature,
+      signatureDate: new Date().toISOString().split('T')[0],
+    },
+  };
 
-    // eslint-disable-next-line no-console
-    console.log('Transform submissionData:', submissionData);
-    // eslint-disable-next-line no-console
-    console.log('Transform JSON:', JSON.stringify(submissionData, null, 2));
-    return JSON.stringify(submissionData);
-  } catch (error) {
-    Sentry.withScope(scope => {
-      scope.setExtra('error', error);
-      Sentry.captureMessage(`Transform Failed: ${error}`);
-    });
-    return 'Transform failed, see sentry for details';
-  }
+  return JSON.stringify(submissionData);
 };

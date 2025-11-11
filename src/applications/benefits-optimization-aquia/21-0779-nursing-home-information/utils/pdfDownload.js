@@ -3,7 +3,6 @@
  * @description PDF download utilities for VA Form 21-0779
  */
 
-import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { API_ENDPOINTS } from '../constants/constants';
@@ -47,11 +46,6 @@ export const fetchPdfApi = async guid => {
     recordEvent({
       event: 'form-21-0779--pdf-download-failure',
       'error-message': error.message,
-    });
-
-    Sentry.withScope(scope => {
-      scope.setExtra('error', error);
-      Sentry.captureMessage('PDF download failed for 21-0779');
     });
 
     throw error;
