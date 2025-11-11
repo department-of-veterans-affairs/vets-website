@@ -56,7 +56,7 @@ export const SERVICE_PROVIDERS = {
   },
   [CSP_IDS.ID_ME]: {
     label: 'ID.me',
-    link: '/my-va',
+    link: 'https://wallet.id.me/settings',
     image: <IDMeSVG />,
     altImage: <IDMeSVG />,
     policy: 'idme',
