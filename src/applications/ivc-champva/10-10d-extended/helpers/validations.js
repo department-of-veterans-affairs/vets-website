@@ -1,6 +1,83 @@
 import { isBefore, isValid } from 'date-fns';
+import { isValidSSN } from 'platform/forms-system/src/js/utilities/validations';
 import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms/validations';
+import content from '../locales/en/content.json';
+
+const ERR_SSN_UNIQUE = content['validation--ssn-unique'];
+const ERR_SSN_INVALID = content['validation--ssn-invalid'];
+
+const normalizeSSN = val => `${val ?? ''}`.replace(/\D/g, '');
+
+/**
+ * Analyzes SSN matches between sponsor and applicants in form data.
+ *
+ * @param {Object} fullData - The complete form data object
+ * @param {string} fullData.sponsorSsn - The sponsor's Social Security Number
+ * @param {Array} fullData.applicants - Array of applicant objects
+ * @param {string} fullData.applicants[].applicantSsn - Each applicant's Social Security Number
+ * @param {string} current - The SSN to check for matches (normalized, digits only)
+ * @returns {Object} Match results
+ * @returns {boolean} returns.sponsorMatch - True if current SSN matches the sponsor's SSN
+ * @returns {number} returns.applicantMatches - Count of applicants with matching SSN
+ */
+const getSsnMatches = (fullData, current) => {
+  const sponsor = normalizeSSN(fullData?.sponsorSsn);
+  const applicants = (fullData?.applicants ?? [])
+    .map(a => normalizeSSN(a?.applicantSsn))
+    .filter(Boolean);
+  return {
+    sponsorMatch: !!sponsor && sponsor === current,
+    applicantMatches: applicants.filter(ssn => ssn === current).length,
+  };
+};
+
+/**
+ * Validates that a sponsor's SSN is valid and unique among applicants.
+ * Adds validation errors if the SSN is invalid or already used by an applicant.
+ *
+ * @param {Object} errors - The validation errors object to add errors to
+ * @param {string} fieldData - The sponsor's SSN field data to validate
+ * @param {Object} fullData - The complete form data for cross-reference checking
+ * @param {Array} fullData.applicants - Array of applicant objects to check against
+ * @returns {void}
+ */
+export const validateSponsorSsn = (errors, fieldData, fullData) => {
+  const current = normalizeSSN(fieldData);
+  if (!current) return;
+
+  if (!isValidSSN(current)) {
+    errors.addError(ERR_SSN_INVALID);
+    return;
+  }
+
+  const { applicantMatches } = getSsnMatches(fullData, current);
+  if (applicantMatches >= 1) errors.addError(ERR_SSN_UNIQUE);
+};
+
+/**
+ * Validates that an applicant's SSN is valid and unique among all form participants.
+ * Adds validation errors if the SSN is invalid, matches the sponsor's SSN, or is already used by another applicant.
+ *
+ * @param {Object} errors - The validation errors object to add errors to
+ * @param {string} fieldData - The applicant's SSN field data to validate
+ * @param {Object} fullData - The complete form data for cross-reference checking
+ * @param {string} fullData.sponsorSsn - The sponsor's SSN to check against
+ * @param {Array} fullData.applicants - Array of all applicant objects to check against
+ * @returns {void}
+ */
+export const validateApplicantSsn = (errors, fieldData, fullData) => {
+  const current = normalizeSSN(fieldData);
+  if (!current) return;
+
+  if (!isValidSSN(current)) {
+    errors.addError(ERR_SSN_INVALID);
+    return;
+  }
+
+  const { sponsorMatch, applicantMatches } = getSsnMatches(fullData, current);
+  if (sponsorMatch || applicantMatches >= 1) errors.addError(ERR_SSN_UNIQUE);
+};
 
 /**
  * Validates an applicant's date of marriage to sponsor is not before
