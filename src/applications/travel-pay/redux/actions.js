@@ -403,7 +403,7 @@ export function createExpense(claimId, expenseType, expenseData) {
 
       const expenseUrl = `${
         environment.API_URL
-      }/travel_pay/v0/expenses/${expenseType}`;
+      }/travel_pay/v0/claims/${claimId}/expenses/${expenseType}`;
       const response = await apiRequest(expenseUrl, options);
       const result = {
         ...expenseData,
