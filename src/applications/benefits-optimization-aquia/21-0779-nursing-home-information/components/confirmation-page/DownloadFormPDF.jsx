@@ -12,10 +12,10 @@ import {
  * Provides functionality to download the completed VA Form 21-0779 as a PDF
  *
  * @param {Object} props - Component props
- * @param {string} props.formData - The form data as JSON string
+ * @param {string} props.guid - The submission GUID
  * @param {Object} props.veteranName - The veteran's name for the filename
  */
-export const DownloadFormPDF = ({ formData, veteranName }) => {
+export const DownloadFormPDF = ({ guid, veteranName }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -30,8 +30,8 @@ export const DownloadFormPDF = ({ formData, veteranName }) => {
   // Handle PDF download
   const handleDownload = useCallback(
     async () => {
-      if (!formData) {
-        setError('No form data available. Please submit the form first.');
+      if (!guid) {
+        setError('No submission ID available. Please submit the form first.');
         return;
       }
 
@@ -40,7 +40,7 @@ export const DownloadFormPDF = ({ formData, veteranName }) => {
 
       try {
         // Fetch the PDF blob from the API
-        const blob = await fetchPdfApi(formData);
+        const blob = await fetchPdfApi(guid);
 
         // Trigger browser download
         downloadBlob(blob, filename);
@@ -52,7 +52,7 @@ export const DownloadFormPDF = ({ formData, veteranName }) => {
         setIsLoading(false);
       }
     },
-    [formData, filename],
+    [guid, filename],
   );
 
   // Render loading state
@@ -82,7 +82,7 @@ export const DownloadFormPDF = ({ formData, veteranName }) => {
     );
   }
 
-  // Render download button
+  // Render download link
   return (
     <div className="vads-u-margin-y--4">
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
@@ -91,18 +91,19 @@ export const DownloadFormPDF = ({ formData, veteranName }) => {
       <p className="vads-u-margin-bottom--3">
         Download a PDF copy of your completed VA Form 21-0779 for your records.
       </p>
-      <va-button
-        text="Download your form (PDF)"
-        onClick={handleDownload}
-        secondary
-        download
-      />
+      <p>
+        <va-link
+          text="Download a copy of your VA Form 21-0779 (PDF)"
+          onClick={handleDownload}
+          download
+        />
+      </p>
     </div>
   );
 };
 
 DownloadFormPDF.propTypes = {
-  formData: PropTypes.string.isRequired,
+  guid: PropTypes.string.isRequired,
   veteranName: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,

@@ -9,51 +9,18 @@ import recordEvent from 'platform/monitoring/record-event';
 import { API_ENDPOINTS } from '../constants/constants';
 
 /**
- * Ensures a valid CSRF token exists in localStorage
- * @param {string} eventLabel - Label for tracking event
- * @returns {Promise<void>}
- */
-export const ensureValidCSRFToken = async eventLabel => {
-  const csrfToken = localStorage.getItem('csrfToken');
-
-  if (!csrfToken) {
-    try {
-      await apiRequest(API_ENDPOINTS.csrfCheck, { method: 'HEAD' });
-
-      recordEvent({
-        event: 'form-21-0779--csrf-token-success',
-        label: eventLabel,
-      });
-    } catch (error) {
-      recordEvent({
-        event: 'form-21-0779--csrf-token-failure',
-        label: eventLabel,
-      });
-      throw error;
-    }
-  }
-};
-
-/**
- * Downloads the PDF form from the API
- * @param {string} formData - The form data as JSON string
+ * Downloads the PDF form from the API using the saved claim GUID
+ * @param {string} guid - The submission GUID
  * @returns {Promise<Blob>} The PDF blob
  */
-export const fetchPdfApi = async formData => {
-  // Ensure we have a valid CSRF token
-  await ensureValidCSRFToken('fetchPdf');
-
-  if (!formData) {
-    throw new Error('Form data is required to download PDF');
+export const fetchPdfApi = async guid => {
+  if (!guid) {
+    throw new Error('Submission GUID is required to download PDF');
   }
 
   try {
-    const response = await apiRequest(API_ENDPOINTS.downloadPdf, {
-      method: 'POST',
-      body: JSON.stringify({ form: formData }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    const response = await apiRequest(`${API_ENDPOINTS.downloadPdf}/${guid}`, {
+      method: 'GET',
     });
 
     // Check if the response is ok

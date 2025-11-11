@@ -14,8 +14,7 @@ describe('Transform Function', () => {
   it('should transform complete form data correctly', () => {
     const mockForm = createMockFormData();
     const result = transform({}, mockForm);
-    const wrapper = JSON.parse(result);
-    const parsedResult = wrapper.form;
+    const parsedResult = JSON.parse(result);
 
     expect(parsedResult).to.have.property('veteranInformation');
     expect(parsedResult.veteranInformation.fullName).to.deep.equal({
@@ -35,8 +34,7 @@ describe('Transform Function', () => {
       claimantQuestion: { patientType: 'veteran' },
     });
     const result = transform({}, mockForm);
-    const wrapper = JSON.parse(result);
-    const parsedResult = wrapper.form;
+    const parsedResult = JSON.parse(result);
 
     expect(parsedResult.claimantInformation).to.not.be.null;
     expect(parsedResult.claimantInformation).to.be.an('object');
@@ -51,8 +49,7 @@ describe('Transform Function', () => {
       claimantQuestion: { patientType: 'spouseOrParent' },
     });
     const result = transform({}, mockForm);
-    const wrapper = JSON.parse(result);
-    const parsedResult = wrapper.form;
+    const parsedResult = JSON.parse(result);
 
     expect(parsedResult.claimantInformation).to.not.be.null;
     expect(parsedResult.claimantInformation.fullName).to.deep.equal({
@@ -70,14 +67,13 @@ describe('Transform Function', () => {
   it('should transform nursing home information correctly', () => {
     const mockForm = createMockFormData();
     const result = transform({}, mockForm);
-    const wrapper = JSON.parse(result);
-    const parsedResult = wrapper.form;
+    const parsedResult = JSON.parse(result);
 
     expect(parsedResult.nursingHomeInformation).to.deep.equal({
       nursingHomeName: 'Coruscant Veterans Medical Center',
       nursingHomeAddress: {
         street: '500 Senate District Boulevard',
-        street2: 'Level 5127',
+        street2: 'Lvl 5',
         city: 'Coruscant',
         state: 'DC',
         country: 'US', // Converted from USA to US
@@ -89,8 +85,7 @@ describe('Transform Function', () => {
   it('should transform general information correctly', () => {
     const mockForm = createMockFormData();
     const result = transform({}, mockForm);
-    const wrapper = JSON.parse(result);
-    const parsedResult = wrapper.form;
+    const parsedResult = JSON.parse(result);
 
     expect(parsedResult.generalInformation).to.include({
       admissionDate: '2019-05-04',
@@ -98,7 +93,7 @@ describe('Transform Function', () => {
       medicaidApplication: true,
       patientMedicaidCovered: true,
       medicaidStartDate: '2020-12-25',
-      monthlyCosts: '3277',
+      monthlyCosts: '3277.00',
       certificationLevelOfCare: 'skilled', // String enum, not boolean
       nursingOfficialName: 'Beru Lars',
       nursingOfficialTitle: 'Nursing Home Administrator',
@@ -111,8 +106,7 @@ describe('Transform Function', () => {
       nursingHomeDetails: null,
     });
     const result = transform({}, mockForm);
-    const wrapper = JSON.parse(result);
-    const parsedResult = wrapper.form;
+    const parsedResult = JSON.parse(result);
 
     expect(parsedResult.nursingHomeInformation.nursingHomeName).to.be.undefined;
   });
@@ -122,8 +116,7 @@ describe('Transform Function', () => {
       nursingOfficialInformation: null,
     });
     const result = transform({}, mockForm);
-    const wrapper = JSON.parse(result);
-    const parsedResult = wrapper.form;
+    const parsedResult = JSON.parse(result);
 
     expect(parsedResult.generalInformation.nursingOfficialName).to.equal('');
   });
@@ -139,8 +132,7 @@ describe('Transform Function', () => {
       },
     });
     const result = transform({}, mockForm);
-    const wrapper = JSON.parse(result);
-    const parsedResult = wrapper.form;
+    const parsedResult = JSON.parse(result);
 
     expect(parsedResult.generalInformation.nursingOfficialName).to.equal(
       'Beru',
@@ -155,8 +147,7 @@ describe('Transform Function', () => {
       certificationLevelOfCare: { levelOfCare: 'intermediate' },
     });
     const result = transform({}, mockForm);
-    const wrapper = JSON.parse(result);
-    const parsedResult = wrapper.form;
+    const parsedResult = JSON.parse(result);
 
     expect(parsedResult.generalInformation).to.include({
       medicaidFacility: false,

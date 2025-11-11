@@ -2,12 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
 import * as api from 'platform/utilities/api';
-import {
-  ensureValidCSRFToken,
-  fetchPdfApi,
-  downloadBlob,
-  formatPdfFilename,
-} from './pdfDownload';
+import { fetchPdfApi, downloadBlob, formatPdfFilename } from './pdfDownload';
 
 describe('pdfDownload utilities', () => {
   let sandbox;
@@ -30,53 +25,19 @@ describe('pdfDownload utilities', () => {
 
   afterEach(() => {
     sandbox.restore();
-    localStorage.clear();
-  });
-
-  describe('ensureValidCSRFToken', () => {
-    it('should not fetch token if one exists in localStorage', async () => {
-      localStorage.setItem('csrfToken', 'existing-token');
-
-      await ensureValidCSRFToken('test-label');
-
-      expect(apiRequestStub.called).to.be.false;
-    });
-
-    it('should fetch token if none exists', async () => {
-      apiRequestStub.resolves({ ok: true });
-
-      await ensureValidCSRFToken('test-label');
-
-      expect(apiRequestStub.calledOnce).to.be.true;
-      expect(apiRequestStub.getCall(0).args[0]).to.include('csrf_token');
-      expect(apiRequestStub.getCall(0).args[1]).to.deep.equal({
-        method: 'HEAD',
-      });
-    });
-
-    it('should record failure event if token fetch fails', async () => {
-      apiRequestStub.rejects(new Error('Network error'));
-
-      try {
-        await ensureValidCSRFToken('test-label');
-        expect.fail('Should have thrown error');
-      } catch (error) {
-        expect(error.message).to.equal('Network error');
-      }
-    });
   });
 
   describe('fetchPdfApi', () => {
-    beforeEach(() => {
-      localStorage.setItem('csrfToken', 'test-token');
-    });
+    const mockGuid = '12345678-1234-1234-1234-123456789abc';
 
-    it('should throw error when form data is missing', async () => {
+    it('should throw error when guid is missing', async () => {
       try {
         await fetchPdfApi(null);
         expect.fail('Should have thrown error');
       } catch (error) {
-        expect(error.message).to.equal('Form data is required to download PDF');
+        expect(error.message).to.equal(
+          'Submission GUID is required to download PDF',
+        );
         expect(apiRequestStub.called).to.be.false;
       }
     });
@@ -89,23 +50,14 @@ describe('pdfDownload utilities', () => {
       };
       apiRequestStub.resolves(mockResponse);
 
-      const mockFormData = JSON.stringify({
-        veteranPersonalInfo: { fullName: { first: 'John', last: 'Doe' } },
-      });
-      const result = await fetchPdfApi(mockFormData);
+      const result = await fetchPdfApi(mockGuid);
 
       expect(result).to.equal(mockBlob);
       expect(apiRequestStub.calledOnce).to.be.true;
-      expect(apiRequestStub.getCall(0).args[0]).to.include(
-        '/form210779/download_pdf',
+      expect(apiRequestStub.getCall(0).args[0]).to.equal(
+        `/form210779/download_pdf/${mockGuid}`,
       );
-      expect(apiRequestStub.getCall(0).args[1].method).to.equal('POST');
-      expect(apiRequestStub.getCall(0).args[1].body).to.equal(
-        JSON.stringify({ form: mockFormData }),
-      );
-      expect(
-        apiRequestStub.getCall(0).args[1].headers['Content-Type'],
-      ).to.equal('application/json');
+      expect(apiRequestStub.getCall(0).args[1].method).to.equal('GET');
     });
 
     it('should throw error for non-PDF response', async () => {
@@ -116,10 +68,8 @@ describe('pdfDownload utilities', () => {
       };
       apiRequestStub.resolves(mockResponse);
 
-      const mockFormData = JSON.stringify({ test: 'data' });
-
       try {
-        await fetchPdfApi(mockFormData);
+        await fetchPdfApi(mockGuid);
         expect.fail('Should have thrown error');
       } catch (error) {
         expect(error.message).to.include('Expected PDF but got text/html');
@@ -133,10 +83,8 @@ describe('pdfDownload utilities', () => {
       };
       apiRequestStub.resolves(mockResponse);
 
-      const mockFormData = JSON.stringify({ test: 'data' });
-
       try {
-        await fetchPdfApi(mockFormData);
+        await fetchPdfApi(mockGuid);
         expect.fail('Should have thrown error');
       } catch (error) {
         expect(error.message).to.include('Failed to fetch PDF: 500');
@@ -152,10 +100,8 @@ describe('pdfDownload utilities', () => {
     it('should handle network errors', async () => {
       apiRequestStub.rejects(new Error('Network error'));
 
-      const mockFormData = JSON.stringify({ test: 'data' });
-
       try {
-        await fetchPdfApi(mockFormData);
+        await fetchPdfApi(mockGuid);
         expect.fail('Should have thrown error');
       } catch (error) {
         expect(error.message).to.equal('Network error');

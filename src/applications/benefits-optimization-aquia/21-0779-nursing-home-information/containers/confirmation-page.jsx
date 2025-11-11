@@ -19,9 +19,6 @@ export const ConfirmationPage = ({ route }) => {
   // Extract veteran name for PDF filename
   const veteranName = form?.data?.veteranPersonalInfo?.fullName || {};
 
-  // Prepare form data as JSON string for PDF generation
-  const formDataForPdf = form?.data ? JSON.stringify(form.data) : null;
-
   const submissionAlertContent = (
     <p>
       Thank you for helping to support a claim. We’ll review your form and
@@ -46,9 +43,7 @@ export const ConfirmationPage = ({ route }) => {
         content={submissionAlertContent}
         actions={<p />}
       />
-      {formDataForPdf && (
-        <DownloadFormPDF formData={formDataForPdf} veteranName={veteranName} />
-      )}
+      {guid && <DownloadFormPDF guid={guid} veteranName={veteranName} />}
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList

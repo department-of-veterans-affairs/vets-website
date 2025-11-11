@@ -98,14 +98,11 @@ export const transform = (formConfig, form) => {
       },
     };
 
-    const payload = { form: submissionData };
     // eslint-disable-next-line no-console
     console.log('Transform submissionData:', submissionData);
     // eslint-disable-next-line no-console
-    console.log('Transform payload:', payload);
-    // eslint-disable-next-line no-console
-    console.log('Transform JSON:', JSON.stringify(payload, null, 2));
-    return JSON.stringify(payload);
+    console.log('Transform JSON:', JSON.stringify(submissionData, null, 2));
+    return JSON.stringify(submissionData);
   } catch (error) {
     Sentry.withScope(scope => {
       scope.setExtra('error', error);

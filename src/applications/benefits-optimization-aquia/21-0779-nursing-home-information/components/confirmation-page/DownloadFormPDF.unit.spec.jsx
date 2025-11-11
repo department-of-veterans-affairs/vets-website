@@ -9,18 +9,7 @@ describe('DownloadFormPDF', () => {
   let fetchPdfApiStub;
   let downloadBlobStub;
 
-  const mockFormData = JSON.stringify({
-    veteranPersonalInfo: {
-      fullName: {
-        first: 'John',
-        middle: 'A',
-        last: 'Doe',
-      },
-    },
-    nursingHomeDetails: {
-      facilityName: 'Test Facility',
-    },
-  });
+  const mockGuid = '12345678-1234-1234-1234-123456789abc';
 
   const mockVeteranName = {
     first: 'John',
@@ -46,7 +35,7 @@ describe('DownloadFormPDF', () => {
 
   it('should render the download button', () => {
     const { container, getByText } = render(
-      <DownloadFormPDF formData={mockFormData} veteranName={mockVeteranName} />,
+      <DownloadFormPDF guid={mockGuid} veteranName={mockVeteranName} />,
     );
 
     expect(getByText('Download your form')).to.exist;
@@ -56,9 +45,11 @@ describe('DownloadFormPDF', () => {
       ),
     ).to.exist;
 
-    const button = container.querySelector('va-button');
-    expect(button).to.exist;
-    expect(button.getAttribute('text')).to.equal('Download your form (PDF)');
+    const link = container.querySelector('va-link');
+    expect(link).to.exist;
+    expect(link.getAttribute('text')).to.equal(
+      'Download a copy of your VA Form 21-0779 (PDF)',
+    );
   });
 
   it('should show loading state when downloading', async () => {
@@ -70,11 +61,11 @@ describe('DownloadFormPDF', () => {
     );
 
     const { container } = render(
-      <DownloadFormPDF formData={mockFormData} veteranName={mockVeteranName} />,
+      <DownloadFormPDF guid={mockGuid} veteranName={mockVeteranName} />,
     );
 
-    const button = container.querySelector('va-button');
-    fireEvent.click(button);
+    const link = container.querySelector('va-link');
+    fireEvent.click(link);
 
     // Should show loading indicator
     await waitFor(() => {
@@ -88,15 +79,15 @@ describe('DownloadFormPDF', () => {
 
   it('should download the PDF when button is clicked', async () => {
     const { container } = render(
-      <DownloadFormPDF formData={mockFormData} veteranName={mockVeteranName} />,
+      <DownloadFormPDF guid={mockGuid} veteranName={mockVeteranName} />,
     );
 
-    const button = container.querySelector('va-button');
-    fireEvent.click(button);
+    const link = container.querySelector('va-link');
+    fireEvent.click(link);
 
     await waitFor(() => {
       expect(fetchPdfApiStub.calledOnce).to.be.true;
-      expect(fetchPdfApiStub.calledWith(mockFormData)).to.be.true;
+      expect(fetchPdfApiStub.calledWith(mockGuid)).to.be.true;
       expect(downloadBlobStub.calledOnce).to.be.true;
       expect(downloadBlobStub.getCall(0).args[1]).to.equal(
         '21-0779_John_Doe.pdf',
@@ -108,11 +99,11 @@ describe('DownloadFormPDF', () => {
     fetchPdfApiStub.rejects(new Error('API Error'));
 
     const { container, getByText, getByRole } = render(
-      <DownloadFormPDF formData={mockFormData} veteranName={mockVeteranName} />,
+      <DownloadFormPDF guid={mockGuid} veteranName={mockVeteranName} />,
     );
 
-    const button = container.querySelector('va-button');
-    fireEvent.click(button);
+    const link = container.querySelector('va-link');
+    fireEvent.click(link);
 
     await waitFor(() => {
       const alert = getByRole('alert');
@@ -130,11 +121,11 @@ describe('DownloadFormPDF', () => {
     fetchPdfApiStub.rejects(new Error('API Error'));
 
     const { container } = render(
-      <DownloadFormPDF formData={mockFormData} veteranName={mockVeteranName} />,
+      <DownloadFormPDF guid={mockGuid} veteranName={mockVeteranName} />,
     );
 
-    const button = container.querySelector('va-button');
-    fireEvent.click(button);
+    const link = container.querySelector('va-link');
+    fireEvent.click(link);
 
     await waitFor(() => {
       const retryButton = container.querySelector(
@@ -162,26 +153,27 @@ describe('DownloadFormPDF', () => {
     });
   });
 
-  it('should show error when form data is missing', () => {
+  it('should show error when submission ID is missing', () => {
     const { container, getByText } = render(
-      <DownloadFormPDF formData="" veteranName={mockVeteranName} />,
+      <DownloadFormPDF guid="" veteranName={mockVeteranName} />,
     );
 
-    const button = container.querySelector('va-button');
-    fireEvent.click(button);
+    const link = container.querySelector('va-link');
+    fireEvent.click(link);
 
     waitFor(() => {
-      expect(getByText('No form data available. Please submit the form first.'))
-        .to.exist;
+      expect(
+        getByText('No submission ID available. Please submit the form first.'),
+      ).to.exist;
       expect(fetchPdfApiStub.called).to.be.false;
     });
   });
 
   it('should use default veteran name when not provided', () => {
-    const { container } = render(<DownloadFormPDF formData={mockFormData} />);
+    const { container } = render(<DownloadFormPDF guid={mockGuid} />);
 
-    const button = container.querySelector('va-button');
-    fireEvent.click(button);
+    const link = container.querySelector('va-link');
+    fireEvent.click(link);
 
     waitFor(() => {
       expect(downloadBlobStub.getCall(0).args[1]).to.equal(
@@ -198,14 +190,11 @@ describe('DownloadFormPDF', () => {
     };
 
     const { container } = render(
-      <DownloadFormPDF
-        formData={mockFormData}
-        veteranName={specialNameVeteran}
-      />,
+      <DownloadFormPDF guid={mockGuid} veteranName={specialNameVeteran} />,
     );
 
-    const button = container.querySelector('va-button');
-    fireEvent.click(button);
+    const link = container.querySelector('va-link');
+    fireEvent.click(link);
 
     await waitFor(() => {
       expect(downloadBlobStub.calledOnce).to.be.true;
