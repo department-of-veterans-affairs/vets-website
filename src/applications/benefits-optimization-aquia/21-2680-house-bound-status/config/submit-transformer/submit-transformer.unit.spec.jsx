@@ -14,9 +14,10 @@ describe('Submit Transformer', () => {
       expect(submitTransformer).to.be.a('function');
     });
 
-    it('should return an object', () => {
+    it('should return a JSON string', () => {
       const result = submitTransformer(mockFormConfig, {});
-      expect(result).to.be.an('object');
+      expect(result).to.be.a('string');
+      expect(() => JSON.parse(result)).to.not.throw();
     });
 
     it('should preserve original form data when claimant is not veteran', () => {
@@ -34,7 +35,8 @@ describe('Submit Transformer', () => {
           claimantDob: '1982-05-15',
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
       expect(result.claimantInformation.claimantFullName.first).to.equal(
         'Jane',
       );
@@ -57,7 +59,8 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
       expect(result.claimantInformation).to.exist;
       expect(result.claimantInformation.claimantFullName.first).to.equal(
         'John',
@@ -80,7 +83,8 @@ describe('Submit Transformer', () => {
           veteranDob: '1980-01-01',
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
       expect(result.claimantInformation.claimantDob).to.equal('1980-01-01');
     });
 
@@ -93,7 +97,8 @@ describe('Submit Transformer', () => {
           veteranSsn: '123-45-6789',
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
       expect(result.claimantSsn).to.exist;
       expect(result.claimantSsn.claimantSsn).to.equal('123-45-6789');
     });
@@ -116,7 +121,8 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
       expect(result.claimantAddress).to.exist;
       expect(result.claimantAddress.claimantAddress.street).to.equal(
         '123 Main St',
@@ -158,7 +164,8 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
 
       // Check all copied data
       expect(result.claimantInformation.claimantFullName.first).to.equal(
@@ -183,7 +190,8 @@ describe('Submit Transformer', () => {
           relationship: 'veteran',
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
       expect(result.claimantInformation).to.exist;
       expect(result.claimantInformation.claimantFullName.first).to.equal('');
       expect(result.claimantInformation.claimantDob).to.equal('');
@@ -195,7 +203,8 @@ describe('Submit Transformer', () => {
           relationship: 'veteran',
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
       expect(result.claimantAddress).to.exist;
       expect(result.claimantAddress.claimantAddress.street).to.equal('');
       expect(result.claimantAddress.claimantAddress.city).to.equal('');
@@ -213,7 +222,8 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
       expect(result.claimantInformation.claimantFullName.first).to.equal('Bob');
       // Middle name should be copied as empty string
       expect(result.claimantInformation.claimantFullName.middle).to.equal('');
@@ -238,7 +248,8 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
       expect(result.claimantAddress.claimantAddress.street).to.equal(
         '789 Pine St',
       );
@@ -260,7 +271,8 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
       expect(result.claimantAddress.claimantAddress.country).to.equal('USA');
     });
 
@@ -277,7 +289,8 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
       // Note: isMilitary field removed from form
       expect(result.claimantAddress.claimantAddress.isMilitary).to.be.undefined;
     });
@@ -295,7 +308,8 @@ describe('Submit Transformer', () => {
           veteranFullName: { first: 'Test', last: 'User' },
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
       expect(result.benefitType).to.equal('housebound');
       expect(result.hospitalizationStatus.isCurrentlyHospitalized).to.equal(
         false,
@@ -316,7 +330,8 @@ describe('Submit Transformer', () => {
           claimantEmail: 'test@example.com',
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
       expect(result.claimantContact.claimantPhoneNumber).to.equal('555-1234');
       expect(result.claimantContact.claimantEmail).to.equal('test@example.com');
     });
@@ -340,7 +355,8 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
 
       // Status should remain
       expect(result.hospitalizationStatus.isCurrentlyHospitalized).to.equal(
@@ -364,7 +380,8 @@ describe('Submit Transformer', () => {
           facilityName: 'VA Medical Center',
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
 
       // Everything should remain
       expect(result.hospitalizationStatus.isCurrentlyHospitalized).to.equal(
@@ -385,7 +402,8 @@ describe('Submit Transformer', () => {
           facilityName: 'VA Medical Center',
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
 
       // Details should be removed when status is undefined
       expect(result.hospitalizationDate).to.be.undefined;
@@ -399,7 +417,8 @@ describe('Submit Transformer', () => {
           admissionDate: '2024-01-15',
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
 
       // Details should be removed
       expect(result.hospitalizationDate).to.be.undefined;
@@ -422,7 +441,8 @@ describe('Submit Transformer', () => {
           admissionDate: '2024-01-15',
         },
       };
-      const result = submitTransformer(mockFormConfig, formData);
+      const resultString = submitTransformer(mockFormConfig, formData);
+      const result = JSON.parse(resultString);
 
       // Veteran data should be copied to claimant
       expect(result.claimantInformation.claimantFullName.first).to.equal(

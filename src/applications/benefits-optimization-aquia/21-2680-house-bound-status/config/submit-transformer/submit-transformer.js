@@ -11,6 +11,7 @@
  *    (handles case where user entered details then changed answer to 'no')
  */
 
+import * as Sentry from '@sentry/browser';
 import { filterViewFields } from 'platform/forms-system/src/js/helpers';
 
 /**
@@ -53,7 +54,7 @@ function removeDeprecatedFields(obj) {
  *
  * @param {Object} formConfig - The form configuration object
  * @param {Object} formData - The form data collected from the user
- * @returns {Object} The transformed form data ready for submission
+ * @returns {string} JSON string of the transformed form data ready for submission
  *
  * @example
  * const transformed = submitTransformer(formConfig, {
@@ -75,83 +76,95 @@ function removeDeprecatedFields(obj) {
  * // transformed.hospitalizationDate and hospitalizationFacility will be removed
  */
 export function submitTransformer(_formConfig, formData) {
-  // First, remove all view: prefixed fields using platform helper
-  let transformedData = filterViewFields(formData);
+  try {
+    // First, remove all view: prefixed fields using platform helper
+    let transformedData = filterViewFields(formData);
 
-  // Remove deprecated fields (suffix, isMilitary) that were removed from the form
-  transformedData = removeDeprecatedFields(transformedData);
+    // Remove deprecated fields (suffix, isMilitary) that were removed from the form
+    transformedData = removeDeprecatedFields(transformedData);
 
-  // Clean up duplicate/unnecessary data before submission
-  // Remove the 'veteran' object added by platform (duplicates veteranInformation)
-  delete transformedData.veteran;
+    // Clean up duplicate/unnecessary data before submission
+    // Remove the 'veteran' object added by platform (duplicates veteranInformation)
+    delete transformedData.veteran;
 
-  // Remove stale/duplicate data that causes API parsing errors
-  delete transformedData.veteranIdentification; // Stale data not in form config
-  delete transformedData.signature; // Old signature pattern
-  delete transformedData.certificationChecked; // Old certification pattern
-  delete transformedData.agreed; // Old agreement field
-  delete transformedData.statementOfTruthSignature; // Statement of truth signature
-  delete transformedData.statementOfTruthCertified; // Statement of truth checkbox
+    // Remove stale/duplicate data that causes API parsing errors
+    delete transformedData.veteranIdentification; // Stale data not in form config
+    delete transformedData.signature; // Old signature pattern
+    delete transformedData.certificationChecked; // Old certification pattern
+    delete transformedData.agreed; // Old agreement field
+    delete transformedData.statementOfTruthSignature; // Statement of truth signature
+    delete transformedData.statementOfTruthCertified; // Statement of truth checkbox
 
-  // If the veteran is the claimant, copy veteran information to claimant fields
-  // This ensures the backend receives complete claimant data even though
-  // the user didn't fill out separate claimant pages
-  // Note: claimantRelationship is nested due to sectionName in PageTemplate
-  const isVeteranClaimant =
-    transformedData.claimantRelationship?.relationship === 'veteran';
+    // If the veteran is the claimant, copy veteran information to claimant fields
+    // This ensures the backend receives complete claimant data even though
+    // the user didn't fill out separate claimant pages
+    // Note: claimantRelationship is nested due to sectionName in PageTemplate
+    const isVeteranClaimant =
+      transformedData.claimantRelationship?.relationship === 'veteran';
 
-  if (isVeteranClaimant) {
-    const veteranName =
-      transformedData.veteranInformation?.veteranFullName || {};
-    const veteranDob = transformedData.veteranInformation?.veteranDob || '';
-    const veteranSsn = transformedData.veteranInformation?.veteranSsn || '';
-    const veteranAddr = transformedData.veteranAddress?.veteranAddress || {};
+    if (isVeteranClaimant) {
+      const veteranName =
+        transformedData.veteranInformation?.veteranFullName || {};
+      const veteranDob = transformedData.veteranInformation?.veteranDob || '';
+      const veteranSsn = transformedData.veteranInformation?.veteranSsn || '';
+      const veteranAddr = transformedData.veteranAddress?.veteranAddress || {};
 
-    // Copy veteran information to claimant fields
-    transformedData.claimantInformation = {
-      claimantFullName: {
-        first: veteranName.first || '',
-        middle: veteranName.middle || '',
-        last: veteranName.last || '',
-        // Note: suffix field removed from form
-      },
-      claimantDob: veteranDob,
-    };
+      // Copy veteran information to claimant fields
+      transformedData.claimantInformation = {
+        claimantFullName: {
+          first: veteranName.first || '',
+          middle: veteranName.middle || '',
+          last: veteranName.last || '',
+          // Note: suffix field removed from form
+        },
+        claimantDob: veteranDob,
+      };
 
-    transformedData.claimantSsn = {
-      claimantSsn: veteranSsn,
-    };
+      transformedData.claimantSsn = {
+        claimantSsn: veteranSsn,
+      };
 
-    transformedData.claimantAddress = {
-      claimantAddress: {
-        street: veteranAddr.street || '',
-        street2: veteranAddr.street2 || '',
-        street3: veteranAddr.street3 || '',
-        city: veteranAddr.city || '',
-        state: veteranAddr.state || '',
-        postalCode: veteranAddr.postalCode || '',
-        country: veteranAddr.country || 'USA',
-        // Note: isMilitary field removed from form
-      },
-    };
+      transformedData.claimantAddress = {
+        claimantAddress: {
+          street: veteranAddr.street || '',
+          street2: veteranAddr.street2 || '',
+          street3: veteranAddr.street3 || '',
+          city: veteranAddr.city || '',
+          state: veteranAddr.state || '',
+          postalCode: veteranAddr.postalCode || '',
+          country: veteranAddr.country || 'USA',
+          // Note: isMilitary field removed from form
+        },
+      };
 
-    // Note: claimantContact (phone/email) intentionally left as-is
-    // The veteran pages don't collect contact information, so if the veteran
-    // is the claimant, contact info should come from claimantContact if present
+      // Note: claimantContact (phone/email) intentionally left as-is
+      // The veteran pages don't collect contact information, so if the veteran
+      // is the claimant, contact info should come from claimantContact if present
+    }
+
+    // If not currently hospitalized, remove any stale hospitalization details
+    // This handles the case where the user entered hospital information,
+    // then went back and changed their answer to 'no'
+    const isCurrentlyHospitalized =
+      transformedData.hospitalizationStatus?.isCurrentlyHospitalized === true;
+
+    if (!isCurrentlyHospitalized) {
+      // Keep hospitalizationStatus (contains the false answer)
+      // Remove hospitalizationDate and hospitalizationFacility
+      delete transformedData.hospitalizationDate;
+      delete transformedData.hospitalizationFacility;
+    }
+
+    // eslint-disable-next-line no-console
+    console.log('Transform submissionData:', transformedData);
+    // eslint-disable-next-line no-console
+    console.log('Transform JSON:', JSON.stringify(transformedData, null, 2));
+    return JSON.stringify(transformedData);
+  } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(`Transform Failed: ${error}`);
+    });
+    return 'Transform failed, see sentry for details';
   }
-
-  // If not currently hospitalized, remove any stale hospitalization details
-  // This handles the case where the user entered hospital information,
-  // then went back and changed their answer to 'no'
-  const isCurrentlyHospitalized =
-    transformedData.hospitalizationStatus?.isCurrentlyHospitalized === true;
-
-  if (!isCurrentlyHospitalized) {
-    // Keep hospitalizationStatus (contains the false answer)
-    // Remove hospitalizationDate and hospitalizationFacility
-    delete transformedData.hospitalizationDate;
-    delete transformedData.hospitalizationFacility;
-  }
-
-  return transformedData;
 }
