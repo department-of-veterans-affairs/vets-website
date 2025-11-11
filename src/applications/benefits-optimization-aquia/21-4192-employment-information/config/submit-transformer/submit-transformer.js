@@ -284,7 +284,7 @@ export const transformForSubmit = (formConfig, form) => {
   // Remove all null and undefined values from the payload
   const cleanedPayload = removeNullUndefined(transformed);
 
-  return JSON.stringify(cleanedPayload);
+  return JSON.stringify(cleanedPayload || {});
 };
 
 export default transformForSubmit;
