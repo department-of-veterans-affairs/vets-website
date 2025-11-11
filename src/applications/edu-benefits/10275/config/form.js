@@ -120,6 +120,7 @@ const formConfig = {
               });
             }
           },
+          updateFormData: agreementType.updateFormData,
         },
       },
     },

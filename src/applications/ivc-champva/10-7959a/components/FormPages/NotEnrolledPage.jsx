@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import {
   CHAMPVA_FAX_NUMBER,
@@ -81,16 +82,18 @@ const NotEnrolledPage = ({ goBack }) => (
       />
     </p>
 
-    <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-      <div className="small-6 medium-5 columns">
-        <ProgressButton
-          buttonClass="usa-button-secondary"
-          onButtonClick={goBack}
-          buttonText="Back"
-          beforeText="«"
-        />
+    {!isMinimalHeaderApp() && (
+      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+        <div className="small-6 medium-5 columns">
+          <ProgressButton
+            buttonClass="usa-button-secondary"
+            onButtonClick={goBack}
+            buttonText="Back"
+            beforeText="«"
+          />
+        </div>
       </div>
-    </div>
+    )}
   </>
 );
 

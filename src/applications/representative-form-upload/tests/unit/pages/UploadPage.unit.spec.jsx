@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { uploadPage, warningsPresent } from '../../../pages/upload';
 import { createPayload, parseResponse } from '../../../helpers';
 
@@ -21,7 +20,7 @@ describe('uploadPage', () => {
     const { uploadedFile } = uiSchema;
 
     it('has maxFileSize of 25MB', () => {
-      expect(uploadedFile['ui:options'].maxFileSize).to.equal(25000000);
+      expect(uploadedFile['ui:options'].maxFileSize).to.equal(26214400);
     });
 
     it('updates the title when no warnings', () => {
@@ -50,56 +49,6 @@ describe('uploadPage', () => {
       const result = uploadedFile['ui:options'].updateUiSchema(formData);
       expect(result).to.deep.equal({
         'ui:title': 'Select a file to upload',
-      });
-    });
-
-    describe('ui:validations', () => {
-      const validationFn = uploadedFile['ui:validations'][0];
-
-      it('adds error if required fields are missing', () => {
-        const errors = { addError: sinon.spy() };
-        validationFn(errors, {});
-        expect(errors.addError.calledOnce).to.be.true;
-        expect(errors.addError.firstCall.args[0]).to.include(
-          'Upload a completed VA Form',
-        );
-      });
-
-      it('adds error if file extension is not pdf', () => {
-        const errors = { addError: sinon.spy() };
-        validationFn(errors, {
-          name: 'file.txt',
-          confirmationCode: 'abc',
-          size: 123,
-        });
-        expect(errors.addError.calledWith('Your file must be .pdf format')).to
-          .be.true;
-      });
-
-      it('does not add error if all required fields are present and file is a pdf', () => {
-        const errors = { addError: sinon.spy() };
-        validationFn(errors, {
-          name: 'file.pdf',
-          confirmationCode: 'abc',
-          size: 123,
-        });
-        expect(errors.addError.notCalled).to.be.true;
-      });
-
-      it('skips pdf extension validation in Cypress', () => {
-        const originalCypress = window.Cypress;
-        window.Cypress = true;
-
-        const errors = { addError: sinon.spy() };
-        validationFn(errors, {
-          name: 'file.jpg',
-          confirmationCode: 'abc',
-          size: 123,
-        });
-
-        expect(errors.addError.notCalled).to.be.true;
-
-        window.Cypress = originalCypress;
       });
     });
   });

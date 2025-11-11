@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { getRefillHistory } from '../../../util/helpers';
+import { RX_SOURCE } from '../../../util/constants';
 
 describe('getRefillHistory function', () => {
   it('should return an empty array when prescription is null', () => {
@@ -124,7 +125,7 @@ describe('getRefillHistory function', () => {
           cmopDivisionPhone: '234-567-8901',
           cmopNdcNumber: '23456-7890-12',
           dispensedDate: '2023-02-01',
-          prescriptionSource: 'RF',
+          prescriptionSource: RX_SOURCE.REFILL,
           prescriptionNumberIndex: 'RF1',
         },
         {
@@ -132,7 +133,7 @@ describe('getRefillHistory function', () => {
           cmopDivisionPhone: '345-678-9012',
           cmopNdcNumber: '34567-8901-23',
           dispensedDate: '2023-03-01',
-          prescriptionSource: 'PF',
+          prescriptionSource: RX_SOURCE.PARTIAL_FILL,
           prescriptionNumberIndex: 'PF1',
           quantity: '10',
         },
@@ -144,11 +145,11 @@ describe('getRefillHistory function', () => {
 
     // First record should be the first rxRfRecord (RF)
     expect(result[0]).to.deep.equal(prescription.rxRfRecords[0]);
-    expect(result[0].prescriptionSource).to.equal('RF');
+    expect(result[0].prescriptionSource).to.equal(RX_SOURCE.REFILL);
 
     // Second record should be the partial fill (PF)
     expect(result[1]).to.deep.equal(prescription.rxRfRecords[1]);
-    expect(result[1].prescriptionSource).to.equal('PF');
+    expect(result[1].prescriptionSource).to.equal(RX_SOURCE.PARTIAL_FILL);
     expect(result[1].prescriptionNumberIndex).to.equal('PF1');
     expect(result[1].quantity).to.equal('10');
 
@@ -178,7 +179,7 @@ describe('getRefillHistory function', () => {
           cmopDivisionPhone: '234-567-8901',
           cmopNdcNumber: '23456-7890-12',
           dispensedDate: '2023-02-01',
-          prescriptionSource: 'PF',
+          prescriptionSource: RX_SOURCE.PARTIAL_FILL,
           prescriptionNumberIndex: 'PF1',
           quantity: '5',
         },
@@ -188,7 +189,7 @@ describe('getRefillHistory function', () => {
     const result = getRefillHistory(prescription);
     expect(result.length).to.equal(1);
     expect(result[0]).to.deep.equal(prescription.rxRfRecords[0]);
-    expect(result[0].prescriptionSource).to.equal('PF');
+    expect(result[0].prescriptionSource).to.equal(RX_SOURCE.PARTIAL_FILL);
     expect(result[0].prescriptionNumberIndex).to.equal('PF1');
     expect(result[0].quantity).to.equal('5');
   });

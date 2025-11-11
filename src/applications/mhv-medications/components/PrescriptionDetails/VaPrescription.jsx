@@ -20,7 +20,11 @@ import {
   validateIfAvailable,
   prescriptionMedAndRenewalStatus,
 } from '../../util/helpers';
-import { medStatusDisplayTypes, DATETIME_FORMATS } from '../../util/constants';
+import {
+  medStatusDisplayTypes,
+  DATETIME_FORMATS,
+  RX_SOURCE,
+} from '../../util/constants';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
@@ -43,10 +47,10 @@ const VaPrescription = prescription => {
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
   const pendingMed =
-    prescription?.prescriptionSource === 'PD' &&
+    prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     prescription?.dispStatus === 'NewOrder';
   const pendingRenewal =
-    prescription?.prescriptionSource === 'PD' &&
+    prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     prescription?.dispStatus === 'Renew';
   const hasBeenDispensed =
     prescription?.dispensedDate ||
@@ -431,7 +435,7 @@ const VaPrescription = prescription => {
                           const refillPosition = refillHistory.length - i - 1;
                           const refillLabelId = `rx-refill-${refillPosition}`;
                           const isPartialFill =
-                            entry.prescriptionSource === 'PF';
+                            entry.prescriptionSource === RX_SOURCE.PARTIAL_FILL;
                           const refillLabel = determineRefillLabel(
                             isPartialFill,
                             refillHistory,
