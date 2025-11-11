@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
