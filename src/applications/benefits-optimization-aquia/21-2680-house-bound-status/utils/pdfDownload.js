@@ -96,7 +96,7 @@ export const downloadBlob = (blob, filename) => {
  * // Returns: '21-2680_John_Doe.pdf'
  *
  * formatPdfFilename({ first: "John-Paul's", last: "O'Brien" })
- * // Returns: '21-2680_JohnPauls_OBrien.pdf' cSpell:ignore Pauls Brien
+ * // Returns: '21-2680_JohnPauls_OBrien.pdf'
  *
  * formatPdfFilename({})
  * // Returns: '21-2680_Veteran_Submission.pdf'
