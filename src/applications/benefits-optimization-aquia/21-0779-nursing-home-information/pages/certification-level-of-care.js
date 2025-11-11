@@ -9,7 +9,7 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { getPatientName } from './helpers';
+import { getPatientName } from '../utils';
 
 /**
  * uiSchema for Certification Level of Care page
