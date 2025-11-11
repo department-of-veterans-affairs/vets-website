@@ -61,7 +61,7 @@ describe('Submit Transformer', () => {
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
       expect(result.veteranInformation.fullName.first).to.equal('Jane');
-      expect(result.veteranInformation.fullName).to.not.have.property('middle');
+      expect(result.veteranInformation.fullName.middle).to.equal('');
       expect(result.veteranInformation.fullName.last).to.equal('Smith');
     });
 
@@ -144,8 +144,8 @@ describe('Submit Transformer', () => {
 
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
-      // Empty veteranInformation results in all undefined fields, so entire object is removed
-      expect(result).to.not.have.property('veteranInformation');
+      // address is set to null but removed by removeNullUndefined
+      expect(result.veteranInformation.address).to.not.exist;
     });
   });
 
@@ -197,6 +197,27 @@ describe('Submit Transformer', () => {
       expect(result.employmentInformation.employerAddress.postalCode).to.equal(
         '62701',
       );
+      expect(result.employmentInformation.employerAddress.country).to.equal(
+        'US',
+      );
+    });
+
+    it('should default country to US if missing', () => {
+      const form = {
+        data: {
+          employerInformation: {
+            employerAddress: {
+              street: '123 Main St',
+              city: 'Springfield',
+              state: 'IL',
+              postalCode: '62701',
+            },
+          },
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
       expect(result.employmentInformation.employerAddress.country).to.equal(
         'US',
       );
@@ -387,8 +408,8 @@ describe('Submit Transformer', () => {
 
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
-      // Empty employerInformation results in all undefined fields, so entire object is removed
-      expect(result).to.not.have.property('employmentInformation');
+      // null values are removed by removeNullUndefined function
+      expect(result.employmentInformation.employerAddress).to.not.exist;
     });
   });
 
@@ -554,7 +575,7 @@ describe('Submit Transformer', () => {
 
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
-      expect(result.veteranInformation.fullName).to.not.have.property('middle');
+      expect(result.veteranInformation.fullName.middle).to.equal('');
     });
 
     it('should handle completely empty form data', () => {
@@ -565,8 +586,8 @@ describe('Submit Transformer', () => {
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
       expect(result).to.be.an('object');
-      // Empty data results in empty object after removeNullUndefined
-      expect(Object.keys(result).length).to.equal(0);
+      expect(result.veteranInformation).to.exist;
+      expect(result.employmentInformation).to.exist;
     });
 
     it('should handle form data with all missing sections', () => {
@@ -580,9 +601,9 @@ describe('Submit Transformer', () => {
 
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
-      // Undefined values are removed by removeNullUndefined function
-      // Empty objects with all undefined fields are also removed
-      expect(Object.keys(result).length).to.equal(0);
+      // null values are removed by removeNullUndefined function
+      expect(result.veteranInformation.ssn).to.not.exist;
+      expect(result.employmentInformation.employerName).to.equal('');
     });
   });
 
@@ -751,8 +772,8 @@ describe('Submit Transformer', () => {
 
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
-      // Invalid date returns null, all fields undefined/null, so entire object is removed
-      expect(result).to.not.have.property('veteranInformation');
+      // null values are removed by removeNullUndefined function
+      expect(result.veteranInformation.dateOfBirth).to.not.exist;
     });
 
     it('should handle invalid currency formatting gracefully', () => {
@@ -766,8 +787,9 @@ describe('Submit Transformer', () => {
 
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
-      // Invalid currency returns null, all fields undefined/null, so entire object is removed
-      expect(result).to.not.have.property('employmentInformation');
+      // null values are removed by removeNullUndefined function
+      expect(result.employmentInformation.amountEarnedLast12MonthsOfEmployment)
+        .to.not.exist;
     });
   });
 });
