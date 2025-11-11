@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropType from 'prop-types';
@@ -11,6 +17,8 @@ import {
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { datadogRum } from '@datadog/browser-rum';
+
 import { populatedDraft } from '../selectors';
 import { ErrorMessages, Paths } from '../util/constants';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
@@ -27,6 +35,7 @@ const SelectCareTeam = () => {
     noAssociations,
     allTriageGroupsBlocked,
     allowedRecipients,
+    vistaFacilities,
   } = useSelector(state => state.sm.recipients);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const { draftInProgress, acceptInterstitial } = useSelector(
@@ -43,6 +52,7 @@ const SelectCareTeam = () => {
   const [careTeamComboInputValue, setCareTeamComboInputValue] = useState('');
   const [showContactListLink, setShowContactListLink] = useState(false);
   const [recipientsSelectKey, setRecipientsSelectKey] = useState(0); // controls resetting the careTeam combo box when the careSystem changes
+  const careSystemSwitchCountRef = useRef(0);
 
   const MAX_RADIO_OPTIONS = 6;
 
@@ -129,10 +139,21 @@ const SelectCareTeam = () => {
     focusElement(document.querySelector('h1'));
   }, []);
 
+  // Send DataDog RUM action on component unmount with the count of care system switches
+  // Should call addAction even if the count is zero
+  useEffect(() => {
+    return () => {
+      datadogRum.addAction('Care System Radio Switch Count', {
+        switchCount: careSystemSwitchCountRef.current,
+      });
+    };
+  }, []);
+
   const onRadioChangeHandler = e => {
     if (e?.detail?.value) {
       const careSystem = ehrDataByVhaId[e.detail.value];
       if (e.detail.value !== draftInProgress?.careSystemVhaId) {
+        careSystemSwitchCountRef.current += 1;
         setRecipientsSelectKey(prevKey => prevKey + 1);
         dispatch(
           updateDraftInProgress({
@@ -197,14 +218,10 @@ const SelectCareTeam = () => {
 
   useEffect(
     () => {
-      if (allFacilities.length > 0 && ehrDataByVhaId) {
-        allFacilities.forEach(facility => {
-          if (ehrDataByVhaId[facility]?.ehr !== 'cerner')
-            setShowContactListLink(true);
-        });
-      }
+      const hasVistaFacility = vistaFacilities?.length > 0;
+      setShowContactListLink(hasVistaFacility);
     },
-    [allFacilities, ehrDataByVhaId],
+    [vistaFacilities],
   );
 
   // updates the available teams in the Care Team combo box

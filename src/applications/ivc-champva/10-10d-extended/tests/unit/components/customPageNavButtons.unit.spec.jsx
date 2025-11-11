@@ -62,8 +62,8 @@ function setupComponent(
 describe('CustomPageNavButtons', () => {
   const arrayBuilderProps = {
     arrayPath: 'applicants',
-    summaryRoute: '/summaryRoute',
-    introRoute: '/introRoute',
+    getSummaryPath: () => '/summaryRoute',
+    getIntroPath: () => '/introRoute',
     reviewRoute: '/review-and-submit',
     getText: () => {},
     required: () => false,

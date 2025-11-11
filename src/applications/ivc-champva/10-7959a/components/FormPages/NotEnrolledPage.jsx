@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import {
   CHAMPVA_FAX_NUMBER,
@@ -18,8 +19,9 @@ const NotEnrolledPage = ({ goBack }) => (
 
     <h3>If you already applied for CHAMPVA benefits</h3>
     <p>
-      You don’t need to do anything while you wait. If we need more information
-      from you during this time, we’ll contact you.
+      You don’t need to do anything while you wait. It currently takes us about
+      14 days to process an application. If we need more information from you
+      during this time, we’ll contact you.
     </p>
     <p>
       If you have questions about the status of your application, call us at{' '}
@@ -80,16 +82,18 @@ const NotEnrolledPage = ({ goBack }) => (
       />
     </p>
 
-    <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-      <div className="small-6 medium-5 columns">
-        <ProgressButton
-          buttonClass="usa-button-secondary"
-          onButtonClick={goBack}
-          buttonText="Back"
-          beforeText="«"
-        />
+    {!isMinimalHeaderApp() && (
+      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+        <div className="small-6 medium-5 columns">
+          <ProgressButton
+            buttonClass="usa-button-secondary"
+            onButtonClick={goBack}
+            buttonText="Back"
+            beforeText="«"
+          />
+        </div>
       </div>
-    </div>
+    )}
   </>
 );
 

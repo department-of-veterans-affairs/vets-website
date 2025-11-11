@@ -29,6 +29,14 @@ import Pagination from '../components/Pagination';
 import PaginationMeta from '../components/PaginationMeta';
 import POARequestSearchPageResults from '../components/POARequestSearchPageResults';
 
+const NoResultsText = searchStatus => (
+  <div className="no-poa-requests-text">
+    {searchStatus.searchStatus === STATUSES.PENDING
+      ? 'No pending representation requests.'
+      : 'No processed representation requests.'}
+  </div>
+);
+
 const StatusTabLink = ({
   tabStatus,
   searchStatus,
@@ -93,7 +101,7 @@ const POARequestSearchPage = title => {
         homeVeteransAffairs={false}
       />
       <h1
-        data-testid="poa-requests-heading"
+        data-testid="representation-requests-heading"
         className="poa-request__search-header"
       >
         Representation requests
@@ -145,7 +153,7 @@ const POARequestSearchPage = title => {
         </>
       )}
 
-      <div className="poa-requests-page-table-container">
+      <div className="representation-requests-page-table-container">
         <div role="tablist" className="poa-request__tabs">
           <StatusTabLink
             tabStatus={STATUSES.PENDING}
@@ -179,7 +187,7 @@ const POARequestSearchPage = title => {
                   return (
                     <>
                       <h2
-                        data-testid="poa-requests-table-heading"
+                        data-testid="representation-requests-table-heading"
                         className="poa-request__tab-heading"
                       >
                         Pending representation requests
@@ -215,7 +223,7 @@ const POARequestSearchPage = title => {
                   return (
                     <>
                       <h2
-                        data-testid="poa-requests-table-heading"
+                        data-testid="representation-requests-table-heading"
                         className="poa-request__tab-heading"
                       >
                         Processed representation requests
@@ -252,10 +260,10 @@ const POARequestSearchPage = title => {
               }
             })()}
 
-            {meta.page.total === 0 &&
-              (searchStatus === STATUSES.PENDING
-                ? 'No pending representation requests.'
-                : 'No processed representation requests.')}
+            {meta.page.total === 0 && (
+              <NoResultsText searchStatus={searchStatus} />
+            )}
+
             {meta.page.total >= 1 && (
               <>
                 <POARequestSearchPageResults poaRequests={poaRequests} />

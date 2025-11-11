@@ -21,6 +21,7 @@ const responses = {
         { name: 'loading', value: false },
         { name: 'ezrProdEnabled', value: true },
         { name: 'ezrProvidersAndDependentsPrefillEnabled', value: true },
+        { name: 'ezrSpouseConfirmationFlowEnabled', value: true },
         { name: 'ezrDownloadPdfEnabled', value: true },
       ],
     },

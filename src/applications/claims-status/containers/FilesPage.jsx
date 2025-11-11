@@ -11,10 +11,13 @@ import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
 import OtherWaysToSendYourDocuments from '../components/claim-files-tab-v2/OtherWaysToSendYourDocuments';
 import FileSubmissionsInProgress from '../components/claim-files-tab-v2/FileSubmissionsInProgress';
 import FilesReceived from '../components/claim-files-tab-v2/FilesReceived';
+import FilesWeCouldntReceiveEntryPoint from '../components/claim-files-tab-v2/FilesWeCouldntReceiveEntryPoint';
+import UploadType2ErrorAlert from '../components/UploadType2ErrorAlert';
 import withRouter from '../utils/withRouter';
 
 import {
   claimAvailable,
+  getFailedSubmissionsWithinLast30Days,
   isClaimOpen,
   setPageFocus,
   setTabDocumentTitle,
@@ -69,11 +72,15 @@ class FilesPage extends React.Component {
       status,
       supportingDocuments,
       trackedItems,
+      evidenceSubmissions,
     } = claim.attributes;
     const isOpen = isClaimOpen(status, closeDate);
 
     const documentsTurnedIn = trackedItems.filter(
       item => !item.status.startsWith(NEED_ITEMS_STATUS),
+    );
+    const failedSubmissionsWithinLast30Days = getFailedSubmissionsWithinLast30Days(
+      evidenceSubmissions,
     );
 
     documentsTurnedIn.push(...supportingDocuments);
@@ -87,12 +94,18 @@ class FilesPage extends React.Component {
         <ClaimFileHeader isOpen={isOpen} />
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstShowDocumentUploadStatus}>
           <Toggler.Enabled>
+            <UploadType2ErrorAlert
+              failedSubmissions={failedSubmissionsWithinLast30Days}
+            />
             <AdditionalEvidencePage additionalEvidenceTitle="Upload additional evidence" />
             <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
             <FileSubmissionsInProgress claim={claim} />
             <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
             <FilesReceived claim={claim} />
             <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
+            <FilesWeCouldntReceiveEntryPoint
+              evidenceSubmissions={evidenceSubmissions}
+            />
             <OtherWaysToSendYourDocuments />
           </Toggler.Enabled>
           <Toggler.Disabled>

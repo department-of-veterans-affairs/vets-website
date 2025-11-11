@@ -1,8 +1,5 @@
 {
-  "name": "@department-of-veterans-affairs/applications-bio-21p-530a",
+  "name": "@department-of-veterans-affairs/21p-530a-interment-allowance",
   "version": "0.0.1",
-  "private": true,
-  "dependencies": {
-    "@bio-aquia/shared": "0.1.0"
-  }
+  "private": true
 }

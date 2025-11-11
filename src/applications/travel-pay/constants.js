@@ -171,3 +171,103 @@ export const STATUS_GROUPINGS = [
     ],
   },
 ];
+
+export const EXPENSE_TYPES = Object.freeze({
+  Mileage: {
+    addButtonText: 'mileage',
+    expensePageText: 'mileage',
+    name: 'mileage',
+    title: 'Mileage',
+    route: 'mileage',
+    apiRoute: 'mileage',
+  },
+  Parking: {
+    addButtonText: 'parking',
+    expensePageText: 'parking',
+    name: 'parking',
+    title: 'Parking',
+    route: 'parking',
+    apiRoute: 'parking',
+  },
+  Toll: {
+    addButtonText: 'toll',
+    expensePageText: 'toll',
+    name: 'toll',
+    title: 'Tolls',
+    route: 'toll',
+    apiRoute: 'toll',
+  },
+  Commoncarrier: {
+    addButtonText: 'public transportation, taxi, or rideshare',
+    expensePageText: 'public transportation, taxi, or rideshare',
+    name: 'common carrier',
+    title: 'Public transportation, taxi, or rideshare',
+    route: 'common-carrier',
+    apiRoute: 'commoncarrier',
+  },
+  Airtravel: {
+    addButtonText: 'air travel',
+    expensePageText: 'airfare',
+    name: 'air travel',
+    title: 'Airfare',
+    route: 'air-travel',
+    apiRoute: 'airtravel',
+  },
+  Lodging: {
+    addButtonText: 'lodging',
+    expensePageText: 'lodging',
+    name: 'lodging',
+    title: 'Lodging',
+    route: 'lodging',
+    apiRoute: 'lodging',
+  },
+  Meal: {
+    addButtonText: 'meal',
+    expensePageText: 'meal',
+    name: 'meal',
+    title: 'Meals',
+    route: 'meal',
+    apiRoute: 'meal',
+  },
+  Other: {
+    addButtonText: 'travel',
+    expensePageText: 'other travel',
+    name: 'other',
+    title: 'Other travel expenses',
+    route: 'other',
+    apiRoute: 'other',
+  },
+});
+
+export const TRANSPORTATION_OPTIONS = Object.freeze([
+  'Bus',
+  'Subway',
+  'Train',
+  'Other',
+]);
+
+export const TRANSPORTATION_REASONS = Object.freeze({
+  PrivatelyOwnedVehicleNotAvailable: {
+    label:
+      "I don't own a private vehicle, or it wasn't available when I needed it",
+  },
+  MedicallyIndicated: {
+    label: 'Medical reasons',
+  },
+  Other: {
+    label: 'Other',
+  },
+});
+
+export const TRIP_TYPES = Object.freeze({
+  ONE_WAY: {
+    value: 'one-way',
+    label: 'One way',
+    key: 'OneWay',
+  },
+  ROUND_TRIP: {
+    value: 'round-trip',
+    label: 'Round trip',
+    key: 'RoundTrip',
+  },
+});

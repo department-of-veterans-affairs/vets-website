@@ -31,7 +31,7 @@ export const fillTextWebComponent = (fieldName, value) => {
     cy.get(`va-text-input[name="root_${fieldName}"]`)
       .shadow()
       .find('input')
-      .type(value);
+      .type(value, { force: true });
   }
 };
 

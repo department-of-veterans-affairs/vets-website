@@ -17,9 +17,9 @@ const GenericErrorAlert = ({ fieldName }) => {
         visible="true"
         full-width
         slim
-        uswds
         role="alert"
         data-testid="generic-error-alert"
+        tabindex="-1"
       >
         <p className="vads-u-margin-y--0" id={id}>
           {DEFAULT_ERROR_MESSAGE}

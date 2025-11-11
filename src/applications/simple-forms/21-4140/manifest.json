@@ -1,5 +1,5 @@
 {
-  "appName": "Income Verification for Disability Benefits",
+  "appName": "Submit Employment Questionnaire",
   "entryFile": "./app-entry.jsx",
   "entryName": "21-4140-income-verification",
   "rootUrl": "/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140",

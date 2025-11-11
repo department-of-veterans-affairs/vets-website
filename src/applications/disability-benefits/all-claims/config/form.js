@@ -27,8 +27,8 @@ import {
   hasOtherEvidence,
   hasPrivateEvidence,
   hasRatedDisabilities,
+  hasRealNewOrSecondaryConditions,
   hasVAEvidence,
-  increaseOnly,
   isAnswering781aQuestions,
   isAnswering781Questions,
   isBDD,
@@ -140,6 +140,10 @@ import ConfirmationAncillaryFormsWizard from '../components/ConfirmationAncillar
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
+  dev: {
+    showNavLinks: true,
+    collapsibleNavLinks: true,
+  },
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${
@@ -485,7 +489,8 @@ const formConfig = {
         prisonerOfWar: {
           title: 'Prisoner of war (POW)',
           path: 'pow',
-          depends: formData => !increaseOnly(formData) && !isBDD(formData),
+          depends: formData =>
+            !isBDD(formData) && hasRealNewOrSecondaryConditions(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
           appStateSelector: state => ({

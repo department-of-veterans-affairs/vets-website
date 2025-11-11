@@ -101,6 +101,7 @@ export default class MockAppointmentResponse {
       future,
       pending,
       past,
+      isCerner,
       travelPayClaim: {
         metadata: {
           status: 200,
