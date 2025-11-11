@@ -368,34 +368,34 @@ describe('<LetterList>', () => {
     it('retrieves latest TSA letter if there is more than 1 letter', async () => {
       const mockResponse = {
         data: [
-          // missing received_at defaults received_at to 0
+          // missing receivedAt defaults receivedAt to 0
           {
             attributes: {
-              document_id: '999',
+              documentId: '999',
             },
           },
           {
             attributes: {
-              document_id: '123',
-              received_at: '2022-01-01',
+              documentId: '123',
+              receivedAt: '2022-01-01',
             },
           },
-          // missing received_at defaults received_at to 0
+          // missing receivedAt defaults receivedAt to 0
           {
             attributes: {
-              document_id: '111',
-            },
-          },
-          {
-            attributes: {
-              document_id: '456',
-              received_at: '2023-01-01',
+              documentId: '111',
             },
           },
           {
             attributes: {
-              document_id: '789',
-              received_at: '2024-01-01',
+              documentId: '456',
+              receivedAt: '2023-01-01',
+            },
+          },
+          {
+            attributes: {
+              documentId: '789',
+              receivedAt: '2024-01-01',
             },
           },
         ],
@@ -417,8 +417,8 @@ describe('<LetterList>', () => {
       await waitFor(() => {
         const instance = componentRef.current;
         expect(instance.state.tsaLetter).to.exist;
-        expect(instance.state.tsaLetter.attributes.document_id).to.equal('789');
-        expect(instance.state.tsaLetter.attributes.received_at).to.equal(
+        expect(instance.state.tsaLetter.attributes.documentId).to.equal('789');
+        expect(instance.state.tsaLetter.attributes.receivedAt).to.equal(
           '2024-01-01',
         );
       });

@@ -1,8 +1,8 @@
 import merge from 'lodash/merge';
 import {
   arrayBuilderItemFirstPageTitleUI,
-  fullNameUI,
-  fullNameSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   ssnUI,
   ssnSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
@@ -62,18 +62,18 @@ describe('dependents full name page', () => {
         title: 'dependent full name',
         nounSingular: 'dependent child',
       }),
-      fullName: fullNameUI(title => `Child's ${title}`),
+      fullName: fullNameNoSuffixUI(title => `Child's ${title}`),
     },
     schema: {
       type: 'object',
       properties: {
-        fullName: fullNameSchema,
+        fullName: fullNameNoSuffixSchema,
       },
       required: ['fullName'],
     },
   };
   const pageTitle = 'dependent';
-  const expectedNumberOfFields = 4;
+  const expectedNumberOfFields = 3;
   testNumberOfWebComponentFields(
     formConfig,
     dependentChildFullNamePage.schema,
@@ -112,7 +112,6 @@ describe('dependents full name page', () => {
     dependentChildFullNamePage.uiSchema,
     {
       'va-text-input': 3,
-      'va-select': 1,
     },
     pageTitle,
   );

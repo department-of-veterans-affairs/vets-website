@@ -16,7 +16,9 @@ function LocationDirectionsLink({ location }) {
   return (
     <p>
       <va-link
-        href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
+        href={`https://maps.google.com?saddr=Current+Location&daddr=${encodeURIComponent(
+          address,
+        )}`}
         text="Get directions on Google Maps"
         label={`Get directions on Google Maps to ${location.attributes.name}`}
       />

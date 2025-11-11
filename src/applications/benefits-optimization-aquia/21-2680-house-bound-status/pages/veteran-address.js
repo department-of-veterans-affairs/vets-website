@@ -1,0 +1,44 @@
+/**
+ * @module config/form/pages/veteran-address
+ * @description Standard form system configuration for Veteran Address page
+ * VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid and Attendance
+ */
+
+import {
+  addressUI,
+  addressSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+
+/**
+ * uiSchema for Veteran Address page
+ * Collects veteran's mailing address
+ */
+export const veteranAddressUiSchema = {
+  'ui:title': 'Veteran address',
+  veteranAddress: {
+    veteranAddress: addressUI({
+      labels: {
+        militaryCheckbox:
+          'Veteran lives on a United States military base outside of the U.S.',
+      },
+    }),
+  },
+};
+
+/**
+ * JSON Schema for Veteran Address page
+ * Validates veteran address fields
+ */
+export const veteranAddressSchema = {
+  type: 'object',
+  required: ['veteranAddress'],
+  properties: {
+    veteranAddress: {
+      type: 'object',
+      required: ['veteranAddress'],
+      properties: {
+        veteranAddress: addressSchema(),
+      },
+    },
+  },
+};

@@ -1,5 +1,4 @@
 /* eslint-disable lines-between-class-members */
-/* eslint-disable camelcase */
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
@@ -18,8 +17,8 @@ describe('DownloadTsaLetter', () => {
 
   const mockLetter = {
     attributes: {
-      document_id: '{ABCDE-FGHIJ-KLMNO}',
-      received_at: '2025-10-10',
+      documentId: '{ABCDE-FGHIJ-KLMNO}',
+      receivedAt: '2025-10-10',
     },
   };
   const mockBlob = new Blob(['test'], { type: 'application/pdf' });
@@ -93,7 +92,7 @@ describe('DownloadTsaLetter', () => {
       expect(apiRequestStub.calledOnce).to.be.true;
     });
     expect(apiRequestStub.firstCall.args[0]).to.include(
-      `/v0/tsa_letter/${mockLetter.attributes.document_id}`,
+      `/v0/tsa_letter/${mockLetter.attributes.documentId}`,
     );
   });
 
@@ -214,9 +213,7 @@ describe('DownloadTsaLetter', () => {
     expect(apiRequestStub.calledOnce).to.be.true;
   });
 
-  it('uses window.webkitURL as fallback when window.URL is not available', async () => {
-    const originalWindowURL = window.URL;
-    window.URL = undefined;
+  it('records download event when link is clicked', async () => {
     apiRequestStub.resolves(mockResponse);
     const { container } = render(<DownloadTsaLetter letter={mockLetter} />);
     const accordion = container.querySelector('va-accordion-item');
@@ -227,13 +224,13 @@ describe('DownloadTsaLetter', () => {
     await waitFor(() => {
       expect(apiRequestStub.calledOnce).to.be.true;
     });
-    await waitFor(() => {
-      expect(createObjectURLStub.calledOnce).to.be.true;
-      expect(createObjectURLStub.firstCall.args[0]).to.equal(mockBlob);
-    });
     const link = container.querySelector('va-link');
-    expect(link).to.exist;
-    expect(link.getAttribute('href')).to.equal('blob:mock-url');
-    window.URL = originalWindowURL;
+    link.click();
+    expect(
+      recordEventStub.calledWith({
+        event: 'letter-download',
+        'letter-type': 'TSA PreCheck Application Fee Waiver Letter',
+      }),
+    ).to.be.true;
   });
 });

@@ -137,7 +137,7 @@ describe('Mileage Expense Pages', () => {
     });
     expect($(vaDestinationOtherSelector, formDOM)).to.not.exist;
     const vaMilesTravelled = $(
-      'va-text-input[label*="How many miles were travelled?"]',
+      'va-text-input[label*="How many miles were traveled?"]',
       formDOM,
     );
     expect(vaMilesTravelled.getAttribute('required')).to.equal('true');
@@ -187,5 +187,45 @@ describe('Mileage Expense Pages', () => {
     };
     const { getByText } = render(options.text.cardDescription(item));
     expect(getByText('04/04/2004')).to.exist;
+  });
+  it('should check if the item is incomplete', () => {
+    const completeItem = {
+      traveler: 'DEPENDENT',
+      travelerName: 'John Doe',
+      travelLocation: 'OTHER',
+      travelLocationOther: 'Some other place',
+      travelDate: '2004-04-04',
+      travelMilesTraveled: 100,
+      travelReimbursed: true,
+      travelReimbursementAmount: 50,
+    };
+    const completeItem2 = {
+      traveler: 'OTHER',
+      travelerName: 'John Doe',
+      travelLocation: 'OTHER',
+      travelLocationOther: 'Some other place',
+      travelDate: '2004-04-04',
+      travelMilesTraveled: 100,
+      travelReimbursed: false,
+    };
+    const incompleteNoTravelLocation = {
+      traveler: 'DEPENDENT',
+      travelerName: 'John Doe',
+      travelLocation: 'OTHER',
+      travelDate: '2004-04-04',
+      travelMilesTraveled: 100,
+      travelReimbursed: true,
+    };
+    const incompleteNoTravelerName = {
+      traveler: 'DEPENDENT',
+      travelLocation: 'PHARMACY',
+      travelDate: '2004-04-04',
+      travelMilesTraveled: 100,
+      travelReimbursed: false,
+    };
+    expect(options.isItemIncomplete(completeItem)).to.be.false;
+    expect(options.isItemIncomplete(completeItem2)).to.be.false;
+    expect(options.isItemIncomplete(incompleteNoTravelLocation)).to.be.true;
+    expect(options.isItemIncomplete(incompleteNoTravelerName)).to.be.true;
   });
 });

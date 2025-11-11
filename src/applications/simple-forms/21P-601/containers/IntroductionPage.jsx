@@ -5,7 +5,8 @@ import { IntroductionPageView } from '../../shared/components/IntroductionPageVi
 
 const content = {
   formTitle: 'Apply for accrued benefits online',
-  formSubTitle: '',
+  formSubTitle:
+    'Primarily for executors or administrators of VA beneficiaries’ estates (VA Form 21P-601)',
   authStartFormText: 'Apply for accrued benefits',
   displayNonVeteranMessaging: true,
 };
@@ -18,10 +19,6 @@ const ombInfo = {
 
 const childContent = (
   <>
-    <p>
-      Primarily for executors or administrators of VA beneficiaries' estates (VA
-      Form 21P-601)
-    </p>
     <p>
       Use this form, in some cases, to apply for unpaid benefits that we owed to
       a VA beneficiary when they died. Be sure to read all the information on
@@ -64,11 +61,11 @@ const childContent = (
       </li>
       <li>
         <strong>
-          If none of these descriptions fit you but you paid for the
-          beneficiary’s burial or their care during their final illness,
+          If none of these descriptions fit you, but you paid for the
+          beneficiary’s burial or care during their final illness,
         </strong>{' '}
-        you’ll you’ll need to use the PDF version of this form. You’ll and apply
-        as an unpaid creditor.
+        you’ll need to use the PDF version of this form. You’ll apply as an
+        unpaid creditor.
         <br />
         <br />
         <va-link

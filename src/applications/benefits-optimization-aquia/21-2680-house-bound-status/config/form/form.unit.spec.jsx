@@ -33,7 +33,7 @@ describe('Form Configuration', () => {
     });
 
     it('should have submitUrl', () => {
-      expect(formConfig.submitUrl).to.equal('/v0/api');
+      expect(formConfig.submitUrl).to.include('/v0/form212680');
     });
   });
 
@@ -77,15 +77,17 @@ describe('Form Configuration', () => {
         formConfig.chapters.claimInformationChapter.pages.benefitType;
       expect(page).to.exist;
       expect(page.path).to.equal('benefit-type');
-      expect(page.CustomPage).to.exist;
+      expect(page.uiSchema).to.exist;
+      expect(page.schema).to.exist;
     });
 
-    it('should have veteran identity page', () => {
+    it('should have veteran information page', () => {
       const page =
-        formConfig.chapters.veteranInformationChapter.pages.veteranIdentity;
+        formConfig.chapters.veteranInformationChapter.pages.veteranInformation;
       expect(page).to.exist;
       expect(page.path).to.equal('veteran-information');
-      expect(page.CustomPage).to.exist;
+      expect(page.uiSchema).to.exist;
+      expect(page.schema).to.exist;
     });
 
     it('should have veteran address page', () => {
@@ -93,7 +95,8 @@ describe('Form Configuration', () => {
         formConfig.chapters.veteranInformationChapter.pages.veteranAddress;
       expect(page).to.exist;
       expect(page.path).to.equal('veteran-address');
-      expect(page.CustomPage).to.exist;
+      expect(page.uiSchema).to.exist;
+      expect(page.schema).to.exist;
     });
 
     it('should have claimant relationship page', () => {
@@ -102,7 +105,8 @@ describe('Form Configuration', () => {
           .claimantRelationship;
       expect(page).to.exist;
       expect(page.path).to.equal('claimant-relationship');
-      expect(page.CustomPage).to.exist;
+      expect(page.uiSchema).to.exist;
+      expect(page.schema).to.exist;
     });
 
     it('should have hospitalization status page', () => {
@@ -110,7 +114,8 @@ describe('Form Configuration', () => {
         formConfig.chapters.hospitalizationChapter.pages.hospitalizationStatus;
       expect(page).to.exist;
       expect(page.path).to.equal('hospitalization-status');
-      expect(page.CustomPage).to.exist;
+      expect(page.uiSchema).to.exist;
+      expect(page.schema).to.exist;
     });
   });
 
@@ -133,18 +138,8 @@ describe('Form Configuration', () => {
   });
 
   describe('Submit Configuration', () => {
-    it('should have submit function', () => {
-      expect(formConfig.submit).to.be.a('function');
-    });
-
-    it('should return promise from submit', async () => {
-      const result = formConfig.submit();
-      expect(result).to.be.a('promise');
-    });
-
-    it('should resolve with confirmation number', async () => {
-      const result = await formConfig.submit();
-      expect(result.attributes.confirmationNumber).to.exist;
+    it('should have transformForSubmit function', () => {
+      expect(formConfig.transformForSubmit).to.be.a('function');
     });
   });
 
@@ -201,7 +196,7 @@ describe('Form Configuration', () => {
       it('should show claimant pages when claimantRelationship is not veteran', () => {
         const formData = {
           claimantRelationship: {
-            claimantRelationship: 'spouse',
+            relationship: 'spouse',
           },
         };
 
@@ -224,7 +219,7 @@ describe('Form Configuration', () => {
       it('should hide claimant pages when claimantRelationship is veteran', () => {
         const formData = {
           claimantRelationship: {
-            claimantRelationship: 'veteran',
+            relationship: 'veteran',
           },
         };
 
@@ -246,10 +241,10 @@ describe('Form Configuration', () => {
     });
 
     describe('Hospitalization Conditional Pages', () => {
-      it('should show hospitalization date page when currently hospitalized is yes', () => {
+      it('should show hospitalization date page when currently hospitalized is true', () => {
         const formData = {
           hospitalizationStatus: {
-            isCurrentlyHospitalized: 'yes',
+            isCurrentlyHospitalized: true,
           },
         };
 
@@ -260,10 +255,10 @@ describe('Form Configuration', () => {
         expect(hospitalizationDatePage.depends(formData)).to.be.true;
       });
 
-      it('should show hospitalization facility page when currently hospitalized is yes', () => {
+      it('should show hospitalization facility page when currently hospitalized is true', () => {
         const formData = {
           hospitalizationStatus: {
-            isCurrentlyHospitalized: 'yes',
+            isCurrentlyHospitalized: true,
           },
         };
 
@@ -275,10 +270,10 @@ describe('Form Configuration', () => {
         expect(hospitalizationFacilityPage.depends(formData)).to.be.true;
       });
 
-      it('should hide hospitalization date page when currently hospitalized is no', () => {
+      it('should hide hospitalization date page when currently hospitalized is false', () => {
         const formData = {
           hospitalizationStatus: {
-            isCurrentlyHospitalized: 'no',
+            isCurrentlyHospitalized: false,
           },
         };
 
@@ -288,10 +283,10 @@ describe('Form Configuration', () => {
         expect(hospitalizationDatePage.depends(formData)).to.be.false;
       });
 
-      it('should hide hospitalization facility page when currently hospitalized is no', () => {
+      it('should hide hospitalization facility page when currently hospitalized is false', () => {
         const formData = {
           hospitalizationStatus: {
-            isCurrentlyHospitalized: 'no',
+            isCurrentlyHospitalized: false,
           },
         };
 
@@ -334,12 +329,12 @@ describe('Form Configuration', () => {
         // This test ensures the bug fix is working correctly
         const formDataWithCorrectPath = {
           hospitalizationStatus: {
-            isCurrentlyHospitalized: 'yes',
+            isCurrentlyHospitalized: true,
           },
         };
 
         const formDataWithIncorrectPath = {
-          isCurrentlyHospitalized: 'yes', // Wrong - at root level
+          isCurrentlyHospitalized: true, // Wrong - at root level
         };
 
         const hospitalizationDatePage =
