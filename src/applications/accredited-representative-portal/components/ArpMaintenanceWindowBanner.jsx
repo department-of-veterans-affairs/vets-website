@@ -131,7 +131,7 @@ const ArpMaintenanceWindowBanner = ({
 
   const warnContent = `We'll be doing some work on the Accredited Representative Portal. The maintenance will last ${durationHours} hour${
     durationHours > 1 ? 's' : ''
-  }. During that time, you won't be able to sign in or use tools.`;
+  }. During that time, you may not be able to sign in.`;
 
   return (
     <div className="arp-maintenance-window-banner">
