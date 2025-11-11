@@ -1,0 +1,218 @@
+import React from 'react';
+import { expect } from 'chai';
+import sinon from 'sinon';
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import { DownloadFormPDF } from './DownloadFormPDF';
+import * as pdfUtils from '../../utils/pdfDownload';
+
+describe('DownloadFormPDF', () => {
+  let fetchPdfApiStub;
+  let downloadBlobStub;
+
+  const mockFormData = JSON.stringify({
+    veteranPersonalInfo: {
+      fullName: {
+        first: 'John',
+        middle: 'A',
+        last: 'Doe',
+      },
+    },
+    nursingHomeDetails: {
+      facilityName: 'Test Facility',
+    },
+  });
+
+  const mockVeteranName = {
+    first: 'John',
+    middle: 'A',
+    last: 'Doe',
+  };
+
+  beforeEach(() => {
+    fetchPdfApiStub = sinon.stub(pdfUtils, 'fetchPdfApi');
+    downloadBlobStub = sinon.stub(pdfUtils, 'downloadBlob');
+
+    // Mock successful PDF blob
+    const mockBlob = new Blob(['mock pdf content'], {
+      type: 'application/pdf',
+    });
+    fetchPdfApiStub.resolves(mockBlob);
+  });
+
+  afterEach(() => {
+    fetchPdfApiStub.restore();
+    downloadBlobStub.restore();
+  });
+
+  it('should render the download button', () => {
+    const { container, getByText } = render(
+      <DownloadFormPDF formData={mockFormData} veteranName={mockVeteranName} />,
+    );
+
+    expect(getByText('Download your form')).to.exist;
+    expect(
+      getByText(
+        'Download a PDF copy of your completed VA Form 21-0779 for your records.',
+      ),
+    ).to.exist;
+
+    const button = container.querySelector('va-button');
+    expect(button).to.exist;
+    expect(button.getAttribute('text')).to.equal('Download your form (PDF)');
+  });
+
+  it('should show loading state when downloading', async () => {
+    // Make the fetch take some time
+    fetchPdfApiStub.returns(
+      new Promise(resolve => {
+        setTimeout(() => resolve(new Blob()), 100);
+      }),
+    );
+
+    const { container } = render(
+      <DownloadFormPDF formData={mockFormData} veteranName={mockVeteranName} />,
+    );
+
+    const button = container.querySelector('va-button');
+    fireEvent.click(button);
+
+    // Should show loading indicator
+    await waitFor(() => {
+      const loadingIndicator = container.querySelector('va-loading-indicator');
+      expect(loadingIndicator).to.exist;
+      expect(loadingIndicator.getAttribute('message')).to.equal(
+        'Downloading your completed form...',
+      );
+    });
+  });
+
+  it('should download the PDF when button is clicked', async () => {
+    const { container } = render(
+      <DownloadFormPDF formData={mockFormData} veteranName={mockVeteranName} />,
+    );
+
+    const button = container.querySelector('va-button');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(fetchPdfApiStub.calledOnce).to.be.true;
+      expect(fetchPdfApiStub.calledWith(mockFormData)).to.be.true;
+      expect(downloadBlobStub.calledOnce).to.be.true;
+      expect(downloadBlobStub.getCall(0).args[1]).to.equal(
+        '21-0779_John_Doe.pdf',
+      );
+    });
+  });
+
+  it('should show error message when download fails', async () => {
+    fetchPdfApiStub.rejects(new Error('API Error'));
+
+    const { container, getByText, getByRole } = render(
+      <DownloadFormPDF formData={mockFormData} veteranName={mockVeteranName} />,
+    );
+
+    const button = container.querySelector('va-button');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      const alert = getByRole('alert');
+      expect(alert).to.exist;
+      expect(getByText('Download failed')).to.exist;
+      expect(
+        getByText(
+          "We're sorry. Something went wrong when downloading your form. Please try again later.",
+        ),
+      ).to.exist;
+    });
+  });
+
+  it('should show try again button after error', async () => {
+    fetchPdfApiStub.rejects(new Error('API Error'));
+
+    const { container } = render(
+      <DownloadFormPDF formData={mockFormData} veteranName={mockVeteranName} />,
+    );
+
+    const button = container.querySelector('va-button');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      const retryButton = container.querySelector(
+        'va-alert va-button[text="Try again"]',
+      );
+      expect(retryButton).to.exist;
+    });
+
+    // Reset stub to succeed
+    fetchPdfApiStub.reset();
+    const mockBlob = new Blob(['mock pdf content'], {
+      type: 'application/pdf',
+    });
+    fetchPdfApiStub.resolves(mockBlob);
+
+    // Click try again
+    const tryAgainButton = container.querySelector(
+      'va-alert va-button[text="Try again"]',
+    );
+    fireEvent.click(tryAgainButton);
+
+    await waitFor(() => {
+      expect(fetchPdfApiStub.calledOnce).to.be.true;
+      expect(downloadBlobStub.called).to.be.true;
+    });
+  });
+
+  it('should show error when form data is missing', () => {
+    const { container, getByText } = render(
+      <DownloadFormPDF formData="" veteranName={mockVeteranName} />,
+    );
+
+    const button = container.querySelector('va-button');
+    fireEvent.click(button);
+
+    waitFor(() => {
+      expect(getByText('No form data available. Please submit the form first.'))
+        .to.exist;
+      expect(fetchPdfApiStub.called).to.be.false;
+    });
+  });
+
+  it('should use default veteran name when not provided', () => {
+    const { container } = render(<DownloadFormPDF formData={mockFormData} />);
+
+    const button = container.querySelector('va-button');
+    fireEvent.click(button);
+
+    waitFor(() => {
+      expect(downloadBlobStub.getCall(0).args[1]).to.equal(
+        '21-0779_Veteran_Submission.pdf',
+      );
+    });
+  });
+
+  it('should format filename correctly with special characters', async () => {
+    const specialNameVeteran = {
+      first: "John-Paul's",
+      middle: 'A',
+      last: "O'Brien-Smith",
+    };
+
+    const { container } = render(
+      <DownloadFormPDF
+        formData={mockFormData}
+        veteranName={specialNameVeteran}
+      />,
+    );
+
+    const button = container.querySelector('va-button');
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(downloadBlobStub.calledOnce).to.be.true;
+      // Special characters should be removed from filename
+      expect(downloadBlobStub.getCall(0).args[1]).to.equal(
+        '21-0779_JohnPauls_OBrienSmith.pdf',
+      );
+    });
+  });
+});

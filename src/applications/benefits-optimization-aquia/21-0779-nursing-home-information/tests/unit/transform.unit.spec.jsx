@@ -14,29 +14,36 @@ describe('Transform Function', () => {
   it('should transform complete form data correctly', () => {
     const mockForm = createMockFormData();
     const result = transform({}, mockForm);
-    const parsedResult = JSON.parse(result);
+    const wrapper = JSON.parse(result);
+    const parsedResult = wrapper.form;
 
     expect(parsedResult).to.have.property('veteranInformation');
-    expect(parsedResult.veteranInformation).to.deep.include({
+    expect(parsedResult.veteranInformation.fullName).to.deep.equal({
       first: 'Anakin',
       middle: 'L',
       last: 'Skywalker',
-      dateOfBirth: '1960-03-01',
     });
+    expect(parsedResult.veteranInformation.dateOfBirth).to.equal('1960-03-01');
     expect(parsedResult.veteranInformation.veteranId).to.deep.equal({
       ssn: '987654321',
       vaFileNumber: '501987654',
     });
   });
 
-  it('should handle veteran as patient (no claimant information)', () => {
+  it('should handle veteran as patient (duplicates veteran information)', () => {
     const mockForm = createMockFormData({
       claimantQuestion: { patientType: 'veteran' },
     });
     const result = transform({}, mockForm);
-    const parsedResult = JSON.parse(result);
+    const wrapper = JSON.parse(result);
+    const parsedResult = wrapper.form;
 
-    expect(parsedResult.claimantInformation).to.be.null;
+    expect(parsedResult.claimantInformation).to.not.be.null;
+    expect(parsedResult.claimantInformation).to.be.an('object');
+    // When veteran is patient, claimant info should duplicate veteran info
+    expect(parsedResult.claimantInformation.fullName).to.deep.equal(
+      parsedResult.veteranInformation.fullName,
+    );
   });
 
   it('should include claimant information when patient is spouse or parent', () => {
@@ -44,15 +51,16 @@ describe('Transform Function', () => {
       claimantQuestion: { patientType: 'spouseOrParent' },
     });
     const result = transform({}, mockForm);
-    const parsedResult = JSON.parse(result);
+    const wrapper = JSON.parse(result);
+    const parsedResult = wrapper.form;
 
     expect(parsedResult.claimantInformation).to.not.be.null;
-    expect(parsedResult.claimantInformation).to.include({
+    expect(parsedResult.claimantInformation.fullName).to.deep.equal({
       first: 'Shmi',
       middle: 'E',
       last: 'Skywalker',
-      dateOfBirth: '1939-09-15',
     });
+    expect(parsedResult.claimantInformation.dateOfBirth).to.equal('1939-09-15');
     expect(parsedResult.claimantInformation.veteranId).to.deep.equal({
       ssn: '111223333',
       vaFileNumber: '41982736',
@@ -62,7 +70,8 @@ describe('Transform Function', () => {
   it('should transform nursing home information correctly', () => {
     const mockForm = createMockFormData();
     const result = transform({}, mockForm);
-    const parsedResult = JSON.parse(result);
+    const wrapper = JSON.parse(result);
+    const parsedResult = wrapper.form;
 
     expect(parsedResult.nursingHomeInformation).to.deep.equal({
       nursingHomeName: 'Coruscant Veterans Medical Center',
@@ -71,7 +80,7 @@ describe('Transform Function', () => {
         street2: 'Level 5127',
         city: 'Coruscant',
         state: 'DC',
-        country: 'USA',
+        country: 'US', // Converted from USA to US
         postalCode: '20001',
       },
     });
@@ -80,7 +89,8 @@ describe('Transform Function', () => {
   it('should transform general information correctly', () => {
     const mockForm = createMockFormData();
     const result = transform({}, mockForm);
-    const parsedResult = JSON.parse(result);
+    const wrapper = JSON.parse(result);
+    const parsedResult = wrapper.form;
 
     expect(parsedResult.generalInformation).to.include({
       admissionDate: '2019-05-04',
@@ -89,7 +99,7 @@ describe('Transform Function', () => {
       patientMedicaidCovered: true,
       medicaidStartDate: '2020-12-25',
       monthlyCosts: '3277',
-      certificationLevelOfCare: true,
+      certificationLevelOfCare: 'skilled', // String enum, not boolean
       nursingOfficialName: 'Beru Lars',
       nursingOfficialTitle: 'Nursing Home Administrator',
       nursingOfficialPhoneNumber: '5055551977',
@@ -101,7 +111,8 @@ describe('Transform Function', () => {
       nursingHomeDetails: null,
     });
     const result = transform({}, mockForm);
-    const parsedResult = JSON.parse(result);
+    const wrapper = JSON.parse(result);
+    const parsedResult = wrapper.form;
 
     expect(parsedResult.nursingHomeInformation.nursingHomeName).to.be.undefined;
   });
@@ -111,7 +122,8 @@ describe('Transform Function', () => {
       nursingOfficialInformation: null,
     });
     const result = transform({}, mockForm);
-    const parsedResult = JSON.parse(result);
+    const wrapper = JSON.parse(result);
+    const parsedResult = wrapper.form;
 
     expect(parsedResult.generalInformation.nursingOfficialName).to.equal('');
   });
@@ -127,7 +139,8 @@ describe('Transform Function', () => {
       },
     });
     const result = transform({}, mockForm);
-    const parsedResult = JSON.parse(result);
+    const wrapper = JSON.parse(result);
+    const parsedResult = wrapper.form;
 
     expect(parsedResult.generalInformation.nursingOfficialName).to.equal(
       'Beru',
@@ -142,13 +155,14 @@ describe('Transform Function', () => {
       certificationLevelOfCare: { levelOfCare: 'intermediate' },
     });
     const result = transform({}, mockForm);
-    const parsedResult = JSON.parse(result);
+    const wrapper = JSON.parse(result);
+    const parsedResult = wrapper.form;
 
     expect(parsedResult.generalInformation).to.include({
       medicaidFacility: false,
       medicaidApplication: true,
       patientMedicaidCovered: false,
-      certificationLevelOfCare: false,
+      certificationLevelOfCare: 'intermediate', // String enum value
     });
   });
 });

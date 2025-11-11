@@ -16,18 +16,39 @@ export const transform = (formConfig, form) => {
     medicaidStartDate,
     monthlyCosts,
     nursingOfficialInformation,
+    signature,
   } = form?.data;
 
   const { nursingHomeName, nursingHomeAddress } = nursingHomeDetails || {};
   const nursingOfficialName = `${nursingOfficialInformation?.fullName?.first?.trim() ||
     ''} ${nursingOfficialInformation?.fullName?.last?.trim() || ''}`.trim();
 
-  // No claimant info if veteran is the patient
+  // Convert country code from 3-letter to 2-letter format
+  const getCountryCode = country => {
+    if (!country) return undefined;
+    // Common conversions
+    const countryMap = {
+      USA: 'US',
+      CAN: 'CA',
+      MEX: 'MX',
+      GBR: 'GB',
+    };
+    return countryMap[country] || country.slice(0, 2).toUpperCase();
+  };
+
+  // Claimant info - when veteran is the patient, use veteran's info
   const claimantIsVeteran = claimantQuestion?.patientType === 'veteran';
   const claimantInformation = claimantIsVeteran
-    ? null
+    ? {
+        fullName: veteranPersonalInfo?.fullName,
+        dateOfBirth: veteranPersonalInfo?.dateOfBirth,
+        veteranId: {
+          ssn: veteranIdentificationInfo?.veteranSsn,
+          vaFileNumber: veteranIdentificationInfo?.veteranVaFileNumber,
+        },
+      }
     : {
-        ...claimantPersonalInfo?.claimantFullName,
+        fullName: claimantPersonalInfo?.claimantFullName,
         dateOfBirth: claimantPersonalInfo?.claimantDateOfBirth,
         veteranId: {
           ssn: claimantIdentificationInfo?.claimantSsn,
@@ -36,9 +57,9 @@ export const transform = (formConfig, form) => {
       };
 
   try {
-    const submissionObj = {
+    const submissionData = {
       veteranInformation: {
-        ...veteranPersonalInfo?.fullName,
+        fullName: veteranPersonalInfo?.fullName,
         dateOfBirth: veteranPersonalInfo?.dateOfBirth,
         veteranId: {
           ssn: veteranIdentificationInfo?.veteranSsn,
@@ -53,7 +74,7 @@ export const transform = (formConfig, form) => {
           street2: nursingHomeAddress?.street2,
           city: nursingHomeAddress?.city,
           state: nursingHomeAddress?.state,
-          country: nursingHomeAddress?.country,
+          country: getCountryCode(nursingHomeAddress?.country),
           postalCode: nursingHomeAddress?.postalCode,
         },
       },
@@ -65,16 +86,26 @@ export const transform = (formConfig, form) => {
         patientMedicaidCovered:
           medicaidStatus?.currentlyCoveredByMedicaid === true,
         medicaidStartDate: medicaidStartDate?.medicaidStartDate,
-        monthlyCosts: monthlyCosts?.monthlyOutOfPocket,
-        certificationLevelOfCare:
-          certificationLevelOfCare?.levelOfCare === 'skilled',
+        monthlyCosts: monthlyCosts?.monthlyOutOfPocket
+          ? String(monthlyCosts.monthlyOutOfPocket)
+          : undefined,
+        certificationLevelOfCare: certificationLevelOfCare?.levelOfCare,
         nursingOfficialName,
         nursingOfficialTitle: nursingOfficialInformation?.jobTitle,
         nursingOfficialPhoneNumber: nursingOfficialInformation?.phoneNumber,
+        signature,
+        signatureDate: new Date().toISOString().split('T')[0],
       },
     };
 
-    return JSON.stringify(submissionObj);
+    const payload = { form: submissionData };
+    // eslint-disable-next-line no-console
+    console.log('Transform submissionData:', submissionData);
+    // eslint-disable-next-line no-console
+    console.log('Transform payload:', payload);
+    // eslint-disable-next-line no-console
+    console.log('Transform JSON:', JSON.stringify(payload, null, 2));
+    return JSON.stringify(payload);
   } catch (error) {
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
