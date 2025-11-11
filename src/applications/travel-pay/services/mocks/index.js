@@ -240,42 +240,42 @@ const responses = {
   },
 
   // Creating expenses
-  'POST /travel_pay/v0/expenses/mileage': (req, res) => {
+  'POST /travel_pay/v0/claims/:claimId/expenses/mileage': (req, res) => {
     return res.json({
       id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
     });
   },
-  'POST /travel_pay/v0/expenses/parking': (req, res) => {
+  'POST /travel_pay/v0/claims/:claimId/expenses/parking': (req, res) => {
     return res.json({
       id: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
     });
   },
-  'POST /travel_pay/v0/expenses/toll': (req, res) => {
+  'POST /travel_pay/v0/claims/:claimId/expenses/toll': (req, res) => {
     return res.json({
       id: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
     });
   },
-  'POST /travel_pay/v0/expenses/commoncarrier': (req, res) => {
+  'POST /travel_pay/v0/claims/:claimId/expenses/commoncarrier': (req, res) => {
     return res.json({
       id: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
     });
   },
-  'POST /travel_pay/v0/expenses/airtravel': (req, res) => {
+  'POST /travel_pay/v0/claims/:claimId/expenses/airtravel': (req, res) => {
     return res.json({
       id: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
     });
   },
-  'POST /travel_pay/v0/expenses/lodging': (req, res) => {
+  'POST /travel_pay/v0/claims/:claimId/expenses/lodging': (req, res) => {
     return res.json({
       id: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
     });
   },
-  'POST /travel_pay/v0/expenses/meal': (req, res) => {
+  'POST /travel_pay/v0/claims/:claimId/expenses/meal': (req, res) => {
     return res.json({
       id: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
     });
   },
-  'POST /travel_pay/v0/expenses/other': (req, res) => {
+  'POST /travel_pay/v0/claims/:claimId/expenses/other': (req, res) => {
     return res.json({
       id: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
     });
