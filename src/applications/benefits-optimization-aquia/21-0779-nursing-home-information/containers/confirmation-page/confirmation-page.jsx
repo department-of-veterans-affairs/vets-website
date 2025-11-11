@@ -3,7 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { formatDateLong } from 'platform/utilities/date';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import { DownloadFormPDF } from '../components/confirmation-page/DownloadFormPDF';
+import { DownloadFormPDF } from '../../components/confirmation-page/DownloadFormPDF';
 
 export const ConfirmationPage = ({ route }) => {
   const form = useSelector(state => state.form || {});
