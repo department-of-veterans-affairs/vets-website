@@ -15,7 +15,7 @@ export const API_SESSION_URL = ({ version = API_VERSION, type = null }) => {
   if (!type) {
     throw new Error('Attempted to call API_SESSION_URL without a type');
   }
-  return `${environment.API_URL}/${version}/my-va`;
+  return `${environment.API_URL}/${version}/sessions/${type}/new`;
 };
 
 export const AUTH_EVENTS = {
@@ -56,7 +56,7 @@ export const SERVICE_PROVIDERS = {
   },
   [CSP_IDS.ID_ME]: {
     label: 'ID.me',
-    link: 'https://wallet.id.me/settings',
+    link: '/my-va',
     image: <IDMeSVG />,
     altImage: <IDMeSVG />,
     policy: 'idme',
