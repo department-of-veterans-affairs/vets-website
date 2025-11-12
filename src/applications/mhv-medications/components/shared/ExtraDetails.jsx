@@ -2,14 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
-import { VaIcon } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
 import { DATETIME_FORMATS, dispStatusObj } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
-import SendRxRenewalMessage from './SendRxRenewalMessage';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
-const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
+const ExtraDetails = rx => {
   const { dispStatus, refillRemaining } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   let noRefillRemaining = false;
@@ -44,57 +42,35 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
           className="statusIcon refillProcessIcon"
           data-testid="refill-in-process"
         >
-          <SendRxRenewalMessage
-            rx={rx}
-            alwaysShowFallBackContent={showRenewalLink}
-            fallbackContent={
-              <>
-                <VaIcon size={3} icon="acute" aria-hidden="true" />
-                <div
-                  className="vads-u-padding-left--2"
-                  data-testid="rx-process"
-                >
-                  <p
-                    data-testid="rx-refillinprocess-info"
-                    className="vads-u-margin-y--0"
-                  >
-                    We expect to fill this prescription on{' '}
-                    {dateFormat(rx.refillDate, DATETIME_FORMATS.longMonthDate)}.
-                    If you need it sooner, call your VA pharmacy
-                    <CallPharmacyPhone
-                      cmopDivisionPhone={pharmacyPhone}
-                      page={pageType.DETAILS}
-                    />
-                  </p>
-                </div>
-              </>
-            }
-          />
+          <va-icon icon="acute" size={3} aria-hidden="true" />
+          <div className="vads-u-padding-left--2" data-testid="rx-process">
+            <p
+              data-testid="rx-refillinprocess-info"
+              className="vads-u-margin-y--0"
+            >
+              We expect to fill this prescription on{' '}
+              {dateFormat(rx.refillDate, DATETIME_FORMATS.longMonthDate)}. If{' '}
+              you need it sooner, call your VA pharmacy
+              <CallPharmacyPhone
+                cmopDivisionPhone={pharmacyPhone}
+                page={pageType.DETAILS}
+              />
+            </p>
+          </div>
         </div>
       )}
       {dispStatus === dispStatusObj.submitted && (
-        <div
+        <p
           className="statusIcon submittedIcon"
           data-testid="submitted-refill-request"
         >
-          <SendRxRenewalMessage
-            rx={rx}
-            alwaysShowFallBackContent={showRenewalLink}
-            fallbackContent={
-              <>
-                <VaIcon size={3} icon="fact_check" aria-hidden="true" />
-                <span className="vads-u-padding-left--2">
-                  We got your request on{' '}
-                  {dateFormat(
-                    rx.refillSubmitDate,
-                    DATETIME_FORMATS.longMonthDate,
-                  )}
-                  . Check back for updates.
-                </span>
-              </>
-            }
-          />
-        </div>
+          <va-icon icon="fact_check" size={3} aria-hidden="true" />
+          <span className="vads-u-padding-left--2">
+            We got your request on{' '}
+            {dateFormat(rx.refillSubmitDate, DATETIME_FORMATS.longMonthDate)}.{' '}
+            Check back for updates.
+          </span>
+        </p>
       )}
       {dispStatus === dispStatusObj.activeParked && (
         <p className="vads-u-margin-y--0" data-testid="active-parked">
@@ -103,25 +79,17 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
       )}
       {dispStatus === dispStatusObj.expired && (
         <div>
-          <SendRxRenewalMessage
-            rx={rx}
-            alwaysShowFallBackContent={showRenewalLink}
-            fallbackContent={
-              <>
-                <p className="vads-u-margin-y--0" data-testid="expired">
-                  This prescription is too old to refill. If you need more,
-                  request a renewal.
-                </p>
-                <va-link
-                  href="/resources/how-to-renew-a-va-prescription"
-                  text="Learn how to renew prescriptions"
-                  data-testid="learn-to-renew-precsriptions-link"
-                  data-dd-action-name={
-                    dataDogActionNames.detailsPage
-                      .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
-                  }
-                />
-              </>
+          <p className="vads-u-margin-y--0" data-testid="expired">
+            This prescription is too old to refill. If you need more, request a
+            renewal.
+          </p>
+          <va-link
+            href="/resources/how-to-renew-a-va-prescription"
+            text="Learn how to renew prescriptions"
+            data-testid="learn-to-renew-precsriptions-link"
+            data-dd-action-name={
+              dataDogActionNames.detailsPage
+                .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
             }
           />
         </div>
@@ -180,16 +148,10 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
             >
               You have no refills left. If you need more, request a renewal.
             </p>
-            <SendRxRenewalMessage
-              rx={rx}
-              alwaysShowFallBackContent={showRenewalLink}
-              fallbackContent={
-                <va-link
-                  href="/resources/how-to-renew-a-va-prescription"
-                  text="Learn how to renew prescriptions"
-                  data-testid="learn-to-renew-prescriptions-link"
-                />
-              }
+            <va-link
+              href="/resources/how-to-renew-a-va-prescription"
+              text="Learn how to renew prescriptions"
+              data-testid="learn-to-renew-prescriptions-link"
             />
           </div>
         )}
@@ -199,14 +161,12 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
 
 ExtraDetails.propTypes = {
   dispStatus: PropTypes.string,
-  expirationDate: PropTypes.string,
   page: PropTypes.string,
   pharmacyPhoneNumber: PropTypes.string,
-  prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  prescriptionId: PropTypes.number,
   refillDate: PropTypes.string,
   refillRemaining: PropTypes.number,
   refillSubmitDate: PropTypes.string,
-  showRenewalLink: PropTypes.bool,
 };
 
 export default ExtraDetails;

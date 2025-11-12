@@ -103,7 +103,7 @@
       "directoryPath": "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information",
       "appName": "21-0779 Nursing Home Information",
       "entryName": "21-0779-nursing-home-information",
-      "rootUrl": "/supporting-forms-for-claims/aid-attendance-housebound"
+      "rootUrl": "/supporting-forms-for-claims/submit-nursing-home-information-form-21-0779"
     },
     {
       "directoryPath": "src/applications/benefits-optimization-aquia/21-2680-house-bound-status",
@@ -664,6 +664,12 @@
       "rootUrl": "/form-builder-sandbox-12-3456"
     },
     {
+      "directoryPath": "src/applications/simple-forms-form-engine/21-4140",
+      "appName": "Employment Questionnaire",
+      "entryName": "21-4140-eq",
+      "rootUrl": "/employment-questionnaire-form-21-4140"
+    },
+    {
       "directoryPath": "src/applications/simple-forms/20-10206",
       "appName": "Request personal records",
       "entryName": "10206-pa",
@@ -706,9 +712,9 @@
       "rootUrl": "/supporting-forms-for-claims/submit-statement-form-21-4138"
     },
     {
-      "directoryPath": "src/applications/benefits-optimization-pingwind/21-4140",
+      "directoryPath": "src/applications/simple-forms/21-4140",
       "appName": "Submit Employment Questionnaire",
-      "entryName": "21-4140",
+      "entryName": "21-4140-income-verification",
       "rootUrl": "/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140"
     },
     {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { fireEvent, waitFor } from '@testing-library/react';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import {
@@ -59,15 +60,70 @@ describe('Travel Pay – ReviewPage', () => {
   const getData = () => ({
     travelPay: {
       claimSubmission: { isSubmitting: false, error: null, data: null },
+      claimDetails: {
+        data: {
+          [claimId]: defaultClaim,
+        },
+      },
+      complexClaim: {
+        claim: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          submission: {
+            id: '',
+            isSubmitting: false,
+            error: null,
+            data: null,
+          },
+          data: null,
+        },
+        expenses: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          update: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          delete: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          data: defaultClaim.expenses,
+        },
+      },
+    },
+    user: {
+      profile: {
+        vapContactInfo: {
+          residentialAddress: {
+            addressLine1: '123 Test St',
+            addressLine2: '',
+            city: 'Test City',
+            stateCode: 'CO',
+            zipCode: '80202',
+          },
+        },
+      },
     },
   });
 
-  it('renders the review page with expenses, alert, buttons, and summary box', () => {
+  it('renders the review page with expenses, alert, buttons, and summary box', async () => {
     const { getByTestId, getByRole, container } = renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
       >
-        <ReviewPage claim={defaultClaim} />
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+        </Routes>
       </MemoryRouter>,
       {
         initialState: getData(),
@@ -102,6 +158,11 @@ describe('Travel Pay – ReviewPage', () => {
       ).length,
     );
 
+    // Wait for expenses to load and render accordion items
+    await waitFor(() => {
+      expect($('va-accordion-item', container)).to.exist;
+    });
+
     // ExpenseCard should render
     const expenseCards = container.querySelectorAll('va-card');
     expect(expenseCards.length).to.equal(defaultClaim.expenses.length);
@@ -118,7 +179,7 @@ describe('Travel Pay – ReviewPage', () => {
         <Routes>
           <Route
             path="/file-new-claim/:apptId/:claimId/review"
-            element={<ReviewPage claim={defaultClaim} />}
+            element={<ReviewPage />}
           />
         </Routes>
         <LocationDisplay />
@@ -146,7 +207,12 @@ describe('Travel Pay – ReviewPage', () => {
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
       >
-        <ReviewPage claim={defaultClaim} />
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+        </Routes>
       </MemoryRouter>,
       {
         initialState: getData(),
@@ -165,12 +231,17 @@ describe('Travel Pay – ReviewPage', () => {
     expect(alert).to.exist;
   });
 
-  it('renders multiple expenses correctly', () => {
+  it('renders multiple expenses correctly', async () => {
     const { container } = renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
       >
-        <ReviewPage claim={defaultClaim} />
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+        </Routes>
       </MemoryRouter>,
       {
         initialState: getData(),
@@ -178,16 +249,19 @@ describe('Travel Pay – ReviewPage', () => {
       },
     );
 
-    // Check that each expense type has an accordion item
-    const accordionItems = container.querySelectorAll('va-accordion-item');
-    expect(accordionItems.length).to.equal(
-      Object.keys(
-        defaultClaim.expenses.reduce((acc, e) => {
-          acc[e.expenseType] = true;
-          return acc;
-        }, {}),
-      ).length,
-    );
+    // Wait for expenses to load and render
+    await waitFor(() => {
+      // Check that each expense type has an accordion item
+      const accordionItems = container.querySelectorAll('va-accordion-item');
+      expect(accordionItems.length).to.equal(
+        Object.keys(
+          defaultClaim.expenses.reduce((acc, e) => {
+            acc[e.expenseType] = true;
+            return acc;
+          }, {}),
+        ).length,
+      );
+    });
 
     // ExpenseCard rendered
     const expenseCards = container.querySelectorAll('va-card');
@@ -195,19 +269,27 @@ describe('Travel Pay – ReviewPage', () => {
   });
 
   it('renders "No expenses have been added to this claim." when there are no expenses', () => {
-    const emptyClaim = {
-      claimId: '67890',
-      totalCostRequested: 0,
-      expenses: [],
-      documents: [],
+    // Override the Redux state to have no expenses
+    const emptyState = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        complexClaim: {
+          ...getData().travelPay.complexClaim,
+          expenses: {
+            ...getData().travelPay.complexClaim.expenses,
+            data: [], // No expenses
+          },
+        },
+      },
     };
 
     const { getByText } = renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/file-new-claim/12345/67890/review']}>
-        <ReviewPage claim={emptyClaim} />
+        <ReviewPage />
       </MemoryRouter>,
       {
-        initialState: getData(),
+        initialState: emptyState,
         reducers: reducer,
       },
     );
@@ -227,7 +309,7 @@ describe('Travel Pay – ReviewPage', () => {
         <Routes>
           <Route
             path="/file-new-claim/:apptId/:claimId/review"
-            element={<ReviewPage claim={defaultClaim} />}
+            element={<ReviewPage />}
           />
         </Routes>
         <LocationDisplay />
@@ -256,7 +338,7 @@ describe('Travel Pay – ReviewPage', () => {
         <Routes>
           <Route
             path="/file-new-claim/:apptId/:claimId/review"
-            element={<ReviewPage claim={defaultClaim} />}
+            element={<ReviewPage />}
           />
         </Routes>
         <LocationDisplay />

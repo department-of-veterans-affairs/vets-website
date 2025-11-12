@@ -1,9 +1,8 @@
 /**
- * @module containers/index
- * @description Barrel export file for container components
- * Exports all container components for easy importing
+ * @module containers
+ * @description Barrel export for container components
  */
 
-export { App } from './app';
-export { ConfirmationPage } from './confirmation-page';
+export { default as App } from './app';
 export { IntroductionPage } from './introduction-page';
+export { ConfirmationPage } from './confirmation-page';
