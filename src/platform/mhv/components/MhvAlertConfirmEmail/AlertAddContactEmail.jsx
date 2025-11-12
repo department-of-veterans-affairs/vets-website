@@ -8,8 +8,7 @@ import {
 
 const CONTENT = `We’ll send notifications about your VA health care and
   benefits to this email.`;
-const VA_PROFILE_EMAIL_HREF =
-  '/profile/contact-information#contact-email-address';
+const VA_PROFILE_EMAIL_HREF = '/profile/contact-information#email-address';
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7184-45009&t=CogySEDQUAcvZwHQ-4
 const AlertAddContactEmail = ({ recordEvent, onSkipClick }) => {
