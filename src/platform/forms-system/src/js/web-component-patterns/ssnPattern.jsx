@@ -32,9 +32,11 @@ const ssnUI = title => {
     'ui:confirmationField': ({ formData }) => ({ data: maskSSN(formData) }),
     'ui:validations': [validateSSN],
     'ui:errorMessages': {
-      pattern:
-        'Please enter a valid 9 digit Social Security number (dashes allowed)',
-      required: 'Please enter a Social Security number',
+      pattern: 'Enter a valid 9-digit Social Security number (dashes allowed)',
+      required: 'Enter a valid 9-digit Social Security number (dashes allowed)',
+    },
+    'ui:options': {
+      hint: 'You must enter a Social Security number or VA file number',
     },
   };
 };
