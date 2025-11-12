@@ -18,6 +18,10 @@ export const uiSchema = {
       {
         'ui:required': () => true,
         'ui:validations': [requireSeparationLocation],
+        'ui:confirmationField': ({ formData }) => ({
+          label: uiSchema.serviceInformation['ui:title'],
+          data: formData.label,
+        }),
       },
     ),
   },
