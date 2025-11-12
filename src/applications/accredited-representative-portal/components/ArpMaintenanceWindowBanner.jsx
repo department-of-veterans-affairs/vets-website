@@ -8,6 +8,7 @@ import {
   differenceInHours,
 } from 'date-fns';
 import { apiRequest } from 'platform/utilities/api';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 /**
  * Finds the soonest maintenance window across all subscribed services
@@ -64,49 +65,50 @@ function findSoonestWindow(windows, services) {
  * @param {string} bannerId - Unique ID for the banner instance
  * @example
  * <ArpMaintenanceWindowBanner
- *   services={['global', 'bgs', 'vbms']}
+ *   services={['global', 'logingov', 'lighthouseBenefitsClaims']}
  *   bannerId="arp-maintenance-banner"
  * />
  */
 const ArpMaintenanceWindowBanner = ({
-  services = ['global'],
+  services = [
+    externalServices.global,
+    externalServices.idme,
+    externalServices.logingov,
+    externalServices.lighthouseBenefitsClaims,
+    externalServices.lighthouseBenefitsIntake,
+    externalServices.mvi,
+    externalServices.vaProfile,
+  ],
   bannerId = 'arp-banner',
 }) => {
   const [maintenanceWindow, setMaintenanceWindow] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(
-    () => {
-      const fetchMaintenanceWindows = async () => {
-        try {
-          setLoading(true);
-          const response = await apiRequest('/maintenance_windows/');
-          const windows = response.data || [];
-          // Find the soonest maintenance window for our subscribed services
-          const relevantWindow = findSoonestWindow(windows, services);
-          setMaintenanceWindow(relevantWindow);
-          setError(null);
-        } catch (err) {
-          // Log error but don't break the app
-          // eslint-disable-next-line no-console
-          console.error('Error fetching maintenance windows:', err);
-          setError(err);
-          setMaintenanceWindow(null);
-        } finally {
-          setLoading(false);
-        }
-      };
+  useEffect(() => {
+    const fetchMaintenanceWindows = async () => {
+      try {
+        setLoading(true);
+        const response = await apiRequest('/maintenance_windows/');
+        const windows = response.data || [];
+        // Find the soonest maintenance window for our subscribed services
+        const relevantWindow = findSoonestWindow(windows, services);
+        setMaintenanceWindow(relevantWindow);
+        setError(null);
+      } catch (err) {
+        // Log error but don't break the app
+        // eslint-disable-next-line no-console
+        console.error('Error fetching maintenance windows:', err);
+        setError(err);
+        setMaintenanceWindow(null);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      fetchMaintenanceWindows();
-
-      // Refresh maintenance windows every 5 minutes
-      const interval = setInterval(fetchMaintenanceWindows, 5 * 60 * 1000);
-
-      return () => clearInterval(interval);
-    },
-    [services],
-  );
+    fetchMaintenanceWindows();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (loading || error || !maintenanceWindow) {
     return null;
@@ -156,15 +158,10 @@ const ArpMaintenanceWindowBanner = ({
 };
 
 ArpMaintenanceWindowBanner.propTypes = {
-  /** Array of service names to subscribe to maintenance windows for */
-  services: PropTypes.arrayOf(PropTypes.string),
   /** Unique ID for the banner instance */
   bannerId: PropTypes.string,
-};
-
-ArpMaintenanceWindowBanner.defaultProps = {
-  services: ['global'],
-  bannerId: 'arp-banner',
+  /** Array of service names to subscribe to maintenance windows for */
+  services: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default ArpMaintenanceWindowBanner;
