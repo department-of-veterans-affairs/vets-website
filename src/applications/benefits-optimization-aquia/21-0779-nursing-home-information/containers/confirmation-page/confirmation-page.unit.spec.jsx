@@ -17,8 +17,12 @@ describe('ConfirmationPage Container', () => {
             status: 'submitted',
             timestamp: '2024-01-15T10:30:00.000Z',
             response: {
-              confirmationNumber: 'V-NHI-12345',
-              pdfUrl: '/path/to/pdf',
+              id: '1',
+              type: 'saved_claims',
+              attributes: {
+                confirmationNumber: 'V-NHI-12345',
+                guid: 'V-NHI-12345',
+              },
             },
           },
           data: {},
@@ -90,7 +94,13 @@ describe('ConfirmationPage Container', () => {
         getState: () => ({
           form: {
             formId: '21-0779',
-            submission: {},
+            submission: {
+              response: {
+                id: '1',
+                type: 'saved_claims',
+                attributes: {},
+              },
+            },
             data: {},
           },
         }),
@@ -114,7 +124,12 @@ describe('ConfirmationPage Container', () => {
             formId: '21-0779',
             submission: {
               response: {
-                confirmationNumber: 'V-NHI-12345',
+                id: '1',
+                type: 'saved_claims',
+                attributes: {
+                  confirmationNumber: 'V-NHI-12345',
+                  guid: 'V-NHI-12345',
+                },
               },
             },
             data: {},
@@ -140,7 +155,11 @@ describe('ConfirmationPage Container', () => {
             formId: '21-0779',
             submission: {
               timestamp: '2024-01-15T10:30:00.000Z',
-              response: {},
+              response: {
+                id: '1',
+                type: 'saved_claims',
+                attributes: {},
+              },
             },
             data: {},
           },
@@ -200,20 +219,42 @@ describe('ConfirmationPage Container', () => {
     });
   });
 
-  describe('PDF URL Handling', () => {
-    it('should pass pdfUrl to ConfirmationView when available', () => {
-      const storeWithPdf = {
+  describe('PDF Download Component', () => {
+    it('should render download form PDF component', () => {
+      const route = { formConfig: { formId: '21-0779' } };
+      const { container } = render(
+        <Provider store={store}>
+          <ConfirmationPage route={route} />
+        </Provider>,
+      );
+      // Check for download button text that would be in the component
+      expect(container.textContent).to.include('Download');
+    });
+
+    it('should extract veteran name from form data', () => {
+      const storeWithVeteranName = {
         getState: () => ({
           form: {
             formId: '21-0779',
             submission: {
               timestamp: '2024-01-15T10:30:00.000Z',
               response: {
-                confirmationNumber: 'V-NHI-12345',
-                pdfUrl: 'https://example.com/form.pdf',
+                id: '1',
+                type: 'saved_claims',
+                attributes: {
+                  confirmationNumber: 'V-NHI-12345',
+                  guid: 'V-NHI-12345',
+                },
               },
             },
-            data: {},
+            data: {
+              veteranPersonalInfo: {
+                fullName: {
+                  first: 'Anakin',
+                  last: 'Skywalker',
+                },
+              },
+            },
           },
         }),
         subscribe: () => {},
@@ -222,22 +263,27 @@ describe('ConfirmationPage Container', () => {
 
       const route = { formConfig: { formId: '21-0779' } };
       const { container } = render(
-        <Provider store={storeWithPdf}>
+        <Provider store={storeWithVeteranName}>
           <ConfirmationPage route={route} />
         </Provider>,
       );
       expect(container).to.exist;
     });
 
-    it('should handle missing pdfUrl gracefully', () => {
-      const storeWithoutPdf = {
+    it('should handle missing veteran name gracefully', () => {
+      const storeWithoutVeteranName = {
         getState: () => ({
           form: {
             formId: '21-0779',
             submission: {
               timestamp: '2024-01-15T10:30:00.000Z',
               response: {
-                confirmationNumber: 'V-NHI-12345',
+                id: '1',
+                type: 'saved_claims',
+                attributes: {
+                  confirmationNumber: 'V-NHI-12345',
+                  guid: 'V-NHI-12345',
+                },
               },
             },
             data: {},
@@ -249,7 +295,7 @@ describe('ConfirmationPage Container', () => {
 
       const route = { formConfig: { formId: '21-0779' } };
       const { container } = render(
-        <Provider store={storeWithoutPdf}>
+        <Provider store={storeWithoutVeteranName}>
           <ConfirmationPage route={route} />
         </Provider>,
       );
@@ -295,7 +341,12 @@ describe('ConfirmationPage Container', () => {
             formId: '21-0779',
             submission: {
               response: {
-                confirmationNumber: 'V-NHI-12345',
+                id: '1',
+                type: 'saved_claims',
+                attributes: {
+                  confirmationNumber: 'V-NHI-12345',
+                  guid: 'V-NHI-12345',
+                },
               },
             },
             data: {},

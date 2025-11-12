@@ -10,7 +10,7 @@ import {
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { isPatientVeteran } from './helpers';
+import { isPatientVeteran } from '../utils';
 
 /**
  * uiSchema for Veteran Identification Info page
