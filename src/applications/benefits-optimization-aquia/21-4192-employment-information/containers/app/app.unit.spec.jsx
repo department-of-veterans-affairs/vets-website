@@ -19,11 +19,16 @@ describe('App', () => {
 
     it('should export as default', () => {
       expect(appDefault).to.exist;
-      expect(appDefault).to.be.a('function');
+      // Connected component may be an object or function
+      expect(appDefault).to.satisfy(
+        c => typeof c === 'function' || typeof c === 'object',
+      );
     });
 
-    it('should have default export equal to named export', () => {
-      expect(appDefault).to.equal(App);
+    it('should have default export be different from named export', () => {
+      // Default export is the Redux-connected component
+      // Named export is the unconnected component for testing
+      expect(appDefault).to.not.equal(App);
     });
 
     it('should have a length property', () => {

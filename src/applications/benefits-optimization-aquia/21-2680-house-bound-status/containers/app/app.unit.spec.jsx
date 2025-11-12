@@ -47,7 +47,7 @@ describe('App', () => {
     it('should render without crashing', () => {
       const location = { pathname: '/introduction' };
       const { container } = render(
-        <App location={location}>
+        <App location={location} formEnabled>
           <div>Test Child</div>
         </App>,
       );
@@ -57,7 +57,7 @@ describe('App', () => {
     it('should render children', () => {
       const location = { pathname: '/introduction' };
       const { getByText } = render(
-        <App location={location}>
+        <App location={location} formEnabled>
           <div>Test Child Content</div>
         </App>,
       );
@@ -67,7 +67,7 @@ describe('App', () => {
     it('should render with different location paths', () => {
       const location = { pathname: '/veteran-information' };
       const { getByText } = render(
-        <App location={location}>
+        <App location={location} formEnabled>
           <div>Content</div>
         </App>,
       );
@@ -76,7 +76,7 @@ describe('App', () => {
 
     it('should render with undefined location', () => {
       const { container } = render(
-        <App>
+        <App formEnabled>
           <div>Content</div>
         </App>,
       );
@@ -85,14 +85,14 @@ describe('App', () => {
 
     it('should render without children', () => {
       const location = { pathname: '/introduction' };
-      const { container } = render(<App location={location} />);
+      const { container } = render(<App location={location} formEnabled />);
       expect(container).to.exist;
     });
 
     it('should render multiple children', () => {
       const location = { pathname: '/introduction' };
       const { getByText } = render(
-        <App location={location}>
+        <App location={location} formEnabled>
           <div>Child 1</div>
           <div>Child 2</div>
         </App>,
@@ -100,13 +100,27 @@ describe('App', () => {
       expect(getByText('Child 1')).to.exist;
       expect(getByText('Child 2')).to.exist;
     });
+
+    it('should show loading indicator when formEnabled is undefined', () => {
+      const location = { pathname: '/introduction' };
+      const { container } = render(<App location={location} />);
+      expect(container.querySelector('va-loading-indicator')).to.exist;
+    });
+
+    it('should show not available message when formEnabled is false', () => {
+      const location = { pathname: '/introduction' };
+      const { getByText } = render(
+        <App location={location} formEnabled={false} />,
+      );
+      expect(getByText(/This form.*available right now/i)).to.exist;
+    });
   });
 
   describe('Props', () => {
     it('should accept location prop with pathname', () => {
       const location = { pathname: '/test' };
       const { container } = render(
-        <App location={location}>
+        <App location={location} formEnabled>
           <div>Child</div>
         </App>,
       );
@@ -116,7 +130,7 @@ describe('App', () => {
     it('should accept location prop with search params', () => {
       const location = { pathname: '/test', search: '?foo=bar' };
       const { container } = render(
-        <App location={location}>
+        <App location={location} formEnabled>
           <div>Child</div>
         </App>,
       );
@@ -126,7 +140,7 @@ describe('App', () => {
     it('should accept children prop', () => {
       const location = { pathname: '/test' };
       const { getByText } = render(
-        <App location={location}>
+        <App location={location} formEnabled>
           <div>Test Child Element</div>
         </App>,
       );

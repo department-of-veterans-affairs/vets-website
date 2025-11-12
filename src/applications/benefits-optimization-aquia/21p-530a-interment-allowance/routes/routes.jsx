@@ -1,6 +1,6 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import formConfig from '@bio-aquia/21p-530a-interment-allowance/config/form';
-import { App } from '../containers/app';
+import ConnectedApp from '../containers/app';
 
 /**
  * Route configuration for the 21P-530a form application
@@ -8,8 +8,8 @@ import { App } from '../containers/app';
  */
 const route = {
   path: '/',
-  component: App,
-  indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+  component: ConnectedApp,
+  indexRoute: { onEnter: (_nextState, replace) => replace('/introduction') },
   childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
 
