@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, screen } from '@testing-library/react';
 import {
   DefinitionTester,
   getFormDOM,
@@ -36,6 +36,9 @@ describe('Claimant Information Page', () => {
     expect(vaSsn.getAttribute('required')).to.equal('true');
     expect(vaFileNumber.getAttribute('required')).to.equal('false');
 
+    // Set the value attribute directly on the web component
+    vaFileNumber.setAttribute('value', '12345678');
+
     // Fill out the VA file number field using web component event
     vaFileNumber.value = '12345678';
     vaFileNumber.dispatchEvent(
@@ -61,10 +64,17 @@ describe('Claimant Information Page', () => {
     // Wait for the form to process the change
     await waitFor(
       () => {
+        expect(vaFileNumber.getAttribute('value')).to.equal('12345678');
         expect(vaSsn.getAttribute('required')).to.equal('false');
         expect(vaFileNumber.getAttribute('required')).to.equal('true');
       },
       { timeout: 3000 },
     );
+
+    // In your test, add this line where you want to see the HTML:
+    screen.debug();
+
+    // Or debug a specific element:
+    screen.debug(formDOM);
   });
 });
