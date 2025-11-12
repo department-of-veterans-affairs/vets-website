@@ -343,43 +343,25 @@ describe('VAOS Referral Appointments', () => {
   });
 
   describe('Referral not from pilot station', () => {
+    const referralId = 'out-of-pilot-station';
+    const stationId = '12345'; // out of pilot station id
     beforeEach(() => {
-      // Mock referrals list response
-      const referralsResponse = new MockReferralListResponse({
-        predefined: true,
-      }).toJSON();
-      mockReferralsGetApi({ response: referralsResponse });
-
-      // Mock draft referral appointment response
-      const draftReferralAppointment = new MockReferralDraftAppointmentResponse(
+      // Mock successful referrals list response
+      // Create referrals using the fixture
+      const outOfPilotStationReferral = MockReferralListResponse.createReferral(
         {
-          referralNumber: 'out-of-pilot-station',
-          categoryOfCare: 'Optometry',
+          id: referralId,
+          categoryOfCare: 'OPTOMETRY',
+          stationId,
         },
       );
-      mockDraftReferralAppointmentApi({
-        response: draftReferralAppointment,
-      });
-    });
+      const referralsResponse = new MockReferralListResponse({
+        numberOfReferrals: 0,
+      }).toJSON();
+      // append the out of pilot station referral to the referrals response
+      referralsResponse.data.push(outOfPilotStationReferral);
+      mockReferralsGetApi({ response: referralsResponse });
 
-    it('should show online scheduling not available message in the referrals and requests page', () => {
-      // Navigate to the Referrals and Requests page
-      appointmentList.navigateToReferralsAndRequests();
-
-      // Wait for referrals to load
-      cy.wait('@v2:get:referrals');
-
-      // Validate we're on the referrals and requests page
-      referralsAndRequests.validate();
-      cy.injectAxeThenAxeCheck();
-
-      // Verify online scheduling not available message is displayed
-      referralsAndRequests.assertOnlineSchedulingNotAvailableAlert(0);
-    });
-
-    it('should show online scheduling not available message in the choose date and time page when visiting the URL directly', () => {
-      const referralId = 'out-of-pilot-station';
-      const stationId = '12345'; // out of pilot station id
       // Mock referral detail response
       const referralDetailResponse = new MockReferralDetailResponse({
         id: referralId,
@@ -390,22 +372,33 @@ describe('VAOS Referral Appointments', () => {
         id: referralId,
         response: referralDetailResponse,
       });
-      // Check if we're on the appointments page
-      cy.findByRole('heading', { level: 1, name: 'Appointments' }).should(
-        'exist',
-      );
+    });
 
-      // Navigate to the Choose Date and Time page by visiting the URL directly
-      cy.visit(
-        `/my-health/appointments/schedule-referral/date-time?id=${referralId}`,
-      );
+    it('should allow the use to see refferal details selecting the referral from the referrals and requests page', () => {
+      // Navigate to the Referrals and Requests page
+      appointmentList.navigateToReferralsAndRequests();
+
+      // Wait for referrals to load
+      cy.wait('@v2:get:referrals');
+
+      // Validate we're on the referrals and requests page
+      referralsAndRequests.validate();
+      cy.injectAxeThenAxeCheck();
+
+      // Verify that referrals are displayed
+      referralsAndRequests.assertPendingReferrals({ count: 1 });
+
+      // Select the referral
+      referralsAndRequests.selectReferral(0);
 
       // Wait for referral detail to load
       cy.wait('@v2:get:referral:detail');
       cy.injectAxeThenAxeCheck();
 
-      // Verify online scheduling not available message is displayed
-      chooseDateAndTime.assertStationIdNotValidAlert();
+      // Validate we've reached the Schedule Referral page
+      scheduleReferral.validate();
+      scheduleReferral.assertReferralDetails();
+      scheduleReferral.assertOnlineSchedulingNotAvailableAlert();
     });
   });
 });
