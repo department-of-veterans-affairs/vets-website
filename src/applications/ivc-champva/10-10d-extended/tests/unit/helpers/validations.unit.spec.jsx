@@ -83,92 +83,138 @@ describe('1010d `validateApplicantSsn` form validation', () => {
     errors = { addError: sinon.spy() };
   });
 
-  it('should not add an error when SSN is empty', () => {
-    const fullData = { sponsorSsn: '345345345', applicants: [] };
-    validateApplicantSsn(errors, '', fullData);
-    expect(errors.addError.called).to.be.false;
+  context('when adding the first applicant', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/applicants/0', search: '?add=true' },
+        writable: true,
+      });
+    });
+
+    it('should not add an error when SSN is empty', () => {
+      const fullData = { sponsorSsn: '345345345', applicants: [] };
+      validateApplicantSsn(errors, '', fullData);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should not add an error when SSN is undefined', () => {
+      const fullData = { sponsorSsn: '345345345', applicants: [] };
+      validateApplicantSsn(errors, undefined, fullData);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should add an error when SSN is invalid', () => {
+      const fullData = { sponsorSsn: '345345345', applicants: [] };
+      validateApplicantSsn(errors, '211-11-111X', fullData);
+      expect(errors.addError.calledOnce).to.be.true;
+    });
+
+    it('should add an error when SSN matches sponsor SSN', () => {
+      const fullData = {
+        sponsorSsn: '123123123',
+        applicants: [],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      expect(errors.addError.calledOnce).to.be.true;
+    });
+
+    it('should correctly handle SSNs with different formatting when comparing to sponsor', () => {
+      const fullData = {
+        sponsorSsn: '123-12-3123',
+        applicants: [],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      expect(errors.addError.calledOnce).to.be.true;
+    });
   });
 
-  it('should not add an error when SSN is undefined', () => {
-    const fullData = { sponsorSsn: '345345345', applicants: [] };
-    validateApplicantSsn(errors, undefined, fullData);
-    expect(errors.addError.called).to.be.false;
+  context('when adding additional applicants', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/applicants/1', search: '?add=true' },
+        writable: true,
+      });
+    });
+
+    it('should not add an error when SSN is valid and unique', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [{ applicantSsn: '211-11-1111' }],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should add an error when SSN matches another applicant SSN', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [{ applicantSsn: '123123123' }],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      expect(errors.addError.calledOnce).to.be.true;
+    });
+
+    it('should correctly handle missing sponsor SSN', () => {
+      const fullData = {
+        applicants: [{ applicantSsn: '211-11-1111' }],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should handle applicants with undefined/missing SSNs', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [{ applicantSsn: undefined }],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      expect(errors.addError.called).to.be.false;
+    });
   });
 
-  it('should add an error when SSN is invalid', () => {
-    const fullData = { sponsorSsn: '345345345', applicants: [] };
-    validateApplicantSsn(errors, '211-11-111X', fullData);
-    expect(errors.addError.calledOnce).to.be.true;
-  });
+  context('when editing an applicant', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/applicants/0', search: '?edit=true' },
+        writable: true,
+      });
+    });
 
-  it('should not add an error when SSN is valid and unique', () => {
-    const fullData = {
-      sponsorSsn: '345345345',
-      applicants: [{ applicantSsn: '211-11-1111' }],
-    };
-    validateApplicantSsn(errors, '123123123', fullData);
-    expect(errors.addError.called).to.be.false;
-  });
+    it('should not add an error when editing and keeping the same SSN', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [
+          { applicantSsn: '123123123' },
+          { applicantSsn: '211-11-1111' },
+        ],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      expect(errors.addError.called).to.be.false;
+    });
 
-  it('should add an error when SSN matches sponsor SSN', () => {
-    const fullData = {
-      sponsorSsn: '123123123',
-      applicants: [],
-    };
-    validateApplicantSsn(errors, '123123123', fullData);
-    expect(errors.addError.calledOnce).to.be.true;
-  });
+    it('should add an error when editing and changing to a duplicate SSN', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [
+          { applicantSsn: '123123123' },
+          { applicantSsn: '211111111' },
+        ],
+      };
+      validateApplicantSsn(errors, '211111111', fullData);
+      expect(errors.addError.calledOnce).to.be.true;
+    });
 
-  it('should add an error when SSN matches another applicant SSN', () => {
-    const fullData = {
-      sponsorSsn: '345345345',
-      applicants: [
-        { applicantSsn: '123123123' },
-        { applicantSsn: '211-11-1111' },
-      ],
-    };
-    validateApplicantSsn(errors, '123123123', fullData);
-    expect(errors.addError.calledOnce).to.be.true;
-  });
-
-  it('should correctly handle SSNs with different formatting when comparing to sponsor', () => {
-    const fullData = {
-      sponsorSsn: '123-12-3123',
-      applicants: [],
-    };
-    validateApplicantSsn(errors, '123123123', fullData);
-    expect(errors.addError.calledOnce).to.be.true;
-  });
-
-  it('should correctly handle SSNs with different formatting when comparing to other applicants', () => {
-    const fullData = {
-      sponsorSsn: '345345345',
-      applicants: [{ applicantSsn: '123-12-3123' }],
-    };
-    validateApplicantSsn(errors, '123123123', fullData);
-    expect(errors.addError.calledOnce).to.be.true;
-  });
-
-  it('should correctly handle missing sponsor SSN', () => {
-    const fullData = {
-      applicants: [{ applicantSsn: '211-11-1111' }],
-    };
-    validateApplicantSsn(errors, '123123123', fullData);
-    expect(errors.addError.called).to.be.false;
-  });
-
-  it('should handle applicants with missing SSNs', () => {
-    const fullData = {
-      sponsorSsn: '345345345',
-      applicants: [
-        { applicantSsn: '211-11-1111' },
-        { applicantSsn: '' },
-        { applicantSsn: undefined },
-        {},
-      ],
-    };
-    validateApplicantSsn(errors, '123123123', fullData);
-    expect(errors.addError.called).to.be.false;
+    it('should not add an error when editing and changing to a unique SSN', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [
+          { applicantSsn: '123123123' },
+          { applicantSsn: '211111111' },
+        ],
+      };
+      validateApplicantSsn(errors, '311111111', fullData);
+      expect(errors.addError.called).to.be.false;
+    });
   });
 });
 

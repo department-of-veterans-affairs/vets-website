@@ -9,6 +9,16 @@ const ERR_SSN_INVALID = content['validation--ssn-invalid'];
 
 const normalizeSSN = val => `${val ?? ''}`.replace(/\D/g, '');
 
+const getCurrentItemIndex = () => {
+  try {
+    const pathname = window?.location?.pathname || '';
+    const match = pathname.match(/\/(\d+)(?:\?|$)/);
+    return match ? parseInt(match[1], 10) : null;
+  } catch {
+    return null;
+  }
+};
+
 /**
  * Analyzes SSN matches between sponsor and applicants in form data.
  *
@@ -22,14 +32,18 @@ const normalizeSSN = val => `${val ?? ''}`.replace(/\D/g, '');
  * @returns {number} returns.applicantMatches - Count of applicants with matching SSN
  */
 const getSsnMatches = (fullData, current) => {
+  const currentIndex = getCurrentItemIndex();
   const sponsor = normalizeSSN(fullData?.sponsorSsn);
   const applicants = (fullData?.applicants ?? [])
     .map(a => normalizeSSN(a?.applicantSsn))
     .filter(Boolean);
-  return {
-    sponsorMatch: !!sponsor && sponsor === current,
-    applicantMatches: applicants.filter(ssn => ssn === current).length,
-  };
+
+  const sponsorMatch = !!sponsor && sponsor === current;
+  const applicantMatches = applicants.filter(
+    (ssn, index) => ssn === current && index !== currentIndex,
+  ).length;
+
+  return { sponsorMatch, applicantMatches, currentIndex };
 };
 
 /**
@@ -52,7 +66,7 @@ export const validateSponsorSsn = (errors, fieldData, fullData) => {
   }
 
   const { applicantMatches } = getSsnMatches(fullData, current);
-  if (applicantMatches >= 1) errors.addError(ERR_SSN_UNIQUE);
+  if (applicantMatches > 0) errors.addError(ERR_SSN_UNIQUE);
 };
 
 /**
@@ -76,7 +90,12 @@ export const validateApplicantSsn = (errors, fieldData, fullData) => {
   }
 
   const { sponsorMatch, applicantMatches } = getSsnMatches(fullData, current);
-  if (sponsorMatch || applicantMatches >= 1) errors.addError(ERR_SSN_UNIQUE);
+
+  if (sponsorMatch) {
+    errors.addError(ERR_SSN_UNIQUE);
+    return;
+  }
+  if (applicantMatches > 0) errors.addError(ERR_SSN_UNIQUE);
 };
 
 /**
