@@ -18,6 +18,9 @@ const formMappings = {
       'Application for Disability Compensation and Related Compensation Benefits',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf',
   },
+  '21-0966': {
+    subTitle: 'Application Request for an Intent to File',
+  },
 };
 
 export const getFormNumber = (pathname = null) => {
