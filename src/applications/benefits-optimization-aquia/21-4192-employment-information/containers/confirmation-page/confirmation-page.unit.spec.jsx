@@ -65,8 +65,8 @@ describe('ConfirmationPage', () => {
     expect(alert).to.exist;
 
     // Verify the custom title is displayed in the alert
-    expect(alert.textContent).to.include('submitted your application');
-    expect(alert.textContent).to.include('burial allowance');
+    expect(alert.textContent).to.include('provided information in connection');
+    expect(alert.textContent).to.include('disability benefits');
     expect(alert.textContent).to.include('January 15, 2024');
   });
 

@@ -38,8 +38,8 @@ export const ConfirmationPage = ({ route }) => {
     >
       {/* actions={<p />} removes the link to myVA */}
       <ConfirmationView.SubmissionAlert
-        title={`You’ve submitted your application for a burial allowance ${
-          formattedSubmitDate ? `on ${formattedSubmitDate}` : ''
+        title={`You’ve provided information in connection a with a Veteran’s claim for disability benefits${
+          formattedSubmitDate ? ` on ${formattedSubmitDate}.` : '.'
         }`}
         content={null}
         actions={<p />}

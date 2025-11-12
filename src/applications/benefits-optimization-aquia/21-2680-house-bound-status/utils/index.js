@@ -7,3 +7,4 @@
 export * from './nameHelpers';
 export * from './relationshipHelpers';
 export * from './dynamicTitleHelpers';
+export * from './pdfDownload';

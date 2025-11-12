@@ -19,13 +19,13 @@ describe('dynamicTitleHelpers', () => {
         },
         veteranInformation: {
           veteranFullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Anakin',
+            last: 'Skywalker',
           },
         },
       };
       expect(getHospitalizationStatusTitle(formData)).to.equal(
-        'Is John Doe hospitalized?',
+        'Is Anakin Skywalker hospitalized?',
       );
     });
 
@@ -36,13 +36,13 @@ describe('dynamicTitleHelpers', () => {
         },
         claimantInformation: {
           claimantFullName: {
-            first: 'Jane',
-            last: 'Smith',
+            first: 'Padmé',
+            last: 'Amidala',
           },
         },
       };
       expect(getHospitalizationStatusTitle(formData)).to.equal(
-        'Is Jane Smith hospitalized?',
+        'Is Padmé Amidala hospitalized?',
       );
     });
 
@@ -75,13 +75,13 @@ describe('dynamicTitleHelpers', () => {
         },
         claimantInformation: {
           claimantFullName: {
-            first: 'Bobby',
-            last: 'Junior',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
       expect(getHospitalizationStatusTitle(formData)).to.equal(
-        'Is Bobby Junior hospitalized?',
+        'Is Luke Skywalker hospitalized?',
       );
     });
 
@@ -92,13 +92,13 @@ describe('dynamicTitleHelpers', () => {
         },
         claimantInformation: {
           claimantFullName: {
-            first: 'Mary',
-            last: 'Senior',
+            first: 'Shmi',
+            last: 'Skywalker',
           },
         },
       };
       expect(getHospitalizationStatusTitle(formData)).to.equal(
-        'Is Mary Senior hospitalized?',
+        'Is Shmi Skywalker hospitalized?',
       );
     });
   });
@@ -111,13 +111,13 @@ describe('dynamicTitleHelpers', () => {
         },
         veteranInformation: {
           veteranFullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Anakin',
+            last: 'Skywalker',
           },
         },
       };
       expect(getHospitalizationDateTitle(formData)).to.equal(
-        'When was John Doe admitted to the hospital?',
+        'When was Anakin Skywalker admitted to the hospital?',
       );
     });
 
@@ -128,13 +128,13 @@ describe('dynamicTitleHelpers', () => {
         },
         claimantInformation: {
           claimantFullName: {
-            first: 'Jane',
-            last: 'Smith',
+            first: 'Padmé',
+            last: 'Amidala',
           },
         },
       };
       expect(getHospitalizationDateTitle(formData)).to.equal(
-        'When was Jane Smith admitted to the hospital?',
+        'When was Padmé Amidala admitted to the hospital?',
       );
     });
 
@@ -167,13 +167,13 @@ describe('dynamicTitleHelpers', () => {
         },
         claimantInformation: {
           claimantFullName: {
-            first: 'Bobby',
-            last: 'Junior',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
       expect(getHospitalizationDateTitle(formData)).to.equal(
-        'When was Bobby Junior admitted to the hospital?',
+        'When was Luke Skywalker admitted to the hospital?',
       );
     });
   });
@@ -186,13 +186,13 @@ describe('dynamicTitleHelpers', () => {
         },
         veteranInformation: {
           veteranFullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Anakin',
+            last: 'Skywalker',
           },
         },
       };
       expect(getHospitalizationFacilityTitle(formData)).to.equal(
-        "What's the name and address of the hospital where John Doe is admitted?",
+        "What's the name and address of the hospital where Anakin Skywalker is admitted?",
       );
     });
 
@@ -203,13 +203,13 @@ describe('dynamicTitleHelpers', () => {
         },
         claimantInformation: {
           claimantFullName: {
-            first: 'Jane',
-            last: 'Smith',
+            first: 'Padmé',
+            last: 'Amidala',
           },
         },
       };
       expect(getHospitalizationFacilityTitle(formData)).to.equal(
-        "What's the name and address of the hospital where Jane Smith is admitted?",
+        "What's the name and address of the hospital where Padmé Amidala is admitted?",
       );
     });
 
@@ -242,13 +242,13 @@ describe('dynamicTitleHelpers', () => {
         },
         claimantInformation: {
           claimantFullName: {
-            first: 'Bobby',
-            last: 'Junior',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
       expect(getHospitalizationFacilityTitle(formData)).to.equal(
-        "What's the name and address of the hospital where Bobby Junior is admitted?",
+        "What's the name and address of the hospital where Luke Skywalker is admitted?",
       );
     });
   });
