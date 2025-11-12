@@ -266,13 +266,13 @@ describe('childReasonToRemove', () => {
       ).to.equal('child-disability');
     });
 
-    // it('should return "child-adopted" on goForward', () => {
-    //   expect(
-    //     childReasonToRemove.handlers.goForward({
-    //       itemData: { removalReason: 'childAdopted' },
-    //     }),
-    //   ).to.equal('DONE');
-    // });
+    it('should return "child-adopted" on goForward', () => {
+      expect(
+        childReasonToRemove.handlers.goForward({
+          itemData: { removalReason: 'childAdopted' },
+        }),
+      ).to.equal('child-adopted-exit');
+    });
 
     it('should call goForward when removal reason is set on submit', () => {
       const goForward = sinon.spy();

@@ -6,8 +6,7 @@ import constants from 'vets-json-schema/dist/constants.json';
 export const dicOptions = {
   DIC: 'DIC',
   DIC_1151: 'DIC under U.S.C. 1151',
-  DIC_REEVALUATION:
-    'DIC due to claimant election of a re-evaluation of a previously denied claim based on expanded eligibility under PL 117-168 (PACT Act)',
+  DIC_REEVALUATION: 'DIC re-evaluation based on the PACT Act',
 };
 
 export const servicesOptions = {

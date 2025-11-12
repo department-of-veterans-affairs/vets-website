@@ -39,6 +39,7 @@ export default function PhoneLayout({ data: appointment }) {
     startDate,
     status,
     typeOfCareName,
+    isCerner,
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
@@ -131,7 +132,11 @@ export default function PhoneLayout({ data: appointment }) {
           facilityPhone={facilityPhone}
         />
       </Section>
-      <Details reason={reasonForAppointment} otherDetails={patientComments} />
+      <Details
+        reason={reasonForAppointment}
+        otherDetails={patientComments}
+        isCerner={isCerner}
+      />
       {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (
