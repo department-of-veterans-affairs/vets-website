@@ -342,3 +342,11 @@ export const RX_SOURCE = {
   NON_VA: 'NV',
   PENDING_DISPENSE: 'PD',
 };
+
+export const DISPENSE_STATUS = {
+  NEW_ORDER: 'NewOrder',
+  RENEW: 'Renew',
+  ACTIVE: 'Active',
+  ACTIVE_SUBMITTED: 'Active: Submitted',
+  ACTIVE_REFILL_IN_PROCESS: 'Active: Refill in Process',
+};
