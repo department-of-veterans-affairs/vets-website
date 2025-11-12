@@ -125,6 +125,7 @@ describe('WebChat', () => {
       expect(functionStubs.signOutEventListenerStub.calledOnce).to.be.true;
       expect(functionStubs.useDirectlineStub.calledOnce).to.be.true;
     });
+
     it('should render Composer with args and BasicWebChat', () => {
       const webChatFramework = {
         createDirectLine: sinon.spy(),
@@ -189,6 +190,92 @@ describe('WebChat', () => {
       expect(
         webChatFramework.Components.Composer.getCall(0).args[0].onTelemetry,
       ).to.equal(handleTelemetryStub);
+    });
+
+    it('renders AI disclaimer after a simulated final RAG response', () => {
+      stubValues();
+      stubFunctions();
+      const mwFactory = ActivityMiddlewareModule.activityMiddleware;
+
+      const BasicWebChatStub = sinon.stub().callsFake(() => {
+        const cards = [
+          {
+            activity: {
+              type: 'message',
+              id: 'rag-1',
+              text: 'RAG answer text',
+              channelData: { rag: { isFinal: true } },
+            },
+          },
+          {
+            activity: {
+              type: 'message',
+              id: 'disc-1',
+              text: 'Use AI responsibly.',
+              channelData: { isDisclaimer: true, category: 'ai-disclaimer' },
+            },
+          },
+        ];
+
+        const rendered = cards.map(card => {
+          const mw = mwFactory();
+          const next = sinon
+            .stub()
+            .returns(
+              <div
+                data-testid="activity"
+                data-activity-id={card.activity.id}
+              />,
+            );
+          const result = mw(next)(card);
+          return typeof result === 'function' ? result() : result;
+        });
+
+        return (
+          <div data-testid="BasicWebChat" data-test="rag-disclaimer-flow">
+            {rendered}
+          </div>
+        );
+      });
+
+      const ComposerStub = sinon
+        .stub()
+        .callsFake(props => <div data-testid="Composer" {...props} />);
+
+      const webChatFramework = {
+        createDirectLine: sinon.spy(),
+        createStore: sandbox.spy(),
+        Components: { BasicWebChat: BasicWebChatStub, Composer: ComposerStub },
+      };
+
+      const setParamLoadingStatus = sandbox.spy();
+
+      const { getByTestId, getByText } = render(
+        <Provider store={mockStore({})}>
+          <WebChat
+            token={token}
+            webChatFramework={{
+              ...webChatFramework,
+              Components: {
+                BasicWebChat: BasicWebChatStub,
+                Composer: ComposerStub,
+              },
+            }}
+            setParamLoadingStatus={setParamLoadingStatus}
+          />
+        </Provider>,
+      );
+
+      // BasicWebChat rendered with our simulated flow
+      expect(getByTestId('BasicWebChat')).to.exist;
+      // Disclaimer text present
+      const disclaimerBody = getByText('Use AI responsibly.');
+      // Parent should be the root disclaimer element with class 'va-disclaimer'
+      const parent = disclaimerBody.parentElement;
+      expect(parent.className).to.include('va-disclaimer');
+      const transcriptChildren = getByTestId('BasicWebChat').children;
+      const lastChild = transcriptChildren[transcriptChildren.length - 1];
+      expect(lastChild.textContent).to.include('Use AI responsibly.');
     });
   });
 });
