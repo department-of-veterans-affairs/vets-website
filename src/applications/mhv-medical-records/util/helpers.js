@@ -15,6 +15,7 @@ import {
   endOfDay,
   parseISO,
   isValid,
+  subDays,
 } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import {
@@ -726,6 +727,67 @@ export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
   const fromDate = new Date(year, month - 1, 1);
   const formatted = dateFnsFormat(fromDate, mask);
   return `${formatted}`;
+};
+
+/**
+ * @param {Object} dateRange an object containing startDate and endDate
+ * @param {string} dateRange.startDate the start date in YYYY-MM-DD format
+ * @param {string} dateRange.endDate the end date in YYYY-MM-DD format
+ * @returns {String} formatted date range string
+ */
+export const formatDateRange = ({ startDate, endDate }) => {
+  if (!startDate || !endDate) return null;
+  const start = parseISO(startDate);
+  const end = parseISO(endDate);
+  if (!isValid(start) || !isValid(end)) return null;
+  const formattedStart = dateFnsFormat(start, 'MMMM d, yyyy');
+  const formattedEnd = dateFnsFormat(end, 'MMMM d, yyyy');
+  return `${formattedStart} to ${formattedEnd}`;
+};
+
+/**
+ * Generate 90-day date range options for the labs and tests date range dropdown
+ * Creates ranges covering approximately 10 years (40 ranges)
+ * Each range is 90 days, providing good coverage without overwhelming the dropdown
+ * @returns {Array} Array of date range objects with value, label, startDate, endDate
+ */
+export const getLabsAndTestsDateRanges = () => {
+  const now = new Date();
+  const today = dateFnsFormat(now, 'yyyy-MM-dd');
+  const ranges = [];
+
+  // Generate 90-day ranges going back approximately 10 years
+  // This provides reasonable coverage while maintaining good UX
+  // 10 years * 365.25 days / 90 days ≈ 40 ranges
+  const totalRanges = 40;
+
+  for (let i = 0; i < totalRanges; i += 1) {
+    const rangeEndDaysAgo = i * 90;
+    const rangeStartDaysAgo = (i + 1) * 90;
+
+    // Use date-fns subDays for reliable date calculations
+    const endDate = subDays(now, rangeEndDaysAgo);
+    const startDate = subDays(now, rangeStartDaysAgo);
+
+    // Format the label based on the range
+    let label;
+    if (i === 0) {
+      label = 'Last 90 days';
+    } else {
+      const startFormatted = dateFnsFormat(startDate, 'MMM d, yyyy');
+      const endFormatted = dateFnsFormat(endDate, 'MMM d, yyyy');
+      label = `${startFormatted} to ${endFormatted}`;
+    }
+
+    ranges.push({
+      value: i,
+      label,
+      startDate: dateFnsFormat(startDate, 'yyyy-MM-dd'),
+      endDate: i === 0 ? today : dateFnsFormat(endDate, 'yyyy-MM-dd'),
+    });
+  }
+
+  return ranges;
 };
 
 export const sendDataDogAction = actionName => {
