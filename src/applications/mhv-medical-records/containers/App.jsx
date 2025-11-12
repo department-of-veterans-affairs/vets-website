@@ -136,55 +136,6 @@ const App = ({ children }) => {
     );
   }
 
-  // TEMP: Bypass auth for local dev - DO NOT COMMIT THIS FILE
-  const bypassAuth = true;
-
-  if (bypassAuth) {
-    return (
-      <>
-        <MhvSecondaryNav />
-        <div
-          ref={measuredRef}
-          className="vads-l-grid-container vads-u-padding-left--2"
-        >
-          {mhvMrDown === externalServiceStatus.down && !bypassDowntime ? (
-            <>
-              {atLandingPage && <MrBreadcrumbs />}
-              <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>
-                Medical records
-              </h1>
-              <DowntimeNotification
-                appTitle={downtimeNotificationParams.appTitle}
-                dependencies={[
-                  externalServices.mhvMr,
-                  externalServices.mhvPlatform,
-                  externalServices.global,
-                ]}
-                render={renderMHVDowntime}
-              />
-            </>
-          ) : (
-            <HeaderSectionProvider>
-              <MrBreadcrumbs />
-              <div className="vads-l-row">
-                <div className="medium-screen:vads-l-col--8">{children}</div>
-              </div>
-            </HeaderSectionProvider>
-          )}
-          <va-back-to-top
-            class="no-print"
-            hidden={isHidden}
-            data-dd-privacy="mask"
-            data-dd-action-name="Back to top"
-            data-testid="mr-back-to-top"
-          />
-          <ScrollToTop />
-          <PhrRefresh statusPollBeginDate={statusPollBeginDate} />
-        </div>
-      </>
-    );
-  }
-
   return (
     <RequiredLoginView
       user={user}
