@@ -474,6 +474,26 @@ jobs:
           IS_STRESS_TEST: true
           STEP: ${{ matrix.runs }}
 
+      - name: Rename results file to avoid merge collisions
+        if: ${{ always() }}
+        run: |
+          if [ -f mocha/results/unit-tests.json ]; then
+            mv mocha/results/unit-tests.json mocha/results/unit-tests-${{ matrix.runs }}.json
+          else
+            echo "Warning: mocha/results/unit-tests.json not found, skipping rename"
+            exit 0
+          fi
+
+      - name: Copy results file to workspace root for flat artifact
+        if: ${{ always() }}
+        run: |
+          if [ -f mocha/results/unit-tests-${{ matrix.runs }}.json ]; then
+            cp mocha/results/unit-tests-${{ matrix.runs }}.json unit-tests-${{ matrix.runs }}.json
+          else
+            echo "Warning: mocha/results/unit-tests-${{ matrix.runs }}.json not found, skipping copy"
+            exit 0
+          fi
+
       - name: Debug mocha report files
         if: ${{ always() }}
         run: |
