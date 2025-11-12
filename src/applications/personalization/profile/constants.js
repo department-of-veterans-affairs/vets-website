@@ -84,7 +84,6 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   ACCREDITED_REPRESENTATIVE: 'Accredited representative or VSO',
   LETTERS_AND_DOCUMENTS: 'Letters and documents',
   VETERAN_STATUS_CARD: 'Veteran Status Card',
-  COMMUNICATIONS_SETTINGS: 'Communication settings',
   NOTIFICATION_SETTINGS: 'Notification settings',
   EMAIL_AND_TEXT_NOTIFICATIONS: 'Email and text notifications',
   PAPERLESS_DELIVERY: 'Paperless delivery',

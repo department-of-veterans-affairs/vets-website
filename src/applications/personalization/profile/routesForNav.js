@@ -77,7 +77,6 @@ const routesForNav = [
     path: PROFILE_PATHS.NOTIFICATION_SETTINGS,
     requiresLOA3: true,
     requiresMVI: true,
-    subnavParent: PROFILE_PATH_NAMES.COMMUNICATIONS_SETTINGS,
   },
   {
     component: AccountSecurity,
@@ -249,4 +248,9 @@ export const getRoutesForNav = (
   }
 
   return routesForNav;
+};
+
+export const routeHasParent = (route, routes) => {
+  const matchedRoute = routes.find(r => r.path === route.path);
+  return Boolean(matchedRoute?.subnavParent);
 };
