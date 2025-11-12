@@ -1,16 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TrackedSpinner from '../../components/shared/TrackedSpinner';
+import { formatFacilityList } from '../../util/facilityHelpers';
 
-const CCDAccordionItemOH = ({ generatingCCD, handleDownloadCCDV2 }) => (
+const CCDAccordionItemOH = ({
+  generatingCCD,
+  handleDownloadCCDV2,
+  ohFacilityNames,
+}) => (
   <va-accordion-item bordered data-testid="ccdAccordionItem">
     <h3 slot="headline">Continuity of Care Document for non-VA providers</h3>
-    <p className="vads-u-margin-bottom--2">
+    <p className="vads-u-margin-bottom--3">
       This Continuity of Care Document (CCD) is a summary of your VA medical
       records that you can share with non-VA providers in your community. It
       includes your allergies, medications, recent lab results, and more. We
       used to call this report your VA Health Summary.
     </p>
+
+    <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+      CCD: medical records from {formatFacilityList(ohFacilityNames)}
+    </h4>
+
     {generatingCCD ? (
       <div id="generating-ccd-oh-indicator">
         <TrackedSpinner
@@ -57,6 +67,7 @@ const CCDAccordionItemOH = ({ generatingCCD, handleDownloadCCDV2 }) => (
 CCDAccordionItemOH.propTypes = {
   generatingCCD: PropTypes.bool,
   handleDownloadCCDV2: PropTypes.func,
+  ohFacilityNames: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default CCDAccordionItemOH;

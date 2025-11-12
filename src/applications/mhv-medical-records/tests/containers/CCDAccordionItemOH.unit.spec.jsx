@@ -7,6 +7,7 @@ describe('CCDAccordionItemOH', () => {
   const defaultProps = {
     generatingCCD: false,
     handleDownloadCCDV2: () => {},
+    ohFacilityNames: ['VA Central Ohio health care'],
   };
 
   it('renders Oracle Health CCD section', () => {
@@ -78,5 +79,40 @@ describe('CCDAccordionItemOH', () => {
     expect(htmlLink.getAttribute('data-dd-action-name')).to.equal(
       'Download CCD HTML OH',
     );
+  });
+
+  it('renders facility name in heading for single facility', () => {
+    const { getByText } = render(<CCDAccordionItemOH {...defaultProps} />);
+
+    expect(getByText('CCD: medical records from VA Central Ohio health care'))
+      .to.exist;
+  });
+
+  it('renders multiple facility names in heading', () => {
+    const props = {
+      ...defaultProps,
+      ohFacilityNames: [
+        'VA Central Ohio health care',
+        'VA Southern Nevada health care',
+      ],
+    };
+    const { getByText } = render(<CCDAccordionItemOH {...props} />);
+
+    expect(
+      getByText(
+        'CCD: medical records from VA Central Ohio health care and VA Southern Nevada health care',
+      ),
+    ).to.exist;
+  });
+
+  it('handles empty facility names array gracefully', () => {
+    const props = {
+      ...defaultProps,
+      ohFacilityNames: [],
+    };
+    const { container } = render(<CCDAccordionItemOH {...props} />);
+
+    // Should still render without crashing
+    expect(container.querySelector('va-accordion-item')).to.exist;
   });
 });
