@@ -227,7 +227,11 @@ export default function transform(formConfig, form) {
 
   // Stringifies the form data and removes empty fields
   const usFormTransform = formData =>
-    transformForSubmit(formConfig, { ...form, data: formData });
+    transformForSubmit(
+      formConfig,
+      { ...form, data: formData },
+      { allowPartialAddress: true },
+    );
 
   const transformedData = [
     authorizedOfficialTransform,
