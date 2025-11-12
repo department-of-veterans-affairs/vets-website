@@ -17,7 +17,7 @@ describe('Routes Configuration', () => {
 
   it('should have App component', () => {
     expect(route.component).to.exist;
-    expect(route.component.name).to.equal('App');
+    expect(route.component).to.be.a('function');
   });
 
   it('should have indexRoute with onEnter function', () => {

@@ -19,10 +19,7 @@ describe('Routes Configuration', () => {
 
     it('should have component property', () => {
       expect(routes.component).to.exist;
-      // Connected component may be an object or function
-      expect(routes.component).to.satisfy(
-        c => typeof c === 'function' || typeof c === 'object',
-      );
+      expect(routes.component).to.be.a('function');
     });
 
     it('should have indexRoute property', () => {

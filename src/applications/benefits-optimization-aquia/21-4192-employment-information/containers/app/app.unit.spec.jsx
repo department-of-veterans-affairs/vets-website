@@ -19,10 +19,7 @@ describe('App', () => {
 
     it('should export as default', () => {
       expect(appDefault).to.exist;
-      // Connected component may be an object or function
-      expect(appDefault).to.satisfy(
-        c => typeof c === 'function' || typeof c === 'object',
-      );
+      expect(appDefault).to.be.a('function');
     });
 
     it('should have default export be different from named export', () => {
