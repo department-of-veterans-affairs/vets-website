@@ -1,4 +1,5 @@
 import { generateMedicationsContent } from '../pdfHelpers/medications';
+import { isArrayAndHasItems } from '../helpers';
 
 export const parseMedications = (records, index = 7) => {
   return `
@@ -21,7 +22,10 @@ ${records
         ? content.details
             .map(detail => {
               const header = `\n${detail.header}:\n`;
-              const items = detail.items
+              const items = (isArrayAndHasItems(detail.items)
+                ? detail.items
+                : []
+              )
                 .map(item => {
                   if (item.title && item.value) {
                     return `- ${item.title}: ${item.value}`;

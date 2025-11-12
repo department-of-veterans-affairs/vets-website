@@ -17,10 +17,7 @@ const IntroductionPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Get appointment data from the store
   const { data: appointment } = useSelector(selectAppointment);
-
-  // Get the complex claim data from the store
   const complexClaim = useSelector(selectComplexClaim);
 
   const apptId = appointment?.id;
@@ -31,7 +28,9 @@ const IntroductionPage = () => {
     }
 
     // If claim already exists, navigate directly
-    const existingClaimId = complexClaim?.data?.claimId;
+    const existingClaimId =
+      complexClaim?.data?.claimId || appointment?.travelPayClaim?.claim?.id;
+
     if (existingClaimId) {
       navigate(`/file-new-claim/${apptId}/${existingClaimId}/choose-expense`);
       return;

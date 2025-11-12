@@ -435,6 +435,27 @@ describe('Submit Transformer', () => {
         .to.be.true;
     });
 
+    it('should include military duty status when reserveOrGuardStatus is true', () => {
+      const form = {
+        data: {
+          dutyStatus: {
+            reserveOrGuardStatus: true,
+          },
+          dutyStatusDetails: {
+            currentDutyStatus: 'Reserve',
+            disabilitiesPreventDuties: false,
+          },
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.militaryDutyStatus).to.exist;
+      expect(result.militaryDutyStatus.currentDutyStatus).to.equal('Reserve');
+      expect(result.militaryDutyStatus.veteranDisabilitiesPreventMilitaryDuties)
+        .to.be.false;
+    });
+
     it('should convert yes/no to boolean for disabilities prevent duties', () => {
       const form = {
         data: {
@@ -459,6 +480,20 @@ describe('Submit Transformer', () => {
         data: {
           dutyStatus: {
             reserveOrGuardStatus: 'no',
+          },
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.militaryDutyStatus).to.not.exist;
+    });
+
+    it('should omit military duty status when reserveOrGuardStatus is false', () => {
+      const form = {
+        data: {
+          dutyStatus: {
+            reserveOrGuardStatus: false,
           },
         },
       };
@@ -523,7 +558,7 @@ describe('Submit Transformer', () => {
       );
     });
 
-    it('should set benefit details to null when benefitEntitlement is no', () => {
+    it('should omit benefitEntitlementPayments section when benefitEntitlement is no', () => {
       const form = {
         data: {
           benefitsInformation: {
@@ -534,28 +569,46 @@ describe('Submit Transformer', () => {
 
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
-      expect(result.benefitEntitlementPayments.sickRetirementOtherBenefits).to
-        .be.false;
-      // null values are removed by removeNullUndefined function
-      expect(result.benefitEntitlementPayments.typeOfBenefit).to.not.exist;
-      expect(result.benefitEntitlementPayments.grossMonthlyAmountOfBenefit).to
-        .not.exist;
-      expect(result.benefitEntitlementPayments.dateBenefitBegan).to.not.exist;
+      // Section should be completely omitted when veteran doesn't receive benefits
+      expect(result.benefitEntitlementPayments).to.not.exist;
     });
 
-    it('should handle missing remarks', () => {
+    it('should omit benefitEntitlementPayments section when benefitEntitlement is false', () => {
       const form = {
         data: {
           benefitsInformation: {
-            benefitEntitlement: 'no',
+            benefitEntitlement: false,
           },
         },
       };
 
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
-      // null values are removed by removeNullUndefined function
-      expect(result.benefitEntitlementPayments.remarks).to.not.exist;
+      // Section should be omitted when using boolean false
+      expect(result.benefitEntitlementPayments).to.not.exist;
+    });
+
+    it('should include benefitEntitlementPayments when benefitEntitlement is true', () => {
+      const form = {
+        data: {
+          benefitsInformation: {
+            benefitEntitlement: true,
+          },
+          benefitsDetails: {
+            benefitType: 'sick leave',
+            grossMonthlyAmount: 1500,
+          },
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.benefitEntitlementPayments).to.exist;
+      expect(result.benefitEntitlementPayments.sickRetirementOtherBenefits).to
+        .be.true;
+      expect(result.benefitEntitlementPayments.typeOfBenefit).to.equal(
+        'sick leave',
+      );
     });
   });
 
@@ -661,10 +714,13 @@ describe('Submit Transformer', () => {
       // Verify structure
       expect(result.veteranInformation).to.exist;
       expect(result.employmentInformation).to.exist;
-      expect(result.benefitEntitlementPayments).to.exist;
+      expect(result.certification).to.exist;
 
       // Verify no militaryDutyStatus when not reserve/guard
       expect(result.militaryDutyStatus).to.not.exist;
+
+      // Verify no benefitEntitlementPayments when benefitEntitlement is 'no'
+      expect(result.benefitEntitlementPayments).to.not.exist;
 
       // Verify key transformations
       expect(result.veteranInformation.fullName.first).to.equal('John');
@@ -673,6 +729,10 @@ describe('Submit Transformer', () => {
       expect(
         result.employmentInformation.amountEarnedLast12MonthsOfEmployment,
       ).to.equal(120000);
+
+      // Verify certification is generated from veteran name
+      expect(result.certification.signature).to.equal('John Q Veteran');
+      expect(result.certification.certified).to.be.true;
     });
   });
 
@@ -790,6 +850,152 @@ describe('Submit Transformer', () => {
       // null values are removed by removeNullUndefined function
       expect(result.employmentInformation.amountEarnedLast12MonthsOfEmployment)
         .to.not.exist;
+    });
+  });
+
+  describe('Certification Transformation', () => {
+    it('should use provided certification signature', () => {
+      const form = {
+        data: {
+          veteranInformation: {
+            veteranFullName: {
+              first: 'Jane',
+              last: 'Doe',
+            },
+          },
+          certification: {
+            signature: 'J. Doe',
+            certified: true,
+          },
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.certification).to.exist;
+      expect(result.certification.signature).to.equal('J. Doe');
+      expect(result.certification.certified).to.be.true;
+    });
+
+    it('should generate signature from veteran name when not provided', () => {
+      const form = {
+        data: {
+          veteranInformation: {
+            veteranFullName: {
+              first: 'John',
+              middle: 'M',
+              last: 'Smith',
+            },
+          },
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.certification).to.exist;
+      expect(result.certification.signature).to.equal('John M Smith');
+      expect(result.certification.certified).to.be.true;
+    });
+
+    it('should generate signature without middle name when not provided', () => {
+      const form = {
+        data: {
+          veteranInformation: {
+            veteranFullName: {
+              first: 'Jane',
+              last: 'Doe',
+            },
+          },
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.certification).to.exist;
+      expect(result.certification.signature).to.equal('Jane Doe');
+      expect(result.certification.certified).to.be.true;
+    });
+
+    it('should respect certified false when explicitly provided', () => {
+      const form = {
+        data: {
+          veteranInformation: {
+            veteranFullName: {
+              first: 'Bob',
+              last: 'Jones',
+            },
+          },
+          certification: {
+            signature: 'Bob Jones',
+            certified: false,
+          },
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.certification).to.exist;
+      expect(result.certification.certified).to.be.false;
+    });
+
+    it('should always include certification section', () => {
+      const form = {
+        data: {},
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      // Certification should always exist even with empty form data
+      expect(result.certification).to.exist;
+      expect(result.certification.certified).to.be.true;
+    });
+
+    it('should handle platform statementOfTruth signature pattern', () => {
+      const form = {
+        data: {
+          signature: 'Platform Signature',
+          statementOfTruthCertified: true,
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.certification).to.exist;
+      expect(result.certification.signature).to.equal('Platform Signature');
+      expect(result.certification.certified).to.be.true;
+    });
+
+    it('should handle platform statementOfTruthCertified false', () => {
+      const form = {
+        data: {
+          signature: 'Test User',
+          statementOfTruthCertified: false,
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.certification).to.exist;
+      expect(result.certification.certified).to.be.false;
+    });
+
+    it('should prefer platform pattern over custom component pattern', () => {
+      const form = {
+        data: {
+          signature: 'Platform Pattern',
+          statementOfTruthCertified: true,
+          certification: {
+            signature: 'Custom Component Pattern',
+            certified: false,
+          },
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.certification).to.exist;
+      expect(result.certification.signature).to.equal('Platform Pattern');
+      expect(result.certification.certified).to.be.true;
     });
   });
 });

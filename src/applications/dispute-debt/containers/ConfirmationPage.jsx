@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
 import {
   ConfirmationView,
   ChapterSectionCollection,
 } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { setDocumentTitle } from '../utils';
+
 import NeedHelp from '../components/NeedHelp';
 
 export const ConfirmationPage = ({ route }) => {
   const { formConfig } = route;
+
+  useEffect(
+    () => {
+      setDocumentTitle('Confirmation Page - Dispute Debt');
+    },
+    [formConfig.title],
+  );
 
   const form = useSelector(state => state.form || {});
   const { submission } = form;
