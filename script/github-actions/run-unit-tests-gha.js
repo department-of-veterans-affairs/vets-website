@@ -128,6 +128,7 @@ function buildTestCommand(testPaths) {
     : '--reporter=json-summary -- mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 
   const mochaExtra = '';
+  const escapedTestPaths = testPaths.map(pattern => `'${pattern}'`);
 
   const testRunner = options.coverage
     ? `NODE_ENV=test BABEL_ENV=test c8 --all ${coverageInclude} ${coverageReporter}`
@@ -135,7 +136,7 @@ function buildTestCommand(testPaths) {
 
   return `${baseEnv} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
     options.config
-  } ${mochaExtra} ${testPaths.join(' ')}`;
+  } ${mochaExtra} ${escapedTestPaths.join(' ')}`;
 }
 
 // Main execution
