@@ -45,6 +45,18 @@ export const claimantInformationUiSchema = {
  * JSON Schema for Claimant Information page
  * Validates claimant identification fields
  */
+// Customize the name schema to add maxLength constraint for middle name
+const customNameSchema = {
+  ...firstNameLastNameNoSuffixSchema,
+  properties: {
+    ...firstNameLastNameNoSuffixSchema.properties,
+    middle: {
+      type: 'string',
+      maxLength: 1,
+    },
+  },
+};
+
 export const claimantInformationSchema = {
   type: 'object',
   required: ['claimantInformation'],
@@ -53,7 +65,7 @@ export const claimantInformationSchema = {
       type: 'object',
       required: ['claimantFullName', 'claimantDob'],
       properties: {
-        claimantFullName: firstNameLastNameNoSuffixSchema,
+        claimantFullName: customNameSchema,
         claimantDob: dateOfBirthSchema,
       },
     },

@@ -1,3 +1,8 @@
+/**
+ * @module components/confirmation-page/download-form-pdf
+ * @description PDF download component for VA Form 21-2680 confirmation page
+ */
+
 import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -5,15 +10,17 @@ import {
   fetchPdfApi,
   downloadBlob,
   formatPdfFilename,
-} from '../../utils/pdfDownload';
+} from '../../utils/pdf-download';
 
 /**
- * DownloadFormPDF Component
- * Provides functionality to download the completed VA Form 21-2680 as a PDF
+ * Provides PDF download functionality on the confirmation page
  *
- * @param {Object} props - Component props
- * @param {string} props.guid - The submission GUID
- * @param {Object} props.veteranName - The veteran's name for the filename
+ * Retrieves the submitted form PDF from sessionStorage or API and triggers download.
+ *
+ * @component
+ * @param {Object} props
+ * @param {string} props.guid - Submission GUID ('pdf-blob' for sessionStorage, UUID for API)
+ * @param {Object} props.veteranName - Veteran's name object for filename generation
  */
 export const DownloadFormPDF = ({ guid, veteranName }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,8 +46,22 @@ export const DownloadFormPDF = ({ guid, veteranName }) => {
       setError(null);
 
       try {
-        // Fetch the PDF blob from the API
-        const blob = await fetchPdfApi(guid);
+        let blob;
+
+        // Check if we have a stored PDF blob from the submission
+        if (guid === 'pdf-blob') {
+          const storedBlobUrl = sessionStorage.getItem('form-21-2680-pdf-blob');
+          if (storedBlobUrl) {
+            // Convert data URL back to blob
+            const response = await fetch(storedBlobUrl);
+            blob = await response.blob();
+          } else {
+            throw new Error('PDF blob not found in session storage');
+          }
+        } else {
+          // Fetch the PDF blob from the API (fallback)
+          blob = await fetchPdfApi(guid);
+        }
 
         // Trigger browser download
         downloadBlob(blob, filename);
