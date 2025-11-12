@@ -2,7 +2,6 @@ import mockUser from '../fixtures/user.json';
 import vamc from '../fixtures/facilities/vamc-ehr.json';
 import sessionStatus from '../fixtures/session-status.json';
 import createAal from '../fixtures/create-aal.json';
-import MedicalRecordsLandingPage from '../pages/MedicalRecordsLandingPage';
 
 class MedicalRecordsSite {
   login = (userFixture = mockUser, useDefaultFeatureToggles = true) => {
@@ -24,7 +23,6 @@ class MedicalRecordsSite {
       body: createAal,
     }).as('aal');
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
-    MedicalRecordsLandingPage.uumIntercept();
     cy.login(userFixture);
   };
 
@@ -36,6 +34,7 @@ class MedicalRecordsSite {
     isAcceleratingVaccines = false,
     isAcceleratingCareNotes = false,
     isAcceleratingConditions = false,
+    isCcdExtendedFileTypesEnabled = false,
   } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -68,6 +67,14 @@ class MedicalRecordsSite {
           {
             name: 'mhv_accelerated_delivery_conditions_enabled',
             value: isAcceleratingConditions,
+          },
+          {
+            name: 'mhv_medical_records_ccd_extended_file_types',
+            value: isCcdExtendedFileTypesEnabled,
+          },
+          {
+            name: 'mhvMedicalRecordsCcdExtendedFileTypes',
+            value: isCcdExtendedFileTypesEnabled,
           },
           {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',

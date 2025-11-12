@@ -138,8 +138,8 @@ describe('annuity list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-memorable-date[label="When was the annuity established?"]',
-        'va-text-input[label="What was the market value of the asset at the time of purchase?"]',
+        'va-memorable-date[label="When was the annuity created?"]',
+        'va-text-input[label="What was the fair market value of the asset when the annuity was purchased?"]',
       ],
       'information',
     );
@@ -169,7 +169,7 @@ describe('annuity list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="Is the annuity revocable or irrevocable?"]'],
+      ['va-radio[label="What type of annuity is it?"]'],
       'revocable',
     );
     testSubmitsWithoutErrors(
@@ -198,7 +198,7 @@ describe('annuity list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="Do you receive income from the annuity?"]'],
+      ['va-radio[label="Do you receive income from this annuity?"]'],
       'income',
     );
     testSubmitsWithoutErrors(
@@ -237,7 +237,7 @@ describe('annuity list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="Can the annuity be liquidated?"]'],
+      ['va-radio[label="Can this annuity be liquidated?"]'],
       'liquidation',
     );
     testSubmitsWithoutErrors(
@@ -277,7 +277,7 @@ describe('annuity list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-radio[label="Have you added funds to the annuity in the current or prior three years?"]',
+        'va-radio[label="Was money added to this annuity this year or in the last 3 years?"]',
       ],
       'funds',
     );
@@ -309,8 +309,8 @@ describe('annuity list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-memorable-date[label="When did you add funds?"]',
-        'va-text-input[label="How much did you add?"]',
+        'va-memorable-date[label="When was money added?"]',
+        'va-text-input[label="How much was added?"]',
       ],
       'added funds',
     );

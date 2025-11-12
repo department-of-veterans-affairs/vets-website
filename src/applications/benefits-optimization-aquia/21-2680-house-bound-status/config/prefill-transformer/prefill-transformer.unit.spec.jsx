@@ -4,7 +4,7 @@
  */
 
 import { expect } from 'chai';
-import prefillTransformer from './prefill-transformer';
+import { prefillTransformer } from './prefill-transformer';
 
 describe('Prefill Transformer', () => {
   const mockPages = [];
@@ -48,10 +48,18 @@ describe('Prefill Transformer', () => {
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.personalInfo.fullName.first).to.equal('Mara');
-      expect(result.formData.personalInfo.fullName.middle).to.equal('Jade');
-      expect(result.formData.personalInfo.fullName.last).to.equal('Skywalker');
-      expect(result.formData.personalInfo.fullName.suffix).to.equal('Jr');
+      expect(result.formData.veteranInformation.veteranFullName.first).to.equal(
+        'Mara',
+      );
+      expect(
+        result.formData.veteranInformation.veteranFullName.middle,
+      ).to.equal('Jade');
+      expect(result.formData.veteranInformation.veteranFullName.last).to.equal(
+        'Skywalker',
+      );
+      // Note: suffix field removed from form (middle is kept)
+      expect(result.formData.veteranInformation.veteranFullName.suffix).to.be
+        .undefined;
     });
 
     it('should handle missing name fields with empty strings', () => {
@@ -66,8 +74,13 @@ describe('Prefill Transformer', () => {
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.personalInfo.fullName.middle).to.equal('');
-      expect(result.formData.personalInfo.fullName.suffix).to.equal('');
+      // Middle name should be empty string when not provided
+      expect(
+        result.formData.veteranInformation.veteranFullName.middle,
+      ).to.equal('');
+      // Note: suffix field removed from form
+      expect(result.formData.veteranInformation.veteranFullName.suffix).to.be
+        .undefined;
     });
 
     it('should format date of birth from YYYYMMDD to YYYY-MM-DD', () => {
@@ -79,7 +92,9 @@ describe('Prefill Transformer', () => {
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.personalInfo.dateOfBirth).to.equal('1985-03-12');
+      expect(result.formData.veteranInformation.veteranDob).to.equal(
+        '1985-03-12',
+      );
     });
 
     it('should use birthDate if dob is not available', () => {
@@ -91,7 +106,9 @@ describe('Prefill Transformer', () => {
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.personalInfo.dateOfBirth).to.equal('1990-06-15');
+      expect(result.formData.veteranInformation.veteranDob).to.equal(
+        '1990-06-15',
+      );
     });
 
     it('should pass through already formatted date of birth', () => {
@@ -103,111 +120,169 @@ describe('Prefill Transformer', () => {
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.personalInfo.dateOfBirth).to.equal('1975-08-20');
-    });
-
-    it('should format SSN with dashes', () => {
-      const state = {
-        user: {
-          profile: {
-            ssn: '123456789',
-          },
-        },
-      };
-      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.personalInfo.ssn).to.equal('123-45-6789');
-    });
-
-    it('should remove existing SSN formatting before reformatting', () => {
-      const state = {
-        user: {
-          profile: {
-            ssn: '123-45-6789',
-          },
-        },
-      };
-      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.personalInfo.ssn).to.equal('123-45-6789');
-    });
-
-    it('should include VA file number if available', () => {
-      const state = {
-        user: {
-          profile: {
-            vaFileNumber: 'C12345678',
-          },
-        },
-      };
-      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.personalInfo.vaFileNumber).to.equal('C12345678');
-    });
-  });
-
-  describe('Contact Information', () => {
-    it('should include email from profile', () => {
-      const state = {
-        user: {
-          profile: {
-            email: 'leia.organa@rebellion.com',
-          },
-        },
-      };
-      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.contactInfo.email).to.equal(
-        'leia.organa@rebellion.com',
+      expect(result.formData.veteranInformation.veteranDob).to.equal(
+        '1975-08-20',
       );
     });
 
-    it('should prioritize home phone over mobile phone', () => {
+    it('should not prefill SSN for security reasons', () => {
       const state = {
         user: {
           profile: {
-            homePhone: '5551234567',
-            mobilePhone: '5559876543',
-          },
-        },
-      };
-      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.contactInfo.phone).to.equal('5551234567');
-    });
-
-    it('should use mobile phone if home phone is not available', () => {
-      const state = {
-        user: {
-          profile: {
-            mobilePhone: '5559876543',
-          },
-        },
-      };
-      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.contactInfo.phone).to.equal('5559876543');
-    });
-
-    it('should transform mailing address from profile', () => {
-      const state = {
-        user: {
-          profile: {
-            mailingAddress: {
-              addressLine1: '123 Rebel Base',
-              addressLine2: 'Hangar 7',
-              city: 'Yavin',
-              stateCode: 'CA',
-              zipCode: '94102',
+            userFullName: {
+              first: 'Obi-Wan',
+              last: 'Kenobi',
             },
           },
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.contactInfo.mailingAddress.street).to.equal(
+      expect(result.formData.veteranInformation.veteranSsn).to.equal('');
+    });
+
+    it('should use vaProfile.birthDate if profile.dob and profile.birthDate are not available', () => {
+      const state = {
+        user: {
+          profile: {
+            vaProfile: {
+              birthDate: '19800101',
+            },
+          },
+        },
+      };
+      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
+      expect(result.formData.veteranInformation.veteranDob).to.equal(
+        '1980-01-01',
+      );
+    });
+  });
+
+  describe('Address Information', () => {
+    it('should transform mailing address from vapContactInfo (primary source)', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {
+              mailingAddress: {
+                addressLine1: '123 Rebel Base',
+                addressLine2: 'Hangar 7',
+                addressLine3: 'Sector 3',
+                city: 'Yavin',
+                stateCode: 'CA',
+                zipCode: '94102',
+                zipCodeSuffix: '1234',
+                countryCodeIso3: 'USA',
+              },
+            },
+          },
+        },
+      };
+      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
+      expect(result.formData.veteranAddress.veteranAddress.street).to.equal(
         '123 Rebel Base',
       );
-      expect(result.formData.contactInfo.mailingAddress.street2).to.equal(
+      expect(result.formData.veteranAddress.veteranAddress.street2).to.equal(
         'Hangar 7',
       );
-      expect(result.formData.contactInfo.mailingAddress.city).to.equal('Yavin');
-      expect(result.formData.contactInfo.mailingAddress.state).to.equal('CA');
-      expect(result.formData.contactInfo.mailingAddress.postalCode).to.equal(
-        '94102',
+      expect(result.formData.veteranAddress.veteranAddress.street3).to.equal(
+        'Sector 3',
+      );
+      expect(result.formData.veteranAddress.veteranAddress.city).to.equal(
+        'Yavin',
+      );
+      expect(result.formData.veteranAddress.veteranAddress.state).to.equal(
+        'CA',
+      );
+      expect(result.formData.veteranAddress.veteranAddress.postalCode).to.equal(
+        '94102-1234',
+      );
+      expect(result.formData.veteranAddress.veteranAddress.country).to.equal(
+        'USA',
+      );
+      // Note: isMilitary field removed from form
+      expect(result.formData.veteranAddress.veteranAddress.isMilitary).to.be
+        .undefined;
+    });
+
+    it('should fallback to vet360ContactInformation if vapContactInfo is not available', () => {
+      const state = {
+        user: {
+          profile: {
+            vet360ContactInformation: {
+              mailingAddress: {
+                addressLine1: '456 Empire St',
+                city: 'Coruscant',
+                stateCode: 'NY',
+                zipCode: '10001',
+              },
+            },
+          },
+        },
+      };
+      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
+      expect(result.formData.veteranAddress.veteranAddress.street).to.equal(
+        '456 Empire St',
+      );
+      expect(result.formData.veteranAddress.veteranAddress.city).to.equal(
+        'Coruscant',
+      );
+    });
+
+    it('should fallback to profile.mailingAddress if vapContactInfo is not available', () => {
+      const state = {
+        user: {
+          profile: {
+            mailingAddress: {
+              addressLine1: '789 Senate Bldg',
+              addressLine2: 'Floor 12',
+              city: 'Naboo',
+              stateCode: 'TX',
+              zipCode: '75001',
+            },
+          },
+        },
+      };
+      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
+      expect(result.formData.veteranAddress.veteranAddress.street).to.equal(
+        '789 Senate Bldg',
+      );
+      expect(result.formData.veteranAddress.veteranAddress.street2).to.equal(
+        'Floor 12',
+      );
+      expect(result.formData.veteranAddress.veteranAddress.city).to.equal(
+        'Naboo',
+      );
+      expect(result.formData.veteranAddress.veteranAddress.state).to.equal(
+        'TX',
+      );
+    });
+
+    it('should fallback to vaProfile.vet360ContactInformation if other sources not available', () => {
+      const state = {
+        user: {
+          profile: {
+            vaProfile: {
+              vet360ContactInformation: {
+                mailingAddress: {
+                  addressLine1: '999 Jedi Temple',
+                  city: 'Coruscant',
+                  stateCode: 'DC',
+                  postalCode: '20001',
+                },
+              },
+            },
+          },
+        },
+      };
+      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
+      expect(result.formData.veteranAddress.veteranAddress.street).to.equal(
+        '999 Jedi Temple',
+      );
+      expect(result.formData.veteranAddress.veteranAddress.city).to.equal(
+        'Coruscant',
+      );
+      expect(result.formData.veteranAddress.veteranAddress.postalCode).to.equal(
+        '20001',
       );
     });
 
@@ -215,17 +290,140 @@ describe('Prefill Transformer', () => {
       const state = {
         user: {
           profile: {
-            mailingAddress: {
-              addressLine1: '123 Main St',
-              city: 'Tatooine',
-              state: 'NY',
-              zipCode: '10001',
+            vapContactInfo: {
+              mailingAddress: {
+                addressLine1: '123 Main St',
+                city: 'Tatooine',
+                state: 'NY',
+                zipCode: '10001',
+              },
             },
           },
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.contactInfo.mailingAddress.state).to.equal('NY');
+      expect(result.formData.veteranAddress.veteranAddress.state).to.equal(
+        'NY',
+      );
+    });
+
+    it('should handle zipCode without suffix', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {
+              mailingAddress: {
+                addressLine1: '123 Main St',
+                city: 'Springfield',
+                stateCode: 'IL',
+                zipCode: '62701',
+              },
+            },
+          },
+        },
+      };
+      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
+      expect(result.formData.veteranAddress.veteranAddress.postalCode).to.equal(
+        '62701',
+      );
+    });
+
+    it('should use postalCode if zipCode is not available', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {
+              mailingAddress: {
+                addressLine1: '123 Main St',
+                city: 'Springfield',
+                stateCode: 'IL',
+                postalCode: '62702',
+              },
+            },
+          },
+        },
+      };
+      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
+      expect(result.formData.veteranAddress.veteranAddress.postalCode).to.equal(
+        '62702',
+      );
+    });
+
+    it('should use countryName if countryCodeIso3 is not available', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {
+              mailingAddress: {
+                addressLine1: '123 Main St',
+                city: 'Toronto',
+                stateCode: 'ON',
+                zipCode: 'M5H',
+                countryName: 'Canada',
+              },
+            },
+          },
+        },
+      };
+      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
+      expect(result.formData.veteranAddress.veteranAddress.country).to.equal(
+        'Canada',
+      );
+    });
+
+    it('should default country to USA if not provided', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {
+              mailingAddress: {
+                addressLine1: '123 Main St',
+                city: 'Springfield',
+                stateCode: 'IL',
+                zipCode: '62701',
+              },
+            },
+          },
+        },
+      };
+      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
+      expect(result.formData.veteranAddress.veteranAddress.country).to.equal(
+        'USA',
+      );
+    });
+
+    it('should handle missing address lines gracefully', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {
+              mailingAddress: {
+                addressLine1: '123 Main St',
+                city: 'Springfield',
+                stateCode: 'IL',
+                zipCode: '62701',
+              },
+            },
+          },
+        },
+      };
+      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
+      expect(result.formData.veteranAddress.veteranAddress.street2).to.equal(
+        '',
+      );
+      expect(result.formData.veteranAddress.veteranAddress.street3).to.equal(
+        '',
+      );
+    });
+
+    it('should return empty address object when no address source is available', () => {
+      const state = {
+        user: {
+          profile: {},
+        },
+      };
+      const result = prefillTransformer(mockPages, {}, mockMetadata, state);
+      expect(result.formData.veteranAddress.veteranAddress).to.deep.equal({});
     });
   });
 
@@ -233,8 +431,8 @@ describe('Prefill Transformer', () => {
     it('should handle empty state object', () => {
       const result = prefillTransformer(mockPages, {}, mockMetadata, {});
       expect(result.formData).to.exist;
-      expect(result.formData.personalInfo).to.exist;
-      expect(result.formData.contactInfo).to.exist;
+      expect(result.formData.veteranInformation).to.exist;
+      expect(result.formData.veteranAddress).to.exist;
     });
 
     it('should handle missing user profile', () => {
@@ -246,13 +444,13 @@ describe('Prefill Transformer', () => {
     it('should return empty string for missing SSN', () => {
       const state = { user: { profile: {} } };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.personalInfo.ssn).to.equal('');
+      expect(result.formData.veteranInformation.veteranSsn).to.equal('');
     });
 
     it('should return empty string for missing date of birth', () => {
       const state = { user: { profile: {} } };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.personalInfo.dateOfBirth).to.equal('');
+      expect(result.formData.veteranInformation.veteranDob).to.equal('');
     });
   });
 
@@ -279,7 +477,10 @@ describe('Prefill Transformer', () => {
       const state = {
         user: {
           profile: {
-            email: 'rex.ct7567@grandarmyvets.org',
+            userFullName: {
+              first: 'Rex',
+              last: 'CT-7567',
+            },
           },
         },
       };
@@ -290,8 +491,11 @@ describe('Prefill Transformer', () => {
         state,
       );
       expect(result.formData.existingField).to.equal('existing');
-      expect(result.formData.contactInfo.email).to.equal(
-        'rex.ct7567@grandarmyvets.org',
+      expect(result.formData.veteranInformation.veteranFullName.first).to.equal(
+        'Rex',
+      );
+      expect(result.formData.veteranInformation.veteranFullName.last).to.equal(
+        'CT-7567',
       );
     });
   });

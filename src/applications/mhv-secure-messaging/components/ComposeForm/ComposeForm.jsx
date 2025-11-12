@@ -59,6 +59,8 @@ import {
   updateDraftInProgress,
 } from '../../actions/threadDetails';
 import SelectedRecipientTitle from './SelectedRecipientTitle';
+import { clearPrescription } from '../../actions/prescription';
+import AddYourMedicationInfoWarning from './AddYourMedicationInfoWarning';
 
 const ComposeForm = props => {
   const { pageTitle, draft, recipients, signature } = props;
@@ -72,6 +74,15 @@ const ComposeForm = props => {
   const headerRef = useRef();
 
   const { draftInProgress } = useSelector(state => state.sm.threadDetails);
+  const { prescription } = useSelector(state => state.sm);
+  const {
+    renewalPrescription,
+    rxError = prescription.error,
+    redirectPath,
+  } = prescription;
+  const renewalPrescriptionIsLoading = useSelector(
+    state => state.sm.prescription.isLoading,
+  );
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const {
     largeAttachmentsEnabled,
@@ -114,6 +125,65 @@ const ComposeForm = props => {
       );
     },
     [largeAttachmentsEnabled, cernerPilotSmFeatureFlag, ohTriageGroup],
+  );
+
+  const isRxRenewalDraft = useMemo(
+    () => renewalPrescription?.prescriptionId || rxError,
+    [renewalPrescription, rxError],
+  );
+
+  const navigateToRxCallback = useCallback(
+    () => {
+      if (redirectPath) {
+        window.location.replace(redirectPath);
+      }
+    },
+    [redirectPath],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearPrescription());
+      };
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (isRxRenewalDraft) {
+        const rx = renewalPrescription;
+        const messageSubject = 'Renewal Needed';
+        const messageBody = [
+          `Medication name, strength, and form: ${rx?.prescriptionName || ''}`,
+          `Prescription number: ${rx?.prescriptionNumber || ''}`,
+          `Provider who prescribed it: ${[
+            rx?.providerFirstName,
+            rx?.providerLastName,
+          ]
+            .filter(Boolean)
+            .join(' ') || ''}`,
+          `Number of refills left: ${rx?.refillRemaining || ''}`,
+          `Prescription expiration date: ${
+            rx?.expirationDate
+              ? dateFormat(rx.expirationDate, 'MMMM D, YYYY')
+              : ''
+          }`,
+          `Reason for use: ${rx?.reason || ''}`,
+          `Quantity: ${rx?.quantity || ''}`,
+        ].join('\n');
+
+        dispatch(
+          updateDraftInProgress({
+            body: messageBody,
+            subject: messageSubject,
+            category: Categories.MEDICATIONS.value,
+          }),
+        );
+      }
+    },
+    [renewalPrescription, isRxRenewalDraft, dispatch],
   );
 
   useEffect(
@@ -381,16 +451,21 @@ const ComposeForm = props => {
                 sendData,
                 attachments.length > 0,
                 draftInProgress.ohTriageGroup,
+                !!redirectPath, // suppress alert when redirectPath exists
               ),
             );
             dispatch(clearDraftInProgress());
             setTimeout(() => {
-              navigateToFolderByFolderId(
-                currentFolder?.folderId || DefaultFolders.INBOX.id,
-                history,
-              );
+              if (redirectPath) {
+                navigateToRxCallback();
+              } else {
+                navigateToFolderByFolderId(
+                  currentFolder?.folderId || DefaultFolders.INBOX.id,
+                  history,
+                );
+              }
             }, 1000);
-            // Timeout neccessary for UCD requested 1 second delay
+            // Timeout necessary for UCD requested 1 second delay
           } catch (err) {
             setSendMessageFlag(false);
             scrollToTop();
@@ -414,6 +489,8 @@ const ComposeForm = props => {
       dispatch,
       currentFolder?.folderId,
       history,
+      redirectPath,
+      navigateToRxCallback,
     ],
   );
 
@@ -828,8 +905,8 @@ const ComposeForm = props => {
     recipient => {
       setSelectedRecipientId(recipient?.id ? recipient.id.toString() : '0');
 
-      if (recipient.id !== '0') {
-        if (recipient.id) setRecipientError('');
+      if (recipient?.id !== '0') {
+        if (recipient?.id) setRecipientError('');
         setUnsavedNavigationError();
       }
     },
@@ -877,6 +954,16 @@ const ComposeForm = props => {
   const electronicCheckboxHandler = e => {
     setCheckboxMarked(e.detail.checked);
   };
+
+  if (renewalPrescriptionIsLoading) {
+    return (
+      <va-loading-indicator
+        message="Loading..."
+        setFocus
+        data-testid="loading-indicator"
+      />
+    );
+  }
 
   if (sendMessageFlag === true) {
     return (
@@ -934,6 +1021,7 @@ const ComposeForm = props => {
                 />
               </div>
             )}
+          <AddYourMedicationInfoWarning isVisible={rxError != null} />
           {!mhvSecureMessagingCuratedListFlow &&
             recipientsList &&
             !noAssociations &&

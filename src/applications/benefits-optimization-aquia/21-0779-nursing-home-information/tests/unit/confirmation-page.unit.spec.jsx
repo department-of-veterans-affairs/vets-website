@@ -5,8 +5,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
-import formConfig from '../../config/form';
-import { ConfirmationPage } from '../../containers/confirmation-page';
+import formConfig from '@bio-aquia/21-0779-nursing-home-information/config/form';
+import { ConfirmationPage } from '@bio-aquia/21-0779-nursing-home-information/containers/confirmation-page';
 
 const mockStore = state => createStore(() => state);
 
@@ -73,8 +73,10 @@ describe('ConfirmationPage', () => {
   it('should render with form data', () => {
     const formData = {
       nursingOfficialInformation: {
-        firstName: 'John',
-        lastName: 'Doe',
+        fullName: {
+          first: 'Owen',
+          last: 'Lars',
+        },
       },
     };
     const { container } = initConfirmationPage({ formData });

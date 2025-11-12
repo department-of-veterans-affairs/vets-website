@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
-import { trackingConfig } from '../../util/constants';
+import { DATETIME_FORMATS, trackingConfig } from '../../util/constants';
 import { pageType } from '../../util/dataDogConstants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 
@@ -32,7 +32,7 @@ const ProcessList = ({ stepGuideProps }) => {
   const getCompletedDateOrDefaultMessage = date => {
     return dateFormat(
       date,
-      'MMMM D, YYYY',
+      DATETIME_FORMATS.longMonthDate,
       'Date completed not available',
       'Completed on ',
     );

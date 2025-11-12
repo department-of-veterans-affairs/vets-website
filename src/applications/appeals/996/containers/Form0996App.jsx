@@ -177,7 +177,7 @@ Form0996App.propTypes = {
     status: PropTypes.string,
     issues: PropTypes.array,
   }),
-  formData: data996,
+  formData: PropTypes.shape(data996),
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),

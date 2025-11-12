@@ -11,6 +11,7 @@ import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
 import OtherWaysToSendYourDocuments from '../components/claim-files-tab-v2/OtherWaysToSendYourDocuments';
 import FileSubmissionsInProgress from '../components/claim-files-tab-v2/FileSubmissionsInProgress';
 import FilesReceived from '../components/claim-files-tab-v2/FilesReceived';
+import FilesWeCouldntReceiveEntryPoint from '../components/claim-files-tab-v2/FilesWeCouldntReceiveEntryPoint';
 import UploadType2ErrorAlert from '../components/UploadType2ErrorAlert';
 import withRouter from '../utils/withRouter';
 
@@ -102,6 +103,9 @@ class FilesPage extends React.Component {
             <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
             <FilesReceived claim={claim} />
             <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
+            <FilesWeCouldntReceiveEntryPoint
+              evidenceSubmissions={evidenceSubmissions}
+            />
             <OtherWaysToSendYourDocuments />
           </Toggler.Enabled>
           <Toggler.Disabled>

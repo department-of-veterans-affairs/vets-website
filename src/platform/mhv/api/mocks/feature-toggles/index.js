@@ -5,17 +5,14 @@ const generateFeatureToggles = (toggles = {}) => {
 
     // medications
     mhvMedicationsDisplayDocumentationContent = true,
-    mhvMedicationsDisplayFilter = true,
     mhvMedicationsDisplayGrouping = true,
     mhvMedicationsDisplayPendingMeds = true,
     mhvMedicationsDisplayRefillProgress = true,
-    mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
 
-    // medical records
-
     // OH integration work
+    mhvMedicalRecordsCcdExtendedFileTypes = true,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryCareNotesEnabled = false,
@@ -23,7 +20,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryConditionsEnabled = false,
     mhvAcceleratedDeliveryVaccinesEnabled = false,
     mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
-
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
 
     // secure messaging
@@ -85,10 +81,6 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicationsDisplayDocumentationContent,
         },
         {
-          name: 'mhv_medications_display_filter',
-          value: mhvMedicationsDisplayFilter,
-        },
-        {
           name: 'mhv_medications_display_grouping',
           value: mhvMedicationsDisplayGrouping,
         },
@@ -99,10 +91,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_refill_progress',
           value: mhvMedicationsDisplayRefillProgress,
-        },
-        {
-          name: 'mhv_medications_show_ipe_content',
-          value: mhvMedicationsShowIpeContent,
         },
         {
           name: 'mhv_medications_partial_fill_content',
@@ -121,6 +109,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_kill_external_links',
           value: true,
+        },
+        {
+          name: 'mhv_medical_records_ccd_extended_file_types',
+          value: mhvMedicalRecordsCcdExtendedFileTypes,
         },
 
         // secure messaging

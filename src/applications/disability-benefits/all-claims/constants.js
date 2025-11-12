@@ -69,6 +69,20 @@ export const HOMELESSNESS_TYPES = {
   notHomeless: 'no',
 };
 
+export const HOMELESS_HOUSING_LABELS = {
+  shelter: 'I’m living in a homeless shelter.',
+  notShelter:
+    'I’m living somewhere other than a shelter. (For example, I’m living in a car or a tent.)',
+  anotherPerson: 'I’m living with another person.',
+  other: 'Other',
+};
+
+export const AT_RISK_HOUSING_LABELS = {
+  losingHousing: 'I’m losing my housing in 30 days.',
+  leavingShelter: 'I’m leaving a publicly funded homeless shelter soon.',
+  other: 'Other',
+};
+
 export const AT_RISK_HOUSING_TYPES = {
   losingHousing: 'losingHousing',
   leavingShelter: 'leavingShelter',
@@ -95,6 +109,13 @@ export const DATA_PATHS = {
     'view:uploadPrivateRecordsQualifier.view:hasPrivateRecordsToUpload',
   hasAdditionalDocuments: 'view:selectableEvidenceTypes.view:hasOtherEvidence',
 };
+
+export const DATA_DOG_APP_NAME = 'Benefits Disability';
+export const DATA_DOG_ID = 'c7eb541a-30d2-4a00-aba0-04965e8a2668';
+export const DATA_DOG_TOKEN = 'pub300747eeaef98ae4eb9c8d66f3c747c1';
+export const DATA_DOG_SERVICE = 'benefits-disability';
+export const DATA_DOG_VERSION = '1.0.0';
+export const DATA_DOG_TOGGLE = 'disability526BrowserMonitoringEnabled';
 
 export const DISABILITY_526_V2_ROOT_URL =
   '/disability/file-disability-claim-form-21-526ez';

@@ -13,10 +13,12 @@ import {
   prescriptionMedAndRenewalStatus,
 } from './helpers';
 import {
-  medStatusDisplayTypes,
-  FIELD_NOT_AVAILABLE,
   ACTIVE_NON_VA,
+  DATETIME_FORMATS,
+  FIELD_NOT_AVAILABLE,
+  medStatusDisplayTypes,
   pdfStatusDefinitions,
+  RX_SOURCE,
 } from './constants';
 
 /**
@@ -87,7 +89,7 @@ export const buildNonVAPrescriptionPDFList = prescription => {
               title: 'When you started taking this medication',
               value: dateFormat(
                 prescription.dispensedDate,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
                 'Date not available',
               ),
               inline: true,
@@ -120,7 +122,7 @@ export const buildNonVAPrescriptionPDFList = prescription => {
  */
 export const buildPrescriptionsPDFList = prescriptions => {
   return prescriptions?.map(rx => {
-    if (rx?.prescriptionSource === 'NV') {
+    if (rx?.prescriptionSource === RX_SOURCE.NON_VA) {
       return {
         ...buildNonVAPrescriptionPDFList(rx)[0],
         header: rx?.prescriptionName || rx?.orderableItem,
@@ -128,9 +130,11 @@ export const buildPrescriptionsPDFList = prescriptions => {
     }
 
     const pendingMed =
-      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+      rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+      rx?.dispStatus === 'NewOrder';
     const pendingRenewal =
-      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+      rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+      rx?.dispStatus === 'Renew';
     const isPending = pendingMed || pendingRenewal;
 
     const mostRecentRxRefillLine = () => {
@@ -140,7 +144,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
 
       const filledDate = dateFormat(
         newest.sortedDispensedDate,
-        'MMMM D, YYYY',
+        DATETIME_FORMATS.longMonthDate,
         'Date not available',
       );
 
@@ -158,7 +162,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
                     title: 'Last filled on',
                     value: dateFormat(
                       rx.sortedDispensedDate,
-                      'MMMM D, YYYY',
+                      DATETIME_FORMATS.longMonthDate,
                       'Date not available',
                     ),
                     inline: true,
@@ -201,7 +205,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
               title: 'Request refills by this prescription expiration date',
               value: dateFormat(
                 rx.expirationDate,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
                 'Date not available',
               ),
               inline: true,
@@ -233,7 +237,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
               title: 'Prescribed on',
               value: dateFormat(
                 rx.orderedDate,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
                 'Date not available',
               ),
               inline: true,
@@ -354,10 +358,10 @@ export const buildVAPrescriptionPDFList = prescription => {
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pendingMed =
-    prescription?.prescriptionSource === 'PD' &&
+    prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     prescription?.dispStatus === 'NewOrder';
   const pendingRenewal =
-    prescription?.prescriptionSource === 'PD' &&
+    prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     prescription?.dispStatus === 'Renew';
   const VAPrescriptionPDFList = [
     {
@@ -371,7 +375,7 @@ export const buildVAPrescriptionPDFList = prescription => {
                   title: 'Last filled on',
                   value: dateFormat(
                     prescription.sortedDispensedDate,
-                    'MMMM D, YYYY',
+                    DATETIME_FORMATS.longMonthDate,
                     'Date not available',
                   ),
                   inline: true,
@@ -416,7 +420,7 @@ export const buildVAPrescriptionPDFList = prescription => {
               title: 'Request refills by this prescription expiration date',
               value: dateFormat(
                 prescription.expirationDate,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
                 'Date not available',
               ),
               inline: true,
@@ -456,7 +460,7 @@ export const buildVAPrescriptionPDFList = prescription => {
               title: 'Prescribed on',
               value: dateFormat(
                 prescription.orderedDate,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
                 'Date not available',
               ),
               inline: true,
@@ -493,7 +497,8 @@ export const buildVAPrescriptionPDFList = prescription => {
               ...refillHistory
                 .map((entry, i) => {
                   const { shape, color, backImprint, frontImprint } = entry;
-                  const isPartialFill = entry.prescriptionSource === 'PF';
+                  const isPartialFill =
+                    entry.prescriptionSource === RX_SOURCE.PARTIAL_FILL;
                   const refillLabel = determineRefillLabel(
                     isPartialFill,
                     refillHistory,
@@ -507,14 +512,14 @@ export const buildVAPrescriptionPDFList = prescription => {
                     ? `* Shape: ${shape[0].toUpperCase()}${shape
                         .slice(1)
                         .toLowerCase()}
-    * Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
-    * Front marking: ${frontImprint}
-    ${backImprint ? `* Back marking: ${backImprint}` : ''}`
+* Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
+* Front marking: ${frontImprint}
+${backImprint ? `* Back marking: ${backImprint}` : ''}`
                     : createNoDescriptionText(phone);
                   return {
                     header: `${refillLabel}: ${dateFormat(
                       entry.dispensedDate,
-                      'MMMM D, YYYY',
+                      DATETIME_FORMATS.longMonthDate,
                       'Date not available',
                     )}`,
                     indent: 32,
@@ -545,7 +550,7 @@ export const buildVAPrescriptionPDFList = prescription => {
                               value: dateFormat(
                                 prescription?.trackingList?.[0]
                                   ?.completeDateTime,
-                                'MMMM D, YYYY',
+                                DATETIME_FORMATS.longMonthDate,
                                 'Date not available',
                               ),
                               inline: true,
@@ -622,7 +627,7 @@ export const buildVAPrescriptionPDFList = prescription => {
                 title: 'Last filled',
                 value: dateFormat(
                   previousPrescription.sortedDispensedDate,
-                  'MMMM D, YYYY',
+                  DATETIME_FORMATS.longMonthDate,
                   'Date not available',
                 ),
                 inline: true,
@@ -641,7 +646,7 @@ export const buildVAPrescriptionPDFList = prescription => {
                 title: 'Prescribed on',
                 value: dateFormat(
                   previousPrescription.orderedDate,
-                  'MMMM D, YYYY',
+                  DATETIME_FORMATS.longMonthDate,
                   'Date not available',
                 ),
                 inline: true,
