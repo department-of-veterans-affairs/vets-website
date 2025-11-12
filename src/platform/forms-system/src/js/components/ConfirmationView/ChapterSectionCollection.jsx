@@ -24,7 +24,7 @@ function resetDefaults() {
 }
 
 export const getChapterTitle = (chapterFormConfig, formData, formConfig) => {
-  const onReviewPage = true;
+  const onReviewPage = false;
 
   let chapterTitle = chapterFormConfig.reviewTitle || chapterFormConfig.title;
 
@@ -226,7 +226,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
 
 export const getPageTitle = (pageFormConfig, formData, formConfig) => {
   // Check for review title first, fallback to page title
-  const onReviewPage = true;
+  const onReviewPage = false;
   let pageTitle = pageFormConfig.reviewTitle || pageFormConfig.title;
 
   if (typeof pageTitle === 'function') {
