@@ -11,9 +11,8 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
 
-    // medical records
-
     // OH integration work
+    mhvMedicalRecordsCcdExtendedFileTypes = true,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryCareNotesEnabled = false,
@@ -21,7 +20,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryConditionsEnabled = false,
     mhvAcceleratedDeliveryVaccinesEnabled = false,
     mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
-
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
 
     // secure messaging
@@ -111,6 +109,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_kill_external_links',
           value: true,
+        },
+        {
+          name: 'mhv_medical_records_ccd_extended_file_types',
+          value: mhvMedicalRecordsCcdExtendedFileTypes,
         },
 
         // secure messaging
