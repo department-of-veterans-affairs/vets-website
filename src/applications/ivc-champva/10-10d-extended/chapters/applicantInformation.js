@@ -124,6 +124,8 @@ const applicantIdentificationPage = {
     ),
     applicantSsn: {
       ...ssnUI(),
+      // Required for SSN uniqueness validation - provides access to full
+      // form data in the validation method
       'ui:options': {
         useAllFormData: true,
       },

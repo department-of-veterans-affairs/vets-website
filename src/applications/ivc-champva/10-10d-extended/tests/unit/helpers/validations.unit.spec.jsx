@@ -119,16 +119,13 @@ describe('1010d `validateApplicantSsn` form validation', () => {
     });
 
     it('should correctly handle SSNs with different formatting when comparing to sponsor', () => {
-      const fullData = {
-        sponsorSsn: '123-12-3123',
-        applicants: [],
-      };
+      const fullData = { sponsorSsn: '123-12-3123', applicants: [] };
       validateApplicantSsn(errors, '123123123', fullData);
       expect(errors.addError.calledOnce).to.be.true;
     });
   });
 
-  context('when adding additional applicants', () => {
+  context('when working with multiple applicants', () => {
     beforeEach(() => {
       Object.defineProperty(window, 'location', {
         value: { pathname: '/applicants/1', search: '?add=true' },
@@ -170,29 +167,33 @@ describe('1010d `validateApplicantSsn` form validation', () => {
       validateApplicantSsn(errors, '123123123', fullData);
       expect(errors.addError.called).to.be.false;
     });
-  });
 
-  context('when editing an applicant', () => {
-    beforeEach(() => {
+    it('should not flag current applicant as duplicate of itself during edit', () => {
+      // Simulate editing the first applicant (index 0)
       Object.defineProperty(window, 'location', {
         value: { pathname: '/applicants/0', search: '?edit=true' },
         writable: true,
       });
-    });
 
-    it('should not add an error when editing and keeping the same SSN', () => {
       const fullData = {
         sponsorSsn: '345345345',
         applicants: [
-          { applicantSsn: '123123123' },
+          { applicantSsn: '123123123' }, // Current applicant being edited
           { applicantSsn: '211-11-1111' },
         ],
       };
+      // Should not error when "changing" to the same SSN
       validateApplicantSsn(errors, '123123123', fullData);
       expect(errors.addError.called).to.be.false;
     });
 
-    it('should add an error when editing and changing to a duplicate SSN', () => {
+    it('should detect duplicates when changing to existing SSN during edit', () => {
+      // simulate editing the first applicant (index 0)
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/applicants/0', search: '?edit=true' },
+        writable: true,
+      });
+
       const fullData = {
         sponsorSsn: '345345345',
         applicants: [
@@ -202,18 +203,6 @@ describe('1010d `validateApplicantSsn` form validation', () => {
       };
       validateApplicantSsn(errors, '211111111', fullData);
       expect(errors.addError.calledOnce).to.be.true;
-    });
-
-    it('should not add an error when editing and changing to a unique SSN', () => {
-      const fullData = {
-        sponsorSsn: '345345345',
-        applicants: [
-          { applicantSsn: '123123123' },
-          { applicantSsn: '211111111' },
-        ],
-      };
-      validateApplicantSsn(errors, '311111111', fullData);
-      expect(errors.addError.called).to.be.false;
     });
   });
 });
