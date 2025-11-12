@@ -116,14 +116,11 @@
         {
           "serviceBranch": "Army",
           "dateRange": {
-            "from": "2000-01-01",
+            "from": "1967-01-01",
             "to": "2004-01-01"
           }
         }
-      ],
-      "separationLocation": {
-        "separationLocationName": "Fort Bragg, NC"
-      }
+      ]
     },
     "newPrimaryDisabilities": [
       {

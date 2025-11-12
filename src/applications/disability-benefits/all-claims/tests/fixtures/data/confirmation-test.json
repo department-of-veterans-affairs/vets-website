@@ -199,22 +199,11 @@
         {
           "serviceBranch": "Army",
           "dateRange": {
-            "from": "2000-01-01",
+            "from": "1967-01-01",
             "to": "2004-01-01"
           }
         }
       ],
-      "reservesNationalGuardService": {
-        "view:isTitle10Activated": false,
-        "obligationTermOfServiceDateRange": {
-          "from": "2005-01-01",
-          "to": "2010-01-01"
-        },
-        "unitName": "Reserve Unit 123"
-      },
-      "separationLocation": {
-        "label": "Fort Bragg, NC"
-      },
       "view:militaryHistoryNote": {}
     },
     "view:selectablePtsdTypes": {},
