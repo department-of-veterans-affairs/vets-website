@@ -110,11 +110,13 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
     if (!root) return; // just in case
 
     // ---- COMMON FIELDS ----
-    const date = root.querySelector('va-date[name="date"]');
-    const amount = root.querySelector('va-text-input[name="amount"]');
+    const purchaseDate = root.querySelector('va-date[name="purchaseDate"]');
+    const costRequested = root.querySelector(
+      'va-text-input[name="costRequested"]',
+    );
 
-    if (date) {
-      date.dispatchEvent(
+    if (purchaseDate) {
+      purchaseDate.dispatchEvent(
         new CustomEvent('dateChange', {
           detail: { value: '2025-10-31' },
           bubbles: true,
@@ -123,8 +125,8 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
       );
     }
 
-    if (amount) {
-      amount.dispatchEvent(
+    if (costRequested) {
+      costRequested.dispatchEvent(
         new CustomEvent('input', {
           detail: { value: '50.00' },
           bubbles: true,
@@ -151,7 +153,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
     // ---- EXPENSE-SPECIFIC FIELDS ----
     switch (expenseKey) {
       case 'Meal': {
-        const vendor = root.querySelector('va-text-input[name="vendor"]');
+        const vendor = root.querySelector('va-text-input[name="vendorName"]');
         vendor?.dispatchEvent(
           new CustomEvent('input', {
             detail: { value: 'Test Vendor' },
@@ -194,7 +196,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
       case 'Commoncarrier': {
         const typeOption = root.querySelector(
-          `va-radio[name="transportationType"] va-radio-option[value="${
+          `va-radio[name="carrierType"] va-radio-option[value="${
             TRANSPORTATION_OPTIONS[0]
           }"]`,
         );
@@ -207,7 +209,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
         );
 
         const reasonOption = root.querySelector(
-          `va-radio[name="transportationReason"] va-radio-option[value="${
+          `va-radio[name="reasonNotUsingPOV"] va-radio-option[value="${
             Object.keys(TRANSPORTATION_REASONS)[0]
           }"]`,
         );
@@ -257,10 +259,10 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           }),
         );
 
-        const departureAirport = root.querySelector(
-          'va-text-input[name="departureAirport"]',
+        const departedFrom = root.querySelector(
+          'va-text-input[name="departedFrom"]',
         );
-        departureAirport?.dispatchEvent(
+        departedFrom?.dispatchEvent(
           new CustomEvent('input', {
             detail: { value: 'SFO' },
             bubbles: true,
@@ -277,10 +279,8 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           }),
         );
 
-        const arrivalAirport = root.querySelector(
-          'va-text-input[name="arrivalAirport"]',
-        );
-        arrivalAirport?.dispatchEvent(
+        const arrivedTo = root.querySelector('va-text-input[name="arrivedTo"]');
+        arrivedTo?.dispatchEvent(
           new CustomEvent('input', {
             detail: { value: 'LAX' },
             bubbles: true,
