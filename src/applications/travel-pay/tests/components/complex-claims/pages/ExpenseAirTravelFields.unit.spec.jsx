@@ -16,7 +16,7 @@ describe('ExpenseAirTravelFields', () => {
       vendorName: '',
       tripType: '',
       departureDate: '',
-      departureAirport: '',
+      departedFrom: '',
       returnDate: '',
       arrivalAirport: '',
     },
@@ -45,11 +45,11 @@ describe('ExpenseAirTravelFields', () => {
     expect(departureDate).to.exist;
     expect(departureDate.getAttribute('value')).to.equal('');
 
-    const departureAirport = container.querySelector(
-      'va-text-input[name="departureAirport"]',
+    const departedFrom = container.querySelector(
+      'va-text-input[name="departedFrom"]',
     );
-    expect(departureAirport).to.exist;
-    expect(departureAirport.getAttribute('value')).to.equal('');
+    expect(departedFrom).to.exist;
+    expect(departedFrom.getAttribute('value')).to.equal('');
 
     const returnDate = container.querySelector('va-date[name="returnDate"]');
     expect(returnDate).to.exist;
@@ -67,7 +67,7 @@ describe('ExpenseAirTravelFields', () => {
       vendorName: 'Delta',
       tripType: TRIP_TYPES.ONE_WAY.label,
       departureDate: '2025-11-10',
-      departureAirport: 'JFK',
+      departedFrom: 'JFK',
       returnDate: '2025-11-11',
       arrivalAirport: 'LAX',
     };
@@ -96,7 +96,7 @@ describe('ExpenseAirTravelFields', () => {
     ).to.equal('2025-11-10');
     expect(
       container
-        .querySelector('va-text-input[name="departureAirport"]')
+        .querySelector('va-text-input[name="departedFrom"]')
         .getAttribute('value'),
     ).to.equal('JFK');
     expect(
@@ -170,10 +170,10 @@ describe('ExpenseAirTravelFields', () => {
       <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
     );
 
-    const departureAirport = container.querySelector(
-      'va-text-input[name="departureAirport"]',
+    const departedFrom = container.querySelector(
+      'va-text-input[name="departedFrom"]',
     );
-    simulateVaInputChange(departureAirport, 'SFO');
+    simulateVaInputChange(departedFrom, 'SFO');
 
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;

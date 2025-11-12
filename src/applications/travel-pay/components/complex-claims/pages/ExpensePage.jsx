@@ -94,7 +94,7 @@ const ExpensePage = () => {
       'vendorName',
       'tripType',
       'departureDate',
-      'departureAirport',
+      'departedFrom',
       'returnDate',
       'arrivalAirport',
     ],

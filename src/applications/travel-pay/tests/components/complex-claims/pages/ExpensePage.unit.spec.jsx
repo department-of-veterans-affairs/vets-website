@@ -259,10 +259,10 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           }),
         );
 
-        const departureAirport = root.querySelector(
-          'va-text-input[name="departureAirport"]',
+        const departedFrom = root.querySelector(
+          'va-text-input[name="departedFrom"]',
         );
-        departureAirport?.dispatchEvent(
+        departedFrom?.dispatchEvent(
           new CustomEvent('input', {
             detail: { value: 'SFO' },
             bubbles: true,
