@@ -54,8 +54,8 @@ const ExpenseAirTravelFields = ({ formState, onChange }) => (
     />
     <VaTextInput
       label="Arrival airport"
-      name="arrivalAirport"
-      value={formState.arrivalAirport || ''}
+      name="arrivedTo"
+      value={formState.arrivedTo || ''}
       required
       onInput={onChange}
     />

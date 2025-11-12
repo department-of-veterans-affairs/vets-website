@@ -18,7 +18,7 @@ describe('ExpenseAirTravelFields', () => {
       departureDate: '',
       departedFrom: '',
       returnDate: '',
-      arrivalAirport: '',
+      arrivedTo: '',
     },
     onChange: sinon.spy(),
   };
@@ -55,11 +55,11 @@ describe('ExpenseAirTravelFields', () => {
     expect(returnDate).to.exist;
     expect(returnDate.getAttribute('value')).to.equal('');
 
-    const arrivalAirport = container.querySelector(
-      'va-text-input[name="arrivalAirport"]',
+    const arrivedTo = container.querySelector(
+      'va-text-input[name="arrivedTo"]',
     );
-    expect(arrivalAirport).to.exist;
-    expect(arrivalAirport.getAttribute('value')).to.equal('');
+    expect(arrivedTo).to.exist;
+    expect(arrivedTo.getAttribute('value')).to.equal('');
   });
 
   it('renders pre-filled values', () => {
@@ -69,7 +69,7 @@ describe('ExpenseAirTravelFields', () => {
       departureDate: '2025-11-10',
       departedFrom: 'JFK',
       returnDate: '2025-11-11',
-      arrivalAirport: 'LAX',
+      arrivedTo: 'LAX',
     };
 
     const { container } = render(
@@ -106,7 +106,7 @@ describe('ExpenseAirTravelFields', () => {
     ).to.equal('2025-11-11');
     expect(
       container
-        .querySelector('va-text-input[name="arrivalAirport"]')
+        .querySelector('va-text-input[name="arrivedTo"]')
         .getAttribute('value'),
     ).to.equal('LAX');
   });
@@ -189,10 +189,10 @@ describe('ExpenseAirTravelFields', () => {
       <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
     );
 
-    const arrivalAirport = container.querySelector(
-      'va-text-input[name="arrivalAirport"]',
+    const arrivedTo = container.querySelector(
+      'va-text-input[name="arrivedTo"]',
     );
-    simulateVaInputChange(arrivalAirport, 'ORD');
+    simulateVaInputChange(arrivedTo, 'ORD');
 
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;

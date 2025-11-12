@@ -279,10 +279,8 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           }),
         );
 
-        const arrivalAirport = root.querySelector(
-          'va-text-input[name="arrivalAirport"]',
-        );
-        arrivalAirport?.dispatchEvent(
+        const arrivedTo = root.querySelector('va-text-input[name="arrivedTo"]');
+        arrivedTo?.dispatchEvent(
           new CustomEvent('input', {
             detail: { value: 'LAX' },
             bubbles: true,
