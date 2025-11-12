@@ -194,7 +194,7 @@
   "mhvSecureMessagingLargeAttachments": "mhv_secure_messaging_large_attachments",
   "mhvSecureMessagingCuratedListFlow": "mhv_secure_messaging_curated_list_flow",
   "mhvSecureMessagingRecentRecipients": "mhv_secure_messaging_recent_recipients",
-  "mhvSecureMessagingMedicationsRenewalRequests": "mhv_secure_messaging_medications_renewal_requests",
+  "mhvSecureMessagingMedicationsRenewalRequest": "mhv_secure_messaging_medications_renewal_request",
   "mhvSupplyReorderingEnabled": "mhv_supply_reordering_enabled",
   "mhvVaHealthChatEnabled": "mhv_va_health_chat_enabled",
   "mhvHeaderLinks": "mhv_header_links",
