@@ -8,7 +8,7 @@ const DocumentUpload = ({ handleDocumentUpload }) => {
   return (
     <>
       <VaFileInput
-        accept={ACCEPTED_FILE_TYPES.map(type => `.${type}`).join(',')}
+        accept={ACCEPTED_FILE_TYPES.map(type => `${type}`).join(',')}
         hint={`Accepted file types: ${ACCEPTED_FILE_TYPES.map(
           ext => `${ext}`,
         ).join(', ')} (up to 5 MB)`}
