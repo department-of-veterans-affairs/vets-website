@@ -1,3 +1,4 @@
+import React from 'react';
 import DisclaimerActivity from '../components/activities/DisclaimerActivity';
 
 export const activityMiddleware = () => next => card => {
@@ -11,7 +12,6 @@ export const activityMiddleware = () => next => card => {
 
   if (isDisclaimer) {
     return () => (
-      // eslint-disable-next-line react/react-in-jsx-scope
       <DisclaimerActivity
         text={activity.text}
         data-activity-id={activity.id}
