@@ -4,10 +4,7 @@ A thin integration layer between VA.gov's form system and AQ applications, provi
 
 ## Overview
 
-The `@bio-aq/shared` module enhances VA.gov's robust form system with Zod
-validation for better error messages, VA web component adapters for consistent
-error handling, and reusable field components. We integrate with VA's
-infrastructure, not duplicate it.
+The `@bio-aq/shared` module enhances VA.gov's robust form system with Zod validation for better error messages, VA web component adapters for consistent error handling, and reusable field components. We integrate with VA's infrastructure, not duplicate it.
 
 ## Share Utility Philosophy
 
@@ -54,6 +51,11 @@ src/applications/benefits-optimization-aquia/shared/
 │   │       ├── page-template.jsx
 │   │       ├── page-template.unit.spec.jsx
 │   │       └── index.js
+│   ├── pages/           # Page components
+│   │   └── base-form-page/
+│   │       ├── base-form-page.jsx
+│   │       ├── base-form-page.unit.spec.jsx
+│   │       └── index.js
 │   ├── error-boundary/  # React error boundary wrapper
 │   │   ├── error-boundary.jsx
 │   │   ├── error-boundary.unit.spec.jsx
@@ -67,6 +69,10 @@ src/applications/benefits-optimization-aquia/shared/
 │   ├── data-processors/
 │   │   ├── data-processors.js
 │   │   ├── data-processors.unit.spec.jsx
+│   │   └── index.js
+│   ├── section-patterns/
+│   │   ├── section-patterns.js
+│   │   ├── section-patterns.unit.spec.jsx
 │   │   └── index.js
 │   └── index.js         # Barrel exports
 ├── hooks/               # Integration hooks
@@ -292,9 +298,7 @@ Domain-specific components and schemas live in their respective applications:
 
 ### Current Features (Production Ready)
 
-- 15 atomic form components + 4 review components with VA web component integration
-- 4 molecular components (address, fullname, navigation, personal-info)
-- 2 page templates (PageTemplate, ReviewPageTemplate)
+- 18+ atomic form components with VA web component integration
 - Zod-based validation with user-friendly error messages
 - Form section management with save-in-progress
 - Comprehensive address validation (US/international/military)
@@ -304,22 +308,8 @@ Domain-specific components and schemas live in their respective applications:
 
 - Memorial medallion form integration
 - Veteran service information schemas
-- [x] Enhanced error handling and boundaries (completed)
-- [x] Development-only logging system (completed)
-
-### Recent Improvements (2025)
-
-**Code Cleanup & Consolidation:**
-
-- [x] Removed unused components (BaseFormPage, InputMessageField, LabelField, ProgressBarField)
-- [x] Removed unused data processor functions (kept only transformDates)
-- [x] Removed unused section-patterns module
-- [x] Consolidated error normalization logic (~80 lines > factory functions)
-- [x] Consolidated duplicate state lists in address schema (~60 lines saved)
-- [x] Extracted formatIssuePath helper in zod-integration (~40 lines saved)
-- [x] Streamlined suffix validation (removed redundant refinements)
-- [x] **Total reduction:** ~330 lines of redundant code removed
-- [x] **Maintainability:** Single source of truth for constants and validation patterns
+- ✅ Enhanced error handling and boundaries (completed)
+- ✅ Development-only logging system (completed)
 
 ### Planned (Future Phases)
 
@@ -334,9 +324,9 @@ Domain-specific components and schemas live in their respective applications:
 
 ### Critical Issues
 
-- **Form ID Context** - [x] Resolved with FormProvider context
-- **Development Logging** - [x] Implemented environment-aware logging (dev-only)
-- **Error Boundaries** - [x] Added FormErrorBoundary component
+- **Form ID Context** - ✅ Resolved with FormProvider context
+- **Development Logging** - ✅ Implemented environment-aware logging (dev-only)
+- **Error Boundaries** - ✅ Added FormErrorBoundary component
 
 ### Quality Improvements
 
@@ -430,10 +420,10 @@ yarn test:unit --coverage
 
 ### Current Achievement (Baseline)
 
-- [x] **100% component reuse** in 2008-burial-flags-21
-- [x] **WCAG 2.1 AA compliance** across all components
-- [x] **Zod validation** with user-friendly error messages
-- [x] **VA web component** integration throughout
+- ✅ **100% component reuse** in 2008-burial-flags-21
+- ✅ **WCAG 2.1 AA compliance** across all components
+- ✅ **Zod validation** with user-friendly error messages
+- ✅ **VA web component** integration throughout
 
 ### Share Utility Goals
 
@@ -513,12 +503,12 @@ The VA.gov platform already provides these features - we use them, not duplicate
 
 Thin integration layers that enhance VA's system:
 
-- Zod schemas for better error messages
-- VA component adapters for consistent error handling
-- Reusable field components with validation
-- PageTemplate for consistent structure
-- Data processors for common transformations
-- Form-specific business logic (in app, not platform)
+- ✅ Zod schemas for better error messages
+- ✅ VA component adapters for consistent error handling
+- ✅ Reusable field components with validation
+- ✅ PageTemplate for consistent structure
+- ✅ Data processors for common transformations
+- ✅ Form-specific business logic (in app, not platform)
 
 ## Form Patterns and Helpers
 
@@ -619,10 +609,16 @@ const { errors, validate, clearErrors, setError } = useFormValidation(
 
 ### Data Processors
 
-Utilities for transforming form data:
+Generic utilities for transforming form data:
 
 ```jsx
-import { transformDates } from '@bio-aquia/shared/forms';
+import {
+  transformDates,
+  transformBooleans,
+  sanitizeFormData,
+  normalizeValue,
+  formatValue,
+} from '@bio-aquia/shared/forms';
 ```
 
 #### Example: Date Processing
@@ -683,6 +679,22 @@ import {
   createValidationErrorHandler,
   zodErrorToMessage,
 } from '@bio-aquia/shared/utils';
+```
+
+### Section Management Patterns
+
+```jsx
+import {
+  createSectionData,
+  mergeWithDefaults,
+  extractSectionData,
+  updateSectionData,
+} from '@bio-aquia/shared/forms';
+
+// Use these utilities for managing form section data
+const sectionData = extractSectionData(formData, 'sectionName');
+const mergedData = mergeWithDefaults(sectionData, defaultData);
+const updatedForm = updateSectionData(formData, 'sectionName', newData);
 ```
 
 ### Best Practices
