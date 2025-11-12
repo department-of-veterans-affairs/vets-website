@@ -126,6 +126,7 @@ const SearchForm = props => {
     setFiltersCleared(true);
     setSearchTerm('');
     setSearchTermError(null);
+    filterBoxRef.current.clearDateErrors();
     focusElement(filterFormTitleRef.current);
     setCategory('');
     setDateRange('any');

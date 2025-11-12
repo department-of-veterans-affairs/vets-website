@@ -34,6 +34,7 @@ const FilterBox = forwardRef((props, ref) => {
   const [isItemExpanded, setIsItemExpanded] = useState(false);
   const fromDateRef = useRef(null);
   const toDateRef = useRef(null);
+  const filterRef = useRef(null);
 
   const handleCategoryChange = e => {
     setCategory(SelectCategories.find(item => item?.value === e.detail.value));
@@ -85,10 +86,15 @@ const FilterBox = forwardRef((props, ref) => {
         );
         invalidInputs.push(toDateRef);
       }
-      setIsItemExpanded(true);
-      setTimeout(() => {
-        focusElement(invalidInputs[0]?.current);
-      }, 100);
+
+      if (formInvalid) {
+        if (!isItemExpanded) {
+          setIsItemExpanded(true);
+        }
+        setTimeout(() => {
+          focusElement(invalidInputs[0]?.current);
+        }, 100);
+      }
     } else {
       formInvalid = false;
     }
@@ -99,7 +105,22 @@ const FilterBox = forwardRef((props, ref) => {
     checkFormValidity() {
       return checkFormValidity();
     },
+    clearDateErrors() {
+      setFromDateError('');
+      setToDateError('');
+    },
   }));
+
+  const handleToggle = target => {
+    if (
+      target === filterRef.current ||
+      target.tagName === 'VA-ACCORDION-ITEM'
+    ) {
+      return setIsItemExpanded(!isItemExpanded);
+    }
+    // If text is not defined, null
+    return null;
+  };
 
   return (
     <div className="advanced-search-form filter-box">
@@ -130,21 +151,10 @@ const FilterBox = forwardRef((props, ref) => {
         <va-accordion-item
           data-testid="accordion-item-filter"
           id="additional-filter-accordion"
-          onClick={e => {
-            const isOpen = e.target?.getAttribute('open') === 'true';
-            const text = e.target?.shadowRoot?.querySelector('button')
-              ?.innerText;
-
-            // Only proceed if text is defined
-            if (text !== undefined) {
-              return setIsItemExpanded(isOpen && text !== undefined);
-            }
-            // If text is not defined, null
-            return null;
-          }}
+          onClick={e => handleToggle(e.target)}
           open={isItemExpanded}
         >
-          <h3 slot="headline" className="headline-text">
+          <h3 slot="headline" className="headline-text" ref={filterRef}>
             {isItemExpanded ? 'Hide filters' : 'Show filters'}
           </h3>
           <div className="filter-content">
