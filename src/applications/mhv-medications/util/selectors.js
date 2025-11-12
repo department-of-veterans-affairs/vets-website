@@ -6,9 +6,6 @@ export const selectAllergiesFlag = state =>
 export const selectPendingMedsFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayPendingMeds];
 
-export const selectRefillProgressFlag = state =>
-  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayRefillProgress]; // fully enabled 2025/08/27
-
 export const selectPartialFillContentFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsPartialFillContent];
 

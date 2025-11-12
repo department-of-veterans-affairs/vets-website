@@ -179,7 +179,6 @@
   "mhvMedicationsDisplayNewCernerFacilityAlert": "mhv_medications_display_new_cerner_facility_alert",
   "mhvMedicationsDisplayRefillContent": "mhv_medications_display_refill_content",
   "mhvMedicationsDisplayPendingMeds": "mhv_medications_display_pending_meds",
-  "mhvMedicationsDisplayRefillProgress": "mhv_medications_display_refill_progress",
   "mhvMedicationsPartialFillContent": "mhv_medications_partial_fill_content",
   "mhvMedicationsDontIncrementIpeCount": "mhv_medications_dont_increment_ipe_count",
   "mhvMilestone2ChangesEnabled": "mhv_milestone_2_changes_enabled",
