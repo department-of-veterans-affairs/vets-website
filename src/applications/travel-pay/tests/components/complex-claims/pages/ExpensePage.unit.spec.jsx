@@ -196,7 +196,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
       case 'Commoncarrier': {
         const typeOption = root.querySelector(
-          `va-radio[name="transportationType"] va-radio-option[value="${
+          `va-radio[name="carrierType"] va-radio-option[value="${
             TRANSPORTATION_OPTIONS[0]
           }"]`,
         );

@@ -12,7 +12,7 @@ import { testVaRadioSelection } from '../../../../util/testing-input-helpers';
 describe('ExpenseCommonCarrierFields', () => {
   const defaultProps = {
     formState: {
-      transportationType: '',
+      carrierType: '',
       transportationReason: '',
     },
     onChange: sinon.spy(),
@@ -23,9 +23,7 @@ describe('ExpenseCommonCarrierFields', () => {
       <ExpenseCommonCarrierFields {...defaultProps} />,
     );
 
-    const radio = container.querySelector(
-      'va-radio[name="transportationType"]',
-    );
+    const radio = container.querySelector('va-radio[name="carrierType"]');
     expect(radio).to.exist;
     expect(radio.getAttribute('label')).to.equal('Type of transportation');
     expect(radio.getAttribute('value')).to.equal('');
@@ -63,11 +61,11 @@ describe('ExpenseCommonCarrierFields', () => {
     );
   });
 
-  it('marks the correct transportationType as checked', () => {
+  it('marks the correct carrierType as checked', () => {
     const selectedType = TRANSPORTATION_OPTIONS[1];
 
     const formState = {
-      transportationType: selectedType,
+      carrierType: selectedType,
       transportationReason: '',
     };
     const { container } = render(
@@ -99,7 +97,7 @@ describe('ExpenseCommonCarrierFields', () => {
     const firstLabel = TRANSPORTATION_REASONS[firstKey].label;
 
     const formState = {
-      transportationType: '',
+      carrierType: '',
       transportationReason: firstKey,
     };
     const { container } = render(
@@ -130,9 +128,9 @@ describe('ExpenseCommonCarrierFields', () => {
   it('checks the transportation type after selection', () => {
     testVaRadioSelection({
       Component: ExpenseCommonCarrierFields,
-      radioName: 'transportationType',
+      radioName: 'carrierType',
       selectValue: TRANSPORTATION_OPTIONS[0],
-      formStateKey: 'transportationType',
+      formStateKey: 'carrierType',
     });
   });
 

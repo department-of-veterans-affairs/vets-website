@@ -10,9 +10,9 @@ import {
 const ExpenseCommonCarrierFields = ({ formState, onChange }) => (
   <>
     <VaRadio
-      name="transportationType"
-      value={formState.transportationType || ''}
-      onVaValueChange={e => onChange(e.detail, 'transportationType')}
+      name="carrierType"
+      value={formState.carrierType || ''}
+      onVaValueChange={e => onChange(e.detail, 'carrierType')}
       label="Type of transportation"
       required
     >
@@ -21,7 +21,7 @@ const ExpenseCommonCarrierFields = ({ formState, onChange }) => (
           key={option}
           label={option}
           value={option}
-          checked={formState.transportationType === option}
+          checked={formState.carrierType === option}
         />
       ))}
     </VaRadio>
