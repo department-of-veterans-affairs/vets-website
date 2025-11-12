@@ -22,7 +22,7 @@ function EligibilitySummary({ formData }) {
     formData.hasUnpaidCreditors === false
   ) {
     return (
-      <va-alert status="error" uswds>
+      <va-alert status="error" role="alert" uswds>
         <h3 slot="headline">Something went wrong</h3>
         <p>
           There was an error with the eligibility check. Please return to the
@@ -71,8 +71,8 @@ function EligibilitySummary({ formData }) {
             </ol>
 
             <va-link
+              external
               href="https://www.va.gov/find-forms/about-form-21p-601/"
-              target="_blank"
               rel="noopener noreferrer"
               text="Download VA Form 21P-601 (PDF)"
             />

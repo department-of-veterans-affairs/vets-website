@@ -16,34 +16,34 @@ describe('nameHelpers', () => {
       const formData = {
         claimantInformation: {
           claimantFullName: {
-            first: 'John',
-            last: 'Doe',
+            first: 'Padmé',
+            last: 'Amidala',
           },
         },
       };
-      expect(getClaimantName(formData)).to.equal('John Doe');
+      expect(getClaimantName(formData)).to.equal('Padmé Amidala');
     });
 
     it('should return first name only when last name is missing', () => {
       const formData = {
         claimantInformation: {
           claimantFullName: {
-            first: 'John',
+            first: 'Padmé',
           },
         },
       };
-      expect(getClaimantName(formData)).to.equal('John');
+      expect(getClaimantName(formData)).to.equal('Padmé');
     });
 
     it('should return last name only when first name is missing', () => {
       const formData = {
         claimantInformation: {
           claimantFullName: {
-            last: 'Doe',
+            last: 'Amidala',
           },
         },
       };
-      expect(getClaimantName(formData)).to.equal('Doe');
+      expect(getClaimantName(formData)).to.equal('Amidala');
     });
 
     it('should return default fallback when name is not present', () => {
@@ -75,16 +75,16 @@ describe('nameHelpers', () => {
       const formData = {
         claimantInformation: {
           claimantFullName: {
-            first: '  John  ',
-            last: '  Doe  ',
+            first: '  Padmé  ',
+            last: '  Amidala  ',
           },
         },
       };
       /**
        * Note: trim() only removes leading/trailing whitespace, not internal spaces
-       * '  John  ' + ' ' + '  Doe  ' = '  John     Doe  ' => trim() => 'John     Doe' (5 spaces)
+       * '  Padmé  ' + ' ' + '  Amidala  ' = '  Padmé     Amidala  ' => trim() => 'Padmé     Amidala' (5 spaces)
        */
-      expect(getClaimantName(formData)).to.equal('John     Doe');
+      expect(getClaimantName(formData)).to.equal('Padmé     Amidala');
     });
   });
 
@@ -93,34 +93,34 @@ describe('nameHelpers', () => {
       const formData = {
         veteranInformation: {
           veteranFullName: {
-            first: 'Jane',
-            last: 'Smith',
+            first: 'Anakin',
+            last: 'Skywalker',
           },
         },
       };
-      expect(getVeteranName(formData)).to.equal('Jane Smith');
+      expect(getVeteranName(formData)).to.equal('Anakin Skywalker');
     });
 
     it('should return first name only when last name is missing', () => {
       const formData = {
         veteranInformation: {
           veteranFullName: {
-            first: 'Jane',
+            first: 'Anakin',
           },
         },
       };
-      expect(getVeteranName(formData)).to.equal('Jane');
+      expect(getVeteranName(formData)).to.equal('Anakin');
     });
 
     it('should return last name only when first name is missing', () => {
       const formData = {
         veteranInformation: {
           veteranFullName: {
-            last: 'Smith',
+            last: 'Skywalker',
           },
         },
       };
-      expect(getVeteranName(formData)).to.equal('Smith');
+      expect(getVeteranName(formData)).to.equal('Skywalker');
     });
 
     it('should return default fallback when name is not present', () => {
@@ -158,12 +158,12 @@ describe('nameHelpers', () => {
         },
         veteranInformation: {
           veteranFullName: {
-            first: 'John',
-            last: 'Veteran',
+            first: 'Luke',
+            last: 'Skywalker',
           },
         },
       };
-      expect(getPersonName(formData)).to.equal('John Veteran');
+      expect(getPersonName(formData)).to.equal('Luke Skywalker');
     });
 
     it('should return claimant name when claimant is not veteran', () => {
@@ -173,12 +173,12 @@ describe('nameHelpers', () => {
         },
         claimantInformation: {
           claimantFullName: {
-            first: 'Jane',
-            last: 'Spouse',
+            first: 'Leia',
+            last: 'Organa',
           },
         },
       };
-      expect(getPersonName(formData)).to.equal('Jane Spouse');
+      expect(getPersonName(formData)).to.equal('Leia Organa');
     });
 
     it('should use custom fallbacks for veteran', () => {
