@@ -163,7 +163,7 @@ export function getTimezoneAbbrByFacilityId(id, isUseBrowserTimezone = false) {
     return matchingZone;
 
   // If no matching zone was found and we're allowed to use the browser timezone,
-  // derive an abbreviation from the browser and strip DST so we always return something non-null
+  // derive an abbreviation from the browser and strip DST
   if (isUseBrowserTimezone && !matchingZone) {
     return stripDST(mapGmtToAbbreviation(format(new Date(), 'z')));
   }
