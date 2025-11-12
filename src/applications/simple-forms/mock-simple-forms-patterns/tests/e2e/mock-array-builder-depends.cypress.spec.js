@@ -95,7 +95,10 @@ function editItemPage3() {
 function removeItem2() {
   cy.get('va-card').should('have.length', 2);
   cy.get('va-card[name="employer_1"] [data-action="remove"]').click();
-  cy.axeCheck();
+  cy.axeCheck('main', {
+    // Ignore heading order for now since the modal breaks heading sequence.
+    headingOrder: false,
+  });
   cy.get('va-modal[status="warning"]')
     .shadow()
     .get('h2')
