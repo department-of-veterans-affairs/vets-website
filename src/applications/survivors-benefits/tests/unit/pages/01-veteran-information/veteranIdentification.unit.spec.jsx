@@ -42,10 +42,8 @@ describe('Claimant Information Page', () => {
       }),
     );
 
-    // Set the value attribute directly on the web component
     vaFileNumber.setAttribute('value', '12345678');
 
-    // Fill out the VA file number field using web component event
     vaFileNumber.value = '12345678';
     vaFileNumber.dispatchEvent(
       new CustomEvent('input', {
@@ -60,14 +58,13 @@ describe('Claimant Information Page', () => {
       }),
     );
 
-    const formElement = formDOM.querySelector('form');
-    formElement.dispatchEvent(
+    vaFileNumber.dispatchEvent(
       new CustomEvent('change', {
+        detail: { value: '12345678' },
         bubbles: true,
       }),
     );
 
-    // Wait for the form to process the change
     await waitFor(
       () => {
         expect(vaFileNumber.getAttribute('value')).to.equal('12345678');
