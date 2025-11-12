@@ -13,7 +13,7 @@ describe('ExpenseCommonCarrierFields', () => {
   const defaultProps = {
     formState: {
       carrierType: '',
-      transportationReason: '',
+      reasonNotUsingPOV: '',
     },
     onChange: sinon.spy(),
   };
@@ -43,9 +43,7 @@ describe('ExpenseCommonCarrierFields', () => {
     );
 
     // Radio group container
-    const radio = container.querySelector(
-      'va-radio[name="transportationReason"]',
-    );
+    const radio = container.querySelector('va-radio[name="reasonNotUsingPOV"]');
     expect(radio).to.exist;
     expect(radio.getAttribute('label')).to.equal(
       'Why did you choose to use public transportation?',
@@ -66,7 +64,7 @@ describe('ExpenseCommonCarrierFields', () => {
 
     const formState = {
       carrierType: selectedType,
-      transportationReason: '',
+      reasonNotUsingPOV: '',
     };
     const { container } = render(
       <ExpenseCommonCarrierFields {...defaultProps} formState={formState} />,
@@ -92,13 +90,13 @@ describe('ExpenseCommonCarrierFields', () => {
     expect(selectedOption.hasAttribute('checked')).to.be.true;
   });
 
-  it('marks the correct transportationReason as checked', () => {
+  it('marks the correct reasonNotUsingPOV as checked', () => {
     const firstKey = Object.keys(TRANSPORTATION_REASONS)[0];
     const firstLabel = TRANSPORTATION_REASONS[firstKey].label;
 
     const formState = {
       carrierType: '',
-      transportationReason: firstKey,
+      reasonNotUsingPOV: firstKey,
     };
     const { container } = render(
       <ExpenseCommonCarrierFields {...defaultProps} formState={formState} />,
@@ -138,9 +136,9 @@ describe('ExpenseCommonCarrierFields', () => {
     const firstKey = Object.keys(TRANSPORTATION_REASONS)[0];
     testVaRadioSelection({
       Component: ExpenseCommonCarrierFields,
-      radioName: 'transportationReason',
+      radioName: 'reasonNotUsingPOV',
       selectValue: firstKey,
-      formStateKey: 'transportationReason',
+      formStateKey: 'reasonNotUsingPOV',
     });
   });
 });

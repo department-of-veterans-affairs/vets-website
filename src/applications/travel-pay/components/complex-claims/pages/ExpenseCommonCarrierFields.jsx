@@ -26,9 +26,9 @@ const ExpenseCommonCarrierFields = ({ formState, onChange }) => (
       ))}
     </VaRadio>
     <VaRadio
-      name="transportationReason"
-      onVaValueChange={e => onChange(e.detail, 'transportationReason')}
-      value={formState.transportationReason || ''}
+      name="reasonNotUsingPOV"
+      onVaValueChange={e => onChange(e.detail, 'reasonNotUsingPOV')}
+      value={formState.reasonNotUsingPOV || ''}
       label="Why did you choose to use public transportation?"
       required
     >
@@ -37,7 +37,7 @@ const ExpenseCommonCarrierFields = ({ formState, onChange }) => (
           key={key}
           label={TRANSPORTATION_REASONS[key].label}
           value={key}
-          checked={formState.transportationReason === key}
+          checked={formState.reasonNotUsingPOV === key}
         />
       ))}
     </VaRadio>

@@ -209,7 +209,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
         );
 
         const reasonOption = root.querySelector(
-          `va-radio[name="transportationReason"] va-radio-option[value="${
+          `va-radio[name="reasonNotUsingPOV"] va-radio-option[value="${
             Object.keys(TRANSPORTATION_REASONS)[0]
           }"]`,
         );
