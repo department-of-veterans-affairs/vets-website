@@ -515,7 +515,7 @@ jobs:
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-stress-test-results-${{ matrix.runs }}
-          path: mocha/results/unit-tests-${{ matrix.runs }}.json
+          path: unit-tests-${{ matrix.runs }}.json
 
   update-unit-test-allow-list:
     name: Update Unit Test Stability Allow List
@@ -1395,6 +1395,25 @@ jobs:
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
 
+      - name: Set default summary if not set
+        if: ${{ always() }}
+        run: |
+          if [ -z "$MOCHAWESOME_REPORT_RESULTS" ]; then
+            echo 'MOCHAWESOME_REPORT_RESULTS={"total": 0, "passed": 0, "failed": 0, "pending": 0}' >> $GITHUB_ENV
+          fi
+
+      - name: Prepare summary for publish
+        if: ${{ always() }}
+        id: prepare-summary
+        run: |
+          if [ -z "$MOCHAWESOME_REPORT_RESULTS" ]; then
+            SUMMARY='{"total": 0, "passed": 0, "failed": 0, "pending": 0}'
+          else
+            SUMMARY="$MOCHAWESOME_REPORT_RESULTS"
+          fi
+          SUMMARY_ESCAPED=$(echo "$SUMMARY" | sed 's/"/\\"/g')
+          echo "summary=$SUMMARY_ESCAPED" >> $GITHUB_OUTPUT
+
       - name: Manual Mochawesome merge
         working-directory: qa-standards-dashboard-data
         run: |
@@ -1430,7 +1449,7 @@ jobs:
           name: Unit Test Stability Review Summary
           conclusion: ${{ needs.unit-tests-stress-test.result }}
           output: |
-            {"summary": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{"total": 0, "passed": 0, "failed": 0, "pending": 0}' }}}
+            {"summary": "${{ steps.prepare-summary.outputs.summary }}" }
 
   testing-reports-unit-tests-coverage:
     name: Testing Reports - Unit Tests Coverage
