@@ -29,6 +29,22 @@ export const veteranAddressUiSchema = {
  * JSON Schema for Veteran Address page
  * Validates veteran address fields
  */
+// Customize address schema to add maxLength constraints
+const customVeteranAddressSchema = {
+  ...addressSchema(),
+  properties: {
+    ...addressSchema().properties,
+    street: {
+      type: 'string',
+      maxLength: 30,
+    },
+    street2: {
+      type: 'string',
+      maxLength: 5,
+    },
+  },
+};
+
 export const veteranAddressSchema = {
   type: 'object',
   required: ['veteranAddress'],
@@ -37,7 +53,7 @@ export const veteranAddressSchema = {
       type: 'object',
       required: ['veteranAddress'],
       properties: {
-        veteranAddress: addressSchema(),
+        veteranAddress: customVeteranAddressSchema,
       },
     },
   },

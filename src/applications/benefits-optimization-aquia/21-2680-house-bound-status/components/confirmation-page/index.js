@@ -1,1 +1,1 @@
-export { DownloadFormPDF } from './DownloadFormPDF';
+export { DownloadFormPDF } from './download-form-pdf';

@@ -1,18 +1,14 @@
 /**
- * @module tests/utils/nameHelpers.unit.spec
+ * @module utils/nameHelpers.unit.spec
  * @description Unit tests for name helper functions
  */
 
 import { expect } from 'chai';
-import {
-  getClaimantName,
-  getVeteranName,
-  getPersonName,
-} from '../../utils/nameHelpers';
+import { getClaimantName, getVeteranName, getPersonName } from './name-helpers';
 
 describe('nameHelpers', () => {
   describe('getClaimantName', () => {
-    it('should return claimant full name when both first and last names are present', () => {
+    it('should return full name when both first and last name exist', () => {
       const formData = {
         claimantInformation: {
           claimantFullName: {
@@ -29,6 +25,7 @@ describe('nameHelpers', () => {
         claimantInformation: {
           claimantFullName: {
             first: 'Padmé',
+            last: '',
           },
         },
       };
@@ -39,6 +36,7 @@ describe('nameHelpers', () => {
       const formData = {
         claimantInformation: {
           claimantFullName: {
+            first: '',
             last: 'Amidala',
           },
         },
@@ -46,7 +44,7 @@ describe('nameHelpers', () => {
       expect(getClaimantName(formData)).to.equal('Amidala');
     });
 
-    it('should return default fallback when name is not present', () => {
+    it('should return default fallback when name is missing', () => {
       const formData = {
         claimantInformation: {
           claimantFullName: {},
@@ -61,17 +59,33 @@ describe('nameHelpers', () => {
           claimantFullName: {},
         },
       };
-      expect(getClaimantName(formData, 'applicant')).to.equal('applicant');
+      expect(getClaimantName(formData, 'custom fallback')).to.equal(
+        'custom fallback',
+      );
     });
 
-    it('should return fallback for invalid formData', () => {
+    it('should return fallback when claimantInformation is missing', () => {
+      const formData = {};
+      expect(getClaimantName(formData)).to.equal('the claimant');
+    });
+
+    it('should return fallback when formData is null', () => {
       expect(getClaimantName(null)).to.equal('the claimant');
-      expect(getClaimantName(undefined)).to.equal('the claimant');
-      expect(getClaimantName([])).to.equal('the claimant');
-      expect(getClaimantName('string')).to.equal('the claimant');
     });
 
-    it('should trim whitespace from names', () => {
+    it('should return fallback when formData is undefined', () => {
+      expect(getClaimantName(undefined)).to.equal('the claimant');
+    });
+
+    it('should return fallback when formData is an array', () => {
+      expect(getClaimantName([])).to.equal('the claimant');
+    });
+
+    it('should return fallback when formData is a string', () => {
+      expect(getClaimantName('invalid')).to.equal('the claimant');
+    });
+
+    it('should handle names with surrounding whitespace', () => {
       const formData = {
         claimantInformation: {
           claimantFullName: {
@@ -80,16 +94,24 @@ describe('nameHelpers', () => {
           },
         },
       };
-      /**
-       * Note: trim() only removes leading/trailing whitespace, not internal spaces
-       * '  Padmé  ' + ' ' + '  Amidala  ' = '  Padmé     Amidala  ' => trim() => 'Padmé     Amidala' (5 spaces)
-       */
       expect(getClaimantName(formData)).to.equal('Padmé     Amidala');
+    });
+
+    it('should handle names with middle spaces', () => {
+      const formData = {
+        claimantInformation: {
+          claimantFullName: {
+            first: 'Obi-Wan',
+            last: 'Kenobi',
+          },
+        },
+      };
+      expect(getClaimantName(formData)).to.equal('Obi-Wan Kenobi');
     });
   });
 
   describe('getVeteranName', () => {
-    it('should return veteran full name when both first and last names are present', () => {
+    it('should return full name when both first and last name exist', () => {
       const formData = {
         veteranInformation: {
           veteranFullName: {
@@ -106,6 +128,7 @@ describe('nameHelpers', () => {
         veteranInformation: {
           veteranFullName: {
             first: 'Anakin',
+            last: '',
           },
         },
       };
@@ -116,6 +139,7 @@ describe('nameHelpers', () => {
       const formData = {
         veteranInformation: {
           veteranFullName: {
+            first: '',
             last: 'Skywalker',
           },
         },
@@ -123,7 +147,7 @@ describe('nameHelpers', () => {
       expect(getVeteranName(formData)).to.equal('Skywalker');
     });
 
-    it('should return default fallback when name is not present', () => {
+    it('should return default fallback when name is missing', () => {
       const formData = {
         veteranInformation: {
           veteranFullName: {},
@@ -138,15 +162,42 @@ describe('nameHelpers', () => {
           veteranFullName: {},
         },
       };
-      expect(getVeteranName(formData, 'service member')).to.equal(
-        'service member',
+      expect(getVeteranName(formData, 'custom fallback')).to.equal(
+        'custom fallback',
       );
     });
 
-    it('should return fallback for invalid formData', () => {
+    it('should return fallback when veteranInformation is missing', () => {
+      const formData = {};
+      expect(getVeteranName(formData)).to.equal('the Veteran');
+    });
+
+    it('should return fallback when formData is null', () => {
       expect(getVeteranName(null)).to.equal('the Veteran');
+    });
+
+    it('should return fallback when formData is undefined', () => {
       expect(getVeteranName(undefined)).to.equal('the Veteran');
+    });
+
+    it('should return fallback when formData is an array', () => {
       expect(getVeteranName([])).to.equal('the Veteran');
+    });
+
+    it('should return fallback when formData is a string', () => {
+      expect(getVeteranName('invalid')).to.equal('the Veteran');
+    });
+
+    it('should handle names with surrounding whitespace', () => {
+      const formData = {
+        veteranInformation: {
+          veteranFullName: {
+            first: '  Anakin  ',
+            last: '  Skywalker  ',
+          },
+        },
+      };
+      expect(getVeteranName(formData)).to.equal('Anakin     Skywalker');
     });
   });
 
@@ -181,50 +232,94 @@ describe('nameHelpers', () => {
       expect(getPersonName(formData)).to.equal('Leia Organa');
     });
 
-    it('should use custom fallbacks for veteran', () => {
+    it('should return veteran fallback when veteran is claimant with no name', () => {
       const formData = {
         claimantRelationship: {
           relationship: 'veteran',
         },
-      };
-      expect(
-        getPersonName(formData, {
-          veteranFallback: 'service member',
-          claimantFallback: 'applicant',
-        }),
-      ).to.equal('service member');
-    });
-
-    it('should use custom fallbacks for claimant', () => {
-      const formData = {
-        claimantRelationship: {
-          relationship: 'spouse',
-        },
-      };
-      expect(
-        getPersonName(formData, {
-          veteranFallback: 'service member',
-          claimantFallback: 'applicant',
-        }),
-      ).to.equal('applicant');
-    });
-
-    it('should return default veteran fallback when no name available', () => {
-      const formData = {
-        claimantRelationship: {
-          relationship: 'veteran',
+        veteranInformation: {
+          veteranFullName: {},
         },
       };
       expect(getPersonName(formData)).to.equal('the Veteran');
     });
 
-    it('should return default claimant fallback when no name available', () => {
+    it('should return claimant fallback when claimant is not veteran with no name', () => {
       const formData = {
         claimantRelationship: {
-          relationship: 'child',
+          relationship: 'spouse',
+        },
+        claimantInformation: {
+          claimantFullName: {},
         },
       };
       expect(getPersonName(formData)).to.equal('the claimant');
+    });
+
+    it('should use custom veteran fallback', () => {
+      const formData = {
+        claimantRelationship: {
+          relationship: 'veteran',
+        },
+        veteranInformation: {
+          veteranFullName: {},
+        },
+      };
+      expect(
+        getPersonName(formData, { veteranFallback: 'custom veteran' }),
+      ).to.equal('custom veteran');
+    });
+
+    it('should use custom claimant fallback', () => {
+      const formData = {
+        claimantRelationship: {
+          relationship: 'spouse',
+        },
+        claimantInformation: {
+          claimantFullName: {},
+        },
+      };
+      expect(
+        getPersonName(formData, { claimantFallback: 'custom claimant' }),
+      ).to.equal('custom claimant');
+    });
+
+    it('should use both custom fallbacks', () => {
+      const formDataVeteran = {
+        claimantRelationship: {
+          relationship: 'veteran',
+        },
+        veteranInformation: {
+          veteranFullName: {},
+        },
+      };
+      const formDataClaimant = {
+        claimantRelationship: {
+          relationship: 'spouse',
+        },
+        claimantInformation: {
+          claimantFullName: {},
+        },
+      };
+      const options = {
+        veteranFallback: 'custom vet',
+        claimantFallback: 'custom claim',
+      };
+
+      expect(getPersonName(formDataVeteran, options)).to.equal('custom vet');
+      expect(getPersonName(formDataClaimant, options)).to.equal('custom claim');
+    });
+
+    it('should handle empty formData', () => {
+      expect(getPersonName({})).to.equal('the claimant');
+    });
+
+    it('should handle null formData', () => {
+      expect(getPersonName(null)).to.equal('the claimant');
+    });
+
+    it('should handle undefined formData', () => {
+      expect(getPersonName(undefined)).to.equal('the claimant');
     });
   });
 });
