@@ -76,24 +76,32 @@ const InterstitialPage = props => {
     ],
   );
 
+  const handleRedirect = useCallback(
+    () => {
+      dispatch(acceptInterstitial());
+      if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
+        history.push(Paths.RECENT_CARE_TEAMS);
+      }
+    },
+    [history, mhvSecureMessagingCuratedListFlow, type, dispatch],
+  );
+
   useEffect(
     () => {
       const searchParams = new URLSearchParams(location.search);
       const prescriptionId = searchParams.get('prescriptionId');
       const redirectPath = searchParams.get('redirectPath');
-      if (recentRecipients !== undefined) {
-        if (prescriptionId) {
-          dispatch(getPrescriptionById(prescriptionId));
-          handleContinueButton();
-        } else {
-          dispatch(clearPrescription());
-        }
-        if (redirectPath) {
-          dispatch(setRedirectPath(decodeURIComponent(redirectPath)));
-        }
+      if (prescriptionId) {
+        dispatch(getPrescriptionById(prescriptionId));
+        handleRedirect();
+      } else {
+        dispatch(clearPrescription());
+      }
+      if (redirectPath) {
+        dispatch(setRedirectPath(decodeURIComponent(redirectPath)));
       }
     },
-    [location.search, handleContinueButton, dispatch, recentRecipients],
+    [location.search, handleRedirect, dispatch],
   );
 
   const continueButtonText = useMemo(
