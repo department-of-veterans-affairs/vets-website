@@ -467,10 +467,15 @@ jobs:
           path: .
 
       - name: Run unit tests
-        run: yarn test:unit:gha "${APP_FOLDERS:+{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)}" --coverage --log-level verbose
+        run: |
+          if [[ -n "$APP_FOLDERS" ]]; then
+            yarn test:unit:gha "{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+          else
+            yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+          fi
         env:
           MOCHA_FILE: test-results/unit-tests.xml
-          APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
+          APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
           IS_STRESS_TEST: true
           STEP: ${{ matrix.runs }}
 
