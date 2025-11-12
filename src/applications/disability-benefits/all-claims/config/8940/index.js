@@ -1,4 +1,3 @@
-import environment from 'platform/utilities/environment';
 import { SHOW_8940_4192 } from '../../constants';
 import {
   unemployabilityAdditionalInformation,
