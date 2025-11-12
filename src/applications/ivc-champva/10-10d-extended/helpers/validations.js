@@ -30,6 +30,7 @@ const getCurrentItemIndex = () => {
  * @returns {Object} Match results
  * @returns {boolean} returns.sponsorMatch - True if current SSN matches the sponsor's SSN
  * @returns {number} returns.applicantMatches - Count of applicants with matching SSN
+ * @returns {number|null} returns.currentIndex - The current array index, if the URL param exists
  */
 const getSsnMatches = (fullData, current) => {
   const currentIndex = getCurrentItemIndex();
@@ -47,40 +48,21 @@ const getSsnMatches = (fullData, current) => {
 };
 
 /**
- * Validates that a sponsor's SSN is valid and unique among applicants.
- * Adds validation errors if the SSN is invalid or already used by an applicant.
+ * Validates that an SSN is valid and unique among all form participants.
  *
  * @param {Object} errors - The validation errors object to add errors to
- * @param {string} fieldData - The sponsor's SSN field data to validate
+ * @param {string} fieldData - The SSN field data to validate
  * @param {Object} fullData - The complete form data for cross-reference checking
- * @param {Array} fullData.applicants - Array of applicant objects to check against
+ * @param {Object} options - Validation options
+ * @param {boolean} [options.isSponsor=false] - Whether this is validating the sponsor's SSN
  * @returns {void}
  */
-export const validateSponsorSsn = (errors, fieldData, fullData) => {
-  const current = normalizeSSN(fieldData);
-  if (!current) return;
-
-  if (!isValidSSN(current)) {
-    errors.addError(ERR_SSN_INVALID);
-    return;
-  }
-
-  const { applicantMatches } = getSsnMatches(fullData, current);
-  if (applicantMatches > 0) errors.addError(ERR_SSN_UNIQUE);
-};
-
-/**
- * Validates that an applicant's SSN is valid and unique among all form participants.
- * Adds validation errors if the SSN is invalid, matches the sponsor's SSN, or is already used by another applicant.
- *
- * @param {Object} errors - The validation errors object to add errors to
- * @param {string} fieldData - The applicant's SSN field data to validate
- * @param {Object} fullData - The complete form data for cross-reference checking
- * @param {string} fullData.sponsorSsn - The sponsor's SSN to check against
- * @param {Array} fullData.applicants - Array of all applicant objects to check against
- * @returns {void}
- */
-export const validateApplicantSsn = (errors, fieldData, fullData) => {
+const validateUniqueSsn = ({
+  errors,
+  fieldData,
+  fullData,
+  isSponsor = false,
+} = {}) => {
   const current = normalizeSSN(fieldData);
   if (!current) return;
 
@@ -91,11 +73,20 @@ export const validateApplicantSsn = (errors, fieldData, fullData) => {
 
   const { sponsorMatch, applicantMatches } = getSsnMatches(fullData, current);
 
-  if (sponsorMatch) {
+  if (!isSponsor && sponsorMatch) {
     errors.addError(ERR_SSN_UNIQUE);
     return;
   }
+
   if (applicantMatches > 0) errors.addError(ERR_SSN_UNIQUE);
+};
+
+export const validateSponsorSsn = (errors, fieldData, fullData) => {
+  validateUniqueSsn({ errors, fieldData, fullData, isSponsor: true });
+};
+
+export const validateApplicantSsn = (errors, fieldData, fullData) => {
+  validateUniqueSsn({ errors, fieldData, fullData, isSponsor: false });
 };
 
 /**
