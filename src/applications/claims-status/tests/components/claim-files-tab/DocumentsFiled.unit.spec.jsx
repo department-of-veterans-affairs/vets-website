@@ -542,10 +542,8 @@ describe('<DocumentsFiled>', () => {
       );
 
       getByText('Documents filed');
-      expect(getByText(/Files uploaded (after|before).*will show as received/))
-        .to.exist;
-      expect(getByText(/but we record your submissions when you upload them/))
-        .to.exist;
+      expect(getByText(/Files uploaded (after|before).*will show (with|as)/)).to
+        .exist;
     });
 
     it('should include time and timezone in message', () => {
@@ -556,7 +554,7 @@ describe('<DocumentsFiled>', () => {
       );
 
       const messageParagraph = getByText(
-        /Files uploaded (after|before).*will show as received/,
+        /Files uploaded (after|before).*will show (with|as)/,
       );
       expect(messageParagraph.textContent).to.match(
         /\d{1,2}:\d{2}\s+(a|p)\.m\./,

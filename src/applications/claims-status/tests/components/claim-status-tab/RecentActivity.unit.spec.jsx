@@ -1423,10 +1423,8 @@ describe('<RecentActivity>', () => {
       );
 
       getByText('Recent activity');
-      expect(getByText(/Files uploaded (after|before).*will show as received/))
-        .to.exist;
-      expect(getByText(/but we record your submissions when you upload them/))
-        .to.exist;
+      expect(getByText(/Files uploaded (after|before).*will show (with|as)/)).to
+        .exist;
     });
 
     it('should include time and timezone in message', () => {
@@ -1437,7 +1435,7 @@ describe('<RecentActivity>', () => {
       );
 
       const messageParagraph = getByText(
-        /Files uploaded (after|before).*will show as received/,
+        /Files uploaded (after|before).*will show (with|as)/,
       );
       expect(messageParagraph.textContent).to.match(
         /\d{1,2}:\d{2}\s+(a|p)\.m\./,
@@ -1460,7 +1458,6 @@ describe('<RecentActivity>', () => {
 
       // Message should NOT exist when timezone offset is 0 (UTC)
       expect(queryByText(/Files uploaded/)).to.not.exist;
-      expect(queryByText(/will show as received/)).to.not.exist;
     });
 
     it('should NOT display message when feature toggle is disabled', () => {

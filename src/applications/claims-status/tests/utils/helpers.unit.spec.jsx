@@ -2044,9 +2044,6 @@ describe('Disability benefits helpers: ', () => {
       expect(message).to.include('Files uploaded after');
       expect(message).to.include('8:00 p.m.');
       expect(message).to.include("next day's date");
-      expect(message).to.include(
-        'but we record your submissions when you upload them',
-      );
     });
 
     it('should return "before" message with "previous day\'s date" for UTC+9 (JST) timezone without uploadDate', () => {
@@ -2054,9 +2051,6 @@ describe('Disability benefits helpers: ', () => {
       expect(message).to.include('Files uploaded before');
       expect(message).to.include('9:00 a.m.');
       expect(message).to.include("previous day's date");
-      expect(message).to.include(
-        'but we record your submissions when you upload them',
-      );
     });
 
     // Tests WITH uploadDate parameter (upload success notification)
@@ -2067,9 +2061,6 @@ describe('Disability benefits helpers: ', () => {
       expect(message).to.include('Files uploaded after');
       expect(message).to.include('8:00 p.m.');
       expect(message).to.include('August 16, 2025');
-      expect(message).to.include(
-        'but we record your submissions when you upload them',
-      );
     });
 
     it('should return "after" message for UTC-5 (EST/CDT) timezone with specific date', () => {
@@ -2133,9 +2124,6 @@ describe('Disability benefits helpers: ', () => {
       expect(message).to.include('Files uploaded before');
       expect(message).to.include('1:00 a.m.');
       expect(message).to.include('June 9, 2025');
-      expect(message).to.include(
-        'but we record your submissions when you upload them',
-      );
     });
 
     it('should return "before" message for UTC+9 (JST) timezone with specific date', () => {
@@ -2237,9 +2225,9 @@ describe('Disability benefits helpers: ', () => {
       const uploadDate = new Date('2025-08-15T21:00:00-04:00');
       const message = getTimezoneDiscrepancyMessage(240, uploadDate);
       // Complete format validation for negative offset (UTC-X)
-      // Format: "Files uploaded after H:MM a.m./p.m. TZ will show as received on Month D, YYYY, but we record your submissions when you upload them."
+      // Format: "Files uploaded after H:MM a.m./p.m. TZ will show as Month D, YYYY."
       expect(message).to.match(
-        /^Files uploaded after \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as received on [A-Z][a-z]+ \d{1,2}, \d{4}, but we record your submissions when you upload them\.$/,
+        /^Files uploaded after \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as [A-Z][a-z]+ \d{1,2}, \d{4}\.$/,
       );
     });
 
@@ -2248,9 +2236,9 @@ describe('Disability benefits helpers: ', () => {
       const uploadDate = new Date('2025-04-20T08:00:00+09:00');
       const message = getTimezoneDiscrepancyMessage(-540, uploadDate);
       // Complete format validation for positive offset (UTC+X)
-      // Format: "Files uploaded before H:MM a.m./p.m. TZ will show as received on Month D, YYYY, but we record your submissions when you upload them."
+      // Format: "Files uploaded before H:MM a.m./p.m. TZ will show as Month D, YYYY."
       expect(message).to.match(
-        /^Files uploaded before \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as received on [A-Z][a-z]+ \d{1,2}, \d{4}, but we record your submissions when you upload them\.$/,
+        /^Files uploaded before \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as [A-Z][a-z]+ \d{1,2}, \d{4}\.$/,
       );
     });
 
@@ -2278,17 +2266,17 @@ describe('Disability benefits helpers: ', () => {
 
     it('should match exact format for "after" messages without uploadDate (static)', () => {
       const message = getTimezoneDiscrepancyMessage(240); // UTC-4
-      // Format: "Files uploaded after H:MM a.m./p.m. TZ will show as received on the next day's date, but we record your submissions when you upload them."
+      // Format: "Files uploaded after H:MM a.m./p.m. TZ will show with the next day's date."
       expect(message).to.match(
-        /^Files uploaded after \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as received on the next day's date, but we record your submissions when you upload them\.$/,
+        /^Files uploaded after \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show with the next day's date\.$/,
       );
     });
 
     it('should match exact format for "before" messages without uploadDate (static)', () => {
       const message = getTimezoneDiscrepancyMessage(-540); // UTC+9
-      // Format: "Files uploaded before H:MM a.m./p.m. TZ will show as received on the previous day's date, but we record your submissions when you upload them."
+      // Format: "Files uploaded before H:MM a.m./p.m. TZ will show with the previous day's date."
       expect(message).to.match(
-        /^Files uploaded before \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as received on the previous day's date, but we record your submissions when you upload them\.$/,
+        /^Files uploaded before \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show with the previous day's date\.$/,
       );
     });
   });

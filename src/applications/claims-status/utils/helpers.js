@@ -1234,14 +1234,16 @@ export const getTimezoneDiscrepancyMessage = (
   if (isValidDateInput(uploadDate)) {
     // Convert local upload time to UTC and format the UTC date
     const utcDateStr = formatUtcDateString(uploadDate);
-    dateText = format(parseISO(utcDateStr), 'MMMM d, yyyy');
+    const formattedDate = format(parseISO(utcDateStr), 'MMMM d, yyyy');
+    // "Files uploaded after 8:00 p.m. EDT will show as August 16, 2025."
+    dateText = `as ${formattedDate}`;
   } else {
     // No uploadDate provided - use generic "next/previous day's date" language
     const nextPrevious = timezoneOffsetMinutes > 0 ? 'next' : 'previous';
-    dateText = `the ${nextPrevious} day's date`;
+    // "Files uploaded after 8:00 p.m. EDT will show with the next day’s date."
+    dateText = `with the ${nextPrevious} day's date`;
   }
-
-  return `Files uploaded ${beforeAfter} ${timeStr} ${tzAbbr} will show as received on ${dateText}, but we record your submissions when you upload them.`;
+  return `Files uploaded ${beforeAfter} ${timeStr} ${tzAbbr} will show ${dateText}.`;
 };
 
 export const showTimezoneDiscrepancyMessage = uploadDate => {

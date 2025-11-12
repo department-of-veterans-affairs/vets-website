@@ -214,7 +214,9 @@ describe('<FileSubmissionsInProgress>', () => {
 
     it('should show updated empty state message when there are failed uploads but no in-progress items', () => {
       const { getByText, queryByText } = render(
-        <FileSubmissionsInProgress claim={claimWithFailedUploads} />,
+        <Provider store={store}>
+          <FileSubmissionsInProgress claim={claimWithFailedUploads} />
+        </Provider>,
       );
 
       expect(
@@ -231,7 +233,9 @@ describe('<FileSubmissionsInProgress>', () => {
 
     it('should show anchor link to files we could not receive section in empty state', () => {
       const { container } = render(
-        <FileSubmissionsInProgress claim={claimWithFailedUploads} />,
+        <Provider store={store}>
+          <FileSubmissionsInProgress claim={claimWithFailedUploads} />
+        </Provider>,
       );
 
       const link = container.querySelector(
@@ -270,7 +274,9 @@ describe('<FileSubmissionsInProgress>', () => {
 
     it('should show standard empty state message when there are no failed or in-progress uploads', () => {
       const { getByText } = render(
-        <FileSubmissionsInProgress claim={claimWithoutFailedUploads} />,
+        <Provider store={store}>
+          <FileSubmissionsInProgress claim={claimWithoutFailedUploads} />
+        </Provider>,
       );
 
       expect(getByText('We’ve received all the files you’ve uploaded.')).to

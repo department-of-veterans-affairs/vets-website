@@ -42,9 +42,7 @@ describe('<TimezoneDiscrepancyMessage>', () => {
       </Provider>,
     );
 
-    expect(getByText(/Files uploaded (after|before).*will show as received/)).to
-      .exist;
-    expect(getByText(/but we record your submissions when you upload them/)).to
+    expect(getByText(/Files uploaded (after|before).*will show (with|as)/)).to
       .exist;
   });
 
@@ -75,15 +73,16 @@ describe('<TimezoneDiscrepancyMessage>', () => {
     expect(message.textContent).to.match(/^Files uploaded (after|before)/);
   });
 
-  it('should include ending disclaimer text', () => {
+  it('should include generic day reference for static messages', () => {
     const { getByText } = render(
       <Provider store={getStore(true)}>
         <TimezoneDiscrepancyMessage />
       </Provider>,
     );
 
-    expect(getByText(/but we record your submissions when you upload them/)).to
-      .exist;
+    // Should include either "next day's date" or "previous day's date" for static messages
+    const message = getByText(/Files uploaded (after|before)/);
+    expect(message.textContent).to.match(/(next|previous) day's date/);
   });
 
   it('should NOT display message when in UTC timezone (offset = 0)', () => {
@@ -99,7 +98,7 @@ describe('<TimezoneDiscrepancyMessage>', () => {
 
     // Message should NOT exist when timezone offset is 0 (UTC)
     expect(queryByText(/Files uploaded/)).to.not.exist;
-    expect(queryByText(/will show as received/)).to.not.exist;
+    expect(queryByText(/will show (with|as)/)).to.not.exist;
   });
 
   it('should NOT display message when feature toggle is disabled', () => {
@@ -111,7 +110,7 @@ describe('<TimezoneDiscrepancyMessage>', () => {
 
     // Message should NOT exist when toggle is disabled
     expect(queryByText(/Files uploaded/)).to.not.exist;
-    expect(queryByText(/will show as received/)).to.not.exist;
+    expect(queryByText(/will show (with|as)/)).to.not.exist;
   });
 
   it('should conditionally render message based on feature toggle', () => {
