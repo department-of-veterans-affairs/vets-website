@@ -4,6 +4,12 @@ import { render } from '@testing-library/react';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
 import { pageSubmitTest } from '../unit.helpers.spec';
+import { SHOW_8940_4192 } from '../../constants';
+
+// Set flipper to enabled (must be before 8940 config is required)
+if (typeof window !== 'undefined' && window.sessionStorage) {
+  window.sessionStorage.setItem(SHOW_8940_4192, 'true');
+}
 
 describe('Past Education Training', () => {
   const formConfig8940 = require('../../config/8940').default();

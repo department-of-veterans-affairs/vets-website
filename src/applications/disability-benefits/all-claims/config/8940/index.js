@@ -36,13 +36,13 @@ import captureEvents from '../../analytics-functions';
 import formConfig4192 from '../4192';
 
 export default function createformConfig8940() {
-  if (
-    // need this environment check for unit tests to work
-    environment.isProduction() &&
-    // this will filter production users using the feature flag
-    sessionStorage.getItem(SHOW_8940_4192) !== 'true'
-  ) {
-    return {};
+  // When the flipper is off, sessionStorage won't have 'true', so we hide the forms
+  if (typeof sessionStorage !== 'undefined') {
+    const flipperValue = sessionStorage.getItem(SHOW_8940_4192);
+    // Only hide forms if sessionStorage exists and explicitly doesn't have 'true'
+    if (flipperValue !== 'true') {
+      return {};
+    }
   }
   return {
     // 8940 - Introduction
