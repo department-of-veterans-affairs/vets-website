@@ -46,6 +46,43 @@ export const PreSubmitCheckboxGroup = ({
   const [fullNameTouched, setFullNameTouched] = useState(false);
   const [titleTouched, setTitleTouched] = useState(false);
 
+  // Normalize string for comparison: lowercase and remove all spaces
+  const normalizeForComparison = useCallback(str => {
+    if (!str || typeof str !== 'string') return '';
+    return str.toLowerCase().replace(/\s+/g, '');
+  }, []);
+
+  // Validate full name matches recipient organization name
+  const validateFullName = useCallback(
+    () => {
+      if (!recipientOrganizationName) {
+        return fullName.trim().length > 0;
+      }
+      return (
+        normalizeForComparison(fullName) ===
+        normalizeForComparison(recipientOrganizationName)
+      );
+    },
+    [fullName, recipientOrganizationName, normalizeForComparison],
+  );
+
+  // Validate title matches state/tribal organization name
+  const validateTitle = useCallback(
+    () => {
+      if (!titleOrganizationName) {
+        const titleLength = organizationTitle.trim().length;
+        return (
+          titleLength >= TITLE_MIN_LENGTH && titleLength <= TITLE_MAX_LENGTH
+        );
+      }
+      return (
+        normalizeForComparison(organizationTitle) ===
+        normalizeForComparison(titleOrganizationName)
+      );
+    },
+    [organizationTitle, titleOrganizationName, normalizeForComparison],
+  );
+
   // Sync form data with certification values
   useEffect(
     () => {
@@ -62,38 +99,15 @@ export const PreSubmitCheckboxGroup = ({
         }),
       );
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, fullName, organizationTitle, isCertified],
+    [
+      dispatch,
+      fullName,
+      organizationTitle,
+      isCertified,
+      hasSubmittedForm,
+      formData,
+    ],
   );
-
-  // Normalize string for comparison: lowercase and remove all spaces
-  const normalizeForComparison = str => {
-    if (!str || typeof str !== 'string') return '';
-    return str.toLowerCase().replace(/\s+/g, '');
-  };
-
-  // Validate full name matches recipient organization name
-  const validateFullName = () => {
-    if (!recipientOrganizationName) {
-      return fullName.trim().length > 0;
-    }
-    return (
-      normalizeForComparison(fullName) ===
-      normalizeForComparison(recipientOrganizationName)
-    );
-  };
-
-  // Validate title matches state/tribal organization name
-  const validateTitle = () => {
-    if (!titleOrganizationName) {
-      const titleLength = organizationTitle.trim().length;
-      return titleLength >= TITLE_MIN_LENGTH && titleLength <= TITLE_MAX_LENGTH;
-    }
-    return (
-      normalizeForComparison(organizationTitle) ===
-      normalizeForComparison(titleOrganizationName)
-    );
-  };
 
   // Check if all required fields are valid
   useEffect(
@@ -105,13 +119,15 @@ export const PreSubmitCheckboxGroup = ({
       onSectionComplete(isComplete);
       return () => onSectionComplete(false);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       fullName,
       organizationTitle,
       isCertified,
       recipientOrganizationName,
       titleOrganizationName,
+      validateFullName,
+      validateTitle,
+      onSectionComplete,
     ],
   );
 
