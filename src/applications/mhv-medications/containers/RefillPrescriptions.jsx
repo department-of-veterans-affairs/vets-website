@@ -17,7 +17,6 @@ import {
 } from '../api/prescriptionsApi';
 
 import { dateFormat } from '../util/helpers';
-// import { selectRefillProgressFlag } from '../util/selectors';
 import {
   DATETIME_FORMATS,
   SESSION_SELECTED_PAGE_NUMBER,
@@ -93,7 +92,6 @@ const RefillPrescriptions = () => {
 
   // Get refillable list from RTK Query result
   const fullRefillList = refillableData?.prescriptions || [];
-  // const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);

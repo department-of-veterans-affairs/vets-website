@@ -29,10 +29,7 @@ import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import MedicationDescription from '../shared/MedicationDescription';
-import {
-  selectPartialFillContentFlag,
-  // selectRefillProgressFlag,
-} from '../../util/selectors';
+import { selectPartialFillContentFlag } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import GroupedMedications from './GroupedMedications';
@@ -41,7 +38,6 @@ import ProcessList from '../shared/ProcessList';
 import { landMedicationDetailsAal } from '../../api/rxApi';
 
 const VaPrescription = prescription => {
-  // const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
