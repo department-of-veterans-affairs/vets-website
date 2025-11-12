@@ -3,13 +3,19 @@ import { useParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 
 import { formatDateTime } from '../../../util/dates';
-import { selectAppointment, selectAllExpenses } from '../../../redux/selectors';
+import {
+  selectAppointment,
+  selectAllExpenses,
+  selectAllDocuments,
+} from '../../../redux/selectors';
 import HelpSection from './HelpSection';
+import ExpensesAccordion from './ExpensesAccordion';
 
 const ConfirmationPage = () => {
   const { claimId } = useParams();
-  const { data: appointmentData } = useSelector(selectAppointment);
-  const allExpenses = useSelector(selectAllExpenses);
+  const expenses = useSelector(selectAllExpenses) ?? [];
+  const documents = useSelector(selectAllDocuments) ?? [];
+  const appointmentData = useSelector(selectAppointment)?.data ?? null;
 
   const [formattedDate, formattedTime] = appointmentData?.localStartTime
     ? formatDateTime(appointmentData.localStartTime)
@@ -37,13 +43,7 @@ const ConfirmationPage = () => {
           </p>
         )}
       </va-alert>
-      <va-accordion>
-        <va-accordion-item header="Submited expenses" id="submitted-expenses">
-          <va-card>
-            <h3 />
-          </va-card>
-        </va-accordion-item>
-      </va-accordion>
+      <ExpensesAccordion expenses={expenses} documents={documents} />
 
       <h2 className="vads-u-margin-top--4">Print this confirmation page</h2>
       <p>
