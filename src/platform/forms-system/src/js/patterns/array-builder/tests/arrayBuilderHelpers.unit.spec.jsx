@@ -17,8 +17,8 @@ describe('arrayBuilder helpers', () => {
     const setFormData = sinon.spy();
     helpers.onNavBackRemoveAddingItem({
       arrayPath: 'employers',
-      summaryRoute: '/summary',
-      introRoute: '/intro',
+      getSummaryPath: () => '/summary',
+      getIntroPath: () => '/intro',
     })({
       setFormData,
       goPath,
@@ -39,8 +39,8 @@ describe('arrayBuilder helpers', () => {
     const setFormData = sinon.spy();
     helpers.onNavBackRemoveAddingItem({
       arrayPath: 'employers',
-      summaryRoute: '/summary',
-      introRoute: '/intro',
+      getSummaryPath: () => '/summary',
+      getIntroPath: () => '/intro',
     })({
       setFormData,
       goPath,
@@ -62,7 +62,7 @@ describe('arrayBuilder helpers', () => {
     const setFormData = sinon.spy();
     helpers.onNavBackRemoveAddingItem({
       arrayPath: 'employers',
-      summaryRoute: '/summary',
+      getSummaryPath: () => '/summary',
     })({
       setFormData,
       goPath,
@@ -83,7 +83,7 @@ describe('arrayBuilder helpers', () => {
     const setFormData = sinon.spy();
     helpers.onNavBackRemoveAddingItem({
       arrayPath: 'employers',
-      summaryRoute: '/summary',
+      getSummaryPath: () => '/summary',
     })({
       setFormData,
       goPath,
@@ -104,7 +104,7 @@ describe('arrayBuilder helpers', () => {
     const setFormData = sinon.spy();
     helpers.onNavBackRemoveAddingItem({
       arrayPath: 'employers',
-      summaryRoute: '/summary',
+      getSummaryPath: () => '/summary',
     })({
       setFormData,
       goPath,
@@ -547,6 +547,82 @@ describe('slugifyText', () => {
     text = 'traumatic event';
     slugified = helpers.slugifyText(text);
     expect(slugified).to.equal('traumatic-event');
+  });
+});
+
+describe('getDependsPath', () => {
+  it('should return null if pages is null or undefined', () => {
+    const result = helpers.getDependsPath(null, {});
+    expect(result).to.be.null;
+
+    const result2 = helpers.getDependsPath(undefined, {});
+    expect(result2).to.be.null;
+  });
+
+  it('should return null if pages is an empty array', () => {
+    const result = helpers.getDependsPath([], {});
+    expect(result).to.be.null;
+  });
+
+  it('should return the path if there is only one page', () => {
+    const pages = [{ path: '/single-page' }];
+    const result = helpers.getDependsPath(pages, {});
+    expect(result).to.eq('/single-page');
+  });
+
+  it('should return the first page that matches depends condition', () => {
+    const formData = { hasCondition: true };
+    const pages = [
+      { path: '/page-1', depends: data => data.hasCondition === false },
+      { path: '/page-2', depends: data => data.hasCondition === true },
+      { path: '/page-3', depends: data => data.something === true },
+    ];
+
+    const result = helpers.getDependsPath(pages, formData);
+    expect(result).to.eq('/page-2');
+  });
+
+  it('should return the first page path if no depends conditions match', () => {
+    const formData = { hasCondition: false };
+    const pages = [
+      { path: '/page-1', depends: data => data.hasCondition === true },
+      { path: '/page-2', depends: data => data.something === true },
+    ];
+
+    const result = helpers.getDependsPath(pages, formData);
+    expect(result).to.eq('/page-1');
+  });
+
+  it('should return first matching page when multiple depends conditions are true', () => {
+    const formData = { condition1: true, condition2: true };
+    const pages = [
+      { path: '/page-1', depends: data => data.condition1 === true },
+      { path: '/page-2', depends: data => data.condition2 === true },
+    ];
+
+    const result = helpers.getDependsPath(pages, formData);
+    expect(result).to.eq('/page-1');
+  });
+
+  it('should handle complex depends logic', () => {
+    const formData = { type: 'veteran', enrolled: true };
+    const pages = [
+      {
+        path: '/civilian-path',
+        depends: data => data.type === 'civilian',
+      },
+      {
+        path: '/veteran-enrolled-path',
+        depends: data => data.type === 'veteran' && data.enrolled === true,
+      },
+      {
+        path: '/veteran-not-enrolled-path',
+        depends: data => data.type === 'veteran' && data.enrolled === false,
+      },
+    ];
+
+    const result = helpers.getDependsPath(pages, formData);
+    expect(result).to.eq('/veteran-enrolled-path');
   });
 });
 

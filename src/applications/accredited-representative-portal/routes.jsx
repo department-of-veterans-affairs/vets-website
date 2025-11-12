@@ -96,7 +96,7 @@ const routes = [
                 loader: DashboardPage.loader,
               },
               {
-                path: 'poa-requests',
+                path: 'representation-requests',
                 element: (
                   <POARequestSearchPage title="Representation requests | Accredited Representative Portal | Veterans Affairs" />
                 ),
@@ -110,14 +110,14 @@ const routes = [
                 loader: SubmissionsPage.loader,
               },
               {
-                path: 'claimant-search',
+                path: 'find-claimant',
                 element: (
                   <ClaimantSearchPage title="Find claimant | Accredited Representative Portal | Veterans Affairs" />
                 ),
                 loader: ClaimantSearchPage.loader,
               },
               {
-                path: 'poa-requests/:id',
+                path: 'representation-requests/:id',
                 element: (
                   <POARequestDetailsPage title="Representation request | Accredited Representative Portal | Veterans Affairs" />
                 ),

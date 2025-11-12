@@ -1,17 +1,21 @@
 import React from 'react';
 // import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import PropTypes from 'prop-types';
 import {
   VaCheckbox,
-  VaMemorableDate,
   VaRadio,
   VaRadioOption,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
-import { SelectCountry, SelectState, getValue } from './helpers';
+import {
+  SelectCountry,
+  SelectState,
+  getValue,
+  PastDate,
+  scrollToError,
+} from './helpers';
+import { getPastDateError } from './utils';
+import propTypes from './types';
 
 const spouseMarriageEnded = {
   handlers: {
@@ -20,46 +24,25 @@ const spouseMarriageEnded = {
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
+      const hasError = getPastDateError(itemData.endDate);
       if (
         !itemData.endType ||
         (itemData.endType === 'annulmentOrVoid' &&
           !itemData.endAnnulmentOrVoidDescription) ||
-        !itemData.endDate ||
+        hasError ||
         !itemData.endCity ||
         (!itemData.endOutsideUS && !itemData.endState) ||
         (itemData.endOutsideUS && !itemData.endCountry)
       ) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
     },
   },
 
-  /**
-   * Depedent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} endType Dependent's removal reason
-   */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} goBack Function to go back to the previous page
-   * @returns React component
-   */
-  Component: ({ itemData, firstName, handlers, formSubmitted }) => {
+  /** @type {PicklistComponentProps} */
+  Component: ({ itemData, firstName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
       handlers.onChange({ ...itemData, [field]: value });
@@ -68,7 +51,11 @@ const spouseMarriageEnded = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Information about the end of your marriage to {firstName}
+          {isEditing ? 'Edit information' : 'Information'} about the end of your
+          marriage to{' '}
+          <span className="dd-privacy-mask" data-dd-action-name="first name">
+            {firstName}
+          </span>
         </h3>
 
         <div className="vads-u-margin-bottom--2">
@@ -98,7 +85,7 @@ const spouseMarriageEnded = {
           {itemData.endType === 'annulmentOrVoid' && (
             <div className="vads-u-padding-left--4">
               <div className="form-expanding-group-open">
-                <va-text-input
+                <VaTextInput
                   name="endAnnulmentOrVoidDescription"
                   error={
                     formSubmitted && !itemData.endAnnulmentOrVoidDescription
@@ -116,19 +103,12 @@ const spouseMarriageEnded = {
         </div>
 
         <h4>When did the marriage end?</h4>
-        <VaMemorableDate
-          name="endDate"
+        <PastDate
           label="Date marriage ended"
-          error={
-            formSubmitted && !itemData.endDate
-              ? 'Provide a date marriage ended'
-              : null
-          }
-          monthSelect
-          value={itemData.endDate || ''}
-          // use onDateBlur to ensure month & day are zero-padded
-          onDateBlur={onChange}
-          required
+          date={itemData.endDate}
+          formSubmitted={formSubmitted}
+          missingErrorMessage="Provide a date marriage ended"
+          onChange={onChange}
         />
 
         <h4>Where did the marriage end?</h4>
@@ -186,31 +166,7 @@ const spouseMarriageEnded = {
   },
 };
 
-spouseMarriageEnded.propTypes = {
-  Component: PropTypes.func,
-};
-
-spouseMarriageEnded.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  goBack: PropTypes.func,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    dateOfBirth: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-    endType: PropTypes.string,
-    endAnnulmentOrVoidDescription: PropTypes.string,
-    endDate: PropTypes.string,
-    endCity: PropTypes.string,
-    endState: PropTypes.string,
-    endCountry: PropTypes.string,
-    endProvince: PropTypes.string,
-    endOutsideUS: PropTypes.bool,
-  }),
-};
+spouseMarriageEnded.propTypes = propTypes.Page;
+spouseMarriageEnded.Component.propTypes = propTypes.Component;
 
 export default spouseMarriageEnded;

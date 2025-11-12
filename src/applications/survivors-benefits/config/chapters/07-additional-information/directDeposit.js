@@ -22,9 +22,11 @@ const BankAdditionalInfo = () => (
     <span>
       <p>
         The{' '}
-        <a href="https://veteransbenefitsbanking.org/">
-          Veterans Benefits Banking Program (VBBP) (opens a new tab)
-        </a>{' '}
+        <va-link
+          href="https://veteransbenefitsbanking.org/find-bank-credit-union/"
+          text="Veterans Benefits Banking Program (VBBP)"
+          external
+        />{' '}
         provides a list of Veteran-friendly banks and credit unions. They’ll
         work with you to set up an account, or help you qualify for an account,
         so you can use direct deposit. To get started, call one of the
@@ -40,30 +42,27 @@ const BankAdditionalInfo = () => (
   </va-additional-info>
 );
 
-const uiSchema = {
-  ...titleUI('Direct deposit for survivor benefits', Description),
-  hasBankAccount: yesNoUI({
-    title: 'Do you have a bank account to use for direct deposit?',
-    classNames: 'vads-u-margin-top--2',
-  }),
-  bankAdditionalInfo: {
-    'ui:description': BankAdditionalInfo,
-  },
-};
-
-const schema = {
-  type: 'object',
-  required: ['hasBankAccount'],
-  properties: {
-    hasBankAccount: yesNoSchema,
+/** @type {PageSchema} */
+export default {
+  uiSchema: {
+    ...titleUI('Direct deposit for survivor benefits', Description),
+    hasBankAccount: yesNoUI({
+      title: 'Do you have a bank account to use for direct deposit?',
+      classNames: 'vads-u-margin-top--2',
+    }),
     bankAdditionalInfo: {
-      type: 'object',
-      properties: {},
+      'ui:description': BankAdditionalInfo,
     },
   },
-};
-
-export default {
-  uiSchema,
-  schema,
+  schema: {
+    type: 'object',
+    required: ['hasBankAccount'],
+    properties: {
+      hasBankAccount: yesNoSchema,
+      bankAdditionalInfo: {
+        type: 'object',
+        properties: {},
+      },
+    },
+  },
 };

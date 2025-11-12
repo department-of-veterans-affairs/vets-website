@@ -34,7 +34,7 @@ describe('Nursing Home Page', () => {
 
     expect(vaRadios.length).to.equal(2);
     expect(vaRadios[0].getAttribute('label')).to.equal(
-      'Are you claiming special monthly pension or special monthly D.I.C. because you need the regular assistance of another person, have severe visual problems, or are generally confined to your immediate premises?',
+      'Are you claiming special monthly pension or special monthly DIC because you need the regular assistance of another person, have severe visual problems, or are generally confined to your immediate premises?',
     );
     expect(vaRadios[0].getAttribute('required')).to.equal('true');
 
@@ -56,18 +56,18 @@ describe('Nursing Home Page', () => {
 
     expect(vaAlerts.length).to.equal(0);
     assistanceRadio.__events.vaValueChange({
-      detail: { value: 'Yes' },
+      detail: { value: 'Y' },
     });
     expect($$('va-alert-expandable', formDOM).length).to.equal(1);
     nursingHomeRadio.__events.vaValueChange({
-      detail: { value: 'Yes' },
+      detail: { value: 'Y' },
     });
     expect($$('va-alert-expandable', formDOM).length).to.equal(2);
     assistanceRadio.__events.vaValueChange({
-      detail: { value: 'No' },
+      detail: { value: 'N' },
     });
     nursingHomeRadio.__events.vaValueChange({
-      detail: { value: 'No' },
+      detail: { value: 'N' },
     });
     expect($$('va-alert-expandable', formDOM).length).to.equal(0);
   });

@@ -1,82 +1,86 @@
 /**
  * @fileoverview Submit transformer for VA Form 21-2680 Examination for House-bound Status
  * @module config/submit-transformer
- *
- * This module transforms form data before submission to the backend API.
- *
- * Key transformations:
- * 1. When the claimant is the veteran, copies veteran information to claimant fields
- *    to ensure the backend receives complete data
- * 2. When not currently hospitalized, removes any stale hospitalization details
- *    (handles case where user entered details then changed answer to 'no')
  */
+
+import { filterViewFields } from 'platform/forms-system/src/js/helpers';
 
 /**
- * Transforms form data before submission
+ * Recursively removes deprecated fields (suffix, isMilitary) from form data
+ * @param {Object} obj - The object to clean
+ * @returns {Object} A new object with deprecated fields removed
+ */
+function removeDeprecatedFields(obj) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(item => removeDeprecatedFields(item));
+  }
+
+  const cleaned = {};
+  Object.keys(obj).forEach(key => {
+    if (key !== 'suffix' && key !== 'isMilitary') {
+      cleaned[key] = removeDeprecatedFields(obj[key]);
+    }
+  });
+
+  return cleaned;
+}
+
+/**
+ * Transforms form data before submission to the backend API
  *
- * This transformer performs two key transformations:
- * 1. When the veteran is filing for themselves (claimantRelationship === 'veteran'),
- *    copies veteran information to claimant fields
- * 2. When hospitalization status is 'no', removes any stale hospitalization details
- *    (handles case where user entered details then changed answer to 'no')
+ * Transformations applied:
+ * - Removes UI-only fields (prefixed with 'view:')
+ * - Removes deprecated fields (suffix, isMilitary) and stale data from old form versions
+ * - Copies veteran information to claimant fields when veteran is the claimant
+ * - Removes stale hospitalization details when user changes answer to 'no'
  *
- * @param {Object} formConfig - The form configuration object
+ * @param {Object} _formConfig - The form configuration object (unused)
  * @param {Object} formData - The form data collected from the user
- * @returns {Object} The transformed form data ready for submission
- *
- * @example
- * const transformed = submitTransformer(formConfig, {
- *   claimantRelationship: 'veteran',
- *   veteranIdentification: {
- *     veteranFullName: { first: 'John', last: 'Doe' },
- *     veteranDOB: '1980-01-01',
- *     veteranSSN: '123-45-6789'
- *   },
- *   veteranAddress: {
- *     veteranAddress: { street: '123 Main St', city: 'Springfield', ... }
- *   },
- *   hospitalizationStatus: {
- *     isCurrentlyHospitalized: 'no'
- *   },
- *   hospitalizationDate: { date: '2024-01-01' } // Will be removed
- * });
- * // transformed.claimantInformation will be populated with veteran's data
- * // transformed.hospitalizationDate and hospitalizationFacility will be removed
+ * @returns {string} JSON string of the transformed form data
  */
 export function submitTransformer(_formConfig, formData) {
-  const transformedData = { ...formData };
+  let transformedData = filterViewFields(formData);
+  transformedData = removeDeprecatedFields(transformedData);
 
-  // Clean up duplicate/unnecessary data before submission
-  // Remove the 'veteran' object added by platform (duplicates veteranIdentification)
+  // Remove duplicate and stale fields from old form versions
   delete transformedData.veteran;
+  delete transformedData.veteranIdentification;
+  delete transformedData.signature;
+  delete transformedData.certificationChecked;
+  delete transformedData.agreed;
+  delete transformedData.statementOfTruthSignature;
+  delete transformedData.statementOfTruthCertified;
 
-  // If the veteran is the claimant, copy veteran information to claimant fields
-  // This ensures the backend receives complete claimant data even though
-  // the user didn't fill out separate claimant pages
-  // Note: claimantRelationship is nested due to sectionName in PageTemplate
+  /**
+   * When veteran is the claimant, copy veteran information to claimant fields.
+   * Backend requires complete claimant data even though user doesn't fill separate pages.
+   * Note: claimantContact is intentionally not copied as veteran pages don't collect it.
+   */
   const isVeteranClaimant =
-    transformedData.claimantRelationship?.claimantRelationship === 'veteran';
+    transformedData.claimantRelationship?.relationship === 'veteran';
 
   if (isVeteranClaimant) {
     const veteranName =
-      transformedData.veteranIdentification?.veteranFullName || {};
-    const veteranDOB = transformedData.veteranIdentification?.veteranDOB || '';
-    const veteranSSN = transformedData.veteranIdentification?.veteranSSN || '';
+      transformedData.veteranInformation?.veteranFullName || {};
+    const veteranDob = transformedData.veteranInformation?.veteranDob || '';
+    const veteranSsn = transformedData.veteranInformation?.veteranSsn || '';
     const veteranAddr = transformedData.veteranAddress?.veteranAddress || {};
 
-    // Copy veteran information to claimant fields
     transformedData.claimantInformation = {
       claimantFullName: {
         first: veteranName.first || '',
         middle: veteranName.middle || '',
         last: veteranName.last || '',
-        suffix: veteranName.suffix || '',
       },
-      claimantDOB: veteranDOB,
+      claimantDob: veteranDob,
     };
 
-    transformedData.claimantSSN = {
-      claimantSSN: veteranSSN,
+    transformedData.claimantSsn = {
+      claimantSsn: veteranSsn,
     };
 
     transformedData.claimantAddress = {
@@ -88,27 +92,21 @@ export function submitTransformer(_formConfig, formData) {
         state: veteranAddr.state || '',
         postalCode: veteranAddr.postalCode || '',
         country: veteranAddr.country || 'USA',
-        isMilitary: veteranAddr.isMilitary || false,
       },
     };
-
-    // Note: claimantContact (phone/email) intentionally left as-is
-    // The veteran pages don't collect contact information, so if the veteran
-    // is the claimant, contact info should come from claimantContact if present
   }
 
-  // If not currently hospitalized, remove any stale hospitalization details
-  // This handles the case where the user entered hospital information,
-  // then went back and changed their answer to 'no'
+  /**
+   * Remove stale hospitalization details when user changes answer to 'no'.
+   * Keeps hospitalizationStatus field but removes date and facility data.
+   */
   const isCurrentlyHospitalized =
-    transformedData.hospitalizationStatus?.isCurrentlyHospitalized === 'yes';
+    transformedData.hospitalizationStatus?.isCurrentlyHospitalized === true;
 
   if (!isCurrentlyHospitalized) {
-    // Keep hospitalizationStatus (contains the 'no' answer)
-    // Remove hospitalizationDate and hospitalizationFacility
     delete transformedData.hospitalizationDate;
     delete transformedData.hospitalizationFacility;
   }
 
-  return transformedData;
+  return JSON.stringify(transformedData);
 }

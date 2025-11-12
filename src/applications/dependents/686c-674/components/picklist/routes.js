@@ -6,15 +6,23 @@ import spouseDeath from './spouseDeath';
 
 import childIsStepChild from './childIsStepchild';
 import childReasonToRemove from './childReasonToRemove';
+// child left household
 import stepchildFinancialSupport from './stepchildFinancialSupport';
 import stepchildFinancialSupportExit from './stepchildFinancialSupportExit';
 import stepchildLeftHousehold from './stepchildLeftHousehold';
+// Child marriage
 import childMarriage from './childMarriage';
+// Child death
 import childDeath from './childDeath';
+// Child left school
+import childHasDisability from './childHasDisability';
+import childDisabilityExit from './childDisabilityExit';
+import childLeftSchool from './childLeftSchool';
+// Child adopted out of family
+import childAdoptedExit from './childAdoptedExit';
 
 import parentReasonToRemove from './parentReasonToRemove';
 import parentDeath from './parentDeath';
-import parentOther from './parentOther';
 import parentOtherExit from './parentOtherExit';
 
 /**
@@ -35,20 +43,28 @@ export const routing = {
   Child: [
     { path: 'is-stepchild', page: childIsStepChild },
     { path: 'child-reason-to-remove', page: childReasonToRemove },
+    // Child left household
     { path: 'stepchild-financial-support', page: stepchildFinancialSupport },
     {
       path: 'stepchild-financial-support-exit',
       page: stepchildFinancialSupportExit,
     },
     { path: 'stepchild-left-household', page: stepchildLeftHousehold },
+    // Child marriage
     { path: 'child-marriage', page: childMarriage },
+    // Child death
     { path: 'child-death', page: childDeath },
+    // Child left school
+    { path: 'child-disability', page: childHasDisability },
+    { path: 'child-exit', page: childDisabilityExit },
+    { path: 'child-left-school', page: childLeftSchool },
+    // Child adopted out of family
+    { path: 'child-adopted-exit', page: childAdoptedExit },
   ],
 
   Parent: [
     { path: 'parent-reason-to-remove', page: parentReasonToRemove },
     { path: 'parent-death', page: parentDeath },
-    { path: 'parent-other', page: parentOther },
     { path: 'parent-exit', page: parentOtherExit },
   ],
 };
@@ -76,23 +92,26 @@ export const getPicklistRoutes = (fullData, routes = routing) =>
         const dependentRoutes = routes[dependentType] || [];
 
         const getDependentRoute = nextPage =>
-          dependentRoutes.find(page => page.path === nextPage) ||
-          dependentRoutes[0];
+          dependentRoutes.find(page => page.path === nextPage);
         let nextPage = dependentRoutes[0].path || '';
         result.push({ type: dependentType, path: nextPage, index });
 
+        let iterations = 0; // prevent infinite loops
         do {
           const dependentRoute = getDependentRoute(nextPage);
+
           nextPage =
             dependentRoute?.page.handlers.goForward({
               itemData,
               index,
               fullData,
             }) || '';
+
           if (nextPage && nextPage !== 'DONE') {
             result.push({ type: dependentType, path: nextPage, index });
           }
-        } while (nextPage && nextPage !== 'DONE');
+          iterations += 1;
+        } while (nextPage && nextPage !== 'DONE' && iterations < 50);
       }
 
       return result;

@@ -12,6 +12,7 @@ const ReviewPageAlert = ({
   return (
     <>
       <VaAlert
+        data-testid="review-page-alert"
         close-btn-aria-label="Close notification"
         status={status}
         closeable
