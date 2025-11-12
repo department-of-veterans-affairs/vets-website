@@ -56,9 +56,7 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
         .then(text => {
           // Verify complete message text for CST
           expect(text).to.include('Files uploaded after 6:00 p.m.');
-          expect(text).to.include(
-            "will show as received on the next day's date, but we record your submissions when you upload them.",
-          );
+          expect(text).to.include("will show with the next day's date.");
         });
 
       cy.axeCheck();
@@ -104,9 +102,7 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
         .then(text => {
           // Verify complete message text for CST
           expect(text).to.include('Files uploaded after 6:00 p.m.');
-          expect(text).to.include(
-            "will show as received on the next day's date, but we record your submissions when you upload them.",
-          );
+          expect(text).to.include("will show with the next day's date.");
         });
 
       cy.axeCheck();
@@ -152,9 +148,7 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
         .then(text => {
           // Verify complete message text for CST
           expect(text).to.include('Files uploaded after 6:00 p.m.');
-          expect(text).to.include(
-            "will show as received on the next day's date, but we record your submissions when you upload them.",
-          );
+          expect(text).to.include("will show with the next day's date.");
         });
 
       // Navigate to Files tab and verify message appears there too
@@ -173,9 +167,7 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
         .then(text => {
           // Verify complete message text for CST
           expect(text).to.include('Files uploaded after 6:00 p.m.');
-          expect(text).to.include(
-            "will show as received on the next day's date, but we record your submissions when you upload them.",
-          );
+          expect(text).to.include("will show with the next day's date.");
         });
 
       cy.axeCheck();
@@ -321,11 +313,8 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
           if (text.includes('Note:')) {
             // If note appears, verify complete message text for CST
             expect(text).to.include('Files uploaded after 6:00 p.m.');
-            // Verify specific date format appears (Month D, YYYY)
-            expect(text).to.match(/[A-Z][a-z]+ \d{1,2}, \d{4}/);
-            expect(text).to.include(
-              'but we record your submissions when you upload them.',
-            );
+            // Verify specific date format appears: "as Month D, YYYY."
+            expect(text).to.match(/as [A-Z][a-z]+ \d{1,2}, \d{4}\./);
           }
         });
 
@@ -347,22 +336,14 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
         .find('p')
         .first()
         .should('be.visible')
-        .and('contain.text', 'Files uploaded')
-        .and('contain.text', 'will show as received on')
-        .and(
-          'contain.text',
-          'but we record your submissions when you upload them',
-        )
         .invoke('text')
         .then(text => {
+          // Verify complete message text for JST
+          expect(text).to.include('Files uploaded before');
+          expect(text).to.include("will show with the previous day's date.");
+
           // Verify VA.gov time format (e.g., "9:00 a.m." with periods)
           expect(text).to.match(/\d{1,2}:\d{2}\s+[ap]\.m\./);
-
-          // Verify "before" directional language for positive offset
-          expect(text).to.include('before');
-
-          // Static message should use "previous day's date" for positive offset
-          expect(text).to.include("previous day's date");
         });
 
       cy.axeCheck();
@@ -381,22 +362,14 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
         .find('p')
         .first()
         .should('be.visible')
-        .and('contain.text', 'Files uploaded')
-        .and('contain.text', 'will show as received on')
-        .and(
-          'contain.text',
-          'but we record your submissions when you upload them',
-        )
         .invoke('text')
         .then(text => {
+          // Verify complete message text for JST
+          expect(text).to.include('Files uploaded before');
+          expect(text).to.include("will show with the previous day's date.");
+
           // Verify VA.gov time format (e.g., "9:00 a.m." with periods)
-          expect(text).to.match(/9:00 a.m./);
-
-          // Verify "before" directional language for positive offset
-          expect(text).to.include('before');
-
-          // Static message should use "previous day's date" for positive offset
-          expect(text).to.include("previous day's date");
+          expect(text).to.match(/9:00 a\.m\./);
         });
 
       cy.axeCheck();
@@ -415,13 +388,11 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
         .find('p')
         .first()
         .should('be.visible')
-        .and('contain.text', 'Files uploaded')
-        .and('contain.text', 'before')
-        .and('contain.text', 'will show as received on the')
         .invoke('text')
         .then(text => {
-          // Static message should use "previous day's date"
-          expect(text).to.include("previous day's date");
+          // Verify complete message text for JST
+          expect(text).to.include('Files uploaded before');
+          expect(text).to.include("will show with the previous day's date.");
         });
 
       // Navigate to Files tab and verify message appears there too
@@ -436,13 +407,11 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
         .find('p')
         .first()
         .should('be.visible')
-        .and('contain.text', 'Files uploaded')
-        .and('contain.text', 'before')
-        .and('contain.text', 'will show as received on the')
         .invoke('text')
         .then(text => {
-          // Static message should use "previous day's date"
-          expect(text).to.include("previous day's date");
+          // Verify complete message text for JST
+          expect(text).to.include('Files uploaded before');
+          expect(text).to.include("will show with the previous day's date.");
         });
 
       cy.axeCheck();

@@ -85,8 +85,8 @@ class DocumentRequestPage extends React.Component {
               this.props.claim.id,
               this.props.trackedItem,
               files,
-              timezoneMitigationEnabled,
               showDocumentUploadStatus,
+              timezoneMitigationEnabled,
             )
           }
           progress={this.props.progress}
