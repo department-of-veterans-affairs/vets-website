@@ -69,7 +69,6 @@ Cypress.Commands.add('verifyOptions', () => {
   // CCP care have services available
   selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PRO);
   cy.get('#service-type-loading').should('exist');
-  cy.wait('@mockServices');
   cy.get('#service-typeahead').should('not.have.attr', 'disabled');
 
   // CCP pharmacies dont have services available
@@ -125,16 +124,15 @@ describe('Facility VA search', () => {
     CcpHelpers.initApplicationMock('', 'mockProviders');
     typeInCityStateInput('27606');
     selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PRO);
-    cy.wait('@mockServices');
+    cy.get('#service-typeahead').should('not.have.attr', 'disabled');
 
     typeAndSelectInCCPServiceTypeInput('General Acute Care Hospital');
 
     cy.get('#facility-search').click({ waitForAnimations: true });
-    cy.wait('@mockProviders');
-
-    cy.contains(
-      'No results found for "Community providers (in VA\'s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
-    ).should('be.focused');
+    cy.get('#search-results-subheader').should('exist');
+    cy.focused().contains(
+      'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
+    );
     cy.get('#other-tools').should('exist');
   });
 
@@ -187,9 +185,9 @@ describe('Facility VA search', () => {
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
     cy.visit('/find-locations');
-    typeInCityStateInput('27606');
     cy.injectAxe();
     cy.axeCheck();
+    typeInCityStateInput('27606');
     // Poll to ensure Use My Location is not triggered (checks every 500ms for 8 seconds)
     // If Use My Location is triggered and succeeds, it will change the contents of the search field:
     cy.get('#street-city-state-zip', { timeout: 8000 }).should(
