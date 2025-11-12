@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
-import * as Sentry from '@sentry/browser';
 import { API_ENDPOINTS } from '../../constants/constants';
 import { ensureValidCSRFToken } from '../../utils/actions/ensureValidCSRFToken';
 
@@ -50,10 +49,6 @@ const DownloadFormPDF = ({ formData }) => {
           "We're sorry. Something went wrong when downloading your form. Please try again later.",
         );
         recordEvent({ event: '21-4192-pdf-download--failure' });
-        Sentry.withScope(scope => {
-          scope.setExtra('error', error);
-          Sentry.captureMessage('21-4192-pdf-download-fail');
-        });
       } finally {
         setLoading(false);
       }

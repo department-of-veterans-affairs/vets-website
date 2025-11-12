@@ -13,8 +13,6 @@ describe('DownloadFormPDF', () => {
   let apiRequestStub;
   let ensureValidCSRFTokenStub;
   let recordEventStub;
-  let sentryCaptureMessageStub;
-  let sentryWithScopeStub;
   let focusElementStub;
   let createObjectURLStub;
   let revokeObjectURLStub;
@@ -75,17 +73,6 @@ describe('DownloadFormPDF', () => {
     const uiUtils = require('platform/utilities/ui');
     focusElementStub = sinon.stub(uiUtils, 'focusElement');
 
-    const Sentry = require('@sentry/browser');
-    sentryCaptureMessageStub = sinon.stub(Sentry, 'captureMessage');
-    sentryWithScopeStub = sinon
-      .stub(Sentry, 'withScope')
-      .callsFake(callback => {
-        const mockScope = {
-          setExtra: sinon.stub(),
-        };
-        return callback(mockScope);
-      });
-
     const csrfModule = require('../../utils/actions/ensureValidCSRFToken');
     ensureValidCSRFTokenStub = sinon
       .stub(csrfModule, 'ensureValidCSRFToken')
@@ -101,8 +88,6 @@ describe('DownloadFormPDF', () => {
     if (apiRequestStub) apiRequestStub.restore();
     if (ensureValidCSRFTokenStub) ensureValidCSRFTokenStub.restore();
     if (recordEventStub) recordEventStub.restore();
-    if (sentryCaptureMessageStub) sentryCaptureMessageStub.restore();
-    if (sentryWithScopeStub) sentryWithScopeStub.restore();
     if (focusElementStub) focusElementStub.restore();
     if (createObjectURLStub) createObjectURLStub.restore();
     if (revokeObjectURLStub) revokeObjectURLStub.restore();
@@ -318,22 +303,6 @@ describe('DownloadFormPDF', () => {
             event: '21-4192-pdf-download--failure',
           }),
         ).to.be.true;
-      });
-    });
-
-    it('should send error to Sentry', async () => {
-      const error = new Error('Network error');
-      apiRequestStub.rejects(error);
-
-      const { container } = render(<DownloadFormPDF formData="{}" />);
-
-      const link = container.querySelector('va-link');
-      link.click();
-
-      await waitFor(() => {
-        expect(sentryWithScopeStub.called).to.be.true;
-        expect(sentryCaptureMessageStub.calledWith('21-4192-pdf-download-fail'))
-          .to.be.true;
       });
     });
 
