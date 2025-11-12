@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropType from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
-import { Paths } from '../util/constants';
+import { Paths, PageTitles } from '../util/constants';
 import featureToggles from '../hooks/useFeatureToggles';
 import { acceptInterstitial } from '../actions/threadDetails';
 import { getRecentRecipients } from '../actions/recipients';
@@ -21,6 +21,8 @@ const InterstitialPage = props => {
   const location = useLocation();
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
   const dispatch = useDispatch();
+
+  const h1Ref = useRef(null);
   const { allRecipients, recentRecipients } = useSelector(
     state => state.sm.recipients,
   );
@@ -37,6 +39,10 @@ const InterstitialPage = props => {
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
+
+  document.title = `Only Use Messages For Non-Urgent Needs${
+    PageTitles.DEFAULT_PAGE_TITLE_TAG
+  }`;
 
   // Determine the correct destination based on whether recent recipients exist
   // This is used for both the href attribute AND the programmatic navigation
@@ -106,7 +112,7 @@ const InterstitialPage = props => {
 
   return (
     <div className="interstitial-page">
-      <h1 className="vads-u-margin-bottom--2">
+      <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
         Only use messages for <span className="no-word-wrap">non-urgent</span>{' '}
         needs
       </h1>

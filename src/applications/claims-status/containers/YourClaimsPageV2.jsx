@@ -16,13 +16,11 @@ import {
 } from '../actions';
 
 import AppealListItem from '../components/appeals-v2/AppealListItem';
-import AppealsUnavailable from '../components/AppealsUnavailable';
 import ClaimCardLoadingSkeleton from '../components/ClaimCard/ClaimCardLoadingSkeleton';
 import NeedHelp from '../components/NeedHelp';
-import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
+import ServiceUnavailableAlert from '../components/ServiceUnavailableAlert';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsListItem from '../components/ClaimsListItem';
-import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import FeaturesWarning from '../components/FeaturesWarning';
 import NoClaims from '../components/NoClaims';
 import StemClaimListItem from '../components/StemClaimListItem';
@@ -141,24 +139,28 @@ class YourClaimsPageV2 extends React.Component {
       return null;
     }
 
-    if (
-      canAccessAppeals &&
-      canAccessClaims &&
-      claimsAvailable !== claimsAvailability.AVAILABLE &&
-      appealsAvailable !== appealsAvailability.AVAILABLE
-    ) {
-      return <ClaimsAppealsUnavailable />;
-    }
+    // Determine which services are unavailable
+    // Service keys must match SERVICE_REGISTRY in constants.js
+    const unavailableServices = [];
 
     if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {
-      return <ClaimsUnavailable headerLevel={3} />;
+      unavailableServices.push('claims');
     }
 
     if (
       canAccessAppeals &&
       appealsAvailable !== appealsAvailability.AVAILABLE
     ) {
-      return <AppealsUnavailable />;
+      unavailableServices.push('appeals');
+    }
+
+    if (unavailableServices.length > 0) {
+      return (
+        <ServiceUnavailableAlert
+          services={unavailableServices}
+          headerLevel={3}
+        />
+      );
     }
 
     return null;

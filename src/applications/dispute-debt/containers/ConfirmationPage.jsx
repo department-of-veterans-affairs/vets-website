@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
 import {
   ConfirmationView,
   ChapterSectionCollection,
 } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { setDocumentTitle } from '../utils';
+
 import NeedHelp from '../components/NeedHelp';
 
 export const ConfirmationPage = ({ route }) => {
   const { formConfig } = route;
+
+  useEffect(
+    () => {
+      setDocumentTitle('Confirmation Page - Dispute Debt');
+    },
+    [formConfig.title],
+  );
 
   const form = useSelector(state => state.form || {});
   const { submission } = form;
@@ -39,7 +47,7 @@ export const ConfirmationPage = ({ route }) => {
     >
       <ConfirmationView.SubmissionAlert
         title="Your dispute submission is in progress"
-        content="You will receive a letter in the mail confirming receipt within 30 days."
+        content="You will receive a letter in the email confirming receipt within 60 days."
         actions={null}
       />
       {/* <ConfirmationView.SavePdfDownload /> */}
@@ -50,10 +58,10 @@ export const ConfirmationPage = ({ route }) => {
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList
         item1Header="We’ll confirm when we receive your dispute request"
-        item1Content="After we receive your submission, we’ll review your dispute. You’ll receive a letter in the mail confirming receipt within 30 days."
+        item1Content="After we receive your submission, we’ll review your dispute. You’ll receive a letter in the email confirming receipt within 60 days."
         item1Actions={null}
         item2Header="We’ll review your dispute"
-        item2Content="A determination will be made within 30–90 days. We will mail you a letter with our decision."
+        item2Content="A determination will be made within 180 days. We will mail you a letter with our decision."
       />
       <ConfirmationView.HowToContact />
       <ConfirmationView.GoBackLink />

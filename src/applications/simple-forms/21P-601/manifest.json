@@ -2,5 +2,6 @@
   "appName": "Application for Accrued Amounts Due a Deceased Beneficiary",
   "entryFile": "./app-entry.jsx",
   "entryName": "21P-601",
-  "rootUrl": "/supporting-forms-for-claims/accrued-benefits-application-21p-601"
+  "rootUrl": "/family-and-caregiver-benefits/survivor-compensation/apply-for-accrued-benefits-form-21p-601",
+  "productId": "3448217b-9694-4de4-8819-d34ee071035d"
 }

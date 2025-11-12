@@ -63,7 +63,7 @@ export const transform = (formConfig, form) => {
   let transformedData = transformForSubmit(formConfig, form);
   transformedData = calculateSeparationDuration(transformedData);
   return JSON.stringify({
-    survivorsBenefits: {
+    survivorsBenefitsClaim: {
       form: transformedData,
     },
     localTime: format(new Date(), "yyyy-MM-dd'T'HH:mm:ssXXX"),
