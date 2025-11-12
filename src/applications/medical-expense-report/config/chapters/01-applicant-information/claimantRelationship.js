@@ -15,9 +15,9 @@ export default {
       title: 'Which of these best describes you?',
       yesNoReverse: true,
       labels: {
-        Y: 'I’m a Veteran, and I want to report unreimbursed medical expenses',
+        Y: 'I’m a Veteran reporting unreimbursed medical expenses',
         N:
-          'I’m a spouse, child or dependent of a deceased Veteran, and I want to report unreimbursed medical expenses',
+          'I’m the spouse, dependent, or survivor of a Veteran reporting unreimbursed medical expenses',
       },
     }),
   },

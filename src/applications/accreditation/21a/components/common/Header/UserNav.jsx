@@ -9,7 +9,7 @@ const UserHelpLinks = () => {
         <a
           data-testid="user-nav-poa-search-link"
           className="vads-u-color--white"
-          href="/representative/claimant-search"
+          href="/representative/find-claimant"
           data-eventname="nav-link-click"
         >
           <va-icon icon="search" size={2} className="people-search-icon" />
