@@ -40,10 +40,6 @@ describe('Medications Prescriptions container', () => {
       prescriptionsList: [],
       refillAlertList: [],
     },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medications_display_refill_progress: false,
-    },
   };
 
   const setup = (state = initialState) => {
@@ -98,40 +94,10 @@ describe('Medications Prescriptions container', () => {
       rx: {
         ...initialState.rx,
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_progress: true,
-      },
     });
 
     expect(await screen.findByTestId('mhv-rx--delayed-refill-alert')).to.exist;
     expect(await screen.findByTestId('rxDelay-alert-message')).to.exist;
-  });
-
-  it('should not display delayed refill alert when showRefillProgressContent flag is false', async () => {
-    sandbox.restore();
-    stubAllergiesApi({ sandbox });
-    stubPrescriptionsListApi({
-      sandbox,
-      data: {
-        prescriptions: emptyPrescriptionsList.data,
-        meta: emptyPrescriptionsList.meta,
-        pagination: emptyPrescriptionsList.meta.pagination,
-        refillAlertList,
-      },
-    });
-
-    const screen = setup({
-      ...initialState,
-      rx: {
-        ...initialState.rx,
-      },
-    });
-
-    await waitFor(() => {
-      expect(screen.queryByTestId('mhv-rx--delayed-refill-alert')).not.to.exist;
-      expect(screen.queryByTestId('rxDelay-alert-message')).not.to.exist;
-    });
   });
 
   it('should not display delayed refill alert when refillAlertList is empty', async () => {
@@ -151,10 +117,6 @@ describe('Medications Prescriptions container', () => {
       ...initialState,
       rx: {
         ...initialState.rx,
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_progress: true,
       },
     });
 

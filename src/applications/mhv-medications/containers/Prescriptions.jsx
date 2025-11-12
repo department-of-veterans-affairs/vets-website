@@ -45,7 +45,6 @@ import {
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
-import { selectRefillProgressFlag } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
@@ -92,9 +91,6 @@ const Prescriptions = () => {
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
   const currentPage = useSelector(selectPageNumber);
-
-  // Get feature flags
-  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
 
   // Track if we've initialized from session storage
   const initializedFromSession = useRef(false);
@@ -599,7 +595,6 @@ const Prescriptions = () => {
   };
 
   const renderDelayedRefillAlert = () => {
-    if (!showRefillProgressContent) return null;
     if (!refillAlertList?.length) return null;
 
     return (
