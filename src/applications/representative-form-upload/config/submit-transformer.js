@@ -48,4 +48,39 @@ const transformForSubmit = (formConfig, form) => {
   });
 };
 
+export function itfTransformForSubmit(formConfig, form) {
+  const transformedData = JSON.parse(
+    sharedTransformForSubmit(formConfig, form),
+  );
+
+  const { formNumber, subTitle } = getFormContent();
+  const {
+    veteranSsn = {},
+    address = {},
+    veteranFullName = {},
+    veteranDateOfBirth = {},
+    claimantFullName = {},
+    claimantDateOfBirth,
+    claimantSsn,
+    vaFileNumber,
+    benefitType,
+  } = transformedData;
+
+  return JSON.stringify({
+    formName: subTitle,
+    formData: {
+      veteranSsn,
+      postalCode: address.postalCode,
+      veteranFullName,
+      veteranDateOfBirth,
+      formNumber,
+      claimantFullName,
+      claimantDateOfBirth,
+      claimantSsn,
+      vaFileNumber,
+      benefitType,
+    },
+  });
+}
+
 export default transformForSubmit;

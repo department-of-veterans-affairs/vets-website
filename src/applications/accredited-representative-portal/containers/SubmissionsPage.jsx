@@ -11,6 +11,7 @@ import {
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import api from '../utilities/api';
 import {
   SUBMISSIONS_BC_LABEL,
@@ -25,6 +26,7 @@ import PaginationMeta from '../components/PaginationMeta';
 import SubmissionsPageResults from '../components/SubmissionsPageResults';
 
 const SubmissionsPage = title => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const [visibleAlert, setVisibleAlert] = useState(true);
   useEffect(
     () => {
@@ -97,8 +99,30 @@ const SubmissionsPage = title => {
         href="/representative/representative-form-upload/submit-va-form-21-526EZ"
         text="Upload and submit VA Form 21-526EZ"
       />
-      <hr />
 
+      {useToggleValue(
+        TOGGLE_NAMES.accreditedRepresentativePortalIntentToFile,
+      ) ? (
+        <>
+          <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif submissions__margin-top">
+            Form 21-0966
+          </h2>
+          <p className="submissions__form-description vads-u-font-size--h4 vads-u-font-family--serif">
+            Application Request for an Intent to File
+          </p>
+          <p className="submissions__subtext submissions__subtext">
+            Record and establish an ITF within minutes to set a potential
+            effective date for payments.
+          </p>
+          <va-link-action
+            href="/representative/representative-form-upload/submit-va-form-21-0966"
+            text="Record VA Form 21-0966"
+          />
+        </>
+      ) : (
+        ''
+      )}
+      <hr />
       <h2 className="submissions__search-header">Recent Submissions</h2>
       <p className="submissions-subtext__copy--secondary vads-u-font-family--serif">
         This list shows only your submissions sent through this portal.

@@ -6,7 +6,7 @@ import formConfig from './config/form';
 import App from './containers/App';
 
 // Add any new form-upload forms to this list
-const formUploadForms = ['21-686c', '21-526EZ'];
+const formUploadForms = ['21-686c', '21-526EZ', '21-0966'];
 
 userPromise
   .then(user => {
