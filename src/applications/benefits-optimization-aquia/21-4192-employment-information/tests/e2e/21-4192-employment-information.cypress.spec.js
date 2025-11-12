@@ -10,12 +10,7 @@ import manifest from '../../manifest.json';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: [
-      'minimal-test',
-      'maximal-test',
-      'currently-employed-test',
-      'duty-status-only-test',
-    ],
+    dataSets: ['minimal', 'maximal', 'currently-employed', 'duty-status-only'],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
