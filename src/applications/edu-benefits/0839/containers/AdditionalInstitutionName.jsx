@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { useValidateAdditionalFacilityCode } from '../hooks/useValidateAdditionalFacilityCode';
-import { updateFacilityCodeInRedux } from '../hooks/updateFacilityCodeInRedux';
+import { updateFacilityCodeInRedux } from '../utils/updateFacilityCodeInRedux';
 
 const AdditionalInstitutionName = () => {
   const dispatch = useDispatch();

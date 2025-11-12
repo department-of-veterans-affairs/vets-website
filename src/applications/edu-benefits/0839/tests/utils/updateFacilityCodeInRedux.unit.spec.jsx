@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as actions from 'platform/forms-system/src/js/actions';
-import { updateFacilityCodeInRedux } from '../../hooks/updateFacilityCodeInRedux';
+import { updateFacilityCodeInRedux } from '../../utils/updateFacilityCodeInRedux';
 
 describe('updateFacilityCodeInRedux', () => {
   let dispatchStub;
