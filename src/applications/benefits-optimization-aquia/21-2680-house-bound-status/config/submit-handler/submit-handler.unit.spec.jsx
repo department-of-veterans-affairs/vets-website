@@ -11,8 +11,10 @@ describe('submitForm', () => {
   let sandbox;
   let fetchStub;
   let consoleErrorStub;
+  let localStorageGetItemStub;
   let originalFileReader;
   let originalSessionStorage;
+  let originalLocalStorage;
 
   const mockFormConfig = {
     submitUrl: 'http://localhost:3000/v0/form212680/download_pdf',
@@ -34,6 +36,22 @@ describe('submitForm', () => {
 
     // Stub console.error
     consoleErrorStub = sandbox.stub(console, 'error');
+
+    // Store and mock localStorage
+    originalLocalStorage = global.localStorage;
+    localStorageGetItemStub = sandbox.stub();
+    global.localStorage = {
+      getItem: localStorageGetItemStub,
+      setItem: sandbox.stub(),
+      removeItem: sandbox.stub(),
+      clear: sandbox.stub(),
+      key: sandbox.stub(),
+      get length() {
+        return 0;
+      },
+    };
+    // Default return value for CSRF token
+    localStorageGetItemStub.withArgs('csrfToken').returns('default-csrf-token');
 
     // Store original sessionStorage
     originalSessionStorage = global.sessionStorage;
@@ -74,6 +92,7 @@ describe('submitForm', () => {
 
     // Restore original globals
     global.sessionStorage = originalSessionStorage;
+    global.localStorage = originalLocalStorage;
     global.FileReader = originalFileReader;
 
     // Reset transform stub
@@ -315,6 +334,8 @@ describe('submitForm', () => {
 
   describe('Request Headers', () => {
     it('should include credentials: include for authentication', async () => {
+      localStorageGetItemStub.returns('mock-csrf-token');
+
       const mockBlob = new Blob(['mock pdf content'], {
         type: 'application/pdf',
       });
@@ -332,6 +353,8 @@ describe('submitForm', () => {
     });
 
     it('should include Content-Type: application/json header', async () => {
+      localStorageGetItemStub.returns('mock-csrf-token');
+
       const mockBlob = new Blob(['mock pdf content'], {
         type: 'application/pdf',
       });
@@ -351,6 +374,8 @@ describe('submitForm', () => {
     });
 
     it('should include X-Key-Inflection: camel header', async () => {
+      localStorageGetItemStub.returns('mock-csrf-token');
+
       const mockBlob = new Blob(['mock pdf content'], {
         type: 'application/pdf',
       });
@@ -367,6 +392,93 @@ describe('submitForm', () => {
       expect(fetchStub.firstCall.args[1].headers['X-Key-Inflection']).to.equal(
         'camel',
       );
+    });
+
+    it('should include X-CSRF-Token header from localStorage', async () => {
+      const mockCsrfToken = 'test-csrf-token-12345';
+
+      // Reset and set specific return value
+      localStorageGetItemStub.reset();
+      localStorageGetItemStub.withArgs('csrfToken').returns(mockCsrfToken);
+
+      const mockBlob = new Blob(['mock pdf content'], {
+        type: 'application/pdf',
+      });
+      const mockResponse = {
+        ok: true,
+        status: 200,
+        blob: sinon.stub().resolves(mockBlob),
+      };
+
+      fetchStub.resolves(mockResponse);
+
+      await submitForm(mockForm, mockFormConfig);
+
+      // Verify localStorage.getItem was called with 'csrfToken'
+      expect(localStorageGetItemStub.calledOnce).to.be.true;
+      expect(localStorageGetItemStub.calledWith('csrfToken')).to.be.true;
+
+      // Verify X-CSRF-Token header is set with the token from localStorage
+      expect(fetchStub.firstCall.args[1].headers['X-CSRF-Token']).to.equal(
+        mockCsrfToken,
+      );
+    });
+
+    it('should handle missing CSRF token gracefully', async () => {
+      // Reset and return null when CSRF token is not in localStorage
+      localStorageGetItemStub.reset();
+      localStorageGetItemStub.withArgs('csrfToken').returns(null);
+
+      const mockBlob = new Blob(['mock pdf content'], {
+        type: 'application/pdf',
+      });
+      const mockResponse = {
+        ok: true,
+        status: 200,
+        blob: sinon.stub().resolves(mockBlob),
+      };
+
+      fetchStub.resolves(mockResponse);
+
+      await submitForm(mockForm, mockFormConfig);
+
+      // Verify localStorage.getItem was called
+      expect(localStorageGetItemStub.calledWith('csrfToken')).to.be.true;
+
+      // Verify X-CSRF-Token header is set even if null
+      expect(fetchStub.firstCall.args[1].headers['X-CSRF-Token']).to.equal(
+        null,
+      );
+    });
+
+    it('should send all required headers together', async () => {
+      const mockCsrfToken = 'combined-test-csrf-token';
+
+      // Reset and set specific return value
+      localStorageGetItemStub.reset();
+      localStorageGetItemStub.withArgs('csrfToken').returns(mockCsrfToken);
+
+      const mockBlob = new Blob(['mock pdf content'], {
+        type: 'application/pdf',
+      });
+      const mockResponse = {
+        ok: true,
+        status: 200,
+        blob: sinon.stub().resolves(mockBlob),
+      };
+
+      fetchStub.resolves(mockResponse);
+
+      await submitForm(mockForm, mockFormConfig);
+
+      const { headers } = fetchStub.firstCall.args[1];
+
+      // Verify all required headers are present
+      expect(headers).to.deep.include({
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'X-CSRF-Token': mockCsrfToken,
+      });
     });
   });
 

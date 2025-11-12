@@ -204,4 +204,131 @@ describe('DownloadFormPDF', () => {
       );
     });
   });
+
+  describe('sessionStorage PDF blob retrieval', () => {
+    let fetchStub;
+    let getItemStub;
+    let originalSessionStorage;
+
+    beforeEach(() => {
+      // Reset outer stubs
+      fetchPdfApiStub.reset();
+      downloadBlobStub.reset();
+
+      // Store original sessionStorage
+      originalSessionStorage = global.sessionStorage;
+
+      // Create sessionStorage mock
+      getItemStub = sinon.stub();
+      global.sessionStorage = {
+        getItem: getItemStub,
+        setItem: sinon.stub(),
+        removeItem: sinon.stub(),
+        clear: sinon.stub(),
+        key: sinon.stub(),
+        get length() {
+          return 0;
+        },
+      };
+
+      fetchStub = sinon.stub(global, 'fetch');
+    });
+
+    afterEach(() => {
+      fetchStub.restore();
+      // Restore original sessionStorage
+      global.sessionStorage = originalSessionStorage;
+    });
+
+    it('should retrieve PDF from sessionStorage when guid is pdf-blob', async () => {
+      const mockBlobUrl = 'data:application/pdf;base64,mockPdfData';
+      getItemStub.returns(mockBlobUrl);
+
+      const mockBlob = new Blob(['mock pdf content'], {
+        type: 'application/pdf',
+      });
+
+      // Create a proper Response mock with blob() method
+      const mockResponse = {
+        blob: () => Promise.resolve(mockBlob),
+      };
+      fetchStub.resolves(mockResponse);
+
+      const { container } = render(
+        <DownloadFormPDF guid="pdf-blob" veteranName={mockVeteranName} />,
+      );
+
+      const link = container.querySelector('va-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        expect(getItemStub.calledOnce).to.be.true;
+        expect(getItemStub.calledWith('form-21-2680-pdf-blob')).to.be.true;
+        expect(fetchStub.calledOnce).to.be.true;
+        expect(fetchStub.calledWith(mockBlobUrl)).to.be.true;
+        expect(downloadBlobStub.calledOnce).to.be.true;
+      });
+    });
+
+    it('should show error when PDF blob not found in sessionStorage', async () => {
+      getItemStub.returns(null);
+
+      const { container, getByText, getByRole } = render(
+        <DownloadFormPDF guid="pdf-blob" veteranName={mockVeteranName} />,
+      );
+
+      const link = container.querySelector('va-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const alert = getByRole('alert');
+        expect(alert).to.exist;
+        expect(getByText('Download failed')).to.exist;
+        expect(
+          getByText(
+            "We're sorry. Something went wrong when downloading your form. Please try again later.",
+          ),
+        ).to.exist;
+        expect(fetchPdfApiStub.called).to.be.false;
+        expect(downloadBlobStub.called).to.be.false;
+      });
+    });
+
+    it('should fallback to API when guid is not pdf-blob', async () => {
+      const { container } = render(
+        <DownloadFormPDF guid={mockGuid} veteranName={mockVeteranName} />,
+      );
+
+      const link = container.querySelector('va-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        expect(getItemStub.called).to.be.false;
+        expect(fetchPdfApiStub.calledOnce).to.be.true;
+        expect(fetchPdfApiStub.calledWith(mockGuid)).to.be.true;
+        expect(downloadBlobStub.calledOnce).to.be.true;
+      });
+    });
+
+    it('should handle fetch error when converting sessionStorage blob', async () => {
+      const mockBlobUrl = 'data:application/pdf;base64,mockPdfData';
+      getItemStub.returns(mockBlobUrl);
+
+      fetchStub.rejects(new Error('Fetch failed'));
+
+      const { container, getByText, getByRole } = render(
+        <DownloadFormPDF guid="pdf-blob" veteranName={mockVeteranName} />,
+      );
+
+      const link = container.querySelector('va-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const alert = getByRole('alert');
+        expect(alert).to.exist;
+        expect(getByText('Download failed')).to.exist;
+        expect(downloadBlobStub.called).to.be.false;
+      });
+    });
+  });
 });

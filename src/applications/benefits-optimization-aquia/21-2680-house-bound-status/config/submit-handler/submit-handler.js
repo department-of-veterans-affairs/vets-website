@@ -19,6 +19,9 @@ export async function submitForm(form, formConfig) {
   const transformedData = formConfig.transformForSubmit(formConfig, form);
 
   try {
+    // Get CSRF token from localStorage
+    const csrfToken = localStorage.getItem('csrfToken');
+
     // Use fetch directly instead of apiRequest since we need a blob response
     // apiRequest is designed for JSON and doesn't support blob responses
     const response = await fetch(formConfig.submitUrl, {
@@ -27,6 +30,7 @@ export async function submitForm(form, formConfig) {
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel',
+        'X-CSRF-Token': csrfToken,
       },
       body: transformedData,
     });
