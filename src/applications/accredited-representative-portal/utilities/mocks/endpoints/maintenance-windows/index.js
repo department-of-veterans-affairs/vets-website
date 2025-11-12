@@ -1,4 +1,4 @@
-const moment = require('moment');
+import { addDays, addHours, addMinutes, subMinutes } from 'date-fns';
 
 /**
  * Service names that can be used for maintenance window testing.
@@ -12,18 +12,18 @@ const SERVICES = {
   vaProfile: 'vet360',
 };
 
-const beforeNow = moment()
-  .subtract(1, 'minute')
-  .toISOString();
-const withinHour = moment()
-  .add(1, 'hour')
-  .subtract(1, 'minute')
-  .toISOString();
-const endTime = moment()
-  .add(6, 'hour')
-  .toISOString();
+const now = new Date();
+const beforeNow = subMinutes(now, 1).toISOString();
+const withinHour = addMinutes(now, 59).toISOString();
+const daysAway = addDays(now, 5).toISOString();
+const defaultEndTime = addHours(now, 6).toISOString();
+const daysAwayEndTime = addHours(now, 174).toISOString(); // 7 days and 6 hours
 
-const createDowntimeNotificationBase = (services, startTime) => {
+const createDowntimeNotificationBase = (
+  services,
+  startTime,
+  endTime = defaultEndTime,
+) => {
   return {
     data: services.map(service => {
       return {
@@ -48,11 +48,16 @@ const createDowntimeActiveNotification = services => {
   return createDowntimeNotificationBase(services, beforeNow);
 };
 
+const createDowntimeFutureNotification = services => {
+  return createDowntimeNotificationBase(services, daysAway, daysAwayEndTime);
+};
+
 const noDowntime = { data: [] };
 
 module.exports = {
   createDowntimeActiveNotification,
   createDowntimeApproachingNotification,
+  createDowntimeFutureNotification,
   noDowntime,
   SERVICES,
 };
