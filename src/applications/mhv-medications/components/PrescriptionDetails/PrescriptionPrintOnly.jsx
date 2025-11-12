@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import {
+  DATETIME_FORMATS,
   FIELD_NONE_NOTED,
   medStatusDisplayTypes,
   pdfStatusDefinitions,
+  RX_SOURCE,
+  DISPENSE_STATUS,
 } from '../../util/constants';
 import {
   validateField,
   dateFormat,
-  pharmacyPhoneNumber,
   determineRefillLabel,
   getShowRefillHistory,
   displayProviderName,
@@ -27,9 +30,11 @@ const PrescriptionPrintOnly = props => {
   const latestTrackingStatus = rx?.trackingList?.[0];
   const showPendingMedsContent = useSelector(selectPendingMedsFlag);
   const pendingMed =
-    rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+    rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+    rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
   const pendingRenewal =
-    rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+    rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+    rx?.dispStatus === DISPENSE_STATUS.RENEW;
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);
 
@@ -72,7 +77,11 @@ const PrescriptionPrintOnly = props => {
       </ul>
       <p className="vads-u-margin-top--neg1p5">
         <strong>When you started taking this medication:</strong>{' '}
-        {dateFormat(pres.dispensedDate, 'MMMM D, YYYY', 'Date not available')}
+        {dateFormat(
+          pres.dispensedDate,
+          DATETIME_FORMATS.longMonthDate,
+          'Date not available',
+        )}
       </p>
       <p>
         <strong>Documented by: </strong>
@@ -107,7 +116,10 @@ const PrescriptionPrintOnly = props => {
               <p>
                 <strong>Last filled on:</strong>{' '}
                 {rx?.sortedDispensedDate
-                  ? dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')
+                  ? dateFormat(
+                      rx.sortedDispensedDate,
+                      DATETIME_FORMATS.longMonthDate,
+                    )
                   : 'Not filled yet'}
               </p>
             ) : null}
@@ -164,7 +176,7 @@ const PrescriptionPrintOnly = props => {
                 <strong>
                   Request refills by this prescription expiration date:
                 </strong>{' '}
-                {dateFormat(rx.expirationDate, 'MMMM D, YYYY')}
+                {dateFormat(rx.expirationDate, DATETIME_FORMATS.longMonthDate)}
               </p>
             )}
 
@@ -195,7 +207,7 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Prescribed on:</strong>{' '}
-              {dateFormat(rx.orderedDate, 'MMMM D, YYYY')}
+              {dateFormat(rx.orderedDate, DATETIME_FORMATS.longMonthDate)}
             </p>
             <p>
               <strong>Prescribed by:</strong>{' '}
@@ -227,7 +239,8 @@ const PrescriptionPrintOnly = props => {
                 {refillHistory.map((entry, i) => {
                   const index = refillHistory.length - i - 1;
                   const { shape, color, backImprint, frontImprint } = entry;
-                  const isPartialFill = entry.prescriptionSource === 'PF';
+                  const isPartialFill =
+                    entry.prescriptionSource === RX_SOURCE.PARTIAL_FILL;
                   const refillLabel = determineRefillLabel(
                     isPartialFill,
                     refillHistory,
@@ -300,7 +313,7 @@ const PrescriptionPrintOnly = props => {
                             {entry.sortedDispensedDate
                               ? dateFormat(
                                   entry.sortedDispensedDate,
-                                  'MMMM D, YYYY',
+                                  DATETIME_FORMATS.longMonthDate,
                                 )
                               : 'Not filled yet'}
                           </p>
@@ -310,7 +323,10 @@ const PrescriptionPrintOnly = props => {
                           </p>
                           <p>
                             <strong>Prescribed on:</strong>{' '}
-                            {dateFormat(entry.orderedDate, 'MMMM D, YYYY')}
+                            {dateFormat(
+                              entry.orderedDate,
+                              DATETIME_FORMATS.longMonthDate,
+                            )}
                           </p>
                           <p>
                             <strong>Prescribed by:</strong>{' '}

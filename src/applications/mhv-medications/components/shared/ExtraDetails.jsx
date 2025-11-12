@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
+import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
 import {
-  dateFormat,
-  pharmacyPhoneNumber,
-  rxSourceIsNonVA,
-} from '../../util/helpers';
-import { dispStatusObj } from '../../util/constants';
+  DATETIME_FORMATS,
+  dispStatusObj,
+  DISPENSE_STATUS,
+} from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
@@ -14,7 +15,7 @@ const ExtraDetails = rx => {
   const { dispStatus, refillRemaining } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   let noRefillRemaining = false;
-  if (refillRemaining === 0 && dispStatus === 'Active') {
+  if (refillRemaining === 0 && dispStatus === DISPENSE_STATUS.ACTIVE) {
     noRefillRemaining = true;
   }
   return (
@@ -52,8 +53,8 @@ const ExtraDetails = rx => {
               className="vads-u-margin-y--0"
             >
               We expect to fill this prescription on{' '}
-              {dateFormat(rx.refillDate, 'MMMM D, YYYY')}. If you need it
-              sooner, call your VA pharmacy
+              {dateFormat(rx.refillDate, DATETIME_FORMATS.longMonthDate)}. If{' '}
+              you need it sooner, call your VA pharmacy
               <CallPharmacyPhone
                 cmopDivisionPhone={pharmacyPhone}
                 page={pageType.DETAILS}
@@ -70,8 +71,8 @@ const ExtraDetails = rx => {
           <va-icon icon="fact_check" size={3} aria-hidden="true" />
           <span className="vads-u-padding-left--2">
             We got your request on{' '}
-            {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
-            updates.
+            {dateFormat(rx.refillSubmitDate, DATETIME_FORMATS.longMonthDate)}.{' '}
+            Check back for updates.
           </span>
         </p>
       )}
@@ -163,9 +164,13 @@ const ExtraDetails = rx => {
 };
 
 ExtraDetails.propTypes = {
-  rx: PropTypes.shape({
-    dispStatus: PropTypes.string,
-  }),
+  dispStatus: PropTypes.string,
+  page: PropTypes.string,
+  pharmacyPhoneNumber: PropTypes.string,
+  prescriptionId: PropTypes.number,
+  refillDate: PropTypes.string,
+  refillRemaining: PropTypes.number,
+  refillSubmitDate: PropTypes.string,
 };
 
 export default ExtraDetails;

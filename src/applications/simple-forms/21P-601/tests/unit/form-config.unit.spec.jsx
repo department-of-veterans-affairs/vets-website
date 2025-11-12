@@ -71,13 +71,6 @@ describe('21P-601 form config', () => {
       expect(page).to.exist;
       expect(page.path).to.equal('eligibility-summary');
       expect(page.hideNavButtons).to.be.true;
-      expect(page.customNavButtons).to.be.a('function');
-    });
-
-    it('eligibilitySummary customNavButtons returns null', () => {
-      const page =
-        formConfig.chapters.eligibilityChapter.pages.eligibilitySummary;
-      expect(page.customNavButtons()).to.be.null;
     });
   });
 
@@ -190,6 +183,17 @@ describe('21P-601 form config', () => {
 
   describe('survivingRelativesChapter dependencies', () => {
     const dependsFn = formConfig.chapters.survivingRelativesChapter.depends;
+    const summaryDependsFn =
+      formConfig.chapters.survivingRelativesChapter.pages.relativesSummary
+        .depends;
+
+    const relNameDependsFn =
+      formConfig.chapters.survivingRelativesChapter.pages.relativeNamePage
+        .depends;
+
+    const relAddressDependsFn =
+      formConfig.chapters.survivingRelativesChapter.pages.relativeAddressPage
+        .depends;
 
     it('should be visible when user is eligible', () => {
       const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: false };
@@ -199,6 +203,51 @@ describe('21P-601 form config', () => {
     it('should be hidden when hasAlreadyFiled is true', () => {
       const formData = { hasAlreadyFiled: true, hasUnpaidCreditors: false };
       expect(dependsFn(formData)).to.be.false;
+    });
+
+    it('should show summary when has survivors is true', () => {
+      const formData = { survivors: { hasNone: false, hasSpouse: true } };
+      expect(summaryDependsFn(formData)).to.be.true;
+    });
+
+    it('should show summary when has survivors is true and hasChildren is true', () => {
+      const formData = { survivors: { hasNone: false, hasChildren: true } };
+      expect(summaryDependsFn(formData)).to.be.true;
+    });
+
+    it('should show summary when has survivors is true and hasParents is true', () => {
+      const formData = { survivors: { hasNone: false, hasParents: true } };
+      expect(summaryDependsFn(formData)).to.be.true;
+    });
+
+    it('should show relative name page when has survivors is true', () => {
+      const formData = { survivors: { hasNone: false, hasSpouse: true } };
+      expect(relNameDependsFn(formData)).to.be.true;
+    });
+
+    it('should show relative name page when has survivors is true and hasChildren is true', () => {
+      const formData = { survivors: { hasNone: false, hasChildren: true } };
+      expect(relNameDependsFn(formData)).to.be.true;
+    });
+
+    it('should show relative name page when has survivors is true and hasParents is true', () => {
+      const formData = { survivors: { hasNone: false, hasParents: true } };
+      expect(relNameDependsFn(formData)).to.be.true;
+    });
+
+    it('should show relative address page when has survivors is true', () => {
+      const formData = { survivors: { hasNone: false, hasSpouse: true } };
+      expect(relAddressDependsFn(formData)).to.be.true;
+    });
+
+    it('should show relative address page when has survivors is true and hasChildren is true', () => {
+      const formData = { survivors: { hasNone: false, hasChildren: true } };
+      expect(relAddressDependsFn(formData)).to.be.true;
+    });
+
+    it('should show relative address page when has survivors is true and hasParents is true', () => {
+      const formData = { survivors: { hasNone: false, hasParents: true } };
+      expect(relAddressDependsFn(formData)).to.be.true;
     });
   });
 

@@ -9,17 +9,22 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PrivacyPolicy from '../components/PrivacyPolicy';
+import SubmissionInstructions from '../components/SubmissionInstructions';
 
 import {
   authorizedOfficial,
   agreementType,
   acknowledgements,
   institutionDetailsFacility,
+  additionalInstitutionDetailsSummary,
+  additionalInstitutionDetailsItem,
   yellowRibbonProgramRequest,
   eligibleIndividualsSupported,
   yellowRibbonProgramRequestSummary,
   contributionLimitsAndDegreeLevel,
+  foreignContributionLimitsAndDegreeLevel,
 } from '../pages';
+import { additionalInstitutionDetailsArrayOptions } from '../helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -122,6 +127,25 @@ const formConfig = {
             }
           },
         },
+        ...arrayBuilderPages(
+          additionalInstitutionDetailsArrayOptions,
+          pageBuilder => ({
+            additionalInstitutionDetailsSummary: pageBuilder.summaryPage({
+              path: 'additional-institution-details',
+              title: 'Additional institution details',
+              uiSchema: additionalInstitutionDetailsSummary.uiSchema,
+              schema: additionalInstitutionDetailsSummary.schema,
+            }),
+            additionalInstitutionDetailsItem: pageBuilder.itemPage({
+              path: 'additional-institution-details/:index',
+              title:
+                "Enter the VA facility code for the additional location you'd like to add",
+              showPagePerItem: true,
+              uiSchema: additionalInstitutionDetailsItem.uiSchema,
+              schema: additionalInstitutionDetailsItem.schema,
+            }),
+          }),
+        ),
       },
     },
     yellowRibbonProgramRequestChapter: {
@@ -159,9 +183,38 @@ const formConfig = {
               path: 'yellow-ribbon-program-request/:index/contribution-limits',
               uiSchema: contributionLimitsAndDegreeLevel.uiSchema,
               schema: contributionLimitsAndDegreeLevel.schema,
+              depends: formData => !!formData?.institutionDetails?.isUsaSchool,
+              pageClass: 'ypr-no-expander-border',
+            }),
+            foreignContributionLimitsAndDegreeLevel: pageBuilder.itemPage({
+              title: 'Contribution limits and degree level',
+              path:
+                'yellow-ribbon-program-request/:index/contribution-limits-foreign',
+              uiSchema: foreignContributionLimitsAndDegreeLevel.uiSchema,
+              schema: foreignContributionLimitsAndDegreeLevel.schema,
+              depends: formData =>
+                formData?.institutionDetails?.isUsaSchool === false,
+              pageClass: 'ypr-no-expander-border',
             }),
           }),
         ),
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
       },
     },
   },

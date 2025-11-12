@@ -1,10 +1,14 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { currency } from '../utils';
+import { currency, setDocumentTitle } from '../utils';
 import { deductionCodes } from '../constants';
 
 const DebtReviewPage = ({ data, pagePerItemIndex, name, goToPath }) => {
   const debt = data?.selectedDebts?.[pagePerItemIndex];
+
+  useEffect(() => {
+    setDocumentTitle('Review your disputed debts');
+  }, []);
 
   const handleEdit = useCallback(
     () => {

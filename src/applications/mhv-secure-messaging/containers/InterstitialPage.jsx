@@ -1,22 +1,62 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropType from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
-import { Paths } from '../util/constants';
+import { Paths, PageTitles } from '../util/constants';
 import featureToggles from '../hooks/useFeatureToggles';
 import { acceptInterstitial } from '../actions/threadDetails';
+import {
+  clearPrescription,
+  getPrescriptionById,
+  setRedirectPath,
+} from '../actions/prescription';
 
 const InterstitialPage = props => {
   const { type } = props;
   const history = useHistory();
+  const location = useLocation();
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
   const dispatch = useDispatch();
+
+  const h1Ref = useRef(null);
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
+
+  document.title = `Only Use Messages For Non-Urgent Needs${
+    PageTitles.DEFAULT_PAGE_TITLE_TAG
+  }`;
+
+  const handleContinueButton = useCallback(
+    () => {
+      dispatch(acceptInterstitial());
+      if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
+        history.push(`${Paths.RECENT_CARE_TEAMS}`);
+      }
+    },
+    [history, mhvSecureMessagingCuratedListFlow, type, dispatch],
+  );
+
+  useEffect(
+    () => {
+      const searchParams = new URLSearchParams(location.search);
+      const prescriptionId = searchParams.get('prescriptionId');
+      const redirectPath = searchParams.get('redirectPath');
+      if (prescriptionId) {
+        dispatch(getPrescriptionById(prescriptionId));
+        handleContinueButton();
+      } else {
+        dispatch(clearPrescription());
+      }
+      if (redirectPath) {
+        dispatch(setRedirectPath(decodeURIComponent(redirectPath)));
+      }
+    },
+    [location.search, handleContinueButton, dispatch],
+  );
 
   const continueButtonText = useMemo(
     () => {
@@ -32,19 +72,9 @@ const InterstitialPage = props => {
     [type],
   );
 
-  const handleContinueButton = useCallback(
-    () => {
-      dispatch(acceptInterstitial());
-      if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
-        history.push(`${Paths.RECENT_CARE_TEAMS}`);
-      }
-    },
-    [history, mhvSecureMessagingCuratedListFlow, type, dispatch],
-  );
-
   return (
     <div className="interstitial-page">
-      <h1 className="vads-u-margin-bottom--2">
+      <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
         Only use messages for <span className="no-word-wrap">non-urgent</span>{' '}
         needs
       </h1>
