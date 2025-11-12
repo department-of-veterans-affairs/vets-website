@@ -24,33 +24,24 @@ describe('DashboardUnreadMessages component', () => {
   });
 
   it('should render error message if inbox is null', () => {
-    const { getByText } = setup(null);
+    const { getByTestId, getByText } = setup(null);
     expect(getByText(ErrorMessages.LandingPage.GET_INBOX_ERROR)).to.exist;
-
-    expect(getByText('Go to your inbox')).to.have.attribute(
-      'href',
-      Paths.INBOX,
-    );
-    expect(getByText('Start a new message')).to.have.attribute(
-      'href',
-      Paths.COMPOSE,
-    );
+    const inboxLink = getByTestId('inbox-link');
+    expect(inboxLink.getAttribute('href')).to.equal(Paths.INBOX);
+    const composeLink = getByTestId('compose-message-link');
+    expect(composeLink.getAttribute('href')).to.equal(Paths.COMPOSE);
   });
 
   it('should render unread message count if inbox is defined', () => {
     const customInbox = { ...inbox, unreadCount: 15 };
-    const { getByText } = setup(customInbox);
+    const { getByTestId, getByText } = setup(customInbox);
     expect(
       getByText(`${customInbox.unreadCount} unread messages in your inbox`),
     ).to.exist;
-    expect(getByText('Go to your inbox')).to.have.attribute(
-      'href',
-      Paths.INBOX,
-    );
-    expect(getByText('Start a new message')).to.have.attribute(
-      'href',
-      Paths.COMPOSE,
-    );
+    const inboxLink = getByTestId('inbox-link');
+    expect(inboxLink.getAttribute('href')).to.equal(Paths.INBOX);
+    const composeLink = getByTestId('compose-message-link');
+    expect(composeLink.getAttribute('href')).to.equal(Paths.COMPOSE);
   });
 
   it('should render singular unread message count if inbox is defined and unreadCount is 1', () => {
@@ -62,17 +53,13 @@ describe('DashboardUnreadMessages component', () => {
 
   it('should render plural unread message count if inbox is defined and unreadCount is 0', () => {
     const customInbox = { ...inbox, unreadCount: 0 };
-    const { getByText } = setup(customInbox);
+    const { getByTestId, getByText } = setup(customInbox);
     expect(
       getByText(`${customInbox.unreadCount} unread messages in your inbox`),
     ).to.exist;
-    expect(getByText('Go to your inbox')).to.have.attribute(
-      'href',
-      Paths.INBOX,
-    );
-    expect(getByText('Start a new message')).to.have.attribute(
-      'href',
-      Paths.COMPOSE,
-    );
+    const inboxLink = getByTestId('inbox-link');
+    expect(inboxLink.getAttribute('href')).to.equal(Paths.INBOX);
+    const composeLink = getByTestId('compose-message-link');
+    expect(composeLink.getAttribute('href')).to.equal(Paths.COMPOSE);
   });
 });

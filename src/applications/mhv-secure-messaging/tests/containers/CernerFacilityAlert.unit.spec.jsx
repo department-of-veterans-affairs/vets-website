@@ -108,7 +108,7 @@ describe('Cerner Facility Alert', () => {
       facilities: userProfileFacilities.filter(f => f.facilityId === '668'),
     });
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
-    const link = screen.getByText('Go to My VA Health');
+    const link = screen.getByTestId('cerner-facility-action-link');
     expect(link).to.exist;
     fetchStub.resetHistory();
     fireEvent.click(link);
@@ -129,7 +129,7 @@ describe('Cerner Facility Alert', () => {
       facilities: userProfileFacilities.filter(f => f.facilityId === '668'),
     });
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
-    const link = screen.getByText('Go to My VA Health');
+    const link = screen.getByTestId('cerner-facility-action-link');
     expect(link).to.exist;
     fetchStub.resetHistory();
     fireEvent.click(link);
