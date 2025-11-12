@@ -24,7 +24,7 @@ describe('SendRxRenewalMessage Component', () => {
     const state = {
       ...initialState,
       featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequests]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequest]: true,
         ...(initialState.featureToggles || {}),
       },
     };
@@ -178,7 +178,7 @@ describe('SendRxRenewalMessage Component', () => {
         { fallbackContent },
         {
           featureToggles: {
-            [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequests]: false,
+            [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequest]: false,
           },
         },
       );
@@ -194,7 +194,7 @@ describe('SendRxRenewalMessage Component', () => {
         {},
         {
           featureToggles: {
-            [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequests]: false,
+            [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequest]: false,
           },
         },
       );

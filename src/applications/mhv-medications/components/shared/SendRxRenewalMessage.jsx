@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
-import { selectSecureMessagingMedicationsRenewalRequestsFlag } from '../../util/selectors';
+import { selectSecureMessagingMedicationsRenewalRequestFlag } from '../../util/selectors';
 
 const SendRxRenewalMessage = ({
   rx,
@@ -12,7 +12,7 @@ const SendRxRenewalMessage = ({
   isActionLink = false,
 }) => {
   const showSecureMessagingRenewalRequest = useSelector(
-    selectSecureMessagingMedicationsRenewalRequestsFlag,
+    selectSecureMessagingMedicationsRenewalRequestFlag,
   );
   const redirectPath = encodeURIComponent(
     '/my-health/medications?page=1&rxRenewalMessageSuccess=true',

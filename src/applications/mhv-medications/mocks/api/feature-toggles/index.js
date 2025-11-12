@@ -6,7 +6,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsPartialFillContent = true,
     mhvMedicationsDontIncrementIpeCount = true,
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
-    mhvSecureMessagingMedicationsRenewalRequests = false,
+    mhvSecureMessagingMedicationsRenewalRequest = false,
   } = toggles;
 
   return {
@@ -38,8 +38,8 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicationsDisplayNewCernerFacilityAlert,
         },
         {
-          name: 'mhv_secure_messaging_medications_renewal_requests',
-          value: mhvSecureMessagingMedicationsRenewalRequests,
+          name: 'mhv_secure_messaging_medications_renewal_request',
+          value: mhvSecureMessagingMedicationsRenewalRequest,
         },
       ],
     },

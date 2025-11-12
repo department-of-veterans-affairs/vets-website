@@ -20,7 +20,7 @@ export const selectNewCernerFacilityAlertFlag = state =>
     FEATURE_FLAG_NAMES.mhvMedicationsDisplayNewCernerFacilityAlert
   ];
 
-export const selectSecureMessagingMedicationsRenewalRequestsFlag = state =>
+export const selectSecureMessagingMedicationsRenewalRequestFlag = state =>
   state.featureToggles[
-    FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequests
+    FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequest
   ];

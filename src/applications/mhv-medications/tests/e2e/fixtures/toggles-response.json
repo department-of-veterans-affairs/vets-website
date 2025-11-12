@@ -19,7 +19,7 @@
                 "value": true
             },
             {
-                "name": "mhv_secure_messaging_medications_renewal_requests",
+                "name": "mhv_secure_messaging_medications_renewal_request",
                 "value": true
             }
         ]
