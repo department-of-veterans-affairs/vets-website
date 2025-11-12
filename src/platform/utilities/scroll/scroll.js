@@ -112,7 +112,7 @@ if (typeof window !== 'undefined') {
  */
 export const scrollToFirstError = async (options = {}) => {
   return new Promise(resolve => {
-    const { errorContext } = options;
+    const { focusOnAlertRole = false, errorContext } = options;
     const selectors = ERROR_ELEMENTS.join(',');
     const timeout = 500;
     const observerConfig = { childList: true, subtree: true };
@@ -166,19 +166,26 @@ export const scrollToFirstError = async (options = {}) => {
         const position = getElementPosition(el);
         scrollTo(position - 10, options);
 
-        // Clean up orphaned error annotations from nested shadow DOMs
-        cleanupErrorAnnotations();
+        if (focusOnAlertRole) {
+          // Adding a delay so that the shadow DOM needs to render and attach
+          // before we try to focus on the element; without the setTimeout,
+          // focus ends up staying on the "Continue" button
+          requestAnimationFrame(() => {
+            focusElement('[role="alert"]', {}, el?.shadowRoot);
+          });
+        } else {
+          cleanupErrorAnnotations();
 
-        // Collect and process all error elements (including nested ones)
-        const allErrors = collectAllErrorElements(selectors);
-        allErrors.forEach(addErrorAnnotations);
+          const allErrors = collectAllErrorElements(selectors);
+          allErrors.forEach(addErrorAnnotations);
 
-        // Find and focus the appropriate input element
-        const focusTarget = findFocusTarget(el);
-        if (focusTarget) {
-          setTimeout(() => {
-            focusTarget.focus({ preventScroll: true });
-          }, 100);
+          // Find and focus the appropriate input element
+          const focusTarget = findFocusTarget(el);
+          if (focusTarget) {
+            setTimeout(() => {
+              focusTarget.focus({ preventScroll: true });
+            }, 100);
+          }
         }
       }
 
