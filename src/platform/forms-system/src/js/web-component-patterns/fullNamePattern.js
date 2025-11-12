@@ -43,12 +43,14 @@ const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
   return {
     'ui:validations': [validateEmpty],
     first: {
-      'ui:title': formatTitle ? formatTitle('first name') : 'First name',
+      'ui:title': formatTitle
+        ? formatTitle('first or given name')
+        : 'First or given name',
       'ui:autocomplete': 'given-name',
       'ui:webComponentField': VaTextInputField,
       'ui:validations': [validateNameSymbols],
       'ui:errorMessages': {
-        required: 'Please enter a first name',
+        required: 'Enter a first or given name',
       },
       'ui:options': {
         uswds: true,
@@ -66,12 +68,14 @@ const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
       },
     },
     last: {
-      'ui:title': formatTitle ? formatTitle('last name') : 'Last name',
+      'ui:title': formatTitle
+        ? formatTitle('last or family name')
+        : 'Last or family name',
       'ui:autocomplete': 'family-name',
       'ui:webComponentField': VaTextInputField,
       'ui:validations': [validateNameSymbols],
       'ui:errorMessages': {
-        required: 'Please enter a last name',
+        required: 'Enter a last or family name',
       },
       'ui:options': {
         uswds: true,
@@ -96,12 +100,14 @@ const firstNameLastNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
   return {
     'ui:validations': [validateEmpty],
     first: {
-      'ui:title': formatTitle ? formatTitle('first name') : 'First name',
+      'ui:title': formatTitle
+        ? formatTitle('first or given name')
+        : 'First or given name',
       'ui:autocomplete': 'given-name',
       'ui:webComponentField': VaTextInputField,
       'ui:validations': [validateNameSymbols],
       'ui:errorMessages': {
-        required: 'Please enter a first name',
+        required: 'Enter a first or given name',
       },
       'ui:options': {
         uswds: true,
@@ -109,12 +115,14 @@ const firstNameLastNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
       },
     },
     last: {
-      'ui:title': formatTitle ? formatTitle('last name') : 'Last name',
+      'ui:title': formatTitle
+        ? formatTitle('last or family name')
+        : 'Last or family name',
       'ui:autocomplete': 'family-name',
       'ui:webComponentField': VaTextInputField,
       'ui:validations': [validateNameSymbols],
       'ui:errorMessages': {
-        required: 'Please enter a last name',
+        required: 'Enter a last or family name',
       },
       'ui:options': {
         uswds: true,
