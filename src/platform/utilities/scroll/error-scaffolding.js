@@ -31,7 +31,8 @@ const ERROR_ATTR_SELECTORS = [
   'generated-error',
 ];
 
-const INPUT_SELECTOR = 'input, select, textarea';
+const HIDDEN_FILTER = ':not([aria-hidden="true"]):not([hidden])';
+const INPUT_SELECTOR = `input${HIDDEN_FILTER}, textarea${HIDDEN_FILTER}, select${HIDDEN_FILTER}`;
 const ERROR_SPAN_SELECTOR = 'span.usa-sr-only[id^="error-label-"]';
 const ERROR_MESSAGE_SELECTORS = [
   '#input-error-message',
