@@ -22,7 +22,10 @@ const initConfirmationPage = ({ formData } = {}) => {
       ...createInitialState(formConfig),
       submission: {
         response: {
-          confirmationNumber: 'HB12345-A1B2',
+          attributes: {
+            guid: '12345678-1234-1234-1234-123456789abc',
+            confirmationNumber: 'HB12345-A1B2',
+          },
         },
         timestamp: new Date(),
       },

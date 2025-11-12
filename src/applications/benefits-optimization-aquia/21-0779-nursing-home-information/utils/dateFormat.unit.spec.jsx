@@ -1,8 +1,7 @@
 import { expect } from 'chai';
+import { formatDate } from './dateFormat';
 
-import { formatDate } from './index';
-
-describe('Utility Functions', () => {
+describe('dateFormat utilities', () => {
   describe('formatDate', () => {
     it('should format valid date string in YYYY-MM-DD format', () => {
       const result = formatDate('1985-03-22');

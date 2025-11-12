@@ -47,7 +47,9 @@
       "currentlyCoveredByMedicaid": false
     },
     "monthlyCosts": {
-      "monthlyOutOfPocket": "1138"
-    }
+      "monthlyOutOfPocket": 1138
+    },
+    "signature": "Evazan Ponda",
+    "certificationChecked": true
   }
 }

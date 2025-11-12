@@ -3,13 +3,21 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { formatDateLong } from 'platform/utilities/date';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { DownloadFormPDF } from '../../components/confirmation-page/DownloadFormPDF';
 
 export const ConfirmationPage = ({ route }) => {
   const form = useSelector(state => state.form || {});
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
   const formattedSubmitDate = submitDate ? formatDateLong(submitDate) : '';
-  const confirmationNumber = submission?.response?.confirmationNumber || '';
+
+  // Extract GUID from submission response
+  const guid = submission?.response?.attributes?.guid || '';
+  const confirmationNumber =
+    submission?.response?.attributes?.confirmationNumber || guid;
+
+  // Extract veteran name for PDF filename
+  const veteranName = form?.data?.veteranPersonalInfo?.fullName || {};
 
   const submissionAlertContent = (
     <p>
@@ -23,7 +31,6 @@ export const ConfirmationPage = ({ route }) => {
       formConfig={route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      pdfUrl={submission.response?.pdfUrl}
       devOnly={{
         showButtons: true,
       }}
@@ -36,7 +43,7 @@ export const ConfirmationPage = ({ route }) => {
         content={submissionAlertContent}
         actions={<p />}
       />
-      <ConfirmationView.SavePdfDownload />
+      {guid && <DownloadFormPDF guid={guid} veteranName={veteranName} />}
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList

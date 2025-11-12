@@ -1,20 +1,10 @@
 /**
- * @module config/form/pages/helpers
- * @description Shared helper functions for form page configurations
- * VA Form 21-0779 - Request for Nursing Home Information in Connection with Claim for Aid and Attendance
+ * @module utils/patientName
+ * @description Utilities for extracting patient name from form data
+ * VA Form 21-0779 - Request for Nursing Home Information
  */
 
-/**
- * Helper function to check if the patient is the veteran
- * @param {Object} formData - The form data
- * @returns {boolean} True if patient is the veteran
- */
-export const isPatientVeteran = formData => {
-  if (!formData || typeof formData !== 'object' || Array.isArray(formData)) {
-    return false;
-  }
-  return formData.claimantQuestion?.patientType === 'veteran';
-};
+import { isPatientVeteran } from './patientType';
 
 /**
  * Helper function to get patient's name from form data
@@ -68,28 +58,4 @@ export const getPatientName = formData => {
   }
 
   return 'the patient';
-};
-
-/**
- * Helper function to check if the patient is spouse or parent
- * @param {Object} formData - The form data
- * @returns {boolean} True if patient is spouse or parent (not veteran)
- */
-export const isPatientSpouseOrParent = formData => {
-  if (!formData || typeof formData !== 'object' || Array.isArray(formData)) {
-    return false;
-  }
-  return formData.claimantQuestion?.patientType === 'spouseOrParent';
-};
-
-/**
- * Helper function to check if patient is currently covered by Medicaid
- * @param {Object} formData - The form data
- * @returns {boolean} True if patient is covered by Medicaid
- */
-export const isMedicaidCovered = formData => {
-  if (!formData || typeof formData !== 'object' || Array.isArray(formData)) {
-    return false;
-  }
-  return formData.medicaidStatus?.currentlyCoveredByMedicaid === true;
 };

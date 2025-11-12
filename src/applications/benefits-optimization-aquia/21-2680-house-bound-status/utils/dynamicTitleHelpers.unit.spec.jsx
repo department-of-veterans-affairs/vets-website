@@ -1,5 +1,5 @@
 /**
- * @module tests/utils/dynamicTitleHelpers.unit.spec
+ * @module utils/dynamicTitleHelpers.unit.spec
  * @description Unit tests for dynamic title helper functions
  */
 
@@ -8,7 +8,7 @@ import {
   getHospitalizationStatusTitle,
   getHospitalizationDateTitle,
   getHospitalizationFacilityTitle,
-} from '../../utils/dynamicTitleHelpers';
+} from './dynamicTitleHelpers';
 
 describe('dynamicTitleHelpers', () => {
   describe('getHospitalizationStatusTitle', () => {
@@ -29,7 +29,7 @@ describe('dynamicTitleHelpers', () => {
       );
     });
 
-    it('should return title with claimant name when claimant is not veteran', () => {
+    it('should return title with claimant name when claimant is spouse', () => {
       const formData = {
         claimantRelationship: {
           relationship: 'spouse',
@@ -46,10 +46,13 @@ describe('dynamicTitleHelpers', () => {
       );
     });
 
-    it('should return fallback for veteran without name', () => {
+    it('should return default veteran text when veteran is claimant without name', () => {
       const formData = {
         claimantRelationship: {
           relationship: 'veteran',
+        },
+        veteranInformation: {
+          veteranFullName: {},
         },
       };
       expect(getHospitalizationStatusTitle(formData)).to.equal(
@@ -57,10 +60,13 @@ describe('dynamicTitleHelpers', () => {
       );
     });
 
-    it('should return fallback for claimant without name', () => {
+    it('should return default claimant text when claimant is not veteran without name', () => {
       const formData = {
         claimantRelationship: {
           relationship: 'spouse',
+        },
+        claimantInformation: {
+          claimantFullName: {},
         },
       };
       expect(getHospitalizationStatusTitle(formData)).to.equal(
@@ -101,6 +107,30 @@ describe('dynamicTitleHelpers', () => {
         'Is Shmi Skywalker hospitalized?',
       );
     });
+
+    it('should handle missing relationship', () => {
+      const formData = {};
+      expect(getHospitalizationStatusTitle(formData)).to.equal(
+        'Is the claimant hospitalized?',
+      );
+    });
+
+    it('should handle first name only', () => {
+      const formData = {
+        claimantRelationship: {
+          relationship: 'veteran',
+        },
+        veteranInformation: {
+          veteranFullName: {
+            first: 'Yoda',
+            last: '',
+          },
+        },
+      };
+      expect(getHospitalizationStatusTitle(formData)).to.equal(
+        'Is Yoda hospitalized?',
+      );
+    });
   });
 
   describe('getHospitalizationDateTitle', () => {
@@ -121,7 +151,7 @@ describe('dynamicTitleHelpers', () => {
       );
     });
 
-    it('should return title with claimant name when claimant is not veteran', () => {
+    it('should return title with claimant name when claimant is spouse', () => {
       const formData = {
         claimantRelationship: {
           relationship: 'spouse',
@@ -138,10 +168,13 @@ describe('dynamicTitleHelpers', () => {
       );
     });
 
-    it('should return you fallback for veteran without name', () => {
+    it('should return "you" when veteran is claimant without name', () => {
       const formData = {
         claimantRelationship: {
           relationship: 'veteran',
+        },
+        veteranInformation: {
+          veteranFullName: {},
         },
       };
       expect(getHospitalizationDateTitle(formData)).to.equal(
@@ -149,10 +182,13 @@ describe('dynamicTitleHelpers', () => {
       );
     });
 
-    it('should return claimant fallback for claimant without name', () => {
+    it('should return default claimant text when claimant is not veteran without name', () => {
       const formData = {
         claimantRelationship: {
           relationship: 'spouse',
+        },
+        claimantInformation: {
+          claimantFullName: {},
         },
       };
       expect(getHospitalizationDateTitle(formData)).to.equal(
@@ -160,7 +196,7 @@ describe('dynamicTitleHelpers', () => {
       );
     });
 
-    it('should use "was" with claimant name', () => {
+    it('should handle child relationship', () => {
       const formData = {
         claimantRelationship: {
           relationship: 'child',
@@ -174,6 +210,47 @@ describe('dynamicTitleHelpers', () => {
       };
       expect(getHospitalizationDateTitle(formData)).to.equal(
         'When was Luke Skywalker admitted to the hospital?',
+      );
+    });
+
+    it('should handle parent relationship', () => {
+      const formData = {
+        claimantRelationship: {
+          relationship: 'parent',
+        },
+        claimantInformation: {
+          claimantFullName: {
+            first: 'Shmi',
+            last: 'Skywalker',
+          },
+        },
+      };
+      expect(getHospitalizationDateTitle(formData)).to.equal(
+        'When was Shmi Skywalker admitted to the hospital?',
+      );
+    });
+
+    it('should handle missing relationship', () => {
+      const formData = {};
+      expect(getHospitalizationDateTitle(formData)).to.equal(
+        'When was the claimant admitted to the hospital?',
+      );
+    });
+
+    it('should handle first name only', () => {
+      const formData = {
+        claimantRelationship: {
+          relationship: 'veteran',
+        },
+        veteranInformation: {
+          veteranFullName: {
+            first: 'Han',
+            last: '',
+          },
+        },
+      };
+      expect(getHospitalizationDateTitle(formData)).to.equal(
+        'When was Han admitted to the hospital?',
       );
     });
   });
@@ -196,7 +273,7 @@ describe('dynamicTitleHelpers', () => {
       );
     });
 
-    it('should return title with claimant name when claimant is not veteran', () => {
+    it('should return title with claimant name when claimant is spouse', () => {
       const formData = {
         claimantRelationship: {
           relationship: 'spouse',
@@ -213,10 +290,13 @@ describe('dynamicTitleHelpers', () => {
       );
     });
 
-    it('should return veteran fallback when veteran name not available', () => {
+    it('should return "you" when veteran is claimant without name', () => {
       const formData = {
         claimantRelationship: {
           relationship: 'veteran',
+        },
+        veteranInformation: {
+          veteranFullName: {},
         },
       };
       expect(getHospitalizationFacilityTitle(formData)).to.equal(
@@ -224,10 +304,13 @@ describe('dynamicTitleHelpers', () => {
       );
     });
 
-    it('should return claimant fallback when claimant name not available', () => {
+    it('should return default claimant text when claimant is not veteran without name', () => {
       const formData = {
         claimantRelationship: {
           relationship: 'spouse',
+        },
+        claimantInformation: {
+          claimantFullName: {},
         },
       };
       expect(getHospitalizationFacilityTitle(formData)).to.equal(
@@ -235,7 +318,7 @@ describe('dynamicTitleHelpers', () => {
       );
     });
 
-    it('should handle child relationship with name', () => {
+    it('should handle child relationship', () => {
       const formData = {
         claimantRelationship: {
           relationship: 'child',
@@ -249,6 +332,47 @@ describe('dynamicTitleHelpers', () => {
       };
       expect(getHospitalizationFacilityTitle(formData)).to.equal(
         "What's the name and address of the hospital where Luke Skywalker is admitted?",
+      );
+    });
+
+    it('should handle parent relationship', () => {
+      const formData = {
+        claimantRelationship: {
+          relationship: 'parent',
+        },
+        claimantInformation: {
+          claimantFullName: {
+            first: 'Shmi',
+            last: 'Skywalker',
+          },
+        },
+      };
+      expect(getHospitalizationFacilityTitle(formData)).to.equal(
+        "What's the name and address of the hospital where Shmi Skywalker is admitted?",
+      );
+    });
+
+    it('should handle missing relationship', () => {
+      const formData = {};
+      expect(getHospitalizationFacilityTitle(formData)).to.equal(
+        "What's the name and address of the hospital where the claimant is admitted?",
+      );
+    });
+
+    it('should handle first name only', () => {
+      const formData = {
+        claimantRelationship: {
+          relationship: 'veteran',
+        },
+        veteranInformation: {
+          veteranFullName: {
+            first: 'Chewbacca',
+            last: '',
+          },
+        },
+      };
+      expect(getHospitalizationFacilityTitle(formData)).to.equal(
+        "What's the name and address of the hospital where Chewbacca is admitted?",
       );
     });
   });
