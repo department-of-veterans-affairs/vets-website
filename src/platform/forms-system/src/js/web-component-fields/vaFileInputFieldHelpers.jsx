@@ -8,6 +8,7 @@ import {
 import {
   UNSUPPORTED_ENCRYPTED_FILE_ERROR,
   UTF8_ENCODING_ERROR,
+  DUPLICATE_FILE_ERROR,
 } from '../validation';
 
 const MAX_FILE_SIZE_MB = 25;
@@ -107,24 +108,44 @@ export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
 /**
  *
  * @param {File} file the file to upload
+ * @param { boolean } disallowEncryptedPdfs flag to prevent encrypted pdfs
+ * @param { Object[] } files array of previously uploaded files
  * @returns {string | null} the error if one present else null
  */
-export async function getFileError(file, uiOptions) {
-  const checks = await standardFileChecks(file);
+export async function getFileError(
+  file,
+  { disallowEncryptedPdfs },
+  files = [],
+) {
   let fileError = null;
-  if (!checks.checkTypeAndExtensionMatches) {
-    fileError = FILE_TYPE_MISMATCH_ERROR;
+  let encryptedCheck = null;
+
+  for (const f of files) {
+    if (f.name === file.name && f.size === file.size) {
+      fileError = DUPLICATE_FILE_ERROR;
+      break;
+    }
   }
 
-  if (!!checks.checkIsEncryptedPdf && uiOptions.disallowEncryptedPdfs) {
-    fileError = UNSUPPORTED_ENCRYPTED_FILE_ERROR;
+  // don't do more checks if there is a duplicate file
+  if (!fileError) {
+    const checks = await standardFileChecks(file);
+    encryptedCheck = !!checks.checkIsEncryptedPdf;
+
+    if (!checks.checkTypeAndExtensionMatches) {
+      fileError = FILE_TYPE_MISMATCH_ERROR;
+    }
+
+    if (!!checks.checkIsEncryptedPdf && disallowEncryptedPdfs) {
+      fileError = UNSUPPORTED_ENCRYPTED_FILE_ERROR;
+    }
+
+    if (!checks.checkUTF8Encoding) {
+      fileError = UTF8_ENCODING_ERROR;
+    }
   }
 
-  if (!checks.checkUTF8Encoding) {
-    fileError = UTF8_ENCODING_ERROR;
-  }
-
-  return { fileError, encryptedCheck: !!checks.checkIsEncryptedPdf };
+  return { fileError, encryptedCheck };
 }
 
 /**
