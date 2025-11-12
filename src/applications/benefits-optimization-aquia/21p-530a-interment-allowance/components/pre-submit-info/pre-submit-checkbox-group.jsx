@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { TextInputField } from '@bio-aquia/shared/components/atoms';
@@ -46,6 +46,9 @@ export const PreSubmitCheckboxGroup = ({
   const [fullNameTouched, setFullNameTouched] = useState(false);
   const [titleTouched, setTitleTouched] = useState(false);
 
+  // Ref to prevent duplicate dispatches
+  const lastDispatchedData = useRef(null);
+
   // Normalize string for comparison: lowercase and remove all spaces
   const normalizeForComparison = useCallback(str => {
     if (!str || typeof str !== 'string') return '';
@@ -88,25 +91,32 @@ export const PreSubmitCheckboxGroup = ({
     () => {
       if (hasSubmittedForm) return;
 
-      dispatch(
-        setData({
-          ...formData,
-          certification: {
-            signature: fullName.trim(),
-            titleOfStateOrTribalOfficial: organizationTitle.trim(),
-            certified: isCertified,
-          },
-        }),
-      );
+      const certificationData = {
+        signature: fullName.trim(),
+        titleOfStateOrTribalOfficial: organizationTitle.trim(),
+        certified: isCertified,
+      };
+
+      // Create a stable comparison key to prevent unnecessary dispatches
+      const dataKey = JSON.stringify(certificationData);
+
+      // Only dispatch if data has actually changed
+      if (lastDispatchedData.current !== dataKey) {
+        lastDispatchedData.current = dataKey;
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // formData is intentionally not in deps to prevent infinite loop
+        // We always want the latest formData from closure
+        dispatch(
+          setData({
+            ...formData,
+            certification: certificationData,
+          }),
+        );
+      }
     },
-    [
-      dispatch,
-      fullName,
-      organizationTitle,
-      isCertified,
-      hasSubmittedForm,
-      formData,
-    ],
+    // REMOVED formData from deps to prevent infinite loop
+    [dispatch, fullName, organizationTitle, isCertified, hasSubmittedForm],
   );
 
   // Check if all required fields are valid
@@ -116,9 +126,16 @@ export const PreSubmitCheckboxGroup = ({
       const hasValidTitle = validateTitle();
       const isComplete = hasValidFullName && hasValidTitle && isCertified;
 
-      onSectionComplete(isComplete);
-      return () => onSectionComplete(false);
+      // Only call if function is provided and not submitted
+      if (onSectionComplete && !hasSubmittedForm) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // onSectionComplete is intentionally not in deps to prevent loops
+        // We always want the latest callback from closure
+        onSectionComplete(isComplete);
+      }
     },
+    // Removed onSectionComplete from deps to prevent potential loops
+    // Parent should memoize this callback if needed
     [
       fullName,
       organizationTitle,
@@ -127,7 +144,7 @@ export const PreSubmitCheckboxGroup = ({
       titleOrganizationName,
       validateFullName,
       validateTitle,
-      onSectionComplete,
+      hasSubmittedForm,
     ],
   );
 
