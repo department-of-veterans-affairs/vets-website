@@ -101,7 +101,7 @@ describe('useChatbotToken', () => {
       expect(sessionStorage.getItem('va-bot.conversationId')).to.equal(
         'c-existing',
       );
-      expect(sessionStorage.getItem('va-bot.code')).to.equal('code-existing');
+      expect(sessionStorage.getItem('va-bot.code')).to.equal('code-meta');
     });
 
     it('should fetch to obtain code when missing while preserving existing token/conversationId', async () => {

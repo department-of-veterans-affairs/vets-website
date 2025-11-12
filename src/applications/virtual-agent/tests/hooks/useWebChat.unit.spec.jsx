@@ -27,7 +27,7 @@ describe('useWebChat', () => {
         .stub(UseWebChatFrameworkModule, 'default')
         .returns(webChatFramework);
 
-      const token = { token: 'token', code: 'code' };
+      const token = { token: 'token', code: 'code', expired: undefined };
       sandbox.stub(useChatbotTokenModule, 'default').returns(token);
 
       sandbox
