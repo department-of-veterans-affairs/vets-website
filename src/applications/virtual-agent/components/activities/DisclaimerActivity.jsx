@@ -12,9 +12,6 @@ const DisclaimerActivity = ({ text, className, variant = 'ai' }) => (
     role="note"
     aria-live="polite"
   >
-    <div className="va-disclaimer__title">
-      {variant === 'ai' ? 'AI disclaimer' : 'Disclaimer'}
-    </div>
     <p className="va-disclaimer__body">{text}</p>
   </div>
 );
