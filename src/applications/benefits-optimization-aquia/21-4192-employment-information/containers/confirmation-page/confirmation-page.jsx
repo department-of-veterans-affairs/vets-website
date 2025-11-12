@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { formatDateLong } from 'platform/utilities/date';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { transformForSubmit } from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
-import DownloadFormPDF from './DownloadFormPDF';
+import DownloadFormPDF from './download-form-pdf';
 
 /**
  * Confirmation page component for VA Form 21-4192

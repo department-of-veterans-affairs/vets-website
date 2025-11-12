@@ -4,7 +4,7 @@ import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import { API_ENDPOINTS } from '../../constants/constants';
-import { ensureValidCSRFToken } from '../../utils/actions/ensureValidCSRFToken';
+import { ensureValidCSRFToken } from '../../utils/actions/ensure-valid-csrf-token';
 
 const DownloadFormPDF = ({ formData }) => {
   const [loading, setLoading] = useState(false);

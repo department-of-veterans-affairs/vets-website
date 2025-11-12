@@ -5,15 +5,18 @@
 
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { ensureValidCSRFToken } from './ensureValidCSRFToken';
+import { ensureValidCSRFToken } from './ensure-valid-csrf-token';
 
 describe('ensureValidCSRFToken', () => {
   let localStorageStub;
   let originalLocalStorage;
 
   beforeEach(() => {
-    // Save original localStorage to restore later
-    originalLocalStorage = global.localStorage;
+    // Save original localStorage descriptor to restore later
+    originalLocalStorage = Object.getOwnPropertyDescriptor(
+      global,
+      'localStorage',
+    );
 
     // Stub localStorage to avoid environment differences between Node 14 and Node 22
     localStorageStub = {
@@ -22,7 +25,13 @@ describe('ensureValidCSRFToken', () => {
       removeItem: sinon.stub(),
       clear: sinon.stub(),
     };
-    global.localStorage = localStorageStub;
+
+    // Use Object.defineProperty for Node 22 compatibility
+    Object.defineProperty(global, 'localStorage', {
+      value: localStorageStub,
+      writable: true,
+      configurable: true,
+    });
   });
 
   afterEach(() => {
@@ -33,8 +42,13 @@ describe('ensureValidCSRFToken', () => {
       localStorageStub.removeItem.reset();
       localStorageStub.clear.reset();
     }
-    // Restore original localStorage instead of deleting it
-    global.localStorage = originalLocalStorage;
+
+    // Restore original localStorage descriptor
+    if (originalLocalStorage) {
+      Object.defineProperty(global, 'localStorage', originalLocalStorage);
+    } else {
+      delete global.localStorage;
+    }
   });
 
   describe('Function Export', () => {

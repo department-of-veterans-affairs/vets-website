@@ -7,7 +7,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, waitFor, cleanup } from '@testing-library/react';
 import sinon from 'sinon';
-import DownloadFormPDF from './DownloadFormPDF';
+import DownloadFormPDF from './download-form-pdf';
 
 describe('DownloadFormPDF', () => {
   let apiRequestStub;
@@ -73,7 +73,7 @@ describe('DownloadFormPDF', () => {
     const uiUtils = require('platform/utilities/ui');
     focusElementStub = sinon.stub(uiUtils, 'focusElement');
 
-    const csrfModule = require('../../utils/actions/ensureValidCSRFToken');
+    const csrfModule = require('../../utils/actions/ensure-valid-csrf-token');
     ensureValidCSRFTokenStub = sinon
       .stub(csrfModule, 'ensureValidCSRFToken')
       .resolves();

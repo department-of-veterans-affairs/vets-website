@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { formatDateLong } from 'platform/utilities/date';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { transform } from '@bio-aquia/21p-530a-interment-allowance/config/submit-transform/transform';
-import DownloadFormPDF from './DownloadFormPDF';
+import DownloadFormPDF from './download-form-pdf';
 
 /**
  * Confirmation page displayed after successful form submission
