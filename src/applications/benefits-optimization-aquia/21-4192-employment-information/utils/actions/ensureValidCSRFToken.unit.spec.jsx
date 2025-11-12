@@ -9,8 +9,12 @@ import { ensureValidCSRFToken } from './ensureValidCSRFToken';
 
 describe('ensureValidCSRFToken', () => {
   let localStorageStub;
+  let originalLocalStorage;
 
   beforeEach(() => {
+    // Save original localStorage to restore later
+    originalLocalStorage = global.localStorage;
+
     // Stub localStorage to avoid environment differences between Node 14 and Node 22
     localStorageStub = {
       getItem: sinon.stub(),
@@ -22,8 +26,15 @@ describe('ensureValidCSRFToken', () => {
   });
 
   afterEach(() => {
-    sinon.restore();
-    delete global.localStorage;
+    // Clean up stubs manually
+    if (localStorageStub) {
+      localStorageStub.getItem.reset();
+      localStorageStub.setItem.reset();
+      localStorageStub.removeItem.reset();
+      localStorageStub.clear.reset();
+    }
+    // Restore original localStorage instead of deleting it
+    global.localStorage = originalLocalStorage;
   });
 
   describe('Function Export', () => {

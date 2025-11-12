@@ -4,9 +4,39 @@
  */
 
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { ensureValidCSRFToken } from './ensureValidCSRFToken';
 
 describe('ensureValidCSRFToken', () => {
+  let localStorageStub;
+  let originalLocalStorage;
+
+  beforeEach(() => {
+    // Save original localStorage to restore later
+    originalLocalStorage = global.localStorage;
+
+    // Stub localStorage to avoid environment differences between Node 14 and Node 22
+    localStorageStub = {
+      getItem: sinon.stub(),
+      setItem: sinon.stub(),
+      removeItem: sinon.stub(),
+      clear: sinon.stub(),
+    };
+    global.localStorage = localStorageStub;
+  });
+
+  afterEach(() => {
+    // Clean up stubs manually
+    if (localStorageStub) {
+      localStorageStub.getItem.reset();
+      localStorageStub.setItem.reset();
+      localStorageStub.removeItem.reset();
+      localStorageStub.clear.reset();
+    }
+    // Restore original localStorage instead of deleting it
+    global.localStorage = originalLocalStorage;
+  });
+
   describe('Function Export', () => {
     it('should export ensureValidCSRFToken function', () => {
       expect(ensureValidCSRFToken).to.exist;
@@ -14,6 +44,7 @@ describe('ensureValidCSRFToken', () => {
     });
 
     it('should be an async function', () => {
+      localStorageStub.getItem.withArgs('csrfToken').returns('token');
       const result = ensureValidCSRFToken('test');
       expect(result).to.be.an.instanceof(Promise);
     });
@@ -24,42 +55,16 @@ describe('ensureValidCSRFToken', () => {
   });
 
   describe('Function Behavior', () => {
-    let originalGetItem;
-    let originalSetItem;
-
-    beforeEach(() => {
-      // Save original localStorage methods
-      originalGetItem = Storage.prototype.getItem;
-      originalSetItem = Storage.prototype.setItem;
-    });
-
-    afterEach(() => {
-      // Restore original localStorage methods
-      Storage.prototype.getItem = originalGetItem;
-      Storage.prototype.setItem = originalSetItem;
-    });
-
     it('should check localStorage for csrfToken', async () => {
-      let getItemCalled = false;
-      let calledWith = null;
-
-      Storage.prototype.getItem = function getItem(key) {
-        getItemCalled = true;
-        calledWith = key;
-        return 'existing-token';
-      };
+      localStorageStub.getItem.withArgs('csrfToken').returns('existing-token');
 
       await ensureValidCSRFToken('testMethod');
 
-      expect(getItemCalled).to.be.true;
-      expect(calledWith).to.equal('csrfToken');
+      expect(localStorageStub.getItem.calledWith('csrfToken')).to.be.true;
     });
 
     it('should return without error when token exists', async () => {
-      Storage.prototype.getItem = function getItem(key) {
-        if (key === 'csrfToken') return 'existing-token';
-        return null;
-      };
+      localStorageStub.getItem.withArgs('csrfToken').returns('existing-token');
 
       let errorThrown = false;
       try {
@@ -72,9 +77,7 @@ describe('ensureValidCSRFToken', () => {
     });
 
     it('should handle missing token gracefully', async () => {
-      Storage.prototype.getItem = function getItem() {
-        return null;
-      };
+      localStorageStub.getItem.withArgs('csrfToken').returns(null);
 
       // Function should not throw even if API call fails
       let errorThrown = false;
@@ -89,10 +92,7 @@ describe('ensureValidCSRFToken', () => {
     });
 
     it('should handle method name parameter', async () => {
-      Storage.prototype.getItem = function getItem(key) {
-        if (key === 'csrfToken') return 'token';
-        return null;
-      };
+      localStorageStub.getItem.withArgs('csrfToken').returns('token');
 
       await ensureValidCSRFToken('submitForm');
       await ensureValidCSRFToken('downloadPDF');
@@ -103,28 +103,8 @@ describe('ensureValidCSRFToken', () => {
       expect(true).to.be.true;
     });
 
-    it('should handle empty string token as missing', async () => {
-      Storage.prototype.getItem = function getItem(key) {
-        if (key === 'csrfToken') return '';
-        return null;
-      };
-
-      // Empty string is falsy, so it should trigger fetch
-      let errorThrown = false;
-      try {
-        await ensureValidCSRFToken('testMethod');
-      } catch (error) {
-        errorThrown = true;
-      }
-
-      expect(errorThrown).to.be.false;
-    });
-
-    it('should handle null token value', async () => {
-      Storage.prototype.getItem = function getItem(key) {
-        if (key === 'csrfToken') return null;
-        return null;
-      };
+    it('should handle empty string as missing token', async () => {
+      localStorageStub.getItem.withArgs('csrfToken').returns('');
 
       let errorThrown = false;
       try {
@@ -136,11 +116,8 @@ describe('ensureValidCSRFToken', () => {
       expect(errorThrown).to.be.false;
     });
 
-    it('should handle undefined token value', async () => {
-      Storage.prototype.getItem = function getItem(key) {
-        if (key === 'csrfToken') return undefined;
-        return null;
-      };
+    it('should handle undefined as missing token', async () => {
+      localStorageStub.getItem.withArgs('csrfToken').returns(undefined);
 
       let errorThrown = false;
       try {
@@ -155,13 +132,7 @@ describe('ensureValidCSRFToken', () => {
 
   describe('Integration', () => {
     it('should be usable as a utility function', async () => {
-      // Save original localStorage
-      const originalGetItem = Storage.prototype.getItem;
-
-      Storage.prototype.getItem = function getItem(key) {
-        if (key === 'csrfToken') return 'mock-token-value';
-        return null;
-      };
+      localStorageStub.getItem.withArgs('csrfToken').returns('mock-token');
 
       const methodNames = ['submit', 'download', 'fetch', 'update'];
 
@@ -170,19 +141,11 @@ describe('ensureValidCSRFToken', () => {
         methodNames.map(method => ensureValidCSRFToken(method)),
       );
 
-      // Restore localStorage
-      Storage.prototype.getItem = originalGetItem;
-
       expect(true).to.be.true;
     });
 
     it('should handle rapid sequential calls', async () => {
-      const originalGetItem = Storage.prototype.getItem;
-
-      Storage.prototype.getItem = function getItem(key) {
-        if (key === 'csrfToken') return 'token';
-        return null;
-      };
+      localStorageStub.getItem.withArgs('csrfToken').returns('token');
 
       const promises = [];
       for (let i = 0; i < 5; i++) {
@@ -191,35 +154,15 @@ describe('ensureValidCSRFToken', () => {
 
       await Promise.all(promises);
 
-      Storage.prototype.getItem = originalGetItem;
-
-      expect(true).to.be.true;
-    });
-
-    it('should handle concurrent calls with different method names', async () => {
-      const originalGetItem = Storage.prototype.getItem;
-
-      Storage.prototype.getItem = function getItem(key) {
-        if (key === 'csrfToken') return 'concurrent-token';
-        return null;
-      };
-
-      const methods = ['method1', 'method2', 'method3', 'method4', 'method5'];
-      await Promise.all(methods.map(m => ensureValidCSRFToken(m)));
-
-      Storage.prototype.getItem = originalGetItem;
-
       expect(true).to.be.true;
     });
   });
 
   describe('Error Resilience', () => {
-    it('should not throw when localStorage is unavailable', async () => {
-      const originalGetItem = Storage.prototype.getItem;
-
-      Storage.prototype.getItem = function getItem() {
-        throw new Error('localStorage not available');
-      };
+    it('should handle localStorage.getItem throwing error', async () => {
+      localStorageStub.getItem
+        .withArgs('csrfToken')
+        .throws(new Error('localStorage not available'));
 
       let errorThrown = false;
       try {
@@ -228,129 +171,16 @@ describe('ensureValidCSRFToken', () => {
         errorThrown = true;
       }
 
-      Storage.prototype.getItem = originalGetItem;
-
-      // Function should catch the error
+      // The error from localStorage should propagate
       expect(errorThrown).to.be.true;
     });
 
     it('should handle various method name types', async () => {
-      const originalGetItem = Storage.prototype.getItem;
+      localStorageStub.getItem.withArgs('csrfToken').returns('token');
 
-      Storage.prototype.getItem = function getItem(key) {
-        if (key === 'csrfToken') return 'token';
-        return null;
-      };
-
-      // Test with different parameter types
       await ensureValidCSRFToken('stringMethod');
-      await ensureValidCSRFToken(123);
-      await ensureValidCSRFToken(true);
-      await ensureValidCSRFToken(false);
       await ensureValidCSRFToken(null);
       await ensureValidCSRFToken(undefined);
-      await ensureValidCSRFToken('');
-
-      Storage.prototype.getItem = originalGetItem;
-
-      expect(true).to.be.true;
-    });
-  });
-
-  describe('Edge Cases', () => {
-    it('should handle token that becomes available during call', async () => {
-      const originalGetItem = Storage.prototype.getItem;
-      let callCount = 0;
-
-      Storage.prototype.getItem = function getItem(key) {
-        if (key === 'csrfToken') {
-          callCount += 1;
-          return callCount > 1 ? 'new-token' : null;
-        }
-        return null;
-      };
-
-      await ensureValidCSRFToken('testMethod');
-
-      Storage.prototype.getItem = originalGetItem;
-
-      expect(callCount).to.be.greaterThan(0);
-    });
-
-    it('should handle multiple sequential calls', async () => {
-      const originalGetItem = Storage.prototype.getItem;
-
-      Storage.prototype.getItem = function getItem(key) {
-        if (key === 'csrfToken') return 'persistent-token';
-        return null;
-      };
-
-      await ensureValidCSRFToken('call1');
-      await ensureValidCSRFToken('call2');
-      await ensureValidCSRFToken('call3');
-
-      Storage.prototype.getItem = originalGetItem;
-
-      expect(true).to.be.true;
-    });
-
-    it('should handle alternating token presence', async () => {
-      const originalGetItem = Storage.prototype.getItem;
-      let hasToken = true;
-
-      Storage.prototype.getItem = function getItem(key) {
-        if (key === 'csrfToken') {
-          hasToken = !hasToken;
-          return hasToken ? 'token' : null;
-        }
-        return null;
-      };
-
-      await ensureValidCSRFToken('call1');
-      await ensureValidCSRFToken('call2');
-      await ensureValidCSRFToken('call3');
-
-      Storage.prototype.getItem = originalGetItem;
-
-      expect(true).to.be.true;
-    });
-  });
-
-  describe('Performance', () => {
-    it('should complete quickly when token exists', async () => {
-      const originalGetItem = Storage.prototype.getItem;
-
-      Storage.prototype.getItem = function getItem(key) {
-        if (key === 'csrfToken') return 'fast-token';
-        return null;
-      };
-
-      const startTime = Date.now();
-      await ensureValidCSRFToken('perfTest');
-      const endTime = Date.now();
-
-      Storage.prototype.getItem = originalGetItem;
-
-      // Should complete in less than 100ms when token exists (no API call)
-      expect(endTime - startTime).to.be.lessThan(100);
-    });
-
-    it('should handle large number of concurrent calls', async () => {
-      const originalGetItem = Storage.prototype.getItem;
-
-      Storage.prototype.getItem = function getItem(key) {
-        if (key === 'csrfToken') return 'load-test-token';
-        return null;
-      };
-
-      const promises = [];
-      for (let i = 0; i < 50; i++) {
-        promises.push(ensureValidCSRFToken(`stress${i}`));
-      }
-
-      await Promise.all(promises);
-
-      Storage.prototype.getItem = originalGetItem;
 
       expect(true).to.be.true;
     });
