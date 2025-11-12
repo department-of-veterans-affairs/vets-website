@@ -96,4 +96,11 @@ describe('TSA Safe Travel Letter', () => {
       .find('h4')
       .should('have.text', `Your ${tsaLetterTitle} is currently unavailable`);
   });
+
+  it('does not display letter for ineligible users', () => {
+    cy.intercept('GET', '/v0/tsa_letter', { data: [] });
+    cy.visit(lettersPage);
+    cy.injectAxeThenAxeCheck();
+    cy.get('[data-testid="tsa-letter-accordion"]').should('not.exist');
+  });
 });
