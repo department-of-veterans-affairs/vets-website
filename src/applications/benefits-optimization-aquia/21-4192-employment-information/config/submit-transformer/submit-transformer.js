@@ -310,7 +310,7 @@ export const transformForSubmit = (formConfig, form) => {
   }
 
   // Add certification (required by API)
-  // Use provided certification or generate from veteran name
+  // Handle both platform statementOfTruth pattern and custom component pattern
   const veteranName = data?.veteranInformation?.veteranFullName || {};
   const defaultSignature = [
     veteranName.first,
@@ -320,9 +320,16 @@ export const transformForSubmit = (formConfig, form) => {
     .filter(Boolean)
     .join(' ');
 
+  // Platform's statementOfTruth stores: signature and statementOfTruthCertified
+  // Custom component (for fixtures) stores: certification.signature and certification.certified
+  const signatureValue =
+    data?.signature || data?.certification?.signature || defaultSignature;
+  const certifiedValue =
+    data?.statementOfTruthCertified ?? data?.certification?.certified ?? true;
+
   transformed.certification = {
-    signature: data?.certification?.signature || defaultSignature,
-    certified: Boolean(data?.certification?.certified !== false), // Default to true
+    signature: signatureValue,
+    certified: Boolean(certifiedValue),
   };
 
   // Remove all null and undefined values from the payload

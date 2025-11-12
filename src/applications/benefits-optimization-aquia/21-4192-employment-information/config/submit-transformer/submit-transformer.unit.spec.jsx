@@ -949,5 +949,53 @@ describe('Submit Transformer', () => {
       expect(result.certification).to.exist;
       expect(result.certification.certified).to.be.true;
     });
+
+    it('should handle platform statementOfTruth signature pattern', () => {
+      const form = {
+        data: {
+          signature: 'Platform Signature',
+          statementOfTruthCertified: true,
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.certification).to.exist;
+      expect(result.certification.signature).to.equal('Platform Signature');
+      expect(result.certification.certified).to.be.true;
+    });
+
+    it('should handle platform statementOfTruthCertified false', () => {
+      const form = {
+        data: {
+          signature: 'Test User',
+          statementOfTruthCertified: false,
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.certification).to.exist;
+      expect(result.certification.certified).to.be.false;
+    });
+
+    it('should prefer platform pattern over custom component pattern', () => {
+      const form = {
+        data: {
+          signature: 'Platform Pattern',
+          statementOfTruthCertified: true,
+          certification: {
+            signature: 'Custom Component Pattern',
+            certified: false,
+          },
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.certification).to.exist;
+      expect(result.certification.signature).to.equal('Platform Pattern');
+      expect(result.certification.certified).to.be.true;
+    });
   });
 });

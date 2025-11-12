@@ -27,11 +27,8 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { veteranFullName } = data.veteranInformation;
-            const veteranName = [
-              veteranFullName.first,
-              veteranFullName.middle,
-              veteranFullName.last,
-            ]
+            // Only use first and last name for signature (no middle initial)
+            const veteranName = [veteranFullName.first, veteranFullName.last]
               .filter(Boolean)
               .join(' ');
 
