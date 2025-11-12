@@ -1,3 +1,5 @@
+import Fuse from 'fuse.js';
+import { compareDesc, parse } from 'date-fns';
 import { getVAStatusFromCRM } from '../config/helpers';
 
 export function flattenInquiry(inquiry) {
@@ -10,8 +12,7 @@ export function flattenInquiry(inquiry) {
   };
 }
 
-/**
- * Splits inquires into buckets by their Level of Authentication
+/** Splits inquires into buckets by their Level of Authentication
  *  @param {Array} rawInquiries
  */
 export function categorizeByLOA(rawInquiries) {
@@ -54,4 +55,37 @@ export function paginateArray(arr, itemsPerPage) {
 
     return [...acc];
   }, []);
+}
+
+export function filterAndSort({
+  inquiriesArray,
+  query = '',
+  categoryFilter = 'All',
+  statusFilter = 'All',
+}) {
+  // Since Array.sort() sorts it in place, create a shallow copy first
+  const inquiriesCopy = [...inquiriesArray];
+  const filteredAndSorted = inquiriesCopy
+    .filter(inq => {
+      return (
+        [inq.categoryName, 'All'].includes(categoryFilter) &&
+        [inq.status, 'All'].includes(statusFilter)
+      );
+    })
+    .sort((a, b) => {
+      const dateA = parse(a.lastUpdate, 'MM/dd/yyyy hh:mm:ss a', new Date());
+      const dateB = parse(b.lastUpdate, 'MM/dd/yyyy hh:mm:ss a', new Date());
+      return compareDesc(dateA, dateB);
+    });
+
+  const searchable = new Fuse(filteredAndSorted, {
+    keys: ['inquiryNumber', 'submitterQuestion', 'categoryName'],
+    ignoreLocation: true,
+    threshold: 0.1,
+  });
+
+  const results = searchable.search(query).map(res => res.item);
+
+  // An empty query returns no results, so use the full list as a backup
+  return query ? results : filteredAndSorted;
 }

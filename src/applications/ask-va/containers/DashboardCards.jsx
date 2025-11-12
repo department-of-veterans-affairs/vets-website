@@ -1,16 +1,16 @@
 import {
   VaButtonPair,
   VaSelect,
+  VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { compareDesc, parse } from 'date-fns';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { ServerErrorAlert } from '../config/helpers';
 import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
-import { categorizeByLOA } from '../utils/dashboard';
+import { categorizeByLOA, filterAndSort } from '../utils/dashboard';
 import InquiriesList from '../components/dashboard/InquiriesList';
 
 export default function DashboardCards() {
@@ -22,6 +22,8 @@ export default function DashboardCards() {
   const [pendingStatusFilter, setPendingStatusFilter] = useState('All');
   const [pendingCategoryFilter, setPendingCategoryFilter] = useState('All');
   const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState('');
+  const [pendingQuery, setPendingQuery] = useState('');
 
   const saveInState = rawInquiries => {
     const { business, personal, uniqueCategories } = categorizeByLOA(
@@ -71,23 +73,6 @@ export default function DashboardCards() {
     [statusFilter, categoryFilter],
   );
 
-  const filterAndSort = inquiriesArray => {
-    // Since Array.sort() sorts it in place, create a shallow copy first
-    const inquiriesCopy = [...inquiriesArray];
-    return inquiriesCopy
-      .filter(inq => {
-        return (
-          [inq.categoryName, 'All'].includes(categoryFilter) &&
-          [inq.status, 'All'].includes(statusFilter)
-        );
-      })
-      .sort((a, b) => {
-        const dateA = parse(a.lastUpdate, 'MM/dd/yyyy hh:mm:ss a', new Date());
-        const dateB = parse(b.lastUpdate, 'MM/dd/yyyy hh:mm:ss a', new Date());
-        return compareDesc(dateA, dateB);
-      });
-  };
-
   if (error) {
     return (
       <va-alert status="info" className="vads-u-margin-y--4">
@@ -114,6 +99,16 @@ export default function DashboardCards() {
         <>
           <div className="filter-container">
             <div className="vacardSelectFilters">
+              <div className="search-container">
+                <VaTextInput
+                  value={pendingQuery}
+                  label="Search"
+                  inputMode="search"
+                  onVaInput={e => {
+                    setPendingQuery(e.target.value);
+                  }}
+                />
+              </div>
               <div>
                 <VaSelect
                   hint={null}
@@ -161,10 +156,13 @@ export default function DashboardCards() {
                 onPrimaryClick={() => {
                   setStatusFilter(pendingStatusFilter);
                   setCategoryFilter(pendingCategoryFilter);
+                  setQuery(pendingQuery);
                 }}
                 onSecondaryClick={() => {
                   setStatusFilter('All');
                   setCategoryFilter('All');
+                  setQuery('');
+                  setPendingQuery('');
                   setPendingStatusFilter('All');
                   setPendingCategoryFilter('All');
                 }}
@@ -183,14 +181,24 @@ export default function DashboardCards() {
                 </TabList>
                 <TabPanel>
                   <InquiriesList
-                    inquiries={filterAndSort(inquiries.business)}
+                    inquiries={filterAndSort({
+                      inquiriesArray: inquiries.business,
+                      categoryFilter,
+                      statusFilter,
+                      query,
+                    })}
                     tabName="Business"
                     {...{ categoryFilter, statusFilter }}
                   />
                 </TabPanel>
                 <TabPanel>
                   <InquiriesList
-                    inquiries={filterAndSort(inquiries.personal)}
+                    inquiries={filterAndSort({
+                      inquiriesArray: inquiries.personal,
+                      categoryFilter,
+                      statusFilter,
+                      query,
+                    })}
                     tabName="Personal"
                     {...{ categoryFilter, statusFilter }}
                   />
@@ -200,7 +208,12 @@ export default function DashboardCards() {
           ) : (
             <>
               <InquiriesList
-                inquiries={filterAndSort(inquiries.personal)}
+                inquiries={filterAndSort({
+                  inquiriesArray: inquiries.personal,
+                  categoryFilter,
+                  statusFilter,
+                  query,
+                })}
                 {...{ categoryFilter, statusFilter }}
               />
             </>

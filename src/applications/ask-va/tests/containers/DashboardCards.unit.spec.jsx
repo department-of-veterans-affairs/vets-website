@@ -46,7 +46,31 @@ describe('<DashboardCards>', () => {
                     categoryName: 'Benefits',
                     createdOn: '01/01/2024 12:00:00 PM',
                     lastUpdate: '01/01/2024 12:00:00 PM',
-                    submitterQuestion: 'Test question',
+                    submitterQuestion: 'Business question',
+                    levelOfAuthentication: 'Business',
+                  },
+                },
+                {
+                  id: '2',
+                  attributes: {
+                    inquiryNumber: 'A-2',
+                    status: 'In Progress',
+                    categoryName: 'Benefits',
+                    createdOn: '01/01/2024 12:00:00 PM',
+                    lastUpdate: '01/01/2024 12:00:00 PM',
+                    submitterQuestion: 'Personal question',
+                    levelOfAuthentication: 'Personal',
+                  },
+                },
+                {
+                  id: '3',
+                  attributes: {
+                    inquiryNumber: 'A-3',
+                    status: 'Replied',
+                    categoryName: 'Health care',
+                    createdOn: '01/01/2024 12:00:00 PM',
+                    lastUpdate: '01/01/2024 12:00:00 PM',
+                    submitterQuestion: 'Another personal question',
                     levelOfAuthentication: 'Personal',
                   },
                 },
@@ -84,7 +108,7 @@ describe('<DashboardCards>', () => {
         expect(categorySelect).to.exist;
 
         // Check that the inquiry content is displayed
-        expect(view.getByText('Test question')).to.exist;
+        expect(view.getByText('Business question')).to.exist;
         expect(view.getByText('A-1')).to.exist;
       });
     });
@@ -168,54 +192,7 @@ describe('<DashboardCards>', () => {
       });
     });
 
-    it('should clear filters when clear button is clicked', async () => {
-      const view = render(<DashboardCards />);
-
-      await waitFor(() => {
-        expect(view.container.querySelector('va-loading-indicator')).to.not
-          .exist;
-      });
-
-      // Set filters to non-default values
-      const statusSelect = view.container.querySelector(
-        'va-select[name="status"]',
-      );
-      fireEvent(
-        statusSelect,
-        new CustomEvent('vaSelect', {
-          detail: { target: { value: 'In progress' } },
-          bubbles: true,
-        }),
-      );
-
-      const categorySelect = view.container.querySelector(
-        'va-select[name="category"]',
-      );
-      fireEvent(
-        categorySelect,
-        new CustomEvent('vaSelect', {
-          detail: { target: { value: 'Benefits' } },
-          bubbles: true,
-        }),
-      );
-
-      // Click clear filters button
-      const clearButton = view.container.querySelector('va-button-pair');
-      fireEvent(
-        clearButton,
-        new CustomEvent('secondaryClick', {
-          bubbles: true,
-        }),
-      );
-
-      await waitFor(() => {
-        // Verify filters are reset to 'All'
-        expect(statusSelect.getAttribute('value')).to.equal('All');
-        expect(categorySelect.getAttribute('value')).to.equal('All');
-      });
-    });
-
-    it.skip('should handle filter application correctly', async () => {
+    it('should update filter summary when filters applied', async () => {
       server.use(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse(
@@ -247,17 +224,16 @@ describe('<DashboardCards>', () => {
           .exist;
       });
 
-      // Set filters
+      // Confirm starting value of status filter
       const statusSelect = view.container.querySelector(
         'va-select[name="status"]',
       );
-      fireEvent(
-        statusSelect,
-        new CustomEvent('vaSelect', {
-          detail: { target: { value: 'In progress' } },
-          bubbles: true,
-        }),
-      );
+      expect(statusSelect.getAttribute('value')).to.equal('All');
+
+      // Set status filter to "In progress"
+      statusSelect.__events.vaSelect({
+        target: { value: 'In progress' },
+      });
 
       // Wait for pending filter to update
       await waitFor(() => {
@@ -266,19 +242,42 @@ describe('<DashboardCards>', () => {
 
       // Apply filters
       const buttonPair = view.container.querySelector('va-button-pair');
-      fireEvent(
-        buttonPair,
-        new CustomEvent('primaryClick', {
-          bubbles: true,
-        }),
-      );
+      buttonPair.__events.primaryClick();
 
       // Wait for the filter summary to update
+      const filterSummary = await view.findByText(/showing/i);
+      expect(filterSummary.textContent).to.include('"In progress"');
+    });
+
+    it('should clear filters when clear button is clicked', async () => {
+      const view = render(<DashboardCards />);
+
       await waitFor(() => {
-        const filterInfo = view.container.querySelector(
-          '.vads-u-margin-top--2',
-        );
-        expect(filterInfo.textContent).to.include('"In progress"');
+        expect(view.container.querySelector('va-loading-indicator')).to.not
+          .exist;
+      });
+
+      // Set filters to non-default values
+      const statusSelect = view.container.querySelector(
+        'va-select[name="status"]',
+      );
+      statusSelect.__events.vaSelect({ target: { value: 'In progress' } });
+      expect(statusSelect.getAttribute('value')).to.equal('In progress');
+
+      const categorySelect = view.container.querySelector(
+        'va-select[name="category"]',
+      );
+      categorySelect.__events.vaSelect({ target: { value: 'Benefits' } });
+      expect(categorySelect.getAttribute('value')).to.equal('Benefits');
+
+      // Click clear filters button
+      const clearButton = view.container.querySelector('va-button-pair');
+      clearButton.__events.secondaryClick();
+
+      await waitFor(() => {
+        // Verify filters are reset to 'All'
+        expect(statusSelect.getAttribute('value')).to.equal('All');
+        expect(categorySelect.getAttribute('value')).to.equal('All');
       });
     });
 
@@ -344,6 +343,39 @@ describe('<DashboardCards>', () => {
         );
         expect(filterInfo.textContent).to.include('in Personal');
       });
+    });
+
+    it('should sort results based on search query', async () => {
+      const view = render(<DashboardCards />);
+
+      // Switch to personal tab
+      const personalTab = await view.findByRole('tab', { name: /personal/i });
+      fireEvent.click(personalTab);
+
+      // Confirm correct tab's content is displayed
+      const filterSummary = await view.findByText(/showing/i);
+      expect(filterSummary.textContent).to.include('categories in Personal');
+
+      const resultsBefore = await view.findAllByTestId('dashboard-card');
+      expect(resultsBefore.length).to.equal(2);
+      expect(resultsBefore[0].textContent).to.include('Reference number: A-2');
+
+      // Confirm search box starts empty
+      const searchBox = view.container.querySelector('va-text-input');
+      expect(searchBox.value).to.equal('');
+
+      // Input a search query
+      searchBox.__events.vaInput({ target: { value: 'A-3' } });
+      expect(searchBox.value).to.equal('A-3');
+
+      // Apply filters
+      const filterButtons = view.container.querySelector('va-button-pair');
+      filterButtons.__events.primaryClick();
+
+      // Confirm the list is now just one desired result
+      const resultsAfter = await view.findAllByTestId('dashboard-card');
+      expect(resultsAfter.length).to.equal(1);
+      expect(resultsAfter[0].textContent).to.include('Reference number: A-3');
     });
   });
 
