@@ -11,7 +11,7 @@ const AuthenticatedLayoutContainer = () => {
   return (
     <div className="container">
       <Header />
-      <ArpMaintenanceWindowBanner services={['global']} />
+      <ArpMaintenanceWindowBanner />
       <ProfileProvider>
         <Outlet />
       </ProfileProvider>

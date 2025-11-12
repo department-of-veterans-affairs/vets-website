@@ -129,6 +129,7 @@ const ArpMaintenanceWindowBanner = ({
   const maintenanceContent =
     "We're working on the Accredited Representative Portal right now. If you have trouble signing in, check back after we're finished. Thank you for your patience.";
 
+  const warnTitle = 'Upcoming site maintenance';
   const warnContent = `We'll be doing some work on the Accredited Representative Portal. The maintenance will last ${durationHours} hour${
     durationHours > 1 ? 's' : ''
   }. During that time, you may not be able to sign in.`;
@@ -140,6 +141,7 @@ const ArpMaintenanceWindowBanner = ({
         maintenance-end-date-time={endTime}
         maintenance-start-date-time={startTime}
         maintenance-title={maintenanceTitle}
+        upcoming-warn-title={warnTitle}
         upcoming-warn-start-date-time={warnStartsAt}
       >
         <div slot="warn-content">

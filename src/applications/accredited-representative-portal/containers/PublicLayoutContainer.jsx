@@ -8,7 +8,7 @@ const PublicLayoutContainer = () => {
   return (
     <div className="container">
       <PublicHeader />
-      <ArpMaintenanceWindowBanner services={['global']} />
+      <ArpMaintenanceWindowBanner />
       <Outlet />
       <Footer />
     </div>
