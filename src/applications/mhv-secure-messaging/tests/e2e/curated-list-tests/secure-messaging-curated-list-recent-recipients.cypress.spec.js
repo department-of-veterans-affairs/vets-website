@@ -33,6 +33,9 @@ describe('SM CURATED LIST MAIN FLOW', () => {
     PatientInboxPage.clickCreateNewMessage();
     PatientInterstitialPage.continueToRecentRecipients();
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
+    GeneralFunctionsPage.verifyPageTitle(
+      'Recently Messaged Care Teams - Start Message | Veterans Affairs',
+    );
 
     cy.findByTestId(Locators.EMERGENCY_USE_EXPANDABLE_DATA_TEST_ID).should(
       `exist`,
@@ -137,9 +140,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
   it('validate selecting a recent care team and continuing to compose message', () => {
     PatientInboxPage.clickCreateNewMessage();
     PatientInterstitialPage.continueToRecentRecipients();
-    GeneralFunctionsPage.verifyPageHeader(
-      `Care teams you recently sent messages to`,
-    );
+    GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     // Select the first recent care team
     cy.get(`[label="${recentCareTeams[0]}"]`).click();
