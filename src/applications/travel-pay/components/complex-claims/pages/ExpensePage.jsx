@@ -95,7 +95,7 @@ const ExpensePage = () => {
       'tripType',
       'departureDate',
       'departureAirport',
-      'arrivalDate',
+      'returnDate',
       'arrivalAirport',
     ],
   };

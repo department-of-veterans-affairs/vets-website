@@ -61,8 +61,8 @@ const ExpenseAirTravelFields = ({ formState, onChange }) => (
     />
     <VaDate
       label="Return date"
-      name="arrivalDate"
-      value={formState.arrivalDate || ''}
+      name="returnDate"
+      value={formState.returnDate || ''}
       onDateChange={onChange}
     />
   </>

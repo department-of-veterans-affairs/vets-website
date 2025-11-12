@@ -268,8 +268,8 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           }),
         );
 
-        const arrivalDate = root.querySelector('va-date[name="arrivalDate"]');
-        arrivalDate?.dispatchEvent(
+        const returnDate = root.querySelector('va-date[name="returnDate"]');
+        returnDate?.dispatchEvent(
           new CustomEvent('dateChange', {
             detail: { value: '2025-11-01' },
             bubbles: true,
