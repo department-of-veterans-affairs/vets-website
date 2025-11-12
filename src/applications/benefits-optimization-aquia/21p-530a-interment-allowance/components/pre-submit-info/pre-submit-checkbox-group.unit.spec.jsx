@@ -10,17 +10,18 @@ import { Provider } from 'react-redux';
 import sinon from 'sinon';
 import PreSubmitInfo from './pre-submit-checkbox-group';
 
-const createMockStore = (submissionStatus = null) => {
+const createMockStore = (submissionStatus = null, formData = {}) => {
   const dispatch = sinon.spy();
   return {
     getState: () => ({
       form: {
+        data: formData,
         submission: {
           status: submissionStatus,
         },
       },
     }),
-    subscribe: () => {},
+    subscribe: () => () => {}, // Return unsubscribe function
     dispatch,
   };
 };
@@ -39,11 +40,10 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('Initial Rendering', () => {
     it('should render without errors', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -54,11 +54,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should display legal note', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -71,11 +70,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should render statement of truth checkbox', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -90,11 +88,10 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('Signature Fields', () => {
     it('should render signature input field', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -105,11 +102,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should render title input field', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -125,11 +121,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should render statement of truth with checkbox', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -142,13 +137,12 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('Empty Data Handling', () => {
     it('should render with empty form data', () => {
-      const store = createMockStore();
       const emptyFormData = {};
+      const store = createMockStore(null, emptyFormData);
 
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={emptyFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -160,13 +154,12 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should render legal note with empty data', () => {
-      const store = createMockStore();
       const emptyFormData = {};
+      const store = createMockStore(null, emptyFormData);
 
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={emptyFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -189,13 +182,12 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('Validation', () => {
     it('should call onSectionComplete with false when fields are empty', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const onSectionComplete = sinon.spy();
 
       render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={onSectionComplete}
           />
@@ -206,11 +198,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should not show errors before fields are touched when showError is false', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -223,11 +214,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should show errors when showError is true and fields are invalid', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError
             onSectionComplete={mockOnSectionComplete}
           />
@@ -249,11 +239,10 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('User Interactions', () => {
     it('should update full name on input change', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -275,11 +264,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should update checkbox state on change', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -299,11 +287,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should show full name error after blur when empty', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -328,11 +315,10 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('Form Data Synchronization', () => {
     it('should dispatch setData with certification values', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -358,7 +344,6 @@ describe('PreSubmitCheckboxGroup', () => {
       render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -372,11 +357,10 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('Title Validation', () => {
     it('should show title error when less than 2 characters', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError
             onSectionComplete={mockOnSectionComplete}
           />
@@ -390,12 +374,11 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should accept valid form data and mark section as complete', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const onSectionComplete = sinon.spy();
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={onSectionComplete}
           />
@@ -442,7 +425,6 @@ describe('PreSubmitCheckboxGroup', () => {
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError
             onSectionComplete={mockOnSectionComplete}
           />
@@ -457,11 +439,10 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('Organization-Specific Error Messages', () => {
     it('should show recipient organization name in full name error when present', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError
             onSectionComplete={mockOnSectionComplete}
           />
@@ -475,11 +456,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should show organization name in title error when organization is present', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError
             onSectionComplete={mockOnSectionComplete}
           />
@@ -495,12 +475,11 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should show generic error when organization name and user name are not present', () => {
-      const store = createMockStore();
       const emptyFormData = {};
+      const store = createMockStore(null, emptyFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={emptyFormData}
             showError
             onSectionComplete={mockOnSectionComplete}
           />
@@ -520,12 +499,11 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should show generic message when organization is not present', () => {
-      const store = createMockStore();
       const dataWithoutOrg = {};
+      const store = createMockStore(null, dataWithoutOrg);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={dataWithoutOrg}
             showError
             onSectionComplete={mockOnSectionComplete}
           />
@@ -539,11 +517,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should show specific error for title when empty', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError
             onSectionComplete={mockOnSectionComplete}
           />
@@ -558,11 +535,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should use generic statement text without organization name', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -578,11 +554,10 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('Organization Name Validation', () => {
     it('should show mismatch error when full name does not match recipient organization', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -612,11 +587,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should validate organization name with case-insensitive matching', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -646,11 +620,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should validate organization name with spaces ignored', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -680,12 +653,11 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should validate lenient when no organization names are available', async () => {
-      const store = createMockStore();
       const dataWithoutOrgNames = {};
+      const store = createMockStore(null, dataWithoutOrgNames);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={dataWithoutOrgNames}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />

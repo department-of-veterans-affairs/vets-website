@@ -15,16 +15,13 @@ const TITLE_MAX_LENGTH = 100;
  * Displays signature boxes for state/tribal official to certify form information
  *
  * @param {Object} props - Component props
- * @param {Object} props.formData - Current form data
  * @param {boolean} props.showError - Whether to show validation errors
  * @param {Function} props.onSectionComplete - Callback when section is complete
  * @returns {JSX.Element} PreSubmit signature component
  */
-export const PreSubmitCheckboxGroup = ({
-  formData,
-  showError,
-  onSectionComplete,
-}) => {
+export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
+  // Get formData from Redux instead of props to avoid infinite loop in useEffect
+  const formData = useSelector(state => state.form.data);
   const { burialInformation = {} } = formData;
 
   // Organization name for title field (state/tribal cemetery organization)
@@ -48,6 +45,9 @@ export const PreSubmitCheckboxGroup = ({
 
   // Ref to prevent duplicate dispatches
   const lastDispatchedData = useRef(null);
+
+  // Ref to track previous completion state (prevents unnecessary onSectionComplete calls)
+  const prevCompleteRef = useRef(null);
 
   // Normalize string for comparison: lowercase and remove all spaces
   const normalizeForComparison = useCallback(str => {
@@ -101,12 +101,10 @@ export const PreSubmitCheckboxGroup = ({
       const dataKey = JSON.stringify(certificationData);
 
       // Only dispatch if data has actually changed
+      // The ref comparison prevents infinite loops even though formData is in deps
       if (lastDispatchedData.current !== dataKey) {
         lastDispatchedData.current = dataKey;
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        // formData is intentionally not in deps to prevent infinite loop
-        // We always want the latest formData from closure
         dispatch(
           setData({
             ...formData,
@@ -115,27 +113,30 @@ export const PreSubmitCheckboxGroup = ({
         );
       }
     },
-    // REMOVED formData from deps to prevent infinite loop
-    [dispatch, fullName, organizationTitle, isCertified, hasSubmittedForm],
+    [
+      dispatch,
+      fullName,
+      organizationTitle,
+      isCertified,
+      hasSubmittedForm,
+      formData,
+    ],
   );
 
-  // Check if all required fields are valid
+  // Check if all required fields are valid and notify parent when completion state changes
   useEffect(
     () => {
       const hasValidFullName = validateFullName();
       const hasValidTitle = validateTitle();
       const isComplete = hasValidFullName && hasValidTitle && isCertified;
 
-      // Only call if function is provided and not submitted
-      if (onSectionComplete && !hasSubmittedForm) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        // onSectionComplete is intentionally not in deps to prevent loops
-        // We always want the latest callback from closure
+      // Only call callback if completion state has actually changed
+      // This prevents unnecessary calls even if parent passes new callback reference
+      if (!hasSubmittedForm && prevCompleteRef.current !== isComplete) {
+        prevCompleteRef.current = isComplete;
         onSectionComplete(isComplete);
       }
     },
-    // Removed onSectionComplete from deps to prevent potential loops
-    // Parent should memoize this callback if needed
     [
       fullName,
       organizationTitle,
@@ -145,6 +146,7 @@ export const PreSubmitCheckboxGroup = ({
       validateFullName,
       validateTitle,
       hasSubmittedForm,
+      onSectionComplete,
     ],
   );
 
@@ -249,7 +251,6 @@ export const PreSubmitCheckboxGroup = ({
 };
 
 PreSubmitCheckboxGroup.propTypes = {
-  formData: PropTypes.object.isRequired,
   showError: PropTypes.bool.isRequired,
   onSectionComplete: PropTypes.func.isRequired,
 };
