@@ -6,7 +6,7 @@ import App from '@bio-aquia/21-0779-nursing-home-information/containers/app';
 const route = {
   path: '/',
   component: App,
-  indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+  indexRoute: { onEnter: (_nextState, replace) => replace('/introduction') },
   childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
 
