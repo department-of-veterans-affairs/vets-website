@@ -79,6 +79,7 @@ export const formConfig = {
   },
   formId: VA_FORM_IDS.FORM_21_686CV2,
   formOptions: {
+    focusOnAlertRole: true,
     useWebComponentForNavigation: true,
   },
   saveInProgress: {
