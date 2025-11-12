@@ -7,24 +7,6 @@
   "template": {
     "vagovprod": false,
     "layout": "page-react.html",
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "name": "Home",
-        "path": "/"
-      },
-      {
-        "name": "Pension benefits",
-        "path": "/pension/"
-      },
-      {
-        "name": "VA Aid and Attendance benefits and Housebound allowance",
-        "path": "/pension/aid-attendance-housebound/"
-      },
-      {
-        "name": "Apply for Aid and Attendance benefits or Housebound allowance",
-        "path": "/pension/aid-attendance-housebound/apply-form-21-2680"
-      }
-    ]
+    "includeBreadcrumbs": true
   }
 }

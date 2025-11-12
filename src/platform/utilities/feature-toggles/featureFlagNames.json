@@ -57,6 +57,7 @@
   "cstShowDocumentUploadStatus": "cst_show_document_upload_status",
   "cstUseDataDogRUM": "cst_use_dd_rum",
   "debtLettersShowLettersVBMS": "debt_letters_show_letters_vbms",
+  "decisionReviewsScRedesign": "decision_review_sc_redesign_nov2025",
   "dependentsModuleEnabled": "dependents_module_enabled",
   "dependentsEnableFormViewerMFE": "dependents_enable_form_viewer_mfe",
   "dependencyVerification": "dependency_verification",
@@ -178,7 +179,6 @@
   "mhvMedicationsDisplayNewCernerFacilityAlert": "mhv_medications_display_new_cerner_facility_alert",
   "mhvMedicationsDisplayRefillContent": "mhv_medications_display_refill_content",
   "mhvMedicationsDisplayPendingMeds": "mhv_medications_display_pending_meds",
-  "mhvMedicationsDisplayRefillProgress": "mhv_medications_display_refill_progress",
   "mhvMedicationsPartialFillContent": "mhv_medications_partial_fill_content",
   "mhvMedicationsDontIncrementIpeCount": "mhv_medications_dont_increment_ipe_count",
   "mhvMilestone2ChangesEnabled": "mhv_milestone_2_changes_enabled",
@@ -194,7 +194,7 @@
   "mhvSecureMessagingLargeAttachments": "mhv_secure_messaging_large_attachments",
   "mhvSecureMessagingCuratedListFlow": "mhv_secure_messaging_curated_list_flow",
   "mhvSecureMessagingRecentRecipients": "mhv_secure_messaging_recent_recipients",
-  "mhvSecureMessagingMedicationsRenewalRequests": "mhv_secure_messaging_medications_renewal_requests",
+  "mhvSecureMessagingMedicationsRenewalRequest": "mhv_secure_messaging_medications_renewal_request",
   "mhvSupplyReorderingEnabled": "mhv_supply_reordering_enabled",
   "mhvVaHealthChatEnabled": "mhv_va_health_chat_enabled",
   "mhvHeaderLinks": "mhv_header_links",
@@ -374,5 +374,7 @@
   "form530aEnabled": "form_530a_enabled",
   "form4192Enabled": "form_4192_enabled",
   "form2680Enabled": "form_2680_enabled",
-  "vre_eligibility_status_phase_2_updates": "vre_eligibility_status_phase_2_updates"
+  "vre_eligibility_status_phase_2_updates": "vre_eligibility_status_phase_2_updates",
+  "medicalExpenseReportsEnabled": "medical_expense_reports_form_enabled",
+  "survivorsBenefitsFormEnabled": "survivors_benefits_form_enabled"
 }

@@ -94,6 +94,7 @@ const formConfig = {
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
     submitButtonText: 'Continue',
   },
+  useCustomScrollAndFocus: true,
   defaultDefinitions: {},
   transformForSubmit: transform,
   chapters: {
@@ -120,6 +121,7 @@ const formConfig = {
               });
             }
           },
+          updateFormData: agreementType.updateFormData,
         },
       },
     },
