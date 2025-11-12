@@ -93,7 +93,6 @@ const testConfig = createTestConfig(
   formConfig,
 );
 
-// TODO: Temporarily disabled - waiting for content-build registry update
-describe.skip('21-0779 Nursing Home Information E2E Tests', () => {
+describe('21-0779 Nursing Home Information E2E Tests', () => {
   testForm(testConfig);
 });
