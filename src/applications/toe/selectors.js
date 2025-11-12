@@ -12,8 +12,10 @@ export const getAppData = state => ({
   isSponsorsFetchComplete: state.data?.fetchedSponsorsComplete,
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
-  openModal: state?.data?.openModal,
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
+  meb1995Reroute: state?.featureToggles?.meb1995Reroute,
+  mebDpoAddressOptionEnabled: state?.featureToggles?.mebDpoAddressOptionEnabled,
+  openModal: state?.data?.openModal,
   savedForms: state?.user?.profile?.savedForms,
   showMeb1990EMaintenanceAlert:
     state.featureToggles.showMeb1990EMaintenanceAlert,
@@ -25,5 +27,4 @@ export const getAppData = state => ({
     state?.featureToggles?.toeLightHouseDGIDirectDeposit,
   toeHighSchoolInfoChange: state?.featureToggles?.toeHighSchoolInfoChange,
   user: state.user || {},
-  mebDpoAddressOptionEnabled: state?.featureToggles?.mebDpoAddressOptionEnabled,
 });
