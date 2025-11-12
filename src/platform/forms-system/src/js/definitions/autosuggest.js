@@ -33,6 +33,7 @@ export function uiSchema(label, getOptions, options = {}) {
   return merge(
     {},
     {
+      label: {},
       'ui:title': label,
       'ui:field': AutosuggestField,
       'ui:validations': validations,
