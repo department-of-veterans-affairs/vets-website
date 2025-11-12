@@ -2,6 +2,7 @@ import {
   VaButtonPair,
   VaPagination,
   VaSelect,
+  VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -9,6 +10,7 @@ import { compareDesc, parse } from 'date-fns';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import Fuse from 'fuse.js';
 import {
   ServerErrorAlert,
   formatDate,
@@ -29,6 +31,8 @@ const DashboardCards = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentTab, setCurrentTab] = useState(0); // 0 for Business, 1 for Personal
+  const [query, setQuery] = useState('');
+  const [pendingQuery, setPendingQuery] = useState('');
   const itemsPerPage = 4;
 
   const hasBusinessLevelAuth =
@@ -107,15 +111,14 @@ const DashboardCards = () => {
   );
 
   const filterAndSortInquiries = loa => {
-    return inquiries
+    // Since Array.sort() sorts it in place, create a shallow copy first
+    const inquiriesCopy = [...inquiries];
+    const filteredAndSorted = inquiriesCopy
       .filter(
         card =>
-          categoryFilter === 'All' ||
-          card.attributes.categoryName === categoryFilter,
-      )
-      .filter(
-        card =>
-          statusFilter === 'All' || card.attributes.status === statusFilter,
+          (categoryFilter === 'All' ||
+            card.attributes.categoryName === categoryFilter) &&
+          (statusFilter === 'All' || card.attributes.status === statusFilter),
       )
       .filter(
         card => loa === 'All' || card.attributes.levelOfAuthentication === loa,
@@ -133,6 +136,21 @@ const DashboardCards = () => {
         );
         return compareDesc(dateA, dateB);
       });
+
+    const searchable = new Fuse(filteredAndSorted, {
+      keys: [
+        'attributes.inquiryNumber',
+        'attributes.submitterQuestion',
+        'attributes.categoryName',
+      ],
+      ignoreLocation: true,
+      threshold: 0.1,
+    });
+
+    const results = searchable.search(query).map(res => res.item);
+
+    // An empty query returns no results, so use the full list as a backup
+    return query ? results : filteredAndSorted;
   };
 
   const handlePageChange = newPage => {
@@ -323,6 +341,16 @@ const DashboardCards = () => {
         <>
           <div className="filter-container">
             <div className="vacardSelectFilters">
+              <div className="search-container">
+                <VaTextInput
+                  value={pendingQuery}
+                  label="Search"
+                  inputMode="search"
+                  onVaInput={e => {
+                    setPendingQuery(e.target.value);
+                  }}
+                />
+              </div>
               <div>
                 <VaSelect
                   hint={null}
@@ -370,12 +398,15 @@ const DashboardCards = () => {
                 onPrimaryClick={() => {
                   setStatusFilter(pendingStatusFilter);
                   setCategoryFilter(pendingCategoryFilter);
+                  setQuery(pendingQuery);
                   setCurrentPage(1);
                   focusElement(filterSummaryRef?.current);
                 }}
                 onSecondaryClick={() => {
                   setStatusFilter('All');
                   setCategoryFilter('All');
+                  setQuery('');
+                  setPendingQuery('');
                   setPendingStatusFilter('All');
                   setPendingCategoryFilter('All');
                   setCurrentPage(1);
