@@ -6,23 +6,33 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { conditionOptions } from '../../../content/conditionOptions';
-import { arrayOptions, createNewConditionName } from './utils';
+import {
+  arrayOptions,
+  createNewConditionName,
+  isPlaceholderRated,
+} from './utils';
 
 const getOtherConditions = (fullData, currentIndex) => {
   const ratedDisabilities =
-    fullData?.ratedDisabilities?.map(disability => disability.name) || [];
+    fullData?.ratedDisabilities?.map(d => d?.name).filter(Boolean) ?? [];
 
-  const otherNewConditions = fullData?.[arrayOptions.arrayPath].reduce(
-    (acc, condition, index) => {
-      if (condition.condition && index !== currentIndex) {
-        acc.push(createNewConditionName(condition, true));
-      }
+  const otherNewConditions =
+    fullData?.[arrayOptions.arrayPath]?.reduce((acc, item, idx) => {
+      if (idx === currentIndex) return acc;
+      if (!item?.condition) return acc;
+      if (isPlaceholderRated(item.condition)) return acc;
+      acc.push(createNewConditionName(item, true));
       return acc;
-    },
-    [],
-  );
+    }, []) ?? [];
 
-  return [...ratedDisabilities, ...otherNewConditions];
+  const combined = [...ratedDisabilities, ...otherNewConditions];
+  const seen = new Set();
+  return combined.filter(Boolean).filter(label => {
+    const key = label;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 };
 
 /** @returns {PageSchema} */

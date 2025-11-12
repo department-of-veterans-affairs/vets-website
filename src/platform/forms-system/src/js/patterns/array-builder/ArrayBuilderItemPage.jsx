@@ -30,8 +30,8 @@ import {
  *   arrayPath: string,
  *   nounPlural: string,
  *   nounSingular: string,
- *   summaryRoute: string,
- *   introRoute?: string,
+ *   getSummaryPath: (formData) => string,
+ *   getIntroPath: (formData) => string,
  *   required: (formData) => boolean,
  *   reviewRoute: string,
  *   getText: import('./arrayBuilderText').ArrayBuilderGetText,
@@ -41,8 +41,8 @@ import {
  */
 export default function ArrayBuilderItemPage({
   arrayPath,
-  summaryRoute,
-  introRoute,
+  getSummaryPath,
+  getIntroPath,
   reviewRoute,
   getText,
   required,
@@ -61,6 +61,8 @@ export default function ArrayBuilderItemPage({
     const currentItem = get(arrayPath, props.fullData)?.[
       props.pagePerItemIndex
     ];
+    const introRoute = getIntroPath(props.fullData);
+    const summaryRoute = getSummaryPath(props.fullData);
 
     // duplicateChecks will only apply to specific internal item pages
     const internalPageDuplicateChecks =

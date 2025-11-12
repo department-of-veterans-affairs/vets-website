@@ -110,6 +110,8 @@ import './mhv-signin-cta/sass/mhv-signin-cta.scss';
 import createMhvSigninCallToAction from './mhv-signin-cta/createMhvSigninCTA';
 import createDependentsVerificationHowToVerify from './dependents-verification';
 
+import create21P534ezAccess from './survivors-benefits/entry';
+
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
@@ -268,6 +270,8 @@ create107959CAccess(store, widgetTypes.FORM_107959C);
 create107959AAccess(store, widgetTypes.FORM_107959A);
 create107959F2Access(store, widgetTypes.FORM_107959F2);
 createMhvSigninCallToAction(store, widgetTypes.MHV_SIGNIN_CTA);
+
+create21P534ezAccess(store, widgetTypes.SURVIVORS_BENEFITS);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {
