@@ -63,12 +63,13 @@ describe('Constants', () => {
       expect(TITLE.length).to.be.lessThan(SUBTITLE.length);
     });
 
-    it('should export exactly 2 constants', () => {
+    it('should export exactly 3 constants', () => {
       const constants = require('./constants');
       const exportedKeys = Object.keys(constants);
-      expect(exportedKeys).to.have.lengthOf(2);
+      expect(exportedKeys).to.have.lengthOf(3);
       expect(exportedKeys).to.include('TITLE');
       expect(exportedKeys).to.include('SUBTITLE');
+      expect(exportedKeys).to.include('API_ENDPOINTS');
     });
   });
 });

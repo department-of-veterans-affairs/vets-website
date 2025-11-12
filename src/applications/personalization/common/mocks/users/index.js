@@ -675,6 +675,34 @@ const loa1UserWithNoEmail = set(
   null,
 );
 
+const loa3With1010ez = set(
+  cloneDeep(simpleUser),
+  'data.attributes.inProgressForms',
+  [
+    {
+      form: '1010ez',
+      lastUpdated: 1691764281,
+      metadata: {
+        version: 9,
+        returnUrl: '',
+        submission: {
+          status: false,
+          errorMessage: false,
+          id: false,
+          timestamp: false,
+          hasAttemptedSubmit: false,
+        },
+        createdAt: 1691764170,
+        lastUpdated: 1691764281,
+        inProgressFormId: 23844,
+        savedAt: 1696002345850,
+        expiresAt: 32503680000,
+      },
+    },
+    ...simpleUser.data.attributes.inProgressForms,
+  ],
+);
+
 module.exports = {
   cernerUser,
   loa1SimpleUser,
@@ -682,4 +710,5 @@ module.exports = {
   loa3UserWithNoEmail,
   simpleUser,
   loa3NoHealthUser,
+  loa3With1010ez,
 };

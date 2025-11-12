@@ -93,4 +93,6 @@ const testConfig = createTestConfig(
   formConfig,
 );
 
-testForm(testConfig);
+describe('21-0779 Nursing Home Information E2E Tests', () => {
+  testForm(testConfig);
+});
