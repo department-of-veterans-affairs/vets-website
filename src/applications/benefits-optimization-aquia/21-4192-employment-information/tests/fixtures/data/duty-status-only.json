@@ -55,6 +55,10 @@
       "benefitEntitlement": false
     },
     "benefitsDetails": {},
-    "remarks": ""
+    "remarks": {},
+    "certification": {
+      "signature": "Din Djarin",
+      "certified": true
+    }
   }
 }

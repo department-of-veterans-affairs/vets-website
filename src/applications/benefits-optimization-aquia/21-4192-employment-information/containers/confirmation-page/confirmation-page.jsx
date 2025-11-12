@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { formatDateLong } from 'platform/utilities/date';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { transformForSubmit } from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
+import DownloadFormPDF from './download-form-pdf';
 
 /**
  * Confirmation page component for VA Form 21-4192
@@ -22,6 +24,9 @@ import { ConfirmationView } from 'platform/forms-system/src/js/components/Confir
 export const ConfirmationPage = ({ route }) => {
   const form = useSelector(state => state.form || {});
   const submission = form?.submission || {};
+  const { formConfig } = route || {};
+  const transformedData = transformForSubmit(formConfig, form);
+
   const submitDate = submission?.timestamp || '';
   const formattedSubmitDate = submitDate ? formatDateLong(submitDate) : '';
   const confirmationNumber = submission?.response?.confirmationNumber || '';
@@ -44,7 +49,13 @@ export const ConfirmationPage = ({ route }) => {
         content={null}
         actions={<p />}
       />
-      <ConfirmationView.SavePdfDownload />
+      <div className="confirmation-save-pdf-download-section">
+        <h2>Save a copy of your form</h2>
+        <p>
+          If you’d like a PDF copy of your completed form, you can download it.{' '}
+        </p>
+        <DownloadFormPDF formData={transformedData} />
+      </div>
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList
