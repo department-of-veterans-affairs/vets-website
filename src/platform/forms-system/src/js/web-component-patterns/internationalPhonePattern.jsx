@@ -42,8 +42,11 @@ const internationalPhoneUI = options => {
         label: _title,
       };
     },
-    'ui:options': uiOptions,
+    'ui:options': { hint: 'Enter up to a 15-digit phone number', ...uiOptions },
     'ui:validations': [validateTelephoneInput],
+    'ui:errorMessages': {
+      required: 'Enter a phone number with up to 15 digits',
+    },
   };
 };
 
