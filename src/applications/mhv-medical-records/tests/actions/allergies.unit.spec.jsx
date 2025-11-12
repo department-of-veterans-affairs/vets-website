@@ -9,6 +9,22 @@ import {
 import { Actions } from '../../util/actionTypes';
 import allergies from '../fixtures/allergies.json';
 import allergy from '../fixtures/allergy.json';
+import error404 from '../fixtures/404.json';
+
+describe('unable to get vitals action because of server error', () => {
+  it('should not use v1 OH endpoint when user is Cerner but acceleration disabled', async () => {
+    mockApiRequest(error404, false);
+    const dispatch = sinon.spy();
+    const thunk = getAllergiesList(false, true); // isCurrent=false, isCerner=true
+    await thunk(dispatch);
+    // Check that the correct action type was dispatched
+    const dispatchCalls = dispatch.getCalls();
+    const getListCall = dispatchCalls.find(
+      call => call.args[0].type === Actions.Allergies.GET_LIST,
+    );
+    expect(getListCall).to.not.exist;
+  });
+});
 
 describe('Get allergies action with parameter-based logic', () => {
   describe('getAllergiesList', () => {

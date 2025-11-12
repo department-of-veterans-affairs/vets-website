@@ -13,7 +13,7 @@ const childLeftSchool = {
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.endDate) {
-        setTimeout(scrollToFirstError);
+        setTimeout(() => scrollToFirstError({ focusOnAlertRole: true }));
       } else {
         goForward();
       }

@@ -53,6 +53,12 @@ describe('Interstitial page header', () => {
         'va-button[text="Connect with the Veterans Crisis Line"]',
       ),
     ).to.exist;
+
+    await waitFor(() => {
+      expect(document.title).to.contain(
+        'Only Use Messages For Non-Urgent Needs | Veterans Affairs',
+      );
+    });
   });
 
   it('renders "Continue to draft" on type draft', () => {
