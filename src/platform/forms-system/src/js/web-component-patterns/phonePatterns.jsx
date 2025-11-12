@@ -36,6 +36,7 @@ const phoneUI = options => {
     'ui:autocomplete': 'tel',
     'ui:options': {
       inputType: 'tel',
+      hint: 'Enter a 10-digit phone number',
       ...uiOptions,
     },
     'ui:errorMessages': {
