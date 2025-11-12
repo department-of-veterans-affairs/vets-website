@@ -1,3 +1,6 @@
+import { formatISO, subMonths } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
+
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { edipiNotFound } from '@department-of-veterans-affairs/mhv/exports';
@@ -143,10 +146,22 @@ export const getMhvRadiologyDetails = async id => {
   return findMatchingPhrAndCvixStudies(id, phrResponse, cvixResponse);
 };
 
-export const getAcceleratedNotes = async () => {
-  return apiRequest(`${API_BASE_PATH_V2}/medical_records/clinical_notes`, {
-    headers,
+export const getAcceleratedNotes = async ({ startDate, endDate } = {}) => {
+  const today = utcToZonedTime(new Date());
+  // Expected date format: YYYY-MM-DD
+  const defaultEndDate = formatISO(today, { representation: 'date' });
+  const defaultStartDate = formatISO(subMonths(today, 3), {
+    representation: 'date',
   });
+
+  const startDateParam = `?start_date=${startDate || defaultStartDate}`;
+  const endDateParam = `&end_date=${endDate || defaultEndDate}`;
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/clinical_notes${startDateParam}${endDateParam}`,
+    {
+      headers,
+    },
+  );
 };
 
 export const getNotes = async () => {
@@ -155,6 +170,8 @@ export const getNotes = async () => {
   });
 };
 
+// TODO: this will fail until upstream API supports fetching a single note
+// due to inability to determine original date range
 export const getAcceleratedNote = async id => {
   return apiRequest(
     `${API_BASE_PATH_V2}/medical_records/clinical_notes/${id}`,

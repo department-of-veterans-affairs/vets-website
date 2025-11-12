@@ -1,9 +1,4 @@
-import {
-  getNote,
-  getNotes,
-  getAcceleratedNotes,
-  getAcceleratedNote,
-} from '../api/MrApi';
+import { getNote, getNotes, getAcceleratedNotes } from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
@@ -39,15 +34,23 @@ export const getCareSummaryAndNotesDetails = (
   noteList,
   isAccelerating = false,
 ) => async dispatch => {
+  const getDetailsFunc = isAccelerating
+    ? async () => {
+        // Return a notfound response because the downstream API
+        // does not support fetching a single note at this time
+        return { data: { notFound: true } };
+      }
+    : getNote;
+
   try {
     await dispatchDetails(
       noteId,
       noteList,
       dispatch,
-      isAccelerating ? getAcceleratedNote : getNote,
+      getDetailsFunc,
       Actions.CareSummariesAndNotes.GET_FROM_LIST,
       isAccelerating
-        ? Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM
+        ? Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM_FROM_LIST
         : Actions.CareSummariesAndNotes.GET,
     );
   } catch (error) {
