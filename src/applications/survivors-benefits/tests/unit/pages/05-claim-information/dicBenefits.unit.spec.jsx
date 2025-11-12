@@ -8,11 +8,9 @@ import {
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import dicBenefits from '../../../../config/chapters/05-claim-information/dicBenefits';
 import { dicOptions } from '../../../../utils/labels';
-import { radioQuestions } from '../../../../utils/constants';
 
 describe('DIC Benefits Page', () => {
   const { schema, uiSchema } = dicBenefits;
-  const { CHAPTER_5 } = radioQuestions;
 
   it('renders the DIC benefits options', async () => {
     const form = render(
@@ -26,7 +24,9 @@ describe('DIC Benefits Page', () => {
     const vaAccordionItems = $$('va-accordion-item', formDOM);
 
     expect(form.getByRole('heading')).to.have.text('DIC benefits');
-    expect(vaRadio.getAttribute('label')).to.equal(CHAPTER_5.dicBenefits);
+    expect(vaRadio.getAttribute('label')).to.equal(
+      'What DIC benefit are you claiming?',
+    );
     expect(vaRadio.getAttribute('required')).to.equal('true');
 
     expect(options.length).to.equal(optionKeys.length);

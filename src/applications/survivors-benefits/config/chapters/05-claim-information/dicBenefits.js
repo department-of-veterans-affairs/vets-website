@@ -72,13 +72,11 @@ const DicAccordion = () => (
         </ul>
 
         <p>
-          <a
+          <va-link
             href="https://www.va.gov/disability/eligibility/"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about Title 38 U.S.C. 1151 claims
-          </a>
+            external
+            text="Learn more about Title 38 U.S.C. 1151 claims"
+          />
         </p>
       </va-accordion-item>
 
