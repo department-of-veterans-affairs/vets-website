@@ -12,7 +12,7 @@
     "veteranAddress": {
       "veteranAddress": {
         "street": "Cloud City Administration",
-        "street2": "Baron's Quarters",
+        "street2": "BQ",
         "street3": "Level 121-138",
         "city": "Denver",
         "state": "CO",
@@ -26,7 +26,7 @@
     "claimantInformation": {
       "claimantFullName": {
         "first": "Lando",
-        "middle": "Junior",
+        "middle": "J",
         "last": "Calrissian"
       },
       "claimantDob": "1965-08-10"
@@ -37,7 +37,7 @@
     "claimantAddress": {
       "claimantAddress": {
         "street": "Bespin Mining Colony",
-        "street2": "Residential District",
+        "street2": "Res",
         "street3": "Suite 42",
         "city": "Cloud City",
         "state": "CO",

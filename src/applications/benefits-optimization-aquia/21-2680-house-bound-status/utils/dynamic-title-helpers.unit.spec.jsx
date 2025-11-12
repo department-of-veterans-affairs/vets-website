@@ -8,7 +8,7 @@ import {
   getHospitalizationStatusTitle,
   getHospitalizationDateTitle,
   getHospitalizationFacilityTitle,
-} from './dynamicTitleHelpers';
+} from './dynamic-title-helpers';
 
 describe('dynamicTitleHelpers', () => {
   describe('getHospitalizationStatusTitle', () => {

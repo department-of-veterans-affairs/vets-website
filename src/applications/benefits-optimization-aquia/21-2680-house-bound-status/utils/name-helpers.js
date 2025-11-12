@@ -4,7 +4,7 @@
  * VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid and Attendance
  */
 
-import { isClaimantVeteran } from './relationshipHelpers';
+import { isClaimantVeteran } from './relationship-helpers';
 
 /**
  * Helper function to get claimant's name from form data

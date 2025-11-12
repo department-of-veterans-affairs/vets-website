@@ -10,7 +10,7 @@
     },
     "veteranAddress": {
       "veteranAddress": {
-        "street": "1138 Moisture Farm Road",
+        "street": "1138 Moisture Farm Rd",
         "city": "Mos Eisley",
         "state": "AZ",
         "country": "USA",
@@ -19,25 +19,6 @@
     },
     "claimantRelationship": {
       "relationship": "veteran"
-    },
-    "claimantInformation": {
-      "claimantFullName": {
-        "first": "Luke",
-        "last": "Skywalker"
-      },
-      "claimantDob": "1951-09-25"
-    },
-    "claimantSsn": {
-      "claimantSsn": "796121200"
-    },
-    "claimantAddress": {
-      "claimantAddress": {
-        "street": "1138 Moisture Farm Road",
-        "city": "Mos Eisley",
-        "state": "AZ",
-        "postalCode": "85326",
-        "country": "USA"
-      }
     },
     "benefitType": {
       "benefitType": "SMC"

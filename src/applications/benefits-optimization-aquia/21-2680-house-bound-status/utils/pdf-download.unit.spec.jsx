@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as api from 'platform/utilities/api';
 import * as recordEventModule from 'platform/monitoring/record-event';
-import { fetchPdfApi, downloadBlob, formatPdfFilename } from './pdfDownload';
+import { fetchPdfApi, downloadBlob, formatPdfFilename } from './pdf-download';
 
 describe('pdfDownload utilities', () => {
   let sandbox;

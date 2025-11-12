@@ -42,8 +42,25 @@ export const claimantAddressUiSchema = {
  * JSON Schema for Claimant Address page
  * Validates claimant address fields
  */
-const addressSchemaWithDefault = addressSchema();
-addressSchemaWithDefault.properties.country.default = 'USA';
+// Customize address schema to add maxLength constraints and default country
+const customAddressSchema = {
+  ...addressSchema(),
+  properties: {
+    ...addressSchema().properties,
+    street: {
+      type: 'string',
+      maxLength: 30,
+    },
+    street2: {
+      type: 'string',
+      maxLength: 5,
+    },
+    country: {
+      ...addressSchema().properties.country,
+      default: 'USA',
+    },
+  },
+};
 
 export const claimantAddressSchema = {
   type: 'object',
@@ -53,7 +70,7 @@ export const claimantAddressSchema = {
       type: 'object',
       required: ['claimantAddress'],
       properties: {
-        claimantAddress: addressSchemaWithDefault,
+        claimantAddress: customAddressSchema,
       },
     },
   },

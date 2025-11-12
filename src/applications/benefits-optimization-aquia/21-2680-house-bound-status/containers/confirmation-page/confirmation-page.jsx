@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import { DownloadFormPDF } from '../../components/confirmation-page/DownloadFormPDF';
+import { DownloadFormPDF } from '../../components/confirmation-page/download-form-pdf';
 
 /**
  * Custom submission alert component that shows warning for additional steps needed
@@ -59,11 +59,13 @@ const WhatsNextSection = () => {
   return (
     <div className="confirmation-whats-next-section">
       <h2>What you need to do next</h2>
-      <p>Follow these 4 steps to complete your application:</p>
+      <p>Follow these 3 steps to complete your application:</p>
       <va-process-list uswds>
-        <va-process-list-item header="Download a PDF version of the form you filled out.">
+        <va-process-list-item header="Check your downloads folder for your completed form.">
           <p>
-            Use the download link above to save a copy of your completed form.
+            Your completed VA Form 21-2680 PDF has been downloaded
+            automatically. If you need to download it again, use the download
+            link above.
           </p>
         </va-process-list-item>
 
