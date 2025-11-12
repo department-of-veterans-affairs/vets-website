@@ -4,12 +4,7 @@
  */
 
 import { expect } from 'chai';
-import {
-  SUBMISSION_ADDRESS,
-  SUBTITLE,
-  TITLE,
-  TRACKING_PREFIX,
-} from './constants';
+import { SUBTITLE, TITLE, TRACKING_PREFIX } from './constants';
 
 describe('Constants', () => {
   describe('Form Title and Subtitle', () => {
@@ -42,44 +37,6 @@ describe('Constants', () => {
     });
   });
 
-  describe('Submission Address', () => {
-    it('should have submission address object', () => {
-      expect(SUBMISSION_ADDRESS).to.be.an('object');
-    });
-
-    it('should have name property', () => {
-      expect(SUBMISSION_ADDRESS.name).to.exist;
-      expect(SUBMISSION_ADDRESS.name).to.be.a('string');
-      expect(SUBMISSION_ADDRESS.name).to.include('VA');
-    });
-
-    it('should have street property', () => {
-      expect(SUBMISSION_ADDRESS.street).to.exist;
-      expect(SUBMISSION_ADDRESS.street).to.be.a('string');
-    });
-
-    it('should have city property', () => {
-      expect(SUBMISSION_ADDRESS.city).to.exist;
-      expect(SUBMISSION_ADDRESS.city).to.be.a('string');
-    });
-
-    it('should have state property', () => {
-      expect(SUBMISSION_ADDRESS.state).to.exist;
-      expect(SUBMISSION_ADDRESS.state).to.be.a('string');
-      expect(SUBMISSION_ADDRESS.state).to.have.lengthOf(2);
-    });
-
-    it('should have zip property', () => {
-      expect(SUBMISSION_ADDRESS.zip).to.exist;
-      expect(SUBMISSION_ADDRESS.zip).to.be.a('string');
-      expect(SUBMISSION_ADDRESS.zip).to.match(/^\d{5}(-\d{4})?$/);
-    });
-
-    it('should have exactly 5 address fields', () => {
-      expect(Object.keys(SUBMISSION_ADDRESS)).to.have.lengthOf(5);
-    });
-  });
-
   describe('Constant Values Format', () => {
     it('should use kebab-case for tracking prefix', () => {
       expect(TRACKING_PREFIX).to.match(/^[a-z0-9]+(-[a-z0-9]+)*-$/);
@@ -91,7 +48,6 @@ describe('Constants', () => {
       expect(TITLE).to.exist;
       expect(SUBTITLE).to.exist;
       expect(TRACKING_PREFIX).to.exist;
-      expect(SUBMISSION_ADDRESS).to.exist;
     });
   });
 });

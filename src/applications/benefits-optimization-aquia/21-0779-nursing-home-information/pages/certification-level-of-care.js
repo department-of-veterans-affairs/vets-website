@@ -9,14 +9,13 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { getPatientName } from './helpers';
+import { getPatientName } from '../utils';
 
 /**
  * uiSchema for Certification Level of Care page
  * Certifies the level of care the patient is receiving
  */
 export const certificationLevelOfCareUiSchema = {
-  'ui:title': 'Certification of level of care',
   certificationLevelOfCare: {
     levelOfCare: radioUI({
       title: 'Level of care',

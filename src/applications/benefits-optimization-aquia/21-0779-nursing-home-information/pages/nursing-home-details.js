@@ -30,6 +30,13 @@ export const nursingHomeDetailsUiSchema = {
  * JSON Schema for Nursing Home Details page
  * Validates nursing home name and address
  */
+const addressSchemaWithDefault = addressSchema({
+  omit: ['isMilitary', 'street3'],
+});
+
+// Set default country to USA
+addressSchemaWithDefault.properties.country.default = 'USA';
+
 export const nursingHomeDetailsSchema = {
   type: 'object',
   required: ['nursingHomeDetails'],
@@ -42,7 +49,7 @@ export const nursingHomeDetailsSchema = {
           type: 'string',
           maxLength: 100,
         },
-        nursingHomeAddress: addressSchema({ omit: ['isMilitary', 'street3'] }),
+        nursingHomeAddress: addressSchemaWithDefault,
       },
     },
   },

@@ -22,7 +22,10 @@ const initConfirmationPage = ({ formData } = {}) => {
       ...createInitialState(formConfig),
       submission: {
         response: {
-          confirmationNumber: 'HB12345-A1B2',
+          attributes: {
+            guid: '12345678-1234-1234-1234-123456789abc',
+            confirmationNumber: 'HB12345-A1B2',
+          },
         },
         timestamp: new Date(),
       },
@@ -42,10 +45,13 @@ describe('ConfirmationPage', () => {
     cleanup();
   });
 
-  it('should show success alert and confirmation number if present', () => {
+  it('should show warning alert with additional steps message', () => {
     const { container } = initConfirmationPage();
     const alert = container.querySelector('va-alert');
-    expect(alert).to.have.attribute('status', 'success');
-    expect(container).to.contain.text('HB12345-A1B2');
+    expect(alert).to.have.attribute('status', 'warning');
+    expect(container).to.contain.text('Additional steps are needed');
+    expect(container).to.contain.text(
+      'You completed your part of this application',
+    );
   });
 });

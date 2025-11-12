@@ -8,35 +8,27 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { getClaimantName, isClaimantVeteran } from './helpers';
-
-/**
- * Generate page title based on claimant relationship
- */
-const getPageTitle = formData => {
-  if (isClaimantVeteran(formData)) {
-    return 'Are you hospitalized?';
-  }
-  const claimantName = getClaimantName(formData);
-  return `Is ${claimantName} hospitalized?`;
-};
+import { getHospitalizationStatusTitle } from '../utils';
 
 /**
  * uiSchema for Hospitalization Status page
  * Determines if the claimant is currently hospitalized
  */
 export const hospitalizationStatusUiSchema = {
-  'ui:title': 'Hospitalization status',
   hospitalizationStatus: {
     isCurrentlyHospitalized: yesNoUI({
-      title: 'Hospitalization status',
+      title: 'Is the claimant hospitalized?',
     }),
   },
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
-      const pageTitle = getPageTitle(fullData || formData);
+      const fieldLabel = getHospitalizationStatusTitle(fullData || formData);
       return {
-        'ui:title': pageTitle,
+        hospitalizationStatus: {
+          isCurrentlyHospitalized: {
+            'ui:title': fieldLabel,
+          },
+        },
       };
     },
   },

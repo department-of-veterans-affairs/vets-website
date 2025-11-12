@@ -1,8 +1,10 @@
 {
   "data": {
     "nursingOfficialInformation": {
-      "firstName": "Beru",
-      "lastName": "Lars",
+      "fullName": {
+        "first": "Beru",
+        "last": "Lars"
+      },
       "jobTitle": "Nursing Home Administrator",
       "phoneNumber": "5055551977"
     },
@@ -10,7 +12,7 @@
       "nursingHomeName": "Coruscant Veterans Medical Center",
       "nursingHomeAddress": {
         "street": "500 Senate District Boulevard",
-        "street2": "Level 5127",
+        "street2": "Lvl 5",
         "city": "Coruscant",
         "state": "DC",
         "country": "USA",
@@ -23,7 +25,7 @@
     "claimantPersonalInfo": {
       "claimantFullName": {
         "first": "Shmi",
-        "middle": "Ekkreth",
+        "middle": "E",
         "last": "Skywalker"
       },
       "claimantDateOfBirth": "1939-09-15"
@@ -35,7 +37,7 @@
     "veteranPersonalInfo": {
       "fullName": {
         "first": "Anakin",
-        "middle": "Lars",
+        "middle": "L",
         "last": "Skywalker"
       },
       "dateOfBirth": "1960-03-01"
@@ -63,7 +65,9 @@
       "medicaidStartDate": "2020-12-25"
     },
     "monthlyCosts": {
-      "monthlyOutOfPocket": "3277"
-    }
+      "monthlyOutOfPocket": "3277.00"
+    },
+    "signature": "Beru Lars",
+    "certificationChecked": true
   }
 }

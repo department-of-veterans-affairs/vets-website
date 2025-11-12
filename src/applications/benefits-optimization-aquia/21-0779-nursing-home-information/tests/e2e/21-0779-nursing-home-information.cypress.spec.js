@@ -23,8 +23,8 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             const { nursingOfficialInformation } = data;
             const officialName = [
-              nursingOfficialInformation.firstName,
-              nursingOfficialInformation.lastName,
+              nursingOfficialInformation.fullName.first,
+              nursingOfficialInformation.fullName.last,
             ]
               .filter(Boolean)
               .join(' ');
@@ -93,4 +93,6 @@ const testConfig = createTestConfig(
   formConfig,
 );
 
-testForm(testConfig);
+describe('21-0779 Nursing Home Information E2E Tests', () => {
+  testForm(testConfig);
+});

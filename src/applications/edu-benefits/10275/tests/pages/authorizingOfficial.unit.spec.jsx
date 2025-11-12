@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$, $ } from 'platform/forms-system/src/js/utilities/ui';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import formConfig from '../../config/form';
 
 describe('Authorizing official page', () => {
@@ -11,14 +13,24 @@ describe('Authorizing official page', () => {
     uiSchema,
   } = formConfig.chapters.authorizedOfficialChapter.pages.authorizedOfficial;
 
+  const mockStore = configureStore();
+
   it('Renders the page with the correct number of inputs', async () => {
-    const { container, getByRole } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
+    const renderPage = (formData = { authorizedOfficial: {} }) => {
+      const store = mockStore({ form: { data: formData } });
+      return render(
+        <Provider store={store}>
+          <DefinitionTester
+            definitions={formConfig.defaultDefinitions}
+            schema={schema}
+            uiSchema={uiSchema}
+            data={formData}
+          />
+        </Provider>,
+      );
+    };
+
+    const { container, getByRole } = renderPage();
 
     expect($$('va-text-input', container).length).to.equal(6);
     expect($$('va-radio', container).length).to.equal(1);
@@ -31,13 +43,21 @@ describe('Authorizing official page', () => {
     });
   });
   it('Renders the page with the correct number of required inputs after selecting a phone type', async () => {
-    const { container, getByRole } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
+    const renderPage = (formData = { authorizedOfficial: {} }) => {
+      const store = mockStore({ form: { data: formData } });
+      return render(
+        <Provider store={store}>
+          <DefinitionTester
+            definitions={formConfig.defaultDefinitions}
+            schema={schema}
+            uiSchema={uiSchema}
+            data={formData}
+          />
+        </Provider>,
+      );
+    };
+
+    const { container, getByRole } = renderPage();
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 

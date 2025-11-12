@@ -5,32 +5,29 @@
  */
 
 import {
-  fullNameUI,
-  fullNameSchema,
-  ssnUI,
-  ssnSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /**
  * uiSchema for Veteran Information page
- * Collects veteran's full name, SSN, and date of birth
+ * Collects veteran's full name and date of birth
  */
 export const veteranInformationUiSchema = {
   'ui:title': 'Veteran information',
   'ui:description':
     'Confirm the personal information we have on file for the Veteran.',
   veteranInformation: {
-    veteranFullName: fullNameUI(),
-    veteranSsn: ssnUI('Social Security number'),
+    veteranFullName: fullNameNoSuffixUI(),
     veteranDob: dateOfBirthUI(),
   },
 };
 
 /**
  * JSON Schema for Veteran Information page
- * Validates veteran identification fields
+ * Validates veteran name and date of birth
  */
 export const veteranInformationSchema = {
   type: 'object',
@@ -38,10 +35,9 @@ export const veteranInformationSchema = {
   properties: {
     veteranInformation: {
       type: 'object',
-      required: ['veteranFullName', 'veteranSsn', 'veteranDob'],
+      required: ['veteranFullName', 'veteranDob'],
       properties: {
-        veteranFullName: fullNameSchema,
-        veteranSsn: ssnSchema,
+        veteranFullName: fullNameNoSuffixSchema,
         veteranDob: dateOfBirthSchema,
       },
     },

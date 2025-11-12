@@ -203,8 +203,8 @@ describe('Form Configuration', () => {
 
     it('should have dev configuration', () => {
       expect(formConfig.dev).to.exist;
-      expect(formConfig.dev.showNavLinks).to.be.false;
-      expect(formConfig.dev.collapsibleNavLinks).to.be.false;
+      expect(formConfig.dev.showNavLinks).to.be.true;
+      expect(formConfig.dev.collapsibleNavLinks).to.be.true;
     });
   });
 

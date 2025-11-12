@@ -12,14 +12,3 @@ export const SUBTITLE =
  * Tracking prefix for analytics
  */
 export const TRACKING_PREFIX = '21p-530a-interment-allowance-';
-
-/**
- * Submission address for paper forms
- */
-export const SUBMISSION_ADDRESS = {
-  name: 'VA Pension Intake Center',
-  street: 'P.O. Box 5365',
-  city: 'Janesville',
-  state: 'WI',
-  zip: '53547-5365',
-};

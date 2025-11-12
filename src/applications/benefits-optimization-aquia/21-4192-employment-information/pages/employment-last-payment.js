@@ -48,7 +48,8 @@ export const employmentLastPaymentUiSchema = {
     }),
     lumpSumPayment: radioUI({
       title: 'Was a lump sum payment made?',
-      hint: '[text explaining how this differs from standard pay check]',
+      hint:
+        'A lump sum is a one-off payment for a specific purpose such as a severance package or payout of unused leave.',
       labels: {
         yes: 'Yes',
         no: 'No',
