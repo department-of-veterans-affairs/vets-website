@@ -218,7 +218,7 @@ const formConfig = {
       },
     },
     typeOfRequest: {
-      title: 'Type of request',
+      title: 'Memorial items',
       pages: {
         typeOfRequest: {
           path: 'type-of-request',
