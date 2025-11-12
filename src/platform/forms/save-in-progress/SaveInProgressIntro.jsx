@@ -41,6 +41,8 @@ class SaveInProgressIntro extends React.Component {
     const isExpired = savedForm
       ? isBefore(fromUnixTime(savedForm.metadata.expiresAt), new Date())
       : false;
+    // eslint-disable-next-line no-console
+    console.log('prolfile', profile);
     return (
       <FormStartControls
         resumeOnly={this.props.resumeOnly}
@@ -296,9 +298,10 @@ class SaveInProgressIntro extends React.Component {
   getStartPage = () => {
     const { pageList, pathname, formData } = this.props;
     const data = formData || {};
-    // pathname is only provided when the first page is conditional
-    if (pathname) return getNextPagePath(pageList, data, pathname);
-    return pageList[1]?.path;
+    // Use the provided pathname, or default to the first page in the list
+    // Always use getNextPagePath to respect page 'depends' conditions
+    const startingPath = pathname || pageList[0]?.path;
+    return getNextPagePath(pageList, data, startingPath);
   };
 
   handleClick = () => {

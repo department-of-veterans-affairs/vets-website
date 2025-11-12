@@ -14,11 +14,14 @@ export const goToNextPage = pagePath => {
   }
 };
 
-export const startAsAuthUser = () => {
+export const startAsAuthUser = (opts = {}) => {
+  const { waitForPrefill = true } =
+    typeof opts === 'boolean' ? { waitForPrefill: !opts } : opts;
+
   cy.get('[href="#start"]')
     .first()
     .click();
-  cy.wait('@mockPrefill');
+  if (waitForPrefill) cy.wait('@mockPrefill');
   cy.location('pathname').should('include', '/check-your-personal-information');
 };
 
