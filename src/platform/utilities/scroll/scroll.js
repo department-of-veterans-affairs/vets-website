@@ -9,6 +9,7 @@ import {
   cleanupErrorAnnotations as cleanupErrorAnnotationsInternal,
   collectAllErrorElements,
   findFocusTarget,
+  isSupportedVaElement,
 } from './error-scaffolding';
 
 export const cleanupErrorAnnotations = cleanupErrorAnnotationsInternal;
@@ -173,7 +174,7 @@ export const scrollToFirstError = async (options = {}) => {
           requestAnimationFrame(() => {
             focusElement('[role="alert"]', {}, el?.shadowRoot);
           });
-        } else {
+        } else if (isSupportedVaElement(el)) {
           cleanupErrorAnnotations();
 
           const allErrors = collectAllErrorElements(selectors);
@@ -186,6 +187,8 @@ export const scrollToFirstError = async (options = {}) => {
               focusTarget.focus({ preventScroll: true });
             }, 100);
           }
+        } else {
+          focusElement(el);
         }
       }
 

@@ -50,13 +50,29 @@ const GROUP_SELECTOR = GROUP_COMPONENT_TAGS.map(tag => tag.toLowerCase()).join(
 // General helpers
 // ============================================================================
 /**
- * Determines whether a node is a VA design system web component based on its tag name.
+ * Determines whether a node is a supported VA design system web component based on its tag name.
  *
  * @param {Element|null|undefined} element - The node to examine
  * @returns {boolean} True when the tag name starts with the `va-` prefix, otherwise false
  */
-const isVaElement = element =>
-  !!element?.tagName && element.tagName.toLowerCase().startsWith('va-');
+const isSupportedVaElement = element => {
+  if (!element?.tagName) return false;
+
+  // TODO: create a fix that targets all va- components, not just the ones in this list
+  const allowedElements = [
+    'va-checkbox-group',
+    'va-checkbox',
+    'va-combo-box',
+    'va-radio',
+    'va-radio-option',
+    'va-select',
+    'va-statement-of-truth',
+    'va-text-input',
+    'va-textarea',
+  ];
+
+  return allowedElements.includes(element.tagName.toLowerCase());
+};
 
 /**
  * Collects VA design system elements under the provided root.
@@ -69,7 +85,7 @@ const getVaElements = root => {
     return [];
   }
 
-  return Array.from(root.querySelectorAll('*')).filter(isVaElement);
+  return Array.from(root.querySelectorAll('*')).filter(isSupportedVaElement);
 };
 
 /**
@@ -568,6 +584,9 @@ const associateErrorWithInput = (errorWebComponent, errorMessage) => {
  * @returns {void} This function does not return a value
  */
 const addErrorAnnotations = errorWebComponent => {
+  // Skip elements not in the allowedElements list
+  if (!isSupportedVaElement(errorWebComponent)) return;
+
   // Remove alert role from error message elements to prevent duplicate announcements
   const errorElement = errorWebComponent?.shadowRoot?.querySelector(
     ERROR_MESSAGE_SELECTORS.join(', '),
@@ -656,6 +675,8 @@ const cleanupErrorAnnotations = () => {
   const elementsWithErrors = document.querySelectorAll(errorSelector);
 
   elementsWithErrors.forEach(el => {
+    // Skip elements not in the allowedElements list
+    if (!isSupportedVaElement(el)) return;
     // ============================================================================
     // CATEGORY 3: Group Option Component Synchronization
     // Sync individual group options with their parent group component's error state
@@ -743,4 +764,5 @@ export {
   collectAllErrorElements,
   findFocusTarget,
   getErrorPropText,
+  isSupportedVaElement,
 };
