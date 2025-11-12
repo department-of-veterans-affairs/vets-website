@@ -10,8 +10,7 @@ import InstitutionAddress from '../components/InstitutionAddress';
 
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const details = formData?.institutionDetails || {};
-  const code = (fieldData || '').trim();
-  const badFormat = code.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
+  const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
   const notFound = details.institutionName === 'not found';
   const ineligible = details.poeEligible === false;
 
