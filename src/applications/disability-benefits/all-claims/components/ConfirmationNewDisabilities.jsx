@@ -134,7 +134,7 @@ const ConfirmationNewDisabilities = ({ formData }) => {
                         VA mistreatment date
                       </div>
                       <div className="vads-u-margin-bottom--2">
-                        {formatDateString(dis['view:vaFollowUp'].vaMistreatmentDate)}
+                        {dis['view:vaFollowUp'].vaMistreatmentDate}
                       </div>
                     </>
                   )}
