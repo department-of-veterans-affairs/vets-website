@@ -48,6 +48,11 @@
     "benefitsInformation": {
       "benefitEntitlement": false
     },
-    "benefitsDetails": {}
+    "benefitsDetails": {},
+    "remarks": {},
+    "certification": {
+      "signature": "Rex CT-7567",
+      "certified": true
+    }
   }
 }

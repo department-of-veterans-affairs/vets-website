@@ -376,12 +376,28 @@ describe('Form Configuration', () => {
       expect(formConfig.preSubmitInfo).to.exist;
     });
 
-    it('should have pre-submit info required set to true', () => {
-      expect(formConfig.preSubmitInfo.required).to.be.true;
+    it('should have statementOfTruth configuration', () => {
+      expect(formConfig.preSubmitInfo.statementOfTruth).to.exist;
     });
 
-    it('should have CustomComponent for pre-submit info', () => {
-      expect(formConfig.preSubmitInfo.CustomComponent).to.exist;
+    it('should have statementOfTruth body text', () => {
+      expect(formConfig.preSubmitInfo.statementOfTruth.body).to.equal(
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      );
+    });
+
+    it('should have statementOfTruth messageAriaDescribedby', () => {
+      expect(
+        formConfig.preSubmitInfo.statementOfTruth.messageAriaDescribedby,
+      ).to.equal(
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      );
+    });
+
+    it('should have fullNamePath set to veteranInformation.veteranFullName', () => {
+      expect(formConfig.preSubmitInfo.statementOfTruth.fullNamePath).to.equal(
+        'veteranInformation.veteranFullName',
+      );
     });
   });
 

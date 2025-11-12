@@ -3,7 +3,7 @@
     "veteranInformation": {
       "veteranFullName": {
         "first": "Ahsoka",
-        "middle": "The",
+        "middle": "T",
         "last": "Tano"
       },
       "dateOfBirth": "2004-05-04"
@@ -17,8 +17,7 @@
       "employerAddress": {
         "view:militaryBaseDescription": {},
         "country": "USA",
-        "street": "Rebel Alliance HQ",
-        "street2": "Sector 7",
+        "street": "Rebel Alliance HQ Sector 7",
         "city": "Phoenix",
         "state": "AZ",
         "postalCode": "85001"
@@ -60,6 +59,12 @@
       "firstPaymentDate": "2020-02-15",
       "stopReceivingDate": ""
     },
-    "remarks": "Currently employed veteran with ongoing service to intelligence operations. Has middle name. Demonstrates currently employed scenario where no employment ending date is provided. Receives current ongoing benefits with no stop date. Not in Reserve/Guard status."
+    "remarks": {
+      "remarks": "Currently employed veteran with ongoing service to intelligence operations. Has middle name. Demonstrates currently employed scenario where no employment ending date is provided. Receives current ongoing benefits with no stop date. Not in Reserve/Guard status."
+    },
+    "certification": {
+      "signature": "Ahsoka T Tano",
+      "certified": true
+    }
   }
 }

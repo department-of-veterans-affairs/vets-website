@@ -3,7 +3,7 @@
     "veteranInformation": {
       "veteranFullName": {
         "first": "Boba",
-        "middle": "Jango",
+        "middle": "J",
         "last": "Fett"
       },
       "dateOfBirth": "1980-05-21"
@@ -16,8 +16,7 @@
       "employerName": "Bounty Hunters' Guild of the Outer Rim",
       "employerAddress": {
         "view:militaryBaseDescription": {},
-        "street": "1313 Cantina Boulevard",
-        "street2": "Docking Bay 94",
+        "street": "1313 Cantina Blvd Bay 94",
         "city": "Mos Eisley",
         "state": "AZ",
         "country": "USA",
@@ -66,6 +65,12 @@
       "firstPaymentDate": "2000-06-15",
       "stopReceivingDate": "2015-12-31"
     },
-    "remarks": "Veteran sustained multiple service-connected disabilities during 15+ years of high-risk contract work including: severe burns from thermal detonator exposure, blast trauma from rocket launcher incidents, digestive system damage from Sarlacc pit digestive enzymes, and chronic pain from armor impact injuries. Employment required extensive accommodations including specialized protective equipment, modified assignment protocols, and flexible medical leave. Final contract termination resulted from accumulation of combat injuries rendering field operations no longer viable. Veteran remains active in guild advisory capacity and reserve training program despite physical limitations."
+    "remarks": {
+      "remarks": "Veteran sustained multiple service-connected disabilities during 15+ years of high-risk contract work including: severe burns from thermal detonator exposure, blast trauma from rocket launcher incidents, digestive system damage from Sarlacc pit digestive enzymes, and chronic pain from armor impact injuries. Employment required extensive accommodations including specialized protective equipment, modified assignment protocols, and flexible medical leave. Final contract termination resulted from accumulation of combat injuries rendering field operations no longer viable. Veteran remains active in guild advisory capacity and reserve training program despite physical limitations."
+    },
+    "certification": {
+      "signature": "Boba J Fett",
+      "certified": true
+    }
   }
 }
