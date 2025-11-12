@@ -23,6 +23,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_0779_UPLOAD: '21-0779-UPLOAD',
   FORM_21_0845: '21-0845',
   FORM_21_0966: '21-0966',
+  FORM_21_0966_ARP: '21-0966-ARP',
   FORM_21_0972: '21-0972',
   FORM_21_10210: '21-10210',
   FORM_21_22: '21-22',
@@ -131,6 +132,8 @@ export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
   [VA_FORM_IDS.FORM_21A]:
     '/accredited_representative_portal/v0/in_progress_forms/',
   '21-686C-UPLOAD': '/accredited_representative_portal/v0/in_progress_forms/',
+  [VA_FORM_IDS.FORM_21_0966_ARP]:
+    '/accredited_representative_portal/v0/in_progress_forms/',
 });
 
 // Entries previously added to FORM_LINKS go in here:
@@ -168,6 +171,9 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21_0845]: `${tryGetAppUrl('0845-auth-disclose')}/`,
     [VA_FORM_IDS.FORM_21_0966]: `${tryGetAppUrl(
       '21-0966-intent-to-file-a-claim',
+    )}/`,
+    [VA_FORM_IDS.FORM_21_0966_ARP]: `${tryGetAppUrl(
+      'representative-form-upload',
     )}/`,
     [VA_FORM_IDS.FORM_21_0972]: `${tryGetAppUrl('21-0972-alternate-signer')}/`,
     [VA_FORM_IDS.FORM_21_10210]: `${tryGetAppUrl(
@@ -540,6 +546,13 @@ export const MY_VA_SIP_FORMS = [
     title: 'intent to file (21-0966)',
     description: 'intent to file application (21-0966)',
     trackingPrefix: '21-0966-intent-to-file-a-claim-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_0966_ARP,
+    benefit: 'intent to file',
+    title: 'intent to file (21-0966)',
+    description: 'intent to file application (21-0966)',
+    trackingPrefix: '21-0966-intent-to-file-a-claim-arp-',
   },
   {
     id: VA_FORM_IDS.FORM_21_0972,
