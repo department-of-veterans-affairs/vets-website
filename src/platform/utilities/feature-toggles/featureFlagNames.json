@@ -57,6 +57,7 @@
   "cstShowDocumentUploadStatus": "cst_show_document_upload_status",
   "cstUseDataDogRUM": "cst_use_dd_rum",
   "debtLettersShowLettersVBMS": "debt_letters_show_letters_vbms",
+  "decisionReviewsScRedesign": "decision_review_sc_redesign_nov2025",
   "dependentsModuleEnabled": "dependents_module_enabled",
   "dependentsEnableFormViewerMFE": "dependents_enable_form_viewer_mfe",
   "dependencyVerification": "dependency_verification",
@@ -374,5 +375,6 @@
   "form530aEnabled": "form_530a_enabled",
   "form4192Enabled": "form_4192_enabled",
   "form2680Enabled": "form_2680_enabled",
-  "vre_eligibility_status_phase_2_updates": "vre_eligibility_status_phase_2_updates"
+  "vre_eligibility_status_phase_2_updates": "vre_eligibility_status_phase_2_updates",
+  "survivorsBenefitsFormEnabled": "survivors_benefits_form_enabled"
 }

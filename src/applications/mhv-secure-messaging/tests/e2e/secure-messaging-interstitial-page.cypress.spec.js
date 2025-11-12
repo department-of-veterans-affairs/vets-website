@@ -59,4 +59,15 @@ describe('SM INTERSTITIAL PAGE', () => {
       .find(`button`)
       .click();
   });
+
+  it('verifies the page title', () => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToInterstitialPage();
+    GeneralFunctionsPage.verifyPageTitle(
+      'Only Use Messages For Non-Urgent Needs | Veterans Affairs',
+    );
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
 });

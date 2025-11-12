@@ -12,7 +12,7 @@
       "nursingHomeName": "Coruscant Veterans Medical Center",
       "nursingHomeAddress": {
         "street": "500 Senate District Boulevard",
-        "street2": "Level 5127",
+        "street2": "Lvl 5",
         "city": "Coruscant",
         "state": "DC",
         "country": "USA",
@@ -65,7 +65,9 @@
       "medicaidStartDate": "2020-12-25"
     },
     "monthlyCosts": {
-      "monthlyOutOfPocket": "3277"
-    }
+      "monthlyOutOfPocket": "3277.00"
+    },
+    "signature": "Beru Lars",
+    "certificationChecked": true
   }
 }
