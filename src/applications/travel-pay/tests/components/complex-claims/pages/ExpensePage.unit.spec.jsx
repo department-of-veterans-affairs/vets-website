@@ -110,11 +110,13 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
     if (!root) return; // just in case
 
     // ---- COMMON FIELDS ----
-    const date = root.querySelector('va-date[name="date"]');
-    const amount = root.querySelector('va-text-input[name="amount"]');
+    const purchaseDate = root.querySelector('va-date[name="purchaseDate"]');
+    const costRequested = root.querySelector(
+      'va-text-input[name="costRequested"]',
+    );
 
-    if (date) {
-      date.dispatchEvent(
+    if (purchaseDate) {
+      purchaseDate.dispatchEvent(
         new CustomEvent('dateChange', {
           detail: { value: '2025-10-31' },
           bubbles: true,
@@ -123,8 +125,8 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
       );
     }
 
-    if (amount) {
-      amount.dispatchEvent(
+    if (costRequested) {
+      costRequested.dispatchEvent(
         new CustomEvent('input', {
           detail: { value: '50.00' },
           bubbles: true,

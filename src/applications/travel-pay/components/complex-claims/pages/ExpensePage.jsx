@@ -101,7 +101,7 @@ const ExpensePage = () => {
   };
 
   const validatePage = () => {
-    const base = ['date', 'amount', 'receipt'];
+    const base = ['purchaseDate', 'costRequested', 'receipt'];
     const extra = REQUIRED_FIELDS[expenseType] || [];
     const requiredFields = [...base, ...extra];
 
@@ -220,16 +220,16 @@ const ExpensePage = () => {
       )}
       <VaDate
         label="Date on receipt"
-        name="date"
-        value={formState.date || ''}
+        name="purchaseDate"
+        value={formState.purchaseDate || ''}
         required
         onDateChange={handleFormChange}
       />
       <VaTextInput
         currency
         label="Amount requested"
-        name="amount"
-        value={formState.amount || ''}
+        name="costRequested"
+        value={formState.costRequested || ''}
         required
         show-input-error
         onInput={handleFormChange}
