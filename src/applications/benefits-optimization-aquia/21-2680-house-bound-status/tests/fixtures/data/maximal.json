@@ -3,16 +3,17 @@
     "veteranInformation": {
       "veteranFullName": {
         "first": "Anakin",
-        "middle": "",
+        "middle": "S",
         "last": "Skywalker"
       },
       "veteranSsn": "987654321",
+      "veteranVaFileNumber": "123456789",
       "veteranDob": "1941-03-01"
     },
     "veteranAddress": {
       "veteranAddress": {
         "street": "501 Jedi Temple Avenue",
-        "street2": "High Council Chambers",
+        "street2": "Rm 1A",
         "street3": "Floor 1138",
         "city": "Coruscant",
         "state": "DC",
@@ -26,7 +27,7 @@
     "claimantInformation": {
       "claimantFullName": {
         "first": "Padmé",
-        "middle": "Naberrie",
+        "middle": "N",
         "last": "Amidala"
       },
       "claimantDob": "1946-11-12"
@@ -36,9 +37,9 @@
     },
     "claimantAddress": {
       "claimantAddress": {
-        "street": "500 Republica Luxury Apartments",
-        "street2": "Penthouse Suite",
-        "street3": "",
+        "street": "500 Republica Luxury Apts",
+        "street2": "PH",
+        "street3": "Tower A",
         "city": "Naboo",
         "state": "NM",
         "country": "USA",
@@ -62,9 +63,9 @@
     "hospitalizationFacility": {
       "facilityName": "Polis Massa Medical Facility",
       "facilityAddress": {
-        "street": "1 Outer Rim Territories Medical Center",
-        "street2": "Emergency Wing",
-        "street3": "",
+        "street": "1 Outer Rim Medical Center",
+        "street2": "ER",
+        "street3": "Bldg C",
         "city": "Washington",
         "state": "DC",
         "country": "USA",

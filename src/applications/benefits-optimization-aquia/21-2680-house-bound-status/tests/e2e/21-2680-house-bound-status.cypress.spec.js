@@ -9,10 +9,11 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataSets: [
-      'minimal-test',
-      'maximal-test',
-      'parent-claimant-smp-hospitalized',
+      'minimal',
+      'maximal',
+      'veteran-smp-hospitalized',
       'child-claimant-smc',
+      'parent-claimant-smp-hospitalized',
     ],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {
