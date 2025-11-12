@@ -208,19 +208,22 @@ describe('DownloadFormPDF', () => {
   describe('sessionStorage PDF blob retrieval', () => {
     let fetchStub;
     let getItemStub;
-    let originalSessionStorage;
+    let sessionStorageDescriptor;
 
     beforeEach(() => {
       // Reset outer stubs
       fetchPdfApiStub.reset();
       downloadBlobStub.reset();
 
-      // Store original sessionStorage
-      originalSessionStorage = global.sessionStorage;
+      // Store original sessionStorage descriptor
+      sessionStorageDescriptor = Object.getOwnPropertyDescriptor(
+        global,
+        'sessionStorage',
+      );
 
       // Create sessionStorage mock
       getItemStub = sinon.stub();
-      global.sessionStorage = {
+      const mockSessionStorage = {
         getItem: getItemStub,
         setItem: sinon.stub(),
         removeItem: sinon.stub(),
@@ -231,13 +234,28 @@ describe('DownloadFormPDF', () => {
         },
       };
 
+      // Use defineProperty to work with Node 22's read-only descriptor
+      Object.defineProperty(global, 'sessionStorage', {
+        value: mockSessionStorage,
+        writable: true,
+        configurable: true,
+      });
+
       fetchStub = sinon.stub(global, 'fetch');
     });
 
     afterEach(() => {
       fetchStub.restore();
-      // Restore original sessionStorage
-      global.sessionStorage = originalSessionStorage;
+      // Restore original sessionStorage descriptor
+      if (sessionStorageDescriptor) {
+        Object.defineProperty(
+          global,
+          'sessionStorage',
+          sessionStorageDescriptor,
+        );
+      } else {
+        delete global.sessionStorage;
+      }
     });
 
     it('should retrieve PDF from sessionStorage when guid is pdf-blob', async () => {

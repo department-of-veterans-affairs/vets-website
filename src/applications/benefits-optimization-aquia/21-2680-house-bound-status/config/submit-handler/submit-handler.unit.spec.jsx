@@ -6,6 +6,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { submitForm } from './submit-handler';
+import { MockFileReaderSuccess, MockFileReaderError } from './test-mocks';
 
 describe('submitForm', () => {
   let sandbox;
@@ -13,8 +14,8 @@ describe('submitForm', () => {
   let consoleErrorStub;
   let localStorageGetItemStub;
   let originalFileReader;
-  let originalSessionStorage;
-  let originalLocalStorage;
+  let sessionStorageDescriptor;
+  let localStorageDescriptor;
 
   const mockFormConfig = {
     submitUrl: 'http://localhost:3000/v0/form212680/download_pdf',
@@ -37,10 +38,15 @@ describe('submitForm', () => {
     // Stub console.error
     consoleErrorStub = sandbox.stub(console, 'error');
 
-    // Store and mock localStorage
-    originalLocalStorage = global.localStorage;
+    // Store original localStorage descriptor
+    localStorageDescriptor = Object.getOwnPropertyDescriptor(
+      global,
+      'localStorage',
+    );
+
+    // Mock localStorage using defineProperty for Node 22 compatibility
     localStorageGetItemStub = sandbox.stub();
-    global.localStorage = {
+    const mockLocalStorage = {
       getItem: localStorageGetItemStub,
       setItem: sandbox.stub(),
       removeItem: sandbox.stub(),
@@ -50,14 +56,22 @@ describe('submitForm', () => {
         return 0;
       },
     };
+    Object.defineProperty(global, 'localStorage', {
+      value: mockLocalStorage,
+      writable: true,
+      configurable: true,
+    });
     // Default return value for CSRF token
     localStorageGetItemStub.withArgs('csrfToken').returns('default-csrf-token');
 
-    // Store original sessionStorage
-    originalSessionStorage = global.sessionStorage;
+    // Store original sessionStorage descriptor
+    sessionStorageDescriptor = Object.getOwnPropertyDescriptor(
+      global,
+      'sessionStorage',
+    );
 
-    // Create complete sessionStorage mock with all required methods
-    const sessionStorageStub = {
+    // Create complete sessionStorage mock using defineProperty for Node 22 compatibility
+    const mockSessionStorage = {
       setItem: sandbox.stub(),
       getItem: sandbox.stub(),
       removeItem: sandbox.stub(),
@@ -67,32 +81,38 @@ describe('submitForm', () => {
         return 0;
       },
     };
-    global.sessionStorage = sessionStorageStub;
+    Object.defineProperty(global, 'sessionStorage', {
+      value: mockSessionStorage,
+      writable: true,
+      configurable: true,
+    });
 
     // Store original FileReader
     originalFileReader = global.FileReader;
 
     // Set up FileReader for each test
-    global.FileReader = class {
-      readAsDataURL() {
-        // Simulate async reading
-        setTimeout(() => {
-          this.result = 'data:application/pdf;base64,mockPdfData';
-          if (this.onloadend) {
-            this.onloadend();
-          }
-        }, 0);
-      }
-    };
+    global.FileReader = MockFileReaderSuccess;
   });
 
   afterEach(() => {
     // Restore all sandbox stubs
     sandbox.restore();
 
-    // Restore original globals
-    global.sessionStorage = originalSessionStorage;
-    global.localStorage = originalLocalStorage;
+    // Restore original sessionStorage descriptor
+    if (sessionStorageDescriptor) {
+      Object.defineProperty(global, 'sessionStorage', sessionStorageDescriptor);
+    } else {
+      delete global.sessionStorage;
+    }
+
+    // Restore original localStorage descriptor
+    if (localStorageDescriptor) {
+      Object.defineProperty(global, 'localStorage', localStorageDescriptor);
+    } else {
+      delete global.localStorage;
+    }
+
+    // Restore original FileReader
     global.FileReader = originalFileReader;
 
     // Reset transform stub
@@ -312,15 +332,7 @@ describe('submitForm', () => {
       fetchStub.resolves(mockResponse);
 
       // Override FileReader to simulate error
-      global.FileReader = class {
-        readAsDataURL() {
-          setTimeout(() => {
-            if (this.onerror) {
-              this.onerror(new Error('FileReader error'));
-            }
-          }, 0);
-        }
-      };
+      global.FileReader = MockFileReaderError;
 
       try {
         await submitForm(mockForm, mockFormConfig);
