@@ -86,6 +86,8 @@ const ExpensePage = () => {
     navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
+  // Field names must match those expected by the expenses_controller in vets-api.
+  // The controller converts them to forwards them unchanged to the API.
   const REQUIRED_FIELDS = {
     Meal: ['vendorName'],
     Lodging: ['vendor', 'checkInDate', 'checkOutDate'],
@@ -101,6 +103,7 @@ const ExpensePage = () => {
   };
 
   const validatePage = () => {
+    // Field names must match those expected by the expenses_controller in vets-api.
     const base = ['purchaseDate', 'costRequested', 'receipt'];
     const extra = REQUIRED_FIELDS[expenseType] || [];
     const requiredFields = [...base, ...extra];
