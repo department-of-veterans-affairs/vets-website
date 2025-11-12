@@ -567,8 +567,8 @@ export function customTransformForSubmit(formConfig, form) {
   );
 
   // Transform V3 picklist data to V2 format if V3 is enabled
-  if (withoutInactivePages.data?.vaDependentsV3 === true) {
-    transformPicklistToV2(withoutInactivePages.data);
+  if (withoutInactivePages?.vaDependentsV3 === true) {
+    transformPicklistToV2(withoutInactivePages);
   }
 
   const cleanedPayload = buildSubmissionData(withoutInactivePages);
