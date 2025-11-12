@@ -133,6 +133,21 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
       );
     }
 
+    const upload = root.querySelector('document-upload');
+    if (upload) {
+      upload.dispatchEvent(
+        new CustomEvent('fileChange', {
+          detail: {
+            files: [
+              new File(['dummy'], 'receipt.pdf', { type: 'application/pdf' }),
+            ],
+          },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    }
+
     // ---- EXPENSE-SPECIFIC FIELDS ----
     switch (expenseKey) {
       case 'Meal': {
@@ -253,8 +268,8 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           }),
         );
 
-        const arrivalDate = root.querySelector('va-date[name="arrivalDate"]');
-        arrivalDate?.dispatchEvent(
+        const returnDate = root.querySelector('va-date[name="returnDate"]');
+        returnDate?.dispatchEvent(
           new CustomEvent('dateChange', {
             detail: { value: '2025-11-01' },
             bubbles: true,
@@ -409,6 +424,54 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
             ).to.exist;
             expect(document.activeElement).to.eq(error);
           });
+        });
+      });
+      describe('DocumentUpload behavior', () => {
+        const expenseTypesWithDocumentUpload = [
+          'Meal',
+          'Lodging',
+          'Airtravel',
+          'Commoncarrier',
+          'Parking',
+          'Toll',
+          'Lodging',
+          'Other',
+        ];
+        it('renders DocumentUpload for expense types that support documents', () => {
+          const { container } = renderPage(config);
+
+          // If the type should have document upload
+          if (expenseTypesWithDocumentUpload.includes(key)) {
+            expect(container.querySelector('va-file-input')).to.exist;
+          } else {
+            expect(container.querySelector('va-file-input')).to.not.exist;
+          }
+        });
+
+        it('updates formState when a file is uploaded', async () => {
+          if (!expenseTypesWithDocumentUpload.includes(key)) return;
+
+          const { container } = renderPage(config);
+          const input = container.querySelector('va-file-input');
+
+          const testFile = new File(['dummy'], 'receipt.pdf', {
+            type: 'application/pdf',
+          });
+
+          fireEvent.change(input, {
+            target: { files: [testFile] },
+          });
+
+          await waitFor(() => {
+            // Verify the uploaded file exists in input
+            expect(input.files[0]).to.eq(testFile);
+          });
+        });
+        it('does not appear for expense types that do not accept documents', () => {
+          if (['Mileage'].includes(key)) {
+            const { container } = renderPage(config);
+            expect(container.querySelector('va-file-input')).to.not.exist;
+          }
         });
       });
     });

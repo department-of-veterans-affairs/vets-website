@@ -97,6 +97,7 @@ const responses = {
   // 'GET /travel_pay/v0/claims/:id': claimDetails.v2,
   'GET /travel_pay/v0/claims/:id': (req, res) => {
     const details = { ...claimDetails.v2 };
+    // Added a documentId to the expense mocks. Upper envs with have this data once the API team makes their changes
     details.expenses = [
       {
         expenseType: 'Mileage',
@@ -109,6 +110,7 @@ const responses = {
           parsedValue: 0,
         },
         id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
+        documentId: '',
       },
       {
         expenseType: 'Parking',
@@ -121,6 +123,7 @@ const responses = {
           parsedValue: 15.0,
         },
         id: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
+        documentId: '4f6f751b-87ff-ef11-9341-001dd809b68c',
       },
       {
         expenseType: 'Toll',
@@ -133,6 +136,7 @@ const responses = {
           parsedValue: 5.5,
         },
         id: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
+        documentId: 'a5137021-87ff-ef11-9341-001dd809b68c',
       },
       {
         expenseType: 'Commoncarrier',
@@ -145,6 +149,7 @@ const responses = {
           parsedValue: 45.0,
         },
         id: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
+        documentId: '4f6f751b-87ff-ef11-9341-001dd854jutt',
       },
       {
         expenseType: 'Airtravel',
@@ -157,6 +162,7 @@ const responses = {
           parsedValue: 350.0,
         },
         id: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
+        documentId: '12fcfecc-5132-4c16-8a9a-7af07b714cd4',
       },
       {
         expenseType: 'Lodging',
@@ -169,6 +175,7 @@ const responses = {
           parsedValue: 125.0,
         },
         id: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
+        documentId: '887ead10-d849-428c-b83b-50a054fd968b',
       },
       {
         expenseType: 'Meal',
@@ -181,6 +188,7 @@ const responses = {
           parsedValue: 35.0,
         },
         id: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
+        documentId: '887ead10-d849-428c-b83b-50a05434rtfe',
       },
       {
         expenseType: 'Other',
@@ -193,6 +201,52 @@ const responses = {
           parsedValue: 50.0,
         },
         id: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
+        documentId: '887ead10-d849-428c-b83b-50a053re44wr',
+      },
+    ];
+    details.documents = [
+      {
+        documentId: '4f6f751b-87ff-ef11-9341-001dd809b68c',
+        filename: 'Parking.docx',
+        mimetype:
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        createdon: '2025-03-12T21:15:27Z',
+      },
+      {
+        documentId: 'a5137021-87ff-ef11-9341-001dd809b68c',
+        filename: 'Toll.pdf',
+        mimetype: 'application/pdf',
+        createdon: '2025-03-12T21:15:33Z',
+      },
+      {
+        documentId: '4f6f751b-87ff-ef11-9341-001dd854jutt',
+        filename: 'CommonCarrier.jpg',
+        mimetype: 'image/jpeg',
+        createdon: '2025-03-24T14:02:52.893Z',
+      },
+      {
+        documentId: '12fcfecc-5132-4c16-8a9a-7af07b714cd4',
+        filename: 'Airtravel.jpg',
+        mimetype: 'image/jpeg',
+        createdon: '2025-03-24T14:04:00.893Z',
+      },
+      {
+        documentId: '887ead10-d849-428c-b83b-50a054fd968b',
+        filename: 'lodging.txt',
+        mimetype: '',
+        createdon: '2025-03-24T14:06:52.893Z',
+      },
+      {
+        documentId: '887ead10-d849-428c-b83b-50a05434rtfe',
+        filename: 'meal.txt',
+        mimetype: '',
+        createdon: '2025-03-24T14:06:52.893Z',
+      },
+      {
+        documentId: '887ead10-d849-428c-b83b-50a053re44wr',
+        filename: 'other.txt',
+        mimetype: '',
+        createdon: '2025-03-24T14:06:52.893Z',
       },
     ];
     return res.json(details);
@@ -292,6 +346,13 @@ const responses = {
   'DELETE /travel_pay/v0/expenses/:expenseType/:expenseId': (req, res) => {
     return res.status(200).json({
       id: req.params.expenseId,
+    });
+  },
+
+  // Deleting documents
+  'DELETE /travel_pay/v0/claims/:claimId/documents/:documentId': (req, res) => {
+    return res.status(200).json({
+      id: req.params.documentId,
     });
   },
 

@@ -22,6 +22,10 @@ export const selectIsExpenseDeleting = (state, expenseId) => {
 export const selectAllExpenses = state =>
   state.travelPay.complexClaim.expenses.data || [];
 
+export const selectAllDocuments = state => {
+  return state.travelPay.complexClaim.claim.data?.documents || [];
+};
+
 export const selectComplexClaimCreationLoadingState = state =>
   state.travelPay.complexClaim.claim.creation.isLoading;
 

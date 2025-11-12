@@ -17,7 +17,7 @@ describe('ExpenseAirTravelFields', () => {
       tripType: '',
       departureDate: '',
       departureAirport: '',
-      arrivalDate: '',
+      returnDate: '',
       arrivalAirport: '',
     },
     onChange: sinon.spy(),
@@ -51,9 +51,9 @@ describe('ExpenseAirTravelFields', () => {
     expect(departureAirport).to.exist;
     expect(departureAirport.getAttribute('value')).to.equal('');
 
-    const arrivalDate = container.querySelector('va-date[name="arrivalDate"]');
-    expect(arrivalDate).to.exist;
-    expect(arrivalDate.getAttribute('value')).to.equal('');
+    const returnDate = container.querySelector('va-date[name="returnDate"]');
+    expect(returnDate).to.exist;
+    expect(returnDate.getAttribute('value')).to.equal('');
 
     const arrivalAirport = container.querySelector(
       'va-text-input[name="arrivalAirport"]',
@@ -68,7 +68,7 @@ describe('ExpenseAirTravelFields', () => {
       tripType: TRIP_TYPES.ONE_WAY.label,
       departureDate: '2025-11-10',
       departureAirport: 'JFK',
-      arrivalDate: '2025-11-11',
+      returnDate: '2025-11-11',
       arrivalAirport: 'LAX',
     };
 
@@ -101,7 +101,7 @@ describe('ExpenseAirTravelFields', () => {
     ).to.equal('JFK');
     expect(
       container
-        .querySelector('va-date[name="arrivalDate"]')
+        .querySelector('va-date[name="returnDate"]')
         .getAttribute('value'),
     ).to.equal('2025-11-11');
     expect(
@@ -153,8 +153,8 @@ describe('ExpenseAirTravelFields', () => {
     const { container } = render(
       <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
     );
-    const arrivalDate = container.querySelector('va-date[name="arrivalDate"]');
-    simulateVaDateChange(arrivalDate, '2025-11-11');
+    const returnDate = container.querySelector('va-date[name="returnDate"]');
+    simulateVaDateChange(returnDate, '2025-11-11');
 
     await waitFor(() => {
       const value =

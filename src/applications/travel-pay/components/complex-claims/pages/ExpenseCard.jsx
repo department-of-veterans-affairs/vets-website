@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 
-import { deleteExpense } from '../../../redux/actions';
+import { deleteExpense, deleteDocument } from '../../../redux/actions';
 import { selectIsExpenseDeleting } from '../../../redux/selectors';
 import { EXPENSE_TYPES, TRIP_TYPES } from '../../../constants';
 import { formatDate } from '../../../util/dates';
@@ -16,7 +16,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
 
-  const { id: expenseId, expenseType } = expense;
+  const { id: expenseId, expenseType, documentId } = expense;
   const isDeleting = useSelector(state =>
     selectIsExpenseDeleting(state, expenseId),
   );
@@ -25,11 +25,14 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
     expense.costRequested,
   )}`;
 
-  const handleDeleteExpense = async () => {
+  const handleDeleteExpenseAndDocument = async () => {
     setShowDeleteModal(false);
     dispatch(
       deleteExpense(claimId, EXPENSE_TYPES[expenseType]?.apiRoute, expenseId),
     );
+    if (documentId !== '') {
+      dispatch(deleteDocument(claimId, documentId));
+    }
   };
 
   return (
@@ -115,7 +118,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
         expenseType={expenseType}
         visible={showDeleteModal && !isDeleting}
         onCloseEvent={() => setShowDeleteModal(false)}
-        onPrimaryButtonClick={handleDeleteExpense}
+        onPrimaryButtonClick={handleDeleteExpenseAndDocument}
         onSecondaryButtonClick={() => setShowDeleteModal(false)}
       />
     </div>
