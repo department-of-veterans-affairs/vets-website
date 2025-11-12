@@ -153,7 +153,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
     // ---- EXPENSE-SPECIFIC FIELDS ----
     switch (expenseKey) {
       case 'Meal': {
-        const vendor = root.querySelector('va-text-input[name="vendor"]');
+        const vendor = root.querySelector('va-text-input[name="vendorName"]');
         vendor?.dispatchEvent(
           new CustomEvent('input', {
             detail: { value: 'Test Vendor' },

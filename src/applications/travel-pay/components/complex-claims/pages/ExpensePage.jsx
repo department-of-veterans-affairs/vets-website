@@ -87,7 +87,7 @@ const ExpensePage = () => {
   };
 
   const REQUIRED_FIELDS = {
-    Meal: ['vendor'],
+    Meal: ['vendorName'],
     Lodging: ['vendor', 'checkInDate', 'checkOutDate'],
     Commoncarrier: ['carrierType', 'reasonNotUsingPOV'],
     Airtravel: [
