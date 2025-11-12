@@ -593,8 +593,6 @@ const incomeAmountPage = {
       title:
         'What was the gross annual amount reported to the IRS for this income?',
       hint: 'Gross income is income before taxes and any other deductions.',
-      labelHeaderLevel: '2',
-      labelHeaderLevelStyle: '3',
     }),
   },
   schema: {
