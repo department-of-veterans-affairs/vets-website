@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import { DownloadFormPDF } from '../../components/confirmation-page/DownloadFormPDF';
+import { DownloadFormPDF } from '../../components/confirmation-page/download-form-pdf';
 
 /**
  * Custom submission alert component that shows warning for additional steps needed

@@ -3,7 +3,7 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import { formConfig } from '@bio-aquia/21-2680-house-bound-status';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
-import { featureToggles, user, mockSubmit } from '../fixtures/mocks';
+import { featureToggles, user } from '../fixtures/mocks';
 
 const testConfig = createTestConfig(
   {
@@ -90,10 +90,19 @@ const testConfig = createTestConfig(
         },
       });
 
-      // Mock form submission
-      cy.intercept('POST', formConfig.submitUrl, {
-        statusCode: 200,
-        body: mockSubmit,
+      // Mock form submission - return a blob (PDF) response
+      cy.intercept('POST', formConfig.submitUrl, req => {
+        // Create a minimal PDF blob for testing
+        const pdfContent = '%PDF-1.4\n%mock PDF content for testing';
+        const blob = new Blob([pdfContent], { type: 'application/pdf' });
+        req.reply({
+          statusCode: 200,
+          headers: {
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': 'attachment; filename="form-21-2680.pdf"',
+          },
+          body: blob,
+        });
       });
 
       // Login

@@ -5,7 +5,7 @@ import {
   fetchPdfApi,
   downloadBlob,
   formatPdfFilename,
-} from '../../utils/pdfDownload';
+} from '../../utils/pdf-download';
 
 /**
  * DownloadFormPDF Component

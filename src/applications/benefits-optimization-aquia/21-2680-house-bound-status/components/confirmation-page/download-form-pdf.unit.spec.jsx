@@ -2,8 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import { DownloadFormPDF } from './DownloadFormPDF';
-import * as pdfUtils from '../../utils/pdfDownload';
+import { DownloadFormPDF } from './download-form-pdf';
+import * as pdfUtils from '../../utils/pdf-download';
 
 describe('DownloadFormPDF', () => {
   let fetchPdfApiStub;

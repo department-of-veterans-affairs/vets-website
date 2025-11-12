@@ -7,8 +7,6 @@
  * This custom handler stores the PDF blob for later download from the confirmation page.
  */
 
-import { apiRequest } from 'platform/utilities/api';
-
 /**
  * Custom submit handler for Form 21-2680
  * Handles PDF blob response from the backend and stores it for user download
@@ -21,11 +19,14 @@ export async function submitForm(form, formConfig) {
   const transformedData = formConfig.transformForSubmit(formConfig, form);
 
   try {
-    // Submit to the download_pdf endpoint which returns a PDF blob
-    const response = await apiRequest(formConfig.submitUrl, {
+    // Use fetch directly instead of apiRequest since we need a blob response
+    // apiRequest is designed for JSON and doesn't support blob responses
+    const response = await fetch(formConfig.submitUrl, {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
       },
       body: transformedData,
     });
