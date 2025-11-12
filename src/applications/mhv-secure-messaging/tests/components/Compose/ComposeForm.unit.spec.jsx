@@ -2123,5 +2123,127 @@ describe('Compose form component', () => {
         ).to.be.true;
       });
     });
+
+    it('calls sendMessage with suppressAlert=true when redirectPath exists', async () => {
+      // Mock the sendMessage action to return a resolved promise
+      const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
+      sendMessageStub.returns(() => Promise.resolve());
+
+      // Store original replace method and create spy
+      const originalLocation = global.window.location;
+      global.window.location = {};
+      global.window.location.replace = sinon.spy();
+
+      const customDraftMessage = {
+        ...draftMessage,
+        recipientId: 1013155,
+        recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+        triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          prescription: {
+            renewalPrescription: { prescriptionId: '123' },
+            redirectPath: '/medications/refill',
+            error: undefined,
+            isLoading: false,
+          },
+          threadDetails: {
+            ...draftState.sm.threadDetails,
+            drafts: [customDraftMessage],
+          },
+        },
+      };
+
+      const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+        draft: customDraftMessage,
+        recipients: customState.sm.recipients,
+        categories,
+        pageTitle: 'Start your message',
+      });
+
+      fireEvent.click(screen.getByTestId('send-button'));
+
+      // Wait for the component's sendMessage to complete
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      // Verify that sendMessage was called with suppressAlert=true (4th argument)
+      expect(sendMessageStub.called).to.be.true;
+      const sendMessageCall = sendMessageStub.getCall(0);
+      expect(sendMessageCall.args).to.have.lengthOf(4);
+      // Args: [sendData, hasAttachments, ohTriageGroup, suppressAlert]
+      expect(sendMessageCall.args[3]).to.equal(true); // suppressAlert should be true
+
+      // Restore original location
+      global.window.location = originalLocation;
+    });
+
+    it('calls sendMessage with suppressAlert=false when redirectPath does not exist', async () => {
+      // Mock the sendMessage action to return a resolved promise
+      const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
+      sendMessageStub.returns(() => Promise.resolve());
+
+      const navigateToFolderByFolderIdSpy = sandbox.stub(
+        helperUtils,
+        'navigateToFolderByFolderId',
+      );
+
+      const customDraftMessage = {
+        ...draftMessage,
+        recipientId: 1013155,
+        recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+        triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          prescription: {
+            renewalPrescription: undefined,
+            redirectPath: undefined,
+            error: undefined,
+            isLoading: false,
+          },
+          threadDetails: {
+            ...draftState.sm.threadDetails,
+            drafts: [customDraftMessage],
+          },
+        },
+      };
+
+      const { getByTestId } = setup(
+        customState,
+        `/thread/${customDraftMessage.id}`,
+        {
+          draft: customDraftMessage,
+          recipients: customState.sm.recipients,
+          categories,
+          pageTitle: 'Start your message',
+        },
+      );
+
+      fireEvent.click(getByTestId('send-button'));
+
+      // Wait for the component's sendMessage to complete
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      // Verify that sendMessage was called with suppressAlert=false (4th argument)
+      expect(sendMessageStub.called).to.be.true;
+      const sendMessageCall = sendMessageStub.getCall(0);
+      expect(sendMessageCall.args).to.have.lengthOf(4);
+      // Args: [sendData, hasAttachments, ohTriageGroup, suppressAlert]
+      expect(sendMessageCall.args[3]).to.equal(false); // suppressAlert should be false
+
+      // Verify normal navigation occurred
+      await waitFor(() => {
+        expect(
+          navigateToFolderByFolderIdSpy.calledWith(DefaultFolders.INBOX.id),
+        ).to.be.true;
+      });
+    });
   });
 });

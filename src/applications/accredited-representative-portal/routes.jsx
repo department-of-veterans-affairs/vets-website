@@ -110,7 +110,7 @@ const routes = [
                 loader: SubmissionsPage.loader,
               },
               {
-                path: 'claimant-search',
+                path: 'find-claimant',
                 element: (
                   <ClaimantSearchPage title="Find claimant | Accredited Representative Portal | Veterans Affairs" />
                 ),

@@ -100,7 +100,7 @@ function introDescription() {
 }
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'careExpenses',
   nounSingular: 'care expense',
   nounPlural: 'care expenses',
@@ -154,8 +154,8 @@ const options = {
       }
       return transformDate(item.careDate.from);
     },
-    summaryTitle: () => 'Review your care expenses',
-    yesNoBlankReviewQuestion: () => 'Do you have another care expense to add?',
+    summaryTitle: 'Review your care expenses',
+    yesNoBlankReviewQuestion: 'Do you have another care expense to add?',
   },
 };
 

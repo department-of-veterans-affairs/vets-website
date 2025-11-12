@@ -20,7 +20,12 @@ import {
   validateIfAvailable,
   prescriptionMedAndRenewalStatus,
 } from '../../util/helpers';
-import { medStatusDisplayTypes, DATETIME_FORMATS } from '../../util/constants';
+import {
+  medStatusDisplayTypes,
+  DATETIME_FORMATS,
+  RX_SOURCE,
+  DISPENSE_STATUS,
+} from '../../util/constants';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
@@ -43,11 +48,11 @@ const VaPrescription = prescription => {
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
   const pendingMed =
-    prescription?.prescriptionSource === 'PD' &&
-    prescription?.dispStatus === 'NewOrder';
+    prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+    prescription?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
   const pendingRenewal =
-    prescription?.prescriptionSource === 'PD' &&
-    prescription?.dispStatus === 'Renew';
+    prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+    prescription?.dispStatus === DISPENSE_STATUS.RENEW;
   const hasBeenDispensed =
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
@@ -431,7 +436,7 @@ const VaPrescription = prescription => {
                           const refillPosition = refillHistory.length - i - 1;
                           const refillLabelId = `rx-refill-${refillPosition}`;
                           const isPartialFill =
-                            entry.prescriptionSource === 'PF';
+                            entry.prescriptionSource === RX_SOURCE.PARTIAL_FILL;
                           const refillLabel = determineRefillLabel(
                             isPartialFill,
                             refillHistory,

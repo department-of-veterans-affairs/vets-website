@@ -1,229 +1,235 @@
-# VA Form 21-2680: Examination for Housebound Status or Permanent Need for Regular Aid and Attendance
+# VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid and Attendance
 
 ## Overview
 
-VA Form 21-2680 is a medical examination form that must be completed by a physician to support a Veteran's claim for Aid and Attendance (A&A) or Housebound benefits. This form provides medical evidence of a Veteran's need for regular assistance with daily living activities or their substantial confinement to their home due to disability.
+VA Form 21-2680 is used by Veterans or their caregivers to apply for Aid and Attendance (A&A) benefits or Housebound allowance. This form collects information about the Veteran, the claimant (if different from the Veteran), the type of benefit being claimed, and hospitalization status to support claims for Special Monthly Compensation (SMC) or Special Monthly Pension (SMP).
 
-## Purpose
+## Who Uses This Form
+
+- **Veterans** applying on their own behalf for Aid and Attendance or Housebound benefits
+- **Caregivers** (spouse, child, or parent) applying on behalf of the Veteran
+- **VA Regional Offices** processing Aid and Attendance and Housebound benefit claims
 
 This form is used to:
 
-- Document medical evidence for Aid and Attendance or Housebound benefit claims
-- Provide physician assessment of the Veteran's functional limitations
-- Support claims for increased compensation due to disability-related care needs
+- Apply for Aid and Attendance benefits or Housebound allowance
+- Document the relationship between the claimant and the Veteran
+- Collect medical information related to hospitalization
+- Support claims for Special Monthly Compensation (SMC) or Special Monthly Pension (SMP)
 
-## Who Completes This Form
+## Team
 
-**This form must be completed by a licensed physician** who has examined the Veteran. The physician provides:
+Benefits Intake Optimization - Aquia Team
 
-- Medical diagnosis and prognosis
-- Assessment of the Veteran's ability to perform daily activities
-- Documentation of care needs and functional limitations
+## Form Details
 
-## Form Sections
+- **Form Number**: VA Form 21-2680
+- **Entry Name**: `21-2680-house-bound-status`
+- **Root URL**: `/pension/aid-attendance-housebound/apply-form-21-2680`
+- **API Endpoint**: `POST /v0/form212680/download_pdf` (returns PDF blob)
+- **Product ID**: `803cc23f-a627-4ea7-a3ea-0f5595d0dfd3`
 
-### Section I - Veteran Information
+## Form Flow and Sections
 
-- Full name
-- VA file number or Social Security Number
-- Date of birth
-- Contact information (address, phone, email)
+The form is organized into **4 chapters** with **13 total pages**, using conditional logic to show/hide pages based on claimant relationship and hospitalization status.
 
-### Section II - Medical History
+### Chapter 1: Veteran's Information (2 pages)
 
-- Current diagnoses affecting daily function
-- Date of onset for conditions
-- Hospitalizations and treatment history
-- Current medications
+- **Page 1: Veteran Information** (`veteran-information`)
 
-### Section III - Physical Examination
+  - Full name (first, middle, last, suffix)
+  - Social Security Number
+  - Date of birth
 
-- Vision assessment (visual acuity and field defects)
-- Hearing assessment
-- Physical limitations and restrictions
-- Mental/cognitive status
+- **Page 2: Veteran Address** (`veteran-address`)
+  - Mailing address (supports standard, APO/AE, FPO/AP, and DPO/AA military addresses)
+  - Street address, city, state, ZIP/postal code
+  - Country (for international addresses)
 
-### Section IV - Functional Assessment
+### Chapter 2: Claimant's Information (5 pages, conditional)
 
-- Ability to perform activities of daily living (ADLs)
-  - Bathing and hygiene
-  - Dressing
-  - Eating
-  - Toileting
-  - Transferring/mobility
-- Need for assistive devices
-- Safety concerns and supervision needs
+- **Page 3: Claimant Relationship** (`claimant-relationship`)
 
-### Section V - Physician Certification
+  - Who is filing the claim (veteran, spouse, child, or parent)
+  - **Conditional branching point**
 
-- Physician's assessment of aid and attendance needs
-- Determination of housebound status
-- Physician signature and credentials
-- Date of examination
+- **Page 4: Claimant Information** (`claimant-information`) - **Conditional**
+
+  - Full name (first, middle, last, suffix)
+  - Date of birth
+  - Hidden when Veteran is the claimant
+
+- **Page 5: Claimant SSN** (`claimant-ssn`) - **Conditional**
+
+  - Social Security Number
+  - Hidden when Veteran is the claimant
+
+- **Page 6: Claimant Address** (`claimant-address`) - **Conditional**
+
+  - Mailing address (standard or military)
+  - Hidden when Veteran is the claimant
+
+- **Page 7: Contact Information** (`claimant-contact`) - **Conditional**
+  - Phone number (home)
+  - Mobile phone number
+  - Email address
+  - Hidden when Veteran is the claimant
+
+### Chapter 3: Claim Information (1 page)
+
+- **Page 8: Benefit Type** (`benefit-type`)
+  - SMC (Special Monthly Compensation)
+  - SMP (Special Monthly Pension)
+
+### Chapter 4: Hospitalization (3 pages, conditional)
+
+- **Page 9: Hospitalization Status** (`hospitalization-status`)
+
+  - Whether the Veteran is currently hospitalized
+  - **Conditional branching point**
+
+- **Page 10: Admission Date** (`hospitalization-date`) - **Conditional**
+
+  - Date of hospital admission
+  - Shown only if currently hospitalized
+
+- **Page 11: Hospitalization Facility** (`hospitalization-facility`) - **Conditional**
+  - Facility name
+  - Facility address
+  - Shown only if currently hospitalized
+
+### Final Pages (All Users)
+
+- **Page 12: Review and Submit**
+
+  - Pre-submission review of all entered information
+  - Statement of truth with signature validation
+  - Privacy policy acknowledgment
+
+- **Page 13: Confirmation Page**
+  - Submission confirmation number
+  - Print button for confirmation
+  - Next steps information
 
 ## Technical Implementation
 
-### Architecture
+This application uses the **VA.gov Form System (RJSF)** with traditional page-based configuration.
 
-This application uses the VA.gov forms system (RJSF - React JSON Schema Form) with the following structure:
+### API Integration
 
-- **Barrel exports** for clean imports using `@bio-aquia` alias
-- **kebab-case** file naming throughout
-- **Named exports** for components (except where platform expects defaults)
-- **index.js files** in each directory for scalable module organization
+This form uses a **print-and-upload workflow** where the backend immediately returns a PDF blob instead of a standard JSON response.
 
-### Running Locally
+**API Endpoints**:
+
+- **Form Submission**: `POST /v0/form212680/download_pdf` - Returns PDF blob
+- **Save in Progress**: `GET/PUT /v0/in_progress_forms/21-2680` - Stores partial form data
+- **User Profile**: `GET /v0/user` - Used for prefill
+
+**Data Transformers**:
+
+- **Prefill Transformer**: Converts user profile data to form data structure
+- **Submit Transformer**: Converts form data to backend API format (nested structure)
+- **Submit Handler**: Custom handler that processes PDF blob response and stores it in sessionStorage for download from confirmation page
+
+**Workflow**:
+
+1. User completes and submits form
+2. Submit handler sends transformed data to backend
+3. Backend immediately returns a PDF blob (not JSON)
+4. Submit handler converts blob to data URL and stores in sessionStorage
+5. User redirected to confirmation page with download link
+6. Confirmation page retrieves PDF from sessionStorage for download
+
+## Testing
+
+### Test Scenarios
+
+- **Minimal**: Veteran is claimant, no hospitalization (shortest path) - Star Wars themed
+- **Maximal**: Spouse claimant, hospitalized, APO military address (all conditional pages) - Star Wars themed
+- **Parent, Child, Spouse**: Additional relationship variations with FPO/DPO addresses
+
+### Running Tests
 
 ```bash
+# Run all unit tests for this application
+yarn test:unit --app-folder benefits-optimization-aquia/21-2680-house-bound-status
+
+# Run tests with coverage
+yarn test:unit:coverage --app-folder benefits-optimization-aquia/21-2680-house-bound-status
+
+# Run specific test file
+yarn test:unit src/applications/benefits-optimization-aquia/21-2680-house-bound-status/config/form/form.unit.spec.jsx
+
+# Run Cypress E2E tests (requires yarn watch to be running)
+yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-2680-house-bound-status/tests/*.cypress.spec.js"
+
+# Open Cypress test runner
+yarn cy:open
+```
+
+## Development
+
+### Getting Started
+
+```bash
+# Install dependencies (if needed)
+yarn install
+
 # Run build for this single app
 yarn build --entry=21-2680-house-bound-status
 
-# Watch only this application
+# Watch only this application (recommended for development)
 yarn watch --env entry=21-2680-house-bound-status
 
 # Watch with authentication and static pages
 yarn watch --env entry=auth,static-pages,login-page,21-2680-house-bound-status
-
-# Run unit tests
-yarn test:unit --app-folder benefits-optimization-aquia/21-2680-house-bound-status
-
-# Run Cypress tests
-yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-2680-house-bound-status/**/*.cypress.spec.js"
 ```
 
-### Project Structure
+### Local Development URL
 
-```bash
-21-2680-house-bound-status/
-├── config/
-│   ├── form.js                               # Main form configuration
-│   └── index.js                              # Barrel export
-├── containers/
-│   ├── app.jsx                               # Main app wrapper
-│   ├── introduction-page.jsx                 # Form intro and process steps
-│   ├── confirmation-page.jsx                 # Submission confirmation
-│   └── index.js                              # Barrel exports
-├── pages/                                    # Individual form pages
-│   ├── name-and-date-of-birth.js            # Veteran name and DOB
-│   ├── identification-information.js         # SSN/VA file number
-│   ├── mailing-address.js                   # Contact address
-│   ├── phone-and-email-address.js           # Contact methods
-│   └── index.js                              # Barrel exports
-├── reducers/
-│   └── index.js                              # Redux reducers
-├── sass/
-│   └── 21-2680-house-bound-status.scss      # Application styles
-├── tests/
-│   ├── containers/                           # Component unit tests
-│   │   ├── introduction-page.unit.spec.jsx
-│   │   └── confirmation-page.unit.spec.jsx
-│   ├── fixtures/                             # Test data and mocks
-│   │   ├── data/
-│   │   │   ├── minimal-test.json
-│   │   │   └── index.js
-│   │   ├── mocks/
-│   │   │   ├── local-mock-responses.js
-│   │   │   ├── user.json
-│   │   │   └── index.js
-│   │   └── index.js
-│   └── 21-2680-house-bound-status.cypress.spec.js  # E2E tests
-├── utils/                                    # Utility functions
-│   └── index.js                              # Barrel exports (ready for utilities)
-├── app-entry.jsx                             # Application entry point
-├── routes.jsx                                # React Router configuration
-├── constants.js                              # Application constants
-├── index.js                                  # Root barrel export
-├── manifest.json                             # App metadata
-└── README.md                                 # This file
-```
+- Development: `http://localhost:3001/pension/aid-attendance-housebound/apply-form-21-2680`
+- Introduction page: Starts at the root URL above
 
-### Import Alias
+## Conditional Form Logic
 
-This application uses the `@bio-aquia` alias configured in `babel.config.json`:
+### When Pages Are Shown/Hidden
 
-```javascript
-import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config';
-import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers';
-```
+#### Claimant Pages (Pages 4-7)
 
-### Form Features
+**Shown when**:
 
-- **Save-in-progress**: Auto-saves form data every 60 seconds
-- **Prefill**: Pulls veteran data from user profile
-- **Validation**: Uses platform validators for SSN, dates, phone numbers
-- **Accessibility**: WCAG 2.2 AA compliant using VA Design System components
+- `claimantRelationship.relationship !== 'veteran'`
 
-## Testing
+**Hidden when**:
 
-### Unit Tests
+- `claimantRelationship.relationship === 'veteran'` (Veteran is the claimant)
 
-Tests use React Testing Library and are located in `tests/containers/`:
+**Pages affected**:
 
-```bash
-# Run all unit tests for this app
-yarn test:unit --app-folder benefits-optimization-aquia/21-2680-house-bound-status
+- Claimant Information
+- Claimant SSN
+- Claimant Address
+- Claimant Contact
 
-# Run specific test file
-yarn test:unit src/applications/benefits-optimization-aquia/21-2680-house-bound-status/tests/containers/introduction-page.unit.spec.jsx
-```
+#### Hospitalization Pages (Pages 10-11)
 
-### E2E Tests
+**Shown when**:
 
-Cypress tests validate the full user flow:
+- `hospitalizationStatus.isCurrentlyHospitalized === true`
 
-```bash
-# Run Cypress in headless mode
-yarn cy:run --spec "**/21-2680-house-bound-status/**/*.cypress.spec.js"
+**Hidden when**:
 
-# Open Cypress UI (requires yarn watch running)
-yarn cy:open
-```
+- `hospitalizationStatus.isCurrentlyHospitalized === false`
 
-### Mock Data
+**Pages affected**:
 
-Test fixtures are organized in `tests/fixtures/`:
+- Hospitalization Date
+- Hospitalization Facility
 
-- `mocks/` - API response mocks
-- `data/` - Form data fixtures
+## Support
 
-## API Integration
+For questions or issues:
 
-### Endpoints
-
-- **Form submission**: `POST /v0/form21_2680` (TBD - pending backend implementation)
-- **Save in Progress**:
-  - Save: `PUT /v0/in_progress_forms/21-2680`
-  - Get: `GET /v0/in_progress_forms/21-2680`
-  - Delete: `DELETE /v0/in_progress_forms/21-2680`
-- **Prefill**: `GET /v0/in_progress_forms/21-2680/prefill`
-
-### Data Flow
-
-1. **Prefill**: On form start, veteran info is pulled from profile
-2. **Save**: Form data auto-saves to backend every 60 seconds
-3. **Submit**: Form transforms data to match backend schema and POSTs
-4. **Confirmation**: Returns confirmation number and PDF link
-
-## Accessibility & Compliance
-
-- **WCAG 2.2 Level AA**: All interactive elements meet contrast and keyboard navigation requirements
-- **Section 508**: Fully compliant with federal accessibility standards
-- **VA Design System**: Uses web components (`va-text-input`, `va-button`, etc.) for consistent UX
-- **Screen Readers**: Tested with JAWS, NVDA, and VoiceOver
-- **Focus Management**: Proper focus handling on page transitions and error states
-
-## Dependencies
-
-Key platform utilities used:
-
-- `platform/forms-system` - VA.gov form system components
-- `platform/forms/save-in-progress` - Save-in-progress functionality
-- `platform/user/selectors` - User authentication state
-- `platform/utilities/ui` - UI helpers (focus, scroll)
-
-## Team & Support
-
-**Owner**: Benefits Intake Optimization - Aquia team
-**Slack**: #benefits-optimization-aquia
-
-For questions about this application, contact the Benefits Intake Optimization - Aquia team in #benefits-optimization-aquia.
+- **Team**: Benefits Intake Optimization - Aquia Team
+- **Slack**: `#benefits-optimization-aquia` (internal)
+- **Repository**: `vets-website`
