@@ -29,6 +29,29 @@ export default {
         addLink: 'Add link',
       },
     }),
+    arrayBuilderItemPages: radioUI({
+      title: 'Item pages complexity',
+      labels: {
+        simple: 'Simple (1 page)',
+        complex: 'Complex (2+ pages)',
+      },
+      descriptions: {
+        simple: 'Single item page with just a name field',
+        complex:
+          'Multiple item pages (name/address, dates, optional conditional page)',
+      },
+    }),
+    arrayBuilderSummaryIntroVariation: radioUI({
+      title: 'Summary/intro page variation',
+      labels: {
+        A: 'Variation A',
+        B: 'Variation B',
+      },
+      descriptions: {
+        A: 'Summary/intro page with variation A text and styling',
+        B: 'Summary/intro page with variation B text and styling',
+      },
+    }),
   },
   schema: {
     type: 'object',
@@ -39,10 +62,14 @@ export default {
         'addButton',
         'addLink',
       ]),
+      arrayBuilderItemPages: radioSchema(['simple', 'complex']),
+      arrayBuilderSummaryIntroVariation: radioSchema(['A', 'B']),
     },
     required: [
       'arrayBuilderPatternFlowType',
       'arrayBuilderPatternInteractionType',
+      'arrayBuilderItemPages',
+      'arrayBuilderSummaryIntroVariation',
     ],
   },
 };

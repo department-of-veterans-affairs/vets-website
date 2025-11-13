@@ -24,6 +24,7 @@ const AlertConfirmContactEmail = ({
   return (
     <VaAlert
       status="warning"
+      role="status"
       dataTestid="mhv-alert--confirm-contact-email"
       className="vads-u-margin-y--2"
     >

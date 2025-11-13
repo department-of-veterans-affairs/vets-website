@@ -3,6 +3,8 @@ import {
   extractLocation,
   vitalReducer,
   getMeasurement,
+  convertVital,
+  convertUnifiedVital,
 } from '../../reducers/vitals';
 import { EMPTY_FIELD } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
@@ -338,5 +340,129 @@ describe('getMeasurement', () => {
       ],
     };
     expect(getMeasurement(missingCoding, type)).to.eq(EMPTY_FIELD);
+  });
+});
+
+describe('convertUnifiedVital function', () => {
+  it('should convert a unified vital record to the expected format', () => {
+    const record = {
+      id: '49c80309-efa0-41fd-84a0-870ed1b38100',
+      type: 'observation',
+      attributes: {
+        id: '49c80309-efa0-41fd-84a0-870ed1b38100',
+        name: 'Height',
+        type: 'HEIGHT',
+        date: '2024-11-14T18:19:23Z',
+        measurement: '6 feet, 3.0 inches',
+        location: 'FT COLLINS HEALTH SCREENING',
+        notes: ['Patient was calm during measurement.'],
+      },
+    };
+
+    const converted = convertUnifiedVital(record);
+    expect(converted).to.deep.equal({
+      id: '49c80309-efa0-41fd-84a0-870ed1b38100',
+      type: 'HEIGHT',
+      name: 'Height',
+      measurement: '6 feet, 3.0 inches',
+      date: 'November 14, 2024, 6:19 p.m.',
+      effectiveDateTime: '2024-11-14T18:19:23Z',
+      location: 'FT COLLINS HEALTH SCREENING',
+      notes: 'Patient was calm during measurement.',
+    });
+  });
+});
+
+describe('convertVital function', () => {
+  it('should convert a FHIR vital record to the expected format', () => {
+    const record = {
+      code: {
+        coding: [
+          {
+            code: '85354-9',
+            display: 'Blood pressure panel with all children optional',
+            system: 'http://loinc.org',
+          },
+          {
+            code: '4500634',
+            display: 'BLOOD PRESSURE',
+            system: 'urn:oid:2.16.840.1.113883.6.233',
+          },
+        ],
+        text: 'BLOOD PRESSURE',
+      },
+      component: [
+        {
+          code: {
+            coding: [
+              {
+                code: '8480-6',
+                display: 'Systolic blood pressure',
+                system: 'http://loinc.org',
+              },
+            ],
+          },
+          valueQuantity: {
+            code: 'mm[Hg]',
+            system: 'http://unitsofmeasure.org',
+            unit: 'mm[Hg]',
+            value: 130,
+          },
+        },
+        {
+          code: {
+            coding: [
+              {
+                code: '8462-4',
+                display: 'Diastolic blood pressure',
+                system: 'http://loinc.org',
+              },
+            ],
+          },
+          valueQuantity: {
+            code: 'mm[Hg]',
+            system: 'http://unitsofmeasure.org',
+            unit: 'mm[Hg]',
+            value: 70,
+          },
+        },
+      ],
+      contained: [
+        {
+          id: 'Location-0',
+          name: 'ADTP BURNETT',
+          resourceType: 'Location',
+        },
+      ],
+      effectiveDateTime: '2023-10-27T10:00:00-04:00',
+      id: '38852',
+      performer: [
+        {
+          display: 'ADTP BURNETT',
+          extension: [
+            {
+              url:
+                'http://hl7.org/fhir/StructureDefinition/alternate-reference',
+              valueReference: {
+                reference: '#Location-0',
+              },
+            },
+          ],
+        },
+      ],
+      resourceType: 'Observation',
+    };
+
+    const converted = convertVital(record);
+    expect(converted).to.deep.equal({
+      id: '38852',
+      type: 'BLOOD_PRESSURE',
+      name: 'BLOOD PRESSURE',
+      measurement: '130/70',
+      date: 'October 27, 2023, 10:00 a.m.',
+      effectiveDateTime: '2023-10-27T10:00:00-04:00',
+      location: 'ADTP BURNETT',
+      notes: 'None recorded',
+    });
   });
 });

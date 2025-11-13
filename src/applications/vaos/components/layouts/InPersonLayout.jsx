@@ -45,6 +45,7 @@ export default function InPersonLayout({ data: appointment }) {
     status,
     timezone,
     typeOfCareName,
+    isCerner,
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
@@ -157,7 +158,11 @@ export default function InPersonLayout({ data: appointment }) {
           facilityPhone={facilityPhone}
         />
       </Where>
-      <Details reason={reasonForAppointment} otherDetails={patientComments} />
+      <Details
+        reason={reasonForAppointment}
+        otherDetails={patientComments}
+        isCerner={isCerner}
+      />
       {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (

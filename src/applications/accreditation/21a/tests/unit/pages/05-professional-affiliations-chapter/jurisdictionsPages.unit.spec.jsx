@@ -121,11 +121,17 @@ describe('Jurisdictions Pages', () => {
   });
 
   context('arrayBuilderOptions', () => {
-    it('should have the correct arrayPath, nouns, and maxItems properties', () => {
+    it('should have the correct arrayPath, nouns, reviewAddButton text, yesNoBlankReviewQuestion text and maxItems properties', () => {
       expect(arrayBuilderOptions.arrayPath).to.equal('jurisdictions');
       expect(arrayBuilderOptions.nounSingular).to.equal('jurisdiction');
       expect(arrayBuilderOptions.nounPlural).to.equal('jurisdictions');
       expect(arrayBuilderOptions.required).to.be.false;
+      expect(arrayBuilderOptions.text.reviewAddButtonText()).to.equal(
+        'Add a jurisdiction',
+      );
+      expect(arrayBuilderOptions.text.yesNoBlankReviewQuestion()).to.equal(
+        'Are you currently admitted to practice before any jurisdictions?',
+      );
     });
 
     it('should return the correct card title from getItemName', () => {
