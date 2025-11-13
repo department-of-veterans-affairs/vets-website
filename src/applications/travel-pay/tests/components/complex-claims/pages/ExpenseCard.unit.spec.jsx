@@ -74,7 +74,7 @@ describe('ExpenseCard', () => {
     const { getByText, container } = renderExpenseCard();
 
     // Header
-    expect(getByText('October 15, 2023, $25.50')).to.exist;
+    expect(getByText('Mileage expense')).to.exist;
 
     // Address
     expect(getByText('Which address did you depart from?')).to.exist;
