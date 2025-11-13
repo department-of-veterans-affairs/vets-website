@@ -53,38 +53,6 @@ const defaultClaim = {
   ],
 };
 
-// const initialState = {
-//   travelPay: {
-//     appointment: {
-//       isLoading: false,
-//       error: null,
-//       data: appointment,
-//     },
-//     claimDetails: {
-//       data: { [claimId]: defaultClaim },
-//     },
-//     complexClaim: {
-//       expenses: {
-//         creation: {
-//           isLoading: false,
-//           error: null,
-//         },
-//         update: {
-//           id: '',
-//           isLoading: false,
-//           error: null,
-//         },
-//         delete: {
-//           id: '',
-//           isLoading: false,
-//           error: null,
-//         },
-//         data: defaultClaim.expenses,
-//       },
-//     },
-//   },
-// };
-
 const getData = () => ({
   travelPay: {
     appointment: {
