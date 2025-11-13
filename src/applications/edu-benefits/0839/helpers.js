@@ -147,8 +147,8 @@ export const getCardTitle = item => {
 
 export const additionalInstitutionDetailsArrayOptions = {
   arrayPath: 'additionalInstitutionDetails',
-  nounSingular: 'institution',
-  nounPlural: 'institutions',
+  nounSingular: 'location',
+  nounPlural: 'locations',
   required: false,
   isItemIncomplete: item => !item?.facilityCode,
   maxItems: 10,
@@ -158,8 +158,8 @@ export const additionalInstitutionDetailsArrayOptions = {
     summaryTitle: props => {
       const count = props?.formData?.additionalInstitutionDetails?.length || 0;
       return count > 1
-        ? 'Review your additional institutions'
-        : 'Review your additional institution';
+        ? 'Review your additional locations'
+        : 'Review your additional location';
     },
     summaryDescriptionWithoutItems: (
       <>
@@ -179,7 +179,7 @@ export const additionalInstitutionDetailsArrayOptions = {
 export const createBannerMessage = (
   institutionDetails,
   isArrayItem,
-  mainInstitution,
+  // mainInstitution,
 ) => {
   const notYR = institutionDetails.yrEligible === false;
   const notIHL = institutionDetails.ihlEligible === false;
@@ -190,26 +190,35 @@ export const createBannerMessage = (
   const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
   const thirdChar = code?.charAt(2).toUpperCase();
 
-  const hasXInThirdPosition =
-    code?.length === 8 && !badFormat && thirdChar === 'X';
-
-  if (notFound) {
-    return null;
-  }
-
   if (isArrayItem) {
+    // const branches =
+    //   mainInstitution?.facilityMap?.branches?.map(
+    //     branch => branch?.institution?.facilityCode,
+    //   ) || [];
+
+    // const extensions =
+    //   mainInstitution?.facilityMap?.extensions?.map(
+    //     extension => extension?.institution?.facilityCode,
+    //   ) || [];
+
+    // const branchList = [...branches, ...extensions];
+
+    const hasXInThirdPosition =
+      code?.length === 8 && !badFormat && thirdChar === 'X';
+
     if (hasXInThirdPosition) {
       message =
         "This facility code can't be accepted. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
       return message;
     }
-    if (
-      !mainInstitution?.facilityMap?.branches?.includes(code) &&
-      !mainInstitution?.facilityMap?.extensions?.includes(code)
-    ) {
-      message =
-        "This facility code can't be accepted because it's not associated with your main campus. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
-    }
+    // if (!branchList.includes(code)) {
+    //   message =
+    //     "This facility code can't be accepted because it's not associated with your main campus. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
+    // }
+  }
+
+  if (notFound) {
+    return null;
   }
 
   if (notYR && !isArrayItem) {
@@ -228,4 +237,82 @@ export const createBannerMessage = (
 export const getAcademicYearDisplay = () => {
   const currentYear = new Date().getFullYear();
   return `${currentYear}-${currentYear + 1}`;
+};
+
+export const facilityCodeUIValidation = (errors, fieldData, formData) => {
+  const code = (fieldData || '').trim();
+
+  // const mainInstitution = formData?.institutionDetails;
+
+  // const branches =
+  //   mainInstitution?.facilityMap?.branches?.map(
+  //     branch => branch?.institution?.facilityCode,
+  //   ) || [];
+
+  // const extensions =
+  //   mainInstitution?.facilityMap?.extensions?.map(
+  //     extension => extension?.institution?.facilityCode,
+  //   ) || [];
+
+  // const branchList = [...branches, ...extensions];
+
+  const currentItem = formData?.additionalInstitutionDetails?.find(
+    item => item?.facilityCode?.trim() === code,
+  );
+
+  const additionalFacilityCodes = formData?.additionalInstitutionDetails?.map(
+    item => item?.facilityCode?.trim(),
+  );
+
+  const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
+  const notFound = currentItem?.institutionName === 'not found';
+  const ihlEligible = currentItem?.ihlEligible;
+  const notYR = currentItem?.yrEligible === false;
+  const thirdChar = code?.charAt(2).toUpperCase();
+
+  const hasXInThirdPosition =
+    code.length === 8 && !badFormat && thirdChar === 'X';
+
+  if (!currentItem?.isLoading) {
+    if (additionalFacilityCodes.filter(item => item === code).length > 1) {
+      errors.addError(
+        "You've already added this location. Please enter a different code.",
+      );
+      return;
+    }
+
+    if (hasXInThirdPosition) {
+      errors.addError(
+        'Codes with an "X" in the third position are not eligible',
+      );
+      return;
+    }
+
+    if (badFormat || notFound) {
+      errors.addError(
+        'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+      );
+      return;
+    }
+
+    // if (!branchList.includes(code)) {
+    //   errors.addError(
+    //     "This facility code isn't linked to your school's main campus",
+    //   );
+    //   return;
+    // }
+
+    if (notYR) {
+      errors.addError(
+        "The institution isn't eligible for the Yellow Ribbon Program.",
+      );
+      return;
+    }
+
+    if (ihlEligible === false) {
+      errors.addError(
+        'This institution is not an IHL. Please see information below.',
+      );
+    }
+  }
 };

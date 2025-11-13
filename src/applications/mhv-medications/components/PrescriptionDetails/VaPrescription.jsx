@@ -29,6 +29,7 @@ import {
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
+import SendRxRenewalMessage from '../shared/SendRxRenewalMessage';
 import MedicationDescription from '../shared/MedicationDescription';
 import { selectPartialFillContentFlag } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
@@ -148,6 +149,7 @@ const VaPrescription = prescription => {
             data-testid="va-prescription-container"
             data-dd-privacy="mask"
           >
+            <SendRxRenewalMessage rx={prescription} isActionLink />
             <>
               {displayTrackingAlert()}
 
@@ -218,7 +220,11 @@ const VaPrescription = prescription => {
               )}
 
               {prescription && (
-                <ExtraDetails {...prescription} page={pageType.DETAILS} />
+                <ExtraDetails
+                  {...prescription}
+                  page={pageType.DETAILS}
+                  showRenewalLink
+                />
               )}
               {!pendingMed &&
                 !pendingRenewal && (

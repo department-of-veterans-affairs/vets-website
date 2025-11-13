@@ -17,7 +17,11 @@ const NonVaPrescription = prescription => {
           About this medication or supply
         </h2>
         {prescription && (
-          <ExtraDetails {...prescription} page={pageType.DETAILS} />
+          <ExtraDetails
+            {...prescription}
+            page={pageType.DETAILS}
+            showRenewalLink
+          />
         )}
         <section>
           <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
