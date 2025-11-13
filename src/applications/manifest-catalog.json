@@ -850,6 +850,12 @@
       "rootUrl": "/my-health/appointments"
     },
     {
+      "directoryPath": "src/applications/vass",
+      "appName": "VASS",
+      "entryName": "vass",
+      "rootUrl": "/service-member/benefits/solid-start/schedule"
+    },
+    {
       "directoryPath": "src/applications/verify",
       "appName": "Verify identity",
       "entryName": "verify",
