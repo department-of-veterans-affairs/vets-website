@@ -19,6 +19,10 @@
         "value": true
       },
       {
+        "name": "mhv_secure_messaging_medications_renewal_request",
+        "value": true
+      },
+      {
         "name": "mhv_accelerated_delivery_enabled",
         "value": false
       },
