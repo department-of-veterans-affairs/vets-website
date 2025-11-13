@@ -5,6 +5,8 @@ import {
   SEPARATION_PAY_BRANCH_TITLE,
   SEPARATION_PAY_DATE_TITLE,
   SEPARATION_PAY_SECTION_TITLE,
+  YES,
+  NO,
 } from '../constants';
 
 const ConfirmationSeparationPay = ({ formData }) => {
@@ -16,10 +18,6 @@ const ConfirmationSeparationPay = ({ formData }) => {
     separationPayBranch && separationPayBranch.length > 0;
   const hasSeparationPayDate =
     separationPayDate && separationPayDate.length > 0;
-  const separationPayLabels = {
-    Y: 'Yes',
-    N: 'No',
-  };
 
   return (
     <li>
@@ -27,11 +25,7 @@ const ConfirmationSeparationPay = ({ formData }) => {
       <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
         <li>
           <div className="vads-u-color--gray">{SEPARATION_PAY_TITLE}</div>
-          <div>
-            {formData.hasSeparationPay
-              ? separationPayLabels.Y
-              : separationPayLabels.N}
-          </div>
+          <div>{formData.hasSeparationPay ? YES : NO}</div>
         </li>
         {hasSeparationPayDate && (
           <li>
