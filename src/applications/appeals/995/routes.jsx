@@ -1,5 +1,5 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
-import NewDesignSwitcher from './NewDesignSwitcher';
+import App from './containers/App';
 import formConfig from './config/form';
 
 const onEnter = (nextState, replace) => replace('/introduction');
@@ -7,7 +7,7 @@ const onEnter = (nextState, replace) => replace('/introduction');
 const routes = [
   {
     path: '/',
-    component: NewDesignSwitcher,
+    component: App,
     indexRoute: { onEnter },
     childRoutes: createRoutesWithSaveInProgress(formConfig),
   },
