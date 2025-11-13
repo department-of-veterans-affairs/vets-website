@@ -11,9 +11,9 @@ const AdditionalInstitutionAddress = () => {
   const facilityCode = (details?.facilityCode || '').trim();
   const poeEligible = details.poeEligible === true;
 
-  const additionalFacilityCodes = formData?.additionalLocations?.map(item =>
-    item?.facilityCode?.trim(),
-  );
+  const additionalFacilityCodes =
+    formData?.additionalLocations?.map(item => item?.facilityCode?.trim()) ||
+    [];
 
   const facilityCodes = [
     ...additionalFacilityCodes,

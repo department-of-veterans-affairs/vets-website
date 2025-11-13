@@ -18,9 +18,9 @@ const AdditionalInstitutionName = () => {
   const institutionName = details?.institutionName;
   const facilityCode = (details?.facilityCode || '').trim();
 
-  const additionalFacilityCodes = formData?.additionalLocations?.map(item =>
-    item?.facilityCode?.trim(),
-  );
+  const additionalFacilityCodes =
+    formData?.additionalLocations?.map(item => item?.facilityCode?.trim()) ||
+    [];
 
   const facilityCodes = [
     ...additionalFacilityCodes,
