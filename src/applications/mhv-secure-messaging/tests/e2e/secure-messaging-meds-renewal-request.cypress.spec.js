@@ -26,6 +26,7 @@ describe('SM Medications Renewal Request', () => {
     beforeEach(() => {
       SecureMessagingSite.login(customFeatureToggles);
       PatientInboxPage.loadInboxMessages();
+
       cy.intercept(
         'GET',
         `${Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS}*`,
@@ -118,6 +119,7 @@ describe('SM Medications Renewal Request', () => {
         }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@vamcUser');
+      cy.wait('@recipients');
       cy.wait('@recentRecipients');
       cy.wait('@medicationById');
 
