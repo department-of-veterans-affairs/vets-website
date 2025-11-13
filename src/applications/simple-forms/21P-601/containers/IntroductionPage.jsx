@@ -70,7 +70,7 @@ const childContent = (
         <br />
         <va-link
           href="https://www.vba.va.gov/pubs/forms/VBA-21P-601-ARE.pdf"
-          text="Get VA Form 21P-601 to download"
+          text="Download VA Form 21P-601"
         />
       </li>
       <li>
