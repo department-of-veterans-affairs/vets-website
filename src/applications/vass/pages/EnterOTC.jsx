@@ -13,11 +13,7 @@ const EnterOTC = () => {
   };
   return (
     <Wrapper pageTitle="Schedule a call to learn about VA benefits and health care">
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="success"
-        visible
-      >
+      <va-alert status="success" visible>
         <p className="vads-u-margin-y--0">
           {`We just emailed a one-time verification code to ${veteranEmail}.
           Please check your email and come back to enter the code to complete
