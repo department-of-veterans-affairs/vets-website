@@ -25,6 +25,7 @@ import applicantMailingAddress from '../pages/applicantMailingAddress';
 import applicantMailingAddress2 from '../pages/applicantMailingAddress2';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
+import ApplicantMailingAddressLoggedIn from '../pages/applicantMailingAddressLoggedIn';
 import {
   ApplicantNameHeader,
   ApplicantNameNote,
@@ -121,7 +122,24 @@ const formConfig = {
           depends: formData =>
             ['familyMember', 'personalRep', 'other'].includes(
               formData.relationToVetRadio,
-            ),
+            ) && !isUserSignedIn(formData),
+        },
+        applicantContactInfoSignedIn: {
+          path: 'applicant-contact-info-signed-in',
+          title: 'Your contact information',
+          uiSchema: applicantContactInfo.uiSchema,
+          schema: applicantContactInfo.schema,
+          depends: formData =>
+            ['familyMember', 'personalRep', 'other'].includes(
+              formData.relationToVetRadio,
+            ) && isUserSignedIn(formData),
+          CustomPage: ApplicantMailingAddressLoggedIn,
+          CustomPageReview: ApplicantMailingAddressLoggedIn,
+          // uiSchema: {},
+          // schema: {
+          //   type: 'object',
+          //   properties: {},
+          // },
         },
         applicantContactInfo2: {
           path: 'applicant-contact-info-2',
