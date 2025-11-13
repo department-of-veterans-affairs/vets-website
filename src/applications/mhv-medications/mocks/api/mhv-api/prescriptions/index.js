@@ -1,6 +1,6 @@
 const { differenceInDays, formatISO, sub } = require('date-fns');
 const { prescriptionDocumentationHtml } = require('./documentation');
-const prescriptionsList = require('../../../../tests/fixtures/prescriptionsList.json');
+const prescriptionsList = require('../../../../tests/fixtures/prescriptionsListV2.json');
 
 const dispStatusObj = {
   UNKNOWN: 'Unknown',

@@ -3,7 +3,7 @@ import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 
 import allergiesList from '../fixtures/allergiesList.json';
 import medicationInformation from '../fixtures/medicationInformation.json';
-import prescriptionsList from '../fixtures/prescriptionsList.json';
+import prescriptionsList from '../fixtures/prescriptionsListV2.json';
 import singlePrescription from '../fixtures/prescriptionsListItem.json';
 
 export const stubAllergiesApi = ({
