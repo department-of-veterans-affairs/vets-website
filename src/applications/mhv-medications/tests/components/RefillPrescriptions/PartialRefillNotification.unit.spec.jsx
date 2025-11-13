@@ -5,7 +5,7 @@ import PartialRefillNotification from '../../../components/RefillPrescriptions/P
 import { RefillMedicationList } from '../../../components/RefillPrescriptions/RefillMedicationList';
 import { RefillAlert } from '../../../components/RefillPrescriptions/RefillAlert';
 import { MEDICATION_REFILL_CONFIG } from '../../../util/constants';
-import refillableList from '../../fixtures/refillablePrescriptionsList.json';
+import refillableList from '../../fixtures/refillablePrescriptionsListV2.json';
 
 describe('PartialRefillNotification component', () => {
   const defaultConfig = MEDICATION_REFILL_CONFIG.PARTIAL;
