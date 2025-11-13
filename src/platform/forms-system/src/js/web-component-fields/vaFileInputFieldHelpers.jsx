@@ -106,6 +106,14 @@ export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
 };
 
 /**
+ * @param {number} limit the maximum number of files that can be uploaded
+ * @returns {string} error message
+ */
+export function getFileLimitErrorMessage(limit) {
+  return `You can only upload ${limit} files.`;
+}
+
+/**
  *
  * @param {File} file the file to upload
  * @param { boolean } disallowEncryptedPdfs flag to prevent encrypted pdfs
@@ -114,7 +122,7 @@ export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
  */
 export async function getFileError(
   file,
-  { disallowEncryptedPdfs },
+  { disallowEncryptedPdfs, maxFileCount },
   files = [],
 ) {
   let fileError = null;
@@ -125,6 +133,11 @@ export async function getFileError(
       fileError = DUPLICATE_FILE_ERROR;
       break;
     }
+  }
+
+  // would adding an extra exceed limit
+  if (maxFileCount && files.length + 1 > maxFileCount) {
+    fileError = getFileLimitErrorMessage(maxFileCount);
   }
 
   // don't do more checks if there is a duplicate file
@@ -207,7 +220,8 @@ export function simulateUploadMultiple(
   setPercentsUploaded,
   percentsUploaded,
   index,
-  childrenProps,
+  files,
+  addFile,
   file,
 ) {
   let per = START_PERCENT;
@@ -216,9 +230,9 @@ export function simulateUploadMultiple(
     _percents[index] = per;
     setPercentsUploaded(_percents);
     if (per >= 100) {
-      const files = [...childrenProps.formData];
-      files[index] = getMockFileData(file);
-      childrenProps.onChange(files);
+      const _files = [...files];
+      _files[index] = getMockFileData(file);
+      addFile(_files, index);
       _percents[index] = null;
       setPercentsUploaded(_percents);
       clearInterval(id);

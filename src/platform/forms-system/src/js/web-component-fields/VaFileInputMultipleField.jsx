@@ -14,6 +14,7 @@ import {
   useFileUpload,
   DEBOUNCE_WAIT,
   getFileError,
+  getFileLimitErrorMessage,
   simulateUploadMultiple,
 } from './vaFileInputFieldHelpers';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
@@ -358,8 +359,13 @@ const VaFileInputMultipleField = props => {
   const handleInternalFileInputError = e => {
     const index = getFileInputInstanceIndex(e);
     errorManager.setInternalFileInputErrors(index, true);
+    const fileLimitError =
+      index + 1 > (uiOptions.maxFileCount || Infinity)
+        ? getFileLimitErrorMessage()
+        : null;
     const _errors = [...errors];
-    _errors[index] = e.detail.error;
+    // let file limit error take priority over an internal error
+    _errors[index] = fileLimitError || e.detail.error;
     setErrors(_errors);
     const files = [...childrenProps.formData];
     // add placeholder file

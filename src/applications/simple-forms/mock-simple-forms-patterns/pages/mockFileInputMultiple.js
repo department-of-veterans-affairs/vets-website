@@ -14,6 +14,7 @@ export default {
       hint: 'Upload a file that is between 1KB and 5MB',
       headerSize: '3',
       formNumber: '31-4159',
+      maxFileCount: 3,
       // disallowEncryptedPdfs: true,
       skipUpload: true, // mock-forms does not have a backend for upload
       maxFileSize: 1024 * 1024 * 5,
