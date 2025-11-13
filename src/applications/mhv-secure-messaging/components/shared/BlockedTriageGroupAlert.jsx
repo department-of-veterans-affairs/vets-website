@@ -23,7 +23,6 @@ const MESSAGE_TO_CARE_TEAMS = "You can't send messages to care teams at";
 const ACCOUNT_DISCONNECTED = 'Your account is no longer connected to';
 const { MULTIPLE_TEAMS_BLOCKED, ALL_TEAMS_BLOCKED } = alertTitle;
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 const BlockedTriageGroupAlert = props => {
   const {
     alertStyle,

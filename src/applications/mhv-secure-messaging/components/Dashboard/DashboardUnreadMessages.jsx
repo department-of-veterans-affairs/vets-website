@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Paths, ErrorMessages } from '../../util/constants';
 import HorizontalRule from '../shared/HorizontalRule';
+import RouterLinkAction from '../shared/RouterLinkAction';
 
 const DashboardUnreadMessages = props => {
   const { inbox } = props;
@@ -38,7 +38,7 @@ const DashboardUnreadMessages = props => {
     <va-alert status="info" visible>
       {unreadCountHeader}
       <div className="vads-u-margin-top--1p5">
-        <VaLinkAction
+        <RouterLinkAction
           data-testid="inbox-link"
           href={Paths.INBOX}
           text="Go to your inbox"
@@ -48,7 +48,7 @@ const DashboardUnreadMessages = props => {
           !allTriageGroupsBlocked && (
             <>
               <HorizontalRule />
-              <VaLinkAction
+              <RouterLinkAction
                 data-testid="compose-message-link"
                 href={Paths.COMPOSE}
                 text="Start a new message"

@@ -5,6 +5,7 @@ import {
   VaLinkAction,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Alerts, Paths } from '../../util/constants';
+import RouterLinkAction from './RouterLinkAction';
 
 const CannotReplyAlert = props => {
   const { visible, isOhMessage = false } = props;
@@ -37,7 +38,7 @@ const CannotReplyAlert = props => {
             </>
           )}
           <p className="vads-u-margin-top--neg1 vads-u-margin-bottom--1 vads-u-font-weight--bold">
-            <VaLinkAction
+            <RouterLinkAction
               data-dd-action-name="Start a new message - 45 day alert"
               href={Paths.COMPOSE}
               label="Start a new message"

@@ -1,0 +1,138 @@
+import React from 'react';
+import { expect } from 'chai';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import RouterLinkAction from '../../../components/shared/RouterLinkAction';
+import reducer from '../../../reducers';
+
+describe('RouterLinkAction component', () => {
+  const initialState = {
+    sm: {
+      alerts: { alertList: [] },
+    },
+  };
+
+  const setup = (customProps = {}) => {
+    const props = {
+      href: '/my-health/secure-messages/inbox',
+      text: 'Go to inbox',
+      ...customProps,
+    };
+
+    return renderWithStoreAndRouter(<RouterLinkAction {...props} />, {
+      initialState,
+      reducers: reducer,
+      path: '/my-health/secure-messages',
+    });
+  };
+
+  it('renders a va-link element', () => {
+    const { container } = setup();
+    const link = container.querySelector('va-link');
+    expect(link).to.exist;
+  });
+
+  it('renders with correct href attribute', () => {
+    const { container } = setup({ href: '/test-path' });
+    const link = container.querySelector('va-link');
+    expect(link.getAttribute('href')).to.equal('/test-path');
+  });
+
+  it('renders with correct text attribute', () => {
+    const { container } = setup({ text: 'Test Link Text' });
+    const link = container.querySelector('va-link');
+    expect(link.getAttribute('text')).to.equal('Test Link Text');
+  });
+
+  it('renders with active attribute for action link styling', () => {
+    const { container } = setup();
+    const link = container.querySelector('va-link');
+    expect(link).to.have.attribute('active');
+  });
+
+  it('renders with label attribute when provided', () => {
+    const { container } = setup({ label: 'Custom aria label' });
+    const link = container.querySelector('va-link');
+    expect(link.getAttribute('label')).to.equal('Custom aria label');
+  });
+
+  it('renders with reverse attribute when reverse=true', () => {
+    const { container } = setup({ reverse: true });
+    const link = container.querySelector('va-link');
+    expect(link).to.have.attribute('reverse');
+  });
+
+  it('does not render reverse attribute when reverse=false', () => {
+    const { container } = setup({ reverse: false });
+    const link = container.querySelector('va-link');
+    expect(link).to.not.have.attribute('reverse');
+  });
+
+  it('passes through additional props', () => {
+    const { container } = setup({ 'data-testid': 'custom-test-id' });
+    const link = container.querySelector('va-link');
+    expect(link.getAttribute('data-testid')).to.equal('custom-test-id');
+  });
+
+  describe('React Router integration', () => {
+    it('renders with correct href for internal navigation', () => {
+      const { container } = setup({
+        href: '/my-health/secure-messages/compose',
+      });
+      const link = container.querySelector('va-link');
+
+      expect(link).to.exist;
+      expect(link.getAttribute('href')).to.equal(
+        '/my-health/secure-messages/compose',
+      );
+    });
+
+    it('handles paths with query parameters', () => {
+      const hrefWithQuery = '/my-health/secure-messages/inbox?folder=custom';
+      const { container } = setup({ href: hrefWithQuery });
+      const link = container.querySelector('va-link');
+
+      expect(link.getAttribute('href')).to.equal(hrefWithQuery);
+    });
+
+    it('handles paths with hash fragments', () => {
+      const hrefWithHash = '/profile/personal-information#messaging-signature';
+      const { container } = setup({ href: hrefWithHash });
+      const link = container.querySelector('va-link');
+
+      expect(link.getAttribute('href')).to.equal(hrefWithHash);
+    });
+  });
+
+  describe('accessibility', () => {
+    it('announces link purpose with aria-label', () => {
+      const { container } = setup({
+        text: 'Go',
+        label: 'Go to your inbox to read messages',
+      });
+      const link = container.querySelector('va-link');
+
+      expect(link.getAttribute('text')).to.equal('Go');
+      expect(link.getAttribute('label')).to.equal(
+        'Go to your inbox to read messages',
+      );
+    });
+  });
+
+  describe('component variants', () => {
+    it('renders with active attribute for action link styling', () => {
+      const { container } = setup({ text: 'Primary Action' });
+      const link = container.querySelector('va-link');
+
+      expect(link).to.have.attribute('active');
+      expect(link.getAttribute('text')).to.equal('Primary Action');
+    });
+
+    it('renders reverse styling for dark backgrounds', () => {
+      const { container } = setup({ reverse: true, text: 'Reverse Action' });
+      const link = container.querySelector('va-link');
+
+      expect(link).to.have.attribute('reverse');
+      expect(link.getAttribute('text')).to.equal('Reverse Action');
+    });
+  });
+});

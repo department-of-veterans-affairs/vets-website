@@ -31,7 +31,7 @@ describe('EditSignatureLink component', () => {
     const { getByTestId } = setup(testState);
     const link = getByTestId('edit-signature-link');
     expect(link).to.exist;
-    expect(link.tagName).to.equal('VA-LINK-ACTION');
+    expect(link.tagName).to.equal('VA-LINK');
     expect(link.getAttribute('href')).to.equal(
       '/profile/personal-information#messaging-signature',
     );
@@ -54,5 +54,30 @@ describe('EditSignatureLink component', () => {
     testState.sm.preferences.signature.includeSignature = undefined;
     const { queryByTestId } = setup(testState);
     expect(queryByTestId('edit-signature-link')).to.not.exist;
+  });
+
+  describe('React Router integration', () => {
+    it('renders RouterLinkAction with correct profile URL', () => {
+      const testState = {
+        sm: {
+          preferences: {
+            signature: {
+              includeSignature: true,
+            },
+          },
+        },
+        featureToggles: { loading: false },
+      };
+      const screen = setup(testState);
+      const link = screen.getByTestId('edit-signature-link');
+
+      // Verify it renders with the correct href including hash
+      expect(link.getAttribute('href')).to.equal(
+        '/profile/personal-information#messaging-signature',
+      );
+
+      // Verify it's a va-link element (RouterLinkAction uses VaLink)
+      expect(link.tagName).to.equal('VA-LINK');
+    });
   });
 });

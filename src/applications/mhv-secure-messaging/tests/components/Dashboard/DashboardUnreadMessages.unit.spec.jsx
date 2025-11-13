@@ -13,6 +13,7 @@ describe('DashboardUnreadMessages component', () => {
       {
         initialState: {},
         reducers: reducer,
+        path: '/my-health/secure-messages',
       },
     );
   };
@@ -61,5 +62,22 @@ describe('DashboardUnreadMessages component', () => {
     expect(inboxLink.getAttribute('href')).to.equal(Paths.INBOX);
     const composeLink = getByTestId('compose-message-link');
     expect(composeLink.getAttribute('href')).to.equal(Paths.COMPOSE);
+  });
+
+  describe('React Router integration', () => {
+    it('renders RouterLinkAction components that will navigate via React Router', () => {
+      const screen = setup(inbox);
+
+      // Verify the links are rendered with correct hrefs
+      const inboxLink = screen.getByTestId('inbox-link');
+      expect(inboxLink.getAttribute('href')).to.equal(Paths.INBOX);
+
+      const composeLink = screen.getByTestId('compose-message-link');
+      expect(composeLink.getAttribute('href')).to.equal(Paths.COMPOSE);
+
+      // Verify they're va-link elements (RouterLinkAction uses VaLink)
+      expect(inboxLink.tagName).to.equal('VA-LINK');
+      expect(composeLink.tagName).to.equal('VA-LINK');
+    });
   });
 });
