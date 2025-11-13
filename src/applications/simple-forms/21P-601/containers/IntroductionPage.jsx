@@ -82,11 +82,11 @@ const childContent = (
     <ul className="vads-u-margin-bottom--4">
       <li>
         You must apply for accrued benefits within <strong>1 year</strong> of
-        the beneficiary’s death.
+        the beneficiary’s death
       </li>
       <li>
         If you’re filing a lump sum accrued benefits claim, you must do so
-        within <strong>5 years</strong> of the beneficiary’s death.
+        within <strong>5 years</strong> of the beneficiary’s death
       </li>
     </ul>
     <h3>What you’ll need to apply</h3>
