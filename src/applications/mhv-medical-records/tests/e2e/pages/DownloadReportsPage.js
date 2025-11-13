@@ -135,7 +135,7 @@ class DownloadReportsPage {
         .should('be.visible')
         .should('not.be.disabled')
         .click();
-      cy.wait('@downloadCcdV2Xml');
+      cy.wait('@downloadCcdV2Xml', { timeout: 10000 });
     });
   };
 
@@ -149,8 +149,9 @@ class DownloadReportsPage {
 
       cy.get('[data-testid="generateCcdButtonHtmlOH"]', { timeout: 15000 })
         .should('be.visible')
+        .should('not.be.disabled')
         .click();
-      cy.wait('@downloadCcdV2Html');
+      cy.wait('@downloadCcdV2Html', { timeout: 10000 });
     });
   };
 
@@ -165,8 +166,9 @@ class DownloadReportsPage {
 
     cy.get('[data-testid="generateCcdButtonPdfOH"]', { timeout: 15000 })
       .should('be.visible')
+      .should('not.be.disabled')
       .click();
-    cy.wait('@downloadCcdV2Pdf');
+    cy.wait('@downloadCcdV2Pdf', { timeout: 10000 });
   };
 
   verifyDualAccordionVisible = () => {
