@@ -70,7 +70,7 @@ export default function ScheduleReferral() {
   };
 
   const canScheduleAppointment =
-    currentReferral.provider?.name &&
+    currentReferral?.provider?.name &&
     !currentReferral.hasAppointments &&
     stationIdValid;
 
