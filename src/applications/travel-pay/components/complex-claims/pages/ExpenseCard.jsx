@@ -40,7 +40,10 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
 
   return (
     <div className="vads-u-margin-top--2">
-      <va-card className="expense-card">
+      <va-card
+        className="expense-card"
+        data-testid={`expense-card-${expense.id}`}
+      >
         <h3 className="vads-u-margin-top--1">{header}</h3>
         {isDeleting ? (
           <div className="vads-u-text-align--center vads-u-margin--5">
