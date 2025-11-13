@@ -44,13 +44,15 @@ export const ConfirmationPage = ({ route }) => {
       confirmationNumber={confirmationNumber}
       formConfig={formConfig}
       submitDate={timestamp || ''}
+      pdfUrl={submission.response?.pdfUrl}
+      filename="VA-Dispute-Debt-Submission.pdf"
     >
       <ConfirmationView.SubmissionAlert
         title="Your dispute submission is in progress"
         content="You will receive a letter in the email confirming receipt within 60 days."
         actions={null}
       />
-      {/* <ConfirmationView.SavePdfDownload /> */}
+      <ConfirmationView.SavePdfDownload />
       <ChapterSectionCollection
         formConfig={trimmedConfig}
         header="Information you submitted on this dispute"
