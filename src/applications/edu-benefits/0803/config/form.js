@@ -21,7 +21,8 @@ import remarksPage from '../pages/remarksPage';
 import submissionInstructions from '../pages/submissionInstructions';
 
 import submitForm from './submitForm';
-import transform from './tranform';
+import transform from './transform';
+import prefillTransform from './prefillTransform';
 
 export const SUBMIT_URL = `${
   environment.API_URL
@@ -53,6 +54,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer: prefillTransform,
   transformForSubmit: transform,
   preSubmitInfo: {
     statementOfTruth: {
@@ -110,7 +112,7 @@ const formConfig = {
             dateOfBirth: { show: true, required: false },
           },
           dataAdapter: {
-            ssnPath: 'application.claimant.ssn',
+            ssnPath: 'ssn',
           },
         }),
         payeeNumber: {
@@ -169,18 +171,13 @@ const formConfig = {
     },
     submissionInstructionsChapter: {
       title: 'Submission instructions',
-      'ui:options': {
-        hideOnReview: true,
-      },
+      hideOnReviewPage: true,
       pages: {
         submissionInstructions: {
           path: 'submission-instructions',
           title: 'Submission instructions',
           uiSchema: submissionInstructions.uiSchema,
           schema: submissionInstructions.schema,
-          'ui:options': {
-            hideOnReview: true,
-          },
         },
       },
     },

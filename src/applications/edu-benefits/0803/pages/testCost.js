@@ -41,7 +41,7 @@ export default {
         required: () => true,
       }),
     },
-    understandsUploadRequirement2: {
+    'view:understandsUploadRequirement2': {
       ...checkboxUI({
         title: 'I understand',
         description: (
@@ -70,7 +70,7 @@ export default {
     properties: {
       'view:explanation': { type: 'object', properties: {} },
       testCost: numberSchema,
-      understandsUploadRequirement2: checkboxRequiredSchema,
+      'view:understandsUploadRequirement2': checkboxRequiredSchema,
     },
     required: ['testCost'],
   },
