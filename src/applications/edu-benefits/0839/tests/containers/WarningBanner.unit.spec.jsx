@@ -245,8 +245,14 @@ describe('WarningBanner Component', () => {
     const mainInstitution = {
       facilityCode: '12345678',
       facilityMap: {
-        branches: ['11111111', '22222222'],
-        extensions: ['33333333', '44444444'],
+        branches: [
+          { institution: { facilityCode: '11111111' } },
+          { institution: { facilityCode: '22222222' } },
+        ],
+        extensions: [
+          { institution: { facilityCode: '33333333' } },
+          { institution: { facilityCode: '44444444' } },
+        ],
       },
     };
 
@@ -297,7 +303,7 @@ describe('WarningBanner Component', () => {
       expect(alert.textContent).to.include('WEAMS 22-1998 Report');
     });
 
-    it('renders warning when code is not in branches or extensions', () => {
+    it('does not render warning when code is not in branches or extensions', () => {
       window.location.pathname = '/0';
       const state = {
         form: {
@@ -330,10 +336,7 @@ describe('WarningBanner Component', () => {
       );
 
       const alert = container.querySelector('va-alert');
-      expect(alert).to.exist;
-      expect(alert.textContent).to.include(
-        "This facility code can't be accepted because it's not associated with your main campus",
-      );
+      expect(alert).to.not.exist;
     });
 
     it('does not render when code is in branches', () => {
@@ -408,7 +411,7 @@ describe('WarningBanner Component', () => {
       expect(alert).to.not.exist;
     });
 
-    it('renders warning for second array item when appropriate', () => {
+    it('does not render warning for second array item when code has no disqualifying conditions', () => {
       window.location.pathname = '/1';
       const state = {
         form: {
@@ -447,7 +450,7 @@ describe('WarningBanner Component', () => {
       );
 
       const alert = container.querySelector('va-alert');
-      expect(alert).to.exist;
+      expect(alert).to.not.exist;
     });
 
     it('does not render when institution is not found', () => {
