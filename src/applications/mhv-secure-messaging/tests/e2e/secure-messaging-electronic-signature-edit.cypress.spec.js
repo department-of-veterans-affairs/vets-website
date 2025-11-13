@@ -27,7 +27,7 @@ describe('EDIT SIGNATURE FEATURE', () => {
       .and(`have.text`, Data.EDIT_SIGNATURE);
 
     cy.get(Locators.LINKS.EDIT_SIGNATURE)
-      .find('a')
+      .find('va-link-action')
       .should('have.attr', `href`, Data.LINKS.PROFILE_SIGNATURE);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
