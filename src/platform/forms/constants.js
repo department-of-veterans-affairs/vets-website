@@ -116,6 +116,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_534EZ: '21P-534EZ',
   FORM_21P_601: '21P-601',
   FORM_22_0976: '22-0976',
+  FORM_22_10278_UPLOAD: '22-10278-UPLOAD',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -948,6 +949,13 @@ export const MY_VA_SIP_FORMS = [
     title: 'Program Apporval in a Foreign Country (VA Form 22-0976)',
     description: 'Approval of a Program in a Foreign Country (VA Form 22-0976)',
     trackingPrefix: 'edu-0976-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_0788_UPLOAD,
+    benefit: "Information Regarding Apportionment of Beneficiary's Award",
+    title: 'form 21-0788 upload',
+    description: 'uploaded file for form 21-0788',
+    trackingPrefix: 'form-21-0788-upload-',
   },
 ];
 
