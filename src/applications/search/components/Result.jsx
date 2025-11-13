@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
+import redactPii from 'platform/utilities/data/redactPii';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import {
   formatResponseString,
@@ -64,7 +65,7 @@ const onSearchResultClick = ({
   recordEvent({
     event: 'onsite-search-results-click',
     'search-page-path': document.location.pathname,
-    'search-query': query,
+    'search-query': redactPii(query),
     'search-result-chosen-page-url': url,
     'search-result-chosen-title': title,
     'search-results-n-current-page': currentPage,
