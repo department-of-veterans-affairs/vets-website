@@ -1,7 +1,6 @@
 name: Unit Test Stability Review
 
 on:
-  workflow_dispatch:
   schedule:
     - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
 
@@ -238,9 +237,9 @@ jobs:
       - name: Run unit tests
         run: |
           if [[ -n "$APP_FOLDERS" ]]; then
-            yarn test:unit:gha "{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+            yarn test:unit:gha "{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)" --coverage --log-level trace
           else
-            yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+            yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level trace
           fi
         env:
           MOCHA_FILE: test-results/unit-tests.xml

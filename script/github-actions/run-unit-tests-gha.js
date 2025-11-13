@@ -38,19 +38,6 @@ const options = commandLineArgs(COMMAND_LINE_OPTIONS);
 
 // Helper function to get test paths
 function getTestPaths() {
-  const cliPaths = Array.isArray(options.path)
-    ? options.path
-    : options.path
-    ? [options.path]
-    : [];
-  const hasCustomCliPath =
-    cliPaths.length > 0 &&
-    !(cliPaths.length === 1 && cliPaths[0] === DEFAULT_SPEC_PATTERN);
-
-  if (hasCustomCliPath) {
-    return cliPaths;
-  }
-
   if (options['full-suite']) {
     return glob.sync(DEFAULT_SPEC_PATTERN);
   }
@@ -63,10 +50,6 @@ function getTestPaths() {
 
   if (changedFiles.length === 0) {
     return glob.sync(STATIC_PAGES_PATTERN);
-  }
-
-  if (changedFiles.length > 500) {
-    return [DEFAULT_SPEC_PATTERN];
   }
 
   // May need to convert this output into an array?
@@ -98,15 +81,7 @@ function getTestPaths() {
   // Always include static pages tests
   const staticPagesTests = glob.sync(STATIC_PAGES_PATTERN);
 
-  const testPaths = [
-    ...new Set([...appTests, ...platformTests, ...staticPagesTests]),
-  ];
-
-  if (testPaths.join(' ').length > 20000) {
-    return [DEFAULT_SPEC_PATTERN];
-  }
-
-  return testPaths;
+  return [...new Set([...appTests, ...platformTests, ...staticPagesTests])];
 }
 
 // Helper function to build test command
@@ -121,22 +96,22 @@ function buildTestCommand(testPaths) {
     : '';
 
   // Always produce JSON outputs via mocha-multi-reporters
-  // Place --config before reporter flags so CLI overrides any config reporter value
-  const defaultMochaArgs = `--no-color --retries 5 --config ${options.config} --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js`;
+  const defaultMochaReporters =
+    '--reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
   const coverageReporter = options['coverage-html']
-    ? `--reporter=html -- mocha --config ${options.config} --retries 5`
-    : `--reporter=json-summary -- mocha --config ${options.config} --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5`;
+    ? '--reporter=html -- mocha --retries 5'
+    : '--reporter=json-summary -- mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 
   const mochaExtra = '';
   const escapedTestPaths = testPaths.map(pattern => `'${pattern}'`);
 
   const testRunner = options.coverage
     ? `NODE_ENV=test BABEL_ENV=test c8 --all ${coverageInclude} ${coverageReporter}`
-    : `BABEL_ENV=test NODE_ENV=test mocha ${defaultMochaArgs}`;
+    : `BABEL_ENV=test NODE_ENV=test mocha ${defaultMochaReporters}`;
 
-  return `${baseEnv} ${testRunner} --max-old-space-size=${MAX_MEMORY} ${mochaExtra} ${escapedTestPaths.join(
-    ' ',
-  )}`;
+  return `${baseEnv} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
+    options.config
+  } ${mochaExtra} ${escapedTestPaths.join(' ')}`;
 }
 
 // Main execution

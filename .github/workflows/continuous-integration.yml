@@ -1454,7 +1454,7 @@ jobs:
           name: Unit Test Stability Review Summary
           conclusion: ${{ needs.unit-tests-stress-test.result }}
           output: |
-            {"summary": "${{ steps.prepare-summary.outputs.summary }}" }
+            {"summary": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{"total": 0, "passed": 0, "failed": 0, "pending": 0}' }}}
 
   testing-reports-unit-tests-coverage:
     name: Testing Reports - Unit Tests Coverage
