@@ -40,7 +40,7 @@ describe('Identification information page', () => {
     const errNode = container.querySelector('[error]');
     expect(errNode).to.exist;
     expect(errNode.getAttribute('error')).to.contain(
-      'Please enter a Social Security number',
+      'Enter a valid 9-digit Social Security number (dashes allowed)',
     );
   });
 
