@@ -15,8 +15,13 @@ const AdditionalInstitutionAddress = () => {
     item?.facilityCode?.trim(),
   );
 
+  const facilityCodes = [
+    ...additionalFacilityCodes,
+    formData?.institutionDetails?.facilityCode,
+  ];
+
   const isDuplicate =
-    additionalFacilityCodes?.filter(item => item === facilityCode).length > 1;
+    facilityCodes?.filter(item => item === facilityCode).length > 1;
 
   const institutionName = details?.institutionName;
   const institutionAddress = details?.institutionAddress || {};

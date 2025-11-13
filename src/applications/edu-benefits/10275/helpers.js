@@ -124,12 +124,20 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const additionalFacilityCodes = formData?.additionalLocations?.map(item =>
     item?.facilityCode?.trim(),
   );
+
+  const facilityCodes = [
+    ...additionalFacilityCodes,
+    formData?.institutionDetails?.facilityCode,
+  ];
+
+  const isDuplicate = facilityCodes?.filter(item => item === code).length > 1;
+
   const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
   const notFound = currentItem?.institutionName === 'not found';
   const ineligible = currentItem?.poeEligible === false;
 
   if (!currentItem?.isLoading) {
-    if (additionalFacilityCodes.filter(item => item === code).length > 1) {
+    if (isDuplicate) {
       errors.addError(
         "You've already added this location. Please enter a different code.",
       );

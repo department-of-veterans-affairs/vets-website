@@ -15,9 +15,6 @@ const AdditionalInstitutionName = () => {
 
   const details = formData?.additionalLocations?.[index] || {};
 
-  // console.log('formData', formData);
-  // console.log('details', details);
-
   const institutionName = details?.institutionName;
   const facilityCode = (details?.facilityCode || '').trim();
 
@@ -25,8 +22,13 @@ const AdditionalInstitutionName = () => {
     item?.facilityCode?.trim(),
   );
 
+  const facilityCodes = [
+    ...additionalFacilityCodes,
+    formData?.institutionDetails?.facilityCode,
+  ];
+
   const isDuplicate =
-    additionalFacilityCodes?.filter(item => item === facilityCode).length > 1;
+    facilityCodes?.filter(item => item === facilityCode).length > 1;
 
   const badFormat =
     facilityCode.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(facilityCode);
