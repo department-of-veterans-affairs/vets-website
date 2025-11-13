@@ -42,6 +42,12 @@ describe('AddEligibileStudents component', () => {
     addMaxContributionsStub = sinon.stub(helpers, 'addMaxContributions');
   });
 
+  afterEach(() => {
+    if (addMaxContributionsStub) {
+      addMaxContributionsStub.restore();
+    }
+  });
+
   it('calls addMaxContributions with an empty array when yellowRibbonProgramRequest is undefined', () => {
     addMaxContributionsStub.returns(0);
 
