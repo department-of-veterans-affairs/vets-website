@@ -981,7 +981,7 @@ describe('1010d `validateApplicant` form validation', () => {
   const makeApplicant = (overrides = {}) => ({
     applicantName: { first: 'John', last: 'Doe' },
     applicantDob: '1990-01-01',
-    applicantSSN: '123456789',
+    applicantSsn: '123456789',
     applicantGender: { gender: 'M' },
     applicantPhone: '555-123-4567',
     applicantAddress: {
@@ -1017,7 +1017,7 @@ describe('1010d `validateApplicant` form validation', () => {
       ['first name is omitted', { applicantName: { last: 'Doe' } }],
       ['last name is omitted', { applicantName: { first: 'John' } }],
       ['DOB is omitted', { applicantDob: undefined }],
-      ['SSN is omitted', { applicantSSN: undefined }],
+      ['SSN is omitted', { applicantSsn: undefined }],
       ['gender is omitted', { applicantGender: {} }],
       ['phone is omitted', { applicantPhone: undefined }],
       [
