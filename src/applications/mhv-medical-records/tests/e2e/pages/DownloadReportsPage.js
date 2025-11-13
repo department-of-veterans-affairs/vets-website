@@ -176,12 +176,16 @@ class DownloadReportsPage {
   };
 
   verifyDualAccordionVisible = () => {
-    cy.contains('h4', 'Your VA Medical Records (Legacy System)', {
+    // Verify both CCD headings are visible (with facility names)
+    // Using partial text match since facility names are dynamic
+    cy.contains('h4', 'CCD: medical records from', {
       timeout: 15000,
     }).should('be.visible');
-    cy.contains('h4', 'Your VA Medical Records (Oracle Health)', {
-      timeout: 15000,
-    }).should('be.visible');
+
+    // Verify we have exactly 2 CCD headings (one for VistA, one for OH)
+    cy.get('h4')
+      .filter(':contains("CCD: medical records from")')
+      .should('have.length', 2);
   };
 
   verifyVistaDownloadLinksVisible = () => {
