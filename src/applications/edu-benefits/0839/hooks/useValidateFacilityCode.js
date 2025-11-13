@@ -78,7 +78,6 @@ export const useValidateFacilityCode = formData => {
                   response?.data?.attributes?.physicalCountry === 'USA',
                 isForeignCountry,
               },
-              additionalInstitutionDetails: [],
             }),
           );
         } catch (error) {
@@ -94,7 +93,6 @@ export const useValidateFacilityCode = formData => {
                 ihlEligible: null,
                 isLoading: false,
               },
-              additionalInstitutionDetails: [],
             }),
           );
         }
