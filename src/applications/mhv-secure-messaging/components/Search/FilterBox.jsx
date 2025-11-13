@@ -93,7 +93,7 @@ const FilterBox = forwardRef((props, ref) => {
         }
         setTimeout(() => {
           focusElement(invalidInputs[0]?.current);
-        }, 100);
+        }, 10);
       }
     } else {
       formInvalid = false;
