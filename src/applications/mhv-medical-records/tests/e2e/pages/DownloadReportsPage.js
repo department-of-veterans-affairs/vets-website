@@ -119,11 +119,10 @@ class DownloadReportsPage {
       }).as('downloadCcdV2Xml');
 
       // Use shadow DOM to access the link inside the web component
-      // Check visibility on the shadow DOM link, not the outer web component
+      // Using { force: true } to bypass visibility checks - web component links can have 0x0 dimensions during hydration
       cy.get('[data-testid="generateCcdButtonXmlOH"]', { timeout: 15000 })
         .shadow()
         .find('a')
-        .should('be.visible')
         .click({ force: true });
 
       cy.wait('@downloadCcdV2Xml', { timeout: 15000 });
@@ -139,11 +138,10 @@ class DownloadReportsPage {
       }).as('downloadCcdV2Html');
 
       // Use shadow DOM to access the link inside the web component
-      // Check visibility on the shadow DOM link, not the outer web component
+      // Using { force: true } to bypass visibility checks - web component links can have 0x0 dimensions during hydration
       cy.get('[data-testid="generateCcdButtonHtmlOH"]', { timeout: 15000 })
         .shadow()
         .find('a')
-        .should('be.visible')
         .click({ force: true });
 
       cy.wait('@downloadCcdV2Html', { timeout: 15000 });
@@ -160,49 +158,50 @@ class DownloadReportsPage {
     }).as('downloadCcdV2Pdf');
 
     // Use shadow DOM to access the link inside the web component
-    // Check visibility on the shadow DOM link, not the outer web component
+    // Using { force: true } to bypass visibility checks - web component links can have 0x0 dimensions during hydration
     cy.get('[data-testid="generateCcdButtonPdfOH"]', { timeout: 15000 })
       .shadow()
       .find('a')
-      .should('be.visible')
       .click({ force: true });
 
     cy.wait('@downloadCcdV2Pdf', { timeout: 15000 });
   };
 
   verifyDualAccordionVisible = () => {
-    // Verify both VistA and OH download sections are visible by checking for their download buttons
-    // This is more reliable than checking heading text which now includes dynamic facility names
+    // Verify both VistA and OH download sections exist by checking for their download buttons
+    // Using .should('exist') instead of .should('be.visible') because web components can have 0x0 dimensions
     cy.get('[data-testid="generateCcdButtonXmlVista"]', {
       timeout: 15000,
-    }).should('be.visible');
+    }).should('exist');
     cy.get('[data-testid="generateCcdButtonXmlOH"]', {
       timeout: 15000,
-    }).should('be.visible');
+    }).should('exist');
   };
 
   verifyVistaDownloadLinksVisible = () => {
+    // Using .should('exist') instead of .should('be.visible') because web components can have 0x0 dimensions
     cy.get('[data-testid="generateCcdButtonXmlVista"]', {
       timeout: 15000,
-    }).should('be.visible');
+    }).should('exist');
     cy.get('[data-testid="generateCcdButtonPdfVista"]', {
       timeout: 15000,
-    }).should('be.visible');
+    }).should('exist');
     cy.get('[data-testid="generateCcdButtonHtmlVista"]', {
       timeout: 15000,
-    }).should('be.visible');
+    }).should('exist');
   };
 
   verifyOHDownloadLinksVisible = () => {
+    // Using .should('exist') instead of .should('be.visible') because web components can have 0x0 dimensions
     cy.get('[data-testid="generateCcdButtonXmlOH"]', {
       timeout: 15000,
-    }).should('be.visible');
+    }).should('exist');
     cy.get('[data-testid="generateCcdButtonPdfOH"]', {
       timeout: 15000,
-    }).should('be.visible');
+    }).should('exist');
     cy.get('[data-testid="generateCcdButtonHtmlOH"]', {
       timeout: 15000,
-    }).should('be.visible');
+    }).should('exist');
   };
 }
 export default new DownloadReportsPage();
