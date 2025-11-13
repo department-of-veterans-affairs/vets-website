@@ -1,4 +1,5 @@
 import React from 'react';
+import { CURRENCY_LABELS } from './constants';
 
 export const validateInitials = (inputValue, firstName, lastName) => {
   if (!inputValue || inputValue.length === 0) {
@@ -228,4 +229,43 @@ export const createBannerMessage = (
 export const getAcademicYearDisplay = () => {
   const currentYear = new Date().getFullYear();
   return `${currentYear}-${currentYear + 1}`;
+};
+
+const yellowRibbonProgramCardDescription = item => {
+  if (!item) return null;
+  return (
+    <div>
+      <p>{item.degreeLevel}</p>
+      <p>{item.collegeOrProfessionalSchool}</p>
+      <p>{CURRENCY_LABELS[item.schoolCurrency]}</p>
+      <p>
+        {!item.specificContributionAmount
+          ? 'Pay remaining tuition that Post-9/11 GI Bill doesn’t cover (unlimited)'
+          : `${item.collegeOrProfessionalSchool ? '$' : ''}${Number(
+              item.specificContributionAmount,
+            ).toLocaleString()}`}
+      </p>
+    </div>
+  );
+};
+export const arrayBuilderOptions = {
+  arrayPath: 'yellowRibbonProgramRequest',
+  nounSingular: 'contribution',
+  nounPlural: 'contributions',
+  required: true,
+  text: {
+    getItemName: item =>
+      `Max. number of students: ${
+        item?.maximumStudentsOption === 'specific'
+          ? item?.maximumStudents
+          : 'Unlimited'
+      }`,
+    cardDescription: item => yellowRibbonProgramCardDescription(item),
+  },
+};
+
+export const addMaxContributions = arr => {
+  return arr.reduce((acc, item) => {
+    return acc + Number(item.maximumStudents || 0);
+  }, 0);
 };
