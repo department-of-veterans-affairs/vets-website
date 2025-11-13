@@ -24,7 +24,7 @@ const HowToAttachFiles = ({ useLargeAttachments = false }) => {
               <li>You can attach up to 10 files to each message</li>
               <li>
                 You can attach only these file types: doc, docx, gif, jpg, pdf,
-                png, rtf, txt, xls, xlxs, jpeg, jfif, pjpeg, pjp, bmp, tiff,
+                png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp, bmp, tiff,
                 ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg
               </li>
               <li>{MAX_SINGLE_FILE_SIZE_DESCRIPTION}</li>
