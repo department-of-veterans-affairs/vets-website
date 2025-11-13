@@ -80,13 +80,13 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             ihlEligible,
             yrEligible,
             isLoading: false,
+            isForeignCountry,
           };
 
           dispatch(
             setData({
               ...formData,
               additionalInstitutionDetails: updatedDetails,
-              isForeignCountry,
             }),
           );
         } catch (error) {
@@ -102,6 +102,8 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             institutionAddress: {},
             ihlEligible: null,
             isLoading: false,
+            yrEligible: false,
+            isForeignCountry: false,
           };
 
           dispatch(
