@@ -8,6 +8,8 @@ import {
   checkboxSchema,
   textUI,
   textSchema,
+  numberUI,
+  numberSchema,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   currentOrPastDateRangeUI,
@@ -16,7 +18,12 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { recipientTypeLabels, careTypeLabels } from '../../../../utils/labels';
+import {
+  careRecipientLabels,
+  careTypeLabels,
+  careFrequencyLabels,
+} from '../../../../utils/labels';
+import { transformDate } from '../../05-claim-information/helpers';
 
 function introDescription() {
   return (
@@ -45,15 +52,45 @@ function introDescription() {
           <li>
             Worksheet for a Residential Care, Adult Daycare, or Similar Facility
             from VA Form 21P-8416
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21p-8416/"
+                text="Get VA Form 21P-8416 to download"
+                external
+              />
+            </span>
           </li>
-          <li>Worksheet for In-Home Attendant from VA Form 21P-8416</li>
+          <li>
+            Worksheet for In-Home Attendant from VA Form 21P-8416
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21p-8416/"
+                text="Get VA Form 21P-8416 to download"
+                external
+              />
+            </span>
+          </li>
           <li>
             Request for Nursing Home Information in Connection with Claim for
             Aid and Attendance (VA Form 21-0779)
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21-0779/"
+                text="Get VA Form 21-0779 to download"
+                external
+              />
+            </span>
           </li>
           <li>
             Examination for Housebound Status or Permanent Need for Regular Aid
             and Attendance form (VA Form 21-2680)
+            <span className="vads-u-display--block">
+              <va-link
+                href="https://www.va.gov/find-forms/about-form-21-2680/"
+                text="Get VA Form 21-2680 to download"
+                external
+              />
+            </span>
           </li>
         </ul>
         <p>We’ll ask you to upload these documents at the end of this form.</p>
@@ -63,7 +100,7 @@ function introDescription() {
 }
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'careExpenses',
   nounSingular: 'care expense',
   nounPlural: 'care expenses',
@@ -76,10 +113,49 @@ const options = {
     !item?.careDate?.from ||
     !item?.paymentAmount,
   text: {
-    getItemName: item => careTypeLabels[(item?.typeOfCare)] || 'Care expense',
-    cardDescription: () => 'Payment amount',
-    summaryTitle: () => 'Review your care expenses',
-    yesNoBlankReviewQuestion: () => 'Do you have another care expense to add?',
+    cancelAddTitle: 'Cancel adding this care expense?',
+    cancelEditTitle: 'Cancel editing this care expense?',
+    cancelAddDescription:
+      'If you cancel, we won’t add this care expense to your list of expenses. You’ll return to a page where you can add a new care expense.',
+    cancelEditDescription:
+      'If you cancel, you’ll lose any changes you made to this expense and you will be returned to the care expenses review page.',
+    cancelAddYes: 'Yes, cancel adding',
+    cancelAddNo: 'No, continue adding',
+    cancelEditYes: 'Yes, cancel editing',
+    cancelEditNo: 'No, continue editing',
+    deleteDescription:
+      'This will delete the information from your list of care expenses. You’ll return to a page where you can add a new care expense.',
+    deleteNo: 'No, keep',
+    deleteTitle: 'Delete this care expense?',
+    deleteYes: 'Yes, delete',
+    alertMaxItems: (
+      <div>
+        <p className="vads-u-margin-top--0">
+          You have added the maximum number of allowed care expenses for this
+          application. Additional care expenses can be added using VA Form
+          21P-8416 and uploaded at the end of this application.
+        </p>
+        <va-link
+          href="https://www.va.gov/find-forms/about-form-21p-8416"
+          external
+          text="Get VA Form 21P-8416 to download"
+        />
+      </div>
+    ),
+    getItemName: item => item?.provider || 'Care provider',
+    cardDescription: item => {
+      if (!item.careDate) {
+        return 'Care dates not provided';
+      }
+      if (item.careDate?.from && item.careDate?.to) {
+        return `${transformDate(item.careDate.from)} - ${transformDate(
+          item.careDate.to,
+        )}`;
+      }
+      return transformDate(item.careDate.from);
+    },
+    summaryTitle: 'Review your care expenses',
+    yesNoBlankReviewQuestion: 'Do you have another care expense to add?',
   },
 };
 
@@ -139,7 +215,7 @@ const recipientPage = {
     ),
     recipient: radioUI({
       title: 'Who is the expense for?',
-      labels: recipientTypeLabels,
+      labels: careRecipientLabels,
     }),
     recipientName: textUI({
       title: 'Full name of the person who received care',
@@ -156,7 +232,7 @@ const recipientPage = {
   schema: {
     type: 'object',
     properties: {
-      recipient: radioSchema(Object.keys(recipientTypeLabels)),
+      recipient: radioSchema(Object.keys(careRecipientLabels)),
       recipientName: textSchema,
       provider: textSchema,
     },
@@ -194,14 +270,51 @@ const datePage = {
 const costPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Cost of care'),
+    frequency: radioUI({
+      title: 'How often are the payments?',
+      labels: careFrequencyLabels,
+    }),
     paymentAmount: currencyUI('How much is each payment?'),
+    hourlyRate: {
+      ...currencyUI({
+        title: 'What is the provider’s rate per hour?',
+        hideIf: (formData, index, fullData) => {
+          const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+          const careExpense = careExpenses?.[index];
+          return careExpense?.typeOfCare !== 'IN_HOME_CARE_ATTENDANT';
+        },
+      }),
+      'ui:required': (formData, index, fullData) => {
+        const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+        const careExpense = careExpenses?.[index];
+        return careExpense?.typeOfCare === 'IN_HOME_CARE_ATTENDANT';
+      },
+    },
+    weeklyHours: {
+      ...numberUI({
+        title: 'How many hours per week does the care provider work?',
+        hideIf: (formData, index, fullData) => {
+          const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+          const careExpense = careExpenses?.[index];
+          return careExpense?.typeOfCare !== 'IN_HOME_CARE_ATTENDANT';
+        },
+      }),
+      'ui:required': (formData, index, fullData) => {
+        const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+        const careExpense = careExpenses?.[index];
+        return careExpense?.typeOfCare === 'IN_HOME_CARE_ATTENDANT';
+      },
+    },
   },
   schema: {
     type: 'object',
     properties: {
+      frequency: radioSchema(Object.keys(careFrequencyLabels)),
       paymentAmount: currencySchema,
+      hourlyRate: currencySchema,
+      weeklyHours: numberSchema,
     },
-    required: ['paymentAmount'],
+    required: ['paymentAmount', 'frequency'],
   },
 };
 

@@ -1,30 +1,41 @@
 import React, { useState } from 'react';
-
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
-
 import PropTypes from 'prop-types';
+
+import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
+
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpenseCard from './ExpenseCard';
+import {
+  selectComplexClaim,
+  selectAllExpenses,
+  selectAllDocuments,
+} from '../../../redux/selectors';
 import {
   getExpenseType,
   formatAmount,
 } from '../../../util/complex-claims-helper';
 import { EXPENSE_TYPES } from '../../../constants';
-import { formatDate } from '../../../util/dates';
-import { complexClaimAllExpenseTypes } from '../../../services/mocks/complex-claim-all-expense-types';
 
-const ReviewPage = ({ claim, message }) => {
+const ReviewPage = ({ message }) => {
   const navigate = useNavigate();
-  const { apptId } = useParams();
+  const { apptId, claimId } = useParams();
 
-  // For now, we will override the claim to have some expenses
-  const overriddenClaim = claim || complexClaimAllExpenseTypes;
+  const address = useSelector(selectVAPResidentialAddress);
+  const { data: claimDetails = {} } = useSelector(selectComplexClaim);
+  const allExpenses = useSelector(selectAllExpenses);
+  const allDocuments = useSelector(selectAllDocuments);
+
+  const expenses = allExpenses ?? [];
+  const documents = allDocuments ?? [];
 
   // Get total by expense type and return expenses alphabetically
   const totalByExpenseType = Object.fromEntries(
     Object.entries(
-      overriddenClaim.expenses.reduce((acc, expense) => {
+      expenses.reduce((acc, expense) => {
         const type = expense.expenseType;
         acc[type] = (acc[type] || 0) + (expense.costRequested || 0);
         return acc;
@@ -33,13 +44,12 @@ const ReviewPage = ({ claim, message }) => {
   );
 
   // Create a grouped version of expenses by expenseType
-  const groupedExpenses = overriddenClaim.expenses.reduce((acc, expense) => {
+  const groupedExpenses = expenses.reduce((acc, expense) => {
     const { expenseType, documentId } = expense;
 
     // Find document associated with this expense using documentId
     const expenseDocument =
-      overriddenClaim.documents?.find(doc => doc.documentId === documentId) ||
-      null;
+      documents?.find(doc => doc.documentId === documentId) || null;
 
     // Add document to the expense object
     const expenseWithDocument = {
@@ -66,18 +76,16 @@ const ReviewPage = ({ claim, message }) => {
   const [visible, setVisible] = useState(true);
   const onClose = () => setVisible(false);
   const addMoreExpenses = () => {
-    navigate(`/file-new-claim/complex/${apptId}/choose-expense`);
-    // TODO Add logic to add more expenses
+    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
   };
 
   const signAgreement = () => {
-    navigate(`/file-new-claim/complex/${apptId}/travel-agreement`);
-    // TODO Add logic to sign the agreement
+    navigate(`/file-new-claim/${apptId}/${claimId}/travel-agreement`);
   };
 
   const addAnExpense = expenseRoute => {
     // Navigates a user to the add expense page for the type that was passed in
-    navigate(`/file-new-claim/complex/${apptId}/${expenseRoute}`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/${expenseRoute}`);
   };
 
   return (
@@ -103,28 +111,21 @@ const ReviewPage = ({ claim, message }) => {
         <>
           <p>The expenses you’ve added are listed here.</p>
           <va-accordion>
-            {Object.entries(groupedExpenses).map(([type, expenses]) => {
+            {Object.entries(groupedExpenses).map(([type, expensesList]) => {
               const expenseFields = getExpenseType(type);
               return (
                 <va-accordion-item
                   key={type}
-                  header={`${expenseFields.title} (${expenses.length})`}
+                  header={`${expenseFields.title} (${expensesList.length})`}
                 >
-                  {expenses.map(expense => {
-                    const cardHeader = `${formatDate(
-                      expense.dateIncurred,
-                    )}, $${formatAmount(expense.costRequested)}`;
-                    const editRoute =
-                      type === 'Mileage'
-                        ? '../mileage'
-                        : `../${type.toLowerCase()}`;
-
+                  {expensesList.map(expense => {
                     return (
                       <ExpenseCard
                         key={expense.id}
+                        claimId={claimId}
+                        apptId={apptId}
                         expense={expense}
-                        editToRoute={editRoute}
-                        header={`${cardHeader}`}
+                        address={address}
                       />
                     );
                   })}
@@ -175,7 +176,7 @@ const ReviewPage = ({ claim, message }) => {
 
         <p>
           <strong>Total:</strong> $
-          {formatAmount(overriddenClaim.totalCostRequested)}
+          {formatAmount(claimDetails?.totalCostRequested ?? 0)}
         </p>
         <p>
           This estimated reimbursement doesn’t account for the $6 per trip
@@ -197,7 +198,6 @@ const ReviewPage = ({ claim, message }) => {
 };
 
 ReviewPage.propTypes = {
-  claim: PropTypes.object,
   message: PropTypes.shape({
     title: PropTypes.string,
     body: PropTypes.string,

@@ -18,6 +18,8 @@ import {
   FIELD_NOT_AVAILABLE,
   medStatusDisplayTypes,
   pdfStatusDefinitions,
+  RX_SOURCE,
+  DISPENSE_STATUS,
 } from './constants';
 
 /**
@@ -121,7 +123,7 @@ export const buildNonVAPrescriptionPDFList = prescription => {
  */
 export const buildPrescriptionsPDFList = prescriptions => {
   return prescriptions?.map(rx => {
-    if (rx?.prescriptionSource === 'NV') {
+    if (rx?.prescriptionSource === RX_SOURCE.NON_VA) {
       return {
         ...buildNonVAPrescriptionPDFList(rx)[0],
         header: rx?.prescriptionName || rx?.orderableItem,
@@ -129,9 +131,11 @@ export const buildPrescriptionsPDFList = prescriptions => {
     }
 
     const pendingMed =
-      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+      rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+      rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
     const pendingRenewal =
-      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+      rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+      rx?.dispStatus === DISPENSE_STATUS.RENEW;
     const isPending = pendingMed || pendingRenewal;
 
     const mostRecentRxRefillLine = () => {
@@ -355,11 +359,11 @@ export const buildVAPrescriptionPDFList = prescription => {
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pendingMed =
-    prescription?.prescriptionSource === 'PD' &&
-    prescription?.dispStatus === 'NewOrder';
+    prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+    prescription?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
   const pendingRenewal =
-    prescription?.prescriptionSource === 'PD' &&
-    prescription?.dispStatus === 'Renew';
+    prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+    prescription?.dispStatus === DISPENSE_STATUS.RENEW;
   const VAPrescriptionPDFList = [
     {
       header: 'Most recent prescription',
@@ -494,7 +498,8 @@ export const buildVAPrescriptionPDFList = prescription => {
               ...refillHistory
                 .map((entry, i) => {
                   const { shape, color, backImprint, frontImprint } = entry;
-                  const isPartialFill = entry.prescriptionSource === 'PF';
+                  const isPartialFill =
+                    entry.prescriptionSource === RX_SOURCE.PARTIAL_FILL;
                   const refillLabel = determineRefillLabel(
                     isPartialFill,
                     refillHistory,

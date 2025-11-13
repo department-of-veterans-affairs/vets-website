@@ -305,8 +305,9 @@ const LandingPage = () => {
             <p className="vads-u-margin-bottom--2">
               Some of your medical records may not be available on VA.gov right
               now. If you need to access your records and can’t find them here,
-              you can submit a request by mail, by fax, or in person at your VA
-              health facility.
+              you can submit a medical records request. You can submit your
+              request by secure message, by mail, by fax, or in person at your
+              VA health facility.
             </p>
             <va-link-action
               type="secondary"

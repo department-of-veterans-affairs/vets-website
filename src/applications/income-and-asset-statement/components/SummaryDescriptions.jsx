@@ -103,3 +103,59 @@ export const UnreportedAssetsSummaryDescription = () => {
     </>
   );
 };
+
+export const DiscontinuedIncomeSummaryDescription = () => {
+  return (
+    <>
+      <p>
+        Here are some examples of discontinued or irregular income you’ll need
+        to disclose for the reporting period you entered in Step 1:
+      </p>
+      <ul>
+        <li>Wages from a previous job</li>
+        <li>Interest or dividends from recently closed or emptied accounts</li>
+        <li>Unemployment benefits </li>
+        <li>Lottery or gambling winnings</li>
+      </ul>
+      <p>
+        If you’re submitting this form with your initial claim, include income
+        from the previous calendar year.
+      </p>
+      <p>
+        {' '}
+        <strong>Note:</strong> You may need to submit evidence that you no
+        longer receive this income, like a bank statement or a letter confirming
+        a closed account.
+      </p>
+    </>
+  );
+};
+
+export const WaivedIncomeSummaryDescription = () => {
+  return (
+    <>
+      <p>
+        Even if you don’t accept income you’re entitled to, we still consider
+        that income when reviewing your pension eligibility. We call this
+        "waived income."{' '}
+      </p>
+      <p>
+        <strong>Note:</strong> It’s unlawful to decline income on purpose in
+        order to qualify for VA pension.{' '}
+      </p>
+      <p>Here are some examples of waived income:</p>
+      <ul>
+        <li>
+          Deferred compensation, which is money you choose to delay receiving
+          from a job or contract
+        </li>
+        <li>Life insurance payouts </li>
+        <li>Legal settlements </li>
+      </ul>
+      <p>
+        If you decide to delay receiving Social Security to get a bigger monthly
+        payment later, we won’t consider that as waived income.
+      </p>
+    </>
+  );
+};

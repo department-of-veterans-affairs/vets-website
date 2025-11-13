@@ -8,12 +8,14 @@ import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/mockUpload.json';
 import {
-  PRIMARY_PHONE,
+  EVIDENCE_UPLOAD_URL,
   EVIDENCE_VA_DETAILS_URL,
+  EVIDENCE_VA_PROMPT_URL,
   EVIDENCE_PRIVATE_PROMPT_URL,
   EVIDENCE_PRIVATE_DETAILS_URL,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_UPLOAD_URL,
+  HAS_PRIVATE_EVIDENCE,
+  HAS_VA_EVIDENCE,
+  PRIMARY_PHONE,
 } from '../constants';
 import {
   CONTESTABLE_ISSUES_API,
@@ -39,11 +41,10 @@ export const PRIMARY_PHONE_PATH =
 export const ISSUES_SUMMARY_PATH = chapters.issues.pages.issueSummary.path;
 export const OPT_IN_PATH = chapters.issues.pages.optIn.path;
 export const NOTICE_5103_PATH = chapters.evidence.pages.notice5103.path;
-export const EVIDENCE_SUMMARY_PATH =
-  chapters.evidence.pages.evidenceSummary.path;
+export const EVIDENCE_SUMMARY_PATH = chapters.evidence.pages.summary.path;
 export const FACILITY_TYPES_PATH = chapters.evidence.pages.facilityTypes.path;
 export const EVIDENCE_VA_RECORDS_DETAILS_PATH =
-  chapters.evidence.pages.evidenceVaDetails.path;
+  chapters.evidence.pages.vaDetails.path;
 export const MST_PATH = chapters.vhaIndicator.pages.optionForMst.path;
 export const MST_OPTION_PATH = chapters.vhaIndicator.pages.optionIndicator.path;
 export const REVIEW_PATH = '/review-and-submit';
@@ -221,6 +222,18 @@ export const pageHooks = {
       clickContinue();
     });
   },
+  [EVIDENCE_VA_PROMPT_URL]: ({ afterHook }) => {
+    cy.injectAxeThenAxeCheck();
+
+    afterHook(() => {
+      cy.get('@testData').then(data => {
+        const hasVa = data[HAS_VA_EVIDENCE];
+
+        cy.get(`va-radio-option[value="${hasVa ? 'y' : 'n'}"]`).click();
+        clickContinue();
+      });
+    });
+  },
   [EVIDENCE_VA_DETAILS_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
 
@@ -260,7 +273,7 @@ export const pageHooks = {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(data => {
-        const hasPrivate = data[EVIDENCE_PRIVATE];
+        const hasPrivate = data[HAS_PRIVATE_EVIDENCE];
 
         cy.get(`va-radio-option[value="${hasPrivate ? 'y' : 'n'}"]`).click();
         clickContinue();
