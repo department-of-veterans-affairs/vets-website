@@ -307,28 +307,32 @@ const DualFileUploadField = props => {
         });
       }
 
-      function sleep(delay) {
-        return new Promise(resolve => setTimeout(resolve, delay));
-      }
+      const WAIT = 50;
+      const MAXLOOP = 2000 / WAIT;
+      let timeoutId = null;
 
-      async function poll() {
-        const WAIT = 50;
-        const MAXLOOP = 2000 / WAIT;
-        for (let attempt = 0; attempt < MAXLOOP; attempt++) {
-          const ready = getSlotContent();
-          if (ready) {
-            updateAdditionalInputs();
-            return;
-          }
-          // eslint-disable-next-line no-await-in-loop
-          await sleep(WAIT);
+      const poll = attempt => {
+        const ready = getSlotContent();
+        if (ready) {
+          updateAdditionalInputs();
+          return;
         }
-        setInitPoll(false);
-      }
+        if (attempt >= MAXLOOP) {
+          setInitPoll(false);
+          return;
+        }
+        timeoutId = setTimeout(() => poll(attempt + 1), WAIT);
+      };
 
       if (initPoll) {
-        poll();
+        poll(0);
       }
+
+      return () => {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+      };
     },
     [
       childrenProps.formData,
