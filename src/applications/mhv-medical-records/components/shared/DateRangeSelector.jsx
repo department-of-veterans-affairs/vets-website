@@ -22,7 +22,7 @@ export const dateRangeList = [
   { value: '6', label: 'Last 6 months' },
   ...yearsDescending.map(year => ({
     value: year,
-    label: year,
+    label: `All of ${year}`,
   })),
 ];
 

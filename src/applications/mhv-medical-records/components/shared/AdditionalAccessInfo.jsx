@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { sendDataDogAction } from '../../util/helpers';
 
 const AdditionalAccessInfo = ({ domainName }) => {
-  const accessInfo = `Need more ${domainName}?`;
+  const accessInfo = `How to find more ${domainName}`;
 
   return (
     <va-additional-info

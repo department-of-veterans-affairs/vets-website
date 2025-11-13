@@ -196,13 +196,10 @@ const LabsAndTests = () => {
       // For predefined date ranges like 3 or 6 months
       let fromDate;
       let toDate;
-      const currentDate = new Date();
+      const today = new Date();
       if (value.length <= 2) {
-        fromDate = format(
-          subMonths(currentDate, parseInt(value, 10)),
-          'yyyy-MM-dd',
-        );
-        toDate = format(currentDate, 'yyyy-MM-dd');
+        fromDate = format(subMonths(today, parseInt(value, 10)), 'yyyy-MM-dd');
+        toDate = format(today, 'yyyy-MM-dd');
       } else {
         // For year selections
         const year = value;
