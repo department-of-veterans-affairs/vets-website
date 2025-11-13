@@ -81,7 +81,16 @@ function getTestPaths() {
   // Always include static pages tests
   const staticPagesTests = glob.sync(STATIC_PAGES_PATTERN);
 
-  return [...new Set([...appTests, ...platformTests, ...staticPagesTests])];
+  const testPaths = [
+    ...new Set([...appTests, ...platformTests, ...staticPagesTests]),
+  ];
+
+  // Guard against E2BIG: if the command would be too long, fall back to a compact glob
+  if (testPaths.join(' ').length > 20000) {
+    return [DEFAULT_SPEC_PATTERN];
+  }
+
+  return testPaths;
 }
 
 // Helper function to build test command
