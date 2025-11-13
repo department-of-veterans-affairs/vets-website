@@ -8,30 +8,18 @@ class DownloadReportsPage {
   };
 
   clickCcdAccordionItem = () => {
-    // Wait for web component to be fully hydrated and stable
+    // Use shadow DOM to access internal button - pattern from Travel Pay and Platform expandAccordions
+    // This avoids web component lifecycle issues by clicking the actual button inside the shadow DOM
+    // Using { force: true } because the button can be covered by the headline element in the shadow DOM
     cy.get('[data-testid="ccdAccordionItem"]', { timeout: 15000 })
-      .should('be.visible')
-      .should('have.class', 'hydrated');
+      .shadow()
+      .find('button[aria-controls="content"]')
+      .click({ force: true, waitForAnimations: true });
 
-    // Click the accordion and wait for expansion
-    cy.get('[data-testid="ccdAccordionItem"]').click();
-
-    // Wait for the headline text to appear (confirms accordion expanded)
-    cy.contains('Continuity of Care Document', { timeout: 15000 }).should(
+    // Verify accordion opened successfully
+    cy.contains('Continuity of Care Document', { timeout: 10000 }).should(
       'be.visible',
     );
-
-    // Wait for buttons to be rendered and stable
-    cy.get('[data-testid^="generateCcdButton"]', { timeout: 15000 }).should(
-      'have.length.greaterThan',
-      0,
-    );
-
-    // Wait for first button to be fully visible and interactable
-    cy.get('[data-testid^="generateCcdButton"]', { timeout: 15000 })
-      .first()
-      .should('be.visible')
-      .should('not.be.disabled');
   };
 
   clickSelfEnteredAccordionItem = () => {
@@ -130,11 +118,15 @@ class DownloadReportsPage {
         body: xmlBody,
       }).as('downloadCcdV2Xml');
 
+      // Use shadow DOM to access the link inside the web component
+      // Check visibility on the shadow DOM link, not the outer web component
       cy.get('[data-testid="generateCcdButtonXmlOH"]', { timeout: 15000 })
+        .shadow()
+        .find('a')
         .should('be.visible')
-        .should('not.be.disabled')
-        .click();
-      cy.wait('@downloadCcdV2Xml');
+        .click({ force: true });
+
+      cy.wait('@downloadCcdV2Xml', { timeout: 15000 });
     });
   };
 
@@ -146,10 +138,15 @@ class DownloadReportsPage {
         body: htmlBody,
       }).as('downloadCcdV2Html');
 
+      // Use shadow DOM to access the link inside the web component
+      // Check visibility on the shadow DOM link, not the outer web component
       cy.get('[data-testid="generateCcdButtonHtmlOH"]', { timeout: 15000 })
+        .shadow()
+        .find('a')
         .should('be.visible')
-        .click();
-      cy.wait('@downloadCcdV2Html');
+        .click({ force: true });
+
+      cy.wait('@downloadCcdV2Html', { timeout: 15000 });
     });
   };
 
@@ -162,17 +159,24 @@ class DownloadReportsPage {
       body: pdfMock,
     }).as('downloadCcdV2Pdf');
 
+    // Use shadow DOM to access the link inside the web component
+    // Check visibility on the shadow DOM link, not the outer web component
     cy.get('[data-testid="generateCcdButtonPdfOH"]', { timeout: 15000 })
+      .shadow()
+      .find('a')
       .should('be.visible')
-      .click();
-    cy.wait('@downloadCcdV2Pdf');
+      .click({ force: true });
+
+    cy.wait('@downloadCcdV2Pdf', { timeout: 15000 });
   };
 
   verifyDualAccordionVisible = () => {
-    cy.contains('h4', 'Your VA Medical Records (Legacy System)', {
+    // Verify both VistA and OH download sections are visible by checking for their download buttons
+    // This is more reliable than checking heading text which now includes dynamic facility names
+    cy.get('[data-testid="generateCcdButtonXmlVista"]', {
       timeout: 15000,
     }).should('be.visible');
-    cy.contains('h4', 'Your VA Medical Records (Oracle Health)', {
+    cy.get('[data-testid="generateCcdButtonXmlOH"]', {
       timeout: 15000,
     }).should('be.visible');
   };
