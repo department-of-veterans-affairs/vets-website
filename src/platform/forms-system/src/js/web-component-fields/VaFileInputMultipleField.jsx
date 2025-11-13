@@ -171,12 +171,15 @@ const VaFileInputMultipleField = props => {
       type,
     };
 
-    const encryptedFile = childrenProps.formData[index];
-    // check to see if we are adding an encrypted pdf
-    // where the additional info was added before the password
+    const existingFile = childrenProps.formData[index];
+    // if existingFile is not null then either
+    // 1. it is a placeholder for an encrypted file where additional info was added before the password OR
+    // 2. it is a file that is being replaced
     let files;
-    if (encryptedFile?.additionalData) {
-      newFile.additionalData = encryptedFile.additionalData;
+    if (existingFile) {
+      if (encrypted[index] && existingFile.additionalData) {
+        newFile.additionalData = existingFile.additionalData;
+      }
       files = [...childrenProps.formData];
       files[index] = newFile;
     } else {
@@ -195,14 +198,22 @@ const VaFileInputMultipleField = props => {
     assignFileUploadToStore(uploadedFile, index);
   };
 
-  const handleFileAdded = async ({ file }, index, mockFormData) => {
-    const { fileError, encryptedCheck } = await getFileError(file, uiOptions);
+  const handleFileAdded = async (file, index, mockFormData) => {
+    const { fileError, encryptedCheck } = await getFileError(
+      file,
+      uiOptions,
+      childrenProps.formData,
+    );
     const _errors = [...errors];
 
     if (fileError) {
       _errors[index] = fileError;
       setErrors(_errors);
       errorManager.setFileCheckError(index, true);
+      const files = [...childrenProps.formData];
+      // add placeholder file in case another file added before user resolves this error
+      files[index] = {};
+      childrenProps.onChange(files);
       return;
     }
 
@@ -246,12 +257,10 @@ const VaFileInputMultipleField = props => {
     return [...array].toSpliced(index, 1);
   }
 
-  const handleFileRemoved = _file => {
-    const index = (childrenProps.formData || []).findIndex(
-      file => file.name === _file.name && file.size === _file.size,
-    );
-
+  const handleFileRemoved = index => {
     setErrors(removeOneFromArray(errors, index));
+    errorManager.setFileCheckError(index, false);
+    errorManager.setInternalFileInputErrors(index, false);
     errorManager.removeInstance(index);
 
     setEncrypted(removeOneFromArray(encrypted, index));
@@ -264,7 +273,7 @@ const VaFileInputMultipleField = props => {
   // upload after debounce
   const debouncePassword = useMemo(
     () =>
-      debounce(DEBOUNCE_WAIT, ({ file, password }, index) => {
+      debounce(DEBOUNCE_WAIT, (file, password, index) => {
         if (password && password.length > 0) {
           errorManager.resetInstance(index);
           const _encrypted = [...encrypted];
@@ -287,36 +296,29 @@ const VaFileInputMultipleField = props => {
 
   const handleChange = e => {
     const { detail } = e;
-    const { action, state, file, mockFormData } = detail;
-    const findFileIndex = (_state, _file) => {
-      return _state.findIndex(
-        f => f.file.name === _file.name && f.file.size === _file.size,
-      );
-    };
-    const _file = state.at(-1);
+    const { action, state, file, index, mockFormData } = detail;
     switch (action) {
       case 'FILE_ADDED': {
-        const _currentIndex = state.length - 1;
-        errorManager.setInternalFileInputErrors(_currentIndex, false);
-        handleFileAdded(_file, _currentIndex, mockFormData);
-        setCurrentIndex(_currentIndex);
+        errorManager.setInternalFileInputErrors(index, false);
+        handleFileAdded(file, index, mockFormData);
+        setCurrentIndex(index);
         break;
       }
       case 'FILE_UPDATED': {
-        const index = findFileIndex(state, file);
-        handleFileAdded(_file, index);
+        handleFileAdded(file, index);
         setCurrentIndex(index);
         break;
       }
       case 'PASSWORD_UPDATE': {
-        const index = findFileIndex(state, file);
         setCurrentIndex(index);
-        const passwordFile = state[index];
-        debouncePassword(passwordFile, index);
+        const [{ password }] = state.filter(
+          f => f.file.name === file.name && f.file.size === file.size,
+        );
+        debouncePassword(file, password, index);
         break;
       }
       case 'FILE_REMOVED':
-        handleFileRemoved(file);
+        handleFileRemoved(index);
         break;
       default:
         break;
@@ -359,6 +361,10 @@ const VaFileInputMultipleField = props => {
     const _errors = [...errors];
     _errors[index] = e.detail.error;
     setErrors(_errors);
+    const files = [...childrenProps.formData];
+    // add placeholder file
+    files[index] = {};
+    childrenProps.onChange(files);
   };
 
   // get the password errors for any relevant instances
@@ -369,6 +375,10 @@ const VaFileInputMultipleField = props => {
   });
 
   const resetVisualState = errors.map(error => (error ? true : null));
+  // don't render additional input content if file input instance has an error
+  const slotFieldIndexes = errors
+    .map((error, i) => (error ? null : i))
+    .filter(i => i !== null);
   return (
     <VaFileInputMultiple
       {...mappedProps}
@@ -384,6 +394,7 @@ const VaFileInputMultipleField = props => {
       onVaSelect={handleAdditionalInput}
       maxFileSize={uiOptions.maxFileSize}
       minFileSize={uiOptions.minFileSize}
+      slotFieldIndexes={slotFieldIndexes}
     >
       {mappedProps.additionalInput && (
         <div className="additional-input-container">

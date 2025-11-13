@@ -20,7 +20,6 @@ import {
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isBefore, isAfter } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { datadogRum } from '@datadog/browser-rum';
 import NeedHelpSection from './NeedHelpSection';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
@@ -30,6 +29,7 @@ import {
   getLastUpdatedText,
   sendDataDogAction,
   getFailedDomainList,
+  sendDatadogError,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
@@ -387,7 +387,7 @@ const DownloadFileType = props => {
         }
       } catch (error) {
         logAal(0);
-        datadogRum.addError(error, 'Download Report Error - PDF');
+        sendDatadogError(error, 'Blue Button report - download_report_pdf');
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
@@ -437,7 +437,7 @@ const DownloadFileType = props => {
         }
       } catch (error) {
         logAal(0);
-        datadogRum.addError(error, 'Download Report Error - TXT');
+        sendDatadogError(error, 'Blue Button report - download_report_txt');
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },

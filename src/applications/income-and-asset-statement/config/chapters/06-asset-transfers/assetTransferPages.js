@@ -578,7 +578,7 @@ const valuePage = {
 };
 
 export const assetTransferPages = arrayBuilderPages(options, pageBuilder => ({
-  assetTransferVeteranSummary: pageBuilder.summaryPage({
+  assetTransferPagesVeteranSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'asset-transfers-summary-veteran',
     depends: formData =>
@@ -671,14 +671,14 @@ export const assetTransferPages = arrayBuilderPages(options, pageBuilder => ({
     schema: parentIncomeRecipientPage.schema,
   }),
   assetTransferNonVeteranRecipientPage: pageBuilder.itemPage({
-    title: 'Asset transfer relationship information',
+    title: incomeRecipientPageTitle,
     path: 'asset-transfers/:index/income-recipient',
     depends: () => !showUpdatedContent(),
     uiSchema: nonVeteranIncomeRecipientPage.uiSchema,
     schema: nonVeteranIncomeRecipientPage.schema,
   }),
   // When claimantType is 'CHILD' we skip showing the recipient page entirely
-  // To preserve required data, we auto-set recipientRelationship to 'CHILD'
+  // To preserve required data, we auto-set originalOwnerRelationship to 'CHILD'
   assetTransferInformationPage: pageBuilder.itemPage({
     title: 'Asset transfer information',
     path: 'asset-transfers/:index/information',

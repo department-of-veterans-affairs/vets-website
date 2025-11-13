@@ -55,6 +55,9 @@ describe('Contribution Limits and Degree Level Page', () => {
     it('should hide specific contribution amount field when unlimited option is selected', () => {
       const formData = {
         maximumContributionAmount: 'unlimited',
+        institutionDetails: {
+          isUsaSchool: true,
+        },
       };
 
       const { container } = renderPage(formData);

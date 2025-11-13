@@ -6,7 +6,6 @@ import {
   emailUI,
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
-  internationalPhoneDeprecatedSchema,
   phoneSchema,
   phoneUI,
   radioSchema,
@@ -134,7 +133,10 @@ const schema = {
             title: textSchema,
             'view:phoneType': radioSchema(['us', 'intl']),
             usPhone: phoneSchema,
-            internationalPhone: internationalPhoneDeprecatedSchema,
+            internationalPhone: {
+              type: 'string',
+              pattern: '^\\+?[0-9](?:-?[0-9]){10,14}$',
+            },
             email: emailSchema,
             'view:isSCO': yesNoSchema,
           },
@@ -146,4 +148,33 @@ const schema = {
   },
 };
 
-export { uiSchema, schema };
+/**
+ * Resets the *schoolCertifyingOfficial* object if the SCO question is toggled.
+ * @param {*} oldData old form data
+ * @param {*} formData new form data
+ * @returns updated form data
+ */
+const updateFormData = (oldData, formData) => {
+  const prev =
+    oldData?.newCommitment?.principlesOfExcellencePointOfContact?.[
+      'view:isSCO'
+    ];
+  const curr =
+    formData?.newCommitment?.principlesOfExcellencePointOfContact?.[
+      'view:isSCO'
+    ];
+
+  if (prev !== curr) {
+    return {
+      ...formData,
+      newCommitment: {
+        ...formData.newCommitment,
+        schoolCertifyingOfficial: {},
+      },
+    };
+  }
+
+  return formData;
+};
+
+export { uiSchema, schema, updateFormData };

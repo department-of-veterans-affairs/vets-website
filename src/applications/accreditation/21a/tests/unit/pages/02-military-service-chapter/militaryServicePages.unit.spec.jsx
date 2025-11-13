@@ -199,7 +199,7 @@ describe('Military Service Chapter Pages', () => {
   });
 
   context('arrayBuilderOptions', () => {
-    it('should have the correct arrayPath, nouns, and maxItems properties', () => {
+    it('should have the correct arrayPath, nouns, reviewAddButton text, yesNoBlankReviewQuestion text and maxItems properties', () => {
       expect(arrayBuilderOptions.arrayPath).to.equal(
         'militaryServiceExperiences',
       );
@@ -210,6 +210,12 @@ describe('Military Service Chapter Pages', () => {
         'military service experiences',
       );
       expect(arrayBuilderOptions.required).to.be.false;
+      expect(arrayBuilderOptions.text.reviewAddButtonText()).to.equal(
+        'Add a military service experience',
+      );
+      expect(arrayBuilderOptions.text.yesNoBlankReviewQuestion()).to.equal(
+        'Have you ever served in the military?',
+      );
     });
 
     it('should return the correct card title from getItemName', () => {

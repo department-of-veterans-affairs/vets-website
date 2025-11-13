@@ -425,28 +425,29 @@ ul.react-tabs__tab-list {
 .vacardSelectFilters {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  align-items: flex-end;
+  gap: 0.5rem;
   flex: 1;
   margin-bottom: 0;
 
   @media screen and (max-width: $medium-screen) {
     flex-direction: column;
+    align-items: stretch;
     margin-bottom: 1rem;
   }
 
   > div {
-    flex: 1;
+    flex: 3;
   }
 
   > div:last-child {
-    flex: 2;
+    flex: 3;
   }
 }
 
 .filter-actions {
   display: flex;
   align-items: center;
-  margin-left: 1rem;
   width: auto;
   height: 40px;
 
@@ -483,11 +484,13 @@ ul.react-tabs__tab-list {
 .filter-container {
   display: flex;
   flex-direction: row;
+  gap: 0.5rem;
   align-items: flex-end;
   margin-bottom: 1rem;
 
   @media screen and (max-width: $medium-screen) {
     flex-direction: column;
+    align-items: stretch;
   }
 }
 

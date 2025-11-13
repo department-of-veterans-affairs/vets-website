@@ -5,7 +5,9 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { Toggler } from '~/platform/utilities/feature-toggles';
-import ConfirmationPage from '../../containers/ConfirmationPage';
+import ConfirmationPage, {
+  getNewConditionsNames,
+} from '../../containers/ConfirmationPage';
 import { submissionStatuses } from '../../constants';
 import { bddConfirmationHeadline } from '../../content/bddConfirmationAlert';
 import formConfig from '../../config/form';
@@ -119,7 +121,6 @@ describe('ConfirmationPage', () => {
     getByText('November 7, 2024');
     getByText('Conditions claimed');
     getByText('Something Something');
-    getByText('Unknown Condition');
 
     if (claimId) {
       getByText('Claim ID number');
@@ -137,16 +138,32 @@ describe('ConfirmationPage', () => {
     getByText('Need help?');
 
     // links
-    expect(container.querySelectorAll('va-link')).to.have.lengthOf(5);
-    const link = container.querySelectorAll('va-link')[1];
-    expect(link.getAttribute('download')).to.exist;
-    expect(link.getAttribute('filetype')).to.equal('PDF');
-    expect(link.getAttribute('href')).to.equal(
-      'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
+    expect(container.querySelectorAll('va-link')).to.have.lengthOf(6);
+    // Find the 21-686c PDF link by its attributes rather than index
+    const pdfLink = Array.from(container.querySelectorAll('va-link')).find(
+      linkElement =>
+        linkElement.getAttribute('href') ===
+        'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
     );
-    expect(link.getAttribute('pages')).to.equal('15');
-    expect(link.getAttribute('text')).to.equal(
+    expect(pdfLink).to.exist;
+    expect(pdfLink.getAttribute('download')).to.exist;
+    expect(pdfLink.getAttribute('filetype')).to.equal('PDF');
+    expect(pdfLink.getAttribute('pages')).to.equal('15');
+    expect(pdfLink.getAttribute('text')).to.equal(
       'Download VA Form 21-686c (opens in new tab)',
+    );
+
+    // Verify "Learn more about the VA process" link exists
+    const vaProcessLink = Array.from(
+      container.querySelectorAll('va-link'),
+    ).find(
+      linkElement =>
+        linkElement.getAttribute('text') ===
+        'Learn more about the VA process after you file your claim',
+    );
+    expect(vaProcessLink).to.exist;
+    expect(vaProcessLink.getAttribute('href')).to.equal(
+      'https://www.va.gov/disability/after-you-file-claim/',
     );
   };
 
@@ -178,5 +195,33 @@ describe('ConfirmationPage', () => {
       submissionStatuses.succeeded,
       true, // disability526ShowConfirmationReview toggle
     );
+  });
+});
+
+describe('getNewConditionsNames', () => {
+  it('keeps strings and capitalizes them', () => {
+    expect(
+      getNewConditionsNames(['low back pain', '  knee PAIN  ']),
+    ).to.deep.equal(['Low Back Pain', 'Knee Pain']);
+  });
+
+  it('includes only NEW/SECONDARY objects, ignores others and blanks', () => {
+    const input = [
+      { condition: 'tinnitus', cause: 'secondary' },
+      { condition: 'sleep apnea', cause: 'NEW' },
+      { condition: 'flu', cause: 'primary' },
+      { condition: ' ', cause: 'NEW' },
+      { condition: 'tinnitus', cause: 'SECONDARY' },
+      undefined,
+    ];
+    expect(getNewConditionsNames(input)).to.deep.equal([
+      'Tinnitus',
+      'Sleep Apnea',
+    ]);
+  });
+
+  it('returns empty list for empty/invalid inputs', () => {
+    expect(getNewConditionsNames([])).to.deep.equal([]);
+    expect(getNewConditionsNames()).to.deep.equal([]);
   });
 });

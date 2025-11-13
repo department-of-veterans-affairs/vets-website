@@ -54,6 +54,7 @@ export const Paths = {
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
     SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
     SENT_SEARCH: '/my_health/v1/messaging/folders/-1/search*',
+    PRESCRIPTIONS: '/my_health/v1/prescriptions/',
   },
 };
 
@@ -105,6 +106,9 @@ export const Locators = {
   RECENT_CARE_TEAMS_RADIO_GROUP_TEST_ID: 'recent-care-teams-radio-group',
   RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID:
     'recent-care-teams-continue-button',
+  COMPOSE_RECIPIENT_TITLE: 'compose-recipient-title',
+  COMPOSE_CATEGORY_DROPDOWN: 'compose-message-categories',
+  INTERSTITIAL_CONTINUE_BUTTON: 'continue-button',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: 'va-button[text="Yes, remove this folder"]',
@@ -143,6 +147,7 @@ export const Locators = {
     MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="send-button"]',
+    SEND_TEST_ID: 'send-button',
     SAVE_DRAFT: '[data-testid="save-draft-button"]',
     PRINT_ONE_MESS: '[data-testid="radio-print-one-message"]',
     CREATE_NEW_FOLDER: '[data-testid="create-new-folder"]',
@@ -177,6 +182,7 @@ export const Locators = {
     OLD_VERSION: `.welcome-message > p > a`,
     EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
     REPLY: `reply-to-message-link`,
+    START_NEW_MESSAGE: 'start-message-link',
   },
   ALERTS: {
     HEADER: `[data-testid="error-folder-not-empty"]`,
@@ -239,6 +245,7 @@ export const Locators = {
     COMBO_BOX: '.usa-error-message',
     EL_SIGN_NAME: '#input-error-message .usa-error-message',
     EL_SIGN_CHECK: `#checkbox-error-message .usa-error-message`,
+    ADD_MEDICATION_INFO_WARNING: 'add-medication-info-warning',
   },
   FIELDS: {
     RECIPIENT: '#select',
