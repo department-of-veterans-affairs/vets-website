@@ -153,3 +153,13 @@ export const validateTitle10ActivationDate = (
     );
   }
 };
+
+/**
+ * Check if a date string contains partial date patterns (XX)
+ * @param {string} date - Date string to check
+ * @returns {boolean} True if the date contains XX patterns
+ */
+export const hasPartialDatePattern = date => {
+  if (!date || typeof date !== 'string') return false;
+  return date.includes('XX') || date.includes('XXXX');
+};

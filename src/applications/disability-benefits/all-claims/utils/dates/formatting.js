@@ -14,6 +14,7 @@ import {
   formatDateShort as platformFormatDateShort,
 } from 'platform/utilities/date';
 import { isValidYear as platformIsValidYear } from 'platform/forms-system/src/js/utilities/validations';
+import { hasPartialDatePattern } from './validations';
 
 // Constants
 export const DATE_FORMAT = 'LL'; // e.g., "January 1, 2021"
@@ -49,6 +50,11 @@ const safeMoment = (date, format) => {
  * @returns {string} Formatted date or 'Unknown' if invalid
  */
 export const formatDate = (date, format = DATE_FORMAT) => {
+  // Return 'Unknown' for any partial dates
+  if (typeof date === 'string' && hasPartialDatePattern(date)) {
+    return 'Unknown';
+  }
+
   const momentDate = safeMoment(date);
   return momentDate ? momentDate.format(format) : 'Unknown';
 };
@@ -426,10 +432,11 @@ export const isTreatmentBeforeService = (
   earliestServiceDate,
   fieldData,
 ) => {
-  return (
-    (isYearOnly(fieldData) &&
-      treatmentDate.diff(earliestServiceDate, 'year') < 0) ||
-    (isYearMonth(fieldData) &&
-      treatmentDate.diff(earliestServiceDate, 'month') < 0)
-  );
+  // Only allow full dates (YYYY-MM-DD), not partials
+  // Trim whitespace before checking format
+  const trimmedFieldData = fieldData?.trim() || '';
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(trimmedFieldData)) {
+    return false;
+  }
+  return treatmentDate.isBefore(earliestServiceDate, 'day');
 };

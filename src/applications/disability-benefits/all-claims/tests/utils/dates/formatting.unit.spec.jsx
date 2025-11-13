@@ -567,23 +567,23 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     const treatmentDate = moment('2020-01-01');
     const serviceDate = moment('2021-01-01');
 
-    it('should check year-only comparisons', () => {
+    it('should reject year-only partial dates', () => {
       expect(isTreatmentBeforeService(treatmentDate, serviceDate, '2020-XX-XX'))
-        .to.be.true;
+        .to.be.false;
       expect(isTreatmentBeforeService(serviceDate, treatmentDate, '2021-XX-XX'))
         .to.be.false;
     });
 
-    it('should check year-month comparisons', () => {
+    it('should reject year-month partial dates', () => {
       expect(isTreatmentBeforeService(treatmentDate, serviceDate, '2020-01-XX'))
-        .to.be.true;
+        .to.be.false;
       expect(isTreatmentBeforeService(serviceDate, treatmentDate, '2021-01-XX'))
         .to.be.false;
     });
 
-    it('should return false for other formats', () => {
+    it('should validate full dates and reject invalid formats', () => {
       expect(isTreatmentBeforeService(treatmentDate, serviceDate, '2020-01-01'))
-        .to.be.false;
+        .to.be.true;
       expect(isTreatmentBeforeService(treatmentDate, serviceDate, 'XXXX-01-XX'))
         .to.be.false;
     });

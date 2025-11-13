@@ -221,7 +221,7 @@ export function transform(formConfig, form) {
     // Format separationPayDate as 'YYYY-MM-DD'
     return _.set(
       'separationPayDate',
-      `${formData.separationPayDate}-XX-XX`,
+      `${formData.separationPayDate}`,
       formData,
     );
   };

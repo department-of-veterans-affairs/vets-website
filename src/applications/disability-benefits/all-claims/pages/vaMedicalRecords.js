@@ -7,7 +7,7 @@ import { hasVAEvidence } from '../utils';
 import { makeSchemaForAllDisabilities } from '../utils/schemas';
 import { isCompletingForm0781 } from '../utils/form0781';
 import { standardTitle } from '../content/form0781';
-import { formatDate } from '../utils/dates';
+import { formatDate, DATE_FORMAT_LONG } from '../utils/dates';
 
 import {
   validateMilitaryTreatmentCity,
@@ -102,39 +102,14 @@ export const uiSchema = {
               };
             }
 
-            const [year, month, day] = value.formData.split('-');
-
-            if (year === 'XXXX') {
-              return {
-                data: 'Unknown',
-                label: 'When did you first visit this facility?',
-              };
-            }
-
-            let formattedDate = 'Unknown';
-
-            if (month === 'XX') {
-              // Year only: 2015-XX-XX → "2015"
-              formattedDate = year;
-            } else if (day === 'XX') {
-              // Month/Year: 2015-12-XX → "December 2015"
-              const monthYear = formatDate(`${year}-${month}-01`, 'MMMM YYYY');
-              formattedDate =
-                monthYear && monthYear !== 'Invalid date'
-                  ? monthYear
-                  : 'Unknown';
-            } else {
-              // Full date: 2015-12-10 → "December 10, 2015"
-              const fullDate = formatDate(
-                `${year}-${month}-${day}`,
-                'MMMM D, YYYY',
-              );
-              formattedDate =
-                fullDate && fullDate !== 'Invalid date' ? fullDate : 'Unknown';
-            }
+            // Format full date as "December 10, 2015"
+            const formattedDate = formatDate(value.formData, DATE_FORMAT_LONG);
 
             return {
-              data: formattedDate,
+              data:
+                formattedDate && formattedDate !== 'Invalid date'
+                  ? formattedDate
+                  : 'Unknown',
               label: 'When did you first visit this facility?',
             };
           },

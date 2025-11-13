@@ -37,10 +37,7 @@ export function validateRange(errors, startDate, endDate) {
 }
 
 export function validateMissingValues(errors, startDate, endDate) {
-  // With these fields in particular, a missing value will convert to
-  // a date format with 'XX' e.g. 01-XX-1990.
-  // Calling convertToDateField on a partial date will return an empty date object.
-  // We will validate around this fact.
+  // Validate that all date fields are complete - no partial dates allowed
   const startDateApproximate = convertToDateField(startDate);
   const endDateApproximate = convertToDateField(endDate);
 
@@ -64,8 +61,7 @@ export function validateMissingValues(errors, startDate, endDate) {
 /* The particular field used for the Toxic Exposure date inputs properly executes
 * validateCurrentOrPastDate, however schema validations against the individual fields
 * (day, month, year) do not properly block the Veteran from progressing.
-* These validations are necessary to properly block progression and prevent what
-* we're calling the 'XX' date issue.
+* These validations are necessary to ensure complete dates are provided.
 */
 export function validateToxicExposureGulfWar1990Dates(
   errors,

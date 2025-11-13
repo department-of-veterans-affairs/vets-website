@@ -5,8 +5,6 @@ import {
   parseDate,
   isTreatmentBeforeService,
   findEarliestServiceDate,
-  isMonthOnly,
-  isYearMonth,
 } from './utils/dates';
 
 import {
@@ -351,19 +349,8 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
   const { servicePeriods } = formData.serviceInformation;
   const earliestServiceDate = findEarliestServiceDate(servicePeriods);
 
-  if (isMonthOnly(fieldData)) {
-    err.addError('Enter a month and year.');
-    return;
-  }
-
-  // For year-month format (YYYY-MM-XX), parse the first day of that month
-  let treatmentDate;
-  if (isYearMonth(fieldData)) {
-    const yearMonth = fieldData.replace('-XX', '-01');
-    treatmentDate = parseDate(yearMonth);
-  } else {
-    treatmentDate = parseDate(fieldData);
-  }
+  // Parse the treatment date as a full date string
+  const treatmentDate = parseDate(fieldData);
 
   if (
     treatmentDate &&

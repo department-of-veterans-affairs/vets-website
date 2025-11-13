@@ -23,14 +23,14 @@ export const dateFieldToISO = dateField => {
 
   const { month, day, year } = dateField;
 
-  // Handle partial dates
-  const monthStr = String(month?.value || month || 'XX');
-  const dayStr = String(day?.value || day || 'XX');
-  const yearStr = String(year?.value || year || 'XXXX');
+  // Extract values, supporting both object and primitive types
+  const monthStr = String(month?.value || month || '');
+  const dayStr = String(day?.value || day || '');
+  const yearStr = String(year?.value || year || '');
 
-  // Return partial date format if any component is missing
-  if (monthStr === 'XX' || dayStr === 'XX' || yearStr === 'XXXX') {
-    return `${yearStr}-${monthStr.padStart(2, '0')}-${dayStr.padStart(2, '0')}`;
+  // Return null if any component is missing (require complete dates only)
+  if (!monthStr || !dayStr || !yearStr) {
+    return null;
   }
 
   // Validate and format complete date
@@ -59,10 +59,15 @@ export const isoToDateField = isoDate => {
 
   const [year, month, day] = parts;
 
+  // Only process full dates - return empty if any component is invalid
+  if (!/^\d{4}$/.test(year) || !/^\d{2}$/.test(month) || !/^\d{2}$/.test(day)) {
+    return { month: '', day: '', year: '' };
+  }
+
   return {
-    month: month === 'XX' ? '' : month.replace(/^0/, ''),
-    day: day === 'XX' ? '' : day.replace(/^0/, ''),
-    year: year === 'XXXX' ? '' : year,
+    month: month.replace(/^0/, ''),
+    day: day.replace(/^0/, ''),
+    year,
   };
 };
 
@@ -75,23 +80,7 @@ export const isoToDateField = isoDate => {
 export const formatReviewDate = (dateString, monthYear = false) => {
   if (!dateString) return '';
 
-  // Handle partial dates
-  if (dateString.includes('XX')) {
-    const parts = dateString.split('-');
-    const [year, month] = parts;
-
-    if (year !== 'XXXX' && month !== 'XX') {
-      const date = moment(`${year}-${month}-01`);
-      return date.isValid() ? date.format('MMMM YYYY') : dateString;
-    }
-
-    if (year !== 'XXXX') {
-      return year;
-    }
-
-    return dateString;
-  }
-
+  // Only handle full dates - no partial date support
   const date = moment(dateString);
   if (!date.isValid()) return dateString;
 
@@ -133,7 +122,11 @@ const isEmptyDateField = dateField => {
  * @private
  */
 const validateISOFormat = isoDate => {
-  if (!isoDate || isoDate.includes('XXXX')) {
+  if (!isoDate) {
+    return { isValid: false, error: 'Please provide a valid date' };
+  }
+  // Only accept full date format (YYYY-MM-DD)
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) {
     return { isValid: false, error: 'Please provide a valid date' };
   }
   return { isValid: true, error: null };
@@ -144,8 +137,6 @@ const validateISOFormat = isoDate => {
  * @private
  */
 const validateCompleteDateConstraints = (isoDate, futureOnly, pastOnly) => {
-  if (isoDate.includes('XX')) return { isValid: true, error: null };
-
   const date = moment(isoDate, 'YYYY-MM-DD', true);
   if (!date.isValid()) {
     return { isValid: false, error: 'Please provide a valid date' };
@@ -249,7 +240,7 @@ export const validateFormDateRange = (fromField, toField, options = {}) => {
   const fromISO = dateFieldToISO(fromField);
   const toISO = dateFieldToISO(toField);
 
-  if (fromISO && toISO && !fromISO.includes('XX') && !toISO.includes('XX')) {
+  if (fromISO && toISO) {
     const fromDate = moment(fromISO);
     const toDate = moment(toISO);
 
@@ -303,7 +294,7 @@ export const adjustFormDate = (dateField, amount, unit) => {
   }
 
   const isoDate = dateFieldToISO(dateField);
-  if (!isoDate || isoDate.includes('XX')) {
+  if (!isoDate) {
     return dateField;
   }
 

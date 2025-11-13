@@ -990,8 +990,8 @@ describe('526 v2 depends functions', () => {
       it('should return "Unknown" for partial dates', () => {
         expect(formatDate('2020-01-XX')).to.equal('Unknown');
         expect(formatDate('2020-XX-15')).to.equal('Unknown');
-        // because moment.js uses 2001 when it can't parse the year
-        expect(formatDate('XXXX-01-15')).to.equal('January 15, 2001');
+        // With partial date validation, XXXX patterns now return Unknown instead of falling back to 2001
+        expect(formatDate('XXXX-01-15')).to.equal('Unknown');
       });
     });
     describe('formatDateRange', () => {

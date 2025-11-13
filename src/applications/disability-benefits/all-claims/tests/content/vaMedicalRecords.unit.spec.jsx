@@ -6,7 +6,7 @@ describe('vamedicalRecordsDescription', () => {
     const formData = {
       treatmentCenterName: 'Test Facility',
       treatmentDateRange: {
-        from: '2018-01-XX',
+        from: '2018-01-15',
       },
     };
     const result = render(treatmentView({ formData }));
@@ -17,7 +17,7 @@ describe('vamedicalRecordsDescription', () => {
     const formData = {
       treatmentCenterName: 'Test Facility',
       treatmentDateRange: {
-        from: '2018-01-XX',
+        from: '2018-01-15',
       },
     };
     const result = render(treatmentView({ formData }));

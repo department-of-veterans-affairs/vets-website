@@ -223,23 +223,15 @@ const getCurrentYear = () => new Date().getFullYear();
 export const validateApproximateDate = (errors, dateString) => {
   if (!dateString) return;
 
-  const [year, month, day] = dateString.split('-');
-  const isYearValid = year && year !== 'XXXX';
-  const isMonthValid = month && month !== 'XX';
-  const isDayValid = day && day !== 'XX';
+  // Only allow full dates (YYYY-MM-DD format)
+  const fullDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 
-  const isValid =
-    (isYearValid && !isMonthValid && !isDayValid) || // Year only
-    (isYearValid && isMonthValid && !isDayValid) || // Year + Month
-    (isYearValid && isMonthValid && isDayValid); // Full date
-
-  if (!isValid) {
-    errors.addError(
-      'Enter a year only (e.g., 1988), a month and year (e.g., June 1988), or a full date (e.g., June 1 1988)',
-    );
+  if (!fullDatePattern.test(dateString)) {
+    errors.addError('Enter a full date (e.g., June 1, 1988)');
     return;
   }
 
+  const [year] = dateString.split('-');
   const y = Number(year);
   const minYear = 1900;
   const maxYear = getCurrentYear();

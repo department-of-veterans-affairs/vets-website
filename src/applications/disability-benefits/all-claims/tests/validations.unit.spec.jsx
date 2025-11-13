@@ -267,7 +267,7 @@ describe('526 All Claims validations', () => {
         },
       };
 
-      startedAfterServicePeriod(err, '1999-12-XX', formData);
+      startedAfterServicePeriod(err, '1999-12-15', formData);
       expect(err.addError.calledOnce).to.be.true;
     });
 
@@ -292,7 +292,7 @@ describe('526 All Claims validations', () => {
         },
       };
 
-      startedAfterServicePeriod(err, '2000-01-XX', formData);
+      startedAfterServicePeriod(err, '2000-01-14', formData);
       expect(err.addError.called).to.be.false;
     });
 
@@ -317,7 +317,7 @@ describe('526 All Claims validations', () => {
         },
       };
 
-      startedAfterServicePeriod(err, '2000-XX-XX', formData);
+      startedAfterServicePeriod(err, '2000-01-14', formData);
       expect(err.addError.called).to.be.false;
     });
 
@@ -342,11 +342,11 @@ describe('526 All Claims validations', () => {
         },
       };
 
-      startedAfterServicePeriod(err, '2000-02-XX', formData);
+      startedAfterServicePeriod(err, '2000-02-15', formData);
       expect(err.addError.called).to.be.false;
     });
 
-    it('should add error if only treatment start date month is entered', () => {
+    it('should not add error for partial date formats (now ignored)', () => {
       const err = { addError: sinon.spy() };
 
       const formData = {
@@ -368,7 +368,7 @@ describe('526 All Claims validations', () => {
       };
 
       startedAfterServicePeriod(err, 'XXXX-12-XX', formData);
-      expect(err.addError.calledOnce).to.be.true;
+      expect(err.addError.called).to.be.false; // Partial dates are now ignored
     });
 
     it('should not add error if serviceInformation is missing', () => {
@@ -376,7 +376,7 @@ describe('526 All Claims validations', () => {
 
       const formData = {};
 
-      startedAfterServicePeriod(err, '1999-12-XX', formData);
+      startedAfterServicePeriod(err, '1999-12-15', formData);
       expect(err.addError.called).to.be.false;
     });
 
@@ -385,7 +385,7 @@ describe('526 All Claims validations', () => {
 
       const formData = { serviceInformation: {} };
 
-      startedAfterServicePeriod(err, '1999-12-XX', formData);
+      startedAfterServicePeriod(err, '1999-12-15', formData);
       expect(err.addError.called).to.be.false;
     });
 
@@ -398,7 +398,7 @@ describe('526 All Claims validations', () => {
         },
       };
 
-      startedAfterServicePeriod(err, '1999-12-XX', formData);
+      startedAfterServicePeriod(err, '1999-12-15', formData);
       expect(err.addError.called).to.be.false;
     });
 
@@ -409,7 +409,7 @@ describe('526 All Claims validations', () => {
         serviceInformation: { servicePeriods: [] },
       };
 
-      startedAfterServicePeriod(err, '1999-12-XX', formData);
+      startedAfterServicePeriod(err, '1999-12-15', formData);
       expect(err.addError.called).to.be.false;
     });
   });
@@ -1528,7 +1528,7 @@ describe('526 All Claims validations', () => {
 
     describe('isTreatmentBeforeService', () => {
       describe('year-only format (YYYY-XX-XX)', () => {
-        it('should return true when treatment year is before service year', () => {
+        it('should return false when treatment uses year-only format (partial dates rejected)', () => {
           const treatmentDate = parseDate('1999-01-01');
           const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = '1999-XX-XX';
@@ -1538,7 +1538,7 @@ describe('526 All Claims validations', () => {
             earliestServiceDate,
             fieldData,
           );
-          expect(result).to.be.true;
+          expect(result).to.be.false;
         });
 
         it('should return false when treatment year is after service year', () => {
@@ -1556,7 +1556,7 @@ describe('526 All Claims validations', () => {
       });
 
       describe('year-month format (YYYY-MM-XX)', () => {
-        it('should return true when treatment year-month is before service year-month', () => {
+        it('should return false when treatment uses year-month format (partial dates rejected)', () => {
           const treatmentDate = parseDate('1999-12-01');
           const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = '1999-12-XX';
@@ -1566,7 +1566,7 @@ describe('526 All Claims validations', () => {
             earliestServiceDate,
             fieldData,
           );
-          expect(result).to.be.true;
+          expect(result).to.be.false;
         });
 
         it('should return false when treatment year-month is after service year-month', () => {
@@ -1584,7 +1584,7 @@ describe('526 All Claims validations', () => {
       });
 
       describe('non-matching format cases', () => {
-        it('should return false for complete date format (YYYY-MM-DD)', () => {
+        it('should return true for complete date format when treatment is before service', () => {
           const treatmentDate = parseDate('1999-01-01');
           const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = '1999-01-01';
@@ -1594,7 +1594,7 @@ describe('526 All Claims validations', () => {
             earliestServiceDate,
             fieldData,
           );
-          expect(result).to.be.false;
+          expect(result).to.be.true;
         });
 
         it('should return false for month-only format (XXXX-MM-XX)', () => {

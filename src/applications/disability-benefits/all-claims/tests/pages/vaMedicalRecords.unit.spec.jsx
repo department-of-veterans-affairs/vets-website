@@ -271,7 +271,7 @@ describe('VA Medical Records', () => {
                 diabetesmelitus: true,
               },
               treatmentDateRange: {
-                from: '2010-04-XX',
+                from: '2010-04-15',
               },
               treatmentCenterAddress: {
                 country: 'USA',
@@ -310,7 +310,7 @@ describe('VA Medical Records', () => {
                 diabetesmelitus: true,
               },
               treatmentDateRange: {
-                from: '2010-04-XX',
+                from: '2010-04-15',
               },
               treatmentCenterAddress: {
                 country: 'USA',
@@ -350,7 +350,7 @@ describe('VA Medical Records', () => {
                   diabetesmelitus: true,
                 },
                 treatmentDateRange: {
-                  from: '2001-05-XX',
+                  from: '2001-05-15',
                 },
                 treatmentCenterAddress: {
                   country: 'USA',
@@ -395,7 +395,7 @@ describe('VA Medical Records', () => {
                   diabetesmelitus: true,
                 },
                 treatmentDateRange: {
-                  from: '2001-05-XX',
+                  from: '2001-05-30',
                 },
                 treatmentCenterAddress: {
                   country: 'USA',
@@ -423,7 +423,7 @@ describe('VA Medical Records', () => {
       });
     });
 
-    it('should submit when treatment start date year without month equals earliest service start date year', async () => {
+    it('should submit when treatment start date equals earliest service start date', async () => {
       const onSubmit = sinon.spy();
       const form = mount(
         <DefinitionTester
@@ -440,7 +440,7 @@ describe('VA Medical Records', () => {
                   diabetesmelitus: true,
                 },
                 treatmentDateRange: {
-                  from: '2001-XX-XX',
+                  from: '2001-05-30',
                 },
                 treatmentCenterAddress: {
                   country: 'USA',
@@ -468,7 +468,7 @@ describe('VA Medical Records', () => {
       });
     });
 
-    it('should not submit when treatment start date includes a month but no year', async () => {
+    it('should not submit when treatment start date is before earliest service period', async () => {
       const onSubmit = sinon.spy();
       const form = mount(
         <DefinitionTester
@@ -485,7 +485,7 @@ describe('VA Medical Records', () => {
                   diabetesmelitus: true,
                 },
                 treatmentDateRange: {
-                  from: 'XXXX-05-XX',
+                  from: '2000-05-02',
                 },
                 treatmentCenterAddress: {
                   country: 'USA',
@@ -577,7 +577,7 @@ describe('VA Medical Records', () => {
                   diabetesmelitus: true,
                 },
                 treatmentDateRange: {
-                  from: '2010-04-XX',
+                  from: '2010-04-15',
                 },
                 treatmentCenterAddress: {
                   country: 'USA',
@@ -599,7 +599,7 @@ describe('VA Medical Records', () => {
       });
     });
 
-    it('should handle year-only date (YYYY-XX-XX)', async () => {
+    it('should handle full date format', async () => {
       const onSubmit = sinon.spy();
       const form = mount(
         <DefinitionTester
@@ -616,7 +616,7 @@ describe('VA Medical Records', () => {
                   diabetesmelitus: true,
                 },
                 treatmentDateRange: {
-                  from: '2010-XX-XX',
+                  from: '2010-01-15',
                 },
                 treatmentCenterAddress: {
                   country: 'USA',
@@ -694,7 +694,7 @@ describe('VA Medical Records', () => {
                   diabetesmelitus: true,
                 },
                 treatmentDateRange: {
-                  from: '2010-04-XX',
+                  from: '2010-04-15',
                 },
                 treatmentCenterAddress: {
                   country: 'USA',
@@ -708,7 +708,7 @@ describe('VA Medical Records', () => {
                   intervertebraldiscsyndrome: true,
                 },
                 treatmentDateRange: {
-                  from: '2011-XX-XX', // Partial date
+                  from: '2011-03-20', // Full date
                 },
                 treatmentCenterAddress: {
                   country: 'USA',
@@ -738,9 +738,9 @@ describe('VA Medical Records', () => {
           'ui:confirmationField'
         ];
 
-      it('formats partial dates with XX placeholders as readable month/year', () => {
+      it('returns Unknown for partial dates (no longer supported)', () => {
         const result = confirmationField({ formData: '2008-01-XX' });
-        expect(result.data).to.equal('January 2008');
+        expect(result.data).to.equal('Unknown');
         expect(result.label).to.equal(
           'When did you first visit this facility?',
         );
@@ -762,39 +762,39 @@ describe('VA Medical Records', () => {
         );
       });
 
-      it('formats year-only dates when month is XX', () => {
+      it('returns Unknown for year-only dates (no longer supported)', () => {
         const result = confirmationField({ formData: '2010-XX-XX' });
-        expect(result.data).to.equal('2010');
+        expect(result.data).to.equal('Unknown');
         expect(result.label).to.equal(
           'When did you first visit this facility?',
         );
       });
 
-      it('formats year-only dates when month is XX', () => {
+      it('returns Unknown for year-only dates 2015 (no longer supported)', () => {
         const result = confirmationField({ formData: '2015-XX-XX' });
-        expect(result.data).to.equal('2015');
+        expect(result.data).to.equal('Unknown');
         expect(result.label).to.equal(
           'When did you first visit this facility?',
         );
       });
 
-      it('formats month-year dates when day is XX', () => {
+      it('returns Unknown for month-year dates (no longer supported)', () => {
         const result = confirmationField({ formData: '2020-12-XX' });
-        expect(result.data).to.equal('December 2020');
+        expect(result.data).to.equal('Unknown');
         expect(result.label).to.equal(
           'When did you first visit this facility?',
         );
       });
 
-      it('handles different valid months correctly', () => {
+      it('returns Unknown for partial dates (no longer supported)', () => {
         expect(confirmationField({ formData: '2021-02-XX' }).data).to.equal(
-          'February 2021',
+          'Unknown',
         );
         expect(confirmationField({ formData: '2021-06-XX' }).data).to.equal(
-          'June 2021',
+          'Unknown',
         );
         expect(confirmationField({ formData: '2021-11-XX' }).data).to.equal(
-          'November 2021',
+          'Unknown',
         );
       });
 
