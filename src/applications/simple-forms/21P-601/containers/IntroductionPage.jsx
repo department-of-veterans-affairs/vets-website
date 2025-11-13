@@ -75,7 +75,7 @@ const childContent = (
       </li>
       <li>
         <strong>If multiple people are applying,</strong> each person has to
-        submit their own form
+        submit their own form.
       </li>
     </ul>
     <h3>Time limits to apply</h3>
