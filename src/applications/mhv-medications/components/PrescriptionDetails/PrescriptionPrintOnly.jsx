@@ -8,6 +8,7 @@ import {
   medStatusDisplayTypes,
   pdfStatusDefinitions,
   RX_SOURCE,
+  DISPENSE_STATUS,
 } from '../../util/constants';
 import {
   validateField,
@@ -30,10 +31,10 @@ const PrescriptionPrintOnly = props => {
   const showPendingMedsContent = useSelector(selectPendingMedsFlag);
   const pendingMed =
     rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    rx?.dispStatus === 'NewOrder';
+    rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
   const pendingRenewal =
     rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    rx?.dispStatus === 'Renew';
+    rx?.dispStatus === DISPENSE_STATUS.RENEW;
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);
 
