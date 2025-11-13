@@ -460,9 +460,8 @@ export function submitFiles(
                       body: (
                         <>
                           <span>
-                            If your uploaded file doesn’t appear in the
-                            Documents Filed section on this page, please try
-                            refreshing the page.
+                            Your file should be listed in the Documents filed
+                            section. If it’s not there, try refreshing the page.
                           </span>
                           {timezoneMitigationEnabled &&
                             showTimezoneDiscrepancyMessage(now) && (
