@@ -7,7 +7,7 @@ import content from '../locales/en/content.json';
 const ERR_SSN_UNIQUE = content['validation--ssn-unique'];
 const ERR_SSN_INVALID = content['validation--ssn-invalid'];
 
-const normalizeSSN = val => `${val ?? ''}`.replace(/\D/g, '');
+const normalizeSSN = val => String(val ?? '').replace(/\D/g, '');
 
 const getCurrentItemIndex = () => {
   try {
@@ -39,9 +39,10 @@ const getSsnMatches = (fullData, current) => {
     .map(a => normalizeSSN(a?.applicantSsn))
     .filter(Boolean);
 
-  const sponsorMatch = !!sponsor && sponsor === current;
+  const sponsorMatch = sponsor === current;
   const applicantMatches = applicants.filter(
-    (ssn, index) => ssn === current && index !== currentIndex,
+    (ssn, index) =>
+      ssn === current && (currentIndex === null || index !== currentIndex),
   ).length;
 
   return { sponsorMatch, applicantMatches, currentIndex };
@@ -50,12 +51,11 @@ const getSsnMatches = (fullData, current) => {
 /**
  * Validates that an SSN is valid and unique among all form participants.
  *
- * @param {Object} errors - The validation errors object to add errors to
- * @param {string} fieldData - The SSN field data to validate
- * @param {Object} fullData - The complete form data for cross-reference checking
- * @param {Object} options - Validation options
+ * @param {Object} options
+ * @param {Object} options.errors - The validation errors object to add errors to
+ * @param {string} options.fieldData - The SSN field data to validate
+ * @param {Object} options.fullData - The complete form data for cross-reference checking
  * @param {boolean} [options.isSponsor=false] - Whether this is validating the sponsor's SSN
- * @returns {void}
  */
 const validateUniqueSsn = ({
   errors,
@@ -71,14 +71,20 @@ const validateUniqueSsn = ({
     return;
   }
 
-  const { sponsorMatch, applicantMatches } = getSsnMatches(fullData, current);
+  const { sponsorMatch, applicantMatches, currentIndex } = getSsnMatches(
+    fullData,
+    current,
+  );
 
   if (!isSponsor && sponsorMatch) {
     errors.addError(ERR_SSN_UNIQUE);
     return;
   }
 
-  if (applicantMatches > 0) errors.addError(ERR_SSN_UNIQUE);
+  const duplicateThreshold = !isSponsor && currentIndex === null ? 1 : 0;
+  if (applicantMatches > duplicateThreshold) {
+    errors.addError(ERR_SSN_UNIQUE);
+  }
 };
 
 export const validateSponsorSsn = (errors, fieldData, fullData) => {
@@ -86,7 +92,7 @@ export const validateSponsorSsn = (errors, fieldData, fullData) => {
 };
 
 export const validateApplicantSsn = (errors, fieldData, fullData) => {
-  validateUniqueSsn({ errors, fieldData, fullData, isSponsor: false });
+  validateUniqueSsn({ errors, fieldData, fullData });
 };
 
 /**
