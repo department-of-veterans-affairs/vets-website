@@ -17,6 +17,10 @@
             {
                 "name": "mhv_medications_dont_increment_ipe_count",
                 "value": true
+            },
+            {
+                "name": "mhv_secure_messaging_medications_renewal_request",
+                "value": true
             }
         ]
     }
