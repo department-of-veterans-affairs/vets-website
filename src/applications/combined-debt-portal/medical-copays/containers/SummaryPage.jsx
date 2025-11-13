@@ -114,7 +114,7 @@ const OverviewPage = () => {
     setPageFocus('h1');
   }, []);
 
-  const MAX_ROWS = 5;
+  const MAX_ROWS = 10;
 
   function paginate(array, pageSize, pageNumber) {
     return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
