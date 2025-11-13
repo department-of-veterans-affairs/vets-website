@@ -28,9 +28,10 @@ const faqBlock1 = (
       Health Benefits Update Form (VA Form 10-10EZR).
     </p>
     <p>
-      <a className="vads-c-action-link--green" href={APP_URLS.ezr}>
-        Update your health benefits information
-      </a>
+      <va-link-action
+        href={APP_URLS.ezr}
+        text="Update your health benefits information"
+      />
     </p>
     <p>
       You can also update some information (like your address and other contact
@@ -48,7 +49,7 @@ const faqBlock1 = (
       If you qualify for VA dental care benefits, you may be able to get some or
       all of your dental care through VA. Or if you don’t qualify for VA dental
       care, you can buy dental insurance at a reduced cost through the VA Dental
-      Insurance Program (VADIP).{' '}
+      Insurance Program (VADIP).
     </p>
     <p>
       <va-link
@@ -61,7 +62,7 @@ const faqBlock1 = (
       Health Eligibility Center at{' '}
       <va-telephone contact={CONTACTS['222_VETS']} /> (
       <va-telephone contact={CONTACTS['711']} tty />
-      ). {ourHours} You can also visit your local VA facility to learn more.{' '}
+      ). {ourHours} You can also visit your local VA facility to learn more.
     </p>
     <p>
       <va-link
