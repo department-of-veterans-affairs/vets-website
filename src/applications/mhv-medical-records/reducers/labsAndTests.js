@@ -1,4 +1,4 @@
-import { parseISO, format } from 'date-fns';
+import { parseISO, format, subMonths } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatObservationInterpretations,
@@ -22,7 +22,10 @@ import {
   labTypes,
   EMPTY_FIELD,
   loadStates,
+  DEFAULT_DATE_RANGE,
 } from '../util/constants';
+
+const currentDate = new Date();
 
 const initialState = {
   /**
@@ -49,6 +52,17 @@ const initialState = {
    * The lab or test result currently being displayed to the user
    */
   labsAndTestsDetails: undefined,
+  /**
+   * The lab or test result currently being displayed to the user
+   */
+  dateRange: {
+    option: DEFAULT_DATE_RANGE,
+    fromDate: format(
+      subMonths(currentDate, parseInt(DEFAULT_DATE_RANGE, 10)),
+      'yyyy-MM-dd',
+    ),
+    toDate: format(currentDate, 'yyyy-MM-dd'),
+  },
 };
 
 export const extractLabLocation = (performer, record) => {
@@ -651,6 +665,12 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         listState: action.payload,
+      };
+    }
+    case Actions.LabsAndTests.SET_DATE_RANGE: {
+      return {
+        ...state,
+        dateRange: action.payload,
       };
     }
     default:
