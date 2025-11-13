@@ -82,7 +82,7 @@ const expenseDetailsPage = {
     provider: textUI('Provider or funeral home name'),
     expenseType: textUI({
       title: 'Type of expense',
-      hint: 'For example: doctor, hospital, burial, funeral service',
+      hint: 'For example: doctor, hospital, burial, funeral service.',
     }),
     amount: currencyUI({
       title: 'Cost of the expense',
