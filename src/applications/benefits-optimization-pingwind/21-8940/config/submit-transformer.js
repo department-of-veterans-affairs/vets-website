@@ -1,4 +1,4 @@
-import sharedTransformForSubmit from '../../shared/config/submit-transformer';
+import sharedTransformForSubmit from '../../../simple-forms/shared/config/submit-transformer';
 import {
   doctorCareQuestionFields,
   employmentAppliedFields,
