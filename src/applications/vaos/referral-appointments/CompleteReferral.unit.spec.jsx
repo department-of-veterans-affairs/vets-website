@@ -11,9 +11,7 @@ import {
 } from '../tests/mocks/setup';
 import { FETCH_STATUS } from '../utils/constants';
 import { createMockEpsAppointment } from './utils/appointment';
-import { createReferralById } from './utils/referrals';
 import * as epsAppointmentUtils from './utils/appointment';
-import * as vaosApi from '../redux/api/vaosApi';
 
 describe('CompleteReferral', () => {
   let requestStub;
@@ -27,10 +25,6 @@ describe('CompleteReferral', () => {
     appointmentId,
     'draft',
     epsAppointmentUtils.appointmentData,
-  );
-  const currentReferral = createReferralById(
-    '2024-11-29',
-    'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
   );
   let sandbox;
 
@@ -57,13 +51,6 @@ describe('CompleteReferral', () => {
       },
     });
     requestStub = sandbox.stub(utils, 'apiRequestWithUrl');
-
-    // Mock the referral fetch hook that's now in each component
-    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
-      data: currentReferral,
-      error: null,
-      isLoading: false,
-    });
   });
   afterEach(() => {
     sandbox.restore();
@@ -148,7 +135,7 @@ describe('CompleteReferral', () => {
     expect(timeContainer.textContent).to.include('ET');
 
     expect(getByTestId('appointment-type')).to.have.text(
-      'Optometry with Dr. Moreen S. Rafa',
+      'Optometry with Dr. Smith @ Acme Cardiology - Anywhere, USA',
     );
 
     expect(getByTestId('survey-info-block')).to.exist;

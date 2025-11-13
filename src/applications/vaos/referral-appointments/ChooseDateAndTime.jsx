@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import ReferralLayout from './components/ReferralLayout';
-import ReferralErrorLayout from './components/ReferralErrorLayout';
 // eslint-disable-next-line import/no-restricted-paths
 import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/selectors';
 import { setFormCurrentPage } from './redux/actions';
@@ -91,21 +90,7 @@ export const ChooseDateAndTime = () => {
     [location, dispatch],
   );
 
-  if (isReferralLoading) {
-    return (
-      <ReferralLayout
-        hasEyebrow
-        heading="Choose a date and time"
-        loadingMessage="Loading your appointment information"
-      />
-    );
-  }
-
-  if (referralError || !currentReferral) {
-    return <ReferralErrorLayout showFindLink={false} />;
-  }
-
-  if (loading || isDraftLoading) {
+  if (loading || isDraftLoading || isReferralLoading) {
     return (
       <ReferralLayout
         data-testid="loading"
@@ -119,7 +104,7 @@ export const ChooseDateAndTime = () => {
   return (
     <ReferralLayout
       hasEyebrow
-      apiFailure={failed}
+      apiFailure={failed || referralError || !currentReferral}
       heading="Schedule an appointment with your provider"
     >
       <DateAndTimeContent

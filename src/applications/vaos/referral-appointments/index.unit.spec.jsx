@@ -21,16 +21,19 @@ const initialStateVAOSService = {
 
 describe('ReferralAppointments', () => {
   const sandbox = sinon.createSandbox();
+  let useGetReferralByIdQueryStub;
 
   beforeEach(() => {
-    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
-      data: createReferralById(
-        '2024-11-29',
-        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-      ),
-      error: null,
-      isLoading: false,
-    });
+    useGetReferralByIdQueryStub = sandbox
+      .stub(vaosApi, 'useGetReferralByIdQuery')
+      .returns({
+        data: createReferralById(
+          '2024-11-29',
+          'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+        ),
+        error: null,
+        isLoading: false,
+      });
     sandbox.stub(useManualScrollRestoration, 'default');
     sandbox.stub(useIsInPilotUserStations, 'useIsInPilotUserStations').returns({
       isInPilotUserStations: true,
@@ -42,7 +45,7 @@ describe('ReferralAppointments', () => {
   });
 
   it('should render loading layout when referral is loading', async () => {
-    vaosApi.useGetReferralByIdQuery.returns({
+    useGetReferralByIdQueryStub.returns({
       data: null,
       error: null,
       isLoading: true,
@@ -63,7 +66,7 @@ describe('ReferralAppointments', () => {
   });
 
   it('should render error layout when there is an error fetching referral', async () => {
-    vaosApi.useGetReferralByIdQuery.returns({
+    useGetReferralByIdQueryStub.returns({
       data: null,
       error: true,
       isLoading: false,
@@ -122,7 +125,7 @@ describe('ReferralAppointments', () => {
     );
     referralWithAppointments.attributes.hasAppointments = true;
 
-    vaosApi.useGetReferralByIdQuery.returns({
+    useGetReferralByIdQueryStub.returns({
       data: referralWithAppointments,
       error: null,
       isLoading: false,

@@ -24,7 +24,6 @@ import { getReferralSlotKey } from './utils/referrals';
 import { getSlotByDate } from './utils/provider';
 import { stripDST } from '../utils/timezone';
 import FindCommunityCareOfficeLink from './components/FindCCFacilityLink';
-import ReferralErrorLayout from './components/ReferralErrorLayout';
 import { titleCase } from '../utils/formatters';
 
 const ReviewAndConfirm = () => {
@@ -188,10 +187,6 @@ const ReviewAndConfirm = () => {
     );
   }
 
-  if (referralError || !currentReferral) {
-    return <ReferralErrorLayout />;
-  }
-
   if (isDraftLoading) {
     return (
       <ReferralLayout
@@ -208,7 +203,7 @@ const ReviewAndConfirm = () => {
     <ReferralLayout
       hasEyebrow
       heading="Review your appointment details"
-      apiFailure={failed}
+      apiFailure={failed || referralError || !currentReferral}
       loadingMessage={loading ? 'Loading your appointment details' : null}
     >
       <div>
