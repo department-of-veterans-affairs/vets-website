@@ -18,7 +18,6 @@ import {
 } from '../api/prescriptionsApi';
 
 import { dateFormat } from '../util/helpers';
-import { selectRefillProgressFlag } from '../util/selectors';
 import {
   DATETIME_FORMATS,
   SESSION_SELECTED_PAGE_NUMBER,
@@ -95,7 +94,6 @@ const RefillPrescriptions = () => {
 
   // Get refillable list from RTK Query result
   const fullRefillList = refillableData?.prescriptions || [];
-  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery({
     isAcceleratingAllergies,
     isCerner,
@@ -216,15 +214,12 @@ const RefillPrescriptions = () => {
         >
           Refill prescriptions
         </h1>
-        {showRefillProgressContent &&
-          refillAlertList.length > 0 && (
-            <DelayedRefillAlert
-              dataDogActionName={
-                dataDogActionNames.refillPage.REFILL_ALERT_LINK
-              }
-              refillAlertList={refillAlertList}
-            />
-          )}
+        {refillAlertList.length > 0 && (
+          <DelayedRefillAlert
+            dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
+            refillAlertList={refillAlertList}
+          />
+        )}
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
@@ -361,9 +356,7 @@ const RefillPrescriptions = () => {
                 Go to your medications list
               </Link>
             </p>
-            {showRefillProgressContent && (
-              <ProcessList stepGuideProps={stepGuideProps} />
-            )}
+            <ProcessList stepGuideProps={stepGuideProps} />
             <NeedHelp page={pageType.REFILL} />
           </>
         )}
