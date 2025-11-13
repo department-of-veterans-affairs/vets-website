@@ -18,6 +18,7 @@ const DisclaimerActivity = ({ text, className, variant = 'ai' }) => (
 
 DisclaimerActivity.propTypes = {
   className: PropTypes.string,
+  'data-activity-id': PropTypes.string,
   text: PropTypes.string,
   variant: PropTypes.string,
 };
