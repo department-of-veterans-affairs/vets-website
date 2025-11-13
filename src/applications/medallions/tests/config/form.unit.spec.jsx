@@ -42,10 +42,10 @@ describe('formConfig', () => {
     expect(formConfig.subTitle).to.exist;
   });
 
-  it('should have chapters for veteranInformation, veteranServicePeriods, burialInformation, memorialItems, supportingDocuments', () => {
+  it('should have chapters for veteranInformation, servicePeriods, burialInformation, memorialItems, supportingDocuments', () => {
     [
       'veteranInformation',
-      'veteranServicePeriods',
+      'servicePeriods',
       'burialInformation',
       'memorialItems',
       'supportingDocuments',
