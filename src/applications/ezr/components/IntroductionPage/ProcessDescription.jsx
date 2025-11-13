@@ -61,7 +61,7 @@ const ProcessDescription = () => (
         details about exposure to any toxins or other hazards. And you can also
         submit supporting documents with more information about this exposure.{' '}
         <a
-          href="https://www.va.gov/health-care/update-health-information/#what-supporting-documents-can-"
+          href="/health-care/update-health-information/#what-supporting-documents-can-"
           target="_blank"
           rel="noreferrer"
         >
@@ -81,7 +81,7 @@ const ProcessDescription = () => (
       If you qualify for VA dental care benefits, you may be able to get some or
       all of your dental care through VA. Or if you don’t qualify for VA dental
       care, you can buy dental insurance at a reduced cost through the VA Dental
-      Insurance Program (VADIP).{' '}
+      Insurance Program (VADIP).
     </p>
     <p>
       <va-link
@@ -98,7 +98,7 @@ const ProcessDescription = () => (
       <dfn>
         <abbr title="Eastern Time">ET</abbr>
       </dfn>
-      . You can also visit your local VA facility to learn more.{' '}
+      . You can also visit your local VA facility to learn more.
     </p>
     <p>
       <va-link
