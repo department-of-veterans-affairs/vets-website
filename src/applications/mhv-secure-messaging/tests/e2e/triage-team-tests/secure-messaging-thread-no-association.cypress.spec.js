@@ -99,7 +99,7 @@ describe('SM NO ASSOCIATION WITH PARTICULAR TG', () => {
       .find('va-link-action')
       .first()
       .should('have.attr', 'href', Paths.FIND_LOCATIONS)
-      .and('have.text', Alerts.NO_ASSOCIATION.LINK);
+      .and('have.attr', 'text', Alerts.NO_ASSOCIATION.LINK);
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
   });

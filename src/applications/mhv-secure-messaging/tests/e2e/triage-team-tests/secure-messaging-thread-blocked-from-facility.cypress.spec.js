@@ -91,7 +91,7 @@ describe('Verify Thread - Blocked from Facility', () => {
       .find('va-link-action')
       .first()
       .should('have.attr', 'href', Paths.FIND_LOCATIONS)
-      .and('have.text', Alerts.BLOCKED.LINK);
+      .and('have.attr', 'text', Alerts.BLOCKED.LINK);
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
   });

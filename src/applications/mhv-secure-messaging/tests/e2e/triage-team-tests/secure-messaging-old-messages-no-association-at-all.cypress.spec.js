@@ -84,7 +84,7 @@ describe('Verify old messages - No association with particular Triage Group', ()
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('va-link-action')
       .first()
-      .should('have.text', Alerts.NO_ASSOCIATION.LINK);
+      .should('have.attr', 'text', Alerts.NO_ASSOCIATION.LINK);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('va-link-action')
