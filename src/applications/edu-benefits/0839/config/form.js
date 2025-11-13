@@ -130,6 +130,11 @@ const formConfig = {
             }
           },
         },
+      },
+    },
+    additionalInstitutionDetailsChapter: {
+      title: 'Additional locations',
+      pages: {
         ...arrayBuilderPages(
           additionalInstitutionDetailsArrayOptions,
           pageBuilder => ({
