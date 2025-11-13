@@ -10,7 +10,7 @@ describe('EDIT SIGNATURE FEATURE', () => {
 
     cy.get(`[data-testid="edit-signature-link"]`)
       .should(`be.visible`)
-      .and(`have.text`, Data.EDIT_SIGNATURE)
+      .and(`have.attr`, 'text', Data.EDIT_SIGNATURE)
       .and(`have.attr`, `href`, Data.LINKS.PROFILE_SIGNATURE);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
@@ -23,8 +23,9 @@ describe('EDIT SIGNATURE FEATURE', () => {
 
     cy.get(Locators.BUTTONS.PREFERENCES).should(`not.exist`);
     cy.get(Locators.LINKS.EDIT_SIGNATURE)
+      .find('va-link-action')
       .should(`be.visible`)
-      .and(`have.text`, Data.EDIT_SIGNATURE);
+      .and('have.attr', 'text', Data.EDIT_SIGNATURE);
 
     cy.get(Locators.LINKS.EDIT_SIGNATURE)
       .find('va-link-action')
