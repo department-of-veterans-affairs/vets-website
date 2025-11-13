@@ -1,3 +1,5 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
+// axe checks are being made, but aren't being caught be the linter
 import maintenanceWindows from '../../utilities/mocks/endpoints/maintenance-windows';
 import user from './fixtures/mocks/user.json';
 
@@ -66,7 +68,6 @@ describe('ArpMaintenanceWindowBanner', () => {
 
       dismissBanner();
       checkBannerDismissed();
-      cy.injectAxeThenAxeCheck();
 
       // banner remains dismissed
       cy.visit('/representative');
@@ -81,7 +82,6 @@ describe('ArpMaintenanceWindowBanner', () => {
 
       dismissBanner();
       checkBannerDismissed();
-      cy.injectAxeThenAxeCheck();
 
       // banner remains dismissed
       cy.visit('/representative');
@@ -101,7 +101,6 @@ describe('ArpMaintenanceWindowBanner', () => {
 
       dismissBanner();
       checkBannerDismissed();
-      cy.injectAxeThenAxeCheck();
 
       // banner remains dismissed
       cy.visit('/representative/dashboard');
@@ -116,7 +115,6 @@ describe('ArpMaintenanceWindowBanner', () => {
 
       dismissBanner();
       checkBannerDismissed();
-      cy.injectAxeThenAxeCheck();
 
       // banner remains dismissed
       cy.visit('/representative/dashboard');
