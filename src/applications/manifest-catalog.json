@@ -736,10 +736,10 @@
       "rootUrl": "/supporting-forms-for-claims/release-information-to-va-form-21-4142"
     },
     {
-      "directoryPath": "src/applications/simple-forms/21-8940",
+      "directoryPath": "src/applications/benefits-optimization-pingwind/21-8940",
       "appName": "Apply for additional compensation based on inability to work",
       "entryName": "21-8940",
-      "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-form-21-8940"
+      "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-unemployability-compensation-form-21-8940"
     },
     {
       "directoryPath": "src/applications/simple-forms/21p-0537",
