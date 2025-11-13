@@ -25,7 +25,7 @@ export default function VHAPortalRemovalNotice() {
           text="Go to My HealtheVet on VA.gov"
           label="Go to My HealtheVet on VA.gov"
           type="primary"
-          // href=""
+          href="/my-health"
         />
         <h2>Still want to use My VA Health for now?</h2>
         <p>
@@ -36,7 +36,7 @@ export default function VHAPortalRemovalNotice() {
           text="Go to My VA Health"
           label="Go to My VA Health"
           type="secondary"
-          // href=""
+          href="patientportal.myhealth.va.gov"
         />
       </div>
     </section>
