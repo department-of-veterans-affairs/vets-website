@@ -45,6 +45,7 @@ const appointments = require('./medical-records/blue-button/appointments');
 const demographics = require('./medical-records/blue-button/demographics');
 const militaryService = require('./medical-records/blue-button/military-service');
 const patient = require('./medical-records/blue-button/patient');
+const lhVitals = require('./medical-records/vitals/lh-vitals');
 const acceleratedVitals = require('./medical-records/vitals/accelerated');
 
 // medical records self-entered
@@ -341,13 +342,13 @@ startxref
     return res.type('application/pdf').send(Buffer.from(pdfMock));
   },
   'GET /my_health/v1/medical_records/vitals': (req, res) => {
-    const { use_oh_data_path, from, to } = req.query;
+    const { use_oh_data_path } = req.query;
     if (use_oh_data_path === '1') {
-      const vitalsData = acceleratedVitals.all(from, to);
-      return res.json(vitalsData);
+      return res.json(lhVitals.all);
     }
     return res.json(vitals.all);
   },
+  'GET /my_health/v2/medical_records/vitals': acceleratedVitals.all,
 
   // medical records Blue Button
   'GET /vaos/v2/appointments': appointments.appointments,

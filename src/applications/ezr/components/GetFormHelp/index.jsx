@@ -1,5 +1,5 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { CONTACTS } from '../../utils/imports';
 
 const GetFormHelp = () => (
   <>
@@ -13,13 +13,14 @@ const GetFormHelp = () => (
     <p className="help-talk">
       <strong>
         If you need help to gather your information or fill out your
-        application/form, you can appoint a VA accredited representative.{' '}
+        application/form, you can appoint a VA accredited representative.
       </strong>
+    </p>
+    <p>
       <va-link
-        href="https://www.va.gov/get-help-from-accredited-representative/"
+        href="/get-help-from-accredited-representative/"
         text="Get help filling out a form"
       />
-      .
     </p>
     <p className="help-talk">
       <strong>If you have questions about VA health care,</strong> call our

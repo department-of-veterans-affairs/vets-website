@@ -7,7 +7,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayDocumentationContent = true,
     mhvMedicationsDisplayGrouping = true,
     mhvMedicationsDisplayPendingMeds = true,
-    mhvMedicationsDisplayRefillProgress = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
 
@@ -87,10 +86,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_pending_meds',
           value: mhvMedicationsDisplayPendingMeds,
-        },
-        {
-          name: 'mhv_medications_display_refill_progress',
-          value: mhvMedicationsDisplayRefillProgress,
         },
         {
           name: 'mhv_medications_partial_fill_content',
