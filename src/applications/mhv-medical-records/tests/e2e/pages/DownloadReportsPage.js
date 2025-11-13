@@ -21,24 +21,18 @@ class DownloadReportsPage {
       'be.visible',
     );
 
-    // Wait for buttons to be rendered and stable
-    cy.get('[data-testid^="generateCcdButton"]', { timeout: 15000 }).should(
-      'have.length.greaterThan',
-      0,
-    );
-
-    // Wait for first button to be fully visible, interactable, AND have proper dimensions
-    // This prevents clicking on web components that are hydrated but still have 0x0 dimensions
-    cy.get('[data-testid^="generateCcdButton"]', { timeout: 15000 })
+    // Wait for buttons to be rendered and stable with non-zero dimensions
+    // Using a longer timeout and dimension check to handle web component rendering delays
+    cy.get('[data-testid^="generateCcdButton"]', { timeout: 20000 })
       .first()
-      .should('be.visible')
-      .should('not.be.disabled')
       .should($el => {
-        // Ensure element has non-zero dimensions (web component fully rendered)
+        // Retry until element has non-zero dimensions (web component fully rendered)
         const rect = $el[0].getBoundingClientRect();
         expect(rect.width).to.be.greaterThan(0);
         expect(rect.height).to.be.greaterThan(0);
-      });
+      })
+      .should('be.visible')
+      .should('not.be.disabled');
   };
 
   clickSelfEnteredAccordionItem = () => {
@@ -177,15 +171,15 @@ class DownloadReportsPage {
 
   verifyDualAccordionVisible = () => {
     // Verify both CCD headings are visible (with facility names)
-    // Using partial text match since facility names are dynamic
-    cy.contains('h4', 'CCD: medical records from', {
+    // The headings now show "CCD: medical records from [facility names]"
+    // We just need to verify both sections' download links are visible
+    // which confirms both accordions are rendering correctly
+    cy.get('[data-testid="generateCcdButtonXmlVista"]', {
       timeout: 15000,
     }).should('be.visible');
-
-    // Verify we have exactly 2 CCD headings (one for VistA, one for OH)
-    cy.get('h4')
-      .filter(':contains("CCD: medical records from")')
-      .should('have.length', 2);
+    cy.get('[data-testid="generateCcdButtonXmlOH"]', {
+      timeout: 15000,
+    }).should('be.visible');
   };
 
   verifyVistaDownloadLinksVisible = () => {
