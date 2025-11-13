@@ -149,14 +149,7 @@ describe('Travel Pay – ReviewPage', () => {
 
     // Accordion items
     const accordionItems = container.querySelectorAll('va-accordion-item');
-    expect(accordionItems.length).to.equal(
-      Object.keys(
-        defaultClaim.expenses.reduce((acc, e) => {
-          acc[e.expenseType] = true;
-          return acc;
-        }, {}),
-      ).length,
-    );
+    expect(accordionItems.length).to.equal(defaultClaim.expenses.length);
 
     // Wait for expenses to load and render accordion items
     await waitFor(() => {
@@ -164,11 +157,13 @@ describe('Travel Pay – ReviewPage', () => {
     });
 
     // ExpenseCard should render
-    const expenseCards = container.querySelectorAll('va-card');
+    const expenseCards = document.querySelectorAll(
+      'va-card[classname="expense-card"]',
+    );
     expect(expenseCards.length).to.equal(defaultClaim.expenses.length);
 
     // SummaryBox should render
-    expect(container.querySelector('va-summary-box')).to.exist;
+    expect(getByTestId('summary-box')).to.exist;
   });
 
   it('calls signAgreement when Sign Agreement button is clicked', () => {
@@ -253,22 +248,17 @@ describe('Travel Pay – ReviewPage', () => {
     await waitFor(() => {
       // Check that each expense type has an accordion item
       const accordionItems = container.querySelectorAll('va-accordion-item');
-      expect(accordionItems.length).to.equal(
-        Object.keys(
-          defaultClaim.expenses.reduce((acc, e) => {
-            acc[e.expenseType] = true;
-            return acc;
-          }, {}),
-        ).length,
-      );
+      expect(accordionItems.length).to.equal(defaultClaim.expenses.length);
     });
 
     // ExpenseCard rendered
-    const expenseCards = container.querySelectorAll('va-card');
+    const expenseCards = document.querySelectorAll(
+      'va-card[classname="expense-card"]',
+    );
     expect(expenseCards.length).to.equal(defaultClaim.expenses.length);
   });
 
-  it('renders "No expenses have been added to this claim." when there are no expenses', () => {
+  it('renders "No expenses have been added." when there are no expenses', () => {
     // Override the Redux state to have no expenses
     const emptyState = {
       ...getData(),
@@ -295,7 +285,7 @@ describe('Travel Pay – ReviewPage', () => {
     );
 
     // The "no expenses" message should be visible
-    expect(getByText('No expenses have been added to this claim.')).to.exist;
+    expect(getByText('No expenses have been added.')).to.exist;
 
     // The "Add more expenses" button should still exist
     expect(document.querySelector('#add-expense-button')).to.exist;

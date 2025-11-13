@@ -109,7 +109,7 @@ const ReviewPage = ({ message }) => {
         groupAccordionItemsByType
       />
       <div className="vads-u-margin-top--1">
-        <va-card background>
+        <va-card data-testid="summary-box" background>
           <h3 className="vads-u-margin-top--1">Estimated reimbursement</h3>
           <ul>
             {Object.entries(totalByExpenseType)
