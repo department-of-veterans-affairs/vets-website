@@ -9,10 +9,7 @@ import ProviderAddress from './components/ProviderAddress';
 import AppointmentDate from '../components/AppointmentDate';
 import AppointmentTime from '../components/AppointmentTime';
 import { routeToNextReferralPage } from './flow';
-import {
-  usePollAppointmentInfoQuery,
-  useGetReferralByIdQuery,
-} from '../redux/api/vaosApi';
+import { usePollAppointmentInfoQuery } from '../redux/api/vaosApi';
 import { setFormCurrentPage, startNewAppointmentFlow } from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
@@ -22,7 +19,6 @@ import {
 } from './redux/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
 import FindCommunityCareOfficeLink from './components/FindCCFacilityLink';
-import ReferralErrorLayout from './components/ReferralErrorLayout';
 
 function handleScheduleClick(dispatch) {
   return () => {
@@ -41,17 +37,7 @@ export const CompleteReferral = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { pathname, search } = location;
-  const params = new URLSearchParams(search);
-  const id = params.get('id');
-
-  const {
-    data: referral,
-    error: referralError,
-    isLoading: isReferralLoading,
-  } = useGetReferralByIdQuery(id);
-
-  const currentReferral = referral?.attributes;
+  const { pathname } = location;
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
   const currentPage = useSelector(selectCurrentPage);
   const [requestTime, setRequestTime] = useState(0);
@@ -115,24 +101,17 @@ export const CompleteReferral = () => {
     ],
   );
 
-  if (isReferralLoading) {
-    return (
-      <ReferralLayout loadingMessage="Loading your appointment confirmation" />
-    );
-  }
-
-  if (referralError || !currentReferral) {
-    return <ReferralErrorLayout />;
-  }
-
   if (appointmentInfoError || appointmentInfoTimeout) {
+    const phoneNumber = referralAppointmentInfo?.attributes?.provider?.phone;
+    const phoneText = phoneNumber ? `at ${phoneNumber} ` : '';
+
     return (
       <ReferralLayout
         hasEyebrow
         heading={
           appointmentInfoTimeout
-            ? 'We’re having trouble scheduling this appointment'
-            : 'We can’t schedule this appointment online'
+            ? "We're having trouble scheduling this appointment"
+            : "We can't schedule this appointment online"
         }
       >
         <va-alert
@@ -142,12 +121,8 @@ export const CompleteReferral = () => {
         >
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             {appointmentInfoTimeout
-              ? `Try refreshing this page. If it still doesn’t work, call your community care provider at  ${
-                  currentReferral.provider.phone
-                } or your facility’s community care office to schedule an appointment.`
-              : `We’re sorry. Call your community care provider at ${
-                  currentReferral.provider.phone
-                } or your facility’s community care office to schedule an appointment.`}
+              ? `Try refreshing this page. If it still doesn't work, call your community care provider ${phoneText}or your facility's community care office to schedule an appointment.`
+              : `We're sorry. Call your community care provider ${phoneText}or your facility's community care office to schedule an appointment.`}
           </p>
           <FindCommunityCareOfficeLink />
         </va-alert>
@@ -209,9 +184,11 @@ export const CompleteReferral = () => {
               />
             </h2>
             <strong data-dd-privacy="mask" data-testid="appointment-type">
-              {titleCase(currentReferral.categoryOfCare)} with{' '}
-              {`${currentReferral.provider.name ||
-                'Provider name not available'}`}
+              {attributes?.categoryOfCare
+                ? `${titleCase(attributes.categoryOfCare)} with ${attributes
+                    ?.provider?.name || 'Provider name not available'}`
+                : `${attributes?.provider?.name ||
+                    'Provider name not available'}`}
             </strong>
             <p
               className="vads-u-margin-bottom--0"
@@ -220,10 +197,10 @@ export const CompleteReferral = () => {
               Community care
             </p>
             <ProviderAddress
-              address={attributes.provider.location.address}
+              address={attributes?.provider?.location?.address}
               showDirections
-              directionsName={attributes.provider.location.name}
-              phone={currentReferral.provider.phone}
+              directionsName={attributes?.provider?.location?.name}
+              phone={attributes?.provider?.phone}
             />
             <p>
               <va-link

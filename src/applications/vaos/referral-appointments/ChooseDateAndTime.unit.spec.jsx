@@ -14,7 +14,6 @@ import * as fetchAppointmentsModule from '../services/appointment';
 import * as flow from './flow';
 import { FETCH_STATUS } from '../utils/constants';
 import * as utils from '../services/utils';
-import * as vaosApi from '../redux/api/vaosApi';
 
 describe('VAOS ChooseDateAndTime component', () => {
   const sandbox = sinon.createSandbox();
@@ -92,6 +91,7 @@ describe('VAOS ChooseDateAndTime component', () => {
       preferredProviderName: null,
     },
   ];
+  const referral = createReferralById('2024-09-09', 'UUID');
   const initialFullState = {
     featureToggles: {
       vaOnlineSchedulingCCDirectScheduling: true,
@@ -105,6 +105,14 @@ describe('VAOS ChooseDateAndTime component', () => {
     },
     appointmentApi: {
       queries: {
+        'getReferralById("UUID")': {
+          status: 'fulfilled',
+          data: referral,
+          endpoint: 'getReferralById',
+          requestId: 'abc-referral',
+          startedTimeStamp: 1758046349180,
+          fulfilledTimeStamp: 1758046349181,
+        },
         'getDraftReferralAppointment({"referralConsultId":"984_646907","referralNumber":"VA0000007241"})': {
           status: 'fulfilled',
           data: createDraftAppointmentInfo(1),
@@ -115,6 +123,9 @@ describe('VAOS ChooseDateAndTime component', () => {
         },
       },
       subscriptions: {
+        'getReferralById("UUID")': {
+          'abc-referral': { pollingInterval: 0 },
+        },
         'getDraftReferralAppointment({"referralConsultId":"984_646907","referralNumber":"VA0000007241"})': {
           abc: { pollingInterval: 0 },
         },
@@ -165,14 +176,7 @@ describe('VAOS ChooseDateAndTime component', () => {
     sandbox.restore();
   });
   it('should fetch provider or appointments from store if it exists and not call API', async () => {
-    const referral = createReferralById('2024-09-09', 'UUID');
     const store = createTestStore(initialFullState);
-
-    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
-      data: referral,
-      error: null,
-      isLoading: false,
-    });
 
     sandbox
       .stub(utils, 'apiRequestWithUrl')
@@ -185,19 +189,33 @@ describe('VAOS ChooseDateAndTime component', () => {
     sandbox.assert.notCalled(fetchAppointmentsModule.fetchAppointments);
   });
   it('should call API for provider or appointment data if not in store', async () => {
-    const referral = createReferralById('2024-09-09', 'UUID');
-
-    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
-      data: referral,
-      error: null,
-      isLoading: false,
-    });
+    const referralForEmptyState = createReferralById('2024-09-09', 'UUID');
+    const stateWithReferralOnly = {
+      ...initialEmptyState,
+      appointmentApi: {
+        queries: {
+          'getReferralById("UUID")': {
+            status: 'fulfilled',
+            data: referralForEmptyState,
+            endpoint: 'getReferralById',
+            requestId: 'abc-referral',
+            startedTimeStamp: 1758046349180,
+            fulfilledTimeStamp: 1758046349181,
+          },
+        },
+        subscriptions: {
+          'getReferralById("UUID")': {
+            'abc-referral': { pollingInterval: 0 },
+          },
+        },
+      },
+    };
 
     sandbox
       .stub(utils, 'apiRequestWithUrl')
       .resolves({ data: createDraftAppointmentInfo() });
     const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
-      store: createTestStore(initialEmptyState),
+      store: createTestStore(stateWithReferralOnly),
       path: '/?id=UUID',
     });
     await waitForElementToBeRemoved(() =>
@@ -221,19 +239,34 @@ describe('VAOS ChooseDateAndTime component', () => {
     sandbox.assert.calledOnce(fetchAppointmentsModule.fetchAppointments);
   });
   it('should show error if any fetch fails', async () => {
-    const referral = createReferralById('2024-09-09', 'UUID');
-
-    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
-      data: referral,
-      error: null,
-      isLoading: false,
-    });
+    const referralForFailedState = createReferralById('2024-09-09', 'UUID');
+    const stateWithReferralAndError = {
+      ...failedState,
+      appointmentApi: {
+        ...failedState.appointmentApi,
+        queries: {
+          'getReferralById("UUID")': {
+            status: 'fulfilled',
+            data: referralForFailedState,
+            endpoint: 'getReferralById',
+            requestId: 'abc-referral',
+            startedTimeStamp: 1758046349180,
+            fulfilledTimeStamp: 1758046349181,
+          },
+        },
+        subscriptions: {
+          'getReferralById("UUID")': {
+            'abc-referral': { pollingInterval: 0 },
+          },
+        },
+      },
+    };
 
     sandbox.stub(utils, 'apiRequestWithUrl').throws({
       error: { status: 500, message: 'Failed to create appointment' },
     });
     const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
-      store: createTestStore(failedState),
+      store: createTestStore(stateWithReferralAndError),
       path: '/?id=UUID',
     });
     await waitFor(() => {
