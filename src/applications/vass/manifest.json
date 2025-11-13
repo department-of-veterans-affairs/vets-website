@@ -1,0 +1,7 @@
+{
+  "appName": "VASS",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "vass",
+  "rootUrl": "/service-member/benefits/solid-start/schedule",
+  "productId": "b4e39943-c5e7-497a-ad26-8a1b9342cb97"
+}

@@ -295,31 +295,6 @@ describe('generateParticipantName', () => {
 });
 
 describe('applicantOptions', () => {
-  describe('isItemIncomplete', () => {
-    it('should mark item incomplete if date of birth is missing', () => {
-      const res = applicantOptions.isItemIncomplete({
-        applicantName: { first: 'Jim' },
-        applicantSSN: '123123123',
-        applicantGender: 'male',
-        applicantPhone: '1231231234',
-        applicantAddress: { street: '123 St' },
-        applicantRelationshipToSponsor: 'child',
-      });
-      expect(res).to.be.true;
-    });
-    it('should mark item complete if all required fields are present', () => {
-      const res = applicantOptions.isItemIncomplete({
-        applicantName: { first: 'Jim' },
-        applicantDob: '2001-01-01',
-        applicantSSN: '123123123',
-        applicantGender: 'male',
-        applicantPhone: '1231231234',
-        applicantAddress: { street: '123 St' },
-        applicantRelationshipToSponsor: 'child',
-      });
-      expect(res).to.be.false;
-    });
-  });
   describe('text.getItemName', () => {
     it('should compute title from applicant name', () => {
       const res = applicantOptions.text.getItemName({

@@ -55,6 +55,7 @@ import remarriageProof from './applicantInformation/remarriageProof';
 import schoolEnrollmentProof from './applicantInformation/schoolEnrollmentProof';
 import marriageDate from './applicantInformation/marriageDate';
 import stepchildMarriageProof from './applicantInformation/stepchildMarriageProof';
+import { validateApplicant } from '../helpers/validations';
 
 /**
  * Wraps array builder function withEditTitle and calls the result
@@ -74,17 +75,7 @@ export const applicantOptions = {
   nounSingular: 'applicant',
   nounPlural: 'applicants',
   required: true,
-  isItemIncomplete: item => {
-    return !(
-      item.applicantName?.first &&
-      item.applicantDob &&
-      item.applicantSSN &&
-      item.applicantGender &&
-      item.applicantPhone &&
-      item.applicantAddress &&
-      item.applicantRelationshipToSponsor
-    );
-  }, // TODO: include more required fields here
+  isItemIncomplete: validateApplicant,
   maxItems: APPLICANTS_MAX,
   text: {
     getItemName: item => applicantWording(item, false, true, false),

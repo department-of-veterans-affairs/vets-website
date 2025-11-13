@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { HelpTextManage } from './HelpText';
 import ClaimDetailsContent from './ClaimDetailsContent';
 import { getClaimDetails } from '../redux/actions';
-import { REIMBURSEMENT_URL } from '../constants';
+import { TRAVEL_PAY_INFO_LINK, REIMBURSEMENT_URL } from '../constants';
 
 export default function TravelClaimDetailsContent() {
   const { id } = useParams();
@@ -24,7 +24,32 @@ export default function TravelClaimDetailsContent() {
 
   return (
     <>
-      {error && <h1>There was an error loading the claim details.</h1>}
+      {error && (
+        <>
+          <h1>Your travel reimbursement claim</h1>
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="error"
+            visible
+          >
+            <h2 slot="headline">Something went wrong on our end</h2>
+            <p className="vads-u-margin-y--0">
+              We’re sorry. We couldn’t get your travel reimbursement claim
+              status in this tool right now. Please try again later.
+            </p>
+            <p>
+              You can call the BTSSS call center at{' '}
+              <va-telephone contact="8555747292" /> (
+              <va-telephone tty contact="711" />) Monday through Friday, 8:00
+              a.m. to 8:00 p.m. ET.
+            </p>
+            <va-link
+              href={TRAVEL_PAY_INFO_LINK}
+              text="Find out how to file for travel reimbursement"
+            />
+          </va-alert>
+        </>
+      )}
       {data[id] && <ClaimDetailsContent {...data[id]} />}
       <hr />
 

@@ -7,14 +7,14 @@ import { simulateVaInputChange } from '../../../../util/testing-input-helpers';
 
 describe('ExpenseMealFields', () => {
   const defaultProps = {
-    formState: { vendor: '' },
+    formState: { vendorName: '' },
     onChange: sinon.spy(),
   };
 
-  it('renders the vendor input', () => {
+  it('renders the vendorName input', () => {
     const { container } = render(<ExpenseMealFields {...defaultProps} />);
 
-    const input = container.querySelector('va-text-input[name="vendor"]');
+    const input = container.querySelector('va-text-input[name="vendorName"]');
     expect(input).to.exist;
     expect(input.getAttribute('label')).to.equal(
       'Where did you purchase the meal?',
@@ -22,15 +22,15 @@ describe('ExpenseMealFields', () => {
     expect(input.getAttribute('value')).to.equal('');
   });
 
-  it('renders the vendor input with a pre-filled value', () => {
+  it('renders the vendorName input with a pre-filled value', () => {
     const { container } = render(
       <ExpenseMealFields
         {...defaultProps}
-        formState={{ vendor: 'Test Vendor' }}
+        formState={{ vendorName: 'Test Vendor' }}
       />,
     );
 
-    const input = container.querySelector('va-text-input[name="vendor"]');
+    const input = container.querySelector('va-text-input[name="vendorName"]');
     expect(input).to.exist;
     expect(input.getAttribute('value')).to.equal('Test Vendor');
   });
@@ -41,7 +41,7 @@ describe('ExpenseMealFields', () => {
       <ExpenseMealFields {...defaultProps} onChange={onChangeSpy} />,
     );
 
-    const vaInput = container.querySelector('va-text-input[name="vendor"]');
+    const vaInput = container.querySelector('va-text-input[name="vendorName"]');
     expect(vaInput).to.exist;
 
     // Simulate the input change

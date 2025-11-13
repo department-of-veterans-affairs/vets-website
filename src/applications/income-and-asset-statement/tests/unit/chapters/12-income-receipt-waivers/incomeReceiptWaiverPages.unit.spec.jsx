@@ -42,6 +42,11 @@ describe('income receipt waiver list and loop pages', () => {
     incomeReceiptWaiverPagesChildSummary,
     incomeReceiptWaiverPagesCustodianSummary,
     incomeReceiptWaiverPagesParentSummary,
+    incomeReceiptWaiverVeteranRecipientPage,
+    incomeReceiptWaiverSpouseRecipientPage,
+    incomeReceiptWaiverCustodianRecipientPage,
+    incomeReceiptWaiverParentRecipientPage,
+    incomeReceiptWaiverNonVeteranRecipientPage,
   } = incomeReceiptWaiverPages;
 
   describe('isItemIncomplete function', () => {
@@ -334,13 +339,13 @@ describe('income receipt waiver list and loop pages', () => {
     });
   });
 
-  describe('relationship page', () => {
+  describe('MVP income recipient page', () => {
     const schema =
-      incomeReceiptWaiverPages.incomeReceiptWaiverRelationshipPage.schema
-        .properties.incomeReceiptWaivers.items;
-    const uiSchema =
-      incomeReceiptWaiverPages.incomeReceiptWaiverRelationshipPage.uiSchema
+      incomeReceiptWaiverNonVeteranRecipientPage.schema.properties
         .incomeReceiptWaivers.items;
+    const uiSchema =
+      incomeReceiptWaiverNonVeteranRecipientPage.uiSchema.incomeReceiptWaivers
+        .items;
 
     testNumberOfFieldsByType(
       formConfig,
@@ -371,6 +376,73 @@ describe('income receipt waiver list and loop pages', () => {
       'relationship',
       'root_otherRecipientRelationshipType',
     );
+
+    describe('Non-Veteran recipient page', () => {
+      it('should display when showUpdatedContent is false', () => {
+        const formData = { ...testData.data, claimantType: 'SPOUSE' };
+        const { depends } = incomeReceiptWaiverNonVeteranRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+  });
+
+  describe('Updated recipient pages', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(true);
+    });
+
+    describe('Veteran recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'VETERAN' };
+
+      it('should display when showUpdatedContent is true and claimantType is VETERAN', () => {
+        const { depends } = incomeReceiptWaiverVeteranRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Spouse recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'SPOUSE' };
+
+      it('should display when showUpdatedContent is true and claimantType is SPOUSE', () => {
+        const { depends } = incomeReceiptWaiverSpouseRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Custodian recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
+
+      it('should display when showUpdatedContent is true and claimantType is CUSTODIAN', () => {
+        const { depends } = incomeReceiptWaiverCustodianRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Parent recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'PARENT' };
+
+      it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
+        const { depends } = incomeReceiptWaiverParentRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Income recipient pages', () => {
+      const formData = { ...testData.data, claimantType: 'CHILD' };
+
+      it('should NOT display any recipient pages when claimantType is CHILD', () => {
+        expect(incomeReceiptWaiverNonVeteranRecipientPage.depends(formData)).to
+          .be.false;
+        expect(incomeReceiptWaiverVeteranRecipientPage.depends(formData)).to.be
+          .false;
+        expect(incomeReceiptWaiverSpouseRecipientPage.depends(formData)).to.be
+          .false;
+        expect(incomeReceiptWaiverCustodianRecipientPage.depends(formData)).to
+          .be.false;
+        expect(incomeReceiptWaiverParentRecipientPage.depends(formData)).to.be
+          .false;
+      });
+    });
   });
 
   describe('recipient name page', () => {
