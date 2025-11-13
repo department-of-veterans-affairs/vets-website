@@ -4,25 +4,41 @@ import {
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import InstitutionName from '../components/InstitutionName';
-import InstitutionAddress from '../components/InstitutionAddress';
+import AdditionalInstitutionAddress from '../containers/AdditionalInstitutionAddress';
+import AdditionalInstitutionName from '../containers/AdditionalInstitutionName';
 // import WarningBanner from '../containers/WarningBanner';
 
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
-  const details = formData?.institutionDetails || {};
-  const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
-  const notFound = details.institutionName === 'not found';
-  const ineligible = details.poeEligible === false;
+  const code = (fieldData || '').trim();
 
-  if (badFormat || notFound) {
-    errors.addError(
-      'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
-    );
-  }
-  if (ineligible) {
-    errors.addError(
-      'This institution is unable to participate in the Principles of Excellence.',
-    );
+  const currentItem = formData?.additionalLocations?.find(
+    item => item?.facilityCode?.trim() === code,
+  );
+
+  const additionalFacilityCodes = formData?.additionalLocations?.map(item =>
+    item?.facilityCode?.trim(),
+  );
+  const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
+  const notFound = currentItem?.institutionName === 'not found';
+  const ineligible = currentItem?.poeEligible === false;
+
+  if (!currentItem?.isLoading) {
+    if (additionalFacilityCodes.filter(item => item === code).length > 1) {
+      errors.addError(
+        "You've already added this location. Please enter a different code.",
+      );
+      return;
+    }
+    if (badFormat || notFound) {
+      errors.addError(
+        'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+      );
+    }
+    if (ineligible) {
+      errors.addError(
+        'This institution is unable to participate in the Principles of Excellence.',
+      );
+    }
   }
 };
 
@@ -41,25 +57,28 @@ const uiSchema = {
           'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
       },
       useAllFormData: true,
+      data: {
+        'facility-field': 'additional-facility-code',
+      },
     }),
     'ui:validations': [facilityCodeUIValidation],
   },
   institutionName: {
     'ui:title': 'Institution name and address',
-    'ui:field': InstitutionName,
+    'ui:field': AdditionalInstitutionName,
     'ui:options': {
       classNames: 'vads-u-margin-top--2',
-      dataPath: 'additionalInstitutionDetails',
+      dataPath: 'additionalLocations',
       isArrayItem: true,
     },
   },
   institutionAddress: {
     'ui:title': '',
-    'ui:field': InstitutionAddress,
+    'ui:field': AdditionalInstitutionAddress,
     'ui:options': {
       classNames: 'vads-u-margin-top--2',
       hideLabelText: true,
-      dataPath: 'additionalInstitutionDetails',
+      dataPath: 'additionalLocations',
       isArrayItem: true,
     },
   },
