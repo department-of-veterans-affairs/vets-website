@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import PrintOnlyPage from './PrintOnlyPage';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
@@ -10,7 +11,11 @@ import { selectSortOption } from '../selectors/selectPreferences';
 
 const PrescriptionsPrintOnly = ({ list, isFullList, hasError = false }) => {
   const { search } = useLocation();
-  const { data: allergies } = useGetAllergiesQuery();
+  const { isAcceleratingAllergies, isCerner } = useAcceleratedData();
+  const { data: allergies } = useGetAllergiesQuery({
+    isAcceleratingAllergies,
+    isCerner,
+  });
   const selectedSortOption = useSelector(selectSortOption);
   const page = useMemo(
     () => {
