@@ -1,13 +1,24 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
-const InstitutionAddress = () => {
+const AdditionalInstitutionAddress = () => {
   const formData = useSelector(state => state.form?.data);
-  const details = formData?.institutionDetails;
+
+  const index = getArrayIndexFromPathName();
+
+  const details = formData?.additionalInstitutionDetails?.[index] || {};
+  const facilityCode = (details?.facilityCode || '').trim();
+
+  const additionalFacilityCodes = formData?.additionalInstitutionDetails?.map(
+    item => item?.facilityCode?.trim(),
+  );
+
+  const isDuplicate =
+    additionalFacilityCodes?.filter(item => item === facilityCode).length > 1;
 
   const institutionName = details?.institutionName;
   const institutionAddress = details?.institutionAddress || {};
-  const facilityCode = (details?.facilityCode || '').trim();
   const notYR = details.yrEligible === false;
   const notIHL = details.ihlEligible === false;
   const showWarningBanner = notYR || notIHL;
@@ -37,7 +48,36 @@ const InstitutionAddress = () => {
   const notFound = institutionName === 'not found';
   const hasError = badFormat || notFound || notYR || notIHL;
 
-  const shouldShowAddress = hasAddress && !hasError;
+  const shouldHideAddressInList = (() => {
+    const thirdChar = facilityCode?.charAt(2)?.toUpperCase();
+    const hasXInThirdPosition =
+      facilityCode.length === 8 && !badFormat && thirdChar === 'X';
+
+    if (hasXInThirdPosition) {
+      return true;
+    }
+
+    // // Check if not attached to main campus
+    // const mainInstitution = formData?.institutionDetails;
+    // const branches =
+    //   mainInstitution?.facilityMap?.branches?.map(
+    //     branch => branch?.institution?.facilityCode,
+    //   ) || [];
+    // const extensions =
+    //   mainInstitution?.facilityMap?.extensions?.map(
+    //     extension => extension?.institution?.facilityCode,
+    //   ) || [];
+    // const branchList = [...branches, ...extensions];
+
+    // if (!branchList.includes(facilityCode)) {
+    //   return true;
+    // }
+
+    return false;
+  })();
+
+  const shouldShowAddress =
+    hasAddress && !hasError && !shouldHideAddressInList && !isDuplicate;
 
   return (
     <div aria-live="polite">
@@ -91,4 +131,4 @@ const InstitutionAddress = () => {
   );
 };
 
-export default InstitutionAddress;
+export default AdditionalInstitutionAddress;
