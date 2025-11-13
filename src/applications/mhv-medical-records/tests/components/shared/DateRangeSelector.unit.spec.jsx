@@ -70,7 +70,7 @@ describe('DateRangeSelector', () => {
     expect(screen.queryByRole('option', { name: /Last 3 months/i })).to.be.null;
   });
 
-  it('exports dateRangeList with at least the 3 & 6 month options', () => {
+  it('exports dateRangeList with at least the 3 and 6 month options', () => {
     const values = dateRangeList.map(o => o.value);
     expect(values).to.include('3');
     expect(values).to.include('6');

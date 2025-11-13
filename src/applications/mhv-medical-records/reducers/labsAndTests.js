@@ -53,8 +53,8 @@ const initialState = {
    */
   labsAndTestsDetails: undefined,
   /**
-   * The lab or test result currently being displayed to the user
-   */
+   * The selected date range for displaying labs and tests
+   * */
   dateRange: {
     option: DEFAULT_DATE_RANGE,
     fromDate: format(

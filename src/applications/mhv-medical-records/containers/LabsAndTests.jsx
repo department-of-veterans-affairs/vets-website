@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
-import { format, subMonths } from 'date-fns';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -31,6 +29,7 @@ import {
   statsdFrontEndActions,
 } from '../util/constants';
 import {
+  calculateDateRange,
   getTimeFrame,
   getDisplayTimeFrame,
   sendDataDogAction,
@@ -43,7 +42,7 @@ import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import DateRangeSelector, {
-  dateRangeList,
+  getDateRangeList,
 } from '../components/shared/DateRangeSelector';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { fetchImageRequestStatus } from '../actions/images';
@@ -53,11 +52,7 @@ import AdditionalAccessInfo from '../components/shared/AdditionalAccessInfo';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
-  const history = useHistory();
-
   const dateRange = useSelector(state => state.mr.labsAndTests.dateRange);
-
   const [selectedDate, setSelectedDate] = useState(DEFAULT_DATE_RANGE);
   const updatedRecordList = useSelector(
     state => state.mr.labsAndTests.updatedList,
@@ -134,31 +129,6 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      if (isAcceleratingLabsAndTests) {
-        // Only update if there is no time frame or if it is different than the current selection.
-        // This is only for on initial page load or on page refresh when redux is re-set.
-        const timeFrame = new URLSearchParams(location.search).get('timeFrame');
-        if (!timeFrame || timeFrame !== getTimeFrame(dateRange)) {
-          const searchParams = new URLSearchParams(location.search);
-          searchParams.set('timeFrame', getTimeFrame(dateRange));
-          history.push({
-            pathname: location.pathname,
-            search: searchParams.toString(),
-          });
-        }
-      }
-    },
-    [
-      dateRange,
-      history,
-      isAcceleratingLabsAndTests,
-      location.pathname,
-      location.search,
-    ],
-  );
-
   // Initialize selectedDate from Redux store
   // Runs once on mount and when dateRange changes
   useEffect(
@@ -170,57 +140,30 @@ const LabsAndTests = () => {
     [dateRange],
   );
 
-  // Update URL query parameter and trigger data pre-fetch
-  const updateDateRangeParams = useCallback(
-    dateRangeSelected => {
-      const searchParams = new URLSearchParams(location.search);
-      searchParams.set('timeFrame', getTimeFrame(dateRangeSelected));
-      history.push({
-        pathname: location.pathname,
-        search: searchParams.toString(),
-      });
-      dispatch({
-        type: Actions.LabsAndTests.UPDATE_LIST_STATE,
-        payload: loadStates.PRE_FETCH,
-      });
-    },
-    [location.search, location.pathname, history, dispatch],
-  );
-
-  // Handle date range selection from DateRangeSelector component
   const handleDateRangeSelect = useCallback(
     event => {
       const { value } = event.detail;
       setSelectedDate(value);
 
-      // For predefined date ranges like 3 or 6 months
-      let fromDate;
-      let toDate;
-      const today = new Date();
-      if (value.length <= 2) {
-        fromDate = format(subMonths(today, parseInt(value, 10)), 'yyyy-MM-dd');
-        toDate = format(today, 'yyyy-MM-dd');
-      } else {
-        // For year selections
-        const year = value;
-        fromDate = `${year}-01-01`;
-        toDate = `${year}-12-31`;
-      }
+      const { fromDate, toDate } = calculateDateRange(value);
 
       // Dispatch the update once the user selects a date range
       dispatch(updateLabsAndTestDateRange(value, fromDate, toDate));
 
-      updateDateRangeParams({ option: value, fromDate, toDate });
+      dispatch({
+        type: Actions.LabsAndTests.UPDATE_LIST_STATE,
+        payload: loadStates.PRE_FETCH,
+      });
 
       // Find the label from dateRangeList
-      const selectedOption = dateRangeList.find(
+      const selectedOption = getDateRangeList().find(
         option => option.value === value,
       );
       const label = selectedOption ? selectedOption.label : 'Unknown';
 
       sendDataDogAction(`Date range option - ${label}`);
     },
-    [dispatch, updateDateRangeParams],
+    [dispatch],
   );
 
   return (
