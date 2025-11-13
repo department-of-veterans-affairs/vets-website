@@ -4,13 +4,12 @@ import { expect } from 'chai';
 import DisclaimerActivity from '../../../components/activities/DisclaimerActivity';
 
 describe('DisclaimerActivity', () => {
-  it('renders AI disclaimer title, body text, accessibility attributes, and classes', () => {
+  it('renders body text, accessibility attributes, and classes', () => {
     const { getByText, getByRole } = render(
       <DisclaimerActivity text="Use AI responsibly." />,
     );
 
-    // Title and body
-    expect(getByText('AI disclaimer')).to.exist;
+    // Body text present
     expect(getByText('Use AI responsibly.')).to.exist;
 
     // Accessibility
