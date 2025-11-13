@@ -14,7 +14,7 @@ import { setFocus, focusNotificationAlert } from '../utils/page';
 import AddingDetails from './AddingDetails';
 import NeedHelp from './NeedHelp';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
-import ClaimsUnavailable from './ClaimsUnavailable';
+import ServiceUnavailableAlert from './ServiceUnavailableAlert';
 import ClaimContentionList from './ClaimContentionList';
 import Notification from './Notification';
 import TabNav from './TabNav';
@@ -152,7 +152,7 @@ export default function ClaimDetailLayout(props) {
     bodyContent = (
       <>
         <h1>We encountered a problem</h1>
-        <ClaimsUnavailable headerLevel={2} />
+        <ServiceUnavailableAlert services={['claims']} headerLevel={2} />
       </>
     );
   }

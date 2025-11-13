@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import React from 'react';
 import sinon from 'sinon';
 
-import { PageTemplate } from './index';
+import { PageTemplateCore } from './page-template';
 
 /**
- * Unit tests for PageTemplate component.
- * Tests basic rendering, navigation, and form handling without hooks.
+ * Unit tests for PageTemplateCore component.
+ * Tests basic rendering, navigation, form handling without Redux/Router dependencies.
  */
-describe('PageTemplate - Basic Tests', () => {
+describe('PageTemplate', () => {
   let defaultProps;
 
   beforeEach(() => {
@@ -22,12 +22,12 @@ describe('PageTemplate - Basic Tests', () => {
     };
   });
 
-  describe('rendering without hooks', () => {
+  describe('basic rendering', () => {
     it('renders basic structure', () => {
       const { container } = render(
-        <PageTemplate {...defaultProps}>
+        <PageTemplateCore {...defaultProps}>
           <div className="test-content">Test Content</div>
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       const form = container.querySelector('form');
@@ -41,9 +41,9 @@ describe('PageTemplate - Basic Tests', () => {
 
     it('renders title when provided', () => {
       const { container } = render(
-        <PageTemplate {...defaultProps} title="Test Title">
+        <PageTemplateCore {...defaultProps} title="Test Title">
           <div>Content</div>
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       const heading = container.querySelector('h3');
@@ -53,9 +53,9 @@ describe('PageTemplate - Basic Tests', () => {
 
     it('renders subtitle when provided', () => {
       const { container } = render(
-        <PageTemplate {...defaultProps} subtitle="Test Subtitle">
+        <PageTemplateCore {...defaultProps} subtitle="Test Subtitle">
           <div>Content</div>
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       const subtitle = container.querySelector('.vads-u-margin-bottom--2 p');
@@ -65,21 +65,23 @@ describe('PageTemplate - Basic Tests', () => {
 
     it('applies custom className', () => {
       const { container } = render(
-        <PageTemplate {...defaultProps} className="custom-class">
+        <PageTemplateCore {...defaultProps} className="custom-class">
           <div>Content</div>
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       const wrapper = container.querySelector('.form-panel');
       expect(wrapper).to.exist;
       expect(wrapper).to.have.class('custom-class');
     });
+  });
 
+  describe('navigation', () => {
     it('renders navigation buttons', () => {
       const { container } = render(
-        <PageTemplate {...defaultProps}>
+        <PageTemplateCore {...defaultProps}>
           <div>Content</div>
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       const backButton = container.querySelector('va-button[secondary]');
@@ -93,9 +95,9 @@ describe('PageTemplate - Basic Tests', () => {
 
     it('hides navigation when hideNavigation is true', () => {
       const { container } = render(
-        <PageTemplate {...defaultProps} hideNavigation>
+        <PageTemplateCore {...defaultProps} hideNavigation>
           <div>Content</div>
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       const buttons = container.querySelectorAll('va-button');
@@ -104,9 +106,9 @@ describe('PageTemplate - Basic Tests', () => {
 
     it('calls goBack when back button is clicked', () => {
       const { container } = render(
-        <PageTemplate {...defaultProps}>
+        <PageTemplateCore {...defaultProps}>
           <div>Content</div>
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       const backButton = container.querySelector('va-button[secondary]');
@@ -117,9 +119,9 @@ describe('PageTemplate - Basic Tests', () => {
 
     it('calls goForward when continue button is clicked', () => {
       const { container } = render(
-        <PageTemplate {...defaultProps}>
+        <PageTemplateCore {...defaultProps}>
           <div>Content</div>
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       const continueButton = container.querySelector(
@@ -130,12 +132,59 @@ describe('PageTemplate - Basic Tests', () => {
       expect(defaultProps.goForward.calledOnce).to.be.true;
     });
 
+    it('hides back button when goBack is not provided', () => {
+      const props = {
+        ...defaultProps,
+        goBack: undefined,
+      };
+
+      const { container } = render(
+        <PageTemplateCore {...props}>
+          <div>Content</div>
+        </PageTemplateCore>,
+      );
+
+      const backButton = container.querySelector('va-button[secondary]');
+      const continueButton = container.querySelector(
+        'va-button:not([secondary])',
+      );
+
+      expect(backButton).to.not.exist;
+      expect(continueButton).to.exist;
+    });
+
+    it('applies custom navigation props', () => {
+      const navigationProps = {
+        backButtonProps: { 'data-testid': 'custom-back' },
+        continueButtonProps: { 'data-testid': 'custom-continue' },
+      };
+
+      const { container } = render(
+        <PageTemplateCore {...defaultProps} navigationProps={navigationProps}>
+          <div>Content</div>
+        </PageTemplateCore>,
+      );
+
+      const backButton = container.querySelector('va-button[secondary]');
+      const continueButton = container.querySelector(
+        'va-button:not([secondary])',
+      );
+
+      expect(backButton).to.have.attribute('data-testid', 'custom-back');
+      expect(continueButton).to.have.attribute(
+        'data-testid',
+        'custom-continue',
+      );
+    });
+  });
+
+  describe('children rendering', () => {
     it('renders children elements', () => {
       const { container } = render(
-        <PageTemplate {...defaultProps}>
+        <PageTemplateCore {...defaultProps}>
           <input name="testField" defaultValue="test" />
           <div className="static">Static Content</div>
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       const input = container.querySelector('input[name="testField"]');
@@ -155,9 +204,9 @@ describe('PageTemplate - Basic Tests', () => {
       ));
 
       const { container } = render(
-        <PageTemplate {...defaultProps} sectionName="test">
+        <PageTemplateCore {...defaultProps} sectionName="test">
           {childFunction}
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       expect(childFunction.calledOnce).to.be.true;
@@ -168,11 +217,11 @@ describe('PageTemplate - Basic Tests', () => {
 
     it('handles null and undefined children', () => {
       const { container } = render(
-        <PageTemplate {...defaultProps}>
+        <PageTemplateCore {...defaultProps}>
           {null}
           {undefined}
           <div className="valid">Valid Child</div>
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       const validChild = container.querySelector('.valid');
@@ -180,73 +229,9 @@ describe('PageTemplate - Basic Tests', () => {
       expect(validChild.textContent).to.equal('Valid Child');
     });
 
-    it('hides back button when goBack is not provided', () => {
-      const props = {
-        data: {},
-        setFormData: sinon.spy(),
-        goForward: sinon.spy(),
-        useFormSectionHook: false,
-      };
-
-      const { container } = render(
-        <PageTemplate {...props}>
-          <div>Content</div>
-        </PageTemplate>,
-      );
-
-      const backButton = container.querySelector('va-button[secondary]');
-      const continueButton = container.querySelector(
-        'va-button:not([secondary])',
-      );
-
-      expect(backButton).to.not.exist;
-      expect(continueButton).to.exist;
-    });
-
-    it('applies fieldset classes', () => {
-      const { container } = render(
-        <PageTemplate {...defaultProps}>
-          <div>Content</div>
-        </PageTemplate>,
-      );
-
-      const fieldset = container.querySelector('fieldset');
-      expect(fieldset).to.exist;
-      expect(fieldset).to.have.class('vads-u-margin-y--2');
-    });
-
-    it('applies form-panel class', () => {
-      const { container } = render(
-        <PageTemplate {...defaultProps}>
-          <div>Content</div>
-        </PageTemplate>,
-      );
-
-      const wrapper = container.querySelector('.form-panel');
-      expect(wrapper).to.exist;
-    });
-
-    it('handles missing data prop gracefully', () => {
-      const props = {
-        data: undefined,
-        setFormData: sinon.spy(),
-        goForward: sinon.spy(),
-        useFormSectionHook: false,
-      };
-
-      const { container } = render(
-        <PageTemplate {...props}>
-          <div className="content">Content</div>
-        </PageTemplate>,
-      );
-
-      expect(container.querySelector('.form-panel')).to.exist;
-      expect(container.querySelector('.content')).to.exist;
-    });
-
     it('handles complex nested children', () => {
       const { container } = render(
-        <PageTemplate {...defaultProps}>
+        <PageTemplateCore {...defaultProps}>
           <div>
             <input name="nested1" />
             <div>
@@ -256,14 +241,53 @@ describe('PageTemplate - Basic Tests', () => {
               </span>
             </div>
           </div>
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       expect(container.querySelector('input[name="nested1"]')).to.exist;
       expect(container.querySelector('input[name="nested2"]')).to.exist;
       expect(container.querySelector('input[name="nested3"]')).to.exist;
     });
+  });
 
+  describe('review page mode', () => {
+    it('shows Update button instead of Continue on review page', () => {
+      const updatePage = sinon.spy();
+      const { container } = render(
+        <PageTemplateCore
+          {...defaultProps}
+          onReviewPage
+          updatePage={updatePage}
+        >
+          <div>Content</div>
+        </PageTemplateCore>,
+      );
+
+      const updateButton = container.querySelector('va-button');
+      expect(updateButton).to.exist;
+      expect(updateButton).to.have.attribute('text', 'Save');
+    });
+
+    it('calls updatePage when Update button is clicked', () => {
+      const updatePage = sinon.spy();
+      const { container } = render(
+        <PageTemplateCore
+          {...defaultProps}
+          onReviewPage
+          updatePage={updatePage}
+        >
+          <div>Content</div>
+        </PageTemplateCore>,
+      );
+
+      const updateButton = container.querySelector('va-button');
+      updateButton.click();
+
+      expect(updatePage.calledOnce).to.be.true;
+    });
+  });
+
+  describe('form data handling', () => {
     it('provides fallback form props when not using hook', () => {
       const childFunction = sinon.spy(props => (
         <div className="props-test">
@@ -274,9 +298,9 @@ describe('PageTemplate - Basic Tests', () => {
       ));
 
       const { container } = render(
-        <PageTemplate {...defaultProps} sectionName="test">
+        <PageTemplateCore {...defaultProps} sectionName="test">
           {childFunction}
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       expect(childFunction.calledOnce).to.be.true;
@@ -292,70 +316,70 @@ describe('PageTemplate - Basic Tests', () => {
       );
     });
 
-    it('applies custom navigation props', () => {
-      const navigationProps = {
-        backButtonProps: { 'data-testid': 'custom-back' },
-        continueButtonProps: { 'data-testid': 'custom-continue' },
-      };
-
-      const { container } = render(
-        <PageTemplate {...defaultProps} navigationProps={navigationProps}>
-          <div>Content</div>
-        </PageTemplate>,
-      );
-
-      const backButton = container.querySelector('va-button[secondary]');
-      const continueButton = container.querySelector(
-        'va-button:not([secondary])',
-      );
-
-      expect(backButton).to.have.attribute('data-testid', 'custom-back');
-      expect(continueButton).to.have.attribute(
-        'data-testid',
-        'custom-continue',
-      );
-    });
-
-    it('handles field changes without form section hook', () => {
+    it('handles missing data prop gracefully', () => {
       const props = {
         ...defaultProps,
-        data: { testSection: { field1: 'initial' } },
+        data: undefined,
       };
 
       const { container } = render(
-        <PageTemplate {...props} sectionName="testSection">
-          <input name="field1" defaultValue="initial" />
-        </PageTemplate>,
-      );
-
-      const input = container.querySelector('input');
-      expect(input).to.exist;
-      expect(input.value).to.equal('initial');
-    });
-
-    it('handles empty sectionName', () => {
-      const { container } = render(
-        <PageTemplate {...defaultProps} sectionName="">
+        <PageTemplateCore {...props}>
           <div className="content">Content</div>
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       expect(container.querySelector('.form-panel')).to.exist;
       expect(container.querySelector('.content')).to.exist;
     });
 
+    it('handles empty sectionName', () => {
+      const { container } = render(
+        <PageTemplateCore {...defaultProps} sectionName="">
+          <div className="content">Content</div>
+        </PageTemplateCore>,
+      );
+
+      expect(container.querySelector('.form-panel')).to.exist;
+      expect(container.querySelector('.content')).to.exist;
+    });
+  });
+
+  describe('edge cases', () => {
     it('handles very long content', () => {
       const longContent = 'A'.repeat(10000);
 
       const { container } = render(
-        <PageTemplate {...defaultProps}>
+        <PageTemplateCore {...defaultProps}>
           <div className="long-content">{longContent}</div>
-        </PageTemplate>,
+        </PageTemplateCore>,
       );
 
       const content = container.querySelector('.long-content');
       expect(content).to.exist;
       expect(content.textContent).to.have.length(10000);
+    });
+
+    it('applies fieldset classes', () => {
+      const { container } = render(
+        <PageTemplateCore {...defaultProps}>
+          <div>Content</div>
+        </PageTemplateCore>,
+      );
+
+      const fieldset = container.querySelector('fieldset');
+      expect(fieldset).to.exist;
+      expect(fieldset).to.have.class('vads-u-margin-y--2');
+    });
+
+    it('applies form-panel class', () => {
+      const { container } = render(
+        <PageTemplateCore {...defaultProps}>
+          <div>Content</div>
+        </PageTemplateCore>,
+      );
+
+      const wrapper = container.querySelector('.form-panel');
+      expect(wrapper).to.exist;
     });
   });
 });
