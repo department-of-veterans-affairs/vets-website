@@ -33,7 +33,6 @@ const Verify = () => {
         required
         onKeyDown={() => {}}
         monthSelect={false}
-        uswds
       />
       <div className="vads-u-display--flex vads-u-margin-top--4 vass-form__button-container vass-flex-direction--column">
         <va-button big onClick={handleSubmit} text="Submit" uswds />
