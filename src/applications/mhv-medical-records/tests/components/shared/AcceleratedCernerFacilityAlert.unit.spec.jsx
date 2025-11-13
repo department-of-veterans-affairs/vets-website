@@ -18,18 +18,14 @@ describe('Accelerated Cerner Facility Alert', () => {
     isAcceleratingCareNotes = false,
     isAcceleratingConditions = false,
   }) => ({
-    // eslint-disable-next-line camelcase
+    /* eslint-disable camelcase */
     mhv_accelerated_delivery_enabled: isAccelerating,
-    // eslint-disable-next-line camelcase
     mhv_accelerated_delivery_allergies_enabled: isAcceleratingAllergies,
-    // eslint-disable-next-line camelcase
     mhv_accelerated_delivery_vital_signs_enabled: isAcceleratingVitals,
-    // eslint-disable-next-line camelcase
     mhv_accelerated_delivery_vaccines_enabled: isAcceleratingVaccines,
-    // eslint-disable-next-line camelcase
     mhv_accelerated_delivery_care_summaries_and_notes_enabled: isAcceleratingCareNotes,
-    // eslint-disable-next-line camelcase
     mhv_accelerated_delivery_conditions_enabled: isAcceleratingConditions,
+    /* eslint-enable camelcase */
   });
   const initialState = {
     drupalStaticData,
@@ -75,7 +71,7 @@ describe('Accelerated Cerner Facility Alert', () => {
           featureToggles: createFeatureToggles({
             isAccelerating: true,
             isAcceleratingAllergies: true,
-            isAcceleratingVitals: false,
+            isAcceleratingVitals: true,
             isAcceleratingConditions: true,
           }),
         },
@@ -103,7 +99,7 @@ describe('Accelerated Cerner Facility Alert', () => {
           featureToggles: createFeatureToggles({
             isAccelerating: true,
             isAcceleratingAllergies: true,
-            isAcceleratingVitals: false,
+            isAcceleratingVitals: true,
             isAcceleratingConditions: true,
           }),
         },
@@ -231,6 +227,23 @@ describe('Accelerated Cerner Facility Alert', () => {
       },
       { facilities: [] },
       CernerAlertContent.HEALTH_CONDITIONS,
+    );
+
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+  });
+
+  it('hides correctly when isAcceleratingVitals is true', () => {
+    const screen = setup(
+      {
+        ...initialState,
+        featureToggles: createFeatureToggles({
+          isAccelerating: true,
+          isAcceleratingVitals: true,
+        }),
+        user: { profile: { facilities: [] } },
+      },
+      { facilities: [] },
+      CernerAlertContent.VITALS,
     );
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
