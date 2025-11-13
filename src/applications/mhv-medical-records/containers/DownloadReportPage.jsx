@@ -8,9 +8,13 @@ import {
   ALERT_TYPE_SEI_ERROR,
   MissingRecordsError,
 } from '@department-of-veterans-affairs/mhv/exports';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { add, compareAsc } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  selectPatientFacilities,
+  selectIsCernerPatient,
+  selectIsCernerOnlyPatient,
+} from '~/platform/user/cerner-dsot/selectors';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import {
   getFailedDomainList,
@@ -28,7 +32,7 @@ import {
   refreshExtractTypes,
   statsdFrontEndActions,
 } from '../util/constants';
-import { genAndDownloadCCD } from '../actions/downloads';
+import { genAndDownloadCCD, downloadCCDV2 } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
@@ -38,6 +42,8 @@ import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { postRecordDatadogAction } from '../api/MrApi';
 import CCDAccordionItemV1 from './ccdAccordionItem/ccdAccordionItemV1';
 import CCDAccordionItemV2 from './ccdAccordionItem/ccdAccordionItemV2';
+import CCDAccordionItemOH from './ccdAccordionItem/ccdAccordionItemOH';
+import CCDAccordionItemDual from './ccdAccordionItem/ccdAccordionItemDual';
 
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
@@ -58,10 +64,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   } = useSelector(state => state);
 
   const ccdExtendedFileTypeFlag = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes
-      ],
+    state => state.featureToggles?.mhv_medical_records_ccd_extended_file_types,
   );
 
   const [selfEnteredPdfLoading, setSelfEnteredPdfLoading] = useState(false);
@@ -72,6 +75,16 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const activeAlert = useAlerts(dispatch);
   const selfEnteredAccordionRef = useRef(null);
+
+  // Determine user's data sources using platform selectors
+  const { facilities, hasOHFacilities, hasOHOnly } = useSelector(state => ({
+    facilities: selectPatientFacilities(state) || [],
+    hasOHFacilities: selectIsCernerPatient(state),
+    hasOHOnly: selectIsCernerOnlyPatient(state),
+  }));
+  // Note: No platform selector exists for "has VistA facilities only"
+  const hasVistAFacilities = facilities.length > 0 && !hasOHOnly;
+  const hasBothDataSources = hasOHFacilities && hasVistAFacilities;
 
   // Checks if CCD retry is needed and returns a formatted timestamp or null.
   const CCDRetryTimestamp = useMemo(
@@ -174,13 +187,26 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     e.preventDefault();
     dispatch(
       genAndDownloadCCD(
-        userProfile?.userFullName?.first,
-        userProfile?.userFullName?.last,
-        fileType, // 'xml' | 'html' | 'pdf'
+        userProfile?.userFullName?.first || '',
+        userProfile?.userFullName?.last || '',
+        fileType,
       ),
     );
     postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
     sendDataDogAction(`Download Continuity of Care Document ${fileType} link`);
+  };
+
+  const handleDownloadCCDV2 = (e, fileType) => {
+    e.preventDefault();
+    dispatch(
+      downloadCCDV2(
+        userProfile?.userFullName?.first || '',
+        userProfile?.userFullName?.last || '',
+        fileType,
+      ),
+    );
+    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
+    sendDataDogAction(`Download CCD V2 ${fileType} link`);
   };
 
   const handleDownloadSelfEnteredPdf = e => {
@@ -306,17 +332,39 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </>
         )}
       <va-accordion bordered>
-        {ccdExtendedFileTypeFlag ? (
-          <CCDAccordionItemV2
-            generatingCCD={generatingCCD}
-            handleDownloadCCD={handleDownloadCCD}
-          />
-        ) : (
-          <CCDAccordionItemV1
-            generatingCCD={generatingCCD}
-            handleDownloadCCD={handleDownloadCCD}
-          />
-        )}
+        {(() => {
+          if (ccdExtendedFileTypeFlag) {
+            if (hasBothDataSources) {
+              return (
+                <CCDAccordionItemDual
+                  generatingCCD={generatingCCD}
+                  handleDownloadCCD={handleDownloadCCD}
+                  handleDownloadCCDV2={handleDownloadCCDV2}
+                />
+              );
+            }
+            if (hasOHOnly) {
+              return (
+                <CCDAccordionItemOH
+                  generatingCCD={generatingCCD}
+                  handleDownloadCCDV2={handleDownloadCCDV2}
+                />
+              );
+            }
+            return (
+              <CCDAccordionItemV2
+                generatingCCD={generatingCCD}
+                handleDownloadCCD={handleDownloadCCD}
+              />
+            );
+          }
+          return (
+            <CCDAccordionItemV1
+              generatingCCD={generatingCCD}
+              handleDownloadCCD={handleDownloadCCD}
+            />
+          );
+        })()}
         <va-accordion-item
           bordered
           data-testid="selfEnteredAccordionItem"

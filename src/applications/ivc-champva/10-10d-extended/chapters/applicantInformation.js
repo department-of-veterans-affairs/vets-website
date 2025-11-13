@@ -37,7 +37,10 @@ import {
 
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
-import { validateApplicantSsn } from '../helpers/validations';
+import {
+  validateApplicant,
+  validateApplicantSsn,
+} from '../helpers/validations';
 import { page15aDepends } from '../helpers/utilities';
 import { APPLICANTS_MAX } from '../constants';
 
@@ -54,6 +57,7 @@ import remarriageProof from './applicantInformation/remarriageProof';
 import schoolEnrollmentProof from './applicantInformation/schoolEnrollmentProof';
 import marriageDate from './applicantInformation/marriageDate';
 import stepchildMarriageProof from './applicantInformation/stepchildMarriageProof';
+
 /**
  * Wraps array builder function withEditTitle and calls the result
  * after passing in a custom title string. Result will be the string
@@ -72,17 +76,7 @@ export const applicantOptions = {
   nounSingular: 'applicant',
   nounPlural: 'applicants',
   required: true,
-  isItemIncomplete: item => {
-    return !(
-      item.applicantName?.first &&
-      item.applicantDob &&
-      item.applicantSsn &&
-      item.applicantGender &&
-      item.applicantPhone &&
-      item.applicantAddress &&
-      item.applicantRelationshipToSponsor
-    );
-  }, // TODO: include more required fields here
+  isItemIncomplete: validateApplicant,
   maxItems: APPLICANTS_MAX,
   text: {
     getItemName: item => applicantWording(item, false, true, false),

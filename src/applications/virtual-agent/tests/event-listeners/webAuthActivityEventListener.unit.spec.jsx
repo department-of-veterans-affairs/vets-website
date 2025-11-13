@@ -38,6 +38,8 @@ describe('webAuthActivityEventListener', () => {
 
   it('should call setLoggedInFlow and setIsAuthTopic if isLoggedIn is false', async () => {
     const setIsAuthTopic = sandbox.stub();
+    // Ensure we don't hit the branch that flips to 'false' first
+    sandbox.stub(SessionStorageModule, 'getLoggedInFlow').returns(null);
     const setLoggedInFlowStub = sandbox.stub(
       SessionStorageModule,
       'setLoggedInFlow',
@@ -48,7 +50,10 @@ describe('webAuthActivityEventListener', () => {
       window.dispatchEvent(new Event('webchat-auth-activity'));
     });
 
+    // First tick triggers the 2s listener delay
     clock.tick(2000);
+    // Second tick flushes the inner 1ms timer that sets 'true'
+    clock.tick(1);
 
     expect(setLoggedInFlowStub.calledOnce).to.be.true;
     expect(setLoggedInFlowStub.calledWithExactly('true')).to.be.true;

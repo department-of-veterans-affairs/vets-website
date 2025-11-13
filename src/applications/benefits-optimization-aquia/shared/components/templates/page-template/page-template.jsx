@@ -166,7 +166,7 @@ const PageTemplateBase = ({
                     <va-button
                       secondary
                       onClick={goBack}
-                      text={BUTTON_TEXT.BACK}
+                      text={navigationProps?.backButtonText || BUTTON_TEXT.BACK}
                       {...navigationProps?.backButtonProps || {}}
                     />
                   )}

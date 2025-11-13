@@ -236,7 +236,14 @@ const medicarePlanTypes = {
       ...radioUI({
         title: 'Which Medicare plan does this applicant have?',
         labels: MEDICARE_TYPE_LABELS,
-        updateSchema: ({ applicants, medicare }, schema, _uiSchema, index) => {
+        updateSchema: (
+          _formData,
+          schema,
+          _uiSchema,
+          index,
+          _fields,
+          { applicants, medicare } = {},
+        ) => {
           const isUnder65 = getIsUnder65(applicants, medicare, index);
           const keys = getPlanKeys(isUnder65);
           return set('enum', keys, schema);

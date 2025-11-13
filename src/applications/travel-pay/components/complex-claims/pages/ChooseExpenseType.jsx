@@ -49,7 +49,7 @@ const ChooseExpenseType = () => {
       </h1>
       <p>Start with one expense. You’ll be able to add other expenses later.</p>
       <p className="vads-u-margin-bottom--0">
-        To request reimbursement for air fare, lodging, and meals, you’ll need a
+        To request reimbursement for airfare, lodging, and meals, you’ll need a
         pre-approval letter.
       </p>
       <VaRadio
