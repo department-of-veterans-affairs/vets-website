@@ -1,0 +1,59 @@
+{
+  "hasAlreadyFiled": false,
+  "hasUnpaidCreditors": false,
+  "veteranFullName": {
+    "first": "William",
+    "middle": "H",
+    "last": "Thompson"
+  },
+  "beneficiaryIsVeteran": true,
+  "beneficiaryDateOfDeath": "2024-02-01",
+  "claimantFullName": {
+    "first": "Patricia",
+    "middle": "M",
+    "last": "Davis"
+  },
+  "claimantDateOfBirth": "1955-08-20",
+  "claimantAddress": {
+    "street": "555 Estate Lane",
+    "street2": "Building A",
+    "city": "Richmond",
+    "state": "VA",
+    "country": "USA",
+    "postalCode": "23220"
+  },
+  "claimantPhone": "8045557890",
+  "claimantEmail": "patricia.davis@lawfirm.com",
+  "relationshipToDeceased": "executor",
+  "wantsToWaiveSubstitution": true,
+  "survivors": {
+    "hasSpouse": false,
+    "hasChildren": false,
+    "hasParents": false,
+    "hasNone": true
+  },
+  "claimingReimbursement": true,
+  "lastIllnessExpenses": 23500,
+  "expenses": [
+    {
+      "provider": "Funeral home",
+      "expenseType": "Funeral",
+      "amount": 100
+    }
+  ],
+  "burialExpenses": 12000,
+  "totalExpenses": 35500,
+  "amountPaidByVA": 0,
+  "amountPaidByOthers": 0,
+  "netAmountDue": 35500,
+  "hasOtherDebts": false,
+  "estateBeingAdministered": true,
+  "courtAppointedRepresentative": "Patricia M. Davis",
+  "remarks": "Serving as executor of the estate. All medical and burial expenses have been paid by the estate. Requesting reimbursement of accrued VA benefits to offset these expenses. Letters testamentary attached.",
+  "veteranIdentification": {
+    "ssn": "234567890"
+  },
+  "claimantIdentification": {
+    "ssn": "876543210"
+  }
+}

@@ -26,7 +26,6 @@ const InformalConferenceContactReview = ({ data, editPage }) => {
           onClick={editPage}
           label={editButtonLabel}
           text={editButtonText}
-          uswds
         />
       </div>
       <dl className="review">
@@ -45,7 +44,7 @@ const InformalConferenceContactReview = ({ data, editPage }) => {
 };
 
 InformalConferenceContactReview.propTypes = {
-  data: data996,
+  data: PropTypes.shape(data996),
   editPage: PropTypes.func,
 };
 

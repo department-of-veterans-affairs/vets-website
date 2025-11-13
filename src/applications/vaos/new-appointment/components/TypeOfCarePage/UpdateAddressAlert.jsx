@@ -22,7 +22,7 @@ export default function UpdateAddressAlert({ onClickUpdateAddress }) {
           onClick={() => onClickUpdateAddress(headline)}
           renderAriaLabel={false}
         >
-          Go to your VA.gov profile (opens in new tab)
+          Go to your VA.gov profile (opens in a new tab)
         </NewTabAnchor>
       </p>
     </InfoAlert>

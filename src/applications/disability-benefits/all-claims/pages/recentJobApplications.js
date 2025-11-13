@@ -1,5 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/date';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import {
   unemployabilityTitle,

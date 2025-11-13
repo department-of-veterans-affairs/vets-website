@@ -4,7 +4,9 @@ import {
   getCardDescription,
   getDeleteTitle,
   getDeleteYes,
+  getDeleteNo,
   getDeleteDescription,
+  isItemIncomplete,
 } from '../../../utils/helpers/emergencyContactUtils';
 import content from '../../../locales/en/content.json';
 import {
@@ -12,6 +14,8 @@ import {
   emergencyContactsAddressPage,
   emergencyContactsSummaryPage,
 } from '../../../definitions/emergencyContacts';
+import { MAX_EMERGENCY_CONTACTS } from '../../../utils/constants';
+import EmergencyContactsMaxAlert from '../../../components/FormAlerts/EmergencyContactsMaxAlert';
 
 /**
  * Declare attributes for array builder pattern
@@ -20,19 +24,16 @@ import {
 const arrayBuilderOptions = {
   arrayPath: 'emergencyContacts',
   nounSingular: 'emergency contact',
-  nounPlural: 'emergency contact',
+  nounPlural: 'emergency contacts',
   required: false,
-  maxItems: 1,
-  isItemIncomplete: item =>
-    !item?.fullName?.first ||
-    !item?.fullName?.last ||
-    !item?.primaryPhone ||
-    !item?.relationship,
+  maxItems: MAX_EMERGENCY_CONTACTS,
+  isItemIncomplete,
   text: {
     getItemName,
     cardDescription: getCardDescription,
     deleteTitle: getDeleteTitle,
     deleteYes: getDeleteYes,
+    deleteNo: getDeleteNo,
     deleteDescription: getDeleteDescription,
     cancelAddDescription: () =>
       content['emergency-contact-cancel-add-description-text'],
@@ -48,8 +49,8 @@ const arrayBuilderOptions = {
       content['emergency-contact-summary-yes-no-blank-review-question'],
     reviewAddButtonText: () =>
       content['emergency-contact-summary-add-button-text'],
+    alertMaxItems: EmergencyContactsMaxAlert,
   },
-  hideMaxItemsAlert: true,
 };
 
 // build schemas based on declared options

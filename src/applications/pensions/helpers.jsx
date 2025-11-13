@@ -94,6 +94,21 @@ export const formatFullName = ({
     .join(' ');
 };
 
+/**
+ * Converts any string (e.g., a person's name or noun) to its possessive form.
+ * - "Johnson" -> "Johnson’s"
+ * - "Williams" -> "Williams’"
+ * - "Business" -> "Business’"
+ * - "Emma Lee" -> "Emma Lee’s"
+ *
+ * @param {string} str - The string to convert (e.g., full name or label)
+ * @returns {string} - Possessive form of the string
+ */
+export const formatPossessiveString = str => {
+  if (!str || typeof str !== 'string') return '';
+  return str.endsWith('s') ? `${str}’` : `${str}’s`;
+};
+
 export function isHomeAcreageMoreThanTwo(formData) {
   return (
     formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
@@ -122,9 +137,5 @@ export const isProductionEnv = () => {
 export const showMultiplePageResponse = () =>
   window.sessionStorage.getItem('showMultiplePageResponse') === 'true';
 
-export const showIncomeAndAssetsClarification = () =>
-  window.sessionStorage.getItem('showIncomeAndAssetsClarification') === 'true';
-
-// TODO: Remove when pensions_medical_evidence_clarification flipper is removed
-export const showMedicalEvidenceClarification = () =>
-  window.sessionStorage.getItem('showPensionEvidenceClarification') === 'true';
+export const showPdfFormAlignment = () =>
+  window.sessionStorage.getItem('showPdfFormAlignment') === 'true';

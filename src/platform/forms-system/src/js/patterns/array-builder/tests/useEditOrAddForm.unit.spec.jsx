@@ -104,13 +104,14 @@ describe('useEditOrAddForm', () => {
     );
 
     const input = container.querySelector('input');
-    fireEvent.change(input, {
+    await fireEvent.change(input, {
       target: { value: 'Jane Doe' },
     });
-    expect(mockOnChange.called).to.be.false;
+    await expect(mockOnChange.called).to.be.false;
+
     const button = container.querySelector('va-button');
-    fireEvent.click(button);
-    expect(mockOnSubmit.called).to.be.true;
+    await fireEvent.click(button);
+    await expect(mockOnSubmit.called).to.be.true;
   });
 
   describe('updateSchemasAndData', () => {
@@ -176,7 +177,7 @@ describe('useEditOrAddForm', () => {
         />,
       );
 
-      waitFor(() => {
+      await waitFor(() => {
         expect(updateSchemasAndDataSpy.called).to.be.true;
         expect(updateSchemasAndDataSpy.args[0]).to.deep.equal([
           mockSchema,

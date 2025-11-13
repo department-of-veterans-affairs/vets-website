@@ -70,7 +70,7 @@ export const STATUSES = {
     description:
       'The Travel Clerk determined the claim does not qualify for a full reimbursement. Instead, they approved a partial payment and a Partial Payment letter was sent to you.',
     definition:
-      'Some of the expenses you submitted aren’t eligible for reimbursement. You can review the decision letter on the Claim Details page soon for more information.',
+      'Some of the expenses you submitted aren’t eligible for reimbursement. You can review the decision letter for more information.',
     reasons: null,
   },
   Denied: {
@@ -78,7 +78,7 @@ export const STATUSES = {
     description:
       'The Travel Clerk denied your claim for one or more of the following reasons:',
     definition:
-      'We denied your claim. You can review the decision letter on the Claim Details page for more information and how to appeal.',
+      'We denied your claim. You can review the decision letter for more information and how to appeal.',
     reasons: [
       'Claim is not eligible for reimbursement.',
       'The Travel Clerk could not verify the services in your claim.',
@@ -171,3 +171,116 @@ export const STATUS_GROUPINGS = [
     ],
   },
 ];
+
+export const EXPENSE_TYPES = Object.freeze({
+  Mileage: {
+    addButtonText: 'mileage',
+    expensePageText: 'mileage',
+    name: 'mileage',
+    title: 'Mileage',
+    route: 'mileage',
+    apiRoute: 'mileage',
+  },
+  Parking: {
+    addButtonText: 'parking',
+    expensePageText: 'parking',
+    name: 'parking',
+    title: 'Parking',
+    route: 'parking',
+    apiRoute: 'parking',
+  },
+  Toll: {
+    addButtonText: 'toll',
+    expensePageText: 'toll',
+    name: 'toll',
+    title: 'Tolls',
+    route: 'toll',
+    apiRoute: 'toll',
+  },
+  Commoncarrier: {
+    addButtonText: 'public transportation, taxi, or rideshare',
+    expensePageText: 'public transportation, taxi, or rideshare',
+    name: 'common carrier',
+    title: 'Public transportation, taxi, or rideshare',
+    route: 'common-carrier',
+    apiRoute: 'commoncarrier',
+  },
+  Airtravel: {
+    addButtonText: 'air travel',
+    expensePageText: 'airfare',
+    name: 'air travel',
+    title: 'Airfare',
+    route: 'air-travel',
+    apiRoute: 'airtravel',
+  },
+  Lodging: {
+    addButtonText: 'lodging',
+    expensePageText: 'lodging',
+    name: 'lodging',
+    title: 'Lodging',
+    route: 'lodging',
+    apiRoute: 'lodging',
+  },
+  Meal: {
+    addButtonText: 'meal',
+    expensePageText: 'meal',
+    name: 'meal',
+    title: 'Meals',
+    route: 'meal',
+    apiRoute: 'meal',
+  },
+  Other: {
+    addButtonText: 'travel',
+    expensePageText: 'other travel',
+    name: 'other',
+    title: 'Other travel expenses',
+    route: 'other',
+    apiRoute: 'other',
+  },
+});
+
+export const TRANSPORTATION_OPTIONS = Object.freeze([
+  'Bus',
+  'Subway',
+  'Train',
+  'Other',
+]);
+
+export const TRANSPORTATION_REASONS = Object.freeze({
+  PrivatelyOwnedVehicleNotAvailable: {
+    label:
+      "I don't own a private vehicle, or it wasn't available when I needed it",
+  },
+  MedicallyIndicated: {
+    label: 'Medical reasons',
+  },
+  Other: {
+    label: 'Other',
+  },
+});
+
+export const TRIP_TYPES = Object.freeze({
+  ONE_WAY: {
+    value: 'one-way',
+    label: 'One way',
+    key: 'OneWay',
+  },
+  ROUND_TRIP: {
+    value: 'round-trip',
+    label: 'Round trip',
+    key: 'RoundTrip',
+  },
+});
+
+export const ACCEPTED_FILE_TYPES = Object.freeze([
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.pdf',
+  '.doc',
+  '.docx',
+  '.gif',
+  '.bmp',
+  '.tif',
+  '.tiff',
+]);

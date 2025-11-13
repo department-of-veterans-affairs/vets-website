@@ -143,10 +143,25 @@ export const getMhvRadiologyDetails = async id => {
   return findMatchingPhrAndCvixStudies(id, phrResponse, cvixResponse);
 };
 
+export const getAcceleratedNotes = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/clinical_notes`, {
+    headers,
+  });
+};
+
 export const getNotes = async () => {
   return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
     headers,
   });
+};
+
+export const getAcceleratedNote = async id => {
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/clinical_notes/${id}`,
+    {
+      headers,
+    },
+  );
 };
 
 export const getNote = id => {
@@ -161,7 +176,7 @@ export const getVitalsList = async () => {
   });
 };
 
-export const getAcceleratedVitals = async vitalsDate => {
+export const getVitalsWithOHData = async vitalsDate => {
   const from = `&from=${vitalsDate}`;
   const to = `&to=${vitalsDate}`;
   return apiRequest(
@@ -184,10 +199,31 @@ export const getCondition = id => {
   });
 };
 
+export const getAcceleratedConditions = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/conditions`, {
+    headers,
+  });
+};
+
+export const getAcceleratedCondition = async id => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/conditions/${id}`, {
+    headers,
+  });
+};
+
 export const getAllergies = async () => {
   return apiRequest(`${apiBasePath}/medical_records/allergies`, {
     headers,
   });
+};
+
+export const getAllergiesWithOHData = async () => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`,
+    {
+      headers,
+    },
+  );
 };
 
 export const getAllergy = id => {
@@ -197,8 +233,14 @@ export const getAllergy = id => {
 };
 
 export const getAcceleratedAllergies = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/allergies`, {
+    headers,
+  });
+};
+
+export const getAllergyWithOHData = id => {
   return apiRequest(
-    `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`,
+    `${apiBasePath}/medical_records/allergies/${id}?use_oh_data_path=1`,
     {
       headers,
     },
@@ -206,12 +248,9 @@ export const getAcceleratedAllergies = async () => {
 };
 
 export const getAcceleratedAllergy = id => {
-  return apiRequest(
-    `${apiBasePath}/medical_records/allergies/${id}?use_oh_data_path=1`,
-    {
-      headers,
-    },
-  );
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/allergies/${id}`, {
+    headers,
+  });
 };
 
 /**
@@ -357,12 +396,30 @@ export const generateCCD = () => {
   return apiRequest(`${apiBasePath}/medical_records/ccd/generate`, { headers });
 };
 
-export const downloadCCD = timestamp => {
+export const downloadCCD = (timestamp, format = 'html') => {
+  const lowerFormat = format.toLowerCase();
   return apiRequest(
-    `${apiBasePath}/medical_records/ccd/download?date=${timestamp}`,
-    {
-      'Content-Type': 'application/xml',
-    },
+    `${apiBasePath}/medical_records/ccd/download.${lowerFormat}?date=${encodeURIComponent(
+      timestamp,
+    )}`,
+  );
+};
+
+/**
+ * Downloads a Continuity of Care Document (CCD) from Oracle Health data (v2 endpoint)
+ * @param {string} format
+ * @returns {Promise}
+ *
+ * V2 vs V1 Architecture:
+ * - V1: Two-step process (generate -> poll -> download)
+ * - V2: Single-step direct download
+ * - In V2, backend can convert FHIR -> XML/HTML/PDF on-demand
+ */
+export const downloadCCDV2 = async (format = 'xml') => {
+  const lowerFormat = format.toLowerCase();
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/ccd/download.${lowerFormat}`,
+    { headers },
   );
 };
 

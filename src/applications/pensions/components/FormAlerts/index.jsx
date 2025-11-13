@@ -25,7 +25,9 @@ export const AssetsInformation = () => (
         <li>Antique furniture</li>
         <li>Boats</li>
       </ul>
-      <h5>We don’t include items like these in your assets:</h5>
+      <p>
+        <strong>We don’t include items like these in your assets:</strong>
+      </p>
       <ul>
         <li>
           Your primary residence (the home where you live most or all of your
@@ -39,7 +41,9 @@ export const AssetsInformation = () => (
       </ul>
     </va-accordion-item>
     <va-accordion-item header="Who we consider a dependent">
-      <h5>A dependent is:</h5>
+      <p>
+        <strong>A dependent is:</strong>
+      </p>
       <ul>
         <li>
           A spouse (<strong>Note:</strong> We recognize same-sex and common-law
@@ -54,10 +58,12 @@ export const AssetsInformation = () => (
           one of the eligibility requirements listed here
         </li>
       </ul>
-      <h5>
-        To be considered a dependent, one of these must be true of an unmarried
-        child:
-      </h5>
+      <p>
+        <strong>
+          To be considered a dependent, one of these must be true of an
+          unmarried child:
+        </strong>
+      </p>
       <ul>
         <li>
           They’re under 18 years old, <strong>or</strong>
@@ -145,46 +151,28 @@ export const LandMarketableAlert = () => (
   </va-alert>
 );
 
-export const MedicalEvidenceAlert = () => (
+const RequestFormAlert = ({ title, formName, formLink, children }) => (
   <va-alert status="warning">
     <p className="vads-u-margin-y--0">
-      You’ll need to provide medical evidence with this application.
+      You’ll need to submit an {title} ({formName}
+      ).
+    </p>
+    <p>{children}</p>
+    <p>
+      We’ll ask you to upload this form at the end of this application. Or you
+      can send it to us by mail.
+    </p>
+    <p>
+      <va-link href={formLink} external text={`Get ${formName} to download`} />
     </p>
   </va-alert>
 );
 
-const RequestFormAlert = ({ title, formName, formLink, children }) => {
-  const linkText = `Get ${formName} to download (opens in new tab)`;
-  return (
-    <va-alert status="warning">
-      <p className="vads-u-margin-y--0">
-        You’ll need to submit an {title} ({formName}
-        ).
-      </p>
-      <p>{children}</p>
-      <p>
-        We’ll ask you to upload this form at the end of this application. Or you
-        can send it to us by mail.
-      </p>
-      <p>
-        <a
-          href={formLink}
-          rel="noopener noreferrer"
-          target="_blank"
-          aria-label={linkText}
-        >
-          {linkText}
-        </a>
-      </p>
-    </va-alert>
-  );
-};
-
 RequestFormAlert.propTypes = {
-  children: PropTypes.node,
   formLink: PropTypes.string.isRequired,
   formName: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  children: PropTypes.node,
 };
 
 export const RequestIncomeAndAssetInformationAlert = () => (
@@ -216,7 +204,7 @@ export const SchoolAttendanceAlert = () => (
 
 export const SpecialMonthlyPensionEvidenceAlert = () => (
   <RequestFormAlert
-    title="Examination for Household Status or Permanent
+    title="Examination for Housebound Status or Permanent
     Need for Regular Aid and Attendance"
     formName="VA Form 21-2680"
     formLink="https://www.va.gov/find-forms/about-form-21-2680/"
@@ -227,57 +215,21 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
   </RequestFormAlert>
 );
 
-export const TotalNetWorthOverTwentyFiveThousandAlert = () => {
-  const linkText = 'Get VA Form 21P-0969 to download (opens in new tab)';
-  return (
-    <va-alert status="warning">
-      <p className="vads-u-margin-y--0">
-        You answered that you have more than $25,000 in assets. You’ll need to
-        submit an Income and Asset Statement in Support of Claim for Pension or
-        Parents' Dependency and Indemnity Compensation (
-        <a
-          href="https://www.va.gov/find-forms/about-form-21-2680/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          VA Form 21P-0969
-        </a>
-        ).
-      </p>
-      <p>
-        We’ll ask you to upload this form at the end of this application. Or you
-        can send it to us by mail.
-      </p>
-      <p>
-        <a
-          href="https://www.va.gov/find-forms/about-form-21p-0969/"
-          rel="noopener noreferrer"
-          target="_blank"
-          aria-label={linkText}
-        >
-          {linkText}
-        </a>
-      </p>
-    </va-alert>
-  );
-};
-
 export const WartimeWarningAlert = () => (
   <va-alert status="warning">
     <p className="vads-u-margin-y--0">
       <strong>Note:</strong> You have indicated that you did not serve during an{' '}
-      <a
+      <va-link
         href="http://www.benefits.va.gov/pension/wartimeperiod.asp"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        {' '}
-        eligible wartime period
-      </a>
+        external
+        text="eligible wartime period"
+      />
       . Find out if you still qualify.{' '}
-      <a href="/pension/eligibility/" target="_blank">
-        Check your eligibility
-      </a>
+      <va-link
+        href="/pension/eligibility/"
+        text="Check your eligibility"
+        external
+      />
     </p>
   </va-alert>
 );

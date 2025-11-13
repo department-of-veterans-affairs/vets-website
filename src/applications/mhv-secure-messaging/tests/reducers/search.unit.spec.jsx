@@ -14,7 +14,7 @@ import searchResponse from '../fixtures/searchResponses/search-COVID-results.jso
 import inbox from '../fixtures/folder-inbox-metadata.json';
 
 describe('search reducer', () => {
-  const mockStore = (initialState = {}) => {
+  const mockStore = (initialState = { featureToggles: {} }) => {
     return createStore(searchReducer, initialState, applyMiddleware(thunk));
   };
 
@@ -35,20 +35,26 @@ describe('search reducer', () => {
       query,
       awaitingResults: false,
     };
-    expect(store.getState()).to.deep.equal(obj);
+    expect(store.getState()).to.deep.equal({
+      featureToggles: {},
+      ...obj,
+    });
   });
 
   it('should dispatch an action on setSearchSort', async () => {
     const store = mockStore();
     const sort = 'sent-date';
     await store.dispatch(setSearchSort(sort));
-    expect(store.getState()).to.deep.equal({ searchSort: sort });
+    expect(store.getState()).to.deep.equal({
+      featureToggles: {},
+      searchSort: sort,
+    });
   });
 
   it('should dispatch an action on setSearchPage', async () => {
     const store = mockStore();
     const page = 2;
     await store.dispatch(setSearchPage(page));
-    expect(store.getState()).to.deep.equal({ page });
+    expect(store.getState()).to.deep.equal({ featureToggles: {}, page });
   });
 });

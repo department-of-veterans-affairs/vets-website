@@ -4,10 +4,17 @@ import ccdGenerateResponse from './fixtures/ccd-generate-response.json';
 // import ccdDownloadResponse from './fixtures/ccd-download-response.xml';
 
 describe('Medical Records download page', () => {
-  it('Verifies CCD download', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
     site.loadPage();
+  });
+
+  it('Verifies CCD download', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
+    // site.loadPage();
 
     DownloadReportsPage.goToReportsPage();
 
@@ -26,5 +33,20 @@ describe('Medical Records download page', () => {
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');
+  });
+
+  it('Non-Cerner user sees V2 extended format accordion (not dual)', () => {
+    site.mockFeatureToggles({
+      isCcdExtendedFileTypesEnabled: true,
+    });
+
+    DownloadReportsPage.goToReportsPage();
+    DownloadReportsPage.clickCcdAccordionItem();
+
+    cy.get('[data-testid="generateCcdButtonXml"]').should('be.visible');
+    cy.get('[data-testid="generateCcdButtonPdf"]').should('be.visible');
+    cy.get('[data-testid="generateCcdButtonHtml"]').should('be.visible');
+
+    cy.injectAxeThenAxeCheck();
   });
 });

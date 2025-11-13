@@ -1,43 +1,58 @@
-import React, { useEffect } from 'react';
-
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaLink } from '../utils/imports';
 
-export default function IntroductionPage(props) {
-  const { route } = props;
+const OMB_RES_BURDEN = 10;
+const OMB_NUM = '2900-0219';
+const OMB_EXP_DATE = '12/31/2027';
+
+const IntroductionPage = ({ route }) => {
   const { formConfig, pageList } = route;
-  const { appType } = formConfig?.customText;
+  const { customText, formId, prefillEnabled, savedFormMessages } = formConfig;
+
+  const sipIntroProps = useMemo(
+    () => ({
+      alertTitle: 'Sign in now to save time and save your work in progress',
+      unauthStartText: 'Sign in to start your claim',
+      messages: savedFormMessages,
+      hideUnauthedStartLink: false,
+      formConfig: { customText },
+      headingLevel: 2,
+      prefillEnabled,
+      pageList,
+      formId,
+    }),
+    [customText, formId, pageList, prefillEnabled, savedFormMessages],
+  );
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
 
   return (
-    <article className="schemaform-intro">
+    <div className="schemaform-intro">
       <FormTitle
         title="File a CHAMPVA claim"
         subTitle="CHAMPVA Claim Form (VA Form 10-7959a)"
       />
-      <p>
-        Use this {appType} if you’re currently enrolled in The Civilian Health
-        and Medical Program of the Department of Veterans Affairs (CHAMPVA) and
-        want to file a claim for reimbursement.
+      <p className="va-introtext">
+        Use this form if you’re currently enrolled in the Civilian Health and
+        Medical Program of the Department of Veterans Affairs (CHAMPVA) and want
+        to file a claim for reimbursement.
       </p>
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        What to know before you fill out this {appType}
-      </h2>
+      <h2>What to know before you fill out this form</h2>
       <ul>
         <li>
-          You must file your claim within <b>1 year</b> of when you got the
-          care. If you stayed at a hospital for care, you must file your claim
-          within <b>1 year</b> of when you left the hospital.
+          You must file your claim within <strong>1 year</strong> of when you
+          got the care. If you stayed at a hospital for care, you must file your
+          claim within <strong>1 year</strong> of when you left the hospital.
         </li>
         <li>
-          Each claim needs its own {appType}. If you need to submit more than
-          one claim, you’ll need to submit a new {appType} for each claim.
+          Each claim needs its own form. If you need to submit more than one
+          claim, you’ll need to submit a new form for each claim.
         </li>
         <li>
           You’ll need to submit separate claims for each beneficiary, even if
@@ -45,38 +60,38 @@ export default function IntroductionPage(props) {
         </li>
         <li>
           You’ll also need to submit supporting documents with your claim, like
-          an <b>itemized billing statement</b>, an{' '}
-          <b>explanation of benefits</b> (EOB) from another insurance provider,
-          or a <b>pharmacy receipt</b>.
+          an itemized billing statement, an explanation of benefits (EOB) from
+          another insurance provider, or a pharmacy receipt.
         </li>
       </ul>
-
-      <VaLink
-        text="Find out which supporting documents to submit with your claim"
-        href="https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/champva-claim.asp"
-      />
-      <br />
-      <br />
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText="Start the form"
-        unauthStartText="Sign in to start your form"
-        formConfig={formConfig}
-      >
-        Please complete the 10-7959A form to apply for CHAMPVA claim form.
-      </SaveInProgressIntro>
+      <p className="vads-u-margin-bottom--4">
+        <VaLink
+          href="/COMMUNITYCARE/programs/dependents/champva/champva-claim.asp"
+          text="Find out which supporting documents to submit with your claim"
+        />
+      </p>
+      <div className="vads-u-margin-y--4">
+        <SaveInProgressIntro {...sipIntroProps} />
+      </div>
       <va-omb-info
-        res-burden={10}
-        omb-number="2900-0219"
-        exp-date="12/31/2027"
+        res-burden={OMB_RES_BURDEN}
+        omb-number={OMB_NUM}
+        exp-date={OMB_EXP_DATE}
       />
-    </article>
+    </div>
   );
-}
+};
 
 IntroductionPage.propTypes = {
-  route: PropTypes.object,
+  route: PropTypes.shape({
+    pageList: PropTypes.array,
+    formConfig: PropTypes.shape({
+      customText: PropTypes.object,
+      formId: PropTypes.string,
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.object,
+    }),
+  }).isRequired,
 };
+
+export default IntroductionPage;

@@ -29,6 +29,7 @@ const IntroductionPage = props => {
     }
     waitForRenderThenFocus('.schemaform-title > h1');
     scrollTo('topContentElement');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getStatus = () => {
@@ -90,7 +91,7 @@ const IntroductionPage = props => {
         <va-omb-info
           res-burden={30}
           omb-number="2900-0043"
-          exp-date="08/31/2025"
+          exp-date="08/31/2028"
         >
           <p>
             <strong>Privacy Act Notice:</strong> VA will not disclose
@@ -120,22 +121,20 @@ const IntroductionPage = props => {
             administered by the Department of Veterans Affairs.
           </p>
           <p>
-            <strong>Respondent Burden:</strong> We need this information to
-            determine marital status and eligibility for an additional allowance
-            for dependents under 38 U.S.C. 1115. Title 38, United States Code,
-            allows us to ask for this information. We estimate that you will
-            need an average of 30 minutes to review the instructions, find the
-            information and complete this form. VA cannot conduct or sponsor a
-            collection of information unless a valid OMB control number is
-            displayed. You are not required to respond to a collection of
-            information if this number is not displayed. Valid OMB control
-            numbers can be located on the OMB Internet Page at{' '}
-            <va-link
-              href="https://www.reginfo.gov/public/do/PRAMain"
-              text="www.reginfo.gov/public/do/PRAMain"
-            />
-            . If desired, you can call 1-800-827-1000 to get information on
-            where to send comments or suggestions about this form.
+            <strong>Respondent Burden:</strong> An agency may not conduct or
+            sponsor, and a person is not required to respond to, a collection of
+            information unless it displays a currently valid OMB control number.
+            The OMB control number for this project is 2900-0043, and it expires
+            08/31/2028. Public reporting burden for this collection of
+            information is estimated to average 30 minutes per respondent, per
+            year, including the time for reviewing instructions, searching
+            existing data sources, gathering and maintaining the data needed,
+            and completing and reviewing the collection of information. Send
+            comments regarding this burden estimate and any other aspect of this
+            collection of information, including suggestions for reducing the
+            burden, to VA Reports Clearance Officer at vapra@va.gov. Please
+            refer to OMB Control No. 2900-0043 in any correspondence. Do not
+            send your completed VA Form 21-686c to this email address.
           </p>
         </va-omb-info>
       </div>

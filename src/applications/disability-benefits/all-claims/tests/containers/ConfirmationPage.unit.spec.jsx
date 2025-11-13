@@ -4,12 +4,19 @@ import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import ConfirmationPage from '../../containers/ConfirmationPage';
+import { Toggler } from '~/platform/utilities/feature-toggles';
+import ConfirmationPage, {
+  getNewConditionsNames,
+} from '../../containers/ConfirmationPage';
 import { submissionStatuses } from '../../constants';
 import { bddConfirmationHeadline } from '../../content/bddConfirmationAlert';
 import formConfig from '../../config/form';
 
-const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
+const getData = ({
+  renderName = true,
+  suffix = 'Esq.',
+  featureToggles = {},
+} = {}) => ({
   user: {
     profile: {
       userFullName: renderName
@@ -17,8 +24,14 @@ const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
         : {},
     },
   },
+  featureToggles,
   form: {
-    data: {},
+    data: {
+      // Form data cannot be null for review section accordion
+      standardClaim: true,
+      isVaEmployee: true,
+      homelessOrAtRisk: 'homeless',
+    },
   },
 });
 
@@ -46,11 +59,20 @@ describe('ConfirmationPage', () => {
    * @param {string} claimId - if claimId has a value, verify the label and value are on the page
    * @param {boolean} isBdd - if true, verify BDD alert is present, otherwise verify it is not present
    * @param {string} submissionStatus - used to verify logic based on success or non success status
+   * @param {boolean} showCopyofSubmission - if true (toggle on), verify copy of submission section is shown
    */
-  const verifyConfirmationPage = (claimId, isBdd = false, submissionStatus) => {
+  const verifyConfirmationPage = (
+    claimId,
+    isBdd = false,
+    submissionStatus,
+    showCopyofSubmission = false,
+  ) => {
     const store = mockStore(
       getData({
-        disability526NewConfirmationPage: true,
+        featureToggles: {
+          [Toggler.TOGGLE_NAMES
+            .disability526ShowConfirmationReview]: showCopyofSubmission,
+        },
       }),
     );
     const props = {
@@ -76,6 +98,16 @@ describe('ConfirmationPage', () => {
       expect(queryByText(bddConfirmationHeadline)).to.not.exist;
     }
 
+    // copy of submission section
+    const accordionItem = container.querySelector(
+      'va-accordion-item[header="Information you submitted on this form"]',
+    );
+    if (showCopyofSubmission) {
+      expect(accordionItem).to.exist;
+    } else {
+      expect(accordionItem).to.be.null;
+    }
+
     // success alert
     getByText('Form submission started on', { exact: false });
     getByText('Your submission is in progress.', {
@@ -89,7 +121,6 @@ describe('ConfirmationPage', () => {
     getByText('November 7, 2024');
     getByText('Conditions claimed');
     getByText('Something Something');
-    getByText('Unknown Condition');
 
     if (claimId) {
       getByText('Claim ID number');
@@ -107,16 +138,32 @@ describe('ConfirmationPage', () => {
     getByText('Need help?');
 
     // links
-    expect(container.querySelectorAll('va-link')).to.have.lengthOf(5);
-    const link = container.querySelectorAll('va-link')[1];
-    expect(link.getAttribute('download')).to.exist;
-    expect(link.getAttribute('filetype')).to.equal('PDF');
-    expect(link.getAttribute('href')).to.equal(
-      'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
+    expect(container.querySelectorAll('va-link')).to.have.lengthOf(6);
+    // Find the 21-686c PDF link by its attributes rather than index
+    const pdfLink = Array.from(container.querySelectorAll('va-link')).find(
+      linkElement =>
+        linkElement.getAttribute('href') ===
+        'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
     );
-    expect(link.getAttribute('pages')).to.equal('15');
-    expect(link.getAttribute('text')).to.equal(
+    expect(pdfLink).to.exist;
+    expect(pdfLink.getAttribute('download')).to.exist;
+    expect(pdfLink.getAttribute('filetype')).to.equal('PDF');
+    expect(pdfLink.getAttribute('pages')).to.equal('15');
+    expect(pdfLink.getAttribute('text')).to.equal(
       'Download VA Form 21-686c (opens in new tab)',
+    );
+
+    // Verify "Learn more about the VA process" link exists
+    const vaProcessLink = Array.from(
+      container.querySelectorAll('va-link'),
+    ).find(
+      linkElement =>
+        linkElement.getAttribute('text') ===
+        'Learn more about the VA process after you file your claim',
+    );
+    expect(vaProcessLink).to.exist;
+    expect(vaProcessLink.getAttribute('href')).to.equal(
+      'https://www.va.gov/disability/after-you-file-claim/',
     );
   };
 
@@ -139,5 +186,42 @@ describe('ConfirmationPage', () => {
   it('should render success when form submitted successfully but submission status has non retryable error', () => {
     // status code 200, but response has "status: non_retryable_error"
     verifyConfirmationPage('', false, submissionStatuses.failed);
+  });
+
+  it('should render confirmation review section accordion when toggle is on', () => {
+    verifyConfirmationPage(
+      '12345678',
+      false,
+      submissionStatuses.succeeded,
+      true, // disability526ShowConfirmationReview toggle
+    );
+  });
+});
+
+describe('getNewConditionsNames', () => {
+  it('keeps strings and capitalizes them', () => {
+    expect(
+      getNewConditionsNames(['low back pain', '  knee PAIN  ']),
+    ).to.deep.equal(['Low Back Pain', 'Knee Pain']);
+  });
+
+  it('includes only NEW/SECONDARY objects, ignores others and blanks', () => {
+    const input = [
+      { condition: 'tinnitus', cause: 'secondary' },
+      { condition: 'sleep apnea', cause: 'NEW' },
+      { condition: 'flu', cause: 'primary' },
+      { condition: ' ', cause: 'NEW' },
+      { condition: 'tinnitus', cause: 'SECONDARY' },
+      undefined,
+    ];
+    expect(getNewConditionsNames(input)).to.deep.equal([
+      'Tinnitus',
+      'Sleep Apnea',
+    ]);
+  });
+
+  it('returns empty list for empty/invalid inputs', () => {
+    expect(getNewConditionsNames([])).to.deep.equal([]);
+    expect(getNewConditionsNames()).to.deep.equal([]);
   });
 });

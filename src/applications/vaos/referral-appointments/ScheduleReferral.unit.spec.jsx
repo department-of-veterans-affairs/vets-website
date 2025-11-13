@@ -28,7 +28,7 @@ describe('VAOS Component: ScheduleReferral', () => {
     );
 
     const details = await screen.findByTestId('referral-details');
-    const facility = await screen.findByTestId('referral-facility');
+    const link = await screen.findByTestId('referral-community-care-office');
     const helpText = await screen.findByTestId('help-text');
     const informationalText = await screen.findByTestId(
       'referral-informational-text',
@@ -43,7 +43,7 @@ describe('VAOS Component: ScheduleReferral', () => {
     expect(details).to.contain.text(expectedDate);
     expect(helpText).to.exist;
 
-    expect(facility).to.exist;
+    expect(link).to.exist;
     expect(informationalText).to.exist;
   });
   it('should reset slot selection', async () => {
@@ -83,8 +83,11 @@ describe('VAOS Component: ScheduleReferral', () => {
     const alert = await screen.findByTestId('referral-alert');
     expect(alert).to.exist;
     expect(alert).to.contain.text(
-      'Online scheduling is not available for this referral at this time',
+      'Online scheduling isn’t available for this referral right now. Call your community care provider or your facility’s community care office to schedule an appointment.',
     );
+    expect(
+      screen.queryAllByTestId('referral-community-care-office'),
+    ).to.have.length(2);
 
     // Verify that the schedule appointment button is not rendered
     const scheduleButton = screen.queryByTestId('schedule-appointment-button');
@@ -96,6 +99,35 @@ describe('VAOS Component: ScheduleReferral', () => {
     expect(details).to.contain.text('Location: Not available');
   });
 
+  it('should display warning alert when station id is not valid', async () => {
+    const referral = createReferralById(referralDate, '444');
+    referral.attributes.stationId = '12345';
+
+    const store = createTestStore();
+
+    const screen = renderWithStoreAndRouter(
+      <ScheduleReferral currentReferral={referral} />,
+      { store },
+    );
+
+    const alert = await screen.findByTestId('referral-alert');
+    expect(alert).to.exist;
+    expect(alert).to.contain.text(
+      'Online scheduling isn’t available for this referral right now. Call your community care provider or your facility’s community care office to schedule an appointment.',
+    );
+    expect(
+      screen.queryAllByTestId('referral-community-care-office'),
+    ).to.have.length(2);
+
+    // Verify that the schedule appointment button is not rendered
+    const scheduleButton = screen.queryByTestId('schedule-appointment-button');
+    expect(scheduleButton).to.be.null;
+
+    // Verify provider info shows correct values
+    const details = await screen.findByTestId('referral-details');
+    expect(details).to.contain.text('Provider: Dr. Moreen S. Rafa');
+    expect(details).to.contain.text('Location: fake facility name');
+  });
   it('should display schedule appointment button when provider name is available', async () => {
     const referral = createReferralById(referralDate, '444');
     // Add provider data
@@ -132,7 +164,6 @@ describe('VAOS Component: ScheduleReferral', () => {
     expect(details).to.contain.text('Provider: Dr. Jane Smith');
     expect(details).to.contain.text('Location: Community Care Clinic');
   });
-
   it('should handle undefined provider field gracefully', async () => {
     const referral = createReferralById(referralDate, '555');
     // Ensure provider is undefined (removed completely)

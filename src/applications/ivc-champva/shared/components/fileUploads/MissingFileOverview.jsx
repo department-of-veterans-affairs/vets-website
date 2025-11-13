@@ -166,6 +166,7 @@ export function checkFlags(pages, person, newListOfMissingFiles) {
  * @param {JSX.Element} param0.mailPreamble - Optional content to display above mailing address
  * @param {string} param0.officeName - Name of office to mail documents to
  * @param {string} param0.faxNum - Number where documents can be faxed
+ * @param {boolean} param0.dropUploaded- (optional) passed to hasReq to ignore files where uploaded=true. If not present, value of `showConsent` is passed to hasReq as analogue for `dropUploaded`.
  * @param {boolean} param0.showConsent - control whether the "Consent to Mail Missing Documents" checkbox is added to the page
  * @param {object} param0.allPages - all formConfig page objects (if not provided, we fall back to form page data stored in `contentAfterButtons`)
  * @param {object} param0.fileNameMap - object with formConfig keys for all possible files (required and optional) mapped to a user-friendly string (e.g., `{schoolCert: 'School Certificate'}`). This should be a superset containing `requiredFiles`
@@ -194,6 +195,7 @@ export default function MissingFileOverview({
   officeName,
   requiredDescription,
   faxNum,
+  dropUploaded,
   showConsent,
   allPages,
   fileNameMap,
@@ -208,6 +210,10 @@ export default function MissingFileOverview({
   const [isChecked, setIsChecked] = useState(
     data?.consentToMailMissingRequiredFiles || false,
   );
+  // preserve backwards compat with existing usage of `showConsent` as an
+  // analogue for `dropUploaded`, while now allowing explicit usage of
+  // dropUploaded in main config.
+  const drop = dropUploaded ?? showConsent;
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
   const chapters = contentAfterButtons?.props?.formConfig?.chapters;
   const verifier = new SupportingDocsVerification(requiredFiles);
@@ -266,11 +272,11 @@ export default function MissingFileOverview({
   };
 
   const requiredFilesStillMissing =
-    hasReq(sponsorMiss, true, showConsent) ||
-    hasReq(applicantsWithMissingFiles, true, showConsent);
+    hasReq(sponsorMiss, true, drop) ||
+    hasReq(applicantsWithMissingFiles, true, drop);
 
   const optionalFilesStillMissing =
-    hasReq(sponsorMiss, false, showConsent) || hasReq(apps, false, showConsent);
+    hasReq(sponsorMiss, false, drop) || hasReq(apps, false, drop);
 
   const filesAreMissing =
     requiredFilesStillMissing || optionalFilesStillMissing;
@@ -336,7 +342,7 @@ export default function MissingFileOverview({
 
       {filesAreMissing ? (
         <>
-          {hasReq(sponsorMiss, true, showConsent) ? (
+          {hasReq(sponsorMiss, true, drop) ? (
             <MissingFileList
               data={sponsorMiss}
               nameKey={nonListNameKey ?? 'name'}
@@ -349,7 +355,7 @@ export default function MissingFileOverview({
               showFileBullets={sfb}
             />
           ) : null}
-          {hasReq(apps, true, showConsent) ? (
+          {hasReq(apps, true, drop) ? (
             <MissingFileList
               data={apps}
               nameKey={listNameKey ?? 'applicantName'}
@@ -404,6 +410,7 @@ MissingFileOverview.propTypes = {
   contentAfterButtons: PropTypes.object,
   data: PropTypes.object,
   disableLinks: PropTypes.bool,
+  dropUploaded: PropTypes.bool,
   faxNum: PropTypes.string,
   fileNameMap: PropTypes.object,
   goBack: PropTypes.func,

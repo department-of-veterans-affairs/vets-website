@@ -19,7 +19,7 @@ export const connectDrupalStaticDataFile = async (dispatch, dataFile) => {
     },
   });
 
-  const json = await fetchDrupalStaticDataFile(fileName);
+  const json = await fetchDrupalStaticDataFile({ fileName });
 
   if (json) {
     let data = json;

@@ -6,6 +6,7 @@ import DowntimeNotification, {
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
+import DlcTelephoneLink from './DlcTelephoneLink';
 
 const IntroductionPage = ({ route }) => {
   const supplyDescription = 'hearing aid or CPAP supplies';
@@ -26,8 +27,7 @@ const IntroductionPage = ({ route }) => {
           Right now, only hearing aid and CPAP supplies are available to reorder
           online. If you’d like to order other medical supplies available
           through VA, contact the VA Denver Logistics Center (DLC) at{' '}
-          <va-telephone contact="8776778710" /> (
-          <va-telephone contact="711" tty="true" />) or email{' '}
+          <DlcTelephoneLink /> or email{' '}
           <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>. We’re available
           Monday through Friday, 8:15 a.m. to 5:00 p.m. ET.
         </p>
@@ -127,8 +127,7 @@ const IntroductionPage = ({ route }) => {
               </h3>
               <p>
                 If you need help or have questions about your order, contact the
-                DLC at <va-telephone contact="8776778710" /> (
-                <va-telephone contact="711" tty="true" />) or email{' '}
+                DLC at <DlcTelephoneLink /> or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>. We’re
                 available Monday through Friday, 8:15 a.m. to 5:00 p.m. ET.
               </p>
@@ -163,10 +162,8 @@ const IntroductionPage = ({ route }) => {
               <p>
                 We’ll send you a 6-month supply of each item you add to your
                 order. You can only reorder each item once every 5 months. If
-                you need an item sooner, call the DLC at{' '}
-                <va-telephone contact="8776778710" /> (
-                <va-telephone contact="711" tty="true" />
-                ), Monday through Friday, 8:15 a.m. to 5:00 p.m. ET.
+                you need an item sooner, call the DLC at <DlcTelephoneLink />,
+                Monday through Friday, 8:15 a.m. to 5:00 p.m. ET.
               </p>
             </va-accordion-item>
             <va-accordion-item>

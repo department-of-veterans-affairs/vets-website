@@ -90,21 +90,28 @@ import create210972Access from './simple-forms/21-0972/entry';
 import create2110210Access from './simple-forms/21-10210/entry';
 import create214138Access from './simple-forms/21-4138/entry';
 import create214142Access from './simple-forms/21-4142/entry';
+import create21P0537Access from './simple-forms/21P-0537/entry';
+import create21P601Access from './simple-forms/21P-601/entry';
 import create21P0847Access from './simple-forms/21P-0847/entry';
 import create264555Access from './simple-forms/26-4555/entry';
 import create400247Access from './simple-forms/40-0247/entry';
 import createFormUploadAccess from './simple-forms/form-upload/entry';
 import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
+import create21P0969Access from './income-and-asset';
 import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEnrollmentWidget';
 
 import create1010DExtendedAccess from './ivc-champva/10-10d-extended/entry';
 import create107959CAccess from './ivc-champva/10-7959c/entry';
 import create107959AAccess from './ivc-champva/10-7959a/entry';
 import create107959F2Access from './ivc-champva/10-7959f-2/entry';
+import create21P8416Access from './medical-expense-report/entry';
 
 import './mhv-signin-cta/sass/mhv-signin-cta.scss';
 import createMhvSigninCallToAction from './mhv-signin-cta/createMhvSigninCTA';
+import createDependentsVerificationHowToVerify from './dependents-verification';
+
+import create21P534ezAccess from './survivors-benefits/entry';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -137,6 +144,7 @@ connectFeatureToggle(store.dispatch);
 
 // Create widgets.
 createPensionApp(store, widgetTypes.PENSION_APP_STATUS);
+create21P0969Access(store, widgetTypes.INCOME_AND_ASSET_STATEMENT_STAGED_ENTRY);
 
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_10_10EZ,
@@ -221,6 +229,10 @@ createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
 createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 createI18Select(store, widgetTypes.I_18_SELECT);
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
+createDependentsVerificationHowToVerify(
+  store,
+  widgetTypes.DEPENDENTS_VERIFICATION_HOW_TO_VERIFY,
+);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
 createHCAPerformanceWarning(store, widgetTypes.HCA_PERFORMANCE_WARNING);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
@@ -245,6 +257,8 @@ create210972Access(store, widgetTypes.FORM_210972_CTA);
 create2110210Access(store, widgetTypes.FORM_2110210_CTA);
 create214138Access(store, widgetTypes.FORM_214138_CTA);
 create214142Access(store, widgetTypes.FORM_214142_CTA);
+create21P0537Access(store, widgetTypes.FORM_21P0537_CTA);
+create21P601Access(store, widgetTypes.FORM_21P601_CTA);
 create21P0847Access(store, widgetTypes.FORM_21P0847_CTA);
 create264555Access(store, widgetTypes.FORM_264555_CTA);
 create400247Access(store, widgetTypes.FORM_400247_CTA);
@@ -257,6 +271,9 @@ create107959CAccess(store, widgetTypes.FORM_107959C);
 create107959AAccess(store, widgetTypes.FORM_107959A);
 create107959F2Access(store, widgetTypes.FORM_107959F2);
 createMhvSigninCallToAction(store, widgetTypes.MHV_SIGNIN_CTA);
+create21P8416Access(store, widgetTypes.MEDICAL_EXPENSE_REPORT);
+
+create21P534ezAccess(store, widgetTypes.SURVIVORS_BENEFITS);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {

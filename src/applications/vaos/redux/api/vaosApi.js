@@ -42,21 +42,97 @@ export const vaosApi = createApi({
         dispatch(fetchPendingAppointments());
       },
     }),
-    postDraftReferralAppointment: builder.mutation({
-      async queryFn(referralNumber) {
+    getAppointmentInfo: builder.query({
+      async queryFn(appointmentId) {
+        try {
+          return await apiRequestWithUrl(
+            `/vaos/v2/eps_appointments/${appointmentId}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Page-Type': 'details',
+              },
+            },
+          );
+        } catch (error) {
+          captureError(error, false, 'details fetch appointment info');
+          return {
+            error: { status: error.status || 500, message: error.message },
+          };
+        }
+      },
+    }),
+    pollAppointmentInfo: builder.query({
+      async queryFn(appointmentId) {
+        try {
+          return await apiRequestWithUrl(
+            `/vaos/v2/eps_appointments/${appointmentId}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Page-Type': 'polling',
+              },
+            },
+          );
+        } catch (error) {
+          captureError(error, false, 'poll fetch appointment info');
+          return {
+            error: { status: error.status || 500, message: error.message },
+          };
+        }
+      },
+    }),
+    getDraftReferralAppointment: builder.query({
+      async queryFn({ referralNumber, referralConsultId }) {
         try {
           return await apiRequestWithUrl(`/vaos/v2/appointments/draft`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            // eslint-disable-next-line camelcase
-            body: JSON.stringify({ referral_id: referralNumber }),
+            body: JSON.stringify({
+              // eslint-disable-next-line camelcase
+              referral_number: referralNumber,
+              // eslint-disable-next-line camelcase
+              referral_consult_id: referralConsultId,
+            }),
           });
         } catch (error) {
           captureError(error, false, 'post draft referral appointment');
           return {
             error: { status: error.status || 500, message: error.message },
+          };
+        }
+      },
+    }),
+    postReferralAppointment: builder.mutation({
+      async queryFn({
+        draftApppointmentId,
+        referralNumber,
+        slotId,
+        networkId,
+        providerServiceId,
+      }) {
+        try {
+          return await apiRequestWithUrl(`/vaos/v2/appointments/submit`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              id: draftApppointmentId,
+              referralNumber,
+              slotId,
+              networkId,
+              providerServiceId,
+            }),
+          });
+        } catch (error) {
+          captureError(error, false, 'post referral appointment');
+          return {
+            error: { status: error.status || 500, message: error?.message },
           };
         }
       },
@@ -67,5 +143,8 @@ export const vaosApi = createApi({
 export const {
   useGetReferralByIdQuery,
   useGetPatientReferralsQuery,
-  usePostDraftReferralAppointmentMutation,
+  useGetAppointmentInfoQuery,
+  usePollAppointmentInfoQuery,
+  usePostReferralAppointmentMutation,
+  useGetDraftReferralAppointmentQuery,
 } = vaosApi;

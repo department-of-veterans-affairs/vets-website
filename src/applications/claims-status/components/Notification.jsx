@@ -10,13 +10,16 @@ export default function Notification({
   onSetFocus,
 }) {
   const closeable = !!onClose;
-  useEffect(() => {
-    if (typeof onSetFocus === 'function') {
-      setTimeout(() => {
-        onSetFocus();
-      });
-    }
-  });
+  useEffect(
+    () => {
+      if (typeof onSetFocus === 'function') {
+        setTimeout(() => {
+          onSetFocus();
+        });
+      }
+    },
+    [title, body, onSetFocus],
+  );
 
   return (
     <VaAlert
@@ -29,7 +32,7 @@ export default function Notification({
       visible
     >
       <h2 slot="headline">{title}</h2>
-      <p className="vads-u-margin-y--0">{body}</p>
+      <div className="vads-u-margin-y--0">{body}</div>
     </VaAlert>
   );
 }

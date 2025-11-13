@@ -297,7 +297,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
       ),
     );
     fireEvent.click(
-      screen.getByText('Go to your VA.gov profile (opens in new tab)'),
+      screen.getByText('Go to your VA.gov profile (opens in a new tab)'),
     );
     await waitFor(
       () =>
@@ -355,7 +355,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
       ),
     ).to.exist;
     fireEvent.click(
-      screen.getByText('Go to your VA.gov profile (opens in new tab)'),
+      screen.getByText('Go to your VA.gov profile (opens in a new tab)'),
     );
     await waitFor(
       () =>

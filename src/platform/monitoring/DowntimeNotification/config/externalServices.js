@@ -5,11 +5,13 @@
 export default {
   arcgis: 'arcgis',
   appeals: 'appeals',
+  askva: 'askva',
   // Benefits Gateway Services
   bgs: 'bgs',
   // CARMA (Caregiver Record Management Application)
   carma: 'carma',
   decisionReviews: 'decision_reviews',
+  disabilityCompensationForm: 'disability_compensation_form',
   // Debt Management Services
   dmc: 'dmc',
   dslogon: 'dslogon',
@@ -24,6 +26,7 @@ export default {
   form107959c: 'form107959c',
   form107959a: 'form107959a',
   form1010d: 'form1010d',
+  form1010dExt: 'form1010dExt',
   // global downtime, for scheduled downtime on apps that don't have specific dependencies documented
   global: 'global',
   // Intake, conversion, and mail handling services (central mail)
@@ -84,6 +87,8 @@ export default {
   pcie: 'pcie',
   // Travel claim
   tc: 'tc',
+  // Community Care Direct Scheduling
+  communityCareDS: 'community_care_ds',
   // MDOT/ROES/DLC
   mdot: 'mdot',
   // stagingMdot: 'staging_mdot', // unnecessary

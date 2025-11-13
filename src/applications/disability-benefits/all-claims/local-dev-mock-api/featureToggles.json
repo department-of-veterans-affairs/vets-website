@@ -1,0 +1,99 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "show526Wizard",
+        "value": true
+      },
+      {
+        "name": "form526_confirmation_email",
+        "value": true
+      },
+      {
+        "name": "form526_confirmation_email_show_copy",
+        "value": true
+      },
+      {
+        "name": "subform_8940_4192",
+        "value": true
+      },
+      {
+        "name": "allowEncryptedFiles",
+        "value": true
+      },
+      {
+        "name": "disability_526_maximum_rating",
+        "value": true
+      },
+      {
+        "name": "disability_compensation_staging_526_sips",
+        "value": true
+      },
+      {
+        "name": "disability_compensation_toxic_exposure_destruction_modal",
+        "value": false
+      },
+      {
+        "name": "disability_526_toxic_exposure_opt_out_data_purge",
+        "value": false
+      },
+      {
+        "name": "form526_use_lighthouse_api",
+        "value": false
+      },
+      {
+        "name": "form526_original_claims",
+        "value": true
+      },
+      {
+        "name": "form_526_send_781_form",
+        "value": true
+      },
+      {
+        "name": "form_526_send_781a_form",
+        "value": true
+      },
+      {
+        "name": "va_online_scheduling",
+        "value": true
+      },
+      {
+        "name": "va_online_scheduling_past_appointments",
+        "value": true
+      },
+      {
+        "name": "va_online_scheduling_direct_schedule_enabled",
+        "value": true
+      },
+      {
+        "name": "show_new_schedule_view_appointments_page",
+        "value": true
+      },
+      {
+        "name": "va_online_scheduling_homepage_refresh",
+        "value": true
+      },
+      {
+        "name": "va_online_scheduling_enable_OH_eligibility",
+        "value": true
+      },
+      {
+        "name": "mhv_integration_medical_records_to_phase_1",
+        "value": true
+      },
+      {
+        "name": "form_526_send_781_modern_flow",
+        "value": true
+      },
+      {
+        "name": "modern_0781_enabled",
+        "value": true
+      },
+      {
+        "name": "sync_modern_0781_flow",
+        "value": true
+      }
+    ]
+  }
+}

@@ -2,17 +2,17 @@ import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/Pag
 import React from 'react';
 import { Route, Switch, Redirect, useLocation } from 'react-router-dom';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
-import { useIsInCCPilot } from '../referral-appointments/hooks/useIsInCCPilot';
+import { useIsInPilotUserStations } from '../referral-appointments/hooks/useIsInPilotUserStations';
 import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests';
 import UpcomingAppointmentsDetailsPage from './pages/UpcomingAppointmentsDetailsPage';
-import EpsAppointmentDetailsPage from '../referral-appointments/EpsAppointmentDetailsPage';
+import EpsAppointmentDetailsPage from './pages/EpsAppointmentDetailsPage/EpsAppointmentDetailsPage';
 import AppointmentsPage from './pages/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage/RequestedAppointmentDetailsPage';
 
 function AppointmentListSection() {
   useManualScrollRestoration();
 
-  const { isInCCPilot } = useIsInCCPilot();
+  const { isInPilotUserStations } = useIsInPilotUserStations();
   const location = useLocation();
 
   // Parse the query parameters
@@ -27,24 +27,29 @@ function AppointmentListSection() {
           component={RequestedAppointmentDetailsPage}
         />
 
-        {isInCCPilot && <Redirect from="/pending" to="/referrals-requests" />}
-        {!isInCCPilot && <Redirect from="/referrals-requests" to="/pending" />}
+        {isInPilotUserStations && (
+          <Redirect from="/pending" to="/referrals-requests" />
+        )}
+        {!isInPilotUserStations && (
+          <Redirect from="/referrals-requests" to="/pending" />
+        )}
 
-        <Route path="/pending" component={AppointmentsPage} />
-        {isInCCPilot &&
-          eps && <Route path="/:id" component={EpsAppointmentDetailsPage} />}
-
-        {isInCCPilot && (
+        {isInPilotUserStations && (
           <Route path="/referrals-requests" component={ReferralsAndRequests} />
         )}
-        <Route path="/past/:id" component={UpcomingAppointmentsDetailsPage} />
-        <Route path="/past" component={AppointmentsPage} />
-        <Route exact path="/:id" component={UpcomingAppointmentsDetailsPage} />
         <Route
           exact
           path={['/', '/pending', '/past']}
           component={AppointmentsPage}
         />
+        <Route
+          exact
+          path="/past/:id"
+          component={UpcomingAppointmentsDetailsPage}
+        />
+        {isInPilotUserStations &&
+          eps && <Route path="/:id" component={EpsAppointmentDetailsPage} />}
+        <Route exact path="/:id" component={UpcomingAppointmentsDetailsPage} />
         <Route component={PageNotFound} />
       </Switch>
     </>

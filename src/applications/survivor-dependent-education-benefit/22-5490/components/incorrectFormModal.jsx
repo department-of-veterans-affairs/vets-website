@@ -56,6 +56,25 @@ const IncorrectFormModal = props => {
           to complete the application from their own Login.gov or ID.me account.
         </li>
         <li>
+          If you believe you’re an eligible dependent receiving benefits through{' '}
+          <a
+            href="https://milconnect.dmdc.osd.mil/milconnect/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            milConnect
+          </a>{' '}
+          and need more info, contact VA at{' '}
+          <a
+            href="https://ask.va.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Ask.VA.gov
+          </a>
+          .
+        </li>
+        <li>
           If you are a Veteran or service member applying for a benefit based on
           your own service,{' '}
           <a href={form1990Link} target="_blank" rel="noopener noreferrer">

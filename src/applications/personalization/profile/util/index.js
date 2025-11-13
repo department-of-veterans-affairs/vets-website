@@ -13,19 +13,10 @@ export const BASE_DIRECT_DEPOSIT_ERROR_KEYS = {
   NIGHT_PHONE_NUMBER_INVALID: '.night.phone.number.invalid',
   NIGHT_PHONE_AREA_INVALID: '.night.area.number.invalid',
   MAILING_ADDRESS_INVALID: '.mailing.address.invalid',
+  PAYMENT_ADDRESS_MISSING: '.payment.address.missing',
   UNSPECIFIED_ERROR: '.unspecified.error',
   GENERIC_ERROR: '.generic.error',
 };
-
-// error keys for profile/direct_deposits/disability_compensations endpoint
-// easier to export and use than importing one by one constants
-// add cnp to the front of each base error key
-export const LIGHTHOUSE_ERROR_KEYS = Object.keys(
-  BASE_DIRECT_DEPOSIT_ERROR_KEYS,
-).reduce((acc, key) => {
-  acc[key] = `cnp.payment${BASE_DIRECT_DEPOSIT_ERROR_KEYS[key]}`;
-  return acc;
-}, {});
 
 export const DIRECT_DEPOSIT_ERROR_KEYS = Object.keys(
   BASE_DIRECT_DEPOSIT_ERROR_KEYS,
@@ -82,17 +73,14 @@ export const hasErrorCombos = ({
 export const hasAccountFlaggedError = errors => {
   return hasErrorCombos({
     errors,
-    errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD,
-      DIRECT_DEPOSIT_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD,
-    ],
+    errorKeys: [DIRECT_DEPOSIT_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD],
   });
 };
 
 export const hasRoutingNumberFlaggedError = errors =>
   hasErrorCombos({
     errors,
-    errorKeys: [LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_FLAGGED_FOR_FRAUD],
+    errorKeys: [DIRECT_DEPOSIT_ERROR_KEYS.ROUTING_NUMBER_FLAGGED_FOR_FRAUD],
   });
 
 // the cases for invalid routing number include:
@@ -104,8 +92,6 @@ export const hasInvalidRoutingNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_INVALID_CHECKSUM,
-      LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_INVALID,
       DIRECT_DEPOSIT_ERROR_KEYS.ROUTING_NUMBER_INVALID_CHECKSUM,
       DIRECT_DEPOSIT_ERROR_KEYS.ROUTING_NUMBER_INVALID,
     ],
@@ -113,8 +99,6 @@ export const hasInvalidRoutingNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-      LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.UNSPECIFIED_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.GENERIC_ERROR,
     ],
@@ -122,25 +106,24 @@ export const hasInvalidRoutingNumberError = errors =>
   });
 
 // the cases for invalid address include:
-// - unspecified error code with error text 'address update' in the error detail
-// - generic error code with error text 'address update' in the error detail
+// - unspecified error code with error text 'address update' or 'Payment Address Data Not Found' in the error detail
+// - generic error code with error text 'address update' or 'Payment Address Data Not Found' in the error detail
 // - mailing address invalid error code
+// - payment address missing error code
 export const hasInvalidAddressError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-      LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.UNSPECIFIED_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.GENERIC_ERROR,
     ],
-    errorTexts: ['address update'],
+    errorTexts: ['address update', 'Payment Address Data Not Found'],
   }) ||
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.MAILING_ADDRESS_INVALID,
       DIRECT_DEPOSIT_ERROR_KEYS.MAILING_ADDRESS_INVALID,
+      DIRECT_DEPOSIT_ERROR_KEYS.PAYMENT_ADDRESS_MISSING,
     ],
   });
 
@@ -153,8 +136,6 @@ export const hasInvalidHomePhoneNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-      LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.UNSPECIFIED_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.GENERIC_ERROR,
     ],
@@ -163,8 +144,6 @@ export const hasInvalidHomePhoneNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.NIGHT_PHONE_NUMBER_INVALID,
-      LIGHTHOUSE_ERROR_KEYS.NIGHT_PHONE_AREA_INVALID,
       DIRECT_DEPOSIT_ERROR_KEYS.NIGHT_PHONE_NUMBER_INVALID,
       DIRECT_DEPOSIT_ERROR_KEYS.NIGHT_PHONE_AREA_INVALID,
     ],
@@ -179,8 +158,6 @@ export const hasInvalidWorkPhoneNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-      LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.UNSPECIFIED_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.GENERIC_ERROR,
     ],
@@ -189,8 +166,6 @@ export const hasInvalidWorkPhoneNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_NUMBER_INVALID,
-      LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_AREA_INVALID,
       DIRECT_DEPOSIT_ERROR_KEYS.DAY_PHONE_NUMBER_INVALID,
       DIRECT_DEPOSIT_ERROR_KEYS.DAY_PHONE_AREA_INVALID,
     ],
@@ -201,10 +176,7 @@ export const hasInvalidWorkPhoneNumberError = errors =>
 export const hasPaymentRestrictionIndicatorsError = errors =>
   hasErrorCombos({
     errors,
-    errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.PAYMENT_RESTRICTIONS_PRESENT,
-      DIRECT_DEPOSIT_ERROR_KEYS.PAYMENT_RESTRICTIONS_PRESENT,
-    ],
+    errorKeys: [DIRECT_DEPOSIT_ERROR_KEYS.PAYMENT_RESTRICTIONS_PRESENT],
   });
 
 // BEGIN TODO: remove this once the direct deposit form is updated to use single form
@@ -236,9 +208,9 @@ const getLighthouseErrorCode = (errors = []) => {
 
 // Helper that creates and returns an object to pass to the recordEvent()
 // function when an error occurs while trying to save/update a user's direct
-// deposit for compensation and pension payment information. The value of the
-// `error-key` prop will change depending on the content of the `errors` array.
-export const createCNPDirectDepositAnalyticsDataObject = ({
+// deposit information. The value of the `error-key` prop will change depending
+// on the content of the `errors` array.
+export const createDirectDepositAnalyticsDataObject = ({
   errors = [],
   isEnrolling = false,
 } = {}) => {
@@ -247,7 +219,7 @@ export const createCNPDirectDepositAnalyticsDataObject = ({
   return cloneDeep({
     event: 'profile-edit-failure',
     'profile-action': 'save-failure',
-    'profile-section': `cnp-direct-deposit-information`,
+    'profile-section': `direct-deposit-information`,
     'error-key': `${errorCode}${isEnrolling ? '-enroll' : '-update'}`,
   });
 };

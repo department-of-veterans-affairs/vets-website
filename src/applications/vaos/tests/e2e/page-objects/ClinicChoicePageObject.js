@@ -2,7 +2,7 @@ import PageObject from './PageObject';
 
 class ClinicChoicePageObject extends PageObject {
   assertSingleClinic() {
-    cy.get('va-radio').contains('Would you like to make an appointment at');
+    cy.findByText(/Would you like to make an appointment at/i);
     return this;
   }
 
@@ -37,7 +37,7 @@ class ClinicChoicePageObject extends PageObject {
 
       return this;
     }
-    return super.selectRadioButtonShadow(selection);
+    return super.selectRadioButton(selection);
   }
 }
 

@@ -24,7 +24,10 @@ import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
+  captureMissingModalityLogs,
 } from '../../utils/events';
+import ClinicPhysicalLocation from './ClinicPhysicalLocation';
+import ClinicName from './ClinicName';
 
 export default function VideoLayoutVA({ data: appointment }) {
   const {
@@ -51,6 +54,9 @@ export default function VideoLayoutVA({ data: appointment }) {
     heading = 'Canceled video appointment at VA location';
   else if (isPastAppointment) heading = 'Past video appointment at VA location';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,
@@ -141,15 +147,8 @@ export default function VideoLayoutVA({ data: appointment }) {
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
               <FacilityDirectionsLink location={facility} icon />
             </div>
-            <br />
-            <span data-dd-privacy="mask">
-              Clinic: {clinicName || 'Not available'}
-            </span>{' '}
-            <br />
-            <span data-dd-privacy="mask">
-              Location: {clinicPhysicalLocation || 'Not available'}
-            </span>
-            <br />
+            <ClinicName name={clinicName} />{' '}
+            <ClinicPhysicalLocation location={clinicPhysicalLocation} /> <br />
           </>
         )}
         <ClinicOrFacilityPhone

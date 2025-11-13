@@ -1,9 +1,11 @@
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { useHistory } from 'react-router-dom';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
+import useFormState from '../../hooks/useFormState';
+import { focusFormHeader } from '../../utils/scrollAndFocus';
+import { getPageTitle } from '../newAppointmentFlow';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -13,9 +15,7 @@ import {
   selectCommunityCareSupportedSites,
   selectPageChangeInProgress,
 } from '../redux/selectors';
-import { focusFormHeader } from '../../utils/scrollAndFocus';
-import useFormState from '../../hooks/useFormState';
-import { getPageTitle } from '../newAppointmentFlow';
+import AppointmentsRadioWidget from './AppointmentsRadioWidget';
 
 const pageKey = 'ccClosestCity';
 
@@ -25,15 +25,13 @@ export default function ClosestCityStatePage() {
   const uiSchema = {
     communityCareSystemId: {
       'ui:title': pageTitle,
-      'ui:widget': 'radio', // Required
-      'ui:webComponentField': VaRadioField,
+      'ui:widget': AppointmentsRadioWidget,
       'ui:errorMessages': {
         required: 'Select a city',
       },
       'ui:options': {
         classNames: 'vads-u-margin-top--neg2',
-        showFieldLabel: false,
-        labelHeaderLevel: '1',
+        hideLabelText: true,
       },
     },
   };
@@ -79,6 +77,12 @@ export default function ClosestCityStatePage() {
 
   return (
     <div>
+      <h1 className="vaos__dynamic-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       {!!schema && (
         <SchemaForm
           name="Closest city and state"

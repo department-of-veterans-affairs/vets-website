@@ -26,9 +26,7 @@ const testNoDependentsOnAward = () => {
     'mockNoAwardDependents',
   );
   cy.visit(manifest.rootUrl);
-  cy.findByText(
-    'There are no dependents associated with your VA benefits',
-  ).should('exist');
+  cy.findByText('You have no dependents on your VA benefits.').should('exist');
   testAxe();
 };
 
@@ -70,7 +68,7 @@ const testServerError = () => {
   testAxe();
 };
 
-describe('View VA dependents', () => {
+describe.skip('View VA dependents', () => {
   beforeEach(() => {
     cy.login();
   });

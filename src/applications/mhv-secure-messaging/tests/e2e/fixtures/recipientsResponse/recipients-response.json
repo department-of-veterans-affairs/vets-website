@@ -18,7 +18,8 @@
         "groupTypeEnumVal": null,
         "subGroupTypeEnumVal": null,
         "groupTypePatientDisplay": null,
-        "subGroupTypePatientDisplay": null
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
       }
     },
     {
@@ -39,7 +40,8 @@
         "groupTypeEnumVal": null,
         "subGroupTypeEnumVal": null,
         "groupTypePatientDisplay": null,
-        "subGroupTypePatientDisplay": null
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
       }
     },
     {
@@ -60,7 +62,8 @@
         "groupTypeEnumVal": null,
         "subGroupTypeEnumVal": null,
         "groupTypePatientDisplay": null,
-        "subGroupTypePatientDisplay": null
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
       }
     },
     {
@@ -81,7 +84,8 @@
         "groupTypeEnumVal": null,
         "subGroupTypeEnumVal": null,
         "groupTypePatientDisplay": null,
-        "subGroupTypePatientDisplay": null
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
       }
     },
     {
@@ -102,7 +106,8 @@
         "groupTypeEnumVal": null,
         "subGroupTypeEnumVal": null,
         "groupTypePatientDisplay": null,
-        "subGroupTypePatientDisplay": null
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
       }
     },
     {
@@ -123,7 +128,8 @@
         "groupTypeEnumVal": null,
         "subGroupTypeEnumVal": null,
         "groupTypePatientDisplay": null,
-        "subGroupTypePatientDisplay": null
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
       }
     },
     {
@@ -131,7 +137,7 @@
       "type": "all_triage_teams",
       "attributes": {
         "triageTeamId": 56219,
-        "stationNumber": "613GF",
+        "stationNumber": "589",
         "blockedStatus": false,
         "name": "SLC4 PCMM",
         "relationType": "PATIENT",
@@ -144,7 +150,8 @@
         "groupTypeEnumVal": null,
         "subGroupTypeEnumVal": null,
         "groupTypePatientDisplay": null,
-        "subGroupTypePatientDisplay": null
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
       }
     },
     {
@@ -165,7 +172,8 @@
         "groupTypeEnumVal": null,
         "subGroupTypeEnumVal": null,
         "groupTypePatientDisplay": null,
-        "subGroupTypePatientDisplay": null
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
       }
     },
     {
@@ -174,7 +182,7 @@
       "attributes": {
         "triageTeamId": 3658299,
         "name": "OH TG GROUP 002",
-        "stationNumber": "663",
+        "stationNumber": "668",
         "blockedStatus": false,
         "preferredTeam": true,
         "relationshipType": "PATIENT",
@@ -186,12 +194,35 @@
         "groupTypeEnumVal": null,
         "subGroupTypeEnumVal": null,
         "groupTypePatientDisplay": null,
-        "subGroupTypePatientDisplay": null
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": true
+      }
+    },
+    {
+      "id": "7654321",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 7654321,
+        "name": "VHA 649 Release of Information (ROI)",
+        "stationNumber": "649",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT",
+        "leadProviderName": null,
+        "locationName": null,
+        "teamName": null,
+        "suggestedNameDisplay": null,
+        "healthCareSystemName": null,
+        "groupTypeEnumVal": null,
+        "subGroupTypeEnumVal": null,
+        "groupTypePatientDisplay": null,
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
       }
     }
   ],
   "meta": {
-    "associatedTriageGroups": 7,
+    "associatedTriageGroups": 8,
     "associatedBlockedTriageGroups": 0,
     "sort": {
       "name": "ASC"

@@ -205,6 +205,7 @@ const SearchForm = props => {
         role="status"
         aria-live="polite"
         data-testid="search-message-folder-input-label"
+        data-dd-action-name="Filter Messages matches label"
         className={`vads-u-margin-top--4 ${
           resultsCount === undefined ? null : 'filter-results-in-folder'
         }`}

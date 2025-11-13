@@ -46,7 +46,7 @@ export const emailValidation = (
  * ```
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
- *   description: UISchemaOptions['ui:description'],
+ *   description?: UISchemaOptions['ui:description'],
  *   hint?: string
  *   errorMessages?: {
  *     required?: string

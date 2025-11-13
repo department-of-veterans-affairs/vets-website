@@ -12,7 +12,7 @@ import {
   isInPersonVisit,
   isVAPhoneAppointment,
 } from '../../../services/appointment';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { FETCH_STATUS, DATE_FORMATS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import AppointmentDetailsErrorMessage from '../../components/AppointmentDetailsErrorMessage';
 import PageLayout from '../../components/PageLayout';
@@ -26,6 +26,7 @@ import {
   selectIsPast,
 } from '../../redux/selectors';
 import DetailsVA from './DetailsVA';
+import { selectFeatureUseBrowserTimezone } from '../../../redux/selectors';
 
 export default function UpcomingAppointmentsDetailsPage() {
   const dispatch = useDispatch();
@@ -38,6 +39,9 @@ export default function UpcomingAppointmentsDetailsPage() {
   } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
+  );
+  const featureUseBrowserTimezone = useSelector(
+    selectFeatureUseBrowserTimezone,
   );
   const isInPerson = isInPersonVisit(appointment);
   const isPast = selectIsPast(appointment);
@@ -56,7 +60,7 @@ export default function UpcomingAppointmentsDetailsPage() {
         dispatch(closeCancelAppointment());
       };
     },
-    [id, dispatch, appointmentTypePrefix],
+    [id, dispatch, appointmentTypePrefix, featureUseBrowserTimezone],
   );
 
   useEffect(
@@ -90,7 +94,7 @@ export default function UpcomingAppointmentsDetailsPage() {
         document.title = `${pageTitle} ${formatInTimeZone(
           appointment.start,
           appointment.timezone,
-          'EEEE, MMMM d, yyyy',
+          DATE_FORMATS.friendlyWeekdayDate,
         )} | Veterans Affairs`;
         scrollAndFocus();
       }

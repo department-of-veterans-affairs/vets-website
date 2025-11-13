@@ -1,7 +1,6 @@
-import PropTypes from 'prop-types';
-
-import { connect } from 'react-redux';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import {
   FIELD_IDS,
@@ -17,7 +16,7 @@ import {
   CSP_IDS,
 } from '~/platform/user/authentication/constants';
 
-import { ProfileInfoCard } from '../../ProfileInfoCard';
+import { ProfileInfoSection } from '../../ProfileInfoSection';
 
 /**
  * only id.me and login.gov use email for sign in / show the sign-in email section.
@@ -77,12 +76,13 @@ const generateRows = signInServiceName => {
 const EmailInformationSection = ({ className, signInServiceName }) => {
   return (
     <div className={className}>
-      <ProfileInfoCard
+      <ProfileInfoSection
         title="Email addresses"
         level={2}
         namedAnchor="email-address"
         data={generateRows(signInServiceName)}
         className="vads-u-margin-bottom--4"
+        enableAlertConfirmEmail
       />
     </div>
   );

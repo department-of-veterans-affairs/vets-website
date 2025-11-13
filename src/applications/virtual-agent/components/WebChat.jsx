@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
@@ -49,11 +49,12 @@ const styleOptions = {
   suggestedActionTextColor: 'white',
   suggestedActionBorderRadius: 5,
   suggestedActionBorderWidth: 0,
+  autoScrollSnapOnPage: true,
 };
 
 export const renderMarkdown = text => MarkdownRenderer.render(text);
 
-const WebChat = ({ token, code, webChatFramework }) => {
+const WebChat = ({ code, webChatFramework }) => {
   const {
     createDirectLine,
     createStore,
@@ -72,6 +73,10 @@ const WebChat = ({ token, code, webChatFramework }) => {
     TOGGLE_NAMES.virtualAgentUseStsAuthentication,
   );
 
+  const isSessionPersistenceEnabled = useToggleValue(
+    TOGGLE_NAMES.virtualAgentChatbotSessionPersistenceEnabled,
+  );
+
   const store = useWebChatStore({
     createStore,
     code,
@@ -79,12 +84,26 @@ const WebChat = ({ token, code, webChatFramework }) => {
     environment,
     isComponentToggleOn,
     isStsAuthEnabled,
+    isSessionPersistenceEnabled,
   });
 
-  clearBotSessionStorageEventListener(isLoggedIn);
-  signOutEventListener();
+  // Register global event listeners once and clean up on unmount
+  useEffect(
+    () => {
+      const cleanupBeforeUnload = clearBotSessionStorageEventListener(
+        isLoggedIn,
+      );
+      const cleanupSignOut = signOutEventListener(isLoggedIn);
 
-  const directLine = useDirectLine(createDirectLine, token, isLoggedIn);
+      return () => {
+        if (typeof cleanupBeforeUnload === 'function') cleanupBeforeUnload();
+        if (typeof cleanupSignOut === 'function') cleanupSignOut();
+      };
+    },
+    [isLoggedIn],
+  );
+
+  const directLine = useDirectLine(createDirectLine);
 
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>

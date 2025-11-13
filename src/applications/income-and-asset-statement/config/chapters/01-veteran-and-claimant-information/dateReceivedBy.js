@@ -10,12 +10,12 @@ export default {
   uiSchema: {
     title: 'Reporting period',
     dateReceivedByVa: yesNoUI({
-      title:
-        'Are you submitting an initial application for Veterans Pension or Parents’ DIC, or are you already receiving these benefits?',
+      title: 'Which of these best describe your case?',
       labelHeaderLevel: '1',
       labels: {
-        Y: 'I’m applying for Veterans Pension or Parents’ DIC benefits',
-        N: 'I’m already receiving Veterans Pension or Parents’ DIC benefits',
+        Y:
+          'I’m submitting an initial application for VA Pension or Parents’ DIC benefits',
+        N: 'I’m already receiving VA Pension or Parents’ DIC benefits',
       },
     }),
   },

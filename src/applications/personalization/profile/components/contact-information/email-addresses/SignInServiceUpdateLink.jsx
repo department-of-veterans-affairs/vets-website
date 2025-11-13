@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { useSignInServiceProvider } from '../../../hooks';
 import { SignInEmailAlert } from '../../alerts/CredentialRetirementAlerts';
 import { selectShowCredRetirementMessaging } from '../../../selectors';
 
 const SignInServiceUpdateLink = ({ isIdentityVerified }) => {
   const { link, label } = useSignInServiceProvider();
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const profile2Enabled = useToggleValue(TOGGLE_NAMES.profile2Enabled);
 
   const showCredRetirementMessaging = useSelector(
     selectShowCredRetirementMessaging,
@@ -22,7 +25,7 @@ const SignInServiceUpdateLink = ({ isIdentityVerified }) => {
         you manage your account information. Any updates you make there will
         automatically update on VA.gov.
       </p>
-      <p className="vads-u-margin-bottom--0">
+      <p className={profile2Enabled ? '' : 'vads-u-margin-bottom--0'}>
         <a href={link} target="_blank" rel="noopener noreferrer">
           {`Update your sign-in information on the ${label} website`}
         </a>

@@ -44,39 +44,37 @@ export default function InterstitialChanges() {
 
   return (
     <div className="row vads-u-margin-y--6 vads-u-padding-x--2 login">
-      <div className="usa-width-two-thirds">
-        <h1
-          id="interstitialH1"
-          className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
-        >
-          The DS Logon sign-in option is going away soon
-        </h1>
-        <p
-          className="vads-u-font-size--base section-content vads-u-measure--5"
-          id="interstitialP"
-          data-testid="interstitialP"
-        >
-          After September 30, 2025, we’ll remove the <strong>DS Logon</strong>{' '}
-          sign-in option. You’ll need to sign in using a{' '}
-          <strong>Login.gov</strong> or <strong>ID.me</strong> account.
-        </p>
-        {showAccount ? (
-          <AccountSwitch userEmails={userEmails} />
-        ) : (
-          <CreateAccount />
-        )}
-        <h2 id="interstitialH2">Or continue with DS Logon</h2>
-        <p className="vads-u-font-size--base" id="interstitialMhvP">
-          You can use your <strong>DS Logon</strong> account to sign in until
-          September 30, 2025.
-        </p>
-        <va-link-action
-          text="Continue with your DS Logon account for now"
-          href={returnUrl}
-          id="interstitialVaLink"
-          type="secondary"
-        />
-      </div>
+      <h1
+        id="interstitialH1"
+        className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
+      >
+        We’ll remove the DS Logon sign-in option after September 30, 2025
+      </h1>
+      <p
+        className="vads-u-font-size--base section-content vads-u-measure--5"
+        id="interstitialP"
+        data-testid="interstitialP"
+      >
+        After this date, we’ll remove the <strong>DS Logon</strong> sign-in
+        option. You’ll need to sign in using a <strong>Login.gov</strong> or{' '}
+        <strong>ID.me</strong> account.
+      </p>
+      {showAccount ? (
+        <AccountSwitch userEmails={userEmails} />
+      ) : (
+        <CreateAccount />
+      )}
+      <h2 id="interstitialH2">Or continue with DS Logon</h2>
+      <p className="vads-u-font-size--base" id="interstitialMhvP">
+        You can use your <strong>DS Logon</strong> account to sign in until
+        September 30, 2025.
+      </p>
+      <va-link-action
+        text="Continue with your DS Logon account for now"
+        href={returnUrl}
+        id="interstitialVaLink"
+        type="secondary"
+      />
     </div>
   );
 }

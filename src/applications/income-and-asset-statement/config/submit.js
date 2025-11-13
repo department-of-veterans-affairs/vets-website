@@ -2,11 +2,17 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { format } from 'date-fns-tz';
 import { cloneDeep } from 'lodash';
+import { remapOtherVeteranFields } from './submit-helpers';
 
 const disallowedFields = [
-  '_metadata',
   'vaFileNumberLastFour',
   'veteranSsnLastFour',
+  'otherVeteranFullName',
+  'otherVeteranSocialSecurityNumber',
+  'otherVaFileNumber',
+  '_metadata', // old arrayBuilder metadata key
+  'metadata', // arrayBuilder metadata key
+  'isLoggedIn',
 ];
 
 export function flattenRecipientName({ first, middle, last }) {
@@ -80,9 +86,20 @@ export function transformForSubmit(formConfig, form, replacerFn) {
 }
 
 export function transform(formConfig, form) {
+  const clonedForm = cloneDeep(form);
+
+  const { claimantType, isLoggedIn } = clonedForm.data;
+
+  const shouldRemap = isLoggedIn !== true || claimantType !== 'VETERAN';
+
+  if (shouldRemap) {
+    // map otherVeteran* fields to veteran* fields for backend submission
+    clonedForm.data = remapOtherVeteranFields(clonedForm.data);
+  }
+
   // Remove disallowed fields from the form data as they will
   // get flagged by vets-api and the submission will be rejected
-  const cleanedForm = removeDisallowedFields(form);
+  const cleanedForm = removeDisallowedFields(clonedForm);
 
   const formData = transformForSubmit(formConfig, cleanedForm, replacer);
 

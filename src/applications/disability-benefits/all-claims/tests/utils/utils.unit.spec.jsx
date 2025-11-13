@@ -1,27 +1,39 @@
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import moment from 'moment';
-import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import { maxYear, minYear } from 'platform/forms-system/src/js/helpers';
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
+import { daysFromToday } from './dates/dateHelper';
 
 import {
-  SAVED_SEPARATION_DATE,
-  PTSD_MATCHES,
   CHAR_LIMITS,
+  PTSD_MATCHES,
+  SAVED_SEPARATION_DATE,
 } from '../../constants';
 import {
+  activeServicePeriods,
+  baseDoNew4142Logic,
   capitalizeEachWord,
   fieldsHaveInput,
+  formatFullName,
   hasGuardOrReservePeriod,
   hasHospitalCare,
+  hasNewPtsdDisability,
   hasOtherEvidence,
   increaseOnly,
   isAnswering781aQuestions,
   isAnswering781Questions,
+  isBDD,
+  isDisabilityPtsd,
+  isExpired,
+  isNotExpired,
+  isUndefined,
   isUploading781aForm,
   isUploading781aSupportingDocuments,
   isUploading781Form,
+  isValidFullDate,
+  isValidServicePeriod,
   isWithinRange,
+  makeConditionsSchema,
   needsToAnswerUnemployability,
   needsToEnter781,
   needsToEnter781a,
@@ -29,28 +41,22 @@ import {
   newConditionsOnly,
   ReservesGuardDescription,
   servedAfter911,
-  viewifyFields,
-  activeServicePeriods,
-  formatDate,
-  formatDateRange,
-  isValidFullDate,
-  isValidServicePeriod,
-  isBDD,
   show526Wizard,
-  isUndefined,
-  isDisabilityPtsd,
-  showSeparationLocation,
-  isExpired,
-  truncateDescriptions,
-  hasNewPtsdDisability,
   showPtsdCombat,
   showPtsdNonCombat,
+  showSeparationLocation,
+  showToxicExposureDestructionModal,
   skip781,
-  formatMonthYearDate,
-  makeConditionsSchema,
+  truncateDescriptions,
   validateConditions,
-  formatFullName,
+  viewifyFields,
 } from '../../utils';
+import {
+  formatDateRange,
+  formatDate,
+  parseDate,
+  formatMonthYearDate,
+} from '../../utils/dates/formatting';
 import { testBranches } from '../../utils/serviceBranches';
 
 describe('526 helpers', () => {
@@ -374,9 +380,7 @@ describe('526 helpers', () => {
             servicePeriods: [
               {
                 dateRange: {
-                  to: moment()
-                    .add(90, 'days')
-                    .format('YYYY-MM-DD'),
+                  to: daysFromToday(90),
                 },
               },
             ],
@@ -523,9 +527,7 @@ describe('526 helpers', () => {
       const inactivePeriod = { dateRange: { to: '1999-03-03' } };
       const futurePeriod = {
         dateRange: {
-          to: moment()
-            .add(1, 'day')
-            .format('YYYY-MM-DD'),
+          to: daysFromToday(1),
         },
       };
       const noToDate = { dateRange: { to: undefined } };
@@ -898,14 +900,12 @@ describe('526 v2 depends functions', () => {
       servicePeriods: [
         {
           dateRange: {
-            to: moment().format('YYYY-MM-DD'),
+            to: daysFromToday(0),
           },
         },
         {
           dateRange: {
-            to: moment()
-              .add(90, 'days')
-              .format('YYYY-MM-DD'),
+            to: daysFromToday(90),
           },
         },
       ],
@@ -917,14 +917,12 @@ describe('526 v2 depends functions', () => {
       servicePeriods: [
         {
           dateRange: {
-            to: moment().format('YYYY-MM-DD'),
+            to: daysFromToday(0),
           },
         },
         {
           dateRange: {
-            to: moment()
-              .add(89, 'days')
-              .format('YYYY-MM-DD'),
+            to: daysFromToday(89),
           },
         },
       ],
@@ -964,28 +962,86 @@ describe('526 v2 depends functions', () => {
   });
 
   describe('format date & date range', () => {
-    it('should format dates with full month names', () => {
-      expect(formatDate(true)).to.equal('Unknown');
-      expect(formatDate('foobar')).to.equal('Unknown');
-      expect(formatDate('2020-02-31')).to.equal('Unknown');
-      expect(formatDate('2020-01-31')).to.equal('January 31, 2020');
-      expect(formatDate('2020-04-05')).to.equal('April 5, 2020');
-      expect(formatDate('2020-05-05')).to.equal('May 5, 2020');
-      expect(formatDate('2020-06-15')).to.equal('June 15, 2020');
-      expect(formatDate('2020-07-25')).to.equal('July 25, 2020');
-      expect(formatDate('2020-08-05')).to.equal('August 5, 2020');
-      expect(formatDate('2020-12-05')).to.equal('December 5, 2020');
+    describe('formatDate', () => {
+      it('should format dates with full month names', () => {
+        expect(formatDate('2020-01-31')).to.equal('January 31, 2020');
+        expect(formatDate('2020-04-05')).to.equal('April 5, 2020');
+        expect(formatDate('2020-05-05')).to.equal('May 5, 2020');
+        expect(formatDate('2020-06-15')).to.equal('June 15, 2020');
+        expect(formatDate('2020-07-25')).to.equal('July 25, 2020');
+        expect(formatDate('2020-08-05')).to.equal('August 5, 2020');
+        expect(formatDate('2020-12-05')).to.equal('December 5, 2020');
+      });
+      it('should return valid dates with custom format', () => {
+        expect(formatDate('2020-01-31', 'YYYY-MM-DD')).to.equal('2020-01-31');
+        expect(formatDate('2020-05-05', 'MMM DD, YYYY')).to.equal(
+          'May 05, 2020',
+        );
+        expect(formatDate('2020-12-05', 'DD/MM/YYYY')).to.equal('05/12/2020');
+      });
+      it('should return "Unknown" for invalid dates', () => {
+        expect(formatDate(true)).to.equal('Unknown');
+        expect(formatDate(null)).to.equal('Unknown');
+        expect(formatDate(undefined)).to.equal('Unknown');
+        expect(formatDate('')).to.equal('Unknown');
+        expect(formatDate('foobar')).to.equal('Unknown');
+        expect(formatDate('2020-02-31')).to.equal('Unknown');
+      });
+      it('should return "Unknown" for partial dates', () => {
+        expect(formatDate('2020-01-XX')).to.equal('Unknown');
+        expect(formatDate('2020-XX-15')).to.equal('Unknown');
+        // because moment.js uses 2001 when it can't parse the year
+        expect(formatDate('XXXX-01-15')).to.equal('January 15, 2001');
+      });
     });
-    it('should format dates ranges', () => {
-      expect(
-        formatDateRange({ from: '2020-01-31', to: '2020-02-14' }),
-      ).to.equal('January 31, 2020 to February 14, 2020');
-      expect(
-        formatDateRange({ from: '2020-04-05', to: '2020-05-05' }),
-      ).to.equal('April 5, 2020 to May 5, 2020');
-      expect(
-        formatDateRange({ from: '2020-06-15', to: '2020-12-31' }),
-      ).to.equal('June 15, 2020 to December 31, 2020');
+    describe('formatDateRange', () => {
+      it('should format dates ranges', () => {
+        expect(
+          formatDateRange({ from: '2020-01-31', to: '2020-02-14' }),
+        ).to.equal('January 31, 2020 to February 14, 2020');
+        expect(
+          formatDateRange({ from: '2020-04-05', to: '2020-05-05' }),
+        ).to.equal('April 5, 2020 to May 5, 2020');
+        expect(
+          formatDateRange({ from: '2020-06-15', to: '2020-12-31' }),
+        ).to.equal('June 15, 2020 to December 31, 2020');
+      });
+      it('should return a valid range with custom format', () => {
+        expect(
+          formatDateRange(
+            { from: '2020-01-31', to: '2020-02-14' },
+            'YYYY-MM-DD',
+          ),
+        ).to.equal('2020-01-31 to 2020-02-14');
+      });
+      it('should return "Unknown" for the omitted or invalid portion of a range', () => {
+        expect(formatDateRange({ from: '2020-01-31' })).to.equal(
+          'January 31, 2020 to Unknown',
+        );
+        expect(formatDateRange({ from: '2020-04-05' })).to.equal(
+          'April 5, 2020 to Unknown',
+        );
+        expect(formatDateRange({ to: '2020-02-14' })).to.equal(
+          'Unknown to February 14, 2020',
+        );
+        expect(formatDateRange({ to: '2020-05-05' })).to.equal(
+          'Unknown to May 5, 2020',
+        );
+        expect(
+          formatDateRange({ from: 'invalid-date', to: '2020-02-14' }),
+        ).to.equal('Unknown to February 14, 2020');
+        expect(
+          formatDateRange({ from: '2020-01-31', to: 'invalid-date' }),
+        ).to.equal('January 31, 2020 to Unknown');
+        expect(
+          formatDateRange({ from: 'invalid-date', to: 'invalid-date' }),
+        ).to.equal('Unknown to Unknown');
+      });
+      it('should return "Unknown" for entirely empty/invald ranges', () => {
+        expect(formatDateRange({})).to.equal('Unknown');
+        expect(formatDateRange(null)).to.equal('Unknown');
+        expect(formatDateRange(undefined)).to.equal('Unknown');
+      });
     });
   });
 
@@ -1007,39 +1063,19 @@ describe('526 v2 depends functions', () => {
       expect(isBDD({ 'view:isBddData': true })).to.be.false;
     });
     it('should return true if a valid date is added to session storage from the wizard', () => {
-      window.sessionStorage.setItem(
-        SAVED_SEPARATION_DATE,
-        moment()
-          .add(90, 'days')
-          .format('YYYY-MM-DD'),
-      );
+      window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(90));
       expect(isBDD(null)).to.be.true;
     });
     it('should return true if a valid date is added to session storage from the wizard even if active duty flag is false', () => {
-      window.sessionStorage.setItem(
-        SAVED_SEPARATION_DATE,
-        moment()
-          .add(90, 'days')
-          .format('YYYY-MM-DD'),
-      );
+      window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(90));
       expect(isBDD({ 'view:isBddData': true })).to.be.true;
     });
     it('should return false for invalid dates in session storage from the wizard', () => {
-      window.sessionStorage.setItem(
-        SAVED_SEPARATION_DATE,
-        moment()
-          .add(200, 'days')
-          .format('YYYY-MM-DD'),
-      );
+      window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(200));
       expect(isBDD(null)).to.be.false;
     });
     it('should return false for invalid dates in session storage from the wizard even if active duty flag is true', () => {
-      window.sessionStorage.setItem(
-        SAVED_SEPARATION_DATE,
-        moment()
-          .add(200, 'days')
-          .format('YYYY-MM-DD'),
-      );
+      window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(200));
       expect(isBDD({ 'view:isBddData': true })).to.be.false;
     });
     it('should ignore in range service periods if not on active duty', () => {
@@ -1067,6 +1103,32 @@ describe('526 v2 depends functions', () => {
     it('should return false for disabilities unrealted to PTSD', () => {
       expect(isDisabilityPtsd('uncontrollable transforming into the Hulk')).to
         .be.false;
+    });
+  });
+
+  describe('isNotExpired', () => {
+    it('should return true for current or future dates', () => {
+      const nextYear = new Date();
+      nextYear.setFullYear(nextYear.getFullYear() + 1);
+
+      expect(isNotExpired(nextYear.toISOString().split('T')[0])).to.be.true;
+    });
+    it('should return false for past dates', () => {
+      const lastMonth = new Date();
+      lastMonth.setMonth(lastMonth.getMonth() - 1);
+
+      expect(isNotExpired(lastMonth.toISOString().split('T')[0])).to.be.false;
+    });
+    it('should return false for empty/undefined dates', () => {
+      expect(isNotExpired()).to.be.false;
+      expect(isNotExpired('')).to.be.false;
+      expect(isNotExpired(null)).to.be.false;
+      expect(isNotExpired(undefined)).to.be.false;
+    });
+    it('should handle invalid date values', () => {
+      expect(isNotExpired('invalid-date')).to.be.false;
+      expect(isNotExpired('2025-02-30')).to.be.false;
+      expect(isNotExpired('XXXX-01-01')).to.be.false;
     });
   });
 
@@ -1115,10 +1177,7 @@ describe('526 v2 depends functions', () => {
   });
 
   describe('showSeparationLocation', () => {
-    const getDays = days =>
-      moment()
-        .add(days, 'days')
-        .format('YYYY-MM-DD');
+    const getDays = days => daysFromToday(days);
     const getFormData = (activeDate, reserveDate) => ({
       serviceInformation: {
         servicePeriods: [{ dateRange: { to: activeDate } }],
@@ -1223,9 +1282,7 @@ describe('526 v2 depends functions', () => {
 
 describe('isExpired', () => {
   const getDays = days => ({
-    expiresAt: moment()
-      .add(days, 'days')
-      .unix(),
+    expiresAt: parseDate(daysFromToday(days)).unix(),
   });
   it('should return true for dates that are invalid or in the past', () => {
     expect(isExpired('')).to.be.true;
@@ -1300,13 +1357,11 @@ describe('skip PTSD questions', () => {
     it('should return true for PTSD in non-BDD flow', () => {
       expect(hasNewPtsdDisability(getPtsdData('2020-01-01', false))).to.be.true;
       // invalid BDD separation date negates BDD flow
-      const today = moment().format('YYYY-MM-DD');
+      const today = daysFromToday(0);
       expect(hasNewPtsdDisability(getPtsdData(today, true))).to.be.true;
     });
     it('should return false for PTSD in BDD flow', () => {
-      const date = moment()
-        .add(90, 'days')
-        .format('YYYY-MM-DD');
+      const date = daysFromToday(90);
       expect(hasNewPtsdDisability(getPtsdData(date, true))).to.be.false;
     });
 
@@ -1694,5 +1749,179 @@ describe('formatFullName', () => {
         suffix: '',
       }),
     ).to.equal('');
+  });
+});
+
+describe('baseDoNew4142Logic', () => {
+  const baseFormData = {
+    disability526Enable2024Form4142: true,
+    'view:hasEvidence': true,
+    'view:patientAcknowledgement': {
+      'view:acknowledgement': true,
+    },
+    'view:uploadPrivateRecordsQualifier': {
+      'view:hasPrivateRecordsToUpload': false,
+    },
+    patient4142Acknowledgement: false,
+  };
+
+  describe('when all conditions are met', () => {
+    it('should return true when user is still choosing to upload private medical records', () => {
+      const formData = {
+        ...baseFormData,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.true;
+    });
+  });
+
+  describe('when private medical records condition is not met', () => {
+    it('should return false when user is not choosing to upload private medical records', () => {
+      const formData = {
+        ...baseFormData,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': false,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+
+    it('should return false when view:selectableEvidenceTypes is undefined', () => {
+      const formData = {
+        ...baseFormData,
+        // 'view:selectableEvidenceTypes' is not set
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+
+    it('should return false when view:hasPrivateMedicalRecords is undefined', () => {
+      const formData = {
+        ...baseFormData,
+        'view:selectableEvidenceTypes': {
+          // 'view:hasPrivateMedicalRecords' is not set
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+
+    it('should return false when view:hasPrivateMedicalRecords is null', () => {
+      const formData = {
+        ...baseFormData,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': null,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+
+    it('should return false when view:hasEvidence is null', () => {
+      const formData = {
+        ...baseFormData,
+        'view:hasEvidence': null,
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
+  describe('when feature flag is disabled', () => {
+    it('should return false even if user wants to upload private medical records', () => {
+      const formData = {
+        ...baseFormData,
+        disability526Enable2024Form4142: false,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
+  describe('when user has not acknowledged 4142 authorization', () => {
+    it('should return false even if user wants to upload private medical records', () => {
+      const formData = {
+        ...baseFormData,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:patientAcknowledgement': {
+          'view:acknowledgement': false,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
+  describe('when user has switched to upload option', () => {
+    it('should return false even if user wants to upload private medical records', () => {
+      const formData = {
+        ...baseFormData,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': true,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
+  describe('when user has switched to no evidence option', () => {
+    it('should return false even if legacy data exists', () => {
+      const formData = {
+        ...baseFormData,
+        'view:hasEvidence': false,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': true,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
+  describe('when user has already acknowledged the new 4142', () => {
+    it('should return false even if user wants to upload private medical records', () => {
+      const formData = {
+        ...baseFormData,
+        'view:hasEvidence': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        patient4142Acknowledgement: true,
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
+  describe('edge cases', () => {
+    it('should handle empty formData gracefully', () => {
+      expect(baseDoNew4142Logic({})).to.be.false;
+    });
+  });
+});
+
+describe('showToxicExposureDestructionModal', () => {
+  it('should get toxic exposure destruction modal feature flag value of true', () => {
+    expect(
+      showToxicExposureDestructionModal({
+        featureToggles: {
+          disabilityCompensationToxicExposureDestructionModal: true,
+        },
+      }),
+    ).to.be.true;
+  });
+  it('should get toxic exposure destruction modal feature flag value of false', () => {
+    expect(
+      showToxicExposureDestructionModal({
+        featureToggles: {
+          disabilityCompensationToxicExposureDestructionModal: false,
+        },
+      }),
+    ).to.be.false;
   });
 });

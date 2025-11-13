@@ -1,11 +1,18 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
+
+import {
+  TITLE,
+  SUBTITLE,
+  VET_SM_INFO_CHAPTER_CONSTANTS,
+  YOUR_INFORMATION_CHAPTER_CONSTANTS,
+} from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import claimantAddressPage from '../pages/claimantAddress';
+import veteranAddressPage from '../pages/veteranAddress';
+import veteranServiceMemberInfoPage from '../pages/veteranServiceMemberInfo';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -17,17 +24,25 @@ const formConfig = {
   trackingPrefix: 'careers-employment-27-8832-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
+  stepLabels:
+    'Your information;Veteran or service member information;Military history;Review',
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
   formId: VA_FORM_IDS.FORM_27_8832,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your personalized career planning and guidance application (27-8832) is in progress.',
-    //   expired: 'Your saved personalized career planning and guidance application (27-8832) has expired. If you want to apply for personalized career planning and guidance, please start a new application.',
-    //   saved: 'Your personalized career planning and guidance application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your Personalized Career Planning and Guidance Chapter 36 benefit application is in progress.',
+      expired:
+        'Your saved Personalized Career Planning and Guidance Chapter 36 benefit application has expired. If you want to apply for PCPG Chapter 36 benefits, start a new application.',
+      saved: 'Your PCPG Chapter 36 benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
@@ -41,14 +56,27 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    veteranServiceMemberInfoChapter: {
+      title: VET_SM_INFO_CHAPTER_CONSTANTS.chapterTitle,
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        claimantAddressPage: {
+          path: 'claimant-address',
+          title: YOUR_INFORMATION_CHAPTER_CONSTANTS.claimantAddressPageTitle,
+          uiSchema: claimantAddressPage.uiSchema,
+          schema: claimantAddressPage.schema,
+        },
+        veteranServiceMemberInfoPage: {
+          path: 'vet-sm-info',
+          title:
+            VET_SM_INFO_CHAPTER_CONSTANTS.veteranServiceMemberInfoPageTitle,
+          uiSchema: veteranServiceMemberInfoPage.uiSchema,
+          schema: veteranServiceMemberInfoPage.schema,
+        },
+        veteranAddressPage: {
+          path: 'veteran-address',
+          title: VET_SM_INFO_CHAPTER_CONSTANTS.veteranAddressPageTitle,
+          uiSchema: veteranAddressPage.uiSchema,
+          schema: veteranAddressPage.schema,
         },
       },
     },

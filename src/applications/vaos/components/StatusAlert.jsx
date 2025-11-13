@@ -96,7 +96,10 @@ export default function StatusAlert({ appointment, facility }) {
             </div>
           </>
         ) : (
-          <p>You requested this appointment on {createdDate}.</p>
+          <p>
+            You requested this appointment on{' '}
+            <span data-dd-privacy="mask">{createdDate}</span>.
+          </p>
         )}
       </InfoAlert>
     );
@@ -178,9 +181,9 @@ StatusAlert.propTypes = {
     created: PropTypes.string,
     avsPath: PropTypes.string,
     vaos: PropTypes.shape({
-      isCompAndPenAppointment: PropTypes.bool.isRequired,
-      isPastAppointment: PropTypes.bool.isRequired,
-      isPendingAppointment: PropTypes.bool.isRequired,
+      isCompAndPenAppointment: PropTypes.bool,
+      isPastAppointment: PropTypes.bool,
+      isPendingAppointment: PropTypes.bool,
     }),
   }),
   facility: PropTypes.shape({

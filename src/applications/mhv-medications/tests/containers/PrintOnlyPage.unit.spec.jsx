@@ -81,4 +81,20 @@ describe('Medications detail page with PrintOnlyPage component wrapper', () => {
     expect(el).to.exist;
     expect(el.textContent).to.include(text);
   });
+  it('does NOT display "Last filled on" if rx prescription source is PD and the disp status is Renew', () => {
+    const rxDetails = { ...prescription };
+    rxDetails.prescriptionSource = 'PD';
+    rxDetails.dispStatus = 'Renew';
+    const screen = setup(rxDetails);
+    const text = screen.queryByText(/Last filled on:/);
+    expect(text).to.not.exist;
+  });
+  it('does NOT display "Last filled on" if rx prescription source is PD and the disp status is NewOrder', () => {
+    const rxDetails = { ...prescription };
+    rxDetails.prescriptionSource = 'PD';
+    rxDetails.dispStatus = 'NewOrder';
+    const screen = setup(rxDetails);
+    const text = screen.queryByText(/Last filled on:/);
+    expect(text).to.not.exist;
+  });
 });

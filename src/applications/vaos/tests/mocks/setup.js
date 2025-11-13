@@ -37,6 +37,7 @@ import {
 import MockSchedulingConfigurationResponse, {
   MockServiceConfiguration,
 } from '../fixtures/MockSchedulingConfigurationResponse';
+import TypeOfMentalHealthPage from '../../new-appointment/components/TypeOfMentalHealthPage';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -113,18 +114,16 @@ export function getTestDate() {
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {string} value The string value of the radio button to click on
- * @returns {string} The url path that was routed to after clicking Continue
+ * @param {string|RegExp} label The string or regex to pass to *ByText query to get
+ *   a radio button to click on
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
-export async function setTypeOfFacility(store, value) {
+export async function setTypeOfFacility(store, label) {
   const screen = renderWithStoreAndRouter(<TypeOfFacilityPage />, { store });
   await screen.findByText(/Continue/i);
 
-  const radioSelector = screen.container.querySelector('va-radio');
-  const changeEvent = new CustomEvent('selected', {
-    detail: { value },
-  });
-  radioSelector.__events.vaValueChange(changeEvent);
+  const radioButton = await screen.findByLabelText(label);
+  fireEvent.click(radioButton);
   fireEvent.click(screen.getByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
@@ -140,7 +139,7 @@ export async function setTypeOfFacility(store, value) {
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string|RegExp} label The string or regex to pass to *ByText query to get
  *   a radio button to click on
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setTypeOfCare(store, label) {
   const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
@@ -165,17 +164,37 @@ export async function setTypeOfCare(store, label) {
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string|RegExp} label The string or regex to pass to *ByText query to get
  *   a radio button to click on
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setTypeOfEyeCare(store, label) {
   const screen = renderWithStoreAndRouter(<TypeOfEyeCarePage />, { store });
   await screen.findByText(/Continue/i);
 
-  const radioSelector = screen.container.querySelector('va-radio');
-  const changeEvent = new CustomEvent('selected', {
-    detail: { value: label },
+  fireEvent.click(await screen.findByLabelText(label));
+  fireEvent.click(screen.getByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
+  await cleanup();
+
+  return screen.history.push.firstCall.args[0];
+}
+
+/**
+ * Renders the type of mental health page and chooses the option indicated by the label param
+ *
+ * @export
+ * @async
+ * @param {ReduxStore} store The Redux store to use to render the page
+ * @param {string|RegExp} label The string or regex to pass to *ByText query to get
+ *   a radio button to click on
+ * @returns {Promise string} The url path that was routed to after clicking Continue
+ */
+export async function setTypeOfMentalHealth(store, label) {
+  const screen = renderWithStoreAndRouter(<TypeOfMentalHealthPage />, {
+    store,
   });
-  radioSelector.__events.vaValueChange(changeEvent);
+  await screen.findByText(/Continue/i);
+
+  fireEvent.click(await screen.findByLabelText(label));
   fireEvent.click(screen.getByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
@@ -192,7 +211,7 @@ export async function setTypeOfEyeCare(store, label) {
  * @param {string} facilityId The facility id of the facility to be selected
  * @param {Object} params
  * @param {?VAFacility} params.facilityData The facility data to use in the mock
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setVAFacility(
   store,
@@ -240,7 +259,7 @@ export async function setVAFacility(
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string} facilityId The facility id of the facility to be selected
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setVaccineFacility(store, facilityData = {}) {
   // TODO: Make sure this works in staging before removal
@@ -283,10 +302,11 @@ export async function setVaccineFacility(store, facilityData = {}) {
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {string} value The string value of the radio button to click on
- * @returns {string} The url path that was routed to after clicking Continue
+ * @param {string|RegExp} label The string or regex to pass to *ByText query to get
+ *   a radio button to click on
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
-export async function setClinic(store, value) {
+export async function setClinic(store, label) {
   const screen = renderWithStoreAndRouter(
     <Route component={ClinicChoicePage} />,
     {
@@ -295,11 +315,7 @@ export async function setClinic(store, value) {
   );
   await screen.findByText(/Continue/i);
 
-  const radioSelector = screen.container.querySelector('va-radio');
-  const changeEvent = new CustomEvent('selected', {
-    detail: { value },
-  });
-  radioSelector.__events.vaValueChange(changeEvent);
+  fireEvent.click(await screen.findByLabelText(label));
   fireEvent.click(await screen.findByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
@@ -315,7 +331,7 @@ export async function setClinic(store, value) {
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string|RegExp} label The string or regex to pass to *ByText query to get
  *   a radio button to click on
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setVaccineClinic(store, label) {
   const screen = renderWithStoreAndRouter(<VaccineClinicChoicePage />, {
@@ -337,7 +353,7 @@ export async function setVaccineClinic(store, label) {
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {Date} preferredDate A date object with the preferred date
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setPreferredDate(store, preferredDate) {
   const screen = renderWithStoreAndRouter(
@@ -375,7 +391,7 @@ export async function setPreferredDate(store, preferredDate) {
  * @param {string} typeOfCareId Type of care id string to use. Use V2 id format (idV2 in
  *  type of care list)
  * @param {Object} [residentialAddress=null] VA Profile address to use for the user
- * @returns {ReduxStore} Redux store with data set up
+ * @returns {Promise ReduxStore} Redux store with data set up
  */
 export async function setCommunityCareFlow({
   parentSites,
@@ -424,7 +440,7 @@ export async function setCommunityCareFlow({
   });
 
   await setTypeOfCare(store, new RegExp(typeOfCare.name));
-  await setTypeOfFacility(store, 'communityCare');
+  await setTypeOfFacility(store, 'Community care facility');
 
   return store;
 }
@@ -436,17 +452,12 @@ export async function setCommunityCareFlow({
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {*} cityValue The value of the city to select
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setClosestCity(store, cityValue) {
   const screen = renderWithStoreAndRouter(<ClosestCityStatePage />, { store });
 
-  const radioSelector = screen.container.querySelector('va-radio');
-  const changeEvent = new CustomEvent('selected', {
-    detail: { value: cityValue },
-  });
-  radioSelector.__events.vaValueChange(changeEvent);
-
+  fireEvent.click(await screen.findByLabelText(cityValue));
   fireEvent.click(screen.getByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();

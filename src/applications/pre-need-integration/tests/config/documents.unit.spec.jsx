@@ -8,7 +8,7 @@ import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import formConfig from '../../config/form';
 
 describe('Pre-need attachments', () => {
@@ -55,9 +55,9 @@ describe('Pre-need attachments', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should not submit without attachment id', () => {
+  it('should not submit without attachment id', async () => {
     const onSubmit = sinon.spy();
-    const form = render(
+    const { container } = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -77,16 +77,18 @@ describe('Pre-need attachments', () => {
       </Provider>,
     );
 
-    const formDOM = getFormDOM(form);
+    fireEvent.submit(container.querySelector('form'));
 
-    formDOM.submitForm();
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      const errorElements = container.querySelectorAll('.usa-input-error');
+      expect(errorElements.length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
   });
 
-  it('should not submit without required fields', () => {
+  it('should not submit without required fields', async () => {
     const onSubmit = sinon.spy();
-    const form = render(
+    const { container } = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -106,11 +108,13 @@ describe('Pre-need attachments', () => {
       </Provider>,
     );
 
-    const formDOM = getFormDOM(form);
+    fireEvent.submit(container.querySelector('form'));
 
-    formDOM.submitForm();
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      const errorElements = container.querySelectorAll('.usa-input-error');
+      expect(errorElements.length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
   });
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();

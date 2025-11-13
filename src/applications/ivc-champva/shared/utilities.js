@@ -1,7 +1,14 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { fromUnixTime, endOfDay, isPast, isValid } from 'date-fns';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
+
+// util to check if an in-progress form is expired
+export const isExpired = expiresAt => {
+  const ex = fromUnixTime(Number(expiresAt));
+  return !isValid(ex) || isPast(endOfDay(ex));
+};
 
 /**
  * Returns either a form of 'you', or the applicant's full name based
@@ -209,17 +216,15 @@ export function toHash(val) {
 
 /**
  * Converts date string in YYYY-MM-DD fmt to MM/DD/YYYY
- * TODO: replace other functions in ivc module that do this type of thing
  * @param {String} date date in format YYYY-MM-DD
  * @returns d reformatted as MM/DD/YYYY
  */
 export function fmtDate(date) {
-  const dt = new Date(date);
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(dt);
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return '';
+  }
+  const [year, month, day] = date.split('-');
+  return `${month}/${day}/${year}`;
 }
 
 /**

@@ -35,7 +35,7 @@ jobs:
                 }
               ]
             }
-          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -45,8 +45,13 @@ jobs:
     needs: [notify-pending-deployment]
     runs-on: ubuntu-latest
     environment: production-cd
+    outputs:
+      started: ${{ steps.start_check.outputs.started }}
 
     steps:
+      - name: Mark job started
+        id: start_check
+        run: echo "started=true" >> $GITHUB_OUTPUT
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
@@ -104,56 +109,148 @@ jobs:
           DEST: s3://www.va.gov
           ASSET_DEST: s3://prod-va-gov-assets
 
+  notify-success:
+    name: Notify Success
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' && success() }}
+    needs: [deploy]
+    env:
+      VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
+
+    steps:
+      - name: Notify Slack - Deployment Succeeded
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        with:
+          payload: >-
+            {
+              "attachments": [
+                {
+                  "color": "#2eb886",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "Deployment for ${{ github.event.client_payload.entry_app }} succeeded on the `main` branch in `vets-website`: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|run details>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
     if: ${{ always() && github.ref == 'refs/heads/main' && (failure() || cancelled()) }}
     needs: [deploy]
     env:
-      ALERT_TEAMS: true # Alerts teams for single/grouped app builds when set to true
-      DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
-
-      - name: Install dependencies
-        if: env.ALERT_TEAMS == 'true'
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
-
-      - name: Get changed applications
-        id: get-changed-apps
-        if: env.ALERT_TEAMS == 'true'
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          output-type: 'slack_group'
-
-      - name: Notify application team in Slack
-        if: env.ALERT_TEAMS == 'true' && steps.get-changed-apps.outputs.slack_groups != ''
+      - name: Slack – Deployment rejected (not approved)
+        if: ${{ needs.deploy.result == 'failure' && needs.deploy.outputs.started == '' }}
         uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-changed-apps.outputs.slack_groups}} CI for your application failed on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
-          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          payload: >-
+            {
+              "attachments": [
+                {
+                  "color": "#FF0800",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": ":x: Deployment for ${{ github.event.client_payload.entry_app }} to production was *rejected*.\n*Commit:* `${{ github.event.client_payload.github_sha }}` – <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|run details>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Notify Slack
-        if: steps.get-changed-apps.outputs.slack_groups == ''
+      - name: Slack – Deployment expired (no approval)
+        if: ${{ needs.deploy.result == 'cancelled' && needs.deploy.outputs.started == '' }}
         uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`main` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
-          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          payload: >-
+            {
+              "attachments": [
+                {
+                  "color": "#FFCC00",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": ":warning: Deployment for ${{ github.event.client_payload.entry_app }} *expired without approval* (or was cancelled before approval).\n*Commit:* `${{ github.event.client_payload.github_sha }}` – <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|run details>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Slack – Deployment cancelled during execution
+        if: ${{ needs.deploy.result == 'cancelled' && needs.deploy.outputs.started == 'true' }}
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        continue-on-error: true
+        with:
+          payload: >-
+            {
+              "attachments": [
+                {
+                  "color": "#A9A9A9",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": ":stop_sign: Deployment for ${{ github.event.client_payload.entry_app }} was *cancelled during execution*.\n*Commit:* `${{ github.event.client_payload.github_sha }}` – <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|run details>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Slack – Deployment failed (error during run)
+        if: ${{ needs.deploy.result == 'failure' && needs.deploy.outputs.started == 'true' }}
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        continue-on-error: true
+        with:
+          payload: >-
+            {
+              "attachments": [
+                {
+                  "color": "#FF0800",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": ":x: Deployment for ${{ github.event.client_payload.entry_app }} *failed due to a code or system error*.\n*Commit:* `${{ github.event.client_payload.github_sha }}` – <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|run details>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

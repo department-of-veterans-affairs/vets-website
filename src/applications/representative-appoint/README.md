@@ -68,6 +68,17 @@ You can learn more about this service by going to <https://github.com/department
 ### How to add representatives and organizations to your local db so that you can appoint a representaive
 
 1. Go to `vets-api`
-2. Open a rails console `rails c`
-3. Run the following command `Veteran::VSOReloader.perform_async`
-4. This will add representatives and organizations to your local db.
+2. Open a rails console `bundle exec rails c`
+3. Run the following commands to add claims agents, attorneys, and organizations with representatives:
+
+
+```ruby
+# Create 5 attorneys with locations
+FactoryBot.create_list(:accredited_individual, 5, :attorney, :with_location)
+
+# Create 5 claims agents with locations
+FactoryBot.create_list(:accredited_individual, 5, :claims_agent, :with_location)
+
+# Create 5 organizations with locations and a representative
+organizations = FactoryBot.create_list(:accredited_organization, 5, :with_location, :with_representatives)
+```

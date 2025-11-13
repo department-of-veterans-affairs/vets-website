@@ -20,7 +20,7 @@ export const uiSchema = {
   ...titleUI('Spouse’s income'),
   doesLiveWithSpouse: {
     spouseIncome: radioUI({
-      title: 'Did your spouse have an income in the last 365 days?',
+      title: 'Has your spouse received income in the last 365 days?',
       hint:
         'Answer this question only if you are adding this dependent to your pension.',
       labels: {
@@ -28,7 +28,24 @@ export const uiSchema = {
         N: 'No',
         NA: 'This question doesn’t apply to me',
       },
-      required: () => false,
+      required: (_chapterData, _index, formData) =>
+        formData?.vaDependentsNetWorthAndPension,
+      updateUiSchema: () => ({
+        'ui:options': {
+          hint: '',
+        },
+      }),
+      updateSchema: (formData = {}, formSchema) => {
+        const { vaDependentsNetWorthAndPension } = formData;
+
+        if (!vaDependentsNetWorthAndPension) {
+          return formSchema;
+        }
+
+        return {
+          ...radioSchema(['Y', 'N']),
+        };
+      },
     }),
   },
 };

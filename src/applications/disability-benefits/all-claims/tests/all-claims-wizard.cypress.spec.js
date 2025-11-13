@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { daysFromToday } from './utils/dates/dateHelper';
 
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import {
@@ -10,9 +10,7 @@ import {
 } from '../constants';
 
 // Date saved to window.sessionStorage includes leading zeros
-const mockDate = moment()
-  .add(120, 'days')
-  .format('YYYY-MM-DD');
+const mockDate = daysFromToday(120);
 
 const checkOpt = {
   waitForAnimations: true,
@@ -154,7 +152,10 @@ describe('526 wizard', () => {
       'have.text',
       h1Text + h1Addition,
     );
-    cy.focused().should('have.text', h1Text + h1Addition);
+    // verify that the h1 title changes, receives focus for accessibility
+    cy.get('h1[data-testid="form-title"]')
+      .should('have.text', h1Text + h1Addition)
+      .and('have.focus');
     cy.checkStorage(WIZARD_STATUS, 'complete');
     cy.location('pathname').should(
       'eq',

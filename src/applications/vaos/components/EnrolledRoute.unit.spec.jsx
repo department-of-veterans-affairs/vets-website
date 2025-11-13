@@ -41,14 +41,17 @@ describe('VAOS Component: EnrolledRoute', () => {
 
   beforeEach(() => {
     replaceStub = sinon.stub();
-    Object.defineProperty(window, 'location', {
-      configurable: true,
-      value: { replace: replaceStub, origin: 'http://localhost' },
-    });
-  });
-
-  afterEach(() => {
-    window.location = { replace: () => {}, origin: 'http://localhost' };
+    const desc =
+      Object.getOwnPropertyDescriptor(window.location, 'replace') || {};
+    if (desc.writable) {
+      window.location.replace = replaceStub;
+      window.location.href = 'http://localhost';
+    } else {
+      Object.defineProperty(window, 'location', {
+        configurable: true,
+        value: { replace: replaceStub, origin: 'http://localhost' },
+      });
+    }
   });
 
   it('renders route content when logged in and registered', async () => {

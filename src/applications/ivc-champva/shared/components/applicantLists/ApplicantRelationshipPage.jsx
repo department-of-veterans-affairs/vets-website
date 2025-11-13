@@ -5,10 +5,8 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons, {
-  FormNavButtonContinue,
-} from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
+import { CustomPageNavButtons } from '../CustomPageNavButtons';
 
 import { ADDITIONAL_FILES_HINT } from '../../constants';
 import { applicantWording } from '../../utilities';
@@ -27,7 +25,7 @@ const SECONDARY = 'otherRelationshipToVeteran';
 export function appRelBoilerplate({ data, pagePerItemIndex }) {
   const { keyname = KEYNAME } = data;
   const currentListItem = data?.applicants?.[pagePerItemIndex];
-  const personTitle = 'Sponsor';
+  const personTitle = 'Veteran';
   const applicant = applicantWording(currentListItem, false);
 
   const relativePossessive = applicantWording(currentListItem, true, false);
@@ -158,22 +156,22 @@ export function ApplicantRelationshipReviewPage(props) {
   ) : null;
 }
 
-export default function ApplicantRelationshipPage({
-  contentAfterButtons,
-  data,
-  fullData,
-  genOp,
-  setFormData,
-  goBack,
-  goForward,
-  keyname = KEYNAME,
-  primary = PRIMARY,
-  secondary = SECONDARY,
-  pagePerItemIndex,
-  updatePage,
-  onReviewPage,
-  customWording,
-}) {
+export default function ApplicantRelationshipPage(props) {
+  const {
+    data,
+    fullData,
+    genOp,
+    setFormData,
+    goForward,
+    keyname = KEYNAME,
+    primary = PRIMARY,
+    secondary = SECONDARY,
+    pagePerItemIndex,
+    updatePage,
+    onReviewPage,
+    customWording,
+  } = props;
+
   // fulldata is present in array builder pages:
   const fullOrItemData = fullData ?? data;
   const relationshipStructure = {
@@ -190,13 +188,8 @@ export default function ApplicantRelationshipPage({
 
   const radioRef = useRef(null); // Used to set focus when in error state
 
-  const useTopBackLink =
-    contentAfterButtons?.props?.formConfig?.useTopBackLink ?? false;
-  const navButtons = useTopBackLink ? (
-    <FormNavButtonContinue submitToContinue />
-  ) : (
-    <FormNavButtons goBack={goBack} submitToContinue />
-  );
+  const navButtons = CustomPageNavButtons(props);
+
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
   const genOps = genOp || generateOptions;
@@ -225,29 +218,51 @@ export default function ApplicantRelationshipPage({
   };
 
   const handlers = {
-    validate() {
+    validate: (nextValue = checkValue) => {
       let isValid = true;
-      if (!checkValue[primary]) {
+
+      // clear any existing errors
+      setCheckError(undefined);
+      setInputError(undefined);
+
+      // primary field validation
+      if (!nextValue[primary]) {
         setCheckError('This field is required');
         isValid = false;
-      } else {
-        setCheckError(null); // Clear any existing err msg
       }
-      if (checkValue[primary] === 'other' && !checkValue[secondary]) {
-        setInputError('This field is required');
-        isValid = false;
-      } else if (checkValue[primary] === 'other' && checkValue[secondary]) {
-        const errMsg = validateText(checkValue[secondary]);
-        if (errMsg) {
-          setInputError(errMsg);
+
+      // secondary field validation (for "other" option)
+      if (nextValue[primary] === 'other') {
+        if (!nextValue[secondary]) {
+          setInputError('This field is required');
           isValid = false;
         } else {
-          setInputError(null);
+          const errMsg = validateText(nextValue[secondary]);
+          if (errMsg) {
+            setInputError(errMsg);
+            isValid = false;
+          }
         }
-      } else {
-        setInputError(null);
       }
-      if (!isValid) setFocusOnRadio(); // we have an error, set focus on the input
+
+      // spouse validation - only one spouse allowed
+      if (nextValue[primary] === 'spouse') {
+        const hasExistingSpouse = fullOrItemData.applicants?.some(
+          (item, idx) =>
+            item?.applicantRelationshipToSponsor?.relationshipToVeteran ===
+              'spouse' && idx !== parseInt(pagePerItemIndex, 10),
+        );
+        if (hasExistingSpouse) {
+          setCheckError(
+            'Only one applicant can have a spousal or partner relationship to the Veteran',
+          );
+          isValid = false;
+        }
+      }
+
+      // we have an error, set focus on the input
+      if (!isValid) setFocusOnRadio();
+
       return isValid;
     },
     radioUpdate: ({ detail }) => {
@@ -260,14 +275,13 @@ export default function ApplicantRelationshipPage({
           : { [primary]: detail.value };
       setDirty(true);
       setCheckValue(val);
-      handlers.validate();
+      handlers.validate(val);
     },
     inputUpdate: ({ target }) => {
-      const val = checkValue;
-      val[secondary] = target.value;
+      const val = { ...checkValue, [secondary]: target.value };
       setDirty(true);
       setCheckValue(val);
-      handlers.validate();
+      handlers.validate(val);
     },
     onGoForward: event => {
       event.preventDefault();
@@ -282,10 +296,10 @@ export default function ApplicantRelationshipPage({
 
   useEffect(
     () => {
-      if (dirty) handlers.validate();
+      if (dirty) handlers.validate(checkValue);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, checkValue],
+    [checkValue],
   );
   return (
     <>
@@ -310,7 +324,7 @@ export default function ApplicantRelationshipPage({
           }
           hint={customHint || ADDITIONAL_FILES_HINT}
           required
-          error={checkError}
+          error={checkError ?? undefined}
           onVaValueChange={handlers.radioUpdate}
           name={`root_${keyname}`}
           ref={radioRef}

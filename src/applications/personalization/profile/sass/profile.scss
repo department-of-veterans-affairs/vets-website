@@ -11,6 +11,7 @@
 @import "../components/direct-deposit/vye/sass/change-of-address-wrapper";
 @import "../components/direct-deposit/vye/sass/change-of-direct-deposit-wrapper";
 @import "./proof-of-veteran-status-card";
+@import "./paperless-delivery";
 
 [tabindex="-1"]:focus {
   outline: 0;
@@ -20,24 +21,9 @@
   text-decoration: none;
 }
 
-.vet360-profile-field-content {
-  &.usa-input-error {
-    margin-top: 0;
-  }
-}
-
 .button-link {
   background: var(--vads-color-white);
   box-shadow: none !important;
-}
-
-.vet360-profile-field-transaction-pending {
-  color: var(--vads-color-primary);
-  border-left: 4px solid var(--vads-color-primary);
-  padding-left: 0.9375rem;
-  position: relative;
-  right: 1.1875rem;
-  font-weight: bold;
 }
 
 .copy-mailing-address-to-residential-address {
@@ -80,7 +66,6 @@
     margin: 0;
   }
 }
-
 
 // styles for a 'process list' component, but with complete/incomplete styles
 .va-conditional-process-list {
@@ -140,18 +125,10 @@
   text-wrap: balance;
 }
 
-// hides the extension field on the single field editing page
-// for mobile phone number specifically, for now
-#profile-edit-field-page [data-field-name="mobilePhone"] {
-  #root_extension {
-    display: none;
-  }
-
-  #root_extension-label {
-    display: none !important;
-  }
-}
-
 .list-type-disc {
   list-style-type: disc;
+}
+
+section.profile-info-section ol li {
+  list-style-type: none;
 }

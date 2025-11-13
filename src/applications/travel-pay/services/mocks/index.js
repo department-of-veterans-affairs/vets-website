@@ -37,6 +37,11 @@ const responses = {
         { name: `${TOGGLE_NAMES.travelPayViewClaimDetails}`, value: true },
         { name: `${TOGGLE_NAMES.travelPaySubmitMileageExpense}`, value: true },
         { name: `${TOGGLE_NAMES.travelPayClaimsManagement}`, value: true },
+        {
+          name: `${TOGGLE_NAMES.travelPayClaimsManagementDecisionReason}`,
+          value: true,
+        },
+        { name: `${TOGGLE_NAMES.travelPayEnableComplexClaims}`, value: true },
       ],
     },
   },
@@ -89,7 +94,163 @@ const responses = {
   //     ],
   //   });
   // },
-  'GET /travel_pay/v0/claims/:id': claimDetails.v1,
+  // 'GET /travel_pay/v0/claims/:id': claimDetails.v2,
+  'GET /travel_pay/v0/claims/:id': (req, res) => {
+    const details = { ...claimDetails.v2 };
+    // Added a documentId to the expense mocks. Upper envs with have this data once the API team makes their changes
+    details.expenses = [
+      {
+        expenseType: 'Mileage',
+        name: 'Mileage Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'mileage',
+        costRequested: 1.16,
+        costSubmitted: {
+          source: '0.0',
+          parsedValue: 0,
+        },
+        id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
+        documentId: '',
+      },
+      {
+        expenseType: 'Parking',
+        name: 'Parking Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Hospital parking',
+        costRequested: 15.0,
+        costSubmitted: {
+          source: '15.0',
+          parsedValue: 15.0,
+        },
+        id: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
+        documentId: '4f6f751b-87ff-ef11-9341-001dd809b68c',
+      },
+      {
+        expenseType: 'Toll',
+        name: 'Toll Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Highway toll',
+        costRequested: 5.5,
+        costSubmitted: {
+          source: '5.5',
+          parsedValue: 5.5,
+        },
+        id: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
+        documentId: 'a5137021-87ff-ef11-9341-001dd809b68c',
+      },
+      {
+        expenseType: 'Commoncarrier',
+        name: 'Common Carrier Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Taxi to appointment',
+        costRequested: 45.0,
+        costSubmitted: {
+          source: '45.0',
+          parsedValue: 45.0,
+        },
+        id: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
+        documentId: '4f6f751b-87ff-ef11-9341-001dd854jutt',
+      },
+      {
+        expenseType: 'Airtravel',
+        name: 'Air Travel Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Flight to medical appointment',
+        costRequested: 350.0,
+        costSubmitted: {
+          source: '350.0',
+          parsedValue: 350.0,
+        },
+        id: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
+        documentId: '12fcfecc-5132-4c16-8a9a-7af07b714cd4',
+      },
+      {
+        expenseType: 'Lodging',
+        name: 'Lodging Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Hotel stay',
+        costRequested: 125.0,
+        costSubmitted: {
+          source: '125.0',
+          parsedValue: 125.0,
+        },
+        id: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
+        documentId: '887ead10-d849-428c-b83b-50a054fd968b',
+      },
+      {
+        expenseType: 'Meal',
+        name: 'Meal Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Breakfast and lunch',
+        costRequested: 35.0,
+        costSubmitted: {
+          source: '35.0',
+          parsedValue: 35.0,
+        },
+        id: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
+        documentId: '887ead10-d849-428c-b83b-50a05434rtfe',
+      },
+      {
+        expenseType: 'Other',
+        name: 'Other Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Medical supplies',
+        costRequested: 50.0,
+        costSubmitted: {
+          source: '50.0',
+          parsedValue: 50.0,
+        },
+        id: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
+        documentId: '887ead10-d849-428c-b83b-50a053re44wr',
+      },
+    ];
+    details.documents = [
+      {
+        documentId: '4f6f751b-87ff-ef11-9341-001dd809b68c',
+        filename: 'Parking.docx',
+        mimetype:
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        createdon: '2025-03-12T21:15:27Z',
+      },
+      {
+        documentId: 'a5137021-87ff-ef11-9341-001dd809b68c',
+        filename: 'Toll.pdf',
+        mimetype: 'application/pdf',
+        createdon: '2025-03-12T21:15:33Z',
+      },
+      {
+        documentId: '4f6f751b-87ff-ef11-9341-001dd854jutt',
+        filename: 'CommonCarrier.jpg',
+        mimetype: 'image/jpeg',
+        createdon: '2025-03-24T14:02:52.893Z',
+      },
+      {
+        documentId: '12fcfecc-5132-4c16-8a9a-7af07b714cd4',
+        filename: 'Airtravel.jpg',
+        mimetype: 'image/jpeg',
+        createdon: '2025-03-24T14:04:00.893Z',
+      },
+      {
+        documentId: '887ead10-d849-428c-b83b-50a054fd968b',
+        filename: 'lodging.txt',
+        mimetype: '',
+        createdon: '2025-03-24T14:06:52.893Z',
+      },
+      {
+        documentId: '887ead10-d849-428c-b83b-50a05434rtfe',
+        filename: 'meal.txt',
+        mimetype: '',
+        createdon: '2025-03-24T14:06:52.893Z',
+      },
+      {
+        documentId: '887ead10-d849-428c-b83b-50a053re44wr',
+        filename: 'other.txt',
+        mimetype: '',
+        createdon: '2025-03-24T14:06:52.893Z',
+      },
+    ];
+    return res.json(details);
+  },
   // 'GET /travel_pay/v0/claims/:id': (req, res) => {
   //   return res.status(403).json({
   //     errors: [
@@ -117,6 +278,83 @@ const responses = {
   //     ],
   //   });
   // },
+
+  // Creating a new complex claim
+  'POST /travel_pay/v0/complex_claims': (req, res) => {
+    return res.json({
+      claimId: 'bd427107-91ac-4a4a-94ae-177df5aa32dc',
+    });
+  },
+
+  // Submitting a complex claim
+  'PATCH /travel_pay/v0/complex_claims/:claimId/submit': (req, res) => {
+    return res.json({
+      id: req.params.claimId,
+    });
+  },
+
+  // Creating expenses
+  'POST /travel_pay/v0/claims/:claimId/expenses/mileage': (req, res) => {
+    return res.json({
+      id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
+    });
+  },
+  'POST /travel_pay/v0/claims/:claimId/expenses/parking': (req, res) => {
+    return res.json({
+      id: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
+    });
+  },
+  'POST /travel_pay/v0/claims/:claimId/expenses/toll': (req, res) => {
+    return res.json({
+      id: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
+    });
+  },
+  'POST /travel_pay/v0/claims/:claimId/expenses/commoncarrier': (req, res) => {
+    return res.json({
+      id: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
+    });
+  },
+  'POST /travel_pay/v0/claims/:claimId/expenses/airtravel': (req, res) => {
+    return res.json({
+      id: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
+    });
+  },
+  'POST /travel_pay/v0/claims/:claimId/expenses/lodging': (req, res) => {
+    return res.json({
+      id: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
+    });
+  },
+  'POST /travel_pay/v0/claims/:claimId/expenses/meal': (req, res) => {
+    return res.json({
+      id: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
+    });
+  },
+  'POST /travel_pay/v0/claims/:claimId/expenses/other': (req, res) => {
+    return res.json({
+      id: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
+    });
+  },
+
+  // Updating expenses
+  'PATCH /travel_pay/v0/expenses/:expenseType/:expenseId': (req, res) => {
+    return res.json({
+      id: req.params.expenseId,
+    });
+  },
+
+  // Deleting expenses
+  'DELETE /travel_pay/v0/expenses/:expenseType/:expenseId': (req, res) => {
+    return res.status(200).json({
+      id: req.params.expenseId,
+    });
+  },
+
+  // Deleting documents
+  'DELETE /travel_pay/v0/claims/:claimId/documents/:documentId': (req, res) => {
+    return res.status(200).json({
+      id: req.params.documentId,
+    });
+  },
 
   // Get travel-pay appointment
   'GET /vaos/v2/appointments/:id': (req, res) => {

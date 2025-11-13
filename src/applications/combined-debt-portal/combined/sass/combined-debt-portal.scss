@@ -1,9 +1,5 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
-h1:focus {
-  outline: none !important;
-}
-
 .no-wrap {
   white-space: nowrap;
 }
@@ -24,8 +20,14 @@ h1:focus {
 .vads-u-max-width--90 {
   max-width: 90% !important;
 }
+.icon-action {
+  color: var(--vads-color-white);
+  background-color: var(--vads-color-success-dark);
+  border-radius: 50%;
+  margin-right: var(--vads-spacing-1);
+}
 .icon-color--warning {
-  color: var(--vads-color-warning-dark);
+  color: var(--vads-color-orange);
 }
 .icon-color--info {
   color: var(--vads-color-primary);

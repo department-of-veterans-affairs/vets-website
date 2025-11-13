@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import {
   setPageFocus,
@@ -14,13 +13,17 @@ import DebtCardsList from '../components/DebtCardsList';
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
+import ZeroDebtsCopaysSection from '../../combined/components/ZeroDebtsCopaysSection';
+import NeedHelp from '../components/NeedHelp';
 
 const renderAlert = (alertType, statements) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.DEBT);
   const showOther = statements > 0;
   const showVAReturnLink = !showOther && alertType !== ALERT_TYPES.ALL_ERROR;
 
-  return (
+  return alertType === ALERT_TYPES.ALL_ZERO ? (
+    <ZeroDebtsCopaysSection />
+  ) : (
     <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
       <h2 className="vads-u-font-size--h3" slot="headline">
         {alertInfo.header}
@@ -54,7 +57,7 @@ const renderOtherVA = (mcpLength, mcpError) => {
   if (mcpError) {
     return (
       <>
-        <h2>Your VA copay bills</h2>
+        <h2>VA copay bills</h2>
         <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
           <h3 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
@@ -86,7 +89,7 @@ const DebtLettersSummary = () => {
   const { statements: mcpStatements, error: mcpError } = mcp;
   const allDebtsEmpty =
     !debtError && debts.length === 0 && debtLinks.length === 0;
-  const title = 'Current debts';
+  const title = 'Overpayment balances';
   useHeaderPageTitle(title);
 
   useEffect(() => {
@@ -140,21 +143,7 @@ const DebtLettersSummary = () => {
             </Link>
           </section>
         ) : null}
-        <va-need-help id="needHelp" class="vads-u-margin-top--4">
-          <div slot="content">
-            <p>
-              If you have any questions about your benefit overpayment or if you
-              think your debt was created in an error, you can dispute it.
-              Contact us online through <a href="https://ask.va.gov/">Ask VA</a>{' '}
-              or call the Debt Management Center at{' '}
-              <va-telephone contact={CONTACTS.DMC} /> (
-              <va-telephone contact="711" tty="true" />
-              ). For international callers, use{' '}
-              <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />.
-              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </div>
-        </va-need-help>
+        <NeedHelp />
       </article>
     );
   };
@@ -170,11 +159,11 @@ const DebtLettersSummary = () => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current debts',
+            label: 'Overpayment balances',
           },
         ]}
         label="Breadcrumb"
@@ -191,9 +180,10 @@ const DebtLettersSummary = () => {
           {title}
         </h1>
         <p className="va-introtext">
-          Check the details of debt you might have from VA education, disability
-          compensation, or pension programs. Find out how to pay your debt and
-          what to do if you need financial assistance.
+          Check the details of benefit overpayments you might have from VA
+          education, disability compensation, or pension programs. Find out how
+          to resolve overpayments and what to do if you need financial
+          assistance.
         </p>
         <p>
           Please note that payments may take up to 4 business days to reflect

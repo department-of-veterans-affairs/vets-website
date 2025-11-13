@@ -1,6 +1,5 @@
 import { Actions } from '../util/actionTypes';
 import { searchFolderAdvanced } from '../api/SmApi';
-import { getIsPilotFromState } from '.';
 
 export const findByKeyword = (keyword, messages) => {
   const parsedMessageId = parseInt(keyword, 10);
@@ -25,15 +24,10 @@ export const runAdvancedSearch = (
   query,
   keyword,
   queryData = {},
-) => async (dispatch, getState) => {
+) => async dispatch => {
   dispatch({ type: Actions.Search.START });
-  const isPilot = getIsPilotFromState(getState);
   try {
-    const response = await searchFolderAdvanced(
-      folder.folderId,
-      query,
-      isPilot,
-    );
+    const response = await searchFolderAdvanced(folder.folderId, query);
     const matches = findByKeyword(keyword, response.data);
 
     dispatch({

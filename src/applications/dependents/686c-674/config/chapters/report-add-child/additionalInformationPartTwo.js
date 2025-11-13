@@ -6,9 +6,9 @@ import {
 
 export const additionalInformationPartTwo = {
   uiSchema: {
-    ...titleUI('Additional information about this child'),
+    ...titleUI('Child’s income'),
     incomeInLastYear: radioUI({
-      title: 'Did this child have an income in the last 365 days?',
+      title: 'Has this child received income in the last 365 days?',
       hint:
         'Answer this question only if you are adding this dependent to your pension.',
       labels: {
@@ -16,7 +16,24 @@ export const additionalInformationPartTwo = {
         N: 'No',
         NA: 'This question doesn’t apply to me',
       },
-      required: () => false,
+      required: (_chapterData, _index, formData) =>
+        formData?.vaDependentsNetWorthAndPension,
+      updateUiSchema: () => ({
+        'ui:options': {
+          hint: '',
+        },
+      }),
+      updateSchema: (formData = {}, formSchema) => {
+        const { vaDependentsNetWorthAndPension } = formData;
+
+        if (!vaDependentsNetWorthAndPension) {
+          return formSchema;
+        }
+
+        return {
+          ...radioSchema(['Y', 'N']),
+        };
+      },
     }),
   },
   schema: {

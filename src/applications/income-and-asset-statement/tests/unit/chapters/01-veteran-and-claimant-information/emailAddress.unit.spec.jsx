@@ -3,7 +3,7 @@ import testData from '../../../e2e/fixtures/data/test-data.json';
 import formConfig from '../../../../config/form';
 import emailAddress from '../../../../config/chapters/01-veteran-and-claimant-information/emailAddress';
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testNumberOfFieldsByType,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -20,11 +20,11 @@ describe('income and asset current email page', () => {
     },
     'current email',
   );
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     schema,
     uiSchema,
-    1,
+    ['va-text-input[label="Email"]'],
     'current email',
   );
   testSubmitsWithoutErrors(

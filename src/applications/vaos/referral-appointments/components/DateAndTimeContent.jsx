@@ -2,38 +2,41 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { format } from 'date-fns';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
-import { setSelectedSlot } from '../redux/actions';
+import { setSelectedSlotStartTime } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
-import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
-import { getSlotByDate, hasConflict } from '../utils/provider';
-import { getDriveTimeString } from '../../utils/appointment';
 import {
-  getTimezoneDescByFacilityId,
-  getTimezoneByFacilityId,
-} from '../../utils/timezone';
+  selectCurrentPage,
+  getSelectedSlotStartTime,
+} from '../redux/selectors';
+import { getSlotByDate } from '../utils/provider';
+import { getDriveTimeString } from '../../utils/appointment';
+import { getTimezoneDescByTimeZoneString } from '../../utils/timezone';
 import { getReferralSlotKey } from '../utils/referrals';
 import { titleCase } from '../../utils/formatters';
 import ProviderAddress from './ProviderAddress';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import FindCommunityCareOfficeLink from './FindCCFacilityLink';
+import { getIsInPilotReferralStation } from '../utils/pilot';
 
 export const DateAndTimeContent = props => {
   const { currentReferral, draftAppointmentInfo, appointmentsByMonth } = props;
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const isStationIdValid = getIsInPilotReferralStation(currentReferral);
+
   // Add a counter state to trigger focusing
   const [focusTrigger, setFocusTrigger] = useState(0);
 
-  const selectedSlot = useSelector(state => getSelectedSlot(state));
+  const selectedSlotStartTime = useSelector(getSelectedSlotStartTime);
   const currentPage = useSelector(selectCurrentPage);
   const [error, setError] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
-  const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacility.code,
-  );
+
+  const providerTimeZone =
+    draftAppointmentInfo.attributes.provider.location.timezone;
+  const timezoneDescription = getTimezoneDescByTimeZoneString(providerTimeZone);
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
   const latestAvailableSlot = new Date(
     Math.max.apply(
@@ -43,17 +46,28 @@ export const DateAndTimeContent = props => {
       }),
     ),
   );
-  useEffect(
-    () => {
-      if (selectedSlot) {
-        setSelectedDate(
-          getSlotByDate(draftAppointmentInfo.attributes.slots, selectedSlot)
-            .start,
+  const onChange = useCallback(
+    (value, hasConflict = false) => {
+      if (hasConflict) {
+        setError(
+          'You already have an appointment at this time. Please select another day or time.',
         );
       }
+      const newSlot = getSlotByDate(
+        draftAppointmentInfo.attributes.slots,
+        value[0],
+      );
+      if (!hasConflict && newSlot) {
+        setError('');
+        sessionStorage.setItem(selectedSlotKey, newSlot.start);
+      }
+      if (newSlot) {
+        dispatch(setSelectedSlotStartTime(newSlot.start));
+      }
     },
-    [draftAppointmentInfo.attributes.slots, selectedSlot],
+    [dispatch, draftAppointmentInfo.attributes.slots, selectedSlotKey],
   );
+
   useEffect(
     () => {
       const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
@@ -64,24 +78,15 @@ export const DateAndTimeContent = props => {
       if (!savedSlot) {
         return;
       }
-      dispatch(setSelectedSlot(savedSlot.start));
+      onChange(savedSlot.start);
     },
-    [dispatch, selectedSlotKey, draftAppointmentInfo.attributes.slots],
-  );
-  const onChange = useCallback(
-    value => {
-      const newSlot = getSlotByDate(
-        draftAppointmentInfo.attributes.slots,
-        value[0],
-      );
-      if (newSlot) {
-        setError('');
-        dispatch(setSelectedSlot(newSlot.start));
-        setSelectedDate(newSlot.start);
-        sessionStorage.setItem(selectedSlotKey, newSlot.start);
-      }
-    },
-    [dispatch, draftAppointmentInfo.attributes.slots, selectedSlotKey],
+    [
+      dispatch,
+      selectedSlotKey,
+      draftAppointmentInfo.attributes.slots,
+      appointmentsByMonth,
+      onChange,
+    ],
   );
   const onBack = () => {
     routeToPreviousReferralPage(history, currentPage, currentReferral.uuid);
@@ -92,18 +97,9 @@ export const DateAndTimeContent = props => {
       setFocusTrigger(prev => prev + 1);
       return;
     }
-    if (!selectedSlot) {
+    if (!selectedSlotStartTime) {
       setError(
         'Please choose your preferred date and time for your appointment',
-      );
-      return;
-    }
-    if (
-      appointmentsByMonth &&
-      hasConflict(selectedDate, appointmentsByMonth, facilityTimeZone)
-    ) {
-      setError(
-        'You already have an appointment at this time. Please select another day or time.',
       );
       return;
     }
@@ -139,6 +135,80 @@ export const DateAndTimeContent = props => {
     />
   );
 
+  const getContent = () => {
+    // If the station is not in the pilot, show an alert
+    if (!isStationIdValid) {
+      return (
+        <va-alert
+          status="warning"
+          data-testid="station-id-not-valid-alert"
+          class="vads-u-margin-top--3"
+        >
+          <h2 slot="headline">Online scheduling isn’t available right now</h2>
+          <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
+            Call this provider or your facility’s community care office to
+            schedule an appointment.
+          </p>
+          <FindCommunityCareOfficeLink />
+        </va-alert>
+      );
+    }
+
+    // If there are no slots available, show an alert
+    if (noSlotsAvailable) {
+      return (
+        <va-alert
+          status="warning"
+          data-testid="no-slots-alert"
+          class="vads-u-margin-top--3"
+        >
+          <h2 slot="headline">We couldn’t find any open time slots.</h2>
+          <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
+            Call this provider or your facility’s community care office to
+            schedule an appointment.
+          </p>
+          <FindCommunityCareOfficeLink />
+        </va-alert>
+      );
+    }
+
+    // If there are slots available, show the calendar and form buttons
+    return (
+      <>
+        <div data-testid="cal-widget">
+          <CalendarWidget
+            maxSelections={1}
+            availableSlots={draftAppointmentInfo.attributes.slots}
+            value={[selectedSlotStartTime || '']}
+            id="dateTime"
+            timezone={providerTimeZone}
+            additionalOptions={{
+              required: true,
+            }}
+            disabledMessage={disabledMessage}
+            onChange={onChange}
+            onNextMonth={null}
+            onPreviousMonth={null}
+            minDate={new Date()}
+            maxDate={latestAvailableSlot}
+            required
+            requiredMessage={error}
+            startMonth={new Date()}
+            showValidation={error.length > 0}
+            showWeekends
+            overrideMaxDays
+            upcomingAppointments={appointmentsByMonth}
+          />
+        </div>
+        <FormButtons
+          onBack={onBack}
+          onSubmit={onSubmit}
+          loadingText="Page change in progress"
+        />
+      </>
+    );
+  };
+
   return (
     <>
       <div>
@@ -173,61 +243,11 @@ export const DateAndTimeContent = props => {
         {!noSlotsAvailable && (
           <p>
             Select an available date and time from the calendar below.
-            Appointment times are displayed in{' '}
-            {`${getTimezoneDescByFacilityId(
-              currentReferral.referringFacility.code,
-            )}`}
-            .
+            Appointment times are displayed in {`${timezoneDescription}`}.
           </p>
         )}
       </div>
-      {noSlotsAvailable && (
-        <va-alert
-          status="warning"
-          data-testid="no-slots-alert"
-          class="vads-u-margin-top--3"
-        >
-          <h2 slot="headline">
-            We’re sorry. We couldn’t find any open time slots.
-          </h2>
-          <p>Please call this provider to schedule an appointment</p>
-          <va-telephone contact={currentReferral.provider.telephone} />
-        </va-alert>
-      )}
-      {!noSlotsAvailable && (
-        <>
-          <div data-testid="cal-widget">
-            <CalendarWidget
-              maxSelections={1}
-              availableSlots={draftAppointmentInfo.attributes.slots}
-              value={[selectedDate]}
-              id="dateTime"
-              timezone={facilityTimeZone}
-              additionalOptions={{
-                required: true,
-              }}
-              // disabled={loadingSlots}
-              disabledMessage={disabledMessage}
-              onChange={onChange}
-              onNextMonth={null}
-              onPreviousMonth={null}
-              minDate={format(new Date(), 'yyyy-MM-dd')}
-              maxDate={format(latestAvailableSlot, 'yyyy-MM-dd')}
-              required
-              requiredMessage={error}
-              startMonth={format(new Date(), 'yyyy-MM')}
-              showValidation={error.length > 0}
-              showWeekends
-              overrideMaxDays
-            />
-          </div>
-          <FormButtons
-            onBack={() => onBack()}
-            onSubmit={() => onSubmit()}
-            loadingText="Page change in progress"
-          />
-        </>
-      )}
+      {getContent()}
     </>
   );
 };

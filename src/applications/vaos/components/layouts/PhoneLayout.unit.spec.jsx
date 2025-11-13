@@ -151,6 +151,89 @@ describe('VAOS Component: PhoneLayout', () => {
         screen.container.querySelector('va-telephone[contact="800-698-2411"]'),
       ).to.be.ok;
     });
+
+    describe('And appointment is Cerner', () => {
+      it('should not display clinic heading when service name is missing', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
+        const response = MockAppointmentResponse.createPhoneResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+          status: APPOINTMENT_STATUS.cancelled,
+        }).setLocation(new MockFacilityResponse());
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
+
+        // Act
+        const screen = renderWithStoreAndRouter(
+          <PhoneLayout data={appointment} />,
+          {
+            store,
+          },
+        );
+
+        // Assert
+        expect(screen.queryByText(/Clinic: Service name/i)).not.to.exist;
+      });
+
+      it('should not display location heading when physical location is missing', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
+        const response = MockAppointmentResponse.createPhoneResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+          status: APPOINTMENT_STATUS.cancelled,
+        }).setLocation(new MockFacilityResponse());
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
+
+        // Act
+        const screen = renderWithStoreAndRouter(
+          <PhoneLayout data={appointment} />,
+          {
+            store,
+          },
+        );
+
+        // Assert
+        expect(screen.queryByText(/Location:/i)).not.to.exist;
+      });
+
+      it('should not display reason and other details', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
+
+        // Act
+        const response = MockAppointmentResponse.createVAResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+          status: APPOINTMENT_STATUS.booked,
+        }).setLocation(new MockFacilityResponse());
+
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
+
+        const screen = renderWithStoreAndRouter(
+          <PhoneLayout data={appointment} />,
+          {
+            store,
+          },
+        );
+        // Assert
+        expect(
+          screen.queryByText(/Details you’d like to share with your provider/i),
+        ).not.to.exist;
+
+        expect(screen.queryByText(/Details you shared with your provider'/i))
+          .not.to.exist;
+
+        expect(screen.queryByText(/Reason:/i)).not.to.exist;
+        expect(screen.queryByText(/Other details:/i)).not.to.exist;
+      });
+    });
   });
 
   describe('When viewing upcoming appointment details', () => {

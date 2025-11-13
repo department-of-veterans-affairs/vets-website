@@ -18,16 +18,10 @@ export const medicationsUrls = {
   MHV_HOME: '/../../my-health',
   MEDICATIONS_URL: '/my-health/medications',
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
-  // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
-  MEDICATIONS_ABOUT: '/my-health/medications/about',
-  MEDICATIONS_ABOUT_ACCORDION_RENEW:
-    '/my-health/medications/about#accordion-renew-rx',
   MEDICATIONS_REFILL: '/my-health/medications/refill',
   PRESCRIPTION_DETAILS: '/my-health/medications/prescription',
   subdirectories: {
     BASE: '/',
-    // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
-    ABOUT: '/about',
     REFILL: '/refill',
     DETAILS: '/prescription',
     DOCUMENTATION: '/documentation',
@@ -67,7 +61,7 @@ export const filterOptions = {
     label: 'Renewal needed before refill',
     name: 'filter option',
     description:
-      'Prescriptions that just ran out of refills or became too old to refill (expired)',
+      'Prescriptions that need renewal (no refills left or expired in last 120 days)',
     url: '&filter[[disp_status][eq]]=Active,Expired',
     showingContentDisplayName: ' renewal needed before refill',
   },
@@ -186,10 +180,24 @@ export const pdfDefaultStatusDefinition = [
   },
 ];
 
+export const pdfDefaultPendingMedDefinition =
+  'This is a new prescription from your provider. Your VA pharmacy is reviewing it now. Details may change.';
+
+export const pdfDefaultPendingRenewalDefinition =
+  'This is a renewal you requested. Your VA pharmacy is reviewing it now. Details may change.';
+
+export const medStatusDisplayTypes = {
+  VA_PRESCRIPTION: 'VaPrescription',
+  PRINT: 'print',
+  TXT: 'txt',
+};
+
 export const nonVAMedicationTypes = `* Prescriptions you filled through a non-VA pharmacy
 * Over-the-counter medications, supplements, and herbal remedies
 * Sample medications a provider gave you
 * Other drugs you’re taking that you don’t have a prescription for, including recreational drugs`;
+
+export const ACTIVE_NON_VA = 'Active: Non-VA';
 
 export const dispStatusObj = {
   unknown: 'Unknown',
@@ -199,7 +207,7 @@ export const dispStatusObj = {
   expired: 'Expired',
   discontinued: 'Discontinued',
   transferred: 'Transferred',
-  nonVA: 'Active: Non-VA',
+  nonVA: ACTIVE_NON_VA,
   onHold: 'Active: On Hold',
   activeParked: 'Active: Parked',
 };
@@ -279,3 +287,66 @@ export const tooltipHintContent = {
 };
 
 export const recordNotFoundMessage = 'Record not found';
+
+export const MEDICATION_REFILL_CONFIG = {
+  ERROR: {
+    id: 'error-refill',
+    testId: 'error-refill',
+    status: 'error',
+    className: 'vads-u-margin-y--1',
+    title: 'Request not submitted',
+    description: 'We’re sorry. There’s a problem with our system.',
+    suggestion:
+      'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
+  },
+  PARTIAL: {
+    id: 'partial-refill',
+    testId: 'partial-refill',
+    status: 'error',
+    className: 'vads-u-margin-y--2',
+    title: 'Only part of your request was submitted',
+    description:
+      'We’re sorry. There’s a problem with our system. We couldn’t submit these refill requests:',
+    suggestion:
+      'Try requesting these refills again. If it still doesn’t work, call your VA pharmacy.',
+  },
+  SUCCESS: {
+    id: 'success-refill',
+    testId: 'success-refill',
+    status: 'success',
+    className: 'vads-u-margin-y--2',
+    title: 'Refills requested',
+    description:
+      'To check the status of your refill requests, go to your medications list and filter by "recently requested."',
+    linkText: 'Go to your medications list',
+  },
+};
+
+export const REFILL_STATUS = {
+  FINISHED: 'finished',
+  NOT_STARTED: 'notStarted',
+  IN_PROGRESS: 'inProgress',
+  ERROR: 'error',
+};
+
+export const DATETIME_FORMATS = {
+  longMonthDate: 'MMMM d, yyyy',
+  filename: 'M-d-yyyy_hmmssa',
+};
+
+export const MEDS_BY_MAIL_FACILITY_ID = '741MM';
+
+export const RX_SOURCE = {
+  PARTIAL_FILL: 'PF',
+  VA: 'VA',
+  NON_VA: 'NV',
+  PENDING_DISPENSE: 'PD',
+};
+
+export const DISPENSE_STATUS = {
+  NEW_ORDER: 'NewOrder',
+  RENEW: 'Renew',
+  ACTIVE: 'Active',
+  ACTIVE_SUBMITTED: 'Active: Submitted',
+  ACTIVE_REFILL_IN_PROCESS: 'Active: Refill in Process',
+};

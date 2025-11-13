@@ -254,7 +254,9 @@ const FileField = props => {
       uiOptions.modalContent?.(fileName || 'Unknown') || (
         <span>
           We’ll delete the uploaded file{' '}
-          <strong>{fileName || 'Unknown'}</strong>
+          <strong className="dd-privacy-hidden" data-dd-action-name="file name">
+            {fileName || 'Unknown'}
+          </strong>
         </span>
       ),
     yesButton: 'Yes, delete this file',
@@ -387,7 +389,7 @@ const FileField = props => {
       }
 
       if (
-        currentFile.name?.endsWith('pdf') &&
+        currentFile.name?.toLowerCase().endsWith('pdf') &&
         !password &&
         checkResults.checkIsEncryptedPdf
       ) {
@@ -616,7 +618,7 @@ const FileField = props => {
                 const passwordInput = $(`[name="get_password_${index}"]`);
                 if (passwordInput) {
                   focusElement('input', {}, passwordInput?.shadowRoot);
-                  scrollTo(`get_password_${index}"]`);
+                  scrollTo(`get_password_${index}`);
                 }
               }, 100);
             }

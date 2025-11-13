@@ -9,9 +9,22 @@ const NeedHelp = page => {
         Need help?
       </h3>
       <p>
-        If you have questions about the Medications tool, visit our resources
-        page to learn more.
+        Can’t find your self-entered medications? You can still download a copy
+        of any self-entered health information.
       </p>
+      <va-link
+        href="/my-health/medical-records/download?sei=true"
+        text="Go to download your self-entered health information"
+        data-testid="go-to-self-entered-health-information-link"
+        data-dd-action-name={
+          page === pageType.LIST
+            ? dataDogActionNames.medicationsListPage
+                .GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK
+            : dataDogActionNames.refillPage
+                .GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK
+        }
+      />
+      <p>Have questions about managing your medications online?</p>
       <va-link
         href="/health-care/refill-track-prescriptions"
         text="Learn more about managing medications online"
@@ -23,8 +36,8 @@ const NeedHelp = page => {
         }
       />
       <p>
-        For questions about your medications and supplies, send a secure message
-        to your care team.
+        Have questions about your medications and supplies? Send a secure
+        message to your care team.
       </p>
       <a
         href="/my-health/secure-messages/new-message/"

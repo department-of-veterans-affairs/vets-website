@@ -9,7 +9,6 @@ import GetFormHelp from '../components/shared/GetFormHelp';
 import PreSubmitSignature from '../components/shared/PreSubmitSignature';
 import { transform } from '../utils/transform';
 import { SubmissionAlert } from '../components/alerts/Alerts';
-import { WIZARD_STATUS } from '../wizard/constants';
 import submitForm from './submitForm';
 import veteranInformationChapter from './chapters/veteranInformationChapter';
 import householdIncomeChapter from './chapters/householdIncomeChapter';
@@ -28,7 +27,6 @@ const formConfig = {
   submit: submitForm,
   submissionError: SubmissionAlert,
   trackingPrefix: 'fsr-5655-',
-  wizardStorageKey: WIZARD_STATUS,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
@@ -82,6 +80,9 @@ const formConfig = {
     ...householdExpensesChapter,
     ...resolutionOptionsChapter,
     ...bankruptcyAttestationChapter,
+  },
+  formOptions: {
+    useWebComponentForNavigation: true,
   },
 };
 

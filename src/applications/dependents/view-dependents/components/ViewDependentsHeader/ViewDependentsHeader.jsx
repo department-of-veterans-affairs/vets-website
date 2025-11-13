@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
@@ -84,17 +85,19 @@ function ViewDependentsHeader(props) {
           dependent.
         </p>
         <p>
-          <a
+          <va-link-action
+            text="Add or remove a dependent"
             href={form686Url}
-            className="vads-c-action-link--green"
             onClick={handleClick}
-          >
-            Add or remove a dependent
-          </a>
+          />
         </p>
       </div>
     </div>
   );
 }
+
+ViewDependentsHeader.propTypes = {
+  updateDiariesStatus: PropTypes.string,
+};
 
 export default ViewDependentsHeader;

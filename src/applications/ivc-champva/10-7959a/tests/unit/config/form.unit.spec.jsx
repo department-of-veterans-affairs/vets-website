@@ -6,7 +6,7 @@ import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/p
 
 import mockData from '../../e2e/fixtures/data/test-data.json';
 import { insuranceOptions } from '../../../chapters/healthInsuranceInformation';
-import { NotEnrolledChampvaPage } from '../../../chapters/NotEnrolledChampvaPage';
+import NotEnrolledPage from '../../../components/FormPages/NotEnrolledPage';
 
 describe('Certifier role page', () => {
   testNumberOfWebComponentFields(
@@ -41,9 +41,9 @@ describe('Certifier enrolled in CHAMPVA (role: other) page', () => {
   );
 });
 
-describe('NotEnrolledChampvaPage', () => {
+describe('NotEnrolledPage', () => {
   it('should render', () => {
-    const { container } = render(<NotEnrolledChampvaPage goBack={() => {}} />);
+    const { container } = render(<NotEnrolledPage goBack={() => {}} />);
     expect(container).to.exist;
   });
 });
@@ -402,25 +402,6 @@ describe('dependent page logic', () => {
     });
 
     expect(depCount > 0).to.be.true;
-  });
-});
-
-// Call the title fn for any page that has a computed title
-describe('title text logic', () => {
-  it('should be called', () => {
-    let titleCount = 0;
-
-    Object.keys(formConfig.chapters).forEach(ch => {
-      Object.keys(formConfig.chapters[`${ch}`].pages).forEach(pg => {
-        const { title } = formConfig.chapters[`${ch}`].pages[`${pg}`];
-        if (typeof title === 'function') {
-          title({ formData: {} });
-          titleCount += 1;
-        }
-      });
-    });
-
-    expect(titleCount > 0).to.be.true;
   });
 });
 

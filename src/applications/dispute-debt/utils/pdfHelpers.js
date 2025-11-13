@@ -43,7 +43,7 @@ const getPdfBlob = async (templateId, data) => {
 
 export const handlePdfGeneration = async pdfData => {
   try {
-    const { education, compAndPen } = pdfData;
+    const { education, compAndPen, metadata } = pdfData;
     const formData = new FormData();
 
     // Generate the PDF for education debts if present
@@ -63,6 +63,11 @@ export const handlePdfGeneration = async pdfData => {
       throw new Error(
         '`Dispute Debt pdf generation failed: No debts to generate PDF for.',
       );
+    }
+
+    // Add metadata to FormData if present
+    if (metadata) {
+      formData.append('metadata', JSON.stringify(metadata));
     }
 
     // Returning FormData to be used in the API request

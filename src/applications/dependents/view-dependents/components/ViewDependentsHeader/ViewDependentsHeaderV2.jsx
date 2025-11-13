@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
+import { VaAlert } from '@department-of-veterans-affairs/web-components/react-bindings';
+
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
+
 import { errorFragment } from '../../layouts/helpers';
 import { PAGE_TITLE } from '../../util';
+import {
+  getIsDependentsWarningHidden,
+  hideDependentsWarning,
+} from '../../../shared/utils';
 
 const dependentsVerificationUrl = getAppUrl('0538-dependents-verification');
 
@@ -15,24 +24,23 @@ const CALLSTATUS = {
 };
 
 function ViewDependentsHeader(props) {
-  const { updateDiariesStatus } = props;
+  const { updateDiariesStatus, showAlert } = props;
 
-  const [warningVisible, setWarningVisible] = useState(true);
+  const [warningHidden, setWarningHidden] = useState(
+    getIsDependentsWarningHidden(),
+  );
 
   useEffect(() => {
-    const handleWarningClose = () => setWarningVisible(false);
-
-    const warningAlert = document.getElementById('update-warning-alert');
-    if (warningAlert) {
-      warningAlert.addEventListener('closeEvent', handleWarningClose);
-    }
-
-    return () => {
-      if (warningAlert) {
-        warningAlert.removeEventListener('closeEvent', handleWarningClose);
-      }
-    };
+    focusElement('h1');
+    scrollToTop();
   }, []);
+
+  function handleWarningClose() {
+    setWarningHidden(true);
+    hideDependentsWarning();
+    scrollToTop();
+    focusElement('.view-deps-header');
+  }
 
   let alertProps = null;
 
@@ -91,43 +99,52 @@ function ViewDependentsHeader(props) {
         )}
 
         <p className="vads-u-line-height--6 vads-u-font-size--h3 vads-u-font-family--serif">
-          These are the dependents we have in your VA.gov profile. Use this page
-          to update or verify your dependents every year.
+          These are the dependents we have on file for you. Use this page to
+          update or verify your dependents every year.
         </p>
 
-        {warningVisible && (
-          <va-alert
-            id="update-warning-alert"
-            status="warning"
-            closeable
-            visible
-            close-btn-aria-label="Close notification"
-          >
-            <>
-              <h2 className="vads-u-font-size--h3" slot="headline">
-                Avoid disability overpayments by keeping your dependents up to
-                date
-              </h2>
-              <p className="vads-u-font-size--base">
-                Report any changes to your dependents to make sure you receive
-                the correct VA disability benefit amount. We recommend verifying
-                your dependent information <strong>once a year</strong>.
-              </p>
-              <p>If you're overpaid, you'll have to pay money back.</p>
-              <p>
-                <a
-                  href={dependentsVerificationUrl}
-                  className="vads-c-action-link--green"
-                >
-                  Verify your VA disability benefits dependents
-                </a>
-              </p>
-            </>
-          </va-alert>
-        )}
+        {showAlert &&
+          !warningHidden && (
+            <VaAlert
+              id="update-warning-alert"
+              status="warning"
+              closeable
+              visible
+              onCloseEvent={handleWarningClose}
+              close-btn-aria-label="Close notification"
+            >
+              <>
+                <h2 className="vads-u-font-size--h3" slot="headline">
+                  Avoid disability benefits overpayments by keeping your
+                  dependents up to date
+                </h2>
+                <p className="vads-u-font-size--base">
+                  Report any changes to your dependents to make sure you receive
+                  the correct VA disability benefit amount. We recommend
+                  verifying your dependent information{' '}
+                  <strong>once a year</strong>.
+                </p>
+                <p>
+                  If you receive an overpayment, you'll have to repay that
+                  money.
+                </p>
+                <p>
+                  <va-link-action
+                    text="Verify your VA disability benefits dependents"
+                    href={dependentsVerificationUrl}
+                  />
+                </p>
+              </>
+            </VaAlert>
+          )}
       </div>
     </div>
   );
 }
+
+ViewDependentsHeader.propTypes = {
+  showAlert: PropTypes.bool,
+  updateDiariesStatus: PropTypes.string,
+};
 
 export default ViewDependentsHeader;

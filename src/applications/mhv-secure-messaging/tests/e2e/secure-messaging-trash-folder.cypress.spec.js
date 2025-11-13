@@ -4,6 +4,7 @@ import PatientMessageTrashPage from './pages/PatientMessageTrashPage';
 import FolderLoadPage from './pages/FolderLoadPage';
 import mockTrashMessages from './fixtures/trashResponse/trash-messages-response.json';
 import { AXE_CONTEXT, Data } from './utils/constants';
+import SharedComponents from './pages/SharedComponents';
 
 describe('Secure Messaging Trash Folder checks', () => {
   beforeEach(() => {
@@ -40,6 +41,6 @@ describe('Secure Messaging Trash Folder checks', () => {
   it('verify breadcrumbs', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    cy.get("[data-testid='sm-breadcrumbs-back']").should('have.text', 'Back');
+    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
   });
 });

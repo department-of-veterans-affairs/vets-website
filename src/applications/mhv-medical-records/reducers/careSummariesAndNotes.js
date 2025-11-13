@@ -1,4 +1,5 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { format } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   EMPTY_FIELD,
@@ -139,16 +140,22 @@ export const getAdmissionDate = (record, noteSummary) => {
     ? new Date(record.context.period.start)
     : null;
   if (!admissionDate) {
+    // TODO: this probably won't work for new note structure
     admissionDate = getDateFromBody(noteSummary, 'DATE OF ADMISSION:');
   }
   return admissionDate;
 };
 
 export const getDischargeDate = (record, noteSummary) => {
-  let dischargeDate = record.context?.period?.end
-    ? new Date(record.context.period.end)
-    : null;
+  // OH data will have this, VistA data won't
+  let dischargeDate = record.attributes?.dischargeDate;
+  if (!dischargeDate && record.context?.period?.end) {
+    dischargeDate = record.context?.period?.end
+      ? new Date(record.context.period.end)
+      : null;
+  }
   if (!dischargeDate) {
+    // TODO: this probably won't work for new note structure
     dischargeDate = getDateFromBody(noteSummary, 'DATE OF DISCHARGE:');
   }
   return dischargeDate;
@@ -177,9 +184,9 @@ export const convertAdmissionAndDischargeDetails = record => {
     type: getType(record),
     admissionDate: admissionDate ? formatDateLong(admissionDate) : EMPTY_FIELD,
     dischargeDate: dischargeDate ? formatDateLong(dischargeDate) : EMPTY_FIELD,
+    dischargedBy: extractAuthor(record) || EMPTY_FIELD,
     dateEntered: dateEntered ? formatDateLong(dateEntered) : EMPTY_FIELD,
     admittedBy: getAttending(summary) || EMPTY_FIELD,
-    dischargedBy: extractAuthor(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     summary: summary || EMPTY_FIELD,
     sortByDate,
@@ -222,6 +229,22 @@ export const getRecordType = record => {
   return noteTypes.OTHER;
 };
 
+export const getRecordTypeFromLoincCodes = codes => {
+  const typeMapping = {
+    [loincCodes.DISCHARGE_SUMMARY]: noteTypes.DISCHARGE_SUMMARY,
+    [loincCodes.PHYSICIAN_PROCEDURE_NOTE]: noteTypes.PHYSICIAN_PROCEDURE_NOTE,
+    [loincCodes.CONSULT_RESULT]: noteTypes.CONSULT_RESULT,
+  };
+
+  for (const [code, noteType] of Object.entries(typeMapping)) {
+    if (codes.includes(code)) {
+      return noteType;
+    }
+  }
+
+  return noteTypes.OTHER;
+};
+
 /**
  * Maps each record type to a converter function
  */
@@ -230,7 +253,58 @@ const notesAndSummariesConverterMap = {
   [noteTypes.PHYSICIAN_PROCEDURE_NOTE]: convertProgressNote,
   [noteTypes.CONSULT_RESULT]: convertProgressNote,
 };
+// TODO: this is wet
+// TODO: need to adjust to handle the different formats
+// OH uses UTC ('2025-07-29T17:32:46.000Z'), VistA uses TZ offset ('2024-10-18T11:52:00+00:00')
+export function formatDateTime(datetimeString) {
+  if (!datetimeString) return null;
+  const dateTime = new Date(datetimeString);
+  if (Number.isNaN(dateTime.getTime())) {
+    return null;
+  }
+  const formattedDate = format(dateTime, 'MMMM d, yyyy');
+  const formattedTime = format(dateTime, 'h:mm a');
 
+  return `${formattedDate}, ${formattedTime}`;
+}
+
+export const convertUnifiedCareSummariesAndNotesRecord = record => {
+  const formattedNoteDate = formatDateTime(record.attributes.date);
+
+  const note = decodeBase64Report(record.attributes.note);
+
+  const formattedAdmissionDate = formatDateTime(
+    record.attributes.admissionDate,
+  );
+
+  const formattedDischargeDate = formatDateTime(
+    record.attributes.dischargedDate,
+  );
+
+  const formattedDateEntered = formatDateTime(record.attributes.dateEntered);
+
+  const formattedDateSigned = formatDateTime(record.attributes.dateSigned);
+
+  return {
+    id: record.id,
+    name: record.attributes.name || EMPTY_FIELD,
+    type: record.attributes.noteType || EMPTY_FIELD,
+    loincCodes: record.attributes.loincCodes || [],
+    date: formattedNoteDate || EMPTY_FIELD,
+    writtenBy: record.attributes.writtenBy || EMPTY_FIELD,
+    signedBy: record.attributes.signedBy || EMPTY_FIELD,
+    location: record.attributes.location || EMPTY_FIELD,
+    note,
+    dischargedBy: record.attributes.writtenBy || EMPTY_FIELD, // This is mapped to the author
+    summary: note || EMPTY_FIELD,
+    admittedBy: getAttending(note) || EMPTY_FIELD,
+    dischargedDate: formattedDischargeDate || EMPTY_FIELD,
+    admissionDate: formattedAdmissionDate || EMPTY_FIELD,
+    dateSigned: formattedDateSigned || EMPTY_FIELD,
+    dateEntered: formattedDateEntered || formattedNoteDate || EMPTY_FIELD,
+    sortByDate: new Date(record.attributes.date),
+  };
+};
 /**
  * @param {Object} record - A FHIR DocumentReference object
  * @returns the appropriate frontend object for display
@@ -253,10 +327,37 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         ),
       };
     }
+    case Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM: {
+      return {
+        ...state,
+        careSummariesAndNotesDetails: convertUnifiedCareSummariesAndNotesRecord(
+          action.response.data,
+        ),
+      };
+    }
     case Actions.CareSummariesAndNotes.GET_FROM_LIST: {
       return {
         ...state,
         careSummariesAndNotesDetails: action.response,
+      };
+    }
+    case Actions.CareSummariesAndNotes.GET_UNIFIED_LIST: {
+      const data = action.response.data || [];
+      const newList =
+        data
+          ?.map(note => {
+            return convertUnifiedCareSummariesAndNotesRecord(note);
+          })
+          .sort((a, b) => {
+            if (!a.sortByDate) return 1; // Push nulls to the end
+            if (!b.sortByDate) return -1; // Keep non-nulls at the front
+            return b.sortByDate.getTime() - a.sortByDate.getTime();
+          }) || [];
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        careSummariesAndNotesList: newList,
       };
     }
     case Actions.CareSummariesAndNotes.GET_LIST: {

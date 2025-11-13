@@ -243,6 +243,8 @@ export const SavePdfDownload = ({
   trackingPrefix,
   className,
   formId,
+  title,
+  content,
 }) => {
   const onClick = () => {
     recordEvent({
@@ -258,8 +260,11 @@ export const SavePdfDownload = ({
         className || 'vads-u-margin-bottom--4',
       )}
     >
-      <h2>Save a copy of your form</h2>
-      <p>If you’d like a copy of your completed form, you can download it.</p>
+      <h2>{title || 'Save a copy of your form'}</h2>
+      <p>
+        {content ||
+          'If you’d like a copy of your completed form, you can download it.'}
+      </p>
       <va-link
         download
         filetype="PDF"
@@ -276,9 +281,11 @@ SavePdfDownload.propTypes = {
   formId: PropTypes.string,
   pdfUrl: PropTypes.string,
   trackingPrefix: PropTypes.string,
+  title: PropTypes.string,
+  content: PropTypes.string,
 };
 
-export const SavePdfDownloadWithContext = ({ className }) => {
+export const SavePdfDownloadWithContext = ({ className, title, content }) => {
   const { pdfUrl, formConfig } = useConfirmation();
 
   return (
@@ -287,12 +294,16 @@ export const SavePdfDownloadWithContext = ({ className }) => {
       trackingPrefix={formConfig.trackingPrefix}
       className={className}
       formId={formConfig.formId}
+      title={title}
+      content={content}
     />
   );
 };
 
 SavePdfDownloadWithContext.propTypes = {
   className: PropTypes.string,
+  title: PropTypes.string,
+  content: PropTypes.string,
 };
 
 export const PrintOnlyHeader = () => {
@@ -461,8 +472,9 @@ export const ChapterSectionCollectionWithContext = ({
   header,
   className,
   collapsible,
+  showPageTitles,
 }) => {
-  const { formConfig } = useConfirmation();
+  const { formConfig, chapterSectionCollection } = useConfirmation();
 
   return (
     <ChapterSectionCollection
@@ -470,6 +482,9 @@ export const ChapterSectionCollectionWithContext = ({
       header={header}
       className={className}
       collapsible={collapsible}
+      showPageTitles={
+        showPageTitles || chapterSectionCollection?.showPageTitles
+      }
     />
   );
 };
@@ -478,6 +493,7 @@ ChapterSectionCollectionWithContext.propTypes = {
   className: PropTypes.string,
   collapsible: PropTypes.bool,
   header: PropTypes.string,
+  showPageTitles: PropTypes.bool,
 };
 
 export { ChapterSectionCollection } from './ChapterSectionCollection';

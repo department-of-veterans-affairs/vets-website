@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 
 import AddressViewField from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
+
+import { parseDate } from '../utils/dates';
 
 const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   const midBreakpoint = -7;
@@ -40,11 +41,11 @@ EmailViewField.propTypes = {
 const EffectiveDateViewField = ({ formData }) => {
   const { from, to } = formData;
   const dateFormat = 'MMM D, YYYY';
-  const fromDateString = moment(from).format(dateFormat);
+  const fromDateString = from ? parseDate(from).format(dateFormat) : '';
+  const toDateString = to ? parseDate(to).format(dateFormat) : '';
   return to ? (
     <p>
-      We’ll use this address starting on {fromDateString} until{' '}
-      {moment(to).format(dateFormat)}:
+      We’ll use this address starting on {fromDateString} until {toDateString}:
     </p>
   ) : (
     <p>We’ll use this address starting on {fromDateString}:</p>

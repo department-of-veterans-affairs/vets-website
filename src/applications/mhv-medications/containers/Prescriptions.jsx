@@ -13,15 +13,17 @@ import PropTypes from 'prop-types';
 import {
   usePrintTitle,
   updatePageTitle,
-  reportGeneratedBy,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
+import MedsByMailContent from '../components/MedicationsList/MedsByMailContent';
 import {
   dateFormat,
-  generateMedicationsPDF,
+  displayHeaderPrefaceText,
+  displayMedicationsListHeader,
   generateTextFile,
+  generateTimestampForFilename,
   getErrorTypeFromFormat,
 } from '../util/helpers';
 import {
@@ -33,6 +35,7 @@ import {
   filterOptions,
   ALL_MEDICATIONS_FILTER_KEY,
   defaultSelectedSortOption,
+  DATETIME_FORMATS,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -42,57 +45,52 @@ import {
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
-import {
-  selectAllergiesFlag,
-  selectGroupingFlag,
-  selectRefillContentFlag,
-  selectRefillProgressFlag,
-  selectRemoveLandingPageFlag,
-  selectIPEContentFlag,
-} from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
-import RefillAlert from '../components/shared/RefillAlert';
+import DelayedRefillAlert from '../components/shared/DelayedRefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import InProductionEducationFiltering from '../components/MedicationsList/InProductionEducationFiltering';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import {
   useGetPrescriptionsListQuery,
-  getPrescriptionSortedList,
+  getPrescriptionsExportList,
 } from '../api/prescriptionsApi';
 import {
   setSortOption,
   setFilterOption,
   setPageNumber,
 } from '../redux/preferencesSlice';
+import {
+  selectUserDob,
+  selectUserFullName,
+  selectHasMedsByMailFacility,
+} from '../selectors/selectUser';
+import { selectPrescriptionId } from '../selectors/selectPrescription';
+import {
+  selectSortOption,
+  selectFilterOption,
+  selectPageNumber,
+} from '../selectors/selectPreferences';
+import { buildPdfData } from '../util/buildPdfData';
+import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
+import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 
 const Prescriptions = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const userName = useSelector(state => state.user.profile.userFullName);
-  const dob = useSelector(state => state.user.profile.dob);
+  const userName = useSelector(selectUserFullName);
+  const dob = useSelector(selectUserDob);
+  const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
 
   // Get sort/filter selections from store.
-  const selectedSortOption = useSelector(
-    state => state.rx.preferences.sortOption,
-  );
-  const selectedFilterOption = useSelector(
-    state => state.rx.preferences.filterOption,
-  );
-  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
-
-  // Get feature flags
-  const showGroupingContent = useSelector(selectGroupingFlag);
-  const showRefillContent = useSelector(selectRefillContentFlag);
-  const showAllergiesContent = useSelector(selectAllergiesFlag);
-  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
-  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
-  const showIPEContent = useSelector(selectIPEContentFlag);
+  const selectedSortOption = useSelector(selectSortOption);
+  const selectedFilterOption = useSelector(selectFilterOption);
+  const currentPage = useSelector(selectPageNumber);
 
   // Track if we've initialized from session storage
   const initializedFromSession = useRef(false);
@@ -100,7 +98,7 @@ const Prescriptions = () => {
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const [queryParams, setQueryParams] = useState({
     page: currentPage || 1,
-    perPage: showGroupingContent ? 10 : 20,
+    perPage: 10,
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
@@ -144,30 +142,13 @@ const Prescriptions = () => {
   const { prescriptions: filteredList } = prescriptionsData || [];
   const { filterCount } = meta || {};
 
-  // Extract active refills for the RefillAlert component
-  const activeRefills = useMemo(
-    () => {
-      if (!filteredList?.length) return [];
-
-      return filteredList.filter(
-        prescription =>
-          prescription.dispStatus === 'Active: Refill in Process' ||
-          prescription.dispStatus === 'Active: Submitted',
-      );
-    },
-    [filteredList],
-  );
-
-  const prescriptionId = useSelector(
-    state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
-  );
-  const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
+  const prescriptionId = useSelector(selectPrescriptionId);
+  const [prescriptionsExportList, setPrescriptionsExportList] = useState([]);
   const [shouldPrint, setShouldPrint] = useState(false);
   const [printedList, setPrintedList] = useState([]);
-  const [hasFullListDownloadError, setHasFullListDownloadError] = useState(
+  const [hasExportListDownloadError, setHasExportListDownloadError] = useState(
     false,
   );
-  const [isRetrievingFullList, setIsRetrievingFullList] = useState(false);
   const isAlertVisible = useMemo(() => false, []);
   const [isLoading, setLoading] = useState();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -243,13 +224,9 @@ const Prescriptions = () => {
     navigate(`/?page=${newPage}`, { replace: true });
   };
 
-  const printRxList = useCallback(
-    () => {
-      window.print();
-      setPrintedList(filteredList);
-    },
-    [filteredList],
-  );
+  const printRxList = useCallback(() => {
+    window.print();
+  }, []);
 
   const goToPrevious = () => {
     scrollLocation?.current?.scrollIntoView();
@@ -265,7 +242,7 @@ const Prescriptions = () => {
         }));
       }
     },
-    [page],
+    [page, queryParams.page],
   );
 
   useEffect(() => {
@@ -311,7 +288,11 @@ const Prescriptions = () => {
         setIsFirstLoad(false);
       }
     },
-    [isLoading, filteredList],
+    [
+      isLoading,
+      filteredList,
+      // isFirstLoad TODO: This breaks the code. Need to refactor to add this.
+    ],
   );
 
   // Update page title
@@ -348,15 +329,6 @@ const Prescriptions = () => {
     [page, navigate, currentPage, dispatch],
   );
 
-  useEffect(
-    () => {
-      if (filteredList?.length) {
-        setPrintedList(filteredList);
-      }
-    },
-    [filteredList],
-  );
-
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
@@ -369,86 +341,6 @@ const Prescriptions = () => {
     [dispatch, selectedFilterOption],
   );
 
-  const pdfData = useCallback(
-    (rxList, allergiesList) => {
-      return {
-        subject: 'Full Medications List',
-        headerBanner: [
-          {
-            text:
-              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
-          },
-          {
-            text: '988',
-            weight: 'bold',
-          },
-          {
-            text: '. Then select 1.',
-          },
-        ],
-        headerLeft: userName.first
-          ? `${userName.last}, ${userName.first}`
-          : `${userName.last || ' '}`,
-        headerRight: `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}`,
-        footerLeft: reportGeneratedBy,
-        footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-        title: 'Medications',
-        preface: [
-          {
-            value: `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.`,
-          },
-        ],
-        results: [
-          {
-            header: 'Medications list',
-            preface: `Showing ${
-              rxList?.length
-            } medications, ${rxListSortingOptions[
-              selectedSortOption
-            ].LABEL.toLowerCase()}`,
-            list: rxList,
-          },
-          {
-            header: 'Allergies',
-            ...(allergiesList &&
-              allergiesList.length > 0 && {
-                preface: [
-                  {
-                    value:
-                      'This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
-                  },
-                  {
-                    value: `Showing ${
-                      allergiesList.length
-                    } records from newest to oldest`,
-                  },
-                ],
-              }),
-            list: allergiesList || [],
-            ...(allergiesList &&
-              !allergiesList.length && {
-                preface:
-                  'There are no allergies or reactions in your VA medical records. If you have allergies or reactions that are missing from your records, tell your care team at your next appointment.',
-              }),
-            ...(!allergiesList && {
-              preface: [
-                {
-                  value:
-                    'We couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later.',
-                },
-                {
-                  value:
-                    'If it still doesn’t work, call us at 877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
-                },
-              ],
-            }),
-          },
-        ],
-      };
-    },
-    [userName, dob, selectedSortOption, selectedFilterOption],
-  );
-
   const txtData = useCallback(
     (rxList, allergiesList) => {
       return (
@@ -458,42 +350,53 @@ const Prescriptions = () => {
             ? `${userName.last}, ${userName.first}`
             : userName.last || ' '
         }\n\n` +
-        `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}\n\n` +
+        `Date of birth: ${dateFormat(
+          dob,
+          DATETIME_FORMATS.longMonthDate,
+        )}\n\n` +
         `Report generated by My HealtheVet on VA.gov on ${dateFormat(
           Date.now(),
-          'MMMM D, YYYY',
+          DATETIME_FORMATS.longMonthDate,
         )}\n\n` +
-        `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.\n\n\n` +
-        `Medications list\n\n` +
-        `Showing ${
-          prescriptionsFullList?.length
-        } records, ${rxListSortingOptions[
-          selectedSortOption
-        ].LABEL.toLowerCase()}\n\n${rxList}${allergiesList ?? ''}`
+        `${displayHeaderPrefaceText(
+          selectedFilterOption,
+          selectedSortOption,
+          prescriptionsExportList?.length,
+          false,
+        )}\n\n\n` +
+        `${displayMedicationsListHeader(selectedFilterOption)}\n\n` +
+        `${rxList}${allergiesList ?? ''}`
       );
     },
     [
       userName,
       dob,
-      selectedSortOption,
       selectedFilterOption,
-      prescriptionsFullList,
+      selectedSortOption,
+      prescriptionsExportList,
     ],
   );
 
   const generatePDF = useCallback(
-    (rxList, allergiesList) => {
-      generateMedicationsPDF(
-        'medications',
-        `VA-medications-list-${
-          userName.first ? `${userName.first}-${userName.last}` : userName.last
-        }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
-        pdfData(rxList, allergiesList),
-      ).then(() => {
-        setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
+    async (rxList, allergiesList) => {
+      const pdfDataObj = buildPdfData({
+        userName,
+        dob,
+        selectedFilterOption,
+        selectedSortOption,
+        rxList,
+        allergiesList,
       });
+      await generateMedicationsPdfFile({ userName, pdfData: pdfDataObj });
+      setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
     },
-    [userName, pdfData, setPdfTxtGenerateStatus],
+    [
+      userName,
+      dob,
+      selectedFilterOption,
+      selectedSortOption,
+      setPdfTxtGenerateStatus,
+    ],
   );
 
   const generateTXT = useCallback(
@@ -502,7 +405,7 @@ const Prescriptions = () => {
         txtData(rxList, allergiesList),
         `VA-medications-list-${
           userName.first ? `${userName.first}-${userName.last}` : userName.last
-        }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
+        }-${generateTimestampForFilename()}`,
       );
       setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
     },
@@ -511,70 +414,41 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      if (
-        ((prescriptionsFullList?.length &&
-          pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
-          (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT &&
-            filteredList?.length)) &&
-        allergies &&
-        !allergiesError &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
-      ) {
-        if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
-          generatePDF(
-            buildPrescriptionsPDFList(prescriptionsFullList),
-            buildAllergiesPDFList(allergies),
-          );
-        } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
-          generateTXT(
-            buildPrescriptionsTXT(prescriptionsFullList),
-            buildAllergiesTXT(allergies),
-          );
-        } else if (
-          pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT ||
-          pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT_FULL_LIST
-        ) {
-          if (!isLoading && loadingMessage === '') {
-            let listForPrint;
-            if (pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT_FULL_LIST) {
-              listForPrint = filteredList;
-            } else {
-              listForPrint = prescriptionsFullList;
-            }
-            setPrintedList(listForPrint);
-            setPdfTxtGenerateStatus({
-              status: PDF_TXT_GENERATE_STATUS.NotStarted,
-            });
-            // Set the print trigger instead of using setTimeout
-            setShouldPrint(true);
-          }
-          updateLoadingStatus(false, '');
-        }
-      } else if (
-        ((prescriptionsFullList?.length &&
-          pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
-          (paginatedPrescriptionsList?.length &&
-            pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT)) &&
-        allergiesError &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
-      ) {
+      const { format } = pdfTxtGenerateStatus;
+      const isInProgress =
+        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress;
+      const exportListReady = !!prescriptionsExportList?.length;
+      const allergiesReady = !!allergies && !allergiesError;
+
+      if (!isInProgress || !exportListReady || !allergiesReady) return;
+
+      if (format === DOWNLOAD_FORMAT.PDF) {
+        generatePDF(
+          buildPrescriptionsPDFList(prescriptionsExportList),
+          buildAllergiesPDFList(allergies),
+        );
+      } else if (format === DOWNLOAD_FORMAT.TXT) {
+        generateTXT(
+          buildPrescriptionsTXT(prescriptionsExportList),
+          buildAllergiesTXT(allergies),
+        );
+      } else if (format === PRINT_FORMAT.PRINT) {
+        setPrintedList(prescriptionsExportList);
+        setPdfTxtGenerateStatus({
+          status: PDF_TXT_GENERATE_STATUS.NotStarted,
+        });
+        // Set the print trigger instead of using setTimeout
+        setShouldPrint(true);
         updateLoadingStatus(false, '');
       }
     },
     [
       allergies,
       allergiesError,
-      prescriptionsFullList,
-      pdfTxtGenerateStatus.status,
-      pdfTxtGenerateStatus.format,
-      isLoading,
-      loadingMessage,
+      prescriptionsExportList,
+      pdfTxtGenerateStatus,
       generatePDF,
       generateTXT,
-      isRetrievingFullList,
-      filteredList,
-      paginatedPrescriptionsList,
-      printRxList,
     ],
   );
 
@@ -588,8 +462,15 @@ const Prescriptions = () => {
     [shouldPrint, printRxList],
   );
 
-  const handleFullListDownload = async format => {
-    setHasFullListDownloadError(false);
+  useEffect(
+    () => {
+      setPrescriptionsExportList([]);
+    },
+    [selectedFilterOption, selectedSortOption],
+  );
+
+  const handleExportListDownload = async format => {
+    setHasExportListDownloadError(false);
     const isTxtOrPdf =
       format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT;
     setPdfTxtGenerateStatus({
@@ -599,15 +480,14 @@ const Prescriptions = () => {
     if (
       (isTxtOrPdf ||
         !allergies ||
-        (format === PRINT_FORMAT.PRINT_FULL_LIST &&
-          !prescriptionsFullList.length)) &&
-      !prescriptionsFullList.length
+        (format === PRINT_FORMAT.PRINT && !prescriptionsExportList.length)) &&
+      !prescriptionsExportList.length
     ) {
-      setIsRetrievingFullList(true);
       const { data, isError } = await dispatch(
-        getPrescriptionSortedList.initiate(
+        getPrescriptionsExportList.initiate(
           {
             sortEndpoint: rxListSortingOptions[selectedSortOption].API_ENDPOINT,
+            filterOption: filterOptions[selectedFilterOption]?.url || '',
             includeImage: false,
           },
           {
@@ -617,18 +497,17 @@ const Prescriptions = () => {
       );
 
       if (isError) {
-        setHasFullListDownloadError(true);
+        setHasExportListDownloadError(true);
       } else {
-        setPrescriptionsFullList(data.prescriptions);
+        setPrescriptionsExportList(data.prescriptions);
       }
-      setIsRetrievingFullList(false);
     }
   };
 
   const isShowingErrorNotification = Boolean(
     (pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
       allergiesError) ||
-      hasFullListDownloadError,
+      hasExportListDownloadError,
   );
 
   let contentMarginTop;
@@ -694,12 +573,10 @@ const Prescriptions = () => {
   };
 
   const renderRefillCard = () => {
-    if (!showRefillContent) return null;
-
     return (
       <va-card background>
         <div className="vads-u-padding-x--1">
-          <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+          <h2 className="vads-u-margin--0 vads-u-margin-bottom--2 vads-u-font-size--h3">
             Refill prescriptions
           </h2>
           <Link
@@ -717,15 +594,14 @@ const Prescriptions = () => {
     );
   };
 
-  const renderRefillAlert = () => {
-    if (!showRefillProgressContent) return null;
+  const renderDelayedRefillAlert = () => {
+    if (!refillAlertList?.length) return null;
 
     return (
-      <RefillAlert
+      <DelayedRefillAlert
         dataDogActionName={
           dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
         }
-        activeRefills={activeRefills}
         refillAlertList={refillAlertList}
       />
     );
@@ -744,37 +620,28 @@ const Prescriptions = () => {
     );
   };
 
-  const renderHeader = () => (
-    <>
-      <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
-        Medications
-      </h1>
-      <p
-        className="vads-u-margin-top--0 vads-u-margin-bottom--4"
-        data-testid="Title-Notes"
-      >
-        {removeLandingPage ? (
-          <>
-            Bring your medications list to each appointment. And tell your
-            provider about any new allergies or reactions. If you use Meds by
-            Mail, you can also call your servicing center and ask them to update
-            your records.
-          </>
-        ) : (
-          <>
-            When you share your medications list with providers, make sure you
-            also tell them about your allergies and reactions to medications.
-          </>
-        )}
-        {!showAllergiesContent && (
-          <>
-            {' '}
-            If you print or download this list, we’ll include a list of your
-            allergies.
-          </>
-        )}
-      </p>
-      {showAllergiesContent && (
+  const renderHeader = () => {
+    let titleNotesMessage =
+      'Bring your medications list to each appointment. And tell your provider about any new allergies or reactions.';
+
+    if (!hasMedsByMailFacility) {
+      titleNotesMessage +=
+        ' If you use Meds by Mail, you can also call your servicing center and ask them to update your records.';
+    }
+
+    const titleNotesBottomMarginUnit = hasMedsByMailFacility ? 3 : 2;
+
+    return (
+      <>
+        <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
+          Medications
+        </h1>
+        <p
+          className={`vads-u-margin-top--0 vads-u-margin-bottom--${titleNotesBottomMarginUnit}`}
+          data-testid="Title-Notes"
+        >
+          {titleNotesMessage}
+        </p>
         <a
           href="/my-health/medical-records/allergies"
           rel="noreferrer"
@@ -783,9 +650,10 @@ const Prescriptions = () => {
         >
           Go to your allergies and reactions
         </a>
-      )}
-    </>
-  );
+        {hasMedsByMailFacility && <MedsByMailContent />}
+      </>
+    );
+  };
 
   const renderMedicationsContent = () => {
     // No medications exist
@@ -803,6 +671,10 @@ const Prescriptions = () => {
     // Medications exist and should be displayed
     const hasMedications =
       filteredList?.length > 0 || paginatedPrescriptionsList?.length > 0;
+
+    const filterApplied =
+      selectedFilterOption &&
+      selectedFilterOption !== ALL_MEDICATIONS_FILTER_KEY;
 
     if (noMedications) {
       return renderEmptyPrescriptions();
@@ -830,19 +702,21 @@ const Prescriptions = () => {
               updateFilter={updateFilterAndSort}
               filterCount={filterCount}
             />
-            {showIPEContent && <InProductionEducationFiltering />}
+            <InProductionEducationFiltering />
           </>
           {isLoading && renderLoadingIndicator()}
           {hasMedications && (
             <>
-              {!isLoading && (
-                <MedicationsListSort sortRxList={updateFilterAndSort} />
-              )}
+              <FilterAriaRegion filterOption={selectedFilterOption} />
+              <MedicationsListSort
+                sortRxList={updateFilterAndSort}
+                shouldShowSelect={!isLoading}
+              />
               <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               {!isLoading && renderMedicationsList()}
               <BeforeYouDownloadDropdown page={pageType.LIST} />
               <PrintDownload
-                onDownload={handleFullListDownload}
+                onDownload={handleExportListDownload}
                 isSuccess={
                   pdfTxtGenerateStatus.status ===
                   PDF_TXT_GENERATE_STATUS.Success
@@ -853,6 +727,7 @@ const Prescriptions = () => {
                     PDF_TXT_GENERATE_STATUS.InProgress
                 }
                 list
+                isFiltered={filterApplied}
               />
             </>
           )}
@@ -869,16 +744,16 @@ const Prescriptions = () => {
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <CernerFacilityAlert />
+            <DisplayCernerFacilityAlert />
           </>
         ) : (
           <>
-            <CernerFacilityAlert />
-            {renderRefillAlert()}
+            <DisplayCernerFacilityAlert />
+            {renderDelayedRefillAlert()}
             {renderMedicationsContent()}
           </>
         )}
-        {removeLandingPage && <NeedHelp page={pageType.LIST} />}
+        <NeedHelp page={pageType.LIST} />
       </div>
     );
   };
@@ -888,8 +763,10 @@ const Prescriptions = () => {
       {content()}
       <PrescriptionsPrintOnly
         list={printedList}
-        hasError={hasFullListDownloadError || isAlertVisible || allergiesError}
-        isFullList={printedList.length === prescriptionsFullList.length}
+        hasError={
+          hasExportListDownloadError || isAlertVisible || !!allergiesError
+        }
+        isFullList={printedList.length === prescriptionsExportList.length}
       />
     </div>
   );

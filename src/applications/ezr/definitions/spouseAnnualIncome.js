@@ -1,6 +1,8 @@
-import { arrayBuilderItemFirstPageTitleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  arrayBuilderItemFirstPageTitleUI,
+  currencyUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import content from '../locales/en/content.json';
 import { replaceStrValues } from '../utils/helpers/general';
 import { LAST_YEAR } from '../utils/constants';
@@ -10,7 +12,6 @@ import {
   OtherIncomeDescription,
   PreviousNetIncome,
 } from '../components/FormDescriptions/IncomeDescriptions';
-import { validateCurrency } from '../utils/validation';
 
 const {
   spouseGrossIncome,
@@ -33,15 +34,12 @@ export const SpouseAnnualIncomePage = () => ({
         content['household-income-gross-description'],
       ),
       'ui:description': () => GrossIncomeDescription('spouse'),
-      spouseGrossIncome: {
-        ...currencyUI(
-          replaceStrValues(
-            content['household-spouse-income-gross-label'],
-            LAST_YEAR,
-          ),
+      spouseGrossIncome: currencyUI(
+        replaceStrValues(
+          content['household-spouse-income-gross-label'],
+          LAST_YEAR,
         ),
-        'ui:validations': [validateCurrency],
-      },
+      ),
     },
     'view:spouseNetIncome': {
       ...inlineTitleUI(
@@ -49,15 +47,12 @@ export const SpouseAnnualIncomePage = () => ({
         content['household-income-net-description'],
       ),
       'ui:description': () => PreviousNetIncome('spouse'),
-      spouseNetIncome: {
-        ...currencyUI(
-          replaceStrValues(
-            content['household-spouse-income-net-label'],
-            LAST_YEAR,
-          ),
+      spouseNetIncome: currencyUI(
+        replaceStrValues(
+          content['household-spouse-income-net-label'],
+          LAST_YEAR,
         ),
-        'ui:validations': [validateCurrency],
-      },
+      ),
     },
     'view:spouseOtherIncome': {
       ...inlineTitleUI(
@@ -65,15 +60,12 @@ export const SpouseAnnualIncomePage = () => ({
         content['household-income-other-description'],
       ),
       'ui:description': () => OtherIncomeDescription('spouse'),
-      spouseOtherIncome: {
-        ...currencyUI(
-          replaceStrValues(
-            content['household-spouse-income-other-label'],
-            LAST_YEAR,
-          ),
+      spouseOtherIncome: currencyUI(
+        replaceStrValues(
+          content['household-spouse-income-other-label'],
+          LAST_YEAR,
         ),
-        'ui:validations': [validateCurrency],
-      },
+      ),
     },
   },
   schema: {

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ServiceProviders = React.memo(({ isBold }) => {
-  const serviceProviders = ['Login.gov', 'ID.me', 'DS Logon'];
+  const serviceProviders = ['ID.me', 'Login.gov'];
 
   return new Intl.ListFormat('en', { style: 'long', type: 'disjunction' })
     .formatToParts(serviceProviders)
@@ -23,7 +23,7 @@ export const ServiceProvidersTextCreateAcct = React.memo(
       <>
         If you {isFormComponent}
         don’t have any of these accounts, you can create a free{' '}
-        <strong>Login.gov</strong> or <strong>ID.me</strong> account now.
+        <strong>ID.me</strong> or <strong>Login.gov</strong> account now.
         {showExtraTodo}
       </>
     );

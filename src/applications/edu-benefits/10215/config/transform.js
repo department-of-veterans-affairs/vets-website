@@ -48,6 +48,9 @@ export default function transform(form) {
   if (formData.data?._metadata) {
     delete formData.data._metadata;
   }
+  if (formData.data?.metadata) {
+    delete formData.data.metadata;
+  }
   return JSON.stringify({
     educationBenefitsClaim: {
       form: JSON.stringify(formData.data),

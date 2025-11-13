@@ -1,5 +1,6 @@
 import React from 'react';
 import DebtSelection from '../components/DebtSelection';
+import ConfirmationDisputeInformation from '../components/confirmation/ConfirmationDisputeInformation';
 
 const debtSelection = {
   uiSchema: {
@@ -23,6 +24,7 @@ const debtSelection = {
         },
       ],
     },
+    'ui:confirmationField': ConfirmationDisputeInformation,
   },
   schema: {
     type: 'object',

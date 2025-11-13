@@ -13,7 +13,7 @@ import {
 import environment from 'platform/utilities/environment';
 import last from 'lodash/last';
 import { parse, format } from 'date-fns';
-import Modals from '../../medical-copays/components/Modals';
+import Modals from '../components/Modals';
 import {
   currency,
   setPageFocus,
@@ -158,19 +158,6 @@ const CombinedStatements = () => {
     return <VaLoadingIndicator message="Loading features and data..." />;
   }
 
-  // If the feature flag is not enabled or there are errors, redirect to the summary page
-  if (!showOneVADebtLetterDownload || debtError || billError) {
-    window.location.replace('/manage-va-debt/summary');
-    return (
-      <div className="vads-u-margin--5">
-        <va-loading-indicator
-          label="Loading"
-          message="Please wait while we load the application for you."
-        />
-      </div>
-    );
-  }
-
   const copayTotalRow = copay => {
     return (
       <va-table-row>
@@ -219,7 +206,7 @@ const CombinedStatements = () => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
           {
             href: '#',
@@ -374,7 +361,7 @@ const CombinedStatements = () => {
                 result in you being paid more than you were owed.
               </p>
               <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--1">
-                Resolve your overpayment
+                Resolve overpayments
               </h3>
               <p className="vads-u-margin-top--0">
                 You can pay your debt online, by phone, or by mail. Call us at{' '}

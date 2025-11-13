@@ -200,6 +200,31 @@ const testConfig = createTestConfig(
           cy.findByText(/Submit/i, { selector: 'button' }).click();
         });
       },
+      confirmation: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-alert[status="success"]')
+            .should('be.visible')
+            .find('h2')
+            .should('contain', 'Your dispute submission is in progress');
+
+          cy.get('va-button')
+            .shadow()
+            .find('button')
+            .should('contain', 'Print this page')
+            .and('be.visible');
+
+          cy.findByText('Veteran’s personal information').should('exist');
+          cy.findByText('Debt Selection').should('exist');
+
+          cy.findByText('What to expect').should('exist');
+
+          cy.findByText('How to contact us if you have questions').should(
+            'exist',
+          );
+
+          cy.findByText('Need help?').should('exist');
+        });
+      },
     },
   },
   manifest,

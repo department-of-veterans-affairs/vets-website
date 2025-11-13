@@ -1,24 +1,7 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import NeedHelp from '../../components/NeedHelp';
-import { ConfirmationPage } from '../../containers/ConfirmationPage';
-
-// Simple mock for Redux store
-const mockStore = {
-  getState: () => ({
-    form: {
-      submission: {
-        timestamp: '2023-01-01',
-        response: { confirmationNumber: '123456' },
-      },
-      data: { fullName: { first: 'Test', last: 'User' } },
-    },
-  }),
-  subscribe: () => {},
-  dispatch: () => {},
-};
 
 // Simple mock for the VA web components that don't exist in test environment
 beforeEach(() => {
@@ -44,15 +27,6 @@ beforeEach(() => {
 describe('NeedHelp', () => {
   it('renders the component', () => {
     const { container } = render(<NeedHelp />);
-    expect(container).to.exist;
-  });
-
-  it('renders within ConfirmationPage', () => {
-    const { container } = render(
-      <Provider store={mockStore}>
-        <ConfirmationPage />
-      </Provider>,
-    );
     expect(container).to.exist;
   });
 });

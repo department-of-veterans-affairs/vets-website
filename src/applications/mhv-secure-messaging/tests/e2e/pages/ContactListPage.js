@@ -1,5 +1,6 @@
 import { Locators, Paths, Alerts, Data } from '../utils/constants';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
+import SharedComponents from './SharedComponents';
 
 class ContactListPage {
   loadContactList = (recipients = mockRecipients) => {
@@ -12,17 +13,34 @@ class ContactListPage {
   };
 
   verifyHeaders = () => {
-    cy.get(`h1`)
-      .should(`be.visible`)
-      .and(`have.text`, `Messages: Contact list`);
+    cy.findByText('Messages: Contact list', { selector: 'h1' }).should(
+      'be.visible',
+    );
 
-    cy.get(`.contactListForm`)
-      .find(`h2`)
-      .should(`have.text`, `Need help?`);
+    cy.findByText(`Need help?`, { selector: 'h2' }).should('be.visible');
+  };
+
+  checkBoxByName = name => {
+    return cy
+      .get(`[label="${name}"]`)
+      .shadow()
+      .find(`input`);
+  };
+
+  accordionByHeader = name => {
+    return cy.get(`[header="${name}"]`);
+  };
+
+  accordionBySubheader = name => {
+    return cy.get(`[subheader="${name}"]`);
+  };
+
+  verifyAccordionSubheader = name => {
+    this.accordionBySubheader(name).should('be.visible');
   };
 
   verifySingleCheckBox = (team, value) => {
-    cy.get(`[label*=${team}]`).should('have.prop', `checked`, value);
+    cy.get(`[label="${team}"]`).should('have.prop', `checked`, value);
   };
 
   verifyAllCheckboxes = value => {
@@ -48,10 +66,17 @@ class ContactListPage {
   };
 
   selectCheckBox = name => {
-    cy.get(`[label*=${name}]`)
-      .shadow()
-      .find(`input`)
+    this.checkBoxByName(name).click({ force: true });
+  };
+
+  selectFirstCheckBox = name => {
+    this.checkBoxByName(name)
+      .first()
       .click({ force: true });
+  };
+
+  validateCheckBoxDoesNotExist = name => {
+    cy.get(`[label="${name}"]`).should('not.exist');
   };
 
   verifyButtons = () => {
@@ -61,13 +86,13 @@ class ContactListPage {
       .should(`be.visible`)
       .and(`include.text`, Data.BUTTONS.SAVE_AND_EXIT);
 
-    cy.get(Locators.BUTTONS.CL_GO_BACK)
+    cy.findByTestId(Locators.BUTTONS.CL_GO_BACK)
       .should(`be.visible`)
-      .and(`include.text`, Data.BUTTONS.GO_BACK);
+      .and(`have.prop`, `text`, Data.BUTTONS.GO_BACK);
   };
 
   clickGoBackButton = () => {
-    cy.get(Locators.BUTTONS.CL_GO_BACK).click({ force: true });
+    cy.findByTestId(Locators.BUTTONS.CL_GO_BACK).click({ force: true });
   };
 
   verifySaveAlert = () => {
@@ -90,8 +115,11 @@ class ContactListPage {
     cy.get(`[data-testid="sm-route-navigation-guard-confirm-button"]`).click();
   };
 
-  closeSaveModal = () => {
-    cy.get(`.first-focusable-child`)
+  closeSaveModal = (
+    title = 'Do you want to save your changes to your contact list?',
+  ) => {
+    cy.get(`va-modal[modal-title="${title}"]`)
+      .find(`button.va-modal-close`)
       .should(`be.focused`)
       .click();
   };
@@ -130,7 +158,7 @@ class ContactListPage {
   };
 
   clickBackToInbox = () => {
-    cy.get(Locators.BACK_TO).click();
+    SharedComponents.clickBackBreadcrumb();
   };
 
   verifyEmptyContactListAlert = () => {

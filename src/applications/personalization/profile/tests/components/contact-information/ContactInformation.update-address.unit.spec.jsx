@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import { waitForElementToBeRemoved } from '@testing-library/react';
+import { fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'platform/testing/unit/msw-adapter';
 
@@ -45,9 +45,9 @@ function updateAddress(addressName) {
   const countryDropdown = $('va-select[label="Country"]', container);
   const line1Input = $('va-text-input[label^="Street address"]', container);
   const cityInput = $('va-text-input[label="City"]', container);
-  const stateDropdown = $('va-select[label="State"]', container);
+  const stateDropdown = $('va-select[label="State or territory"]', container);
   const zipCodeInput = $('va-text-input[label="Zip code"]', container);
-  const submitButton = view.getByText(/save/i, { selector: 'button' });
+  const submitButton = view.getByTestId('save-edit-button');
 
   // input the address info (can't type into web components using RTL)
   countryDropdown.__events.vaSelect({ target: { value: 'USA' } });
@@ -57,6 +57,10 @@ function updateAddress(addressName) {
   zipCodeInput.value = '94105';
 
   userEvent.click(submitButton);
+
+  // manually submit the form since va-button sets submit="prevent"
+  const form = submitButton.closest('form');
+  fireEvent.submit(form);
 
   return { cityInput };
 }
@@ -85,18 +89,20 @@ async function testSlowSuccess(addressName) {
 
   const { cityInput } = updateAddress(addressName);
 
+  // assert the save va-button is in a loading state
+  const saveButton = view.getByTestId('save-edit-button');
+  expect(saveButton).to.have.attribute('loading', 'true');
+
   // wait for the edit mode to exit
   await waitForElementToBeRemoved(cityInput);
 
-  // check that the "we're working on saving your..." message appears
-  const updatingMessage = await view.findByText(
-    new RegExp(`We’re working on saving your new ${addressName}.`, 'i'),
-  );
-  expect(updatingMessage).to.exist;
+  // the va-loading-indicator should display
+  await view.findByTestId('loading-indicator');
 
   server.use(...mocks.transactionSucceeded);
 
-  await waitForElementToBeRemoved(updatingMessage);
+  // update saved alert should appear
+  await view.findByTestId('update-success-alert');
 
   // confirm that the new address appears
   expect(view.getAllByText(/123 Main St/i).length).to.equal(2);
@@ -160,25 +166,20 @@ async function testSlowFailure(addressName) {
 
   const { cityInput } = updateAddress(addressName);
 
+  // assert the save va-button is in a loading state
+  const saveButton = view.getByTestId('save-edit-button');
+  expect(saveButton).to.have.attribute('loading', 'true');
+
   // wait for the edit mode to exit
   await waitForElementToBeRemoved(cityInput);
 
-  // check that the "we're working on saving your..." message appears
-  const updatingMessage = await view.findByText(
-    new RegExp(`We’re working on saving your new ${addressName}.`, 'i'),
-  );
-  expect(updatingMessage).to.exist;
+  // the va-loading-indicator should display
+  await view.findByTestId('loading-indicator');
 
   server.use(...mocks.transactionFailed);
 
-  await waitForElementToBeRemoved(updatingMessage);
-
-  // make sure the error message appears
-  expect(
-    view.getByText(
-      /We couldn’t save your recent .* update. Please try again later/i,
-    ),
-  ).to.exist;
+  // the error alert should appear
+  await view.findByTestId('generic-error-alert');
 
   // and the edit button should be back
   expect(getEditVaButton(addressName)).to.exist;

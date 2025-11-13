@@ -285,11 +285,11 @@ export const setUnsavedNavigationError = (
 };
 
 export const getSize = num => {
-  if (num > 999999) {
-    return `${(num / 1000000).toFixed(1)} MB`;
+  if (num >= 1024 * 1024) {
+    return `${(num / 1024 / 1024).toFixed(1)} MB`;
   }
-  if (num > 999) {
-    return `${Math.floor(num / 1000)} KB`;
+  if (num >= 1024) {
+    return `${(num / 1024).toFixed(1)} KB`;
   }
   return `${num} B`;
 };
@@ -410,6 +410,38 @@ export const findBlockedFacilities = recipients => {
   return { fullyBlockedFacilities, allFacilities };
 };
 
+export const findAllowedFacilities = recipients => {
+  const allowedVistaFacilities = new Set();
+  const allowedOracleFacilities = new Set();
+
+  recipients.forEach(recipient => {
+    const { stationNumber, blockedStatus, ohTriageGroup } = recipient;
+
+    if (blockedStatus === false) {
+      if (ohTriageGroup === true) {
+        allowedOracleFacilities.add(stationNumber);
+      } else {
+        allowedVistaFacilities.add(stationNumber);
+      }
+    }
+  });
+
+  return {
+    allowedVistaFacilities: [...allowedVistaFacilities],
+    allowedOracleFacilities: [...allowedOracleFacilities],
+  };
+};
+
+export const getStationNumberFromRecipientId = (recipientId, recipients) => {
+  const recipient = recipients.find(item => item.triageTeamId === recipientId);
+  return recipient?.stationNumber || null;
+};
+
+export const findActiveDraftFacility = (facilityId, facilitiesArray) => {
+  const facility = facilitiesArray.find(item => item.vhaId === facilityId);
+  return facility || null;
+};
+
 export const sortTriageList = list => {
   return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
 };
@@ -418,6 +450,7 @@ import {
   scrollToElement,
   scrollToTop as scrollToTopUtil,
 } from 'platform/utilities/scroll';
+import { datadogRum } from '@datadog/browser-rum';
 
 export const scrollTo = (element, behavior = 'smooth') => {
   if (element) {
@@ -447,4 +480,11 @@ export const scrollIfFocusedAndNotInView = (offset = 0) => {
       });
     }
   }
+};
+
+export const sendDatadogError = (error, feature) => {
+  datadogRum.addError(error, {
+    app: 'Secure Messaging',
+    feature,
+  });
 };

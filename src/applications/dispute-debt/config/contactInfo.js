@@ -33,7 +33,7 @@ const content = {
   editLabel: 'Edit contact information',
   updated: 'has been updated',
   alertSaved: 'has been saved',
-  mailingAddress: 'Current Mailing address',
+  mailingAddress: 'Current mailing address',
   editMailingAddress: 'Edit mailing address',
   mobilePhone: 'Phone number',
   editMobilePhone: 'Edit phone number',

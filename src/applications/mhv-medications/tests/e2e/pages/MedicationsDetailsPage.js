@@ -5,6 +5,7 @@ import expiredRx from '../fixtures/expired-prescription-details.json';
 import medicationInformation from '../fixtures/patient-medications-information.json';
 import noMedicationInformation from '../fixtures/missing-patient-medication-information.json';
 import rxDetails from '../fixtures/active-submitted-prescription-details.json';
+import { DATETIME_FORMATS } from '../../../util/constants';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
@@ -69,10 +70,9 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsOrderedDate = () => {
-    cy.get('[datat-testid="ordered-date"]').should(
-      'have.text',
-      'April 14, 2023',
-    );
+    cy.get('[data-testid="ordered-date"]')
+      .first()
+      .should('have.text', 'April 14, 2023');
   };
 
   verifyPrescriptionsfacilityName = PrescriptionsfacilityName => {
@@ -115,18 +115,6 @@ class MedicationsDetailsPage {
     )
       .first()
       .click({ waitForAnimations: true });
-  };
-
-  clickMedicationsLandingPageBreadcrumbsOnListPage = () => {
-    cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
-
-    cy.get('[data-testid="rx-breadcrumb"]')
-      .shadow()
-      .find('a')
-      .eq(2)
-      .click({
-        waitForAnimations: true,
-      });
   };
 
   clickMedicationsListPageBreadcrumbsOnDetailsPage = (_interceptedPage = 1) => {
@@ -215,6 +203,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="status-dropdown"]').should('exist');
     cy.get('[data-testid="status-dropdown"]').click({
       waitForAnimations: true,
+      multiple: true,
     });
   };
 
@@ -421,6 +410,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="va-prescription-documentation-link"]').click({
       waitForAnimations: true,
     });
+    cy.wait('@medicationDescription');
   };
 
   clickLearnMoreAboutMedicationLinkOnDetailsPageWithNoInfo = prescriptionId => {
@@ -432,6 +422,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="va-prescription-documentation-link"]').click({
       waitForAnimations: true,
     });
+    cy.wait('@medicationDescription');
   };
 
   clickLearnMoreAboutMedicationLinkOnDetailsPageError = () => {
@@ -494,21 +485,22 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
-      .click({ force: true });
+      .click({ force: true, multiple: true });
   };
 
   verifyAccordionCollapsedOnDetailsPage = () => {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
-      .should('have.attr', 'aria-expanded', 'false');
+      .should('have.attr', 'aria-pressed', 'false');
   };
 
   verifyAccordionExpandedOnDetailsPage = () => {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
-      .should('have.attr', 'aria-expanded', 'true');
+      .first()
+      .should('have.attr', 'aria-pressed', 'true');
   };
 
   verifyRefillHistoryInformationTextOnDetailsPage = text => {
@@ -675,11 +667,13 @@ class MedicationsDetailsPage {
   };
 
   verifyQuantityNotAvailableOnDetailsPage = text => {
-    cy.get('[data-testid="rx-quantity"]').should('have.text', text);
+    cy.get('[data-testid="rx-quantity"]')
+      .first()
+      .should('have.text', text);
   };
 
   verifyPrescribedOnDateNoAvailableOnDetailsPage = text => {
-    cy.get('[data-testid="order-date"]').should('contain', text);
+    cy.get('[data-testid="ordered-date"]').should('contain', text);
   };
 
   verifyProviderNameNotAvailableOnDetailsPage = text => {
@@ -696,6 +690,10 @@ class MedicationsDetailsPage {
 
   verifyReasonForUseOnDetailsPage = text => {
     cy.get('[data-testid="rx-reason-for-use"]').should('contain', text);
+  };
+
+  verifyPrescriptionQuantityOnDetailsPage = text => {
+    cy.get('[data-testid="rx-quantity"]').should('have.text', text);
   };
 
   verifyInstructionsOnDetailsPage = text => {
@@ -766,7 +764,7 @@ class MedicationsDetailsPage {
     const timeZone = 'America/New_York';
     const zonedDate = utcToZonedTime(parsedDate, timeZone);
     // Format the date to match the UI format
-    const formattedDate = format(zonedDate, 'MMMM d, yyyy');
+    const formattedDate = format(zonedDate, DATETIME_FORMATS.longMonthDate);
     cy.get('[data-testid="active-step-two"] > .vads-u-color--gray-dark').should(
       'have.text',
       `Completed on ${expectedDate}`,
@@ -879,7 +877,7 @@ class MedicationsDetailsPage {
   };
 
   verifyDocumentedByFullNameOnNonVAMedicationDetailsPage = FullName => {
-    cy.get('[data-testid="documented-by"]').should('have.text', FullName);
+    cy.get('[data-testid="rx-documented-by"]').should('have.text', FullName);
   };
 
   verifyResponseForRecordNotFoundForStandardizeErrorMessage = () => {

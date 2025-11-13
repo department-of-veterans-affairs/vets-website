@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { focusElement } from 'platform/utilities/ui';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
+import IntlMobileConfirmModal from '@@vap-svc/components/ContactInformationFieldInfo/IntlMobileConfirmModal';
+import { dismissAlertViaCookie as dismissEmailConfirmationAlertViaCookie } from 'platform/mhv/components/MhvAlertConfirmEmail/selectors';
 import { ContactInfoFormAppConfigContext } from './ContactInfoFormAppConfigContext';
 import {
   createTransaction,
@@ -16,6 +18,7 @@ import {
   openModal,
   updateFormFieldWithSchema,
   validateAddress,
+  openIntlMobileConfirmModal,
 } from '../actions';
 
 import {
@@ -44,6 +47,7 @@ import {
 import {
   isFailedTransaction,
   isPendingTransaction,
+  isSuccessfulTransaction,
 } from '../util/transactions';
 import { getEditButtonId } from '../util/id-factory';
 
@@ -68,6 +72,15 @@ export class ProfileInformationEditView extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    // Check if the cancel button should be focused before focusing
+    // on the first form element
+    if (
+      this.props.shouldFocusCancelButton &&
+      !prevProps.shouldFocusCancelButton
+    ) {
+      this.focusOnCancelButton();
+    }
+
     if (!prevProps.field && !!this.props.field) {
       this.focusOnFirstFormElement();
     }
@@ -110,6 +123,16 @@ export class ProfileInformationEditView extends Component {
       !isPendingTransaction(this.props.transaction)
     ) {
       window.clearInterval(this.interval);
+
+      // Dismiss the MHV email confirmation alert if email transaction succeeded
+      // This handles cases where the component stays mounted after transaction completion
+      if (
+        this.props.fieldName === FIELD_NAMES.EMAIL &&
+        this.props.transaction &&
+        isSuccessfulTransaction(this.props.transaction)
+      ) {
+        dismissEmailConfirmationAlertViaCookie();
+      }
     }
   }
 
@@ -117,12 +140,23 @@ export class ProfileInformationEditView extends Component {
     if (this.interval) {
       window.clearInterval(this.interval);
     }
+
     const { fieldName } = this.props;
+
     // Errors returned directly from the API request (as opposed through a transaction lookup) are
     // displayed in this modal, rather than on the page. Once the modal is closed, reset the state
     // for the next time the modal is opened by removing any existing transaction request from the store.
     if (this.props.transactionRequest?.error) {
       this.props.clearTransactionRequest(fieldName);
+    } else if (
+      // Dismiss the MHV email confirmation alert if email transaction succeeded
+      // This is a fallback for cases where componentDidUpdate doesn't run
+      // (e.g., when the component unmounts immediately after transaction completion)
+      fieldName === FIELD_NAMES.EMAIL &&
+      this.props.transactionRequest &&
+      !this.props.transactionRequest.isPending
+    ) {
+      dismissEmailConfirmationAlertViaCookie();
     }
 
     // AS DONE IN ADDRESSEDITVIEW, CHECK FOR CORRECTNESS
@@ -222,13 +256,33 @@ export class ProfileInformationEditView extends Component {
       return;
     }
 
-    this.props.createTransaction(
-      apiRoute,
-      method,
-      fieldName,
-      payload,
-      analyticsSectionName,
-    );
+    const createTransactionFn = () => {
+      this.props.createTransaction(
+        apiRoute,
+        method,
+        fieldName,
+        payload,
+        analyticsSectionName,
+      );
+    };
+
+    // Show a confirmation modal before saving internation mobile numbers
+    // Relay the transaction to the confirmation modal
+    // `countryCode == 1` is marked as international, skip that case
+    if (
+      fieldName === 'mobilePhone' &&
+      payload.isInternational &&
+      String(payload.countryCode) !== USA.COUNTRY_CODE
+    ) {
+      this.props.openIntlMobileConfirmModal(
+        payload.countryCode,
+        payload.phoneNumber,
+        createTransactionFn,
+      );
+      return;
+    }
+
+    createTransactionFn();
   };
 
   onInput = (value, schema, uiSchema) => {
@@ -278,8 +332,7 @@ export class ProfileInformationEditView extends Component {
 
     if (this.editForm) {
       setTimeout(() => {
-        // Temporary workaround to set focus on the country picker if we're using
-        // the va-telephone-input component
+        // Set focus on the country picker if we're using the va-telephone-input component
         const vaTel = this.editForm?.querySelector?.('va-telephone-input');
         const vaComboBox = vaTel?.shadowRoot?.querySelector?.('va-combo-box');
         const countrySelect = vaComboBox?.shadowRoot?.querySelector?.('input');
@@ -298,6 +351,24 @@ export class ProfileInformationEditView extends Component {
     }
   }
 
+  // We manually set focus on the cancel button when the confirm cancel modal is closed
+  // Since va-button is a web component, we need to wait for the shadow DOM to render
+  // before we can focus the native button inside it
+  focusOnCancelButton() {
+    setTimeout(() => {
+      const cancelButton = this.editForm?.querySelector(
+        'va-button[data-testid="cancel-edit-button"]',
+      );
+      if (cancelButton && cancelButton.shadowRoot) {
+        const shadowButton = cancelButton.shadowRoot.querySelector('button');
+        if (shadowButton) shadowButton.focus();
+      }
+      if (this.props.onCancelButtonFocused) {
+        this.props.onCancelButtonFocused();
+      }
+    }, 100);
+  }
+
   render() {
     const {
       onSubmit,
@@ -311,6 +382,7 @@ export class ProfileInformationEditView extends Component {
         transactionRequest,
         cancelButtonText,
         saveButtonText,
+        intlMobileConfirmModalEnabled,
       },
       onClickUpdateHandler,
     } = this;
@@ -383,6 +455,24 @@ export class ProfileInformationEditView extends Component {
                   <VAPServiceEditModalErrorMessage error={error} />
                 </div>
               )}
+              {fieldName === FIELD_NAMES.MOBILE_PHONE &&
+                this.props.allowInternationalPhones && (
+                  <Toggler.Hoc
+                    toggleName={
+                      Toggler.TOGGLE_NAMES.profileInternationalPhoneNumbers
+                    }
+                  >
+                    {toggleValue =>
+                      toggleValue ? (
+                        <p>
+                          Enter a U.S. mobile phone number to receive text
+                          notifications. We can’t send text notifications to
+                          international numbers.
+                        </p>
+                      ) : null
+                    }
+                  </Toggler.Hoc>
+                )}
               <ProfileInformationActionButtons
                 onCancel={onCancel}
                 title={title}
@@ -390,32 +480,31 @@ export class ProfileInformationEditView extends Component {
                 isLoading={isLoading}
               >
                 <div className="vads-u-display--block mobile-lg:vads-u-display--flex">
-                  <LoadingButton
+                  <va-button
                     data-action="save-edit"
                     data-testid="save-edit-button"
-                    isLoading={isLoading}
-                    loadingText="Saving changes"
-                    type="submit"
+                    loading={isLoading}
+                    submit="prevent"
                     onClick={onClickUpdateHandler}
-                  >
-                    {saveButtonText || 'Save'}
-                  </LoadingButton>
+                    text={isLoading ? '' : saveButtonText || 'Save'}
+                    class="vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                  />
 
                   {!isLoading && (
-                    <button
+                    <va-button
                       data-testid="cancel-edit-button"
-                      type="button"
-                      className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
                       onClick={onCancel}
-                    >
-                      {cancelButtonText || 'Cancel'}
-                    </button>
+                      text={cancelButtonText || 'Cancel'}
+                      class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                      secondary
+                    />
                   )}
                 </div>
               </ProfileInformationActionButtons>
             </SchemaForm>
           </div>
         )}
+        {intlMobileConfirmModalEnabled && <IntlMobileConfirmModal />}
       </>
     );
   }
@@ -432,6 +521,7 @@ ProfileInformationEditView.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(FIELD_NAMES)).isRequired,
   formSchema: PropTypes.object.isRequired,
   getInitialFormValues: PropTypes.func.isRequired,
+  openIntlMobileConfirmModal: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
   recordCustomProfileEvent: PropTypes.func.isRequired,
   refreshTransaction: PropTypes.func.isRequired,
@@ -440,6 +530,7 @@ ProfileInformationEditView.propTypes = {
   validateAddress: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   activeEditView: PropTypes.string,
+  allowInternationalPhones: PropTypes.bool,
   cancelButtonText: PropTypes.string,
   contactInfoFormAppConfig: PropTypes.object,
   data: PropTypes.object,
@@ -451,12 +542,15 @@ ProfileInformationEditView.propTypes = {
     uiSchema: PropTypes.object,
   }),
   forceEditView: PropTypes.bool,
+  intlMobileConfirmModalEnabled: PropTypes.bool,
   saveButtonText: PropTypes.string,
+  shouldFocusCancelButton: PropTypes.bool,
   successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
   updateMessagingSignature: PropTypes.func,
+  onCancelButtonFocused: PropTypes.func,
 };
 
 export const mapStateToProps = (state, ownProps) => {
@@ -494,6 +588,9 @@ export const mapStateToProps = (state, ownProps) => {
     transactionRequest,
     editViewData: selectEditViewData(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
+    intlMobileConfirmModalEnabled:
+      // Optional chains since test contexts might not provide the objects
+      state?.vapService?.intlMobileConfirmModal?.isOpen || false,
   };
 };
 
@@ -506,6 +603,7 @@ const mapDispatchToProps = {
   refreshTransaction,
   createPersonalInfoUpdate,
   updateMessagingSignature,
+  openIntlMobileConfirmModal,
 };
 
 export default connect(

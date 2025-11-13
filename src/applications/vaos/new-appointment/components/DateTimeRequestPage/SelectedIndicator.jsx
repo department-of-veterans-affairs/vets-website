@@ -1,5 +1,5 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 
 export function getSelectedLabel(date, selectedDates) {
   const matchingTimes = selectedDates.filter(selected =>
@@ -9,7 +9,7 @@ export function getSelectedLabel(date, selectedDates) {
   if (matchingTimes.length === 2) {
     return 'AM and PM selected.';
   }
-  if (moment(matchingTimes[0]).hours() >= 12) {
+  if (new Date(matchingTimes[0]).getHours() >= 12) {
     return 'PM selected.';
   }
 
@@ -21,7 +21,7 @@ export default function SelectedIndicator({ date, selectedDates }) {
     .reduce((selectedFieldValues, currentDate) => {
       if (currentDate.startsWith(date)) {
         selectedFieldValues.push(
-          moment(currentDate).hour() >= 12 ? 'PM' : 'AM',
+          new Date(currentDate).getHours() >= 12 ? 'PM' : 'AM',
         );
       }
       return selectedFieldValues;
@@ -41,3 +41,8 @@ export default function SelectedIndicator({ date, selectedDates }) {
     </div>
   );
 }
+
+SelectedIndicator.propTypes = {
+  date: PropTypes.string.isRequired,
+  selectedDates: PropTypes.arrayOf(PropTypes.string).isRequired,
+};

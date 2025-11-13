@@ -40,27 +40,32 @@ const ProfileInformationView = props => {
     // and . symbols so very long email addresses will wrap at those symbols if
     // needed
     const regex = /(@|\.)/;
-    const wrappableEmailAddress = data.emailAddress.split(regex).map(
-      (part, i) =>
-        regex.test(part) ? (
-          <span className="email-address-symbol" key={i}>
-            {part}
-          </span>
-        ) : (
-          part
-        ),
-    );
+    const wrappableEmailAddress =
+      data?.emailAddress &&
+      data.emailAddress.split(regex).map(
+        (part, i) =>
+          regex.test(part) ? (
+            <span className="email-address-symbol" key={i}>
+              {part}
+            </span>
+          ) : (
+            part
+          ),
+      );
     return (
       <span style={{ wordBreak: 'break-word' }}>{wrappableEmailAddress}</span>
     );
   }
 
   if (phoneNumbers.includes(fieldName)) {
-    const number = `${data.areaCode}${data.phoneNumber}`;
+    const number = data.isInternational
+      ? data.phoneNumber
+      : `${data.areaCode}${data.phoneNumber}`;
     return (
       <div>
         <va-telephone
           data-testid="phoneNumber"
+          country-code={data.isInternational ? data.countryCode : null}
           contact={number}
           extension={data.extension}
           not-clickable

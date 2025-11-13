@@ -6,10 +6,10 @@ import prescriptionsListItemNonVA from '../../fixtures/prescriptionsListItemNonV
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import LastFilledInfo from '../../../components/shared/LastFilledInfo';
 import { dateFormat } from '../../../util/helpers';
+import { DATETIME_FORMATS } from '../../../util/constants';
 
 describe('Medications Medications List Card Last Filled Info', () => {
-  const rx = prescriptionsListItemNonVA;
-  const setup = () => {
+  const setup = (rx = prescriptionsListItemNonVA) => {
     return renderWithStoreAndRouterV6(<LastFilledInfo {...rx} />, {
       state: {},
       reducers,
@@ -22,42 +22,50 @@ describe('Medications Medications List Card Last Filled Info', () => {
   });
 
   it('displays the ordered date for document', () => {
-    const screen = setup();
+    const rx = prescriptionsListItemNonVA;
+    const screen = setup(rx);
 
     expect(screen.getByTestId('rx-last-filled-info')).to.have.text(
-      `Documented on ${dateFormat(rx.orderedDate, 'MMMM D, YYYY')}`,
+      `Documented on ${dateFormat(
+        rx.orderedDate,
+        DATETIME_FORMATS.longMonthDate,
+      )}`,
     );
   });
 
+  it('does not render last filled date for non-VA prescriptions', () => {
+    const screen = setup();
+    expect(screen.queryByTestId('rx-last-filled-date')).to.not.exist;
+  });
+
+  it('does not render "Not filled yet" for non-VA prescriptions', () => {
+    const screen = setup();
+    expect(screen.queryByTestId('active-not-filled-rx')).to.not.exist;
+  });
+
   it('displays the last filled date for VA prescriptions', () => {
-    const vaRx = prescriptionsListItem;
-    vaRx.sortedDispensedDate = '2023-02-04T05:00:00.000Z';
-    const screen = renderWithStoreAndRouterV6(<LastFilledInfo {...vaRx} />, {
-      state: {},
-      reducers,
-    });
+    const rx = prescriptionsListItem;
+    rx.sortedDispensedDate = '2023-02-04T05:00:00.000Z';
+    const screen = setup(rx);
     expect(
       screen.getByText(
         `Last filled on ${dateFormat(
-          vaRx.sortedDispensedDate,
-          'MMMM D, YYYY',
+          rx.sortedDispensedDate,
+          DATETIME_FORMATS.longMonthDate,
         )}`,
       ),
     ).to.exist;
   });
 
   it('does not the last filled date when vets api sends null as the value for sortedDispensedDate', () => {
-    const vaRx = prescriptionsListItem;
-    vaRx.sortedDispensedDate = null;
-    const screen = renderWithStoreAndRouterV6(<LastFilledInfo {...vaRx} />, {
-      state: {},
-      reducers,
-    });
+    const rx = prescriptionsListItem;
+    rx.sortedDispensedDate = null;
+    const screen = setup(rx);
     expect(
       screen.queryByText(
         `Last filled on ${dateFormat(
-          vaRx.sortedDispensedDate,
-          'MMMM D, YYYY',
+          rx.sortedDispensedDate,
+          DATETIME_FORMATS.longMonthDate,
         )}`,
       ),
     ).to.not.exist;

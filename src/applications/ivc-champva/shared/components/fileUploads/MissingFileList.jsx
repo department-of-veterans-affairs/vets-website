@@ -72,7 +72,7 @@ function buildListItems({
     (disableLinks ? file.uploaded === false : true) ? (
     <li
       key={file.name + file.uploaded + innerIndex}
-      className="vads-u-margin-y--1"
+      className="vads-u-margin-y--1 dd-privacy-hidden"
     >
       {!disableLinks ? (
         <>

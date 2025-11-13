@@ -5,11 +5,18 @@ import allergies from './fixtures/allergies-multiple-pages.json';
 import allergyDetail from './fixtures/allergies-details-page-2.json';
 
 describe('Medical Records validate secondary nav', () => {
-  it('visits list pages and details pages, validates secondary nav', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
-    AllergiesListPage.clickGotoAllergiesLink(allergies);
+  });
+
+  it('visits list pages and details pages, validates secondary nav', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
+    // site.loadPage();
+
+    AllergiesListPage.goToAllergies(allergies);
     AllergiesListPage.verifySecondaryNav();
     AllergiesListPage.loadVAPaginationNextAllergies();
     // navigate to allergies details page

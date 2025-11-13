@@ -18,6 +18,9 @@ const selectFeatureToggles = createSelector(
     isTranslationDisclaimerTagalogEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceTranslationDisclaimerTagalogEnabled
     ],
+    isTravelPayApiEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceTravelPayApi
+    ],
     isTravelReimbursementEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceTravelReimbursement
     ],

@@ -754,9 +754,58 @@ describe('Schemaform validations', () => {
       ];
 
       const result = isValidForm(form, pageList, true);
-
       expect(result.isValid).to.be.true;
       expect(result.formData.testArray).to.deep.equal(['test']);
+      // schema is _not_ modified since it isn't an array
+      expect(
+        form.pages.testPage.schema.properties.testArray.items,
+      ).to.deep.equal({ type: 'string' });
+    });
+    it('should filter items based on index function', () => {
+      const form = {
+        data: {
+          privacyAgreementAccepted: true,
+          testArray: ['test', 'test2', 'anotherTest'],
+        },
+        pages: {
+          testPage: {
+            schema: {
+              type: 'object',
+              properties: {
+                testArray: {
+                  type: 'array',
+                  items: {
+                    type: 'string',
+                  },
+                },
+              },
+            },
+            uiSchema: {},
+            itemFilter: (item, index) => {
+              expect(index).to.be.a('number');
+              expect(index).to.be.at.least(0);
+              expect(index).to.be.lessThan(form.data.testArray.length);
+              return index < 2;
+            },
+            showPagePerItem: true,
+            arrayPath: 'testArray',
+          },
+        },
+      };
+      const pageList = [
+        {
+          pageKey: 'testPage',
+          chapterKey: 'testChapter',
+        },
+      ];
+
+      const result = isValidForm(form, pageList, true);
+      // NB: this test is a little misleading because the isValidForm function curries in index to the itemFilter functionality
+      // Platform code is being updated in this PR (https://github.com/department-of-veterans-affairs/vets-website/pull/37482) to assign data as itemFilter's second parameter
+      // At this time, only disability-benefits is using itemFilter's second parameter argument so this will have no other impact
+
+      expect(result.isValid).to.be.true;
+      expect(result.formData.testArray).to.deep.equal(['test', 'test2']);
       // schema is _not_ modified since it isn't an array
       expect(
         form.pages.testPage.schema.properties.testArray.items,

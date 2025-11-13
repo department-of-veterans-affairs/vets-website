@@ -1,5 +1,6 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import DlcTelephoneLink from './DlcTelephoneLink';
 
 const FooterInfo = () => (
   <section className="need-help-footer row vads-u-padding-x--1p5">
@@ -13,9 +14,7 @@ const FooterInfo = () => (
     </p>
     <p>
       <strong>For help ordering hearing aid or CPAP supplies,</strong> please
-      call the DLC Customer Service Section at{' '}
-      <va-telephone contact="8776778710" /> (
-      <va-telephone contact={CONTACTS['711']} tty />) or email{' '}
+      call the DLC Customer Service Section at <DlcTelephoneLink /> or email{' '}
       <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
     </p>
   </section>

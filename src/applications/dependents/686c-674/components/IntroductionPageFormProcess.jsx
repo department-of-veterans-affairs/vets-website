@@ -1,4 +1,6 @@
 import React from 'react';
+import manifest from '../manifest.json';
+import { getRootParentUrl } from '../../shared/utils';
 
 export const IntroductionPageFormProcess = () => (
   <>
@@ -14,7 +16,7 @@ export const IntroductionPageFormProcess = () => (
         <ul>
           <li>
             You’re a Veteran entitled to disability benefits and you have a
-            combined disability rating of at least 30 percent,{' '}
+            combined disability rating of at least 30&nbsp;%,{' '}
             <strong>or</strong>
           </li>
           <li>
@@ -70,16 +72,23 @@ export const IntroductionPageFormProcess = () => (
         <p>Here is what you’ll need to apply:</p>
         <ul>
           <li>
-            <strong>Personal information about yourself.</strong> This includes
-            date of birth, Social Security number, Military Service number, and
+            <strong>Your personal information:</strong> This includes your date
+            of birth, Social Security number, Military Service number, and
             contact information.
           </li>
           <li>
-            <strong>
-              Personal information about the dependents you’re adding or
-              removing.
-            </strong>{' '}
-            This includes date of birth and Social Security number.
+            <strong>Your dependents’ personal information:</strong> This
+            includes their date of birth and Social Security number.
+          </li>
+          <li>
+            <strong>Income information:</strong> Income information: This only
+            applies if you’re adding a dependent and you receive VA pension
+            benefits. You’ll need to tell us whether your dependent receives
+            monthly income and your net worth meet the limits set by Congress.{' '}
+            <va-link
+              href="/pension/veterans-pension-rates/"
+              text="Find out about net worth limits for Veterans Pension benefits"
+            />
           </li>
         </ul>
         <p>
@@ -89,7 +98,7 @@ export const IntroductionPageFormProcess = () => (
           other information or supporting documents.
         </p>
         <va-link
-          href="/view-change-dependents/"
+          href={getRootParentUrl(manifest.rootUrl)}
           text="Find out which documents you need to add or remove dependents"
         />
         <p>
@@ -111,17 +120,23 @@ export const IntroductionPageFormProcess = () => (
           You can print this message for your records.
         </p>
         <va-additional-info trigger="What happens after I apply?">
-          <p>If we send you a request for information, be sure to respond.</p>
-          <br />
+          <p>
+            Depending on your situation, you may need to answer questions about
+            household net worth and your dependent’s income. If this applies to
+            you, we’ll let you know if you need to complete additional forms
+            after we review your submission. If we request more information, be
+            sure to respond quickly.
+          </p>
           <p>
             After we complete our review, we’ll mail you a decision letter with
-            the details of our decision.
+            the details.
           </p>
-          <br />
           <p>
-            <strong>If you don’t hear back from us about your claim,</strong>{' '}
-            don’t file another claim. <br />
-            Contact us online or call us instead.
+            <strong>If you don’t hear back from us about your request,</strong>{' '}
+            don’t submit another request. Contact us online or call us at{' '}
+            <va-telephone contact="8772228387" /> (
+            <va-telephone contact="711" tty />
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
           <p />
         </va-additional-info>

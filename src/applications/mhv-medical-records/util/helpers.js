@@ -2,6 +2,8 @@ import moment from 'moment-timezone';
 import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { formatBirthDate } from '@department-of-veterans-affairs/mhv/exports';
+
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
@@ -103,6 +105,35 @@ export const nameFormat = ({ first, middle, last, suffix }) => {
   if (suffix) name += `, ${suffix}`;
   return name;
 };
+
+/**
+ * @param {String} datetimeString
+ * @returns { formattedDate: string, formattedTime: string } formatted datestamp, formatted timestamp
+ */
+export const formatDateTime = datetimeString => {
+  const dateTime = new Date(datetimeString);
+  if (Number.isNaN(dateTime.getTime())) {
+    return { formattedDate: '', formattedTime: '' };
+  }
+  const formattedDate = dateFnsFormat(dateTime, 'MMMM d, yyyy');
+  const formattedTime = dateFnsFormat(dateTime, 'h:mm a');
+
+  return { formattedDate, formattedTime };
+};
+
+/**
+ * Returns the wrapper element tag to use around a rendered list (<ul>) of
+ * notes / comments / items. If there are multiple entries we return 'div'
+ * so the list is placed in this tag.
+ * For zero or one entry we return undefined so the parent component (e.g.
+ * LabelValue) can keep its default tag.
+ *
+ * Generic utility: can be used for any list.
+ * @param {Array|string|undefined} items
+ * @returns {'div'|undefined}
+ */
+export const itemListWrapper = items =>
+  Array.isArray(items) && items.length > 1 ? 'div' : undefined;
 
 /**
  * @param {Object} record
@@ -701,6 +732,13 @@ export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
 };
 
+export const sendDatadogError = (error, feature) => {
+  datadogRum.addError(error, {
+    app: 'Medical Records',
+    feature,
+  });
+};
+
 export const handleDataDogAction = ({
   locationBasePath,
   locationChildPath,
@@ -843,4 +881,33 @@ export const getFailedDomainList = (failed, displayMap) => {
     modFailed.push('medications');
   }
   return modFailed.map(domain => displayMap[domain]);
+};
+
+/**
+ * Compares the dob formatted by two different methods and, if they are unequal, throws an error
+ * indicating which date is earlier.
+ * @param {string} userDob - The user's date of birth from the redux store
+ */
+export const errorForUnequalBirthDates = (
+  userDob,
+  deps = { formatDateLong, formatBirthDate },
+) => {
+  const d1 = new Date(deps.formatDateLong(userDob));
+  const d2 = new Date(deps.formatBirthDate(userDob));
+
+  if (Number.isNaN(d1.getTime()))
+    throw new Error('Invalid birth date via formatDateLong');
+  if (Number.isNaN(d2.getTime()))
+    throw new Error('Invalid birth date via formatBirthDate');
+
+  if (d1.getTime() < d2.getTime()) {
+    throw new Error(`formatDateLong is earlier than formatBirthDate`);
+  }
+  if (d1.getTime() > d2.getTime()) {
+    throw new Error(`formatBirthDate is earlier than formatDateLong`);
+  }
+};
+
+export const asyncErrorForUnequalBirthDates = async userDob => {
+  errorForUnequalBirthDates(userDob);
 };

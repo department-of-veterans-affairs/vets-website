@@ -75,7 +75,7 @@ export default function ContactDetailSection({ data }) {
                 contact={data.phoneNumber}
                 data-testid="patient-telephone"
               />
-              {formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE && (
+              {formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id && (
                 <>
                   <br />
                   <strong>Best time to call: </strong>
@@ -89,7 +89,7 @@ export default function ContactDetailSection({ data }) {
           <div>
             <va-link
               href={contactInfo.url}
-              aria-label="Edit your contact information"
+              label="Edit your contact information"
               text="Edit"
               data-testid="edit-new-appointment"
               onClick={handleClick(history, home, contactInfo)}

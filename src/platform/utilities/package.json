@@ -4,6 +4,7 @@
   "exports": {
     ".": "./exportsFile.js",
     "./asyncLoader": "./ui/asyncLoader.jsx",
+    "./data/*": "./data/*.js",
     "./DelayedRender": "./ui/DelayedRender.jsx",
     "./environment": "./environment/index.js",
     "./feature-toggles": "./feature-toggles/index.jsx",

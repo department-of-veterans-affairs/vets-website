@@ -44,12 +44,13 @@ const getAllowedApps = (filePath, allowedApps) => {
   );
 
   if (allowedApp) {
-    const { slackGroup, continuousDeployment } = allowedApp;
+    const { slackGroup, slackChannel, continuousDeployment } = allowedApp;
     return manifests.map(({ entryName, rootUrl }) => ({
       entryName,
       rootUrl,
       rootPath: path.join(appsDirectory, rootAppFolderName),
       slackGroup,
+      slackChannel,
       continuousDeployment,
     }));
   }
@@ -87,6 +88,8 @@ const getChangedAppsString = (
           appStrings.push(app.rootPath);
         } else if (outputType === 'slack-group') {
           if (app.slackGroup) appStrings.push(app.slackGroup);
+        } else if (outputType === 'slack-channel') {
+          if (app.slackChannel) appStrings.push(app.slackChannel);
         } else if (outputType === 'url') {
           if (app.rootUrl) appStrings.push(app.rootUrl);
         } else throw new Error('Invalid output type specified.');

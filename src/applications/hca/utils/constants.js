@@ -1,16 +1,10 @@
 // declare API endpoint routes
 export const API_ENDPOINTS = {
-  csrfCheck: '/maintenance_windows',
+  csrfCheck: '/csrf_token',
   downloadPdf: '/health_care_applications/download_pdf',
   enrollmentStatus: '/health_care_applications/enrollment_status',
   facilities: '/health_care_applications/facilities',
   ratingInfo: '/health_care_applications/rating_info',
-};
-
-// declare view fields for use in household section
-export const DEPENDENT_VIEW_FIELDS = {
-  report: 'view:reportDependents',
-  skip: 'view:skipDependentInfo',
 };
 
 // declare action statuses for fetching disability rating
@@ -134,14 +128,3 @@ export const SERVICE_BRANCH_LABELS = Object.freeze({
   'f.scouts old': 'Filipino Old Scout',
   other: 'Other',
 });
-
-// declare name to use for window session storage item
-export const SESSION_ITEM_NAME = 'hcaDependentIndex';
-
-// declare routes that are shared between custom form pages
-export const SHARED_PATHS = {
-  dependents: {
-    summary: 'household-information/dependents',
-    info: 'household-information/dependent-information',
-  },
-};

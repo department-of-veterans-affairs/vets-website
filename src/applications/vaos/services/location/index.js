@@ -110,11 +110,14 @@ export async function getLocationSettings({ siteIds }) {
  * @async
  * @param {Object} params
  * @param {Array<string>} params.siteIds A list of 3 digit site ids to retrieve the settings for
+ * @param {boolean} [params.sortByRecentLocations=false] Whether to sort the locations by recent visits
+ * @param {boolean} [params.removeFacilityConfigCheck=false] Whether to skip the facility configurations endpoint check and use eligibility from the patient eligibility API SOT only
  * @returns {Array<Location>} An array of Locations with settings included
  */
 export async function getLocationsByTypeOfCareAndSiteIds({
   siteIds,
   sortByRecentLocations = false,
+  removeFacilityConfigCheck = false,
 }) {
   try {
     let locations = [];
@@ -126,10 +129,10 @@ export async function getLocationsByTypeOfCareAndSiteIds({
       sortByRecentLocations,
     });
 
-    const uniqueIds = locations.map(location => location.id);
-    settings = await getLocationSettings({
-      siteIds: uniqueIds,
-    });
+    if (!removeFacilityConfigCheck) {
+      const uniqueIds = locations.map(location => location.id);
+      settings = await getLocationSettings({ siteIds: uniqueIds });
+    }
 
     locations = locations?.map(location =>
       setSupportedSchedulingMethods({
@@ -137,6 +140,7 @@ export async function getLocationsByTypeOfCareAndSiteIds({
         settings,
       }),
     );
+
     if (sortByRecentLocations) {
       return locations;
     }
@@ -320,16 +324,19 @@ export function isCernerLocation(locationId, cernerSiteIds = []) {
  * @param {string} typeOfCareId The type of care id to check against
  * @param {Array<string>} [cernerSiteIds=[]] The list of Cerner sites, because Cerner sites
  *   are active for all types of care
+ * @param {boolean} [removeFacilityConfigCheck=false] Whether to skip the facility configurations endpoint check and use eligibility from the patient eligibility API SOT only
  * @returns {Boolean} True if the location supports the type of care (or is a Cerner site)
  */
 export function isTypeOfCareSupported(
   location,
   typeOfCareId,
   cernerSiteIds = [],
+  removeFacilityConfigCheck = false,
 ) {
   return (
-    location.legacyVAR.settings[typeOfCareId]?.direct.enabled ||
-    location.legacyVAR.settings[typeOfCareId]?.request.enabled ||
+    removeFacilityConfigCheck ||
+    location.legacyVAR.settings[typeOfCareId]?.direct?.enabled ||
+    location.legacyVAR.settings[typeOfCareId]?.request?.enabled ||
     isCernerLocation(location.id, cernerSiteIds)
   );
 }

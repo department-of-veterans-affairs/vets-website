@@ -1,10 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import CrisisLineConnectButton from './CrisisLineConnectButton';
 
 const FrequentlyAskedQuestions = ({ prefLink }) => {
-  const isPilot = useSelector(state => state.sm.app.isPilot);
-
   return (
     <div className="secure-messaging-faq">
       <h2 className="vads-u-margin-top--1">
@@ -170,18 +168,13 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
             Learn how to dispute your VA copay charges
           </a>
         </va-accordion-item>
-        {isPilot && (
-          <va-accordion-item
-            data-testid="faq-accordion-item"
-            data-dd-action-name="What is Secure Messaging Pilot? headline clicked"
-          >
-            <h3 slot="headline">What is Secure Messaging Pilot?</h3>
-            <p>TBD</p>
-          </va-accordion-item>
-        )}
       </va-accordion>
     </div>
   );
+};
+
+FrequentlyAskedQuestions.propTypes = {
+  prefLink: PropTypes.string,
 };
 
 export default FrequentlyAskedQuestions;

@@ -69,6 +69,20 @@ export const HOMELESSNESS_TYPES = {
   notHomeless: 'no',
 };
 
+export const HOMELESS_HOUSING_LABELS = {
+  shelter: 'I’m living in a homeless shelter.',
+  notShelter:
+    'I’m living somewhere other than a shelter. (For example, I’m living in a car or a tent.)',
+  anotherPerson: 'I’m living with another person.',
+  other: 'Other',
+};
+
+export const AT_RISK_HOUSING_LABELS = {
+  losingHousing: 'I’m losing my housing in 30 days.',
+  leavingShelter: 'I’m leaving a publicly funded homeless shelter soon.',
+  other: 'Other',
+};
+
 export const AT_RISK_HOUSING_TYPES = {
   losingHousing: 'losingHousing',
   leavingShelter: 'leavingShelter',
@@ -95,6 +109,13 @@ export const DATA_PATHS = {
     'view:uploadPrivateRecordsQualifier.view:hasPrivateRecordsToUpload',
   hasAdditionalDocuments: 'view:selectableEvidenceTypes.view:hasOtherEvidence',
 };
+
+export const DATA_DOG_APP_NAME = 'Benefits Disability';
+export const DATA_DOG_ID = 'c7eb541a-30d2-4a00-aba0-04965e8a2668';
+export const DATA_DOG_TOKEN = 'pub300747eeaef98ae4eb9c8d66f3c747c1';
+export const DATA_DOG_SERVICE = 'benefits-disability';
+export const DATA_DOG_VERSION = '1.0.0';
+export const DATA_DOG_TOGGLE = 'disability526BrowserMonitoringEnabled';
 
 export const DISABILITY_526_V2_ROOT_URL =
   '/disability/file-disability-claim-form-21-526ez';
@@ -320,7 +341,22 @@ export const BDD_INFO_URL =
 export const DBQ_URL =
   'https://www.benefits.va.gov/compensation/dbq_publicdbqs.asp';
 
+// Pull properties from the "full NEW/SECONDARY/WORSENED/VA" branch
+const getNewDisabilitiesProps = () => {
+  const nd = fullSchema?.definitions?.newDisabilities?.items;
+  if (!nd) return {};
+
+  // New shape: items.anyOf[0].properties
+  const branch0Props = nd.anyOf?.[0]?.properties;
+  if (branch0Props) return branch0Props;
+
+  // Old shape: items.properties
+  return nd.properties || {};
+};
+
 // maxLength from schema
+const NEW_PROPS = getNewDisabilitiesProps();
+
 export const CHAR_LIMITS = [
   'primaryDescription',
   'causedByDisabilityDescription',
@@ -329,14 +365,10 @@ export const CHAR_LIMITS = [
   'vaMistreatmentDescription',
   'vaMistreatmentLocation',
   'vaMistreatmentDate',
-].reduce(
-  (list, key) => ({
-    ...list,
-    [key]:
-      fullSchema.definitions.newDisabilities.items.properties[key].maxLength,
-  }),
-  {},
-);
+].reduce((acc, key) => {
+  const limit = NEW_PROPS?.[key]?.maxLength;
+  return { ...acc, [key]: typeof limit === 'number' ? limit : undefined };
+}, {});
 
 // migration max string length
 export const MAX_HOUSING_STRING_LENGTH = 500;
@@ -603,3 +635,7 @@ export const SUPPORTING_EVIDENCE_HINTS = Object.freeze({
   none:
     'Select this option if you don’t have any supporting documents to include, or prefer not to include them.',
 });
+
+export const ARRAY_PATH = 'newDisabilities';
+export const NEW_CONDITION_OPTION = "A condition I haven't claimed before";
+export const CONDITION_NOT_LISTED_OPTION = 'My condition is not listed';

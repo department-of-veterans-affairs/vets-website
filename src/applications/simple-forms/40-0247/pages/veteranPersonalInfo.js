@@ -8,30 +8,24 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import environment from 'platform/utilities/environment';
-
 import { dateOfDeathValidation } from '../helpers';
 
 /** @type {PageSchema} */
-const dateOfBirthUISchema = environment.isProduction()
-  ? dateOfBirthUI()
-  : {
-      ...dateOfBirthUI(),
-      'ui:options': {
-        ...dateOfBirthUI()['ui:options'],
-        customYearErrorMessage: `Please enter a year between 1900 and ${new Date().getFullYear()}`,
-      },
-    };
+const dateOfBirthUISchema = {
+  ...dateOfBirthUI(),
+  'ui:options': {
+    ...dateOfBirthUI()['ui:options'],
+    customYearErrorMessage: `Please enter a year between 1900 and ${new Date().getFullYear()}`,
+  },
+};
 
-const dateOfDeathUISchema = environment.isProduction()
-  ? dateOfDeathUI()
-  : {
-      ...dateOfDeathUI(),
-      'ui:options': {
-        ...dateOfDeathUI()['ui:options'],
-        customYearErrorMessage: `Please enter a year between 1900 and ${new Date().getFullYear()}`,
-      },
-    };
+const dateOfDeathUISchema = {
+  ...dateOfDeathUI(),
+  'ui:options': {
+    ...dateOfDeathUI()['ui:options'],
+    customYearErrorMessage: `Please enter a year between 1900 and ${new Date().getFullYear()}`,
+  },
+};
 export default {
   uiSchema: {
     ...titleUI(

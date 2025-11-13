@@ -131,14 +131,6 @@ $idme-background-green: #08833d;
       }
     }
 
-    &.mhv-button {
-      background: var(--vads-color-primary);
-
-      &:hover {
-        background: var(--vads-color-primary-dark);
-      }
-    }
-
     img,
     svg {
       height: 1em;
@@ -224,10 +216,6 @@ $idme-background-green: #08833d;
 
   .downtime-notification.row {
     margin: 0 0 1em;
-  }
-
-  #mhvH3 {
-    margin-top: unset;
   }
 }
 

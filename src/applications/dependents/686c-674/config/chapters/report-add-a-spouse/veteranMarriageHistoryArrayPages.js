@@ -103,6 +103,7 @@ export const vetFormerMarriagePersonalInfoPage = {
   },
   schema: {
     type: 'object',
+    required: ['fullName'],
     properties: {
       fullName: fullNameNoSuffixSchema,
     },
@@ -113,7 +114,7 @@ export const vetFormerMarriagePersonalInfoPage = {
 export const vetFormerMarriageEndReasonPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
-      return 'Your former marriage';
+      return 'Your former marriage end details';
     }),
     reasonMarriageEnded: {
       ...radioUI({
@@ -145,13 +146,13 @@ export const vetFormerMarriageEndReasonPage = {
   },
   schema: {
     type: 'object',
+    required: ['reasonMarriageEnded'],
     properties: {
       reasonMarriageEnded: radioSchema(marriageEnums),
       otherReasonMarriageEnded: {
         type: 'string',
       },
     },
-    required: ['reasonMarriageEnded'],
   },
 };
 
@@ -159,7 +160,7 @@ export const vetFormerMarriageEndReasonPage = {
 export const vetFormerMarriageStartDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
-      return 'Your former marriage';
+      return 'Date your former marriage started';
     }),
     startDate: currentOrPastDateUI({
       title: 'When did you get married?',
@@ -168,6 +169,7 @@ export const vetFormerMarriageStartDatePage = {
   },
   schema: {
     type: 'object',
+    required: ['startDate'],
     properties: {
       startDate: currentOrPastDateSchema,
     },
@@ -177,7 +179,7 @@ export const vetFormerMarriageStartDatePage = {
 export const vetFormerMarriageEndDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
-      return 'Your former marriage';
+      return 'Date your former marriage ended';
     }),
     endDate: {
       ...currentOrPastDateUI('When did the marriage end?'),
@@ -204,6 +206,7 @@ export const vetFormerMarriageEndDatePage = {
   },
   schema: {
     type: 'object',
+    required: ['endDate'],
     properties: {
       endDate: currentOrPastDateSchema,
     },
@@ -212,7 +215,9 @@ export const vetFormerMarriageEndDatePage = {
 
 export const vetFormerMarriageStartLocationPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Your former marriage'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Location your former marriage started',
+    ),
     startLocation: {
       'ui:title': 'Where did you get married?',
       'ui:options': {
@@ -231,6 +236,13 @@ export const vetFormerMarriageStartLocationPage = {
             required: 'Enter the city where you were previously married',
           },
           'ui:webComponentField': VaTextInputField,
+          'ui:validations': [
+            (errors, city) => {
+              if (city?.length > 30) {
+                errors.addError('City must be 30 characters or less');
+              }
+            },
+          ],
         },
         state: {
           'ui:title': 'State',
@@ -271,6 +283,7 @@ export const vetFormerMarriageStartLocationPage = {
   },
   schema: {
     type: 'object',
+    required: ['startLocation'],
     properties: {
       startLocation: customLocationSchema,
     },
@@ -279,7 +292,9 @@ export const vetFormerMarriageStartLocationPage = {
 
 export const vetFormerMarriageEndLocationPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Your former marriage'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Location your former marriage ended',
+    ),
     endLocation: {
       'ui:title': 'Where did the marriage end?',
       'ui:options': {
@@ -301,6 +316,13 @@ export const vetFormerMarriageEndLocationPage = {
             required: 'Enter the city where this occurred',
           },
           'ui:webComponentField': VaTextInputField,
+          'ui:validations': [
+            (errors, city) => {
+              if (city?.length > 30) {
+                errors.addError('City must be 30 characters or less');
+              }
+            },
+          ],
         },
         state: {
           'ui:title': 'State',
@@ -341,6 +363,7 @@ export const vetFormerMarriageEndLocationPage = {
   },
   schema: {
     type: 'object',
+    required: ['endLocation'],
     properties: {
       endLocation: customLocationSchema,
     },

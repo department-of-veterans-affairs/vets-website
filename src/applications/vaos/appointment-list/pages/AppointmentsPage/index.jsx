@@ -16,7 +16,7 @@ import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedApp
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 // import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
 import { routeToCCPage } from '../../../referral-appointments/flow';
-import { useIsInCCPilot } from '../../../referral-appointments/hooks/useIsInCCPilot';
+import { useIsInPilotUserStations } from '../../../referral-appointments/hooks/useIsInPilotUserStations';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
 import AppointmentListNavigation from '../../components/AppointmentListNavigation';
 import PageLayout from '../../components/PageLayout';
@@ -45,7 +45,7 @@ export default function AppointmentsPage() {
   const dispatch = useDispatch();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA appointments');
-  const { isInCCPilot } = useIsInCCPilot();
+  const { isInPilotUserStations } = useIsInPilotUserStations();
 
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
@@ -133,7 +133,10 @@ export default function AppointmentsPage() {
       >
         {pageTitle}
       </h1>
-      <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
+      <CernerAlert
+        className="vaos-hide-for-print vads-u-margin-bottom--3"
+        pageTitle={pageTitle}
+      />
       {/* {featureBookingExclusion && (
         <CernerTransitionAlert
           className="vads-u-margin-bottom--3"
@@ -153,9 +156,10 @@ export default function AppointmentsPage() {
       referral id in the url sent to the veteran  */}
       {/* {isInCCPilot && <ReferralTaskCardWithReferral />} */}
 
-      {isInCCPilot && (
+      {isInPilotUserStations && (
         <div
           className={classNames(
+            'vaos-hide-for-print',
             'vads-u-padding-y--3',
             'vads-u-margin-bottom--3',
             'vads-u-margin-top--1',
@@ -175,7 +179,7 @@ export default function AppointmentsPage() {
         </div>
       )}
       <AppointmentListNavigation
-        hidePendingTab={isInCCPilot}
+        hidePendingTab={isInPilotUserStations}
         count={count}
         callback={setHasTypeChanged}
       />

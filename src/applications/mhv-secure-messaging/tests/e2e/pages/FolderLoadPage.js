@@ -7,6 +7,7 @@ import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-respon
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
 import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
 import { Data, Assertions, Locators, Paths, Alerts } from '../utils/constants';
+import SharedComponents from './SharedComponents';
 
 class FolderLoadPage {
   // update to make this.loadFolderMessages method independent of 'PatientInboxPage.loadInboxMessages();'
@@ -103,7 +104,7 @@ class FolderLoadPage {
   };
 
   backToParentFolder = () => {
-    cy.get(Locators.BACK_TO).click({ force: true });
+    SharedComponents.clickBackBreadcrumb();
   };
 
   backToInbox = name => {

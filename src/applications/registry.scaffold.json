@@ -146,5 +146,15 @@
     "appName": "Order Medical Supplies",
     "entryName": "mhv-supply-reordering",
     "rootUrl": "/my-health/order-medical-supplies"
+  },
+  {
+    "appName": "Income & Asset Staged Entry Widget",
+    "widgetType": "income-and-asset-statement-staged-entry",
+    "rootUrl": "/income-and-asset-statement-staged-entry"
+  },
+  {
+    "appName": "Dependents Verification How To Verify",
+    "rootUrl": "/manage-dependents/dependents-verification-how-to-verify",
+    "widgetType": "dependents-verification-how-to-verify"
   }
 ]

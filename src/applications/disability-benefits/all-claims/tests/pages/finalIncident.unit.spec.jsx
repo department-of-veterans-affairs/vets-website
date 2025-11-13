@@ -2,12 +2,13 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { ERR_MSG_CSS_CLASS } from '../../constants';
-
 import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils';
+
+import { ERR_MSG_CSS_CLASS } from '../../constants';
+
 import formConfig from '../../config/form';
 
 describe('781 last incident details', () => {

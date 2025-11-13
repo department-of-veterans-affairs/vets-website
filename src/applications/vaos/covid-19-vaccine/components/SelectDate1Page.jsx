@@ -1,10 +1,4 @@
-import {
-  addDays,
-  addMonths,
-  format,
-  lastDayOfMonth,
-  startOfMonth,
-} from 'date-fns';
+import { addDays, addMonths, lastDayOfMonth, startOfMonth } from 'date-fns';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -187,6 +181,7 @@ export default function SelectDate1Page() {
                 data-testid="loadingIndicator"
                 set-focus
                 message="Finding appointment availability..."
+                label="Finding appointment availability"
               />
             }
             onChange={dates => {
@@ -199,8 +194,8 @@ export default function SelectDate1Page() {
             onPreviousMonth={(...args) =>
               dispatch(getAppointmentSlots(...args))
             }
-            minDate={format(addDays(new Date(), 1), 'yyyy-MM-dd')}
-            maxDate={format(addDays(new Date(), 395), 'yyyy-MM-dd')}
+            minDate={addDays(new Date(), 1)}
+            maxDate={addDays(new Date(), 395)}
             validationError={submitted ? validationError : null}
             required
             requiredMessage="Please choose your preferred date and time for your appointment"

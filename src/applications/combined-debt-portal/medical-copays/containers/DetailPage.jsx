@@ -7,7 +7,7 @@ import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
-import Modals from '../components/Modals';
+import Modals from '../../combined/components/Modals';
 import Alert from '../../combined/components/MCPAlerts';
 import {
   formatDate,
@@ -56,14 +56,14 @@ const DetailPage = ({ match }) => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
           {
             href: '/manage-va-debt/summary/copay-balances',
             label: 'Current copay balances',
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail`,
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}`,
             label: `${title}`,
           },
         ]}

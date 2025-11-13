@@ -2,6 +2,7 @@ import path from 'path';
 import _ from 'lodash';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
+import { filterViewFields } from 'platform/forms-system/src/js/helpers';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import environment from 'platform/utilities/environment';
 
@@ -16,13 +17,18 @@ import {
 } from '../../shared/tests/helpers';
 
 import mockFeatureToggles from './e2e/fixtures/mocks/featureToggles.json';
+import { goToNextPage, uploadDocumentAndGoToNext } from './e2e/utils';
 
 const ALL_PAGES = getAllPages(formConfig);
 
-// For intercepting file uploads:
 const UPLOAD_URL = `${
   environment.API_URL
 }/ivc_champva/v1/forms/submit_supporting_documents`;
+
+const SAMPLE_FILE = path.join(
+  __dirname,
+  'e2e/fixtures/data/example_upload.png',
+);
 
 const testConfig = createTestConfig(
   {
@@ -54,10 +60,7 @@ const testConfig = createTestConfig(
               data,
               formConfig.preSubmitInfo.statementOfTruth.fullNamePath(data),
             );
-            reviewAndSubmitPageFlow(
-              sig,
-              `Submit ${formConfig.customText.appType}`,
-            );
+            reviewAndSubmitPageFlow(sig);
           });
         });
       },
@@ -66,34 +69,37 @@ const testConfig = createTestConfig(
       // once we land here, change `certifierReceivedPacket` to `true`
       // and click '<< Back' so that we can proceed past the screener
       [ALL_PAGES.page1a2.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.axeCheck();
+            cy.injectAxeThenAxeCheck();
             if (data.certifierReceivedPacket === false) {
               // eslint-disable-next-line no-param-reassign
               data.certifierReceivedPacket = true;
               // This targets the '<< Back' button
-              cy.get('va-button').click();
+              cy.get('.usa-button-secondary').click();
             }
           });
         });
       },
       [ALL_PAGES.page1b.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.fillAddressWebComponentPattern(
               'certifierAddress',
               data.certifierAddress,
             );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
           });
         });
       },
+      [ALL_PAGES.page1e2.path]: ({ afterHook }) => {
+        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
+      },
+      [ALL_PAGES.page1e3.path]: ({ afterHook }) => {
+        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
+      },
       [ALL_PAGES.page2d.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.fillAddressWebComponentPattern(
@@ -104,77 +110,19 @@ const testConfig = createTestConfig(
               'applicantNewAddress',
               data.applicantNewAddress,
             );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [ALL_PAGES.page2c.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(() => {
-            cy.get('select').select(1);
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
           });
         });
       },
       [ALL_PAGES.page7.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('input[type="file"]')
-            .upload(
-              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
-              'testing',
-            )
-            .get('.schemaform-file-uploading')
-            .should('not.exist');
-          cy.axeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
-        });
+        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
       },
       [ALL_PAGES.page8.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('input[type="file"]')
-            .upload(
-              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
-              'testing',
-            )
-            .get('.schemaform-file-uploading')
-            .should('not.exist');
-          cy.axeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
-        });
-      },
-      // Resubmission pharmacy upload path
-      [ALL_PAGES.page1k.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('input[type="file"]')
-            .upload(
-              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
-              'testing',
-            )
-            .get('.schemaform-file-uploading')
-            .should('not.exist');
-          cy.axeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
-        });
+        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
       },
       [ALL_PAGES.page9.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('input[type="file"]')
-            .upload(
-              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
-              'testing',
-            )
-            .get('.schemaform-file-uploading')
-            .should('not.exist');
-          cy.axeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
-        });
+        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
       },
     },
     setupPerTest: () => {
@@ -194,11 +142,8 @@ const testConfig = createTestConfig(
       });
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
-          // Remove the "do you have another policy to add?" yes/no view-only prop
-          // before checking data validity. (have to include it so test proceeds)
-          // eslint-disable-next-line no-param-reassign
-          delete data['view:hasPolicies'];
-          verifyAllDataWasSubmitted(data, req.body);
+          const withoutViewFields = filterViewFields(data);
+          verifyAllDataWasSubmitted(withoutViewFields, req.body);
         });
         // Mock response
         req.reply({ status: 200 });

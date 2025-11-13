@@ -1,49 +1,93 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
-
+import { render } from '@testing-library/react';
+import * as helpers from '../../utils/helpers';
 import {
-  DefinitionTester,
-  // fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form';
+  uiSchema,
+  schema,
+} from '../../config/pages/nonVeteranApplicantDetails';
 
-describe('Pre-need applicant non veteran applicant details', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.applicantInformation.pages.nonVeteranApplicantDetails;
+describe('nonVeteranApplicantDetails config', () => {
+  let stub;
 
-  it('should render', () => {
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    expect(form.find('input').length).to.equal(6);
-    expect(form.find('select').length).to.equal(3);
-    form.unmount();
+  afterEach(() => {
+    if (stub) {
+      stub.restore();
+      stub = null;
+    }
   });
 
-  it('should not submit empty form', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+  it('should export a valid schema with required fields', () => {
+    expect(schema).to.be.an('object');
+    expect(schema.type).to.equal('object');
+    expect(schema.properties).to.have.property('application');
+    expect(schema.properties.application.type).to.equal('object');
+    expect(schema.properties.application.properties).to.have.property(
+      'claimant',
     );
+    const { claimant } = schema.properties.application.properties;
+    expect(claimant.type).to.equal('object');
+    expect(claimant.required).to.include.members([
+      'name',
+      'ssn',
+      'dateOfBirth',
+    ]);
+    expect(claimant.properties).to.have.all.keys('name', 'ssn', 'dateOfBirth');
+  });
 
-    form.find('form').simulate('submit');
+  it('should export a uiSchema with correct structure', () => {
+    const result = uiSchema();
+    expect(result).to.be.an('object');
+    expect(result).to.have.property('ui:title');
+    expect(result.application).to.be.an('object');
+    expect(result.application).to.have.property('claimant');
+    expect(result.application.claimant).to.have.all.keys(
+      'name',
+      'ssn',
+      'dateOfBirth',
+    );
+  });
 
-    expect(form.find('.usa-input-error').length).to.equal(4);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+  it('should use custom subHeader and description when provided', () => {
+    const subHeader = 'Custom Subheader';
+    const description = 'Custom Description';
+    const result = uiSchema(subHeader, description);
+    expect(result.application['ui:title']).to.equal(subHeader);
+    expect(result.application['ui:description']).to.equal(description);
+  });
+
+  it('should use custom UI fields when provided', () => {
+    const nameUI = { 'ui:widget': 'text' };
+    const ssnUI = { 'ui:widget': 'ssn' };
+    const dateOfBirthUI = { 'ui:widget': 'date' };
+    const result = uiSchema(undefined, undefined, nameUI, ssnUI, dateOfBirthUI);
+    expect(result.application.claimant.name).to.equal(nameUI);
+    expect(result.application.claimant.ssn).to.equal(ssnUI);
+    expect(result.application.claimant.dateOfBirth).to.equal(dateOfBirthUI);
+  });
+
+  it('should call veteranApplicantDetailsSummary for ui:title', () => {
+    stub = sinon
+      .stub(helpers, 'veteranApplicantDetailsSummary')
+      .returns('stubbed');
+    const result = uiSchema();
+    const formContext = { isLoggedIn: true };
+    const formData = { baz: 'qux' };
+    result['ui:title'](formContext, formData);
+    expect(stub.calledOnce).to.be.true;
+    expect(stub.calledWith(formContext, formData)).to.be.true;
+  });
+
+  it('should render ui:title as a function in a form', () => {
+    stub = sinon
+      .stub(helpers, 'veteranApplicantDetailsSummary')
+      .returns('stubbed');
+    const result = uiSchema();
+    const TitleComponent = result['ui:title'];
+    const formContext = { isLoggedIn: false };
+    const formData = {};
+    const { container } = render(<>{TitleComponent(formContext, formData)}</>);
+    expect(container).to.exist;
   });
 });

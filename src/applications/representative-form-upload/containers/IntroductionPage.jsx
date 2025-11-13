@@ -1,12 +1,14 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import {
   VaAlert,
   VaButton,
   VaLink,
+  VaLinkAction,
   VaProcessList,
   VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -27,22 +29,26 @@ const IntroductionPage = ({ route, router }) => {
   const startBtn = useMemo(
     () => {
       const startForm = () => {
+        sessionStorage.setItem('formIncompleteARP', 'true');
         recordEvent({ event: `${formNumber}-start-form` });
         return router.push(route.pageList[1].path);
       };
       return (
-        <a
+        <VaLinkAction
           href="#start"
-          className="vads-c-action-link--green representative-form__start"
+          label="Start form upload and submission"
+          class=" representative-form__start"
+          text="Start form upload and submission"
           onClick={startForm}
-        >
-          Start form
-        </a>
+          type="primary"
+        />
       );
     },
     [route.pageList, router],
   );
-
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   return (
     <article className="schemaform-intro representative-form">
       <VaAlert
@@ -52,7 +58,7 @@ const IntroductionPage = ({ route, router }) => {
         uswds
         onCloseEvent={() => setVisibleAlert(false)}
         visible={visibleAlert}
-        className="form-686c__alert"
+        className="form-upload__alert"
       >
         <h2 id="track-your-status-on-mobile" slot="headline">
           We are working to improve this tool
@@ -67,12 +73,11 @@ const IntroductionPage = ({ route, router }) => {
         Follow these steps to submit the form
       </h2>
       <VaProcessList>
-        <VaProcessListItem header="Confirm power of attorney">
+        <VaProcessListItem header="Confirm that you represent the claimant">
           <p>
-            Make sure you or your Veterans Service Organization (VSO) has
-            established power of attorney (POA) with the claimant. If POA is not
-            established, the portal will not allow you to submit the claimant’s
-            form.
+            Make sure you or your Veterans Service Organization (VSO) have
+            established representation with the claimant. If you don’t currently
+            represent them, the portal will not allow you to submit the form.
           </p>
         </VaProcessListItem>
         <VaProcessListItem header="Download, fill out, and sign the form">
@@ -97,8 +102,8 @@ const IntroductionPage = ({ route, router }) => {
         </VaProcessListItem>
         <VaProcessListItem header="Upload and submit the form">
           <p>
-            First provide information about the claimant so we can confirm you
-            have established POA. Then upload the form, review, and submit the
+            First provide information about the claimant so we can confirm that
+            you represent them. Then upload the form, review, and submit the
             form.
           </p>
           <p>

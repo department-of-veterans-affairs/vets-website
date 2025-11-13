@@ -34,18 +34,33 @@ describe('transformForSubmit', () => {
           deductionCode: '30', // Comp & Pen
           amount: 1000,
           reason: 'Test reason 1',
+          compositeDebtId: '30100',
+          originalAr: 1000,
+          currentAr: 1000,
+          benefitType: 'Comp & Pen',
+          disputeReason: "I don't think I owe this debt to VA",
         },
         {
           id: '2',
           deductionCode: '44', // Education
           amount: 2000,
           reason: 'Test reason 2',
+          compositeDebtId: '44200',
+          originalAr: 2000,
+          currentAr: 2000,
+          benefitType: 'Chapter 33',
+          disputeReason: "I don't think I owe this debt to VA",
         },
         {
           id: '3',
           deductionCode: '71', // Education
           amount: 1500,
           reason: 'Test reason 3',
+          compositeDebtId: '71300',
+          originalAr: 1500,
+          currentAr: 1500,
+          benefitType: 'Chapter 34',
+          disputeReason: "I don't think I owe this debt to VA",
         },
       ],
     },
@@ -61,6 +76,7 @@ describe('transformForSubmit', () => {
     expect(result).to.be.an('object');
     expect(result.education).to.exist;
     expect(result.compAndPen).to.exist;
+    expect(result.metadata).to.exist;
   });
 
   it('separates education and comp & pen debts correctly', () => {
@@ -74,6 +90,44 @@ describe('transformForSubmit', () => {
     expect(result.education.selectedDebts).to.have.length(2);
     expect(result.education.selectedDebts[0].deductionCode).to.equal('44');
     expect(result.education.selectedDebts[1].deductionCode).to.equal('71');
+  });
+
+  it('includes metadata with dispute information', () => {
+    const result = transformForSubmit(mockFormConfig, mockForm);
+
+    expect(result.metadata).to.exist;
+    expect(result.metadata.disputes).to.be.an('array');
+    expect(result.metadata.disputes).to.have.length(3);
+
+    expect(result.metadata.disputes[0]).to.have.property(
+      'composite_debt_id',
+      '30100',
+    );
+    expect(result.metadata.disputes[0]).to.have.property(
+      'deduction_code',
+      '30',
+    );
+    expect(result.metadata.disputes[0]).to.have.property('original_ar', 1000);
+    expect(result.metadata.disputes[0]).to.have.property('current_ar', 1000);
+    expect(result.metadata.disputes[0]).to.have.property(
+      'benefit_type',
+      'Comp & Pen',
+    );
+    expect(result.metadata.disputes[0]).to.have.property(
+      'dispute_reason',
+      "I don't think I owe this debt to VA",
+    );
+
+    result.metadata.disputes.forEach(dispute => {
+      expect(dispute).to.have.all.keys(
+        'composite_debt_id',
+        'deduction_code',
+        'original_ar',
+        'current_ar',
+        'benefit_type',
+        'dispute_reason',
+      );
+    });
   });
 
   it('formats veteran information correctly', () => {
@@ -121,6 +175,11 @@ describe('transformForSubmit', () => {
             id: '1',
             deductionCode: '44', // Education
             amount: 1000,
+            compositeDebtId: '44100',
+            originalAr: 1000,
+            currentAr: 1000,
+            benefitType: 'Chapter 35',
+            disputeReason: "I don't think I owe this debt to VA",
           },
         ],
       },
@@ -142,6 +201,11 @@ describe('transformForSubmit', () => {
             id: '1',
             deductionCode: '30', // Comp & Pen
             amount: 1000,
+            compositeDebtId: '30100',
+            originalAr: 1000,
+            currentAr: 1000,
+            benefitType: 'Comp & Pen',
+            disputeReason: "I don't think I owe this debt to VA",
           },
         ],
       },

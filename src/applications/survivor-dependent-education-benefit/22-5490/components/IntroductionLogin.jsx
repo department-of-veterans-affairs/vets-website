@@ -104,7 +104,7 @@ function IntroductionLogin({
             messages={route?.formConfig.savedFormMessages}
             pageList={route.pageList}
             prefillEnabled={route?.formConfig?.prefillEnabled}
-            startText="Start your benefit application"
+            startText="Start your benefits application"
             user={user}
           />
         )}

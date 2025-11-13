@@ -64,6 +64,13 @@ export const stepchild = {
   },
   schema: {
     type: 'object',
+    required: [
+      'isBiologicalChildOfSpouse',
+      'dateEnteredHousehold',
+      'biologicalParentName',
+      'biologicalParentSsn',
+      'biologicalParentDob',
+    ],
     properties: {
       isBiologicalChildOfSpouse: yesNoSchema,
       dateEnteredHousehold: currentOrPastDateSchema,

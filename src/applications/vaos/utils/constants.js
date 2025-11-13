@@ -80,7 +80,6 @@ export const COMP_AND_PEN = 'COMPENSATION & PENSION';
 export const TYPE_OF_CARE_IDS = {
   PRIMARY_CARE: '323',
   COVID_VACCINE_ID: 'covid',
-  MENTAL_HEALTH: '502',
   PHARMACY_ID: '160',
   SOCIAL_WORK_ID: '125',
   AMPUTATION_ID: '211',
@@ -96,6 +95,10 @@ export const TYPE_OF_CARE_IDS = {
   AUDIOLOGY_ROUTINE_ID: 'CCAUDRTNE',
   AUDIOLOGY_HEARING_ID: 'CCAUDHEAR',
   PODIATRY_ID: 'tbd-podiatry',
+  MENTAL_HEALTH_ID: 'MENTAL_HEALTH',
+  MENTAL_HEALTH_PRIMARY_CARE_ID: '534',
+  MENTAL_HEALTH_SERVICES_ID: '502',
+  MENTAL_HEALTH_SUBSTANCE_USE_ID: '513',
 };
 
 export const TYPES_OF_CARE = [
@@ -113,12 +116,6 @@ export const TYPES_OF_CARE = [
     idV2: 'clinicalPharmacyPrimaryCare',
     name: 'Pharmacy',
     group: 'primary',
-  },
-  {
-    id: TYPE_OF_CARE_IDS.MENTAL_HEALTH,
-    idV2: 'outpatientMentalHealth',
-    name: 'Mental health',
-    group: 'mentalHealth',
   },
   {
     id: TYPE_OF_CARE_IDS.SOCIAL_WORK_ID,
@@ -160,7 +157,7 @@ export const TYPES_OF_CARE = [
     id: TYPE_OF_CARE_IDS.PODIATRY_ID,
     idV2: 'podiatry',
     name: 'Podiatry',
-    label: 'Podiatry (only available online for Community Care appointments)',
+    label: 'Podiatry (only available online for community care appointments)',
     ccId: 'CCPOD',
     group: 'specialty',
     cceType: 'Podiatry',
@@ -186,6 +183,11 @@ export const TYPES_OF_CARE = [
     id: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
     idV2: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
     name: 'COVID-19 vaccine',
+  },
+  {
+    id: TYPE_OF_CARE_IDS.MENTAL_HEALTH_ID,
+    name: 'Mental health',
+    group: 'specialty',
   },
 ];
 
@@ -218,6 +220,37 @@ export const TYPES_OF_EYE_CARE = [
   },
 ];
 
+export const TYPES_OF_MENTAL_HEALTH = [
+  {
+    id: TYPE_OF_CARE_IDS.MENTAL_HEALTH_PRIMARY_CARE_ID,
+    idV2: 'primaryCareMentalHealth',
+    name: 'Mental health care in a primary care setting',
+    group: 'mentalHealth',
+    description:
+      'Brief follow-up care with your primary care mental health provider for ' +
+      'concerns such as stress, anxiety, irritability, or trouble sleeping.',
+  },
+  {
+    id: TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID,
+    idV2: 'outpatientMentalHealth',
+    name: 'Mental health care with a specialist',
+    group: 'mentalHealth',
+    description:
+      'For therapy, medication, and other services to help with posttraumatic ' +
+      'stress disorder (PTSD), psychological effects of military sexual ' +
+      'trauma (MST), depression, grief, anxiety, and other needs.',
+  },
+  {
+    id: TYPE_OF_CARE_IDS.MENTAL_HEALTH_SUBSTANCE_USE_ID,
+    idV2: 'individualSubstanceUseDisorder',
+    name: 'Substance use problem services',
+    group: 'mentalHealth',
+    description:
+      'For counseling, recovery support, and treatment options for Veterans ' +
+      'seeking help with alcohol or other substance use.',
+  },
+];
+
 export const AUDIOLOGY_TYPES_OF_CARE = [
   {
     ccId: TYPE_OF_CARE_IDS.AUDIOLOGY_ROUTINE_ID,
@@ -234,8 +267,14 @@ export const AUDIOLOGY_TYPES_OF_CARE = [
 ];
 
 export const FACILITY_TYPES = {
-  VAMC: 'vamc',
-  COMMUNITY_CARE: 'communityCare',
+  VAMC: {
+    id: 'vamc',
+    name: 'VA medical center or clinic',
+  },
+  COMMUNITY_CARE: {
+    id: 'communityCare',
+    name: 'Community care facility',
+  },
 };
 
 export const FACILITY_SORT_METHODS = {
@@ -390,6 +429,15 @@ export const ELIGIBILITY_REASONS = {
   error: 'error',
 };
 
+// https://coderepo.mobilehealth.va.gov/projects/VAR/repos/vaos-service/browse/vaos-service/src/main/resources/swagger.json?useDefaultHandler=true
+// VaosIneligibilityReasonValueSet
+export const INELIGIBILITY_CODES_VAOS = {
+  PATIENT_HISTORY_INSUFFICIENT: 'patient-history-insufficient',
+  REQUEST_LIMIT_EXCEEDED: 'facility-request-limit-exceeded',
+  DIRECT_SCHEDULING_DISABLED: 'facility-cs-direct-disabled',
+  REQUEST_SCHEDULING_DISABLED: 'facility-cs-request-disabled',
+};
+
 export const CANCELLATION_REASONS = {
   patient: 'pat',
   provider: 'prov',
@@ -490,3 +538,5 @@ export const DATE_FORMATS = {
 
 export const POST_DRAFT_REFERRAL_APPOINTMENT_CACHE =
   'postDraftReferralAppointmentCache';
+
+export const POST_REFERRAL_REQUEST_CACHE = 'postReferralAppointmentCache';

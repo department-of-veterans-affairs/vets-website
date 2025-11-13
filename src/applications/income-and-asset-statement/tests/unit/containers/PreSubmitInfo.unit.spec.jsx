@@ -127,4 +127,6 @@ describe('<PreSubmitInfo />', () => {
       expect(computedName).to.equal(expectedName);
     });
   });
+
+  // Add unit tests for full name path
 });

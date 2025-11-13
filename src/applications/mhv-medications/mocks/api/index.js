@@ -28,11 +28,7 @@ const responses = {
     delaySingleResponse(() => res.json(user.defaultUser), 750);
   },
   'GET /v0/feature_toggles': (_req, res) => {
-    const toggles = featureToggles.generateFeatureToggles({
-      mhvMedicationsToVaGovRelease: true,
-      mhvMedicationsDisplayRefillContent: true,
-      mhvMedicationsDisplayDocumentationContent: true,
-    });
+    const toggles = featureToggles.generateFeatureToggles({});
 
     delaySingleResponse(() => res.json(toggles), 500);
   },
@@ -46,7 +42,7 @@ const responses = {
   'GET /my_health/v1/medical_records/allergies': allergies.all,
   'GET /my_health/v1/prescriptions': (_req, res) => {
     delaySingleResponse(
-      () => res.json(prescriptions.generateMockPrescriptions()),
+      () => res.json(prescriptions.generateMockPrescriptions(_req)),
       2250,
     );
   },
@@ -98,6 +94,19 @@ const responses = {
     };
     delaySingleResponse(() => res.json(data), 3000);
   },
+  // 'GET /my_health/v1/prescriptions/:id': (req, res) => {
+  //   // Emulate a 404 error
+  //   return res.status(404).json({
+  //     errors: [
+  //       {
+  //         title: "Record not found",
+  //         detail: "The record identified by 0 could not be found",
+  //         code: "404",
+  //         status: "404"
+  //       },
+  //     ],
+  //   });
+  // },
   'GET /my_health/v1/prescriptions/:id': (req, res) => {
     const { id } = req.params;
     const data = {

@@ -19,3 +19,35 @@ export const SIGN_OUT_URL = (() => {
   );
   return url;
 })();
+
+export const NAV_MOBILE_DROPDOWN = [
+  {
+    LABEL: 'Dashboard',
+    URL: '/dashboard',
+    TEST_ID: 'user-nav-profile-link',
+  },
+];
+
+export const NAV_MENU_DROPDOWN = [
+  {
+    LABEL: 'Find Claimant',
+    URL: '/find-claimant',
+    ICON: 'search',
+    TEST_ID: 'user-nav-claimant-search-link',
+  },
+  {
+    LABEL: 'Representation Requests',
+    URL: '/representation-requests',
+    TEST_ID: 'user-nav-representation-requests-link',
+  },
+  {
+    LABEL: 'Submissions',
+    URL: '/submissions',
+    TEST_ID: 'submissions-link',
+  },
+  {
+    LABEL: 'Help',
+    URL: '/get-help',
+    TEST_ID: 'user-nav-help-link',
+  },
+];

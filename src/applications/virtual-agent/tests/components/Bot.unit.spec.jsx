@@ -1,7 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import * as ReactReduxModule from 'react-redux';
 import { Provider } from 'react-redux';
 import { act } from 'react-dom/test-utils';
@@ -29,20 +29,13 @@ const mockStore = {
 
 describe('Bot', () => {
   let sandbox;
-  let clock;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    // Even though we don't use clearTimeout, setInterval, and clearInterval,
-    // if we don't fake them, the tests will hang after they're complete. -.-
-    clock = sinon.useFakeTimers({
-      toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval'],
-    });
   });
 
   afterEach(() => {
     sandbox.restore();
-    clock.restore();
   });
 
   describe('Bot', () => {
@@ -119,10 +112,15 @@ describe('Bot', () => {
 
       await act(async () => {
         window.dispatchEvent(new Event('webchat-auth-activity'));
-        clock.tick(10000);
       });
 
-      expect(getByTestId('sign-in-modal')).to.exist;
+      // Wait for the 2-second timeout in webAuthActivityEventListener
+      await waitFor(
+        () => {
+          expect(getByTestId('sign-in-modal')).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
     it('should return the App if user accepts disclaimer and does not need to sign in', () => {
       sandbox
@@ -171,12 +169,87 @@ describe('Bot', () => {
 
       await act(async () => {
         window.dispatchEvent(new Event('webchat-auth-activity'));
-        clock.tick(2000);
       });
 
+      await waitFor(
+        () => {
+          expect(getByTestId('sign-in-modal')).to.exist;
+        },
+        { timeout: 3000 },
+      );
+
       getByTestId('va-modal-close').click();
-      expect(setLoggedInFlowStub.calledTwice).to.be.true;
+      // Wait for the auth-event-driven call ("true") and the onClose call ("false")
+      await waitFor(
+        () => {
+          expect(setLoggedInFlowStub.callCount).to.equal(2);
+        },
+        { timeout: 3000 },
+      );
       expect(setLoggedInFlowStub.calledWithExactly('false')).to.be.true;
+    });
+
+    it('should reopen the SignInModal after closing when auth event fires again', async () => {
+      // User is not logged in, and has accepted disclaimer
+      sandbox
+        .stub(ReactReduxModule, 'useSelector')
+        .onCall(0)
+        .returns(false)
+        .onCall(1)
+        .returns(true);
+
+      // In auth experience gate is satisfied
+      sandbox.stub(SessionStorageModule, 'getInAuthExp').returns(true);
+
+      // Stub SignInModal to expose a close button that triggers onClose
+      sandbox.stub(SignInModalModule, 'default').callsFake(({ onClose }) => (
+        <div data-testid="sign-in-modal">
+          <va-button data-testid="va-modal-close" onClick={onClose}>
+            Close
+          </va-button>
+        </div>
+      ));
+
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={mockStore}>
+          <Bot />
+        </Provider>,
+      );
+
+      // First auth event opens the modal
+      await act(async () => {
+        window.dispatchEvent(new Event('webchat-auth-activity'));
+      });
+
+      await waitFor(
+        () => {
+          expect(getByTestId('sign-in-modal')).to.exist;
+        },
+        { timeout: 3000 },
+      );
+
+      // Close the modal via onClose
+      getByTestId('va-modal-close').click();
+
+      // Ensure it disappears after state update
+      await waitFor(
+        () => {
+          expect(queryByTestId('sign-in-modal')).to.not.exist;
+        },
+        { timeout: 3000 },
+      );
+
+      // Fire auth event again; modal should reopen
+      await act(async () => {
+        window.dispatchEvent(new Event('webchat-auth-activity'));
+      });
+
+      await waitFor(
+        () => {
+          expect(getByTestId('sign-in-modal')).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
   });
 });

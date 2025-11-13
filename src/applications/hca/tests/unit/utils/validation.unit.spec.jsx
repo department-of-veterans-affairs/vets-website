@@ -1,7 +1,7 @@
 import { add, format } from 'date-fns';
 import { omit } from 'lodash';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import {
   validateServiceDates,
   validateDependentDate,
@@ -10,8 +10,10 @@ import {
   validateCurrency,
   validatePolicyNumber,
   validateInsurancePolicy,
-  validateVeteranDob,
+  validateDateOfBirth,
+  validateDependent,
 } from '../../../utils/validation';
+import * as householdHelpers from '../../../utils/helpers/household';
 
 describe('hca `validateServiceDates` form validation', () => {
   const dischargeDateSpy = sinon.spy();
@@ -35,8 +37,8 @@ describe('hca `validateServiceDates` form validation', () => {
   });
 
   afterEach(() => {
-    dischargeDateSpy.reset();
-    entryDateSpy.reset();
+    dischargeDateSpy.resetHistory();
+    entryDateSpy.resetHistory();
   });
 
   it('should not set error message when form data is valid', () => {
@@ -98,8 +100,8 @@ describe('hca `validateGulfWarDates` form validation', () => {
   });
 
   afterEach(() => {
-    startDateSpy.reset();
-    endDateSpy.reset();
+    startDateSpy.resetHistory();
+    endDateSpy.resetHistory();
   });
 
   it('should not set error message when date range is valid', () => {
@@ -159,8 +161,8 @@ describe('hca `validateExposureDates` form validation', () => {
   });
 
   afterEach(() => {
-    startDateSpy.reset();
-    endDateSpy.reset();
+    startDateSpy.resetHistory();
+    endDateSpy.resetHistory();
   });
 
   it('should not set error message when date range is valid', () => {
@@ -214,7 +216,7 @@ describe('hca `validateDependentDate` form validation', () => {
   });
 
   afterEach(() => {
-    fieldSpy.reset();
+    fieldSpy.resetHistory();
   });
 
   it('should not set error message when form data is valid', () => {
@@ -239,7 +241,7 @@ describe('hca `validateCurrency` form validation', () => {
   });
 
   afterEach(() => {
-    fieldSpy.reset();
+    fieldSpy.resetHistory();
   });
 
   it('should not set error message when form data is valid', () => {
@@ -292,8 +294,8 @@ describe('hca `validatePolicyNumber` form validation', () => {
   });
 
   afterEach(() => {
-    policySpy.reset();
-    groupSpy.reset();
+    policySpy.resetHistory();
+    groupSpy.resetHistory();
   });
 
   it('should not set error message when form data is valid', () => {
@@ -352,25 +354,182 @@ describe('hca `validateInsurancePolicy` method', () => {
   });
 });
 
-describe('hca `validateVeteranDob` method', () => {
+describe('hca `validateDateOfBirth` method', () => {
   it('should return `null` when a value is omitted from the function', () => {
-    expect(validateVeteranDob()).to.eq(null);
+    expect(validateDateOfBirth()).to.eq(null);
   });
 
   it('should return `null` when an empty value is passed to the function', () => {
-    expect(validateVeteranDob('')).to.eq(null);
+    expect(validateDateOfBirth('')).to.eq(null);
   });
 
   it('should return `null` when an invalid value is passed to the function', () => {
-    expect(validateVeteranDob('1990-01-00')).to.eq(null);
+    expect(validateDateOfBirth('1990-01-00')).to.eq(null);
   });
 
   it('should return `null` when the value is passed to the function is pre-1900', () => {
-    expect(validateVeteranDob('1890-01-01')).to.eq(null);
+    expect(validateDateOfBirth('1890-01-01')).to.eq(null);
   });
 
   it('should return the value when the value is after 1899-12-31', () => {
     const validDate = '1990-01-01';
-    expect(validateVeteranDob(validDate)).to.eq(validDate);
+    expect(validateDateOfBirth(validDate)).to.eq(validDate);
+  });
+});
+
+describe('hca `validateDependent` method', () => {
+  const baseValidData = {
+    fullName: { first: 'John', last: 'Doe' },
+    dependentRelation: 'child',
+    socialSecurityNumber: '211111111',
+    dateOfBirth: '2005-01-01',
+    becameDependent: '2010-01-01',
+    disabledBefore18: false,
+    cohabitedLastYear: false,
+    'view:dependentIncome': true,
+    'view:grossIncome': { grossIncome: '1,000' },
+    'view:netIncome': { netIncome: '$500' },
+    'view:otherIncome': { otherIncome: 200 },
+    dependentEducationExpenses: '300.00',
+  };
+
+  beforeEach(() => {
+    sinon.stub(householdHelpers, 'canHaveEducationExpenses').returns(false);
+  });
+
+  afterEach(() => sinon.restore());
+
+  it('should return `false` for valid data', () => {
+    expect(validateDependent(baseValidData)).to.be.false;
+  });
+
+  it('should return `true` if `firstName` is missing', () => {
+    const data = { ...baseValidData, fullName: { lastName: 'Doe' } };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if `lastName` is missing', () => {
+    const data = { ...baseValidData, fullName: { firstName: 'John' } };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if `dependentRelation` is missing', () => {
+    const data = { ...baseValidData, dependentRelation: null };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if `socialSecurityNumber` is invalid', () => {
+    const data = { ...baseValidData, socialSecurityNumber: '21111' };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if `dateOfBirth` is invalid', () => {
+    const data = { ...baseValidData, dateOfBirth: '1890-01-01' };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if `dateOfBirth` is after `becameDependent`', () => {
+    const data = {
+      ...baseValidData,
+      dateOfBirth: '2010-01-01',
+      becameDependent: '2009-01-01',
+    };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if `disabledBefore18` is undefined', () => {
+    const data = { ...baseValidData, disabledBefore18: undefined };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if cohabitedLastYear is undefined', () => {
+    const data = { ...baseValidData, cohabitedLastYear: undefined };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if `dependentIncome` is `true` but no income fields are valid currency', () => {
+    const data = {
+      ...baseValidData,
+      'view:grossIncome': { grossIncome: 'not-a-number' },
+      'view:netIncome': { netIncome: 'NaN' },
+      'view:otherIncome': { otherIncome: '-10.00' },
+    };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if any currency values are not valid strings', () => {
+    const data = {
+      ...baseValidData,
+      'view:grossIncome': { grossIncome: '1000.999' },
+    };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if `dependentIncome` is true but some income fields are undefined', () => {
+    const data = {
+      ...baseValidData,
+      'view:netIncome': { netIncome: undefined },
+    };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if `dependentIncome` is true but some income fields are empty strings', () => {
+    const data = {
+      ...baseValidData,
+      'view:netIncome': { netIncome: '' },
+    };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if `dependentIncome` is true and some income values are negative', () => {
+    const data = {
+      ...baseValidData,
+      'view:otherIncome': { otherIncome: '-200' },
+    };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `false` if `dependentIncome` is true and all income fields have valid values >= 0', () => {
+    const data = {
+      ...baseValidData,
+      'view:netIncome': { netIncome: '0' },
+    };
+    expect(validateDependent(data)).to.be.false;
+  });
+
+  it('should NOT require education expenses if age < 18 or > 23', () => {
+    householdHelpers.canHaveEducationExpenses.returns(false);
+    const data = {
+      ...baseValidData,
+      dependentEducationExpenses: undefined,
+    };
+    expect(validateDependent(data)).to.be.false;
+  });
+
+  it('should require education expenses if age is between 18 & 23 and gross income is valid', () => {
+    householdHelpers.canHaveEducationExpenses.returns(true);
+    const data = {
+      ...baseValidData,
+      dependentEducationExpenses: undefined,
+    };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `true` if education expenses are required but invalid', () => {
+    householdHelpers.canHaveEducationExpenses.returns(true);
+    const data = {
+      ...baseValidData,
+      dependentEducationExpenses: '100.999',
+    };
+    expect(validateDependent(data)).to.be.true;
+  });
+
+  it('should return `false` if education expenses are required and valid', () => {
+    householdHelpers.canHaveEducationExpenses.returns(true);
+    const data = {
+      ...baseValidData,
+      dependentEducationExpenses: '1,200.50',
+    };
+    expect(validateDependent(data)).to.be.false;
   });
 });

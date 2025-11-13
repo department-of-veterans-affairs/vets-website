@@ -1,5 +1,7 @@
 import appendQuery from 'append-query';
 
+import { determineAuthBroker } from 'platform/user/authentication/utilities';
+
 export const TOGGLE_FORM_SIGN_IN_MODAL = 'TOGGLE_FORM_SIGN_IN_MODAL';
 export const TOGGLE_LOGIN_MODAL = 'TOGGLE_LOGIN_MODAL';
 export const UPDATE_SEARCH_HELP_USER_MENU = 'UPDATE_SEARCH_HELP_USER_MENU';
@@ -15,15 +17,23 @@ export function toggleLoginModal(
   forceVerification = false,
 ) {
   return async (dispatch, getState) => {
-    const { signInServiceEnabled } = getState()?.featureToggles;
+    const {
+      signInServiceEnabled,
+      cernerNonEligibleSisEnabled,
+    } = getState()?.featureToggles;
 
     const nextParam = new URLSearchParams(window?.location?.search)?.get(
       'next',
     );
+    const authBrokerCookieSelector = determineAuthBroker(
+      cernerNonEligibleSisEnabled,
+    );
+
     const nextQuery = {
       next: nextParam ?? 'loginModal',
       ...(signInServiceEnabled && { oauth: true }),
       ...(forceVerification && { verification: 'required' }),
+      ...(authBrokerCookieSelector && { oauth: true }),
     };
 
     const url = isOpen

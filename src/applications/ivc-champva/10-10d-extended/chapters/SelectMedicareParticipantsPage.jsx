@@ -1,14 +1,13 @@
 /* eslint-disable react/sort-prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import {
   arrayBuilderItemSubsequentPageTitleUI,
   radioSchema,
   radioUI,
-  titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
 import { nameWording, toHash } from '../../shared/utilities';
 
 // similar to `toSpliced`, but simpler and actually works in testing framework
@@ -72,35 +71,29 @@ export const selectMedicareParticipantPage = {
       ...radioUI({
         title: 'Which applicant would you like to add Medicare insurance for?',
         hint:
-          'If you have more applicants with Medicare plans you can add them later in this form.',
-        required: () => true,
+          'If you have more applicants with Medicare plans, you can add them later in this form.',
         labels: {
           na: 'NA',
         },
-      }),
-      'ui:options': {
         updateSchema: (
           formData,
-          schema,
-          uiSchema,
+          _schema,
+          _uiSchema,
           index,
-          path,
+          _path,
           formContext,
         ) => {
-          // Get data from formContext on the review page, or formData when on the edit page
           const fullData = formContext?.reviewMode
             ? formData
             : formContext || formData;
           const pagePerItemIndex = index;
 
-          // Get eligible applicants and their labels
           const eligibleApplicants = getEligibleApplicants(
             fullData,
             pagePerItemIndex,
           );
           const labels = createApplicantLabels(eligibleApplicants);
 
-          // Return updated schema with correct enum values
           return {
             enum: Object.keys(labels).length > 0 ? Object.keys(labels) : ['na'],
             enumNames:
@@ -109,14 +102,13 @@ export const selectMedicareParticipantPage = {
                 : ['No eligible applicants'],
           };
         },
-      },
+      }),
     },
   },
   schema: {
     type: 'object',
     required: ['medicareParticipant'],
     properties: {
-      titleSchema,
       medicareParticipant: radioSchema(['na']),
     },
   },
@@ -137,10 +129,17 @@ export function selectMedicareParticipantOnGoForward(props) {
 
 /** @type {CustomPageType} */
 export function SelectMedicareParticipantPage(props) {
+  const navButtons = CustomPageNavButtons({
+    ...props,
+    onContinue: () => {
+      return selectMedicareParticipantOnGoForward(props);
+    },
+  });
   return (
     <SchemaForm
       name={props.name}
       title={props.title}
+      hint={props.hint}
       data={props.data}
       appStateData={props.appStateData}
       schema={props.schema}
@@ -157,11 +156,7 @@ export function SelectMedicareParticipantPage(props) {
     >
       <>
         {props.contentBeforeButtons}
-        <FormNavButtons
-          goBack={props.goBack}
-          goForward={() => selectMedicareParticipantOnGoForward(props)}
-          submitToContinue
-        />
+        {navButtons}
         {props.contentAfterButtons}
       </>
     </SchemaForm>
@@ -183,9 +178,10 @@ SelectMedicareParticipantPage.propTypes = {
   onContinue: PropTypes.func,
   onReviewPage: PropTypes.bool,
   onSubmit: PropTypes.func,
-  pagePerItemIndex: PropTypes.number,
+  pagePerItemIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   setFormData: PropTypes.func,
   title: PropTypes.string,
+  hint: PropTypes.string,
   trackingPrefix: PropTypes.string,
   updatePage: PropTypes.func,
 };

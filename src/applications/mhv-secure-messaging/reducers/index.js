@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 
 import { alertsReducer } from './alerts';
-import { appReducer } from './app';
 import { recipientsReducer } from './recipients';
 import { categoriesReducer } from './categories';
 import { foldersReducer } from './folders';
@@ -12,11 +11,11 @@ import { threadsReducer } from './threads';
 import { preferencesReducer } from './preferences';
 import { threadDetailsReducer } from './threadDetails';
 import { facilitiesReducer } from './facilities';
+import { prescriptionReducer } from './prescription';
 
 const rootReducer = {
   sm: combineReducers({
     alerts: alertsReducer,
-    app: appReducer,
     recipients: recipientsReducer,
     breadcrumbs: breadcrumbsReducer,
     categories: categoriesReducer,
@@ -27,6 +26,7 @@ const rootReducer = {
     threadDetails: threadDetailsReducer,
     triageTeams: triageTeamsReducer,
     preferences: preferencesReducer,
+    prescription: prescriptionReducer,
   }),
 };
 

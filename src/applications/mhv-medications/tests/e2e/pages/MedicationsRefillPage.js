@@ -107,13 +107,6 @@ class MedicationsRefillPage {
     });
   };
 
-  clickMedicationsLandingPageBreadcrumbsOnRefillPage = () => {
-    cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
-    cy.get('[data-testid="rx-breadcrumb"]')
-      .find(`[href="${medicationsUrls.MEDICATIONS_ABOUT}"]`)
-      .click({ waitForAnimations: true });
-  };
-
   verifyShippedMedicationOnRefillPage = () => {
     cy.get('[data-testid="refill-prescription-checkbox-0"]')
       .invoke('attr', 'checkbox-description')
@@ -349,21 +342,21 @@ class MedicationsRefillPage {
   };
 
   verifyPartialSuccessAlertOnRefillPage = () => {
-    cy.get('[data-testid="partial-failed-message-title"]').should(
+    cy.get('[data-testid="partial-refill-title"]').should(
       'contain',
       'Only part of your request was submitted',
     );
   };
 
   verifyFailedRequestMessageAlertOnRefillPage = text => {
-    cy.get('[data-testid="failed-message-title"]', { includeShadowDom: true })
+    cy.findByTestId('error-refill-title', { includeShadowDom: true })
       .should('be.visible')
       .first()
       .and('have.text', text);
   };
 
   verifyPartiallyFailedRequestMessageAlertOnRefillPage = text => {
-    cy.get('[data-testid="partial-failed-message-title"]', {
+    cy.findByTestId('partial-refill-title', {
       includeShadowDom: true,
     })
       .should('be.visible')
@@ -387,14 +380,14 @@ class MedicationsRefillPage {
   };
 
   verifyRefillRequestSuccessConfirmationMessage = () => {
-    cy.get('[data-testid="success-message-title"]').should(
+    cy.get('[data-testid="success-refill-title"]').should(
       'contain',
       'Refills requested',
     );
   };
 
   verifyMedicationRefillRequested = refillName => {
-    cy.get('[data-testid="medication-requested-successful"]').should(
+    cy.get('[data-testid="successful-medication-list"]').should(
       'contain',
       refillName,
     );
@@ -461,7 +454,7 @@ class MedicationsRefillPage {
   };
 
   verifyRefillSuccessDescriptionText = () => {
-    cy.get('[data-testid="success-message-description"] > p').should(
+    cy.get('[data-testid="success-refill-description"]').should(
       'contain',
       'recently requested',
     );
@@ -474,16 +467,12 @@ class MedicationsRefillPage {
     );
   };
 
-  verifySuccessAlertTextDoesNotExistOnRefillPage = alert => {
-    cy.get('[data-testid="success-message-title"]')
-      .should('have.text', alert)
-      .and('not.be.visible');
+  verifySuccessAlertTextDoesNotExistOnRefillPage = () => {
+    cy.get('[data-testid="success-refill-title"]').should('not.exist');
   };
 
-  verifyFailedAlertTextDoesNotExistOnRefillPage = text => {
-    cy.get('[data-testid="failed-message-description"]')
-      .should('have.text', text)
-      .and('not.be.visible');
+  verifyFailedAlertTextDoesNotExistOnRefillPage = () => {
+    cy.get('[data-testid="error-refill-description"]').should('not.exist');
   };
 
   verifyCernerUserMyVAHealthAlertOnRefillsPage = text => {
@@ -536,11 +525,11 @@ class MedicationsRefillPage {
     cy.get('[header="We ship your refill to you"]').should('contain', text);
   };
 
-  verifyFailedAlertTextExistsOnRefillPage = (text, suggestion) => {
-    cy.get('[data-testid="failed-request-text"]')
-      .should('have.text', text)
+  verifyFailedAlertTextExistsOnRefillPage = (description, suggestion) => {
+    cy.get('[data-testid="error-refill-description"]')
+      .should('have.text', description)
       .and('be.visible');
-    cy.get('[data-testid="failed-request-suggestion"]')
+    cy.get('[data-testid="error-refill-suggestion"]')
       .should('have.text', suggestion)
       .and('be.visible');
   };

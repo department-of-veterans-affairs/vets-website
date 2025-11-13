@@ -168,11 +168,11 @@ export default [
     [
       {
         selector: 'veteranAddress.city',
-        returnUrl: 'veteran-information/veteran-address',
+        returnUrl: '/veteran-information/veteran-address',
       },
       {
         selector: 'veteranAddress.street',
-        returnUrl: 'veteran-information/veteran-address',
+        returnUrl: '/veteran-information/veteran-address',
       },
     ].forEach(({ selector, returnUrl }) => {
       if (!notBlankStringPattern.test(get(selector, newFormData))) {
@@ -201,7 +201,7 @@ export default [
           );
           newMetaData = set(
             'returnUrl',
-            'insurance-information/general',
+            '/insurance-information/general',
             newMetaData,
           );
         }
@@ -213,7 +213,7 @@ export default [
           );
           newMetaData = set(
             'returnUrl',
-            'insurance-information/general',
+            '/insurance-information/general',
             newMetaData,
           );
         }
@@ -251,6 +251,21 @@ export default [
     if (url.includes('va-facility-api')) {
       const returnUrl = url.replace(/va-facility-api/, 'va-facility');
       newMetadata = set('returnUrl', returnUrl, newMetadata);
+    }
+
+    return { formData, metadata: newMetadata };
+  },
+  // 8 -> 9, we fully adopted insurance v2 and need to update the return URL
+  ({ formData, metadata }) => {
+    const url = metadata.returnUrl || metadata.return_url;
+    let newMetadata = metadata;
+
+    if (url === '/insurance-information/general') {
+      newMetadata = set(
+        'returnUrl',
+        '/insurance-information/health-insurance',
+        metadata,
+      );
     }
 
     return { formData, metadata: newMetadata };

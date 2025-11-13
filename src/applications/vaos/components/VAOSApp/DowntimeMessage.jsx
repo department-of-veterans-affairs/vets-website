@@ -1,22 +1,18 @@
-import React from 'react';
-import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
+import { format } from 'date-fns';
 import { dismissDowntimeWarning } from 'platform/monitoring/DowntimeNotification/actions';
+import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import FullWidthLayout from '../FullWidthLayout';
 import InfoAlert from '../InfoAlert';
+import { getUserTimezoneAbbr, stripDST } from '../../utils/timezone';
 
 const appTitle = 'VA appointments tool';
 
-export default function DowntimeMessage({
-  startTime,
-  endTime,
-  status,
-  children,
-  description,
-}) {
+export default function DowntimeMessage(props) {
+  const { startTime, endTime, status, children, description } = props;
   const dispatch = useDispatch();
   const isDowntimeWarningDismissed = useSelector(state =>
     state.scheduledDowntime.dismissedDowntimeWarnings.includes(appTitle),
@@ -27,9 +23,6 @@ export default function DowntimeMessage({
   const descriptionBody = notificationTitle
     ? splitDescription?.[1]
     : splitDescription?.[0];
-  // NOTE: platform DowntimeNotification no longer supports moment
-  const startTimeM = moment(startTime);
-  const endTimeM = moment(endTime);
   if (status === externalServiceStatus.down) {
     return (
       <FullWidthLayout>
@@ -45,11 +38,17 @@ export default function DowntimeMessage({
             <p>{descriptionBody}</p>
           ) : (
             <p>
-              We’re making updates to the tool on {startTimeM.format('MMMM Do')}{' '}
-              between {startTimeM.format('LT')} and {endTimeM.format('LT')}.
-              We’re sorry it’s not working right now. If you need to request or
-              confirm an appointment during this time, please call your local VA
-              medical center. Use the{' '}
+              We’re making updates to the tool between{' '}
+              {`${format(startTime, "EEEE, MMMM do 'at' h:mm aaaa")} ${stripDST(
+                getUserTimezoneAbbr(),
+              )}`}{' '}
+              and{' '}
+              {`${format(endTime, "EEEE, MMMM do 'at' h:mm aaaa")} ${stripDST(
+                getUserTimezoneAbbr(),
+              )}`}
+              . We’re sorry it’s not working right now. If you need to request
+              or confirm an appointment during this time, please call your local
+              VA medical center. Use the{' '}
               <a href="/find-locations">VA facility locator</a> to find contact
               information for your medical center.
             </p>
@@ -81,12 +80,18 @@ export default function DowntimeMessage({
             <p>{descriptionBody}</p>
           ) : (
             <p>
-              We’re doing work on the VA appointments tool on{' '}
-              {startTimeM.format('MMMM Do')} between {startTimeM.format('LT')}{' '}
-              and {endTimeM.format('LT')}. If you need to request or confirm an
-              appointment during this time, please call your local VA medical
-              center. Use the <a href="/find-locations">VA facility locator</a>{' '}
-              to find contact information for your medical center.
+              We’re doing work on the VA appointments tool between{' '}
+              {`${format(startTime, "EEEE, MMMM do 'at' h:mm aaaa")} ${stripDST(
+                getUserTimezoneAbbr(),
+              )}`}{' '}
+              and{' '}
+              {`${format(endTime, "EEEE, MMMM do 'at' h:mm aaaa")} ${stripDST(
+                getUserTimezoneAbbr(),
+              )}`}
+              . If you need to request or confirm an appointment during this
+              time, please call your local VA medical center. Use the{' '}
+              <a href="/find-locations">VA facility locator</a> to find contact
+              information for your medical center.
             </p>
           )}
         </VaModal>
@@ -98,7 +103,7 @@ export default function DowntimeMessage({
 DowntimeMessage.propTypes = {
   children: PropTypes.node,
   description: PropTypes.string,
-  endTime: PropTypes.object,
-  startTime: PropTypes.object,
+  endTime: PropTypes.instanceOf(Date),
+  startTime: PropTypes.instanceOf(Date),
   status: PropTypes.string,
 };

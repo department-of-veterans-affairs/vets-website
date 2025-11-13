@@ -101,6 +101,7 @@ export default function transformForSubmit(formConfig, form) {
       ssnOrTin: transformedData?.ssn || '',
       dateOfBirth: fmtDate(transformedData?.sponsorDob) || '',
       phoneNumber: transformedData?.sponsorPhone || '',
+      email: transformedData?.sponsorEmail || '',
       address: transformedData?.sponsorAddress || {},
       sponsorIsDeceased: transformedData?.sponsorIsDeceased,
       dateOfDeath: fmtDate(transformedData?.sponsorDOD) || '',

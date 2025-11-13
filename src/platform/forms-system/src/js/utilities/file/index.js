@@ -1,4 +1,4 @@
-import readAndCheckFile from './readAndCheckFile';
+import readAndCheckFile, { standardFileChecks } from './readAndCheckFile';
 import checkTypeAndExtensionMatches, {
   fileTypeSignatures,
   FILE_TYPE_MISMATCH_ERROR,
@@ -23,4 +23,5 @@ export {
   PasswordLabel,
   PasswordSuccess,
   reMapErrorMessage,
+  standardFileChecks,
 };

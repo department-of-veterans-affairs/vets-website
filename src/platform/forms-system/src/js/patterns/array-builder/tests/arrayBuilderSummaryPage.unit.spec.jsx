@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-param-reassign */
 import React from 'react';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
@@ -89,6 +90,14 @@ describe('ArrayBuilderSummaryPage', () => {
       .returns(index);
   }
 
+  function stubSetDataFromRef(dataRef, setData) {
+    return function setDataFromRef(patch) {
+      const nextData = { ...(dataRef.current || {}), ...patch };
+      dataRef.current = nextData;
+      setData(nextData);
+    };
+  }
+
   afterEach(() => {
     if (getArrayUrlSearchParamsStub) {
       getArrayUrlSearchParamsStub.restore();
@@ -108,6 +117,7 @@ describe('ArrayBuilderSummaryPage', () => {
   function setupArrayBuilderSummaryPage({
     urlParams = '',
     arrayData = [],
+    radioData,
     title = 'Review your employers',
     required = () => false,
     maxItems = 5,
@@ -119,9 +129,13 @@ describe('ArrayBuilderSummaryPage', () => {
     useButtonInsteadOfYesNo,
     useLinkInsteadOfYesNo,
     useWebComponent = false,
+    fullData,
   }) {
     const setFormData = sinon.spy();
     const goToPath = sinon.spy();
+    const onContinue = sinon.spy();
+    const onChange = sinon.spy();
+    const onSubmit = sinon.spy();
     let getText = helpers.initGetText({
       getItemName: item => item?.name,
       nounPlural: 'employers',
@@ -132,10 +146,18 @@ describe('ArrayBuilderSummaryPage', () => {
     stubUrlParams(urlParams);
     const data = {
       employers: arrayData,
+      applicants: [{}, {}],
+      ...(fullData || {}),
     };
+    if (radioData) {
+      // Added separately so the removed item tests doesn't need to include
+      // radio data
+      data['view:hasOption'] = radioData;
+    }
     const { mockStore } = mockRedux({
       formData: data,
       setFormData,
+      onChange,
       formErrors: reviewErrors,
     });
 
@@ -173,8 +195,8 @@ describe('ArrayBuilderSummaryPage', () => {
       nounPlural: 'employers',
       nounSingular: 'employer',
       required,
-      summaryRoute: '/summary',
-      introRoute: '/intro',
+      getSummaryPath: () => '/summary',
+      getIntroPath: () => '/intro',
       reviewRoute: '/review',
       useButtonInsteadOfYesNo,
       useLinkInsteadOfYesNo,
@@ -199,8 +221,9 @@ describe('ArrayBuilderSummaryPage', () => {
           schema={processedSchema}
           uiSchema={processedUiSchema}
           data={processedData}
-          onChange={() => {}}
-          onSubmit={() => {}}
+          onChange={onChange}
+          onContinue={onContinue}
+          onSubmit={onSubmit}
           onReviewPage={false}
           goToPath={goToPath}
           name={title}
@@ -208,33 +231,12 @@ describe('ArrayBuilderSummaryPage', () => {
           appStateData={{}}
           formContext={{}}
           formOptions={{ useWebComponentForNavigation: useWebComponent }}
+          fullData={data}
         />
       </Provider>,
     );
 
     const { container, getByText } = renderResult;
-
-    function rerenderWithNewData(newData) {
-      renderResult.rerender(
-        <Provider store={mockStore}>
-          <CustomPage
-            schema={processedSchema}
-            uiSchema={processedUiSchema}
-            data={newData}
-            setFormData={setFormData}
-            onChange={() => {}}
-            onSubmit={() => {}}
-            onReviewPage={false}
-            goToPath={goToPath}
-            name={title}
-            title={title}
-            appStateData={{}}
-            formContext={{}}
-            formOptions={{ useWebComponentForNavigation: useWebComponent }}
-          />
-        </Provider>,
-      );
-    }
 
     return {
       setFormData,
@@ -242,7 +244,9 @@ describe('ArrayBuilderSummaryPage', () => {
       getText,
       container,
       getByText,
-      rerenderWithNewData,
+      onContinue,
+      onChange,
+      onSubmit,
     };
   }
 
@@ -283,6 +287,15 @@ describe('ArrayBuilderSummaryPage', () => {
     expect(container.querySelector('va-card')).to.not.exist;
     expect(container.querySelector('.wc-pattern-array-builder-yes-no')).to
       .exist;
+
+    const yesNoElement = container.querySelector(
+      '.wc-pattern-array-builder-yes-no',
+    );
+    expect(yesNoElement.classList.contains('vads-web-component-pattern')).to.be
+      .true;
+    expect(yesNoElement.classList.contains('wc-pattern-array-builder')).to.be
+      .true;
+    expect(yesNoElement.getAttribute('data-array-path')).to.equal('employers');
   });
 
   it('should display appropriately with 1 items', () => {
@@ -296,9 +309,16 @@ describe('ArrayBuilderSummaryPage', () => {
     expect(vaRadio).to.exist;
     expect(vaRadio.getAttribute('value')).to.equal('false');
     expect(container.querySelector('va-card')).to.exist;
+
+    const yesNoElement = container.querySelector(
+      '.wc-pattern-array-builder-yes-no',
+    );
+    expect(yesNoElement.classList.contains('vads-web-component-pattern')).to.be
+      .true;
+    expect(yesNoElement.getAttribute('data-array-path')).to.equal('employers');
   });
 
-  it('should display appropriately with max items', () => {
+  it('should display appropriately when max items value is a number', () => {
     const { getText, container, getByText } = setupArrayBuilderSummaryPage({
       arrayData: [
         { name: 'Test' },
@@ -318,14 +338,22 @@ describe('ArrayBuilderSummaryPage', () => {
     );
   });
 
+  it('should display appropriately when max items value is a function', () => {
+    const { getText, container, getByText } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }, { name: 'Test 2' }],
+      urlParams: '',
+      maxItems: formData => formData?.applicants.length,
+    });
+
+    expect(container.querySelector('va-radio')).to.not.exist;
+    expect(container.querySelectorAll('va-card')).to.have.lengthOf(2);
+    expect(container.querySelector('va-alert')).to.include.text(
+      'You have added the maximum number',
+    );
+  });
+
   it('should remove all appropriately', () => {
-    const {
-      getText,
-      container,
-      goToPath,
-      getByText,
-      setFormData,
-    } = setupArrayBuilderSummaryPage({
+    const { container, goToPath, onChange } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }],
       urlParams: '',
       maxItems: 5,
@@ -338,14 +366,14 @@ describe('ArrayBuilderSummaryPage', () => {
     const $modal = container.querySelector('va-modal');
     expect($modal.getAttribute('visible')).to.eq('true');
     $modal.__events.primaryButtonClick();
-    expect(setFormData.called).to.be.true;
-    expect(setFormData.args[0][0].employers).to.eql([]);
+    sinon.assert.calledOnce(onChange);
+    sinon.assert.calledWithMatch(onChange, { employers: [] });
     expect(goToPath.args[0][0]).to.eql(
       '/first-item/0?add=true&removedAllWarn=true',
     );
   });
 
-  it('should show an add button on the review page', () => {
+  it('should show an add button on the  review page', () => {
     const { container, goToPath } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }],
       urlParams: '',
@@ -405,6 +433,61 @@ describe('ArrayBuilderSummaryPage', () => {
       'va-alert[name="employersReviewError"]',
     );
     expect($errorAlert).to.not.exist;
+  });
+
+  it('should show an error alert on the summary page and prevent navigation', async () => {
+    const { container, onSubmit } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }, {}],
+      radioData: 'N',
+      useWebComponent: true,
+      fullData: { employers: [{ name: 'Test' }, {}] },
+    });
+    const $errorAlert = container.querySelector('va-alert');
+    expect($errorAlert).to.include.text(
+      'This employer is missing information.',
+    );
+
+    fireEvent.click(container.querySelector('va-button[continue]'));
+    await expect(onSubmit.called).to.be.false;
+  });
+
+  it('should show an error alert on the summary page and prevent navigation even if schema is set as required', async () => {
+    const { container, onSubmit } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }, {}],
+      radioData: 'N',
+      urlParams: '',
+      schema: {
+        type: 'object',
+        properties: {
+          'view:hasOption': arrayBuilderYesNoSchema,
+        },
+      },
+      useWebComponent: true,
+      fullData: { employers: [{ name: 'Test' }, {}] },
+    });
+    const $errorAlert = container.querySelector('va-alert');
+    expect($errorAlert).to.include.text(
+      'This employer is missing information.',
+    );
+
+    fireEvent.click(container.querySelector('va-button[continue]'));
+
+    await expect(onSubmit.called).to.be.false;
+  });
+
+  it('should show an error alert on the summary page and prevent navigation even if schema is set as required', async () => {
+    const { container, onSubmit } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }, { name: 'Test 2' }],
+      radioData: 'N',
+      urlParams: '',
+      useWebComponent: true,
+      fullData: { employers: [{ name: 'Test' }, { name: 'Test 2' }] },
+    });
+
+    expect(container.querySelector('va-alert')).to.not.exist;
+
+    fireEvent.click(container.querySelector('va-button[continue]'));
+    await expect(onSubmit.called).to.be.false;
   });
 
   it('should display summaryTitleWithoutItems and summaryDescriptionWithoutItems text override when array is empty', () => {
@@ -487,6 +570,20 @@ describe('ArrayBuilderSummaryPage', () => {
       .not.exist;
     expect(container.querySelector('.wc-pattern-array-builder-yes-no')).to.not
       .exist;
+
+    const linkElement = container.querySelector(
+      'va-link-action[name="employersAddLink"]',
+    );
+    expect(
+      linkElement.classList.contains(
+        'wc-pattern-array-builder-summary-add-link',
+      ),
+    ).to.be.true;
+    expect(linkElement.classList.contains('vads-web-component-pattern')).to.be
+      .true;
+    expect(linkElement.classList.contains('wc-pattern-array-builder')).to.be
+      .true;
+    expect(linkElement.getAttribute('data-array-path')).to.equal('employers');
   });
 
   it('should allow for showing a button instead of a yes no question', () => {
@@ -507,6 +604,20 @@ describe('ArrayBuilderSummaryPage', () => {
       .exist;
     expect(container.querySelector('.wc-pattern-array-builder-yes-no')).to.not
       .exist;
+
+    const buttonElement = container.querySelector(
+      'va-button[name="employersAddButton"]',
+    );
+    expect(
+      buttonElement.classList.contains(
+        'wc-pattern-array-builder-summary-add-button',
+      ),
+    ).to.be.true;
+    expect(buttonElement.classList.contains('vads-web-component-pattern')).to.be
+      .true;
+    expect(buttonElement.classList.contains('wc-pattern-array-builder')).to.be
+      .true;
+    expect(buttonElement.getAttribute('data-array-path')).to.equal('employers');
   });
 
   it('should allow empty schema with a link', () => {
@@ -526,11 +637,7 @@ describe('ArrayBuilderSummaryPage', () => {
   });
 
   it('should display a removed item alert from 1 -> 0 items', async () => {
-    const {
-      container,
-      setFormData,
-      rerenderWithNewData,
-    } = setupArrayBuilderSummaryPage({
+    const { container, onChange } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }],
       urlParams: '',
       maxItems: 5,
@@ -544,20 +651,15 @@ describe('ArrayBuilderSummaryPage', () => {
     expect(modal).to.have.attribute('visible');
     modal.__events.primaryButtonClick();
     await waitFor(() => {
-      sinon.assert.calledWith(setFormData, {});
-      rerenderWithNewData({});
+      sinon.assert.calledOnce(onChange);
+      sinon.assert.calledWithMatch(onChange, {});
       const alert = container.querySelector('va-alert');
       expect(alert).to.include.text('has been deleted');
-      expect(setFormData.args[0][0]).to.eql({});
     });
   });
 
   it('should display a removed item alert from 2 -> 1 items', async () => {
-    const {
-      container,
-      setFormData,
-      rerenderWithNewData,
-    } = setupArrayBuilderSummaryPage({
+    const { container, onChange } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }, { name: 'Test 2' }],
       urlParams: '',
       maxItems: 5,
@@ -571,15 +673,12 @@ describe('ArrayBuilderSummaryPage', () => {
     expect(modal).to.have.attribute('visible');
     modal.__events.primaryButtonClick();
     await waitFor(() => {
-      sinon.assert.calledWith(setFormData, {
-        employers: [{ name: 'Test 2' }],
-      });
-      rerenderWithNewData({
+      sinon.assert.calledOnce(onChange);
+      sinon.assert.calledWithMatch(onChange, {
         employers: [{ name: 'Test 2' }],
       });
       const alert = container.querySelector('va-alert');
       expect(alert).to.include.text('has been deleted');
-      expect(setFormData.args[0][0].employers).to.have.lengthOf(1);
     });
   });
 
@@ -650,5 +749,32 @@ describe('ArrayBuilderSummaryPage', () => {
     expect(cards[0].querySelector('h4')).to.exist;
     const vaRadio = container.querySelector('va-radio');
     expect(vaRadio.getAttribute('label-header-level')).to.equal('4');
+  });
+
+  it('should merge over the latest data to prevent stale-closure overwrites', () => {
+    const dataRef = { current: { a: 1 } };
+    const setData = sinon.spy();
+    const setDataFromRef = stubSetDataFromRef(dataRef, setData);
+
+    // simulate external update (Redux pushed new form data)
+    dataRef.current = { a: 1, b: 2 };
+    setDataFromRef({ c: 3 });
+
+    sinon.assert.calledOnceWithExactly(setData, { a: 1, b: 2, c: 3 });
+  });
+
+  it('should write through to the ref synchronously to eliminate the out-of-sync window', () => {
+    const dataRef = { current: { x: 0 } };
+    const setData = sinon.spy();
+    const setDataFromRef = stubSetDataFromRef(dataRef, setData);
+
+    setDataFromRef({ x: 1 });
+
+    sinon.assert.calledOnce(setData);
+    const nextData = setData.firstCall.args[0];
+
+    // ensure the ref points to the same object instance
+    expect(dataRef.current).to.equal(nextData);
+    expect(dataRef.current).to.deep.equal({ x: 1 });
   });
 });

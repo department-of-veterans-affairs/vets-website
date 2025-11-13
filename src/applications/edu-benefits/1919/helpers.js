@@ -77,12 +77,15 @@ export const proprietaryProfitConflictsArrayOptions = {
   nounPlural: 'individuals',
   required: false,
   text: {
-    getItemName: item => `${item?.first || ''} ${item?.last || ''}`.trim(),
+    getItemName: item =>
+      `${item?.affiliatedIndividuals?.first || ''} ${item?.affiliatedIndividuals
+        ?.last || ''}`.trim(),
     cardDescription: item => (
       <>
-        {item?.title}
+        {item?.affiliatedIndividuals?.title}
         <div className=" vads-u-margin-y--2">
-          {item?.individualAssociationType === 'vaEmployee'
+          {item?.affiliatedIndividuals?.individualAssociationType ===
+          'vaEmployee'
             ? 'VA employee'
             : 'SAA employee'}
         </div>

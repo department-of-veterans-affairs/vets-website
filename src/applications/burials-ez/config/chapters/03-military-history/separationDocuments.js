@@ -28,14 +28,11 @@ export default {
           about military service history, you can request them and finish this
           form later.{' '}
         </p>
-        <a
+        <va-link
           href="/records/get-military-service-records/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn more about requesting military service records (opens in new
-          tab)
-        </a>
+          text="Learn more about requesting military service records"
+          external
+        />
       </>
     ),
     'view:separationDocuments': yesNoUI(

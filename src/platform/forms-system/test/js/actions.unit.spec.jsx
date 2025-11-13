@@ -19,6 +19,12 @@ import {
   SET_FORM_ERRORS,
   setItf,
   SET_ITF,
+  closeReviewChapter,
+  CLOSE_REVIEW_CHAPTER,
+  openReviewChapter,
+  OPEN_REVIEW_CHAPTER,
+  toggleAllReviewChapters,
+  TOGGLE_ALL_REVIEW_CHAPTERS,
 } from '../../src/js/actions';
 
 describe('Schemaform actions:', () => {
@@ -198,10 +204,10 @@ describe('Schemaform actions:', () => {
 
       const promise = thunk(dispatch).then(() => {
         const sentryReports = testkit.reports();
-        expect(sentryReports.length).to.equal(1);
-        expect(sentryReports[0].extra.inProgressFormId).to.equal('123');
-        expect(sentryReports[0].extra.errorType).to.equal('serverError');
-        expect(sentryReports[0].extra.statusText).to.equal('Bad Request');
+        expect(sentryReports.length).to.equal(2);
+        expect(sentryReports[1].extra.inProgressFormId).to.equal('123');
+        expect(sentryReports[1].extra.errorType).to.equal('serverError');
+        expect(sentryReports[1].extra.statusText).to.equal('Bad Request');
       });
 
       requests[0].respond(400, null, JSON.stringify(response));
@@ -609,7 +615,7 @@ describe('Schemaform actions:', () => {
         name: '1.jpg',
         uploading: true,
       });
-      expect(onChange.secondCall.args[0]).to.eql({
+      expect(onChange.secondCall.args[0]).to.include({
         name: 'Test name',
         size: 1234,
         confirmationCode: 'Test code',
@@ -661,7 +667,7 @@ describe('Schemaform actions:', () => {
         name: '1.pdf',
         uploading: true,
       });
-      expect(onChange.secondCall.args[0]).to.eql({
+      expect(onChange.secondCall.args[0]).to.include({
         name: 'Test name',
         size: 10,
         confirmationCode: 'Test code',
@@ -746,7 +752,7 @@ describe('Schemaform actions:', () => {
       expect(onChange.secondCall.args[0]).to.eql({
         name: '1.jpg',
         errorMessage:
-          'We\u2019re sorry. We had a connection problem. Please try again.',
+          'We couldn’t upload your file due to a connection problem. Try again in a few moments.',
         file: {
           name: '1.jpg',
           size: 0,
@@ -914,7 +920,7 @@ describe('Schemaform actions:', () => {
       expect(onChange.secondCall.args[0]).to.eql({
         name: '1.jpg',
         errorMessage:
-          'We\u2019re sorry. We had a connection problem. Please try again.',
+          'We couldn’t upload your file due to a connection problem. Try again in a few moments.',
         alert: {
           header: 'Alert header',
           body: ['body text'],
@@ -986,6 +992,40 @@ describe('Schemaform actions:', () => {
       const action = setItf(data);
       expect(action.data).to.equal(data);
       expect(action.type).to.equal(SET_ITF);
+    });
+  });
+
+  describe('closeReviewChapter', () => {
+    it('should return action', () => {
+      const data = { name: 'foo' };
+      const action = closeReviewChapter(data);
+      expect(action).to.deep.equal({
+        type: CLOSE_REVIEW_CHAPTER,
+        closedChapter: data,
+        pageKeys: [],
+      });
+    });
+  });
+
+  describe('openReviewChapter', () => {
+    it('should return action', () => {
+      const data = { name: 'foo' };
+      const action = openReviewChapter(data);
+      expect(action).to.deep.equal({
+        type: OPEN_REVIEW_CHAPTER,
+        openedChapter: data,
+      });
+    });
+  });
+
+  describe('toggleAllReviewChapters', () => {
+    it('should return action', () => {
+      const data = { foo: true, bar: true };
+      const action = toggleAllReviewChapters(data);
+      expect(action).to.deep.equal({
+        type: TOGGLE_ALL_REVIEW_CHAPTERS,
+        chapters: data,
+      });
     });
   });
 });

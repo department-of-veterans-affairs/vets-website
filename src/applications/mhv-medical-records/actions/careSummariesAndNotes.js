@@ -1,4 +1,9 @@
-import { getNote, getNotes } from '../api/MrApi';
+import {
+  getNote,
+  getNotes,
+  getAcceleratedNotes,
+  getAcceleratedNote,
+} from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
@@ -7,15 +12,19 @@ import { getListWithRetry } from './common';
 
 export const getCareSummariesAndNotesList = (
   isCurrent = false,
+  isAccelerating = false,
 ) => async dispatch => {
   dispatch({
     type: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const response = await getListWithRetry(dispatch, getNotes);
+    const getData = isAccelerating ? getAcceleratedNotes : getNotes;
+    const response = await getListWithRetry(dispatch, getData);
     dispatch({
-      type: Actions.CareSummariesAndNotes.GET_LIST,
+      type: isAccelerating
+        ? Actions.CareSummariesAndNotes.GET_UNIFIED_LIST
+        : Actions.CareSummariesAndNotes.GET_LIST,
       response,
       isCurrent,
     });
@@ -28,15 +37,18 @@ export const getCareSummariesAndNotesList = (
 export const getCareSummaryAndNotesDetails = (
   noteId,
   noteList,
+  isAccelerating = false,
 ) => async dispatch => {
   try {
     await dispatchDetails(
       noteId,
       noteList,
       dispatch,
-      getNote,
+      isAccelerating ? getAcceleratedNote : getNote,
       Actions.CareSummariesAndNotes.GET_FROM_LIST,
-      Actions.CareSummariesAndNotes.GET,
+      isAccelerating
+        ? Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM
+        : Actions.CareSummariesAndNotes.GET,
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));

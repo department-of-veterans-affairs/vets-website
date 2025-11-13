@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 
-import { toPascalCase, toSentenceCase } from '../../util/string-helpers';
+import {
+  toPascalCase,
+  toSentenceCase,
+  currency,
+} from '../../util/string-helpers';
 
 describe('toPascalCase', () => {
   it('Generates PascalCase from a string', () => {
@@ -23,5 +27,16 @@ describe('toSentenceCase', () => {
     expect(toSentenceCase(string)).to.eq('In manual review');
     expect(toSentenceCase(camelString)).to.eq('In manual review');
     expect(toSentenceCase(lowString)).to.eq('In manual review');
+  });
+});
+
+describe('currency', () => {
+  it('Formats numbers as US currency', () => {
+    expect(currency(123.45)).to.eq('$123.45');
+    expect(currency(123.4)).to.eq('$123.40');
+    expect(currency('123.45')).to.eq('$123.45');
+    expect(currency(123)).to.eq('$123.00');
+    expect(currency(0)).to.eq('$0.00');
+    expect(currency('1234.567')).to.eq('$1,234.57');
   });
 });

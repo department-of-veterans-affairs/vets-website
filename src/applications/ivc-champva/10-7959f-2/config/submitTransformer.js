@@ -20,6 +20,11 @@ export default function transformForSubmit(formConfig, form) {
     formsSystemTransformForSubmit(formConfig, form),
   );
 
+  // concat international phone object to appropriate numeric string
+  const intlPhoneJoined =
+    (transformedData.veteranPhoneNumber?.callingCode || '') +
+    (transformedData.veteranPhoneNumber?.contact || '');
+
   const dataPostTransform = {
     veteran: {
       date_of_birth: formatDateShort(transformedData.veteranDateOfBirth),
@@ -40,10 +45,9 @@ export default function transformForSubmit(formConfig, form) {
         state: 'NA',
         postalCode: 'NA',
       },
-      ssn: transformedData?.veteranSocialSecurityNumber?.ssn || '',
-      va_claim_number:
-        transformedData?.veteranSocialSecurityNumber?.vaFileNumber || '',
-      phone_number: transformedData.veteranPhoneNumber || '',
+      ssn: transformedData?.veteranSocialSecurityNumber || '',
+      va_claim_number: '',
+      phone_number: intlPhoneJoined,
       email_address: transformedData.veteranEmailAddress || '',
       send_payment: transformedData.sendPayment,
     },
@@ -54,7 +58,7 @@ export default function transformForSubmit(formConfig, form) {
         first: transformedData.veteranFullName?.first,
         last: transformedData.veteranFullName?.last,
       },
-      phone: transformedData.veteranPhoneNumber,
+      phone: intlPhoneJoined,
       email: transformedData.veteranEmailAddress,
     },
     // Grab all files uploaded

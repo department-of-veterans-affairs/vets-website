@@ -13,7 +13,6 @@ import {
   CSP_IDS,
 } from 'platform/user/authentication/constants';
 import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
-// import { useDatadogRum } from 'platform/user/authentication/hooks/useDatadogRum';
 import { setupProfileSession } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -24,6 +23,7 @@ import RenderErrorUI from '../components/RenderErrorContainer';
 import AuthMetrics from './AuthMetrics';
 import {
   checkReturnUrl,
+  emailNeedsConfirmation,
   generateSentryAuthError,
   handleTokenRequest,
 } from '../helpers';
@@ -31,8 +31,6 @@ import {
 const REDIRECT_IGNORE_PATTERN = new RegExp(['/auth/login/callback'].join('|'));
 
 export default function AuthApp({ location }) {
-  // useDatadogRum();
-
   const [
     { auth, errorCode, returnUrl, loginType, state, requestId },
     setAuthState,
@@ -53,6 +51,9 @@ export default function AuthApp({ location }) {
   );
   const isInterstitialEnabled = useSelector(
     store => store?.featureToggles?.dslogonInterstitialRedirect,
+  );
+  const isEmailInterstitialEnabled = useSelector(
+    store => store?.featureToggles?.confirmContactEmailInterstitialEnabled,
   );
 
   const handleAuthError = (error, codeOverride) => {
@@ -158,13 +159,23 @@ export default function AuthApp({ location }) {
       requestId,
       errorCode,
     );
-    const { userProfile } = authMetrics;
     if (returnUrl?.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])) {
       await handleProvisioning();
     }
+    const { userAttributes, userProfile } = authMetrics;
     authMetrics.run();
     if (!skipToRedirect) {
       setupProfileSession(userProfile);
+    }
+    if (
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled,
+        loginType,
+        userAttributes,
+      })
+    ) {
+      window.location.replace('/sign-in-confirm-contact-email');
+      return;
     }
     redirect();
   };

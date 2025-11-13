@@ -42,7 +42,7 @@ function getEditVaButton(numberName) {
 }
 
 // helper function that enters the `Edit phone number` view, enters a number,
-// and clicks the `Update` button.
+// and clicks the `Save` button.
 function editPhoneNumber(
   numberName,
   options = { areaCode: defaultAreaCode, phoneNumber: defaultPhoneNumber },
@@ -66,7 +66,11 @@ function editPhoneNumber(
   }
 
   // save
-  view.getByText('Save', { selector: 'button' }).click();
+  view.getByTestId('save-edit-button').click();
+
+  // manually submit the form since va-button sets submit="prevent"
+  const form = view.getByTestId('save-edit-button').closest('form');
+  fireEvent.submit(form);
 
   return { phoneNumberInput };
 }
@@ -97,18 +101,20 @@ async function testSlowSuccess(numberName) {
 
   const { phoneNumberInput } = editPhoneNumber(numberName);
 
+  // assert the save va-button is in a loading state
+  const saveButton = view.getByTestId('save-edit-button');
+  expect(saveButton).to.have.attribute('loading', 'true');
+
   // wait for the edit mode to exit
   await waitForElementToBeRemoved(phoneNumberInput);
 
-  // check that the "we're saving your..." message appears
-  const savingMessage = await view.findByText(
-    /We’re working on saving your new.*/i,
-  );
-  expect(savingMessage).to.exist;
+  // the va-loading-indicator should display
+  await view.findByTestId('loading-indicator');
 
   server.use(...mocks.transactionSucceeded);
 
-  await waitForElementToBeRemoved(savingMessage);
+  // update saved alert should appear
+  await view.findByTestId('update-success-alert');
 
   // the edit button should exist
   expect(getEditVaButton(numberName)).to.exist;
@@ -159,25 +165,20 @@ async function testSlowFailure(numberName) {
 
   const { phoneNumberInput } = editPhoneNumber(numberName);
 
+  // assert the save va-button is in a loading state
+  const saveButton = view.getByTestId('save-edit-button');
+  expect(saveButton).to.have.attribute('loading', 'true');
+
   // wait for the edit mode to exit
   await waitForElementToBeRemoved(phoneNumberInput);
 
-  // check that the "we're saving your..." message appears
-  const savingMessage = await view.findByText(
-    /We’re working on saving your new.*/i,
-  );
-  expect(savingMessage).to.exist;
+  // the va-loading-indicator should display
+  await view.findByTestId('loading-indicator');
 
   server.use(...mocks.transactionFailed);
 
-  await waitForElementToBeRemoved(savingMessage);
-
-  // make sure the error message appears
-  expect(
-    view.getByText(
-      /We couldn’t save your recent .* number update. Please try again later/i,
-    ),
-  ).to.exist;
+  // the error alert should appear
+  await view.findByTestId('generic-error-alert');
 
   // and the edit button should be back
   expect(getEditVaButton(numberName)).to.exist;
@@ -239,7 +240,7 @@ describe('Editing', () => {
       phoneNumber: '45678',
     });
 
-    fireEvent.click(await view.findByText(/Save/i));
+    fireEvent.click(await view.findByTestId('save-edit-button'));
 
     const homePhoneInput = $('va-text-input[label^="Home phone"]');
     expect(homePhoneInput.error).to.contain('This field should be at least 10');
@@ -253,7 +254,7 @@ describe('Editing', () => {
       phoneNumber: '45678a',
     });
 
-    fireEvent.click(await view.findByText(/Save/i));
+    fireEvent.click(await view.findByTestId('save-edit-button'));
 
     const homePhoneInput = $('va-text-input[label^="Home phone"]');
     expect(homePhoneInput.error).to.eq('Enter a 10 digit phone number');

@@ -4,9 +4,10 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 const GenericDisasterAlert = () => {
   return (
     <va-alert-expandable
-      trigger="Need help with VA Debt after a natural disaster?"
+      trigger="Need help with VA debt after a natural disaster?"
       status="info"
       uswds
+      class="vads-u-margin-bottom--4"
     >
       <ul>
         <li>

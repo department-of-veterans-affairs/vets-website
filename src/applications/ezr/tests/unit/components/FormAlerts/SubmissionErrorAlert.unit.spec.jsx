@@ -21,6 +21,11 @@ describe('ezr <SubmissionErrorAlert>', () => {
             ...featureToggle,
           },
         },
+        user: {
+          profile: {
+            userFullName: { first: 'John', last: 'Smith' },
+          },
+        },
       }),
       subscribe: () => {},
       dispatch: () => {},

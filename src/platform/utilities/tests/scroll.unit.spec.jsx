@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { $ } from '../../forms-system/src/js/utilities/ui';
@@ -455,7 +455,9 @@ describe('scrollToFirstError', () => {
     await scrollToFirstError({ focusOnAlertRole: true });
 
     assertScrollSpy();
-    assertFocusStub('[role="alert"]');
+    await waitFor(() => {
+      assertFocusStub('[role="alert"]');
+    });
   });
 
   it('should scroll and focus when error element appears via DOM mutation', async () => {
@@ -616,6 +618,7 @@ describe('scrollAndFocus', () => {
       behavior: 'smooth',
     });
     expect(focusSpy.args[0][0].id).to.eq('second');
+    expect(focusSpy.args[0][1]).to.deep.equal({ preventScroll: true });
     focusSpy.restore();
   });
 

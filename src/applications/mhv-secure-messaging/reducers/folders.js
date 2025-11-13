@@ -39,7 +39,7 @@ export const foldersReducer = (state = initialState, action) => {
         folder: !action.response ? null : action.response.data.attributes,
       };
     case Actions.Folder.CLEAR:
-      return { ...state, folder: { ...initialState } };
+      return { ...state, folder: { ...initialState.folder } };
     case Actions.Folder.DELETE:
       return {
         ...state,

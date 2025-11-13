@@ -1,5 +1,5 @@
 import {
-  testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFields,
 } from '../helpers.spec';
 import formConfig from '../../../../config/form';
@@ -20,7 +20,7 @@ testNumberOfFields(
 
 // run test for correct number of error messages on submit
 const expectedNumberOfErrors = 3;
-testNumberOfErrorsOnSubmit(
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,

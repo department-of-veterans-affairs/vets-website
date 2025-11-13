@@ -1,13 +1,9 @@
 /* eslint-disable cypress/unsafe-to-chain-command */
 // START lighthouse_migration
+import Timeouts from 'platform/testing/e2e/timeouts';
 import featureToggleClaimDetailV2Enabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-detail-v2-enabled.json';
 import featureToggleClaimPhasesEnabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-phases-enabled.json';
-import featureToggle5103UpdateEnabled from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled.json';
-import featureToggle5103UpdateEnabledV2 from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled-v2.json';
-import featureToggleFriendlyEvidenceRequests from '../fixtures/mocks/lighthouse/feature-toggle-cst-friendly-evidence-requests.json';
 // END lighthouse_migration
-
-const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 /* eslint-disable class-methods-use-this */
 class TrackClaimsPageV2 {
@@ -16,9 +12,7 @@ class TrackClaimsPageV2 {
     mock = null,
     submitForm = false,
     cstClaimPhasesToggleEnabled = false,
-    cst5103UpdateEnabled = false,
-    cst5103UpdateEnabledV2 = false,
-    cstFriendlyEvidenceRequest = false,
+    customFeatureToggles = null,
   ) {
     if (submitForm) {
       cy.intercept('POST', `/v0/benefits_claims/189685/submit5103`, {
@@ -32,33 +26,15 @@ class TrackClaimsPageV2 {
       );
     }
 
-    if (cstClaimPhasesToggleEnabled) {
+    if (customFeatureToggles) {
+      // Use custom feature toggles when provided
+      cy.intercept('GET', '/v0/feature_toggles?*', customFeatureToggles);
+    } else if (cstClaimPhasesToggleEnabled) {
       // When cst_use_claim_details_v2 and cst_claim_phases are enabled
       cy.intercept(
         'GET',
         '/v0/feature_toggles?*',
         featureToggleClaimPhasesEnabled,
-      );
-    } else if (cst5103UpdateEnabled) {
-      // When cst_use_claim_details_v2 is disabled, cst_5103_update_enabled is enabled
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles?*',
-        featureToggle5103UpdateEnabled,
-      );
-    } else if (cst5103UpdateEnabledV2) {
-      // When cst_use_claim_details_v2 and cst_5103_update_enabled are enabled
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles?*',
-        featureToggle5103UpdateEnabledV2,
-      );
-    } else if (cstFriendlyEvidenceRequest) {
-      // When cst_use_claim_details_v2 and cst_friendly_evidence_requests are enabled
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles?*',
-        featureToggleFriendlyEvidenceRequests,
       );
     } else {
       cy.intercept(
@@ -233,6 +209,124 @@ class TrackClaimsPageV2 {
     );
   }
 
+  verifyFilesReceived(number) {
+    cy.get('.tabs li:nth-child(2) > a')
+      .click()
+      .then(() => {
+        cy.get('.files-received-container').should('be.visible');
+
+        if (number === 0) {
+          // Verify empty state message - check for partial text to handle different apostrophe types
+          cy.get(
+            '.files-received-container [data-testid="files-received-cards"]',
+          ).should('contain', 'We haven’t received any files yet.');
+        } else {
+          // Verify cards are rendered
+          cy.get('[data-testid^="file-received-card-"]').should(
+            'have.length',
+            number,
+          );
+
+          // Verify each card has all required elements
+          cy.get('[data-testid^="file-received-card-"]').each($card => {
+            cy.wrap($card).within(() => {
+              // 1. Each card should have a status badge
+              cy.get('.file-status-badge').should('exist');
+
+              // 2. Each card should have a filename (or "File name unknown")
+              cy.get('.filename-title').should('exist');
+
+              // 3. Each card should have a received date
+              cy.get('.file-received-date').should('exist');
+            });
+          });
+        }
+
+        cy.injectAxeThenAxeCheck();
+      });
+  }
+
+  clickShowMoreFilesReceived() {
+    cy.get('[data-testid="show-more-button"]')
+      .shadow()
+      .find('button')
+      .click();
+  }
+
+  verifyShowMoreFilesReceivedButtonText(text) {
+    cy.get('[data-testid="show-more-button"]')
+      .should('exist')
+      .and('have.attr', 'text', text);
+  }
+
+  verifyShowMoreFilesReceivedButtonNotExists() {
+    cy.get('[data-testid="show-more-button"]').should('not.exist');
+  }
+
+  verifyFileSubmissionsInProgress(numFilesInProgress, numSupportingDocs = 0) {
+    cy.get('.tabs li:nth-child(2) > a')
+      .click()
+      .then(() => {
+        cy.get('.file-submissions-in-progress-container').should('be.visible');
+
+        if (numFilesInProgress === 0) {
+          // Verify empty state message
+          const emptyMessage =
+            numSupportingDocs === 0
+              ? 'You don’t have any file submissions in progress.'
+              : 'We’ve received all the files you’ve uploaded.';
+          cy.get(
+            '.file-submissions-in-progress-container [data-testid="file-submissions-in-progress-cards"]',
+          ).should('contain', emptyMessage);
+        } else {
+          // Verify cards are rendered
+          cy.get('[data-testid^="file-in-progress-card-"]').should(
+            'have.length',
+            numFilesInProgress,
+          );
+
+          // Verify each card has all required elements
+          cy.get('[data-testid^="file-in-progress-card-"]').each($card => {
+            cy.wrap($card).within(() => {
+              // 1. Each card should have a status badge
+              cy.get('.file-status-badge').should('exist');
+
+              // 2. Each card should have a filename (or "File name unknown")
+              cy.get('.filename-title').should('exist');
+
+              // 3. Each card should have a submitted date
+              cy.get('.file-submitted-date').should('exist');
+            });
+          });
+        }
+
+        cy.injectAxeThenAxeCheck();
+      });
+  }
+
+  clickShowMoreFilesInProgress() {
+    cy.get(
+      '.file-submissions-in-progress-container [data-testid="show-more-in-progress-button"]',
+    )
+      .shadow()
+      .find('button')
+      .click();
+  }
+
+  verifyShowMoreFilesInProgressButtonText(text) {
+    cy.get(
+      '.file-submissions-in-progress-container [data-testid="show-more-in-progress-button"]',
+    )
+      .should('exist')
+      .and('have.attr', 'text', text);
+  }
+
+  verifyShowMoreFilesInProgressButtonNotExists() {
+    cy.get(
+      '.file-submissions-in-progress-container [data-testid="show-more-in-progress-button"]',
+    ).should('not.exist');
+  }
+
   verifyClaimEvidence(nthEvidenceSubmission, claimStatus) {
     cy.get(
       `.documents-filed-container > ol li:nth-child(${nthEvidenceSubmission}) div > .docs-filed-text`,
@@ -306,66 +400,104 @@ class TrackClaimsPageV2 {
     cy.axeCheck();
   }
 
-  submitFilesForReview(isOldVersion = false) {
+  submitFilesForReview(showDocumentUploadStatus = false) {
     cy.intercept('POST', `/v0/benefits_claims/189685/benefits_documents`, {
       body: {},
     }).as('documents');
-    cy.get('#file-upload')
+
+    const fileName = 'file-upload-test.txt';
+    const docType = 'L029';
+
+    // Upload file to va-file-input-multiple
+    cy.get('va-file-input-multiple')
       .shadow()
-      .find('input')
-      .selectFile(
-        {
-          contents: Cypress.Buffer.from('test file contents'),
-          fileName: 'file-upload-test.txt',
-          mimeType: 'text/plain',
-          lastModified: Date.now(),
-        },
-        { force: true },
-      )
-      .then(() => {
-        cy.get('.document-item-container va-select')
-          .shadow()
-          .find('select')
-          .select('L029');
+      .find('va-file-input')
+      .first()
+      .shadow()
+      .find('input[type="file"]')
+      .selectFile({
+        contents: Cypress.Buffer.from('test file contents'),
+        fileName,
+        mimeType: 'text/plain',
       });
 
-    if (isOldVersion) {
-      cy.get('va-button.submit-files-button')
-        .shadow()
-        .find('button')
-        .click();
-    } else {
-      cy.get('va-button#submit')
-        .shadow()
-        .find('button')
-        .click();
-    }
+    // Wait for file processing and select document type
+    cy.get('va-file-input-multiple')
+      .shadow()
+      .find('va-file-input')
+      .first()
+      .find('va-select')
+      .should('be.visible')
+      .shadow()
+      .find('select')
+      .should('not.be.disabled')
+      .should('be.visible')
+      .select(docType);
 
-    cy.wait('@documents');
-    cy.get('va-alert h2').should('contain', 'We received your file upload');
+    // Capture URL before clicking submit (since navigation happens after)
+    cy.url().then(currentUrl => {
+      const trackedItemMatch = currentUrl.match(
+        /\/(document-request|needed-from-you|needed-from-others)\/(\d+)/,
+      );
+
+      // Click submit button - use different text based on feature toggle
+      const buttonText = showDocumentUploadStatus
+        ? 'Submit files for review'
+        : 'Submit documents for review';
+      cy.get(`.add-files-form va-button[text="${buttonText}"]`)
+        .shadow()
+        .find('button')
+        .click();
+
+      cy.wait('@documents').then(interception => {
+        const formData = interception.request.body;
+
+        // Always verify file name and document type
+        expect(formData).to.contain(`name="qqfilename"`);
+        expect(formData).to.contain(fileName);
+        expect(formData).to.contain(`name="document_type"`);
+        expect(formData).to.contain(docType);
+
+        if (trackedItemMatch) {
+          // DocumentRequest flow - should have tracked item ID
+          const expectedTrackedItemId = trackedItemMatch[2];
+          expect(formData).to.contain('tracked_item_ids');
+          expect(formData).to.contain(`[${expectedTrackedItemId}]`);
+        } else {
+          // General files flow - should have tracked_item_ids with null value
+          expect(formData).to.contain('tracked_item_ids');
+          expect(formData).to.contain('[null]');
+        }
+      });
+    });
+
+    const alertHeading = showDocumentUploadStatus
+      ? 'Document submission started on'
+      : 'We received your file upload';
+    cy.get('va-alert h2').should('contain', alertHeading);
   }
 
-  submitFilesShowsError() {
-    // Try to upload an empty file to trigger validation error
-    cy.get('#file-upload')
+  submitFilesShowsError(showDocumentUploadStatus = false) {
+    // Click submit without selecting any files to trigger validation error
+    const buttonText = showDocumentUploadStatus
+      ? 'Submit files for review'
+      : 'Submit documents for review';
+    cy.get(`va-button[text="${buttonText}"]`)
       .shadow()
-      .find('input')
-      .selectFile(
-        {
-          contents: Cypress.Buffer.alloc(0),
-          fileName: 'empty-file.txt',
-          mimeType: 'text/plain',
-          lastModified: Date.now(),
-        },
-        { force: true },
-      )
-      .then(() => {
-        cy.get('va-file-input')
-          .shadow()
-          .find('#error-message')
-          .should('contain', 'The file you selected is empty');
-        cy.injectAxeThenAxeCheck();
-      });
+      .find('button')
+      .click();
+
+    // Check for error message in va-file-input-multiple
+    cy.get('va-file-input-multiple')
+      .shadow()
+      .find('va-file-input')
+      .first()
+      .shadow()
+      .find('#file-input-error-alert')
+      .should('be.visible')
+      .and('contain.text', 'Please select a file first');
+
+    cy.injectAxeThenAxeCheck();
   }
 
   verifyContentions() {
@@ -421,11 +553,11 @@ class TrackClaimsPageV2 {
         // Verify some tracked items on page 1
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We completed a review for the request: “Automated 5103 Notice Response”',
+          'We completed a review for the request: “List of evidence we may need (5103 notice)”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We opened a request: “Automated 5103 Notice Response”',
+          'We opened a request: “List of evidence we may need (5103 notice)”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
@@ -473,11 +605,11 @@ class TrackClaimsPageV2 {
       // Verify some tracked items on page 1
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We completed a review for the request: “Automated 5103 Notice Response”',
+        'We completed a review for the request: “List of evidence we may need (5103 notice)”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We opened a request: “Automated 5103 Notice Response”',
+        'We opened a request: “List of evidence we may need (5103 notice)”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
@@ -540,7 +672,7 @@ class TrackClaimsPageV2 {
       .first()
       .shadow()
       .get('va-alert.primary-alert:first-of-type a')
-      .should('contain', 'Details');
+      .should('contain', 'About this request');
     cy.get('va-alert.primary-alert')
       .first()
       .shadow()
@@ -548,7 +680,7 @@ class TrackClaimsPageV2 {
       .click();
     cy.url().should(
       'contain',
-      '/track-claims/your-claims/189685/document-request/2',
+      '/track-claims/your-claims/189685/needed-from-you/2',
     );
   }
 
@@ -557,13 +689,7 @@ class TrackClaimsPageV2 {
     cy.get('[data-testid="item-2"]')
       .shadow()
       .get('[data-testid="item-2"]:first-of-type a')
-      .should('contain', 'Details');
-    cy.get('[data-testid="item-2"]')
-      .find('.due-date-header')
-      .should(
-        'contain',
-        'Needed from you by February 4, 2022 - Due 3 years ago',
-      );
+      .should('contain', 'About this request');
     cy.get('[data-testid="item-2"]')
       .find('.alert-description')
       .should('contain', 'Submit Buddy Statement(s)');
@@ -573,7 +699,7 @@ class TrackClaimsPageV2 {
       .click();
     cy.url().should(
       'contain',
-      '/track-claims/your-claims/189685/document-request/2',
+      '/track-claims/your-claims/189685/needed-from-you/2',
     );
   }
 
@@ -585,7 +711,7 @@ class TrackClaimsPageV2 {
       : '[data-testid="item-13"]';
     const url = isStandard
       ? '/track-claims/your-claims/189685/5103-evidence-notice'
-      : '/track-claims/your-claims/189685/document-request/13';
+      : '/track-claims/your-claims/189685/needed-from-you/13';
     cy.get(testId).should('be.visible');
     if (isStandard || is5103Update) {
       cy.get(testId)
@@ -594,11 +720,11 @@ class TrackClaimsPageV2 {
     } else {
       cy.get(testId)
         .find('h4')
-        .should('contain', 'Automated 5103 Notice Response');
+        .should('contain', 'Request for evidence');
     }
     cy.get(testId)
       .find('a')
-      .should('contain', 'Details');
+      .should('contain', 'About this request');
     cy.get(testId)
       .find('.alert-description')
       .first()
@@ -612,20 +738,8 @@ class TrackClaimsPageV2 {
     cy.url().should('contain', url);
   }
 
-  verifyDocRequestforDefaultPage(is5103Notice = false) {
+  verifyDocRequestforDefaultPage() {
     cy.get('#default-page').should('be.visible');
-    if (is5103Notice) {
-      cy.get('.due-date-header').should(
-        'contain',
-        'Needed from you by July 14, 2024',
-      );
-    } else {
-      cy.get('.due-date-header').should(
-        'contain',
-        'Needed from you by February 4, 2022 - Due 3 years ago',
-      );
-    }
-    cy.get('va-additional-info').should('be.visible');
   }
 
   // Not currently using Standard 5103 Notice. Was being used on WhatYouNeedToDo and AdditionalEvidence.
@@ -678,7 +792,7 @@ class TrackClaimsPageV2 {
     } else {
       cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
         'contain',
-        'Submit Buddy Statement(s)',
+        'Request for evidence',
       );
     }
   }
@@ -722,7 +836,7 @@ class TrackClaimsPageV2 {
       .shadow()
       .get('va-alert[status="info"] a')
       .first()
-      .should('contain', 'add it here');
+      .should('contain', 'About this notice');
     cy.get('va-alert[status="info"]')
       .first()
       .shadow()
@@ -731,7 +845,7 @@ class TrackClaimsPageV2 {
       .click();
     cy.url().should(
       'contain',
-      '/track-claims/your-claims/189685/document-request/4',
+      '/track-claims/your-claims/189685/needed-from-others/4',
     );
   }
 
@@ -743,7 +857,7 @@ class TrackClaimsPageV2 {
       .first()
       .shadow()
       .get('.recent-activity-container va-alert[status="info"]:first-of-type a')
-      .should('contain', 'add it here');
+      .should('contain', 'About this notice');
     cy.get('.recent-activity-container va-alert[status="info"]')
       .first()
       .shadow()
@@ -752,7 +866,7 @@ class TrackClaimsPageV2 {
       .click();
     cy.url().should(
       'contain',
-      '/track-claims/your-claims/189685/document-request/4',
+      '/track-claims/your-claims/189685/needed-from-others/4',
     );
   }
 
@@ -867,6 +981,50 @@ class TrackClaimsPageV2 {
       'div.optional-upload > p',
       'This is just a notice. No action is needed by you. But, if you have documents related to this request, uploading them on this page may help speed up the evidence review for your claim.',
     );
+  }
+
+  verifyUploadType2ErrorAlert() {
+    cy.get('va-alert[status="error"]').should('be.visible');
+    cy.get('va-alert[status="error"]')
+      .find('h3')
+      .should('contain', 'We need you to submit files by mail or in person');
+  }
+
+  verifyUploadType2ErrorAlertNotPresent() {
+    cy.get('va-alert[status="error"]').should('not.exist');
+  }
+
+  verifyUploadType2ErrorAlertFileName(fileName) {
+    cy.get('va-alert[status="error"]').should('contain', fileName);
+  }
+
+  verifyUploadType2ErrorAlertMultipleFilesMessage(count) {
+    cy.get('va-alert[status="error"]').should(
+      'contain',
+      `And ${count} more within the last 30 days`,
+    );
+  }
+
+  verifyUploadType2ErrorAlertLink() {
+    cy.get('va-alert[status="error"]')
+      .find('va-link-action')
+      .should('exist')
+      .shadow()
+      .find('a')
+      .should('have.attr', 'href', '../files-we-couldnt-receive');
+  }
+
+  verifyUploadType2ErrorAlertFileOrder(expectedFiles) {
+    cy.get('va-alert[status="error"] ul li').should(
+      'have.length',
+      expectedFiles.length,
+    );
+    expectedFiles.forEach((fileName, index) => {
+      cy.get(`va-alert[status="error"] ul li:nth-child(${index + 1})`).should(
+        'contain',
+        fileName,
+      );
+    });
   }
 }
 

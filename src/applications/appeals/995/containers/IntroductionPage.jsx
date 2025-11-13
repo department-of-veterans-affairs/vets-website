@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { scrollTo } from 'platform/utilities/scroll';
-import { Toggler } from 'platform/utilities/feature-toggles';
-
 import ShowAlertOrSip from '../../shared/components/ShowAlertOrSip';
 import OmbInfo from '../content/OmbInfo';
 import { OtherBenefits } from '../../shared/content/intro';
@@ -45,7 +42,7 @@ const IntroductionPage = props => {
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Follow these steps to get started
       </h2>
-      <va-process-list uswds>
+      <va-process-list>
         <va-process-list-item header="Check your eligibility">
           <p>
             You can file a Supplemental Claim if you meet at least 1 of these
@@ -67,7 +64,7 @@ const IntroductionPage = props => {
               )
             </li>
           </ul>
-          <va-additional-info trigger="What’s a presumptive condition?" uswds>
+          <va-additional-info trigger="What’s a presumptive condition?">
             <div>
               <p className="vads-u-margin-top--0">
                 For some conditions, we automatically assume (or “presume”) that
@@ -145,7 +142,7 @@ const IntroductionPage = props => {
             </li>
             <li>The dates you were treated at that non-VA medical facility.</li>
           </ul>
-          <va-additional-info trigger="Types of Evidence" uswds>
+          <va-additional-info trigger="Types of Evidence">
             <div>
               <p className="vads-u-margin-top--0">
                 VA medical records and hospital records that relate to your
@@ -169,27 +166,20 @@ const IntroductionPage = props => {
             We’ll take you through each step of the process. It should take
             about 15 minutes.
           </p>
-          <va-additional-info trigger="What happens after I apply?" uswds>
+          <va-additional-info trigger="What happens after I apply?">
             You don’t need to do anything while you’re waiting unless we contact
             you to ask for more information. If we schedule exams for you, be
             sure not to miss them.
           </va-additional-info>
         </va-process-list-item>
       </va-process-list>
-
       <ShowAlertOrSip
         basename={location.basename}
         sipOptions={sipOptions}
         bottom
       />
-
       <OmbInfo />
-      <p />
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.scNewForm}>
-        <Toggler.Enabled>
-          <OtherBenefits />
-        </Toggler.Enabled>
-      </Toggler>
+      <OtherBenefits />
     </div>
   );
 };

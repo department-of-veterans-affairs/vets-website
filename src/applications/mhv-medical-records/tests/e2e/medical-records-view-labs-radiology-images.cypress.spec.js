@@ -9,7 +9,7 @@ import imagingStudies from './fixtures/labs-and-tests/radiologyCvix.json';
 describe('Medical Records - Radiology images are shown when requested', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
     LabsAndTestsListPage.goToLabsAndTests(
       defaultLabsAndTests,
@@ -20,8 +20,9 @@ describe('Medical Records - Radiology images are shown when requested', () => {
   });
 
   it('View Radiology Images On Radiology Details Page', () => {
-    LabsAndTestsListPage.clickRadiologyDetailsLink(0);
-
+    LabsAndTestsListPage.clickRadiologyDetailsLink(
+      'KNEE 4 OR MORE VIEWS (LEFT)',
+    );
     const studyId = statusResponseComplete[0].studyIdUrn;
     RadiologyDetailsPage.clickViewImages(studyId, viewImagesResponse);
 

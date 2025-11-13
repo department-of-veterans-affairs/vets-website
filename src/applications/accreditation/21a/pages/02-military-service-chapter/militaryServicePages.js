@@ -10,6 +10,8 @@ import {
   textareaUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
+import content from '../../locales/en/content.json';
+
 import MilitaryServiceIntro from '../../components/02-military-service-chapter/MilitaryServiceIntro';
 import {
   branchOptions,
@@ -26,10 +28,11 @@ const requireExplanation = characterOfDischarge =>
   explanationRequired.includes(characterOfDischarge);
 
 /** @type {ArrayBuilderOptions} */
-const arrayBuilderOptions = {
+export const arrayBuilderOptions = {
   arrayPath: 'militaryServiceExperiences',
   nounSingular: 'military service experience',
   nounPlural: 'military service experiences',
+  summaryTitle: () => 'Review your military service experiences',
   required: false,
   isItemIncomplete: item =>
     !item?.branch ||
@@ -40,6 +43,8 @@ const arrayBuilderOptions = {
       requireExplanation(item?.characterOfDischarge) &&
       !item?.explanationOfDischarge),
   text: {
+    yesNoBlankReviewQuestion: () => content['military-service-question'],
+    reviewAddButtonText: () => content['military-service-add-button-text'],
     getItemName: item => item?.branch,
     cardDescription: item => createDateRangeText(item, 'currentlyServing'),
   },
@@ -72,8 +77,15 @@ const branchAndDateRangePage = {
       currentLabel:
         'I am currently serving in this military service experience.',
       currentKey: 'currentlyServing',
-      isCurrentChecked: (formData, index) =>
-        formData?.militaryServiceExperiences?.[index]?.currentlyServing,
+      isCurrentChecked: (formData, index, fullData) => {
+        // Adding a check for formData and fullData since formData is sometimes undefined on load
+        // and we cant rely on fullData for testing
+        const militaryServiceExperiences =
+          formData.militaryServiceExperiences ??
+          fullData.militaryServiceExperiences;
+        const militaryServiceExperience = militaryServiceExperiences?.[index];
+        return militaryServiceExperience?.currentlyServing === true;
+      },
     }),
   },
   schema: {

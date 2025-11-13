@@ -1,10 +1,16 @@
 import React from 'react';
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { commonReducer } from 'platform/startup/store';
+import {
+  mockApiRequest,
+  inputVaTextInput,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
 import draftMessage from '../../fixtures/message-draft-response.json';
@@ -18,34 +24,45 @@ import blockedFacilityAndTeam from '../../fixtures/json-triage-mocks/triage-team
 import allBlockedAssociations from '../../fixtures/json-triage-mocks/triage-teams-all-blocked-mock.json';
 import reducer from '../../../reducers';
 import signatureReducers from '../../fixtures/signature-reducers.json';
+import * as threadDetailsActions from '../../../actions/threadDetails';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
 import {
   Paths,
   Prompts,
   ElectronicSignatureBox,
   ErrorMessages,
+  DefaultFolders,
 } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
 import * as draftActions from '../../../actions/draftDetails';
 import * as categoriesActions from '../../../actions/categories';
+import * as helperUtils from '../../../util/helpers';
 import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import {
   getProps,
-  selectVaRadio,
   selectVaSelect,
   checkVaCheckbox,
-  comboBoxVaSelect,
 } from '../../../util/testUtils';
 import { drupalStaticData } from '../../fixtures/cerner-facility-mock-data.json';
 
 describe('Compose form component', () => {
   let stub;
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
   afterEach(() => {
     if (stub) {
       stub.restore();
       stub = null;
     }
+    if (sandbox) {
+      sandbox.restore();
+    }
+    cleanup();
   });
   const stubUseFeatureToggles = value => {
     const useFeatureToggles = require('../../../hooks/useFeatureToggles');
@@ -78,7 +95,17 @@ describe('Compose form component', () => {
     sm: {
       triageTeams: { triageTeams },
       categories: { categories },
-      threadDetails: { ...threadDetailsReducer.threadDetails },
+      threadDetails: {
+        ...threadDetailsReducer.threadDetails,
+        draftInProgress: {
+          recipientId: threadDetailsReducer.threadDetails.drafts[0].recipientId,
+          recipientName:
+            threadDetailsReducer.threadDetails.drafts[0].recipientName,
+          category: threadDetailsReducer.threadDetails.drafts[0].category,
+          subject: threadDetailsReducer.threadDetails.drafts[0].subject,
+          body: threadDetailsReducer.threadDetails.drafts[0].body,
+        },
+      },
       recipients: {
         allRecipients: noBlockedRecipients.mockAllRecipients,
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
@@ -109,10 +136,6 @@ describe('Compose form component', () => {
     );
   };
 
-  afterEach(() => {
-    cleanup();
-  });
-
   it('renders without errors', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     expect(screen);
@@ -122,14 +145,14 @@ describe('Compose form component', () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
     const recipient = await screen.getByTestId('compose-recipient-select');
-    const categoryRadioButtons = await screen.getAllByTestId(
-      'compose-category-radio-button',
+    const categoryDropdown = await screen.getByTestId(
+      'compose-message-categories',
     );
     const subject = await screen.getByTestId('message-subject-field');
     const body = await screen.getByTestId('message-body-field');
 
     expect(recipient).to.exist;
-    expect(categoryRadioButtons.length).to.equal(6);
+    expect(categoryDropdown).to.exist;
     expect(subject).to.exist;
     expect(body).to.exist;
   });
@@ -188,7 +211,7 @@ describe('Compose form component', () => {
       {
         initialState: customState,
         reducers: reducer,
-        path: `/draft/${draftMessage.id}`,
+        path: `/draft/${customDraftMessage.id}`,
       },
     );
 
@@ -227,6 +250,41 @@ describe('Compose form component', () => {
     await waitFor(() => {
       expect(sendMessageSpy.calledOnce).to.be.true;
       sendMessageSpy.restore();
+    });
+  });
+
+  it('clears draftInProgress on send button click', async () => {
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        draftDetails: { customDraftMessage },
+      },
+    };
+
+    const clearDraftInProgressSpy = sinon.spy(
+      threadDetailsActions,
+      'clearDraftInProgress',
+    );
+
+    const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
+    });
+
+    mockApiRequest({});
+    fireEvent.click(screen.getByTestId('send-button'));
+
+    await waitFor(() => {
+      expect(clearDraftInProgressSpy.calledOnce).to.be.true;
+      clearDraftInProgressSpy.restore();
     });
   });
 
@@ -324,7 +382,6 @@ describe('Compose form component', () => {
         triageTeams: { triageTeams },
         categories: { categories },
         threadDetails: {
-          ...draftState.sm.threadDetails,
           drafts: {},
         },
         preferences: signatureReducers.signatureEnabled,
@@ -387,11 +444,15 @@ describe('Compose form component', () => {
 
     const messageInput = await screen.getByTestId('message-body-field');
 
-    expect(messageInput)
-      .to.have.attribute('value')
-      .not.equal(
-        messageSignatureFormatter(signatureReducers.signatureEnabled.signature),
-      );
+    await waitFor(() => {
+      expect(messageInput)
+        .to.have.attribute('value')
+        .not.equal(
+          messageSignatureFormatter(
+            signatureReducers.signatureEnabled.signature,
+          ),
+        );
+    });
   });
 
   it('displays an error on attempt to save a draft with attachments', async () => {
@@ -400,7 +461,24 @@ describe('Compose form component', () => {
       messageValid: true,
       isSignatureRequired: false,
     };
-    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          draftInProgress: {
+            recipientId:
+              threadDetailsReducer.threadDetails.drafts[0].recipientId,
+            recipientName:
+              threadDetailsReducer.threadDetails.drafts[0].recipientName,
+            category: threadDetailsReducer.threadDetails.drafts[0].category,
+            subject: threadDetailsReducer.threadDetails.drafts[0].subject,
+            body: threadDetailsReducer.threadDetails.drafts[0].body,
+          },
+        },
+      },
+    };
+    const screen = setup(customState, Paths.COMPOSE, { draft: customProps });
     const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
 
@@ -439,10 +517,12 @@ describe('Compose form component', () => {
     );
 
     await waitFor(() => {
-      selectVaRadio(screen.container, 'COVID');
-      expect(
-        $('va-radio-option[value="COVID"]', screen.container),
-      ).to.have.attribute('checked', 'true');
+      selectVaSelect(
+        screen.container,
+        'COVID',
+        'va-select[data-testid="compose-message-categories"]',
+      );
+      expect(screen.getByTestId('compose-message-categories')).to.exist;
     });
   });
 
@@ -833,7 +913,9 @@ describe('Compose form component', () => {
           noAssociations: blockedFacility.noAssociations,
           allTriageGroupsBlocked: blockedFacility.allTriageGroupsBlocked,
         },
-        threadDetails: {},
+        threadDetails: {
+          draftInProgress: {},
+        },
       },
     };
 
@@ -874,7 +956,9 @@ describe('Compose form component', () => {
           noAssociations: blockedFacilityAndTeam.noAssociations,
           allTriageGroupsBlocked: blockedFacilityAndTeam.allTriageGroupsBlocked,
         },
-        threadDetails: {},
+        threadDetails: {
+          draftInProgress: {},
+        },
       },
     };
 
@@ -1025,36 +1109,111 @@ describe('Compose form component', () => {
   it('displays modal on attempt to manual save with electronic signature populated', async () => {
     const customProps = {
       ...draftMessage,
+      recipientId: 2710523, // This recipient requires signature
+      messageValid: true,
+    };
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+    await waitFor(() => {
+      expect(screen.getByTestId('compose-recipient-select')).to.exist;
+      expect(screen.getByTestId('save-draft-button')).to.exist;
+    });
+
+    const val = initialState.sm.recipients.allowedRecipients.find(
+      r => r.signatureRequired,
+    ).id;
+
+    selectVaSelect(screen.container, val);
+    await waitFor(() => {
+      const electronicSignature = screen.getByText(
+        ElectronicSignatureBox.TITLE,
+        { selector: 'h2' },
+      );
+      expect(electronicSignature).to.exist;
+    });
+
+    const signatureTextFieldSelector = 'va-text-input[label="Your full name"]';
+
+    // Wait for the signature text field to be available
+    await waitFor(() => {
+      const signatureField = screen.container.querySelector(
+        signatureTextFieldSelector,
+      );
+      expect(signatureField).to.exist;
+    });
+
+    // Input signature value and wait for it to be processed
+    inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
+
+    await waitFor(() => {
+      const signatureField = screen.container.querySelector(
+        signatureTextFieldSelector,
+      );
+      expect(
+        signatureField.value || signatureField.getAttribute('value'),
+      ).to.equal('Test User');
+    });
+
+    fireEvent.click(screen.getByTestId('save-draft-button'));
+    await waitFor(() => {
+      const modal = screen.queryByTestId('navigation-warning-modal');
+      expect(modal).to.exist;
+      expect(modal).to.have.attribute(
+        'modal-title',
+        "We can't save your signature in a draft message",
+      );
+    });
+  });
+
+  it('should display electronic signature box when Oracle Health ROI recipient is selected', async () => {
+    const oracleHealthRecipientId = 2710523;
+    const customProps = {
+      ...draftMessage,
+      recipientId: oracleHealthRecipientId,
       messageValid: true,
       isSignatureRequired: true,
     };
     const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
 
-    const val = initialState.sm.recipients.allowedRecipients.find(
-      r => r.signatureRequired,
-    ).id;
-    selectVaSelect(screen.container, val);
+    selectVaSelect(screen.container, oracleHealthRecipientId);
+    await waitFor(() => {
+      const electronicSignature = screen.findByText(
+        ElectronicSignatureBox.TITLE,
+        {
+          selector: 'h2',
+        },
+      );
+      expect(electronicSignature).to.exist;
+    });
+  });
 
-    const electronicSignature = await screen.findByText(
-      ElectronicSignatureBox.TITLE,
-      {
-        selector: 'h2',
-      },
-    );
-    expect(electronicSignature).to.exist;
+  it('should handle Oracle Health Medical Records recipient signature requirement', async () => {
+    const medicalRecordsRecipientId = 2710524;
+    const customProps = {
+      ...draftMessage,
+      recipientId: medicalRecordsRecipientId,
+      messageValid: true,
+      isSignatureRequired: true,
+    };
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+
+    selectVaSelect(screen.container, medicalRecordsRecipientId);
+    await waitFor(() => {
+      const electronicSignature = screen.findByText(
+        ElectronicSignatureBox.TITLE,
+        {
+          selector: 'h2',
+        },
+      );
+      expect(electronicSignature).to.exist;
+    });
+
     const signatureTextFieldSelector = 'va-text-input[label="Your full name"]';
     inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
-    let modal = null;
 
-    fireEvent.click(screen.getByTestId('save-draft-button'));
-    await waitFor(() => {
-      modal = screen.queryByTestId('navigation-warning-modal');
-      expect(modal).to.exist;
-    });
-    expect(modal).to.have.attribute(
-      'modal-title',
-      "We can't save your signature in a draft message",
+    const signatureField = screen.container.querySelector(
+      signatureTextFieldSelector,
     );
+    expect(signatureField.value).to.equal('Test User');
   });
 
   it('should display an error message when a file is 0B', async () => {
@@ -1122,6 +1281,7 @@ describe('Compose form component', () => {
         threadDetails: {
           ...draftState.sm.threadDetails,
           drafts: [customDraftMessage],
+          draftInProgress: {},
         },
       },
     };
@@ -1186,6 +1346,7 @@ describe('Compose form component', () => {
         threadDetails: {
           ...draftState.sm.threadDetails,
           drafts: [customDraftMessage],
+          draftInProgress: {},
         },
       },
     };
@@ -1249,33 +1410,33 @@ describe('Compose form component', () => {
   });
 
   it('should display an error message when attaching a new file increases total attachments size over 10MB', async () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    const useFeatureTogglesStub10MB = stubUseFeatureToggles({
       largeAttachmentsEnabled: false,
     });
 
+    mockApiRequest({});
+
     const oneMB = 1024 * 1024;
 
-    // Create first 4MB file with actual content
-    const file1Content = new Uint8Array(4 * oneMB);
-    file1Content.fill(1); // Fill with data to ensure actual size
+    // Create multiple files under 6MB each that total over 10MB
+    const file1Content = new Uint8Array(4 * oneMB); // 4MB
+    file1Content.fill(1);
     const file1 = new File([file1Content], 'test1.png', {
       type: 'image/png',
       lastModified: new Date().getTime(),
     });
 
-    // Create second 4MB file with actual content
-    const file2Content = new Uint8Array(4 * oneMB);
-    file2Content.fill(2); // Fill with data to ensure actual size
+    const file2Content = new Uint8Array(4 * oneMB); // 4MB
+    file2Content.fill(2);
     const file2 = new File([file2Content], 'test2.png', {
       type: 'image/png',
       lastModified: new Date().getTime(),
     });
 
-    // Create third 3MB file with actual content (this will exceed 10MB limit)
-    const file3Content = new Uint8Array(3 * oneMB);
-    file3Content.fill(3); // Fill with data to ensure actual size
+    const file3Content = new Uint8Array(3 * oneMB); // 3MB - this will push total over 10MB (4+4+3 = 11MB)
+    file3Content.fill(3);
     const file3 = new File([file3Content], 'test3.txt', {
-      type: 'application/octet-stream',
+      type: 'text/plain',
       lastModified: new Date().getTime(),
     });
 
@@ -1284,37 +1445,16 @@ describe('Compose form component', () => {
     expect(file2.size).to.equal(4 * oneMB);
     expect(file3.size).to.equal(3 * oneMB);
 
-    const customDraftMessage = {
-      ...draftMessage,
-      recipientId: 1013155,
-      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      attachments: [],
-    };
-
     const customState = {
-      ...draftState,
-      sm: {
-        ...draftState.sm,
-        threadDetails: {
-          ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
-        },
-      },
+      ...initialState,
     };
 
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm
-        draft={customDraftMessage}
-        recipients={customState.sm.recipients}
-      />,
-      {
-        initialState: customState,
-        reducers: reducer,
-        path: `/draft/${draftMessage.id}`,
-      },
-    );
+    const screen = setup(customState, Paths.COMPOSE);
 
+    // Wait for component to fully render
+    await waitFor(() => {
+      expect(screen.getByTestId('attach-file-input')).to.exist;
+    });
     const uploader = screen.getByTestId('attach-file-input');
 
     // Upload first 4MB file
@@ -1339,43 +1479,199 @@ describe('Compose form component', () => {
     );
     // Check that error message appears
     await waitFor(() => {
-      screen.getByTestId('file-input-error-message');
+      const errorMessage = screen.getByTestId('file-input-error-message');
+      expect(errorMessage.textContent).to.equal(
+        ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
+      );
     });
-    expect(screen.getByTestId('file-input-error-message').textContent).to.equal(
-      ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
-    );
 
-    useFeatureTogglesStub.restore();
+    useFeatureTogglesStub10MB.restore();
   });
 
   it('should display an error message when attaching a new file increases total attachments size over 25MB with largeAttachmentsEnabled feature flag', async () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    const useFeatureTogglesStub25MB = stubUseFeatureToggles({
       largeAttachmentsEnabled: true,
+      cernerPilotSmFeatureFlag: true,
     });
-    useFeatureTogglesStub;
+
+    mockApiRequest({});
+
     const oneMB = 1024 * 1024;
-    const customAttachments = [
-      { name: 'test1.png', size: 4 * oneMB, type: 'image/png' },
-      { name: 'test2.png', size: 4 * oneMB, type: 'image/png' },
-      { name: 'test3.png', size: 4 * oneMB, type: 'image/png' },
-      { name: 'test4.png', size: 11 * oneMB, type: 'image/png' },
-    ];
-    const largeFileSizeInBytes = 3 * oneMB; // 3MB
-    // Use Uint8Array to ensure the file is actually 3MB
-    const largeFileContent = new Uint8Array(largeFileSizeInBytes);
-    largeFileContent.fill(1);
-    const largeFile = new File([largeFileContent], 'large_file.txt', {
-      type: 'application/octet-stream',
+
+    // Create multiple files under 6MB each that total over 25MB
+    const file1Content = new Uint8Array(5 * oneMB); // 5MB
+    file1Content.fill(1);
+    const file1 = new File([file1Content], 'test1.pdf', {
+      type: 'application/pdf',
       lastModified: new Date().getTime(),
     });
-    expect(largeFile.size).to.equal(largeFileSizeInBytes);
+
+    const file2Content = new Uint8Array(5 * oneMB); // 5MB
+    file2Content.fill(2);
+    const file2 = new File([file2Content], 'test2.pdf', {
+      type: 'application/pdf',
+      lastModified: new Date().getTime(),
+    });
+
+    const file3Content = new Uint8Array(5 * oneMB); // 5MB
+    file3Content.fill(3);
+    const file3 = new File([file3Content], 'test3.pdf', {
+      type: 'application/pdf',
+      lastModified: new Date().getTime(),
+    });
+
+    const file4Content = new Uint8Array(5 * oneMB); // 5MB
+    file4Content.fill(4);
+    const file4 = new File([file4Content], 'test4.pdf', {
+      type: 'application/pdf',
+      lastModified: new Date().getTime(),
+    });
+
+    const file5Content = new Uint8Array(5 * oneMB); // 5MB
+    file5Content.fill(5);
+    const file5 = new File([file5Content], 'test5.pdf', {
+      type: 'application/pdf',
+      lastModified: new Date().getTime(),
+    });
+
+    const file6Content = new Uint8Array(2 * oneMB); // 2MB - this will push total over 25MB (5+5+5+5+5+2 = 27MB)
+    file6Content.fill(6);
+    const file6 = new File([file6Content], 'test6.txt', {
+      type: 'text/plain',
+      lastModified: new Date().getTime(),
+    });
+
+    // Verify the files have the correct sizes (all under 6MB)
+    expect(file1.size).to.equal(5 * oneMB);
+    expect(file2.size).to.equal(5 * oneMB);
+    expect(file3.size).to.equal(5 * oneMB);
+    expect(file4.size).to.equal(5 * oneMB);
+    expect(file5.size).to.equal(5 * oneMB);
+    expect(file6.size).to.equal(2 * oneMB);
+
+    const customState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingLargeAttachments]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
+      },
+    };
+
+    const screen = setup(customState, Paths.COMPOSE);
+    await waitFor(() => {
+      expect(screen.getByTestId('attach-file-input')).to.exist;
+    });
+    const uploader = screen.getByTestId('attach-file-input');
+
+    // Upload first 5 files (25MB total)
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file1] },
+      }),
+    );
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file2] },
+      }),
+    );
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file3] },
+      }),
+    );
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file4] },
+      }),
+    );
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file5] },
+      }),
+    );
+
+    // Upload sixth file - this should trigger the error (total: 27MB > 25MB)
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file6] },
+      }),
+    );
+
+    // Check that error message appears
+    await waitFor(() => {
+      const errorMessage = screen.getByTestId('file-input-error-message');
+      expect(errorMessage.textContent).to.equal(
+        ErrorMessages.ComposeForm.ATTACHMENTS
+          .TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE,
+      );
+    });
+
+    useFeatureTogglesStub25MB.restore();
+  });
+
+  it('should contain Edit Signature Link', async () => {
+    const customState = { ...initialState, featureToggles: { loading: false } };
+    customState.sm.preferences.signature.includeSignature = true;
+    const screen = setup(customState, Paths.COMPOSE);
+    expect(screen.getByText('Edit signature for all messages')).to.exist;
+  });
+
+  it('renders correct headings in pilot environment', async () => {
+    const customState = {
+      ...initialState,
+      featureToggles: {
+        loading: false,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+      },
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          ...initialState.sm.recipients,
+          activeFacility: {
+            ehr: 'vista',
+            vamcSystemName: 'Test Vista Facility Health Care',
+          },
+        },
+        threadDetails: {
+          draftInProgress: {
+            careSystemName: 'test care system',
+            recipientName: 'test care team',
+          },
+        },
+      },
+    };
+
+    const screen = setup(customState, Paths.COMPOSE, {
+      pageTitle: 'Start your message',
+    });
+
+    expect(
+      screen.getByText('Start your message', {
+        selector: 'h1',
+      }),
+    ).to.exist;
+
+    expect(
+      screen.getByTestId('compose-recipient-title').textContent,
+    ).to.contain('test care system - test care team');
+
+    expect(
+      screen.getByText('Attachments', {
+        selector: 'h2',
+      }),
+    ).to.exist;
+  });
+
+  it('sets isAutoSave to false when sending message', async () => {
+    const sendMessageSpy = sinon.stub(messageActions, 'sendMessage');
+    sendMessageSpy.resolves({});
 
     const customDraftMessage = {
       ...draftMessage,
       recipientId: 1013155,
       recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
       triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      attachments: [...customAttachments],
     };
 
     const customState = {
@@ -1389,86 +1685,565 @@ describe('Compose form component', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm
-        draft={customDraftMessage}
-        recipients={customState.sm.recipients}
-      />,
-      {
-        initialState: customState,
-        reducers: reducer,
-        path: `/draft/${draftMessage.id}`,
+    const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+      pageTitle: 'Start your message',
+      categories,
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
+    });
+
+    fireEvent.click(screen.getByTestId('send-button'));
+    await waitFor(() => {
+      expect(sendMessageSpy.calledOnce).to.be.true;
+    });
+    sendMessageSpy.restore();
+  });
+
+  it('sets the state of draftInProgress when compose draft is rendered', async () => {
+    const updateDraftInProgressSpy = sandbox.spy(
+      threadDetailsActions,
+      'updateDraftInProgress',
+    );
+    const oracleHealthDraftRecipient = noBlockedRecipients.mockAllRecipients.find(
+      r => r.ohTriageGroup,
+    ).id;
+    const customDraftMessage = {
+      ...draftMessage,
+      body: 'Hello',
+      recipientId: oracleHealthDraftRecipient,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          draftInProgress: {},
+          drafts: [customDraftMessage],
+        },
       },
-    );
+    };
 
-    const uploader = screen.getByTestId('attach-file-input');
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [largeFile] },
-      }),
-    );
-    const error = screen.getByTestId('file-input-error-message');
-    expect(error.textContent).to.equal(
-      ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
-    );
-  });
+    setup(customState, `/thread/${customDraftMessage.id}`, {
+      pageTitle: 'Start your message',
+      categories,
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
+    });
 
-  it('should contain Edit Signature Link', () => {
-    const customState = { ...initialState, featureToggles: { loading: false } };
-    // eslint-disable-next-line camelcase
-    customState.sm.preferences.signature.includeSignature = true;
-    const screen = setup(customState, Paths.COMPOSE);
-    expect(screen.getByText('Edit signature for all messages')).to.exist;
-  });
-
-  it('renders combobox when combobox feauture flag is true', () => {
-    const customState = { ...initialState, featureToggles: { loading: false } };
-    // eslint-disable-next-line camelcase
-    customState.featureToggles.mhv_secure_messaging_recipient_combobox = true;
-    customState.sm.preferences.signature.includeSignature = true;
-    const screen = setup(customState, Paths.COMPOSE);
-    expect(screen.getByTestId('compose-recipient-combobox')).to.exist;
-  });
-
-  it('renders without errors to recipient selection in combobox', () => {
-    const customState = { ...initialState, featureToggles: { loading: false } };
-    // eslint-disable-next-line camelcase
-    customState.featureToggles.mhv_secure_messaging_recipient_combobox = true;
-    customState.sm.preferences.signature.includeSignature = true;
-    const screen = setup(customState, Paths.COMPOSE);
-    const val = initialState.sm.recipients.allowedRecipients[0].id;
-    comboBoxVaSelect(screen.container, val);
-    waitFor(() => {
-      expect(screen.getByTestId('compose-recipient-combobox')).to.have.value(
-        val,
-      );
+    await waitFor(() => {
+      expect(updateDraftInProgressSpy.called).to.be.true;
+      const args = updateDraftInProgressSpy.getCall(0).args[0];
+      expect(args).to.deep.equal({
+        careSystemVhaId: customDraftMessage.careSystemVhaId,
+        careSystemName: customDraftMessage.careSystemName,
+        recipientId: customDraftMessage.recipientId,
+        recipientName: customDraftMessage.recipientName,
+        category: customDraftMessage.category,
+        subject: customDraftMessage.subject,
+        body: customDraftMessage.body,
+        messageId: customDraftMessage.id,
+        ohTriageGroup: true,
+      });
     });
   });
 
-  it('displays error states on empty fields when send button is clicked (combobox empty)', async () => {
-    const customState = { ...initialState, featureToggles: { loading: false } };
-    // eslint-disable-next-line camelcase
-    customState.featureToggles.mhv_secure_messaging_recipient_combobox = true;
-    customState.sm.preferences.signature.includeSignature = true;
+  describe('renewal prescription useEffect', () => {
+    it('populates draft with prescription data when renewalPrescription is present', async () => {
+      const updateDraftInProgressSpy = sandbox.spy(
+        threadDetailsActions,
+        'updateDraftInProgress',
+      );
 
-    const screen = setup(customState, Paths.COMPOSE);
+      const mockPrescription = {
+        prescriptionId: '123',
+        prescriptionName: 'Test Medication',
+        prescriptionNumber: 'RX123',
+        providerFirstName: 'John',
+        providerLastName: 'Doe',
+        refillRemaining: 5,
+        expirationDate: '2025-12-31',
+        reason: 'Chronic condition',
+        quantity: '30 tablets',
+      };
 
-    const sendButton = screen.getByTestId('send-button');
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: mockPrescription,
+            error: null,
+            isLoading: false,
+          },
+        },
+      };
 
-    fireEvent.click(sendButton);
+      setup(customState);
 
-    const comboBoxInput = await screen.getByTestId(
-      'compose-recipient-combobox',
-    );
+      await waitFor(() => {
+        expect(updateDraftInProgressSpy.called).to.be.true;
+        const args = updateDraftInProgressSpy.getCall(0).args[0];
+        expect(args.subject).to.equal('Renewal Needed');
+        expect(args.category).to.equal('MEDICATIONS');
+        expect(args.body).to.include(
+          'Medication name, strength, and form: Test Medication',
+        );
+        expect(args.body).to.include('Prescription number: RX123');
+        expect(args.body).to.include('Provider who prescribed it: John Doe');
+        expect(args.body).to.include('Number of refills left: 5');
+        expect(args.body).to.include(
+          'Prescription expiration date: December 31, 2025',
+        );
+        expect(args.body).to.include('Reason for use: Chronic condition');
+        expect(args.body).to.include('Quantity: 30 tablets');
+      });
+    });
 
-    const subjectInput = await screen.getByTestId('message-subject-field');
-    const subjectInputError = subjectInput[getProps(subjectInput)].error;
+    it('populates draft with prescription data when rxError is present', async () => {
+      const updateDraftInProgressSpy = sandbox.spy(
+        threadDetailsActions,
+        'updateDraftInProgress',
+      );
 
-    const messageInput = await screen.getByTestId('message-body-field');
-    const messageInputError = messageInput[getProps(messageInput)].error;
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: null,
+            error: 'Prescription not found',
+            isLoading: false,
+          },
+        },
+      };
 
-    expect(comboBoxInput.error).to.equal('Please select a recipient.');
-    expect(subjectInputError).to.equal('Subject cannot be blank.');
-    expect(messageInputError).to.equal('Message body cannot be blank.');
+      setup(customState);
+
+      await waitFor(() => {
+        expect(updateDraftInProgressSpy.called).to.be.true;
+        const args = updateDraftInProgressSpy.getCall(0).args[0];
+        expect(args.subject).to.equal('Renewal Needed');
+        expect(args.category).to.equal('MEDICATIONS');
+        expect(args.body).to.include('Medication name, strength, and form: ');
+        expect(args.body).to.include('Prescription number: ');
+        expect(args.body).to.include('Provider who prescribed it: ');
+        expect(args.body).to.include('Number of refills left: ');
+        expect(args.body).to.include('Prescription expiration date: ');
+        expect(args.body).to.include('Reason for use: ');
+        expect(args.body).to.include('Quantity: ');
+      });
+    });
+
+    it('clears prescription on unmount', async () => {
+      const clearPrescriptionSpy = sandbox.spy(
+        require('../../../actions/prescription'),
+        'clearPrescription',
+      );
+
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: { prescriptionId: '123' },
+            error: null,
+            isLoading: false,
+          },
+        },
+      };
+
+      const { unmount } = setup(customState);
+
+      unmount();
+
+      await waitFor(() => {
+        expect(clearPrescriptionSpy.called).to.be.true;
+      });
+    });
+
+    it('displays loading indicator when renewal prescription is loading', () => {
+      const loadingState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            isLoading: true,
+          },
+        },
+      };
+
+      const screen = setup(loadingState, Paths.COMPOSE);
+
+      const loadingIndicator = screen.getByTestId('loading-indicator');
+      expect(loadingIndicator).to.exist;
+      expect(loadingIndicator.getAttribute('message')).to.equal('Loading...');
+    });
+
+    it('does not display loading indicator when prescription isLoading is false', () => {
+      const nonLoadingState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            isLoading: false,
+          },
+        },
+      };
+
+      const screen = setup(nonLoadingState, Paths.COMPOSE);
+
+      const loadingIndicator = screen.queryByTestId('loading-indicator');
+      expect(loadingIndicator).to.be.null;
+    });
+
+    it('hides loading indicator when state updates from loading to not loading', async () => {
+      const loadingState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            isLoading: true,
+          },
+        },
+      };
+
+      // Create store with initial loading state
+      const testStore = createStore(
+        combineReducers({ ...commonReducer, ...reducer }),
+        loadingState,
+        applyMiddleware(thunk),
+      );
+
+      const screen = renderWithStoreAndRouter(
+        <ComposeForm
+          recipients={initialState.sm.recipients}
+          categories={categories}
+        />,
+        {
+          initialState: loadingState,
+          reducers: reducer,
+          store: testStore,
+          path: Paths.COMPOSE,
+        },
+      );
+
+      // Initially should show loading indicator
+      const loadingIndicator = screen.getByTestId('loading-indicator');
+      expect(loadingIndicator).to.exist;
+
+      // Dispatch action to clear prescription (which sets isLoading to false)
+      testStore.dispatch({
+        type: 'SM_CLEAR_PRESCRIPTION',
+      });
+
+      // Loading indicator should disappear
+      await waitFor(() => {
+        const updatedLoadingIndicator = screen.queryByTestId(
+          'loading-indicator',
+        );
+        expect(updatedLoadingIndicator).to.be.null;
+      });
+    });
+
+    it('displays medication info warning when prescription has error', () => {
+      const errorState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            error: 'Prescription not found',
+          },
+        },
+      };
+
+      const { container } = setup(errorState, Paths.COMPOSE);
+
+      const warningAlert = container.querySelector('va-alert');
+      expect(warningAlert).to.exist;
+      expect(warningAlert.getAttribute('visible')).to.equal('true');
+      const h2 = warningAlert.querySelector('h2');
+      expect(h2).to.exist;
+      expect(h2.textContent).to.equal(
+        'Add your medication information to this message',
+      );
+    });
+
+    it('hides medication info warning when prescription has no error', () => {
+      const noErrorState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            error: null,
+          },
+        },
+      };
+
+      const { container } = setup(noErrorState, Paths.COMPOSE);
+
+      const warningAlert = container.querySelector('va-alert');
+      expect(warningAlert).to.exist;
+      expect(warningAlert.getAttribute('visible')).to.equal('false');
+      const h2 = warningAlert.querySelector('h2');
+      expect(h2).to.exist;
+      expect(h2.textContent).to.equal(
+        'Add your medication information to this message',
+      );
+    });
+
+    it('calls sendMessage and verifies redirect path is available for prescription renewal flow', async () => {
+      // Mock the sendMessage action to return a resolved promise
+      const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
+      sendMessageStub.returns(() => Promise.resolve());
+
+      // Store original replace method and create spy
+      const originalLocation = global.window.location;
+      global.window.location = {};
+      global.window.location.replace = sinon.spy();
+
+      const customDraftMessage = {
+        ...draftMessage,
+        recipientId: 1013155,
+        recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+        triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          prescription: {
+            renewalPrescription: { prescriptionId: '123' },
+            redirectPath: '/medications/refill',
+            error: undefined,
+            isLoading: false,
+          },
+          threadDetails: {
+            ...draftState.sm.threadDetails,
+            drafts: [customDraftMessage],
+          },
+        },
+      };
+
+      const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+        draft: customDraftMessage,
+        recipients: customState.sm.recipients,
+        categories,
+        pageTitle: 'Start your message',
+      });
+
+      // Verify redirect path is present in state before sending
+      expect(customState.sm.prescription.redirectPath).to.equal(
+        '/medications/refill',
+      );
+
+      fireEvent.click(screen.getByTestId('send-button'));
+
+      // Wait for the component's sendMessage and setTimeout to complete
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      // Verify that sendMessage was called and navigation occurred
+      expect(sendMessageStub.called).to.be.true;
+      expect(customState.sm.prescription.redirectPath).to.equal(
+        '/medications/refill',
+      );
+      expect(global.window.location.replace.calledOnce).to.be.true;
+      expect(global.window.location.replace.calledWith('/medications/refill'))
+        .to.be.true;
+
+      // Restore original location
+      global.window.location = originalLocation;
+    });
+
+    it('calls sendMessage and verifies normal navigation flow when no redirectPath is present', async () => {
+      // Mock the sendMessage action to return a resolved promise (same as working test)
+      const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
+      sendMessageStub.returns(() => Promise.resolve());
+
+      const navigateToFolderByFolderIdSpy = sandbox.stub(
+        helperUtils,
+        'navigateToFolderByFolderId',
+      );
+
+      const customDraftMessage = {
+        ...draftMessage,
+        recipientId: 1013155,
+        recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+        triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          prescription: {
+            renewalPrescription: undefined,
+            redirectPath: undefined,
+            error: undefined,
+            isLoading: false,
+          },
+          threadDetails: {
+            ...draftState.sm.threadDetails,
+            drafts: [customDraftMessage],
+          },
+        },
+      };
+
+      const { getByTestId } = setup(
+        customState,
+        `/thread/${customDraftMessage.id}`,
+        {
+          draft: customDraftMessage,
+          recipients: customState.sm.recipients,
+          categories,
+          pageTitle: 'Start your message',
+        },
+      );
+
+      // Verify no redirect path is present in state before sending
+      expect(customState.sm.prescription.redirectPath).to.be.undefined;
+
+      fireEvent.click(getByTestId('send-button'));
+
+      // Wait for the component's sendMessage and setTimeout to complete
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      // Verify that sendMessage was called successfully and no redirect path is available
+      expect(sendMessageStub.called).to.be.true;
+      expect(customState.sm.prescription.redirectPath).to.be.undefined;
+
+      // Verify the normal navigation function was called
+      await waitFor(() => {
+        expect(
+          navigateToFolderByFolderIdSpy.calledWith(DefaultFolders.INBOX.id),
+        ).to.be.true;
+      });
+    });
+
+    it('calls sendMessage with suppressAlert=true when redirectPath exists', async () => {
+      // Mock the sendMessage action to return a resolved promise
+      const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
+      sendMessageStub.returns(() => Promise.resolve());
+
+      // Store original replace method and create spy
+      const originalLocation = global.window.location;
+      global.window.location = {};
+      global.window.location.replace = sinon.spy();
+
+      const customDraftMessage = {
+        ...draftMessage,
+        recipientId: 1013155,
+        recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+        triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          prescription: {
+            renewalPrescription: { prescriptionId: '123' },
+            redirectPath: '/medications/refill',
+            error: undefined,
+            isLoading: false,
+          },
+          threadDetails: {
+            ...draftState.sm.threadDetails,
+            drafts: [customDraftMessage],
+          },
+        },
+      };
+
+      const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+        draft: customDraftMessage,
+        recipients: customState.sm.recipients,
+        categories,
+        pageTitle: 'Start your message',
+      });
+
+      fireEvent.click(screen.getByTestId('send-button'));
+
+      // Wait for the component's sendMessage to complete
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      // Verify that sendMessage was called with suppressAlert=true (4th argument)
+      expect(sendMessageStub.called).to.be.true;
+      const sendMessageCall = sendMessageStub.getCall(0);
+      expect(sendMessageCall.args).to.have.lengthOf(4);
+      // Args: [sendData, hasAttachments, ohTriageGroup, suppressAlert]
+      expect(sendMessageCall.args[3]).to.equal(true); // suppressAlert should be true
+
+      // Restore original location
+      global.window.location = originalLocation;
+    });
+
+    it('calls sendMessage with suppressAlert=false when redirectPath does not exist', async () => {
+      // Mock the sendMessage action to return a resolved promise
+      const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
+      sendMessageStub.returns(() => Promise.resolve());
+
+      const navigateToFolderByFolderIdSpy = sandbox.stub(
+        helperUtils,
+        'navigateToFolderByFolderId',
+      );
+
+      const customDraftMessage = {
+        ...draftMessage,
+        recipientId: 1013155,
+        recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+        triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          prescription: {
+            renewalPrescription: undefined,
+            redirectPath: undefined,
+            error: undefined,
+            isLoading: false,
+          },
+          threadDetails: {
+            ...draftState.sm.threadDetails,
+            drafts: [customDraftMessage],
+          },
+        },
+      };
+
+      const { getByTestId } = setup(
+        customState,
+        `/thread/${customDraftMessage.id}`,
+        {
+          draft: customDraftMessage,
+          recipients: customState.sm.recipients,
+          categories,
+          pageTitle: 'Start your message',
+        },
+      );
+
+      fireEvent.click(getByTestId('send-button'));
+
+      // Wait for the component's sendMessage to complete
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      // Verify that sendMessage was called with suppressAlert=false (4th argument)
+      expect(sendMessageStub.called).to.be.true;
+      const sendMessageCall = sendMessageStub.getCall(0);
+      expect(sendMessageCall.args).to.have.lengthOf(4);
+      // Args: [sendData, hasAttachments, ohTriageGroup, suppressAlert]
+      expect(sendMessageCall.args[3]).to.equal(false); // suppressAlert should be false
+
+      // Verify normal navigation occurred
+      await waitFor(() => {
+        expect(
+          navigateToFolderByFolderIdSpy.calledWith(DefaultFolders.INBOX.id),
+        ).to.be.true;
+      });
+    });
   });
 });

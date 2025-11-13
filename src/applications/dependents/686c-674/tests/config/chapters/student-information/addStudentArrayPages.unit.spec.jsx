@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
@@ -8,6 +8,7 @@ import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../../../config/form';
 import { addStudentsOptions } from '../../../../config/chapters/674/addStudentsArrayPages';
+import { calculateStudentAssetTotal } from '../../../../config/chapters/674/helpers';
 
 const defaultStore = createCommonStore();
 
@@ -46,7 +47,6 @@ describe('addStudentsOptions', () => {
         studentDidAttendSchoolLastTerm: true,
         lastTermSchoolInformation: { termBegin: '', dateTermEnded: '' },
       },
-      claimsOrReceivesPension: true,
       typeOfProgramOrBenefit: { someBenefit: true },
       benefitPaymentDate: '',
     };
@@ -143,6 +143,7 @@ describe('addStudentsOptions', () => {
       );
     });
   });
+
   describe('getItemName', () => {
     it('should return a full name when both first and last names are provided', () => {
       const item = { fullName: { first: 'John', last: 'Doe' } };
@@ -249,7 +250,7 @@ describe('674 Add students: Student info page ', () => {
   });
 });
 
-describe('674 Add students: Student ID info page ', () => {
+describe('674 Add students: Student SSN ', () => {
   const {
     schema,
     uiSchema,
@@ -270,12 +271,10 @@ describe('674 Add students: Student ID info page ', () => {
     );
 
     expect($$('va-text-input', container).length).to.equal(1);
-    expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(2);
   });
 });
 
-describe('674 Add students: Student income the past year ', () => {
+describe('674 Add students: Student relationship ', () => {
   const {
     schema,
     uiSchema,
@@ -300,7 +299,7 @@ describe('674 Add students: Student income the past year ', () => {
   });
 });
 
-describe('674 Add students: Student address ', () => {
+describe('674 Add students: Student income', () => {
   const {
     schema,
     uiSchema,
@@ -320,9 +319,69 @@ describe('674 Add students: Student address ', () => {
       </Provider>,
     );
 
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(3);
+  });
+});
+
+describe('674 Add students: Student address ', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartFive;
+
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
     expect($$('va-checkbox', container).length).to.equal(1);
     expect($$('va-select', container).length).to.equal(1);
     expect($$('va-text-input', container).length).to.equal(6);
+  });
+
+  it('should render custom city error', async () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            ...formData(),
+            studentInformation: [
+              {
+                address: { city: 'APO', isMilitary: false },
+              },
+            ],
+          }}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    const form = container.querySelector('form');
+    fireEvent.submit(form);
+
+    await waitFor(() => {
+      const cityInput = container.querySelector(
+        'va-text-input[name*="address_city"]',
+      );
+      expect(cityInput).to.exist;
+      expect(cityInput.getAttribute('error')).to.equal(
+        'Enter a valid city name',
+      );
+    });
   });
 });
 
@@ -330,7 +389,7 @@ describe('674 Add students: Student was married ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartFive;
+  } = formConfig.chapters.report674.pages.addStudentsPartSix;
 
   it('should render', () => {
     const { container } = render(
@@ -351,11 +410,35 @@ describe('674 Add students: Student was married ', () => {
   });
 });
 
-describe('674 Add students: Student education benefits ', () => {
+describe('674 Add students: Student marriage date ', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.report674.pages.addStudentsPartSeven;
+
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    expect($$('va-memorable-date', container).length).to.equal(1);
+  });
+});
+
+describe('674 Add students: Student education benefits ', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartEight;
 
   it('should render', () => {
     const { container } = render(
@@ -381,7 +464,7 @@ describe('674 Add students: Student education benefits payment start date ', () 
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartEight;
+  } = formConfig.chapters.report674.pages.addStudentsPartNine;
 
   it('should render', () => {
     const { container } = render(
@@ -405,7 +488,7 @@ describe('674 Add students: Program name ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartNine;
+  } = formConfig.chapters.report674.pages.addStudentsPartTen;
 
   it('should render', () => {
     const { container } = render(
@@ -429,7 +512,7 @@ describe('674 Add students: Student attended continuously ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartTen;
+  } = formConfig.chapters.report674.pages.addStudentsPartEleven;
 
   it('should render', () => {
     const { container } = render(
@@ -454,7 +537,7 @@ describe('674 Add students: Date student stopped attending ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartEleven;
+  } = formConfig.chapters.report674.pages.addStudentsPartTwelve;
 
   it('should render', () => {
     const { container } = render(
@@ -478,7 +561,7 @@ describe('674 Add students: School is accredited', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartTwelve;
+  } = formConfig.chapters.report674.pages.addStudentsPartThirteen;
 
   it('should render', () => {
     const { container } = render(
@@ -504,7 +587,7 @@ describe('674 Add students: Term dates', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartThirteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartFourteen;
 
   it('should render', () => {
     const { container } = render(
@@ -528,7 +611,7 @@ describe('674 Add students: Did student attend last term?', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartFourteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartFifteen;
 
   it('should render', () => {
     const { container } = render(
@@ -553,7 +636,7 @@ describe('674 Add students: Previous term dates', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartFifteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartSixteen;
 
   it('should render', () => {
     const { container } = render(
@@ -577,7 +660,7 @@ describe('674 Add students: Veteran claims pension', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartSixteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartSeventeen;
 
   it('should render', () => {
     const { container } = render(
@@ -602,7 +685,7 @@ describe('674 Add students: Current term student income', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartSeventeen;
+  } = formConfig.chapters.report674.pages.addStudentsPartEighteen;
 
   it('should render', () => {
     const { container } = render(
@@ -626,7 +709,7 @@ describe('674 Add students: Student income next year', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartEighteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartNineteen;
 
   it('should render', () => {
     const { container } = render(
@@ -650,30 +733,6 @@ describe('674 Add students: Student assets', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartNineteen;
-
-  it('should render', () => {
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={formData()}
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-        />
-      </Provider>,
-    );
-
-    expect($$('va-text-input', container).length).to.equal(5);
-  });
-});
-
-describe('674 Add students: Student assets', () => {
-  const {
-    schema,
-    uiSchema,
   } = formConfig.chapters.report674.pages.addStudentsPartTwenty;
 
   it('should render', () => {
@@ -690,6 +749,58 @@ describe('674 Add students: Student assets', () => {
       </Provider>,
     );
 
+    // Should only have 4 text inputs now (removed totalValue field)
+    expect($$('va-text-input', container).length).to.equal(4);
+  });
+});
+
+describe('674 Add students: Student remarks', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartTwentyOne;
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
     expect($$('va-textarea', container).length).to.equal(1);
+  });
+});
+
+describe('calculateStudentAssetTotal', () => {
+  it('should calculate total correctly', () => {
+    const assets = {
+      savings: '1000.00',
+      securities: '2000.50',
+      realEstate: '300000.75',
+      otherAssets: '5000.25',
+    };
+
+    expect(calculateStudentAssetTotal(assets)).to.equal('308001.50');
+  });
+
+  it('should handle empty or missing values', () => {
+    const assets = {
+      savings: '',
+      securities: null,
+      realEstate: '100.50',
+      otherAssets: undefined,
+    };
+
+    expect(calculateStudentAssetTotal(assets)).to.equal('100.50');
+  });
+
+  it('should handle empty object', () => {
+    expect(calculateStudentAssetTotal({})).to.equal('0.00');
   });
 });

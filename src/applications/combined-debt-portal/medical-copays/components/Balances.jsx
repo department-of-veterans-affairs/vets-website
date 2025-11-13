@@ -16,11 +16,7 @@ export const Balances = ({ statements, showVHAPaymentHistory = false }) => {
   );
 
   return (
-    <article
-      className={`vads-u-padding-x--0${
-        showVHAPaymentHistory ? ` vads-u-margin-bottom--neg8` : ``
-      }`}
-    >
+    <article className="vads-u-padding--0">
       {statements?.length === 1 ? single : multiple}
       {showVHAPaymentHistory ? null : (
         <p>
@@ -35,7 +31,7 @@ export const Balances = ({ statements, showVHAPaymentHistory = false }) => {
             getMedicalCenterNameByID(balance.station.facilitYNum);
 
           return (
-            <li key={idx}>
+            <li key={idx} className="vads-u-max-width--none">
               <BalanceCard
                 id={balance.id}
                 amount={balance.pHAmtDue}

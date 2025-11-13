@@ -12,7 +12,14 @@
         "last_name": "Veteran",
         "gender": "M",
         "birth_date": "1985-01-01",
-        "verified": true
+        "verified": true,
+        "userFullName": {
+          "first": "John",
+          "middle": "",
+          "last": "Veteran"
+        },
+        "dob": "1985-01-01",
+        "ssn": "111111111"
       },
       "veteran_status": {
         "status": "OK",
@@ -20,7 +27,7 @@
         "served_in_military": true
       },
       "in_progress_forms": [],
-      "prefills_available": ["21-0966"],
+      "prefills_available": ["21-0966","21P-0969"],
       "services": [
         "facilities",
         "hca",
@@ -39,6 +46,7 @@
         "gender": "M",
         "given_names": ["John", ""],
         "active_status": "active",
+        "ssn": "111111111",
         "facilities": [
           {
             "facility_id": "983",

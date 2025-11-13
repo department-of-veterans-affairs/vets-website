@@ -7,6 +7,7 @@ import VaPrescription from '../../../components/PrescriptionDetails/VaPrescripti
 import rxDetailsResponse from '../../fixtures/prescriptionDetails.json';
 import { dateFormat } from '../../../util/helpers';
 import * as rxApiExports from '../../../api/rxApi';
+import { RX_SOURCE } from '../../../util/constants';
 
 describe('vaPrescription details container', () => {
   const prescription = rxDetailsResponse.data.attributes;
@@ -17,8 +18,6 @@ describe('vaPrescription details container', () => {
         featureToggles: {
           // eslint-disable-next-line camelcase
           mhv_medications_display_documentation_content: ffEnabled,
-          // eslint-disable-next-line camelcase
-          mhv_medications_display_grouping: ffEnabled,
         },
       },
       reducers: {},
@@ -125,7 +124,7 @@ describe('vaPrescription details container', () => {
       ndc: null,
       reason: null,
       prescriptionNumberIndex: 'RF1',
-      prescriptionSource: 'RF',
+      prescriptionSource: RX_SOURCE.REFILL,
       disclaimer: null,
       indicationForUse: null,
       indicationForUseFlag: null,
@@ -190,12 +189,6 @@ describe('vaPrescription details container', () => {
     expect(docLink).to.exist;
   });
 
-  it('does not display documentation if ff is off', () => {
-    const screen = setup({ ...prescription, cmopNdcNumber: '123456' }, false);
-    const docLink = screen.queryByTestId('va-prescription-documentation-link');
-    expect(docLink).to.not.exist;
-  });
-
   it('does not display refill history if there is one record with dispensedDate undefined', () => {
     const rxWithNoRefillHistory = {
       ...prescription,
@@ -251,7 +244,7 @@ describe('vaPrescription details container', () => {
   it('displays pending med content if prescription source is PD and dispStatus is NewOrder', () => {
     const screen = setup({
       ...prescription,
-      prescriptionSource: 'PD',
+      prescriptionSource: RX_SOURCE.PENDING_DISPENSE,
       dispStatus: 'NewOrder',
     });
     const status = screen.getByText(
@@ -272,7 +265,7 @@ describe('vaPrescription details container', () => {
   it('displays pending renewal med content if prescription source is PD and dispStatus is Renew', () => {
     const screen = setup({
       ...prescription,
-      prescriptionSource: 'PD',
+      prescriptionSource: RX_SOURCE.PENDING_DISPENSE,
       dispStatus: 'Renew',
     });
     const status = screen.getByText(
@@ -290,8 +283,6 @@ describe('vaPrescription details container', () => {
             // eslint-disable-next-line camelcase
             mhv_medications_display_documentation_content: ffEnabled,
             // eslint-disable-next-line camelcase
-            mhv_medications_display_grouping: ffEnabled,
-            // eslint-disable-next-line camelcase
             mhv_medications_partial_fill_content: true,
           },
         },
@@ -301,7 +292,7 @@ describe('vaPrescription details container', () => {
     };
     const screen = setupWithPartialFill({
       ...prescription,
-      rxRfRecords: [{ prescriptionSource: 'PF' }],
+      rxRfRecords: [{ prescriptionSource: RX_SOURCE.PARTIAL_FILL }],
     });
     const accordionHeading = screen.getByText('Partial fill');
 
@@ -316,5 +307,96 @@ describe('vaPrescription details container', () => {
       expect(landMedicationDetailsAalStub.calledOnce).to.be.true;
       expect(landMedicationDetailsAalStub.calledWith(newRx)).to.be.true;
     });
+  });
+
+  it('renders without errors when quantity is a string', () => {
+    const rxWithStringQuantity = {
+      ...prescription,
+      quantity: '30',
+    };
+    const screen = setup(rxWithStringQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and the value is displayed correctly
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('30');
+  });
+
+  it('renders without errors when quantity is a string float', () => {
+    const rxWithStringFloatQuantity = {
+      ...prescription,
+      quantity: '15.5',
+    };
+    const screen = setup(rxWithStringFloatQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and the float value is displayed correctly
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('15.5');
+  });
+
+  // TODO: Remove when the API is updated to return a string
+  it('renders without errors when quantity is an integer', () => {
+    const rxWithIntegerQuantity = {
+      ...prescription,
+      quantity: 30,
+    };
+    const screen = setup(rxWithIntegerQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and the value is displayed correctly
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('30');
+  });
+
+  it('renders without errors when quantity is null', () => {
+    const rxWithNullQuantity = {
+      ...prescription,
+      quantity: null,
+    };
+    const screen = setup(rxWithNullQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and the "not available" message is displayed
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('Quantity not available');
+  });
+
+  it('renders without errors when quantity is zero', () => {
+    const rxWithZeroQuantity = {
+      ...prescription,
+      quantity: 0,
+    };
+    const screen = setup(rxWithZeroQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and zero is displayed correctly
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('0');
   });
 });

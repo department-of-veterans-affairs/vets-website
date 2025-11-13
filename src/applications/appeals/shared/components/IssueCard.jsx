@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { SELECTED } from '../constants';
 import '../definitions';
 import { IssueCardContent } from './IssueCardContent';
@@ -19,6 +20,7 @@ import BasicLink from './web-component-wrappers/BasicLink';
  * @param {func} onRemove - remove issue callback
  *  page when not in edit mode
  * @param {Boolean} onReviewPage - When true, list is rendered on review page
+ * @param {Boolean} showSeparator - Shows visual separator between blocked and non-blocked issues
  * @return {JSX.Element}
  */
 export const IssueCard = ({
@@ -29,7 +31,7 @@ export const IssueCard = ({
   onChange,
   showCheckbox,
   onRemove,
-  onReviewPage,
+  showSeparator = false,
 }) => {
   // On the review & submit page, there may be more than one
   // of these components in edit mode with the same content, e.g. 526
@@ -41,22 +43,31 @@ export const IssueCard = ({
   const itemIsSelected = item[SELECTED];
   const isEditable = !!item.issue;
   const issueName = item.issue || item.ratingIssueSubjectText;
+  const isBlocked = item.isBlockedSameDay || false;
 
   const wrapperClass = [
     'widget-wrapper',
     isEditable ? 'additional-issue' : '',
     showCheckbox ? '' : 'checkbox-hidden',
-    showCheckbox ? 'vads-u-padding-top--3' : '',
+    'vads-u-padding-top--2',
     'vads-u-padding-right--3',
     'vads-u-margin-bottom--0',
-    'vads-u-border-bottom--1px',
-    'vads-u-border-color--gray-light',
+    isBlocked && index > 0 ? 'vads-u-margin-top--5' : '',
+    // Remove border for blocked issues; add border for first selectable issues
+    isBlocked
+      ? ''
+      : 'vads-u-border-bottom--1px vads-u-border-color--gray-light',
+    showSeparator
+      ? 'vads-u-border-top--1px vads-u-border-color--gray-medium vads-u-margin-top--4'
+      : '',
   ].join(' ');
 
   const titleClass = [
     'widget-title',
     'dd-privacy-hidden',
-    'vads-u-font-size--h4',
+    'vads-u-font-weight--bold',
+    'vads-u-font-family--serif',
+    'vads-u-line-height--2',
     'vads-u-margin--0',
     'capitalize',
     'overflow-wrap-word',
@@ -79,7 +90,7 @@ export const IssueCard = ({
 
   const editControls =
     showCheckbox && isEditable ? (
-      <div>
+      <div className="vads-u-margin-bottom--1">
         <BasicLink
           disable-analytics
           path="/add-issue"
@@ -94,58 +105,43 @@ export const IssueCard = ({
           label={`remove ${issueName}`}
           onClick={handlers.onRemove}
           text="Remove"
-          uswds
         />
       </div>
     ) : null;
-
-  // Issues h4 disappears in edit mode, so we need to match the page header
-  // level
-  const Header = onReviewPage ? 'h5' : 'h4';
-
   return (
     <li id={`issue-${index}`} name={`issue-${index}`} key={index}>
       <div className={wrapperClass}>
         {showCheckbox ? (
+          <VaCheckbox
+            checked={itemIsSelected}
+            data-dd-action-name="Issue Name"
+            id={elementId}
+            label={issueName}
+            name={elementId}
+            onVaChange={handlers.onChange}
+          >
+            <div slot="internal-description">
+              <IssueCardContent id={`issue-${index}-description`} {...item} />
+              {editControls}
+            </div>
+          </VaCheckbox>
+        ) : (
           <div
-            className="widget-checkbox-wrap"
-            data-dd-action-name="Issue name"
+            className={isBlocked ? 'vads-u-margin-left--4' : ''}
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+            tabIndex="0"
           >
-            <input
-              type="checkbox"
-              id={elementId}
-              name={elementId}
-              checked={itemIsSelected}
-              onChange={handlers.onChange}
-              aria-describedby={`issue-${index}-description`}
-              aria-labelledby={`issue-${index}-title`}
-              data-dd-action-name="Issue Name"
-            />
-            <label
-              className="schemaform-label"
-              htmlFor={elementId}
-              data-dd-action-name="Contestable Issue Name"
+            <strong
+              className={titleClass}
+              data-dd-action-name="rated issue name"
             >
-              {' '}
-            </label>
+              {issueName}
+            </strong>
+
+            <IssueCardContent id={`issue-${index}-description`} {...item} />
+            {editControls}
           </div>
-        ) : null}
-        <div
-          className={`widget-content ${
-            editControls ? 'widget-editable vads-u-padding-bottom--2' : ''
-          }`}
-          data-index={index}
-        >
-          <Header
-            id={`issue-${index}-title`}
-            className={titleClass}
-            data-dd-action-name="contestable issue name"
-          >
-            {issueName}
-          </Header>
-          <IssueCardContent id={`issue-${index}-description`} {...item} />
-          {editControls}
-        </div>
+        )}
       </div>
     </li>
   );
@@ -167,7 +163,7 @@ IssueCard.propTypes = {
     appendId: PropTypes.string,
   }),
   showCheckbox: PropTypes.bool,
+  showSeparator: PropTypes.bool,
   onChange: PropTypes.func,
   onRemove: PropTypes.func,
-  onReviewPage: PropTypes.bool,
 };

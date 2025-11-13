@@ -16,6 +16,7 @@ export const identification = {
   },
   schema: {
     type: 'object',
+    required: ['ssn'],
     properties: {
       ssn: ssnSchema,
     },

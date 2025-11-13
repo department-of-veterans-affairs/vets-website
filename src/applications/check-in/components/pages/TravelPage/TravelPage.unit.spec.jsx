@@ -81,14 +81,6 @@ describe('Check-in experience', () => {
         expect(yesFunc.calledOnce).to.be.true;
         expect(noFunc.calledOnce).to.be.true;
       });
-      it('renders OMB information', () => {
-        const { getByTestId } = render(
-          <CheckInProvider>
-            <TravelPage header="test header" />
-          </CheckInProvider>,
-        );
-        expect(getByTestId('travel-pay-omb')).to.exist;
-      });
     });
   });
 });

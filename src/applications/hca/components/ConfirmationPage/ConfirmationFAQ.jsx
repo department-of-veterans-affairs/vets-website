@@ -82,8 +82,8 @@ const confirmationFAQ = () => {
       <section className="hca-confirmation-faq">
         <h2>How will I know if I’m enrolled in VA health care?</h2>
         <p>
-          If enrolled, you’ll receive a Veterans Health Benefits Handbook in the
-          mail within about 10 days.
+          If enrolled, you’ll receive a Veterans Health Benefits Handbook within
+          about 10 days.
         </p>
         <p>
           We’ll also call to welcome you to the VA health care program, help you

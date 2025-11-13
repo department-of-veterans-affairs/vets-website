@@ -56,7 +56,7 @@ describe('PersonalInformation', () => {
       expect(view.getByText('Name:')).to.exist;
       expect(view.getByText('John Doe Smith, Jr.')).to.exist;
 
-      expect(view.getByText('Last 4 digits of Social Security number:')).to
+      expect(view.getByText('Last 4 digits of Social Security Number:')).to
         .exist;
       expect(view.getByText('6789')).to.exist;
 

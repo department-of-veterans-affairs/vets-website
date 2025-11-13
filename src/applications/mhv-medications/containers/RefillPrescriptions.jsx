@@ -9,7 +9,6 @@ import {
 import {
   updatePageTitle,
   usePrintTitle,
-  MhvPageNotFound,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -19,22 +18,23 @@ import {
 
 import { dateFormat } from '../util/helpers';
 import {
-  selectRefillContentFlag,
-  selectRefillProgressFlag,
-  selectRemoveLandingPageFlag,
-} from '../util/selectors';
-import { SESSION_SELECTED_PAGE_NUMBER } from '../util/constants';
+  DATETIME_FORMATS,
+  SESSION_SELECTED_PAGE_NUMBER,
+  REFILL_STATUS,
+} from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import PrintOnlyPage from './PrintOnlyPage';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
-import RefillAlert from '../components/shared/RefillAlert';
+import DelayedRefillAlert from '../components/shared/DelayedRefillAlert';
+import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import ProcessList from '../components/shared/ProcessList';
 import { refillProcessStepGuide } from '../util/processListData';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
+import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
+import { selectSortOption } from '../selectors/selectPreferences';
 
 const RefillPrescriptions = () => {
   const {
@@ -82,24 +82,19 @@ const RefillPrescriptions = () => {
     false,
   );
   const [selectedRefillList, setSelectedRefillList] = useState([]);
-  const [refillStatus, setRefillStatus] = useState('notStarted');
+  const [refillStatus, setRefillStatus] = useState(REFILL_STATUS.NOT_STARTED);
 
   // Handle API errors from RTK Query
   const prescriptionsApiError = refillableError || bulkRefillError;
 
   // Selectors
-  const selectedSortOption = useSelector(
-    state => state.rx.preferences?.selectedSortOption,
-  );
+  const selectedSortOption = useSelector(selectSortOption);
 
   // Get refillable list from RTK Query result
   const fullRefillList = refillableData?.prescriptions || [];
-  const showRefillContent = useSelector(selectRefillContentFlag);
-  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
-  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
-  const userName = useSelector(state => state.user.profile.userFullName);
-  const dob = useSelector(state => state.user.profile.dob);
+  const userName = useSelector(selectUserFullName);
+  const dob = useSelector(selectUserDob);
 
   // Memoized Values
   const selectedRefillListLength = useMemo(() => selectedRefillList.length, [
@@ -109,7 +104,7 @@ const RefillPrescriptions = () => {
   // Functions
   const onRequestRefills = async () => {
     if (selectedRefillListLength > 0) {
-      setRefillStatus('inProgress');
+      setRefillStatus(REFILL_STATUS.IN_PROGRESS);
       window.scrollTo(0, 0);
 
       // Get just the prescription IDs for the bulk refill
@@ -117,9 +112,9 @@ const RefillPrescriptions = () => {
 
       try {
         await bulkRefillPrescriptions(prescriptionIds);
-        setRefillStatus('finished');
+        setRefillStatus(REFILL_STATUS.FINISHED);
       } catch (error) {
-        setRefillStatus('error');
+        setRefillStatus(REFILL_STATUS.ERROR);
       }
 
       if (hasNoOptionSelectedError) setHasNoOptionSelectedError(false);
@@ -192,9 +187,6 @@ const RefillPrescriptions = () => {
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
   const content = () => {
-    if (!showRefillContent) {
-      return <MhvPageNotFound />;
-    }
     if (isLoading || isRefilling) {
       return (
         <div
@@ -217,17 +209,16 @@ const RefillPrescriptions = () => {
         >
           Refill prescriptions
         </h1>
-        {showRefillProgressContent && (
-          <RefillAlert
+        {refillAlertList.length > 0 && (
+          <DelayedRefillAlert
             dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
-            refillStatus={refillStatus}
             refillAlertList={refillAlertList}
           />
         )}
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <CernerFacilityAlert />
+            <DisplayCernerFacilityAlert />
           </>
         ) : (
           <>
@@ -238,7 +229,7 @@ const RefillPrescriptions = () => {
             />
             {fullRefillList?.length > 0 ? (
               <div>
-                <CernerFacilityAlert />
+                <DisplayCernerFacilityAlert />
                 <h2
                   className="vads-u-margin-top--3"
                   data-testid="refill-page-subtitle"
@@ -257,6 +248,7 @@ const RefillPrescriptions = () => {
                       : 'Select at least one prescription to refill'
                   }
                 >
+                  <div className="vads-u-margin-top--2" />
                   {fullRefillList?.length > 1 && (
                     <VaCheckbox
                       id="select-all-checkbox"
@@ -305,7 +297,7 @@ const RefillPrescriptions = () => {
                             ? `Last filled on ${dateFormat(
                                 prescription.sortedDispensedDate ||
                                   prescription.dispensedDate,
-                                'MMMM D, YYYY',
+                                DATETIME_FORMATS.longMonthDate,
                               )}`
                             : 'Not filled yet'
                         }
@@ -340,7 +332,7 @@ const RefillPrescriptions = () => {
                   You don’t have any VA prescriptions with refills available. If
                   you need a prescription, contact your care team.
                 </p>
-                <CernerFacilityAlert className="vads-u-margin-top--2" />
+                <DisplayCernerFacilityAlert className="vads-u-margin-top--2" />
               </>
             )}
             <p className="vads-u-margin-top--3" data-testid="note-refill-page">
@@ -359,10 +351,8 @@ const RefillPrescriptions = () => {
                 Go to your medications list
               </Link>
             </p>
-            {showRefillProgressContent && (
-              <ProcessList stepGuideProps={stepGuideProps} />
-            )}
-            {removeLandingPage && <NeedHelp page={pageType.REFILL} />}
+            <ProcessList stepGuideProps={stepGuideProps} />
+            <NeedHelp page={pageType.REFILL} />
           </>
         )}
       </div>

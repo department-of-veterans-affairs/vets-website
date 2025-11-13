@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaRadio,
-  VaRadioOption,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { RadioCategories } from '../../util/inputContants';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useDispatch } from 'react-redux';
+import { Categories } from '../../util/inputContants';
+import { updateDraftInProgress } from '../../actions/threadDetails';
 
 const CategoryInput = props => {
   const {
@@ -15,9 +14,15 @@ const CategoryInput = props => {
     setCategoryError,
     setUnsavedNavigationError,
   } = props;
+  const dispatch = useDispatch();
 
   const categoryChangeHandler = e => {
     setCategory(e.detail.value);
+    dispatch(
+      updateDraftInProgress({
+        category: e.detail.value,
+      }),
+    );
     if (e.detail.value) setCategoryError(null);
     setUnsavedNavigationError();
   };
@@ -27,37 +32,35 @@ const CategoryInput = props => {
       {categories === undefined && <va-loading-indicator />}
 
       {categories?.length > 0 && (
-        <VaRadio
-          required
+        <VaSelect
           enable-analytics
           data-testid="compose-message-categories"
-          label="Category"
-          className=" fieldset-input message-category"
+          data-dd-privacy="mask"
+          data-dd-action-name="Category Dropdown Select"
+          className="composeSelect"
           error={categoryError}
-          onVaValueChange={categoryChangeHandler}
+          id="category-select-dropdown"
+          label="Category"
+          name="compose-message-categories"
+          value={category || ''}
+          onVaSelect={categoryChangeHandler}
         >
           {categories?.map((item, i) => (
-            <VaRadioOption
-              data-dd-privacy="mask"
-              data-testid="compose-category-radio-button"
-              data-dd-action-name={`${RadioCategories[item].label}: ${
-                RadioCategories[item].description
-              } Radio Button`}
-              style={{ display: 'flex' }}
+            <option
               key={i}
-              label={
-                RadioCategories[item]
-                  ? `${RadioCategories[item].label}: ${
-                      RadioCategories[item].description
-                    }`
-                  : item
-              }
-              name="compose-message-categories"
               value={item}
-              checked={category === item}
-            />
+              data-dd-privacy="mask"
+              data-testid="compose-category-dropdown-select"
+              data-dd-action-name={`${Categories[item]?.label}: ${
+                Categories[item]?.description
+              } Dropdown Select`}
+            >
+              {Categories[item]
+                ? `${Categories[item].label}: ${Categories[item].description}`
+                : item}
+            </option>
           ))}
-        </VaRadio>
+        </VaSelect>
       )}
     </>
   );

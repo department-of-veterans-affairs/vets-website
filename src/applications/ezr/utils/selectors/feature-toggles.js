@@ -12,9 +12,6 @@ const selectFeatureToggles = createSelector(
     isEmergencyContactsEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.ezrEmergencyContactsEnabled
     ],
-    isNextOfKinEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.ezrNextOfKinEnabled
-    ],
   }),
   toggles => toggles,
 );

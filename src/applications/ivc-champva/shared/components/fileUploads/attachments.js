@@ -43,7 +43,9 @@ export const fileUploadBlurbCustom = (items, afterContent) => {
             key="upload-instructions-container"
             className="vads-u-margin-bottom--4"
           >
-            <b key="upload-instructions-heading">How to upload files:</b>
+            <b key="upload-instructions-heading">
+              What to know about uploading files
+            </b>
             <ul key="upload-instructions-list">
               <li key="upload-file-types">
                 Use a .{fileTypes.slice(0, -1).join(', .')}, or .

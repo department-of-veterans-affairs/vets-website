@@ -83,7 +83,7 @@ const TravelIntro = props => {
                 href="#file-travel-claim"
                 onKeyDown={fileClaimClick}
                 onClick={fileClaimClick}
-                text={t('file-mileage-only-claim')}
+                text={t('start-mileage-only-claim')}
                 data-testid="file-claim-link"
               />
             </va-process-list-item>

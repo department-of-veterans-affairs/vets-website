@@ -9,13 +9,12 @@ describe('Medical Records Vitals Details Page', () => {
 
   beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
   });
 
   it('Vitals Details Weight', () => {
     VitalsListPage.goToVitals();
     // click weight link
-    VitalsListPage.clickLinkByRecordListItemIndex(5);
+    VitalsListPage.clickLinkByRecordListItem('Weight');
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,

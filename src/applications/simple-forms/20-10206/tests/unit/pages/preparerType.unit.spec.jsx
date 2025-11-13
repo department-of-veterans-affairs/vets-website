@@ -1,7 +1,7 @@
 import {
   testNumberOfWebComponentFields,
   testNumberOfErrorsOnSubmitForWebComponents,
-} from '../../../../shared/tests/pages/pageTests.spec';
+} from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../../config/form';
 
 const {

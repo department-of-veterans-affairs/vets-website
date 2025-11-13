@@ -4,7 +4,6 @@ import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
 import {
   createGetHandler,
-  networkError,
   jsonResponse,
   setupServer,
 } from 'platform/testing/unit/msw-adapter';
@@ -20,6 +19,7 @@ import {
   displayFileSize,
   getFilesNeeded,
   getFilesOptional,
+  getFailedSubmissionsWithinLast30Days,
   getUserPhase,
   getUserPhaseDescription,
   getPhaseDescription,
@@ -474,6 +474,53 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
+  describe('getFailedSubmissionsWithinLast30Days', () => {
+    const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+    const createEvidenceSubmission = (options = {}) => ({
+      id: 1,
+      uploadStatus: 'FAILED',
+      acknowledgementDate: tomorrow,
+      ...options,
+    });
+
+    it('should return empty array when evidenceSubmissions is undefined', () => {
+      const result = getFailedSubmissionsWithinLast30Days(undefined);
+      expect(result).to.be.an('array');
+      expect(result.length).to.equal(0);
+    });
+
+    it('should return empty array when evidenceSubmissions is null', () => {
+      const result = getFailedSubmissionsWithinLast30Days(null);
+      expect(result).to.be.an('array');
+      expect(result.length).to.equal(0);
+    });
+
+    it('should return empty array when there are no failed submissions', () => {
+      const evidenceSubmissions = [
+        createEvidenceSubmission({ uploadStatus: 'SUCCESS' }),
+        createEvidenceSubmission({ id: 2, uploadStatus: 'PENDING' }),
+      ];
+      const result = getFailedSubmissionsWithinLast30Days(evidenceSubmissions);
+
+      expect(result.length).to.equal(0);
+    });
+
+    it('should only return failed submissions within the last 30 days', () => {
+      const evidenceSubmissions = [
+        createEvidenceSubmission({ id: 4 }),
+        createEvidenceSubmission({ id: 3, acknowledgementDate: yesterday }),
+        createEvidenceSubmission({ id: 5 }),
+      ];
+      const result = getFailedSubmissionsWithinLast30Days(evidenceSubmissions);
+
+      expect(result.length).to.equal(2);
+      expect(result[0].id).to.equal(4);
+      expect(result[1].id).to.equal(5);
+    });
+  });
+
   describe('getUserPhase', () => {
     it('should get phase 3 desc for 4-6', () => {
       const phase = getUserPhase(5);
@@ -782,7 +829,9 @@ describe('Disability benefits helpers: ', () => {
     before(() => {
       server.listen();
       server.events.on('request:start', req => {
-        expectedUrl = req.url.href;
+        // TODO: After Node 14 support is dropped, simplify to: expectedUrl = req.url.href;
+        // The || req.url fallback is only needed for Node 14 compatibility
+        expectedUrl = req.url?.href || req.url;
       });
     });
 
@@ -803,16 +852,21 @@ describe('Disability benefits helpers: ', () => {
         ),
       );
 
-      const onSuccess = () => done();
+      const onSuccess = () => {
+        if (expectedUrl) {
+          expect(expectedUrl).to.include(
+            '/v0/education_benefits_claims/stem_claim_status',
+          );
+        }
+        done();
+      };
+
       makeAuthRequest(
         '/v0/education_benefits_claims/stem_claim_status',
         null,
         sinon.spy(),
         onSuccess,
-      );
-
-      expect(expectedUrl).to.contain(
-        '/v0/education_benefits_claims/stem_claim_status',
+        done,
       );
     });
 
@@ -820,16 +874,19 @@ describe('Disability benefits helpers: ', () => {
       server.use(
         createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
-          networkError('Claims Status Failed'),
+          () => jsonResponse({ error: 'Server Error' }, { status: 500 }),
         ),
       );
 
-      const onError = resp => {
-        expect(resp instanceof Error).to.be.true;
-        done();
-      };
       const dispatch = sinon.spy();
       const onSuccess = sinon.spy();
+
+      const onError = () => {
+        expect(onSuccess.called).to.be.false;
+        expect(dispatch.called).to.be.false;
+        done();
+      };
+
       makeAuthRequest(
         '/v0/education_benefits_claims/stem_claim_status',
         null,
@@ -837,9 +894,6 @@ describe('Disability benefits helpers: ', () => {
         onSuccess,
         onError,
       );
-
-      expect(onSuccess.called).to.be.false;
-      expect(dispatch.called).to.be.false;
     });
 
     it('should dispatch auth error', done => {
@@ -1639,6 +1693,246 @@ describe('Disability benefits helpers: ', () => {
       });
     });
   });
+
+  describe('generateClaimTitle with server-generated titles', () => {
+    const claimDate = '2024-08-21';
+
+    context('when server provides displayTitle (feature flag ON)', () => {
+      context('for list/detail views', () => {
+        it('should use displayTitle for list view (no placement)', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Claim for Veterans Pension',
+              claimTypeBase: 'veterans pension claim',
+              claimType: 'Pension',
+            },
+          };
+          expect(generateClaimTitle(claim)).to.equal(
+            'Claim for Veterans Pension',
+          );
+        });
+
+        it('should use displayTitle for detail placement', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Request to add or remove a dependent',
+              claimTypeBase: 'dependency claim',
+              claimType: 'Dependency',
+            },
+          };
+          expect(generateClaimTitle(claim, 'detail')).to.equal(
+            'Request to add or remove a dependent',
+          );
+        });
+
+        it('should bypass all client-side override logic when displayTitle present', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Claim for Survivors Pension',
+              claimTypeBase: 'survivors pension claim',
+              claimType: 'Pension',
+              claimTypeCode: '190ORGDPNPMC', // Would trigger client-side override
+            },
+          };
+          expect(generateClaimTitle(claim)).to.equal(
+            'Claim for Survivors Pension',
+          );
+        });
+      });
+
+      context('for breadcrumb/document views', () => {
+        it('should NOT use displayTitle for breadcrumb (uses composition)', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Claim for Veterans Pension',
+              claimTypeBase: 'veterans pension claim',
+              claimType: 'Pension',
+              claimTypeCode: '180ORGPENPMC',
+              claimDate,
+            },
+          };
+          const result = generateClaimTitle(claim, 'breadcrumb', 'Status');
+          expect(result).to.equal('Status of your veterans pension claim');
+          expect(result).to.not.equal(
+            'Status of your Claim for Veterans Pension',
+          );
+        });
+
+        it('should NOT use displayTitle for document (uses composition)', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Claim for Veterans Pension',
+              claimTypeBase: 'veterans pension claim',
+              claimType: 'Pension',
+              claimDate,
+            },
+          };
+          const result = generateClaimTitle(claim, 'document', 'Status');
+          expect(result).to.include('Veterans Pension Claim');
+          expect(result).to.include('August 21, 2024');
+        });
+      });
+    });
+
+    context('when server provides BOTH fields (feature flag ON)', () => {
+      it('should use claimTypeBase in breadcrumb composition', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Veterans Pension',
+            claimTypeBase: 'veterans pension claim',
+            claimType: 'Pension',
+            claimTypeCode: '180ORGPENPMC',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Files');
+        expect(result).to.equal('Files for your veterans pension claim');
+      });
+
+      it('should use claimTypeBase in document composition', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Survivors Pension',
+            claimTypeBase: 'survivors pension claim',
+            claimType: 'Pension',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'document', 'Overview');
+        expect(result).to.equal(
+          'Overview of August 21, 2024 Survivors Pension Claim',
+        );
+      });
+
+      it('should preserve backend claimTypeBase casing for composition', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Compensation',
+            claimTypeBase: 'compensation claim',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Status');
+        expect(result).to.equal('Status of your compensation claim');
+      });
+
+      it('should preserve pension claim specificity in breadcrumbs', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Veterans Pension',
+            claimTypeBase: 'veterans pension claim',
+            claimType: 'Pension',
+            claimTypeCode: '180ORGPENPMC',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Status');
+        // Should maintain "veterans pension" NOT collapse to generic "pension"
+        expect(result).to.include('veterans pension');
+        expect(result).to.not.equal('Status of your pension claim');
+      });
+    });
+
+    context('when server does NOT provide fields (feature flag OFF)', () => {
+      it('should fall back to client-side logic for list view', () => {
+        const claim = {
+          attributes: {
+            claimType: 'Compensation',
+          },
+        };
+        expect(generateClaimTitle(claim)).to.equal('Claim for compensation');
+      });
+
+      it('should fall back to getClaimType for breadcrumb composition', () => {
+        const claim = {
+          attributes: {
+            claimType: 'Compensation',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Files');
+        expect(result).to.equal('Files for your compensation claim');
+      });
+
+      it('should apply client-side claimTypeCode overrides when no server fields', () => {
+        const claim = {
+          attributes: {
+            claimType: 'Pension',
+            claimTypeCode: '190ORGDPNPMC', // Survivors Pension
+          },
+        };
+        expect(generateClaimTitle(claim)).to.equal(
+          'Claim for Survivors Pension',
+        );
+      });
+    });
+
+    context('edge cases', () => {
+      it('should handle null claimType with BOTH server fields present', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Debt Validation',
+            claimTypeBase: 'debt validation claim',
+            claimType: null,
+            claimTypeCode: '290DV',
+            claimDate,
+          },
+        };
+        // Should use server-generated titles, not fall back to "Disability Compensation"
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Status');
+        expect(result).to.equal('Status of your debt validation claim');
+        expect(result).to.not.include('disability compensation');
+      });
+
+      it('should handle Death claims with server-generated fields', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for expenses related to death or burial',
+            claimTypeBase: 'death claim',
+            claimType: 'Death',
+          },
+        };
+        expect(generateClaimTitle(claim)).to.equal(
+          'Claim for expenses related to death or burial',
+        );
+      });
+
+      it('should handle dependency claims with server-generated fields', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Request to add or remove a dependent',
+            claimTypeBase: 'request to add or remove a dependent',
+            claimType: 'Dependency',
+            claimTypeCode: '130DPNDCY',
+            claimDate,
+          },
+        };
+        expect(generateClaimTitle(claim)).to.equal(
+          'Request to add or remove a dependent',
+        );
+        // Check breadcrumb uses claimTypeBase
+        const breadcrumb = generateClaimTitle(claim, 'breadcrumb', 'Files');
+        expect(breadcrumb).to.equal(
+          'Files for your request to add or remove a dependent',
+        );
+      });
+
+      it('should fall back to legacy logic when only one server field is present', () => {
+        const claim = {
+          attributes: {
+            claimTypeBase: 'compensation claim', // Only claimTypeBase, no displayTitle
+            claimType: 'Compensation',
+            claimDate,
+          },
+        };
+        // Should use client-side logic since both fields are not present (atomic requirement)
+        expect(generateClaimTitle(claim)).to.equal('Claim for compensation');
+        const breadcrumb = generateClaimTitle(claim, 'breadcrumb', 'Status');
+        expect(breadcrumb).to.equal('Status of your compensation claim');
+      });
+    });
+  });
+
   describe('getUploadErrorMessage', () => {
     context('when error is due to a duplicate upload', () => {
       it('should return a specific duplicate error message with file name', () => {
@@ -1679,7 +1973,33 @@ describe('Disability benefits helpers: ', () => {
         expect(result.title).to.equal("You've already uploaded files");
       });
     });
+    context('when error is due to an invalid claimant', () => {
+      it('should return a claimant invalidate error message', () => {
+        const error = {
+          fileName: 'my-document.pdf',
+          errors: [
+            {
+              detail: 'DOC_UPLOAD_INVALID_CLAIMANT',
+            },
+          ],
+        };
 
+        const result = getUploadErrorMessage(error);
+        expect(result.title).to.equal(
+          'You can’t upload files for this claim here',
+        );
+        expect(result.type).to.equal('error');
+        const { getByText, container } = render(result.body);
+        getByText(
+          /Only the Veteran with the claim can upload files on this page. We’re sorry for the inconvenience./i,
+        );
+        expect($('va-link', container)).to.exist;
+        const link = $('va-link', container);
+        expect(link.getAttribute('href')).to.equal(
+          'https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit',
+        );
+      });
+    });
     context('when error is a non-duplicate upload failure', () => {
       it('should return a generic upload error with file name and title', () => {
         const error = {

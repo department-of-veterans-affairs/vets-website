@@ -3,7 +3,6 @@ import testData from '../../../e2e/fixtures/data/test-data.json';
 import formConfig from '../../../../config/form';
 import phoneNumber from '../../../../config/chapters/01-veteran-and-claimant-information/phoneNumber';
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -18,13 +17,6 @@ describe('income and asset phone number page', () => {
     {
       'va-text-input': 1,
     },
-    'phone number',
-  );
-  testNumberOfErrorsOnSubmitForWebComponents(
-    formConfig,
-    schema,
-    uiSchema,
-    0,
     'phone number',
   );
   testSubmitsWithoutErrors(

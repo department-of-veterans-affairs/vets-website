@@ -15,7 +15,8 @@ import {
   isOlderThan,
   decodeHtmlEntities,
 } from '../util/helpers';
-import { getIsPilotFromState } from '.';
+import { resetRecentRecipient } from './recipients';
+import { setThreadRefetchRequired } from './threads';
 
 export const clearThread = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_THREAD });
@@ -49,14 +50,10 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
  * @returns
  *
  */
-export const retrieveMessageThread = messageId => async (
-  dispatch,
-  getState,
-) => {
-  const isPilot = getIsPilotFromState(getState);
+export const retrieveMessageThread = messageId => async dispatch => {
   try {
     dispatch(clearThread());
-    const response = await getMessageThreadWithFullBody({ messageId, isPilot });
+    const response = await getMessageThreadWithFullBody({ messageId });
 
     // finding last sent message in a thread to check if it is not too old for replies
     const lastSentDate = getLastSentMessage(response.data)?.attributes.sentDate;
@@ -161,16 +158,26 @@ export const moveMessageThread = (threadId, folderId) => async dispatch => {
   }
 };
 
-export const sendMessage = (message, attachments) => async dispatch => {
+export const sendMessage = (
+  message,
+  attachments,
+  ohTriageGroup = false,
+  suppressAlert = false,
+) => async dispatch => {
   try {
-    await createMessage(message, attachments);
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_SUCCESS,
-        '',
-        Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
-      ),
-    );
+    await createMessage(message, attachments, ohTriageGroup);
+
+    if (!suppressAlert) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_SUCCESS,
+          '',
+          Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+        ),
+      );
+    }
+    dispatch(resetRecentRecipient());
+    dispatch(setThreadRefetchRequired(true));
   } catch (e) {
     if (
       e.errors &&
@@ -212,13 +219,15 @@ export const sendMessage = (message, attachments) => async dispatch => {
  * @param {Object} message - contains "body" field. Add "draft_id" field if replying with a saved draft and pass messageId of the same draft message
  */
 
-export const sendReply = (
+export const sendReply = ({
   replyToId,
   message,
   attachments,
-) => async dispatch => {
+  ohTriageGroup = false,
+}) => async dispatch => {
   try {
-    await createReplyToMessage(replyToId, message, attachments);
+    await createReplyToMessage(replyToId, message, attachments, ohTriageGroup);
+
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
@@ -226,6 +235,8 @@ export const sendReply = (
         Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
       ),
     );
+    dispatch(resetRecentRecipient());
+    dispatch(setThreadRefetchRequired(true));
   } catch (e) {
     if (
       e.errors &&

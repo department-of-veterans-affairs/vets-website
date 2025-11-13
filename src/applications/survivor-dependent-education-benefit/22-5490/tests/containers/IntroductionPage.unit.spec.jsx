@@ -99,7 +99,7 @@ describe('<IntroductionPage>', () => {
         .to.exist;
       expect(
         getByText(
-          "Form 22-5490 (Dependent's Application for VA Education Benefits)",
+          "Form 22-5490 (Dependents' Application for VA Education Benefits)",
         ),
       ).to.exist;
       expect(container.querySelector(selectors.introText)).to.exist;

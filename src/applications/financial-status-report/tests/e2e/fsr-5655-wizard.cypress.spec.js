@@ -1,5 +1,3 @@
-import { WIZARD_STATUS_NOT_STARTED } from 'platform/site-wide/wizard';
-import { WIZARD_STATUS } from '../../wizard/constants';
 import manifest from '../../manifest.json';
 
 Cypress.config('waitForAnimations', true);
@@ -11,57 +9,7 @@ Cypress.Commands.add('checkStorage', (key, expectedValue) => {
 });
 
 // Can remove this section when we deprecate the legacy wizard (show_financial_status_report_wizard)
-describe('Financial Status Report (Wizard)', () => {
-  beforeEach(() => {
-    sessionStorage.clear();
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_NOT_STARTED);
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [
-          { name: 'show_financial_status_report_wizard', value: true }, // Legacy Wizard
-          { name: 'show_financial_status_report', value: true },
-          { name: 'fsr_wizard', value: false }, // Static Wizard
-        ],
-      },
-    });
-    cy.intercept('GET', '/v0/in_progress_forms/5655', {
-      statusCode: 200,
-    });
-    cy.visit(manifest.rootUrl);
-    cy.injectAxe();
-  });
-
-  it('Should navigate the wizard and start the form', () => {
-    const title = 'Request help with VA debt for overpayments and copay bills';
-    const heading = 'Is this the form I need?';
-    cy.url().should('include', manifest.rootUrl);
-    cy.get('h1').should('have.text', title);
-    cy.get('.wizard-heading').should('have.text', heading);
-
-    cy.get('va-radio-option[value="request"]').click();
-    cy.get('va-radio-option[value="recipients"]').click();
-    cy.get('va-radio-option[value="veteran"]').click();
-    cy.get('.vads-c-action-link--green')
-      .first()
-      .click();
-    cy.checkStorage(WIZARD_STATUS, 'complete');
-    cy.axeCheck();
-  });
-
-  it('Should show process list when wizard is complete', () => {
-    cy.get('va-radio-option[value="request"]').click();
-    cy.get('va-radio-option[value="recipients"]').click();
-    cy.get('va-radio-option[value="veteran"]').click();
-    cy.get('.vads-c-action-link--green')
-      .first()
-      .click();
-    cy.checkStorage(WIZARD_STATUS, 'complete');
-
-    cy.findByTestId('legacy-process-list').should('exist');
-    cy.findByTestId('static-process-list').should('not.exist');
-    cy.axeCheck();
-  });
-});
+// Legacy wizard removed; keep only static wizard tests
 
 describe('Financial Status Report (Static Wizard)', () => {
   before(() => {

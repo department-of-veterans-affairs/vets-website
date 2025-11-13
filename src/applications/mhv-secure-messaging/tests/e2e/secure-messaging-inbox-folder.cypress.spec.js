@@ -1,10 +1,11 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT, Data, Locators, Paths } from './utils/constants';
+import { AXE_CONTEXT, Data, Paths } from './utils/constants';
 import PatientMessagesSentPage from './pages/PatientMessageSentPage';
 import FolderLoadPage from './pages/FolderLoadPage';
 import mockMessages from './fixtures/threads-response.json';
+import SharedComponents from './pages/SharedComponents';
 
 describe('SM INBOX FOLDER VERIFICATION', () => {
   beforeEach(() => {
@@ -44,7 +45,7 @@ describe('SM INBOX FOLDER VERIFICATION', () => {
   });
 });
 
-describe('THREAD LIST RE-FETCHING VERIFICATION', () => {
+describe('THREAD LIST RE-FETCHING VERIFICATION INBOX FOLDER', () => {
   it('verify data updates after each rendering', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -56,12 +57,9 @@ describe('THREAD LIST RE-FETCHING VERIFICATION', () => {
     ).as('reFetchResponse');
 
     PatientInboxPage.loadSingleThread();
-    cy.get(Locators.LINKS.CRUMBS_BACK).click();
-    cy.wait('@reFetchResponse').then(interception => {
-      expect(interception.response.statusCode).to.equal(200);
-    });
 
-    cy.get(`@reFetchResponse.all`).should(`have.length.at.least`, 1);
+    SharedComponents.clickBackBreadcrumb();
+    cy.findByText('Messages: Inbox').should('be.visible');
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

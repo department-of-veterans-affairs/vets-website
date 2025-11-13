@@ -3,7 +3,23 @@ import PropTypes from 'prop-types';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { validateIncompleteItems } from './helpers';
 
-// NoSchemaFormPage = No uiSchema or schema
+/**
+ * ArrayBuilderSummaryNoSchemaFormPage is used when
+ * `useLinkInsteadOfYesNo` or `useButtonInsteadOfYesNo` is true.
+ * Renders a summary custom page without uiSchema/schema.
+ *
+ * @param {{
+ *   addAnotherItemButtonClick: () => void,
+ *   arrayBuilderOptions: ArrayBuilderOptions,
+ *   arrayData: Array<any>,
+ *   customPageProps: CustomPageProps,
+ *   description: React.ReactNode,
+ *   hideAdd: boolean,
+ *   isItemIncomplete: ArrayBuilderOptions['isItemIncomplete'],
+ *   title: React.ReactNode,
+ * }} props
+ * @returns {React.ReactElement}
+ */
 const ArrayBuilderSummaryNoSchemaFormPage = ({
   addAnotherItemButtonClick,
   arrayBuilderOptions,
@@ -22,6 +38,7 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
       isItemIncomplete,
       nounSingular: arrayBuilderOptions.nounSingular,
       arrayPath: arrayBuilderOptions.arrayPath,
+      fullData: customPageProps.data,
     });
 
     if (!isValid) {
@@ -41,7 +58,9 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
         arrayBuilderOptions.useLinkInsteadOfYesNo && (
           <div className={arrayData?.length ? 'vads-u-margin-y--2' : ''}>
             <va-link-action
+              class="wc-pattern-array-builder wc-pattern-array-builder-summary-add-link vads-web-component-pattern"
               data-action="add"
+              data-array-path={arrayBuilderOptions.arrayPath}
               text={arrayBuilderOptions.getText(
                 'summaryAddLinkText',
                 arrayData,
@@ -56,7 +75,9 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
         arrayBuilderOptions.useButtonInsteadOfYesNo && (
           <div className={arrayData?.length ? 'vads-u-margin-y--2' : ''}>
             <va-button
+              class="wc-pattern-array-builder wc-pattern-array-builder-summary-add-button vads-web-component-pattern"
               data-action="add"
+              data-array-path={arrayBuilderOptions.arrayPath}
               text={arrayBuilderOptions.getText(
                 'summaryAddButtonText',
                 arrayData,

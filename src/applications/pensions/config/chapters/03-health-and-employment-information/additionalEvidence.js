@@ -1,5 +1,4 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { showMedicalEvidenceClarification } from '../../../helpers';
 import { MedicalEvidenceNotice } from './helpers';
 
 export const requiresAdditionalEvidence = formData =>
@@ -9,8 +8,7 @@ export default {
   title: 'Other payment options',
   path: 'medical/evidence',
   initialData: {},
-  depends: formData =>
-    showMedicalEvidenceClarification() && requiresAdditionalEvidence(formData),
+  depends: formData => requiresAdditionalEvidence(formData),
   uiSchema: {
     ...titleUI('Submit additional evidence', MedicalEvidenceNotice),
   },

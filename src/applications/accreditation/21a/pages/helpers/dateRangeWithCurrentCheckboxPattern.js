@@ -30,16 +30,13 @@ export const dateRangeWithCurrentCheckboxUI = ({
     {
       title: toLabel,
       hint: 'For example: January 2000',
-      hideIf: (formData, index) => isCurrentChecked(formData, index),
-      required: (formData, index) => !isCurrentChecked(formData, index),
+      hideIf: (formData, index, fullData) =>
+        isCurrentChecked(formData, index, fullData),
+      required: (formData, index, fullData) =>
+        !isCurrentChecked(formData, index, fullData),
     },
   ),
-  'view:currentToLabel': {
-    'ui:description': toLabel,
-    'ui:options': {
-      hideIf: (formData, index) => !isCurrentChecked(formData, index),
-    },
-  },
+  // TODO: At somepoint we should update this so that the checkbox is before the to date for accessibility.
   [currentKey]: {
     'ui:title': currentLabel,
     'ui:webComponentField': VaCheckboxField,

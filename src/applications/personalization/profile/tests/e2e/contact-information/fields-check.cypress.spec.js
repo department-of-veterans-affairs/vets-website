@@ -14,7 +14,7 @@ const setup = () => {
   cy.intercept('v0/profile/personal_information', mockPersonalInformation);
   cy.intercept('v0/profile/service_history', mockServiceHistory);
   cy.intercept('v0/profile/full_name', mockFullName);
-  mockGETEndpoints(['v0/mhv_account', 'v0/ppiu/payment_information']);
+  mockGETEndpoints(['v0/mhv_account', 'v0/profile/direct_deposits']);
   mockFeatureToggles();
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
   cy.injectAxe();

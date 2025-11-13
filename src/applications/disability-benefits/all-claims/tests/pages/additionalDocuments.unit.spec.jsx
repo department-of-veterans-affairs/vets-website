@@ -3,17 +3,15 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import moment from 'moment';
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
-import {
-  DefinitionTester, // selectCheckbox
-} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { createStore } from 'redux';
 import { render } from '@testing-library/react';
 import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 import { SAVED_SEPARATION_DATE } from '../../constants';
 import { selfAssessmentHeadline } from '../../content/selfAssessmentAlert';
+import { daysFromToday } from '../utils/dates/dateHelper';
 
 const invalidDocumentData = {
   additionalDocuments: [
@@ -153,12 +151,7 @@ describe('526EZ document upload', () => {
     }));
 
     // mock BDD
-    window.sessionStorage.setItem(
-      SAVED_SEPARATION_DATE,
-      moment()
-        .add(90, 'days')
-        .format('YYYY-MM-DD'),
-    );
+    window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(90));
 
     const form = render(
       <Provider store={fakeStore}>
@@ -176,5 +169,25 @@ describe('526EZ document upload', () => {
     form.getByText(
       'Please submit your Separation Health Assessment - Part A Self-Assessment as soon as possible',
     );
+  });
+
+  describe('ui:confirmationField', () => {
+    it('should correctly display file names and label for confirmation field', () => {
+      const testData = validDocumentData.additionalDocuments;
+      testData.push({
+        name: 'SupportingEvidence.pdf',
+        confirmationCode: 'testing2',
+        attachmentId: 'L016',
+      });
+
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: testData,
+      });
+
+      expect(result).to.deep.equal({
+        data: ['Form526.pdf', 'SupportingEvidence.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
   });
 });

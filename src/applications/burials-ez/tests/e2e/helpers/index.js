@@ -6,7 +6,7 @@ import pagePaths from '../pagePaths';
 // navigation helpers
 export const goToNextPage = pagePath => {
   // clicks Continue button, and optionally checks destination path.
-  cy.findAllByText(/continue/i, { selector: 'button' }).click();
+  cy.clickFormContinue();
   if (pagePath) {
     cy.location('pathname').should('include', pagePath);
   }
@@ -112,11 +112,7 @@ export const setup = ({ authenticated } = {}) => {
 export const pageHooks = cy => ({
   introduction: () => {
     // skip wizard
-    cy.findAllByText(
-      /Start the burial allowance and transportation benefits application/i,
-    )
-      .first()
-      .click();
+    cy.clickStartForm();
   },
   [pagePaths.mailingAddress]: () => {
     cy.get('@testData').then(data => {

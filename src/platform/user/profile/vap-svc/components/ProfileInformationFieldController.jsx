@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 // platform level imports
 import recordEvent from '../../../../monitoring/record-event';
 import { isVAPatient } from '../../../selectors';
-import { focusElement, waitForRenderThenFocus } from '../../../../utilities/ui';
+import { waitForRenderThenFocus } from '../../../../utilities/ui';
 import prefixUtilityClasses from '../../../../utilities/prefix-utility-classes';
 
 // local level imports
@@ -52,6 +52,7 @@ import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
 import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
 import ConfirmRemoveModal from './ContactInformationFieldInfo/ConfirmRemoveModal';
 import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
+import GenericErrorAlert from './GenericErrorAlert';
 
 import ProfileInformationView from './ProfileInformationView';
 import ProfileInformationEditView from './ProfileInformationEditView';
@@ -70,6 +71,10 @@ const classes = {
     'vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto',
 };
 
+const hasError = (transaction, transactionRequest) => {
+  return transactionRequest?.isFailed || isFailedTransaction(transaction);
+};
+
 class ProfileInformationFieldController extends React.Component {
   closeModalTimeoutID = null;
 
@@ -78,6 +83,7 @@ class ProfileInformationFieldController extends React.Component {
     this.state = {
       showCannotEditModal: false,
       showConfirmCancelModal: false,
+      shouldFocusCancelButton: false,
     };
   }
 
@@ -87,6 +93,7 @@ class ProfileInformationFieldController extends React.Component {
       forceEditView,
       successCallback,
       showUpdateSuccessAlert,
+      showErrorAlert,
     } = this.props;
     // Exit the edit view if it takes more than 5 seconds for the update/save
     // transaction to resolve. If the transaction has not resolved after 5
@@ -115,42 +122,50 @@ class ProfileInformationFieldController extends React.Component {
     if (this.transactionJustFailed(prevProps, this.props)) {
       clearTimeout(this.closeModalTimeoutID);
     }
+
+    // Exit the remove modal if the delete transaction failed
+    if (
+      prevProps.showRemoveModal &&
+      this.props.showRemoveModal &&
+      this.transactionJustFailed(prevProps, this.props)
+    ) {
+      clearTimeout(this.closeModalTimeoutID);
+      this.closeModal();
+    }
+
     if (this.justClosedModal(prevProps, this.props)) {
       clearTimeout(this.closeModalTimeoutID);
-      if (this.props.transaction) {
-        focusElement(`div#${fieldName}-transaction-status`);
-      } else if (showUpdateSuccessAlert) {
-        // Success check after confirming suggested address
-        if (forceEditView && typeof successCallback === 'function') {
-          successCallback();
-        }
-        // Focus on the edit button after the update success alert is shown
-        waitForRenderThenFocus(
-          `#${getEditButtonId(fieldName)}`,
-          document,
-          50,
-          'button',
-        );
-      } else if (!forceEditView) {
-        if (prevProps.showRemoveModal && !this.props.showRemoveModal) {
-          // Focus on the remove button if it exists, otherwise focus on the edit button
-          if (document.querySelector(`#${getRemoveButtonId(fieldName)}`)) {
+      if (showErrorAlert || showUpdateSuccessAlert) {
+        // Focus on whichever alert is showing for the current field (success or error)
+        // Use async check for modal state to avoid focusing on alert while a modal is open (e.g. copy address flow)
+        this.shouldFocusAlert().then(shouldFocus => {
+          if (shouldFocus) {
             waitForRenderThenFocus(
-              `#${getRemoveButtonId(fieldName)}`,
+              `[data-field-name="${fieldName}"] va-alert`,
               document,
               50,
-              'button',
-            );
-          } else {
-            waitForRenderThenFocus(
-              `#${getEditButtonId(fieldName)}`,
-              document,
-              50,
-              'button',
             );
           }
+        });
+        // Handle success callback for success alerts
+        if (
+          forceEditView &&
+          typeof successCallback === 'function' &&
+          showUpdateSuccessAlert
+        ) {
+          successCallback();
+        }
+      } else if (!forceEditView) {
+        if (prevProps.showRemoveModal && !this.props.showRemoveModal) {
+          // Focus on the remove button after exiting the remove modal without saving
+          waitForRenderThenFocus(
+            `#${getRemoveButtonId(fieldName)}`,
+            document,
+            50,
+            'button',
+          );
         } else {
-          // forcesEditView will result in now standard edit button being rendered, so we don't want to focus on it
+          // Focus on the edit button after exiting the edit or validation modal without saving
           // focusElement did not work here on iphone or safari, so using waitForRenderThenFocus
           waitForRenderThenFocus(
             `#${getEditButtonId(fieldName)}`,
@@ -161,11 +176,23 @@ class ProfileInformationFieldController extends React.Component {
         }
       }
     } else if (
+      !this.isAnyModalOpen() &&
+      ((!prevProps.showUpdateSuccessAlert && showUpdateSuccessAlert) ||
+        (!prevProps.showErrorAlert && showErrorAlert))
+    ) {
+      // Success or error alert just appeared after a modal closed during a pending transaction
+      waitForRenderThenFocus(
+        `[data-field-name="${fieldName}"] va-alert`,
+        document,
+        50,
+      );
+    } else if (
       forceEditView &&
       typeof successCallback === 'function' &&
       prevProps.transactionRequest &&
       !this.props.transactionRequest
     ) {
+      // forceEditView will result in now standard edit button being rendered, so we don't want to focus on it
       // Success callback (non-address) after updating a field
       successCallback();
     }
@@ -232,7 +259,6 @@ class ProfileInformationFieldController extends React.Component {
       'profile-section': this.props.analyticsSectionName,
     });
     this.onDelete();
-    this.closeModal();
   };
 
   clearErrors = () => {
@@ -252,13 +278,34 @@ class ProfileInformationFieldController extends React.Component {
     );
   };
 
-  transactionJustFailed = (prevProps, props) => {
-    const previousTransaction = prevProps.transaction;
-    const currentTransaction = props.transaction;
-    return (
-      !isFailedTransaction(previousTransaction) &&
-      isFailedTransaction(currentTransaction)
+  isAnyModalOpen = () => {
+    const openModals = document.querySelectorAll(
+      'va-modal[visible="true"], va-modal[visible]',
     );
+    return openModals.length > 0;
+  };
+
+  shouldFocusAlert = () => {
+    if (this.isAnyModalOpen()) {
+      return false;
+    }
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(!this.isAnyModalOpen());
+      }, 100);
+    });
+  };
+
+  transactionJustFailed = (prevProps, props) => {
+    const hadPreviousError = hasError(
+      prevProps.transaction,
+      prevProps.transactionRequest,
+    );
+    const hasCurrentError = hasError(
+      props.transaction,
+      props.transactionRequest,
+    );
+    return !hadPreviousError && hasCurrentError;
   };
 
   closeModal = () => {
@@ -269,6 +316,8 @@ class ProfileInformationFieldController extends React.Component {
     if (this.props.blockEditMode) {
       this.setState({ showCannotEditModal: true });
     } else {
+      // Clear errors on open to prevent showing an alert from a previous transaction
+      this.clearErrors();
       this.props.openModal(this.props.fieldName);
     }
   };
@@ -278,6 +327,8 @@ class ProfileInformationFieldController extends React.Component {
       this.setState({ showCannotEditModal: true });
       return;
     }
+    // Clear errors on open to prevent showing an alert from a previous transaction
+    this.clearErrors();
     this.props.openModal(`remove-${this.props.fieldName}`);
   };
 
@@ -295,8 +346,6 @@ class ProfileInformationFieldController extends React.Component {
       'profile-section': this.props.analyticsSectionName,
     });
   };
-
-  isEditLinkVisible = () => !isPendingTransaction(this.props.transaction);
 
   handleDeleteInitiated = () => {
     recordEvent({
@@ -356,6 +405,12 @@ class ProfileInformationFieldController extends React.Component {
         this.props?.prefillPatternEnabled &&
         this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS,
       successCallback: this.props.successCallback,
+      // shouldFocusCancelButton and onCancelButtonFocused are used to set focus on the
+      // cancel button after the user returns to edit view from the confirm/cancel modal
+      shouldFocusCancelButton: this.state.shouldFocusCancelButton,
+      onCancelButtonFocused: () =>
+        this.setState({ shouldFocusCancelButton: false }),
+      allowInternationalPhones: this.props.allowInternationalPhones,
     };
 
     // Add flag for email/phone fields to indicate they should use formOnlyUpdate
@@ -394,6 +449,9 @@ class ProfileInformationFieldController extends React.Component {
       isEnrolledInVAHealthCare,
       ariaDescribedBy,
       CustomConfirmCancelModal,
+      showUpdateSuccessAlert,
+      showErrorAlert,
+      showCopyAddressModal,
     } = this.props;
 
     const activeSection = VAP_SERVICE.FIELD_TITLES[
@@ -410,7 +468,8 @@ class ProfileInformationFieldController extends React.Component {
             showEditView ||
             showValidationView ||
             showRemoveModal ||
-            forceEditView
+            forceEditView ||
+            showCopyAddressModal
           }
           id={`${fieldName}-transaction-status`}
           title={title}
@@ -425,14 +484,17 @@ class ProfileInformationFieldController extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        {this.props.showUpdateSuccessAlert ? (
-          <div
-            data-testid="update-success-alert"
-            className="vads-u-width--full"
-          >
+        {showErrorAlert && (
+          <div className="vads-u-width--full">
+            <GenericErrorAlert fieldName={fieldName} />
+          </div>
+        )}
+
+        {showUpdateSuccessAlert && (
+          <div className="vads-u-width--full">
             <UpdateSuccessAlert fieldName={fieldName} />
           </div>
-        ) : null}
+        )}
 
         <ProfileInformationView
           data={data}
@@ -442,7 +504,7 @@ class ProfileInformationFieldController extends React.Component {
         />
         <div className="vads-u-width--full">
           <div>
-            {this.isEditLinkVisible() && (
+            {!isLoading && (
               <va-button
                 text="Edit"
                 label={`Edit ${title}`}
@@ -456,6 +518,7 @@ class ProfileInformationFieldController extends React.Component {
               />
             )}
             {data &&
+              !isLoading &&
               !isDeleteDisabled &&
               fieldName !== FIELD_NAMES.MAILING_ADDRESS && (
                 <va-button
@@ -501,24 +564,28 @@ class ProfileInformationFieldController extends React.Component {
       (isFailedTransaction(transaction) ? {} : null);
 
     return (
-      <div
-        className="vet360-profile-field"
-        data-field-name={fieldName}
-        data-testid={fieldName}
-      >
+      <div data-field-name={fieldName} data-testid={fieldName}>
         {CustomConfirmCancelModal ? (
-          <>
-            <CustomConfirmCancelModal
-              activeSection={activeSection}
-              isVisible={this.state.showConfirmCancelModal}
-              onHide={() => this.setState({ showConfirmCancelModal: false })}
-            />
-          </>
+          <CustomConfirmCancelModal
+            activeSection={activeSection}
+            isVisible={this.state.showConfirmCancelModal}
+            onHide={() =>
+              this.setState({
+                showConfirmCancelModal: false,
+                shouldFocusCancelButton: true,
+              })
+            }
+          />
         ) : (
           <ConfirmCancelModal
             activeSection={activeSection}
             closeModal={this.closeModal}
-            onHide={() => this.setState({ showConfirmCancelModal: false })}
+            onHide={() =>
+              this.setState({
+                showConfirmCancelModal: false,
+                shouldFocusCancelButton: true,
+              })
+            }
             isVisible={this.state.showConfirmCancelModal}
           />
         )}
@@ -554,6 +621,14 @@ const shouldShowUpdateSuccessAlert = (state, field) => {
     : mostRecentSaveField === field;
 };
 
+const shouldShowErrorAlert = (state, field) => {
+  const { transaction, transactionRequest } = selectVAPServiceTransaction(
+    state,
+    field,
+  );
+  return hasError(transaction, transactionRequest);
+};
+
 ProfileInformationFieldController.defaultProps = {
   isDeleteDisabled: false,
 };
@@ -582,6 +657,7 @@ ProfileInformationFieldController.propTypes = {
     PropTypes.node,
   ]),
   activeEditView: PropTypes.string,
+  allowInternationalPhones: PropTypes.bool, // "opt-in" param for international phone numbers
   ariaDescribedBy: PropTypes.string,
   cancelButtonText: PropTypes.string,
   cancelCallback: PropTypes.func,
@@ -595,6 +671,9 @@ ProfileInformationFieldController.propTypes = {
   refreshTransaction: PropTypes.func,
   refreshTransactionRequest: PropTypes.func,
   saveButtonText: PropTypes.string,
+  shouldFocusCancelButton: PropTypes.bool,
+  showCopyAddressModal: PropTypes.bool,
+  showErrorAlert: PropTypes.bool,
   showRemoveModal: PropTypes.bool,
   showUpdateSuccessAlert: PropTypes.bool,
   successCallback: PropTypes.func,
@@ -602,10 +681,16 @@ ProfileInformationFieldController.propTypes = {
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
   updateMessagingSignature: PropTypes.func,
+  onCancelButtonFocused: PropTypes.func,
 };
 
 export const mapStateToProps = (state, ownProps) => {
-  const { fieldName } = ownProps;
+  const { fieldName, allowInternationalPhones = false } = ownProps;
+
+  const internationalPhonesToggleValue =
+    state.featureToggles?.profileInternationalPhoneNumbers || false;
+  const enableInternationalPhones =
+    allowInternationalPhones && internationalPhonesToggleValue;
 
   const { transaction, transactionRequest } = selectVAPServiceTransaction(
     state,
@@ -630,10 +715,40 @@ export const mapStateToProps = (state, ownProps) => {
     formSchema,
     title,
   } = getProfileInfoFieldAttributes(fieldName, {
-    allowInternational: ownProps.allowInternationalPhones,
+    allowInternationalPhones: enableInternationalPhones,
   });
 
+  // Override the uiSchema title if a custom title is provided
+  let customUiSchema = uiSchema;
+  if (ownProps.title) {
+    if (uiSchema?.inputPhoneNumber?.['ui:title']) {
+      // Handle phone fields
+      customUiSchema = {
+        ...uiSchema,
+        inputPhoneNumber: {
+          ...uiSchema.inputPhoneNumber,
+          'ui:title': ownProps.title,
+        },
+      };
+    } else if (uiSchema?.emailAddress?.['ui:title']) {
+      // Handle email fields
+      customUiSchema = {
+        ...uiSchema,
+        emailAddress: {
+          ...uiSchema.emailAddress,
+          'ui:title': ownProps.title,
+        },
+      };
+    }
+  }
+
   const hasUnsavedEdits = state.vapService?.hasUnsavedEdits;
+
+  const showCopyAddressModal =
+    fieldName === VAP_SERVICE.FIELD_NAMES.MAILING_ADDRESS
+      ? !!state.vapService?.copyAddressModal
+      : false;
+
   return {
     hasUnsavedEdits,
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
@@ -658,13 +773,15 @@ export const mapStateToProps = (state, ownProps) => {
     transaction,
     transactionRequest,
     editViewData: selectEditViewData(state),
-    title,
+    title: ownProps.title || title, // Use custom title if provided, otherwise use default
     apiRoute,
     convertCleanDataToPayload,
-    uiSchema,
+    uiSchema: customUiSchema,
     formSchema,
     isEnrolledInVAHealthCare,
     showUpdateSuccessAlert: shouldShowUpdateSuccessAlert(state, fieldName),
+    showErrorAlert: shouldShowErrorAlert(state, fieldName),
+    showCopyAddressModal,
   };
 };
 

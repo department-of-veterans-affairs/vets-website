@@ -43,6 +43,7 @@ export const RESPONSES = Object.freeze({
   AIR_FORCE: 'Air Force',
   COAST_GUARD: 'Coast Guard',
   MARINE_CORPS: 'Marine Corps',
+  SPACE_FORCE: 'Space Force',
   REASON_PTSD:
     'I suffered from undiagnosed, misdiagnosed, or untreated posttraumatic stress disorder (PTSD), or another mental health condition, during my service. I was discharged for reasons related to this condition.',
   REASON_TBI:

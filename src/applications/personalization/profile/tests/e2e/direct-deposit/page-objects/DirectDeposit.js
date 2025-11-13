@@ -41,13 +41,22 @@ class DirectDepositPage {
     this.mockToggles(featureToggles);
   }
 
-  confirmDirectDepositInSubnav = ({ visitPage = true } = {}) => {
-    // the DD item should exist in the sub nav
-    cy.findByRole('navigation', { name: /profile/i }).within(() => {
-      cy.findByRole('link', { name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT }).should(
-        'exist',
-      );
-    });
+  confirmDirectDepositInSubnav = ({
+    profile2Enabled = false,
+    visitPage = true,
+  } = {}) => {
+    if (profile2Enabled) {
+      cy.get(
+        `va-sidenav-item[label="${PROFILE_PATH_NAMES.DIRECT_DEPOSIT}"]`,
+      ).should('exist');
+    } else {
+      // the DD item should exist in the sub nav
+      cy.findByRole('navigation', { name: /profile/i }).within(() => {
+        cy.findByRole('link', {
+          name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
+        }).should('exist');
+      });
+    }
     if (visitPage) {
       // going directly to DD should work
       cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);

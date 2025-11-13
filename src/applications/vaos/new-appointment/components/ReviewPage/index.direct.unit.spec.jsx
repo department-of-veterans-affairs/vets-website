@@ -117,7 +117,11 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   it('should show form information for review', async () => {
     store.dispatch(
       onCalendarChange([
-        formatInTimeZone(start, 'America/Denver', DATE_FORMATS.ISODateTime),
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
       ]),
     );
 
@@ -174,8 +178,8 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     const editLinks = screen.getAllByTestId('edit-new-appointment');
     const uniqueLinks = new Set();
     editLinks.forEach(link => {
-      expect(link).to.have.attribute('aria-label');
-      uniqueLinks.add(link.getAttribute('aria-label'));
+      expect(link).to.have.attribute('label');
+      uniqueLinks.add(link.getAttribute('label'));
     });
     expect(uniqueLinks.size).to.equal(editLinks.length);
   });
@@ -227,7 +231,11 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   it('should show error message on failure', async () => {
     store.dispatch(
       onCalendarChange([
-        formatInTimeZone(start, 'America/Denver', DATE_FORMATS.ISODateTime),
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
       ]),
     );
 

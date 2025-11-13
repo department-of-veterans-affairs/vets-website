@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
-import { Toggler } from 'platform/utilities/feature-toggles';
 import { recordDatalayerEvent } from '../../utilities/analytics';
 import { getSignInUrl } from '../../utilities/constants';
-import UserNav from './UserNav';
+import DropdownContainer from './DropdownContainer';
 
 function SignInButton() {
   return (
@@ -18,8 +17,13 @@ function SignInButton() {
 }
 
 export const Nav = () => {
+  const [navHidden, isNavHidden] = useState('');
   const profile = useLoaderData()?.profile;
 
+  useEffect(() => {
+    const isAuthorized = localStorage.getItem('userAuthorized');
+    isNavHidden(isAuthorized);
+  }, []);
   return (
     <nav className="nav">
       <div className="nav__container nav__container-primary vads-u-display--flex">
@@ -49,75 +53,58 @@ export const Nav = () => {
             alt="VA Accredited Representative Portal, U.S. Department of Veterans Affairs"
           />
         </Link>
-        {profile ? <UserNav profile={profile} /> : <SignInButton />}
+
+        <div className="heading-right">
+          <Link
+            to="/get-help"
+            className={`usa-button-secondary heading-help-link  ${
+              profile ? 'logged-in' : ''
+            }`}
+            data-testid="heading-help-link"
+            onClick={recordDatalayerEvent}
+            data-eventname="nav-link-click"
+          >
+            Help
+          </Link>
+          {profile ? <DropdownContainer rep={profile} /> : <SignInButton />}
+        </div>
       </div>
 
+      {/* hidden if unauthorized */}
       {profile && (
-        <div className="nav__container-secondary" data-testid="desktop-nav-row">
+        <div
+          className={`nav__container-secondary ${
+            navHidden === 'false' ? 'vads-u-display--none' : 'is--displayed'
+          }`}
+          data-testid="desktop-nav-row"
+        >
           <div className="nav__container vads-u-display--flex">
-            <Toggler
-              toggleName={
-                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSearch
-              }
-            >
-              <Toggler.Enabled>
-                <Link
-                  className="nav__btn desktop"
-                  to="/claimant-search"
-                  data-testid="desktop-search-link"
-                  onClick={recordDatalayerEvent}
-                  data-eventname="nav-link-click"
-                >
-                  <va-icon
-                    icon="search"
-                    size={2}
-                    className="people-search-icon"
-                  />
-                  Find Claimant
-                </Link>
-              </Toggler.Enabled>
-            </Toggler>
             <Link
               className="nav__btn desktop"
-              to="/poa-requests"
+              to="/find-claimant"
+              data-testid="desktop-search-link"
+              onClick={recordDatalayerEvent}
+              data-eventname="nav-link-click"
+            >
+              <va-icon icon="search" size={2} className="people-search-icon" />
+              Find Claimant
+            </Link>
+            <Link
+              className="nav__btn desktop"
+              to="/representation-requests"
               data-testid="desktop-poa-link"
               onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"
             >
               Representation Requests
             </Link>
-            <Toggler
-              toggleName={
-                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
-              }
+            <Link
+              className="nav__btn desktop"
+              to="/submissions"
+              data-testid="desktop-search-link"
             >
-              <Toggler.Enabled>
-                <Link
-                  className="nav__btn desktop"
-                  to="/submissions"
-                  data-testid="desktop-search-link"
-                >
-                  Submissions
-                </Link>
-              </Toggler.Enabled>
-            </Toggler>
-            <Toggler
-              toggleName={
-                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp
-              }
-            >
-              <Toggler.Enabled>
-                <Link
-                  to="/get-help"
-                  className="nav__btn desktop"
-                  data-testid="desktop-help-link"
-                  onClick={recordDatalayerEvent}
-                  data-eventname="nav-link-click"
-                >
-                  Get Help
-                </Link>
-              </Toggler.Enabled>
-            </Toggler>
+              Submissions
+            </Link>
           </div>
         </div>
       )}

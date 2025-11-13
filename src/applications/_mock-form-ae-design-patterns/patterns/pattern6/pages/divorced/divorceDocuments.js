@@ -28,7 +28,7 @@ export default {
     type: 'object',
     required: [],
     properties: {
-      divorceDocument: fileInputSchema,
+      divorceDocument: fileInputSchema(),
     },
   },
 };

@@ -1,7 +1,16 @@
-export default function prefillTransformer(pages, formData, metadata) {
+export default function prefillTransformer(
+  pages,
+  formData,
+  metadata,
+  formContext,
+) {
   return {
     pages,
     formData: {
+      // Add login state tracking to formData for use in depends fields
+      'view:loginState': {
+        isLoggedIn: formContext?.user?.login?.currentlyLoggedIn || false,
+      },
       application: {
         applicant: {
           name: {
@@ -17,6 +26,8 @@ export default function prefillTransformer(pages, formData, metadata) {
           address: formData.application.claimant.address,
           ssn: formData.application.claimant.ssn,
           dateOfBirth: formData.application.claimant.dateOfBirth,
+          email: formData.application.claimant.email,
+          phoneNumber: formData.application.claimant.phoneNumber,
         },
       },
     },

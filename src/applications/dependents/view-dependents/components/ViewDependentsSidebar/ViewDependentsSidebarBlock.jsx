@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ViewDependentsSidebarBlock = props => (
   <div className="vads-u-margin-bottom--5">
@@ -8,5 +9,10 @@ const ViewDependentsSidebarBlock = props => (
     {props.content}
   </div>
 );
+
+ViewDependentsSidebarBlock.propTypes = {
+  content: PropTypes.any.isRequired,
+  heading: PropTypes.string.isRequired,
+};
 
 export default ViewDependentsSidebarBlock;

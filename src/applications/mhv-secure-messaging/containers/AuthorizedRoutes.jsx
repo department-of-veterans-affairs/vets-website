@@ -1,10 +1,8 @@
-import React from 'react';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { useDispatch } from 'react-redux';
 import { MhvPageNotFoundContent } from 'platform/mhv/components/MhvPageNotFound';
-import pilotManifest from '../pilot/manifest.json';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
 import Folders from './Folders';
@@ -13,12 +11,14 @@ import ThreadDetails from './ThreadDetails';
 import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
 import * as Constants from '../util/constants';
-import manifest from '../manifest.json';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
-import SelectHealthCareSystem from './SelectHealthCareSystem';
-import { isPilotState } from '../selectors';
+import SelectCareTeam from './SelectCareTeam';
+import CareTeamHelp from './CareTeamHelp';
+import { clearDraftInProgress } from '../actions/threadDetails';
+import featureToggles from '../hooks/useFeatureToggles';
+import RecentCareTeams from './RecentCareTeams';
 
 // Prepend SmBreadcrumbs to each route, except for PageNotFound
 const AppRoute = ({ children, ...rest }) => {
@@ -36,23 +36,38 @@ AppRoute.propTypes = {
 
 const { Paths } = Constants;
 
+// TODO: Curated List - update safe paths with all new urls for composing a message
+const draftInProgressSafePaths = [
+  `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
+  `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+  `${Paths.COMPOSE}${Paths.RECENT_CARE_TEAMS}`,
+  new RegExp(`^${Paths.MESSAGE_THREAD}[^/]+/?$`),
+  Paths.COMPOSE,
+  Paths.CONTACT_LIST,
+];
+
 const AuthorizedRoutes = () => {
   const location = useLocation();
-  const isPilot = useSelector(isPilotState);
+  const dispatch = useDispatch();
+  const { mhvSecureMessagingCuratedListFlow } = featureToggles();
 
-  const cernerPilotSmFeatureFlag = useSelector(
-    state =>
-      state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
+  useEffect(
+    () => {
+      const isDraftSafe = draftInProgressSafePaths.some(
+        path =>
+          path instanceof RegExp
+            ? path.test(location.pathname)
+            : location.pathname.startsWith(path),
+      );
+      if (!isDraftSafe) {
+        dispatch(clearDraftInProgress());
+      }
+    },
+    [location.pathname, dispatch],
   );
 
   if (location.pathname === `/`) {
-    const basePath = `${
-      cernerPilotSmFeatureFlag && isPilot
-        ? pilotManifest.rootUrl
-        : manifest.rootUrl
-    }${Paths.INBOX}`;
-    window.location.replace(basePath);
-    return <></>;
+    return <Redirect to={Paths.INBOX} />;
   }
 
   return (
@@ -100,32 +115,42 @@ const AuthorizedRoutes = () => {
           <EditContactList />
         </AppRoute>
 
-        {isPilot && (
+        {mhvSecureMessagingCuratedListFlow && (
           <AppRoute
             exact
             path={`${Paths.COMPOSE}${Paths.START_MESSAGE}`}
             key="Compose"
           >
-            <Compose skipInterstitial />
+            <Compose />
           </AppRoute>
         )}
-        {isPilot && (
+        {mhvSecureMessagingCuratedListFlow && (
+          <AppRoute exact path={Paths.RECENT_CARE_TEAMS} key="RecentCareTeams">
+            <RecentCareTeams />
+          </AppRoute>
+        )}
+        {mhvSecureMessagingCuratedListFlow && (
           <AppRoute
             exact
-            path={`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`}
-            key="SelectHealthCareSystem"
+            path={`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`}
+            key="SelectCareTeam"
           >
-            <SelectHealthCareSystem />
+            <SelectCareTeam />
           </AppRoute>
         )}
-        {isPilot && (
+        {mhvSecureMessagingCuratedListFlow && (
           <AppRoute exact path={Paths.COMPOSE} key="InterstitialPage">
             <InterstitialPage />
           </AppRoute>
         )}
-        {!isPilot && (
+        {!mhvSecureMessagingCuratedListFlow && (
           <AppRoute exact path={Paths.COMPOSE} key="Compose">
             <Compose />
+          </AppRoute>
+        )}
+        {mhvSecureMessagingCuratedListFlow && (
+          <AppRoute exact path={Paths.CARE_TEAM_HELP} key="CareTeamHelp">
+            <CareTeamHelp />
           </AppRoute>
         )}
         <Route>

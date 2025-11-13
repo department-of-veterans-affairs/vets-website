@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { content } from '../content/evidenceSummary';
-import { EVIDENCE_UPLOAD_PATH, ATTACHMENTS_OTHER } from '../constants';
+import { content } from '../content/evidence/summary';
+import { EVIDENCE_UPLOAD_URL, ATTACHMENTS_OTHER } from '../constants';
 import {
   confirmationPageLabel,
   errorClassNames,
@@ -73,9 +73,9 @@ export const EvidenceUploadContent = ({
                     disableAnalytics
                     id={`edit-upload-${index}`}
                     className="edit-item"
-                    path={`/${EVIDENCE_UPLOAD_PATH}#${index}`}
+                    path={`/${EVIDENCE_UPLOAD_URL}#${index}`}
                     aria-label={`${content.editLinkAria} ${upload.name}`}
-                    data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
+                    data-link={testing ? EVIDENCE_UPLOAD_URL : null}
                     text={content.edit}
                   />
                   <va-button

@@ -1,6 +1,4 @@
 /* eslint-disable no-plusplus */
-const dateFns = require('date-fns');
-const dateFnsTz = require('date-fns-tz');
 
 const createDefaultDraftAppointment = () => ({
   id: 'EEKoGzEf',
@@ -77,10 +75,8 @@ const createDefaultDraftAppointment = () => ({
  * @returns {Object} draftAppointmentInfo object
  */
 const createDraftAppointmentInfo = (
-  numberOfSlots,
   referralNumber = '6cg8T26YivnL68JzeTaV0w==',
 ) => {
-  const tomorrow = dateFns.addDays(dateFns.startOfDay(new Date()), 1);
   const draftApppointmentInfo = createDefaultDraftAppointment();
 
   if (referralNumber === 'draft-no-slots-error') {
@@ -92,22 +88,7 @@ const createDraftAppointmentInfo = (
   if (referralNumber === 'details-retry-error') {
     draftApppointmentInfo.id = 'details-retry-error';
   }
-
-  let hourFromNow = 12;
-  for (let i = 0; i < numberOfSlots; i++) {
-    const startTime = dateFns.addHours(tomorrow, hourFromNow);
-    const endTime = dateFns.addMinutes(startTime, 30);
-    draftApppointmentInfo.attributes.slots.push({
-      id: `5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov${i.toString()}`,
-      start: startTime.toISOString(),
-      end: endTime.toISOString(),
-      status: 'free',
-      overbooked: false,
-      localStart: '2024-11-18T08:00:00-05:00',
-      localEnd: '2024-11-18T08:30:00-05:00',
-    });
-    hourFromNow++;
-  }
+  draftApppointmentInfo.attributes.slots = [];
   return draftApppointmentInfo;
 };
 
@@ -125,61 +106,7 @@ const getSlotByDate = (slots, dateTime) => {
   return slots.find(slot => slot.start === dateTime);
 };
 
-/**
- * Returns if a selected date is in conflict with an existing appointment
- *
- * @param {String} selectedDate Date of selected appointment
- * @param {Object} appointmentsByMonth Existing appointments object
- * @param {String} facilityTimeZone Timezone string of facility
- * @returns {Boolean} Is there a conflict
- */
-const hasConflict = (selectedDate, appointmentsByMonth, facilityTimeZone) => {
-  let conflict = false;
-  const selectedMonth = dateFns.format(new Date(selectedDate), 'yyyy-MM');
-  if (!(selectedMonth in appointmentsByMonth)) {
-    return conflict;
-  }
-  const selectedDay = dateFns.format(new Date(selectedDate), 'dd');
-  const monthOfApts = appointmentsByMonth[selectedMonth];
-  const daysWithApts = monthOfApts.map(apt => {
-    return dateFns.format(new Date(apt.start), 'dd');
-  });
-  if (!daysWithApts.includes(selectedDay)) {
-    return conflict;
-  }
-  const unavailableTimes = monthOfApts.map(upcomingAppointment => {
-    return {
-      start: dateFnsTz.zonedTimeToUtc(
-        new Date(upcomingAppointment.start),
-        upcomingAppointment.timezone,
-      ),
-      end: dateFnsTz.zonedTimeToUtc(
-        dateFns.addMinutes(
-          new Date(upcomingAppointment.start),
-          upcomingAppointment.minutesDuration,
-        ),
-        upcomingAppointment.timezone,
-      ),
-    };
-  });
-  unavailableTimes.forEach(range => {
-    if (
-      dateFns.isWithinInterval(
-        dateFnsTz.zonedTimeToUtc(new Date(selectedDate), facilityTimeZone),
-        {
-          start: range.start,
-          end: range.end,
-        },
-      )
-    ) {
-      conflict = true;
-    }
-  });
-  return conflict;
-};
-
 module.exports = {
   createDraftAppointmentInfo,
   getSlotByDate,
-  hasConflict,
 };

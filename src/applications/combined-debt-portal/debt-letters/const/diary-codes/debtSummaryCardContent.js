@@ -80,15 +80,15 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '140':
       return (
         <DebtSummaryMessage IconComponent={WarningIcon}>
-          Pay your balance now or request help by <strong>{endDateText}</strong>
-          .
+          Pay your {balance} balance now or request help by{' '}
+          <strong>{endDateText}</strong>.
         </DebtSummaryMessage>
       );
     case '109':
       return (
         <DebtSummaryMessage IconComponent={WarningIcon}>
           Pay your {balance} balance now or request help by {endDateText}{' '}
-          <strong>to avoid more interest charges.</strong>
+          <strong>to avoid more interest charges</strong>.
         </DebtSummaryMessage>
       );
     case '117':
@@ -108,7 +108,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '680':
       return (
         <DebtSummaryMessage IconComponent={WarningIcon}>
-          Pay your {balance} balance now or request help.{' '}
+          Pay your {balance} balance now or request help.
         </DebtSummaryMessage>
       );
     case '681':
@@ -151,7 +151,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
           paid.
         </DebtSummaryMessage>
       );
-    case '603': // TODO: Date Not Listed
+    case '603':
     case '613':
       return (
         <DebtSummaryMessage IconComponent={WarningIcon}>
@@ -168,11 +168,11 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
       return (
         <DebtSummaryMessage IconComponent={WarningIcon}>
           Contact the U.S. Department of the Treasury’s Debt Management Services
-          at <va-telephone contact={CONTACTS.DMC} />, 8:30 a.m. to 6:30 p.m. ET.
-          to pay this debt.
+          at <va-telephone contact={CONTACTS.TREASURY_DMS} />, 8:30 a.m. to 6:30
+          p.m. ET. to pay this debt.
         </DebtSummaryMessage>
       );
-    // case '081': TODO: No Definition in mockup
+    case '081':
     case '500':
     case '510':
     case '503':
@@ -252,8 +252,8 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '420':
     case '421':
     case '422':
-    case '627':
     case '425': // ok - defined in spreadsheet
+    case '627':
     default:
       return (
         <DebtSummaryMessage IconComponent={InfoIcon}>
@@ -262,3 +262,59 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
       );
   }
 };
+
+export const resolveLinkDiaryCodes = [
+  '109',
+  '117',
+  '123',
+  '815',
+  '061',
+  '065',
+  '070',
+  '440',
+  '442',
+  '448',
+  '453',
+  '811',
+  '081',
+  '500',
+  '510',
+  '503',
+  '100',
+  '102',
+  '130',
+  '140',
+  '430',
+  '431',
+  '450',
+  '101',
+  '602',
+  '607',
+  '608',
+  '610',
+  '611',
+  '614',
+  '615',
+  '617',
+  '449',
+  '439',
+  '459',
+  '600',
+  '601',
+  '603',
+  '613',
+  '655',
+  '817',
+  '680',
+  '681',
+  '682',
+  '801',
+  '802',
+  '803',
+  '804',
+  '809',
+  '820',
+  '822',
+  '825',
+  '821',
+];

@@ -1,5 +1,4 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import { isChapterFieldRequired } from '../../helpers';
 import { TASK_KEYS } from '../../constants';
 import { intro } from './intro';
@@ -18,6 +17,7 @@ import { childAddressPartTwo } from './childAddressPartTwo';
 import { marriageEndDetails } from './marriageEndDetails';
 import { disabilityPartOne } from './disabilityPartOne';
 import { disabilityPartTwo } from './disabilityPartTwo';
+import { showPensionRelatedQuestions } from '../../utilities';
 
 const shouldIncludePage = formData => {
   return (
@@ -84,9 +84,15 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       schema: relationshipPartTwo.schema,
     }),
     addChildStepchild: pages.itemPage({
-      depends: (formData, index) =>
-        shouldIncludePage(formData) &&
-        formData?.childrenToAdd?.[index]?.relationshipToChild?.stepchild,
+      depends: (formData, index) => {
+        if (!shouldIncludePage(formData)) {
+          return false;
+        }
+        return (
+          formData?.childrenToAdd?.[index]?.isBiologicalChild === false &&
+          formData?.childrenToAdd?.[index]?.relationshipToChild?.stepchild
+        );
+      },
       title: "Child's biological parents",
       path: '686-report-add-child/:index/stepchild',
       uiSchema: stepchild.uiSchema,
@@ -128,39 +134,26 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       schema: marriageEndDetails.schema,
     }),
     addChildAdditionalInformationPartTwo: pages.itemPage({
-      depends: shouldIncludePage,
+      depends: formData =>
+        shouldIncludePage(formData) && showPensionRelatedQuestions(formData),
       title: 'Additional information needed to add child',
       path: '686-report-add-child/:index/additional-information-part-two',
       uiSchema: additionalInformationPartTwo.uiSchema,
       schema: additionalInformationPartTwo.schema,
     }),
     addChildChildAddressPartOne: pages.itemPage({
-      depends: (formData, index) => {
-        const pathname = window?.location?.pathname;
-        const realIndex = !index ? getUrlPathIndex(pathname) : index;
-
-        return (
-          shouldIncludePage(formData) &&
-          formData?.childrenToAdd[Number(realIndex)]?.doesChildLiveWithYou ===
-            false
-        );
-      },
+      depends: (formData, index) =>
+        shouldIncludePage(formData) &&
+        !formData?.childrenToAdd?.[index]?.doesChildLiveWithYou,
       title: "Child's Address",
       path: '686-report-add-child/:index/child-address-part-one',
       uiSchema: childAddressPartOne.uiSchema,
       schema: childAddressPartOne.schema,
     }),
     addChildChildAddressPartTwo: pages.itemPage({
-      depends: (formData, index) => {
-        const pathname = window?.location?.pathname;
-        const realIndex = !index ? getUrlPathIndex(pathname) : index;
-
-        return (
-          shouldIncludePage(formData) &&
-          formData?.childrenToAdd[Number(realIndex)]?.doesChildLiveWithYou ===
-            false
-        );
-      },
+      depends: (formData, index) =>
+        shouldIncludePage(formData) &&
+        !formData?.childrenToAdd?.[index]?.doesChildLiveWithYou,
       title: "Child's Address",
       path: '686-report-add-child/:index/child-address-part-two',
       uiSchema: childAddressPartTwo.uiSchema,
@@ -169,7 +162,7 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
   };
 });
 
-export const chapter = {
+export default {
   title: 'Add one or more children',
   pages: {
     ...chapterPages,

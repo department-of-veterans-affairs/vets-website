@@ -2,10 +2,16 @@ import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LandingPage from './pages/MedicalRecordsLandingPage';
 
 describe('Medical Records Authenticated Users', () => {
-  it('Visits Medical Records Authenticated Users', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
-    site.loadPage();
+  });
+
+  it('Visits Medical Records Authenticated Users', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
+    // site.loadPage();
     LandingPage.handleSession();
     cy.visit('my-health/medical-records');
     // LandingPage.verifyDownloadOnMhvLink(

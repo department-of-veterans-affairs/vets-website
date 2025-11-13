@@ -7,11 +7,11 @@ import { MAX_LENGTH, MAX_SELECTED_ERROR } from '../constants';
 // higher level
 export const MaxSelectionsAlert = ({ closeModal, appName }) => (
   <VaModal
+    clickToClose
     modalTitle={MAX_SELECTED_ERROR}
     status="warning"
     onCloseEvent={closeModal}
     visible
-    uswds
   >
     You are limited to {MAX_LENGTH.SELECTIONS} selected issues for each{' '}
     {appName} request. If you would like to select more than{' '}

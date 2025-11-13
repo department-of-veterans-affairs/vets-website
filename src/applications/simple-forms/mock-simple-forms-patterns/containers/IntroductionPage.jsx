@@ -89,6 +89,9 @@ class IntroductionPage extends React.Component {
               <Link to="/file-input">File input</Link>
             </li>
             <li>
+              <Link to="/file-input-multiple">File input</Link>
+            </li>
+            <li>
               <Link to="/dynamic-fields">Dynamic fields</Link>
             </li>
             <li>
@@ -103,6 +106,9 @@ class IntroductionPage extends React.Component {
               <Link to="/array-multiple-page-builder-choose-flow">
                 Array - multiple page - builder pattern
               </Link>
+            </li>
+            <li>
+              <Link to="/service-branch">Service branch</Link>
             </li>
             <li>
               <Link to="/confirmation">Confirmation page</Link>

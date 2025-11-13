@@ -5,11 +5,12 @@
  */
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { addDays, differenceInDays, parseISO } from 'date-fns';
+import { addDays, differenceInDays } from 'date-fns';
 import {
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
+  TYPES_OF_MENTAL_HEALTH,
   TYPES_OF_CARE,
   SERVICE_CATEGORY,
 } from './constants';
@@ -48,6 +49,7 @@ export function getTypeOfCareById(inputId) {
     ...TYPES_OF_EYE_CARE,
     ...TYPES_OF_SLEEP_CARE,
     ...AUDIOLOGY_TYPES_OF_CARE,
+    ...TYPES_OF_MENTAL_HEALTH,
     ...TYPES_OF_CARE,
     ...SERVICE_CATEGORY,
   ];
@@ -92,7 +94,7 @@ export function getProviderName(appointment) {
 
 export function getDaysRemainingToFileClaim(appointmentStart) {
   const today = new Date();
-  const deadline = addDays(parseISO(appointmentStart), 30);
+  const deadline = addDays(appointmentStart, 30);
   const days = differenceInDays(deadline, today);
   if (days < 0) {
     return 0;

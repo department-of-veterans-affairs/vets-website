@@ -5,12 +5,15 @@ import vitalsData from '../fixtures/vitals/sample-lighthouse.json';
 
 describe('Medical Records View Vitals', () => {
   const site = new MedicalRecordsSite();
+  const mockDate = new Date(2025, 9, 15); // October 15, 2025
 
   beforeEach(() => {
+    cy.clock(mockDate, ['Date']);
+
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
-      isAcceleratingVitals: true,
+      isAcceleratingVitals: false,
     });
     Vitals.setIntercepts({ vitalData: vitalsData });
   });
@@ -20,7 +23,7 @@ describe('Medical Records View Vitals', () => {
 
     Vitals.goToVitalPage();
 
-    const today = new Date();
+    const today = mockDate;
     const timeFrame = `${today.getFullYear()}-${(today.getMonth() + 1)
       .toString()
       .padStart(2, '0')}`;

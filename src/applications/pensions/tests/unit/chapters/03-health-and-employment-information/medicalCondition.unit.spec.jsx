@@ -1,18 +1,13 @@
-import { expect } from 'chai';
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
 import {
   testComponentFieldsMarkedAsRequired,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
-  testShowAlert,
   testNumberOfFieldsByType,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
-import medicalCondition from '../../../../config/chapters/03-health-and-employment-information/medicalCondition';
-import { fillRadio } from '../../testHelpers/webComponents';
+import medicalConditions from '../../../../config/chapters/03-health-and-employment-information/medicalConditions';
 
-const { schema, uiSchema } = medicalCondition;
+const { schema, uiSchema } = medicalConditions;
 
 describe('pension medical condition page', () => {
   const pageTitle = 'medical condition information';
@@ -36,19 +31,6 @@ describe('pension medical condition page', () => {
   );
 
   testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
-
-  testShowAlert(
-    formConfig,
-    schema,
-    uiSchema,
-    pageTitle,
-    { medicalCondition: false },
-    async container => {
-      const radio = $('va-radio', container);
-      expect(radio).to.exist;
-      await fillRadio(radio, 'Y');
-    },
-  );
 
   testNumberOfFieldsByType(
     formConfig,

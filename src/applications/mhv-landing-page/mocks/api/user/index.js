@@ -77,10 +77,14 @@ const generateUser = ({
   loa = 3,
   mhvAccountState = 'OK',
   vaPatient = true,
+  oracleHealth = false,
   firstName = 'Gina',
   preferredName = 'Ginny',
   edipi = null,
 } = {}) => {
+  const facilities = defaultUser.data.attributes.va_profile.facilities.map(
+    facility => ({ ...facility, is_cerner: oracleHealth }),
+  );
   return {
     ...defaultUser,
     data: {
@@ -91,6 +95,7 @@ const generateUser = ({
           ...defaultUser.data.attributes.va_profile,
           mhv_account_state: mhvAccountState,
           va_patient: vaPatient,
+          facilities,
         },
         profile: {
           ...defaultUser.data.attributes.profile,
@@ -101,6 +106,13 @@ const generateUser = ({
             service_name: serviceName,
           },
           edipi,
+        },
+        vet360_contact_information: {
+          email: {
+            confirmation_date: null,
+            updated_at: '2024-01-01T12:00:00.000+00:00',
+            email_address: 'vet@va.gov',
+          },
         },
       },
     },
@@ -137,6 +149,7 @@ const USER_MOCKS = Object.freeze({
   NO_MHV_ACCOUNT: generateUser({ mhvAccountState: 'NONE' }),
   MHV_BASIC_ACCOUNT: generateUser({ loa: 1, serviceName: CSP_IDS.MHV }),
   DEFAULT: generateUser(),
+  ORACLE_HEALTH_USER: generateUser({ oracleHealth: true }),
 });
 
 module.exports = {

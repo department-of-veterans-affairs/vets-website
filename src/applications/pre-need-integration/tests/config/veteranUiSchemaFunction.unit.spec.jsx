@@ -6,8 +6,6 @@ import {
   nonPreparerFullMaidenNameUI,
   nonPreparerDateOfBirthUI,
   ssnDashesUI,
-  applicantDetailsCityTitle,
-  applicantDetailsStateTitle,
 } from '../../utils/helpers';
 
 const runVeteranUiSchemaTests = (
@@ -37,12 +35,6 @@ const runVeteranUiSchemaTests = (
       expect(result.application.claimant.dateOfBirth).to.equal(
         nonPreparerDateOfBirthUI,
       );
-      expect(result.application.veteran.cityOfBirth['ui:title']).to.equal(
-        applicantDetailsCityTitle,
-      );
-      expect(result.application.veteran.stateOfBirth['ui:title']).to.equal(
-        applicantDetailsStateTitle,
-      );
     });
 
     it('should override defaults when parameters are provided', () => {
@@ -51,8 +43,6 @@ const runVeteranUiSchemaTests = (
       const customNameUI = { 'ui:title': 'Custom Veteran Name' };
       const customSSNUI = { 'ui:title': 'Custom Veteran SSN' };
       const customDOBUI = { 'ui:title': 'Custom Veteran DOB' };
-      const customCityTitle = 'Custom City Title';
-      const customStateTitle = 'Custom State Title';
 
       const result = schemaFn(
         customSubHeader,
@@ -60,8 +50,6 @@ const runVeteranUiSchemaTests = (
         customNameUI,
         customSSNUI,
         customDOBUI,
-        customCityTitle,
-        customStateTitle,
       );
 
       expect(result.application['ui:title']).to.equal(customSubHeader);
@@ -73,12 +61,6 @@ const runVeteranUiSchemaTests = (
       expect(result.application.claimant.name).to.equal(customNameUI);
       expect(result.application.claimant.ssn).to.equal(customSSNUI);
       expect(result.application.claimant.dateOfBirth).to.equal(customDOBUI);
-      expect(result.application.veteran.cityOfBirth['ui:title']).to.equal(
-        customCityTitle,
-      );
-      expect(result.application.veteran.stateOfBirth['ui:title']).to.equal(
-        customStateTitle,
-      );
     });
   });
 };

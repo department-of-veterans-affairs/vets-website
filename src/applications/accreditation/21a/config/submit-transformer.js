@@ -12,13 +12,6 @@ import {
   INSTITUTION_TYPE_ENUM,
 } from './enums';
 
-const today = new Date();
-const year = today.getFullYear();
-const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-const day = String(today.getDate()).padStart(2, '0');
-
-const todaysDate = `${year}-${month}-${day}`;
-
 const build21aPayload = data => {
   return {
     // Unique Identifiers and fields needed by GCLAWS
@@ -55,7 +48,7 @@ const build21aPayload = data => {
     homeEmail: data.email,
 
     // Chapter 1 - Home Address
-    homeAddressIsMilitary: !!data.homeAddress?.view?.militaryBaseDescription,
+    homeAddressIsMilitary: !!data.homeAddress?.isMilitary,
     homeAddressLine1: data.homeAddress?.street,
     homeAddressLine2: data.homeAddress?.street2 || null,
     homeAddressLine3: null, // v5 field - not currently setting this field
@@ -68,7 +61,7 @@ const build21aPayload = data => {
     primaryMailingAddress: data.primaryMailingAddress,
 
     // Chapter 1 - Other Addresses
-    otherAddressIsMilitary: !!data.otherAddress?.view?.militaryBaseDescription,
+    otherAddressIsMilitary: !!data.otherAddress?.isMilitary,
     otherAddressLine1: data.otherAddress?.street || null,
     otherAddressLine2: data.otherAddress?.street2 || null,
     otherAddressLine3: null, // v5 field - not currently setting this field
@@ -78,7 +71,7 @@ const build21aPayload = data => {
     otherAddressCountry: data.otherAddress?.country || null,
 
     // Chapter 2 - Military Service
-    servedInMilitary: !!data.view?.isAVeteran,
+    servedInMilitary: !!data.militaryServiceExperiences?.length > 0,
 
     // Chapter 2 - Military Service: Branch and Dates
     militaryServices:
@@ -109,7 +102,7 @@ const build21aPayload = data => {
         positionTitle: e.positionTitle,
         supervisorName: e.supervisorName,
         supervisorEmail: null, // v5 field - not currently setting this field
-        addressIsMilitary: !!e.address?.view?.militaryBaseDescription,
+        addressIsMilitary: !!e.address?.isMilitary,
         addressLine1: e.address?.street || null,
         addressLine2: e.address?.street2 || null,
         addressLine3: null, // v5 field - not currently setting this field
@@ -118,17 +111,14 @@ const build21aPayload = data => {
         addressPostalCode: e.address?.postalCode || null,
         addressCountry: e.address?.country || null,
         phoneTypeId: PHONE_TYPE_ENUM.WORK,
-        phoneNumber: e.phone,
-        phoneExtension: null,
+        phoneNumber: `${e.phone.callingCode}${e.phone.contact}`,
+        phoneExtension: e.extension,
         startDate: `${e.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
         // Not using `currentlyEmployed` so if it exists we set `endDate` to null
-        // Adding a day here since GCLAWS requires it
-        // Bug on GCLAWS side currently requires an enddate so hard codeing to todaysDate
-        // one this is fixed we can set it back to null
         endDate:
           !!e.currentlyEmployed && e.dateRange?.to
             ? `${e.dateRange?.to}-01`
-            : todaysDate,
+            : null,
       })) || [],
 
     // Chapter 3 - Employment Activities
@@ -148,11 +138,11 @@ const build21aPayload = data => {
       data.educationalInstitutions?.map(e => ({
         name: e.name,
         startDate: `${e.dateRange?.from}-01`, // adding a day here since GCLAWS requires it
-        endDate: `${e.dateRange?.to}-01` || null, // adding a day here since GCLAWS requires it
+        endDate: e.dateRange?.to ? `${e.dateRange.to}-01` : null, // adding a day here since GCLAWS requires it
         wasDegreeReceived: !!e.degreeReceived,
         major: e.major,
         degreeTypeId: DEGREE_TYPE_ENUM[e.degree],
-        addressIsMilitary: !!e.address?.view?.militaryBaseDescription,
+        addressIsMilitary: !!e.address?.isMilitary,
         addressLine1: e.address?.street || null,
         addressLine2: e.address?.street2 || null,
         addressLine3: null, // v5 field - not currently setting this field
@@ -164,7 +154,7 @@ const build21aPayload = data => {
       })) || [],
 
     // Chapter 5 - Jurisdictions and Summary
-    // hasJurisdiction: !!data.view?.hasJurisdictions, // v5 field - not currently setting this field
+    // hasJurisdiction: !!data.jurisdictions?.length > 0, // v5 field - not currently setting this field
     jurisdictions:
       data.jurisdictions?.map(j => ({
         admittedName: j.jurisdiction,
@@ -178,7 +168,7 @@ const build21aPayload = data => {
     // jurisdictionDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 5 - Agencies and Courts Summary
-    admittedToPracticeAgency: !!data.view?.hasAgenciesOrCourts,
+    admittedToPracticeAgency: !!data.agenciesOrCourts?.length > 0,
     agencies:
       data.agenciesOrCourts?.map(a => ({
         admittedName: a.agencyOrCourt,
@@ -195,8 +185,9 @@ const build21aPayload = data => {
     wasImprisoned: !!data.conviction,
     imprisonedExplanation: data.convictionDetailsExplanation,
     // docType: DOCUMENT_TYPE_ENUM.Imprisoned, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
-    imprisonedUploadedAllDocuments: !!data.convictionDetailsCertification
-      ?.certified,
+    imprisonedUploadedAllDocuments:
+      data?.convictionDetailsCertification === undefined ||
+      !!data?.convictionDetailsCertification?.certified,
     // imprisonedDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Court Martialed (14A and 14B)
@@ -204,32 +195,36 @@ const build21aPayload = data => {
     militaryConvictionExplanation:
       data.courtMartialedDetailsExplanation || null,
     // docType: DOCUMENT_TYPE_ENUM.Convicted, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
-    militaryConvictionUploadedAllDocuments: !!data
-      ?.courtMartialedDetailsCertification.certified,
+    militaryConvictionUploadedAllDocuments:
+      data?.courtMartialedDetailsCertification === undefined ||
+      !!data?.courtMartialedDetailsCertification?.certified,
     // militaryConvictionDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Under Charges (15A and 15B)
     isCurrentlyCharged: !!data.underCharges,
     currentlyChargedExplanation: data.underChargesDetailsExplanation || null,
     // docType: DOCUMENT_TYPE_ENUM.CurrentlyCharged, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
-    currentlyChargedUploadedAllDocuments: !!data
-      ?.underChargesDetailsCertification.certified,
+    currentlyChargedUploadedAllDocuments:
+      data?.underChargesDetailsCertification === undefined ||
+      !!data?.underChargesDetailsCertification?.certified,
     // currentlyChargedDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Resigned from Education (16)
     wasSuspended: !!data.resignedFromEducation,
     suspendedExplanation: data.resignedFromEducationDetailsExplanation || null,
     // docType: DOCUMENT_TYPE_ENUM.Suspended, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
-    suspendedUploadedAllDocuments: !!data
-      ?.resignedFromEducationDetailsCertification.certified,
+    suspendedUploadedAllDocuments:
+      data?.resignedFromEducationDetailsCertification === undefined ||
+      !!data?.resignedFromEducationDetailsCertification?.certified,
     // suspendedDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Withdrawn from Education (16)
     hasWithdrawn: !!data.withdrawnFromEducation,
     withdrawnExplanation: data.withdrawnFromEducationDetailsExplanation || null,
     // docType: DOCUMENT_TYPE_ENUM.Withdrawn, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
-    withdrawnUploadedAllDocuments: !!data
-      ?.withdrawnFromEducationDetailsCertification.certifed,
+    withdrawnUploadedAllDocuments:
+      data?.withdrawnFromEducationDetailsCertification === undefined ||
+      !!data?.withdrawnFromEducationDetailsCertification?.certified,
     // withdrawnDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Disciplined for Dishonesty (17)
@@ -237,8 +232,9 @@ const build21aPayload = data => {
     disciplinedExplanation:
       data.disciplinedForDishonestyDetailsExplanation || null,
     // docType: DOCUMENT_TYPE_ENUM.Disciplined, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
-    disciplinedUploadedAllDocuments: !!data
-      ?.disciplinedForDishonestyDetailsCertification.certified,
+    disciplinedUploadedAllDocuments:
+      data?.disciplinedForDishonestyDetailsCertification === undefined ||
+      !!data?.disciplinedForDishonestyDetailsCertification?.certified,
     // disciplinedDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Resigned for Dishonesty (18)
@@ -246,8 +242,9 @@ const build21aPayload = data => {
     resignedRetiredExplanation:
       data.resignedForDishonestyDetailsExplanation || null,
     // docType: DOCUMENT_TYPE_ENUM.ResignedRetired, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
-    resignedRetiredUploadedAllDocuments: !!data
-      ?.resignedForDishonestyDetailsCertification.certified,
+    resignedRetiredUploadedAllDocuments:
+      data?.resignedForDishonestyDetailsCertification === undefined ||
+      !!data?.resignedForDishonestyDetailsCertification?.certified,
     // resignedRetiredDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Representative for Agency (19)
@@ -255,16 +252,18 @@ const build21aPayload = data => {
     agentAttorneyExplanation:
       data.representativeForAgencyDetailsExplanation || null,
     // docType: DOCUMENT_TYPE_ENUM.AgencyAttorney, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
-    agentAttorneyUploadedAllDocuments: !!data
-      ?.representativeForAgencyDetailsCertification.certified,
+    agentAttorneyUploadedAllDocuments:
+      data?.representativeForAgencyDetailsCertification === undefined ||
+      !!data?.representativeForAgencyDetailsCertification?.certified,
     // agentAttorneyDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Reprimanded in Agency (20)
     wasReprimanded: !!data.reprimandedInAgency,
     reprimandedExplanation: data.reprimandedInAgencyDetailsExplanation || null,
     // docType: DOCUMENT_TYPE_ENUM.Reprimanded, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
-    reprimandedUploadedAllDocuments: !!data
-      .reprimandedInAgencyDetailsCertification?.certified,
+    reprimandedUploadedAllDocuments:
+      data?.reprimandedInAgencyDetailsCertification === undefined ||
+      !!data?.reprimandedInAgencyDetailsCertification?.certified,
     // reprimandedDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Resigned from Agency (new - not on pdf)
@@ -272,8 +271,9 @@ const build21aPayload = data => {
     resignedToAvoidReprimandExplanation:
       data.resignedFromAgencyDetailsExplanation || null,
     // docType: DOCUMENT_TYPE_ENUM.ResignedToAvoidReprimand, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
-    resignedToAvoidReprimandUploadedAllDocuments: !!data
-      .resignedFromAgencyDetailsCertification?.certified,
+    resignedToAvoidReprimandUploadedAllDocuments:
+      data?.resignedFromAgencyDetailsCertification === undefined ||
+      !!data?.resignedFromAgencyDetailsCertification?.certified,
     // resignedToAvoidReprimandDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Applied for Va Accreditation (21)
@@ -281,8 +281,9 @@ const build21aPayload = data => {
     appliedForAccreditationExplanation:
       data.appliedForVaAccreditationDetailsExplanation || null,
     // docType: DOCUMENT_TYPE_ENUM.AppliedForAccredidation, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
-    appliedForAccreditationUploadedAllDocuments: !!data
-      .appliedForVaAccreditationDetailsCertification?.certified,
+    appliedForAccreditationUploadedAllDocuments:
+      data?.appliedForVaAccreditationDetailsCertification === undefined ||
+      !!data?.appliedForVaAccreditationDetailsCertification?.certified,
     // appliedForAccreditationDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Terminated by VSOrg (22)
@@ -290,8 +291,9 @@ const build21aPayload = data => {
     accreditationTerminatedExplanation:
       data.terminatedByVsorgDetailsExplanation || null,
     // docType: DOCUMENT_TYPE_ENUM.AccreditationTerminated, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
-    accreditationTerminatedUploadedAllDocuments: !!data
-      .terminatedByVsorgDetailsCertification?.certified,
+    accreditationTerminatedUploadedAllDocuments:
+      data?.terminatedByVsorgDetailsCertification === undefined ||
+      !!data?.terminatedByVsorgDetailsCertification?.certified,
     // accreditationTerminatedDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Terminated by VSOrg (23A and 23B)
@@ -299,8 +301,10 @@ const build21aPayload = data => {
     impairmentsExplanation:
       data.conditionThatAffectsRepresentationDetailsExplanation || null,
     // docType: DOCUMENT_TYPE_ENUM.Impairments, // TODO: Chapter 6: File upload is not working https://github.com/department-of-veterans-affairs/va.gov-team/issues/112577
-    impairmentsUploadedAllDocuments: !!data
-      .conditionThatAffectsRepresentationDetailsCertification?.certified,
+    impairmentsUploadedAllDocuments:
+      data?.conditionThatAffectsRepresentationDetailsCertification ===
+        undefined ||
+      !!data?.conditionThatAffectsRepresentationDetailsCertification?.certified,
     // impairmentsDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Condition that affect representation (24A and 24B)
@@ -317,7 +321,7 @@ const build21aPayload = data => {
         middleName: r.fullName?.middle || null,
         lastName: r.fullName?.last,
         suffix: r.fullName?.suffix || null,
-        addressIsMilitary: !!r.address?.view?.militaryBaseDescription,
+        addressIsMilitary: !!r.address?.isMilitary,
         addressLine1: r.address?.street || null,
         addressLine2: r.address?.street2 || null,
         addressLine3: null, // v5 field - not currently setting this field
@@ -325,7 +329,7 @@ const build21aPayload = data => {
         addressState: r.address?.state || null,
         addressPostalCode: r.address?.postalCode || null,
         addressCountry: r.address?.country || null,
-        phoneNumber: r.phone,
+        phoneNumber: `${r.phone.callingCode}${r.phone.contact}`,
         phoneExtension: null, // v5 field - not currently setting this field
         phoneTypeId: null, // v5 field - not currently setting this field
         email: r.email,

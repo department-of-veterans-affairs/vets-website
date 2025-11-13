@@ -1,6 +1,12 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+# Skip catalog regeneration during rebase, cherry-pick, merge, or bisect
+if [ -f .git/REBASE_HEAD ] || [ -f .git/CHERRY_PICK_HEAD ] || [ -f .git/MERGE_HEAD ] || [ -f .git/BISECT_LOG ]; then
+  ./node_modules/.bin/lint-staged
+  exit 0
+fi
+
 # Regenerate docs/catalogs if relevant files are staged
 changed_files=$(git diff --cached --name-only)
 
@@ -8,12 +14,14 @@ changed_files=$(git diff --cached --name-only)
 if echo "$changed_files" | grep -q '^src/platform/forms-system/src/js/web-component-patterns/'; then
   echo "Changes detected in web-component-patterns. Regenerating web component patterns catalog..."
   yarn generate-web-component-patterns-catalog
+  git add src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json
 fi
 
 # Regenerate manifest catalog if any manifest.json is touched
 if echo "$changed_files" | grep -q 'manifest.json$'; then
   echo "Changes detected in manifest.json. Regenerating manifest catalog..."
   yarn generate-manifest-catalog
+  git add src/applications/manifest-catalog.json
 fi
 
 ./node_modules/.bin/lint-staged

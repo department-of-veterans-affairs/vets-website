@@ -6,7 +6,6 @@ describe('Medical Records View Vitals', () => {
 
   beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
   });
 
   it('Visits View Vitals List - does not have Pain Severity', () => {

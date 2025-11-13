@@ -65,4 +65,43 @@ describe('IntroductionPage', () => {
     );
     expect(container).to.exist;
   });
+  it('should render sigin alert when user is not logged in', () => {
+    const loggedInProps = {
+      ...props,
+      loggedIn: false,
+      showLoadingIndicator: false,
+    };
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...loggedInProps} />
+      </Provider>,
+    );
+    expect(getByTestId('sign-in-alert')).to.exist;
+  });
+  it('should not render sign-in alert when user is logged in', () => {
+    const mockStoreWithLoggedOutUser = {
+      ...mockStore,
+      getState: () => ({
+        ...mockStore.getState(),
+        user: {
+          ...mockStore.getState().user,
+          login: {
+            currentlyLoggedIn: true,
+          },
+        },
+      }),
+    };
+    const loggedInProps = {
+      ...props,
+      loggedIn: true,
+    };
+    const { queryByTestId, getByText } = render(
+      <Provider store={mockStoreWithLoggedOutUser}>
+        <IntroductionPage {...loggedInProps} />
+      </Provider>,
+    );
+    expect(queryByTestId('sign-in-alert')).to.not.exist;
+    expect(getByText('Start your Application for the High Technology Program'))
+      .to.exist;
+  });
 });

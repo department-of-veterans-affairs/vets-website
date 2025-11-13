@@ -6,7 +6,7 @@ import {
   showAlertNoRecordForUser,
   showAlertNoSuppliesForReorder,
   showAlertReorderAccessExpired,
-  showAlertSomethingWentWrong,
+  showAlertServerError,
 } from '../../selectors';
 
 const stateFn = ({ formData = {}, error = false, loading = false } = {}) => ({
@@ -84,11 +84,11 @@ describe('showAlertReorderAccessExpired', () => {
   });
 });
 
-describe('showAlertSomethingWentWrong', () => {
+describe('showAlertServerError', () => {
   [500, 502, 503].forEach(status => {
     it(`returns true when error.status is ${status} (server error)`, () => {
       state = stateFn({ error: { status } });
-      result = showAlertSomethingWentWrong(state);
+      result = showAlertServerError(state);
       expect(result).to.eq(true);
     });
   });
@@ -96,14 +96,14 @@ describe('showAlertSomethingWentWrong', () => {
   [401, 403, 404].forEach(status => {
     it(`returns false when error.status is ${status} (client error)`, () => {
       state = stateFn({ error: { status } });
-      result = showAlertSomethingWentWrong(state);
+      result = showAlertServerError(state);
       expect(result).to.eq(false);
     });
   });
 
   it('returns false, otherwise', () => {
-    expect(showAlertSomethingWentWrong(stateFn())).to.eq(false);
-    expect(showAlertSomethingWentWrong({})).to.eq(false);
+    expect(showAlertServerError(stateFn())).to.eq(false);
+    expect(showAlertServerError({})).to.eq(false);
   });
 });
 

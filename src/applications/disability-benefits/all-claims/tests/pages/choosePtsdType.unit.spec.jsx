@@ -8,9 +8,9 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { waitFor } from '@testing-library/dom';
-import formConfig from '../../config/form.js';
+import formConfig from '../../config/form';
 
 describe('Disability benefits 718 PTSD type', () => {
   const {

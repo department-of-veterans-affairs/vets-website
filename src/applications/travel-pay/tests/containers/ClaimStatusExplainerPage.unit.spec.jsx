@@ -9,16 +9,19 @@ describe('ClaimStatusExplainerPage', () => {
   const getState = ({
     featureTogglesAreLoading = false,
     hasStatusFeatureFlag = true,
+    hasClaimsManagementFeatureFlag = false,
   } = {}) => ({
     featureToggles: {
       loading: featureTogglesAreLoading,
       /* eslint-disable camelcase */
       travel_pay_power_switch: hasStatusFeatureFlag,
+      travel_pay_claims_management: hasClaimsManagementFeatureFlag,
       /* eslint-enable camelcase */
     },
   });
 
   let oldLocation;
+
   beforeEach(() => {
     oldLocation = global.window.location;
     global.window.location = {};
@@ -55,5 +58,14 @@ describe('ClaimStatusExplainerPage', () => {
 
     expect(screenFeatureToggle.getByTestId('travel-pay-loading-indicator')).to
       .exist;
+  });
+
+  it('redirects to /my-health/travel-pay/claims/ when claims management feature flag is true', () => {
+    renderWithStoreAndRouter(<ClaimStatusExplainerPage />, {
+      initialState: { ...getState({ hasClaimsManagementFeatureFlag: true }) },
+    });
+
+    expect(window.location.replace.calledWith('/my-health/travel-pay/claims/'))
+      .to.be.true;
   });
 });

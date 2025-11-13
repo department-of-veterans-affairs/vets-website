@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -15,8 +14,13 @@ import {
   getNameDateAndTime,
   makePdf,
   formatUserDob,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { generateTextFile, processList } from '../util/helpers';
+import {
+  generateTextFile,
+  processList,
+  itemListWrapper,
+} from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
   getConditionDetails,
@@ -47,12 +51,6 @@ const ConditionDetails = props => {
     state => state.mr.conditions.conditionsList,
   );
   const user = useSelector(state => state.user.profile);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
   const { conditionId } = useParams();
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
@@ -68,12 +66,20 @@ const ConditionDetails = props => {
     [dispatch],
   );
 
+  const { isAcceleratingConditions } = useAcceleratedData();
+
   useEffect(
     () => {
       if (conditionId)
-        dispatch(getConditionDetails(conditionId, conditionList));
+        dispatch(
+          getConditionDetails(
+            conditionId,
+            conditionList,
+            isAcceleratingConditions,
+          ),
+        );
     },
-    [conditionId, conditionList, dispatch],
+    [conditionId, conditionList, isAcceleratingConditions, dispatch],
   );
 
   useEffect(
@@ -162,16 +168,7 @@ Provider Notes: ${processList(record.comments)}\n`;
             />
 
             {downloadStarted && <DownloadSuccessAlert />}
-            <PrintDownload
-              description="Health Conditions Detail"
-              downloadPdf={generateConditionDetailsPdf}
-              allowTxtDownloads={allowTxtDownloads}
-              downloadTxt={generateConditionTxt}
-            />
-            <DownloadingRecordsInfo
-              description="Health Conditions Detail"
-              allowTxtDownloads={allowTxtDownloads}
-            />
+
             <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
 
             <div className="max-80">
@@ -188,11 +185,12 @@ Provider Notes: ${processList(record.comments)}\n`;
                 testId="condition-location"
                 actionName="[condition details - location]"
               />
-              <LabelValue label="Provider notes">
-                <ItemList
-                  data-testid="condition-provider-notes"
-                  list={record.comments}
-                />
+              <LabelValue
+                label="Provider notes"
+                element={itemListWrapper(record?.comments)}
+                testId="condition-provider-notes"
+              >
+                <ItemList list={record.comments} />
               </LabelValue>
               {containsSctOrIcd(record.name) && (
                 <LabelValue
@@ -208,6 +206,14 @@ Provider Notes: ${processList(record.comments)}\n`;
                 </LabelValue>
               )}
             </div>
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            <DownloadingRecordsInfo description="Health Conditions Detail" />
+            <PrintDownload
+              description="Health Conditions Detail"
+              downloadPdf={generateConditionDetailsPdf}
+              downloadTxt={generateConditionTxt}
+            />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px" />
           </HeaderSection>
         </>
       );

@@ -3,6 +3,11 @@
 .poa-request {
   max-width: 627px;
 
+  &__user-name {
+    text-transform: capitalize;
+    font-weight: bold;
+  }
+
   va-pagination {
     padding: 0;
     border: 0;
@@ -83,6 +88,10 @@
     margin-bottom: 32px;
     @media (min-width: $small-desktop-screen) {
       margin: 32px 0;
+    }
+    &:focus {
+      outline: 2px solid $vads-color-action-focus-on-light;
+      outline-offset: 2px;
     }
   }
   &__list {
@@ -171,6 +180,18 @@
       &--expiry {
         margin-left: 3px;
       }
+    }
+  }
+
+  &__checkbox {
+    margin: 8px 0;
+    @media (min-width: $small-desktop-screen) {
+      margin-left: 32px;
+      margin-bottom: 7px;
+    }
+
+    .submissions & {
+      display: none;
     }
   }
 }

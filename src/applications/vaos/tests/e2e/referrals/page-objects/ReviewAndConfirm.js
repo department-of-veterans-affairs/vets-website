@@ -46,9 +46,15 @@ export class ReviewAndConfirmPageObject extends PageObject {
   /**
    * Validates that an API error message is displayed when appointment details fail to load
    */
-  assertApiError() {
-    // This uses curly apostrophes as required by VA style guidelines
-    cy.findByText(/We couldn’t schedule this appointment/i).should('exist');
+  assertApiErrorAlert() {
+    cy.findByTestId('create-error-alert').within(() => {
+      // This uses curly apostrophes as required by VA style guidelines
+      cy.findByText(/We couldn’t schedule this appointment/i).should('exist');
+      cy.findByText(
+        /We’re sorry. Something went wrong when we tried to schedule your appointment. Try again later, or call this provider to schedule an appointment. If you have questions about scheduling an appointment, or about how many appointments you have left, call your facility’s community care office./i,
+      ).should('exist');
+      cy.findByTestId('referral-community-care-office').should('exist');
+    });
     return this;
   }
 

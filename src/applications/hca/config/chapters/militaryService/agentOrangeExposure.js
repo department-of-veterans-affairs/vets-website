@@ -1,15 +1,19 @@
+import {
+  titleUI,
+  descriptionUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import AgentOrangeExposureDescription from '../../../components/FormDescriptions/AgentOrangeExposureDescription';
+import content from '../../../locales/en/content.json';
 
 const { exposedToAgentOrange } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
-    'ui:title': 'Agent Orange locations',
+    ...titleUI(content['service-info--agent-orange-title']),
     exposedToAgentOrange: {
-      'ui:title':
-        'Did you serve in any of these locations where the military used the herbicide Agent Orange?',
-      'ui:description': AgentOrangeExposureDescription,
+      'ui:title': content['service-info--agent-orange-label'],
+      ...descriptionUI(AgentOrangeExposureDescription),
       'ui:widget': 'yesNo',
     },
   },

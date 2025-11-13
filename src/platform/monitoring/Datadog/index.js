@@ -5,7 +5,7 @@ import { datadogLogs } from '@datadog/browser-logs';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
-import { isBot, canInitDatadog } from './utilities';
+import { isBot, canInitDatadog, dataDogLogger } from './utilities';
 
 /**
  * @typedef {Object} CustomRumSettings https://docs.datadoghq.com/real_user_monitoring/browser/setup/client/?tab=rum#initialization-parameters
@@ -171,4 +171,5 @@ export {
   initializeRealUserMonitoring,
   isBot,
   useBrowserMonitoring,
+  dataDogLogger,
 };

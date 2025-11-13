@@ -9,8 +9,20 @@ import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi, stubPrescriptionsListApi } from '../testing-utils';
 import Prescriptions from '../../containers/Prescriptions';
 import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.json';
+import { MEDS_BY_MAIL_FACILITY_ID } from '../../util/constants';
 
 let sandbox;
+
+const refillAlertList = [
+  {
+    prescriptionId: 123456,
+    prescriptionName: 'Test name 1',
+  },
+  {
+    prescriptionId: 234567,
+    prescriptionName: 'Test name 2',
+  },
+];
 
 describe('Medications Prescriptions container', () => {
   beforeEach(() => {
@@ -24,7 +36,10 @@ describe('Medications Prescriptions container', () => {
   });
 
   const initialState = {
-    rx: {},
+    rx: {
+      prescriptionsList: [],
+      refillAlertList: [],
+    },
   };
 
   const setup = (state = initialState) => {
@@ -53,14 +68,62 @@ describe('Medications Prescriptions container', () => {
 
   it('displays intro text ', async () => {
     const screen = setup();
-    expect(await screen.getByTestId('Title-Notes').textContent).to.contain(
-      'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications',
-    );
+    await screen.getByTestId('Title-Notes');
   });
 
   it('shows title ', async () => {
     const screen = setup();
     expect(await screen.findByTestId('list-page-title')).to.exist;
+  });
+
+  it('should display delayed refill alert when showRefillProgressContent flag is true and refillAlertList has items', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsListApi({
+      sandbox,
+      data: {
+        prescriptions: emptyPrescriptionsList.data,
+        meta: emptyPrescriptionsList.meta,
+        pagination: emptyPrescriptionsList.meta.pagination,
+        refillAlertList,
+      },
+    });
+
+    const screen = setup({
+      ...initialState,
+      rx: {
+        ...initialState.rx,
+      },
+    });
+
+    expect(await screen.findByTestId('mhv-rx--delayed-refill-alert')).to.exist;
+    expect(await screen.findByTestId('rxDelay-alert-message')).to.exist;
+  });
+
+  it('should not display delayed refill alert when refillAlertList is empty', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsListApi({
+      sandbox,
+      data: {
+        prescriptions: emptyPrescriptionsList.data,
+        meta: emptyPrescriptionsList.meta,
+        pagination: emptyPrescriptionsList.meta.pagination,
+        refillAlertList: [],
+      },
+    });
+
+    const screen = setup({
+      ...initialState,
+      rx: {
+        ...initialState.rx,
+      },
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('alert-banner')).not.to.exist;
+      expect(screen.queryByTestId('rxDelay-alert-message')).not.to.exist;
+    });
   });
 
   it('displays empty list alert', async () => {
@@ -124,22 +187,6 @@ describe('Medications Prescriptions container', () => {
     });
   });
 
-  it('should show the allergy error alert when printing all meds', async () => {
-    sandbox.restore();
-    stubAllergiesApi({ sandbox, error: true });
-    stubPrescriptionsListApi({ sandbox });
-    const screen = setup();
-    const pdfButton = screen.getByTestId('download-print-all-button');
-    await waitFor(() => {
-      fireEvent.click(pdfButton);
-    });
-    expect(screen);
-    waitFor(() => {
-      expect(screen.getByText('We can’t print your records right now')).to
-        .exist;
-    });
-  });
-
   it('should show the allergy error alert when downloading txt', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox, error: true });
@@ -156,27 +203,11 @@ describe('Medications Prescriptions container', () => {
     });
   });
 
-  it('displays text inside refill box "find a list of prescriptions you can refill online." when refill flag is true', async () => {
-    const screen = setup({
-      ...initialState,
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_content: true,
-      },
-    });
+  it('displays text inside refill box "find a list of prescriptions you can refill online."', async () => {
+    const screen = setup(initialState);
     expect(
       screen.findByText('find a list of prescriptions you can refill online..'),
     );
-  });
-
-  it('Simulates print all button click', async () => {
-    const screen = setup();
-    const button = await screen.findByTestId('download-print-all-button');
-    expect(button).to.exist;
-    expect(button).to.have.text('Print all medications');
-    await waitFor(() => {
-      button.click();
-    });
   });
 
   it('Simulates print button click', async () => {
@@ -187,7 +218,7 @@ describe('Medications Prescriptions container', () => {
     const screen = setup();
     const button = await screen.findByTestId('download-print-button');
     expect(button).to.exist;
-    expect(button).to.have.text('Print this page of the list');
+    expect(button).to.have.text('Print');
     fireEvent.click(button);
     await waitFor(() => {
       fireEvent.click(button);
@@ -198,28 +229,55 @@ describe('Medications Prescriptions container', () => {
   it('displays link for allergies if mhv_medications_display_allergies feature flag is set to true', async () => {
     const screen = setup({
       ...initialState,
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_allergies: true,
-      },
     });
     expect(screen.getByText('Go to your allergies and reactions')).to.exist;
   });
 
-  it('displays "If you print or download this list, we\'ll include a list of your allergies." if mhv_medications_display_allergies feature flag is set to false', async () => {
-    const screen = setup({
-      ...initialState,
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_allergies: false,
-      },
-    });
-    expect(await screen.getByTestId('Title-Notes').textContent).to.contain(
-      'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications. If you print or download this list, we’ll include a list of your allergies.',
-    );
-  });
   it('displays filter accordion', async () => {
     const screen = setup();
     expect(await screen.getByTestId('filter-accordion')).to.exist;
+  });
+
+  it('displays Meds by Mail content for Meds by Mail users', async () => {
+    const screen = setup({
+      ...initialState,
+      user: {
+        profile: {
+          userFullName: { first: 'test', last: 'last', suffix: 'jr' },
+          dob: '2000-01-01',
+          facilities: [{ facilityId: MEDS_BY_MAIL_FACILITY_ID }],
+        },
+      },
+    });
+
+    expect(
+      screen.queryByText(
+        /If you use Meds by Mail, you can also call your servicing center and ask them to update your records\./,
+        {
+          selector: 'p',
+        },
+      ),
+    ).not.to.exist;
+
+    expect(screen.getByTestId('meds-by-mail-header')).to.exist;
+    expect(screen.getByTestId('meds-by-mail-top-level-text')).to.exist;
+    expect(screen.getByTestId('meds-by-mail-additional-info')).to.exist;
+  });
+
+  it('does not display Meds by Mail content for non-Meds by Mail users', async () => {
+    const screen = setup();
+
+    expect(
+      screen.getByText(
+        /If you use Meds by Mail, you can also call your servicing center and ask them to update your records\./,
+        {
+          selector: 'p',
+        },
+      ),
+    ).to.exist;
+
+    expect(screen.queryByTestId('meds-by-mail-header')).not.to.exist;
+    expect(screen.queryByTestId('meds-by-mail-top-level-text')).not.to.exist;
+    expect(screen.queryByTestId('meds-by-mail-additional-info')).not.to.exist;
   });
 });

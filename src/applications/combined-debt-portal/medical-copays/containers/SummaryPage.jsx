@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { uniqBy } from 'lodash';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
   setPageFocus,
   sortStatementsByDate,
@@ -17,6 +16,7 @@ import alertMessage from '../../combined/utils/alert-messages';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
+import NeedHelpCopay from '../components/NeedHelpCopay';
 import MCPAlerts from '../../combined/components/MCPAlerts';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
@@ -59,7 +59,7 @@ const renderOtherVA = (debtLength, debtError) => {
   if (debtError) {
     return (
       <>
-        <h2>Your other VA debts</h2>
+        <h2>Overpayment balances</h2>
         <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
           <h3 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
@@ -89,6 +89,9 @@ const OverviewPage = () => {
   const showVHAPaymentHistory = useToggleValue(
     TOGGLE_NAMES.showVHAPaymentHistory,
   );
+  const showOneThingPerPage = useToggleValue(
+    TOGGLE_NAMES.showCDPOneThingPerPage,
+  );
 
   const {
     debts,
@@ -101,7 +104,7 @@ const OverviewPage = () => {
   const statementsEmpty = statements?.length === 0;
   const sortedStatements = sortStatementsByDate(statements ?? []);
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
-  const title = 'Current copay balances';
+  const title = 'Copay balances';
   useHeaderPageTitle(title);
 
   useEffect(() => {
@@ -134,27 +137,14 @@ const OverviewPage = () => {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
 
-    return showVHAPaymentHistory ? (
-      <article className="vads-u-padding-x--0">
+    return showOneThingPerPage || showVHAPaymentHistory ? (
+      <article className="vads-u-padding-x--0 vads-u-padding-bottom--0">
         <Balances
           statements={statementsByUniqueFacility}
           showVHAPaymentHistory={showVHAPaymentHistory}
         />
         {renderOtherVA(debts?.length, debtError)}
-        <div className="vads-u-margin-top--4" data-testid="need-help">
-          <va-need-help id="needHelp">
-            <div slot="content">
-              <p>
-                You can contact us online through{' '}
-                <va-link text="Ask VA" href="https://ask.va.gov" /> or call the
-                VA Health Resource Center at{' '}
-                <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
-                <va-telephone contact="711" tty="true" />
-                ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-              </p>
-            </div>
-          </va-need-help>
-        </div>
+        <NeedHelpCopay />
       </article>
     ) : (
       <article className="vads-u-padding-x--0">
@@ -182,11 +172,11 @@ const OverviewPage = () => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
           {
             href: '/manage-va-debt/summary/copay-balances',
-            label: 'Current copay balances',
+            label: 'Copay balances',
           },
         ]}
         label="Breadcrumb"

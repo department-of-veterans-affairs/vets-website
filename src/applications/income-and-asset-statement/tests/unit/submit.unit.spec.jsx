@@ -3,7 +3,13 @@ import sinon from 'sinon';
 
 import { mockFetch } from 'platform/testing/unit/helpers';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { replacer, submit, removeDisallowedFields } from '../../config/submit';
+import * as SubmitHelpers from '../../config/submit-helpers';
+import {
+  replacer,
+  submit,
+  removeDisallowedFields,
+  transform,
+} from '../../config/submit';
 
 describe('Income and asset submit', () => {
   describe('submit', () => {
@@ -69,6 +75,12 @@ describe('Income and asset submit', () => {
           mailingAddress: { street: '123 Main St' }, // allowed field
           vaFileNumberLastFour: 1234, // disallowed field
           veteranSsnLastFour: 5678, // disallowed field
+          otherVeteranFullName: {
+            first: 'John',
+            last: 'Doe',
+          }, // disallowed field
+          otherVeteranSocialSecurityNumber: '123456789', // disallowed field
+          otherVaFileNumber: 'VA1234', // disallowed field
         },
       };
 
@@ -148,6 +160,62 @@ describe('Income and asset submit', () => {
       const recipientName = 'Jane Doe';
       const flattenedName = replacer('recipientName', recipientName);
       expect(flattenedName).to.equal('Jane Doe');
+    });
+  });
+
+  describe('transform - shouldRemap conditions', () => {
+    let spy;
+
+    beforeEach(() => {
+      spy = sinon.spy(SubmitHelpers, 'remapOtherVeteranFields');
+    });
+
+    afterEach(() => {
+      spy.restore();
+    });
+
+    it('calls remapOtherVeteranFields when not logged in', () => {
+      const form = {
+        data: {
+          isLoggedIn: false,
+        },
+      };
+
+      transform({}, form);
+      expect(spy.calledOnce).to.be.true;
+    });
+
+    it('calls remapOtherVeteranFields when isLoggedIn is undefined', () => {
+      const form = {
+        data: {},
+      };
+
+      transform({}, form);
+      expect(spy.calledOnce).to.be.true;
+    });
+
+    it('calls remapOtherVeteranFields when logged in and claimantType is not VETERAN', () => {
+      const form = {
+        data: {
+          isLoggedIn: true,
+          claimantType: 'SPOUSE',
+        },
+      };
+
+      transform({}, form);
+      expect(spy.calledOnce).to.be.true;
+    });
+
+    it('does not call remapOtherVeteranFields when logged in and claimantType is VETERAN', () => {
+      const form = {
+        data: {
+          isLoggedIn: true,
+          claimantType: 'VETERAN',
+        },
+      };
+
+      transform({}, form);
+      expect(spy.called).to.be.false;
     });
   });
 });

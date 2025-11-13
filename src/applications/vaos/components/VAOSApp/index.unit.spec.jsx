@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import React from 'react';
 
-import { addDays, addMinutes, subDays } from 'date-fns';
+import { addDays, addMinutes, format, subDays } from 'date-fns';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import VAOSApp from '.';
 import {
@@ -34,7 +34,6 @@ describe('VAOS App: VAOSApp', () => {
   beforeEach(() => {
     mockFetch();
   });
-
   it('should render child content', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<VAOSApp>Child content</VAOSApp>, {
@@ -97,6 +96,7 @@ describe('VAOS App: VAOSApp', () => {
     expect(await screen.findByText(/down for maintenance/)).to.exist;
     expect(screen.queryByText('Child content')).to.not.exist;
   });
+
   it('should render maintenance approaching message', async () => {
     setFetchJSONResponse(
       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
@@ -132,5 +132,41 @@ describe('VAOS App: VAOSApp', () => {
       .__events.secondaryButtonClick;
     await dismissBtn();
     expect(screen.queryByTestId('toc-modal')).to.be.null;
+  });
+
+  it('should render default maintenence message', async () => {
+    // Arrange
+    const yesterday = subDays(new Date(), '1');
+    const today = addDays(new Date(), '1');
+
+    setFetchJSONResponse(
+      global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
+      {
+        data: [
+          {
+            id: '139',
+            type: 'maintenance_windows',
+            attributes: {
+              externalService: 'vaos',
+              startTime: yesterday.toISOString(),
+              endTime: today.toISOString(),
+            },
+          },
+        ],
+      },
+    );
+    const store = createTestStore(initialState);
+
+    // Act
+    const screen = renderWithStoreAndRouter(<VAOSApp>Child content</VAOSApp>, {
+      store,
+    });
+
+    // Assert
+    expect(await screen.findByText(/down for maintenance/)).to.exist;
+    expect(
+      `We're making updates to the tool on ${format(yesterday, 'MMMM do')}`,
+    );
+    expect(screen.queryByText('Child content')).to.not.exist;
   });
 });

@@ -3,13 +3,15 @@ import {
   capitalizeEachWord,
   formSubtitle,
   formTitle,
-  formatMonthYearDate,
   isClaimingNew,
+  isPlaceholderRated,
   makeConditionsSchema,
   sippableId,
   validateConditions,
 } from '../utils';
 import { NULL_CONDITION_STRING } from '../constants';
+
+import { formatMonthYearDate } from '../utils/dates';
 
 /* ---------- content ----------*/
 export const conditionsPageTitle = 'Toxic exposure';
@@ -127,9 +129,20 @@ export function teSubtitle(
  *
  * @returns true if all criteria are met, false otherwise
  */
-export function showToxicExposurePages(formData) {
-  return isClaimingNew(formData) && formData?.newDisabilities?.length > 0;
-}
+const isRealTECandidate = d =>
+  d &&
+  typeof d.condition === 'string' &&
+  !isPlaceholderRated(d.condition) &&
+  (d.cause === 'NEW' || d.cause === 'SECONDARY');
+
+const hasRealNewDisabilities = formData =>
+  Array.isArray(formData?.newDisabilities) &&
+  formData.newDisabilities.some(isRealTECandidate);
+
+export const showToxicExposurePages = formData => {
+  // Only show when claiming new AND there is at least one real (non-placeholder) condition
+  return isClaimingNew(formData) && hasRealNewDisabilities(formData);
+};
 
 /**
  * Checks if
@@ -199,17 +212,28 @@ export function makeTEConditionsUISchema(formData) {
   const { newDisabilities = [] } = formData;
   const options = {};
 
+  const formatSide = side => {
+    if (!side || typeof side !== 'string') return '';
+    const clean = side.trim().toLowerCase();
+    const map = { left: 'Left', right: 'Right', bilateral: 'Bilateral' };
+    return map[clean] || clean.charAt(0).toUpperCase() + clean.slice(1);
+  };
+
   newDisabilities.forEach(disability => {
-    const { condition } = disability;
+    const { condition, sideOfBody } = disability;
 
-    const capitalizedDisabilityName =
-      typeof condition === 'string'
-        ? capitalizeEachWord(condition)
-        : NULL_CONDITION_STRING;
+    let id = sippableId(NULL_CONDITION_STRING);
+    let title = NULL_CONDITION_STRING;
 
-    options[sippableId(condition || NULL_CONDITION_STRING)] = {
-      'ui:title': capitalizedDisabilityName,
-    };
+    if (typeof condition === 'string' && condition.trim() !== '') {
+      const base = condition.trim();
+      const side = formatSide(sideOfBody);
+      id = sippableId(base);
+      const display = capitalizeEachWord(base);
+      title = side ? `${display}, ${side}` : display;
+    }
+
+    options[id] = { 'ui:title': title };
   });
 
   options.none = {

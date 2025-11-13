@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -12,6 +13,7 @@ import PageLayout from '../../appointment-list/components/PageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import {
   NULL_STATE_FIELD,
+  captureMissingModalityLogs,
   recordAppointmentDetailsNullStates,
 } from '../../utils/events';
 
@@ -46,6 +48,9 @@ export default function CCRequestLayout({ data: appointment }) {
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled request for community care appointment';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,
@@ -66,9 +71,15 @@ export default function CCRequestLayout({ data: appointment }) {
         facility={facility}
       >
         <Section heading="Preferred date and time">
-          <ul className="usa-unstyled-list">
+          <ul
+            className={classNames({
+              'usa-unstyled-list': preferredDates.length === 1,
+            })}
+          >
             {preferredDates.map((date, index) => (
-              <li key={`${appointment.id}-option-${index}`}>{date}</li>
+              <li key={`${appointment.id}-option-${index}`}>
+                <span data-dd-privacy="mask">{date}</span>
+              </li>
             ))}
           </ul>
         </Section>
@@ -97,7 +108,9 @@ export default function CCRequestLayout({ data: appointment }) {
             {`${treatmentSpecialty || 'Treatment specialty not available'}`}
           </span>
           <br />
-          {providerAddress && <span>{providerAddress.line[0]}</span>}
+          {providerAddress && (
+            <span data-dd-privacy="mask">{providerAddress.line[0]}</span>
+          )}
           {!providerAddress && <span>Address not available</span>}
           <br />
         </Section>

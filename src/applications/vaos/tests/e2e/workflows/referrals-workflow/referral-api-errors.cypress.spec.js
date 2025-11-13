@@ -25,6 +25,7 @@ import scheduleReferral from '../../referrals/page-objects/ScheduleReferral';
 import chooseDateAndTime from '../../referrals/page-objects/ChooseDateAndTime';
 import reviewAndConfirm from '../../referrals/page-objects/ReviewAndConfirm';
 import completeReferral from '../../referrals/page-objects/CompleteReferral';
+import { mockToday, mockTodayPlus6Hours } from '../../../mocks/constants';
 
 describe('VAOS Referral API Error Handling', () => {
   // Common error cases for all API tests
@@ -45,7 +46,7 @@ describe('VAOS Referral API Error Handling', () => {
     // Mock the appointments API to at least have one appointment
     const response = new MockAppointmentResponse({
       cancellable: false,
-      localStartTime: Date(),
+      localStartTime: mockToday,
       status: APPOINTMENT_STATUS.booked,
     });
     mockAppointmentsGetApi({ response: [response] });
@@ -57,6 +58,8 @@ describe('VAOS Referral API Error Handling', () => {
 
     // Visit the appointments page
     cy.visit('/my-health/appointments');
+
+    cy.clock(mockToday, ['Date']);
   });
 
   describe('Referrals List API Errors', () => {
@@ -146,6 +149,7 @@ describe('VAOS Referral API Error Handling', () => {
           {
             referralId,
             [errorType]: true,
+            currentDate: mockToday,
           },
         ).toJSON();
         mockDraftReferralAppointmentApi({
@@ -202,7 +206,7 @@ describe('VAOS Referral API Error Handling', () => {
         {
           referralId,
           categoryOfCare: 'Physical Therapy',
-          numberOfSlots: 3,
+          currentDate: mockToday,
         },
       ).toJSON();
       mockDraftReferralAppointmentApi({
@@ -260,14 +264,14 @@ describe('VAOS Referral API Error Handling', () => {
         cy.injectAxeThenAxeCheck();
 
         // Verify error message is displayed
-        reviewAndConfirm.assertApiError();
+        reviewAndConfirm.assertApiErrorAlert();
       });
     });
   });
 
   describe('Appointment Details API Errors after submit appointment', () => {
     const referralId = 'referral-123';
-    const appointmentId = 'EEKoGzEf';
+    const draftAppointmentId = 'appointment-for-PmDYsBz-egEtG13flMnHUQ==';
 
     beforeEach(() => {
       // Mock successful referrals list response
@@ -290,6 +294,7 @@ describe('VAOS Referral API Error Handling', () => {
           referralId,
           categoryOfCare: 'Physical Therapy',
           numberOfSlots: 3,
+          currentDate: mockToday,
         },
       ).toJSON();
       mockDraftReferralAppointmentApi({
@@ -299,7 +304,7 @@ describe('VAOS Referral API Error Handling', () => {
       // Mock successful submit appointment response
       const submitAppointmentResponse = new MockReferralSubmitAppointmentResponse(
         {
-          appointmentId,
+          draftAppointmentId,
           success: true,
         },
       ).toJSON();
@@ -313,12 +318,12 @@ describe('VAOS Referral API Error Handling', () => {
         // Mock error response
         const appointmentDetailsResponse = new MockReferralAppointmentDetailsResponse(
           {
-            appointmentId,
+            draftAppointmentId,
             [errorType]: true,
           },
         ).toJSON();
         mockAppointmentDetailsApi({
-          id: appointmentId,
+          id: '*',
           response: appointmentDetailsResponse,
           responseCode,
         });
@@ -366,12 +371,11 @@ describe('VAOS Referral API Error Handling', () => {
       });
     });
 
-    // TODO: This test is flaky and needs to be corrected using fixed dates
-    it.skip('should display an error when appointment remains in proposed state and times out', () => {
+    it('should display an error when appointment remains in proposed state and times out', () => {
       // Mock appointment details to always return proposed status (never transitions to booked)
       const proposedAppointmentResponse = new MockReferralAppointmentDetailsResponse(
         {
-          appointmentId,
+          draftAppointmentId,
           typeOfCare: 'OPTOMETRY',
           providerName: 'Dr. Bones',
           organizationName: 'Meridian Health',
@@ -382,12 +386,9 @@ describe('VAOS Referral API Error Handling', () => {
 
       // Use the simpler mock - app will handle polling internally
       mockAppointmentDetailsApi({
-        id: appointmentId,
+        id: draftAppointmentId,
         response: proposedAppointmentResponse,
       });
-
-      // Use cy.clock() to control time and speed up the polling timeout test
-      cy.clock(new Date('2025-06-02T12:00:00Z'), ['Date']);
 
       // Navigate to the Referrals and Requests page
       appointmentList.navigateToReferralsAndRequests();
@@ -420,6 +421,10 @@ describe('VAOS Referral API Error Handling', () => {
       // Click the continue button to finalize the appointment
       reviewAndConfirm.clickContinue();
 
+      // Reset clock, using mockTodayPlus6Hours for request timeout.
+      cy.clock().then(clock => clock.restore());
+      cy.clock(mockTodayPlus6Hours, ['Date']);
+
       // Wait for submit appointment response
       cy.wait('@v2:post:submitAppointment');
 
@@ -428,7 +433,7 @@ describe('VAOS Referral API Error Handling', () => {
       cy.wait('@v2:get:appointmentDetails', { timeout: 10000 });
 
       // Advance time by 35 seconds (beyond the app's 30-second timeout)
-      cy.tick(35000);
+      cy.clock().then(clock => clock.tick(35000));
 
       // Verify error message is displayed
       completeReferral.assertNotBookedError();

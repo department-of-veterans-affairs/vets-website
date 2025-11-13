@@ -15,7 +15,7 @@ class AudiologyPageObject extends PageObject {
   }
 
   selectTypeOfCare(label) {
-    return super.selectRadioButtonShadow(label);
+    return super.selectRadioButton(label);
   }
 }
 

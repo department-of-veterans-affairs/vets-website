@@ -14,8 +14,10 @@ import {
 import { agenciesOrCourtsOptions } from '../../constants/agenciesOrCourts';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
+import content from '../../locales/en/content.json';
+
 /** @type {ArrayBuilderOptions} */
-const arrayBuilderOptions = {
+export const arrayBuilderOptions = {
   arrayPath: 'agenciesOrCourts',
   nounSingular: 'state or Federal agency or court',
   nounPlural: 'state or Federal agencies or courts',
@@ -26,6 +28,8 @@ const arrayBuilderOptions = {
     !item?.admissionDate ||
     !item?.membershipOrRegistrationNumber,
   text: {
+    yesNoBlankReviewQuestion: () => content['agency-or-court-question'],
+    reviewAddButtonText: () => content['agency-or-court-add-button-text'],
     getItemName: item =>
       item?.agencyOrCourt === 'Other'
         ? item?.otherAgencyOrCourt

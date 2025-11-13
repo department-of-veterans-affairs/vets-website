@@ -1,6 +1,8 @@
-import { arrayBuilderItemFirstPageTitleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  arrayBuilderItemFirstPageTitleUI,
+  currencyUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import content from '../locales/en/content.json';
 import { replaceStrValues } from '../utils/helpers/general';
 import { LAST_YEAR } from '../utils/constants';
@@ -10,7 +12,6 @@ import {
   OtherIncomeDescription,
   PreviousNetIncome,
 } from '../components/FormDescriptions/IncomeDescriptions';
-import { validateCurrency } from '../utils/validation';
 
 const {
   veteranGrossIncome,
@@ -33,15 +34,12 @@ export const VeteranAnnualIncomePage = () => ({
         content['household-income-gross-description'],
       ),
       'ui:description': () => GrossIncomeDescription('veteran'),
-      veteranGrossIncome: {
-        ...currencyUI(
-          replaceStrValues(
-            content['household-veteran-income-gross-label'],
-            LAST_YEAR,
-          ),
+      veteranGrossIncome: currencyUI(
+        replaceStrValues(
+          content['household-veteran-income-gross-label'],
+          LAST_YEAR,
         ),
-        'ui:validations': [validateCurrency],
-      },
+      ),
     },
     'view:veteranNetIncome': {
       ...inlineTitleUI(
@@ -49,15 +47,12 @@ export const VeteranAnnualIncomePage = () => ({
         content['household-income-net-description'],
       ),
       'ui:description': () => PreviousNetIncome('veteran'),
-      veteranNetIncome: {
-        ...currencyUI(
-          replaceStrValues(
-            content['household-veteran-income-net-label'],
-            LAST_YEAR,
-          ),
+      veteranNetIncome: currencyUI(
+        replaceStrValues(
+          content['household-veteran-income-net-label'],
+          LAST_YEAR,
         ),
-        'ui:validations': [validateCurrency],
-      },
+      ),
     },
     'view:veteranOtherIncome': {
       ...inlineTitleUI(
@@ -65,15 +60,12 @@ export const VeteranAnnualIncomePage = () => ({
         content['household-income-other-description'],
       ),
       'ui:description': () => OtherIncomeDescription('veteran'),
-      veteranOtherIncome: {
-        ...currencyUI(
-          replaceStrValues(
-            content['household-veteran-income-other-label'],
-            LAST_YEAR,
-          ),
+      veteranOtherIncome: currencyUI(
+        replaceStrValues(
+          content['household-veteran-income-other-label'],
+          LAST_YEAR,
         ),
-        'ui:validations': [validateCurrency],
-      },
+      ),
     },
   },
   schema: {

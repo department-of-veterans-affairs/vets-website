@@ -24,7 +24,7 @@ describe('Check-in experience', () => {
       },
     };
     describe('TravelClaimSuccessAlert', () => {
-      it('renders the travel pay message', () => {
+      it('renders the travel pay message and survey', () => {
         const { getByTestId } = render(
           <CheckInProvider store={mockData}>
             <TravelClaimSuccessAlert />
@@ -34,6 +34,7 @@ describe('Check-in experience', () => {
         expect(getByTestId('travel-pay--claim--submitted')).to.contain.text(
           `August 19, 2021, 6:56 a.m.`,
         );
+        expect(getByTestId('travel-pay-survey')).to.exist;
       });
     });
   });

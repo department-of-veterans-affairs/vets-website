@@ -8,7 +8,7 @@ import {
 import mockDisabilityCompensation from '@@profile/mocks/endpoints/disability-compensations';
 import environment from '~/platform/utilities/environment';
 
-import mockDD4CNPSuccess from './tests/fixtures/dd4cnp/dd4cnp-is-set-up.json';
+import mockDirectDepositSuccess from './tests/fixtures/direct-deposits/base.json';
 import mockDD4EDUSuccess from './tests/fixtures/dd4edu/dd4edu-enrolled.json';
 import mockMHVHasAccepted from './tests/fixtures/mhv-has-accepted.json';
 import mockFullNameSuccess from './tests/fixtures/full-name-success.json';
@@ -788,8 +788,8 @@ export const allProfileEndpointsLoaded = [
   createGetHandler(`${prefix}/v0/profile/service_history`, () =>
     jsonResponse(mockServiceHistorySuccess),
   ),
-  createGetHandler(`${prefix}/v0/ppiu/payment_information`, () =>
-    jsonResponse(mockDD4CNPSuccess),
+  createGetHandler(`${prefix}/v0/profile/direct_deposits`, () =>
+    jsonResponse(mockDirectDepositSuccess),
   ),
   createGetHandler(`${prefix}/v0/profile/ch33_bank_accounts`, () =>
     jsonResponse(mockDD4EDUSuccess),

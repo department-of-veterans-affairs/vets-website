@@ -3,14 +3,14 @@ import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFields,
   testNumberOfWebComponentFields,
-} from '../../../shared/tests/pages/pageTests.spec';
+} from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../config/form';
 
 const { schema, uiSchema } = formConfig.chapters.radio.pages.radio;
 
 const pageTitle = 'mock radio inputs';
 
-const expectedNumberOfWebComponentFields = 3;
+const expectedNumberOfWebComponentFields = 4;
 testNumberOfWebComponentFields(
   formConfig,
   schema,

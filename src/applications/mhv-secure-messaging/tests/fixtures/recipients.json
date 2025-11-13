@@ -28,5 +28,17 @@
     "name": "***Mohammad_Fort Belovoir TG 200_APPT_SLC4%",
     "relationType": "PATIENT",
     "preferredTeam": true
+  },
+  {
+    "id": "OH567890",
+    "name": "VHA 649 Release of Information (ROI)",
+    "relationType": "PATIENT",
+    "preferredTeam": true
+  },
+  {
+    "id": "OH678901",
+    "name": "Florida Tampa Release of Information – Medical Records",
+    "relationType": "PATIENT", 
+    "preferredTeam": true
   }
 ]

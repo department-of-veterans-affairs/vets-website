@@ -34,7 +34,7 @@ export default function FacilitiesNotShown() {
               })
             }
           >
-            Find your VA health facility (opens in new tab)
+            Find your VA health facility (opens in a new tab)
           </NewTabAnchor>
         </va-additional-info>
       </div>

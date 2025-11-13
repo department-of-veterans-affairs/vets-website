@@ -1,4 +1,4 @@
-import { countries } from 'platform/forms/address/index.js';
+import { countries } from 'platform/forms/address/index';
 import _ from 'platform/utilities/data';
 
 /**

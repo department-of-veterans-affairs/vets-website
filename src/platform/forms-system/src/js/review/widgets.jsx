@@ -24,9 +24,11 @@ export function SelectWidget({ options, value }) {
   const { enumOptions, labels = {} } = options;
   const selected = enumOptions.find(opt => opt.value === value);
   if (selected) {
+    const label =
+      typeof labels[value] === 'object' ? labels[value]?.label : labels[value];
     return (
       <span className="dd-privacy-hidden" data-dd-action-name="data value">
-        {labels[value] || selected.label}
+        {label || selected.label}
       </span>
     );
   }

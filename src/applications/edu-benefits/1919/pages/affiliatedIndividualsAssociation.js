@@ -45,42 +45,49 @@ const individualPage = {
         </>
       ),
     }),
-    first: textUI({
-      title: 'First name of individual',
-      errorMessages: {
-        required: 'You must provide a response',
-        pattern: 'You must provide a response',
-      },
-    }),
-    last: textUI({
-      title: 'Last name of individual',
-      errorMessages: {
-        required: 'You must provide a response',
-        pattern: 'You must provide a response',
-      },
-    }),
-    title: textUI({
-      title: 'Title of individual',
-      errorMessages: {
-        required: 'You must provide a response',
-        pattern: 'You must provide a response',
-      },
-    }),
-    individualAssociationType: radioUI({
-      title: 'How is this individual associated with your institution?',
-      errorMessages: { required: 'Please make a selection' },
-      labels: associationLabels,
-    }),
+    affiliatedIndividuals: {
+      first: textUI({
+        title: 'First name of individual',
+        errorMessages: {
+          required: 'You must provide a response',
+          pattern: 'You must provide a response',
+        },
+      }),
+      last: textUI({
+        title: 'Last name of individual',
+        errorMessages: {
+          required: 'You must provide a response',
+          pattern: 'You must provide a response',
+        },
+      }),
+      title: textUI({
+        title: 'Title of individual',
+        errorMessages: {
+          required: 'You must provide a response',
+          pattern: 'You must provide a response',
+        },
+      }),
+      individualAssociationType: radioUI({
+        title: 'How is this individual associated with your institution?',
+        errorMessages: { required: 'Please make a selection' },
+        labels: associationLabels,
+      }),
+    },
   },
   schema: {
     type: 'object',
-    required: ['first', 'last', 'title', 'individualAssociationType'],
     properties: {
-      first: { ...textSchema, pattern: noSpaceOnlyPattern },
-      last: { ...textSchema, pattern: noSpaceOnlyPattern },
-      title: { ...textSchema, pattern: noSpaceOnlyPattern },
-      individualAssociationType: {
-        ...radioSchema(['vaEmployee', 'saaEmployee']),
+      affiliatedIndividuals: {
+        type: 'object',
+        required: ['first', 'last', 'title', 'individualAssociationType'],
+        properties: {
+          first: { ...textSchema, pattern: noSpaceOnlyPattern },
+          last: { ...textSchema, pattern: noSpaceOnlyPattern },
+          title: { ...textSchema, pattern: noSpaceOnlyPattern },
+          individualAssociationType: {
+            ...radioSchema(['vaEmployee', 'saaEmployee']),
+          },
+        },
       },
     },
   },

@@ -151,6 +151,7 @@ export const deceasedDependentPersonalInfoPage = {
   },
   schema: {
     type: 'object',
+    required: ['fullName', 'ssn', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       ssn: ssnSchema,
@@ -175,6 +176,7 @@ export const deceasedDependentTypePage = {
   },
   schema: {
     type: 'object',
+    required: ['dependentType'],
     properties: {
       dependentType: radioSchema(relationshipEnums),
     },
@@ -184,9 +186,7 @@ export const deceasedDependentTypePage = {
 /** @returns {PageSchema} */
 export const deceasedDependentChildTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Your relationship to this dependent',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Type of child dependent'),
     childStatus: {
       ...checkboxGroupUI({
         title: 'What type of child?',
@@ -230,6 +230,7 @@ export const deceasedDependentDateOfDeathPage = {
   },
   schema: {
     type: 'object',
+    required: ['dependentDeathDate'],
     properties: {
       dependentDeathDate: dateOfDeathSchema,
     },
@@ -294,6 +295,7 @@ export const deceasedDependentLocationOfDeathPage = {
   },
   schema: {
     type: 'object',
+    required: ['dependentDeathLocation'],
     properties: {
       dependentDeathLocation: customLocationSchema,
     },
@@ -312,7 +314,24 @@ export const deceasedDependentIncomePage = {
         N: 'No',
         NA: 'This question doesn’t apply to me',
       },
-      required: () => false,
+      required: (_chapterData, _index, formData) =>
+        formData?.vaDependentsNetWorthAndPension,
+      updateUiSchema: () => ({
+        'ui:options': {
+          hint: '',
+        },
+      }),
+      updateSchema: (formData = {}, formSchema) => {
+        const { vaDependentsNetWorthAndPension } = formData;
+
+        if (!vaDependentsNetWorthAndPension) {
+          return formSchema;
+        }
+
+        return {
+          ...radioSchema(['Y', 'N']),
+        };
+      },
     }),
   },
   schema: {

@@ -9,7 +9,7 @@ import mockMessagewithAttachment from './fixtures/message-response-withattachmen
 import { AXE_CONTEXT } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
-describe('Secure Messaging Move Message tests', () => {
+describe('Secure Messaging Move Message to Folder tests', () => {
   it('move message from custom folder to Deleted', () => {
     const folderName = mockFoldersResponse.data.at(4).attributes.name;
     const { folderId } = mockFoldersResponse.data.at(4).attributes;

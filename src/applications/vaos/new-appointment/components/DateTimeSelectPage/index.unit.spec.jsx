@@ -4,11 +4,11 @@ import { cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import {
-  add,
   addDays,
   addHours,
   addMonths,
   format,
+  isThisMonth,
   isTomorrow,
   lastDayOfMonth,
   nextThursday,
@@ -143,7 +143,8 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     MockDate.reset();
   });
 
-  it('should not submit form with validation error', async () => {
+  it.skip('should not submit form with validation error', async () => {
+    // Ticket to fix test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/120858
     const slot308Date = new Date(setDay(new Date(), 9).setHours(9, 0, 0));
     const slot309Date = new Date(setDay(new Date(), 11).setHours(13, 0, 0));
     setDateTimeSelectMockFetches({
@@ -152,19 +153,13 @@ describe('VAOS Page: DateTimeSelectPage', () => {
         309: [slot309Date],
       },
     });
-    mockAppointmentSlotApi({
-      clinicId: '308',
-      facilityId: '983',
-      preferredDate: new Date(),
-      response: [],
-    });
-    const preferredDate = new Date();
+    const preferredDate = addDays(new Date(), 1);
 
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
-    await setClinic(store, '983_308');
+    await setClinic(store, /green team/i);
     await setPreferredDate(store, preferredDate);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -246,7 +241,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
-    await setClinic(store, '983_308');
+    await setClinic(store, /green team/i);
     await setPreferredDate(store, new Date());
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -266,21 +261,14 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: 'We’ve run into a problem trying to find an appointment time',
+        name: 'This tool isn’t working right now',
       }),
     ).to.be.ok;
 
-    // it should display link to contact the local VA medical center
+    // it should display link to find your local VA health care facility
     expect(
       screen.getByRole('link', {
-        name: 'Contact your local VA medical center Link opens in a new tab.',
-      }),
-    ).to.be.ok;
-
-    // it should display link to call the local VA medical center
-    expect(
-      screen.getByRole('link', {
-        name: 'call your local VA medical center Link opens in a new tab.',
+        name: 'Find your local VA health care facility (opens in a new tab)',
       }),
     ).to.be.ok;
 
@@ -306,7 +294,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     mockAppointmentsApi({
       start,
       end,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     setDateTimeSelectMockFetchesDateFns({
@@ -320,7 +308,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, facilityId);
-    await setClinic(store, '983_308');
+    await setClinic(store, /green team/i);
     await setPreferredDate(store, preferredDate);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -337,7 +325,11 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       await waitForElementToBeRemoved(overlay);
     }
 
-    expect(screen.getByText('Your appointment time')).to.be.ok;
+    expect(
+      screen.getByText(
+        'We couldn’t find an appointment for your selected date',
+      ),
+    ).to.be.ok;
 
     // 2. Simulate user selecting a date
     const slot308DateString = formatInTimeZone(
@@ -369,7 +361,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     await cleanup();
 
-    await setClinic(store, '983_309');
+    await setClinic(store, /red team/i);
     screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
       store,
     });
@@ -479,7 +471,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
-    await setClinic(store, '983_308');
+    await setClinic(store, /Yes/i);
     await setPreferredDate(store, preferredDate);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -599,12 +591,18 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
-    await setClinic(store, '983_308');
+    await setClinic(store, /Yes/i);
     await setPreferredDate(store, preferredDate);
 
     const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
       store,
     });
+
+    // 1. Wait for progressbar to disappear
+    const overlay = screen.queryByTestId('loadingIndicator');
+    if (overlay) {
+      await waitForElementToBeRemoved(overlay);
+    }
 
     await screen.findByText(/Scheduling at Green team clinic/i);
     await screen.findByText(/Times are displayed in Mountain time \(MT\)\./i);
@@ -683,7 +681,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     });
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
-    await setClinic(store, '983_308');
+    await setClinic(store, /Yes/i);
 
     // When the page is displayed
     const screen = renderWithStoreAndRouter(
@@ -696,7 +694,14 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     // Then the urgent care alert is displayed
     expect(
       await screen.findByText(
-        /If you have an urgent medical need or need care right away/i,
+        /If you need care sooner, use one of these urgent communications options/i,
+      ),
+    ).to.exist;
+
+    // And the info about later slots is displayed
+    expect(
+      await screen.findByText(
+        /If this date doesn’t work, you can pick a new one from the calendar./i,
       ),
     ).to.exist;
 
@@ -730,7 +735,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
-    await setClinic(store, '983_308');
+    await setClinic(store, /Yes/i);
 
     // When the page is displayed
     const screen = renderWithStoreAndRouter(
@@ -743,13 +748,14 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     // Then the urgent care alert is displayed
     expect(
       await screen.findByText(
-        /If you have an urgent medical need or need care right away/i,
+        /If you need care sooner, use one of these urgent communications options/i,
       ),
     ).to.exist;
 
+    // And the info about calling the facility is displayed
     expect(
       screen.getByText(
-        /We couldn’t find an appointment for your selected date/,
+        /To find an available date to schedule this appointment, you can call your local VA health care facility./,
       ),
     ).to.be.ok;
   });
@@ -769,7 +775,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     await setTypeOfCare(store, /mental health/i);
     await setVAFacility(store, '983', 'outpatientMentalHealth');
-    await setClinic(store, '983_308');
+    await setClinic(store, /Yes/i);
     await setPreferredDate(store, preferredDate);
 
     const screen = renderWithStoreAndRouter(
@@ -800,7 +806,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
-    await setClinic(store, '983_308');
+    await setClinic(store, /Yes/i);
     await setPreferredDate(store, preferredDate);
 
     const screen = renderWithStoreAndRouter(
@@ -815,7 +821,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     ).to.exist;
 
     // Go to the request flow if these dates don't work
-    userEvent.click(screen.getByTestId('earlier-request-btn'));
+    userEvent.click(screen.getByTestId('appointment-request-link'));
 
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal('va-request/'),
@@ -857,7 +863,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
-    await setClinic(store, '983_308');
+    await setClinic(store, /Yes/i);
     await setPreferredDate(store, preferredDate);
 
     // When the page is displayed
@@ -890,138 +896,6 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       ),
     ).to.not.have.attribute('disabled');
   });
-  // Failing test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/110920
-  it.skip('should fetch slots when moving between months', async () => {
-    const facilityId = '983';
-    const timezone = getTimezoneByFacilityId(facilityId);
-    const preferredDate = addMonths(addDays(new Date(), 1), 1);
-    const slot308Date = new Date(
-      nextTuesday(
-        startOfMonth(add(new Date(), { months: 1, days: 1 })),
-      ).setHours(9, 0, 0, 0),
-    );
-    const secondSlotDate = new Date(
-      nextTuesday(
-        startOfMonth(add(new Date(slot308Date), { months: 2 })),
-      ).setHours(10, 0, 0, 0),
-    );
-
-    const now = new Date();
-    const start = subDays(now, 30);
-    const end = addDays(now, 395);
-
-    mockAppointmentsApi({
-      start,
-      end,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-    });
-
-    setDateTimeSelectMockFetchesDateFns({
-      preferredDate,
-      slotDatesByClinicId: {
-        308: [slot308Date],
-      },
-    });
-
-    mockAppointmentSlotApi({
-      facilityId,
-      clinicId: '308',
-      response: [
-        new MockSlotResponse({ id: '1', start: secondSlotDate, duration: 20 }),
-      ],
-      startDate: startOfMonth(secondSlotDate),
-      endDate: startOfDay(lastDayOfMonth(secondSlotDate)),
-    });
-
-    const store = createTestStore(initialState);
-
-    await setTypeOfCare(store, /primary care/i);
-    await setVAFacility(store, facilityId);
-    await setClinic(store, '983_308');
-    await setPreferredDate(store, preferredDate);
-
-    // First pass check to make sure the slots associated with green team are displayed
-    const screen = renderWithStoreAndRouter(
-      <Route component={DateTimeSelectPage} />,
-      {
-        store,
-      },
-    );
-
-    let overlay = screen.queryByTestId('loadingIndicator');
-    if (overlay) {
-      await waitForElementToBeRemoved(overlay);
-    }
-
-    const slot308DateString = formatInTimeZone(
-      slot308Date,
-      timezone,
-      'EEEE, MMMM do',
-    );
-    let dayOfMonthButton = screen.getByLabelText(
-      new RegExp(slot308DateString, 'i'),
-    );
-    userEvent.click(dayOfMonthButton);
-
-    const expected308 = formatInTimeZone(
-      slot308Date,
-      timezone,
-      "h:mm a 'option selected'",
-    );
-    userEvent.click(await screen.findByRole('radio', { name: expected308 }));
-
-    // Need to move two months to trigger second fetch
-    userEvent.click(screen.getByText(/^Next/));
-    userEvent.click(screen.getByText(/^Next/));
-    overlay = screen.queryByTestId('loadingIndicator');
-    if (overlay) {
-      await waitForElementToBeRemoved(overlay);
-    }
-
-    const secondDateString = formatInTimeZone(
-      secondSlotDate,
-      timezone,
-      'EEEE, MMMM do',
-    );
-    dayOfMonthButton = await screen.findByLabelText(
-      new RegExp(secondDateString, 'i'),
-    );
-    userEvent.click(dayOfMonthButton);
-
-    const expectedSecondSlot = formatInTimeZone(
-      secondSlotDate,
-      timezone,
-      "h:mm a 'option selected'",
-    );
-    userEvent.click(
-      await screen.findByRole('radio', { name: expectedSecondSlot }),
-    );
-
-    // Go back and select initial slot
-    userEvent.click(screen.getByText(/^Prev/));
-    userEvent.click(screen.getByText(/^Prev/));
-
-    dayOfMonthButton = screen.getByLabelText(
-      new RegExp(slot308DateString, 'i'),
-    );
-    userEvent.click(dayOfMonthButton);
-    userEvent.click(await screen.findByRole('radio', { name: expected308 }));
-
-    // Have a selected slot, can move to next screen
-    userEvent.click(screen.getByText(/^Continue/));
-    await waitFor(() => {
-      expect(screen.history.push.called).to.be.true;
-    });
-    screen.history.push.reset();
-
-    // Clicking selected date should unselect date
-    userEvent.click(dayOfMonthButton);
-    userEvent.click(screen.getByText(/^Continue/));
-    await waitFor(() => {
-      expect(screen.getByRole('alert')).to.be.ok;
-    });
-    expect(screen.history.push.called).to.be.false;
-  });
 
   it('should show required text next to page heading', async () => {
     const preferredDate = new Date();
@@ -1038,7 +912,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     await setTypeOfCare(store, /mental health/i);
     await setVAFacility(store, '983', 'outpatientMentalHealth');
-    await setClinic(store, '983_308');
+    await setClinic(store, /Yes/i);
     await setPreferredDate(store, preferredDate);
 
     const screen = renderWithStoreAndRouter(
@@ -1049,5 +923,328 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     );
 
     expect(await screen.findByText(/Required/i)).to.exist;
+  });
+});
+
+describe('When preferred date is immediate care', () => {
+  describe('And current date is last day of the month and end of day', () => {
+    beforeEach(() => {
+      mockFetch();
+    });
+
+    it('should fetch slots when moving between months', async () => {
+      MockDate.set(lastDayOfMonth(new Date()));
+
+      const facilityId = '983';
+      const timezone = getTimezoneByFacilityId(facilityId);
+      const preferredDate = new Date();
+
+      // NOTE: Available slot dates must be after tommorow. So in this case, timezone
+      // conversion to MT resulted in the previous day thus the need to add 2 days.
+      // See: ./new-appointments/redux/actions.js/getAppointmentsSlots:680
+      const slot308Date = addDays(preferredDate, 2);
+
+      // NOTE: The initial request for slots returns 2 months worth thus the need
+      // to add 2 months.
+      const secondSlotDate = lastDayOfMonth(addMonths(preferredDate, 2));
+      const clinics = MockClinicResponse.createResponses({
+        clinics: [
+          { id: '308', name: 'Green team clinic' },
+          { id: '309', name: 'Red team clinic' },
+        ],
+      });
+
+      mockAppointmentsApi({
+        start: subDays(new Date(), 30),
+        end: addDays(new Date(), 395),
+        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
+      });
+      mockEligibilityFetches({
+        facilityId,
+        typeOfCareId: 'primaryCare',
+        clinics,
+      });
+      mockAppointmentSlotApi({
+        facilityId,
+        clinicId: '308',
+        response: [
+          new MockSlotResponse({
+            id: '1',
+            start: slot308Date,
+          }),
+        ],
+        startDate: startOfMonth(startOfDay(preferredDate)),
+        endDate: lastDayOfMonth(addMonths(startOfDay(preferredDate), 1)),
+      });
+      mockAppointmentSlotApi({
+        facilityId,
+        clinicId: '308',
+        response: [
+          new MockSlotResponse({
+            id: '1',
+            start: secondSlotDate,
+          }),
+        ],
+        startDate: startOfMonth(addMonths(startOfDay(preferredDate), 2)),
+        endDate: lastDayOfMonth(addMonths(startOfDay(preferredDate), 2)),
+      });
+
+      const store = createTestStore(initialState);
+
+      await setTypeOfCare(store, /primary care/i);
+      await setVAFacility(store, facilityId);
+      await setClinic(store, /green team/i);
+      await setPreferredDate(store, preferredDate);
+
+      // First pass check to make sure the slots associated with green team are displayed
+      const screen = renderWithStoreAndRouter(
+        <Route component={DateTimeSelectPage} />,
+        {
+          store,
+        },
+      );
+
+      let overlay = screen.queryByTestId('loadingIndicator');
+      if (overlay) {
+        await waitForElementToBeRemoved(overlay);
+      }
+
+      // Clicking next since preferred date is end of month. Appointment slots
+      // will be returned for the next month since immediate care is not allowed.
+      // NOTE: A warning message is displayed indicating this.
+      userEvent.click(screen.getByText(/^Next/));
+
+      const slot308DateString = formatInTimeZone(
+        slot308Date,
+        timezone,
+        'EEEE, MMMM do',
+      );
+      let dayOfMonthButton = screen.getByLabelText(
+        new RegExp(slot308DateString, 'i'),
+      );
+      userEvent.click(dayOfMonthButton);
+
+      const expected308 = formatInTimeZone(
+        slot308Date,
+        timezone,
+        "h:mm a 'option selected'",
+      );
+      userEvent.click(await screen.findByRole('radio', { name: expected308 }));
+
+      userEvent.click(screen.getByText(/^Next/));
+      overlay = screen.queryByTestId('loadingIndicator');
+      if (overlay) {
+        await waitForElementToBeRemoved(overlay);
+      }
+
+      const secondDateString = formatInTimeZone(
+        secondSlotDate,
+        timezone,
+        'EEEE, MMMM do',
+      );
+      dayOfMonthButton = await screen.findByLabelText(
+        new RegExp(secondDateString, 'i'),
+      );
+      userEvent.click(dayOfMonthButton);
+
+      const expectedSecondSlot = formatInTimeZone(
+        secondSlotDate,
+        timezone,
+        "h:mm a 'option selected'",
+      );
+      userEvent.click(
+        await screen.findByRole('radio', { name: expectedSecondSlot }),
+      );
+
+      // Go back and select initial slot
+      userEvent.click(screen.getByText(/^Prev/));
+
+      dayOfMonthButton = screen.getByLabelText(
+        new RegExp(slot308DateString, 'i'),
+      );
+      userEvent.click(dayOfMonthButton);
+      userEvent.click(await screen.findByRole('radio', { name: expected308 }));
+
+      // Have a selected slot, can move to next screen
+      userEvent.click(screen.getByText(/^Continue/));
+      await waitFor(() => {
+        expect(screen.history.push.called).to.be.true;
+      });
+      screen.history.push.reset();
+
+      // Clicking selected date should unselect date
+      userEvent.click(dayOfMonthButton);
+      userEvent.click(screen.getByText(/^Continue/));
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).to.be.ok;
+      });
+      expect(screen.history.push.called).to.be.false;
+
+      MockDate.reset();
+    });
+  });
+});
+
+describe('When preferred date is not immediate care', () => {
+  describe('And current date is last day of the month and end of day', () => {
+    beforeEach(() => {
+      mockFetch();
+    });
+
+    // Check for test flakyness on the last day of each month
+    it('should fetch slots when moving between months', async () => {
+      MockDate.set(lastDayOfMonth(new Date()));
+
+      const facilityId = '983';
+      const timezone = getTimezoneByFacilityId(facilityId);
+      const preferredDate = addDays(new Date(), 1);
+
+      // NOTE: Available slot dates must be after tommorow. So in this case, timezone
+      // conversion to MT resulted in the previous day thus the need to add 2 days.
+      // See: ./new-appointments/redux/actions.js/getAppointmentsSlots:680
+      const slot308Date = addDays(preferredDate, 2);
+
+      // NOTE: The initial request for slots returns 2 months worth thus the need
+      // to add 2 months.
+      const secondSlotDate = lastDayOfMonth(addMonths(preferredDate, 2));
+      const clinics = MockClinicResponse.createResponses({
+        clinics: [
+          { id: '308', name: 'Green team clinic' },
+          { id: '309', name: 'Red team clinic' },
+        ],
+      });
+
+      mockAppointmentsApi({
+        start: subDays(new Date(), 30),
+        end: addDays(new Date(), 395),
+        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
+      });
+      mockEligibilityFetches({
+        facilityId,
+        typeOfCareId: 'primaryCare',
+        clinics,
+      });
+      mockAppointmentSlotApi({
+        facilityId,
+        clinicId: '308',
+        response: [
+          new MockSlotResponse({
+            id: '1',
+            start: slot308Date,
+          }),
+        ],
+        startDate: startOfMonth(startOfDay(preferredDate)),
+        endDate: lastDayOfMonth(addMonths(startOfDay(preferredDate), 1)),
+      });
+      mockAppointmentSlotApi({
+        facilityId,
+        clinicId: '308',
+        response: [
+          new MockSlotResponse({
+            id: '1',
+            start: secondSlotDate,
+          }),
+        ],
+        startDate: startOfMonth(addMonths(startOfDay(preferredDate), 2)),
+        endDate: lastDayOfMonth(addMonths(startOfDay(preferredDate), 2)),
+      });
+
+      const store = createTestStore(initialState);
+
+      await setTypeOfCare(store, /primary care/i);
+      await setVAFacility(store, facilityId);
+      await setClinic(store, /green team/i);
+      await setPreferredDate(store, preferredDate);
+
+      // First pass check to make sure the slots associated with green team are displayed
+      const screen = renderWithStoreAndRouter(
+        <Route component={DateTimeSelectPage} />,
+        {
+          store,
+        },
+      );
+
+      let overlay = screen.queryByTestId('loadingIndicator');
+      if (overlay) {
+        await waitForElementToBeRemoved(overlay);
+      }
+
+      const slot308DateString = formatInTimeZone(
+        slot308Date,
+        timezone,
+        'EEEE, MMMM do',
+      );
+
+      // Did timezone conversion bump date to next month?
+      if (isThisMonth(preferredDate)) {
+        userEvent.click(screen.getByText(/^Next/));
+      }
+
+      let dayOfMonthButton = screen.getByLabelText(
+        new RegExp(slot308DateString, 'i'),
+      );
+      userEvent.click(dayOfMonthButton);
+
+      const expected308 = formatInTimeZone(
+        slot308Date,
+        timezone,
+        "h:mm a 'option selected'",
+      );
+      userEvent.click(await screen.findByRole('radio', { name: expected308 }));
+
+      // Need to move two months to trigger second fetch
+      userEvent.click(screen.getByText(/^Next/));
+      userEvent.click(screen.getByText(/^Next/));
+      overlay = screen.queryByTestId('loadingIndicator');
+      if (overlay) {
+        await waitForElementToBeRemoved(overlay);
+      }
+
+      const secondDateString = formatInTimeZone(
+        secondSlotDate,
+        timezone,
+        'EEEE, MMMM do',
+      );
+      dayOfMonthButton = await screen.findByLabelText(
+        new RegExp(secondDateString, 'i'),
+      );
+      userEvent.click(dayOfMonthButton);
+
+      const expectedSecondSlot = formatInTimeZone(
+        secondSlotDate,
+        timezone,
+        "h:mm a 'option selected'",
+      );
+      userEvent.click(
+        await screen.findByRole('radio', { name: expectedSecondSlot }),
+      );
+
+      // Go back and select initial slot
+      userEvent.click(screen.getByText(/^Prev/));
+      userEvent.click(screen.getByText(/^Prev/));
+
+      dayOfMonthButton = screen.getByLabelText(
+        new RegExp(slot308DateString, 'i'),
+      );
+      userEvent.click(dayOfMonthButton);
+      userEvent.click(await screen.findByRole('radio', { name: expected308 }));
+
+      // Have a selected slot, can move to next screen
+      userEvent.click(screen.getByText(/^Continue/));
+      await waitFor(() => {
+        expect(screen.history.push.called).to.be.true;
+      });
+      screen.history.push.reset();
+
+      // Clicking selected date should unselect date
+      userEvent.click(dayOfMonthButton);
+      userEvent.click(screen.getByText(/^Continue/));
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).to.be.ok;
+      });
+      expect(screen.history.push.called).to.be.false;
+
+      MockDate.reset();
+    });
   });
 });

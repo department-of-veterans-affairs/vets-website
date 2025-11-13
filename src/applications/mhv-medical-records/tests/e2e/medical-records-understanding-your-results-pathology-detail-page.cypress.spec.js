@@ -7,7 +7,7 @@ import sessionStatus from './fixtures/session-status.json';
 describe.skip('Medical Records Understanding Your Results Pathology Detail Page', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
     // cy.visit('my-health/medical-records/labs-and-tests');
     cy.intercept('POST', '/my_health/v1/medical_records/session', {

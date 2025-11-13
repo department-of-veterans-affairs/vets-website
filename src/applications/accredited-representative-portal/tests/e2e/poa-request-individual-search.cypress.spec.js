@@ -14,10 +14,14 @@ const vamcUser = {
   },
 };
 
-const POA_SEARCH = '/representative/claimant-search';
+const POA_SEARCH = '/representative/find-claimant';
 
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '**/accredited_representative_portal/v0/user', {
+    statusCode: 200,
+    body: user,
+  }).as('fetchUser');
+  cy.intercept('GET', '**authorize_as_representative', {
     statusCode: 200,
     body: user,
   }).as('fetchUser');
@@ -37,28 +41,13 @@ const setUpInterceptsAndVisit = (featureToggles, url) => {
 };
 
 describe('Accredited Representative Portal', () => {
-  describe('App feature toggle is not enabled', () => {
-    beforeEach(() => {
-      cy.loginArpUser();
-      setUpInterceptsAndVisit({
-        isAppEnabled: false,
-        isInPilot: false,
-      });
-    });
-
-    it('redirects to VA.gov homepage when in production and app is not enabled', () => {
-      cy.injectAxeThenAxeCheck();
-      cy.location('pathname').should('eq', '/');
-    });
-  });
-
   describe('App feature toggle is enabled, but search feature toggle is not enabled', () => {
     beforeEach(() => {
+      cy.loginArpUser();
       setUpInterceptsAndVisit(
         {
           isAppEnabled: true,
           isInPilot: true,
-          isSearchEnabled: false,
         },
         POA_SEARCH,
       );
@@ -68,19 +57,15 @@ describe('Accredited Representative Portal', () => {
         cy.location('pathname').should('eq', '/representative');
       });
     });
-  });
-
-  describe('App feature toggle and Pilot feature toggle are enabled', () => {
-    beforeEach(() => {
-      cy.loginArpUser();
-      setUpInterceptsAndVisit(null, POA_SEARCH);
-    });
 
     it('Allows the user to see the Find claimant page when visiting directly', () => {
+      cy.visit('/representative/find-claimant');
+      cy.injectAxeThenAxeCheck();
       cy.contains('Find claimant').should('be.visible');
     });
 
     it('Shows errors on empty fields on searching when incomplete', () => {
+      cy.injectAxeThenAxeCheck();
       cy.get('.poa-request-search__form-submit').click();
       cy.contains('Enter a first name');
       cy.contains('Enter a last name');
@@ -89,6 +74,7 @@ describe('Accredited Representative Portal', () => {
     });
 
     it('Clicking on Clear Search resets all fields', () => {
+      cy.injectAxeThenAxeCheck();
       cy.fillVaTextInput('first_name', 'asdf');
       cy.fillVaTextInput('last_name', 'ghjkl');
       cy.fillVaDate('dob', '2024-01-01', false);
@@ -128,6 +114,7 @@ describe('Accredited Representative Portal', () => {
     });
 
     it('Form submission with valid data and no records found shows error message', () => {
+      cy.injectAxeThenAxeCheck();
       cy.fillVaTextInput('first_name', 'asdf');
       cy.fillVaTextInput('last_name', 'ghjkl');
       cy.fillVaDate('dob', '2024-01-01', false);
@@ -138,7 +125,7 @@ describe('Accredited Representative Portal', () => {
       setEmptyClaimantSearch();
       cy.get('.poa-request-search__form-submit').click();
       cy.get(
-        "[data-testid='poa-requests-table-fetcher-no-poa-requests']",
+        "[data-testid='representation-requests-table-fetcher-no-poa-requests']",
       ).should(
         'have.text',
         'No result found for "asdf", "ghjkl", "2024-01-01", "***-**-6666"',

@@ -8,7 +8,6 @@ import copays from './fixtures/mocks/copays.json';
 import debts from './fixtures/mocks/debts.json';
 
 import saveInProgress from './fixtures/mocks/saveInProgress.json';
-import { WIZARD_STATUS } from '../../wizard/constants';
 
 // Telephone specific responses
 import mockTelephoneUpdate from './fixtures/mocks/telephone-update.json';
@@ -30,7 +29,7 @@ describe.skip('fsr 5655 contact info loop', () => {
       },
     }).as('features');
 
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    sessionStorage.setItem('wizardStatus', WIZARD_STATUS_COMPLETE);
 
     cy.intercept('GET', '/v0/debts', debts);
     cy.intercept('GET', '/v0/medical_copays', copays);
@@ -52,15 +51,11 @@ describe.skip('fsr 5655 contact info loop', () => {
   const getToContactPage = () => {
     // start form
     // wizard is skipped
-    cy.get('a.vads-c-action-link--green')
-      .first()
-      .click();
+    cy.clickStartForm();
 
     // Veteran info (DOB, SSN, etc)
     cy.location('pathname').should('eq', `${BASE_URL}/veteran-information`);
-    cy.findAllByText(/continue/i, { selector: 'button' })
-      .first()
-      .click();
+    cy.clickFormContinue();
 
     // Select debts & copays
     cy.location('pathname').should('eq', `${BASE_URL}/all-available-debts`);
@@ -74,7 +69,7 @@ describe.skip('fsr 5655 contact info loop', () => {
       .shadow()
       .find('input[type=checkbox]')
       .check({ force: true });
-    cy.get('.usa-button-primary').click();
+    cy.clickFormContinue();
   };
 
   it('should edit info on a new page & cancel returns to contact info page - C30848', () => {
@@ -86,30 +81,30 @@ describe.skip('fsr 5655 contact info loop', () => {
     cy.axeCheck();
 
     // Mobile phone
-    cy.get('a[href$="mobile-phone"]').click();
+    cy.clickFormContinue();
     cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.findByText(/cancel/i, { selector: 'button' }).clickFormContinue();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Email
-    cy.get('a[href$="email-address"]').click();
+    cy.clickFormContinue();
     cy.location('pathname').should('eq', `${BASE_URL}/edit-email-address`);
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.findByText(/cancel/i, { selector: 'button' }).clickFormContinue();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Mailing address
-    cy.get('a[href$="mailing-address"]').click();
+    cy.clickFormContinue();
     cy.location('pathname').should('eq', `${BASE_URL}/edit-mailing-address`);
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.clickFormContinue();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
   });
 
@@ -121,16 +116,14 @@ describe.skip('fsr 5655 contact info loop', () => {
     // Contact info
 
     // Mobile phone
-    cy.get('a[href$="mobile-phone"]').click();
+    cy.clickFormContinue();
     cy.contains('Edit mobile phone number').should('be.visible');
     cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
 
     cy.findByLabelText(/mobile phone/i)
       .clear()
       .type('8885551212');
-    cy.findAllByText(/save/i, { selector: 'button' })
-      .first()
-      .click();
+    cy.clickFormContinue();
 
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 

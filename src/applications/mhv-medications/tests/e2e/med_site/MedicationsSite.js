@@ -1,3 +1,4 @@
+import { addSeconds, format } from 'date-fns';
 import mockUser from '../fixtures/user.json';
 import mockVamcEhr from '../fixtures/vamc-ehr.json';
 import mockUnauthenticatedUser from '../fixtures/non-rx-user.json';
@@ -6,11 +7,12 @@ import cernerUser from '../fixtures/cerner-user.json';
 import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
 import { Paths } from '../utils/constants';
 import prescriptions from '../fixtures/prescriptions.json';
-import { medicationsUrls } from '../../../util/constants';
+import exportList from '../fixtures/exportList.json';
+import { DATETIME_FORMATS, medicationsUrls } from '../../../util/constants';
 import listOfprescriptions from '../fixtures/listOfPrescriptions.json';
 
 class MedicationsSite {
-  login = (isMedicationsUser = true) => {
+  login = (isMedicationsUser = true, user = mockUser) => {
     this.mockFeatureToggles();
     this.mockVamcEhr();
 
@@ -21,12 +23,18 @@ class MedicationsSite {
         '/my_health/v1/prescriptions?page=1&per_page=999',
         prescriptions,
       ).as('prescriptions');
+      cy.intercept(
+        'GET',
+        '/my_health/v1/prescriptions?&sort=alphabetical-status',
+        exportList,
+      ).as('exportList');
+
       cy.intercept('GET', '/health-care/refill-track-prescriptions');
 
       // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
       // window.localStorage.setItem('isLoggedIn', true);
       // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
-      cy.login(mockUser);
+      cy.login(user);
     } else {
       // cy.login();
       window.localStorage.setItem('isLoggedIn', false);
@@ -153,19 +161,33 @@ class MedicationsSite {
     });
   };
 
-  verifyDownloadedPdfFile = (_prefixString, _clickMoment, _searchText) => {
+  verifyDownloadedPdfFile = (_prefixString, _searchText) => {
     if (Cypress.browser.isHeadless) {
       cy.log('browser is headless');
+
+      const now = Date.now();
+
+      const downloadTime1sec = format(
+        addSeconds(now, 1),
+        DATETIME_FORMATS.filename,
+      );
+
+      const downloadTime2sec = format(
+        addSeconds(now, 2),
+        DATETIME_FORMATS.filename,
+      );
+
+      const downloadTime3sec = format(
+        addSeconds(now, 3),
+        DATETIME_FORMATS.filename,
+      );
+
       const downloadsFolder = Cypress.config('downloadsFolder');
-      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.pdf`;
-      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.pdf`;
-      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.pdf`;
+
+      const txtPath1 = `${downloadsFolder}/${_prefixString}-${downloadTime1sec}.pdf`;
+      const txtPath2 = `${downloadsFolder}/${_prefixString}-${downloadTime2sec}.pdf`;
+      const txtPath3 = `${downloadsFolder}/${_prefixString}-${downloadTime3sec}.pdf`;
+
       this.internalReadFileMaybe(txtPath1, _searchText);
       this.internalReadFileMaybe(txtPath2, _searchText);
       this.internalReadFileMaybe(txtPath3, _searchText);

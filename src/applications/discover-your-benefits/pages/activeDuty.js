@@ -8,7 +8,7 @@ export default {
     titleTenActiveDuty: yesNoUI({
       enableAnalytics: true,
       title:
-        'Were you ever called up to active-duty (Title 10) orders while serving in the Reserve or National Guard?',
+        'Were you ever called up to active-duty (Title 10) orders while serving in the National Guard or Reserves?',
       hint:
         'This includes activations, deployments, and mobilizations under Title 10 orders.',
     }),

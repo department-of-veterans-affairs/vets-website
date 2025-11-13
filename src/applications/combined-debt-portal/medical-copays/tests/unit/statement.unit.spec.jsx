@@ -4,6 +4,8 @@ import { render } from '@testing-library/react';
 import AccountSummary from '../../components/AccountSummary';
 import StatementAddresses from '../../components/StatementAddresses';
 import StatementCharges from '../../components/StatementCharges';
+import StatementTable from '../../components/StatementTable';
+import DownloadStatement from '../../components/DownloadStatement';
 
 describe('mcp statement view', () => {
   describe('statement account summary component', () => {
@@ -134,6 +136,112 @@ describe('mcp statement view', () => {
       const charges = render(<StatementCharges copay={selectedCopay} />);
       expect(charges.getByTestId('statement-charges-head')).to.exist;
       expect(charges.getByTestId('statement-charges-table')).to.exist;
+    });
+  });
+
+  describe('StatementTable component', () => {
+    const mockSelectedCopay = {
+      pHNewBalance: 25,
+      pHTotCredits: 15,
+      pHPrevBal: 30,
+      statementStartDate: '2024-05-03',
+      statementEndDate: '2024-06-03',
+      details: [
+        {
+          pDTransDescOutput: 'Test Charge',
+          pDRefNo: '123-BILLREF',
+          pDTransAmt: 100,
+          pDDatePostedOutput: '05/15/2024',
+        },
+      ],
+    };
+
+    const mockFormatCurrency = amount => {
+      if (!amount) return '$0.00';
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }).format(amount);
+    };
+
+    it('should render statement table with date range when dates are provided', () => {
+      const { container } = render(
+        <StatementTable
+          charges={mockSelectedCopay.details}
+          formatCurrency={mockFormatCurrency}
+          selectedCopay={mockSelectedCopay}
+        />,
+      );
+
+      const table = container.querySelector('va-table');
+      expect(table).to.exist;
+      expect(table.getAttribute('table-title')).to.include(
+        'This statement shows charges you received between May 3, 2024 and June 3, 2024',
+      );
+    });
+
+    it('should render fallback text when statement dates are missing', () => {
+      const copayWithoutDates = {
+        ...mockSelectedCopay,
+        statementStartDate: null,
+        statementEndDate: null,
+      };
+
+      const { container } = render(
+        <StatementTable
+          charges={mockSelectedCopay.details}
+          formatCurrency={mockFormatCurrency}
+          selectedCopay={copayWithoutDates}
+        />,
+      );
+
+      const table = container.querySelector('va-table');
+      expect(table).to.exist;
+      expect(table.getAttribute('table-title')).to.equal(
+        'This statement shows your current charges.',
+      );
+    });
+
+    it('should NOT render Total Credits row', () => {
+      const { container } = render(
+        <StatementTable
+          charges={mockSelectedCopay.details}
+          formatCurrency={mockFormatCurrency}
+          selectedCopay={mockSelectedCopay}
+        />,
+      );
+
+      const tableRows = container.querySelectorAll('va-table-row');
+      const totalCreditsRow = Array.from(tableRows).find(row =>
+        row.textContent.includes('Total Credits'),
+      );
+      expect(totalCreditsRow).to.not.exist;
+    });
+  });
+
+  describe('DownloadStatement component', () => {
+    const mockProps = {
+      statementId: '123',
+      statementDate: '05032024',
+      fullName: 'John Doe',
+    };
+
+    it('should render PDF link with proper spacing', () => {
+      const { container } = render(<DownloadStatement {...mockProps} />);
+
+      // Check that va-link has the correct filetype attribute
+      const vaLink = container.querySelector('va-link');
+      expect(vaLink).to.exist;
+      expect(vaLink.getAttribute('filetype')).to.equal('PDF');
+    });
+
+    it('should render download link with correct attributes', () => {
+      const { container } = render(<DownloadStatement {...mockProps} />);
+
+      const vaLink = container.querySelector('va-link');
+      expect(vaLink).to.exist;
+      expect(vaLink.hasAttribute('download')).to.be.true;
+      expect(vaLink.getAttribute('filetype')).to.equal('PDF');
     });
   });
 });

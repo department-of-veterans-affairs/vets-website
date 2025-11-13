@@ -207,14 +207,20 @@ const v2 = {
     };
   },
 
-  postDayOfTravelPayClaim: async (data, setECheckinStartedCalled) => {
-    const url = '/check_in/v0/travel_claims/';
+  postDayOfTravelPayClaim: async (
+    data,
+    setECheckinStartedCalled,
+    isV1TravelPayAPIEnabled,
+  ) => {
+    const version = isV1TravelPayAPIEnabled ? 'v1' : 'v0';
+    const url = `/check_in/${version}/travel_claims/`;
     const headers = { 'Content-Type': 'application/json' };
 
     const travelClaimData = {
       travelClaims: {
         uuid: data.uuid,
         appointmentDate: data.appointmentDate,
+        facilityType: 'cie',
       },
     };
 
@@ -237,8 +243,14 @@ const v2 = {
       ...json,
     };
   },
-  postTravelOnlyClaim: async (startTime, uuid, timeToComplete) => {
-    const url = '/check_in/v0/travel_claims/';
+  postTravelOnlyClaim: async (
+    startTime,
+    uuid,
+    timeToComplete,
+    isV1TravelPayAPIEnabled,
+  ) => {
+    const version = isV1TravelPayAPIEnabled ? 'v1' : 'v0';
+    const url = `/check_in/${version}/travel_claims/`;
     const headers = { 'Content-Type': 'application/json' };
     const travelClaimData = {
       travelClaims: {

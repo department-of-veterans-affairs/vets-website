@@ -33,20 +33,17 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
       .contains(
         'Contact the U.S. Department of the Treasury to pay this $110.00 debt',
       );
-    // Check alert has correct links
+    // Assert no links are rendered for these diary codes
     cy.get('@alert-content')
-      .find('[data-testid="link-make-payment"]')
-      .should('exist');
-    cy.get('@alert-content')
-      .find('[data-testid="link-request-help"]')
-      .should('exist');
+      .find('va-link, a')
+      .should('have.length', 0);
     cy.injectAxeThenAxeCheck();
   });
 
   it('renders expected content for diary code: 100, 102, 130, 140', () => {
     cy.contains(
       '[data-testid="debt-summary-item"]',
-      'Pay your balance now or request help by October 18, 2012',
+      'Pay your $120.40 balance now or request help by October 18, 2012',
     )
       .find('a')
       .click({ waitForAnimations: true });
@@ -70,20 +67,9 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
       '[data-testid="debt-summary-item"]',
       'We’re reducing your benefit payments each month until your debt is paid',
     )
-      .find('a')
+      .find('va-link')
       .click({ waitForAnimations: true });
-    cy.get('va-alert').as('alert-content');
-    cy.get('@alert-content')
-      .find('h2')
-      .contains(
-        `We’re reducing your benefit payments each month until your debt is paid`,
-      );
-    cy.get('@alert-content')
-      .find('[data-testid="link-make-payment"]')
-      .should('not.exist');
-    cy.get('@alert-content')
-      .find('[data-testid="link-request-help"]')
-      .should('not.exist');
+
     cy.injectAxeThenAxeCheck();
   });
 
@@ -114,7 +100,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
       '[data-testid="debt-summary-item"]',
       'Pay your $200.00 past due balance now or request help by October 7, 2018',
     )
-      .find('a')
+      .find('va-link')
       .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');
     cy.get('@alert-content')

@@ -4,6 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
 import { BATTERY } from '../constants';
+import DlcTelephoneLink from '../components/DlcTelephoneLink';
 
 const ConfirmationPage = ({
   vetEmail,
@@ -67,7 +68,7 @@ const ConfirmationPage = ({
         </h4>
         <p>
           If you have any questions about your order please call the Denver
-          Logistics Center at <va-telephone contact="3032736200" /> .
+          Logistics Center at <DlcTelephoneLink />.
         </p>
       </section>
     </div>
@@ -140,12 +141,10 @@ const ConfirmationPage = ({
                   <strong>Confirmation number</strong>
                 </p>
                 <p className="vads-u-margin-y--0">{orderId}</p>
-                <button
-                  className="usa-button button"
+                <va-button
+                  text="Print this page"
                   onClick={() => window.print()}
-                >
-                  Print this page
-                </button>
+                />
               </section>
             </va-alert>
             <section className="order-timeframe-section">
@@ -160,8 +159,7 @@ const ConfirmationPage = ({
               <h4>What if I have questions about my order?</h4>
               <p>
                 If you have any questions about your order, please call the DLC
-                Customer Service Section at{' '}
-                <va-telephone contact="3032736200" /> or email{' '}
+                Customer Service Section at <DlcTelephoneLink /> or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </section>
@@ -191,8 +189,7 @@ const ConfirmationPage = ({
                 </a>
                 , please select at least one item before submitting your order.
                 For help ordering {supplyDescription}, please call the DLC
-                Customer Service Section at{' '}
-                <va-telephone contact="3032736200" /> or email{' '}
+                Customer Service Section at <DlcTelephoneLink /> or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </div>
@@ -227,8 +224,7 @@ const ConfirmationPage = ({
               </p>
               <p className="vads-u-margin-top--0">
                 For help ordering {supplyDescription}, please call the DLC
-                Customer Service Section at{' '}
-                <va-telephone contact="3032736200" /> or email{' '}
+                Customer Service Section at <DlcTelephoneLink /> or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </div>
@@ -249,8 +245,7 @@ const ConfirmationPage = ({
                 </p>
                 <p className="vads-u-margin-top--0">
                   For help ordering {supplyDescription}, please call the DLC
-                  Customer Service Section at{' '}
-                  <va-telephone contact="3032736200" /> or email{' '}
+                  Customer Service Section at <DlcTelephoneLink /> or email{' '}
                   <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </>

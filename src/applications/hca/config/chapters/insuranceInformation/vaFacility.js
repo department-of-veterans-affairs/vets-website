@@ -1,4 +1,7 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  titleUI,
+  descriptionUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { FacilityLocatorDescription } from '../../../components/FormDescriptions';
 import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
 import { emptyObjectSchema } from '../../../definitions';
@@ -17,7 +20,7 @@ export default {
       'ui:field': VaMedicalCenter,
     },
     'view:locator': {
-      'ui:description': FacilityLocatorDescription,
+      ...descriptionUI(FacilityLocatorDescription),
     },
     wantsInitialVaContact: {
       'ui:title': content['insurance-info--appointment-label'],

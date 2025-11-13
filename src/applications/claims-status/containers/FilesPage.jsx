@@ -1,19 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { clearNotification } from '../actions';
-import AskVAToDecide from '../components/AskVAToDecide';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import AdditionalEvidencePage from '../components/claim-files-tab/AdditionalEvidencePage';
 import ClaimFileHeader from '../components/claim-files-tab/ClaimFileHeader';
 import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
+import OtherWaysToSendYourDocuments from '../components/claim-files-tab-v2/OtherWaysToSendYourDocuments';
+import FileSubmissionsInProgress from '../components/claim-files-tab-v2/FileSubmissionsInProgress';
+import FilesReceived from '../components/claim-files-tab-v2/FilesReceived';
+import FilesWeCouldntReceiveEntryPoint from '../components/claim-files-tab-v2/FilesWeCouldntReceiveEntryPoint';
+import UploadType2ErrorAlert from '../components/UploadType2ErrorAlert';
 import withRouter from '../utils/withRouter';
 
 import {
   claimAvailable,
+  getFailedSubmissionsWithinLast30Days,
   isClaimOpen,
   setPageFocus,
   setTabDocumentTitle,
@@ -22,7 +26,6 @@ import { setUpPage, isTab } from '../utils/page';
 
 // CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
-const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
 
 class FilesPage extends React.Component {
   componentDidMount() {
@@ -69,17 +72,15 @@ class FilesPage extends React.Component {
       status,
       supportingDocuments,
       trackedItems,
-      evidenceWaiverSubmitted5103,
-      claimPhaseDates,
+      evidenceSubmissions,
     } = claim.attributes;
     const isOpen = isClaimOpen(status, closeDate);
-    const waiverSubmitted = evidenceWaiverSubmitted5103;
-    const showDecision =
-      claimPhaseDates.latestPhaseType === FIRST_GATHERING_EVIDENCE_PHASE &&
-      !waiverSubmitted;
 
     const documentsTurnedIn = trackedItems.filter(
       item => !item.status.startsWith(NEED_ITEMS_STATUS),
+    );
+    const failedSubmissionsWithinLast30Days = getFailedSubmissionsWithinLast30Days(
+      evidenceSubmissions,
     );
 
     documentsTurnedIn.push(...supportingDocuments);
@@ -91,13 +92,27 @@ class FilesPage extends React.Component {
     return (
       <div className="claim-files">
         <ClaimFileHeader isOpen={isOpen} />
-        <AdditionalEvidencePage />
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstShowDocumentUploadStatus}>
+          <Toggler.Enabled>
+            <UploadType2ErrorAlert
+              failedSubmissions={failedSubmissionsWithinLast30Days}
+            />
+            <AdditionalEvidencePage additionalEvidenceTitle="Upload additional evidence" />
+            <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
+            <FileSubmissionsInProgress claim={claim} />
+            <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
+            <FilesReceived claim={claim} />
+            <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
+            <FilesWeCouldntReceiveEntryPoint
+              evidenceSubmissions={evidenceSubmissions}
+            />
+            <OtherWaysToSendYourDocuments />
+          </Toggler.Enabled>
           <Toggler.Disabled>
-            {showDecision && <AskVAToDecide />}
+            <AdditionalEvidencePage />
+            <DocumentsFiled claim={claim} />
           </Toggler.Disabled>
         </Toggler>
-        <DocumentsFiled claim={claim} />
       </div>
     );
   }

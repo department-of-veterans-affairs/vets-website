@@ -10,7 +10,11 @@ const errorUUIDs = [
   'details-error',
   'draft-no-slots-error',
   'referral-without-provider-error',
+  'eps-error-appointment-id',
 ];
+
+const ALLOWED_CATEGORIES_OF_CARE = ['optometry'];
+const CHIRO_FEATURE_ALLOWED_CATEGORY = ['chiropractic'];
 
 /**
  * Creates a referral list object relative to a start date.
@@ -25,16 +29,22 @@ const createReferralListItem = (
   expirationDate,
   uuid,
   categoryOfCare = 'OPTOMETRY',
+  stationId = '659',
 ) => {
   const [year, month, day] = expirationDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
   const mydFormat = 'yyyy-MM-dd';
   return {
+    id: uuid,
+    type: 'referrals',
     attributes: {
       expirationDate:
         expirationDate || format(addMonths(relativeDate, 6), mydFormat),
       uuid,
       categoryOfCare,
+      referralNumber: 'VA0000007241',
+      referralConsultId: '984_646907',
+      stationId,
     },
   };
 };
@@ -49,11 +59,12 @@ const errorReferralsList = (errorUUIDs || []).map(uuid => {
 /**
  * Creates a referral object with specified uuid and expiration date.
  *
+ * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} uuid The UUID for the referral
  * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
- * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} categoryOfCare The category of care for the referral
  * @param {Boolean} hasProvider Whether the referral has a provider
+ * @param {String} stationId The station id for the referral
  * @returns {Object} Referral object
  */
 const createReferralById = (
@@ -62,6 +73,7 @@ const createReferralById = (
   expirationDate,
   categoryOfCare = 'OPTOMETRY',
   hasProvider = true,
+  stationId = '659BY',
 ) => {
   const [year, month, day] = startDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
@@ -89,10 +101,10 @@ const createReferralById = (
     attributes: {
       uuid,
       referralDate: '2023-01-01',
-      stationId: '528A4',
+      stationId,
       expirationDate:
         expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-      referralNumber: 'VA0000007241',
+      referralNumber: uuid.includes('error') ? uuid : 'VA0000007241',
       categoryOfCare,
       referralConsultId: '984_646907',
       hasAppointments: false,
@@ -118,6 +130,8 @@ const createReferralById = (
  * @param {Number} numberOfReferrals The number of referrals to create in the array
  * @param {String} baseDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {Number} numberOfExpiringReferrals The number of referrals that should be expired
+ * @param {Boolean} includeErrorReferrals Whether to include error referrals in the array
+ * @param {Boolean} includeOutOfPilotStation Whether to include an out of pilot station referral
  * @returns {Array} Referrals array
  */
 const createReferrals = (
@@ -125,6 +139,7 @@ const createReferrals = (
   baseDate,
   numberOfExpiringReferrals = 0,
   includeErrorReferrals = false,
+  includeOutOfPilotStation = false,
 ) => {
   // create a date object for today that is not affected by the time zone
   const dateOjbect = baseDate ? new Date(baseDate) : new Date();
@@ -134,6 +149,8 @@ const createReferrals = (
     dateOjbect.getUTCDate(),
   );
   const referrals = [];
+
+  const categoriesOfCare = ['OPTOMETRY', 'CHIROPRACTIC'];
 
   for (let i = 0; i < numberOfReferrals; i++) {
     const isExpired = i < numberOfExpiringReferrals;
@@ -147,17 +164,29 @@ const createReferrals = (
     );
     const mydFormat = 'yyyy-MM-dd';
     const expirationDate = format(modifiedDate, mydFormat);
+    const categoryOfCare =
+      i % 2 === 0 ? categoriesOfCare[1] : categoriesOfCare[0];
     referrals.push(
       createReferralListItem(
         expirationDate,
         `${uuidBase}${i.toString().padStart(2, '0')}`,
+        categoryOfCare,
+      ),
+    );
+  }
+  if (includeOutOfPilotStation) {
+    referrals.push(
+      createReferralListItem(
+        '2025-11-14',
+        'out-of-pilot-station',
+        'OPTOMETRY',
+        '123',
       ),
     );
   }
   if (includeErrorReferrals) {
     return [...referrals, ...errorReferralsList];
   }
-
   return [...referrals];
 };
 
@@ -176,14 +205,25 @@ const getReferralSlotKey = id => {
  * @param {Array} referrals The referrals to filter
  * @returns {Array} The filtered referrals
  */
-const filterReferrals = referrals => {
+const filterReferrals = (
+  referrals,
+  featureCCDirectSchedulingChiropractic = false,
+) => {
+  let allowedCategories = ALLOWED_CATEGORIES_OF_CARE;
   if (!referrals?.length) {
     return [];
   }
-
-  return referrals.filter(
-    referral =>
-      referral.attributes.categoryOfCare?.toLowerCase() === 'optometry',
+  if (featureCCDirectSchedulingChiropractic) {
+    // Add chiropractic to allowed categories if feature is on
+    allowedCategories = [
+      ...allowedCategories,
+      ...CHIRO_FEATURE_ALLOWED_CATEGORY,
+    ];
+  }
+  return referrals.filter(referral =>
+    allowedCategories.includes(
+      referral.attributes.categoryOfCare?.toLowerCase(),
+    ),
   );
 };
 

@@ -2,12 +2,12 @@ import React from 'react';
 
 const HowDoIDispute = () => {
   return (
-    <div>
+    <section>
       <h2
         id="howDoIDispute"
         className="vads-u-margin-top--4 vads-u-margin-bottom-2"
       >
-        How to dispute your VA debt
+        How to dispute an overpayment
       </h2>
 
       <p>
@@ -20,13 +20,13 @@ const HowDoIDispute = () => {
         You’ll need to continue making payments on your debt while we review
         your dispute.{' '}
       </p>
-      <a
-        className="vads-c-action-link--blue"
+      <va-link-action
         href="/manage-va-debt/dispute-debt/"
-      >
-        Dispute an overpayment online
-      </a>
-    </div>
+        message-aria-describedby="Opens pay.va.gov"
+        text="Dispute an overpayment online"
+        type="secondary"
+      />
+    </section>
   );
 };
 

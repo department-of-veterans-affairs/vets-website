@@ -67,6 +67,8 @@ const profileContactInfo = ({
   emailSchema,
   phoneSchema,
 
+  allowInternationalPhones = false,
+
   // keys to use in form data
   wrapperKey = 'veteran',
   addressKey = 'mailingAddress',
@@ -132,6 +134,7 @@ const profileContactInfo = ({
           content,
           contactPath,
           editContactInfoHeadingLevel,
+          allowInternationalPhones,
         }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -153,6 +156,7 @@ const profileContactInfo = ({
           content,
           contactPath,
           editContactInfoHeadingLevel,
+          allowInternationalPhones,
         }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -184,8 +188,11 @@ const profileContactInfo = ({
     [contactInfoPageKey]: {
       title: content.title,
       path: contactPath,
-      CustomPage: props =>
-        ContactInfo({
+      CustomPage: props => {
+        const useWebComponentForNavigation =
+          props?.formOptions?.useWebComponentForNavigation;
+
+        return ContactInfo({
           ...props,
           content,
           contactPath,
@@ -195,7 +202,9 @@ const profileContactInfo = ({
           disableMockContactInfo,
           contactSectionHeadingLevel,
           editContactInfoHeadingLevel,
-        }),
+          useWebComponentForNavigation,
+        });
+      },
       CustomPageReview: props =>
         ContactInfoReview({
           ...props,

@@ -37,7 +37,7 @@ ${txtLineDotted}
     .filter(record => record.type === vitalType)
     .map(
       record => `
-${record.dateTime}
+${record.date}
 Result: ${record.measurement}
 Location: ${record.location}
 Provider Notes: ${record.notes}

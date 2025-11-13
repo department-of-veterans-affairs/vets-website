@@ -48,9 +48,16 @@ export const typeOfIncomeLabels = {
   OTHER: 'Other income',
 };
 
-export const careTypeLabels = {
+export const careTypeLabelsOld = {
   CARE_FACILITY: 'Care facility',
   IN_HOME_CARE_PROVIDER: 'In-home care provider',
+};
+
+export const careTypeLabels = {
+  NURSING_HOME: 'Nursing home',
+  CARE_FACILITY: 'Residential care facility',
+  ADULT_DAYCARE: 'Adult daycare',
+  IN_HOME_CARE_PROVIDER: 'In-home care attendant',
 };
 
 export const careFrequencyLabels = {

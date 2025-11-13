@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
@@ -14,6 +15,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
@@ -23,6 +25,11 @@ import {
   PAGE_TITLE_SUFFIX,
   SHOW_8940_4192,
   WIZARD_STATUS,
+  DATA_DOG_TOGGLE,
+  DATA_DOG_ID,
+  DATA_DOG_TOKEN,
+  DATA_DOG_SERVICE,
+  DATA_DOG_VERSION,
 } from './constants';
 import {
   isBDD,
@@ -151,6 +158,35 @@ export const Form526Entry = ({
     },
     [loggedIn],
   );
+
+  const { useFormFeatureToggleSync } = useFeatureToggle();
+  useFormFeatureToggleSync([
+    'disability526Enable2024Form4142',
+    'disability526ToxicExposureOptOutDataPurge',
+    'disabilityCompNewConditionsWorkflow',
+  ]);
+
+  useBrowserMonitoring({
+    loggedIn: true,
+    toggleName: DATA_DOG_TOGGLE,
+    applicationId: DATA_DOG_ID,
+    clientToken: DATA_DOG_TOKEN,
+    service: DATA_DOG_SERVICE,
+    version: DATA_DOG_VERSION,
+    // Current recommendation is to record 100% and filter in DD retention filters, since swap to unlimited plan?
+    // Will confirm
+    sessionReplaySampleRate: 100,
+    defaultPrivacyLevel: 'mask',
+    beforeSend: event => {
+      // Prevent PII from being sent to Datadog with click actions.
+      if (event.action?.type === 'click') {
+        // eslint-disable-next-line no-param-reassign
+        event.action.target.name = 'Clicked item';
+      }
+      return true;
+    },
+    // sessionReplaySampleRate: environment.vspEnvironment() === 'staging' ? 100 : 10,
+  });
 
   if (!loggedIn) {
     // clear service branches if not logged in

@@ -2,24 +2,15 @@ import defaultAllergies from '../fixtures/allergies.json';
 import BaseListPage from './BaseListPage';
 
 class AllergiesListPage extends BaseListPage {
-  clickGotoAllergiesLink = (
-    allergies = defaultAllergies,
-    waitForAllergies = false,
-  ) => {
+  goToAllergies = (allergies = defaultAllergies) => {
     cy.intercept(
       'GET',
-      '/my_health/v1/medical_records/allergies',
+      '/my_health/v1/medical_records/allergies*',
       allergies,
     ).as('allergiesList');
-    cy.get('[href="/my-health/medical-records/vaccines"]').should('be.visible');
-    cy.get('[data-testid="allergies-landing-page-link"]')
-      .should('be.visible')
-      .then(() => {
-        cy.get('[data-testid="allergies-landing-page-link"]').click();
-      });
-    if (waitForAllergies) {
-      cy.wait('@allergiesList');
-    }
+    cy.visit('my-health/medical-records/allergies');
+    // cy.findByTestId('allergies-landing-page-link').click();
+    cy.wait('@allergiesList');
   };
 
   loadVAPaginationNextAllergies = () => {
@@ -34,16 +25,9 @@ class AllergiesListPage extends BaseListPage {
     displayedEndNumber,
     numRecords,
   ) => {
-    cy.get('#showingRecords').should(
-      'have.text',
-      `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from newest to oldest`,
+    cy.findByText(
+      `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from`,
     );
-    cy.focused().then($el => {
-      cy.wrap($el).should(
-        'contain',
-        `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from newest to oldest`,
-      );
-    });
   };
 
   verifyBreadcrumbs = breadcrumbsText => {
@@ -61,7 +45,7 @@ class AllergiesListPage extends BaseListPage {
     cy.get('[data-testid="mhv-sec-nav-item"]')
       .eq(4)
       .find('a')
-      .should('have.attr', 'href', '/my-health/medical-records');
+      .should('have.attr', 'href', '/my-health/medical-records/');
   };
 }
 export default new AllergiesListPage();

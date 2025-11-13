@@ -23,30 +23,6 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'mailing-address': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillAddressWebComponentPattern('address', data.address);
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      'treatment-records/0/name-and-address': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillVaTextInput('root_name', data.treatmentRecords[0].name);
-            cy.fillAddressWebComponentPattern(
-              'address',
-              data.treatmentRecords[0].address,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(() => {

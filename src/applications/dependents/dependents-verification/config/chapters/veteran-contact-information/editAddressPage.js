@@ -3,17 +3,34 @@ import {
   addressUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import EditMailingAddress from '../../../components/EditMailingAddress';
+import EditMailingAddressPage from '../../../components/EditMailingAddressPage';
+import { focusPrefillAlert } from '../../../util/focus';
 
 export default {
   title: 'Edit mailing address',
   path: 'veteran-contact-information/mailing-address',
-  // depends: () => false,
-  CustomPage: EditMailingAddress,
+  CustomPage: EditMailingAddressPage,
   CustomPageReview: null,
   uiSchema: {
     address: {
       ...addressUI(),
+      city: {
+        ...addressUI().city,
+        'ui:validations': [
+          (errors, city, formData) => {
+            const address = formData?.address;
+            const cityStr = city?.trim().toUpperCase();
+
+            if (
+              address &&
+              ['APO', 'FPO', 'DPO'].includes(cityStr) &&
+              address.isMilitary !== true
+            ) {
+              errors.addError('Enter a valid city name');
+            }
+          },
+        ],
+      },
       'ui:options': {
         hideOnReview: true,
       },
@@ -22,8 +39,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      // 'view:pageTitle': blankSchema,
       address: addressSchema(),
     },
   },
+  scrollAndFocusTarget: focusPrefillAlert,
 };

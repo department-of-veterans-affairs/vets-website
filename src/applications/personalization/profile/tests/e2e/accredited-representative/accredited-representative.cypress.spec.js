@@ -14,14 +14,6 @@ describe('Accredited representative', () => {
       '/v0/profile/personal_information',
     ];
     mockGETEndpoints(otherEndpoints, 200, {});
-
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [
-          { name: 'representative_status_enable_v2_features', value: true },
-        ],
-      },
-    });
     cy.intercept(
       'GET',
       '/representative-management/v0/power-of-attorney',
@@ -29,17 +21,51 @@ describe('Accredited representative', () => {
     );
   });
 
-  it('links from the hub page', () => {
-    cy.login(loa3User72);
-    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-    cy.get('a[href$="/profile/accredited-representative"]').should('exist');
-    cy.injectAxeThenAxeCheck();
+  describe('when feature profileShowPaperlessDelivery is false', () => {
+    beforeEach(() => {
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            { name: 'representative_status_enable_v2_features', value: true },
+          ],
+        },
+      });
+    });
+
+    it('links from the hub page', () => {
+      cy.login(loa3User72);
+      cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+      cy.get('a[href$="/profile/accredited-representative"]').should('exist');
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('links from the nav', () => {
+      cy.login(loa3User72);
+      cy.visit(PROFILE_PATHS.ACCREDITED_REPRESENTATIVE);
+      cy.get('a[href$="/profile/accredited-representative"]').should('exist');
+      cy.injectAxeThenAxeCheck();
+    });
   });
 
-  it('links from the nav', () => {
-    cy.login(loa3User72);
-    cy.visit(PROFILE_PATHS.ACCREDITED_REPRESENTATIVE);
-    cy.get('a[href$="/profile/accredited-representative"]').should('exist');
-    cy.injectAxeThenAxeCheck();
+  describe('when feature profile2Enabled is true', () => {
+    beforeEach(() => {
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            { name: 'profile_2_enabled', value: true },
+            { name: 'representative_status_enable_v2_features', value: true },
+          ],
+        },
+      });
+    });
+
+    it('links from the nav', () => {
+      cy.login(loa3User72);
+      cy.visit(PROFILE_PATHS.ACCREDITED_REPRESENTATIVE);
+      cy.get(
+        'va-sidenav-item[href="/profile/accredited-representative"]',
+      ).should('exist');
+      cy.injectAxeThenAxeCheck();
+    });
   });
 });

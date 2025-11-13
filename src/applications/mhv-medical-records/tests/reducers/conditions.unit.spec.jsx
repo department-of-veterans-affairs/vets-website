@@ -120,6 +120,64 @@ describe('convertNewCondition', () => {
   });
 });
 
+describe('convertUnifiedCondition', () => {
+  it('should return null if not passed an argument', () => {
+    expect(convertNewCondition()).to.eq(null);
+  });
+
+  it('should return null if null is passed as argument', () => {
+    expect(convertNewCondition(null)).to.eq(null);
+  });
+
+  it('should correctly format date when date is provided', () => {
+    const condition = {
+      id: '123',
+      name: 'Hypertension',
+      date: '2023-12-07T08:43:00-05:00',
+    };
+
+    const result = convertNewCondition(condition);
+
+    expect(result.date).to.eq('December 7, 2023');
+  });
+
+  it('should return "None recorded" for missing data fields', () => {
+    const condition = {
+      id: '123',
+    };
+
+    const result = convertNewCondition(condition);
+
+    expect(result.name).to.eq(EMPTY_FIELD);
+    expect(result.date).to.eq(EMPTY_FIELD);
+    expect(result.provider).to.eq(EMPTY_FIELD);
+    expect(result.facility).to.eq(EMPTY_FIELD);
+    expect(result.comments).to.eq(EMPTY_FIELD);
+  });
+
+  it('should preserve all original properties and add formatted properties', () => {
+    const condition = {
+      id: '123',
+      name: 'Hypertension',
+      date: '2023-01-10',
+      provider: 'Dr. Smith',
+      facility: 'VA Hospital',
+      comments: ['First visit', 'Follow-up needed'],
+    };
+
+    const result = convertNewCondition(condition);
+
+    expect(result).to.include({
+      id: '123',
+      name: 'Hypertension',
+      date: 'January 10, 2023',
+      provider: 'Dr. Smith',
+      facility: 'VA Hospital',
+    });
+    expect(result.comments).to.deep.equal(['First visit', 'Follow-up needed']);
+  });
+});
+
 describe('conditionReducer', () => {
   describe('GET action', () => {
     it('should use convertCondition for FHIR format responses', () => {
@@ -317,6 +375,198 @@ describe('conditionReducer', () => {
       );
 
       expect(newState.conditionsList).to.have.lengthOf(0);
+    });
+  });
+
+  describe('GET_UNIFIED_LIST action', () => {
+    it('creates a list', () => {
+      const response = {
+        data: [
+          { id: '1', attributes: { id: '1' } },
+          { id: '2', attributes: { id: '2' } },
+          { id: '3', attributes: { id: '3' } },
+        ],
+        resourceType: 'Condition',
+      };
+      const newState = conditionReducer(
+        {},
+        { type: Actions.Conditions.GET_UNIFIED_LIST, response },
+      );
+      expect(newState.conditionsList.length).to.equal(3);
+      expect(newState.updatedList).to.equal(undefined);
+    });
+
+    it('puts new data in conditionsList', () => {
+      const response = {
+        data: [
+          { id: '1', attributes: { id: '1' } },
+          { id: '2', attributes: { id: '2' } },
+          { id: '3', attributes: { id: '3' } },
+        ],
+        resourceType: 'Condition',
+      };
+      const newState = conditionReducer(
+        {
+          conditionsList: [
+            { id: '123', attributes: { id: '123' } },
+            { id: '234', attributes: { id: '234' } },
+          ],
+        },
+        { type: Actions.Conditions.GET_UNIFIED_LIST, response },
+      );
+      expect(newState.conditionsList.length).to.equal(3);
+      expect(newState.conditionsList[0].id).to.equal('1');
+      expect(newState.conditionsList[1].id).to.equal('2');
+      expect(newState.conditionsList[2].id).to.equal('3');
+    });
+
+    it('should use convertUnifiedCondition', () => {
+      const unifiedResponse = {
+        data: [
+          {
+            id: '123',
+            attributes: {
+              id: '123',
+              name: 'Type 2 Diabetes',
+              date: '2023-05-15',
+            },
+          },
+          {
+            id: '456',
+            attributes: {
+              id: '456',
+              name: 'Hypertension',
+              date: '2023-01-10',
+            },
+          },
+        ],
+      };
+
+      const newState = conditionReducer(
+        {},
+        {
+          type: Actions.Conditions.GET_UNIFIED_LIST,
+          response: unifiedResponse,
+          isCurrent: true,
+        },
+      );
+
+      expect(newState.conditionsList).to.have.lengthOf(2);
+      expect(newState.conditionsList[0]).to.include({
+        id: '123',
+        name: 'Type 2 Diabetes',
+      });
+      expect(newState.listState).to.equal(loadStates.FETCHED);
+      expect(newState.listCurrentAsOf).to.be.instanceOf(Date);
+    });
+
+    it('should properly handle no results for unified format responses', () => {
+      const unifiedResponse = { data: [] };
+
+      const newState = conditionReducer(
+        {},
+        {
+          type: Actions.Conditions.GET_LIST,
+          response: unifiedResponse,
+          isCurrent: true,
+        },
+      );
+
+      expect(newState.conditionsList).to.have.lengthOf(0);
+    });
+
+    it('sorts unified list by descending date and pushes invalid/missing dates last', () => {
+      const unifiedResponse = {
+        data: [
+          {
+            id: 'c3',
+            attributes: {
+              id: 'c3',
+              name: 'Oldest Condition',
+              date: '2023-01-10T09:00:00Z',
+            },
+          },
+          {
+            id: 'c1',
+            attributes: {
+              id: 'c1',
+              name: 'Newest Condition',
+              date: '2024-10-05T11:00:00Z',
+            },
+          },
+          {
+            id: 'c2',
+            attributes: {
+              id: 'c2',
+              name: 'Middle Condition',
+              date: '2024-05-15T08:00:00Z',
+            },
+          },
+          {
+            id: 'invalid',
+            attributes: {
+              id: 'invalid',
+              name: 'Invalid Date Condition',
+              date: 'not-a-real-date',
+            },
+          },
+          {
+            id: 'missing',
+            attributes: {
+              id: 'missing',
+              name: 'Missing Date Condition',
+            },
+          },
+        ],
+      };
+
+      const newState = conditionReducer(
+        {},
+        {
+          type: Actions.Conditions.GET_UNIFIED_LIST,
+          response: unifiedResponse,
+          isCurrent: true,
+        },
+      );
+
+      // Expect order: newest (2024-10-05), middle (2024-05-15), oldest (2023-01-10), then invalid, then missing
+      expect(newState.conditionsList.map(c => c.id)).to.deep.equal([
+        'c1',
+        'c2',
+        'c3',
+        'invalid',
+        'missing',
+      ]);
+      expect(newState.listCurrentAsOf).to.be.instanceOf(Date);
+      expect(newState.listState).to.equal(loadStates.FETCHED);
+    });
+
+    it('sets listCurrentAsOf to null when isCurrent is false for unified list', () => {
+      const unifiedResponse = {
+        data: [
+          {
+            id: 'x1',
+            attributes: {
+              id: 'x1',
+              name: 'Chronic Condition',
+              date: '2024-09-01T00:00:00Z',
+            },
+          },
+        ],
+      };
+
+      const newState = conditionReducer(
+        {},
+        {
+          type: Actions.Conditions.GET_UNIFIED_LIST,
+          response: unifiedResponse,
+          isCurrent: false,
+        },
+      );
+
+      expect(newState.conditionsList.map(c => c.id)).to.deep.equal(['x1']);
+      expect(newState.listCurrentAsOf).to.equal(null);
+      expect(newState.listState).to.equal(loadStates.FETCHED);
     });
   });
 

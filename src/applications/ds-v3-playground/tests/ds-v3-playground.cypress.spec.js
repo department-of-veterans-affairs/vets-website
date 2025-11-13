@@ -1,15 +1,18 @@
-import manifest from '../manifest.json';
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 
-describe(manifest.appName, () => {
-  // Skip tests in CI until the app is released.
-  // Remove this block when the app has a content page in production.
-  before(function() {
-    if (Cypress.env('CI')) this.skip();
+describe('DS V3 Playground', () => {
+  beforeEach(() => {
+    // Force a fresh page load to ensure clean state
+    cy.visit('/ds-v3-playground', { timeout: 10000 });
   });
 
   it('is accessible', () => {
-    cy.visit(manifest.rootUrl)
-      .injectAxe()
-      .axeCheck();
+    cy.visit('/ds-v3-playground');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('loads the playground page successfully', () => {
+    cy.visit('/ds-v3-playground');
+    cy.get('h1').should('contain.text', 'VA Design System Component Demos');
   });
 });

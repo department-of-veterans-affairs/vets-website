@@ -18,6 +18,15 @@ const generatePdf = async (templateId, fileName, data, openInTab = false) => {
     throw new UnknownTemplateException(templateId);
   }
 
+  let newWindow;
+  if (openInTab) {
+    // Open new window before generating PDF to avoid popup blockers
+    newWindow = window.open('about:blank');
+    if (newWindow) {
+      newWindow.document.title = 'Loading PDF...';
+    }
+  }
+
   const doc = await template.generate(data);
   const stream = doc.pipe(blobStream());
 
@@ -26,8 +35,7 @@ const generatePdf = async (templateId, fileName, data, openInTab = false) => {
   stream.on('finish', () => {
     const pdf = stream.toBlob('application/pdf');
 
-    if (openInTab) {
-      const newWindow = window.open('/');
+    if (newWindow) {
       newWindow.location = URL.createObjectURL(pdf);
     } else {
       fileSaver.saveAs(pdf, `${fileName}.pdf`);

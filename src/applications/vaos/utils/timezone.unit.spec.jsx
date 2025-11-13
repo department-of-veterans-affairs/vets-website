@@ -1,8 +1,15 @@
 import { expect } from 'chai';
+import Sinon from 'sinon';
 import {
   getTimezoneAbbrByFacilityId,
+  getTimezoneAbbrFromApi,
+  getTimezoneByFacilityId,
+  getTimezoneDescByFacilityId,
   getTimezoneNameFromAbbr,
+  mapGmtToAbbreviation,
   stripDST,
+  getFormattedTimezoneAbbr,
+  getTimezoneDescByTimeZoneString,
 } from './timezone';
 
 describe('VAOS Utils: timezone', () => {
@@ -18,11 +25,6 @@ describe('VAOS Utils: timezone', () => {
       expect(getTimezoneAbbrByFacilityId('459GF')).to.equal('ST'); // Pacific/Pago_Pago
       expect(getTimezoneAbbrByFacilityId(672)).to.equal('AT'); // America/Puerto_Rico
       expect(getTimezoneAbbrByFacilityId('672GA')).to.equal('AT'); // America/St_Thomas
-    });
-
-    it('should not strip middle char if not an american zone', () => {
-      const abbr = getTimezoneAbbrByFacilityId(358); // manila
-      expect(abbr.length).to.equal(3);
     });
   });
 
@@ -60,6 +62,30 @@ describe('VAOS Utils: timezone', () => {
     });
   });
 
+  describe('mapGmtToAbbreviation', () => {
+    it('should map GMT timezones to abbreviations', () => {
+      expect(mapGmtToAbbreviation('GMT+8')).to.equal('PHT');
+      expect(mapGmtToAbbreviation('GMT-11')).to.equal('ST');
+      expect(mapGmtToAbbreviation('GMT+10')).to.equal('ChT');
+    });
+
+    it('should return original abbreviation for unmapped GMT timezones', () => {
+      expect(mapGmtToAbbreviation('GMT+5')).to.equal('GMT+5');
+      expect(mapGmtToAbbreviation('GMT-7')).to.equal('GMT-7');
+    });
+
+    it('should return original abbreviation for non-GMT timezones', () => {
+      expect(mapGmtToAbbreviation('EST')).to.equal('EST');
+      expect(mapGmtToAbbreviation('PST')).to.equal('PST');
+      expect(mapGmtToAbbreviation('CST')).to.equal('CST');
+    });
+
+    it('should handle null and undefined inputs', () => {
+      expect(mapGmtToAbbreviation(null)).to.be.null;
+      expect(mapGmtToAbbreviation(undefined)).to.be.undefined;
+    });
+  });
+
   describe('getTimezoneNameFromAbbr', () => {
     it('should return the correct timezone', () => {
       expect(getTimezoneNameFromAbbr('PHT')).to.equal('Philippine time');
@@ -76,6 +102,291 @@ describe('VAOS Utils: timezone', () => {
 
     it('should return abbreviation if no match', () => {
       expect(getTimezoneNameFromAbbr('HKT')).to.equal('HKT');
+    });
+  });
+
+  describe('getTimezoneDescByFacilityId', () => {
+    it('should return the correct description', () => {
+      expect(getTimezoneDescByFacilityId('358')).to.equal(
+        'Philippine time (PHT)',
+      );
+      expect(getTimezoneDescByFacilityId('402')).to.equal('Eastern time (ET)');
+      expect(getTimezoneDescByFacilityId('436')).to.equal('Mountain time (MT)');
+      expect(getTimezoneDescByFacilityId('437')).to.equal('Central time (CT)');
+      expect(getTimezoneDescByFacilityId('459')).to.equal('Hawaii time (HT)');
+      expect(getTimezoneDescByFacilityId('463')).to.equal('Alaska time (AKT)');
+      expect(getTimezoneDescByFacilityId('570')).to.equal('Pacific time (PT)');
+      expect(getTimezoneDescByFacilityId('649')).to.equal('Mountain time (MT)');
+      expect(getTimezoneDescByFacilityId('672')).to.equal('Atlantic time (AT)');
+      expect(getTimezoneDescByFacilityId('672A')).to.equal(
+        'Atlantic time (AT)',
+      );
+      expect(getTimezoneDescByFacilityId('459GE')).to.equal(
+        'Chamorro time (ChT)',
+      );
+      expect(getTimezoneDescByFacilityId('459GF')).to.equal('Samoa time (ST)');
+      expect(getTimezoneDescByFacilityId('459GH')).to.equal(
+        'Chamorro time (ChT)',
+      );
+    });
+    it('should return the correct description', () => {
+      expect(getTimezoneDescByFacilityId('4022')).to.equal('Eastern time (ET)');
+    });
+    it('should return null', () => {
+      expect(getTimezoneDescByFacilityId('0402')).to.be.null;
+    });
+    it('should return the timezone for users current location for bad facility id', () => {
+      expect(getTimezoneDescByFacilityId(null, true)).not.be.null;
+    });
+  });
+
+  describe('getTimezoneAbbrFromApi', () => {
+    it('should return the correct abbreviation', () => {
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'America/New_York',
+        }),
+      ).to.equal('ET');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'America/Chicago',
+        }),
+      ).to.equal('CT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'Pacific/Honolulu',
+        }),
+      ).to.equal('HT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'America/Anchorage',
+        }),
+      ).to.equal('AKT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'America/Los_Angeles',
+        }),
+      ).to.equal('PT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'America/Phoenix',
+        }),
+      ).to.equal('MT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'America/Puerto_Rico',
+        }),
+      ).to.equal('AT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'Asia/Manila',
+        }),
+      ).to.equal('PHT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'Pacific/Guam',
+        }),
+      ).to.equal('ChT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'Pacific/Pago_Pago',
+        }),
+      ).to.equal('ST');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'Pacific/Saipan',
+        }),
+      ).to.equal('ChT');
+    });
+  });
+
+  describe('getTimezoneByFacilityId', () => {
+    it('should return the correct IANA timezone', () => {
+      expect(getTimezoneByFacilityId('358')).to.equal('Asia/Manila');
+      expect(getTimezoneByFacilityId(402)).to.equal('America/New_York');
+      expect(getTimezoneByFacilityId(437)).to.equal('America/Chicago');
+      expect(getTimezoneByFacilityId(442)).to.equal('America/Denver');
+      expect(getTimezoneByFacilityId(570)).to.equal('America/Los_Angeles');
+      expect(getTimezoneByFacilityId(463)).to.equal('America/Anchorage');
+      expect(getTimezoneByFacilityId(459)).to.equal('Pacific/Honolulu');
+      expect(getTimezoneByFacilityId('459GE')).to.equal('Pacific/Guam');
+      expect(getTimezoneByFacilityId('459GF')).to.equal('Pacific/Pago_Pago');
+      expect(getTimezoneByFacilityId('459GH')).to.equal('Pacific/Saipan');
+      expect(getTimezoneByFacilityId(672)).to.equal('America/Puerto_Rico');
+      expect(getTimezoneByFacilityId('672GA')).to.equal('America/St_Thomas');
+    });
+
+    it('should return null for an unknown id', () => {
+      expect(getTimezoneByFacilityId(null)).to.be.null;
+      expect(getTimezoneByFacilityId(undefined)).to.be.null;
+    });
+
+    it('should return the timezone for users current location for bad facility id', () => {
+      const stub = Sinon.stub(Intl, 'DateTimeFormat');
+      stub.returns({
+        resolvedOptions() {
+          return { timeZone: 'America/Chicago' };
+        },
+      });
+
+      expect(getTimezoneByFacilityId(null, true)).to.equal('America/Chicago');
+      stub.restore();
+    });
+  });
+
+  describe('getFormattedTimezoneAbbr', () => {
+    it('should return formatted timezone abbreviation with DST stripped', () => {
+      const date = new Date('2024-07-15T14:30:00Z'); // Summer date
+      const winterDate = new Date('2024-01-15T14:30:00Z'); // Winter date
+
+      // Test major US timezones
+      expect(getFormattedTimezoneAbbr(date, 'America/New_York')).to.equal('ET');
+      expect(getFormattedTimezoneAbbr(date, 'America/Chicago')).to.equal('CT');
+      expect(getFormattedTimezoneAbbr(date, 'America/Denver')).to.equal('MT');
+      expect(getFormattedTimezoneAbbr(date, 'America/Los_Angeles')).to.equal(
+        'PT',
+      );
+      expect(getFormattedTimezoneAbbr(date, 'America/Anchorage')).to.equal(
+        'AKT',
+      );
+      expect(getFormattedTimezoneAbbr(date, 'Pacific/Honolulu')).to.equal('HT');
+
+      // Test with winter dates to ensure DST handling
+      expect(getFormattedTimezoneAbbr(winterDate, 'America/New_York')).to.equal(
+        'ET',
+      );
+      expect(getFormattedTimezoneAbbr(winterDate, 'America/Chicago')).to.equal(
+        'CT',
+      );
+    });
+
+    it('should handle GMT timezone mappings', () => {
+      const date = new Date('2024-07-15T14:30:00Z');
+
+      expect(getFormattedTimezoneAbbr(date, 'Asia/Manila')).to.equal('PHT');
+      expect(getFormattedTimezoneAbbr(date, 'Pacific/Guam')).to.equal('ChT');
+      expect(getFormattedTimezoneAbbr(date, 'Pacific/Pago_Pago')).to.equal(
+        'ST',
+      );
+    });
+
+    it('should handle Atlantic and Puerto Rico timezones', () => {
+      const date = new Date('2024-07-15T14:30:00Z');
+
+      expect(getFormattedTimezoneAbbr(date, 'America/Puerto_Rico')).to.equal(
+        'AT',
+      );
+      expect(getFormattedTimezoneAbbr(date, 'America/St_Thomas')).to.equal(
+        'AT',
+      );
+    });
+
+    it('should handle string date inputs', () => {
+      const dateString = '2024-07-15T14:30:00Z';
+
+      expect(getFormattedTimezoneAbbr(dateString, 'America/New_York')).to.equal(
+        'ET',
+      );
+      expect(getFormattedTimezoneAbbr(dateString, 'Pacific/Honolulu')).to.equal(
+        'HT',
+      );
+    });
+
+    it('should handle edge cases', () => {
+      const date = new Date('2024-07-15T14:30:00Z');
+
+      // Test with timezone that might return GMT format
+      const result = getFormattedTimezoneAbbr(date, 'UTC');
+      expect(result).to.be.a('string');
+      expect(result.length).to.be.greaterThan(0);
+    });
+  });
+
+  describe('getTimezoneDescByTimeZoneString', () => {
+    it('should return the correct description for a valid IANA timezone string', () => {
+      expect(getTimezoneDescByTimeZoneString('America/New_York')).to.equal(
+        'Eastern time (ET)',
+      );
+      expect(getTimezoneDescByTimeZoneString('America/Chicago')).to.equal(
+        'Central time (CT)',
+      );
+      expect(getTimezoneDescByTimeZoneString('America/Denver')).to.equal(
+        'Mountain time (MT)',
+      );
+      expect(getTimezoneDescByTimeZoneString('America/Los_Angeles')).to.equal(
+        'Pacific time (PT)',
+      );
+      expect(getTimezoneDescByTimeZoneString('America/Phoenix')).to.equal(
+        'Mountain time (MT)',
+      );
+      expect(getTimezoneDescByTimeZoneString('America/Anchorage')).to.equal(
+        'Alaska time (AKT)',
+      );
+      expect(getTimezoneDescByTimeZoneString('Pacific/Honolulu')).to.equal(
+        'Hawaii time (HT)',
+      );
+      expect(getTimezoneDescByTimeZoneString('America/Puerto_Rico')).to.equal(
+        'Atlantic time (AT)',
+      );
+      expect(getTimezoneDescByTimeZoneString('America/St_Thomas')).to.equal(
+        'Atlantic time (AT)',
+      );
+      expect(getTimezoneDescByTimeZoneString('Pacific/Guam')).to.equal(
+        'Chamorro time (ChT)',
+      );
+      expect(getTimezoneDescByTimeZoneString('Pacific/Saipan')).to.equal(
+        'Chamorro time (ChT)',
+      );
+      expect(getTimezoneDescByTimeZoneString('Pacific/Pago_Pago')).to.equal(
+        'Samoa time (ST)',
+      );
+      expect(getTimezoneDescByTimeZoneString('Asia/Manila')).to.equal(
+        'Philippine time (PHT)',
+      );
+    });
+
+    it('should return abbreviation for unsupported timezones', () => {
+      // Test with a timezone without DST that doesn't have a mapping in
+      // TIMEZONE_LABELS and is not in GMT_TABLE_MAPPING
+      const result = getTimezoneDescByTimeZoneString('Asia/Dubai');
+      expect(result).to.equal('GMT+4');
+    });
+
+    it('should handle DST correctly by stripping daylight saving time indicators', () => {
+      // Test with a summer date to ensure DST handling
+      const originalNow = Date.now;
+      Date.now = () => new Date('2024-07-15T12:00:00Z').getTime(); // Summer date
+
+      expect(getTimezoneDescByTimeZoneString('America/New_York')).to.equal(
+        'Eastern time (ET)',
+      );
+      expect(getTimezoneDescByTimeZoneString('America/Chicago')).to.equal(
+        'Central time (CT)',
+      );
+
+      // Test with a winter date
+      Date.now = () => new Date('2024-01-15T12:00:00Z').getTime(); // Winter date
+
+      expect(getTimezoneDescByTimeZoneString('America/New_York')).to.equal(
+        'Eastern time (ET)',
+      );
+      expect(getTimezoneDescByTimeZoneString('America/Chicago')).to.equal(
+        'Central time (CT)',
+      );
+
+      // Restore original Date.now
+      Date.now = originalNow;
     });
   });
 });

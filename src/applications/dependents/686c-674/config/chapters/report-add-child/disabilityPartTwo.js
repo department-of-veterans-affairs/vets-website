@@ -7,7 +7,7 @@ import React from 'react';
 
 export const disabilityPartTwo = {
   uiSchema: {
-    ...titleUI('Child’s disability'),
+    ...titleUI('Child’s disability details'),
 
     doesChildHavePermanentDisability: yesNoUI({
       title:
@@ -39,6 +39,7 @@ export const disabilityPartTwo = {
   },
   schema: {
     type: 'object',
+    required: ['doesChildHavePermanentDisability'],
     properties: {
       doesChildHavePermanentDisability: yesNoSchema,
       'view:disabilityInfo': {

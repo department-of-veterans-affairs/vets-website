@@ -1,7 +1,16 @@
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import { getFullName, maskID, isEmptyObject } from '../../utils';
+import sinon from 'sinon';
+import {
+  getFullName,
+  makeNamePossessive,
+  maskID,
+  isEmptyObject,
+  getRootParentUrl,
+  hideDependentsWarning,
+  getIsDependentsWarningHidden,
+} from '../../utils';
 
 describe('getFullName', () => {
   it('should return empty string for undefined name object', () => {
@@ -40,6 +49,17 @@ describe('getFullName', () => {
     };
     const fullName = getFullName(name);
     expect(fullName).to.equal('John A. Doe, Jr.');
+  });
+});
+
+describe('makeNamePossessive', () => {
+  it('should add an apostrophe + s to names not ending with an s', () => {
+    expect(makeNamePossessive('Fred')).to.equal('Fred’s');
+    expect(makeNamePossessive('ALEX')).to.equal('ALEX’s');
+  });
+  it('should only add an apostrophe to names ending with an s', () => {
+    expect(makeNamePossessive('JESS')).to.equal('JESS’');
+    expect(makeNamePossessive('Chris')).to.equal('Chris’');
   });
 });
 
@@ -83,5 +103,107 @@ describe('isEmptyObject', () => {
   it('should return false for an object with non-empty nested objects', () => {
     const result = isEmptyObject({ a: { b: 'value' } });
     expect(result).to.be.false;
+  });
+});
+
+describe('getRootParentUrl', () => {
+  it('should return the root parent URL for a URL without trailing slash', () => {
+    expect(getRootParentUrl('/root/app-name/')).to.equal('/root');
+    expect(
+      getRootParentUrl('/view-change-dependents/add-remove-form-21-686c-674'),
+    ).to.equal('/view-change-dependents');
+    expect(
+      getRootParentUrl('/manage-dependents/add-remove-form-21-686c-674'),
+    ).to.equal('/manage-dependents');
+    expect(
+      getRootParentUrl('/view-change-dependents/add-remove-form-21-686c-674/'),
+    ).to.equal('/view-change-dependents');
+    expect(
+      getRootParentUrl('/manage-dependents/add-remove-form-21-686c-674/'),
+    ).to.equal('/manage-dependents');
+  });
+});
+describe('getIsDependentsWarningHidden', () => {
+  beforeEach(() => {
+    // Clear localStorage before each test
+    localStorage.clear();
+  });
+
+  afterEach(() => {
+    // Clean up localStorage after each test
+    localStorage.clear();
+  });
+
+  it('should return false when no warning date is stored', () => {
+    const result = getIsDependentsWarningHidden();
+    expect(result).to.be.false;
+  });
+
+  it('should return true when a valid date is stored', () => {
+    const testDate = '2023-12-01T10:00:00.000Z';
+    localStorage.setItem('viewDependentsWarningClosedAt', testDate);
+
+    const result = getIsDependentsWarningHidden();
+    expect(result).to.be.true;
+  });
+
+  it('should return false when an invalid date string is stored', () => {
+    localStorage.setItem('viewDependentsWarningClosedAt', 'invalid-date');
+
+    const result = getIsDependentsWarningHidden();
+    expect(result).to.be.false;
+  });
+
+  it('should return false when an empty string is stored', () => {
+    localStorage.setItem('viewDependentsWarningClosedAt', '');
+
+    const result = getIsDependentsWarningHidden();
+    expect(result).to.be.false;
+  });
+
+  it('should return false when null is stored', () => {
+    localStorage.setItem('viewDependentsWarningClosedAt', 'null');
+
+    const result = getIsDependentsWarningHidden();
+    expect(result).to.be.false;
+  });
+});
+describe('hideDependentsWarning', () => {
+  let clock;
+
+  beforeEach(() => {
+    const fixed = new Date('2023-12-01T10:00:00.000Z').getTime();
+    clock = sinon.useFakeTimers({ now: fixed, toFake: ['Date'] });
+  });
+  afterEach(() => clock.restore());
+
+  it('should store the current date in localStorage', () => {
+    hideDependentsWarning();
+
+    const storedValue = localStorage.getItem('viewDependentsWarningClosedAt');
+    expect(storedValue).to.equal('2023-12-01T10:00:00.000Z');
+  });
+
+  it('should overwrite existing stored date', () => {
+    // Set an initial date
+    localStorage.setItem(
+      'viewDependentsWarningClosedAt',
+      '2023-01-01T00:00:00.000Z',
+    );
+
+    hideDependentsWarning();
+
+    const storedValue = localStorage.getItem('viewDependentsWarningClosedAt');
+    expect(storedValue).to.equal('2023-12-01T10:00:00.000Z');
+  });
+
+  it('should store a valid ISO string that can be parsed', () => {
+    hideDependentsWarning();
+
+    const storedValue = localStorage.getItem('viewDependentsWarningClosedAt');
+    const parsedDate = new Date(storedValue);
+
+    expect(Number.isNaN(parsedDate.getTime())).to.be.false;
+    expect(parsedDate.toISOString()).to.equal('2023-12-01T10:00:00.000Z');
   });
 });

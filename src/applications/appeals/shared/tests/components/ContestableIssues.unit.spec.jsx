@@ -63,13 +63,13 @@ describe('<ContestableIssues>', () => {
 
   it('should render a list of check boxes (IssueCard component)', () => {
     const props = getProps();
-
     const { container } = render(<ContestableIssues {...props} />);
-    expect($$('input[type="checkbox"]', container).length).to.equal(
+
+    expect($$('va-checkbox', container).length).to.equal(
       props.formData.contestedIssues.length +
         props.formData.additionalIssues.length,
     );
-    expect($('.widget-title', container).textContent).to.equal('issue-1');
+    expect(container.querySelectorAll('[label="issue-1"]')).to.have.lengthOf(1);
   });
   it('should render edit link & remove button', () => {
     const props = getProps();
@@ -96,7 +96,7 @@ describe('<ContestableIssues>', () => {
     $$('.widget-checkbox-wrap', container).forEach(async (element, index) => {
       testChange.reset();
 
-      const checkbox = $('input', element);
+      const checkbox = $('va-checkbox', element);
       // "Click" the option
       await fireEvent.click(checkbox);
 
@@ -115,21 +115,23 @@ describe('<ContestableIssues>', () => {
     });
   });
 
-  it('should call set form data when an api loaded checkbox is toggled', () => {
+  it('should call set form data when an api loaded checkbox is toggled', async () => {
     const setFormDataSpy = sinon.spy();
     const props = getProps({ setFormData: setFormDataSpy, testChange: null });
     const { container } = render(<ContestableIssues {...props} />);
 
-    const checkbox = $('input', container);
+    $$('.widget-checkbox-wrap', container).forEach(async element => {
+      const checkbox = $('va-checkbox', element);
 
-    // "Click" the option
-    fireEvent.click(checkbox);
+      // "Click" the option
+      await fireEvent.click(checkbox);
 
-    // Check that it changed in the form data
-    expect(setFormDataSpy.called).to.be.true;
-    expect(setFormDataSpy.args[0][0].contestedIssues[0]).to.deep.equal({
-      ...props.formData.contestedIssues[0],
-      [SELECTED]: true,
+      // Check that it changed in the form data
+      expect(setFormDataSpy.called).to.be.true;
+      expect(setFormDataSpy.args[0][0].contestedIssues[0]).to.deep.equal({
+        ...props.formData.contestedIssues[0],
+        [SELECTED]: true,
+      });
     });
   });
 
@@ -142,16 +144,18 @@ describe('<ContestableIssues>', () => {
     });
     const { container } = render(<ContestableIssues {...props} />);
 
-    const checkbox = $('input', container);
+    $$('.widget-checkbox-wrap', container).forEach(async element => {
+      const checkbox = $('input', element);
 
-    // "Click" the option
-    fireEvent.click(checkbox);
+      // "Click" the option
+      fireEvent.click(checkbox);
 
-    // Check that it changed in the form data
-    expect(setFormDataSpy.called).to.be.true;
-    expect(setFormDataSpy.args[0][0].additionalIssues[0]).to.deep.equal({
-      ...props.formData.additionalIssues[0],
-      [SELECTED]: true,
+      // Check that it changed in the form data
+      expect(setFormDataSpy.called).to.be.true;
+      expect(setFormDataSpy.args[0][0].additionalIssues[0]).to.deep.equal({
+        ...props.formData.additionalIssues[0],
+        [SELECTED]: true,
+      });
     });
   });
 
@@ -159,17 +163,20 @@ describe('<ContestableIssues>', () => {
     const props = getProps({
       loadedIssues: new Array(100).fill({ [SELECTED]: true }),
     });
+
     const { container } = render(<ContestableIssues {...props} />);
 
-    const lastCheckbox = $$('input', container).slice(-1)[0];
+    $$('.widget-checkbox-wrap', container).forEach(async element => {
+      const lastCheckbox = $$('input', element).slice(-1)[0];
 
-    // Click last checkbox
-    await fireEvent.click(lastCheckbox);
+      // Click last checkbox
+      await fireEvent.click(lastCheckbox);
 
-    const errorModal = $('va-modal[visible]', container);
-    expect(errorModal).to.exist;
+      const errorModal = $('va-modal[visible]', container);
+      expect(errorModal).to.exist;
 
-    errorModal.__events.closeEvent();
+      errorModal.__events.closeEvent();
+    });
   });
 
   it('should not show an error on submission with one selection', () => {
@@ -181,7 +188,9 @@ describe('<ContestableIssues>', () => {
   it('should show an error when submitted with no selections', async () => {
     const props = getProps({ submitted: true });
     const { container } = render(<ContestableIssues {...props} />);
-    expect($$('va-alert', container).length).to.equal(1);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(1);
     const alert = $('va-alert', container);
     expect(alert.innerHTML).to.contain(
       'at least 1 issue before you can continue',
@@ -282,7 +291,9 @@ describe('<ContestableIssues>', () => {
       <ContestableIssues {...props} contestedIssues={[]} />,
     );
 
-    expect($$('va-alert', container).length).to.equal(1);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(1);
     expect($('va-alert', container).innerHTML).to.contain(
       'We can’t load your issues right now',
     );
@@ -293,7 +304,9 @@ describe('<ContestableIssues>', () => {
     const { container } = render(
       <ContestableIssues {...props} formData={{}} />,
     );
-    expect($$('va-alert', container).length).to.equal(1);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(1);
     expect($('va-alert', container).innerHTML).to.contain(
       'we couldn’t find any eligible issues',
     );
@@ -308,7 +321,9 @@ describe('<ContestableIssues>', () => {
       <ContestableIssues {...props} contestedIssues={[]} />,
     );
 
-    expect($$('va-alert', container).length).to.equal(0);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(0);
   });
 
   it('should not show an alert when api is successful, and after adding an additional issues', async () => {
@@ -320,7 +335,9 @@ describe('<ContestableIssues>', () => {
       <ContestableIssues {...props} contestedIssues={[]} />,
     );
 
-    expect($$('va-alert', container).length).to.equal(0);
+    expect(
+      $$('va-alert:not(#blocked-issues-alert)', container).length,
+    ).to.equal(0);
   });
 
   it('should not show an alert if no issues are loaded, and after all additional issues are removed', async () => {
@@ -339,7 +356,9 @@ describe('<ContestableIssues>', () => {
     rerender(<ContestableIssues {...newProps} />);
 
     await waitFor(() => {
-      expect($$('va-alert', container).length).to.eq(0);
+      expect($$('va-alert:not(#blocked-issues-alert)', container).length).to.eq(
+        0,
+      );
     });
   });
 
@@ -350,5 +369,118 @@ describe('<ContestableIssues>', () => {
       <ContestableIssues {...props} formData={{}} />,
     );
     expect($$('input[type="checkbox"]', container).length).to.equal(0);
+  });
+
+  describe('blocked issues functionality', () => {
+    it('should display blocked message when issues have today decision dates', () => {
+      const today = new Date();
+      const todayString = today.toISOString().split('T')[0];
+
+      const issuesWithToday = [
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Back Pain',
+            approxDecisionDate: todayString,
+          },
+        },
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Knee Injury',
+            approxDecisionDate: '2023-06-15',
+          },
+        },
+      ];
+
+      const props = getProps({ loadedIssues: issuesWithToday });
+      const { container } = render(<ContestableIssues {...props} />);
+
+      const blockedAlert = $('#blocked-issues-alert', container);
+      expect(blockedAlert).to.exist;
+      expect(blockedAlert.textContent).to.include(
+        "Your back pain issue isn't available",
+      );
+    });
+
+    it('should display blocked message for multiple blocked issues with correct plural grammar', () => {
+      const today = new Date();
+      const todayString = today.toISOString().split('T')[0];
+
+      const multipleBlockedIssues = [
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Back Pain',
+            approxDecisionDate: todayString,
+          },
+        },
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Knee Injury',
+            approxDecisionDate: todayString,
+          },
+        },
+      ];
+
+      const props = getProps({ loadedIssues: multipleBlockedIssues });
+      const { container } = render(<ContestableIssues {...props} />);
+
+      const blockedAlert = $('#blocked-issues-alert', container);
+      expect(blockedAlert).to.exist;
+      expect(blockedAlert.textContent).to.include(
+        "Your back pain and knee injury issues aren't available",
+      );
+    });
+
+    it('should not display blocked message when no issues are blocked', () => {
+      const pastIssues = [
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Back Pain',
+            approxDecisionDate: '2023-06-15',
+          },
+        },
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Knee Injury',
+            approxDecisionDate: '2023-08-20',
+          },
+        },
+      ];
+
+      const props = getProps({ loadedIssues: pastIssues });
+      const { container } = render(<ContestableIssues {...props} />);
+
+      const blockedAlert = $('#blocked-issues-alert', container);
+      expect(blockedAlert).to.exist;
+      expect(blockedAlert.getAttribute('visible')).to.equal('false');
+    });
+
+    it('should display separator between blocked and non-blocked issues', () => {
+      const today = new Date();
+      const todayString = today.toISOString().split('T')[0];
+
+      const mixedIssues = [
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Blocked Issue',
+            approxDecisionDate: todayString,
+          },
+        },
+        {
+          attributes: {
+            ratingIssueSubjectText: 'Available Issue',
+            approxDecisionDate: '2023-06-15',
+          },
+        },
+      ];
+
+      const props = getProps({ loadedIssues: mixedIssues });
+      const { container } = render(<ContestableIssues {...props} />);
+
+      // Check that visual separation exists between blocked and non-blocked issues
+      const elementsWithSeparator = container.querySelectorAll(
+        '[class*="vads-u-border-top--1px"][class*="vads-u-border-color--gray-light"]',
+      );
+      expect(elementsWithSeparator.length).to.equal(2);
+    });
   });
 });

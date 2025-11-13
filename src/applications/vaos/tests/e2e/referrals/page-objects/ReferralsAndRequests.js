@@ -34,6 +34,25 @@ export class ReferralsAndRequestsPageObject extends PageObject {
   }
 
   /**
+   * Asserts the type of care is present for referral list
+   * @param {Object} options - Options for assertion
+   * @param {boolean} options.exist - Whether type of care should exist
+   * @param {string} options.typeOfCare - Type of care to assert
+   */
+  assertTypeOfCare({ exist = true, typeOfCare = 'OPTOMETRY' } = {}) {
+    if (exist) {
+      cy.findAllByTestId('typeOfCare')
+        .contains(new RegExp(`${typeOfCare}`, 'i'))
+        .should('exist');
+    } else {
+      cy.findAllByTestId('typeOfCare')
+        .should('have.length.greaterThan', 0)
+        .should('not.contain.text', typeOfCare);
+    }
+    return this;
+  }
+
+  /**
    * Validates that an API error message is displayed when referrals list fails to load
    */
   assertApiError() {
@@ -55,6 +74,23 @@ export class ReferralsAndRequestsPageObject extends PageObject {
         });
       });
 
+    return this;
+  }
+
+  /**
+   * Validates that the online scheduling not available message is displayed on a referral card
+   */
+  assertOnlineSchedulingNotAvailableAlert(index = 0) {
+    cy.findAllByTestId('referral-not-available-list-item')
+      .eq(index)
+      .within(() => {
+        cy.findByTestId('referral-not-available-alert').within(() => {
+          cy.findByText(
+            /Online scheduling isn’t available for this referral right now. Call your community care provider or your facility’s community care office to schedule an appointment./i,
+          ).should('exist');
+          cy.findByTestId('referral-community-care-office').should('exist');
+        });
+      });
     return this;
   }
 

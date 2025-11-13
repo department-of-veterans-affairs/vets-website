@@ -4,7 +4,9 @@ import {
   getCardDescription,
   getDeleteTitle,
   getDeleteYes,
+  getDeleteNo,
   getDeleteDescription,
+  isItemIncomplete,
 } from '../../../utils/helpers/nextOfKinUtils';
 import content from '../../../locales/en/content.json';
 import {
@@ -13,6 +15,7 @@ import {
   nextOfKinSummaryPage,
 } from '../../../definitions/nextOfKin';
 import { MAX_NEXT_OF_KINS } from '../../../utils/constants';
+import NextOfKinsMaxAlert from '../../../components/FormAlerts/NextOfKinsMaxAlert';
 
 /**
  * Declare attributes for array builder pattern
@@ -21,20 +24,16 @@ import { MAX_NEXT_OF_KINS } from '../../../utils/constants';
 const arrayBuilderOptions = {
   arrayPath: 'nextOfKins',
   nounSingular: 'next of kin',
-  nounPlural: 'next of kin',
+  nounPlural: 'next of kins',
   required: false,
   maxItems: MAX_NEXT_OF_KINS,
-  hideMaxItemsAlert: true,
-  isItemIncomplete: item =>
-    !item?.fullName?.first ||
-    !item?.fullName?.last ||
-    !item?.primaryPhone ||
-    !item?.relationship,
+  isItemIncomplete,
   text: {
     getItemName,
     cardDescription: getCardDescription,
     deleteTitle: getDeleteTitle,
     deleteYes: getDeleteYes,
+    deleteNo: getDeleteNo,
     deleteDescription: getDeleteDescription,
     cancelAddDescription: () =>
       content['next-of-kin-cancel-add-description-text'],
@@ -49,6 +48,7 @@ const arrayBuilderOptions = {
     yesNoBlankReviewQuestion: () =>
       content['next-of-kin-summary-yes-no-blank-review-question'],
     reviewAddButtonText: () => content['next-of-kin-summary-add-button-text'],
+    alertMaxItems: NextOfKinsMaxAlert,
   },
 };
 

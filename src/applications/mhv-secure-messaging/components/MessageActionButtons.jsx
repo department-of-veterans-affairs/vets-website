@@ -116,6 +116,7 @@ const MessageActionButtons = props => {
 };
 
 MessageActionButtons.propTypes = {
+  threadId: PropTypes.number.isRequired,
   handleEditDraftButton: PropTypes.func,
   hasMultipleDrafts: PropTypes.bool,
   hideReplyButton: PropTypes.bool,
@@ -123,7 +124,6 @@ MessageActionButtons.propTypes = {
   messageId: PropTypes.number,
   setIsCreateNewModalVisible: PropTypes.func,
   showEditDraftButton: PropTypes.bool,
-  threadId: PropTypes.number,
 };
 
 export default MessageActionButtons;

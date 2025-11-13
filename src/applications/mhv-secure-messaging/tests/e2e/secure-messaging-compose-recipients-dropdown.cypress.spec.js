@@ -12,7 +12,7 @@ describe('recipients dropdown box', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
     PatientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
@@ -38,9 +38,9 @@ describe('recipients dropdown box', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
 
-    // ad assertion to check blocked group does not exist in the dd list
+    // add assertion to check blocked group does not exist in the dd list
 
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
     PatientInterstitialPage.getContinueButton().click();
     cy.wait('@recipients').then(() => {
       cy.get(Locators.ALERTS.REPT_SELECT)

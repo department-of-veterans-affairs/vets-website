@@ -55,7 +55,7 @@ export const IntroductionPage = ({
                 href="https://www.va.gov/education/other-va-education-benefits"
                 rel="noreferrer"
               >
-                Learn more about other other education benefits
+                Learn more about other education benefits
               </a>
             </div>
           </va-alert>
@@ -90,8 +90,8 @@ export const IntroductionPage = ({
                 <ul>
                   <li>
                     Your sponsor’s transferred GI Bill benefits. Make sure your
-                    sponsor has transferred benefits before starting this
-                    application. Your sponsor can{' '}
+                    sponsor has transferred GI bill benefits before starting
+                    this application. Your sponsor can{' '}
                     <a href="https://milconnect.dmdc.osd.mil/milconnect/">
                       update this information on the DoD milConnect website
                     </a>
@@ -121,8 +121,8 @@ export const IntroductionPage = ({
                     <strong>Note:</strong> In some cases, we may need more time
                     to make a decision. If you don’t get an automatic decision
                     right after you apply, you’ll receive a decision letter in
-                    the mail in about 30 days. And we’ll contact you if we need
-                    more information.
+                    the mail in about 30 days. We’ll contact you if we need more
+                    information.
                   </p>
                 </va-additional-info>
               </li>
@@ -201,8 +201,8 @@ export const IntroductionPage = ({
                     <strong>Note</strong>: In some cases, we may need more time
                     to make a decision. If you don’t get an automatic decision
                     right after you apply, you’ll receive a decision letter in
-                    the mail in about 30 days. And we’ll contact you if we need
-                    more information.
+                    the mail in about 30 days. We’ll contact you if we need more
+                    information.
                   </p>
                 </va-additional-info>
               </li>

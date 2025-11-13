@@ -1,6 +1,6 @@
 class CommunicationChannel {
   constructor({ type, parentItemId, permissionId, isAllowed, wasAllowed }) {
-    if (typeof type !== 'number' || type < 1 || type > 2) {
+    if (typeof type !== 'number' || type < 1 || type > 3) {
       throw new Error(
         'Invalid Argument: options.type must be a valid channel type',
       );

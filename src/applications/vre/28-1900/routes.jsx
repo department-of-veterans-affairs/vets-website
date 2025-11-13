@@ -1,20 +1,13 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import formConfig from './config/form';
-import App from './containers/App.jsx';
-import FormApp from './containers/FormApp.jsx';
+import App from './containers/App';
 
 const routes = [
   {
-    path: '/start',
-    component: App,
-  },
-  {
     path: '/',
-    component: FormApp,
+    component: App,
+    indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
     childRoutes: createRoutesWithSaveInProgress(formConfig),
-    indexRoute: {
-      onEnter: (nextState, replace) => replace('/introduction'),
-    },
   },
 ];
 

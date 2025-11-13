@@ -1,6 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import React from 'react';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { cloneDeep } from 'lodash';
 import {
   checkboxGroupSchema,
   checkboxGroupUI,
@@ -30,7 +31,7 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import { CustomApplicantSSNPage } from '../pages/CustomApplicantSSNPage';
+import { CustomApplicantSSNPage } from '../../shared/components/CustomApplicantSSNPage';
 import {
   flattenApplicantSSN,
   flattenSponsorSSN,
@@ -54,13 +55,13 @@ import {
 import {
   certifierNameValidation,
   certifierAddressValidation,
-  validateSponsorSsnIsUnique,
-  validateApplicantSsnIsUnique,
 } from '../helpers/validations';
 import {
   sponsorAddressCleanValidation,
   certifierAddressCleanValidation,
   applicantAddressCleanValidation,
+  validateSponsorSsnIsUnique,
+  validateApplicantSsnIsUnique,
 } from '../../shared/validations';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
@@ -123,6 +124,7 @@ import {
   marriageDatesSchema,
   depends18f3,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
+import ApplicantSponsorMarriageDatePage from '../pages/ApplicantSponsorMarriageDatePage';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import {
   signerContactInfoPage,
@@ -147,6 +149,9 @@ function showFileOverviewPage(formData) {
     return false;
   }
 }
+
+const veteranFullNameUI = cloneDeep(fullNameUI());
+veteranFullNameUI.middle['ui:title'] = 'Middle initial';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -245,7 +250,7 @@ const formConfig = {
           title: 'Your name',
           uiSchema: {
             ...titleUI('Your name'),
-            certifierName: fullNameUI(),
+            certifierName: veteranFullNameUI,
             'ui:validations': [certifierNameValidation],
           },
           schema: {
@@ -253,7 +258,16 @@ const formConfig = {
             required: ['certifierName'],
             properties: {
               titleSchema,
-              certifierName: fullNameSchema,
+              certifierName: {
+                ...fullNameSchema,
+                properties: {
+                  ...fullNameSchema.properties,
+                  middle: {
+                    type: 'string',
+                    maxLength: 1,
+                  },
+                },
+              },
             },
           },
         },
@@ -599,6 +613,12 @@ const formConfig = {
               }),
               'ui:required': () => true,
             },
+            sponsorEmail: {
+              ...emailUI(),
+              'ui:options': {
+                hideIf: formData => !formData.champvaForm1010d2027,
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -606,6 +626,7 @@ const formConfig = {
             properties: {
               titleSchema,
               sponsorPhone: phoneSchema,
+              sponsorEmail: emailSchema,
             },
           },
         },
@@ -639,14 +660,23 @@ const formConfig = {
                 itemAriaLabel: item => `${applicantWording(item, false)}`,
               },
               items: {
-                applicantName: fullNameUI(),
+                applicantName: veteranFullNameUI,
                 applicantDob: dateOfBirthUI({ required: () => true }),
               },
             },
           },
           schema: applicantListSchema(['applicantDob'], {
             titleSchema,
-            applicantName: fullNameSchema,
+            applicantName: {
+              ...fullNameSchema,
+              properties: {
+                ...fullNameSchema.properties,
+                middle: {
+                  type: 'string',
+                  maxLength: 1,
+                },
+              },
+            },
             applicantDob: dateOfBirthSchema,
           }),
         },
@@ -1221,6 +1251,8 @@ const formConfig = {
           depends: (formData, index) => depends18f3(formData, index),
           uiSchema: marriageDatesSchema.noRemarriageUiSchema,
           schema: marriageDatesSchema.noRemarriageSchema,
+          customPageUsesPagePerItemData: true,
+          CustomPage: ApplicantSponsorMarriageDatePage,
         },
         page18f: {
           path: 'applicant-marriage-upload/:index',

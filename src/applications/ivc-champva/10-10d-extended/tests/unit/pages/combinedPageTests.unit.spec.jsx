@@ -11,7 +11,7 @@ import {
   SignerContactInfoPage,
   signerContactOnGoForward,
 } from '../../../chapters/signerInformation';
-import mockData from '../../fixtures/data/test-data.json';
+import mockData from '../../e2e/fixtures/data/maximal-test.json';
 import formConfig from '../../../config/form';
 import {
   selectMedicareParticipantOnGoForward,
@@ -61,15 +61,6 @@ testNumberOfWebComponentFields(
   'Sponsor Information - Identification info (role: sponsor)',
   { certifierRole: 'sponsor' },
 );
-describe('sponsor information title function', () => {
-  it('should compute title text for the page', () => {
-    expect(
-      formConfig.chapters.sponsorInformation.pages.page10b0
-        .title(mockData.data)
-        .includes('address selection'),
-    ).to.be.true;
-  });
-});
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page8.schema,
@@ -82,7 +73,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page10.schema,
   formConfig.chapters.sponsorInformation.pages.page10.uiSchema,
-  8,
+  7,
   'Sponsor Information - Address',
   {},
 );
@@ -90,7 +81,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page10.schema,
   formConfig.chapters.sponsorInformation.pages.page10.uiSchema,
-  8,
+  7,
   'Sponsor Information - Address (role: sponsor)',
   { certifierRole: 'sponsor' },
 );
@@ -98,7 +89,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page11.schema,
   formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
-  1,
+  2,
   'Sponsor Information - Contact info',
   {},
 );
@@ -106,7 +97,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page11.schema,
   formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
-  1,
+  2,
   'Sponsor Information - Contact info (role: sponsor)',
   { certifierRole: 'sponsor' },
 );

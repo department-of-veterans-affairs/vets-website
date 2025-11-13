@@ -5,11 +5,9 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
-import {
-  DefinitionTester, // selectCheckbox
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { waitFor } from '@testing-library/dom';
-import formConfig from '../../config/form.js';
+import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('781a record upload', () => {
@@ -96,5 +94,31 @@ describe('781a record upload', () => {
       expect(onSubmit.called).to.be.true;
     });
     form.unmount();
+  });
+
+  describe('ui:confirmationField', () => {
+    it('should correctly display file names and label for confirmation field', () => {
+      const testData = [
+        {
+          name: 'Test.pdf',
+          attachmentId: 'L450',
+          confirmationCode: '1234',
+        },
+        {
+          name: 'Test2.pdf',
+          confirmationCode: 'L451',
+          attachmentId: '4321',
+        },
+      ];
+
+      const result = uiSchema.form781aUpload['ui:confirmationField']({
+        formData: testData,
+      });
+
+      expect(result).to.deep.equal({
+        data: ['Test.pdf', 'Test2.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
   });
 });
