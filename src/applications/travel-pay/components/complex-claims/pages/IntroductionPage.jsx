@@ -11,7 +11,7 @@ import {
   selectComplexClaim,
 } from '../../../redux/selectors';
 import { stripTZOffset } from '../../../util/dates';
-import HelpSection from './HelpSection';
+import { ComplexClaimsHelpSection } from '../../HelpText';
 
 const IntroductionPage = () => {
   const navigate = useNavigate();
@@ -138,7 +138,7 @@ const IntroductionPage = () => {
           exp-date="11/30/2027"
         />
       </div>
-      <HelpSection />
+      <ComplexClaimsHelpSection />
     </div>
   );
 };

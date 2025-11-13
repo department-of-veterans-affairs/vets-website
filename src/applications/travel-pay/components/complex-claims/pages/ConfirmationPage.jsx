@@ -8,7 +8,7 @@ import {
   selectAllExpenses,
   selectAllDocuments,
 } from '../../../redux/selectors';
-import HelpSection from './HelpSection';
+import { ComplexClaimsHelpSection } from '../../HelpText';
 import ExpensesAccordion from './ExpensesAccordion';
 
 const ConfirmationPage = () => {
@@ -85,7 +85,7 @@ const ConfirmationPage = () => {
         text="View your appointments to submit another travel reimbursement claim"
         href="/my-health/appointments/past"
       />
-      <HelpSection />
+      <ComplexClaimsHelpSection />
     </>
   );
 };

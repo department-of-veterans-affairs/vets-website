@@ -2,18 +2,18 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import HelpSection from '../../../../components/complex-claims/pages/HelpSection';
-import { FIND_FACILITY_TP_CONTACT_LINK } from '../../../../constants';
+import { ComplexClaimsHelpSection } from '../../components/HelpText';
+import { FIND_FACILITY_TP_CONTACT_LINK } from '../../constants';
 
-describe('HelpSection', () => {
+describe('ComplexClaimsHelpSection', () => {
   it('renders the Need help heading', () => {
-    const screen = render(<HelpSection />);
+    const screen = render(<ComplexClaimsHelpSection />);
     const heading = screen.getByRole('heading', { name: /need help/i });
     expect(heading).to.exist;
   });
 
   it('renders BTSSS call center phone number', () => {
-    const { container } = render(<HelpSection />);
+    const { container } = render(<ComplexClaimsHelpSection />);
 
     // <va-telephone contact="8555747292" />
     const phone = container.querySelector('va-telephone[contact="8555747292"]');
@@ -25,7 +25,7 @@ describe('HelpSection', () => {
   });
 
   it('renders facility travel contact paragraph', () => {
-    const screen = render(<HelpSection />);
+    const screen = render(<ComplexClaimsHelpSection />);
 
     expect(
       screen.getByText(
@@ -35,7 +35,7 @@ describe('HelpSection', () => {
   });
 
   it('renders the link to find a facility travel contact', () => {
-    const { container } = render(<HelpSection />);
+    const { container } = render(<ComplexClaimsHelpSection />);
 
     // Assert link exists
     const link = container.querySelector(
