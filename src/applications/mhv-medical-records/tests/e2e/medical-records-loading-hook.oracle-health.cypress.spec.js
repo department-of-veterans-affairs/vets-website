@@ -1,7 +1,7 @@
-import MedicalRecordsSite from '../mr_site/MedicalRecordsSite';
-import Vitals from './pages/Vitals';
-import oracleHealthUser from './fixtures/user/oracle-health.json';
-import vitalsData from './fixtures/vitals/blood-oxygen.json';
+import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
+import Vitals from './pages/VitalsLighthouse';
+import oracleHealthUser from './fixtures/user-oracle-health.json';
+import vitalsData from './fixtures/vitals-sample-lighthouse.json';
 
 describe('Medical Records Loading screen', () => {
   const site = new MedicalRecordsSite();

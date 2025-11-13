@@ -387,7 +387,7 @@ describe('Accelerated OH API calls', () => {
         // expect fetch to be called with the correct date
         const expectedUrl = `${
           environment.API_URL
-        }/my_health/v1/medical_records/vitals?use_oh_data_path=1&from=${mockDate}&to=${mockDate}`;
+        }/my_health/v1/medical_records/vitals?use_oh_data_path=1`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });

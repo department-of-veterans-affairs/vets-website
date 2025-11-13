@@ -176,15 +176,19 @@ export const getVitalsList = async () => {
   });
 };
 
-export const getVitalsWithOHData = async vitalsDate => {
-  const from = `&from=${vitalsDate}`;
-  const to = `&to=${vitalsDate}`;
+export const getVitalsWithOHData = async () => {
   return apiRequest(
-    `${apiBasePath}/medical_records/vitals?use_oh_data_path=1${from}${to}`,
+    `${apiBasePath}/medical_records/vitals?use_oh_data_path=1`,
     {
       headers,
     },
   );
+};
+
+export const getVitalsWithUnifiedData = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/vitals`, {
+    headers,
+  });
 };
 
 export const getConditions = async () => {

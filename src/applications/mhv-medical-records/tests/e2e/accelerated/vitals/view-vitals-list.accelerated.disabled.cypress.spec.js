@@ -13,7 +13,7 @@ describe('Medical Records View Vitals', () => {
       isAcceleratingVitals: false,
     });
 
-    Vitals.setIntercepts({ vitalData: vitalsData, useOhData: false });
+    Vitals.setIntercepts({ vitalData: vitalsData });
   });
 
   it('Visits View Vital List', () => {
