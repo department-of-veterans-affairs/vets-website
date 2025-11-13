@@ -10,7 +10,7 @@ export default {
     ...titleUI('Veteran’s identification information'),
     'ui:description':
       'You must enter either a Social Security number or a VA File number.',
-    veteranSocialSecurityNumber: ssnOrVaFileNumberUI('Test'),
+    veteranSocialSecurityNumber: ssnOrVaFileNumberUI(),
   },
   schema: {
     type: 'object',

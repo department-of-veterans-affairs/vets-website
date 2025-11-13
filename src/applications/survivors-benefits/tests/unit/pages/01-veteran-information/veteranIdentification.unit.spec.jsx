@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import {
   DefinitionTester,
   getFormDOM,
@@ -35,43 +35,32 @@ describe('Claimant Information Page', () => {
 
     expect(vaSsn.getAttribute('required')).to.equal('true');
     expect(vaFileNumber.getAttribute('required')).to.equal('false');
+  });
 
-    vaFileNumber.dispatchEvent(
-      new CustomEvent('focus', {
-        bubbles: true,
-      }),
-    );
-
-    vaFileNumber.setAttribute('value', '12345678');
-
-    vaFileNumber.value = '12345678';
-    vaFileNumber.dispatchEvent(
-      new CustomEvent('input', {
-        detail: { value: '12345678' },
-        bubbles: true,
-      }),
-    );
-
-    vaFileNumber.dispatchEvent(
-      new CustomEvent('blur', {
-        bubbles: true,
-      }),
-    );
-
-    vaFileNumber.dispatchEvent(
-      new CustomEvent('change', {
-        detail: { value: '12345678' },
-        bubbles: true,
-      }),
-    );
-
-    await waitFor(
-      () => {
-        expect(vaFileNumber.getAttribute('value')).to.equal('12345678');
-        expect(vaSsn.getAttribute('required')).to.equal('false');
-        expect(vaFileNumber.getAttribute('required')).to.equal('true');
+  it('should require VA file number and not Social Security Number', async () => {
+    const dataWithSsn = {
+      veteranSocialSecurityNumber: {
+        vaFileNumber: '123456789',
       },
-      { timeout: 5000 },
+    };
+
+    const form = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={dataWithSsn}
+      />,
     );
+    const formDOM = getFormDOM(form);
+
+    const $vaSsn = formDOM.querySelector(
+      'va-text-input[label="Social Security number"]',
+    );
+    const $vaFileNumber = formDOM.querySelector(
+      'va-text-input[label="VA file number"]',
+    );
+
+    expect($vaSsn.getAttribute('required')).to.equal('false');
+    expect($vaFileNumber.getAttribute('required')).to.equal('true');
   });
 });
