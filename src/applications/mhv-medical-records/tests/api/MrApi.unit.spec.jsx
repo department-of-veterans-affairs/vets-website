@@ -1,4 +1,5 @@
 import fs from 'fs';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import Sinon from 'sinon';
@@ -119,17 +120,6 @@ describe('Get notes api call', () => {
     mockApiRequest(mockData);
 
     return getNotes(true).then(res => {
-      expect(res.entry.length).to.equal(6);
-    });
-  });
-});
-
-describe('Get accelerated notes api call', () => {
-  it('should make an api call to get all accelerated notes', () => {
-    const mockData = notes;
-    mockApiRequest(mockData);
-
-    return getAcceleratedNotes().then(res => {
       expect(res.entry.length).to.equal(6);
     });
   });
@@ -418,6 +408,43 @@ describe('Accelerated OH API calls', () => {
       });
     });
   });
+
+  describe('Get AcceleratedNotes api call', () => {
+    it('should make an api call to get notes with the default date range', () => {
+      MockDate.set('2024-07-25');
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+
+      return getAcceleratedNotes().then(res => {
+        expect(res.mock).to.equal('data');
+        // expect fetch to be called with the correct date
+        const expectedUrl = `${
+          environment.API_URL
+        }/my_health/v2/medical_records/clinical_notes?start_date=2024-04-25&end_date=2024-07-25`;
+        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
+      });
+    });
+
+    it('should make an api call to get notes for the specified date range', () => {
+      MockDate.reset();
+
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+
+      return getAcceleratedNotes({
+        startDate: '2023-01-01',
+        endDate: '2023-12-31',
+      }).then(res => {
+        expect(res.mock).to.equal('data');
+        // expect fetch to be called with the correct date
+        const expectedUrl = `${
+          environment.API_URL
+        }/my_health/v2/medical_records/clinical_notes?start_date=2023-01-01&end_date=2023-12-31`;
+        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
+      });
+    });
+  });
+
   describe('getAcceleratedImmunizations', () => {
     it('should make an api call to get all immunizations', () => {
       const mockData = { mock: 'data' };
