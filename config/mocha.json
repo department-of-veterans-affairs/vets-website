@@ -10,7 +10,10 @@
     "src/platform/testing/unit/enzyme-setup.cjs",
     "dd-trace/ci/init"
   ],
-  "reporter": "progress",
+  "reporter": "mocha-multi-reporters",
+  "reporterOptions": {
+    "configFile": "config/mocha-multi-reporter.js"
+  },
   "extension": ["js", "jsx"],
   "timeout": 10000,
   "slow": 0,

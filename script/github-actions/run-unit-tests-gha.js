@@ -121,22 +121,22 @@ function buildTestCommand(testPaths) {
     : '';
 
   // Always produce JSON outputs via mocha-multi-reporters
-  const defaultMochaReporters =
-    '--reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
+  // Place --config before reporter flags so CLI overrides any config reporter value
+  const defaultMochaArgs = `--no-color --retries 5 --config ${options.config} --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js`;
   const coverageReporter = options['coverage-html']
-    ? '--reporter=html -- mocha --retries 5'
-    : '--reporter=json-summary -- mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
+    ? `--reporter=html -- mocha --config ${options.config} --retries 5`
+    : `--reporter=json-summary -- mocha --config ${options.config} --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5`;
 
   const mochaExtra = '';
   const escapedTestPaths = testPaths.map(pattern => `'${pattern}'`);
 
   const testRunner = options.coverage
     ? `NODE_ENV=test BABEL_ENV=test c8 --all ${coverageInclude} ${coverageReporter}`
-    : `BABEL_ENV=test NODE_ENV=test mocha ${defaultMochaReporters}`;
+    : `BABEL_ENV=test NODE_ENV=test mocha ${defaultMochaArgs}`;
 
-  return `${baseEnv} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
-    options.config
-  } ${mochaExtra} ${escapedTestPaths.join(' ')}`;
+  return `${baseEnv} ${testRunner} --max-old-space-size=${MAX_MEMORY} ${mochaExtra} ${escapedTestPaths.join(
+    ' ',
+  )}`;
 }
 
 // Main execution
