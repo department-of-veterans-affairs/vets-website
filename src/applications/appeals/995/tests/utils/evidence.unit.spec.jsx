@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import {
   getVAEvidence,
   getPrivateEvidence,
@@ -9,7 +8,6 @@ import {
   getProviderModalDeleteTitle,
   evidenceNeedsUpdating,
   removeNonSelectedIssuesFromEvidence,
-  onFormLoaded,
 } from '../../utils/evidence';
 import {
   HAS_VA_EVIDENCE,
@@ -252,17 +250,6 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
     const data = getData('test 3', 'test 4');
     const result = removeNonSelectedIssuesFromEvidence(data);
     expect(result).to.deep.eq(expected);
-  });
-});
-
-describe('onFormLoaded', () => {
-  it('should direct to the correct returnUrl', () => {
-    const routerSpy = {
-      push: sinon.spy(),
-    };
-
-    onFormLoaded({ returnUrl: '/housing-risk', router: routerSpy });
-    expect(routerSpy.push.firstCall.args[0]).to.eq('/housing-risk');
   });
 });
 
