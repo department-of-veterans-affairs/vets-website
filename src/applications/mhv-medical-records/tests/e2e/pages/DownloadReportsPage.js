@@ -176,6 +176,12 @@ class DownloadReportsPage {
     cy.get('[data-testid="generateCcdButtonXmlOH"]', {
       timeout: 15000,
     }).should('exist');
+
+    // Verify facility-specific headings are present
+    // VistA heading should show facility names
+    cy.contains('h4', 'CCD: medical records from', { timeout: 10000 }).should(
+      'exist',
+    );
   };
 
   verifyVistaDownloadLinksVisible = () => {
