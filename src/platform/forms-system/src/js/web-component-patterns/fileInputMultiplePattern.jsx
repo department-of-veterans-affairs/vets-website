@@ -89,6 +89,7 @@ import ReviewField from '../review/FileInputMultiple';
  * @param {string | string[]} [options.accept] - File types to accept
  * @param {number} [options.maxFileSize] - maximum allowed file size in bytes
  * @param {number} [options.minFileSize] - minimum allowed file size in bytes
+ * @param {number} [options.maxFileCount] - maximum files allowed for upload
  * @param {boolean} [options.additionalInputRequired] - is additional information required
  * @param {((error:any, data:any) => React.ReactNode) } [options.additionalInput] - renders the additional information
  * @param {(instance: any, error: any, data: any) => void} [options.additionalInputUpdate] - function to update additional input instance
@@ -100,7 +101,14 @@ import ReviewField from '../review/FileInputMultiple';
  * @returns {UISchemaOptions}
  */
 export const fileInputMultipleUI = options => {
-  const { title, description, errorMessages, required, ...uiOptions } = options;
+  const {
+    title,
+    description,
+    errorMessages,
+    required,
+    maxFileCount,
+    ...uiOptions
+  } = options;
   if (required === undefined) {
     throw new Error(
       `"required" property should be explicitly set for fileInputUI for
@@ -123,6 +131,13 @@ export const fileInputMultipleUI = options => {
       (errors, data, formData) => {
         const isNavigationEvent = navigationState.getNavigationEventStatus();
         const passwordErrorInstances = errorManager.getPasswordInstances();
+        // check if this file exceeds max file count limit
+        if (data.length > (maxFileCount || Infinity)) {
+          // add a placeholder error to force re-render
+          errors.addError(`${Math.random()}`);
+          return;
+        }
+
         if (isNavigationEvent) {
           const isRequired =
             typeof required === 'function' ? required(formData) : !!required;
