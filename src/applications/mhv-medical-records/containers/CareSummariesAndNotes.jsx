@@ -1,5 +1,7 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { format, subMonths } from 'date-fns';
+
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
@@ -10,11 +12,13 @@ import RecordList from '../components/RecordList/RecordList';
 import {
   getCareSummariesAndNotesList,
   reloadRecords,
+  updateNotesDateRange,
 } from '../actions/careSummariesAndNotes';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import {
   ALERT_TYPE_ERROR,
+  DEFAULT_DATE_RANGE,
   CernerAlertContent,
   accessAlertTypes,
   pageTitles,
@@ -26,10 +30,19 @@ import {
 import useAlerts from '../hooks/use-alerts';
 import RecordListSection from '../components/shared/RecordListSection';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import DateRangeSelector, {
+  dateRangeList,
+} from '../components/shared/DateRangeSelector';
+import AdditionalAccessInfo from '../components/shared/AdditionalAccessInfo';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
+import {
+  getTimeFrame,
+  getDisplayTimeFrame,
+  sendDataDogAction,
+} from '../util/helpers';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -45,19 +58,44 @@ const CareSummariesAndNotes = () => {
   const listState = useSelector(
     state => state.mr.careSummariesAndNotes.listState,
   );
+
+  const dateRange = useSelector(
+    state => state.mr.careSummariesAndNotes.dateRange,
+  );
+
+  const [selectedDate, setSelectedDate] = useState(DEFAULT_DATE_RANGE);
+
   const refresh = useSelector(state => state.mr.refresh);
   const activeAlert = useAlerts(dispatch);
   useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_LIST);
 
   const { isAcceleratingCareNotes } = useAcceleratedData();
 
+  // Initialize selectedDate from Redux store
+  // Runs once on mount and when dateRange changes
+  useEffect(
+    () => {
+      if (dateRange && dateRange.option) {
+        setSelectedDate(dateRange.option);
+      }
+    },
+    [dateRange],
+  );
+
   const dispatchAction = useMemo(
     () => {
       return isCurrent => {
-        return getCareSummariesAndNotesList(isCurrent, isAcceleratingCareNotes);
+        return getCareSummariesAndNotesList(
+          isCurrent,
+          isAcceleratingCareNotes,
+          {
+            startDate: dateRange.fromDate,
+            endDate: dateRange.toDate,
+          },
+        );
       };
     },
-    [isAcceleratingCareNotes],
+    [isAcceleratingCareNotes, dateRange],
   );
 
   useListRefresh({
@@ -88,11 +126,65 @@ const CareSummariesAndNotes = () => {
   const isLoadingAcceleratedData =
     isAcceleratingCareNotes && listState === loadStates.FETCHING;
 
+  // Handle date range selection from DateRangeSelector component
+  const handleDateRangeSelect = useCallback(
+    event => {
+      const { value } = event.detail;
+      setSelectedDate(value);
+
+      // For predefined date ranges like 3 or 6 months
+      let fromDate;
+      let toDate;
+      const today = new Date();
+      if (value.length <= 2) {
+        fromDate = format(subMonths(today, parseInt(value, 10)), 'yyyy-MM-dd');
+        toDate = format(today, 'yyyy-MM-dd');
+      } else {
+        // For year selections
+        const year = value;
+        fromDate = `${year}-01-01`;
+        toDate = `${year}-12-31`;
+      }
+
+      // Dispatch the update once the user selects a date range
+      dispatch(updateNotesDateRange(value, fromDate, toDate));
+
+      // TODO:  I'm trying to avoid adding date params in the URL, but we might have to
+      // updateDateRangeParams({ option: value, fromDate, toDate });
+
+      // For now, I extracted this from the updateDateRangeParams function
+      dispatch({
+        type: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
+        payload: loadStates.PRE_FETCH,
+      });
+
+      // Find the label from dateRangeList
+      const selectedOption = dateRangeList.find(
+        option => option.value === value,
+      );
+      const label = selectedOption ? selectedOption.label : 'Unknown';
+
+      sendDataDogAction(`Notes date range option - ${label}`);
+    },
+    [dispatch],
+  );
+
   return (
     <div id="care-summaries-and-notes">
       <h1 data-testid="care-summaries-and-notes" className="page-title">
         Care summaries and notes
       </h1>
+
+      {isAcceleratingCareNotes && (
+        <div>
+          <DateRangeSelector
+            onDateRangeSelect={handleDateRangeSelect}
+            selectedDate={selectedDate}
+            domain="care notes and summaries"
+          />
+          <AdditionalAccessInfo domainName="care notes and summaries" />
+        </div>
+      )}
 
       {!isAcceleratingCareNotes && (
         <p>This list doesn’t include care summaries from before 2013.</p>
@@ -140,12 +232,19 @@ const CareSummariesAndNotes = () => {
             records={careSummariesAndNotes}
             domainOptions={{
               isAcceleratingCareNotes,
+              timeFrame: getTimeFrame(dateRange),
+              displayTimeFrame: getDisplayTimeFrame(dateRange),
             }}
             type="care summaries and notes"
             hideRecordsLabel
           />
         ) : (
-          <NoRecordsMessage type={recordType.CARE_SUMMARIES_AND_NOTES} />
+          <NoRecordsMessage
+            type={recordType.CARE_SUMMARIES_AND_NOTES}
+            timeFrame={
+              isAcceleratingCareNotes ? getDisplayTimeFrame(dateRange) : ''
+            }
+          />
         )}
       </RecordListSection>
     </div>

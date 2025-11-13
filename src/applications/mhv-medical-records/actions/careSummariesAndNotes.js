@@ -8,13 +8,19 @@ import { getListWithRetry } from './common';
 export const getCareSummariesAndNotesList = (
   isCurrent = false,
   isAccelerating = false,
+  timeframe = {},
 ) => async dispatch => {
   dispatch({
     type: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const getData = isAccelerating ? getAcceleratedNotes : getNotes;
+    const getData = () => {
+      if (isAccelerating) {
+        return getAcceleratedNotes(timeframe);
+      }
+      return getNotes();
+    };
     const response = await getListWithRetry(dispatch, getData);
     dispatch({
       type: isAccelerating
@@ -65,4 +71,19 @@ export const clearCareSummariesDetails = () => async dispatch => {
 
 export const reloadRecords = () => async dispatch => {
   dispatch({ type: Actions.CareSummariesAndNotes.COPY_UPDATED_LIST });
+};
+
+export const updateNotesDateRange = (
+  option,
+  fromDate,
+  toDate,
+) => async dispatch => {
+  dispatch({
+    type: Actions.CareSummariesAndNotes.SET_DATE_RANGE,
+    payload: {
+      option,
+      fromDate,
+      toDate,
+    },
+  });
 };

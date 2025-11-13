@@ -1,7 +1,9 @@
+import { format, subMonths } from 'date-fns';
+
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { format } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
+  DEFAULT_DATE_RANGE,
   EMPTY_FIELD,
   loincCodes,
   noteTypes,
@@ -14,6 +16,8 @@ import {
   decodeBase64Report,
   formatNameFirstToLast,
 } from '../util/helpers';
+
+const currentDate = new Date();
 
 const initialState = {
   /**
@@ -40,6 +44,17 @@ const initialState = {
    * The care summaries and notes currently being displayed to the user
    */
   careSummariesAndNotesDetails: undefined,
+  /**
+   * The date range currently being displayed to the user
+   */
+  dateRange: {
+    option: DEFAULT_DATE_RANGE,
+    fromDate: format(
+      subMonths(currentDate, parseInt(DEFAULT_DATE_RANGE, 10)),
+      'yyyy-MM-dd',
+    ),
+    toDate: format(currentDate, 'yyyy-MM-dd'),
+  },
 };
 
 export const getTitle = record => {
@@ -418,6 +433,12 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
       return {
         ...state,
         listState: action.payload,
+      };
+    }
+    case Actions.CareSummariesAndNotes.SET_DATE_RANGE: {
+      return {
+        ...state,
+        dateRange: action.payload,
       };
     }
     default:
