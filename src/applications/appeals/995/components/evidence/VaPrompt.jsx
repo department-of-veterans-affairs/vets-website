@@ -18,6 +18,7 @@ const VaPrompt = ({
   const handlers = {
     onSelection: event => {
       const { value } = event?.detail || null;
+      console.log('value: ', value);
       const boolResponse = event?.detail?.value === 'y';
 
       if (value) {
