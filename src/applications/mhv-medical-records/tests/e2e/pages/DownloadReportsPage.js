@@ -27,11 +27,18 @@ class DownloadReportsPage {
       0,
     );
 
-    // Wait for first button to be fully visible and interactable
+    // Wait for first button to be fully visible, interactable, AND have proper dimensions
+    // This prevents clicking on web components that are hydrated but still have 0x0 dimensions
     cy.get('[data-testid^="generateCcdButton"]', { timeout: 15000 })
       .first()
       .should('be.visible')
-      .should('not.be.disabled');
+      .should('not.be.disabled')
+      .should($el => {
+        // Ensure element has non-zero dimensions (web component fully rendered)
+        const rect = $el[0].getBoundingClientRect();
+        expect(rect.width).to.be.greaterThan(0);
+        expect(rect.height).to.be.greaterThan(0);
+      });
   };
 
   clickSelfEnteredAccordionItem = () => {
