@@ -43,6 +43,8 @@ describe('SM CUSTOM FOLDER ADD FILTER CUSTOM DATE RANGE', () => {
 
   it(`verify errors`, () => {
     cy.get(Locators.BUTTONS.FILTER).click();
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(100);
 
     cy.get(Locators.FROM_TO_DATES_CONTAINER)
       .find('legend')
@@ -74,6 +76,35 @@ describe('SM CUSTOM FOLDER ADD FILTER CUSTOM DATE RANGE', () => {
       Locators.BLOCKS.FILTER_END_DATE,
     ).should(`include.text`, Alerts.DATE_FILTER.INVALID_END_DATE);
 
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('focuses on the first filter error', () => {
+    cy.get(Locators.BUTTONS.FILTER).click();
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(100);
+    cy.findByTestId('date-start').should('be.focused');
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('opens closed accordion on relevant error', () => {
+    PatientFilterPage.closeAdditionalFilter();
+    cy.get(Locators.BUTTONS.FILTER).click();
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(200);
+    cy.findByTestId('date-start').should('be.focused');
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('clears start and end date errors on filter clear', () => {
+    cy.get(Locators.BUTTONS.FILTER).click();
+    cy.get(Locators.CLEAR_FILTERS).click();
+    PatientFilterPage.selectDateRange('Custom');
+    PatientFilterPage.verifyNoFieldErrors(Locators.BLOCKS.FILTER_START_DATE);
+    PatientFilterPage.verifyNoFieldErrors(Locators.BLOCKS.FILTER_END_DATE);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

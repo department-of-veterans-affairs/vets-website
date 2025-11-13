@@ -272,6 +272,7 @@ export const Locators = {
   BLOCKS: {
     ATTACHMENTS: '.attachments-list',
     FILTER_START_DATE: `[data-testid="date-start"]`,
+    FILTER_KEYWORD_INPUT: `[data-testid="keyword-search-input"]`,
     FILTER_END_DATE: `[data-testid="date-end"]`,
   },
   CHECKBOX: {
@@ -364,6 +365,7 @@ export const Alerts = {
   VIRUS_MULTI_ATTCH: `Our file scanner found a problem with your attachments. To send your message, remove the attachments.`,
   SAVE_DRAFT: `Do you want to save your draft message?`,
   SAVE_CHANGES: `Do you want to save your changes to this draft?`,
+  SEARCH_TERM_REQUIRED: 'Please enter a search term.',
 };
 
 export const Data = {
