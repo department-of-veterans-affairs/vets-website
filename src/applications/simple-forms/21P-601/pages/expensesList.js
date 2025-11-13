@@ -32,6 +32,10 @@ const options = {
   },
 };
 
+const yesNoOptions = {
+  title: 'Do you have an expense to add?',
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -57,7 +61,7 @@ const summaryPage = {
         </va-alert>
       ),
     },
-    'view:hasExpenses': arrayBuilderYesNoUI(options),
+    'view:hasExpenses': arrayBuilderYesNoUI(options, yesNoOptions),
   },
   schema: {
     type: 'object',
