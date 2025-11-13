@@ -21,6 +21,9 @@ const submitForm = (form, formConfig) => {
   return handlePdfGeneration(body)
     .then(response => {
       // response should be a FormData object with the generated PDFs
+      const pdfFile = response.get('files[]');
+      const pdfUrl = URL.createObjectURL(pdfFile);
+
       return apiRequest(submitUrl, {
         method: 'POST',
         body: response,
@@ -34,7 +37,10 @@ const submitForm = (form, formConfig) => {
           event: `${trackingPrefix}-submission-success`,
           ...eventData,
         });
-        return apiResponse;
+        return {
+          apiResponse,
+          ...(pdfUrl && { pdfUrl }),
+        };
       });
     })
     .catch(error => {
