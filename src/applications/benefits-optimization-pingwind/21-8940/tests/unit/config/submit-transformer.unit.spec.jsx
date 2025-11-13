@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import transformForSubmit from '../../../config/submit-transformer';
-import * as sharedTransformForSubmit from '../../../../../simple-forms/shared/config/submit-transformer';
+import * as sharedTransformForSubmit from '../../../../shared/config/submit-transformer';
 
 describe('21-8940 submit transformer', () => {
   const formConfig = { formId: '21-8940', chapters: {} };

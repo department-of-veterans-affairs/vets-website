@@ -12,7 +12,7 @@ import {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import formConfig from '../config/form';
-import { WIP } from '../../../simple-forms/shared/components/WIP';
+import { WIP } from '../../shared/components/WIP';
 
 function App({ location, children, showForm, isLoading }) {
   useEffect(() => {

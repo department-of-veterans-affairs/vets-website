@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
-import { IntroductionPageView } from '../../../simple-forms/shared/components/IntroductionPageView';
+import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
 const ombInfo = {
   resBurden: '45',

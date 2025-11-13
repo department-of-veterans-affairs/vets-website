@@ -3,7 +3,7 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import featureToggles from '../../../shared/feature-toggles.json';
 import user from './fixtures/mocks/user.json';
-import mockSubmit from '../../../../simple-forms/shared/tests/e2e/fixtures/mocks/application-submit.json';
+import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import {
@@ -14,7 +14,7 @@ import {
   reviewAndSubmitPageFlow,
   selectCheckboxWebComponent,
   selectYesNoWebComponent,
-} from '../../../../simple-forms/shared/tests/e2e/helpers';
+} from '../../../shared/tests/e2e/helpers';
 
 const pagePaths = getPagePaths(formConfig);
 const employerDetailsPath = pagePaths.employerDetails;
@@ -268,7 +268,7 @@ if (employerDetailsPath) {
 
         candidateIndexes.add(0);
 
-        const employers = data.employers;
+        const { employers } = data;
         const dataIndex = [...candidateIndexes].find(
           idx => employers[idx] != null,
         );

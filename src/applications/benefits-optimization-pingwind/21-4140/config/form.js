@@ -17,7 +17,7 @@ import EmploymentCheckReview from '../containers/EmploymentCheckReview';
 import SectionThreePage from '../containers/SectionThreePage';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
-import getHelp from '../../../simple-forms/shared/components/GetFormHelp';
+import getHelp from '../../shared/components/GetFormHelp';
 import transformForSubmit from './submit-transformer';
 
 import personalInformation1 from '../pages/personalInformation1';
