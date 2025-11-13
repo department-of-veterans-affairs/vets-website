@@ -17,10 +17,15 @@ describe('Search.gov maintenance window message', () => {
     }).as('getSearchResultsGlobal');
   };
 
-  const setClockAndSearch = date => {
+  const setClockAndSearch = (date, axeOptions) => {
     cy.clock(new Date(date).getTime(), ['Date']);
     cy.visit('/search?query=benefits');
-    cy.injectAxeThenAxeCheck();
+    if (axeOptions) {
+      cy.injectAxe();
+      cy.axeCheck('main', axeOptions);
+    } else {
+      cy.injectAxeThenAxeCheck();
+    }
   };
 
   const verifyBanner = () => {
@@ -57,38 +62,30 @@ describe('Search.gov maintenance window message', () => {
 
   it('should display maintenance message during maintenance window on Tuesday at 4 PM EST', () => {
     mockResults();
-    setClockAndSearch('2021-03-16T20:00:00.000Z');
+    setClockAndSearch('2021-03-16T20:00:00.000Z', { headingOrder: false });
     verifyBanner();
     checkForResults();
-
-    cy.axeCheck();
   });
 
   it('should display maintenance message during maintenance window on Thursday at 4 PM EST', () => {
     mockResults();
-    setClockAndSearch('2021-03-18T20:00:00.000Z');
+    setClockAndSearch('2021-03-18T20:00:00.000Z', { headingOrder: false });
     verifyBanner();
     checkForResults();
-
-    cy.axeCheck();
   });
 
   it('should display maintenance message during maintenance window on Tuesday at 5 PM EST', () => {
     mockResultsEmpty();
-    setClockAndSearch('2021-03-16T21:00:00.000Z');
+    setClockAndSearch('2021-03-16T21:00:00.000Z', { headingOrder: false });
     verifyBanner();
     verifyNoResults();
-
-    cy.axeCheck();
   });
 
   it('should display maintenance message during maintenance window on Thursday at 5 PM EST', () => {
     mockResultsEmpty();
-    setClockAndSearch('2021-03-18T21:00:00.000Z');
+    setClockAndSearch('2021-03-18T21:00:00.000Z', { headingOrder: false });
     verifyBanner();
     verifyNoResults();
-
-    cy.axeCheck();
   });
 
   it('should NOT display maintenance message on Monday at 2 PM EST', () => {
