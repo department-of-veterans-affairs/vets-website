@@ -53,7 +53,8 @@ const InstitutionAddress = ({ uiSchema }) => {
               </>
             )}
             <br />
-            {city}, {state} {postalCode}
+            {city}
+            {city && (state || postalCode) ? ',' : ''} {state} {postalCode}
             <br />
             {country}
           </p>

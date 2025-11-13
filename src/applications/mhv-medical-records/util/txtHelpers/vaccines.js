@@ -18,7 +18,7 @@ ${txtLineDotted}
 ${`Date received: ${record.date}`}
 ${`Location: ${record.location}`}
 Provider notes
-${record.notes.map(note => `${note}`)}
+${(record.notes ?? []).map(note => `${note}`)}
             `,
     )
     .join('')}
