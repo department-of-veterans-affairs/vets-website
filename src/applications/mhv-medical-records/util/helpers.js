@@ -728,6 +728,20 @@ export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
   return `${formatted}`;
 };
 
+export const getTimeFrame = dateRange => {
+  // For predefined date ranges like 3 or 6 months, return the fromDate
+  if (dateRange?.option?.length <= 2) {
+    return dateRange.fromDate;
+  }
+
+  // For year selections, return the option value (e.g., '2022')
+  return dateRange.option;
+};
+
+export const getDisplayTimeFrame = dateRange => {
+  return `${formatDate(dateRange.fromDate)} to ${formatDate(dateRange.toDate)}`;
+};
+
 export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
 };
