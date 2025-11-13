@@ -724,9 +724,9 @@
       "rootUrl": "/supporting-forms-for-claims/submit-statement-form-21-4138"
     },
     {
-      "directoryPath": "src/applications/simple-forms/21-4140",
+      "directoryPath": "src/applications/benefits-optimization-pingwind/21-4140",
       "appName": "Submit Employment Questionnaire",
-      "entryName": "21-4140-income-verification",
+      "entryName": "21-4140",
       "rootUrl": "/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140"
     },
     {
