@@ -16,6 +16,8 @@ import { content as summaryContent } from '../../content/evidence/summary';
 import { locationContent, promptTitle } from '../../content/evidence/va';
 import { focusRadioH3 } from '../../../shared/utils/focus';
 import { redesignActive } from '../../utils';
+import { hasVAEvidence } from '../../utils/form-data-retrieval';
+import VaPrompt from '../../components/evidence/VaPrompt';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -31,53 +33,20 @@ const options = {
     cardDescription: item => `${formatReviewDate(item?.date)}`,
   },
 };
-console.log('loading the array builder');
 
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    [HAS_VA_EVIDENCE]: arrayBuilderYesNoUI({
-      ...options,
-      labelHeaderLevel: '3',
-      labels: {
-        y:
-          'Yes, get my VA medical records or military health records to support my claim',
-        n:
-          "No, I don't need my VA medical records or military health records to support my claim",
-      },
-      description: (
-        <>
-          <p>TEST</p>
-          <p>
-            We can collect your VA medical records or military health records
-            from any of these sources to support your claim:
-          </p>
-          <ul>
-            <li>VA medical center</li>
-            <li>Community-based outpatient clinic</li>
-            <li>Department of Defense military treatment facility</li>
-            <li>Community care provider paid for by VA</li>
-          </ul>
-          <p>We’ll ask you the names of the treatment locations to include.</p>
-          <p>
-            <strong>Note:</strong> Later in this form, we’ll ask about your
-            private (non-VA) provider medical records.
-          </p>
-        </>
-      ),
-      required: () => true,
-      errorMessages: {
-        required: 'Select if we should get your VA medical records',
-      },
-      hideOnReview: true,
-    }),
+    'ui:description': '', // CustomPage handles rendering
   },
   schema: {
     type: 'object',
-    required: [HAS_VA_EVIDENCE],
     properties: {
-      [HAS_VA_EVIDENCE]: arrayBuilderYesNoSchema,
+      [HAS_VA_EVIDENCE]: {
+        type: 'boolean',
+      },
     },
+    required: [HAS_VA_EVIDENCE],
   },
 };
 
@@ -87,16 +56,23 @@ const introPage = {
  *
  * @returns {PageSchema}
  */
+/** @returns {PageSchema} */
 const summaryPage = {
   uiSchema: {
-    [HAS_VA_EVIDENCE]: arrayBuilderYesNoUI(options),
+    'view:hasVaEvidenceWidget': arrayBuilderYesNoUI(options, {
+      title: 'Do you want us to request records from another VA provider?',
+      labelHeaderLevel: '3',
+      labels: {
+        Y: 'Yes',
+        N: 'No',
+      },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      [HAS_VA_EVIDENCE]: arrayBuilderYesNoSchema,
+      'view:hasVaEvidenceWidget': arrayBuilderYesNoSchema,
     },
-    required: [HAS_VA_EVIDENCE],
   },
 };
 
@@ -104,7 +80,11 @@ const summaryPage = {
 const locationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: locationContent.question,
+      title: ({ formData, pagePerItemIndex }) => {
+        console.log('index: ', pagePerItemIndex);
+        console.log('current item data: ', formData);
+        return 'test';
+      },
       nounSingular: options.nounSingular,
     }),
     name: textUI({
@@ -145,15 +125,15 @@ export default arrayBuilderPages(options, pageBuilder => ({
   vaPrompt: pageBuilder.introPage({
     title: promptTitle,
     path: EVIDENCE_URLS.vaPrompt,
+    CustomPage: VaPrompt,
+    CustomPageReview: null,
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
     scrollAndFocusTarget: focusRadioH3,
-    // ------- REMOVE when new design toggle is removed
     depends: redesignActive,
-    // ------- END REMOVE
   }),
   vaSummary: pageBuilder.summaryPage({
-    title: 'Review your [noun plural]',
+    title: promptTitle,
     path: EVIDENCE_URLS.vaSummary,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
@@ -167,7 +147,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     uiSchema: locationPage.uiSchema,
     schema: locationPage.schema,
     // ------- REMOVE when new design toggle is removed
-    depends: redesignActive,
+    depends: redesignActive && hasVAEvidence,
     // ------- END REMOVE
   }),
   conditions: pageBuilder.itemPage({
@@ -176,7 +156,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     uiSchema: datePage.uiSchema,
     schema: datePage.schema,
     // ------- REMOVE when new design toggle is removed
-    depends: redesignActive,
+    depends: redesignActive && hasVAEvidence,
     // ------- END REMOVE
   }),
   treatmentDatePrompt: pageBuilder.itemPage({
@@ -185,7 +165,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     uiSchema: datePage.uiSchema,
     schema: datePage.schema,
     // ------- REMOVE when new design toggle is removed
-    depends: redesignActive,
+    depends: redesignActive && hasVAEvidence,
     // ------- END REMOVE
   }),
   treatmentDate: pageBuilder.itemPage({
