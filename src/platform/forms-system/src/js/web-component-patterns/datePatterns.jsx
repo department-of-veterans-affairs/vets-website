@@ -15,7 +15,12 @@ import {
  * exampleDate: currentOrPastDateUI('Date of event')
  * exampleDate: currentOrPastDateUI({
  *  title: 'Date of event',
- *  hint: 'This is a hint'
+ *  hint: 'This is a hint',
+ *  errorMessages: {
+ *    month: 'Select a month',
+ *    day: 'Enter a day between 1 and 31',
+ *    year: 'Enter a year between 1900 and 2025'
+ *  }
  * })
  * exampleDate: {
  *  ...currentOrPastDateUI('Date of event')
@@ -26,7 +31,10 @@ import {
  *   hint?: string,
  *   errorMessages?: {
  *     pattern?: string,
- *     required?: string
+ *     required?: string,
+ *     month?: string,
+ *     day?: string,
+ *     year?: string
  *   },
  *   dataDogHidden?: boolean,
  * }} [options] accepts a single string for title, or an object of options
@@ -66,6 +74,11 @@ const currentOrPastDateUI = options => {
     },
     'ui:options': {
       ...uiOptions,
+      customMonthErrorMessage: errorMessages?.month || 'Select a month',
+      customDayErrorMessage: errorMessages?.day,
+      customYearErrorMessage:
+        errorMessages?.year ||
+        `Enter a year between 1900 and ${new Date().getFullYear()}`,
     },
     'ui:reviewField': ({ children }) => (
       <div className="review-row">
@@ -288,7 +301,7 @@ const dateOfBirthUI = options => {
     title: title || 'Date of birth',
     errorMessages: {
       pattern: 'Please provide a valid date',
-      required: 'Please provide the date of birth',
+      required: 'Provide a date of birth',
     },
     ...uiOptions,
   });
