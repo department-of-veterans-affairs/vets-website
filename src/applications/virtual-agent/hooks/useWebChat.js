@@ -9,7 +9,7 @@ export const getLoadingStatus = (
   featureFlag,
 ) => {
   if (featureFlag) {
-    // we run this check token and param loading status
+    // we combine token and param loading status
     return combineLoadingStatus(tokenLoadingStatus, paramLoadingStatus);
   }
   // we only need token loading status if feature flag is off
