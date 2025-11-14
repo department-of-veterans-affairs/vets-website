@@ -3,9 +3,16 @@ import {
   getProviderModalDeleteTitle,
 } from '../../utils/evidence';
 
-// Prompt
-export const promptTitle =
-  'Do you want us to get your VA medical records or military health records?';
+export const promptContent = {
+  title:
+    'Do you want us to get your VA medical records or military health records?',
+  options: {
+    Y:
+      'Yes, get my VA medical records or military health records to support my claim',
+    N:
+      "No, I don't need my VA medical records or military health records to support my claim",
+  },
+};
 
 export const locationContent = {
   question: (addOrEdit, index) =>
@@ -14,6 +21,18 @@ export const locationContent = {
   hint: 'You can add the names of more locations later',
   requiredError: 'Enter a treatment location',
   maxLengthError: 'You can enter a maximum of 255 characters',
+};
+
+export const summaryContent = {
+  title: 'Do you want us to request records from another VA provider?',
+  options: {
+    Y: 'Yes',
+    N: 'No',
+  },
+};
+
+export const issuesContent = {
+  hint: 'Select all the service-connected conditions you were treated for',
 };
 
 export const content = {
