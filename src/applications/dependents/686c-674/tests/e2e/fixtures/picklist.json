@@ -522,7 +522,6 @@
       "removalReason": "death",
       "endType": "divorce",
       "endDate": "2020-01-01",
-      "endDeathDate": "2000-01-01",
       "endOutsideUS": false,
       "endCity": "Test",
       "endProvince": "Prov",
