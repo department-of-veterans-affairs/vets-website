@@ -32,29 +32,16 @@ const formConfig = {
         label: 'Education',
       },
       {
-        href: '/education/0993',
-        label: '0993',
-      },
-      {
-        href: '/education/0993/&#39; ',
-        label: '&#39; ',
-      },
-      {
-        href: '/education/0993/&#39; /education',
-        label: 'Education',
-      },
-      {
-        href: '/education/0993/&#39; /education/other-va-education-benefits',
+        href: '/education/other-va-education-benefits',
         label: 'Other va education benefits',
       },
       {
-        href:
-          '/education/0993/&#39; /education/other-va-education-benefits/reimbursements',
+        href: '/&#39; /education/other-va-education-benefits/reimbursements',
         label: 'Reimbursements',
       },
       {
         href:
-          '/education/0993/&#39; /education/other-va-education-benefits/reimbursements/test-reimbursement-22-0803',
+          '/education/other-va-education-benefits/reimbursements/test-reimbursement-22-0803',
         label: 'Test reimbursement 22 0803',
       },
     ],
