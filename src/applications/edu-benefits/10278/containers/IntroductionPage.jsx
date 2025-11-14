@@ -34,7 +34,7 @@ export const IntroductionPage = props => {
       <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2 mobile-lg:vads-u-margin-y--4">
         What to know before you fill out this form
       </h2>
-      <ul>
+      <ul data-testid="what-to-know-list">
         <li>
           If you want to keep some information from your records private, you
           can use this form to authorize us to release only specific
@@ -63,7 +63,10 @@ export const IntroductionPage = props => {
       />
       <p />
 
-      <div className={userLoggedIn ? 'vads-u-margin-top--4' : ''}>
+      <div
+        className={userLoggedIn ? 'vads-u-margin-top--4' : ''}
+        data-testid="omb-info"
+      >
         <OmbInfo />
       </div>
       <TechnologyProgramAccordion />
