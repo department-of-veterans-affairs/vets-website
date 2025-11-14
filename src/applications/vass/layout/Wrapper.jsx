@@ -48,13 +48,17 @@ const Wrapper = props => {
           </nav>
         </div>
       )}
-      {pageTitle && (
-        <h1 tabIndex="-1" data-testid="header">
-          {pageTitle}
-        </h1>
-      )}
-      {children}
-      <NeedHelp />
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+          {pageTitle && (
+            <h1 tabIndex="-1" data-testid="header">
+              {pageTitle}
+            </h1>
+          )}
+          {children}
+          <NeedHelp />
+        </div>
+      </div>
     </div>
   );
 };
