@@ -18,4 +18,5 @@ export const getAppData = state => ({
     state?.featureToggles?.showMeb5490MaintenanceAlert,
   showMeb54901990eTextUpdate: state?.featureToggles.showMeb54901990eTextUpdate,
   user: state.user || {},
+  meb1995InstructionsPageUpdateV3: state?.featureToggles?.meb1995InstructionsPageUpdateV3
 });
