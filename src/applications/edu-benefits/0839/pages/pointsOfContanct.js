@@ -44,6 +44,9 @@ export const uiSchema = {
         isSchoolFinancialRepresentative: 'School financial representative',
         isSchoolCertifyingOfficial: 'School certifying official',
       },
+      errorMessages: {
+        required: 'Please make a selection',
+      },
     }),
   },
 };
