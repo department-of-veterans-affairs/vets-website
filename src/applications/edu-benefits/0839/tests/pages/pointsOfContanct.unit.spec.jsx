@@ -66,7 +66,7 @@ describe('pointsOfContanct page', () => {
     await waitFor(() => {
       const checkboxGroup = container.querySelector('va-checkbox-group');
       expect(checkboxGroup?.getAttribute('error')).to.equal(
-        'Please select at least one option',
+        'Please make a selection',
       );
       expect(onSubmit.called).to.be.false;
     });
