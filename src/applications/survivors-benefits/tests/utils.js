@@ -12,7 +12,7 @@ export const checkAxeAndClickContinueButton = () => {
  * Check an html element for visibility and content
  */
 export const checkVisibleElementContent = (element, content) => {
-  cy.get(Element)
+  cy.get(element)
     .should('exist')
     .and('be.visible')
     .contains(content);
