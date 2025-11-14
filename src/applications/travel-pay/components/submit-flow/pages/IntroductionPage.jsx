@@ -56,7 +56,6 @@ const IntroductionPage = ({ onStart }) => {
             </p>
             {data &&
               !data.travelPayClaim?.claim &&
-              !data.isOutOfBounds &&
               data.isPast && (
                 <va-link-action
                   onClick={e => onStart(e)}
