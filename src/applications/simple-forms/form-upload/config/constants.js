@@ -37,8 +37,11 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
       ) : null}
       <p>
         Since you’re signed in, we prefilled this information based on your VA
-        profile. <br /> If this information doesn’t match what’s on your form,
-        it’ll cause processing delays.
+        profile.
+      </p>
+      <p>
+        If this information doesn’t match what’s on your form, it’ll cause
+        processing delays.
       </p>
     </VaAlert>
   );
