@@ -9,7 +9,6 @@ import content from '../locales/en/content.json';
 import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../utils/constants';
 import {
   includeSpousalInformationV1,
-  includeSpousalInformationV2,
   includeHouseholdInformation,
   includeHouseholdInformationV1,
   includeHouseholdInformationV2,
@@ -370,10 +369,6 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
-        },
-        spouseInformationSummary: {
-          ...spousalInformationPages.spouseInformationSummaryPage,
-          depends: includeSpousalInformationV2,
         },
         ...spousalInformationPages,
         spousePersonalInformation: {

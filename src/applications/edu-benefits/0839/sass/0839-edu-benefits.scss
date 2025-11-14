@@ -129,6 +129,14 @@ label[id="root_unlimitedIndividuals-label"] {
 .container {
   width: 20.75rem;
 }
-[id="root_specificContributionAmount-label"] {
+[id="root_specificContributionAmount-label"],
+[id="root_view:descriptionText"],
+[id="root_view:descriptionText-label"] {
   display: none !important;
+}
+.eligible-students-container{
+  width: 24.4375rem;
+   @media (max-width: $small-screen) {
+    width: 20.125rem;
+  }
 }

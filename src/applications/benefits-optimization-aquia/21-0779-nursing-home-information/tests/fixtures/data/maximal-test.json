@@ -31,8 +31,8 @@
       "claimantDateOfBirth": "1939-09-15"
     },
     "claimantIdentificationInfo": {
-      "claimantSsn": "111223333",
-      "claimantVaFileNumber": "41982736"
+      "ssn": "111223333",
+      "vaFileNumber": "41982736"
     },
     "veteranPersonalInfo": {
       "fullName": {
@@ -43,8 +43,8 @@
       "dateOfBirth": "1960-03-01"
     },
     "veteranIdentificationInfo": {
-      "veteranSsn": "987654321",
-      "veteranVaFileNumber": "501987654"
+      "ssn": "987654321",
+      "vaFileNumber": "501987654"
     },
     "certificationLevelOfCare": {
       "levelOfCare": "skilled"

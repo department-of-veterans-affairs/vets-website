@@ -119,3 +119,18 @@ export const clearLabsAndTestDetails = () => async dispatch => {
 export const reloadRecords = () => async dispatch => {
   dispatch({ type: Actions.LabsAndTests.COPY_UPDATED_LIST });
 };
+
+export const updateLabsAndTestDateRange = (
+  option,
+  fromDate,
+  toDate,
+) => async dispatch => {
+  dispatch({
+    type: Actions.LabsAndTests.SET_DATE_RANGE,
+    payload: {
+      option,
+      fromDate,
+      toDate,
+    },
+  });
+};

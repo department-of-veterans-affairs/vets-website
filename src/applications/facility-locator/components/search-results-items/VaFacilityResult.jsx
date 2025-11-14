@@ -43,6 +43,7 @@ const VaFacilityResult = ({
             id={isMobile ? 'fl-provider-name' : undefined}
             onClick={clickHandler}
             onKeyDown={clickHandler}
+            aria-label={name}
           >
             <va-link href={website} text={name} />
           </h3>

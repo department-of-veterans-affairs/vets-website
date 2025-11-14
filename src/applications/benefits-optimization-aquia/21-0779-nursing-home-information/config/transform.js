@@ -28,16 +28,16 @@ export const transform = (formConfig, form) => {
         fullName: veteranPersonalInfo?.fullName,
         dateOfBirth: veteranPersonalInfo?.dateOfBirth,
         veteranId: {
-          ssn: veteranIdentificationInfo?.veteranSsn,
-          vaFileNumber: veteranIdentificationInfo?.veteranVaFileNumber,
+          ssn: veteranIdentificationInfo?.ssn,
+          vaFileNumber: veteranIdentificationInfo?.vaFileNumber,
         },
       }
     : {
         fullName: claimantPersonalInfo?.claimantFullName,
         dateOfBirth: claimantPersonalInfo?.claimantDateOfBirth,
         veteranId: {
-          ssn: claimantIdentificationInfo?.claimantSsn,
-          vaFileNumber: claimantIdentificationInfo?.claimantVaFileNumber,
+          ssn: claimantIdentificationInfo?.ssn,
+          vaFileNumber: claimantIdentificationInfo?.vaFileNumber,
         },
       };
 
@@ -46,8 +46,8 @@ export const transform = (formConfig, form) => {
       fullName: veteranPersonalInfo?.fullName,
       dateOfBirth: veteranPersonalInfo?.dateOfBirth,
       veteranId: {
-        ssn: veteranIdentificationInfo?.veteranSsn,
-        vaFileNumber: veteranIdentificationInfo?.veteranVaFileNumber,
+        ssn: veteranIdentificationInfo?.ssn,
+        vaFileNumber: veteranIdentificationInfo?.vaFileNumber,
       },
     },
     claimantInformation,

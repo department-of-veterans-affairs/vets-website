@@ -109,7 +109,7 @@ describe('PicklistRemoveDependentFollowup', () => {
     expect(options.length).to.equal(2);
     expect(options.map(cb => cb.getAttribute('label'))).to.deep.equal([
       labels.Spouse.marriageEnded,
-      labels.Spouse.death,
+      labels.Spouse.spouseDied,
     ]);
     expect(radioWrap).to.exist;
     expect($('.form-progress-buttons', container)).to.exist;
@@ -171,7 +171,7 @@ describe('PicklistRemoveDependentFollowup', () => {
     const goToPath = sinon.spy();
     const { container } = renderComponent({
       goToPath,
-      data: defaultData({ removalReason: 'death' }),
+      data: defaultData({ removalReason: 'spouseDied' }),
     });
 
     fireEvent.submit($('form', container));

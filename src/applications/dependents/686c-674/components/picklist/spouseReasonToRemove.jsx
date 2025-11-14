@@ -73,9 +73,9 @@ const spouseReasonToRemove = {
           />
           <VaRadioOption
             name="removalReason"
-            label={labels.Spouse.death}
-            checked={itemData.removalReason === 'death'}
-            value="death"
+            label={labels.Spouse.spouseDied}
+            checked={itemData.removalReason === 'spouseDied'}
+            value="spouseDied"
           />
         </VaRadio>
 

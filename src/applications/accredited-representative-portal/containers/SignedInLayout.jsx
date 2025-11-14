@@ -1,59 +1,8 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-export const NotInPilotAlert = () => {
-  // TODO: Add email addresses
-  const questions = [
-    {
-      text: 'Would you like to join the pilot?',
-      email: 'addAnEmail@va.gov',
-      linkText: 'Contact add org here',
-    },
-    {
-      text: 'Do you need help with SEP and other VA digital tools?',
-      email: 'addAnEmail@va.gov',
-      linkText: 'Contact add org here',
-    },
-    {
-      text: 'Do you have questions about the accreditation process?',
-      email: 'ogcaccreditationmailbox@va.gov',
-      linkText: 'Contact OGC',
-    },
-  ];
-
-  return (
-    <div className="vads-u-margin-y--5 vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <div className="vads-l-row">
-        <va-alert
-          class="arp-full-width-alert"
-          data-testid="not-in-pilot-alert"
-          status="info"
-          visible
-        >
-          <h2 data-testid="not-in-pilot-alert-heading" slot="headline">
-            Accredited Representative Portal is currently in pilot
-          </h2>
-          <div>
-            <ul data-testid="not-in-pilot-alert-description">
-              {questions.map((question, index) => (
-                <li key={index}>
-                  <span className="arp-full-width-alert__questions">
-                    {question.text}{' '}
-                  </span>
-                  <a href={`mailto:${question.email}`}>{question.linkText}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </va-alert>
-      </div>
-    </div>
-  );
-};
 
 export const NoPOAPermissionsAlert = () => {
   return (
@@ -85,24 +34,16 @@ export const NoPOAPermissionsAlert = () => {
 };
 
 const SignedInLayout = () => {
-  const {
-    useToggleValue,
-    useToggleLoadingValue,
-    TOGGLE_NAMES,
-  } = useFeatureToggle();
+  const { useToggleLoadingValue, TOGGLE_NAMES } = useFeatureToggle();
 
-  const isPilotToggleLoading = useToggleLoadingValue(
-    TOGGLE_NAMES.accreditedRepresentativePortalPilot,
+  const isLoading = useToggleLoadingValue(
+    TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
   );
-  const isInPilot = useToggleValue(
-    TOGGLE_NAMES.accreditedRepresentativePortalPilot,
-  );
-  const isProduction = window.Cypress || environment.isProduction();
 
   // TODO: Update with permissions check
   const hasPOAPermissions = true;
 
-  if (isPilotToggleLoading) {
+  if (isLoading) {
     return (
       <div
         className="vads-u-margin-y--5"
@@ -111,10 +52,6 @@ const SignedInLayout = () => {
         <VaLoadingIndicator message="Loading the Accredited Representative Portal..." />
       </div>
     );
-  }
-
-  if (isProduction && !isInPilot) {
-    return <NotInPilotAlert />;
   }
 
   if (!hasPOAPermissions) {
