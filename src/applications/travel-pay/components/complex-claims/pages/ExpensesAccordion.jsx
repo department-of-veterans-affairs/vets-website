@@ -51,13 +51,19 @@ const ExpensesAccordion = ({
     expensesList,
     showAddButton = true,
     showHeader = false,
+    showEditDelete = true,
   ) => {
     const expenseFields = getExpenseType(type);
 
     return (
       <section key={type} className="vads-u-margin-bottom--3">
         {showHeader && (
-          <h2 className=" vads-u-font-size--h3">{expenseFields.title}</h2>
+          <h2
+            data-testid="expense-type-header"
+            className=" vads-u-font-size--h3"
+          >
+            {expenseFields.title}
+          </h2>
         )}
         {expensesList.map(expense => (
           <ExpenseCard
@@ -66,6 +72,7 @@ const ExpensesAccordion = ({
             apptId={apptId}
             expense={expense}
             address={address}
+            showEditDelete={showEditDelete}
           />
         ))}
 
@@ -99,7 +106,7 @@ const ExpensesAccordion = ({
         // Single accordion item with grouped sections inside
         <va-accordion-item header="Submitted expenses" bordered>
           {expenseEntries.map(([type, expensesList]) =>
-            renderExpenseGroup(type, expensesList, false, true),
+            renderExpenseGroup(type, expensesList, false, true, false),
           )}
         </va-accordion-item>
       )}

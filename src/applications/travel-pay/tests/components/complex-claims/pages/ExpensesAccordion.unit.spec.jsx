@@ -123,8 +123,8 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
     expect(document.querySelector('va-accordion')).to.not.exist;
   });
 
-  it('renders a single accordion item when groupAccordionItemsByType=false and a add expense button', () => {
-    const { container } = renderAccordion({
+  it('renders a single accordion item when groupAccordionItemsByType=false, shows header for expense cards based on type', () => {
+    const { container, getAllByTestId } = renderAccordion({
       expenses,
       documents,
       groupAccordionItemsByType: false,
@@ -142,6 +142,8 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
     expect(expenseCards.length).to.equal(2);
 
     // Expect multiple headers within the va-accordion-item
+    const headers = getAllByTestId('expense-type-header');
+    expect(headers).to.have.lengthOf(2);
 
     // Does not expect the add expense button for expenses that are not Mileage
     const addParkingBtn = container.querySelector(
@@ -150,8 +152,8 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
     expect(addParkingBtn).to.not.exist;
   });
 
-  it('renders multiple accordion items when groupAccordionItemsByType=true', () => {
-    const { container } = renderAccordion({
+  it('renders multiple accordion items when groupAccordionItemsByType=true, shows add expense button, shows edit and delete buttons and delete modal ', () => {
+    const { container, getByTestId, queryAllByTestId } = renderAccordion({
       expenses,
       documents,
       groupAccordionItemsByType: true,
@@ -169,6 +171,17 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
       '#add-parking-expense-button',
     );
     expect(addParkingBtn).to.exist;
+
+    // Edit buttons on expense cards
+    getByTestId('exp-1-edit-expense-link');
+    getByTestId('exp-2-edit-expense-link');
+
+    // Delete buttons on expense cards
+    getByTestId('exp-1-delete-expense-button');
+    getByTestId('exp-2-delete-expense-button');
+
+    // Delete modals
+    expect(queryAllByTestId('delete-expense-modal').length).to.eq(2);
   });
 
   it('navigates to correct route when "Add another" button is clicked', () => {

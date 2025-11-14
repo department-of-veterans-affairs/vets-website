@@ -114,7 +114,12 @@ describe('Travel Pay – ReviewPage', () => {
   });
 
   it('renders the review page with expenses, alert, buttons, and summary box', async () => {
-    const { getByTestId, getByRole, container } = renderWithStoreAndRouter(
+    const {
+      getByTestId,
+      getByRole,
+      container,
+      queryAllByTestId,
+    } = renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
       >
@@ -161,6 +166,17 @@ describe('Travel Pay – ReviewPage', () => {
       'va-card[classname="expense-card"]',
     );
     expect(expenseCards.length).to.equal(defaultClaim.expenses.length);
+
+    // Edit buttons on expense cards
+    getByTestId('expense1-edit-expense-link');
+    getByTestId('expense2-edit-expense-link');
+
+    // Delete buttons on expense cards
+    getByTestId('expense1-delete-expense-button');
+    getByTestId('expense2-delete-expense-button');
+
+    // Delete modals
+    expect(queryAllByTestId('delete-expense-modal').length).to.eq(2);
 
     // SummaryBox should render
     expect(getByTestId('summary-box')).to.exist;

@@ -232,11 +232,24 @@ describe('Complex Claims ConfirmationPage', () => {
   });
 
   it('renders expense accordion', () => {
-    const { container } = renderConfirmationPage();
+    const {
+      container,
+      getAllByTestId,
+      queryByTestId,
+    } = renderConfirmationPage();
     expect(container.querySelector('va-accordion')).to.exist;
     expect(
       container.querySelector('va-accordion-item[header="Submitted expenses"]'),
     ).to.exist;
+    // Expect multiple headers within the va-accordion-item
+    const headers = getAllByTestId('expense-type-header');
+    expect(headers).to.have.lengthOf(2);
+    // Dont render edit or delete buttons
+    expect(queryByTestId('parking-edit-expense-link')).to.not.exist;
+    expect(queryByTestId('parking-delete-expense-button')).to.not.exist;
+    expect(queryByTestId('mileage-edit-expense-link')).to.not.exist;
+    expect(queryByTestId('mileage-delete-expense-button')).to.not.exist;
+    expect(queryByTestId('delete-expense-modal')).to.not.exist;
   });
 
   it('renders link action to submit another claim', () => {
