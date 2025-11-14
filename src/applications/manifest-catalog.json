@@ -166,6 +166,12 @@
       "rootUrl": "/track-claims"
     },
     {
+      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
+      "appName": "N/A",
+      "entryName": "N/A",
+      "rootUrl": "N/A"
+    },
+    {
       "directoryPath": "src/applications/combined-debt-portal/combined",
       "appName": "Debt and bills",
       "entryName": "combined-debt-portal",
@@ -542,6 +548,12 @@
       "appName": "New 28-1900 Veteran Readiness",
       "entryName": "new-28-1900-chapter-31",
       "rootUrl": "/temporary/apply-vre-form-28-1900"
+    },
+    {
+      "directoryPath": "src/applications/new-chapter-36-form",
+      "appName": "Personalized Career Planning and Guidance/Chapter 36 (VA Form 27-8832)",
+      "entryName": "new-chapter-36-form",
+      "rootUrl": "/temporary/apply-career-guidance-form-27-8832"
     },
     {
       "directoryPath": "src/applications/office-directory",
