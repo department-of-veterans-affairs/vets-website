@@ -46,6 +46,7 @@ const AlertBackgroundBox = props => {
   const threadMessages = useSelector(
     state => state.sm?.threadDetails?.messages,
   );
+  const threadDrafts = useSelector(state => state.sm?.threadDetails?.drafts);
 
   const {
     Message: { SERVER_ERROR_503 },
@@ -85,11 +86,6 @@ const AlertBackgroundBox = props => {
 
       if (alertList?.length) {
         if (foldersViewPage && !folder?.name) return;
-        if (
-          (threadViewPage || replyViewPage) &&
-          (threadMessages === undefined || threadMessages?.length < 1)
-        )
-          return;
 
         const filteredSortedAlerts = alertList
           .filter(alert => alert?.isActive)
@@ -99,29 +95,34 @@ const AlertBackgroundBox = props => {
           });
 
         let categoryText = '';
+        let threadSubject = '';
 
-        if (threadViewPage || replyViewPage) {
+        const isInThread =
+          threadViewPage && (threadMessages?.length || threadDrafts?.length);
+        const isInReply =
+          replyViewPage && (threadMessages?.length || threadDrafts?.length);
+
+        if (isInThread || isInReply) {
           categoryText =
-            threadMessages[0]?.category === 'OTHER'
+            threadMessages[0]?.category === 'OTHER' ||
+            threadDrafts[0]?.category === 'OTHER'
               ? Categories.OTHER
               : threadMessages[0]?.category;
+          threadSubject =
+            threadMessages[0]?.subject || threadDrafts[0]?.subject;
         }
 
         if (lastPathName === 'Folders') {
           setAlertAriaLabel('You are in the my folders page.');
         } else if (foldersViewPage) {
           setAlertAriaLabel(`You are in ${folder?.name}.`);
-        } else if (threadViewPage) {
+        } else if (isInThread) {
           setAlertAriaLabel(
-            `You are in ${categoryText}: ${
-              threadMessages[0]?.subject
-            } message thread.`,
+            `You are in ${categoryText}: ${threadSubject} message thread.`,
           );
-        } else if (replyViewPage) {
+        } else if (isInReply) {
           setAlertAriaLabel(
-            `You are in ${categoryText}: ${
-              threadMessages[0]?.subject
-            } message reply.`,
+            `You are in ${categoryText}: ${threadSubject} message reply.`,
           );
         } else {
           setAlertAriaLabel(`You are in ${lastPathName}.`);
@@ -140,6 +141,7 @@ const AlertBackgroundBox = props => {
       replyViewPage,
       setShowAlertBackgroundBox,
       threadMessages,
+      threadDrafts,
       threadViewPage,
     ],
   );
