@@ -88,7 +88,7 @@ const CustomReviewTopContent = () => {
         ). We’re here Monday through Friday, 8:00am to 9:00pm ET.
       </p>
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
-        <h3>Contact information</h3>
+        <h3>Your contact information</h3>
         <EditLink
           href={`/${formNumber}/phone-number-and-email`}
           label="Edit Contact information"
@@ -104,7 +104,10 @@ const CustomReviewTopContent = () => {
         <>
           <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
             <h3>Uploaded supporting documents</h3>
-            <EditLink href={`/${formNumber}/supporting-documents`} />
+            <EditLink 
+              href={`/${formNumber}/supporting-documents`}
+              label="Edit Uploaded supporting documents"
+            />
           </div>
           {filesForSupportingDocuments ? (
             <VaFileInputMultiple
