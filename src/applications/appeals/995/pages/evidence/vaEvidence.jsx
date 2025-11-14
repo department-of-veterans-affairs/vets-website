@@ -4,16 +4,23 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  checkboxGroupUI,
+  checkboxGroupSchema,
   currentOrPastDateSchema,
   currentOrPastDateUI,
   textUI,
   textSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import { EVIDENCE_URLS, HAS_VA_EVIDENCE } from '../../constants';
-import { content as summaryContent } from '../../content/evidence/summary';
-import { locationContent, promptTitle } from '../../content/evidence/va';
+import {
+  issuesContent,
+  locationContent,
+  promptContent,
+  summaryContent,
+} from '../../content/evidence/va';
 import { focusRadioH3 } from '../../../shared/utils/focus';
 import { redesignActive } from '../../utils';
 import { hasVAEvidence } from '../../utils/form-data-retrieval';
@@ -31,50 +38,56 @@ const options = {
   text: {
     getItemName: (item, index, fullData) => item.name,
     cardDescription: item => `${formatReviewDate(item?.date)}`,
+    summaryTitle: 'Summary title',
+    summaryTitleWithoutItems: promptContent.title,
+    summaryDescriptionWithoutItems: (
+      <>
+        <p>
+          We can collect your VA medical records or military health records from
+          any of these sources to support your claim:
+        </p>
+        <ul>
+          <li>VA medical center</li>
+          <li>Community-based outpatient clinic</li>
+          <li>Department of Defense military treatment facility</li>
+          <li>Community care provider paid for by VA</li>
+        </ul>
+        <p>We’ll ask you the names of the treatment locations to include.</p>
+        <p>
+          <strong>Note:</strong> Later in this form, we’ll ask about your
+          private (non-VA) provider medical records.
+        </p>
+      </>
+    ),
   },
 };
 
 /** @returns {PageSchema} */
-const introPage = {
-  uiSchema: {},
+const summaryPage = {
+  uiSchema: {
+    [HAS_VA_EVIDENCE]: arrayBuilderYesNoUI(
+      options,
+      {
+        title: '',
+        labels: promptContent.options,
+        labelHeaderLevel: '3',
+        hint: () => null,
+      },
+      {
+        title: summaryContent.title,
+        labels: summaryContent.options,
+        labelHeaderLevel: '3',
+      },
+    ),
+  },
   schema: {
     type: 'object',
     properties: {
-      [HAS_VA_EVIDENCE]: {
-        type: 'boolean',
-      },
+      [HAS_VA_EVIDENCE]: arrayBuilderYesNoSchema,
     },
     required: [HAS_VA_EVIDENCE],
   },
 };
-
-// /** @returns {PageSchema} */
-// const summaryPage = {
-//   uiSchema: {
-//     'view:hasVaEvidenceWidget': arrayBuilderYesNoUI(
-//       options,
-//       {
-//         title: promptTitle,
-//         scrollAndFocusTarget: focusRadioH3,
-//         depends: redesignActive,
-//       },
-//       {
-//         title: 'Do you want us to request records from another VA provider?',
-//         labelHeaderLevel: '3',
-//         labels: {
-//           Y: 'Yes',
-//           N: 'No',
-//         },
-//       },
-//     ),
-//   },
-//   schema: {
-//     type: 'object',
-//     properties: {
-//       'view:hasVaEvidenceWidget': arrayBuilderYesNoSchema,
-//     },
-//   },
-// };
 
 /** @returns {PageSchema} */
 const locationPage = {
@@ -104,6 +117,89 @@ const locationPage = {
   },
 };
 
+const getSelectedIssues = formData => {
+  const selectedIssues = formData?.contestedIssues?.filter(
+    issue => issue?.['view:selected'],
+  );
+
+  return (
+    selectedIssues?.map(
+      selectedIssue => selectedIssue?.attributes?.ratingIssueSubjectText,
+    ) || []
+  );
+};
+
+/** @returns {PageSchema} */
+const issuesPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        formData?.name ? `Issues at ${formData.name}` : 'Issues',
+    ),
+    issues: {
+      ...checkboxGroupUI({
+        title: issuesContent.title,
+        hint: issuesContent.hint,
+        required: true,
+        labels: {}, // Initial empty labels
+      }),
+      'ui:options': {
+        ...checkboxGroupUI({
+          title: issuesContent.title,
+          hint: issuesContent.hint,
+          required: true,
+          labels: {},
+        })['ui:options'],
+        updateSchema: (formData, schema, uiSchema) => {
+          const selectedIssues = getSelectedIssues(formData);
+
+          if (!selectedIssues?.length) {
+            // Return original if no issues
+            return { schema, uiSchema };
+          }
+
+          const formattedIssuesForCheckboxes = {};
+          for (const issue of selectedIssues) {
+            const key = issue.toUpperCase().replace(/\s+/g, '_'); // Convert to valid key
+            formattedIssuesForCheckboxes[key] = issue;
+          }
+
+          // Update schema with dynamic enum values
+          const newSchema = {
+            ...schema,
+            properties: {
+              ...schema.properties,
+              issues: checkboxGroupSchema(
+                Object.keys(formattedIssuesForCheckboxes),
+              ),
+            },
+          };
+
+          // Update uiSchema with dynamic labels
+          const newUiSchema = {
+            ...uiSchema,
+            issues: {
+              ...uiSchema.issues,
+              'ui:options': {
+                ...uiSchema.issues['ui:options'],
+                labels: formattedIssuesForCheckboxes,
+              },
+            },
+          };
+
+          return { schema: newSchema, uiSchema: newUiSchema };
+        },
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      issues: checkboxGroupSchema([]), // Start with empty array
+    },
+  },
+};
+
 /** @returns {PageSchema} */
 const datePage = {
   uiSchema: {
@@ -121,116 +217,22 @@ const datePage = {
   },
 };
 
-// const VaSummaryDescription = ({ data }) => {
-//   // Only show description on first-time view (no items yet)
-//   const hasItems = data?.vaEvidence && data.vaEvidence.length > 0;
-
-//   if (hasItems) {
-//     return null; // Don't show description when items exist
-//   }
-
-//   return (
-//     <>
-//       <p>
-//         We can collect your VA medical records or military health records from
-//         any of these sources to support your claim:
-//       </p>
-//       <ul>
-//         <li>VA medical center</li>
-//         <li>Community-based outpatient clinic</li>
-//         <li>Department of Defense military treatment facility</li>
-//         <li>Community care provider paid for by VA</li>
-//       </ul>
-//       <p>We’ll ask you the names of the treatment locations to include.</p>
-//     </>
-//   );
-// };
-
-/** @returns {PageSchema} */
-const summaryPage = {
-  uiSchema: {
-    'ui:description': (
-      <>
-        <p>
-          We can collect your VA medical records or military health records from
-          any of these sources to support your claim:
-        </p>
-        <ul>
-          <li>VA medical center</li>
-          <li>Community-based outpatient clinic</li>
-          <li>Department of Defense military treatment facility</li>
-          <li>Community care provider paid for by VA</li>
-        </ul>
-        <p>We’ll ask you the names of the treatment locations to include.</p>
-        <p>
-          <strong>Note:</strong> Later in this form, we’ll ask about your
-          private (non-VA) provider medical records.
-        </p>
-      </>
-    ),
-    [HAS_VA_EVIDENCE]: arrayBuilderYesNoUI(
-      options,
-      {
-        title:
-          'Do you want us to get your VA medical records or military health records?',
-        labels: {
-          Y:
-            'Yes, get my VA medical records or military health records to support my claim',
-          N:
-            "No, I don't need my VA medical records or military health records to support my claim",
-        },
-        labelHeaderLevel: '3',
-      },
-      {
-        title: 'Do you want us to request records from another VA provider?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
-        labelHeaderLevel: '3',
-      },
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      [HAS_VA_EVIDENCE]: arrayBuilderYesNoSchema,
-    },
-    required: [HAS_VA_EVIDENCE],
-  },
-};
-
+// Some items in here have blank titles because a title is required
+// but the uiSchemas they use also require titles
+// which override the ones here
 export default arrayBuilderPages(options, pageBuilder => ({
-  // vaPrompt: pageBuilder.introPage({
-  //   title: promptTitle,
-  //   path: EVIDENCE_URLS.vaPrompt,
-  //   CustomPage: VaPrompt,
-  //   CustomPageReview: null,
-  //   uiSchema: introPage.uiSchema,
-  //   schema: introPage.schema,
-  //   scrollAndFocusTarget: focusRadioH3,
-  //   depends: redesignActive,
-  // }),
-  // vaSummary: pageBuilder.summaryPage({
-  //   title: promptTitle,
-  //   CustomPage: VaPrompt,
-  //   path: EVIDENCE_URLS.vaSummary,
-  //   uiSchema: summaryPage.uiSchema,
-  //   schema: summaryPage.schema,
-  //   // ------- REMOVE when new design toggle is removed
-  //   depends: redesignActive,
-  //   // ------- END REMOVE
-  // }),
   vaSummary: pageBuilder.summaryPage({
-    title: 'Request VA medical records',
+    title: '',
+    // title: promptContent.title,
     path: EVIDENCE_URLS.vaSummary,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
-    // summaryDescription: VaSummaryDescription,
+    // ------- REMOVE when new design toggle is removed
     depends: redesignActive,
+    // ------- END REMOVE
   }),
   vaLocation: pageBuilder.itemPage({
-    title: 'Location title',
+    title: '',
     path: EVIDENCE_URLS.vaLocation,
     uiSchema: locationPage.uiSchema,
     schema: locationPage.schema,
@@ -238,11 +240,11 @@ export default arrayBuilderPages(options, pageBuilder => ({
     depends: redesignActive,
     // ------- END REMOVE
   }),
-  conditions: pageBuilder.itemPage({
-    title: 'Conditions',
+  issues: pageBuilder.itemPage({
+    title: '',
     path: EVIDENCE_URLS.vaIssues,
-    uiSchema: datePage.uiSchema,
-    schema: datePage.schema,
+    uiSchema: issuesPage.uiSchema,
+    schema: issuesPage.schema,
     // ------- REMOVE when new design toggle is removed
     depends: redesignActive,
     // ------- END REMOVE
