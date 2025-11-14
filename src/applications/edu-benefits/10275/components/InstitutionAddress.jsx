@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import PropTypes from 'prop-types';
 
 const InstitutionAddress = ({ uiSchema, formContext }) => {
   const formData = useSelector(state => state.form?.data);
@@ -93,6 +94,13 @@ const InstitutionAddress = ({ uiSchema, formContext }) => {
       </dd>
     </div>
   );
+};
+
+InstitutionAddress.propTypes = {
+  formContext: PropTypes.shape({
+    onReviewPage: PropTypes.bool,
+  }),
+  uiSchema: PropTypes.object,
 };
 
 export default InstitutionAddress;
