@@ -42,7 +42,10 @@ const internationalPhoneUI = options => {
         label: _title,
       };
     },
-    'ui:options': { hint: 'Enter up to a 15-digit phone number', ...uiOptions },
+    'ui:options': {
+      hint: 'For international numbers select or enter your country code',
+      ...uiOptions,
+    },
     'ui:validations': [validateTelephoneInput],
     'ui:errorMessages': {
       required: 'Enter a phone number with up to 15 digits',
