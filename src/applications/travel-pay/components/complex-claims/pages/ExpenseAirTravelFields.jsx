@@ -46,16 +46,16 @@ const ExpenseAirTravelFields = ({ formState, onChange }) => (
     />
     <VaTextInput
       label="Departure airport"
-      name="departureAirport"
-      value={formState.departureAirport || ''}
+      name="departedFrom"
+      value={formState.departedFrom || ''}
       required
       onInput={onChange}
       hint="For round trip flights, enter the departure airport of your first flight."
     />
     <VaTextInput
       label="Arrival airport"
-      name="arrivalAirport"
-      value={formState.arrivalAirport || ''}
+      name="arrivedTo"
+      value={formState.arrivedTo || ''}
       required
       onInput={onChange}
     />
