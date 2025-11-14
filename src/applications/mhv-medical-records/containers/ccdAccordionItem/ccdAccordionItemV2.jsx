@@ -1,14 +1,9 @@
 import React from 'react';
 import PropType from 'prop-types';
 import TrackedSpinner from '../../components/shared/TrackedSpinner';
-import { formatFacilityList } from '../../util/facilityHelpers';
 
 //  {ccdExtendedFileTypeFlag ?}
-const CCDAccordionItemV2 = ({
-  generatingCCD,
-  handleDownloadCCD,
-  vistaFacilityNames,
-}) => (
+const CCDAccordionItemV2 = ({ generatingCCD, handleDownloadCCD }) => (
   <va-accordion-item bordered data-testid="ccdAccordionItem">
     <h3 slot="headline">Continuity of Care Document for non-VA providers</h3>
     <p className="vads-u-margin-bottom--3">
@@ -17,10 +12,6 @@ const CCDAccordionItemV2 = ({
       includes your allergies, medications, recent lab results, and more. We
       used to call this report your VA Health Summary.
     </p>
-
-    <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-      CCD: medical records from {formatFacilityList(vistaFacilityNames)}
-    </h4>
 
     {generatingCCD ? (
       <div id="generating-ccd-indicator">
@@ -69,7 +60,6 @@ const CCDAccordionItemV2 = ({
 CCDAccordionItemV2.propTypes = {
   generatingCCD: PropType.bool,
   handleDownloadCCD: PropType.func,
-  vistaFacilityNames: PropType.arrayOf(PropType.string),
 };
 
 export default CCDAccordionItemV2;

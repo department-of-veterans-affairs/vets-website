@@ -7,7 +7,6 @@ describe('CCDAccordionItemV2', () => {
   const defaultProps = {
     generatingCCD: false,
     handleDownloadCCD: () => {},
-    vistaFacilityNames: ['VA Western New York health care'],
   };
 
   it('renders VistA CCD section', () => {
@@ -79,59 +78,5 @@ describe('CCDAccordionItemV2', () => {
     expect(htmlLink.getAttribute('data-dd-action-name')).to.equal(
       'Download CCD HTML',
     );
-  });
-
-  it('renders facility name in heading for single facility', () => {
-    const { getByText } = render(<CCDAccordionItemV2 {...defaultProps} />);
-
-    expect(
-      getByText('CCD: medical records from VA Western New York health care'),
-    ).to.exist;
-  });
-
-  it('renders multiple facility names in heading', () => {
-    const props = {
-      ...defaultProps,
-      vistaFacilityNames: [
-        'VA Western New York health care',
-        'VA Pacific Islands health care',
-      ],
-    };
-    const { getByText } = render(<CCDAccordionItemV2 {...props} />);
-
-    expect(
-      getByText(
-        'CCD: medical records from VA Western New York health care and VA Pacific Islands health care',
-      ),
-    ).to.exist;
-  });
-
-  it('handles empty facility names array gracefully', () => {
-    const props = {
-      ...defaultProps,
-      vistaFacilityNames: [],
-    };
-    const { container } = render(<CCDAccordionItemV2 {...props} />);
-
-    // Should still render without crashing
-    expect(container.querySelector('va-accordion-item')).to.exist;
-  });
-
-  it('handles three or more facility names with commas and "and"', () => {
-    const props = {
-      ...defaultProps,
-      vistaFacilityNames: [
-        'VA Western New York health care',
-        'VA Pacific Islands health care',
-        'VA Southern Nevada health care',
-      ],
-    };
-    const { getByText } = render(<CCDAccordionItemV2 {...props} />);
-
-    expect(
-      getByText(
-        'CCD: medical records from VA Western New York health care, VA Pacific Islands health care, and VA Southern Nevada health care',
-      ),
-    ).to.exist;
   });
 });

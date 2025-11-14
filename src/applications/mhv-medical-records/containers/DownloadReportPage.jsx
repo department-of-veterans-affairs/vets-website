@@ -379,7 +379,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
                 <CCDAccordionItemOH
                   generatingCCD={generatingCCD}
                   handleDownloadCCDV2={handleDownloadCCDV2}
-                  ohFacilityNames={ohFacilityNames}
                 />
               );
             }
@@ -387,7 +386,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               <CCDAccordionItemV2
                 generatingCCD={generatingCCD}
                 handleDownloadCCD={handleDownloadCCD}
-                vistaFacilityNames={vistaFacilityNames}
               />
             );
           }

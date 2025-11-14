@@ -79,9 +79,9 @@ const CCDAccordionItemDual = ({
       used to call this report your VA Health Summary.
     </p>
 
-    <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+    <p className="vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-weight--bold vads-u-font-size--h4 vads-u-font-family--serif">
       CCD: medical records from {formatFacilityList(vistaFacilityNames)}
-    </h4>
+    </p>
 
     <div className="vads-u-margin-bottom--4">
       <DownloadSection
@@ -92,9 +92,9 @@ const CCDAccordionItemDual = ({
       />
     </div>
 
-    <h4 className="vads-u-margin-top--2 vads-u-margin-bottom--2">
+    <p className="vads-u-margin-top--2 vads-u-margin-bottom--2 vads-u-font-weight--bold vads-u-font-size--h4 vads-u-font-family--serif">
       CCD: medical records from {formatFacilityList(ohFacilityNames)}
-    </h4>
+    </p>
 
     <DownloadSection
       isLoading={generatingCCD}
