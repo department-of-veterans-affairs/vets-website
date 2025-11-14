@@ -951,11 +951,12 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'edu-0976-',
   },
   {
-    id: VA_FORM_IDS.FORM_21_0788_UPLOAD,
-    benefit: "Information Regarding Apportionment of Beneficiary's Award",
-    title: 'form 21-0788 upload',
-    description: 'uploaded file for form 21-0788',
-    trackingPrefix: 'form-21-0788-upload-',
+    id: VA_FORM_IDS.FORM_22_10278_UPLOAD,
+    benefit:
+      'Authorization to Disclose Personal Information to a Third Party - Education Benefits',
+    title: 'form 22-10278 upload',
+    description: 'uploaded file for form 22-10278',
+    trackingPrefix: 'form-22-10278-upload-',
   },
 ];
 
