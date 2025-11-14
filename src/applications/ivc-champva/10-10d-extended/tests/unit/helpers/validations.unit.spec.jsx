@@ -7,7 +7,267 @@ import {
   validateMedicarePartDDates,
   validateMedicarePlan,
   validateOHIDates,
+  validateApplicantSsn,
+  validateSponsorSsn,
 } from '../../../helpers/validations';
+
+describe('1010d `validateSponsorSsn` form validation', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = { addError: sinon.spy() };
+  });
+
+  it('should not add an error when SSN is empty', () => {
+    const fullData = { applicants: [] };
+    validateSponsorSsn(errors, '', fullData);
+    sinon.assert.notCalled(errors.addError);
+  });
+
+  it('should not add an error when SSN is undefined', () => {
+    const fullData = { applicants: [] };
+    validateSponsorSsn(errors, undefined, fullData);
+    sinon.assert.notCalled(errors.addError);
+  });
+
+  it('should add an error when SSN is invalid', () => {
+    const fullData = { applicants: [] };
+    validateSponsorSsn(errors, '123-45-678X', fullData);
+    sinon.assert.calledOnce(errors.addError);
+  });
+
+  it('should add an error when SSN is too short', () => {
+    const fullData = { applicants: [] };
+    validateSponsorSsn(errors, '1231231', fullData);
+    sinon.assert.calledOnce(errors.addError);
+  });
+
+  it('should not add an error when SSN is valid and unique', () => {
+    const fullData = { applicants: [{ applicantSsn: '345345345' }] };
+    validateSponsorSsn(errors, '123123123', fullData);
+    sinon.assert.notCalled(errors.addError);
+  });
+
+  it('should add an error when SSN matches an applicant SSN', () => {
+    const fullData = {
+      applicants: [
+        { applicantSsn: '123123123' },
+        { applicantSsn: '345345345' },
+      ],
+    };
+    validateSponsorSsn(errors, '123123123', fullData);
+    sinon.assert.calledOnce(errors.addError);
+  });
+
+  it('should correctly handle SSNs with different formatting', () => {
+    const fullData = { applicants: [{ applicantSsn: '123-12-3123' }] };
+    validateSponsorSsn(errors, '123123123', fullData);
+    sinon.assert.calledOnce(errors.addError);
+  });
+
+  it('should correctly handle empty applicants array', () => {
+    const fullData = { applicants: [] };
+    validateSponsorSsn(errors, '123123123', fullData);
+    sinon.assert.notCalled(errors.addError);
+  });
+
+  it('should correctly handle missing applicants property', () => {
+    const fullData = {};
+    validateSponsorSsn(errors, '123123123', fullData);
+    sinon.assert.notCalled(errors.addError);
+  });
+});
+
+describe('1010d `validateApplicantSsn` form validation', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = { addError: sinon.spy() };
+  });
+
+  context('when adding the first applicant', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/applicants/0', search: '?add=true' },
+        writable: true,
+      });
+    });
+
+    it('should not add an error when SSN is empty', () => {
+      const fullData = { sponsorSsn: '345345345', applicants: [] };
+      validateApplicantSsn(errors, '', fullData);
+      sinon.assert.notCalled(errors.addError);
+    });
+
+    it('should not add an error when SSN is undefined', () => {
+      const fullData = { sponsorSsn: '345345345', applicants: [] };
+      validateApplicantSsn(errors, undefined, fullData);
+      sinon.assert.notCalled(errors.addError);
+    });
+
+    it('should add an error when SSN is invalid', () => {
+      const fullData = { sponsorSsn: '345345345', applicants: [] };
+      validateApplicantSsn(errors, '211-11-111X', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+
+    it('should add an error when SSN matches sponsor SSN', () => {
+      const fullData = {
+        sponsorSsn: '123123123',
+        applicants: [],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+
+    it('should correctly handle SSNs with different formatting when comparing to sponsor', () => {
+      const fullData = { sponsorSsn: '123-12-3123', applicants: [] };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+  });
+
+  context('when working with multiple applicants', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/applicants/1', search: '?add=true' },
+        writable: true,
+      });
+    });
+
+    it('should not add an error when SSN is valid and unique', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [{ applicantSsn: '211-11-1111' }],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.notCalled(errors.addError);
+    });
+
+    it('should add an error when SSN matches another applicant SSN', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [{ applicantSsn: '123123123' }],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+
+    it('should correctly handle missing sponsor SSN', () => {
+      const fullData = {
+        applicants: [{ applicantSsn: '211-11-1111' }],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.notCalled(errors.addError);
+    });
+
+    it('should handle applicants with undefined/missing SSNs', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [{ applicantSsn: undefined }],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.notCalled(errors.addError);
+    });
+
+    it('should not flag current applicant as duplicate of itself during edit', () => {
+      // Simulate editing the first applicant (index 0)
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/applicants/0', search: '?edit=true' },
+        writable: true,
+      });
+
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [
+          { applicantSsn: '123123123' }, // Current applicant being edited
+          { applicantSsn: '211-11-1111' },
+        ],
+      };
+      // Should not error when "changing" to the same SSN
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.notCalled(errors.addError);
+    });
+
+    it('should detect duplicates when changing to existing SSN during edit', () => {
+      // simulate editing the first applicant (index 0)
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/applicants/0', search: '?edit=true' },
+        writable: true,
+      });
+
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [
+          { applicantSsn: '123123123' },
+          { applicantSsn: '211111111' },
+        ],
+      };
+      validateApplicantSsn(errors, '211111111', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+  });
+
+  context('when on the review and submit page', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/review-and-submit' },
+        writable: true,
+      });
+    });
+
+    it('should not add an error when applicant SSN is unique (only appears once)', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [
+          { applicantSsn: '123123123' },
+          { applicantSsn: '211211211' },
+          { applicantSsn: '311311311' },
+        ],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.notCalled(errors.addError);
+    });
+
+    it('should add an error when applicant SSN appears multiple times (duplicates exist)', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [
+          { applicantSsn: '123123123' },
+          { applicantSsn: '211211211' },
+          { applicantSsn: '123123123' },
+        ],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+
+    it('should add an error when applicant SSN matches sponsor SSN on review page', () => {
+      const fullData = {
+        sponsorSsn: '123123123',
+        applicants: [
+          { applicantSsn: '123123123' },
+          { applicantSsn: '211211211' },
+        ],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+
+    it('should handle edge case with three identical SSNs on review page', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [
+          { applicantSsn: '123123123' },
+          { applicantSsn: '123123123' },
+          { applicantSsn: '123123123' },
+        ],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+  });
+});
 
 describe('1010d `validateMarriageAfterDob` form validation', () => {
   let errors;
@@ -721,7 +981,7 @@ describe('1010d `validateApplicant` form validation', () => {
   const makeApplicant = (overrides = {}) => ({
     applicantName: { first: 'John', last: 'Doe' },
     applicantDob: '1990-01-01',
-    applicantSSN: '123456789',
+    applicantSsn: '123456789',
     applicantGender: { gender: 'M' },
     applicantPhone: '555-123-4567',
     applicantAddress: {
@@ -757,7 +1017,7 @@ describe('1010d `validateApplicant` form validation', () => {
       ['first name is omitted', { applicantName: { last: 'Doe' } }],
       ['last name is omitted', { applicantName: { first: 'John' } }],
       ['DOB is omitted', { applicantDob: undefined }],
-      ['SSN is omitted', { applicantSSN: undefined }],
+      ['SSN is omitted', { applicantSsn: undefined }],
       ['gender is omitted', { applicantGender: {} }],
       ['phone is omitted', { applicantPhone: undefined }],
       [

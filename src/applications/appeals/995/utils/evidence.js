@@ -73,19 +73,6 @@ export const removeNonSelectedIssuesFromEvidence = data => {
   };
 };
 
-/**
- * Redirect to the user's last saved URL if it exists
- * @param {String} returnUrl - URL of last saved page
- * @param {Object} router - React router
- */
-export const onFormLoaded = props => {
-  const { returnUrl, router } = props;
-
-  if (returnUrl) {
-    router?.push(returnUrl);
-  }
-};
-
 export const formatDate = (date = '', format = FORMAT_COMPACT_DATE_FNS) =>
   // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
   // const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
