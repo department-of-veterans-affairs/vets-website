@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -53,7 +53,6 @@ import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
 const LabsAndTests = () => {
   const dispatch = useDispatch();
   const dateRange = useSelector(state => state.mr.labsAndTests.dateRange);
-  const [selectedDate, setSelectedDate] = useState(DEFAULT_DATE_RANGE);
   const updatedRecordList = useSelector(
     state => state.mr.labsAndTests.updatedList,
   );
@@ -129,25 +128,12 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  // Initialize selectedDate from Redux store
-  // Runs once on mount and when dateRange changes
-  useEffect(
-    () => {
-      if (dateRange && dateRange.option) {
-        setSelectedDate(dateRange.option);
-      }
-    },
-    [dateRange],
-  );
-
   const handleDateRangeSelect = useCallback(
     event => {
       const { value } = event.detail;
-      setSelectedDate(value);
-
       const { fromDate, toDate } = calculateDateRange(value);
 
-      // Dispatch the update once the user selects a date range
+      // Update Redux with new range
       dispatch(updateLabsAndTestDateRange(value, fromDate, toDate));
 
       dispatch({
@@ -155,12 +141,11 @@ const LabsAndTests = () => {
         payload: loadStates.PRE_FETCH,
       });
 
-      // Find the label from dateRangeList
+      // DataDog tracking
       const selectedOption = getDateRangeList().find(
         option => option.value === value,
       );
       const label = selectedOption ? selectedOption.label : 'Unknown';
-
       sendDataDogAction(`Date range option - ${label}`);
     },
     [dispatch],
@@ -211,7 +196,7 @@ const LabsAndTests = () => {
           <div>
             <DateRangeSelector
               onDateRangeSelect={handleDateRangeSelect}
-              selectedDate={selectedDate}
+              selectedDate={dateRange?.option || DEFAULT_DATE_RANGE}
               isLoading={isLoadingAcceleratedData}
             />
             <AdditionalReportsInfo domainName="lab and test results" />
