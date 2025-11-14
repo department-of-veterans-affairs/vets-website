@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
 
@@ -23,6 +24,7 @@ const topics = [
 ];
 
 const TopicSelection = () => {
+  const navigate = useNavigate();
   const [selectedTopics, setSelectedTopics] = useState([]);
 
   const handleTopicChange = event => {
@@ -35,12 +37,17 @@ const TopicSelection = () => {
       );
     }
   };
+
+  const handleBack = () => {
+    setSelectedTopics([]);
+    navigate(-1);
+  };
+
+  const handleContinue = () => {
+    navigate('/review');
+  };
   return (
     <Wrapper pageTitle="What topic would you like to talk about?" required>
-      <va-link
-        href="/service-member/benefits/solid-start/schedule/review"
-        text="Continue"
-      />
       <va-checkbox-group
         error={null}
         hint={null}
@@ -59,6 +66,10 @@ const TopicSelection = () => {
           />
         ))}
       </va-checkbox-group>
+      <div className="vads-u-display--flex vads-u-margin-top--4 vass-form__button-container">
+        <va-button secondary onClick={handleBack} text="Back" uswds />
+        <va-button onClick={handleContinue} text="Continue" uswds />
+      </div>
     </Wrapper>
   );
 };

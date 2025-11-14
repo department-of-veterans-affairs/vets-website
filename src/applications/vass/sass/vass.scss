@@ -1,5 +1,10 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
 .vass-form__button-container {
   row-gap: 16px;
+  @media (max-width: $small-screen) {
+    column-gap: 8px;
+  }
 }
 
 .vass-flex-direction--column {
