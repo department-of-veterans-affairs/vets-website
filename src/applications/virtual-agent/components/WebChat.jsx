@@ -17,6 +17,7 @@ import signOutEventListener from '../event-listeners/signOutEventListener';
 
 // Middleware
 import { activityMiddleware } from '../middleware/activityMiddleware';
+import { activityStatusMiddleware } from '../middleware/activityStatusMiddleware';
 import { cardActionMiddleware } from '../middleware/cardActionMiddleware';
 
 // Selectors
@@ -117,6 +118,7 @@ const WebChat = ({ code, webChatFramework }) => {
       <Composer
         cardActionMiddleware={cardActionMiddleware}
         activityMiddleware={activityMiddleware}
+        activityStatusMiddleware={activityStatusMiddleware}
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}

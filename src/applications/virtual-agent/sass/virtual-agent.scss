@@ -139,8 +139,6 @@ div.ac-container[style*="rgb(255, 226, 178)"]{
   background-color: rgb(250, 243, 209) !important
 }
 
-<<<<<<< HEAD
-// Screen reader only class - visually hides content but keeps it accessible to screen readers
 .sr-only {
   position: absolute;
   width: 1px;
@@ -153,39 +151,11 @@ div.ac-container[style*="rgb(255, 226, 178)"]{
   border-width: 0;
 }
 
-// .va-disclaimer {
-//   border-radius: 4px;
-//   padding: 5%;
-//   margin: 0;
-//   font-family: "Source Sans Pro", sans-serif;
+.va-chatbot-status-wrapper {
+  display: flex;
+  flex-direction: column;
+}
 
-//   &__title {
-//     font-weight: 700;
-//     margin: 0 0 8px;
-//     font-size: 14px;
-//     line-height: 20px;
-//   }
-
-//   &__body {
-//     font-size: 12px;
-//     line-height: 16px;
-//     font-style: italic;
-//     margin: 0;
-//   }
-// }
-
-=======
->>>>>>> 10a9e58a35 (small adjsutments)
-.va-disclaimer {
-  margin: -5% 2% 0% 17%; /* left indent aligns under bubble content*/
-  padding: 0;
-  background: none;
-  border: 0;
-
-  &__body {
-    font-size: 15px;
-    line-height: 22px;
-    font-style: italic;
-    font-weight: 400;
-  }
+.va-chatbot-status-wrapper .va-chatbot-ai-disclaimer {
+  font-style: italic;
 }
