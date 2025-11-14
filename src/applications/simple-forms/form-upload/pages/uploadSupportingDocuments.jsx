@@ -56,6 +56,7 @@ export const uploadSupportingDocuments = {
         required: true,
         // Disallow uploads greater than 25 MB
         maxFileSize: MAX_FILE_SIZE,
+        disallowEncryptedPdfs: true,
       }),
     },
   },
