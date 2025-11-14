@@ -19,7 +19,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      deceasedClaimantFullName: fullNameNoSuffixSchema,
+      deceasedClaimantFullName: fullNameNoSuffixSchema(),
       deceasedClaimantDateOfDeath: dateOfDeathSchema,
     },
     required: ['deceasedClaimantDateOfDeath'],

@@ -25,7 +25,7 @@ export const childAddressPartTwo = {
   schema: {
     type: 'object',
     properties: {
-      livingWith: fullNameNoSuffixSchema,
+      livingWith: fullNameNoSuffixSchema(),
     },
   },
 };

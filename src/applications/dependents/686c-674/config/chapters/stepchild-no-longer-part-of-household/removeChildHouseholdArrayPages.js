@@ -170,7 +170,7 @@ export const householdChildInfoPage = {
     type: 'object',
     required: ['fullName', 'ssn', 'birthDate'],
     properties: {
-      fullName: fullNameNoSuffixSchema,
+      fullName: fullNameNoSuffixSchema(),
       ssn: ssnSchema,
       birthDate: currentOrPastDateSchema,
     },
@@ -312,7 +312,7 @@ export const parentOrGuardianPage = {
   schema: {
     type: 'object',
     properties: {
-      whoDoesTheStepchildLiveWith: fullNameNoSuffixSchema,
+      whoDoesTheStepchildLiveWith: fullNameNoSuffixSchema(),
     },
     required: ['whoDoesTheStepchildLiveWith'],
   },
