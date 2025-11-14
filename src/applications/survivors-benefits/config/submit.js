@@ -27,17 +27,43 @@ export function replacer(key, value) {
 }
 
 export function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form, replacer);
+  const formData = JSON.parse(transformForSubmit(formConfig, form, replacer));
+
+  if (formData.veteranSocialSecurityNumber) {
+    formData.veteranSsn = formData.veteranSocialSecurityNumber.replace(
+      /[^\d]/g,
+      '',
+    );
+    delete formData.veteranSocialSecurityNumber;
+  }
+
+  if (formData.veteranVAFileNumber) {
+    formData.veteranFileNumber = formData.veteranVAFileNumber;
+    delete formData.veteranVAFileNumber;
+  }
+
+  if (typeof formData.veteranFileNumber === 'undefined') {
+    formData.veteranFileNumber = '';
+  }
+
+  if (typeof formData.statementOfTruthCertified === 'boolean') {
+    formData.privacyAgreementAccepted = formData.statementOfTruthCertified;
+  }
+
   return JSON.stringify({
-    benefitsClaim: {
-      form: formData,
+    survivorsBenefitsClaim: {
+      form: JSON.stringify(formData),
     },
     // can’t use toISOString because we need the offset
     localTime: format(new Date(), "yyyy-MM-dd'T'HH:mm:ssXXX"),
   });
 }
 
-export async function submit(form, formConfig, apiPath = '') {
+export async function submit(
+  form,
+  formConfig,
+  apiPath = '/survivors_benefits/v0/form534ez',
+) {
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
   const apiRequestOptions = {
