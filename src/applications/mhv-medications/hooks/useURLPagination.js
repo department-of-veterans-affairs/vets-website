@@ -20,8 +20,7 @@ export const useURLPagination = (options = {}) => {
   const page = useMemo(
     () => {
       const query = new URLSearchParams(search);
-      const pageParam = query.get('page');
-      return pageParam ? Number(pageParam) : 1;
+      return Number(query.get('page'));
     },
     [search],
   );

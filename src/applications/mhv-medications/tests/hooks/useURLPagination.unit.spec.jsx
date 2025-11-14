@@ -48,7 +48,7 @@ function renderHook(renderCallback, options = {}) {
 function createTestWrapper(mockStore, page = 1) {
   const Wrapper = ({ children }) => (
     <Provider store={mockStore}>
-      <MemoryRouter initialEntries={[`/?page=${page}`]}>
+      <MemoryRouter initialEntries={[page !== null ? `/?page=${page}` : '']}>
         {children}
       </MemoryRouter>
     </Provider>
@@ -105,6 +105,40 @@ describe('useURLPagination', () => {
     await waitFor(() => {
       expect(dispatchSpy.called).to.be.false;
       expect(navigateStub.calledWith('/?page=1', { replace: true })).to.be.true;
+    });
+  });
+
+  it("Redirects to page 1 and doesn't dispatch an action when the page query param is missing", async () => {
+    wrapper = createTestWrapper(mockStore, null);
+
+    renderHook(
+      () =>
+        useURLPagination({
+          navigate: navigateStub,
+        }),
+      { wrapper },
+    );
+
+    await waitFor(() => {
+      expect(dispatchSpy.called).to.be.false;
+      expect(navigateStub.calledWith('/?page=1', { replace: true })).to.be.true;
+    });
+  });
+
+  it('Dispatches action when the page query param is different from the current page number in state', async () => {
+    mockStore = configureStore([])({ rx: { preferences: { pageNumber: 5 } } });
+    wrapper = createTestWrapper(mockStore, 12);
+
+    renderHook(() => useURLPagination({ navigate: navigateStub }), { wrapper });
+
+    await waitFor(() => {
+      expect(
+        dispatchSpy.calledWith({
+          type: 'preferences/setPageNumber',
+          payload: 12,
+        }),
+      ).to.be.true;
+      expect(navigateStub.called).to.be.false;
     });
   });
 
