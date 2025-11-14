@@ -23,8 +23,13 @@ import {
   yellowRibbonProgramRequestSummary,
   contributionLimitsAndDegreeLevel,
   foreignContributionLimitsAndDegreeLevel,
+  pointsOfContanct,
+  additionalPointsOfContact,
 } from '../pages';
-import { additionalInstitutionDetailsArrayOptions } from '../helpers';
+import {
+  additionalInstitutionDetailsArrayOptions,
+  showAdditionalPointsOfContact,
+} from '../helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -203,6 +208,24 @@ const formConfig = {
             }),
           }),
         ),
+      },
+    },
+    pointsOfContactChapter: {
+      title: 'Points of contact',
+      pages: {
+        pointsOfContanct: {
+          path: 'points-of-contact',
+          title: 'Points of contact',
+          uiSchema: pointsOfContanct.uiSchema,
+          schema: pointsOfContanct.schema,
+        },
+        additionalPointsOfContact: {
+          path: 'additional-points-of-contact',
+          title: 'additional points of contact',
+          uiSchema: additionalPointsOfContact.uiSchema,
+          schema: additionalPointsOfContact.schema,
+          depends: formData => showAdditionalPointsOfContact(formData),
+        },
       },
     },
     submissionInstructionsChapter: {
