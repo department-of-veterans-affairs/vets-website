@@ -33,7 +33,7 @@ describe('Medical Records View Lab and Tests', () => {
     const today = mockDate;
     const fromDisplay = format(subMonths(today, 3), 'MMMM d, yyyy');
     const toDisplay = format(today, 'MMMM d, yyyy');
-    LabsAndTests.checkTimeFrameDisplay({
+    LabsAndTests.checkNoRecordsTimeFrameDisplay({
       fromDate: fromDisplay,
       toDate: toDisplay,
     });

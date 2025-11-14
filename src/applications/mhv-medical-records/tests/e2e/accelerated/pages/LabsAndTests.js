@@ -62,6 +62,15 @@ class LabsAndTests {
   checkTimeFrameDisplay = ({ fromDate, toDate }) => {
     const expectedText = `${fromDate} to ${toDate}`;
 
+    // Assert the bold range text matches the expected year span
+    cy.get('[data-testid="filter-display-message"]')
+      .should('be.visible')
+      .should('have.text', expectedText);
+  };
+
+  checkNoRecordsTimeFrameDisplay = ({ fromDate, toDate }) => {
+    const expectedText = `${fromDate} to ${toDate}`;
+
     // Try the filter display first; if absent fall back to no-records message containing the range
     cy.get('body').then($body => {
       if ($body.find('[data-testid="filter-display-message"]').length) {

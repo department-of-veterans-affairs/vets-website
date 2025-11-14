@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 /**
- * Returns date range options including 3 months, 6 months, and years from 2013 to current year"
+ * Returns date range options including 3 months, 6 months, and years from 2013 to current year
  */
 export const getDateRangeList = () => {
   const currentYear = new Date().getFullYear();
@@ -40,12 +40,14 @@ const DateRangeSelector = ({
   isLoading,
 }) => {
   // Only apply the inert attribute when loading accelerated data to avoid always-present attribute.
+  const selectRef = useRef(null);
   const selectProps = {
     label: 'Date range',
     name: 'dateRangeSelector',
     value: selectedDate,
     onVaSelect: onDateRangeSelect,
     'data-testid': 'date-range-selector',
+    ref: selectRef,
   };
   if (isLoading) {
     selectProps.inert = true;
@@ -55,13 +57,14 @@ const DateRangeSelector = ({
   // attribute after prop removal. Explicitly remove it when loading stops.
   useEffect(
     () => {
-      if (!isLoading) {
-        const el = document.querySelector(
-          '[data-testid="date-range-selector"]',
-        );
-        if (el && el.hasAttribute('inert')) {
-          el.removeAttribute('inert');
-        }
+      if (isLoading) {
+        return; // nothing to clean while still loading
+      }
+      const el =
+        selectRef.current ||
+        document.querySelector('[data-testid="date-range-selector"]');
+      if (el?.hasAttribute('inert')) {
+        el.removeAttribute('inert');
       }
     },
     [isLoading],
