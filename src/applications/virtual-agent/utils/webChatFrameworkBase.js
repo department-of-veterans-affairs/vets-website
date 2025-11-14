@@ -6,7 +6,9 @@ let Components;
 
 /**
  * This module is used to create the web chat framework for the virtual agent.
- * In the test environment, it returns a mock web chat framework, because otherwise an error is thrown due to some jsx file issue loading the npm package.
+ * In the test environment, it returns a mock web chat framework to avoid module loading errors
+ * that occur when the botframework-webchat package is imported during test execution.
+ * Specifically, importing botframework-webchat in tests causes a syntax error due to untranspiled JSX in the package.
  * In production environment, it returns the real web chat framework.
  */
 
