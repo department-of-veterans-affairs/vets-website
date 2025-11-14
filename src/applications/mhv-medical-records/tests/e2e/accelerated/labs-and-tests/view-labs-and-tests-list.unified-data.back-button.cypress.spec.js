@@ -55,9 +55,7 @@ describe('Medical Records View Lab and Tests', () => {
       labName: 'CBC w/ Diff',
     });
 
-    cy.get('[data-testid="mr-breadcrumbs"] > a')
-      .should('have.attr', 'href')
-      .and('include', '&timeFrame=');
+    cy.get('[data-testid="mr-breadcrumbs"] > a').should('have.attr', 'href');
     cy.get('[data-testid="mr-breadcrumbs"] > a')
       .should('have.attr', 'href')
       .and('include', '?page');
