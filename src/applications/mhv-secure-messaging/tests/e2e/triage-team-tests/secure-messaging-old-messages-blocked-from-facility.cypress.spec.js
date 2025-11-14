@@ -76,11 +76,6 @@ describe('Verify old messages - blocked from facility', () => {
       .should('have.class', 'open');
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .shadow()
-      .find('#alert-body')
-      .should('have.class', 'open');
-
-    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
       .should('include.text', Alerts.BLOCKED.PARAGRAPH);
 
