@@ -236,7 +236,7 @@ describe('Dispute Debt Utils', () => {
 
       const result = getDebtPageTitle(formData, options);
       expect(result).to.include('$2,000.00');
-      expect(result).to.include('Chapter 35 education debt');
+      expect(result).to.include('Chapter 35 education overpayment');
     });
 
     it('should handle unknown deduction code', () => {

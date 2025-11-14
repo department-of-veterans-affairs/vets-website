@@ -85,7 +85,7 @@ describe('DebtReviewPage Component', () => {
     const { container } = render(<DebtReviewPage {...props} />);
 
     expect(container.textContent).to.include(
-      'Debt 1 of 1: $0.00 for Chapter 34 education debt',
+      'Debt 1 of 1: $0.00 for Chapter 34 education overpayment',
     );
   });
 
@@ -128,7 +128,7 @@ describe('DebtReviewPage Component', () => {
     const { container } = render(<DebtReviewPage {...props} />);
 
     expect(container.textContent).to.include(
-      'Debt 2 of 3: $2,000.00 for Chapter 34 education debt',
+      'Debt 2 of 3: $2,000.00 for Chapter 34 education overpayment',
     );
   });
 
