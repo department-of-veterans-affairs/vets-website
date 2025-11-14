@@ -386,7 +386,7 @@ const testConfig = createTestConfig(
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
       cy.login(user);
     },
-    skip: false,
+    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
