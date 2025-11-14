@@ -93,7 +93,10 @@ const DateTimeSelection = () => {
   );
 
   return (
-    <Wrapper pageTitle="What date and time do you want for this appointment?">
+    <Wrapper
+      pageTitle="What date and time do you want for this appointment?"
+      classNames="vads-u-margin-top--4"
+    >
       <div data-testid="content">
         <p>
           Select an available date and time from the calendar below. Appointment
@@ -131,6 +134,7 @@ const DateTimeSelection = () => {
         data-testid="continue-button"
         continue
         onClick={handleContinue}
+        text={null}
       />
     </Wrapper>
   );
