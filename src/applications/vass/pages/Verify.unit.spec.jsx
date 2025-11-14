@@ -1,41 +1,34 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom-v5-compat';
+import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import Verify from './Verify';
 
 describe('VASS Component: Verify', () => {
   it('should render page title', () => {
-    const screen = render(
-      <MemoryRouter>
-        <Verify />
-      </MemoryRouter>,
-    );
+    const screen = renderWithStoreAndRouterV6(<Verify />, {
+      initialState: {},
+    });
 
     expect(screen.getByTestId('header')).to.exist;
   });
 
   it('should render introductory text about verification', () => {
-    const { getByText } = render(
-      <MemoryRouter>
-        <Verify />
-      </MemoryRouter>,
-    );
+    const { getByText } = renderWithStoreAndRouterV6(<Verify />, {
+      initialState: {},
+    });
 
     expect(
       getByText(
-        /First, we’ll need your information so we can send you a one-time verification code/i,
+        /First, we’ll need your information so we can send you a one-time verification code to verify your identity/i,
       ),
     ).to.exist;
   });
 
   it('should render last name input field', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <Verify />
-      </MemoryRouter>,
-    );
+    const { container } = renderWithStoreAndRouterV6(<Verify />, {
+      initialState: {},
+    });
     const lastNameInput = container.querySelector(
       'va-text-input[name="last-name"]',
     );
@@ -46,22 +39,18 @@ describe('VASS Component: Verify', () => {
   });
 
   it('should render date of birth field', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <Verify />
-      </MemoryRouter>,
-    );
+    const { container } = renderWithStoreAndRouterV6(<Verify />, {
+      initialState: {},
+    });
     const dobInput = container.querySelector('#dob-input');
 
     expect(dobInput).to.exist;
   });
 
   it('should render submit button', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <Verify />
-      </MemoryRouter>,
-    );
+    const { container } = renderWithStoreAndRouterV6(<Verify />, {
+      initialState: {},
+    });
     const submitButton = container.querySelector('va-button');
 
     expect(submitButton).to.exist;
