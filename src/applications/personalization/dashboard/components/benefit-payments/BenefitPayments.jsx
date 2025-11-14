@@ -78,8 +78,8 @@ const PaymentsError = () => {
     <div className="vads-u-margin-bottom--2p5">
       <va-alert status={status} show-icon data-testid="payments-error">
         <div>
-          We can’t show your payment history right now. Refresh this page or try
-          again later.
+          We can’t show your benefit payments history right now. Refresh this
+          page or try again later.
         </div>
       </va-alert>
     </div>

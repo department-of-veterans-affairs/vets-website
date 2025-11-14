@@ -20,13 +20,13 @@ export const DebtsCard = ({ debtsCount }) => {
         className="vads-u-margin-y--0 vads-u-padding-bottom--1"
         data-testid="debt-total-header"
       >
-        {debtsCount} overpayment
+        {debtsCount} benefit overpayment
         {debtsCount > 1 ? 's' : ''}
       </h4>
       <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">
         <va-link
           active
-          text="Manage overpayments"
+          text="Manage overpayment balances"
           href="/manage-va-debt/summary/debt-balances"
           onClick={() =>
             recordEvent({

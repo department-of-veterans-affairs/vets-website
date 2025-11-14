@@ -37,7 +37,7 @@ export const CopaysCard = ({ copays }) => {
       <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">
         <va-link
           active
-          text="Manage copay bills"
+          text="Manage copay balances"
           href="/manage-va-debt/summary/copay-balances"
           onClick={() =>
             recordEvent({
