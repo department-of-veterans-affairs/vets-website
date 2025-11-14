@@ -184,31 +184,6 @@ export function buildSubmissionData(payload) {
   return { ...payload, data: cleanData };
 }
 
-export function customTransformForSubmit(formConfig, form) {
-  const payload = cloneDeep(form);
-  if (!payload.data) {
-    payload.data = {};
-  }
-  payload.data.useV2 = true;
-  payload.data.daysTillExpires = 365;
-
-  const expandedPages = expandArrayPages(
-    createFormPageList(formConfig),
-    payload.data,
-  );
-  const activePages = getActivePages(expandedPages, payload.data);
-  const inactivePages = getInactivePages(expandedPages, payload.data);
-  const withoutInactivePages = filterInactivePageData(
-    inactivePages,
-    activePages,
-    payload,
-  );
-
-  const cleanedPayload = buildSubmissionData(withoutInactivePages);
-
-  return JSON.stringify(cleanedPayload, customFormReplacer) || '{}';
-}
-
 /**
  * parseDateToDateObj from ISO8601 or JS number date (not unix time)
  * @param {string, number, Date} date - date to format
@@ -312,3 +287,291 @@ export const isVisiblePicklistPage = (formData, relationship) => {
 
 export const hasSelectedPicklistItems = formData =>
   (formData?.[PICKLIST_DATA] || []).some(item => item.selected);
+
+/**
+ * Build location object for V2 format
+ * @param {Object} item - Picklist item with location fields
+ * @returns {Object} V2 location format
+ */
+function buildLocation(item) {
+  if (item.endOutsideUs === true) {
+    return {
+      outsideUsa: true,
+      location: {
+        city: item.endCity || '',
+        country: item.endCountry || '',
+      },
+    };
+  }
+
+  return {
+    outsideUsa: false,
+    location: {
+      city: item.endCity || '',
+      state: item.endState || '',
+    },
+  };
+}
+
+/**
+ * Transform V3 picklist item with removalReason: 'childMarried' to V2 format
+ * @param {Object} item - Picklist item
+ * @returns {Object} V2 childMarriage format
+ */
+function transformChildMarriage(item) {
+  return {
+    fullName: item.fullName,
+    ssn: item.ssn,
+    birthDate: item.dateOfBirth,
+    dateMarried: item.endDate,
+    // TODO: Confirm income field source - currently defaulting to 'N'
+    dependentIncome: 'N',
+  };
+}
+
+/**
+ * Transform V3 picklist item with removalReason: 'childNotInSchool' to V2 format
+ * @param {Object} item - Picklist item
+ * @returns {Object} V2 childStoppedAttendingSchool format
+ */
+function transformChildNotInSchool(item) {
+  return {
+    fullName: item.fullName,
+    ssn: item.ssn,
+    birthDate: item.dateOfBirth,
+    dateChildLeftSchool: item.endDate,
+    // TODO: Confirm income field source - currently defaulting to 'N'
+    dependentIncome: 'N',
+  };
+}
+
+/**
+ * Transform V3 picklist item with removalReason: 'childDied' to V2 format
+ * @param {Object} item - Picklist item
+ * @returns {Object} V2 deaths format (child)
+ */
+function transformChildDeath(item) {
+  return {
+    fullName: item.fullName,
+    ssn: item.ssn,
+    birthDate: item.dateOfBirth,
+    dependentType: 'CHILD',
+    dependentDeathDate: item.endDate,
+    dependentDeathLocation: buildLocation(item),
+    // TODO: Confirm income field source - currently defaulting to 'N'
+    deceasedDependentIncome: 'N',
+  };
+}
+
+/**
+ * Transform V3 picklist item with removalReason: 'marriageEnded' to V2 format
+ * @param {Object} item - Picklist item
+ * @returns {Object} V2 reportDivorce format
+ */
+function transformSpouseDivorce(item) {
+  // Map V3 endType to V2 reasonMarriageEnded
+  const reasonMap = {
+    divorce: 'Divorce',
+    annulmentOrVoid: 'Annulment',
+    other: 'Other',
+  };
+
+  return {
+    fullName: item.fullName,
+    ssn: item.ssn,
+    birthDate: item.dateOfBirth,
+    date: item.endDate,
+    reasonMarriageEnded: reasonMap[item.endType] || 'Other', // todo: Should we support Other option or default to annulmentOrVoid
+    explanationOfOther: item.endAnnulmentOrVoidDescription || '',
+    divorceLocation: buildLocation(item),
+    // TODO: Confirm income field source - currently defaulting to 'N'
+    spouseIncome: 'N',
+  };
+}
+
+/**
+ * Transform V3 picklist item with removalReason: 'death' (spouse) to V2 format
+ * @param {Object} item - Picklist item
+ * @returns {Object} V2 deaths format (spouse)
+ */
+function transformSpouseDeath(item) {
+  return {
+    fullName: item.fullName,
+    ssn: item.ssn,
+    birthDate: item.dateOfBirth,
+    dependentType: 'SPOUSE',
+    dependentDeathDate: item.endDate,
+    dependentDeathLocation: buildLocation(item),
+    // TODO: Confirm income field source - currently defaulting to 'N'
+    // Pension related question. Perhaps should be a conditional question we add to the flow?
+    deceasedDependentIncome: 'N',
+  };
+}
+
+/**
+ * Transform V3 picklist item with removalReason: 'parentDied' to V2 format
+ * @param {Object} item - Picklist item
+ * @returns {Object} V2 deaths format (parent)
+ */
+function transformParentDeath(item) {
+  return {
+    fullName: item.fullName,
+    ssn: item.ssn,
+    birthDate: item.dateOfBirth,
+    dependentType: 'PARENT',
+    dependentDeathDate: item.endDate,
+    dependentDeathLocation: buildLocation(item),
+    // TODO: Confirm income field source - currently defaulting to 'N'
+    deceasedDependentIncome: 'N',
+  };
+}
+
+/**
+ * Transform V3 picklist item with removalReason: 'stepchildLeftHousehold' to V2 format
+ * @param {Object} item - Picklist item
+ * @returns {Object} V2 stepChildren format
+ */
+function transformStepchild(item) {
+  return {
+    fullName: item.fullName,
+    ssn: item.ssn,
+    birthDate: item.dateOfBirth,
+    dateStepchildLeftHousehold: item.endDate,
+    whoDoesTheStepchildLiveWith: item.whoDoesTheStepchildLiveWith || {},
+    address: item.address || {},
+    livingExpensesPaid: item.livingExpensesPaid || '',
+    supportingStepchild: item.supportingStepchild,
+  };
+}
+
+/**
+ * Transforms V3 picklist removal data to V2 format
+ * Mutates the data object in place
+ * @param {Object} data - Form data object
+ */
+export function transformPicklistToV2(data) {
+  const picklist = data[PICKLIST_DATA] || [];
+  const selected = picklist.filter(item => item.selected === true);
+
+  if (selected.length === 0) {
+    return;
+  }
+
+  // Initialize V2 arrays
+  const v2Data = {
+    deaths: [],
+    childMarriage: [],
+    childStoppedAttendingSchool: [],
+    stepChildren: [],
+    reportDivorce: null,
+  };
+
+  // Group by removal reason and transform
+  selected.forEach(item => {
+    switch (item.removalReason) {
+      case 'childMarried':
+        v2Data.childMarriage.push(transformChildMarriage(item));
+        break;
+      case 'childNotInSchool':
+        v2Data.childStoppedAttendingSchool.push(
+          transformChildNotInSchool(item),
+        );
+        break;
+      case 'childDied':
+        v2Data.deaths.push(transformChildDeath(item));
+        break;
+      case 'marriageEnded':
+        // reportDivorce is single object, not array
+        if (v2Data.reportDivorce) {
+          // TODO: Handle multiple spouses with marriageEnded
+          throw new Error(
+            'Multiple spouses selected with marriageEnded. reportDivorce is a single object, not an array. Only the first will be used.',
+            item,
+          );
+        } else {
+          v2Data.reportDivorce = transformSpouseDivorce(item);
+        }
+        break;
+      case 'death': // spouse death
+        v2Data.deaths.push(transformSpouseDeath(item));
+        break;
+      case 'parentDied':
+        v2Data.deaths.push(transformParentDeath(item));
+        break;
+      case 'stepchildLeftHousehold':
+        v2Data.stepChildren.push(transformStepchild(item));
+        break;
+      case 'parentOther':
+        // TODO: Determine V2 mapping for parentOther removal reason
+        throw new Error(
+          'Unknown V2 mapping for parentOther removal reason. This item will be skipped.',
+          item,
+        );
+      default:
+        throw new Error('Unknown removal reason:', item.removalReason, item);
+    }
+  });
+
+  // Copy to data object (only if arrays/object exist)
+  if (v2Data.deaths.length > 0) {
+    // eslint-disable-next-line no-param-reassign
+    data.deaths = v2Data.deaths;
+  }
+  if (v2Data.childMarriage.length > 0) {
+    // eslint-disable-next-line no-param-reassign
+    data.childMarriage = v2Data.childMarriage;
+  }
+  if (v2Data.childStoppedAttendingSchool.length > 0) {
+    // eslint-disable-next-line no-param-reassign
+    data.childStoppedAttendingSchool = v2Data.childStoppedAttendingSchool;
+  }
+  if (v2Data.stepChildren.length > 0) {
+    // eslint-disable-next-line no-param-reassign
+    data.stepChildren = v2Data.stepChildren;
+  }
+  if (v2Data.reportDivorce) {
+    // eslint-disable-next-line no-param-reassign
+    data.reportDivorce = v2Data.reportDivorce;
+  }
+
+  // Set removal options flags based on what was transformed
+  // eslint-disable-next-line no-param-reassign
+  data['view:removeDependentOptions'] = {
+    reportDivorce: !!v2Data.reportDivorce,
+    reportDeath: v2Data.deaths.length > 0,
+    reportStepchildNotInHousehold: v2Data.stepChildren.length > 0,
+    reportMarriageOfChildUnder18: v2Data.childMarriage.length > 0,
+    reportChild18OrOlderIsNotAttendingSchool:
+      v2Data.childStoppedAttendingSchool.length > 0,
+  };
+}
+
+export function customTransformForSubmit(formConfig, form) {
+  const payload = cloneDeep(form);
+  if (!payload.data) {
+    payload.data = {};
+  }
+  payload.data.useV2 = true;
+  payload.data.daysTillExpires = 365;
+
+  const expandedPages = expandArrayPages(
+    createFormPageList(formConfig),
+    payload.data,
+  );
+  const activePages = getActivePages(expandedPages, payload.data);
+  const inactivePages = getInactivePages(expandedPages, payload.data);
+  const withoutInactivePages = filterInactivePageData(
+    inactivePages,
+    activePages,
+    payload,
+  );
+
+  // Transform V3 picklist data to V2 format if V3 is enabled
+  if (withoutInactivePages?.vaDependentsV3 === true) {
+    transformPicklistToV2(withoutInactivePages);
+  }
+
+  const cleanedPayload = buildSubmissionData(withoutInactivePages);
+
+  return JSON.stringify(cleanedPayload, customFormReplacer) || '{}';
+}

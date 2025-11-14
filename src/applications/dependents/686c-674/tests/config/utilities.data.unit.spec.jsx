@@ -15,6 +15,7 @@ import {
   isRemovingDependents,
   isVisiblePicklistPage,
   hasSelectedPicklistItems,
+  transformPicklistToV2,
 } from '../../config/utilities/data';
 
 import { PICKLIST_DATA } from '../../config/constants';
@@ -633,5 +634,455 @@ describe('hasSelectedPicklistItems', () => {
     expect(hasSelectedPicklistItems(getData(false, true))).to.be.true;
 
     expect(hasSelectedPicklistItems(getData(true, true))).to.be.true;
+  });
+});
+
+describe('transformPicklistToV2', () => {
+  it('should do nothing when picklist is empty', () => {
+    const data = {
+      [PICKLIST_DATA]: [],
+    };
+    transformPicklistToV2(data);
+
+    expect(data.deaths).to.be.undefined;
+    expect(data.childMarriage).to.be.undefined;
+    expect(data.childStoppedAttendingSchool).to.be.undefined;
+    expect(data.reportDivorce).to.be.undefined;
+    expect(data.stepChildren).to.be.undefined;
+    expect(data['view:removeDependentOptions']).to.be.undefined;
+  });
+
+  it('should do nothing when no items are selected', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'TEST', last: 'USER' },
+          selected: false,
+          removalReason: 'childMarried',
+        },
+      ],
+    };
+    transformPicklistToV2(data);
+
+    expect(data.deaths).to.be.undefined;
+    expect(data.childMarriage).to.be.undefined;
+    expect(data['view:removeDependentOptions']).to.be.undefined;
+  });
+
+  it('should transform childMarried to childMarriage array', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'MORTY', last: 'SMITH' },
+          dateOfBirth: '2007-11-15',
+          ssn: '6791',
+          selected: true,
+          removalReason: 'childMarried',
+          endDate: '2000-01-01',
+        },
+      ],
+    };
+    transformPicklistToV2(data);
+
+    expect(data.childMarriage).to.be.an('array');
+    expect(data.childMarriage).to.have.lengthOf(1);
+    expect(data.childMarriage[0]).to.deep.equal({
+      fullName: { first: 'MORTY', last: 'SMITH' },
+      ssn: '6791',
+      birthDate: '2007-11-15',
+      dateMarried: '2000-01-01',
+      dependentIncome: 'N',
+    });
+    expect(data['view:removeDependentOptions'].reportMarriageOfChildUnder18).to
+      .be.true;
+  });
+
+  it('should transform childNotInSchool to childStoppedAttendingSchool array', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'CHILD', last: 'SMITH' },
+          dateOfBirth: '2005-06-15',
+          ssn: '1234',
+          selected: true,
+          removalReason: 'childNotInSchool',
+          endDate: '2024-05-01',
+        },
+      ],
+    };
+    transformPicklistToV2(data);
+
+    expect(data.childStoppedAttendingSchool).to.be.an('array');
+    expect(data.childStoppedAttendingSchool).to.have.lengthOf(1);
+    expect(data.childStoppedAttendingSchool[0]).to.deep.equal({
+      fullName: { first: 'CHILD', last: 'SMITH' },
+      ssn: '1234',
+      birthDate: '2005-06-15',
+      dateChildLeftSchool: '2024-05-01',
+      dependentIncome: 'N',
+    });
+    expect(
+      data['view:removeDependentOptions']
+        .reportChild18OrOlderIsNotAttendingSchool,
+    ).to.be.true;
+  });
+
+  it('should transform childDied to deaths array', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'CHILD', last: 'DOE' },
+          dateOfBirth: '2010-01-01',
+          ssn: '5678',
+          selected: true,
+          removalReason: 'childDied',
+          endDate: '2023-12-01',
+          endOutsideUs: false,
+          endCity: 'Portland',
+          endState: 'OR',
+        },
+      ],
+    };
+    transformPicklistToV2(data);
+
+    expect(data.deaths).to.be.an('array');
+    expect(data.deaths).to.have.lengthOf(1);
+    expect(data.deaths[0]).to.deep.equal({
+      fullName: { first: 'CHILD', last: 'DOE' },
+      ssn: '5678',
+      birthDate: '2010-01-01',
+      dependentType: 'CHILD',
+      dependentDeathDate: '2023-12-01',
+      dependentDeathLocation: {
+        outsideUsa: false,
+        location: {
+          city: 'Portland',
+          state: 'OR',
+        },
+      },
+      deceasedDependentIncome: 'N',
+    });
+    expect(data['view:removeDependentOptions'].reportDeath).to.be.true;
+  });
+
+  it('should transform marriageEnded (divorce) to reportDivorce object', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'SUMMER', last: 'SMITH' },
+          dateOfBirth: '1990-08-01',
+          ssn: '6790',
+          selected: true,
+          removalReason: 'marriageEnded',
+          endType: 'divorce',
+          endDate: '2000-02-02',
+          endCity: 'test',
+          endState: 'AS',
+          endOutsideUs: false,
+        },
+      ],
+    };
+    transformPicklistToV2(data);
+
+    expect(data.reportDivorce).to.be.an('object');
+    expect(data.reportDivorce).to.deep.equal({
+      fullName: { first: 'SUMMER', last: 'SMITH' },
+      ssn: '6790',
+      birthDate: '1990-08-01',
+      date: '2000-02-02',
+      reasonMarriageEnded: 'Divorce',
+      explanationOfOther: '',
+      divorceLocation: {
+        outsideUsa: false,
+        location: {
+          city: 'test',
+          state: 'AS',
+        },
+      },
+      spouseIncome: 'N',
+    });
+    expect(data['view:removeDependentOptions'].reportDivorce).to.be.true;
+  });
+
+  it('should transform marriageEnded (annulmentOrVoid) to reportDivorce object', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'SPOUSE', last: 'DOE' },
+          dateOfBirth: '1985-01-01',
+          ssn: '9999',
+          selected: true,
+          removalReason: 'marriageEnded',
+          endType: 'annulmentOrVoid',
+          endAnnulmentOrVoidDescription: 'Test description',
+          endDate: '2020-01-01',
+          endOutsideUs: true,
+          endCity: 'Paris',
+          endCountry: 'FRA',
+        },
+      ],
+    };
+    transformPicklistToV2(data);
+
+    expect(data.reportDivorce.reasonMarriageEnded).to.equal('Annulment');
+    expect(data.reportDivorce.explanationOfOther).to.equal('Test description');
+    expect(data.reportDivorce.divorceLocation).to.deep.equal({
+      outsideUsa: true,
+      location: {
+        city: 'Paris',
+        country: 'FRA',
+      },
+    });
+  });
+
+  it('should transform spouse death to deaths array', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'SPOUSE', last: 'DOE' },
+          dateOfBirth: '1980-05-15',
+          ssn: '4444',
+          selected: true,
+          removalReason: 'death',
+          endDate: '2024-01-15',
+          endOutsideUs: true,
+          endCity: 'London',
+          endCountry: 'GBR',
+        },
+      ],
+    };
+    transformPicklistToV2(data);
+
+    expect(data.deaths).to.be.an('array');
+    expect(data.deaths).to.have.lengthOf(1);
+    expect(data.deaths[0]).to.deep.equal({
+      fullName: { first: 'SPOUSE', last: 'DOE' },
+      ssn: '4444',
+      birthDate: '1980-05-15',
+      dependentType: 'SPOUSE',
+      dependentDeathDate: '2024-01-15',
+      dependentDeathLocation: {
+        outsideUsa: true,
+        location: {
+          city: 'London',
+          country: 'GBR',
+        },
+      },
+      deceasedDependentIncome: 'N',
+    });
+    expect(data['view:removeDependentOptions'].reportDeath).to.be.true;
+  });
+
+  it('should transform parentDied to deaths array', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'SAM', last: 'PETER' },
+          dateOfBirth: '1936-05-16',
+          ssn: '6767',
+          selected: true,
+          removalReason: 'parentDied',
+          endDate: '2000-02-02',
+          endOutsideUs: false,
+          endCity: 'test',
+          endState: 'AK',
+        },
+      ],
+    };
+    transformPicklistToV2(data);
+
+    expect(data.deaths).to.be.an('array');
+    expect(data.deaths).to.have.lengthOf(1);
+    expect(data.deaths[0]).to.deep.equal({
+      fullName: { first: 'SAM', last: 'PETER' },
+      ssn: '6767',
+      birthDate: '1936-05-16',
+      dependentType: 'PARENT',
+      dependentDeathDate: '2000-02-02',
+      dependentDeathLocation: {
+        outsideUsa: false,
+        location: {
+          city: 'test',
+          state: 'AK',
+        },
+      },
+      deceasedDependentIncome: 'N',
+    });
+    expect(data['view:removeDependentOptions'].reportDeath).to.be.true;
+  });
+
+  it('should transform multiple items to appropriate arrays', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'CHILD1', last: 'SMITH' },
+          dateOfBirth: '2007-11-15',
+          ssn: '6791',
+          selected: true,
+          removalReason: 'childMarried',
+          endDate: '2000-01-01',
+        },
+        {
+          fullName: { first: 'CHILD2', last: 'SMITH' },
+          dateOfBirth: '2010-01-01',
+          ssn: '5678',
+          selected: true,
+          removalReason: 'childDied',
+          endDate: '2023-12-01',
+          endOutsideUs: false,
+          endCity: 'Portland',
+          endState: 'OR',
+        },
+        {
+          fullName: { first: 'PARENT', last: 'PETER' },
+          dateOfBirth: '1936-05-16',
+          ssn: '6767',
+          selected: true,
+          removalReason: 'parentDied',
+          endDate: '2000-02-02',
+          endOutsideUs: false,
+          endCity: 'test',
+          endState: 'AK',
+        },
+      ],
+    };
+    transformPicklistToV2(data);
+
+    expect(data.childMarriage).to.have.lengthOf(1);
+    expect(data.deaths).to.have.lengthOf(2);
+    expect(data.deaths[0].dependentType).to.equal('CHILD');
+    expect(data.deaths[1].dependentType).to.equal('PARENT');
+
+    expect(data['view:removeDependentOptions']).to.deep.equal({
+      reportDivorce: false,
+      reportDeath: true,
+      reportStepchildNotInHousehold: false,
+      reportMarriageOfChildUnder18: true,
+      reportChild18OrOlderIsNotAttendingSchool: false,
+    });
+  });
+
+  it('should handle stepchildLeftHousehold removal reason', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'STEP', last: 'CHILD' },
+          dateOfBirth: '2012-02-19',
+          ssn: '333445555',
+          selected: true,
+          removalReason: 'stepchildLeftHousehold',
+          endDate: '2000-02-02',
+          whoDoesTheStepchildLiveWith: { first: 'John', last: 'Doe' },
+          address: {
+            country: 'USA',
+            street: '123 Fake St.',
+            city: 'Las Vegas',
+            state: 'NV',
+            postalCode: '12345',
+          },
+          livingExpensesPaid: 'More than half',
+          supportingStepchild: true,
+        },
+      ],
+    };
+    transformPicklistToV2(data);
+
+    expect(data.stepChildren).to.be.an('array');
+    expect(data.stepChildren).to.have.lengthOf(1);
+    expect(data.stepChildren[0]).to.deep.equal({
+      fullName: { first: 'STEP', last: 'CHILD' },
+      ssn: '333445555',
+      birthDate: '2012-02-19',
+      dateStepchildLeftHousehold: '2000-02-02',
+      whoDoesTheStepchildLiveWith: { first: 'John', last: 'Doe' },
+      address: {
+        country: 'USA',
+        street: '123 Fake St.',
+        city: 'Las Vegas',
+        state: 'NV',
+        postalCode: '12345',
+      },
+      livingExpensesPaid: 'More than half',
+      supportingStepchild: true,
+    });
+    expect(data['view:removeDependentOptions'].reportStepchildNotInHousehold).to
+      .be.true;
+  });
+
+  it('should handle missing optional location fields', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'CHILD', last: 'DOE' },
+          dateOfBirth: '2010-01-01',
+          ssn: '5678',
+          selected: true,
+          removalReason: 'childDied',
+          endDate: '2023-12-01',
+          // No location fields provided
+        },
+      ],
+    };
+    transformPicklistToV2(data);
+
+    expect(data.deaths[0].dependentDeathLocation).to.deep.equal({
+      outsideUsa: false,
+      location: {
+        city: '',
+        state: '',
+      },
+    });
+  });
+
+  it('should throw error for parentOther removal reason', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'PARENT', last: 'DOE' },
+          dateOfBirth: '1940-01-01',
+          ssn: '9999',
+          selected: true,
+          removalReason: 'parentOther',
+          endDate: '2024-01-01',
+        },
+      ],
+    };
+
+    // Should throw error
+    expect(() => transformPicklistToV2(data)).to.throw(
+      'Unknown V2 mapping for parentOther removal reason',
+    );
+  });
+
+  it('should throw error for multiple spouses with marriageEnded', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'SPOUSE1', last: 'SMITH' },
+          dateOfBirth: '1990-08-01',
+          ssn: '6790',
+          selected: true,
+          removalReason: 'marriageEnded',
+          endType: 'divorce',
+          endDate: '2000-02-02',
+          endOutsideUs: false,
+        },
+        {
+          fullName: { first: 'SPOUSE2', last: 'DOE' },
+          dateOfBirth: '1985-01-01',
+          ssn: '9999',
+          selected: true,
+          removalReason: 'marriageEnded',
+          endType: 'divorce',
+          endDate: '2020-01-01',
+          endOutsideUs: false,
+        },
+      ],
+    };
+
+    // Should throw error on second spouse
+    expect(() => transformPicklistToV2(data)).to.throw(
+      'Multiple spouses selected with marriageEnded',
+    );
   });
 });

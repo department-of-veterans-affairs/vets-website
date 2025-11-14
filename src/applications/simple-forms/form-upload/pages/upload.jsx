@@ -40,6 +40,12 @@ export const uploadPage = {
               : title,
           };
         },
+        confirmationField: ({ formData }) => {
+          return {
+            data: formData?.name,
+            label: 'File you uploaded',
+          };
+        },
       }),
     },
   },
