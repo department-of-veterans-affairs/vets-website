@@ -5,7 +5,7 @@ import { TRAVEL_PAY_INFO_LINK } from '../constants';
 import FutureAppointmentAlert from './alerts/FutureAppointmentAlert';
 import OutOfBoundsAppointmentAlert from './alerts/OutOfBoundsAppointmentAlert';
 
-export const AppointmentInfoText = ({ appointment }) => {
+const AppointmentInfoText = ({ appointment }) => {
   const { isOutOfBounds, isPast } = appointment;
 
   if (appointment.travelPayClaim?.claim) {
@@ -55,3 +55,5 @@ export const AppointmentInfoText = ({ appointment }) => {
 AppointmentInfoText.propTypes = {
   appointment: PropTypes.object,
 };
+
+export default AppointmentInfoText;
