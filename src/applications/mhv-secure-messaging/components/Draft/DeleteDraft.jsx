@@ -19,6 +19,28 @@ import { addAlert } from '../../actions/alerts';
 import { deleteDraft } from '../../actions/draftDetails';
 import * as Constants from '../../util/constants';
 
+const _computeDraftDeleteRedirect = redirectPath => {
+  // Parse the URL
+  const [basePath, queryString] = redirectPath.split('?');
+  if (!queryString) {
+    // No query string, just add the param
+    return `${redirectPath}?draftDeleteSuccess=true`;
+  }
+
+  // Split query params
+  const params = queryString
+    .split('&')
+    .filter(param => !param.startsWith('rxRenewalMessageSuccess'));
+
+  // Add the new param
+  params.push('draftDeleteSuccess=true');
+
+  // Reconstruct the URL
+  return `${basePath}?${params.join('&')}`;
+};
+
+export { _computeDraftDeleteRedirect };
+
 const DeleteDraft = props => {
   const history = useHistory();
   const location = useLocation();
@@ -104,14 +126,8 @@ const DeleteDraft = props => {
           : DefaultFolders.DRAFTS.id;
 
         if (redirectPath) {
-          // Remove rxRenewalMessageSuccess query param if present
-          const cleanRedirectPath = redirectPath
-            .replace(
-              /[?&]rxRenewalMessageSuccess=?(true|false)?(&|$)/g,
-              (match, p1, p2) => (p2 === '&' ? '&' : ''),
-            )
-            .replace(/[?&]$/, '');
-          window.location.replace(cleanRedirectPath);
+          const finalPath = _computeDraftDeleteRedirect(redirectPath);
+          window.location.replace(finalPath);
         } else if (pathname.includes('/new-message')) {
           navigateToFolderByFolderId(
             activeFolder ? activeFolder.folderId : DefaultFolders.DRAFTS.id,
