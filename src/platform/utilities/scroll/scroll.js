@@ -3,6 +3,16 @@ import { getScrollOptions, getElementPosition } from './utils';
 import { focusElement, focusByOrder, defaultFocusSelector } from '../ui/focus';
 import { ERROR_ELEMENTS, SCROLL_ELEMENT_SUFFIX } from '../constants';
 import environment from '../environment';
+import {
+  ERROR_ATTR_SELECTORS,
+  addErrorAnnotations,
+  cleanupErrorAnnotations as cleanupErrorAnnotationsInternal,
+  collectAllErrorElements,
+  findFocusTarget,
+  isSupportedVaElement,
+} from './error-scaffolding';
+
+export const cleanupErrorAnnotations = cleanupErrorAnnotationsInternal;
 
 // Let the form system control scroll behavior
 window.history.scrollRestoration = 'manual';
@@ -60,6 +70,33 @@ export const scrollToTop = async (
   position = `top${SCROLL_ELEMENT_SUFFIX}`,
   scrollOptions,
 ) => scrollTo(position, scrollOptions);
+
+// Set up a MutationObserver to clean up errors when attributes change
+if (typeof window !== 'undefined') {
+  const observerConfig = {
+    attributes: true,
+    attributeFilter: ERROR_ATTR_SELECTORS,
+    subtree: true,
+  };
+
+  const startObserving = () => {
+    // Debounce cleanup to avoid excessive calls
+    let cleanupTimeout;
+    const debouncedCleanup = () => {
+      clearTimeout(cleanupTimeout);
+      cleanupTimeout = setTimeout(cleanupErrorAnnotations, 50);
+    };
+
+    const observer = new MutationObserver(debouncedCleanup);
+    observer.observe(document, observerConfig);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startObserving);
+  } else {
+    startObserving();
+  }
+}
 
 /**
  * scrollToFirstError options
@@ -137,6 +174,19 @@ export const scrollToFirstError = async (options = {}) => {
           requestAnimationFrame(() => {
             focusElement('[role="alert"]', {}, el?.shadowRoot);
           });
+        } else if (isSupportedVaElement(el)) {
+          cleanupErrorAnnotations();
+
+          const allErrors = collectAllErrorElements(selectors);
+          allErrors.forEach(addErrorAnnotations);
+
+          // Find and focus the appropriate input element
+          const focusTarget = findFocusTarget(el);
+          if (focusTarget) {
+            setTimeout(() => {
+              focusTarget.focus({ preventScroll: true });
+            }, 100);
+          }
         } else {
           focusElement(el);
         }
@@ -147,7 +197,18 @@ export const scrollToFirstError = async (options = {}) => {
 
     const queryForErrors = () => {
       const el = document.querySelector(selectors);
-      if (el) scrollAndFocus(el);
+      if (el) {
+        // Check if this element has child components with errors (nested errors)
+        const childWithError = el.shadowRoot?.querySelector(
+          '[error]:not([error=""])',
+        );
+        if (childWithError) {
+          // If there's a child with error, focus that instead of the parent
+          scrollAndFocus(childWithError);
+        } else {
+          scrollAndFocus(el);
+        }
+      }
     };
 
     // use MutationObserver to only watch `addedNodes` for the selectors
