@@ -150,7 +150,7 @@ const CareSummariesAndNotes = () => {
             selectedDate={dateRange?.option || DEFAULT_DATE_RANGE}
             isLoading={isLoadingAcceleratedData}
           />
-          <AdditionalReportsInfo domainName="care notes and summaries" />
+          <AdditionalReportsInfo domainName="care summaries and notes" />
         </div>
       )}
 
