@@ -42,8 +42,6 @@ describe('SM DRAFTS ADD FILTER CUSTOM DATE RANGE', () => {
 
   it(`verify errors`, () => {
     cy.get(Locators.BUTTONS.FILTER).click();
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(100);
 
     cy.get(Locators.FROM_TO_DATES_CONTAINER)
       .find('legend')
@@ -63,6 +61,10 @@ describe('SM DRAFTS ADD FILTER CUSTOM DATE RANGE', () => {
       Locators.BLOCKS.FILTER_END_DATE,
     ).should(`have.text`, Alerts.DATE_FILTER.EMPTY_END_DATE);
 
+    cy.get(Locators.BLOCKS.FILTER_START_DATE)
+      .find('[name="discharge-dateMonth"]')
+      .should('not.be.disabled');
+
     PatientFilterPage.selectStartMonth('April');
     PatientFilterPage.selectEndMonth('February');
     cy.get(Locators.BUTTONS.FILTER).click();
@@ -81,8 +83,6 @@ describe('SM DRAFTS ADD FILTER CUSTOM DATE RANGE', () => {
 
   it('focuses on the first filter error', () => {
     cy.get(Locators.BUTTONS.FILTER).click();
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(100);
     cy.findByTestId('date-start').should('be.focused');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -91,8 +91,6 @@ describe('SM DRAFTS ADD FILTER CUSTOM DATE RANGE', () => {
   it('opens closed accordion on relevant error', () => {
     PatientFilterPage.closeAdditionalFilter();
     cy.get(Locators.BUTTONS.FILTER).click();
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(200);
     cy.findByTestId('date-start').should('be.focused');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
