@@ -177,34 +177,47 @@ describe('Form Configuration', () => {
         expect(page.depends).to.be.a('function');
       });
 
-      it('should show page when veteran is NOT currently employed', () => {
+      it('should show page when employment ended (has ending date, not currently employed)', () => {
         const formData = {
           employmentDates: {
+            endingDate: '2024-01-15',
             currentlyEmployed: false,
           },
         };
         expect(page.depends(formData)).to.be.true;
       });
 
-      it('should hide page when veteran IS currently employed', () => {
+      it('should show page when has ending date and currentlyEmployed is undefined', () => {
         const formData = {
           employmentDates: {
+            endingDate: '2024-01-15',
+          },
+        };
+        expect(page.depends(formData)).to.be.true;
+      });
+
+      it('should hide page when currently employed (even with ending date)', () => {
+        const formData = {
+          employmentDates: {
+            endingDate: '2024-01-15',
             currentlyEmployed: true,
           },
         };
         expect(page.depends(formData)).to.be.false;
       });
 
-      it('should show page when currentlyEmployed is undefined', () => {
+      it('should hide page when no ending date provided', () => {
         const formData = {
-          employmentDates: {},
+          employmentDates: {
+            currentlyEmployed: false,
+          },
         };
-        expect(page.depends(formData)).to.be.true;
+        expect(page.depends(formData)).to.be.false;
       });
 
-      it('should show page when employmentDates section is missing', () => {
+      it('should hide page when employmentDates section is missing', () => {
         const formData = {};
-        expect(page.depends(formData)).to.be.true;
+        expect(page.depends(formData)).to.be.false;
       });
     });
 
@@ -215,34 +228,47 @@ describe('Form Configuration', () => {
         expect(page.depends).to.be.a('function');
       });
 
-      it('should show page when veteran is NOT currently employed', () => {
+      it('should show page when employment ended (has ending date, not currently employed)', () => {
         const formData = {
           employmentDates: {
+            endingDate: '2024-01-15',
             currentlyEmployed: false,
           },
         };
         expect(page.depends(formData)).to.be.true;
       });
 
-      it('should hide page when veteran IS currently employed', () => {
+      it('should show page when has ending date and currentlyEmployed is undefined', () => {
         const formData = {
           employmentDates: {
+            endingDate: '2024-01-15',
+          },
+        };
+        expect(page.depends(formData)).to.be.true;
+      });
+
+      it('should hide page when currently employed (even with ending date)', () => {
+        const formData = {
+          employmentDates: {
+            endingDate: '2024-01-15',
             currentlyEmployed: true,
           },
         };
         expect(page.depends(formData)).to.be.false;
       });
 
-      it('should show page when currentlyEmployed is undefined', () => {
+      it('should hide page when no ending date provided', () => {
         const formData = {
-          employmentDates: {},
+          employmentDates: {
+            currentlyEmployed: false,
+          },
         };
-        expect(page.depends(formData)).to.be.true;
+        expect(page.depends(formData)).to.be.false;
       });
 
-      it('should show page when employmentDates section is missing', () => {
+      it('should hide page when employmentDates section is missing', () => {
         const formData = {};
-        expect(page.depends(formData)).to.be.true;
+        expect(page.depends(formData)).to.be.false;
       });
     });
   });
@@ -542,6 +568,9 @@ describe('Form Configuration', () => {
       expect(() =>
         employmentTerminationPage.depends({ employmentDates: null }),
       ).to.not.throw();
+      expect(employmentTerminationPage.depends(null)).to.be.false;
+      expect(employmentTerminationPage.depends(undefined)).to.be.false;
+      expect(employmentTerminationPage.depends({})).to.be.false;
     });
 
     it('should handle missing form data in employment last payment conditional', () => {
@@ -554,6 +583,9 @@ describe('Form Configuration', () => {
       expect(() =>
         employmentLastPaymentPage.depends({ employmentDates: null }),
       ).to.not.throw();
+      expect(employmentLastPaymentPage.depends(null)).to.be.false;
+      expect(employmentLastPaymentPage.depends(undefined)).to.be.false;
+      expect(employmentLastPaymentPage.depends({})).to.be.false;
     });
   });
 
