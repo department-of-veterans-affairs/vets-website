@@ -204,6 +204,7 @@ export const arrayBuilderYesNoUI = (
     maxItems,
     required,
   } = arrayBuilderOptions;
+  console.log('configs: ', arrayBuilderOptions, yesNoOptions, yesNoOptionsMore);
 
   const defaultTitle =
     yesNoOptions?.title || `Do you have a ${nounSingular} to add?`;
