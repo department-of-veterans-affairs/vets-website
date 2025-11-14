@@ -1,11 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
-import ExpenseCard from './ExpenseCard';
+import ExpenseCardList from './ExpenseCardList';
 import { getExpenseType } from '../../../util/complex-claims-helper';
 
 const ExpensesAccordion = ({
@@ -13,10 +9,6 @@ const ExpensesAccordion = ({
   expenses = [],
   groupAccordionItemsByType = false,
 }) => {
-  const navigate = useNavigate();
-  const { apptId, claimId } = useParams();
-  const address = useSelector(selectVAPResidentialAddress);
-
   // Group expenses by expenseType and attach their document
   const groupedExpenses = useMemo(
     () => {
@@ -34,9 +26,6 @@ const ExpensesAccordion = ({
     [expenses, documents],
   );
 
-  const addAnExpense = expenseRoute => {
-    navigate(`/file-new-claim/${apptId}/${claimId}/${expenseRoute}`);
-  };
   const expenseEntries = Object.entries(groupedExpenses);
   const hasExpenses = expenseEntries.length > 0;
 
@@ -44,51 +33,6 @@ const ExpensesAccordion = ({
   if (!hasExpenses) {
     return null;
   }
-
-  // Helper to render expenses for a given type
-  const renderExpenseGroup = (
-    type,
-    expensesList,
-    showAddButton = true,
-    showHeader = false,
-    showEditDelete = true,
-  ) => {
-    const expenseFields = getExpenseType(type);
-
-    return (
-      <section key={type} className="vads-u-margin-bottom--3">
-        {showHeader && (
-          <h2
-            data-testid="expense-type-header"
-            className=" vads-u-font-size--h3"
-          >
-            {expenseFields.title}
-          </h2>
-        )}
-        {expensesList.map(expense => (
-          <ExpenseCard
-            key={expense.id}
-            claimId={claimId}
-            apptId={apptId}
-            expense={expense}
-            address={address}
-            showEditDelete={showEditDelete}
-          />
-        ))}
-
-        {showAddButton &&
-          type !== 'Mileage' && (
-            <VaButton
-              id={`add-${type.toLowerCase()}-expense-button`}
-              className="vads-u-display--flex vads-u-margin-y--2"
-              text={`Add another ${expenseFields.addButtonText} expense`}
-              secondary
-              onClick={() => addAnExpense(expenseFields.route)}
-            />
-          )}
-      </section>
-    );
-  };
 
   return (
     <va-accordion>
@@ -101,16 +45,26 @@ const ExpensesAccordion = ({
             key={type}
             header={`${getExpenseType(type).title} (${expensesList.length})`}
           >
-            {renderExpenseGroup(type, expensesList)}
+            <ExpenseCardList
+              expensesList={expensesList}
+              type={type}
+              showAddButton
+              showEditDelete
+            />
           </va-accordion-item>
         ))
       ) : (
         // Single accordion item with grouped sections inside
         // Expense cards are organized by type and each type has a header that is displayed
         <va-accordion-item header="Submitted expenses" bordered>
-          {expenseEntries.map(([type, expensesList]) =>
-            renderExpenseGroup(type, expensesList, false, true, false),
-          )}
+          {expenseEntries.map(([type, expensesList]) => (
+            <ExpenseCardList
+              key={type}
+              expensesList={expensesList}
+              type={type}
+              showHeader
+            />
+          ))}
         </va-accordion-item>
       )}
     </va-accordion>
