@@ -2,6 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { parse, parseISO, isValid } from 'date-fns';
 
 import omit from 'platform/utilities/data/omit';
+import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
 
 import {
   filterInactivePageData,
@@ -381,7 +382,8 @@ function transformSpouseDivorce(item) {
     ssn: item.ssn,
     birthDate: item.dateOfBirth,
     date: item.endDate,
-    reasonMarriageEnded: reasonMap[item.endType] || 'Other', // todo: Should we support Other option or default to annulmentOrVoid
+    // TODO: Should we support Other option or default to annulmentOrVoid
+    reasonMarriageEnded: reasonMap[item.endType] || 'Other',
     explanationOfOther: item.endAnnulmentOrVoidDescription || '',
     divorceLocation: buildLocation(item),
     // TODO: Confirm income field source - currently defaulting to 'N'
@@ -390,7 +392,7 @@ function transformSpouseDivorce(item) {
 }
 
 /**
- * Transform V3 picklist item with removalReason: 'death' (spouse) to V2 format
+ * Transform V3 picklist item with removalReason: 'spouseDied' (spouse) to V2 format
  * @param {Object} item - Picklist item
  * @returns {Object} V2 deaths format (spouse)
  */
@@ -427,11 +429,12 @@ function transformParentDeath(item) {
 }
 
 /**
- * Transform V3 picklist item with removalReason: 'stepchildLeftHousehold' to V2 format
+ * Transform V3 picklist item with removalReason: 'stepchildNotMember' to V2 format
  * @param {Object} item - Picklist item
  * @returns {Object} V2 stepChildren format
  */
 function transformStepchild(item) {
+  // this function isn't called if item.stepchildFinancialSupport === 'Y'
   return {
     fullName: item.fullName,
     ssn: item.ssn,
@@ -439,8 +442,8 @@ function transformStepchild(item) {
     dateStepchildLeftHousehold: item.endDate,
     whoDoesTheStepchildLiveWith: item.whoDoesTheStepchildLiveWith || {},
     address: item.address || {},
-    livingExpensesPaid: item.livingExpensesPaid || '',
-    supportingStepchild: item.supportingStepchild,
+    livingExpensesPaid: 'Less than half',
+    supportingStepchild: false,
   };
 }
 
@@ -448,13 +451,14 @@ function transformStepchild(item) {
  * Transforms V3 picklist removal data to V2 format
  * Mutates the data object in place
  * @param {Object} data - Form data object
+ * @returns {Object} data - Transformed data object
  */
 export function transformPicklistToV2(data) {
   const picklist = data[PICKLIST_DATA] || [];
   const selected = picklist.filter(item => item.selected === true);
 
   if (selected.length === 0) {
-    return;
+    return data;
   }
 
   // Initialize V2 arrays
@@ -473,9 +477,12 @@ export function transformPicklistToV2(data) {
         v2Data.childMarriage.push(transformChildMarriage(item));
         break;
       case 'childNotInSchool':
-        v2Data.childStoppedAttendingSchool.push(
-          transformChildNotInSchool(item),
-        );
+        // Don't add data if child has permanent disability
+        if (item.childHasPermanentDisability !== 'Y') {
+          v2Data.childStoppedAttendingSchool.push(
+            transformChildNotInSchool(item),
+          );
+        }
         break;
       case 'childDied':
         v2Data.deaths.push(transformChildDeath(item));
@@ -484,31 +491,41 @@ export function transformPicklistToV2(data) {
         // reportDivorce is single object, not array
         if (v2Data.reportDivorce) {
           // TODO: Handle multiple spouses with marriageEnded
-          throw new Error(
-            'Multiple spouses selected with marriageEnded. reportDivorce is a single object, not an array. Only the first will be used.',
-            item,
-          );
+          dataDogLogger({
+            message:
+              'Multiple spouses with marriageEnded in v3 to V2 transform',
+            attributes: {},
+          });
         } else {
           v2Data.reportDivorce = transformSpouseDivorce(item);
         }
         break;
-      case 'death': // spouse death
+      case 'spouseDied': // spouse death
         v2Data.deaths.push(transformSpouseDeath(item));
         break;
       case 'parentDied':
         v2Data.deaths.push(transformParentDeath(item));
         break;
-      case 'stepchildLeftHousehold':
-        v2Data.stepChildren.push(transformStepchild(item));
+      case 'stepchildNotMember':
+        // Don't remove stepchild if Veteran still provides >= 50% financial
+        // support
+        if (item.stepchildFinancialSupport !== 'Y') {
+          v2Data.stepChildren.push(transformStepchild(item));
+        }
+        break;
+      case 'childAdopted':
+        // TO DO: implement once backend support is confirmed
         break;
       case 'parentOther':
-        // TODO: Determine V2 mapping for parentOther removal reason
-        throw new Error(
-          'Unknown V2 mapping for parentOther removal reason. This item will be skipped.',
-          item,
-        );
+        // This form does not support 'other' removal reason for parents
+        break;
       default:
-        throw new Error('Unknown removal reason:', item.removalReason, item);
+        dataDogLogger({
+          message: 'Unknown removal reason in v3 to V2 transform',
+          attributes: { removalReason: item.removalReason },
+          status: 'error',
+        });
+        break;
     }
   });
 
@@ -544,6 +561,7 @@ export function transformPicklistToV2(data) {
     reportChild18OrOlderIsNotAttendingSchool:
       v2Data.childStoppedAttendingSchool.length > 0,
   };
+  return data;
 }
 
 export function customTransformForSubmit(formConfig, form) {
@@ -567,11 +585,12 @@ export function customTransformForSubmit(formConfig, form) {
   );
 
   // Transform V3 picklist data to V2 format if V3 is enabled
-  if (withoutInactivePages?.vaDependentsV3 === true) {
-    transformPicklistToV2(withoutInactivePages);
-  }
+  const updatedData =
+    withoutInactivePages?.vaDependentsV3 === true
+      ? transformPicklistToV2(withoutInactivePages)
+      : withoutInactivePages;
 
-  const cleanedPayload = buildSubmissionData(withoutInactivePages);
+  const cleanedPayload = buildSubmissionData(updatedData);
 
   return JSON.stringify(cleanedPayload, customFormReplacer) || '{}';
 }
