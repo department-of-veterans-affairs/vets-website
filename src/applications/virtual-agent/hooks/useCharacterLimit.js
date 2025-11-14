@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 
-// Character limit constant - should match the limit in useWebChatStore.js
-const CHARACTER_LIMIT = 400;
+// Character limit constant for input field
+export const CHARACTER_LIMIT = 400;
 // Threshold for turning counter red
-const RED_THRESHOLD = 390;
+export const RED_THRESHOLD = 390;
+// Delay in milliseconds before updating screen reader element to allow input value to finish reading
+export const SCREEN_READER_UPDATE_DELAY = 1500;
 
 /**
  * Finds the WebChat input element
@@ -14,7 +16,7 @@ export function getInputElement() {
 }
 
 /**
- * Finds the character counter element
+ * Finds the visual character counter element
  * @returns {HTMLDivElement|null} The counter element or null if not found
  */
 export function getCounterElement() {
@@ -22,57 +24,93 @@ export function getCounterElement() {
 }
 
 /**
+ * Finds the screen reader character counter element
+ * @returns {HTMLSpanElement|null} The screen reader counter element or null if not found
+ */
+export function getSrElement() {
+  return document.querySelector('#charcount-message');
+}
+
+/**
+ * Calculates the counter text based on current input length
+ * @param {number} currentLength - Current length of input value
+ * @param {number} characterLimit - Maximum number of characters allowed
+ * @returns {string} The counter text (e.g., "400 characters allowed" or "39 characters left")
+ */
+export function getCounterText(currentLength, characterLimit) {
+  const charactersLeft = characterLimit - currentLength;
+  const textSuffix = currentLength === 0 ? 'allowed' : 'left';
+  return `${charactersLeft} characters ${textSuffix}`;
+}
+
+/**
  * Updates the character counter text and warning state
- * @param {HTMLDivElement} counterElement - The counter element
+ * @param {HTMLDivElement} visibleElement - The visible counter element
+ * @param {HTMLSpanElement} srElement - The screen reader counter element
  * @param {HTMLInputElement} inputElement - The input element
  * @param {number} characterLimit - Maximum number of characters allowed
  * @param {number} redThreshold - Character count at which to show warning (red)
  */
 export function updateCounter(
-  counterElement,
+  visibleElement,
+  srElement,
   inputElement,
   characterLimit,
   redThreshold,
 ) {
   const currentLength = inputElement.value.length;
-  const charactersLeft = characterLimit - currentLength;
   const isNearLimit = currentLength >= redThreshold;
+  const counterText = getCounterText(currentLength, characterLimit);
 
-  // Update counter text to show "x characters left"
-  const element = counterElement;
-  element.textContent = `${charactersLeft} characters left`;
-  // Turn red when approaching limit using CSS class
+  // Update visible element
+  const visible = visibleElement;
+  visible.textContent = counterText;
   if (isNearLimit) {
-    element.classList.add('warning');
+    visible.classList.add('warning');
   } else {
-    element.classList.remove('warning');
+    visible.classList.remove('warning');
   }
+
+  // Update screen reader element
+  const sr = srElement;
+  sr.textContent = counterText;
 }
 
 /**
- * Creates or finds the character counter element and appends it to the DOM
- * @returns {HTMLDivElement} The counter element
+ * Creates or finds the character counter elements and appends them to the DOM
+ * @returns {{visibleElement: HTMLDivElement, srElement: HTMLSpanElement}} The counter elements
  */
-export function createCounterElement() {
+export function createCounterElements() {
   // Check if counter already exists
-  let counterElement = getCounterElement();
-  if (counterElement) {
-    return counterElement;
+  const existingVisible = getCounterElement();
+  if (existingVisible) {
+    const existingSr = getSrElement();
+    return {
+      visibleElement: existingVisible,
+      srElement: existingSr,
+    };
   }
 
   const formElement = document.querySelector('form.webchat__send-box-text-box');
   const sendButton = document.querySelector('button.webchat__send-button');
 
-  // Create the character counter element
-  counterElement = document.createElement('div');
-  counterElement.className = 'webchat-character-counter';
-  // Make it focusable for accessibility (tab order: input -> counter -> send button)
-  counterElement.setAttribute('tabindex', '0');
+  // Create the visible character counter element (hidden from screen readers)
+  const visibleElement = document.createElement('div');
+  visibleElement.className = 'webchat-character-counter';
+  visibleElement.setAttribute('aria-hidden', 'true');
 
-  // Insert counter after the form element but before the send button
-  formElement.parentElement.insertBefore(counterElement, sendButton);
+  // Create the screen reader-only character counter element
+  const srElement = document.createElement('span');
+  srElement.id = 'charcount-message';
+  srElement.className = 'sr-only';
+  srElement.setAttribute('aria-live', 'polite');
+  srElement.setAttribute('aria-atomic', 'true');
 
-  return counterElement;
+  // Insert both elements after the form element but before the send button
+  formElement.parentElement.insertBefore(visibleElement, sendButton);
+  formElement.parentElement.insertBefore(srElement, sendButton);
+
+  return { visibleElement, srElement };
 }
 
 /**
@@ -91,21 +129,83 @@ export function setupCharacterLimit(characterLimit, redThreshold) {
   // Set the maxLength attribute to prevent typing beyond the limit
   inputElement.setAttribute('maxLength', characterLimit.toString());
 
-  // Create or find the character counter element
-  const counterElement = createCounterElement();
+  // Create or find the character counter elements
+  const { visibleElement, srElement } = createCounterElements();
+
+  // Set up aria-describedby on input to reference the screen reader counter
+  const existingDescribedBy = inputElement.getAttribute('aria-describedby');
+  const counterId = srElement.id;
+  const describedByValue = existingDescribedBy
+    ? `${existingDescribedBy} ${counterId}`
+    : counterId;
+  inputElement.setAttribute('aria-describedby', describedByValue);
 
   // Initial counter update
-  updateCounter(counterElement, inputElement, characterLimit, redThreshold);
+  updateCounter(
+    visibleElement,
+    srElement,
+    inputElement,
+    characterLimit,
+    redThreshold,
+  );
 
-  // Update the counter on input
-  const handleInput = () =>
-    updateCounter(counterElement, inputElement, characterLimit, redThreshold);
+  // Update the counter on input with a debounce to avoid interrupting
+  // screen reader announcements while typing.
+  let updateTimeout = null;
+  const handleInput = () => {
+    // Clear any pending update
+    if (updateTimeout) {
+      clearTimeout(updateTimeout);
+    }
+
+    // Update visible element immediately for visual feedback
+    const currentLength = inputElement.value.length;
+    const isNearLimit = currentLength >= redThreshold;
+    const counterText = getCounterText(currentLength, characterLimit);
+
+    visibleElement.textContent = counterText;
+    if (isNearLimit) {
+      visibleElement.classList.add('warning');
+    } else {
+      visibleElement.classList.remove('warning');
+    }
+
+    // Update screen reader element with a delay to allow screen reader to finish reading input value
+    updateTimeout = setTimeout(() => {
+      // Only update if text has changed to trigger aria-live announcement
+      if (srElement.textContent !== counterText) {
+        srElement.textContent = counterText;
+      }
+      updateTimeout = null;
+    }, SCREEN_READER_UPDATE_DELAY);
+  };
   inputElement.addEventListener('input', handleInput);
 
   return () => {
+    if (updateTimeout) {
+      clearTimeout(updateTimeout);
+    }
+
     inputElement.removeEventListener('input', handleInput);
-    if (counterElement && counterElement.parentElement) {
-      counterElement.parentElement.removeChild(counterElement);
+
+    const currentDescribedBy = inputElement.getAttribute('aria-describedby');
+    if (currentDescribedBy) {
+      const ids = currentDescribedBy
+        .split(/\s+/)
+        .filter(id => id !== counterId);
+      if (ids.length > 0) {
+        inputElement.setAttribute('aria-describedby', ids.join(' '));
+      } else {
+        inputElement.removeAttribute('aria-describedby');
+      }
+    }
+
+    if (visibleElement && visibleElement.parentElement) {
+      visibleElement.parentElement.removeChild(visibleElement);
+    }
+
+    if (srElement && srElement.parentElement) {
+      srElement.parentElement.removeChild(srElement);
     }
   };
 }
@@ -127,9 +227,16 @@ export function checkAndResetCounterIfCleared(
   const currentValue = inputElement.value || '';
   if (previousValue !== '' && currentValue === '') {
     // Input was cleared after having content - reset counter
-    const counterElement = getCounterElement();
-    if (counterElement) {
-      updateCounter(counterElement, inputElement, characterLimit, redThreshold);
+    const visibleElement = getCounterElement();
+    const srElement = getSrElement();
+    if (visibleElement && srElement) {
+      updateCounter(
+        visibleElement,
+        srElement,
+        inputElement,
+        characterLimit,
+        redThreshold,
+      );
     }
   }
   return currentValue;
@@ -187,7 +294,7 @@ export default function useCharacterLimit(isEnabled) {
         return () => {};
       }
 
-      // Setup the character limit on pgae load
+      // Setup the character limit on page load
       const initialCleanup = setupCharacterLimit(
         CHARACTER_LIMIT,
         RED_THRESHOLD,
@@ -207,12 +314,14 @@ export default function useCharacterLimit(isEnabled) {
 
       // Observe the document body for changes in the webchat area
       const observeTarget = document.querySelector('[data-testid="webchat"]');
-      observer.observe(observeTarget, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ['value'],
-      });
+      if (observeTarget) {
+        observer.observe(observeTarget, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['value'],
+        });
+      }
 
       return () => {
         observer.disconnect();

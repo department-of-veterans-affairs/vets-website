@@ -53,7 +53,8 @@
 
   // Turn red when approaching or over limit
   &.warning {
-    color: rgb(211, 47, 47);
+    color: rgb(181, 9, 9);
+    font-weight: bold;
     background-color: transparent !important;
     background: none !important;
   }
@@ -136,4 +137,17 @@ button.webchat__suggested-actions__button:active {
 
 div.ac-container[style*="rgb(255, 226, 178)"]{
   background-color: rgb(250, 243, 209) !important
+}
+
+// Screen reader only class - visually hides content but keeps it accessible to screen readers
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

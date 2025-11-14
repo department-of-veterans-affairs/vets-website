@@ -4,14 +4,18 @@ import { renderHook } from '@testing-library/react-hooks';
 import useCharacterLimit, {
   getInputElement,
   getCounterElement,
-  createCounterElement,
+  getSrElement,
+  getCounterText,
+  createCounterElements,
   updateCounter,
   setupCharacterLimit,
   checkAndResetCounterIfCleared,
   createMutationObserverCallback,
+  CHARACTER_LIMIT,
+  RED_THRESHOLD,
+  SCREEN_READER_UPDATE_DELAY,
 } from '../../hooks/useCharacterLimit';
 
-// Helper function to set up querySelector stub with common selectors
 function setupQuerySelectorStub(sandbox, options = {}) {
   const {
     inputElement = null,
@@ -19,6 +23,7 @@ function setupQuerySelectorStub(sandbox, options = {}) {
     formElement = null,
     sendButton = null,
     webchatContainer = null,
+    srElement = null,
   } = options;
 
   return sandbox.stub(document, 'querySelector').callsFake(selector => {
@@ -37,22 +42,32 @@ function setupQuerySelectorStub(sandbox, options = {}) {
     if (selector.includes('[data-testid="webchat"]')) {
       return webchatContainer;
     }
+    if (selector === '#charcount-message') {
+      return srElement;
+    }
     return null;
   });
 }
 
 describe('useCharacterLimit', () => {
   let sandbox;
+  let clock;
   let mockInputElement;
   let mockCounterElement;
+  let mockSrElement;
   let mockParentElement;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
+    clock = sinon.useFakeTimers({
+      toFake: ['setTimeout', 'clearTimeout'],
+    });
 
     mockInputElement = {
       value: '',
       setAttribute: sandbox.stub(),
+      getAttribute: sandbox.stub(),
+      removeAttribute: sandbox.stub(),
       addEventListener: sandbox.stub(),
       removeEventListener: sandbox.stub(),
       closest: sandbox.stub(),
@@ -71,6 +86,14 @@ describe('useCharacterLimit', () => {
       getAttribute: sandbox.stub(),
     };
 
+    mockSrElement = {
+      textContent: '',
+      id: '',
+      className: '',
+      setAttribute: sandbox.stub(),
+      parentElement: null,
+    };
+
     mockParentElement = {
       appendChild: sandbox.stub(),
       removeChild: sandbox.stub(),
@@ -81,6 +104,7 @@ describe('useCharacterLimit', () => {
 
   afterEach(() => {
     sandbox.restore();
+    clock.restore();
   });
 
   describe('getInputElement', () => {
@@ -126,75 +150,128 @@ describe('useCharacterLimit', () => {
     });
   });
 
+  describe('getSrElement', () => {
+    it('should find screen reader element by id selector', () => {
+      sandbox.stub(document, 'querySelector').returns(mockSrElement);
+
+      const result = getSrElement();
+
+      expect(result).to.equal(mockSrElement);
+      expect(document.querySelector.calledWith('#charcount-message')).to.be
+        .true;
+    });
+
+    it('should return null if screen reader element is not found', () => {
+      sandbox.stub(document, 'querySelector').returns(null);
+
+      const result = getSrElement();
+
+      expect(result).to.be.null;
+    });
+  });
+
+  describe('getCounterText', () => {
+    it('should return "x characters allowed" when currentLength is 0', () => {
+      const result = getCounterText(0, CHARACTER_LIMIT);
+
+      expect(result).to.equal('400 characters allowed');
+    });
+
+    it('should return "x characters left" when currentLength is greater than 0', () => {
+      const result = getCounterText(10, CHARACTER_LIMIT);
+
+      expect(result).to.equal('390 characters left');
+    });
+
+    it('should calculate characters left correctly', () => {
+      const result = getCounterText(50, CHARACTER_LIMIT);
+
+      expect(result).to.equal('350 characters left');
+    });
+
+    it('should handle edge case when at limit', () => {
+      const result = getCounterText(CHARACTER_LIMIT, CHARACTER_LIMIT);
+
+      expect(result).to.equal('0 characters left');
+    });
+
+    it('should work with different character limits', () => {
+      const customLimit = 200;
+      const result = getCounterText(50, customLimit);
+
+      expect(result).to.equal('150 characters left');
+    });
+  });
+
   describe('updateCounter', () => {
     it('should update counter text with current length', () => {
       mockInputElement.value = 'test';
-      const characterLimit = 400;
-      const redThreshold = 350;
 
       updateCounter(
         mockCounterElement,
+        mockSrElement,
         mockInputElement,
-        characterLimit,
-        redThreshold,
+        CHARACTER_LIMIT,
+        RED_THRESHOLD,
       );
 
       expect(mockCounterElement.textContent).to.equal('396 characters left');
+      expect(mockSrElement.textContent).to.equal('396 characters left');
       expect(mockCounterElement.classList.add.called).to.be.false;
       expect(mockCounterElement.classList.remove.called).to.be.true;
     });
 
     it('should add warning class when near limit', () => {
-      mockInputElement.value = 'a'.repeat(350);
-      const characterLimit = 400;
-      const redThreshold = 350;
+      mockInputElement.value = 'a'.repeat(RED_THRESHOLD);
 
       updateCounter(
         mockCounterElement,
+        mockSrElement,
         mockInputElement,
-        characterLimit,
-        redThreshold,
+        CHARACTER_LIMIT,
+        RED_THRESHOLD,
       );
 
-      expect(mockCounterElement.textContent).to.equal('50 characters left');
+      expect(mockCounterElement.textContent).to.equal('10 characters left');
+      expect(mockSrElement.textContent).to.equal('10 characters left');
       expect(mockCounterElement.classList.add.calledWith('warning')).to.be.true;
     });
 
     it('should add warning class when at limit', () => {
-      mockInputElement.value = 'a'.repeat(400);
-      const characterLimit = 400;
-      const redThreshold = 350;
+      mockInputElement.value = 'a'.repeat(CHARACTER_LIMIT);
 
       updateCounter(
         mockCounterElement,
+        mockSrElement,
         mockInputElement,
-        characterLimit,
-        redThreshold,
+        CHARACTER_LIMIT,
+        RED_THRESHOLD,
       );
 
       expect(mockCounterElement.textContent).to.equal('0 characters left');
+      expect(mockSrElement.textContent).to.equal('0 characters left');
       expect(mockCounterElement.classList.add.calledWith('warning')).to.be.true;
     });
 
     it('should remove warning class when below threshold', () => {
-      mockInputElement.value = 'a'.repeat(349);
-      const characterLimit = 400;
-      const redThreshold = 350;
+      mockInputElement.value = 'a'.repeat(RED_THRESHOLD - 1);
 
       updateCounter(
         mockCounterElement,
+        mockSrElement,
         mockInputElement,
-        characterLimit,
-        redThreshold,
+        CHARACTER_LIMIT,
+        RED_THRESHOLD,
       );
 
-      expect(mockCounterElement.textContent).to.equal('51 characters left');
+      expect(mockCounterElement.textContent).to.equal('11 characters left');
+      expect(mockSrElement.textContent).to.equal('11 characters left');
       expect(mockCounterElement.classList.remove.calledWith('warning')).to.be
         .true;
     });
   });
 
-  describe('createCounterElement', () => {
+  describe('createCounterElements', () => {
     let mockFormElement;
     let mockSendButton;
     let mockCounterParentElement;
@@ -212,15 +289,24 @@ describe('useCharacterLimit', () => {
 
     it('should return existing counter element if it exists', () => {
       const createElementStub = sandbox.stub(document, 'createElement');
-      sandbox.stub(document, 'querySelector').returns(mockCounterElement);
+      sandbox
+        .stub(document, 'querySelector')
+        .onFirstCall()
+        .returns(mockCounterElement)
+        .onSecondCall()
+        .returns(mockSrElement);
 
-      const result = createCounterElement();
+      const result = createCounterElements();
 
-      expect(result).to.equal(mockCounterElement);
+      expect(result.visibleElement).to.equal(mockCounterElement);
+      expect(result.srElement).to.equal(mockSrElement);
       expect(createElementStub.called).to.be.false;
     });
 
     it('should create and insert counter element if it does not exist', () => {
+      mockSrElement.id = '';
+      mockSrElement.className = '';
+      mockSrElement.setAttribute = sandbox.stub();
       sandbox
         .stub(document, 'querySelector')
         .onFirstCall()
@@ -229,20 +315,40 @@ describe('useCharacterLimit', () => {
         .returns(mockFormElement) // form.webchat__send-box-text-box
         .onThirdCall()
         .returns(mockSendButton); // button.webchat__send-button
-      sandbox.stub(document, 'createElement').returns(mockCounterElement);
+      sandbox
+        .stub(document, 'createElement')
+        .onFirstCall()
+        .returns(mockCounterElement) // visible element
+        .onSecondCall()
+        .returns(mockSrElement); // screen reader element
+      mockCounterElement.id = '';
 
-      const result = createCounterElement();
+      const result = createCounterElements();
 
-      expect(result).to.equal(mockCounterElement);
+      expect(result.visibleElement).to.equal(mockCounterElement);
+      expect(result.srElement).to.equal(mockSrElement);
       expect(document.createElement.calledWith('div')).to.be.true;
+      expect(document.createElement.calledWith('span')).to.be.true;
       expect(mockCounterElement.className).to.equal(
         'webchat-character-counter',
       );
-      expect(mockCounterElement.setAttribute.calledWith('tabindex', '0')).to.be
+      expect(mockCounterElement.setAttribute.calledWith('aria-hidden', 'true'))
+        .to.be.true;
+      expect(mockSrElement.id).to.equal('charcount-message');
+      expect(mockSrElement.className).to.equal('sr-only');
+      expect(mockSrElement.setAttribute.calledWith('aria-live', 'polite')).to.be
+        .true;
+      expect(mockSrElement.setAttribute.calledWith('aria-atomic', 'true')).to.be
         .true;
       expect(
         mockCounterParentElement.insertBefore.calledWith(
           mockCounterElement,
+          mockSendButton,
+        ),
+      ).to.be.true;
+      expect(
+        mockCounterParentElement.insertBefore.calledWith(
+          mockSrElement,
           mockSendButton,
         ),
       ).to.be.true;
@@ -269,7 +375,7 @@ describe('useCharacterLimit', () => {
     it('should return undefined if input element is not found', () => {
       sandbox.stub(document, 'querySelector').returns(null);
 
-      const result = setupCharacterLimit(400, 350);
+      const result = setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
 
       expect(result).to.be.undefined;
     });
@@ -282,10 +388,14 @@ describe('useCharacterLimit', () => {
       });
       sandbox.stub(document, 'createElement').returns(mockCounterElement);
 
-      setupCharacterLimit(400, 350);
+      setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
 
-      expect(mockInputElement.setAttribute.calledWith('maxLength', '400')).to.be
-        .true;
+      expect(
+        mockInputElement.setAttribute.calledWith(
+          'maxLength',
+          CHARACTER_LIMIT.toString(),
+        ),
+      ).to.be.true;
     });
 
     it('should create counter element', () => {
@@ -295,10 +405,53 @@ describe('useCharacterLimit', () => {
         sendButton: mockSendButton,
       });
       sandbox.stub(document, 'createElement').returns(mockCounterElement);
+      mockInputElement.getAttribute.returns(null);
 
-      setupCharacterLimit(400, 350);
+      setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
 
       expect(document.createElement.calledWith('div')).to.be.true;
+    });
+
+    it('should set aria-describedby on input element', () => {
+      setupQuerySelectorStub(sandbox, {
+        inputElement: mockInputElement,
+        formElement: mockFormElement,
+        sendButton: mockSendButton,
+      });
+      sandbox.stub(document, 'createElement').returns(mockCounterElement);
+      mockInputElement.getAttribute.returns(null);
+      mockCounterElement.id = 'charcount-message';
+
+      setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
+
+      expect(mockInputElement.getAttribute.calledWith('aria-describedby')).to.be
+        .true;
+      expect(
+        mockInputElement.setAttribute.calledWith(
+          'aria-describedby',
+          'charcount-message',
+        ),
+      ).to.be.true;
+    });
+
+    it('should append to existing aria-describedby on input element', () => {
+      setupQuerySelectorStub(sandbox, {
+        inputElement: mockInputElement,
+        formElement: mockFormElement,
+        sendButton: mockSendButton,
+      });
+      sandbox.stub(document, 'createElement').returns(mockCounterElement);
+      mockInputElement.getAttribute.returns('input-message');
+      mockCounterElement.id = 'charcount-message';
+
+      setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
+
+      expect(
+        mockInputElement.setAttribute.calledWith(
+          'aria-describedby',
+          'input-message charcount-message',
+        ),
+      ).to.be.true;
     });
 
     it('should add input event listener', () => {
@@ -309,7 +462,7 @@ describe('useCharacterLimit', () => {
       });
       sandbox.stub(document, 'createElement').returns(mockCounterElement);
 
-      setupCharacterLimit(400, 350);
+      setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
 
       expect(mockInputElement.addEventListener.calledWith('input')).to.be.true;
       expect(mockInputElement.addEventListener.calledWith('paste')).to.be.false;
@@ -324,22 +477,146 @@ describe('useCharacterLimit', () => {
       sandbox.stub(document, 'createElement').returns(mockCounterElement);
       mockInputElement.value = 'test';
 
-      setupCharacterLimit(400, 350);
+      setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
 
-      // Get the handler that was added
       const addEventListenerCalls = mockInputElement.addEventListener.getCalls();
       const inputHandler = addEventListenerCalls.find(
         call => call.args[0] === 'input',
       )?.args[1];
 
-      // Reset counter textContent to track changes
       mockCounterElement.textContent = 'initial';
 
-      // Simulate input event by calling the handler
       inputHandler();
 
-      // Verify updateCounter was called (counter textContent should be updated)
       expect(mockCounterElement.textContent).to.equal('396 characters left');
+    });
+
+    it('should clear pending timeout when new input event occurs', () => {
+      setupQuerySelectorStub(sandbox, {
+        inputElement: mockInputElement,
+        formElement: mockFormElement,
+        sendButton: mockSendButton,
+      });
+      sandbox
+        .stub(document, 'createElement')
+        .onFirstCall()
+        .returns(mockCounterElement)
+        .onSecondCall()
+        .returns(mockSrElement);
+      mockInputElement.value = 'test';
+      mockInputElement.getAttribute.returns(null);
+      const clearTimeoutStub = sandbox.stub(global, 'clearTimeout');
+
+      setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
+
+      const addEventListenerCalls = mockInputElement.addEventListener.getCalls();
+      const inputHandler = addEventListenerCalls.find(
+        call => call.args[0] === 'input',
+      )?.args[1];
+
+      inputHandler();
+      expect(clearTimeoutStub.called).to.be.false;
+
+      inputHandler();
+      expect(clearTimeoutStub.called).to.be.true;
+    });
+
+    it('should add warning class when input is near limit', () => {
+      setupQuerySelectorStub(sandbox, {
+        inputElement: mockInputElement,
+        formElement: mockFormElement,
+        sendButton: mockSendButton,
+      });
+      sandbox
+        .stub(document, 'createElement')
+        .onFirstCall()
+        .returns(mockCounterElement)
+        .onSecondCall()
+        .returns(mockSrElement);
+      mockInputElement.value = 'a'.repeat(RED_THRESHOLD);
+      mockInputElement.getAttribute.returns(null);
+
+      setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
+
+      const addEventListenerCalls = mockInputElement.addEventListener.getCalls();
+      const inputHandler = addEventListenerCalls.find(
+        call => call.args[0] === 'input',
+      )?.args[1];
+
+      inputHandler();
+
+      expect(mockCounterElement.classList.add.calledWith('warning')).to.be.true;
+    });
+
+    it('should update screen reader element after delay', () => {
+      setupQuerySelectorStub(sandbox, {
+        inputElement: mockInputElement,
+        formElement: mockFormElement,
+        sendButton: mockSendButton,
+      });
+      sandbox
+        .stub(document, 'createElement')
+        .onFirstCall()
+        .returns(mockCounterElement)
+        .onSecondCall()
+        .returns(mockSrElement);
+      mockInputElement.value = 'test';
+      mockInputElement.getAttribute.returns(null);
+
+      setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
+
+      expect(mockSrElement.textContent).to.equal('396 characters left');
+
+      const addEventListenerCalls = mockInputElement.addEventListener.getCalls();
+      const inputHandler = addEventListenerCalls.find(
+        call => call.args[0] === 'input',
+      )?.args[1];
+
+      mockInputElement.value = 'test123';
+      mockSrElement.textContent = 'initial';
+
+      inputHandler();
+
+      // Verify visible element is updated immediately
+      expect(mockCounterElement.textContent).to.equal('393 characters left');
+      expect(mockSrElement.textContent).to.equal('initial');
+
+      // Verify visible element is updated after the delay
+      clock.tick(SCREEN_READER_UPDATE_DELAY);
+      expect(mockSrElement.textContent).to.equal('393 characters left');
+    });
+
+    it('should clear pending timeout on cleanup', () => {
+      setupQuerySelectorStub(sandbox, {
+        inputElement: mockInputElement,
+        formElement: mockFormElement,
+        sendButton: mockSendButton,
+      });
+      sandbox
+        .stub(document, 'createElement')
+        .onFirstCall()
+        .returns(mockCounterElement)
+        .onSecondCall()
+        .returns(mockSrElement);
+      mockCounterElement.parentElement = mockCounterParentElement;
+      mockSrElement.parentElement = mockCounterParentElement;
+      mockCounterParentElement.removeChild = sandbox.stub();
+      mockInputElement.getAttribute.returns(null);
+      const clearTimeoutStub = sandbox.stub(global, 'clearTimeout');
+
+      const cleanup = setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
+
+      const addEventListenerCalls = mockInputElement.addEventListener.getCalls();
+      const inputHandler = addEventListenerCalls.find(
+        call => call.args[0] === 'input',
+      )?.args[1];
+      inputHandler();
+
+      clearTimeoutStub.resetHistory();
+
+      cleanup();
+
+      expect(clearTimeoutStub.called).to.be.true;
     });
 
     it('should return cleanup function', () => {
@@ -351,8 +628,9 @@ describe('useCharacterLimit', () => {
       sandbox.stub(document, 'createElement').returns(mockCounterElement);
       mockCounterElement.parentElement = mockCounterParentElement;
       mockCounterParentElement.removeChild = sandbox.stub();
+      mockInputElement.getAttribute.returns(null);
 
-      const cleanup = setupCharacterLimit(400, 350);
+      const cleanup = setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
 
       expect(cleanup).to.be.a('function');
 
@@ -371,13 +649,66 @@ describe('useCharacterLimit', () => {
       sandbox.stub(document, 'createElement').returns(mockCounterElement);
       mockCounterElement.parentElement = mockCounterParentElement;
       mockCounterParentElement.removeChild = sandbox.stub();
+      mockInputElement.getAttribute.returns(null);
 
-      const cleanup = setupCharacterLimit(400, 350);
+      const cleanup = setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
 
       cleanup();
 
       expect(
         mockCounterParentElement.removeChild.calledWith(mockCounterElement),
+      ).to.be.true;
+    });
+
+    it('should remove counter ID from aria-describedby on cleanup', () => {
+      setupQuerySelectorStub(sandbox, {
+        inputElement: mockInputElement,
+        formElement: mockFormElement,
+        sendButton: mockSendButton,
+      });
+      sandbox.stub(document, 'createElement').returns(mockCounterElement);
+      mockCounterElement.parentElement = mockCounterParentElement;
+      mockCounterParentElement.removeChild = sandbox.stub();
+      mockCounterElement.id = 'charcount-message';
+      mockInputElement.getAttribute
+        .onFirstCall()
+        .returns(null)
+        .onSecondCall()
+        .returns('charcount-message');
+
+      const cleanup = setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
+
+      cleanup();
+
+      expect(mockInputElement.removeAttribute.calledWith('aria-describedby')).to
+        .be.true;
+    });
+
+    it('should preserve other IDs in aria-describedby on cleanup', () => {
+      setupQuerySelectorStub(sandbox, {
+        inputElement: mockInputElement,
+        formElement: mockFormElement,
+        sendButton: mockSendButton,
+      });
+      sandbox.stub(document, 'createElement').returns(mockCounterElement);
+      mockCounterElement.parentElement = mockCounterParentElement;
+      mockCounterParentElement.removeChild = sandbox.stub();
+      mockCounterElement.id = 'charcount-message';
+      mockInputElement.getAttribute
+        .onFirstCall()
+        .returns('input-message')
+        .onSecondCall()
+        .returns('input-message charcount-message');
+
+      const cleanup = setupCharacterLimit(CHARACTER_LIMIT, RED_THRESHOLD);
+
+      cleanup();
+
+      expect(
+        mockInputElement.setAttribute.calledWith(
+          'aria-describedby',
+          'input-message',
+        ),
       ).to.be.true;
     });
   });
@@ -390,12 +721,14 @@ describe('useCharacterLimit', () => {
       const result = checkAndResetCounterIfCleared(
         mockInputElement,
         'previous text',
-        400,
-        350,
+        CHARACTER_LIMIT,
+        RED_THRESHOLD,
       );
 
       expect(result).to.equal('');
-      expect(mockCounterElement.textContent).to.equal('400 characters left');
+      expect(mockCounterElement.textContent).to.equal(
+        `${CHARACTER_LIMIT} characters allowed`,
+      );
       expect(mockCounterElement.classList.add.called).to.be.false;
       expect(mockCounterElement.classList.remove.called).to.be.true;
     });
@@ -408,8 +741,8 @@ describe('useCharacterLimit', () => {
       const result = checkAndResetCounterIfCleared(
         mockInputElement,
         '',
-        400,
-        350,
+        CHARACTER_LIMIT,
+        RED_THRESHOLD,
       );
 
       expect(result).to.equal('');
@@ -424,8 +757,8 @@ describe('useCharacterLimit', () => {
       const result = checkAndResetCounterIfCleared(
         mockInputElement,
         'previous text',
-        400,
-        350,
+        CHARACTER_LIMIT,
+        RED_THRESHOLD,
       );
 
       expect(result).to.equal('some text');
@@ -439,8 +772,8 @@ describe('useCharacterLimit', () => {
       const result = checkAndResetCounterIfCleared(
         mockInputElement,
         'previous text',
-        400,
-        350,
+        CHARACTER_LIMIT,
+        RED_THRESHOLD,
       );
 
       expect(result).to.equal('');
@@ -454,7 +787,11 @@ describe('useCharacterLimit', () => {
         stateRef: { current: { previousInputValue: '' } },
       };
 
-      const callback = createMutationObserverCallback(refs, 400, 350);
+      const callback = createMutationObserverCallback(
+        refs,
+        CHARACTER_LIMIT,
+        RED_THRESHOLD,
+      );
 
       expect(callback).to.be.a('function');
     });
@@ -477,11 +814,19 @@ describe('useCharacterLimit', () => {
       });
       sandbox.stub(document, 'createElement').returns(mockCounterElement);
 
-      const callback = createMutationObserverCallback(refs, 400, 350);
+      const callback = createMutationObserverCallback(
+        refs,
+        CHARACTER_LIMIT,
+        RED_THRESHOLD,
+      );
       callback();
 
-      expect(mockInputElement.setAttribute.calledWith('maxLength', '400')).to.be
-        .true;
+      expect(
+        mockInputElement.setAttribute.calledWith(
+          'maxLength',
+          CHARACTER_LIMIT.toString(),
+        ),
+      ).to.be.true;
       expect(refs.stateRef.current.previousInputValue).to.equal('test');
       expect(refs.cleanupRef.current).to.be.a('function');
     });
@@ -505,12 +850,20 @@ describe('useCharacterLimit', () => {
       });
       sandbox.stub(document, 'createElement').returns(mockCounterElement);
 
-      const callback = createMutationObserverCallback(refs, 400, 350);
+      const callback = createMutationObserverCallback(
+        refs,
+        CHARACTER_LIMIT,
+        RED_THRESHOLD,
+      );
       callback();
 
       expect(mockCleanup.called).to.be.true;
-      expect(mockInputElement.setAttribute.calledWith('maxLength', '400')).to.be
-        .true;
+      expect(
+        mockInputElement.setAttribute.calledWith(
+          'maxLength',
+          CHARACTER_LIMIT.toString(),
+        ),
+      ).to.be.true;
     });
 
     it('should check and reset counter when input exists and counter exists', () => {
@@ -523,12 +876,22 @@ describe('useCharacterLimit', () => {
       setupQuerySelectorStub(sandbox, {
         inputElement: mockInputElement,
         counterElement: mockCounterElement,
+        srElement: mockSrElement,
       });
 
-      const callback = createMutationObserverCallback(refs, 400, 350);
+      const callback = createMutationObserverCallback(
+        refs,
+        CHARACTER_LIMIT,
+        RED_THRESHOLD,
+      );
       callback();
 
-      expect(mockCounterElement.textContent).to.equal('400 characters left');
+      expect(mockCounterElement.textContent).to.equal(
+        `${CHARACTER_LIMIT} characters allowed`,
+      );
+      expect(mockSrElement.textContent).to.equal(
+        `${CHARACTER_LIMIT} characters allowed`,
+      );
       expect(refs.stateRef.current.previousInputValue).to.equal('');
     });
 
@@ -540,7 +903,11 @@ describe('useCharacterLimit', () => {
 
       sandbox.stub(document, 'querySelector').returns(null);
 
-      const callback = createMutationObserverCallback(refs, 400, 350);
+      const callback = createMutationObserverCallback(
+        refs,
+        CHARACTER_LIMIT,
+        RED_THRESHOLD,
+      );
       callback();
 
       expect(mockInputElement.setAttribute.called).to.be.false;
@@ -581,8 +948,12 @@ describe('useCharacterLimit', () => {
 
       renderHook(() => useCharacterLimit(true));
 
-      expect(mockInputElement.setAttribute.calledWith('maxLength', '400')).to.be
-        .true;
+      expect(
+        mockInputElement.setAttribute.calledWith(
+          'maxLength',
+          CHARACTER_LIMIT.toString(),
+        ),
+      ).to.be.true;
     });
 
     it('should do nothing when disabled', () => {
@@ -599,18 +970,17 @@ describe('useCharacterLimit', () => {
       setupQuerySelectorStub(sandbox, {
         inputElement: mockInputElement,
         formElement: mockFormElement,
-        sendButton: mockSendButton,
         webchatContainer: document.body,
       });
       sandbox.stub(document, 'createElement').returns(mockCounterElement);
       mockCounterElement.parentElement = mockCounterParentElement;
       mockCounterParentElement.removeChild = sandbox.stub();
+      mockInputElement.getAttribute.returns(null);
 
       const { unmount } = renderHook(() => useCharacterLimit(true));
 
       expect(mockInputElement.addEventListener.calledWith('input')).to.be.true;
 
-      // Get the handler that was added
       const addEventListenerCalls = mockInputElement.addEventListener.getCalls();
       const inputHandler = addEventListenerCalls.find(
         call => call.args[0] === 'input',
