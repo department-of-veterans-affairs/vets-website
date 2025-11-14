@@ -50,7 +50,8 @@ describe('useWebChat', () => {
         .stub(CombineLoadingStatusModule, 'combineLoadingStatus')
         .returns(CombineLoadingStatusModule.COMPLETE);
 
-      const result = useWebChat(false, CombineLoadingStatusModule.COMPLETE);
+      const virtualAgentEnableParamErrorDetection = false;
+      const result = useWebChat(virtualAgentEnableParamErrorDetection, CombineLoadingStatusModule.COMPLETE);
 
       expect(combineLoadingStatusStub.called).to.equal(false);
       expect(result.loadingStatus).to.equal(
