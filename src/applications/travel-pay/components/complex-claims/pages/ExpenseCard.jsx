@@ -114,7 +114,6 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                   className="align-items--end"
                   data-action="remove"
                   button-type="delete"
-                  disabled={isDeleting}
                   onClick={() => setShowDeleteModal(true)}
                 />
               </div>
