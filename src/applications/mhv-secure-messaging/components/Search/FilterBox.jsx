@@ -1,5 +1,6 @@
 import React, {
   forwardRef,
+  useCallback,
   useRef,
   useImperativeHandle,
   useState,
@@ -111,16 +112,19 @@ const FilterBox = forwardRef((props, ref) => {
     },
   }));
 
-  const handleToggle = target => {
-    if (
-      target === filterRef.current ||
-      target.tagName === 'VA-ACCORDION-ITEM'
-    ) {
-      return setIsItemExpanded(!isItemExpanded);
-    }
-    // If text is not defined, null
-    return null;
-  };
+  const handleToggle = useCallback(
+    target => {
+      if (
+        target === filterRef.current ||
+        target.tagName === 'VA-ACCORDION-ITEM'
+      ) {
+        return setIsItemExpanded(!isItemExpanded);
+      }
+      // If text is not defined, null
+      return null;
+    },
+    [filterRef, isItemExpanded],
+  );
 
   return (
     <div className="advanced-search-form filter-box">
