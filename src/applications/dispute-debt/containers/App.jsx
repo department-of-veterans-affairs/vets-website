@@ -8,6 +8,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
 import formConfig from '../config/form';
 import { fetchDebts } from '../actions';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function App({ children, location }) {
   const dispatch = useDispatch();
@@ -19,6 +20,9 @@ export default function App({ children, location }) {
   const { isDebtPending } = useSelector(state => state.availableDebts);
   const { useToggleLoadingValue } = useFeatureToggle();
   const isLoadingFeatures = useToggleLoadingValue();
+
+  const formData = useSelector(state => state.form?.data);
+  useDocumentTitle(location, formData);
 
   useEffect(
     () => {

@@ -176,15 +176,19 @@ export const getVitalsList = async () => {
   });
 };
 
-export const getVitalsWithOHData = async vitalsDate => {
-  const from = `&from=${vitalsDate}`;
-  const to = `&to=${vitalsDate}`;
+export const getVitalsWithOHData = async () => {
   return apiRequest(
-    `${apiBasePath}/medical_records/vitals?use_oh_data_path=1${from}${to}`,
+    `${apiBasePath}/medical_records/vitals?use_oh_data_path=1`,
     {
       headers,
     },
   );
+};
+
+export const getVitalsWithUnifiedData = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/vitals`, {
+    headers,
+  });
 };
 
 export const getConditions = async () => {
@@ -402,6 +406,24 @@ export const downloadCCD = (timestamp, format = 'html') => {
     `${apiBasePath}/medical_records/ccd/download.${lowerFormat}?date=${encodeURIComponent(
       timestamp,
     )}`,
+  );
+};
+
+/**
+ * Downloads a Continuity of Care Document (CCD) from Oracle Health data (v2 endpoint)
+ * @param {string} format
+ * @returns {Promise}
+ *
+ * V2 vs V1 Architecture:
+ * - V1: Two-step process (generate -> poll -> download)
+ * - V2: Single-step direct download
+ * - In V2, backend can convert FHIR -> XML/HTML/PDF on-demand
+ */
+export const downloadCCDV2 = async (format = 'xml') => {
+  const lowerFormat = format.toLowerCase();
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/ccd/download.${lowerFormat}`,
+    { headers },
   );
 };
 
