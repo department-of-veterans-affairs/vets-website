@@ -5028,7 +5028,7 @@
   resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-1.1.1.tgz#827fd05bb542cf874116176d8ef48d5b12163f81"
   integrity sha512-7PGLWa9MZ5x/cWy8EH2VzI4T8q5WpuHbixzCDXqixP/WyqwIrg5NDUPgYuFnB4IEIZF+6nA265mYzswFo/h1Pw==
 
-"@redux-saga/core@^1.3.0":
+"@redux-saga/core@^1.2.3":
   version "1.4.2"
   resolved "https://registry.npmjs.org/@redux-saga/core/-/core-1.4.2.tgz#7d64721b490c2ed88eb8b07a45074a428d5076d6"
   integrity sha512-nIMLGKo6jV6Wc1sqtVQs1iqbB3Kq20udB/u9XEaZQisT6YZ0NRB8+4L6WqD/E+YziYutd27NJbG8EWUPkb7c6Q==
@@ -7843,21 +7843,21 @@ botframework-directlinejs@0.15.5:
     rxjs "5.5.12"
     url-search-params-polyfill "8.1.1"
 
-botframework-directlinespeech-sdk@4.18.0:
-  version "4.18.0"
-  resolved "https://registry.npmjs.org/botframework-directlinespeech-sdk/-/botframework-directlinespeech-sdk-4.18.0.tgz#a193939a413afcc0a87a8f5457379b1f7c485b17"
-  integrity sha512-EbRThK0XtkqrJFbiS1TnzxYUgooYKFTUbdMDTIibNg0rAV/xisZWFNVo89DSxVD4DbvtYwbtPl/y8MNtKZ3t9g==
+botframework-directlinespeech-sdk@4.17.0:
+  version "4.17.0"
+  resolved "https://registry.npmjs.org/botframework-directlinespeech-sdk/-/botframework-directlinespeech-sdk-4.17.0.tgz#79751f83a9098a7217ae0dda9db4fd09ad6f6c02"
+  integrity sha512-EKTPFeHdeW/LxCe9u0U6x1q4r8v+KGFtUZp54QkQjcs2XMR9OGJkPLVxTkkbNfWAxGPeFV9GXYkLGfOk0IRMig==
   dependencies:
     "@babel/runtime" "7.19.0"
     abort-controller "3.0.0"
     abort-controller-es5 "2.0.1"
     base64-arraybuffer "1.0.2"
-    core-js "3.37.0"
+    core-js "3.34.0"
     event-as-promise "1.0.5"
     event-target-shim "6.0.2"
     math-random "2.0.1"
     microsoft-cognitiveservices-speech-sdk "1.17.0"
-    p-defer "4.0.1"
+    p-defer "4.0.0"
     p-defer-es5 "2.0.1"
     web-speech-cognitive-services "7.1.3"
 
@@ -7871,83 +7871,83 @@ botframework-streaming@4.20.0:
     uuid "^8.3.2"
     ws "^7.1.2"
 
-botframework-webchat-api@4.18.0:
-  version "4.18.0"
-  resolved "https://registry.npmjs.org/botframework-webchat-api/-/botframework-webchat-api-4.18.0.tgz#7a2bde762bd1850db87c05dfb930d80730fd64bd"
-  integrity sha512-UuD/RtFMXR4PH/prXzoBxNKACew64QX62+LwTwJFO/SSqeDXxY3WA7QfNh+hTzwkGC3XN0IXteM7Ba342/KA5w==
+botframework-webchat-api@4.17.0:
+  version "4.17.0"
+  resolved "https://registry.npmjs.org/botframework-webchat-api/-/botframework-webchat-api-4.17.0.tgz#4458cd61818627a39eee7e8cb7daa744af9c6d78"
+  integrity sha512-97vWPiqcTIipE2Hjmff/trvb/IZLrgcSd2h3jIfBU9LiAzbRMn4pCcCstDjR2Q5iWdNaKz1Jy5TMqWxhDl0JEA==
   dependencies:
-    botframework-webchat-core "4.18.0"
+    botframework-webchat-core "4.17.0"
     globalize "1.7.0"
     math-random "2.0.1"
     prop-types "15.8.1"
-    react-chain-of-responsibility "0.2.0-main.3cb47ab"
+    react-chain-of-responsibility "^0.1.0"
     react-redux "7.2.9"
-    redux "5.0.1"
+    redux "5.0.0"
     simple-update-in "2.2.0"
-    use-ref-from "0.1.0"
-    valibot "0.30.0"
+    use-ref-from "^0.1.0"
+    valibot "^0.30.0"
 
-botframework-webchat-component@4.18.0:
-  version "4.18.0"
-  resolved "https://registry.npmjs.org/botframework-webchat-component/-/botframework-webchat-component-4.18.0.tgz#8d1f6ce715581b71b1e8e192f245bdf106445c74"
-  integrity sha512-9g6eWiZ2g+n/duCZGPyr4SPTXI+f07q/RHe7/vEpkkH9/LullEVqyTfhLlVRqX88VY8+9SmM/OVk35CQW6p6Ng==
+botframework-webchat-component@4.17.0:
+  version "4.17.0"
+  resolved "https://registry.npmjs.org/botframework-webchat-component/-/botframework-webchat-component-4.17.0.tgz#3d2da849642f86920f1322e07d2ab5b5c9054202"
+  integrity sha512-oydjXuTSjy0DnjGAibMxizT2jP1j7JJnhldgrNEiteH75ooWm0b/GS6yBeIab0f2wZu4b2hRbuxnoDg1nPrL7g==
   dependencies:
     "@emotion/css" "11.11.2"
     base64-js "1.5.1"
-    botframework-webchat-api "4.18.0"
-    botframework-webchat-core "4.18.0"
-    classnames "2.5.1"
+    botframework-webchat-api "4.17.0"
+    botframework-webchat-core "4.17.0"
+    classnames "2.3.2"
     compute-scroll-into-view "1.0.20"
-    deep-freeze-strict "1.1.1"
+    deep-freeze-strict "^1.1.1"
     markdown-it "13.0.2"
     math-random "2.0.1"
     mdast-util-from-markdown "2.0.0"
     memoize-one "6.0.0"
-    merge-refs "1.3.0"
+    merge-refs "1.2.2"
     prop-types "15.8.1"
-    react-chain-of-responsibility "0.2.0-main.3cb47ab"
+    react-chain-of-responsibility "^0.1.0"
     react-dictate-button "2.0.1"
     react-film "3.1.1-main.df870ea"
     react-redux "7.2.9"
     react-say "2.1.0"
     react-scroll-to-bottom "4.2.0"
-    redux "5.0.1"
+    redux "5.0.0"
     simple-update-in "2.2.0"
-    use-propagate "0.1.0"
-    use-ref-from "0.1.0"
-    valibot "0.30.0"
+    use-propagate "^0.1.0"
+    use-ref-from "^0.1.0"
+    valibot "^0.30.0"
 
-botframework-webchat-core@4.18.0:
-  version "4.18.0"
-  resolved "https://registry.npmjs.org/botframework-webchat-core/-/botframework-webchat-core-4.18.0.tgz#6266362d0810d358028070d2cefd9da97c06c319"
-  integrity sha512-NZu9eWVDbmLtiXy1AzyZVcYpnlCSwpfKn57cE1HDIYEWSGyq+Y+0ilzVTNw4l0mwYT2axTbs0+P/lrMP3TLBiw==
+botframework-webchat-core@4.17.0:
+  version "4.17.0"
+  resolved "https://registry.npmjs.org/botframework-webchat-core/-/botframework-webchat-core-4.17.0.tgz#35d7b4d1bc5a84f59aa8ae8606c329f9507388aa"
+  integrity sha512-wfWCN5mTkRyCm85FuoBOV6AxfsntOySP1KeB00ZeT/VkUP7BX4FXvrRyVhjR+LbTH1OmhDbYkgTOEdZ0W0AvmQ==
   dependencies:
     "@babel/runtime" "7.19.0"
     jwt-decode "4.0.0"
     math-random "2.0.1"
-    mime "4.0.3"
-    p-defer "4.0.1"
+    mime "4.0.0"
+    p-defer "4.0.0"
     p-defer-es5 "2.0.1"
-    redux "5.0.1"
+    redux "5.0.0"
     redux-devtools-extension "2.13.9"
-    redux-saga "1.3.0"
+    redux-saga "1.2.3"
     simple-update-in "2.2.0"
-    valibot "0.30.0"
+    valibot "^0.29.0"
 
-botframework-webchat@^4.18.0:
-  version "4.18.0"
-  resolved "https://registry.npmjs.org/botframework-webchat/-/botframework-webchat-4.18.0.tgz#49190d9fc5aae95c86fe39cf722571f18f4e4197"
-  integrity sha512-tLh3mxzovBDG2eBttoRggQh2b/IZLuDT86rI4MkD1DtAQgDKANgNGvjhxzYeKcXll+3DgYcBNyU9koBxRcIcJQ==
+botframework-webchat@4.17.0:
+  version "4.17.0"
+  resolved "https://registry.npmjs.org/botframework-webchat/-/botframework-webchat-4.17.0.tgz#ac02da53b479ba58f4d32581008dbd2fa49d30d1"
+  integrity sha512-sdvW0iE5sKpjWfBbnZkL1Y+xzGjJy0gN6xxZ5sLnORfewtqSYVu9vKBoMjrKr9AJi3a7Uv+VMOSUR0ET/uLUqA==
   dependencies:
     "@babel/runtime" "7.19.0"
     adaptivecards "3.0.2"
     botframework-directlinejs "0.15.5"
-    botframework-directlinespeech-sdk "4.18.0"
-    botframework-webchat-api "4.18.0"
-    botframework-webchat-component "4.18.0"
-    botframework-webchat-core "4.18.0"
-    classnames "2.5.1"
-    core-js "3.37.0"
+    botframework-directlinespeech-sdk "4.17.0"
+    botframework-webchat-api "4.17.0"
+    botframework-webchat-component "4.17.0"
+    botframework-webchat-core "4.17.0"
+    classnames "2.3.2"
+    core-js "3.34.0"
     markdown-it "13.0.2"
     markdown-it-attrs "4.1.6"
     markdown-it-attrs-es5 "2.0.2"
@@ -7957,12 +7957,12 @@ botframework-webchat@^4.18.0:
     memoize-one "6.0.0"
     microsoft-cognitiveservices-speech-sdk "1.17.0"
     prop-types "15.8.1"
-    sanitize-html "2.13.0"
-    swiper "8.4.7"
+    sanitize-html "2.11.0"
+    swiper "^8.2.6"
     url-search-params-polyfill "8.2.5"
     uuid "8.3.2"
     web-speech-cognitive-services "7.1.3"
-    whatwg-fetch "3.6.20"
+    whatwg-fetch "3.6.19"
 
 bottleneck@^2.15.3:
   version "2.19.5"
@@ -8850,11 +8850,6 @@ classnames@2.3.2:
   resolved "https://registry.npmjs.org/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
   integrity sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==
 
-classnames@2.5.1:
-  version "2.5.1"
-  resolved "https://registry.npmjs.org/classnames/-/classnames-2.5.1.tgz#ba774c614be0f016da105c858e7159eae8e7687b"
-  integrity sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==
-
 cldrjs@^0.5.4:
   version "0.5.5"
   resolved "https://registry.npmjs.org/cldrjs/-/cldrjs-0.5.5.tgz#5c92ca2de89a8a16dea76cb2dfc4e00104428e52"
@@ -9519,10 +9514,10 @@ core-js@3.28.0:
   resolved "https://registry.npmjs.org/core-js/-/core-js-3.28.0.tgz#ed8b9e99c273879fdfff0edfc77ee709a5800e4a"
   integrity sha512-GiZn9D4Z/rSYvTeg1ljAIsEqFm0LaN9gVtwDCrKL80zHtS31p9BAjmTxVqTQDMpwlMolJZOFntUG2uwyj7DAqw==
 
-core-js@3.37.0:
-  version "3.37.0"
-  resolved "https://registry.npmjs.org/core-js/-/core-js-3.37.0.tgz#d8dde58e91d156b2547c19d8a4efd5c7f6c426bb"
-  integrity sha512-fu5vHevQ8ZG4og+LXug8ulUtVxjOcEYvifJr7L5Bfq9GOztVqsKd9/59hUk2ZSbCrS3BqUr3EpaYGIYzq7g3Ug==
+core-js@3.34.0:
+  version "3.34.0"
+  resolved "https://registry.npmjs.org/core-js/-/core-js-3.34.0.tgz#5705e6ad5982678612e96987d05b27c6c7c274a5"
+  integrity sha512-aDdvlDder8QmY91H88GzNi9EtQi2TjvQhpCX6B1v/dAZHU1AuLgHvRh54RiOerpEhEW46Tkf+vgAViB/CWC0ag==
 
 core-js@^2.4.0, core-js@^2.5.0:
   version "2.5.7"
@@ -10307,7 +10302,7 @@ deep-extend@^0.6.0, deep-extend@~0.6.0:
   resolved "https://registry.npmjs.org/deep-extend/-/deep-extend-0.6.0.tgz"
   integrity sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==
 
-deep-freeze-strict@1.1.1:
+deep-freeze-strict@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/deep-freeze-strict/-/deep-freeze-strict-1.1.1.tgz#77d0583ca24a69be4bbd9ac2fae415d55523e5b0"
   integrity sha512-QemROZMM2IvhAcCFvahdX2Vbm4S/txeq5rFYU9fh4mQP79WTMW5c/HkQ2ICl1zuzcDZdPZ6zarDxQeQMsVYoNA==
@@ -10935,9 +10930,9 @@ electron-to-chromium@^1.4.76:
   integrity sha512-COsbJCGVYCc/aAY4cd94x1Js3q0r406YKGbdL8LXHg0O9dEjuFEFU/vZneRxBxKo/f1lLHi0YyAR7sbFM+i8Bg==
 
 electron-to-chromium@^1.5.249:
-  version "1.5.250"
-  resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.250.tgz#0b40436fa41ae7cbac3d2f60ef0411a698eb72a7"
-  integrity sha512-/5UMj9IiGDMOFBnN4i7/Ry5onJrAGSbOGo3s9FEKmwobGq6xw832ccET0CE3CkkMBZ8GJSlUIesZofpyurqDXw==
+  version "1.5.251"
+  resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.251.tgz#8168db0cb8fcc520bd4e5be720f2d8e0e4f7fe74"
+  integrity sha512-lmyEOp4G0XT3qrYswNB4np1kx90k6QCXpnSHYv2xEsUuEu8JCobpDVYO6vMseirQyyCC6GCIGGxd5szMBa0tRA==
 
 electron-to-chromium@^1.5.41:
   version "1.5.49"
@@ -17256,10 +17251,10 @@ merge-descriptors@1.0.3:
   resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.3.tgz#d80319a65f3c7935351e5cfdac8f9318504dbed5"
   integrity sha512-gaNvAS7TZ897/rVaZ0nMtAyxNyi/pdbjbAwUpFQpN70GqnVfOiXpeUUMKRBmzXaSQ8DdTX4/0ms62r2K+hE6mQ==
 
-merge-refs@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/merge-refs/-/merge-refs-1.3.0.tgz#65d7f8c5058917b9d1fc204ae4b9a727614d0119"
-  integrity sha512-nqXPXbso+1dcKDpPCXvwZyJILz+vSLqGGOnDrYHQYE+B8n9JTCekVLC65AfCpR4ggVyA/45Y0iR9LDyS2iI+zA==
+merge-refs@1.2.2:
+  version "1.2.2"
+  resolved "https://registry.npmjs.org/merge-refs/-/merge-refs-1.2.2.tgz#6142633398dd0d10a37626cae77ddeb1db26db0c"
+  integrity sha512-RwcT7GsQR3KbuLw1rRuodq4Nt547BKEBkliZ0qqsrpyNne9bGTFtsFIsIpx82huWhcl3kOlOlH4H0xkPk/DqVw==
 
 merge-stream@^2.0.0:
   version "2.0.0"
@@ -17557,10 +17552,10 @@ mime@1.6.0, mime@^1.6.0:
   resolved "https://registry.npmjs.org/mime/-/mime-1.6.0.tgz"
   integrity sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==
 
-mime@4.0.3:
-  version "4.0.3"
-  resolved "https://registry.npmjs.org/mime/-/mime-4.0.3.tgz#cd4a1aa052fc980dfc34f111fe1be9e8b878c5d2"
-  integrity sha512-KgUb15Oorc0NEKPbvfa0wRU+PItIEZmiv+pyAO2i0oTIVTJhlzMclU7w4RXWQrSOVH5ax/p/CkIO7KI4OyFJTQ==
+mime@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/mime/-/mime-4.0.0.tgz#ae999669db9568c31a8da18dff6c696663f65486"
+  integrity sha512-pzhgdeqU5pJ9t5WK9m4RT4GgGWqYJylxUf62Yb9datXRwdcw5MjiD1BYI5evF8AgTXN9gtKX3CFLvCUL5fAhEA==
 
 mime@^2.0.3:
   version "2.6.0"
@@ -19085,11 +19080,6 @@ p-defer@4.0.0:
   resolved "https://registry.npmjs.org/p-defer/-/p-defer-4.0.0.tgz#8082770aeeb10eb6b408abe91866738741ddd5d2"
   integrity sha512-Vb3QRvQ0Y5XnF40ZUWW7JfLogicVh/EnA5gBIvKDJoYpeI82+1E3AlB9yOcKFS0AhHrWVnAQO39fbR0G99IVEQ==
 
-p-defer@4.0.1:
-  version "4.0.1"
-  resolved "https://registry.npmjs.org/p-defer/-/p-defer-4.0.1.tgz#d12c6d41420785ed0d162dbd86b71ba490f7f99e"
-  integrity sha512-Mr5KC5efvAK5VUptYEIopP1bakB85k2IWXaRC0rsh1uwn1L6M0LVml8OIQ4Gudg4oyZakf7FmeRLkMMtZW1i5A==
-
 p-defer@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-defer/-/p-defer-1.0.0.tgz#9f6eb182f6c9aa8cd743004a7d4f96b196b0fb0c"
@@ -20497,21 +20487,14 @@ rc@1.2.8, rc@^1.0.1, rc@^1.1.6, rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-chain-of-responsibility@0.2.0-main.3cb47ab:
-  version "0.2.0-main.3cb47ab"
-  resolved "https://registry.npmjs.org/react-chain-of-responsibility/-/react-chain-of-responsibility-0.2.0-main.3cb47ab.tgz#684c0662859bffee42d96f148ddf2168722fa0c5"
-  integrity sha512-HnCnvzJlwB+NrH4wBu3mqXao8/sw8LULqSl5bkH+1Cl3X+Mt7DMAqIcFpMtVp7BS5O3obrk3RSEXquTSOyoWaQ==
+react-chain-of-responsibility@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/react-chain-of-responsibility/-/react-chain-of-responsibility-0.1.0.tgz#a74e45c126262ef0a66104a2e8a53f3259cd9b38"
+  integrity sha512-bNBPtXPOiOOjV8EqVouFRP3Ip0arQtROO8uvoJaOe9CrLp5ehu/zEDq2vxTh9imopPmB7CG/M4ecMbfhYI18XA==
   dependencies:
+    "@babel/runtime-corejs3" "^7.24.1"
     prop-types "^15.8.1"
-    react-chain-of-responsibility "^0.2.0-main.3cb47ab"
-
-react-chain-of-responsibility@^0.2.0, react-chain-of-responsibility@^0.2.0-main.3cb47ab:
-  version "0.2.0"
-  resolved "https://registry.npmjs.org/react-chain-of-responsibility/-/react-chain-of-responsibility-0.2.0.tgz#ee92b138a1908d8c1fd6e35735528d73589b0f2c"
-  integrity sha512-9aCBsNuq5s/03MjoB+sXjaf7YSepr/KwJGsuZn3Q9HyqJC9DlbUjIOXlIF3hrV2Ek2G2el5f8O+GrpqaA9SyHg==
-  dependencies:
-    prop-types "^15.8.1"
-    react-chain-of-responsibility "^0.2.0"
+    react-chain-of-responsibility "^0.1.0"
 
 react-clientside-effect@^1.2.6:
   version "1.2.6"
@@ -21129,12 +21112,12 @@ redux-mock-store@^1.5.4:
   dependencies:
     lodash.isplainobject "^4.0.6"
 
-redux-saga@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/redux-saga/-/redux-saga-1.3.0.tgz#a59ada7c28010189355356b99738c9fcb7ade30e"
-  integrity sha512-J9RvCeAZXSTAibFY0kGw6Iy4EdyDNW7k6Q+liwX+bsck7QVsU78zz8vpBRweEfANxnnlG/xGGeOvf6r8UXzNJQ==
+redux-saga@1.2.3:
+  version "1.2.3"
+  resolved "https://registry.npmjs.org/redux-saga/-/redux-saga-1.2.3.tgz#7362f78a0235868daf1210f8862a95906ac018a1"
+  integrity sha512-HDe0wTR5nhd8Xr5xjGzoyTbdAw6rjy1GDplFt3JKtKN8/MnkQSRqK/n6aQQhpw5NI4ekDVOaW+w4sdxPBaCoTQ==
   dependencies:
-    "@redux-saga/core" "^1.3.0"
+    "@redux-saga/core" "^1.2.3"
 
 redux-thunk@^2.3.0:
   version "2.3.0"
@@ -21146,10 +21129,10 @@ redux-thunk@^2.4.2:
   resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.4.2.tgz#b9d05d11994b99f7a91ea223e8b04cf0afa5ef3b"
   integrity sha512-+P3TjtnP0k/FEjcBL5FZpoovtvrTNT/UXd4/sluaSyrURlSlhLSzEdfsTBW7WsKB6yPvgd7q/iZPICFjW4o57Q==
 
-redux@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npmjs.org/redux/-/redux-5.0.1.tgz#97fa26881ce5746500125585d5642c77b6e9447b"
-  integrity sha512-M9/ELqF6fy8FwmkpnF0S3YKOqMyoWJ4+CS5Efg2ct3oY9daQvd/Pc71FpGZsVsbl3Cpb+IIcjBDUnnyBdQbq4w==
+redux@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npmjs.org/redux/-/redux-5.0.0.tgz#29572e29a439e094ff8fec46883fc45053f6736d"
+  integrity sha512-blLIYmYetpZMET6Q6uCY7Jtl/Im5OBldy+vNPauA8vvsdqyt66oep4EUpAMWNHauTC6xa9JuRPhRB72rY82QGA==
 
 redux@^4.0.0, redux@^4.1.1:
   version "4.1.1"
@@ -22034,10 +22017,10 @@ samsam@1.x, samsam@^1.1.3:
   version "1.2.1"
   resolved "https://registry.npmjs.org/samsam/-/samsam-1.2.1.tgz"
 
-sanitize-html@2.13.0:
-  version "2.13.0"
-  resolved "https://registry.npmjs.org/sanitize-html/-/sanitize-html-2.13.0.tgz#71aedcdb777897985a4ea1877bf4f895a1170dae"
-  integrity sha512-Xff91Z+4Mz5QiNSLdLWwjgBDm5b1RU6xBT0+12rapjiaR7SwfRdjw8f+6Rir2MXKLrDicRFHdb51hGOAxmsUIA==
+sanitize-html@2.11.0:
+  version "2.11.0"
+  resolved "https://registry.npmjs.org/sanitize-html/-/sanitize-html-2.11.0.tgz#9a6434ee8fcaeddc740d8ae7cd5dd71d3981f8f6"
+  integrity sha512-BG68EDHRaGKqlsNjJ2xUB7gpInPA8gVx/mvjO743hZaeMCZ2DwzW7xvsqZ+KNU4QKwj86HJ3uu2liISf2qBBUA==
   dependencies:
     deepmerge "^4.2.2"
     escape-string-regexp "^4.0.0"
@@ -23609,7 +23592,7 @@ svgo@^2.3.0:
     nanocolors "^0.1.12"
     stable "^0.1.8"
 
-swiper@8.4.7:
+swiper@^8.2.6:
   version "8.4.7"
   resolved "https://registry.npmjs.org/swiper/-/swiper-8.4.7.tgz#0301d385c3efc8efe8b66a64187edcb30e3067ee"
   integrity sha512-VwO/KU3i9IV2Sf+W2NqyzwWob4yX9Qdedq6vBtS0rFqJ6Fa5iLUJwxQkuD4I38w0WDJwmFl8ojkdcRFPHWD+2g==
@@ -24846,7 +24829,7 @@ use-callback-ref@^1.3.0:
   dependencies:
     tslib "^2.0.0"
 
-use-propagate@0.1.0, use-propagate@^0.1.0:
+use-propagate@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/use-propagate/-/use-propagate-0.1.0.tgz#134b0d3049562b2c752fc3c1f62d059ef6989c46"
   integrity sha512-VkVuUDwLdQzsUKl+ZmK54WHDGmsiXchi/p7ldYJTQF1o7IMFcTy3XnGmiOrG/aMpyWM7QVNwgHA7ZcKNNakZwA==
@@ -24855,14 +24838,6 @@ use-propagate@0.1.0, use-propagate@^0.1.0:
     use-propagate "^0.1.0"
     use-ref-from "^0.0.3"
 
-use-ref-from@0.1.0, use-ref-from@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.npmjs.org/use-ref-from/-/use-ref-from-0.1.0.tgz#2d7633d5fd5ff388d68d6ac4584a3f384302b9c0"
-  integrity sha512-PRjmfhUGUKghhOjKV1dBU66M7CASdb4NkMsaaWLdJA81yOZFlVL7Pi3O9aD+68pRh0VrRQjZfS6Ux3vPy1VhRg==
-  dependencies:
-    "@babel/runtime-corejs3" "^7.24.1"
-    use-ref-from "^0.1.0"
-
 use-ref-from@^0.0.3:
   version "0.0.3"
   resolved "https://registry.npmjs.org/use-ref-from/-/use-ref-from-0.0.3.tgz#b1087c1184bcd645c66a9e4c30376ba318a9c63f"
@@ -24870,6 +24845,14 @@ use-ref-from@^0.0.3:
   dependencies:
     "@babel/runtime-corejs3" "^7.23.1"
     use-ref-from "^0.0.3"
+
+use-ref-from@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/use-ref-from/-/use-ref-from-0.1.0.tgz#2d7633d5fd5ff388d68d6ac4584a3f384302b9c0"
+  integrity sha512-PRjmfhUGUKghhOjKV1dBU66M7CASdb4NkMsaaWLdJA81yOZFlVL7Pi3O9aD+68pRh0VrRQjZfS6Ux3vPy1VhRg==
+  dependencies:
+    "@babel/runtime-corejs3" "^7.24.1"
+    use-ref-from "^0.1.0"
 
 use-sidecar@^1.1.2:
   version "1.1.2"
@@ -24963,7 +24946,12 @@ v8-compile-cache@^2.3.0:
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz#2de19618c66dc247dcfb6f99338035d8245a2cee"
   integrity sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==
 
-valibot@0.30.0:
+valibot@^0.29.0:
+  version "0.29.0"
+  resolved "https://registry.npmjs.org/valibot/-/valibot-0.29.0.tgz#16c8e1924e522c5feace728aac2d9ab0da626000"
+  integrity sha512-JhZn08lwZPhAamOCfBwBkv/btQt4KeQhekULPH8crH053zUCLSOGEF2zKExu3bFf245tsj6J1dY0ysd/jUiMIQ==
+
+valibot@^0.30.0:
   version "0.30.0"
   resolved "https://registry.npmjs.org/valibot/-/valibot-0.30.0.tgz#6b90386a04d2c281cdc5dc6ad33bd3d2d7ea13b5"
   integrity sha512-5POBdbSkM+3nvJ6ZlyQHsggisfRtyT4tVTo1EIIShs6qCdXJnyWU5TJ68vr8iTg5zpOLjXLRiBqNx+9zwZz/rA==
@@ -25383,10 +25371,10 @@ whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.5:
   dependencies:
     iconv-lite "0.4.24"
 
-whatwg-fetch@3.6.20:
-  version "3.6.20"
-  resolved "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-3.6.20.tgz#580ce6d791facec91d37c72890995a0b48d31c70"
-  integrity sha512-EqhiFU6daOA8kpjOWTL0olhVOF3i7OrFzSYiGsEMB8GcXS+RrzauAERX65xMeNWVqxA6HXH2m69Z9LaKKdisfg==
+whatwg-fetch@3.6.19:
+  version "3.6.19"
+  resolved "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-3.6.19.tgz#caefd92ae630b91c07345537e67f8354db470973"
+  integrity sha512-d67JP4dHSbm2TrpFj8AbO8DnL1JXL5J9u0Kq2xW6d0TFDbCA3Muhdt8orXC22utleTVj7Prqt82baN6RBvnEgw==
 
 whatwg-fetch@>=0.10.0:
   version "3.0.0"
