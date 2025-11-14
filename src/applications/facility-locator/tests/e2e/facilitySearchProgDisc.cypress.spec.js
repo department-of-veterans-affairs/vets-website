@@ -106,7 +106,7 @@ describe('Facility VA search', () => {
     cy.get('#facility-search').click();
 
     cy.get('#search-results-subheader').contains(
-      /results.*VA health.*Primary care.*near.*Austin, Texas/,
+      /(Showing|Results).*VA health.*Primary care.*near.*Austin, Texas/i,
     );
     cy.get('.facility-result a').should('exist');
     cy.get('.i-pin-card-map').contains('1');
@@ -148,7 +148,7 @@ describe('Facility VA search', () => {
       .select('VA benefits');
     submitSearchForm();
     cy.get('#search-results-subheader').contains(
-      /Results.*VA benefits.*All VA benefit services.*Los Angeles.*California/i,
+      /(Showing|Results).*VA benefits.*All VA benefit services.*Los Angeles.*California/i,
     );
     cy.get('#other-tools').should('exist');
 

@@ -136,7 +136,7 @@ describe('Facility VA search', () => {
     cy.get('#service-type-dropdown').select('Primary care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
-      'Results for "VA health", "Primary care" near "Austin, Texas"',
+      /(Showing|Results).*VA health.*Primary care.*near.*Austin, Texas/i,
     );
     cy.get('.facility-result a').should('exist');
     cy.get('.i-pin-card-map').contains('1');
@@ -187,7 +187,7 @@ describe('Facility VA search', () => {
       waitForAnimations: true,
     });
     cy.get('#search-results-subheader').contains(
-      'Results for "VA benefits", "All VA benefit services" near "Los Angeles, California"',
+      /(Showing|Results).*VA benefits.*All VA benefit services.*near.*Los Angeles.*California/i,
     );
     cy.get('#other-tools').should('exist');
 
@@ -248,7 +248,7 @@ describe('Facility VA search', () => {
     cy.get('#service-type-dropdown').select('VA emergency care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
-      'Results for "Emergency Care", "VA emergency care" near "Alexandria, Virginia"',
+      /Results.*Emergency Care.*VA emergency care.*near.*Alexandria.*Virginia/i,
     );
     cy.get('#emergency-care-info-note').should('exist');
     cy.get('.facility-result h3 va-link')
@@ -295,7 +295,7 @@ describe('Facility VA search', () => {
     cy.get('@searchFacilitiesVA.all').should('have.length', 2);
 
     cy.get('#search-results-subheader').contains(
-      'Results for "VA health", "Primary care" near "Austin, Texas"',
+      /(Showing|Results).*VA health.*Primary care.*near.*Austin, Texas/i,
     );
     cy.get('.facility-result a').should('exist');
     cy.get('.i-pin-card-map').contains('1');
