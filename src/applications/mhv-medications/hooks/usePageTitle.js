@@ -3,17 +3,21 @@ import * as mhvExports from '@department-of-veterans-affairs/mhv/exports';
 
 /**
  * Custom hook to set the page title using MHV's updatePageTitle function
- * @param {string} title the title to set
- * @param {Object} [options] - optional parameters for testing
- * @param {Function} [options.updatePageTitle] - custom updatePageTitle function for testing.
+ * @param {string} title - The page title
+ * @param {object} [options] - Optional parameters for testing
+ * @param {function} [options.updatePageTitle] - Custom updatePageTitle function for testing
+ * @returns {void}
  */
-export const usePageTitle = (title, options = {}) => {
+export const usePageTitle = (
+  title,
+  { updatePageTitle: customUpdatePageTitle } = {},
+) => {
   useEffect(
     () => {
       const updatePageTitleDefault = mhvExports.updatePageTitle;
-      const updatePageTitle = options.updatePageTitle || updatePageTitleDefault;
+      const updatePageTitle = customUpdatePageTitle || updatePageTitleDefault;
       updatePageTitle(title);
     },
-    [title, options.updatePageTitle],
+    [title, customUpdatePageTitle],
   );
 };

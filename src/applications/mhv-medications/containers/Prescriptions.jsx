@@ -263,7 +263,7 @@ const Prescriptions = () => {
     ],
   );
 
-  const basePageTitle = 'My HealtheVet | Medications';
+  const basePageTitle = 'Medications | Veterans Affairs';
   usePageTitle(basePageTitle);
   usePrintTitle(basePageTitle, userName, dob, updatePageTitle);
 

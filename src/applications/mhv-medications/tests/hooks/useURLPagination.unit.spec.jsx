@@ -84,6 +84,8 @@ describe('useURLPagination', () => {
   });
 
   it('returns currentPage and handlePageChange', async () => {
+    wrapper = createTestWrapper(mockStore);
+
     const { result } = renderHook(() => useURLPagination(), {
       wrapper,
     });

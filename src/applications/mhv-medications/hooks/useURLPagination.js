@@ -6,14 +6,14 @@ import { setPageNumber } from '../redux/preferencesSlice';
 
 /**
  * Custom hook to manage pagination state via URL query parameters
- * @param {Object} [options] - optional parameters for testing
- * @param {Function} [options.navigate] - custom navigate function for testing.
- * @returns {{ currentPage: number, handlePageChange: Function }}
+ * @param {object} [options] - Optional parameters for testing
+ * @param {function} [options.navigate] - Custom navigate function for testing
+ * @returns {{ currentPage: number, handlePageChange: function }}
  */
-export const useURLPagination = (options = {}) => {
+export const useURLPagination = ({ navigate: customNavigate } = {}) => {
   const dispatch = useDispatch();
   const navigateDefault = useNavigate();
-  const navigate = options.navigate || navigateDefault;
+  const navigate = customNavigate || navigateDefault;
   const { search } = useLocation();
   const currentPage = useSelector(selectPageNumber) || 1;
 
