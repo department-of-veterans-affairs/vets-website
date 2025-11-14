@@ -169,6 +169,82 @@ describe('Form Configuration', () => {
     it('should have exactly 5 pages in employment information chapter', () => {
       expect(Object.keys(chapter.pages)).to.have.lengthOf(5);
     });
+
+    describe('employmentTermination conditional logic', () => {
+      const page = chapter.pages.employmentTermination;
+
+      it('should have conditional depends function', () => {
+        expect(page.depends).to.be.a('function');
+      });
+
+      it('should show page when veteran is NOT currently employed', () => {
+        const formData = {
+          employmentDates: {
+            currentlyEmployed: false,
+          },
+        };
+        expect(page.depends(formData)).to.be.true;
+      });
+
+      it('should hide page when veteran IS currently employed', () => {
+        const formData = {
+          employmentDates: {
+            currentlyEmployed: true,
+          },
+        };
+        expect(page.depends(formData)).to.be.false;
+      });
+
+      it('should show page when currentlyEmployed is undefined', () => {
+        const formData = {
+          employmentDates: {},
+        };
+        expect(page.depends(formData)).to.be.true;
+      });
+
+      it('should show page when employmentDates section is missing', () => {
+        const formData = {};
+        expect(page.depends(formData)).to.be.true;
+      });
+    });
+
+    describe('employmentLastPayment conditional logic', () => {
+      const page = chapter.pages.employmentLastPayment;
+
+      it('should have conditional depends function', () => {
+        expect(page.depends).to.be.a('function');
+      });
+
+      it('should show page when veteran is NOT currently employed', () => {
+        const formData = {
+          employmentDates: {
+            currentlyEmployed: false,
+          },
+        };
+        expect(page.depends(formData)).to.be.true;
+      });
+
+      it('should hide page when veteran IS currently employed', () => {
+        const formData = {
+          employmentDates: {
+            currentlyEmployed: true,
+          },
+        };
+        expect(page.depends(formData)).to.be.false;
+      });
+
+      it('should show page when currentlyEmployed is undefined', () => {
+        const formData = {
+          employmentDates: {},
+        };
+        expect(page.depends(formData)).to.be.true;
+      });
+
+      it('should show page when employmentDates section is missing', () => {
+        const formData = {};
+        expect(page.depends(formData)).to.be.true;
+      });
+    });
   });
 
   describe('Duty Status Chapter Pages', () => {
@@ -453,6 +529,30 @@ describe('Form Configuration', () => {
       expect(() => benefitsDetailsPage.depends({})).to.not.throw();
       expect(() =>
         benefitsDetailsPage.depends({ benefitsInformation: null }),
+      ).to.not.throw();
+    });
+
+    it('should handle missing form data in employment termination conditional', () => {
+      const employmentTerminationPage =
+        formConfig.chapters.employmentInformationChapter.pages
+          .employmentTermination;
+      expect(() => employmentTerminationPage.depends(null)).to.not.throw();
+      expect(() => employmentTerminationPage.depends(undefined)).to.not.throw();
+      expect(() => employmentTerminationPage.depends({})).to.not.throw();
+      expect(() =>
+        employmentTerminationPage.depends({ employmentDates: null }),
+      ).to.not.throw();
+    });
+
+    it('should handle missing form data in employment last payment conditional', () => {
+      const employmentLastPaymentPage =
+        formConfig.chapters.employmentInformationChapter.pages
+          .employmentLastPayment;
+      expect(() => employmentLastPaymentPage.depends(null)).to.not.throw();
+      expect(() => employmentLastPaymentPage.depends(undefined)).to.not.throw();
+      expect(() => employmentLastPaymentPage.depends({})).to.not.throw();
+      expect(() =>
+        employmentLastPaymentPage.depends({ employmentDates: null }),
       ).to.not.throw();
     });
   });
