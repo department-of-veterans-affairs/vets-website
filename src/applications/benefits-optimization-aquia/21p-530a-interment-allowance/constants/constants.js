@@ -12,3 +12,11 @@ export const SUBTITLE =
  * Tracking prefix for analytics
  */
 export const TRACKING_PREFIX = '21p-530a-interment-allowance-';
+
+/**
+ * API endpoints
+ */
+export const API_ENDPOINTS = {
+  csrfCheck: '/csrf_token',
+  downloadPdf: '/form21p530a/download_pdf',
+};

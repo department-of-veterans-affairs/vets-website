@@ -72,6 +72,7 @@ const formConfig = {
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
+    disableWindowUnloadInCI: true,
   },
   formOptions: {
     useWebComponentForNavigation: true,

@@ -13,15 +13,13 @@ import {
   selectAppointment,
   selectComplexClaim,
 } from '../../../redux/selectors';
+import { stripTZOffset } from '../../../util/dates';
 
 const IntroductionPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Get appointment data from the store
   const { data: appointment } = useSelector(selectAppointment);
-
-  // Get the complex claim data from the store
   const complexClaim = useSelector(selectComplexClaim);
 
   const apptId = appointment?.id;
@@ -32,14 +30,25 @@ const IntroductionPage = () => {
     }
 
     // If claim already exists, navigate directly
-    const existingClaimId = complexClaim?.data?.claimId;
+    const existingClaimId =
+      complexClaim?.data?.claimId || appointment?.travelPayClaim?.claim?.id;
+
     if (existingClaimId) {
       navigate(`/file-new-claim/${apptId}/${existingClaimId}/choose-expense`);
       return;
     }
 
     try {
-      const result = await dispatch(createComplexClaim(appointment));
+      const result = await dispatch(
+        createComplexClaim({
+          appointmentDateTime: stripTZOffset(appointment.localStartTime),
+          facilityStationNumber: appointment.location.id,
+          appointmentType: appointment.isCompAndPen
+            ? 'CompensationAndPensionExamination'
+            : 'Other',
+          isComplete: false,
+        }),
+      );
       if (result?.claimId) {
         navigate(`/file-new-claim/${apptId}/${result.claimId}/choose-expense`);
       }
@@ -116,7 +125,7 @@ const IntroductionPage = () => {
             </p>
             <va-link-action
               onClick={createClaim}
-              href="javascript0:void"
+              href="#"
               text="Start your travel reimbursement claim"
               type="primary"
             />

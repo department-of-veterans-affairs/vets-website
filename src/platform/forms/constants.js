@@ -115,6 +115,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_8416: '21P-8416',
   FORM_21P_534EZ: '21P-534EZ',
   FORM_21P_601: '21P-601',
+  FORM_22_0976: '22-0976',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -301,6 +302,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     )}/21P-4185/introduction/`,
     [VA_FORM_IDS.FORM_21P_534EZ]: `${tryGetAppUrl('survivors-benefits')}/`,
     [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
+    [VA_FORM_IDS.FORM_22_0976]: `${tryGetAppUrl('22-0976')}/`,
   };
 };
 
@@ -939,6 +941,13 @@ export const MY_VA_SIP_FORMS = [
     description:
       'Application for Accrued Amounts Due a Deceased Beneficiary (21P-601)',
     trackingPrefix: '21p-601-accrued-benefits-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_0976,
+    benefit: 'Approval of a Program in a Foreign Country',
+    title: 'Program Apporval in a Foreign Country (VA Form 22-0976)',
+    description: 'Approval of a Program in a Foreign Country (VA Form 22-0976)',
+    trackingPrefix: 'edu-0976-',
   },
 ];
 

@@ -114,6 +114,12 @@ describe('useValidateFacilityCode', () => {
           zip: '02101',
           country: 'USA',
           programTypes: ['IHL'],
+          facilityMap: {
+            main: {
+              branches: [],
+              extensions: [],
+            },
+          },
         },
       },
     };
@@ -154,6 +160,12 @@ describe('useValidateFacilityCode', () => {
           zip: '02101',
           country: 'USA',
           programTypes: ['IHL'],
+          facilityMap: {
+            main: {
+              branches: [],
+              extensions: [],
+            },
+          },
         },
       },
     };
@@ -195,6 +207,12 @@ describe('useValidateFacilityCode', () => {
           zip: '02101',
           country: 'USA',
           programTypes: ['IHL'],
+          facilityMap: {
+            main: {
+              branches: [],
+              extensions: [],
+            },
+          },
         },
       },
     };
@@ -247,6 +265,12 @@ describe('useValidateFacilityCode', () => {
           zip: '02101',
           country: 'USA',
           programTypes: ['IHL'],
+          facilityMap: {
+            main: {
+              branches: [],
+              extensions: [],
+            },
+          },
         },
       },
     };
@@ -300,6 +324,12 @@ describe('useValidateFacilityCode', () => {
           zip: '02101',
           country: 'USA',
           programTypes: ['IHL'],
+          facilityMap: {
+            main: {
+              branches: [],
+              extensions: [],
+            },
+          },
         },
       },
     };
@@ -353,6 +383,12 @@ describe('useValidateFacilityCode', () => {
           zip: '02101',
           country: 'USA',
           programTypes: ['IHL', 'OJT'],
+          facilityMap: {
+            main: {
+              branches: [],
+              extensions: [],
+            },
+          },
         },
       },
     };
@@ -393,6 +429,12 @@ describe('useValidateFacilityCode', () => {
           zip: '02101',
           country: 'USA',
           programTypes: ['OJT', 'FLIGHT'],
+          facilityMap: {
+            main: {
+              branches: [],
+              extensions: [],
+            },
+          },
         },
       },
     };
@@ -433,6 +475,12 @@ describe('useValidateFacilityCode', () => {
           zip: '02101',
           country: 'USA',
           programTypes: null,
+          facilityMap: {
+            main: {
+              branches: [],
+              extensions: [],
+            },
+          },
         },
       },
     };
@@ -498,6 +546,12 @@ describe('useValidateFacilityCode', () => {
         attributes: {
           name: 'Test University',
           programTypes: ['IHL'],
+          facilityMap: {
+            main: {
+              branches: [],
+              extensions: [],
+            },
+          },
         },
       },
     };
@@ -548,6 +602,12 @@ describe('useValidateFacilityCode', () => {
           zip: '02101',
           country: 'USA',
           programTypes: ['IHL'],
+          facilityMap: {
+            main: {
+              branches: [],
+              extensions: [],
+            },
+          },
         },
       },
     };
@@ -583,6 +643,12 @@ describe('useValidateFacilityCode', () => {
           zip: '02101',
           country: 'USA',
           programTypes: ['IHL'],
+          facilityMap: {
+            main: {
+              branches: [],
+              extensions: [],
+            },
+          },
         },
       },
     };
@@ -597,6 +663,12 @@ describe('useValidateFacilityCode', () => {
           zip: '02139',
           country: 'USA',
           programTypes: ['IHL'],
+          facilityMap: {
+            main: {
+              branches: [],
+              extensions: [],
+            },
+          },
         },
       },
     };

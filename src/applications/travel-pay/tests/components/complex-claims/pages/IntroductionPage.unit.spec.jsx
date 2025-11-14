@@ -237,4 +237,66 @@ describe('Travel Pay – IntroductionPage', () => {
 
     expect(getByTestId('introduction-page')).to.exist;
   });
+
+  it('navigates using appointment claim ID when complexClaim data is null', async () => {
+    // Set up state with claim ID on appointment but null complexClaim data
+    const stateWithAppointmentClaim = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            travelPayClaim: {
+              claim: {
+                id: '99999',
+              },
+            },
+          },
+        },
+        complexClaim: {
+          ...getData().travelPay.complexClaim,
+          claim: {
+            ...getData().travelPay.complexClaim.claim,
+            data: null,
+          },
+        },
+      },
+    };
+
+    const { getByTestId, container } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId"
+            element={<IntroductionPage />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/choose-expense"
+            element={<ChooseExpenseType />}
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>,
+      {
+        initialState: stateWithAppointmentClaim,
+        reducers: reducer,
+      },
+    );
+
+    const startButton = $(
+      'va-link-action[text="Start your travel reimbursement claim"]',
+      container,
+    );
+    expect(startButton).to.exist;
+    startButton.click();
+
+    await waitFor(() => {
+      expect(getByTestId('location-display').textContent).to.equal(
+        '/file-new-claim/12345/99999/choose-expense',
+      );
+    });
+  });
 });
