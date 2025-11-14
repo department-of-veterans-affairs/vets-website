@@ -21,13 +21,7 @@
   "view:completedHouseholdChild": false,
   "view:completedStudent": false,
   "view:completedVeteranFormerMarriage": false,
-  "view:removeDependentOptions": {
-    "reportDivorce": true,
-    "reportDeath": true,
-    "reportStepchildNotInHousehold": true,
-    "reportMarriageOfChildUnder18": true,
-    "reportChild18OrOlderIsNotAttendingSchool": true
-  },
+  "view:removeDependentOptions": {},
   "view:addDependentOptions": {
     "addSpouse": true,
     "addChild": true,
@@ -47,26 +41,6 @@
     }
   ],
   "householdIncome": false,
-  "reportDivorce": {
-    "spouseIncome": "N",
-    "date": "2019-03-02",
-    "divorceLocation": {
-      "outsideUsa": true,
-      "location": {
-        "city": "Fakesville",
-        "state": "FM",
-        "country": "BGD"
-      }
-    },
-    "reasonMarriageEnded": "Other",
-    "explanationOfOther": "Other",
-    "fullName": {
-      "first": "John",
-      "last": "Doe"
-    },
-    "birthDate": "1991-03-19",
-    "view:cancelDivorce": {}
-  },
   "view:completedAddChild": false,
   "view:completedSpouseFormerMarriage": false,
   "currentMarriageInformation": {
@@ -249,11 +223,11 @@
     "addChild": true,
     "report674": true,
     "addDisabledChild": true,
-    "reportDivorce": true,
-    "reportDeath": true,
-    "reportStepchildNotInHousehold": true,
-    "reportMarriageOfChildUnder18": true,
-    "reportChild18OrOlderIsNotAttendingSchool": true
+    "reportDivorce": false,
+    "reportDeath": false,
+    "reportStepchildNotInHousehold": false,
+    "reportMarriageOfChildUnder18": false,
+    "reportChild18OrOlderIsNotAttendingSchool": false
   },
   "veteranInformation": {
     "fullName": {
@@ -359,75 +333,6 @@
       }
     }
   ],
-  "stepChildren": [
-    {
-      "dateStepchildLeftHousehold": "2000-02-02",
-      "whoDoesTheStepchildLiveWith": {
-        "first": "John",
-        "last": "Doe"
-      },
-      "address": {
-        "view:militaryBaseDescription": {},
-        "country": "USA",
-        "street": "123 Fake St.",
-        "city": "Las Vegas",
-        "state": "NV",
-        "postalCode": "12345"
-      },
-      "livingExpensesPaid": "More than half",
-      "supportingStepchild": true,
-      "fullName": {
-        "first": "John",
-        "last": "Doe"
-      },
-      "ssn": "333445555",
-      "birthDate": "2012-02-19"
-    }
-  ],
-  "deaths": [
-    {
-      "dependentDeathLocation": {
-        "outsideUsa": false,
-        "location": {
-          "city": "Fakesville",
-          "state": "CO"
-        }
-      },
-      "deceasedDependentIncome": "N",
-      "dependentDeathDate": "1991-05-19",
-      "dependentType": "SPOUSE",
-      "fullName": {
-        "first": "John",
-        "last": "Doe"
-      },
-      "ssn": "333445555",
-      "birthDate": "1991-06-19"
-    }
-  ],
-  "childMarriage": [
-    {
-      "dependentIncome": "N",
-      "dateMarried": "1991-01-19",
-      "fullName": {
-        "first": "John",
-        "last": "Doe"
-      },
-      "ssn": "333445555",
-      "birthDate": "1991-02-19"
-    }
-  ],
-  "childStoppedAttendingSchool": [
-    {
-      "dependentIncome": "N",
-      "dateChildLeftSchool": "1991-03-19",
-      "fullName": {
-        "first": "John",
-        "last": "Doe"
-      },
-      "ssn": "333445555",
-      "birthDate": "1991-01-19"
-    }
-  ],
   "statementOfTruthSignature": "John Doe",
   "statementOfTruthCertified": true,
   "view:removeDependentPickList": [
@@ -510,16 +415,16 @@
     },
     {
       "fullName": {
-        "first": "PREVIOUS",
+        "first": "SUMMER",
         "last": "FOSTER"
       },
       "dateOfBirth": "1981-05-03",
       "ssn": "702023331",
       "relationshipToVeteran": "Spouse",
       "awardIndicator": "Y",
-      "key": "previous-3331",
+      "key": "summer-3331",
       "selected": true,
-      "removalReason": "death",
+      "removalReason": "spouseDied",
       "endType": "divorce",
       "endDate": "2020-01-01",
       "endOutsideUS": false,
