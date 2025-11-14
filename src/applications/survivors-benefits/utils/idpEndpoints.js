@@ -6,8 +6,7 @@ const encodeIdSegment = id => encodeURIComponent(id);
 
 export const buildIntakeUrl = () => BASE_URL;
 
-export const buildStatusUrl = id =>
-  `${BASE_URL}/${encodeIdSegment(id)}/status`;
+export const buildStatusUrl = id => `${BASE_URL}/${encodeIdSegment(id)}/status`;
 
 export const buildOutputUrl = (id, type = 'artifact') =>
   `${BASE_URL}/${encodeIdSegment(id)}/output?type=${encodeURIComponent(type)}`;

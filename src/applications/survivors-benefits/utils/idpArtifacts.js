@@ -35,10 +35,12 @@ export const fetchRelevantArtifacts = async documentId => {
   const forms = summary?.forms || [];
 
   const dd214Forms = forms.filter(
-    form => normalizeType(form?.artifactType) === normalizeType(ARTIFACT_TYPES.DD214),
+    form =>
+      normalizeType(form?.artifactType) === normalizeType(ARTIFACT_TYPES.DD214),
   );
   const deathForms = forms.filter(
-    form => normalizeType(form?.artifactType) === normalizeType(ARTIFACT_TYPES.DEATH),
+    form =>
+      normalizeType(form?.artifactType) === normalizeType(ARTIFACT_TYPES.DEATH),
   );
 
   const [dd214Data, deathData] = await Promise.all([

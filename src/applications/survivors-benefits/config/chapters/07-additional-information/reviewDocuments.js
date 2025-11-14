@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import '@department-of-veterans-affairs/component-library/dist/components/va-table';
@@ -8,7 +9,7 @@ import '@department-of-veterans-affairs/component-library/dist/components/va-tex
 // Temporary mocked document data so the review UI matches the design while
 // document parsing is under development.
 const MOCK_DOC_DATA = {
-  'DD214': [
+  DD214: [
     {
       heading: 'Veteran information',
       rows: [
@@ -123,49 +124,61 @@ const Description = () => (
 const ReviewDocumentsField = props => {
   const { formData: documentData, onChange } = props;
   const formState = useSelector(state => state?.form?.data || {});
-  const files = formState.files || [];
+  const files = useMemo(() => formState.files || [], [formState.files]);
 
   const extractedDocData = useMemo(() => buildDocDataFromFiles(files), [files]);
 
-  const initialDocData = useMemo(() => {
-    if (hasEntries(documentData)) {
-      return cloneDocumentData(documentData);
-    }
-    if (hasEntries(extractedDocData)) {
-      return cloneDocumentData(extractedDocData);
-    }
-    return cloneDocumentData(MOCK_DOC_DATA);
-  }, [documentData, extractedDocData]);
+  const initialDocData = useMemo(
+    () => {
+      if (hasEntries(documentData)) {
+        return cloneDocumentData(documentData);
+      }
+      if (hasEntries(extractedDocData)) {
+        return cloneDocumentData(extractedDocData);
+      }
+      return cloneDocumentData(MOCK_DOC_DATA);
+    },
+    [documentData, extractedDocData],
+  );
 
   const [docState, setDocState] = useState(initialDocData);
   const [editingSections, setEditingSections] = useState({});
   const [pendingEdits, setPendingEdits] = useState({});
   const [hasUserEdits, setHasUserEdits] = useState(false);
 
-  useEffect(() => {
-    setDocState(initialDocData);
-  }, [initialDocData]);
+  useEffect(
+    () => {
+      setDocState(initialDocData);
+    },
+    [initialDocData],
+  );
 
-  useEffect(() => {
-    if (!hasEntries(documentData)) {
-      setHasUserEdits(false);
-      return;
-    }
+  useEffect(
+    () => {
+      if (!hasEntries(documentData)) {
+        setHasUserEdits(false);
+        return;
+      }
 
-    if (docDataEqual(documentData, extractedDocData)) {
-      setHasUserEdits(false);
-    }
-  }, [documentData, extractedDocData]);
+      if (docDataEqual(documentData, extractedDocData)) {
+        setHasUserEdits(false);
+      }
+    },
+    [documentData, extractedDocData],
+  );
 
-  useEffect(() => {
-    if (!hasEntries(extractedDocData) || hasUserEdits) {
-      return;
-    }
+  useEffect(
+    () => {
+      if (!hasEntries(extractedDocData) || hasUserEdits) {
+        return;
+      }
 
-    if (!docDataEqual(documentData, extractedDocData)) {
-      onChange(cloneDocumentData(extractedDocData));
-    }
-  }, [documentData, extractedDocData, hasUserEdits, onChange]);
+      if (!docDataEqual(documentData, extractedDocData)) {
+        onChange(cloneDocumentData(extractedDocData));
+      }
+    },
+    [documentData, extractedDocData, hasUserEdits, onChange],
+  );
 
   const startEditingSection = (docType, sectionIndex) => {
     const section = docState?.[docType]?.[sectionIndex];
@@ -194,8 +207,8 @@ const ReviewDocumentsField = props => {
         return prev;
       }
 
-      const rows = pendingSection.rows.map((row, idx) =>
-        idx === rowIndex ? { ...row, value } : row,
+      const rows = pendingSection.rows.map(
+        (row, idx) => (idx === rowIndex ? { ...row, value } : row),
       );
 
       return {
@@ -227,13 +240,14 @@ const ReviewDocumentsField = props => {
 
     const updatedDocState = {
       ...docState,
-      [docType]: docState[docType].map((section, idx) =>
-        idx === sectionIndex
-          ? {
-              ...section,
-              rows: rows.map(row => ({ ...row })),
-            }
-          : section,
+      [docType]: docState[docType].map(
+        (section, idx) =>
+          idx === sectionIndex
+            ? {
+                ...section,
+                rows: rows.map(row => ({ ...row })),
+              }
+            : section,
       ),
     };
 
@@ -246,14 +260,17 @@ const ReviewDocumentsField = props => {
   const renderSection = (docType, section, sectionIndex) => {
     const sectionKey = createSectionKey(docType, section.heading);
     const isEditing = editingSections[sectionKey];
-    const rows = isEditing && pendingEdits[sectionKey]
-      ? pendingEdits[sectionKey].rows
-      : section.rows;
+    const rows =
+      isEditing && pendingEdits[sectionKey]
+        ? pendingEdits[sectionKey].rows
+        : section.rows;
 
     return (
       <div key={sectionKey} className="vads-u-margin-bottom--3">
         <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-bottom--1">
-          <h4 className="vads-u-font-size--md vads-u-margin--0">{section.heading}</h4>
+          <h4 className="vads-u-font-size--md vads-u-margin--0">
+            {section.heading}
+          </h4>
           {!isEditing ? (
             <va-button
               text="Edit"
@@ -271,7 +288,10 @@ const ReviewDocumentsField = props => {
           >
             <va-table-row slot="headers">
               <span className="vads-u-visibility--screen-reader">Field</span>
-              <span right-align-cols className="vads-u-visibility--screen-reader">
+              <span
+                right-align-cols
+                className="vads-u-visibility--screen-reader"
+              >
                 Value
               </span>
             </va-table-row>
@@ -297,7 +317,10 @@ const ReviewDocumentsField = props => {
               />
             ))}
             <div className="vads-u-display--flex vads-u-margin-top--2">
-              <va-button text="Update section" onClick={() => saveSection(sectionKey)} />
+              <va-button
+                text="Update section"
+                onClick={() => saveSection(sectionKey)}
+              />
               <va-button
                 text="Cancel"
                 secondary
@@ -327,33 +350,42 @@ const ReviewDocumentsField = props => {
         const sections = docState[baseTitle];
 
         return (
-          <va-accordion-item bordered header={title} key={`${file.name}-${idx}`}>
-            {sections
-              ? sections.map((section, sectionIndex) =>
-                  renderSection(baseTitle, section, sectionIndex)
-                )
-              : (
-                <>
+          <va-accordion-item
+            bordered
+            header={title}
+            key={`${file.name}-${idx}`}
+          >
+            {sections ? (
+              sections.map((section, sectionIndex) =>
+                renderSection(baseTitle, section, sectionIndex),
+              )
+            ) : (
+              <>
+                <p>
+                  <strong>Filename:</strong> {file.name}
+                </p>
+                {file.size ? (
                   <p>
-                    <strong>Filename:</strong> {file.name}
+                    <strong>Size:</strong> {file.size} bytes
                   </p>
-                  {file.size ? (
-                    <p>
-                      <strong>Size:</strong> {file.size} bytes
-                    </p>
-                  ) : null}
-                  {file.confirmationCode ? (
-                    <p>
-                      <strong>Confirmation code:</strong> {file.confirmationCode}
-                    </p>
-                  ) : null}
-                </>
-              )}
+                ) : null}
+                {file.confirmationCode ? (
+                  <p>
+                    <strong>Confirmation code:</strong> {file.confirmationCode}
+                  </p>
+                ) : null}
+              </>
+            )}
           </va-accordion-item>
         );
       })}
     </va-accordion>
   );
+};
+
+ReviewDocumentsField.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  formData: PropTypes.object,
 };
 
 export default {

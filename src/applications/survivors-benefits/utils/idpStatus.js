@@ -7,10 +7,7 @@ const DEFAULT_OPTIONS = {
   timeoutMs: 120000,
 };
 
-export const pollDocumentStatus = async (
-  documentId,
-  options = {},
-) => {
+export const pollDocumentStatus = async (documentId, options = {}) => {
   const { intervalMs, timeoutMs } = { ...DEFAULT_OPTIONS, ...options };
   const deadline = Date.now() + timeoutMs;
 
@@ -18,6 +15,7 @@ export const pollDocumentStatus = async (
 
   while (Date.now() <= deadline) {
     try {
+      // eslint-disable-next-line no-await-in-loop
       const response = await fetch(buildStatusUrl(documentId));
 
       if (!response.ok) {
@@ -25,6 +23,7 @@ export const pollDocumentStatus = async (
           `Status check failed (${response.status}): ${response.statusText}`,
         );
       } else {
+        // eslint-disable-next-line no-await-in-loop
         const payload = await response.json();
         const status = payload?.scan_status;
         if (status === 'completed' || status === 'failed') {
@@ -35,6 +34,7 @@ export const pollDocumentStatus = async (
       lastError = error;
     }
 
+    // eslint-disable-next-line no-await-in-loop
     await sleep(intervalMs);
   }
 

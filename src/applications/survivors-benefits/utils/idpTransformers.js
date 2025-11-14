@@ -76,8 +76,14 @@ const transformDd214Entry = data => {
     {
       heading: 'Service information',
       rows: [
-        { label: 'Branch of service', value: sanitize(entry.BRANCH_OF_SERVICE) },
-        { label: 'Grade, rate, or rank', value: sanitize(entry.GRADE_RATE_RANK) },
+        {
+          label: 'Branch of service',
+          value: sanitize(entry.BRANCH_OF_SERVICE),
+        },
+        {
+          label: 'Grade, rate, or rank',
+          value: sanitize(entry.GRADE_RATE_RANK),
+        },
         { label: 'Pay grade', value: sanitize(entry.PAY_GRADE) },
         { label: 'Date inducted', value: formatDate(entry.DATE_INDUCTED) },
         {
@@ -88,7 +94,10 @@ const transformDd214Entry = data => {
           label: 'Date separated active service',
           value: formatDate(entry.DATE_SEPARATED_ACTIVE_SERVICE),
         },
-        { label: 'Cause of separation', value: sanitize(entry.CAUSE_OF_SEPARATION) },
+        {
+          label: 'Cause of separation',
+          value: sanitize(entry.CAUSE_OF_SEPARATION),
+        },
         { label: 'Separation type', value: sanitize(entry.SEPARATION_TYPE) },
         { label: 'Separation code', value: sanitize(entry.SEPARATION_CODE) },
       ],
@@ -119,7 +128,10 @@ const transformDeathCertificateEntry = data => {
     {
       heading: 'Death certificate information',
       rows: [
-        { label: 'Disposition date', value: formatDate(entry.DISPOSITION_DATE) },
+        {
+          label: 'Disposition date',
+          value: formatDate(entry.DISPOSITION_DATE),
+        },
         { label: 'Date of death', value: formatDate(entry.DATE_OF_DEATH) },
         { label: 'Cause of death A', value: sanitize(entry.CAUSE_OF_DEATH_A) },
         { label: 'Cause of death B', value: sanitize(entry.CAUSE_OF_DEATH_B) },

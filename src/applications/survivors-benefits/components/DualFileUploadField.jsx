@@ -1,4 +1,11 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, {
+  useState,
+  useMemo,
+  useEffect,
+  useRef,
+  useCallback,
+} from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -6,7 +13,6 @@ import debounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
 import {
   MISSING_PASSWORD_ERROR,
-  MISSING_FILE,
   MISSING_ADDITIONAL_INFO,
 } from 'platform/forms-system/src/js/validation';
 import {
@@ -47,7 +53,8 @@ const extractPrimarySections = sections => {
   const primary = {};
   Object.entries(sections).forEach(([docType, entries]) => {
     if (Array.isArray(entries) && entries.length) {
-      primary[docType] = entries[0];
+      const [primaryEntry] = entries;
+      primary[docType] = primaryEntry;
     }
   });
   return Object.keys(primary).length ? primary : null;
@@ -89,7 +96,7 @@ const mergeSecondaryInfo = (fileEntry, info, defaultStatus = 'pending') => {
   }
 
   if (info.contract) {
-    const { id, bucket, pdf_key: pdfKey } = info.contract;
+    const { id, bucket, pdfKey } = info.contract;
     if (id && id !== fileEntry.idpDocumentId) {
       next.idpDocumentId = id;
       changed = true;
@@ -135,7 +142,7 @@ const ACTIVE_SECONDARY_STATUSES = new Set(['pending', 'processing', 'success']);
 const RETRIABLE_SECONDARY_STATUSES = new Set(['error', 'skipped']);
 
 const DualFileUploadField = props => {
-  const { uiOptions = {}, childrenProps } = props;
+  const { uiOptions = {}, childrenProps = {} } = props;
   const [encrypted, setEncrypted] = useState([]);
   const [errors, setErrors] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -154,6 +161,19 @@ const DualFileUploadField = props => {
   const componentRef = useRef(null);
   const isMountedRef = useRef(true);
   const mappedProps = vaFileInputFieldMapping(props);
+  const mappedUploadedFiles = mappedProps.uploadedFiles;
+  const childFormDataRaw = childrenProps?.formData;
+  const childFormData = useMemo(() => childFormDataRaw || [], [
+    childFormDataRaw,
+  ]);
+  const childOnChange = childrenProps?.onChange;
+  const childUiSchema = childrenProps?.uiSchema;
+  const {
+    additionalInputUpdate,
+    maxFileSize,
+    minFileSize,
+    skipUpload = false,
+  } = uiOptions;
 
   useEffect(() => {
     return () => {
@@ -191,72 +211,85 @@ const DualFileUploadField = props => {
     });
   };
 
-  useEffect(() => {
-    const formData = childrenProps.formData || [];
-    const usedKeys = new Set();
-    let changed = false;
-    const next = formData.map(entry => {
-      const existingKey = entry?.idpTrackingKey;
-      let info = existingKey ? secondaryUploads[existingKey] : null;
-      let resolvedKey = existingKey;
+  useEffect(
+    () => {
+      const formData = childFormData || [];
+      const usedKeys = new Set();
+      let changed = false;
+      const next = formData.map(entry => {
+        const existingKey = entry?.idpTrackingKey;
+        let info = existingKey ? secondaryUploads[existingKey] : null;
+        let resolvedKey = existingKey;
 
-      if (!info) {
-        const match = Object.entries(secondaryUploads).find(
-          ([key, value]) =>
-            !usedKeys.has(key) &&
-            value?.name === entry?.name &&
-            value?.size === entry?.size &&
-            value?.lastModified === entry?.lastModified,
-        );
-        if (match) {
-          resolvedKey = match[0];
-          info = match[1];
+        if (!info) {
+          const match = Object.entries(secondaryUploads).find(
+            ([key, value]) =>
+              !usedKeys.has(key) &&
+              value?.name === entry?.name &&
+              value?.size === entry?.size &&
+              value?.lastModified === entry?.lastModified,
+          );
+          if (match) {
+            const [matchedKey, matchedInfo] = match;
+            resolvedKey = matchedKey;
+            info = matchedInfo;
+          }
         }
+
+        if (!info) {
+          return entry;
+        }
+
+        usedKeys.add(resolvedKey);
+
+        const baseEntry =
+          resolvedKey && resolvedKey !== existingKey
+            ? { ...entry, idpTrackingKey: resolvedKey }
+            : entry;
+        const merged = mergeSecondaryInfo(baseEntry, info);
+        if (merged !== baseEntry) {
+          changed = true;
+        }
+        return merged;
+      });
+      if (changed) {
+        childOnChange(next);
       }
-
-      if (!info) {
-        return entry;
-      }
-
-      usedKeys.add(resolvedKey);
-
-      const baseEntry =
-        resolvedKey && resolvedKey !== existingKey
-          ? { ...entry, idpTrackingKey: resolvedKey }
-          : entry;
-      const merged = mergeSecondaryInfo(baseEntry, info);
-      if (merged !== baseEntry) {
-        changed = true;
-      }
-      return merged;
-    });
-    if (changed) {
-      childrenProps.onChange(next);
-    }
-  }, [secondaryUploads, childrenProps.formData, childrenProps.onChange]);
-
-  useEffect(() => {
-    const doPrefill =
-      Array.isArray(mappedProps.uploadedFiles) && componentRef.current;
-    if (doPrefill) {
-      const nulls = new Array(childrenProps.formData.length).fill(null);
-      setErrors([...nulls]);
-      setEncrypted([...nulls]);
-      childrenProps.formData.forEach((_, i) =>
-        errorManager.addPasswordInstance(i),
-      );
-      setCurrentIndex(childrenProps.formData.length - 1);
-      componentRef.current.value = mappedProps.uploadedFiles;
-    }
-  }, []);
+    },
+    [secondaryUploads, childFormData, childOnChange],
+  );
 
   useEffect(
     () => {
-      const _percents = [...percentsUploaded];
-      _percents[currentIndex] = percentUploaded;
-      setPercentsUploaded(_percents);
+      const doPrefill =
+        Array.isArray(mappedUploadedFiles) && componentRef.current;
+      if (doPrefill) {
+        const nulls = new Array(childFormData.length).fill(null);
+        setErrors([...nulls]);
+        setEncrypted([...nulls]);
+        childFormData.forEach((_, i) => errorManager.addPasswordInstance(i));
+        setCurrentIndex(childFormData.length - 1);
+        componentRef.current.value = mappedUploadedFiles;
+      }
     },
-    [percentUploaded],
+    [childFormData, mappedUploadedFiles],
+  );
+
+  useEffect(
+    () => {
+      if (currentIndex < 0) {
+        return;
+      }
+      setPercentsUploaded(prev => {
+        const next = [...prev];
+        if (next[currentIndex] === percentUploaded) {
+          return next;
+        }
+        next[currentIndex] = percentUploaded;
+        return next;
+      });
+    },
+    [currentIndex, percentUploaded],
   );
 
   function getSlotContent() {
@@ -275,7 +308,7 @@ const DualFileUploadField = props => {
   useEffect(
     () => {
       function updateAdditionalInputs() {
-        childrenProps.formData.forEach((_, index) => {
+        childFormData.forEach((_, index) => {
           const instance = componentRef.current?.shadowRoot?.getElementById(
             `instance-${index}`,
           );
@@ -287,21 +320,23 @@ const DualFileUploadField = props => {
               slot?.assignedNodes().filter(n => n.nodeType === 1);
             if (slotContent) {
               setInitPoll(false);
-              const file = childrenProps.formData[index];
+              const file = childFormData[index];
               const _isEmpty = !file || (file && isEmpty(file.additionalData));
               const additionalInputError =
                 _isEmpty &&
                 index < errorManager.getLastTouched() &&
                 !instance.getAttribute('error')
-                  ? childrenProps?.uiSchema?.['ui:errorMessages']
-                      ?.additionalInput || MISSING_ADDITIONAL_INFO
+                  ? childUiSchema?.['ui:errorMessages']?.additionalInput ||
+                    MISSING_ADDITIONAL_INFO
                   : '';
               const additionalData = file?.additionalData || null;
-              uiOptions.additionalInputUpdate(
-                slotContent.firstElementChild,
-                additionalInputError,
-                additionalData,
-              );
+              if (typeof additionalInputUpdate === 'function') {
+                additionalInputUpdate(
+                  slotContent.firstElementChild,
+                  additionalInputError,
+                  additionalData,
+                );
+              }
             }
           }
         });
@@ -334,131 +369,138 @@ const DualFileUploadField = props => {
         }
       };
     },
-    [
-      childrenProps.formData,
-      childrenProps?.uiSchema,
-      initPoll,
-      uiOptions.additionalInputUpdate,
-    ],
+    [childFormData, childUiSchema, initPoll, additionalInputUpdate],
   );
 
-  function assignFileUploadToStore(uploadedFile, index) {
-    if (!uploadedFile) return;
+  const assignFileUploadToStore = useCallback(
+    (uploadedFile, index) => {
+      if (!uploadedFile) return;
 
-    const { file, ...rest } = uploadedFile;
+      const { file, ...rest } = uploadedFile;
 
-    const { name, size, type, lastModified } = file;
-    const trackingKey = file?.__sbTrackingKey;
-    const secondaryInfo = trackingKey ? secondaryUploads[trackingKey] : null;
+      const { name, size, type, lastModified } = file;
+      const trackingKey = file?.__sbTrackingKey;
+      const secondaryInfo = trackingKey ? secondaryUploads[trackingKey] : null;
 
-    const newFile = mergeSecondaryInfo(
-      {
-        ...rest,
-        name,
-        size,
-        type,
-        lastModified,
-        idpTrackingKey: trackingKey,
-        idpUploadStatus: secondaryInfo?.status || 'pending',
-      },
-      secondaryInfo,
-    );
+      const newFile = mergeSecondaryInfo(
+        {
+          ...rest,
+          name,
+          size,
+          type,
+          lastModified,
+          idpTrackingKey: trackingKey,
+          idpUploadStatus: secondaryInfo?.status || 'pending',
+        },
+        secondaryInfo,
+      );
 
-    const existingFile = childrenProps.formData[index];
-    let files;
-    if (existingFile) {
-      if (encrypted[index] && existingFile.additionalData) {
-        newFile.additionalData = existingFile.additionalData;
+      const existingFile = childFormData[index];
+      let files;
+      if (existingFile) {
+        if (encrypted[index] && existingFile.additionalData) {
+          newFile.additionalData = existingFile.additionalData;
+        }
+        files = [...childFormData];
+        files[index] = newFile;
+      } else {
+        files = [...childFormData, newFile];
       }
-      files = [...childrenProps.formData];
-      files[index] = newFile;
-    } else {
-      files = [...childrenProps.formData, newFile];
-    }
-    childrenProps.onChange(files);
-  }
+      childOnChange(files);
+    },
+    [childFormData, childOnChange, encrypted, secondaryUploads],
+  );
 
-  const handleFileProcessing = (uploadedFile, index) => {
-    if (!uploadedFile || !uploadedFile.file) return;
+  const handleFileProcessing = useCallback(
+    (uploadedFile, index) => {
+      if (!uploadedFile || !uploadedFile.file) return;
 
-    const _errors = [...errors];
-    const _error = uploadedFile.errorMessage || null;
-    _errors[index] = _error;
-    setErrors(_errors);
-    assignFileUploadToStore(uploadedFile, index);
+      const _error = uploadedFile.errorMessage || null;
+      setErrors(prev => {
+        const next = [...prev];
+        next[index] = _error;
+        return next;
+      });
+      assignFileUploadToStore(uploadedFile, index);
 
-    const trackingKey = uploadedFile.file?.__sbTrackingKey;
-    if (trackingKey) {
-      primaryUploadsRef.current[trackingKey] = _error ? 'error' : 'done';
-    }
-  };
+      const trackingKey = uploadedFile.file?.__sbTrackingKey;
+      if (trackingKey) {
+        primaryUploadsRef.current[trackingKey] = _error ? 'error' : 'done';
+      }
+    },
+    [assignFileUploadToStore],
+  );
 
-  const startSecondaryUpload = (file, trackingKey) => {
-    if (!file || !trackingKey) {
-      return;
-    }
+  const startSecondaryUpload = useCallback(
+    (file, trackingKey) => {
+      if (!file || !trackingKey) {
+        return;
+      }
 
-    const metadata = {
-      name: file.name,
-      size: file.size,
-      lastModified: file.lastModified,
-    };
+      const metadata = {
+        name: file.name,
+        size: file.size,
+        lastModified: file.lastModified,
+      };
 
-    const isPdf =
-      file.type === 'application/pdf' || file.name?.toLowerCase().endsWith('.pdf');
+      const isPdf =
+        file.type === 'application/pdf' ||
+        file.name?.toLowerCase().endsWith('.pdf');
 
-    if (!isPdf) {
-      secondaryStatusRef.current[trackingKey] = 'skipped';
+      if (!isPdf) {
+        secondaryStatusRef.current[trackingKey] = 'skipped';
+        setSecondaryUpload(trackingKey, {
+          status: 'skipped',
+          error: 'Only PDF files are sent for automated processing.',
+          ...metadata,
+        });
+        return;
+      }
+
+      const existingState = secondaryStatusRef.current[trackingKey];
+      const existing = secondaryUploads[trackingKey];
+      if (
+        (existingState && ACTIVE_SECONDARY_STATUSES.has(existingState)) ||
+        (existing && ACTIVE_SECONDARY_STATUSES.has(existing.status))
+      ) {
+        return;
+      }
+
+      secondaryStatusRef.current[trackingKey] = 'pending';
       setSecondaryUpload(trackingKey, {
-        status: 'skipped',
-        error: 'Only PDF files are sent for automated processing.',
+        status: 'pending',
         ...metadata,
       });
-      return;
-    }
 
-    const existingState = secondaryStatusRef.current[trackingKey];
-    const existing = secondaryUploads[trackingKey];
-    if (
-      (existingState && ACTIVE_SECONDARY_STATUSES.has(existingState)) ||
-      (existing && ACTIVE_SECONDARY_STATUSES.has(existing.status))
-    ) {
-      return;
-    }
-
-    secondaryStatusRef.current[trackingKey] = 'pending';
-    setSecondaryUpload(trackingKey, {
-      status: 'pending',
-      ...metadata,
-    });
-
-    uploadPdfToIdp(file)
-      .then(contract => {
-        secondaryStatusRef.current[trackingKey] = 'processing';
-        setSecondaryUpload(trackingKey, {
-          status: 'processing',
-          contract,
-          ...metadata,
+      uploadPdfToIdp(file)
+        .then(contract => {
+          secondaryStatusRef.current[trackingKey] = 'processing';
+          setSecondaryUpload(trackingKey, {
+            status: 'processing',
+            contract,
+            ...metadata,
+          });
+          return processUploadedDocument(contract);
+        })
+        .then(sections => {
+          secondaryStatusRef.current[trackingKey] = 'success';
+          setSecondaryUpload(trackingKey, {
+            status: 'success',
+            sections,
+            ...metadata,
+          });
+        })
+        .catch(error => {
+          secondaryStatusRef.current[trackingKey] = 'error';
+          setSecondaryUpload(trackingKey, {
+            status: 'error',
+            error: error?.message || 'Automated processing upload failed.',
+            ...metadata,
+          });
         });
-        return processUploadedDocument(contract);
-      })
-      .then(sections => {
-        secondaryStatusRef.current[trackingKey] = 'success';
-        setSecondaryUpload(trackingKey, {
-          status: 'success',
-          sections,
-          ...metadata,
-        });
-      })
-      .catch(error => {
-        secondaryStatusRef.current[trackingKey] = 'error';
-        setSecondaryUpload(trackingKey, {
-          status: 'error',
-          error: error?.message || 'Automated processing upload failed.',
-          ...metadata,
-        });
-      });
-  };
+    },
+    [secondaryUploads],
+  );
 
   const handleFileAdded = async (file, index, mockFormData) => {
     const { fileError, encryptedCheck } = await getFileError(file, uiOptions);
@@ -484,7 +526,7 @@ const DualFileUploadField = props => {
     errorManager.addPasswordInstance(index, encryptedCheck);
 
     if (environment.isTest() && !environment.isUnitTest()) {
-      childrenProps.onChange([mockFormData]);
+      childOnChange([mockFormData]);
       return;
     }
 
@@ -493,7 +535,9 @@ const DualFileUploadField = props => {
       size: file.size,
       lastModified: file.lastModified,
     };
-    const existingSecondary = trackingKey ? secondaryUploads[trackingKey] : null;
+    const existingSecondary = trackingKey
+      ? secondaryUploads[trackingKey]
+      : null;
 
     if (!encryptedCheck) {
       if (
@@ -517,7 +561,7 @@ const DualFileUploadField = props => {
       });
     }
 
-    if (uiOptions.skipUpload && !encryptedCheck) {
+    if (skipUpload && !encryptedCheck) {
       simulateUploadMultiple(
         setPercentsUploaded,
         percentsUploaded,
@@ -547,11 +591,11 @@ const DualFileUploadField = props => {
   }
 
   const handleFileRemoved = _file => {
-    const index = (childrenProps.formData || []).findIndex(
+    const index = (childFormData || []).findIndex(
       file => file.name === _file.name && file.size === _file.size,
     );
 
-    const trackingKey = childrenProps.formData?.[index]?.idpTrackingKey;
+    const trackingKey = childFormData?.[index]?.idpTrackingKey;
     if (trackingKey) {
       setSecondaryUploads(prev => {
         const next = { ...prev };
@@ -568,8 +612,8 @@ const DualFileUploadField = props => {
     setEncrypted(removeOneFromArray(encrypted, index));
     setPercentsUploaded(removeOneFromArray(percentsUploaded, index));
 
-    const formData = removeOneFromArray(childrenProps.formData, index);
-    childrenProps.onChange(formData);
+    const formData = removeOneFromArray(childFormData, index);
+    childOnChange(formData);
   };
 
   const debouncePassword = useMemo(
@@ -582,18 +626,28 @@ const DualFileUploadField = props => {
           setEncrypted(_encrypted);
           const trackingKey = ensureTrackingKey(file.file);
           startSecondaryUpload(file.file, trackingKey);
-          uiOptions.skipUpload
-            ? simulateUploadMultiple(
-                setPercentsUploaded,
-                percentsUploaded,
-                index,
-                childrenProps,
-                file.file,
-              )
-            : handleUpload(file.file, handleFileProcessing, password, index);
+          if (skipUpload) {
+            simulateUploadMultiple(
+              setPercentsUploaded,
+              percentsUploaded,
+              index,
+              childrenProps,
+              file.file,
+            );
+          } else {
+            handleUpload(file.file, handleFileProcessing, password, index);
+          }
         }
       }),
-    [childrenProps, encrypted, handleUpload, percentsUploaded, uiOptions.skipUpload],
+    [
+      childrenProps,
+      encrypted,
+      handleUpload,
+      handleFileProcessing,
+      percentsUploaded,
+      startSecondaryUpload,
+      skipUpload,
+    ],
   );
 
   const handleChange = e => {
@@ -651,13 +705,13 @@ const DualFileUploadField = props => {
     const index = getFileInputInstanceIndex(e);
     if (mappedProps.handleAdditionalInput) {
       const payload = mappedProps.handleAdditionalInput(e);
-      const updatedFormData = [...(childrenProps.formData || [])];
+      const updatedFormData = [...(childFormData || [])];
       updatedFormData[index] = {
         ...updatedFormData[index],
         additionalData: payload,
       };
 
-      childrenProps.onChange(updatedFormData);
+      childOnChange(updatedFormData);
     }
   };
 
@@ -689,8 +743,8 @@ const DualFileUploadField = props => {
       percentUploaded={percentsUploaded}
       passwordErrors={passwordErrors}
       onVaSelect={handleAdditionalInput}
-      maxFileSize={uiOptions.maxFileSize}
-      minFileSize={uiOptions.minFileSize}
+      maxFileSize={maxFileSize}
+      minFileSize={minFileSize}
     >
       {mappedProps.additionalInput && (
         <div className="additional-input-container">
@@ -699,6 +753,46 @@ const DualFileUploadField = props => {
       )}
     </VaFileInputMultiple>
   );
+};
+
+DualFileUploadField.propTypes = {
+  childrenProps: PropTypes.shape({
+    formData: PropTypes.arrayOf(
+      PropTypes.shape({
+        file: PropTypes.shape({
+          name: PropTypes.string,
+          size: PropTypes.number,
+          type: PropTypes.string,
+          lastModified: PropTypes.number,
+        }),
+        additionalData: PropTypes.object,
+        idpTrackingKey: PropTypes.string,
+        idpUploadStatus: PropTypes.string,
+        idpBucket: PropTypes.string,
+        idpDocumentId: PropTypes.string,
+        idpPdfKey: PropTypes.string,
+        idpSections: PropTypes.object,
+      }),
+    ),
+    onChange: PropTypes.func.isRequired,
+    uiSchema: PropTypes.shape({
+      'ui:errorMessages': PropTypes.shape({
+        additionalInput: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
+  uiOptions: PropTypes.shape({
+    fileUploadUrl: PropTypes.string,
+    accept: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(PropTypes.string),
+    ]),
+    formNumber: PropTypes.string,
+    skipUpload: PropTypes.bool,
+    maxFileSize: PropTypes.number,
+    minFileSize: PropTypes.number,
+    additionalInputUpdate: PropTypes.func,
+  }),
 };
 
 export default DualFileUploadField;

@@ -8,14 +8,15 @@ import { buildIntakeUrl } from './idpEndpoints';
 const INTAKE_ENDPOINT = buildIntakeUrl();
 
 const isPdfFile = file =>
-  file?.type === 'application/pdf' || file?.name?.toLowerCase().endsWith('.pdf');
+  file?.type === 'application/pdf' ||
+  file?.name?.toLowerCase().endsWith('.pdf');
 
 const readFileAsBase64 = file =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
       try {
-        const result = reader.result;
+        const { result } = reader;
         // result is in form data:<mime>;base64,<payload>
         const [, payload] = String(result).split(',');
         if (!payload) {
@@ -40,6 +41,13 @@ export const uploadPdfToIdp = async file => {
 
   const pdfBase64 = await readFileAsBase64(file);
 
+  /* eslint-disable camelcase */
+  const requestPayload = {
+    pdf_b64: pdfBase64,
+    file_name: file.name,
+  };
+  /* eslint-enable camelcase */
+
   let payload;
   try {
     payload = await apiRequest(INTAKE_ENDPOINT, {
@@ -48,7 +56,7 @@ export const uploadPdfToIdp = async file => {
         'Content-Type': 'application/json',
         'X-Filename': file.name,
       },
-      body: JSON.stringify({ pdf_b64: pdfBase64, file_name: file.name }),
+      body: JSON.stringify(requestPayload),
     });
   } catch (error) {
     const status = error?.status || 'unknown';
@@ -57,14 +65,19 @@ export const uploadPdfToIdp = async file => {
     throw new Error(`IDP intake failed (${status}): ${message}`);
   }
 
-  if (!payload?.id) {
+  const { id, bucket } = payload || {};
+  /* eslint-disable camelcase */
+  const pdfKey = payload?.pdf_key;
+  /* eslint-enable camelcase */
+
+  if (!id) {
     throw new Error('IDP intake succeeded but no document id was returned.');
   }
 
   return {
-    id: payload.id,
-    bucket: payload.bucket,
-    pdf_key: payload.pdf_key,
+    id,
+    bucket,
+    pdfKey,
   };
 };
 
