@@ -95,6 +95,7 @@ function editItemPage3() {
 function removeItem2() {
   cy.get('va-card').should('have.length', 2);
   cy.get('va-card[name="employer_1"] [data-action="remove"]').click();
+
   cy.axeCheck();
   cy.get('va-modal[status="warning"]')
     .shadow()
