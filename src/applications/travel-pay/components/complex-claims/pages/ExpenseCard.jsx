@@ -115,7 +115,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                   data-action="remove"
                   button-type="delete"
                   disabled={isDeleting}
-                  onClick={() => !isDeleting && setShowDeleteModal(true)}
+                  onClick={() => setShowDeleteModal(true)}
                 />
               </div>
             )}
@@ -126,7 +126,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
         <DeleteExpenseModal
           expenseCardTitle={header}
           expenseType={expenseType}
-          visible={showDeleteModal && !isDeleting}
+          visible={showDeleteModal}
           onCloseEvent={() => setShowDeleteModal(false)}
           onPrimaryButtonClick={handleDeleteExpenseAndDocument}
           onSecondaryButtonClick={() => setShowDeleteModal(false)}
