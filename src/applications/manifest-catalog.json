@@ -292,6 +292,12 @@
       "rootUrl": "/school-administrators/commit-principles-of-excellence-form-22-10275"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/10278",
+      "appName": "Authorization to Disclose Personal Information",
+      "entryName": "10278-edu-benefits",
+      "rootUrl": "/education/10278"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/10282",
       "appName": "22-10282 IBM Skillsbuild Training Program Intake Application",
       "entryName": "10282-edu-benefits",

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import {
   selectAppointmentTravelClaim,
@@ -9,6 +10,8 @@ import { TRAVEL_CLAIM_MESSAGES } from '../utils/constants';
 import Section from './Section';
 
 export default function TravelReimbursementSection({ appointment }) {
+  const [showModal, setShowModal] = useState(false);
+
   const isEligibleForTravelClaim = selectIsEligibleForTravelClaim(appointment);
   if (!isEligibleForTravelClaim) return null;
 
@@ -49,23 +52,48 @@ export default function TravelReimbursementSection({ appointment }) {
     daysRemainingToFileClaim < 1
   ) {
     return (
-      <Section heading={heading}>
-        <p className="vads-u-margin-y--0p5">
-          Days left to file: {daysRemainingToFileClaim}
-        </p>
-        <p className="vads-u-margin-y--0p5">
-          You didn’t file a claim for this appointment. You can only file for
-          reimbursement within 30 days of the appointment.
-        </p>
-        <p className="vads-u-margin-y--0p5">
-          <va-link
-            data-testid="how-to-file-claim-link"
-            className="vads-u-margin-y--0p5"
-            href="https://www.va.gov/resources/how-to-file-a-va-travel-reimbursement-claim-online/"
-            text="Learn more about travel reimbursement"
-          />
-        </p>
-      </Section>
+      <>
+        <Section heading={heading}>
+          <p className="vads-u-margin-y--0p5">
+            Days left to file: {daysRemainingToFileClaim}
+          </p>
+          <p className="vads-u-margin-y--0p5">
+            You didn’t file a claim for this appointment within the 30-day
+            limit. You can still review and file your claim. But claims filed
+            after 30 days are usually denied.
+          </p>
+          <p className="vads-u-margin-y--0p5">
+            <va-link
+              data-testid="file-claim-link"
+              className="vads-u-margin-y--0p5"
+              onClick={() => setShowModal(true)}
+              text="File a travel reimbursement claim"
+            />
+          </p>
+        </Section>
+        <VaModal
+          visible={showModal}
+          onCloseEvent={() => setShowModal(false)}
+          onPrimaryButtonClick={() => {
+            setShowModal(false);
+            window.location.href = `/my-health/travel-pay/file-new-claim/${
+              appointment.id
+            }`;
+          }}
+          onSecondaryButtonClick={() => setShowModal(false)}
+          modalTitle="Your appointment happened more than 30 days ago"
+          primaryButtonText="Yes, I want to file"
+          secondaryButtonText="Don’t file"
+          status="warning"
+          uswds
+        >
+          <p>
+            You can still review and file your claim. But claims filed after 30
+            days are usually denied.
+          </p>
+          <p>Do you still want to file a travel reimbursement claim?</p>
+        </VaModal>
+      </>
     );
   }
   if (claimData.metadata.status === 200 && claimData.claim?.id) {

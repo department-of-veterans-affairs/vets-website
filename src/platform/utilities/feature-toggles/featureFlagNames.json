@@ -1,7 +1,6 @@
 {
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
   "accreditedRepresentativePortalIdMe": "accredited_representative_portal_id_me",
-  "accreditedRepresentativePortalPilot": "accredited_representative_portal_pilot",
   "accreditedRepresentativePortalForm21a": "accredited_representative_portal_form_21a",
   "aedpVADX": "aedp_vadx",
   "aedpPrefill": "aedp_prefill",
@@ -288,6 +287,7 @@
   "showUpdatedToeApp": "show_updated_toe_app",
   "signInServiceEnabled": "sign_in_service_enabled",
   "signInModalV2": "sign_in_modal_v2",
+  "portalNoticeInterstitialEnabled": "portal_notice_interstitial_enabled",
   "stemAutomatedDecision": "stem_automated_decision",
   "stemSCOEmail": "stem_sco_email",
   "subform89404192": "subform_8940_4192",
