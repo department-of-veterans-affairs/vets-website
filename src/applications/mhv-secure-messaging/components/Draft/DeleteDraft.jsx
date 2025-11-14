@@ -40,6 +40,7 @@ const DeleteDraft = props => {
     setHideDraft,
     setIsEditing,
     savedComposeDraft,
+    redirectPath,
   } = props;
 
   const showIcon = useState(!!cannotReply);
@@ -102,14 +103,21 @@ const DeleteDraft = props => {
           ? activeFolder.folderId
           : DefaultFolders.DRAFTS.id;
 
-        if (pathname.includes('/new-message')) {
+        if (redirectPath) {
+          // Remove rxRenewalMessageSuccess query param if present
+          const cleanRedirectPath = redirectPath
+            .replace(
+              /[?&]rxRenewalMessageSuccess=?(true|false)?(&|$)/g,
+              (match, p1, p2) => (p2 === '&' ? '&' : ''),
+            )
+            .replace(/[?&]$/, '');
+          window.location.replace(cleanRedirectPath);
+        } else if (pathname.includes('/new-message')) {
           navigateToFolderByFolderId(
             activeFolder ? activeFolder.folderId : DefaultFolders.DRAFTS.id,
             history,
           );
-        }
-
-        if (pathname.includes(Paths.REPLY)) {
+        } else if (pathname.includes(Paths.REPLY)) {
           history.goBack();
         } else if (pathname.includes(Paths.MESSAGE_THREAD + draftId)) {
           navigateToFolderByFolderId(defaultFolderId, history);
@@ -200,6 +208,7 @@ DeleteDraft.propTypes = {
   isModalVisible: PropType.bool,
   messageBody: PropType.string,
   navigationError: PropType.object,
+  redirectPath: PropType.string,
   refreshThreadCallback: PropType.func,
   savedComposeDraft: PropType.bool,
   setHideDraft: PropType.func,

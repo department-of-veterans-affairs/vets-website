@@ -406,4 +406,29 @@ describe('Delete Draft component', () => {
       expect(setNavigationErrorSpy.calledWith(null)).to.be.true;
     });
   });
+
+  describe('redirectPath prop', () => {
+    it('renders with redirectPath prop', async () => {
+      const initialState = {
+        sm: {
+          folders: {
+            folder: inbox,
+          },
+        },
+      };
+
+      const redirectPath = '/my-health/medications';
+      const { getByTestId } = renderWithStoreAndRouter(
+        <DeleteDraft
+          draftId={123456}
+          draftsCount={1}
+          redirectPath={redirectPath}
+          savedComposeDraft
+        />,
+        { initialState, reducers: reducer, path: Paths.COMPOSE },
+      );
+
+      expect(getByTestId('delete-draft-button')).to.exist;
+    });
+  });
 });
