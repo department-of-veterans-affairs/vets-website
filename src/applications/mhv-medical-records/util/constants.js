@@ -452,22 +452,7 @@ export const Breadcrumbs = {
 };
 
 export const DEFAULT_DATE_RANGE = '3'; // last 3 months
-
-// export const DateRangeValues = {
-//   ANY: 'any',
-//   LAST3: 3,
-//   LAST6: 6,
-//   LAST12: 12,
-//   CUSTOM: 'custom',
-// };
-
-// export const DateRangeOptions = [
-//   { value: DateRangeValues.ANY, label: 'Any' },
-//   { value: DateRangeValues.LAST3, label: 'Last 3 months' },
-//   { value: DateRangeValues.LAST6, label: 'Last 6 months' },
-//   { value: DateRangeValues.LAST12, label: 'Last 12 months' },
-//   { value: DateRangeValues.CUSTOM, label: 'Custom' },
-// ];
+export const MONTH_BASED_OPTIONS = ['3', '6'];
 
 export const CernerAlertContent = {
   MR_LANDING_PAGE: {

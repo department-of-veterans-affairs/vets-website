@@ -9,10 +9,13 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import {
   format as dateFnsFormat,
   formatISO,
+  subMonths,
   subYears,
   addMonths,
   startOfDay,
   endOfDay,
+  startOfYear,
+  endOfYear,
   parseISO,
   isValid,
 } from 'date-fns';
@@ -24,6 +27,8 @@ import {
   VALID_REFRESH_DURATION,
   Paths,
   Breadcrumbs,
+  DEFAULT_DATE_RANGE,
+  MONTH_BASED_OPTIONS,
 } from './constants';
 
 /**
@@ -730,7 +735,7 @@ export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
 
 export const getTimeFrame = dateRange => {
   // For predefined date ranges like 3 or 6 months, return the fromDate
-  if (dateRange?.option?.length <= 2) {
+  if (MONTH_BASED_OPTIONS.includes(dateRange.option)) {
     return dateRange.fromDate;
   }
 
@@ -740,6 +745,36 @@ export const getTimeFrame = dateRange => {
 
 export const getDisplayTimeFrame = dateRange => {
   return `${formatDate(dateRange.fromDate)} to ${formatDate(dateRange.toDate)}`;
+};
+
+export const calculateDateRange = value => {
+  const today = new Date();
+
+  if (MONTH_BASED_OPTIONS.includes(value)) {
+    return {
+      fromDate: dateFnsFormat(
+        subMonths(today, parseInt(value, 10)),
+        'yyyy-MM-dd',
+      ),
+      toDate: dateFnsFormat(today, 'yyyy-MM-dd'),
+    };
+  }
+
+  // Year-based
+  const yearDate = new Date(parseInt(value, 10), 0, 1);
+  return {
+    fromDate: dateFnsFormat(startOfYear(yearDate), 'yyyy-MM-dd'),
+    toDate: dateFnsFormat(endOfYear(yearDate), 'yyyy-MM-dd'),
+  };
+};
+
+export const buildInitialDateRange = (option = DEFAULT_DATE_RANGE) => {
+  const { fromDate, toDate } = calculateDateRange(option);
+  return {
+    option,
+    fromDate,
+    toDate,
+  };
 };
 
 export const sendDataDogAction = actionName => {

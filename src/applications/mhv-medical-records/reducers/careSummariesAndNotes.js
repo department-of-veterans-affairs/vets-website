@@ -1,4 +1,4 @@
-import { format, subMonths } from 'date-fns';
+import { format } from 'date-fns';
 
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
@@ -15,9 +15,8 @@ import {
   isArrayAndHasItems,
   decodeBase64Report,
   formatNameFirstToLast,
+  buildInitialDateRange,
 } from '../util/helpers';
-
-const currentDate = new Date();
 
 const initialState = {
   /**
@@ -47,14 +46,7 @@ const initialState = {
   /**
    * The date range currently being displayed to the user
    */
-  dateRange: {
-    option: DEFAULT_DATE_RANGE,
-    fromDate: format(
-      subMonths(currentDate, parseInt(DEFAULT_DATE_RANGE, 10)),
-      'yyyy-MM-dd',
-    ),
-    toDate: format(currentDate, 'yyyy-MM-dd'),
-  },
+  dateRange: buildInitialDateRange(DEFAULT_DATE_RANGE),
 };
 
 export const getTitle = record => {
