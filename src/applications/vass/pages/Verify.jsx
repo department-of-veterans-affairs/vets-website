@@ -14,7 +14,7 @@ const Verify = () => {
     <Wrapper pageTitle="Schedule a call to learn about VA benefits and health care">
       <p>
         First, we’ll need your information so we can send you a one-time
-        verification code to verify your identify.
+        verification code to verify your identity.
       </p>
       <va-text-input
         label="Your last name"

@@ -1,13 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import TopicSelection from './TopicSelection';
 import { topics } from '../services/Topic/topic';
 
 describe('VASS Component: TopicSelection', () => {
   it('should render page title', () => {
-    const screen = renderWithStoreAndRouter(<TopicSelection />, {
+    const screen = renderWithStoreAndRouterV6(<TopicSelection />, {
       initialState: {},
     });
 
@@ -15,7 +15,7 @@ describe('VASS Component: TopicSelection', () => {
   });
 
   it('should render the checkbox group label', () => {
-    const { container } = renderWithStoreAndRouter(<TopicSelection />, {
+    const { container } = renderWithStoreAndRouterV6(<TopicSelection />, {
       initialState: {},
     });
     const checkboxGroup = container.querySelector('va-checkbox-group');
@@ -27,7 +27,7 @@ describe('VASS Component: TopicSelection', () => {
   });
 
   it('should render all topic checkboxes', () => {
-    const { container } = renderWithStoreAndRouter(<TopicSelection />, {
+    const { container } = renderWithStoreAndRouterV6(<TopicSelection />, {
       initialState: {},
     });
     const checkboxes = container.querySelectorAll('va-checkbox');
@@ -36,7 +36,7 @@ describe('VASS Component: TopicSelection', () => {
   });
 
   it('should render specific topic checkboxes', () => {
-    const { container } = renderWithStoreAndRouter(<TopicSelection />, {
+    const { container } = renderWithStoreAndRouterV6(<TopicSelection />, {
       initialState: {},
     });
     const checkboxes = container.querySelectorAll('va-checkbox');
@@ -48,7 +48,7 @@ describe('VASS Component: TopicSelection', () => {
   });
 
   it('should render Back button', () => {
-    const { container } = renderWithStoreAndRouter(<TopicSelection />, {
+    const { container } = renderWithStoreAndRouterV6(<TopicSelection />, {
       initialState: {},
     });
     const buttons = container.querySelectorAll('va-button');
@@ -62,7 +62,7 @@ describe('VASS Component: TopicSelection', () => {
   });
 
   it('should render Continue button', () => {
-    const { container } = renderWithStoreAndRouter(<TopicSelection />, {
+    const { container } = renderWithStoreAndRouterV6(<TopicSelection />, {
       initialState: {},
     });
     const buttons = container.querySelectorAll('va-button');

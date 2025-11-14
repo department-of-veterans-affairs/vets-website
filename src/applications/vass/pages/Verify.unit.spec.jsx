@@ -1,12 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import Verify from './Verify';
 
 describe('VASS Component: Verify', () => {
   it('should render page title', () => {
-    const screen = renderWithStoreAndRouter(<Verify />, {
+    const screen = renderWithStoreAndRouterV6(<Verify />, {
       initialState: {},
     });
 
@@ -14,19 +14,19 @@ describe('VASS Component: Verify', () => {
   });
 
   it('should render introductory text about verification', () => {
-    const { getByText } = renderWithStoreAndRouter(<Verify />, {
+    const { getByText } = renderWithStoreAndRouterV6(<Verify />, {
       initialState: {},
     });
 
     expect(
       getByText(
-        /First, we'll need your information so we can send you a one-time verification code/i,
+        /First, we’ll need your information so we can send you a one-time verification code to verify your identity/i,
       ),
     ).to.exist;
   });
 
   it('should render last name input field', () => {
-    const { container } = renderWithStoreAndRouter(<Verify />, {
+    const { container } = renderWithStoreAndRouterV6(<Verify />, {
       initialState: {},
     });
     const lastNameInput = container.querySelector(
@@ -39,7 +39,7 @@ describe('VASS Component: Verify', () => {
   });
 
   it('should render date of birth field', () => {
-    const { container } = renderWithStoreAndRouter(<Verify />, {
+    const { container } = renderWithStoreAndRouterV6(<Verify />, {
       initialState: {},
     });
     const dobInput = container.querySelector('#dob-input');
@@ -48,7 +48,7 @@ describe('VASS Component: Verify', () => {
   });
 
   it('should render submit button', () => {
-    const { container } = renderWithStoreAndRouter(<Verify />, {
+    const { container } = renderWithStoreAndRouterV6(<Verify />, {
       initialState: {},
     });
     const submitButton = container.querySelector('va-button');

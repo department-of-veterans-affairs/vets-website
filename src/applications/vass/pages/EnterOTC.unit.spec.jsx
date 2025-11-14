@@ -1,12 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import EnterOTC from './EnterOTC';
 
 describe('VASS Component: EnterOTC', () => {
   it('should render page title', () => {
-    const screen = renderWithStoreAndRouter(<EnterOTC />, {
+    const screen = renderWithStoreAndRouterV6(<EnterOTC />, {
       initialState: {},
     });
 
@@ -14,7 +14,7 @@ describe('VASS Component: EnterOTC', () => {
   });
 
   it('should render success alert with verification message', () => {
-    const { container } = renderWithStoreAndRouter(<EnterOTC />, {
+    const { container } = renderWithStoreAndRouterV6(<EnterOTC />, {
       initialState: {},
     });
     const alert = container.querySelector('va-alert[status="success"]');
@@ -24,7 +24,7 @@ describe('VASS Component: EnterOTC', () => {
   });
 
   it('should display email address in alert message', () => {
-    const { getByText } = renderWithStoreAndRouter(<EnterOTC />, {
+    const { getByText } = renderWithStoreAndRouterV6(<EnterOTC />, {
       initialState: {},
     });
 
@@ -34,7 +34,7 @@ describe('VASS Component: EnterOTC', () => {
   });
 
   it('should render OTC input field', () => {
-    const { container } = renderWithStoreAndRouter(<EnterOTC />, {
+    const { container } = renderWithStoreAndRouterV6(<EnterOTC />, {
       initialState: {},
     });
     const otcInput = container.querySelector('va-text-input[name="otc"]');
@@ -47,7 +47,7 @@ describe('VASS Component: EnterOTC', () => {
   });
 
   it('should render continue button', () => {
-    const { container } = renderWithStoreAndRouter(<EnterOTC />, {
+    const { container } = renderWithStoreAndRouterV6(<EnterOTC />, {
       initialState: {},
     });
     const continueButton = container.querySelector('va-button');
