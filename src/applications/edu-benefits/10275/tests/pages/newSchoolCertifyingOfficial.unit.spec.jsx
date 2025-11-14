@@ -39,17 +39,17 @@ describe('New Commitment Chapter = School Certifying Official Page', () => {
   it('renders full name input fields', () => {
     const { container } = renderPage();
 
-    expect($$('va-text-input[label="First name"]', container).length).to.equal(
-      1,
-    );
+    expect(
+      $$('va-text-input[label="First or given name"]', container).length,
+    ).to.equal(1);
 
     expect($$('va-text-input[label="Middle name"]', container).length).to.equal(
       1,
     );
 
-    expect($$('va-text-input[label="Last name"]', container).length).to.equal(
-      1,
-    );
+    expect(
+      $$('va-text-input[label="Last or family name"]', container).length,
+    ).to.equal(1);
   });
 
   it('renders title input field', () => {
