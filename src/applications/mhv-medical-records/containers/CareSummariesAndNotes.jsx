@@ -199,7 +199,7 @@ const CareSummariesAndNotes = () => {
           <RecordList
             records={careSummariesAndNotes}
             domainOptions={{
-              isAcceleratingCareNotes,
+              isAccelerating: isAcceleratingCareNotes,
               timeFrame: getTimeFrame(dateRange),
               displayTimeFrame: getDisplayTimeFrame(dateRange),
             }}
