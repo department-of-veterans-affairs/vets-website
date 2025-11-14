@@ -14,9 +14,15 @@ import { IsVeteranPage, isVeteranPage } from '../pages/isVeteranPage';
 import transformForSubmit, {
   itfTransformForSubmit,
 } from './submit-transformer';
-import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
+import {
+  getMockData,
+  scrollAndFocusTarget,
+  getFormContent,
+  getIntentsToFile,
+} from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
 import submissionError from './submissionError';
+import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/veteran.json';
@@ -142,20 +148,19 @@ const formConfig = (pathname = null) => {
       itfTransformForSubmit,
       submissionError,
       defaultDefinitions: {},
+      additionalRoutes: [
+        {
+          path: 'get-itf-status',
+          pageKey: 'get-itf-status',
+          component: ITFStatusLoadingIndicatorPage,
+          depends: () => false,
+        },
+      ],
       title: `Submit VA Form ${formNumber}`,
       subTitle,
       v3SegmentedProgressBar: { useDiv: false },
       formOptions: {
         useWebComponentForNavigation: true,
-      },
-      saveInProgress: {
-        messages: {
-          inProgress:
-            'Your Intent to File application (21-0966) is in progress.',
-          expired:
-            'Your saved Intent to File application (21-0966) has expired. If you want to submit Intent to File please start a new application.',
-          saved: 'Your Intent to File application has been saved.',
-        },
       },
       chapters: {
         isVeteranChapter: {
@@ -181,12 +186,37 @@ const formConfig = (pathname = null) => {
               depends: formData => {
                 return formData.isVeteran === 'yes';
               },
+              onNavForward: ({ formData, goPath, goNextPath, setFormData }) =>
+                getIntentsToFile({ formData, goPath, goNextPath, setFormData }),
               schema: itfVeteranInformationPageSchema,
               scrollAndFocusTarget,
               // we want req'd fields prefilled for LOCAL testing/previewing
               // one single initialData prop here will suffice for entire form
               initialData: getMockData(mockData, isLocalhost),
             },
+            // getItfStatus: {
+            //   path: 'get-itf-status',
+            //   title: 'Claimant information',
+            //   uiSchema: {
+            //     'view:claimantDescription': {
+            //       'ui:description': Object.freeze(
+            //         <>
+            //           <span className="vads-u-font-weight--bold">TEST</span>
+            //         </>,
+            //       ),
+            //     },
+            //     'ui:widget': ITFStatusLoadingIndicatorPage,
+            //   },
+            //   schema: {
+            //     type: 'object',
+            //     properties: {
+            //     },
+            //   },
+            //   depends: formData => {
+            //     return formData.isVeteran === 'yes';
+            //   },
+            //   scrollAndFocusTarget,
+            // },
           },
         },
         claimantInformationChapter: {
@@ -202,6 +232,8 @@ const formConfig = (pathname = null) => {
                   formData.isVeteran === 'no'
                 );
               },
+              // onNavForward: ({ formData, goPath, goNextPath, setFormData }) =>
+              //   getIntentsToFile({ formData, goPath, goNextPath, setFormData }),
               schema: claimantInformationPage.schema,
               scrollAndFocusTarget,
               // we want req'd fields prefilled for LOCAL testing/previewing
