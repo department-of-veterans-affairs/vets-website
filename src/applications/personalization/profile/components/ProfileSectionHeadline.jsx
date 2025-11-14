@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ProfileSectionHeadline = ({ children, dataTestId }) => {
+const ProfileSectionHeadline = ({ children, dataTestId, classes }) => {
   return (
     <h1
       tabIndex="-1"
-      className="vads-u-margin-bottom--2"
+      className={classes || 'vads-u-margin-bottom--2'}
       data-focus-target
       data-testid={dataTestId}
     >
@@ -16,6 +16,7 @@ const ProfileSectionHeadline = ({ children, dataTestId }) => {
 
 ProfileSectionHeadline.propTypes = {
   children: PropTypes.node.isRequired,
+  classes: PropTypes.string,
   dataTestId: PropTypes.string,
 };
 

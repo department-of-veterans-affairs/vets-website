@@ -5,60 +5,10 @@ import {
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import InstitutionName from '../containers/InstitutionName';
-import InstitutionAddress from '../containers/InstitutionAddress';
+import AdditionalInstitutionName from '../containers/AdditionalInstitutionName';
+import AdditionalInstitutionAddress from '../containers/AdditionalInstitutionAddress';
 import WarningBanner from '../containers/WarningBanner';
-
-const facilityCodeUIValidation = (errors, fieldData, formData) => {
-  const code = (fieldData || '').trim();
-  const isLoading = formData?.isLoading;
-
-  if (isLoading) {
-    return;
-  }
-
-  const mainInstitution = formData?.institutionDetails;
-
-  const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
-  const notFound = formData?.institutionName === 'not found';
-  const notIHL = formData?.ihlEligible === false;
-  const notYR = formData?.yrEligible === false;
-  const thirdChar = code?.charAt(2).toUpperCase();
-
-  const hasXInThirdPosition =
-    code.length === 8 && !badFormat && thirdChar === 'X';
-
-  if (badFormat || notFound) {
-    errors.addError(
-      'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
-    );
-  }
-
-  if (hasXInThirdPosition) {
-    errors.addError('Codes with an "X" in the third position are not eligible');
-  }
-
-  if (
-    !mainInstitution?.facilityMap?.branches?.includes(code) &&
-    !mainInstitution?.facilityMap?.extensions?.includes(code)
-  ) {
-    errors.addError(
-      "This facility code isn't linked to your school's main campus",
-    );
-  }
-
-  if (notYR) {
-    errors.addError(
-      "The institution isn't eligible for the Yellow Ribbon Program.",
-    );
-  }
-
-  if (!notYR && notIHL) {
-    errors.addError(
-      'This institution is not an IHL. Please see information below.',
-    );
-  }
-};
+import { facilityCodeUIValidation } from '../helpers';
 
 const uiSchema = {
   ...arrayBuilderItemFirstPageTitleUI({
@@ -84,12 +34,15 @@ const uiSchema = {
           'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
       },
       useAllFormData: true,
+      data: {
+        'facility-field': 'additional-facility-code',
+      },
     }),
     'ui:validations': [facilityCodeUIValidation],
   },
   institutionName: {
     'ui:title': 'Institution name and address',
-    'ui:field': InstitutionName,
+    'ui:field': AdditionalInstitutionName,
     'ui:options': {
       classNames: 'vads-u-margin-top--2',
       dataPath: 'additionalInstitutionDetails',
@@ -98,12 +51,35 @@ const uiSchema = {
   },
   institutionAddress: {
     'ui:title': '',
-    'ui:field': InstitutionAddress,
+    'ui:field': AdditionalInstitutionAddress,
     'ui:options': {
       classNames: 'vads-u-margin-top--2',
       hideLabelText: true,
-      dataPath: 'additionalInstitutionDetails',
-      isArrayItem: true,
+      updateSchema: (formData, currentSchema, _uiSchema, index) => {
+        const isForeign = !!formData?.additionalInstitutionDetails?.[index]
+          ?.isForeignCountry;
+
+        if (!isForeign) {
+          // Leave schema exactly as-is for domestic cases
+          return currentSchema;
+        }
+
+        // Foreign: make country free-text; state & postalCode NOT required
+        const withoutStateAndPostal = (currentSchema?.required || []).filter(
+          k => k !== 'state' && k !== 'postalCode',
+        );
+
+        return {
+          ...currentSchema,
+          properties: {
+            ...currentSchema?.properties,
+            country: { type: 'string', minLength: 1, title: 'Country' },
+          },
+          required: withoutStateAndPostal.length
+            ? withoutStateAndPostal
+            : ['street', 'city', 'country'],
+        };
+      },
     },
   },
   'view:warningBanner': {

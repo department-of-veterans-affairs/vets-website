@@ -15,35 +15,31 @@ describe('additionalInstitutionDetailsItem page', () => {
   let sandbox;
   let store;
 
-  const mainInstitution = {
-    facilityCode: '12345678',
-    institutionName: 'Main University',
-    facilityMap: {
-      branches: ['11111111', '22222222'],
-      extensions: ['33333333', '44444444'],
-    },
-  };
-
-  const initialState = {
+  const createInitialState = (data = {}) => ({
     form: {
       data: {
-        institutionDetails: mainInstitution,
-        additionalInstitutionDetails: [
-          {
-            facilityCode: '',
+        institutionDetails: {
+          facilityCode: '12345678',
+          facilityMap: {
+            branches: [
+              { institution: { facilityCode: 'ABCD1234' } },
+              { institution: { facilityCode: 'EFGH5678' } },
+            ],
+            extensions: [
+              { institution: { facilityCode: 'IJKL9012' } },
+              { institution: { facilityCode: 'MNOP3456' } },
+            ],
           },
-        ],
+        },
+        additionalInstitutionDetails: [],
+        ...data,
       },
     },
-  };
+  });
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    store = mockStore(initialState);
-    Object.defineProperty(window, 'location', {
-      writable: true,
-      value: { pathname: '/0' },
-    });
+    store = mockStore(createInitialState());
   });
 
   afterEach(() => {
@@ -97,6 +93,9 @@ describe('additionalInstitutionDetailsItem page', () => {
     );
 
     expect(form.find('va-link').length).to.be.at.least(1);
+    expect(form.find('va-link').prop('text')).to.include(
+      'Review additional instructions',
+    );
     form.unmount();
   });
 
@@ -145,404 +144,24 @@ describe('additionalInstitutionDetailsItem page', () => {
     form.unmount();
   });
 
-  describe('facilityCodeUIValidation', () => {
-    it('does not show validation errors while loading', () => {
-      const loadingState = {
-        form: {
-          data: {
-            institutionDetails: mainInstitution,
-            additionalInstitutionDetails: [
-              {
-                facilityCode: '11111111',
-                isLoading: true,
-              },
-            ],
-          },
-        },
-      };
-      store = mockStore(loadingState);
-
-      const form = mount(
-        <Provider store={store}>
-          <DefinitionTester
-            definitions={formConfig.defaultDefinitions}
-            schema={schema}
-            uiSchema={uiSchema}
-            data={loadingState.form.data.additionalInstitutionDetails[0]}
-          />
-        </Provider>,
-      );
-
-      expect(form.find('.usa-input-error').length).to.equal(0);
-      form.unmount();
-    });
-
-    it('shows error for bad format facility code', async () => {
-      const badFormatState = {
-        form: {
-          data: {
-            institutionDetails: mainInstitution,
-            additionalInstitutionDetails: [
-              {
-                facilityCode: '1234',
-                isLoading: false,
-              },
-            ],
-          },
-        },
-      };
-      store = mockStore(badFormatState);
-
-      const onSubmit = sandbox.spy();
-      const form = mount(
-        <Provider store={store}>
-          <DefinitionTester
-            definitions={formConfig.defaultDefinitions}
-            schema={schema}
-            uiSchema={uiSchema}
-            data={badFormatState.form.data.additionalInstitutionDetails[0]}
-            onSubmit={onSubmit}
-          />
-        </Provider>,
-      );
-
-      form.find('form').simulate('submit');
-      await waitFor(() => {
-        form.update();
-        const facilityCodeInput = form.find(
-          'va-text-input[name="root_facilityCode"]',
-        );
-        expect(facilityCodeInput.length).to.be.at.least(1);
-      });
-      expect(onSubmit.called).to.be.false;
-      form.unmount();
-    });
-
-    it('shows error when institution not found', async () => {
-      const notFoundState = {
-        form: {
-          data: {
-            institutionDetails: mainInstitution,
-            additionalInstitutionDetails: [
-              {
-                facilityCode: '12345678',
-                institutionName: 'not found',
-                isLoading: false,
-              },
-            ],
-          },
-        },
-      };
-      store = mockStore(notFoundState);
-
-      const onSubmit = sandbox.spy();
-      const form = mount(
-        <Provider store={store}>
-          <DefinitionTester
-            definitions={formConfig.defaultDefinitions}
-            schema={schema}
-            uiSchema={uiSchema}
-            data={notFoundState.form.data.additionalInstitutionDetails[0]}
-            onSubmit={onSubmit}
-          />
-        </Provider>,
-      );
-
-      form.find('form').simulate('submit');
-      await waitFor(() => {
-        form.update();
-        const facilityCodeInput = form.find(
-          'va-text-input[name="root_facilityCode"]',
-        );
-        expect(facilityCodeInput.length).to.be.at.least(1);
-      });
-      expect(onSubmit.called).to.be.false;
-      form.unmount();
-    });
-
-    it('shows error when facility code has X in third position', async () => {
-      const hasXState = {
-        form: {
-          data: {
-            institutionDetails: mainInstitution,
-            additionalInstitutionDetails: [
-              {
-                facilityCode: '12X45678',
-                isLoading: false,
-              },
-            ],
-          },
-        },
-      };
-      store = mockStore(hasXState);
-
-      const onSubmit = sandbox.spy();
-      const form = mount(
-        <Provider store={store}>
-          <DefinitionTester
-            definitions={formConfig.defaultDefinitions}
-            schema={schema}
-            uiSchema={uiSchema}
-            data={hasXState.form.data.additionalInstitutionDetails[0]}
-            onSubmit={onSubmit}
-          />
-        </Provider>,
-      );
-
-      form.find('form').simulate('submit');
-      await waitFor(() => {
-        form.update();
-        const facilityCodeInput = form.find(
-          'va-text-input[name="root_facilityCode"]',
-        );
-        expect(facilityCodeInput.length).to.be.at.least(1);
-      });
-      expect(onSubmit.called).to.be.false;
-      form.unmount();
-    });
-
-    it('shows error when code is not in branches or extensions', async () => {
-      const notLinkedState = {
-        form: {
-          data: {
-            institutionDetails: mainInstitution,
-            additionalInstitutionDetails: [
-              {
-                facilityCode: '99999999',
-                isLoading: false,
-              },
-            ],
-          },
-        },
-      };
-      store = mockStore(notLinkedState);
-
-      const onSubmit = sandbox.spy();
-      const form = mount(
-        <Provider store={store}>
-          <DefinitionTester
-            definitions={formConfig.defaultDefinitions}
-            schema={schema}
-            uiSchema={uiSchema}
-            data={notLinkedState.form.data.additionalInstitutionDetails[0]}
-            onSubmit={onSubmit}
-          />
-        </Provider>,
-      );
-
-      form.find('form').simulate('submit');
-      await waitFor(() => {
-        form.update();
-        const facilityCodeInput = form.find(
-          'va-text-input[name="root_facilityCode"]',
-        );
-        expect(facilityCodeInput.length).to.be.at.least(1);
-      });
-      expect(onSubmit.called).to.be.false;
-      form.unmount();
-    });
-
-    it('shows error when institution is not YR eligible', async () => {
-      const notYRState = {
-        form: {
-          data: {
-            institutionDetails: mainInstitution,
-            additionalInstitutionDetails: [
-              {
-                facilityCode: '11111111',
-                yrEligible: false,
-                ihlEligible: true,
-                isLoading: false,
-              },
-            ],
-          },
-        },
-      };
-      store = mockStore(notYRState);
-
-      const onSubmit = sandbox.spy();
-      const form = mount(
-        <Provider store={store}>
-          <DefinitionTester
-            definitions={formConfig.defaultDefinitions}
-            schema={schema}
-            uiSchema={uiSchema}
-            data={notYRState.form.data.additionalInstitutionDetails[0]}
-            onSubmit={onSubmit}
-          />
-        </Provider>,
-      );
-
-      form.find('form').simulate('submit');
-      await waitFor(() => {
-        form.update();
-        const facilityCodeInput = form.find(
-          'va-text-input[name="root_facilityCode"]',
-        );
-        expect(facilityCodeInput.length).to.be.at.least(1);
-      });
-      expect(onSubmit.called).to.be.false;
-      form.unmount();
-    });
-
-    it('shows error when institution is not IHL eligible', async () => {
-      const notIHLState = {
-        form: {
-          data: {
-            institutionDetails: mainInstitution,
-            additionalInstitutionDetails: [
-              {
-                facilityCode: '11111111',
-                yrEligible: true,
-                ihlEligible: false,
-                isLoading: false,
-              },
-            ],
-          },
-        },
-      };
-      store = mockStore(notIHLState);
-
-      const onSubmit = sandbox.spy();
-      const form = mount(
-        <Provider store={store}>
-          <DefinitionTester
-            definitions={formConfig.defaultDefinitions}
-            schema={schema}
-            uiSchema={uiSchema}
-            data={notIHLState.form.data.additionalInstitutionDetails[0]}
-            onSubmit={onSubmit}
-          />
-        </Provider>,
-      );
-
-      form.find('form').simulate('submit');
-      await waitFor(() => {
-        form.update();
-        const facilityCodeInput = form.find(
-          'va-text-input[name="root_facilityCode"]',
-        );
-        expect(facilityCodeInput.length).to.be.at.least(1);
-      });
-      expect(onSubmit.called).to.be.false;
-      form.unmount();
-    });
-
-    it('allows submission with valid facility code from branches', async () => {
-      const validState = {
-        form: {
-          data: {
-            institutionDetails: mainInstitution,
-            additionalInstitutionDetails: [
-              {
-                facilityCode: '11111111',
-                institutionName: 'Branch Campus',
-                yrEligible: true,
-                ihlEligible: true,
-                isLoading: false,
-                institutionAddress: {
-                  street: '123 Main St',
-                  city: 'Boston',
-                  state: 'MA',
-                  postalCode: '02101',
-                  country: 'USA',
-                },
-              },
-            ],
-          },
-        },
-      };
-      store = mockStore(validState);
-
-      const onSubmit = sandbox.spy();
-      const form = mount(
-        <Provider store={store}>
-          <DefinitionTester
-            definitions={formConfig.defaultDefinitions}
-            schema={schema}
-            uiSchema={uiSchema}
-            data={{
-              ...validState.form.data.additionalInstitutionDetails[0],
-              institutionDetails: validState.form.data.institutionDetails,
-            }}
-            onSubmit={onSubmit}
-          />
-        </Provider>,
-      );
-
-      form.find('form').simulate('submit');
-      await waitFor(() => {
-        expect(onSubmit.called).to.be.true;
-      });
-      form.unmount();
-    });
-
-    it('allows submission with valid facility code from extensions', async () => {
-      const validState = {
-        form: {
-          data: {
-            institutionDetails: mainInstitution,
-            additionalInstitutionDetails: [
-              {
-                facilityCode: '33333333',
-                institutionName: 'Extension Campus',
-                yrEligible: true,
-                ihlEligible: true,
-                isLoading: false,
-                institutionAddress: {
-                  street: '456 Oak Ave',
-                  city: 'Cambridge',
-                  state: 'MA',
-                  postalCode: '02138',
-                  country: 'USA',
-                },
-              },
-            ],
-          },
-        },
-      };
-      store = mockStore(validState);
-
-      const onSubmit = sandbox.spy();
-      const form = mount(
-        <Provider store={store}>
-          <DefinitionTester
-            definitions={formConfig.defaultDefinitions}
-            schema={schema}
-            uiSchema={uiSchema}
-            data={{
-              ...validState.form.data.additionalInstitutionDetails[0],
-              institutionDetails: validState.form.data.institutionDetails,
-            }}
-            onSubmit={onSubmit}
-          />
-        </Provider>,
-      );
-
-      form.find('form').simulate('submit');
-      await waitFor(() => {
-        expect(onSubmit.called).to.be.true;
-      });
-      form.unmount();
-    });
-  });
-
   describe('custom fields', () => {
-    it('renders InstitutionName custom field', () => {
+    it('renders AdditionalInstitutionName custom field', () => {
       const validState = {
-        form: {
-          data: {
-            institutionDetails: mainInstitution,
-            additionalInstitutionDetails: [
-              {
-                facilityCode: '11111111',
-                institutionName: 'Branch Campus',
-              },
-            ],
+        institutionDetails: {
+          facilityCode: '12345678',
+          facilityMap: {
+            branches: [{ institution: { facilityCode: 'ABCD1234' } }],
+            extensions: [],
           },
         },
+        additionalInstitutionDetails: [
+          {
+            facilityCode: 'ABCD1234',
+            institutionName: 'Harvard University',
+          },
+        ],
       };
-      store = mockStore(validState);
+      store = mockStore(createInitialState(validState));
 
       const form = mount(
         <Provider store={store}>
@@ -550,36 +169,38 @@ describe('additionalInstitutionDetailsItem page', () => {
             definitions={formConfig.defaultDefinitions}
             schema={schema}
             uiSchema={uiSchema}
-            data={validState.form.data.additionalInstitutionDetails[0]}
+            data={validState}
           />
         </Provider>,
       );
 
-      expect(form.find('InstitutionName').length).to.equal(1);
+      expect(form.find('AdditionalInstitutionName').length).to.equal(1);
       form.unmount();
     });
 
-    it('renders InstitutionAddress custom field', () => {
+    it('renders AdditionalInstitutionAddress custom field', () => {
       const validState = {
-        form: {
-          data: {
-            institutionDetails: mainInstitution,
-            additionalInstitutionDetails: [
-              {
-                facilityCode: '11111111',
-                institutionAddress: {
-                  street: '123 Main St',
-                  city: 'Boston',
-                  state: 'MA',
-                  postalCode: '02101',
-                  country: 'USA',
-                },
-              },
-            ],
+        institutionDetails: {
+          facilityCode: '12345678',
+          facilityMap: {
+            branches: [{ institution: { facilityCode: 'ABCD1234' } }],
+            extensions: [],
           },
         },
+        additionalInstitutionDetails: [
+          {
+            facilityCode: 'ABCD1234',
+            institutionAddress: {
+              street: '123 Main St',
+              city: 'Boston',
+              state: 'MA',
+              postalCode: '02101',
+              country: 'USA',
+            },
+          },
+        ],
       };
-      store = mockStore(validState);
+      store = mockStore(createInitialState(validState));
 
       const form = mount(
         <Provider store={store}>
@@ -587,31 +208,33 @@ describe('additionalInstitutionDetailsItem page', () => {
             definitions={formConfig.defaultDefinitions}
             schema={schema}
             uiSchema={uiSchema}
-            data={validState.form.data.additionalInstitutionDetails[0]}
+            data={validState}
           />
         </Provider>,
       );
 
-      expect(form.find('InstitutionAddress').length).to.equal(1);
+      expect(form.find('AdditionalInstitutionAddress').length).to.equal(1);
       form.unmount();
     });
 
     it('renders WarningBanner custom field', () => {
       const validState = {
-        form: {
-          data: {
-            institutionDetails: mainInstitution,
-            additionalInstitutionDetails: [
-              {
-                facilityCode: '99999999',
-                yrEligible: false,
-                ihlEligible: true,
-              },
-            ],
+        institutionDetails: {
+          facilityCode: '12345678',
+          facilityMap: {
+            branches: [{ institution: { facilityCode: 'ABCD1234' } }],
+            extensions: [],
           },
         },
+        additionalInstitutionDetails: [
+          {
+            facilityCode: 'ABCD1234',
+            yrEligible: false,
+            ihlEligible: true,
+          },
+        ],
       };
-      store = mockStore(validState);
+      store = mockStore(createInitialState(validState));
 
       const form = mount(
         <Provider store={store}>
@@ -619,7 +242,7 @@ describe('additionalInstitutionDetailsItem page', () => {
             definitions={formConfig.defaultDefinitions}
             schema={schema}
             uiSchema={uiSchema}
-            data={validState.form.data.additionalInstitutionDetails[0]}
+            data={validState}
           />
         </Provider>,
       );
@@ -648,6 +271,22 @@ describe('additionalInstitutionDetailsItem page', () => {
       expect(addressSchema.required).to.include('postalCode');
       expect(addressSchema.required).to.include('country');
     });
+
+    it('has correct institutionName schema', () => {
+      expect(schema.properties.institutionName.type).to.equal('string');
+    });
+
+    it('has view:additionalInstructions in schema', () => {
+      expect(schema.properties['view:additionalInstructions']).to.exist;
+      expect(schema.properties['view:additionalInstructions'].type).to.equal(
+        'object',
+      );
+    });
+
+    it('has view:warningBanner in schema', () => {
+      expect(schema.properties['view:warningBanner']).to.exist;
+      expect(schema.properties['view:warningBanner'].type).to.equal('object');
+    });
   });
 
   describe('ui:options', () => {
@@ -659,22 +298,22 @@ describe('additionalInstitutionDetailsItem page', () => {
       expect(institutionNameOptions.isArrayItem).to.be.true;
     });
 
-    it('sets correct options for InstitutionAddress field', () => {
-      const institutionAddressOptions =
-        uiSchema.institutionAddress['ui:options'];
-      expect(institutionAddressOptions.dataPath).to.equal(
-        'additionalInstitutionDetails',
-      );
-      expect(institutionAddressOptions.isArrayItem).to.be.true;
-      expect(institutionAddressOptions.hideLabelText).to.be.true;
-    });
-
     it('sets correct options for WarningBanner field', () => {
       const warningBannerOptions = uiSchema['view:warningBanner']['ui:options'];
       expect(warningBannerOptions.dataPath).to.equal(
         'additionalInstitutionDetails',
       );
       expect(warningBannerOptions.isArrayItem).to.be.true;
+    });
+  });
+
+  describe('uiSchema error messages', () => {
+    it('has custom error message for required facilityCode', () => {
+      const facilityCodeErrorMessages =
+        uiSchema.facilityCode['ui:errorMessages'];
+      expect(facilityCodeErrorMessages.required).to.include(
+        'Please enter a valid 8-character facility code',
+      );
     });
   });
 });

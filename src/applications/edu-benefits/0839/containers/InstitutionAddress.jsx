@@ -1,20 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
-const InstitutionAddress = ({ uiSchema }) => {
+const InstitutionAddress = () => {
   const formData = useSelector(state => state.form?.data);
-  const options = uiSchema?.['ui:options'] || {};
-  const { dataPath = 'institutionDetails', isArrayItem = false } = options;
+  const details = formData?.institutionDetails;
 
-  const index = isArrayItem ? getArrayIndexFromPathName() : null;
-
-  // Get institution details and address from appropriate path
-  const details = isArrayItem
-    ? formData?.[dataPath]?.[index] || {}
-    : formData?.[dataPath] || {};
-
+  const institutionName = details?.institutionName;
   const institutionAddress = details?.institutionAddress || {};
+  const facilityCode = (details?.facilityCode || '').trim();
   const notYR = details.yrEligible === false;
   const notIHL = details.ihlEligible === false;
   const showWarningBanner = notYR || notIHL;
@@ -39,9 +32,16 @@ const InstitutionAddress = ({ uiSchema }) => {
     country,
   ].some(Boolean);
 
+  const badFormat =
+    facilityCode.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(facilityCode);
+  const notFound = institutionName === 'not found';
+  const hasError = badFormat || notFound || notYR || notIHL;
+
+  const shouldShowAddress = hasAddress && !hasError;
+
   return (
     <div aria-live="polite">
-      {hasAddress ? (
+      {shouldShowAddress ? (
         <>
           <p className="va-address-block" id="institutionAddress">
             {street}

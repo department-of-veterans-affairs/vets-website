@@ -1,6 +1,8 @@
 import React from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { LAST_YEAR } from '../../utils/constants';
+import { APP_URLS } from '../../utils/appUrls';
+import { CONTACTS } from '../../utils/imports';
 import content from '../../locales/en/content.json';
 
 const ProcessDescription = () => (
@@ -59,7 +61,7 @@ const ProcessDescription = () => (
         details about exposure to any toxins or other hazards. And you can also
         submit supporting documents with more information about this exposure.{' '}
         <a
-          href="https://www.va.gov/health-care/update-health-information/#what-supporting-documents-can-"
+          href="/health-care/update-health-information/#what-supporting-documents-can-"
           target="_blank"
           rel="noreferrer"
         >
@@ -73,6 +75,36 @@ const ProcessDescription = () => (
       to any toxins or other hazards. We’ll also determine if we’ll place you in
       a higher priority group. This may affect how much (if anything) you’ll
       have to pay toward the cost of your care.
+    </p>
+    <h3>About VA dental care</h3>
+    <p>
+      If you qualify for VA dental care benefits, you may be able to get some or
+      all of your dental care through VA. Or if you don’t qualify for VA dental
+      care, you can buy dental insurance at a reduced cost through the VA Dental
+      Insurance Program (VADIP).
+    </p>
+    <p>
+      <va-link
+        href="/health-care/about-va-health-benefits/dental-care/dental-insurance/"
+        text="Learn more about VA Dental Insurance Program (VADIP)"
+      />
+    </p>
+    <p>
+      To find out about your VA dental care benefits eligibility, call our
+      Health Eligibility Center at{' '}
+      <va-telephone contact={CONTACTS['222_VETS']} /> (
+      <va-telephone contact={CONTACTS['711']} tty />
+      ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.{' '}
+      <dfn>
+        <abbr title="Eastern Time">ET</abbr>
+      </dfn>
+      . You can also visit your local VA facility to learn more.
+    </p>
+    <p>
+      <va-link
+        href={APP_URLS.facilities}
+        text="Find your nearest VA facility"
+      />
     </p>
   </>
 );

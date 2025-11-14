@@ -49,8 +49,8 @@ export const PROFILE_PATHS = Object.freeze({
   FINANCIAL_INFORMATION: '/profile/financial-information',
   DIRECT_DEPOSIT: '/profile/direct-deposit',
   HEALTH_CARE_SETTINGS: '/profile/health-care-settings',
-  APPOINTMENT_PREFERENCES:
-    '/profile/health-care-settings/appointment-preferences',
+  SCHEDULING_PREFERENCES:
+    '/profile/health-care-settings/scheduling-preferences',
   HEALTH_CARE_CONTACTS: '/profile/contacts',
   SECURE_MESSAGES_SIGNATURE: '/profile/mhv-signature',
   DEPENDENTS_AND_CONTACTS: '/profile/dependents-and-contacts',
@@ -76,7 +76,7 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   FINANCIAL_INFORMATION: 'Financial information',
   DIRECT_DEPOSIT: 'Direct deposit information',
   HEALTH_CARE_SETTINGS: 'Health care settings',
-  APPOINTMENT_PREFERENCES: 'Appointment preferences',
+  SCHEDULING_PREFERENCES: 'Scheduling preferences',
   HEALTH_CARE_CONTACTS: 'Health care contacts',
   SECURE_MESSAGES_SIGNATURE: 'Secure messages signature',
   DEPENDENTS_AND_CONTACTS: 'Dependents and contacts',

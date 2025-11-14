@@ -47,9 +47,11 @@ describe('Medical Records CCD V2 Download for Oracle Health Patients', () => {
         },
         body: xmlBody,
       }).as('getXml');
+      // Use shadow DOM to click VistA download button - web components can have 0x0 dimensions
       cy.get('[data-testid="generateCcdButtonXmlVista"]', { timeout: 15000 })
-        .should('be.visible')
-        .click();
+        .shadow()
+        .find('a')
+        .click({ force: true });
       cy.wait('@ccdGenerateResponse');
       cy.wait('@getXml');
     });

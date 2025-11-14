@@ -75,8 +75,8 @@ const testConfig = createTestConfig(
             if (data.certifierReceivedPacket === false) {
               // eslint-disable-next-line no-param-reassign
               data.certifierReceivedPacket = true;
-              // This targets the '<< Back' button
-              cy.get('.usa-button-secondary').click();
+              // This targets the 'Back to previous page' button
+              cy.get('va-link[back="true"]').click({ force: true });
             }
           });
         });

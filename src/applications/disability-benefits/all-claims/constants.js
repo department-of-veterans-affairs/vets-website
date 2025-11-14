@@ -639,3 +639,17 @@ export const SUPPORTING_EVIDENCE_HINTS = Object.freeze({
 export const ARRAY_PATH = 'newDisabilities';
 export const NEW_CONDITION_OPTION = "A condition I haven't claimed before";
 export const CONDITION_NOT_LISTED_OPTION = 'My condition is not listed';
+
+// Separation Pay
+export const SEPARATION_PAY_TITLE =
+  'Did you receive separation pay or disability severance pay?';
+export const SEPARATION_PAY_BRANCH_TITLE =
+  'Please choose the branch of service that gave you separation or severance pay';
+export const SEPARATION_PAY_DATE_TITLE =
+  'Please tell us the year you received a payment';
+export const SEPARATION_PAY_DATE_ERROR = 'Please provide a valid year';
+export const SEPARATION_PAY_SECTION_TITLE = 'Separation or Severance Pay';
+
+// General
+export const YES = 'Yes';
+export const NO = 'No';
