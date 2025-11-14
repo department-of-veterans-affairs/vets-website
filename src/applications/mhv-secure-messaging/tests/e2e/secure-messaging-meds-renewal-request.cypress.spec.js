@@ -307,7 +307,9 @@ describe('SM Medications Renewal Request', () => {
         medicationResponse,
       ).as('medicationById');
       const prescriptionId = '24654491';
-      const redirectPath = encodeURIComponent('/my-health/medications');
+      const redirectPath = encodeURIComponent(
+        '/my-health/medications?page=1&rxRenewalMessageSuccess=true',
+      );
 
       cy.visit(
         `${
@@ -351,7 +353,10 @@ describe('SM Medications Renewal Request', () => {
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
       PatientComposePage.deleteUnsavedDraft();
-      cy.url().should('include', decodeURIComponent(redirectPath));
+      cy.url().should(
+        'include',
+        'http://localhost:3001/my-health/medications/?page=1&draftDeleteSuccess=true',
+      );
     });
   });
   describe('not in curated list flow', () => {
