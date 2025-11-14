@@ -103,7 +103,10 @@ const CustomReviewTopContent = () => {
         <>
           <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
             <h3>Uploaded supporting documents</h3>
-            <EditLink href={`/${formNumber}/upload-supporting-documents`} />
+            <EditLink
+              href={`/${formNumber}/upload-supporting-documents`}
+              label="Edit Uploaded supporting documents"
+            />
           </div>
           {filesForSupportingDocuments && (
             <VaFileInputMultiple
