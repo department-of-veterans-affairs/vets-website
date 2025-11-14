@@ -32,6 +32,7 @@ export const uploadPage = {
         required: () => true,
         // Disallow uploads greater than 25 MB
         maxFileSize: MAX_FILE_SIZE,
+        disallowEncryptedPdfs: true,
         updateUiSchema: formData => {
           return {
             'ui:title': warningsPresent(formData)
