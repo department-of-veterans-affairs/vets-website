@@ -102,6 +102,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_0304_UPLOAD: '21-0304-UPLOAD',
   FORM_21_651_UPLOAD: '21-651-UPLOAD',
   FORM_21P_4185_UPLOAD: '21P-4185-UPLOAD',
+  FORM_22_10278_UPLOAD: '22-10278-UPLOAD',
   FORM_22_10297: '22-10297',
   FORM_22_0839: '22-0839',
   FORM_22_10275: '22-10275',
@@ -116,7 +117,6 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_534EZ: '21P-534EZ',
   FORM_21P_601: '21P-601',
   FORM_22_0976: '22-0976',
-  FORM_22_10278_UPLOAD: '22-10278-UPLOAD',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -690,6 +690,14 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'form-21p-8049-upload-',
   },
   {
+    id: VA_FORM_IDS.FORM_22_10278_UPLOAD,
+    benefit:
+      'Authorization to Disclose Personal Information to a Third Party - Education Benefits',
+    title: 'form 22-10278 upload',
+    description: 'uploaded file for form 22-10278',
+    trackingPrefix: 'form-22-10278-upload-',
+  },
+  {
     id: VA_FORM_IDS.FORM_22_0994,
     benefit: 'VET TEC',
     title: 'VET TEC (22-0994)',
@@ -952,14 +960,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'Program Apporval in a Foreign Country (VA Form 22-0976)',
     description: 'Approval of a Program in a Foreign Country (VA Form 22-0976)',
     trackingPrefix: 'edu-0976-',
-  },
-  {
-    id: VA_FORM_IDS.FORM_22_10278_UPLOAD,
-    benefit:
-      'Authorization to Disclose Personal Information to a Third Party - Education Benefits',
-    title: 'form 22-10278 upload',
-    description: 'uploaded file for form 22-10278',
-    trackingPrefix: 'form-22-10278-upload-',
   },
 ];
 
