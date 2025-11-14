@@ -4,6 +4,8 @@ import useWebChat from '../hooks/useWebChat';
 import { COMPLETE, ERROR, LOADING } from '../utils/loadingStatus';
 import ChatbotError from './ChatbotError';
 import WebChat from './WebChat';
+import { getTokenExpiresAt } from '../utils/sessionStorage';
+import { getAlertTargetTs } from '../utils/expiry';
 
 export default function App(props) {
   // Default to complete because when feature toggles are loaded we assume paramLoadingStatus is complete and will error out otherwise
@@ -16,7 +18,8 @@ export default function App(props) {
   // UX: keep alert visible until the user closes it, then remount WebChat
   const [alertOpen, setAlertOpen] = useState(false);
   const [webchatKey, setWebchatKey] = useState(0);
-  const alertRef = useRef(null);
+  const [resetting, setResetting] = useState(false);
+  const prevTokenRef = useRef(null);
 
   useEffect(
     () => {
@@ -25,24 +28,25 @@ export default function App(props) {
     [expired],
   );
 
+  useEffect(() => {
+    const id = setInterval(() => {
+      const target = getAlertTargetTs(getTokenExpiresAt());
+      if (target && Date.now() >= target) {
+        setAlertOpen(true);
+      }
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
+
   useEffect(
     () => {
-      if (!alertOpen) return undefined;
-      const el = alertRef.current;
-      if (!el) return undefined;
-      const onClose = () => {
-        setAlertOpen(false);
-        try {
-          window.dispatchEvent(new Event('va-chatbot-reset'));
-        } catch (e) {
-          // no-op
-        }
+      if (!resetting) return;
+      if (prevTokenRef.current && token && token !== prevTokenRef.current) {
         setWebchatKey(k => k + 1);
-      };
-      el.addEventListener('closeEvent', onClose);
-      return () => el.removeEventListener('closeEvent', onClose);
+        setResetting(false);
+      }
     },
-    [alertOpen],
+    [token, resetting],
   );
 
   switch (loadingStatus) {
@@ -55,12 +59,27 @@ export default function App(props) {
         <>
           {alertOpen && (
             <div style={{ marginBottom: '1rem' }}>
-              <va-alert status="info" uswds closeable ref={alertRef}>
-                <h3 slot="headline">Your chat session has expired</h3>
+              <va-alert status="info" uswds>
+                <h3 slot="headline">Chat ended</h3>
                 <p>
-                  Your chat session has expired. Close this alert to start a new
-                  conversation.
+                  We end chats after 1 hour of no activity. You can still review
+                  this chat history. Or start a new chat. If you start a new
+                  one, we'll delete this current chat history.
                 </p>
+                <va-button
+                  full-width
+                  text="Start new chat"
+                  onClick={() => {
+                    setAlertOpen(false);
+                    try {
+                      window.dispatchEvent(new Event('va-chatbot-reset'));
+                    } catch (e) {
+                      // no-op: safest to ignore errors dispatching global event
+                    }
+                    setResetting(true);
+                    prevTokenRef.current = token;
+                  }}
+                />
               </va-alert>
             </div>
           )}
@@ -70,7 +89,7 @@ export default function App(props) {
             webChatFramework={webChatFramework}
             setParamLoadingStatus={setParamLoadingStatus}
             key={webchatKey}
-            freeze={alertOpen}
+            freeze={alertOpen || resetting}
           />
         </>
       );
