@@ -684,6 +684,12 @@ export const startApplicationWithoutLogin = () => {
     '/family-and-caregiver-benefits/survivor-compensation/apply-for-dic-survivors-pension-accrued-benefits-form-21p-534ez',
   );
 
+  // Wait for navigation to complete
+  cy.url({ timeout: 10000 }).should(
+    'include',
+    '/apply-for-dic-survivors-pension-accrued-benefits-form-21p-534ez',
+  );
+
   cy.injectAxeThenAxeCheck();
   checkContentAnonymousIntroPageContent();
 
