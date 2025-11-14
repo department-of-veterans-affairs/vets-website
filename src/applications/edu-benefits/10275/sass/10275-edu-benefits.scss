@@ -12,7 +12,7 @@
   min-width: 648px;
   background-color: var(--vads-color-primary-alt-lightest);
   padding-left: 1.5rem !important;
-  .checkbox-text{
+  .checkbox-text {
     text-indent: -20px;
   }
   @media (max-width: $small-screen) {
@@ -46,13 +46,13 @@ va-checkbox[error]::part(checkbox) {
     }
   }
 }
-va-radio[name="pointOfContact"]{
+va-radio[name="pointOfContact"] {
   margin-top: 0 !important;
 }
-va-radio-option[label="None of the above, I will enter a new point of contact"]{
+va-radio-option[label="None of the above, I will enter a new point of contact"] {
   margin-top: 0;
 }
-.radio-container va-radio-option{
+.radio-container va-radio-option {
   border: 1px solid hsl(0, 0%, 79%);
   padding: 10px 20px;
 }
@@ -60,4 +60,3 @@ va-radio-option[label="None of the above, I will enter a new point of contact"]{
   display: block;
   font-weight: normal;
 }
-

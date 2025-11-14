@@ -2,6 +2,6 @@
   "appName": "Authorize VA to disclose personal information to a third party",
   "entryFile": "./app-entry.jsx",
   "entryName": "10278-edu-benefits",
-  "rootUrl": "/school-administrators/authorize-va-to-disclose-personal-information-form-22-10278",
+  "rootUrl": "/education/authorize-va-to-disclose-personal-information-form-22-10278",
   "productId": "c2543ec7-391c-45ea-8646-e826fbf841ad"
 }
