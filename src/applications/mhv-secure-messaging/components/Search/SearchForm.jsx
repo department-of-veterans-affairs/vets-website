@@ -73,7 +73,10 @@ const SearchForm = props => {
 
   const handleSearch = () => {
     setFiltersCleared(false);
-    if (filterBoxRef.current.checkFormValidity()) return;
+    if (filterBoxRef.current.checkFormValidity()) {
+      setSearchTermError(null);
+      return;
+    }
 
     let relativeToDate;
     let relativeFromDate;
@@ -105,6 +108,7 @@ const SearchForm = props => {
       return;
     }
     setSearchTermError(null);
+    filterBoxRef.current.clearDateErrors();
 
     dispatch(
       runAdvancedSearch(
