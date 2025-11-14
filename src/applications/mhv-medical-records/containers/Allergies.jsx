@@ -218,39 +218,38 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
               }}
             />
           )}
-        {isLoadingAcceleratedData && (
-          <>
-            <div className="vads-u-margin-y--8">
-              <va-loading-indicator
-                message="We're loading your records."
-                setFocus
-                data-testid="loading-indicator"
-              />
-            </div>
-          </>
-        )}
-        {!isLoadingAcceleratedData && allergies?.length ? (
-          <>
-            <RecordList
-              records={allergies?.map(allergy => ({
-                ...allergy,
-                isOracleHealthData: isCerner,
-              }))}
-              type={recordType.ALLERGIES}
+        {isLoadingAcceleratedData ? (
+          <div className="vads-u-margin-y--8">
+            <va-loading-indicator
+              message="We're loading your records."
+              setFocus
+              data-testid="loading-indicator"
             />
-            <DownloadingRecordsInfo description="Allergies" />
-            <PrintDownload
-              description="Allergies - List"
-              list
-              downloadPdf={generateAllergiesPdf}
-              downloadTxt={generateAllergiesTxt}
-            />
-            <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
-          </>
+          </div>
         ) : (
-          !isLoadingAcceleratedData && (
-            <NoRecordsMessage type={recordType.ALLERGIES} />
-          )
+          <>
+            {allergies?.length ? (
+              <>
+                <RecordList
+                  records={allergies?.map(allergy => ({
+                    ...allergy,
+                    isOracleHealthData: isCerner,
+                  }))}
+                  type={recordType.ALLERGIES}
+                />
+                <DownloadingRecordsInfo description="Allergies" />
+                <PrintDownload
+                  description="Allergies - List"
+                  list
+                  downloadPdf={generateAllergiesPdf}
+                  downloadTxt={generateAllergiesTxt}
+                />
+                <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
+              </>
+            ) : (
+              <NoRecordsMessage type={recordType.ALLERGIES} />
+            )}
+          </>
         )}
       </RecordListSection>
     </div>
