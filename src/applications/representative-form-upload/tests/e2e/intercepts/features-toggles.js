@@ -8,10 +8,6 @@ export const setFeatureToggles = toggles => {
           value: toggles.isAppEnabled,
         },
         {
-          name: 'accredited_representative_portal_pilot',
-          value: toggles.isInPilot,
-        },
-        {
           name: 'accredited_representative_portal_search',
           value: toggles.isSearchEnabled,
         },
