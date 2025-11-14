@@ -62,7 +62,7 @@ const faqBlock1 = (
       Health Eligibility Center at{' '}
       <va-telephone contact={CONTACTS['222_VETS']} /> (
       <va-telephone contact={CONTACTS['711']} tty />
-      ). {ourHours} You can also visit your local VA facility to learn more.
+      ). {ourHours}. You can also visit your local VA facility to learn more.
     </p>
     <p>
       <va-link
