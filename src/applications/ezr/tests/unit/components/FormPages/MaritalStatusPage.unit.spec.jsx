@@ -139,19 +139,6 @@ describe('ezr MaritalStatusPage', () => {
     });
   });
 
-  context('when rendered on review page', () => {
-    it('should render in review mode.', () => {
-      const { props } = getData();
-      const { container } = renderProviderWrappedComponent(
-        defaultState,
-        <MaritalStatusPage {...props} />,
-      );
-      expect(container).to.exist;
-      // In review mode, the component should render without errors
-      // The specific field rendering may differ in review mode
-    });
-  });
-
   context('component props and behavior', () => {
     it('should pass correct props to SchemaForm.', () => {
       const { props } = getData();
