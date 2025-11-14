@@ -1,5 +1,8 @@
 {
   "formData": {
+    "view:addInsurancePolicy": false,
+    "view:skipInsuranceInfo": true,
+    "hasTeraResponse": false,
     "veteranFullName": {
       "first": "Eric",
       "middle": "Victor",
@@ -41,11 +44,15 @@
       }
     ],
     "maritalStatus": "Married",
+    "view:maritalStatus": {
+      "maritalStatus": "Married"
+    },
     "spouseSocialSecurityNumber": "666834638",
     "spouseDateOfBirth": "1971-09-11",
     "dateOfMarriage": "1995-02-22",
     "cohabitedLastYear": true,
-    "maritalStatus": "Married",
+    "view:hasSpouseInformationToAdd": false,
+    "sameAddress": true,
     "nonPrefill": {
       "previousFinancialInfo": {
         "veteranFinancialInfo": {
@@ -64,6 +71,33 @@
           "incomeYear": "2023"
         }
       }
+    },
+    "view:deductibleMedicalExpenses": {
+      "deductibleMedicalExpenses": 234
+    },
+    "view:deductibleFuneralExpenses": {
+      "deductibleFuneralExpenses": 11
+    },
+    "view:deductibleEducationExpenses": {
+      "deductibleEducationExpenses": 0
+    },
+    "view:veteranGrossIncome": {
+      "veteranGrossIncome": 3242434
+    },
+    "view:veteranNetIncome": {
+      "veteranNetIncome": 23424
+    },
+    "view:veteranOtherIncome": {
+      "veteranOtherIncome": 23424
+    },
+    "view:spouseGrossIncome": {
+      "spouseGrossIncome": 23424
+    },
+    "view:spouseNetIncome": {
+      "spouseNetIncome": 23424
+    },
+    "view:spouseOtherIncome": {
+      "spouseOtherIncome": 23424
     }
   },
   "metadata": {
