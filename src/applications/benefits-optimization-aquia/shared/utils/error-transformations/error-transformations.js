@@ -1,115 +1,77 @@
 /**
  * Error transformations for VA components
  */
+
+/**
+ * Creates a normalizer function that filters out invalid error patterns
+ * and normalizes error values to strings.
+ * @param {Array<string>} [invalidPatterns=[]] - Array of error messages to filter out
+ * @returns {Function} Normalizer function
+ */
+const createNormalizer = (invalidPatterns = []) => {
+  return error => {
+    if (!error) return null;
+    if (invalidPatterns.includes(error)) return null;
+    return typeof error === 'string' ? error.trim() || null : String(error);
+  };
+};
+
+/**
+ * Creates default error props for VA components with optional extra properties.
+ * @param {Object} [extraProps={}] - Additional properties to merge with defaults
+ * @returns {Function} Function that generates error props
+ */
+const createDefaultErrorProps = (extraProps = {}) => {
+  return (error, _touched, _forceShow) => ({
+    error,
+    'aria-invalid': error ? 'true' : 'false',
+    ...extraProps,
+  });
+};
+
 export const ERROR_TRANSFORMATIONS = {
   'va-text-input': {
-    normalizeError: error => {
-      if (!error) return null;
-      if (error === 'Invalid input' || error === 'Invalid') {
-        return null;
-      }
-      if (typeof error !== 'string') return String(error);
-      return error.trim() || null;
-    },
-    getErrorProps: (error, _touched, _forceShow) => ({
-      error,
-      'aria-invalid': error ? 'true' : 'false',
-      noValidate: true,
-    }),
+    normalizeError: createNormalizer(['Invalid input', 'Invalid']),
+    getErrorProps: createDefaultErrorProps({ noValidate: true }),
   },
 
   'va-select': {
-    normalizeError: error => {
-      if (!error) return null;
-      return typeof error === 'string' ? error.trim() || null : String(error);
-    },
-    getErrorProps: (error, _touched, _forceShow) => ({
-      error,
-      'aria-invalid': error ? 'true' : 'false',
-    }),
+    normalizeError: createNormalizer(),
+    getErrorProps: createDefaultErrorProps(),
   },
 
   'va-textarea': {
-    normalizeError: error => {
-      if (!error) return null;
-      return typeof error === 'string' ? error.trim() || null : String(error);
-    },
-    getErrorProps: (error, _touched, _forceShow) => ({
-      error,
-      'aria-invalid': error ? 'true' : 'false',
-    }),
+    normalizeError: createNormalizer(),
+    getErrorProps: createDefaultErrorProps(),
   },
 
   'va-checkbox': {
-    normalizeError: error => {
-      if (!error) return null;
-      return typeof error === 'string' ? error.trim() || null : String(error);
-    },
-    getErrorProps: (error, _touched, _forceShow) => ({
-      error,
-      'aria-invalid': error ? 'true' : 'false',
-    }),
+    normalizeError: createNormalizer(),
+    getErrorProps: createDefaultErrorProps(),
   },
 
   'va-checkbox-group': {
-    normalizeError: error => {
-      if (!error) return null;
-      return typeof error === 'string' ? error.trim() || null : String(error);
-    },
-    getErrorProps: (error, _touched, _forceShow) => ({
-      error,
-      'aria-invalid': error ? 'true' : 'false',
-    }),
+    normalizeError: createNormalizer(),
+    getErrorProps: createDefaultErrorProps(),
   },
 
   'va-radio': {
-    normalizeError: error => {
-      if (!error) return null;
-      return typeof error === 'string' ? error.trim() || null : String(error);
-    },
-    getErrorProps: (error, _touched, _forceShow) => ({
-      error,
-      'aria-invalid': error ? 'true' : 'false',
-    }),
+    normalizeError: createNormalizer(),
+    getErrorProps: createDefaultErrorProps(),
   },
 
   'va-date': {
-    normalizeError: error => {
-      if (!error) return null;
-      return typeof error === 'string' ? error.trim() || null : String(error);
-    },
-    getErrorProps: (error, _touched, _forceShow) => ({
-      error,
-      'aria-invalid': error ? 'true' : 'false',
-    }),
+    normalizeError: createNormalizer(),
+    getErrorProps: createDefaultErrorProps(),
   },
 
   'va-memorable-date': {
-    normalizeError: error => {
-      if (!error) return null;
-      if (error === 'Invalid input' || error === 'Invalid') {
-        return null;
-      }
-      return typeof error === 'string' ? error.trim() || null : String(error);
-    },
-    getErrorProps: (error, _touched, _forceShow) => ({
-      error,
-      'aria-invalid': error ? 'true' : 'false',
-    }),
+    normalizeError: createNormalizer(['Invalid input', 'Invalid']),
+    getErrorProps: createDefaultErrorProps(),
   },
 
   'va-telephone-input': {
-    normalizeError: error => {
-      if (!error) return null;
-      if (error === 'Invalid input' || error === 'Invalid') {
-        return null;
-      }
-      if (typeof error !== 'string') return String(error);
-      return error.trim() || null;
-    },
-    getErrorProps: (error, _touched, _forceShow) => ({
-      error,
-      'aria-invalid': error ? 'true' : 'false',
-    }),
+    normalizeError: createNormalizer(['Invalid input', 'Invalid']),
+    getErrorProps: createDefaultErrorProps(),
   },
 };
