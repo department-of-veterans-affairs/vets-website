@@ -2,26 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
-
-const topics = [
-  'Burial',
-  'Chapter 36-PCPG',
-  'Compensation',
-  'Dental',
-  'Discharge-Upgrade',
-  'Education',
-  'Finance',
-  'Health care',
-  'Insurance',
-  'Legal',
-  'Loan Gauranty',
-  'Mental Health Support/Resources',
-  'Pension',
-  'VA Records',
-  'Veterans Readiness and Employment',
-  'Woman Veterans Coordinator',
-  'General VA Benefits',
-];
+import { topics } from '../services/Topic/topic';
 
 const TopicSelection = () => {
   const navigate = useNavigate();
