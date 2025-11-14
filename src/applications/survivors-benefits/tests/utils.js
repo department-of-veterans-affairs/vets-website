@@ -12,7 +12,7 @@ export const checkAxeAndClickContinueButton = () => {
  * Check an html element for visibility and content
  */
 export const checkVisibleElementContent = (element, content) => {
-  cy.get(element)
+  cy.get(Element)
     .should('exist')
     .and('be.visible')
     .contains(content);
@@ -22,12 +22,10 @@ export const checkVisibleElementContent = (element, content) => {
  * Check the content on the intro page for anonymous users.
  */
 export const checkContentAnonymousIntroPageContent = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('h2', 'Follow these steps to get started:');
   checkVisibleElementContent('va-process-list', 'Check your eligibility');
   checkVisibleElementContent(
@@ -42,12 +40,10 @@ export const checkContentAnonymousIntroPageContent = () => {
  * Check content on Vet's Name and DOB page
  */
 export const checkContentNameDobPage = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Veteran’s name and date of birth');
   checkVisibleElementContent('va-text-input', 'First name');
   checkVisibleElementContent('va-text-input', 'Middle name');
@@ -60,12 +56,10 @@ export const checkContentNameDobPage = () => {
  * Check the content on the Vet's Info SSN page
  */
 export const checkContentVetInfoSSN = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Veteran’s identification information');
   checkVisibleElementContent('va-text-input', 'Social Security number');
   checkVisibleElementContent('va-text-input', 'VA file number');
@@ -76,12 +70,10 @@ export const checkContentVetInfoSSN = () => {
  * Check content for Additional Vet's Infor page
  */
 export const checkContentAdditionalVetsInfo = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Additional Veteran information');
   checkVisibleElementContent(
     'va-radio',
@@ -98,12 +90,10 @@ export const checkContentAdditionalVetsInfo = () => {
  * Check the content on the Claimants Relationship page
  */
 export const checkContentClaimantsRelationship = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent(
     'legend',
     'Claimant’s relationship to the Veteran',
@@ -125,12 +115,10 @@ export const checkContentClaimantsRelationship = () => {
  * Check the content for the Claimant's Address information page
  */
 export const checkContentClaimantsInfoAddress = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Your mailing address');
   checkVisibleElementContent('va-select', 'Country');
   checkVisibleElementContent('va-text-input', 'Street address');
@@ -144,12 +132,10 @@ export const checkContentClaimantsInfoAddress = () => {
  * Check content for Claimant's Email and Phone page
  */
 export const checkContentClaimantsEmailPhone = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Email address and phone number');
   checkVisibleElementContent('va-text-input', 'Email');
   checkVisibleElementContent('va-telephone-input', 'Primary phone number');
@@ -159,12 +145,10 @@ export const checkContentClaimantsEmailPhone = () => {
  * Check the content on the Claimant's Info Benefit Type page
  */
 export const checkContentClaimaintInfoBenefitType = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Benefit type');
   checkVisibleElementContent(
     'va-checkbox-group',
@@ -182,12 +166,10 @@ export const checkContentClaimaintInfoBenefitType = () => {
  * Check the content on the Veteran's Military History initial page
  */
 export const checkContentVetsMilitaryHistory = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'VA benefits');
   checkVisibleElementContent(
     'va-radio',
@@ -199,12 +181,10 @@ export const checkContentVetsMilitaryHistory = () => {
  * Check content for the Marriage to a Veteran page.
  */
 export const checkContentMarriageToVet = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Marriage to Veteran');
   checkVisibleElementContent(
     'va-radio',
@@ -221,12 +201,10 @@ export const checkContentMarriageToVet = () => {
  * Check the content for the Legal Status Marriage page.
  */
 export const checkContentMarriageLegalStatus = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Legal status of marriage');
   checkVisibleElementContent(
     'va-radio',
@@ -238,12 +216,10 @@ export const checkContentMarriageLegalStatus = () => {
  * Check the status of the Marriage Status Continuous page.
  */
 export const checkContentMarriageContinous = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Marriage status');
   checkVisibleElementContent(
     'va-radio',
@@ -255,12 +231,10 @@ export const checkContentMarriageContinous = () => {
  * Check the content on the page for Previous Marriages
  */
 export const checkContentPreviousMarriages = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Previous marriages');
   checkVisibleElementContent(
     'va-radio',
@@ -276,12 +250,10 @@ export const checkContentPreviousMarriages = () => {
  * Check the content on the Household Information Vet's Previous Marriages.
  */
 export const checkContentVetsPreviousMarriages = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Veteran’s previous marriages');
   checkVisibleElementContent(
     'form',
@@ -293,12 +265,10 @@ export const checkContentVetsPreviousMarriages = () => {
  * Check the status of the Marriage Status Remarriage page.
  */
 export const checkContentMarriageRemarriage = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Remarriage');
   checkVisibleElementContent(
     'va-radio',
@@ -310,12 +280,10 @@ export const checkContentMarriageRemarriage = () => {
  * Check Content for Vet Married to someone else page.
  */
 export const checkContentVetMarriedToSomeoneElse = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent(
     'va-radio',
     'Was the Veteran married to someone else before being married to you?',
@@ -326,12 +294,10 @@ export const checkContentVetMarriedToSomeoneElse = () => {
  * Check the content for Children of Vet (none) page.
  */
 export const checkContentChildrenOfVet = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Children of Veteran');
   checkVisibleElementContent(
     'va-radio',
@@ -347,12 +313,10 @@ export const checkContentChildrenOfVet = () => {
  * Check the content on the DIC Benefits page.
  */
 export const checkContentDicBenefits = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'DIC benefits');
   checkVisibleElementContent(
     'va-radio',
@@ -364,12 +328,10 @@ export const checkContentDicBenefits = () => {
  * Check content on Dependents intro page.
  */
 export const checkContentDependentsIntro = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent(
     'form',
     'Next we’ll ask you about your dependent children. You may add up to 3 dependents.',
@@ -384,12 +346,10 @@ export const checkContentDependentsIntro = () => {
  * Check content for the Dependents question page.
  */
 export const checkContentDependentsQuestion = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent(
     'va-radio',
     'Do you have a dependent child to add?',
@@ -400,12 +360,10 @@ export const checkContentDependentsQuestion = () => {
  * Check content on the Treatement at VA Medical Centers Intro page.
  */
 export const checkContentTreatmentVaMedicalCentersIntro = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Treatment at VA medical centers');
   checkVisibleElementContent(
     'form',
@@ -417,12 +375,10 @@ export const checkContentTreatmentVaMedicalCentersIntro = () => {
  * Check content on the Treatement at VA Medical Centers page.
  */
 export const checkContentTreatmentVaMedicalCenters = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent(
     'va-radio',
     'Did the Veteran receive treatment at a VA medical center?',
@@ -433,12 +389,10 @@ export const checkContentTreatmentVaMedicalCenters = () => {
  * Check content for Nursing Home page.
  */
 export const checkContentNursingHome = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent(
     'legend',
     'Nursing home or increased survivor entitlement',
@@ -455,12 +409,10 @@ export const checkContentNursingHome = () => {
  * (under threshold)
  */
 export const checkContentIncomeAssettsInto = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Income and assets');
   checkVisibleElementContent('va-accordion-item', 'What we consider an asset');
   checkVisibleElementContent(
@@ -478,12 +430,10 @@ export const checkContentIncomeAssettsInto = () => {
 };
 
 export const checkContentTotalAssets = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Total assets');
   checkVisibleElementContent(
     'va-text-input',
@@ -495,12 +445,10 @@ export const checkContentTotalAssets = () => {
  * Check the content for the Transferred Assets page
  */
 export const checkContentTransferedAssetts = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Transferred assets');
   checkVisibleElementContent(
     'va-radio',
@@ -516,12 +464,10 @@ export const checkContentTransferedAssetts = () => {
  * Check the content for the Home Ownership page
  */
 export const checkContentHomeOwnership = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Homeownership');
   checkVisibleElementContent(
     'va-radio',
@@ -533,12 +479,10 @@ export const checkContentHomeOwnership = () => {
  * Check content on the Income Sources page.
  */
 export const checkContentIncomeSources = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Income sources');
   checkVisibleElementContent(
     'va-radio',
@@ -554,12 +498,10 @@ export const checkContentIncomeSources = () => {
  * Check the content on the Gross Monthly Income intro page.
  */
 export const checkContentGrossMonthlyIncomeIntro = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Gross monthly income');
   checkVisibleElementContent(
     'fieldset',
@@ -575,12 +517,10 @@ export const checkContentGrossMonthlyIncomeIntro = () => {
  * Check content on the Montly Income page.
  */
 export const checkContentGrossMonthlyIncomeSource = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent(
     'va-radio',
     'Do you have a monthly income source to add?',
@@ -591,12 +531,10 @@ export const checkContentGrossMonthlyIncomeSource = () => {
  * Check the content for the Care Expenses Intro page.
  */
 export const checkContentCareExpensesIntro = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Care expenses');
   checkVisibleElementContent(
     'fieldset',
@@ -616,12 +554,10 @@ export const checkContentCareExpensesIntro = () => {
  * Check the contents for the Care Expenses question page
  */
 export const checkContentCareExpensesQuestion = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('va-radio', 'Do you have a care expense to add?');
 };
 
@@ -629,12 +565,10 @@ export const checkContentCareExpensesQuestion = () => {
  * Check the content on Medical Expenses and Other intro page.
  */
 export const checkContentMedicalOtherExpensesIntro = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Medical and other expenses');
   checkVisibleElementContent(
     'fieldset',
@@ -650,12 +584,10 @@ export const checkContentMedicalOtherExpensesIntro = () => {
  * Check the content for Medical Expenses Quesiton page.
  */
 export const checkContentMedicalExpensesQuestion = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent(
     'va-radio',
     'Do you have a medical or other expense to add?',
@@ -666,12 +598,10 @@ export const checkContentMedicalExpensesQuestion = () => {
  * Check the content for the Direct Deposit page.
  */
 export const checkContentDirectDeposit = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Direct deposit for survivor benefits');
   checkVisibleElementContent(
     'fieldset',
@@ -687,12 +617,10 @@ export const checkContentDirectDeposit = () => {
  * Check content on the Other Payment Options intro page
  */
 export const checkContentOtherPaymentOtionsIntro = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Other payment options');
   checkVisibleElementContent(
     'h4',
@@ -706,12 +634,10 @@ export const checkContentOtherPaymentOtionsIntro = () => {
  * Check the content on the Supporting Docs page
  */
 export const checkContentSupportingDocs = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Supporting documents');
   checkVisibleElementContent(
     'fieldset',
@@ -740,12 +666,10 @@ export const checkContentSupportingDocs = () => {
  * Check the content on the Submit Supporting Docs page.
  */
 export const CheckContentSubmitSupportingDocs = () => {
-  /*
   checkVisibleElementContent(
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  */
   checkVisibleElementContent('legend', 'Submit your supporting documents');
   checkVisibleElementContent(
     'va-file-input-multiple',
