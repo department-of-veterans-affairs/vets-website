@@ -267,6 +267,7 @@ const formConfig = {
         // vaPrompt: {
         //   title: 'VA medical records prompt',
         //   path: EVIDENCE_VA_PROMPT_URL,
+        //   depends: !redesignActive,
         //   CustomPage: VaPrompt,
         //   CustomPageReview: null,
         //   uiSchema: vaPrompt.uiSchema,
