@@ -7,6 +7,8 @@ import {
   FORM_UPLOAD_INSTRUCTION_ALERT,
   FORM_UPLOAD_OCR_ALERT,
 } from '../config/constants';
+import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 const formMappings = {
   '21-686c': {
@@ -169,3 +171,67 @@ export async function addStyleToShadowDomOnPages(
       }
     });
 }
+
+export const hasActiveCompensationITF = ({ formData } = {}) => {
+  return !isEmpty(formData?.['view:activeCompensationITF']);
+};
+
+export const hasActivePensionITF = ({ formData } = {}) => {
+  return !isEmpty(formData?.['view:activePensionITF']);
+};
+
+export const getIntentsToFile = ({
+  formData,
+  goPath,
+  goNextPath,
+  setFormData,
+}) => {
+  goPath('get-itf-status');
+
+  apiRequest(
+    `${
+      environment.API_URL
+    }/simple_forms_api/v1/simple_forms/get_intents_to_file`,
+  )
+    .then(({ compensationIntent, pensionIntent }) => {
+      goPathAfterGettingITF(
+        { compensationIntent, pensionIntent },
+        formData,
+        goPath,
+        goNextPath,
+        setFormData,
+      );
+    })
+    .catch(() => goNextPath());
+};
+
+export const goPathAfterGettingITF = (
+  { compensationIntent, pensionIntent },
+  formData,
+  goPath,
+  goNextPath,
+  setFormData,
+) => {
+  const formDataToSet = {
+    ...formData,
+    'view:activeCompensationITF':
+      compensationIntent?.status === 'active' ? compensationIntent : {},
+    'view:activePensionITF':
+      pensionIntent?.status === 'active' ? pensionIntent : {},
+  };
+
+  setFormData(formDataToSet);
+
+  if (
+    hasActiveCompensationITF({ formData: formDataToSet }) &&
+    hasActivePensionITF({ formData: formDataToSet })
+  ) {
+    goPath('confirmation');
+  } else if (hasActiveCompensationITF({ formData: formDataToSet })) {
+    goPath('veteran-benefit-selection-pension');
+  } else if (hasActivePensionITF({ formData: formDataToSet })) {
+    goPath('veteran-benefit-selection-compensation');
+  } else {
+    goNextPath();
+  }
+};
