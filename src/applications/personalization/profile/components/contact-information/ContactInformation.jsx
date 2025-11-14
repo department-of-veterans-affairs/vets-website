@@ -100,18 +100,18 @@ const ContactInformation = () => {
         if (retryTimeoutId) clearTimeout(retryTimeoutId);
       };
 
+      const selector = hash;
+      const scrollTarget =
+        getScrollTarget(hash) || document.querySelector(selector);
+
       // early return if for profile referrer
-      if (cameFromProfileRoot) return cleanup();
+      if (cameFromProfileRoot) return cleanup;
 
       // early return if no hash > focus on default focus target
       if (!hash) {
         focusElement('[data-focus-target]');
-        return cleanup();
+        return cleanup;
       }
-
-      const selector = hash;
-      const scrollTarget =
-        getScrollTarget(hash) || document.querySelector(selector);
 
       // both focus and scroll to element
       const focusAndScroll = el => {
@@ -146,7 +146,7 @@ const ContactInformation = () => {
       const existing = document.querySelector(selector);
       if (existing) {
         focusAndScroll(scrollTarget || existing);
-        return cleanup();
+        return cleanup;
       }
 
       // retry loop with timeout to wait for element to appear
