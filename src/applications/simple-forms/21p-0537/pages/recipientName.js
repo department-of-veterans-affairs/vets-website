@@ -15,7 +15,7 @@ export default {
     type: 'object',
     required: ['veteranFullName'],
     properties: {
-      veteranFullName: fullNameNoSuffixSchema,
+      veteranFullName: fullNameNoSuffixSchema(),
     },
   },
 };

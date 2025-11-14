@@ -35,9 +35,9 @@ export const claimantPersonalInfoUiSchema = {
  * Validates patient name and date of birth
  */
 const fullNameSchemaWithMiddleInitial = {
-  ...fullNameNoSuffixSchema,
+  ...fullNameNoSuffixSchema(),
   properties: {
-    ...fullNameNoSuffixSchema.properties,
+    ...fullNameNoSuffixSchema().properties,
     middle: {
       type: 'string',
       maxLength: 1,

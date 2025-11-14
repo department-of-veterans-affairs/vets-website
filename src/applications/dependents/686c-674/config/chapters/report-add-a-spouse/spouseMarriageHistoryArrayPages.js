@@ -90,7 +90,7 @@ export const formerMarriagePersonalInfoPage = {
     type: 'object',
     required: ['fullName'],
     properties: {
-      fullName: fullNameNoSuffixSchema,
+      fullName: fullNameNoSuffixSchema(),
     },
   },
 };

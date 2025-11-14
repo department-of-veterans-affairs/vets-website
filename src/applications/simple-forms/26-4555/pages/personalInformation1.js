@@ -30,7 +30,7 @@ export default {
         required: [veteranFields.fullName, veteranFields.dateOfBirth],
         properties: {
           ...pick(properties, pageFields),
-          fullName: fullNameNoSuffixSchema,
+          fullName: fullNameNoSuffixSchema(),
         },
       },
     },

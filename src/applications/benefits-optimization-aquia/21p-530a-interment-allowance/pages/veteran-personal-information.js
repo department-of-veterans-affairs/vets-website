@@ -33,11 +33,11 @@ export const veteranPersonalInformationPage = {
         required: ['fullName'],
         properties: {
           fullName: {
-            ...fullNameNoSuffixSchema,
+            ...fullNameNoSuffixSchema(),
             properties: {
-              ...fullNameNoSuffixSchema.properties,
+              ...fullNameNoSuffixSchema().properties,
               middle: {
-                ...fullNameNoSuffixSchema.properties.middle,
+                ...fullNameNoSuffixSchema().properties.middle,
                 maxLength: 1,
               },
             },

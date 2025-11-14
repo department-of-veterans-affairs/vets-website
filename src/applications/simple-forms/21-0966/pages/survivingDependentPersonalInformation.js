@@ -16,7 +16,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      survivingDependentFullName: fullNameNoSuffixSchema,
+      survivingDependentFullName: fullNameNoSuffixSchema(),
       survivingDependentDateOfBirth: dateOfBirthSchema,
     },
     required: ['survivingDependentFullName', 'survivingDependentDateOfBirth'],
