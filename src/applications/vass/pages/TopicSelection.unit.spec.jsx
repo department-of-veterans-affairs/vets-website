@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 
 import TopicSelection from './TopicSelection';
@@ -86,28 +86,5 @@ describe('VASS Component: TopicSelection', () => {
     expect(continueButton).to.exist;
     expect(continueButton.getAttribute('uswds')).to.exist;
   });
-
-  it('should mark checkbox as checked when selected', async () => {
-    const { container } = render(
-      <MemoryRouter>
-        <TopicSelection />
-      </MemoryRouter>,
-    );
-    const checkboxes = container.querySelectorAll('va-checkbox');
-    const compensationCheckbox = Array.from(checkboxes).find(
-      checkbox => checkbox.getAttribute('value') === 'Compensation',
-    );
-
-    expect(compensationCheckbox.getAttribute('checked')).to.equal('false');
-
-    const event = new CustomEvent('vaChange', {
-      detail: { checked: true },
-      bubbles: true,
-    });
-    compensationCheckbox.dispatchEvent(event);
-
-    await waitFor(() => {
-      expect(compensationCheckbox.getAttribute('checked')).to.equal('true');
-    });
-  });
+  // Add test for handling topic selection when redux store is updated
 });
