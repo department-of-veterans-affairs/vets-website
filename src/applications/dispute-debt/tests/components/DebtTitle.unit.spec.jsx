@@ -45,7 +45,7 @@ describe('DebtTitle Component', () => {
     );
 
     expect(container.textContent).to.include(
-      'Debt 1 of 1: $1,500.50 for Disability compensation and pension debt',
+      'Debt 1 of 1: $1,500.50 for Disability compensation and pension overpayment',
     );
   });
 
@@ -66,7 +66,7 @@ describe('DebtTitle Component', () => {
     );
 
     expect(container.textContent).to.include(
-      'Debt 1 of 1: $2,500.00 for Post-9/11 GI Bill debt for tuition',
+      'Debt 1 of 1: $2,500.00 for Post-9/11 GI Bill overpayment for tuition',
     );
   });
 

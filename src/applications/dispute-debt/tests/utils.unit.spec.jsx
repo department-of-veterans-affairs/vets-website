@@ -218,7 +218,9 @@ describe('Dispute Debt Utils', () => {
       const result = getDebtPageTitle(formData, options);
       expect(result).to.include('Debt 1 of 1');
       expect(result).to.include('$1,500.75');
-      expect(result).to.include('Disability compensation and pension debt');
+      expect(result).to.include(
+        'Disability compensation and pension overpayment',
+      );
     });
 
     it('should use originalAr when currentAr not available', () => {
