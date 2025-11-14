@@ -114,7 +114,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('h3').should(
             'contain',
-            'Debt 1 of 3: $100.00 overpayment for Disability compensation and pension overpayment',
+            'Debt 1 of 3: $100.00 Disability compensation and pension overpayment',
           );
 
           cy.get(
@@ -127,7 +127,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('h3').should(
             'contain',
-            'Debt 1 of 3: $100.00 overpayment for Disability compensation and pension overpayment',
+            'Debt 1 of 3: $100.00 Disability compensation and pension overpayment',
           );
 
           cy.get('va-textarea')
