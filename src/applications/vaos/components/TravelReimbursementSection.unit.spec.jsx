@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 import TravelReimbursementSection from './TravelReimbursementSection';
@@ -79,9 +79,10 @@ describe('VAOS Component: TravelReimbursement', () => {
       `/my-health/travel-pay/file-new-claim/${appointment.id}`,
     );
   });
-  it('should display travel reimbursement section with how to file a claim link', async () => {
+  it('should display travel reimbursement section with modal confirmation for 30+ day claims', async () => {
     // appointment is past the 30 day window
     const appointment = {
+      id: '1234567890',
       start: new Date('2021-08-31T10:00:00Z'),
       kind: 'clinic',
       type: 'VA',
@@ -105,7 +106,39 @@ describe('VAOS Component: TravelReimbursement', () => {
     );
 
     expect(screen.getByText(/Days left to file: 0/i));
-    expect(screen.getByTestId('how-to-file-claim-link')).to.exist;
+
+    // Should show file claim link (not how-to-file-claim-link)
+    const fileClaimLink = screen.getByTestId('file-claim-link');
+    expect(fileClaimLink).to.exist;
+
+    // Initially modal should not be visible
+    const initialModal = screen.container.querySelector(
+      'va-modal[visible="false"]',
+    );
+    expect(initialModal).to.exist;
+
+    // Click the link to trigger modal
+    fireEvent.click(fileClaimLink);
+
+    // Modal should now be visible with warning content
+    const visibleModal = screen.container.querySelector(
+      'va-modal[visible="true"]',
+    );
+    expect(visibleModal).to.exist;
+    expect(visibleModal.getAttribute('modal-title')).to.equal(
+      'Your appointment happened more than 30 days ago',
+    );
+    expect(visibleModal.getAttribute('primary-button-text')).to.equal(
+      'Yes, I want to file',
+    );
+    expect(visibleModal.getAttribute('secondary-button-text')).to.equal(
+      'Don’t file',
+    );
+    expect(
+      screen.getByText(
+        'Do you still want to file a travel reimbursement claim?',
+      ),
+    ).to.exist;
   });
   it('should display travel reimbursement section with link to view claim status', async () => {
     const appointment = {

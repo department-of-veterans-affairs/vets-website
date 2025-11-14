@@ -72,8 +72,11 @@ export const reviewEntry = (description, key, uiSchema, label, data) => {
   if (!data) return null;
 
   const keyString = generateReviewEntryKey(key, label, data);
-
-  const className = nextClass;
+  const className = classNames(
+    nextClass,
+    'vads-u-line-height--6',
+    'vads-u-padding-bottom--1',
+  );
   nextClass = '';
 
   // for multiple lines of data under one label
