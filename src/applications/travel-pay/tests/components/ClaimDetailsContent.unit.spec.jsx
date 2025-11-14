@@ -20,7 +20,6 @@ describe('ClaimDetailsContent', () => {
 
   const getState = ({
     featureTogglesAreLoading = false,
-    hasStatusFeatureFlag = true,
     hasDetailsFeatureFlag = true,
     hasClaimsManagementFlag = true,
     hasClaimsManagementDecisionReasonFlag = true,
@@ -28,7 +27,6 @@ describe('ClaimDetailsContent', () => {
     featureToggles: {
       loading: featureTogglesAreLoading,
       /* eslint-disable camelcase */
-      travel_pay_power_switch: hasStatusFeatureFlag,
       travel_pay_view_claim_details: hasDetailsFeatureFlag,
       travel_pay_claims_management: hasClaimsManagementFlag,
       travel_pay_claims_management_decision_reason: hasClaimsManagementDecisionReasonFlag,
