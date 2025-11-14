@@ -59,15 +59,27 @@ class LabsAndTests {
     cy.url().should('include', `?timeFrame=${timeFrame}`);
   };
 
-  selectMonthAndYear = ({ month, year, submit = true }) => {
-    cy.get('select[name="vitals-date-pickerMonth"]').select(month);
-    cy.get('input[name="vitals-date-pickerYear"]').clear();
-    cy.get('input[name="vitals-date-pickerYear"]').type(year);
-    if (submit) {
-      cy.get('[data-testid="update-time-frame-button"]').click({
-        waitForAnimations: true,
-      });
-    }
+  checkTimeFrameDisplay = ({ fromDate, toDate }) => {
+    const expectedText = `${fromDate} to ${toDate}`;
+
+    // Assert the bold range text matches the expected year span
+    cy.get('[data-testid="filter-display-message"]')
+      .should('be.visible')
+      .should('have.text', expectedText);
+  };
+
+  checkTimeFrameDisplayForYear = ({ year }) => {
+    const fromDateText = `January 1, ${year}`;
+    const toDateText = `December 31, ${year}`;
+
+    this.checkTimeFrameDisplay({
+      fromDate: fromDateText,
+      toDate: toDateText,
+    });
+  };
+
+  selectDateRange = ({ option }) => {
+    cy.get('select[name="dateRangeSelector"]').select(option);
   };
 
   selectLabAndTest = ({ labName }) => {

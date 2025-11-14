@@ -23,6 +23,7 @@ import {
   labTypes,
   EMPTY_FIELD,
   loadStates,
+  DEFAULT_DATE_RANGE,
 } from '../util/constants';
 
 const initialState = {
@@ -53,7 +54,7 @@ const initialState = {
   /**
    * The selected date range for displaying labs and tests
    * */
-  dateRange: buildInitialDateRange(),
+  dateRange: buildInitialDateRange(DEFAULT_DATE_RANGE),
 };
 
 export const extractLabLocation = (performer, record) => {
