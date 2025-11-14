@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 
 import TopicSelection from './TopicSelection';
@@ -87,7 +87,7 @@ describe('VASS Component: TopicSelection', () => {
     expect(continueButton.getAttribute('uswds')).to.exist;
   });
 
-  it('should mark checkbox as checked when selected', () => {
+  it('should mark checkbox as checked when selected', async () => {
     const { container } = render(
       <MemoryRouter>
         <TopicSelection />
@@ -98,13 +98,16 @@ describe('VASS Component: TopicSelection', () => {
       checkbox => checkbox.getAttribute('value') === 'Compensation',
     );
 
-    expect(compensationCheckbox.checked).to.be.false;
+    expect(compensationCheckbox.getAttribute('checked')).to.equal('false');
 
     const event = new CustomEvent('vaChange', {
       detail: { checked: true },
+      bubbles: true,
     });
     compensationCheckbox.dispatchEvent(event);
 
-    expect(compensationCheckbox.checked).to.be.true;
+    await waitFor(() => {
+      expect(compensationCheckbox.getAttribute('checked')).to.equal('true');
+    });
   });
 });
