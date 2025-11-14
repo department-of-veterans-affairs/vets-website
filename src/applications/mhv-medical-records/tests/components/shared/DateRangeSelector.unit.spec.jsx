@@ -1,78 +1,77 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import sinon from 'sinon';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import { render } from '@testing-library/react';
 import DateRangeSelector, {
-  dateRangeList,
+  getDateRangeList,
 } from '../../../components/shared/DateRangeSelector';
 
-describe('DateRangeSelector', () => {
-  it('renders the select with default options', () => {
-    const onSelectSpy = sinon.spy();
-    const screen = render(
-      <DateRangeSelector selectedDate="3" onDateRangeSelect={onSelectSpy} />,
+describe('DateRangeSelector (shared)', () => {
+  it('renders with label and includes base options', () => {
+    const { getByTestId } = render(
+      <DateRangeSelector selectedDate="3" onDateRangeSelect={() => {}} />,
     );
-
-    const select = screen.getByTestId('date-range-selector');
-    expect(select).to.exist;
-
-    // Check required default options
-    const opt3 = screen.getByRole('option', { name: /Last 3 months/i });
-    const opt6 = screen.getByRole('option', { name: /Last 6 months/i });
-    expect(opt3).to.exist;
-    expect(opt6).to.exist;
-
-    // Current year option should be present
-    const currentYear = new Date().getFullYear().toString();
-    const yearOption = screen.getByRole('option', { name: currentYear });
-    expect(yearOption).to.exist;
-
-    // Selected value attribute
-    expect(select.getAttribute('value')).to.equal('3');
+    const select = getByTestId('date-range-selector');
+    expect(select.getAttribute('label')).to.equal('Date range');
+    const optionTexts = Array.from(select.querySelectorAll('option')).map(
+      o => o.textContent,
+    );
+    expect(optionTexts).to.include('Last 3 months');
+    expect(optionTexts).to.include('Last 6 months');
+    expect(optionTexts).to.include(`All of ${new Date().getFullYear()}`);
+    expect(optionTexts).to.include('All of 2013'); // earliest year boundary
   });
 
-  it('fires onDateRangeSelect with correct detail value', () => {
-    const onSelectSpy = sinon.spy();
-    const screen = render(
-      <DateRangeSelector selectedDate="3" onDateRangeSelect={onSelectSpy} />,
+  it('fires handler with selected value detail on vaSelect', () => {
+    const handler = sinon.spy();
+    const { getByTestId } = render(
+      <DateRangeSelector selectedDate="3" onDateRangeSelect={handler} />,
     );
-
-    const select = screen.getByTestId('date-range-selector');
-
-    // Dispatch custom vaSelect event (web component pattern)
-    const event = new CustomEvent('vaSelect', {
-      detail: { value: '6' },
-      bubbles: true,
-    });
-    select.dispatchEvent(event);
-
-    expect(onSelectSpy.calledOnce).to.be.true;
-    expect(onSelectSpy.firstCall.args[0].detail.value).to.equal('6');
+    getByTestId('date-range-selector').dispatchEvent(
+      new CustomEvent('vaSelect', { detail: { value: '6' }, bubbles: true }),
+    );
+    expect(handler.calledOnce).to.be.true;
+    expect(handler.firstCall.args[0].detail.value).to.equal('6');
   });
 
-  it('supports custom dateOptions prop', () => {
-    const customOptions = [
-      { value: 'alpha', label: 'Alpha' },
-      { value: 'beta', label: 'Beta' },
-    ];
-    const onSelectSpy = sinon.spy();
-    const screen = render(
+  it('toggles inert only when loading', () => {
+    const { getByTestId, rerender } = render(
       <DateRangeSelector
-        dateOptions={customOptions}
-        selectedDate="alpha"
-        onDateRangeSelect={onSelectSpy}
+        selectedDate="3"
+        onDateRangeSelect={() => {}}
+        isLoading
       />,
     );
-
-    expect(screen.getByRole('option', { name: 'Alpha' })).to.exist;
-    expect(screen.getByRole('option', { name: 'Beta' })).to.exist;
-    // Should not render a default option like "Last 3 months"
-    expect(screen.queryByRole('option', { name: /Last 3 months/i })).to.be.null;
+    expect(getByTestId('date-range-selector').hasAttribute('inert')).to.be.true;
+    rerender(
+      <DateRangeSelector selectedDate="3" onDateRangeSelect={() => {}} />,
+    );
+    expect(getByTestId('date-range-selector').hasAttribute('inert')).to.be
+      .false;
   });
 
-  it('exports dateRangeList with at least the 3 and 6 month options', () => {
-    const values = dateRangeList.map(o => o.value);
+  it('accepts custom dateOptions overriding defaults', () => {
+    const custom = [
+      { value: 'X', label: 'Custom Option X' },
+      { value: 'Y', label: 'Custom Option Y' },
+    ];
+    const { getByTestId } = render(
+      <DateRangeSelector
+        selectedDate="X"
+        onDateRangeSelect={() => {}}
+        dateOptions={custom}
+      />,
+    );
+    const optionTexts = Array.from(
+      getByTestId('date-range-selector').querySelectorAll('option'),
+    ).map(o => o.textContent);
+    expect(optionTexts).to.deep.equal(['Custom Option X', 'Custom Option Y']);
+  });
+
+  it('getDateRangeList exposes expected base values', () => {
+    const values = getDateRangeList().map(o => o.value);
     expect(values).to.include('3');
     expect(values).to.include('6');
+    expect(values).to.include(String(new Date().getFullYear()));
   });
 });

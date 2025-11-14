@@ -27,6 +27,7 @@ import {
   VALID_REFRESH_DURATION,
   Paths,
   Breadcrumbs,
+  DEFAULT_DATE_RANGE,
   MONTH_BASED_OPTIONS,
 } from './constants';
 
@@ -764,6 +765,15 @@ export const calculateDateRange = value => {
   return {
     fromDate: dateFnsFormat(startOfYear(yearDate), 'yyyy-MM-dd'),
     toDate: dateFnsFormat(endOfYear(yearDate), 'yyyy-MM-dd'),
+  };
+};
+
+export const buildInitialDateRange = (option = DEFAULT_DATE_RANGE) => {
+  const { fromDate, toDate } = calculateDateRange(option);
+  return {
+    option,
+    fromDate,
+    toDate,
   };
 };
 

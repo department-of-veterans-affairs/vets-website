@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { sendDataDogAction } from '../../util/helpers';
 
-const AdditionalAccessInfo = ({ domainName }) => {
+const AdditionalReportsInfo = ({ domainName }) => {
   const accessInfo = `How to find more ${domainName}`;
 
   return (
@@ -20,7 +20,7 @@ const AdditionalAccessInfo = ({ domainName }) => {
         <Link
           to="/download"
           onClick={() => {
-            sendDataDogAction('Additional Info Link');
+            sendDataDogAction('Download medical records reports link');
           }}
         >
           Find medical records reports to download
@@ -30,8 +30,8 @@ const AdditionalAccessInfo = ({ domainName }) => {
   );
 };
 
-AdditionalAccessInfo.propTypes = {
-  domainName: PropTypes.string,
+AdditionalReportsInfo.propTypes = {
+  domainName: PropTypes.string.isRequired,
 };
 
-export default AdditionalAccessInfo;
+export default AdditionalReportsInfo;

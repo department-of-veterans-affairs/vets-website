@@ -48,7 +48,7 @@ import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { fetchImageRequestStatus } from '../actions/images';
 import JobCompleteAlert from '../components/shared/JobsCompleteAlert';
 import { useTrackAction } from '../hooks/useTrackAction';
-import AdditionalAccessInfo from '../components/shared/AdditionalAccessInfo';
+import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -212,8 +212,9 @@ const LabsAndTests = () => {
             <DateRangeSelector
               onDateRangeSelect={handleDateRangeSelect}
               selectedDate={selectedDate}
+              isLoading={isLoadingAcceleratedData}
             />
-            <AdditionalAccessInfo domainName="lab and test results" />
+            <AdditionalReportsInfo domainName="lab and test results" />
           </div>
         )}
         {isLoadingAcceleratedData && (

@@ -1,4 +1,4 @@
-import { parseISO, format, subMonths } from 'date-fns';
+import { parseISO, format } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatObservationInterpretations,
@@ -11,6 +11,7 @@ import {
   isArrayAndHasItems,
   decodeBase64Report,
   formatNameFirstToLast,
+  buildInitialDateRange,
 } from '../util/helpers';
 import {
   areDatesEqualToMinute,
@@ -22,10 +23,7 @@ import {
   labTypes,
   EMPTY_FIELD,
   loadStates,
-  DEFAULT_DATE_RANGE,
 } from '../util/constants';
-
-const currentDate = new Date();
 
 const initialState = {
   /**
@@ -55,14 +53,7 @@ const initialState = {
   /**
    * The selected date range for displaying labs and tests
    * */
-  dateRange: {
-    option: DEFAULT_DATE_RANGE,
-    fromDate: format(
-      subMonths(currentDate, parseInt(DEFAULT_DATE_RANGE, 10)),
-      'yyyy-MM-dd',
-    ),
-    toDate: format(currentDate, 'yyyy-MM-dd'),
-  },
+  dateRange: buildInitialDateRange(),
 };
 
 export const extractLabLocation = (performer, record) => {
