@@ -72,16 +72,16 @@ const testConfig = createTestConfig(
         statusCode: 200,
         body: {
           formId: '21P-530A',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
+          createdAt: '2025-01-15T14:30:00.000Z',
+          updatedAt: '2025-01-15T14:30:00.000Z',
         },
       });
       cy.intercept('GET', '/v0/in_progress_forms/21P-530A', {
         statusCode: 200,
         body: {
           formId: '21P-530A',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
+          createdAt: '2025-01-15T14:30:00.000Z',
+          updatedAt: '2025-01-15T14:30:00.000Z',
         },
       });
 
