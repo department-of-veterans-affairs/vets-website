@@ -7,7 +7,7 @@ import {
   drupalStaticData,
   userProfileFacilities,
 } from '../../fixtures/cerner-facility-mock-data.json';
-import prescriptions from '../../fixtures/refillablePrescriptionsList.json';
+import prescriptions from '../../fixtures/refillablePrescriptionsListV2.json';
 import DisplayCernerFacilityAlert from '../../../components/shared/DisplayCernerFacilityAlert';
 
 describe('Display Cerner Facility Alert', () => {

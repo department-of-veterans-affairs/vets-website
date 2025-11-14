@@ -7,7 +7,7 @@ import SuccessNotification from '../../../components/RefillPrescriptions/Success
 import RefillAlert from '../../../components/RefillPrescriptions/RefillAlert';
 import { RefillMedicationList } from '../../../components/RefillPrescriptions/RefillMedicationList';
 import { MEDICATION_REFILL_CONFIG } from '../../../util/constants';
-import refillableList from '../../fixtures/refillablePrescriptionsList.json';
+import refillableList from '../../fixtures/refillablePrescriptionsListV2.json';
 import { dataDogActionNames } from '../../../util/dataDogConstants';
 
 describe('SuccessNotification component', () => {

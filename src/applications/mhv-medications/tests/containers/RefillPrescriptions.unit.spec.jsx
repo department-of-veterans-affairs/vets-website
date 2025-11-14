@@ -10,7 +10,7 @@ import RefillPrescriptions from '../../containers/RefillPrescriptions';
 import reducer from '../../reducers';
 import { dateFormat } from '../../util/helpers';
 
-const refillablePrescriptions = require('../fixtures/refillablePrescriptionsList.json');
+const refillablePrescriptions = require('../fixtures/refillablePrescriptionsListV2.json');
 
 let sandbox;
 

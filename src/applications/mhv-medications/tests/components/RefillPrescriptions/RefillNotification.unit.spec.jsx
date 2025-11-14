@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import RefillNotification from '../../../components/RefillPrescriptions/RefillNotification';
-import refillableList from '../../fixtures/refillablePrescriptionsList.json';
+import refillableList from '../../fixtures/refillablePrescriptionsListV2.json';
 
 describe('RefillNotification', () => {
   const initSuccessfulMeds = refillableList.slice(0, 3);
