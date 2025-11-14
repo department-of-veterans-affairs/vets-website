@@ -134,7 +134,12 @@ const ContactInformation = () => {
                 waitForRenderThenFocus(selector, document, 50, 'button');
               } else {
                 focusTimeoutId = setTimeout(() => {
-                  if (!cancelled) focusElement(el);
+                  if (!cancelled) {
+                    if (!el.hasAttribute('tabindex')) {
+                      el.setAttribute('tabindex', '-1');
+                    }
+                    focusElement(el);
+                  }
                 }, 350);
               }
             }, 200);
