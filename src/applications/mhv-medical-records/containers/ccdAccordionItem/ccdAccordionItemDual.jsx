@@ -79,7 +79,7 @@ const CCDAccordionItemDual = ({
       used to call this report your VA Health Summary.
     </p>
 
-    <p className="vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-weight--bold vads-u-font-size--h4 vads-u-font-family--serif">
+    <p className="vads-u-font-weight--bold">
       CCD: medical records from {formatFacilityList(vistaFacilityNames)}
     </p>
 
@@ -92,7 +92,7 @@ const CCDAccordionItemDual = ({
       />
     </div>
 
-    <p className="vads-u-margin-top--2 vads-u-margin-bottom--2 vads-u-font-weight--bold vads-u-font-size--h4 vads-u-font-family--serif">
+    <p className="vads-u-font-weight--bold">
       CCD: medical records from {formatFacilityList(ohFacilityNames)}
     </p>
 
