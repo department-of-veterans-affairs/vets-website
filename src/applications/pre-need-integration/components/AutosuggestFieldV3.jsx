@@ -2,7 +2,29 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 const AutosuggestField = props => {
-  const { formData, onChange, uiSchema = {}, idSchema, errorSchema } = props;
+  const {
+    formData,
+    onChange,
+    uiSchema = {},
+    idSchema,
+    errorSchema,
+    required, // RJSF may pass this boolean
+  } = props;
+  // Determine requiredness: prefer RJSF required prop, fall back to uiSchema ui:required
+  const uiRequired = uiSchema['ui:required'];
+  let isRequired;
+  if (typeof required === 'boolean') {
+    isRequired = required;
+  } else if (typeof uiRequired === 'function') {
+    // Call the function safely and coerce to boolean
+    try {
+      isRequired = !!uiRequired(formData);
+    } catch (e) {
+      isRequired = false;
+    }
+  } else {
+    isRequired = !!uiRequired;
+  }
 
   const options = uiSchema['ui:options'] || {};
   const { getOptions } = options;
@@ -123,10 +145,20 @@ const AutosuggestField = props => {
       setJustSelected(true);
 
       setTimeout(() => {
-        const input = document.getElementById(inputId);
-        if (input) {
-          input.focus();
+        const host = inputRef.current;
+        let innerInput = null;
+        try {
+          innerInput =
+            host?.shadowRoot?.querySelector('input') ||
+            host?.querySelector('input') ||
+            null;
+        } catch (e) {
+          innerInput = null;
         }
+
+        const elToFocus =
+          innerInput || host || document.getElementById(inputId);
+        elToFocus?.focus?.();
       }, 0);
     },
     [suggestions, onChange, normalizeName, inputId],
@@ -454,6 +486,7 @@ const AutosuggestField = props => {
     >
       <div
         role="combobox"
+        aria-required={isRequired}
         aria-haspopup="listbox"
         aria-owns={listboxId}
         aria-expanded={open}
@@ -463,6 +496,7 @@ const AutosuggestField = props => {
           ref={inputRef}
           id={inputId}
           label={labelText || undefined}
+          required={isRequired}
           aria-autocomplete="list"
           aria-activedescendant={
             open && activeIndex >= 0
