@@ -11,7 +11,7 @@ describe('processCSAT', () => {
   let shouldReturnColumns;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     columns = [{ style: { pointerEvents: 'not-none' } }];
     stars = [
       {
