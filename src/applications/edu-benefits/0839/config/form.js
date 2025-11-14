@@ -29,6 +29,7 @@ import {
 import {
   additionalInstitutionDetailsArrayOptions,
   showAdditionalPointsOfContact,
+  arrayBuilderOptions,
 } from '../helpers';
 
 /** @type {FormConfig} */
@@ -161,53 +162,45 @@ const formConfig = {
     yellowRibbonProgramRequestChapter: {
       title: 'Yellow Ribbon Program contributions',
       pages: {
-        ...arrayBuilderPages(
-          {
-            arrayPath: 'yellowRibbonProgramRequest',
-            itemName: 'Yellow Ribbon Program contributions',
-            nounSingular: 'Yellow Ribbon Program contribution',
-            nounPlural: 'Yellow Ribbon Program contributions',
-            required: true,
-          },
-          pageBuilder => ({
-            yellowRibbonProgramRequestIntro: pageBuilder.introPage({
-              title: 'Yellow Ribbon Program contributions',
-              path: 'yellow-ribbon-program-request',
-              uiSchema: yellowRibbonProgramRequest.uiSchema,
-              schema: yellowRibbonProgramRequest.schema,
-            }),
-            yellowRibbonProgramRequestSummary: pageBuilder.summaryPage({
-              title: 'Yellow Ribbon Program contributions',
-              path: 'yellow-ribbon-program-request/summary',
-              uiSchema: yellowRibbonProgramRequestSummary.uiSchema,
-              schema: yellowRibbonProgramRequestSummary.schema,
-            }),
-            yellowRibbonProgramContribution: pageBuilder.itemPage({
-              title: 'Add a Yellow Ribbon Program contribution',
-              path: 'yellow-ribbon-program-request/:index',
-              uiSchema: eligibleIndividualsSupported.uiSchema,
-              schema: eligibleIndividualsSupported.schema,
-            }),
-            contributionLimitsAndDegreeLevel: pageBuilder.itemPage({
-              title: 'Contribution limits and degree level',
-              path: 'yellow-ribbon-program-request/:index/contribution-limits',
-              uiSchema: contributionLimitsAndDegreeLevel.uiSchema,
-              schema: contributionLimitsAndDegreeLevel.schema,
-              depends: formData => !!formData?.institutionDetails?.isUsaSchool,
-              pageClass: 'ypr-no-expander-border',
-            }),
-            foreignContributionLimitsAndDegreeLevel: pageBuilder.itemPage({
-              title: 'Contribution limits and degree level',
-              path:
-                'yellow-ribbon-program-request/:index/contribution-limits-foreign',
-              uiSchema: foreignContributionLimitsAndDegreeLevel.uiSchema,
-              schema: foreignContributionLimitsAndDegreeLevel.schema,
-              depends: formData =>
-                formData?.institutionDetails?.isUsaSchool === false,
-              pageClass: 'ypr-no-expander-border',
-            }),
+        ...arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
+          yellowRibbonProgramRequestIntro: pageBuilder.introPage({
+            title: 'Yellow Ribbon Program contributions',
+            path: 'yellow-ribbon-program-request',
+            uiSchema: yellowRibbonProgramRequest.uiSchema,
+            schema: yellowRibbonProgramRequest.schema,
           }),
-        ),
+          yellowRibbonProgramRequestSummary: pageBuilder.summaryPage({
+            title: 'Yellow Ribbon Program contributions',
+            path: 'yellow-ribbon-program-request/summary',
+            uiSchema: yellowRibbonProgramRequestSummary.uiSchema,
+            schema: yellowRibbonProgramRequestSummary.schema,
+          }),
+          yellowRibbonProgramContribution: pageBuilder.itemPage({
+            title: 'Add a Yellow Ribbon Program contribution',
+            path: 'yellow-ribbon-program-request/:index',
+            uiSchema: eligibleIndividualsSupported.uiSchema,
+            schema: eligibleIndividualsSupported.schema,
+          }),
+          contributionLimitsAndDegreeLevel: pageBuilder.itemPage({
+            title: 'Contribution limits and degree level',
+            path: 'yellow-ribbon-program-request/:index/contribution-limits',
+            uiSchema: contributionLimitsAndDegreeLevel.uiSchema,
+            schema: contributionLimitsAndDegreeLevel.schema,
+            depends: formData => !!formData?.institutionDetails?.isUsaSchool,
+            pageClass: 'ypr-no-expander-border',
+          }),
+          foreignContributionLimitsAndDegreeLevel: pageBuilder.itemPage({
+            title: 'Contribution limits and degree level',
+            path:
+              'yellow-ribbon-program-request/:index/contribution-limits-foreign',
+            uiSchema: foreignContributionLimitsAndDegreeLevel.uiSchema,
+            schema: foreignContributionLimitsAndDegreeLevel.schema,
+            depends: formData => {
+              return formData?.institutionDetails?.isUsaSchool === false;
+            },
+            pageClass: 'ypr-no-expander-border',
+          }),
+        })),
       },
     },
     pointsOfContactChapter: {
