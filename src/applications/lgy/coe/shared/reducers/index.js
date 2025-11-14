@@ -1,6 +1,7 @@
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import { UPDATE_LOGGEDIN_STATUS } from 'platform/user/authentication/actions';
 import formConfig from '../../form/config/form';
+import newFormConfig from '../../form/config/newForm';
 
 import { CALLSTATUS } from '../constants';
 
@@ -52,7 +53,11 @@ const certificateOfEligibility = (state = initialState, action) => {
   }
 };
 
+const formReducerV1 = createSaveInProgressFormReducer(formConfig);
+const formReducerV2 = createSaveInProgressFormReducer(newFormConfig);
+export { formReducerV1, formReducerV2 };
+
 export default {
   certificateOfEligibility,
-  form: createSaveInProgressFormReducer(formConfig),
+  form: formReducerV1,
 };

@@ -73,7 +73,7 @@ const mapStateToProps = state => ({
   loggedIn: isLoggedIn(state),
   status: state.certificateOfEligibility.generateAutoCoeStatus,
   isVerified: selectProfile(state)?.verified || false,
-  canApply: selectProfile(state).claims?.coe,
+  canApply: true,
 });
 
 IntroductionPage.propTypes = {
