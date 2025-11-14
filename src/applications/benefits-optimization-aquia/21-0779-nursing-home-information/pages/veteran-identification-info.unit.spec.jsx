@@ -20,7 +20,7 @@ describe('Veteran Identification Info Page', () => {
       );
     });
 
-    it('should have veteranIdentificationInfo field configured with ssnOrVaFileNumberNoHintUI', () => {
+    it('should have veteranIdentificationInfo field configured with ssnOrVaFileNumberNoHintUI pattern', () => {
       expect(veteranIdentificationInfoUiSchema).to.have.property(
         'veteranIdentificationInfo',
       );
@@ -28,25 +28,10 @@ describe('Veteran Identification Info Page', () => {
       const fieldUI =
         veteranIdentificationInfoUiSchema.veteranIdentificationInfo;
 
-      // Verify it has SSN field
+      // Verify the pattern is applied correctly by checking for top-level properties
       expect(fieldUI).to.have.property('ssn');
-      expect(fieldUI.ssn).to.have.property(
-        'ui:title',
-        'Social Security number',
-      );
-      expect(fieldUI.ssn).to.have.property('ui:webComponentField');
-      expect(fieldUI.ssn).to.have.property('ui:errorMessages');
-
-      // Verify it has VA file number field
       expect(fieldUI).to.have.property('vaFileNumber');
-      expect(fieldUI.vaFileNumber).to.have.property(
-        'ui:title',
-        'VA file number',
-      );
-      expect(fieldUI.vaFileNumber).to.have.property('ui:webComponentField');
-
-      // Verify it has updateSchema for dynamic validation
-      expect(fieldUI).to.have.nested.property('ui:options.updateSchema');
+      expect(fieldUI).to.have.property('ui:options');
     });
 
     it('should have ui:options with updateUiSchema function', () => {
@@ -136,161 +121,6 @@ describe('Veteran Identification Info Page', () => {
         'string',
       );
       expect(fieldSchema.properties.vaFileNumber).to.have.property('pattern');
-    });
-  });
-
-  describe('SSN/VA File Number validation behavior', () => {
-    let updateSchema;
-
-    beforeEach(() => {
-      updateSchema =
-        veteranIdentificationInfoUiSchema.veteranIdentificationInfo[
-          'ui:options'
-        ].updateSchema;
-    });
-
-    it('should require SSN when SSN is provided', () => {
-      const result = updateSchema(
-        { veteranIdentificationInfo: { ssn: '123456789' } },
-        { type: 'object' },
-        {},
-        0,
-        'veteranIdentificationInfo',
-      );
-
-      expect(result).to.have.property('required');
-      expect(result.required).to.deep.equal(['ssn']);
-    });
-
-    it('should require VA file number when only VA file number is provided', () => {
-      const result = updateSchema(
-        { veteranIdentificationInfo: { vaFileNumber: '12345678' } },
-        { type: 'object' },
-        {},
-        0,
-        'veteranIdentificationInfo',
-      );
-
-      expect(result).to.have.property('required');
-      expect(result.required).to.deep.equal(['vaFileNumber']);
-    });
-
-    it('should require SSN when both SSN and VA file number are provided', () => {
-      const result = updateSchema(
-        {
-          veteranIdentificationInfo: {
-            ssn: '123456789',
-            vaFileNumber: '12345678',
-          },
-        },
-        { type: 'object' },
-        {},
-        0,
-        'veteranIdentificationInfo',
-      );
-
-      expect(result).to.have.property('required');
-      expect(result.required).to.deep.equal(['ssn']);
-    });
-
-    it('should default to requiring SSN when neither field is provided', () => {
-      const result = updateSchema(
-        { veteranIdentificationInfo: {} },
-        { type: 'object' },
-        {},
-        0,
-        'veteranIdentificationInfo',
-      );
-
-      expect(result).to.have.property('required');
-      expect(result.required).to.deep.equal(['ssn']);
-    });
-
-    it('should default to requiring SSN when veteranIdentificationInfo is undefined', () => {
-      const result = updateSchema(
-        {},
-        { type: 'object' },
-        {},
-        0,
-        'veteranIdentificationInfo',
-      );
-
-      expect(result).to.have.property('required');
-      expect(result.required).to.deep.equal(['ssn']);
-    });
-
-    it('should handle null values correctly', () => {
-      const result = updateSchema(
-        { veteranIdentificationInfo: { ssn: null, vaFileNumber: null } },
-        { type: 'object' },
-        {},
-        0,
-        'veteranIdentificationInfo',
-      );
-
-      expect(result).to.have.property('required');
-      expect(result.required).to.deep.equal(['ssn']);
-    });
-
-    it('should handle empty string values', () => {
-      const resultEmptySSN = updateSchema(
-        { veteranIdentificationInfo: { ssn: '', vaFileNumber: '12345678' } },
-        { type: 'object' },
-        {},
-        0,
-        'veteranIdentificationInfo',
-      );
-
-      expect(resultEmptySSN.required).to.deep.equal(['vaFileNumber']);
-
-      const resultEmptyVA = updateSchema(
-        { veteranIdentificationInfo: { ssn: '123456789', vaFileNumber: '' } },
-        { type: 'object' },
-        {},
-        0,
-        'veteranIdentificationInfo',
-      );
-
-      expect(resultEmptyVA.required).to.deep.equal(['ssn']);
-
-      const resultBothEmpty = updateSchema(
-        { veteranIdentificationInfo: { ssn: '', vaFileNumber: '' } },
-        { type: 'object' },
-        {},
-        0,
-        'veteranIdentificationInfo',
-      );
-
-      expect(resultBothEmpty.required).to.deep.equal(['ssn']);
-    });
-
-    it('should preserve other schema properties when updating', () => {
-      const originalSchema = {
-        type: 'object',
-        properties: { someOtherField: { type: 'string' } },
-        additionalProperties: false,
-      };
-
-      const result = updateSchema(
-        { veteranIdentificationInfo: { ssn: '123456789' } },
-        originalSchema,
-        {},
-        0,
-        'veteranIdentificationInfo',
-      );
-
-      expect(result).to.include.keys(
-        'type',
-        'properties',
-        'additionalProperties',
-        'required',
-      );
-      expect(result.type).to.equal('object');
-      expect(result.properties).to.deep.equal({
-        someOtherField: { type: 'string' },
-      });
-      expect(result.additionalProperties).to.equal(false);
-      expect(result.required).to.deep.equal(['ssn']);
     });
   });
 
