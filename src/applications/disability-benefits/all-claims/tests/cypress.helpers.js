@@ -448,23 +448,16 @@ export const pageHooks = (cy, testOptions) => ({
             cy.get(`input[value="SECONDARY"]`).click();
 
             // Select the disability that caused this one
-            cy.get(
-              'select[id="root_view:secondaryFollowUp_causedByDisability"]',
-            )
+            cy.get('select[id="root_causedByDisability"]')
               .should('be.visible')
-              .select(disability['view:secondaryFollowUp'].causedByDisability);
+              .select(disability.causedByDisability);
 
             // Fill in the description
-            cy.get(
-              'textarea[id="root_view:secondaryFollowUp_causedByDisabilityDescription"]',
-            )
+            cy.get('textarea[id="root_causedByDisabilityDescription"]')
               .should('be.visible')
               .clear();
-            cy.get(
-              'textarea[id="root_view:secondaryFollowUp_causedByDisabilityDescription"]',
-            ).type(
-              disability['view:secondaryFollowUp']
-                .causedByDisabilityDescription,
+            cy.get('textarea[id="root_causedByDisabilityDescription"]').type(
+              disability.causedByDisabilityDescription,
             );
 
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -473,23 +466,21 @@ export const pageHooks = (cy, testOptions) => ({
             cy.get(`input[value="WORSENED"]`).click();
 
             // Fill in worsened description
-            cy.get(
-              'input[name="root_view:worsenedFollowUp_worsenedDescription"]',
-            )
+            cy.get('input[name="root_worsenedDescription"]')
               .should('be.visible')
               .clear();
 
-            cy.get(
-              'input[name="root_view:worsenedFollowUp_worsenedDescription"]',
-            ).type(disability['view:worsenedFollowUp'].worsenedDescription);
+            cy.get('input[name="root_worsenedDescription"]').type(
+              disability.worsenedDescription,
+            );
 
-            cy.get('textarea[id="root_view:worsenedFollowUp_worsenedEffects"]')
+            cy.get('textarea[id="root_worsenedEffects"]')
               .should('be.visible')
               .clear();
 
-            cy.get(
-              'textarea[id="root_view:worsenedFollowUp_worsenedEffects"]',
-            ).type(disability['view:worsenedFollowUp'].worsenedEffects);
+            cy.get('textarea[id="root_worsenedEffects"]').type(
+              disability.worsenedEffects,
+            );
 
             cy.findByText(/continue/i, { selector: 'button' }).click();
           } else if (disability.cause === 'VA') {
@@ -497,27 +488,25 @@ export const pageHooks = (cy, testOptions) => ({
             cy.get(`input[value="VA"]`).click();
 
             // Fill in VA mistreatment details
-            cy.get(
-              'textarea[id="root_view:vaFollowUp_vaMistreatmentDescription"]',
-            )
+            cy.get('textarea[id="root_vaMistreatmentDescription"]')
               .should('be.visible')
               .clear();
-            cy.get(
-              'textarea[id="root_view:vaFollowUp_vaMistreatmentDescription"]',
-            ).type(disability['view:vaFollowUp'].vaMistreatmentDescription);
+            cy.get('textarea[id="root_vaMistreatmentDescription"]').type(
+              disability.vaMistreatmentDescription,
+            );
 
-            cy.get('input[id="root_view:vaFollowUp_vaMistreatmentLocation"]')
+            cy.get('input[id="root_vaMistreatmentLocation"]')
               .should('be.visible')
               .clear();
-            cy.get(
-              'input[id="root_view:vaFollowUp_vaMistreatmentLocation"]',
-            ).type(disability['view:vaFollowUp'].vaMistreatmentLocation);
+            cy.get('input[id="root_vaMistreatmentLocation"]').type(
+              disability.vaMistreatmentLocation,
+            );
 
-            cy.get('input[id="root_view:vaFollowUp_vaMistreatmentDate"]')
+            cy.get('input[id="root_vaMistreatmentDate"]')
               .should('be.visible')
               .clear();
-            cy.get('input[id="root_view:vaFollowUp_vaMistreatmentDate"]').type(
-              disability['view:vaFollowUp'].vaMistreatmentDate,
+            cy.get('input[id="root_vaMistreatmentDate"]').type(
+              disability.vaMistreatmentDate,
             );
 
             cy.findByText(/continue/i, { selector: 'button' }).click();

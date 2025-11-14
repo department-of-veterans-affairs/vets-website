@@ -131,9 +131,7 @@
       },
       {
         "cause": "SECONDARY",
-        "view:secondaryFollowUp": {
-          "causedByDisability": "Asthma"
-        },
+        "causedByDisability": "Asthma",
         "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
         "view:descriptionInfo": {}
       },
@@ -144,10 +142,8 @@
       },
       {
         "cause": "VA",
-        "view:vaFollowUp": {
-          "vaMistreatmentLocation": "Somewhereville",
-          "vaMistreatmentDate": "A while ago"
-        },
+        "vaMistreatmentLocation": "Somewhereville",
+        "vaMistreatmentDate": "A while ago",
         "condition": "heart attack (myocardial infarction)",
         "view:descriptionInfo": {}
       }
