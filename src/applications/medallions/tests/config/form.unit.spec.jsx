@@ -42,12 +42,12 @@ describe('formConfig', () => {
     expect(formConfig.subTitle).to.exist;
   });
 
-  it('should have chapters for veteranInformation, veteranServicePeriods, burialInformation, memorialItems, supportingDocuments', () => {
+  it('should have chapters for veteranInformation, veteranServicePeriods, burialInformation, typeOfRequest, supportingDocuments', () => {
     [
       'veteranInformation',
       'veteranServicePeriods',
       'burialInformation',
-      'memorialItems',
+      'typeOfRequest',
       'supportingDocuments',
     ].forEach(chapter => {
       expect(formConfig.chapters).to.have.property(chapter);
@@ -215,6 +215,38 @@ describe('medallions formConfig depends logic (relationToVetRadio)', () => {
         { formData: { veteranDemoYesNo: true }, expected: true },
         { formData: { veteranDemoYesNo: false }, expected: false },
         { formData: {}, expected: undefined },
+      ],
+    },
+    {
+      chapter: 'typeOfRequest',
+      page: 'replacementMedallionReason',
+      depends:
+        formConfig.chapters.typeOfRequest.pages.replacementMedallionReason
+          .depends,
+      scenarios: [
+        { formData: { typeOfRequestRadio: 'replacement' }, expected: true },
+        { formData: { typeOfRequestRadio: 'new' }, expected: false },
+        { formData: {}, expected: false },
+      ],
+    },
+    {
+      chapter: 'typeOfRequest',
+      page: 'typeOfMedallion',
+      depends: formConfig.chapters.typeOfRequest.pages.typeOfMedallion.depends,
+      scenarios: [
+        { formData: { typeOfRequestRadio: 'new' }, expected: true },
+        { formData: { typeOfRequestRadio: 'replacement' }, expected: false },
+        { formData: {}, expected: false },
+      ],
+    },
+    {
+      chapter: 'typeOfRequest',
+      page: 'medallionSize',
+      depends: formConfig.chapters.typeOfRequest.pages.medallionSize.depends,
+      scenarios: [
+        { formData: { typeOfRequestRadio: 'new' }, expected: true },
+        { formData: { typeOfRequestRadio: 'replacement' }, expected: false },
+        { formData: {}, expected: false },
       ],
     },
   ];
