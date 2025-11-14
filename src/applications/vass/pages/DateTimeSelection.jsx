@@ -87,14 +87,16 @@ const DateTimeSelection = () => {
 
   return (
     <Wrapper pageTitle="What date and time do you want for this appointment?">
-      <p id="calendar-help-text">
-        Select an available date and time from the calendar below. Appointment
-        times are displayed in [Time Zone] [(TZ)].
-      </p>
-      <p>
-        <strong>Note:</strong> Available dates are shown for the next 2 weeks,
-        and weekends are unavailable.
-      </p>
+      <div data-testid="content">
+        <p>
+          Select an available date and time from the calendar below. Appointment
+          times are displayed in [Time Zone] [(TZ)].
+        </p>
+        <p>
+          <strong>Note:</strong> Available dates are shown for the next 2 weeks,
+          and weekends are unavailable.
+        </p>
+      </div>
 
       <CalendarWidget
         maxSelections={1}
@@ -118,7 +120,11 @@ const DateTimeSelection = () => {
         showWeekends
         overrideMaxDays
       />
-      <va-button continue onClick={handleContinue} />
+      <va-button
+        data-testid="continue-button"
+        continue
+        onClick={handleContinue}
+      />
     </Wrapper>
   );
 };
