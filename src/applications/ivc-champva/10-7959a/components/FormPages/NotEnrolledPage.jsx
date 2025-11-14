@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   CHAMPVA_FAX_NUMBER,
   CHAMPVA_PHONE_NUMBER,
@@ -9,17 +8,21 @@ import { APP_URLS } from '../../utils/appUrls';
 import { VaLinkAction, CONTACTS } from '../../utils/imports';
 import { ChampVaClaimsAddress } from '../ChampVaClaimsAddress';
 
-const NotEnrolledPage = ({ goBack }) => (
-  <>
-    <h2>
-      Don’t submit a claim until after you get your enrollment packet in the
-      mail
-    </h2>
+const NotEnrolledPage = () => (
+  <form className="rjsf" noValidate>
+    {
+      titleUI(
+        'Don’t submit a claim until after you get your enrollment packet in the mail',
+      )['ui:title']
+    }
 
-    <h3>If you already applied for CHAMPVA benefits</h3>
+    <h2 className="mobile-lg:vads-u-font-size--h3 vads-u-font-size--h4">
+      If you already applied for CHAMPVA benefits
+    </h2>
     <p>
-      You don’t need to do anything while you wait. If we need more information
-      from you during this time, we’ll contact you.
+      You don’t need to do anything while you wait. It currently takes us about
+      14 days to process an application. If we need more information from you
+      during this time, we’ll contact you.
     </p>
     <p>
       If you have questions about the status of your application, call us at{' '}
@@ -41,7 +44,9 @@ const NotEnrolledPage = ({ goBack }) => (
       CHAMPVA ID card.
     </va-additional-info>
 
-    <h3>If you haven’t applied for CHAMPVA benefits</h3>
+    <h2 className="mobile-lg:vads-u-font-size--h3 vads-u-font-size--h4">
+      If you haven’t applied for CHAMPVA benefits
+    </h2>
     <p>
       You can apply online, by mail, or by fax. Make sure to submit the required
       supporting documents with your application.
@@ -53,11 +58,15 @@ const NotEnrolledPage = ({ goBack }) => (
       />
     </p>
 
-    <h4>Option 1: Online</h4>
+    <h3 className="mobile-lg:vads-u-font-size--h4 vads-u-font-size--h5">
+      Option 1: Online
+    </h3>
     <p>You can apply online now.</p>
     <VaLinkAction href={APP_URLS['1010d']} text="Apply for CHAMPVA online" />
 
-    <h4>Option 2: By mail or fax</h4>
+    <h3 className="mobile-lg:vads-u-font-size--h4 vads-u-font-size--h5">
+      Option 2: By mail or fax
+    </h3>
     <p>
       You’ll need to fill out an application for CHAMPVA Benefits (VA Form
       10-10d).
@@ -79,22 +88,7 @@ const NotEnrolledPage = ({ goBack }) => (
         text="Learn about CHAMPVA benefits"
       />
     </p>
-
-    <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-      <div className="small-6 medium-5 columns">
-        <ProgressButton
-          buttonClass="usa-button-secondary"
-          onButtonClick={goBack}
-          buttonText="Back"
-          beforeText="«"
-        />
-      </div>
-    </div>
-  </>
+  </form>
 );
-
-NotEnrolledPage.propTypes = {
-  goBack: PropTypes.func,
-};
 
 export default NotEnrolledPage;

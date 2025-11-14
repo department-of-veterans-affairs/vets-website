@@ -11,7 +11,7 @@ const mockUser = require('./e2e/user.json');
 const mockVaFileNumber = require('./e2e/fixtures/va-file-number.json');
 const mockMaxData = require('./e2e/fixtures/picklist.json');
 
-const returnUrl = '/options-selection/remove-active-dependents'; // '/review-and-submit';
+const returnUrl = '/review-and-submit';
 
 const createDate = (yearsAgo = 0, monthsAgo = 0, formatDate = 'MM/dd/yyyy') =>
   dateFns.format(
@@ -59,6 +59,14 @@ const mockDependents = {
   data: {
     attributes: {
       persons: [
+        {
+          firstName: 'JOE',
+          lastName: 'FOSTER',
+          dateOfBirth: createDate(19),
+          ssn: '793473468',
+          relationshipToVeteran: 'Child',
+          awardIndicator: 'Y',
+        },
         {
           firstName: 'PENNY',
           lastName: 'FOSTER',

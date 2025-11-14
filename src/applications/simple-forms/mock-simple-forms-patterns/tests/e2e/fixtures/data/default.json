@@ -142,6 +142,8 @@
     "formsPatternOtherField": "Test",
     "arrayBuilderPatternFlowType": "optional",
     "arrayBuilderPatternInteractionType": "yesNoQuestion",
+    "arrayBuilderItemPages": "complex",
+    "arrayBuilderSummaryIntroVariation": "A",
     "exampleArrayOne": [
       {
         "facilityName": "facility a",
@@ -203,6 +205,6 @@
       "error": null
     },
     "wcv3ServiceBranchDefault": "NAVY",
-    "wcv3ServiceBranchCustom": "ARMY"
+    "wcv3ServiceBranchCustom": "CG"
   }
 }

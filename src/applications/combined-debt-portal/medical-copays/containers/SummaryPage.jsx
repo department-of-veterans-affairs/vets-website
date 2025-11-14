@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { uniqBy } from 'lodash';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaBreadcrumbs,
+  VaPagination,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import {
   setPageFocus,
@@ -59,7 +62,7 @@ const renderOtherVA = (debtLength, debtError) => {
   if (debtError) {
     return (
       <>
-        <h2>Your other VA debts</h2>
+        <h2>Overpayment balances</h2>
         <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
           <h3 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
@@ -111,6 +114,37 @@ const OverviewPage = () => {
     setPageFocus('h1');
   }, []);
 
+  const MAX_ROWS = 10;
+
+  function paginate(array, pageSize, pageNumber) {
+    return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+  }
+
+  const [currentData, setCurrentData] = useState(
+    paginate(statementsByUniqueFacility, MAX_ROWS, 1),
+  );
+  const [currentPage, setCurrentPage] = useState(1);
+
+  function onPageChange(page) {
+    setCurrentData(paginate(statementsByUniqueFacility, MAX_ROWS, page));
+    setCurrentPage(page);
+  }
+
+  const numPages = Math.ceil(statementsByUniqueFacility.length / MAX_ROWS);
+
+  const renderVaPagination = () => {
+    if (statementsByUniqueFacility.length > MAX_ROWS) {
+      return (
+        <VaPagination
+          onPageSelect={e => onPageChange(e.detail.page)}
+          page={currentPage}
+          pages={numPages}
+        />
+      );
+    }
+    return null;
+  };
+
   if (debtLoading || mcpLoading || togglesLoading) {
     return (
       <div className="vads-u-margin--5">
@@ -140,9 +174,10 @@ const OverviewPage = () => {
     return showOneThingPerPage || showVHAPaymentHistory ? (
       <article className="vads-u-padding-x--0 vads-u-padding-bottom--0">
         <Balances
-          statements={statementsByUniqueFacility}
+          statements={currentData}
           showVHAPaymentHistory={showVHAPaymentHistory}
         />
+        {renderVaPagination()}
         {renderOtherVA(debts?.length, debtError)}
         <NeedHelpCopay />
       </article>
@@ -150,9 +185,10 @@ const OverviewPage = () => {
       <article className="vads-u-padding-x--0">
         <va-on-this-page />
         <Balances
-          statements={statementsByUniqueFacility}
+          statements={currentData}
           showVHAPaymentHistory={showVHAPaymentHistory}
         />
+        {renderVaPagination()}
         {renderOtherVA(debts?.length, debtError)}
         <HowToPay isOverview />
         <FinancialHelp />
@@ -172,7 +208,7 @@ const OverviewPage = () => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
           {
             href: '/manage-va-debt/summary/copay-balances',

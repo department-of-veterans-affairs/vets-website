@@ -1,4 +1,9 @@
 /**
+ **** BENEFIT TYPES ****
+ */
+export const DEFAULT_BENEFIT_TYPE = 'compensation';
+
+/**
  **** KEYS ****
  */
 // key for contestableIssues to indicate that the user selected the issue

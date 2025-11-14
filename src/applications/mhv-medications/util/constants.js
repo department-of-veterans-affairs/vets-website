@@ -329,4 +329,24 @@ export const REFILL_STATUS = {
   ERROR: 'error',
 };
 
+export const DATETIME_FORMATS = {
+  longMonthDate: 'MMMM d, yyyy',
+  filename: 'M-d-yyyy_hmmssa',
+};
+
 export const MEDS_BY_MAIL_FACILITY_ID = '741MM';
+
+export const RX_SOURCE = {
+  PARTIAL_FILL: 'PF',
+  VA: 'VA',
+  NON_VA: 'NV',
+  PENDING_DISPENSE: 'PD',
+};
+
+export const DISPENSE_STATUS = {
+  NEW_ORDER: 'NewOrder',
+  RENEW: 'Renew',
+  ACTIVE: 'Active',
+  ACTIVE_SUBMITTED: 'Active: Submitted',
+  ACTIVE_REFILL_IN_PROCESS: 'Active: Refill in Process',
+};

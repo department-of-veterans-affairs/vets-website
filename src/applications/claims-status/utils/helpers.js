@@ -1184,12 +1184,46 @@ export const sentenceCase = str => {
     : '';
 };
 
+// Handles server-generated claim titles (cst_use_claim_title_generator_web feature flag).
+// When backend flag is ON, both displayTitle and claimTypeBase will be present.
+//   - List/detail: uses displayTitle directly
+//   - Breadcrumb/document: composes using claimTypeBase with tab name and date
+export function generateServerClaimTitle(claim, placement, tab) {
+  const { displayTitle, claimTypeBase, claimDate } = claim.attributes;
+
+  // For list/detail views: use displayTitle directly (already formatted by backend)
+  if (!placement || placement === 'detail') {
+    return displayTitle;
+  }
+
+  // For breadcrumb/document: compose using claimTypeBase
+  const tabPrefix = `${tab} ${tab === 'Files' ? 'for' : 'of'}`;
+
+  if (placement === 'breadcrumb') {
+    return `${tabPrefix} your ${claimTypeBase}`;
+  }
+
+  if (placement === 'document') {
+    const formattedDate = buildDateFormatter()(claimDate);
+    return titleCase(`${tabPrefix} ${formattedDate} ${claimTypeBase}`);
+  }
+
+  // Fallback to displayTitle for any unexpected placement
+  return displayTitle;
+}
+
 // Returns a title for a claim for the specified placement:
 //   'detail' for the heading on the single page view
 //   'breadcrumb' for the breadcrumbs on the single page view
 //   'document' for the browser tab title on the single page view
 //   the default return is for the list view (card heading)
 export const generateClaimTitle = (claim, placement, tab) => {
+  // Check if server provides title fields (feature flag ON)
+  if (claim?.attributes?.displayTitle && claim?.attributes?.claimTypeBase) {
+    return generateServerClaimTitle(claim, placement, tab);
+  }
+
+  // Legacy client-side title generation (feature flag OFF)
   // This will default to 'disability compensation'
   const claimType = getClaimType(claim).toLowerCase();
   const isRequestToAddOrRemoveDependent = addOrRemoveDependentClaimTypeCodes.includes(

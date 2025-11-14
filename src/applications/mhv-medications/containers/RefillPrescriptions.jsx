@@ -17,8 +17,11 @@ import {
 } from '../api/prescriptionsApi';
 
 import { dateFormat } from '../util/helpers';
-import { selectRefillProgressFlag } from '../util/selectors';
-import { SESSION_SELECTED_PAGE_NUMBER, REFILL_STATUS } from '../util/constants';
+import {
+  DATETIME_FORMATS,
+  SESSION_SELECTED_PAGE_NUMBER,
+  REFILL_STATUS,
+} from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -89,7 +92,6 @@ const RefillPrescriptions = () => {
 
   // Get refillable list from RTK Query result
   const fullRefillList = refillableData?.prescriptions || [];
-  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
@@ -207,15 +209,12 @@ const RefillPrescriptions = () => {
         >
           Refill prescriptions
         </h1>
-        {showRefillProgressContent &&
-          refillAlertList.length > 0 && (
-            <DelayedRefillAlert
-              dataDogActionName={
-                dataDogActionNames.refillPage.REFILL_ALERT_LINK
-              }
-              refillAlertList={refillAlertList}
-            />
-          )}
+        {refillAlertList.length > 0 && (
+          <DelayedRefillAlert
+            dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
+            refillAlertList={refillAlertList}
+          />
+        )}
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
@@ -298,7 +297,7 @@ const RefillPrescriptions = () => {
                             ? `Last filled on ${dateFormat(
                                 prescription.sortedDispensedDate ||
                                   prescription.dispensedDate,
-                                'MMMM D, YYYY',
+                                DATETIME_FORMATS.longMonthDate,
                               )}`
                             : 'Not filled yet'
                         }
@@ -352,9 +351,7 @@ const RefillPrescriptions = () => {
                 Go to your medications list
               </Link>
             </p>
-            {showRefillProgressContent && (
-              <ProcessList stepGuideProps={stepGuideProps} />
-            )}
+            <ProcessList stepGuideProps={stepGuideProps} />
             <NeedHelp page={pageType.REFILL} />
           </>
         )}

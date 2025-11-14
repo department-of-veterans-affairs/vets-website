@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
+import { selectVAPContactInfo } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { AUTHN_SETTINGS } from '@department-of-veterans-affairs/platform-user/exports';
 import SuccessConfirm from '../components/alerts/SuccessConfirm';
@@ -18,15 +18,16 @@ export default function EmailConfirmationInterstitial() {
     }
   }, []);
 
-  const { emailAddress = 'No email provided', id } = useSelector(
-    selectUser,
-  ).vet360ContactInformation?.email;
+  const vapContactInfo = useSelector(selectVAPContactInfo);
+  const emailAddress =
+    vapContactInfo?.email?.emailAddress || 'No email provided';
+  const id = vapContactInfo?.email?.id;
 
   const returnUrl =
     sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '/my-va';
 
   const handleConfirmation = () => {
-    apiRequest('/v0/profile/email_addresses', {
+    apiRequest('/profile/email_addresses', {
       method: 'PUT',
       body: JSON.stringify({
         id,
