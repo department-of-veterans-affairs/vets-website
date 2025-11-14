@@ -5,3 +5,11 @@
 .vass-flex-direction--column {
   flex-direction: column;
 }
+
+span.vass-usa-label--required {
+  color: var(--vads-color-secondary-dark);
+  font-size: 1.06rem;
+  line-height: 1.3;
+  font-weight: normal;
+  font-family: "Source Sans Pro", sans-serif;
+}
