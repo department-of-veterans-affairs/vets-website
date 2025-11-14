@@ -165,6 +165,7 @@ src/applications/ivc-champva @department-of-veterans-affairs/health-apps-fronten
 # Healthcare Experience
 
 src/applications/check-in @department-of-veterans-affairs/patient-check-in @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/vass @department-of-veterans-affairs/patient-check-in @department-of-veterans-affairs/va-platform-cop-frontend
 
 # IIR
 
