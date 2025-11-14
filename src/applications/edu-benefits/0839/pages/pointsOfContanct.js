@@ -36,7 +36,7 @@ export const uiSchema = {
     email: emailUI('Email'),
     roles: checkboxGroupUI({
       title: "What is this person's role?",
-      description: 'Select all that apply',
+      hint: 'Select all that apply',
       required: true,
       labels: {
         isYellowRibbonProgramPointOfContact:
