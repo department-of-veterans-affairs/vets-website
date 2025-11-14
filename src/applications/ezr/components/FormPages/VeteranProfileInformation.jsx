@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { genderLabels } from 'platform/static-data/labels';
 import { maskSSN, normalizeFullName } from '../../utils/helpers/general';
-import { APP_URLS } from '../../utils/constants';
+import { APP_URLS } from '../../utils/appUrls';
+import { CONTACTS } from '../../utils/imports';
 
 const VeteranProfileInformation = ({
   goBack,
