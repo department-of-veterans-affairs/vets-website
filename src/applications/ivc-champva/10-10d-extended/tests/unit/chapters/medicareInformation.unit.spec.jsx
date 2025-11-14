@@ -106,13 +106,13 @@ describe('getEligibleApplicantsWithoutMedicare', () => {
   it('should return list of applicants not assigned to a Medicare plan', () => {
     const applicantData = {
       applicants: [
-        { applicantSSN: '123123123' },
-        { applicantSSN: '321321321' },
+        { applicantSsn: '123123123' },
+        { applicantSsn: '321321321' },
       ],
       medicare: [{ medicareParticipant: '274d8b67cb72' }], // result derived from `toHash(123123123)`
     };
     const res = getEligibleApplicantsWithoutMedicare(applicantData);
     expect(res).to.have.length(1);
-    expect(res[0].applicantSSN).to.eq('321321321');
+    expect(res[0].applicantSsn).to.eq('321321321');
   });
 });
