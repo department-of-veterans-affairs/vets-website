@@ -1,13 +1,48 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import DateTimeSelection from './DateTimeSelection';
 
 describe('VASS Component: DateTimeSelection', () => {
-  it('should render page title', () => {
-    const screen = render(<DateTimeSelection />);
+  const renderComponent = () =>
+    renderWithStoreAndRouterV6(<DateTimeSelection />, { initialState: {} });
 
-    expect(screen.getByTestId('header')).to.exist;
+  it('should render main content', () => {
+    const screen = renderComponent();
+    expect(screen.getByTestId('content')).to.exist;
+  });
+
+  it('should render continue button', () => {
+    const screen = renderComponent();
+    expect(screen.getByTestId('continue-button')).to.exist;
+  });
+
+  it('should prevent navigation when no date/time selected and continue button clicked', async () => {
+    const screen = renderComponent();
+    const continueButton = screen.getByTestId('continue-button');
+
+    await userEvent.click(continueButton);
+
+    // Validation error should be displayed
+    await waitFor(() => {
+      expect(screen.queryByText(/Please select a preferred date and time/)).to
+        .exist;
+    });
+  });
+
+  it('should have continue button with correct attributes', () => {
+    const screen = renderComponent();
+    const continueButton = screen.getByTestId('continue-button');
+
+    expect(continueButton).to.have.attribute('continue');
+  });
+
+  it('should render calendar widget for date selection', () => {
+    const screen = renderComponent();
+    // The CalendarWidget component should be present
+    expect(screen.getByTestId('vaos-calendar')).to.exist;
   });
 });
