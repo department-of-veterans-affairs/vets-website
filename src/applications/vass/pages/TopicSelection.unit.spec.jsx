@@ -1,28 +1,23 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom-v5-compat';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import TopicSelection from './TopicSelection';
 import { topics } from '../services/Topic/topic';
 
 describe('VASS Component: TopicSelection', () => {
   it('should render page title', () => {
-    const screen = render(
-      <MemoryRouter>
-        <TopicSelection />
-      </MemoryRouter>,
-    );
+    const screen = renderWithStoreAndRouter(<TopicSelection />, {
+      initialState: {},
+    });
 
     expect(screen.getByTestId('header')).to.exist;
   });
 
   it('should render the checkbox group label', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <TopicSelection />
-      </MemoryRouter>,
-    );
+    const { container } = renderWithStoreAndRouter(<TopicSelection />, {
+      initialState: {},
+    });
     const checkboxGroup = container.querySelector('va-checkbox-group');
 
     expect(checkboxGroup).to.exist;
@@ -32,22 +27,18 @@ describe('VASS Component: TopicSelection', () => {
   });
 
   it('should render all topic checkboxes', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <TopicSelection />
-      </MemoryRouter>,
-    );
+    const { container } = renderWithStoreAndRouter(<TopicSelection />, {
+      initialState: {},
+    });
     const checkboxes = container.querySelectorAll('va-checkbox');
 
     expect(checkboxes.length).to.equal(topics.length);
   });
 
   it('should render specific topic checkboxes', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <TopicSelection />
-      </MemoryRouter>,
-    );
+    const { container } = renderWithStoreAndRouter(<TopicSelection />, {
+      initialState: {},
+    });
     const checkboxes = container.querySelectorAll('va-checkbox');
     const labels = Array.from(checkboxes).map(cb => cb.getAttribute('label'));
 
@@ -57,11 +48,9 @@ describe('VASS Component: TopicSelection', () => {
   });
 
   it('should render Back button', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <TopicSelection />
-      </MemoryRouter>,
-    );
+    const { container } = renderWithStoreAndRouter(<TopicSelection />, {
+      initialState: {},
+    });
     const buttons = container.querySelectorAll('va-button');
     const backButton = Array.from(buttons).find(
       button => button.getAttribute('text') === 'Back',
@@ -73,11 +62,9 @@ describe('VASS Component: TopicSelection', () => {
   });
 
   it('should render Continue button', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <TopicSelection />
-      </MemoryRouter>,
-    );
+    const { container } = renderWithStoreAndRouter(<TopicSelection />, {
+      initialState: {},
+    });
     const buttons = container.querySelectorAll('va-button');
     const continueButton = Array.from(buttons).find(
       button => button.getAttribute('text') === 'Continue',
