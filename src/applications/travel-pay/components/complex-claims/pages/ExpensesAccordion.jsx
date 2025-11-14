@@ -94,6 +94,8 @@ const ExpensesAccordion = ({
     <va-accordion>
       {groupAccordionItemsByType ? (
         // Multiple accordion items (one per type)
+        // Edit and Delete expense buttons show on the expense card
+        // Add expense button is displayed per accordian item (expect for mileage expense types)
         expenseEntries.map(([type, expensesList]) => (
           <va-accordion-item
             key={type}
@@ -104,6 +106,7 @@ const ExpensesAccordion = ({
         ))
       ) : (
         // Single accordion item with grouped sections inside
+        // Expense cards are organized by type and each type has a header that is displayed
         <va-accordion-item header="Submitted expenses" bordered>
           {expenseEntries.map(([type, expensesList]) =>
             renderExpenseGroup(type, expensesList, false, true, false),
