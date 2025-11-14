@@ -34,5 +34,5 @@ export default function App({ virtualAgentEnableParamErrorDetection }) {
 }
 
 App.propTypes = {
-  virtualAgentEnableParamErrorDetection: PropTypes.bool.isRequired,
+  virtualAgentEnableParamErrorDetection: PropTypes.bool,
 };
