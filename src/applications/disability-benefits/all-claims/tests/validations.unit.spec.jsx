@@ -26,7 +26,6 @@ import {
   title10BeforeRad,
   validateTitle10StartDate,
   requireRatedDisability,
-  hasTrainingPay,
   isValidZIP,
   validateZIP,
   limitNewDisabilities,
@@ -40,19 +39,6 @@ const formatDate = date => format(date, 'yyyy-MM-dd');
 const daysFromToday = days => formatDate(add(new Date(), { days }));
 
 describe('526 All Claims validations', () => {
-  describe('hasTrainingPay', () => {
-    it('returns true when form data has training pay', () => {
-      const formData = {
-        'view:hasTrainingPay': true,
-      };
-      expect(hasTrainingPay(formData)).to.be.true;
-    });
-
-    it('returns false when form data does not have training pay', () => {
-      expect(hasTrainingPay({})).to.be.false;
-    });
-  });
-
   describe('isValidZIP', () => {
     it('returns true for valid 5 digit zip', () => {
       expect(isValidZIP(12345)).to.be.true;
