@@ -63,7 +63,7 @@ function transformApplicants(applicants = []) {
   return applicants.map(applicant => {
     const transformedApplicant = {
       ...applicant,
-      ssnOrTin: applicant.applicantSSN ?? '',
+      ssnOrTin: applicant.applicantSsn ?? '',
       vetRelationship: extractRelationship(
         applicant.applicantRelationshipToSponsor || 'NA',
       ),
@@ -100,7 +100,7 @@ function mapHealthInsuranceToApplicants(
     result.applicants
       .filter(
         applicant =>
-          plan.medicareParticipant === toHash(applicant.applicantSSN),
+          plan.medicareParticipant === toHash(applicant.applicantSsn),
       )
       .forEach(applicant => {
         // Initialize Medicare array if it doesn't exist
@@ -128,7 +128,7 @@ function mapHealthInsuranceToApplicants(
 
     result.applicants
       .filter(applicant =>
-        participantHashes.includes(toHash(applicant.applicantSSN)),
+        participantHashes.includes(toHash(applicant.applicantSsn)),
       )
       .forEach(applicant => {
         // Initialize health insurance array
@@ -205,17 +205,6 @@ function collectSupportingDocuments(data) {
  * @returns {string} JSON string of transformed data
  */
 export default function transformForSubmit(formConfig, form) {
-  /* 
-  Remove view:applicantSSNArray BEFORE attempting to transform for submit:
-  In Cypress tests, this array sometimes has items which are undefined,
-  which throws an error in the formSystem `filterViewFields` method. Removing
-  before we get to that point seems to fix the issue. This problem has not
-  been observed outside of Cypress. 
-  */
-  // eslint-disable-next-line no-param-reassign
-  form?.data?.applicants?.forEach(a => delete a['view:applicantSSNArray']);
-
-  // delete form.data.['view:applicantSSNArray']
   const initialTransform = JSON.parse(
     formsSystemTransformForSubmit(formConfig, form),
   );

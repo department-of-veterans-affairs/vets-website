@@ -29,7 +29,7 @@ import {
   otherRecipientRelationshipTypeUI,
   updatedRecipientNameRequired,
   requireExpandedArrayField,
-  resolveRecipientFullName,
+  updatedResolveRecipientFullName,
   sharedRecipientRelationshipBase,
   showUpdatedContent,
   sharedYesNoOptionsBase,
@@ -74,7 +74,7 @@ export const options = {
       if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
         return undefined;
       }
-      const fullName = resolveRecipientFullName(item, formData);
+      const fullName = updatedResolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
       return `${possessiveName} income from ${item.payer}`;
     },
