@@ -143,10 +143,15 @@ export const getMhvRadiologyDetails = async id => {
   return findMatchingPhrAndCvixStudies(id, phrResponse, cvixResponse);
 };
 
-export const getAcceleratedNotes = async () => {
-  return apiRequest(`${API_BASE_PATH_V2}/medical_records/clinical_notes`, {
-    headers,
-  });
+export const getAcceleratedNotes = async ({ startDate, endDate } = {}) => {
+  const startDateParam = `?start_date=${startDate}`;
+  const endDateParam = `&end_date=${endDate}`;
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/clinical_notes${startDateParam}${endDateParam}`,
+    {
+      headers,
+    },
+  );
 };
 
 export const getNotes = async () => {
@@ -155,6 +160,8 @@ export const getNotes = async () => {
   });
 };
 
+// TODO: this will fail until upstream API supports fetching a single note
+// due to inability to determine original date range
 export const getAcceleratedNote = async id => {
   return apiRequest(
     `${API_BASE_PATH_V2}/medical_records/clinical_notes/${id}`,
