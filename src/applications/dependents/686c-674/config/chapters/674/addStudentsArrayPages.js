@@ -259,6 +259,10 @@ export const studentAddressPage = {
             const address = formData?.address;
             const cityStr = city?.trim().toUpperCase();
 
+            if (city?.length > 30) {
+              errors.addError('City must be 30 characters or less');
+            }
+
             if (
               address &&
               ['APO', 'FPO', 'DPO'].includes(cityStr) &&

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TrackedSpinner from '../../components/shared/TrackedSpinner';
+import { formatFacilityList } from '../../util/facilityHelpers';
 
 const DownloadSection = ({
   isLoading,
@@ -66,6 +67,8 @@ const CCDAccordionItemDual = ({
   generatingCCD,
   handleDownloadCCD,
   handleDownloadCCDV2,
+  vistaFacilityNames,
+  ohFacilityNames,
 }) => (
   <va-accordion-item bordered data-testid="ccdAccordionItem">
     <h3 slot="headline">Continuity of Care Document for non-VA providers</h3>
@@ -76,11 +79,8 @@ const CCDAccordionItemDual = ({
       used to call this report your VA Health Summary.
     </p>
 
-    <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-      Your VA Medical Records (Legacy System)
-    </h4>
-    <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-      Download your complete VistA medical record.
+    <p className="vads-u-font-weight--bold">
+      CCD: medical records from {formatFacilityList(vistaFacilityNames)}
     </p>
 
     <div className="vads-u-margin-bottom--4">
@@ -92,11 +92,8 @@ const CCDAccordionItemDual = ({
       />
     </div>
 
-    <h4 className="vads-u-margin-top--2 vads-u-margin-bottom--1">
-      Your VA Medical Records (Oracle Health)
-    </h4>
-    <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-      Download your Oracle Health record. This includes partial VistA data.
+    <p className="vads-u-font-weight--bold">
+      CCD: medical records from {formatFacilityList(ohFacilityNames)}
     </p>
 
     <DownloadSection
@@ -112,6 +109,8 @@ CCDAccordionItemDual.propTypes = {
   generatingCCD: PropTypes.bool,
   handleDownloadCCD: PropTypes.func,
   handleDownloadCCDV2: PropTypes.func,
+  ohFacilityNames: PropTypes.arrayOf(PropTypes.string),
+  vistaFacilityNames: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default CCDAccordionItemDual;

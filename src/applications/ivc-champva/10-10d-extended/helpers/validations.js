@@ -1,6 +1,99 @@
 import { isAfter, isBefore, isValid } from 'date-fns';
+import { isValidSSN } from 'platform/forms-system/src/js/utilities/validations';
 import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms/validations';
+import content from '../locales/en/content.json';
+
+const ERR_SSN_UNIQUE = content['validation--ssn-unique'];
+const ERR_SSN_INVALID = content['validation--ssn-invalid'];
+
+const normalizeSSN = val => String(val ?? '').replace(/\D/g, '');
+
+const getCurrentItemIndex = () => {
+  try {
+    const pathname = window?.location?.pathname || '';
+    const match = pathname.match(/\/(\d+)(?:\?|$)/);
+    return match ? parseInt(match[1], 10) : null;
+  } catch {
+    return null;
+  }
+};
+
+/**
+ * Analyzes SSN matches between sponsor and applicants in form data.
+ *
+ * @param {Object} fullData - The complete form data object
+ * @param {string} fullData.sponsorSsn - The sponsor's Social Security Number
+ * @param {Array} fullData.applicants - Array of applicant objects
+ * @param {string} fullData.applicants[].applicantSsn - Each applicant's Social Security Number
+ * @param {string} current - The SSN to check for matches (normalized, digits only)
+ * @returns {Object} Match results
+ * @returns {boolean} returns.sponsorMatch - True if current SSN matches the sponsor's SSN
+ * @returns {number} returns.applicantMatches - Count of applicants with matching SSN
+ * @returns {number|null} returns.currentIndex - The current array index, if the URL param exists
+ */
+const getSsnMatches = (fullData, current) => {
+  const currentIndex = getCurrentItemIndex();
+  const sponsor = normalizeSSN(fullData?.sponsorSsn);
+  const applicants = (fullData?.applicants ?? [])
+    .map(a => normalizeSSN(a?.applicantSsn))
+    .filter(Boolean);
+
+  const sponsorMatch = sponsor === current;
+  const applicantMatches = applicants.filter(
+    (ssn, index) =>
+      ssn === current && (currentIndex === null || index !== currentIndex),
+  ).length;
+
+  return { sponsorMatch, applicantMatches, currentIndex };
+};
+
+/**
+ * Validates that an SSN is valid and unique among all form participants.
+ *
+ * @param {Object} options
+ * @param {Object} options.errors - The validation errors object to add errors to
+ * @param {string} options.fieldData - The SSN field data to validate
+ * @param {Object} options.fullData - The complete form data for cross-reference checking
+ * @param {boolean} [options.isSponsor=false] - Whether this is validating the sponsor's SSN
+ */
+const validateUniqueSsn = ({
+  errors,
+  fieldData,
+  fullData,
+  isSponsor = false,
+} = {}) => {
+  const current = normalizeSSN(fieldData);
+  if (!current) return;
+
+  if (!isValidSSN(current)) {
+    errors.addError(ERR_SSN_INVALID);
+    return;
+  }
+
+  const { sponsorMatch, applicantMatches, currentIndex } = getSsnMatches(
+    fullData,
+    current,
+  );
+
+  if (!isSponsor && sponsorMatch) {
+    errors.addError(ERR_SSN_UNIQUE);
+    return;
+  }
+
+  const duplicateThreshold = !isSponsor && currentIndex === null ? 1 : 0;
+  if (applicantMatches > duplicateThreshold) {
+    errors.addError(ERR_SSN_UNIQUE);
+  }
+};
+
+export const validateSponsorSsn = (errors, fieldData, fullData) => {
+  validateUniqueSsn({ errors, fieldData, fullData, isSponsor: true });
+};
+
+export const validateApplicantSsn = (errors, fieldData, fullData) => {
+  validateUniqueSsn({ errors, fieldData, fullData });
+};
 
 /**
  * Validates an applicant's date of marriage to sponsor is not before
@@ -294,7 +387,7 @@ const validateApplicantBasicFields = item => {
   const {
     applicantName,
     applicantDob,
-    applicantSSN,
+    applicantSsn,
     applicantGender: { gender } = {},
     applicantPhone,
     applicantAddress: { street, city, state } = {},
@@ -303,7 +396,7 @@ const validateApplicantBasicFields = item => {
 
   if (!applicantName?.first || !applicantName?.last) return true;
   if (!applicantDob) return true;
-  if (!applicantSSN) return true;
+  if (!applicantSsn) return true;
   if (!gender) return true;
   if (!applicantPhone) return true;
   if (!street || !city || !state) return true;

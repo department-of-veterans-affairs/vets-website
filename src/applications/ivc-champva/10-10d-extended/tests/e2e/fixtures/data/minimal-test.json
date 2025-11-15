@@ -11,7 +11,7 @@
           "last": "Alvin"
         },
         "applicantDob": "2003-01-04",
-        "applicantSSN": "345345345",
+        "applicantSsn": "345345345",
         "applicantAddress": {
           "street": "456 Circle St",
           "city": "Applicant",

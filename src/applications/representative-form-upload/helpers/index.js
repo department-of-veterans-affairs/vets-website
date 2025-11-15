@@ -108,11 +108,6 @@ export const onClickContinue = (props, setContinueClicked) => {
 export const getAlert = (props, continueClicked) => {
   const warnings = props.data?.uploadedFile?.warnings;
   const fileUploading = props.data?.uploadedFile?.name === 'uploading';
-  // omit 'wrong_form' until reliable form validation is done in vets-api
-  const wrongFormIndex = (warnings || []).indexOf('wrong_form');
-  if (wrongFormIndex > -1) {
-    warnings.splice(wrongFormIndex, 1);
-  }
   const formNumber = getFormNumber();
   if (warnings?.length > 0) {
     return FORM_UPLOAD_OCR_ALERT(formNumber, onCloseAlert, warnings);

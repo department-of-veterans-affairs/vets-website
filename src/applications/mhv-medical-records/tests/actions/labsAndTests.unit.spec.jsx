@@ -8,6 +8,7 @@ import {
   clearLabsAndTestDetails,
   getLabsAndTestsList,
   getLabsAndTestsDetails,
+  updateLabsAndTestDateRange,
 } from '../../actions/labsAndTests';
 
 describe('Get labs and tests action', () => {
@@ -76,5 +77,22 @@ describe('Clear labs and tests details action', () => {
         Actions.LabsAndTests.CLEAR_DETAIL,
       );
     });
+  });
+});
+
+describe('Update labs and tests date range action', () => {
+  it('should dispatch a set date range action with correct payload', () => {
+    const dispatch = sinon.spy();
+    const option = '6';
+    const fromDate = '2025-05-13';
+    const toDate = '2025-11-13';
+    return updateLabsAndTestDateRange(option, fromDate, toDate)(dispatch).then(
+      () => {
+        expect(dispatch.calledOnce).to.be.true;
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(Actions.LabsAndTests.SET_DATE_RANGE);
+        expect(action.payload).to.deep.equal({ option, fromDate, toDate });
+      },
+    );
   });
 });

@@ -12,7 +12,7 @@ export const NOT_SHARED = 'na';
 
 // declare static content
 const APPLICANT_SINGULAR = content['noun--applicant'];
-const ERROR_MSG_REQUIRED = content['error--required'];
+const ERROR_MSG_REQUIRED = content['validation--required'];
 const LABEL_TEXT = content['address-selection--label-text'];
 export const OPTION_NO_LABEL = content['address-selection--no-option'];
 export const OPTION_YES_LABEL = content['address-selection--yes-option'];

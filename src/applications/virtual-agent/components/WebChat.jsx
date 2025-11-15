@@ -9,6 +9,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 // Hooks
 import useDirectLine from '../hooks/useDirectline';
 import useWebChatStore from '../hooks/useWebChatStore';
+import useCharacterLimit from '../hooks/useCharacterLimit';
 
 // Event Listeners
 import clearBotSessionStorageEventListener from '../event-listeners/clearBotSessionStorageEventListener';
@@ -77,6 +78,10 @@ const WebChat = ({ code, webChatFramework }) => {
     TOGGLE_NAMES.virtualAgentChatbotSessionPersistenceEnabled,
   );
 
+  const isAIDisclaimerEnabled = useToggleValue(
+    TOGGLE_NAMES.virtualAgentShowAiDisclaimer,
+  );
+
   const store = useWebChatStore({
     createStore,
     code,
@@ -104,6 +109,8 @@ const WebChat = ({ code, webChatFramework }) => {
   );
 
   const directLine = useDirectLine(createDirectLine);
+
+  useCharacterLimit(isAIDisclaimerEnabled);
 
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
