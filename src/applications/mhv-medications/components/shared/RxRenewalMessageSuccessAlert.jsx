@@ -8,6 +8,7 @@ const RxRenewalMessageSuccessAlert = () => {
       status="success"
       visible
       className="vads-u-margin-bottom--3"
+      data-testid="rx-renewal-message-success-alert"
     >
       <h2 slot="headline">Message Sent</h2>
       <p>
