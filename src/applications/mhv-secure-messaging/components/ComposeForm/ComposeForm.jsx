@@ -18,6 +18,7 @@ import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
+import LockedCategoryDisplay from './LockedCategoryDisplay';
 import AttachmentsList from '../AttachmentsList';
 import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
@@ -1050,15 +1051,21 @@ const ComposeForm = props => {
                 }`}
               />
             ) : (
-              <CategoryInput
-                categories={categories}
-                category={category}
-                categoryError={categoryError}
-                setCategory={setCategory}
-                setCategoryError={setCategoryError}
-                setUnsavedNavigationError={setUnsavedNavigationError}
-                setNavigationError={setNavigationError}
-              />
+              <>
+                {isRxRenewalDraft ? (
+                  <LockedCategoryDisplay />
+                ) : (
+                  <CategoryInput
+                    categories={categories}
+                    category={category}
+                    categoryError={categoryError}
+                    setCategory={setCategory}
+                    setCategoryError={setCategoryError}
+                    setUnsavedNavigationError={setUnsavedNavigationError}
+                    setNavigationError={setNavigationError}
+                  />
+                )}
+              </>
             )}
           </div>
           <div className="compose-form-div">
