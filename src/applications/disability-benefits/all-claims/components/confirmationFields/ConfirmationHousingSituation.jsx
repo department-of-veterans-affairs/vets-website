@@ -100,4 +100,3 @@ ConfirmationHousingSituation.propTypes = {
   formData: PropTypes.object,
 };
 export default ConfirmationHousingSituation;
-
