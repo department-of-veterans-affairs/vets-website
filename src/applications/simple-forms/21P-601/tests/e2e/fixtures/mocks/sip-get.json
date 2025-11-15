@@ -1,43 +1,5 @@
 {
   "formData": {
-    "hasAlreadyFiled": false,
-    "hasUnpaidCreditors": false,
-    "veteranFullName": {
-      "first": "John",
-      "middle": "Michael",
-      "last": "Smith"
-    },
-    "veteranIdentification": {
-      "ssn": "123456789",
-      "vaFileNumber": "12345678"
-    },
-    "beneficiaryIsVeteran": false,
-    "beneficiaryFullName": {
-      "first": "Mary",
-      "middle": "Jane",
-      "last": "Smith"
-    },
-    "beneficiaryDateOfDeath": "2024-01-15",
-    "claimantFullName": {
-      "first": "Robert",
-      "middle": "Lee",
-      "last": "Johnson"
-    },
-    "claimantIdentification": {
-      "ssn": "987654321"
-    },
-    "claimantDateOfBirth": "1960-05-10",
-    "claimantAddress": {
-      "street": "123 Main Street",
-      "street2": "Apt 4B",
-      "city": "Arlington",
-      "state": "VA",
-      "country": "USA",
-      "postalCode": "22201"
-    },
-    "claimantPhone": "7035551234",
-    "claimantEmail": "robert.johnson@email.com",
-    "relationshipToDeceased": "spouse"
   },
   "metadata": {
     "version": 0,
