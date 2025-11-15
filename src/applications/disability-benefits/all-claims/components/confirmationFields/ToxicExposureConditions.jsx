@@ -43,4 +43,3 @@ ToxicExposureConditions.propTypes = {
   formData: PropTypes.object,
 };
 export default ToxicExposureConditions;
-
