@@ -227,7 +227,6 @@ export function PreSubmitSection(props) {
             ))}
         </div>
       )}
-      {saveFormLink}
     </>
   );
 }
