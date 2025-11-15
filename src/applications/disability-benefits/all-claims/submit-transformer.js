@@ -264,6 +264,13 @@ export function transform(formConfig, form) {
     return formData;
   };
 
+  const removeRedundantRetirementPayQuestion = formData => {
+    /* eslint-disable no-param-reassign */
+    delete formData.hasMilitaryRetiredPay;
+    /* eslint-enable no-param-reassign */
+    return formData;
+  };
+
   // End transformation definitions
 
   // Apply the transformations
@@ -294,6 +301,7 @@ export function transform(formConfig, form) {
     addForm8940,
     addFileAttachments,
     fullyDevelopedClaim,
+    removeRedundantRetirementPayQuestion,
   ].reduce(
     (formData, transformer) => transformer(formData),
     _.cloneDeep(form.data),
