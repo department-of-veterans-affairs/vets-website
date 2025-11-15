@@ -9,6 +9,7 @@ import mapServiceBranches from '../../migrations/07-map-service-branches';
 import reorderHousingIllnessRemoveFdc from '../../migrations/08-paper-sync';
 import addDisabilitiesRedirect from '../../migrations/09-addDisabilities-redirect';
 import addDisabilitiesRedirectAdd3 from '../../migrations/10-addDisabilities-redirect-add-3';
+import updateHasMilitaryRetiredPay from '../../migrations/11-update-hasMilitaryRetiredPay';
 
 import formConfig from '../../config/form';
 import { MAX_HOUSING_STRING_LENGTH } from '../../constants';
@@ -367,6 +368,17 @@ describe('526 v2 migrations', () => {
       expect(migratedData.metadata.returnUrl).to.equal(
         '/new-disabilities/follow-up',
       );
+    });
+  });
+
+  describe('11-update-hasMilitaryRetiredPay', () => {
+    it('should migrate view:hasMilitaryRetiredPay to hasMilitaryRetiredPay', () => {
+      const data = updateHasMilitaryRetiredPay({
+        formData: { 'view:hasMilitaryRetiredPay': true, test: true },
+        metadata: { version: 1 },
+      });
+      expect(data.formData['view:hasMilitaryRetiredPay']).to.be.undefined;
+      expect(data.formData.hasMilitaryRetiredPay).to.be.true;
     });
   });
 });
