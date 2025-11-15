@@ -130,6 +130,16 @@ class PatientComposePage {
     this.categoryDropdown().should('have.value', category);
   };
 
+  validateLockedCategoryDisplay = () => {
+    cy.findByTestId('locked-category-display').should('be.visible');
+    cy.findByTestId('locked-category-display').should(
+      'contain',
+      'Medication renewal request',
+    );
+    // Verify dropdown does not exist
+    cy.get('[data-testid="compose-message-categories"]').should('not.exist');
+  };
+
   getMessageSubjectField = () => {
     return cy
       .findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
