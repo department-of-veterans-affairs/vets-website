@@ -30,7 +30,7 @@
     "view:powStatus": false,
     "view:disabilitiesClarification": {},
     "hasTrainingPay": true,
-    "view:hasMilitaryRetiredPay": true,
+    "hasMilitaryRetiredPay": true,
     "militaryRetiredPayBranch": "Air Force",
     "hasSeparationPay": true,
     "view:separationPayDetails": {

@@ -24,7 +24,8 @@ describe('Retirement Pay', () => {
       />,
     );
 
-    expect(form.find('input[type="radio"]').length).to.equal(2);
+    expect(form.find('VaRadio').length).to.equal(1);
+    expect(form.find('va-radio-option').length).to.equal(2);
     form.unmount();
   });
 
@@ -35,7 +36,7 @@ describe('Retirement Pay', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{ 'view:hasMilitaryRetiredPay': false }}
+        data={{ hasMilitaryRetiredPay: false }}
         formData={{}}
         onSubmit={onSubmit}
       />,
@@ -55,7 +56,7 @@ describe('Retirement Pay', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{ 'view:hasMilitaryRetiredPay': true }}
+        data={{ hasMilitaryRetiredPay: true }}
         formData={{}}
         onSubmit={onSubmit}
       />,
@@ -78,7 +79,7 @@ describe('Retirement Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasMilitaryRetiredPay': true,
+          hasMilitaryRetiredPay: true,
           militaryRetiredPayBranch: 'Army',
         }}
         formData={{}}

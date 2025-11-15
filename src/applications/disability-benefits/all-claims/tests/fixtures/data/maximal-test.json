@@ -9,6 +9,7 @@
     "isVaEmployee": true,
     "isTerminallyIll": false,
     "homelessOrAtRisk": "homeless",
+    "hasMilitaryRetiredPay": false,
     "view:isHomeless": {
       "homelessHousingSituation": "other",
       "otherHomelessHousing": "Under a bridge",

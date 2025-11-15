@@ -34,14 +34,7 @@ import {
  * @returns true if the user has received military retired pay, false otherwise
  */
 export const hasMilitaryRetiredPay = data =>
-  _.get('view:hasMilitaryRetiredPay', data, false);
-
-/**
- * Checks if the user expects to receive training pay
- * @param {Object} data - Form data
- * @returns true if the user expects to receive training pay, false otherwise
- */
-export const hasTrainingPay = data => _.get('view:hasTrainingPay', data, false);
+  _.get('hasMilitaryRetiredPay', data, false);
 
 /**
  * Checks if a zip code is in a valid 5 or 9 digit format
