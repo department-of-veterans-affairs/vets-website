@@ -20,7 +20,7 @@
     }],
     "view:newDisabilityErrors": {},
     "hasTrainingPay": false,
-    "view:hasMilitaryRetiredPay": false,
+    "hasMilitaryRetiredPay": false,
     "serviceInformation": {
       "reservesNationalGuardService": {
         "view:isTitle10Activated": false,

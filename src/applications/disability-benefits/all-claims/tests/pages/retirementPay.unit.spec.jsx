@@ -35,7 +35,7 @@ describe('Retirement Pay', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{ 'view:hasMilitaryRetiredPay': false }}
+        data={{ hasMilitaryRetiredPay: false }}
         formData={{}}
         onSubmit={onSubmit}
       />,
@@ -55,7 +55,7 @@ describe('Retirement Pay', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{ 'view:hasMilitaryRetiredPay': true }}
+        data={{ hasMilitaryRetiredPay: true }}
         formData={{}}
         onSubmit={onSubmit}
       />,
@@ -78,7 +78,7 @@ describe('Retirement Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasMilitaryRetiredPay': true,
+          hasMilitaryRetiredPay: true,
           militaryRetiredPayBranch: 'Army',
         }}
         formData={{}}

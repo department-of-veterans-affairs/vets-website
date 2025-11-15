@@ -34,7 +34,7 @@ import {
  * @returns true if the user has received military retired pay, false otherwise
  */
 export const hasMilitaryRetiredPay = data =>
-  _.get('view:hasMilitaryRetiredPay', data, false);
+  _.get('hasMilitaryRetiredPay', data, false);
 
 /**
  * Checks if the user expects to receive training pay

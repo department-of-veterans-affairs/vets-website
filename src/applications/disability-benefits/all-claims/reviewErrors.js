@@ -18,7 +18,7 @@ export default {
       index + 1,
     )} section, enter a condition or select one from the list)`,
   cause: 'What caused this condition? (select from the list of causes)',
-  'view:hasMilitaryRetiredPay':
+  hasMilitaryRetiredPay:
     'Have you ever received military retirement pay? (select yes or no)',
   hasTrainingPay:
     'Do you expect to receive active or inactive duty training pay? (select yes or no)',
