@@ -101,7 +101,7 @@ describe('Medication card component', () => {
     };
     const { getByTestId } = setup(rx);
     /* eslint-disable prettier/prettier */
-    expect(getByTestId('rx-last-filled-info')).to.have.text('Documented on June 16, 2024');
+    expect(getByTestId('rx-last-filled-info')).to.have.text('Documented on June 15, 2024');
     expect(getByTestId('rxStatus')).to.have.text('Active: Non-VA');
     expect(getByTestId('non-VA-prescription')).to.have.text('You can’t manage this medication in this online tool.');
     /* eslint-enable prettier/prettier */

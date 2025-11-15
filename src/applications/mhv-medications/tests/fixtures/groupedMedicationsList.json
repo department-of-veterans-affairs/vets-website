@@ -165,7 +165,7 @@
     "facilityApiName": "Dayton Medical Center",
     "orderedDate": "2023-02-04T05:00:00.000Z",
     "quantity": "30",
-    "expirationDate": "2024-02-05T05:00:00.000Z",
+    "expirationDate": "2024-02-05T12:00:00.000Z",
     "prescriptionNumber": "4",
     "sig": "TAKE 10MG BY MOUTH DAILY FOR 30 DAYS",
     "prescriptionName": "ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB",
