@@ -1,0 +1,209 @@
+name: "Frontend Deployment Checklist"
+about: "Chronological checklist for Out-of-Band (OOB), Vets-Website, Content-Build, and Off-Hours Deployments"
+title: "[FE Deploy] vets-website / content-build"
+labels: [deployment, frontend, platform]
+---
+
+# ✅ Frontend Deployment Checklist
+
+Comprehensive checklist for **Out-of-Band (OOB)**, **Vets-Website**, **Content-Build**, and **Off-Hours Deployments (OHD)**.  
+Follow each step in order — do **not** proceed to deployment until all necessary approvals are complete.
+
+---
+
+## 🚨 Out-of-Band (OOB) Deployment
+
+**When to Use:**  
+Urgent deployment needed outside standard release windows due to a critical issue or outage.  
+Requires **explicit OCTO approval** and **postmortem documentation**.
+
+---
+
+### **1. Initiate the OOB Request**
+- [ ] Open a `/support` request in **#vfs-platform-support**.
+- [ ] Assign the ticket to the team that owns the code.
+- [ ] Select **“Off-Cycle Deployment”** as the request type.
+- [ ] Include in the ticket:
+  - [ ] Summary of the issue or incident.
+  - [ ] Severity level.
+  - [ ] Detailed **user impact** (include number of affected users).
+  - [ ] Links to any related Slack threads, PRs, or incident tickets for traceability.
+
+---
+
+### **2. File the OOB Deploy Request Template**
+- [ ] Open an [OOB Deploy Request Issue](https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?template=OOB-Deploy-Request.md).
+- [ ] Complete all required fields:
+  - [ ] Description and justification.
+  - [ ] Impact and risk level.
+  - [ ] Rollback plan.
+  - [ ] Validation plan.
+  - [ ] Communication plan.
+- [ ] Cross-reference the **GitHub OOB issue** and the **Slack ticket** so both link to each other.
+
+---
+
+### **3. Trigger PagerDuty for OCTO Approval**
+- [ ] Platform Support (Tier 1, Tier 2, or on-call) triggers **PagerDuty** using `/pd trigger`.
+- [ ] Select **“Out-of-band Deployment (service)”**.
+- [ ] Leave **Assign to** blank.
+- [ ] Paste the summary, severity, user impact, and Slack thread link in the description.
+- [ ] Wait for **OCTO Platform** to review and approve:
+  - [ ] If OCTO on-call is online, tag them directly in Slack.
+  - [ ] If offline, PagerDuty will automatically notify them.
+- [ ] **Do not proceed** until explicit OCTO approval is received.
+
+---
+
+## 🧭 Vets-Website Deployment Instructions (After Approval)
+
+### **Before Deploying**
+- [ ] Wait for the `vets-website` build to complete in **GitHub Actions**.
+- [ ] If the build fails → open the failed workflow → click **Re-run jobs → Re-run all jobs**.
+
+### **Verify Readiness**
+- [ ] Review commit history since last deploy; confirm all commits are production-ready.
+- [ ] Contact commit authors if needed to verify readiness.
+
+### **Start Deploy Job**
+- [ ] Go to [vets-website Daily Production Deploy](https://github.com/department-of-veterans-affairs/vets-website/actions/workflows/daily-production-deploy.yml).
+- [ ] Click **Run workflow** at the top.
+- [ ] Ensure:
+  - [ ] **Use workflow from:** `Branch: main`
+  - [ ] **Minutes to wait before creating release:** `5 minutes`
+- [ ] Click **Run workflow**.
+- [ ] Wait for workflow completion — you'll be prompted to approve deployment.
+  - [ ] Only admins can approve.
+  - [ ] If you are not an admin, request help in **#platform-cop-frontend**.
+- [ ] Approve via **Review deployments**:
+  - [ ] Check **Production (target env)**.
+  - [ ] Click **Approve and deploy**.
+
+### **Verify Completion**
+- [ ] Confirm GitHub Actions notification in **#status-vets-website** Slack channel.
+- [ ] Validate commit list matches expected changes.
+- [ ] Verify changes are live in production.
+
+---
+
+### **Dev or Staging Deployment**
+**When to Use:**  
+Staging is behind production or pipeline congestion prevents auto-sync.
+
+- [ ] Confirm target commit passed through CI in `main`.
+- [ ] Copy the commit SHA/ref.
+- [ ] Visit [vets-website Manual dev/staging Deploy](https://github.com/department-of-veterans-affairs/vets-website/actions/workflows/manual-deploy.yml).
+- [ ] Click **Run workflow**.
+- [ ] Ensure:
+  - [ ] **Use workflow from:** `Branch: main`
+  - [ ] **Deploy a specific commit:** Paste copied ref
+  - [ ] **Environment:** Select `staging` or `dev`
+- [ ] Click **Run workflow**.
+- [ ] Monitor workflow execution on the same page.
+- [ ] Once complete, confirm commit deployed to selected environment.
+
+---
+
+## 🧩 Content-Build Deployment Instructions
+
+### **Before Deploying**
+- [ ] Wait for the build pipeline to complete successfully in `main`.
+- [ ] Check commit history since last deploy (via GitHub).
+- [ ] Ensure all commits are content-ready (Drupal + vagov-content).
+- [ ] Confirm with commit authors if needed.
+
+### **Content-Only Production Deploy**
+- [ ] Visit [content-build Content Release](https://github.com/department-of-veterans-affairs/content-build/actions/workflows/content-release.yml).
+- [ ] Click **Run workflow**.
+- [ ] Verify:
+  - [ ] **Use workflow from:** `Branch: main`
+  - [ ] **Minutes to wait before creating release:** `5 minutes`
+  - [ ] **Environment:** `prod`
+- [ ] Click **Run workflow**.
+- [ ] Wait for workflow completion.
+- [ ] Verify Slack notification in **#status-content-build**.
+- [ ] Confirm commit list matches intended release.
+
+### **Full Production Deploy**
+- [ ] Visit [content-build Daily Production Release](https://github.com/department-of-veterans-affairs/content-build/actions/workflows/daily-production-release.yml).
+- [ ] Click **Run workflow**.
+- [ ] Verify:
+  - [ ] **Use workflow from:** `Branch: main`
+  - [ ] **Minutes to wait before creating release:** `5 minutes`
+- [ ] Click **Run workflow**.
+- [ ] Confirm completion message and Slack notification.
+- [ ] Validate commits match expected release.
+- [ ] Verify new content visible in production.
+
+---
+
+## 🌙 Off-Hours Deployment (OHD)
+
+**When to Use:**  
+Used for deployments outside the daily window that **do not** qualify as OOB events.  
+These carry higher risk and require advance planning and coordination.
+
+---
+
+### **1. Initiate the OHD Request**
+- [ ] In **#vfs-platform-support**, open a support ticket using **“Off Hours Deployment”** as the Request Topic.
+- [ ] Include in the ticket:
+  - [ ] Description of what's being deployed.
+  - [ ] Desired outcome.
+  - [ ] Requested deploy date and time.
+  - [ ] Justification for why this cannot occur during the daily window or as OOB.
+  - [ ] Expected impact or affected users.
+  - [ ] Rollback and validation plan.
+
+---
+
+### **2. Complete the OHD Request Issue**
+- [ ] Create an **OHD Request Issue** in GitHub and verify:
+  - [ ] **Description & Expectations:** What's being deployed and expected results.
+  - [ ] **Requesting Team:** Team name and point of contact.
+  - [ ] **Date & Time:** Requested deployment schedule.
+  - [ ] **Platform Maintenance Window:** Note if tied to a maintenance window.
+  - [ ] **Justification:** Why daily or OOB window isn't suitable.
+  - [ ] **Potential Support Needed:** Backend, Frontend, DevOps, etc.
+- [ ] Ensure Slack ticket and GitHub issue reference each other.
+
+---
+
+### **3. Coordination and Awareness**
+- [ ] Tier 1 Support will:
+  - [ ] Confirm stakeholders agree on proposed time.
+  - [ ] Ensure timing doesn't conflict with maintenance windows.
+  - [ ] Assign to correct support team and on-call Tier 1/Tier 2.
+- [ ] Communicate timeline to all impacted stakeholders.
+
+---
+
+### **4. Execute Deployment**
+- [ ] Authorized engineers perform the deploy at the planned time.
+- [ ] Follow validation and rollback steps outlined in the OHD issue.
+- [ ] Report status updates in **#vfs-platform-support** during deployment.
+
+---
+
+### **5. Validate and Communicate Completion**
+- [ ] Confirm GitHub Actions notifications appear in:
+  - [ ] `#status-vets-website` (for vets-website)
+  - [ ] `#status-content-build` (for content-build)
+- [ ] Confirm commit list in Slack matches intended release.
+- [ ] Verify deployed changes are live and functional.
+- [ ] Update Slack support thread with:
+  - [ ] Deployment status (completed/successful)
+  - [ ] Validation results
+  - [ ] Any follow-up actions
+
+---
+
+### **6. Post-Deployment Documentation**
+- [ ] Within **2 business days**, open a postmortem PR using the  
+  [OOB Deploy Request Template](https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?template=OOB-Deploy-Request.md) (if not already created).
+- [ ] Follow the `README.md` steps in the template to complete the postmortem.
+- [ ] Include links to:
+  - [ ] Original Slack thread.
+  - [ ] PagerDuty incident.
+  - [ ] Related PRs or commits.
+- [ ] Close the OOB/OHD request issue once all documentation, approvals, and validations are complete.
