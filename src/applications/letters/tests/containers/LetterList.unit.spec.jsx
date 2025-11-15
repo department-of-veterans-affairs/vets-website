@@ -196,6 +196,25 @@ describe('<LetterList>', () => {
       'One of our systems appears to be down.',
     );
   });
+
+  it('renders eligibility error when TSA letter is not available', async () => {
+    apiRequestStub.resetBehavior();
+    apiRequestStub.rejects(new Error('API Error'));
+    const tsaLetterEnabledProps = {
+      ...defaultProps,
+      tsaSafeTravelLetter: true,
+    };
+    const { findByText } = render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...tsaLetterEnabledProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    const errorHeading = await findByText('Some letters may not be available');
+    expect(errorHeading).to.exist;
+  });
+
   it('renders VeteranBenefitSummaryOptions', () => {
     const { getByText } = render(
       <Provider store={getStore()}>
