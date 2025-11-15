@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 147,
+  "totalApplications": 149,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -160,6 +160,12 @@
       "rootUrl": "/track-claims"
     },
     {
+      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
+      "appName": "N/A",
+      "entryName": "N/A",
+      "rootUrl": "N/A"
+    },
+    {
       "directoryPath": "src/applications/combined-debt-portal/combined",
       "appName": "Debt and bills",
       "entryName": "combined-debt-portal",
@@ -250,6 +256,12 @@
       "rootUrl": "/school-administrators/submit-yellow-ribbon-program-agreement-form-22-0839"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/0976",
+      "appName": "Program Apporval in a Foreign Country (VA Form 22-0976)",
+      "entryName": "0976-edu-benefits",
+      "rootUrl": "/education/0976"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/0994",
       "appName": "22-0994 Education benefits form",
       "entryName": "0994-edu-benefits",
@@ -278,6 +290,12 @@
       "appName": "10275",
       "entryName": "10275-edu-benefits",
       "rootUrl": "/school-administrators/commit-principles-of-excellence-form-22-10275"
+    },
+    {
+      "directoryPath": "src/applications/edu-benefits/10278",
+      "appName": "Authorization to Disclose Personal Information",
+      "entryName": "10278-edu-benefits",
+      "rootUrl": "/education/10278"
     },
     {
       "directoryPath": "src/applications/edu-benefits/10282",
@@ -836,6 +854,12 @@
       "appName": "Appointments",
       "entryName": "vaos",
       "rootUrl": "/my-health/appointments"
+    },
+    {
+      "directoryPath": "src/applications/vass",
+      "appName": "VASS",
+      "entryName": "vass",
+      "rootUrl": "/service-member/benefits/solid-start/schedule"
     },
     {
       "directoryPath": "src/applications/verify",

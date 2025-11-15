@@ -110,11 +110,13 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
     if (!root) return; // just in case
 
     // ---- COMMON FIELDS ----
-    const date = root.querySelector('va-date[name="date"]');
-    const amount = root.querySelector('va-text-input[name="amount"]');
+    const purchaseDate = root.querySelector('va-date[name="purchaseDate"]');
+    const costRequested = root.querySelector(
+      'va-text-input[name="costRequested"]',
+    );
 
-    if (date) {
-      date.dispatchEvent(
+    if (purchaseDate) {
+      purchaseDate.dispatchEvent(
         new CustomEvent('dateChange', {
           detail: { value: '2025-10-31' },
           bubbles: true,
@@ -123,10 +125,25 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
       );
     }
 
-    if (amount) {
-      amount.dispatchEvent(
+    if (costRequested) {
+      costRequested.dispatchEvent(
         new CustomEvent('input', {
           detail: { value: '50.00' },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    }
+
+    const upload = root.querySelector('document-upload');
+    if (upload) {
+      upload.dispatchEvent(
+        new CustomEvent('fileChange', {
+          detail: {
+            files: [
+              new File(['dummy'], 'receipt.pdf', { type: 'application/pdf' }),
+            ],
+          },
           bubbles: true,
           composed: true,
         }),
@@ -136,7 +153,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
     // ---- EXPENSE-SPECIFIC FIELDS ----
     switch (expenseKey) {
       case 'Meal': {
-        const vendor = root.querySelector('va-text-input[name="vendor"]');
+        const vendor = root.querySelector('va-text-input[name="vendorName"]');
         vendor?.dispatchEvent(
           new CustomEvent('input', {
             detail: { value: 'Test Vendor' },
@@ -179,7 +196,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
       case 'Commoncarrier': {
         const typeOption = root.querySelector(
-          `va-radio[name="transportationType"] va-radio-option[value="${
+          `va-radio[name="carrierType"] va-radio-option[value="${
             TRANSPORTATION_OPTIONS[0]
           }"]`,
         );
@@ -192,7 +209,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
         );
 
         const reasonOption = root.querySelector(
-          `va-radio[name="transportationReason"] va-radio-option[value="${
+          `va-radio[name="reasonNotUsingPOV"] va-radio-option[value="${
             Object.keys(TRANSPORTATION_REASONS)[0]
           }"]`,
         );
@@ -242,10 +259,10 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           }),
         );
 
-        const departureAirport = root.querySelector(
-          'va-text-input[name="departureAirport"]',
+        const departedFrom = root.querySelector(
+          'va-text-input[name="departedFrom"]',
         );
-        departureAirport?.dispatchEvent(
+        departedFrom?.dispatchEvent(
           new CustomEvent('input', {
             detail: { value: 'SFO' },
             bubbles: true,
@@ -253,8 +270,8 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           }),
         );
 
-        const arrivalDate = root.querySelector('va-date[name="arrivalDate"]');
-        arrivalDate?.dispatchEvent(
+        const returnDate = root.querySelector('va-date[name="returnDate"]');
+        returnDate?.dispatchEvent(
           new CustomEvent('dateChange', {
             detail: { value: '2025-11-01' },
             bubbles: true,
@@ -262,10 +279,8 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           }),
         );
 
-        const arrivalAirport = root.querySelector(
-          'va-text-input[name="arrivalAirport"]',
-        );
-        arrivalAirport?.dispatchEvent(
+        const arrivedTo = root.querySelector('va-text-input[name="arrivedTo"]');
+        arrivedTo?.dispatchEvent(
           new CustomEvent('input', {
             detail: { value: 'LAX' },
             bubbles: true,
@@ -409,6 +424,54 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
             ).to.exist;
             expect(document.activeElement).to.eq(error);
           });
+        });
+      });
+      describe('DocumentUpload behavior', () => {
+        const expenseTypesWithDocumentUpload = [
+          'Meal',
+          'Lodging',
+          'Airtravel',
+          'Commoncarrier',
+          'Parking',
+          'Toll',
+          'Lodging',
+          'Other',
+        ];
+        it('renders DocumentUpload for expense types that support documents', () => {
+          const { container } = renderPage(config);
+
+          // If the type should have document upload
+          if (expenseTypesWithDocumentUpload.includes(key)) {
+            expect(container.querySelector('va-file-input')).to.exist;
+          } else {
+            expect(container.querySelector('va-file-input')).to.not.exist;
+          }
+        });
+
+        it('updates formState when a file is uploaded', async () => {
+          if (!expenseTypesWithDocumentUpload.includes(key)) return;
+
+          const { container } = renderPage(config);
+          const input = container.querySelector('va-file-input');
+
+          const testFile = new File(['dummy'], 'receipt.pdf', {
+            type: 'application/pdf',
+          });
+
+          fireEvent.change(input, {
+            target: { files: [testFile] },
+          });
+
+          await waitFor(() => {
+            // Verify the uploaded file exists in input
+            expect(input.files[0]).to.eq(testFile);
+          });
+        });
+        it('does not appear for expense types that do not accept documents', () => {
+          if (['Mileage'].includes(key)) {
+            const { container } = renderPage(config);
+            expect(container.querySelector('va-file-input')).to.not.exist;
+          }
         });
       });
     });

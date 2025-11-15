@@ -12,6 +12,7 @@ import ExpenseCard from './ExpenseCard';
 import {
   selectComplexClaim,
   selectAllExpenses,
+  selectAllDocuments,
 } from '../../../redux/selectors';
 import {
   getExpenseType,
@@ -26,8 +27,10 @@ const ReviewPage = ({ message }) => {
   const address = useSelector(selectVAPResidentialAddress);
   const { data: claimDetails = {} } = useSelector(selectComplexClaim);
   const allExpenses = useSelector(selectAllExpenses);
+  const allDocuments = useSelector(selectAllDocuments);
 
   const expenses = allExpenses ?? [];
+  const documents = allDocuments ?? [];
 
   // Get total by expense type and return expenses alphabetically
   const totalByExpenseType = Object.fromEntries(
@@ -46,8 +49,7 @@ const ReviewPage = ({ message }) => {
 
     // Find document associated with this expense using documentId
     const expenseDocument =
-      claimDetails?.documents?.find(doc => doc.documentId === documentId) ||
-      null;
+      documents?.find(doc => doc.documentId === documentId) || null;
 
     // Add document to the expense object
     const expenseWithDocument = {
