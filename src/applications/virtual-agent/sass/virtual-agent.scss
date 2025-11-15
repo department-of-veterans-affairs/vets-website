@@ -9,8 +9,8 @@
 
 .merger {
   article {
-      &.webchat__basic-transcript__activity:last-of-type {
-        padding-bottom: 0;
+    &.webchat__basic-transcript__activity:last-of-type {
+      padding-bottom: 0;
     }
   }
 }
@@ -45,12 +45,12 @@ button.webchat__suggested-actions__button:active {
 }
 
 .jumplink {
-    color: rgb(0, 62, 115);
-    margin: 20px 0px;
-    text-decoration: underline;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-in-out;
-    //transition-property: color, background-color, border-color;
+  color: rgb(0, 62, 115);
+  margin: 20px 0px;
+  text-decoration: underline;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  //transition-property: color, background-color, border-color;
 }
 
 .fixed-header-chatbot {
@@ -103,6 +103,19 @@ button.webchat__suggested-actions__button:active {
   color: rgb(0, 0, 0) !important;
 }
 
-div.ac-container[style*="rgb(255, 226, 178)"]{
-  background-color: rgb(250, 243, 209) !important
+div.ac-container[style*="rgb(255, 226, 178)"] {
+  background-color: rgb(250, 243, 209) !important;
+}
+
+// Visually indicate when the WebChat send box is disabled (e.g., expired session)
+.webchat__send-box-text-box__input[aria-disabled="true"],
+.webchat__send-box-text-box__input[disabled] {
+  background-color: rgb(229, 229, 229);
+  cursor: not-allowed;
+}
+
+button.webchat__send-button[aria-disabled="true"],
+button.webchat__send-button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
