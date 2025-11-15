@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { capitalizeEachWord } from '../utils';
+import { capitalizeEachWord } from '../../utils';
 
 const ConfirmationNewDisabilities = ({ formData }) => {
   const { newDisabilities = [] } = formData || {};

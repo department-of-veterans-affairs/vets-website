@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { reviewEntry } from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
-import { paymentRows } from './PaymentViewObjectField';
+import { paymentRows } from '../PaymentViewObjectField';
 
 const ConfirmationPaymentInformation = ({ formData }) => {
   const hasPrefilledBankInfo = Boolean(
