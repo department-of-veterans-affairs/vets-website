@@ -7,7 +7,7 @@ import {
   SEPARATION_PAY_SECTION_TITLE,
   YES,
   NO,
-} from '../constants';
+} from '../../constants';
 
 const ConfirmationSeparationPay = ({ formData }) => {
   const separationPayDetails = formData['view:separationPayDetails'];

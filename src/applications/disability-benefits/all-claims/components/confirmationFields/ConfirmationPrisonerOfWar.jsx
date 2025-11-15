@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { reviewEntry } from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
-import { capitalizeEachWord, sippableId } from '../utils';
-import { formatDate } from '../utils/dates';
+import { capitalizeEachWord, sippableId } from '../../utils';
+import { formatDate } from '../../utils/dates';
 
 const ConfirmationPrisonerOfWar = ({ formData }) => {
   const powStatus = formData?.['view:powStatus'];
