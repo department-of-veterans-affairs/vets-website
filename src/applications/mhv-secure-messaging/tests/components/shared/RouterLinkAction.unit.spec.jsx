@@ -135,4 +135,47 @@ describe('RouterLinkAction component', () => {
       expect(link.getAttribute('text')).to.equal('Reverse Action');
     });
   });
+
+  describe('router navigation', () => {
+    it('renders link that will navigate via React Router when clicked', () => {
+      const { container } = setup({
+        href: '/my-health/secure-messages/compose',
+        text: 'Start a new message',
+      });
+
+      const link = container.querySelector('va-link');
+
+      // Verify link exists and has correct attributes for router navigation
+      expect(link).to.exist;
+      expect(link.getAttribute('href')).to.equal(
+        '/my-health/secure-messages/compose',
+      );
+      expect(link.getAttribute('text')).to.equal('Start a new message');
+      expect(link).to.have.attribute('active'); // Uses action link styling
+    });
+
+    it('renders with paths containing query parameters', () => {
+      const { container } = setup({
+        href: '/my-health/secure-messages/inbox?folder=custom',
+        text: 'View custom folder',
+      });
+
+      const link = container.querySelector('va-link');
+      expect(link.getAttribute('href')).to.equal(
+        '/my-health/secure-messages/inbox?folder=custom',
+      );
+    });
+
+    it('renders with paths containing hash fragments', () => {
+      const { container } = setup({
+        href: '/profile/personal-information#messaging-signature',
+        text: 'Edit signature',
+      });
+
+      const link = container.querySelector('va-link');
+      expect(link.getAttribute('href')).to.equal(
+        '/profile/personal-information#messaging-signature',
+      );
+    });
+  });
 });

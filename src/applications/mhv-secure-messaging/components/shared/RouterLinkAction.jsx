@@ -16,10 +16,11 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
  * @see https://design.va.gov/storybook/?path=/docs/components-va-link--with-router-link-support
  * @see src/applications/simple-forms/form-upload/components/EditLink.jsx
  */
-const RouterLinkAction = ({ href, router, text, reverse, label, ...rest }) => {
+const RouterLinkAction = ({ href, text, reverse, label, ...rest }, context) => {
   function handleClick(e) {
     e.preventDefault();
-    router.push(href);
+    // Access router from React Router v3 context
+    context.router.push(href);
   }
 
   const linkProps = {
@@ -46,14 +47,16 @@ const RouterLinkAction = ({ href, router, text, reverse, label, ...rest }) => {
 RouterLinkAction.propTypes = {
   /** The destination path for React Router navigation */
   href: PropTypes.string.isRequired,
-  /** The router object injected by withRouter */
-  router: PropTypes.object.isRequired,
   /** The link text to display */
   text: PropTypes.string.isRequired,
   /** Optional aria-label for screen readers */
   label: PropTypes.string,
   /** If true, renders with white text for dark backgrounds */
   reverse: PropTypes.bool,
+};
+
+RouterLinkAction.contextTypes = {
+  router: PropTypes.object.isRequired,
 };
 
 export default withRouter(RouterLinkAction);
