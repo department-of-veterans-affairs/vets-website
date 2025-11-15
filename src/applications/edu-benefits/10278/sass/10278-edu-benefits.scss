@@ -2,13 +2,6 @@
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
-.need-help-container {
-  width: 642px;
-  @media (max-width: $small-screen) {
-    width: 100%;
-  }
-}
-
 @media (max-width: $small-screen) {
   .form-22-10278-container {
     padding-inline: 0.5rem;

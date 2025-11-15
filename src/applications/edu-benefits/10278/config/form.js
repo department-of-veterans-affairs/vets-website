@@ -87,7 +87,6 @@ const formConfig = {
       },
     },
   },
-  // getHelp,
   footerContent,
 };
 
