@@ -2,9 +2,11 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../config/form';
 import CustomReviewTopContent from '../../../components/CustomReviewTopContent';
+import * as helpers from '../../../helpers';
 
 const TEST_URL = 'https://dev.va.gov/form-upload/21-0779/test-page';
 const config = formConfig(TEST_URL);
@@ -92,11 +94,18 @@ describe('CustomReviewTopContent', () => {
     });
 
     it('renders the supporting documents input component', () => {
+      // need to get the form with supporting docs turned on
+      const getFormNumberStub = sinon
+        .stub(helpers, 'getFormNumber')
+        .returns('21-0779');
+
       const { container } = subject();
       const fileInputMultiple = $('va-file-input-multiple', container);
 
       expect(fileInputMultiple).to.exist;
       expect(fileInputMultiple).to.have.attr('read-only', 'true');
+
+      getFormNumberStub.restore();
     });
   });
 
