@@ -117,6 +117,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_601: '21P-601',
   FORM_22_10278: '22-10278',
   FORM_22_0976: '22-0976',
+  FORM_22_0803: '22-0803',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -305,6 +306,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
     [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('22-10278')}/`,
     [VA_FORM_IDS.FORM_22_0976]: `${tryGetAppUrl('22-0976')}/`,
+    [VA_FORM_IDS.FORM_22_0803]: `${tryGetAppUrl('22-0803')}/`,
   };
 };
 
@@ -959,6 +961,14 @@ export const MY_VA_SIP_FORMS = [
     title: 'Program Apporval in a Foreign Country (VA Form 22-0976)',
     description: 'Approval of a Program in a Foreign Country (VA Form 22-0976)',
     trackingPrefix: 'edu-0976-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_0803,
+    benefit: 'education benefits',
+    title:
+      '22-0803 Request for reimbursement of licensing or certification test fees',
+    description: 'education benefits',
+    trackingPrefix: 'edu-0803-',
   },
 ];
 
