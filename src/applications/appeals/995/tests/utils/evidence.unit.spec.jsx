@@ -1,13 +1,13 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import {
   getVAEvidence,
   getPrivateEvidence,
   getOtherEvidence,
   getIndex,
+  getProviderDetailsTitle,
+  getProviderModalDeleteTitle,
   evidenceNeedsUpdating,
   removeNonSelectedIssuesFromEvidence,
-  onFormLoaded,
 } from '../../utils/evidence';
 import {
   HAS_VA_EVIDENCE,
@@ -253,13 +253,136 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
   });
 });
 
-describe('onFormLoaded', () => {
-  it('should direct to the correct returnUrl', () => {
-    const routerSpy = {
-      push: sinon.spy(),
-    };
+describe('getProviderDetailsTitle', () => {
+  describe('va content', () => {
+    describe('add mode', () => {
+      it('should show correct title with spelled out index', () => {
+        expect(getProviderDetailsTitle('add', 1, 'va')).to.contain(
+          'What VA or military treatment location should we request records from?',
+        );
 
-    onFormLoaded({ returnUrl: '/housing-risk', router: routerSpy });
-    expect(routerSpy.push.firstCall.args[0]).to.eq('/housing-risk');
+        expect(getProviderDetailsTitle('add', 3, 'va')).to.contain(
+          'What third VA or military treatment location should we request records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 20, 'va')).to.contain(
+          'What 20th VA or military treatment location should we request records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 31, 'va')).to.contain(
+          'What 31st VA or military treatment location should we request records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 63, 'va')).to.contain(
+          'What 63rd VA or military treatment location should we request records from?',
+        );
+      });
+    });
+
+    describe('edit mode', () => {
+      it('should the correct title with spelled out index', () => {
+        expect(getProviderDetailsTitle('edit', 1, 'va')).to.contain(
+          'Edit the first VA or military treatment location',
+        );
+
+        expect(getProviderDetailsTitle('edit', 3, 'va')).to.contain(
+          'Edit the third VA or military treatment location',
+        );
+
+        expect(getProviderDetailsTitle('edit', 20, 'va')).to.contain(
+          'Edit the 20th VA or military treatment location',
+        );
+
+        expect(getProviderDetailsTitle('edit', 31, 'va')).to.contain(
+          'Edit the 31st VA or military treatment location',
+        );
+
+        expect(getProviderDetailsTitle('edit', 63, 'va')).to.contain(
+          'Edit the 63rd VA or military treatment location',
+        );
+      });
+    });
+  });
+
+  describe('non-va content', () => {
+    describe('add mode', () => {
+      it('should show correct title with spelled out index', () => {
+        expect(getProviderDetailsTitle('add', 1, 'nonVa')).to.contain(
+          'What location should we request your private provider or VA Vet Center records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 3, 'nonVa')).to.contain(
+          'What third location should we request your private provider or VA Vet Center records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 20, 'nonVa')).to.contain(
+          'What 20th location should we request your private provider or VA Vet Center records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 31, 'nonVa')).to.contain(
+          'What 31st location should we request your private provider or VA Vet Center records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 63, 'nonVa')).to.contain(
+          'What 63rd location should we request your private provider or VA Vet Center records from?',
+        );
+      });
+    });
+
+    describe('edit mode', () => {
+      it('should the correct title with spelled out index', () => {
+        expect(getProviderDetailsTitle('edit', 1, 'nonVa')).to.contain(
+          'Edit the first provider where you received treatment',
+        );
+
+        expect(getProviderDetailsTitle('edit', 3, 'nonVa')).to.contain(
+          'Edit the third provider where you received treatment',
+        );
+
+        expect(getProviderDetailsTitle('edit', 20, 'nonVa')).to.contain(
+          'Edit the 20th provider where you received treatment',
+        );
+
+        expect(getProviderDetailsTitle('edit', 31, 'nonVa')).to.contain(
+          'Edit the 31st provider where you received treatment',
+        );
+
+        expect(getProviderDetailsTitle('edit', 63, 'nonVa')).to.contain(
+          'Edit the 63rd provider where you received treatment',
+        );
+      });
+    });
+  });
+});
+
+describe('getProviderModalDeleteTitle', () => {
+  it('should show the modal title with the correct provider or facility name', () => {
+    expect(getProviderModalDeleteTitle('South Texas VA Facility')).to.contain(
+      'Do you want to keep South Texas VA Facility?',
+    );
+
+    expect(getProviderModalDeleteTitle(`General Burns' Hospital`)).to.contain(
+      `Do you want to keep General Burns' Hospital?`,
+    );
+
+    expect(getProviderModalDeleteTitle('N.E. Baptist Hospital')).to.contain(
+      'Do you want to keep N.E. Baptist Hospital?',
+    );
+
+    expect(getProviderModalDeleteTitle('')).to.contain(
+      'Do you want to keep this location?',
+    );
+
+    expect(getProviderModalDeleteTitle(null)).to.contain(
+      'Do you want to keep this location?',
+    );
+
+    expect(getProviderModalDeleteTitle(undefined)).to.contain(
+      'Do you want to keep this location?',
+    );
+
+    expect(getProviderModalDeleteTitle({})).to.contain(
+      'Do you want to keep this location?',
+    );
   });
 });

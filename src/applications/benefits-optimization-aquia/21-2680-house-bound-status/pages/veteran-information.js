@@ -7,15 +7,13 @@
 import {
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
-  ssnUI,
-  ssnSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /**
  * uiSchema for Veteran Information page
- * Collects veteran's full name, SSN, and date of birth
+ * Collects veteran's full name and date of birth
  */
 export const veteranInformationUiSchema = {
   'ui:title': 'Veteran information',
@@ -23,25 +21,35 @@ export const veteranInformationUiSchema = {
     'Confirm the personal information we have on file for the Veteran.',
   veteranInformation: {
     veteranFullName: fullNameNoSuffixUI(),
-    veteranSsn: ssnUI('Social Security number'),
     veteranDob: dateOfBirthUI(),
   },
 };
 
 /**
  * JSON Schema for Veteran Information page
- * Validates veteran identification fields
+ * Validates veteran name and date of birth
  */
+// Customize the name schema to add maxLength constraint for middle name
+const customVeteranNameSchema = {
+  ...fullNameNoSuffixSchema,
+  properties: {
+    ...fullNameNoSuffixSchema.properties,
+    middle: {
+      type: 'string',
+      maxLength: 1,
+    },
+  },
+};
+
 export const veteranInformationSchema = {
   type: 'object',
   required: ['veteranInformation'],
   properties: {
     veteranInformation: {
       type: 'object',
-      required: ['veteranFullName', 'veteranSsn', 'veteranDob'],
+      required: ['veteranFullName', 'veteranDob'],
       properties: {
-        veteranFullName: fullNameNoSuffixSchema,
-        veteranSsn: ssnSchema,
+        veteranFullName: customVeteranNameSchema,
         veteranDob: dateOfBirthSchema,
       },
     },

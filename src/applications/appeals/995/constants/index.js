@@ -3,6 +3,7 @@ import manifest from '../manifest.json';
 // import schema from './config/form-0995-schema.json';
 
 export const APP_NAME = 'Supplemental Claim';
+export const FORM_ID = 'VA Form 20-0995';
 
 export const DATA_DOG_ID = '2779ccc3-be87-4b2d-a757-9ff54b58761b';
 export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';
@@ -30,6 +31,25 @@ export const EVIDENCE_ADDITIONAL_URL =
   'supporting-evidence/will-add-supporting-evidence';
 export const EVIDENCE_UPLOAD_URL = 'supporting-evidence/upload-evidence';
 
+// This is for URLs specific to the redesign to avoid collision with existing URL variables
+export const EVIDENCE_URLS = {
+  vaPrompt: 'supporting-evidence/va-medical-records',
+  vaLocation: 'supporting-evidence/:index/va-medical-records-location',
+  vaIssues: 'supporting-evidence/:index/va-medical-records-condition',
+  vaTreatmentDatePrompt: 'supporting-evidence/:index/va-medical-before-2005',
+  vaTreatmentDateDetails:
+    'supporting-evidence/:index/va-medical-before-2005-date',
+  vaSummary: 'supporting-evidence/va-medical-summary',
+  privatePrompt: 'supporting-evidence/request-private-medical-records',
+  privateAuthorization:
+    'supporting-evidence/private-medical-records-authorization',
+  privateDetails: 'supporting-evidence/:index/private-medical-records-location',
+  privateIssues: 'supporting-evidence/:index/private-medical-records/condition',
+  privateTreatmentDate:
+    'supporting-evidence/:index/private-medical-records-dates',
+  privateSummary: 'supporting-evidence/private-medical-records-review',
+};
+
 // Point to header of the "File by mail, in person, or with the help of a VSO
 // for any type of benefit claim"
 export const BENEFIT_OFFICES_URL = `${SC_INFO_URL}#file-by-mail-in-person-or-with`;
@@ -52,16 +72,16 @@ export const errorMessages = {
     // VA evidence
     pastDate: 'You must add a past treatment date',
     newerDate: 'You must add a more recent treatment date',
-    blankDate: 'You must enter a treatment date',
+    blankDate: 'Enter a month from 1 to 12, even if it’s an estimate',
     missing: 'You must include at least 1 type of supporting evidence',
-    locationMissing: 'You must enter a treatment location',
+    locationMissing: 'Enter a treatment location',
     locationMaxLength: 'You can enter a maximum of 255 characters',
-    issuesMissing: 'You must select 1 or more conditions',
+    issuesMissing: 'Select a condition',
     uniqueVA:
       'You must enter a location, condition and dates you haven’t already entered',
 
     // private evidence
-    facilityMissing: 'You must add a provider or facility name',
+    facilityMissing: 'Enter a location name',
     uniquePrivate:
       'You must enter a provider, address, condition and dates you haven’t already entered',
   },

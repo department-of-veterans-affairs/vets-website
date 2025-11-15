@@ -35,6 +35,7 @@ const uiSchema = {
     },
     'ui:errorMessages': {
       required: 'Please enter your initials',
+      minLength: 'Please enter your initials using letters only',
       pattern: 'Please enter your initials using letters only',
     },
   },
@@ -51,6 +52,7 @@ const uiSchema = {
     },
     'ui:errorMessages': {
       required: 'Please enter your initials',
+      minLength: 'Please enter your initials using letters only',
       pattern: 'Please enter your initials using letters only',
     },
   },
@@ -67,6 +69,7 @@ const uiSchema = {
     },
     'ui:errorMessages': {
       required: 'Please enter your initials',
+      minLength: 'Please enter your initials using letters only',
       pattern: 'Please enter your initials using letters only',
     },
   },
@@ -83,6 +86,7 @@ const uiSchema = {
     },
     'ui:errorMessages': {
       required: 'Please enter your initials',
+      minLength: 'Please enter your initials using letters only',
       pattern: 'Please enter your initials using letters only',
     },
   },
