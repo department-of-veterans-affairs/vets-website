@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
+import { cleanup } from '@testing-library/react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
@@ -33,6 +34,7 @@ describe('Medications Prescriptions container', () => {
 
   afterEach(() => {
     sandbox.restore();
+    cleanup();
   });
 
   const initialState = {
