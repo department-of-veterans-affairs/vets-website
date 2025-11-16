@@ -4,7 +4,7 @@ import {
   FDCWarning,
   noFDCWarning,
 } from '../content/fullyDevelopedClaim';
-import ConfirmationFullyDevelopedClaim from '../components/ConfirmationFullyDevelopedClaim';
+import ConfirmationFullyDevelopedClaim from '../components/confirmationFields/ConfirmationFullyDevelopedClaim';
 
 export const uiSchema = {
   'ui:description': FDCDescription,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import ConfirmationRatedDisabilities from '../../components/ConfirmationRatedDisabilities';
+import ConfirmationRatedDisabilities from '../../components/confirmationFields/ConfirmationRatedDisabilities';
 
 describe('ConfirmationRatedDisabilities', () => {
   it('should render correctly with selected rated disabilities', () => {
