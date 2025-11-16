@@ -26,7 +26,7 @@ describe('Verify Thread - Blocked from Facility', () => {
     cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
       waitForAnimations: true,
     });
-    cy.findByTestId(Locators.BUTTONS.CONTINUE).click({
+    cy.findByTestId(Locators.INTERSTITIAL_CONTINUE_BUTTON).click({
       waitForAnimations: true,
     });
 
