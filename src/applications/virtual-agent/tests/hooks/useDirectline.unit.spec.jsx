@@ -156,10 +156,10 @@ describe('directline', () => {
         }),
       ).to.be.true;
     });
-    it('should set watermark when persistence is enabled', () => {
+    it('should set watermark when persistence is enabled for the local mock', () => {
       const createDirectLineFn = sandbox.spy();
       setSessionStorageBase();
-      stubUseLocalDirectline(false);
+      stubUseLocalDirectline(true);
       renderHook(() => useDirectLine(createDirectLineFn), {
         wrapper: createWrapper(true),
       });
@@ -168,14 +168,14 @@ describe('directline', () => {
       expect(
         createDirectLineFn.calledWithExactly({
           token: sessionToken,
-          domain: publicDirectLine,
+          domain: localDirectLine,
           conversationId: sessionConversationIdKey,
           watermark: '0',
         }),
       ).to.be.true;
     });
 
-    it('should fallback to a fresh connection when initial reconnect fails', () => {
+    it('should fallback to a fresh connection when initial reconnect fails using the local mock', () => {
       // First instance simulates a failed reconnect via connectionStatus$ = 4
       let subscriber;
       const firstInstance = {
@@ -190,7 +190,7 @@ describe('directline', () => {
 
       const createDirectLineFn = sandbox.stub();
       setSessionStorageBase();
-      stubUseLocalDirectline(false);
+      stubUseLocalDirectline(true);
 
       createDirectLineFn.onCall(0).returns(firstInstance);
       createDirectLineFn.onCall(1).returns(secondInstance);
@@ -203,7 +203,7 @@ describe('directline', () => {
       expect(
         createDirectLineFn.calledWithExactly({
           token: sessionToken,
-          domain: publicDirectLine,
+          domain: localDirectLine,
           conversationId: sessionConversationIdKey,
           watermark: '0',
         }),
@@ -215,7 +215,7 @@ describe('directline', () => {
       expect(
         createDirectLineFn.secondCall.calledWithExactly({
           token: sessionToken,
-          domain: publicDirectLine,
+          domain: localDirectLine,
         }),
       ).to.be.true;
     });

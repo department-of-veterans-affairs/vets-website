@@ -13,8 +13,12 @@ const getDirectLineDomain = () =>
 //   watermark=0 to request the full transcript.
 // - If session persistence is not enabled, a NEW conversation is started
 //   (conversationId and watermark are omitted).
-export default function useDirectLine(createDirectLine) {
-  const token = getTokenKey();
+export default function useDirectLine(
+  createDirectLine,
+  tokenOverride,
+  freeze = false,
+) {
+  const token = tokenOverride || getTokenKey();
   const domain = getDirectLineDomain();
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const isSessionPersistenceEnabled = useToggleValue(
@@ -29,10 +33,9 @@ export default function useDirectLine(createDirectLine) {
   const initialOptions = useMemo(
     () => {
       const opts = { token, domain };
-      if (isSessionPersistenceEnabled && conversationId) {
+      const useLocal = !!process.env.USE_LOCAL_DIRECTLINE;
+      if (useLocal && isSessionPersistenceEnabled && conversationId) {
         opts.conversationId = conversationId;
-      }
-      if (isSessionPersistenceEnabled) {
         opts.watermark = '0';
       }
       return opts;
@@ -47,10 +50,19 @@ export default function useDirectLine(createDirectLine) {
 
   const [directLine, setDirectLine] = useState(initialInstance);
 
+  // Keep state in sync when initial options (e.g., token) change unless frozen
+  useEffect(
+    () => {
+      if (freeze) return;
+      setDirectLine(initialInstance);
+    },
+    [initialInstance, freeze],
+  );
+
   useEffect(
     () => {
       let unsub;
-      const instance = initialInstance;
+      const instance = directLine;
       if (
         instance &&
         instance.connectionStatus$ &&
@@ -60,11 +72,20 @@ export default function useDirectLine(createDirectLine) {
         unsub = instance.connectionStatus$.subscribe(status => {
           if (status === 4 && !attemptedFallback) {
             attemptedFallback = true;
-            const fallbackOptions = { token, domain };
-            const freshInstance = createDirectLine(fallbackOptions);
-            setDirectLine(freshInstance);
-            if (unsub && typeof unsub.unsubscribe === 'function') {
-              unsub.unsubscribe();
+            // While frozen, do not swap instances; keep transcript visible
+            if (!freeze) {
+              try {
+                // Notify listeners (useChatbotToken) that the connection failed; may indicate expired token
+                window.dispatchEvent(new Event('va-chatbot-connection-error'));
+              } catch (e) {
+                // no-op
+              }
+              const fallbackOptions = { token, domain };
+              const freshInstance = createDirectLine(fallbackOptions);
+              setDirectLine(freshInstance);
+              if (unsub && typeof unsub.unsubscribe === 'function') {
+                unsub.unsubscribe();
+              }
             }
           }
         });
@@ -75,7 +96,7 @@ export default function useDirectLine(createDirectLine) {
         }
       };
     },
-    [initialInstance, createDirectLine, token, domain],
+    [directLine, createDirectLine, token, domain, freeze],
   );
 
   return directLine;

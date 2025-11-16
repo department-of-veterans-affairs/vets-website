@@ -6,6 +6,8 @@ const CONVERSATION_ID_KEY = `${BOT_SESSION_PREFIX}conversationId`;
 const IS_TRACKING_UTTERANCES = `${BOT_SESSION_PREFIX}isTrackingUtterances`;
 const TOKEN_KEY = `${BOT_SESSION_PREFIX}token`;
 const CODE_KEY = `${BOT_SESSION_PREFIX}code`;
+const TOKEN_EXPIRES_AT = `${BOT_SESSION_PREFIX}tokenExpiresAt`;
+const CONVERSATION_TOKEN_KEY = `${BOT_SESSION_PREFIX}conversationToken`;
 const FIRST_CONNECTION = `${BOT_SESSION_PREFIX}firstConnection`;
 const SKILL_EVENT_VALUE = `${BOT_SESSION_PREFIX}skillEventValue`;
 
@@ -19,7 +21,13 @@ function setStorageItem(key, value, json = false) {
 
 function getStorageItem(key, json = false) {
   if (json) {
-    return JSON.parse(sessionStorage.getItem(key));
+    const raw = sessionStorage.getItem(key);
+    if (raw === null) return null;
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      return null;
+    }
   }
   return sessionStorage.getItem(key);
 }
@@ -88,6 +96,23 @@ export function setCodeKey(value) {
   setStorageItem(CODE_KEY, value);
 }
 
+export function getTokenExpiresAt() {
+  const val = getStorageItem(TOKEN_EXPIRES_AT);
+  return val ? Number(val) : null;
+}
+
+export function setTokenExpiresAt(value) {
+  setStorageItem(TOKEN_EXPIRES_AT, String(value));
+}
+
+export function getConversationTokenKey() {
+  return getStorageItem(CONVERSATION_TOKEN_KEY);
+}
+
+export function setConversationTokenKey(value) {
+  setStorageItem(CONVERSATION_TOKEN_KEY, value);
+}
+
 // First-connection helpers removed; key is still used to preserve the flag during session clears for backward compatibility
 
 export function clearBotSessionStorage(forceClear) {
@@ -107,6 +132,8 @@ export function clearBotSessionStorage(forceClear) {
     CONVERSATION_ID_KEY,
     TOKEN_KEY,
     CODE_KEY,
+    TOKEN_EXPIRES_AT,
+    CONVERSATION_TOKEN_KEY,
   ];
 
   // capture the canceled login scenarios [issue #479]
