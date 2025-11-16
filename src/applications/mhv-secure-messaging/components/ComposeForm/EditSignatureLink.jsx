@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectSignature } from '../../selectors';
+import RouterLinkAction from '../shared/RouterLinkAction';
 
 const EditSignatureLink = () => {
   const signature = useSelector(state => selectSignature(state));
@@ -10,13 +11,12 @@ const EditSignatureLink = () => {
   if (includeSignature) {
     return (
       <div className="vads-u-margin-top--2">
-        <a
+        <RouterLinkAction
           href="/profile/personal-information#messaging-signature"
           data-dd-action-name="Edit Signature"
           data-testid="edit-signature-link"
-        >
-          Edit signature for all messages
-        </a>
+          text="Edit signature for all messages"
+        />
       </div>
     );
   }

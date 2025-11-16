@@ -148,16 +148,16 @@ describe('CernerTransitioningFacilityAlert', () => {
     };
     const customProps = { t5: true, facilityId: '556' };
 
-    const { findByText, queryByText, container } = setup(
+    const { findByTestId, findByText, queryByText, container } = setup(
       customState,
       customProps,
     );
 
-    expect(findByText(alertT5.alertTitle)).to.exist;
+    await findByText(alertT5.alertTitle);
     expect(container.textContent).to.contain(alertT5.alertContent);
     expect(container.textContent).to.contain(alertT5.alertContent2);
-    expect(findByText('Find your VA health facility', { selector: 'a' })).to
-      .exist;
+    const findFacilityLink = await findByTestId('find-facility-action-link');
+    expect(findFacilityLink).to.exist;
     expect(queryByText(alertT30.alertTitle)).to.be.null;
   });
 });
