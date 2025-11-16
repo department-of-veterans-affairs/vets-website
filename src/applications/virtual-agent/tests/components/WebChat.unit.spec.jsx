@@ -125,6 +125,7 @@ describe('WebChat', () => {
       expect(functionStubs.signOutEventListenerStub.calledOnce).to.be.true;
       expect(functionStubs.useDirectlineStub.calledOnce).to.be.true;
     });
+
     it('should render Composer with args and BasicWebChat', () => {
       const webChatFramework = {
         createDirectLine: sinon.spy(),
