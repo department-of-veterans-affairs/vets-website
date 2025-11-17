@@ -41,11 +41,6 @@
     },
     "certifierPhone": "1231231234",
     "certifierEmail": "certifier@email.gov",
-    "certifierRelationship": {
-      "relationshipToVeteran": {
-        "spouse": true
-      }
-    },
     "sponsorName": {
       "first": "Joe",
       "last": "Johnson"
