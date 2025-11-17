@@ -41,6 +41,7 @@ export const MOBILE_MAP_RESULT_CONTAINER = '.mobile-search-result';
 
 // Error message that appears if something is blank or incorrect in the search form
 export const SEARCH_FORM_ERROR_MESSAGE = '.usa-input-error-message';
+export const SEARCH_FORM_ERROR_MESSAGE_CONTENT = '.usa-error-message';
 
 export const typeInCityStateInput = (value, shouldCloseDropdown = false) => {
   cy.get(CITY_STATE_ZIP_INPUT).type(value);
