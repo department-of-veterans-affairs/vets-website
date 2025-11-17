@@ -10,6 +10,7 @@ import mockVamc from '../fixtures/mocks/vamc-ehr.json';
 const APIs = {
   features: '/v0/feature_toggles*',
   maintenance: '/v0/maintenance_windows',
+  saveInProgress: '/v0/in_progress_forms/10-10D-EXTENDED',
   submit: '/ivc_champva/v1/forms/10-10d-ext',
   vamc: '/data/cms/vamc-ehr.json',
 };
