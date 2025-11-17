@@ -26,13 +26,10 @@ describe('VASS Component: DateTimeSelection', () => {
     expect(screen.getByTestId('header')).to.exist;
   });
 
-  it('should render main content', () => {
+  it('should render the date time page correctly', () => {
     const screen = renderComponent();
     expect(screen.getByTestId('content')).to.exist;
-  });
-
-  it('should render continue button', () => {
-    const screen = renderComponent();
+    expect(screen.getByTestId('vaos-calendar')).to.exist;
     expect(screen.getByTestId('continue-button')).to.exist;
   });
 
@@ -54,11 +51,5 @@ describe('VASS Component: DateTimeSelection', () => {
     const continueButton = screen.getByTestId('continue-button');
 
     expect(continueButton).to.have.attribute('continue');
-  });
-
-  it('should render calendar widget for date selection', () => {
-    const screen = renderComponent();
-    // The CalendarWidget component should be present
-    expect(screen.getByTestId('vaos-calendar')).to.exist;
   });
 });
