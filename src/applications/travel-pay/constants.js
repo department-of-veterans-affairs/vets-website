@@ -260,15 +260,15 @@ export const TRANSPORTATION_REASONS = Object.freeze({
 });
 
 export const TRIP_TYPES = Object.freeze({
-  ONE_WAY: {
-    value: 'one-way',
-    label: 'One way',
-    key: 'OneWay',
-  },
   ROUND_TRIP: {
     value: 'round-trip',
     label: 'Round trip',
     key: 'RoundTrip',
+  },
+  ONE_WAY: {
+    value: 'one-way',
+    label: 'One way',
+    key: 'OneWay',
   },
 });
 
