@@ -9,6 +9,7 @@ import {
   VaDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import DocumentUpload from './DocumentUpload';
 import { EXPENSE_TYPES } from '../../../constants';
 import { createExpense, updateExpense } from '../../../redux/actions';
 import {
@@ -85,22 +86,25 @@ const ExpensePage = () => {
     navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
+  // Field names must match those expected by the expenses_controller in vets-api.
+  // The controller converts them to forwards them unchanged to the API.
   const REQUIRED_FIELDS = {
-    Meal: ['vendor'],
+    Meal: ['vendorName'],
     Lodging: ['vendor', 'checkInDate', 'checkOutDate'],
-    Commoncarrier: ['transportationType', 'transportationReason'],
+    Commoncarrier: ['carrierType', 'reasonNotUsingPOV'],
     Airtravel: [
       'vendorName',
       'tripType',
       'departureDate',
-      'departureAirport',
-      'arrivalDate',
-      'arrivalAirport',
+      'departedFrom',
+      'returnDate',
+      'arrivedTo',
     ],
   };
 
   const validatePage = () => {
-    const base = ['date', 'amount'];
+    // Field names must match those expected by the expenses_controller in vets-api.
+    const base = ['purchaseDate', 'costRequested', 'receipt'];
     const extra = REQUIRED_FIELDS[expenseType] || [];
     const requiredFields = [...base, ...extra];
 
@@ -140,6 +144,35 @@ const ExpensePage = () => {
     }
   };
 
+  const toBase64 = file =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+
+  const handleDocumentUpload = async e => {
+    const files = e.detail?.files;
+    // Check if we have files for upload
+    if (!files || files.length === 0) {
+      return;
+    }
+
+    const file = files[0]; // Get the first (and only) file
+    const base64File = await toBase64(file);
+    // Sync into formState so validation works
+    setFormState(prev => ({
+      ...prev,
+      receipt: {
+        contentType: file.type,
+        length: file.size,
+        fileName: file.name,
+        fileData: base64File,
+      },
+    }));
+  };
+
   return (
     <>
       <h1>
@@ -162,9 +195,11 @@ const ExpensePage = () => {
         </p>
       )}
       <p>
-        If you have multiple {expenseTypeFields.expensePageText} expenses, add
-        just one on this page. You’ll be able to add more expenses after this.
+        Upload a receipt or proof of the expense here. If you have multiple{' '}
+        {expenseTypeFields.expensePageText} expenses, add just one on this page.
+        You’ll be able to add more expenses after this.
       </p>
+      <DocumentUpload handleDocumentUpload={handleDocumentUpload} />
       {expenseType === 'Meal' && (
         <ExpenseMealFields formState={formState} onChange={handleFormChange} />
       )}
@@ -187,17 +222,17 @@ const ExpensePage = () => {
         />
       )}
       <VaDate
-        label="Date"
-        name="date"
-        value={formState.date || ''}
+        label="Date on receipt"
+        name="purchaseDate"
+        value={formState.purchaseDate || ''}
         required
         onDateChange={handleFormChange}
       />
       <VaTextInput
         currency
         label="Amount requested"
-        name="amount"
-        value={formState.amount || ''}
+        name="costRequested"
+        value={formState.costRequested || ''}
         required
         show-input-error
         onInput={handleFormChange}

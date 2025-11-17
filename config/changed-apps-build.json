@@ -385,6 +385,10 @@
       "slackGroup": "@benefits-optimization-aquia",
       "slackChannel": "C09FWT9U1JP",
       "continuousDeployment": false
+    },
+    {
+      "rootFolder": "vass",
+      "slackGroup": "@check-in-fe"
     }
   ]
 }

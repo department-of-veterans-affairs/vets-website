@@ -9,7 +9,7 @@ import {
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
-import { decodeHtmlEntities } from '../util/helpers';
+import { decodeHtmlEntities, sendDatadogError } from '../util/helpers';
 import { resetRecentRecipient } from './recipients';
 import { setThreadRefetchRequired } from './threads';
 
@@ -20,6 +20,7 @@ const sendSaveDraft = async (messageData, id) => {
     }
     return await createDraft(messageData);
   } catch (error) {
+    sendDatadogError(error, 'action_draftDetails_sendSaveDraft');
     return error;
   }
 };
@@ -31,6 +32,7 @@ const sendReplyDraft = async (replyToId, messageData, id) => {
     }
     return await createReplyDraft(replyToId, messageData);
   } catch (error) {
+    sendDatadogError(error, 'action_draftDetails_sendReplyDraft');
     return error;
   }
 };
@@ -173,6 +175,7 @@ export const deleteDraft = messageId => async dispatch => {
     );
     dispatch(setThreadRefetchRequired(true));
   } catch (e) {
+    sendDatadogError(e, 'action_draftDetails_deleteDraft');
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_ERROR,

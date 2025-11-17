@@ -573,6 +573,17 @@ export const urls = {
 export const claimingRated = formData =>
   formData?.ratedDisabilities?.some(d => d['view:selected']);
 
+export const isPlaceholderRated = v => v === 'Rated Disability';
+
+// TE/POW should only show when there’s at least one *real* condition
+export const hasRealNewOrSecondaryConditions = formData =>
+  Array.isArray(formData?.newDisabilities) &&
+  formData.newDisabilities.some(
+    d =>
+      typeof d?.condition === 'string' &&
+      !isPlaceholderRated(d.condition) &&
+      (d?.cause === 'NEW' || d?.cause === 'SECONDARY'),
+  );
 // TODO: Rename this to avoid collision with `isClaimingNew` above
 export const claimingNew = formData =>
   formData?.newDisabilities?.some(d => d.condition);
