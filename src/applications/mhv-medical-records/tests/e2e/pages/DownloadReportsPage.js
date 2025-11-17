@@ -176,6 +176,12 @@ class DownloadReportsPage {
     cy.get('[data-testid="generateCcdButtonXmlOH"]', {
       timeout: 15000,
     }).should('exist');
+
+    // Verify facility-specific headings are present for dual CCD (hybrid users only)
+    // These are bold <p> tags, not semantic headings
+    cy.contains('p', 'CCD: medical records from', { timeout: 10000 }).should(
+      'exist',
+    );
   };
 
   verifyVistaDownloadLinksVisible = () => {

@@ -65,9 +65,10 @@ const CustomReviewTopContent = () => {
     type: '',
   };
 
-  const filesForSupportingDocuments = Array.isArray(supportingDocuments)
-    ? supportingDocuments.map(document => makePlaceholderFile(document))
-    : null;
+  const filesForSupportingDocuments =
+    Array.isArray(supportingDocuments) && supportingDocuments.length > 0
+      ? supportingDocuments.map(document => makePlaceholderFile(document))
+      : null;
 
   return (
     <>
@@ -103,13 +104,23 @@ const CustomReviewTopContent = () => {
         <>
           <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
             <h3>Uploaded supporting documents</h3>
-            <EditLink href={`/${formNumber}/upload-supporting-documents`} />
+            <EditLink
+              href={`/${formNumber}/supporting-documents`}
+              label="Edit Uploaded supporting documents"
+            />
           </div>
-          {filesForSupportingDocuments && (
+          {filesForSupportingDocuments ? (
             <VaFileInputMultiple
               value={filesForSupportingDocuments}
               read-only
             />
+          ) : (
+            <div>
+              <div className="vads-u-color--gray">
+                Do you want to upload supporting documents now?
+              </div>
+              <div>No</div>
+            </div>
           )}
         </>
       )}

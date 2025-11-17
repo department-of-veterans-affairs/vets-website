@@ -2246,4 +2246,82 @@ describe('Compose form component', () => {
       });
     });
   });
+
+  describe('redirectPath prop', () => {
+    it('should pass redirectPath to ComposeFormActionButtons when prescription.redirectPath exists', () => {
+      const redirectPath = '/my-health/medications';
+
+      // Create a spy on React.createElement to intercept ComposeFormActionButtons props
+      const ComposeFormActionButtons = require('../../../components/ComposeForm/ComposeFormActionButtons')
+        .default;
+      const createElementSpy = sandbox.spy(React, 'createElement');
+
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: undefined,
+            redirectPath,
+            error: undefined,
+            isLoading: false,
+          },
+        },
+      };
+
+      setup(customState, Paths.COMPOSE, {
+        recipients: customState.sm.recipients,
+        signature: {},
+        pageTitle: 'Start your message',
+      });
+
+      // Find the call to createElement with ComposeFormActionButtons
+      const actionButtonsCall = createElementSpy
+        .getCalls()
+        .find(call => call.args[0] === ComposeFormActionButtons);
+
+      expect(actionButtonsCall).to.exist;
+      expect(actionButtonsCall.args[1]).to.have.property(
+        'redirectPath',
+        redirectPath,
+      );
+    });
+
+    it('should pass undefined redirectPath to ComposeFormActionButtons when prescription.redirectPath does not exist', () => {
+      // Create a spy on React.createElement to intercept ComposeFormActionButtons props
+      const ComposeFormActionButtons = require('../../../components/ComposeForm/ComposeFormActionButtons')
+        .default;
+      const createElementSpy = sandbox.spy(React, 'createElement');
+
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: undefined,
+            redirectPath: undefined,
+            error: undefined,
+            isLoading: false,
+          },
+        },
+      };
+
+      setup(customState, Paths.COMPOSE, {
+        recipients: customState.sm.recipients,
+        signature: {},
+        pageTitle: 'Start your message',
+      });
+
+      // Find the call to createElement with ComposeFormActionButtons
+      const actionButtonsCall = createElementSpy
+        .getCalls()
+        .find(call => call.args[0] === ComposeFormActionButtons);
+
+      expect(actionButtonsCall).to.exist;
+      expect(actionButtonsCall.args[1]).to.have.property(
+        'redirectPath',
+        undefined,
+      );
+    });
+  });
 });

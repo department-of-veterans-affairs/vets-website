@@ -3,7 +3,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockMessages from '../fixtures/threads-response.json';
 import { AXE_CONTEXT, Arrays } from '../utils/constants';
 import FolderLoadPage from '../pages/FolderLoadPage';
-import PatentMessageSentPage from '../pages/PatientMessageSentPage';
+import PatientMessageSentPage from '../pages/PatientMessageSentPage';
 import PatientFilterPage from '../pages/PatientFilterPage';
 import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 
@@ -30,7 +30,7 @@ describe('SM ADDITIONAL FILTER ELEMENTS', () => {
 
   it('verify Sent folder buttons and dropdowns', () => {
     FolderLoadPage.loadFolders();
-    PatentMessageSentPage.loadMessages();
+    PatientMessageSentPage.loadMessages();
 
     cy.get(`#content`).should('have.attr', 'hidden');
 

@@ -114,7 +114,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('h3').should(
             'contain',
-            'Debt 1 of 3: $100.00 overpayment for Disability compensation and pension debt',
+            'Debt 1 of 3: $100.00 Disability compensation and pension overpayment',
           );
 
           cy.get(
@@ -127,7 +127,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('h3').should(
             'contain',
-            'Debt 1 of 3: $100.00 overpayment for Disability compensation and pension debt',
+            'Debt 1 of 3: $100.00 Disability compensation and pension overpayment',
           );
 
           cy.get('va-textarea')
@@ -143,7 +143,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('h3').should(
             'contain',
-            'Debt 2 of 3: $120.40 overpayment for Post-9/11 GI Bill debt for books and supplies',
+            'Debt 2 of 3: $120.40 Post-9/11 GI Bill overpayment for books and supplies',
           );
 
           cy.get(
@@ -156,7 +156,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('h3').should(
             'contain',
-            'Debt 2 of 3: $120.40 overpayment for Post-9/11 GI Bill debt for books and supplies',
+            'Debt 2 of 3: $120.40 Post-9/11 GI Bill overpayment for books and supplies',
           );
 
           cy.get('va-textarea')
@@ -172,7 +172,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('h3').should(
             'contain',
-            'Debt 3 of 3: $1,000.00 overpayment for Post-9/11 GI Bill debt for tuition',
+            'Debt 3 of 3: $1,000.00 Post-9/11 GI Bill overpayment for tuition',
           );
 
           cy.get(
@@ -185,7 +185,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('h3').should(
             'contain',
-            'Debt 3 of 3: $1,000.00 overpayment for Post-9/11 GI Bill debt for tuition',
+            'Debt 3 of 3: $1,000.00 Post-9/11 GI Bill overpayment for tuition',
           );
 
           cy.get('va-textarea')

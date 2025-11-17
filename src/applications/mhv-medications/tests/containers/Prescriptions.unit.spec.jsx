@@ -42,10 +42,11 @@ describe('Medications Prescriptions container', () => {
     },
   };
 
-  const setup = (state = initialState) => {
+  const setup = (state = initialState, url = '/') => {
     return renderWithStoreAndRouterV6(<Prescriptions />, {
       initialState: state,
       reducers: reducer,
+      initialEntries: [url],
       additionalMiddlewares: [
         allergiesApiModule.allergiesApi.middleware,
         prescriptionsApiModule.prescriptionsApi.middleware,
@@ -279,5 +280,25 @@ describe('Medications Prescriptions container', () => {
     expect(screen.queryByTestId('meds-by-mail-header')).not.to.exist;
     expect(screen.queryByTestId('meds-by-mail-top-level-text')).not.to.exist;
     expect(screen.queryByTestId('meds-by-mail-additional-info')).not.to.exist;
+  });
+
+  describe('renderRxRenewalMessageSuccess', () => {
+    it('should render component with deleteDraftSuccess query param', async () => {
+      const screen = setup(initialState, '?page=1&draftDeleteSuccess=true');
+      await waitFor(() => {
+        expect(screen.getByTestId('rx-renewal-delete-draft-success-alert')).to
+          .exist;
+      });
+    });
+
+    it('should render component with rxRenewalMessageSuccess query param', async () => {
+      const screen = setup(
+        initialState,
+        '?page=1&rxRenewalMessageSuccess=true',
+      );
+      await waitFor(() => {
+        expect(screen.getByTestId('rx-renewal-message-success-alert')).to.exist;
+      });
+    });
   });
 });
