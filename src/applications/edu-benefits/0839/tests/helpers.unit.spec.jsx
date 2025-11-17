@@ -9,6 +9,7 @@ import {
   facilityCodeUIValidation,
   showAdditionalPointsOfContact,
   getAdditionalContactTitle,
+  capitalizeFirstLetter,
 } from '../helpers';
 
 describe('0839 Helpers', () => {
@@ -1138,6 +1139,40 @@ describe('0839 Helpers', () => {
       expect(getAdditionalContactTitle(financialRepFormData)).to.equal(
         'Add school certifying official',
       );
+    });
+  });
+
+  describe('capitalizeFirstLetter', () => {
+    it('returns empty string when str is null', () => {
+      expect(capitalizeFirstLetter(null)).to.equal('');
+    });
+
+    it('returns empty string when str is undefined', () => {
+      expect(capitalizeFirstLetter(undefined)).to.equal('');
+    });
+
+    it('returns empty string when str is empty string', () => {
+      expect(capitalizeFirstLetter('')).to.equal('');
+    });
+
+    it('capitalizes first letter of lowercase string', () => {
+      expect(capitalizeFirstLetter('president')).to.equal('President');
+      expect(capitalizeFirstLetter('chief administrative officer')).to.equal(
+        'Chief administrative officer',
+      );
+    });
+
+    it('handles already capitalized strings', () => {
+      expect(capitalizeFirstLetter('President')).to.equal('President');
+    });
+
+    it('handles single character strings', () => {
+      expect(capitalizeFirstLetter('a')).to.equal('A');
+      expect(capitalizeFirstLetter('A')).to.equal('A');
+    });
+
+    it('handles all uppercase strings', () => {
+      expect(capitalizeFirstLetter('PRESIDENT')).to.equal('PRESIDENT');
     });
   });
 });
