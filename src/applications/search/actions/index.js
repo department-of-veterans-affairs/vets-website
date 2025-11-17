@@ -5,7 +5,6 @@ export const FETCH_SEARCH_RESULTS_EMPTY = 'FETCH_SEARCH_RESULTS_EMPTY';
 
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
-import redactPii from 'platform/utilities/data/redactPii';
 import * as Sentry from '@sentry/browser';
 
 export function fetchSearchResults(query, page, options, clearGAData) {
@@ -30,7 +29,7 @@ export function fetchSearchResults(query, page, options, clearGAData) {
           recordEvent({
             event: options?.eventName,
             'search-page-path': options?.path,
-            'search-query': redactPii(options?.userInput),
+            'search-query': options?.userInput,
             'search-results-total-count':
               response?.meta?.pagination?.totalEntries,
             'search-results-total-pages':
