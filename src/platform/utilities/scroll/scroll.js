@@ -84,7 +84,20 @@ if (typeof window !== 'undefined') {
     let cleanupTimeout;
     const debouncedCleanup = () => {
       clearTimeout(cleanupTimeout);
-      cleanupTimeout = setTimeout(cleanupErrorAnnotations, 50);
+      cleanupTimeout = setTimeout(() => {
+        cleanupErrorAnnotations();
+
+        // After cleanup, scaffold any elements that now have errors
+        // This ensures blur validation triggers proper error scaffolding
+        // collectAllErrorElements handles both parent and nested child components
+        const errorSelector = ERROR_ATTR_SELECTORS.map(
+          attr => `[${attr}]`,
+        ).join(', ');
+        const allErrors = collectAllErrorElements(errorSelector);
+        allErrors.forEach(errorElement => {
+          addErrorAnnotations(errorElement);
+        });
+      }, 0);
     };
 
     const observer = new MutationObserver(debouncedCleanup);
