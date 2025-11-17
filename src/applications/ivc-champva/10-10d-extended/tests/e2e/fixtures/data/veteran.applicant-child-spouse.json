@@ -36,7 +36,8 @@
             "name": "sample_upload.png",
             "isEncrypted": false
           }
-        ]
+        ],
+        "applicantDependentStatus": "over18HelplessChild"
       },
       {
         "applicantName": {
@@ -44,7 +45,7 @@
           "last": "Alvin"
         },
         "applicantDob": "2001-01-04",
-        "applicantSsn": "21345436789",
+        "applicantSsn": "213454367",
         "view:sharesAddressWith": "na",
         "applicantAddress": {
           "street": "456 Square Rd",
@@ -56,23 +57,7 @@
         "applicantPhone": "3175551234",
         "applicantGender": "female",
         "applicantRelationshipToSponsor": "spouse",
-        "applicantRelationshipOrigin": "step",
-        "applicantBirthCertOrSocialSecCard": [
-          {
-            "attachmentId": "Birth certificate",
-            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
-            "name": "sample_upload.png",
-            "isEncrypted": false
-          }
-        ],
-        "applicantStepMarriageCert": [
-          {
-            "attachmentId": "Marriage certificate",
-            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
-            "name": "sample_upload.png",
-            "isEncrypted": false
-          }
-        ]
+        "dateOfMarriageToSponsor": "2025-01-01"
       }
     ],
     "certifierRole": "sponsor",
