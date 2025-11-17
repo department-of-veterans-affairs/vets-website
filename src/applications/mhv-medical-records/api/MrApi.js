@@ -80,10 +80,10 @@ export const getAcceleratedLabsAndTests = async ({
     startDate: effectiveStart,
     endDate: effectiveEnd,
   } = resolveAcceleratedDateRange(startDate, endDate, DEFAULT_DATE_RANGE);
-  // Build query params with API-required snake_case keys while keeping local camelCase vars
+  // Build query params with API-required snake_case keys
   const params = new URLSearchParams();
-  params.append('start_date', effectiveStart); // eslint-disable-line camelcase
-  params.append('end_date', effectiveEnd); // eslint-disable-line camelcase
+  params.append('start_date', effectiveStart);
+  params.append('end_date', effectiveEnd);
   const queryString = `?${params.toString()}`;
   return apiRequest(
     `${API_BASE_PATH_V2}/medical_records/labs_and_tests${queryString}`,
@@ -157,8 +157,8 @@ export const getAcceleratedNotes = async ({ startDate, endDate } = {}) => {
     endDate: effectiveEnd,
   } = resolveAcceleratedDateRange(startDate, endDate, DEFAULT_DATE_RANGE);
   const params = new URLSearchParams();
-  params.append('start_date', effectiveStart); // eslint-disable-line camelcase
-  params.append('end_date', effectiveEnd); // eslint-disable-line camelcase
+  params.append('start_date', effectiveStart);
+  params.append('end_date', effectiveEnd);
   const queryString = `?${params.toString()}`;
   return apiRequest(
     `${API_BASE_PATH_V2}/medical_records/clinical_notes${queryString}`,
