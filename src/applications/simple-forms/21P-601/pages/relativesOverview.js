@@ -1,39 +1,25 @@
 import {
   titleUI,
-  checkboxGroupUI,
-  checkboxGroupSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
-    ...titleUI('Who survived the deceased beneficiary?'),
-    survivors: checkboxGroupUI({
-      title: 'Check all that apply',
-      required: () => true,
-      labels: {
-        hasSpouse: 'Spouse',
-        hasChildren: 'Child or children',
-        hasParents: 'Parent(s)',
-        hasNone: 'None (no surviving relatives)',
-      },
-    }),
+    ...titleUI('Survivors of the beneficiary'),
+    survivors: yesNoUI('Are there any survivors of the beneficiary?'),
     'view:noSurvivorsMessage': {
       'ui:description':
         'Since there are no surviving relatives, you may be eligible for reimbursement of last illness and burial expenses if you paid them.',
       'ui:options': {
-        hideIf: formData => formData?.survivors?.hasNone !== true,
+        hideIf: formData => [true, undefined].includes(formData?.survivors),
       },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      survivors: checkboxGroupSchema([
-        'hasSpouse',
-        'hasChildren',
-        'hasParents',
-        'hasNone',
-      ]),
+      survivors: yesNoSchema,
       'view:noSurvivorsMessage': {
         type: 'object',
         properties: {},
