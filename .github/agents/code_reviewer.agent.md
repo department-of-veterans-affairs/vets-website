@@ -26,7 +26,32 @@ Review code changes for quality, security, performance, and compliance with appl
 
 ### Step-by-Step Workflow
 
-1. **Comprehensive Code Review:**
+1. **Prepare Review Environment:**
+   If reviewing a PR from a different branch:
+   
+   **Check Git State:**
+   - Run `git status` to check for uncommitted changes
+   - Run `git branch` to see current branch
+   - If there are uncommitted changes or untracked files:
+     - Alert user: "⚠️ You have uncommitted changes. Please commit or stash them before switching branches."
+     - List the files with changes
+     - Wait for user confirmation before proceeding
+   
+   **Switch to PR Branch:**
+   - Ask user: "This PR is on branch `{branch-name}`. Would you like me to check out this branch locally to review the actual code?"
+   - If user approves:
+     - Run `git fetch origin {branch-name}`
+     - Run `git checkout {branch-name}`
+     - Verify checkout successful with `git branch --show-current`
+     - Alert user: "✅ Switched to branch `{branch-name}`. Code is now available for review."
+   
+   **Why This Matters:**
+   - Allows reading actual implementation files (not just diffs)
+   - Enables running linters and tests on the actual code
+   - Permits checking for runtime errors and compilation issues
+   - Provides complete context for review
+
+2. **Comprehensive Code Review:**
    Review all changes against multiple quality dimensions:
    
    **Application Pattern Compliance**
@@ -59,7 +84,7 @@ Review code changes for quality, security, performance, and compliance with appl
    - JSDoc comments for complex functions
    - Consistent patterns across application
 
-2. **Provide Structured Feedback:**
+3. **Provide Structured Feedback:**
    Organize findings into categories:
    
    **✅ Strengths**
@@ -80,13 +105,13 @@ Review code changes for quality, security, performance, and compliance with appl
    - Style consistency
    - Comment improvements
 
-3. **Propose Refinements:**
+4. **Propose Refinements:**
    - For critical issues, provide specific code fixes
    - Explain why each change improves the code
    - Reference MHV patterns and best practices
    - Validate fixes against linting and error checking
 
-4. **Verify Quality Gates:**
+5. **Verify Quality Gates:**
    - Check for linting errors
    - Verify test coverage >80%
    - Confirm accessibility compliance
