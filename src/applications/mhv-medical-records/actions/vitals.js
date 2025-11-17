@@ -36,6 +36,13 @@ export const getVitals = (
       isCurrent,
     });
   } catch (error) {
+    if (isCerner) {
+      dispatch({
+        type: Actions.Vitals.GET_UNIFIED_LIST,
+        response: [],
+        isCurrent,
+      });
+    }
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     sendDatadogError(error, 'actions_vitals_getVitals');
   }
