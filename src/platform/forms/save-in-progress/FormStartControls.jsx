@@ -48,28 +48,16 @@ const FormStartControls = props => {
 
   const handleLoadPrefill = () => {
     captureAnalytics();
-    // eslint-disable-next-line no-console
-    console.log('FORMID', formId);
-    // eslint-disable-next-line no-console
-    console.log('MIGRATIONS', migrations);
-    if (prefillAvailable) {
-      // the problem seems to lie here
-      if (formSaved) {
-        // if there is a saved form, fetch it with prefill
-        props.fetchInProgressForm(
-          // TODO: where does this come from?
-          formId,
-          migrations,
-          true,
-          prefillTransformer,
-        );
-      } else {
-        goToBeginning();
-      }
-      // console.log('DIRECTED TO PREFILL AVAILABLE');
-    } else {
-      goToBeginning();
+    if (prefillAvailable && formSaved) {
+      props.fetchInProgressForm(
+        // TODO: where does this come from?
+        formId,
+        migrations,
+        true,
+        prefillTransformer,
+      );
     }
+    goToBeginning();
   };
 
   const handleLoadForm = () =>

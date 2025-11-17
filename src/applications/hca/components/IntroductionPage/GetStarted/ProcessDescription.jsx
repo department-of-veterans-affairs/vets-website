@@ -33,8 +33,6 @@ const ProcessDescription = ({ route: { formConfig, pageList } }) => {
         downtime,
         pageList,
       };
-      // eslint-disable-next-line no-console
-      console.log('sipProps', sipProps);
       return <SaveInProgressIntro {...sipProps} />;
     },
     [formConfig, pageList],
@@ -67,7 +65,7 @@ const ProcessDescription = ({ route: { formConfig, pageList } }) => {
 ProcessDescription.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
-      savedFormMessages: PropTypes.array,
+      savedFormMessages: PropTypes.object,
       prefillEnabled: PropTypes.bool,
       downtime: PropTypes.object,
     }),
