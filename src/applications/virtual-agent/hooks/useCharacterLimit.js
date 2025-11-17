@@ -40,7 +40,8 @@ export function getSrElement() {
 export function getCounterText(currentLength, characterLimit) {
   const charactersLeft = characterLimit - currentLength;
   const textSuffix = currentLength === 0 ? 'allowed' : 'left';
-  return `${charactersLeft} characters ${textSuffix}`;
+  const character = charactersLeft === 1 ? 'character' : 'characters';
+  return `${charactersLeft} ${character} ${textSuffix}`;
 }
 
 /**
