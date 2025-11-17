@@ -21,12 +21,7 @@ const PreviouslyEnteredPOCWidget = props => {
   const push = (key, contact) => {
     const nm = contact && nameFrom(contact);
     if (!nm) return;
-    const phone =
-      contact?.usPhone ||
-      contact?.internationalPhone ||
-      contact?.phoneNumber ||
-      contact?.internationalPhoneNumber ||
-      '';
+    const phone = contact?.phoneNumber || {};
     const title = contact?.title || '';
     options.push({
       key,
@@ -49,12 +44,7 @@ const PreviouslyEnteredPOCWidget = props => {
   const authorizedOfficialName =
     authorizedOfficial && nameFrom(authorizedOfficial);
   if (authorizedOfficialName) {
-    const phone =
-      authorizedOfficial?.usPhone ||
-      authorizedOfficial?.internationalPhone ||
-      authorizedOfficial?.phoneNumber ||
-      authorizedOfficial?.internationalPhoneNumber ||
-      '';
+    const phone = authorizedOfficial?.phoneNumber || {};
     const title = authorizedOfficial?.title || '';
     options.push({
       key: 'authorizedOfficial',
@@ -81,12 +71,7 @@ const PreviouslyEnteredPOCWidget = props => {
     const name = [fn.first, fn.middle, fn.last].filter(Boolean).join(' ');
     const email = loc?.email || '';
     if (!name && !email) return;
-    const phone =
-      loc?.usPhone ||
-      loc?.internationalPhone ||
-      loc?.phoneNumber ||
-      loc?.internationalPhoneNumber ||
-      '';
+    const phone = loc?.phoneNumber || {};
     options.push({
       key: `new-${idx}`,
       label: name,
@@ -173,7 +158,14 @@ export const schema = {
         },
         title: { type: 'string' },
         email: { type: 'string', format: 'email' },
-        phone: { type: 'string' },
+        phone: {
+          type: 'object',
+          properties: {
+            callingCode: { type: 'string' },
+            countryCode: { type: 'string' },
+            contact: { type: 'string' },
+          },
+        },
       },
     },
   },
