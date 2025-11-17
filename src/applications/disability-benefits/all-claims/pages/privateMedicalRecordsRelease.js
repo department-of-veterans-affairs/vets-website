@@ -120,7 +120,7 @@ export const uiSchema = {
           'ui:autocomplete': 'off',
         },
         city: {
-          'ui:title': 'City',
+          'ui:title': 'City (30 characters maximum)',
           'ui:autocomplete': 'off',
         },
         state: selectUI('State'),
