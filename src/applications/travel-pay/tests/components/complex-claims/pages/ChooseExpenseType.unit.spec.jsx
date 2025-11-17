@@ -45,8 +45,12 @@ describe('ChooseExpenseType', () => {
       'What type of expense do you want to add?',
     );
 
-    expect(screen.getByText(/Start with one expense/)).to.exist;
-    expect(screen.getByText(/To request reimbursement for airfare/)).to.exist;
+    expect(screen.getByText(/Select 1 expense/)).to.exist;
+    expect(
+      screen.getByText(
+        /We’ll need to pre-approve any airfare, lodging, or meals before you request reimbursement/,
+      ),
+    ).to.exist;
 
     expect($('va-radio[label="Choose an expense type"]')).to.exist;
     expect($('va-button-pair')).to.exist;
@@ -124,13 +128,17 @@ describe('ChooseExpenseType', () => {
   it('displays helpful instruction text', () => {
     const screen = renderComponent();
 
-    expect(screen.getByText(/Start with one expense/)).to.exist;
+    expect(screen.getByText(/Select 1 expense/)).to.exist;
   });
 
   it('displays pre-approval requirement notice', () => {
     const screen = renderComponent();
 
-    expect(screen.getByText(/To request reimbursement for airfare/)).to.exist;
+    expect(
+      screen.getByText(
+        /We’ll need to pre-approve any airfare, lodging, or meals before you request reimbursement/,
+      ),
+    ).to.exist;
   });
 
   describe('Error handling', () => {
