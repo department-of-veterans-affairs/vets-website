@@ -75,9 +75,3 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 
 ## 📚 Additional Resources
 
-### Path-Specific Instructions
-**Path-specific custom instructions automatically apply when working on specific modules:**
-
-- **[instructions/my-health-messaging.instructions.md](./instructions/mhv-secure-messaging.instructions.md)** - Automatically applies to `src/applications/mhv-secure-messaging/` - Secure Messaging specific patterns, models, and API client usage
-
-These path-specific instructions are automatically loaded by GitHub Copilot when you work on files matching their `applyTo` patterns. You can create additional path-specific instruction files in `.github/instructions/` for other modules or features.
