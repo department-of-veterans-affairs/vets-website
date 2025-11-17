@@ -540,15 +540,30 @@ describe('scrollToFirstError', () => {
     sinon.assert.notCalled(focusStub);
   });
 
-  it('should call `focusElement` with element when `focusOnAlertRole` is false and element is a VA-* tag', async () => {
+  it('should focus the va-text-input internal input when `focusOnAlertRole` is false', async () => {
     const { container } = renderForm();
     const el = document.createElement('va-text-input');
     el.setAttribute('error', 'some error');
     el.id = 'va-input';
+
+    // Mock the shadow root and internal input element
+    const shadowRoot = el.attachShadow({ mode: 'open' });
+    const input = document.createElement('input');
+    const focusSpy = sinon.spy();
+    input.focus = focusSpy;
+    shadowRoot.appendChild(input);
+
     container.querySelector('form').appendChild(el);
 
     await scrollToFirstError();
-    sinon.assert.calledWithExactly(focusStub, el);
+
+    // focusElement from focusUtils should NOT be called for supported VA components
+    sinon.assert.notCalled(focusStub);
+    // Instead, native focus should be called on the internal input
+    await waitFor(() => {
+      sinon.assert.calledOnce(focusSpy);
+      sinon.assert.calledWithExactly(focusSpy, { preventScroll: true });
+    });
   });
 
   it('should log a warning to the console when no error element is found and timer expires ', async () => {
