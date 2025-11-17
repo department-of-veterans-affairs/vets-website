@@ -3,7 +3,9 @@ import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-li
 import { expect } from 'chai';
 import { fireEvent, waitFor, cleanup } from '@testing-library/react';
 import sinon from 'sinon';
-import DeleteDraft from '../../components/Draft/DeleteDraft';
+import DeleteDraft, {
+  _computeDraftDeleteRedirect,
+} from '../../components/Draft/DeleteDraft';
 import { drafts, inbox, sent } from '../fixtures/folder-inbox-response.json';
 import thread from '../fixtures/reducers/thread-with-multiple-drafts-reducer.json';
 import reducer from '../../reducers';
@@ -404,6 +406,102 @@ describe('Delete Draft component', () => {
     fireEvent.click(deleteModalButton);
     await waitFor(() => {
       expect(setNavigationErrorSpy.calledWith(null)).to.be.true;
+    });
+  });
+
+  describe('redirectPath prop', () => {
+    it('renders with redirectPath prop', async () => {
+      const initialState = {
+        sm: {
+          folders: {
+            folder: inbox,
+          },
+        },
+      };
+
+      const redirectPath = '/my-health/medications';
+      const { getByTestId } = renderWithStoreAndRouter(
+        <DeleteDraft
+          draftId={123456}
+          draftsCount={1}
+          redirectPath={redirectPath}
+          savedComposeDraft
+        />,
+        { initialState, reducers: reducer, path: Paths.COMPOSE },
+      );
+
+      expect(getByTestId('delete-draft-button')).to.exist;
+    });
+  });
+
+  describe('_computeDraftDeleteRedirect', () => {
+    it('should add draftDeleteSuccess=true to path without query params', () => {
+      const result = _computeDraftDeleteRedirect('/my-health/medications');
+      expect(result).to.equal('/my-health/medications?draftDeleteSuccess=true');
+    });
+
+    it('should add draftDeleteSuccess=true to path with existing query params', () => {
+      const result = _computeDraftDeleteRedirect(
+        '/my-health/medications?tab=renewals',
+      );
+      expect(result).to.equal(
+        '/my-health/medications?tab=renewals&draftDeleteSuccess=true',
+      );
+    });
+
+    it('should remove rxRenewalMessageSuccess=true and add draftDeleteSuccess=true', () => {
+      const result = _computeDraftDeleteRedirect(
+        '/my-health/medications?rxRenewalMessageSuccess=true',
+      );
+      expect(result).to.equal('/my-health/medications?draftDeleteSuccess=true');
+    });
+
+    it('should remove rxRenewalMessageSuccess=false and add draftDeleteSuccess=true', () => {
+      const result = _computeDraftDeleteRedirect(
+        '/my-health/medications?rxRenewalMessageSuccess=false',
+      );
+      expect(result).to.equal('/my-health/medications?draftDeleteSuccess=true');
+    });
+
+    it('should remove rxRenewalMessageSuccess without value and add draftDeleteSuccess=true', () => {
+      const result = _computeDraftDeleteRedirect(
+        '/my-health/medications?rxRenewalMessageSuccess',
+      );
+      expect(result).to.equal('/my-health/medications?draftDeleteSuccess=true');
+    });
+
+    it('should handle rxRenewalMessageSuccess in middle of query string', () => {
+      const result = _computeDraftDeleteRedirect(
+        '/my-health/medications?tab=renewals&rxRenewalMessageSuccess=true&other=param',
+      );
+      expect(result).to.equal(
+        '/my-health/medications?tab=renewals&other=param&draftDeleteSuccess=true',
+      );
+    });
+
+    it('should handle rxRenewalMessageSuccess at end of query string', () => {
+      const result = _computeDraftDeleteRedirect(
+        '/my-health/medications?tab=renewals&rxRenewalMessageSuccess=true',
+      );
+      expect(result).to.equal(
+        '/my-health/medications?tab=renewals&draftDeleteSuccess=true',
+      );
+    });
+
+    it('should handle rxRenewalMessageSuccess at start of query string', () => {
+      const result = _computeDraftDeleteRedirect(
+        '/my-health/medications?rxRenewalMessageSuccess=true&other=param',
+      );
+      expect(result).to.equal(
+        '/my-health/medications?other=param&draftDeleteSuccess=true',
+      );
+    });
+
+    it('should handle multiple rxRenewalMessageSuccess params (edge case)', () => {
+      const result = _computeDraftDeleteRedirect(
+        '/my-health/medications?rxRenewalMessageSuccess=true&rxRenewalMessageSuccess=false',
+      );
+      expect(result).to.equal('/my-health/medications?draftDeleteSuccess=true');
     });
   });
 });
