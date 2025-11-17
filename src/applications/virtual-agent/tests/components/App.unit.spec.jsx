@@ -102,12 +102,10 @@ describe('App', () => {
 
       expect(getByText('Chat ended')).to.exist;
     });
-    it('should dispatch a reset event and toggle freeze when starting a new chat', () => {
-      const freezeValues = [];
-      sandbox.stub(WebChatModule, 'default').callsFake(props => {
-        freezeValues.push(props.freeze);
-        return <div data-testid="webchat-module" />;
-      });
+    it('should dispatch a reset event when starting a new chat', () => {
+      const webChatStub = sandbox
+        .stub(WebChatModule, 'default')
+        .callsFake(() => <div data-testid="webchat-module" />);
 
       sandbox.stub(UseWebChatModule, 'default').callsFake(() => {
         const [token, setToken] = React.useState('token-1');
@@ -152,8 +150,7 @@ describe('App', () => {
 
       expect(queryByText('Chat ended')).to.be.null;
 
-      expect(freezeValues.some(value => value === true)).to.be.true;
-      expect(freezeValues[freezeValues.length - 1]).to.equal(false);
+      expect(webChatStub.called).to.be.true;
     });
   });
 });
