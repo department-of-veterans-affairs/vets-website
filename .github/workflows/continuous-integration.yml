@@ -2088,13 +2088,6 @@ jobs:
           else
             echo "channel=$channel" >> $GITHUB_OUTPUT
           fi
-
-      - name: Debug CD gating values
-        run: |
-          echo "entry_names=${{ needs.build.outputs.entry_names }}"
-          echo "continuous_deployment=${{ needs.build.outputs.continuous_deployment }}"
-          echo "slack_channel=${{ steps.determine-channel.outputs.channel }}"
-
       - name: Check if today is a holiday
         id: holiday-check
         uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
