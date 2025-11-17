@@ -279,7 +279,7 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
   // Data comes from mockPrefill, not test data
   cy.get('.confirmation-chapter-section-collection').within(() => {
     cy.get('h3')
-      .contains(/review veteran details/i)
+      .contains(/veteran details/i)
       .should('exist');
 
     if (mockPrefill.formData.veteran.primaryPhone) {
