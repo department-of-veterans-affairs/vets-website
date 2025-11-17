@@ -4,9 +4,9 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { isLoggedIn } from 'platform/user/selectors';
+import { capitalizeFirstLetter } from '../helpers';
 
 import PrivacyActStatement from './PrivacyActStatement';
-import { capitalizeFirstLetter } from '../helpers';
 
 const PrivacyPolicy = () => {
   const dispatch = useDispatch();
@@ -82,6 +82,7 @@ const PrivacyPolicy = () => {
         <va-link
           href="https://benefits.va.gov/gibill/yellow_ribbon/yellow_ribbon_info_schools.asp"
           text="VA GI Bill website."
+          external
         />
       </p>
       <span data-testid="privacy-policy-text">
