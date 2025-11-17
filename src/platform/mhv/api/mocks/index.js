@@ -34,7 +34,8 @@ const acceleratedCareSummariesAndNotes = require('./medical-records/care-summari
 const healthConditions = require('./medical-records/health-conditions');
 const acceleratedHealthConditions = require('./medical-records/health-conditions/accelerated');
 const allergies = require('./medical-records/allergies');
-const acceleratedAllergies = require('./medical-records/allergies/full-example');
+const acceleratedAllergies = require('./medical-records/allergies/accelerated');
+const allergiesOH = require('./medical-records/allergies/full-example');
 const vaccines = require('./medical-records/vaccines');
 const acceleratedVaccines = require('./medical-records/vaccines/accelerated');
 const vitals = require('./medical-records/vitals');
@@ -45,6 +46,7 @@ const appointments = require('./medical-records/blue-button/appointments');
 const demographics = require('./medical-records/blue-button/demographics');
 const militaryService = require('./medical-records/blue-button/military-service');
 const patient = require('./medical-records/blue-button/patient');
+const lhVitals = require('./medical-records/vitals/lh-vitals');
 const acceleratedVitals = require('./medical-records/vitals/accelerated');
 
 // medical records self-entered
@@ -190,17 +192,20 @@ const responses = {
   'GET /my_health/v1/medical_records/allergies': (req, res) => {
     const { use_oh_data_path } = req.query;
     if (use_oh_data_path === '1') {
-      return res.json(acceleratedAllergies.all);
+      return res.json(allergiesOH.all);
     }
     return res.json(allergies.all);
   },
   'GET /my_health/v1/medical_records/allergies/:id': (req, res) => {
     const { use_oh_data_path } = req.query;
     if (use_oh_data_path === '1') {
-      return acceleratedAllergies.single(req, res);
+      return allergiesOH.single(req, res);
     }
     return allergies.single(req, res);
   },
+  'GET /my_health/v2/medical_records/allergies': acceleratedAllergies.all,
+  'GET /my_health/v2/medical_records/allergies/:id':
+    acceleratedAllergies.single,
   'GET /my_health/v1/medical_records/vaccines': vaccines.all,
   'GET /my_health/v2/medical_records/immunizations': acceleratedVaccines.all,
   'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,
@@ -341,13 +346,13 @@ startxref
     return res.type('application/pdf').send(Buffer.from(pdfMock));
   },
   'GET /my_health/v1/medical_records/vitals': (req, res) => {
-    const { use_oh_data_path, from, to } = req.query;
+    const { use_oh_data_path } = req.query;
     if (use_oh_data_path === '1') {
-      const vitalsData = acceleratedVitals.all(from, to);
-      return res.json(vitalsData);
+      return res.json(lhVitals.all);
     }
     return res.json(vitals.all);
   },
+  'GET /my_health/v2/medical_records/vitals': acceleratedVitals.all,
 
   // medical records Blue Button
   'GET /vaos/v2/appointments': appointments.appointments,

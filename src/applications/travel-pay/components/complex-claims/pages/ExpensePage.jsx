@@ -86,22 +86,25 @@ const ExpensePage = () => {
     navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
+  // Field names must match those expected by the expenses_controller in vets-api.
+  // The controller converts them to forwards them unchanged to the API.
   const REQUIRED_FIELDS = {
-    Meal: ['vendor'],
+    Meal: ['vendorName'],
     Lodging: ['vendor', 'checkInDate', 'checkOutDate'],
-    Commoncarrier: ['transportationType', 'transportationReason'],
+    Commoncarrier: ['carrierType', 'reasonNotUsingPOV'],
     Airtravel: [
       'vendorName',
       'tripType',
       'departureDate',
-      'departureAirport',
+      'departedFrom',
       'returnDate',
-      'arrivalAirport',
+      'arrivedTo',
     ],
   };
 
   const validatePage = () => {
-    const base = ['date', 'amount', 'receipt'];
+    // Field names must match those expected by the expenses_controller in vets-api.
+    const base = ['purchaseDate', 'costRequested', 'receipt'];
     const extra = REQUIRED_FIELDS[expenseType] || [];
     const requiredFields = [...base, ...extra];
 
@@ -220,16 +223,16 @@ const ExpensePage = () => {
       )}
       <VaDate
         label="Date on receipt"
-        name="date"
-        value={formState.date || ''}
+        name="purchaseDate"
+        value={formState.purchaseDate || ''}
         required
         onDateChange={handleFormChange}
       />
       <VaTextInput
         currency
         label="Amount requested"
-        name="amount"
-        value={formState.amount || ''}
+        name="costRequested"
+        value={formState.costRequested || ''}
         required
         show-input-error
         onInput={handleFormChange}

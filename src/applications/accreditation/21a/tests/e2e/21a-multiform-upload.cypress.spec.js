@@ -9,8 +9,13 @@ const convictionUrl = `${baseUrl}conviction`;
 const underChargesUrl = `${baseUrl}under-charges`;
 const convictionSupportingDocument1 =
   'src/applications/accreditation/21a/tests/e2e/fixtures/conviction_supporting_document_1.pdf';
-const convictionSupportingDocument2 =
-  'src/applications/accreditation/21a/tests/e2e/fixtures/conviction_supporting_document_2.pdf';
+
+const uploadImgDetails = uploadPath => ({
+  name: uploadPath,
+  size: 2783621,
+  password: false,
+  additionalData: {},
+});
 
 const vamcUser = { data: { nodeQuery: { count: 0, entities: [] } } };
 
@@ -138,14 +143,9 @@ describe('21A — resume to Conviction (yes/no)', () => {
       },
     );
 
-    cy.get('input[name="root_convictionDetailsDocuments-0"]').selectFile(
-      convictionSupportingDocument1,
-      { force: true },
-    );
-
-    cy.get('input[name="root_convictionDetailsDocuments-1"]').selectFile(
-      convictionSupportingDocument2,
-      { force: true },
+    cy.fillVaFileInputMultiple(
+      'root_convictionDetailsDocuments',
+      uploadImgDetails(convictionSupportingDocument1),
     );
 
     cy.injectAxe();

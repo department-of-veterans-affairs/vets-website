@@ -671,7 +671,7 @@ export const assetTransferPages = arrayBuilderPages(options, pageBuilder => ({
     schema: parentIncomeRecipientPage.schema,
   }),
   assetTransferNonVeteranRecipientPage: pageBuilder.itemPage({
-    title: 'Asset transfer relationship information',
+    title: incomeRecipientPageTitle,
     path: 'asset-transfers/:index/income-recipient',
     depends: () => !showUpdatedContent(),
     uiSchema: nonVeteranIncomeRecipientPage.uiSchema,
