@@ -25,11 +25,11 @@ import formConfig from '../config/form';
  * @const {Array<{key: string, label: string}>}
  */
 const CHAPTER_STEP_MAP = [
-  { key: 'veteranDetails', label: 'Veteran Details' },
+  { key: 'veteranDetails', label: 'Veteran details' },
   { key: 'disabilities', label: 'Conditions' },
-  { key: 'mentalHealth', label: 'Mental Health' },
-  { key: 'supportingEvidence', label: 'Supporting Evidence' },
-  { key: 'additionalInformation', label: 'Additional Information' },
+  { key: 'mentalHealth', label: 'Mental health' },
+  { key: 'supportingEvidence', label: 'Supporting evidence' },
+  { key: 'additionalInformation', label: 'Additional information' },
 ];
 
 /**

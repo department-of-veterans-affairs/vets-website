@@ -96,7 +96,7 @@ export default function ClaimFormSideNav({
       id="default-sidenav"
     >
       {landingPages.map((page, index) => {
-        const label = `Section ${index + 1} of 6: ${page.label}`;
+        const label = `Step ${index + 1}: ${page.label}`;
         if (page.current) {
           return (
             <VaSidenavItem
