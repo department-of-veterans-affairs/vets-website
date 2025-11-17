@@ -198,9 +198,9 @@ describe('Your claims cards', () => {
         },
       ];
 
-      phases.forEach(({ phaseType, status, expected }) => {
+      phases.forEach(({ status, expected }) => {
         it(`should display ${expected}`, () => {
-          setupClaimCardsTest([createClaim({ phaseType, status })]);
+          setupClaimCardsTest([createClaim({ status })]);
 
           cy.findByText(expected);
 
@@ -261,11 +261,9 @@ describe('Your claims cards', () => {
         },
       ];
 
-      phases.forEach(({ phaseType, status, claimTypeCode, expected }) => {
+      phases.forEach(({ phaseType, claimTypeCode, expected }) => {
         it(`should display ${expected}`, () => {
-          setupClaimCardsTest([
-            createClaim({ phaseType, status, claimTypeCode }),
-          ]);
+          setupClaimCardsTest([createClaim({ phaseType, claimTypeCode })]);
 
           cy.findByText(expected);
 

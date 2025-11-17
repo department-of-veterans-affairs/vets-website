@@ -1,7 +1,11 @@
 # Claims Status E2E Testing
 
+## Introduction
+- In November 2025 the E2E tests for the `claims-status` application were rewritten to improve coverage, maintainability, and scalability while modernizing the E2E tests
+- This README for `claims-status` E2E testing is to align the team on best practices gathered from Cypress, VA Platform, and the team
+
 ## Highlighted Cypress Best Practices
-Source: https://docs.cypress.io/app/core-concepts/best-practices
+Source: [Cypress Best Practices](https://docs.cypress.io/app/core-concepts/best-practices)
 
 1. Test specs in isolation and take control of your application's state ([source](https://docs.cypress.io/app/core-concepts/best-practices#Organizing-Tests-Logging-In-Controlling-State))
    1. DON'T share page objects
@@ -80,40 +84,12 @@ Source: https://docs.cypress.io/app/core-concepts/best-practices
 10. Accessibility Testing ([source](https://docs.cypress.io/app/guides/accessibility-testing))
 
 ## Highlighted Platform Best Practices
+Source: [Platform Best Practices - Unit and e2e Tests](https://depo-platform-documentation.scrollhelp.site/developer-docs/platform-best-practices-unit-and-e2e-tests#PlatformBestPractices-Unitande2eTests-Cypresse2eTesting)
+
 - `cy.injectAxe()` and `cy.axeCheck()` is required in every test
 
-## Other CST Best Practices
+## Other Team Best Practices
 - Organize tests into sub-folders (`details`, `shared`, `your-claims`, etc) rather then having them all at root
 - Use focused helper functions instead of page objects and organize them into sub-folders by purpose (`api-mocks`, `setup`, `interactions`, `assertions`)
-- Use `cy.findByRole()` or `cy.findByText` when no role is available instead of cy.contains() - checks semantics, visibility, and accessibility; also allows consistency between cypress and testing library
-- Stub all network requests with cy.intercept() for speed and reliability
-- Use `debugger`
-
-
-### Notes For Me
-- Example Organization of Tests:
-    - Articles
-      - Articles List
-      - Article New
-      - Article Details
-    - Author
-      - Author Details
-    - Shared
-      - Header
-    - User
-      - Login
-      - Register
-      - Settings
-- Three Strategies for User Sessions
-  - Stub All Requests/Responses (+fast/flexible; -not true e2e since not testing api, requires fixtures)
-  - Static User (+real e2e; -seed DB, shares test state)
-  - Dynamic User (new user for each test; +no shared test state; -slow/complex)
-- Misc Notes
-  - Don't test functionality of anchor tag; if has href then can assume that clicking link will take you to that page
-  - Can login using login command via UI (type in email, type in password, click sign-in) but if already tested that then should login with POST then setting of jwt - mock the state needed rather then running user flow to generate state
-    - Don't use UI to build up state; set state directly
-    - Test pages in total isolation; if email input breaks then login test should fail but Settings flow (which requires login to get to it should NOT break)
-    - Don't need page objects because only testing a page 1 time in isolation
-  - We have the power to control anything and everything so can setup a test exactly how we want it
-    - Set system to with cy.clock()
-    - Can run redux dispatch
+- Use `cy.findByRole()` - checks semantics, visibility, and accessibility; also allows consistency between cypress and testing library
+- Use `cy.findByText` when an element has no role (can see the role of an element via Developer Tools > Elements Tab > Accessibility Tab)
