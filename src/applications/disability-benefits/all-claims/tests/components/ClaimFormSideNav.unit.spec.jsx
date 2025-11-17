@@ -47,7 +47,7 @@ describe('ClaimFormSideNav', () => {
     );
 
     expect(currentItems).to.have.lengthOf(1);
-    expect(currentItems.first().prop('label')).to.contain('Veteran Details');
+    expect(currentItems.first().prop('label')).to.contain('Veteran details');
     tree.unmount();
   });
 
@@ -56,7 +56,7 @@ describe('ClaimFormSideNav', () => {
     const allItems = tree.find('VaSidenavItem');
 
     // Check for expected section labels
-    expect(allItems.at(0).prop('label')).to.contain('Veteran Details');
+    expect(allItems.at(0).prop('label')).to.contain('Veteran details');
     tree.unmount();
   });
 
@@ -171,13 +171,13 @@ describe('ClaimFormSideNav', () => {
     tree.unmount();
   });
 
-  it('should display "Section X of 6" format for labels', () => {
+  it('should display "Step X:" format for labels', () => {
     const tree = mount(<ClaimFormSideNav {...defaultProps} />);
     const items = tree.find('VaSidenavItem');
 
     items.forEach((item, index) => {
       const label = item.prop('label');
-      expect(label).to.contain(`Section ${index + 1} of 6:`);
+      expect(label).to.contain(`Step ${index + 1}:`);
     });
     tree.unmount();
   });
@@ -266,7 +266,7 @@ describe('ClaimFormSideNav', () => {
     const items = tree.find('VaSidenavItem');
     const reviewItem = items.last();
 
-    expect(reviewItem.prop('label')).to.contain('Review and Submit');
+    expect(reviewItem.prop('label')).to.contain('Review and submit');
     tree.unmount();
   });
 

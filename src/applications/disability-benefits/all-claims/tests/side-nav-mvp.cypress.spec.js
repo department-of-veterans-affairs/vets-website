@@ -52,7 +52,7 @@ const verifySideNavState = (chapterIndex, chapterKey) => {
       if (!hasItem) {
         // Chapter is rendered as disabled <p> element
         cy.get(`#default-sidenav p`)
-          .contains(`Section ${i + 1} of 6:`)
+          .contains(`Step ${i + 1}:`)
           .should('exist');
       }
     });

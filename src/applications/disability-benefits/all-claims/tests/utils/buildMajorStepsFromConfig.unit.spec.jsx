@@ -50,12 +50,12 @@ describe('buildMajorStepsFromConfig', () => {
       );
       const reviewStep = steps.find(s => s.key === 'reviewSubmit');
 
-      expect(veteranDetailsStep.label).to.equal('Veteran Details');
+      expect(veteranDetailsStep.label).to.equal('Veteran details');
       expect(disabilitiesStep.label).to.equal('Conditions');
-      expect(mentalHealthStep.label).to.equal('Mental Health');
-      expect(supportingEvidenceStep.label).to.equal('Supporting Evidence');
-      expect(additionalInfoStep.label).to.equal('Additional Information');
-      expect(reviewStep.label).to.equal('Review and Submit');
+      expect(mentalHealthStep.label).to.equal('Mental health');
+      expect(supportingEvidenceStep.label).to.equal('Supporting evidence');
+      expect(additionalInfoStep.label).to.equal('Additional information');
+      expect(reviewStep.label).to.equal('Review and submit');
     });
 
     it('should mark the current chapter based on pathname', () => {

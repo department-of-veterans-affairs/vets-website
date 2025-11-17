@@ -38,7 +38,7 @@ const CHAPTER_STEP_MAP = [
  */
 const REVIEW_STEP = {
   key: 'reviewSubmit',
-  label: 'Review and Submit',
+  label: 'Review and submit',
   path: '/review-and-submit',
 };
 
