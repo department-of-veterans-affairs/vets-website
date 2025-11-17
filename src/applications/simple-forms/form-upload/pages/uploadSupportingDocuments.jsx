@@ -26,6 +26,9 @@ export const showSupportingDocuments = {
       ...yesNoUI({
         required: () => true,
         title: 'Do you want to upload supporting documents now?',
+        errorMessages: {
+          required: 'Select yes to upload your supporting documents',
+        },
         confirmationField: () => ({ data: null, label: '' }),
       }),
     },
