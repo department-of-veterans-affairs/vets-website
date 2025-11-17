@@ -75,6 +75,8 @@ describe('21P-601 relatives page configurations', () => {
     it('has survivors yesNoUI configuration', () => {
       const survivorsUI = relativesOverview.uiSchema.survivors;
       expect(survivorsUI).to.exist;
+      expect(survivorsUI['ui:required']).to.be.a('function');
+      expect(survivorsUI['ui:required']()).to.be.true;
       expect(survivorsUI['ui:title']).to.equal(
         'Are there any survivors of the beneficiary?',
       );
