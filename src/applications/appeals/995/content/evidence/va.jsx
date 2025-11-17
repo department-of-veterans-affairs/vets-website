@@ -1,10 +1,11 @@
+import React from 'react';
 import {
   getProviderDetailsTitle,
   getProviderModalDeleteTitle,
 } from '../../utils/evidence';
 
 export const promptContent = {
-  title:
+  question:
     'Do you want us to get your VA medical records or military health records?',
   options: {
     Y:
@@ -12,6 +13,25 @@ export const promptContent = {
     N:
       "No, I don't need my VA medical records or military health records to support my claim",
   },
+  description: (
+    <>
+      <p>
+        We can collect your VA medical records or military health records from
+        any of these sources to support your claim:
+      </p>
+      <ul>
+        <li>VA medical center</li>
+        <li>Community-based outpatient clinic</li>
+        <li>Department of Defense military treatment facility</li>
+        <li>Community care provider paid for by VA</li>
+      </ul>
+      <p>We’ll ask you the names of the treatment locations to include.</p>
+      <p>
+        <strong>Note:</strong> Later in this form, we’ll ask about your private
+        (non-VA) provider medical records.
+      </p>
+    </>
+  ),
 };
 
 export const locationContent = {
@@ -24,7 +44,7 @@ export const locationContent = {
 };
 
 export const summaryContent = {
-  title: 'Do you want us to request records from another VA provider?',
+  question: 'Do you want us to request records from another VA provider?',
   options: {
     Y: 'Yes',
     N: 'No',
@@ -32,7 +52,7 @@ export const summaryContent = {
 };
 
 export const issuesContent = {
-  hint: 'Select all the service-connected conditions you were treated for',
+  label: 'Select all the service-connected conditions you were treated for',
 };
 
 export const content = {

@@ -12,8 +12,11 @@ import {
   textSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import Issues from './issues';
 import { EVIDENCE_URLS, HAS_VA_EVIDENCE } from '../../constants';
 import {
   issuesContent,
@@ -24,7 +27,6 @@ import {
 import { focusRadioH3 } from '../../../shared/utils/focus';
 import { redesignActive } from '../../utils';
 import { hasVAEvidence } from '../../utils/form-data-retrieval';
-import VaPrompt from '../../components/evidence/VaPrompt';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -39,7 +41,7 @@ const options = {
     getItemName: (item, index, fullData) => item.name,
     cardDescription: item => `${formatReviewDate(item?.date)}`,
     summaryTitle: 'Summary title',
-    summaryTitleWithoutItems: promptContent.title,
+    summaryTitleWithoutItems: promptContent.question,
     summaryDescriptionWithoutItems: (
       <>
         <p>
@@ -117,85 +119,14 @@ const locationPage = {
   },
 };
 
-const getSelectedIssues = formData => {
-  const selectedIssues = formData?.contestedIssues?.filter(
-    issue => issue?.['view:selected'],
-  );
-
-  return (
-    selectedIssues?.map(
-      selectedIssue => selectedIssue?.attributes?.ratingIssueSubjectText,
-    ) || []
-  );
-};
-
 /** @returns {PageSchema} */
 const issuesPage = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.name ? `Issues at ${formData.name}` : 'Issues',
-    ),
-    issues: {
-      ...checkboxGroupUI({
-        title: issuesContent.title,
-        hint: issuesContent.hint,
-        required: true,
-        labels: {}, // Initial empty labels
-      }),
-      'ui:options': {
-        ...checkboxGroupUI({
-          title: issuesContent.title,
-          hint: issuesContent.hint,
-          required: true,
-          labels: {},
-        })['ui:options'],
-        updateSchema: (formData, schema, uiSchema) => {
-          const selectedIssues = getSelectedIssues(formData);
-
-          if (!selectedIssues?.length) {
-            // Return original if no issues
-            return { schema, uiSchema };
-          }
-
-          const formattedIssuesForCheckboxes = {};
-          for (const issue of selectedIssues) {
-            const key = issue.toUpperCase().replace(/\s+/g, '_'); // Convert to valid key
-            formattedIssuesForCheckboxes[key] = issue;
-          }
-
-          // Update schema with dynamic enum values
-          const newSchema = {
-            ...schema,
-            properties: {
-              ...schema.properties,
-              issues: checkboxGroupSchema(
-                Object.keys(formattedIssuesForCheckboxes),
-              ),
-            },
-          };
-
-          // Update uiSchema with dynamic labels
-          const newUiSchema = {
-            ...uiSchema,
-            issues: {
-              ...uiSchema.issues,
-              'ui:options': {
-                ...uiSchema.issues['ui:options'],
-                labels: formattedIssuesForCheckboxes,
-              },
-            },
-          };
-
-          return { schema: newSchema, uiSchema: newUiSchema };
-        },
-      },
-    },
-  },
+  uiSchema: {},
   schema: {
     type: 'object',
+    required: ['issues'],
     properties: {
-      issues: checkboxGroupSchema([]), // Start with empty array
+      issues: checkboxGroupSchema([]),
     },
   },
 };
@@ -223,48 +154,41 @@ const datePage = {
 export default arrayBuilderPages(options, pageBuilder => ({
   vaSummary: pageBuilder.summaryPage({
     title: '',
-    // title: promptContent.title,
     path: EVIDENCE_URLS.vaSummary,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
-    // ------- REMOVE when new design toggle is removed
     depends: redesignActive,
-    // ------- END REMOVE
   }),
   vaLocation: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.vaLocation,
     uiSchema: locationPage.uiSchema,
     schema: locationPage.schema,
-    // ------- REMOVE when new design toggle is removed
     depends: redesignActive,
-    // ------- END REMOVE
   }),
   issues: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.vaIssues,
     uiSchema: issuesPage.uiSchema,
     schema: issuesPage.schema,
-    // ------- REMOVE when new design toggle is removed
+    // Issues requires a custom page because array builder does not
+    // natively support checkboxes with labels from formData
+    // rather than hardcoded checkboxes
+    CustomPage: props => Issues(props),
     depends: redesignActive,
-    // ------- END REMOVE
   }),
   treatmentDatePrompt: pageBuilder.itemPage({
     title: 'Treatment date prompt',
     path: EVIDENCE_URLS.vaTreatmentDatePrompt,
     uiSchema: datePage.uiSchema,
     schema: datePage.schema,
-    // ------- REMOVE when new design toggle is removed
     depends: redesignActive,
-    // ------- END REMOVE
   }),
   treatmentDate: pageBuilder.itemPage({
     title: 'Treatment date',
     path: EVIDENCE_URLS.vaTreatmentDateDetails,
     uiSchema: datePage.uiSchema,
     schema: datePage.schema,
-    // ------- REMOVE when new design toggle is removed
     depends: redesignActive,
-    // ------- END REMOVE
   }),
 }));
