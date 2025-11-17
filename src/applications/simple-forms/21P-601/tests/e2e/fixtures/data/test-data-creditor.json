@@ -26,12 +26,7 @@
   "claimantEmail": "billing@funeralhome.com",
   "relationshipToDeceased": "creditor",
   "wantsToWaiveSubstitution": true,
-  "survivors": {
-    "hasSpouse": false,
-    "hasChildren": false,
-    "hasParents": false,
-    "hasNone": true
-  },
+  "survivors": false,
   "claimingReimbursement": true,
   "expenses": [
     {
