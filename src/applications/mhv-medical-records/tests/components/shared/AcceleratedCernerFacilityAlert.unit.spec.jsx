@@ -113,7 +113,7 @@ describe('Accelerated Cerner Facility Alert', () => {
     });
   });
 
-  it('renders correctly for non-Cerner patients -- should show alert when not hiding', () => {
+  it('hides on landing page for Cerner users even when acceleration is false', () => {
     const screen = setup(
       {
         ...initialState,
@@ -122,12 +122,13 @@ describe('Accelerated Cerner Facility Alert', () => {
         }),
       },
       {
-        facilities: userProfileFacilities,
+        facilities: userProfileFacilities, // Cerner user
       },
-      CernerAlertContent.VACCINES, // Use a page that's not in the hide list for Cerner patients
+      CernerAlertContent.MR_LANDING_PAGE,
     );
 
-    expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
+    // Should hide because Cerner users always have their data working
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
   });
 
   it('hides correctly when isCerner is true', () => {
@@ -244,6 +245,25 @@ describe('Accelerated Cerner Facility Alert', () => {
       },
       { facilities: [] },
       CernerAlertContent.VITALS,
+    );
+
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+  });
+
+  it('hides for Cerner users on allergies page (not accelerating)', () => {
+    const screen = setup(
+      {
+        ...initialState,
+        featureToggles: createFeatureToggles({
+          isAccelerating: true,
+          isAcceleratingAllergies: false,
+        }),
+        drupalStaticData,
+      },
+      {
+        facilities: userProfileFacilities,
+      },
+      CernerAlertContent.ALLERGIES,
     );
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
