@@ -5,7 +5,12 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import {
+  Link,
+  useNavigate,
+  useLocation,
+  useSearchParams,
+} from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
@@ -45,10 +50,10 @@ import {
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
-import { selectRefillProgressFlag } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
+import RxRenewalMessageSuccessAlert from '../components/shared/RxRenewalMessageSuccessAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
 import DelayedRefillAlert from '../components/shared/DelayedRefillAlert';
@@ -78,6 +83,7 @@ import {
 import { buildPdfData } from '../util/buildPdfData';
 import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
 import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
+import RxRenewalDeleteDraftSuccessAlert from '../components/shared/RxRenewalDeleteDraftSuccessAlert';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -87,14 +93,14 @@ const Prescriptions = () => {
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
+  const [searchParams] = useSearchParams();
+  const rxRenewalMessageSuccess = searchParams.get('rxRenewalMessageSuccess');
+  const deleteDraftSuccess = searchParams.get('draftDeleteSuccess');
 
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
   const currentPage = useSelector(selectPageNumber);
-
-  // Get feature flags
-  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
 
   // Track if we've initialized from session storage
   const initializedFromSession = useRef(false);
@@ -599,7 +605,6 @@ const Prescriptions = () => {
   };
 
   const renderDelayedRefillAlert = () => {
-    if (!showRefillProgressContent) return null;
     if (!refillAlertList?.length) return null;
 
     return (
@@ -625,6 +630,13 @@ const Prescriptions = () => {
     );
   };
 
+  const renderRxRenewalMessageSuccess = () => {
+    if (deleteDraftSuccess) return <RxRenewalDeleteDraftSuccessAlert />;
+
+    if (rxRenewalMessageSuccess) return <RxRenewalMessageSuccessAlert />;
+    return null;
+  };
+
   const renderHeader = () => {
     let titleNotesMessage =
       'Bring your medications list to each appointment. And tell your provider about any new allergies or reactions.';
@@ -641,6 +653,7 @@ const Prescriptions = () => {
         <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
           Medications
         </h1>
+        {renderRxRenewalMessageSuccess()}
         <p
           className={`vads-u-margin-top--0 vads-u-margin-bottom--${titleNotesBottomMarginUnit}`}
           data-testid="Title-Notes"

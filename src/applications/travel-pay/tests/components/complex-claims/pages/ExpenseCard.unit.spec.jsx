@@ -132,7 +132,7 @@ describe('ExpenseCard', () => {
     expect(getByText('Round trip')).to.exist;
   });
 
-  it('opens the delete modal and calls deleteExpense on confirm', async () => {
+  it('opens the delete modal and calls deleteExpenseAndDocument on confirm', async () => {
     const { container } = renderExpenseCard();
 
     // Click delete button to open modal

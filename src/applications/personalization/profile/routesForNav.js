@@ -15,7 +15,7 @@ import FinancialInformation from './components/FinancialInformation';
 import HealthCareSettings from './components/HealthCareSettings';
 import LettersAndDocuments from './components/LettersAndDocuments';
 import AccountSecurityPage from './components/AccountSecurity';
-import AppointmentPreferences from './components/health-care-settings/AppointmentPreferences';
+import SchedulingPreferences from './components/health-care-settings/SchedulingPreferences';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -77,7 +77,6 @@ const routesForNav = [
     path: PROFILE_PATHS.NOTIFICATION_SETTINGS,
     requiresLOA3: true,
     requiresMVI: true,
-    subnavParent: PROFILE_PATH_NAMES.COMMUNICATIONS_SETTINGS,
   },
   {
     component: AccountSecurity,
@@ -143,9 +142,9 @@ const routesForProfile2Nav = [
     featureFlag: 'profileHealthCareSettingsPage',
   },
   {
-    component: AppointmentPreferences,
-    name: PROFILE_PATH_NAMES.APPOINTMENT_PREFERENCES,
-    path: PROFILE_PATHS.APPOINTMENT_PREFERENCES,
+    component: SchedulingPreferences,
+    name: PROFILE_PATH_NAMES.SCHEDULING_PREFERENCES,
+    path: PROFILE_PATHS.SCHEDULING_PREFERENCES,
     requiresLOA3: true,
     requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
@@ -249,4 +248,9 @@ export const getRoutesForNav = (
   }
 
   return routesForNav;
+};
+
+export const routeHasParent = (route, routes) => {
+  const matchedRoute = routes.find(r => r.path === route.path);
+  return Boolean(matchedRoute?.subnavParent);
 };

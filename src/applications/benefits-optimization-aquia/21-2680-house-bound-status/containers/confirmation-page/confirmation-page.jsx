@@ -7,6 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { DownloadFormPDF } from '../../components/confirmation-page/download-form-pdf';
 
 /**
  * Custom submission alert component that shows warning for additional steps needed
@@ -27,33 +28,6 @@ const CustomSubmissionAlert = () => {
         you to complete a few additional steps.
       </p>
     </va-alert>
-  );
-};
-
-/**
- * Custom save PDF section
- * @returns {React.ReactElement} Save PDF section
- */
-const SaveFormSection = () => {
-  const form = useSelector(state => state.form || {});
-  const pdfUrl = form?.submission?.response?.pdfUrl;
-
-  return (
-    <div className="confirmation-save-form-section vads-u-margin-bottom--4">
-      <h2>Save a copy of your form</h2>
-      <p>
-        If you’d like a PDF copy of your completed form, you can download it.
-      </p>
-      {pdfUrl && (
-        <p>
-          <va-link
-            download
-            href={pdfUrl}
-            text="Download a copy of your VA Form 21-2680 (PDF)"
-          />
-        </p>
-      )}
-    </div>
   );
 };
 
@@ -82,21 +56,16 @@ const PrintPageSection = () => {
  * @returns {React.ReactElement} What's next section
  */
 const WhatsNextSection = () => {
-  const form = useSelector(state => state.form || {});
-  const pdfUrl = form?.submission?.response?.pdfUrl;
-
   return (
     <div className="confirmation-whats-next-section">
       <h2>What you need to do next</h2>
-      <p>Follow these 4 steps to complete your application:</p>
+      <p>Follow these 3 steps to complete your application:</p>
       <va-process-list uswds>
-        <va-process-list-item header="Download a PDF version of the form you filled out.">
+        <va-process-list-item header="Check your downloads folder for your completed form.">
           <p>
-            <va-link
-              download
-              href={pdfUrl || '#'}
-              text="Download a copy of your VA Form 21-2680 (PDF)"
-            />
+            Your completed VA Form 21-2680 PDF has been downloaded
+            automatically. If you need to download it again, use the download
+            link above.
           </p>
         </va-process-list-item>
 
@@ -171,20 +140,26 @@ export const ConfirmationPage = ({ route }) => {
   const form = useSelector(state => state.form || {});
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
-  const confirmationNumber = submission?.response?.confirmationNumber || '';
+
+  // Extract GUID from submission response
+  const guid = submission?.response?.attributes?.guid || '';
+  const confirmationNumber =
+    submission?.response?.attributes?.confirmationNumber || guid;
+
+  // Extract veteran name for PDF filename
+  const veteranName = form?.data?.veteranInformation?.veteranFullName || {};
 
   return (
     <ConfirmationView
       formConfig={route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      pdfUrl={submission.response?.pdfUrl}
       devOnly={{
         showButtons: true,
       }}
     >
       <CustomSubmissionAlert />
-      <SaveFormSection />
+      {guid && <DownloadFormPDF guid={guid} veteranName={veteranName} />}
       <ConfirmationView.ChapterSectionCollection />
       <PrintPageSection />
       <WhatsNextSection />

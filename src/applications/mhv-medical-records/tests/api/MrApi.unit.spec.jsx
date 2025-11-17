@@ -358,21 +358,22 @@ describe('Accelerated OH API calls', () => {
   // Creating tests that ensure that the getAPI methods return a promise as expected
   describe('getAcceleratedAllergies', () => {
     it('should make an api call to get all allergies', () => {
-      const mockData = { mock: 'data' };
+      const mockData = { data: [{ id: '123', type: 'allergy' }] };
       mockApiRequest(mockData);
 
       return getAcceleratedAllergies().then(res => {
-        expect(res.mock).to.equal('data');
+        expect(res.data.length).to.equal(1);
+        expect(res.data[0].id).to.equal('123');
       });
     });
   });
   describe('getAcceleratedAllergy', () => {
     it('should make an api call to get a single allergy', () => {
-      const mockData = { mock: 'data' };
+      const mockData = { data: { id: '123', type: 'allergy' } };
       mockApiRequest(mockData);
 
       return getAcceleratedAllergy('123').then(res => {
-        expect(res.mock).to.equal('data');
+        expect(res.data.id).to.equal('123');
       });
     });
   });
@@ -387,7 +388,7 @@ describe('Accelerated OH API calls', () => {
         // expect fetch to be called with the correct date
         const expectedUrl = `${
           environment.API_URL
-        }/my_health/v1/medical_records/vitals?use_oh_data_path=1&from=${mockDate}&to=${mockDate}`;
+        }/my_health/v1/medical_records/vitals?use_oh_data_path=1`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });

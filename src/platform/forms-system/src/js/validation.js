@@ -590,6 +590,8 @@ export const UNSUPPORTED_ENCRYPTED_FILE_ERROR =
 export const MISSING_FILE = 'File is required.';
 export const MISSING_ADDITIONAL_INFO = 'This information is required.';
 export const UTF8_ENCODING_ERROR = "The file's encoding is not valid";
+export const DUPLICATE_FILE_ERROR =
+  'You already uploaded this file. Select a different file.';
 export function getFileError(file) {
   if (file.errorMessage) {
     return file.errorMessage;

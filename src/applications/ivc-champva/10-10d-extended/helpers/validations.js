@@ -1,6 +1,99 @@
-import { isBefore, isValid } from 'date-fns';
+import { isAfter, isBefore, isValid } from 'date-fns';
+import { isValidSSN } from 'platform/forms-system/src/js/utilities/validations';
 import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms/validations';
+import content from '../locales/en/content.json';
+
+const ERR_SSN_UNIQUE = content['validation--ssn-unique'];
+const ERR_SSN_INVALID = content['validation--ssn-invalid'];
+
+const normalizeSSN = val => String(val ?? '').replace(/\D/g, '');
+
+const getCurrentItemIndex = () => {
+  try {
+    const pathname = window?.location?.pathname || '';
+    const match = pathname.match(/\/(\d+)(?:\?|$)/);
+    return match ? parseInt(match[1], 10) : null;
+  } catch {
+    return null;
+  }
+};
+
+/**
+ * Analyzes SSN matches between sponsor and applicants in form data.
+ *
+ * @param {Object} fullData - The complete form data object
+ * @param {string} fullData.sponsorSsn - The sponsor's Social Security Number
+ * @param {Array} fullData.applicants - Array of applicant objects
+ * @param {string} fullData.applicants[].applicantSsn - Each applicant's Social Security Number
+ * @param {string} current - The SSN to check for matches (normalized, digits only)
+ * @returns {Object} Match results
+ * @returns {boolean} returns.sponsorMatch - True if current SSN matches the sponsor's SSN
+ * @returns {number} returns.applicantMatches - Count of applicants with matching SSN
+ * @returns {number|null} returns.currentIndex - The current array index, if the URL param exists
+ */
+const getSsnMatches = (fullData, current) => {
+  const currentIndex = getCurrentItemIndex();
+  const sponsor = normalizeSSN(fullData?.sponsorSsn);
+  const applicants = (fullData?.applicants ?? [])
+    .map(a => normalizeSSN(a?.applicantSsn))
+    .filter(Boolean);
+
+  const sponsorMatch = sponsor === current;
+  const applicantMatches = applicants.filter(
+    (ssn, index) =>
+      ssn === current && (currentIndex === null || index !== currentIndex),
+  ).length;
+
+  return { sponsorMatch, applicantMatches, currentIndex };
+};
+
+/**
+ * Validates that an SSN is valid and unique among all form participants.
+ *
+ * @param {Object} options
+ * @param {Object} options.errors - The validation errors object to add errors to
+ * @param {string} options.fieldData - The SSN field data to validate
+ * @param {Object} options.fullData - The complete form data for cross-reference checking
+ * @param {boolean} [options.isSponsor=false] - Whether this is validating the sponsor's SSN
+ */
+const validateUniqueSsn = ({
+  errors,
+  fieldData,
+  fullData,
+  isSponsor = false,
+} = {}) => {
+  const current = normalizeSSN(fieldData);
+  if (!current) return;
+
+  if (!isValidSSN(current)) {
+    errors.addError(ERR_SSN_INVALID);
+    return;
+  }
+
+  const { sponsorMatch, applicantMatches, currentIndex } = getSsnMatches(
+    fullData,
+    current,
+  );
+
+  if (!isSponsor && sponsorMatch) {
+    errors.addError(ERR_SSN_UNIQUE);
+    return;
+  }
+
+  const duplicateThreshold = !isSponsor && currentIndex === null ? 1 : 0;
+  if (applicantMatches > duplicateThreshold) {
+    errors.addError(ERR_SSN_UNIQUE);
+  }
+};
+
+export const validateSponsorSsn = (errors, fieldData, fullData) => {
+  validateUniqueSsn({ errors, fieldData, fullData, isSponsor: true });
+};
+
+export const validateApplicantSsn = (errors, fieldData, fullData) => {
+  validateUniqueSsn({ errors, fieldData, fullData });
+};
 
 /**
  * Validates an applicant's date of marriage to sponsor is not before
@@ -67,6 +160,14 @@ export const validateOHIDates = (errors, data) => {
 };
 
 /**
+ * Validates file upload has proper structure
+ * @param {Array} fileArray - Array of uploaded files
+ * @returns {boolean} - true if file upload is valid
+ */
+const hasValidUpload = fileArray =>
+  Array.isArray(fileArray) && fileArray[0]?.name;
+
+/**
  * Validates Medicare plan fields for a given form item.
  *
  * Returns `true` when the item is **invalid** (i.e., has missing or bad data)
@@ -127,9 +228,6 @@ export const validateMedicarePlan = (item = {}) => {
     const date = new Date(dateString);
     return isValid(date) && isBefore(date, new Date());
   };
-
-  const hasValidUpload = fileArray =>
-    Array.isArray(fileArray) && fileArray[0]?.name;
 
   if (!medicarePlanType) return true;
 
@@ -245,9 +343,6 @@ export const validateHealthInsurancePlan = (item = {}) => {
     return isValid(date) && isBefore(date, new Date());
   };
 
-  const hasValidUpload = fileArray =>
-    Array.isArray(fileArray) && fileArray[0]?.name;
-
   const hasValidDateRange = (startDate, endDate) => {
     if (!startDate || !endDate) return true;
     const fromDate = convertToDateField(startDate);
@@ -281,4 +376,159 @@ export const validateHealthInsurancePlan = (item = {}) => {
   return (
     !hasValidUpload(insuranceCardFront) || !hasValidUpload(insuranceCardBack)
   );
+};
+
+/**
+ * Validates basic required fields for all applicants
+ * @param {Object} item - The applicant item data
+ * @returns {boolean} - true if any basic field is missing
+ */
+const validateApplicantBasicFields = item => {
+  const {
+    applicantName,
+    applicantDob,
+    applicantSsn,
+    applicantGender: { gender } = {},
+    applicantPhone,
+    applicantAddress: { street, city, state } = {},
+    applicantRelationshipToSponsor,
+  } = item ?? {};
+
+  if (!applicantName?.first || !applicantName?.last) return true;
+  if (!applicantDob) return true;
+  if (!applicantSsn) return true;
+  if (!gender) return true;
+  if (!applicantPhone) return true;
+  if (!street || !city || !state) return true;
+  return !applicantRelationshipToSponsor?.relationshipToVeteran;
+};
+
+/**
+ * Validates date of birth is valid and not in future
+ * @param {string} applicantDob - Date of birth string
+ * @returns {boolean} - true if date is invalid
+ */
+const validateApplicantDateOfBirth = applicantDob => {
+  if (!isValid(new Date(applicantDob))) return true;
+  return isAfter(new Date(applicantDob), new Date());
+};
+
+/**
+ * Validates child-specific document requirements based on relationship origin
+ * @param {Object} item - The applicant item data
+ * @returns {boolean} - true if child documents are incomplete
+ */
+const validateChildDocuments = item => {
+  const {
+    applicantRelationshipOrigin,
+    applicantBirthCertOrSocialSecCard,
+    applicantAdoptionPapers,
+    applicantStepMarriageCert,
+  } = item;
+  const relationshipOrigin = applicantRelationshipOrigin?.relationshipToVeteran;
+
+  if (!relationshipOrigin) return true;
+
+  if (
+    (relationshipOrigin === 'adoption' || relationshipOrigin === 'step') &&
+    !hasValidUpload(applicantBirthCertOrSocialSecCard)
+  ) {
+    return true;
+  }
+
+  if (
+    relationshipOrigin === 'adoption' &&
+    !hasValidUpload(applicantAdoptionPapers)
+  ) {
+    return true;
+  }
+
+  return (
+    relationshipOrigin === 'step' && !hasValidUpload(applicantStepMarriageCert)
+  );
+};
+
+/**
+ * Validates age-based dependent status for children (18-23 years old)
+ * @param {Object} item - The applicant item data
+ * @returns {boolean} - true if dependent status is incomplete
+ */
+const validateChildDependentStatus = item => {
+  const { applicantDob, applicantDependentStatus, applicantSchoolCert } = item;
+  const birthDate = new Date(applicantDob);
+  const age = Math.floor(
+    (new Date() - birthDate) / (365.25 * 24 * 60 * 60 * 1000),
+  );
+
+  if (age >= 18 && age <= 23) {
+    if (!applicantDependentStatus?.status) return true;
+    if (
+      ['enrolled', 'intendsToEnroll'].includes(
+        applicantDependentStatus.status,
+      ) &&
+      !hasValidUpload(applicantSchoolCert)
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+/**
+ * Validates child-specific requirements
+ * @param {Object} item - The applicant item data
+ * @returns {boolean} - true if child validation fails
+ */
+const validateChildRequirements = item => {
+  if (validateChildDocuments(item)) return true;
+  return validateChildDependentStatus(item);
+};
+
+/**
+ * Validates marriage date requirements for spouses
+ * @param {Object} item - The applicant item data
+ * @returns {boolean} - true if marriage date validation fails
+ */
+const validateSpouseMarriageDate = item => {
+  const { applicantDob, dateOfMarriageToSponsor } = item;
+  if (!dateOfMarriageToSponsor) return true;
+  if (!isValid(new Date(dateOfMarriageToSponsor))) return true;
+  if (isAfter(new Date(dateOfMarriageToSponsor), new Date())) return true;
+  return isAfter(new Date(applicantDob), new Date(dateOfMarriageToSponsor));
+};
+
+/**
+ * Validates spouse-specific requirements
+ * Note: This simplified version doesn't handle deceased sponsor scenarios
+ * since we don't have access to formData in isItemIncomplete
+ * @param {Object} item - The applicant item data
+ * @returns {boolean} - true if spouse validation fails
+ */
+const validateSpouseRequirements = item => {
+  return validateSpouseMarriageDate(item);
+};
+
+/**
+ * Validates if an applicant item is complete based on required fields
+ * Note: This simplified version validates what we can without access to formData
+ * @param {Object} item - The applicant item data
+ * @returns {boolean} - true if item is incomplete, false if complete
+ */
+export const validateApplicant = (item = {}) => {
+  if (validateApplicantBasicFields(item)) return true;
+  if (validateApplicantDateOfBirth(item.applicantDob)) return true;
+
+  const relationshipToVeteran =
+    item.applicantRelationshipToSponsor?.relationshipToVeteran;
+
+  if (relationshipToVeteran === 'child') {
+    return validateChildRequirements(item);
+  }
+
+  if (relationshipToVeteran === 'spouse') {
+    return validateSpouseRequirements(item);
+  }
+
+  return false;
 };

@@ -6,8 +6,8 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 const ExpenseMealFields = ({ formState, onChange }) => (
   <VaTextInput
     label="Where did you purchase the meal?"
-    name="vendor"
-    value={formState.vendor || ''}
+    name="vendorName"
+    value={formState.vendorName || ''}
     required
     onInput={onChange}
   />
