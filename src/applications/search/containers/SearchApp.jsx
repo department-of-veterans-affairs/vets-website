@@ -426,9 +426,7 @@ const SearchApp = ({
           </DowntimeNotification>
         </div>
         <div className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--0 usa-width-one-fourth columns">
-          <h2 className="highlight vads-u-font-size--h4">
-            More VA search tools
-          </h2>
+          <h2 className="highlight vads-u-font-size--h4">VA search tools</h2>
           <MoreVASearchTools />
         </div>
       </div>
