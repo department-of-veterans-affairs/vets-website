@@ -48,22 +48,20 @@ export const selectHealthcareParticipantsPage = {
 function dynamicSchema(data, item) {
   let labels = data?.applicants?.map(app => {
     return {
-      [toHash(app.applicantSSN)]: nameWording(app, false, false, false),
+      [toHash(app.applicantSsn)]: nameWording(app, false, false, false),
     };
   });
 
   // Combine all into a single object
   labels = Object.assign({}, ...labels);
 
-  const title = `Which applicant or applicants has the ${item.provider} plan?`;
-
   return {
     uiSchema: {
       ...arrayBuilderItemSubsequentPageTitleUI(
-        'Applicant’s other health insurance',
+        `${item.provider} other health insurance`,
       ),
       healthcareParticipants: checkboxGroupUI({
-        title,
+        title: 'Which applicant or applicants has this plan?',
         hint: 'Select all that apply',
         required: () => true,
         labels,

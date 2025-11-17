@@ -162,17 +162,20 @@ export const sendMessage = (
   message,
   attachments,
   ohTriageGroup = false,
+  suppressAlert = false,
 ) => async dispatch => {
   try {
     await createMessage(message, attachments, ohTriageGroup);
 
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_SUCCESS,
-        '',
-        Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
-      ),
-    );
+    if (!suppressAlert) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_SUCCESS,
+          '',
+          Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+        ),
+      );
+    }
     dispatch(resetRecentRecipient());
     dispatch(setThreadRefetchRequired(true));
   } catch (e) {

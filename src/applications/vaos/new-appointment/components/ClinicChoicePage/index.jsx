@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import FormButtons from '../../../components/FormButtons';
 import RequestEligibilityMessage from './RequestEligibilityMessage';
@@ -19,7 +20,7 @@ import {
   selectEligibility,
 } from '../../redux/selectors';
 import useClinicFormState from './useClinicFormState';
-import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
+import { GA_PREFIX, TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import { getPageTitle } from '../../newAppointmentFlow';
 import { selectFeatureMentalHealthHistoryFiltering } from '../../../redux/selectors';
 
@@ -76,6 +77,12 @@ export default function ClinicChoicePage() {
 
   useEffect(
     () => {
+      if (Number.isInteger(schema.properties.clinicId.enum.length)) {
+        recordEvent({
+          event: `${GA_PREFIX}-clinic-choice-count`,
+          'clinic-count': schema.properties.clinicId.enum.length - 1,
+        });
+      }
       if (schema.properties.clinicId.enum.length > 2) {
         focusFormHeader();
       } else {

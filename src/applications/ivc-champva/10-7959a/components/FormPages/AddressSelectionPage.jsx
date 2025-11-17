@@ -67,7 +67,6 @@ const AddressSelectionPage = props => {
     contentBeforeButtons,
     data,
     dataKey,
-    goBack,
     goForward,
     onChange,
   } = props;
@@ -159,7 +158,7 @@ const AddressSelectionPage = props => {
       </fieldset>
 
       {contentBeforeButtons}
-      <NavButtons goBack={goBack} submitToContinue />
+      <NavButtons submitToContinue />
       {contentAfterButtons}
     </form>
   );

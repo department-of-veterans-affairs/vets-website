@@ -1,35 +1,49 @@
 import React from 'react';
+import { useParams } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 
 import { formatDateTime } from '../../../util/dates';
+import {
+  selectAppointment,
+  selectAllExpenses,
+  selectAllDocuments,
+} from '../../../redux/selectors';
+import { ComplexClaimsHelpSection } from '../../HelpText';
+import ExpensesAccordion from './ExpensesAccordion';
 
 const ConfirmationPage = () => {
-  // TODO: Remove placeholder data when wired up
-  const data = {
-    localStartTime: '2025-03-20T16:30:00.000-08:00',
-    location: {
-      attributes: {
-        name: 'Fort Collins VA Clinic',
-      },
-    },
-  };
+  const { claimId } = useParams();
+  const expenses = useSelector(selectAllExpenses) ?? [];
+  const documents = useSelector(selectAllDocuments) ?? [];
+  const appointmentData = useSelector(selectAppointment)?.data ?? null;
 
-  const [formattedDate, formattedTime] = formatDateTime(data.localStartTime);
+  const [formattedDate, formattedTime] = appointmentData?.localStartTime
+    ? formatDateTime(appointmentData.localStartTime)
+    : [null, null];
 
   return (
     <>
       <h1>We’re processing your travel reimbursement claim</h1>
       <va-alert status="success" visible>
         <h2 slot="headline">Claim submitted</h2>
-        <p className="vads-u-margin-y--0">Claim number: #######</p>
-        <p>
-          This claim is for your appointment{' '}
-          {data.location?.attributes?.name
-            ? `at ${data.location.attributes.name}`
-            : ''}{' '}
-          {data.practitionerName ? `with ${data.practitionerName}` : ''} on{' '}
-          {formattedDate} at {formattedTime}.
-        </p>
+        <p className="vads-u-margin-y--0">Claim number: {claimId}</p>
+        {appointmentData && (
+          <p className="vads-u-margin-bottom--0">
+            This claim is for your appointment
+            {appointmentData.location?.attributes?.name
+              ? ` at ${appointmentData.location.attributes.name}`
+              : ''}
+            {appointmentData.practitionerName
+              ? ` with ${appointmentData.practitionerName}`
+              : ''}
+            {formattedDate && formattedTime
+              ? ` on ${formattedDate} at ${formattedTime}`
+              : ''}
+            .
+          </p>
+        )}
       </va-alert>
+      <ExpensesAccordion expenses={expenses} documents={documents} />
 
       <h2 className="vads-u-margin-top--4">Print this confirmation page</h2>
       <p>
@@ -67,28 +81,11 @@ const ConfirmationPage = () => {
           />
         </va-process-list-item>
       </va-process-list>
-
       <va-link-action
-        text="Submit another travel reimbursement claim"
+        text="View your appointments to submit another travel reimbursement claim"
         href="/my-health/appointments/past"
       />
-
-      <h2 className="vads-u-margin-top--4">
-        How to contact us if you have questions
-      </h2>
-      <p>
-        Call us at <va-telephone contact="8555747292" /> (
-        <va-telephone tty contact="711" />
-        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-      </p>
-      <p>
-        Or you can ask us a question online through Ask VA. Select the category
-        and topic for the VA benefit this form is related to.
-      </p>
-      <va-link
-        href="https://ask.va.gov/"
-        text="Contact us online through Ask VA"
-      />
+      <ComplexClaimsHelpSection />
     </>
   );
 };

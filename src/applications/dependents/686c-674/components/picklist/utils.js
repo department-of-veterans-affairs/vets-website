@@ -20,7 +20,7 @@ export const labels = {
     marriageEnded: 'You’re no longer married to them',
     divorce: 'You got divorced',
     annulmentOrVoid: 'Your marriage was annulled or declared void',
-    death: 'They died',
+    spouseDied: 'They died',
   },
   Parent: {
     removalReasonTitle: (fullName, isEditing) => (
@@ -106,7 +106,7 @@ export const pageDetails = {
             value: location(item),
           },
         ];
-      case 'death':
+      case 'spouseDied':
         return [
           reason,
           {
@@ -237,9 +237,21 @@ export const pageDetails = {
                 value: getFormatedDate(item.endDate),
               },
         ];
-      // childAdopted work has been moved to the backlog
-      // case 'childAdopted':
-      //   return [isStepchild, reason];
+      case 'childAdopted':
+        return [
+          isStepchild,
+          reason,
+          {
+            // We can't leave a DT blank
+            label: (
+              <div className="sr-only">
+                This child can’t be removed using this application
+              </div>
+            ),
+            action: 'This child can’t be removed using this application',
+            value: `${item.fullName.first} will remain on your benefits`,
+          },
+        ];
       case 'childDied':
         return [
           isStepchild,

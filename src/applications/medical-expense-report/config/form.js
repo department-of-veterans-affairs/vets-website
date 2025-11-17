@@ -81,11 +81,11 @@ const formConfig = {
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
     applicantInformation: {
-      title: 'Applicant information',
+      title: 'Your information',
       pages: {
         claimantRelationship: {
           title: 'Your identity',
-          path: 'applicant/relationship',
+          path: 'applicant',
           uiSchema: claimantRelationship.uiSchema,
           schema: claimantRelationship.schema,
         },
@@ -110,8 +110,8 @@ const formConfig = {
         veteranInformation: {
           title: formData =>
             formData?.claimantNotVeteran
-              ? 'Veteran information'
-              : 'Your information',
+              ? 'Veteran’s information'
+              : 'Your identification information',
 
           path: 'applicant/veteran-information',
           uiSchema: veteranInformation.uiSchema,
@@ -124,20 +124,20 @@ const formConfig = {
       pages: {
         firstTimeReporting: {
           title: 'Reporting expenses',
-          path: 'expenses/reporting-period',
+          path: 'expenses',
           uiSchema: firstTimeReporting.uiSchema,
           schema: firstTimeReporting.schema,
         },
         effectiveDates: {
           title: 'Reporting period effective date',
-          path: 'expenses/reporting-period/effective-dates',
+          path: 'expenses/effective-dates',
           depends: formData => formData?.firstTimeReporting === true,
           uiSchema: effectiveDates.uiSchema,
           schema: effectiveDates.schema,
         },
         reportingPeriod: {
           title: 'Reporting period dates',
-          path: 'expenses/reporting-period/dates',
+          path: 'expenses/reporting-period-dates',
           depends: formData => formData?.firstTimeReporting === false,
           uiSchema: reportingPeriod.uiSchema,
           schema: reportingPeriod.schema,
@@ -159,14 +159,14 @@ const formConfig = {
       pages: {
         supportingDocuments: {
           title: 'Supporting documents',
-          path: 'expenses/additional-information/supporting-documents',
+          path: 'supporting-documents',
           depends: formData => hasCareExpenses(formData),
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },
         uploadDocuments: {
           title: 'Upload documents',
-          path: 'expenses/additional-information/upload-documents',
+          path: 'upload-documents',
           uiSchema: uploadDocuments.uiSchema,
           schema: uploadDocuments.schema,
         },

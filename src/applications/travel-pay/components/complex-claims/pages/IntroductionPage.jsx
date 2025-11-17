@@ -1,40 +1,59 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom-v5-compat';
 
+import { BTSSS_PORTAL_URL } from '../../../constants';
+import { createComplexClaim } from '../../../redux/actions';
 import {
-  BTSSS_PORTAL_URL,
-  FIND_FACILITY_TP_CONTACT_LINK,
-} from '../../../constants';
+  selectAppointment,
+  selectComplexClaim,
+} from '../../../redux/selectors';
+import { stripTZOffset } from '../../../util/dates';
+import { ComplexClaimsHelpSection } from '../../HelpText';
 
-const IntroductionPage = ({ appointment }) => {
-  // For now, we will override the appointment
-  // TODO Remove this override when appointment data is wired up in redux store
-  const overriddenAppointment = appointment || {
-    id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    appointmentSource: 'API',
-    appointmentDateTime: '2025-10-17T21:32:16.531Z',
-    appointmentName: 'string',
-    appointmentType: 'EnvironmentalHealth',
-    facilityId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    facilityName: 'Cheyenne VA Medical Center',
-    serviceConnectedDisability: 0,
-    currentStatus: 'Pending',
-    appointmentStatus: 'Complete',
-    externalAppointmentId: '12345',
-    associatedClaimId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    associatedClaimNumber: '',
-    isCompleted: true,
-  };
+const IntroductionPage = () => {
   const navigate = useNavigate();
-  const apptId = overriddenAppointment.id;
-  const createClaim = () => {
-    // TODO: Add logic to add a claim here
-    // Hardcoded claim ID in the meantime
-    const claimId = '45678';
+  const dispatch = useDispatch();
 
-    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+  const { data: appointment } = useSelector(selectAppointment);
+  const complexClaim = useSelector(selectComplexClaim);
+
+  const apptId = appointment?.id;
+
+  const createClaim = async () => {
+    if (!appointment) {
+      return;
+    }
+
+    // If claim already exists, navigate directly
+    const existingClaimId =
+      complexClaim?.data?.claimId || appointment?.travelPayClaim?.claim?.id;
+
+    if (existingClaimId) {
+      navigate(`/file-new-claim/${apptId}/${existingClaimId}/choose-expense`);
+      return;
+    }
+
+    try {
+      const result = await dispatch(
+        createComplexClaim({
+          appointmentDateTime: stripTZOffset(appointment.localStartTime),
+          facilityStationNumber: appointment.location.id,
+          appointmentType: appointment.isCompAndPen
+            ? 'CompensationAndPensionExamination'
+            : 'Other',
+          isComplete: false,
+        }),
+      );
+      if (result?.claimId) {
+        navigate(`/file-new-claim/${apptId}/${result.claimId}/choose-expense`);
+      }
+    } catch (error) {
+      // TODO: Add proper error handling
+      // Error will be handled by the Redux error state
+    }
   };
 
   return (
@@ -104,7 +123,7 @@ const IntroductionPage = ({ appointment }) => {
             </p>
             <va-link-action
               onClick={createClaim}
-              href="javascript0:void"
+              href="#"
               text="Start your travel reimbursement claim"
               type="primary"
             />
@@ -119,21 +138,7 @@ const IntroductionPage = ({ appointment }) => {
           exp-date="11/30/2027"
         />
       </div>
-      <div className="complex-claim-help-section vads-u-margin--2">
-        <h2 className="complex-claim-help-heading">Need help?</h2>
-        <p className="vads-u-margin-top--0">
-          You can call the BTSSS call center at{' '}
-          <va-telephone contact="8555747292" /> (
-          <va-telephone tty contact="711" />) We’re here Monday through Friday,
-          8:00 a.m. to 8:00 p.m. ET. Have your claim number ready to share when
-          you call.
-        </p>
-        <p>Or call your VA health facility’s Beneficiary Travel contact.</p>
-        <va-link
-          href={FIND_FACILITY_TP_CONTACT_LINK}
-          text="Find the travel contact for your facility"
-        />
-      </div>
+      <ComplexClaimsHelpSection />
     </div>
   );
 };

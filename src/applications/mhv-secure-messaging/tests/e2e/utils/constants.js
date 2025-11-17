@@ -108,6 +108,7 @@ export const Locators = {
     'recent-care-teams-continue-button',
   COMPOSE_RECIPIENT_TITLE: 'compose-recipient-title',
   COMPOSE_CATEGORY_DROPDOWN: 'compose-message-categories',
+  INTERSTITIAL_CONTINUE_BUTTON: 'continue-button',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: 'va-button[text="Yes, remove this folder"]',
@@ -181,6 +182,7 @@ export const Locators = {
     OLD_VERSION: `.welcome-message > p > a`,
     EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
     REPLY: `reply-to-message-link`,
+    START_NEW_MESSAGE: 'start-message-link',
   },
   ALERTS: {
     HEADER: `[data-testid="error-folder-not-empty"]`,
@@ -272,6 +274,7 @@ export const Locators = {
   BLOCKS: {
     ATTACHMENTS: '.attachments-list',
     FILTER_START_DATE: `[data-testid="date-start"]`,
+    FILTER_KEYWORD_INPUT: `[data-testid="keyword-search-input"]`,
     FILTER_END_DATE: `[data-testid="date-end"]`,
   },
   CHECKBOX: {
@@ -364,6 +367,7 @@ export const Alerts = {
   VIRUS_MULTI_ATTCH: `Our file scanner found a problem with your attachments. To send your message, remove the attachments.`,
   SAVE_DRAFT: `Do you want to save your draft message?`,
   SAVE_CHANGES: `Do you want to save your changes to this draft?`,
+  SEARCH_TERM_REQUIRED: 'Please enter a search term.',
 };
 
 export const Data = {

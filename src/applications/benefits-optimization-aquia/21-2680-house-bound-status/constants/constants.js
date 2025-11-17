@@ -63,3 +63,11 @@ export const DISTANCE_OPTIONS = {
   ONE_MILE: '1_mile',
   OTHER: 'other',
 };
+
+/**
+ * API Endpoints
+ * @constant {Object}
+ */
+export const API_ENDPOINTS = {
+  downloadPdf: '/form212680/download_pdf',
+};

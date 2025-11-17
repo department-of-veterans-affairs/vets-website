@@ -29,6 +29,7 @@ export const getCardDescription = item => {
     city,
     state,
     postalCode,
+    country,
   } = institutionAddress;
   const addressParts = [street, street2, street3].filter(Boolean).map(addr => (
     <span key={addr} className="card-address">
@@ -37,7 +38,8 @@ export const getCardDescription = item => {
   ));
   const cityStateZip =
     city || state || postalCode
-      ? `${city || ''}, ${state || ''} ${postalCode || ''}`.trim()
+      ? `${city || ''}${city && (state || postalCode) ? ',' : ''} ${state ||
+          ''} ${postalCode || ''}`.trim()
       : null;
 
   return item ? (
@@ -49,6 +51,10 @@ export const getCardDescription = item => {
             {cityStateZip && (
               <span className="card-address">{cityStateZip}</span>
             )}
+            {country &&
+              country !== 'USA' && (
+                <span className="card-address">{country}</span>
+              )}
           </p>
         )}
       </>
@@ -97,4 +103,55 @@ export const additionalLocationArrayBuilderOptions = {
     getItemName,
     cardDescription: item => getCardDescription(item),
   },
+};
+
+export const dateSigned = () => {
+  const date = new Date();
+  return date.toISOString().split('T')[0];
+};
+
+export const transformPhoneNumber = phoneNumber => {
+  return phoneNumber.replaceAll('-', '');
+};
+
+export const facilityCodeUIValidation = (errors, fieldData, formData) => {
+  const code = (fieldData || '').trim();
+
+  const currentItem = formData?.additionalLocations?.find(
+    item => item?.facilityCode?.trim() === code,
+  );
+
+  const additionalFacilityCodes = formData?.additionalLocations?.map(item =>
+    item?.facilityCode?.trim(),
+  );
+
+  const facilityCodes = [
+    ...additionalFacilityCodes,
+    formData?.institutionDetails?.facilityCode,
+  ];
+
+  const isDuplicate = facilityCodes?.filter(item => item === code).length > 1;
+
+  const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
+  const notFound = currentItem?.institutionName === 'not found';
+  const ineligible = currentItem?.poeEligible === false;
+
+  if (!currentItem?.isLoading) {
+    if (isDuplicate) {
+      errors.addError(
+        "You've already added this location. Please enter a different code.",
+      );
+      return;
+    }
+    if (badFormat || notFound) {
+      errors.addError(
+        'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+      );
+    }
+    if (ineligible) {
+      errors.addError(
+        'This institution is unable to participate in the Principles of Excellence.',
+      );
+    }
+  }
 };
