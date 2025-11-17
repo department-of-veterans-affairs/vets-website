@@ -14,7 +14,6 @@ export const veteranIdentificationInformationPage = {
     ...titleUI(
       'Veteran identification information',
       <>
-        You must enter either a Social Security number or a VA File number.
         <div className="vads-u-margin-top--3">
           {getAlert({ name: 'veteranIdentificationInformationPage' }, false)}
         </div>
