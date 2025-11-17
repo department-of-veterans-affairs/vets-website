@@ -69,17 +69,20 @@ export const getLabsAndTests = async () => {
     headers,
   });
 };
+
 export const getAcceleratedLabsAndTests = async ({
   startDate,
   endDate,
 } = {}) => {
-  const startDateParam = `start_date=${startDate}`;
-  const endDateParam = `&end_date=${endDate}`;
+  // Only include query params when at least one date is provided.
+  // If neither date supplied, call base endpoint without parameters.
+  const queryParams = new URLSearchParams();
+  if (startDate) queryParams.append('start_date', startDate);
+  if (endDate) queryParams.append('end_date', endDate);
+  const query = queryParams.toString() ? `?${queryParams.toString()}` : '';
   return apiRequest(
-    `${API_BASE_PATH_V2}/medical_records/labs_and_tests?${startDateParam}${endDateParam}`,
-    {
-      headers,
-    },
+    `${API_BASE_PATH_V2}/medical_records/labs_and_tests${query}`,
+    { headers },
   );
 };
 
@@ -144,13 +147,15 @@ export const getMhvRadiologyDetails = async id => {
 };
 
 export const getAcceleratedNotes = async ({ startDate, endDate } = {}) => {
-  const startDateParam = `?start_date=${startDate}`;
-  const endDateParam = `&end_date=${endDate}`;
+  // Only include query params when at least one date is provided.
+  // If neither date supplied, call base endpoint without parameters.
+  const queryParams = new URLSearchParams();
+  if (startDate) queryParams.append('start_date', startDate);
+  if (endDate) queryParams.append('end_date', endDate);
+  const query = queryParams.toString() ? `?${queryParams.toString()}` : '';
   return apiRequest(
-    `${API_BASE_PATH_V2}/medical_records/clinical_notes${startDateParam}${endDateParam}`,
-    {
-      headers,
-    },
+    `${API_BASE_PATH_V2}/medical_records/clinical_notes${query}`,
+    { headers },
   );
 };
 
