@@ -15,8 +15,8 @@ export const ConfirmationPage = ({ route }) => {
   const { submission } = form;
   const { response, timestamp } = submission || {};
 
-  // no confirmation number is returned from the API currently
-  const { confirmationNumber = '' } = response || {};
+  // Keeping it here, but not currently using it from DMC pdfs, due to order of PDF creation and API response
+  const confirmationNumber = response?.apiResponse?.submissionId || '';
 
   // Dropping reason chapter to better match designs and avoid extra repeating noise
   const trimmedConfig = {

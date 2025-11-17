@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
-import { handlePdfGeneration } from '../utils/pdfHelpers';
+import { handlePdfGeneration, generateVeteranPdf } from '../utils/pdfHelpers';
 
 // only capturing counts here, no PII
 const buildEventData = ({ education = {}, compAndPen = {} }) => {
@@ -18,15 +18,25 @@ const submitForm = (form, formConfig) => {
   const body = formConfig.transformForSubmit(formConfig, form);
   const eventData = buildEventData(body);
 
-  return handlePdfGeneration(body)
-    .then(response => {
+  return Promise.all([
+    handlePdfGeneration(body), // existing vendor/API PDFs (FormData)
+    generateVeteranPdf(body), // new veteran-facing PDF (Blob)
+  ])
+    .then(([vendorFormData, veteranFormData]) => {
       // response should be a FormData object with the generated PDFs
-      const pdfFile = response.get('files[]');
-      const pdfUrl = URL.createObjectURL(pdfFile);
+      if (!vendorFormData) {
+        // If our vendor PDF generation failed, bail before hitting the API
+        throw new Error('PDF generation failed');
+      }
+
+      // Veteran-facing PDF URL (for confirmation page)
+      const veteranPdfFile = veteranFormData && veteranFormData.get('files[]');
+      const veteranPdfUrl =
+        veteranPdfFile && URL.createObjectURL(veteranPdfFile);
 
       return apiRequest(submitUrl, {
         method: 'POST',
-        body: response,
+        body: vendorFormData,
       }).then(apiResponse => {
         if (apiResponse.errors) {
           throw new Error('API submission failed', apiResponse.errors);
@@ -39,7 +49,7 @@ const submitForm = (form, formConfig) => {
         });
         return {
           apiResponse,
-          ...(pdfUrl && { pdfUrl }),
+          ...(veteranPdfUrl && { pdfUrl: veteranPdfUrl }),
         };
       });
     })
