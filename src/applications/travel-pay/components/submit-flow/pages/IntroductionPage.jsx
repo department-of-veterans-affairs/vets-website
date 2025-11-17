@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
 import { selectAppointment } from '../../../redux/selectors';
 import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
-import { AppointmentInfoText } from '../../AppointmentDetails';
+import AppointmentInfoText from '../../AppointmentInfoText';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { recordSmocPageview } from '../../../util/events-helpers';
 import DowntimeWindowAlert from '../../../containers/DownTimeWindowAlert';

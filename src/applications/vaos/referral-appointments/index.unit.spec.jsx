@@ -142,7 +142,7 @@ describe('ReferralAppointments', () => {
 
     const screen = renderWithStoreAndRouter(<ReferralAppointments />, {
       initialState,
-      path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+      path: '/date-time?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
     });
 
     await waitFor(() => {
