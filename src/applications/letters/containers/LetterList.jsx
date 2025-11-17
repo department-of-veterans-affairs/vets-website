@@ -49,8 +49,8 @@ export class LetterList extends React.Component {
       .then(response => {
         if (Array.isArray(response.data) && response.data.length > 0) {
           const latestLetter = response.data.reduce((latest, current) => {
-            const latestDate = latest.attributes?.receivedAt || 0;
-            const currentDate = current.attributes?.receivedAt || 0;
+            const latestDate = latest.attributes?.receivedAt || '0';
+            const currentDate = current.attributes?.receivedAt || '0';
             return currentDate > latestDate ? current : latest;
           });
           this.setState({ tsaLetter: latestLetter });
