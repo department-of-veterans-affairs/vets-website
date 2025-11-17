@@ -69,17 +69,20 @@ export const getLabsAndTests = async () => {
     headers,
   });
 };
+
 export const getAcceleratedLabsAndTests = async ({
   startDate,
   endDate,
 } = {}) => {
-  const startDateParam = `start_date=${startDate}`;
-  const endDateParam = `&end_date=${endDate}`;
+  // Only include query params when at least one date is provided.
+  // If neither date supplied, call base endpoint without parameters.
+  const queryParams = new URLSearchParams();
+  if (startDate) queryParams.append('start_date', startDate);
+  if (endDate) queryParams.append('end_date', endDate);
+  const query = queryParams.toString() ? `?${queryParams.toString()}` : '';
   return apiRequest(
-    `${API_BASE_PATH_V2}/medical_records/labs_and_tests?${startDateParam}${endDateParam}`,
-    {
-      headers,
-    },
+    `${API_BASE_PATH_V2}/medical_records/labs_and_tests${query}`,
+    { headers },
   );
 };
 
@@ -143,10 +146,17 @@ export const getMhvRadiologyDetails = async id => {
   return findMatchingPhrAndCvixStudies(id, phrResponse, cvixResponse);
 };
 
-export const getAcceleratedNotes = async () => {
-  return apiRequest(`${API_BASE_PATH_V2}/medical_records/clinical_notes`, {
-    headers,
-  });
+export const getAcceleratedNotes = async ({ startDate, endDate } = {}) => {
+  // Only include query params when at least one date is provided.
+  // If neither date supplied, call base endpoint without parameters.
+  const queryParams = new URLSearchParams();
+  if (startDate) queryParams.append('start_date', startDate);
+  if (endDate) queryParams.append('end_date', endDate);
+  const query = queryParams.toString() ? `?${queryParams.toString()}` : '';
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/clinical_notes${query}`,
+    { headers },
+  );
 };
 
 export const getNotes = async () => {
@@ -155,6 +165,8 @@ export const getNotes = async () => {
   });
 };
 
+// TODO: this will fail until upstream API supports fetching a single note
+// due to inability to determine original date range
 export const getAcceleratedNote = async id => {
   return apiRequest(
     `${API_BASE_PATH_V2}/medical_records/clinical_notes/${id}`,
