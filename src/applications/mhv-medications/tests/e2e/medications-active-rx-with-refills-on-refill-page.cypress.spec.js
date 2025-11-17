@@ -1,5 +1,5 @@
 import MedicationsSite from './med_site/MedicationsSite';
-import prescriptions from './fixtures/list-refillable-prescriptions.json';
+import prescriptions from './fixtures/list-refillable-prescriptionsv2.json';
 import MedicationsRefillPage from './pages/MedicationsRefillPage';
 import activeRxWithRefills from './fixtures/active-rx-with-refills-remaining-on-refill-page.json';
 
