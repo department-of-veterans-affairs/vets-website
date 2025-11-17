@@ -40,9 +40,9 @@ const backgroundInformationDetails = ({
           title: 'Provide any relevant documents',
           required: false,
           maxFileSize: 26214400, // 25MB in bytes
-          accept: '.pdf',
+          accept: '.pdf,.docx',
           hint:
-            'You may add .pdf documents under 25MB. Please name documents with clear, descriptive names.',
+            'You may add .pdf or .docx documents under 25MB. Please name documents with clear, descriptive names.',
           name: `${path}-file-input`,
           fileUploadUrl: url,
           skipUpload: false,
