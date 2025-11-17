@@ -164,13 +164,25 @@ export const Form526Entry = ({
     [loggedIn],
   );
 
-  const { useFormFeatureToggleSync } = useFeatureToggle();
+  const {
+    useFormFeatureToggleSync,
+    useToggleLoadingValue,
+    useToggleValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
   useFormFeatureToggleSync([
     'disability526Enable2024Form4142',
     'disability526ToxicExposureOptOutDataPurge',
     'disabilityCompNewConditionsWorkflow',
   ]);
-  useFormFeatureToggleSync(['disability526SidenavEnabled']);
+
+  // including this helper to showLoading when feature toggles are loading
+  const togglesLoading = useToggleLoadingValue();
+
+  // We don't really need this feature toggle in formData since it's only used here
+  const sideNavFeatureEnabled = useToggleValue(
+    TOGGLE_NAMES.disability526SidenavEnabled,
+  );
 
   useBrowserMonitoring({
     loggedIn: true,
@@ -210,7 +222,9 @@ export const Form526Entry = ({
   // page content to render, then the wizard to render if this flag is true, so
   // we show a loading indicator until the feature flags are available. This
   // can be removed once the feature flag is removed
-  if (typeof showWizard === 'undefined') {
+  // Including togglesLoading which I think is the intended functionality here we can keep even
+  //  after the showWizard is deprecated since it's probably best practice
+  if (typeof showWizard === 'undefined' || togglesLoading) {
     return wrapWithBreadcrumb(title, showLoading());
   }
 
@@ -279,57 +293,51 @@ export const Form526Entry = ({
     }
   }
 
-  // Side nav fun
-  const hideNavPaths = [
-    '/confirmation',
-    '/form-saved',
-    '/introduction',
-    '/start',
-  ];
-  const pathname = location?.pathname?.replace(/\/+$/, '') || '';
-  const shouldHideNav = hideNavPaths.some(p => pathname.endsWith(p));
-  const flexWrapperClass = shouldHideNav
-    ? ''
-    : 'vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-justify-content--space-between';
+  // SideNav MVP functionality
+  if (sideNavFeatureEnabled) {
+    const hideNavPaths = [
+      '/confirmation',
+      '/form-saved',
+      '/introduction',
+      '/start',
+    ];
 
-  // temorarily disabling when working with disabilityCompNewConditionsWorkflow enabled.
-  // Investigation ticket has been opened to troubleshoot compatibility with other wip feature
-  if (
-    form?.data?.disability526SidenavEnabled &&
-    !form?.data?.disabilityCompNewConditionsWorkflow
-  ) {
-    return (
+    const pathname = location?.pathname?.replace(/\/+$/, '') || '';
+    const shouldHideNav = hideNavPaths.some(p => pathname.endsWith(p));
+    const flexWrapperClass = shouldHideNav
+      ? ''
+      : 'vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-justify-content--space-between';
+
+    return wrapWithBreadcrumb(
+      title,
       <article
         className="vads-grid-container"
         id="form-526"
         data-location={`${location?.pathname?.slice(1)}`}
       >
-        {wrapWithBreadcrumb(
-          title,
-          <div className={flexWrapperClass}>
-            {shouldHideNav ? null : (
-              <div className="vads-u-margin-right--5">
-                <ClaimFormSideNav
-                  enableAnalytics
-                  formData={form?.data}
-                  pathname={pathname}
-                  router={router}
-                  setFormData={setFormData}
-                />
-              </div>
-            )}
-            <RequiredLoginView
-              serviceRequired={serviceRequired}
-              user={user}
-              verify
-            >
-              <ITFWrapper location={location} title={title}>
-                {content}
-              </ITFWrapper>
-            </RequiredLoginView>
-          </div>,
-        )}
-      </article>
+        <div className={flexWrapperClass}>
+          {shouldHideNav ? null : (
+            <div className="vads-u-margin-right--5">
+              <ClaimFormSideNav
+                enableAnalytics
+                formData={form?.data}
+                pathname={pathname}
+                router={router}
+                setFormData={setFormData}
+              />
+            </div>
+          )}
+          <RequiredLoginView
+            serviceRequired={serviceRequired}
+            user={user}
+            verify
+          >
+            <ITFWrapper location={location} title={title}>
+              {content}
+            </ITFWrapper>
+          </RequiredLoginView>
+        </div>
+      </article>,
     );
   }
 
