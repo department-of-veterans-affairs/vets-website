@@ -27,6 +27,7 @@ import {
   setCaretToPos,
   navigateToFolderByFolderId,
   dateFormat,
+  buildRxRenewalMessageBody,
   scrollToTop,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
@@ -153,26 +154,11 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (isRxRenewalDraft) {
-        const rx = renewalPrescription;
         const messageSubject = 'Renewal Needed';
-        const messageBody = [
-          `Medication name, strength, and form: ${rx?.prescriptionName || ''}`,
-          `Prescription number: ${rx?.prescriptionNumber || ''}`,
-          `Provider who prescribed it: ${[
-            rx?.providerFirstName,
-            rx?.providerLastName,
-          ]
-            .filter(Boolean)
-            .join(' ') || ''}`,
-          `Number of refills left: ${rx?.refillRemaining || ''}`,
-          `Prescription expiration date: ${
-            rx?.expirationDate
-              ? dateFormat(rx.expirationDate, 'MMMM D, YYYY')
-              : ''
-          }`,
-          `Reason for use: ${rx?.reason || ''}`,
-          `Quantity: ${rx?.quantity || ''}`,
-        ].join('\n');
+        const messageBody = buildRxRenewalMessageBody(
+          renewalPrescription,
+          rxError,
+        );
 
         dispatch(
           updateDraftInProgress({
