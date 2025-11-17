@@ -115,6 +115,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_8416: '21P-8416',
   FORM_21P_534EZ: '21P-534EZ',
   FORM_21P_601: '21P-601',
+  FORM_22_10278: '22-10278',
   FORM_22_0976: '22-0976',
 });
 
@@ -302,6 +303,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     )}/21P-4185/introduction/`,
     [VA_FORM_IDS.FORM_21P_534EZ]: `${tryGetAppUrl('survivors-benefits')}/`,
     [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
+    [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('22-10278')}/`,
     [VA_FORM_IDS.FORM_22_0976]: `${tryGetAppUrl('22-0976')}/`,
   };
 };
@@ -941,6 +943,15 @@ export const MY_VA_SIP_FORMS = [
     description:
       'Application for Accrued Amounts Due a Deceased Beneficiary (21P-601)',
     trackingPrefix: '21p-601-accrued-benefits-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_10278,
+    benefit: 'Authorization to Disclose Personal Information to a Third Party',
+    title:
+      'Authorization to Disclose Personal Information to a Third Party (22-10278)',
+    description:
+      'Authorization to Disclose Personal Information to a Third Party (22-10278)',
+    trackingPrefix: 'edu-10278-',
   },
   {
     id: VA_FORM_IDS.FORM_22_0976,

@@ -51,7 +51,7 @@ describe('backgroundInformationDetailsPageSchema (multi-file upload)', () => {
 
     expect(opts).to.be.an('object');
     expect(opts.maxFileSize).to.equal(26214400);
-    expect(opts.accept).to.equal('.pdf,.doc,.jpg,.jpeg,.txt');
+    expect(opts.accept).to.equal('.pdf,.docx');
     expect(opts.name).to.equal(`${path}-file-input`);
 
     const expectedPrefix = `${

@@ -81,6 +81,44 @@ export const convertAllergy = allergy => {
   };
 };
 
+export const convertUnifiedAllergy = allergy => {
+  const allergyData = allergy?.attributes || allergy;
+
+  return {
+    id: allergy.id,
+    type:
+      (isArrayAndHasItems(allergyData.categories) &&
+        allergyData.categories
+          .join(', ')
+          .replace(/^./, char => char.toUpperCase())) ||
+      EMPTY_FIELD,
+    name: allergyData?.name || EMPTY_FIELD,
+    date: allergyData?.date ? formatDateLong(allergyData.date) : EMPTY_FIELD,
+    reaction: allergyData?.reactions || EMPTY_FIELD,
+    location: allergyData?.location || EMPTY_FIELD,
+    observedOrReported: (() => {
+      if (allergyData?.observedHistoric) {
+        return allergyData.observedHistoric === 'o'
+          ? allergyTypes.OBSERVED
+          : allergyTypes.REPORTED;
+      }
+      return EMPTY_FIELD;
+    })(),
+    notes:
+      (isArrayAndHasItems(allergyData.notes) && allergyData.notes.join(' ')) ||
+      EMPTY_FIELD,
+    provider: allergyData?.provider || EMPTY_FIELD,
+    sortKey: allergyData?.date ? new Date(allergyData.date) : null,
+    // Note: The v2 unified endpoint combines both Oracle Health and VistA data sources
+    // into a single normalized format. The backend does not provide a data source field
+    // to distinguish between them. We set isOracleHealthData to true for all v2 records
+    // because the unified format uses the same display logic as Oracle Health data
+    // (with provider, location, and other OH-style fields). Components check this flag
+    // to determine which template to use for rendering.
+    isOracleHealthData: true,
+  };
+};
+
 export const allergyReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Allergies.GET: {
@@ -140,6 +178,31 @@ export const allergyReducer = (state = initialState, action) => {
       return {
         ...state,
         listState: action.payload,
+      };
+    }
+    case Actions.Allergies.GET_UNIFIED_LIST: {
+      const data = action.response.data || [];
+      const newList =
+        data
+          ?.map(allergy => {
+            return convertUnifiedAllergy(allergy);
+          })
+          .sort((a, b) => {
+            if (!a.sortKey) return 1; // Push nulls to the end
+            if (!b.sortKey) return -1; // Keep non-nulls at the front
+            return b.sortKey.getTime() - a.sortKey.getTime();
+          }) || [];
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        allergiesList: newList,
+      };
+    }
+    case Actions.Allergies.GET_UNIFIED_ITEM: {
+      return {
+        ...state,
+        allergyDetails: convertUnifiedAllergy(action.response.data),
       };
     }
     default:
