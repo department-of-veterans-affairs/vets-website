@@ -79,6 +79,7 @@ import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
 import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { useURLPagination } from '../hooks/useURLPagination';
+import RxRenewalDeleteDraftSuccessAlert from '../components/shared/RxRenewalDeleteDraftSuccessAlert';
 
 const Prescriptions = () => {
   const navigate = useNavigate();
@@ -89,6 +90,7 @@ const Prescriptions = () => {
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
   const [searchParams] = useSearchParams();
   const rxRenewalMessageSuccess = searchParams.get('rxRenewalMessageSuccess');
+  const deleteDraftSuccess = searchParams.get('draftDeleteSuccess');
 
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);
@@ -539,9 +541,10 @@ const Prescriptions = () => {
   };
 
   const renderRxRenewalMessageSuccess = () => {
-    if (!rxRenewalMessageSuccess) return null;
+    if (deleteDraftSuccess) return <RxRenewalDeleteDraftSuccessAlert />;
 
-    return <RxRenewalMessageSuccessAlert />;
+    if (rxRenewalMessageSuccess) return <RxRenewalMessageSuccessAlert />;
+    return null;
   };
 
   const renderHeader = () => {
