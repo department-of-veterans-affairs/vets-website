@@ -8,6 +8,7 @@ import {
   clearCareSummariesDetails,
   getCareSummariesAndNotesList,
   getCareSummaryAndNotesDetails,
+  updateNotesDateRange,
 } from '../../actions/careSummariesAndNotes';
 
 describe('Get care summaries and notes list action', () => {
@@ -94,6 +95,23 @@ describe('Clear care summaries and notes details action', () => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.CareSummariesAndNotes.CLEAR_DETAIL,
       );
+    });
+  });
+});
+
+describe('Update notes date range action', () => {
+  it('should dispatch a set date range action with correct payload', () => {
+    const dispatch = sinon.spy();
+    const option = '6';
+    const fromDate = '2025-05-13';
+    const toDate = '2025-11-13';
+    return updateNotesDateRange(option, fromDate, toDate)(dispatch).then(() => {
+      expect(dispatch.calledOnce).to.be.true;
+      const action = dispatch.firstCall.args[0];
+      expect(action.type).to.equal(
+        Actions.CareSummariesAndNotes.SET_DATE_RANGE,
+      );
+      expect(action.payload).to.deep.equal({ option, fromDate, toDate });
     });
   });
 });

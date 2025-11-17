@@ -158,8 +158,15 @@ export function getTimezoneDescByTimeZoneString(timezone) {
 export function getTimezoneAbbrByFacilityId(id, isUseBrowserTimezone = false) {
   const matchingZone = getTimezoneByFacilityId(id, isUseBrowserTimezone);
 
-  if (isUseBrowserTimezone && matchingZone.startsWith('GMT'))
+  // If using browser timezone and we received a GMT value, return it directly
+  if (isUseBrowserTimezone && matchingZone?.startsWith('GMT'))
     return matchingZone;
+
+  // If no matching zone was found and we're allowed to use the browser timezone,
+  // derive an abbreviation from the browser and strip DST
+  if (isUseBrowserTimezone && !matchingZone) {
+    return stripDST(mapGmtToAbbreviation(format(new Date(), 'z')));
+  }
 
   if (!matchingZone) {
     return null;

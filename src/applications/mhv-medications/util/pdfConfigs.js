@@ -19,6 +19,7 @@ import {
   medStatusDisplayTypes,
   pdfStatusDefinitions,
   RX_SOURCE,
+  DISPENSE_STATUS,
 } from './constants';
 
 /**
@@ -131,10 +132,10 @@ export const buildPrescriptionsPDFList = prescriptions => {
 
     const pendingMed =
       rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-      rx?.dispStatus === 'NewOrder';
+      rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
     const pendingRenewal =
       rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-      rx?.dispStatus === 'Renew';
+      rx?.dispStatus === DISPENSE_STATUS.RENEW;
     const isPending = pendingMed || pendingRenewal;
 
     const mostRecentRxRefillLine = () => {
@@ -359,10 +360,10 @@ export const buildVAPrescriptionPDFList = prescription => {
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pendingMed =
     prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    prescription?.dispStatus === 'NewOrder';
+    prescription?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
   const pendingRenewal =
     prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    prescription?.dispStatus === 'Renew';
+    prescription?.dispStatus === DISPENSE_STATUS.RENEW;
   const VAPrescriptionPDFList = [
     {
       header: 'Most recent prescription',

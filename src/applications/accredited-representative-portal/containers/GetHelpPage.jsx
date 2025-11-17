@@ -181,11 +181,11 @@ const GetHelpPage = title => {
                 Step 2: Create a Login.gov or ID.me account
               </h3>
               <p>
-                Login.gov and ID.me are secure ways to sign in to many
-                government websites using just one account. When creating your
-                account, it’s recommended to use a personal email you’ll always
-                have access to. Follow the provider’s instructions to create
-                your account.
+                Login.gov and ID.me are services that provide secure ways to
+                sign in to many government websites using just one account. When
+                creating your account, it’s recommended to use a personal email
+                you’ll always have access to. Follow the service provider’s
+                instructions to create your account.
               </p>
               <Link
                 className="content-link"
@@ -206,8 +206,8 @@ const GetHelpPage = title => {
               <p>
                 If you created your Login.gov or ID.me account using your
                 personal email, you’ll need to add the email address you have on
-                file with OGC. Follow the provider’s instructions to add an
-                email to your account.
+                file with OGC. Follow the service provider’s instructions to add
+                an email to your account.
               </p>
               <Link
                 className="content-link"

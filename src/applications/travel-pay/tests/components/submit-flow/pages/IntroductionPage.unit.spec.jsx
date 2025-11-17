@@ -225,7 +225,8 @@ describe('Introduction page', () => {
       reducers: reducer,
     });
 
-    expect(screen.getByText('Your appointment is older than 30 days')).to.exist;
+    expect(screen.getByText('Your appointment happened more than 30 days ago'))
+      .to.exist;
     expect($('va-link-action[text="Start a mileage only claim"]')).to.not.exist;
   });
 

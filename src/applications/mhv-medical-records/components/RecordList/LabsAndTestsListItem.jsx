@@ -5,8 +5,7 @@ import { labTypes } from '../../util/constants';
 import { sendDataDogAction } from '../../util/helpers';
 
 const LabsAndTestsListItem = props => {
-  const { record, options = {} } = props;
-  const { isAccelerating, timeFrame } = options;
+  const { record } = props;
   return (
     <va-card
       background
@@ -15,9 +14,7 @@ const LabsAndTestsListItem = props => {
     >
       <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
         <Link
-          to={`/labs-and-tests/${record.id}${
-            isAccelerating ? `?timeFrame=${timeFrame}` : ''
-          }`}
+          to={`/labs-and-tests/${record.id}`}
           data-dd-privacy="mask"
           data-dd-action-name="Lab and Test Results Detail Link"
           onClick={() => {

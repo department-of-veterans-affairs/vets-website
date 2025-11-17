@@ -27,7 +27,7 @@ export default function EmailConfirmationInterstitial() {
     sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '/my-va';
 
   const handleConfirmation = () => {
-    apiRequest('/v0/profile/email_addresses', {
+    apiRequest('/profile/email_addresses', {
       method: 'PUT',
       body: JSON.stringify({
         id,
