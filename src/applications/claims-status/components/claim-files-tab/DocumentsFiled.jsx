@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from 'moment';
 
-import { ITEMS_PER_PAGE } from '../../constants';
+import { ANCHOR_LINKS, ITEMS_PER_PAGE } from '../../constants';
 import { buildDateFormatter } from '../../utils/helpers';
 
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
@@ -110,7 +110,10 @@ function DocumentsFiled({ claim }) {
 
   return (
     <div className="documents-filed-container">
-      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+      <h3
+        id={ANCHOR_LINKS.documentsFiled}
+        className="vads-u-margin-top--0 vads-u-margin-bottom--3"
+      >
         Documents filed
       </h3>
       {currentPageItems.length === 0 ? (
