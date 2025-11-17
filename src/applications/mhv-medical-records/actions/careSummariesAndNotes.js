@@ -1,9 +1,4 @@
-import {
-  getNote,
-  getNotes,
-  getAcceleratedNotes,
-  getAcceleratedNote,
-} from '../api/MrApi';
+import { getNote, getNotes, getAcceleratedNotes } from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
@@ -13,13 +8,19 @@ import { getListWithRetry } from './common';
 export const getCareSummariesAndNotesList = (
   isCurrent = false,
   isAccelerating = false,
+  timeframe = {},
 ) => async dispatch => {
   dispatch({
     type: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const getData = isAccelerating ? getAcceleratedNotes : getNotes;
+    const getData = () => {
+      if (isAccelerating) {
+        return getAcceleratedNotes(timeframe);
+      }
+      return getNotes();
+    };
     const response = await getListWithRetry(dispatch, getData);
     dispatch({
       type: isAccelerating
@@ -39,15 +40,23 @@ export const getCareSummaryAndNotesDetails = (
   noteList,
   isAccelerating = false,
 ) => async dispatch => {
+  const getDetailsFunc = isAccelerating
+    ? async () => {
+        // Return a notfound response because the downstream API
+        // does not support fetching a single note at this time
+        return { data: { notFound: true } };
+      }
+    : getNote;
+
   try {
     await dispatchDetails(
       noteId,
       noteList,
       dispatch,
-      isAccelerating ? getAcceleratedNote : getNote,
+      getDetailsFunc,
       Actions.CareSummariesAndNotes.GET_FROM_LIST,
       isAccelerating
-        ? Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM
+        ? Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM_FROM_LIST
         : Actions.CareSummariesAndNotes.GET,
     );
   } catch (error) {
@@ -62,4 +71,19 @@ export const clearCareSummariesDetails = () => async dispatch => {
 
 export const reloadRecords = () => async dispatch => {
   dispatch({ type: Actions.CareSummariesAndNotes.COPY_UPDATED_LIST });
+};
+
+export const updateNotesDateRange = (
+  option,
+  fromDate,
+  toDate,
+) => async dispatch => {
+  dispatch({
+    type: Actions.CareSummariesAndNotes.SET_DATE_RANGE,
+    payload: {
+      option,
+      fromDate,
+      toDate,
+    },
+  });
 };
