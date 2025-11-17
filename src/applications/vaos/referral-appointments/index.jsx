@@ -19,14 +19,21 @@ export default function ReferralAppointments() {
   useManualScrollRestoration();
   const basePath = useRouteMatch();
   const { isInPilotUserStations } = useIsInPilotUserStations();
-  const { search } = useLocation();
+  const location = useLocation();
+  const { search } = location;
   const params = new URLSearchParams(search);
   const id = params.get('id');
   const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
     skip: !id,
   });
 
-  if (referral?.attributes?.hasAppointments) {
+  // Don't redirect if on the initial schedule referral page (first page of flow)
+  // Check if pathname matches the base path exactly (no sub-routes like /review or /date-time)
+  const isOnInitialScheduleReferralPage = location.pathname === basePath.url;
+  if (
+    referral?.attributes?.hasAppointments &&
+    !isOnInitialScheduleReferralPage
+  ) {
     return <Redirect to="/referrals-requests" />;
   }
 
@@ -40,7 +47,14 @@ export default function ReferralAppointments() {
 
   if (error) {
     // Referral Layout shows the error component is apiFailure is true
-    return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
+    return (
+      <ReferralLayout
+        apiFailure
+        hasEyebrow
+        heading="Something went wrong on our end"
+        errorBody="Something went wrong on our end. Please try again later. If you need help, call your facility's community care office."
+      />
+    );
   }
 
   return (

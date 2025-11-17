@@ -15,12 +15,70 @@ import ConfirmationPage from '../../components/complex-claims/pages/Confirmation
 describe('ComplexClaimSubmitFlowWrapper', () => {
   const oldLocation = global.window.location;
 
-  const getData = ({ complexClaimsEnabled = true } = {}) => ({
+  const getData = ({
+    complexClaimsEnabled = true,
+    appointmentId = '12345',
+  } = {}) => ({
     featureToggles: {
       loading: false,
       /* eslint-disable camelcase */
       travel_pay_enable_complex_claims: complexClaimsEnabled,
       /* eslint-enable camelcase */
+    },
+    travelPay: {
+      appointment: {
+        data: {
+          id: appointmentId,
+          facilityName: 'Test VA Medical Center',
+          facilityAddress: {
+            addressLine1: '123 Medical Center Drive',
+            city: 'Test City',
+            stateCode: 'TX',
+            zipCode: '12345',
+          },
+          appointmentDate: '2024-01-15',
+          appointmentTime: '10:00 AM',
+        },
+        error: null,
+        isLoading: false,
+      },
+      claimDetails: {
+        data: {},
+        error: null,
+        isLoading: false,
+      },
+      complexClaim: {
+        claim: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          submission: {
+            id: '',
+            isSubmitting: false,
+            error: null,
+            data: null,
+          },
+          data: null,
+        },
+        expenses: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          update: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          delete: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          data: [],
+        },
+      },
     },
   });
 

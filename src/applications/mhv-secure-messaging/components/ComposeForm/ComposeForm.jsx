@@ -451,6 +451,7 @@ const ComposeForm = props => {
                 sendData,
                 attachments.length > 0,
                 draftInProgress.ohTriageGroup,
+                !!redirectPath, // suppress alert when redirectPath exists
               ),
             );
             dispatch(clearDraftInProgress());
@@ -1166,6 +1167,7 @@ const ComposeForm = props => {
             setNavigationError={setNavigationError}
             setUnsavedNavigationError={setUnsavedNavigationError}
             savedComposeDraft={!!draft}
+            redirectPath={redirectPath}
           />
         </div>
       </form>

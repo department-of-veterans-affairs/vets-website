@@ -3,6 +3,8 @@
   "view:hasEmployment": false,
   "arrayBuilderPatternFlowType": "optional",
   "arrayBuilderPatternInteractionType": "addButton",
+  "arrayBuilderItemPages": "complex",
+  "arrayBuilderSummaryIntroVariation": "A",
   "chapterSelect": { "arrayMultiPageBuilder": true },
   "dateDefault": "1999-02-02",
   "dateWCV3": "2000-02-12",

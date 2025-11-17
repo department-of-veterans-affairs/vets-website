@@ -8,11 +8,13 @@ export const useValidateFacilityCode = formData => {
   const [institutionData, setInstitutionData] = useState(null);
   const dispatch = useDispatch();
 
+  const facilityCode = formData?.institutionDetails?.facilityCode;
+
   useEffect(
     () => {
       const fetchInstitutionInfo = async () => {
         setLoader(true);
-        // Set loading state in formData
+
         dispatch(
           setData({
             ...formData,
@@ -33,6 +35,8 @@ export const useValidateFacilityCode = formData => {
             },
           );
           const attrs = response.data.attributes;
+          const isForeignCountry =
+            response.data?.attributes?.type?.toLowerCase() === 'foreign';
           const firstDigit = formData.institutionDetails.facilityCode.charAt(0);
           const secondDigit = formData.institutionDetails.facilityCode.charAt(
             1,
@@ -54,9 +58,11 @@ export const useValidateFacilityCode = formData => {
             postalCode: attrs.zip || '',
             country: attrs.country || '',
           };
+          const facilityMap = attrs.facilityMap.main;
 
           setInstitutionData(response?.data);
           setLoader(false);
+
           dispatch(
             setData({
               ...formData,
@@ -64,11 +70,13 @@ export const useValidateFacilityCode = formData => {
                 ...formData.institutionDetails,
                 institutionName: response?.data?.attributes?.name,
                 institutionAddress,
+                facilityMap,
                 ihlEligible,
                 yrEligible,
                 isLoading: false,
                 isUsaSchool:
                   response?.data?.attributes?.physicalCountry === 'USA',
+                isForeignCountry,
               },
             }),
           );
@@ -89,11 +97,11 @@ export const useValidateFacilityCode = formData => {
           );
         }
       };
-      if (formData?.institutionDetails?.facilityCode?.length === 8) {
+      if (facilityCode?.length === 8) {
         fetchInstitutionInfo();
       }
     },
-    [formData?.institutionDetails?.facilityCode],
+    [facilityCode],
   );
   const attrs = institutionData?.attributes || {};
   const institutionAddress = {

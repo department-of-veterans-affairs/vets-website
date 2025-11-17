@@ -1,10 +1,15 @@
 import React from 'react';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import {
+  includeSpousalInformationV2,
+  spouseAddressDoesNotMatchVeteransV2,
+  spouseDidNotCohabitateWithVeteranV2,
+} from 'applications/ezr/utils/helpers/form-config';
 import spouseInformationSummaryPage from '../../../definitions/spouseInformationSummary';
 import spousePersonalInformationPage from '../../../definitions/spousePersonalInformation';
 import { spouseAdditionalInformationPage } from '../../../definitions/spouseAdditionalInformation';
 import { spouseFinancialSupportPage } from '../../../definitions/spouseFinancialSupport';
-
+import { spouseContactInformationPage } from '../../../definitions/spouseContactInformation';
 import content from '../../../locales/en/content.json';
 import SpouseSummaryCardDescription from '../../../components/FormDescriptions/SpouseSummaryCardDescription';
 import SpouseInformationReviewWarning from '../../../components/FormAlerts/SpouseInformationReviewWarning';
@@ -19,7 +24,9 @@ const options = {
   hideMaxItemsAlert: true,
   text: {
     getItemName: item => {
-      return `${item.spouseFullName.first} ${item.spouseFullName.last}`;
+      const firstName = item?.spouseFullName?.first || '';
+      const lastName = item?.spouseFullName?.last || '';
+      return `${firstName} ${lastName}`.trim() || 'Spouse';
     },
     summaryDescription: () => (
       <SpouseInformationReviewWarning
@@ -71,6 +78,13 @@ const spousePersonalInformationPageSchema = spousePersonalInformationPage(
 const spouseAdditionalInformationPageSchema = spouseAdditionalInformationPage;
 
 /**
+ * Schemas for spouse contact information page.
+ *
+ * @returns {PageSchema}
+ */
+const spouseContactInformationPageSchema = spouseContactInformationPage;
+
+/**
  * Spouse confirmation flow (ArrayBuilder/List and Loop) form pages.
  *
  * @returns {PageSchema}
@@ -83,13 +97,15 @@ const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'household-information/spouse-information',
     uiSchema: spouseInformationSummaryPageSchema.uiSchema,
     schema: spouseInformationSummaryPageSchema.schema,
+    depends: includeSpousalInformationV2,
   }),
   spousePersonalInformationPage: pageBuilder.itemPage({
     title: content['household-spouse-information-title'],
     path:
-      'household-information/spouse-information/:index/spouse-personal-information',
+      'household-information/spouse-information/:index/personal-information',
     uiSchema: spousePersonalInformationPageSchema.uiSchema,
     schema: spousePersonalInformationPageSchema.schema,
+    depends: includeSpousalInformationV2,
   }),
   spouseAdditionalInformationPage: pageBuilder.itemPage({
     title: content['household-spouse-addtl-info-title'],
@@ -97,13 +113,21 @@ const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
       'household-information/spouse-information/:index/additional-information',
     uiSchema: spouseAdditionalInformationPageSchema.uiSchema,
     schema: spouseAdditionalInformationPageSchema.schema,
+    depends: includeSpousalInformationV2,
   }),
   spouseFinancialSupportPage: pageBuilder.itemPage({
     title: content['household-spouse-support-title'],
-    path:
-      'household-information/spouse-information/:index/spouse-financial-support',
+    path: 'household-information/spouse-information/:index/financial-support',
     uiSchema: spouseFinancialSupportPageSchema.uiSchema,
     schema: spouseFinancialSupportPageSchema.schema,
+    depends: spouseDidNotCohabitateWithVeteranV2,
+  }),
+  spouseContactInformationPage: pageBuilder.itemPage({
+    title: content['household-spouse-contact-info-title'],
+    path: 'household-information/spouse-information/:index/contact-information',
+    uiSchema: spouseContactInformationPageSchema.uiSchema,
+    schema: spouseContactInformationPageSchema.schema,
+    depends: spouseAddressDoesNotMatchVeteransV2,
   }),
 }));
 

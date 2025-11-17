@@ -109,7 +109,7 @@ describe('PicklistRemoveDependentFollowup', () => {
     expect(options.length).to.equal(2);
     expect(options.map(cb => cb.getAttribute('label'))).to.deep.equal([
       labels.Spouse.marriageEnded,
-      labels.Spouse.death,
+      labels.Spouse.spouseDied,
     ]);
     expect(radioWrap).to.exist;
     expect($('.form-progress-buttons', container)).to.exist;
@@ -171,7 +171,7 @@ describe('PicklistRemoveDependentFollowup', () => {
     const goToPath = sinon.spy();
     const { container } = renderComponent({
       goToPath,
-      data: defaultData({ removalReason: 'death' }),
+      data: defaultData({ removalReason: 'spouseDied' }),
     });
 
     fireEvent.submit($('form', container));
@@ -394,5 +394,20 @@ describe('PicklistRemoveDependentFollowup', () => {
 
     expect(goToPath.calledOnce).to.be.true;
     expect(goToPath.firstCall.args[0]).to.equal('/review-and-submit');
+  });
+
+  it('should not navigate to the next page on submit of an exit form page', () => {
+    sessionStorage.setItem(PICKLIST_EDIT_REVIEW_FLAG, 'peter-1234');
+    const goToPath = sinon.spy();
+    const { container } = renderComponent({
+      data: {
+        ...defaultData({ selected: false }, true),
+        [PICKLIST_PATHS]: [{ path: 'parent-exit', index: 3 }],
+      },
+      testUrl: '?index=3&page=parent-exit',
+    });
+
+    fireEvent.submit($('form', container));
+    expect(goToPath.called).to.be.false;
   });
 });

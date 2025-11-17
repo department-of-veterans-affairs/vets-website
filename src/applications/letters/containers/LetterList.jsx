@@ -26,6 +26,7 @@ export class LetterList extends React.Component {
     super(props);
     this.state = {
       tsaLetter: null,
+      tsaLetterError: false,
       // eslint-disable-next-line -- LH_MIGRATION
       LH_MIGRATION__options: LH_MIGRATION__getOptions(false),
     };
@@ -48,8 +49,8 @@ export class LetterList extends React.Component {
       .then(response => {
         if (Array.isArray(response.data) && response.data.length > 0) {
           const latestLetter = response.data.reduce((latest, current) => {
-            const latestDate = latest.attributes?.received_at || 0;
-            const currentDate = current.attributes?.received_at || 0;
+            const latestDate = latest.attributes?.receivedAt || '0';
+            const currentDate = current.attributes?.receivedAt || '0';
             return currentDate > latestDate ? current : latest;
           });
           this.setState({ tsaLetter: latestLetter });
@@ -61,6 +62,7 @@ export class LetterList extends React.Component {
         });
       })
       .catch(() => {
+        this.setState({ tsaLetterError: true });
         recordEvent({
           event: 'api_call',
           'api-name': 'GET /v0/tsa_letter',
@@ -71,7 +73,7 @@ export class LetterList extends React.Component {
 
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
-    const hasTsaLetter = Boolean(this.state.tsaLetter?.attributes?.document_id);
+    const hasTsaLetter = Boolean(this.state.tsaLetter?.attributes?.documentId);
     const letterItems = (this.props.letters || []).map((letter, index) => {
       if (!this.accordionRefs[index]) {
         this.accordionRefs[index] = React.createRef();
@@ -130,7 +132,8 @@ export class LetterList extends React.Component {
     let eligibilityMessage;
     if (
       this.props.lettersAvailability ===
-      AVAILABILITY_STATUSES.letterEligibilityError
+        AVAILABILITY_STATUSES.letterEligibilityError ||
+      this.state.tsaLetterError
     ) {
       eligibilityMessage = (
         <div className="vads-u-margin-top--2">

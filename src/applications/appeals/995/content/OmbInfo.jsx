@@ -1,15 +1,12 @@
 import React from 'react';
 import { PrivacyActStatementContent } from '../components/4142/PrivacyActStatementContent';
-import {
-  titleFormDetails,
-  subTitle995,
-  title4142Omb,
-  subTitle4142Omb,
-} from './title';
+import { FORM_ID } from '../constants';
+import { titleFormDetails } from './title';
+import { title4142Omb, subTitle4142Omb } from './evidence/form4142';
 
 const OmbInfo = () => (
   <>
-    <p>{subTitle995}</p>
+    <p>{FORM_ID}</p>
     <va-omb-info res-burden="15" omb-number="2900-0886" exp-date="5/31/2027">
       <p>
         <strong>Respondent Burden:</strong> We need this information to
