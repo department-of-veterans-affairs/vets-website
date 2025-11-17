@@ -115,6 +115,7 @@ const OverviewPage = () => {
   }, []);
 
   const MAX_ROWS = 10;
+  const ITEM_TYPE = 'copays';
 
   function paginate(array, pageSize, pageNumber) {
     return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
@@ -124,17 +125,17 @@ const OverviewPage = () => {
     currentPage,
     pageSize,
     totalItems,
-    label = 'copays',
+    label = ITEM_TYPE,
   ) {
     // Ensure numbers are valid
     if (totalItems === 0) {
       return `Showing 0 ${label}`;
     }
 
-    const start = (currentPage - 1) * pageSize + 1;
-    const end = Math.min(currentPage * pageSize, totalItems);
+    const startItemIndex = (currentPage - 1) * pageSize + 1;
+    const endItemIndex = Math.min(currentPage * pageSize, totalItems);
 
-    return `Showing ${start}-${end} of ${totalItems} ${label}`;
+    return `Showing ${startItemIndex}-${endItemIndex} of ${totalItems} ${label}`;
   }
 
   const [currentData, setCurrentData] = useState(
@@ -197,7 +198,7 @@ const OverviewPage = () => {
             currentPage,
             MAX_ROWS,
             statementsByUniqueFacility.length,
-            'copays',
+            ITEM_TYPE,
           )}
         />
         {renderVaPagination()}
@@ -214,7 +215,7 @@ const OverviewPage = () => {
             currentPage,
             MAX_ROWS,
             statementsByUniqueFacility.length,
-            'copays',
+            ITEM_TYPE,
           )}
         />
         {renderVaPagination()}
