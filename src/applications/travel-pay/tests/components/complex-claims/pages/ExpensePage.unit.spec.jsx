@@ -315,6 +315,26 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           ).to.exist;
         });
 
+        it('renders correct description', () => {
+          const { getByText } = renderPage(config);
+
+          if (key === 'Airtravel') {
+            expect(
+              getByText(
+                `Upload a receipt or proof of the expense here. If youre adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`,
+              ),
+            ).to.exist;
+          } else {
+            expect(
+              getByText(
+                `Upload a receipt or proof of the expense here. If you have multiple ${
+                  config.expensePageText
+                } expenses, add just 1 on this page. You’ll be able to add more expenses later.`,
+              ),
+            ).to.exist;
+          }
+        });
+
         it('renders correct buttons', () => {
           const { container } = renderPage(config);
 
