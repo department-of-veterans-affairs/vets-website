@@ -4,16 +4,11 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import {
-  createSummaryHandler,
-  fillAddressAndGoToNext,
+  fillStatementOfTruthAndSubmit,
   setupBasicTest,
-  startAsGuestUser,
+  startAsNewUser,
 } from './utils';
 
-// define handlers for ArrayBuilder sections
-const handleApplicantSummary = createSummaryHandler('root_view:hasApplicants');
-
-// define test config
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
@@ -21,51 +16,10 @@ const testConfig = createTestConfig(
     dataSets: ['minimal-test'],
     pageHooks: {
       introduction: ({ afterHook }) => {
-        afterHook(() => startAsGuestUser());
-      },
-      'your-mailing-address': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillAddressAndGoToNext('certifierAddress', data.certifierAddress);
-          });
-        });
-      },
-      'veteran-mailing-address': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillAddressAndGoToNext('sponsorAddress', data.sponsorAddress);
-          });
-        });
-      },
-      'review-your-applicants': ({ afterHook }) => {
-        afterHook(() => handleApplicantSummary());
-      },
-      'applicant-mailing-address/:index': ({ afterHook, index }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillAddressAndGoToNext(
-              'applicantAddress',
-              data.applicants[index].applicantAddress,
-            );
-          });
-        });
+        afterHook(() => startAsNewUser());
       },
       'review-and-submit': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.get('va-statement-of-truth')
-              .shadow()
-              .within(() => {
-                cy.get('va-text-input').then($el =>
-                  cy.fillVaTextInput($el, data.statementOfTruthSignature),
-                );
-                cy.get('va-checkbox').then($el =>
-                  cy.selectVaCheckbox($el, true),
-                );
-              });
-            cy.get('va-button[text*="submit" i]').click();
-          });
-        });
+        afterHook(() => fillStatementOfTruthAndSubmit());
       },
     },
     setupPerTest: () => setupBasicTest(),

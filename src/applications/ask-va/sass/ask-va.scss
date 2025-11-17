@@ -422,71 +422,17 @@ ul.react-tabs__tab-list {
   margin-top: 0px;
 }
 
-.vacardSelectFilters {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  gap: 0.5rem;
-  flex: 1;
-  margin-bottom: 0;
-
-  @media screen and (max-width: $medium-screen) {
-    flex-direction: column;
-    align-items: stretch;
-    margin-bottom: 1rem;
-  }
-
-  > div {
-    flex: 3;
-  }
-
-  > div:last-child {
-    flex: 3;
-  }
-}
-
-.filter-actions {
-  display: flex;
-  align-items: center;
-  width: auto;
-  height: 40px;
-
-  @media screen and (max-width: $medium-screen) {
-    margin-left: 0;
-    margin-top: 1rem;
-    width: 100%;
-    height: auto;
-
-    va-button-pair {
-      width: 100%;
-
-      ::part(button-pair) {
-        display: flex !important;
-        flex-direction: row !important;
-        gap: 1rem;
-      }
-
-      ::part(button-container) {
-        flex: 1;
-        width: 50%;
-        margin: 0;
-      }
-
-      ::part(primary-button),
-      ::part(secondary-button) {
-        width: 100%;
-        margin: 0;
-      }
-    }
-  }
-}
-
 .filter-container {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
   align-items: flex-end;
   margin-bottom: 1rem;
+  box-sizing: border-box;
+
+  > div {
+    flex: 1;
+  }
 
   @media screen and (max-width: $medium-screen) {
     flex-direction: column;

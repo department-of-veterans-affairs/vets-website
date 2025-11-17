@@ -195,6 +195,18 @@ describe('useCharacterLimit', () => {
       expect(result).to.equal('0 characters left');
     });
 
+    it('should use singular "character" when exactly 1 character is left', () => {
+      const result = getCounterText(CHARACTER_LIMIT - 1, CHARACTER_LIMIT);
+
+      expect(result).to.equal('1 character left');
+    });
+
+    it('should use plural "characters" when more than 1 character is left', () => {
+      const result = getCounterText(CHARACTER_LIMIT - 2, CHARACTER_LIMIT);
+
+      expect(result).to.equal('2 characters left');
+    });
+
     it('should work with different character limits', () => {
       const customLimit = 200;
       const result = getCounterText(50, customLimit);
@@ -268,6 +280,21 @@ describe('useCharacterLimit', () => {
       expect(mockSrElement.textContent).to.equal('11 characters left');
       expect(mockCounterElement.classList.remove.calledWith('warning')).to.be
         .true;
+    });
+
+    it('should use singular "character" when exactly 1 character is left', () => {
+      mockInputElement.value = 'a'.repeat(CHARACTER_LIMIT - 1);
+
+      updateCounter(
+        mockCounterElement,
+        mockSrElement,
+        mockInputElement,
+        CHARACTER_LIMIT,
+        RED_THRESHOLD,
+      );
+
+      expect(mockCounterElement.textContent).to.equal('1 character left');
+      expect(mockSrElement.textContent).to.equal('1 character left');
     });
   });
 
