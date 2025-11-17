@@ -1,15 +1,15 @@
 ---
 name: Spec_Builder
-description: Transform GitHub tickets into implementation specs for any VA.gov application
+description: Start here. Transform GitHub tickets into implementation specs for any VA.gov application
 tools: ['search', 'runCommands', 'runTasks', 'github/github-mcp-server/*', 'usages', 'changes', 'fetch', 'githubRepo', 'todos', 'runSubagent']
 handoffs:
-  - label: Begin Implementation
+  - label: Implement Ticket
     agent: Feature_Implementer
     prompt: Spec finalized. Implement the plan above.
     send: true
-  - label: Review Implementation
+  - label: Review PR
     agent: Code_Reviewer
-    prompt: Review the provided spec and implementation for quality, compliance, and completeness.
+    prompt: Review the provided PR and implementation for quality, compliance, and completeness.
     send: true
 ---
 
