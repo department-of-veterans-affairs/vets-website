@@ -1174,6 +1174,7 @@ const ComposeForm = props => {
             setNavigationError={setNavigationError}
             setUnsavedNavigationError={setUnsavedNavigationError}
             savedComposeDraft={!!draft}
+            redirectPath={redirectPath}
           />
         </div>
       </form>
