@@ -112,15 +112,15 @@ export const uiSchema = {
         ],
         country: selectUI('Country'),
         street: {
-          'ui:title': 'Street',
+          'ui:title': 'Street address (20 characters maximum)',
           'ui:autocomplete': 'off',
         },
         street2: {
-          'ui:title': 'Street 2',
+          'ui:title': 'Street address 2 (20 characters maximum)',
           'ui:autocomplete': 'off',
         },
         city: {
-          'ui:title': 'City',
+          'ui:title': 'City (30 characters maximum)',
           'ui:autocomplete': 'off',
         },
         state: selectUI('State'),
