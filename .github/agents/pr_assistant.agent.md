@@ -34,7 +34,7 @@ Guide users through creating comprehensive pull requests with clear descriptions
    - [ ] Accessibility validated: No `cy.axeCheck()` violations
    
    **Documentation**
-   - [ ] MHV instructions updated (if applicable)
+   - [ ] Application instructions updated (if applicable)
    - [ ] Code comments added for complex logic
    - [ ] README or app docs updated (if needed)
    
@@ -43,48 +43,32 @@ Guide users through creating comprehensive pull requests with clear descriptions
    - [ ] Commits are clear and descriptive
    - [ ] Branch rebased with latest main (if needed)
 
-2. **Generate PR Description:**
-   Create comprehensive PR template:
+2. **Generate PR Description Using Required Template:**
    
-   **Title Format**: `[{APPLICATION_ID}] Brief description (#ticket-number)`
+   **CRITICAL**: Always use the exact template from `.github/PULL_REQUEST_TEMPLATE.md`. Never deviate from this template - it's required for all vets-website PRs.
    
-   **Body Structure**:
-   ```markdown
-   ## Summary
-   [One paragraph explaining what this PR does and why]
+   **Process:**
+   - Read `.github/PULL_REQUEST_TEMPLATE.md` to get the current template
+   - Fill in ALL sections (none are optional, though can be marked N/A with justification)
+   - Preserve exact section headers and structure
+   - Include all checkboxes and tables
    
-   Closes #[ticket-number]
+   **Template Sections (reference only - always fetch latest from file):**
+   - Folder deletion/renaming checklist (registry.json, TeamSites, proxy-rewrite)
+   - Summary (description of changes, team, bug reproduction, solution, flipper)
+   - Related issues (va.gov-team ticket, previous related work, epic)
+   - Testing done (specific old/new behavior, steps, results - NOT just "tests passing")
+   - Screenshots table (Before/After × Mobile/Desktop if UI changes)
+   - Impact areas checklist
+   - Acceptance criteria (QA testing, Error Handling, Authentication)
+   - Requested Feedback (optional)
    
-   ## Changes
-   ### Added
-   - [New features, components, utilities]
-   
-   ### Changed
-   - [Modified behavior, refactored code]
-   
-   ### Fixed
-   - [Bug fixes, issue resolutions]
-   
-   ## Testing
-   - Unit test coverage: [X]%
-   - E2E tests: [list test files or scenarios]
-   - Accessibility: ✅ No violations (cy.axeCheck)
-   - Manual testing: [key flows tested]
-   
-   ## Screenshots/Videos
-   [If UI changes, add visual evidence]
-   
-   ## {APPLICATION_NAME} Compliance
-   - [x] Web components used (va-*)
-   - [x] PII/PHI masked with data-dd-privacy
-   - [x] Constants used (no hardcoded values)
-   - [x] Accessibility validated (WCAG 2.2 AA)
-   - [x] Error handling for application-specific codes
-   - [x] Follows {INSTRUCTION_SOURCE} patterns
-   
-   ## Reviewer Notes
-   [Any specific areas to focus on, context for reviewers]
-   ```
+   **Key Requirements:**
+   - For "Testing done": Describe specific behavior changes, reproduction steps, and verification results
+   - For Screenshots: Alert the user they will need to follow up with screenshots if applicable
+   - For Folder changes: If deleting/renaming folders, coordinate with content-build team
+   - For TeamSites: If removing proxy rewrites, test on staging first
+   - All checkboxes must be addressed (checked or marked N/A with reason)
 
 3. **Create Pre-Push Checklist:**
    Final steps before pushing:
@@ -92,18 +76,20 @@ Guide users through creating comprehensive pull requests with clear descriptions
    1. Stage changes: git add .
    2. Commit with clear message: git commit -m "[{APPLICATION_ID}] description"
    3. Push to remote: git push origin branch-name
-   4. Open PR on GitHub
-   5. Add labels: {APPLICATION_ID}, enhancement/bug, etc.
-   6. Request reviews from {APPLICATION_NAME} team
-   7. Link to original ticket
+   4. Open PR on GitHub AS DRAFT (template auto-populates from .github/PULL_REQUEST_TEMPLATE.md)
+   5. Fill in ALL template sections (none are optional)
+   6. Add labels: {APPLICATION_ID}, enhancement/bug, etc.
+   7. Request reviews from {APPLICATION_NAME} team
+   8. Link to original ticket in "Related issues" section
+   9. Mark PR as ready for review only after all checks pass and template is complete
    ```
 
 4. **Provide Implementation Summary:**
-   Recap what was accomplished:
-   - Spec coverage: What requirements were implemented
-   - Code changes: High-level summary of modifications
-   - Test coverage: Testing thoroughness
-   - Documentation: What was updated
+   Recap what was accomplished for the PR description:
+   - Summary: One-paragraph description of changes
+   - Bug reproduction: Steps that demonstrated the original issue
+   - Solution: Technical approach and key changes
+   - Testing: Specific before/after behavior verification
    - Impact: Expected improvement for veterans
 
 
