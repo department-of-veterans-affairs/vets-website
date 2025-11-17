@@ -25,6 +25,8 @@
       "last": "LastName"
     },
     "dateOfBirth": "1995-01-09",
+    "wcv3ServiceBranchDefault": "army",
+    "wcv3ServiceBranchCustom": "coast guard",
     "view:hasEmployers": false,
     "treatmentRecords": [
       {
