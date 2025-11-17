@@ -10,6 +10,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { treatmentRecordsPages } from '../pages/treatmentRecords';
 import { employersPages } from '../pages/employers';
+import serviceBranch from '../pages/serviceBranch';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -89,6 +90,17 @@ const formConfig = {
     employers: {
       title: 'Your employers',
       pages: employersPages,
+    },
+    serviceBranch: {
+      title: 'Service branch',
+      pages: {
+        serviceBranch: {
+          path: 'service-branch',
+          title: 'Service branch',
+          uiSchema: serviceBranch.uiSchema,
+          schema: serviceBranch.schema,
+        },
+      },
     },
   },
 };
