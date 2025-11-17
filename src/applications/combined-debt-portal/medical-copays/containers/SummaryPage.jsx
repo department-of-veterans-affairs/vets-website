@@ -120,6 +120,23 @@ const OverviewPage = () => {
     return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
   }
 
+  function getPaginationText(
+    currentPage,
+    pageSize,
+    totalItems,
+    label = 'copays',
+  ) {
+    // Ensure numbers are valid
+    if (totalItems === 0) {
+      return `Showing 0 ${label}`;
+    }
+
+    const start = (currentPage - 1) * pageSize + 1;
+    const end = Math.min(currentPage * pageSize, totalItems);
+
+    return `Showing ${start}-${end} of ${totalItems} ${label}`;
+  }
+
   const [currentData, setCurrentData] = useState(
     paginate(statementsByUniqueFacility, MAX_ROWS, 1),
   );
@@ -176,6 +193,12 @@ const OverviewPage = () => {
         <Balances
           statements={currentData}
           showVHAPaymentHistory={showVHAPaymentHistory}
+          paginationText={getPaginationText(
+            currentPage,
+            MAX_ROWS,
+            statementsByUniqueFacility.length,
+            'copays',
+          )}
         />
         {renderVaPagination()}
         {renderOtherVA(debts?.length, debtError)}
