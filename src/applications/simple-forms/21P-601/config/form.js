@@ -42,7 +42,7 @@ const formConfig = {
   trackingPrefix: '21p-601-accrued-benefits-',
   useCustomScrollAndFocus: true,
   v3SegmentedProgressBar: true,
-  hideUnauthedStartLink: false,
+  hideUnauthedStartLink: true,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
