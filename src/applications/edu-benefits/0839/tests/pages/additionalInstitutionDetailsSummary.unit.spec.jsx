@@ -64,7 +64,7 @@ describe('additionalInstitutionDetailsSummary page', () => {
 
     const radioElement = form.find('va-radio');
     expect(radioElement.prop('label')).to.equal(
-      "Do you have any additional locations you'd like to add to this agreement?",
+      "Do you have another location you'd like to add to this agreement?",
     );
     form.unmount();
   });
@@ -82,7 +82,7 @@ describe('additionalInstitutionDetailsSummary page', () => {
     );
 
     const radioElement = form.find('va-radio');
-    expect(radioElement.prop('label')).to.include('additional locations');
+    expect(radioElement.prop('label')).to.include('another location');
     form.unmount();
   });
 

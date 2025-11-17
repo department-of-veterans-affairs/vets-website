@@ -1,0 +1,30 @@
+{
+  "data": {
+    "veteranInformation": {
+      "veteranFullName": {
+        "first": "Luke",
+        "last": "Skywalker"
+      },
+      "veteranSsn": "796121200",
+      "veteranDob": "1951-09-25"
+    },
+    "veteranAddress": {
+      "veteranAddress": {
+        "street": "1138 Moisture Farm Rd",
+        "city": "Mos Eisley",
+        "state": "AZ",
+        "country": "USA",
+        "postalCode": "85326"
+      }
+    },
+    "claimantRelationship": {
+      "relationship": "veteran"
+    },
+    "benefitType": {
+      "benefitType": "SMC"
+    },
+    "hospitalizationStatus": {
+      "isCurrentlyHospitalized": false
+    }
+  }
+}

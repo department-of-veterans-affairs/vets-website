@@ -17,12 +17,15 @@ import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containe
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
 import { prefillTransformer } from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
 import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
+import { submitForm } from '@bio-aquia/21-2680-house-bound-status/config/submit-handler/submit-handler';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 
 // Import page configurations (uiSchema and schema)
 import {
   veteranInformationUiSchema,
   veteranInformationSchema,
+  veteranSsnUiSchema,
+  veteranSsnSchema,
   veteranAddressUiSchema,
   veteranAddressSchema,
   claimantRelationshipUiSchema,
@@ -74,7 +77,8 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/form212680`,
+  submitUrl: `${environment.API_URL}/v0/form212680/download_pdf`,
+  submit: submitForm,
   transformForSubmit: submitTransformer,
   trackingPrefix: '21-2680-house-bound-status-',
   v3SegmentedProgressBar: true,
@@ -115,6 +119,12 @@ const formConfig = {
           title: "Veteran's information",
           uiSchema: veteranInformationUiSchema,
           schema: veteranInformationSchema,
+        },
+        veteranSsn: {
+          path: 'veteran-ssn',
+          title: "Veteran's Social Security number",
+          uiSchema: veteranSsnUiSchema,
+          schema: veteranSsnSchema,
         },
         veteranAddress: {
           path: 'veteran-address',

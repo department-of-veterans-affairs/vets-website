@@ -131,13 +131,13 @@ const formatHours = hours => {
 };
 
 /**
- * Convert yes/no string to boolean
- * @param {string} value - 'yes' or 'no' string
+ * Convert yes/no string or boolean to boolean
+ * @param {string|boolean} value - 'yes'/'no' string or true/false boolean
  * @returns {boolean|null} Boolean value or null if not set
  */
 const yesNoToBoolean = value => {
-  if (value === 'yes') return true;
-  if (value === 'no') return false;
+  if (value === 'yes' || value === true) return true;
+  if (value === 'no' || value === false) return false;
   return null;
 };
 
@@ -227,14 +227,18 @@ const transformEmploymentInformation = data => {
 /**
  * Transform military duty status section
  * @param {Object} data - Form data object
- * @returns {Object} Transformed duty status for API
+ * @returns {Object|null} Transformed duty status for API or null if not applicable
  */
 const transformMilitaryDutyStatus = data => {
   const dutyStatus = data?.dutyStatus || {};
   const dutyDetails = data?.dutyStatusDetails || {};
 
   // Only include this section if the veteran is in Reserve/Guard
-  if (dutyStatus.reserveOrGuardStatus !== 'yes') {
+  // Check for both 'yes' string and true boolean (exclude 'no' string and false boolean)
+  if (
+    dutyStatus.reserveOrGuardStatus !== 'yes' &&
+    dutyStatus.reserveOrGuardStatus !== true
+  ) {
     return null;
   }
 
@@ -249,37 +253,31 @@ const transformMilitaryDutyStatus = data => {
 /**
  * Transform benefit entitlement and payments section
  * @param {Object} data - Form data object
- * @returns {Object} Transformed benefits information for API
+ * @returns {Object|null} Transformed benefits information for API or null if not applicable
  */
 const transformBenefitEntitlementPayments = data => {
   const benefitsInfo = data?.benefitsInformation || {};
   const benefitsDetails = data?.benefitsDetails || {};
   const remarks = data?.remarks || {};
 
+  // Only include this section if the veteran receives benefits
+  // Check for both 'yes' string and true boolean (exclude 'no' string and false boolean)
+  if (
+    benefitsInfo.benefitEntitlement !== 'yes' &&
+    benefitsInfo.benefitEntitlement !== true
+  ) {
+    return null;
+  }
+
   return {
-    sickRetirementOtherBenefits: yesNoToBoolean(
-      benefitsInfo.benefitEntitlement,
+    sickRetirementOtherBenefits: true, // Must be true if section is included
+    typeOfBenefit: benefitsDetails.benefitType || null,
+    grossMonthlyAmountOfBenefit: formatCurrency(
+      benefitsDetails.grossMonthlyAmount,
     ),
-    typeOfBenefit:
-      benefitsInfo.benefitEntitlement === 'yes'
-        ? benefitsDetails.benefitType || null
-        : null,
-    grossMonthlyAmountOfBenefit:
-      benefitsInfo.benefitEntitlement === 'yes'
-        ? formatCurrency(benefitsDetails.grossMonthlyAmount)
-        : null,
-    dateBenefitBegan:
-      benefitsInfo.benefitEntitlement === 'yes'
-        ? formatDate(benefitsDetails.startReceivingDate)
-        : null,
-    dateFirstPaymentIssued:
-      benefitsInfo.benefitEntitlement === 'yes'
-        ? formatDate(benefitsDetails.firstPaymentDate)
-        : null,
-    dateBenefitWillStop:
-      benefitsInfo.benefitEntitlement === 'yes'
-        ? formatDate(benefitsDetails.stopReceivingDate)
-        : null,
+    dateBenefitBegan: formatDate(benefitsDetails.startReceivingDate),
+    dateFirstPaymentIssued: formatDate(benefitsDetails.firstPaymentDate),
+    dateBenefitWillStop: formatDate(benefitsDetails.stopReceivingDate),
     remarks: remarks.remarks || null,
   };
 };
@@ -307,14 +305,32 @@ export const transformForSubmit = (formConfig, form) => {
     delete transformed.militaryDutyStatus;
   }
 
-  // Only include employerCertification if signature is provided
-  // (This would typically be filled by the employer on a separate form)
-  // For now, we omit it entirely from the veteran's submission
-  // if (data?.employerCertification?.signature) {
-  //   transformed.employerCertification = {
-  //     signature: data.employerCertification.signature,
-  //   };
-  // }
+  if (transformed.benefitEntitlementPayments === null) {
+    delete transformed.benefitEntitlementPayments;
+  }
+
+  // Add certification (required by API)
+  // Handle both platform statementOfTruth pattern and custom component pattern
+  const veteranName = data?.veteranInformation?.veteranFullName || {};
+  const defaultSignature = [
+    veteranName.first,
+    veteranName.middle,
+    veteranName.last,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  // Platform's statementOfTruth stores: signature and statementOfTruthCertified
+  // Custom component (for fixtures) stores: certification.signature and certification.certified
+  const signatureValue =
+    data?.signature || data?.certification?.signature || defaultSignature;
+  const certifiedValue =
+    data?.statementOfTruthCertified ?? data?.certification?.certified ?? true;
+
+  transformed.certification = {
+    signature: signatureValue,
+    certified: Boolean(certifiedValue),
+  };
 
   // Remove all null and undefined values from the payload
   const cleanedPayload = removeNullUndefined(transformed);
