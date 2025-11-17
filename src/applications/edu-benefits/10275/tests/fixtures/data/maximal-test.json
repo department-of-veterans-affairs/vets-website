@@ -18,8 +18,11 @@
         "last": "Doe"
       },
       "title": "Administrator",
-      "view:phoneType": "us",
-      "usPhone": "1235232341",
+      "phoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "1231231222"
+      },
       "email": "janedoe@gmail.com",
       "view:isPOC": true,
       "view:isSCO": true
@@ -31,10 +34,15 @@
           "middle": "Certifying",
           "last": "Official"
         },
-        "title": "SCO",
-        "view:phoneType": "us",
-        "usPhone": "1231231234",
-        "email": "school.official@test.com"
+        "title": "Administrator",
+        "phoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "1231231234"
+      },
+        "email": "janedoe@gmail.com",
+        "view:isPOC": true,
+        "view:isSCO": true
       },
       "principlesOfExcellencePointOfContact": {
         "fullName": {
@@ -43,8 +51,11 @@
           "last": "Contact"
         },
         "title": "PoC",
-        "view:phoneType": "us",
-        "usPhone": "1112223333",
+        "phoneNumber": {
+          "callingCode": 1,
+          "countryCode": "US",
+          "contact": "1231231235"
+        },
         "email": "point.contact@test.com",
         "view:isSCO": false
       }
