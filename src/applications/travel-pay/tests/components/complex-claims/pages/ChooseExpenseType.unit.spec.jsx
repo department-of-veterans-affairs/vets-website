@@ -82,6 +82,23 @@ describe('ChooseExpenseType', () => {
     radioOptions.forEach(option => {
       expect(option.hasAttribute('tile')).to.be.true;
     });
+
+    // Find the mileage option specifically
+    const mileageOption = Array.from(radioOptions).find(
+      option => option.getAttribute('value')?.toLowerCase() === 'mileage',
+    );
+
+    expect(mileageOption).to.exist;
+
+    // Mileage option should have a description
+    expect(mileageOption.hasAttribute('description')).to.be.true;
+
+    // All other options should NOT have description
+    radioOptions.forEach(option => {
+      if (option.getAttribute('value') !== 'mileage') {
+        expect(option.getAttribute('description')).to.eq('');
+      }
+    });
   });
 
   it('handles expense type selection', () => {
