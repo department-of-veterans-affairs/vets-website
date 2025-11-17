@@ -16,7 +16,7 @@ const ConfirmationHousingSituation = ({ formData }) => {
   const homelessnessContact = formData.homelessnessContact || {};
 
   return (
-    <div data-testid="housing-situation-responses">
+    <li data-testid="housing-situation-responses">
       <h4>Housing situation</h4>
       <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
         <li>
@@ -36,7 +36,7 @@ const ConfirmationHousingSituation = ({ formData }) => {
         </li>
 
         {isHomeless && (
-          <div>
+          <>
             <li>
               <div className="vads-u-color--gray">
                 Please describe your current living situation:
@@ -58,11 +58,11 @@ const ConfirmationHousingSituation = ({ formData }) => {
               </div>
               {formData['view:isHomeless']?.needToLeaveHousing ? 'Yes' : 'No'}
             </li>
-          </div>
+          </>
         )}
 
         {isAtRisk && (
-          <div>
+          <>
             <li>
               <div className="vads-u-color--gray">
                 Please describe your housing situation:
@@ -77,7 +77,7 @@ const ConfirmationHousingSituation = ({ formData }) => {
                 {formData['view:isAtRisk']?.otherAtRiskHousing || ''}
               </li>
             )}
-          </div>
+          </>
         )}
         {homelessnessContact.name && (
           <>
@@ -92,7 +92,7 @@ const ConfirmationHousingSituation = ({ formData }) => {
           </>
         )}
       </ul>
-    </div>
+    </li>
   );
 };
 
