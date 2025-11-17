@@ -31,7 +31,9 @@ export default function ScheduleReferral() {
     ? getReferralSlotKey(currentReferral.uuid)
     : null;
 
-  const stationIdValid = getIsInPilotReferralStation(currentReferral);
+  const stationIdValid = currentReferral
+    ? getIsInPilotReferralStation(currentReferral)
+    : false;
 
   useEffect(
     () => {
