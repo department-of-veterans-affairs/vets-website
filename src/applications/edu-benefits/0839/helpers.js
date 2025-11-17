@@ -443,3 +443,8 @@ export const getAdditionalContactTitle = formData => {
 
   return 'Add school certifying official';
 };
+
+export const capitalizeFirstLetter = str => {
+  if (!str || typeof str !== 'string') return '';
+  return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+};
