@@ -15,6 +15,15 @@ const disallowedFields = [
   'isLoggedIn',
 ];
 
+/**
+ * Build a full name string from an object containing first/middle/last
+ * @param {Object} fullName Object to be destructured for flattening
+ * @param {string} first First name to be processed
+ * @param {string} middle Middle name to be processed
+ * @param {string} last Last name to be processed
+ * @returns {string} A single string combining the provided name parts,
+ * with undefined or empty parts removed and separated by spaces
+ */
 export function flattenRecipientName({ first, middle, last }) {
   // Filter out undefined values and join with spaces
   const parts = [first, middle, last].filter(part => !!part);
@@ -23,6 +32,14 @@ export function flattenRecipientName({ first, middle, last }) {
   return parts.join(' ').trim();
 }
 
+/**
+ * Custom replacer for JSON.stringify used to clean empty or null values
+ * and flatten recipientName objects.
+ * @param {string} key The key of the property being processed
+ * @param {*} value The value of the property being processed
+ * @returns {*} Returns the cleaned or transformed value for JSON serialization,
+ *  or `undefined` to omit the key from the final JSON
+ */
 export function replacer(key, value) {
   // Clean up empty objects, which we have no reason to send
   if (typeof value === 'object' && value) {
@@ -52,6 +69,13 @@ export function replacer(key, value) {
   return value;
 }
 
+/**
+ * Remove fields that are not allowed to be submitted from a form object.
+ * @param {Object} form - The form object containing a `data` property.
+ * @param {Object} form.data - The form data object where fields may be removed.
+ * @returns {Object} A deep-cloned copy of the original form with disallowed fields
+ * removed from the `data` property, leaving all other fields intact.
+ */
 export function removeDisallowedFields(form) {
   const cleanedForm = cloneDeep(form);
 
@@ -65,6 +89,15 @@ export function removeDisallowedFields(form) {
   return cleanedForm;
 }
 
+/**
+ * Prepare form data for backend submission by cloning, cleaning, and stringifying it.
+ * @param {Object} formConfig - The configuration object for the form
+ * @param {Object} form - The form object containing a `data` property to be transformed.
+ * @param {Object} form.data - The form data object where certain fields may be removed.
+ * @param {Function} replacerFn - A custom replacer function for `JSON.stringify`
+ * that removes null/empty/view: values.
+ * @returns {string} A JSON string of the cleaned form data, ready for submission.
+ */
 export function transformForSubmit(formConfig, form, replacerFn) {
   // Clone the form data to avoid mutating the original form
   // This is to avoid mutating the redux store directly
@@ -72,7 +105,6 @@ export function transformForSubmit(formConfig, form, replacerFn) {
 
   const fields = Object.keys(data);
   fields.forEach(field => {
-    // Remove fields that are undefined, null, or starts with 'view:'
     if (
       data[field] === undefined ||
       data[field] === null ||
@@ -85,6 +117,16 @@ export function transformForSubmit(formConfig, form, replacerFn) {
   return JSON.stringify(data, replacerFn);
 }
 
+/**
+ * Main pre-submit transform that remaps certain fields, removes disallowed fields,
+ * and builds the final submission payload for backend submission.
+ * @param {Object} formConfig - Configuration object for the form (used for submission, not mutated).
+ * @param {Object} form - The form object containing a `data` property to be transformed.
+ * @param {Object} form.data - Form data including `claimantType`, `isLoggedIn`, and other fields.
+ * @returns {string} A JSON string containing:
+ *   - `incomeAndAssetsClaim.form`: The cleaned and transformed form data as a string.
+ *   - `localTime`: The current local time formatted with offset, for submission tracking.
+ */
 export function transform(formConfig, form) {
   const clonedForm = cloneDeep(form);
 
@@ -112,6 +154,12 @@ export function transform(formConfig, form) {
   });
 }
 
+/**
+ * Submit the 0969 form to the backend API.
+ * @param {Object} form - The form object containing data to be submitted.
+ * @param {Object} formConfig - Configuration object for the form, used in transforming the data.
+ * @returns {Promise<Object>} A promise resolving to the API response object from the submission request.
+ */
 export function submit(form, formConfig) {
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
