@@ -534,6 +534,7 @@ export const buildRxRenewalMessageBody = (rx, rxError) => {
         ? ''
         : rx?.prescriptionNumber || 'Prescription number not available'
     }`,
+    `Instructions: ${rxError ? '' : rx?.sig || 'Instructions not available'}`,
     `Provider who prescribed it: ${getProviderNameValue()}`,
     `Number of refills left: ${getRefillRemainingValue()}`,
     `Prescription expiration date: ${getExpirationDateValue()}`,

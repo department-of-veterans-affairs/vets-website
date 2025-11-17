@@ -979,6 +979,7 @@ describe('MHV Secure Messaging helpers', () => {
       expirationDate: '2024-12-31',
       reason: 'Refill needed',
       quantity: '30 tablets',
+      sig: 'Take one tablet by mouth daily',
     };
 
     it('should return message body with empty values when rxError is true', () => {
@@ -986,6 +987,7 @@ describe('MHV Secure Messaging helpers', () => {
 
       expect(result).to.include('Medication name, strength, and form:');
       expect(result).to.include('Prescription number:');
+      expect(result).to.include('Instructions:');
       expect(result).to.include('Provider who prescribed it:');
       expect(result).to.include('Number of refills left:');
       expect(result).to.include('Prescription expiration date:');
@@ -993,6 +995,7 @@ describe('MHV Secure Messaging helpers', () => {
       expect(result).to.include('Quantity:');
       expect(result).to.not.include('Lisinopril 10mg');
       expect(result).to.not.include('1234567890');
+      expect(result).to.not.include('Take one tablet by mouth daily');
       expect(result).to.not.include('Dr. Smith');
       expect(result).to.not.include('2');
       expect(result).to.not.include('December 31, 2024');
@@ -1007,6 +1010,7 @@ describe('MHV Secure Messaging helpers', () => {
         'Medication name, strength, and form: Lisinopril 10mg',
       );
       expect(result).to.include('Prescription number: 1234567890');
+      expect(result).to.include('Instructions: Take one tablet by mouth daily');
       expect(result).to.include('Provider who prescribed it: Dr. Smith');
       expect(result).to.include('Number of refills left: 2');
       expect(result).to.include(
@@ -1135,6 +1139,7 @@ describe('MHV Secure Messaging helpers', () => {
       expect(result).to.include(
         'Prescription number: Prescription number not available',
       );
+      expect(result).to.include('Instructions: Instructions not available');
       expect(result).to.include(
         'Provider who prescribed it: Provider name not available',
       );
@@ -1155,6 +1160,7 @@ describe('MHV Secure Messaging helpers', () => {
       expect(result).to.include(
         'Prescription number: Prescription number not available',
       );
+      expect(result).to.include('Instructions: Instructions not available');
       expect(result).to.include(
         'Provider who prescribed it: Provider name not available',
       );
@@ -1175,6 +1181,7 @@ describe('MHV Secure Messaging helpers', () => {
       expect(result).to.include(
         'Prescription number: Prescription number not available',
       );
+      expect(result).to.include('Instructions: Instructions not available');
       expect(result).to.include(
         'Provider who prescribed it: Provider name not available',
       );
@@ -1195,6 +1202,7 @@ describe('MHV Secure Messaging helpers', () => {
         'Medication name, strength, and form: Lisinopril 10mg',
       );
       expect(result).to.include('Prescription number: 1234567890');
+      expect(result).to.include('Instructions: Take one tablet by mouth daily');
     });
 
     it('should handle missing prescriptionName', () => {
@@ -1237,6 +1245,16 @@ describe('MHV Secure Messaging helpers', () => {
       const result = buildRxRenewalMessageBody(rxWithoutQuantity, false);
 
       expect(result).to.include('Quantity: Quantity not available');
+    });
+
+    it('should handle missing sig and show placeholder', () => {
+      const rxWithoutSig = {
+        ...mockRx,
+        sig: null,
+      };
+      const result = buildRxRenewalMessageBody(rxWithoutSig, false);
+
+      expect(result).to.include('Instructions: Instructions not available');
     });
   });
 });
