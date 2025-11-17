@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import claimantIdentification from '../../pages/claimantIdentification';
 import claimantContact from '../../pages/claimantContact';
+import claimantRelationship from '../../pages/claimantRelationship';
 
 describe('21P-601 claimant page configurations', () => {
   describe('claimantIdentification', () => {
@@ -61,6 +62,28 @@ describe('21P-601 claimant page configurations', () => {
 
     it('requires address', () => {
       expect(claimantContact.schema.required).to.include('claimantAddress');
+    });
+  });
+
+  describe('claimantRelationship', () => {
+    it('exports uiSchema and schema', () => {
+      expect(claimantRelationship).to.have.property('uiSchema');
+      expect(claimantRelationship).to.have.property('schema');
+    });
+
+    it('has relationshipToDeceased field', () => {
+      expect(claimantRelationship.uiSchema).to.have.property(
+        'relationshipToDeceased',
+      );
+      expect(claimantRelationship.schema.properties).to.have.property(
+        'relationshipToDeceased',
+      );
+    });
+
+    it('requires relationshipToDeceased', () => {
+      expect(claimantRelationship.schema.required).to.include(
+        'relationshipToDeceased',
+      );
     });
   });
 });

@@ -69,6 +69,7 @@ Cypress.Commands.add('verifyOptions', () => {
   // CCP care have services available
   selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PRO);
   cy.get('#service-type-loading').should('exist');
+  cy.wait('@mockServices');
   cy.get('#service-typeahead').should('not.have.attr', 'disabled');
 
   // CCP pharmacies dont have services available
@@ -118,18 +119,17 @@ describe('Facility VA search', () => {
 
   it('shows search result header even when no results are found', () => {
     cy.visit('/find-locations');
-    cy.injectAxe();
-    cy.axeCheck();
     // override so no provider data
     CcpHelpers.initApplicationMock('', 'mockProviders');
     typeInCityStateInput('27606');
     selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PRO);
-    cy.get('#service-typeahead').should('not.have.attr', 'disabled');
+    cy.wait('@mockServices');
 
     typeAndSelectInCCPServiceTypeInput('General Acute Care Hospital');
 
     cy.get('#facility-search').click({ waitForAnimations: true });
-    cy.get('#search-results-subheader').should('exist');
+    cy.wait('@mockProviders');
+
     cy.focused().contains(
       'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
     );
@@ -185,15 +185,14 @@ describe('Facility VA search', () => {
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
     cy.visit('/find-locations');
-    cy.injectAxe();
-    cy.axeCheck();
     typeInCityStateInput('27606');
-    // Poll to ensure Use My Location is not triggered (checks every 500ms for 8 seconds)
+    // Wait for Use My Location to be triggered (it should not be)
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(8000);
     // If Use My Location is triggered and succeeds, it will change the contents of the search field:
-    cy.get('#street-city-state-zip', { timeout: 8000 }).should(
-      'have.value',
-      '27606',
-    );
+    cy.get('#street-city-state-zip')
+      .invoke('val')
+      .then(searchString => expect(searchString).to.equal('27606'));
     // If Use My Location is triggered and fails, it will trigger a modal alert:
     cy.get('#va-modal-title').should('not.exist');
   });

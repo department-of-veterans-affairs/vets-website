@@ -12,9 +12,9 @@ const HealthCareSettings = () => {
         href={PROFILE_PATHS.HEALTH_CARE_CONTACTS}
       />
       <ProfileHubItem
-        heading={PROFILE_PATH_NAMES.SCHEDULING_PREFERENCES}
+        heading={PROFILE_PATH_NAMES.APPOINTMENT_PREFERENCES}
         content="Manage your scheduling preferences for health care appointments"
-        href={PROFILE_PATHS.SCHEDULING_PREFERENCES}
+        href={PROFILE_PATHS.APPOINTMENT_PREFERENCES}
       />
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.SECURE_MESSAGES_SIGNATURE}

@@ -81,7 +81,7 @@ const defaultUser = {
         cernerFacilityIds: [],
         facilities: [
           {
-            facilityId: '528',
+            facilityId: '979',
             isCerner: false,
           },
         ],

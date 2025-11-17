@@ -22,10 +22,6 @@ class PatientFilterSortPage {
     cy.findByText('Show filters', { selector: 'h3' }).click();
   };
 
-  closeAdditionalFilter = () => {
-    cy.findByText('Hide filters', { selector: 'h3' }).click();
-  };
-
   // This method will access the input field and enters the text that will be used for search.
   inputFilterData = text => {
     cy.get(Locators.KEYWORD_SEARCH)
@@ -312,13 +308,6 @@ class PatientFilterSortPage {
       .get(selector)
       .find(`#error-message`)
       .should(`be.visible`);
-  };
-
-  verifyNoFieldErrors = selector => {
-    return cy
-      .get(selector)
-      .find(`#error-message`)
-      .should(`not.exist`);
   };
 
   // retrieveMessages = function (folderID) {

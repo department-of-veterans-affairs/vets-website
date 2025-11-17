@@ -35,7 +35,7 @@ function getEligibleApplicants(data, idx) {
 
   // Return applicants not already selected for Medicare
   return applicants.filter(applicant => {
-    const applicantHash = toHash(applicant.applicantSsn);
+    const applicantHash = toHash(applicant.applicantSSN);
     const alreadySelected = otherMedicareEntries.some(
       entry => entry.medicareParticipant === applicantHash,
     );
@@ -50,7 +50,7 @@ function getEligibleApplicants(data, idx) {
  */
 function createApplicantLabels(applicants) {
   const labelObjects = applicants.map(applicant => ({
-    [toHash(applicant.applicantSsn)]: nameWording(
+    [toHash(applicant.applicantSSN)]: nameWording(
       applicant,
       false,
       false,

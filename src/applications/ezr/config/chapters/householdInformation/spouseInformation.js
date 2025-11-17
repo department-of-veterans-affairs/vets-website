@@ -24,9 +24,7 @@ const options = {
   hideMaxItemsAlert: true,
   text: {
     getItemName: item => {
-      const firstName = item?.spouseFullName?.first || '';
-      const lastName = item?.spouseFullName?.last || '';
-      return `${firstName} ${lastName}`.trim() || 'Spouse';
+      return `${item.spouseFullName.first} ${item.spouseFullName.last}`;
     },
     summaryDescription: () => (
       <SpouseInformationReviewWarning

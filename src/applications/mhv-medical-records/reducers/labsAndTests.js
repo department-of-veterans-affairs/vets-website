@@ -11,7 +11,6 @@ import {
   isArrayAndHasItems,
   decodeBase64Report,
   formatNameFirstToLast,
-  buildInitialDateRange,
 } from '../util/helpers';
 import {
   areDatesEqualToMinute,
@@ -23,7 +22,6 @@ import {
   labTypes,
   EMPTY_FIELD,
   loadStates,
-  DEFAULT_DATE_RANGE,
 } from '../util/constants';
 
 const initialState = {
@@ -51,10 +49,6 @@ const initialState = {
    * The lab or test result currently being displayed to the user
    */
   labsAndTestsDetails: undefined,
-  /**
-   * The selected date range for displaying labs and tests
-   * */
-  dateRange: buildInitialDateRange(DEFAULT_DATE_RANGE),
 };
 
 export const extractLabLocation = (performer, record) => {
@@ -657,12 +651,6 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         listState: action.payload,
-      };
-    }
-    case Actions.LabsAndTests.SET_DATE_RANGE: {
-      return {
-        ...state,
-        dateRange: action.payload,
       };
     }
     default:

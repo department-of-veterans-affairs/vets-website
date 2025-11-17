@@ -34,7 +34,7 @@
         "insuranceGroupCode": "1234567890"
       },
       {
-        "insuranceName": "Small Insurance Co",
+        "insuranceName": "Samll Insurance Co",
         "insurancePolicyHolderName": "Jim Doe",
         "insurancePolicyNumber": "4343532",
         "insuranceGroupCode": "12365356"
@@ -45,7 +45,33 @@
     "spouseDateOfBirth": "1971-09-11",
     "dateOfMarriage": "1995-02-22",
     "cohabitedLastYear": true,
-    "maritalStatus": "Married",
+    "view:hasSpouseInformationToAdd": false,
+    "spouseInformation": [
+      {
+        "spouseAddress": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "12345 Street St.",
+          "street2": "Apartment 999",
+          "street3": "Suite 2",
+          "city": "Hills of Beverly",
+          "state": "CA",
+          "postalCode": "90210"
+        },
+        "spousePhone": "9991122222",
+        "provideSupportLastYear": true,
+        "cohabitedLastYear": false,
+        "sameAddress": false,
+        "spouseFullName": {
+        "first": "Mary",
+        "middle": "",
+        "last": "Bishop"
+      },
+        "spouseSocialSecurityNumber": "666834638",
+        "spouseDateOfBirth": "1971-09-11",
+        "dateOfMarriage": "1995-02-22"
+      }
+    ],
     "nonPrefill": {
       "previousFinancialInfo": {
         "veteranFinancialInfo": {

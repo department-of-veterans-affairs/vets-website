@@ -22,12 +22,6 @@ describe('LabsAndTests list container', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: [...labsAndTestsFhir, ...radiologyTestsMhv],
-        // Ensure dateRange exists to avoid access during render
-        dateRange: {
-          option: '3',
-          fromDate: '2025-08-13',
-          toDate: '2025-11-13',
-        },
       },
     },
   };
@@ -71,13 +65,7 @@ describe('Labs and tests list container still loading', () => {
     const initialState = {
       user,
       mr: {
-        labsAndTests: {
-          dateRange: {
-            option: '3',
-            fromDate: '2025-08-13',
-            toDate: '2025-11-13',
-          },
-        },
+        labsAndTests: {},
         alerts: {
           alertList: [],
         },
@@ -101,11 +89,6 @@ describe('Labs and tests list container with no data', () => {
       mr: {
         labsAndTests: {
           labsAndTestsList: [],
-          dateRange: {
-            option: '3',
-            fromDate: '2025-08-13',
-            toDate: '2025-11-13',
-          },
         },
         alerts: {
           alertList: [],
@@ -135,13 +118,7 @@ describe('Labs and tests list container with errors', () => {
     const initialState = {
       user,
       mr: {
-        labsAndTests: {
-          dateRange: {
-            option: '3',
-            fromDate: '2025-08-13',
-            toDate: '2025-11-13',
-          },
-        },
+        labsAndTests: {},
         alerts: {
           alertList: [
             {
@@ -189,11 +166,6 @@ describe('Labs and tests list container with radiology images ready', () => {
       mr: {
         labsAndTests: {
           labsAndTestsList: radiologyTestsMhv,
-          dateRange: {
-            option: '3',
-            fromDate: '2025-08-13',
-            toDate: '2025-11-13',
-          },
         },
         images: {
           imageStatus: radiologyTestsMhv.map(r => ({

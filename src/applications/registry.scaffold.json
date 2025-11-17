@@ -10,16 +10,6 @@
     }
   },
   {
-    "appName": "Employment Questionnaire",
-    "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140",
-    "entryName": "21-4140"
-  },
-  {
-    "appName": "Apply for additional compensation based on inability to work",
-    "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-unemployability-compensation-form-21-8940",
-    "entryName": "21-8940"
-  },
-  {
     "appName": "Find Forms",
     "rootUrl": "/find-forms",
     "widgetType": "find-va-forms",

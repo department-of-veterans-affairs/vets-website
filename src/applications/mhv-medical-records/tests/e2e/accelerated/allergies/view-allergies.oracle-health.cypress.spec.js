@@ -8,12 +8,9 @@ describe('Medical Records View Allergies', () => {
 
   beforeEach(() => {
     site.login(oracleHealthUser, false);
-    // Test Path 2: Oracle Health users with acceleration disabled
-    // This verifies that Cerner patients get the v1 OH endpoint with use_oh_data_path=1
-    // when the v2 acceleration flags are turned off
     site.mockFeatureToggles({
-      isAcceleratingEnabled: false,
-      isAcceleratingAllergies: false,
+      isAcceleratingEnabled: true,
+      isAcceleratingAllergies: true,
     });
     Allergies.setIntercepts({ allergiesData, useOhData: true });
   });

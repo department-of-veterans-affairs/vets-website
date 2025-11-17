@@ -123,7 +123,7 @@ describe('10-10d-extended transform for submit', () => {
               first: 'Johnny',
               last: 'Alvin',
             },
-            applicantSsn: APPLICANT_SSN,
+            applicantSSN: APPLICANT_SSN,
           },
         ],
         medicare: [
@@ -152,7 +152,7 @@ describe('10-10d-extended transform for submit', () => {
               first: 'Johnny',
               last: 'Alvin',
             },
-            applicantSsn: APPLICANT_SSN,
+            applicantSSN: APPLICANT_SSN,
           },
         ],
         healthInsurance: [
@@ -192,7 +192,7 @@ describe('10-10d-extended transform for submit', () => {
               first: 'Johnny',
               last: 'Alvin',
             },
-            applicantSsn: APPLICANT_SSN,
+            applicantSSN: APPLICANT_SSN,
           },
         ],
       },
@@ -211,7 +211,7 @@ describe('10-10d-extended transform for submit', () => {
               first: 'Johnny',
               last: 'Alvin',
             },
-            applicantSsn: APPLICANT_SSN,
+            applicantSSN: APPLICANT_SSN,
           },
         ],
         healthInsurance: [

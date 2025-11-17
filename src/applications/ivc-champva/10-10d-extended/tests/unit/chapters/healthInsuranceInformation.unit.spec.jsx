@@ -112,15 +112,15 @@ describe('selectHealthcareParticipantsOnGoForward', () => {
     applicants: [
       {
         applicantName: { first: 'Bruce', last: 'Wayne' },
-        applicantSsn: '123123123',
+        applicantSSN: '123123123',
       },
       {
         applicantName: { first: 'Clark', last: 'Kent' },
-        applicantSsn: '321321321',
+        applicantSSN: '321321321',
       },
       {
         applicantName: { first: 'James', last: 'Gordon' },
-        applicantSsn: '543543543',
+        applicantSSN: '543543543',
       },
     ],
     healthInsurance: [{ provider: 'Blue Cross' }, { provider: 'Cigna' }],
@@ -153,15 +153,15 @@ describe('generateParticipantNames', () => {
         'view:applicantObjects': [
           {
             applicantName: { first: 'Bruce', last: 'Wayne' },
-            applicantSsn: '123123123',
+            applicantSSN: '123123123',
           },
           {
             applicantName: { first: 'Clark', last: 'Kent' },
-            applicantSsn: '321321321',
+            applicantSSN: '321321321',
           },
           {
             applicantName: { first: 'James', last: 'Gordon' },
-            applicantSsn: '543543543',
+            applicantSSN: '543543543',
           },
         ],
       },

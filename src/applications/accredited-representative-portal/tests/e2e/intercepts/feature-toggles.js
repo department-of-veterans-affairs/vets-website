@@ -7,6 +7,10 @@ export const setFeatureToggles = toggles => {
           name: 'accredited_representative_portal_frontend',
           value: toggles.isAppEnabled,
         },
+        {
+          name: 'accredited_representative_portal_pilot',
+          value: toggles.isInPilot,
+        },
       ],
     },
   });

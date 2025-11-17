@@ -1,6 +1,10 @@
 import {
-  ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberUI,
+  ssnUI,
+  ssnSchema,
+  vaFileNumberUI,
+  vaFileNumberSchema,
+  serviceNumberUI,
+  serviceNumberSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -8,15 +12,17 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Veteran’s identification information'),
-    'ui:description':
-      'You must enter either a Social Security number or a VA File number.',
-    veteranSocialSecurityNumber: ssnOrVaFileNumberUI(),
+    veteranSocialSecurityNumber: ssnUI(),
+    veteranVAFileNumber: vaFileNumberUI(),
+    veteranServiceNumber: serviceNumberUI('Service number'),
   },
   schema: {
     type: 'object',
     required: ['veteranSocialSecurityNumber'],
     properties: {
-      veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
+      veteranSocialSecurityNumber: ssnSchema,
+      veteranVAFileNumber: vaFileNumberSchema,
+      veteranServiceNumber: serviceNumberSchema,
     },
   },
 };

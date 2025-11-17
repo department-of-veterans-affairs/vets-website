@@ -44,9 +44,7 @@ export default function ScheduleReferral(props) {
   };
 
   const canScheduleAppointment =
-    currentReferral.provider?.name &&
-    !currentReferral.hasAppointments &&
-    stationIdValid;
+    currentReferral.provider?.name && stationIdValid;
 
   return (
     <ReferralLayout hasEyebrow heading={`Referral for ${categoryOfCare}`}>

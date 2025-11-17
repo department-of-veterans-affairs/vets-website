@@ -198,7 +198,7 @@ const DashboardCards = () => {
 
     return (
       <>
-        <div
+        <ul
           className={
             hasBusinessLevelAuth
               ? 'dashboard-cards-grid-with-business'
@@ -206,7 +206,7 @@ const DashboardCards = () => {
           }
         >
           {currentInquiries.map(card => (
-            <div key={card.id} className="dashboard-card-list">
+            <li key={card.id} className="dashboard-card-list">
               <va-card class="vacard">
                 <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
                   <span className="vads-u-margin-bottom--1p5 vads-u-display--block">
@@ -221,30 +221,32 @@ const DashboardCards = () => {
                     {`Submitted on ${formatDate(card.attributes.createdOn)}`}
                   </span>
                 </h3>
-                <div className="vads-u-margin--0 vads-u-padding-bottom--1">
-                  <span className="vads-u-font-weight--bold vads-u-display--inline">
-                    Last updated:
-                  </span>{' '}
-                  <span className="vads-u-display--inline">
-                    {formatDate(card.attributes.lastUpdate)}
-                  </span>
-                </div>
-                <div className="vads-u-margin--0 vads-u-padding-bottom--1">
-                  <span className="vads-u-font-weight--bold vads-u-display--inline">
-                    Reference number:
-                  </span>{' '}
-                  <span className="vads-u-display--inline">
-                    {card.attributes.inquiryNumber}
-                  </span>
-                </div>
-                <div className="vads-u-margin-bottom--0 vacardCategory multiline-ellipsis-1">
-                  <span className="vads-u-font-weight--bold vads-u-display--inline">
-                    Category:
-                  </span>{' '}
-                  <span className="vads-u-display--inline">
-                    {card.attributes.categoryName}
-                  </span>
-                </div>
+                <dl>
+                  <div className="vads-u-margin--0 vads-u-padding-bottom--1">
+                    <dt className="vads-u-font-weight--bold vads-u-display--inline">
+                      Last updated:
+                    </dt>{' '}
+                    <dd className="vads-u-display--inline">
+                      {formatDate(card.attributes.lastUpdate)}
+                    </dd>
+                  </div>
+                  <div className="vads-u-margin--0 vads-u-padding-bottom--1">
+                    <dt className="vads-u-font-weight--bold vads-u-display--inline">
+                      Reference number:
+                    </dt>{' '}
+                    <dd className="vads-u-display--inline">
+                      {card.attributes.inquiryNumber}
+                    </dd>
+                  </div>
+                  <div className="vads-u-margin-bottom--0 vacardCategory multiline-ellipsis-1">
+                    <dt className="vads-u-font-weight--bold vads-u-display--inline">
+                      Category:
+                    </dt>{' '}
+                    <dd className="vads-u-display--inline">
+                      {card.attributes.categoryName}
+                    </dd>
+                  </div>
+                </dl>
                 <div className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--1 vads-u-margin-top--1p5" />
                 <p className="vacardSubmitterQuestion">
                   {card.attributes.submitterQuestion}
@@ -263,9 +265,9 @@ const DashboardCards = () => {
                   />
                 </Link>
               </va-card>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
 
         {totalPages > 1 && (
           <VaPagination

@@ -166,7 +166,7 @@ describe('pageDetails', () => {
     it('should return spouse death details', () => {
       const details = pageDetails.Spouse({
         fullName: { first: 'SPOUSY' },
-        removalReason: 'spouseDied',
+        removalReason: 'death',
         endDate: '2025-01-01',
         endOutsideUS: false,
         endCity: 'Test City',

@@ -6,19 +6,9 @@ export default function InstitutionAddress() {
   const { street, street2, street3, city, state, postalCode, country } =
     formData?.institutionDetails?.institutionAddress || {};
 
-  const hasAddress = [
-    street,
-    street2,
-    street3,
-    city,
-    state,
-    postalCode,
-    country,
-  ].some(Boolean);
-
   return (
     <div>
-      {!hasAddress ? (
+      {!state ? (
         <p>--</p>
       ) : (
         <p className="va-address-block">

@@ -146,7 +146,6 @@
  * @typedef {Object} FormConfigChapter
  * @property {FormConfigPages} [pages]
  * @property {string | ({ formData, formConfig }) => string} [title]
- * @property {string | ({ formData, formConfig }) => string} [reviewTitle]
  * @property {boolean} [hideFormNavProgress]
  * @property {boolean} [hideFormTitle]
  * @property {boolean} [hideOnReviewPage]
@@ -245,7 +244,6 @@
  * @typedef {{
  *    items?: UISchemaOptions,
  *   'ui:autocomplete'?: AutocompleteValue,
- *   'ui:confirmationField'?: React.ReactNode | (({formData}) => {data: any, label: string}),
  *   'ui:description'?: string | JSX.Element | React.ReactNode,
  *   'ui:disabled'?: boolean,
  *   'ui:errorMessages'?: UIErrorMessages,

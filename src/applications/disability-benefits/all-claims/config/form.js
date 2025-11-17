@@ -126,7 +126,6 @@ import createformConfig8940 from './8940';
 import {
   NULL_CONDITION_STRING,
   PTSD_INCIDENT_ITERATION,
-  SEPARATION_PAY_SECTION_TITLE,
   WIZARD_STATUS,
 } from '../constants';
 
@@ -286,7 +285,7 @@ const formConfig = {
           schema: separationLocation.schema,
         },
         separationPay: {
-          title: SEPARATION_PAY_SECTION_TITLE,
+          title: 'Separation or severance pay',
           path: 'separation-pay',
           depends: formData =>
             !hasRatedDisabilities(formData) && !isBDD(formData),

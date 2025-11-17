@@ -21,6 +21,8 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import { CustomApplicantSSNPage } from '../../shared/components/CustomApplicantSSNPage';
+import { validateApplicantSsnIsUnique } from '../../shared/validations';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import ApplicantRelationshipPage from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
@@ -37,10 +39,6 @@ import {
 
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
-import {
-  validateApplicant,
-  validateApplicantSsn,
-} from '../helpers/validations';
 import { page15aDepends } from '../helpers/utilities';
 import { APPLICANTS_MAX } from '../constants';
 
@@ -57,6 +55,7 @@ import remarriageProof from './applicantInformation/remarriageProof';
 import schoolEnrollmentProof from './applicantInformation/schoolEnrollmentProof';
 import marriageDate from './applicantInformation/marriageDate';
 import stepchildMarriageProof from './applicantInformation/stepchildMarriageProof';
+import { validateApplicant } from '../helpers/validations';
 
 /**
  * Wraps array builder function withEditTitle and calls the result
@@ -111,27 +110,19 @@ export const applicantOptions = {
 const applicantIdentificationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `${applicantWording(formData)} identification information`,
+      ({ formData }) => `${applicantWording(formData)} identification`,
       '',
       false,
     ),
-    applicantSsn: {
-      ...ssnUI(),
-      // Required for SSN uniqueness validation - provides access to full
-      // form data in the validation method
-      'ui:options': {
-        useAllFormData: true,
-      },
-      'ui:validations': [validateApplicantSsn],
-    },
+    applicantSSN: ssnUI(),
+    'ui:validations': [validateApplicantSsnIsUnique],
   },
   schema: {
     type: 'object',
     properties: {
-      applicantSsn: ssnSchema,
+      applicantSSN: ssnSchema,
     },
-    required: ['applicantSsn'],
+    required: ['applicantSSN'],
   },
 };
 
@@ -437,7 +428,9 @@ export const applicantPages = arrayBuilderPages(
     }),
     page14: pageBuilder.itemPage({
       path: 'applicant-social-security-number/:index',
-      title: 'Applicant identification information',
+      title: 'Identification',
+      CustomPage: CustomApplicantSSNPage,
+      CustomPageReview: null,
       ...applicantIdentificationPage,
     }),
     page15a: pageBuilder.itemPage({

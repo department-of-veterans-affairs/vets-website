@@ -1,21 +1,30 @@
-import React from 'react';
 import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { arrayBuilderOptions } from '../helpers';
-import AddEligibileStudents from '../components/AddEligibileStudents';
 
-const uiSchema = {
-  'view:descriptionText': {
-    'ui:description': () => <AddEligibileStudents />,
-    'ui:options': {
-      hideOnReview: true,
+export const arrayBuilderOptions = {
+  arrayPath: 'yellowRibbonProgramRequest',
+  nounSingular: 'contribution',
+  nounPlural: 'contributions',
+  required: false,
+  text: {
+    getItemName: item => {
+      // Use degree level as the primary identifier, fallback to college/school name
+      if (item.degreeLevel) {
+        return item.degreeLevel;
+      }
+      if (item.collegeOrProfessionalSchool) {
+        return item.collegeOrProfessionalSchool;
+      }
+      return 'Contribution';
     },
   },
-  'view:yellowRibbonProgramRequestSummary': arrayBuilderYesNoUI(
-    arrayBuilderOptions,
-    {
+};
+
+const yellowRibbonProgramRequestSummary = {
+  uiSchema: {
+    'view:contributionsSummary': arrayBuilderYesNoUI(arrayBuilderOptions, {
       title: 'Do you have another Yellow Ribbon Program contribution to add?',
       labels: {
         Y: 'Yes, I want to add another contribution ',
@@ -25,29 +34,16 @@ const uiSchema = {
       errorMessages: {
         required: 'Select yes if you have another contribution to add',
       },
-    },
-    {
-      title: 'Do you have another Yellow Ribbon Program contribution to add?',
-      labels: {
-        Y: 'Yes, I want to add another contribution ',
-        N: "No, I don't have another contribution to add",
-      },
-      errorMessages: {
-        required: 'Select yes if you have another contribution to add',
-      },
-    },
-  ),
-};
-
-const schema = {
-  type: 'object',
-  properties: {
-    'view:descriptionText': {
-      type: 'string',
-    },
-    'view:yellowRibbonProgramRequestSummary': arrayBuilderYesNoSchema,
+    }),
   },
-  required: ['view:yellowRibbonProgramRequestSummary'],
+  schema: {
+    type: 'object',
+    properties: {
+      'view:contributionsSummary': arrayBuilderYesNoSchema,
+    },
+    required: ['view:contributionsSummary'],
+  },
 };
 
-export { uiSchema, schema };
+export const { uiSchema } = yellowRibbonProgramRequestSummary;
+export const { schema } = yellowRibbonProgramRequestSummary;

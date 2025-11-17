@@ -115,7 +115,7 @@ describe('spouseReasonToRemove', () => {
     it('should call goForward when reason to remove value is set on submit', () => {
       const goForward = sinon.spy();
       spouseReasonToRemove.handlers.onSubmit({
-        itemData: { removalReason: 'spouseDied' },
+        itemData: { removalReason: 'death' },
         goForward,
       });
       expect(goForward.calledOnce).to.be.true;

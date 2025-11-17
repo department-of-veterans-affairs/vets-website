@@ -20,8 +20,10 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import { sponsorAddressCleanValidation } from '../../shared/validations';
-import { validateSponsorSsn } from '../helpers/validations';
+import {
+  sponsorAddressCleanValidation,
+  validateSponsorSsnIsUnique,
+} from '../../shared/validations';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -90,10 +92,8 @@ export const sponsorIdentificationSchema = {
       return `${formData?.certifierRole === 'sponsor' ? 'Your' : `Veteran's`} 
         identification information`;
     }),
-    sponsorSsn: {
-      ...ssnUI(),
-      'ui:validations': [validateSponsorSsn],
-    },
+    sponsorSsn: ssnUI(),
+    'ui:validations': [validateSponsorSsnIsUnique],
   },
   schema: {
     type: 'object',

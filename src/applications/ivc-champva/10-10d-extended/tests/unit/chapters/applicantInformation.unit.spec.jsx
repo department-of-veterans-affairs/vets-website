@@ -265,11 +265,11 @@ describe('generateParticipantName', () => {
         medicareParticipant: '274d8b67cb72', // result derived from `toHash(123123123)`
         'view:applicantObjects': [
           {
-            applicantSsn: '123123123',
+            applicantSSN: '123123123',
             applicantName: { first: 'App1', last: 'Jones' },
           },
           {
-            applicantSsn: '234234234',
+            applicantSSN: '234234234',
             applicantName: { first: 'App2', last: 'Jones' },
           },
         ],
@@ -282,7 +282,7 @@ describe('generateParticipantName', () => {
         medicareParticipant: '000000000000',
         'view:applicantObjects': [
           {
-            applicantSsn: '123123123',
+            applicantSSN: '123123123',
             applicantName: { first: 'App1', last: 'Jones' },
           },
         ],

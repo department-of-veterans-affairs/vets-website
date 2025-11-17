@@ -19,28 +19,6 @@ import { addAlert } from '../../actions/alerts';
 import { deleteDraft } from '../../actions/draftDetails';
 import * as Constants from '../../util/constants';
 
-const _computeDraftDeleteRedirect = redirectPath => {
-  // Parse the URL
-  const [basePath, queryString] = redirectPath.split('?');
-  if (!queryString) {
-    // No query string, just add the param
-    return `${redirectPath}?draftDeleteSuccess=true`;
-  }
-
-  // Split query params
-  const params = queryString
-    .split('&')
-    .filter(param => !param.startsWith('rxRenewalMessageSuccess'));
-
-  // Add the new param
-  params.push('draftDeleteSuccess=true');
-
-  // Reconstruct the URL
-  return `${basePath}?${params.join('&')}`;
-};
-
-export { _computeDraftDeleteRedirect };
-
 const DeleteDraft = props => {
   const history = useHistory();
   const location = useLocation();
@@ -62,7 +40,6 @@ const DeleteDraft = props => {
     setHideDraft,
     setIsEditing,
     savedComposeDraft,
-    redirectPath,
   } = props;
 
   const showIcon = useState(!!cannotReply);
@@ -125,15 +102,14 @@ const DeleteDraft = props => {
           ? activeFolder.folderId
           : DefaultFolders.DRAFTS.id;
 
-        if (redirectPath) {
-          const finalPath = _computeDraftDeleteRedirect(redirectPath);
-          window.location.replace(finalPath);
-        } else if (pathname.includes('/new-message')) {
+        if (pathname.includes('/new-message')) {
           navigateToFolderByFolderId(
             activeFolder ? activeFolder.folderId : DefaultFolders.DRAFTS.id,
             history,
           );
-        } else if (pathname.includes(Paths.REPLY)) {
+        }
+
+        if (pathname.includes(Paths.REPLY)) {
           history.goBack();
         } else if (pathname.includes(Paths.MESSAGE_THREAD + draftId)) {
           navigateToFolderByFolderId(defaultFolderId, history);
@@ -224,7 +200,6 @@ DeleteDraft.propTypes = {
   isModalVisible: PropType.bool,
   messageBody: PropType.string,
   navigationError: PropType.object,
-  redirectPath: PropType.string,
   refreshThreadCallback: PropType.func,
   savedComposeDraft: PropType.bool,
   setHideDraft: PropType.func,

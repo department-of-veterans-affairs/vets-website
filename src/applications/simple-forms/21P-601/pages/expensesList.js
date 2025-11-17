@@ -32,10 +32,6 @@ const options = {
   },
 };
 
-const yesNoOptions = {
-  title: 'Do you have an expense to add?',
-};
-
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -61,7 +57,7 @@ const summaryPage = {
         </va-alert>
       ),
     },
-    'view:hasExpenses': arrayBuilderYesNoUI(options, yesNoOptions),
+    'view:hasExpenses': arrayBuilderYesNoUI(options),
   },
   schema: {
     type: 'object',
@@ -86,7 +82,7 @@ const expenseDetailsPage = {
     provider: textUI('Provider or funeral home name'),
     expenseType: textUI({
       title: 'Type of expense',
-      hint: 'For example: doctor, hospital, burial, funeral service.',
+      hint: 'For example: doctor, hospital, burial, funeral service',
     }),
     amount: currencyUI({
       title: 'Cost of the expense',

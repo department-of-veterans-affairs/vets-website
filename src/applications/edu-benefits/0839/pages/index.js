@@ -9,8 +9,6 @@ import * as eligibleIndividualsSupported from './eligibleIndividualsSupported';
 import * as contributionLimitsAndDegreeLevel from './contributionLimitsAndDegreeLevel';
 import * as foreignContributionLimitsAndDegreeLevel from './foreignContributionLimitsAndDegreeLevel';
 import * as yellowRibbonProgramRequestSummary from './yellowRibbonProgramRequestSummary';
-import * as pointsOfContanct from './pointsOfContanct';
-import * as additionalPointsOfContact from './additionalPointsOfContact';
 
 export {
   authorizedOfficial,
@@ -24,6 +22,4 @@ export {
   contributionLimitsAndDegreeLevel,
   foreignContributionLimitsAndDegreeLevel,
   yellowRibbonProgramRequestSummary,
-  pointsOfContanct,
-  additionalPointsOfContact,
 };

@@ -19,21 +19,14 @@ export default function ReferralAppointments() {
   useManualScrollRestoration();
   const basePath = useRouteMatch();
   const { isInPilotUserStations } = useIsInPilotUserStations();
-  const location = useLocation();
-  const { search } = location;
+  const { search } = useLocation();
   const params = new URLSearchParams(search);
   const id = params.get('id');
   const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
     skip: !id,
   });
 
-  // Don't redirect if on the initial schedule referral page (first page of flow)
-  // Check if pathname matches the base path exactly (no sub-routes like /review or /date-time)
-  const isOnInitialScheduleReferralPage = location.pathname === basePath.url;
-  if (
-    referral?.attributes?.hasAppointments &&
-    !isOnInitialScheduleReferralPage
-  ) {
+  if (referral?.attributes?.hasAppointments) {
     return <Redirect to="/referrals-requests" />;
   }
 

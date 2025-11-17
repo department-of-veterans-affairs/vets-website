@@ -25,10 +25,6 @@ import applicantMailingAddress from '../pages/applicantMailingAddress';
 import applicantMailingAddress2 from '../pages/applicantMailingAddress2';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
-import typeOfRequest from '../pages/typeOfRequest';
-import replacementMedallionReason from '../pages/replacementMedallionReason';
-import typeOfMedallion from '../pages/typeOfMedallion.jsx';
-import medallionSize from '../pages/medallionSize';
 import {
   ApplicantNameHeader,
   ApplicantNameNote,
@@ -217,35 +213,14 @@ const formConfig = {
         },
       },
     },
-    typeOfRequest: {
+    memorialItems: {
       title: 'Memorial items',
       pages: {
-        typeOfRequest: {
-          path: 'type-of-request',
-          title: 'Type of request',
-          uiSchema: typeOfRequest.uiSchema,
-          schema: typeOfRequest.schema,
-        },
-        replacementMedallionReason: {
-          path: 'replacement-medallion-reason',
-          title: 'Replacement medallion',
-          uiSchema: replacementMedallionReason.uiSchema,
-          schema: replacementMedallionReason.schema,
-          depends: formData => formData.typeOfRequestRadio === 'replacement',
-        },
-        typeOfMedallion: {
-          path: 'type-of-medallion',
-          title: 'Type of medallion',
-          uiSchema: typeOfMedallion.uiSchema,
-          schema: typeOfMedallion.schema,
-          depends: formData => formData.typeOfRequestRadio === 'new',
-        },
-        medallionSize: {
-          path: 'medallion-size',
-          title: 'Size of medallion',
-          uiSchema: medallionSize.uiSchema,
-          schema: medallionSize.schema,
-          depends: formData => formData.typeOfRequestRadio === 'new',
+        memorialItems: {
+          path: 'phone-and-email-address-3',
+          title: 'Phone and email address',
+          uiSchema: phoneAndEmailAddress.uiSchema,
+          schema: phoneAndEmailAddress.schema,
         },
       },
     },

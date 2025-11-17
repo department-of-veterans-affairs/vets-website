@@ -63,7 +63,7 @@ export function generateParticipantNames(item) {
     const matches = applicantObjects.filter(app =>
       Object.keys(healthcareParticipants)
         .filter(e => healthcareParticipants[e] === true)
-        .includes(toHash(app.applicantSsn)),
+        .includes(toHash(app.applicantSSN)),
     );
     const names = matches?.map(n => nameWording(n, false, false, false));
     return names.length > 0 ? names.join(', ') : 'No members specified';

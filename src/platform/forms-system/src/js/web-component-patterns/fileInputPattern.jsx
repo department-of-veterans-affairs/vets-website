@@ -84,8 +84,6 @@ import {
  * @param {ObjUISchemaOptions['ui:errorMessages']} [options.errorMessages]
  * @param {UISchemaOptions['ui:labelHeaderLevel']} [options.labelHeaderLevel]
  * @param {UISchemaOptions['ui:messageAriaDescribedby']} [options.messageAriaDescribedBy]
- * @param {UISchemaOptions['ui:reviewField']} [options.reviewField]
- * @param {UISchemaOptions['ui:confirmationField']} [options.confirmationField]
  * @param {string | string[]} [options.accept] - File types to accept
  * @param {number} [options.maxFileSize] - maximum allowed file size in bytes
  * @param {number} [options.minFileSize] - minimum allowed file size in bytes
@@ -99,15 +97,7 @@ import {
  * @returns {UISchemaOptions}
  */
 export const fileInputUI = options => {
-  const {
-    title,
-    description,
-    errorMessages,
-    required,
-    reviewField,
-    confirmationField,
-    ...uiOptions
-  } = options;
+  const { title, description, errorMessages, required, ...uiOptions } = options;
 
   if (required === undefined) {
     throw new Error(
@@ -164,22 +154,18 @@ export const fileInputUI = options => {
     'ui:options': {
       ...uiOptions,
     },
-    'ui:reviewField':
-      reviewField ||
-      (({ children }) => {
-        return (
-          <div className="review-row">
-            <dt>{title}</dt>
-            <dd>{children.props?.formData?.name}</dd>
-          </div>
-        );
-      }),
-    'ui:confirmationField':
-      confirmationField ||
-      (({ formData }) => ({
-        data: formData?.name,
-        label: title,
-      })),
+    'ui:reviewField': ({ children }) => {
+      return (
+        <div className="review-row">
+          <dt>{title}</dt>
+          <dd>{children.props?.formData?.name}</dd>
+        </div>
+      );
+    },
+    'ui:confirmationField': ({ formData }) => ({
+      data: formData?.name,
+      label: title,
+    }),
     warnings: {
       'ui:options': {
         keepInPageOnReview: true,

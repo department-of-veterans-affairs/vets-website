@@ -39,7 +39,6 @@ export function isLocalhost() {
 
 const mockData = testData.data;
 
-/** @returns {FormConfig} */
 const formConfig = (pathname = null) => {
   const { title, subTitle, formNumber } = getFormContent(pathname);
   const formId = `${formNumber.toUpperCase()}-UPLOAD`;
@@ -73,7 +72,7 @@ const formConfig = (pathname = null) => {
     v3SegmentedProgressBar: { useDiv: false },
     chapters: {
       personalInformationChapter: {
-        title: 'Veteran’s information',
+        title: 'Veteran information',
         pages: {
           nameAndZipCodePage: {
             path: 'name-and-zip-code',
@@ -109,8 +108,7 @@ const formConfig = (pathname = null) => {
         },
       },
       uploadChapter: {
-        title: 'Upload form',
-        reviewTitle: 'Uploaded form',
+        title: 'Upload',
         pages: {
           uploadPage: {
             path: 'upload',
@@ -124,7 +122,6 @@ const formConfig = (pathname = null) => {
       },
       uploadSupportingDocuments: {
         title: 'Upload supporting documents',
-        reviewTitle: 'Uploaded supporting documents',
         pages: {
           showSupportingDocuments: {
             path: 'supporting-documents',

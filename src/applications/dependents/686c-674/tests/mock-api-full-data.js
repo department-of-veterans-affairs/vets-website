@@ -9,7 +9,7 @@ const delay = require('mocker-api/lib/delay');
 
 const mockUser = require('./e2e/user.json');
 const mockVaFileNumber = require('./e2e/fixtures/va-file-number.json');
-const mockMaxData = require('./e2e/fixtures/removal-only-v3.json');
+const mockMaxData = require('./e2e/fixtures/picklist.json');
 
 const returnUrl = '/review-and-submit';
 
@@ -58,96 +58,60 @@ const mockSipPut = {
 const mockDependents = {
   data: {
     attributes: {
-      // Covering 11 scenarios
-      // see https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/dependents/picklist/flow.md
       persons: [
         {
-          firstName: 'SPOUSY', // Divorced
-          lastName: 'FOSTER',
-          dateOfBirth: createDate(45),
-          ssn: '3332',
-          relationshipToVeteran: 'Spouse',
-          awardIndicator: 'Y',
-        },
-        {
-          firstName: 'SUMMER', // Deceased
-          lastName: 'FOSTER',
-          dateOfBirth: createDate(46),
-          ssn: '3331',
-          relationshipToVeteran: 'Spouse',
-          awardIndicator: 'Y',
-        },
-
-        {
-          firstName: 'PENNY', // Married
-          lastName: 'FOSTER',
-          dateOfBirth: createDate(17),
-          ssn: '3479',
-          relationshipToVeteran: 'Child',
-          awardIndicator: 'Y',
-        },
-        {
-          firstName: 'CLUMSY', // Death
-          lastName: 'FOSTER',
-          dateOfBirth: createDate(33),
-          ssn: '3236',
-          relationshipToVeteran: 'Child',
-          awardIndicator: 'Y',
-        },
-        {
-          firstName: 'JOE', // Left school & no permanent disability
+          firstName: 'JOE',
           lastName: 'FOSTER',
           dateOfBirth: createDate(19),
-          ssn: '3468',
+          ssn: '793473468',
           relationshipToVeteran: 'Child',
           awardIndicator: 'Y',
         },
         {
-          firstName: 'MIKE', // Left school & has permanent disability
+          firstName: 'PENNY',
           lastName: 'FOSTER',
-          dateOfBirth: createDate(20),
-          ssn: '3499',
+          dateOfBirth: createDate(17),
+          ssn: '793473479',
           relationshipToVeteran: 'Child',
           awardIndicator: 'Y',
         },
         {
-          firstName: 'STACY', // Left household & < 50% financial support
+          firstName: 'STACY',
           lastName: 'FOSTER',
           dateOfBirth: createDate(0, 4),
-          ssn: '3233',
-          relationshipToVeteran: 'Child', // Stepchild
-          awardIndicator: 'Y',
-        },
-        {
-          firstName: 'JENNIFER', // Left household & >= 50% financial support
-          lastName: 'FOSTER',
-          dateOfBirth: createDate(4),
-          ssn: '3311',
-          relationshipToVeteran: 'Child', // Stepchild
-          awardIndicator: 'Y',
-        },
-        {
-          firstName: 'FORMER', // Adopted
-          lastName: 'FOSTER',
-          dateOfBirth: createDate(11),
-          ssn: '3145',
+          ssn: '798703232',
           relationshipToVeteran: 'Child',
           awardIndicator: 'Y',
         },
-
         {
-          firstName: 'PETER', // Deceased
+          firstName: 'SPOUSY',
           lastName: 'FOSTER',
-          dateOfBirth: createDate(89),
-          ssn: '0104',
+          dateOfBirth: createDate(45),
+          ssn: '702023332',
+          relationshipToVeteran: 'Spouse',
+          awardIndicator: 'Y',
+        },
+        {
+          firstName: 'PREVIOUS',
+          lastName: 'FOSTER',
+          dateOfBirth: createDate(44),
+          ssn: '702023331',
+          relationshipToVeteran: 'Spouse',
+          awardIndicator: 'Y',
+        },
+        {
+          firstName: 'PETER',
+          lastName: 'FOSTER',
+          dateOfBirth: createDate(82),
+          ssn: '997010104',
           relationshipToVeteran: 'Parent',
           awardIndicator: 'Y',
         },
         {
-          firstName: 'MARY', // Other
+          firstName: 'MARY',
           lastName: 'FOSTER',
           dateOfBirth: createDate(85),
-          ssn: '0155',
+          ssn: '997010155',
           relationshipToVeteran: 'Parent',
           awardIndicator: 'Y',
         },

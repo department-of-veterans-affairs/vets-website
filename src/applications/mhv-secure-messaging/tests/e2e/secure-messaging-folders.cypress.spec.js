@@ -3,7 +3,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import FolderLoadPage from './pages/FolderLoadPage';
 import { AXE_CONTEXT } from './utils/constants';
 import PatientInboxPage from './pages/PatientInboxPage';
-import PatientMessageSentPage from './pages/PatientMessageSentPage';
+import PatentMessageSentPage from './pages/PatientMessageSentPage';
 import SharedComponents from './pages/SharedComponents';
 
 describe(manifest.appName, () => {
@@ -20,7 +20,7 @@ describe(manifest.appName, () => {
   });
 
   it('Check the Sent folder', () => {
-    PatientMessageSentPage.loadMessages();
+    PatentMessageSentPage.loadMessages();
     FolderLoadPage.verifyFolderHeaderText('Messages: Sent');
     FolderLoadPage.verifyBreadCrumbsLength(3);
 

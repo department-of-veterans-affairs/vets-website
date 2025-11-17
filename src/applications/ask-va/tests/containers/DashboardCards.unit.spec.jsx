@@ -463,9 +463,7 @@ describe('<DashboardCards>', () => {
       const filterSummary = await view.findByText(/showing/i);
       expect(filterSummary.textContent).to.include('categories in Personal');
 
-      const resultsBefore = await view.container.querySelectorAll(
-        '.dashboard-card-list',
-      );
+      const resultsBefore = await view.findAllByRole('listitem');
       expect(resultsBefore.length).to.equal(2);
       expect(resultsBefore[0].textContent).to.include('Reference number: A-2');
 
@@ -482,9 +480,7 @@ describe('<DashboardCards>', () => {
       filterButtons.__events.primaryClick();
 
       // Confirrm the list is now just one desired result
-      const resultsAfter = await view.container.querySelectorAll(
-        '.dashboard-card-list',
-      );
+      const resultsAfter = await view.findAllByRole('listitem');
       expect(resultsAfter.length).to.equal(1);
       expect(resultsAfter[0].textContent).to.include('Reference number: A-3');
     });

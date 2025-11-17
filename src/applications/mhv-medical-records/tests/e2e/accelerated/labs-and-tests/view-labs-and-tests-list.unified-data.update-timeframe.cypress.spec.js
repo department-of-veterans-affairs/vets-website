@@ -1,4 +1,3 @@
-import { format, subMonths } from 'date-fns';
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import LabsAndTests from '../pages/LabsAndTests';
 import oracleHealthUser from '../fixtures/user/oracle-health.json';
@@ -25,18 +24,17 @@ describe('Medical Records View Lab and Tests', () => {
 
   it('Visits View Labs And Test Page List', () => {
     site.loadPage();
+
     // // check for MY Va Health links
     LabsAndTests.checkLandingPageLinks();
 
     LabsAndTests.goToLabAndTestPage();
 
     const today = mockDate;
-    const fromDisplay = format(subMonths(today, 3), 'MMMM d, yyyy');
-    const toDisplay = format(today, 'MMMM d, yyyy');
-    LabsAndTests.checkTimeFrameDisplay({
-      fromDate: fromDisplay,
-      toDate: toDisplay,
-    });
+    const timeFrame = `${today.getFullYear()}-${(today.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}`;
+    LabsAndTests.checkUrl({ timeFrame });
 
     cy.injectAxeThenAxeCheck();
 
@@ -48,10 +46,11 @@ describe('Medical Records View Lab and Tests', () => {
     cy.get("[data-testid='filter-display-message']").should('be.visible');
     cy.get("[data-testid='filter-display-message']").should('not.be.empty');
 
-    LabsAndTests.selectDateRange({
-      option: '2023',
+    LabsAndTests.selectMonthAndYear({
+      month: 'January',
+      year: '2020',
     });
-    LabsAndTests.checkTimeFrameDisplayForYear({ year: '2023' });
+    LabsAndTests.checkUrl({ timeFrame: '2020-01' });
 
     // go to a specific lab
     LabsAndTests.selectLabAndTest({
@@ -60,7 +59,8 @@ describe('Medical Records View Lab and Tests', () => {
 
     cy.get('[data-testid="mr-breadcrumbs"]')
       .find('a')
-      .should('have.attr', 'href');
+      .should('have.attr', 'href')
+      .and('include', 'timeFrame=2020-01');
 
     cy.get('[data-testid="mr-breadcrumbs"]')
       .find('a')
@@ -68,6 +68,6 @@ describe('Medical Records View Lab and Tests', () => {
       .click();
 
     // Maintaining the same timeFrame across page clicks
-    LabsAndTests.checkTimeFrameDisplayForYear({ year: '2023' });
+    LabsAndTests.checkUrl({ timeFrame: '2020-01' });
   });
 });

@@ -5,7 +5,7 @@ describe('Survivor Pension Benefits 534EZ ', () => {
     before(() => {
       utils.startApplicationWithoutLogin();
     });
-    it.skip('tests  reporting survivor expenses path', () => {
+    it('tests  reporting survivor expenses path', () => {
       utils.checkContentNameDobPage();
       utils.fillInNameFromFixture();
 

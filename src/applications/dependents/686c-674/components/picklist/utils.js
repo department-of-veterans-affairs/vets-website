@@ -20,7 +20,7 @@ export const labels = {
     marriageEnded: 'You’re no longer married to them',
     divorce: 'You got divorced',
     annulmentOrVoid: 'Your marriage was annulled or declared void',
-    spouseDied: 'They died',
+    death: 'They died',
   },
   Parent: {
     removalReasonTitle: (fullName, isEditing) => (
@@ -106,7 +106,7 @@ export const pageDetails = {
             value: location(item),
           },
         ];
-      case 'spouseDied':
+      case 'death':
         return [
           reason,
           {

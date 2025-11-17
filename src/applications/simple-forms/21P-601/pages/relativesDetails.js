@@ -1,8 +1,8 @@
 import {
   fullNameUI,
   fullNameSchema,
-  radioUI,
-  radioSchema,
+  selectUI,
+  selectSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   addressUI,
@@ -67,17 +67,14 @@ const relativeNamePage = {
       nounSingular: options.nounSingular,
     }),
     fullName: fullNameUI(),
-    relationship: radioUI({
-      title: 'Relationship to deceased',
-      labels: relationshipOptions,
-    }),
+    relationship: selectUI('Relationship to deceased'),
     dateOfBirth: currentOrPastDateUI('Date of birth'),
   },
   schema: {
     type: 'object',
     properties: {
       fullName: fullNameSchema,
-      relationship: radioSchema(Object.keys(relationshipOptions)),
+      relationship: selectSchema(Object.keys(relationshipOptions)),
       dateOfBirth: currentOrPastDateSchema,
     },
     required: ['fullName', 'relationship'],

@@ -127,7 +127,8 @@ describe('EZR V2 spouse information flow', () => {
 
       cy.get('input[name="root_spouseFullName_first"]').should(
         'have.value',
-        mockPrefillWithNonPrefillData.formData.spouseFullName.first,
+        mockPrefillWithNonPrefillData.formData.spouseInformation[0]
+          .spouseFullName.first,
       );
       fillSpousePersonalInformation({ firstName: 'Joe', lastName: 'Schmoe' });
       cy.injectAxeThenAxeCheck();

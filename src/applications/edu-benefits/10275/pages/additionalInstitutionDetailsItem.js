@@ -4,10 +4,27 @@ import {
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import AdditionalInstitutionAddress from '../containers/AdditionalInstitutionAddress';
-import AdditionalInstitutionName from '../containers/AdditionalInstitutionName';
+import InstitutionName from '../components/InstitutionName';
+import InstitutionAddress from '../components/InstitutionAddress';
 // import WarningBanner from '../containers/WarningBanner';
-import { facilityCodeUIValidation } from '../helpers';
+
+const facilityCodeUIValidation = (errors, fieldData, formData) => {
+  const details = formData?.institutionDetails || {};
+  const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
+  const notFound = details.institutionName === 'not found';
+  const ineligible = details.poeEligible === false;
+
+  if (badFormat || notFound) {
+    errors.addError(
+      'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+    );
+  }
+  if (ineligible) {
+    errors.addError(
+      'This institution is unable to participate in the Principles of Excellence.',
+    );
+  }
+};
 
 const uiSchema = {
   ...arrayBuilderItemFirstPageTitleUI({
@@ -24,28 +41,25 @@ const uiSchema = {
           'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
       },
       useAllFormData: true,
-      data: {
-        'facility-field': 'additional-facility-code',
-      },
     }),
     'ui:validations': [facilityCodeUIValidation],
   },
   institutionName: {
     'ui:title': 'Institution name and address',
-    'ui:field': AdditionalInstitutionName,
+    'ui:field': InstitutionName,
     'ui:options': {
       classNames: 'vads-u-margin-top--2',
-      dataPath: 'additionalLocations',
+      dataPath: 'additionalInstitutionDetails',
       isArrayItem: true,
     },
   },
   institutionAddress: {
     'ui:title': '',
-    'ui:field': AdditionalInstitutionAddress,
+    'ui:field': InstitutionAddress,
     'ui:options': {
       classNames: 'vads-u-margin-top--2',
       hideLabelText: true,
-      dataPath: 'additionalLocations',
+      dataPath: 'additionalInstitutionDetails',
       isArrayItem: true,
     },
   },
