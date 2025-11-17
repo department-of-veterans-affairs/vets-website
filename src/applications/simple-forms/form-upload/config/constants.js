@@ -113,6 +113,7 @@ export const FORM_UPLOAD_OCR_ALERT = (
     visible
     closeable
     onCloseEvent={onCloseEvent}
+    role="status"
   >
     <h2 slot="headline">
       Are you sure the file you uploaded is VA Form {formNumber}?
