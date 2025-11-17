@@ -10,6 +10,7 @@ const TravelPayButtonPair = ({
   loading = false,
   disabled = false,
   className = '',
+  showContinueButtonArrows = false,
 }) => {
   return (
     <ul className={`travel-pay-button-group ${className}`}>
@@ -24,7 +25,7 @@ const TravelPayButtonPair = ({
       </li>
       <li className="travel-pay-button-group__item">
         <VaButton
-          continue
+          continue={showContinueButtonArrows}
           text={continueText}
           onClick={onContinue}
           loading={loading}
@@ -43,6 +44,7 @@ TravelPayButtonPair.propTypes = {
   continueText: PropTypes.string,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
+  showContinueButtonArrows: PropTypes.bool,
 };
 
 export default TravelPayButtonPair;

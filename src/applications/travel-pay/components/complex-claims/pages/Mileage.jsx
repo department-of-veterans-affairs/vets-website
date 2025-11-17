@@ -127,12 +127,12 @@ const Mileage = () => {
           </li>
           <li>
             We calculate the miles you drove to the appointment based on your
-            starting address, then compensate you a set amount per mile
+            starting address, then compensate you a set amount per mile.
           </li>
-          <li>We pay round-trip mileage for your scheduled appointments</li>
+          <li>We pay round-trip mileage for your scheduled appointments.</li>
           <li>
             We may only pay return mileage for unscheduled appointments like
-            walk-ins and labs
+            walk-ins and labs.
           </li>
         </ul>
         <va-link
@@ -202,6 +202,7 @@ const Mileage = () => {
         onBack={handleBack}
         onContinue={handleContinue}
         loading={isLoadingExpense}
+        showContinueButtonArrows
       />
     </>
   );
