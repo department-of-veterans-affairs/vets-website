@@ -30,10 +30,7 @@ const formatDateTime = dateString => {
 const Review = () => {
   const navigate = useNavigate();
 
-  const handleBack = () => {
-    navigate(-1);
-  };
-  const handleConfirm = () => {
+  const handleConfirmCall = () => {
     navigate('/confirmation');
   };
 
@@ -116,18 +113,11 @@ const Review = () => {
         aria-hidden="true"
         className="vads-u-margin-top--0 vads-u-margin-bottom--1"
       />
-      <div className="vads-u-display--flex vads-u-margin-top--2 vass-form__button-container">
+      <div className="vads-u-margin-top--2">
         <va-button
-          secondary
-          onClick={handleBack}
-          text="Back"
-          data-testid="back-button"
-          uswds
-        />
-        <va-button
-          onClick={handleConfirm}
-          text="Confirm"
-          data-testid="confirm-button"
+          onClick={handleConfirmCall}
+          text="Confirm call"
+          data-testid="confirm-call-button"
           uswds
         />
       </div>

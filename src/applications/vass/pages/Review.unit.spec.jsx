@@ -19,7 +19,6 @@ describe('VASS Component: Review', () => {
     expect(screen.getByTestId('topic-title')).to.exist;
     expect(screen.getByTestId('topic-edit-link')).to.exist;
     expect(screen.getByTestId('topic-description')).to.exist;
-    expect(screen.getByTestId('back-button')).to.exist;
-    expect(screen.getByTestId('confirm-button')).to.exist;
+    expect(screen.getByTestId('confirm-call-button')).to.exist;
   });
 });
