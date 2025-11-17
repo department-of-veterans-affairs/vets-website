@@ -51,7 +51,10 @@ describe('useWebChat', () => {
         .returns(CombineLoadingStatusModule.COMPLETE);
 
       const virtualAgentEnableParamErrorDetection = false;
-      const result = useWebChat(virtualAgentEnableParamErrorDetection, CombineLoadingStatusModule.COMPLETE);
+      const result = useWebChat(
+        virtualAgentEnableParamErrorDetection,
+        CombineLoadingStatusModule.COMPLETE,
+      );
 
       expect(combineLoadingStatusStub.called).to.equal(false);
       expect(result.loadingStatus).to.equal(
