@@ -36,7 +36,7 @@ const ConfirmationHousingSituation = ({ formData }) => {
         </li>
 
         {isHomeless && (
-          <div>
+          <>
             <li>
               <div className="vads-u-color--gray">
                 Please describe your current living situation:
@@ -58,11 +58,11 @@ const ConfirmationHousingSituation = ({ formData }) => {
               </div>
               {formData['view:isHomeless']?.needToLeaveHousing ? 'Yes' : 'No'}
             </li>
-          </div>
+          </>
         )}
 
         {isAtRisk && (
-          <div>
+          <>
             <li>
               <div className="vads-u-color--gray">
                 Please describe your housing situation:
@@ -77,7 +77,7 @@ const ConfirmationHousingSituation = ({ formData }) => {
                 {formData['view:isAtRisk']?.otherAtRiskHousing || ''}
               </li>
             )}
-          </div>
+          </>
         )}
         {homelessnessContact.name && (
           <>
