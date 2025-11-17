@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import EnteredPoc from '../components/EnteredPoc';
+import { getTransformIntlPhoneNumber } from '../helpers';
 
 const nameFrom = person =>
   [person?.fullName?.first, person?.fullName?.middle, person?.fullName?.last]
@@ -21,7 +22,10 @@ const PreviouslyEnteredPOCWidget = props => {
   const push = (key, contact) => {
     const nm = contact && nameFrom(contact);
     if (!nm) return;
-    const phone = contact?.phoneNumber || {};
+    const phone =
+      typeof contact?.phoneNumber === 'object'
+        ? getTransformIntlPhoneNumber(contact.phoneNumber)
+        : '';
     const title = contact?.title || '';
     options.push({
       key,
@@ -44,7 +48,10 @@ const PreviouslyEnteredPOCWidget = props => {
   const authorizedOfficialName =
     authorizedOfficial && nameFrom(authorizedOfficial);
   if (authorizedOfficialName) {
-    const phone = authorizedOfficial?.phoneNumber || {};
+    const phone =
+      typeof authorizedOfficial?.phoneNumber === 'object'
+        ? getTransformIntlPhoneNumber(authorizedOfficial.phoneNumber)
+        : '';
     const title = authorizedOfficial?.title || '';
     options.push({
       key: 'authorizedOfficial',
@@ -71,7 +78,10 @@ const PreviouslyEnteredPOCWidget = props => {
     const name = [fn.first, fn.middle, fn.last].filter(Boolean).join(' ');
     const email = loc?.email || '';
     if (!name && !email) return;
-    const phone = loc?.phoneNumber || {};
+    const phone =
+      typeof loc?.phoneNumber === 'object'
+        ? getTransformIntlPhoneNumber(loc.phoneNumber)
+        : '';
     options.push({
       key: `new-${idx}`,
       label: name,
@@ -158,14 +168,7 @@ export const schema = {
         },
         title: { type: 'string' },
         email: { type: 'string', format: 'email' },
-        phone: {
-          type: 'object',
-          properties: {
-            callingCode: { type: 'string' },
-            countryCode: { type: 'string' },
-            contact: { type: 'string' },
-          },
-        },
+        phone: { type: 'string' },
       },
     },
   },
