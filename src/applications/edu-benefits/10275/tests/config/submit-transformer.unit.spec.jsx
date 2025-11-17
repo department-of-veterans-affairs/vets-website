@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import transformTestData from '../fixtures/data/maximal-test.json';
 import formConfig from '../../config/form';
-// import { transform } from '../../config/submit-transformer';
 import transform from '../../config/submit-transformer';
 
 describe('22-10275 Submit Transformer Function', () => {
