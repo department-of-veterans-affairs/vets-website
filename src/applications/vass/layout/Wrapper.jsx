@@ -27,7 +27,9 @@ const Wrapper = props => {
         <h1 tabIndex="-1" data-testid="header">
           {pageTitle}
           {required && (
-            <span className="vass-usa-label--required">(*Required)</span>
+            <span className="vass-usa-label--required vads-u-font-family--sans">
+              (*Required)
+            </span>
           )}
         </h1>
       )}

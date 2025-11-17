@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom-v5-compat';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
 import { topics } from '../services/Topic/topic';
+import ButtonPair from '../components/ButtonPair';
 
 const TopicSelection = () => {
   const navigate = useNavigate();
@@ -29,13 +30,7 @@ const TopicSelection = () => {
   };
   return (
     <Wrapper pageTitle="What topic would you like to talk about?" required>
-      <va-checkbox-group
-        error={null}
-        hint={null}
-        label="Check all that apply"
-        label-header-level=""
-        message-aria-describedby={null}
-      >
+      <va-checkbox-group label="Check all that apply">
         {topics.map(topic => (
           <VaCheckbox
             key={topic}
@@ -47,10 +42,7 @@ const TopicSelection = () => {
           />
         ))}
       </va-checkbox-group>
-      <div className="vads-u-display--flex vads-u-margin-top--4 vass-form__button-container">
-        <va-button secondary onClick={handleBack} text="Back" uswds />
-        <va-button onClick={handleContinue} text="Continue" uswds />
-      </div>
+      <ButtonPair onBack={handleBack} onContinue={handleContinue} />
     </Wrapper>
   );
 };
