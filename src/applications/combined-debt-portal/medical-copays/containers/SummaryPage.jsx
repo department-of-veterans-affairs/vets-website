@@ -210,6 +210,12 @@ const OverviewPage = () => {
         <Balances
           statements={currentData}
           showVHAPaymentHistory={showVHAPaymentHistory}
+          paginationText={getPaginationText(
+            currentPage,
+            MAX_ROWS,
+            statementsByUniqueFacility.length,
+            'copays',
+          )}
         />
         {renderVaPagination()}
         {renderOtherVA(debts?.length, debtError)}
