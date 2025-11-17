@@ -342,7 +342,7 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         ),
       };
     }
-    case Actions.LabsAndTests.GET_UNIFIED_ITEM_FROM_LIST: {
+    case Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM_FROM_LIST: {
       return {
         ...state,
         careSummariesAndNotesDetails: action.response.data.id

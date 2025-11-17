@@ -50,11 +50,12 @@ describe('CareSummariesAndNotes list container still loading', () => {
   it('shows a loading indicator', () => {
     const initialState = {
       mr: {
-        careSummariesAndNotes: {},
-        dateRange: {
-          option: '3',
-          fromDate: '2025-08-13',
-          toDate: '2025-11-13',
+        careSummariesAndNotes: {
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
         },
       },
     };
@@ -107,12 +108,14 @@ describe('CareSummariesAndNotes list container with errors', () => {
     const initialState = {
       user,
       mr: {
-        labsAndTests: {},
-        dateRange: {
-          option: '3',
-          fromDate: '2025-08-13',
-          toDate: '2025-11-13',
+        careSummariesAndNotesList: {
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
         },
+
         alerts: {
           alertList: [
             {
