@@ -674,7 +674,19 @@ const cleanupErrorAnnotations = () => {
   );
   const elementsWithErrors = document.querySelectorAll(errorSelector);
 
-  elementsWithErrors.forEach(el => {
+  // Find elements that previously had errors but no longer do
+  // These elements need cleanup to remove stale aria-labelledby references
+  // Added to prevent JAWS from announcing stale error messages in radio when selecting option
+  const elementsWithPreviousErrors = document.querySelectorAll(
+    '[data-previous-error-message]',
+  );
+
+  const allElementsWithErrors = new Set([
+    ...Array.from(elementsWithErrors),
+    ...Array.from(elementsWithPreviousErrors),
+  ]);
+
+  allElementsWithErrors.forEach(el => {
     // Skip elements not in the allowedElements list
     if (!isSupportedVaElement(el)) return;
     // ============================================================================
