@@ -21,7 +21,7 @@
       "phoneNumber": {
         "callingCode": 1,
         "countryCode": "US",
-        "contact": "1231231222"
+        "contact": "1 (231) 231-222"
       },
       "email": "janedoe@gmail.com",
       "view:isPOC": true,
