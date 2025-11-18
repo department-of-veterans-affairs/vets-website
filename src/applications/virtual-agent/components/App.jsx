@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import useWebChat from '../hooks/useWebChat';
 import { COMPLETE, ERROR, LOADING } from '../utils/loadingStatus';
@@ -7,11 +8,11 @@ import WebChat from './WebChat';
 import { getTokenExpiresAt } from '../utils/sessionStorage';
 import { getAlertTargetTs } from '../utils/expiry';
 
-export default function App(props) {
+export default function App({ virtualAgentEnableParamErrorDetection }) {
   // Default to complete because when feature toggles are loaded we assume paramLoadingStatus is complete and will error out otherwise
   const [paramLoadingStatus, setParamLoadingStatus] = useState(COMPLETE);
   const { token, code, expired, webChatFramework, loadingStatus } = useWebChat(
-    props,
+    virtualAgentEnableParamErrorDetection,
     paramLoadingStatus,
   );
 
@@ -97,3 +98,7 @@ export default function App(props) {
       throw new Error(`Invalid loading status: ${loadingStatus}`);
   }
 }
+
+App.propTypes = {
+  virtualAgentEnableParamErrorDetection: PropTypes.bool,
+};

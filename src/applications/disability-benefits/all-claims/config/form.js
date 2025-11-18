@@ -136,7 +136,7 @@ import reviewErrors from '../reviewErrors';
 import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import getPreSubmitInfo from '../content/preSubmitInfo';
-import ConfirmationAncillaryFormsWizard from '../components/ConfirmationAncillaryFormsWizard';
+import ConfirmationAncillaryFormsWizard from '../components/confirmationFields/ConfirmationAncillaryFormsWizard';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -201,13 +201,15 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   title: ({ formData }) => getPageTitle(formData),
-  subTitle: 'VA Form 21-526EZ',
+  subTitle:
+    'Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ)',
   preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>
         `${onReviewPage ? 'Review ' : ''}Veteran Details`,
+      reviewTitle: 'Review Veteran Details',
       pages: {
         veteranInformation: {
           title: 'Veteran information',

@@ -65,15 +65,14 @@ describe('App', () => {
 
       expect(getByTestId('webchat-module')).to.exist;
     });
-    it('should throw an error when loadingStatus is unknown', async () => {
+    it('should throw an error when loadingStatus is unknown', () => {
       sandbox
         .stub(UseWebChatModule, 'default')
         .returns({ loadingStatus: 'OTHER' });
-      try {
-        renderHook(() => App());
-      } catch (error) {
-        expect(error.message).to.equal('Invalid loading status: OTHER');
-      }
+
+      const { result } = renderHook(() => App({}));
+
+      expect(result.error?.message).to.equal('Invalid loading status: OTHER');
     });
     it('should show the chat-ended alert when the token expiry threshold is reached', () => {
       const expiresAt = ExpiryModule.EXPIRY_ALERT_BUFFER_MS + 1000;

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { connect, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import SignInModal from '@department-of-veterans-affairs/platform-user/SignInModal';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+
+import {
+  useToggleValue,
+  TOGGLE_NAMES,
+} from 'platform/utilities/feature-toggles';
 
 // Components
 import App from './App';
@@ -30,14 +32,19 @@ import selectVirtualAgentDataTermsAccepted from '../selectors/selectVirtualAgent
 
 const MINUTE = 60 * 1000;
 
-function Bot({
-  virtualAgentEnableParamErrorDetection,
-  virtualAgentUseStsAuthentication,
-}) {
+function Bot() {
   const isLoggedIn = useSelector(selectUserCurrentlyLoggedIn);
   const isAccepted = useSelector(selectVirtualAgentDataTermsAccepted);
   const [isAuthTopic, setIsAuthTopic] = useState(false);
   const loggedInFlow = getLoggedInFlow();
+
+  const virtualAgentEnableParamErrorDetection = useToggleValue(
+    TOGGLE_NAMES.virtualAgentEnableParamErrorDetection,
+  );
+
+  const virtualAgentUseStsAuthentication = useToggleValue(
+    TOGGLE_NAMES.virtualAgentUseStsAuthentication,
+  );
 
   webAuthActivityEventListener(isLoggedIn, setIsAuthTopic);
 
@@ -76,18 +83,4 @@ function Bot({
   );
 }
 
-Bot.propTypes = {
-  virtualAgentEnableParamErrorDetection: PropTypes.bool,
-  virtualAgentUseStsAuthentication: PropTypes.bool,
-};
-
-const mapStateToProps = state => ({
-  virtualAgentEnableParamErrorDetection: toggleValues(state)[
-    FEATURE_FLAG_NAMES.virtualAgentEnableParamErrorDetection
-  ],
-  virtualAgentUseStsAuthentication: toggleValues(state)[
-    FEATURE_FLAG_NAMES.virtualAgentUseStsAuthentication
-  ],
-});
-
-export default connect(mapStateToProps)(Bot);
+export default Bot;
