@@ -23,7 +23,7 @@ export const mockHealthFacilityResponse = {
         },
         address: {
           physical: {
-            zip: '78744',
+            Zip Code: '78744',
             city: 'Austin',
             state: 'TX',
             address1: '7901 Metropolis Drive',
@@ -120,7 +120,7 @@ export const mockHealthFacilityResponse = {
         },
         address: {
           physical: {
-            zip: '78744-3111',
+            Zip Code: '78744-3111',
             city: 'Austin',
             state: 'TX',
             address1: '7901 Metropolis Drive',
@@ -379,7 +379,7 @@ export const mockHealthFacilityResponse = {
         },
         address: {
           physical: {
-            zip: '78704',
+            Zip Code: '78704',
             city: 'Austin',
             state: 'TX',
             address1: '1524 South IH 35',
@@ -518,7 +518,7 @@ export const mockHealthFacilityResponse = {
         },
         address: {
           physical: {
-            zip: '78701',
+            Zip Code: '78701',
             city: 'Austin',
             state: 'TX',
             address1: '1700 N. Congress Avenue, Room 840A',
@@ -567,7 +567,7 @@ export const mockHealthFacilityResponse = {
         },
         address: {
           physical: {
-            zip: '78752',
+            Zip Code: '78752',
             city: 'Austin',
             state: 'TX',
             address1: '6101 Highland Campus Dr',
@@ -645,7 +645,7 @@ export const mockHealthFacilityResponse = {
         },
         address: {
           physical: {
-            zip: '78759',
+            Zip Code: '78759',
             city: 'Austin',
             state: 'TX',
             address1: '12515 Research Blvd',
@@ -712,7 +712,7 @@ export const mockHealthFacilityResponse = {
         },
         address: {
           physical: {
-            zip: '78613-2216',
+            Zip Code: '78613-2216',
             city: 'Cedar Park',
             state: 'TX',
             address1: '1401 Medical Parkway',
@@ -853,7 +853,7 @@ export const mockHealthFacilityResponse = {
         },
         address: {
           physical: {
-            zip: '78945-1251',
+            Zip Code: '78945-1251',
             city: 'LaGrange',
             state: 'TX',
             address1: '2 Saint Marks Place',
@@ -969,7 +969,7 @@ export const mockHealthFacilityResponse = {
         },
         address: {
           physical: {
-            zip: '78130-0086',
+            Zip Code: '78130-0086',
             city: 'New Braunfels',
             state: 'TX',
             address1: '790 Generations Drive',
@@ -1079,7 +1079,7 @@ export const mockHealthFacilityResponse = {
         },
         address: {
           physical: {
-            zip: '78150-4800',
+            Zip Code: '78150-4800',
             city: 'Randolph Air Force Base',
             state: 'TX',
             address1: '221 Third Street West',

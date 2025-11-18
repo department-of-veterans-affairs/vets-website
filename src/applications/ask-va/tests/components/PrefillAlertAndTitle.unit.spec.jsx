@@ -43,7 +43,7 @@ describe('PrefillAlertAndTitle Component', () => {
 
     const { getByText } = render(
       <Provider store={store}>
-        <PrefillAlertAndTitle title="Your postal code" />
+        <PrefillAlertAndTitle title="Your Zip Code " />
       </Provider>,
     );
 
@@ -53,7 +53,7 @@ describe('PrefillAlertAndTitle Component', () => {
       ),
     ).to.exist;
 
-    expect(getByText('Your postal code')).to.exist;
+    expect(getByText('Your Zip Code ')).to.exist;
   });
 
   it('should only render the title when not logged in', () => {

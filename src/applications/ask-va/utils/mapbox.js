@@ -40,7 +40,7 @@ const convertLocation = async query => {
     });
 };
 
-// convert zip, city, or state to lat and long return lat and long array
+// convert Zip Code, city, or state to lat and long return lat and long array
 const convertToLatLng = async query => {
   return mbxClient
     .forwardGeocode({

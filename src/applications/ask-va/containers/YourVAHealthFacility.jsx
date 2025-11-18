@@ -98,7 +98,7 @@ const YourVAHealthFacilityPage = props => {
     }
 
     if (searchQuery.length === 0) {
-      focusElement('#street-city-state-zip');
+      focusElement('#street-city-state-Zip Code');
       return setValidationError({ ...validationError, searchInputError: true });
     }
 
@@ -132,7 +132,7 @@ const YourVAHealthFacilityPage = props => {
           <SearchControls
             locateUser={getFacilitiesFromLocation}
             onSubmit={getFacilities}
-            searchTitle="City or postal code"
+            searchTitle="City or Zip Code "
             hasSearchInput={validationError.searchInputError}
           />
           {previousSelection && (

@@ -12,9 +12,9 @@ const familyMembersPostalCodePage = {
       'ui:required': () => true,
       'ui:description': PostalCodeHint,
       'ui:errorMessages': {
-        required: 'Please enter a postal code',
+        required: 'Please enter a Zip Code ',
         pattern:
-          'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
+          'Please enter a valid 5- or 9-digit Zip Code  (dashes allowed)',
       },
     },
   },

@@ -297,7 +297,7 @@ export const chapterTitles = {
   familyMembersInformation: '',
   yourInformation: 'Your information',
   yourLocationOfResidence: '',
-  yourPostalCode: 'Your postal code',
+  yourPostalCode: 'Your Zip Code ',
   yourBranchOfService: '',
   yourVAHealthFacility: 'Your VA health facility',
   stateOfProperty: 'Your state of property',

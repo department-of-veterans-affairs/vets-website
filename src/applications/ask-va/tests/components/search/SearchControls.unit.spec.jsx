@@ -43,7 +43,7 @@ describe('SearchControls Component', () => {
     expect(wrapper.find('p.search-hint-text').text()).to.equal(
       'Enter your location',
     );
-    expect(wrapper.find('input#street-city-state-zip')).to.have.lengthOf(1);
+    expect(wrapper.find('input#street-city-state-Zip Code')).to.have.lengthOf(1);
 
     wrapper.unmount();
   });
@@ -59,10 +59,10 @@ describe('SearchControls Component', () => {
       </Provider>,
     );
 
-    const input = wrapper.find('input#street-city-state-zip');
+    const input = wrapper.find('input#street-city-state-Zip Code');
     input.simulate('change', { target: { value: 'New York' } });
 
-    expect(wrapper.find('input#street-city-state-zip').props().value).to.equal(
+    expect(wrapper.find('input#street-city-state-Zip Code').props().value).to.equal(
       'New York',
     );
     wrapper.unmount();
@@ -79,7 +79,7 @@ describe('SearchControls Component', () => {
       </Provider>,
     );
 
-    const input = wrapper.find('input#street-city-state-zip');
+    const input = wrapper.find('input#street-city-state-Zip Code');
     input.simulate('change', { target: { value: 'New York' } });
     wrapper.find('#facility-search').simulate('click', { preventDefault() {} });
 

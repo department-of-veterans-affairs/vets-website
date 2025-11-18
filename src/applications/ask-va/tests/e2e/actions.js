@@ -30,7 +30,7 @@ const selectorShorthand = {
   SELECT_MONTH: 'va-select.usa-form-group--month-select',
   TYPE_VETERAN_POSTAL_CODE: 'input#root_veteranPostalCode',
   TYPE_FAMILY_POSTAL_CODE: 'input#root_postalCode',
-  TYPE_CITY_OR_POSTAL_CODE: 'input#street-city-state-zip',
+  TYPE_CITY_OR_POSTAL_CODE: 'input#street-city-state-Zip Code',
   TYPE_DAY: 'va-text-input.usa-form-group--day-input',
   TYPE_YEAR: 'va-text-input.usa-form-group--year-input',
   TYPE_QUESTION: "textarea[name='root_question']",

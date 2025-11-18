@@ -772,7 +772,7 @@ const ReviewPage = props => {
                       keys={chapter.pageKeys}
                       items={[
                         {
-                          name: 'Postal code',
+                          name: 'Zip Code ',
                           data: props.formData.yourPostalCode,
                           key: 'yourPostalCode',
                         },
@@ -1224,7 +1224,7 @@ const ReviewPage = props => {
                           key: 'yourMailingAddress',
                         },
                         {
-                          name: 'Postal code',
+                          name: 'Zip Code ',
                           data: props.formData.address.postalCode,
                           key: 'yourMailingAddress',
                         },

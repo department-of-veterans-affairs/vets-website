@@ -42,7 +42,7 @@ describe('SearchItem Component', () => {
               physical: {
                 city: 'City1',
                 state: 'CA',
-                zip: '12345',
+                Zip Code: '12345',
               },
             },
           },
@@ -55,7 +55,7 @@ describe('SearchItem Component', () => {
               physical: {
                 city: 'City2',
                 state: 'TX',
-                zip: '67890',
+                Zip Code: '67890',
               },
             },
           },
@@ -129,7 +129,7 @@ describe('SearchItem Component', () => {
               physical: {
                 city: 'Test City',
                 state: 'TC',
-                zip: '12345',
+                Zip Code: '12345',
               },
             },
           },
@@ -192,7 +192,7 @@ describe('SearchItem Component', () => {
               physical: {
                 city: `City${index + 1}`,
                 state: 'CA',
-                zip: '12345',
+                Zip Code: '12345',
               },
             },
           },
@@ -231,7 +231,7 @@ describe('SearchItem Component', () => {
     wrapper.unmount();
   });
 
-  it('should format facility info correctly with various zip code formats', () => {
+  it('should format facility info correctly with various Zip Code code formats', () => {
     const testCases = [
       {
         input: {
@@ -241,7 +241,7 @@ describe('SearchItem Component', () => {
               physical: {
                 city: 'Test City',
                 state: 'TC',
-                zip: '12345-6789', // With extension
+                Zip Code: '12345-6789', // With extension
               },
             },
           },
@@ -256,7 +256,7 @@ describe('SearchItem Component', () => {
               physical: {
                 city: 'Test City',
                 state: 'TC',
-                zip: '12345', // Without extension
+                Zip Code: '12345', // Without extension
               },
             },
           },

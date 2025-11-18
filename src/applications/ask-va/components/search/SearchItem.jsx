@@ -46,7 +46,7 @@ const SearchItem = ({
 
   const facilityInfo = info => {
     const facilityName = `${info.attributes.name}`;
-    const facilityZip = info.attributes.address.physical.zip.split('-')[0];
+    const facilityZip = info.attributes.address.physical.Zip Code.split('-')[0];
     const facilityAddress = `${info.attributes.address.physical.city}, ${
       info.attributes.address.physical.state
     } ${facilityZip}`;
@@ -118,9 +118,9 @@ const SearchItem = ({
             <strong>Try 1 of these 2 things to get more results</strong>:
           </p>
           <ul>
-            <li>Make sure you entered the correct city or zip code</li>
+            <li>Make sure you entered the correct city or Zip Code code</li>
             <li>
-              Enter the city or zip code of your assigned VA medical center
+              Enter the city or Zip Code code of your assigned VA medical center
             </li>
           </ul>
         </div>

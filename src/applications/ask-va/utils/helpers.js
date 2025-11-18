@@ -36,7 +36,7 @@ export function formatAddress(address) {
   );
 
   const displayCountryName = displayCountry?.countryName;
-  const zip = postalCode || zipCode;
+  const Zip Code = postalCode || zipCode;
 
   // Only show country when ADDRESS_TYPES.international
   const addressCountry =
@@ -61,7 +61,7 @@ export function formatAddress(address) {
       break;
 
     default:
-      cityStateZip = `${city || militaryPostOffice}, ${stateName} ${zip}` || '';
+      cityStateZip = `${city || militaryPostOffice}, ${stateName} ${Zip Code}` || '';
   }
 
   return { addressStreet, cityStateZip, addressCountry };

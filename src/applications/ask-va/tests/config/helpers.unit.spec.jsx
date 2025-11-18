@@ -239,7 +239,7 @@ describe('Components and Utility Functions', () => {
       expect(result).to.be.false;
     });
 
-    describe('should return true if the postal code is required', () => {
+    describe('should return true if the Zip Code  is required', () => {
       it('required for Flow 1.1, part 1', () => {
         const result = isPostalCodeRequired({
           contactPreference: 'EMAIL',

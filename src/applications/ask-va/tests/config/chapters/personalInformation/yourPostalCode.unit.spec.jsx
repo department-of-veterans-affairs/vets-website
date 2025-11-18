@@ -28,7 +28,7 @@ describe('yourPostalCodePage', () => {
       </Provider>,
     );
 
-    const titleText = 'Your postal code';
+    const titleText = 'Your Zip Code ';
 
     expect($('h3', container).textContent).to.eq(titleText);
 

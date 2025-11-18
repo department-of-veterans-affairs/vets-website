@@ -73,8 +73,8 @@ const SearchControls = props => {
       <div>
         <div id="location-input-field">
           <label
-            htmlFor="street-city-state-zip"
-            id="street-city-state-zip-label"
+            htmlFor="street-city-state-Zip Code"
+            id="street-city-state-Zip Code-label"
           >
             {searchTitle}
             <span className="form-required-span">(*Required)</span>
@@ -108,13 +108,13 @@ const SearchControls = props => {
         <div className="search-input">
           <input
             className="usa-input"
-            id="street-city-state-zip"
-            name="street-city-state-zip"
+            id="street-city-state-Zip Code"
+            name="street-city-state-Zip Code"
             type="search"
             onChange={handleQueryChange}
             onKeyDown={handleKeyDown}
             value={queryState}
-            title="Your location: Street, City, State or Postal code"
+            title="Your location: Street, City, State or Zip Code "
           />
           <button type="button" id="facility-search" onClick={handleSubmit}>
             <span className="button-text">Search</span>

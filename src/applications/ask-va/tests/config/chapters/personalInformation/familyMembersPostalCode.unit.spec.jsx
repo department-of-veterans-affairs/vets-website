@@ -27,7 +27,7 @@ describe('familyMembersPostalCodePage', () => {
       </Provider>,
     );
 
-    const titleText = "Family member's postal code";
+    const titleText = "Family member's Zip Code ";
 
     expect($('h3', container).textContent).to.eq(titleText);
 

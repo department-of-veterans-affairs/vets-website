@@ -1,7 +1,7 @@
 steps:
   - action: exists
     target: header
-    value:  Your postal code
+    value:  Your Zip Code 
   - action: typeTextInput
     target: VETERAN_POSTAL_CODE
     value:  36064

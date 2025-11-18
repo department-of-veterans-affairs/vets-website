@@ -28,7 +28,7 @@ describe('veteransPostalCodePage', () => {
       </Provider>,
     );
 
-    const titleText = "Veteran's postal code";
+    const titleText = "Veteran's Zip Code ";
 
     expect($('h3', container).textContent).to.eq(titleText);
 

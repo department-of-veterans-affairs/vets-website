@@ -123,7 +123,7 @@ const AddressValidationRadio = props => {
           </span>
           <span
             className="dd-privacy-hidden vads-u-margin-left--0p5"
-            data-dd-action-name="city, state and zip code"
+            data-dd-action-name="city, state and Zip Code code"
           >
             {cityStateZip}
           </span>

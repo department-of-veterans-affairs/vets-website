@@ -42,7 +42,7 @@ describe('yourAddressMailingPage', () => {
       'Street address 3',
       'City',
       'State/Province/Region',
-      'Postal code',
+      'Zip Code ',
     ];
 
     expect($('h3', container).textContent).to.eq('Your mailing address');

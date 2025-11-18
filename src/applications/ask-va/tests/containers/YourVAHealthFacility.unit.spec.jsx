@@ -142,7 +142,7 @@ describe('YourVAHealthFacilityPage', () => {
     wrapper.unmount();
   });
 
-  it('should return facilities after entering a postal code', async () => {
+  it('should return facilities after entering a Zip Code ', async () => {
     apiRequestStub.resolves(mockHealthFacilityResponse);
     convertLocationStub.resolves(mockLocationResponse);
     convertToLatLngStub.resolves([0, 0]);
@@ -249,7 +249,7 @@ describe('YourVAHealthFacilityPage', () => {
     });
   });
 
-  it('should display validation error if no city or postal code provided', async () => {
+  it('should display validation error if no city or Zip Code  provided', async () => {
     apiRequestStub.resolves(mockHealthFacilityResponse);
     convertLocationStub.resolves(mockLocationResponse);
     convertToLatLngStub.resolves([0, 0]);
@@ -287,7 +287,7 @@ describe('YourVAHealthFacilityPage', () => {
     });
   });
 
-  it('should display validation error if no city or postal code provided and focus on input', async () => {
+  it('should display validation error if no city or Zip Code  provided and focus on input', async () => {
     apiRequestStub.resolves(mockHealthFacilityResponse);
     convertLocationStub.resolves(mockLocationResponse);
     convertToLatLngStub.resolves([0, 0]);
@@ -300,7 +300,7 @@ describe('YourVAHealthFacilityPage', () => {
     userEvent.click(getByRole('button', { name: /continue/i }));
 
     await waitFor(() => {
-      expect(focusElementSpy.calledWith('#street-city-state-zip')).to.be.true;
+      expect(focusElementSpy.calledWith('#street-city-state-Zip Code')).to.be.true;
     });
   });
 
