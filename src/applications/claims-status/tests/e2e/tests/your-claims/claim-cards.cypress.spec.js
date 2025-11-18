@@ -6,16 +6,16 @@ describe('Your claims cards', () => {
   };
 
   const createClaim = ({
-    claimDate,
-    phaseChangeDate,
-    phaseType,
-    claimTypeBase,
+    claimDate = '2025-01-01',
+    phaseChangeDate = '2025-01-02',
+    phaseType = 'CLAIM_RECEIVED',
+    claimTypeBase = 'compensation claim',
     claimTypeCode,
     decisionLetterSent,
     developmentLetterSent,
-    displayTitle,
+    displayTitle = 'Claim for compensation',
     documentsNeeded,
-    status,
+    status = 'CLAIM_RECEIVED',
   }) => {
     // Commented out properties are part of the claims response but not currently used by the claim cards
     return {
@@ -23,23 +23,23 @@ describe('Your claims cards', () => {
       // type,
       attributes: {
         // baseEndProductCode,
-        claimDate: claimDate || '2025-01-01', // "Received on..." text
+        claimDate, // "Received on..." text
         claimPhaseDates: {
-          phaseChangeDate: phaseChangeDate || '2025-01-02', // "Moved to this step on..." text
-          phaseType: phaseType || 'CLAIM_RECEIVED', // For 8-phase status text
+          phaseChangeDate, // "Moved to this step on..." text
+          phaseType, // For 8-phase status text
         },
         // claimType,
-        claimTypeBase: claimTypeBase || 'compensation claim',
+        claimTypeBase,
         claimTypeCode, // To determine 5 vs 8 phases
         // closeDate,
         decisionLetterSent, // "You have a decision letter ready" text
         developmentLetterSent, // "We sent you a development letter" text
-        displayTitle: displayTitle || 'Claim for compensation', // "Claim for compensation" text
+        displayTitle, // "Claim for compensation" text
         documentsNeeded, // "We requested more information from you" info alert
         // endProductCode,
         // evidenceWaiverSubmitted5103,
         // lighthouseId,
-        status: status || 'CLAIM_RECEIVED', // For status description
+        status, // For status description
       },
     };
   };

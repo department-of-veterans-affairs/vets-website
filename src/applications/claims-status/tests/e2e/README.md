@@ -93,3 +93,59 @@ Source: [Platform Best Practices - Unit and e2e Tests](https://depo-platform-doc
 - Use focused helper functions instead of page objects and organize them into sub-folders by purpose (`api-mocks`, `setup`, `interactions`, `assertions`)
 - Use `cy.findByRole()` - checks semantics, visibility, and accessibility; also allows consistency between cypress and testing library
 - Use `cy.findByText` when an element has no role (can see the role of an element via Developer Tools > Elements Tab > Accessibility Tab)
+
+## E2E Code Coverage
+Note: Code coverage requires this PR to be merged - https://github.com/department-of-veterans-affairs/vets-website/pull/39252
+
+### How to Run Coverage
+
+```bash
+# Clear cache and old coverage data
+rm -rf .babelcache config/.nyc_output coverage
+
+# Start dev server with coverage
+CODE_COVERAGE=true yarn watch --env entry=claims-status
+
+# Wait for: "webpack compiled successfully"
+
+# In a separate terminal, run E2E tests (takes 5-10 minutes)
+CODE_COVERAGE=true yarn cy:run --spec "src/applications/claims-status/tests/e2e/**/*.cypress.spec.js"
+
+# Generate coverage report
+npx nyc report --reporter=html --reporter=json-summary --reporter=text
+
+# View HTML report
+open coverage/index.html
+```
+
+### Coverage Results
+
+Use branch coverage as our primary coverage metric because it measures whether we test all decision paths (if/else, switch cases), not just whether code executes. This is a more rigorous standard than statement or line coverage.
+
+| Metric | Description | BEFORE (main) | AFTER (E2E rewrite) | Change |
+|--------|-------------|---------------|---------------------|--------|
+| **Branches** | Decision paths (if/else, switch cases) executed | 62.43% | 64.29% | +1.86% |
+| **Statements** | Individual executable statements run during tests | 75.07% | 76.18% | +1.11% |
+| **Functions** | Functions called during test execution | 82.86% | 83.61% | +0.75% |
+| **Lines** | Lines of code executed during tests | 75.13% | 76.21% | +1.08% |
+| **Test Scenarios** | Number of distinct test cases | 6 | 41 | +583% |
+
+### Coverage Impact
+
+**Test code added**: 866 lines across 4 new test files
+- `your-claims.cypress.spec.js` (+209 lines)
+- `claim-cards.cypress.spec.js` (+292 lines)
+- `your-claims-unavailable.cypress.spec.js` (+144 lines)
+- `loading.cypress.spec.js` (+126 lines)
+
+**Source files with most significant branch coverage improvements**:
+
+| File | BEFORE | AFTER | Improvement |
+|------|--------|-------|-------------|
+| `AppealListItem.jsx` | 31.57% | 84.21% | **+52.64%** |
+| `ClaimsListItem.jsx` | 66.66% | 95.23% | **+28.57%** |
+| `claimsV2.js` (reducer) | 53.33% | 73.33% | **+20%** |
+| `YourClaimsPageV2.jsx` | 81.96% | 88.52% | **+6.56%** |
+| `actions/index.js` | 58.75% | 66.19% | **+7.44%** |
+
+The new E2E tests directly improved coverage of key components in the Your Claims page, including claim list items, appeal items, and the claims reducer logic.
