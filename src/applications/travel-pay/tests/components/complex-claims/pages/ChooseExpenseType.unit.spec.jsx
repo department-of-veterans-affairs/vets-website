@@ -1,13 +1,19 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom-v5-compat';
+import { fireEvent, waitFor } from '@testing-library/react';
+import {
+  MemoryRouter,
+  Route,
+  Routes,
+  useLocation,
+} from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { EXPENSE_TYPES } from '../../../../constants';
 
 import ChooseExpenseType from '../../../../components/complex-claims/pages/ChooseExpenseType';
 import ExpensePage from '../../../../components/complex-claims/pages/ExpensePage';
+import IntroductionPage from '../../../../components/complex-claims/pages/IntroductionPage';
 import reducer from '../../../../redux/reducer';
 
 describe('ChooseExpenseType', () => {
@@ -219,18 +225,6 @@ describe('ChooseExpenseType', () => {
 
       const buttonPair = $('va-button-pair');
 
-      // Mock the navigate function to check if it was called
-      const originalLocation = window.location;
-
-      // Override window.location to detect navigation attempts
-      Object.defineProperty(window, 'location', {
-        value: {
-          ...originalLocation,
-          pathname: '/file-new-claim/12345/claim123/choose-expense',
-        },
-        writable: true,
-      });
-
       // Click continue without selection
       fireEvent(
         buttonPair,
@@ -239,15 +233,76 @@ describe('ChooseExpenseType', () => {
         }),
       );
 
-      // Should still be on the same page (no navigation occurred)
-      expect(window.location.pathname).to.equal(
-        '/file-new-claim/12345/claim123/choose-expense',
+      // Error should be shown, preventing navigation
+      const radioGroup = $('va-radio[label="Choose an expense type"]');
+      expect(radioGroup.getAttribute('error')).to.equal(
+        'Please select an expense type',
+      );
+    });
+  });
+
+  describe('Navigation', () => {
+    it('navigates back to intro page with skipRedirect state', async () => {
+      // Mock component to capture location state
+      const LocationStateCapture = () => {
+        const location = useLocation();
+        return (
+          <div data-testid="location-state">
+            {JSON.stringify(location.state)}
+          </div>
+        );
+      };
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={['/file-new-claim/12345/claim123/choose-expense']}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpenseType />}
+            />
+            <Route
+              path="/file-new-claim/:apptId"
+              element={
+                <>
+                  <IntroductionPage />
+                  <LocationStateCapture />
+                </>
+              }
+            />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState: {
+            travelPay: {
+              appointment: {
+                data: { id: '12345' },
+              },
+              complexClaim: {
+                claim: { data: null },
+              },
+            },
+          },
+          reducers: reducer,
+        },
       );
 
-      // Restore original location
-      Object.defineProperty(window, 'location', {
-        value: originalLocation,
-        writable: true,
+      const buttonPair = $('va-button-pair');
+
+      // Click the back button
+      fireEvent(
+        buttonPair,
+        new CustomEvent('secondaryClick', {
+          detail: {},
+        }),
+      );
+
+      // Wait for navigation and verify skipRedirect state is passed
+      await waitFor(() => {
+        const locationState = getByTestId('location-state');
+        expect(locationState.textContent).to.include('skipRedirect');
+        expect(locationState.textContent).to.include('true');
       });
     });
   });
