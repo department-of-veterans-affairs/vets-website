@@ -110,8 +110,8 @@ export const CompleteReferral = () => {
         hasEyebrow
         heading={
           appointmentInfoTimeout
-            ? `We're having trouble scheduling this appointment`
-            : `We can't schedule this appointment online`
+            ? `We’re having trouble scheduling this appointment`
+            : `We can’t schedule this appointment online`
         }
       >
         <va-alert
@@ -121,8 +121,8 @@ export const CompleteReferral = () => {
         >
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             {appointmentInfoTimeout
-              ? `Try refreshing this page. If it still doesn't work, call your community care provider at ${phoneText}your facility's community care office to schedule an appointment.`
-              : `We're sorry. Call your community care provider at ${phoneText}your facility's community care office to schedule an appointment.`}
+              ? `Try refreshing this page. If it still doesn’t work, call your community care provider at ${phoneText}your facility’s community care office to schedule an appointment.`
+              : `We’re sorry. Call your community care provider at ${phoneText}your facility’s community care office to schedule an appointment.`}
           </p>
           <FindCommunityCareOfficeLink />
         </va-alert>
