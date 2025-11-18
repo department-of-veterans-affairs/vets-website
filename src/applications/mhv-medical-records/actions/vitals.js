@@ -18,11 +18,11 @@ export const getVitals = (
     type: Actions.Vitals.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
+  const actionType = isAccelerating
+    ? Actions.Vitals.GET_UNIFIED_LIST
+    : Actions.Vitals.GET_LIST;
   try {
     let response;
-    const actionType = isAccelerating
-      ? Actions.Vitals.GET_UNIFIED_LIST
-      : Actions.Vitals.GET_LIST;
     if (isAccelerating) {
       response = await getVitalsWithUnifiedData();
     } else if (isCerner) {
@@ -36,13 +36,15 @@ export const getVitals = (
       isCurrent,
     });
   } catch (error) {
-    if (isCerner) {
-      dispatch({
-        type: Actions.Vitals.GET_UNIFIED_LIST,
-        response: [],
-        isCurrent,
-      });
-    }
+    dispatch({
+      type: Actions.Vitals.UPDATE_LIST_STATE,
+      payload: Constants.loadStates.FETCHED,
+    });
+    dispatch({
+      type: actionType,
+      response: [],
+      isCurrent,
+    });
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     sendDatadogError(error, 'actions_vitals_getVitals');
   }
