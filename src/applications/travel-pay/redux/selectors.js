@@ -2,8 +2,24 @@ export const selectAppointment = state => state.travelPay.appointment;
 
 export const selectComplexClaim = state => state.travelPay.complexClaim.claim;
 
-export const selectExpense = (state, expenseId) =>
-  state.travelPay.complexClaim.expenses.data[expenseId];
+export const selectExpenseWithDocument = (state, expenseId) => {
+  const expense = state.travelPay.complexClaim.expenses.data.find(
+    exp => exp.id === expenseId,
+  );
+
+  if (!expense) return null;
+
+  const document =
+    expense.documentId &&
+    state.travelPay.complexClaim.claim.data?.documents.find(
+      doc => doc.documentId === expense.documentId,
+    );
+
+  return {
+    ...expense,
+    receipt: document || null,
+  };
+};
 
 export const selectExpenseCreationLoadingState = state =>
   state.travelPay.complexClaim.expenses.creation?.isLoading || false;
