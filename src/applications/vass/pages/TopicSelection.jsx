@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom-v5-compat';
-import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaCheckbox,
+  VaButtonPair,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
 import { topics } from '../services/Topic/topic';
-import ButtonPair from '../components/ButtonPair';
 
 const TopicSelection = () => {
   const navigate = useNavigate();
@@ -42,7 +44,12 @@ const TopicSelection = () => {
           />
         ))}
       </va-checkbox-group>
-      <ButtonPair onBack={handleBack} onContinue={handleContinue} />
+      <VaButtonPair
+        continue
+        onPrimaryClick={handleContinue}
+        onSecondaryClick={handleBack}
+        class="vads-u-margin-top--4"
+      />
     </Wrapper>
   );
 };
