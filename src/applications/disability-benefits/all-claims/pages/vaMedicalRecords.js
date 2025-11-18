@@ -7,7 +7,7 @@ import { hasVAEvidence } from '../utils';
 import { makeSchemaForAllDisabilities } from '../utils/schemas';
 import { isCompletingForm0781 } from '../utils/form0781';
 import { standardTitle } from '../content/form0781';
-import { formatDate, DATE_FORMAT_LONG } from '../utils/dates';
+import { formatDate } from '../utils/dates';
 
 import {
   validateMilitaryTreatmentCity,
