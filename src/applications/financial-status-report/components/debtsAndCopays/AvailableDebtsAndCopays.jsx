@@ -149,9 +149,8 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
 
   // helper functions to get debt and copay labels and descriptions
   const getDebtLabel = debt =>
-    `${currency(debt?.currentAr)} overpayment for ${deductionCodes[
-      debt.deductionCode
-    ] || debt.benefitType}`;
+    `${currency(debt?.currentAr)} ${deductionCodes[debt.deductionCode] ||
+      debt.benefitType}`;
 
   const getDebtDescription = debt => {
     // most recent debt history entry
@@ -165,7 +164,7 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
   };
 
   const getCopayLabel = copay =>
-    `${currency(copay?.pHAmtDue)} for ${copay.station.facilityName ||
+    `${currency(copay?.pHAmtDue)} copay bill for ${copay.station.facilityName ||
       getMedicalCenterNameByID(copay.station.facilitYNum)}`;
 
   const getCopayDescription = copay =>
@@ -192,6 +191,7 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
             data-testid="debt-selection-checkbox"
             key={debt.compositeDebtId}
             label={getDebtLabel(debt)}
+            tile
           />
         ))}
         {statementsByUniqueFacility.map(copay => (
@@ -205,6 +205,7 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
             data-testid="copay-selection-checkbox"
             key={copay.id}
             label={getCopayLabel(copay)}
+            tile
           />
         ))}
       </VaCheckboxGroup>

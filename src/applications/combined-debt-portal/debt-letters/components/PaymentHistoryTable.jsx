@@ -82,7 +82,6 @@ const PaymentHistoryTable = ({ currentDebt }) => {
         </span>
         <span>
           <strong>
-            Overpayment for{' '}
             {deductionCodes[currentDebt.deductionCode] ||
               currentDebt.benefitType}
           </strong>
