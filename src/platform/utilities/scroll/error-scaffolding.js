@@ -31,6 +31,17 @@ const ERROR_ATTR_SELECTORS = [
   'generated-error',
 ];
 
+// Date component error codes that require special handling
+const DATE_ERROR_CODES = [
+  'year-range',
+  'day-range',
+  'month-range',
+  'date-error',
+  'month-select',
+];
+
+const DATE_COMPONENT_TAGS = ['VA-DATE', 'VA-MEMORABLE-DATE'];
+
 const HIDDEN_FILTER = ':not([aria-hidden="true"]):not([hidden])';
 const INPUT_SELECTOR = `input${HIDDEN_FILTER}, textarea${HIDDEN_FILTER}, select${HIDDEN_FILTER}`;
 const ERROR_SPAN_SELECTOR = 'span.usa-sr-only[id^="error-label-"]';
@@ -63,6 +74,8 @@ const isSupportedVaElement = element => {
     'va-checkbox-group',
     'va-checkbox',
     'va-combo-box',
+    'va-date',
+    'va-memorable-date',
     'va-radio',
     'va-radio-option',
     'va-select',
@@ -89,14 +102,69 @@ const getVaElements = root => {
 };
 
 /**
+ * Checks if an element's tag name matches any in the provided tag list.
+ *
+ * @param {Element|null|undefined} element - The DOM element to check
+ * @param {string[]} tags - Array of uppercase tag names to check against
+ * @returns {boolean} True if the element's tag name is in the list, false otherwise
+ */
+const isComponentOfType = (element, tags) =>
+  !!element && tags.includes(element.tagName?.toUpperCase());
+
+// ============================================================================
+// Category 3: Date Component Helpers
+// ============================================================================
+
+/**
+ * Checks if an element is a date component (va-date or va-memorable-date).
+ *
+ * @param {Element|null|undefined} element - The DOM element to check
+ * @returns {boolean} True if the element is a date component
+ */
+const isDateComponent = element =>
+  isComponentOfType(element, DATE_COMPONENT_TAGS);
+
+/**
+ * Checks if a date component has an error code that requires special handling.
+ *
+ * @param {HTMLElement} el - The date component element
+ * @returns {boolean} True if the error code requires extracting text from #input-error-message
+ */
+const hasDateErrorCode = el => {
+  if (!isDateComponent(el)) return false;
+
+  const errorValue = el.getAttribute('error') || el.error || '';
+  return DATE_ERROR_CODES.includes(errorValue);
+};
+
+/**
+ * Extracts error message text from #input-error-message span for date components.
+ *
+ * @param {HTMLElement} el - The date component element
+ * @returns {string} The error message text from the span, or empty string if not found
+ */
+const getDateErrorMessageText = el => {
+  const errorMessageSpan = el.shadowRoot?.querySelector('#input-error-message');
+  return errorMessageSpan?.textContent?.trim() || '';
+};
+
+/**
  * Extracts error message text from a DOM element by checking various error attributes and properties.
  * Iterates through predefined error attribute selectors to find the first available error message.
  * Falls back to the element's error property if no attribute contains a message.
+ *
+ * For va-date and va-memorable-date components with specific error codes, extracts the text
+ * from the #input-error-message span instead of using the error attribute value.
  *
  * @param {HTMLElement} el - The DOM element to extract error text from
  * @returns {string} The error message text, or an empty string if no error is found
  */
 const getErrorPropText = el => {
+  // Special handling for date components with specific error codes
+  if (hasDateErrorCode(el)) {
+    return getDateErrorMessageText(el);
+  }
+
   for (const attr of ERROR_ATTR_SELECTORS) {
     const msg = el.getAttribute(attr);
     if (msg) return msg;
@@ -107,15 +175,6 @@ const getErrorPropText = el => {
 // ============================================================================
 // Category 3: Group Component Helpers
 // ============================================================================
-/**
- * Checks if an element's tag name matches any in the provided tag list.
- *
- * @param {Element|null|undefined} element - The DOM element to check
- * @param {string[]} tags - Array of uppercase tag names to check against
- * @returns {boolean} True if the element's tag name is in the list, false otherwise
- */
-const isComponentOfType = (element, tags) =>
-  !!element && tags.includes(element.tagName?.toUpperCase());
 
 /**
  * Determines if an element is a group component based on its tag name.
