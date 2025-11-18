@@ -20,16 +20,20 @@ const ProcessList = () => {
         <p>
           You’ll need to have applied for at least one of these VA education
           benefits and be found eligible in order for your reimbursement to be
-          processed. You must have also paid in full for the test:
+          processed.
         </p>
-        <ul>
-          <li>
-            <a href="/">Chapter 33: VA Form 22-1990</a> <strong> or,</strong>
-          </li>
-          <li>
-            <a href="/">Chapter 33: VA Form 22-5490</a>
-          </li>
-        </ul>
+        <p>
+          <a href="/">
+            Application for VA Education Benefits Form 22-1990 (opens in a new
+            tab)
+          </a>
+          , <strong>or</strong>{' '}
+          <a href="/">
+            Dependents’ Application for VA Education Benefits Form 22-5490
+            (opens in a new tab)
+          </a>
+        </p>
+        <p>You must also have paid in full for the test.</p>
       </va-process-list-item>
       <va-process-list-item header="Gather your information">
         <h4>Here’s what you’ll need to fill out this form:</h4>
@@ -96,7 +100,7 @@ export const IntroductionPage = props => {
         test fees and use your VA education benefits.
       </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for education benefits.
+        Follow the steps to get started:
       </h2>
       <ProcessList />
       <va-additional-info trigger="What happens after you submit your form">

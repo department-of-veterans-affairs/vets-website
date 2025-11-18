@@ -10,7 +10,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import previouslyApplied from '../pages/previouslyApplied';
-import vaBenefitProgram from '../pages/vaBenefitProgram';
+import vaBenefitProgramYes from '../pages/vaBenefitProgramYes';
+import vaBenefitProgramNo from '../pages/vaBenefitProgramNo';
 import payeeNumber from '../pages/payeeNumber';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmail from '../pages/phoneAndEmail';
@@ -94,11 +95,19 @@ const formConfig = {
           uiSchema: previouslyApplied.uiSchema,
           schema: previouslyApplied.schema,
         },
-        vaBenefitProgram: {
-          path: 'va-benefit-program',
+        vaBenefitProgramYes: {
+          path: 'va-benefit-program-yes',
           title: 'VA Benefit Program',
-          uiSchema: vaBenefitProgram.uiSchema,
-          schema: vaBenefitProgram.schema,
+          uiSchema: vaBenefitProgramYes.uiSchema,
+          schema: vaBenefitProgramYes.schema,
+          depends: formData => formData?.hasPreviouslyApplied,
+        },
+        vaBenefitProgramNo: {
+          path: 'va-benefit-program-no',
+          title: 'You VA education benefits',
+          uiSchema: vaBenefitProgramNo.uiSchema,
+          schema: vaBenefitProgramNo.schema,
+          depends: formData => !formData?.hasPreviouslyApplied,
         },
       },
     },

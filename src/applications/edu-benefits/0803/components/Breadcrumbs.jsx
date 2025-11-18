@@ -15,11 +15,15 @@ const Breadcrumbs = () => {
     },
     {
       href: '/education/other-va-education-benefits',
-      label: 'Other VA education benefits',
+      label: 'About GI bill benefits',
+    },
+    {
+      href: '/education/other-va-education-benefits',
+      label: 'How to use your GI bill benefits',
     },
     {
       href: 'education/other-va-education-benefits/vet-tec-2',
-      label: 'VET TEC 2.0 (high-tech program)',
+      label: 'Licensing and certification test prep courses',
     },
     {
       href: manifest.rootUrl,
