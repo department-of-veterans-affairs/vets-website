@@ -119,6 +119,7 @@ describe('Travel Pay – ReviewPage', () => {
       getByRole,
       container,
       queryAllByTestId,
+      getByText,
     } = renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
@@ -180,6 +181,25 @@ describe('Travel Pay – ReviewPage', () => {
 
     // SummaryBox should render
     expect(getByTestId('summary-box')).to.exist;
+
+    // SummaryBox description text about deductible
+    expect(
+      getByText(
+        'Before we can pay you back for expenses, you must pay a deductible. The current deductible is $3 one-way or $6 round-trip for each appointment, up to $18 total each month.',
+      ),
+    ).to.exist;
+
+    // SummaryBox Va link
+    expect(
+      $(
+        'va-link[href="/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"]',
+      ),
+    ).to.exist;
+    expect(
+      $(
+        'va-link[text="Learn more about deductibles for VA travel claims(opens in a new tab)"]',
+      ),
+    ).to.exist;
   });
 
   it('calls signAgreement when Sign Agreement button is clicked', () => {
