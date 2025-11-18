@@ -57,6 +57,7 @@ export const IntroductionPage = props => {
         headingLevel={2}
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
+        formConfig={route.formConfig}
         pageList={pageList}
         startText="Start your Authorization to disclose personal information"
         unauthStartText="Sign in or create an account"
