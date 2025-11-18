@@ -3,7 +3,6 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { datadogRum } from '@datadog/browser-rum';
 import { Actions } from '../../util/actionTypes';
 import {
   getPrescriptionById,
@@ -13,14 +12,22 @@ import {
 describe('prescription actions', () => {
   const middlewares = [thunk];
   const mockStore = configureStore(middlewares);
-  let datadogSpy;
+  let loggerSpy;
 
   beforeEach(() => {
-    datadogSpy = sinon.spy(datadogRum, 'addError');
+    // Mock the global DD_LOGS logger
+    loggerSpy = sinon.spy();
+    global.window = {
+      DD_LOGS: {
+        logger: {
+          log: loggerSpy,
+        },
+      },
+    };
   });
 
   afterEach(() => {
-    datadogSpy.restore();
+    delete global.window;
   });
 
   describe('getPrescriptionById', () => {
@@ -28,7 +35,12 @@ describe('prescription actions', () => {
       const prescriptionId = '123';
       const mockResponse = {
         data: {
-          attributes: { id: prescriptionId, name: 'Test Prescription' },
+          attributes: {
+            id: prescriptionId,
+            name: 'Test Prescription',
+            prescriptionName: 'Test Prescription',
+            prescriptionNumber: 'RX123456',
+          },
         },
       };
       mockApiRequest(mockResponse);
@@ -66,14 +78,15 @@ describe('prescription actions', () => {
       });
 
       // Verify Datadog error logging
-      expect(datadogSpy.called).to.be.true;
-      expect(datadogSpy.firstCall.args[0].message).to.include(
+      expect(loggerSpy.called).to.be.true;
+      expect(loggerSpy.firstCall.args[0]).to.include(
         'Error fetching medication data for Secure Messaging Rx renewal request',
       );
-      expect(datadogSpy.firstCall.args[1]).to.deep.include({
+      expect(loggerSpy.firstCall.args[1]).to.deep.include({
         source: 'prescription_action',
         context: 'Secure Messaging - Medication Renewal Request',
       });
+      expect(loggerSpy.firstCall.args[2]).to.equal('error');
     });
 
     it('should dispatch error action when prescriptionId is "undefined"', async () => {
@@ -93,8 +106,8 @@ describe('prescription actions', () => {
       });
 
       // Verify Datadog error logging
-      expect(datadogSpy.called).to.be.true;
-      expect(datadogSpy.firstCall.args[1].prescriptionId).to.equal('undefined');
+      expect(loggerSpy.called).to.be.true;
+      expect(loggerSpy.firstCall.args[1].prescriptionId).to.equal('undefined');
     });
 
     it('should dispatch error action on API error', async () => {
@@ -120,11 +133,9 @@ describe('prescription actions', () => {
       });
 
       // Verify Datadog error logging
-      expect(datadogSpy.called).to.be.true;
-      expect(datadogSpy.firstCall.args[0].message).to.include(
-        'Internal Server Error',
-      );
-      expect(datadogSpy.firstCall.args[1].errorStatus).to.equal('500');
+      expect(loggerSpy.called).to.be.true;
+      expect(loggerSpy.firstCall.args[0]).to.include('Internal Server Error');
+      expect(loggerSpy.firstCall.args[1].errorStatus).to.equal('500');
     });
 
     it('should dispatch error action on 404 error', async () => {
@@ -150,12 +161,10 @@ describe('prescription actions', () => {
       });
 
       // Verify Datadog error logging with 404 status
-      expect(datadogSpy.called).to.be.true;
-      expect(datadogSpy.firstCall.args[0].message).to.include(
-        'Record not found',
-      );
-      expect(datadogSpy.firstCall.args[1].errorStatus).to.equal('404');
-      expect(datadogSpy.firstCall.args[1].prescriptionId).to.equal('123');
+      expect(loggerSpy.called).to.be.true;
+      expect(loggerSpy.firstCall.args[0]).to.include('Record not found');
+      expect(loggerSpy.firstCall.args[1].errorStatus).to.equal('404');
+      expect(loggerSpy.firstCall.args[1].prescriptionId).to.equal('123');
     });
   });
 
