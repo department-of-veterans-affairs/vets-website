@@ -921,7 +921,7 @@ export const BENEFITS_LIST = [
   },
   {
     name: 'Employment Navigator & Partnership Program',
-    category: [categories.CAREER, categories.EMPLOYMENT],
+    category: categories.EMPLOYMENT,
     id: 'ENPP',
     description:
       'If you’re leaving active service soon or recently discharged, you and your spouse can get one-on-one career assistance through ENPP. An Employment Navigator can help you find and secure a meaningful post-separation career. Select the learn more link for a list of locations where this program is available.',
