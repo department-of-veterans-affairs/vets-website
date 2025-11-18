@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import {
   updatePageTitle,
   reportGeneratedBy,
@@ -50,7 +51,10 @@ import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import { pageType } from '../util/dataDogConstants';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { usePrescriptionData } from '../hooks/usePrescriptionData';
-import { usePrefetch } from '../api/prescriptionsApi';
+import {
+  usePrefetch,
+  useGetPrescriptionDocumentationQuery,
+} from '../api/prescriptionsApi';
 import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
 import {
   selectSortOption,
@@ -86,7 +90,12 @@ const PrescriptionDetails = () => {
 
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+  const { isAcceleratingAllergies, isCerner } = useAcceleratedData();
+
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery({
+    isAcceleratingAllergies,
+    isCerner,
+  });
 
   const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
@@ -103,14 +112,31 @@ const PrescriptionDetails = () => {
   const prefetchPrescriptionDocumentation = usePrefetch(
     'getPrescriptionDocumentation',
   );
+
+  // But we also need to check whether or not it's already been fetched
+  const {
+    data: documentationData,
+    isLoading: isDocumentationLoading,
+    error: documentationError,
+  } = useGetPrescriptionDocumentationQuery(prescriptionId);
+
   useEffect(
     () => {
-      if (!isLoading && hasCmopNdcNumber(refillHistory)) {
+      if (
+        !isLoading &&
+        !isDocumentationLoading &&
+        !documentationData &&
+        !documentationError &&
+        hasCmopNdcNumber(refillHistory)
+      ) {
         prefetchPrescriptionDocumentation(prescriptionId);
       }
     },
     [
       isLoading,
+      isDocumentationLoading,
+      documentationData,
+      documentationError,
       prefetchPrescriptionDocumentation,
       prescriptionId,
       refillHistory,
