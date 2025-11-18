@@ -45,6 +45,6 @@ Wrapper.propTypes = {
   children: PropTypes.node,
   classNames: PropTypes.string,
   pageTitle: PropTypes.string,
-  testID: PropTypes.string,
   required: PropTypes.bool,
+  testID: PropTypes.string,
 };
