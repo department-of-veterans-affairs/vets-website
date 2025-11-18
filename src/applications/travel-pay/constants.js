@@ -23,6 +23,8 @@ export const STATUSES = {
       'You saved changes to your claim, but you did not submit it to BTSSS for review. Submit the claim so BTSSS can begin processing your claim.',
     definition:
       'We saved your claim. Make sure to submit it within 30 days of your appointment.',
+    alternativeDefinition:
+      'We saved the expenses you’ve added so far. But you haven’t filed your travel reimbursement claim yet. Make sure to complete and file your claim within 30 days of your appointment.',
     reasons: null,
   },
   InProcess: {
