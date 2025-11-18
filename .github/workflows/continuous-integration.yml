@@ -864,13 +864,13 @@ jobs:
 
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 --host=0.0.0.0 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
       - name: Wait for server
         run: |
           echo "Waiting for server to be ready..."
           for i in {1..30}; do
-            if curl -f http://localhost:3001 > /dev/null 2>&1; then
+            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
               echo "Server is ready!"
               exit 0
             fi
@@ -879,8 +879,6 @@ jobs:
           done
           echo "Server failed to start"
           exit 1
-        env:
-            NODE_OPTIONS: '--dns-result-order=ipv4first'
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -891,7 +889,6 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
-          NODE_OPTIONS: '--dns-result-order=ipv4first'
 
       - name: Archive test videos
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
@@ -970,13 +967,13 @@ jobs:
             node_modules
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 --host=0.0.0.0 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
       - name: Wait for server
         run: |
           echo "Waiting for server to be ready..."
           for i in {1..30}; do
-            if curl -f http://localhost:3001 > /dev/null 2>&1; then
+            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
               echo "Server is ready!"
               exit 0
             fi
@@ -985,8 +982,6 @@ jobs:
           done
           echo "Server failed to start"
           exit 1
-        env:
-          NODE_OPTIONS: '--dns-result-order=ipv4first'
 
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact
@@ -1003,7 +998,6 @@ jobs:
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: 1
           IS_STRESS_TEST: true
-          NODE_OPTIONS: '--dns-result-order=ipv4first'
 
       - name: Archive test videos
         if: ${{ failure() }}
