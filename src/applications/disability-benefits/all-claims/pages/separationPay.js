@@ -11,7 +11,7 @@ import {
 } from '../constants';
 import { separationPayDetailsDescription } from '../content/separationTrainingPay';
 import { getBranches } from '../utils/serviceBranches';
-import ConfirmationSeparationPay from '../components/ConfirmationSeparationPay';
+import ConfirmationSeparationPay from '../components/confirmationFields/ConfirmationSeparationPay';
 
 const {
   separationPayDate: separationPayDateSchema,

@@ -7,6 +7,9 @@ import {
   getCardTitle,
   createBannerMessage,
   facilityCodeUIValidation,
+  showAdditionalPointsOfContact,
+  getAdditionalContactTitle,
+  capitalizeFirstLetter,
 } from '../helpers';
 
 describe('0839 Helpers', () => {
@@ -1021,6 +1024,155 @@ describe('0839 Helpers', () => {
           "The institution isn't eligible for the Yellow Ribbon Program.",
         );
       });
+    });
+  });
+
+  describe('showAdditionalPointsOfContact', () => {
+    const baseFormData = {
+      pointsOfContact: {
+        roles: {
+          isYellowRibbonProgramPointOfContact: false,
+          isSchoolFinancialRepresentative: false,
+          isSchoolCertifyingOfficial: false,
+        },
+      },
+    };
+
+    it('returns false when Yellow Ribbon POC and School Certifying Official are both true', () => {
+      const formData = {
+        pointsOfContact: {
+          roles: {
+            ...baseFormData.pointsOfContact.roles,
+            isYellowRibbonProgramPointOfContact: true,
+            isSchoolCertifyingOfficial: true,
+          },
+        },
+      };
+
+      expect(showAdditionalPointsOfContact(formData)).to.be.false;
+    });
+
+    it('returns false when School Financial Representative and School Certifying Official are both true', () => {
+      const formData = {
+        pointsOfContact: {
+          roles: {
+            ...baseFormData.pointsOfContact.roles,
+            isSchoolFinancialRepresentative: true,
+            isSchoolCertifyingOfficial: true,
+          },
+        },
+      };
+
+      expect(showAdditionalPointsOfContact(formData)).to.be.false;
+    });
+
+    it('returns true when School Certifying Official is false', () => {
+      const formData = {
+        pointsOfContact: {
+          roles: {
+            ...baseFormData.pointsOfContact.roles,
+            isYellowRibbonProgramPointOfContact: true,
+            isSchoolCertifyingOfficial: false,
+          },
+        },
+      };
+
+      expect(showAdditionalPointsOfContact(formData)).to.be.true;
+    });
+
+    it('returns true when Yellow Ribbon and Financial roles are false but School Certifying Official is true', () => {
+      const formData = {
+        pointsOfContact: {
+          roles: {
+            ...baseFormData.pointsOfContact.roles,
+            isSchoolCertifyingOfficial: true,
+          },
+        },
+      };
+
+      expect(showAdditionalPointsOfContact(formData)).to.be.true;
+    });
+
+    it('returns true when no role data is provided', () => {
+      expect(showAdditionalPointsOfContact({})).to.be.true;
+      expect(showAdditionalPointsOfContact()).to.be.true;
+    });
+  });
+
+  describe('getAdditionalContactTitle', () => {
+    it('returns Yellow Ribbon title when both Yellow Ribbon and Financial roles are false', () => {
+      const formData = {
+        pointsOfContact: {
+          roles: {
+            isYellowRibbonProgramPointOfContact: false,
+            isSchoolFinancialRepresentative: false,
+          },
+        },
+      };
+
+      expect(getAdditionalContactTitle(formData)).to.equal(
+        'Add Yellow Ribbon Program point of contact',
+      );
+    });
+
+    it('returns school certifying official title when either role is true', () => {
+      const yellowRibbonFormData = {
+        pointsOfContact: {
+          roles: {
+            isYellowRibbonProgramPointOfContact: true,
+            isSchoolFinancialRepresentative: false,
+          },
+        },
+      };
+      const financialRepFormData = {
+        pointsOfContact: {
+          roles: {
+            isYellowRibbonProgramPointOfContact: false,
+            isSchoolFinancialRepresentative: true,
+          },
+        },
+      };
+
+      expect(getAdditionalContactTitle(yellowRibbonFormData)).to.equal(
+        'Add school certifying official',
+      );
+      expect(getAdditionalContactTitle(financialRepFormData)).to.equal(
+        'Add school certifying official',
+      );
+    });
+  });
+
+  describe('capitalizeFirstLetter', () => {
+    it('returns empty string when str is null', () => {
+      expect(capitalizeFirstLetter(null)).to.equal('');
+    });
+
+    it('returns empty string when str is undefined', () => {
+      expect(capitalizeFirstLetter(undefined)).to.equal('');
+    });
+
+    it('returns empty string when str is empty string', () => {
+      expect(capitalizeFirstLetter('')).to.equal('');
+    });
+
+    it('capitalizes first letter of lowercase string', () => {
+      expect(capitalizeFirstLetter('president')).to.equal('President');
+      expect(capitalizeFirstLetter('chief administrative officer')).to.equal(
+        'Chief administrative officer',
+      );
+    });
+
+    it('handles already capitalized strings', () => {
+      expect(capitalizeFirstLetter('President')).to.equal('President');
+    });
+
+    it('handles single character strings', () => {
+      expect(capitalizeFirstLetter('a')).to.equal('A');
+      expect(capitalizeFirstLetter('A')).to.equal('A');
+    });
+
+    it('handles all uppercase strings', () => {
+      expect(capitalizeFirstLetter('PRESIDENT')).to.equal('PRESIDENT');
     });
   });
 });

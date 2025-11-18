@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import ConfirmationPrisonerOfWar from './components/ConfirmationPrisonerOfWar';
+import ConfirmationPrisonerOfWar from './components/confirmationFields/ConfirmationPrisonerOfWar';
 
 describe('ConfirmationPrisonerOfWar', () => {
   it('should render null when powStatus is undefined', () => {
