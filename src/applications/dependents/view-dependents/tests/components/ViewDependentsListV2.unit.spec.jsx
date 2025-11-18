@@ -1,5 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
+import { sub, format } from 'date-fns';
+
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
@@ -52,18 +54,21 @@ describe('<ViewDependentsList />', () => {
   };
 
   const createDateString = date => {
-    return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date
-      .getDate()
-      .toString()
-      .padStart(2, '0')}/${date.getFullYear()}`;
+    return format(date, 'MM/dd/yyyy');
+    // return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date
+    //   .getDate()
+    //   .toString()
+    //   .padStart(2, '0')}/${date.getFullYear()}`;
   };
 
   const createChildTurning18 = daysFromNow => {
-    const upcomingBirthday = new Date();
-    upcomingBirthday.setDate(upcomingBirthday.getDate() + daysFromNow);
+    // const upcomingBirthday = new Date();
+    // upcomingBirthday.setDate(upcomingBirthday.getDate() + daysFromNow);
 
-    const birthDate = new Date(upcomingBirthday);
-    birthDate.setFullYear(birthDate.getFullYear() - 18);
+    // const birthDate = new Date(upcomingBirthday);
+    // birthDate.setFullYear(birthDate.getFullYear() - 18);
+    const birthDate = sub(new Date(), { years: 18, days: -daysFromNow });
+    const upcomingBirthday = sub(new Date(), { days: -daysFromNow });
 
     return {
       firstName: 'Billy',

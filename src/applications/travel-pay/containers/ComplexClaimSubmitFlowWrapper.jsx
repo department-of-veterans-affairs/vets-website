@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, Outlet } from 'react-router-dom-v5-compat';
+import { useParams, Outlet, Navigate } from 'react-router-dom-v5-compat';
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -9,8 +9,10 @@ import {
   selectAppointment,
   selectComplexClaim,
   selectComplexClaimCreationLoadingState,
+  selectComplexClaimFetchLoadingState,
 } from '../redux/selectors';
 import { getAppointmentData, getComplexClaimDetails } from '../redux/actions';
+import { STATUSES } from '../constants';
 
 const ComplexClaimSubmitFlowWrapper = () => {
   const dispatch = useDispatch();
@@ -32,26 +34,42 @@ const ComplexClaimSubmitFlowWrapper = () => {
     isLoading: isApptLoading,
   } = useSelector(selectAppointment);
 
-  const { data: claimData, error: claimError } =
-    useSelector(selectComplexClaim) ?? {};
+  const complexClaim = useSelector(selectComplexClaim) ?? {};
+  const claimData = complexClaim.data;
+  const claimError = complexClaim.fetch?.error;
 
   const isComplexClaimCreationLoading = useSelector(
     selectComplexClaimCreationLoadingState,
   );
 
+  const isComplexClaimFetchLoading = useSelector(
+    selectComplexClaimFetchLoadingState,
+  );
+
+  const claimFromAppointment = apptData?.travelPayClaim?.claim;
+  const effectiveClaimId = claimId || claimFromAppointment?.id;
+
+  const needsClaimData = effectiveClaimId && !claimData && !claimError;
+  const needsApptData = apptId && !apptData && !apptError;
+
   const isLoading =
-    toggleIsLoading || isApptLoading || isComplexClaimCreationLoading;
+    toggleIsLoading ||
+    needsClaimData ||
+    needsApptData ||
+    isApptLoading ||
+    isComplexClaimCreationLoading ||
+    isComplexClaimFetchLoading;
 
   useEffect(
     () => {
-      if (claimId && !claimData && !claimError) {
-        dispatch(getComplexClaimDetails(claimId));
+      if (needsClaimData) {
+        dispatch(getComplexClaimDetails(effectiveClaimId));
       }
-      if (apptId && !apptData && !apptError) {
+      if (needsApptData) {
         dispatch(getAppointmentData(apptId));
       }
     },
-    [dispatch, apptData, claimData, claimId, apptId, claimError, apptError],
+    [dispatch, needsClaimData, needsApptData, effectiveClaimId, apptId],
   );
 
   if (isLoading) {
@@ -70,6 +88,19 @@ const ComplexClaimSubmitFlowWrapper = () => {
   if (!complexClaimsEnabled) {
     window.location.replace('/');
     return null;
+  }
+
+  // If there's a claim from the appointment and it's submitted,
+  // redirect to claim details page
+  if (claimFromAppointment) {
+    const { claimStatus, id: claimIdFromAppt } = claimFromAppointment;
+    const isUnsubmittedStatus =
+      claimStatus === STATUSES.Incomplete.name ||
+      claimStatus === STATUSES.Saved.name;
+
+    if (!isUnsubmittedStatus && claimIdFromAppt) {
+      return <Navigate to={`/claims/${claimIdFromAppt}`} replace />;
+    }
   }
 
   return (

@@ -20,9 +20,7 @@ const getDebtLabel = debt => {
     return debt.label;
   }
   // Fallback to constructing the label if not provided
-  return `${currency(debt?.currentAr)} overpayment for ${
-    deductionCodes[debt.deductionCode]
-  }`;
+  return `${currency(debt?.currentAr)} ${deductionCodes[debt.deductionCode]}`;
 };
 
 const getDebtDescription = debt => {

@@ -980,7 +980,7 @@ jobs:
         run: git fetch origin ${{ github.head_ref }}
 
       - name: Merge in feature branch
-        run: git merge origin/${{ github.ref_name }} --no-edit
+        run: git merge -X ours origin/${{ github.ref_name }} --no-edit
 
       - name: Manual dependencies install (post-merge)
         run: |

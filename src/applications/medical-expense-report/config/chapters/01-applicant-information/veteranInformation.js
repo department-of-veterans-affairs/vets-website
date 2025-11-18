@@ -3,11 +3,9 @@ import {
   currentOrPastDateUI,
   fullNameSchema,
   fullNameUI,
-  ssnUI,
-  ssnSchema,
   titleUI,
-  vaFileNumberUI,
-  vaFileNumberSchema,
+  ssnOrVaFileNumberSchema,
+  ssnOrVaFileNumberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   VaTextInputField,
@@ -64,14 +62,7 @@ export default {
         },
       },
     },
-    veteranSocialSecurityNumber: ssnUI(),
-    vaFileNumber: {
-      ...vaFileNumberUI('VA file number'),
-      'ui:options': {
-        hint:
-          'You must enter either a VA file number or Social Security number.',
-      },
-    },
+    veteranSocialSecurityNumber: ssnOrVaFileNumberUI(),
     veteranDateOfBirth: currentOrPastDateUI({
       title: 'Date of birth',
       monthSelect: false,
@@ -86,8 +77,7 @@ export default {
         properties: {},
       },
       veteranFullName: { ...fullNameSchema, required: [] },
-      veteranSocialSecurityNumber: ssnSchema,
-      vaFileNumber: vaFileNumberSchema,
+      veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },
   },
