@@ -23,16 +23,18 @@ const TopicSelection = () => {
   };
 
   const handleBack = () => {
-    setSelectedTopics([]);
+    // TODO: manage state
     navigate(-1);
   };
 
   const handleContinue = () => {
+    // TODO: manage state && error handling
     navigate('/review');
   };
   return (
-    <Wrapper pageTitle="What topic would you like to talk about?" required>
+    <Wrapper pageTitle="What topic would you like to talk about?">
       <va-checkbox-group
+        required
         data-testid="topic-checkbox-group"
         label="Check all that apply"
       >

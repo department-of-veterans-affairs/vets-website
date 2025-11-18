@@ -1,15 +1,7 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-
 .vass-form__button-container {
   row-gap: 16px;
 }
 
 .vass-flex-direction--column {
   flex-direction: column;
-}
-
-span.vass-usa-label--required {
-  color: var(--vads-color-secondary-dark);
-  font-size: var(--vads-font-size-source-sans-normalized);
-  font-weight: normal;
 }

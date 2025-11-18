@@ -6,13 +6,7 @@ import { focusElement } from 'platform/utilities/ui';
 import NeedHelp from '../components/NeedHelp';
 
 const Wrapper = props => {
-  const {
-    children,
-    pageTitle,
-    classNames = '',
-    testID,
-    required = false,
-  } = props;
+  const { children, pageTitle, classNames = '', testID } = props;
 
   useEffect(() => {
     focusElement('h1');
@@ -26,11 +20,6 @@ const Wrapper = props => {
       {pageTitle && (
         <h1 tabIndex="-1" data-testid="header">
           {pageTitle}
-          {required && (
-            <span className="vass-usa-label--required vads-u-font-family--sans">
-              (*Required)
-            </span>
-          )}
         </h1>
       )}
       {children}
@@ -45,6 +34,5 @@ Wrapper.propTypes = {
   children: PropTypes.node,
   classNames: PropTypes.string,
   pageTitle: PropTypes.string,
-  required: PropTypes.bool,
   testID: PropTypes.string,
 };
