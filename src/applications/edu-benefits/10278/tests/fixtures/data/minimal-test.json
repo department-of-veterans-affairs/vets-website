@@ -5,9 +5,9 @@
       "last": "Doe"
     },
     "dateOfBirth": "1980-01-01",
-    "homePhone": "5551234567"
+    "homePhone": "5551234567",
     "veteranId": {
-      "ssn": "987654321",
+      "ssn": "987654321"
     },
     "address": {
       "country": "USA",

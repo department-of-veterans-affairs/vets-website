@@ -2,32 +2,41 @@
 
 ## Overview
 
-Data processing and section pattern utilities that work with VA.gov's form system.
+Data processing utilities that work with VA.gov's form system. Provides date
+transformation functions for ensuring consistent data formatting before form
+submission.
 
 ## Directory Structure
 
 ```bash
 forms/
 ├── data-processors/
-│   ├── data-processors.js
+│   ├── data-processors.js       # Date transformation utilities
 │   ├── data-processors.unit.spec.jsx
-│   └── index.js
-├── section-patterns/
-│   ├── section-patterns.js
-│   ├── section-patterns.unit.spec.jsx
 │   └── index.js
 ├── index.js             # Main exports
 └── README.md            # This documentation
 ```
 
+### Data Processors
+
+The `data-processors` module provides utilities for transforming form data before submission:
+
+- **`transformDates`** - Converts date objects to ISO string format (YYYY-MM-DD)
+  - Handles both Date objects and custom date structures with month/day/year properties
+  - Supports custom formatters for specific date formats
+  - Used for ensuring consistent date formatting across forms
+
 ### Directory Organization
 
 Each form utility follows a consistent structure:
+
 - **Utility file** (`[utility-name].js`) - Implementation
 - **Test file** (`[utility-name].unit.spec.jsx`) - Unit tests
 - **Barrel file** (`index.js`) - Named exports
 
 This organization provides:
+
 - **Co-location** - Tests live next to their utilities
 - **Encapsulation** - Each utility is self-contained
 - **Clean imports** - Barrel files provide clean import paths
@@ -42,8 +51,8 @@ VA.gov provides the form infrastructure:
 
 We provide thin enhancements:
 
-- Data processors for common transformations
-- Section patterns for reusable logic
+- Data processors for date transformations
+- Form hooks for section management (see `/hooks/` directory)
 
 ## Core Hooks (Located in `/hooks/`)
 
@@ -59,10 +68,10 @@ const { validate, validateField, errors, clearErrors } = useFormValidation(schem
 
 **Features**:
 
-- ✅ Full form validation with Zod
-- ✅ Individual field validation
-- ✅ Error state management
-- ✅ Validation error transformation
+- Full form validation with Zod
+- Individual field validation
+- Error state management
+- Validation error transformation
 
 #### `use-form-section.js`
 
@@ -86,10 +95,10 @@ const {
 
 **Features**:
 
-- ✅ Section-level data management
-- ✅ Automatic persistence integration
-- ✅ Field change handling with validation
-- ✅ Form submission state tracking
+- Section-level data management
+- Automatic persistence integration
+- Field change handling with validation
+- Form submission state tracking
 
 ### Available Advanced Hooks
 
@@ -141,10 +150,10 @@ const {
 
 **Features**:
 
-- ✅ Field visibility logic
-- ✅ Dynamic requirement changes
-- ✅ Dependent field calculations
-- ✅ Complex conditional expressions
+- Field visibility logic
+- Dynamic requirement changes
+- Dependent field calculations
+- Complex conditional expressions
 
 #### `use-auto-save.js` (in `/hooks/`)
 
@@ -207,6 +216,11 @@ const {
 export const zodErrorToMessage = (zodError) => {
   // Transforms Zod errors to readable messages
 };
+
+export const formatIssuePath = (path) => {
+  // Internal helper: Formats Zod issue paths to dot-notation with array indices
+  // Example: ['address', 0, 'street'] > 'address[0].street'
+};
 ```
 
 #### `component-props.js`
@@ -221,11 +235,23 @@ export const createVAComponentProps = (baseProps, validationState) => {
 
 #### `error-transformations.js`
 
-**Purpose**: Transform various error types to user-friendly messages
+**Purpose**: Transform and normalize errors for VA web components
 
 ```javascript
-export const transformValidationError = (error, fieldName) => {
-  // Contextual error message transformation
+// Factory functions for creating consistent error transformations
+export const createNormalizer = (invalidPatterns = []) => {
+  // Creates error normalizer functions that filter out invalid patterns
+};
+
+export const createDefaultErrorProps = (extraProps = {}) => {
+  // Creates default error props for VA components with aria-invalid
+};
+
+// Exported transformation map for all VA component types
+export const ERROR_TRANSFORMATIONS = {
+  'va-text-input': { normalizeError, getErrorProps },
+  'va-select': { normalizeError, getErrorProps },
+  // ... configurations for all VA component types
 };
 ```
 

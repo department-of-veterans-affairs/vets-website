@@ -37,14 +37,6 @@
     "employmentConcessions": {
       "concessions": "Flexible deployment schedule to accommodate special missions. Employer provides advanced equipment and permits remote field operations with autonomous decision-making authority."
     },
-    "employmentTermination": {
-      "dateLastWorked": "2025-10-31"
-    },
-    "employmentLastPayment": {
-      "dateOfLastPayment": "2025-10-31",
-      "grossAmountLastPayment": 5500,
-      "lumpSumPayment": "no"
-    },
     "dutyStatus": {
       "reserveOrGuardStatus": false
     },

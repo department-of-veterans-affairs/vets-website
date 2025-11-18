@@ -7,8 +7,13 @@ import {
   uploadFile,
   selectDocumentType,
   setupUnknownErrorMock,
+  setupDuplicateErrorMock,
 } from './file-upload-helpers';
-import { SUBMIT_TEXT, SUBMIT_FILES_FOR_REVIEW_TEXT } from '../../constants';
+import {
+  SUBMIT_TEXT,
+  SUBMIT_FILES_FOR_REVIEW_TEXT,
+  ANCHOR_LINKS,
+} from '../../constants';
 
 const setDocumentUploadStatusToggle = enabled => ({
   data: {
@@ -172,6 +177,32 @@ describe('Type 1 Error Alert', () => {
 
       cy.axeCheck();
     });
+
+    it('should display duplicate error alert with documents-filed anchor link', () => {
+      setupPageAndIntercepts(false);
+      setupDuplicateErrorMock();
+      uploadFileWithDocType('test-document.txt');
+      clickSubmitFilesButton(false);
+
+      cy.wait('@uploadRequest');
+      // Verify duplicate error alert is present
+      cy.get('.claims-alert').should(
+        'contain.text',
+        "You've already uploaded test-document.txt",
+      );
+      // Verify link contains correct anchor for documents-filed
+      cy.get('.claims-alert va-link')
+        .should('exist')
+        .should(
+          'have.attr',
+          'href',
+          `/track-claims/your-claims/189685/files#${
+            ANCHOR_LINKS.documentsFiled
+          }`,
+        );
+
+      cy.axeCheck();
+    });
   });
 
   context('when cst_show_document_upload_status is enabled', () => {
@@ -247,6 +278,32 @@ describe('Type 1 Error Alert', () => {
         'contain.text',
         'We need you to submit files by mail or in person',
       );
+
+      cy.axeCheck();
+    });
+
+    it('should display duplicate error alert with files-received anchor link', () => {
+      setupPageAndIntercepts(true);
+      setupDuplicateErrorMock();
+      uploadFileWithDocType('test-document.txt');
+      clickSubmitFilesButton(true);
+
+      cy.wait('@uploadRequest');
+      // Verify duplicate error alert is present
+      cy.get('#default-page .claims-alert').should(
+        'contain.text',
+        "You've already uploaded test-document.txt",
+      );
+      // Verify link contains correct anchor for files-received
+      cy.get('#default-page .claims-alert va-link')
+        .should('exist')
+        .should(
+          'have.attr',
+          'href',
+          `/track-claims/your-claims/189685/files#${
+            ANCHOR_LINKS.filesReceived
+          }`,
+        );
 
       cy.axeCheck();
     });

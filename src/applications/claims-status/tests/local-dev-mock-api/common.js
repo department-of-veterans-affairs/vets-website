@@ -137,14 +137,14 @@ const createClaim = (
                 id: 1,
                 displayName: '21-4142/21-4142a',
                 status: 'NEEDED_FROM_YOU',
-                suspenseDate: '2024-12-01',
+                suspenseDate: '2026-12-01',
                 type: 'other',
               },
               {
                 id: 2,
                 displayName: 'Private medical records',
                 status: 'NEEDED_FROM_OTHERS',
-                suspenseDate: '2024-12-10',
+                suspenseDate: '2026-12-10',
                 type: 'other',
               },
             ]
@@ -1638,6 +1638,21 @@ const responses = {
         uploadStatus: 'FAILED',
         vaNotifyStatus: 'SENT',
       },
+      {
+        id: 12,
+        acknowledgementDate: '2025-01-03T10:30:00.000Z',
+        claimId: '123456789',
+        createdAt: '2025-01-03T10:15:00.000Z',
+        deleteDate: null,
+        documentType: 'Other Correspondence',
+        failedDate: '2025-01-03T10:35:00.000Z',
+        fileName: 'other-correspondence.pdf',
+        lighthouseUpload: true,
+        trackedItemId: null,
+        trackedItemDisplayName: null,
+        uploadStatus: 'FAILED',
+        vaNotifyStatus: 'SENT',
+      },
     ],
   },
 
@@ -1754,7 +1769,7 @@ const responses = {
     };
 
     // Configuration for testing different scenarios
-    const errorPattern = ['duplicate', 'unknown', 'invalidClaimant']; // Change this to test different scenarios
+    const errorPattern = ['duplicate']; // Change this to test different scenarios
     // const errorPattern = [null]; // for success only
 
     return (_req, res) => {

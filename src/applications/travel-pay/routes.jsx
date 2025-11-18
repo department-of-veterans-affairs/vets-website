@@ -17,6 +17,7 @@ import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
 import ComplexClaimSubmitFlowWrapper from './containers/ComplexClaimSubmitFlowWrapper';
 import ReviewPage from './components/complex-claims/pages/ReviewPage';
 import ExpensePage from './components/complex-claims/pages/ExpensePage';
+import ComplexClaimRedirect from './components/complex-claims/pages/ComplexClaimRedirect';
 import IntroductionPage from './components/complex-claims/pages/IntroductionPage';
 import UnsupportedMileage from './components/complex-claims/pages/UnsupportedMileage';
 import App from './containers/App';
@@ -37,6 +38,7 @@ const getRoutes = () => {
       >
         <Route index element={<IntroductionPage />} />
         <Route path=":claimId">
+          <Route index element={<ComplexClaimRedirect />} />
           <Route path="choose-expense" element={<ChooseExpenseType />} />
           <Route path="mileage/:expenseId?" element={<Mileage />} />
           {Object.values(EXPENSE_TYPES)

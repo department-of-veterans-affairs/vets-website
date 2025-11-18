@@ -8,6 +8,8 @@ import {
   Route,
   useLocation,
 } from 'react-router-dom-v5-compat';
+import * as api from '@department-of-veterans-affairs/platform-utilities/api';
+import sinon from 'sinon';
 
 import ExpensePage from '../../../../components/complex-claims/pages/ExpensePage';
 import ChooseExpenseType from '../../../../components/complex-claims/pages/ChooseExpenseType';
@@ -19,15 +21,15 @@ import {
   TRIP_TYPES,
 } from '../../../../constants';
 
-describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
-  //
-  // Helper for capturing current route
-  //
-  const LocationDisplay = () => {
-    const location = useLocation();
-    return <div data-testid="location-display">{location.pathname}</div>;
-  };
+//
+// Helper for capturing current route
+//
+const LocationDisplay = () => {
+  const location = useLocation();
+  return <div data-testid="location-display">{location.pathname}</div>;
+};
 
+describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
   //
   // Base store
   //
@@ -53,20 +55,9 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           data: null,
         },
         expenses: {
-          creation: {
-            isLoading: false,
-            error: null,
-          },
-          update: {
-            id: '',
-            isLoading: false,
-            error: null,
-          },
-          delete: {
-            id: '',
-            isLoading: false,
-            error: null,
-          },
+          creation: { isLoading: false, error: null },
+          update: { id: '', isLoading: false, error: null },
+          delete: { id: '', isLoading: false, error: null },
           data: [],
         },
       },
@@ -475,4 +466,151 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
         });
       });
     });
+});
+
+// ---------------------------------------------------------------
+// EDIT MODE TESTS
+// ---------------------------------------------------------------
+describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
+  const TEST_EXPENSE_ID = 'abc123';
+  const TEST_DOCUMENT_ID = 'doc789';
+
+  //
+  // Store containing an existing expense
+  //
+  const getEditState = () => ({
+    travelPay: {
+      claimSubmission: { isSubmitting: false, error: null, data: null },
+      complexClaim: {
+        claim: {
+          creation: { isLoading: false, error: null },
+          submission: { id: '', isSubmitting: false, error: null, data: null },
+          fetch: { isLoading: false, error: null },
+          data: {
+            documents: [
+              {
+                filename: 'saved.pdf',
+                mimetype: 'application/pdf',
+                fileData: 'data:application/pdf;base64,AA==',
+                documentId: TEST_DOCUMENT_ID,
+                createdon: '2025-11-17',
+              },
+            ],
+          },
+        },
+        expenses: {
+          creation: { isLoading: false, error: null },
+          update: { id: '', isLoading: false, error: null },
+          delete: { id: '', isLoading: false, error: null },
+          data: [
+            {
+              id: TEST_EXPENSE_ID,
+              expenseType: 'Meal',
+              vendorName: 'Saved Vendor',
+              dateIncurred: '2025-11-17',
+              costRequested: '10.50',
+              documentId: TEST_DOCUMENT_ID,
+            },
+          ],
+        },
+      },
+    },
+  });
+
+  const renderEditPage = () =>
+    renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/12345/43555/meal/${TEST_EXPENSE_ID}`]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute/:expenseId"
+            element={<ExpensePage />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<div data-testid="review-page" />}
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>,
+      { initialState: getEditState(), reducers: reducer },
+    );
+
+  let apiStub;
+  beforeEach(() => {
+    apiStub = sinon.stub(api, 'apiRequest').resolves({
+      headers: {
+        get: key => (key === 'Content-Type' ? 'application/pdf' : '1024'),
+      },
+      arrayBuffer: async () => new TextEncoder().encode('dummy').buffer,
+    });
+  });
+  afterEach(() => {
+    apiStub.restore();
+  });
+
+  it('pre-fills formState with the stored expense', () => {
+    const { container } = renderEditPage();
+
+    const vendorField = container.querySelector(
+      'va-text-input[name="vendorName"]',
+    );
+    expect(vendorField.getAttribute('value')).to.equal('Saved Vendor');
+    const costField = container.querySelector(
+      'va-text-input[name="costRequested"]',
+    );
+    expect(costField.getAttribute('value')).to.equal('10.50');
+  });
+
+  it('uses "Save and continue" text for continue button', () => {
+    const { container } = renderEditPage();
+
+    const button = Array.from(container.querySelectorAll('va-button')).find(
+      btn => btn.getAttribute('text') === 'Save and continue',
+    );
+
+    expect(button).to.exist;
+  });
+
+  it('uses "Cancel" text for back button', () => {
+    const { container } = renderEditPage();
+
+    const button = Array.from(container.querySelectorAll('va-button')).find(
+      btn => btn.getAttribute('text') === 'Cancel',
+    );
+
+    expect(button).to.exist;
+  });
+
+  it('does NOT show the cancel modal in edit mode', () => {
+    const { container } = renderEditPage();
+
+    const modal = container.querySelector('va-modal');
+    expect(modal).to.not.exist;
+  });
+
+  it('navigates back to the review page when clicking Cancel', () => {
+    const { container, getByTestId } = renderEditPage();
+
+    const backButton = Array.from(container.querySelectorAll('va-button')).find(
+      btn => btn.getAttribute('text') === 'Cancel',
+    );
+
+    fireEvent.click(backButton);
+
+    expect(getByTestId('review-page')).to.exist;
+  });
+
+  it('loads existing document when documentId is present', async () => {
+    const { container } = renderEditPage();
+
+    // Component renders space for existing file
+    const uploadLoading = container.querySelector('va-loading-indicator');
+    expect(uploadLoading).to.exist;
+
+    await waitFor(() => {
+      expect(container.querySelector('va-file-input')).to.exist;
+    });
+  });
 });

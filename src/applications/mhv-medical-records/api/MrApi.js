@@ -2,6 +2,8 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { edipiNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
+import { resolveAcceleratedDateRange } from '../util/helpers';
+import { DEFAULT_DATE_RANGE } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -74,14 +76,17 @@ export const getAcceleratedLabsAndTests = async ({
   startDate,
   endDate,
 } = {}) => {
-  // Only include query params when at least one date is provided.
-  // If neither date supplied, call base endpoint without parameters.
-  const queryParams = new URLSearchParams();
-  if (startDate) queryParams.append('start_date', startDate);
-  if (endDate) queryParams.append('end_date', endDate);
-  const query = queryParams.toString() ? `?${queryParams.toString()}` : '';
+  const {
+    startDate: effectiveStart,
+    endDate: effectiveEnd,
+  } = resolveAcceleratedDateRange(startDate, endDate, DEFAULT_DATE_RANGE);
+  // Build query params with API-required snake_case keys
+  const params = new URLSearchParams();
+  params.append('start_date', effectiveStart);
+  params.append('end_date', effectiveEnd);
+  const queryString = `?${params.toString()}`;
   return apiRequest(
-    `${API_BASE_PATH_V2}/medical_records/labs_and_tests${query}`,
+    `${API_BASE_PATH_V2}/medical_records/labs_and_tests${queryString}`,
     { headers },
   );
 };
@@ -147,14 +152,16 @@ export const getMhvRadiologyDetails = async id => {
 };
 
 export const getAcceleratedNotes = async ({ startDate, endDate } = {}) => {
-  // Only include query params when at least one date is provided.
-  // If neither date supplied, call base endpoint without parameters.
-  const queryParams = new URLSearchParams();
-  if (startDate) queryParams.append('start_date', startDate);
-  if (endDate) queryParams.append('end_date', endDate);
-  const query = queryParams.toString() ? `?${queryParams.toString()}` : '';
+  const {
+    startDate: effectiveStart,
+    endDate: effectiveEnd,
+  } = resolveAcceleratedDateRange(startDate, endDate, DEFAULT_DATE_RANGE);
+  const params = new URLSearchParams();
+  params.append('start_date', effectiveStart);
+  params.append('end_date', effectiveEnd);
+  const queryString = `?${params.toString()}`;
   return apiRequest(
-    `${API_BASE_PATH_V2}/medical_records/clinical_notes${query}`,
+    `${API_BASE_PATH_V2}/medical_records/clinical_notes${queryString}`,
     { headers },
   );
 };

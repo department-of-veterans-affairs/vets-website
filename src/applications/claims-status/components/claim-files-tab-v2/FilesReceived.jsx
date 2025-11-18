@@ -7,6 +7,7 @@ import {
 
 import { buildDateFormatter } from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
+import { ANCHOR_LINKS } from '../../constants';
 
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 
@@ -116,11 +117,14 @@ const FilesReceived = ({ claim }) => {
 
   return (
     <div className="files-received-container" data-testid="files-received">
-      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+      <h3
+        id={ANCHOR_LINKS.filesReceived}
+        className="vads-u-margin-top--0 vads-u-margin-bottom--3"
+      >
         Files received
       </h3>
       <p>
-        Files we received after you submitted them using this tool or the VA
+        Files we received after you submitted them using this tool or the VA:
         Health and Benefits mobile app. Files submitted by mail or in person, by
         you or by others, don’t appear in this tool.
       </p>

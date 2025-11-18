@@ -87,3 +87,61 @@ export const handlePdfGeneration = async pdfData => {
     return null;
   }
 };
+
+export const generateVeteranPdf = async pdfData => {
+  try {
+    const { education, compAndPen, metadata } = pdfData;
+
+    // Combine all selected debts (education + comp & pen) into a single array
+    const combinedSelectedDebts = [
+      ...(education?.selectedDebts || []),
+      ...(compAndPen?.selectedDebts || []),
+    ];
+
+    // No debts at all → fail early
+    if (!combinedSelectedDebts.length) {
+      throw new Error(
+        '`Dispute Debt pdf generation failed: No debts to generate PDF for.',
+      );
+    }
+
+    // Use whichever side exists as the base (they both have veteran + submissionDetails)
+    const basePdfData = education || compAndPen;
+
+    // Build the single payload expected by disputeDebtVeteranFacing:
+    // { veteran, submissionDetails, selectedDebts, ... }
+    const combinedPdfData = {
+      ...basePdfData,
+      selectedDebts: combinedSelectedDebts,
+    };
+
+    // Generate ONE veteran-facing PDF containing all debts
+    const pdfBlob = await getPdfBlob(
+      'disputeDebtVeteranFacing',
+      combinedPdfData,
+    );
+
+    const formData = new FormData();
+    formData.append('files[]', pdfBlob);
+
+    if (metadata) {
+      formData.append('metadata', JSON.stringify(metadata));
+    }
+
+    // Returning FormData to be used in the API request
+    return formData;
+  } catch (error) {
+    // Reset the pdfModulePromise so subsequent calls can try again
+    pdfModulePromise = null;
+
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(
+        `Veteran Facing Dispute Debt - PDF - generation failed in generateVeteranPdf: ${
+          error?.detail
+        }`,
+      );
+    });
+    return null;
+  }
+};

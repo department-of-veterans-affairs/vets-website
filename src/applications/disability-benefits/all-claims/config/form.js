@@ -136,7 +136,7 @@ import reviewErrors from '../reviewErrors';
 import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import getPreSubmitInfo from '../content/preSubmitInfo';
-import ConfirmationAncillaryFormsWizard from '../components/ConfirmationAncillaryFormsWizard';
+import ConfirmationAncillaryFormsWizard from '../components/confirmationFields/ConfirmationAncillaryFormsWizard';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -209,6 +209,7 @@ const formConfig = {
     veteranDetails: {
       title: ({ onReviewPage }) =>
         `${onReviewPage ? 'Review ' : ''}Veteran Details`,
+      reviewTitle: 'Review Veteran Details',
       pages: {
         veteranInformation: {
           title: 'Veteran information',

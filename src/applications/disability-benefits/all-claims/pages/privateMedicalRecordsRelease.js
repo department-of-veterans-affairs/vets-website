@@ -22,7 +22,7 @@ import { isCompletingModern4142 } from '../utils';
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 
 import { validateBooleanGroup, validateZIP } from '../validations';
-import PrivateMedicalProvidersConditions from '../components/ConfirmationFields/PrivateMedicalProvidersConditions';
+import PrivateMedicalProvidersConditions from '../components/confirmationFields/PrivateMedicalProvidersConditions';
 
 const { form4142 } = fullSchema.properties;
 

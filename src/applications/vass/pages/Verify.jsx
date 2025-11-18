@@ -12,11 +12,12 @@ const Verify = () => {
   };
   return (
     <Wrapper pageTitle="Schedule a call to learn about VA benefits and health care">
-      <p>
+      <p data-testid="verify-intro-text">
         First, we’ll need your information so we can send you a one-time
-        verification code to verify your identify.
+        verification code to verify your identity.
       </p>
       <va-text-input
+        data-testid="last-name-input"
         label="Your last name"
         name="last-name"
         onBlur={() => {}}
@@ -26,6 +27,7 @@ const Verify = () => {
       />
       <VaMemorableDate
         id="dob-input"
+        data-testid="dob-input"
         label="Date of birth"
         onDateBlur={() => {}}
         onDateChange={() => {}}
@@ -35,7 +37,13 @@ const Verify = () => {
         monthSelect={false}
       />
       <div className="vads-u-display--flex vads-u-margin-top--4 vass-form__button-container vass-flex-direction--column">
-        <va-button big onClick={handleSubmit} text="Submit" uswds />
+        <va-button
+          data-testid="submit-button"
+          big
+          onClick={handleSubmit}
+          text="Submit"
+          uswds
+        />
       </div>
     </Wrapper>
   );

@@ -1,27 +1,22 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom-v5-compat';
+import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import EnterOTC from './EnterOTC';
 
 describe('VASS Component: EnterOTC', () => {
   it('should render page title', () => {
-    const screen = render(
-      <MemoryRouter>
-        <EnterOTC />
-      </MemoryRouter>,
-    );
+    const screen = renderWithStoreAndRouterV6(<EnterOTC />, {
+      initialState: {},
+    });
 
     expect(screen.getByTestId('header')).to.exist;
   });
 
   it('should render success alert with verification message', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <EnterOTC />
-      </MemoryRouter>,
-    );
+    const { container } = renderWithStoreAndRouterV6(<EnterOTC />, {
+      initialState: {},
+    });
     const alert = container.querySelector('va-alert[status="success"]');
 
     expect(alert).to.exist;
@@ -29,11 +24,9 @@ describe('VASS Component: EnterOTC', () => {
   });
 
   it('should display email address in alert message', () => {
-    const { getByText } = render(
-      <MemoryRouter>
-        <EnterOTC />
-      </MemoryRouter>,
-    );
+    const { getByText } = renderWithStoreAndRouterV6(<EnterOTC />, {
+      initialState: {},
+    });
 
     expect(getByText(/We just emailed a one-time verification code to/i)).to
       .exist;
@@ -41,11 +34,9 @@ describe('VASS Component: EnterOTC', () => {
   });
 
   it('should render OTC input field', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <EnterOTC />
-      </MemoryRouter>,
-    );
+    const { container } = renderWithStoreAndRouterV6(<EnterOTC />, {
+      initialState: {},
+    });
     const otcInput = container.querySelector('va-text-input[name="otc"]');
 
     expect(otcInput).to.exist;
@@ -56,11 +47,9 @@ describe('VASS Component: EnterOTC', () => {
   });
 
   it('should render continue button', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <EnterOTC />
-      </MemoryRouter>,
-    );
+    const { container } = renderWithStoreAndRouterV6(<EnterOTC />, {
+      initialState: {},
+    });
     const continueButton = container.querySelector('va-button');
 
     expect(continueButton).to.exist;

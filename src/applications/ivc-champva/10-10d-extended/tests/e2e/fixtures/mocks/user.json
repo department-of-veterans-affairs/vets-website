@@ -19,25 +19,44 @@
         "is_veteran": true,
         "served_in_military": true
       },
-      "in_progress_forms": [],
+      "in_progress_forms": [
+        {
+          "form": "10-10D-EXTENDED",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/medicare-and-other-health-insurance",
+            "savedAt": 1739200257608,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1739200226,
+            "expiresAt": 32472162000,
+            "lastUpdated": 1739200257,
+            "inProgressFormId": 12345
+          },
+          "lastUpdated": 1739200257
+        }
+      ],
       "prefills_available": [],
       "services": [
         "facilities",
-        "hca",
-        "edu-benefits",
-        "evss-claims",
-        "form526",
+        "form-save-in-progress",
+        "form-prefill",
         "user-profile",
         "health-records",
-        "rx",
-        "messaging"
+        "identity-proofed",
+        "vet360"
       ],
       "va_profile": {
         "status": "OK",
         "birth_date": "19850101",
         "family_name": "Doe",
         "gender": "M",
-        "given_names": ["John", ""],
+        "given_names": ["John"],
         "active_status": "active",
         "facilities": [
           {
