@@ -65,6 +65,10 @@ class AdditionalEvidencePage extends React.Component {
   scrollToSection = () => {
     if (this.props.location.hash === '#add-files') {
       setPageFocus('h3#add-files');
+    } else if (this.props.location.hash === '#documents-filed') {
+      setPageFocus('h3#documents-filed');
+    } else if (this.props.location.hash === '#files-received') {
+      setPageFocus('h3#files-received');
     }
   };
 

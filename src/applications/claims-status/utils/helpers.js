@@ -11,6 +11,7 @@ import { evidenceDictionary } from './evidenceDictionary';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
 import {
+  ANCHOR_LINKS,
   DATE_FORMATS,
   disabilityCompensationClaimTypeCodes,
   pensionClaimTypeCodes,
@@ -1530,18 +1531,28 @@ export const renderOverrideThirdPartyMessage = item => {
   return item.activityDescription;
 };
 
-export const getUploadErrorMessage = (error, claimId) => {
+export const getUploadErrorMessage = (
+  error,
+  claimId,
+  showDocumentUploadStatus = false,
+) => {
   if (error?.errors?.[0]?.detail === 'DOC_UPLOAD_DUPLICATE') {
+    const filesPath = `/track-claims/your-claims/${claimId}/files`;
+    const isOnFilesPage = window.location.pathname === filesPath;
+    const anchorLink = showDocumentUploadStatus
+      ? ANCHOR_LINKS.filesReceived
+      : ANCHOR_LINKS.documentsFiled;
+    const linkHref = isOnFilesPage
+      ? `#${anchorLink}`
+      : `${filesPath}#${anchorLink}`;
+
     return {
       title: `You've already uploaded ${error?.fileName || 'files'}`,
       body: (
         <>
           It can take up to 2 days for the file to show up in{' '}
-          <va-link
-            text="your list of documents filed"
-            href={`/track-claims/your-claims/${claimId}/files`}
-          />
-          . Try checking back later before uploading again.
+          <va-link text="your list of documents filed" href={linkHref} />. Try
+          checking back later before uploading again.
         </>
       ),
       type: 'error',
