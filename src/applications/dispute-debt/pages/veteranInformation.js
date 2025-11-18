@@ -1,5 +1,5 @@
 import VeteranInformation from '../components/VeteranInformation';
-import ConfirmationVeteranInformation from '../components/confirmation/ConfirmationVeteranInformation';
+import ConfirmationVeteranInformation from '../components/confirmationFields/ConfirmationVeteranInformation';
 
 const veteranInformation = {
   uiSchema: {

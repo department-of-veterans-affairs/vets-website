@@ -29,7 +29,7 @@
       "dateOfBirth": "1932-04-02"
     },
     "veteranIdentificationInfo": {
-      "veteranSsn": "987654321"
+      "ssn": "987654321"
     },
     "certificationLevelOfCare": {
       "levelOfCare": "intermediate"

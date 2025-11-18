@@ -3,10 +3,15 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { isValidYear } from '../validations';
 import {
-  separationPayDetailsDescription,
-  hasSeparationPayTitle,
-} from '../content/separationTrainingPay';
+  SEPARATION_PAY_TITLE,
+  SEPARATION_PAY_BRANCH_TITLE,
+  SEPARATION_PAY_DATE_ERROR,
+  SEPARATION_PAY_DATE_TITLE,
+  SEPARATION_PAY_SECTION_TITLE,
+} from '../constants';
+import { separationPayDetailsDescription } from '../content/separationTrainingPay';
 import { getBranches } from '../utils/serviceBranches';
+import ConfirmationSeparationPay from '../components/confirmationFields/ConfirmationSeparationPay';
 
 const {
   separationPayDate: separationPayDateSchema,
@@ -16,30 +21,22 @@ const {
 
 export const uiSchema = {
   hasSeparationPay: yesNoUI({
-    title: hasSeparationPayTitle,
+    title: SEPARATION_PAY_TITLE,
   }),
   'view:separationPayDetails': {
-    'ui:options': {
-      expandUnder: 'hasSeparationPay',
-    },
+    'ui:options': { expandUnder: 'hasSeparationPay' },
     'view:separationPayDetailsDescription': {
-      'ui:title': 'Separation or Severance Pay',
+      'ui:title': SEPARATION_PAY_SECTION_TITLE,
       'ui:description': separationPayDetailsDescription,
     },
     separationPayDate: {
-      'ui:title': 'Please tell us the year you received a payment',
-      // TODO: Change this to a number field to mimic the regular date field
+      'ui:title': SEPARATION_PAY_DATE_TITLE,
       'ui:validations': [isValidYear],
-      'ui:errorMessages': {
-        pattern: 'Please provide a valid year',
-      },
-      'ui:options': {
-        widgetClassNames: 'year-input',
-      },
+      'ui:errorMessages': { pattern: SEPARATION_PAY_DATE_ERROR },
+      'ui:options': { widgetClassNames: 'year-input' },
     },
     separationPayBranch: {
-      'ui:title':
-        'Please choose the branch of service that gave you separation or severance pay',
+      'ui:title': SEPARATION_PAY_BRANCH_TITLE,
       'ui:options': {
         updateSchema: (_formData, schema) => {
           if (!schema.enum?.length) {
@@ -51,6 +48,7 @@ export const uiSchema = {
       },
     },
   },
+  'ui:confirmationField': ConfirmationSeparationPay,
 };
 
 export const schema = {

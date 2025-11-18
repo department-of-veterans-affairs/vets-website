@@ -53,6 +53,10 @@
   }
 }
 
+.expense-card {
+  border: 1px solid var(--vads-color-gray-medium);
+}
+
 @media (max-width: $small-screen) {
   .travel-pay-complex-expense-cancel-btn {
     margin: 4px;
