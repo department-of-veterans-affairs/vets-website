@@ -891,6 +891,7 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
+          NODE_OPTIONS: '--dns-result-order=ipv4first'
 
       - name: Archive test videos
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
@@ -971,6 +972,22 @@ jobs:
       - name: Start server
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
+      - name: Wait for server
+        run: |
+          echo "Waiting for server to be ready..."
+          for i in {1..30}; do
+            if curl -f http://localhost:3001 > /dev/null 2>&1; then
+              echo "Server is ready!"
+              exit 0
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 2
+          done
+          echo "Server failed to start"
+          exit 1
+        env:
+          NODE_OPTIONS: '--dns-result-order=ipv4first'
+
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact
         with:
@@ -986,6 +1003,7 @@ jobs:
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: 1
           IS_STRESS_TEST: true
+          NODE_OPTIONS: '--dns-result-order=ipv4first'
 
       - name: Archive test videos
         if: ${{ failure() }}
