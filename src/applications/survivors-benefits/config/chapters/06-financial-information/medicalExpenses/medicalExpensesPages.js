@@ -61,7 +61,7 @@ function introDescription() {
 }
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'medicalExpenses',
   nounSingular: 'medical expense',
   nounPlural: 'medical expenses',
@@ -118,9 +118,7 @@ const options = {
         </span>
       </div>
     ),
-    summaryTitle: () => 'Review your medical and other expenses',
-    yesNoBlankReviewQuestion: () =>
-      'Do you have another medical or other expense to add?',
+    summaryTitle: 'Review your medical and other expenses',
   },
 };
 

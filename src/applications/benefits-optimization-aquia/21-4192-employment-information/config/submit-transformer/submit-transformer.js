@@ -6,26 +6,117 @@
  * vets-api/app/openapi/openapi/requests/form214192.rb
  */
 
+import countries from 'platform/user/profile/vap-svc/constants/countries.json';
+
 /**
- * Format a date string from YYYY-MM-DD to API format (YYYY-MM-DD)
- * @param {string} dateString - Date in YYYY-MM-DD format
- * @returns {string|null} Formatted date string or null if invalid
+ * Convert country code to 2-letter ISO format (ISO 3166-1 alpha-2)
+ * API requires 2-character country codes
+ *
+ * @param {string} countryCode - Country code (2 or 3 letters, or country name)
+ * @returns {string} 2-letter country code (ISO 3166-1 alpha-2)
  */
-const formatDate = dateString => {
-  if (!dateString || dateString === '') return null;
-  // API expects YYYY-MM-DD format which is what we already have
-  return dateString;
+const formatCountryCode = countryCode => {
+  if (!countryCode) return 'US'; // Default to US
+
+  const input = countryCode.toString().trim();
+
+  // Already 2 characters, return as-is
+  if (input.length === 2) return input.toUpperCase();
+
+  // 3 characters, look up in platform countries data
+  if (input.length === 3) {
+    const country = countries.find(
+      c => c.countryCodeISO3 === input.toUpperCase(),
+    );
+    return country?.countryCodeISO2 || 'US';
+  }
+
+  // Might be a country name, try to match
+  const country = countries.find(
+    c => c.countryName?.toLowerCase() === input.toLowerCase(),
+  );
+  return country?.countryCodeISO2 || 'US';
 };
 
 /**
- * Format currency string to number (remove $ and commas)
- * @param {string} currencyString - Currency string like "$1,234.56"
+ * Recursively remove null and undefined values from an object
+ * Note: Empty strings are preserved for API validation (required fields can be empty strings)
+ * @param {*} obj - Object to clean
+ * @returns {*} Cleaned object without null/undefined values
+ */
+const removeNullUndefined = obj => {
+  if (obj === null || obj === undefined) {
+    return undefined;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj
+      .map(item => removeNullUndefined(item))
+      .filter(item => item !== undefined);
+  }
+
+  if (typeof obj === 'object') {
+    const cleaned = {};
+    Object.keys(obj).forEach(key => {
+      const value = removeNullUndefined(obj[key]);
+      if (value !== undefined) {
+        cleaned[key] = value;
+      }
+    });
+    return Object.keys(cleaned).length > 0 ? cleaned : undefined;
+  }
+
+  return obj;
+};
+
+/**
+ * Format a date string to API format (YYYY-MM-DD with zero-padding)
+ * @param {string} dateString - Date in YYYY-MM-DD or YYYY-M-D format
+ * @returns {string|null} Formatted date string with zero-padding or null if invalid
+ */
+const formatDate = dateString => {
+  if (!dateString || dateString === '') return null;
+
+  // Split the date string and ensure zero-padding
+  const parts = dateString.split('-');
+  if (parts.length !== 3) return null;
+
+  const [year, month, day] = parts;
+
+  // Ensure year is 4 digits, month and day are 2 digits with zero-padding
+  const paddedYear = year.padStart(4, '0');
+  const paddedMonth = month.padStart(2, '0');
+  const paddedDay = day.padStart(2, '0');
+
+  return `${paddedYear}-${paddedMonth}-${paddedDay}`;
+};
+
+/**
+ * Format currency value to number (handle both string and number inputs)
+ * @param {string|number} currencyValue - Currency string like "$1,234.56" or number
  * @returns {number|null} Numeric value or null if invalid
  */
-const formatCurrency = currencyString => {
-  if (!currencyString || currencyString === '') return null;
-  const numericValue = parseFloat(currencyString.replace(/[$,]/g, '').trim());
-  return Number.isNaN(numericValue) ? null : numericValue;
+const formatCurrency = currencyValue => {
+  if (
+    currencyValue === null ||
+    currencyValue === undefined ||
+    currencyValue === ''
+  ) {
+    return null;
+  }
+
+  // If already a number, return it
+  if (typeof currencyValue === 'number') {
+    return Number.isNaN(currencyValue) ? null : currencyValue;
+  }
+
+  // If string, remove $ and commas then parse
+  if (typeof currencyValue === 'string') {
+    const numericValue = parseFloat(currencyValue.replace(/[$,]/g, '').trim());
+    return Number.isNaN(numericValue) ? null : numericValue;
+  }
+
+  return null;
 };
 
 /**
@@ -40,13 +131,13 @@ const formatHours = hours => {
 };
 
 /**
- * Convert yes/no string to boolean
- * @param {string} value - 'yes' or 'no' string
+ * Convert yes/no string or boolean to boolean
+ * @param {string|boolean} value - 'yes'/'no' string or true/false boolean
  * @returns {boolean|null} Boolean value or null if not set
  */
 const yesNoToBoolean = value => {
-  if (value === 'yes') return true;
-  if (value === 'no') return false;
+  if (value === 'yes' || value === true) return true;
+  if (value === 'no' || value === false) return false;
   return null;
 };
 
@@ -58,12 +149,13 @@ const yesNoToBoolean = value => {
 const transformVeteranInformation = data => {
   const veteranInfo = data?.veteranInformation || {};
   const contactInfo = data?.veteranContactInformation || {};
+  const fullName = veteranInfo.veteranFullName || {};
 
   return {
     fullName: {
-      first: veteranInfo.firstName || '',
-      middle: veteranInfo.middleName || '',
-      last: veteranInfo.lastName || '',
+      first: fullName.first || '',
+      middle: fullName.middle || '',
+      last: fullName.last || '',
     },
     ssn: contactInfo.ssn?.replace(/-/g, '') || null, // Remove dashes for 9-digit format
     vaFileNumber: contactInfo.vaFileNumber || null,
@@ -87,14 +179,17 @@ const transformEmploymentInformation = data => {
   const lastPayment = data?.employmentLastPayment || {};
 
   // Transform employer address
+  // API requires: street, city, state, postalCode, country (all required)
+  // API country code must be 2 characters (e.g., 'US' not 'USA')
   const employerAddress = employerInfo.employerAddress
     ? {
         street: employerInfo.employerAddress.street || '',
         street2: employerInfo.employerAddress.street2 || null,
         city: employerInfo.employerAddress.city || '',
         state: employerInfo.employerAddress.state || '',
-        country: employerInfo.employerAddress.country || 'USA',
         postalCode: employerInfo.employerAddress.postalCode || '',
+        // Convert any 3-letter country code to 2-letter ISO format for API compatibility
+        country: formatCountryCode(employerInfo.employerAddress.country),
       }
     : null;
 
@@ -132,14 +227,18 @@ const transformEmploymentInformation = data => {
 /**
  * Transform military duty status section
  * @param {Object} data - Form data object
- * @returns {Object} Transformed duty status for API
+ * @returns {Object|null} Transformed duty status for API or null if not applicable
  */
 const transformMilitaryDutyStatus = data => {
   const dutyStatus = data?.dutyStatus || {};
   const dutyDetails = data?.dutyStatusDetails || {};
 
   // Only include this section if the veteran is in Reserve/Guard
-  if (dutyStatus.reserveOrGuardStatus !== 'yes') {
+  // Check for both 'yes' string and true boolean (exclude 'no' string and false boolean)
+  if (
+    dutyStatus.reserveOrGuardStatus !== 'yes' &&
+    dutyStatus.reserveOrGuardStatus !== true
+  ) {
     return null;
   }
 
@@ -154,37 +253,31 @@ const transformMilitaryDutyStatus = data => {
 /**
  * Transform benefit entitlement and payments section
  * @param {Object} data - Form data object
- * @returns {Object} Transformed benefits information for API
+ * @returns {Object|null} Transformed benefits information for API or null if not applicable
  */
 const transformBenefitEntitlementPayments = data => {
   const benefitsInfo = data?.benefitsInformation || {};
   const benefitsDetails = data?.benefitsDetails || {};
   const remarks = data?.remarks || {};
 
+  // Only include this section if the veteran receives benefits
+  // Check for both 'yes' string and true boolean (exclude 'no' string and false boolean)
+  if (
+    benefitsInfo.benefitEntitlement !== 'yes' &&
+    benefitsInfo.benefitEntitlement !== true
+  ) {
+    return null;
+  }
+
   return {
-    sickRetirementOtherBenefits: yesNoToBoolean(
-      benefitsInfo.benefitEntitlement,
+    sickRetirementOtherBenefits: true, // Must be true if section is included
+    typeOfBenefit: benefitsDetails.benefitType || null,
+    grossMonthlyAmountOfBenefit: formatCurrency(
+      benefitsDetails.grossMonthlyAmount,
     ),
-    typeOfBenefit:
-      benefitsInfo.benefitEntitlement === 'yes'
-        ? benefitsDetails.benefitType || null
-        : null,
-    grossMonthlyAmountOfBenefit:
-      benefitsInfo.benefitEntitlement === 'yes'
-        ? formatCurrency(benefitsDetails.grossMonthlyAmount)
-        : null,
-    dateBenefitBegan:
-      benefitsInfo.benefitEntitlement === 'yes'
-        ? formatDate(benefitsDetails.startReceivingDate)
-        : null,
-    dateFirstPaymentIssued:
-      benefitsInfo.benefitEntitlement === 'yes'
-        ? formatDate(benefitsDetails.firstPaymentDate)
-        : null,
-    dateBenefitWillStop:
-      benefitsInfo.benefitEntitlement === 'yes'
-        ? formatDate(benefitsDetails.stopReceivingDate)
-        : null,
+    dateBenefitBegan: formatDate(benefitsDetails.startReceivingDate),
+    dateFirstPaymentIssued: formatDate(benefitsDetails.firstPaymentDate),
+    dateBenefitWillStop: formatDate(benefitsDetails.stopReceivingDate),
     remarks: remarks.remarks || null,
   };
 };
@@ -195,7 +288,7 @@ const transformBenefitEntitlementPayments = data => {
  *
  * @param {Object} formConfig - Form configuration object
  * @param {Object} form - Complete form data from frontend
- * @returns {Object} Transformed data matching API schema
+ * @returns {string} JSON stringified transformed data matching API schema
  */
 export const transformForSubmit = (formConfig, form) => {
   const { data } = form;
@@ -205,10 +298,6 @@ export const transformForSubmit = (formConfig, form) => {
     employmentInformation: transformEmploymentInformation(data),
     militaryDutyStatus: transformMilitaryDutyStatus(data),
     benefitEntitlementPayments: transformBenefitEntitlementPayments(data),
-    // Employer certification will be handled separately or added by backend
-    employerCertification: {
-      signature: '', // This would be filled by employer
-    },
   };
 
   // Remove null sections to keep payload clean
@@ -216,7 +305,37 @@ export const transformForSubmit = (formConfig, form) => {
     delete transformed.militaryDutyStatus;
   }
 
-  return transformed;
+  if (transformed.benefitEntitlementPayments === null) {
+    delete transformed.benefitEntitlementPayments;
+  }
+
+  // Add certification (required by API)
+  // Handle both platform statementOfTruth pattern and custom component pattern
+  const veteranName = data?.veteranInformation?.veteranFullName || {};
+  const defaultSignature = [
+    veteranName.first,
+    veteranName.middle,
+    veteranName.last,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  // Platform's statementOfTruth stores: signature and statementOfTruthCertified
+  // Custom component (for fixtures) stores: certification.signature and certification.certified
+  const signatureValue =
+    data?.signature || data?.certification?.signature || defaultSignature;
+  const certifiedValue =
+    data?.statementOfTruthCertified ?? data?.certification?.certified ?? true;
+
+  transformed.certification = {
+    signature: signatureValue,
+    certified: Boolean(certifiedValue),
+  };
+
+  // Remove all null and undefined values from the payload
+  const cleanedPayload = removeNullUndefined(transformed);
+
+  return JSON.stringify(cleanedPayload);
 };
 
 export default transformForSubmit;

@@ -251,17 +251,14 @@ const Documents = () => (
   </div>
 );
 
-const uiSchema = {
-  ...titleUI('Supporting documents', Intro),
-  'ui:description': Documents,
-};
-
-const schema = {
-  type: 'object',
-  properties: {},
-};
-
+/** @type {PageSchema} */
 export default {
-  uiSchema,
-  schema,
+  uiSchema: {
+    ...titleUI('Supporting documents', Intro),
+    'ui:description': Documents,
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
 };

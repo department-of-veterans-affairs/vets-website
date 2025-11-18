@@ -7,6 +7,118 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { DownloadFormPDF } from '../../components/confirmation-page/download-form-pdf';
+
+/**
+ * Custom submission alert component that shows warning for additional steps needed
+ * @returns {React.ReactElement} Warning alert component
+ */
+const CustomSubmissionAlert = () => {
+  return (
+    <va-alert
+      uswds
+      status="warning"
+      className="confirmation-submission-alert-section vads-u-margin-bottom--4"
+    >
+      <h2 slot="headline" tabIndex="-1">
+        Additional steps are needed
+      </h2>
+      <p>
+        You completed your part of this application. But to process it, we need
+        you to complete a few additional steps.
+      </p>
+    </va-alert>
+  );
+};
+
+/**
+ * Custom print page section
+ * @returns {React.ReactElement} Print page section
+ */
+const PrintPageSection = () => {
+  return (
+    <div className="confirmation-print-this-page-section screen-only">
+      <h2 className="vads-u-font-size--h4">Print this confirmation page</h2>
+      <p>
+        If you’d like to keep a copy of the information on this page, you can
+        print it now.
+      </p>
+      <va-button
+        text="Print this page for your records"
+        onClick={() => window.print()}
+      />
+    </div>
+  );
+};
+
+/**
+ * Custom what's next section with step-by-step instructions
+ * @returns {React.ReactElement} What's next section
+ */
+const WhatsNextSection = () => {
+  return (
+    <div className="confirmation-whats-next-section">
+      <h2>What you need to do next</h2>
+      <p>Follow these 3 steps to complete your application:</p>
+      <va-process-list uswds>
+        <va-process-list-item header="Check your downloads folder for your completed form.">
+          <p>
+            Your completed VA Form 21-2680 PDF has been downloaded
+            automatically. If you need to download it again, use the download
+            link above.
+          </p>
+        </va-process-list-item>
+
+        <va-process-list-item header="Send it to an examiner.">
+          <p>We recommend sending it via email.</p>
+          <p>
+            The examiner must be a Medical Doctor (MD) or Doctor of Osteopathic
+            (DO) medicine, physician assistant or advanced practice registered
+            nurse.
+          </p>
+        </va-process-list-item>
+
+        <va-process-list-item header="Once the examiner has completed their part of the form and signed it, they'll return it to you." />
+
+        <va-process-list-item header="Upload your fully completed form.">
+          <p>
+            <va-link-action
+              href="/supporting-forms-for-claims"
+              text="Upload your completed VA form 21-2680"
+            />
+          </p>
+        </va-process-list-item>
+      </va-process-list>
+    </div>
+  );
+};
+
+/**
+ * Custom contact section
+ * @returns {React.ReactElement} Contact section
+ */
+const ContactSection = () => {
+  return (
+    <div className="confirmation-contact-section">
+      <h2>How to contact us if you have questions</h2>
+      <p>
+        Call us at <va-telephone contact="8008271000" /> (
+        <va-telephone contact="711" tty />
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+      </p>
+      <p>
+        Or you can ask us a question online through Ask VA. Select the category
+        and topic for the VA benefit this form is related to.
+      </p>
+      <p>
+        <va-link
+          href="https://ask.va.gov"
+          text="Contact us online through Ask VA"
+        />
+      </p>
+    </div>
+  );
+};
 
 /**
  * Confirmation page component for VA Form 21-2680
@@ -28,24 +140,30 @@ export const ConfirmationPage = ({ route }) => {
   const form = useSelector(state => state.form || {});
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
-  const confirmationNumber = submission?.response?.confirmationNumber || '';
+
+  // Extract GUID from submission response
+  const guid = submission?.response?.attributes?.guid || '';
+  const confirmationNumber =
+    submission?.response?.attributes?.confirmationNumber || guid;
+
+  // Extract veteran name for PDF filename
+  const veteranName = form?.data?.veteranInformation?.veteranFullName || {};
 
   return (
     <ConfirmationView
       formConfig={route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      pdfUrl={submission.response?.pdfUrl}
       devOnly={{
         showButtons: true,
       }}
     >
-      <ConfirmationView.SubmissionAlert />
-      <ConfirmationView.SavePdfDownload />
+      <CustomSubmissionAlert />
+      {guid && <DownloadFormPDF guid={guid} veteranName={veteranName} />}
       <ConfirmationView.ChapterSectionCollection />
-      <ConfirmationView.PrintThisPage />
-      <ConfirmationView.WhatsNextProcessList />
-      <ConfirmationView.HowToContact />
+      <PrintPageSection />
+      <WhatsNextSection />
+      <ContactSection />
       <ConfirmationView.GoBackLink />
       <ConfirmationView.NeedHelp />
     </ConfirmationView>

@@ -8,6 +8,7 @@ import {
 
 import { buildDateFormatter } from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
+import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 import { ANCHOR_LINKS } from '../../constants';
 import { setPageFocus } from '../../utils/page';
 
@@ -60,6 +61,7 @@ const FileSubmissionsInProgress = ({ claim }) => {
       >
         File submissions in progress
       </h3>
+      <TimezoneDiscrepancyMessage />
       <p>
         Documents you submitted for review using this tool, or the VA: Health
         and Benefits mobile app, that we haven’t received yet. It can take up to

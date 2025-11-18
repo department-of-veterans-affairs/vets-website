@@ -21,13 +21,13 @@ import { standardTitle } from '../content/form0781';
 
 import {
   capitalizeEachWord,
-  claimingNew,
   getPageTitle,
   hasGuardOrReservePeriod,
   hasNewPtsdDisability,
   hasOtherEvidence,
   hasPrivateEvidence,
   hasRatedDisabilities,
+  hasRealNewOrSecondaryConditions,
   hasVAEvidence,
   isAnswering781aQuestions,
   isAnswering781Questions,
@@ -126,6 +126,7 @@ import createformConfig8940 from './8940';
 import {
   NULL_CONDITION_STRING,
   PTSD_INCIDENT_ITERATION,
+  SEPARATION_PAY_SECTION_TITLE,
   WIZARD_STATUS,
 } from '../constants';
 
@@ -200,7 +201,8 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   title: ({ formData }) => getPageTitle(formData),
-  subTitle: 'VA Form 21-526EZ',
+  subTitle:
+    'Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ)',
   preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
   chapters: {
@@ -285,7 +287,7 @@ const formConfig = {
           schema: separationLocation.schema,
         },
         separationPay: {
-          title: 'Separation or severance pay',
+          title: SEPARATION_PAY_SECTION_TITLE,
           path: 'separation-pay',
           depends: formData =>
             !hasRatedDisabilities(formData) && !isBDD(formData),
@@ -489,7 +491,8 @@ const formConfig = {
         prisonerOfWar: {
           title: 'Prisoner of war (POW)',
           path: 'pow',
-          depends: formData => !isBDD(formData) && claimingNew(formData),
+          depends: formData =>
+            !isBDD(formData) && hasRealNewOrSecondaryConditions(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
           appStateSelector: state => ({

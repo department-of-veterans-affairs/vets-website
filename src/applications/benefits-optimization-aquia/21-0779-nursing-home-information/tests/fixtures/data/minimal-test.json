@@ -1,24 +1,21 @@
 {
   "data": {
     "nursingOfficialInformation": {
-      "firstName": "Craig",
-      "lastName": "Brown",
-      "jobTitle": "Head Nurse",
-      "phoneNumber": "3121114321"
+      "fullName": {
+        "first": "Evazan",
+        "last": "Ponda"
+      },
+      "jobTitle": "Medical Director",
+      "phoneNumber": "5055551138"
     },
     "nursingHomeDetails": {
-      "nursingHomeName": "Best Nursing Home",
+      "nursingHomeName": "Mos Eisley Extended Care Facility",
       "nursingHomeAddress": {
-        "street": "1060 W Addison St",
-        "street2": "",
-        "street3": "",
-        "city": "Chicago",
-        "state": "IL",
-        "province": "",
+        "street": "1138 Chalmun's Cantina Row",
+        "city": "Mos Eisley",
+        "state": "AZ",
         "country": "USA",
-        "postalCode": "60613",
-        "internationalPostalCode": "",
-        "isMilitary": false
+        "postalCode": "85001"
       }
     },
     "claimantQuestion": {
@@ -26,33 +23,33 @@
     },
     "veteranPersonalInfo": {
       "fullName": {
-        "first": "Rosemary",
-        "middle": "",
-        "last": "Woodhouse"
+        "first": "Ben",
+        "last": "Kenobi"
       },
-      "dateOfBirth": "1945-02-09"
+      "dateOfBirth": "1932-04-02"
     },
     "veteranIdentificationInfo": {
-      "ssn": "111-11-1111",
-      "vaFileNumber": ""
+      "ssn": "987654321"
     },
     "certificationLevelOfCare": {
       "levelOfCare": "intermediate"
     },
-    "admissionDateInfo": {
-      "admissionDate": "2022-10-19"
+    "admissionDate": {
+      "admissionDate": "2022-05-04"
     },
     "medicaidFacility": {
-      "isMedicaidApproved": "no"
+      "isMedicaidApprovedFacility": false
     },
     "medicaidApplication": {
-      "hasAppliedForMedicaid": "no"
+      "hasAppliedForMedicaid": false
     },
     "medicaidStatus": {
-      "currentlyCoveredByMedicaid": "no"
+      "currentlyCoveredByMedicaid": false
     },
     "monthlyCosts": {
-      "monthlyOutOfPocket": "1234"
-    }
+      "monthlyOutOfPocket": 1138
+    },
+    "signature": "Evazan Ponda",
+    "certificationChecked": true
   }
 }

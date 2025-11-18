@@ -75,7 +75,7 @@
       "deductionCode": "72",
       "disputeReason": "I don't think I owe this debt to VA",
       "compositeDebtId": "72321",
-      "label": "$227.42 overpayment for Post-9/11 GI Bill debt for housing",
+      "label": "$227.42 Post-9/11 GI Bill overpayment for housing",
       "description": "Pay or request help by September 7, 2018",
       "debtType": "DEBT",
       "selectedDebtId": "72321"
@@ -85,7 +85,7 @@
       "deductionCode": "30",
       "disputeReason": "I don’t think the amount is correct on this debt",
       "compositeDebtId": "71166",
-      "label": "$120.40 overpayment for Disability compensation and pension debt",
+      "label": "$120.40 Disability compensation and pension overpayment",
       "description": "Pay or request help by November 17, 2020",
       "debtType": "DEBT",
       "selectedDebtId": "71166"

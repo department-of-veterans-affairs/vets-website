@@ -11,15 +11,15 @@
                 "value": true
             },
             {
-                "name": "mhv_medications_display_refill_progress",
-                "value": true
-            },
-            {
                 "name": "mhv_medications_partial_fill_content",
                 "value": true
             },
             {
                 "name": "mhv_medications_dont_increment_ipe_count",
+                "value": true
+            },
+            {
+                "name": "mhv_secure_messaging_medications_renewal_request",
                 "value": true
             }
         ]

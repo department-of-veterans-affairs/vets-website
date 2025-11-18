@@ -1,6 +1,7 @@
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import get from 'platform/forms-system/src/js/utilities/data/get';
+import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import SubmissionError from '../../shared/components/SubmissionError';
@@ -97,6 +98,28 @@ const formConfig = {
   title: content['form--title'],
   subTitle: content['form--subtitle'],
   dev: { disableWindowUnloadInCI: true },
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      {
+        href: '/family-and-caregiver-benefits/',
+        label: content['breadcrumb--caregiver-benefits'],
+      },
+      {
+        href: '/family-and-caregiver-benefits/health-and-disability/',
+        label: content['breadcrumb--health-benefits'],
+      },
+      {
+        href: '/family-and-caregiver-benefits/health-and-disability/champva/',
+        label: content['breadcrumb--champva-benefits'],
+      },
+      {
+        href: '#content',
+        label: content['form--title'],
+      },
+    ],
+    homeVeteransAffairs: true,
+    wrapping: true,
+  }),
   defaultDefinitions: {},
   chapters: {
     signerInformation: {

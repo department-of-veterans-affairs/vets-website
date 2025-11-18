@@ -472,23 +472,11 @@ describe('institutionDetailsFacility page', () => {
       const addressSchema =
         schema.properties.institutionDetails.properties.institutionAddress;
 
-      // Schema uses anyOf for conditional validation
-      expect(addressSchema.anyOf).to.exist;
-      expect(addressSchema.anyOf).to.have.lengthOf(2);
-
-      // USA addresses require: street, city, state, postalCode, country
-      const usaSchema = addressSchema.anyOf[0];
-      expect(usaSchema.required).to.include('street');
-      expect(usaSchema.required).to.include('city');
-      expect(usaSchema.required).to.include('state');
-      expect(usaSchema.required).to.include('postalCode');
-      expect(usaSchema.required).to.include('country');
-
-      // International addresses require: street, city, country
-      const intlSchema = addressSchema.anyOf[1];
-      expect(intlSchema.required).to.include('street');
-      expect(intlSchema.required).to.include('city');
-      expect(intlSchema.required).to.include('country');
+      expect(addressSchema.required).to.include('street');
+      expect(addressSchema.required).to.include('city');
+      expect(addressSchema.required).to.include('state');
+      expect(addressSchema.required).to.include('postalCode');
+      expect(addressSchema.required).to.include('country');
     });
   });
 

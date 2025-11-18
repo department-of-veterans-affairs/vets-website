@@ -6,7 +6,7 @@ import { getEventSkillValue } from './sessionStorage';
 
 const markdownRenderer = MarkdownIt({
   html: true,
-  linkify: true,
+  linkify: false,
 }).use(markdownitLinkAttributes, {
   attrs: {
     target: '_blank',

@@ -10,7 +10,11 @@ import {
   ServiceConnectedDisabilityDescription,
 } from '../content/newDisabilityFollowUp';
 
-import { NULL_CONDITION_STRING, CHAR_LIMITS } from '../constants';
+import {
+  NULL_CONDITION_STRING,
+  CHAR_LIMITS,
+  DISABILITY_CAUSE_LABELS,
+} from '../constants';
 
 const getNewDisabilitiesProps = schema => {
   const nd = schema?.definitions?.newDisabilities?.items;
@@ -76,16 +80,7 @@ export const uiSchema = {
         'ui:title': 'What caused your condition?',
         'ui:widget': 'radio',
         'ui:options': {
-          labels: {
-            NEW:
-              'My condition was caused by an injury or exposure during my military service.',
-            SECONDARY:
-              'My condition was caused by another service-connected disability I already have. (For example, I have a limp that caused lower-back problems.)',
-            WORSENED:
-              'My condition existed before I served in the military, but it got worse because of my military service.',
-            VA:
-              'My condition was caused by an injury or event that happened when I was receiving VA care.',
-          },
+          labels: DISABILITY_CAUSE_LABELS,
           updateSchema: (formData, causeSchema, causeUISchema, index) => ({
             enum: getDisabilitiesList(formData, index).length
               ? allCauses
