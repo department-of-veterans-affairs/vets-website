@@ -1,13 +1,10 @@
 /**
- * @module utils/index
- * @description Barrel export file for utility functions
- * This file will be populated with utility function exports as they are created
+ * @module utils
+ * @description Barrel file for utility functions
+ * VA Form 21-0779 - Request for Nursing Home Information
  */
 
-/**
- * @example
- * // Future utility exports will follow this pattern:
- * export { formatDate } from './date-helpers';
- * export { validateSSN } from './validation-helpers';
- * export { transformFormData } from './data-transformers';
- */
+export { isPatientVeteran, isPatientSpouseOrParent } from './patientType';
+export { getPatientName } from './patientName';
+export { isMedicaidCovered } from './medicaidStatus';
+export { formatDate } from './dateFormat';

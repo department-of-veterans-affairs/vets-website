@@ -181,11 +181,11 @@ const GetHelpPage = title => {
                 Step 2: Create a Login.gov or ID.me account
               </h3>
               <p>
-                Login.gov and ID.me are secure ways to sign in to many
-                government websites using just one account. When creating your
-                account, it’s recommended to use a personal email you’ll always
-                have access to. Follow the provider’s instructions to create
-                your account.
+                Login.gov and ID.me are services that provide secure ways to
+                sign in to many government websites using just one account. When
+                creating your account, it’s recommended to use a personal email
+                you’ll always have access to. Follow the service provider’s
+                instructions to create your account.
               </p>
               <Link
                 className="content-link"
@@ -206,8 +206,8 @@ const GetHelpPage = title => {
               <p>
                 If you created your Login.gov or ID.me account using your
                 personal email, you’ll need to add the email address you have on
-                file with OGC. Follow the provider’s instructions to add an
-                email to your account.
+                file with OGC. Follow the service provider’s instructions to add
+                an email to your account.
               </p>
               <Link
                 className="content-link"
@@ -252,13 +252,15 @@ const GetHelpPage = title => {
               <p>
                 Or you can get more help on each account provider’s website.
               </p>
-              <Link className="content-link" to="https://login.gov/help/">
-                Go to the Login.gov help center
-              </Link>
-              <br />
-              <Link className="content-link" to="https://help.id.me/hc/en-us">
-                Go to the ID.me support section
-              </Link>
+              <p>
+                <Link className="content-link" to="https://login.gov/help/">
+                  Go to the Login.gov help center
+                </Link>
+                <br />
+                <Link className="content-link" to="https://help.id.me/hc/en-us">
+                  Go to the ID.me support section
+                </Link>
+              </p>
             </va-accordion-item>
             <va-accordion-item
               header="What if I don’t have an email on file with OGC, or the email is incorrect?"
@@ -322,9 +324,11 @@ const GetHelpPage = title => {
               id="section-seven"
               level="3"
             >
-              If you’re still unable to resolve the issue, call the VA
-              accredited representative support line at{' '}
-              <va-telephone contact="8552250709" />.
+              <p>
+                If you’re still unable to resolve the issue, call the VA
+                accredited representative support line at{' '}
+                <va-telephone contact="8552250709" />.
+              </p>
             </va-accordion-item>
             <va-accordion-item
               header="Can I sign in with my PIV?"
@@ -339,15 +343,15 @@ const GetHelpPage = title => {
                 account, select the “Sign in with your government ID” option the
                 next time you sign in.
               </p>
-              <Link
-                className="content-link"
-                to="https://www.login.gov/help/create-account/authentication-methods/piv-cac/"
-              >
-                Learn how to set up your PIV card on an existing Login.gov
-                account
-              </Link>
-              <br />
-              <br />
+              <p>
+                <Link
+                  className="content-link"
+                  to="https://www.login.gov/help/create-account/authentication-methods/piv-cac/"
+                >
+                  Learn how to set up your PIV card on an existing Login.gov
+                  account
+                </Link>
+              </p>
               <p>
                 <strong>Note:</strong> We are exploring direct sign-in with PIV
                 as a future enhancement.
@@ -570,7 +574,7 @@ const GetHelpPage = title => {
               <p>
                 Email the Accredited Representative Portal team at{' '}
                 {EmailHelpLink()}
-                 if you are a VSO manager or certifying official and would like
+                 if you’re a VSO manager or certifying official and you’d like
                 access to the Representation Request feature for your
                 organization.
               </p>

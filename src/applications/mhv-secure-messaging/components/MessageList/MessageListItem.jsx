@@ -90,7 +90,10 @@ const MessageListItem = props => {
             </span>
           ) : (
             <div>
-              <div data-dd-privacy="mask">
+              <div
+                data-dd-privacy="mask"
+                data-dd-action-name="Message List Item Recipient and Sender Info"
+              >
                 {location.pathname === Paths.DRAFTS && (
                   <>
                     <span className="thread-list-draft">(Draft)</span> -{' '}
@@ -98,7 +101,12 @@ const MessageListItem = props => {
                 )}
                 To: {suggestedNameDisplay || recipientName}
               </div>
-              <div data-dd-privacy="mask">From: {senderName}</div>
+              <div
+                data-dd-privacy="mask"
+                data-dd-action-name="Message List Item Sender Info"
+              >
+                From: {senderName}
+              </div>
             </div>
           )}
         </div>

@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import spouseReasonToRemove from '../../../components/picklist/spouseReasonToRemove';
+import { labels } from '../../../components/picklist/utils';
 
 import { createDoB } from '../../test-helpers';
 
@@ -45,15 +46,11 @@ describe('spouseReasonToRemove', () => {
   it('should render', () => {
     const { container } = renderComponent();
 
-    expect($('h3', container).textContent).to.equal(
-      'Reason for removing SPOUSY FOSTER',
-    );
+    expect($('h3', container).textContent).to.contain('SPOUSY FOSTER');
 
     const radio = $('va-radio', container);
     expect(radio).to.exist;
-    expect(radio.getAttribute('label')).to.equal(
-      'Do any of these apply to SPOUSY?',
-    );
+    expect(radio.getAttribute('label')).to.equal(labels.Spouse.removalReason);
     expect(radio.getAttribute('required')).to.equal('true');
   });
 
@@ -68,7 +65,7 @@ describe('spouseReasonToRemove', () => {
 
     await waitFor(() => {
       expect($('va-radio', container).getAttribute('error')).to.equal(
-        'Select an option',
+        labels.Spouse.removalReasonError,
       );
       expect(goForward.notCalled).to.be.true;
     });
@@ -100,25 +97,25 @@ describe('spouseReasonToRemove', () => {
   });
 
   context('spouseReasonToRemove handlers', () => {
-    it('should return "marriage-ended" on goForward', () => {
+    it('should return "spouse-marriage-ended" on goForward', () => {
       expect(
         spouseReasonToRemove.handlers.goForward({
           itemData: { removalReason: 'marriageEnded' },
         }),
-      ).to.equal('marriage-ended');
+      ).to.equal('spouse-marriage-ended');
     });
-    it('should return "marriage-death" on goForward', () => {
+    it('should return "spouse-death" on goForward', () => {
       expect(
         spouseReasonToRemove.handlers.goForward({
-          itemData: { removalReason: 'marriageEnded' },
+          itemData: { removalReason: 'marriageDeath' },
         }),
-      ).to.equal('marriage-ended');
+      ).to.equal('spouse-death');
     });
 
     it('should call goForward when reason to remove value is set on submit', () => {
       const goForward = sinon.spy();
       spouseReasonToRemove.handlers.onSubmit({
-        itemData: { removalReason: 'death' },
+        itemData: { removalReason: 'spouseDied' },
         goForward,
       });
       expect(goForward.calledOnce).to.be.true;

@@ -1,29 +1,29 @@
-/**
- * @module containers/App
- * @description Main application container component for VA Form 21P-530A
- */
-
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { SaveInProgress } from '@bio-aquia/shared/components';
+
 import formConfig from '@bio-aquia/21p-530a-interment-allowance/config/form';
 
-/**
- * Root application component that wraps the form with save-in-progress functionality
- * @param {Object} props - Component properties
- * @param {Object} props.location - React Router location object
- * @param {React.ReactNode} props.children - Child components to render
- * @returns {React.ReactElement} Routed savable application wrapper
- */
-export default function App({ location, children }) {
+export const App = ({ location, router, children }) => {
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <SaveInProgress formConfig={formConfig} location={location} router={router}>
+      <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
+        <RoutedSavableApp
+          formConfig={formConfig}
+          currentLocation={location}
+          router={router}
+        >
+          {children}
+        </RoutedSavableApp>
+      </div>
+    </SaveInProgress>
   );
-}
+};
 
 App.propTypes = {
   children: PropTypes.node,
   location: PropTypes.object,
+  router: PropTypes.object,
 };

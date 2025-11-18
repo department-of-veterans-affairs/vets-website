@@ -13,6 +13,7 @@ import {
   fillSelectWebComponent,
   selectRadioWebComponent,
   signAndSubmit,
+  selectRadioWebComponentAlt,
 } from './cypress.helpers';
 
 Cypress.config('waitForAnimations', true);
@@ -59,6 +60,7 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
+          cy.injectAxeThenAxeCheck();
           cy.clickStartForm();
         });
       },
@@ -101,6 +103,7 @@ const testConfig = createTestConfig(
               );
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -115,6 +118,7 @@ const testConfig = createTestConfig(
                 data.currentMarriageInformation.date,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -159,6 +163,7 @@ const testConfig = createTestConfig(
               );
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -200,6 +205,7 @@ const testConfig = createTestConfig(
               );
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -214,6 +220,7 @@ const testConfig = createTestConfig(
             if (marriage?.startDate) {
               fillDateWebComponentPattern('startDate', marriage.startDate);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -228,6 +235,7 @@ const testConfig = createTestConfig(
             if (marriage?.endDate) {
               fillDateWebComponentPattern('endDate', marriage.endDate);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -242,6 +250,7 @@ const testConfig = createTestConfig(
             if (marriage?.startDate) {
               fillDateWebComponentPattern('startDate', marriage.startDate);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -256,6 +265,7 @@ const testConfig = createTestConfig(
             if (marriage?.endDate) {
               fillDateWebComponentPattern('endDate', marriage.endDate);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -270,6 +280,26 @@ const testConfig = createTestConfig(
             if (student?.marriageDate) {
               fillDateWebComponentPattern('marriageDate', student.marriageDate);
             }
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
+          });
+        });
+      },
+
+      'report-674/add-students/:index/student-relationship': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const student = data.studentInformation?.[0];
+
+            if (student?.relationshipToStudent) {
+              selectRadioWebComponentAlt(
+                'relationshipToStudent',
+                student.relationshipToStudent,
+              );
+            }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -287,6 +317,7 @@ const testConfig = createTestConfig(
                 student.benefitPaymentDate,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -315,6 +346,7 @@ const testConfig = createTestConfig(
                 termDates.expectedGraduationDate,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -341,6 +373,7 @@ const testConfig = createTestConfig(
               );
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -361,6 +394,7 @@ const testConfig = createTestConfig(
                 date,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -373,6 +407,7 @@ const testConfig = createTestConfig(
             if (student?.remarks) {
               fillTextareaWebComponent('remarks', student.remarks);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -408,6 +443,7 @@ const testConfig = createTestConfig(
               );
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -422,6 +458,7 @@ const testConfig = createTestConfig(
             if (child?.dateMarried) {
               fillDateWebComponentPattern('dateMarried', child.dateMarried);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -439,6 +476,7 @@ const testConfig = createTestConfig(
                 child.dateChildLeftSchool,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -470,6 +508,7 @@ const testConfig = createTestConfig(
               fillStandardTextInput('address_postalCode', address.postalCode);
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -485,6 +524,7 @@ const testConfig = createTestConfig(
                 death.dependentDeathDate,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -502,6 +542,7 @@ const testConfig = createTestConfig(
                 stepchild.dateStepchildLeftHousehold,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });

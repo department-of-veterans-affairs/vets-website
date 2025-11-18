@@ -186,6 +186,23 @@ export const selectRadioWebComponent = (fieldName, value) => {
   }
 };
 
+export const selectRadioWebComponentShadow = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    cy.get(`va-radio-option[name="root_${fieldName}"][value="${value}"]`)
+      .shadow()
+      .find('input[type="radio"]')
+      .click({ force: true });
+  }
+};
+
+export const selectRadioWebComponentAlt = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    cy.get(`input[name="root_${fieldName}"][value="${value}"]`).click({
+      force: true,
+    });
+  }
+};
+
 export const selectYesNoWebComponent = (fieldName, value) => {
   const selection = value ? 'Y' : 'N';
   selectRadioWebComponent(fieldName, selection);
@@ -209,5 +226,6 @@ export const signAndSubmit = () => {
     .shadow()
     .find('input[type="checkbox"]')
     .check({ force: true });
+  cy.injectAxeThenAxeCheck();
   cy.clickFormContinue();
 };

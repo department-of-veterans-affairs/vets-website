@@ -183,8 +183,10 @@
           "id": 2,
           "status": "NEEDED_FROM_YOU",
           "uploaded": false,
-          "uploadsAllowed": false,
-          "canUploadFile": true
+          "uploadsAllowed": true,
+          "canUploadFile": true,
+          "documents": "[]",
+          "date": "2022-01-01"
         },
         {
           "closedDate": null,

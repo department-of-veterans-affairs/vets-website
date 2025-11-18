@@ -1,18 +1,70 @@
 /**
- * @module pages/index
- * @description Barrel export file for form page configurations
+ * @module pages
+ * @description Barrel file for all form page configurations
+ * VA Form 21-4192 - Request for Employment Information
  */
 
-/** @exports {PageSchema} identificationInformation - SSN/VA file number page */
+// Veteran Information Chapter
 export {
-  default as identificationInformation,
-} from './identification-information';
+  veteranInformationUiSchema,
+  veteranInformationSchema,
+} from './veteran-information';
 
-/** @exports {PageSchema} mailingAddress - Mailing address page */
-export { default as mailingAddress } from './mailing-address';
+export {
+  veteranContactInformationUiSchema,
+  veteranContactInformationSchema,
+} from './veteran-contact-information';
 
-/** @exports {PageSchema} nameAndDateOfBirth - Name and DOB page */
-export { default as nameAndDateOfBirth } from './name-and-date-of-birth';
+// Employer Information Chapter
+export {
+  employerInformationUiSchema,
+  employerInformationSchema,
+} from './employer-information';
 
-/** @exports {PageSchema} phoneAndEmailAddress - Contact information page */
-export { default as phoneAndEmailAddress } from './phone-and-email-address';
+// Employment Information Chapter
+export {
+  employmentDatesUiSchema,
+  employmentDatesSchema,
+} from './employment-dates';
+
+export {
+  employmentEarningsHoursUiSchema,
+  employmentEarningsHoursSchema,
+} from './employment-earnings-hours';
+
+export {
+  employmentConcessionsUiSchema,
+  employmentConcessionsSchema,
+} from './employment-concessions';
+
+export {
+  employmentTerminationUiSchema,
+  employmentTerminationSchema,
+} from './employment-termination';
+
+export {
+  employmentLastPaymentUiSchema,
+  employmentLastPaymentSchema,
+} from './employment-last-payment';
+
+// Duty Status Chapter
+export { dutyStatusUiSchema, dutyStatusSchema } from './duty-status';
+
+export {
+  dutyStatusDetailsUiSchema,
+  dutyStatusDetailsSchema,
+} from './duty-status-details';
+
+// Benefits Information Chapter
+export {
+  benefitsInformationUiSchema,
+  benefitsInformationSchema,
+} from './benefits-information';
+
+export {
+  benefitsDetailsUiSchema,
+  benefitsDetailsSchema,
+} from './benefits-details';
+
+// Remarks Chapter
+export { remarksUiSchema, remarksSchema } from './remarks';

@@ -207,6 +207,14 @@ $breakpoints: (
   }
 }
 
+.vaos-appts__column--date {
+    @include media($small-screen) {
+      min-width: 30px;
+      max-width: 30px;
+      align-self: center;
+    }
+}
+
 div[id^="vaos-appts__detail-"] {
   @include media($small-screen) {
     display: flex;
@@ -219,6 +227,19 @@ div[id^="vaos-appts__detail-"] {
     justify-content: right;
   }
 }
+
+div[id^="vaos-appts__namelocation-"] {
+  @include media($small-screen) {
+    display: flex;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  @include media($small-desktop-screen) {
+    justify-content: left;
+  }
+}
+
 
 .vaos-appts__display--table {
   display: table;

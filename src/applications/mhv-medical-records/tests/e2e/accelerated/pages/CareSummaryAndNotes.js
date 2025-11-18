@@ -1,5 +1,4 @@
 import sessionStatus from '../fixtures/session/default.json';
-import MedicalRecordsLandingPage from '../../pages/MedicalRecordsLandingPage';
 
 class CareSummaryAndNotes {
   setIntercepts = ({ careSummaryAndNotesData }) => {
@@ -32,7 +31,6 @@ class CareSummaryAndNotes {
         req.reply(careSummaryAndNotesData);
       },
     ).as('clinical_notes-list');
-    MedicalRecordsLandingPage.uumIntercept();
   };
 
   checkLandingPageLinks = () => {
@@ -44,6 +42,49 @@ class CareSummaryAndNotes {
     cy.get('[data-testid="notes-landing-page-link"]').click({
       waitForAnimations: true,
     });
+  };
+
+  checkTimeFrameDisplay = ({ fromDate, toDate }) => {
+    const expectedText = `${fromDate} to ${toDate}`;
+
+    // Assert the bold range text matches the expected year span
+    cy.get('[data-testid="filter-display-message"]')
+      .should('be.visible')
+      .should('have.text', expectedText);
+  };
+
+  checkNoRecordsTimeFrameDisplay = ({ fromDate, toDate }) => {
+    const expectedText = `${fromDate} to ${toDate}`;
+
+    // Try the filter display first; if absent fall back to no-records message containing the range
+    cy.get('body').then($body => {
+      if ($body.find('[data-testid="filter-display-message"]').length) {
+        cy.get('[data-testid="filter-display-message"]').should(
+          'have.text',
+          expectedText,
+        );
+      } else {
+        // Empty state: ensure no-records message includes the expected range substring
+        cy.get('[data-testid="no-records-message"]').should(
+          'contain.text',
+          expectedText,
+        );
+      }
+    });
+  };
+
+  checkTimeFrameDisplayForYear = ({ year }) => {
+    const fromDateText = `January 1, ${year}`;
+    const toDateText = `December 31, ${year}`;
+
+    this.checkTimeFrameDisplay({
+      fromDate: fromDateText,
+      toDate: toDateText,
+    });
+  };
+
+  selectDateRange = ({ option }) => {
+    cy.get('select[name="dateRangeSelector"]').select(option);
   };
 
   selectCareSummaryOrNote = ({ index = 1 } = {}) => {

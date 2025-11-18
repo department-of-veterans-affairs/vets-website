@@ -8,7 +8,7 @@ import {
   dismissDeletedAppAlert,
   loadConnectedApps,
 } from '@@profile/components/connected-apps/actions';
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import LoadFail from '../alerts/LoadFail';
 import Headline from '../ProfileSectionHeadline';

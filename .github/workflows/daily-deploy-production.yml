@@ -14,8 +14,8 @@ on:
         description: "Bypass holiday freeze and force enable deploy workflows"
         required: false
         default: "false"
-  # schedule:
-  #   - cron: 0 17 * * 1-5
+  schedule:
+    - cron: 0 18 * * 1-5
 
 env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
@@ -73,8 +73,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          ref: production-bypass
 
       - name: Configure AWS credentials for secret injection
         if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'false' }}
@@ -153,8 +151,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          ref: production-bypass
       - name: Notify Slack (COP) - Code Freeze Ended
         uses: ./.github/workflows/slack-notify
         continue-on-error: false
@@ -183,9 +179,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          ref: production-bypass
-
       - name: Notify Slack (COP) - Deploy Freeze Bypassed
         uses: ./.github/workflows/slack-notify
         continue-on-error: false
@@ -220,8 +213,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          ref: production-bypass
 
       - name: Notify Slack (COP) - Code Freeze Failure
         uses: ./.github/workflows/slack-notify
@@ -274,7 +265,6 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
-          ref: production-bypass
 
       - name: Get latest tag
         id: get-latest-tag
@@ -305,8 +295,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          ref: production-bypass
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
@@ -345,7 +333,6 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
-          ref: production-bypass
 
       - name: Configure AWS Credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -400,8 +387,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          ref: production-bypass
 
       - name: Configure AWS credentials (1)
         uses: ./.github/workflows/configure-aws-credentials
@@ -441,8 +426,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          ref: production-bypass
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify

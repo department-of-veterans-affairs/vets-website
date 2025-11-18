@@ -440,8 +440,13 @@ describe('DownloadRecordsPage for Cerner users', () => {
         'To get your medical records reports from this facility, go to My VA Health',
       ),
     ).to.exist;
-    expect(screen.getByText('VA Spokane health care', { exact: false })).to
-      .exist;
+    // Facility name appears in alert text (within data-testid="single-cerner-facility-text")
+    expect(screen.getByTestId('single-cerner-facility-text')).to.exist;
+    expect(
+      screen
+        .getByTestId('single-cerner-facility-text')
+        .textContent.includes('VA Spokane health care'),
+    ).to.be.true;
   });
 
   it('displays correct alert text for multiple Cerner facilities', () => {
@@ -473,7 +478,8 @@ describe('DownloadRecordsPage for Cerner users', () => {
     });
 
     expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
-    expect(screen.getByText('Go to My VA Health')).to.exist;
+    const link = screen.getByRole('link', { name: /Go to My VA Health/i });
+    expect(link).to.exist;
   });
 });
 

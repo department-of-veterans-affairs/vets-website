@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -43,12 +42,6 @@ const VaccineDetails = props => {
   const record = useSelector(state => state.mr.vaccines.vaccineDetails);
   const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
   const user = useSelector(state => state.user.profile);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
@@ -174,17 +167,7 @@ const VaccineDetails = props => {
               id="vaccine-date"
             />
             {downloadStarted && <DownloadSuccessAlert />}
-            <PrintDownload
-              description="Vaccines Detail"
-              downloadPdf={generateVaccinePdf}
-              allowTxtDownloads={allowTxtDownloads}
-              downloadTxt={generateVaccineTxt}
-            />
-            <DownloadingRecordsInfo
-              allowTxtDownloads={allowTxtDownloads}
-              description="Vaccines Detail"
-            />
-            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+
             <div>
               {isAcceleratingVaccines && (
                 <LabelValue
@@ -242,6 +225,14 @@ const VaccineDetails = props => {
                 />
               )}
             </div>
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            <DownloadingRecordsInfo description="Vaccines Detail" />
+            <PrintDownload
+              description="Vaccines Detail"
+              downloadPdf={generateVaccinePdf}
+              downloadTxt={generateVaccineTxt}
+            />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px" />
           </HeaderSection>
         </>
       );

@@ -4,6 +4,7 @@ import {
   FDCWarning,
   noFDCWarning,
 } from '../content/fullyDevelopedClaim';
+import ConfirmationFullyDevelopedClaim from '../components/confirmationFields/ConfirmationFullyDevelopedClaim';
 
 export const uiSchema = {
   'ui:description': FDCDescription,
@@ -30,6 +31,7 @@ export const uiSchema = {
       hideIf: formData => !get('standardClaim', formData),
     },
   },
+  'ui:confirmationField': ConfirmationFullyDevelopedClaim,
 };
 
 export const schema = {

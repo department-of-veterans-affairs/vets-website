@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash';
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording } from '../../../shared/utilities';
+import { personalizeTitleByName } from '../../utils/helpers';
 import { VaRadio, VaRadioOption } from '../../utils/imports';
 import content from '../../locales/en/content.json';
 
@@ -12,12 +12,10 @@ export const NOT_SHARED = 'na';
 
 // declare static content
 const ERROR_MSG_REQUIRED = content['error--required'];
-const LABEL_TEXT = content['address-selection--label-text'];
-const OPTION_NO_LABEL = content['address-selection--no-option'];
-const OPTION_YES_LABEL = content['address-selection--yes-option'];
+const LABEL_TEXT = content['address-selection--input-label'];
+const OPTION_NO_LABEL = content['address-selection--option--no'];
+const OPTION_YES_LABEL = content['address-selection--option--yes'];
 const PAGE_TITLE = content['address-selection--page-title'];
-const PAGE_DESCRIPTION = content['address-selection--page-description'];
-const PROMPT = content['address-selection--prompt'];
 
 // convert address objects to formatted strings
 const formatAddress = ({ street, street2, city, state, country } = {}) => {
@@ -132,21 +130,12 @@ const AddressSelectionPage = props => {
 
   const pageTitle = useMemo(
     () => {
-      const applicantName = nameWording(data, undefined, undefined, true);
+      const titleStr = personalizeTitleByName(data, PAGE_TITLE);
       return titleUI(
         <>
-          <span data-dd-privacy="hidden">{applicantName}</span> {PAGE_TITLE}
+          <span data-dd-privacy="hidden">{titleStr}</span>
         </>,
-        PAGE_DESCRIPTION,
       )['ui:title'];
-    },
-    [data],
-  );
-
-  const inputLabel = useMemo(
-    () => {
-      const applicantName = nameWording(data, false, false, true);
-      return `${PROMPT} ${applicantName} ${LABEL_TEXT}`;
     },
     [data],
   );
@@ -159,7 +148,7 @@ const AddressSelectionPage = props => {
         <VaRadio
           id={`root_${FIELD_NAME}`}
           name={`root_${FIELD_NAME}`}
-          label={inputLabel}
+          label={LABEL_TEXT}
           onVaValueChange={handleChange}
           error={error}
           required
@@ -181,6 +170,7 @@ AddressSelectionPage.propTypes = {
   contentBeforeButtons: PropTypes.element,
   data: PropTypes.object,
   dataKey: PropTypes.string,
+  goBack: PropTypes.func,
   goForward: PropTypes.func,
   onChange: PropTypes.func,
 };

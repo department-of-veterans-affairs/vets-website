@@ -1,8 +1,4 @@
 import moment from 'moment-timezone';
-import {
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
-} from '@department-of-veterans-affairs/mhv/exports';
 import { Actions } from '../util/actionTypes';
 import {
   getMessage,
@@ -166,17 +162,20 @@ export const sendMessage = (
   message,
   attachments,
   ohTriageGroup = false,
+  suppressAlert = false,
 ) => async dispatch => {
   try {
     await createMessage(message, attachments, ohTriageGroup);
 
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_SUCCESS,
-        '',
-        Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
-      ),
-    );
+    if (!suppressAlert) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_SUCCESS,
+          '',
+          Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+        ),
+      );
+    }
     dispatch(resetRecentRecipient());
     dispatch(setThreadRefetchRequired(true));
   } catch (e) {
@@ -212,9 +211,6 @@ export const sendMessage = (
         ),
       );
     throw e;
-  } finally {
-    // Log message sending even if failed for analytics
-    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };
 
@@ -280,8 +276,5 @@ export const sendReply = ({
       );
     }
     throw e;
-  } finally {
-    // Log message sending even if failed for analytics
-    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };

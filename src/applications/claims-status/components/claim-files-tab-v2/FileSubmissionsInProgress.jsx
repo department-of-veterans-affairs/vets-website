@@ -3,10 +3,14 @@ import React from 'react';
 import {
   VaCard,
   VaButton,
+  VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { buildDateFormatter } from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
+import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
+import { ANCHOR_LINKS } from '../../constants';
+import { setPageFocus } from '../../utils/page';
 
 const formatDate = buildDateFormatter();
 
@@ -17,6 +21,10 @@ const generateInProgressDocs = evidenceSubmissions => {
       ...es,
       uploadStatusDisplayValue: 'SUBMISSION IN PROGRESS',
     }));
+};
+
+const hasFailedUploads = evidenceSubmissions => {
+  return (evidenceSubmissions || []).some(es => es.uploadStatus === 'FAILED');
 };
 
 const getSortedInProgressItems = evidenceSubmissions => {
@@ -32,6 +40,7 @@ const FileSubmissionsInProgress = ({ claim }) => {
 
   const numSupportingDocuments = supportingDocuments.length;
   const allItems = getSortedInProgressItems(evidenceSubmissions);
+  const hasFailed = hasFailedUploads(evidenceSubmissions);
 
   const {
     currentPageItems,
@@ -52,6 +61,7 @@ const FileSubmissionsInProgress = ({ claim }) => {
       >
         File submissions in progress
       </h3>
+      <TimezoneDiscrepancyMessage />
       <p>
         Documents you submitted for review using this tool, or the VA: Health
         and Benefits mobile app, that we haven’t received yet. It can take up to
@@ -60,10 +70,28 @@ const FileSubmissionsInProgress = ({ claim }) => {
       <div data-testid="file-submissions-in-progress-cards">
         {currentPageItems.length === 0 ? (
           <div>
-            {numSupportingDocuments === 0 ? (
-              <p>You don’t have any file submissions in progress.</p>
+            {hasFailed ? (
+              <p>
+                We received your uploaded files, except the ones our system
+                couldn’t accept. You can find more about those in the{' '}
+                <VaLink
+                  href={`#${ANCHOR_LINKS.filesWeCouldntReceive}`}
+                  text="Files we couldn’t receive section"
+                  onClick={e => {
+                    e.preventDefault();
+                    setPageFocus(e.target.href);
+                  }}
+                />
+                .
+              </p>
             ) : (
-              <p>We’ve received all the files you’ve uploaded.</p>
+              <>
+                {numSupportingDocuments === 0 ? (
+                  <p>You don’t have any file submissions in progress.</p>
+                ) : (
+                  <p>We’ve received all the files you’ve uploaded.</p>
+                )}
+              </>
             )}
           </div>
         ) : (

@@ -90,6 +90,9 @@
     font-weight: 700;
     display: block;
     text-align: center;
+    @media (max-width: $medium-screen) {
+      max-width: 245px;
+    }
 
     &:hover {
       background-color: $vads-color-primary-dark;
@@ -183,6 +186,9 @@
     &--portal {
       div:first-child {
         align-self: center;
+        @media (min-width: $small-desktop-screen) {
+          padding-right: 24px;
+        }
       }
       h2 {
         margin-top: 0;
@@ -269,10 +275,13 @@
     .vads-grid-row {
       max-width: 984px;
       margin: 0 auto;
+      @media (min-width: $small-desktop-screen) {
+        padding: 0 16px;
+      }
     }
 
     @media (min-width: $medium-screen) {
-      padding: 48px 30px;
+      padding: 48px 16px;
     }
 
     @media (min-width: $small-desktop-screen) {
@@ -303,10 +312,6 @@
     @media (min-width: $tablet) {
       padding-right: 20px;
       margin-bottom: 0;
-    }
-
-    @media (min-width: $small-desktop-screen) {
-      padding: 0 0 0 24px;
     }
 
     &:first-child {
@@ -341,7 +346,7 @@
   }
 }
 
-.poa-requests-page-table-container {
+.representation-requests-page-table-container {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -450,4 +455,10 @@ h2.claimant-name {
 
 .arp__landing__card-body {
   margin: 0;
+}
+
+.poa-request {
+  .no-poa-requests-text {
+    margin-top: 32px;
+  }
 }

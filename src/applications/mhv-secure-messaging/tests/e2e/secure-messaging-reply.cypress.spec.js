@@ -7,7 +7,7 @@ import { AXE_CONTEXT, Locators } from './utils/constants';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import singleThreadResponse from './fixtures/thread-response-new-api.json';
 
-describe('Secure Messaging Reply', () => {
+describe('Secure Messaging Reply Axe Check', () => {
   it('Axe Check Message Reply', () => {
     const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
       singleThreadResponse,

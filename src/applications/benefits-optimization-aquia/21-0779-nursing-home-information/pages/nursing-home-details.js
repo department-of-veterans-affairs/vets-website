@@ -1,79 +1,56 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+/**
+ * @module config/form/pages/nursing-home-details
+ * @description Standard form system configuration for Nursing Home Details page
+ * VA Form 21-0779 - Request for Nursing Home Information in Connection with Claim for Aid and Attendance
+ */
 
-/** @type {PageSchema} */
-const schema = {
+import {
+  textUI,
+  addressUI,
+  addressSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+
+/**
+ * uiSchema for Nursing Home Details page
+ * Collects nursing home name and address information
+ */
+export const nursingHomeDetailsUiSchema = {
+  'ui:title': 'Nursing home name and address',
+  nursingHomeDetails: {
+    nursingHomeName: textUI({
+      title: 'Name of nursing home where you work',
+    }),
+    nursingHomeAddress: addressUI({
+      omit: ['isMilitary', 'street3'],
+    }),
+  },
+};
+
+/**
+ * JSON Schema for Nursing Home Details page
+ * Validates nursing home name and address
+ */
+const addressSchemaWithDefault = addressSchema({
+  omit: ['isMilitary', 'street3'],
+});
+
+// Set default country to USA
+addressSchemaWithDefault.properties.country.default = 'USA';
+
+export const nursingHomeDetailsSchema = {
   type: 'object',
-  required: ['nursingHomeName', 'admissionDate'],
+  required: ['nursingHomeDetails'],
   properties: {
-    nursingHomeName: {
-      type: 'string',
-    },
-    nursingHomeAddress: {
+    nursingHomeDetails: {
       type: 'object',
+      required: ['nursingHomeName', 'nursingHomeAddress'],
       properties: {
-        street: { type: 'string' },
-        city: { type: 'string' },
-        state: { type: 'string' },
-        postalCode: { type: 'string' },
-      },
-    },
-    admissionDate: {
-      type: 'string',
-      format: 'date',
-    },
-    medicaidNumber: {
-      type: 'string',
-    },
-  },
-};
-
-/** @type {UISchema} */
-const uiSchema = {
-  ...titleUI('Nursing Home Information'),
-  nursingHomeName: {
-    'ui:title': 'Name of Nursing Home',
-    'ui:webComponentField': 'va-text-input',
-    'ui:options': {
-      widgetClassNames: 'vads-u-margin-bottom--2',
-    },
-  },
-  nursingHomeAddress: {
-    'ui:title': 'Complete Mailing Address of Nursing Home',
-    street: {
-      'ui:title': 'Street address',
-      'ui:webComponentField': 'va-text-input',
-    },
-    city: {
-      'ui:title': 'City',
-      'ui:webComponentField': 'va-text-input',
-    },
-    state: {
-      'ui:title': 'State',
-      'ui:webComponentField': 'va-select',
-      'ui:options': {
-        widgetClassNames: 'vads-u-margin-bottom--2',
-      },
-    },
-    postalCode: {
-      'ui:title': 'ZIP Code',
-      'ui:webComponentField': 'va-text-input',
-      'ui:options': {
-        widgetClassNames: 'vads-u-margin-bottom--2',
+        nursingHomeName: {
+          type: 'string',
+          maxLength: 100,
+        },
+        nursingHomeAddress: addressSchemaWithDefault,
       },
     },
   },
-  admissionDate: {
-    'ui:title': 'Date of Admission',
-    'ui:webComponentField': 'va-date',
-    'ui:description': 'Enter the date you were admitted to this nursing home',
-  },
-  medicaidNumber: {
-    'ui:title': 'Medicaid Number (if applicable)',
-    'ui:webComponentField': 'va-text-input',
-  },
-};
-
-export const nursingHomeDetails = {
-  uiSchema,
-  schema,
 };

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PropTypes from 'prop-types';
 import {
   generatePdfScaffold,
@@ -26,6 +25,7 @@ import {
   refreshExtractTypes,
   CernerAlertContent,
   statsdFrontEndActions,
+  loadStates,
 } from '../util/constants';
 import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -34,6 +34,7 @@ import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo'
 import { generateTextFile, getLastUpdatedText } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import RecordListSection from '../components/shared/RecordListSection';
 import {
   generateAllergiesIntro,
@@ -44,6 +45,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { useTrackAction } from '../hooks/useTrackAction';
+import { Actions } from '../util/actionTypes';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -58,20 +60,14 @@ const Allergies = props => {
     state => state.mr.allergies.listCurrentAsOf,
   );
   const refresh = useSelector(state => state.mr.refresh);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
 
   const user = useSelector(state => state.user.profile);
-  const { isCerner } = useAcceleratedData();
+  const { isCerner, isAcceleratingAllergies } = useAcceleratedData();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   const dispatchAction = isCurrent => {
-    return getAllergiesList(isCurrent, isCerner);
+    return getAllergiesList(isCurrent, isAcceleratingAllergies, isCerner);
   };
 
   useListRefresh({
@@ -85,17 +81,13 @@ const Allergies = props => {
 
   useTrackAction(statsdFrontEndActions.ALLERGIES_LIST);
 
-  useEffect(
-    /**
-     * @returns a callback to automatically load any new records when unmounting this component
-     */
-    () => {
-      return () => {
-        dispatch(reloadRecords());
-      };
-    },
-    [dispatch],
-  );
+  // On Unmount: reload any newly updated records and normalize the FETCHING state.
+  useReloadResetListOnUnmount({
+    listState,
+    dispatch,
+    updateListActionType: Actions.Allergies.UPDATE_LIST_STATE,
+    reloadRecordsAction: reloadRecords,
+  });
 
   useEffect(
     () => {
@@ -104,6 +96,9 @@ const Allergies = props => {
     },
     [dispatch],
   );
+
+  const isLoadingAcceleratedData =
+    isAcceleratingAllergies && listState === loadStates.FETCHING;
 
   usePrintTitle(
     pageTitles.ALLERGIES_PAGE_TITLE,
@@ -127,7 +122,10 @@ const Allergies = props => {
     const pdfData = {
       ...scaffold,
       subtitles,
-      ...generateAllergiesContent(allergies, isCerner),
+      ...generateAllergiesContent(
+        allergies,
+        isAcceleratingAllergies || isCerner,
+      ),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(
@@ -205,44 +203,53 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {!isCerner && (
-          <NewRecordsIndicator
-            refreshState={refresh}
-            extractType={refreshExtractTypes.ALLERGY}
-            newRecordsFound={
-              Array.isArray(allergies) &&
-              Array.isArray(updatedRecordList) &&
-              allergies.length !== updatedRecordList.length
-            }
-            reloadFunction={() => {
-              dispatch(reloadRecords());
-            }}
-          />
-        )}
-
-        {allergies?.length ? (
-          <>
-            <PrintDownload
-              description="Allergies - List"
-              list
-              downloadPdf={generateAllergiesPdf}
-              allowTxtDownloads={allowTxtDownloads}
-              downloadTxt={generateAllergiesTxt}
+        {!isCerner &&
+          !isAcceleratingAllergies && (
+            <NewRecordsIndicator
+              refreshState={refresh}
+              extractType={refreshExtractTypes.ALLERGY}
+              newRecordsFound={
+                Array.isArray(allergies) &&
+                Array.isArray(updatedRecordList) &&
+                allergies.length !== updatedRecordList.length
+              }
+              reloadFunction={() => {
+                dispatch(reloadRecords());
+              }}
             />
-            <DownloadingRecordsInfo
-              allowTxtDownloads={allowTxtDownloads}
-              description="Allergies"
+          )}
+        {isLoadingAcceleratedData ? (
+          <div className="vads-u-margin-y--8">
+            <va-loading-indicator
+              message="We're loading your records."
+              setFocus
+              data-testid="loading-indicator"
             />
-            <RecordList
-              records={allergies?.map(allergy => ({
-                ...allergy,
-                isOracleHealthData: isCerner,
-              }))}
-              type={recordType.ALLERGIES}
-            />
-          </>
+          </div>
         ) : (
-          <NoRecordsMessage type={recordType.ALLERGIES} />
+          <>
+            {allergies?.length ? (
+              <>
+                <RecordList
+                  records={allergies?.map(allergy => ({
+                    ...allergy,
+                    isOracleHealthData: isCerner,
+                  }))}
+                  type={recordType.ALLERGIES}
+                />
+                <DownloadingRecordsInfo description="Allergies" />
+                <PrintDownload
+                  description="Allergies - List"
+                  list
+                  downloadPdf={generateAllergiesPdf}
+                  downloadTxt={generateAllergiesTxt}
+                />
+                <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
+              </>
+            ) : (
+              <NoRecordsMessage type={recordType.ALLERGIES} />
+            )}
+          </>
         )}
       </RecordListSection>
     </div>

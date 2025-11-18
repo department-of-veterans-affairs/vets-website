@@ -180,6 +180,18 @@ export const pdfDefaultStatusDefinition = [
   },
 ];
 
+export const pdfDefaultPendingMedDefinition =
+  'This is a new prescription from your provider. Your VA pharmacy is reviewing it now. Details may change.';
+
+export const pdfDefaultPendingRenewalDefinition =
+  'This is a renewal you requested. Your VA pharmacy is reviewing it now. Details may change.';
+
+export const medStatusDisplayTypes = {
+  VA_PRESCRIPTION: 'VaPrescription',
+  PRINT: 'print',
+  TXT: 'txt',
+};
+
 export const nonVAMedicationTypes = `* Prescriptions you filled through a non-VA pharmacy
 * Over-the-counter medications, supplements, and herbal remedies
 * Sample medications a provider gave you
@@ -317,4 +329,24 @@ export const REFILL_STATUS = {
   ERROR: 'error',
 };
 
+export const DATETIME_FORMATS = {
+  longMonthDate: 'MMMM d, yyyy',
+  filename: 'M-d-yyyy_hmmssa',
+};
+
 export const MEDS_BY_MAIL_FACILITY_ID = '741MM';
+
+export const RX_SOURCE = {
+  PARTIAL_FILL: 'PF',
+  VA: 'VA',
+  NON_VA: 'NV',
+  PENDING_DISPENSE: 'PD',
+};
+
+export const DISPENSE_STATUS = {
+  NEW_ORDER: 'NewOrder',
+  RENEW: 'Renew',
+  ACTIVE: 'Active',
+  ACTIVE_SUBMITTED: 'Active: Submitted',
+  ACTIVE_REFILL_IN_PROCESS: 'Active: Refill in Process',
+};

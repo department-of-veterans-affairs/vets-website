@@ -3,13 +3,15 @@ import {
   capitalizeEachWord,
   formSubtitle,
   formTitle,
-  formatMonthYearDate,
   isClaimingNew,
+  isPlaceholderRated,
   makeConditionsSchema,
   sippableId,
   validateConditions,
 } from '../utils';
 import { NULL_CONDITION_STRING } from '../constants';
+
+import { formatMonthYearDate } from '../utils/dates';
 
 /* ---------- content ----------*/
 export const conditionsPageTitle = 'Toxic exposure';
@@ -127,14 +129,20 @@ export function teSubtitle(
  *
  * @returns true if all criteria are met, false otherwise
  */
-const hasSchemaNewDisabilities = formData =>
-  Array.isArray(formData?.newDisabilities) &&
-  formData.newDisabilities.some(d => d?.condition && d?.cause);
+const isRealTECandidate = d =>
+  d &&
+  typeof d.condition === 'string' &&
+  !isPlaceholderRated(d.condition) &&
+  (d.cause === 'NEW' || d.cause === 'SECONDARY');
 
-export function showToxicExposurePages(formData) {
-  // Only show TE when there is at least one *schema-shaped* NEW/SECONDARY/WORSENED/VA row
-  return isClaimingNew(formData) && hasSchemaNewDisabilities(formData);
-}
+const hasRealNewDisabilities = formData =>
+  Array.isArray(formData?.newDisabilities) &&
+  formData.newDisabilities.some(isRealTECandidate);
+
+export const showToxicExposurePages = formData => {
+  // Only show when claiming new AND there is at least one real (non-placeholder) condition
+  return isClaimingNew(formData) && hasRealNewDisabilities(formData);
+};
 
 /**
  * Checks if

@@ -9,6 +9,29 @@
   }
 }
 
+.box-highlight {
+  min-width: 648px;
+  background-color: var(--vads-color-primary-alt-lightest);
+  padding-left: 1.5rem !important;
+
+  .checkbox-text {
+    text-indent: -20px;
+  }
+
+  @media (max-width: $small-screen) {
+    min-width: 100%;
+  }
+}
+
+va-checkbox[error]::part(checkbox) {
+  font-weight: bold !important;
+  min-width: 648px;
+
+  @media (max-width: $small-screen) {
+    min-width: 100%;
+  }
+}
+
 @media (max-width: $small-screen) {
   .form-22-10275-container {
     padding-inline: 0.5rem;
@@ -27,4 +50,22 @@
       order: 2;
     }
   }
+}
+
+va-radio[name="pointOfContact"] {
+  margin-top: 0 !important;
+}
+
+va-radio-option[label="None of the above, I will enter a new point of contact"] {
+  margin-top: 0;
+}
+
+.radio-container va-radio-option {
+  border: 1px solid hsl(0, 0%, 79%);
+  padding: 10px 20px;
+}
+
+.card-address {
+  display: block;
+  font-weight: normal;
 }
