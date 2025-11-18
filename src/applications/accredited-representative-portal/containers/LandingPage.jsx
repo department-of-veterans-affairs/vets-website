@@ -66,7 +66,7 @@ const LandingPage = title => {
             </h2>
             <va-link
               class="arp__home__link--learn-more"
-              href="/representative/get-help"
+              href="/representative/help"
               text="Learn more about the portal"
             />
             <va-link
@@ -140,7 +140,7 @@ const LandingPage = title => {
               <va-link
                 class="hp__link"
                 reverse
-                href="/representative/get-help"
+                href="/representative/help"
                 text="Learn more about how to set up your account"
               />
               <p>

@@ -50,10 +50,7 @@ const Authorized = () => {
         Learn more about using the portal features, resolving common issues, and
         contacting us if you need additional support.
       </p>
-      <va-link
-        href="/representative/get-help"
-        text="Learn more about the portal"
-      />
+      <va-link href="/representative/help" text="Learn more about the portal" />
     </>
   );
 };

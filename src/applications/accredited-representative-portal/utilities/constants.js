@@ -71,7 +71,7 @@ export const NAV_MENU_DROPDOWN = [
   },
   {
     LABEL: 'Help',
-    URL: '/get-help',
+    URL: '/help',
     TEST_ID: 'user-nav-help-link',
   },
 ];
