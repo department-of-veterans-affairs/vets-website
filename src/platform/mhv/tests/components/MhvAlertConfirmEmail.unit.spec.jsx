@@ -326,7 +326,7 @@ describe('<MhvAlertConfirmEmail />', () => {
       );
       await waitFor(() => {
         getByTestId('mhv-alert--add-contact-email');
-        getByRole('heading', { name: /^Add a contact email$/ });
+        getByRole('heading', { name: /Add a contact email$/ });
 
         // getByRole('link', { name: /^Go to profile/ });
         const linkSelector = 'va-link-action[text~="Go to profile"]';
