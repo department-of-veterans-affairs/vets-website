@@ -1,9 +1,6 @@
 {
   "data": {
-    "view:hasHealthInsurance": false,
-    "view:hasMedicare": false,
     "view:hasApplicants": true,
-    "view:sharesAddressWith": "na",
     "applicants": [
       {
         "applicantName": {
@@ -12,6 +9,7 @@
         },
         "applicantDob": "2003-01-04",
         "applicantSsn": "345345345",
+        "view:sharesAddressWith": "na",
         "applicantAddress": {
           "street": "456 Circle St",
           "city": "Applicant",
@@ -21,22 +19,16 @@
         },
         "applicantPhone": "5555551234",
         "applicantGender": "male",
-        "applicantRelationshipOrigin": "blood",
         "applicantRelationshipToSponsor": "child",
-        "applicantDependentStatus": "over18HelplessChild",
-        "view:sharesAddressWith": "na"
+        "applicantRelationshipOrigin": "blood",
+        "applicantDependentStatus": "over18HelplessChild"
       }
     ],
+    "certifierRole": "other",
     "certifierName": {
       "first": "Certifier",
       "last": "Jones"
-    },
-    "certifierRole": "other",
-    "certifierRelationship": {
-      "relationshipToVeteran": {
-        "spouse": true
-      }
-    },
+    }, 
     "certifierAddress": {
       "street": "123 Certifier St",
       "city": "Certifier",
@@ -46,12 +38,17 @@
     },
     "certifierPhone": "1231231234",
     "certifierEmail": "certifier@email.gov",
+    "certifierRelationship": {
+      "relationshipToVeteran": {
+        "spouse": true
+      }
+    },
     "sponsorName": {
       "first": "Joe",
       "last": "Johnson"
     },
     "sponsorDob": "1958-01-01",
-    "sponsorSsn": "123123123",
+    "view:sharesAddressWith": "na",
     "sponsorAddress": {
       "country": "USA",
       "street": "123 Sponsor St",
@@ -60,7 +57,10 @@
       "postalCode": "12312"
     },
     "sponsorPhone": "5552223333",
+    "sponsorSsn": "123123123",
     "sponsorIsDeceased": false,
+    "view:hasHealthInsurance": false,
+    "view:hasMedicare": false,
     "statementOfTruthSignature": "Certifier Jones"
   }
 }
