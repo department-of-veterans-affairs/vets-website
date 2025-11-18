@@ -39,7 +39,7 @@ const ChooseExpenseType = () => {
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/${apptId}`);
+    navigate(`/file-new-claim/${apptId}`, { state: { skipRedirect: true } });
   };
 
   return (
