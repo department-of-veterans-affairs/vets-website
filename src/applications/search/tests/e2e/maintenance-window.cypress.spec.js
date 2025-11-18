@@ -4,25 +4,27 @@ import { SELECTORS as s } from './helpers';
 
 describe('Search.gov maintenance window message', () => {
   const mockResultsEmpty = () => {
-    cy.intercept('GET', '/v0/search?query=benefits', {
+    cy.intercept('GET', '**/v0/search*', {
       body: zeroResultsStub,
       statusCode: 200,
     }).as('getSearchResultsGlobal');
   };
 
   const mockResults = () => {
-    cy.intercept('GET', '/v0/search?query=benefits', {
+    cy.intercept('GET', '**/v0/search*', {
       body: stub,
       statusCode: 200,
     }).as('getSearchResultsGlobal');
   };
 
   const setClockAndSearch = date => {
-    cy.clock(new Date(date).getTime(), ['Date']);
+    cy.clock(new Date(date).getTime(), ['Date', 'setTimeout', 'setInterval']);
     cy.visit('/search?query=benefits');
+    cy.wait('@getSearchResultsGlobal')
+      .its('response.statusCode')
+      .should('equal', 200);
     cy.injectAxeThenAxeCheck();
   };
-
   const verifyBanner = () => {
     cy.get(s.APP).within(() => {
       cy.get(s.MAINT_BOX)
