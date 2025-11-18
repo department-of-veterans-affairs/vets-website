@@ -7303,9 +7303,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001260, caniuse-lite@^1.0.30001313, caniuse-lite@^1.0.30001503, caniuse-lite@^1.0.30001587, caniuse-lite@^1.0.30001669:
-  version "1.0.30001707"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001707.tgz"
-  integrity sha512-3qtRjw/HQSMlDWf+X79N206fepf4SOOU6SQLMaq/0KkZLmSjPxAkBOQQ+FxbHKfHmYLZFfdWsO3KA90ceHPSnw==
+  version "1.0.30001751"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001751.tgz"
+  integrity sha512-A0QJhug0Ly64Ii3eIqHu5X51ebln3k4yTUkY1j8drqpWHVreg/VLijN48cZ1bYPiqOQuqpkIKnzr/Ul8V+p6Cw==
 
 capture-stack-trace@^1.0.0:
   version "1.0.2"
@@ -22729,9 +22729,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#91a72f474e4943cec25e556ee510c7be2d372281":
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#76d6a4972b0e59631ab6cea208947fe981d85743":
   version "25.2.23"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#91a72f474e4943cec25e556ee510c7be2d372281"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#76d6a4972b0e59631ab6cea208947fe981d85743"
   dependencies:
     minimist "^1.2.3"
 

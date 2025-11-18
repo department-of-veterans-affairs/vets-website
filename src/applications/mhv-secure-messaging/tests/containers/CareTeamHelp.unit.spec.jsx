@@ -97,6 +97,16 @@ describe('CareTeamHelp', () => {
     expect(screen.getByRole('heading', { level: 1 })).to.exist;
   });
 
+  it('sets the document title', async () => {
+    setup();
+
+    await waitFor(() => {
+      expect(document.title).to.equal(
+        'Care Team Help - Start Message | Veterans Affairs',
+      );
+    });
+  });
+
   it('shows VistA-only content when user has only VistA systems', () => {
     const screen = setup(vistaOnlyState);
 

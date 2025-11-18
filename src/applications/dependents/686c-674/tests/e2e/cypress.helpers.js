@@ -226,5 +226,6 @@ export const signAndSubmit = () => {
     .shadow()
     .find('input[type="checkbox"]')
     .check({ force: true });
+  cy.injectAxeThenAxeCheck();
   cy.clickFormContinue();
 };

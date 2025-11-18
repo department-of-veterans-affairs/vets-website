@@ -66,6 +66,7 @@ import { useDevOnlyButtons } from './useDevOnlyButtons';
  * @param {boolean} [props.devOnly.showButtons]
  * @param {Object} [props.devOnly.mockData]
  * @param {string} [props.pdfUrl]
+ * @param {string} [props.filename]
  * @param {string} [props.confirmationNumber]
  * @param {Date} [props.submitDate]
  */
@@ -73,6 +74,7 @@ export const ConfirmationView = props => {
   const { formConfig, devOnly, children } = props;
   const { form } = useSelector(state => state);
   const [pdfUrl, setPdfUrl] = useState(props.pdfUrl);
+  const [filename, setFilename] = useState(props.filename);
   const [confirmationNumber, setConfirmationNumber] = useState(
     props.confirmationNumber,
   );
@@ -83,8 +85,9 @@ export const ConfirmationView = props => {
       setPdfUrl(props.pdfUrl);
       setConfirmationNumber(props.confirmationNumber);
       setSubmitDate(props.submitDate || null);
+      setFilename(props.filename);
     },
-    [props.pdfUrl, props.confirmationNumber, props.submitDate],
+    [props.pdfUrl, props.confirmationNumber, props.submitDate, props.filename],
   );
 
   const DevOnlyButtons = useDevOnlyButtons({
@@ -93,6 +96,7 @@ export const ConfirmationView = props => {
     setPdfUrl,
     setConfirmationNumber,
     setSubmitDate,
+    setFilename,
   });
 
   const contextValue = {
@@ -100,6 +104,7 @@ export const ConfirmationView = props => {
     confirmationNumber,
     formConfig,
     pdfUrl,
+    filename,
     devOnly,
     chapterSectionCollection: props.chapterSectionCollection,
   };
@@ -144,6 +149,7 @@ export const ConfirmationView = props => {
         pdfUrl={pdfUrl}
         trackingPrefix={formConfig.trackingPrefix}
         formId={formConfig.formId}
+        filename={filename}
       />
       <ChapterSectionCollection
         formConfig={formConfig}
@@ -176,6 +182,7 @@ ConfirmationView.propTypes = {
   }),
   pdfUrl: PropTypes.string,
   submitDate: PropTypes.any,
+  filename: PropTypes.string,
 };
 
 ConfirmationView.SubmissionAlert = SubmissionAlertWithContext;
