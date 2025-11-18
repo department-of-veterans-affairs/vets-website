@@ -15,9 +15,6 @@ export const ConfirmationPage = props => {
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       pdfUrl={submission.response?.pdfUrl}
-      devOnly={{
-        showButtons: true,
-      }}
     >
       <ConfirmationView.SubmissionAlert />
       <ConfirmationView.SavePdfDownload />
