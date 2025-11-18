@@ -407,3 +407,44 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
     }
   }
 };
+
+export const showAdditionalPointsOfContact = formData => {
+  const isYellowRibbonProgramPointOfContact =
+    formData?.pointsOfContact?.roles?.isYellowRibbonProgramPointOfContact ===
+    true;
+  const isSchoolFinancialRepresentative =
+    formData?.pointsOfContact?.roles?.isSchoolFinancialRepresentative === true;
+  const isSchoolCertifyingOfficial =
+    formData?.pointsOfContact?.roles?.isSchoolCertifyingOfficial === true;
+
+  if (
+    (isYellowRibbonProgramPointOfContact || isSchoolFinancialRepresentative) &&
+    isSchoolCertifyingOfficial
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
+export const getAdditionalContactTitle = formData => {
+  const isYellowRibbonProgramPointOfContact =
+    formData?.pointsOfContact?.roles?.isYellowRibbonProgramPointOfContact ===
+    true;
+  const isSchoolFinancialRepresentative =
+    formData?.pointsOfContact?.roles?.isSchoolFinancialRepresentative === true;
+
+  if (
+    !isSchoolFinancialRepresentative &&
+    !isYellowRibbonProgramPointOfContact
+  ) {
+    return 'Add Yellow Ribbon Program point of contact';
+  }
+
+  return 'Add school certifying official';
+};
+
+export const capitalizeFirstLetter = str => {
+  if (!str || typeof str !== 'string') return '';
+  return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+};
