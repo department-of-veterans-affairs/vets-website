@@ -48,6 +48,11 @@ const schedulingPreferenceOptions = fieldname => {
   };
 };
 
+export const getSchedulingPreferenceInitialFormValues = (fieldName, data) => {
+  // If we have data from API, use it; otherwise empty string for radio buttons
+  return data ? { [fieldName]: data[fieldName] } : { [fieldName]: '' };
+};
+
 export const schedulingPreferencesUiSchema = fieldname => {
   if (!isInlineSchedulingPreference(fieldname)) {
     return null;

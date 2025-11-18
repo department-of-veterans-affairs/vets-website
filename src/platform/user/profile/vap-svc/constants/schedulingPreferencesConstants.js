@@ -1,6 +1,6 @@
 export const FIELD_NAMES = {
-  CONTACT_PREFERENCE_1: 'preferenceContactMethod',
-  CONTACT_PREFERENCE_2: 'preferenceContactTimes',
+  CONTACT_PREFERENCE_1: 'preferredContactMethod',
+  CONTACT_PREFERENCE_2: 'preferredContactTimes',
   APPOINTMENT_PREFERENCE_1: 'needsHelpSchedulingAppointments',
   APPOINTMENT_PREFERENCE_2: 'preferredAppointmentTimes',
   PROVIDER_PREFERENCE_1: 'preferredProviderGender',

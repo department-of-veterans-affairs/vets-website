@@ -33,7 +33,10 @@ import { isFieldEmpty } from '../util';
 import { recordCustomProfileEvent } from '../util/analytics';
 import { getInitialFormValues } from '../util/contact-information/formValues';
 import getProfileInfoFieldAttributes from '../util/getProfileInfoFieldAttributes';
-import { isSubtaskSchedulingPreference } from '../util/health-care-settings/schedulingPreferencesUtils';
+import {
+  isSchedulingPreference,
+  isSubtaskSchedulingPreference,
+} from '../util/health-care-settings/schedulingPreferencesUtils';
 
 // Helper function that generates a string that can be used for a contact info
 // field's edit button.
@@ -461,9 +464,10 @@ class ProfileInformationFieldController extends React.Component {
       showCopyAddressModal,
     } = this.props;
 
-    const activeSection = VAP_SERVICE.FIELD_TITLES[
-      activeEditView
-    ]?.toLowerCase();
+    // If the activeEditView is on the scheduling preferences page, use the section heading for modals
+    const activeSection = isSchedulingPreference(activeEditView)
+      ? VAP_SERVICE.FIELD_SECTION_HEADERS[activeEditView]?.toLowerCase()
+      : VAP_SERVICE.FIELD_TITLES[activeEditView]?.toLowerCase();
 
     const isLoading =
       transactionRequest?.isPending || isPendingTransaction(transaction);
