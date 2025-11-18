@@ -9,13 +9,17 @@ import {
   VaDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import DocumentUpload from './DocumentUpload';
 import { EXPENSE_TYPES } from '../../../constants';
 import { createExpense, updateExpense } from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
+  selectExpenseWithDocument,
 } from '../../../redux/selectors';
+
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import ExpenseMealFields from './ExpenseMealFields';
 import ExpenseAirTravelFields from './ExpenseAirTravelFields';
@@ -26,17 +30,15 @@ import CancelExpenseModal from './CancelExpenseModal';
 const ExpensePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const hasLoadedExpenseRef = useRef(false);
   const { apptId, claimId, expenseId } = useParams();
   const location = useLocation();
-  const expenseTypeMatcher = new RegExp(
-    `.*(${Object.keys(EXPENSE_TYPES)
-      .map(key => EXPENSE_TYPES[key].route)
-      .join('|')}).*`,
-  );
-  const expenseTypeRoute = location.pathname.match(expenseTypeMatcher)[1];
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formState, setFormState] = useState({});
   const [showError, setShowError] = useState(false);
+  const [document, setDocument] = useState(null);
+  const [documentLoading, setDocumentLoading] = useState(false);
   const errorRef = useRef(null); // ref for the error message
 
   const isLoadingExpense = useSelector(
@@ -45,6 +47,87 @@ const ExpensePage = () => {
         ? selectExpenseUpdateLoadingState(state)
         : selectExpenseCreationLoadingState(state),
   );
+
+  const toBase64 = file =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+
+  const expense = useSelector(
+    state => (expenseId ? selectExpenseWithDocument(state, expenseId) : null),
+  );
+
+  const { filename } = expense?.receipt ?? {};
+
+  useEffect(
+    () => {
+      if (!expenseId || !expense?.documentId) return;
+
+      const documentUrl = `${
+        environment.API_URL
+      }/travel_pay/v0/claims/${claimId}/documents/${expense.documentId}`;
+
+      setDocumentLoading(true);
+
+      apiRequest(documentUrl)
+        .then(response => {
+          const contentType = response.headers.get('Content-Type');
+          const contentLength = response.headers.get('Content-Length');
+
+          response.arrayBuffer().then(arrayBuffer => {
+            const blob = new Blob([arrayBuffer], {
+              type: response.headers.get('Content-Type'),
+            });
+            toBase64(blob).then(base64File => {
+              setFormState(prev => ({
+                ...prev,
+                receipt: {
+                  contentType,
+                  length: contentLength,
+                  fileName: filename,
+                  fileData: base64File,
+                },
+              }));
+              const file = new File([blob], filename, {
+                type: contentType,
+              });
+              setDocument(file);
+            });
+          });
+
+          setDocumentLoading(false);
+        })
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.error('Failed to fetch document:', err);
+          setDocumentLoading(false);
+        });
+    },
+    [expenseId, claimId, expense?.documentId, filename],
+  );
+
+  useEffect(
+    () => {
+      if (expenseId && expense && !hasLoadedExpenseRef.current) {
+        setFormState({
+          ...expense,
+          purchaseDate: expense.dateIncurred || '',
+        });
+        hasLoadedExpenseRef.current = true;
+      }
+    },
+    [expenseId, expense],
+  );
+
+  const expenseTypeMatcher = new RegExp(
+    `.*(${Object.keys(EXPENSE_TYPES)
+      .map(key => EXPENSE_TYPES[key].route)
+      .join('|')}).*`,
+  );
+  const expenseTypeRoute = location.pathname.match(expenseTypeMatcher)[1];
 
   // Focus the error message when it becomes visible
   useEffect(
@@ -144,14 +227,6 @@ const ExpensePage = () => {
     }
   };
 
-  const toBase64 = file =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-    });
-
   const handleDocumentUpload = async e => {
     const files = e.detail?.files;
     // Check if we have files for upload
@@ -160,6 +235,7 @@ const ExpensePage = () => {
     }
 
     const file = files[0]; // Get the first (and only) file
+    setDocument(file);
     const base64File = await toBase64(file);
     // Sync into formState so validation works
     setFormState(prev => ({
@@ -206,7 +282,11 @@ const ExpensePage = () => {
         </p>
       )}
       <p>{pageDescription}</p>
-      <DocumentUpload handleDocumentUpload={handleDocumentUpload} />
+      <DocumentUpload
+        loading={documentLoading}
+        currentDocument={document}
+        handleDocumentUpload={handleDocumentUpload}
+      />
       {expenseType === 'Meal' && (
         <ExpenseMealFields formState={formState} onChange={handleFormChange} />
       )}

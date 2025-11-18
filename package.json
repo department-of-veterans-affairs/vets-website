@@ -273,6 +273,7 @@
     "@mapbox/mapbox-sdk": "~0.13.2",
     "@reduxjs/toolkit": "^1.9.5",
     "blob-polyfill": "^5.0.20210201",
+    "botframework-webchat": "4.17.0",
     "cacheable-request": "^4.0.1",
     "camelcase-keys-recursive": "^1.0.0",
     "classnames": "^2.3.1",
@@ -342,7 +343,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#91a72f474e4943cec25e556ee510c7be2d372281",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#76d6a4972b0e59631ab6cea208947fe981d85743",
     "web-vitals": "^4.2.4"
   },
   "resolutions": {
