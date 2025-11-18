@@ -7,7 +7,6 @@
                 "prescriptionId": 22377956,
                 "prescriptionNumber": null,
                 "prescriptionName": "MELOXICAM 15MG TAB",
-                "prescriptionImage": null,
                 "refillStatus": "active",
                 "refillSubmitDate": null,
                 "refillDate": "2023-07-13T04:00:00.000Z",
@@ -44,9 +43,7 @@
                 "category": null,
                 "trackingList": [],
                 "rxRfRecords": [],
-                "tracking": null,
-                "orderableItem": null,
-                "sortedDispensedDate": null
+                "tracking": null
             },
             "links": {
                 "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22377956"
@@ -59,7 +56,6 @@
                 "prescriptionId": 22377955,
                 "prescriptionNumber": "2720553",
                 "prescriptionName": "MEGESTROL ACETATE 200MG/5ML ORAL SUSP",
-                "prescriptionImage": null,
                 "refillStatus": "active",
                 "refillSubmitDate": null,
                 "refillDate": "2023-07-18T04:00:00.000Z",
@@ -96,9 +92,7 @@
                 "category": "Rx Medication",
                 "trackingList": [],
                 "rxRfRecords": [],
-                "tracking": false,
-                "orderableItem": null,
-                "sortedDispensedDate": null
+                "tracking": false
             },
             "links": {
                 "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22377955"
@@ -111,7 +105,6 @@
                 "prescriptionId": 22377954,
                 "prescriptionNumber": "2720552",
                 "prescriptionName": "MEFLOQUINE HCL 250MG TAB",
-                "prescriptionImage": null,
                 "refillStatus": "active",
                 "refillSubmitDate": null,
                 "refillDate": "2023-07-08T04:00:00.000Z",
@@ -148,9 +141,7 @@
                 "category": "Rx Medication",
                 "trackingList": [],
                 "rxRfRecords": [],
-                "tracking": false,
-                "orderableItem": null,
-                "sortedDispensedDate": null
+                "tracking": false
             },
             "links": {
                 "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22377954"
@@ -163,7 +154,6 @@
                 "prescriptionId": 22377951,
                 "prescriptionNumber": "3636956",
                 "prescriptionName": "LARYNG TUBE, CANNULA  #8 LGT",
-                "prescriptionImage": null,
                 "refillStatus": "active",
                 "refillSubmitDate": null,
                 "refillDate": "2023-07-18T04:00:00.000Z",
@@ -200,9 +190,7 @@
                 "category": "Rx Medication",
                 "trackingList": [],
                 "rxRfRecords": [],
-                "tracking": false,
-                "orderableItem": null,
-                "sortedDispensedDate": null
+                "tracking": false
             },
             "links": {
                 "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22377951"
@@ -215,7 +203,6 @@
                 "prescriptionId": 22377950,
                 "prescriptionNumber": "3636955",
                 "prescriptionName": "LANOLIN ANHYDROUS OINT",
-                "prescriptionImage": null,
                 "refillStatus": "active",
                 "refillSubmitDate": null,
                 "refillDate": "2023-07-08T04:00:00.000Z",
@@ -252,9 +239,7 @@
                 "category": "Rx Medication",
                 "trackingList": [],
                 "rxRfRecords": [],
-                "tracking": false,
-                "orderableItem": null,
-                "sortedDispensedDate": null
+                "tracking": false
             },
             "links": {
                 "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22377950"
@@ -267,7 +252,6 @@
                 "prescriptionId": 22377949,
                 "prescriptionNumber": "3636954",
                 "prescriptionName": "LABETALOL HCL 300MG TAB",
-                "prescriptionImage": null,
                 "refillStatus": "active",
                 "refillSubmitDate": null,
                 "refillDate": "2023-07-13T04:00:00.000Z",
@@ -304,9 +288,7 @@
                 "category": "Rx Medication",
                 "trackingList": [],
                 "rxRfRecords": [],
-                "tracking": false,
-                "orderableItem": null,
-                "sortedDispensedDate": null
+                "tracking": false
             },
             "links": {
                 "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22377949"
@@ -319,7 +301,6 @@
                 "prescriptionId": 22217099,
                 "prescriptionNumber": "3636937",
                 "prescriptionName": "FEEDING BAG,1000ML KENDAL #8884773600",
-                "prescriptionImage": null,
                 "refillStatus": "expired",
                 "refillSubmitDate": "2023-06-21T19:18:00.000Z",
                 "refillDate": "2023-06-21T04:00:00.000Z",
@@ -354,6 +335,7 @@
                 "indicationForUse": null,
                 "indicationForUseFlag": null,
                 "category": "Rx Medication",
+                "sortedDispensedDate": "2023-07-13T04:00:00.000Z",
                 "trackingList": [],
                 "rxRfRecords": [
                     {
@@ -362,7 +344,6 @@
                         "refillDate": "Sat, 15 Jul 2023 00:00:00 EDT",
                         "refillRemaining": 4,
                         "facilityName": "DAYT29",
-                        "facilityApiName": null,
                         "isRefillable": false,
                         "isTrackable": false,
                         "prescriptionId": 22332828,
@@ -396,20 +377,12 @@
                         "indicationForUse": null,
                         "indicationForUseFlag": null,
                         "category": "Rx Medication",
-                        "orderableItem": null,
-                        "shape": null,
-                        "color": null,
-                        "frontImprint": null,
-                        "backImprint": null,
-                        "dataSourceSystem": null,
                         "trackingList": null,
                         "rxRfRecords": null,
                         "tracking": false
                     }
                 ],
-                "tracking": false,
-                "orderableItem": null,
-                "sortedDispensedDate": "2023-07-13T04:00:00.000Z"
+                "tracking": false
             },
             "links": {
                 "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22217099"
@@ -422,7 +395,6 @@
                 "prescriptionId": 22217089,
                 "prescriptionNumber": "3636937",
                 "prescriptionName": "FEEDING BAG,1000ML KENDAL #8884773600",
-                "prescriptionImage": null,
                 "refillStatus": "expired",
                 "refillSubmitDate": "2023-06-21T19:18:00.000Z",
                 "refillDate": "2023-06-21T04:00:00.000Z",
@@ -480,7 +452,6 @@
                         "refillDate": "Sat, 15 Jul 2023 00:00:00 EDT",
                         "refillRemaining": 4,
                         "facilityName": "DAYT29",
-                        "facilityApiName": null,
                         "isRefillable": false,
                         "isTrackable": false,
                         "prescriptionId": 22332828,
@@ -514,20 +485,12 @@
                         "indicationForUse": null,
                         "indicationForUseFlag": null,
                         "category": "Rx Medication",
-                        "orderableItem": null,
-                        "shape": null,
-                        "color": null,
-                        "frontImprint": null,
-                        "backImprint": null,
-                        "dataSourceSystem": null,
                         "trackingList": null,
                         "rxRfRecords": null,
                         "tracking": false
                     }
                 ],
-                "tracking": false,
-                "orderableItem": null,
-                "sortedDispensedDate": null
+                "tracking": false
             },
             "links": {
                 "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22217089"
