@@ -946,11 +946,10 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_22_10278,
-    benefit: 'Authorization to Disclose Personal Information to a Third Party',
-    title:
-      'Authorization to Disclose Personal Information to a Third Party (22-10278)',
+    benefit: 'Authorize VA to disclose personal information to a third party',
+    title: 'Authorize VA to disclose personal information to a third party',
     description:
-      'Authorization to Disclose Personal Information to a Third Party (22-10278)',
+      'Authorize VA to disclose personal information to a third party (22-10278)',
     trackingPrefix: 'edu-10278-',
   },
   {
