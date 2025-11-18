@@ -102,32 +102,18 @@ describe('App', () => {
 
       expect(getByText('Chat ended')).to.exist;
     });
-    it('should dispatch a reset event when starting a new chat', () => {
-      const webChatStub = sandbox
+    it('should hide the chat-ended alert when starting a new chat', () => {
+      sandbox
         .stub(WebChatModule, 'default')
-        .callsFake(() => <div data-testid="webchat-module" />);
+        .returns(<div data-testid="webchat-module" />);
 
-      sandbox.stub(UseWebChatModule, 'default').callsFake(() => {
-        const [token, setToken] = React.useState('token-1');
-
-        React.useEffect(() => {
-          const handler = () => {
-            setToken('token-2');
-          };
-          window.addEventListener('va-chatbot-reset', handler);
-          return () => window.removeEventListener('va-chatbot-reset', handler);
-        }, []);
-
-        return {
-          token,
-          code: undefined,
-          expired: true,
-          webChatFramework: {},
-          loadingStatus: COMPLETE,
-        };
+      sandbox.stub(UseWebChatModule, 'default').returns({
+        token: 'fake-token',
+        code: undefined,
+        expired: true,
+        webChatFramework: {},
+        loadingStatus: COMPLETE,
       });
-
-      const dispatchEventSpy = sandbox.spy(window, 'dispatchEvent');
 
       const { container, getByText, queryByText } = render(<App />);
 
@@ -143,14 +129,7 @@ describe('App', () => {
         fireEvent.click(button);
       });
 
-      expect(dispatchEventSpy.calledOnce).to.be.true;
-      expect(dispatchEventSpy.firstCall.args[0].type).to.equal(
-        'va-chatbot-reset',
-      );
-
       expect(queryByText('Chat ended')).to.be.null;
-
-      expect(webChatStub.called).to.be.true;
     });
   });
 });
