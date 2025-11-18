@@ -6,7 +6,7 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import claimantInformation from '../../../../config/chapters/02-claimant-information/claimantInformation';
+import claimantInformation from '../../../../config/chapters/02-claimant-information/claimantRelationship';
 import { claimantRelationshipOptions } from '../../../../utils/labels';
 
 describe('Claimant Information Page', () => {
