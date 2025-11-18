@@ -1,0 +1,7 @@
+{
+  "appName": "sign-in-health-portal",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "sign-in-health-portal",
+  "rootUrl": "/sign-in-health-portal",
+  "productId": "7ee4fe75-f398-4817-8153-55373f799d0d"
+}
