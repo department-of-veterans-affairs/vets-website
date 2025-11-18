@@ -64,6 +64,15 @@ const FilesWeCouldntReceive = () => {
     [dispatch, isFailedUploadsEnabled],
   );
 
+  useEffect(
+    () => {
+      if (!loading) {
+        setPageFocus('h1');
+      }
+    },
+    [loading],
+  );
+
   // Redirect to claims list if feature flag is disabled
   if (!isFailedUploadsEnabled) {
     return <Navigate to="/your-claims/" replace />;
@@ -82,7 +91,7 @@ const FilesWeCouldntReceive = () => {
         text="Learn about other ways to send your documents."
         onClick={e => {
           e.preventDefault();
-          setPageFocus('#other-ways-to-send-documents');
+          setPageFocus('#other-ways-to-send');
         }}
       />
       {(() => {

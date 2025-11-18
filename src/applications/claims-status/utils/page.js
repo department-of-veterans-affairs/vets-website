@@ -12,7 +12,7 @@ export function setFocus(selector) {
 export function setPageFocus(selector = 'h1') {
   const el = document.querySelector(selector);
   if (el) {
-    scrollAndFocus(el);
+    scrollAndFocus(el, { behavior: 'instant' });
   } else {
     setFocus('#main h1');
   }
@@ -20,9 +20,11 @@ export function setPageFocus(selector = 'h1') {
 
 export function setUpPage(scroll = true, focusSelector = 'h1') {
   if (!scroll) {
-    scrollToTop();
+    scrollToTop({ behavior: 'instant' });
   }
-  scrollAndFocus(document.querySelector(focusSelector));
+  scrollAndFocus(document.querySelector(focusSelector), {
+    behavior: 'instant',
+  });
 }
 
 export function isTab(url) {

@@ -1467,10 +1467,12 @@ export function setPageFocus(lastPage, loading) {
     if (!loading) {
       setUpPage();
     } else {
-      scrollToTop();
+      scrollToTop({ behavior: 'instant' });
     }
   } else {
-    scrollAndFocus(document.querySelector('.tab-header'));
+    scrollAndFocus(document.querySelector('.tab-header'), {
+      behavior: 'instant',
+    });
   }
 }
 // Used to get the oldest document date
