@@ -1,5 +1,5 @@
 {
-  "appName": "Authorization to Disclose Personal Information",
+  "appName": "Authorize VA to disclose personal information to a third party",
   "entryFile": "./app-entry.jsx",
   "entryName": "10278-edu-benefits",
   "rootUrl": "/education/10278",

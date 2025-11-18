@@ -7,6 +7,30 @@
 import { z } from 'zod';
 
 /**
+ * Formats a Zod issue path into a dot-notation string with array indices.
+ * Converts paths like ['address', 0, 'street'] to 'address[0].street'
+ * @private
+ * @param {Array} path - Zod issue path array
+ * @returns {string} Formatted path string or '_root' for empty paths
+ */
+function formatIssuePath(path) {
+  if (!path || path.length === 0) {
+    return '_root';
+  }
+
+  return path
+    .map((p, i) => {
+      // Handle array indices - wrap in brackets
+      if (typeof path[i - 1] === 'string' && typeof p === 'number') {
+        return `[${p}]`;
+      }
+      return p;
+    })
+    .join('.')
+    .replace(/\.\[/g, '[');
+}
+
+/**
  * Handles string validation errors and returns appropriate user messages.
  * Maps Zod string validation types to user-friendly error messages.
  * @private
@@ -185,22 +209,7 @@ export const validateWithZod = (schema, data) => {
     if (error instanceof z.ZodError) {
       const errors = {};
       error.issues.forEach(issue => {
-        const path =
-          issue.path.length > 0
-            ? issue.path
-                .map((p, i) => {
-                  // Handle array indices
-                  if (
-                    typeof issue.path[i - 1] === 'string' &&
-                    typeof p === 'number'
-                  ) {
-                    return `[${p}]`;
-                  }
-                  return p;
-                })
-                .join('.')
-                .replace(/\.\[/g, '[')
-            : '_root';
+        const path = formatIssuePath(issue.path);
         if (!errors[path]) {
           let formattedMessage;
           if (issue.code === 'too_small') {
@@ -259,21 +268,7 @@ export const transformZodErrors = zodError => {
 
   if (Array.isArray(zodError)) {
     zodError.forEach(issue => {
-      const path =
-        issue.path.length > 0
-          ? issue.path
-              .map((p, i) => {
-                if (
-                  typeof issue.path[i - 1] === 'string' &&
-                  typeof p === 'number'
-                ) {
-                  return `[${p}]`;
-                }
-                return p;
-              })
-              .join('.')
-              .replace(/\.\[/g, '[')
-          : '_root';
+      const path = formatIssuePath(issue.path);
       if (!errors[path]) {
         errors[path] = issue.message;
       }
@@ -286,21 +281,7 @@ export const transformZodErrors = zodError => {
   }
 
   zodError.issues.forEach(issue => {
-    const path =
-      issue.path.length > 0
-        ? issue.path
-            .map((p, i) => {
-              if (
-                typeof issue.path[i - 1] === 'string' &&
-                typeof p === 'number'
-              ) {
-                return `[${p}]`;
-              }
-              return p;
-            })
-            .join('.')
-            .replace(/\.\[/g, '[')
-        : '_root';
+    const path = formatIssuePath(issue.path);
     if (!errors[path]) {
       errors[path] = issue.message;
     }

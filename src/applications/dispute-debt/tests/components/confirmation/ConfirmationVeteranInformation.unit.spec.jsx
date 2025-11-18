@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import ConfirmationVeteranInformation from '../../../components/confirmation/ConfirmationVeteranInformation';
+import ConfirmationVeteranInformation from '../../../components/confirmationFields/ConfirmationVeteranInformation';
 
 const mockFormData = {
   veteran: {

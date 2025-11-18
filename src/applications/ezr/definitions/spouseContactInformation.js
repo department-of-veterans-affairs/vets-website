@@ -40,6 +40,6 @@ export const spouseContactInformationPage = {
       }),
       spousePhone,
     },
-    required: ['spouseAddress', 'spousePhone'],
+    required: ['spouseAddress'],
   },
 };

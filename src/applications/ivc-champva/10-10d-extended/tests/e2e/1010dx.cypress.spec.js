@@ -13,7 +13,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataDir: path.join(__dirname, 'fixtures', 'data'),
-    dataSets: ['veteran.applicant-child-spouse'],
+    dataSets: ['veteran', 'representative'],
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => startAsNewUser());

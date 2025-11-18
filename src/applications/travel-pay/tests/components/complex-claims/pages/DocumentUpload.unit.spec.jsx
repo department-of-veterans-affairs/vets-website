@@ -6,19 +6,33 @@ import DocumentUpload from '../../../../components/complex-claims/pages/Document
 import { ACCEPTED_FILE_TYPES } from '../../../../constants';
 
 describe('DocumentUpload component', () => {
+  const defaultProps = {
+    currentDocument: null,
+    handleDocumentUpload: () => {},
+    loading: false,
+  };
   it('renders component correctly', () => {
-    const { container } = render(
-      <DocumentUpload handleDocumentUpload={() => {}} />,
-    );
+    const { container } = render(<DocumentUpload {...defaultProps} />);
 
     expect(container.querySelector('va-file-input')).to.exist;
     expect(container.querySelector('va-additional-info')).to.exist;
   });
 
+  it('shows loading indicator when loading is true', () => {
+    const { queryByTestId } = render(
+      <DocumentUpload {...defaultProps} loading />,
+    );
+
+    expect(queryByTestId('travel-pay-document-loading-indicator')).to.exist;
+  });
+
   it('calls handleDocumentUpload when a file is selected', async () => {
     const handleDocumentUpload = sinon.spy();
     const { container } = render(
-      <DocumentUpload handleDocumentUpload={handleDocumentUpload} />,
+      <DocumentUpload
+        {...defaultProps}
+        handleDocumentUpload={handleDocumentUpload}
+      />,
     );
 
     const fileInput = container.querySelector('va-file-input');
@@ -44,9 +58,7 @@ describe('DocumentUpload component', () => {
   });
 
   it('accepts only allowed file types', () => {
-    const { container } = render(
-      <DocumentUpload handleDocumentUpload={() => {}} />,
-    );
+    const { container } = render(<DocumentUpload {...defaultProps} />);
 
     const fileInput = container.querySelector('va-file-input');
 
@@ -56,9 +68,7 @@ describe('DocumentUpload component', () => {
   });
 
   it('enforces max file size of 5MB', () => {
-    const { container } = render(
-      <DocumentUpload handleDocumentUpload={() => {}} />,
-    );
+    const { container } = render(<DocumentUpload {...defaultProps} />);
 
     const fileInput = container.querySelector('va-file-input');
     expect(Number(fileInput.getAttribute('max-file-size'))).to.equal(5200000);

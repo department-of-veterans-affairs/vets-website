@@ -1,28 +1,29 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import mockPrefill from './fixtures/mocks/prefill.inProgress.ohi.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import {
   fillStatementOfTruthAndSubmit,
-  setupBasicTest,
-  startAsNewUser,
+  setupForAuth,
+  startAsInProgressUser,
 } from './utils';
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataDir: path.join(__dirname, 'fixtures', 'data'),
-    dataSets: ['other.applicant-child', 'other.applicant-spouse'],
+    dataSets: ['ohi.medicare', 'ohi.health-insurance'],
     pageHooks: {
       introduction: ({ afterHook }) => {
-        afterHook(() => startAsNewUser());
+        afterHook(() => startAsInProgressUser());
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => fillStatementOfTruthAndSubmit());
       },
     },
-    setupPerTest: () => setupBasicTest(),
+    setupPerTest: () => setupForAuth({ prefill: mockPrefill }),
   },
   manifest,
   formConfig,

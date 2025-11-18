@@ -15,12 +15,9 @@ export const getCareSummariesAndNotesList = (
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const getData = () => {
-      if (isAccelerating) {
-        return getAcceleratedNotes(timeframe);
-      }
-      return getNotes();
-    };
+    const getData = isAccelerating
+      ? () => getAcceleratedNotes(timeframe)
+      : getNotes;
     const response = await getListWithRetry(dispatch, getData);
     dispatch({
       type: isAccelerating
