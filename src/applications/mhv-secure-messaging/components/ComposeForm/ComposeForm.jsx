@@ -1097,6 +1097,15 @@ const ComposeForm = props => {
                 id="compose-message-body"
                 name="compose-message-body"
                 class="message-body"
+                hint={(() => {
+                  if (rxError) {
+                    return 'Include as many of these medication details as possible.';
+                  }
+                  if (renewalPrescription?.prescriptionId) {
+                    return 'Review the medication details we added to your message.';
+                  }
+                  return null;
+                })()}
                 data-testid="message-body-field"
                 onInput={messageBodyHandler}
                 value={messageBody || formattedSignature} // populate with the signature, unless there is a saved draft
