@@ -245,6 +245,7 @@ export const SavePdfDownload = ({
   formId,
   title,
   content,
+  filename,
 }) => {
   const onClick = () => {
     recordEvent({
@@ -268,6 +269,7 @@ export const SavePdfDownload = ({
       <va-link
         download
         filetype="PDF"
+        filename={filename}
         href={pdfUrl}
         onClick={onClick}
         text={`Download a copy of your VA Form ${formId}`}
@@ -283,10 +285,11 @@ SavePdfDownload.propTypes = {
   trackingPrefix: PropTypes.string,
   title: PropTypes.string,
   content: PropTypes.string,
+  filename: PropTypes.string,
 };
 
 export const SavePdfDownloadWithContext = ({ className, title, content }) => {
-  const { pdfUrl, formConfig } = useConfirmation();
+  const { pdfUrl, formConfig, filename } = useConfirmation();
 
   return (
     <SavePdfDownload
@@ -296,6 +299,7 @@ export const SavePdfDownloadWithContext = ({ className, title, content }) => {
       formId={formConfig.formId}
       title={title}
       content={content}
+      filename={filename}
     />
   );
 };
