@@ -201,7 +201,8 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   title: ({ formData }) => getPageTitle(formData),
-  subTitle: 'VA Form 21-526EZ',
+  subTitle:
+    'Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ)',
   preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
   chapters: {

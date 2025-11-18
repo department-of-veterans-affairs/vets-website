@@ -72,6 +72,7 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
+          cy.injectAxeThenAxeCheck();
           cy.clickStartForm();
         });
       },
@@ -113,6 +114,7 @@ const testConfig = createTestConfig(
               );
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -147,6 +149,7 @@ const testConfig = createTestConfig(
               );
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -161,6 +164,7 @@ const testConfig = createTestConfig(
             if (marriage?.startDate) {
               fillDateWebComponentPattern('startDate', marriage.startDate);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -175,6 +179,7 @@ const testConfig = createTestConfig(
             if (marriage?.endDate) {
               fillDateWebComponentPattern('endDate', marriage.endDate);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -189,6 +194,7 @@ const testConfig = createTestConfig(
             if (child?.dateMarried) {
               fillDateWebComponentPattern('dateMarried', child.dateMarried);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -206,6 +212,7 @@ const testConfig = createTestConfig(
                 child.dateChildLeftSchool,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -237,6 +244,7 @@ const testConfig = createTestConfig(
               fillStandardTextInput('address_postalCode', address.postalCode);
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -252,6 +260,7 @@ const testConfig = createTestConfig(
                 death.dependentDeathDate,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -269,6 +278,7 @@ const testConfig = createTestConfig(
                 stepchild.dateStepchildLeftHousehold,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });

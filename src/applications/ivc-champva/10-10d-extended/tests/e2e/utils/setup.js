@@ -1,5 +1,6 @@
 import manifest from '../../../manifest.json';
 import mockFeatures from '../fixtures/mocks/feature-toggles.json';
+import mockFileUpload from '../fixtures/mocks/file-upload.json';
 import mockMaintenanceWindows from '../fixtures/mocks/maintenance-windows.json';
 import mockPrefill from '../fixtures/mocks/prefill.json';
 import mockSaveInProgress from '../fixtures/mocks/save-in-progress.json';
@@ -12,6 +13,7 @@ const APIs = {
   maintenance: '/v0/maintenance_windows',
   saveInProgress: '/v0/in_progress_forms/10-10D-EXTENDED',
   submit: '/ivc_champva/v1/forms/10-10d-ext',
+  upload: '/ivc_champva/v1/forms/submit_supporting_documents*',
   vamc: '/data/cms/vamc-ehr.json',
 };
 
@@ -24,6 +26,7 @@ export const setupBasicTest = (props = {}) => {
   cy.intercept('GET', APIs.maintenance, mockMaintenanceWindows);
   cy.intercept('GET', APIs.vamc, mockVamc);
   cy.intercept('POST', APIs.submit, mockSubmission);
+  cy.intercept('POST', APIs.upload, mockFileUpload);
 };
 
 export const setupForAuth = (props = {}) => {
