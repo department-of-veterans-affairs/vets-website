@@ -156,7 +156,7 @@ const WebChat = ({ token, code, webChatFramework, freeze = false }) => {
           style={{
             position: 'absolute',
             right: 16,
-            bottom: 56,
+            bottom: 80,
             color: '#b50909',
             display: 'flex',
             alignItems: 'center',
