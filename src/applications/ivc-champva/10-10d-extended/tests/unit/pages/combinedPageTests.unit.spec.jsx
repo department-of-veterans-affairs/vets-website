@@ -150,12 +150,12 @@ describe('selectMedicareParticipantPage updateSchema', () => {
         {
           applicantName: { first: 'Jim', last: 'Jones' },
           applicantDob: '1955-01-01',
-          applicantSSN: '123123123',
+          applicantSsn: '123123123',
         },
         {
           applicantName: { first: 'John', last: 'Jones' },
           applicantDob: '2025-01-02',
-          applicantSSN: '345345345',
+          applicantSsn: '345345345',
         },
       ],
       medicare: [{}],
@@ -185,17 +185,17 @@ describe('selectMedicareParticipantPage updateSchema', () => {
         {
           applicantName: { first: 'Jim', last: 'Jones' },
           applicantDob: '1955-01-01',
-          applicantSSN: '123123123',
+          applicantSsn: '123123123',
         },
         {
           applicantName: { first: 'Jack', last: 'Jones' },
           applicantDob: '1955-01-02',
-          applicantSSN: '321321321',
+          applicantSsn: '321321321',
         },
         {
           applicantName: { first: 'John', last: 'Jones' },
           applicantDob: '2025-06-01',
-          applicantSSN: '345345345',
+          applicantSsn: '345345345',
         },
       ],
     };
@@ -212,7 +212,7 @@ describe('selectMedicareParticipantOnGoForward', () => {
   it('should set a view property containing applicant objects on the medicare array', () => {
     let fullData = {
       medicare: [{}],
-      applicants: [{ applicantSSN: '123123123' }],
+      applicants: [{ applicantSsn: '123123123' }],
     };
     function setFd(obj) {
       fullData = obj; // overwrite the above

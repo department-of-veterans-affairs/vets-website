@@ -15,6 +15,7 @@ import {
   selectIsCernerPatient,
   selectIsCernerOnlyPatient,
 } from '~/platform/user/cerner-dsot/selectors';
+import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import {
   getFailedDomainList,
@@ -85,6 +86,34 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   // Note: No platform selector exists for "has VistA facilities only"
   const hasVistAFacilities = facilities.length > 0 && !hasOHOnly;
   const hasBothDataSources = hasOHFacilities && hasVistAFacilities;
+
+  // Get Drupal EHR data for facility name mapping
+  const ehrDataByVhaId = useSelector(
+    state => state.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
+  );
+
+  // Map facility IDs to facility names
+  const vistaFacilityNames = useMemo(
+    () => {
+      if (!ehrDataByVhaId) return [];
+      const vistaFacilities = facilities.filter(f => !f.isCerner);
+      return vistaFacilities
+        .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
+        .filter(name => name); // Filter out undefined/null names
+    },
+    [facilities, ehrDataByVhaId],
+  );
+
+  const ohFacilityNames = useMemo(
+    () => {
+      if (!ehrDataByVhaId) return [];
+      const ohFacilities = facilities.filter(f => f.isCerner);
+      return ohFacilities
+        .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
+        .filter(name => name); // Filter out undefined/null names
+    },
+    [facilities, ehrDataByVhaId],
+  );
 
   // Checks if CCD retry is needed and returns a formatted timestamp or null.
   const CCDRetryTimestamp = useMemo(
@@ -340,6 +369,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
                   generatingCCD={generatingCCD}
                   handleDownloadCCD={handleDownloadCCD}
                   handleDownloadCCDV2={handleDownloadCCDV2}
+                  vistaFacilityNames={vistaFacilityNames}
+                  ohFacilityNames={ohFacilityNames}
                 />
               );
             }

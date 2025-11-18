@@ -12,7 +12,7 @@ import { currency } from '../../../util/string-helpers';
 import ExpenseCardDetails from './ExpenseCardDetails';
 import DeleteExpenseModal from './DeleteExpenseModal';
 
-const ExpenseCard = ({ apptId, claimId, expense, address }) => {
+const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
 
@@ -21,9 +21,12 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
     selectIsExpenseDeleting(state, expenseId),
   );
 
-  const header = `${formatDate(expense.dateIncurred)}, ${currency(
-    expense.costRequested,
-  )}`;
+  const header =
+    expense.expenseType === 'Mileage'
+      ? 'Mileage expense'
+      : `${formatDate(expense.dateIncurred)}, ${currency(
+          expense.costRequested,
+        )}`;
 
   const handleDeleteExpenseAndDocument = async () => {
     setShowDeleteModal(false);
@@ -37,7 +40,10 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
 
   return (
     <div className="vads-u-margin-top--2">
-      <va-card>
+      <va-card
+        className="expense-card"
+        data-testid={`expense-card-${expense.id}`}
+      >
         <h3 className="vads-u-margin-top--1">{header}</h3>
         {isDeleting ? (
           <div className="vads-u-text-align--center vads-u-margin--5">
@@ -84,43 +90,47 @@ const ExpenseCard = ({ apptId, claimId, expense, address }) => {
                 ]}
               />
             )}
-            <div className="review-button-row">
-              <div className="review-edit-button">
-                <Link
-                  data-testid={`${expenseId}-edit-expense-link`}
-                  to={`/file-new-claim/${apptId}/${claimId}/${
-                    EXPENSE_TYPES[expenseType]?.route
-                  }/${expenseId}`}
-                >
-                  EDIT
-                  <va-icon
-                    active
-                    icon="navigate_next"
-                    size={3}
-                    aria-hidden="true"
-                  />
-                </Link>
-              </div>
+            {showEditDelete && (
+              <div className="review-button-row">
+                <div className="review-edit-button">
+                  <Link
+                    data-testid={`${expenseId}-edit-expense-link`}
+                    to={`/file-new-claim/${apptId}/${claimId}/${
+                      EXPENSE_TYPES[expenseType]?.route
+                    }/${expenseId}`}
+                  >
+                    EDIT
+                    <va-icon
+                      active
+                      icon="navigate_next"
+                      size={3}
+                      aria-hidden="true"
+                    />
+                  </Link>
+                </div>
 
-              <va-button-icon
-                className="align-items--end"
-                data-action="remove"
-                button-type="delete"
-                disabled={isDeleting}
-                onClick={() => !isDeleting && setShowDeleteModal(true)}
-              />
-            </div>
+                <va-button-icon
+                  data-testid={`${expenseId}-delete-expense-button`}
+                  className="align-items--end"
+                  data-action="remove"
+                  button-type="delete"
+                  onClick={() => setShowDeleteModal(true)}
+                />
+              </div>
+            )}
           </>
         )}
       </va-card>
-      <DeleteExpenseModal
-        expenseCardTitle={header}
-        expenseType={expenseType}
-        visible={showDeleteModal && !isDeleting}
-        onCloseEvent={() => setShowDeleteModal(false)}
-        onPrimaryButtonClick={handleDeleteExpenseAndDocument}
-        onSecondaryButtonClick={() => setShowDeleteModal(false)}
-      />
+      {showEditDelete && (
+        <DeleteExpenseModal
+          expenseCardTitle={header}
+          expenseType={expenseType}
+          visible={showDeleteModal}
+          onCloseEvent={() => setShowDeleteModal(false)}
+          onPrimaryButtonClick={handleDeleteExpenseAndDocument}
+          onSecondaryButtonClick={() => setShowDeleteModal(false)}
+        />
+      )}
     </div>
   );
 };
@@ -130,6 +140,7 @@ ExpenseCard.propTypes = {
   address: PropTypes.object,
   apptId: PropTypes.string,
   claimId: PropTypes.string,
+  showEditDelete: PropTypes.bool,
 };
 
 export default ExpenseCard;

@@ -16,6 +16,11 @@ describe('CareSummariesAndNotes list container', () => {
         careSummariesAndNotesList: notes.entry.map(note =>
           convertCareSummariesAndNotesRecord(note.resource),
         ),
+        dateRange: {
+          option: '3',
+          fromDate: '2025-08-13',
+          toDate: '2025-11-13',
+        },
       },
     },
   };
@@ -45,7 +50,13 @@ describe('CareSummariesAndNotes list container still loading', () => {
   it('shows a loading indicator', () => {
     const initialState = {
       mr: {
-        careSummariesAndNotes: {},
+        careSummariesAndNotes: {
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
       },
     };
 
@@ -64,6 +75,11 @@ describe('CareSummariesAndNotes list container with no records', () => {
     const initialState = {
       careSummariesAndNotes: {
         careSummariesAndNotesList: [],
+        dateRange: {
+          option: '3',
+          fromDate: '2025-08-13',
+          toDate: '2025-11-13',
+        },
       },
       alerts: {
         alertList: [],
@@ -92,7 +108,14 @@ describe('CareSummariesAndNotes list container with errors', () => {
     const initialState = {
       user,
       mr: {
-        labsAndTests: {},
+        careSummariesAndNotesList: {
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
+
         alerts: {
           alertList: [
             {
