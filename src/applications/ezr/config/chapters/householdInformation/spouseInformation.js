@@ -13,6 +13,7 @@ import { spouseContactInformationPage } from '../../../definitions/spouseContact
 import content from '../../../locales/en/content.json';
 import SpouseSummaryCardDescription from '../../../components/FormDescriptions/SpouseSummaryCardDescription';
 import SpouseInformationReviewWarning from '../../../components/FormAlerts/SpouseInformationReviewWarning';
+import { isItemIncomplete } from '../../../utils/helpers/spouseUtils';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -22,9 +23,12 @@ const options = {
   required: false,
   maxItems: 1,
   hideMaxItemsAlert: true,
+  isItemIncomplete,
   text: {
     getItemName: item => {
-      return `${item.spouseFullName.first} ${item.spouseFullName.last}`;
+      const firstName = item?.spouseFullName?.first || '';
+      const lastName = item?.spouseFullName?.last || '';
+      return `${firstName} ${lastName}`.trim() || 'Spouse';
     },
     summaryDescription: () => (
       <SpouseInformationReviewWarning

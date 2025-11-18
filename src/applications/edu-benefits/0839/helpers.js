@@ -1,4 +1,5 @@
 import React from 'react';
+import { CURRENCY_LABELS } from './constants';
 
 export const validateInitials = (inputValue, firstName, lastName) => {
   if (!inputValue || inputValue.length === 0) {
@@ -107,7 +108,6 @@ export const toTitleCase = str => {
 
   return titled.join(' ');
 };
-
 export const getCardDescription = item => {
   return item ? (
     <>
@@ -233,12 +233,103 @@ export const createBannerMessage = (
 
   return message || null;
 };
-
 export const getAcademicYearDisplay = () => {
   const currentYear = new Date().getFullYear();
   return `${currentYear}-${currentYear + 1}`;
 };
+const yellowRibbonCardTitleCase = str => {
+  if (!str || typeof str !== 'string' || str.length === 0) {
+    return '';
+  }
 
+  const minorWords = [
+    'a',
+    'an',
+    'the',
+    'and',
+    'but',
+    'or',
+    'for',
+    'nor',
+    'as',
+    'at',
+    'by',
+    'up',
+    'out',
+    'in',
+    'of',
+    'on',
+    'to',
+    'with',
+    'from',
+  ];
+  const words = str
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(word => word.length > 0);
+
+  const result = words.map((word, index) => {
+    if (index > 0 && index < words.length - 1 && minorWords.includes(word)) {
+      return word;
+    }
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  });
+
+  return result.join(' ');
+};
+
+const yellowRibbonProgramCardDescription = item => {
+  if (!item) return null;
+  return (
+    <div>
+      <p>{yellowRibbonCardTitleCase(item.degreeLevel)}</p>
+      <p>{yellowRibbonCardTitleCase(item.collegeOrProfessionalSchool)}</p>
+      <p>{CURRENCY_LABELS[item.schoolCurrency]}</p>
+      <p>
+        {!item.specificContributionAmount
+          ? 'Pay remaining tuition that Post-9/11 GI Bill doesn’t cover (unlimited)'
+          : `${item.collegeOrProfessionalSchool ? '$' : ''}${Number(
+              item.specificContributionAmount,
+            ).toLocaleString()}`}
+      </p>
+    </div>
+  );
+};
+export const arrayBuilderOptions = {
+  arrayPath: 'yellowRibbonProgramRequest',
+  nounSingular: 'contribution',
+  nounPlural: 'contributions',
+  required: true,
+  title: props => {
+    const institutionDetails = props?.formData?.institutionDetails;
+    const { isUsaSchool } = institutionDetails || {};
+    return `${
+      isUsaSchool ? 'U.S.' : 'Foreign'
+    } Yellow Ribbon Program contributions`;
+  },
+  text: {
+    getItemName: item =>
+      `Max. number of students: ${
+        item?.maximumStudentsOption === 'specific'
+          ? item?.maximumStudents
+          : 'Unlimited'
+      }`,
+    cardDescription: item => yellowRibbonProgramCardDescription(item),
+    summaryTitle: props => {
+      const institutionDetails = props?.formData?.institutionDetails;
+      const { isUsaSchool } = institutionDetails || {};
+      return `Review your Yellow Ribbon Program contributions ${
+        isUsaSchool ? '(U.S. schools)' : '(foreign schools)'
+      }`;
+    },
+  },
+};
+
+export const addMaxContributions = arr => {
+  return arr.reduce((acc, item) => {
+    return acc + Number(item.maximumStudents || 0);
+  }, 0);
+};
 export const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const code = (fieldData || '').trim();
 
@@ -315,4 +406,45 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
       );
     }
   }
+};
+
+export const showAdditionalPointsOfContact = formData => {
+  const isYellowRibbonProgramPointOfContact =
+    formData?.pointsOfContact?.roles?.isYellowRibbonProgramPointOfContact ===
+    true;
+  const isSchoolFinancialRepresentative =
+    formData?.pointsOfContact?.roles?.isSchoolFinancialRepresentative === true;
+  const isSchoolCertifyingOfficial =
+    formData?.pointsOfContact?.roles?.isSchoolCertifyingOfficial === true;
+
+  if (
+    (isYellowRibbonProgramPointOfContact || isSchoolFinancialRepresentative) &&
+    isSchoolCertifyingOfficial
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
+export const getAdditionalContactTitle = formData => {
+  const isYellowRibbonProgramPointOfContact =
+    formData?.pointsOfContact?.roles?.isYellowRibbonProgramPointOfContact ===
+    true;
+  const isSchoolFinancialRepresentative =
+    formData?.pointsOfContact?.roles?.isSchoolFinancialRepresentative === true;
+
+  if (
+    !isSchoolFinancialRepresentative &&
+    !isYellowRibbonProgramPointOfContact
+  ) {
+    return 'Add Yellow Ribbon Program point of contact';
+  }
+
+  return 'Add school certifying official';
+};
+
+export const capitalizeFirstLetter = str => {
+  if (!str || typeof str !== 'string') return '';
+  return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
 };

@@ -8,11 +8,11 @@ import formConfig from '../../../../config/form';
 const {
   chapters: {
     householdInformation: {
-      pages: { spouseInformationSummary },
+      pages: { spouseInformationSummaryPage },
     },
   },
 } = formConfig;
-const { title: pageTitle, schema, uiSchema } = spouseInformationSummary;
+const { title: pageTitle, schema, uiSchema } = spouseInformationSummaryPage;
 
 // Run test for correct number of fields on the page.
 const expectedNumberOfWebComponentFields = 1;
