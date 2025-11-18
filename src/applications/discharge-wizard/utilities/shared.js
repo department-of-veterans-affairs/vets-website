@@ -24,5 +24,5 @@ export const determineLabel = shortName => {
 };
 
 export const isValidYear = value => {
-  return value < new Date().getFullYear() && value?.match(/^(19|20)\d{2}$/);
+  return value <= new Date().getFullYear() && value?.match(/^(19|20)\d{2}$/);
 };

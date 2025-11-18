@@ -4,10 +4,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import {
-  AppointmentDetails,
-  AppointmentInfoText,
-} from '../../components/AppointmentDetails';
+import AppointmentInfoText from '../../components/AppointmentInfoText';
 
 const claimMeta = {
   status: 200,
@@ -40,23 +37,6 @@ const mockAppt = {
   },
 };
 
-describe('Appointment details', () => {
-  it('should render appointment details with original appointment object', () => {
-    const screen = render(<AppointmentDetails appointment={mockAppt} />);
-
-    expect(screen.getByText(/December 30/i)).to.exist;
-    expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.exist;
-  });
-
-  it('should show appropriate days left to claim', () => {
-    MockDate.set('2025-01-28T14:00:00Z');
-    const screen = render(<AppointmentDetails appointment={mockAppt} />);
-
-    expect(screen.getByText(/1 day/i)).to.exist;
-    MockDate.reset();
-  });
-});
-
 describe('Appointment info text', () => {
   // The date in the appt is "2024-12-30T14:00:00Z"
 
@@ -79,8 +59,8 @@ describe('Appointment info text', () => {
       />,
     );
 
-    expect(screen.getByText(/Your appointment is older than 30 days/i)).to
-      .exist;
+    expect(screen.getByText(/Your appointment happened more than 30 days ago/i))
+      .to.exist;
   });
 
   it('should render correct text for if appt is less than 30 days old', () => {
