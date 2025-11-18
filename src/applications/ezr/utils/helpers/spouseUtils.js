@@ -31,13 +31,10 @@ export const isItemIncomplete = item => {
 
   // Contact information is only required if spouse does not have the same address.
   if (item?.sameAddress === false) {
-    const missingContactFields =
-      !item?.spouseAddress?.street ||
-      !item?.spouseAddress?.city ||
-      !item?.spouseAddress?.state ||
-      !item?.spouseAddress?.country ||
-      !item?.spouseAddress?.postalCode;
-
+    const addressFields = ['street', 'city', 'state', 'country', 'postalCode'];
+    const missingContactFields = addressFields.some(
+      field => !item?.spouseAddress?.[field],
+    );
     if (missingContactFields) {
       return true;
     }
