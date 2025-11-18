@@ -15,6 +15,7 @@ import {
 } from './AlertSystemResponse';
 import AlertAddContactEmail from './AlertAddContactEmail';
 import AlertConfirmContactEmail from './AlertConfirmContactEmail';
+import AlertConfirmAddContactEmailError from './AlertConfirmAddContactEmailError';
 import { recordAlertLoadEvent } from './recordAlertLoadEvent';
 
 /**
@@ -40,6 +41,8 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
     () => {
       if (confirmSuccess) {
         waitForRenderThenFocus('[data-testid="mhv-alert--confirm-success"]');
+      } else if (confirmError) {
+        waitForRenderThenFocus('[data-testid="mhv-alert--confirm-error"]');
       } else if (skipSuccess) {
         waitForRenderThenFocus('[data-testid="mhv-alert--skip-success"]');
       }
@@ -83,14 +86,21 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
           tabIndex={-1}
         />
       )}
-      {!confirmSuccess && (
-        <AlertConfirmContactEmail
+      {confirmError && (
+        <AlertConfirmAddContactEmailError
           emailAddress={emailAddress}
           onConfirmClick={putConfirmationDate}
           recordEvent={recordEvent}
-          confirmError={confirmError}
         />
       )}
+      {!confirmSuccess &&
+        !confirmError && (
+          <AlertConfirmContactEmail
+            emailAddress={emailAddress}
+            onConfirmClick={putConfirmationDate}
+            recordEvent={recordEvent}
+          />
+        )}
     </>
   ) : (
     <>

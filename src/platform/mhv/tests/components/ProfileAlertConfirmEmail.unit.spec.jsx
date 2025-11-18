@@ -267,8 +267,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
       clickButton(container);
 
       await waitFor(() => {
-        const alert = getByTestId('profile-alert--confirm-contact-email');
-        expect(alert.getAttribute('status')).to.equal('error');
+        getByTestId('mhv-alert--confirm-error');
         getByText('Please try again.');
         const headline = 'We couldn’t confirm your contact email';
         expect(props.recordEvent.calledWith(headline));

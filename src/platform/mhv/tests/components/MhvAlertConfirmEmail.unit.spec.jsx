@@ -225,7 +225,7 @@ describe('<MhvAlertConfirmEmail />', () => {
       await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
       fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
       await waitFor(() => {
-        const alert = getByTestId('mhv-alert--confirm-contact-email');
+        const alert = getByTestId('mhv-alert--confirm-error');
         expect(alert.getAttribute('status')).to.equal('error');
         getByText('Please try again.');
         const headline = 'We couldn’t confirm your contact email';
@@ -289,6 +289,30 @@ describe('<MhvAlertConfirmEmail />', () => {
         expect(successAlert.getAttribute('tabindex')).to.equal('-1');
         // check that the success alert has role="alert"
         expect(successAlert.getAttribute('role')).to.equal('alert');
+      });
+    });
+
+    it('focuses the error alert after failed confirmation', async () => {
+      mockApiRequest({}, false); // Simulate failed API request
+      const initialState = stateFn({ confirmationDate: null });
+      const { container, getByTestId, queryByTestId } = render(
+        <MhvAlertConfirmEmail />,
+        { initialState },
+      );
+      await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
+      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+      await waitFor(() => {
+        const errorAlert = getByTestId('mhv-alert--confirm-error');
+        // only the error alert is rendered
+        expect(errorAlert).to.exist;
+        expect(queryByTestId('mhv-alert--confirm-success')).to.be.null;
+        // The confirm-contact-email alert may or may not be present depending on UI flow
+        // Check that the error alert is focused
+        expect(document.activeElement).to.equal(errorAlert);
+        // Check that the error alert has tabindex="-1" to allow focusing
+        expect(errorAlert.getAttribute('tabindex')).to.equal('-1');
+        // check that the error alert has role="alert"
+        expect(errorAlert.getAttribute('role')).to.equal('alert');
       });
     });
   });

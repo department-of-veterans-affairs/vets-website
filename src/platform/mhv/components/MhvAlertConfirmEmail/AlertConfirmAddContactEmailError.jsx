@@ -4,26 +4,27 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 
 import AlertConfirmContactEmailContent from './AlertConfirmContactEmailContent';
 
-// implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7184-44682&t=CogySEDQUAcvZwHQ-4
-const AlertConfirmContactEmail = ({
+/**
+ * This component is very similar to AlertConfirmContactEmail, but is slightly modified
+ * to indicate an error state.
+ */
+const AlertConfirmAddContactEmailError = ({
   emailAddress,
   onConfirmClick,
   recordEvent,
 }) => {
-  const headline = 'Confirm your contact email';
+  const headline = 'We couldn’t confirm your contact email';
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
 
   return (
     <VaAlert
-      status="warning"
-      role="status"
-      dataTestid="mhv-alert--confirm-contact-email"
+      status="error"
+      role="alert"
+      dataTestid="mhv-alert--confirm-error"
       className="vads-u-margin-y--2"
     >
-      <h2 slot="headline">
-        <span className="usa-sr-only">warning</span>
-        {headline}
-      </h2>
+      <h2 slot="headline">{headline}</h2>
+      <p>Please try again.</p>
       <AlertConfirmContactEmailContent
         emailAddress={emailAddress}
         onConfirmClick={() => onConfirmClick()}
@@ -32,10 +33,10 @@ const AlertConfirmContactEmail = ({
   );
 };
 
-AlertConfirmContactEmail.propTypes = {
+AlertConfirmAddContactEmailError.propTypes = {
   emailAddress: PropTypes.string.isRequired,
   recordEvent: PropTypes.func.isRequired,
   onConfirmClick: PropTypes.func.isRequired,
 };
 
-export default AlertConfirmContactEmail;
+export default AlertConfirmAddContactEmailError;
