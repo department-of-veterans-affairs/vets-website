@@ -31,19 +31,15 @@ export const mockTestingFlagforAPI = envUrl === 'http://localhost:3000'; // enab
 export const getMockTestingFlagforAPI = () => mockTestingFlagforAPI;
 
 export const URL = {
-  GET_CATEGORIES: `${baseURL}/contents?type=category${
-    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
-  }`,
-  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%${
-    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
-  }`,
-  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%${
-    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
-  }`,
+  GET_CATEGORIES: `${baseURL}/contents?type=category${mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+    }`,
+  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%${mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+    }`,
+  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%${mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+    }`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
-  ANNOUNCEMENTS: `${baseURL}/announcements${
-    mockTestingFlagforAPI ? '?user_mock_data=true' : ''
-  }`,
+  ANNOUNCEMENTS: `${baseURL}/announcements${mockTestingFlagforAPI ? '?user_mock_data=true' : ''
+    }`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
@@ -246,7 +242,7 @@ export const addressFields = {
   STREET_2: 'Street address 2',
   CITY: 'City',
   STATE: 'State/Province/Region',
-  ZIP: 'Postal Code',
+  ZIP: 'zip Code',
   POST_OFFICE: 'Post office',
   MILITARY_STATE: 'Region',
 };
@@ -429,32 +425,32 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
-  FAMILY_MEMBERS_POSTAL_CODE: {
-    TITLE: "Family member's postal code",
+  FAMILY_MEMBERS_ZIP_CODE: {
+    TITLE: "Family member's zip code",
     PAGE_DESCRIPTION: '',
     QUESTION_1:
       'Family member receives mail outside of the United States on a U.S. military base.',
     QUESTION_2: 'Post office',
     QUESTION_3: 'State',
-    QUESTION_4: 'Postal code',
+    QUESTION_4: 'zip code',
   },
-  VETERANS_POSTAL_CODE: {
-    TITLE: "Veteran's postal code",
+  VETERANS_ZIP_CODE: {
+    TITLE: "Veteran's zip code",
     PAGE_DESCRIPTION: '',
     QUESTION_1:
       'Veteran receives mail outside of the United States on a U.S. military base.',
     QUESTION_2: 'Post office',
     QUESTION_3: 'State',
-    QUESTION_4: 'Postal code',
+    QUESTION_4: 'zip code',
   },
-  YOUR_POSTAL_CODE: {
-    TITLE: 'Your postal code',
+  YOUR_ZIP_CODE: {
+    TITLE: 'Your zip code',
     PAGE_DESCRIPTION: '',
     QUESTION_1:
       'Veteran receives mail outside of the United States on a U.S. military base.',
     QUESTION_2: 'Post office',
     QUESTION_3: 'State',
-    QUESTION_4: 'Postal code',
+    QUESTION_4: 'zip code',
   },
   WHO_QUES_IS_ABOUT: {
     TITLE: 'Is your question about the Veteran or someone else?',
@@ -581,16 +577,16 @@ export const CHAPTER_3 = {
   YOUR_VA_HEALTH_FACILITY: {
     PATH: 'your-va-health-facility',
     TITLE: 'Your VA health facility',
-    DESCRIPTION: 'Search by city, postal code, or use your current location.',
+    DESCRIPTION: 'Search by city, zip code, or use your current location.',
   },
   VETERAN_VA_HEALTH_FACILITY: {
     TITLE: "Veteran's VA health facility",
-    DESCRIPTION: 'Search by city, postal code, or use your current location.',
+    DESCRIPTION: 'Search by city, zip code, or use your current location.',
   },
   FAMILY_MEMBER_VA_HEALTH_FACILITY: {
     PATH: 'your-va-health-facility',
     TITLE: "Family member's VA health facility",
-    DESCRIPTION: 'Search by city, postal code, or use your current location.',
+    DESCRIPTION: 'Search by city, zip code, or use your current location.',
   },
   YOUR_VRE_INFORMATION: {
     TITLE:
@@ -675,8 +671,8 @@ export const breadcrumbsDictionary = {
 // Health care label is currently different on local/dev and staging (pulling from CRM updated list)
 export const healthcareCategoryLabels = ['Health care', 'VA Health Care'];
 
-// Define the states requiring postal code
-export const statesRequiringPostalCode = [
+// Define the states requiring zip code
+export const statesRequiringzipCode = [
   'California',
   'New York',
   'Pennsylvania',
