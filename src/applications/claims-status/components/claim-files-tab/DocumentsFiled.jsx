@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import { ANCHOR_LINKS, ITEMS_PER_PAGE } from '../../constants';
 import { buildDateFormatter } from '../../utils/helpers';
+import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 
@@ -110,12 +111,10 @@ function DocumentsFiled({ claim }) {
 
   return (
     <div className="documents-filed-container">
-      <h3
-        id={ANCHOR_LINKS.documentsFiled}
-        className="vads-u-margin-top--0 vads-u-margin-bottom--3"
-      >
+      <h3 id={ANCHOR_LINKS.documentsFiled} className="vads-u-margin-top--0">
         Documents filed
       </h3>
+      <TimezoneDiscrepancyMessage />
       {currentPageItems.length === 0 ? (
         <div>
           <p>You haven’t turned in any documents to the VA.</p>
