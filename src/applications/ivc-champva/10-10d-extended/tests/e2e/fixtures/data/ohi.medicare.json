@@ -38,7 +38,7 @@
         ],
         "medicarePartDBackCard": [
           {
-            "attachmentId": "Front of Medicare Part D card",
+            "attachmentId": "Back of Medicare Part D card",
             "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
             "name": "sample.png",
             "isEncrypted": false
