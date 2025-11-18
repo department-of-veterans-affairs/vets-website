@@ -77,6 +77,7 @@ export const pageHooks = {
           cy.fillVaStatementOfTruth({
             field: LABELS[role],
             fullName: role === 'representative' ? parties[role] : undefined,
+            checked: true,
           }),
         );
       });

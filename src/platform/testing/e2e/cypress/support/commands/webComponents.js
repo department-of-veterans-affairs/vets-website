@@ -578,7 +578,7 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'fillVaStatementOfTruth',
-  ({ field = '', fullName = '', checked = true } = {}) => {
+  ({ field = '', fullName = '', checked } = {}) => {
     let element;
 
     if (!field) {
