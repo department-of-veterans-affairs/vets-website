@@ -36,14 +36,13 @@ export const getVitals = (
       isCurrent,
     });
   } catch (error) {
+    // dispatch({
+    //   type: actionType,
+    //   response: [],
+    //   isCurrent,
+    // });
     dispatch({
-      type: Actions.Vitals.UPDATE_LIST_STATE,
-      payload: Constants.loadStates.FETCHED,
-    });
-    dispatch({
-      type: actionType,
-      response: [],
-      isCurrent,
+      type: Actions.Vitals.SET_UNIFIED_LIST_ERROR,
     });
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     sendDatadogError(error, 'actions_vitals_getVitals');

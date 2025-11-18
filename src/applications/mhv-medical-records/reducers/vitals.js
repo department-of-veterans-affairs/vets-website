@@ -220,6 +220,14 @@ export const vitalReducer = (state = initialState, action) => {
         updatedList: typeof oldList !== 'undefined' ? newList : undefined,
       };
     }
+    case Actions.Vitals.SET_UNIFIED_LIST_ERROR: {
+      return {
+        ...state,
+        listCurrentAsOf: new Date(),
+        listState: loadStates.ERROR,
+        vitalsList: [],
+      };
+    }
     case Actions.Vitals.COPY_UPDATED_LIST: {
       const originalList = state.vitalsList;
       const { updatedList } = state;

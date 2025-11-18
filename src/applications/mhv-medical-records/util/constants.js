@@ -351,6 +351,7 @@ export const loadStates = {
   PRE_FETCH: 'pre-fetch',
   FETCHING: 'fetching',
   FETCHED: 'fetched',
+  ERROR: 'error',
 };
 
 export const downtimeNotificationParams = {
