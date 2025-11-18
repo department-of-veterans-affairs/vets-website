@@ -103,7 +103,7 @@ export const uiSchema = {
             }
 
             // Format full date as "December 10, 2015"
-            const formattedDate = formatDate(value.formData, DATE_FORMAT_LONG);
+            const formattedDate = formatDate(value.formData);
 
             return {
               data:
