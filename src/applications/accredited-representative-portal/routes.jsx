@@ -16,6 +16,7 @@ import LoginContainer from './containers/LoginContainer';
 import AuthCallbackHandler from './containers/AuthCallbackHandler';
 import DashboardPage from './containers/DashboardPage';
 import SinglePageForm526EZContainer from './containers/SinglePageForm526EZContainer';
+import SinglePageForm526EZConfirmation from './containers/SinglePageForm526EZConfirmation';
 
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
@@ -114,6 +115,10 @@ const routes = [
                 path: 'complete-form/21-526EZ',
                 element: <SinglePageForm526EZContainer />,
                 // In future: add loader for representative-specific prefill or authorization
+              },
+              {
+                path: 'complete-form/21-526EZ/confirmation',
+                element: <SinglePageForm526EZConfirmation />,
               },
               {
                 path: 'claimant-search',

@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import {
   VaAccordion,
   VaAccordionItem,
@@ -8,14 +7,15 @@ import {
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-// Alias setData to setFormData for clarity and to avoid undefined reference in tests
-import { setData as setFormData } from 'platform/forms-system/src/js/actions';
 import { focusElement } from 'platform/utilities/ui';
 import NewDisability from '../NewDisability';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import {
+  buildVeteranInformationSection,
+  buildContactInformationSection,
+} from 'platform/forms/disability-benefits/526ez/sharedSections';
 
-const { condition } = fullSchema.definitions.newDisabilities.items.properties;
+const { condition } = fullSchema.definitions.newDisabilities.items.anyOf[0].properties;
 
 /*
  * NOTE: This is an INITIAL SLICE of the full 21-526EZ form for the
@@ -27,74 +27,21 @@ const { condition } = fullSchema.definitions.newDisabilities.items.properties;
  * Expansion TODOs are documented at the bottom of this file.
  */
 
-// Minimal field patterns (prefer platform web-component-patterns where possible)
-// We inline simple text/date patterns for now to avoid premature abstraction.
-const veteranInfoSchema = {
-  type: 'object',
-  properties: {
-    veteranFullName: {
-      type: 'object',
-      properties: {
-        first: { type: 'string' },
-        middle: { type: 'string' },
-        last: { type: 'string' },
-        suffix: { type: 'string' },
-      },
-      required: ['first', 'last'],
-    },
-    veteranSocialSecurityNumber: { type: 'string', pattern: '^[0-9]{9}$' },
-    veteranDateOfBirth: { type: 'string', format: 'date' },
-  },
-};
+// Veteran & contact details flow through a shared platform adapter so the
+// representative experience mirrors the flagship all-claims implementation.
+const veteranInformationSection = buildVeteranInformationSection();
+const contactInformationSection = buildContactInformationSection();
 
-const veteranInfoUi = {
-  'ui:title': 'Veteran information',
-  veteranFullName: {
-    first: { 'ui:title': 'First name', 'ui:required': () => true },
-    middle: { 'ui:title': 'Middle name' },
-    last: { 'ui:title': 'Last name', 'ui:required': () => true },
-    suffix: { 'ui:title': 'Suffix' },
-  },
-  veteranSocialSecurityNumber: {
-    'ui:title': 'Social Security number',
-    'ui:options': { widgetClassNames: 'usa-input-medium' },
-    'ui:errorMessages': {
-      pattern: 'Enter a 9-digit SSN (numbers only)',
-    },
-  },
-  veteranDateOfBirth: { 'ui:title': 'Date of birth' },
-};
-
-const contactInfoSchema = {
-  type: 'object',
-  properties: {
-    emailAddress: { type: 'string', format: 'email' },
-    primaryPhone: { type: 'string' },
-    mailingAddress: {
-      type: 'object',
-      properties: {
-        street: { type: 'string' },
-        street2: { type: 'string' },
-        city: { type: 'string' },
-        state: { type: 'string' },
-        postalCode: { type: 'string' },
-      },
-    },
-  },
-};
-
-const contactInfoUi = {
-  'ui:title': 'Contact information',
-  emailAddress: { 'ui:title': 'Email address' },
-  primaryPhone: { 'ui:title': 'Primary phone number' },
-  mailingAddress: {
-    'ui:title': 'Mailing address',
-    street: { 'ui:title': 'Street address' },
-    street2: { 'ui:title': 'Street address line 2' },
-    city: { 'ui:title': 'City' },
-    state: { 'ui:title': 'State' },
-    postalCode: { 'ui:title': 'ZIP code' },
-  },
+const disableSectionSubmit = uiSchema => {
+  if (!uiSchema) {
+    return uiSchema;
+  }
+  const next = { ...uiSchema };
+  next['ui:submitButtonOptions'] = {
+    ...(uiSchema['ui:submitButtonOptions'] || {}),
+    norender: true,
+  };
+  return next;
 };
 
 // For growable arrays the platform ArrayField currently assumes `schema.items` is
@@ -181,16 +128,16 @@ const buildSections = () => [
     chapterKey: 'veteranDetails',
     chapterTitle: 'Veteran details',
     title: 'Veteran information',
-    schema: veteranInfoSchema,
-    uiSchema: veteranInfoUi,
+    schema: veteranInformationSection.schema,
+    uiSchema: disableSectionSubmit(veteranInformationSection.uiSchema),
   },
   {
     key: 'contactInformationSection',
     chapterKey: 'veteranDetails',
     chapterTitle: 'Veteran details',
     title: 'Contact information',
-    schema: contactInfoSchema,
-    uiSchema: contactInfoUi,
+    schema: contactInformationSection.schema,
+    uiSchema: disableSectionSubmit(contactInformationSection.uiSchema),
   },
   {
     key: 'disabilitiesSection',
@@ -198,7 +145,7 @@ const buildSections = () => [
     chapterTitle: 'Conditions',
     title: 'Claimed conditions',
     schema: disabilitiesSchema,
-    uiSchema: disabilitiesUi,
+    uiSchema: disableSectionSubmit(disabilitiesUi),
   },
   {
     key: 'evidenceSection',
@@ -206,7 +153,7 @@ const buildSections = () => [
     chapterTitle: 'Supporting evidence',
     title: 'Supporting evidence',
     schema: evidenceSchema,
-    uiSchema: evidenceUi,
+    uiSchema: disableSectionSubmit(evidenceUi),
   },
 ];
 
@@ -224,23 +171,26 @@ const groupSectionsByChapter = sections => {
 };
 
 export const SinglePageForm526EZUnconnected = ({
-  formData = {},
-  setFormData,
   onSubmit,
-  onSaveDraft,
   veteranInfo,
+  initialData = {},
 }) => {
-  const [expanded, setExpanded] = useState([]); // track open chapters
+  const [formData, setFormData] = useState(initialData);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
+
+  const sections = useMemo(() => buildSections(), []);
+  const chapters = useMemo(() => groupSectionsByChapter(sections), [sections]);
+  const chapterEntries = useMemo(() => Object.entries(chapters), [chapters]);
+  
+  // Initialize all chapters as expanded
+  const [expanded, setExpanded] = useState(() => 
+    chapterEntries.map(([key]) => key)
+  );
 
   useEffect(() => {
     focusElement('h1');
   }, []);
-
-  const sections = buildSections();
-  const chapters = groupSectionsByChapter(sections);
-  const chapterEntries = Object.entries(chapters);
 
   const handleChapterToggle = chapterKey => {
     setExpanded(prev =>
@@ -252,12 +202,12 @@ export const SinglePageForm526EZUnconnected = ({
 
   const handleSectionChange = useCallback(
     (sectionKey, newSectionData) => {
-      setFormData({
-        ...formData,
+      setFormData(prevData => ({
+        ...prevData,
         [sectionKey]: newSectionData,
-      });
+      }));
     },
-    [formData, setFormData],
+    [],
   );
 
   const validateAll = currentData => {
@@ -305,16 +255,6 @@ export const SinglePageForm526EZUnconnected = ({
     }
   };
 
-  const handleSaveDraft = async () => {
-    try {
-      await onSaveDraft?.(formData, { veteranInfo });
-    } catch (e) {
-      // Silently log; could surface toast/alert in future iteration
-      // eslint-disable-next-line no-console
-      console.error('Draft save failed', e);
-    }
-  };
-
   return (
     <div className="single-page-form-526ez vads-u-margin-y--4">
       <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
@@ -348,23 +288,28 @@ export const SinglePageForm526EZUnconnected = ({
             onAccordionItemToggled={() => handleChapterToggle(chapterKey)}
           >
             <div className="vads-u-padding-x--1 vads-u-padding-bottom--2">
-              {chapter.sections.map(section => (
-                <div
-                  key={section.key}
-                  className="vads-u-margin-bottom--4"
-                  data-section={section.key}
-                >
-                  <h3 className="vads-u-font-size--h4">{section.title}</h3>
-                  <SchemaForm
-                    name={section.key}
-                    schema={section.schema}
-                    uiSchema={section.uiSchema}
-                    data={formData[section.key] || {}}
-                    onChange={newData => handleSectionChange(section.key, newData)}
-                    onSubmit={() => {}}
-                  />
-                </div>
-              ))}
+              {chapter.sections.map(section => {
+                const sectionData = formData[section.key] || {};
+                return (
+                  <div
+                    key={section.key}
+                    className="vads-u-margin-bottom--4"
+                    data-section={section.key}
+                  >
+                    <h3 className="vads-u-font-size--h4">{section.title}</h3>
+                    <SchemaForm
+                      name={section.key}
+                      schema={section.schema}
+                      uiSchema={section.uiSchema}
+                      data={sectionData}
+                      onChange={newData => handleSectionChange(section.key, newData)}
+                      onSubmit={() => {}}
+                    >
+                      <></>
+                    </SchemaForm>
+                  </div>
+                );
+              })}
             </div>
           </VaAccordionItem>
         ))}
@@ -374,19 +319,11 @@ export const SinglePageForm526EZUnconnected = ({
         {submitting ? (
           <VaLoadingIndicator message="Submitting form..." />
         ) : (
-          <>
-            <va-button
-              text="Submit Form 21-526EZ"
-              onClick={handleSubmit}
-              continue
-            />
-            <va-button
-              text="Save draft"
-              secondary
-              class="vads-u-margin-left--2"
-              onClick={handleSaveDraft}
-            />
-          </>
+          <va-button
+            text="Submit Form 21-526EZ"
+            onClick={handleSubmit}
+            continue
+          />
         )}
       </div>
 
@@ -410,26 +347,12 @@ export const SinglePageForm526EZBare = ({ veteranInfo, onSubmit = () => {} }) =>
 );
 
 SinglePageForm526EZUnconnected.propTypes = {
-  formData: PropTypes.object,
-  setFormData: PropTypes.func.isRequired,
+  initialData: PropTypes.object,
   onSubmit: PropTypes.func,
-  onSaveDraft: PropTypes.func,
   veteranInfo: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  formData: state.form?.data || {},
-  veteranInfo: state.user?.profile?.veteranInfo || null,
-});
-
-const mapDispatchToProps = { setFormData };
-
-const ConnectedSinglePageForm526EZ = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SinglePageForm526EZUnconnected);
-
-export default ConnectedSinglePageForm526EZ;
+export default SinglePageForm526EZUnconnected;
 
 /*
  * TODO (future iterations):

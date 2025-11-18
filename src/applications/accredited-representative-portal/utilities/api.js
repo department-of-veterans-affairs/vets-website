@@ -182,6 +182,15 @@ const api = {
       },
     ];
   }),
+  submitDisabilityCompensationClaim: wrapApiRequest(payload => {
+    return [
+      `/disability_compensation_form/submit_all_claim`,
+      {
+        body: payload,
+        method: 'POST',
+      },
+    ];
+  }),
 };
 
 export default api;

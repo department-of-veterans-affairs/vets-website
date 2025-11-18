@@ -2,8 +2,9 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import SinglePageForm526EZ from '../components/Forms/SinglePageForm526EZ';
+import { buildRepresentativeForm526 } from 'platform/forms/disability-benefits/526ez/transformer';
+import api from '../utilities/api';
 
 /*
  * Container responsible for:
@@ -12,16 +13,7 @@ import SinglePageForm526EZ from '../components/Forms/SinglePageForm526EZ';
  *  - Leveraging platform save-in-progress (no custom draft endpoint needed)
  *  - Minimal optimistic UX + navigation to a placeholder confirmation route
  *
- * NOTE: This prototype does NOT yet integrate the full transformation logic
- * from the all-claims app. For now we submit a simplified subset which will
- * be adapted to the 526 backend shape once mapping is defined for rep
- * submissions. The existing all-claims transformer returns
- * JSON.stringify({ form526: transformedData }). We mimic that envelope.
  */
-
-const SUBMIT_URL = `${
-  environment.API_URL
-}/v0/disability_compensation_form/submit_all_claim`;
 
 const SinglePageForm526EZContainer = ({ user }) => {
   const navigate = useNavigate();
@@ -31,25 +23,28 @@ const SinglePageForm526EZContainer = ({ user }) => {
     async formData => {
       setStatus('submitting');
       try {
-        // Basic mimic of submit-transformer envelope. In future import / adapt.
-        const payload = JSON.stringify({ form526: formData });
-        const response = await fetch(SUBMIT_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Key-Inflection': 'camel',
-          },
-          body: payload,
-          credentials: 'include',
-        });
+        const payloadObject = buildRepresentativeForm526(formData);
+        const payload = JSON.stringify(payloadObject);
+        const response = await api.submitDisabilityCompensationClaim(payload);
+
+        if (!response) {
+          setStatus('idle');
+          return null;
+        }
 
         if (!response.ok) {
           const text = await response.text();
           throw new Error(`Submit failed (${response.status}): ${text}`);
         }
         const json = await response.json().catch(() => ({}));
-        // Navigate to a placeholder confirmation; TODO create dedicated page
-        navigate('/representative/submissions');
+        // Navigate to confirmation page with submission context
+        navigate('confirmation', {
+          replace: true,
+          state: {
+            submission: json,
+            payload: payloadObject,
+          },
+        });
         setStatus('submitted');
         return json;
       } catch (e) {
