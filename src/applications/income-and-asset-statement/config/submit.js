@@ -71,13 +71,12 @@ const arraysPruneConfig = {
  *   2. Conditionally remap "otherVeteran*" fields to "veteran*" fields
  *      when the submitter is not the authenticated Veteran
  *   3. Remove disallowed fields that vets-api will reject
- * @param {Object} form - The full form object from the platform, containing `data`
- * @param {Object} form.data - The data object representing user-entered form values
+ * @param {Object} data - The full form object containing `data` and metadata
  * @returns {Object} - A new, cleaned data object with remapping and disallowed fields removed
  */
-function prepareFormData(form) {
+export function prepareFormData(data) {
   // Step 1: clone to avoid mutating original form (Redux immutability)
-  const clonedData = cloneDeep(form.data);
+  const clonedData = cloneDeep(data);
 
   const { claimantType, isLoggedIn } = clonedData;
   const userIsVeteran = isLoggedIn === true && claimantType === 'VETERAN';
@@ -98,13 +97,13 @@ function prepareFormData(form) {
  *   4. Prune configured list-and-loop array fields via prune config
  *   5. Ensure no undefined values remain (backend rejects them)
  *   6. Return a final JSON payload string
- * @param {Object} data - The prepared and cleaned form data object
+ * @param {Object} preparedData - The prepared and cleaned form data object
  * @param {Object} replacerFn - The prepared and cleaned form data object
  * @returns {string} A fully serialized, JSON-string payload ready for transmission
  */
-function serializePreparedFormData(data, replacerFn) {
+export function serializePreparedFormData(preparedData, replacerFn) {
   // Step 4: apply array pruning rules
-  const pruned = pruneConfiguredArrays(data, arraysPruneConfig);
+  const pruned = pruneConfiguredArrays(preparedData, arraysPruneConfig);
 
   // Step 5: remove view-only, empty, invalid fields
   const cleaned = removeInvalidFields(pruned);
@@ -120,12 +119,11 @@ function serializePreparedFormData(data, replacerFn) {
  * Steps 7–8 of the 0969 submission pipeline:
  *   7. Invoke the full submission pipeline
  *   8. Return the final JSON payload for submission
- * @param {Object} formConfig - The form configuration object (not modified)
  * @param {Object} form - The full form object containing `data` and metadata
  * @returns {string} Fully transformed JSON payload for submission
  */
-export function transform(formConfig, form) {
-  const preparedData = prepareFormData(form);
+export function transform(form) {
+  const preparedData = prepareFormData(form.data);
   const serializedData = serializePreparedFormData(preparedData, replacer);
 
   return JSON.stringify({
@@ -142,13 +140,12 @@ export function transform(formConfig, form) {
  *
  * Step 9 of the 0969 submission pipeline
  *   9: Send to vets-api
- * @param {Object} form - The form object containing data to be submitted
- * @param {Object} formConfig - Configuration object for the form, used in transforming the data
+ * @param {Object} form - The full form object containing `data` and metadata
  * @returns {Promise<Object>} A promise resolving to the API response object from the submission request
  */
-export function submit(form, formConfig) {
+export function submit(form) {
   const headers = { 'Content-Type': 'application/json' };
-  const body = transform(formConfig, form);
+  const body = transform(form);
 
   return apiRequest(`${environment.API_URL}/income_and_assets/v0/form0969`, {
     body,
