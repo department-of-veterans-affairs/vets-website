@@ -33,6 +33,8 @@ import { isFieldEmpty } from '../util';
 import { recordCustomProfileEvent } from '../util/analytics';
 import { getInitialFormValues } from '../util/contact-information/formValues';
 import getProfileInfoFieldAttributes from '../util/getProfileInfoFieldAttributes';
+import { isSubtaskSchedulingPreference } from '../util/health-care-settings/schedulingPreferencesUtils';
+
 // Helper function that generates a string that can be used for a contact info
 // field's edit button.
 //
@@ -267,6 +269,11 @@ class ProfileInformationFieldController extends React.Component {
 
   onEdit = (event = 'edit-link') => {
     this.captureEvent(event);
+    // Check if this field should use subtask editing
+    if (isSubtaskSchedulingPreference(this.props.fieldName)) {
+      return;
+    }
+    // Use inline editing flow
     this.openEditModal();
   };
 
