@@ -15,7 +15,6 @@ import {
   showAlert,
 } from './selectors';
 import {
-  AlertSystemResponseConfirmError,
   AlertSystemResponseConfirmSuccess,
   AlertSystemResponseSkipSuccess,
 } from './AlertSystemResponse';
@@ -27,15 +26,18 @@ const AlertConfirmContactEmail = ({
   recordEvent,
   onConfirmClick,
   onEditClick,
+  confirmError,
 }) => {
-  const headline = 'Confirm your contact email';
+  const headline = confirmError
+    ? 'We couldn’t confirm your contact email'
+    : 'Confirm your contact email';
 
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
 
   return (
     <VaAlert
-      status="warning"
-      role="status"
+      status={confirmError ? 'error' : 'warning'}
+      role={confirmError ? 'alert' : 'status'}
       dataTestid="profile-alert--confirm-contact-email"
     >
       <h2 slot="headline">
@@ -43,6 +45,7 @@ const AlertConfirmContactEmail = ({
         {headline}
       </h2>
       <React.Fragment key=".1">
+        {confirmError && <p>Please try again.</p>}
         <p>
           We’ll send notifications about your VA health care and benefits to
           this email.
@@ -65,6 +68,7 @@ const AlertConfirmContactEmail = ({
 };
 
 AlertConfirmContactEmail.propTypes = {
+  confirmError: PropTypes.bool.isRequired,
   emailAddress: PropTypes.string.isRequired,
   recordEvent: PropTypes.func.isRequired,
   onConfirmClick: PropTypes.func.isRequired,
@@ -138,8 +142,6 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
     () => {
       if (confirmSuccess) {
         waitForRenderThenFocus('[data-testid="mhv-alert--confirm-success"]');
-      } else if (confirmError) {
-        waitForRenderThenFocus('[data-testid="mhv-alert--confirm-error"]');
       } else if (skipSuccess) {
         waitForRenderThenFocus('[data-testid="mhv-alert--skip-success"]');
       }
@@ -189,17 +191,12 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
               tabIndex={-1}
             />
           )}
-          {confirmError && (
-            <AlertSystemResponseConfirmError
-              recordEvent={recordEvent}
-              tabIndex={-1}
-            />
-          )}
           {!confirmSuccess && (
             <AlertConfirmContactEmail
               onConfirmClick={putConfirmationDate}
               onEditClick={handleEditEmail}
               recordEvent={recordEvent}
+              confirmError={confirmError}
               emailAddress={emailAddress}
             />
           )}

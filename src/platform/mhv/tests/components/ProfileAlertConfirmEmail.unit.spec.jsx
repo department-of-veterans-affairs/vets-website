@@ -257,7 +257,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
       mockApiRequest({}, false);
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
-      const { container, getByTestId } = render(
+      const { container, getByTestId, getByText } = render(
         <ProfileAlertConfirmEmail {...props} />,
         {
           initialState,
@@ -267,8 +267,9 @@ describe('<ProfileAlertConfirmEmail />', () => {
       clickButton(container);
 
       await waitFor(() => {
-        getByTestId('mhv-alert--confirm-error');
-        getByTestId('profile-alert--confirm-contact-email');
+        const alert = getByTestId('profile-alert--confirm-contact-email');
+        expect(alert.getAttribute('status')).to.equal('error');
+        getByText('Please try again.');
         const headline = 'We couldn’t confirm your contact email';
         expect(props.recordEvent.calledWith(headline));
       });

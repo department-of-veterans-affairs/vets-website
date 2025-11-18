@@ -16,15 +16,18 @@ const AlertConfirmContactEmail = ({
   emailAddress,
   recordEvent,
   onConfirmClick,
+  confirmError,
 }) => {
-  const headline = 'Confirm your contact email';
+  const headline = confirmError
+    ? 'We couldn’t confirm your contact email'
+    : 'Confirm your contact email';
 
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
 
   return (
     <VaAlert
-      status="warning"
-      role="status"
+      status={confirmError ? 'error' : 'warning'}
+      role={confirmError ? 'alert' : 'status'}
       dataTestid="mhv-alert--confirm-contact-email"
       className="vads-u-margin-y--2"
     >
@@ -33,6 +36,7 @@ const AlertConfirmContactEmail = ({
         {headline}
       </h2>
       <React.Fragment key=".1">
+        {confirmError && <p>Please try again.</p>}
         <p>{CONTENT}</p>
         <p
           className="vads-u-font-weight--bold"
@@ -41,7 +45,7 @@ const AlertConfirmContactEmail = ({
           {emailAddress}
         </p>
         <p>
-          <VaButton onClick={() => onConfirmClick()} fullWidth text="Confirm" />
+          <VaButton onClick={() => onConfirmClick()} text="Confirm" />
         </p>
         <p>
           <VaLink
@@ -55,6 +59,7 @@ const AlertConfirmContactEmail = ({
 };
 
 AlertConfirmContactEmail.propTypes = {
+  confirmError: PropTypes.bool.isRequired,
   emailAddress: PropTypes.string.isRequired,
   recordEvent: PropTypes.func.isRequired,
   onConfirmClick: PropTypes.func.isRequired,
