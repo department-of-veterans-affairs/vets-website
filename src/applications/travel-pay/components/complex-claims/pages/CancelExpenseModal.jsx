@@ -19,14 +19,14 @@ const CancelExpenseModal = ({
         onCloseEvent={onCloseEvent}
         onPrimaryButtonClick={onPrimaryButtonClick}
         onSecondaryButtonClick={onSecondaryButtonClick}
-        primaryButtonText="Yes, cancel"
-        secondaryButtonText="No, continue adding this expense"
+        primaryButtonText="Cancel adding"
+        secondaryButtonText="Keep adding"
         status="warning"
         visible={visible}
       >
         <p>
           If you cancel, you’ll lose the information you entered about this
-          expense and will be returned to the review page.
+          expense and will be returned to your unsubmitted expenses.
         </p>
       </VaModal>
       <VaButton
