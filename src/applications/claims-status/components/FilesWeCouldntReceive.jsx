@@ -107,7 +107,9 @@ const FilesWeCouldntReceive = () => {
               className="files-not-received-section"
               data-testid="files-not-received-section"
             >
-              <h2>Files not received</h2>
+              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--3">
+                Files not received
+              </h2>
 
               {hasFailedFiles ? (
                 <>
@@ -152,8 +154,7 @@ const FilesWeCouldntReceive = () => {
                             data-dd-privacy="mask"
                             data-dd-action-name="document filename"
                           >
-                            File name:
-                            {file.fileName}
+                            File name: {file.fileName}
                           </h3>
                           <div>Request type: {file.trackedItemDisplayName}</div>
                           <div>Date failed: {formatDate(file.failedDate)}</div>
