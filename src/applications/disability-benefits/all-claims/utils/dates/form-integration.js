@@ -7,6 +7,7 @@
 /* eslint-disable you-dont-need-momentjs/start-of */
 import moment from 'moment';
 import { DATE_FORMAT } from './formatting';
+import { fullDatePattern } from './validations';
 
 /**
  * Form integration utilities for date handling
@@ -60,7 +61,7 @@ export const isoToDateField = isoDate => {
   const [year, month, day] = parts;
 
   // Only process full dates - return empty if any component is invalid
-  if (!/^\d{4}$/.test(year) || !/^\d{2}$/.test(month) || !/^\d{2}$/.test(day)) {
+  if (!fullDatePattern.test(isoDate)) {
     return { month: '', day: '', year: '' };
   }
 
@@ -126,7 +127,7 @@ const validateISOFormat = isoDate => {
     return { isValid: false, error: 'Please provide a valid date' };
   }
   // Only accept full date format (YYYY-MM-DD)
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) {
+  if (!fullDatePattern.test(isoDate)) {
     return { isValid: false, error: 'Please provide a valid date' };
   }
   return { isValid: true, error: null };

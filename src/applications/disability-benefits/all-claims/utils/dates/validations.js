@@ -24,6 +24,11 @@ const safeMoment = date => {
 };
 
 /**
+ * Regular expression to match full dates in the format YYYY-MM-DD
+ */
+export const fullDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
  * Validate that a date is not before a reference date
  * @param {Object} errors - Errors object
  * @param {string} date - Date to validate
