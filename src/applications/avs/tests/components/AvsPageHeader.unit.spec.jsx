@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import AvsPageHeader from '../../components/AvsPageHeader';
+import AvsPageHeader from '../../components/AvsPageHeader.tsx';
 
 describe('Avs: Page Header Component', () => {
   it('correctly renders line breaks', async () => {

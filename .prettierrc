@@ -6,13 +6,20 @@
   "singleQuote": true,
   "trailingComma": "all",
   "bracketSpacing": true,
-  "jsxBracketSameLine": false,
+  "bracketSameLine": false,
+  "arrowParens": "avoid",
   "proseWrap": "preserve",
   "overrides": [
     {
       "files": "*.scss",
       "options": {
         "singleQuote": false
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "options": {
+        "parser": "typescript"
       }
     }
   ]

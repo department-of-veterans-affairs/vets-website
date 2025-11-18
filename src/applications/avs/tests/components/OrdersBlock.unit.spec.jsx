@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { replacementFunctions } from '@department-of-veterans-affairs/platform-utilities';
 
-import OrdersBlock from '../../components/OrdersBlock';
+import OrdersBlock from '../../components/OrdersBlock.tsx';
 
-import { ORDER_TYPES } from '../../utils/constants';
+import { ORDER_TYPES } from '../../utils/constants.ts';
 import mockAvs from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
 
 const avsData = mockAvs.data.attributes;
