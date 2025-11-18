@@ -52,18 +52,21 @@ export default function transform(formConfig, form) {
       formData.agreementType === 'startNewOpenEndedAgreement' ||
       formData.agreementType === 'modifyExistingAgreement'
     ) {
-      clonedData.yellowRibbonProgramTerms.firstAcknowledgement = true;
-      clonedData.yellowRibbonProgramTerms.secondAcknowledgement = true;
-      clonedData.yellowRibbonProgramTerms.thirdAcknowledgement = true;
-      clonedData.yellowRibbonProgramTerms.fourthAcknowledgement = true;
-      clonedData.yellowRibbonProgramTerms.agreementCheckbox = true;
-    } else {
-      delete clonedData.statement1Initial;
-      delete clonedData.statement2Initial;
-      delete clonedData.statement3Initial;
-      delete clonedData.statement4Initial;
-      delete clonedData.agreementCheckbox;
+      clonedData.yellowRibbonProgramTerms = {
+        firstAcknowledgement: 'yes',
+        secondAcknowledgement: 'yes',
+        thirdAcknowledgement: 'yes',
+        fourthAcknowledgement: 'yes',
+        agreeToProvideYellowRibbonProgramContributions: true,
+      };
     }
+
+    delete clonedData.statement1Initial;
+    delete clonedData.statement2Initial;
+    delete clonedData.statement3Initial;
+    delete clonedData.statement4Initial;
+    delete clonedData.agreementCheckbox;
+
     return clonedData;
   };
 
@@ -72,8 +75,11 @@ export default function transform(formConfig, form) {
     const clonedData = cloneDeep(formData);
 
     clonedData.institutionDetails = institutionDetailsMock;
+    if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
+      clonedData.withdrawFromYellowRibbonProgram = institutionDetailsMock;
+    }
 
-    // // verify path
+    // // verify path with live data
     // clonedData.institutionDetails = [formData.institutionDetails, ...formData.additionalInstitutionDetails];
 
     return clonedData;
@@ -204,7 +210,6 @@ export default function transform(formConfig, form) {
     dateTransform,
     usFormTransform, // this must appear last
   ].reduce((formData, transformer) => {
-    // console.log('formData', formData);
     return transformer(formData);
   }, form.data);
 
