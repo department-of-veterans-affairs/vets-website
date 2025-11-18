@@ -179,6 +179,11 @@ const ExpensePage = () => {
           expenseTypeFields.expensePageText
         } expenses, add just 1 on this page. You’ll be able to add more expenses later.`;
 
+  const dateHintText =
+    expenseType === 'Lodging'
+      ? `Enter the date on your receipt, even if it’s the same as your check in or check out dates.`
+      : '';
+
   return (
     <>
       <h1>
@@ -228,6 +233,7 @@ const ExpensePage = () => {
         name="purchaseDate"
         value={formState.purchaseDate || ''}
         required
+        hint={dateHintText}
         onDateChange={handleFormChange}
       />
       <VaTextInput

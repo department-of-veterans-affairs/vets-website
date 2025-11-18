@@ -248,8 +248,7 @@ export const TRANSPORTATION_OPTIONS = Object.freeze([
 
 export const TRANSPORTATION_REASONS = Object.freeze({
   PrivatelyOwnedVehicleNotAvailable: {
-    label:
-      "I don't own a private vehicle, or it wasn't available when I needed it",
+    label: "I don't own a private vehicle or it wasn't available",
   },
   MedicallyIndicated: {
     label: 'Medical reasons',

@@ -365,6 +365,49 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           expect(cancelButton).to.exist;
         });
 
+        it('renders date hint text for Lodging expense', () => {
+          const lodgingConfig = EXPENSE_TYPES.Lodging;
+          const { container } = renderWithStoreAndRouter(
+            <MemoryRouter
+              initialEntries={[
+                `/file-new-claim/12345/43555/${lodgingConfig.route}`,
+              ]}
+            >
+              <Routes>
+                <Route
+                  path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+                  element={<ExpensePage />}
+                />
+              </Routes>
+            </MemoryRouter>,
+            {
+              initialState: getData(),
+              reducers: reducer,
+            },
+          );
+
+          const dateInput = container.querySelector(
+            'va-date[name="purchaseDate"]',
+          );
+          expect(dateInput).to.exist;
+
+          // The hint text is rendered in the 'hint' attribute of the va-date component
+          const hintAttr = dateInput.getAttribute('hint');
+          expect(hintAttr).to.equal(
+            'Enter the date on your receipt, even if it’s the same as your check in or check out dates.',
+          );
+        });
+
+        it('does not render date hint text for non-Lodging expenses', () => {
+          const mealConfig = EXPENSE_TYPES.Meal;
+          const { container } = renderPage(mealConfig);
+          const dateInput = container.querySelector(
+            'va-date[name="purchaseDate"]',
+          );
+          expect(dateInput).to.exist;
+          expect(dateInput.getAttribute('hint')).to.equal('');
+        });
+
         it('displays validation error when required fields are missing', () => {
           const { getByText, container } = renderPage(config);
           const buttonGroup = container.querySelector(
