@@ -152,7 +152,7 @@ const Vitals = () => {
         {isLoadingAcceleratedData ? (
           <div className="vads-u-margin-y--8">
             <va-loading-indicator
-              message="YY We're loading your records."
+              message="We're loading your records."
               setFocus
               data-testid="loading-indicator"
             />
