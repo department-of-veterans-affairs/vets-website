@@ -32,10 +32,16 @@ const TopicSelection = () => {
   };
   return (
     <Wrapper pageTitle="What topic would you like to talk about?" required>
-      <va-checkbox-group label="Check all that apply">
+      <va-checkbox-group
+        data-testid="topic-checkbox-group"
+        label="Check all that apply"
+      >
         {topics.map(topic => (
           <VaCheckbox
             key={topic}
+            data-testid={`topic-checkbox-${topic
+              .toLowerCase()
+              .replace(/\s+/g, '-')}`}
             label={topic}
             name="topic"
             value={topic}
@@ -45,6 +51,7 @@ const TopicSelection = () => {
         ))}
       </va-checkbox-group>
       <VaButtonPair
+        data-testid="button-pair"
         continue
         onPrimaryClick={handleContinue}
         onSecondaryClick={handleBack}

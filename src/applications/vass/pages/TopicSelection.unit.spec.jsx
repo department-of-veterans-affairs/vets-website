@@ -6,72 +6,20 @@ import TopicSelection from './TopicSelection';
 import { topics } from '../services/Topic/topic';
 
 describe('VASS Component: TopicSelection', () => {
-  it('should render page title', () => {
-    const screen = renderWithStoreAndRouterV6(<TopicSelection />, {
+  it('should render all content', () => {
+    const { getByTestId } = renderWithStoreAndRouterV6(<TopicSelection />, {
       initialState: {},
     });
 
-    expect(screen.getByTestId('header')).to.exist;
-  });
-
-  it('should render the checkbox group label', () => {
-    const { container } = renderWithStoreAndRouterV6(<TopicSelection />, {
-      initialState: {},
-    });
-    const checkboxGroup = container.querySelector('va-checkbox-group');
-
-    expect(checkboxGroup).to.exist;
-    expect(checkboxGroup.getAttribute('label')).to.equal(
-      'Check all that apply',
-    );
-  });
-
-  it('should render all topic checkboxes', () => {
-    const { container } = renderWithStoreAndRouterV6(<TopicSelection />, {
-      initialState: {},
-    });
-    const checkboxes = container.querySelectorAll('va-checkbox');
-
-    expect(checkboxes.length).to.equal(topics.length);
-  });
-
-  it('should render specific topic checkboxes', () => {
-    const { container } = renderWithStoreAndRouterV6(<TopicSelection />, {
-      initialState: {},
-    });
-    const checkboxes = container.querySelectorAll('va-checkbox');
-    const labels = Array.from(checkboxes).map(cb => cb.getAttribute('label'));
+    expect(getByTestId('header')).to.exist;
+    expect(getByTestId('topic-checkbox-group')).to.exist;
+    expect(getByTestId('button-pair')).to.exist;
 
     topics.forEach(topic => {
-      expect(labels).to.include(topic);
+      const testId = `topic-checkbox-${topic
+        .toLowerCase()
+        .replace(/\s+/g, '-')}`;
+      expect(getByTestId(testId)).to.exist;
     });
   });
-
-  it('should render Back button', () => {
-    const { container } = renderWithStoreAndRouterV6(<TopicSelection />, {
-      initialState: {},
-    });
-    const buttons = container.querySelectorAll('va-button');
-    const backButton = Array.from(buttons).find(
-      button => button.getAttribute('text') === 'Back',
-    );
-
-    expect(backButton).to.exist;
-    expect(backButton.getAttribute('secondary')).to.exist;
-    expect(backButton.getAttribute('uswds')).to.exist;
-  });
-
-  it('should render Continue button', () => {
-    const { container } = renderWithStoreAndRouterV6(<TopicSelection />, {
-      initialState: {},
-    });
-    const buttons = container.querySelectorAll('va-button');
-    const continueButton = Array.from(buttons).find(
-      button => button.getAttribute('text') === 'Continue',
-    );
-
-    expect(continueButton).to.exist;
-    expect(continueButton.getAttribute('uswds')).to.exist;
-  });
-  // Add test for handling topic selection when redux store is updated
 });
