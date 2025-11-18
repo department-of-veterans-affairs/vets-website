@@ -153,8 +153,8 @@ describe('526 new condition date shared page', () => {
       });
 
       const dateErrorMsg = getDateErrorMsg(container);
-      expect(dateErrorMsg.getAttribute('error')).to.include(
-        'Enter a full date',
+      expect(dateErrorMsg.getAttribute('error')).to.match(
+        /between 1900 and 2025/i,
       );
     } finally {
       nowStub.restore();
@@ -180,15 +180,16 @@ describe('526 new condition date shared page', () => {
       });
 
       const dateErrorMsg = getDateErrorMsg(container);
-      expect(dateErrorMsg.getAttribute('error')).to.include(
-        'Enter a full date',
+      const maxYear = new Date(Date.now()).getUTCFullYear();
+      expect(dateErrorMsg.getAttribute('error')).to.match(
+        new RegExp(`between\\s+1900\\s+and\\s+${maxYear}`, 'i'),
       );
     } finally {
       nowStub.restore();
     }
   });
 
-  it('rejects year-only dates (no longer supports partial dates)', async () => {
+  it('accepts year-only within range', async () => {
     const onSubmit = sinon.spy();
     const nowStub = sinon
       .stub(Date, 'now')
@@ -203,19 +204,17 @@ describe('526 new condition date shared page', () => {
       view.getByRole('button', { name: /submit/i }).click();
 
       await waitFor(() => {
-        expect(onSubmit.called).to.be.false;
+        expect(onSubmit.calledOnce).to.be.true;
       });
 
       const dateErrorMsg = getDateErrorMsg(container);
-      expect(dateErrorMsg.getAttribute('error')).to.include(
-        'Enter a full date',
-      );
+      expect(dateErrorMsg.getAttribute('error')).to.not.be.ok;
     } finally {
       nowStub.restore();
     }
   });
 
-  it('rejects month and year only (no longer supports partial dates)', async () => {
+  it('accepts month and year only within range', async () => {
     const onSubmit = sinon.spy();
     const nowStub = sinon
       .stub(Date, 'now')
@@ -231,13 +230,8 @@ describe('526 new condition date shared page', () => {
       view.getByRole('button', { name: /submit/i }).click();
 
       await waitFor(() => {
-        expect(onSubmit.called).to.be.false;
+        expect(onSubmit.calledOnce).to.be.true;
       });
-
-      const dateErrorMsg = getDateErrorMsg(container);
-      expect(dateErrorMsg.getAttribute('error')).to.include(
-        'Enter a full date',
-      );
     } finally {
       nowStub.restore();
     }
@@ -256,7 +250,9 @@ describe('526 new condition date shared page', () => {
     });
 
     const dateErrorMsg = getDateErrorMsg(container);
-    expect(dateErrorMsg.getAttribute('error')).to.include('Enter a full date');
+    expect(dateErrorMsg.getAttribute('error')).to.match(
+      /enter a year only.*month and year.*full date/i,
+    );
   });
 
   it('rejects month and day without a year (e.g., XXXX-06-15)', async () => {
@@ -272,6 +268,8 @@ describe('526 new condition date shared page', () => {
     });
 
     const dateErrorMsg = getDateErrorMsg(container);
-    expect(dateErrorMsg.getAttribute('error')).to.include('Enter a full date');
+    expect(dateErrorMsg.getAttribute('error')).to.match(
+      /enter a year only.*month and year.*full date/i,
+    );
   });
 });

@@ -3,13 +3,16 @@ import { formatDate } from '../utils/dates/formatting';
 
 const MONTH_YEAR = 'MMMM YYYY';
 
+// Replace XX day with 01 so moment can create a valid date
+const replaceDay = date => date.replace('XX', '01');
+
 export const treatmentView = ({ formData }) => {
   const from = formData?.treatmentDateRange?.from;
 
   const name = formData?.treatmentCenterName;
   let treatmentPeriod = '';
   if (from) {
-    treatmentPeriod = formatDate(from, MONTH_YEAR);
+    treatmentPeriod = formatDate(replaceDay(from), MONTH_YEAR);
   }
 
   return (
