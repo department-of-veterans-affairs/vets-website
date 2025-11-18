@@ -548,8 +548,7 @@ function clearGroupOptionAnnotations(groupComponent) {
   const options = syncGroupGeneratedErrors(groupComponent, null);
   options.forEach(option => {
     clearHostErrorAnnotations(option);
-    // eslint-disable-next-line no-param-reassign
-    delete option.dataset.previousErrorMessage;
+    option.removeAttribute('data-previous-error-message');
   });
 }
 
@@ -703,8 +702,7 @@ const cleanupErrorAnnotations = () => {
           if (optionErrorMessage) {
             el.removeAttribute('generated-error');
             removeErrorAnnotations(el);
-            // eslint-disable-next-line no-param-reassign
-            delete el.dataset.previousErrorMessage;
+            el.removeAttribute('data-previous-error-message');
           }
         } else if (optionErrorMessage !== groupErrorMessage) {
           el.setAttribute('generated-error', groupErrorMessage);
@@ -713,7 +711,8 @@ const cleanupErrorAnnotations = () => {
     }
 
     const currentErrorMessage = getErrorPropText(el);
-    const previousErrorMessage = el.dataset.previousErrorMessage || '';
+    const previousErrorMessage =
+      el.getAttribute('data-previous-error-message') || '';
     const hasExistingAnnotation =
       hasErrorAnnotation(el) || (!el.shadowRoot && !isGroupComponent(el));
 
@@ -727,8 +726,7 @@ const cleanupErrorAnnotations = () => {
         syncGroupGeneratedErrors(el, null);
       }
 
-      // eslint-disable-next-line no-param-reassign
-      delete el.dataset.previousErrorMessage;
+      el.removeAttribute('data-previous-error-message');
     }
 
     // ERROR ASSOCIATION: Add/update annotations when error message changes
@@ -753,8 +751,7 @@ const cleanupErrorAnnotations = () => {
         syncGroupGeneratedErrors(el, currentErrorMessage);
       }
 
-      // eslint-disable-next-line no-param-reassign
-      el.dataset.previousErrorMessage = currentErrorMessage;
+      el.setAttribute('data-previous-error-message', currentErrorMessage);
     }
 
     // CATEGORY 3: Group Component Maintenance
