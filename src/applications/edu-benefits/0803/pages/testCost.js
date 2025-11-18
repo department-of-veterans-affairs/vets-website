@@ -3,8 +3,6 @@ import React from 'react';
 import {
   numberUI,
   numberSchema,
-  checkboxUI,
-  checkboxRequiredSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -42,27 +40,14 @@ export default {
       }),
     },
     'view:understandsUploadRequirement2': {
-      ...checkboxUI({
-        title: 'I understand',
-        description: (
-          <div>
-            <p>
-              When you submit this form on QuickSubmit or by mail, you will need
-              to attach a copy of your receipt for any test fees included in the
-              total cost above. Reimbursement of the test fee can't be paid
-              until this information is received.
-            </p>
-          </div>
-        ),
-        required: () => true,
-        errorMessages: {
-          required: 'Read the statement above and check the box below',
-        },
-      }),
-      'ui:options': {
-        classNames:
-          'vads-u-padding--3 vads-u-margin-top--3 vads-u-background-color--gray-lightest',
-      },
+      'ui:description': (
+        <va-alert>
+          When you submit this form on QuickSubmit or by mail, you will need to
+          attach a copy of your test results to your submission. If you do not
+          have any test results but have a copy of your license or certification
+          that clearly displays your name, you can attach that.
+        </va-alert>
+      ),
     },
   },
   schema: {
@@ -70,7 +55,7 @@ export default {
     properties: {
       'view:explanation': { type: 'object', properties: {} },
       testCost: numberSchema,
-      'view:understandsUploadRequirement2': checkboxRequiredSchema,
+      'view:understandsUploadRequirement2': { type: 'object', properties: {} },
     },
     required: ['testCost'],
   },

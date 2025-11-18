@@ -6,12 +6,15 @@ export default function transform(formConfig, form) {
   const data = _.cloneDeep(form.data);
 
   delete data.statementOfTruthCertified;
-  if (data.homePhone) {
-    data.homePhone = getTransformIntlPhoneNumber(data.homePhone);
+  data.homePhone = getTransformIntlPhoneNumber(data.homePhone);
+  data.mobilePhone = getTransformIntlPhoneNumber(data.mobilePhone);
+  if (data.homePhone === '') {
+    delete data.homePhone;
   }
-  if (data.mobilePhone) {
-    data.mobilePhone = getTransformIntlPhoneNumber(data.mobilePhone);
+  if (data.mobilePhone === '') {
+    delete data.mobilePhone;
   }
+
   if (data.testCost) {
     data.testCost = parseInt(data.testCost, 10);
   }

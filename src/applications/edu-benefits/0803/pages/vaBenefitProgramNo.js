@@ -10,11 +10,16 @@ export default {
       'ui:description': (
         <div>
           <va-card background>
-            <h4>Based on your responses, you may not be eligible </h4>
+            <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
+              Based on your responses, you may not be eligible{' '}
+            </h4>
             <p>
               <strong>Your responses: </strong>
             </p>
-            <p>You have not previously applied for VA education benefits.</p>
+            <p className="vads-u-display--flex">
+              <va-icon icon="close" size="3" class="vads-u-margin-right--1p5" />
+              You have not previously applied for VA education benefits.
+            </p>
           </va-card>
           <p>
             <strong>
