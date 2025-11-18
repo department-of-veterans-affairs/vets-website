@@ -8,8 +8,6 @@
 const path = require('path');
 const fs = require('fs');
 const delay = require('mocker-api/lib/delay');
-// const mockSipGet = require('./e2e/fixtures/mocks/user.noPrefill.json');
-// const mockSipPut = require('./e2e/fixtures/mocks/user.inProgressForm.json');
 const mockUser = require('./e2e/fixtures/mocks/user.json');
 const mockEnrollmentStatus = require('./e2e/fixtures/mocks/enrollment-status.json');
 
@@ -24,9 +22,6 @@ const responses = {
   'GET /v0/maintenance_windows': { data: [] },
   'GET /data/cms/vamc-ehr.json': { mockEnrollmentStatus },
 
-  // 'GET /v0/health_care_applications/rating_info': mockSipGet,
-  // 'GET /v0/in_progress_forms/10-10EZ': mockSipGet,
-  // 'PUT /v0/in_progress_forms/10-10EZ': mockSipPut,
   'POST /v0/health_care_applications/enrollment_status': (req, res) => {
     res.status(404);
     res.setHeader('Content-Type', 'application/json');

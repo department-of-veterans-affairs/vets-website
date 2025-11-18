@@ -14,10 +14,7 @@ export const goToNextPage = pagePath => {
   }
 };
 
-export const startAsAuthUser = (opts = {}) => {
-  const { waitForPrefill = true } =
-    typeof opts === 'boolean' ? { waitForPrefill: !opts } : opts;
-
+export const startAsAuthUser = ({ waitForPrefill = true } = {}) => {
   cy.get('[href="#start"]')
     .first()
     .click();

@@ -37,6 +37,7 @@ const PersonalInformationPage = ({ location, route, router }) => {
       router.push(getNextPagePath(route.pageList, formData, location.pathname)),
     [formData, location.pathname, route.pageList, router],
   );
+
   return (
     <>
       <FormTitle
