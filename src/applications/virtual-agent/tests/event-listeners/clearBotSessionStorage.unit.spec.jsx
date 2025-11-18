@@ -26,4 +26,20 @@ describe('clearBotSessionStorageEventListener', () => {
     expect(clearBotSessionStorageSpy.calledOnce).to.be.true;
     expect(clearBotSessionStorageSpy.calledWith(false, false)).to.be.true;
   });
+
+  it('should unregister the handler when the cleanup function is invoked', () => {
+    const addEventListenerStub = sandbox.stub(window, 'addEventListener');
+    const removeEventListenerStub = sandbox.stub(window, 'removeEventListener');
+    let capturedHandler;
+    addEventListenerStub.callsFake((event, handler) => {
+      capturedHandler = handler;
+    });
+
+    const cleanup = clearBotSessionStorageEventListener(true);
+    cleanup();
+
+    expect(removeEventListenerStub.calledOnce).to.be.true;
+    expect(removeEventListenerStub.firstCall.args[0]).to.equal('beforeunload');
+    expect(removeEventListenerStub.firstCall.args[1]).to.equal(capturedHandler);
+  });
 });
