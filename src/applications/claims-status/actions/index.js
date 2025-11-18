@@ -10,8 +10,11 @@ import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
 import {
   makeAuthRequest,
   roundToNearest,
-  buildDateFormatter,
   getUploadErrorMessage,
+  buildDateFormatter,
+  formatUploadDateTime,
+  showTimezoneDiscrepancyMessage,
+  getTimezoneDiscrepancyMessage,
   getDocTypeDescription,
 } from '../utils/helpers';
 import { setPageFocus } from '../utils/page';
@@ -355,6 +358,7 @@ export function submitFiles(
   trackedItem,
   files,
   showDocumentUploadStatus = false,
+  timezoneMitigationEnabled = false,
 ) {
   let filesComplete = 0;
   let bytesComplete = 0;
@@ -403,8 +407,6 @@ export function submitFiles(
           multiple: false,
           callbacks: {
             onAllComplete: () => {
-              const now = new Date(Date.now());
-              const uploadDate = buildDateFormatter()(now.toISOString());
               if (!hasError) {
                 recordEvent({
                   event: 'claims-upload-success',
@@ -413,7 +415,15 @@ export function submitFiles(
                   type: DONE_UPLOADING,
                 });
 
-                // Show different notification based on feature toggle
+                // Conditionally format date based on timezone mitigation flag
+                const now = new Date(Date.now());
+                const uploadDate = timezoneMitigationEnabled
+                  ? formatUploadDateTime(now) // Enhanced: "August 15, 2025 at 10:18 p.m. EDT"
+                  : buildDateFormatter()(now.toISOString()); // Simple: "August 15, 2025"
+
+                const timezoneOffset = now.getTimezoneOffset();
+
+                // Show different notification based on showDocumentUploadStatus
                 const notificationMessage = showDocumentUploadStatus
                   ? {
                       title: `Document submission started on ${uploadDate}`,
@@ -423,8 +433,18 @@ export function submitFiles(
                             Your submission is in progress. It can take up to 2
                             days for us to receive your files.
                           </span>
+                          {timezoneMitigationEnabled &&
+                            showTimezoneDiscrepancyMessage(now) && (
+                              <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+                                <strong>Note:</strong>{' '}
+                                {getTimezoneDiscrepancyMessage(
+                                  timezoneOffset,
+                                  now,
+                                )}
+                              </div>
+                            )}
                           <va-link
-                            class="vads-u-display--block"
+                            class="vads-u-display--block vads-u-margin-top--2"
                             href={`#${ANCHOR_LINKS.fileSubmissionsInProgress}`}
                             text="Check the status of your submission"
                             onClick={e => {
@@ -438,11 +458,22 @@ export function submitFiles(
                   : {
                       title: `We received your file upload on ${uploadDate}`,
                       body: (
-                        <span>
-                          If your uploaded file doesn’t appear in the Documents
-                          Filed section on this page, please try refreshing the
-                          page.
-                        </span>
+                        <>
+                          <span>
+                            Your file should be listed in the Documents filed
+                            section. If it’s not there, try refreshing the page.
+                          </span>
+                          {timezoneMitigationEnabled &&
+                            showTimezoneDiscrepancyMessage(now) && (
+                              <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+                                <strong>Note:</strong>{' '}
+                                {getTimezoneDiscrepancyMessage(
+                                  timezoneOffset,
+                                  now,
+                                )}
+                              </div>
+                            )}
+                        </>
                       ),
                     };
 
