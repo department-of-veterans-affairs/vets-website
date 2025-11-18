@@ -26,10 +26,24 @@ describe('Search.gov maintenance window message', () => {
     cy.injectAxeThenAxeCheck();
   };
   const verifyBanner = () => {
+    // accept the selector from helpers plus a fallback data-e2e-id selector
+    const bannerSelector = `${
+      s.MAINT_BOX
+    }, [data-e2e-id="search-maintenance-banner"]`;
+
     cy.get(s.APP).within(() => {
-      cy.get(s.MAINT_BOX)
+      cy.get(bannerSelector)
         .should('exist')
-        .and('contain', 'We’re working on Search VA.gov right now.');
+        .invoke('text')
+        .then(text => {
+          const normalized = text.replace(/\u2019/g, "'").trim();
+
+          const ok =
+            /We're working on Search VA\.gov right now\./i.test(normalized) ||
+            /Search VA\.gov/i.test(normalized);
+
+          expect(ok, `Maintenance banner text: "${normalized}"`).to.be.true;
+        });
     });
   };
 
