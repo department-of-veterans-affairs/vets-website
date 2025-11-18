@@ -69,6 +69,7 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
+          cy.injectAxeThenAxeCheck();
           cy.clickStartForm();
         });
       },
@@ -82,6 +83,7 @@ const testConfig = createTestConfig(
                 data.currentMarriageInformation.date,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -126,6 +128,7 @@ const testConfig = createTestConfig(
               );
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -140,6 +143,7 @@ const testConfig = createTestConfig(
             if (marriage?.startDate) {
               fillDateWebComponentPattern('startDate', marriage.startDate);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -154,6 +158,7 @@ const testConfig = createTestConfig(
             if (marriage?.endDate) {
               fillDateWebComponentPattern('endDate', marriage.endDate);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -168,6 +173,7 @@ const testConfig = createTestConfig(
             if (marriage?.startDate) {
               fillDateWebComponentPattern('startDate', marriage.startDate);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -182,6 +188,7 @@ const testConfig = createTestConfig(
             if (marriage?.endDate) {
               fillDateWebComponentPattern('endDate', marriage.endDate);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -200,6 +207,7 @@ const testConfig = createTestConfig(
                 student.relationshipToStudent,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -214,6 +222,7 @@ const testConfig = createTestConfig(
             if (student?.marriageDate) {
               fillDateWebComponentPattern('marriageDate', student.marriageDate);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -231,6 +240,7 @@ const testConfig = createTestConfig(
                 student.benefitPaymentDate,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -259,6 +269,7 @@ const testConfig = createTestConfig(
                 termDates.expectedGraduationDate,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -285,6 +296,7 @@ const testConfig = createTestConfig(
               );
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -297,6 +309,7 @@ const testConfig = createTestConfig(
             if (student?.remarks) {
               fillTextareaWebComponent('remarks', student.remarks);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -332,6 +345,7 @@ const testConfig = createTestConfig(
               );
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
