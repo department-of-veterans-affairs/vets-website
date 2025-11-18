@@ -14,7 +14,7 @@ Source: [Cypress Best Practices](https://docs.cypress.io/app/core-concepts/best-
 2. Use `data-*` attributes to provide context to your selectors and isolate them from CSS or JS changes ([source](https://docs.cypress.io/app/core-concepts/best-practices#Organizing-Tests-Logging-In-Controlling-State))
    1. Never: `cy.get('.btn.btn-large').click()` - coupled to styling
    2. Depends: `cy.contains('Submit').click()` - coupled to text content
-   3. Always: `cy.get('[data-testid="submit"]').click()` - not coupled styling or content of an element
+   3. Always: `cy.get('[data-testid="submit"]').click()` - not coupled to styling or content of an element
    4. `data-testid` vs `contains` rule - If the content changed would you want the test to fail?
       1. If the answer is yes: then use `contains`
       2. If the answer is no: then use `data-testid` attribute
@@ -47,7 +47,7 @@ Source: [Cypress Best Practices](https://docs.cypress.io/app/core-concepts/best-
         })
       })
       ```
-   2. Can use an alias you would use const or let
+   2. Can use an alias where you would use const or let
       ```
       cy.get('table').find('tr').as('rows')
       // Every time we reference @rows, Cypress re-runs the queries leading up to the alias definition preventing stale elements
@@ -66,7 +66,7 @@ Source: [Cypress Best Practices](https://docs.cypress.io/app/core-concepts/best-
    1. Change `it` to `it.only` on the test and re-run to prove its isolated from other tests.
 7. Can add multiple assertions per test ([source](https://docs.cypress.io/app/core-concepts/best-practices#Cypress-and-Testing-Library))
    1. In unit tests there is no big performance penalty splitting up multiple tests because they run really fast
-   2. Cypress runs a series of async lifecycle events that reset state between tests and rsetting tests is much slower than adding more assertions
+   2. Cypress runs a series of async lifecycle events that reset state between tests and resetting tests is much slower than adding more assertions
 8. Clean up state before tests run ([source](https://docs.cypress.io/app/core-concepts/best-practices#Using-after-Or-afterEach-Hooks))
    1. Cypress automatically enforces test isolation by clearing state before each test
    2. Stubs, spies, and intercepts are not removed at the end of a test but the beginning of the next one. Adding an afterEach would clear it making debugging harder.
@@ -89,10 +89,12 @@ Source: [Platform Best Practices - Unit and e2e Tests](https://depo-platform-doc
 - `cy.injectAxe()` and `cy.axeCheck()` is required in every test
 
 ## Other Team Best Practices
-- Organize tests into sub-folders (`details`, `shared`, `your-claims`, etc) rather then having them all at root
+- Organize tests into sub-folders (`details`, `shared`, `your-claims`, etc) rather than having them all at root
 - Use focused helper functions instead of page objects and organize them into sub-folders by purpose (`api-mocks`, `setup`, `interactions`, `assertions`)
-- Use `cy.findByRole()` - checks semantics, visibility, and accessibility; also allows consistency between cypress and testing library
-- Use `cy.findByText` when an element has no role (can see the role of an element via Developer Tools > Elements Tab > Accessibility Tab)
+- **Prefer `cy.findByRole()`** for interactive and structural elements (buttons, links, headings, navigation, etc.) - checks semantics, visibility, and accessibility
+- **Use `cy.findByText()`** for static text content (paragraphs, labels, non-interactive text) - this is correct! Not everything needs a role
+- **Tip**: Check element roles via Developer Tools > Elements Tab > Accessibility Tab
+- **Remember**: If important UI elements lack roles, consider improving semantics (e.g., use `<h2>` instead of styled `<p>` for headings)
 
 ## E2E Code Coverage
 Note: Code coverage requires this PR to be merged - https://github.com/department-of-veterans-affairs/vets-website/pull/39252
@@ -118,34 +120,26 @@ npx nyc report --reporter=html --reporter=json-summary --reporter=text
 open coverage/index.html
 ```
 
-### Coverage Results
+### Current Coverage
 
 Use branch coverage as our primary coverage metric because it measures whether we test all decision paths (if/else, switch cases), not just whether code executes. This is a more rigorous standard than statement or line coverage.
 
-| Metric | Description | BEFORE (main) | AFTER (E2E rewrite) | Change |
+| Metric | Description | Before | Current | Change |
 |--------|-------------|---------------|---------------------|--------|
-| **Branches** | Decision paths (if/else, switch cases) executed | 62.43% | 64.29% | +1.86% |
-| **Statements** | Individual executable statements run during tests | 75.07% | 76.18% | +1.11% |
-| **Functions** | Functions called during test execution | 82.86% | 83.61% | +0.75% |
-| **Lines** | Lines of code executed during tests | 75.13% | 76.21% | +1.08% |
-| **Test Scenarios** | Number of distinct test cases | 6 | 41 | +583% |
+| **Branches** | Decision paths (if/else, switch cases) executed | 62.43% | 64.6% | +2.17% |
+| **Statements** | Individual executable statements run during tests | 75.07% | 76.66% | +1.59% |
+| **Functions** | Functions called during test execution | 82.86% | 83.94% | +1.08% |
+| **Lines** | Lines of code executed during tests | 75.13% | 76.62% | +1.49% |
 
-### Coverage Impact
+### First Rewrite PR Impact
+https://github.com/department-of-veterans-affairs/vets-website/pull/40123
 
-**Test code added**: 866 lines across 4 new test files
-- `your-claims.cypress.spec.js` (+209 lines)
-- `claim-cards.cypress.spec.js` (+292 lines)
-- `your-claims-unavailable.cypress.spec.js` (+144 lines)
-- `loading.cypress.spec.js` (+126 lines)
-
-**Source files with most significant branch coverage improvements**:
-
-| File | BEFORE | AFTER | Improvement |
+| File | Before | After | Improvement |
 |------|--------|-------|-------------|
-| `AppealListItem.jsx` | 31.57% | 84.21% | **+52.64%** |
+| **Test cases** | 6 | 42 | +36 |
+| **Branches** | 62.43% | 64.6% | +2.17% |
+| `AppealListItem.jsx` | 31.57% | 94.73% | **+63.16%** |
 | `ClaimsListItem.jsx` | 66.66% | 95.23% | **+28.57%** |
+| `YourClaimsPageV2.jsx` | 81.96% | 90.16% | **+8.2%** |
 | `claimsV2.js` (reducer) | 53.33% | 73.33% | **+20%** |
-| `YourClaimsPageV2.jsx` | 81.96% | 88.52% | **+6.56%** |
 | `actions/index.js` | 58.75% | 66.19% | **+7.44%** |
-
-The new E2E tests directly improved coverage of key components in the Your Claims page, including claim list items, appeal items, and the claims reducer logic.

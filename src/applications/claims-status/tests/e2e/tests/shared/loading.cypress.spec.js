@@ -59,12 +59,14 @@ describe('Loading', () => {
         },
         meta: { errors: null },
       },
-    });
+    }).as('userRequest');
     /* eslint-enable camelcase */
 
     cy.visit('/track-claims');
 
     cy.findByTestId('required-login-view-loader').should('be.visible');
+
+    cy.wait('@userRequest');
 
     cy.findByTestId('required-login-view-loader').should('not.exist');
     cy.findByRole('heading', {
@@ -84,11 +86,13 @@ describe('Loading', () => {
       body: {
         data: [],
       },
-    });
+    }).as('maintenanceWindowsRequest');
 
     cy.visit('/track-claims');
 
     cy.findByTestId('downtime-notification-loader').should('be.visible');
+
+    cy.wait('@maintenanceWindowsRequest');
 
     cy.findByTestId('downtime-notification-loader').should('not.exist');
     cy.findByRole('heading', {
@@ -108,12 +112,14 @@ describe('Loading', () => {
           features: [],
         },
       },
-    });
+    }).as('featureTogglesRequest');
 
     cy.login();
     cy.visit('/track-claims');
 
     cy.findByTestId('feature-flags-loader').should('be.visible');
+
+    cy.wait('@featureTogglesRequest');
 
     cy.findByTestId('feature-flags-loader').should('not.exist');
     cy.findByRole('heading', {
