@@ -28,6 +28,7 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             const { veteranFullName } = data.veteranInformation;
             // Only use first and last name for signature (no middle initial)
+            // Note: Signature validation is disabled - any input is accepted
             const veteranName = [veteranFullName.first, veteranFullName.last]
               .filter(Boolean)
               .join(' ');

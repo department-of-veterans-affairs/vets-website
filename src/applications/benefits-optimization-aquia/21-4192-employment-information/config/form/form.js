@@ -7,15 +7,17 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 import {
   TITLE,
   SUBTITLE,
 } from '@bio-aquia/21-4192-employment-information/constants';
-import ConfirmationPage from '@bio-aquia/21-4192-employment-information/containers/confirmation-page';
-import IntroductionPage from '@bio-aquia/21-4192-employment-information/containers/introduction-page';
+import { ConfirmationPage } from '@bio-aquia/21-4192-employment-information/containers/confirmation-page';
+import { IntroductionPage } from '@bio-aquia/21-4192-employment-information/containers/introduction-page';
+import { GetHelp } from '@bio-aquia/21-4192-employment-information/components/get-help';
+import { transformForSubmit } from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
+import { PreSubmitInfo } from '@bio-aquia/21-4192-employment-information/components/pre-submit-info';
 import manifest from '@bio-aquia/21-4192-employment-information/manifest.json';
-import GetHelpFooter from '@bio-aquia/21-4192-employment-information/components/get-help';
-import transformForSubmit from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
 
 // Import page configurations (uiSchema and schema)
 import {
@@ -58,7 +60,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   footerContent,
-  getHelp: GetHelpFooter,
+  getHelp: GetHelp,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -82,6 +84,7 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
     statementOfTruth: {
       body:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
