@@ -80,13 +80,13 @@ const AddressValidationRadio = props => {
 
   useEffect(() => {
     getApiData(`${envUrl}${URL.ADDRESS_VALIDATION}`);
-    focusElement('#address-validation-alert-heading');
   }, []);
 
   useEffect(
     () => {
       if (apiData.length > 0) {
         handleValueChange(apiData[0].address, '0');
+        focusElement('h2');
       }
     },
     [apiData],
