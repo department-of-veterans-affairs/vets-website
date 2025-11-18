@@ -109,7 +109,7 @@ describe('<MhvAlertConfirmEmail />', () => {
       );
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-contact-email');
-        getByRole('heading', { name: /^Confirm your contact email$/ });
+        getByRole('heading', { name: /Confirm your contact email$/ });
 
         // getByRole('button', { name: /^Confirm$/ });
         const button = container.querySelector('va-button[text="Confirm"]');
