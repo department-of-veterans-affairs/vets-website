@@ -34,3 +34,6 @@ export const selectCreatedComplexClaim = state =>
 
 export const selectComplexClaimSubmissionState = state =>
   state.travelPay.complexClaim.claim.submission;
+
+export const selectComplexClaimFetchLoadingState = state =>
+  state.travelPay.complexClaim.claim.fetch?.isLoading || false;
