@@ -199,7 +199,7 @@ export const vitalReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listCurrentAsOf: new Date(),
         listState: loadStates.FETCHED,
         vitalsList: typeof oldList === 'undefined' ? newList : oldList,
         updatedList: typeof oldList !== 'undefined' ? newList : undefined,
@@ -214,7 +214,7 @@ export const vitalReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listCurrentAsOf: new Date(),
         listState: loadStates.FETCHED,
         vitalsList: typeof oldList === 'undefined' ? newList : oldList,
         updatedList: typeof oldList !== 'undefined' ? newList : undefined,
