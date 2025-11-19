@@ -4,29 +4,23 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  checkboxGroupUI,
-  checkboxGroupSchema,
   currentOrPastDateSchema,
   currentOrPastDateUI,
   textUI,
   textSchema,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import Issues from './issues';
-import { EVIDENCE_URLS, HAS_VA_EVIDENCE } from '../../constants';
+import Issues, { issuesPage } from '../../components/evidence/IssuesNew';
+import { EVIDENCE_URLS } from '../../constants';
 import {
-  issuesContent,
+  datePromptContent,
   locationContent,
   promptContent,
   summaryContent,
 } from '../../content/evidence/va';
 import { focusRadioH3 } from '../../../shared/utils/focus';
 import { redesignActive } from '../../utils';
-import { hasVAEvidence } from '../../utils/form-data-retrieval';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -67,13 +61,16 @@ const options = {
 /** @returns {PageSchema} */
 const summaryPage = {
   uiSchema: {
-    [HAS_VA_EVIDENCE]: arrayBuilderYesNoUI(
+    hasVaEvidence: arrayBuilderYesNoUI(
       options,
       {
         title: '',
         labels: promptContent.options,
         labelHeaderLevel: '3',
         hint: () => null,
+        errorMessages: {
+          required: promptContent.requiredError,
+        },
       },
       {
         title: summaryContent.title,
@@ -85,9 +82,9 @@ const summaryPage = {
   schema: {
     type: 'object',
     properties: {
-      [HAS_VA_EVIDENCE]: arrayBuilderYesNoSchema,
+      hasVaEvidence: arrayBuilderYesNoSchema,
     },
-    required: [HAS_VA_EVIDENCE],
+    required: ['hasVaEvidence'],
   },
 };
 
@@ -119,15 +116,32 @@ const locationPage = {
   },
 };
 
+const DATE_BEFORE_2005_KEY = 'dateBefore2005';
+
 /** @returns {PageSchema} */
-const issuesPage = {
-  uiSchema: {},
+const datePromptPage = {
+  uiSchema: {
+    'ui:title': datePromptContent.question,
+    'ui:description': <p>Hello</p>,
+    'label-header-level': 3,
+    [DATE_BEFORE_2005_KEY]: {
+      'ui:widget': 'radio',
+      'ui:title': datePromptContent.label,
+      'ui:options': {
+        labels: datePromptContent.options,
+        labelHeaderLevel: '3',
+      },
+    },
+  },
   schema: {
     type: 'object',
-    required: ['issues'],
     properties: {
-      issues: checkboxGroupSchema([]),
+      [DATE_BEFORE_2005_KEY]: {
+        type: 'string',
+        enum: ['before', 'after'],
+      },
     },
+    required: [DATE_BEFORE_2005_KEY],
   },
 };
 
@@ -174,14 +188,19 @@ export default arrayBuilderPages(options, pageBuilder => ({
     // Issues requires a custom page because array builder does not
     // natively support checkboxes with labels from formData
     // rather than hardcoded checkboxes
-    CustomPage: props => Issues(props),
+    CustomPage: props =>
+      Issues({
+        ...props,
+        // resolve prop warning that the index is a string rather than a number:
+        pagePerItemIndex: +props.pagePerItemIndex,
+      }),
     depends: redesignActive,
   }),
   treatmentDatePrompt: pageBuilder.itemPage({
     title: 'Treatment date prompt',
     path: EVIDENCE_URLS.vaTreatmentDatePrompt,
-    uiSchema: datePage.uiSchema,
-    schema: datePage.schema,
+    uiSchema: datePromptPage.uiSchema,
+    schema: datePromptPage.schema,
     depends: redesignActive,
   }),
   treatmentDate: pageBuilder.itemPage({
