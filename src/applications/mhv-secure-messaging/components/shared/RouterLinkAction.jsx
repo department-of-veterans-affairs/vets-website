@@ -16,20 +16,32 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
  * @see https://design.va.gov/storybook/?path=/docs/components-va-link--with-router-link-support
  * @see src/applications/simple-forms/form-upload/components/EditLink.jsx
  */
-const RouterLinkAction = ({ href, text, reverse, label, ...rest }, context) => {
+const RouterLinkAction = ({
+  href,
+  text,
+  reverse,
+  label,
+  active = true,
+  router,
+  ...rest
+}) => {
   function handleClick(e) {
     e.preventDefault();
-    // Access router from React Router v3 context
-    context.router.push(href);
+    // Access router from props (injected by withRouter HOC)
+    router.push(href);
   }
 
   const linkProps = {
-    active: true,
     href,
     onClick: handleClick,
     text,
     ...rest,
   };
+
+  // Only add active if true (action link styling)
+  if (active === true) {
+    linkProps.active = true;
+  }
 
   // Only add label if provided
   if (label) {
@@ -53,9 +65,9 @@ RouterLinkAction.propTypes = {
   label: PropTypes.string,
   /** If true, renders with white text for dark backgrounds */
   reverse: PropTypes.bool,
-};
-
-RouterLinkAction.contextTypes = {
+  /** If true (default), renders as action link; if false, renders as standard link */
+  active: PropTypes.bool,
+  /** Router object injected by withRouter HOC */
   router: PropTypes.object.isRequired,
 };
 

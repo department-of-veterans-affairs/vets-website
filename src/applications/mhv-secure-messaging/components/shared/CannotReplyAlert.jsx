@@ -41,7 +41,6 @@ const CannotReplyAlert = props => {
             <RouterLinkAction
               data-dd-action-name="Start a new message - 45 day alert"
               href={Paths.COMPOSE}
-              label="Start a new message"
               text="Start a new message"
             />
           </p>

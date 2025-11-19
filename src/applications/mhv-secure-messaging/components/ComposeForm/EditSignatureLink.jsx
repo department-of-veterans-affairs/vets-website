@@ -16,6 +16,7 @@ const EditSignatureLink = () => {
           data-dd-action-name="Edit Signature"
           data-testid="edit-signature-link"
           text="Edit signature for all messages"
+          active={false}
         />
       </div>
     );

@@ -79,5 +79,23 @@ describe('EditSignatureLink component', () => {
       // Verify it's a va-link element (RouterLinkAction uses VaLink)
       expect(link.tagName).to.equal('VA-LINK');
     });
+
+    it('renders as standard link with active={false} for utility link styling', () => {
+      const testState = {
+        sm: {
+          preferences: {
+            signature: {
+              includeSignature: true,
+            },
+          },
+        },
+        featureToggles: { loading: false },
+      };
+      const screen = setup(testState);
+      const link = screen.getByTestId('edit-signature-link');
+
+      // Verify it does NOT have active attribute (standard link, not action link)
+      expect(link).to.not.have.attribute('active');
+    });
   });
 });

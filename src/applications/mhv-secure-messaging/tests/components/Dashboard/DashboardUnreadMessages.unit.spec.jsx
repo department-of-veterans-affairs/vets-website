@@ -79,5 +79,16 @@ describe('DashboardUnreadMessages component', () => {
       expect(inboxLink.tagName).to.equal('VA-LINK');
       expect(composeLink.tagName).to.equal('VA-LINK');
     });
+
+    it('renders links as action links with active attribute for primary CTAs', () => {
+      const screen = setup(inbox);
+
+      // Both inbox and compose links should be action links (active={true} by default)
+      const inboxLink = screen.getByTestId('inbox-link');
+      expect(inboxLink).to.have.attribute('active');
+
+      const composeLink = screen.getByTestId('compose-message-link');
+      expect(composeLink).to.have.attribute('active');
+    });
   });
 });
