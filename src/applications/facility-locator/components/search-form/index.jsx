@@ -301,7 +301,7 @@ export const SearchForm = props => {
       </VaModal>
       <form id="facility-search-controls" onSubmit={handleSubmit}>
         <AddressAutosuggest
-          currentQuery={currentQuery}
+          currentQuery={draftFormState}
           geolocateUser={handleGeolocationButtonClick}
           inputRef={locationInputFieldRef}
           isMobile={isMobile}
@@ -309,6 +309,9 @@ export const SearchForm = props => {
           isTablet={isTablet}
           onClearClick={handleClearInput}
           onChange={onChange}
+          onLocationSelection={updates => {
+            setDraftFormState({ ...draftFormState, ...updates });
+          }}
           useProgressiveDisclosure={useProgressiveDisclosure}
         />
         {useProgressiveDisclosure ? (
