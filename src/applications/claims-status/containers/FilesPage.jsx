@@ -43,9 +43,11 @@ class FilesPage extends React.Component {
         const { lastPage, loading } = this.props;
         setPageFocus(lastPage, loading);
       });
-    } else {
+    } else if (location?.hash) {
       // Handle hash navigation on mount (for direct navigation with hash)
-      this.scrollToSection();
+      setTimeout(() => {
+        this.scrollToSection();
+      }, 100);
     }
   }
 
@@ -139,6 +141,9 @@ class FilesPage extends React.Component {
       `#${ANCHOR_LINKS.fileSubmissionsInProgress}`,
       `#${ANCHOR_LINKS.filesWeCouldntReceive}`,
       `#${ANCHOR_LINKS.otherWaysToSendDocuments}`,
+      `#${ANCHOR_LINKS.documentsFiled}`,
+      `#${ANCHOR_LINKS.filesReceived}`,
+      `#${ANCHOR_LINKS.addFiles}`,
     ];
 
     if (validHashes.includes(location.hash)) {
