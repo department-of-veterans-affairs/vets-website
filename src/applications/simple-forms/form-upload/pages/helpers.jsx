@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormNavButtons, SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollAndFocus } from 'platform/utilities/scroll';
-import { getAlert, getFormNumber, onClickContinue } from '../helpers';
+import {
+  extractAlertText,
+  getAlert,
+  getFormNumber,
+  onClickContinue,
+} from '../helpers';
 
 export const CustomTopContent = () => {
   const formNumber = getFormNumber();
@@ -33,6 +38,12 @@ export const CustomTopContent = () => {
 /** @type {CustomPageType} */
 export const CustomAlertPage = props => {
   const [continueClicked, setContinueClicked] = useState(false);
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    isFirstRender.current = false;
+  }, []);
+
   useEffect(
     () => {
       const focusSelector = document.querySelector("va-alert[status='error']");
@@ -43,9 +54,22 @@ export const CustomAlertPage = props => {
     [continueClicked],
   );
 
+  const alert =
+    props.name === 'uploadPage' ? getAlert(props, continueClicked) : null;
+  const alertText =
+    alert && !isFirstRender.current ? extractAlertText(alert) : '';
+
   return (
     <div className="form-panel">
-      {props.name === 'uploadPage' && getAlert(props, continueClicked)}
+      <span
+        aria-atomic="true"
+        role="alert"
+        aria-live="polite"
+        className="sr-only"
+      >
+        {alertText}
+      </span>
+      {alert}
       <SchemaForm {...props}>
         <>
           {props.contentBeforeButtons}
