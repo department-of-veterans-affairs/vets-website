@@ -10,6 +10,7 @@ import {
 import * as scrollUtils from 'platform/utilities/scroll/scroll';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as page from '../../utils/page';
+import { ANCHOR_LINKS } from '../../constants';
 
 import {
   groupTimelineActivity,
@@ -1938,29 +1939,46 @@ describe('Disability benefits helpers: ', () => {
 
   describe('getUploadErrorMessage', () => {
     context('when error is due to a duplicate upload', () => {
-      it('should return a specific duplicate error message with file name', () => {
-        const claimId = '14568432';
-        const error = {
-          fileName: 'my-document.pdf',
-          errors: [
-            {
-              detail: 'DOC_UPLOAD_DUPLICATE',
-            },
-          ],
-        };
+      [
+        {
+          description: 'showDocumentUploadStatus is false (default)',
+          showDocumentUploadStatus: false,
+          expectedAnchor: ANCHOR_LINKS.documentsFiled,
+        },
+        {
+          description: 'showDocumentUploadStatus is true',
+          showDocumentUploadStatus: true,
+          expectedAnchor: ANCHOR_LINKS.filesReceived,
+        },
+      ].forEach(({ description, showDocumentUploadStatus, expectedAnchor }) => {
+        it(`should return a specific duplicate error message with file name when ${description}`, () => {
+          const claimId = '14568432';
+          const error = {
+            fileName: 'my-document.pdf',
+            errors: [
+              {
+                detail: 'DOC_UPLOAD_DUPLICATE',
+              },
+            ],
+          };
 
-        const result = getUploadErrorMessage(error, claimId);
-        expect(result.title).to.equal(
-          "You've already uploaded my-document.pdf",
-        );
-        expect(result.type).to.equal('error');
-        const { getByText, container } = render(result.body);
-        getByText(/It can take up to 2 days for the file to show up in/i);
-        expect($('va-link', container)).to.exist;
-        const link = $('va-link', container);
-        expect(link.getAttribute('href')).to.equal(
-          `/track-claims/your-claims/${claimId}/files`,
-        );
+          const result = getUploadErrorMessage(
+            error,
+            claimId,
+            showDocumentUploadStatus,
+          );
+          expect(result.title).to.equal(
+            "You've already uploaded my-document.pdf",
+          );
+          expect(result.type).to.equal('error');
+          const { getByText, container } = render(result.body);
+          getByText(/It can take up to 2 days for the file to show up in/i);
+          expect($('va-link', container)).to.exist;
+          const link = $('va-link', container);
+          expect(link.getAttribute('href')).to.equal(
+            `/track-claims/your-claims/${claimId}/files#${expectedAnchor}`,
+          );
+        });
       });
 
       it('should use a generic name if fileName is missing', () => {
