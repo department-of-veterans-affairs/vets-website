@@ -10,7 +10,7 @@ import manifest from '../../manifest.json';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['comprehensive', 'currently-employed'],
+    dataSets: ['maximal', 'minimal'],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -28,8 +28,8 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             // Use signature from test data - these are DIFFERENT from veteran names
             // to prove validation is disabled:
-            // - comprehensive.json: "Test Signature Name" (veteran: "Boba J Fett")
-            // - currently-employed.json: "Different Test Name" (veteran: "Ahsoka T Tano")
+            // - maximal.json: "Test Signature Name" (veteran: "Boba J Fett")
+            // - minimal.json: "Different Test Name" (veteran: "Ahsoka T Tano")
             const signature =
               data.statementOfTruthSignature || 'Test Signature';
 

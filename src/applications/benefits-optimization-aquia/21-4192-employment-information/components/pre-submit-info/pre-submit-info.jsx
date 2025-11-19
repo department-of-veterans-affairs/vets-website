@@ -124,8 +124,8 @@ PreSubmitInfo.propTypes = {
     statementOfTruthSignature: PropTypes.string,
     statementOfTruthCertified: PropTypes.bool,
   }),
-  onSectionComplete: PropTypes.func,
   showError: PropTypes.bool,
+  onSectionComplete: PropTypes.func,
 };
 
 const mapDispatchToProps = {
