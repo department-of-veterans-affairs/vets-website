@@ -48,7 +48,7 @@ export const saveDraft = (messageData, type, id) => async (
   getState,
 ) => {
   const state = getState();
-  const { redirectPath } = state.sm?.prescription;
+  const redirectPath = state.sm?.prescription?.redirectPath;
 
   recordEvent({
     // For Google Analytics
