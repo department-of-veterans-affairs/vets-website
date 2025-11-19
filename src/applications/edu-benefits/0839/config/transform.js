@@ -78,13 +78,16 @@ export default function transform(formConfig, form) {
       ...additionalInstitutionDetailsMock,
     ];
 
-    // // TODO: verify with live data
-    // clonedData.institutionDetails = [formData.institutionDetails, ...formData.additionalInstitutionDetails];
-
+    // TODO: verify transform with live institution data
     if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
       clonedData.withdrawFromYellowRibbonProgram = [
-        institutionDetailsMock,
-        ...additionalInstitutionDetailsMock,
+        formData.institutionDetails,
+        ...formData.additionalInstitutionDetails,
+      ];
+    } else {
+      clonedData.institutionDetails = [
+        formData.institutionDetails,
+        ...formData.additionalInstitutionDetails,
       ];
     }
 
@@ -95,7 +98,6 @@ export default function transform(formConfig, form) {
     const clonedData = cloneDeep(formData);
 
     // TODO: verify logic with live institutionDetails (depends on foreign status)
-
     clonedData.yellowRibbonProgramAgreementRequest = formData.yellowRibbonProgramRequest.map(
       request => {
         const yearRange = request.academicYearDisplay.split('-');
@@ -130,7 +132,9 @@ export default function transform(formConfig, form) {
           request.degreeLevel = 'all';
         }
 
-        // TODO: eligibleIndividuals -- where is this coming from?
+        // TODO: verify eligibleIndividuals field, where is this coming from?
+        // -- putting as max amount for now
+        request.eligibleIndividuals = 1000000;
 
         delete request.academicYearDisplay;
         delete request.maximumStudentsOption;
@@ -162,7 +166,7 @@ export default function transform(formConfig, form) {
 
     clonedData.pointOfContact = formData.pointsOfContact;
 
-    // verify phone number transform -- international vs us phone number -- concat callingCode and contact?
+    // TODO: verify phone number transform -- international vs us phone number -- concat callingCode and contact?
     clonedData.pointOfContact.phoneNumber =
       clonedData.pointsOfContact.phoneNumber.contact;
 
@@ -183,7 +187,7 @@ export default function transform(formConfig, form) {
     ) {
       clonedData.pointOfContactTwo = formData.additionalPointsOfContact;
 
-      // verify phone number transform -- international vs us phone number -- concat callingCode and contact?
+      // TODO: verify phone number transform -- international vs us phone number -- concat callingCode and contact?
       clonedData.pointOfContactTwo.phoneNumber =
         clonedData.additionalPointsOfContact.phoneNumber.contact;
 
@@ -209,7 +213,6 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
-  // Remove statement of truth field
   const statementTransform = formData => {
     const clonedData = cloneDeep(formData);
 
@@ -247,8 +250,6 @@ export default function transform(formConfig, form) {
   ].reduce((formData, transformer) => {
     return transformer(formData);
   }, form.data);
-
-  // console.log('transformedData', transformedData);
 
   return JSON.stringify({
     educationBenefitsClaim: {
