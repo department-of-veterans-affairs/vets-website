@@ -128,7 +128,11 @@ function handleType1Errors(
 
   // If there are known errors, show the first one in additionalEvidenceMessage
   if (knownErrors.length > 0) {
-    const errorMessage = getUploadErrorMessage(knownErrors[0], claimId);
+    const errorMessage = getUploadErrorMessage(
+      knownErrors[0],
+      claimId,
+      showDocumentUploadStatus,
+    );
     dispatch(setAdditionalEvidenceNotification(errorMessage));
   }
 }
