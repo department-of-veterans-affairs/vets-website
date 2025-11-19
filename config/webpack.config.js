@@ -22,6 +22,7 @@ const facilitySidebar = require('@department-of-veterans-affairs/platform-landin
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const scaffoldRegistry = require('../src/applications/registry.scaffold.json');
+const packageJson = require('../package.json');
 
 const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
 
@@ -37,6 +38,23 @@ const generateWebpackDevConfig = require('./webpack.dev.config');
 
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
+
+/**
+ * Generate application version for Datadog tracking
+ * Uses package.json version + optional git hash from environment
+ * @returns {string} Version string (e.g., "1.0.1" or "1.0.1-abc123")
+ */
+const getAppVersion = () => {
+  const baseVersion = packageJson.version;
+  const gitHash = process.env.GIT_SHA || process.env.CI_COMMIT_SHA || '';
+
+  if (gitHash) {
+    const shortHash = gitHash.substring(0, 7);
+    return `${baseVersion}-${shortHash}`;
+  }
+
+  return baseVersion;
+};
 
 const sharedModules = [
   '@department-of-veterans-affairs/platform-polyfills',
@@ -484,6 +502,7 @@ module.exports = async (env = {}) => {
         __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
         __REGISTRY__: JSON.stringify(appRegistry),
+        'process.env.APP_VERSION': JSON.stringify(getAppVersion()),
         'process.env.MAPBOX_TOKEN': JSON.stringify(
           process.env.MAPBOX_TOKEN || '',
         ),
