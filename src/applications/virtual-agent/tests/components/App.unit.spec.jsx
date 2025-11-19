@@ -20,7 +20,7 @@ describe('App', () => {
   let clock;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     clock = sinon.useFakeTimers({
       toFake: ['setInterval', 'clearInterval', 'Date'],
     });
