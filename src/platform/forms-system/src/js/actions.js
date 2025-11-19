@@ -3,6 +3,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { displayFileSize } from 'platform/utilities/ui/index';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
+import { infoTokenExists, refresh } from 'platform/utilities/oauth/utilities';
 import { timeFromNow } from '../../../utilities/date';
 import { transformForSubmit, handleSessionRefresh } from './helpers';
 
@@ -350,6 +351,44 @@ export function uploadFile(
           ...fileData,
           isEncrypted: !!password,
         });
+      } else if (req.status === 403) {
+        let errorResponse;
+        try {
+          errorResponse = JSON.parse(req.response);
+          const errorMessage = errorResponse?.errors || '';
+          const isTokenExpired = errorMessage.includes('token has expired');
+
+          if (isTokenExpired && infoTokenExists()) {
+            refresh({ type: sessionStorage.getItem('serviceName') }).then(
+              () => {
+                return uploadFile(
+                  file,
+                  uiOptions,
+                  onProgress,
+                  onChange,
+                  onError,
+                  trackingPrefix,
+                  password,
+                )(dispatch, getState);
+              },
+            );
+            return;
+          }
+        } catch (e) {
+          // Parsing failed, fall through to show error
+        }
+
+        // Show error to user
+        const fileObj = { file, name: file.name, size: file.size };
+        const errorMessage = errorResponse?.errors || req.statusText;
+
+        if (password) {
+          onChange({ ...fileObj, errorMessage, isEncrypted: true });
+        } else {
+          onChange({ ...fileObj, errorMessage });
+        }
+        Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);
+        onError();
       } else {
         const fileObj = { file, name: file.name, size: file.size };
         let errorMessage = req.statusText;
