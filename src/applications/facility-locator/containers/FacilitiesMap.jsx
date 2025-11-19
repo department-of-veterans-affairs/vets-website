@@ -895,8 +895,8 @@ const FacilitiesMap = props => {
         }
       });
 
-      if (mapboxGlContainerRef.current && props.useProgressiveDisclosure) {
-        resizeObserver.observe(mapboxGlContainerRef.current);
+      if (mapboxContainerRef.current && props.useProgressiveDisclosure) {
+        resizeObserver.observe(mapboxContainerRef.current);
       } else {
         resizeObserver.disconnect();
       }
@@ -904,7 +904,7 @@ const FacilitiesMap = props => {
         resizeObserver.disconnect();
       };
     },
-    [mapboxGlContainerRef, props.useProgressiveDisclosure],
+    [mapboxContainerRef, props.useProgressiveDisclosure],
   );
 
   useEffect(
