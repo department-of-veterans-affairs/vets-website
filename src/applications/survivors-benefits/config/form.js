@@ -33,7 +33,7 @@ import separationDetails from './chapters/04-household-information/separationDet
 import remarriage from './chapters/04-household-information/remarriage';
 import remarriageDetails from './chapters/04-household-information/remarriageDetails';
 import additionalMarriages from './chapters/04-household-information/additionalMarriages';
-import previousMarriages from './chapters/04-household-information/previousMarriages';
+import spouseMarriages from './chapters/04-household-information/spouseMarriages';
 import { previousMarriagesPages } from './chapters/04-household-information/previousMarriagesPages';
 import { veteranMarriagesPages } from './chapters/04-household-information/veteranMarriagesPages';
 import veteranChildren from './chapters/04-household-information/veteranChildren';
@@ -292,12 +292,12 @@ const formConfig = {
           uiSchema: additionalMarriages.uiSchema,
           schema: additionalMarriages.schema,
         },
-        previousMarriages: {
-          path: 'household/previous-marriage-question',
+        spouseMarriages: {
+          path: 'household/spouse-marriage-question',
           title: 'Previous marriages',
           depends: formData => formData.claimantRelationship === 'SPOUSE',
-          uiSchema: previousMarriages.uiSchema,
-          schema: previousMarriages.schema,
+          uiSchema: spouseMarriages.uiSchema,
+          schema: spouseMarriages.schema,
         },
         ...previousMarriagesPages,
         ...veteranMarriagesPages,
