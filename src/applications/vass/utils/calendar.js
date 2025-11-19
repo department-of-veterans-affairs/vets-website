@@ -35,65 +35,31 @@ const DATE_FORMATS = {
  */
 const ICS_LINE_LIMIT = 74;
 
-function formatDescription(description, location = '') {
-  if (!description || !description.text) {
+/*
+* Format the description for the ICS file.
+* @param {string} description - The description to format.
+* @returns {string} The formatted description.
+*/
+function formatDescription(description) {
+  if (!description) {
     return 'DESCRIPTION:';
   }
+  let text = `DESCRIPTION:${description}`;
+  text = text.replace(/\r/g, '').replace(/\n/g, '\\n');
 
-  const chunked = [];
-  if (typeof description === 'object') {
-    let text = `DESCRIPTION:${description.text}`;
-    text = text.replace(/\r/g, '').replace(/\n/g, '\\n');
-
-    while (text.length > ICS_LINE_LIMIT) {
-      chunked.push(`${text}\\n`.substring(0, ICS_LINE_LIMIT));
-      text = text.substring(ICS_LINE_LIMIT);
-    }
-
-    // Add last line of description text
-    if (text) {
-      chunked.push(text);
-    }
-
-    if (description.providerName) {
-      chunked.push(`\\n\\n${description.providerName}`);
-    }
-
-    if (location) {
-      const loc = description.providerName
-        ? `\\n${location}`
-        : `\\n\\n${location}`;
-      const index = loc.indexOf(',');
-
-      if (index !== -1) {
-        chunked.push(`${loc.substring(0, index)}\\n`);
-        chunked.push(`${loc.substring(index + 1).trimStart()}\\n`);
-      } else {
-        chunked.push(`${loc}\\n`);
-      }
-    }
-
-    const phone = description.phone?.replace(/\r/g, '').replace(/\n/g, '\\n');
-    if (phone && phone !== 'undefined') {
-      chunked.push(`${phone}\\n`);
-    }
-
-    if (description.additionalText) {
-      description.additionalText.forEach(val => {
-        let line = `\\n${val}`;
-        while (line.length > ICS_LINE_LIMIT) {
-          chunked.push(`${line}\\n`.substring(0, ICS_LINE_LIMIT));
-          line = line.substring(ICS_LINE_LIMIT);
-        }
-        chunked.push(`${line}\\n`);
-      });
-    }
-  }
-
-  return chunked.join('\r\n\t').replace(/,/g, '\\,');
+  return text.length > ICS_LINE_LIMIT
+    ? text.substring(0, ICS_LINE_LIMIT)
+    : text;
 }
 
-export function generateICS(summary, description, location, startUtc, endUtc) {
+/*
+* Generate the ICS file.
+* @param {string} summary - The summary of the event.
+* @param {string} description - The description of the event.
+* @param {Date} startUtc - The start time of the event.
+* @param {Date} endUtc - The end time of the event.
+*/
+export function generateICS(summary, description, startUtc, endUtc) {
   const startDate = formatInTimeZone(
     startUtc,
     'UTC',
@@ -101,10 +67,6 @@ export function generateICS(summary, description, location, startUtc, endUtc) {
   );
   const endDate = formatInTimeZone(endUtc, 'UTC', DATE_FORMATS.iCalDateTimeUTC);
 
-  let loc = '';
-  if (location) {
-    loc = location.replace(/,/g, '\\,');
-  }
   return [
     `BEGIN:VCALENDAR`,
     `VERSION:2.0`,
@@ -112,8 +74,8 @@ export function generateICS(summary, description, location, startUtc, endUtc) {
     `BEGIN:VEVENT`,
     `UID:${guid()}`,
     `SUMMARY:${summary}`,
-    `${formatDescription(description, location)}`,
-    `LOCATION:${summary.startsWith('Phone') ? 'Phone call' : loc}`,
+    `${formatDescription(description)}`,
+    `LOCATION:Phone call`,
     `DTSTAMP:${startDate}`,
     `DTSTART:${startDate}`,
     `DTEND:${endDate}`,

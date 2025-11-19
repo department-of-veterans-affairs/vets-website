@@ -9,16 +9,12 @@ export default function AddToCalendarButton({ appointment }) {
   const minutesDuration = 30;
   const endUtc = addMinutes(startUtc, minutesDuration);
 
-  const description = {
-    text: `Your representative will call you from ${
-      appointment.phoneNumber
-    }. If you have questions or need to 
-  reschedule, contact VA Solid Start. `,
-  };
+  const description = `Your representative will call you from ${
+    appointment.phoneNumber
+  }. If you have questions or need to reschedule, contact VA Solid Start. `;
   const ics = generateICS(
     'Solid Start Phone Call',
     description,
-    'Phone call',
     startUtc,
     endUtc,
   );
