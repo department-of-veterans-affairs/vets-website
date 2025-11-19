@@ -12,8 +12,8 @@ const IntroductionPage = ({ router }) => {
   };
 
   useEffect(() => {
-    apiRequest('/veteran_verification/v2/service_history', {
-      apiVersion: 'services',
+    apiRequest('/profile/service_history', {
+      apiVersion: 'v0',
     })
       .then(response => {
         console.log('Fetched veteran info!', response);
@@ -21,7 +21,6 @@ const IntroductionPage = ({ router }) => {
       .error(error => {
         console.log('Error:', error);
       });
-    console.log('Intro page!');
   }, []);
 
   return (
