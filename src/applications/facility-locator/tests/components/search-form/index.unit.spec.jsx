@@ -1,9 +1,11 @@
 import React from 'react';
 
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import sinon from 'sinon';
 import { SearchForm } from '../../../components/search-form';
 import { benefitsServices } from '../../../config';
+import { LocationType } from '../../../constants';
 
 describe('SearchForm', () => {
   it('Should render search controls with Choose a facility type by default', () => {
@@ -89,5 +91,220 @@ describe('SearchForm', () => {
     const wrapper = shallow(<SearchForm currentQuery={query} />);
     expect(wrapper.find('ForwardRef(VaModal)').prop('visible')).to.be.false;
     wrapper.unmount();
+  });
+
+  // Draft state tests - Issue #20370
+  describe('Draft state behavior', () => {
+    const getDefaultProps = () => ({
+      currentQuery: {
+        facilityType: null,
+        serviceType: null,
+        searchString: '',
+        zoomLevel: 4,
+        geocodeError: 0,
+      },
+      onChange: sinon.spy(),
+      onSubmit: sinon.spy(),
+      setSearchInitiated: sinon.spy(),
+      searchInitiated: false,
+      isMobile: false,
+      isSmallDesktop: false,
+      isTablet: false,
+      useProgressiveDisclosure: false,
+      vamcAutoSuggestEnabled: false,
+    });
+
+    it('should NOT call onChange on facility type change', () => {
+      const onChange = sinon.spy();
+      const props = {
+        ...getDefaultProps(),
+        onChange,
+      };
+
+      const wrapper = mount(<SearchForm {...props} />);
+
+      // Find FacilityType and simulate change
+      const facilityType = wrapper.find('FacilityType');
+      facilityType.prop('handleFacilityTypeChange')({
+        target: { value: LocationType.HEALTH },
+      });
+
+      // onChange should NOT be called
+      expect(onChange.called).to.be.false;
+
+      wrapper.unmount();
+    });
+
+    it('should NOT call onChange on service type change', () => {
+      const onChange = sinon.spy();
+      const defaultProps = getDefaultProps();
+      const props = {
+        ...defaultProps,
+        currentQuery: {
+          ...defaultProps.currentQuery,
+          facilityType: LocationType.BENEFITS,
+          searchString: 'Austin TX',
+        },
+        onChange,
+      };
+
+      const wrapper = mount(<SearchForm {...props} />);
+
+      // Find ServiceType and simulate change
+      const serviceType = wrapper.find('ServiceType');
+      serviceType.prop('handleServiceTypeChange')({
+        target: { value: 'ApplyingForBenefits' },
+        selectedItem: null,
+      });
+
+      // onChange should NOT be called
+      expect(onChange.called).to.be.false;
+
+      wrapper.unmount();
+    });
+
+    it('should call onChange only on form submit with all draft values', () => {
+      const onChange = sinon.spy();
+      const onSubmit = sinon.spy();
+      const setSearchInitiated = sinon.spy();
+      const props = {
+        ...getDefaultProps(),
+        onChange,
+        onSubmit,
+        setSearchInitiated,
+      };
+
+      const wrapper = mount(<SearchForm {...props} />);
+
+      // Update facility type (should not call onChange)
+      const facilityType = wrapper.find('FacilityType');
+      facilityType.prop('handleFacilityTypeChange')({
+        target: { value: LocationType.HEALTH },
+      });
+      wrapper.update();
+
+      expect(onChange.called).to.be.false;
+
+      // Update service type (should not call onChange)
+      const serviceType = wrapper.find('ServiceType');
+      serviceType.prop('handleServiceTypeChange')({
+        target: { value: 'PrimaryCare' },
+        selectedItem: { name: 'Primary care' },
+      });
+      wrapper.update();
+
+      expect(onChange.called).to.be.false;
+
+      // Update location (should not call onChange)
+      const addressAutosuggest = wrapper.find('AddressAutosuggest');
+      addressAutosuggest.prop('onLocationSelection')({
+        searchString: 'Austin TX',
+      });
+      wrapper.update();
+
+      expect(onChange.called).to.be.false;
+
+      // Submit form (should call onChange ONCE with all values)
+      wrapper.find('form').simulate('submit', { preventDefault: () => {} });
+
+      expect(onChange.calledOnce).to.be.true;
+      expect(onChange.firstCall.args[0]).to.deep.include({
+        facilityType: LocationType.HEALTH,
+        serviceType: 'PrimaryCare',
+        searchString: 'Austin TX',
+      });
+
+      wrapper.unmount();
+    });
+
+    it('should prevent duplicate search with draft state', () => {
+      const onChange = sinon.spy();
+      const onSubmit = sinon.spy();
+      const setSearchInitiated = sinon.spy();
+      const defaultProps = getDefaultProps();
+      const props = {
+        ...defaultProps,
+        currentQuery: {
+          ...defaultProps.currentQuery,
+          facilityType: LocationType.HEALTH,
+          serviceType: 'PrimaryCare',
+          searchString: 'Austin TX',
+        },
+        onChange,
+        onSubmit,
+        setSearchInitiated,
+      };
+
+      const wrapper = mount(<SearchForm {...props} />);
+
+      // Submit form first time
+      wrapper.find('form').simulate('submit', { preventDefault: () => {} });
+
+      expect(onChange.calledOnce).to.be.true;
+      expect(onSubmit.calledOnce).to.be.true;
+
+      // Reset spies
+      onChange.reset();
+      onSubmit.reset();
+
+      // Submit same form again (should be blocked)
+      wrapper.find('form').simulate('submit', { preventDefault: () => {} });
+
+      expect(onChange.called).to.be.false;
+      expect(onSubmit.called).to.be.false;
+
+      wrapper.unmount();
+    });
+
+    it('should update draft state when form fields change', () => {
+      const onChange = sinon.spy();
+      const props = {
+        ...getDefaultProps(),
+        onChange,
+      };
+
+      const wrapper = mount(<SearchForm {...props} />);
+
+      // Change facility type
+      const facilityType = wrapper.find('FacilityType');
+      facilityType.prop('handleFacilityTypeChange')({
+        target: { value: LocationType.CEMETERY },
+      });
+      wrapper.update();
+
+      // Verify FacilityType receives updated draft state
+      const updatedFacilityType = wrapper.find('FacilityType');
+      expect(updatedFacilityType.prop('currentQuery').facilityType).to.equal(
+        LocationType.CEMETERY,
+      );
+
+      // When switching facility types, service type should be reset
+      expect(updatedFacilityType.prop('currentQuery').serviceType).to.be.null;
+
+      wrapper.unmount();
+    });
+
+    it('should not submit with invalid draft state', () => {
+      const onChange = sinon.spy();
+      const onSubmit = sinon.spy();
+      const setSearchInitiated = sinon.spy();
+      const props = {
+        ...getDefaultProps(),
+        onChange,
+        onSubmit,
+        setSearchInitiated,
+      };
+
+      const wrapper = mount(<SearchForm {...props} />);
+
+      // Try to submit without filling required fields
+      wrapper.find('form').simulate('submit', { preventDefault: () => {} });
+
+      // onSubmit should not be called due to validation failure
+      // Note: onChange may be called for validation error state updates
+      expect(onSubmit.called).to.be.false;
+
+      wrapper.unmount();
+    });
   });
 });
