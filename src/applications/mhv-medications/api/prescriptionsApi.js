@@ -16,8 +16,8 @@ import {
 import { selectCernerPilotFlag } from '../util/selectors';
 
 const apiBasePath = selectCernerPilotFlag
-  ? `${environment.API_URL}/my_health/v1`
-  : `${environment.API_URL}/my_health/v2`;
+  ? `${environment.API_URL}/my_health/v2`
+  : `${environment.API_URL}/my_health/v1`;
 
 const documentationApiBasePath = `${environment.API_URL}/my_health/v1`;
 
