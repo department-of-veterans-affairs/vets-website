@@ -2,6 +2,8 @@ import React from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
+import { EXPENSE_TYPES } from '../../../constants';
+
 const DeleteExpenseModal = ({
   expenseCardTitle,
   expenseType,
@@ -11,7 +13,7 @@ const DeleteExpenseModal = ({
   onSecondaryButtonClick,
 }) => {
   const description =
-    expenseType === 'Mileage' ? (
+    expenseType === EXPENSE_TYPES.Mileage.title ? (
       <>
         This will delete your <strong>{expenseType}</strong> expense.
       </>
