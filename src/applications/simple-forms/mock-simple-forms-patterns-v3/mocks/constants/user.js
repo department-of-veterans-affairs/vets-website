@@ -1,0 +1,44 @@
+const USER = {
+  FIRST_NAME: 'John',
+  MIDDLE_NAME: 'Hamilton',
+  LAST_NAME: 'Doe',
+  SSN: '454544545',
+  VA_FILE_NUMBER: '111223333',
+  BIRTH_DATE: '1995-01-09',
+  EMAIL: 'person.name@testmail.com',
+  HOME_PHONE: {
+    AREA_CODE: '345',
+    PHONE_NUMBER: '3453455',
+  },
+  MOBILE_PHONE: {
+    AREA_CODE: '555',
+    PHONE_NUMBER: '1234567',
+  },
+  MAILING_ADDRESS: {
+    ADDRESS_LINE1: '1234 Main St',
+    ADDRESS_LINE2: null,
+    ADDRESS_LINE3: null,
+    CITY: 'APO',
+    STATE_CODE: 'AA',
+    ZIP_CODE: '34056',
+    COUNTRY_NAME: 'United States',
+    COUNTRY_CODE_ISO2: 'US',
+    COUNTRY_CODE_ISO3: 'USA',
+  },
+};
+
+const HOME_PHONE_FULL = `${USER.HOME_PHONE.AREA_CODE}${
+  USER.HOME_PHONE.PHONE_NUMBER
+}`;
+
+const MOBILE_PHONE_FULL = `${USER.MOBILE_PHONE.AREA_CODE}${
+  USER.MOBILE_PHONE.PHONE_NUMBER
+}`;
+
+const FULL_NAME = {
+  first: USER.FIRST_NAME,
+  middle: USER.MIDDLE_NAME,
+  last: USER.LAST_NAME,
+};
+
+module.exports = { USER, FULL_NAME, HOME_PHONE_FULL, MOBILE_PHONE_FULL };

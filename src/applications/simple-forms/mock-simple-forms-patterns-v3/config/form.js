@@ -5,11 +5,13 @@ import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import relationshipToVeteran from '../pages/relationshipToVeteran';
 import manifest from '../manifest.json';
-
+import prefillTransformer from './prefill-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { treatmentRecordsPages } from '../pages/treatmentRecords';
 import { employersPages } from '../pages/employers';
+import personalInfo from './personalInfo';
+import { contactInfo } from './contactInfo';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -27,8 +29,17 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: 'FORM_MOCK_PATTERNS_V3',
   saveInProgress: {},
+  // saveInProgress: {
+  //   messages: {
+  //     inProgress: 'Your form upload is in progress.',
+  //     expired:
+  //       'Your form upload has expired. If you want to upload a form, please start a new request.',
+  //     saved: 'Your form upload has been saved.',
+  //   },
+  // },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for web component examples.',
     noAuth:
@@ -37,6 +48,13 @@ const formConfig = {
   title: 'Explore Pattern Demonstrations in Our Sample Form',
   defaultDefinitions: {},
   chapters: {
+    contactInfo: {
+      title: 'Test',
+      pages: {
+        ...personalInfo,
+        ...contactInfo,
+      },
+    },
     personalInformationChapter: {
       title: 'Your personal information',
       pages: {

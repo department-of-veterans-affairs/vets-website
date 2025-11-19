@@ -1,0 +1,70 @@
+{
+  "data": {
+    "attributes": {
+      "profile": {
+        "signIn": {
+          "serviceName": "idme"
+        },
+        "email": "person.name@testmail.com",
+        "loa": { "current": 3 },
+        "firstName": "Person",
+        "middleName": "Middle",
+        "lastName": "LastName",
+        "gender": "M",
+        "birthDate": "1995-01-09",
+        "verified": true
+      },
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": true,
+        "servedInMilitary": true
+      },
+      "inProgressForms": [],
+      "prefillsAvailable": ["FORM_MOCK_PATTERNS_V3"],
+      "services": [
+        "facilities",
+        "hca",
+        "edu-benefits",
+        "form526",
+        "user-profile"
+      ],
+      "vaProfile": {
+        "status": "OK",
+        "birthDate": "19950109",
+        "familyName": "LastName",
+        "gender": "M",
+        "givenNames": ["Person", "Middle"],
+        "activeStatus": "active"
+      },
+      "vet360ContactInformation": {
+        "email": {
+          "emailAddress": "person.name@testmail.com"
+        },
+        "mailingAddress": {
+          "addressLine1": "1234 Main St",
+          "addressLine2": null,
+          "addressLine3": null,
+          "addressPou": "CORRESPONDENCE",
+          "addressType": "DOMESTIC",
+          "city": "APO",
+          "countryName": "United States",
+          "countryCodeIso2": "US",
+          "countryCodeIso3": "USA",
+          "stateCode": "AA",
+          "zipCode": "34056",
+          "zipCodeSuffix": null
+        },
+        "mobilePhone": {
+          "areaCode": "555",
+          "phoneNumber": "1234567",
+          "countryCode": "1"
+        },
+        "homePhone": {
+          "areaCode": "345",
+          "phoneNumber": "3453455",
+          "countryCode": "1"
+        }
+      }
+    }
+  }
+}

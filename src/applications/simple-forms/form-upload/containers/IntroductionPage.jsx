@@ -75,6 +75,18 @@ const IntroductionPage = ({ route }) => {
           </div>
         </VaProcessListItem>
       </VaProcessList>
+      <SaveInProgressIntro
+        formConfig={formConfig}
+        hideUnauthedStartLink
+        pageList={pageList}
+        prefillEnabled={formConfig.prefillEnabled}
+        startText="Start uploading your form"
+        verifiedPrefillAlert={<></>}
+        customLink={PrimaryActionLink}
+        devOnly={{
+          forceShowFormControls: true,
+        }}
+      />
       {userLoggedIn ? (
         <SaveInProgressIntro
           formConfig={formConfig}
