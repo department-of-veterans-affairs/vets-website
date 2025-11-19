@@ -12,8 +12,9 @@ const { RESULTS_2_S_1B } = RESULTS_NAME_MAP;
 // 2.IS.1 - Yes
 // 2.IS.2 - Yes
 // 2.IS.4 - Yes
-// 2.0 - Board
-// 2.S.1 - Yes
+// 2.0 - Claim for Increase
+// 2.IS.1A - No
+// 2.IS.1B - Yes
 const path = {
   Q_1_1_CLAIM_DECISION: 0,
   Q_1_2_CLAIM_DECISION: 0,
@@ -21,12 +22,13 @@ const path = {
   Q_2_IS_1_SERVICE_CONNECTED: 0,
   Q_2_IS_2_CONDITION_WORSENED: 0,
   Q_2_IS_4_DISAGREE_DECISION: 0,
-  Q_2_0_CLAIM_TYPE: 4,
-  Q_2_S_1_NEW_EVIDENCE: 0,
+  Q_2_0_CLAIM_TYPE: 1,
+  Q_2_IS_1A_LAW_POLICY_CHANGE: 1,
+  Q_2_IS_1B_NEW_EVIDENCE: 0,
 };
 
 describe('Decision Reviews Onramp', () => {
-  describe('Results SC (CFI, path 3)', () => {
+  describe('Results SC (CFI, path 5)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
       cy.injectAxeThenAxeCheck();
@@ -36,37 +38,41 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS_DR);
       h.verifyDrResultsHeader(RESULTS_2_S_1B);
-      h.checkOverviewPanel([c.TITLE_SC]);
+      h.checkOverviewPanel([
+        c.TITLE_SC,
+        c.TITLE_BOARD_EVIDENCE,
+        c.TITLE_BOARD_HEARING,
+      ]);
       h.checkGoodFitCards([
         {
           type: c.CARD_SC,
           content: [
-            c.CARD_GF_REVIEW_BOARD,
+            c.CARD_GF_REVIEW_INIT,
             c.CARD_GF_YES_EVIDENCE,
             c.CARD_GF_NOT_CONTESTED,
           ],
+        },
+        {
+          type: c.CARD_BOARD_EVIDENCE,
+          content: [c.CARD_GF_REVIEW_INIT, c.CARD_GF_YES_EVIDENCE],
+        },
+        {
+          type: c.CARD_BOARD_HEARING,
+          content: [c.CARD_GF_REVIEW_INIT, c.CARD_GF_YES_EVIDENCE],
         },
       ]);
       h.verifyClaimForIncreaseCardPresent();
       h.checkNotGoodFitCards([
         {
           type: c.CARD_HLR,
-          content: [c.CARD_NGF_BOARD_NOT_AVAILABLE],
+          content: [c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE],
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_NGF_RECEIVED_BOARD_DECISION],
-        },
-        {
-          type: c.CARD_BOARD_EVIDENCE,
-          content: [c.CARD_NGF_RECEIVED_BOARD_DECISION],
-        },
-        {
-          type: c.CARD_BOARD_HEARING,
-          content: [c.CARD_NGF_RECEIVED_BOARD_DECISION],
+          content: [c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE],
         },
       ]);
-      h.verifyOutsideDROptionPresent();
+      h.verifyOutsideDROptionNotPresent();
       cy.go('back');
 
       h.navigateBackward(path);
