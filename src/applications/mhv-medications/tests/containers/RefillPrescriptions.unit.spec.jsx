@@ -167,9 +167,11 @@ describe('Refill Prescriptions Component', () => {
     expect(lastFilledEl)
       .to.have.property('checkbox-description')
       .that.includes(
-        `Last filled on ${dateFormat(
-          refillablePrescriptions[0].dispensedDate,
-        )}`,
+        refillablePrescriptions[0].dispensedDate
+          ? `Last filled on ${dateFormat(
+              refillablePrescriptions[0].dispensedDate,
+            )}`
+          : 'Not filled yet',
       );
   });
 

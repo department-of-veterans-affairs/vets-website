@@ -58,12 +58,17 @@ class AdditionalEvidencePage extends React.Component {
       null,
       files,
       this.props.showDocumentUploadStatus,
+      this.props.timezoneMitigationEnabled,
     );
   }
 
   scrollToSection = () => {
     if (this.props.location.hash === '#add-files') {
       setPageFocus('h3#add-files');
+    } else if (this.props.location.hash === '#documents-filed') {
+      setPageFocus('h3#documents-filed');
+    } else if (this.props.location.hash === '#files-received') {
+      setPageFocus('h3#files-received');
     }
   };
 
@@ -166,6 +171,8 @@ function mapStateToProps(state) {
     filesOptional: getFilesOptional(trackedItems),
     showDocumentUploadStatus:
       state.featureToggles?.cst_show_document_upload_status || false,
+    timezoneMitigationEnabled:
+      state.featureToggles?.cst_timezone_discrepancy_mitigation || false,
   };
 }
 
@@ -194,6 +201,7 @@ AdditionalEvidencePage.propTypes = {
   resetUploads: PropTypes.func,
   showDocumentUploadStatus: PropTypes.bool,
   submitFiles: PropTypes.func,
+  timezoneMitigationEnabled: PropTypes.bool,
   uploadComplete: PropTypes.bool,
   uploadError: PropTypes.bool,
   uploading: PropTypes.bool,
