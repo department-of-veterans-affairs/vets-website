@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  getProviderDetailsTitle,
-  getProviderModalDeleteTitle,
-} from '../../utils/evidence';
+import { getProviderDetailsTitle } from '../../utils/evidence';
 
 export const promptContent = {
   question:
@@ -32,6 +29,7 @@ export const promptContent = {
       </p>
     </>
   ),
+  requiredError: 'Select if we should get your VA medical records',
 };
 
 export const locationContent = {
@@ -53,19 +51,17 @@ export const summaryContent = {
 
 export const issuesContent = {
   label: 'Select all the service-connected conditions you were treated for',
+  requiredError: 'Select a condition',
 };
 
-export const content = {
-  treatmentDate:
-    'If you received treatment before 2005, when did they treat you?',
-  treatmentDateHint:
-    'We’ll use this date to help us find your paper records from 2005 or earlier (you can estimate).',
-  noDate: 'I don’t have the date',
-  addAnotherLink: 'Add another VA or military treatment location',
-  modal: {
-    title: ({ location }) => getProviderModalDeleteTitle(location),
-    description: 'We’ve saved your current information.',
-    yes: 'Yes, keep location',
-    no: 'No, remove location',
+export const datePromptContent = {
+  question:
+    'Did treatment for your headaches at Edith Nourse Rogers Memorial Veterans Hospital start before 2005?',
+  label:
+    'If your treatment started before 2005, we’ll ask for approximate dates to help us find the paper records.',
+  options: {
+    before: 'Treatment started before 2005',
+    after: 'Treatment started in 2005 or later',
   },
+  requiredError: 'Select when your treatment started',
 };
