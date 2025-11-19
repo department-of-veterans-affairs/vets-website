@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
@@ -46,6 +46,15 @@ export const SearchForm = props => {
     searchString: currentQuery.searchString || '',
     vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
   });
+
+  // Memoize callbacks to prevent unnecessary re-renders
+  const handleVamcDraftChange = useCallback(updates => {
+    setDraftFormState(prev => ({ ...prev, ...updates }));
+  }, []);
+
+  const handleLocationSelection = useCallback(updates => {
+    setDraftFormState(prev => ({ ...prev, ...updates }));
+  }, []);
 
   const handleFacilityTypeChange = e => {
     const newFacilityType = e.target.value;
@@ -266,9 +275,7 @@ export const SearchForm = props => {
         isSmallDesktop={isSmallDesktop}
         isTablet={isTablet}
         committedVamcServiceDisplay={currentQuery.vamcServiceDisplay}
-        onVamcDraftChange={updates => {
-          setDraftFormState({ ...draftFormState, ...updates });
-        }}
+        onVamcDraftChange={handleVamcDraftChange}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
         useProgressiveDisclosure={useProgressiveDisclosure}
@@ -312,9 +319,7 @@ export const SearchForm = props => {
           isTablet={isTablet}
           onClearClick={handleClearInput}
           onChange={onChange}
-          onLocationSelection={updates => {
-            setDraftFormState({ ...draftFormState, ...updates });
-          }}
+          onLocationSelection={handleLocationSelection}
           useProgressiveDisclosure={useProgressiveDisclosure}
         />
         {useProgressiveDisclosure ? (
