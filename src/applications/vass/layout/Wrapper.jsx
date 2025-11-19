@@ -14,6 +14,7 @@ const Wrapper = props => {
     className = '',
     testID,
     showBackLink = false,
+    required = false,
   } = props;
 
   const navigate = useNavigate();
@@ -53,6 +54,11 @@ const Wrapper = props => {
           {pageTitle && (
             <h1 tabIndex="-1" data-testid="header">
               {pageTitle}
+              {required && (
+                <span className="vass-usa-label--required vads-u-font-family--sans">
+                  (*Required)
+                </span>
+              )}
             </h1>
           )}
           {children}
@@ -69,6 +75,7 @@ Wrapper.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   pageTitle: PropTypes.string,
+  required: PropTypes.bool,
   showBackLink: PropTypes.bool,
   testID: PropTypes.string,
 };
