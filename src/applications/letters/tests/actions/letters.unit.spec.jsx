@@ -9,7 +9,7 @@ import {
   setFetchJSONFailure,
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
-
+import * as recordEventModule from 'platform/monitoring/record-event';
 import {
   BACKEND_SERVICE_ERROR,
   BACKEND_AUTHENTICATION_ERROR,
@@ -27,6 +27,9 @@ import {
   GET_ENHANCED_LETTERS_FAILURE,
   INVALID_ADDRESS_PROPERTY,
   UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
+  GET_TSA_LETTER_ELIGIBILITY_SUCCESS,
+  GET_TSA_LETTER_ELIGIBILITY_LOADING,
+  GET_TSA_LETTER_ELIGIBILITY_ERROR,
 } from '../../utils/constants';
 
 import {
@@ -37,6 +40,7 @@ import {
   getLetterBlobUrl,
   getSingleLetterPDFLink,
   updateBenefitSummaryRequestOption,
+  getTsaLetterEligibility,
 } from '../../actions/letters';
 
 /**
@@ -499,6 +503,68 @@ describe('updateBenefitSummaryRequestOption', () => {
       type: UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
       propertyPath,
       value,
+    });
+  });
+});
+
+describe('getTsaLetterEligibility', () => {
+  let recordEventStub;
+
+  beforeEach(() => {
+    setup();
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    recordEventStub.restore();
+  });
+
+  it('dispatches LOADING action first', async () => {
+    setFetchJSONResponse(global.fetch.onCall(0), { data: [] });
+    const dispatch = sinon.spy();
+    await getTsaLetterEligibility(dispatch);
+    const action = dispatch.firstCall.args[0];
+    expect(action.type).to.equal(GET_TSA_LETTER_ELIGIBILITY_LOADING);
+  });
+
+  it('dispatches SUCCESS action when fetch succeeds for determining eligibility', async () => {
+    setFetchJSONResponse(global.fetch.onFirstCall(), {
+      data: [
+        {
+          attributes: {
+            documentId: '123',
+            receivedAt: '2022-01-01',
+          },
+        },
+      ],
+    });
+    const dispatch = sinon.spy();
+    await getTsaLetterEligibility(dispatch);
+    const successAction = dispatch.secondCall.args[0];
+    expect(successAction.type).to.equal(GET_TSA_LETTER_ELIGIBILITY_SUCCESS);
+    expect(successAction.data.attributes.documentId).to.equal('123');
+    expect(recordEventStub.called).to.be.true;
+    expect(recordEventStub.getCall(0).args[0]).to.deep.equal({
+      event: 'api_call',
+      'api-name': 'GET /v0/tsa_letter',
+      'api-status': 'successful',
+    });
+  });
+
+  it('dispatches ERROR action when fetch fails for determining eligibility', async () => {
+    setFetchJSONResponse(
+      global.fetch.onCall(0),
+      Promise.reject(new Error('error')),
+    );
+    const dispatch = sinon.spy();
+    await getTsaLetterEligibility(dispatch);
+    const errorAction = dispatch.secondCall.args[0];
+    expect(errorAction.type).to.equal(GET_TSA_LETTER_ELIGIBILITY_ERROR);
+    expect(recordEventStub.called).to.be.true;
+    expect(recordEventStub.getCall(0).args[0]).to.deep.equal({
+      event: 'api_call',
+      'api-name': 'GET /v0/tsa_letter',
+      'api-status': 'error',
     });
   });
 });
