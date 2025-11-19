@@ -17,7 +17,7 @@ const YellowRibbonProgramDescription = () => {
       <ul className="vads-u-width--full">
         {isUsaSchool ? (
           <>
-            <li className="vads-u-margin-bottom--1 vads-u-margin-left--1 vads-u-padding-left--2p5">
+            <li className="vads-u-margin-bottom--1 vads-u-margin-left--1 vads-u-padding-left--2p5" data-testid="us-school-text">
               The maximum number or unlimited number of students your school will support
             </li>
             <li className="vads-u-margin-bottom--1 vads-u-margin-left--1 vads-u-padding-left--2p5">
@@ -44,7 +44,7 @@ const YellowRibbonProgramDescription = () => {
           </>
         ) : (
           <>
-            <li className="vads-u-margin-bottom--1 vads-u-margin-left--1 vads-u-padding-left--2p5">
+            <li className="vads-u-margin-bottom--1 vads-u-margin-left--1 vads-u-padding-left--2p5" data-testid="foreign-school-text">
               The maximum number of students your school will support. If your
               school plans to support an unlimited number of qualifying
               students, you can enter “unlimited.”
