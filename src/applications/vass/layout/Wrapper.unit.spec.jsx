@@ -74,7 +74,9 @@ describe('VASS Component: Wrapper', () => {
     expect(container).to.exist;
     expect(container).to.have.class('custom-class');
     expect(container).to.have.class('vads-l-grid-container');
-    expect(container).to.have.class('vads-u-padding-y--3');
+    expect(container).to.have.class('vads-u-padding-x--2p5');
+    expect(container).to.have.class('desktop-lg:vads-u-padding-x--0');
+    expect(container).to.have.class('vads-u-padding-bottom--2');
   });
 
   it('should apply testID to container', () => {
