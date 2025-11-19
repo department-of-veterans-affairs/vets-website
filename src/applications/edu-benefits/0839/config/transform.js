@@ -1,30 +1,6 @@
 import { cloneDeep } from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
-const institutionDetailsMock = {
-  institutionName: 'test',
-  facilityCode: '12345678',
-  isForeignCountry: false,
-  institutionAddress: {
-    street: '123 Main St',
-    city: 'Anytown',
-    state: 'CA',
-    postalCode: '12345',
-    country: 'USA',
-  },
-};
-
-const additionalInstitutionDetailsMock = [
-  {
-    institutionName: 'test',
-    facilityCode: '12345678',
-    isForeignCountry: true,
-    institutionAddress: {
-      street: '123 Main St',
-    },
-  },
-];
-
 export default function transform(formConfig, form) {
   const authorizedOfficialTransform = formData => {
     const clonedData = cloneDeep(formData);
@@ -73,23 +49,21 @@ export default function transform(formConfig, form) {
 
   const institutionDetailsTransform = formData => {
     const clonedData = cloneDeep(formData);
-    clonedData.institutionDetails = [
-      institutionDetailsMock,
-      ...additionalInstitutionDetailsMock,
-    ];
 
     // TODO: verify transform with live institution data
     if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
       clonedData.withdrawFromYellowRibbonProgram = [
-        formData.institutionDetails,
-        ...formData.additionalInstitutionDetails,
+        clonedData.institutionDetails,
+        ...clonedData.additionalInstitutionDetails,
       ];
     } else {
       clonedData.institutionDetails = [
-        formData.institutionDetails,
-        ...formData.additionalInstitutionDetails,
+        clonedData.institutionDetails,
+        ...clonedData.additionalInstitutionDetails,
       ];
     }
+
+    delete clonedData.additionalInstitutionDetails;
 
     return clonedData;
   };
@@ -166,8 +140,8 @@ export default function transform(formConfig, form) {
 
     clonedData.pointOfContact = formData.pointsOfContact;
 
-    // TODO: verify phone number transform -- international vs us phone number -- concat callingCode and contact?
     clonedData.pointOfContact.phoneNumber =
+      clonedData.pointsOfContact.phoneNumber.callingCode +
       clonedData.pointsOfContact.phoneNumber.contact;
 
     clonedData.pointOfContact.emailAddress = clonedData.pointsOfContact.email;
@@ -187,8 +161,8 @@ export default function transform(formConfig, form) {
     ) {
       clonedData.pointOfContactTwo = formData.additionalPointsOfContact;
 
-      // TODO: verify phone number transform -- international vs us phone number -- concat callingCode and contact?
       clonedData.pointOfContactTwo.phoneNumber =
+        clonedData.additionalPointsOfContact.phoneNumber.callingCode +
         clonedData.additionalPointsOfContact.phoneNumber.contact;
 
       clonedData.pointOfContactTwo.emailAddress =
