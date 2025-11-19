@@ -113,3 +113,35 @@ export const handleTokenRequest = async ({
     }
   }
 };
+
+export const needsPortalNotice = ({
+  isPortalNoticeInterstitialEnabled,
+  userAttributes,
+}) => {
+  const {
+    vaProfile: { vaPatient = false, facilities = [] } = {},
+  } = userAttributes;
+  const redirectElligible = isPortalNoticeInterstitialEnabled && vaPatient;
+
+  const activeFacilities = ['757'];
+  const approvedFacilities = [
+    ...activeFacilities,
+    '653',
+    '687',
+    '692',
+    '668',
+    '556',
+  ];
+
+  const hasApprovedFacility = facilities.some(facility =>
+    approvedFacilities.includes(facility),
+  );
+  const hasActiveFacility = facilities.some(facility =>
+    activeFacilities.includes(facility),
+  );
+
+  return {
+    needsNotice: redirectElligible && hasActiveFacility,
+    needsVaRedirect: redirectElligible && !hasApprovedFacility,
+  };
+};

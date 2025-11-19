@@ -26,6 +26,7 @@ import {
   emailNeedsConfirmation,
   generateSentryAuthError,
   handleTokenRequest,
+  needsPortalNotice,
 } from '../helpers';
 
 const REDIRECT_IGNORE_PATTERN = new RegExp(['/auth/login/callback'].join('|'));
@@ -54,6 +55,9 @@ export default function AuthApp({ location }) {
   );
   const isEmailInterstitialEnabled = useSelector(
     store => store?.featureToggles?.confirmContactEmailInterstitialEnabled,
+  );
+  const isPortalNoticeInterstitialEnabled = useSelector(
+    store => store?.featureToggles?.portalNoticeInterstitialEnabled,
   );
 
   const handleAuthError = (error, codeOverride) => {
@@ -159,10 +163,22 @@ export default function AuthApp({ location }) {
       requestId,
       errorCode,
     );
+    const { userAttributes, userProfile } = authMetrics;
     if (returnUrl?.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])) {
       await handleProvisioning();
+      const { needsNotice, needsVaRedirect } = needsPortalNotice({
+        isPortalNoticeInterstitialEnabled,
+        userAttributes,
+      });
+      if (needsNotice) {
+        window.location.replace('/sign-in-health-portal');
+        return;
+      }
+      if (needsVaRedirect) {
+        window.location.replace('/my-health');
+        return;
+      }
     }
-    const { userAttributes, userProfile } = authMetrics;
     authMetrics.run();
     if (!skipToRedirect) {
       setupProfileSession(userProfile);
