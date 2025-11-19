@@ -4,11 +4,11 @@ import { fireEvent } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { EXPENSE_TYPES } from '../../../../constants';
+import reducer from '../../../../redux/reducer';
 
+import { EXPENSE_TYPES } from '../../../../constants';
 import ChooseExpenseType from '../../../../components/complex-claims/pages/ChooseExpenseType';
 import ExpensePage from '../../../../components/complex-claims/pages/ExpensePage';
-import reducer from '../../../../redux/reducer';
 
 describe('ChooseExpenseType', () => {
   const defaultApptId = '12345';
@@ -85,7 +85,9 @@ describe('ChooseExpenseType', () => {
 
     // Find the mileage option specifically
     const mileageOption = Array.from(radioOptions).find(
-      option => option.getAttribute('value')?.toLowerCase() === 'mileage',
+      option =>
+        option.getAttribute('value')?.toLowerCase() ===
+        EXPENSE_TYPES.Mileage.name,
     );
 
     expect(mileageOption).to.exist;
@@ -95,7 +97,7 @@ describe('ChooseExpenseType', () => {
 
     // All other options should NOT have description
     radioOptions.forEach(option => {
-      if (option.getAttribute('value') !== 'mileage') {
+      if (option.getAttribute('value') !== EXPENSE_TYPES.Mileage.name) {
         expect(option.getAttribute('description')).to.eq('');
       }
     });

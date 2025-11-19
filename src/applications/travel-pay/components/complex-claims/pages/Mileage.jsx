@@ -103,7 +103,7 @@ const Mileage = () => {
   useEffect(
     () => {
       const hasMileageExpense = (allExpenses ?? []).some(
-        e => e.expenseType === 'mileage',
+        e => e.expenseType === EXPENSE_TYPES.Mileage.name,
       );
       if (expenseId ?? hasMileageExpense) {
         setDepartureAddress('home-address');
