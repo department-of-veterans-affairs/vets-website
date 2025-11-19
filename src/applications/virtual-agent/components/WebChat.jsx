@@ -153,22 +153,12 @@ const WebChat = ({ token, code, webChatFramework, freeze = false }) => {
       {freeze && (
         <div
           data-testid="session-expired-banner"
-          style={{
-            position: 'absolute',
-            right: 16,
-            bottom: 80,
-            color: '#b50909',
-            display: 'flex',
-            alignItems: 'center',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            fontSize: 12,
-            letterSpacing: '0.02em',
-            zIndex: 5,
-            pointerEvents: 'none',
-          }}
+          className="va-chatbot-session-expired-banner"
         >
-          <va-icon style={{ marginRight: '0.2rem' }} icon="info" />
+          <va-icon
+            class="va-chatbot-session-expired-banner__icon"
+            icon="info"
+          />
           Chat ended
         </div>
       )}

@@ -151,3 +151,22 @@ button.webchat__send-button[disabled] {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.va-chatbot-session-expired-banner {
+  position: absolute;
+  right: 16px;
+  bottom: 80px;
+  color: var(--vads-color-secondary-dark);
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.va-chatbot-session-expired-banner__icon {
+  margin-right: 0.2rem;
+}

@@ -34,7 +34,8 @@ const StartConvoAndTrackUtterances = {
       ...event,
     };
 
-    // When frozen (expiry alert shown), prevent any new outbound messages or events
+    // When frozen (expiry alert shown), block outbound send/post actions by returning
+    // undefined so the action is not passed to the next middleware/reducer.
     if (
       options.freezeRef &&
       options.freezeRef.current &&
