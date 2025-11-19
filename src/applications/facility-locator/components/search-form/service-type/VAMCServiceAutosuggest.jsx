@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import { useCombobox } from 'downshift-v9';
 import useServiceType, {
@@ -9,10 +8,10 @@ import useServiceType, {
 import Autosuggest from '../autosuggest';
 
 const VAMCServiceAutosuggest = ({
-  onChange,
+  committedServiceDisplay,
+  onDraftChange,
   searchInitiated,
   setSearchInitiated,
-  vamcServiceDisplay,
 }) => {
   const { selector, serviceTypeFilter } = useServiceType();
   const [inputValue, setInputValue] = useState(null);
@@ -63,11 +62,12 @@ const VAMCServiceAutosuggest = ({
 
       // Handles edge cases where the form might be re-rendered between
       // viewpoints or for any other reason and the autosuggest input is lost
-      if (!inputValue && vamcServiceDisplay) {
-        setInputValue(vamcServiceDisplay);
+      if (!inputValue && committedServiceDisplay) {
+        setInputValue(committedServiceDisplay);
       }
     },
-    [selector],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selector, committedServiceDisplay],
   );
 
   // If the user has not typed a service at all, or types something that does not
@@ -93,13 +93,18 @@ const VAMCServiceAutosuggest = ({
 
       setSearchInitiated(false);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [options, searchInitiated],
   );
 
   const handleClearClick = () => {
-    onChange({ serviceType: null, vamcServiceDisplay: null });
     setInputValue(null);
     setOptions(allVAMCServices);
+
+    // Report to parent for draft state update
+    if (onDraftChange) {
+      onDraftChange({ serviceType: null, vamcServiceDisplay: null });
+    }
 
     if (inputRef?.current) {
       focusElement(inputRef.current);
@@ -137,10 +142,13 @@ const VAMCServiceAutosuggest = ({
     if (selectedItem?.toDisplay) {
       setInputValue(selectedItem.toDisplay);
 
-      onChange({
-        serviceType: selectedItem?.serviceId,
-        vamcServiceDisplay: selectedItem.toDisplay,
-      });
+      // Report to parent for draft state update
+      if (onDraftChange) {
+        onDraftChange({
+          serviceType: selectedItem.serviceId,
+          vamcServiceDisplay: selectedItem.toDisplay,
+        });
+      }
     }
   };
 
@@ -171,14 +179,10 @@ const VAMCServiceAutosuggest = ({
 };
 
 VAMCServiceAutosuggest.propTypes = {
+  committedServiceDisplay: PropTypes.string,
   searchInitiated: PropTypes.bool,
+  onDraftChange: PropTypes.func,
   setSearchInitiated: PropTypes.func,
-  vamcServiceDisplay: PropTypes.string,
-  onChange: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  vamcServiceDisplay: state.searchQuery.vamcServiceDisplay,
-});
-
-export default connect(mapStateToProps)(VAMCServiceAutosuggest);
+export default VAMCServiceAutosuggest;
