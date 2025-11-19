@@ -1,12 +1,22 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom-v5-compat';
+import classNames from 'classnames';
 
 import { focusElement } from 'platform/utilities/ui';
 
 import NeedHelp from '../components/NeedHelp';
 
 const Wrapper = props => {
-  const { children, pageTitle, classNames = '', testID } = props;
+  const {
+    children,
+    pageTitle,
+    className = '',
+    testID,
+    showBackButton = false,
+  } = props;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     focusElement('h1');
@@ -14,9 +24,30 @@ const Wrapper = props => {
 
   return (
     <div
-      className={`vads-l-grid-container vads-u-padding-y--3 ${classNames}`}
+      className={classNames(`vads-l-grid-container`, {
+        'vads-u-padding-y--3': !showBackButton,
+        'vads-u-padding-top--2 vads-u-padding-bottom--3': showBackButton, // Make the spacing consistent when showBackButton is true
+        [className]: className,
+      })}
       data-testid={testID}
     >
+      {showBackButton && (
+        <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--0">
+          <nav aria-label="backlink">
+            <va-link
+              back
+              aria-label="Back link"
+              data-testid="back-link"
+              text="Back"
+              href="#"
+              onClick={e => {
+                e.preventDefault();
+                navigate(-1);
+              }}
+            />
+          </nav>
+        </div>
+      )}
       {pageTitle && (
         <h1 tabIndex="-1" data-testid="header">
           {pageTitle}
@@ -32,7 +63,8 @@ export default Wrapper;
 
 Wrapper.propTypes = {
   children: PropTypes.node,
-  classNames: PropTypes.string,
+  className: PropTypes.string,
   pageTitle: PropTypes.string,
+  showBackButton: PropTypes.bool,
   testID: PropTypes.string,
 };

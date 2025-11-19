@@ -1,25 +1,31 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import Wrapper from './Wrapper';
 
 describe('VASS Component: Wrapper', () => {
   it('should render children content', () => {
-    const screen = render(
+    const screen = renderWithStoreAndRouter(
       <Wrapper>
         <div data-testid="test-child">Test Content</div>
       </Wrapper>,
+      {
+        initialState: {},
+      },
     );
 
     expect(screen.getByTestId('test-child')).to.exist;
   });
 
   it('should render page title when provided', () => {
-    const screen = render(
+    const screen = renderWithStoreAndRouter(
       <Wrapper pageTitle="Test Page Title">
         <div>Content</div>
       </Wrapper>,
+      {
+        initialState: {},
+      },
     );
 
     expect(screen.getByRole('heading', { level: 1, name: /test page title/i }))
@@ -29,30 +35,39 @@ describe('VASS Component: Wrapper', () => {
   });
 
   it('should not render h1 when pageTitle is not provided', () => {
-    const screen = render(
+    const screen = renderWithStoreAndRouter(
       <Wrapper>
         <div>Content</div>
       </Wrapper>,
+      {
+        initialState: {},
+      },
     );
 
     expect(screen.queryByTestId('header')).to.not.exist;
   });
 
   it('should render NeedHelp component', () => {
-    const screen = render(
+    const screen = renderWithStoreAndRouter(
       <Wrapper>
         <div>Content</div>
       </Wrapper>,
+      {
+        initialState: {},
+      },
     );
 
     expect(screen.getByTestId('help-footer')).to.exist;
   });
 
-  it('should apply custom classNames to container', () => {
-    const screen = render(
-      <Wrapper classNames="custom-class" testID="wrapper-container">
+  it('should apply custom className to container', () => {
+    const screen = renderWithStoreAndRouter(
+      <Wrapper className="custom-class" testID="wrapper-container">
         <div>Content</div>
       </Wrapper>,
+      {
+        initialState: {},
+      },
     );
 
     const container = screen.getByTestId('wrapper-container');
@@ -63,12 +78,28 @@ describe('VASS Component: Wrapper', () => {
   });
 
   it('should apply testID to container', () => {
-    const screen = render(
+    const screen = renderWithStoreAndRouter(
       <Wrapper testID="test-wrapper">
         <div>Content</div>
       </Wrapper>,
+      {
+        initialState: {},
+      },
     );
 
     expect(screen.getByTestId('test-wrapper')).to.exist;
+  });
+
+  it('should render back button when showBackButton is true', () => {
+    const screen = renderWithStoreAndRouter(
+      <Wrapper showBackButton>
+        <div>Content</div>
+      </Wrapper>,
+      {
+        initialState: {},
+      },
+    );
+
+    expect(screen.getByTestId('back-link')).to.exist;
   });
 });

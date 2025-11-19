@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom-v5-compat';
 import { formatInTimeZone } from 'date-fns-tz';
-
 import Wrapper from '../layout/Wrapper';
 
 // TODO: replace with actual data
@@ -42,6 +41,7 @@ const Review = () => {
     <Wrapper
       pageTitle="Review your VA Solid Start call details"
       testID="review-page"
+      showBackButton
     >
       <hr
         aria-hidden="true"
