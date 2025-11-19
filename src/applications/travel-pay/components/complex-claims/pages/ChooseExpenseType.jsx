@@ -70,7 +70,9 @@ const ChooseExpenseType = () => {
             key={option.route}
             label={option.title}
             value={option.route}
-            description={option.name === 'mileage' ? hintText : ''}
+            description={
+              option.name === EXPENSE_TYPES.Mileage.name ? hintText : ''
+            }
             checked={selectedExpenseType === option.route}
           />
         ))}

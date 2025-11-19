@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import DeleteExpenseModal from '../../../../components/complex-claims/pages/DeleteExpenseModal';
+import { EXPENSE_TYPES } from '../../../../constants';
 
 describe('DeleteExpenseModal', () => {
   const defaultProps = {
@@ -33,7 +34,7 @@ describe('DeleteExpenseModal', () => {
     // Check description content
     const description = container.querySelector('p');
     expect(description).to.exist;
-    if (defaultProps.expenseType === 'Mileage') {
+    if (defaultProps.expenseType === EXPENSE_TYPES.Mileage.title) {
       const strong = description.querySelector('strong');
       expect(strong).to.exist;
       expect(strong.textContent).to.equal('Mileage');
