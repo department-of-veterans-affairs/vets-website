@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 import { uploadFile as _uploadFile } from 'platform/forms-system/src/js/actions';
 import {
@@ -174,8 +174,8 @@ function getMockFileData(file) {
 }
 
 const START_PERCENT = 10;
-const PERCENT_MAX_STEP = 20;
-const INTERVAL = 50;
+const PERCENT_MAX_STEP = 1;
+const INTERVAL = 150;
 
 /**
  * This function invoked for mock form on staging which lacks a back-end but where we would like to show the progress of uploads.
@@ -226,4 +226,31 @@ export function simulateUploadMultiple(
     }
     per += Math.random() * PERCENT_MAX_STEP;
   }, INTERVAL);
+}
+
+const UPLOADING_MESSAGE = 'Uploading file';
+const UPLOADING_DONE_MESSAGE = 'File uploaded';
+export function VaProgressUploadAnnounce({ uploading }) {
+  const [sRMessage, setSRMessage] = useState('');
+  useEffect(
+    () => {
+      if (uploading) {
+        setSRMessage(UPLOADING_MESSAGE);
+      } else if (!uploading && sRMessage) {
+        setSRMessage(UPLOADING_DONE_MESSAGE);
+      }
+    },
+    [uploading],
+  );
+
+  return (
+    <span
+      aria-atomic="true"
+      role="alert"
+      aria-live="polite"
+      className="sr-only"
+    >
+      {sRMessage}
+    </span>
+  );
 }
