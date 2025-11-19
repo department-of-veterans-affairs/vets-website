@@ -248,15 +248,28 @@ const ExpensePage = () => {
       },
     }));
   };
-  const pageDescription =
-    expenseType === 'Airtravel'
-      ? `Upload a receipt or proof of the expense here. If youre adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`
-      : `Upload a receipt or proof of the expense here. If you have multiple ${
-          expenseTypeFields.expensePageText
-        } expenses, add just 1 on this page. You’ll be able to add more expenses later.`;
+
+  const AIR_TRAVEL_KEY = Object.keys(EXPENSE_TYPES).find(
+    key => EXPENSE_TYPES[key].route === 'air-travel',
+  );
+  const isAirTravel = expenseType === AIR_TRAVEL_KEY;
+  const MEAL_KEY = Object.keys(EXPENSE_TYPES).find(
+    key => EXPENSE_TYPES[key].route === 'meal',
+  );
+  const isMeal = expenseType === MEAL_KEY;
+  const COMMON_CARRIER_KEY = Object.keys(EXPENSE_TYPES).find(
+    key => EXPENSE_TYPES[key].route === 'common-carrier',
+  );
+  const isCommonCarrier = expenseType === COMMON_CARRIER_KEY;
+
+  const pageDescription = isAirTravel
+    ? `Upload a receipt or proof of the expense here. If youre adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`
+    : `Upload a receipt or proof of the expense here. If you have multiple ${
+        expenseTypeFields.expensePageText
+      } expenses, add just 1 on this page. You’ll be able to add more expenses later.`;
 
   const dateHintText =
-    expenseType === 'Lodging'
+    expenseType === EXPENSE_TYPES.Lodging.title
       ? `Enter the date on your receipt, even if it’s the same as your check in or check out dates.`
       : '';
 
@@ -287,22 +300,22 @@ const ExpensePage = () => {
         currentDocument={document}
         handleDocumentUpload={handleDocumentUpload}
       />
-      {expenseType === 'Meal' && (
+      {isMeal && (
         <ExpenseMealFields formState={formState} onChange={handleFormChange} />
       )}
-      {expenseType === 'Lodging' && (
+      {expenseType === EXPENSE_TYPES.Lodging.title && (
         <ExpenseLodgingFields
           formState={formState}
           onChange={handleFormChange}
         />
       )}
-      {expenseType === 'Commoncarrier' && (
+      {isCommonCarrier && (
         <ExpenseCommonCarrierFields
           formState={formState}
           onChange={handleFormChange}
         />
       )}
-      {expenseType === 'Airtravel' && (
+      {isAirTravel && (
         <ExpenseAirTravelFields
           formState={formState}
           onChange={handleFormChange}
