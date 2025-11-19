@@ -152,10 +152,9 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       const filterKeys = filterValues;
       const isRecommendedOnly = filterKeys.includes('recommended');
       const sourceData = isRecommendedOnly ? resultsData || [] : BENEFITS_LIST;
-      let filtered = sourceData;
-
       const nonRecommendedFilters = filterKeys.filter(f => f !== 'recommended');
 
+      let filtered = sourceData;
       if (nonRecommendedFilters.length > 0) {
         filtered = sourceData.filter(benefit =>
           nonRecommendedFilters.some(key => {
