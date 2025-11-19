@@ -23,7 +23,10 @@ const AlertConfirmAddContactEmailError = ({
       dataTestid="mhv-alert--confirm-error"
       className="vads-u-margin-y--2"
     >
-      <h2 slot="headline">{headline}</h2>
+      <h2 slot="headline">
+        <span className="usa-sr-only">error</span>
+        {headline}
+      </h2>
       <p>Please try again.</p>
       <AlertConfirmContactEmailContent
         emailAddress={emailAddress}

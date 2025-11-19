@@ -77,7 +77,10 @@ const AlertConfirmContactEmailError = ({
 
   return (
     <VaAlert status="error" role="alert" dataTestid="mhv-alert--confirm-error">
-      <h2 slot="headline">{headline}</h2>
+      <h2 slot="headline">
+        <span className="usa-sr-only">error</span>
+        {headline}
+      </h2>
       <p>Please try again.</p>
       <ProfileAlertConfirmEmailContent
         emailAddress={emailAddress}
