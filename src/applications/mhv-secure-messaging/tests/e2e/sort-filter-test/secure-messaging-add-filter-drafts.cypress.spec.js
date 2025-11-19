@@ -1,7 +1,7 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
-import { AXE_CONTEXT, Data } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Data, Alerts } from '../utils/constants';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientFilterPage from '../pages/PatientFilterPage';
 
@@ -105,6 +105,44 @@ describe('SM DRAFTS ADD FILTER FIXED DATE RANGE', () => {
       Data.DATE_RANGE.TWELVE_MONTHS,
     );
 
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+});
+
+describe('SM FILTER ERROR', () => {
+  beforeEach(() => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    FolderLoadPage.loadFolders();
+    FolderLoadPage.loadDraftMessages();
+  });
+
+  it('focuses on relevant error', () => {
+    cy.get(Locators.BUTTONS.FILTER).click();
+    cy.get(Locators.BLOCKS.FILTER_KEYWORD_INPUT).should('be.focused');
+    cy.get(Locators.BLOCKS.FILTER_KEYWORD_INPUT)
+      .invoke('attr', 'error')
+      .then(errorAttr => {
+        expect(errorAttr).to.equal(Alerts.SEARCH_TERM_REQUIRED);
+      });
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('clears keyword error on filter clear', () => {
+    cy.get(Locators.BUTTONS.FILTER).click();
+    cy.get(Locators.BLOCKS.FILTER_KEYWORD_INPUT)
+      .invoke('attr', 'error')
+      .then(errorAttr => {
+        expect(errorAttr).to.equal(Alerts.SEARCH_TERM_REQUIRED);
+      });
+    cy.get(Locators.CLEAR_FILTERS).click();
+    cy.get(Locators.BLOCKS.FILTER_KEYWORD_INPUT)
+      .invoke('attr', 'error')
+      .then(errorAttr => {
+        expect(errorAttr).to.not.exist;
+      });
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

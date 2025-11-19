@@ -56,25 +56,41 @@ describe('ExpenseCard', () => {
     },
   });
 
+  ExpenseCard.defaultProps = {
+    address: {
+      addressLine1: '',
+      addressLine2: '',
+      addressLine3: '',
+      city: '',
+      stateCode: '',
+      zipCode: '',
+    },
+    apptId: 'test-appt-id',
+    claimId: 'test-claim-id',
+    showEditDelete: true,
+  };
+
   // Helper to render the component with router + store
-  const renderExpenseCard = (expense = defaultMileageExpense) =>
+  const renderExpenseCard = (
+    expense = defaultMileageExpense,
+    showEditDelete = true,
+  ) =>
     renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/review']}>
         <ExpenseCard
           expense={expense}
           address={expense.address}
-          apptId="test-appt-id"
-          claimId="test-claim-id"
+          showEditDelete={showEditDelete}
         />
       </MemoryRouter>,
       { initialState: getData(), reducers: reducer },
     );
 
   it('renders mileage component correctly', () => {
-    const { getByText, container } = renderExpenseCard();
+    const { getByText, container, queryByTestId } = renderExpenseCard();
 
     // Header
-    expect(getByText('October 15, 2023, $25.50')).to.exist;
+    expect(getByText('Mileage expense')).to.exist;
 
     // Address
     expect(getByText('Which address did you depart from?')).to.exist;
@@ -87,14 +103,19 @@ describe('ExpenseCard', () => {
     expect(container.textContent).to.include('Round trip');
 
     // Edit button
-    const editLink = container.querySelector('a');
+    const editLink = queryByTestId('expense1-edit-expense-link');
     expect(editLink).to.exist;
     expect(editLink.textContent).to.include('EDIT');
 
     // Delete button exists
-    const deleteButton = container.querySelector('va-button-icon');
+    const deleteButton = queryByTestId('expense1-delete-expense-button');
     expect(deleteButton).to.exist;
     expect(deleteButton.getAttribute('button-type')).to.equal('delete');
+
+    // Delete modal exists
+    const deleteModal = queryByTestId('delete-expense-modal');
+    expect(deleteModal).to.exist;
+    expect(deleteModal.getAttribute('visible')).to.equal('false');
   });
 
   it('renders non-mileage expense correctly', () => {
@@ -133,7 +154,7 @@ describe('ExpenseCard', () => {
   });
 
   it('opens the delete modal and calls deleteExpenseAndDocument on confirm', async () => {
-    const { container } = renderExpenseCard();
+    const { container, getByTestId } = renderExpenseCard();
 
     // Click delete button to open modal
     const deleteButton = container.querySelector('va-button-icon');
@@ -141,7 +162,8 @@ describe('ExpenseCard', () => {
     fireEvent.click(deleteButton);
 
     // The modal should now be visible
-    const modal = container.querySelector('va-modal');
+    // const modal = container.querySelector('va-modal');
+    const modal = getByTestId('delete-expense-modal');
     expect(modal).to.exist;
     expect(modal.getAttribute('visible')).to.equal('true');
 
@@ -192,5 +214,34 @@ describe('ExpenseCard', () => {
     expect(getByTestId('location-display').textContent).to.equal(
       '/file-new-claim/test-appt-id/test-claim-id/mileage/expense1',
     );
+  });
+
+  it('renders mileage component with no edit button, delete button or delete modal', () => {
+    const { getByText, container, queryByTestId } = renderExpenseCard(
+      defaultMileageExpense,
+      false,
+    );
+
+    // Header
+    expect(getByText('Mileage expense')).to.exist;
+
+    // Address
+    expect(getByText('Which address did you depart from?')).to.exist;
+    expect(container.textContent).to.include('123 Main St');
+    expect(container.textContent).to.include('Apt 4B');
+    expect(container.textContent).to.include('Washington, DC 20001');
+
+    // Trip type
+    expect(getByText('Was your trip round trip or one way?')).to.exist;
+    expect(container.textContent).to.include('Round trip');
+
+    // Edit button does not exist
+    expect(queryByTestId('expense1-edit-expense-link')).to.not.exist;
+
+    // Delete button does not exist
+    expect(queryByTestId('expense1-delete-expense-button')).to.not.exist;
+
+    // Delete modal does not exist
+    expect(queryByTestId('delete-expense-modal')).to.not.exist;
   });
 });

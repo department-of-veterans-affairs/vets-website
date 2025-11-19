@@ -79,6 +79,9 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
 
       // Removed the "Can't" in verifyPageHeader for testing purposes
       GeneralFunctionsPage.verifyPageHeader('find your care team?');
+      GeneralFunctionsPage.verifyPageTitle(
+        'Care Team Help - Start Message | Veterans Affairs',
+      );
       cy.location('pathname').should('equal', Data.LINKS.CARE_TEAM_HELP);
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
