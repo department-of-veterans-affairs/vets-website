@@ -1,7 +1,9 @@
-import { radioSchema } from 'platform/forms-system/src/js/web-component-patterns';
-import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
+import {
+  radioUI,
+  radioSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
-import { FIELD_NAMES } from '../../constants';
+import { FIELD_NAMES, FIELD_TITLES } from '../../constants';
 
 // Simple fields that can edit inline (single-select radio buttons)
 const INLINE_SCHEDULING_PREFERENCES = [
@@ -48,30 +50,26 @@ const schedulingPreferenceOptions = fieldname => {
   };
 };
 
-export const getSchedulingPreferenceInitialFormValues = (fieldName, data) => {
+export const getSchedulingPreferenceInitialFormValues = (fieldname, data) => {
   // If we have data from API, use it; otherwise empty string for radio buttons
-  return data ? { [fieldName]: data[fieldName] } : { [fieldName]: '' };
+  return data ? { [fieldname]: data[fieldname] } : { [fieldname]: '' };
 };
 
 export const schedulingPreferencesUiSchema = fieldname => {
   if (!isInlineSchedulingPreference(fieldname)) {
-    return null;
+    return { [fieldname]: {} }; // To be replaced with subtask UI schema
   }
   return {
-    [fieldname]: {
-      'ui:widget': 'radio',
-      'ui:webComponentField': VaRadioField,
-      'ui:options': {
-        hideTitle: true,
-        labels: { ...schedulingPreferenceOptions(fieldname) },
-      },
-    },
+    [fieldname]: radioUI({
+      title: FIELD_TITLES[fieldname],
+      labels: { ...schedulingPreferenceOptions(fieldname) },
+    }),
   };
 };
 
 export const schedulingPreferencesFormSchema = fieldname => {
   if (!isInlineSchedulingPreference(fieldname)) {
-    return null;
+    return { type: 'object', properties: {} }; // To be replaced with subtask form schema
   }
   return {
     type: 'object',

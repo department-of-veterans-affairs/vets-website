@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import { Prompt, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { openModal } from '@@vap-svc/actions';
+import { openModal, clearMostRecentlySavedField } from '@@vap-svc/actions';
 
 import { focusElement } from '~/platform/utilities/ui';
 import { PROFILE_PATH_NAMES } from '../../constants';
@@ -19,16 +19,27 @@ const SchedulingPreferences = () => {
   );
 
   const dispatch = useDispatch();
+  const clearSuccessAlert = useCallback(
+    () => dispatch(clearMostRecentlySavedField()),
+    [dispatch],
+  );
   const openEditModal = useCallback(() => dispatch(openModal()), [dispatch]);
 
-  useEffect(() => {
-    document.title = `Scheduling Preferences | Veterans Affairs`;
-  }, []);
+  useEffect(
+    () => {
+      document.title = `Scheduling Preferences | Veterans Affairs`;
 
-  // Set focus on the page heading
+      return () => {
+        clearSuccessAlert();
+      };
+    },
+    [clearSuccessAlert],
+  );
+
   useEffect(
     () => {
       if (location.hash) {
+        // Set focus on the page heading
         const focusTarget = document.querySelector(location.hash);
         if (focusTarget) {
           focusElement(focusTarget);
@@ -42,7 +53,7 @@ const SchedulingPreferences = () => {
 
   useEffect(
     () => {
-      // Show alert when navigating away
+      // Show alert when navigating away with unsaved edits
       if (hasUnsavedEdits) {
         window.onbeforeunload = () => true;
         return;
