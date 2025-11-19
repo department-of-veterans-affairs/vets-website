@@ -13,8 +13,13 @@ import {
   INCLUDE_IMAGE_ENDPOINT,
   rxListSortingOptions,
 } from '../util/constants';
+import { selectCernerPilotFlag } from '../util/selectors';
 
-const apiBasePath = `${environment.API_URL}/my_health/v1`;
+const apiBasePath = selectCernerPilotFlag
+  ? `${environment.API_URL}/my_health/v1`
+  : `${environment.API_URL}/my_health/v2`;
+
+const documentationApiBasePath = `${environment.API_URL}/my_health/v1`;
 
 // Create the prescriptions API slice
 export const prescriptionsApi = createApi({
@@ -152,7 +157,7 @@ export const prescriptionsApi = createApi({
     }),
     getPrescriptionDocumentation: builder.query({
       query: id => ({
-        path: `${apiBasePath}/prescriptions/${id}/documentation`,
+        path: `${documentationApiBasePath}/prescriptions/${id}/documentation`,
       }),
       transformResponse: response => {
         return response?.data?.attributes?.html
