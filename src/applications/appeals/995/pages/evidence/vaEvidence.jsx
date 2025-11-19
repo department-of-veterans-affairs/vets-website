@@ -15,6 +15,7 @@ import Issues, { issuesPage } from '../../components/evidence/IssuesNew';
 import { EVIDENCE_URLS } from '../../constants';
 import {
   datePromptContent,
+  issuesContent,
   locationContent,
   promptContent,
   summaryContent,
