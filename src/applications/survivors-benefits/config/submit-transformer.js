@@ -3,49 +3,63 @@ import { format } from 'date-fns-tz';
 import { durationInDays } from '../utils/helpers';
 import { separationReasonOptions } from '../utils/labels';
 
+const usaPhoneKeys = ['phone', 'mobilePhone', 'dayPhone', 'nightPhone'];
+
+function replacer(key, value) {
+  if (usaPhoneKeys.includes(key) && value?.length) {
+    return value.replace(/[^\d]/g, '');
+  }
+
+  if (value && typeof value === 'object') {
+    const fields = Object.keys(value);
+    if (
+      fields.length === 0 ||
+      fields.every(field => value[field] === undefined)
+    ) {
+      return undefined;
+    }
+  }
+
+  return value;
+}
+
 function calculateSeparationDuration(formData) {
-  const parsedFormData = JSON.parse(formData);
-  const transformedValue = parsedFormData;
+  const transformedValue = { ...formData };
+  const startDate = formData?.separationStartDate;
+  const endDate = formData?.separationEndDate;
 
   let calculatedDuration = null;
 
-  if (
-    parsedFormData?.separationStartDate &&
-    parsedFormData?.separationEndDate
-  ) {
-    calculatedDuration = durationInDays(
-      parsedFormData?.separationStartDate,
-      parsedFormData?.separationEndDate,
-    );
+  if (startDate && endDate) {
+    calculatedDuration = durationInDays(startDate, endDate);
   }
 
-  if (parsedFormData?.separationExplanation) {
-    const originalExplanation = parsedFormData.separationExplanation;
+  if (formData?.separationExplanation) {
+    const originalExplanation = formData.separationExplanation;
     const additionalItems = [];
 
-    if (parsedFormData?.separationDueToAssignedReasons) {
-      // Get the display value from the labels object
-      const reasonKey = parsedFormData.separationDueToAssignedReasons;
+    if (formData?.separationDueToAssignedReasons) {
+      const reasonKey = formData.separationDueToAssignedReasons;
       const reasonLabel = separationReasonOptions[reasonKey];
-      additionalItems.push(`Reason: ${reasonLabel}`);
+      if (reasonLabel) {
+        additionalItems.push(`Reason: ${reasonLabel}`);
+      }
     }
 
-    if (parsedFormData?.separationStartDate) {
-      additionalItems.push(`Start Date: ${parsedFormData.separationStartDate}`);
+    if (startDate) {
+      additionalItems.push(`Start Date: ${startDate}`);
     }
 
-    if (parsedFormData?.separationEndDate) {
-      additionalItems.push(`End Date: ${parsedFormData.separationEndDate}`);
+    if (endDate) {
+      additionalItems.push(`End Date: ${endDate}`);
     }
 
     if (calculatedDuration) {
       additionalItems.push(`Duration: ${calculatedDuration} days`);
     }
 
-    if (parsedFormData?.courtOrderedSeparation !== undefined) {
-      const courtOrderValue = parsedFormData.courtOrderedSeparation
-        ? 'Yes'
-        : 'No';
+    if (formData?.courtOrderedSeparation !== undefined) {
+      const courtOrderValue = formData.courtOrderedSeparation ? 'Yes' : 'No';
       additionalItems.push(`Court Ordered: ${courtOrderValue}`);
     }
 
@@ -56,15 +70,46 @@ function calculateSeparationDuration(formData) {
       : originalExplanation;
   }
 
-  return JSON.stringify(transformedValue);
+  return transformedValue;
+}
+
+function addBackendRequiredFields(formData) {
+  const updated = { ...formData };
+
+  if (formData.veteranSocialSecurityNumber) {
+    updated.veteranSsn = formData.veteranSocialSecurityNumber.replace(
+      /[^\d]/g,
+      '',
+    );
+    delete updated.veteranSocialSecurityNumber;
+  }
+
+  if (formData.veteranVAFileNumber) {
+    updated.veteranFileNumber = formData.veteranVAFileNumber;
+    delete updated.veteranVAFileNumber;
+  }
+
+  if (typeof updated.veteranFileNumber === 'undefined') {
+    updated.veteranFileNumber = '';
+  }
+
+  if (typeof formData.statementOfTruthCertified === 'boolean') {
+    updated.privacyAgreementAccepted = formData.statementOfTruthCertified;
+  }
+
+  return updated;
 }
 
 export const transform = (formConfig, form) => {
-  let transformedData = transformForSubmit(formConfig, form);
-  transformedData = calculateSeparationDuration(transformedData);
+  const transformedData = JSON.parse(
+    transformForSubmit(formConfig, form, replacer),
+  );
+  const withDuration = calculateSeparationDuration(transformedData);
+  const preparedForm = addBackendRequiredFields(withDuration);
+
   return JSON.stringify({
     survivorsBenefitsClaim: {
-      form: transformedData,
+      form: JSON.stringify(preparedForm),
     },
     localTime: format(new Date(), "yyyy-MM-dd'T'HH:mm:ssXXX"),
   });
