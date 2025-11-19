@@ -52,11 +52,9 @@
       "stopReceivingDate": ""
     },
     "remarks": {
-      "remarks": "Currently employed veteran with ongoing service to intelligence operations. Has middle name. Demonstrates currently employed scenario where no employment ending date is provided. Receives current ongoing benefits with no stop date. Not in Reserve/Guard status."
+      "remarks": "Currently employed veteran with ongoing service to intelligence operations. Has middle name. Demonstrates currently employed scenario where no employment ending date is provided. Receives current ongoing benefits with no stop date. Not in Reserve/Guard status. Tests signature validation disabled with different name."
     },
-    "certification": {
-      "signature": "Ahsoka T Tano",
-      "certified": true
-    }
+    "statementOfTruthSignature": "Different Test Name",
+    "statementOfTruthCertified": true
   }
 }

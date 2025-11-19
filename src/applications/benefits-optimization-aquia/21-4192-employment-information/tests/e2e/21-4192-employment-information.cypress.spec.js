@@ -10,7 +10,7 @@ import manifest from '../../manifest.json';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['minimal', 'maximal', 'currently-employed', 'duty-status-only'],
+    dataSets: ['comprehensive', 'currently-employed'],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -26,20 +26,20 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const { veteranFullName } = data.veteranInformation;
-            // Only use first and last name for signature (no middle initial)
-            // Note: Signature validation is disabled - any input is accepted
-            const veteranName = [veteranFullName.first, veteranFullName.last]
-              .filter(Boolean)
-              .join(' ');
+            // Use signature from test data - these are DIFFERENT from veteran names
+            // to prove validation is disabled:
+            // - comprehensive.json: "Test Signature Name" (veteran: "Boba J Fett")
+            // - currently-employed.json: "Different Test Name" (veteran: "Ahsoka T Tano")
+            const signature =
+              data.statementOfTruthSignature || 'Test Signature';
 
-            // Fill signature field within VaStatementOfTruth component
+            // Fill signature field
             cy.get('va-statement-of-truth')
               .shadow()
               .find('input[type="text"]')
-              .type(veteranName);
+              .type(signature);
 
-            // Check statement of truth checkbox within VaStatementOfTruth component
+            // Check the certification checkbox
             cy.get('va-statement-of-truth')
               .shadow()
               .find('input[type="checkbox"]')

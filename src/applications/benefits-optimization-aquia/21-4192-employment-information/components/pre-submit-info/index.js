@@ -1,1 +1,1 @@
-export { PreSubmitInfo } from './pre-submit-info';
+export { default as PreSubmitInfo, isSignatureValid } from './pre-submit-info';
