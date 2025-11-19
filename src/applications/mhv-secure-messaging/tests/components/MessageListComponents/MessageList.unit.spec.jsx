@@ -131,6 +131,18 @@ describe('Message List component', () => {
     expect(screen);
   });
 
+  it('renders the expected number of messages', async () => {
+    const screen = setup(
+      inbox,
+      threadSortingOptions.SENT_DATE_DESCENDING.value,
+      Paths.INBOX,
+    );
+    await waitFor(() => {
+      const messagesRendered = screen.getAllByTestId('message-list-item');
+      expect(messagesRendered).to.have.length(mockMessages.length);
+    });
+  });
+
   it('sorting list is present', async () => {
     const screen = setup(
       inbox,
