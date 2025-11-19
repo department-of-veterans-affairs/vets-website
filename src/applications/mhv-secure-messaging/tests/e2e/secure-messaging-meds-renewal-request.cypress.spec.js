@@ -341,7 +341,7 @@ describe('SM Medications Renewal Request', () => {
         `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
       );
 
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
