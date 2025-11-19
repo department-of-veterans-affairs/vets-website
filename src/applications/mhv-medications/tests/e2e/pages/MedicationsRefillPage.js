@@ -288,7 +288,7 @@ class MedicationsRefillPage {
     failedRequest,
   ) => {
     cy.intercept(
-      'PATCH',
+      selectCernerPilotFlag ? 'POST' : 'PATCH',
       `${basePath}/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`,
       failedRequest,
     ).as('failedRefillRequest');
@@ -307,7 +307,7 @@ class MedicationsRefillPage {
 
   clickPrescriptionRefillCheckboxForSuccessfulRequest = prescription => {
     cy.intercept(
-      'PATCH',
+      selectCernerPilotFlag ? 'POST' : 'PATCH',
       `${basePath}/prescriptions/refill_prescriptions?ids[]=22545165`,
       prescription,
     );
@@ -318,7 +318,7 @@ class MedicationsRefillPage {
 
   clickRequestRefillButtonforSuccessfulRequests = (prescriptionId, success) => {
     cy.intercept(
-      'PATCH',
+      selectCernerPilotFlag ? 'POST' : 'PATCH',
       `${basePath}/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`,
       success,
     ).as('refillSuccess');
