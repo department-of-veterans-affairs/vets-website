@@ -23,6 +23,10 @@ import applicantContactInfo from '../pages/applicantContactInfo';
 import applicantContactInfo2 from '../pages/applicantContactInfo2';
 import applicantMailingAddress from '../pages/applicantMailingAddress';
 import applicantMailingAddress2 from '../pages/applicantMailingAddress2';
+import burialLocation from '../pages/burialLocation';
+import headstoneOrMarker from '../pages/headstoneOrMarker';
+import cemeteryName from '../pages/cemeteryName';
+import cemeteryContactInfo from '../pages/cemeteryContactInfo';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 import ApplicantMailingAddressLoggedIn from '../pages/applicantMailingAddressLoggedIn';
@@ -227,11 +231,37 @@ const formConfig = {
     burialInformation: {
       title: 'Burial information',
       pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address-2',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+        burialLocation: {
+          path: 'burial-location',
+          title: 'Burial location',
+          uiSchema: burialLocation.uiSchema,
+          schema: burialLocation.schema,
+        },
+        headstoneOrMarker: {
+          path: 'headstone-or-marker',
+          title: 'Headstone or marker',
+          uiSchema: headstoneOrMarker.uiSchema,
+          schema: headstoneOrMarker.schema,
+        },
+        cemeteryName: {
+          path: 'cemetery-name',
+          title: 'Cemetery name',
+          uiSchema: cemeteryName.uiSchema,
+          schema: cemeteryName.schema,
+          depends: formData =>
+            !['repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ),
+        },
+        cemeteryContactInfo: {
+          path: 'cemetery-contact-info',
+          title: 'Cemetery contact information',
+          uiSchema: cemeteryContactInfo.uiSchema,
+          schema: cemeteryContactInfo.schema,
+          depends: formData =>
+            !['repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ),
         },
       },
     },

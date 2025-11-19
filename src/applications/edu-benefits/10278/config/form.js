@@ -1,3 +1,5 @@
+import footerContent from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
@@ -21,17 +23,12 @@ const formConfig = {
   trackingPrefix: 'edu-10278-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
-    disableWindowUnloadInCI: true,
-  },
-  formId: '22-10278',
+  formId: VA_FORM_IDS.FORM_22_10278,
   saveInProgress: {
     // messages: {
-    //   inProgress: 'Your benefits application (22-10278) is in progress.',
-    //   expired: 'Your saved benefits application (22-10278) has expired. If you want to apply for benefits, please start a new application.',
-    //   saved: 'Your benefits application has been saved.',
+    //   inProgress: 'Your education benefits application (22-10278) is in progress.',
+    //   expired: 'Your saved education benefits application (22-10278) has expired. If you want to apply for education benefits, please start a new application.',
+    //   saved: 'Your education benefits application has been saved.',
     // },
   },
   version: 0,
@@ -90,6 +87,7 @@ const formConfig = {
       },
     },
   },
+  footerContent,
 };
 
 export default formConfig;
