@@ -90,7 +90,7 @@ export const DownloadTsaLetter = ({ letter }) => {
     });
 
   return (
-    <va-accordion-item key="tsa-letter" ref={ref}>
+    <va-accordion-item data-testid="tsa-letter-accordion" ref={ref}>
       <h3 slot="headline">{letterTitle}</h3>
       <p>
         The {letterTitle} shows you’re eligible for free enrollment in
