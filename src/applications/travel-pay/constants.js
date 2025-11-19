@@ -179,6 +179,7 @@ export const EXPENSE_TYPES = Object.freeze({
     name: 'mileage',
     title: 'Mileage',
     route: 'mileage',
+    apiRoute: 'mileage',
   },
   Parking: {
     addButtonText: 'parking',
@@ -186,6 +187,7 @@ export const EXPENSE_TYPES = Object.freeze({
     name: 'parking',
     title: 'Parking',
     route: 'parking',
+    apiRoute: 'parking',
   },
   Toll: {
     addButtonText: 'toll',
@@ -193,6 +195,7 @@ export const EXPENSE_TYPES = Object.freeze({
     name: 'toll',
     title: 'Tolls',
     route: 'toll',
+    apiRoute: 'toll',
   },
   Commoncarrier: {
     addButtonText: 'public transportation, taxi, or rideshare',
@@ -200,6 +203,7 @@ export const EXPENSE_TYPES = Object.freeze({
     name: 'common carrier',
     title: 'Public transportation, taxi, or rideshare',
     route: 'common-carrier',
+    apiRoute: 'commoncarrier',
   },
   Airtravel: {
     addButtonText: 'air travel',
@@ -207,6 +211,7 @@ export const EXPENSE_TYPES = Object.freeze({
     name: 'air travel',
     title: 'Airfare',
     route: 'air-travel',
+    apiRoute: 'airtravel',
   },
   Lodging: {
     addButtonText: 'lodging',
@@ -214,6 +219,7 @@ export const EXPENSE_TYPES = Object.freeze({
     name: 'lodging',
     title: 'Lodging',
     route: 'lodging',
+    apiRoute: 'lodging',
   },
   Meal: {
     addButtonText: 'meal',
@@ -221,6 +227,7 @@ export const EXPENSE_TYPES = Object.freeze({
     name: 'meal',
     title: 'Meals',
     route: 'meal',
+    apiRoute: 'meal',
   },
   Other: {
     addButtonText: 'travel',
@@ -228,6 +235,7 @@ export const EXPENSE_TYPES = Object.freeze({
     name: 'other',
     title: 'Other travel expenses',
     route: 'other',
+    apiRoute: 'other',
   },
 });
 
@@ -251,4 +259,28 @@ export const TRANSPORTATION_REASONS = Object.freeze({
   },
 });
 
-export const TRIP_OPTIONS = Object.freeze(['Round trip', 'One way']);
+export const TRIP_TYPES = Object.freeze({
+  ONE_WAY: {
+    value: 'one-way',
+    label: 'One way',
+    key: 'OneWay',
+  },
+  ROUND_TRIP: {
+    value: 'round-trip',
+    label: 'Round trip',
+    key: 'RoundTrip',
+  },
+});
+
+export const ACCEPTED_FILE_TYPES = Object.freeze([
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.pdf',
+  '.doc',
+  '.docx',
+  '.gif',
+  '.bmp',
+  '.tif',
+  '.tiff',
+]);

@@ -85,7 +85,7 @@ const spouseMarriageEnded = {
           {itemData.endType === 'annulmentOrVoid' && (
             <div className="vads-u-padding-left--4">
               <div className="form-expanding-group-open">
-                <va-text-input
+                <VaTextInput
                   name="endAnnulmentOrVoidDescription"
                   error={
                     formSubmitted && !itemData.endAnnulmentOrVoidDescription

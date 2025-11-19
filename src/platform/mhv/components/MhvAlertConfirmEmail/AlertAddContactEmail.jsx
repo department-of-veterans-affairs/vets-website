@@ -20,6 +20,7 @@ const AlertAddContactEmail = ({ recordEvent, onSkipClick }) => {
   return (
     <VaAlert
       status="warning"
+      role="status"
       dataTestid="mhv-alert--add-contact-email"
       className="vads-u-margin-y--2"
     >

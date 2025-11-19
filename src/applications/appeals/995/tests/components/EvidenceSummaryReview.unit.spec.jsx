@@ -12,7 +12,7 @@ import {
   HAS_OTHER_EVIDENCE,
   SUMMARY_EDIT,
 } from '../../constants';
-import { content } from '../../content/evidenceSummary';
+import { content } from '../../content/evidence/summary';
 import { verifyHeader } from '../unit-test-helpers';
 
 const setupSummary = ({

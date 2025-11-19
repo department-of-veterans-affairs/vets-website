@@ -37,8 +37,10 @@ const AlertSystemResponse = ({
   return (
     <VaAlert
       status={status}
+      role="alert"
       dataTestid={dataTestid}
       className="vads-u-margin-y--2"
+      tabIndex={-1}
     >
       <h2 slot="headline">{headline}</h2>
       <p className="vads-u-margin-y--0">{content}</p>

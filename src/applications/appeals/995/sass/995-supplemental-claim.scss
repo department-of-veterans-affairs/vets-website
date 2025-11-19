@@ -17,3 +17,11 @@ va-checkbox[name="issues"]::part(label) {
 .hipaa-privacy-agreement {
   background-color: $vads-color-base-lightest;
 }
+
+.error-bolding {
+  font-weight: bold;
+}
+
+#evidence-title {
+  color: $vads-color-base;
+}

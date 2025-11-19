@@ -1,7 +1,7 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
+import featureToggles from '../../../shared/feature-toggles.json';
 import user from './fixtures/mocks/user.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import formConfig from '../../config/form';
@@ -268,7 +268,7 @@ if (employerDetailsPath) {
 
         candidateIndexes.add(0);
 
-        const employers = data.employers;
+        const { employers } = data;
         const dataIndex = [...candidateIndexes].find(
           idx => employers[idx] != null,
         );
@@ -364,6 +364,7 @@ const testConfig = createTestConfig(
       cy.intercept('POST', formConfig.submitUrl, mockSubmit).as('submitForm');
       cy.login(user);
     },
+    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

@@ -130,8 +130,14 @@ describe('TravelClaimDetails', () => {
       reducers: reducer,
     });
 
-    expect(screen.getByText(/There was an error loading the claim details/i)).to
-      .exist;
+    expect(
+      screen.getByRole('heading', {
+        name: /Your travel reimbursement claim/i,
+        level: 1,
+      }),
+    ).to.exist;
+
+    expect(screen.getByText(/Something went wrong on our end/i)).to.exist;
   });
 
   it('shows downtime alert during maintenance window', () => {

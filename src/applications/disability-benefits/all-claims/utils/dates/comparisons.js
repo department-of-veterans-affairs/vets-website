@@ -1,19 +1,63 @@
 /**
- * TODO: tech-debt(you-dont-need-momentjs): Waiting for Node upgrade to support Temporal API
- * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110024
+ * Date comparison utilities using date-fns
+ * Migrated to date-fns for better tree-shaking and smaller bundle size
  */
-/* eslint-disable you-dont-need-momentjs/no-import-moment */
-/* eslint-disable you-dont-need-momentjs/no-moment-constructor */
-import moment from 'moment';
+import {
+  parseISO,
+  isValid,
+  isBefore,
+  isAfter,
+  isWithinInterval,
+  isSameDay,
+  isSameMonth,
+  isSameYear,
+  startOfDay,
+  startOfMonth,
+  startOfYear,
+} from 'date-fns';
 
 /**
- * Internal utility to safely create moment objects
+ * Internal utility to safely create date-fns compatible Date objects
  * @private
  */
-const safeMoment = date => {
+const safeDateFns = date => {
   if (!date) return null;
-  const momentDate = moment(date);
-  return momentDate.isValid() ? momentDate : null;
+  // Try parsing as Date object or string, fallback to Date constructor
+  const parsedDate =
+    date instanceof Date ? date : parseISO(date) || new Date(date);
+  return isValid(parsedDate) ? parsedDate : null;
+};
+
+/**
+ * Helper function to handle granularity-based comparisons
+ * @private
+ */
+const compareWithGranularity = (date1, date2, granularity, comparisonFn) => {
+  switch (granularity) {
+    case 'year':
+      return comparisonFn(startOfYear(date1), startOfYear(date2));
+    case 'month':
+      return comparisonFn(startOfMonth(date1), startOfMonth(date2));
+    case 'day':
+    default:
+      return comparisonFn(startOfDay(date1), startOfDay(date2));
+  }
+};
+
+/**
+ * Helper function to handle granularity-based same comparisons using direct date-fns functions
+ * @private
+ */
+const compareWithGranularitySame = (date1, date2, granularity) => {
+  switch (granularity) {
+    case 'year':
+      return isSameYear(date1, date2);
+    case 'month':
+      return isSameMonth(date1, date2);
+    case 'day':
+    default:
+      return isSameDay(date1, date2);
+  }
 };
 
 /**
@@ -24,12 +68,12 @@ const safeMoment = date => {
  * @returns {boolean} True if date1 is before date2
  */
 export const isDateBefore = (date1, date2, granularity = 'day') => {
-  const firstDate = safeMoment(date1);
-  const secondDate = safeMoment(date2);
+  const firstDate = safeDateFns(date1);
+  const secondDate = safeDateFns(date2);
 
   if (!firstDate || !secondDate) return false;
 
-  return firstDate.isBefore(secondDate, granularity);
+  return compareWithGranularity(firstDate, secondDate, granularity, isBefore);
 };
 
 /**
@@ -40,12 +84,12 @@ export const isDateBefore = (date1, date2, granularity = 'day') => {
  * @returns {boolean} True if date1 is after date2
  */
 export const isDateAfter = (date1, date2, granularity = 'day') => {
-  const firstDate = safeMoment(date1);
-  const secondDate = safeMoment(date2);
+  const firstDate = safeDateFns(date1);
+  const secondDate = safeDateFns(date2);
 
   if (!firstDate || !secondDate) return false;
 
-  return firstDate.isAfter(secondDate, granularity);
+  return compareWithGranularity(firstDate, secondDate, granularity, isAfter);
 };
 
 /**
@@ -56,12 +100,12 @@ export const isDateAfter = (date1, date2, granularity = 'day') => {
  * @returns {boolean} True if dates are the same
  */
 export const isDateSame = (date1, date2, granularity = 'day') => {
-  const firstDate = safeMoment(date1);
-  const secondDate = safeMoment(date2);
+  const firstDate = safeDateFns(date1);
+  const secondDate = safeDateFns(date2);
 
   if (!firstDate || !secondDate) return false;
 
-  return firstDate.isSame(secondDate, granularity);
+  return compareWithGranularitySame(firstDate, secondDate, granularity);
 };
 
 /**
@@ -80,18 +124,53 @@ export const isDateBetween = (
   granularity = 'day',
   inclusivity = '[]',
 ) => {
-  const dateToCheck = safeMoment(date);
-  const rangeStartDate = safeMoment(startDate);
-  const rangeEndDate = safeMoment(endDate);
+  const dateToCheck = safeDateFns(date);
+  const rangeStartDate = safeDateFns(startDate);
+  const rangeEndDate = safeDateFns(endDate);
 
   if (!dateToCheck || !rangeStartDate || !rangeEndDate) return false;
 
-  return dateToCheck.isBetween(
-    rangeStartDate,
-    rangeEndDate,
-    granularity,
-    inclusivity,
-  );
+  // Handle inclusivity options
+  const includeStart = inclusivity[0] === '[';
+  const includeEnd = inclusivity[1] === ']';
+
+  if (includeStart && includeEnd) {
+    // []: both inclusive - use isWithinInterval with normalized dates
+    switch (granularity) {
+      case 'year':
+        return isWithinInterval(startOfYear(dateToCheck), {
+          start: startOfYear(rangeStartDate),
+          end: startOfYear(rangeEndDate),
+        });
+      case 'month':
+        return isWithinInterval(startOfMonth(dateToCheck), {
+          start: startOfMonth(rangeStartDate),
+          end: startOfMonth(rangeEndDate),
+        });
+      case 'day':
+      default:
+        return isWithinInterval(startOfDay(dateToCheck), {
+          start: startOfDay(rangeStartDate),
+          end: startOfDay(rangeEndDate),
+        });
+    }
+  }
+
+  // For other cases, use our helper functions
+  const isAfterStart = includeStart
+    ? !compareWithGranularity(
+        dateToCheck,
+        rangeStartDate,
+        granularity,
+        isBefore,
+      )
+    : compareWithGranularity(dateToCheck, rangeStartDate, granularity, isAfter);
+
+  const isBeforeEnd = includeEnd
+    ? !compareWithGranularity(dateToCheck, rangeEndDate, granularity, isAfter)
+    : compareWithGranularity(dateToCheck, rangeEndDate, granularity, isBefore);
+
+  return isAfterStart && isBeforeEnd;
 };
 
 /**
@@ -103,24 +182,40 @@ export const isDateBetween = (
  * @returns {boolean} Result of comparison
  */
 export const compareDates = (date1, date2, operator, granularity = 'day') => {
-  const firstDate = safeMoment(date1);
-  const secondDate = safeMoment(date2);
+  const firstDate = safeDateFns(date1);
+  const secondDate = safeDateFns(date2);
 
   if (!firstDate || !secondDate) return false;
 
   switch (operator) {
     case '<':
-      return firstDate.isBefore(secondDate, granularity);
+      return compareWithGranularity(
+        firstDate,
+        secondDate,
+        granularity,
+        isBefore,
+      );
     case '>':
-      return firstDate.isAfter(secondDate, granularity);
+      return compareWithGranularity(
+        firstDate,
+        secondDate,
+        granularity,
+        isAfter,
+      );
     case '<=':
-      return firstDate.isSameOrBefore(secondDate, granularity);
+      return (
+        compareWithGranularity(firstDate, secondDate, granularity, isBefore) ||
+        compareWithGranularitySame(firstDate, secondDate, granularity)
+      );
     case '>=':
-      return firstDate.isSameOrAfter(secondDate, granularity);
+      return (
+        compareWithGranularity(firstDate, secondDate, granularity, isAfter) ||
+        compareWithGranularitySame(firstDate, secondDate, granularity)
+      );
     case '==':
-      return firstDate.isSame(secondDate, granularity);
+      return compareWithGranularitySame(firstDate, secondDate, granularity);
     case '!=':
-      return !firstDate.isSame(secondDate, granularity);
+      return !compareWithGranularitySame(firstDate, secondDate, granularity);
     default:
       throw new Error(`Invalid operator: ${operator}`);
   }

@@ -4,40 +4,48 @@
  * or Permanent Need for Regular Aid & Attendance
  */
 
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+
 import {
   TITLE,
   SUBTITLE,
 } from '@bio-aquia/21-2680-house-bound-status/constants';
+import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components';
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
-import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components/get-help';
-import PreSubmitInfo from '@bio-aquia/21-2680-house-bound-status/components/pre-submit-info';
-import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 import { prefillTransformer } from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
 import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
+import { submitForm } from '@bio-aquia/21-2680-house-bound-status/config/submit-handler/submit-handler';
+import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 
-// Import all page components from barrel export
+// Import page configurations (uiSchema and schema)
 import {
-  BenefitTypePage,
-  VeteranIdentityPage,
-  VeteranAddressPage,
-  ClaimantRelationshipPage,
-  ClaimantInformationPage,
-  ClaimantSSNPage,
-  ClaimantAddressPage,
-  ClaimantContactPage,
-  HospitalizationStatusPage,
-  HospitalizationDatePage,
-  HospitalizationFacilityPage,
-  BenefitTypeReviewPage,
-  VeteranIdentityReviewPage,
-  VeteranAddressReviewPage,
-  ClaimantInformationReviewPage,
-  HospitalizationStatusReviewPage,
-  HospitalizationDateReviewPage,
-  HospitalizationFacilityReviewPage,
+  veteranInformationUiSchema,
+  veteranInformationSchema,
+  veteranSsnUiSchema,
+  veteranSsnSchema,
+  veteranAddressUiSchema,
+  veteranAddressSchema,
+  claimantRelationshipUiSchema,
+  claimantRelationshipSchema,
+  claimantInformationUiSchema,
+  claimantInformationSchema,
+  claimantSsnUiSchema,
+  claimantSsnSchema,
+  claimantAddressUiSchema,
+  claimantAddressSchema,
+  claimantContactUiSchema,
+  claimantContactSchema,
+  benefitTypeUiSchema,
+  benefitTypeSchema,
+  hospitalizationStatusUiSchema,
+  hospitalizationStatusSchema,
+  hospitalizationDateUiSchema,
+  hospitalizationDateSchema,
+  hospitalizationFacilityUiSchema,
+  hospitalizationFacilitySchema,
 } from '@bio-aquia/21-2680-house-bound-status/pages';
 
 /**
@@ -69,12 +77,15 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/form212680/download_pdf`,
+  submit: submitForm,
+  transformForSubmit: submitTransformer,
   trackingPrefix: '21-2680-house-bound-status-',
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent,
+  getHelp: GetHelp,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -91,7 +102,6 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
-  transformForSubmit: submitTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -104,21 +114,23 @@ const formConfig = {
     veteranInformationChapter: {
       title: "Veteran's information",
       pages: {
-        veteranIdentity: {
+        veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran information',
-          CustomPage: VeteranIdentityPage,
-          CustomPageReview: VeteranIdentityReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          title: "Veteran's information",
+          uiSchema: veteranInformationUiSchema,
+          schema: veteranInformationSchema,
+        },
+        veteranSsn: {
+          path: 'veteran-ssn',
+          title: "Veteran's Social Security number",
+          uiSchema: veteranSsnUiSchema,
+          schema: veteranSsnSchema,
         },
         veteranAddress: {
           path: 'veteran-address',
           title: 'Veteran address',
-          CustomPage: VeteranAddressPage,
-          CustomPageReview: VeteranAddressReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: veteranAddressUiSchema,
+          schema: veteranAddressSchema,
         },
       },
     },
@@ -130,59 +142,77 @@ const formConfig = {
         claimantRelationship: {
           path: 'claimant-relationship',
           title: 'Who is the claim for?',
-          CustomPage: ClaimantRelationshipPage,
-          // Show comprehensive review with all claimant fields - edit navigates to first claimant page
-          CustomPageReview: ClaimantInformationReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: claimantRelationshipUiSchema,
+          schema: claimantRelationshipSchema,
         },
         claimantInformation: {
           path: 'claimant-information',
-          title: 'Claimant information',
-          CustomPage: ClaimantInformationPage,
-          // Hidden page - user edits this via claimant-relationship review section
-          CustomPageReview: () => null,
+          title: formData => {
+            const relationshipLabels = {
+              spouse: "Veteran's spouse's information",
+              child: "Veteran's child's information",
+              parent: "Veteran's parent's information",
+            };
+            const relationship = formData?.claimantRelationship?.relationship;
+            return relationshipLabels[relationship] || 'Claimant information';
+          },
+          uiSchema: claimantInformationUiSchema,
+          schema: claimantInformationSchema,
           // Hidden when veteran is claimant
           depends: formData =>
-            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+            formData?.claimantRelationship?.relationship !== 'veteran',
         },
         claimantSSN: {
           path: 'claimant-ssn',
-          title: 'Claimant Social Security number',
-          CustomPage: ClaimantSSNPage,
-          // Hidden page - user edits this via claimant-relationship review section
-          CustomPageReview: () => null,
+          title: formData => {
+            const firstName =
+              formData?.claimantInformation?.claimantFullName?.first || '';
+            const lastName =
+              formData?.claimantInformation?.claimantFullName?.last || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+            return fullName
+              ? `${fullName}'s Social Security number`
+              : "Claimant's Social Security number";
+          },
+          uiSchema: claimantSsnUiSchema,
+          schema: claimantSsnSchema,
           // Hidden when veteran is claimant
           depends: formData =>
-            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+            formData?.claimantRelationship?.relationship !== 'veteran',
         },
         claimantAddress: {
           path: 'claimant-address',
-          title: 'Claimant address',
-          CustomPage: ClaimantAddressPage,
-          // Hidden page - user edits this via claimant-relationship review section
-          CustomPageReview: () => null,
+          title: formData => {
+            const firstName =
+              formData?.claimantInformation?.claimantFullName?.first || '';
+            const lastName =
+              formData?.claimantInformation?.claimantFullName?.last || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+            return fullName ? `${fullName}'s address` : "Claimant's address";
+          },
+          uiSchema: claimantAddressUiSchema,
+          schema: claimantAddressSchema,
           // Hidden when veteran is claimant
           depends: formData =>
-            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+            formData?.claimantRelationship?.relationship !== 'veteran',
         },
         claimantContact: {
           path: 'claimant-contact',
-          title: 'Contact information',
-          CustomPage: ClaimantContactPage,
-          // Hidden page - user edits this via claimant-relationship review section
-          CustomPageReview: () => null,
+          title: formData => {
+            const firstName =
+              formData?.claimantInformation?.claimantFullName?.first || '';
+            const lastName =
+              formData?.claimantInformation?.claimantFullName?.last || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+            return fullName
+              ? `${fullName}'s phone number and email address`
+              : "Claimant's phone number and email address";
+          },
+          uiSchema: claimantContactUiSchema,
+          schema: claimantContactSchema,
           // Hidden when veteran is claimant
           depends: formData =>
-            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+            formData?.claimantRelationship?.relationship !== 'veteran',
         },
       },
     },
@@ -194,10 +224,8 @@ const formConfig = {
         benefitType: {
           path: 'benefit-type',
           title: 'Choose your benefit type',
-          CustomPage: BenefitTypePage,
-          CustomPageReview: BenefitTypeReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: benefitTypeUiSchema,
+          schema: benefitTypeSchema,
         },
       },
     },
@@ -208,38 +236,120 @@ const formConfig = {
       pages: {
         hospitalizationStatus: {
           path: 'hospitalization-status',
-          title: 'Hospitalization status',
-          CustomPage: HospitalizationStatusPage,
-          CustomPageReview: HospitalizationStatusReviewPage,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          title: formData => {
+            const isVeteran =
+              formData?.claimantRelationship?.relationship === 'veteran';
+
+            if (isVeteran) {
+              const firstName =
+                formData?.veteranInformation?.veteranFullName?.first || '';
+              const lastName =
+                formData?.veteranInformation?.veteranFullName?.last || '';
+              const fullName = `${firstName} ${lastName}`.trim();
+
+              if (fullName) {
+                return `Is ${fullName} hospitalized?`;
+              }
+              return 'Is the Veteran hospitalized?';
+            }
+
+            const firstName =
+              formData?.claimantInformation?.claimantFullName?.first || '';
+            const lastName =
+              formData?.claimantInformation?.claimantFullName?.last || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+
+            if (fullName) {
+              return `Is ${fullName} hospitalized?`;
+            }
+            return 'Is the claimant hospitalized?';
+          },
+          uiSchema: hospitalizationStatusUiSchema,
+          schema: hospitalizationStatusSchema,
         },
         hospitalizationDate: {
           path: 'hospitalization-date',
-          title: 'Admission date',
-          CustomPage: HospitalizationDatePage,
-          CustomPageReview: HospitalizationDateReviewPage,
+          title: formData => {
+            const isVeteran =
+              formData?.claimantRelationship?.relationship === 'veteran';
+
+            if (isVeteran) {
+              const firstName =
+                formData?.veteranInformation?.veteranFullName?.first || '';
+              const lastName =
+                formData?.veteranInformation?.veteranFullName?.last || '';
+              const fullName = `${firstName} ${lastName}`.trim();
+
+              if (fullName) {
+                return `When was ${fullName} admitted to the hospital?`;
+              }
+              return 'When were you admitted to the hospital?';
+            }
+
+            const firstName =
+              formData?.claimantInformation?.claimantFullName?.first || '';
+            const lastName =
+              formData?.claimantInformation?.claimantFullName?.last || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+
+            if (fullName) {
+              return `When was ${fullName} admitted to the hospital?`;
+            }
+            return 'When was the claimant admitted to the hospital?';
+          },
+          uiSchema: hospitalizationDateUiSchema,
+          schema: hospitalizationDateSchema,
           depends: formData =>
-            formData?.hospitalizationStatus?.isCurrentlyHospitalized === 'yes',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+            formData?.hospitalizationStatus?.isCurrentlyHospitalized === true,
         },
         hospitalizationFacility: {
           path: 'hospitalization-facility',
-          title: 'Hospital information',
-          CustomPage: HospitalizationFacilityPage,
-          CustomPageReview: HospitalizationFacilityReviewPage,
+          title: formData => {
+            const isVeteran =
+              formData?.claimantRelationship?.relationship === 'veteran';
+
+            if (isVeteran) {
+              const firstName =
+                formData?.veteranInformation?.veteranFullName?.first || '';
+              const lastName =
+                formData?.veteranInformation?.veteranFullName?.last || '';
+              const fullName = `${firstName} ${lastName}`.trim();
+
+              if (fullName) {
+                return `What's the name and address of the hospital where ${fullName} is admitted?`;
+              }
+              return "What's the name and address of the hospital where the claimant is admitted?";
+            }
+
+            const firstName =
+              formData?.claimantInformation?.claimantFullName?.first || '';
+            const lastName =
+              formData?.claimantInformation?.claimantFullName?.last || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+
+            if (fullName) {
+              return `What's the name and address of the hospital where ${fullName} is admitted?`;
+            }
+            return "What's the name and address of the hospital where the claimant is admitted?";
+          },
+          uiSchema: hospitalizationFacilityUiSchema,
+          schema: hospitalizationFacilitySchema,
           depends: formData =>
-            formData?.hospitalizationStatus?.isCurrentlyHospitalized === 'yes',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+            formData?.hospitalizationStatus?.isCurrentlyHospitalized === true,
         },
       },
     },
   },
-  preSubmitInfo: PreSubmitInfo,
-  getHelp: GetHelp,
-  footerContent,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteranInformation.veteranFullName',
+    },
+  },
 };
 
 export { formConfig };
+export default formConfig;

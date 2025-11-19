@@ -1,4 +1,3 @@
-import { datadogRum } from '@datadog/browser-rum';
 import { Actions } from '../util/actionTypes';
 import {
   getConditions,
@@ -8,7 +7,7 @@ import {
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
-import { dispatchDetails } from '../util/helpers';
+import { dispatchDetails, sendDatadogError } from '../util/helpers';
 import { getListWithRetry } from './common';
 
 export const getConditionsList = (
@@ -34,9 +33,7 @@ export const getConditionsList = (
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    datadogRum.addError(error, {
-      feature: 'Medical Records - actions_conditions_getConditionsList',
-    });
+    sendDatadogError(error, 'actions_conditions_getConditionsList');
   }
 };
 

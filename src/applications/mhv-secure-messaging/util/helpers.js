@@ -450,6 +450,7 @@ import {
   scrollToElement,
   scrollToTop as scrollToTopUtil,
 } from 'platform/utilities/scroll';
+import { datadogRum } from '@datadog/browser-rum';
 
 export const scrollTo = (element, behavior = 'smooth') => {
   if (element) {
@@ -479,4 +480,11 @@ export const scrollIfFocusedAndNotInView = (offset = 0) => {
       });
     }
   }
+};
+
+export const sendDatadogError = (error, feature) => {
+  datadogRum.addError(error, {
+    app: 'Secure Messaging',
+    feature,
+  });
 };

@@ -1,5 +1,3 @@
-import { getAppUrl } from '~/platform/utilities/registry-helpers';
-
 import { isOfCollegeAge, hasGrossIncome } from './helpers/household';
 import { replaceStrValues } from './helpers/general';
 import content from '../locales/en/content.json';
@@ -123,13 +121,6 @@ export const VALID_ENROLLMENT_STATUSES = [
   'pending_mt',
   'pending_other',
 ];
-
-// declare global app URLs for use with content links
-export const APP_URLS = {
-  hca: getAppUrl('hca'),
-  verify: getAppUrl('verify'),
-  facilities: getAppUrl('facilities'),
-};
 
 export const MAX_NEXT_OF_KINS = 2;
 export const MAX_EMERGENCY_CONTACTS = 2;

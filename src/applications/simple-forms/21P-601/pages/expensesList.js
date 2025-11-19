@@ -32,6 +32,10 @@ const options = {
   },
 };
 
+const yesNoOptions = {
+  title: 'Do you have an expense to add?',
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -42,15 +46,22 @@ const summaryPage = {
     'view:expenseInfo': {
       'ui:description': (
         <va-alert status="info" uswds>
-          <h3 slot="headline">Note</h3>
-          <p>
+          <h3 slot="headline">
             You can only request reimbursement for expenses you’ve already paid.
-            If you have unpaid bills, you’ll need to use the paper form.
+          </h3>
+          <p>If you have unpaid bills, you’ll need to use the paper form.</p>
+          <p>
+            <va-link
+              href="https://www.va.gov/find-forms/about-form-21p-601/"
+              target="_blank"
+              rel="noopener noreferrer"
+              text="Download VA Form 21P-601 (PDF)"
+            />
           </p>
         </va-alert>
       ),
     },
-    'view:hasExpenses': arrayBuilderYesNoUI(options),
+    'view:hasExpenses': arrayBuilderYesNoUI(options, yesNoOptions),
   },
   schema: {
     type: 'object',
@@ -75,7 +86,7 @@ const expenseDetailsPage = {
     provider: textUI('Provider or funeral home name'),
     expenseType: textUI({
       title: 'Type of expense',
-      hint: 'For example: doctor, hospital, burial, funeral service',
+      hint: 'For example: doctor, hospital, burial, funeral service.',
     }),
     amount: currencyUI({
       title: 'Cost of the expense',

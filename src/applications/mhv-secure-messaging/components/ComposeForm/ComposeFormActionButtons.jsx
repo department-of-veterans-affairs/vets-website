@@ -21,6 +21,7 @@ const ComposeFormActionButtons = props => {
     setHideDraft,
     setIsEditing,
     savedComposeDraft,
+    redirectPath,
   } = props;
 
   return (
@@ -85,6 +86,7 @@ const ComposeFormActionButtons = props => {
         setHideDraft={setHideDraft}
         setIsEditing={setIsEditing}
         savedComposeDraft={savedComposeDraft}
+        redirectPath={redirectPath}
       />
     </div>
   );
@@ -100,6 +102,7 @@ ComposeFormActionButtons.propTypes = {
   isModalVisible: PropTypes.bool,
   messageBody: PropTypes.string,
   navigationError: PropTypes.object,
+  redirectPath: PropTypes.string,
   refreshThreadCallback: PropTypes.func,
   savedComposeDraft: PropTypes.bool,
   savedForm: PropTypes.bool,

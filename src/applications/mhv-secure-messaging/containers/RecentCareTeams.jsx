@@ -94,6 +94,15 @@ const RecentCareTeams = () => {
     [recentRecipients],
   );
 
+  useEffect(
+    () => {
+      document.title = `Recently Messaged Care Teams - Start Message${
+        Constants.PageTitles.DEFAULT_PAGE_TITLE_TAG
+      }`;
+    },
+    [recentRecipients],
+  );
+
   const handleContinue = useCallback(
     () => {
       if (!selectedCareTeam) {
@@ -146,7 +155,12 @@ const RecentCareTeams = () => {
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--3" tabIndex="-1" ref={h1Ref}>
+      <h1
+        id="test01"
+        className="vads-u-margin-bottom--3"
+        tabIndex="-1"
+        ref={h1Ref}
+      >
         Care teams you recently sent messages to
       </h1>
       <EmergencyNote dropDownFlag />

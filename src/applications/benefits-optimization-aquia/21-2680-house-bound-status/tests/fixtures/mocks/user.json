@@ -5,28 +5,28 @@
         "sign_in": {
           "service_name": "idme"
         },
-        "email": "john.doe@example.com",
+        "email": "luke.skywalker@rebelalliance.mil",
         "loa": { "current": 3 },
-        "first_name": "John",
-        "middle_name": "Michael",
-        "last_name": "Doe",
+        "first_name": "Luke",
+        "middle_name": "",
+        "last_name": "Skywalker",
         "user_full_name": {
-          "first": "John",
-          "middle": "Michael",
-          "last": "Doe",
+          "first": "Luke",
+          "middle": "",
+          "last": "Skywalker",
           "suffix": ""
         },
         "gender": "M",
-        "birth_date": "1985-01-01",
-        "dob": "19850101",
-        "ssn": "123456789",
+        "birth_date": "1951-09-25",
+        "dob": "19510925",
+        "ssn": "796121200",
         "verified": true,
         "mailing_address": {
-          "address_line1": "123 Main Street",
-          "address_line2": "Apt 4B",
-          "city": "Springfield",
-          "state_code": "IL",
-          "zip_code": "62701",
+          "address_line1": "1138 Moisture Farm Road",
+          "address_line2": "",
+          "city": "Mos Eisley",
+          "state_code": "AZ",
+          "zip_code": "85326",
           "country_code_iso3": "USA"
         }
       },
@@ -50,10 +50,10 @@
       ],
       "va_profile": {
         "status": "OK",
-        "birth_date": "19850101",
-        "family_name": "Doe",
+        "birth_date": "19510925",
+        "family_name": "Skywalker",
         "gender": "M",
-        "given_names": ["John", ""],
+        "given_names": ["Luke", ""],
         "active_status": "active",
         "facilities": [
           {

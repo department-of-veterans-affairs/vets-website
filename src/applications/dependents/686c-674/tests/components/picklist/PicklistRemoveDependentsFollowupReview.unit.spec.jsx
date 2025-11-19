@@ -7,7 +7,10 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import PicklistRemoveDependentFollowupReview from '../../../components/picklist/PicklistRemoveDependentFollowupReview';
 
-import { PICKLIST_DATA } from '../../../config/constants';
+import {
+  PICKLIST_DATA,
+  PICKLIST_EDIT_REVIEW_FLAG,
+} from '../../../config/constants';
 import { createDoB } from '../../test-helpers';
 
 describe('PicklistRemoveDependentFollowupReview', () => {
@@ -157,6 +160,22 @@ describe('PicklistRemoveDependentFollowupReview', () => {
       'When did the marriage end?January 1, 2020',
       'Where did the marriage end?Test, Prov, AGO',
     ]);
+  });
+
+  it('should render success alert after editing', async () => {
+    sessionStorage.setItem(PICKLIST_EDIT_REVIEW_FLAG, 'spousy-1234');
+    const { container } = renderComponent({ selected: [2] });
+    const page = $('.form-review-panel-page', container);
+    const alert = $('va-alert[status="success"]', page);
+
+    expect(alert).to.exist;
+
+    await alert.__events.closeEvent();
+
+    await waitFor(() => {
+      expect(sessionStorage.getItem(PICKLIST_EDIT_REVIEW_FLAG)).to.be.null;
+      expect($('va-alert[status="success"]', page)).to.not.exist;
+    });
   });
 
   it('should render 2 parents for removal', () => {

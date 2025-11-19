@@ -9,6 +9,7 @@ import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
 import IntlMobileConfirmModal from '@@vap-svc/components/ContactInformationFieldInfo/IntlMobileConfirmModal';
+import { dismissAlertViaCookie as dismissEmailConfirmationAlertViaCookie } from 'platform/mhv/components/MhvAlertConfirmEmail/selectors';
 import { ContactInfoFormAppConfigContext } from './ContactInfoFormAppConfigContext';
 import {
   createTransaction,
@@ -46,6 +47,7 @@ import {
 import {
   isFailedTransaction,
   isPendingTransaction,
+  isSuccessfulTransaction,
 } from '../util/transactions';
 import { getEditButtonId } from '../util/id-factory';
 
@@ -121,6 +123,16 @@ export class ProfileInformationEditView extends Component {
       !isPendingTransaction(this.props.transaction)
     ) {
       window.clearInterval(this.interval);
+
+      // Dismiss the MHV email confirmation alert if email transaction succeeded
+      // This handles cases where the component stays mounted after transaction completion
+      if (
+        this.props.fieldName === FIELD_NAMES.EMAIL &&
+        this.props.transaction &&
+        isSuccessfulTransaction(this.props.transaction)
+      ) {
+        dismissEmailConfirmationAlertViaCookie();
+      }
     }
   }
 
@@ -128,12 +140,23 @@ export class ProfileInformationEditView extends Component {
     if (this.interval) {
       window.clearInterval(this.interval);
     }
+
     const { fieldName } = this.props;
+
     // Errors returned directly from the API request (as opposed through a transaction lookup) are
     // displayed in this modal, rather than on the page. Once the modal is closed, reset the state
     // for the next time the modal is opened by removing any existing transaction request from the store.
     if (this.props.transactionRequest?.error) {
       this.props.clearTransactionRequest(fieldName);
+    } else if (
+      // Dismiss the MHV email confirmation alert if email transaction succeeded
+      // This is a fallback for cases where componentDidUpdate doesn't run
+      // (e.g., when the component unmounts immediately after transaction completion)
+      fieldName === FIELD_NAMES.EMAIL &&
+      this.props.transactionRequest &&
+      !this.props.transactionRequest.isPending
+    ) {
+      dismissEmailConfirmationAlertViaCookie();
     }
 
     // AS DONE IN ADDRESSEDITVIEW, CHECK FOR CORRECTNESS

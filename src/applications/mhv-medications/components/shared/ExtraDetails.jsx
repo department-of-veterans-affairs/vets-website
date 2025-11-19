@@ -4,7 +4,11 @@ import { environment } from '@department-of-veterans-affairs/platform-utilities/
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import { VaIcon } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
-import { DATETIME_FORMATS, dispStatusObj } from '../../util/constants';
+import {
+  DATETIME_FORMATS,
+  dispStatusObj,
+  DISPENSE_STATUS,
+} from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import SendRxRenewalMessage from './SendRxRenewalMessage';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
@@ -13,7 +17,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
   const { dispStatus, refillRemaining } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   let noRefillRemaining = false;
-  if (refillRemaining === 0 && dispStatus === 'Active') {
+  if (refillRemaining === 0 && dispStatus === DISPENSE_STATUS.ACTIVE) {
     noRefillRemaining = true;
   }
   return (

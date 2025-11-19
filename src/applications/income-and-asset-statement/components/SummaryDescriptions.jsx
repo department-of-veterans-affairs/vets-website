@@ -130,3 +130,32 @@ export const DiscontinuedIncomeSummaryDescription = () => {
     </>
   );
 };
+
+export const WaivedIncomeSummaryDescription = () => {
+  return (
+    <>
+      <p>
+        Even if you don’t accept income you’re entitled to, we still consider
+        that income when reviewing your pension eligibility. We call this
+        "waived income."{' '}
+      </p>
+      <p>
+        <strong>Note:</strong> It’s unlawful to decline income on purpose in
+        order to qualify for VA pension.{' '}
+      </p>
+      <p>Here are some examples of waived income:</p>
+      <ul>
+        <li>
+          Deferred compensation, which is money you choose to delay receiving
+          from a job or contract
+        </li>
+        <li>Life insurance payouts </li>
+        <li>Legal settlements </li>
+      </ul>
+      <p>
+        If you decide to delay receiving Social Security to get a bigger monthly
+        payment later, we won’t consider that as waived income.
+      </p>
+    </>
+  );
+};

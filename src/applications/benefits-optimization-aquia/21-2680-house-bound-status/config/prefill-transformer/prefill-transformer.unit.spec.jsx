@@ -48,18 +48,18 @@ describe('Prefill Transformer', () => {
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
+      expect(result.formData.veteranInformation.veteranFullName.first).to.equal(
+        'Mara',
+      );
       expect(
-        result.formData.veteranIdentification.veteranFullName.first,
-      ).to.equal('Mara');
-      expect(
-        result.formData.veteranIdentification.veteranFullName.middle,
+        result.formData.veteranInformation.veteranFullName.middle,
       ).to.equal('Jade');
-      expect(
-        result.formData.veteranIdentification.veteranFullName.last,
-      ).to.equal('Skywalker');
-      expect(
-        result.formData.veteranIdentification.veteranFullName.suffix,
-      ).to.equal('Jr');
+      expect(result.formData.veteranInformation.veteranFullName.last).to.equal(
+        'Skywalker',
+      );
+      // Note: suffix field removed from form (middle is kept)
+      expect(result.formData.veteranInformation.veteranFullName.suffix).to.be
+        .undefined;
     });
 
     it('should handle missing name fields with empty strings', () => {
@@ -74,12 +74,13 @@ describe('Prefill Transformer', () => {
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
+      // Middle name should be empty string when not provided
       expect(
-        result.formData.veteranIdentification.veteranFullName.middle,
+        result.formData.veteranInformation.veteranFullName.middle,
       ).to.equal('');
-      expect(
-        result.formData.veteranIdentification.veteranFullName.suffix,
-      ).to.equal('');
+      // Note: suffix field removed from form
+      expect(result.formData.veteranInformation.veteranFullName.suffix).to.be
+        .undefined;
     });
 
     it('should format date of birth from YYYYMMDD to YYYY-MM-DD', () => {
@@ -91,7 +92,7 @@ describe('Prefill Transformer', () => {
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.veteranIdentification.veteranDOB).to.equal(
+      expect(result.formData.veteranInformation.veteranDob).to.equal(
         '1985-03-12',
       );
     });
@@ -105,7 +106,7 @@ describe('Prefill Transformer', () => {
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.veteranIdentification.veteranDOB).to.equal(
+      expect(result.formData.veteranInformation.veteranDob).to.equal(
         '1990-06-15',
       );
     });
@@ -119,7 +120,7 @@ describe('Prefill Transformer', () => {
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.veteranIdentification.veteranDOB).to.equal(
+      expect(result.formData.veteranInformation.veteranDob).to.equal(
         '1975-08-20',
       );
     });
@@ -129,14 +130,14 @@ describe('Prefill Transformer', () => {
         user: {
           profile: {
             userFullName: {
-              first: 'John',
-              last: 'Doe',
+              first: 'Obi-Wan',
+              last: 'Kenobi',
             },
           },
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.veteranIdentification.veteranSSN).to.equal('');
+      expect(result.formData.veteranInformation.veteranSsn).to.equal('');
     });
 
     it('should use vaProfile.birthDate if profile.dob and profile.birthDate are not available', () => {
@@ -150,7 +151,7 @@ describe('Prefill Transformer', () => {
         },
       };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.veteranIdentification.veteranDOB).to.equal(
+      expect(result.formData.veteranInformation.veteranDob).to.equal(
         '1980-01-01',
       );
     });
@@ -198,9 +199,9 @@ describe('Prefill Transformer', () => {
       expect(result.formData.veteranAddress.veteranAddress.country).to.equal(
         'USA',
       );
-      expect(result.formData.veteranAddress.veteranAddress.isMilitary).to.equal(
-        false,
-      );
+      // Note: isMilitary field removed from form
+      expect(result.formData.veteranAddress.veteranAddress.isMilitary).to.be
+        .undefined;
     });
 
     it('should fallback to vet360ContactInformation if vapContactInfo is not available', () => {
@@ -430,7 +431,7 @@ describe('Prefill Transformer', () => {
     it('should handle empty state object', () => {
       const result = prefillTransformer(mockPages, {}, mockMetadata, {});
       expect(result.formData).to.exist;
-      expect(result.formData.veteranIdentification).to.exist;
+      expect(result.formData.veteranInformation).to.exist;
       expect(result.formData.veteranAddress).to.exist;
     });
 
@@ -443,13 +444,13 @@ describe('Prefill Transformer', () => {
     it('should return empty string for missing SSN', () => {
       const state = { user: { profile: {} } };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.veteranIdentification.veteranSSN).to.equal('');
+      expect(result.formData.veteranInformation.veteranSsn).to.equal('');
     });
 
     it('should return empty string for missing date of birth', () => {
       const state = { user: { profile: {} } };
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
-      expect(result.formData.veteranIdentification.veteranDOB).to.equal('');
+      expect(result.formData.veteranInformation.veteranDob).to.equal('');
     });
   });
 
@@ -490,12 +491,12 @@ describe('Prefill Transformer', () => {
         state,
       );
       expect(result.formData.existingField).to.equal('existing');
-      expect(
-        result.formData.veteranIdentification.veteranFullName.first,
-      ).to.equal('Rex');
-      expect(
-        result.formData.veteranIdentification.veteranFullName.last,
-      ).to.equal('CT-7567');
+      expect(result.formData.veteranInformation.veteranFullName.first).to.equal(
+        'Rex',
+      );
+      expect(result.formData.veteranInformation.veteranFullName.last).to.equal(
+        'CT-7567',
+      );
     });
   });
 });

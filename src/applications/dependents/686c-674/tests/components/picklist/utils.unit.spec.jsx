@@ -166,7 +166,7 @@ describe('pageDetails', () => {
     it('should return spouse death details', () => {
       const details = pageDetails.Spouse({
         fullName: { first: 'SPOUSY' },
-        removalReason: 'death',
+        removalReason: 'spouseDied',
         endDate: '2025-01-01',
         endOutsideUS: false,
         endCity: 'Test City',
@@ -408,6 +408,22 @@ describe('pageDetails', () => {
         { label: 'When was the death?', value: 'January 1, 2020' },
         { label: 'Where was the death?', value: 'Test City, TX' },
       ]);
+    });
+
+    it('should return child adopted out of the family details', () => {
+      const details = pageDetails.Child({
+        fullName: { first: 'PENNY' },
+        isStepchild: 'N',
+        removalReason: 'childAdopted',
+      });
+      expect(details[1].label).to.equal('Reason for removing this child');
+      expect(details[1].value).to.equal('They were adopted by another family');
+
+      expect(details[2].label).to.exist; // JSX
+      expect(details[2].value).to.equal('PENNY will remain on your benefits');
+      expect(details[2].action).to.equal(
+        'This child can’t be removed using this application',
+      );
     });
 
     it('should return default error for child', () => {

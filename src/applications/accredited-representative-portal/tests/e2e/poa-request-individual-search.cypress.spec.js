@@ -14,7 +14,7 @@ const vamcUser = {
   },
 };
 
-const POA_SEARCH = '/representative/claimant-search';
+const POA_SEARCH = '/representative/find-claimant';
 
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '**/accredited_representative_portal/v0/user', {
@@ -59,7 +59,7 @@ describe('Accredited Representative Portal', () => {
     });
 
     it('Allows the user to see the Find claimant page when visiting directly', () => {
-      cy.visit('/representative/claimant-search');
+      cy.visit('/representative/find-claimant');
       cy.injectAxeThenAxeCheck();
       cy.contains('Find claimant').should('be.visible');
     });

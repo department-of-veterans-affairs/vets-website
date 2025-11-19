@@ -21,7 +21,10 @@ import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { validFieldCharsOnly } from '../../shared/validations';
-import { validateOHIDates } from '../helpers/validations';
+import {
+  validateHealthInsurancePlan,
+  validateOHIDates,
+} from '../helpers/validations';
 import { replaceStrValues } from '../helpers/formatting';
 import { toHash, nameWording, fmtDate } from '../../shared/utilities';
 import content from '../locales/en/content.json';
@@ -60,7 +63,7 @@ export function generateParticipantNames(item) {
     const matches = applicantObjects.filter(app =>
       Object.keys(healthcareParticipants)
         .filter(e => healthcareParticipants[e] === true)
-        .includes(toHash(app.applicantSSN)),
+        .includes(toHash(app.applicantSsn)),
     );
     const names = matches?.map(n => nameWording(n, false, false, false));
     return names.length > 0 ? names.join(', ') : 'No members specified';
@@ -88,8 +91,7 @@ export const healthInsuranceOptions = {
   nounSingular: 'plan',
   nounPlural: 'plans',
   required: false,
-  isItemIncomplete: item =>
-    !(item.provider && item.insuranceType && item.effectiveDate),
+  isItemIncomplete: validateHealthInsurancePlan,
   text: {
     getItemName: item => item?.provider,
     cardDescription: item => (

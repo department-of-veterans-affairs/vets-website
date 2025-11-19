@@ -7,7 +7,11 @@ import { Paths } from '../utils/constants';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
-import { DATETIME_FORMATS, medicationsUrls } from '../../../util/constants';
+import {
+  DATETIME_FORMATS,
+  medicationsUrls,
+  RX_SOURCE,
+} from '../../../util/constants';
 import tooltipVisible from '../fixtures/tooltip-visible-list-page.json';
 import noToolTip from '../fixtures/tooltip-not-visible-list-page.json';
 import hidden from '../fixtures/tooltip-hidden.json';
@@ -646,7 +650,7 @@ class MedicationsListPage {
 
     data.data.forEach(item => {
       const { dispensedDate, prescriptionSource } = item.attributes;
-      if (prescriptionSource === 'NV') {
+      if (prescriptionSource === RX_SOURCE.NON_VA) {
         nonVA.push(item);
       } else if (dispensedDate) {
         filled.push(item);

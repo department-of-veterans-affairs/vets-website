@@ -14,6 +14,7 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { getArrayUrlSearchParams } from '~/platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   careFrequencyLabels,
   recipientTypeLabels,
@@ -52,17 +53,37 @@ function introDescription() {
   );
 }
 
+function checkIsItemIncomplete(item) {
+  return (
+    !item?.recipient ||
+    ((item.recipient === 'DEPENDENT' || item.recipient === 'OTHER') &&
+      !item?.recipientName) ||
+    !item?.paymentDate ||
+    !item?.purpose ||
+    !item?.paymentFrequency ||
+    !item?.paymentAmount
+  );
+}
+
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'medicalExpenses',
   nounSingular: 'medical expense',
   nounPlural: 'medical expenses',
   required: false,
-  isItemIncomplete: item => !item?.recipient || !item?.paymentDate,
-  maxItems: 5,
+  isItemIncomplete: item => checkIsItemIncomplete(item),
+  maxItems: 14,
   text: {
     getItemName: item => item?.provider || 'Provider',
     cardDescription: item => ItemDescription(item),
+    cancelAddTitle: 'Cancel adding this medical expense?',
+    cancelEditTitle: 'Cancel editing this medical expense?',
+    cancelAddDescription:
+      'If you cancel, we won’t add this expense to your list of medical expenses. You’ll return to a page where you can add a new medical expense.',
+    cancelAddYes: 'Yes, cancel adding',
+    cancelAddNo: 'No, continue adding',
+    cancelEditYes: 'Yes, cancel editing',
+    cancelEditNo: 'No, continue editing',
   },
 };
 
@@ -108,7 +129,14 @@ const summaryPage = {
 /** @returns {PageSchema} */
 const recipientPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Medical recipient'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Medical recipient', () => {
+      const search = getArrayUrlSearchParams();
+      const isEdit = search.get('edit');
+      if (isEdit) {
+        return 'We’ll take you through each of the sections of this medical expense for you to review and edit.';
+      }
+      return null;
+    }),
     recipient: radioUI({
       title: 'Who’s the expense for?',
       labels: recipientTypeLabels,
@@ -134,7 +162,7 @@ const recipientPage = {
       recipient: radioSchema(Object.keys(recipientTypeLabels)),
       recipientName: textSchema,
     },
-    required: ['recipient', 'recipientName'],
+    required: ['recipient'],
   },
 };
 

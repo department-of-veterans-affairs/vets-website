@@ -5,7 +5,8 @@ import { IntroductionPageView } from '../../shared/components/IntroductionPageVi
 
 const content = {
   formTitle: 'Apply for accrued benefits online',
-  formSubTitle: '',
+  formSubTitle:
+    'Primarily for executors or administrators of VA beneficiaries’ estates (VA Form 21P-601)',
   authStartFormText: 'Apply for accrued benefits',
   displayNonVeteranMessaging: true,
 };
@@ -18,10 +19,6 @@ const ombInfo = {
 
 const childContent = (
   <>
-    <p>
-      Primarily for executors or administrators of VA beneficiaries' estates (VA
-      Form 21P-601)
-    </p>
     <p>
       Use this form, in some cases, to apply for unpaid benefits that we owed to
       a VA beneficiary when they died. Be sure to read all the information on
@@ -73,23 +70,23 @@ const childContent = (
         <br />
         <va-link
           href="https://www.vba.va.gov/pubs/forms/VBA-21P-601-ARE.pdf"
-          text="Get VA Form 21P-601 to download"
+          text="Download VA Form 21P-601"
         />
       </li>
       <li>
         <strong>If multiple people are applying,</strong> each person has to
-        submit their own form
+        submit their own form.
       </li>
     </ul>
     <h3>Time limits to apply</h3>
     <ul className="vads-u-margin-bottom--4">
       <li>
         You must apply for accrued benefits within <strong>1 year</strong> of
-        the beneficiary’s death.
+        the beneficiary’s death
       </li>
       <li>
         If you’re filing a lump sum accrued benefits claim, you must do so
-        within <strong>5 years</strong> of the beneficiary’s death.
+        within <strong>5 years</strong> of the beneficiary’s death
       </li>
     </ul>
     <h3>What you’ll need to apply</h3>

@@ -64,7 +64,7 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'seedUserWith21aSIP',
   (returnUrlRel = '/character-references') => {
-    const nowSec = Math.floor(Date.now() / 1000);
+    const nowSec = 4918241875; // Fixed timestamp: 2125-11-07 00:00:00 UTC
     cy.intercept('GET', '/accredited_representative_portal/v0/user', {
       statusCode: 200,
       headers: { 'cache-control': 'no-store' },
@@ -95,7 +95,7 @@ Cypress.Commands.add(
               createdAt: nowSec - 3000,
               expiresAt: nowSec + 7 * 24 * 60 * 60,
               lastUpdated: nowSec,
-              inProgressFormId: 2,
+              inProgressFormId: 3,
             },
             lastUpdated: nowSec,
           },
@@ -108,7 +108,7 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'stub21aFormDataExact',
   (returnUrlRel = '/character-references') => {
-    const nowSec = Math.floor(Date.now() / 1000);
+    const nowSec = 4918241875; // Fixed timestamp: 2125-11-07 00:00:00 UTC
     const nowMs = nowSec * 1000;
 
     cy.intercept(
@@ -126,37 +126,33 @@ Cypress.Commands.add(
             homeAddress: { 'view:militaryBaseDescription': {} },
             otherAddress: { 'view:militaryBaseDescription': {} },
             employmentActivities: {},
-            convictionDetailsDocuments: { additionalData: {} },
+            convictionDetailsDocuments: [],
             convictionDetailsCertification: {},
-            courtMartialedDetailsDocuments: { additionalData: {} },
+            courtMartialedDetailsDocuments: [],
             courtMartialedDetailsCertification: {},
-            underChargesDetailsDocuments: { additionalData: {} },
+            underChargesDetailsDocuments: [],
             underChargesDetailsCertification: {},
-            resignedFromEducationDetailsDocuments: { additionalData: {} },
+            resignedFromEducationDetailsDocuments: [],
             resignedFromEducationDetailsCertification: {},
-            withdrawnFromEducationDetailsDocuments: { additionalData: {} },
+            withdrawnFromEducationDetailsDocuments: [],
             withdrawnFromEducationDetailsCertification: {},
-            disciplinedForDishonestyDetailsDocuments: { additionalData: {} },
+            disciplinedForDishonestyDetailsDocuments: [],
             disciplinedForDishonestyDetailsCertification: {},
-            resignedForDishonestyDetailsDocuments: { additionalData: {} },
+            resignedForDishonestyDetailsDocuments: [],
             resignedForDishonestyDetailsCertification: {},
-            representativeForAgencyDetailsDocuments: { additionalData: {} },
+            representativeForAgencyDetailsDocuments: [],
             representativeForAgencyDetailsCertification: {},
-            reprimandedInAgencyDetailsDocuments: { additionalData: {} },
+            reprimandedInAgencyDetailsDocuments: [],
             reprimandedInAgencyDetailsCertification: {},
-            resignedFromAgencyDetailsDocuments: { additionalData: {} },
+            resignedFromAgencyDetailsDocuments: [],
             resignedFromAgencyDetailsCertification: {},
-            appliedForVaAccreditationDetailsDocuments: { additionalData: {} },
+            appliedForVaAccreditationDetailsDocuments: [],
             appliedForVaAccreditationDetailsCertification: {},
-            terminatedByVsorgDetailsDocuments: { additionalData: {} },
+            terminatedByVsorgDetailsDocuments: [],
             terminatedByVsorgDetailsCertification: {},
-            conditionThatAffectsRepresentationDetailsDocuments: {
-              additionalData: {},
-            },
+            conditionThatAffectsRepresentationDetailsDocuments: [],
             conditionThatAffectsRepresentationDetailsCertification: {},
-            conditionThatAffectsExaminationDetailsDocuments: {
-              additionalData: {},
-            },
+            conditionThatAffectsExaminationDetailsDocuments: [],
             conditionThatAffectsExaminationDetailsCertification: {},
             characterReferences: [],
           },
@@ -174,7 +170,7 @@ Cypress.Commands.add(
             createdAt: nowSec - 3000,
             expiresAt: nowSec + 7 * 24 * 60 * 60,
             lastUpdated: nowSec,
-            inProgressFormId: 2,
+            inProgressFormId: 3,
           },
         },
       },

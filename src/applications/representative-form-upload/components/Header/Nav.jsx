@@ -45,7 +45,7 @@ export const Nav = () => {
         </a>
         <div className="heading-right">
           <a
-            href="/representative/get-help"
+            href="/representative/help"
             className={`usa-button-secondary heading-help-link ${
               profile ? 'logged-in' : ''
             }`}
@@ -64,7 +64,7 @@ export const Nav = () => {
           <div className="nav__container vads-u-display--flex">
             <a
               className="nav__btn desktop"
-              href="/representative/claimant-search"
+              href="/representative/find-claimant"
               data-testid="desktop-search-link"
             >
               <va-icon icon="search" size={2} className="people-search-icon" />

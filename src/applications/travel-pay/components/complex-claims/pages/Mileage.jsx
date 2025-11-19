@@ -1,26 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useDispatch, useSelector } from 'react-redux';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { createExpense, updateExpense } from '../../../redux/actions';
 import {
-  VaModal,
-  VaButton,
-  VaButtonPair,
-  VaRadio,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+  selectExpenseUpdateLoadingState,
+  selectExpenseCreationLoadingState,
+  selectAllExpenses,
+} from '../../../redux/selectors';
+import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
+import { EXPENSE_TYPES, TRIP_TYPES } from '../../../constants';
+import CancelExpenseModal from './CancelExpenseModal';
 
 const Mileage = () => {
   const navigate = useNavigate();
-  const { apptId, claimId } = useParams();
+  const dispatch = useDispatch();
+  const { apptId, claimId, expenseId } = useParams();
 
-  // TODO: Remove placeholder data
-  const address = {
-    addressLine1: '345 Home Address St.',
-    addressLine2: 'Apt. 123',
-    addressLine3: '#67',
-    city: 'San Francisco',
-    countryName: 'United States',
-    stateCode: 'CA',
-    zipCode: '94118',
-  };
+  const isLoadingExpense = useSelector(
+    state =>
+      expenseId
+        ? selectExpenseUpdateLoadingState(state)
+        : selectExpenseCreationLoadingState(state),
+  );
+
+  const allExpenses = useSelector(selectAllExpenses);
+
+  const address = useSelector(selectVAPResidentialAddress);
 
   const [departureAddress, setDepartureAddress] = useState('');
   const [tripType, setTripType] = useState('');
@@ -42,22 +49,69 @@ const Mileage = () => {
     setIsModalVisible(false);
   };
 
-  const handleContinue = () => {
+  const handleCancelModal = () => {
+    handleCloseModal();
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+  };
+
+  const handleContinue = async () => {
+    const expenseData = {
+      tripType,
+      expenseType: EXPENSE_TYPES.Mileage.title,
+    };
+
     // Check if user selected "another-address" or "one-way"
-    if (departureAddress === 'another-address' || tripType === 'one-way') {
-      // TODO: Replace with actual redirect logic for special cases
-      // Example: navigate('/address-input-page') or navigate('/one-way-confirmation')
-      // For now, just prevent default continue action
-      // eslint-disable-next-line no-console
-      console.log('Special case detected - would redirect to different page');
+    if (
+      departureAddress === 'another-address' ||
+      tripType === TRIP_TYPES.ONE_WAY.value
+    ) {
+      navigate(`/file-new-claim/${apptId}/${claimId}/unsupported`);
     } else {
+      try {
+        if (expenseId) {
+          await dispatch(
+            updateExpense(
+              claimId,
+              EXPENSE_TYPES.Mileage.apiRoute,
+              expenseId,
+              expenseData,
+            ),
+          );
+        } else {
+          await dispatch(
+            createExpense(claimId, EXPENSE_TYPES.Mileage.apiRoute, expenseData),
+          );
+        }
+      } catch (error) {
+        // Handle error
+        // eslint-disable-next-line no-console
+        console.error('Error creating expense:', error);
+        return; // Don't navigate if there's an error
+      }
       navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     }
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+    if (expenseId) {
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else {
+      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+    }
   };
+
+  useEffect(
+    () => {
+      const hasMileageExpense = (allExpenses ?? []).some(
+        e => e.expenseType === 'mileage',
+      );
+      if (expenseId ?? hasMileageExpense) {
+        setDepartureAddress('home-address');
+        setTripType(TRIP_TYPES.ROUND_TRIP.value);
+      }
+    },
+    [claimId, allExpenses, expenseId],
+  );
 
   return (
     <>
@@ -114,51 +168,40 @@ const Mileage = () => {
         id="trip-type"
         onVaValueChange={handleTripTypeChange}
         value={tripType}
-        label="Which address did you depart from?"
+        label="Was your trip round trip or one way?"
         required
       >
         <va-radio-option
-          label="Round trip"
-          value="round-trip"
+          label={TRIP_TYPES.ROUND_TRIP.label}
+          value={TRIP_TYPES.ROUND_TRIP.value}
           key="trip-round-trip"
           name="trip-type"
-          checked={tripType === 'round-trip'}
+          checked={tripType === TRIP_TYPES.ROUND_TRIP.value}
         />
         <va-radio-option
-          label="One way"
-          value="one-way"
+          label={TRIP_TYPES.ONE_WAY.label}
+          value={TRIP_TYPES.ONE_WAY.value}
           key="trip-one-way"
           name="trip-type"
-          checked={tripType === 'one-way'}
+          checked={tripType === TRIP_TYPES.ONE_WAY.value}
         />
       </VaRadio>
-      <VaModal
-        modalTitle="Cancel adding this expense"
-        onCloseEvent={handleCloseModal}
-        onPrimaryButtonClick={handleCloseModal}
-        onSecondaryButtonClick={handleCloseModal}
-        primaryButtonText="Yes, cancel"
-        secondaryButtonText="No, continue adding this expense"
-        status="warning"
-        visible={isModalVisible}
-      >
-        <p>
-          If you cancel, you’ll lose the information you entered about this
-          expense and will be returned to the review page.
-        </p>
-      </VaModal>
-      <VaButton
-        secondary
-        text="Cancel adding this expense"
-        onClick={handleOpenModal}
-        className="vads-u-display--flex vads-u-margin-y--2 travel-pay-complex-expense-cancel-btn"
-      />
-      <VaButtonPair
-        class="vads-u-margin-y--2"
-        continue
-        disable-analytics
-        onPrimaryClick={handleContinue}
-        onSecondaryClick={handleBack}
+      {!expenseId && (
+        <CancelExpenseModal
+          visible={isModalVisible}
+          onCloseEvent={handleCloseModal}
+          onOpenModal={handleOpenModal}
+          onPrimaryButtonClick={handleCancelModal}
+          onSecondaryButtonClick={handleCloseModal}
+        />
+      )}
+      <TravelPayButtonPair
+        continueText={expenseId ? 'Save and continue' : 'Continue'}
+        backText={expenseId ? 'Cancel' : 'Back'}
+        className={expenseId && 'vads-u-margin-top--2'}
+        onBack={handleBack}
+        onContinue={handleContinue}
+        loading={isLoadingExpense}
       />
     </>
   );

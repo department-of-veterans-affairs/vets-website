@@ -1,8 +1,8 @@
 import camelCase from 'lodash/camelCase';
 
 import {
-  fileInputUI,
-  fileInputSchema,
+  fileInputMultipleUI,
+  fileInputMultipleSchema,
   checkboxGroupSchema,
   checkboxGroupUI,
   textareaSchema,
@@ -36,27 +36,17 @@ const backgroundInformationDetails = ({
         description: explanationDescription,
       }),
       [documentsKey]: {
-        ...fileInputUI({
+        ...fileInputMultipleUI({
           title: 'Provide any relevant documents',
-          required: () => false,
+          required: false,
+          maxFileSize: 26214400, // 25MB in bytes
+          accept: '.pdf,.docx',
           hint:
-            'You may add .pdf, .doc, .jpg, or .txt documents under 25MB. Please name documents with clear, descriptive names.',
+            'You may add .pdf or .docx documents under 25MB. Please name documents with clear, descriptive names.',
           name: `${path}-file-input`,
           fileUploadUrl: url,
+          skipUpload: false,
         }),
-        /**
-         * File upload warnings are modeled as form data that can be modified by
-         * the user. When specified as a fully-fledged `ArrayField`, the final
-         * review page emits an axe error about the input field to create a new
-         * warning. To make warnings function more like readonly UX state and
-         * also prevent this axe error while working within the form schema
-         * concept that file uploading is built on, setting the field kind to
-         * `BasicArrayField` accomplishes both of these things.
-         */
-        warnings: {
-          'ui:field': 'BasicArrayField',
-          'ui:title': 'Document upload warnings',
-        },
       },
       [certificationKey]: checkboxGroupUI({
         title: 'Certification',
@@ -75,7 +65,7 @@ const backgroundInformationDetails = ({
       type: 'object',
       properties: {
         [explanationKey]: textareaSchema,
-        [documentsKey]: fileInputSchema(),
+        [documentsKey]: fileInputMultipleSchema(),
         [certificationKey]: checkboxGroupSchema(['certified']),
       },
       required: [explanationKey, certificationKey],

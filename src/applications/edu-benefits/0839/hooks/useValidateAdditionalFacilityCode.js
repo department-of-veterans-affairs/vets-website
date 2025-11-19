@@ -24,6 +24,7 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
           ...updatedDetailsLoading[index],
           isLoading: true,
         };
+
         dispatch(
           setData({
             ...formData,
@@ -42,7 +43,8 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             },
           );
           const attrs = response.data.attributes;
-
+          const isForeignCountry =
+            response.data?.attributes?.type?.toLowerCase() === 'foreign';
           const firstDigit = facilityCode.charAt(0);
           const secondDigit = facilityCode.charAt(1);
           const yrEligible =
@@ -53,7 +55,8 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             ? attrs.programTypes
             : [];
           const ihlEligible =
-            attrs.programTypes === null ? null : programTypes.includes('IHL');
+            attrs.programTypes === null ? false : programTypes.includes('IHL');
+
           const institutionAddress = {
             street: attrs.address1 || '',
             street2: attrs.address2 || '',
@@ -77,6 +80,7 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             ihlEligible,
             yrEligible,
             isLoading: false,
+            isForeignCountry,
           };
 
           dispatch(
@@ -98,6 +102,8 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             institutionAddress: {},
             ihlEligible: null,
             isLoading: false,
+            yrEligible: false,
+            isForeignCountry: false,
           };
 
           dispatch(

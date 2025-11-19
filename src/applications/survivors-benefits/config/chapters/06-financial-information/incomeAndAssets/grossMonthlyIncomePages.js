@@ -24,7 +24,7 @@ const {
 } = recipientTypeLabels;
 
 // specific income recipient labels for gross income per figma design
-const incomeRecipients = {
+export const incomeRecipients = {
   SURVIVING_SPOUSE,
   VETERANS_CHILD,
   CUSTODIAN,
@@ -60,7 +60,7 @@ const whatWeConsiderIncome = () => (
 );
 
 /** Array builder options for income sources */
-const options = {
+export const options = {
   arrayPath: 'incomeSources',
   nounSingular: 'Income source',
   nounPlural: 'Income sources',
@@ -89,9 +89,9 @@ const options = {
     cardDescription: item =>
       item?.amount ? `$${item.amount}` : 'Monthly amount',
     // summary page heading
-    summaryTitle: () => 'Review gross monthly income',
+    summaryTitle: 'Review gross monthly income',
     // yes/no question text on summary page
-    yesNoBlankReviewQuestion: () =>
+    yesNoBlankReviewQuestion:
       'Do you have another monthly income source to add?',
   },
 };

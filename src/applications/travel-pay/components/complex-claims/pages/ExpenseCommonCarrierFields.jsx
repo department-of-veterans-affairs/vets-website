@@ -10,9 +10,9 @@ import {
 const ExpenseCommonCarrierFields = ({ formState, onChange }) => (
   <>
     <VaRadio
-      name="transportationType"
-      value={formState.transportationType || ''}
-      onVaValueChange={e => onChange(e.detail, 'transportationType')}
+      name="carrierType"
+      value={formState.carrierType || ''}
+      onVaValueChange={e => onChange(e.detail, 'carrierType')}
       label="Type of transportation"
       required
     >
@@ -21,14 +21,14 @@ const ExpenseCommonCarrierFields = ({ formState, onChange }) => (
           key={option}
           label={option}
           value={option}
-          checked={formState.transportationType === option}
+          checked={formState.carrierType === option}
         />
       ))}
     </VaRadio>
     <VaRadio
-      name="transportationReason"
-      onVaValueChange={e => onChange(e.detail, 'transportationReason')}
-      value={formState.transportationReason || ''}
+      name="reasonNotUsingPOV"
+      onVaValueChange={e => onChange(e.detail, 'reasonNotUsingPOV')}
+      value={formState.reasonNotUsingPOV || ''}
       label="Why did you choose to use public transportation?"
       required
     >
@@ -37,7 +37,7 @@ const ExpenseCommonCarrierFields = ({ formState, onChange }) => (
           key={key}
           label={TRANSPORTATION_REASONS[key].label}
           value={key}
-          checked={formState.transportationReason === key}
+          checked={formState.reasonNotUsingPOV === key}
         />
       ))}
     </VaRadio>

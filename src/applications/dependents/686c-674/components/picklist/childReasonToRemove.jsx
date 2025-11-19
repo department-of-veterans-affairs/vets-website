@@ -35,11 +35,11 @@ const getChildRemovalOptions = (isStepchild, age, _firstName) => {
     });
   }
 
-  // Child got adopted (all ages, both child and stepchild) (BACKLOGGED WORK)
-  // options.push({
-  //   value: 'childAdopted',
-  //   label: labels.Child.childAdopted,
-  // });
+  // Child got adopted (all ages, both child and stepchild)
+  options.push({
+    value: 'childAdopted',
+    label: labels.Child.childAdopted,
+  });
 
   // Child got married (ages 15+)
   if (age >= 15) {
@@ -70,9 +70,8 @@ const childReasonToRemove = {
           return 'stepchild-financial-support';
         case 'childNotInSchool':
           return 'child-disability';
-        // childAdopted work moved to the backlog
-        // case 'childAdopted':
-        //   return 'DONE';
+        case 'childAdopted':
+          return 'child-adopted-exit';
         default:
           return 'DONE';
       }
@@ -159,10 +158,6 @@ const childReasonToRemove = {
             </ul>
           </va-additional-info>
         )}
-        {/* <CancelButton */}
-        {/*  dependentType={itemData.relationshipToVeteran?.toLowerCase()} */}
-        {/*  removePath="options-selection/remove-active-dependents" */}
-        {/* /> */}
       </>
     );
   },

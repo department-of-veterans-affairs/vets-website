@@ -1,4 +1,5 @@
 import { generateAppointmentsContent } from '../pdfHelpers/appointments';
+import { NO_INFO_PROVIDED } from '../constants';
 
 // Helper function to format appointment content into plain text
 const formatAppointmentsContentToText = content => {
@@ -29,7 +30,7 @@ const formatAppointmentsContentToText = content => {
             return `${item.title}:\n${formattedValues}`;
           }
           // For other types, display as usual
-          return `${item.title}: ${item.value || 'No information provided'}`;
+          return `${item.title}: ${item.value || NO_INFO_PROVIDED}`;
         })
         .join('\n'); // Join each item with a newline
 
