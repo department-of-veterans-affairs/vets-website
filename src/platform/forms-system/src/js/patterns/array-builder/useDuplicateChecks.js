@@ -6,6 +6,7 @@ import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
 import {
   checkForDuplicatesInItemPages,
   getItemDuplicateDismissedName,
+  getArrayUrlSearchParams,
   META_DATA_KEY,
   defaultDuplicateResult,
 } from './helpers';
@@ -17,9 +18,7 @@ import {
  *
  * @param {Object} config
  * @param {Object} config.arrayBuilderProps - Array builder configuration props
- * @param {Object} config.props - Component props from CustomPage
- * @param {boolean} config.isEdit - Whether in edit mode
- * @param {boolean} config.isAdd - Whether in add mode
+ * @param {Object} config.customPageProps - Component props from CustomPage
  * @param {Function} config.onAccept - Callback when user accepts duplicate (receives item data)
  *
  * @returns {Object} Duplicate check utilities
@@ -29,11 +28,13 @@ import {
  */
 export function useDuplicateChecks({
   arrayBuilderProps,
-  props,
-  isEdit = false,
-  isAdd = false,
+  customPageProps,
   onAccept,
 }) {
+  // Derive edit/add mode from URL params
+  const searchParams = getArrayUrlSearchParams();
+  const isEdit = !!searchParams.get('edit');
+  const isAdd = !!searchParams.get('add');
   const {
     arrayPath,
     duplicateChecks: duplicateChecksGlobal = {},
@@ -45,7 +46,12 @@ export function useDuplicateChecks({
     currentPath,
   } = arrayBuilderProps;
 
-  const { fullData = {}, pagePerItemIndex, setFormData, goToPath } = props;
+  const {
+    fullData = {},
+    pagePerItemIndex,
+    setFormData,
+    goToPath,
+  } = customPageProps;
 
   // duplicateChecks will only apply to specific internal item pages
   const internalPageDuplicateChecks =
@@ -266,20 +272,13 @@ export function useDuplicateChecks({
   };
 
   return {
-    // State
     isDuplicateCheckEnabled,
     shouldShowDuplicateWarning,
-
-    // Core duplicate checking
     checkForDuplicate,
-
-    // Modal handlers
     handleDuplicateModalClose,
     handleCancelDuplicate,
     handleAcceptDuplicate,
     getDuplicateText,
-
-    // Render function
     renderDuplicateModal,
   };
 }

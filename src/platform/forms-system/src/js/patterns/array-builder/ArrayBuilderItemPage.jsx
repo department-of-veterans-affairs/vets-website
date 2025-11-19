@@ -10,8 +10,6 @@ import {
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
-
 import { useEditOrAddForm } from './useEditOrAddForm';
 import { useDuplicateChecks } from './useDuplicateChecks';
 import { useItemPageGuard } from './useItemPageGuard';
@@ -78,9 +76,7 @@ export default function ArrayBuilderItemPage(itemPageProps) {
 
     const { checkForDuplicate, renderDuplicateModal } = useDuplicateChecks({
       arrayBuilderProps,
-      props,
-      isEdit,
-      isAdd,
+      customPageProps: props,
       onAccept: itemData => {
         onSubmit({ formData: itemData });
       },
@@ -98,9 +94,7 @@ export default function ArrayBuilderItemPage(itemPageProps) {
     // and guards against rendering when schema is not yet loaded
     const shouldRender = useItemPageGuard({
       arrayBuilderProps,
-      props,
-      isEdit,
-      isAdd,
+      customPageProps: props,
       schema,
       fullData: data,
     });

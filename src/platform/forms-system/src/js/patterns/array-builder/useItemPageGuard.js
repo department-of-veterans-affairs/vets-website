@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
+import { getArrayUrlSearchParams } from './helpers';
 
 /**
  * Hook to guard/validate rendering of array builder item pages.
@@ -7,23 +8,24 @@ import navigationState from 'platform/forms-system/src/js/utilities/navigation/n
  *
  * @param {Object} params
  * @param {Object} params.arrayBuilderProps - Array builder configuration props
- * @param {Object} params.props - Component props from CustomPage
- * @param {boolean} params.isEdit - Whether in edit mode (?edit=true)
- * @param {boolean} params.isAdd - Whether in add mode (?add=true)
+ * @param {Object} params.customPageProps - Component props from CustomPage
  * @param {Object|null} params.schema - Schema object (null when initially loading edit mode)
  * @param {Array} params.fullData - Full form data array
  * @returns {boolean} Whether the page should render
  */
 export function useItemPageGuard({
   arrayBuilderProps,
-  props,
-  isEdit,
-  isAdd,
+  customPageProps,
   schema,
   fullData,
 }) {
+  // Derive edit/add mode from URL params
+  const searchParams = getArrayUrlSearchParams();
+  const isEdit = !!searchParams.get('edit');
+  const isAdd = !!searchParams.get('add');
+
   const { required, introRoute, summaryRoute } = arrayBuilderProps;
-  const { onReviewPage, data, goToPath } = props;
+  const { onReviewPage, data, goToPath } = customPageProps;
   useEffect(
     () => {
       if (!onReviewPage && !isEdit && !isAdd) {
