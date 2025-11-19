@@ -32,7 +32,7 @@ const TopicSelection = () => {
     navigate('/review');
   };
   return (
-    <Wrapper 
+    <Wrapper
       pageTitle="What topic would you like to talk about?"
       showBackButton
     >
