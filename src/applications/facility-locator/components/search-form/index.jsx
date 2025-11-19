@@ -40,7 +40,6 @@ export const SearchForm = props => {
   const lastQueryRef = useRef(null);
 
   // Add local draft state for form inputs
-  // eslint-disable-next-line no-unused-vars
   const [draftFormState, setDraftFormState] = useState({
     facilityType: currentQuery.facilityType || null,
     serviceType: currentQuery.serviceType || null,
@@ -49,21 +48,26 @@ export const SearchForm = props => {
   });
 
   const handleFacilityTypeChange = e => {
-    onChange({
-      facilityType: e.target.value,
+    const newFacilityType = e.target.value;
+
+    setDraftFormState({
+      ...draftFormState,
+      facilityType: newFacilityType,
       serviceType: null,
-      // Since the facility type may cause an error (PPMS), reset it if the type is changed
-      fetchSvcsError: null,
-      error: null,
+      vamcServiceDisplay: null,
     });
+    // Note: Specialty fetching for CC_PROVIDER is handled by ServiceType component
   };
 
   const handleServiceTypeChange = ({ target, selectedItem }) => {
     setSelectedServiceType(selectedItem);
-
     const option = target.value.trim();
     const serviceType = option === 'All' ? null : option;
-    onChange({ serviceType });
+
+    setDraftFormState({
+      ...draftFormState,
+      serviceType,
+    });
   };
 
   const handleSubmit = e => {
