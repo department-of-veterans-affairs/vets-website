@@ -73,69 +73,77 @@ export const SearchForm = props => {
   const handleSubmit = e => {
     e.preventDefault();
 
+    // MODIFY duplicate check to use draftFormState
     const isSameQuery =
       lastQueryRef.current &&
-      currentQuery.facilityType === lastQueryRef.current.facilityType &&
-      currentQuery.serviceType === lastQueryRef.current.serviceType &&
-      currentQuery.searchString === lastQueryRef.current.searchString &&
+      draftFormState.facilityType === lastQueryRef.current.facilityType &&
+      draftFormState.serviceType === lastQueryRef.current.serviceType &&
+      draftFormState.searchString === lastQueryRef.current.searchString &&
       currentQuery.zoomLevel === lastQueryRef.current.zoomLevel;
 
     if (isSameQuery) {
       return;
     }
 
-    lastQueryRef.current = currentQuery;
-
-    const {
-      facilityType,
-      serviceType,
-      zoomLevel,
-      isValid,
-      searchString,
-      specialties,
-    } = currentQuery;
-
-    let analyticsServiceType = serviceType;
+    // UPDATE lastQueryRef with draft values
+    lastQueryRef.current = {
+      facilityType: draftFormState.facilityType,
+      serviceType: draftFormState.serviceType,
+      searchString: draftFormState.searchString,
+      zoomLevel: currentQuery.zoomLevel,
+    };
 
     const updateReduxState = propName => {
       onChange({ [propName]: ' ' });
       onChange({ [propName]: '' });
     };
 
-    if (facilityType === LocationType.CC_PROVIDER) {
-      if (!serviceType || !selectedServiceType) {
-        updateReduxState('serviceType');
-        focusElement('#service-type-ahead-input');
-        return;
-      }
-
-      if (specialties && Object.keys(specialties).includes(serviceType)) {
-        analyticsServiceType = specialties[serviceType];
-      }
-    }
-
-    if (!searchString) {
+    // MODIFY validation to use draftFormState
+    if (!draftFormState.searchString) {
       updateReduxState('searchString');
       focusElement('#street-city-state-zip');
       return;
     }
 
-    if (!facilityType) {
+    if (!draftFormState.facilityType) {
       updateReduxState('facilityType');
       focusElement('#facility-type-dropdown');
       return;
     }
 
-    if (!isValid) {
+    if (
+      draftFormState.facilityType === LocationType.CC_PROVIDER &&
+      (!draftFormState.serviceType || !selectedServiceType)
+    ) {
+      updateReduxState('serviceType');
+      focusElement('#service-type-ahead-input');
       return;
     }
 
-    // Report event here to only send analytics event when a user clicks on the button
+    // ADD: Commit draft to Redux (NEW - this is the fix!)
+    onChange({
+      facilityType: draftFormState.facilityType,
+      serviceType: draftFormState.serviceType,
+      searchString: draftFormState.searchString,
+      vamcServiceDisplay: draftFormState.vamcServiceDisplay,
+    });
+
+    // MODIFY analytics to use draftFormState
+    let analyticsServiceType = draftFormState.serviceType;
+    if (
+      draftFormState.facilityType === LocationType.CC_PROVIDER &&
+      currentQuery.specialties &&
+      Object.keys(currentQuery.specialties).includes(draftFormState.serviceType)
+    ) {
+      analyticsServiceType =
+        currentQuery.specialties[draftFormState.serviceType];
+    }
+
     recordEvent({
       event: 'fl-search',
-      'fl-search-fac-type': facilityType,
+      'fl-search-fac-type': draftFormState.facilityType,
       'fl-search-svc-type': analyticsServiceType,
-      'fl-current-zoom-depth': zoomLevel,
+      'fl-current-zoom-depth': currentQuery.zoomLevel,
     });
 
     if (isMobile && mobileMapUpdateEnabled) {
