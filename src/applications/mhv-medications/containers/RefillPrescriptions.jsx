@@ -66,7 +66,7 @@ const RefillPrescriptions = () => {
         result?.data?.successfulIds,
         refillableData?.prescriptions,
       ),
-    [result?.data?.successfulIds],
+    [result?.data?.successfulIds, refillableData?.prescriptions],
   );
 
   const failedMeds = useMemo(
@@ -75,7 +75,7 @@ const RefillPrescriptions = () => {
         result?.data?.failedIds,
         refillableData?.prescriptions,
       ),
-    [result?.data?.failedIds],
+    [result?.data?.failedIds, refillableData?.prescriptions],
   );
 
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
@@ -111,8 +111,9 @@ const RefillPrescriptions = () => {
       const prescriptionIds = selectedRefillList.map(rx => rx.prescriptionId);
 
       try {
-        await bulkRefillPrescriptions(prescriptionIds);
+        await bulkRefillPrescriptions(prescriptionIds).unwrap();
         setRefillStatus(REFILL_STATUS.FINISHED);
+        setSelectedRefillList([]);
       } catch (error) {
         setRefillStatus(REFILL_STATUS.ERROR);
       }
@@ -128,7 +129,6 @@ const RefillPrescriptions = () => {
         ),
       );
     }
-    setSelectedRefillList([]);
   };
 
   const onSelectPrescription = rx => {
