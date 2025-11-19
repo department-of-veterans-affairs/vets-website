@@ -48,6 +48,7 @@ export function useDuplicateChecks({
 
   const {
     fullData = {},
+    data,
     pagePerItemIndex,
     setFormData,
     goToPath,
@@ -73,7 +74,10 @@ export function useDuplicateChecks({
 
   const itemDuplicateDismissedName = getItemDuplicateDismissedName({
     arrayPath,
-    duplicateChecks,
+    // use global duplicateChecks because using per-page checks will cause the
+    // modal to show on all internal array pages even after accepting the
+    // duplicate
+    duplicateChecks: duplicateChecksGlobal,
     fullData,
     itemIndex: pagePerItemIndex,
   });
@@ -198,7 +202,6 @@ export function useDuplicateChecks({
     const newFullData = set(
       META_DATA_KEY,
       {
-        ...fullData?.[META_DATA_KEY],
         [itemDuplicateDismissedName]: true,
       },
       fullData,
@@ -226,7 +229,9 @@ export function useDuplicateChecks({
   const getDuplicateText = name => {
     if (duplicateChecks[name]) {
       return duplicateChecks[name]({
-        itemData: pendingSubmitData || fullData,
+        // Saving submitted formData to 'pendingSubmitData' otherwise the modal
+        // content may not match the page changes
+        itemData: pendingSubmitData || data,
         fullData,
         isEditing: isEdit,
         isAdding: isAdd,
