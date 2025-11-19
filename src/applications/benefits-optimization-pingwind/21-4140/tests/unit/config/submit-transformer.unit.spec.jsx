@@ -120,7 +120,6 @@ describe('21-4140 submit-transformer', () => {
     expect(payload.files).to.deep.equal([{ confirmationCode: 'abc-123' }]);
     expect(payload.formNumber).to.equal('21-4140');
     expect(payload.veteranServiceNumber).to.equal('1234567');
-    expect(payload.veteranServiceNumer).to.equal('1234567');
   });
 
   it('maps unemployed flow to unemployment signature section', () => {
