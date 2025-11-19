@@ -67,14 +67,12 @@ async function getToken(
       setCode(response.code);
       setCodeKey(response.code);
     }
-    {
-      const ttl = parseTTLSeconds(
-        response && (response.expires_in ?? response.expiresIn),
-      );
-      const expiresAt = Date.now() + ttl * 1000;
-      setTokenExpiresAt(expiresAt);
-      if (typeof setExpiresAtCb === 'function') setExpiresAtCb(expiresAt);
-    }
+    const ttl = parseTTLSeconds(
+      response && (response.expires_in ?? response.expiresIn),
+    );
+    const expiresAt = Date.now() + ttl * 1000;
+    setTokenExpiresAt(expiresAt);
+    if (typeof setExpiresAtCb === 'function') setExpiresAtCb(expiresAt);
     setLoadingStatus(COMPLETE);
     if (typeof resetExpiredCb === 'function') resetExpiredCb(false);
   } catch (ex) {
