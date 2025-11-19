@@ -47,5 +47,4 @@ export default function AddToCalendarButton({ appointment }) {
 }
 AddToCalendarButton.propTypes = {
   appointment: PropTypes.object,
-  facility: PropTypes.object,
 };
