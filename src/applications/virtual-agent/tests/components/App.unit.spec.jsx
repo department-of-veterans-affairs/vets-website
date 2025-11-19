@@ -96,7 +96,8 @@ describe('App', () => {
       expect(queryByText('Chat ended')).to.be.null;
 
       act(() => {
-        clock.tick(1000);
+        // Advance fake timers by the polling interval so the expiry check runs
+        clock.tick(5000);
       });
 
       expect(getByText('Chat ended')).to.exist;
