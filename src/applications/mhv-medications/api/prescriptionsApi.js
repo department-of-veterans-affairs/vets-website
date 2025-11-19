@@ -167,18 +167,20 @@ export const prescriptionsApi = createApi({
     }),
     refillPrescription: builder.mutation({
       query: id => {
+        const isCernerPilotEnabled = selectCernerPilotFlag();
         return {
           path: `${apiBasePath}/prescriptions/${id}/refill`,
-          options: { method: 'PATCH' },
+          options: { method: isCernerPilotEnabled ? 'POST' : 'PATCH' },
         };
       },
     }),
     bulkRefillPrescriptions: builder.mutation({
       query: ids => {
+        const isCernerPilotEnabled = selectCernerPilotFlag();
         const idParams = ids.map(id => `ids[]=${id}`).join('&');
         return {
           path: `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`,
-          options: { method: 'PATCH' },
+          options: { method: isCernerPilotEnabled ? 'POST' : 'PATCH' },
         };
       },
       invalidatesTags: ['Prescription'],
