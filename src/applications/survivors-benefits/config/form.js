@@ -63,6 +63,7 @@ import otherPaymentOptions from './chapters/07-additional-information/otherPayme
 import supportingDocuments from './chapters/07-additional-information/supportingDocuments';
 import uploadDocuments from './chapters/07-additional-information/uploadDocuments';
 import IncorrectForm from '../containers/IncorrectForm';
+import { shouldShowPreviousMarriages } from './chapters/04-household-information/helpers';
 // TODO: Will be added after mvp release
 // import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
 import { transform } from './submit-transformer';
@@ -333,7 +334,13 @@ const formConfig = {
         },
         ...previousMarriagesPages,
         ...veteranMarriagesPages,
-        veteranChildren,
+        veteranChildren: {
+          path: 'household/children-of-veteran',
+          title: 'Children of Veteran',
+          depends: formData => shouldShowPreviousMarriages(formData),
+          uiSchema: veteranChildren.uiSchema,
+          schema: veteranChildren.schema,
+        },
         ...dependentsPages,
       },
     },
