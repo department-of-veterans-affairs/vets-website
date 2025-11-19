@@ -1,0 +1,74 @@
+{
+  "data": {
+    "veteranInformation": {
+      "veteranFullName": {
+        "first": "Boba",
+        "middle": "J",
+        "last": "Fett"
+      },
+      "dateOfBirth": "1980-05-21"
+    },
+    "veteranContactInformation": {
+      "ssn": "327658492",
+      "vaFileNumber": "87654321"
+    },
+    "employerInformation": {
+      "employerName": "Bounty Hunters' Guild of the Outer Rim",
+      "employerAddress": {
+        "view:militaryBaseDescription": {},
+        "street": "1313 Cantina Blvd Bay 94",
+        "city": "Mos Eisley",
+        "state": "AZ",
+        "country": "USA",
+        "postalCode": "85326"
+      }
+    },
+    "employmentDates": {
+      "beginningDate": "2000-05-04",
+      "endingDate": "2015-12-18"
+    },
+    "employmentEarningsHours": {
+      "typeOfWork": "Independent contractor specializing in high-risk fugitive tracking, apprehension, and secure transport services across multiple jurisdictions",
+      "amountEarned": 8500,
+      "timeLost": "45 days per year due to combat-related injuries sustained during apprehension operations",
+      "dailyHours": "12",
+      "weeklyHours": "70"
+    },
+    "employmentConcessions": {
+      "concessions": "Modified duty assignments to accommodate chronic injuries from Sarlacc pit incident. Employer provided specialized equipment and allowed remote contract work during rehabilitation periods. Flexible scheduling for ongoing medical treatment of armor-penetrating blast injuries."
+    },
+    "employmentTermination": {
+      "terminationReason": "Retired on disability following catastrophic injuries sustained during high-value target retrieval mission. Transitioning from active field work to advisory role due to service-connected disabilities.",
+      "dateLastWorked": "2015-12-18"
+    },
+    "employmentLastPayment": {
+      "dateOfLastPayment": "2015-12-31",
+      "grossAmountLastPayment": 8500,
+      "lumpSumPayment": "yes",
+      "grossAmountPaid": 50000,
+      "datePaid": "2016-01-15"
+    },
+    "dutyStatus": {
+      "reserveOrGuardStatus": true
+    },
+    "dutyStatusDetails": {
+      "currentDutyStatus": "Active reserve member of Bounty Hunters' Guild, maintaining certification and participating in quarterly tactical training exercises and mentorship programs for new contractors",
+      "disabilitiesPreventDuties": true
+    },
+    "benefitsInformation": {
+      "benefitEntitlement": true
+    },
+    "benefitsDetails": {
+      "benefitType": "Guild-sponsored medical coverage, equipment replacement fund, and retirement pension for long-term contractors with distinguished service records",
+      "grossMonthlyAmount": 3200,
+      "startReceivingDate": "2000-06-01",
+      "firstPaymentDate": "2000-06-15",
+      "stopReceivingDate": "2015-12-31"
+    },
+    "remarks": {
+      "remarks": "Veteran sustained multiple service-connected disabilities during 15+ years of high-risk contract work including: severe burns from thermal detonator exposure, blast trauma from rocket launcher incidents, digestive system damage from Sarlacc pit digestive enzymes, and chronic pain from armor impact injuries. Employment required extensive accommodations including specialized protective equipment, modified assignment protocols, and flexible medical leave. Final contract termination resulted from accumulation of combat injuries rendering field operations no longer viable. Veteran remains active in guild advisory capacity and reserve training program despite physical limitations."
+    },
+    "statementOfTruthSignature": "Test Signature Name",
+    "statementOfTruthCertified": true
+  }
+}
