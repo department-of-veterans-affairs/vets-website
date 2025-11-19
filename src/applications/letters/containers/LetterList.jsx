@@ -26,6 +26,7 @@ export class LetterList extends React.Component {
     super(props);
     this.state = {
       tsaLetter: null,
+      tsaLetterError: false,
       // eslint-disable-next-line -- LH_MIGRATION
       LH_MIGRATION__options: LH_MIGRATION__getOptions(false),
     };
@@ -64,6 +65,7 @@ export class LetterList extends React.Component {
         });
       })
       .catch(() => {
+        this.setState({ tsaLetterError: true });
         recordEvent({
           event: 'api_call',
           'api-name': 'GET /v0/tsa_letter',
@@ -133,7 +135,8 @@ export class LetterList extends React.Component {
     let eligibilityMessage;
     if (
       this.props.lettersAvailability ===
-      AVAILABILITY_STATUSES.letterEligibilityError
+        AVAILABILITY_STATUSES.letterEligibilityError ||
+      this.state.tsaLetterError
     ) {
       eligibilityMessage = (
         <div className="vads-u-margin-top--2">

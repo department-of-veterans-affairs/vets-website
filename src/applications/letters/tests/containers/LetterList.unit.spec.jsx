@@ -196,6 +196,25 @@ describe('<LetterList>', () => {
       'One of our systems appears to be down.',
     );
   });
+
+  it('renders eligibility error when TSA letter is not available', async () => {
+    apiRequestStub.resetBehavior();
+    apiRequestStub.rejects(new Error('API Error'));
+    const tsaLetterEnabledProps = {
+      ...defaultProps,
+      tsaSafeTravelLetter: true,
+    };
+    const { findByText } = render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...tsaLetterEnabledProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    const errorHeading = await findByText('Some letters may not be available');
+    expect(errorHeading).to.exist;
+  });
+
   it('renders VeteranBenefitSummaryOptions', () => {
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -337,30 +356,91 @@ describe('<LetterList>', () => {
     ).to.exist;
   });
 
-  it('does not fetch TSA letter if feature flag is disabled', () => {
-    render(
-      <Provider store={getStore()}>
-        <MemoryRouter>
-          <LetterList {...defaultProps} />
-        </MemoryRouter>
-      </Provider>,
-    );
-    expect(apiRequestStub.calledOnce).to.be.false;
-  });
+  describe('TSA letter', () => {
+    it('does not fetch TSA letter if feature flag is disabled', () => {
+      render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...defaultProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(apiRequestStub.calledOnce).to.be.false;
+    });
 
-  it('fetches TSA letter if feature flag is enabled', () => {
-    const tsaLetterEnabledProps = {
-      ...defaultProps,
-      tsaSafeTravelLetter: true,
-    };
-    render(
-      <Provider store={getStore()}>
-        <MemoryRouter>
-          <LetterList {...tsaLetterEnabledProps} />
-        </MemoryRouter>
-      </Provider>,
-    );
-    expect(apiRequestStub.calledOnce).to.be.true;
+    it('fetches TSA letter if feature flag is enabled', () => {
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        tsaSafeTravelLetter: true,
+      };
+      render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(apiRequestStub.calledOnce).to.be.true;
+    });
+
+    it('retrieves latest TSA letter if there is more than 1 letter', async () => {
+      const mockResponse = {
+        data: [
+          // missing receivedAt defaults receivedAt to 0
+          {
+            attributes: {
+              documentId: '999',
+            },
+          },
+          {
+            attributes: {
+              documentId: '123',
+              receivedAt: '2022-01-01',
+            },
+          },
+          // missing receivedAt defaults receivedAt to 0
+          {
+            attributes: {
+              documentId: '111',
+            },
+          },
+          {
+            attributes: {
+              documentId: '456',
+              receivedAt: '2023-01-01',
+            },
+          },
+          {
+            attributes: {
+              documentId: '789',
+              receivedAt: '2024-01-01',
+            },
+          },
+        ],
+      };
+      apiRequestStub.resolves(mockResponse);
+      const componentRef = React.createRef();
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        ref: componentRef,
+        tsaSafeTravelLetter: true,
+      };
+      render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      await waitFor(() => {
+        const instance = componentRef.current;
+        expect(instance.state.tsaLetter).to.exist;
+        expect(instance.state.tsaLetter.attributes.documentId).to.equal('789');
+        expect(instance.state.tsaLetter.attributes.receivedAt).to.equal(
+          '2024-01-01',
+        );
+      });
+    });
   });
 
   it('records user is eligible for TSA letter', async () => {
