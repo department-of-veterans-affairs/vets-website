@@ -20,7 +20,21 @@
         "serviceBranch" : "NAVY",
         "activeDutyFrom" : "2001-02-02",
         "activeDutyTo" : "2010-10-10",
-        "activeDutySeparation" : "Hoboken, NJ"
+        "activeDutySeparation" : "Hoboken, NJ",
+        "nationalGuardActivation" : "1999-10-10",
+        "nationalGuardUnit" : "Soldiers without guns",
+        "nationalGuardPhone" : "212-555-1212",
+        "nationalGuardCountry" : "USA",
+        "nationalGuardStreet" : "14 Guard Way",
+        "nationalGuardStreet2" : "Apartment 5",
+        "nationalGuardCity" : "Wehoken",
+        "nationalGuardState" : "MI",
+        "nationalGuardZip" : "48007",
+        "otherNameFirstName" : "Tommy",
+        "otherNameMiddleName" : "W",
+        "otherNameLastName" : "Other",
+        "POWStart" : "1993-03-03",
+        "POWEnd" : "1994-04-04"
       },
       "spouseData" : {
         "first_name": "Sally",
@@ -44,7 +58,24 @@
         "marriagePlace" : "Dowton Abbey",
         "marriageEndPlace" : "NowheresVille",
         "marriageType" : "OTHER_WAY",
-        "marriageTypeOther" : "None of your Business"
+        "marriageTypeOther" : "None of your Business",
+        "marriageSeparationReason" : "Just didn not work",
+        "marriageSeparationStart" : "2009-09-09",
+        "marriageSeparationEnd" : "2010-10-10",
+        "marriageSeparationCourtOrder" : "Y",
+        "remarriageEndReason" : "DIVORCE",
+        "remarriageDateStart" : "2015-05-05",
+        "previousSpouseFirstName" : "Jim",
+        "previousSpouseMiddleName" : "Joe",
+        "previousSpouseLastName" : "Jones",
+        "previousMarriageDate" : "2009-09-09",
+        "previousMarriageCity" : "Someplace",
+        "previousMarriageState" : "AK",
+        "previousMarriageEndReason" : "OTHER",
+        "previousMarriageEndReasonDetails" : "None of your business",
+        "previousMarriageEndDate" : "2009-09-09",
+        "previousMarriageEndCity" : "Someplace",
+        "previousMarriageEndState" : "AK"
       }
     }
   },
