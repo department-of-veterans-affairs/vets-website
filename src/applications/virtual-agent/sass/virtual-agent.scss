@@ -142,7 +142,7 @@ div.ac-container[style*="rgb(255, 226, 178)"] {
 // Visually indicate when the WebChat send box is disabled (e.g., expired session)
 .webchat__send-box-text-box__input[aria-disabled="true"],
 .webchat__send-box-text-box__input[disabled] {
-  background-color: rgb(229, 229, 229);
+  background-color: $color-gray-lighter;
   cursor: not-allowed;
 }
 
