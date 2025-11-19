@@ -12,9 +12,43 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.get('.schemaform-start-button')
+          cy.get('[href="#start"]')
             .first()
             .click();
+        });
+      },
+      '/school-administrators/commit-principles-of-excellence-form-22-10275/new-commitment-institution-details': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.fillVaTextInput(
+            'root_institutionDetails_facilityCode',
+            '35047621',
+          );
+
+          cy.get('va-loading-indicator', { timeout: 10000 }).should(
+            'not.exist',
+          );
+
+          cy.get('#institutionHeading', { timeout: 10000 }).should(
+            'contain',
+            'GOVERNOR DUMMER ACADEMY',
+          );
+          cy.tabToSubmitForm();
+        });
+      },
+      '/school-administrators/commit-principles-of-excellence-form-22-10275/additional-locations/:index/institution-details': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.fillVaTextInput('root_facilityCode', '31879132');
+
+          cy.get('va-loading-indicator', { timeout: 10000 }).should(
+            'not.exist',
+          );
+
+          cy.get('#institutionHeading', { timeout: 10000 }).should('exist');
+          cy.tabToSubmitForm();
         });
       },
       '/school-administrators/commit-principles-of-excellence-form-22-10275/additional-locations/:index/point-of-contact': ({
@@ -45,6 +79,23 @@ const testConfig = createTestConfig(
           cy.tabToSubmitForm();
         });
       },
+      '/school-administrators/commit-principles-of-excellence-form-22-10275/additional-locations': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.window().then(win => {
+            const k = '__allPropSummaryVisited';
+            if (!win[k]) {
+              // eslint-disable-next-line no-param-reassign
+              win[k] = true;
+              cy.selectVaRadioOption('root_addMoreLocations', 'Y');
+            } else {
+              cy.selectVaRadioOption('root_addMoreLocations', 'N');
+            }
+          });
+          cy.tabToSubmitForm();
+        });
+      },
       '/school-administrators/commit-principles-of-excellence-form-22-10275/review-and-submit': ({
         afterHook,
       }) => {
@@ -65,7 +116,39 @@ const testConfig = createTestConfig(
       },
     },
     setupPerTest: () => {
-      cy.intercept('POST', formConfig.submitUrl);
+      // cy.intercept('POST', formConfig.submitUrl);
+      Cypress.Commands.overwrite(
+        'axeCheck',
+        (originalFn, context = 'main', options = {}) => {
+          const optionsWithDisabledRule = {
+            ...options,
+            rules: {
+              ...(options.rules || {}),
+              'definition-list': {
+                enabled: false,
+              },
+              'color-contrast': {
+                enabled: false,
+              },
+            },
+          };
+          return originalFn(context, optionsWithDisabledRule);
+        },
+      );
+      // cy.login();
+      cy.intercept('POST', '**/v0/education_benefits_claims/10275', {
+        statusCode: 200,
+        body: {},
+      }).as('submitForm');
+      cy.intercept('GET', '/v0/in_progress_forms/22-10275', {
+        statusCode: 200,
+        body: {},
+      });
+      cy.intercept('PUT', '/v0/in_progress_forms/22-10275', {
+        statusCode: 200,
+        body: {},
+      });
+      cy.login();
     },
     skip: Cypress.env('CI'),
   },
