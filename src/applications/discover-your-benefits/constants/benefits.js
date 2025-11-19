@@ -45,6 +45,11 @@ export const goalTypeLabels = Object.freeze({
   PLAN: "Plan for my and my family's future",
 });
 
+export const WHEN_TO_APPLY = Object.freeze({
+  BEFORE_SEPARATION: 'beforeSeparation',
+  AFTER_SEPARATION: 'afterSeparation',
+});
+
 export const timeServedLabels = Object.freeze({
   UP_TO_3_MONTHS: '0 to 3 months',
   UP_TO_6_MONTHS: '4 to 6 months',
@@ -186,6 +191,7 @@ export const BENEFITS_LIST = [
     description:
       "If you're a Veteran and you meet certain requirements, GI Bill benefits can help you pay for school and cover expenses while you’re training for a job.",
     isTimeSensitive: false,
+    whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.SCHOOL],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
