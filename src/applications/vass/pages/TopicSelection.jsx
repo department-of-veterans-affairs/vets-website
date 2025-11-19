@@ -32,10 +32,7 @@ const TopicSelection = () => {
     navigate('/review');
   };
   return (
-    <Wrapper
-      pageTitle="What topic would you like to talk about?"
-      showBackButton
-    >
+    <Wrapper pageTitle="What topic would you like to talk about?" showBackLink>
       <va-checkbox-group
         required
         data-testid="topic-checkbox-group"

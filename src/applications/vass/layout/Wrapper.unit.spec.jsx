@@ -90,9 +90,9 @@ describe('VASS Component: Wrapper', () => {
     expect(screen.getByTestId('test-wrapper')).to.exist;
   });
 
-  it('should render back button when showBackButton is true', () => {
+  it('should render back button when showBackLink is true', () => {
     const screen = renderWithStoreAndRouter(
-      <Wrapper showBackButton>
+      <Wrapper showBackLink>
         <div>Content</div>
       </Wrapper>,
       {

@@ -5,7 +5,7 @@ const DateTimeSelection = () => {
   return (
     <Wrapper
       pageTitle="What date and time do you want for this appointment?"
-      showBackButton
+      showBackLink
     >
       <va-link
         href="/service-member/benefits/solid-start/schedule/topic-selection"

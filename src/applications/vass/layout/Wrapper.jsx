@@ -13,7 +13,7 @@ const Wrapper = props => {
     pageTitle,
     className = '',
     testID,
-    showBackButton = false,
+    showBackLink = false,
   } = props;
 
   const navigate = useNavigate();
@@ -25,13 +25,13 @@ const Wrapper = props => {
   return (
     <div
       className={classNames(`vads-l-grid-container`, {
-        'vads-u-padding-y--3': !showBackButton,
-        'vads-u-padding-top--2 vads-u-padding-bottom--3': showBackButton, // Make the spacing consistent when showBackButton is true
+        'vads-u-padding-y--3': !showBackLink,
+        'vads-u-padding-top--2 vads-u-padding-bottom--3': showBackLink, // Make the spacing consistent when showBackLink is true
         [className]: className,
       })}
       data-testid={testID}
     >
-      {showBackButton && (
+      {showBackLink && (
         <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--0">
           <nav aria-label="backlink">
             <va-link
@@ -65,6 +65,6 @@ Wrapper.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   pageTitle: PropTypes.string,
-  showBackButton: PropTypes.bool,
+  showBackLink: PropTypes.bool,
   testID: PropTypes.string,
 };
