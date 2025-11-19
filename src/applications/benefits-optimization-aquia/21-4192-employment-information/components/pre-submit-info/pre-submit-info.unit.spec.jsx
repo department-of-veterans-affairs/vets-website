@@ -51,11 +51,36 @@ describe('PreSubmitInfo Component', () => {
       expect(isSignatureValid(' John Doe ')).to.be.true;
     });
 
-    it('should handle special characters in names', () => {
+    it('should accept valid special characters in names', () => {
       expect(isSignatureValid("O'Brien")).to.be.true;
       expect(isSignatureValid('Smith-Jones')).to.be.true;
-      expect(isSignatureValid('José')).to.be.true;
       expect(isSignatureValid("Mary-Jane O'Connor")).to.be.true;
+      expect(isSignatureValid('John Jr.')).to.be.true;
+      expect(isSignatureValid('Dr. Smith')).to.be.true;
+    });
+
+    it('should accept international and accented characters', () => {
+      expect(isSignatureValid('José García')).to.be.true;
+      expect(isSignatureValid('François Müller')).to.be.true;
+      expect(isSignatureValid('María López')).to.be.true;
+      expect(isSignatureValid('Søren Ødegård')).to.be.true;
+      expect(isSignatureValid('Nguyễn Văn')).to.be.true;
+    });
+
+    it('should reject names with numbers', () => {
+      expect(isSignatureValid('John123')).to.be.false;
+      expect(isSignatureValid('123 Main')).to.be.false;
+      expect(isSignatureValid('Test User 2')).to.be.false;
+      expect(isSignatureValid('Jane Doe 3rd')).to.be.false;
+    });
+
+    it('should reject names with invalid special characters', () => {
+      expect(isSignatureValid('John@Smith')).to.be.false;
+      expect(isSignatureValid('Jane#Doe')).to.be.false;
+      expect(isSignatureValid('Test$User')).to.be.false;
+      expect(isSignatureValid('Name (Nickname)')).to.be.false;
+      expect(isSignatureValid('User!!')).to.be.false;
+      expect(isSignatureValid('Name&Name')).to.be.false;
     });
 
     it('should handle very long signatures', () => {
@@ -65,22 +90,29 @@ describe('PreSubmitInfo Component', () => {
   });
 
   describe('Validation Logic - No Name Matching', () => {
-    it('should validate signatures with 3+ characters regardless of content', () => {
+    it('should validate signatures with valid characters regardless of specific name', () => {
       // Test various names that would NOT match a typical veteran name
+      // All use valid characters (letters, spaces, hyphens, apostrophes, periods)
       const testSignatures = [
         'Bob',
         'Jane Doe',
         'Random Name',
         'Completely Different Person',
-        'Test User 123',
         "O'Brien-Smith",
         'X Y Z',
+        'Dr. Anonymous',
       ];
 
       testSignatures.forEach(signature => {
         expect(isSignatureValid(signature), `Should accept: "${signature}"`).to
           .be.true;
       });
+    });
+
+    it('should reject signatures with invalid characters even if length is valid', () => {
+      expect(isSignatureValid('Test User 123')).to.be.false; // Has numbers
+      expect(isSignatureValid('John@Doe')).to.be.false; // Has special char
+      expect(isSignatureValid('abc123')).to.be.false; // Has numbers
     });
 
     it('should reject signatures shorter than 3 characters', () => {
@@ -90,8 +122,8 @@ describe('PreSubmitInfo Component', () => {
     });
 
     it('should not perform any name comparison logic', () => {
-      // The validation function only checks length, not content
-      // This test documents that ANY string >=3 chars is valid
+      // The validation function checks character types and length, not specific names
+      // Any valid name format is accepted regardless of veteran's actual name
       const veteranName = 'John Smith';
       const differentName = 'Jane Doe';
 
@@ -99,10 +131,13 @@ describe('PreSubmitInfo Component', () => {
       expect(isSignatureValid(veteranName)).to.be.true;
       expect(isSignatureValid(differentName)).to.be.true;
 
-      // Even gibberish is valid if >= 3 chars
+      // Valid letter combinations are accepted
       expect(isSignatureValid('abc')).to.be.true;
-      expect(isSignatureValid('123')).to.be.true;
-      expect(isSignatureValid('!!!')).to.be.true;
+      expect(isSignatureValid('XYZ')).to.be.true;
+
+      // But invalid characters are rejected
+      expect(isSignatureValid('123')).to.be.false;
+      expect(isSignatureValid('!!!')).to.be.false;
     });
 
     it('should accept names that do NOT match typical veteran names', () => {

@@ -83,8 +83,9 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
-  // Custom PreSubmitInfo component disables signature name validation
-  // Accepts any signature input (minimum 3 characters) instead of requiring
+  // Custom PreSubmitInfo component disables signature name matching validation
+  // Validates basic name format (letters including accented/international characters,
+  // spaces, hyphens, apostrophes, periods) but does NOT require exact match to veteran's name
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,
   },

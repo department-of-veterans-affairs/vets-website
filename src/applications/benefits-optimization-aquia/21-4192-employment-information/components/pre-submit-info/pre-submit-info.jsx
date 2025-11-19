@@ -12,20 +12,34 @@ import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js
 /**
  * Validates signature input
  * Requires at least 3 non-whitespace characters
+ * Allows letters (including accented/international characters), spaces, hyphens, apostrophes, and periods
+ * Does not allow numbers or invalid special characters
  *
  * @param {string} signatureValue - The signature input value
  * @returns {boolean} - True if valid, false otherwise
  */
 export const isSignatureValid = signatureValue => {
   if (!signatureValue) return false;
-  return signatureValue.trim().length > 2;
+
+  const trimmed = signatureValue.trim();
+  if (trimmed.length < 3) return false;
+
+  // Allow letters (including Unicode/accented characters), spaces, hyphens, apostrophes, and periods
+  // \p{L} matches any Unicode letter including é, ñ, ü, etc.
+  // This supports names like "José García", "Mary-Jane O'Connor Jr.", "François Müller"
+  // Note: Hyphen at end of character class to be literal, not a range
+  const namePattern = /^[\p{L}\s'.-]+$/u;
+  return namePattern.test(trimmed);
 };
 
 /**
  * PreSubmitInfo component for VA Form 21-4192
  * Displays statement of truth with signature input and certification checkbox
  * Note: This component does NOT validate the signature against the veteran's name
- * It only checks that the signature is at least 3 characters long
+ * It validates that the signature:
+ * - Is at least 3 characters long
+ * - Contains only letters (including accented/international characters), spaces, hyphens, apostrophes, and periods
+ * - Does not contain numbers or invalid special characters
  *
  * @component
  * @param {Object} props - Component properties
@@ -92,7 +106,7 @@ const PreSubmitInfo = ({
   const signatureError =
     (showError || signatureBlurred) &&
     !isSignatureValid(formData?.statementOfTruthSignature)
-      ? 'Please enter a name (at least 3 characters)'
+      ? 'Please enter a valid name using only letters (including accented characters), spaces, hyphens, apostrophes, and periods (at least 3 characters)'
       : undefined;
 
   const checkboxError =
