@@ -154,6 +154,38 @@ export const SearchForm = props => {
     onSubmit();
   };
 
+  // Sync draft state when Redux updates from external sources
+  // (geolocation, URL params, browser back button)
+  useEffect(
+    () => {
+      // Only sync searchString (geolocation updates this)
+      if (currentQuery.searchString !== draftFormState.searchString) {
+        setDraftFormState(prev => ({
+          ...prev,
+          searchString: currentQuery.searchString || '',
+        }));
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [currentQuery.searchString],
+  );
+
+  // Sync all fields on URL parameter changes (browser back/forward)
+  useEffect(
+    () => {
+      if (props.location?.search) {
+        setDraftFormState({
+          facilityType: currentQuery.facilityType || null,
+          serviceType: currentQuery.serviceType || null,
+          searchString: currentQuery.searchString || '',
+          vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
+        });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.location?.search],
+  );
+
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
     recordEvent({
