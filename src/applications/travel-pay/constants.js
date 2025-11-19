@@ -172,8 +172,19 @@ export const STATUS_GROUPINGS = [
   },
 ];
 
+export const EXPENSE_TYPE_KEYS = Object.freeze({
+  AIRTRAVEL: 'Airtravel',
+  MEAL: 'Meal',
+  COMMONCARRIER: 'Commoncarrier',
+  LODGING: 'Lodging',
+  MILEAGE: 'Mileage',
+  PARKING: 'Parking',
+  TOLL: 'Toll',
+  OTHER: 'Other',
+});
+
 export const EXPENSE_TYPES = Object.freeze({
-  Mileage: {
+  [EXPENSE_TYPE_KEYS.MILEAGE]: {
     addButtonText: 'mileage',
     expensePageText: 'mileage',
     name: 'mileage',
@@ -181,7 +192,7 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'mileage',
     apiRoute: 'mileage',
   },
-  Parking: {
+  [EXPENSE_TYPE_KEYS.PARKING]: {
     addButtonText: 'parking',
     expensePageText: 'parking',
     name: 'parking',
@@ -189,7 +200,7 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'parking',
     apiRoute: 'parking',
   },
-  Toll: {
+  [EXPENSE_TYPE_KEYS.TOLL]: {
     addButtonText: 'toll',
     expensePageText: 'toll',
     name: 'toll',
@@ -197,7 +208,7 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'toll',
     apiRoute: 'toll',
   },
-  Commoncarrier: {
+  [EXPENSE_TYPE_KEYS.COMMONCARRIER]: {
     addButtonText: 'public transportation, taxi, or rideshare',
     expensePageText: 'public transportation, taxi, or rideshare',
     name: 'common carrier',
@@ -205,7 +216,7 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'common-carrier',
     apiRoute: 'commoncarrier',
   },
-  Airtravel: {
+  [EXPENSE_TYPE_KEYS.AIRTRAVEL]: {
     addButtonText: 'air travel',
     expensePageText: 'airfare',
     name: 'air travel',
@@ -213,7 +224,7 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'air-travel',
     apiRoute: 'airtravel',
   },
-  Lodging: {
+  [EXPENSE_TYPE_KEYS.LODGING]: {
     addButtonText: 'lodging',
     expensePageText: 'lodging',
     name: 'lodging',
@@ -221,7 +232,7 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'lodging',
     apiRoute: 'lodging',
   },
-  Meal: {
+  [EXPENSE_TYPE_KEYS.MEAL]: {
     addButtonText: 'meal',
     expensePageText: 'meal',
     name: 'meal',
@@ -229,7 +240,7 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'meal',
     apiRoute: 'meal',
   },
-  Other: {
+  [EXPENSE_TYPE_KEYS.OTHER]: {
     addButtonText: 'travel',
     expensePageText: 'other travel',
     name: 'other',
