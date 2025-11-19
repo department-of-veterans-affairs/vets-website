@@ -372,23 +372,10 @@ export function uploadFile(
                 )(dispatch, getState);
               },
             );
-            return;
           }
         } catch (e) {
           // Parsing failed, fall through to show error
         }
-
-        // Show error to user
-        const fileObj = { file, name: file.name, size: file.size };
-        const errorMessage = errorResponse?.errors || req.statusText;
-
-        if (password) {
-          onChange({ ...fileObj, errorMessage, isEncrypted: true });
-        } else {
-          onChange({ ...fileObj, errorMessage });
-        }
-        Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);
-        onError();
       } else {
         const fileObj = { file, name: file.name, size: file.size };
         let errorMessage = req.statusText;
