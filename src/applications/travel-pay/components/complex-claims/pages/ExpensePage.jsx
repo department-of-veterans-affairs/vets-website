@@ -361,7 +361,6 @@ const ExpensePage = () => {
         onBack={handleBack}
         onContinue={handleContinue}
         loading={isLoadingExpense}
-        showContinueButtonArrows
       />
     </>
   );

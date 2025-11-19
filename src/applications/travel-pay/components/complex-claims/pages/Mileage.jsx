@@ -202,7 +202,6 @@ const Mileage = () => {
         onBack={handleBack}
         onContinue={handleContinue}
         loading={isLoadingExpense}
-        showContinueButtonArrows
       />
     </>
   );
