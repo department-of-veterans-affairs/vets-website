@@ -40,6 +40,10 @@ export class LetterList extends React.Component {
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
     const hasTsaLetter = Boolean(this.props.tsaLetterEligibility?.documentId);
+    const isDeterminingTsaEligibility =
+      this.props.tsaSafeTravelLetter &&
+      this.props.tsaLetterEligibility?.loading;
+
     const letterItems = (this.props.letters || []).map((letter, index) => {
       if (!this.accordionRefs[index]) {
         this.accordionRefs[index] = React.createRef();
@@ -126,6 +130,9 @@ export class LetterList extends React.Component {
               />
             )}
           </va-accordion>
+        )}
+        {isDeterminingTsaEligibility && (
+          <va-loading-indicator message="Determining TSA letter eligibility..." />
         )}
         <Toggler toggleName={Toggler.TOGGLE_NAMES.emptyStateBenefitLetters}>
           <Toggler.Enabled>

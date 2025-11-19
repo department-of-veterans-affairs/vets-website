@@ -396,5 +396,30 @@ describe('<LetterList>', () => {
       );
       expect(errorHeading).to.exist;
     });
+
+    it('renders loading indicator when determining TSA letter eligibility', async () => {
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          error: false,
+          loading: true,
+        },
+        tsaSafeTravelLetter: true,
+      };
+      const { container } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      const selector = container.querySelector('va-loading-indicator');
+      expect(selector).to.exist;
+      expect(selector).to.contain.attr(
+        'message',
+        'Determining TSA letter eligibility...',
+      );
+    });
   });
 });
