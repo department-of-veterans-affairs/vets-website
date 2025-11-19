@@ -56,7 +56,7 @@ export const Nav = () => {
 
         <div className="heading-right">
           <Link
-            to="/get-help"
+            to="/help"
             className={`usa-button-secondary heading-help-link  ${
               profile ? 'logged-in' : ''
             }`}

@@ -142,7 +142,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
       );
       await waitFor(() => {
         getByTestId('profile-alert--confirm-contact-email');
-        getByRole('heading', { name: /^Confirm your contact email$/ });
+        getByRole('heading', { name: /Confirm your contact email$/ });
 
         const buttonPair = container.querySelector('va-button-pair');
         expect(buttonPair).to.exist;
@@ -336,7 +336,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
       );
       await waitFor(() => {
         getByTestId('profile-alert--add-contact-email');
-        getByRole('heading', { name: /^Add a contact email$/ });
+        getByRole('heading', { name: /Add a contact email$/ });
 
         const buttonPair = container.querySelector('va-button-pair');
         expect(buttonPair).to.exist;

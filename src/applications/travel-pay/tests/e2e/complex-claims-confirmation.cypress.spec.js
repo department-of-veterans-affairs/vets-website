@@ -97,10 +97,10 @@ describe('Complex Claims Confirmation Page', () => {
 
     // Check second process item
     cy.get(
-      'va-process-list-item[header*="receive reimbursement via direct deposit"]',
+      'va-process-list-item[header*="If we approve your claim, we’ll send your pay through direct deposit"]',
     ).should('be.visible');
     cy.get(
-      'va-process-list-item[header*="receive reimbursement via direct deposit"]',
+      'va-process-list-item[header*="If we approve your claim, we’ll send your pay through direct deposit"]',
     ).should('contain.text', 'You must have direct deposit set up');
 
     // Check travel pay claims status link
@@ -110,7 +110,7 @@ describe('Complex Claims Confirmation Page', () => {
 
     // Check direct deposit setup link
     cy.get(
-      'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Set up direct deposit"]',
+      'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Set up direct deposit for travel pay"]',
     ).should('be.visible');
   });
 
@@ -121,7 +121,7 @@ describe('Complex Claims Confirmation Page', () => {
 
     // Check link action for submitting another claim
     cy.get(
-      'va-link-action[text="View your appointments to submit another travel reimbursement claim"][href="/my-health/appointments/past"]',
+      'va-link-action[text="Review your appointments to submit another travel reimbursement claim"][href="/my-health/appointments/past"]',
     ).should('be.visible');
   });
 

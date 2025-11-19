@@ -22,7 +22,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
   );
 
   const header =
-    expense.expenseType === 'Mileage'
+    expense.expenseType === EXPENSE_TYPES.Mileage.title
       ? 'Mileage expense'
       : `${formatDate(expense.dateIncurred)}, ${currency(
           expense.costRequested,
@@ -51,7 +51,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
           </div>
         ) : (
           <>
-            {expenseType === 'Mileage' && (
+            {expenseType === EXPENSE_TYPES.Mileage.title && (
               <ExpenseCardDetails
                 items={[
                   {

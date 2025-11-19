@@ -248,8 +248,7 @@ export const TRANSPORTATION_OPTIONS = Object.freeze([
 
 export const TRANSPORTATION_REASONS = Object.freeze({
   PrivatelyOwnedVehicleNotAvailable: {
-    label:
-      "I don't own a private vehicle, or it wasn't available when I needed it",
+    label: "I don't own a private vehicle or it wasn't available",
   },
   MedicallyIndicated: {
     label: 'Medical reasons',
@@ -260,15 +259,15 @@ export const TRANSPORTATION_REASONS = Object.freeze({
 });
 
 export const TRIP_TYPES = Object.freeze({
-  ONE_WAY: {
-    value: 'one-way',
-    label: 'One way',
-    key: 'OneWay',
-  },
   ROUND_TRIP: {
     value: 'round-trip',
     label: 'Round trip',
     key: 'RoundTrip',
+  },
+  ONE_WAY: {
+    value: 'one-way',
+    label: 'One way',
+    key: 'OneWay',
   },
 });
 

@@ -28,7 +28,7 @@ const RepresentationLink = () => (
   </>
 );
 
-const GetHelpPage = title => {
+const HelpPage = title => {
   const { hash } = useLocation();
 
   useEffect(
@@ -69,7 +69,7 @@ const GetHelpPage = title => {
           </p>
           <va-on-this-page />
 
-          <h2 id="overview">Overview of the portal</h2>
+          <h2 id="overview-of-the-portal">Overview of the portal</h2>
 
           <p>
             The Accredited Representative Portal is a secure online tool for
@@ -587,4 +587,4 @@ const GetHelpPage = title => {
   /* eslint-enable no-irregular-whitespace */
 };
 
-export default GetHelpPage;
+export default HelpPage;

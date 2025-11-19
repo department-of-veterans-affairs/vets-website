@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormNavButtons, SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollAndFocus } from 'platform/utilities/scroll';
-import { getAlert, getFormNumber, onClickContinue } from '../helpers';
+import { getFormNumber, onClickContinue } from '../helpers';
 
 export const CustomTopContent = () => {
   const formNumber = getFormNumber();
@@ -45,7 +45,6 @@ export const CustomAlertPage = props => {
 
   return (
     <div className="form-panel">
-      {props.name === 'uploadPage' && getAlert(props, continueClicked)}
       <SchemaForm {...props}>
         <>
           {props.contentBeforeButtons}
@@ -66,6 +65,5 @@ CustomAlertPage.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   goBack: PropTypes.func,
-  name: PropTypes.string,
   onContinue: PropTypes.func,
 };

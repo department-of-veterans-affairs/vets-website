@@ -1,6 +1,17 @@
 import { expect } from 'chai';
 import formConfig from '../../config/form';
 
+it('should have the correct settings for claimantOther', () => {
+  const { claimantInformation } = formConfig.chapters;
+  const { pages } = claimantInformation;
+  const { claimantOther } = pages;
+  const validClaimant = { claimantRelationship: 'SPOUSE' };
+  const invalidClaimant = { claimantRelationship: 'OTHER' };
+
+  expect(claimantOther.depends(validClaimant)).to.be.false;
+  expect(claimantOther.depends(invalidClaimant)).to.be.true;
+});
+
 it('should have the correct setting for financialInformation', () => {
   const { financialInformation } = formConfig.chapters;
   const { pages } = financialInformation;

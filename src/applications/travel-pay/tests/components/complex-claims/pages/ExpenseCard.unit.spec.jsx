@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, waitFor, within } from '@testing-library/react';
 import { expect } from 'chai';
 import {
   MemoryRouter,
@@ -119,13 +119,22 @@ describe('ExpenseCard', () => {
   });
 
   it('renders non-mileage expense correctly', () => {
-    const { getByText } = renderExpenseCard(defaultNonMileageExpense);
+    const { getByTestId } = renderExpenseCard(defaultNonMileageExpense);
 
-    expect(getByText('October 15, 2023, $15.00')).to.exist;
-    expect(getByText('Description')).to.exist;
-    expect(getByText('Parking at hospital')).to.exist;
-    expect(getByText('File name')).to.exist;
-    expect(getByText('test.pdf')).to.exist;
+    const card = getByTestId('expense-card-expense2');
+
+    // Check the header text inside the card
+    expect(
+      within(card).getByRole('heading', { name: 'October 15, 2023, $15.00' }),
+    ).to.exist;
+
+    // Check description section
+    expect(within(card).getByText('Description')).to.exist;
+    expect(within(card).getByText('Parking at hospital')).to.exist;
+
+    // Check file name section
+    expect(within(card).getByText('File name')).to.exist;
+    expect(within(card).getByText('test.pdf')).to.exist;
   });
 
   it('renders correctly with empty address lines', () => {
