@@ -1,17 +1,19 @@
 import React from 'react';
-import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
+import DateTime from './DateTime';
+import AddToCalendarButton from './AddToCalendarButton';
 
 export default function CardSection({
   dateContent,
   textContent,
   heading,
   level = 2,
+  ...props
 }) {
   const Heading = `h${level}`;
 
   return (
-    <>
+    <div {...props}>
       <Heading className="vads-u-font-size--h4 vads-u-margin-bottom--0p5">
         {heading}
       </Heading>
@@ -22,25 +24,11 @@ export default function CardSection({
       )}
       {dateContent && (
         <>
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            {' '}
-            {formatInTimeZone(
-              dateContent.date,
-              dateContent.timezone,
-              'EEEE, MMMM d, yyyy',
-            )}{' '}
-          </p>
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            {formatInTimeZone(
-              dateContent.date,
-              dateContent.timezone,
-              'h:mm aaaa',
-            )}{' '}
-            {formatInTimeZone(dateContent.date, dateContent.timezone, 'z')}
-          </p>
+          <DateTime dateTime={dateContent.dateTime} />
+          <AddToCalendarButton appointment={dateContent} />
         </>
       )}
-    </>
+    </div>
   );
 }
 
