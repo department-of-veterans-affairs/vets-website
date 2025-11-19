@@ -293,7 +293,6 @@ const transformForSubmit = (formConfig, form, options) => {
     dateOfBirth: formatDate(veteran.dateOfBirth),
     veteranAddress: mapAddress(veteran.address),
     veteranServiceNumber: trimString(veteran.veteranServiceNumber),
-    veteranServiceNumer: trimString(veteran.veteranServiceNumber),
     veteranContact: mapContact(veteran),
     employmentStatus: buildEmploymentStatus(hasEmployment, submissionDate),
     signatureSection1: clean({
