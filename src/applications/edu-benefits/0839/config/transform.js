@@ -1,19 +1,20 @@
 import { cloneDeep } from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
-const institutionDetailsMock = [
-  {
-    institutionName: 'test',
-    facilityCode: '12345678',
-    isForeignCountry: false,
-    institutionAddress: {
-      street: '123 Main St',
-      city: 'Anytown',
-      state: 'CA',
-      postalCode: '12345',
-      country: 'USA',
-    },
+const institutionDetailsMock = {
+  institutionName: 'test',
+  facilityCode: '12345678',
+  isForeignCountry: false,
+  institutionAddress: {
+    street: '123 Main St',
+    city: 'Anytown',
+    state: 'CA',
+    postalCode: '12345',
+    country: 'USA',
   },
+};
+
+const additionalInstitutionDetailsMock = [
   {
     institutionName: 'test',
     facilityCode: '12345678',
@@ -70,23 +71,30 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
-  // Mock institution details
   const institutionDetailsTransform = formData => {
     const clonedData = cloneDeep(formData);
+    clonedData.institutionDetails = [
+      institutionDetailsMock,
+      ...additionalInstitutionDetailsMock,
+    ];
 
-    clonedData.institutionDetails = institutionDetailsMock;
-    if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
-      clonedData.withdrawFromYellowRibbonProgram = institutionDetailsMock;
-    }
-
-    // // verify path with live data
+    // // TODO: verify with live data
     // clonedData.institutionDetails = [formData.institutionDetails, ...formData.additionalInstitutionDetails];
+
+    if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
+      clonedData.withdrawFromYellowRibbonProgram = [
+        institutionDetailsMock,
+        ...additionalInstitutionDetailsMock,
+      ];
+    }
 
     return clonedData;
   };
 
   const yellowRibbonProgramRequestTransform = formData => {
     const clonedData = cloneDeep(formData);
+
+    // TODO: verify logic with live institutionDetails (depends on foreign status)
 
     clonedData.yellowRibbonProgramAgreementRequest = formData.yellowRibbonProgramRequest.map(
       request => {
@@ -96,13 +104,40 @@ export default function transform(formConfig, form) {
           to: `${yearRange[1]}-XX-XX`,
         };
 
-        delete request.academicYearDisplay;
+        const maximumNumberOfStudents =
+          request.maximumStudentsOption === 'unlimited'
+            ? 1000000
+            : Number(request.maximumStudents);
+        request.maximumNumberOfStudents = maximumNumberOfStudents;
 
-        // eligibleIndividuals
-        // maximumNumberofStudents
-        // degreeLevel
-        // currencyType
-        // maximumContributionAmount
+        const maximumContributionAmount =
+          request.maximumContributionAmount === 'unlimited'
+            ? 99999
+            : Number(request.specificContributionAmount);
+        request.maximumContributionAmount = maximumContributionAmount;
+
+        request.currencyType = request.schoolCurrency;
+
+        request.degreeProgram = request.collegeOrProfessionalSchool;
+
+        // TODO: verify logic around degreeLevel transform
+        // -- how to handle something other than undergraduate, graduate, or doctoral? No validation in UI
+        if (
+          request.degreeLevel !== 'undergraduate' ||
+          request.degreeLevel !== 'graduate' ||
+          request.degreeLevel !== 'doctoral'
+        ) {
+          request.degreeLevel = 'all';
+        }
+
+        // TODO: eligibleIndividuals -- where is this coming from?
+
+        delete request.academicYearDisplay;
+        delete request.maximumStudentsOption;
+        delete request.maximumStudents;
+        delete request.specificContributionAmount;
+        delete request.schoolCurrency;
+        delete request.collegeOrProfessionalSchool;
 
         return request;
       },
