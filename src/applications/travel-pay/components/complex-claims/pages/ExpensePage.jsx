@@ -258,7 +258,7 @@ const ExpensePage = () => {
     ? `Upload a receipt or proof of the expense here. If youre adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`
     : `Upload a receipt or proof of the expense here. If you have multiple ${
         expenseTypeFields.expensePageText
-      } expenses, add just 1 on this page. You'll be able to add more expenses after this.`;
+      } expenses, add just 1 on this page. You’ll be able to add more expenses after this.`;
 
   const dateHintText = isLodging
     ? `Enter the date on your receipt, even if it’s the same as your check in or check out dates.`
