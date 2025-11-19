@@ -114,14 +114,16 @@ export const handleTokenRequest = async ({
   }
 };
 
-export const needsPortalNotice = ({
+export const checkPortalRequirements = ({
   isPortalNoticeInterstitialEnabled,
   userAttributes,
+  myVAHealth,
 }) => {
   const {
     vaProfile: { vaPatient = false, facilities = [] } = {},
   } = userAttributes;
-  const redirectElligible = isPortalNoticeInterstitialEnabled && vaPatient;
+  const redirectElligible =
+    isPortalNoticeInterstitialEnabled && myVAHealth && vaPatient;
 
   const activeFacilities = ['757'];
   const approvedFacilities = [
@@ -134,14 +136,14 @@ export const needsPortalNotice = ({
   ];
 
   const hasApprovedFacility = facilities.some(facility =>
-    approvedFacilities.includes(facility),
+    approvedFacilities.includes(facility.facilityId),
   );
   const hasActiveFacility = facilities.some(facility =>
-    activeFacilities.includes(facility),
+    activeFacilities.includes(facility.facilityId),
   );
 
   return {
-    needsNotice: redirectElligible && hasActiveFacility,
-    needsVaRedirect: redirectElligible && !hasApprovedFacility,
+    needsPortalNotice: redirectElligible && hasActiveFacility,
+    needsMyHealth: redirectElligible && !hasApprovedFacility,
   };
 };
