@@ -8,7 +8,6 @@ import {
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import ArrayBuilderCancelButton from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderCancelButton';
-import { focusElement } from 'platform/utilities/ui';
 import { getSelected } from '../../../shared/utils/issues';
 import { issuesContent } from '../../content/evidence/va';
 
@@ -46,39 +45,14 @@ export const issuesPage = {
  * This function creates a checkbox schema/uiSchema that includes
  * dynamic checkbox labels/values based on the contestedIssues and
  * additional issues array available in the form data.
- * @param {Array} selectedIssues - Array of issue names
- * @param {boolean} showError - Whether to show validation error
+ * @param {Object} data Full form data
  * @returns Object containing a checkboxgroup uiSchema and schema
  */
-const dynamicSchema = (selectedIssues, showError = false) => {
+const dynamicSchema = selectedIssues => {
   const labels = {};
 
   for (const issue of selectedIssues) {
     labels[issue] = issue;
-  }
-
-  const issuesUI = checkboxGroupUI({
-    title: issuesContent.label,
-    required: true,
-    labels,
-    errorMessages: {
-      required: issuesContent.requiredError,
-    },
-  });
-
-  // Add custom validation that triggers on form submission
-  if (showError) {
-    issuesUI['ui:validations'] = [
-      (errors, fieldData) => {
-        // Check if any checkboxes are selected
-        const hasSelection =
-          fieldData && Object.values(fieldData).some(val => val === true);
-
-        if (!hasSelection) {
-          errors.addError(issuesContent.requiredError);
-        }
-      },
-    ];
   }
 
   return {
@@ -89,7 +63,14 @@ const dynamicSchema = (selectedIssues, showError = false) => {
             ? `What conditions were you treated for at ${formData.name}?`
             : 'What conditions were you treated for?',
       ),
-      issues: issuesUI,
+      issues: checkboxGroupUI({
+        title: issuesContent.label,
+        required: true,
+        labels,
+        errorMessages: {
+          required: issuesContent.requiredError,
+        },
+      }),
     },
     schema: {
       type: 'object',
@@ -127,7 +108,7 @@ const Issues = props => {
     reviewRoute,
   } = arrayBuilder;
 
-  const [submitted, setSubmitted] = useState(false);
+  const [requiredError, setRequiredError] = useState(false);
 
   const selectedIssues = Object.freeze(
     getSelected(fullData).map(issue => {
@@ -139,6 +120,10 @@ const Issues = props => {
     }),
   );
 
+  const sch = dynamicSchema(selectedIssues);
+
+  console.log('sch: ', sch);
+
   const getCheckedIssues = issues => {
     if (!issues) {
       return null;
@@ -147,21 +132,24 @@ const Issues = props => {
     return Object.keys(issues).filter(key => issues[key] === true);
   };
 
+  /**
+   * Convert the issues object (like the below) into an issues array:
+   *
+   * {
+   *   Hypertension: true,
+   *   Sleep apnea: true
+   * }
+   *
+   * becomes
+   *
+   * [ 'Hypertension', 'Sleep apnea' ]
+   */
   const handleSubmit = () => {
-    setSubmitted(true);
-
     const previouslySelectedIssues = data?.issues || null;
     const issuesToStore = getCheckedIssues(previouslySelectedIssues);
 
     if (!issuesToStore?.length) {
-      // Focus the error for accessibility
-      setTimeout(() => {
-        const errorElement = document.querySelector('[error]');
-
-        if (errorElement) {
-          focusElement(errorElement);
-        }
-      }, 100);
+      setRequiredError(true);
       return;
     }
 
@@ -173,22 +161,17 @@ const Issues = props => {
     onSubmit({ formData: transformedData });
   };
 
-  const handleChange = formData => {
-    // Clear submitted flag when user makes changes
-    if (submitted) {
-      setSubmitted(false);
-    }
-
-    onChange(formData);
-  };
-
-  const sch = dynamicSchema(selectedIssues, submitted);
+  // const handleChange = e => {
+  //   const selectedIssues = getCheckedIssues(e?.issues);
+  //   console.log('selectedIssues: ', selectedIssues);
+  // };
 
   return (
     <SchemaForm
       data={data}
+      error="This is an error"
       name={name}
-      onChange={handleChange}
+      onChange={onChange}
       pagePerItemIndex={pagePerItemIndex}
       schema={sch.schema}
       title={title}
@@ -234,12 +217,12 @@ Issues.propTypes = {
   goForward: PropTypes.func,
   goToPath: PropTypes.func,
   name: PropTypes.string,
-  onChange: PropTypes.func,
-  onSubmit: PropTypes.func,
   pagePerItemIndex: PropTypes.string,
   setFormData: PropTypes.func,
   title: PropTypes.string,
   trackingPrefix: PropTypes.string,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 export default Issues;
