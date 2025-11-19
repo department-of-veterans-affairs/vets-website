@@ -47,7 +47,7 @@ const Vitals = () => {
     state => state.mr.vitals.listCurrentAsOf,
   );
 
-  const { isCerner, isAcceleratingVitals } = useAcceleratedData();
+  const { isLoading, isCerner, isAcceleratingVitals } = useAcceleratedData();
   const isLoadingAcceleratedData =
     (isCerner || isAcceleratingVitals) && listState === loadStates.FETCHING;
 
@@ -149,7 +149,7 @@ const Vitals = () => {
               }}
             />
           )}
-        {isLoadingAcceleratedData ? (
+        {isLoadingAcceleratedData || isLoading ? (
           <div className="vads-u-margin-y--8">
             <va-loading-indicator
               message="We're loading your records."
