@@ -12,7 +12,7 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import DocumentUpload from './DocumentUpload';
-import { EXPENSE_TYPES } from '../../../constants';
+import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import { createExpense, updateExpense } from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
@@ -123,7 +123,7 @@ const ExpensePage = () => {
   );
 
   const expenseTypeMatcher = new RegExp(
-    `.*(${Object.keys(EXPENSE_TYPES)
+    `.*(${Object.values(EXPENSE_TYPE_KEYS)
       .map(key => EXPENSE_TYPES[key].route)
       .join('|')}).*`,
   );
@@ -139,7 +139,7 @@ const ExpensePage = () => {
     [showError],
   );
 
-  const expenseType = Object.keys(EXPENSE_TYPES).find(
+  const expenseType = Object.values(EXPENSE_TYPE_KEYS).find(
     key => EXPENSE_TYPES[key].route === expenseTypeRoute,
   );
 
@@ -249,6 +249,21 @@ const ExpensePage = () => {
     }));
   };
 
+  const isAirTravel = expenseType === EXPENSE_TYPE_KEYS.AIRTRAVEL;
+  const isMeal = expenseType === EXPENSE_TYPE_KEYS.MEAL;
+  const isCommonCarrier = expenseType === EXPENSE_TYPE_KEYS.COMMONCARRIER;
+  const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
+
+  const pageDescription = isAirTravel
+    ? `Upload a receipt or proof of the expense here. If youre adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`
+    : `Upload a receipt or proof of the expense here. If you have multiple ${
+        expenseTypeFields.expensePageText
+      } expenses, add just 1 on this page. You’ll be able to add more expenses after this.`;
+
+  const dateHintText = isLodging
+    ? `Enter the date on your receipt, even if it’s the same as your check in or check out dates.`
+    : '';
+
   return (
     <>
       <h1>
@@ -270,32 +285,28 @@ const ExpensePage = () => {
           Please fill out all required fields before continuing.
         </p>
       )}
-      <p>
-        Upload a receipt or proof of the expense here. If you have multiple{' '}
-        {expenseTypeFields.expensePageText} expenses, add just one on this page.
-        You’ll be able to add more expenses after this.
-      </p>
+      <p>{pageDescription}</p>
       <DocumentUpload
         loading={documentLoading}
         currentDocument={document}
         handleDocumentUpload={handleDocumentUpload}
       />
-      {expenseType === 'Meal' && (
+      {isMeal && (
         <ExpenseMealFields formState={formState} onChange={handleFormChange} />
       )}
-      {expenseType === 'Lodging' && (
+      {isLodging && (
         <ExpenseLodgingFields
           formState={formState}
           onChange={handleFormChange}
         />
       )}
-      {expenseType === 'Commoncarrier' && (
+      {isCommonCarrier && (
         <ExpenseCommonCarrierFields
           formState={formState}
           onChange={handleFormChange}
         />
       )}
-      {expenseType === 'Airtravel' && (
+      {isAirTravel && (
         <ExpenseAirTravelFields
           formState={formState}
           onChange={handleFormChange}
@@ -306,6 +317,7 @@ const ExpensePage = () => {
         name="purchaseDate"
         value={formState.purchaseDate || ''}
         required
+        hint={dateHintText}
         onDateChange={handleFormChange}
       />
       <VaTextInput
