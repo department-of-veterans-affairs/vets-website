@@ -32,7 +32,7 @@ describe('<AlertConfirmContactEmailContent />', () => {
 
       // Edit link
       const link = container.querySelector(
-        'va-link[text="Edit your email address"]',
+        'va-link[text="Go to profile to update your contact email"]',
       );
       expect(link).to.exist;
       expect(link.getAttribute('href')).to.equal(

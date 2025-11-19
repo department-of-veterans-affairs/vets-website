@@ -26,7 +26,7 @@ export const AlertConfirmContactEmailContent = ({
     <p>
       <VaLink
         href="/profile/contact-information#contact-email-address"
-        text="Edit your email address"
+        text="Go to profile to update your contact email"
       />
     </p>
   </React.Fragment>
