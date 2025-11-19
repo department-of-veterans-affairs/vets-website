@@ -320,7 +320,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
               getByText(
                 `Upload a receipt or proof of the expense here. If you have multiple ${
                   config.expensePageText
-                } expenses, add just 1 on this page. You'll be able to add more expenses after this.`,
+                } expenses, add just 1 on this page. You’ll be able to add more expenses after this.`,
               ),
             ).to.exist;
           }
