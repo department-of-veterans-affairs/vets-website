@@ -66,7 +66,7 @@ const RefillPrescriptions = () => {
         result?.data?.successfulIds,
         refillableData?.prescriptions,
       ),
-    [result?.data?.successfulIds],
+    [result?.data?.successfulIds, refillableData?.prescriptions],
   );
 
   const failedMeds = useMemo(
@@ -75,7 +75,7 @@ const RefillPrescriptions = () => {
         result?.data?.failedIds,
         refillableData?.prescriptions,
       ),
-    [result?.data?.failedIds],
+    [result?.data?.failedIds, refillableData?.prescriptions],
   );
 
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
