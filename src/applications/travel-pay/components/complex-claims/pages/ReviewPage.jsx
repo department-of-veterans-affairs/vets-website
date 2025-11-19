@@ -146,7 +146,8 @@ const ReviewPage = ({ message }) => {
           </p>
           <va-link
             href="/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"
-            text="Learn more about deductibles for VA travel claims(opens in a new tab)"
+            text="Learn more about deductibles for VA travel claims"
+            external
           />
         </va-card>
       </div>

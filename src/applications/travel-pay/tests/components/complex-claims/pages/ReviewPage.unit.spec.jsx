@@ -190,16 +190,13 @@ describe('Travel Pay – ReviewPage', () => {
     ).to.exist;
 
     // SummaryBox Va link
-    expect(
-      $(
-        'va-link[href="/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"]',
-      ),
-    ).to.exist;
-    expect(
-      $(
-        'va-link[text="Learn more about deductibles for VA travel claims(opens in a new tab)"]',
-      ),
-    ).to.exist;
+    const link = container.querySelector(
+      `va-link[href="/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"]`,
+    );
+    expect(link).to.exist;
+    expect(link.getAttribute('text')).to.eq(
+      'Learn more about deductibles for VA travel claims',
+    );
   });
 
   it('calls signAgreement when Sign Agreement button is clicked', () => {
