@@ -42,20 +42,22 @@ const ChooseExpenseType = () => {
     navigate(`/file-new-claim/${apptId}`, { state: { skipRedirect: true } });
   };
 
+  const hintText = 'You can submit 1 mileage expense for this claim.';
+
   return (
     <>
       <h1 className="vads-u-margin-bottom--2">
         What type of expense do you want to add?
       </h1>
-      <p>Start with one expense. You’ll be able to add other expenses later.</p>
+      <p>Select 1 expense. You’ll be able to add other expenses later.</p>
       <p className="vads-u-margin-bottom--0">
-        To request reimbursement for airfare, lodging, and meals, you’ll need a
-        pre-approval letter.
+        We’ll need to pre-approve any airfare, lodging, or meals before you
+        request reimbursement.
       </p>
       <VaRadio
         label="Choose an expense type"
         required
-        class="vads-u-margin-top--0"
+        class="vads-u-margin-top--2"
         error={showError ? 'Please select an expense type' : null}
         onVaValueChange={event => {
           setSelectedExpenseType(event.detail.value);
@@ -68,6 +70,9 @@ const ChooseExpenseType = () => {
             key={option.route}
             label={option.title}
             value={option.route}
+            description={
+              option.name === EXPENSE_TYPES.Mileage.name ? hintText : ''
+            }
             checked={selectedExpenseType === option.route}
           />
         ))}

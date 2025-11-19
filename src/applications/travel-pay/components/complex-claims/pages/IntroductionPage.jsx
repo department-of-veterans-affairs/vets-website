@@ -73,8 +73,8 @@ const IntroductionPage = () => {
               index="1"
             >
               <p>
-                To be eligible for travel reimbursement, you’ll need to meet all
-                3 of these requirements:
+                To be eligible for travel pay, you’ll need to meet all of these
+                3 requirements:
               </p>
               <ul>
                 <li>
@@ -106,8 +106,8 @@ const IntroductionPage = () => {
             </va-process-list-item>
             <va-process-list-item header="File your claim" index="3">
               <p>
-                General health care travel reimbursement covers these expenses
-                for eligible Veterans and caregivers:
+                Travel pay covers these expenses for eligible Veterans and
+                caregivers:
               </p>
               <ul>
                 <li>

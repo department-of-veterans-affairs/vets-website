@@ -34,6 +34,9 @@ describe('ExpenseAirTravelFields', () => {
       'Where did you purchase your ticket?',
     );
     expect(vendorInput.getAttribute('value')).to.equal('');
+    expect(vendorInput.getAttribute('hint')).to.equal(
+      `Enter the company you purchased the ticket from, even if it isn't an airline.`,
+    );
 
     const tripRadio = container.querySelector('va-radio[name="tripType"]');
     expect(tripRadio).to.exist;
@@ -44,6 +47,9 @@ describe('ExpenseAirTravelFields', () => {
     );
     expect(departureDate).to.exist;
     expect(departureDate.getAttribute('value')).to.equal('');
+    expect(departureDate.getAttribute('hint')).to.equal(
+      `Enter the date on your departure ticket.`,
+    );
 
     const departedFrom = container.querySelector(
       'va-text-input[name="departedFrom"]',
@@ -54,6 +60,9 @@ describe('ExpenseAirTravelFields', () => {
     const returnDate = container.querySelector('va-date[name="returnDate"]');
     expect(returnDate).to.exist;
     expect(returnDate.getAttribute('value')).to.equal('');
+    expect(returnDate.getAttribute('hint')).to.equal(
+      `Enter the date on your return ticket. For one-way trips, leave this blank.`,
+    );
 
     const arrivedTo = container.querySelector(
       'va-text-input[name="arrivedTo"]',
