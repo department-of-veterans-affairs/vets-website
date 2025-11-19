@@ -537,7 +537,7 @@ export const FormLabels = {
 };
 
 export const RxRenewalText = {
-  LOCKED_CATEGORY_DISPLAY: 'Medication renewal request', // TODO: Pending content team confirmation
+  LOCKED_CATEGORY_DISPLAY: 'Medication renewal request',
 };
 
 export const downtimeNotificationParams = {

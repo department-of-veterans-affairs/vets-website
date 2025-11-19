@@ -2,11 +2,23 @@ import React from 'react';
 import { FormLabels, RxRenewalText } from '../../util/constants';
 
 /**
- * Displays a locked (read-only) category field during RX renewal flow.
- * Shows "Medication renewal request" in bold text with PII masking.
+ * LockedCategoryDisplay Component
+ *
+ * Displays a read-only category field for medication renewal requests.
+ * Used in ComposeForm when user is composing a prescription renewal message,
+ * preventing category selection per RX renewal business rules.
+ *
+ * The locked category displays "Medication renewal request" in bold text,
+ * replacing the standard category dropdown that appears in normal message composition.
+ *
+ * PII Masking: All display text is masked for Datadog RUM privacy protection.
  *
  * @component
- * @returns {JSX.Element} Static display of locked category
+ * @example
+ * // Rendered when renewalPrescription exists or rxError is present
+ * <LockedCategoryDisplay />
+ *
+ * @returns {JSX.Element} Static display of locked category with label and bold text
  */
 const LockedCategoryDisplay = () => {
   return (
