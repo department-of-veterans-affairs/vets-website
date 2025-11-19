@@ -250,7 +250,7 @@ export const SearchForm = props => {
   const facilityAndServiceTypeInputs = (
     <>
       <FacilityType
-        currentQuery={currentQuery}
+        currentQuery={draftFormState}
         handleFacilityTypeChange={handleFacilityTypeChange}
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
@@ -259,13 +259,16 @@ export const SearchForm = props => {
         useProgressiveDisclosure={useProgressiveDisclosure}
       />
       <ServiceType
-        currentQuery={currentQuery}
+        currentQuery={draftFormState}
         getProviderSpecialties={props.getProviderSpecialties}
         handleServiceTypeChange={handleServiceTypeChange}
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
         isTablet={isTablet}
-        onChange={onChange}
+        committedVamcServiceDisplay={currentQuery.vamcServiceDisplay}
+        onVamcDraftChange={updates => {
+          setDraftFormState({ ...draftFormState, ...updates });
+        }}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
         useProgressiveDisclosure={useProgressiveDisclosure}
