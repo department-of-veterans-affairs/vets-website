@@ -23,14 +23,19 @@ const ProcessList = () => {
           processed.
         </p>
         <p>
-          <a href="/">
+          <a href="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction">
             Application for VA Education Benefits Form 22-1990 (opens in a new
             tab)
           </a>
           , <strong>or</strong>{' '}
-          <a href="/">
+          <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490/introduction">
             Dependents’ Application for VA Education Benefits Form 22-5490
             (opens in a new tab)
+          </a>
+          , <strong>or</strong>{' '}
+          <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e/introduction">
+            Application for Family Member to Use Transferred Benefits Form
+            22-1990e (opens in a new tab)
           </a>
         </p>
         <p>You must also have paid in full for the test.</p>
@@ -72,6 +77,18 @@ const ProcessList = () => {
         </p>
       </va-process-list-item>
     </va-process-list>
+  );
+};
+
+const customLink = ({ children, ...props }) => {
+  return (
+    <va-link-action
+      type="primary-entry"
+      text="Start your Request reimbursement for licensing or certification test fees"
+      {...props}
+    >
+      {children}
+    </va-link-action>
   );
 };
 
@@ -133,7 +150,7 @@ export const IntroductionPage = props => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start your Request reimbursement for licensing or certification test fees"
+          customLink={customLink}
           devOnly={{
             forceShowFormControls: true,
           }}

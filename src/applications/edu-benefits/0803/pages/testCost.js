@@ -41,7 +41,7 @@ export default {
     },
     'view:understandsUploadRequirement2': {
       'ui:description': (
-        <va-alert>
+        <va-alert tabindex="0">
           When you submit this form on QuickSubmit or by mail, you will need to
           attach a copy of your test results to your submission. If you do not
           have any test results but have a copy of your license or certification
