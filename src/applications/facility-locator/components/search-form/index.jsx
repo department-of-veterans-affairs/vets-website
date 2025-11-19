@@ -39,6 +39,15 @@ export const SearchForm = props => {
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
 
+  // Add local draft state for form inputs
+  // eslint-disable-next-line no-unused-vars
+  const [draftFormState, setDraftFormState] = useState({
+    facilityType: currentQuery.facilityType || null,
+    serviceType: currentQuery.serviceType || null,
+    searchString: currentQuery.searchString || '',
+    vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
+  });
+
   const handleFacilityTypeChange = e => {
     onChange({
       facilityType: e.target.value,
