@@ -27,7 +27,7 @@ describe('TravelPayButtonPair', () => {
       'va-button[text="Continue"]',
     );
     expect(continueButton).to.exist;
-    expect(continueButton.getAttribute('continue')).to.equal('false');
+    expect(continueButton.getAttribute('continue')).to.equal('true');
   });
 
   it('calls onBack when back button is clicked', () => {
@@ -92,25 +92,29 @@ describe('TravelPayButtonPair', () => {
   it('does NOT set the "back" attribute when backText is not "Back"', () => {
     const { container } = setup({ backText: 'Go back' });
 
-    const backButton = container.querySelector('va-button[text="Go Back"]');
+    // Get all va-buttons and find the one with text="Go back"
+    const backButton = Array.from(container.querySelectorAll('va-button')).find(
+      btn => btn.getAttribute('text') === 'Go back',
+    );
+
     expect(backButton).to.exist;
     expect(backButton.getAttribute('back')).to.equal('false');
   });
 
-  it('sets the "continue" attribute when showContinueButtonArrows is true', () => {
-    const { container } = setup({ showContinueButtonArrows: true });
+  it('sets the "continue" attribute when hideContinueButtonArrows is false', () => {
+    const { container } = setup({ hideContinueButtonArrows: false });
 
     const continueButton = container.querySelectorAll('va-button')[1];
     expect(continueButton.getAttribute('continue')).to.equal('true');
   });
 
-  it('does NOT set the "continue" attribute when showContinueButtonArrows is false', () => {
-    const { container } = setup({ showContinueButtonArrows: false });
+  it('does NOT set the "continue" attribute when hideContinueButtonArrows is true', () => {
+    const { container } = setup({ hideContinueButtonArrows: true });
 
-    const continueButton = container.querySelector(
-      'va-button[text="Continue"]',
-    );
-    expect(continueButton).to.exist;
+    // Get all va-buttons and find the one with text="Continue"
+    const continueButton = Array.from(
+      container.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Continue');
     expect(continueButton.getAttribute('continue')).to.equal('false');
   });
 });
