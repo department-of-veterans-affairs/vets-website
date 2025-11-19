@@ -5,6 +5,7 @@ const BINARY_FILE_TYPES = [
   'image/gif',
   'image/bmp',
   'image/tiff',
+  'image/heic',
   'application/zip',
   'application/x-zip-compressed',
   'application/vnd.ms-excel',

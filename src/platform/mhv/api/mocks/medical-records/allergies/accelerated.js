@@ -1,194 +1,225 @@
 const all = {
-  resourceType: 'Bundle',
-  type: 'searchset',
-  link: [
+  data: [
     {
-      relation: 'self',
-      url:
-        'https://sandbox-api.va.gov/services/fhir/v0/r4/AllergyIntolerance?patient=23000219&-pageToken=1~6Z807QTZrKsurkk',
-    },
-  ],
-  entry: [
-    {
-      fullUrl:
-        'https://sandbox-api.va.gov/services/fhir/v0/r4/AllergyIntolerance/4-6Z8D6dAzA9QPmy8',
-      resource: {
-        resourceType: 'AllergyIntolerance',
-        id: '4-6Z8D6dAzA9QPmy8',
-        meta: {
-          lastUpdated: '2022-11-25T00:00:00Z',
-        },
-        clinicalStatus: {
-          coding: [
-            {
-              system:
-                'http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical',
-              code: 'active',
-            },
-          ],
-        },
-        verificationStatus: {
-          coding: [
-            {
-              system:
-                'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification',
-              code: 'confirmed',
-            },
-          ],
-        },
-        type: 'allergy',
-        category: ['medication'],
-        code: {
-          coding: [
-            {
-              system: 'http://www.nlm.nih.gov/research/umls/rxnorm',
-              code: '25037',
-              display: 'cefdinir',
-            },
-          ],
-          text: 'cefdinir',
-        },
-        patient: {
-          reference:
-            'https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/23000219',
-          display: 'Mr. Dexter530 Victor265 Schneider199',
-        },
-        recordedDate: '1967-05-28T12:24:29Z',
-        recorder: {
-          reference:
-            'https://sandbox-api.va.gov/services/fhir/v0/r4/Practitioner/4-Nn79MgdpowOn',
-          display: 'Dr. Regina408 Dietrich576',
-        },
-        note: [
-          {
-            authorReference: {
-              reference:
-                'https://sandbox-api.va.gov/services/fhir/v0/r4/Practitioner/4-Nn79MgdpowOn',
-              display: 'Dr. Regina408 Dietrich576',
-            },
-            time: '1967-05-28T12:24:29Z',
-            text: 'these are my notes about the cefdinir allergy',
-          },
-        ],
-      },
-      search: {
-        mode: 'match',
+      id: '2678',
+      type: 'allergy',
+      attributes: {
+        id: '2678',
+        name: 'TRAZODONE',
+        date: null,
+        categories: ['medication'],
+        reactions: [],
+        location: null,
+        observedHistoric: 'h',
+        notes: [],
+        provider: null,
       },
     },
     {
-      fullUrl:
-        'https://sandbox-api.va.gov/services/fhir/v0/r4/AllergyIntolerance/4-6Z8D6dAzABlkPZA',
-      resource: {
-        resourceType: 'AllergyIntolerance',
-        id: '4-6Z8D6dAzABlkPZA',
-        meta: {
-          lastUpdated: '2022-11-25T00:00:00Z',
-        },
-        clinicalStatus: {
-          coding: [
-            {
-              system:
-                'http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical',
-              code: 'active',
-            },
-          ],
-        },
-        verificationStatus: {
-          coding: [
-            {
-              system:
-                'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification',
-              code: 'confirmed',
-            },
-          ],
-        },
-        type: 'allergy',
-        category: ['food'],
-        code: {
-          coding: [
-            {
-              system: 'http://snomed.info/sct',
-              code: '44027008',
-              display: 'Seafood (substance)',
-            },
-          ],
-          text: 'Seafood (substance)',
-        },
-        patient: {
-          reference:
-            'https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/23000219',
-          display: 'Mr. Dexter530 Victor265 Schneider199',
-        },
-        recordedDate: '1967-05-28T12:24:29Z',
-        recorder: {
-          reference:
-            'https://sandbox-api.va.gov/services/fhir/v0/r4/Practitioner/4-Nn79Mgdyt0Mj',
-          display: 'Dr. Marietta439 Schmeler639 MD',
-        },
-        note: [
-          {
-            authorReference: {
-              reference:
-                'https://sandbox-api.va.gov/services/fhir/v0/r4/Practitioner/4-Nn79Mgdyt0Mj',
-              display: 'Dr. Marietta439 Schmeler639 MD',
-            },
-            time: '1967-05-28T12:24:29Z',
-            text: 'Seafood (substance)',
-          },
-        ],
-        reaction: [
-          {
-            substance: {
-              coding: [
-                {
-                  system: 'http://snomed.info/sct',
-                  code: '44027008',
-                  display: 'Seafood (substance)',
-                },
-              ],
-              text: 'Seafood (substance)',
-            },
-            manifestation: [
-              {
-                coding: [
-                  {
-                    system: 'urn:oid:2.16.840.1.113883.6.233',
-                    code: '4637470',
-                    display: 'DYSPNEA',
-                  },
-                ],
-                text: 'DYSPNEA',
-              },
-              {
-                coding: [
-                  {
-                    system: 'urn:oid:2.16.840.1.113883.6.233',
-                    code: '4538635',
-                    display: 'RASH',
-                  },
-                ],
-                text: 'RASH',
-              },
-            ],
-          },
-        ],
+      id: '30624',
+      type: 'allergy',
+      attributes: {
+        id: '30624',
+        name: 'NKA (NO KNOWN ALLERGY)',
+        date: null,
+        categories: ['medication'],
+        reactions: [],
+        location: null,
+        observedHistoric: 'h',
+        notes: ['PER PAN 10-5-94'],
+        provider: null,
       },
-      search: {
-        mode: 'match',
+    },
+    {
+      id: '2679',
+      type: 'allergy',
+      attributes: {
+        id: '2679',
+        name: 'MAXZIDE',
+        date: null,
+        categories: ['medication'],
+        reactions: [],
+        location: null,
+        observedHistoric: 'h',
+        notes: [],
+        provider: null,
+      },
+    },
+    {
+      id: '2677',
+      type: 'allergy',
+      attributes: {
+        id: '2677',
+        name: 'INDOMETHACIN',
+        date: null,
+        categories: ['medication'],
+        reactions: [],
+        location: null,
+        observedHistoric: 'h',
+        notes: [],
+        provider: null,
+      },
+    },
+    {
+      id: '2676',
+      type: 'allergy',
+      attributes: {
+        id: '2676',
+        name: 'ASPIRIN',
+        date: null,
+        categories: ['medication'],
+        reactions: [],
+        location: null,
+        observedHistoric: 'h',
+        notes: [],
+        provider: null,
+      },
+    },
+    {
+      id: '132892323',
+      type: 'allergy',
+      attributes: {
+        id: '132892323',
+        name: 'Penicillin',
+        date: '2002',
+        categories: ['medication'],
+        reactions: ['Urticaria (Hives)', 'Sneezing'],
+        location: null,
+        observedHistoric: null,
+        notes: [
+          'Patient reports adverse reaction to previously prescribed pencicillins',
+        ],
+        provider: ' Victoria A Borland',
+      },
+    },
+    {
+      id: '132316417',
+      type: 'allergy',
+      attributes: {
+        id: '132316417',
+        name: 'Oxymorphone',
+        date: '2019',
+        categories: ['medication'],
+        reactions: ['Anaphylaxis'],
+        location: null,
+        observedHistoric: null,
+        notes: [
+          'Testing Contraindication type reaction',
+          'Secondary comment for contraindication',
+        ],
+        provider: ' Victoria A Borland',
+      },
+    },
+    {
+      id: '132320329',
+      type: 'allergy',
+      attributes: {
+        id: '132320329',
+        name: 'Naproxen',
+        date: '2004-12-17',
+        categories: ['medication'],
+        reactions: ['Sneezing', 'Syncope', 'free text reaction'],
+        location: null,
+        observedHistoric: null,
+        notes: [
+          'This is a secondary comment added to the naproxen allergy',
+          'This is an initial comment added to the naproxen allergy',
+        ],
+        provider: ' Victoria A Borland',
+      },
+    },
+    {
+      id: '132312405',
+      type: 'allergy',
+      attributes: {
+        id: '132312405',
+        name: 'Grass pollen (substance)',
+        date: '2022',
+        categories: ['environment'],
+        reactions: ['Sneezing', 'Urticaria (Hives)'],
+        location: null,
+        observedHistoric: null,
+        notes: [
+          'Testing whether alllergy with resolved status is still passed through !@\\#$%^&*()',
+        ],
+        provider: ' Victoria A Borland',
+      },
+    },
+    {
+      id: '132320343',
+      type: 'allergy',
+      attributes: {
+        id: '132320343',
+        name: 'Radish (substance)',
+        date: '1966',
+        categories: ['food'],
+        reactions: ['Depression'],
+        location: null,
+        observedHistoric: null,
+        notes: ['Radish makes Hooper sad-ish :('],
+        provider: ' Victoria A Borland',
+      },
+    },
+    {
+      id: '132316411',
+      type: 'allergy',
+      attributes: {
+        id: '132316411',
+        name: 'Sunlight (substance) (deprecated)',
+        date: '2024',
+        categories: [],
+        reactions: ['Urticaria (Hives)'],
+        location: null,
+        observedHistoric: null,
+        notes: [],
+        provider: ' Victoria A Borland',
+      },
+    },
+    {
+      id: '132312395',
+      type: 'allergy',
+      attributes: {
+        id: '132312395',
+        name: 'Coconut (substance)',
+        date: '2024-11-08',
+        categories: ['food'],
+        reactions: ['Pruritus', 'Delirium'],
+        location: null,
+        observedHistoric: null,
+        notes: ['This allergy duplicates an allergy entered into VistA'],
+        provider: ' Victoria A Borland',
+      },
+    },
+    {
+      id: '132316427',
+      type: 'allergy',
+      attributes: {
+        id: '132316427',
+        name: 'Cashew nut (substance)',
+        date: '2024-12-17',
+        categories: ['food'],
+        reactions: ['Oral Edema'],
+        location: null,
+        observedHistoric: null,
+        notes: [],
+        provider: ' Victoria A Borland',
       },
     },
   ],
 };
 
+const empty = { data: [] };
+
 const single = (req, res) => {
   const { id } = req.params;
-  const response = all.entry.find(item => {
-    return item.resource.id === id;
+  const response = all.data.find(item => {
+    return item.id === id;
   });
-  return res.json(response ? response.resource : {});
+  return res.json(response || {});
 };
 
 module.exports = {
   all,
   single,
+  empty,
 };

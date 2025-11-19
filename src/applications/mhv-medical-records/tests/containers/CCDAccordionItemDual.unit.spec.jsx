@@ -8,13 +8,25 @@ describe('CCDAccordionItemDual', () => {
     generatingCCD: false,
     handleDownloadCCD: () => {},
     handleDownloadCCDV2: () => {},
+    vistaFacilityNames: [
+      'VA Western New York health care',
+      'VA Pacific Islands health care',
+    ],
+    ohFacilityNames: ['VA Central Ohio health care'],
   };
 
   it('renders both VistA and Oracle Health sections', () => {
     const { getByText } = render(<CCDAccordionItemDual {...defaultProps} />);
 
-    expect(getByText('Your VA Medical Records (Legacy System)')).to.exist;
-    expect(getByText('Your VA Medical Records (Oracle Health)')).to.exist;
+    expect(getByText('Continuity of Care Document for non-VA providers')).to
+      .exist;
+    expect(
+      getByText(
+        'CCD: medical records from VA Western New York health care and VA Pacific Islands health care',
+      ),
+    ).to.exist;
+    expect(getByText('CCD: medical records from VA Central Ohio health care'))
+      .to.exist;
   });
 
   it('shows VistA loading spinner when generatingCCD is true', () => {
@@ -92,5 +104,40 @@ describe('CCDAccordionItemDual', () => {
 
     expect(getByTestId('generating-ccd-Vista-indicator')).to.exist;
     expect(getByTestId('generating-ccd-OH-indicator')).to.exist;
+  });
+
+  it('renders VistA facility names in heading', () => {
+    const { getByText } = render(<CCDAccordionItemDual {...defaultProps} />);
+
+    expect(
+      getByText(
+        'CCD: medical records from VA Western New York health care and VA Pacific Islands health care',
+      ),
+    ).to.exist;
+  });
+
+  it('renders OH facility name in heading', () => {
+    const { getByText } = render(<CCDAccordionItemDual {...defaultProps} />);
+
+    expect(getByText('CCD: medical records from VA Central Ohio health care'))
+      .to.exist;
+  });
+
+  it('handles three or more facility names with commas and "and"', () => {
+    const props = {
+      ...defaultProps,
+      vistaFacilityNames: [
+        'VA Western New York health care',
+        'VA Pacific Islands health care',
+        'VA Southern Nevada health care',
+      ],
+    };
+    const { getByText } = render(<CCDAccordionItemDual {...props} />);
+
+    expect(
+      getByText(
+        'CCD: medical records from VA Western New York health care, VA Pacific Islands health care, and VA Southern Nevada health care',
+      ),
+    ).to.exist;
   });
 });

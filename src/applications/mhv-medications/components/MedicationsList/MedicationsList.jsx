@@ -44,7 +44,7 @@ const MedicationsList = props => {
     navigate(`/?page=${page}`, {
       replace: true,
     });
-    updateLoadingStatus(null, 'Loading your medications...');
+    updateLoadingStatus('Loading your medications...');
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
 
