@@ -111,8 +111,9 @@ const RefillPrescriptions = () => {
       const prescriptionIds = selectedRefillList.map(rx => rx.prescriptionId);
 
       try {
-        await bulkRefillPrescriptions(prescriptionIds);
+        await bulkRefillPrescriptions(prescriptionIds).unwrap();
         setRefillStatus(REFILL_STATUS.FINISHED);
+        setSelectedRefillList([]);
       } catch (error) {
         setRefillStatus(REFILL_STATUS.ERROR);
       }
@@ -128,7 +129,6 @@ const RefillPrescriptions = () => {
         ),
       );
     }
-    setSelectedRefillList([]);
   };
 
   const onSelectPrescription = rx => {
