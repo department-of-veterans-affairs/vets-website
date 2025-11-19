@@ -330,6 +330,9 @@ export const veteranMarriagesPages = arrayBuilderPages(
     veteranMarriagesIntro: pageBuilder.introPage({
       title: 'Veteran’s previous marriages',
       path: 'household/veteran-previous-marriages',
+      depends: formData =>
+        formData.claimantRelationship === 'SPOUSE' &&
+        formData.hadPreviousMarriages === true,
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
@@ -337,24 +340,36 @@ export const veteranMarriagesPages = arrayBuilderPages(
       title:
         'Was the Veteran married to someone else before being married to you?',
       path: 'household/veteran-previous-marriages/add',
+      depends: formData =>
+        formData.claimantRelationship === 'SPOUSE' &&
+        formData.hadPreviousMarriages === true,
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     veteranPreviousSpouseName: pageBuilder.itemPage({
       title: "Veteran's previous spouse's name",
       path: 'household/veteran-previous-marriages/:index/spouse-name',
+      depends: formData =>
+        formData.claimantRelationship === 'SPOUSE' &&
+        formData.hadPreviousMarriages === true,
       uiSchema: namePage.uiSchema,
       schema: namePage.schema,
     }),
     veteranMarriageDatePlace: pageBuilder.itemPage({
       title: 'When and where did they get married?',
       path: 'household/veteran-previous-marriages/:index/marriage-date-place',
+      depends: formData =>
+        formData.claimantRelationship === 'SPOUSE' &&
+        formData.hadPreviousMarriages === true,
       uiSchema: marriageDatePlacePage.uiSchema,
       schema: marriageDatePlacePage.schema,
     }),
     veteranMarriageEnded: pageBuilder.itemPage({
       title: 'How did the marriage end?',
       path: 'household/veteran-previous-marriages/:index/marriage-ended',
+      depends: formData =>
+        formData.claimantRelationship === 'SPOUSE' &&
+        formData.hadPreviousMarriages === true,
       uiSchema: endedPage.uiSchema,
       schema: endedPage.schema,
     }),
@@ -362,6 +377,9 @@ export const veteranMarriagesPages = arrayBuilderPages(
       title: 'When and where did their marriage end?',
       path:
         'household/veteran-previous-marriages/:index/marriage-end-date-location',
+      depends: formData =>
+        formData.claimantRelationship === 'SPOUSE' &&
+        formData.hadPreviousMarriages === true,
       uiSchema: marriageEndDateLocationPage.uiSchema,
       schema: marriageEndDateLocationPage.schema,
     }),
