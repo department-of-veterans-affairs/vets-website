@@ -25,7 +25,11 @@ export const validateName = (errors, pageData) => {
 const PHONE_KEYS = ['phoneNumber', 'internationalPhone'];
 
 /**
- * Mostly copied from the platform provided stringifyFormReplacer, with the removal of the address check. We don't need it here for our location use.
+ * Mostly copied from the platform provided stringifyFormReplacer, with the
+ * removal of the address check. We don't need it here for our location use.
+ * @param {string} key - object key
+ * @param {any} value - object value
+ * @returns {any} cleaned value
  */
 export const customFormReplacer = (key, value) => {
   // Remove all non-digit characters from phone-related fields
@@ -62,7 +66,14 @@ export const customFormReplacer = (key, value) => {
   return value;
 };
 
-function copyDataFields(sourceData, cleanData, fields) {
+/**
+ * Copy populated data fields from sourceData to cleanData
+ * @param {object} sourceData - object to copy data from
+ * @param {array} fields - array of field names to copy
+ * @returns {object} cleaned data object
+ */
+function copyDataFields(sourceData, fields) {
+  const cleanData = {};
   fields.forEach(field => {
     const value = sourceData[field];
     if (Array.isArray(value) ? value.length > 0 : value) {
@@ -70,15 +81,21 @@ function copyDataFields(sourceData, cleanData, fields) {
       cleanData[field] = value;
     }
   });
+  return cleanData;
 }
 
+/**
+ * Process form data for submission
+ * @param {object} payload - Redux form object
+ * @returns {object} payload with cleaned data object
+ */
 export function buildSubmissionData(payload) {
   if (!payload?.data) {
     return payload;
   }
 
   const sourceData = payload.data;
-  const cleanData = {};
+  let cleanData = {};
 
   const addEnabled = sourceData['view:addOrRemoveDependents']?.add === true;
   const removeEnabled =
@@ -141,7 +158,10 @@ export function buildSubmissionData(payload) {
     Object.entries(addDataMappings).forEach(([option, fields]) => {
       if (addOptions[option] === true) {
         enabledAddOptions[option] = true;
-        copyDataFields(sourceData, cleanData, fields);
+        cleanData = {
+          ...cleanData,
+          ...copyDataFields(sourceData, fields),
+        };
       }
     });
   }
@@ -152,7 +172,10 @@ export function buildSubmissionData(payload) {
     Object.entries(removeDataMappings).forEach(([option, fields]) => {
       if (removeOptions[option] === true) {
         enabledRemoveOptions[option] = true;
-        copyDataFields(sourceData, cleanData, fields);
+        cleanData = {
+          ...cleanData,
+          ...copyDataFields(sourceData, fields),
+        };
       }
     });
   }
@@ -187,7 +210,8 @@ export function buildSubmissionData(payload) {
 
 /**
  * parseDateToDateObj from ISO8601 or JS number date (not unix time)
- * @param {string, number, Date} date - date to format
+ * @param {string|number|Date} date - date to format
+ * @param {string} template - date format template for parsing non-ISO strings
  * @returns {dateObj|null} date object
  */
 export const parseDateToDateObj = (date, template) => {
@@ -361,6 +385,7 @@ function transformChildDeath(item) {
     dependentDeathLocation: buildLocation(item),
     // TODO: Confirm income field source - currently defaulting to 'N'
     deceasedDependentIncome: 'N',
+    childUnder18: item.age < 18,
   };
 }
 
@@ -474,7 +499,11 @@ export function transformPicklistToV2(data) {
   selected.forEach(item => {
     switch (item.removalReason) {
       case 'childMarried':
+        // if (item.isStepchild) {
+        //   v2Data.stepChildren.push(transformChildMarriage(item));
+        // } else {
         v2Data.childMarriage.push(transformChildMarriage(item));
+        // }
         break;
       case 'childNotInSchool':
         // Don't add data if child has permanent disability
@@ -552,8 +581,7 @@ export function transformPicklistToV2(data) {
   }
 
   // Set removal options flags based on what was transformed
-  // eslint-disable-next-line no-param-reassign
-  data['view:removeDependentOptions'] = {
+  const removeDependentOptions = {
     reportDivorce: !!v2Data.reportDivorce,
     reportDeath: v2Data.deaths.length > 0,
     reportStepchildNotInHousehold: v2Data.stepChildren.length > 0,
@@ -561,9 +589,22 @@ export function transformPicklistToV2(data) {
     reportChild18OrOlderIsNotAttendingSchool:
       v2Data.childStoppedAttendingSchool.length > 0,
   };
-  return data;
+  return {
+    ...data,
+    'view:removeDependentOptions': removeDependentOptions,
+    'view:selectable686Options': {
+      ...data['view:selectable686Options'], // preserve add options
+      ...removeDependentOptions,
+    },
+  };
 }
 
+/**
+ * Transform form data for submission
+ * @param {object} formConfig - Entire form config
+ * @param {object} form - Form object from Redux store
+ * @returns {string} stringified cleaned data for submission
+ */
 export function customTransformForSubmit(formConfig, form) {
   const payload = cloneDeep(form);
   if (!payload.data) {
