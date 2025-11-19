@@ -83,6 +83,8 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  // Custom PreSubmitInfo component disables signature name validation
+  // Accepts any signature input (minimum 3 characters) instead of requiring
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,
   },
