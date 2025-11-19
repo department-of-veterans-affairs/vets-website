@@ -2,6 +2,9 @@ import medicationsList from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import { medicationsUrls } from '../../../util/constants';
 import { Paths } from '../utils/constants';
+import { selectCernerPilotFlag } from '../../../util/selectors';
+
+const basePath = selectCernerPilotFlag ? 'my_health/v2' : 'my_health/v1';
 
 class MedicationsRefillPage {
   loadRefillPage = prescriptions => {
@@ -10,7 +13,7 @@ class MedicationsRefillPage {
     );
     cy.intercept(
       'GET',
-      'my_health/v1/prescriptions/list_refillable_prescriptions',
+      `${basePath}/prescriptions/list_refillable_prescriptions`,
       prescriptions,
     ).as('refillList');
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
@@ -77,12 +80,12 @@ class MedicationsRefillPage {
   clickGoToMedicationsListPage = () => {
     cy.intercept(
       'GET',
-      'my_health/v1/prescriptions?page=1&per_page=20All%20medications',
+      `${basePath}/prescriptions?page=1&per_page=20All%20medications`,
       medicationsList,
     ).as('medicationsList');
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      `${basePath}/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true`,
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
@@ -272,7 +275,7 @@ class MedicationsRefillPage {
   clickPrescriptionRefillCheckbox = prescription => {
     cy.intercept(
       'PATCH',
-      '/my_health/v1/prescriptions/refill_prescriptions?ids[]=22377949',
+      `${basePath}/prescriptions/refill_prescriptions?ids[]=22377949`,
       prescription,
     );
     cy.get('[data-testid="refill-prescription-checkbox-2"]').click({
@@ -286,7 +289,7 @@ class MedicationsRefillPage {
   ) => {
     cy.intercept(
       'PATCH',
-      `/my_health/v1/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`,
+      `${basePath}/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`,
       failedRequest,
     ).as('failedRefillRequest');
     cy.get('[data-testid="request-refill-button"]').should('exist');
@@ -305,7 +308,7 @@ class MedicationsRefillPage {
   clickPrescriptionRefillCheckboxForSuccessfulRequest = prescription => {
     cy.intercept(
       'PATCH',
-      '/my_health/v1/prescriptions/refill_prescriptions?ids[]=22545165',
+      `${basePath}/prescriptions/refill_prescriptions?ids[]=22545165`,
       prescription,
     );
     cy.get('[data-testid="refill-prescription-checkbox-0"]').click({
@@ -316,7 +319,7 @@ class MedicationsRefillPage {
   clickRequestRefillButtonforSuccessfulRequests = (prescriptionId, success) => {
     cy.intercept(
       'PATCH',
-      `/my_health/v1/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`,
+      `${basePath}/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`,
       success,
     ).as('refillSuccess');
     cy.get('[data-testid="request-refill-button"]').should('exist');
@@ -332,7 +335,7 @@ class MedicationsRefillPage {
   ) => {
     cy.intercept(
       'PATCH',
-      `/my_health/v2/prescriptions/refill_prescriptions?ids[]=${prescriptionId1}&ids[]=${prescriptionId2}`,
+      `${basePath}/prescriptions/refill_prescriptions?ids[]=${prescriptionId1}&ids[]=${prescriptionId2}`,
       partialsuccess,
     );
     cy.get('[data-testid="request-refill-button"]').should('exist');
@@ -441,7 +444,7 @@ class MedicationsRefillPage {
     cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      '/my_health/v2/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
