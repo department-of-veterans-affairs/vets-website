@@ -777,6 +777,27 @@ export const buildInitialDateRange = (option = DEFAULT_DATE_RANGE) => {
   };
 };
 
+/**
+ * Resolve the effective accelerated date range ensuring both start & end are present.
+ * If either supplied date is missing, fall back to the default range.
+ *
+ * @param {string|undefined} startDate ISO date (yyyy-MM-dd) or undefined
+ * @param {string|undefined} endDate   ISO date (yyyy-MM-dd) or undefined
+ * @param {string} defaultRange        Month-based option used when falling back (defaults to DEFAULT_DATE_RANGE)
+ * @returns {{ startDate: string, endDate: string, fallbackApplied: boolean }}
+ */
+export const resolveAcceleratedDateRange = (
+  startDate,
+  endDate,
+  defaultRange = DEFAULT_DATE_RANGE,
+) => {
+  if (startDate && endDate) {
+    return { startDate, endDate, fallbackApplied: false };
+  }
+  const { fromDate, toDate } = buildInitialDateRange(defaultRange);
+  return { startDate: fromDate, endDate: toDate, fallbackApplied: true };
+};
+
 export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
 };
