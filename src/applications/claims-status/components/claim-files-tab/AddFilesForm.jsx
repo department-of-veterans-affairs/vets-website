@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
 
 import {
   VaFileInputMultiple,
@@ -230,6 +231,8 @@ const createSubmissionPayload = (files, docTypes, encrypted) => {
 const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.cstShowDocumentUploadStatus);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
@@ -396,6 +399,13 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
                 onClick={e => {
                   e.preventDefault();
                   setPageFocus(e.target.href);
+                  // Remove notification hash if present
+                  if (
+                    location.hash ===
+                    `#${ANCHOR_LINKS.fileSubmissionsInProgress}`
+                  ) {
+                    navigate(location.pathname, { replace: true });
+                  }
                 }}
               />
             </div>

@@ -22,7 +22,12 @@ import {
   setPageFocus,
   setTabDocumentTitle,
 } from '../utils/helpers';
-import { setUpPage, isTab } from '../utils/page';
+import {
+  setUpPage,
+  isTab,
+  setPageFocus as scrollToElement,
+} from '../utils/page';
+import { ANCHOR_LINKS } from '../constants';
 
 // CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
@@ -38,11 +43,14 @@ class FilesPage extends React.Component {
         const { lastPage, loading } = this.props;
         setPageFocus(lastPage, loading);
       });
+    } else {
+      // Handle hash navigation on mount (for direct navigation with hash)
+      this.scrollToSection();
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { claim, lastPage, loading } = this.props;
+    const { claim, lastPage, loading, location } = this.props;
 
     if (!loading && prevProps.loading && !isTab(lastPage)) {
       setUpPage(false);
@@ -52,6 +60,14 @@ class FilesPage extends React.Component {
     //   Otherwise it will display a default title of "Files for Your Claim".
     if (loading !== prevProps.loading) {
       setTabDocumentTitle(claim, 'Files');
+    }
+
+    // Scroll to hash anchor after content has loaded (from external navigation)
+    if (!loading && prevProps.loading && location?.hash) {
+      // Add small delay to ensure DOM is fully rendered
+      setTimeout(() => {
+        this.scrollToSection();
+      }, 100);
     }
   }
 
@@ -117,6 +133,19 @@ class FilesPage extends React.Component {
     );
   }
 
+  scrollToSection = () => {
+    const { location } = this.props;
+    const validHashes = [
+      `#${ANCHOR_LINKS.fileSubmissionsInProgress}`,
+      `#${ANCHOR_LINKS.filesWeCouldntReceive}`,
+      `#${ANCHOR_LINKS.otherWaysToSendDocuments}`,
+    ];
+
+    if (validHashes.includes(location.hash)) {
+      scrollToElement(location.hash);
+    }
+  };
+
   render() {
     const { claim, loading, message } = this.props;
 
@@ -165,6 +194,7 @@ FilesPage.propTypes = {
     title: PropTypes.string,
     type: PropTypes.string,
   }),
+  navigate: PropTypes.func,
 };
 
 export default withRouter(
