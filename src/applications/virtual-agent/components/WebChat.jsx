@@ -191,4 +191,7 @@ WebChat.propTypes = {
   freeze: PropTypes.bool,
 };
 
+WebChat.defaultProps = {
+  freeze: false,
+};
 export default WebChat;
