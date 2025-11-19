@@ -143,12 +143,14 @@ class PatientComposePage {
 
   getMessageBodyField = () => {
     return cy
-      .get(Locators.FIELDS.MESSAGE_BODY)
+      .findByTestId(Locators.FIELDS.MESSAGE_BODY)
       .shadow()
       .find(`#input-type-textarea`);
   };
 
   validateMessageBodyField = expectedText => {
+    // Wait for the field to exist before validating
+    cy.findByTestId('message-body-field').should('exist');
     this.getMessageBodyField().should('have.value', expectedText);
   };
 
@@ -666,6 +668,13 @@ class PatientComposePage {
     cy.findByTestId(Locators.ALERTS.ADD_MEDICATION_INFO_WARNING)
       .findByText(bannerText)
       .should(beVisible ? 'be.visible' : 'not.be.visible');
+  };
+
+  validateMessageBodyHint = expectedHint => {
+    cy.findByTestId(Locators.FIELDS.MESSAGE_BODY)
+      .shadow()
+      .find('.usa-hint')
+      .should('contain', expectedHint);
   };
 }
 

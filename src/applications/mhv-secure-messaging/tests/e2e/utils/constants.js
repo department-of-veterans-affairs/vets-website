@@ -263,7 +263,7 @@ export const Locators = {
     EL_SIGN: `[message-aria-describedby="Electronic signature"]`,
     MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
     MESSAGE_SUBJECT_DATA_TEST_ID: 'message-subject-field',
-    MESSAGE_BODY: `[data-testid="message-body-field"]`,
+    MESSAGE_BODY: 'message-body-field',
     RECIPIENTS_COMBO: `#options`,
   },
   INFO: {
@@ -402,6 +402,10 @@ export const Data = {
   BODY_CANNOT_BLANK: 'Message body cannot be blank.',
   ATTACH_ADDITIONAL_FILE: 'Attach additional file',
   MESSAGE_CANNOT_SAVE_YET: "We can't save this message yet",
+  RXRENEWAL_COMPOSE_HINT_SUCCESS:
+    'Review the medication details we added to your message.',
+  RXRENEWAL_COMPOSE_HINT_ERROR:
+    'Include as many of these medication details as possible.',
   CONTINUE_EDITING: 'Continue editing',
   MESSAGE_MOVED_TO_TRASH:
     'Message conversation was successfully moved to Trash.',
