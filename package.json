@@ -273,6 +273,7 @@
     "@mapbox/mapbox-sdk": "~0.13.2",
     "@reduxjs/toolkit": "^1.9.5",
     "blob-polyfill": "^5.0.20210201",
+    "botframework-webchat": "4.17.0",
     "cacheable-request": "^4.0.1",
     "camelcase-keys-recursive": "^1.0.0",
     "classnames": "^2.3.1",
