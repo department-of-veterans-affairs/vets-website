@@ -16,19 +16,10 @@ import {
  * into your form submission workflow.
  *
  * @param {Object} config
- * @param {string} config.arrayPath - Path to the array in form data
- * @param {Object} config.duplicateChecks - Duplicate check configuration
- * @param {Object} config.fullData - Complete form data
- * @param {number|string} config.pagePerItemIndex - Current item index
+ * @param {Object} config.arrayBuilderProps - Array builder configuration props
+ * @param {Object} config.props - Component props from CustomPage
  * @param {boolean} config.isEdit - Whether in edit mode
  * @param {boolean} config.isAdd - Whether in add mode
- * @param {Function} config.getText - Function to get text/labels
- * @param {Function} config.setFormData - Function to update form data
- * @param {Function} config.goToPath - Navigation function
- * @param {string} config.summaryRoute - Path to summary page
- * @param {string} config.introRoute - Path to intro page
- * @param {string} config.reviewRoute - Path to review page
- * @param {Function} config.required - Function to check if field is required
  * @param {Function} config.onAccept - Callback when user accepts duplicate (receives item data)
  *
  * @returns {Object} Duplicate check utilities
@@ -37,21 +28,37 @@ import {
  * @returns {Function} return.renderDuplicateModal - Render the duplicate warning modal (optional)
  */
 export function useDuplicateChecks({
-  arrayPath,
-  duplicateChecks = {},
-  fullData = {},
-  pagePerItemIndex,
+  arrayBuilderProps,
+  props,
   isEdit = false,
   isAdd = false,
-  getText,
-  setFormData,
-  goToPath,
-  summaryRoute,
-  introRoute,
-  reviewRoute,
-  required,
   onAccept,
 }) {
+  const {
+    arrayPath,
+    duplicateChecks: duplicateChecksGlobal = {},
+    getText,
+    required,
+    summaryRoute,
+    introRoute,
+    reviewRoute,
+    currentPath,
+  } = arrayBuilderProps;
+
+  const { fullData = {}, pagePerItemIndex, setFormData, goToPath } = props;
+
+  // duplicateChecks will only apply to specific internal item pages
+  const internalPageDuplicateChecks =
+    duplicateChecksGlobal?.itemPathModalChecks?.[
+      currentPath?.split(':index/')[1]
+    ];
+  const duplicateChecks = internalPageDuplicateChecks
+    ? {
+        ...duplicateChecksGlobal,
+        // overwrite global with per-page settings
+        ...internalPageDuplicateChecks,
+      }
+    : duplicateChecksGlobal || {};
   const [duplicateCheckResult, setDuplicateCheckResult] = useState(
     defaultDuplicateResult,
   );

@@ -62,19 +62,6 @@ export default function ArrayBuilderItemPage(itemPageProps) {
     const introRoute = getIntroPath(props.fullData);
     const summaryRoute = getSummaryPath(props.fullData);
 
-    // duplicateChecks will only apply to specific internal item pages
-    const internalPageDuplicateChecks =
-      duplicateChecksGlobal?.itemPathModalChecks?.[
-        currentPath.split(':index/')[1]
-      ];
-    const duplicateChecks = internalPageDuplicateChecks
-      ? {
-          ...duplicateChecksGlobal,
-          // overwrite global with per-page settings
-          ...internalPageDuplicateChecks,
-        }
-      : duplicateChecksGlobal || {};
-
     const { data, schema, uiSchema, onChange, onSubmit } = useEditOrAddForm({
       isEdit,
       schema: props.schema,
@@ -89,48 +76,33 @@ export default function ArrayBuilderItemPage(itemPageProps) {
       arrayPath,
     });
 
-    // Use duplicate checks hook (optional - only active if duplicateChecks provided)
     const { checkForDuplicate, renderDuplicateModal } = useDuplicateChecks({
-      arrayPath,
-      duplicateChecks,
-      fullData: props.fullData,
-      pagePerItemIndex: props.pagePerItemIndex,
+      arrayBuilderProps,
+      props,
       isEdit,
       isAdd,
-      getText,
-      setFormData: props.setFormData,
-      goToPath: props.goToPath,
-      summaryRoute,
-      introRoute,
-      reviewRoute,
-      required,
       onAccept: itemData => {
-        // When user accepts the duplicate, proceed with submission
         onSubmit({ formData: itemData });
       },
     });
 
-    // Wrapper for onSubmit that checks for duplicates first
     const handleSubmit = newProps => {
       const hasDuplicate = checkForDuplicate(newProps.formData);
       if (!hasDuplicate) {
         onSubmit(newProps);
       }
-      // If duplicate found, modal will show and user can accept/cancel
+      // else show duplicate modal
     };
 
-    // Guard page rendering based on navigation state and page mode
+    // This helps redirect if arriving at this page without proper URL params
+    // and guards against rendering when schema is not yet loaded
     const shouldRender = useItemPageGuard({
-      onReviewPage: props.onReviewPage,
+      arrayBuilderProps,
+      props,
       isEdit,
       isAdd,
       schema,
-      data: props.data,
       fullData: data,
-      required,
-      introRoute,
-      summaryRoute,
-      goToPath: props.goToPath,
     });
 
     if (!shouldRender) {

@@ -6,30 +6,24 @@ import navigationState from 'platform/forms-system/src/js/utilities/navigation/n
  * Handles navigation redirects and conditional rendering based on page state.
  *
  * @param {Object} params
- * @param {boolean} params.onReviewPage - Whether we're on the review page
+ * @param {Object} params.arrayBuilderProps - Array builder configuration props
+ * @param {Object} params.props - Component props from CustomPage
  * @param {boolean} params.isEdit - Whether in edit mode (?edit=true)
  * @param {boolean} params.isAdd - Whether in add mode (?add=true)
  * @param {Object|null} params.schema - Schema object (null when initially loading edit mode)
- * @param {Object} params.data - Form data
  * @param {Array} params.fullData - Full form data array
- * @param {Function} params.required - Function to check if array is required
- * @param {string} params.introRoute - Path to intro page
- * @param {string} params.summaryRoute - Path to summary page
- * @param {Function} params.goToPath - Navigation function
  * @returns {boolean} Whether the page should render
  */
 export function useItemPageGuard({
-  onReviewPage,
+  arrayBuilderProps,
+  props,
   isEdit,
   isAdd,
   schema,
-  data,
   fullData,
-  required,
-  introRoute,
-  summaryRoute,
-  goToPath,
 }) {
+  const { required, introRoute, summaryRoute } = arrayBuilderProps;
+  const { onReviewPage, data, goToPath } = props;
   useEffect(
     () => {
       if (!onReviewPage && !isEdit && !isAdd) {
@@ -67,14 +61,8 @@ export function useItemPageGuard({
   // Don't render if:
   // 1. On review page
   // 2. In edit mode but schema hasn't loaded yet
-  if (onReviewPage || (isEdit && !schema)) {
-    return false;
-  }
-
-  // Don't render if missing required URL params (handled by useEffect redirect)
-  if (!onReviewPage && !isEdit && !isAdd) {
-    return false;
-  }
-
-  return true;
+  // 3. Missing required URL params (handled by useEffect redirect)
+  return (
+    !onReviewPage && !(isEdit && !schema) && (isEdit || isAdd || onReviewPage)
+  );
 }
