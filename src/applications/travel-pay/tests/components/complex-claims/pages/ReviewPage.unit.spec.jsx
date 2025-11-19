@@ -119,6 +119,7 @@ describe('Travel Pay – ReviewPage', () => {
       getByRole,
       container,
       queryAllByTestId,
+      getByText,
     } = renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
@@ -180,6 +181,22 @@ describe('Travel Pay – ReviewPage', () => {
 
     // SummaryBox should render
     expect(getByTestId('summary-box')).to.exist;
+
+    // SummaryBox description text about deductible
+    expect(
+      getByText(
+        'Before we can pay you back for expenses, you must pay a deductible. The current deductible is $3 one-way or $6 round-trip for each appointment, up to $18 total each month.',
+      ),
+    ).to.exist;
+
+    // SummaryBox Va link
+    const link = container.querySelector(
+      `va-link[href="/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"]`,
+    );
+    expect(link).to.exist;
+    expect(link.getAttribute('text')).to.eq(
+      'Learn more about deductibles for VA travel claims',
+    );
   });
 
   it('calls signAgreement when Sign Agreement button is clicked', () => {
@@ -364,5 +381,56 @@ describe('Travel Pay – ReviewPage', () => {
     expect(getByTestId('location-display').textContent).to.equal(
       '/file-new-claim/12345/45678/parking',
     );
+  });
+
+  it('does not render individual totals for expense types with 0 value', () => {
+    const stateWithZeroExpense = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        complexClaim: {
+          ...getData().travelPay.complexClaim,
+          expenses: {
+            ...getData().travelPay.complexClaim.expenses,
+            data: [
+              { id: 'expense1', expenseType: 'Mileage', costRequested: 0 },
+              { id: 'expense2', expenseType: 'Parking', costRequested: 0 },
+            ],
+          },
+        },
+        claimDetails: {
+          data: {
+            [claimId]: {
+              ...getData().travelPay.claimDetails.data[claimId],
+              totalCostRequested: 0,
+            },
+          },
+        },
+      },
+    };
+
+    const { container, getByTestId } = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+        </Routes>
+      </MemoryRouter>,
+      { initialState: stateWithZeroExpense, reducers: reducer },
+    );
+
+    const summaryBox = getByTestId('summary-box');
+    expect(summaryBox).to.exist;
+
+    // Check total
+    expect(summaryBox.textContent).to.include('Total: $0.00');
+
+    // No individual <li> should exist because totals are 0
+    const expenseTotals = container.querySelectorAll('ul li');
+    expect(expenseTotals.length).to.equal(0);
   });
 });

@@ -13,7 +13,7 @@ import {
   noneAndConditionError,
 } from '../../../content/toxicExposure';
 import formConfig from '../../../config/form';
-import ToxicExposureConditions from '../../../components/ConfirmationFields/ToxicExposureConditions';
+import ToxicExposureConditions from '../../../components/confirmationFields/ToxicExposureConditions';
 
 describe('Toxic Exposure Conditions', () => {
   const {

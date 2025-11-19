@@ -1,0 +1,19 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "cst_use_claim_details_v2",
+        "value": true
+      },
+      {
+        "name": "cst_show_document_upload_status",
+        "value": false
+      },
+      {
+        "name": "cst_timezone_discrepancy_mitigation",
+        "value": true
+      }
+    ]
+  }
+}

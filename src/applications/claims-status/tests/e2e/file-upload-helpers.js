@@ -65,3 +65,24 @@ export function setupUnknownErrorMock() {
     },
   }).as('uploadRequest');
 }
+
+/**
+ * Sets up a Cypress intercept to mock a duplicate file error (422) response
+ * for document upload requests
+ */
+export function setupDuplicateErrorMock() {
+  cy.intercept('POST', '/v0/benefits_claims/*/benefits_documents', {
+    statusCode: 422,
+    body: {
+      errors: [
+        {
+          title: 'Unprocessable Entity',
+          detail: 'DOC_UPLOAD_DUPLICATE',
+          code: '422',
+          status: '422',
+          source: 'BenefitsDocuments::Service',
+        },
+      ],
+    },
+  }).as('uploadRequest');
+}
