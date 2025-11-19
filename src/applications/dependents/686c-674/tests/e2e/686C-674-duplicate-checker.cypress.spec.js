@@ -34,6 +34,7 @@ const testConfig = createTestConfig(
             .should('have.length', 2)
             .first()
             .should('contain', 'more than once');
+          cy.injectAxeThenAxeCheck();
 
           cy.get(`va-link[label="Edit Penny Foster"]`)
             .first()
@@ -46,6 +47,8 @@ const testConfig = createTestConfig(
             .shadow()
             .find('.va-modal-alert-body')
             .should('contain', 'already have a dependent with this date');
+
+          cy.injectAxeThenAxeCheck();
 
           cy.get('va-modal[status="warning"]')
             .shadow()

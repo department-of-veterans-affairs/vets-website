@@ -13,15 +13,17 @@ import { textareaUI } from 'platform/forms-system/src/js/web-component-patterns'
 export const remarksUiSchema = {
   'ui:title': 'Additional remarks',
   // 'ui:description': getPageDescription,
-  remarks: textareaUI({
-    title: 'Additional remarks',
-    hint:
-      'You can provide any additional information that may be helpful in processing this claim',
-    charcount: true,
-    errorMessages: {
-      maxLength: 'Remarks must be less than 2000 characters',
-    },
-  }),
+  remarks: {
+    remarks: textareaUI({
+      title: 'Additional remarks',
+      hint:
+        'You can provide any additional information that may be helpful in processing this claim',
+      charcount: true,
+      errorMessages: {
+        maxLength: 'Remarks must be less than 2000 characters',
+      },
+    }),
+  },
 };
 
 /**
@@ -32,8 +34,13 @@ export const remarksSchema = {
   type: 'object',
   properties: {
     remarks: {
-      type: 'string',
-      maxLength: 2000,
+      type: 'object',
+      properties: {
+        remarks: {
+          type: 'string',
+          maxLength: 2000,
+        },
+      },
     },
   },
 };

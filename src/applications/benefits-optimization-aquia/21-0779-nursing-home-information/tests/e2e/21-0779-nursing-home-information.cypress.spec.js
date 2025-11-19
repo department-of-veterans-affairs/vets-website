@@ -8,7 +8,7 @@ import { featureToggles, user, mockSubmit } from '../fixtures/mocks';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['minimal-test', 'maximal-test'],
+    dataSets: ['minimal-test', 'maximal-test', 'va-file-number-only'],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -93,7 +93,6 @@ const testConfig = createTestConfig(
   formConfig,
 );
 
-// TODO: Temporarily disabled - waiting for content-build registry update
-describe.skip('21-0779 Nursing Home Information E2E Tests', () => {
+describe('21-0779 Nursing Home Information E2E Tests', () => {
   testForm(testConfig);
 });

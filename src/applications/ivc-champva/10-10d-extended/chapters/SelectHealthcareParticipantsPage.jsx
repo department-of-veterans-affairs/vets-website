@@ -48,7 +48,7 @@ export const selectHealthcareParticipantsPage = {
 function dynamicSchema(data, item) {
   let labels = data?.applicants?.map(app => {
     return {
-      [toHash(app.applicantSSN)]: nameWording(app, false, false, false),
+      [toHash(app.applicantSsn)]: nameWording(app, false, false, false),
     };
   });
 

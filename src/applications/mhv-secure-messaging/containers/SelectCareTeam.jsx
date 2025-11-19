@@ -20,7 +20,7 @@ import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/sour
 import { datadogRum } from '@datadog/browser-rum';
 
 import { populatedDraft } from '../selectors';
-import { ErrorMessages, Paths } from '../util/constants';
+import { ErrorMessages, Paths, PageTitles } from '../util/constants';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
 import EmergencyNote from '../components/EmergencyNote';
 import { updateDraftInProgress } from '../actions/threadDetails';
@@ -55,6 +55,8 @@ const SelectCareTeam = () => {
   const careSystemSwitchCountRef = useRef(0);
 
   const MAX_RADIO_OPTIONS = 6;
+
+  const h1Ref = useRef(null);
 
   useEffect(
     () => {
@@ -138,6 +140,15 @@ const SelectCareTeam = () => {
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
+
+  useEffect(
+    () => {
+      document.title = `Select Care Team - Start Message${
+        PageTitles.DEFAULT_PAGE_TITLE_TAG
+      }`;
+    },
+    [allowedRecipients],
+  );
 
   // Send DataDog RUM action on component unmount with the count of care system switches
   // Should call addAction even if the count is zero
@@ -397,7 +408,9 @@ const SelectCareTeam = () => {
 
   return (
     <div className="choose-va-health-care-system">
-      <h1 className="vads-u-margin-bottom--2">Select care team</h1>
+      <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
+        Select care team
+      </h1>
       <EmergencyNote dropDownFlag />
       <RouteLeavingGuard
         saveDraftHandler={saveDraftHandler}

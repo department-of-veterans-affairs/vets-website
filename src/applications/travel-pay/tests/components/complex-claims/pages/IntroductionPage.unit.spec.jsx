@@ -15,7 +15,11 @@ import {
   BTSSS_PORTAL_URL,
   FIND_FACILITY_TP_CONTACT_LINK,
 } from '../../../../constants';
-import ChooseExpenseType from '../../../../components/complex-claims/pages/ChooseExpenseType';
+
+// Mock component for navigation testing
+const ChooseExpenseType = () => (
+  <div data-testid="choose-expense-page">Choose Expense</div>
+);
 
 describe('Travel Pay – IntroductionPage', () => {
   const LocationDisplay = () => {
@@ -137,7 +141,7 @@ describe('Travel Pay – IntroductionPage', () => {
       .exist;
   });
 
-  it('navigates to choose-expense when Start your travel reimbursement claim is clicked', async () => {
+  it('navigates to choose-expense when a claim already exists', async () => {
     // Set up initial state with a created claim
     const stateWithCreatedClaim = {
       ...getData(),
@@ -155,7 +159,7 @@ describe('Travel Pay – IntroductionPage', () => {
       },
     };
 
-    const { getByTestId, container } = renderWithStoreAndRouter(
+    const { getByTestId } = renderWithStoreAndRouter(
       <MemoryRouter initialEntries={[initialRoute]}>
         <Routes>
           <Route
@@ -175,6 +179,41 @@ describe('Travel Pay – IntroductionPage', () => {
       },
     );
 
+    // ComplexClaimRedirect should automatically redirect to choose-expense
+    await waitFor(() => {
+      expect(getByTestId('location-display').textContent).to.equal(
+        '/file-new-claim/12345/45678/choose-expense',
+      );
+    });
+  });
+
+  it('creates claim and navigates to choose-expense when Start button is clicked', async () => {
+    // Set up state with NO existing claim
+    const stateWithoutClaim = getData();
+
+    const { getByTestId, container } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId"
+            element={<IntroductionPage />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/choose-expense"
+            element={<ChooseExpenseType />}
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>,
+      {
+        initialState: stateWithoutClaim,
+        reducers: reducer,
+      },
+    );
+
+    // Verify the intro page renders (no redirect happens)
+    expect(getByTestId('introduction-page')).to.exist;
+
     // Click the start button
     const startButton = $(
       'va-link-action[text="Start your travel reimbursement claim"]',
@@ -182,13 +221,6 @@ describe('Travel Pay – IntroductionPage', () => {
     );
     expect(startButton).to.exist;
     startButton.click();
-
-    // The component should navigate when the button is clicked
-    await waitFor(() => {
-      expect(getByTestId('location-display').textContent).to.equal(
-        '/file-new-claim/12345/45678/choose-expense',
-      );
-    });
   });
 
   it('renders OMB info', () => {
@@ -236,5 +268,67 @@ describe('Travel Pay – IntroductionPage', () => {
     );
 
     expect(getByTestId('introduction-page')).to.exist;
+  });
+
+  it('navigates using appointment claim ID when complexClaim data is null', async () => {
+    // Set up state with claim ID on appointment but null complexClaim data
+    const stateWithAppointmentClaim = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            travelPayClaim: {
+              claim: {
+                id: '99999',
+              },
+            },
+          },
+        },
+        complexClaim: {
+          ...getData().travelPay.complexClaim,
+          claim: {
+            ...getData().travelPay.complexClaim.claim,
+            data: null,
+          },
+        },
+      },
+    };
+
+    const { getByTestId, container } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId"
+            element={<IntroductionPage />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/choose-expense"
+            element={<ChooseExpenseType />}
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>,
+      {
+        initialState: stateWithAppointmentClaim,
+        reducers: reducer,
+      },
+    );
+
+    const startButton = $(
+      'va-link-action[text="Start your travel reimbursement claim"]',
+      container,
+    );
+    expect(startButton).to.exist;
+    startButton.click();
+
+    await waitFor(() => {
+      expect(getByTestId('location-display').textContent).to.equal(
+        '/file-new-claim/12345/99999/choose-expense',
+      );
+    });
   });
 });

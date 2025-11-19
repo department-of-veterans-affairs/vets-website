@@ -71,3 +71,11 @@ export const TIME_LOST_UNITS = {
   DAYS: 'days',
   HOURS: 'hours',
 };
+
+/**
+ * API endpoints
+ */
+export const API_ENDPOINTS = {
+  csrfCheck: '/csrf_token',
+  downloadPdf: '/form214192/download_pdf',
+};

@@ -26,7 +26,7 @@ Benefits Intake Optimization - Aquia Team
 - **Form Number**: VA Form 21-2680
 - **Entry Name**: `21-2680-house-bound-status`
 - **Root URL**: `/pension/aid-attendance-housebound/apply-form-21-2680`
-- **API Endpoint**: `POST /v0/form212680`
+- **API Endpoint**: `POST /v0/form212680/download_pdf` (returns PDF blob)
 - **Product ID**: `803cc23f-a627-4ea7-a3ea-0f5595d0dfd3`
 
 ## Form Flow and Sections
@@ -117,13 +117,28 @@ This application uses the **VA.gov Form System (RJSF)** with traditional page-ba
 
 ### API Integration
 
-The form uses **prefill-transformer** and **submit-transformer** for data handling:
+This form uses a **print-and-upload workflow** where the backend immediately returns a PDF blob instead of a standard JSON response.
 
-- **Form Submission**: `POST ${environment.API_URL}/v0/form212680`
-- **Save in Progress**: Stores partial form data at `/v0/in_progress_forms/21-2680`
-- **User Profile**: `GET /v0/user` (for prefill)
-- **Prefill Transformer**: Converts user profile data to form data
-- **Submit Transformer**: Converts form data to backend API format
+**API Endpoints**:
+
+- **Form Submission**: `POST /v0/form212680/download_pdf` - Returns PDF blob
+- **Save in Progress**: `GET/PUT /v0/in_progress_forms/21-2680` - Stores partial form data
+- **User Profile**: `GET /v0/user` - Used for prefill
+
+**Data Transformers**:
+
+- **Prefill Transformer**: Converts user profile data to form data structure
+- **Submit Transformer**: Converts form data to backend API format (nested structure)
+- **Submit Handler**: Custom handler that processes PDF blob response and stores it in sessionStorage for download from confirmation page
+
+**Workflow**:
+
+1. User completes and submits form
+2. Submit handler sends transformed data to backend
+3. Backend immediately returns a PDF blob (not JSON)
+4. Submit handler converts blob to data URL and stores in sessionStorage
+5. User redirected to confirmation page with download link
+6. Confirmation page retrieves PDF from sessionStorage for download
 
 ## Testing
 

@@ -271,3 +271,16 @@ export const TRIP_TYPES = Object.freeze({
     key: 'RoundTrip',
   },
 });
+
+export const ACCEPTED_FILE_TYPES = Object.freeze([
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.pdf',
+  '.doc',
+  '.docx',
+  '.gif',
+  '.bmp',
+  '.tif',
+  '.tiff',
+]);

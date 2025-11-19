@@ -3,7 +3,7 @@
     "veteranInformation": {
       "veteranFullName": {
         "first": "Leia",
-        "middle": "Organa",
+        "middle": "O",
         "last": "Solo"
       },
       "veteranSsn": "456789123",
@@ -12,7 +12,7 @@
     "veteranAddress": {
       "veteranAddress": {
         "street": "2000 Resistance Base",
-        "street2": "Command Center",
+        "street2": "CC",
         "street3": "Level 3",
         "city": "Alderaan City",
         "state": "NY",
@@ -26,7 +26,7 @@
     "claimantInformation": {
       "claimantFullName": {
         "first": "Bail",
-        "middle": "Prestor",
+        "middle": "P",
         "last": "Organa"
       },
       "claimantDob": "1935-11-30"
@@ -37,7 +37,7 @@
     "claimantAddress": {
       "claimantAddress": {
         "street": "1 Royal Palace Avenue",
-        "street2": "Senate Wing",
+        "street2": "SW",
         "street3": "",
         "city": "Alderaan City",
         "state": "NY",
@@ -63,7 +63,7 @@
       "facilityName": "Alderaan General Hospital",
       "facilityAddress": {
         "street": "500 Medical District",
-        "street2": "Emergency Department",
+        "street2": "ED",
         "street3": "",
         "city": "Albany",
         "state": "NY",

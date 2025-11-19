@@ -106,7 +106,7 @@ export const previousNamePages = arrayBuilderPages(
       uiSchema: previousNameSummaryPage.uiSchema,
       schema: previousNameSummaryPage.schema,
     }),
-    perviousName: pageBuilder.itemPage({
+    previousName: pageBuilder.itemPage({
       path: 'served-under-previous-names/:index/previous-name',
       title: 'Name the Veteran served under',
       uiSchema: previousNamePage.uiSchema,

@@ -1,22 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
 import {
   ConfirmationView,
   ChapterSectionCollection,
 } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { setDocumentTitle } from '../utils';
+
 import NeedHelp from '../components/NeedHelp';
 
 export const ConfirmationPage = ({ route }) => {
   const { formConfig } = route;
 
+  useEffect(
+    () => {
+      setDocumentTitle('Confirmation Page - Dispute Debt');
+    },
+    [formConfig.title],
+  );
+
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const { response, timestamp } = submission || {};
 
-  // no confirmation number is returned from the API currently
-  const { confirmationNumber = '' } = response || {};
+  // Keeping it here, but not currently using it from DMC pdfs, due to order of PDF creation and API response
+  const confirmationNumber = response?.apiResponse?.submissionId || '';
 
   // Dropping reason chapter to better match designs and avoid extra repeating noise
   const trimmedConfig = {
@@ -36,13 +44,15 @@ export const ConfirmationPage = ({ route }) => {
       confirmationNumber={confirmationNumber}
       formConfig={formConfig}
       submitDate={timestamp || ''}
+      pdfUrl={submission.response?.pdfUrl}
+      filename="VA-Dispute-Debt-Submission.pdf"
     >
       <ConfirmationView.SubmissionAlert
         title="Your dispute submission is in progress"
         content="You will receive a letter in the email confirming receipt within 60 days."
         actions={null}
       />
-      {/* <ConfirmationView.SavePdfDownload /> */}
+      <ConfirmationView.SavePdfDownload />
       <ChapterSectionCollection
         formConfig={trimmedConfig}
         header="Information you submitted on this dispute"

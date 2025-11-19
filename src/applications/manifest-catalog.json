@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 147,
+  "totalApplications": 149,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -122,6 +122,18 @@
       "appName": "21P-530a Interment Allowance",
       "entryName": "21p-530a-interment-allowance",
       "rootUrl": "/submit-state-interment-allowance-form-21p-530a"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-pingwind/21-4140",
+      "appName": "Employment Questionnaire",
+      "entryName": "21-4140",
+      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-pingwind/21-8940",
+      "appName": "Apply for additional compensation based on inability to work",
+      "entryName": "21-8940",
+      "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-unemployability-compensation-form-21-8940"
     },
     {
       "directoryPath": "src/applications/burials-ez",
@@ -250,6 +262,12 @@
       "rootUrl": "/school-administrators/submit-yellow-ribbon-program-agreement-form-22-0839"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/0976",
+      "appName": "Program Apporval in a Foreign Country (VA Form 22-0976)",
+      "entryName": "0976-edu-benefits",
+      "rootUrl": "/education/0976"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/0994",
       "appName": "22-0994 Education benefits form",
       "entryName": "0994-edu-benefits",
@@ -278,6 +296,12 @@
       "appName": "10275",
       "entryName": "10275-edu-benefits",
       "rootUrl": "/school-administrators/commit-principles-of-excellence-form-22-10275"
+    },
+    {
+      "directoryPath": "src/applications/edu-benefits/10278",
+      "appName": "Authorize VA to disclose personal information to a third party",
+      "entryName": "10278-edu-benefits",
+      "rootUrl": "/education/10278"
     },
     {
       "directoryPath": "src/applications/edu-benefits/10282",
@@ -514,12 +538,6 @@
       "rootUrl": "/temporary/apply-vre-form-28-1900"
     },
     {
-      "directoryPath": "src/applications/new-chapter-36-form",
-      "appName": "Personalized Career Planning and Guidance/Chapter 36 (VA Form 27-8832)",
-      "entryName": "new-chapter-36-form",
-      "rootUrl": "/temporary/apply-career-guidance-form-27-8832"
-    },
-    {
       "directoryPath": "src/applications/office-directory",
       "appName": "All VA offices",
       "entryName": "office-directory",
@@ -712,22 +730,10 @@
       "rootUrl": "/supporting-forms-for-claims/submit-statement-form-21-4138"
     },
     {
-      "directoryPath": "src/applications/simple-forms/21-4140",
-      "appName": "Submit Employment Questionnaire",
-      "entryName": "21-4140-income-verification",
-      "rootUrl": "/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140"
-    },
-    {
       "directoryPath": "src/applications/simple-forms/21-4142",
       "appName": "Authorize the release of non-VA medical information to VA",
       "entryName": "21-4142-medical-release",
       "rootUrl": "/supporting-forms-for-claims/release-information-to-va-form-21-4142"
-    },
-    {
-      "directoryPath": "src/applications/simple-forms/21-8940",
-      "appName": "Apply for additional compensation based on inability to work",
-      "entryName": "21-8940",
-      "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-form-21-8940"
     },
     {
       "directoryPath": "src/applications/simple-forms/21p-0537",
@@ -836,6 +842,12 @@
       "appName": "Appointments",
       "entryName": "vaos",
       "rootUrl": "/my-health/appointments"
+    },
+    {
+      "directoryPath": "src/applications/vass",
+      "appName": "VASS",
+      "entryName": "vass",
+      "rootUrl": "/service-member/benefits/solid-start/schedule"
     },
     {
       "directoryPath": "src/applications/verify",

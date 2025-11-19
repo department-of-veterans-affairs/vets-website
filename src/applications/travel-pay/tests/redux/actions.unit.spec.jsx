@@ -12,6 +12,7 @@ import {
   createExpense,
   updateExpense,
   deleteExpense,
+  deleteDocument,
 } from '../../redux/actions';
 import { stripTZOffset } from '../../util/dates';
 
@@ -663,6 +664,90 @@ describe('Redux - actions', () => {
         expect(
           mockDispatch.calledWithMatch({
             type: 'DELETE_EXPENSE_FAILURE',
+            error: sinon.match.instanceOf(Error),
+          }),
+        ).to.be.true;
+      });
+    });
+
+    describe('Delete Document', () => {
+      const claimId = 'a48d48d4-cdc5-4922-8355-c1a9b2742feb';
+      const documentId = '4f6f751b-87ff-ef11-9341-001dd809b68c';
+      it('should call correct actions for delete document success', async () => {
+        const mockDispatch = sinon.spy();
+        apiStub.resolves(); // DELETE requests typically return empty response
+
+        await deleteDocument(claimId, documentId)(mockDispatch);
+
+        expect(
+          mockDispatch.calledWithMatch({ type: 'DELETE_DOCUMENT_STARTED' }),
+        ).to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'DELETE_DOCUMENT_SUCCESS',
+            documentId,
+          }),
+        ).to.be.true;
+      });
+
+      it('should call correct actions for delete document failure', async () => {
+        const mockDispatch = sinon.spy();
+        apiStub.rejects(new Error('Failed to delete document'));
+
+        try {
+          await deleteDocument(claimId, documentId)(mockDispatch);
+        } catch (error) {
+          // Expected to throw
+        }
+
+        expect(
+          mockDispatch.calledWithMatch({ type: 'DELETE_DOCUMENT_STARTED' }),
+        ).to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'DELETE_DOCUMENT_FAILURE',
+            error: sinon.match.instanceOf(Error),
+          }),
+        ).to.be.true;
+      });
+
+      it('should throw error when document id is missing', async () => {
+        const mockDispatch = sinon.spy();
+
+        try {
+          await deleteDocument(claimId)(mockDispatch);
+          expect.fail('Expected an error to be thrown');
+        } catch (error) {
+          expect(error.message).to.equal('Missing document id');
+        }
+
+        expect(
+          mockDispatch.calledWithMatch({ type: 'DELETE_DOCUMENT_STARTED' }),
+        ).to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'DELETE_DOCUMENT_FAILURE',
+            error: sinon.match.instanceOf(Error),
+          }),
+        ).to.be.true;
+      });
+
+      it('should throw error when document id is undefined', async () => {
+        const mockDispatch = sinon.spy();
+
+        try {
+          await deleteDocument(claimId, undefined)(mockDispatch);
+          expect.fail('Expected an error to be thrown');
+        } catch (error) {
+          expect(error.message).to.equal('Missing document id');
+        }
+
+        expect(
+          mockDispatch.calledWithMatch({ type: 'DELETE_DOCUMENT_STARTED' }),
+        ).to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'DELETE_DOCUMENT_FAILURE',
             error: sinon.match.instanceOf(Error),
           }),
         ).to.be.true;

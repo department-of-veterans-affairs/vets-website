@@ -11,7 +11,7 @@ import {
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { isPatientVeteran } from './helpers';
+import { isPatientVeteran } from '../utils';
 
 /**
  * uiSchema for Veteran Personal Info page

@@ -1,7 +1,6 @@
 import { cloneDeep } from 'lodash';
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { personalizeTitleByName } from '../../utils/helpers';
 import { VaRadio, VaRadioOption } from '../../utils/imports';
@@ -68,7 +67,6 @@ const AddressSelectionPage = props => {
     contentBeforeButtons,
     data,
     dataKey,
-    goBack,
     goForward,
     onChange,
   } = props;
@@ -160,7 +158,7 @@ const AddressSelectionPage = props => {
       </fieldset>
 
       {contentBeforeButtons}
-      <NavButtons goBack={!isMinimalHeaderApp() && goBack} submitToContinue />
+      <NavButtons submitToContinue />
       {contentAfterButtons}
     </form>
   );

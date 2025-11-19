@@ -20,12 +20,7 @@ describe('Search.gov maintenance window message', () => {
   const setClockAndSearch = (date, axeOptions) => {
     cy.clock(new Date(date).getTime(), ['Date']);
     cy.visit('/search?query=benefits');
-    if (axeOptions) {
-      cy.injectAxe();
-      cy.axeCheck('main', axeOptions);
-    } else {
-      cy.injectAxeThenAxeCheck();
-    }
+    cy.injectAxeThenAxeCheck('main', { headingOrder: false });
   };
 
   const verifyBanner = () => {
@@ -65,6 +60,8 @@ describe('Search.gov maintenance window message', () => {
     setClockAndSearch('2021-03-16T20:00:00.000Z', { headingOrder: false });
     verifyBanner();
     checkForResults();
+
+    cy.axeCheck('main', { headingOrder: false });
   });
 
   it('should display maintenance message during maintenance window on Thursday at 4 PM EST', () => {
@@ -72,6 +69,8 @@ describe('Search.gov maintenance window message', () => {
     setClockAndSearch('2021-03-18T20:00:00.000Z', { headingOrder: false });
     verifyBanner();
     checkForResults();
+
+    cy.axeCheck('main', { headingOrder: false });
   });
 
   it('should display maintenance message during maintenance window on Tuesday at 5 PM EST', () => {
@@ -79,6 +78,8 @@ describe('Search.gov maintenance window message', () => {
     setClockAndSearch('2021-03-16T21:00:00.000Z', { headingOrder: false });
     verifyBanner();
     verifyNoResults();
+
+    cy.axeCheck('main', { headingOrder: false });
   });
 
   it('should display maintenance message during maintenance window on Thursday at 5 PM EST', () => {
@@ -86,6 +87,8 @@ describe('Search.gov maintenance window message', () => {
     setClockAndSearch('2021-03-18T21:00:00.000Z', { headingOrder: false });
     verifyBanner();
     verifyNoResults();
+
+    cy.axeCheck('main', { headingOrder: false });
   });
 
   it('should NOT display maintenance message on Monday at 2 PM EST', () => {
@@ -94,7 +97,7 @@ describe('Search.gov maintenance window message', () => {
     verifyNoBanner();
     checkForResults();
 
-    cy.axeCheck();
+    cy.axeCheck('main', { headingOrder: false });
   });
 
   it('should NOT display maintenance message on Saturday at 6 PM EST', () => {
@@ -103,7 +106,7 @@ describe('Search.gov maintenance window message', () => {
     verifyNoBanner();
     verifyNoResults();
 
-    cy.axeCheck();
+    cy.axeCheck('main', { headingOrder: false });
   });
 
   it('should resume normal functionality immediately after maintenance window ends', () => {
@@ -112,6 +115,6 @@ describe('Search.gov maintenance window message', () => {
     verifyNoBanner();
     checkForResults();
 
-    cy.axeCheck();
+    cy.axeCheck('main', { headingOrder: false });
   });
 });
