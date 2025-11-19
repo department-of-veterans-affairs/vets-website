@@ -29,13 +29,15 @@ export default function App({ virtualAgentEnableParamErrorDetection }) {
     [expired],
   );
 
+  // Polling interval for token expiry check (default: 5 seconds)
+  const POLLING_INTERVAL_MS = 5000;
   useEffect(() => {
     const id = setInterval(() => {
       const target = getAlertTargetTs(getTokenExpiresAt());
       if (target && Date.now() >= target) {
         setAlertOpen(true);
       }
-    }, 1000);
+    }, POLLING_INTERVAL_MS);
     return () => clearInterval(id);
   }, []);
 
