@@ -332,7 +332,7 @@ class MedicationsRefillPage {
   ) => {
     cy.intercept(
       'PATCH',
-      `/my_health/v1/prescriptions/refill_prescriptions?ids[]=${prescriptionId1}&ids[]=${prescriptionId2}`,
+      `/my_health/v2/prescriptions/refill_prescriptions?ids[]=${prescriptionId1}&ids[]=${prescriptionId2}`,
       partialsuccess,
     );
     cy.get('[data-testid="request-refill-button"]').should('exist');

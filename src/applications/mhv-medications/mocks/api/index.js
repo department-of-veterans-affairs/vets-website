@@ -40,20 +40,20 @@ const responses = {
   'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,
   // MHV Medications endpoints below
   'GET /my_health/v1/medical_records/allergies': allergies.all,
-  'GET /my_health/v1/prescriptions': (_req, res) => {
+  'GET /my_health/v2/prescriptions': (_req, res) => {
     delaySingleResponse(
       () => res.json(prescriptions.generateMockPrescriptions(_req)),
       2250,
     );
   },
   // 'GET /my_health/v1/prescriptions': prescriptionsFixture,
-  'GET /my_health/v1/prescriptions/list_refillable_prescriptions': (
+  'GET /my_health/v2/prescriptions/list_refillable_prescriptions': (
     _req,
     res,
   ) => {
     delaySingleResponse(() => res.json(refillablePrescriptionsFixture), 2250);
   },
-  'PATCH /my_health/v1/prescriptions/refill_prescriptions': (req, res) => {
+  'PATCH /my_health/v2/prescriptions/refill_prescriptions': (req, res) => {
     // Get requested IDs from query params.
     const { ids } = req.query;
     // Emulate a successful refill for the first ID and failed refill for subsequent IDs
@@ -107,7 +107,7 @@ const responses = {
   //     ],
   //   });
   // },
-  'GET /my_health/v1/prescriptions/:id': (req, res) => {
+  'GET /my_health/v2/prescriptions/:id': (req, res) => {
     const { id } = req.params;
     const data = {
       data: prescriptions.mockPrescription(id, {
