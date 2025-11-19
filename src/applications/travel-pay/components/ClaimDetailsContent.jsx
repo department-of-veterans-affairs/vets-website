@@ -144,6 +144,8 @@ export default function ClaimDetailsContent({
           claimStatus === STATUSES.Saved.name) && (
           <va-link-action
             text="Complete and file your claim"
+            // Specifically NOT a client-side route to ensure
+            // redirect logic is evaluated upon entry into complex claims
             href={`/my-health/travel-pay/file-new-claim/${claimId}`}
           />
         )}
