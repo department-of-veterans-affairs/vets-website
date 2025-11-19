@@ -56,28 +56,25 @@ export const SearchForm = props => {
     setDraftFormState(prev => ({ ...prev, ...updates }));
   }, []);
 
-  const handleFacilityTypeChange = e => {
+  const handleFacilityTypeChange = useCallback(e => {
     const newFacilityType = e.target.value;
 
-    setDraftFormState({
-      ...draftFormState,
+    setDraftFormState(prev => ({
+      ...prev,
       facilityType: newFacilityType,
       serviceType: null,
       vamcServiceDisplay: null,
-    });
+    }));
     // Note: Specialty fetching for CC_PROVIDER is handled by ServiceType component
-  };
+  }, []);
 
-  const handleServiceTypeChange = ({ target, selectedItem }) => {
+  const handleServiceTypeChange = useCallback(({ target, selectedItem }) => {
     setSelectedServiceType(selectedItem);
     const option = target.value.trim();
     const serviceType = option === 'All' ? null : option;
 
-    setDraftFormState({
-      ...draftFormState,
-      serviceType,
-    });
-  };
+    setDraftFormState(prev => ({ ...prev, serviceType }));
+  }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
