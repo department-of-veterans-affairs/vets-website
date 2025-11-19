@@ -90,6 +90,5 @@ CustomAlertPage.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   goBack: PropTypes.func,
-  name: PropTypes.string,
   onContinue: PropTypes.func,
 };
