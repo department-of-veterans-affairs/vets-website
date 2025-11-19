@@ -121,8 +121,8 @@ const Vitals = () => {
         Vitals
       </h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
-        {`Vitals are basic health numbers your providers check at your
-        appointments.`}
+        Vitals are basic health numbers your providers check at your
+        appointments.
       </p>
       <AcceleratedCernerFacilityAlert {...CernerAlertContent.VITALS} />
 
