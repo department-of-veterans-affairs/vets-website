@@ -116,6 +116,7 @@ const DateTimeSelection = () => {
     <Wrapper
       pageTitle="What date and time do you want for this appointment?"
       classNames="vads-u-margin-top--4"
+      required
     >
       <div data-testid="content">
         <p>
