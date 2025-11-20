@@ -55,5 +55,5 @@ ReviewSectionContent.propTypes = {
   editSection: PropTypes.func.isRequired,
   items: PropTypes.array.isRequired,
   keys: PropTypes.array.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
 };

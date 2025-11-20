@@ -235,9 +235,10 @@ const ReviewPage = props => {
     );
   };
 
-  useEffect(async () => {
-    await getUploadedFiles();
-    focusElement('h2');
+  useEffect(() => {
+    getUploadedFiles().then(() => {
+      focusElement('h2');
+    });
   }, []);
 
   return (
@@ -380,12 +381,11 @@ const ReviewPage = props => {
               .filter(chapter => chapter.name === 'veteransPersonalInformation')
               .map(chapter => {
                 return (
-                  <>
+                  <React.Fragment key={chapter.name}>
                     <div
                       name={`chapter${
                         chapterTitles.veteransPersonalInformation
                       }ScrollElement`}
-                      key={chapter.name}
                     />
                     {!editSection.includes(
                       chapterTitles.veteransPersonalInformation,
@@ -485,7 +485,7 @@ const ReviewPage = props => {
                         />
                       </>
                     )}
-                  </>
+                  </React.Fragment>
                 );
               })}
 
@@ -532,12 +532,11 @@ const ReviewPage = props => {
               )
               .map(chapter => {
                 return (
-                  <>
+                  <React.Fragment key={chapter.name}>
                     <div
                       name={`chapter${
                         chapterTitles.familyMembersPersonalInformation
                       }ScrollElement`}
-                      key={chapter.name}
                     />
                     {!editSection.includes(
                       chapterTitles.familyMembersPersonalInformation,
@@ -617,7 +616,7 @@ const ReviewPage = props => {
                         />
                       </>
                     )}
-                  </>
+                  </React.Fragment>
                 );
               })}
 
@@ -661,12 +660,11 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'yourInformation')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${
                       chapterTitles.yourInformation
                     }ScrollElement`}
-                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourInformation) ? (
                     <ReviewSectionContent
@@ -752,7 +750,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
 
@@ -760,7 +758,7 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'yourPostalCode')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${chapterTitles.yourPostalCode}ScrollElement`}
                     key={chapter.name}
@@ -806,7 +804,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
 
@@ -814,12 +812,11 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'yourVAHealthFacility')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${
                       chapterTitles.yourVAHealthFacility
                     }ScrollElement`}
-                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourVAHealthFacility) ? (
                     <ReviewSectionContent
@@ -862,7 +859,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
 
@@ -870,12 +867,11 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'stateOfProperty')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${
                       chapterTitles.stateOfProperty
                     }ScrollElement`}
-                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.stateOfProperty) ? (
                     <ReviewSectionContent
@@ -918,7 +914,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
 
@@ -926,12 +922,11 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'yourVREInformation')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${
                       chapterTitles.yourVREInformation
                     }ScrollElement`}
-                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourVREInformation) ? (
                     <ReviewSectionContent
@@ -982,7 +977,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
 
@@ -990,18 +985,16 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'schoolInformation')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${
                       chapterTitles.schoolInformation
                     }ScrollElement`}
-                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.schoolInformation) ? (
                     <ReviewSectionContent
                       title={chapterTitles.schoolInformation}
-                      editSection={editAll}
-                      // use pagesToMoveConfig if combining pages
+                      editSection={editAll} // use pagesToMoveConfig if combining pages
                       keys={pagesToMoveConfig.schoolInformation}
                       items={[
                         {
@@ -1064,7 +1057,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
 
@@ -1072,7 +1065,7 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'yourContactInformation')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${
                       chapterTitles.yourContactInformation
@@ -1157,7 +1150,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
 
@@ -1165,7 +1158,7 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'yourMailingAddress')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${
                       chapterTitles.yourMailingAddress
@@ -1258,7 +1251,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
         </VaAccordionItem>
@@ -1467,11 +1460,19 @@ ReviewPage.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  formData: PropTypes.object,
+  askVA: PropTypes.object,
+  chapters: PropTypes.array, // Of what?
+  formData: PropTypes.object, // Shape?
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  loggedIn: PropTypes.bool,
   isUserLOA3: PropTypes.bool,
+  loggedIn: PropTypes.bool,
+  setData: PropTypes.func,
+  setEditMode: PropTypes.func,
+  setValid: PropTypes.func,
+  setViewedPages: PropTypes.func,
+  uploadFile: PropTypes.func,
+  onSetData: PropTypes.func,
 };
 
 const mapDispatchToProps = {
