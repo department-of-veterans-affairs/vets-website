@@ -2,6 +2,7 @@ import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import { TITLE, SUBTITLE } from '../utils/constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -13,7 +14,10 @@ import ErrorText from '../components/ErrorText';
 import veteranIdentification from './chapters/01-veteran-information/veteranIdentification';
 import veteranAdditional from './chapters/01-veteran-information/veteranAdditional';
 import veteranName from './chapters/01-veteran-information/veteranName';
-import claimantInformationPage from './chapters/02-claimant-information/claimantInformation';
+import claimantRelationship from './chapters/02-claimant-information/claimantRelationship';
+import claimantInformation from './chapters/02-claimant-information/claimantInformation';
+import claimantIdentification from './chapters/02-claimant-information/claimantIdentification';
+import claimantHistory from './chapters/02-claimant-information/claimantHistory';
 import mailingAddress from './chapters/02-claimant-information/mailingAddress';
 import contactInformation from './chapters/02-claimant-information/contactInformation';
 import benefitType from './chapters/02-claimant-information/benefitType';
@@ -58,6 +62,7 @@ import directDepositAccount from './chapters/07-additional-information/directDep
 import otherPaymentOptions from './chapters/07-additional-information/otherPaymentOptions';
 import supportingDocuments from './chapters/07-additional-information/supportingDocuments';
 import uploadDocuments from './chapters/07-additional-information/uploadDocuments';
+import IncorrectForm from '../containers/IncorrectForm';
 // TODO: Will be added after mvp release
 // import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
 import { transform } from './submit-transformer';
@@ -141,11 +146,38 @@ const formConfig = {
     claimantInformation: {
       title: "Claimant's information",
       pages: {
+        claimantRelationship: {
+          path: 'claimant-relationship',
+          title: 'Claimant’s relationship to the Veteran',
+          uiSchema: claimantRelationship.uiSchema,
+          schema: claimantRelationship.schema,
+        },
+        claimantOther: {
+          path: 'claimant-other',
+          title: 'Claimant’s relationship to the Veteran',
+          CustomPage: IncorrectForm,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+          depends: formData => formData.claimantRelationship === 'OTHER',
+        },
         claimantInformation: {
           path: 'claimant-information',
-          title: 'Claimant’s relationship to the Veteran',
-          uiSchema: claimantInformationPage.uiSchema,
-          schema: claimantInformationPage.schema,
+          title: 'Claimant’s name and date of birth',
+          uiSchema: claimantInformation.uiSchema,
+          schema: claimantInformation.schema,
+        },
+        claimantIdentification: {
+          path: 'claimant-identification',
+          title: 'Claimant’s identification information',
+          uiSchema: claimantIdentification.uiSchema,
+          schema: claimantIdentification.schema,
+        },
+        claimantHistory: {
+          path: 'claimant-service-history',
+          title: 'Claimant’s service history',
+          uiSchema: claimantHistory.uiSchema,
+          schema: claimantHistory.schema,
         },
         mailingAddress: {
           path: 'claimant-mailing-address',

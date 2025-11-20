@@ -10,7 +10,11 @@ import {
   selectAllExpenses,
 } from '../../../redux/selectors';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
-import { EXPENSE_TYPES, TRIP_TYPES } from '../../../constants';
+import {
+  EXPENSE_TYPE_KEYS,
+  EXPENSE_TYPES,
+  TRIP_TYPES,
+} from '../../../constants';
 import CancelExpenseModal from './CancelExpenseModal';
 
 const Mileage = () => {
@@ -57,7 +61,7 @@ const Mileage = () => {
   const handleContinue = async () => {
     const expenseData = {
       tripType,
-      expenseType: EXPENSE_TYPES.Mileage.title,
+      expenseType: EXPENSE_TYPE_KEYS.MILEAGE,
     };
 
     // Check if user selected "another-address" or "one-way"
@@ -103,7 +107,7 @@ const Mileage = () => {
   useEffect(
     () => {
       const hasMileageExpense = (allExpenses ?? []).some(
-        e => e.expenseType === EXPENSE_TYPES.Mileage.name,
+        e => e.expenseType === EXPENSE_TYPE_KEYS.MILEAGE,
       );
       if (expenseId ?? hasMileageExpense) {
         setDepartureAddress('home-address');
