@@ -34,6 +34,7 @@ import FileUpload from '../components/FileUpload';
 import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import ReviewSectionContent from '../components/reviewPage/ReviewSectionContent';
 import SaveCancelButtons from '../components/reviewPage/SaveCancelButtons';
+// eslint-disable-next-line import/no-cycle
 import formConfig from '../config/form';
 import { DownloadLink } from '../config/helpers';
 import {
@@ -316,7 +317,9 @@ const ReviewPage = props => {
                   expandedPages={chapter.expandedPages}
                   chapterFormConfig={chapter.formConfig}
                   chapterKey={chapter.name}
+                  // eslint-disable-next-line react/prop-types
                   form={props.form}
+                  // eslint-disable-next-line react/prop-types
                   formContext={props.formContext}
                   onEdit={handleEdit}
                   open={chapter.open}
@@ -350,7 +353,9 @@ const ReviewPage = props => {
                   expandedPages={chapter.expandedPages}
                   chapterFormConfig={chapter.formConfig}
                   chapterKey={chapter.name}
+                  // eslint-disable-next-line react/prop-types
                   form={props.form}
+                  // eslint-disable-next-line react/prop-types
                   formContext={props.formContext}
                   onEdit={handleEdit}
                   showButtons
@@ -459,7 +464,9 @@ const ReviewPage = props => {
                           expandedPages={chapter.expandedPages}
                           chapterFormConfig={chapter.formConfig}
                           chapterKey={chapter.name}
+                          // eslint-disable-next-line react/prop-types
                           form={props.form}
+                          // eslint-disable-next-line react/prop-types
                           formContext={props.formContext}
                           onEdit={handleEdit}
                           showButtons={false}
@@ -498,7 +505,9 @@ const ReviewPage = props => {
                     expandedPages={chapter.expandedPages}
                     chapterFormConfig={chapter.formConfig}
                     chapterKey={chapter.name}
+                    // eslint-disable-next-line react/prop-types
                     form={props.form}
+                    // eslint-disable-next-line react/prop-types
                     formContext={props.formContext}
                     onEdit={handleEdit}
                     showButtons
@@ -590,7 +599,9 @@ const ReviewPage = props => {
                           expandedPages={chapter.expandedPages}
                           chapterFormConfig={chapter.formConfig}
                           chapterKey={chapter.name}
+                          // eslint-disable-next-line react/prop-types
                           form={props.form}
+                          // eslint-disable-next-line react/prop-types
                           formContext={props.formContext}
                           onEdit={handleEdit}
                           showButtons={false}
@@ -629,7 +640,9 @@ const ReviewPage = props => {
                     expandedPages={chapter.expandedPages}
                     chapterFormConfig={chapter.formConfig}
                     chapterKey={chapter.name}
+                    // eslint-disable-next-line react/prop-types
                     form={props.form}
+                    // eslint-disable-next-line react/prop-types
                     formContext={props.formContext}
                     onEdit={handleEdit}
                     showButtons
@@ -728,7 +741,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -782,7 +797,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -837,7 +854,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -892,7 +911,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -955,7 +976,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -1035,7 +1058,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -1128,7 +1153,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -1229,7 +1256,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -1296,7 +1325,9 @@ const ReviewPage = props => {
                     expandedPages={chapter.expandedPages}
                     chapterFormConfig={chapter.formConfig}
                     chapterKey={chapter.name}
+                    // eslint-disable-next-line react/prop-types
                     form={props.form}
+                    // eslint-disable-next-line react/prop-types
                     formContext={props.formContext}
                     onEdit={handleEdit}
                     showButtons
