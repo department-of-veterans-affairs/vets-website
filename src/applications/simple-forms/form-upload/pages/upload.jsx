@@ -3,12 +3,17 @@ import {
   descriptionUI,
   fileInputUI,
   fileInputSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import PropTypes from 'prop-types';
-import { UPLOAD_FORM_DESCRIPTION, MAX_FILE_SIZE } from '../config/constants';
-import { getFormContent } from '../helpers';
+import {
+  UPLOAD_FORM_DESCRIPTION,
+  MAX_FILE_SIZE,
+  UPLOAD_TITLE,
+} from '../config/constants';
+import { getAlert, getFormContent } from '../helpers';
 import { CustomAlertPage } from './helpers';
 
 const { formNumber, title } = getFormContent();
@@ -17,6 +22,12 @@ const warningsPresent = formData => formData.uploadedFile?.warnings?.length > 0;
 
 export const uploadPage = {
   uiSchema: {
+    ...titleUI(
+      UPLOAD_TITLE,
+      <div className="vads-u-magin-top--3">
+        {getAlert({ name: 'uploadPage' }, false)}
+      </div>,
+    ),
     ...descriptionUI(UPLOAD_FORM_DESCRIPTION),
     uploadedFile: {
       ...fileInputUI({

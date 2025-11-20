@@ -24,7 +24,10 @@ const AlertAddContactEmail = ({ recordEvent, onSkipClick }) => {
       dataTestid="mhv-alert--add-contact-email"
       className="vads-u-margin-y--2"
     >
-      <h2 slot="headline">{headline}</h2>
+      <h2 slot="headline">
+        <span className="usa-sr-only">warning</span>
+        {headline}
+      </h2>
       <React.Fragment key=".1">
         <p>{CONTENT}</p>
         <p>
