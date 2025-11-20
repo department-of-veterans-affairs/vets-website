@@ -19,7 +19,7 @@ describe('HCA-ShortForm-Authenticated: High disability', () => {
   });
 
   it('works with total disability rating greater than or equal to 50%', () => {
-    advanceToAuthShortForm();
+    advanceToAuthShortForm(testData);
     advanceFromShortFormToSubmit(testData);
     cy.injectAxeThenAxeCheck();
   });
@@ -32,7 +32,7 @@ describe('HCA-ShortForm-Authenticated: Low disability', () => {
   });
 
   it('works with self disclosure of VA compensation type of High Disability', () => {
-    advanceToAuthShortForm();
+    advanceToAuthShortForm(testData);
 
     goToNextPage('/va-benefits/basic-information');
     cy.selectRadio('root_vaCompensationType', 'highDisability');
