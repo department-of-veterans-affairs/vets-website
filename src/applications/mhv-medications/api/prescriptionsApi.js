@@ -19,9 +19,7 @@ const documentationApiBasePath = `${environment.API_URL}/my_health/v1`;
 
 const getApiBasePath = state => {
   const isCernerPilot = selectCernerPilotFlag(state);
-  return isCernerPilot
-    ? `${environment.API_URL}/my_health/v2`
-    : `${environment.API_URL}/my_health/v1`;
+  return `${environment.API_URL}/my_health/${isCernerPilot ? 'v2' : 'v1'}`;
 };
 
 const getRefillMethod = state => {
@@ -32,14 +30,21 @@ const getRefillMethod = state => {
 // Create the prescriptions API slice
 export const prescriptionsApi = createApi({
   reducerPath: 'prescriptionsApi',
-  baseQuery: async ({ path, options = {} }) => {
+  baseQuery: async ({ path, options = {} }, api) => {
     const defaultOptions = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
+
+    const state = api.getState();
+    const apiBasePath = getApiBasePath(state);
+
     try {
-      const result = await apiRequest(path, { ...defaultOptions, ...options });
+      const result = await apiRequest(`${apiBasePath}${path}`, {
+        ...defaultOptions,
+        ...options,
+      });
       return { data: result };
     } catch ({ errors }) {
       return {
@@ -59,33 +64,11 @@ export const prescriptionsApi = createApi({
   tagTypes: ['Prescription'],
   endpoints: builder => ({
     getPrescriptionsExportList: builder.query({
-      queryFn: async (
-        { filterOption = '', sortEndpoint, includeImage = false },
-        { getState },
-      ) => {
-        const apiBasePath = getApiBasePath(getState());
-        const path = `${apiBasePath}/prescriptions?${filterOption}${sortEndpoint}${
+      query: ({ filterOption = '', sortEndpoint, includeImage = false }) => ({
+        path: `/prescriptions?${filterOption}${sortEndpoint}${
           includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
-        }`;
-
-        const defaultOptions = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
-
-        try {
-          const result = await apiRequest(path, defaultOptions);
-          return { data: result };
-        } catch ({ errors }) {
-          return {
-            error: {
-              status: errors?.[0]?.status || 500,
-              message: errors?.[0]?.title || 'Failed to fetch data',
-            },
-          };
-        }
-      },
+        }`,
+      }),
       providesTags: ['Prescription'],
       transformResponse: response => {
         if (response?.data && Array.isArray(response.data)) {
@@ -100,8 +83,7 @@ export const prescriptionsApi = createApi({
       },
     }),
     getPrescriptionsList: builder.query({
-      queryFn: async (params = {}, { getState }) => {
-        const apiBasePath = getApiBasePath(getState());
+      query: (params = {}) => {
         const {
           page = 1,
           perPage = 10,
@@ -116,25 +98,9 @@ export const prescriptionsApi = createApi({
         if (sortEndpoint) queryParams += sortEndpoint;
         if (includeImage) queryParams += '&include_image=true';
 
-        const path = `${apiBasePath}/prescriptions?${queryParams}`;
-
-        const defaultOptions = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        return {
+          path: `/prescriptions?${queryParams}`,
         };
-
-        try {
-          const result = await apiRequest(path, defaultOptions);
-          return { data: result };
-        } catch ({ errors }) {
-          return {
-            error: {
-              status: errors?.[0]?.status || 500,
-              message: errors?.[0]?.title || 'Failed to fetch data',
-            },
-          };
-        }
       },
       providesTags: ['Prescription'],
       transformResponse: response => {
@@ -160,28 +126,9 @@ export const prescriptionsApi = createApi({
       },
     }),
     getPrescriptionById: builder.query({
-      queryFn: async (id, { getState }) => {
-        const apiBasePath = getApiBasePath(getState());
-        const path = `${apiBasePath}/prescriptions/${id}`;
-
-        const defaultOptions = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
-
-        try {
-          const result = await apiRequest(path, defaultOptions);
-          return { data: result };
-        } catch ({ errors }) {
-          return {
-            error: {
-              status: errors?.[0]?.status || 500,
-              message: errors?.[0]?.title || 'Failed to fetch data',
-            },
-          };
-        }
-      },
+      query: id => ({
+        path: `/prescriptions/${id}`,
+      }),
       providesTags: ['Prescription'],
       transformResponse: response => {
         // If it's a single prescription (not in an entry array)
@@ -195,28 +142,9 @@ export const prescriptionsApi = createApi({
       },
     }),
     getRefillablePrescriptions: builder.query({
-      queryFn: async (_, { getState }) => {
-        const apiBasePath = getApiBasePath(getState());
-        const path = `${apiBasePath}/prescriptions/list_refillable_prescriptions`;
-
-        const defaultOptions = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
-
-        try {
-          const result = await apiRequest(path, defaultOptions);
-          return { data: result };
-        } catch ({ errors }) {
-          return {
-            error: {
-              status: errors?.[0]?.status || 500,
-              message: errors?.[0]?.title || 'Failed to fetch data',
-            },
-          };
-        }
-      },
+      query: () => ({
+        path: `/prescriptions/list_refillable_prescriptions`,
+      }),
       providesTags: ['Prescription'],
       transformResponse: response => {
         if (response?.data && Array.isArray(response.data)) {
@@ -241,66 +169,49 @@ export const prescriptionsApi = createApi({
       },
     }),
     getPrescriptionDocumentation: builder.query({
-      query: id => ({
-        path: `${documentationApiBasePath}/prescriptions/${id}/documentation`,
-      }),
-      transformResponse: response => {
-        return response?.data?.attributes?.html
-          ? sanitizeKramesHtmlStr(response.data.attributes.html)
-          : null;
+      // This endpoint always hits v1 docs API regardless of Cerner pilot flag
+      async queryFn(id) {
+        try {
+          const response = await apiRequest(
+            `${documentationApiBasePath}/prescriptions/${id}/documentation`,
+          );
+
+          const html = response?.data?.attributes?.html
+            ? sanitizeKramesHtmlStr(response.data.attributes.html)
+            : null;
+
+          return { data: html };
+        } catch (error) {
+          const errors = error?.errors || [];
+          return {
+            error: {
+              status: errors?.[0]?.status || 500,
+              message: errors?.[0]?.title || 'Failed to fetch data',
+            },
+          };
+        }
       },
     }),
     refillPrescription: builder.mutation({
-      queryFn: async (id, { getState }) => {
-        const apiBasePath = getApiBasePath(getState());
-        const method = getRefillMethod(getState());
-        const path = `${apiBasePath}/prescriptions/${id}/refill`;
-
-        const defaultOptions = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method,
+      query: id => {
+        // If you later use getRefillMethod(state), you can wire it here via api.getState()
+        return {
+          path: `/prescriptions/${id}/refill`,
+          options: state => ({
+            method: getRefillMethod(state),
+          }),
         };
-
-        try {
-          const result = await apiRequest(path, defaultOptions);
-          return { data: result };
-        } catch ({ errors }) {
-          return {
-            error: {
-              status: errors?.[0]?.status || 500,
-              message: errors?.[0]?.title || 'Failed to fetch data',
-            },
-          };
-        }
       },
     }),
     bulkRefillPrescriptions: builder.mutation({
-      queryFn: async (ids, { getState }) => {
-        const apiBasePath = getApiBasePath(getState());
-        const method = getRefillMethod(getState());
+      query: ids => {
         const idParams = ids.map(id => `ids[]=${id}`).join('&');
-        const path = `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`;
-
-        const defaultOptions = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method,
+        return {
+          path: `/prescriptions/refill_prescriptions?${idParams}`,
+          options: state => ({
+            method: getRefillMethod(state),
+          }),
         };
-
-        try {
-          const result = await apiRequest(path, defaultOptions);
-          return { data: result };
-        } catch ({ errors }) {
-          return {
-            error: {
-              status: errors?.[0]?.status || 500,
-              message: errors?.[0]?.title || 'Failed to fetch data',
-            },
-          };
-        }
       },
       invalidatesTags: ['Prescription'],
       transformResponse: response => {
