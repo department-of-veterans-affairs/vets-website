@@ -26,16 +26,17 @@ const InterstitialPage = props => {
   const {
     allRecipients,
     recentRecipients,
+    noAssociations,
     error: recipientsError,
   } = useSelector(state => state.sm.recipients);
 
   useEffect(
     () => {
-      if (recipientsError) {
+      if (recipientsError || noAssociations) {
         history.push(Paths.INBOX);
       }
     },
-    [recipientsError, history],
+    [recipientsError, noAssociations, history],
   );
 
   useEffect(

@@ -31,6 +31,7 @@ const RecentCareTeams = () => {
   const {
     recentRecipients,
     allRecipients,
+    noAssociations,
     error: recipientsError,
   } = recipients;
   const h1Ref = useRef(null);
@@ -41,11 +42,11 @@ const RecentCareTeams = () => {
 
   useEffect(
     () => {
-      if (recipientsError) {
+      if (recipientsError || noAssociations) {
         history.push(Paths.INBOX);
       }
     },
-    [recipientsError, history],
+    [recipientsError, noAssociations, history],
   );
 
   useEffect(

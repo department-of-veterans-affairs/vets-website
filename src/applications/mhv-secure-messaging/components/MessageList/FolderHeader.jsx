@@ -101,7 +101,7 @@ const FolderHeader = props => {
 
   const RecipientListErrorAlert = () => {
     return (
-      <va-alert status="warning" data-testid="">
+      <va-alert status="warning" data-testid="recipients-error-alert">
         <h2 slot="headline">We can’t load your care team list right now</h2>
         <p>
           We’re sorry. Something went wrong on our end. Please refresh this page

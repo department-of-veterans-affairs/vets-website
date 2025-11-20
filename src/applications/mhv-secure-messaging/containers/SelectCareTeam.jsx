@@ -61,11 +61,11 @@ const SelectCareTeam = () => {
 
   useEffect(
     () => {
-      if (recipientsError) {
+      if (recipientsError || noAssociations) {
         history.push(Paths.INBOX);
       }
     },
-    [recipientsError, history],
+    [recipientsError, noAssociations, history],
   );
 
   useEffect(
