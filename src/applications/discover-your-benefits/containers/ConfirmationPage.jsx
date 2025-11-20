@@ -41,6 +41,17 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   const filterOptions = useMemo(
     () => [
       {
+        id: 2,
+        label: 'blah',
+        isRadio: true,
+        category: [
+          { id: 'Burials', label: 'Burials and memorials' },
+          { id: 'Careers', label: 'Careers and employment' },
+          { id: 'Disability', label: 'Disability' },
+          { id: 'Education', label: 'Education' },
+        ],
+      },
+      {
         id: 1,
         label: 'Benefit type',
         category: [
