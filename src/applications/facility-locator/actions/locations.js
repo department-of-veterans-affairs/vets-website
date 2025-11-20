@@ -41,6 +41,21 @@ const returnAllCare = async params => {
     true,
   );
 
+  const combinedData = [...nonVaData.data, ...vaData.data]
+    .map(location => {
+      const distance =
+        center &&
+        distBetween(
+          center[0],
+          center[1],
+          location.attributes.lat,
+          location.attributes.long,
+        );
+      return { ...location, distance };
+    })
+    .sort((resultA, resultB) => resultA.distance - resultB.distance)
+    .slice(0, 20);
+
   return {
     meta: {
       pagination: {
@@ -48,26 +63,11 @@ const returnAllCare = async params => {
         nextPage: null,
         prevPage: null,
         totalPages: 1,
+        totalEntries: combinedData.length,
       },
     },
     links: {},
-    data: [...nonVaData.data, ...vaData.data]
-      .map(location => {
-        const distance =
-          center &&
-          distBetween(
-            center[0],
-            center[1],
-            location.attributes.lat,
-            location.attributes.long,
-          );
-        return {
-          ...location,
-          distance,
-        };
-      })
-      .sort((resultA, resultB) => resultA.distance - resultB.distance)
-      .slice(0, 20),
+    data: combinedData,
   };
 };
 
@@ -140,6 +140,18 @@ export const fetchLocations = async (
             };
           })
           .sort((resultA, resultB) => resultA.distance - resultB.distance);
+
+        // Fix pagination when API returns inconsistent data
+        // Only adjust if there's a single page (totalPages = 1) but counts don't match
+        if (data.meta && data.meta.pagination) {
+          const { totalPages, totalEntries } = data.meta.pagination;
+          const actualCount = data.data.length;
+
+          // If this is supposed to be the only page, totalEntries should match actual count
+          if (totalPages === 1 && actualCount !== totalEntries) {
+            data.meta.pagination.totalEntries = actualCount;
+          }
+        }
       }
     }
     if (data.errors) {
