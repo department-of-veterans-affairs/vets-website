@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
 
 import { BTSSS_PORTAL_URL } from '../../../constants';
 import { createComplexClaim } from '../../../redux/actions';
@@ -17,11 +17,15 @@ import { ComplexClaimsHelpSection } from '../../HelpText';
 const IntroductionPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { data: appointment } = useSelector(selectAppointment);
   const complexClaim = useSelector(selectComplexClaim);
 
   const apptId = appointment?.id;
+
+  // Only render redirect component if this is NOT from client-side navigation
+  const shouldShowRedirect = !location.state?.skipRedirect;
 
   const createClaim = async () => {
     if (!appointment) {
@@ -59,7 +63,7 @@ const IntroductionPage = () => {
 
   return (
     <>
-      <ComplexClaimRedirect />
+      {shouldShowRedirect && <ComplexClaimRedirect />}
       <div data-testid="introduction-page">
         <h1>File a travel reimbursement claim</h1>
         <div className="vads-u-margin-left--2">
