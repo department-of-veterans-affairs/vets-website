@@ -303,7 +303,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     )}/21P-4185/introduction/`,
     [VA_FORM_IDS.FORM_21P_534EZ]: `${tryGetAppUrl('survivors-benefits')}/`,
     [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
-    [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('22-10278')}/`,
+    [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('10278-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_0976]: `${tryGetAppUrl('22-0976')}/`,
   };
 };
