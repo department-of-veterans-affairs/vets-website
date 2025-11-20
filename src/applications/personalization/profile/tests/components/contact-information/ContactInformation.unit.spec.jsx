@@ -62,7 +62,7 @@ const testContactInfo = () => {
   // expect(view.getByText('804-205-5544, ext. 17747')).to.exist;
   // expect(view.getByText('214-718-2112', { exact: false })).to.exist;
 
-  expect(view.getByText(/alongusername/)).to.exist;
+  expect(view.getAllByText(/alongusername/)).to.have.length.above(0);
 };
 
 describe('ContactInformation', () => {
