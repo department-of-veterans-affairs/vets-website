@@ -122,14 +122,12 @@ const Issues = props => {
 
   const sch = dynamicSchema(selectedIssues);
 
-  console.log('sch: ', sch);
-
   const getCheckedIssues = issues => {
     if (!issues) {
       return null;
     }
 
-    return Object.keys(issues).filter(key => issues[key] === true);
+    return Object?.keys(issues)?.filter(key => issues[key] === true);
   };
 
   /**
