@@ -199,7 +199,6 @@ FilesPage.propTypes = {
     title: PropTypes.string,
     type: PropTypes.string,
   }),
-  navigate: PropTypes.func,
 };
 
 export default withRouter(
