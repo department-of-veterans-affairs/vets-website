@@ -13,20 +13,31 @@ import {
   INCLUDE_IMAGE_ENDPOINT,
   rxListSortingOptions,
 } from '../util/constants';
+import { selectCernerPilotFlag } from '../util/selectors';
 
-const apiBasePath = `${environment.API_URL}/my_health/v1`;
+const getApiBasePath = state => {
+  const isCernerPilot = selectCernerPilotFlag(state);
+  return `${environment.API_URL}/my_health/${isCernerPilot ? 'v2' : 'v1'}`;
+};
 
 // Create the prescriptions API slice
 export const prescriptionsApi = createApi({
   reducerPath: 'prescriptionsApi',
-  baseQuery: async ({ path, options = {} }) => {
+  baseQuery: async ({ path, options = {} }, api) => {
     const defaultOptions = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
+
+    const state = api.getState();
+    const apiBasePath = getApiBasePath(state);
+
     try {
-      const result = await apiRequest(path, { ...defaultOptions, ...options });
+      const result = await apiRequest(`${apiBasePath}${path}`, {
+        ...defaultOptions,
+        ...options,
+      });
       return { data: result };
     } catch ({ errors }) {
       return {
@@ -47,7 +58,7 @@ export const prescriptionsApi = createApi({
   endpoints: builder => ({
     getPrescriptionsExportList: builder.query({
       query: ({ filterOption = '', sortEndpoint, includeImage = false }) => ({
-        path: `${apiBasePath}/prescriptions?${filterOption}${sortEndpoint}${
+        path: `/prescriptions?${filterOption}${sortEndpoint}${
           includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
         }`,
       }),
@@ -81,7 +92,7 @@ export const prescriptionsApi = createApi({
         if (includeImage) queryParams += '&include_image=true';
 
         return {
-          path: `${apiBasePath}/prescriptions?${queryParams}`,
+          path: `/prescriptions?${queryParams}`,
         };
       },
       providesTags: ['Prescription'],
@@ -109,7 +120,7 @@ export const prescriptionsApi = createApi({
     }),
     getPrescriptionById: builder.query({
       query: id => ({
-        path: `${apiBasePath}/prescriptions/${id}`,
+        path: `/prescriptions/${id}`,
       }),
       providesTags: ['Prescription'],
       transformResponse: response => {
@@ -125,7 +136,7 @@ export const prescriptionsApi = createApi({
     }),
     getRefillablePrescriptions: builder.query({
       query: () => ({
-        path: `${apiBasePath}/prescriptions/list_refillable_prescriptions`,
+        path: `/prescriptions/list_refillable_prescriptions`,
       }),
       providesTags: ['Prescription'],
       transformResponse: response => {
@@ -152,7 +163,7 @@ export const prescriptionsApi = createApi({
     }),
     getPrescriptionDocumentation: builder.query({
       query: id => ({
-        path: `${apiBasePath}/prescriptions/${id}/documentation`,
+        path: `/prescriptions/${id}/documentation`,
       }),
       transformResponse: response => {
         return response?.data?.attributes?.html
@@ -163,7 +174,7 @@ export const prescriptionsApi = createApi({
     refillPrescription: builder.mutation({
       query: id => {
         return {
-          path: `${apiBasePath}/prescriptions/${id}/refill`,
+          path: `/prescriptions/${id}/refill`,
           options: { method: 'PATCH' },
         };
       },
@@ -172,7 +183,7 @@ export const prescriptionsApi = createApi({
       query: ids => {
         const idParams = ids.map(id => `ids[]=${id}`).join('&');
         return {
-          path: `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`,
+          path: `/prescriptions/refill_prescriptions?${idParams}`,
           options: { method: 'PATCH' },
         };
       },
