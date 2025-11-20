@@ -19,22 +19,7 @@ import constants from 'vets-json-schema/dist/constants.json';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { previousMarriageEndOptions } from '../../../utils/labels';
 import { handleAlertMaxItems } from '../../../components/FormAlerts';
-
-// Helper function to determine if previous marriages section should be shown
-const shouldShowPreviousMarriages = formData => {
-  // Skip if YES recognized as spouse AND NO only ever married to each other
-  if (
-    formData.recognizedAsSpouse === true &&
-    formData.hadPreviousMarriages === false
-  ) {
-    return false;
-  }
-  // Show if NO not recognized as spouse OR YES have been married before
-  return (
-    formData.recognizedAsSpouse === false ||
-    formData.hadPreviousMarriages === true
-  );
-};
+import { shouldShowPreviousMarriages } from './helpers';
 
 // Get military states to filter them out
 const MILITARY_STATE_VALUES = constants.militaryStates.map(

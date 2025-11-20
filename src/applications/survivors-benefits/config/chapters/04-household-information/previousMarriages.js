@@ -6,9 +6,6 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Previous marriages',
-  path: 'household/previous-marriage-question',
-  depends: formData => formData.claimantRelationship === 'SPOUSE',
   uiSchema: {
     ...titleUI('Previous marriages'),
     recognizedAsSpouse: yesNoUI({

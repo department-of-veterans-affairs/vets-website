@@ -26,6 +26,7 @@ import {
   previousMarriageEndOptions,
 } from '../../../utils/labels';
 import { handleAlertMaxItems } from '../../../components/FormAlerts';
+import { shouldShowPreviousMarriages } from './helpers';
 
 /**
  * Pages for Veteran's previous marriages (array-builder)
@@ -330,6 +331,7 @@ export const veteranMarriagesPages = arrayBuilderPages(
     veteranMarriagesIntro: pageBuilder.introPage({
       title: 'Veteran’s previous marriages',
       path: 'household/veteran-previous-marriages',
+      depends: formData => shouldShowPreviousMarriages(formData),
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
@@ -337,24 +339,28 @@ export const veteranMarriagesPages = arrayBuilderPages(
       title:
         'Was the Veteran married to someone else before being married to you?',
       path: 'household/veteran-previous-marriages/add',
+      depends: formData => shouldShowPreviousMarriages(formData),
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     veteranPreviousSpouseName: pageBuilder.itemPage({
       title: "Veteran's previous spouse's name",
       path: 'household/veteran-previous-marriages/:index/spouse-name',
+      depends: formData => shouldShowPreviousMarriages(formData),
       uiSchema: namePage.uiSchema,
       schema: namePage.schema,
     }),
     veteranMarriageDatePlace: pageBuilder.itemPage({
       title: 'When and where did they get married?',
       path: 'household/veteran-previous-marriages/:index/marriage-date-place',
+      depends: formData => shouldShowPreviousMarriages(formData),
       uiSchema: marriageDatePlacePage.uiSchema,
       schema: marriageDatePlacePage.schema,
     }),
     veteranMarriageEnded: pageBuilder.itemPage({
       title: 'How did the marriage end?',
       path: 'household/veteran-previous-marriages/:index/marriage-ended',
+      depends: formData => shouldShowPreviousMarriages(formData),
       uiSchema: endedPage.uiSchema,
       schema: endedPage.schema,
     }),
@@ -362,6 +368,7 @@ export const veteranMarriagesPages = arrayBuilderPages(
       title: 'When and where did their marriage end?',
       path:
         'household/veteran-previous-marriages/:index/marriage-end-date-location',
+      depends: formData => shouldShowPreviousMarriages(formData),
       uiSchema: marriageEndDateLocationPage.uiSchema,
       schema: marriageEndDateLocationPage.schema,
     }),
