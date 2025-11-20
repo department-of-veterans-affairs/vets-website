@@ -1,22 +1,16 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/sort-prop-types */
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import {
-  VaButton,
-  VaModal,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
 import { useEditOrAddForm } from './useEditOrAddForm';
 import { useDuplicateChecks } from './useDuplicateChecks';
 import { useItemPageGuard } from './useItemPageGuard';
-import ArrayBuilderCancelButton, {
-  formatPath,
-} from './ArrayBuilderCancelButton';
-import { getArrayUrlSearchParams, META_DATA_KEY } from './helpers';
+import ArrayBuilderCancelButton from './ArrayBuilderCancelButton';
+import { getArrayUrlSearchParams } from './helpers';
 
 /**
  * @param {{
