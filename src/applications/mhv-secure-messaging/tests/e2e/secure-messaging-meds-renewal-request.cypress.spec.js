@@ -66,7 +66,7 @@ describe('SM Medications Renewal Request', () => {
       );
       PatientComposePage.validateAddYourMedicationWarningBanner(false);
       PatientComposePage.validateRecipientTitle(
-        `VA Madison health care - ${mockRecipients.data[1].attributes.name}`,
+        `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
       );
 
       PatientComposePage.validateLockedCategoryDisplay();

@@ -139,8 +139,8 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
       searchSentFolderResponse,
     ).as('recentRecipients');
     PatientInboxPage.clickCreateNewMessage();
-    cy.wait('@recentRecipients');
     PatientInterstitialPage.getStartMessageLink().click();
+    cy.wait('@recentRecipients');
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     cy.findByLabelText('A different care team').click();
@@ -176,8 +176,8 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
       searchSentFolderResponse,
     ).as('recentRecipients');
     PatientInboxPage.clickCreateNewMessage();
-    cy.wait('@recentRecipients');
     PatientInterstitialPage.getStartMessageLink().click();
+    cy.wait('@recentRecipients');
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     // Select the first recent care team

@@ -19,6 +19,10 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
         name: 'mhv_secure_messaging_curated_list_flow',
         value: true,
       },
+      {
+        name: 'mhv_secure_messaging_recent_recipients',
+        value: true,
+      },
     ]);
     SecureMessagingSite.login(updatedFeatureToggles);
     PilotEnvPage.loadInboxMessages();
