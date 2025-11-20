@@ -68,7 +68,9 @@ export const HAS_VA_EVIDENCE = 'view:hasVaEvidence';
 export const HAS_PRIVATE_EVIDENCE = 'view:hasPrivateEvidence';
 export const HAS_OTHER_EVIDENCE = 'view:hasOtherEvidence';
 export const HAS_PRIVATE_LIMITATION = 'view:hasPrivateLimitation';
+export const VA_EVIDENCE_PROMPT_KEY = 'hasVaEvidence';
 export const MST_OPTION = 'mstOption';
+export const VA_TREATMENT_LOCATION_KEY = 'treatmentLocation';
 export const VA_TREATMENT_BEFORE_2005_KEY = 'treatmentBefore2005';
 export const VA_TREATMENT_MONTH_YEAR_KEY = 'treatmentMonthYear';
 

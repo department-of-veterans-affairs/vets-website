@@ -1,4 +1,5 @@
 import React from 'react';
+import { format } from 'date-fns';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -10,12 +11,14 @@ import {
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { parseStringOrDate } from 'platform/utilities/date';
 import Issues, { issuesPage } from '../../components/evidence/IssuesNew';
 import {
   EVIDENCE_URLS,
+  VA_EVIDENCE_PROMPT_KEY,
   VA_TREATMENT_BEFORE_2005_KEY,
+  VA_TREATMENT_LOCATION_KEY,
   VA_TREATMENT_MONTH_YEAR_KEY,
 } from '../../constants';
 import {
@@ -29,18 +32,27 @@ import {
 import { focusRadioH3 } from '../../../shared/utils/focus';
 import { redesignActive } from '../../utils';
 import { hasTreatmentBefore2005 } from '../../utils/form-data-retrieval';
+import { formatIssueList } from '../../../shared/utils/contestableIssueMessages';
 
 const itemIsComplete = item => {
-  const { issues, name, treatmentBefore2005, treatmentMonthYear } = item;
+  let treatmentDateRequirement = item[VA_TREATMENT_BEFORE_2005_KEY];
+  const issuesRequirement = item.issues?.length;
 
-  let treatmentDateRequirement = treatmentBefore2005;
-  const issuesRequirement = issues?.length;
-
-  if (treatmentBefore2005 === 'Y') {
-    treatmentDateRequirement = treatmentBefore2005 && treatmentMonthYear;
+  if (item[VA_TREATMENT_BEFORE_2005_KEY] === 'Y') {
+    treatmentDateRequirement =
+      item[VA_TREATMENT_BEFORE_2005_KEY] && item[VA_TREATMENT_MONTH_YEAR_KEY];
   }
 
-  return issuesRequirement && name && treatmentDateRequirement;
+  return (
+    issuesRequirement &&
+    item[VA_TREATMENT_LOCATION_KEY] &&
+    treatmentDateRequirement
+  );
+};
+
+const formatMonthYear = date => {
+  const parsedDate = parseStringOrDate(date);
+  return format(parsedDate, 'MMMM yyyy');
 };
 
 /** @type {ArrayBuilderOptions} */
@@ -53,9 +65,41 @@ const options = {
   maxItems: 100,
   text: {
     getItemName: item => item.name,
-    cardDescription: item => `${formatReviewDate(item?.date)}`,
-    summaryTitle: 'Summary title',
+    cardDescription: item => {
+      return (
+        <>
+          {item[VA_TREATMENT_LOCATION_KEY] && (
+            <h3 className="vads-u-margin-top--0">
+              {item[VA_TREATMENT_LOCATION_KEY]}
+            </h3>
+          )}
+          {item?.issues?.length === 1 && (
+            <p>
+              <strong>Condition:</strong> {item.issues[0]}
+            </p>
+          )}
+          {item?.issues?.length > 1 && (
+            <p>
+              <strong>Conditions:</strong> {formatIssueList(item.issues)}
+            </p>
+          )}
+          {item[VA_TREATMENT_MONTH_YEAR_KEY] && (
+            <p>
+              <strong>Treatment start date:</strong>
+              &nbsp;
+              {formatMonthYear(item[VA_TREATMENT_MONTH_YEAR_KEY])}
+            </p>
+          )}
+        </>
+      );
+    },
+    summaryTitle: summaryContent.titleWithItems,
     summaryTitleWithoutItems: promptContent.question,
+    summaryDescription: (
+      <p className="vads-u-font-family--serif vads-u-font-weight--bold">
+        {summaryContent.descriptionWithItems}
+      </p>
+    ),
     summaryDescriptionWithoutItems: (
       <>
         <p>
@@ -81,7 +125,7 @@ const options = {
 /** @returns {PageSchema} */
 const summaryPage = {
   uiSchema: {
-    hasVaEvidence: arrayBuilderYesNoUI(
+    [VA_EVIDENCE_PROMPT_KEY]: arrayBuilderYesNoUI(
       options,
       {
         title: '',
@@ -102,9 +146,9 @@ const summaryPage = {
   schema: {
     type: 'object',
     properties: {
-      hasVaEvidence: arrayBuilderYesNoSchema,
+      [VA_EVIDENCE_PROMPT_KEY]: arrayBuilderYesNoSchema,
     },
-    required: ['hasVaEvidence'],
+    required: [VA_EVIDENCE_PROMPT_KEY],
   },
 };
 
@@ -118,7 +162,7 @@ const locationPage = {
       },
       nounSingular: options.nounSingular,
     }),
-    name: textUI({
+    [VA_TREATMENT_LOCATION_KEY]: textUI({
       title: locationContent.label,
       hint: locationContent.hint,
       errorMessages: {
@@ -130,9 +174,9 @@ const locationPage = {
   schema: {
     type: 'object',
     properties: {
-      name: textSchema,
+      [VA_TREATMENT_LOCATION_KEY]: textSchema,
     },
-    required: ['name'],
+    required: [VA_TREATMENT_LOCATION_KEY],
   },
 };
 
