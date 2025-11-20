@@ -10,6 +10,7 @@ import App from './containers/App';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
 import { allergiesLoader } from './loaders/allergiesLoader';
 // Disabling loaders temporarily while rolling out Oracle Health Pilot
+// TODO: When the pilot is complete, re-enable loaders
 // import { prescriptionsLoader } from './loaders/prescriptionsLoader';
 
 const Prescriptions = lazy(() => import('./containers/Prescriptions'));
