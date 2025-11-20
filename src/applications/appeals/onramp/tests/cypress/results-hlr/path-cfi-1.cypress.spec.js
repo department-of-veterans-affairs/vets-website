@@ -54,18 +54,26 @@ describe('Decision Reviews Onramp', () => {
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_GF_REVIEW_SC, c.CARD_GF_NO_EVIDENCE],
+          content: [
+            c.CARD_GF_REVIEW_SC,
+            c.CARD_GF_NO_EVIDENCE,
+            c.CARD_GF_NO_LAW_POLICY,
+          ],
         },
         {
           type: c.CARD_BOARD_HEARING,
-          content: [c.CARD_GF_REVIEW_SC, c.CARD_GF_NO_EVIDENCE],
+          content: [
+            c.CARD_GF_REVIEW_SC,
+            c.CARD_GF_NO_EVIDENCE,
+            c.CARD_GF_NO_LAW_POLICY,
+          ],
         },
       ]);
       h.verifyClaimForIncreaseCardPresent();
       h.checkNotGoodFitCards([
         {
           type: c.CARD_SC,
-          content: [c.CARD_NGF_NEED_EVIDENCE],
+          content: [c.CARD_NGF_NEED_EVIDENCE, c.CARD_NGF_NO_LAW_POLICY],
         },
         {
           type: c.CARD_BOARD_EVIDENCE,
