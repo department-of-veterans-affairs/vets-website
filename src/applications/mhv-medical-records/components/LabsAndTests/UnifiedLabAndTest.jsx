@@ -15,12 +15,17 @@ import ItemList from '../shared/ItemList';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-
-import { generateTextFile, itemListWrapper } from '../../util/helpers';
-
+import {
+  generateTextFile,
+  itemListWrapper,
+  sendDataDogAction,
+} from '../../util/helpers';
+import { RADIOLOGY_DETAILS_MYHEALTH_VA_GOV_LINK } from '../../util/rumConstants';
 import {
   pageTitles,
   LABS_AND_TESTS_DISPLAY_LABELS,
+  uhdRecordSource,
+  loincCodes,
 } from '../../util/constants';
 
 import UnifiedLabAndTestObservations from './UnifiedLabAndTestObservations';
@@ -129,6 +134,35 @@ const UnifiedLabsAndTests = props => {
             />
           </HeaderSection>
         </div>
+
+        {record.source === uhdRecordSource.ORACLE_HEALTH &&
+          record.testCode === loincCodes.UHD_RADIOLOGY && (
+            <>
+              <div>
+                <HeaderSection
+                  header="Images"
+                  className="vads-u-margin-top--3 vads-u-margin-bottom--2"
+                >
+                  <p className="vads-u-margin-bottom--2">
+                    We’re working to give you access to your images here. For
+                    now, go to your My VA Health portal to review and download
+                    any images that are available.
+                  </p>
+                  <va-link-action
+                    type="secondary"
+                    href="https://patientportal.myhealth.va.gov/pages/health_record/imaging?authenticated=true"
+                    data-testid="radiology-oracle-health-link"
+                    text="Go to My VA Health"
+                    onClick={() => {
+                      sendDataDogAction(RADIOLOGY_DETAILS_MYHEALTH_VA_GOV_LINK);
+                    }}
+                  />
+                </HeaderSection>
+              </div>
+              <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            </>
+          )}
+
         {/*         RESULTS CARDS            */}
         {record.observations && (
           <div
@@ -181,6 +215,7 @@ UnifiedLabsAndTests.propTypes = {
     location: PropTypes.string,
     comments: PropTypes.arrayOf(PropTypes.string),
     result: PropTypes.string,
+    source: PropTypes.string,
     observations: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
   runningUnitTest: PropTypes.bool,
