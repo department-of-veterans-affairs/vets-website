@@ -1,7 +1,8 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
-import { AXE_CONTEXT, Data, Paths } from './utils/constants';
+import { AXE_CONTEXT, Paths } from './utils/constants';
+import { MessageHintText } from '../../util/constants';
 import PatientComposePage from './pages/PatientComposePage';
 import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
 import medicationResponse from './fixtures/medicationResponses/single-medication-response.json';
@@ -84,7 +85,7 @@ describe('SM Medications Renewal Request', () => {
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
       PatientComposePage.validateMessageBodyHint(
-        Data.RXRENEWAL_COMPOSE_HINT_SUCCESS,
+        MessageHintText.RX_RENEWAL_SUCCESS,
       );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
@@ -163,7 +164,7 @@ describe('SM Medications Renewal Request', () => {
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
       PatientComposePage.validateMessageBodyHint(
-        Data.RXRENEWAL_COMPOSE_HINT_SUCCESS,
+        MessageHintText.RX_RENEWAL_SUCCESS,
       );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
@@ -225,7 +226,7 @@ describe('SM Medications Renewal Request', () => {
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
       PatientComposePage.validateMessageBodyHint(
-        Data.RXRENEWAL_COMPOSE_HINT_ERROR,
+        MessageHintText.RX_RENEWAL_ERROR,
       );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
@@ -291,7 +292,7 @@ describe('SM Medications Renewal Request', () => {
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
       PatientComposePage.validateMessageBodyHint(
-        Data.RXRENEWAL_COMPOSE_HINT_SUCCESS,
+        MessageHintText.RX_RENEWAL_SUCCESS,
       );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
@@ -423,7 +424,7 @@ describe('SM Medications Renewal Request', () => {
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
       PatientComposePage.validateMessageBodyHint(
-        Data.RXRENEWAL_COMPOSE_HINT_SUCCESS,
+        MessageHintText.RX_RENEWAL_SUCCESS,
       );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
@@ -478,7 +479,7 @@ describe('SM Medications Renewal Request', () => {
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
       PatientComposePage.validateMessageBodyHint(
-        Data.RXRENEWAL_COMPOSE_HINT_ERROR,
+        MessageHintText.RX_RENEWAL_ERROR,
       );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
@@ -528,7 +529,7 @@ describe('SM Medications Renewal Request', () => {
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
       PatientComposePage.validateMessageBodyHint(
-        Data.RXRENEWAL_COMPOSE_HINT_SUCCESS,
+        MessageHintText.RX_RENEWAL_SUCCESS,
       );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 

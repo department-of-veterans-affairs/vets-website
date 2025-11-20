@@ -43,6 +43,7 @@ import {
   FormLabels,
   downtimeNotificationParams,
   Alerts,
+  MessageHintText,
 } from '../../util/constants';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
@@ -1099,10 +1100,10 @@ const ComposeForm = props => {
                 class="message-body"
                 hint={(() => {
                   if (rxError) {
-                    return 'Include as many of these medication details as possible.';
+                    return MessageHintText.RX_RENEWAL_ERROR;
                   }
                   if (renewalPrescription?.prescriptionId) {
-                    return 'Review the medication details we added to your message.';
+                    return MessageHintText.RX_RENEWAL_SUCCESS;
                   }
                   return null;
                 })()}

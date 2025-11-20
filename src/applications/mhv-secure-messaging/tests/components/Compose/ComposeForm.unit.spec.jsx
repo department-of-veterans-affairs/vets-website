@@ -32,6 +32,7 @@ import {
   ElectronicSignatureBox,
   ErrorMessages,
   DefaultFolders,
+  MessageHintText,
 } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
@@ -2017,7 +2018,7 @@ describe('Compose form component', () => {
           );
           expect(textarea).to.exist;
           expect(textarea.getAttribute('hint')).to.equal(
-            'Include as many of these medication details as possible.',
+            MessageHintText.RX_RENEWAL_ERROR,
           );
         });
       });
@@ -2046,7 +2047,7 @@ describe('Compose form component', () => {
           );
           expect(textarea).to.exist;
           expect(textarea.getAttribute('hint')).to.equal(
-            'Review the medication details we added to your message.',
+            MessageHintText.RX_RENEWAL_SUCCESS,
           );
         });
       });
@@ -2100,7 +2101,7 @@ describe('Compose form component', () => {
           expect(textarea).to.exist;
           // Should show error hint, not success hint
           expect(textarea.getAttribute('hint')).to.equal(
-            'Include as many of these medication details as possible.',
+            MessageHintText.RX_RENEWAL_ERROR,
           );
         });
       });

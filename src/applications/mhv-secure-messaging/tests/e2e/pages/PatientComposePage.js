@@ -150,7 +150,7 @@ class PatientComposePage {
 
   validateMessageBodyField = expectedText => {
     // Wait for the field to exist before validating
-    cy.findByTestId('message-body-field').should('exist');
+    cy.findByTestId(Locators.FIELDS.MESSAGE_BODY).should('exist');
     this.getMessageBodyField().should('have.value', expectedText);
   };
 
