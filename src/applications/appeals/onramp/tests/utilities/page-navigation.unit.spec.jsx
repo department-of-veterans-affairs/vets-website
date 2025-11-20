@@ -187,14 +187,13 @@ describe('page navigation utilities', () => {
         .be.true;
     });
 
-    it('should navigate to the route for Q_2_IS_1B_NEW_EVIDENCE for CFI claim type', () => {
+    it('should navigate to the route for Q_2_IS_1B_NEW_EVIDENCE for the correct form responses (path #2)', () => {
       const formResponses = {
         Q_1_1_CLAIM_DECISION: YES,
         Q_1_2_CLAIM_DECISION: YES,
         Q_1_3_CLAIM_CONTESTED: NO,
-        Q_2_0_CLAIM_TYPE: CFI,
-        Q_2_IS_1_SERVICE_CONNECTED: YES,
-        Q_2_IS_2_CONDITION_WORSENED: NO,
+        Q_2_0_CLAIM_TYPE: SC,
+        Q_2_IS_1_SERVICE_CONNECTED: NO,
         Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
       };
 
@@ -211,13 +210,14 @@ describe('page navigation utilities', () => {
         .be.true;
     });
 
-    it('should navigate to the route for Q_2_IS_1B_NEW_EVIDENCE for the correct form responses (path #2)', () => {
+    it('should navigate to the route for Q_2_IS_1B_NEW_EVIDENCE for the correct form responses (path #3)', () => {
       const formResponses = {
         Q_1_1_CLAIM_DECISION: YES,
         Q_1_2_CLAIM_DECISION: YES,
         Q_1_3_CLAIM_CONTESTED: NO,
-        Q_2_0_CLAIM_TYPE: SC,
-        Q_2_IS_1_SERVICE_CONNECTED: NO,
+        Q_2_0_CLAIM_TYPE: CFI,
+        Q_2_IS_1_SERVICE_CONNECTED: YES,
+        Q_2_IS_2_CONDITION_WORSENED: NO,
         Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
       };
 
