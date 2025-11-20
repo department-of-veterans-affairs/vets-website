@@ -10,12 +10,14 @@ import { createReferralById } from './utils/referrals';
 import { createDraftAppointmentInfo } from './utils/provider';
 import * as fetchAppointmentsModule from '../services/appointment';
 import { FETCH_STATUS } from '../utils/constants';
-import * as utils from '../services/utils';
+import * as vaosApi from '../redux/api/vaosApi';
 
 describe('VAOS ChooseDateAndTime component', () => {
   const sandbox = sinon.createSandbox();
   const referral = createReferralById('2024-09-09', 'UUID');
-  const initialFullState = {
+  const draftAppointmentInfo = createDraftAppointmentInfo(1);
+
+  const initialState = {
     featureToggles: {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
@@ -23,83 +25,57 @@ describe('VAOS ChooseDateAndTime component', () => {
       confirmed: [],
       confirmedStatus: FETCH_STATUS.succeeded,
     },
-    appointmentApi: {
-      queries: {
-        'getReferralById("UUID")': {
-          status: 'fulfilled',
-          data: referral,
-          endpoint: 'getReferralById',
-          requestId: 'abc-referral',
-          startedTimeStamp: 1758046349180,
-          fulfilledTimeStamp: 1758046349181,
-        },
-        'getDraftReferralAppointment({"referralConsultId":"984_646907","referralNumber":"VA0000007241"})': {
-          status: 'fulfilled',
-          data: createDraftAppointmentInfo(1),
-          endpoint: 'getDraftReferralAppointment',
-          requestId: 'abc',
-          startedTimeStamp: 1758046349181,
-          fulfilledTimeStamp: 1758046349182,
-        },
-      },
-    },
-  };
-  const initialEmptyState = {
-    featureToggles: {
-      vaOnlineSchedulingCCDirectScheduling: true,
-    },
-    appointments: {
-      confirmedStatus: FETCH_STATUS.notStarted,
-    },
   };
 
   beforeEach(() => {
     sandbox
       .stub(fetchAppointmentsModule, 'fetchAppointments')
       .resolves({ data: [] });
+
+    // Mock the referral fetch hook
+    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
+      data: referral,
+      error: null,
+      isLoading: false,
+    });
+
+    // Mock the draft appointment hook
+    sandbox.stub(vaosApi, 'useGetDraftReferralAppointmentQuery').returns({
+      data: draftAppointmentInfo,
+      isLoading: false,
+      isError: false,
+      isSuccess: true,
+      isUninitialized: false,
+    });
   });
   afterEach(() => {
     sandbox.restore();
   });
-  it('should fetch data from store if it exists and not call API', () => {
-    const store = createTestStore(initialFullState);
+  it('should render successfully with mocked hooks', () => {
+    const store = createTestStore(initialState);
 
-    sandbox.stub(utils, 'apiRequestWithUrl').resolves({});
-    renderWithStoreAndRouter(<ChooseDateAndTime />, {
+    const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
       store,
       path: '/?id=UUID',
     });
-    sandbox.assert.notCalled(utils.apiRequestWithUrl);
-    sandbox.assert.notCalled(fetchAppointmentsModule.fetchAppointments);
+
+    // Should not show loading or error
+    expect(screen.queryByTestId('loading-container')).to.not.exist;
+    expect(screen.queryByTestId('error')).to.not.exist;
   });
   it('should show loading state while draft appointment is being fetched', () => {
-    const referralForEmptyState = createReferralById('2024-09-09', 'UUID');
-    const stateWithReferralOnly = {
-      ...initialEmptyState,
-      appointmentApi: {
-        queries: {
-          'getReferralById("UUID")': {
-            status: 'fulfilled',
-            data: referralForEmptyState,
-            endpoint: 'getReferralById',
-            requestId: 'abc-referral',
-            startedTimeStamp: 1758046349180,
-            fulfilledTimeStamp: 1758046349181,
-          },
-        },
-        subscriptions: {
-          'getReferralById("UUID")': {
-            'abc-referral': { pollingInterval: 0 },
-          },
-        },
-      },
-    };
+    // Override the draft query mock to return loading state
+    vaosApi.useGetDraftReferralAppointmentQuery.restore();
+    sandbox.stub(vaosApi, 'useGetDraftReferralAppointmentQuery').returns({
+      data: null,
+      isLoading: true,
+      isError: false,
+      isSuccess: false,
+      isUninitialized: false,
+    });
 
-    sandbox
-      .stub(utils, 'apiRequestWithUrl')
-      .resolves({ data: createDraftAppointmentInfo() });
     const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
-      store: createTestStore(stateWithReferralOnly),
+      store: createTestStore(initialState),
       path: '/?id=UUID',
     });
 
@@ -116,24 +92,17 @@ describe('VAOS ChooseDateAndTime component', () => {
         hasAppointments: true,
       },
     };
-    const stateWithAppointments = {
-      ...initialFullState,
-      appointmentApi: {
-        queries: {
-          'getReferralById("UUID")': {
-            status: 'fulfilled',
-            data: referralWithAppointments,
-            endpoint: 'getReferralById',
-            requestId: 'abc-referral',
-            startedTimeStamp: 1758046349180,
-            fulfilledTimeStamp: 1758046349181,
-          },
-        },
-      },
-    };
+
+    // Override the referral mock to return referral with appointments
+    vaosApi.useGetReferralByIdQuery.restore();
+    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
+      data: referralWithAppointments,
+      error: null,
+      isLoading: false,
+    });
 
     const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
-      store: createTestStore(stateWithAppointments),
+      store: createTestStore(initialState),
       path: '/?id=UUID',
     });
 
@@ -144,7 +113,7 @@ describe('VAOS ChooseDateAndTime component', () => {
 
   it('should render DateAndTimeContent when all data loads successfully', () => {
     const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
-      store: createTestStore(initialFullState),
+      store: createTestStore(initialState),
       path: '/?id=UUID',
     });
 
@@ -158,32 +127,18 @@ describe('VAOS ChooseDateAndTime component', () => {
   });
 
   it('should show error when draft fetch fails', () => {
-    const stateWithDraftError = {
-      ...initialFullState,
-      appointmentApi: {
-        queries: {
-          'getReferralById("UUID")': {
-            status: 'fulfilled',
-            data: referral,
-            endpoint: 'getReferralById',
-            requestId: 'abc-referral',
-            startedTimeStamp: 1758046349180,
-            fulfilledTimeStamp: 1758046349181,
-          },
-          'getDraftReferralAppointment({"referralConsultId":"984_646907","referralNumber":"VA0000007241"})': {
-            status: 'rejected',
-            error: { status: 500, message: 'Failed to fetch draft' },
-            endpoint: 'getDraftReferralAppointment',
-            requestId: 'abc',
-            startedTimeStamp: 1758046349181,
-            fulfilledTimeStamp: 1758046349182,
-          },
-        },
-      },
-    };
+    // Override the draft query mock to return error state
+    vaosApi.useGetDraftReferralAppointmentQuery.restore();
+    sandbox.stub(vaosApi, 'useGetDraftReferralAppointmentQuery').returns({
+      data: null,
+      isLoading: false,
+      isError: true,
+      isSuccess: false,
+      isUninitialized: false,
+    });
 
     const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
-      store: createTestStore(stateWithDraftError),
+      store: createTestStore(initialState),
       path: '/?id=UUID',
     });
 
@@ -192,7 +147,7 @@ describe('VAOS ChooseDateAndTime component', () => {
 
   it('should show error when future appointments fetch fails', () => {
     const stateWithFutureAppointmentsError = {
-      ...initialFullState,
+      ...initialState,
       appointments: {
         confirmed: [],
         confirmedStatus: FETCH_STATUS.failed,
@@ -208,24 +163,16 @@ describe('VAOS ChooseDateAndTime component', () => {
   });
 
   it('should show error when referral has error', () => {
-    const stateWithReferralError = {
-      ...initialFullState,
-      appointmentApi: {
-        queries: {
-          'getReferralById("UUID")': {
-            status: 'rejected',
-            error: { status: 404, message: 'Referral not found' },
-            endpoint: 'getReferralById',
-            requestId: 'abc-referral',
-            startedTimeStamp: 1758046349180,
-            fulfilledTimeStamp: 1758046349181,
-          },
-        },
-      },
-    };
+    // Override the referral mock to return error state
+    vaosApi.useGetReferralByIdQuery.restore();
+    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
+      data: null,
+      error: { status: 404, message: 'Referral not found' },
+      isLoading: false,
+    });
 
     const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
-      store: createTestStore(stateWithReferralError),
+      store: createTestStore(initialState),
       path: '/?id=UUID',
     });
 
@@ -233,22 +180,16 @@ describe('VAOS ChooseDateAndTime component', () => {
   });
 
   it('should show loading when referral is loading', () => {
-    const stateWithReferralLoading = {
-      ...initialEmptyState,
-      appointmentApi: {
-        queries: {
-          'getReferralById("UUID")': {
-            status: 'pending',
-            endpoint: 'getReferralById',
-            requestId: 'abc-referral',
-            startedTimeStamp: 1758046349180,
-          },
-        },
-      },
-    };
+    // Override the referral mock to return loading state
+    vaosApi.useGetReferralByIdQuery.restore();
+    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
+      data: null,
+      error: null,
+      isLoading: true,
+    });
 
     const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
-      store: createTestStore(stateWithReferralLoading),
+      store: createTestStore(initialState),
       path: '/?id=UUID',
     });
 
@@ -258,7 +199,7 @@ describe('VAOS ChooseDateAndTime component', () => {
 
   it('should show loading when draft succeeds but future appointments pending', () => {
     const stateWithFutureAppointmentsPending = {
-      ...initialFullState,
+      ...initialState,
       appointments: {
         confirmed: [],
         confirmedStatus: FETCH_STATUS.loading,
@@ -275,7 +216,7 @@ describe('VAOS ChooseDateAndTime component', () => {
 
   it('should dispatch fetchFutureAppointments when conditions are met', () => {
     const stateWithDraftSuccess = {
-      ...initialFullState,
+      ...initialState,
       appointments: {
         confirmedStatus: FETCH_STATUS.notStarted,
       },
@@ -290,26 +231,18 @@ describe('VAOS ChooseDateAndTime component', () => {
   });
 
   it('should dispatch fetchFutureAppointments in parallel while draft is loading', () => {
+    // Override the draft query mock to return loading state
+    vaosApi.useGetDraftReferralAppointmentQuery.restore();
+    sandbox.stub(vaosApi, 'useGetDraftReferralAppointmentQuery').returns({
+      data: null,
+      isLoading: true,
+      isError: false,
+      isSuccess: false,
+      isUninitialized: false,
+    });
+
     const stateWithDraftPending = {
-      ...initialFullState,
-      appointmentApi: {
-        queries: {
-          'getReferralById("UUID")': {
-            status: 'fulfilled',
-            data: referral,
-            endpoint: 'getReferralById',
-            requestId: 'abc-referral',
-            startedTimeStamp: 1758046349180,
-            fulfilledTimeStamp: 1758046349181,
-          },
-          'getDraftReferralAppointment({"referralConsultId":"984_646907","referralNumber":"VA0000007241"})': {
-            status: 'pending',
-            endpoint: 'getDraftReferralAppointment',
-            requestId: 'abc',
-            startedTimeStamp: 1758046349181,
-          },
-        },
-      },
+      ...initialState,
       appointments: {
         confirmedStatus: FETCH_STATUS.notStarted,
       },
@@ -332,33 +265,34 @@ describe('VAOS ChooseDateAndTime component', () => {
         hasAppointments: true,
       },
     };
-    const stateWithAppointments = {
-      ...initialEmptyState,
-      appointmentApi: {
-        queries: {
-          'getReferralById("UUID")': {
-            status: 'fulfilled',
-            data: referralWithAppointments,
-            endpoint: 'getReferralById',
-            requestId: 'abc-referral',
-            startedTimeStamp: 1758046349180,
-            fulfilledTimeStamp: 1758046349181,
-          },
-        },
-      },
-    };
 
-    const apiStub = sandbox.stub(utils, 'apiRequestWithUrl').resolves({});
+    // Override the referral mock to return referral with appointments
+    vaosApi.useGetReferralByIdQuery.restore();
+    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
+      data: referralWithAppointments,
+      error: null,
+      isLoading: false,
+    });
+
+    // The draft query should have skip: true, so it should be uninitialized
+    vaosApi.useGetDraftReferralAppointmentQuery.restore();
+    const draftQueryStub = sandbox
+      .stub(vaosApi, 'useGetDraftReferralAppointmentQuery')
+      .returns({
+        data: null,
+        isLoading: false,
+        isError: false,
+        isSuccess: false,
+        isUninitialized: true,
+      });
 
     renderWithStoreAndRouter(<ChooseDateAndTime />, {
-      store: createTestStore(stateWithAppointments),
+      store: createTestStore(initialState),
       path: '/?id=UUID',
     });
 
-    // Draft query should be skipped, so draft API endpoint should not be called
-    const draftCalls = apiStub
-      .getCalls()
-      .filter(call => call.args[0].includes('/appointments/draft'));
-    expect(draftCalls.length).to.equal(0);
+    // Verify that draft query was called with skip: true
+    const callArgs = draftQueryStub.getCall(0).args;
+    expect(callArgs[1].skip).to.be.true;
   });
 });

@@ -10,7 +10,6 @@ import {
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
 import { createReferralById, getReferralSlotKey } from './utils/referrals';
-import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
 import {
   generateSlotsForDay,
@@ -35,36 +34,14 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   });
   draftAppointmentInfo.attributes.slots = transformSlotsForCommunityCare(slots);
   draftAppointmentInfo.attributes.slots[0].start = slotDate;
-  const initialFullState = {
+
+  const initialState = {
     featureToggles: {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
     referral: {
       selectedSlotStartTime: '2024-09-09T16:00:00.000Z',
-      draftAppointmentInfo,
-      currentPage: 'reviewAndConfirm',
-      appointmentCreateStatus: FETCH_STATUS.notStarted,
-      pollingRequestStart: null,
-      appointmentInfoError: false,
-      appointmentInfoLoading: false,
-      referralAppointmentInfo: {},
     },
-  };
-  const initialEmptyState = {
-    featureToggles: {
-      vaOnlineSchedulingCCDirectScheduling: true,
-    },
-    referral: {
-      selectedSlotStartTime: '2024-09-09T16:00:00.000Z',
-      draftAppointmentInfo: {},
-      currentPage: 'reviewAndConfirm',
-      appointmentCreateStatus: FETCH_STATUS.notStarted,
-      pollingRequestStart: null,
-      appointmentInfoError: false,
-      appointmentInfoLoading: false,
-      referralAppointmentInfo: {},
-    },
-    appointmentApi: {},
   };
   beforeEach(() => {
     requestStub = sandbox.stub(utils, 'apiRequestWithUrl');
@@ -109,9 +86,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     sessionStorage.setItem(selectedSlotKey, slotDate);
 
     const noSelectState = {
-      ...initialFullState,
-      ...{
-        referral: { ...initialFullState.referral, selectedSlotStartTime: '' },
+      ...initialState,
+      referral: {
+        selectedSlotStartTime: '',
       },
     };
 
@@ -137,9 +114,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       .withArgs('/vaos/v2/appointments/draft')
       .resolves({ data: draftAppointmentInfo });
     const noSelectState = {
-      ...initialFullState,
-      ...{
-        referral: { ...initialFullState.referral, selectedSlotStartTime: '' },
+      ...initialState,
+      referral: {
+        selectedSlotStartTime: '',
       },
     };
     const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
@@ -152,7 +129,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     });
   });
   it('should call create appointment post when "continue" is pressed', async () => {
-    const store = createTestStore(initialFullState);
+    const store = createTestStore(initialState);
     const postReferralAppointmentMock = sandbox.stub();
 
     // Override the default mock for this specific test
@@ -192,7 +169,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     ]);
 
     const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
-      store: createTestStore(initialFullState),
+      store: createTestStore(initialState),
       path: '/schedule-referral/review-and-confirm?id=UUID',
     });
     // Ensure the "Continue" button is present
@@ -207,7 +184,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     expect(screen.getByTestId('referral-community-care-office')).to.exist;
   });
   it('should display an error message when new draft appointment creation fails', async () => {
-    const store = createTestStore(initialEmptyState);
+    const store = createTestStore(initialState);
 
     // Override the draft query mock to return error state
     vaosApi.useGetDraftReferralAppointmentQuery.restore();

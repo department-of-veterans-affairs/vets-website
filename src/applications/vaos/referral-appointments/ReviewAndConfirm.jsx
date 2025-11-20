@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { formatInTimeZone } from 'date-fns-tz';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   getAppointmentCreateStatus,
@@ -59,10 +59,10 @@ const ReviewAndConfirm = () => {
     isUninitialized: isDraftUninitialized,
   } = useGetDraftReferralAppointmentQuery(
     {
-      referralNumber: currentReferral.referralNumber,
-      referralConsultId: currentReferral.referralConsultId,
+      referralNumber: currentReferral?.referralNumber,
+      referralConsultId: currentReferral?.referralConsultId,
     },
-    { skip: skipDraft },
+    { skip: skipDraft || !currentReferral },
   );
   const slotDetails = getSlotByDate(
     draftAppointmentInfo?.attributes?.slots,
@@ -197,8 +197,12 @@ const ReviewAndConfirm = () => {
       />
     );
   }
+  if (referral?.attributes?.hasAppointments) {
+    return <Redirect to="/referrals-requests" />;
+  }
   const headingStyles =
     'vads-u-margin--0 vads-u-font-family--sans vads-u-font-weight--bold vads-u-font-size--source-sans-normalized';
+
   return (
     <ReferralLayout
       hasEyebrow
