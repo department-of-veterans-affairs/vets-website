@@ -1,0 +1,75 @@
+{
+  "data": {
+    "veteranFullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "veteranSsn": "123-45-6789",
+    "veteranVaFileNumber": "",
+    "spouseFullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "spouse": {
+      "fullName": {
+        "first": "Jane",
+        "last": "Doe"
+      },
+      "hadOtherMarriages": false,
+      "otherMarriages": []
+    },
+    "witnessFullName": {
+      "first": "Bob",
+      "last": "Smith"
+    },
+    "witnessAddress": {
+      "country": "USA",
+      "street": "123 Main St",
+      "city": "Portland",
+      "state": "OR",
+      "postalCode": "97210"
+    },
+    "witnessDaytimePhone": "503-555-0100",
+    "witnessEveningPhone": "",
+    "relationshipToVeteran": "Friend",
+    "relationshipToSpouse": "Friend",
+    "howLongKnownVeteran": "5 years",
+    "howLongKnownSpouse": "5 years",
+    "visitFrequencyVeteran": "Monthly",
+    "visitOccasionsVeteran": "Social gatherings",
+    "visitFrequencySpouse": "Monthly",
+    "visitOccasionsSpouse": "Social gatherings",
+    "generallyKnownAsMarried": true,
+    "everDenied": false,
+    "witnessConsidersMarried": true,
+    "reasonsForBelief": "They live together and present themselves as a married couple.",
+    "usedFirstName": "Jane",
+    "usedLastName": "Doe",
+    "heardReferToEachOther": false,
+    "referenceDate": "",
+    "referencePlace": "",
+    "living": {
+      "maintainedHome": true,
+      "periods": [
+        {
+          "dates": {
+            "from": "2020-01-01",
+            "to": "2025-11-20"
+          },
+          "cityOrTown": "Portland",
+          "state": "OR"
+        }
+      ],
+      "continuous": true,
+      "continuousExplanation": ""
+    },
+    "veteran": {
+      "hadOtherMarriages": false,
+      "otherMarriages": []
+    },
+    "remarks": "",
+    "signatureDate": "2025-11-20",
+    "certificationStatement": true,
+    "signatureByMark": false
+  }
+}

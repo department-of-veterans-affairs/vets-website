@@ -1,0 +1,576 @@
+{
+    "formId": "21P-4171",
+    "rootUrl": "/pension/marriage/supporting-statement-21p-4171",
+    "title": "Supporting Statement Regarding Marriage (21P-4171)",
+    "chapters": [
+      {
+        "id": "witness-info",
+        "title": "Your information (Person completing this form)",
+        "pages": [
+          {
+            "id": "witness-identity",
+            "title": "Your personal information",
+            "path": "witness/identity",
+            "patterns": [
+              {
+                "type": "fullName",
+                "as": "witness.fullName",
+                "title": "Name of person completing this form"
+              },
+              {
+                "type": "address",
+                "as": "witness.address",
+                "title": "Address of person completing this form"
+              },
+              {
+                "type": "phone",
+                "as": "witness.phone.daytime",
+                "title": "Daytime telephone number"
+              },
+              {
+                "type": "phone",
+                "as": "witness.phone.evening",
+                "title": "Evening telephone number"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "parties-info",
+        "title": "Information about the veteran and spouse",
+        "pages": [
+          {
+            "id": "veteran-spouse-info",
+            "title": "Veteran and spouse identification",
+            "path": "parties/identification",
+            "patterns": [
+              {
+                "type": "fullName",
+                "as": "veteran.fullName",
+                "title": "Veteran/Beneficiary's name"
+              },
+              {
+                "type": "ssnOrVaFileNumberNoHint",
+                "as": "veteran.ssn",
+                "title": "Veteran's Social Security number"
+              },
+              {
+                "type": "textInput",
+                "as": "veteran.vaFileNumber",
+                "title": "VA file number (if applicable)",
+                "required": false
+              },
+              {
+                "type": "fullName",
+                "as": "spouse.fullName",
+                "title": "Claimed spouse or surviving spouse's name"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "relationships",
+        "title": "Your relationship to the parties",
+        "pages": [
+          {
+            "id": "relationship-details",
+            "title": "Relationship information",
+            "path": "relationships/details",
+            "patterns": [
+              {
+                "type": "textInput",
+                "as": "witness.relationshipToVeteran",
+                "title": "What was/is your relationship to the veteran?",
+                "hint": "Parent, child, brother, sister, etc. If not related, state 'None'",
+                "maxLength": 50
+              },
+              {
+                "type": "textInput",
+                "as": "witness.relationshipToSpouse",
+                "title": "What was/is your relationship to the claimed spouse?",
+                "hint": "Parent, child, brother, sister, etc. If not related, state 'None'",
+                "maxLength": 50
+              },
+              {
+                "type": "textInput",
+                "as": "witness.howLongKnownVeteran",
+                "title": "How long had/have you known the veteran?",
+                "hint": "Months, years",
+                "maxLength": 20
+              },
+              {
+                "type": "textInput",
+                "as": "witness.howLongKnownSpouse",
+                "title": "How long had/have you known the claimed spouse?",
+                "hint": "Months, years",
+                "maxLength": 20
+              }
+            ]
+          },
+          {
+            "id": "visitation",
+            "title": "Visitation information",
+            "path": "relationships/visitation",
+            "patterns": [
+              {
+                "type": "textArea",
+                "as": "witness.visitFrequencyVeteran",
+                "title": "How often had/have you visited the veteran?",
+                "maxLength": 500
+              },
+              {
+                "type": "textArea",
+                "as": "witness.visitOccasionsVeteran",
+                "title": "On what occasion(s) had/have you visited the veteran?",
+                "maxLength": 500
+              },
+              {
+                "type": "textArea",
+                "as": "witness.visitFrequencySpouse",
+                "title": "How often had/have you visited the claimed spouse?",
+                "maxLength": 500
+              },
+              {
+                "type": "textArea",
+                "as": "witness.visitOccasionsSpouse",
+                "title": "On what occasions have you met the claimed spouse?",
+                "maxLength": 500
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "marriage-knowledge",
+        "title": "Your knowledge of the marriage",
+        "pages": [
+          {
+            "id": "marriage-recognition",
+            "title": "Marriage recognition",
+            "path": "marriage/recognition",
+            "patterns": [
+              {
+                "type": "yesNo",
+                "as": "marriage.generallyKnownAsMarried",
+                "title": "Were/are the veteran and the claimed spouse generally known as married?"
+              },
+              {
+                "type": "yesNo",
+                "as": "marriage.everDenied",
+                "title": "Did/do either the veteran or claimed spouse ever deny the marriage?"
+              },
+              {
+                "type": "yesNo",
+                "as": "marriage.witnessConsidersMarried",
+                "title": "Did/do you consider the veteran and the claimed spouse to be married?"
+              },
+              {
+                "type": "textArea",
+                "as": "marriage.reasonsForBelief",
+                "title": "Provide facts and reasons for such belief",
+                "depends": "marriage.witnessConsidersMarried === true",
+                "maxLength": 1000
+              }
+            ]
+          },
+          {
+            "id": "spouse-names",
+            "title": "Names used by spouse",
+            "path": "marriage/names",
+            "patterns": [
+              {
+                "type": "textInput",
+                "as": "spouse.usedFirstName",
+                "title": "First name by which spouse was/is known",
+                "maxLength": 50
+              },
+              {
+                "type": "textInput",
+                "as": "spouse.usedLastName",
+                "title": "Last name by which spouse was/is known",
+                "maxLength": 50
+              }
+            ]
+          },
+          {
+            "id": "marriage-references",
+            "title": "Marriage references",
+            "path": "marriage/references",
+            "patterns": [
+              {
+                "type": "yesNo",
+                "as": "marriage.heardReferToEachOther",
+                "title": "Had/have you ever heard the veteran or the claimed spouse refer to each other as married to one another?"
+              },
+              {
+                "type": "va-memorable-date",
+                "as": "marriage.referenceDate",
+                "title": "Date",
+                "depends": "marriage.heardReferToEachOther === true"
+              },
+              {
+                "type": "textInput",
+                "as": "marriage.referencePlace",
+                "title": "Place",
+                "depends": "marriage.heardReferToEachOther === true",
+                "maxLength": 100
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "living-arrangements",
+        "title": "Living arrangements",
+        "pages": [
+          {
+            "id": "cohabitation",
+            "title": "Living together",
+            "path": "living/cohabitation",
+            "patterns": [
+              {
+                "type": "yesNo",
+                "as": "living.maintainedHome",
+                "title": "Did/do the veteran and the claimed spouse maintain a home and live together as married to one another?"
+              }
+            ]
+          },
+          {
+            "id": "living-periods",
+            "title": "Periods living together",
+            "path": "living/periods",
+            "depends": "living.maintainedHome === true",
+            "array": {
+              "arrayPath": "living.periods",
+              "nounSingular": "period",
+              "nounPlural": "periods",
+              "summaryTitle": "Do you have another period when they lived together to add?",
+              "itemPages": [
+                {
+                  "id": "living-period",
+                  "title": "Living period",
+                  "path": "living/periods/:index",
+                  "patterns": [
+                    {
+                      "type": "dateRange",
+                      "as": "dates",
+                      "title": "Period dates"
+                    },
+                    {
+                      "type": "textInput",
+                      "as": "cityOrTown",
+                      "title": "City or town",
+                      "maxLength": 100
+                    },
+                    {
+                      "type": "textInput",
+                      "as": "state",
+                      "title": "State",
+                      "maxLength": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "id": "continuous-living",
+            "title": "Continuous cohabitation",
+            "path": "living/continuous",
+            "patterns": [
+              {
+                "type": "yesNo",
+                "as": "living.continuous",
+                "title": "Had/have the veteran and the claimed spouse lived together continuously?"
+              },
+              {
+                "type": "textArea",
+                "as": "living.explanation",
+                "title": "Explanation",
+                "depends": "living.continuous === false",
+                "maxLength": 1000
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "prior-marriages",
+        "title": "Prior marriages",
+        "pages": [
+          {
+            "id": "veteran-prior-marriages",
+            "title": "Veteran's other marriages",
+            "path": "prior-marriages/veteran",
+            "patterns": [
+              {
+                "type": "yesNo",
+                "as": "veteran.hadOtherMarriages",
+                "title": "Had/has the veteran ever entered into any other marriage(s)?"
+              }
+            ]
+          },
+          {
+            "id": "veteran-marriages-list",
+            "title": "Veteran's marriage history",
+            "path": "prior-marriages/veteran-list",
+            "depends": "veteran.hadOtherMarriages === true",
+            "array": {
+              "arrayPath": "veteran.otherMarriages",
+              "nounSingular": "marriage",
+              "nounPlural": "marriages",
+              "summaryTitle": "Does the veteran have another marriage to add?",
+              "itemPages": [
+                {
+                  "id": "veteran-marriage",
+                  "title": "Marriage details",
+                  "path": "prior-marriages/veteran-list/:index",
+                  "patterns": [
+                    {
+                      "type": "fullName",
+                      "as": "toWhomMarried",
+                      "title": "To whom married"
+                    },
+                    {
+                      "type": "textInput",
+                      "as": "marriageType",
+                      "title": "Type of marriage",
+                      "hint": "Ceremonial, etc.",
+                      "maxLength": 50
+                    },
+                    {
+                      "type": "va-memorable-date",
+                      "as": "marriageDate",
+                      "title": "Date of marriage"
+                    },
+                    {
+                      "type": "textInput",
+                      "as": "marriagePlace",
+                      "title": "Place of marriage",
+                      "maxLength": 100
+                    },
+                    {
+                      "type": "va-memorable-date",
+                      "as": "endDate",
+                      "title": "Date marriage ended"
+                    },
+                    {
+                      "type": "textInput",
+                      "as": "endPlace",
+                      "title": "Place marriage ended",
+                      "maxLength": 100
+                    },
+                    {
+                      "type": "radioGroup",
+                      "as": "howEnded",
+                      "title": "How marriage ended",
+                      "options": ["Death", "Divorce", "Other"]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "id": "spouse-prior-marriages",
+            "title": "Spouse's other marriages",
+            "path": "prior-marriages/spouse",
+            "patterns": [
+              {
+                "type": "yesNo",
+                "as": "spouse.hadOtherMarriages",
+                "title": "Has the claimed spouse ever entered into any other marriage(s)?"
+              }
+            ]
+          },
+          {
+            "id": "spouse-marriages-list",
+            "title": "Spouse's marriage history",
+            "path": "prior-marriages/spouse-list",
+            "depends": "spouse.hadOtherMarriages === true",
+            "array": {
+              "arrayPath": "spouse.otherMarriages",
+              "nounSingular": "marriage",
+              "nounPlural": "marriages",
+              "summaryTitle": "Does the spouse have another marriage to add?",
+              "itemPages": [
+                {
+                  "id": "spouse-marriage",
+                  "title": "Marriage details",
+                  "path": "prior-marriages/spouse-list/:index",
+                  "patterns": [
+                    {
+                      "type": "fullName",
+                      "as": "toWhomMarried",
+                      "title": "To whom married"
+                    },
+                    {
+                      "type": "textInput",
+                      "as": "marriageType",
+                      "title": "Type of marriage",
+                      "hint": "Ceremonial, etc.",
+                      "maxLength": 50
+                    },
+                    {
+                      "type": "va-memorable-date",
+                      "as": "marriageDate",
+                      "title": "Date of marriage"
+                    },
+                    {
+                      "type": "textInput",
+                      "as": "marriagePlace",
+                      "title": "Place of marriage",
+                      "maxLength": 100
+                    },
+                    {
+                      "type": "va-memorable-date",
+                      "as": "endDate",
+                      "title": "Date marriage ended"
+                    },
+                    {
+                      "type": "textInput",
+                      "as": "endPlace",
+                      "title": "Place marriage ended",
+                      "maxLength": 100
+                    },
+                    {
+                      "type": "radioGroup",
+                      "as": "howEnded",
+                      "title": "How marriage ended",
+                      "options": ["Death", "Divorce", "Other"]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "additionalInfo",
+        "title": "Additional information",
+        "pages": [
+          {
+            "id": "remarks",
+            "title": "Remarks",
+            "path": "additional/remarks",
+            "patterns": [
+              {
+                "type": "textArea",
+                "as": "remarks",
+                "title": "Remarks (if any)",
+                "required": false,
+                "maxLength": 2000
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "review",
+        "title": "Review and submit",
+        "pages": [
+          {
+            "id": "certification",
+            "title": "Certification and signature",
+            "path": "review/certification",
+            "patterns": [
+              {
+                "type": "statementOfTruth",
+                "as": "certification",
+                "title": "I certify that the foregoing statements are true and correct to the best of my knowledge and belief. I understand that this statement will be considered in connection with an application for VA benefits based on a marital relationship between the veteran and the person named in Item 3."
+              },
+              {
+                "type": "signature",
+                "as": "witness.signature",
+                "title": "Signature"
+              },
+              {
+                "type": "va-date",
+                "as": "witness.signatureDate",
+                "title": "Date signed"
+              }
+            ]
+          },
+          {
+            "id": "witness-signatures",
+            "title": "Witnesses (if signature by X mark)",
+            "path": "review/witnesses",
+            "required": false,
+            "depends": "signatureByMark === true",
+            "array": {
+              "arrayPath": "signatureWitnesses",
+              "nounSingular": "witness",
+              "nounPlural": "witnesses",
+              "minItems": 2,
+              "maxItems": 2,
+              "itemPages": [
+                {
+                  "id": "witness-info",
+                  "title": "Witness information",
+                  "path": "review/witnesses/:index",
+                  "patterns": [
+                    {
+                      "type": "signature",
+                      "as": "signature",
+                      "title": "Signature of witness"
+                    },
+                    {
+                      "type": "address",
+                      "as": "address",
+                      "title": "Address of witness"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "review": {
+      "includeStatementOfTruth": true
+    },
+    "sip": {
+      "enabled": true
+    },
+    "meta": {
+      "patternsUsed": [
+        "fullName",
+        "ssnOrVaFileNumberNoHint",
+        "address",
+        "phone",
+        "textInput",
+        "textArea",
+        "yesNo",
+        "radioGroup",
+        "va-memorable-date",
+        "va-date",
+        "dateRange",
+        "signature",
+        "statementOfTruth"
+      ],
+      "arrays": [
+        "living.periods",
+        "veteran.otherMarriages",
+        "spouse.otherMarriages",
+        "signatureWitnesses"
+      ],
+      "requiresSignature": true,
+      "purpose": "Third-party testimony supporting marriage claim",
+      "conditionalLogic": {
+        "livingPeriods": "Show only if they maintained a home together",
+        "marriageReasons": "Show only if witness considers them married",
+        "veteranMarriages": "Show only if veteran had other marriages",
+        "spouseMarriages": "Show only if spouse had other marriages",
+        "witnesses": "Required only for X mark signatures"
+      }
+    },
+    "breadcrumbs": [
+      "Pension",
+      "Marriage",
+      "Supporting Statement"
+    ]
+  }
