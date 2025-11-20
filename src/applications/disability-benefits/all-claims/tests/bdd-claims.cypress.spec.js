@@ -20,13 +20,23 @@ const testConfig = createTestConfig(
       data: path.join(__dirname, 'fixtures', 'data'),
     },
 
-    pageHooks: pageHooks(cy),
+    pageHooks: pageHooks(cy, {
+      showConfirmationReview: true,
+    }),
     setupPerTest: () => {
       cy.login(mockUser);
-      setup(cy);
+      setup(cy, {
+        toggles: {
+          data: {
+            type: 'feature_toggles',
+            features: [
+              { name: 'show526Wizard', value: true },
+              { name: 'disability_526_show_confirmation_review', value: true },
+            ],
+          },
+        },
+      });
     },
-
-    // skip: [],
   },
   manifest,
   formConfig,

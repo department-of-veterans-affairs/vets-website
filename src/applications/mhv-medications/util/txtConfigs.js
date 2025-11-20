@@ -64,7 +64,6 @@ const getAttributes = rx =>
     fieldLine('Pharmacy phone number', rx.phoneNumber),
     fieldLine('Instructions', rx.sig),
     fieldLine('Reason for use', rx.indicationForUse),
-    fieldLine('Quantity', rx.quantity),
     `Prescribed on: ${dateFormat(
       rx.orderedDate,
       DATETIME_FORMATS.longMonthDate,

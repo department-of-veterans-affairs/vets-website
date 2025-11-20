@@ -21,7 +21,7 @@
       "phoneNumber": {
         "callingCode": 1,
         "countryCode": "US",
-        "contact": "1231231222"
+        "contact": "1 (231) 231-222"
       },
       "email": "janedoe@gmail.com",
       "view:isPOC": true,
@@ -89,7 +89,7 @@
           "phone": "1235232341"
         },
         "view:additionalInstructions": {},
-        "facilityCode": "318Z0032",
+        "facilityCode": "31879132",
         "institutionName": "NEW YORK INSTITUTE OF TECHNOLOGY-NYC",
         "institutionAddress": {
           "country": "USA",
@@ -114,7 +114,7 @@
         },
         "email": "janedoe@gmail.com",
         "view:additionalInstructions": {},
-        "facilityCode": "318Z0032",
+        "facilityCode": "11903130",
         "institutionName": "NEW YORK INSTITUTE OF TECHNOLOGY-NYC",
         "institutionAddress": {
           "country": "",

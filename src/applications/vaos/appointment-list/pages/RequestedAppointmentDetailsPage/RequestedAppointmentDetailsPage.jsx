@@ -58,7 +58,7 @@ export default function RequestedAppointmentDetailsPage() {
 
         document.title = title;
       }
-      scrollAndFocus();
+      scrollAndFocus(undefined, 50);
     },
     [dispatch, isCanceled, isCC, appointment],
   );
@@ -69,7 +69,7 @@ export default function RequestedAppointmentDetailsPage() {
         appointmentDetailsStatus === FETCH_STATUS.failed ||
         (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
       ) {
-        scrollAndFocus();
+        scrollAndFocus(undefined, 50);
       }
     },
 

@@ -90,6 +90,8 @@ describe('VAOS Component: VARequestLayout', () => {
         },
       );
       // Assert
+      const h1el = screen.queryByText(/Request for appointment/i);
+      expect(h1el).to.be.visible;
       expect(
         screen.getByRole('heading', {
           level: 1,

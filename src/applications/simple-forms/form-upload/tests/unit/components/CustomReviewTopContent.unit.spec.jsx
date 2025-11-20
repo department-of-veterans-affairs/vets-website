@@ -125,7 +125,7 @@ describe('CustomReviewTopContent', () => {
   it('renders the correct headers', () => {
     const { getByText } = subject();
 
-    expect(getByText('Personal information')).to.exist;
+    expect(getByText('Veteran’s information')).to.exist;
     expect(getByText('Uploaded file')).to.exist;
   });
 

@@ -267,7 +267,8 @@ const custodianSummaryPage = {
 
 const updatedSharedRecipientRelationshipBase = {
   ...sharedRecipientRelationshipBase,
-  title: 'What’s the relationship of the original asset owner to the Veteran?',
+  title: 'What’s the relationship of the asset owner to the Veteran?',
+  hint: 'You’ll be able to add individual assets separately',
 };
 
 const otherRecipientRelationshipTypeUI = {

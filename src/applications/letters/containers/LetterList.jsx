@@ -47,7 +47,9 @@ export class LetterList extends React.Component {
   getTsaLetter() {
     return apiRequest(GET_TSA_LETTER_ELIGIBILITY_ENDPOINT)
       .then(response => {
-        if (Array.isArray(response.data) && response.data.length > 0) {
+        const hasTSALetter =
+          Array.isArray(response.data) && response.data.length > 0;
+        if (hasTSALetter) {
           const latestLetter = response.data.reduce((latest, current) => {
             const latestDate = latest.attributes?.receivedAt || '0';
             const currentDate = current.attributes?.receivedAt || '0';
@@ -59,6 +61,7 @@ export class LetterList extends React.Component {
           event: 'api_call',
           'api-name': 'GET /v0/tsa_letter',
           'api-status': 'successful',
+          'has-letter': hasTSALetter,
         });
       })
       .catch(() => {

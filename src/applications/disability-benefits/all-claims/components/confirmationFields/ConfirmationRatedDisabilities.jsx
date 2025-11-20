@@ -7,9 +7,9 @@ const ConfirmationRatedDisabilities = ({ formData }) => {
   const selectedRated = ratedDisabilities.filter(d => d['view:selected']);
 
   return (
-    <div>
+    <>
       {selectedRated.map(dis => (
-        <div key={dis.name}>
+        <li key={dis.name}>
           <h4>{capitalizeEachWord(dis.name)}</h4>
           <div className="vads-u-color--gray">Description</div>
           {dis.ratingPercentage && (
@@ -18,9 +18,9 @@ const ConfirmationRatedDisabilities = ({ formData }) => {
               {dis.ratingPercentage}% rating
             </span>
           )}
-        </div>
+        </li>
       ))}
-    </div>
+    </>
   );
 };
 

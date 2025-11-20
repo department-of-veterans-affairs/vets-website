@@ -73,10 +73,10 @@ const CustomReviewTopContent = () => {
   return (
     <>
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
-        <h3>Personal information</h3>
+        <h3>Veteran’s information</h3>
         <EditLink
           href={`/${formNumber}/name-and-zip-code`}
-          label="Edit Personal information"
+          label="Edit Veteran’s information"
         />
       </div>
       {renderPersonalInfo()}

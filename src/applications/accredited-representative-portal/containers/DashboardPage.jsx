@@ -12,8 +12,7 @@ const DashboardPage = props => {
   const location = useLocation();
   const loaderData = useLoaderData();
   const params = new URLSearchParams(location.search);
-  const unauthorizedParam = (params.get('unauthorized') || '').toLowerCase();
-  const isUnauthorizedQuery = ['1', 'true', 'yes'].includes(unauthorizedParam);
+  const unauthorizedParam = params.has('unauthorized');
   const isAuthorized = loaderData?.authorized === true;
   localStorage.setItem('userAuthorized', isAuthorized);
   useEffect(
@@ -31,11 +30,7 @@ const DashboardPage = props => {
           label={DASHBOARD_BC_LABEL}
           homeVeteransAffairs={false}
         />
-        {isUnauthorizedQuery || !isAuthorized ? (
-          <Unauthorized />
-        ) : (
-          <Authorized />
-        )}
+        {unauthorizedParam || !isAuthorized ? <Unauthorized /> : <Authorized />}
       </div>
     </section>
   );
@@ -44,11 +39,8 @@ const DashboardPage = props => {
 DashboardPage.loader = async ({ request }) => {
   // If explicitly marked unauthorized in query params, skip server call
   const { searchParams } = new URL(request.url);
-  const unauthorizedParam = (
-    searchParams.get('unauthorized') || ''
-  ).toLowerCase();
-  const isUnauthorizedQuery = ['1', 'true', 'yes'].includes(unauthorizedParam);
-  if (isUnauthorizedQuery) return { authorized: false };
+  const unauthorizedParam = searchParams.has('unauthorized');
+  if (unauthorizedParam) return { authorized: false };
 
   const res = await api.checkAuthorized();
   // Bubble up 401 to the route guard so it can redirect to sign-in

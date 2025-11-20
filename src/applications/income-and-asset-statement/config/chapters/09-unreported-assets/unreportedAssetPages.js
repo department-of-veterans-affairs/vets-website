@@ -178,7 +178,7 @@ const childSummaryPage = {
     'view:isAddingUnreportedAssets': arrayBuilderYesNoUI(
       options,
       {
-        title: 'Did you have any assets you haven’t already reported?',
+        title: 'Do you have any assets you haven’t already reported?',
         hint: null,
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
@@ -231,7 +231,8 @@ const parentSummaryPage = {
 
 const updatedSharedRecipientRelationshipBase = {
   ...sharedRecipientRelationshipBase,
-  title: 'What’s the relationship of the original asset owner to the Veteran?',
+  title: 'What’s the relationship of the asset owner to the Veteran?',
+  hint: 'You’ll be able to add individual assets separately',
 };
 
 const otherRecipientRelationshipTypeUI = {

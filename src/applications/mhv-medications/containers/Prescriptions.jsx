@@ -200,6 +200,7 @@ const Prescriptions = () => {
         ...prev,
         ...updates,
       }));
+      setPrescriptionsExportList([]);
     }
 
     navigate('/?page=1', { replace: true });
