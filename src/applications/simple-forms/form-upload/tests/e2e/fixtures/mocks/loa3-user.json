@@ -5,7 +5,7 @@
         "signIn": {
           "serviceName": "idme"
         },
-        "email": "John.preparer@example.com",
+        "email": "john.preparer@example.com",
         "loa": { "current": 3 },
         "firstName": "John",
         "middleName": "",
@@ -54,7 +54,7 @@
         "vet360Id": "223141",
         "email": {
           "createdAt": "2021-07-20T21:07:53.000+00:00",
-          "emailAddress": "John.preparer@example.com",
+          "emailAddress": "john.preparer@example.com",
           "effectiveEndDate": null,
           "effectiveStartDate": "2022-09-15T17:36:19.000+00:00",
           "id": 187136,
