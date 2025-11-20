@@ -30,6 +30,10 @@ import { otherServiceNamesPages } from './chapters/03-military-history/serviceNa
 import prisonerOfWarPage from './chapters/03-military-history/prisonerOfWar';
 import powPeriodOfTimePage from './chapters/03-military-history/powPeriodOfTime';
 import marriageToVeteran from './chapters/04-household-information/marriageToVeteran';
+import marriageToVeteranLocation from './chapters/04-household-information/marriageToVeteranLocation';
+import marriageToVeteranInfo from './chapters/04-household-information/marriageToVeteranInfo';
+import marriageToVeteranEnd from './chapters/04-household-information/marriageToVeteranEnd';
+import marriageToVeteranEndInfo from './chapters/04-household-information/marriageToVeteranEndInfo';
 import legalStatusOfMarriage from './chapters/04-household-information/legalStatusOfMarriage';
 import marriageStatus from './chapters/04-household-information/marriageStatus';
 import reasonForSeparation from './chapters/04-household-information/reasonForSeparation';
@@ -264,6 +268,36 @@ const formConfig = {
           depends: formData => formData.claimantRelationship === 'SPOUSE',
           uiSchema: marriageToVeteran.uiSchema,
           schema: marriageToVeteran.schema,
+        },
+        marriageToVeteranLocation: {
+          path: 'household/marriage-to-veteran-location',
+          title: 'Marriage to Veteran Location',
+          depends: formData => formData.claimantRelationship === 'SPOUSE',
+          uiSchema: marriageToVeteranLocation.uiSchema,
+          schema: marriageToVeteranLocation.schema,
+        },
+        marriageToVeteranInfo: {
+          path: 'household/marriage-to-veteran-inf',
+          title: 'Marriage to Veteran Details',
+          depends: formData => formData.claimantRelationship === 'SPOUSE',
+          uiSchema: marriageToVeteranInfo.uiSchema,
+          schema: marriageToVeteranInfo.schema,
+        },
+        marriageToVeteranEnd: {
+          path: 'household/marriage-to-veteran-end',
+          title: 'Marriage to Veteran Details',
+          // depends: formData =>
+          //   formData.claimantRelationship === 'SPOUSE' &&
+          //   !formData.marriedAtDeath,
+          uiSchema: marriageToVeteranEnd.uiSchema,
+          schema: marriageToVeteranEnd.schema,
+        },
+        marriageToVeteranEndInfo: {
+          path: 'household/marriage-to-veteran-end-info',
+          title: 'Marriage to Veteran Details',
+          depends: formData => formData.claimantRelationship === 'SPOUSE',
+          uiSchema: marriageToVeteranEndInfo.uiSchema,
+          schema: marriageToVeteranEndInfo.schema,
         },
         legalStatusOfMarriage: {
           path: 'household/legal-status-of-marriage',
