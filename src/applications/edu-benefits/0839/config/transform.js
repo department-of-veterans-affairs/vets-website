@@ -47,31 +47,9 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
-  const institutionDetailsTransform = formData => {
-    const clonedData = cloneDeep(formData);
-
-    // TODO: verify transform with live institution data
-    if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
-      clonedData.withdrawFromYellowRibbonProgram = [
-        clonedData.institutionDetails,
-        ...clonedData.additionalInstitutionDetails,
-      ];
-    } else {
-      clonedData.institutionDetails = [
-        clonedData.institutionDetails,
-        ...clonedData.additionalInstitutionDetails,
-      ];
-    }
-
-    delete clonedData.additionalInstitutionDetails;
-
-    return clonedData;
-  };
-
   const yellowRibbonProgramRequestTransform = formData => {
     const clonedData = cloneDeep(formData);
 
-    // TODO: verify logic with live institutionDetails (depends on foreign status)
     clonedData.yellowRibbonProgramAgreementRequest = formData.yellowRibbonProgramRequest.map(
       request => {
         const yearRange = request.academicYearDisplay.split('-');
@@ -84,7 +62,7 @@ export default function transform(formConfig, form) {
           request.maximumStudentsOption === 'unlimited'
             ? 1000000
             : Number(request.maximumStudents);
-        request.maximumNumberOfStudents = maximumNumberOfStudents;
+        request.maximumNumberofStudents = maximumNumberOfStudents;
 
         const maximumContributionAmount =
           request.maximumContributionAmount === 'unlimited'
@@ -92,12 +70,13 @@ export default function transform(formConfig, form) {
             : Number(request.specificContributionAmount);
         request.maximumContributionAmount = maximumContributionAmount;
 
-        request.currencyType = request.schoolCurrency;
+        // check for isUsaSchool on main institutionDetails
+        request.currencyType = !clonedData.institutionDetails.isUsaSchool
+          ? request.schoolCurrency
+          : 'USD';
 
         request.degreeProgram = request.collegeOrProfessionalSchool;
 
-        // TODO: verify logic around degreeLevel transform
-        // -- how to handle something other than undergraduate, graduate, or doctoral? No validation in UI
         if (
           request.degreeLevel !== 'undergraduate' ||
           request.degreeLevel !== 'graduate' ||
@@ -106,8 +85,6 @@ export default function transform(formConfig, form) {
           request.degreeLevel = 'all';
         }
 
-        // TODO: verify eligibleIndividuals field, where is this coming from?
-        // -- putting as max amount for now
         request.eligibleIndividuals = 1000000;
 
         delete request.academicYearDisplay;
@@ -122,6 +99,48 @@ export default function transform(formConfig, form) {
     );
 
     delete clonedData.yellowRibbonProgramRequest;
+
+    return clonedData;
+  };
+
+  const institutionDetailsTransform = formData => {
+    const clonedData = cloneDeep(formData);
+
+    // underscore marks them as intentionally unused to satisfy linter
+    const clearValues = ({
+      facilityMap: _facilityMap,
+      ihlEligible: _ihlEligible,
+      yrEligible: _yrEligible,
+      isLoading: _isLoading,
+      isUsaSchool: _isUsaSchool,
+      isForeignSchool: _isForeignSchool,
+      ...rest
+    }) => rest;
+
+    if (clonedData.hasAdditionalInstitutionDetails === true) {
+      if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
+        clonedData.withdrawFromYellowRibbonProgram = [
+          clonedData.institutionDetails,
+          ...clonedData.additionalInstitutionDetails,
+        ].map(clearValues);
+      } else {
+        clonedData.institutionDetails = [
+          clonedData.institutionDetails,
+          ...clonedData.additionalInstitutionDetails,
+        ].map(clearValues);
+      }
+    } else if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
+      clonedData.withdrawFromYellowRibbonProgram = [
+        clonedData.institutionDetails,
+      ].map(clearValues);
+    } else {
+      clonedData.institutionDetails = [clonedData.institutionDetails].map(
+        clearValues,
+      );
+    }
+
+    delete clonedData.hasAdditionalInstitutionDetails;
+    delete clonedData.additionalInstitutionDetails;
 
     return clonedData;
   };
@@ -215,8 +234,8 @@ export default function transform(formConfig, form) {
     authorizedOfficialTransform,
     agreementTypeTransform,
     acknowledgementsTransform,
-    institutionDetailsTransform,
     yellowRibbonProgramRequestTransform,
+    institutionDetailsTransform,
     pointOfContactTransform,
     statementTransform,
     dateTransform,
