@@ -3,6 +3,7 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
+import { formatPath } from './ArrayBuilderCancelButton';
 import {
   checkForDuplicatesInItemPages,
   getItemDuplicateDismissedName,
@@ -10,6 +11,11 @@ import {
   META_DATA_KEY,
   defaultDuplicateResult,
 } from './helpers';
+
+const noDuplicatesHook = {
+  checkForDuplicates: () => false,
+  renderDuplicateModal: null,
+};
 
 /**
  * Custom hook for handling duplicate checks in array builder forms.
@@ -19,16 +25,34 @@ import {
  * @param {Object} config
  * @param {Object} config.arrayBuilderProps - Array builder configuration props
  * @param {Object} config.customPageProps - Component props from CustomPage
- * @param {Function} config.onAccept - Callback when user accepts duplicate (receives item data)
+ * @param {(itemData: Object) => void} config.onAccept - Callback when user accepts duplicate (receives item data)
  *
- * @returns {Object} Duplicate check utilities
- * @returns {boolean} return.isDuplicateCheckEnabled - Whether duplicate checking is enabled
- * @returns {Function} return.checkForDuplicate - Check if item data has duplicates (returns boolean)
- * @returns {Function} return.renderDuplicateModal - Render the duplicate warning modal (optional)
+ * @returns {{
+ *   checkForDuplicates: (onSubmitProps: Object) => boolean,
+ *   renderDuplicateModal: () => (React.ReactElement|null)
+ * }} Duplicate check utilities
+ *
+ * @example
+ * ```js
+ * const { checkForDuplicates, renderDuplicateModal } = useDuplicateChecks({
+ *   arrayBuilderProps,
+ *   customPageProps: props,
+ *   onAccept: itemData => {
+ *     onSubmit({ formData: itemData });
+ *   },
+ * });
+ *
+ * const handleSubmit = newProps => {
+ *   const hasDuplicate = checkForDuplicates(newProps);
+ *   if (!hasDuplicate) {
+ *     onSubmit(newProps);
+ *   }
+ * };
+ * ```
  */
 export function useDuplicateChecks({
   arrayBuilderProps,
-  customPageProps,
+  customPageProps: props,
   onAccept,
 }) {
   // Derive edit/add mode from URL params
@@ -37,22 +61,17 @@ export function useDuplicateChecks({
   const isAdd = !!searchParams.get('add');
   const {
     arrayPath,
-    duplicateChecks: duplicateChecksGlobal = {},
+    getSummaryPath,
+    getIntroPath,
+    reviewRoute,
     getText,
     required,
-    summaryRoute,
-    introRoute,
-    reviewRoute,
+    duplicateChecks: duplicateChecksGlobal = {},
     currentPath,
   } = arrayBuilderProps;
 
-  const {
-    fullData = {},
-    data,
-    pagePerItemIndex,
-    setFormData,
-    goToPath,
-  } = customPageProps;
+  const introRoute = getIntroPath(props.fullData);
+  const summaryRoute = getSummaryPath(props.fullData);
 
   // duplicateChecks will only apply to specific internal item pages
   const internalPageDuplicateChecks =
@@ -66,11 +85,17 @@ export function useDuplicateChecks({
         ...internalPageDuplicateChecks,
       }
     : duplicateChecksGlobal || {};
+
   const [duplicateCheckResult, setDuplicateCheckResult] = useState(
     defaultDuplicateResult,
   );
   const [showDuplicateModal, setShowDuplicateModal] = useState(null);
-  const [pendingSubmitData, setPendingSubmitData] = useState(null);
+  // const [pendingSubmitData, setPendingSubmitData] = useState(null);
+
+  if (Object.keys(duplicateChecks).length === 0) {
+    // No duplicate checks configured
+    return noDuplicatesHook;
+  }
 
   const itemDuplicateDismissedName = getItemDuplicateDismissedName({
     arrayPath,
@@ -78,97 +103,77 @@ export function useDuplicateChecks({
     // modal to show on all internal array pages even after accepting the
     // duplicate
     duplicateChecks: duplicateChecksGlobal,
-    fullData,
-    itemIndex: pagePerItemIndex,
+    fullData: props.fullData,
+    itemIndex: props.pagePerItemIndex,
   });
 
-  const isDuplicateCheckEnabled =
-    duplicateChecks &&
-    (duplicateChecks.externalComparisonData ||
-      duplicateChecks.comparisons?.length > 0);
-
-  const shouldShowDuplicateWarning =
-    duplicateCheckResult?.duplicates.includes(
-      duplicateCheckResult.arrayData[pagePerItemIndex],
-    ) && !fullData?.[META_DATA_KEY]?.[itemDuplicateDismissedName];
-
   /**
-   * Check if the given item data has duplicates
-   * @param {Object} itemData - The item data to check
+   * Check to run form submit
+   * @param {Object} onSubmitProps - props from onSubmit
    * @returns {boolean} - True if duplicate found and not dismissed
    */
-  const checkForDuplicate = itemData => {
-    if (!isDuplicateCheckEnabled) {
-      return false;
-    }
+  const checkForDuplicates = onSubmitProps => {
+    let hasDuplicate = false;
+    setShowDuplicateModal(null);
 
     const check = checkForDuplicatesInItemPages({
       arrayPath,
       duplicateChecks,
-      fullData,
-      index: pagePerItemIndex,
-      itemData,
+      fullData: props.fullData,
+      index: props.pagePerItemIndex,
+      // newProps.formData is limited to the current array item
+      itemData: onSubmitProps.formData,
     });
     setDuplicateCheckResult(check);
 
-    const hasDuplicate =
-      !fullData?.[META_DATA_KEY]?.[itemDuplicateDismissedName] &&
-      check.duplicates.includes(check.arrayData[pagePerItemIndex]);
-
-    if (hasDuplicate) {
-      setPendingSubmitData(itemData);
-      setShowDuplicateModal(true);
+    if (
+      !props.fullData?.[META_DATA_KEY]?.[itemDuplicateDismissedName] &&
+      check.duplicates.includes(check.arrayData[props.pagePerItemIndex])
+    ) {
+      setShowDuplicateModal(onSubmitProps);
       dataDogLogger({
         message: 'Duplicate modal',
         attributes: { state: 'shown', buttonUsed: null },
       });
+      hasDuplicate = true;
     }
 
     return hasDuplicate;
   };
 
-  /**
-   * Close duplicate modal
-   */
-  const handleDuplicateModalClose = () => {
+  const onDuplicateModalClose = () => {
     setShowDuplicateModal(false);
-    setPendingSubmitData(null);
     dataDogLogger({
       message: 'Duplicate modal',
       attributes: { state: 'hidden', buttonUsed: 'close' },
     });
   };
 
-  /**
-   * Cancel adding/editing and return to summary/intro
-   * This is the "No, cancel" option
-   */
-  const handleCancelDuplicate = () => {
-    const metadata = fullData?.[META_DATA_KEY] || {};
+  const onDuplicateModalPrimaryClick = () => {
+    // Primary button is "No, cancel adding/editing"
+    const metadata = props.fullData?.[META_DATA_KEY] || {};
     if (
       duplicateCheckResult.duplicates.includes(
-        duplicateCheckResult.arrayData[pagePerItemIndex],
+        duplicateCheckResult.arrayData[props.pagePerItemIndex],
       )
     ) {
       metadata[itemDuplicateDismissedName] = false;
     }
 
-    // Remove the item if it was being added
-    const arrayData = get(arrayPath, fullData);
+    // Code modified from ArrayBuilderCancelButton
+    const arrayData = get(arrayPath, props.fullData);
     let newArrayData = arrayData;
     if (isAdd) {
-      const arrayIndex = parseInt(pagePerItemIndex, 10);
+      const arrayIndex = parseInt(props.pagePerItemIndex, 10);
       newArrayData = arrayData.filter((_, i) => i !== arrayIndex);
     }
-
-    setFormData({
-      ...fullData,
+    props.setFormData({
+      ...props.fullData,
       [arrayPath]: newArrayData,
       [META_DATA_KEY]: metadata || null,
     });
 
     setShowDuplicateModal(false);
-    setPendingSubmitData(null);
     dataDogLogger({
       message: 'Duplicate modal',
       attributes: { state: 'hidden', buttonUsed: 'cancel' },
@@ -185,105 +190,98 @@ export function useDuplicateChecks({
     } else if (isEdit) {
       path = summaryRoute;
     } else {
+      // Required flow goes:
+      // intro -> items -> summary -> items -> summary
+      // so if we have no items, go back to intro
+      // otherwise go to summary
+      //
+      // Optional flow goes:
+      // summary -> items -> summary, so go back to summary
       path =
-        required(fullData) && introRoute && !newArrayData?.length
+        required(props.fullData) && introRoute && !newArrayData?.length
           ? introRoute
           : summaryRoute;
     }
-
-    goToPath(path);
+    props.goToPath(formatPath(path));
   };
 
-  /**
-   * Accept duplicate and continue
-   * This is the "Yes, save and continue" option
-   */
-  const handleAcceptDuplicate = () => {
+  const onDuplicateModalSecondaryClick = () => {
+    // Secondary button is "Yes, save and continue";
     const newFullData = set(
       META_DATA_KEY,
       {
         [itemDuplicateDismissedName]: true,
       },
-      fullData,
+      props.fullData,
     );
-    setFormData(newFullData);
-
-    const dataToSubmit = pendingSubmitData;
-    setShowDuplicateModal(false);
-    setPendingSubmitData(null);
-
+    props.setFormData(newFullData);
+    // showDuplicateModal contains newest item page formData
+    // Call the onAccept callback if provided
+    if (onAccept && showDuplicateModal) {
+      onAccept(showDuplicateModal.formData);
+    }
     dataDogLogger({
       message: 'Duplicate modal',
       attributes: { state: 'hidden', buttonUsed: 'accept' },
     });
-
-    // Call the onAccept callback if provided
-    if (onAccept && dataToSubmit) {
-      onAccept(dataToSubmit);
-    }
+    setShowDuplicateModal(false);
   };
 
-  /**
-   * Get text for duplicate modal
-   */
-  const getDuplicateText = name => {
-    if (duplicateChecks[name]) {
-      return duplicateChecks[name]({
-        // Saving submitted formData to 'pendingSubmitData' otherwise the modal
-        // content may not match the page changes
-        itemData: pendingSubmitData || data,
-        fullData,
-        isEditing: isEdit,
-        isAdding: isAdd,
-      });
-    }
+  const showDuplicateWarning = duplicateCheckResult?.duplicates.includes(
+    duplicateCheckResult.arrayData[props.pagePerItemIndex],
+  );
 
-    if (getText) {
-      return getText(name, pendingSubmitData, fullData, pagePerItemIndex);
-    }
-
-    return '';
-  };
+  const getDuplicateText = name =>
+    duplicateChecks[name]?.({
+      // Saving submitted formData to 'showDuplicateModal' otherwise the modal
+      // content may not match the page changes
+      itemData: showDuplicateModal?.formData || props.data,
+      fullData: props.fullData,
+      isEditing: isEdit,
+      isAdding: isAdd,
+    }) ||
+    getText(
+      name,
+      showDuplicateModal?.formData || showDuplicateModal,
+      props.fullData,
+      props.pagePerItemIndex,
+    );
 
   /**
    * Render the duplicate modal component
    * Returns null if modal should not be shown
    */
   const renderDuplicateModal = () => {
-    if (!isDuplicateCheckEnabled || !shouldShowDuplicateWarning) {
-      return null;
+    if (
+      showDuplicateModal !== false &&
+      showDuplicateWarning &&
+      !props.fullData?.[META_DATA_KEY]?.[itemDuplicateDismissedName]
+    ) {
+      return (
+        <VaModal
+          status="warning"
+          modalTitle={getDuplicateText('duplicateModalTitle')}
+          onCloseEvent={onDuplicateModalClose}
+          onPrimaryButtonClick={onDuplicateModalPrimaryClick}
+          onSecondaryButtonClick={onDuplicateModalSecondaryClick}
+          primaryButtonText={getDuplicateText(
+            'duplicateModalPrimaryButtonText',
+          )}
+          secondaryButtonText={getDuplicateText(
+            'duplicateModalSecondaryButtonText',
+          )}
+          visible={showDuplicateModal !== false}
+        >
+          {getDuplicateText('duplicateModalDescription')}
+        </VaModal>
+      );
     }
 
-    if (showDuplicateModal === false) {
-      return null;
-    }
-
-    return (
-      <VaModal
-        status="warning"
-        modalTitle={getDuplicateText('duplicateModalTitle')}
-        onCloseEvent={handleDuplicateModalClose}
-        onPrimaryButtonClick={handleCancelDuplicate}
-        onSecondaryButtonClick={handleAcceptDuplicate}
-        primaryButtonText={getDuplicateText('duplicateModalPrimaryButtonText')}
-        secondaryButtonText={getDuplicateText(
-          'duplicateModalSecondaryButtonText',
-        )}
-        visible={showDuplicateModal !== false}
-      >
-        {getDuplicateText('duplicateModalDescription')}
-      </VaModal>
-    );
+    return null;
   };
 
   return {
-    isDuplicateCheckEnabled,
-    shouldShowDuplicateWarning,
-    checkForDuplicate,
-    handleDuplicateModalClose,
-    handleCancelDuplicate,
-    handleAcceptDuplicate,
-    getDuplicateText,
+    checkForDuplicates,
     renderDuplicateModal,
   };
 }
