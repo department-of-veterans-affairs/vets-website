@@ -92,7 +92,8 @@ export default {
   // MDOT/ROES/DLC
   mdot: 'mdot',
   // stagingMdot: 'staging_mdot', // unnecessary
-
+  // VR&E Chapter 31 Eligibility Service
+  vreCh31Eligibility: 'vre_ch31_eligibility',
   // Sources for VA Profile services:
   VAPRO_PROFILE_PAGE: 'vapro_profile_page',
   VAPRO_CONTACT_INFO: 'vapro_contact_info',
