@@ -134,10 +134,7 @@ describe('Prescription details container', () => {
     );
     await waitFor(() => {
       expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
-        `Last filled on ${dateFormat(
-          rxDetailsResponse.data.attributes.dispensedDate,
-          DATETIME_FORMATS.longMonthDate,
-        )}`,
+        'Last filled on August 4, 2023',
       );
       expect(rxName).to.exist;
     });
