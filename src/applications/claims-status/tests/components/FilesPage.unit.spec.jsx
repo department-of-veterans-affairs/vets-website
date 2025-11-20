@@ -14,11 +14,21 @@ import * as helpers from '../../utils/helpers';
 
 const FEATURE_FLAG_KEY = 'cst_show_document_upload_status';
 
-const getStore = (featureToggles = {}, notifications = {}) =>
+const getStore = (featureToggles = {}, notifications = {}, claim = null) =>
   createStore(() => ({
     featureToggles,
     disability: {
       status: {
+        claimDetail: {
+          detail: claim,
+          loading: false,
+        },
+        uploads: {
+          uploading: false,
+          progress: 0,
+          uploadError: false,
+          uploadComplete: false,
+        },
         notifications: {
           message: null,
           additionalEvidenceMessage: null,
@@ -188,6 +198,70 @@ describe('<FilesPage>', () => {
       expect(selector).to.exist;
       await waitFor(() => {
         expect(document.activeElement).to.equal(selector);
+      });
+    });
+  });
+
+  describe('hash navigation', () => {
+    const claim = { ...baseClaim };
+
+    beforeEach(() => {
+      // Restore the AdditionalEvidencePage stub from the outer describe block
+      // We need the REAL component to render so the #add-files element exists in the DOM
+      // (The outer beforeEach stubs it out with an empty div for other tests)
+      if (stub && stub.restore) {
+        stub.restore();
+      }
+    });
+
+    afterEach(() => {
+      // Re-stub AdditionalEvidencePage for other tests in the outer describe block
+      // This ensures tests outside this describe block still get the stubbed version
+      stub = sinon.stub(AdditionalEvidencePage, 'default');
+      stub.returns(<div data-testid="additional-evidence-page" />);
+    });
+
+    // Test different hash anchors to verify scrollToSection focuses the correct element
+    const testCases = [
+      ['should focus on add-files section', '#add-files', 'add-files', true],
+      [
+        'should focus on file-submissions-in-progress section (feature flag enabled)',
+        '#file-submissions-in-progress',
+        'file-submissions-in-progress',
+        true,
+      ],
+      [
+        'should focus on documents-filed section (feature flag disabled)',
+        '#documents-filed',
+        'documents-filed',
+        false,
+      ],
+    ];
+
+    testCases.forEach(([description, hash, elementId, featureFlagEnabled]) => {
+      it(description, async () => {
+        const location = { hash };
+        // Render FilesPage with hash location and feature flag
+        renderWithRouter(
+          <Provider
+            store={getStore(
+              { [FEATURE_FLAG_KEY]: featureFlagEnabled },
+              {},
+              claim,
+            )}
+          >
+            <FilesPage
+              {...props}
+              claim={claim}
+              loading={false}
+              location={location}
+            />
+          </Provider>,
+        );
+        // Verify scrollToSection focused the correct element
+        await waitFor(() => {
+          expect(document.activeElement.id).to.equal(elementId);
+        });
       });
     });
   });
