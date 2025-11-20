@@ -87,15 +87,19 @@ export function useDuplicateChecks({
 
   const hasDuplicateChecks = Object.keys(duplicateChecks).length > 0;
 
-  const itemDuplicateDismissedName = getItemDuplicateDismissedName({
-    arrayPath,
-    // use global duplicateChecks because using per-page checks will cause the
-    // modal to show on all internal array pages even after accepting the
-    // duplicate
-    duplicateChecks: duplicateChecksGlobal,
-    fullData: props.fullData,
-    itemIndex: props.pagePerItemIndex,
-  });
+  const itemDuplicateDismissedName = useMemo(
+    () =>
+      getItemDuplicateDismissedName({
+        arrayPath,
+        // use global duplicateChecks because using per-page checks will cause the
+        // modal to show on all internal array pages even after accepting the
+        // duplicate
+        duplicateChecks: duplicateChecksGlobal,
+        fullData: props.fullData,
+        itemIndex: props.pagePerItemIndex,
+      }),
+    [arrayPath, duplicateChecksGlobal, props.fullData, props.pagePerItemIndex],
+  );
 
   /**
    * Higher-order function that wraps a submit handler with duplicate checking logic
@@ -136,7 +140,8 @@ export function useDuplicateChecks({
 
       if (hasDuplicate) {
         setShowDuplicateModal(onSubmitProps);
-        setPendingOnSubmit(onSubmit);
+        // Callback is needed otherwise useState interprets the function as an updater
+        setPendingOnSubmit(() => onSubmit);
         dataDogLogger({
           message: 'Duplicate modal',
           attributes: { state: 'shown', buttonUsed: null },
