@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/sort-prop-types */
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import {
@@ -46,7 +46,6 @@ export default function ArrayBuilderItemPage(itemPageProps) {
       reviewRoute,
       getText,
       required,
-      duplicateChecks: duplicateChecksGlobal = {},
       currentPath,
     } = arrayBuilderProps;
 
@@ -74,21 +73,19 @@ export default function ArrayBuilderItemPage(itemPageProps) {
       arrayPath,
     });
 
-    const { checkForDuplicate, renderDuplicateModal } = useDuplicateChecks({
+    const { checkForDuplicates, renderDuplicateModal } = useDuplicateChecks({
       arrayBuilderProps,
       customPageProps: props,
-      onAccept: itemData => {
-        onSubmit({ formData: itemData });
-      },
     });
 
-    const handleSubmit = newProps => {
-      const hasDuplicate = checkForDuplicate(newProps.formData);
-      if (!hasDuplicate) {
-        onSubmit(newProps);
-      }
-      // else show duplicate modal
-    };
+    const handleSubmit = checkForDuplicates(
+      useCallback(
+        newProps => {
+          onSubmit(newProps);
+        },
+        [onSubmit],
+      ),
+    );
 
     // This helps redirect if arriving at this page without proper URL params
     // and guards against rendering when schema is not yet loaded

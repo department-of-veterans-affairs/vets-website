@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
@@ -12,23 +12,16 @@ import {
   defaultDuplicateResult,
 } from './helpers';
 
-const noDuplicatesHook = {
-  checkForDuplicates: () => false,
-  renderDuplicateModal: null,
-};
-
 /**
  * Custom hook for handling duplicate checks in array builder forms.
- * Provides duplicate checking logic and UI that can be optionally integrated
- * into your form submission workflow.
+ * Provides duplicate checking logic and UI that wraps your submit handler.
  *
  * @param {Object} config
  * @param {Object} config.arrayBuilderProps - Array builder configuration props
  * @param {Object} config.customPageProps - Component props from CustomPage
- * @param {(itemData: Object) => void} config.onAccept - Callback when user accepts duplicate (receives item data)
  *
  * @returns {{
- *   checkForDuplicates: (onSubmitProps: Object) => boolean,
+ *   checkForDuplicates: (onSubmit: (props: Object) => void) => ((props: Object) => void),
  *   renderDuplicateModal: () => (React.ReactElement|null)
  * }} Duplicate check utilities
  *
@@ -37,28 +30,22 @@ const noDuplicatesHook = {
  * const { checkForDuplicates, renderDuplicateModal } = useDuplicateChecks({
  *   arrayBuilderProps,
  *   customPageProps: props,
- *   onAccept: itemData => {
- *     onSubmit({ formData: itemData });
- *   },
  * });
  *
- * const handleSubmit = newProps => {
- *   const hasDuplicate = checkForDuplicates(newProps);
- *   if (!hasDuplicate) {
- *     onSubmit(newProps);
- *   }
- * };
+ * const handleSubmit = checkForDuplicates(newProps => {
+ *   onSubmit(newProps);
+ * });
  * ```
  */
 export function useDuplicateChecks({
   arrayBuilderProps,
   customPageProps: props,
-  onAccept,
 }) {
   // Derive edit/add mode from URL params
   const searchParams = getArrayUrlSearchParams();
   const isEdit = !!searchParams.get('edit');
   const isAdd = !!searchParams.get('add');
+  const isReview = searchParams?.has('review');
   const {
     arrayPath,
     getSummaryPath,
@@ -78,24 +65,27 @@ export function useDuplicateChecks({
     duplicateChecksGlobal?.itemPathModalChecks?.[
       currentPath?.split(':index/')[1]
     ];
-  const duplicateChecks = internalPageDuplicateChecks
-    ? {
-        ...duplicateChecksGlobal,
-        // overwrite global with per-page settings
-        ...internalPageDuplicateChecks,
-      }
-    : duplicateChecksGlobal || {};
+  const duplicateChecks = useMemo(
+    () =>
+      internalPageDuplicateChecks
+        ? {
+            ...duplicateChecksGlobal,
+            // overwrite global with per-page settings
+            ...internalPageDuplicateChecks,
+          }
+        : duplicateChecksGlobal || {},
+    [duplicateChecksGlobal, internalPageDuplicateChecks],
+  );
 
   const [duplicateCheckResult, setDuplicateCheckResult] = useState(
     defaultDuplicateResult,
   );
   const [showDuplicateModal, setShowDuplicateModal] = useState(null);
-  // const [pendingSubmitData, setPendingSubmitData] = useState(null);
+  // When a duplicate is found, we show a modal instead of submitting immediately.
+  // Store the submit function here to call it later if the user clicks "Yes, continue anyway"
+  const [pendingOnSubmit, setPendingOnSubmit] = useState(null);
 
-  if (Object.keys(duplicateChecks).length === 0) {
-    // No duplicate checks configured
-    return noDuplicatesHook;
-  }
+  const hasDuplicateChecks = Object.keys(duplicateChecks).length > 0;
 
   const itemDuplicateDismissedName = getItemDuplicateDismissedName({
     arrayPath,
@@ -108,37 +98,54 @@ export function useDuplicateChecks({
   });
 
   /**
-   * Check to run form submit
-   * @param {Object} onSubmitProps - props from onSubmit
-   * @returns {boolean} - True if duplicate found and not dismissed
+   * Higher-order function that wraps a submit handler with duplicate checking logic
+   * @param {(props: Object) => void} onSubmit - The original submit handler
+   * @returns {(props: Object) => void} - Wrapped submit handler with duplicate checking
+   *
+   * Usage:
+   * ```js
+   * const handleSubmit = checkForDuplicates(
+   *   useCallback(newProps => {
+   *     onSubmit(newProps);
+   *   }, [onSubmit]),
+   * );
+   * ```
    */
-  const checkForDuplicates = onSubmitProps => {
-    let hasDuplicate = false;
-    setShowDuplicateModal(null);
-
-    const check = checkForDuplicatesInItemPages({
-      arrayPath,
-      duplicateChecks,
-      fullData: props.fullData,
-      index: props.pagePerItemIndex,
-      // newProps.formData is limited to the current array item
-      itemData: onSubmitProps.formData,
-    });
-    setDuplicateCheckResult(check);
-
-    if (
-      !props.fullData?.[META_DATA_KEY]?.[itemDuplicateDismissedName] &&
-      check.duplicates.includes(check.arrayData[props.pagePerItemIndex])
-    ) {
-      setShowDuplicateModal(onSubmitProps);
-      dataDogLogger({
-        message: 'Duplicate modal',
-        attributes: { state: 'shown', buttonUsed: null },
-      });
-      hasDuplicate = true;
+  const checkForDuplicates = onSubmit => {
+    // If no duplicate checks configured, just pass through
+    if (!hasDuplicateChecks) {
+      return onSubmit;
     }
 
-    return hasDuplicate;
+    return onSubmitProps => {
+      setShowDuplicateModal(null);
+
+      const check = checkForDuplicatesInItemPages({
+        arrayPath,
+        duplicateChecks,
+        fullData: props.fullData,
+        index: props.pagePerItemIndex,
+        // newProps.formData is limited to the current array item
+        itemData: onSubmitProps.formData,
+      });
+      setDuplicateCheckResult(check);
+
+      const hasDuplicate =
+        !props.fullData?.[META_DATA_KEY]?.[itemDuplicateDismissedName] &&
+        check.duplicates.includes(check.arrayData[props.pagePerItemIndex]);
+
+      if (hasDuplicate) {
+        setShowDuplicateModal(onSubmitProps);
+        setPendingOnSubmit(onSubmit);
+        dataDogLogger({
+          message: 'Duplicate modal',
+          attributes: { state: 'shown', buttonUsed: null },
+        });
+      } else {
+        // No duplicate, proceed with submission
+        onSubmit(onSubmitProps);
+      }
+    };
   };
 
   const onDuplicateModalClose = () => {
@@ -163,6 +170,7 @@ export function useDuplicateChecks({
     // Code modified from ArrayBuilderCancelButton
     const arrayData = get(arrayPath, props.fullData);
     let newArrayData = arrayData;
+    let path;
     if (isAdd) {
       const arrayIndex = parseInt(props.pagePerItemIndex, 10);
       newArrayData = arrayData.filter((_, i) => i !== arrayIndex);
@@ -178,12 +186,6 @@ export function useDuplicateChecks({
       message: 'Duplicate modal',
       attributes: { state: 'hidden', buttonUsed: 'cancel' },
     });
-
-    // Determine where to navigate
-    let path;
-    const isReview = new URLSearchParams(window?.location?.search)?.has(
-      'review',
-    );
 
     if (isReview) {
       path = reviewRoute;
@@ -216,17 +218,17 @@ export function useDuplicateChecks({
     );
     props.setFormData(newFullData);
     // showDuplicateModal contains newest item page formData
-    // Call the onAccept callback if provided
-    if (onAccept && showDuplicateModal) {
-      onAccept(showDuplicateModal.formData);
-    }
+    pendingOnSubmit?.(showDuplicateModal);
     dataDogLogger({
       message: 'Duplicate modal',
       attributes: { state: 'hidden', buttonUsed: 'accept' },
     });
     setShowDuplicateModal(false);
+    setPendingOnSubmit(null);
   };
 
+  // If showDuplicateWarning is true, we only need showDuplicateModal to not
+  // be false to show the modal
   const showDuplicateWarning = duplicateCheckResult?.duplicates.includes(
     duplicateCheckResult.arrayData[props.pagePerItemIndex],
   );
@@ -248,8 +250,7 @@ export function useDuplicateChecks({
     );
 
   /**
-   * Render the duplicate modal component
-   * Returns null if modal should not be shown
+   * Render duplicate modal if applicable
    */
   const renderDuplicateModal = () => {
     if (
