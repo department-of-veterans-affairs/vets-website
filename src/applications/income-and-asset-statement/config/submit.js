@@ -2,8 +2,29 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { format } from 'date-fns-tz';
 import { cloneDeep } from 'lodash';
-import { remapOtherVeteranFields } from './submit-helpers';
+import {
+  pruneConfiguredArrays,
+  remapOtherVeteranFields,
+  removeDisallowedFields,
+  removeInvalidFields,
+  replacer,
+} from './submit-helpers';
 
+// -----------------------------------------------------------------------------
+// 0969 FORM SUBMISSION PIPELINE (ordered)
+//
+// 1. Deep clone the incoming form object (avoid mutating redux store)
+// 2. Remap "otherVeteran*" → "veteran*" fields when submission requires it
+// 3. Remove disallowed fields that vets-api will reject
+// 4. Prune configured list-and-loop array fields (trusts, annuities, waivers)
+// 5. Remove invalid/null/empty/view-only fields
+// 6. Flatten nested fields (e.g., recipientName) via custom JSON replacer
+// 7. JSON.stringify the prepared form data (backend requires a *string*)
+// 8. Wrap into the "incomeAndAssetsClaim" submission envelope
+// 9. Send to vets-api with the user's local timestamp
+// -----------------------------------------------------------------------------
+
+// Fields vets-api does *not* allow for this submission
 const disallowedFields = [
   'vaFileNumberLastFour',
   'veteranSsnLastFour',
@@ -15,106 +36,116 @@ const disallowedFields = [
   'isLoggedIn',
 ];
 
-export function flattenRecipientName({ first, middle, last }) {
-  // Filter out undefined values and join with spaces
-  const parts = [first, middle, last].filter(part => !!part);
+// Array pruning rules — remove inactive fields on list-and-loops
+const arraysPruneConfig = {
+  trusts: [
+    {
+      field: 'addedFundsAfterEstablishment',
+      when: val => val === false,
+      remove: ['addedFundsDate', 'addedFundsAmount'],
+    },
+  ],
 
-  // Join remaining parts with space and trim extra spaces
-  return parts.join(' ').trim();
+  annuities: [
+    {
+      field: 'addedFundsAfterEstablishment',
+      when: val => val === false,
+      remove: ['addedFundsDate', 'addedFundsAmount'],
+    },
+  ],
+
+  incomeReceiptWaivers: [
+    {
+      field: 'view:paymentsWillResume',
+      when: val => val === false,
+      remove: ['paymentResumeDate', 'expectedIncome'],
+    },
+  ],
+};
+
+/**
+ * Clone and prepare the raw form data before serialization
+ *
+ * Steps 1–3 of the 0969 submission pipeline:
+ *   1. Deep clone the incoming form data (avoid mutating Redux state)
+ *   2. Conditionally remap "otherVeteran*" fields to "veteran*" fields
+ *      when the submitter is not the authenticated Veteran
+ *   3. Remove disallowed fields that vets-api will reject
+ * @param {Object} data - The full form object containing `data` and metadata
+ * @returns {Object} - A new, cleaned data object with remapping and disallowed fields removed
+ */
+export function prepareFormData(data) {
+  // Step 1: clone to avoid mutating original form (Redux immutability)
+  const clonedData = cloneDeep(data);
+
+  const { claimantType, isLoggedIn } = clonedData;
+  const userIsVeteran = isLoggedIn === true && claimantType === 'VETERAN';
+
+  // Step 2: remap “otherVeteran*” → “veteran*” only when necessary
+  const remappedData = userIsVeteran
+    ? clonedData
+    : remapOtherVeteranFields(clonedData);
+
+  // Step 3: remove fields vets-api does not accept
+  return removeDisallowedFields(remappedData, disallowedFields);
 }
 
-export function replacer(key, value) {
-  // Clean up empty objects, which we have no reason to send
-  if (typeof value === 'object' && value) {
-    const fields = Object.keys(value);
-    if (
-      fields.length === 0 ||
-      fields.every(field => value[field] === undefined)
-    ) {
-      return undefined;
-    }
-  }
+/**
+ * Serializes and finalizes the cleaned form data in preparation for submission
+ *
+ * Steps 4–6 of the 0969 submission pipeline:
+ *   4. Prune configured list-and-loop array fields via prune config
+ *   5. Ensure no undefined values remain (backend rejects them)
+ *   6. Return a final JSON payload string
+ * @param {Object} preparedData - The prepared and cleaned form data object
+ * @param {Object} replacerFn - The prepared and cleaned form data object
+ * @returns {string} A fully serialized, JSON-string payload ready for transmission
+ */
+export function serializePreparedFormData(preparedData, replacerFn) {
+  // Step 4: apply array pruning rules
+  const pruned = pruneConfiguredArrays(preparedData, arraysPruneConfig);
 
-  // Clean up null values, which we have no reason to send
-  if (value === null) {
-    return undefined;
-  }
+  // Step 5: remove view-only, empty, invalid fields
+  const cleaned = removeInvalidFields(pruned);
 
-  if (key === 'recipientName') {
-    // If the value is an object, flatten it to a string
-    if (typeof value === 'object' && value !== null) {
-      return flattenRecipientName(value);
-    }
-    // If it's already a string, return it as is
-    return value;
-  }
-
-  return value;
+  // Step 6: Flatten nested fields (e.g., recipientName) via custom JSON replacer
+  return JSON.stringify(cleaned, replacerFn);
 }
 
-export function removeDisallowedFields(form) {
-  const cleanedForm = cloneDeep(form);
-
-  // Remove disallowed fields from the data
-  disallowedFields.forEach(field => {
-    if (cleanedForm.data[field] !== undefined) {
-      delete cleanedForm.data[field];
-    }
-  });
-
-  return cleanedForm;
-}
-
-export function transformForSubmit(formConfig, form, replacerFn) {
-  // Clone the form data to avoid mutating the original form
-  // This is to avoid mutating the redux store directly
-  const data = cloneDeep(form.data);
-
-  const fields = Object.keys(data);
-  fields.forEach(field => {
-    // Remove fields that are undefined, null, or starts with 'view:'
-    if (
-      data[field] === undefined ||
-      data[field] === null ||
-      field.startsWith('view:')
-    ) {
-      delete data[field];
-    }
-  });
-
-  return JSON.stringify(data, replacerFn);
-}
-
-export function transform(formConfig, form) {
-  const clonedForm = cloneDeep(form);
-
-  const { claimantType, isLoggedIn } = clonedForm.data;
-
-  const shouldRemap = isLoggedIn !== true || claimantType !== 'VETERAN';
-
-  if (shouldRemap) {
-    // map otherVeteran* fields to veteran* fields for backend submission
-    clonedForm.data = remapOtherVeteranFields(clonedForm.data);
-  }
-
-  // Remove disallowed fields from the form data as they will
-  // get flagged by vets-api and the submission will be rejected
-  const cleanedForm = removeDisallowedFields(clonedForm);
-
-  const formData = transformForSubmit(formConfig, cleanedForm, replacer);
+/**
+ * Main submission transform that executes the 0969 submission pipeline
+ * and returns the final payload for the API.
+ *
+ * Steps 7–8 of the 0969 submission pipeline:
+ *   7. Invoke the full submission pipeline
+ *   8. Return the final JSON payload for submission
+ * @param {Object} form - The full form object containing `data` and metadata
+ * @returns {string} Fully transformed JSON payload for submission
+ */
+export function transform(form) {
+  const preparedData = prepareFormData(form.data);
+  const serializedData = serializePreparedFormData(preparedData, replacer);
 
   return JSON.stringify({
     incomeAndAssetsClaim: {
-      form: formData,
+      // NOTE: Backend requires the form content as a *string*, not an object
+      form: serializedData,
     },
-    // can’t use toISOString because we need the offset
     localTime: format(new Date(), "yyyy-MM-dd'T'HH:mm:ssXXX"),
   });
 }
 
-export function submit(form, formConfig) {
+/**
+ * Submit the 0969 form to the backend API
+ *
+ * Step 9 of the 0969 submission pipeline
+ *   9: Send to vets-api
+ * @param {Object} form - The full form object containing `data` and metadata
+ * @returns {Promise<Object>} A promise resolving to the API response object from the submission request
+ */
+export function submit(form) {
   const headers = { 'Content-Type': 'application/json' };
-  const body = transform(formConfig, form);
+  const body = transform(form);
 
   return apiRequest(`${environment.API_URL}/income_and_assets/v0/form0969`, {
     body,
