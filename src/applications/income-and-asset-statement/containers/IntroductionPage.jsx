@@ -3,14 +3,22 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
-import { isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 
 export const IntroductionPage = ({ route }) => {
-  const loggedIn = useSelector(isLoggedIn);
   const { formConfig, pageList } = route;
+  const loggedIn = useSelector(isLoggedIn);
+  // LOA3 Verified?
+  const isVerified = useSelector(
+    state => selectProfile(state)?.verified || false,
+  );
+  const hasInProgressForm = useSelector(state =>
+    selectProfile(state)?.savedForms?.includes(formConfig.formId),
+  );
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const pbbFormsRequireLoa3 = useToggleValue(TOGGLE_NAMES.pbbFormsRequireLoa3);
@@ -170,15 +178,33 @@ export const IntroductionPage = ({ route }) => {
         turned 18 unless custody is legally removed.
       </va-additional-info>
 
-      <SaveInProgressIntro
-        hideUnauthedStartLink={pbbFormsRequireLoa3}
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText="Start the Income and Asset Statement application"
-      />
-
+      {loggedIn && pbbFormsRequireLoa3 && !isVerified && !hasInProgressForm ? (
+        <>
+          <VerifyAlert />
+          <p>
+            If you don’t want to verify your identity right now, you can still
+            download and complete the PDF version of this application.
+          </p>
+          <p className="vads-u-margin-bottom--4">
+            <va-link
+              href="https://www.vba.va.gov/pubs/forms/VBA-21P-0969-ARE.pdf"
+              download
+              filetype="PDF"
+              text="Get VA Form 21P-0969 form to download"
+              pages="11"
+            />
+          </p>
+        </>
+      ) : (
+        <SaveInProgressIntro
+          hideUnauthedStartLink={pbbFormsRequireLoa3}
+          headingLevel={2}
+          prefillEnabled={formConfig.prefillEnabled}
+          messages={formConfig.savedFormMessages}
+          pageList={pageList}
+          startText="Start the Income and Asset Statement application"
+        />
+      )}
       <div className="vads-u-margin-top--2">
         <va-omb-info
           res-burden={30}
@@ -194,6 +220,7 @@ IntroductionPage.propTypes = {
   route: PropTypes.shape({
     pageList: PropTypes.array,
     formConfig: PropTypes.shape({
+      formId: PropTypes.string,
       downtime: PropTypes.object,
       prefillEnabled: PropTypes.bool,
       savedFormMessages: PropTypes.object,

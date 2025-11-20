@@ -1,14 +1,28 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useSelector } from 'react-redux';
+
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 
 const IntroductionPage = ({ route }) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
+
+  const loggedIn = useSelector(isLoggedIn);
+  // LOA3 Verified?
+  const isVerified = useSelector(
+    state => selectProfile(state)?.verified || false,
+  );
+  const hasInProgressForm = useSelector(state =>
+    selectProfile(state)?.savedForms?.includes(route.formConfig.formId),
+  );
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const pbbFormsRequireLoa3 = useToggleValue(TOGGLE_NAMES.pbbFormsRequireLoa3);
@@ -115,14 +129,35 @@ const IntroductionPage = ({ route }) => {
           </p>
         </va-process-list-item>
       </va-process-list>
-      <SaveInProgressIntro
-        hideUnauthedStartLink={pbbFormsRequireLoa3}
-        headingLevel={2}
-        prefillEnabled={route.formConfig.prefillEnabled}
-        pageList={route.pageList}
-        downtime={route.formConfig.downtime}
-        startText="Start the burial allowance and transportation benefits application"
-      />
+
+      {loggedIn && pbbFormsRequireLoa3 && !isVerified && !hasInProgressForm ? (
+        <>
+          <VerifyAlert />
+          <p>
+            If you don’t want to verify your identity right now, you can still
+            download and complete the PDF version of this application.
+          </p>
+          <p className="vads-u-margin-bottom--4">
+            <va-link
+              href="https://www.vba.va.gov/pubs/forms/VBA-21P-530EZ-ARE.pdf"
+              download
+              filetype="PDF"
+              text="Get VA Form 21P-530EZ form to download"
+              pages="8"
+            />
+          </p>
+        </>
+      ) : (
+        <SaveInProgressIntro
+          hideUnauthedStartLink={pbbFormsRequireLoa3}
+          headingLevel={2}
+          prefillEnabled={route.formConfig.prefillEnabled}
+          pageList={route.pageList}
+          downtime={route.formConfig.downtime}
+          startText="Start the burial allowance and transportation benefits application"
+        />
+      )}
+
       <div className="omb-info--container vads-u-margin-top--3 vads-u-padding-left--0">
         <va-omb-info
           res-burden={30}
@@ -138,6 +173,7 @@ IntroductionPage.propTypes = {
   route: PropTypes.shape({
     pageList: PropTypes.array,
     formConfig: PropTypes.shape({
+      formId: PropTypes.string,
       prefillEnabled: PropTypes.bool,
       downtime: PropTypes.object,
     }),
