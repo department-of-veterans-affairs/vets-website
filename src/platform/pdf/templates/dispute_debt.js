@@ -10,7 +10,7 @@ import {
 } from './utils';
 
 const defaultConfig = {
-  margins: { top: 40, bottom: 40, left: 30, right: 30 },
+  margins: { top: 40, bottom: 40, left: 65, right: 65 },
   text: {
     boldFont: 'SourceSansPro-Bold',
     font: 'SourceSansPro-Regular',
@@ -197,8 +197,8 @@ const generate = async (data = {}, config = defaultConfig) => {
   );
 
   const dmcRoutingTitle = useCompAndPenTitle
-    ? 'DMC Routing: C&P Dispute'
-    : 'DMC Routing: Education Dispute';
+    ? 'DMC routing: C&P Dispute'
+    : 'DMC routing: Education Dispute';
   titleSection.add(
     createHeading(doc, 'H2', config, dmcRoutingTitle, {
       x: config.margins.left,
@@ -290,14 +290,14 @@ const generate = async (data = {}, config = defaultConfig) => {
   const submissionDate = format(submissionDateTime, 'MMMM d, yyyy');
   const submissionTimeET = format(submissionDateTime, "h:mm a 'ET'");
 
+  const submissionStartY = doc.y;
   const submissionDetailsSection = doc.struct('Sect', {
     title: 'Submission Type',
   });
   submissionDetailsSection.add(
     createHeading(doc, 'H3', config, 'Submission Details', {
-      x: config.margins.left,
+      x: config.margins.left + 20, // indent enough for vertical line
       y: doc.y,
-      // paragraphGap: 12,
     }),
   );
 
@@ -323,6 +323,13 @@ const generate = async (data = {}, config = defaultConfig) => {
 
   submissionDetailsSection.end();
   wrapper.add(submissionDetailsSection);
+  doc
+    .moveTo(config.margins.left + 5, submissionStartY) // Start at the config left margin, adjust as needed
+    .lineTo(config.margins.left + 5, doc.y) // Same x position, current y position
+    .lineWidth(6)
+    .strokeColor('#000000')
+    .stroke();
+
   doc.moveDown();
 
   // =====================================
@@ -393,7 +400,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   // =====================================
   // * Veteran identification information *
   // =====================================
-  const { ssnLastFour, vaFileLastFour } = veteran;
+  const { ssnLastFour, icn } = veteran;
 
   const veteranIdentificationInformation = doc.struct('Sect', {
     title: "Veteran's identification information",
@@ -411,7 +418,9 @@ const generate = async (data = {}, config = defaultConfig) => {
         .font(config.text.boldFont)
         .fontSize(config.text.size)
         .text('Social Security number');
-      doc.font(config.text.font).text(ssnLastFour || '');
+      doc.font(config.text.font).text(`••• •• ${ssnLastFour}` || '', {
+        lineGap: 8,
+      });
     }),
   );
 
@@ -420,10 +429,8 @@ const generate = async (data = {}, config = defaultConfig) => {
       doc
         .font(config.text.boldFont)
         .fontSize(config.text.size)
-        .text('VA file number');
-      doc.font(config.text.font).text(`••• •• ${vaFileLastFour}`, {
-        lineGap: 8,
-      });
+        .text('ICN');
+      doc.font(config.text.font).text(icn || '');
     }),
   );
 
