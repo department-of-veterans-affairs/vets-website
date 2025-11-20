@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom-v5-compat';
-import { formatInTimeZone } from 'date-fns-tz';
+
 import Wrapper from '../layout/Wrapper';
+import DateTime from '../components/DateTime';
 
 // TODO: replace with actual data
 const details = {
@@ -10,32 +11,12 @@ const details = {
   topic: 'Education',
 };
 
-const formatDateTime = dateString => {
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  // Format date as "Weekday, Month DD, YYYY"
-  const formattedDate = formatInTimeZone(
-    dateString,
-    timezone,
-    'EEEE, MMMM dd, yyyy',
-  );
-
-  // Format time as "HH:MM p.m. TZ"
-  const formattedTime = formatInTimeZone(dateString, timezone, 'hh:mm a zzz');
-
-  return { formattedDate, formattedTime };
-};
-
 const Review = () => {
   const navigate = useNavigate();
 
   const handleConfirmCall = () => {
     navigate('/confirmation');
   };
-
-  const { formattedDate, formattedTime } = formatDateTime(
-    details.appointmentDateTime,
-  );
 
   return (
     <Wrapper
@@ -76,14 +57,7 @@ const Review = () => {
           Edit
         </Link>
       </div>
-      <p
-        className="vads-u-margin-top--0p5 vads-u-margin-bottom--1"
-        data-testid="date-time-description"
-      >
-        {formattedDate}
-        <br />
-        {formattedTime}
-      </p>
+      <DateTime dateTime={details.appointmentDateTime} />
       <hr
         aria-hidden="true"
         className=" vads-u-margin-top--1 vads-u-margin-bottom--0p5"
