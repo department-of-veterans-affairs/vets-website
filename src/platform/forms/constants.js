@@ -82,6 +82,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_MOCK_MINIMAL_HEADER: 'FORM-MOCK-MINIMAL-HEADER',
   FORM_MOCK_PATTERNS_V3: 'FORM_MOCK_PATTERNS_V3',
   FORM_MOCK_SF_PATTERNS: 'FORM_MOCK_SF_PATTERNS',
+  FORM_MOCK_PREFILL: 'FORM_MOCK_PREFILL',
   FORM_MOCK: '00-1234',
   FORM_T_QSTNR: 'T-QSTNR',
   FORM_VA_2346A: 'MDOT',
@@ -117,7 +118,6 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_601: '21P-601',
   FORM_22_10278: '22-10278',
   FORM_22_0976: '22-0976',
-  FORM_MOCK_PREFILL: 'FORM_MOCK_PREFILL',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -304,8 +304,8 @@ export const getAllFormLinks = getAppUrlImpl => {
     )}/21P-4185/introduction/`,
     [VA_FORM_IDS.FORM_21P_534EZ]: `${tryGetAppUrl('survivors-benefits')}/`,
     [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
-    [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('22-10278')}/`,
-    [VA_FORM_IDS.FORM_22_0976]: `${tryGetAppUrl('22-0976')}/`,
+    [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('10278-edu-benefits')}/`,
+    [VA_FORM_IDS.FORM_22_0976]: `${tryGetAppUrl('0976-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_MOCK_PREFILL]: `${tryGetAppUrl('mock-form-prefill')}/`,
   };
 };
