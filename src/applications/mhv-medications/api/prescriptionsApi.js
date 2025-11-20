@@ -18,11 +18,21 @@ import { selectCernerPilotFlag } from '../util/selectors';
 const documentationApiBasePath = `${environment.API_URL}/my_health/v1`;
 
 const getApiBasePath = state => {
+  // Handle loading state - default to v1
+  if (!state?.featureToggles || state.featureToggles.loading) {
+    return `${environment.API_URL}/my_health/v1`;
+  }
+
   const isCernerPilot = selectCernerPilotFlag(state);
   return `${environment.API_URL}/my_health/${isCernerPilot ? 'v2' : 'v1'}`;
 };
 
 const getRefillMethod = state => {
+  // Handle loading state - default to PATCH
+  if (!state?.featureToggles || state.featureToggles.loading) {
+    return 'PATCH';
+  }
+
   const isCernerPilot = selectCernerPilotFlag(state);
   return isCernerPilot ? 'POST' : 'PATCH';
 };
@@ -193,24 +203,58 @@ export const prescriptionsApi = createApi({
       },
     }),
     refillPrescription: builder.mutation({
-      query: id => {
-        return {
-          path: `/prescriptions/${id}/refill`,
-          options: state => ({
-            method: getRefillMethod(state),
-          }),
-        };
+      queryFn: async (id, { getState }) => {
+        const state = getState();
+        const apiBasePath = getApiBasePath(state);
+        const method = getRefillMethod(state);
+
+        try {
+          const result = await apiRequest(
+            `${apiBasePath}/prescriptions/${id}/refill`,
+            {
+              method,
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            },
+          );
+          return { data: result };
+        } catch ({ errors }) {
+          return {
+            error: {
+              status: errors?.[0]?.status || 500,
+              message: errors?.[0]?.title || 'Failed to refill prescription',
+            },
+          };
+        }
       },
     }),
     bulkRefillPrescriptions: builder.mutation({
-      query: ids => {
+      queryFn: async (ids, { getState }) => {
+        const state = getState();
+        const apiBasePath = getApiBasePath(state);
+        const method = getRefillMethod(state);
         const idParams = ids.map(id => `ids[]=${id}`).join('&');
-        return {
-          path: `/prescriptions/refill_prescriptions?${idParams}`,
-          options: state => ({
-            method: getRefillMethod(state),
-          }),
-        };
+
+        try {
+          const result = await apiRequest(
+            `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`,
+            {
+              method,
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            },
+          );
+          return { data: result };
+        } catch ({ errors }) {
+          return {
+            error: {
+              status: errors?.[0]?.status || 500,
+              message: errors?.[0]?.title || 'Failed to refill prescriptions',
+            },
+          };
+        }
       },
       invalidatesTags: ['Prescription'],
       transformResponse: response => {
