@@ -7,6 +7,7 @@ const travelClaims = require('./travel-claims-31.json');
 const appointment = {
   original: require('./vaos-appointment-original.json'),
   claim: require('./vaos-appointment-with-claim.json'),
+  savedClaim: require('./vaos-appointment-with-saved-claim.json'),
   noClaim: require('./vaos-appointment-no-claim.json'),
 };
 
@@ -61,6 +62,10 @@ function overrideAppointment(appt, id, { localStartTime, start, end }) {
         localStartTime,
         start,
         end,
+        // Preserve travelPayClaim if it exists
+        ...(appt.data.attributes.travelPayClaim && {
+          travelPayClaim: appt.data.attributes.travelPayClaim,
+        }),
       },
     },
   };
@@ -440,11 +445,19 @@ const responses = {
     const dates = generateAppointmentDates(-32); // 32 days ago
     return res.json(overrideAppointment(appointment.noClaim, '167327', dates));
   },
+
+  'GET /vaos/v2/appointments/167328': (req, res) => {
+    const dates = generateAppointmentDates(-5); // 5 days ago
+    return res.json(
+      overrideAppointment(appointment.savedClaim, '167328', dates),
+    );
+  },
   // Get appointments
   'GET /vaos/v2/appointments': (req, res) => {
     const appointments = [
       appointment.noClaim,
       appointment.claim,
+      appointment.savedClaim,
 
       // >30 days appointment
       appointment.noClaim,
@@ -459,7 +472,13 @@ const responses = {
         appointmentId = '167327';
       } else {
         daysOffset = -(index * 2 + 1); // Space other appointments 2 days apart in the past, starting at 1 day ago
-        appointmentId = index === 0 ? '167325' : '167326';
+        if (index === 0) {
+          appointmentId = '167325';
+        } else if (index === 1) {
+          appointmentId = '167326';
+        } else if (index === 2) {
+          appointmentId = '167328';
+        }
       }
 
       const { localStartTime, start, end } = generateAppointmentDates(
@@ -476,6 +495,10 @@ const responses = {
           localStartTime,
           start,
           end,
+          // Preserve travelPayClaim if it exists
+          ...(a.data.attributes.travelPayClaim && {
+            travelPayClaim: a.data.attributes.travelPayClaim,
+          }),
         },
       };
     });
