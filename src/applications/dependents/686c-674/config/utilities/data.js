@@ -429,22 +429,30 @@ function transformParentDeath(item) {
 }
 
 /**
- * Transform V3 picklist item with removalReason: 'stepchildNotMember' to V2 format
+ * Transform V3 picklist item where isStepchild === 'Y' to V2 stepChildren format
+ * Used for any child removal reason where the child is identified as a stepchild
  * @param {Object} item - Picklist item
  * @returns {Object} V2 stepChildren format
  */
-function transformStepchild(item) {
-  // this function isn't called if item.stepchildFinancialSupport === 'Y'
-  return {
+function transformStepchildByFlag(item) {
+  const baseData = {
     fullName: item.fullName,
     ssn: item.ssn,
     birthDate: item.dateOfBirth,
-    dateStepchildLeftHousehold: item.endDate,
-    whoDoesTheStepchildLiveWith: item.whoDoesTheStepchildLiveWith || {},
-    address: item.address || {},
-    livingExpensesPaid: 'Less than half',
-    supportingStepchild: false,
   };
+
+  if (item.removalReason === 'stepchildNotMember') {
+    return {
+      ...baseData,
+      dateStepchildLeftHousehold: item.endDate,
+      whoDoesTheStepchildLiveWith: item.whoDoesTheStepchildLiveWith || {},
+      address: item.address || {},
+      livingExpensesPaid: 'Less than half',
+      supportingStepchild: false,
+    };
+  }
+
+  return baseData;
 }
 
 /**
@@ -470,8 +478,17 @@ export function transformPicklistToV2(data) {
     reportDivorce: null,
   };
 
-  // Group by removal reason and transform
   selected.forEach(item => {
+    if (item.isStepchild === 'Y') {
+      const shouldSkipStepchildNotMember =
+        item.removalReason === 'stepchildNotMember' &&
+        item.stepchildFinancialSupport === 'Y';
+
+      if (!shouldSkipStepchildNotMember) {
+        v2Data.stepChildren.push(transformStepchildByFlag(item));
+      }
+    }
+
     switch (item.removalReason) {
       case 'childMarried':
         v2Data.childMarriage.push(transformChildMarriage(item));
@@ -505,13 +522,6 @@ export function transformPicklistToV2(data) {
         break;
       case 'parentDied':
         v2Data.deaths.push(transformParentDeath(item));
-        break;
-      case 'stepchildNotMember':
-        // Don't remove stepchild if Veteran still provides >= 50% financial
-        // support
-        if (item.stepchildFinancialSupport !== 'Y') {
-          v2Data.stepChildren.push(transformStepchild(item));
-        }
         break;
       case 'childAdopted':
         // TO DO: implement once backend support is confirmed

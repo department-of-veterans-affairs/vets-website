@@ -479,6 +479,11 @@ export default {
       supportingStepchild: false,
       whoDoesTheStepchildLiveWith: {},
     },
+    {
+      fullName: { first: 'FORMER', last: 'FOSTER' },
+      ssn: '3145',
+      birthDate: createDoB(11),
+    },
   ],
   'view:removeDependentOptions': {
     reportDivorce: true,

@@ -977,6 +977,7 @@ describe('transformPicklistToV2', () => {
           dateOfBirth: '2012-02-19',
           ssn: '333445555',
           selected: true,
+          isStepchild: 'Y',
           removalReason: 'stepchildNotMember',
           endDate: '2000-02-02',
           whoDoesTheStepchildLiveWith: { first: 'John', last: 'Doe' },
@@ -1033,6 +1034,7 @@ describe('transformPicklistToV2', () => {
             postalCode: '12345',
           },
           stepchildFinancialSupport: 'Y',
+          isStepchild: 'Y',
         },
       ],
     };
@@ -1040,6 +1042,117 @@ describe('transformPicklistToV2', () => {
 
     expect(result.stepChildren).to.be.undefined;
     expect(result[dataOptions].reportStepchildNotInHousehold).to.be.false;
+  });
+
+  it('should add stepchild to stepChildren array when isStepchild is Y and removalReason is childMarried', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'STEP', last: 'CHILD' },
+          dateOfBirth: '2010-03-15',
+          ssn: '123456789',
+          selected: true,
+          isStepchild: 'Y',
+          removalReason: 'childMarried',
+          endDate: '2024-06-01',
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    expect(result.stepChildren).to.be.an('array');
+    expect(result.stepChildren).to.have.lengthOf(1);
+    expect(result.stepChildren[0]).to.deep.equal({
+      fullName: { first: 'STEP', last: 'CHILD' },
+      ssn: '123456789',
+      birthDate: '2010-03-15',
+    });
+    expect(result.childMarriage).to.have.lengthOf(1);
+    expect(result[dataOptions].reportStepchildNotInHousehold).to.be.true;
+    expect(result[dataOptions].reportMarriageOfChildUnder18).to.be.true;
+  });
+
+  it('should add stepchild to stepChildren array when isStepchild is Y and removalReason is childDied', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'STEP', last: 'CHILD' },
+          dateOfBirth: '2005-08-20',
+          ssn: '987654321',
+          selected: true,
+          isStepchild: 'Y',
+          removalReason: 'childDied',
+          endDate: '2024-01-15',
+          endOutsideUs: false,
+          endCity: 'Seattle',
+          endState: 'WA',
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    expect(result.stepChildren).to.be.an('array');
+    expect(result.stepChildren).to.have.lengthOf(1);
+    expect(result.stepChildren[0]).to.deep.equal({
+      fullName: { first: 'STEP', last: 'CHILD' },
+      ssn: '987654321',
+      birthDate: '2005-08-20',
+    });
+    expect(result.deaths).to.have.lengthOf(1);
+    expect(result.deaths[0].dependentType).to.equal('CHILD');
+    expect(result[dataOptions].reportStepchildNotInHousehold).to.be.true;
+    expect(result[dataOptions].reportDeath).to.be.true;
+  });
+
+  it('should add stepchild to stepChildren array when isStepchild is Y and removalReason is childNotInSchool', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'STEP', last: 'CHILD' },
+          dateOfBirth: '2003-11-10',
+          ssn: '555666777',
+          selected: true,
+          isStepchild: 'Y',
+          removalReason: 'childNotInSchool',
+          endDate: '2024-05-20',
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    expect(result.stepChildren).to.be.an('array');
+    expect(result.stepChildren).to.have.lengthOf(1);
+    expect(result.stepChildren[0]).to.deep.equal({
+      fullName: { first: 'STEP', last: 'CHILD' },
+      ssn: '555666777',
+      birthDate: '2003-11-10',
+    });
+    expect(result.childStoppedAttendingSchool).to.have.lengthOf(1);
+    expect(result[dataOptions].reportStepchildNotInHousehold).to.be.true;
+    expect(result[dataOptions].reportChild18OrOlderIsNotAttendingSchool).to.be
+      .true;
+  });
+
+  it('should NOT add stepchild to stepChildren array when isStepchild is N', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'BIOLOGICAL', last: 'CHILD' },
+          dateOfBirth: '2010-03-15',
+          ssn: '123456789',
+          selected: true,
+          isStepchild: 'N',
+          removalReason: 'childMarried',
+          endDate: '2024-06-01',
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    expect(result.stepChildren).to.be.undefined;
+    expect(result.childMarriage).to.have.lengthOf(1);
+    expect(result[dataOptions].reportStepchildNotInHousehold).to.be.false;
+    expect(result[dataOptions].reportMarriageOfChildUnder18).to.be.true;
   });
 
   it('should handle missing optional location fields', () => {
