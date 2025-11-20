@@ -164,7 +164,7 @@ export function useDuplicateChecks({
         duplicateCheckResult.arrayData[props.pagePerItemIndex],
       )
     ) {
-      metadata[itemDuplicateDismissedName] = false;
+      delete metadata[itemDuplicateDismissedName];
     }
 
     // Code modified from ArrayBuilderCancelButton
