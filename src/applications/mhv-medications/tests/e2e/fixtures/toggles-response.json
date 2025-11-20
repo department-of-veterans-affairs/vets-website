@@ -21,6 +21,10 @@
             {
                 "name": "mhv_secure_messaging_medications_renewal_request",
                 "value": true
+            },
+            {
+                "name": "mhv_medications_cerner_pilot",
+                "value": true
             }
         ]
     }

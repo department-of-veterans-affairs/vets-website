@@ -282,7 +282,7 @@ class MedicationsRefillPage {
 
   clickPrescriptionRefillCheckbox = prescription => {
     cy.intercept(
-      'PATCH',
+      this.getRefillMethod(),
       `${this.basePath}/prescriptions/refill_prescriptions?ids[]=22377949`,
       prescription,
     );
@@ -346,7 +346,7 @@ class MedicationsRefillPage {
     partialsuccess,
   ) => {
     cy.intercept(
-      'PATCH',
+      this.getRefillMethod(),
       `${
         this.basePath
       }/prescriptions/refill_prescriptions?ids[]=${prescriptionId1}&ids[]=${prescriptionId2}`,
