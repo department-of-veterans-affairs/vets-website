@@ -8,6 +8,12 @@ const YellowRibbonProgramDescription = () => {
   const { isUsaSchool } = institutionDetails || {};
   const uiList = (
     <div className="yellow-program-list">
+      {isUsaSchool && (
+        <p className="vads-u-margin-bottom--3">
+          You’ll enter information about the Yellow Ribbon Program contributions
+          your school is offering for that academic year.
+        </p>
+      )}
       <p>
         {isUsaSchool
           ? 'You’ll be asked to provide:'
