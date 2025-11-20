@@ -17,7 +17,7 @@ import { selectCernerPilotFlag } from '../util/selectors';
 
 const documentationApiBasePath = `${environment.API_URL}/my_health/v1`;
 
-const getApiBasePath = state => {
+export const getApiBasePath = state => {
   // Handle loading state - default to v1
   if (!state?.featureToggles || state.featureToggles.loading) {
     return `${environment.API_URL}/my_health/v1`;
@@ -27,7 +27,7 @@ const getApiBasePath = state => {
   return `${environment.API_URL}/my_health/${isCernerPilot ? 'v2' : 'v1'}`;
 };
 
-const getRefillMethod = state => {
+export const getRefillMethod = state => {
   // Handle loading state - default to PATCH
   if (!state?.featureToggles || state.featureToggles.loading) {
     return 'PATCH';
