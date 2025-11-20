@@ -102,6 +102,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_0304_UPLOAD: '21-0304-UPLOAD',
   FORM_21_651_UPLOAD: '21-651-UPLOAD',
   FORM_21P_4185_UPLOAD: '21P-4185-UPLOAD',
+  FORM_22_10278_UPLOAD: '22-10278-UPLOAD',
   FORM_22_10297: '22-10297',
   FORM_22_0839: '22-0839',
   FORM_22_10275: '22-10275',
@@ -301,6 +302,9 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21P_4185_UPLOAD]: `${tryGetAppUrl(
       'form-upload-flow',
     )}/21P-4185/introduction/`,
+    [VA_FORM_IDS.FORM_22_10278_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/22-10278/introduction/`,
     [VA_FORM_IDS.FORM_21P_534EZ]: `${tryGetAppUrl('survivors-benefits')}/`,
     [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
     [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('22-10278')}/`,
@@ -686,6 +690,14 @@ export const MY_VA_SIP_FORMS = [
     title: `form 21P-8049 upload`,
     description: 'uploaded file for form 21P-8049',
     trackingPrefix: 'form-21p-8049-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_10278_UPLOAD,
+    benefit:
+      'Authorization to Disclose Personal Information to a Third Party - Education Benefits',
+    title: 'form 22-10278 upload',
+    description: 'uploaded file for form 22-10278',
+    trackingPrefix: 'form-22-10278-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_22_0994,

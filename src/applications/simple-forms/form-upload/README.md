@@ -63,3 +63,8 @@ node script/add-form-upload-form.js
 
   **Why?**  
   This provides some Save in Progress metadata.
+
+- Add an entry to the getAllFormLinks function in this file. (https://github.com/department-of-veterans-affairs/vets- website/blob/main/src/platform/forms/constants.js#L164).
+
+  **Why?**
+  My VA uses this to generate clickable links to saved forms. Without this entry, users won't be able to access their saved form from My VA.

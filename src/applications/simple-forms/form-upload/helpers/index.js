@@ -129,6 +129,11 @@ export const formMappings = {
     subTitle: 'Report of Income from Property or Business',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-4185-ARE.pdf',
   },
+  '22-10278': {
+    subTitle:
+      'Authorization to Disclose Information Personal Information to a Third Party-Education Benefits',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-22-10278-ARE.pdf',
+  },
 };
 
 const extractFormSlug = path => {

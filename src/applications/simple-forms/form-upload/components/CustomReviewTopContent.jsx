@@ -7,7 +7,12 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { makePlaceholderFile } from 'platform/forms-system/src/js/web-component-fields';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { getFormNumber, mask, formattedPhoneNumber } from '../helpers';
+import {
+  getFormNumber,
+  mask,
+  formattedPhoneNumber,
+  formMappings,
+} from '../helpers';
 import EditLink from './EditLink';
 
 const CustomReviewTopContent = () => {
@@ -100,7 +105,8 @@ const CustomReviewTopContent = () => {
         <EditLink href={`/${formNumber}/upload`} label="Edit Uploaded file" />
       </div>
       {uploadedFile && <VaFileInput uploadedFile={filePayload} readOnly />}
-      {!environment.isProduction() && (
+      {formMappings[formNumber]?.showSupportingDocuments && 
+        !environment.isProduction() && (
         <>
           <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
             <h3>Uploaded supporting documents</h3>
