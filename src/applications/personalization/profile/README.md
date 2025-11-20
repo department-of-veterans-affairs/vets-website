@@ -6,6 +6,7 @@
   - [Contact info and the VA Profile service](#contact-info-and-the-va-profile-service)
   - [Direct deposit](#direct-deposit)
   - [Connected apps](#connected-apps)
+  - [Quick start: Run Profile with local mock API](#quick-start-run-profile-with-local-mock-api)
   - [Set up Codespaces for testing](#set-up-codespaces-for-testing)
     - [Prerequisites](#prerequisites)
     - [Step 1: ready your dockerfile](#step-1-ready-your-dockerfile)
@@ -14,7 +15,7 @@
       - [Turn off CORS](#turn-off-cors)
       - [Disable the FOOTER IMAGE](#disable-the-footer-image)
       - [Trick user session](#trick-user-session)
-    - [Step 4: Start mock API](#step-4-start-mock-api)
+    - [Step 4: Start mock API](#start-mock-api)
       - [Start the API](#start-the-api)
       - [Make it public](#make-it-public)
       - [Test it](#test-it)
@@ -48,6 +49,30 @@ There is a dedicated team that manages the connected app integrations. The slack
 When running the app locally, all test users will have 2 connected apps available to them as they are mocked [here](src/applications/personalization/profile/util/connected-apps.js).
 
 [How to connect apps in staging](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/identity-personalization/profile/Combine%20Profile%20and%20Account/QA/how-to-turn-on-connected-apps.md)
+
+## Quick start: Run Profile with local mock API
+
+This is the fastest way to run the Profile app against the local mock API. Works in Node 14 and Node 22.
+
+- Install deps and select your Node version (optional):
+  - nvm use 22 or nvm use 14
+  - yarn install
+- Start the mock API (default http://localhost:3000):
+  - yarn start:profile:mock
+  - Optional: add latency with DELAY=500 yarn start:profile:mock
+  - Verify in your browser: http://localhost:3000/v0/user
+- Build the frontend targeting the mock API URL:
+  - API_BASE_URL="http://localhost:3000" yarn start:profile:build-local
+- Serve the built site (http://localhost:3001 by default):
+  - WEB_PORT=3001 yarn start:profile:serve
+- Open the site: http://localhost:3001/profile
+  - Navigate to a wrapped page like Notification Settings or Paperless Delivery.
+  - You should see a POST /v0/profile/initialize_vet360_id followed by GET /v0/profile/person/status/:transactionId.
+
+Notes and troubleshooting:
+- If you’re in Codespaces/docker, make ports 3000 and 3001 public.
+- If CORS/session issues appear in special environments, see the Codespaces section below (turn off CORS, force session, and ensure `local-vapsvc.js` returns true).
+- The mock API includes aliases for `/v0/profile/person/status/:id`, matching the InitializeVAPServiceID poll path.
 
 ## Set up Codespaces for testing
 
