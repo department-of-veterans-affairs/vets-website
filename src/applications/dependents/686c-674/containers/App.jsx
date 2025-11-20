@@ -42,7 +42,7 @@ function App({
 
   useEffect(
     () => {
-      if (isLoggedIn && !isPrefill && isIntroPage) {
+      if (isLoggedIn && !isPrefill && !isIntroPage) {
         if (loadingDependents) {
           fetchDependents();
         } else {
