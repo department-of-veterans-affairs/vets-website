@@ -17,7 +17,7 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
   };
 
   it('renders text, email address, and button pair', async () => {
-    const { container, getByText } = render(
+    const { container, findByText } = render(
       <ProfileAlertConfirmEmailContent
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
@@ -25,25 +25,19 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
       />,
     );
 
-    await waitFor(() => {
-      // Intro text
-      getByText(
-        /We’ll send notifications about your VA health care and benefits to this email\./i,
-      );
+    await findByText(
+      /We’ll send notifications about your VA health care and benefits to this email\./i,
+    );
 
-      // Email address
-      getByText('vet@va.gov');
+    await findByText('vet@va.gov');
 
-      // Button pair exists
-      const buttonPair = container.querySelector('va-button-pair');
-      expect(buttonPair).to.exist;
+    const buttonPair = container.querySelector('va-button-pair');
+    expect(buttonPair).to.exist;
 
-      // Check props on the web component
-      expect(buttonPair.getAttribute('left-button-text')).to.equal('Confirm');
-      expect(buttonPair.getAttribute('right-button-text')).to.equal(
-        'Edit contact email',
-      );
-    });
+    expect(buttonPair.getAttribute('left-button-text')).to.equal('Confirm');
+    expect(buttonPair.getAttribute('right-button-text')).to.equal(
+      'Edit contact email',
+    );
   });
 
   it('calls onConfirmClick when primary button is clicked', async () => {
@@ -57,8 +51,8 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
       />,
     );
 
+    clickButton(container);
     await waitFor(() => {
-      clickButton(container);
       expect(onConfirmClick.calledOnce).to.be.true;
     });
   });
@@ -74,8 +68,8 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
       />,
     );
 
+    clickButton(container, true);
     await waitFor(() => {
-      clickButton(container, true);
       expect(onEditClick.calledOnce).to.be.true;
     });
   });

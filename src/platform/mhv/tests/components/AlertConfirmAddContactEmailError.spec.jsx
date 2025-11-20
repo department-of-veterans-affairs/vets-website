@@ -9,7 +9,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
   it('renders email text, email address, Confirm button, and Edit link', async () => {
     const recordEvent = sinon.spy();
 
-    const { container, getByText } = render(
+    const { container, findByText } = render(
       <AlertConfirmAddContactEmailError
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
@@ -17,33 +17,28 @@ describe('AlertConfirmAddContactEmailError />', () => {
       />,
     );
 
-    await waitFor(() => {
-      // Intro text
-      getByText(
-        /We’ll send notifications about your VA health care and benefits to this email\./i,
-      );
+    await findByText(
+      /We’ll send notifications about your VA health care and benefits to this email\./i,
+    );
 
-      getByText('vet@va.gov');
+    await findByText('vet@va.gov');
 
-      getByText('Please try again.');
+    await findByText('Please try again.');
 
-      const confirmButton = container.querySelector(
-        'va-button[text="Confirm"]',
-      );
-      expect(confirmButton).to.exist;
+    const confirmButton = container.querySelector('va-button[text="Confirm"]');
+    expect(confirmButton).to.exist;
 
-      const link = container.querySelector(
-        'va-link[text="Go to profile to update your contact email"]',
-      );
-      expect(link).to.exist;
-      expect(link.getAttribute('href')).to.equal(
-        '/profile/contact-information#contact-email-address',
-      );
+    const link = container.querySelector(
+      'va-link[text="Go to profile to update your contact email"]',
+    );
+    expect(link).to.exist;
+    expect(link.getAttribute('href')).to.equal(
+      '/profile/contact-information#contact-email-address',
+    );
 
-      expect(recordEvent.calledOnce).to.be.true;
-      expect(recordEvent.calledWith('We couldn’t confirm your contact email'))
-        .to.be.true;
-    });
+    expect(recordEvent.calledOnce).to.be.true;
+    expect(recordEvent.calledWith('We couldn’t confirm your contact email')).to
+      .be.true;
   });
 
   it('calls onConfirmClick when the Confirm button is clicked', async () => {
@@ -57,11 +52,12 @@ describe('AlertConfirmAddContactEmailError />', () => {
       />,
     );
 
-    await waitFor(() => {
-      const button = container.querySelector('va-button[text="Confirm"]');
-      expect(button).to.exist;
+    const button = container.querySelector('va-button[text="Confirm"]');
+    expect(button).to.exist;
 
-      fireEvent.click(button);
+    fireEvent.click(button);
+
+    await waitFor(async () => {
       expect(onConfirmClick.calledOnce).to.be.true;
     });
   });

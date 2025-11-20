@@ -216,19 +216,22 @@ describe('<MhvAlertConfirmEmail />', () => {
       mockApiRequest({}, false);
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
-      const { container, getByTestId, getByText } = render(
+      const { container, findByTestId, findByText } = render(
         <MhvAlertConfirmEmail {...props} />,
         {
           initialState,
         },
       );
-      await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
+
+      await findByTestId('mhv-alert--confirm-contact-email');
       fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+
+      const alert = await findByTestId('mhv-alert--confirm-error');
+      expect(alert.getAttribute('status')).to.equal('error');
+      await findByText('Please try again.');
+      const headline = 'We couldn’t confirm your contact email';
+
       await waitFor(() => {
-        const alert = getByTestId('mhv-alert--confirm-error');
-        expect(alert.getAttribute('status')).to.equal('error');
-        getByText('Please try again.');
-        const headline = 'We couldn’t confirm your contact email';
         expect(props.recordEvent.calledWith(headline));
       });
     });

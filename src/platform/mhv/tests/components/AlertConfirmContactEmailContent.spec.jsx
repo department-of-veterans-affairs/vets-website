@@ -6,39 +6,31 @@ import { renderInReduxProvider as render } from '@department-of-veterans-affairs
 
 import AlertConfirmContactEmailContent from 'platform/mhv/components/MhvAlertConfirmEmail/AlertConfirmContactEmailContent';
 
-describe('<AlertConfirmContactEmailContent />', () => {
+describe('<AlertConfirmContactEmailContent />', async () => {
   it('renders email text, email address, Confirm button, and Edit link', async () => {
-    const { container, getByText } = render(
+    const { container, findByText } = render(
       <AlertConfirmContactEmailContent
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
       />,
     );
 
-    await waitFor(() => {
-      // Intro text
-      getByText(
-        /We’ll send notifications about your VA health care and benefits to this email\./i,
-      );
+    await findByText(
+      /We’ll send notifications about your VA health care and benefits to this email\./i,
+    );
 
-      // Email address (bold paragraph)
-      getByText('vet@va.gov');
+    await findByText('vet@va.gov');
 
-      // Confirm button (VA web component)
-      const confirmButton = container.querySelector(
-        'va-button[text="Confirm"]',
-      );
-      expect(confirmButton).to.exist;
+    const confirmButton = container.querySelector('va-button[text="Confirm"]');
+    expect(confirmButton).to.exist;
 
-      // Edit link
-      const link = container.querySelector(
-        'va-link[text="Go to profile to update your contact email"]',
-      );
-      expect(link).to.exist;
-      expect(link.getAttribute('href')).to.equal(
-        '/profile/contact-information#contact-email-address',
-      );
-    });
+    const link = container.querySelector(
+      'va-link[text="Go to profile to update your contact email"]',
+    );
+    expect(link).to.exist;
+    expect(link.getAttribute('href')).to.equal(
+      '/profile/contact-information#contact-email-address',
+    );
   });
 
   it('calls onConfirmClick when the Confirm button is clicked', async () => {
@@ -51,11 +43,11 @@ describe('<AlertConfirmContactEmailContent />', () => {
       />,
     );
 
-    await waitFor(() => {
-      const button = container.querySelector('va-button[text="Confirm"]');
-      expect(button).to.exist;
+    const button = container.querySelector('va-button[text="Confirm"]');
+    expect(button).to.exist;
+    fireEvent.click(button);
 
-      fireEvent.click(button);
+    await waitFor(() => {
       expect(onConfirmClick.calledOnce).to.be.true;
     });
   });
