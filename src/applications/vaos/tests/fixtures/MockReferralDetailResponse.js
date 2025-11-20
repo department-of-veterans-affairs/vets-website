@@ -157,6 +157,7 @@ class MockReferralDetailResponse {
       serverError,
       provider,
       referralNumber,
+      stationId,
       referralConsultId,
     } = this.options;
 
