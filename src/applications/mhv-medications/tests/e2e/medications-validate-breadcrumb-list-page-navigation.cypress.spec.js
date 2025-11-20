@@ -30,10 +30,11 @@ describe('Medications Breadcrumb Navigation To List Page', () => {
     site.verifyPaginationPrescriptionsDisplayed(11, 20, listLength);
     detailsPage.clickMedicationHistoryAndDetailsLink(prescriptionDetails);
     detailsPage.clickMedicationsListPageTwoBreadcrumbsOnDetailsPage();
-    listPage.verifyNavigationToListPageTwoAfterClickingBreadcrumbMedications(
-      11,
-      20,
-      listLength,
-    );
+    site.verifyPaginationPrescriptionsDisplayed(11, 20, listLength);
+    // listPage.verifyNavigationToListPageTwoAfterClickingBreadcrumbMedications(
+    //   11,
+    //   20,
+    //   listLength,
+    // );
   });
 });
