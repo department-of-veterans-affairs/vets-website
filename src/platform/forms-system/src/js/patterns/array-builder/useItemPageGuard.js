@@ -8,25 +8,32 @@ import { getArrayUrlSearchParams } from './helpers';
  * @param {Object} params
  * @param {Object} params.arrayBuilderProps - Array builder configuration props
  * @param {Object} params.customPageProps - Component props from CustomPage
- * @param {Object|null} params.schema - Schema object (null when initially loading edit mode)
- * @param {Array} params.fullData - Full form data array
+ * @param {Object|null} [params.schema] - Schema from useEditOrAddForm
+ * @param {boolean} [params.checkForAddEdit=true] - Whether to enforce ?add=true or ?edit=true query params.
+ *   When true, redirects to intro/summary if neither param is present.
+ * @param {boolean} [params.checkForReview=true] - Whether to prevent rendering on review page.
+ *   When true, returns false if on review page.
+ * @param {boolean} [params.checkForEditSchema=true] - Whether to wait for schema to load in edit mode.
+ *   When true, returns false if editing and schema is null.
  * @returns {boolean} Whether the page should render
  */
 export function useItemPageGuard({
   arrayBuilderProps,
   customPageProps,
-  waitForSchema = true,
+  schema,
+  checkForAddEdit = true,
+  checkForReview = true,
+  checkForEditSchema = true,
 }) {
   const searchParams = getArrayUrlSearchParams();
   const isEdit = !!searchParams.get('edit');
   const isAdd = !!searchParams.get('add');
-  const checkSchema = waitForSchema ? customPageProps.schema !== null : true;
   const introRoute = arrayBuilderProps.getIntroPath(customPageProps.fullData);
   const summaryRoute = arrayBuilderProps.getSummaryPath(
     customPageProps.fullData,
   );
 
-  if (!customPageProps.onReviewPage && !isEdit && !isAdd) {
+  if (checkForAddEdit && !customPageProps.onReviewPage && !isEdit && !isAdd) {
     // we should only arrive at this page with
     // ?add=true or ?edit=true, so if we somehow
     // get here without those, redirect to the
@@ -43,16 +50,21 @@ export function useItemPageGuard({
     // so that validation for missing info will work properly.
     navigationState.setNavigationEvent();
     customPageProps.goToPath(path);
+    // Don't render
+    return false;
+  }
+
+  if (checkForReview && customPageProps.onReviewPage) {
+    // Don't render
     return false;
   }
 
   // eslint-disable-next-line sonarjs/prefer-single-boolean-return
-  if (customPageProps.onReviewPage || (isEdit && !checkSchema)) {
-    // 1. Don't show for review page.
-    // 2. If we're editing, the schema will initially be null
-    //    so just return null until schema is loaded by useState
+  if (checkForEditSchema && isEdit && !schema) {
+    // Don't render
     return false;
   }
 
+  // All checks passed, we can render
   return true;
 }

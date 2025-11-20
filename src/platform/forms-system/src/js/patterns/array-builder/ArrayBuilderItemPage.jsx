@@ -81,13 +81,10 @@ export default function ArrayBuilderItemPage(itemPageProps) {
       ),
     );
 
-    // This helps redirect if arriving at this page without proper URL params
-    // and guards against rendering when schema is not yet loaded
     const shouldRender = useItemPageGuard({
       arrayBuilderProps,
       customPageProps: props,
       schema,
-      fullData: data,
     });
 
     if (!shouldRender) {
