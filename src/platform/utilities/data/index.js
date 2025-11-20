@@ -10,6 +10,7 @@ import cloneDeep from './cloneDeep';
 import debounce from './debounce';
 import get from './get';
 import omit from './omit';
+import redactPii from './redactPii';
 import set from './set';
 import unset from './unset';
 
@@ -19,6 +20,7 @@ export default {
   debounce,
   get,
   omit,
+  redactPii,
   set,
   unset,
 };
