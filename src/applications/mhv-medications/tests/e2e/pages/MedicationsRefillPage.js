@@ -12,7 +12,7 @@ class MedicationsRefillPage {
     return this.basePath.includes('v2') ? 'POST' : 'PATCH';
   };
 
-  loadRefillPage = (prescriptions, basePath = 'my_health/v1') => {
+  loadRefillPage = (prescriptions, basePath = this.basePath) => {
     this.basePath = basePath;
     cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
       'delayAlertRxList',

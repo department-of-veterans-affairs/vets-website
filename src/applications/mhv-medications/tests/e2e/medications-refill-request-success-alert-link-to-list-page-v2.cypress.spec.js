@@ -1,0 +1,46 @@
+import MedicationsSite from './med_site/MedicationsSite';
+import MedicationsRefillPage from './pages/MedicationsRefillPage';
+import prescription from './fixtures/active-prescriptions-with-refills.json';
+import prescriptions from './fixtures/listOfPrescriptions.json';
+import successRequest from './fixtures/refill-success.json';
+
+describe('Medications Refill Success Alert Message Link (v2)', () => {
+  beforeEach(() => {
+    const site = new MedicationsSite();
+    // Mock feature flag for v2 endpoint
+    const mockTogglesV2 = {
+      data: {
+        type: 'feature_toggles',
+        features: [{ name: 'mhv_medications_cerner_pilot', value: true }],
+      },
+    };
+
+    cy.intercept('GET', `my_health/v1/prescriptions/*`, () => {
+      // fail the test if v1 endpoint is called
+      throw new Error(
+        'v1 endpoint should not be called when Cerner pilot flag is enabled',
+      );
+    }).as('refillList');
+    site.login();
+    cy.intercept('GET', '/v0/feature_toggles?*', mockTogglesV2).as(
+      'featureToggles',
+    );
+  });
+
+  it('visits Medications List Link on Success Alert with v2 endpoint', () => {
+    const refillPage = new MedicationsRefillPage();
+    refillPage.loadRefillPage(prescriptions, 'my_health/v2');
+    cy.injectAxe();
+    cy.axeCheck('main');
+    refillPage.verifyRefillPageTitle();
+    refillPage.clickPrescriptionRefillCheckboxForSuccessfulRequest(
+      prescription,
+    );
+    refillPage.clickRequestRefillButtonforSuccessfulRequests(
+      prescription.data.attributes.prescriptionId,
+      successRequest,
+    );
+    refillPage.verifyRefillRequestSuccessConfirmationMessage();
+    refillPage.clickMedicationsListPageLinkOnRefillSuccessAlertOnRefillsPage();
+  });
+});

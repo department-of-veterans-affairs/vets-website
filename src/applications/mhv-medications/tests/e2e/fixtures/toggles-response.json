@@ -24,7 +24,7 @@
             },
             {
                 "name": "mhv_medications_cerner_pilot",
-                "value": true
+                "value": false
             }
         ]
     }
