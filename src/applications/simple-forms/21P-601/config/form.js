@@ -42,7 +42,7 @@ const formConfig = {
   trackingPrefix: '21p-601-accrued-benefits-',
   useCustomScrollAndFocus: true,
   v3SegmentedProgressBar: true,
-  hideUnauthedStartLink: true,
+  hideUnauthedStartLink: false,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -78,21 +78,6 @@ const formConfig = {
     eligibilityChapter: {
       title: 'Check your eligibility',
       pages: {
-        personalInformation: {
-          path: 'personal-information',
-          title: 'Personal info',
-          CustomPage: props => (
-            <PersonalInformation {...props} config={personalInfoConfig()} />
-          ),
-          CustomPageReview: null,
-          hideOnReview: true,
-          scrollAndFocusTarget,
-          schema: {
-            type: 'object',
-            properties: {}, // Must be present even if empty
-          },
-          uiSchema: {},
-        },
         hasAlreadyFiled: {
           path: 'already-filed',
           title: 'Previous applications',
@@ -117,6 +102,22 @@ const formConfig = {
           // This page should be the end - no continue button
           hideNavButtons: true,
           customNavButtons: () => null,
+        },
+        personalInformation: {
+          path: 'personal-information',
+          title: 'Personal info',
+          depends: formData => formData.isLoggedIn,
+          CustomPage: props => (
+            <PersonalInformation {...props} config={personalInfoConfig()} />
+          ),
+          CustomPageReview: null,
+          hideOnReview: true,
+          scrollAndFocusTarget,
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+          uiSchema: {},
         },
       },
     },
