@@ -42,6 +42,8 @@ export const locationContent = {
 };
 
 export const summaryContent = {
+  titleWithItems: 'Review the evidence you’re submitting',
+  descriptionWithItems: 'VA or military treatment locations we’ll request your records from',
   question: 'Do you want us to request records from another VA provider?',
   options: {
     Y: 'Yes',
