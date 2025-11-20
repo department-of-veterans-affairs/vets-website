@@ -32,13 +32,15 @@ import {
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { replaceStrValues } from '../helpers/formatting';
 import {
+  generateParticipantName,
+  getEligibleApplicantsWithoutMedicare,
+  medicarePageTitleUI,
+} from '../helpers/medicare';
+import {
   validateMedicarePartDDates,
   validateMedicarePlan,
 } from '../helpers/validations';
-import {
-  selectMedicareParticipantPage,
-  SelectMedicareParticipantPage,
-} from './SelectMedicareParticipantsPage';
+import medicareParticipant from './medicareInformation/participants';
 import {
   MedicarePartADescription,
   MedicarePartBDescription,
@@ -86,55 +88,6 @@ const hasPartD = (formData, index) =>
   hasPartsABorC(formData, index) &&
   formData.medicare?.[index]?.hasMedicarePartD;
 
-/**
- * Generate a possessive display name for the current Medicare participant.
- *
- * Finds the matching applicant in `item['view:applicantObjects']` by comparing
- * `item.medicareParticipant` (a hashed SSN) to `toHashMemoized(applicant.applicantSsn)`,
- * then formats the name via `applicantWording`. Returns a possessive form like
- * `"Jane Doe's"` when possible; falls back to `"applicant"` when no name can be
- * produced, and `"No participant"` when `item` is falsy.
- *
- * @param {Object} [item] - Container holding participant context.
- * @param {Array<Object>} [item['view:applicantObjects']=[]] - Applicant records that include `applicantSsn`.
- * @param {string} [item.medicareParticipant] - Hashed SSN used to identify the participant.
- * @returns {string} Possessive participant name (e.g., `"Jane Doe's"`), `"applicant"`, or `"No participant"`.
- */
-export const generateParticipantName = item => {
-  if (item) {
-    const applicantObjects = item['view:applicantObjects'] || [];
-    const match = applicantObjects.find(
-      app => item?.medicareParticipant === toHashMemoized(app.applicantSsn),
-    );
-    const name = applicantWording(match, false, false, false);
-    return name.length > 0 ? `${name}’s` : 'Applicant';
-  }
-  return 'No participant';
-};
-
-/**
- * Return applicants who do not have a Medicare plan recorded.
- *
- * Compares each `formData.applicants[*].applicantSsn` (hashed via `toHashMemoized`)
- * against every `formData.medicare[*].medicareParticipant` value. Any applicant
- * whose hashed SSN does **not** appear in the Medicare list is included.
- *
- * If `formData.applicants` is missing/undefined, the function returns `undefined`.
- *
- * @param {Object} formData - Form data containing applicants and Medicare records.
- * @param {Object[]} [formData.applicants] - Applicant records; each should include `applicantSsn`.
- * @param {Object[]} [formData.medicare] - Medicare records; each may include `medicareParticipant` (hashed SSN).
- * @returns {Object[]|undefined} Array of applicants without Medicare, or `undefined` if no applicants list is present.
- */
-export const getEligibleApplicantsWithoutMedicare = formData =>
-  formData?.applicants?.filter(
-    a =>
-      !formData?.medicare?.some(
-        plan => toHashMemoized(a.applicantSsn) === plan?.medicareParticipant,
-      ),
-  );
-
-// ArrayBuilder options
 export const medicareOptions = {
   arrayPath: 'medicare',
   nounSingular: 'plan',
@@ -143,7 +96,7 @@ export const medicareOptions = {
   isItemIncomplete: validateMedicarePlan,
   maxItems: formData => formData?.applicants?.length,
   text: {
-    getItemName: item => generateParticipantName(item),
+    getItemName: generateParticipantName,
     cardDescription: item => (
       <ul className="no-bullets">
         <li>
@@ -228,10 +181,7 @@ const medicareSummaryPage = {
 
 const medicarePlanTypes = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `${generateParticipantName(formData)} Medicare plan types`,
-    ),
+    ...medicarePageTitleUI('Medicare plan types'),
     medicarePlanType: {
       ...radioUI({
         title: 'Which Medicare plan does this applicant have?',
@@ -262,10 +212,7 @@ const medicarePlanTypes = {
 
 const medicarePartAPartBEffectiveDatesPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `${generateParticipantName(formData)} Medicare effective dates`,
-    ),
+    ...medicarePageTitleUI('Medicare effective dates'),
     'view:medicarePartAEffectiveDate': {
       ...titleUI({
         title: 'Medicare Part A',
@@ -350,10 +297,7 @@ const medicareABCardUploadPage = {
 
 const medicarePartAEffectiveDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `${generateParticipantName(formData)} Medicare effective dates`,
-    ),
+    ...medicarePageTitleUI('Medicare effective dates'),
     'view:medicarePartAEffectiveDate': {
       ...titleUI({
         title: 'Medicare Part A',
@@ -412,10 +356,7 @@ const medicarePartACardUploadPage = {
 
 const medicarePartBEffectiveDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `${generateParticipantName(formData)} Medicare effective dates`,
-    ),
+    ...medicarePageTitleUI('Medicare effective dates'),
     'view:medicarePartBEffectiveDate': {
       ...titleUI({
         title: 'Medicare Part B',
@@ -583,12 +524,7 @@ const medicarePartADenialProofUploadPage = dataKey => {
 
 const medicarePartCCarrierEffectiveDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `${generateParticipantName(
-          formData,
-        )} Medicare Part C carrier and effective date`,
-    ),
+    ...medicarePageTitleUI('Medicare Part C carrier and effective date'),
     medicarePartCCarrier: textUI({
       title: 'Name of insurance carrier',
       hint: 'This is the name of the insurance company.',
@@ -611,10 +547,7 @@ const medicarePartCCarrierEffectiveDatePage = {
 
 const medicarePartCPharmacyBenefitsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `${generateParticipantName(formData)} Medicare pharmacy benefits`,
-    ),
+    ...medicarePageTitleUI('Medicare pharmacy benefits'),
     hasPharmacyBenefits: {
       ...yesNoUI({
         title:
@@ -683,10 +616,7 @@ const medicarePartCCardUploadPage = {
 
 const medicarePartDStatusPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `${generateParticipantName(formData)} Medicare Part D status`,
-    ),
+    ...medicarePageTitleUI('Medicare Part D status'),
     hasMedicarePartD: {
       ...yesNoUI({
         title:
@@ -706,10 +636,7 @@ const medicarePartDStatusPage = {
 
 const medicarePartDCarrierEffectiveDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `${generateParticipantName(formData)} Medicare Part D effective date`,
-    ),
+    ...medicarePageTitleUI('Medicare Part D effective date'),
     medicarePartDEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part D effective date',
       hint: 'This information is at the top of the card.',
@@ -811,9 +738,7 @@ export const medicarePages = arrayBuilderPages(
     participant: pageBuilder.itemPage({
       path: 'medicare-participants/:index',
       title: 'Medicare participant',
-      ...selectMedicareParticipantPage,
-      CustomPage: SelectMedicareParticipantPage,
-      CustomPageReview: null,
+      ...medicareParticipant,
     }),
     medicarePlanType: pageBuilder.itemPage({
       path: 'medicare-plan-type/:index',

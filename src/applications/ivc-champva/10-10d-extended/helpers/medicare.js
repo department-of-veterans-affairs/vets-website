@@ -1,0 +1,68 @@
+import React from 'react';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { toHash } from '../../shared/utilities';
+import MedicarePageTitle from '../components/FormDescriptions/MedicarePageTitle';
+import { formatFullName } from './formatting';
+
+/**
+ * Generate a display name for the current Medicare participant.
+ *
+ * Uses `item.medicareParticipant` (a hashed SSN) to find a matching applicant
+ * in the provided `applicants` array by comparing it to `toHash(applicant.applicantSsn)`.
+ * When a match is found, returns the formatted full name via `formatFullName(applicant.applicantName)`.
+ * If no matching applicant is found, returns `"Applicant"`. When `item` is falsy,
+ * returns `"No participant"`.
+ *
+ * @param {Object} [item] - Container holding participant context.
+ * @param {string} [item.medicareParticipant] - Hashed SSN used to identify the participant.
+ * @param {number} _index - Unused index parameter, required by the calling context.
+ * @param {Object} [options] - Additional lookup context.
+ * @param {Array<Object>} [options.applicants=[]] - Applicant records, each including
+ *   `applicantSsn` (string) and `applicantName` (object with name parts).
+ * @returns {string} Participant name (e.g., `"Jane Doe"`), `"Applicant"`, or `"No participant"`.
+ */
+export const generateParticipantName = (item, _, { applicants = [] } = {}) => {
+  if (!item) return 'No participant';
+  const match = applicants.find(
+    a => item?.medicareParticipant === toHash(a.applicantSsn),
+  );
+  return match ? formatFullName(match.applicantName) : 'Applicant';
+};
+
+/**
+ * Return applicants who do not have a Medicare plan recorded.
+ *
+ * Compares each `formData.applicants[*].applicantSsn` (hashed via `toHash`)
+ * against every `formData.medicare[*].medicareParticipant` value. Any applicant
+ * whose hashed SSN does **not** appear in the Medicare list is included.
+ *
+ * If `formData.applicants` is missing/undefined, the function returns `undefined`.
+ *
+ * @param {Object} formData - Form data containing applicants and Medicare records.
+ * @param {Object[]} [formData.applicants] - Applicant records; each should include `applicantSsn`.
+ * @param {Object[]} [formData.medicare] - Medicare records; each may include `medicareParticipant` (hashed SSN).
+ * @returns {Object[]|undefined} Array of applicants without Medicare, or `undefined` if no applicants list is present.
+ */
+export const getEligibleApplicantsWithoutMedicare = formData =>
+  formData?.applicants?.filter(
+    a =>
+      !formData?.medicare?.some(
+        plan => toHash(a.applicantSsn) === plan?.medicareParticipant,
+      ),
+  );
+
+/**
+ * Creates a dynamic Medicare page title with participant name.
+ * Uses a component that accesses Redux to get the full form data.
+ * Generates titles like "Jane Doe’s Medicare plan types"
+ *
+ * @param {string} title - The page-specific title (e.g., 'Medicare plan types')
+ * @param {string|React.Component} [description=null] - Optional description
+ * @returns {Object} UI schema object for titleUI
+ */
+export const medicarePageTitleUI = (title, description = null) => {
+  const pageTitle = ({ formData: item }) => (
+    <MedicarePageTitle item={item} title={title} />
+  );
+  return titleUI(pageTitle, description);
+};
