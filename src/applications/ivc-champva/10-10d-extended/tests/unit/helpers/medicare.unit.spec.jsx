@@ -169,8 +169,7 @@ describe('1010d `medicarePageTitleUI` util', () => {
         <div>{TitleComponent({ formData: item })}</div>
       </Provider>,
     );
-    const { textContent } = container;
-    return { textContent };
+    return container.textContent;
   };
 
   it('should return a UI schema object with ui:title property', () => {
@@ -179,7 +178,7 @@ describe('1010d `medicarePageTitleUI` util', () => {
   });
 
   it('should generate title with participant name when applicant found', () => {
-    const { textContent } = subject({
+    const result = subject({
       applicants: [
         {
           applicantSsn: '123123123',
@@ -187,11 +186,11 @@ describe('1010d `medicarePageTitleUI` util', () => {
         },
       ],
     });
-    expect(textContent).to.equal('John Smith’s Medicare plan types');
+    expect(result).to.equal('John Smith’s Medicare plan types');
   });
 
   it('should generate title with `Applicant` when no match found', () => {
-    const { textContent } = subject({
+    const result = subject({
       item: { medicareParticipant: toHash('321321321') },
       applicants: [
         {
@@ -200,12 +199,12 @@ describe('1010d `medicarePageTitleUI` util', () => {
         },
       ],
     });
-    expect(textContent).to.equal('Applicant’s Medicare plan types');
+    expect(result).to.equal('Applicant’s Medicare plan types');
   });
 
   it('should generate title with `No participant` when item is null', () => {
-    const { textContent } = subject({ item: null, applicants: [] });
-    expect(textContent).to.equal('No participant’s Medicare plan types');
+    const result = subject({ item: null, applicants: [] });
+    expect(result).to.equal('No participant’s Medicare plan types');
   });
 
   it('should include description when provided', () => {
@@ -223,5 +222,24 @@ describe('1010d `medicarePageTitleUI` util', () => {
     });
     expect(result).to.have.property('ui:title');
     expect(typeof result['ui:title']).to.equal('function');
+  });
+
+  it('should generate title with over-65 applicant name when no participant match', () => {
+    const result = subject({
+      item: { medicareParticipant: toHash('999999999') },
+      applicants: [
+        {
+          applicantSsn: '123123123',
+          applicantDob: '1950-01-01',
+          applicantName: { first: 'Elder', last: 'Applicant' },
+        },
+        {
+          applicantSsn: '321321321',
+          applicantDob: '2000-01-01',
+          applicantName: { first: 'Younger', last: 'Applicant' },
+        },
+      ],
+    });
+    expect(result).to.equal('Elder Applicant’s Medicare plan types');
   });
 });

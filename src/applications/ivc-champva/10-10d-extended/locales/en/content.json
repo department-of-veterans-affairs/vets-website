@@ -50,6 +50,7 @@
   "medicare--participant-label": "Which applicant would you like to add Medicare insurance for?",
   "medicare--participant-hint": "If you have more applicants with Medicare plans, you can add them later in this form.",
   "medicare--participant-default": "No eligible applicants",
+  "medicare--participant-none": "No participant",
   "medicare--summary-title": "Review Medicare",
   "medicare--summary-title-no-items": "Report Medicare plans",
   "medicare--yes-no-title": "Do any applicants have Medicare plans?",

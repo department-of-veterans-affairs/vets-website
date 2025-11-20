@@ -3,6 +3,10 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { toHash } from '../../shared/utilities';
 import MedicarePageTitle from '../components/FormDescriptions/MedicarePageTitle';
 import { formatFullName } from './formatting';
+import content from '../locales/en/content.json';
+
+const APPLICANT_TEXT = content['noun--applicant'];
+const NO_PARTICIPANT_TEXT = content['medicare--participant-none'];
 
 /**
  * Generate a display name for the current Medicare participant.
@@ -22,11 +26,13 @@ import { formatFullName } from './formatting';
  * @returns {string} Participant name (e.g., `"Jane Doe"`), `"Applicant"`, or `"No participant"`.
  */
 export const generateParticipantName = (item, _, { applicants = [] } = {}) => {
-  if (!item) return 'No participant';
+  if (!item) return NO_PARTICIPANT_TEXT;
   const match = applicants.find(
     a => item?.medicareParticipant === toHash(a.applicantSsn),
   );
-  return match ? formatFullName(match.applicantName) : 'Applicant';
+  return match
+    ? formatFullName(match.applicantName)
+    : APPLICANT_TEXT.charAt(0).toUpperCase() + APPLICANT_TEXT.slice(1);
 };
 
 /**

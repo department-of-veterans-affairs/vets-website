@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { memoize } from 'lodash';
 import set from 'platform/utilities/data/set';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
@@ -23,12 +22,7 @@ import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { createCardUploadSchema } from '../../shared/components/fileUploads/genericCardUpload';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
-import {
-  toHash,
-  applicantWording,
-  getAgeInYears,
-  privWrapper,
-} from '../../shared/utilities';
+import { toHash, getAgeInYears } from '../../shared/utilities';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { replaceStrValues } from '../helpers/formatting';
 import {
@@ -413,68 +407,49 @@ const medicarePartBCardUploadPage = {
   schema: medicarePartBCardSchema,
 };
 
-const medicarePartADenialPage = dataKey => {
-  const PageTitle = ({ formContext }) => {
-    const formData = useSelector(state => state.form.data);
-    const n = Number(formContext.pagePerItemIndex);
-    const itemIndex = Number.isFinite(n) && n >= 0 ? n : null;
-    if (formData?.medicare?.[itemIndex]?.medicareParticipant) {
-      return `${generateParticipantName(
-        formData?.medicare?.[itemIndex],
-      )} Medicare status`;
-    }
-    const apps = getEligibleApplicantsWithoutMedicare(formData) ?? [];
-    const item = apps.find(a => getAgeInYears(a.applicantDob) >= 65);
-    return `${applicantWording(item, false, false, false)}’s Medicare status`;
-  };
-  return {
-    uiSchema: {
-      'view:addtlInfo': { ...descriptionUI(ProofOfMedicareAlert) },
+const medicarePartADenialPage = dataKey => ({
+  uiSchema: {
+    'view:addtlInfo': { ...descriptionUI(ProofOfMedicareAlert) },
+    [`view:${dataKey}`]: {
+      ...medicarePageTitleUI('Medicare status'),
+      [dataKey]: {
+        ...yesNoUI({
+          title:
+            'Does the applicant have a notice of disallowance, denial, or other proof of ineligibility for Medicare Part A?',
+          hint: ADDITIONAL_FILES_HINT,
+        }),
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:addtlInfo': blankSchema,
       [`view:${dataKey}`]: {
-        ...arrayBuilderItemSubsequentPageTitleUI(PageTitle),
-        [dataKey]: {
-          ...yesNoUI({
-            title:
-              'Does the applicant have a notice of disallowance, denial, or other proof of ineligibility for Medicare Part A?',
-            hint: ADDITIONAL_FILES_HINT,
-          }),
+        type: 'object',
+        required: [dataKey],
+        properties: {
+          [dataKey]: yesNoSchema,
         },
       },
     },
-    schema: {
-      type: 'object',
-      properties: {
-        'view:addtlInfo': blankSchema,
-        [`view:${dataKey}`]: {
-          type: 'object',
-          required: [dataKey],
-          properties: {
-            [dataKey]: yesNoSchema,
-          },
-        },
-      },
-    },
-  };
-};
+  },
+});
 
 const medicarePartADenialProofUploadPage = dataKey => {
   const description =
     dataKey === 'medicarePartADenialProof' ? (
-      ({ formData }) => {
-        return (
-          <>
-            <p>
-              {privWrapper(generateParticipantName(formData))} is age 65 or
-              older. You selected that they don’t have Medicare Part A.
-            </p>
-            <p>
-              You’ll need to submit a copy of a letter from the Social Security
-              Administration. This confirms that they don’t qualify for Medicare
-              benefits under anyone’s Social Security number.
-            </p>
-          </>
-        );
-      }
+      <>
+        <p>
+          This applicant is age 65 or older. You selected that they don’t have
+          Medicare Part A.
+        </p>
+        <p>
+          You’ll need to submit a copy of a letter from the Social Security
+          Administration. This confirms that they don’t qualify for Medicare
+          benefits under anyone’s Social Security number.
+        </p>
+      </>
     ) : (
       <>
         <p>
