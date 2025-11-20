@@ -21,7 +21,7 @@ export const ConfirmationPage = props => {
   const { submission = {}, data = {} } = form;
   const preparerIdentification = data.preparerIdentification || {};
   const veteran = data.veteran || {};
-  const preparerFullName = preparerIdentification.preparerFullName;
+  const { preparerFullName } = preparerIdentification;
   const preparerNameDefined = preparerFullName?.first && preparerFullName?.last;
   const preparerName = preparerNameDefined
     ? preparerFullName

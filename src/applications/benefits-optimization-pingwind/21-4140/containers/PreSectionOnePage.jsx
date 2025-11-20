@@ -82,7 +82,7 @@ const PreSectionOnePage = ({
 
     // Defer until after focus settles so we can detect moves within the radio group
     setTimeout(() => {
-      const activeElement = document.activeElement;
+      const { activeElement } = document;
       if (
         activeElement === currentTarget ||
         currentTarget.contains(activeElement)
@@ -115,10 +115,10 @@ const PreSectionOnePage = ({
   return (
     <div className="schemaform-intro">
       <h1 id="main-content" className="vads-u-margin-bottom--2">
-        Let's get started!
+        Let’s get started!
       </h1>
       <p className="vads-u-margin-bottom--3">
-        We want to confirm you're in the right place.
+        We want to confirm you’re in the right place.
       </p>
       <VaRadio
         name="employment-status-verification"
@@ -159,7 +159,7 @@ const PreSectionOnePage = ({
             rel="noreferrer"
           >
             VA accredited representative or Veteran Service Organization (VSO).
-            It's free!
+            It’s free!
           </a>
           <br />
           <a

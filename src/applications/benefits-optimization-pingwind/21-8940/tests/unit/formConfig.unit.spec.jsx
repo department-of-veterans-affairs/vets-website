@@ -1,5 +1,5 @@
-import formConfig from '../../config/form';
 import { expect } from 'chai';
+import formConfig from '../../config/form';
 
 describe('21-8940 form config', () => {
   it('should have correct formId and title', () => {

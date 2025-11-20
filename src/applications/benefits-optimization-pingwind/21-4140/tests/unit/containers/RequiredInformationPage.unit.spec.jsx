@@ -5,8 +5,8 @@ import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import RequiredInformationPage from '../../../containers/RequiredInformationPage';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
+import RequiredInformationPage from '../../../containers/RequiredInformationPage';
 
 const createStore = (formData = {}, dispatch = () => {}) => ({
   getState: () => ({

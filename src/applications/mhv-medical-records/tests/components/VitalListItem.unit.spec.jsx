@@ -125,7 +125,7 @@ describe('Vital list item component for a type with no records', () => {
   });
 });
 
-describe('Vital List item for OH work', () => {
+describe('Vital List item for LH OH work', () => {
   it('should render "over time" text for all users', () => {
     const BLOOD_PRESSURE = vitals.entry[0].resource;
     const record = convertVital(BLOOD_PRESSURE);

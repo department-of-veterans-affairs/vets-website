@@ -85,7 +85,7 @@ const RequiredInformationPage = ({
 
     // Defer until after focus settles so we can detect moves within the checkbox
     setTimeout(() => {
-      const activeElement = document.activeElement;
+      const { activeElement } = document;
       if (
         activeElement === currentTarget ||
         currentTarget.contains(activeElement)

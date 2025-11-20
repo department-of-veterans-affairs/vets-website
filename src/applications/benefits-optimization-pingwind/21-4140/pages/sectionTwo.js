@@ -35,7 +35,7 @@ export const SectionTwoIntro = ({ goBack, goForward, NavButtons }) => {
         Section II: Employment Certification
       </h3>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>
-        Next we&apos;ll gather details about your current or recent employment.
+        Next we’ll gather details about your current or recent employment.
       </p>
       <VaSummaryBox
         id="employment-section-summary"

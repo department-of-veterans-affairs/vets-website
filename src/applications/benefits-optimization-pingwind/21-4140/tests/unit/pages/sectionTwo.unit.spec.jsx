@@ -510,7 +510,7 @@ describe('21-4140 page/sectionTwo', () => {
   });
 
   describe('employerDetailsPage schema', () => {
-    const employerDetails = employersPages.employerDetails;
+    const { employerDetails } = employersPages;
 
     it('requires all employer fields', () => {
       const itemSchema = employerDetails.schema.properties.employers.items;
@@ -570,7 +570,7 @@ describe('21-4140 page/sectionTwo', () => {
   });
 
   describe('employerDetailsPage UI schema', () => {
-    const employerDetails = employersPages.employerDetails;
+    const { employerDetails } = employersPages;
 
     it('provides custom error message for employer name required field', () => {
       const itemUiSchema = employerDetails.uiSchema.employers.items;
@@ -710,7 +710,7 @@ describe('21-4140 page/sectionTwo', () => {
   });
 
   describe('field ordering', () => {
-    const employerDetails = employersPages.employerDetails;
+    const { employerDetails } = employersPages;
 
     it('defines ui:order for employer details fields', () => {
       const itemUiSchema = employerDetails.uiSchema.employers.items;
@@ -727,7 +727,7 @@ describe('21-4140 page/sectionTwo', () => {
   });
 
   describe('employer address configuration', () => {
-    const employerDetails = employersPages.employerDetails;
+    const { employerDetails } = employersPages;
 
     it('omits street2, street3, and isMilitary from address', () => {
       const itemSchema = employerDetails.schema.properties.employers.items;

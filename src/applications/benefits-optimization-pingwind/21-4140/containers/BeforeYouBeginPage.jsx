@@ -65,7 +65,7 @@ const BeforeYouBeginPage = ({
         What to Expect
       </h1>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '20px' }}>
-        We'll be asking you questions about your employment status for the last
+        We’ll be asking you questions about your employment status for the last
         12 months.
       </p>
       <VaSummaryBox

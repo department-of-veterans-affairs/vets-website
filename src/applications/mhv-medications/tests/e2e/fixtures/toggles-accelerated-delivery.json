@@ -11,6 +11,14 @@
         "value": true
       },
       {
+        "name": "mhv_medications_display_refill_progress",
+        "value": true
+      },
+      {
+        "name": "mhv_medications_remove_landing_page",
+        "value": true
+      },
+      {
         "name": "mhv_medications_partial_fill_content",
         "value": true
       },
@@ -19,16 +27,12 @@
         "value": true
       },
       {
-        "name": "mhv_secure_messaging_medications_renewal_request",
+        "name": "mhv_accelerated_delivery_enabled",
         "value": true
       },
       {
-        "name": "mhv_accelerated_delivery_enabled",
-        "value": false
-      },
-      {
         "name": "mhv_accelerated_delivery_allergies_enabled",
-        "value": false
+        "value": true
       }
     ]
   }
