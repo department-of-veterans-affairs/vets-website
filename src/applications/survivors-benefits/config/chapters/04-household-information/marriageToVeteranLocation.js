@@ -9,7 +9,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('When and where you got married?'),
+    ...titleUI('When and where did you get married?'),
     marriageDate: currentOrPastDateUI({
       title: 'Date of marriage',
       monthSelect: false,

@@ -3,17 +3,16 @@ import {
   radioSchema,
   textUI,
   textSchema,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { marriageTypeOptions } from '../../../utils/labels';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Marriage to Veteran'),
     marriageType: radioUI({
       title: 'How did you get married?',
       labels: marriageTypeOptions,
+      labelHeaderLevel: 3,
     }),
     marriageTypeOther: {
       ...textUI({
