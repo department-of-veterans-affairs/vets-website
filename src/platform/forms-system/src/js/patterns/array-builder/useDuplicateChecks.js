@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
@@ -84,6 +84,14 @@ export function useDuplicateChecks({
   // When a duplicate is found, we show a modal instead of submitting immediately.
   // Store the submit function here to call it later if the user clicks "Yes, continue anyway"
   const [pendingOnSubmit, setPendingOnSubmit] = useState(null);
+
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const hasDuplicateChecks = Object.keys(duplicateChecks).length > 0;
 
@@ -228,8 +236,10 @@ export function useDuplicateChecks({
       message: 'Duplicate modal',
       attributes: { state: 'hidden', buttonUsed: 'accept' },
     });
-    setShowDuplicateModal(false);
-    setPendingOnSubmit(null);
+    if (isMountedRef.current) {
+      setShowDuplicateModal(false);
+      setPendingOnSubmit(null);
+    }
   };
 
   // If showDuplicateWarning is true, we only need showDuplicateModal to not
