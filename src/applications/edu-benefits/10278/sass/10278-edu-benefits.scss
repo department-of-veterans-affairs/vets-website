@@ -1,0 +1,23 @@
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+@media (max-width: $small-screen) {
+  .form-22-10278-container {
+    padding-inline: 0.5rem;
+  }
+
+  .form-22-10278-container .schemaform-buttons,
+  .form-22-10278-container .form-progress-buttons {
+    display: flex;
+    flex-direction: column !important;
+
+    div {
+      width: 100%;
+    }
+
+    div:first-of-type {
+      order: 2;
+    }
+  }
+}

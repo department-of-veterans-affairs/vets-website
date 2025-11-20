@@ -13,7 +13,7 @@ export default {
       'Did the beneficiary have any other outstanding debts?',
     ),
     otherDebtsDescription: {
-      ...textareaUI('Please describe the other debts'),
+      ...textareaUI('Please describe the other debts.'),
       'ui:options': {
         expandUnder: 'hasOtherDebts',
         expandUnderCondition: true,
