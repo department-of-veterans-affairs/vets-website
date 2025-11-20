@@ -153,6 +153,7 @@ const UnifiedLabsAndTests = props => {
                     href="https://patientportal.myhealth.va.gov/pages/health_record/imaging?authenticated=true"
                     data-testid="radiology-oracle-health-link"
                     text="Go to My VA Health"
+                    data-dd-action-name={RADIOLOGY_DETAILS_MYHEALTH_VA_GOV_LINK}
                     onClick={() => {
                       sendDataDogAction(RADIOLOGY_DETAILS_MYHEALTH_VA_GOV_LINK);
                     }}

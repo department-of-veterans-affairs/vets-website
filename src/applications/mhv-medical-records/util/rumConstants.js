@@ -3,5 +3,4 @@ export const SPINNER_DURATION = 'spinner_duration';
 
 // Rum action names
 
-export const RADIOLOGY_DETAILS_MYHEALTH_VA_GOV_LINK =
-  'click_radiology_details_myhealth_va_gov_link';
+export const RADIOLOGY_DETAILS_MYHEALTH_VA_GOV_LINK = 'Go to My VA Health Link';
