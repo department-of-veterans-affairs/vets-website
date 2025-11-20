@@ -70,10 +70,6 @@ export default function ClinicChoicePage() {
   useEffect(
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
-      recordEvent({
-        event: `${GA_PREFIX}-clinic-choice-count`,
-        'clinic-count': schema.properties.clinicId.enum.length - 1,
-      });
       dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
     },
     [dispatch],
@@ -81,6 +77,12 @@ export default function ClinicChoicePage() {
 
   useEffect(
     () => {
+      if (Number.isInteger(schema.properties.clinicId.enum.length)) {
+        recordEvent({
+          event: `${GA_PREFIX}-clinic-choice-count`,
+          'clinic-count': schema.properties.clinicId.enum.length - 1,
+        });
+      }
       if (schema.properties.clinicId.enum.length > 2) {
         focusFormHeader();
       } else {

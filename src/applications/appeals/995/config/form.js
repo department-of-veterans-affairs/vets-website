@@ -60,7 +60,7 @@ import {
   hasHousingRisk,
   hasOtherHousingRisk,
 } from '../utils/form-data-retrieval';
-import { onFormLoaded } from '../utils/evidence';
+import { onFormLoaded } from '../utils';
 import { hasHomeAndMobilePhone } from '../../shared/utils/contactInfo';
 import manifest from '../manifest.json';
 import {

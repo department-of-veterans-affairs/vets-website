@@ -1,18 +1,28 @@
 /**
  * @module regex-patterns
  * @description Centralized regular expression patterns for bio-aquia/shared validation.
- * These patterns are used across various schemas and components for consistent validation.
+ * @deprecated Prefer using validators module which provides platform and custom validation functions.
+ * This module re-exports from validators for backward compatibility.
+ *
+ * MIGRATION NOTE: New code should import from '@bio-aquia/shared/utils/validators'
+ * to use validation functions directly.
  */
+
+import {
+  MILITARY_ZIP_PATTERNS,
+  VALIDATION_MESSAGES as PLATFORM_MESSAGES,
+} from '../../utils/validators';
 
 /**
  * Name validation patterns
+ * Platform equivalent: isValidName() in platform/forms/validations.js
  */
 export const NAME_PATTERNS = {
   /** Standard name - letters, spaces, hyphens, apostrophes */
   STANDARD: /^[a-zA-Z\s'-]+$/,
   /** Optional name field - same as standard but allows empty */
   OPTIONAL: /^[a-zA-Z\s'-]*$/,
-  /** Name with first letter requirement */
+  /** Name with first letter requirement - matches platform's isValidName */
   WITH_FIRST_LETTER: /^[a-zA-Z][a-zA-Z\s'-]*$/,
   /** Alias for WITH_FIRST_LETTER for backward compatibility */
   STANDARD_NAME: /^[a-zA-Z][a-zA-Z\s'-]*$/,
@@ -24,6 +34,7 @@ export const NAME_PATTERNS = {
 
 /**
  * Date and time patterns
+ * Platform equivalent: isFullDate() in platform/forms/validations.js
  */
 export const DATE_PATTERNS = {
   /** ISO date format YYYY-MM-DD */
@@ -34,6 +45,9 @@ export const DATE_PATTERNS = {
 
 /**
  * Identification number patterns
+ * Platform equivalents:
+ * - isValidSSN() in platform/forms/validations.js
+ * - isValidVAFileNumber() in platform/forms-system/src/js/utilities/validations/index.js
  */
 export const ID_PATTERNS = {
   /** Social Security Number - 9 digits */
@@ -44,6 +58,10 @@ export const ID_PATTERNS = {
 
 /**
  * Contact information patterns
+ * Platform equivalents:
+ * - isValidPhone() in platform/forms/validations.js
+ * - isValidEmail() in platform/forms/validations.js
+ * - isValidUSZipCode() in platform/forms/address/index.js
  */
 export const CONTACT_PATTERNS = {
   /** US phone number - 10 digits */
@@ -68,6 +86,10 @@ export const CHAR_PATTERNS = {
 
 /**
  * Postal code patterns by country
+ * Platform equivalents:
+ * - isValidUSZipCode() in platform/forms/address/index.js
+ * - isValidCanPostalCode() in platform/forms/address/index.js
+ * - isValidMexicoPostalCode() in validators (custom implementation)
  */
 export const POSTAL_PATTERNS = {
   /** USA - 5 digits or 5+4 format */
@@ -80,44 +102,12 @@ export const POSTAL_PATTERNS = {
 
 /**
  * Military postal code patterns
+ * Re-exported from validators
  */
-export const MILITARY_POSTAL_PATTERNS = {
-  /** Armed Forces Americas */
-  AA: /^340\d{2}$/,
-  /** Armed Forces Europe */
-  AE: /^09\d{3}$/,
-  /** Armed Forces Pacific */
-  AP: /^96[2-6]\d{2}$/,
-};
+export const MILITARY_POSTAL_PATTERNS = MILITARY_ZIP_PATTERNS;
 
 /**
  * Common validation messages
+ * Re-exported from validators
  */
-export const VALIDATION_MESSAGES = {
-  // Name messages
-  NAME_INVALID: 'Must contain only letters, spaces, hyphens, and apostrophes',
-  NAME_INVALID_FIRST: 'Contains invalid characters',
-  NAME_INVALID_MIDDLE: 'Middle name contains invalid characters',
-  NAME_INVALID_LAST: 'Last name contains invalid characters',
-
-  // Date messages
-  DATE_FORMAT: 'Date must be in YYYY-MM-DD format',
-
-  // ID messages
-  SSN_FORMAT: 'SSN must be 9 digits',
-  VA_FILE_FORMAT: 'VA file number must be 8 or 9 digits',
-
-  // Contact messages
-  PHONE_FORMAT: 'Phone number must be 10 digits',
-  EMAIL_FORMAT: 'Please enter a valid email address',
-
-  // Postal messages
-  ZIP_USA: 'ZIP code must be in format 12345 or 12345-6789',
-  POSTAL_CANADA: 'Postal code must be in format A1A 1A1',
-  POSTAL_MEXICO: 'Postal code must be 5 digits',
-
-  // Military postal messages
-  ZIP_MILITARY_AA: 'ZIP code must start with 340',
-  ZIP_MILITARY_AE: 'ZIP code must start with 09',
-  ZIP_MILITARY_AP: 'ZIP code must start with 962-966',
-};
+export const VALIDATION_MESSAGES = PLATFORM_MESSAGES;
