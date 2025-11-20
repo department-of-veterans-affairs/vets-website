@@ -146,8 +146,8 @@ const testConfig = createTestConfig(
               metadata: {
                 version: 1,
                 returnUrl: '/review-and-submit',
-                savedAt: Date.now(),
-                lastUpdated: Date.now(),
+                savedAt: 1763655532017,
+                lastUpdated: 1763655532017,
                 expiresAt: 99999999999,
               },
             },
