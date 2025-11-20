@@ -299,9 +299,9 @@
     },
     {
       "directoryPath": "src/applications/edu-benefits/10278",
-      "appName": "Authorize VA to disclose personal information to a third party",
+      "appName": "Authorize VA to Disclose Personal Information to a Third Party for Education Benefits",
       "entryName": "10278-edu-benefits",
-      "rootUrl": "/education/10278"
+      "rootUrl": "/education/disclose-information-to-third-party/authorize-disclosure-form-22-10278"
     },
     {
       "directoryPath": "src/applications/edu-benefits/10282",
