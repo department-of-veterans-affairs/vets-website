@@ -118,7 +118,7 @@ const WebChat = ({ code, webChatFramework }) => {
       <Composer
         cardActionMiddleware={cardActionMiddleware}
         activityMiddleware={activityMiddleware}
-        activityStatusMiddleware={activityStatusMiddleware}
+        {...(isAIDisclaimerEnabled ? { activityStatusMiddleware } : {})}
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}
