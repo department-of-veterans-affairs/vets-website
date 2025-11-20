@@ -22,7 +22,7 @@ const doNotRedirectUrl = [
 const redirectToUnauthorizedAndReturn = () => {
   const inAppPath = window.location.pathname.startsWith(manifest.rootUrl);
   if (inAppPath) {
-    window.location.replace(`${manifest.rootUrl}/dashboard?unauthorized=1`);
+    window.location.replace(`${manifest.rootUrl}/dashboard?unauthorized`);
     // Keep loaders pending until navigation completes to avoid UI flash
     return new Promise(() => {});
   }
