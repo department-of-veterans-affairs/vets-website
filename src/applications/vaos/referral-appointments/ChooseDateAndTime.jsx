@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Redirect } from 'react-router-dom';
 import ReferralLayout from './components/ReferralLayout';
 // eslint-disable-next-line import/no-restricted-paths
 import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/selectors';
@@ -43,7 +43,10 @@ export const ChooseDateAndTime = () => {
     },
     {
       skip:
-        !currentReferral?.referralNumber || !currentReferral?.referralConsultId,
+        !currentReferral?.referralNumber ||
+        !currentReferral?.referralConsultId ||
+        isReferralLoading ||
+        referral?.attributes?.hasAppointments,
     },
   );
 
@@ -51,38 +54,22 @@ export const ChooseDateAndTime = () => {
     state => getUpcomingAppointmentListInfo(state),
     shallowEqual,
   );
-  const [loading, setLoading] = useState(true);
-  const [failed, setFailed] = useState(false);
+
+  // Need future appointments to check for conflicts when selecting a date and time
   useEffect(
     () => {
-      if (draftAppointmentInfo?.attributes) {
-        if (futureStatus === FETCH_STATUS.notStarted) {
-          dispatch(fetchFutureAppointments({ includeRequests: false }));
-        }
-        if (futureStatus === FETCH_STATUS.succeeded) {
-          setLoading(false);
-        }
-      } else if (
-        isDraftUninitialized ||
+      // Fetch future appointments once referral is loaded and draft query starts
+      if (
+        !isReferralLoading &&
+        !isDraftUninitialized &&
         futureStatus === FETCH_STATUS.notStarted
       ) {
-        if (futureStatus === FETCH_STATUS.notStarted) {
-          dispatch(fetchFutureAppointments({ includeRequests: false }));
-        }
-      } else if (isDraftError || futureStatus === FETCH_STATUS.failed) {
-        setLoading(false);
-        setFailed(true);
+        dispatch(fetchFutureAppointments({ includeRequests: false }));
       }
     },
-    [
-      dispatch,
-      draftAppointmentInfo,
-      futureStatus,
-      isDraftError,
-      isDraftSuccess,
-      isDraftUninitialized,
-    ],
+    [dispatch, isReferralLoading, isDraftUninitialized, futureStatus],
   );
+
   useEffect(
     () => {
       dispatch(setFormCurrentPage('scheduleAppointment'));
@@ -90,7 +77,24 @@ export const ChooseDateAndTime = () => {
     [location, dispatch],
   );
 
-  if (loading || isDraftLoading || isReferralLoading) {
+  const isLoading =
+    isReferralLoading ||
+    isDraftLoading ||
+    (isDraftSuccess &&
+      futureStatus !== FETCH_STATUS.succeeded &&
+      futureStatus !== FETCH_STATUS.failed);
+
+  const hasFailed =
+    isDraftError ||
+    futureStatus === FETCH_STATUS.failed ||
+    referralError ||
+    !currentReferral;
+
+  if (referral?.attributes?.hasAppointments) {
+    return <Redirect to="/referrals-requests" />;
+  }
+
+  if (isLoading) {
     return (
       <ReferralLayout
         data-testid="loading"
@@ -104,7 +108,7 @@ export const ChooseDateAndTime = () => {
   return (
     <ReferralLayout
       hasEyebrow
-      apiFailure={failed || referralError || !currentReferral}
+      apiFailure={hasFailed}
       heading="Schedule an appointment with your provider"
     >
       <DateAndTimeContent

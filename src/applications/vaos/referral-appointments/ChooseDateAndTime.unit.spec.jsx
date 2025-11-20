@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import {
   renderWithStoreAndRouter,
   createTestStore,
@@ -9,98 +8,19 @@ import {
 import ChooseDateAndTime from './ChooseDateAndTime';
 import { createReferralById } from './utils/referrals';
 import { createDraftAppointmentInfo } from './utils/provider';
-import confirmedV2 from '../services/mocks/v2/confirmed.json';
 import * as fetchAppointmentsModule from '../services/appointment';
-import * as flow from './flow';
 import { FETCH_STATUS } from '../utils/constants';
 import * as utils from '../services/utils';
 
 describe('VAOS ChooseDateAndTime component', () => {
   const sandbox = sinon.createSandbox();
-  const confirmed = [
-    {
-      minutesDuration: 30,
-      version: 2,
-      description: 'VAOS_UNKNOWN',
-      id: '00C893va',
-      resourceType: 'Appointment',
-      start: '2023-12-21T09:00:00-08:00',
-      status: 'cancelled',
-      location: {
-        clinicId: '437',
-        stationId: '983',
-        vistaId: '983',
-        clinicName: null,
-        clinicPhone: null,
-        clinicPhoneExtension: null,
-        clinicPhysicalLocation: null,
-      },
-      practitioners: [],
-      vaos: {
-        appointmentType: 'vaAppointment',
-        apiData: {
-          minutesDuration: 30,
-          priority: 0,
-          clinic: '437',
-          comment: 'Follow-up/Routine: I have a headache',
-          description: 'Upcoming COVID-19 appointment',
-          end: '2023-12-21T18:19:34',
-          id: '00C893va',
-          kind: 'clinic',
-          localStartTime: '2023-12-21T09:00:00.000-06:00',
-          locationId: '983',
-          serviceType: 'covid',
-          start: '2023-12-21T18:19:34',
-          status: 'cancelled',
-          contact: {
-            telecom: [
-              {
-                type: 'email',
-                value: null,
-              },
-            ],
-          },
-          practitioners: [],
-          preferredTimesForPhoneCall: [],
-          reasonCode: {
-            text: 'Follow-up/Routine: Covid shot',
-          },
-          cancelationReason: null,
-          cancellable: false,
-          patientIcn: null,
-          requestedPeriods: null,
-          slot: null,
-          telehealth: null,
-        },
-        isCancellable: false,
-        isCommunityCare: false,
-        isCompAndPenAppointment: false,
-        isCOVIDVaccine: true,
-        isExpressCare: false,
-        isPastAppointment: true,
-        isPendingAppointment: false,
-        isPhoneAppointment: false,
-        isUpcomingAppointment: false,
-        isVideo: false,
-      },
-      videoData: {
-        isVideo: false,
-      },
-      cancelationReason: null,
-      communityCareProvider: null,
-      preferredProviderName: null,
-    },
-  ];
   const referral = createReferralById('2024-09-09', 'UUID');
   const initialFullState = {
     featureToggles: {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
-    referral: {
-      draftAppointmentInfo: createDraftAppointmentInfo(1),
-    },
     appointments: {
-      confirmed,
+      confirmed: [],
       confirmedStatus: FETCH_STATUS.succeeded,
     },
     appointmentApi: {
@@ -122,65 +42,29 @@ describe('VAOS ChooseDateAndTime component', () => {
           fulfilledTimeStamp: 1758046349182,
         },
       },
-      subscriptions: {
-        'getReferralById("UUID")': {
-          'abc-referral': { pollingInterval: 0 },
-        },
-        'getDraftReferralAppointment({"referralConsultId":"984_646907","referralNumber":"VA0000007241"})': {
-          abc: { pollingInterval: 0 },
-        },
-      },
     },
   };
   const initialEmptyState = {
     featureToggles: {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
-    referral: {
-      draftAppointmentInfo: {},
-      draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
-    },
     appointments: {
-      confirmed,
       confirmedStatus: FETCH_STATUS.notStarted,
     },
   };
-  const failedState = {
-    featureToggles: {
-      vaOnlineSchedulingCCDirectScheduling: true,
-    },
-    appointmentApi: {
-      mutations: {
-        postDraftReferralAppointmentCache: {
-          status: 'uninitialized',
-          data: null,
-        },
-      },
-    },
-    appointments: {
-      confirmed,
-      confirmedStatus: FETCH_STATUS.succeeded,
-    },
-  };
-  beforeEach(() => {
-    global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
 
+  beforeEach(() => {
     sandbox
       .stub(fetchAppointmentsModule, 'fetchAppointments')
-      .resolves(confirmedV2);
-    sandbox
-      .stub(flow, 'getReferralUrlLabel')
-      .returns('Schedule an appointment with your provider');
+      .resolves({ data: [] });
   });
   afterEach(() => {
     sandbox.restore();
   });
-  it('should fetch provider or appointments from store if it exists and not call API', async () => {
+  it('should fetch data from store if it exists and not call API', () => {
     const store = createTestStore(initialFullState);
 
-    sandbox
-      .stub(utils, 'apiRequestWithUrl')
-      .resolves({ data: createDraftAppointmentInfo() });
+    sandbox.stub(utils, 'apiRequestWithUrl').resolves({});
     renderWithStoreAndRouter(<ChooseDateAndTime />, {
       store,
       path: '/?id=UUID',
@@ -188,7 +72,7 @@ describe('VAOS ChooseDateAndTime component', () => {
     sandbox.assert.notCalled(utils.apiRequestWithUrl);
     sandbox.assert.notCalled(fetchAppointmentsModule.fetchAppointments);
   });
-  it('should call API for provider or appointment data if not in store', async () => {
+  it('should show loading state while draft appointment is being fetched', () => {
     const referralForEmptyState = createReferralById('2024-09-09', 'UUID');
     const stateWithReferralOnly = {
       ...initialEmptyState,
@@ -218,59 +102,263 @@ describe('VAOS ChooseDateAndTime component', () => {
       store: createTestStore(stateWithReferralOnly),
       path: '/?id=UUID',
     });
-    await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loading-container'),
-    );
-    sandbox.assert.calledWith(
-      utils.apiRequestWithUrl,
-      '/vaos/v2/appointments/draft',
-      {
-        body: JSON.stringify({
-          /* eslint-disable camelcase */
-          referral_number: 'VA0000007241',
-          referral_consult_id: '984_646907',
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      },
-    );
-    sandbox.assert.calledOnce(fetchAppointmentsModule.fetchAppointments);
+
+    // Should show loading indicator while draft is being fetched
+    expect(screen.getByTestId('loading-container')).to.exist;
+    expect(screen.getByTestId('loading')).to.exist;
   });
-  it('should show error if any fetch fails', async () => {
-    const referralForFailedState = createReferralById('2024-09-09', 'UUID');
-    const stateWithReferralAndError = {
-      ...failedState,
+
+  it('should redirect when referral has appointments', () => {
+    const referralWithAppointments = {
+      ...referral,
+      attributes: {
+        ...referral.attributes,
+        hasAppointments: true,
+      },
+    };
+    const stateWithAppointments = {
+      ...initialFullState,
       appointmentApi: {
-        ...failedState.appointmentApi,
         queries: {
           'getReferralById("UUID")': {
             status: 'fulfilled',
-            data: referralForFailedState,
+            data: referralWithAppointments,
             endpoint: 'getReferralById',
             requestId: 'abc-referral',
             startedTimeStamp: 1758046349180,
             fulfilledTimeStamp: 1758046349181,
           },
         },
-        subscriptions: {
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
+      store: createTestStore(stateWithAppointments),
+      path: '/?id=UUID',
+    });
+
+    // Should redirect and not render anything else
+    expect(screen.queryByTestId('loading-container')).to.not.exist;
+    expect(screen.queryByTestId('error')).to.not.exist;
+  });
+
+  it('should render DateAndTimeContent when all data loads successfully', () => {
+    const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
+      store: createTestStore(initialFullState),
+      path: '/?id=UUID',
+    });
+
+    // Should not show loading or error
+    expect(screen.queryByTestId('loading-container')).to.not.exist;
+    expect(screen.queryByTestId('error')).to.not.exist;
+
+    // Should render the date and time content
+    expect(screen.getByText(/schedule an appointment with your provider/i)).to
+      .exist;
+  });
+
+  it('should show error when draft fetch fails', () => {
+    const stateWithDraftError = {
+      ...initialFullState,
+      appointmentApi: {
+        queries: {
           'getReferralById("UUID")': {
-            'abc-referral': { pollingInterval: 0 },
+            status: 'fulfilled',
+            data: referral,
+            endpoint: 'getReferralById',
+            requestId: 'abc-referral',
+            startedTimeStamp: 1758046349180,
+            fulfilledTimeStamp: 1758046349181,
+          },
+          'getDraftReferralAppointment({"referralConsultId":"984_646907","referralNumber":"VA0000007241"})': {
+            status: 'rejected',
+            error: { status: 500, message: 'Failed to fetch draft' },
+            endpoint: 'getDraftReferralAppointment',
+            requestId: 'abc',
+            startedTimeStamp: 1758046349181,
+            fulfilledTimeStamp: 1758046349182,
           },
         },
       },
     };
 
-    sandbox.stub(utils, 'apiRequestWithUrl').throws({
-      error: { status: 500, message: 'Failed to create appointment' },
-    });
     const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
-      store: createTestStore(stateWithReferralAndError),
+      store: createTestStore(stateWithDraftError),
       path: '/?id=UUID',
     });
-    await waitFor(() => {
-      expect(screen.getByTestId('error')).to.exist;
+
+    expect(screen.getByTestId('error')).to.exist;
+  });
+
+  it('should show error when future appointments fetch fails', () => {
+    const stateWithFutureAppointmentsError = {
+      ...initialFullState,
+      appointments: {
+        confirmed: [],
+        confirmedStatus: FETCH_STATUS.failed,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
+      store: createTestStore(stateWithFutureAppointmentsError),
+      path: '/?id=UUID',
     });
+
+    expect(screen.getByTestId('error')).to.exist;
+  });
+
+  it('should show error when referral has error', () => {
+    const stateWithReferralError = {
+      ...initialFullState,
+      appointmentApi: {
+        queries: {
+          'getReferralById("UUID")': {
+            status: 'rejected',
+            error: { status: 404, message: 'Referral not found' },
+            endpoint: 'getReferralById',
+            requestId: 'abc-referral',
+            startedTimeStamp: 1758046349180,
+            fulfilledTimeStamp: 1758046349181,
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
+      store: createTestStore(stateWithReferralError),
+      path: '/?id=UUID',
+    });
+
+    expect(screen.getByTestId('error')).to.exist;
+  });
+
+  it('should show loading when referral is loading', () => {
+    const stateWithReferralLoading = {
+      ...initialEmptyState,
+      appointmentApi: {
+        queries: {
+          'getReferralById("UUID")': {
+            status: 'pending',
+            endpoint: 'getReferralById',
+            requestId: 'abc-referral',
+            startedTimeStamp: 1758046349180,
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
+      store: createTestStore(stateWithReferralLoading),
+      path: '/?id=UUID',
+    });
+
+    expect(screen.getByTestId('loading-container')).to.exist;
+    expect(screen.getByTestId('loading')).to.exist;
+  });
+
+  it('should show loading when draft succeeds but future appointments pending', () => {
+    const stateWithFutureAppointmentsPending = {
+      ...initialFullState,
+      appointments: {
+        confirmed: [],
+        confirmedStatus: FETCH_STATUS.loading,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<ChooseDateAndTime />, {
+      store: createTestStore(stateWithFutureAppointmentsPending),
+      path: '/?id=UUID',
+    });
+
+    expect(screen.getByTestId('loading-container')).to.exist;
+  });
+
+  it('should dispatch fetchFutureAppointments when conditions are met', () => {
+    const stateWithDraftSuccess = {
+      ...initialFullState,
+      appointments: {
+        confirmedStatus: FETCH_STATUS.notStarted,
+      },
+    };
+
+    renderWithStoreAndRouter(<ChooseDateAndTime />, {
+      store: createTestStore(stateWithDraftSuccess),
+      path: '/?id=UUID',
+    });
+
+    sandbox.assert.calledOnce(fetchAppointmentsModule.fetchAppointments);
+  });
+
+  it('should dispatch fetchFutureAppointments in parallel while draft is loading', () => {
+    const stateWithDraftPending = {
+      ...initialFullState,
+      appointmentApi: {
+        queries: {
+          'getReferralById("UUID")': {
+            status: 'fulfilled',
+            data: referral,
+            endpoint: 'getReferralById',
+            requestId: 'abc-referral',
+            startedTimeStamp: 1758046349180,
+            fulfilledTimeStamp: 1758046349181,
+          },
+          'getDraftReferralAppointment({"referralConsultId":"984_646907","referralNumber":"VA0000007241"})': {
+            status: 'pending',
+            endpoint: 'getDraftReferralAppointment',
+            requestId: 'abc',
+            startedTimeStamp: 1758046349181,
+          },
+        },
+      },
+      appointments: {
+        confirmedStatus: FETCH_STATUS.notStarted,
+      },
+    };
+
+    renderWithStoreAndRouter(<ChooseDateAndTime />, {
+      store: createTestStore(stateWithDraftPending),
+      path: '/?id=UUID',
+    });
+
+    // Should dispatch future appointments even while draft is still pending
+    sandbox.assert.calledOnce(fetchAppointmentsModule.fetchAppointments);
+  });
+
+  it('should skip draft query when referral has appointments', () => {
+    const referralWithAppointments = {
+      ...referral,
+      attributes: {
+        ...referral.attributes,
+        hasAppointments: true,
+      },
+    };
+    const stateWithAppointments = {
+      ...initialEmptyState,
+      appointmentApi: {
+        queries: {
+          'getReferralById("UUID")': {
+            status: 'fulfilled',
+            data: referralWithAppointments,
+            endpoint: 'getReferralById',
+            requestId: 'abc-referral',
+            startedTimeStamp: 1758046349180,
+            fulfilledTimeStamp: 1758046349181,
+          },
+        },
+      },
+    };
+
+    const apiStub = sandbox.stub(utils, 'apiRequestWithUrl').resolves({});
+
+    renderWithStoreAndRouter(<ChooseDateAndTime />, {
+      store: createTestStore(stateWithAppointments),
+      path: '/?id=UUID',
+    });
+
+    // Draft query should be skipped, so draft API endpoint should not be called
+    const draftCalls = apiStub
+      .getCalls()
+      .filter(call => call.args[0].includes('/appointments/draft'));
+    expect(draftCalls.length).to.equal(0);
   });
 });
