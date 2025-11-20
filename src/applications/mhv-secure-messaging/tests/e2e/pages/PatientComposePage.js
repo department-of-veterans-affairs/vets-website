@@ -429,6 +429,12 @@ class PatientComposePage {
       .should('contain', mockRecipients.data[0].attributes.name);
   };
 
+  verifyRecipientNameTitle = expectedName => {
+    cy.findByTestId(
+      Locators.FIELDS.MESSAGE_RECIPIENT_TITLE_DATA_TEST_ID,
+    ).should('contain.text', expectedName);
+  };
+
   verifyClickableURLinMessageBody = url => {
     const { signatureName, signatureTitle } = mockSignature.data.attributes;
     cy.get(Locators.FIELDS.MESSAGE_BODY).should(

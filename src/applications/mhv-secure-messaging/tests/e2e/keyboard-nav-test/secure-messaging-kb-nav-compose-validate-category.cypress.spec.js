@@ -13,8 +13,12 @@ describe('Validate the category', () => {
     PatientInterstitialPage.getContinueButton().click();
     GeneralFunctionsPage.verifyHeaderFocused();
 
-    cy.tabToElement('[data-testid="compose-message-categories"]');
-    cy.get('[data-testid="compose-message-categories"]').should('be.focused');
+    cy.tabToElement(
+      `[data-testid="${Locators.FIELDS.MESSAGE_CATEGORY_DATA_TEST_ID}"]`,
+    );
+    cy.findByTestId(Locators.FIELDS.MESSAGE_CATEGORY_DATA_TEST_ID).should(
+      'be.focused',
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
