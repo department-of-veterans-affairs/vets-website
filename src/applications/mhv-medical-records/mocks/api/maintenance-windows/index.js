@@ -1,7 +1,7 @@
 const {
   currentDateFnsMinusMinutes,
-  currentDateFnsAddMinutes,
   currentDateFnsAddHours,
+  currentDateFnsAddOneHourMinusOneMinute,
 } = require('../../../util/dateHelpers');
 
 const SERVICES = {
@@ -10,7 +10,7 @@ const SERVICES = {
 };
 
 const beforeNow = currentDateFnsMinusMinutes(1);
-const withinHour = currentDateFnsAddMinutes(1);
+const withinHour = currentDateFnsAddOneHourMinusOneMinute(1);
 const endTime = currentDateFnsAddHours(6);
 
 const createDowntimeNotificationBase = (services, startTime) => {

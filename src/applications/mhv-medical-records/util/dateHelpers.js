@@ -42,6 +42,15 @@ export const currentDateFnsAddHours = hours => {
 
 /**
  *
+ * @returns {String}
+ */
+export const currentDateFnsAddOneHourMinusOneMinute = () => {
+  const newDate = subMinutes(addHours(new Date(), 1), 1);
+  return formatUtcTime(newDate);
+};
+
+/**
+ *
  * @param hours
  * @returns {String}
  */
