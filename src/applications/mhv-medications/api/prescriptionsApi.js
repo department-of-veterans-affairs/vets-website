@@ -234,26 +234,57 @@ export const prescriptionsApi = createApi({
         const state = getState();
         const apiBasePath = getApiBasePath(state);
         const method = getRefillMethod(state);
-        const idParams = ids.map(id => `ids[]=${id}`).join('&');
+        const isOracleHealthPilot = selectCernerPilotFlag(state);
 
-        try {
-          const result = await apiRequest(
-            `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`,
-            {
-              method,
-              headers: {
-                'Content-Type': 'application/json',
+        if (isOracleHealthPilot) {
+          try {
+            const result = await apiRequest(
+              `${apiBasePath}/prescriptions/refill_prescriptions`,
+              {
+                method,
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(ids),
               },
-            },
-          );
-          return { data: result };
-        } catch ({ errors }) {
-          return {
-            error: {
-              status: errors?.[0]?.status || 500,
-              message: errors?.[0]?.title || 'Failed to refill prescriptions',
-            },
-          };
+            );
+            return {
+              data: {
+                ...result,
+                successfulIds: result.prescriptionList || [],
+                failedIds: result.failedPrescriptionIds || [],
+              },
+            };
+          } catch ({ errors }) {
+            return {
+              error: {
+                status: errors?.[0]?.status || 500,
+                message: errors?.[0]?.title || 'Failed to refill prescriptions',
+              },
+            };
+          }
+        } else {
+          const idParams = ids.map(id => `ids[]=${id}`).join('&');
+
+          try {
+            const result = await apiRequest(
+              `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`,
+              {
+                method,
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              },
+            );
+            return { data: result };
+          } catch ({ errors }) {
+            return {
+              error: {
+                status: errors?.[0]?.status || 500,
+                message: errors?.[0]?.title || 'Failed to refill prescriptions',
+              },
+            };
+          }
         }
       },
       invalidatesTags: ['Prescription'],
