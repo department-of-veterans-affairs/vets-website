@@ -6,7 +6,11 @@ import { Link } from 'react-router-dom-v5-compat';
 
 import { deleteExpense, deleteDocument } from '../../../redux/actions';
 import { selectIsExpenseDeleting } from '../../../redux/selectors';
-import { EXPENSE_TYPES, TRIP_TYPES } from '../../../constants';
+import {
+  EXPENSE_TYPES,
+  TRIP_TYPES,
+  EXPENSE_TYPE_KEYS,
+} from '../../../constants';
 import { formatDate } from '../../../util/dates';
 import { currency } from '../../../util/string-helpers';
 import ExpenseCardDetails from './ExpenseCardDetails';
@@ -20,13 +24,11 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
   const isDeleting = useSelector(state =>
     selectIsExpenseDeleting(state, expenseId),
   );
+  const isMileage = expenseType === EXPENSE_TYPE_KEYS.MILEAGE;
 
-  const header =
-    expense.expenseType === 'Mileage'
-      ? 'Mileage expense'
-      : `${formatDate(expense.dateIncurred)}, ${currency(
-          expense.costRequested,
-        )}`;
+  const header = isMileage
+    ? 'Mileage expense'
+    : `${formatDate(expense.dateIncurred)}, ${currency(expense.costRequested)}`;
 
   const handleDeleteExpenseAndDocument = async () => {
     setShowDeleteModal(false);
@@ -51,7 +53,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
           </div>
         ) : (
           <>
-            {expenseType === 'Mileage' && (
+            {isMileage && (
               <ExpenseCardDetails
                 items={[
                   {
@@ -76,7 +78,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                 ]}
               />
             )}
-            {expenseType !== 'Mileage' && (
+            {!isMileage && (
               <ExpenseCardDetails
                 items={[
                   {
