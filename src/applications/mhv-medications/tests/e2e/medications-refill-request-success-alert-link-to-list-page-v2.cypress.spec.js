@@ -3,15 +3,22 @@ import MedicationsRefillPage from './pages/MedicationsRefillPage';
 import prescription from './fixtures/active-prescriptions-with-refills.json';
 import prescriptions from './fixtures/listOfPrescriptions.json';
 import successRequest from './fixtures/refill-success.json';
+import mockToggles from './fixtures/toggles-response.json';
 
 describe('Medications Refill Success Alert Message Link (v2)', () => {
   beforeEach(() => {
     const site = new MedicationsSite();
     // Mock feature flag for v2 endpoint
+    const baseFeatures = mockToggles.data.features.filter(
+      f => f.name !== 'mhv_medications_cerner_pilot',
+    );
     const mockTogglesV2 = {
       data: {
         type: 'feature_toggles',
-        features: [{ name: 'mhv_medications_cerner_pilot', value: true }],
+        features: [
+          ...baseFeatures,
+          { name: 'mhv_medications_cerner_pilot', value: true },
+        ],
       },
     };
 
