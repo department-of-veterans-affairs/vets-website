@@ -49,6 +49,9 @@ jobs:
       workflow_enabled_content_build: ${{ steps.check-status.outputs.workflow_enabled_content_build }}
       reenabled: ${{ steps.enable-workflows.outputs.reenabled }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
       - name: Get bot token from Parameter Store (bypass)
         if: ${{ github.event.inputs.bypass_freeze == 'true' }}
         uses: ./.github/workflows/inject-secrets
@@ -235,8 +238,23 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+  holiday-decision-gate:
+    name: Holiday Decision Gate
+    runs-on: ubuntu-latest
+    needs: [holiday-checker, cancel-run-if-holiday, main-deployment]
+    if: always() && !cancelled()
+    steps:
+      - name: Check if deployment should proceed
+        run: |
+          if [[ "${{ needs.holiday-checker.outputs.is_holiday }}" == "true" && "${{ github.event.inputs.bypass_freeze }}" != "true" ]]; then
+            echo "Deployment blocked: Today is a holiday and bypass is not enabled"
+            exit 1
+          fi
+          echo "Deployment approved: Proceeding with deployment"
+
   get-workflow-environment:
     runs-on: ubuntu-latest
+    needs: holiday-decision-gate
     outputs:
       environment_name: ${{ steps.check-environment.outputs.env_name }}
     steps:
@@ -251,6 +269,7 @@ jobs:
   set-env:
     name: Set Env Variables
     runs-on: ubuntu-latest
+    needs: holiday-decision-gate
     outputs:
       LATEST_TAG_VERSION: ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}
       RELEASE_WAIT: ${{ env.RELEASE_WAIT }}
