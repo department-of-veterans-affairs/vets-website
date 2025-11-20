@@ -25,7 +25,10 @@ const Confirmation = () => {
         icon-name="phone"
         class="vass-card-container"
       >
-        <h2 data-testid="appointment-type" className="vass-card-title">
+        <h2
+          data-testid="appointment-type"
+          className="vads-u-margin-top--0 vads-u-font-size--sans-lg"
+        >
           Phone appointment
         </h2>
         <CardSection
