@@ -374,7 +374,7 @@ export function uploadFile(
             );
           }
         } catch (e) {
-          // Parsing failed, fall through to show error
+          // fall through to show error
         }
       } else {
         const fileObj = { file, name: file.name, size: file.size };
