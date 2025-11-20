@@ -194,7 +194,6 @@ export const prescriptionsApi = createApi({
     }),
     refillPrescription: builder.mutation({
       query: id => {
-        // If you later use getRefillMethod(state), you can wire it here via api.getState()
         return {
           path: `/prescriptions/${id}/refill`,
           options: state => ({
