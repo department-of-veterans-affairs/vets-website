@@ -15,11 +15,14 @@ import {
 } from '../util/constants';
 import { selectCernerPilotFlag } from '../util/selectors';
 
-const apiBasePath = selectCernerPilotFlag
-  ? `${environment.API_URL}/my_health/v2`
-  : `${environment.API_URL}/my_health/v1`;
-
 const documentationApiBasePath = `${environment.API_URL}/my_health/v1`;
+
+const getApiBasePath = state => {
+  const isCernerPilot = selectCernerPilotFlag(state);
+  return isCernerPilot
+    ? `${environment.API_URL}/my_health/v2`
+    : `${environment.API_URL}/my_health/v1`;
+};
 
 // Create the prescriptions API slice
 export const prescriptionsApi = createApi({
@@ -51,11 +54,33 @@ export const prescriptionsApi = createApi({
   tagTypes: ['Prescription'],
   endpoints: builder => ({
     getPrescriptionsExportList: builder.query({
-      query: ({ filterOption = '', sortEndpoint, includeImage = false }) => ({
-        path: `${apiBasePath}/prescriptions?${filterOption}${sortEndpoint}${
+      queryFn: async (
+        { filterOption = '', sortEndpoint, includeImage = false },
+        { getState },
+      ) => {
+        const apiBasePath = getApiBasePath(getState());
+        const path = `${apiBasePath}/prescriptions?${filterOption}${sortEndpoint}${
           includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
-        }`,
-      }),
+        }`;
+
+        const defaultOptions = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+
+        try {
+          const result = await apiRequest(path, defaultOptions);
+          return { data: result };
+        } catch ({ errors }) {
+          return {
+            error: {
+              status: errors?.[0]?.status || 500,
+              message: errors?.[0]?.title || 'Failed to fetch data',
+            },
+          };
+        }
+      },
       providesTags: ['Prescription'],
       transformResponse: response => {
         if (response?.data && Array.isArray(response.data)) {
@@ -70,7 +95,8 @@ export const prescriptionsApi = createApi({
       },
     }),
     getPrescriptionsList: builder.query({
-      query: (params = {}) => {
+      queryFn: async (params = {}, { getState }) => {
+        const apiBasePath = getApiBasePath(getState());
         const {
           page = 1,
           perPage = 10,
@@ -85,9 +111,25 @@ export const prescriptionsApi = createApi({
         if (sortEndpoint) queryParams += sortEndpoint;
         if (includeImage) queryParams += '&include_image=true';
 
-        return {
-          path: `${apiBasePath}/prescriptions?${queryParams}`,
+        const path = `${apiBasePath}/prescriptions?${queryParams}`;
+
+        const defaultOptions = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         };
+
+        try {
+          const result = await apiRequest(path, defaultOptions);
+          return { data: result };
+        } catch ({ errors }) {
+          return {
+            error: {
+              status: errors?.[0]?.status || 500,
+              message: errors?.[0]?.title || 'Failed to fetch data',
+            },
+          };
+        }
       },
       providesTags: ['Prescription'],
       transformResponse: response => {
@@ -113,9 +155,28 @@ export const prescriptionsApi = createApi({
       },
     }),
     getPrescriptionById: builder.query({
-      query: id => ({
-        path: `${apiBasePath}/prescriptions/${id}`,
-      }),
+      queryFn: async (id, { getState }) => {
+        const apiBasePath = getApiBasePath(getState());
+        const path = `${apiBasePath}/prescriptions/${id}`;
+
+        const defaultOptions = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+
+        try {
+          const result = await apiRequest(path, defaultOptions);
+          return { data: result };
+        } catch ({ errors }) {
+          return {
+            error: {
+              status: errors?.[0]?.status || 500,
+              message: errors?.[0]?.title || 'Failed to fetch data',
+            },
+          };
+        }
+      },
       providesTags: ['Prescription'],
       transformResponse: response => {
         // If it's a single prescription (not in an entry array)
@@ -129,9 +190,28 @@ export const prescriptionsApi = createApi({
       },
     }),
     getRefillablePrescriptions: builder.query({
-      query: () => ({
-        path: `${apiBasePath}/prescriptions/list_refillable_prescriptions`,
-      }),
+      queryFn: async (_, { getState }) => {
+        const apiBasePath = getApiBasePath(getState());
+        const path = `${apiBasePath}/prescriptions/list_refillable_prescriptions`;
+
+        const defaultOptions = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+
+        try {
+          const result = await apiRequest(path, defaultOptions);
+          return { data: result };
+        } catch ({ errors }) {
+          return {
+            error: {
+              status: errors?.[0]?.status || 500,
+              message: errors?.[0]?.title || 'Failed to fetch data',
+            },
+          };
+        }
+      },
       providesTags: ['Prescription'],
       transformResponse: response => {
         if (response?.data && Array.isArray(response.data)) {
@@ -166,22 +246,56 @@ export const prescriptionsApi = createApi({
       },
     }),
     refillPrescription: builder.mutation({
-      query: id => {
-        const isCernerPilotEnabled = selectCernerPilotFlag();
-        return {
-          path: `${apiBasePath}/prescriptions/${id}/refill`,
-          options: { method: isCernerPilotEnabled ? 'POST' : 'PATCH' },
+      queryFn: async (id, { getState }) => {
+        const apiBasePath = getApiBasePath(getState());
+        const isCernerPilotEnabled = selectCernerPilotFlag(getState());
+        const path = `${apiBasePath}/prescriptions/${id}/refill`;
+
+        const defaultOptions = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: isCernerPilotEnabled ? 'POST' : 'PATCH',
         };
+
+        try {
+          const result = await apiRequest(path, defaultOptions);
+          return { data: result };
+        } catch ({ errors }) {
+          return {
+            error: {
+              status: errors?.[0]?.status || 500,
+              message: errors?.[0]?.title || 'Failed to fetch data',
+            },
+          };
+        }
       },
     }),
     bulkRefillPrescriptions: builder.mutation({
-      query: ids => {
-        const isCernerPilotEnabled = selectCernerPilotFlag();
+      queryFn: async (ids, { getState }) => {
+        const apiBasePath = getApiBasePath(getState());
+        const isCernerPilotEnabled = selectCernerPilotFlag(getState());
         const idParams = ids.map(id => `ids[]=${id}`).join('&');
-        return {
-          path: `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`,
-          options: { method: isCernerPilotEnabled ? 'POST' : 'PATCH' },
+        const path = `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`;
+
+        const defaultOptions = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: isCernerPilotEnabled ? 'POST' : 'PATCH',
         };
+
+        try {
+          const result = await apiRequest(path, defaultOptions);
+          return { data: result };
+        } catch ({ errors }) {
+          return {
+            error: {
+              status: errors?.[0]?.status || 500,
+              message: errors?.[0]?.title || 'Failed to fetch data',
+            },
+          };
+        }
       },
       invalidatesTags: ['Prescription'],
       transformResponse: response => {
