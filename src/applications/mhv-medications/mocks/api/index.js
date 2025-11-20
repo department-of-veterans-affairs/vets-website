@@ -64,6 +64,17 @@ const responses = {
       failedIds,
     });
   },
+  'POST /my_health/v2/prescriptions/refill_prescriptions': (req, res) => {
+    // Get requested IDs from query params.
+    const { ids } = req.query;
+    // Emulate a successful refill for the first ID and failed refill for subsequent IDs
+    const successfulIds = ids[0] ? [ids[0]] : [];
+    const failedIds = ids[1] ? ids.slice(1) : [];
+    return res.status(200).json({
+      successfulIds,
+      failedIds,
+    });
+  },
   /**
   'GET /my_health/v1/medical_records/allergies': (req, res) => {
     // Emulate a 500 error
