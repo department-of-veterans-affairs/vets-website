@@ -4,16 +4,22 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  currentOrPastDateSchema,
-  currentOrPastDateUI,
+  currentOrPastMonthYearDateSchema,
+  currentOrPastMonthYearDateUI,
+  radioUI,
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import Issues, { issuesPage } from '../../components/evidence/IssuesNew';
-import { EVIDENCE_URLS } from '../../constants';
 import {
+  EVIDENCE_URLS,
+  VA_TREATMENT_BEFORE_2005_KEY,
+  VA_TREATMENT_MONTH_YEAR_KEY,
+} from '../../constants';
+import {
+  dateDetailsContent,
   datePromptContent,
   issuesContent,
   locationContent,
@@ -22,6 +28,20 @@ import {
 } from '../../content/evidence/va';
 import { focusRadioH3 } from '../../../shared/utils/focus';
 import { redesignActive } from '../../utils';
+import { hasTreatmentBefore2005 } from '../../utils/form-data-retrieval';
+
+const itemIsComplete = item => {
+  const { issues, name, treatmentBefore2005, treatmentMonthYear } = item;
+
+  let treatmentDateRequirement = treatmentBefore2005;
+  const issuesRequirement = issues?.length;
+
+  if (treatmentBefore2005 === 'Y') {
+    treatmentDateRequirement = treatmentBefore2005 && treatmentMonthYear;
+  }
+
+  return issuesRequirement && name && treatmentDateRequirement;
+};
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -29,11 +49,10 @@ const options = {
   nounSingular: 'record',
   nounPlural: 'records',
   required: false,
-  isItemIncomplete: item =>
-    !item?.name || !item?.issues || !item?.treatmentDate,
+  isItemIncomplete: item => !itemIsComplete(item),
   maxItems: 100,
   text: {
-    getItemName: (item, index, fullData) => item.name,
+    getItemName: item => item.name,
     cardDescription: item => `${formatReviewDate(item?.date)}`,
     summaryTitle: 'Summary title',
     summaryTitleWithoutItems: promptContent.question,
@@ -117,54 +136,62 @@ const locationPage = {
   },
 };
 
-const DATE_BEFORE_2005_KEY = 'dateBefore2005';
-
 /** @returns {PageSchema} */
 const datePromptPage = {
   uiSchema: {
-    'ui:title': datePromptContent.question,
-    'ui:description': <p>Hello</p>,
-    'label-header-level': 3,
-    [DATE_BEFORE_2005_KEY]: {
-      'ui:widget': 'radio',
-      'ui:title': datePromptContent.label,
-      'ui:options': {
-        labels: datePromptContent.options,
-        labelHeaderLevel: '3',
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        formData?.name
+          ? `Did treatment for your TODO at ${formData.name} start before 2005?`
+          : 'Did treatment for your TODO start before 2005?',
+    ),
+    [VA_TREATMENT_BEFORE_2005_KEY]: radioUI({
+      title: datePromptContent.label,
+      labels: datePromptContent.options,
+      errorMessages: {
+        required: datePromptContent.requiredError,
       },
-    },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      [DATE_BEFORE_2005_KEY]: {
+      [VA_TREATMENT_BEFORE_2005_KEY]: {
         type: 'string',
-        enum: ['before', 'after'],
+        enum: ['Y', 'N'],
       },
     },
-    required: [DATE_BEFORE_2005_KEY],
+    required: [VA_TREATMENT_BEFORE_2005_KEY],
   },
 };
 
 /** @returns {PageSchema} */
-const datePage = {
+const dateDetailsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => (formData?.name ? `Date at ${formData.name}` : 'Date'),
+      ({ formData }) =>
+        formData?.name
+          ? `When did treatment for your TODO at ${formData.name} start?`
+          : 'When did treatment for your TODO start?',
     ),
-    date: currentOrPastDateUI(),
+    [VA_TREATMENT_MONTH_YEAR_KEY]: currentOrPastMonthYearDateUI({
+      title: dateDetailsContent.label,
+      errorMessages: {
+        required: dateDetailsContent.requiredError,
+      },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      date: currentOrPastDateSchema,
+      [VA_TREATMENT_MONTH_YEAR_KEY]: currentOrPastMonthYearDateSchema,
     },
-    required: ['date'],
+    required: [VA_TREATMENT_MONTH_YEAR_KEY],
   },
 };
 
-// Some items in here have blank titles because a title is required
-// but the uiSchemas they use also require titles
+// Some items have blank titles because a title is required for the
+// pageBuilder config but the uiSchemas they use also require titles
 // which override the ones here
 export default arrayBuilderPages(options, pageBuilder => ({
   vaSummary: pageBuilder.summaryPage({
@@ -192,7 +219,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     CustomPage: props =>
       Issues({
         ...props,
-        // resolve prop warning that the index is a string rather than a number:
+        // resolve prop warning that the index is a string rather than a number
         pagePerItemIndex: +props.pagePerItemIndex,
       }),
     depends: redesignActive,
@@ -207,8 +234,15 @@ export default arrayBuilderPages(options, pageBuilder => ({
   treatmentDate: pageBuilder.itemPage({
     title: 'Treatment date',
     path: EVIDENCE_URLS.vaTreatmentDateDetails,
-    uiSchema: datePage.uiSchema,
-    schema: datePage.schema,
-    depends: redesignActive,
+    uiSchema: dateDetailsPage.uiSchema,
+    schema: dateDetailsPage.schema,
+    depends: formData => {
+      const evidenceEntriesCount = formData?.vaEvidence?.length || 1;
+      const currentIndex = evidenceEntriesCount - 1;
+      return (
+        redesignActive(formData) &&
+        hasTreatmentBefore2005(formData, currentIndex)
+      );
+    },
   }),
 }));
