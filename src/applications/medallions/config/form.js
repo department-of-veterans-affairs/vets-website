@@ -76,6 +76,7 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
+        // THIS IS WHERE THE FIX SHOULD BE FOR 90530
         ...personalInformationPage({
           key: 'applicantNameView',
           title: 'Personal information',
